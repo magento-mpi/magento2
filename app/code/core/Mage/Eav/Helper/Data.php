@@ -48,31 +48,31 @@ class Mage_Eav_Helper_Data extends Mage_Core_Helper_Abstract
         return array(
             array(
                 'value' => '',
-                'label' => Mage::helper('eav')->__('None')
+                'label' => Mage::helper('Mage_Eav_Helper_Data')->__('None')
             ),
             array(
                 'value' => 'validate-number',
-                'label' => Mage::helper('eav')->__('Decimal Number')
+                'label' => Mage::helper('Mage_Eav_Helper_Data')->__('Decimal Number')
             ),
             array(
                 'value' => 'validate-digits',
-                'label' => Mage::helper('eav')->__('Integer Number')
+                'label' => Mage::helper('Mage_Eav_Helper_Data')->__('Integer Number')
             ),
             array(
                 'value' => 'validate-email',
-                'label' => Mage::helper('eav')->__('Email')
+                'label' => Mage::helper('Mage_Eav_Helper_Data')->__('Email')
             ),
             array(
                 'value' => 'validate-url',
-                'label' => Mage::helper('eav')->__('URL')
+                'label' => Mage::helper('Mage_Eav_Helper_Data')->__('URL')
             ),
             array(
                 'value' => 'validate-alpha',
-                'label' => Mage::helper('eav')->__('Letters')
+                'label' => Mage::helper('Mage_Eav_Helper_Data')->__('Letters')
             ),
             array(
                 'value' => 'validate-alphanum',
-                'label' => Mage::helper('eav')->__('Letters (a-z, A-Z) or Numbers (0-9)')
+                'label' => Mage::helper('Mage_Eav_Helper_Data')->__('Letters (a-z, A-Z) or Numbers (0-9)')
             )
         );
     }

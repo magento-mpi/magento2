@@ -44,14 +44,14 @@ class Enterprise_Reward_Model_System_Config_Backend_Balance extends Mage_Core_Mo
         }
 
         if ($this->getFieldsetDataValue('min_points_balance') < 0) {
-            Mage::throwException(Mage::helper('enterprise_reward')->__('"Minimum Reward Points Balance" should be positive number or empty.'));
+            Mage::throwException(Mage::helper('Enterprise_Reward_Helper_Data')->__('"Minimum Reward Points Balance" should be positive number or empty.'));
         }
         if ($this->getFieldsetDataValue('max_points_balance') < 0) {
-            Mage::throwException(Mage::helper('enterprise_reward')->__('"Cap Reward Points Balance" should be positive number or empty.'));
+            Mage::throwException(Mage::helper('Enterprise_Reward_Helper_Data')->__('"Cap Reward Points Balance" should be positive number or empty.'));
         }
         if ($this->getFieldsetDataValue('max_points_balance') &&
             ($this->getFieldsetDataValue('min_points_balance') > $this->getFieldsetDataValue('max_points_balance'))) {
-            Mage::throwException(Mage::helper('enterprise_reward')->__('"Minimum Reward Points Balance" should be less or equal to "Cap Reward Points Balance".'));
+            Mage::throwException(Mage::helper('Enterprise_Reward_Helper_Data')->__('"Minimum Reward Points Balance" should be less or equal to "Cap Reward Points Balance".'));
         }
         return $this;
     }

@@ -209,7 +209,7 @@ class Mage_Core_Model_Design_Package
         $parts = explode('/', $themePath);
         if (3 !== count($parts)) {
             Mage::throwException(
-                Mage::helper('core')->__('Invalid fully qualified design name: "%s".', $themePath)
+                Mage::helper('Mage_Core_Helper_Data')->__('Invalid fully qualified design name: "%s".', $themePath)
             );
         }
         list($package, $theme, $skin) = $parts;
@@ -502,7 +502,7 @@ class Mage_Core_Model_Design_Package
     {
         $dir = $this->_buildPublicSkinFilename(self::PUBLIC_MERGE_DIR);
         $result = Varien_Io_File::rmdirRecursive($dir);
-        $result = $result && Mage::helper('core/file_storage_database')->deleteFolder($dir);
+        $result = $result && Mage::helper('Mage_Core_Helper_File_Storage_Database')->deleteFolder($dir);
         return $result;
     }
 

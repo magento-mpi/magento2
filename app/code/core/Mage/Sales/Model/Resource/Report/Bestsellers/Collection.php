@@ -56,8 +56,9 @@ class Mage_Sales_Model_Resource_Report_Bestsellers_Collection
     public function __construct()
     {
         parent::_construct();
-        $this->setModel('adminhtml/report_item');
-        $this->_resource = Mage::getResourceModel('sales/report')->init('sales_bestsellers_aggregated_daily');
+        $this->setModel('Mage_Adminhtml_Model_Report_Item');
+        $this->_resource = Mage::getResourceModel('Mage_Sales_Model_Resource_Report')
+            ->init('sales_bestsellers_aggregated_daily');
         $this->setConnection($this->getResource()->getReadConnection());
         // overwrite default behaviour
         $this->_applyFilters = false;
@@ -346,7 +347,7 @@ class Mage_Sales_Model_Resource_Report_Bestsellers_Collection
             if ($selectUnions) {
                 $unionParts = array();
                 $cloneSelect = clone $this->getSelect();
-                $helper = Mage::getResourceHelper('core');
+                $helper = Mage::getResourceHelper('Mage_Core');
                 $unionParts[] = '(' . $cloneSelect . ')';
                 foreach ($selectUnions as $union) {
                     $query = $helper->getQueryUsingAnalyticFunction($union);

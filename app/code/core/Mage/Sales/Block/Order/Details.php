@@ -39,10 +39,10 @@ class Mage_Sales_Block_Order_Details extends Mage_Core_Block_Template
     {
         parent::__construct();
         $this->setTemplate('order/details.phtml');
-        $this->setOrder(Mage::getModel('sales/order')->load($this->getRequest()->getParam('order_id')));
+        $this->setOrder(Mage::getModel('Mage_Sales_Model_Order')->load($this->getRequest()->getParam('order_id')));
         if (Mage::registry('action')) {
             Mage::registry('action')->getLayout()->getBlock('root')->setHeaderTitle(
-                Mage::helper('sales')->__('Order Details')
+                Mage::helper('Mage_Sales_Helper_Data')->__('Order Details')
             );
         }
     }
@@ -52,9 +52,11 @@ class Mage_Sales_Block_Order_Details extends Mage_Core_Block_Template
         return Mage::getUrl('*/*/history');
     }
 
+
     public function getInvoices()
     {
-        $invoices = Mage::getResourceModel('sales/invoice_collection')->setOrderFilter($this->getOrder()->getId())->load();
+        $invoices = Mage::getResourceModel('Mage_Sales_Model_Entity_Order_Invoice_Collection')
+            ->setOrderFilter($this->getOrder()->getId())->load();
         return $invoices;
     }
 

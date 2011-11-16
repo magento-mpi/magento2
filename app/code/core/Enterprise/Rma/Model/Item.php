@@ -76,17 +76,7 @@ class Enterprise_Rma_Model_Item extends Mage_Core_Model_Abstract
      * Init resource model
      */
     protected function _construct() {
-        $this->_init('enterprise_rma/item');
-    }
-
-    /**
-     * Get all available item states
-     *
-     * @return array
-     */
-    public function getAllStates()
-    {
-        return Mage::getModel('enterprise_rma/item_attribute_source_state_status')->getAllOptions();
+        $this->_init('Enterprise_Rma_Model_Resource_Item');
     }
 
     /**
@@ -111,7 +101,7 @@ class Enterprise_Rma_Model_Item extends Mage_Core_Model_Abstract
     {
         $rmaId = $this->getRmaEntityId();
         if (is_null($this->_rma) && $rmaId) {
-            $rma = Mage::getModel('enterprise_rma/rma');
+            $rma = Mage::getModel('Enterprise_Rma_Model_Rma');
             $rma->load($rmaId);
             $this->setRma($rma);
         }
@@ -127,7 +117,7 @@ class Enterprise_Rma_Model_Item extends Mage_Core_Model_Abstract
     {
         if (is_null(parent::getStatusLabel())){
             $this->setStatusLabel(
-                Mage::getModel('enterprise_rma/item_attribute_source_status')->getItemLabel($this->getStatus())
+                Mage::getModel('Enterprise_Rma_Model_Item_Attribute_Source_Status')->getItemLabel($this->getStatus())
             );
         }
         return parent::getStatusLabel();
@@ -176,7 +166,7 @@ class Enterprise_Rma_Model_Item extends Mage_Core_Model_Abstract
         }
 
         if ($qtyReturnedChange) {
-            $item = Mage::getModel('sales/order_item')->load($this->getOrderItemId());
+            $item = Mage::getModel('Mage_Sales_Model_Order_Item')->load($this->getOrderItemId());
             if ($item->getId()) {
                 $item->setQtyReturned($item->getQtyReturned() + $qtyReturnedChange)
                     ->save();
@@ -238,7 +228,7 @@ class Enterprise_Rma_Model_Item extends Mage_Core_Model_Abstract
         $httpRequest->setPost($itemPost);
 
         /** @var $itemForm Enterprise_Rma_Model_Item_Form */
-        $itemForm = Mage::getModel('enterprise_rma/item_form');
+        $itemForm = Mage::getModel('Enterprise_Rma_Model_Item_Form');
         $itemForm->setFormCode('default')
             ->setEntity($this);
 

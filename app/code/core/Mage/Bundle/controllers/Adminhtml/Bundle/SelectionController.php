@@ -42,7 +42,7 @@ class Mage_Bundle_Adminhtml_Bundle_SelectionController extends Mage_Adminhtml_Co
     {
         return $this->getResponse()->setBody(
             $this->getLayout()
-                ->createBlock('bundle/adminhtml_catalog_product_edit_tab_bundle_option_search')
+                ->createBlock('Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Search')
                 ->setIndex($this->getRequest()->getParam('index'))
                 ->setFirstShow(true)
                 ->toHtml()
@@ -53,7 +53,7 @@ class Mage_Bundle_Adminhtml_Bundle_SelectionController extends Mage_Adminhtml_Co
     {
         return $this->getResponse()->setBody(
             $this->getLayout()
-                ->createBlock('bundle/adminhtml_catalog_product_edit_tab_bundle_option_search_grid',
+                ->createBlock('Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Search_Grid',
                     'adminhtml.catalog.product.edit.tab.bundle.option.search.grid')
                 ->setIndex($this->getRequest()->getParam('index'))
                 ->toHtml()

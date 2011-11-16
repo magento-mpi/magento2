@@ -63,8 +63,8 @@ class Enterprise_CustomerSegment_Model_Condition_Abstract extends Mage_Rule_Mode
         if (null === $this->_defaultOperatorOptions) {
             $this->_defaultOperatorOptions = parent::getDefaultOperatorOptions();
 
-            $this->_defaultOperatorOptions['[]'] = Mage::helper('rule')->__('contains');
-            $this->_defaultOperatorOptions['![]'] = Mage::helper('rule')->__('does not contains');
+            $this->_defaultOperatorOptions['[]'] = Mage::helper('Mage_Rule_Helper_Data')->__('contains');
+            $this->_defaultOperatorOptions['![]'] = Mage::helper('Mage_Rule_Helper_Data')->__('does not contains');
         }
         return $this->_defaultOperatorOptions;
     }
@@ -76,7 +76,7 @@ class Enterprise_CustomerSegment_Model_Condition_Abstract extends Mage_Rule_Mode
      */
     public function getResource()
     {
-        return Mage::getResourceSingleton('enterprise_customersegment/segment');
+        return Mage::getResourceSingleton('Enterprise_CustomerSegment_Model_Resource_Segment');
     }
 
     /**

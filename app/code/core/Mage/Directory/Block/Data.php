@@ -42,7 +42,7 @@ class Mage_Directory_Block_Data extends Mage_Core_Block_Template
     {
         $collection = $this->getData('country_collection');
         if (is_null($collection)) {
-            $collection = Mage::getModel('directory/country')->getResourceCollection()
+            $collection = Mage::getModel('Mage_Directory_Model_Country')->getResourceCollection()
                 ->loadByStore();
             $this->setData('country_collection', $collection);
         }
@@ -65,10 +65,10 @@ class Mage_Directory_Block_Data extends Mage_Core_Block_Template
                 Mage::app()->saveCache(serialize($options), $cacheKey, array('config'));
             }
         }
-        $html = $this->getLayout()->createBlock('core/html_select')
+        $html = $this->getLayout()->createBlock('Mage_Core_Block_Html_Select')
             ->setName($name)
             ->setId($id)
-            ->setTitle(Mage::helper('directory')->__($title))
+            ->setTitle(Mage::helper('Mage_Directory_Helper_Data')->__($title))
             ->setClass('validate-select')
             ->setValue($defValue)
             ->setOptions($options)
@@ -82,7 +82,7 @@ class Mage_Directory_Block_Data extends Mage_Core_Block_Template
     {
         $collection = $this->getData('region_collection');
         if (is_null($collection)) {
-            $collection = Mage::getModel('directory/region')->getResourceCollection()
+            $collection = Mage::getModel('Mage_Directory_Model_Region')->getResourceCollection()
                 ->addCountryFilter($this->getCountryId())
                 ->load();
 
@@ -104,9 +104,9 @@ class Mage_Directory_Block_Data extends Mage_Core_Block_Template
                 Mage::app()->saveCache(serialize($options), $cacheKey, array('config'));
             }
         }
-        $html = $this->getLayout()->createBlock('core/html_select')
+        $html = $this->getLayout()->createBlock('Mage_Core_Block_Html_Select')
             ->setName('region')
-            ->setTitle(Mage::helper('directory')->__('State/Province'))
+            ->setTitle(Mage::helper('Mage_Directory_Helper_Data')->__('State/Province'))
             ->setId('state')
             ->setClass('required-entry validate-state')
             ->setValue(intval($this->getRegionId()))
@@ -120,7 +120,7 @@ class Mage_Directory_Block_Data extends Mage_Core_Block_Template
     {
         $countryId = $this->getData('country_id');
         if (is_null($countryId)) {
-            $countryId = Mage::helper('core')->getDefaultCountry();
+            $countryId = Mage::helper('Mage_Core_Helper_Data')->getDefaultCountry();
         }
         return $countryId;
     }
@@ -134,7 +134,7 @@ class Mage_Directory_Block_Data extends Mage_Core_Block_Template
             foreach ($this->getCountryCollection() as $country) {
                 $countryIds[] = $country->getCountryId();
             }
-            $collection = Mage::getModel('directory/region')->getResourceCollection()
+            $collection = Mage::getModel('Mage_Directory_Model_Region')->getResourceCollection()
                 ->addCountryFilter($countryIds)
                 ->load();
             $regions = array();
@@ -147,7 +147,7 @@ class Mage_Directory_Block_Data extends Mage_Core_Block_Template
                     'name'=>$region->getName()
                 );
             }
-            $regionsJs = Mage::helper('core')->jsonEncode($regions);
+            $regionsJs = Mage::helper('Mage_Core_Helper_Data')->jsonEncode($regions);
         }
         Magento_Profiler::stop('TEST: '.__METHOD__);
         return $regionsJs;

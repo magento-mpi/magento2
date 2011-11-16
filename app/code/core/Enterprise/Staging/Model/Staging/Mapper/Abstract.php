@@ -39,8 +39,8 @@ abstract class Enterprise_Staging_Model_Staging_Mapper_Abstract extends Varien_O
      */
     public function __construct()
     {
-        $this->_read  = Mage::getSingleton('core/resource')->getConnection('staging_read');
-        $this->_write = Mage::getSingleton('core/resource')->getConnection('staging_write');
+        $this->_read  = Mage::getSingleton('Mage_Core_Model_Resource')->getConnection('staging_read');
+        $this->_write = Mage::getSingleton('Mage_Core_Model_Resource')->getConnection('staging_write');
     }
 
     /**
@@ -72,7 +72,7 @@ abstract class Enterprise_Staging_Model_Staging_Mapper_Abstract extends Varien_O
                 $this->_staging = $_staging;
             } else {
                 if (is_int($this->_staging)) {
-                    $this->_staging = Mage::getModel('enterprise_staging/staging')
+                    $this->_staging = Mage::getModel('Enterprise_Staging_Model_Staging')
                         ->load($this->_staging);
                 } else {
                     $this->_staging = false;

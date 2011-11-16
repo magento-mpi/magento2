@@ -57,7 +57,7 @@ class Mage_Adminhtml_Block_Catalog_Helper_Form_Wysiwyg_Content
             'style'     => 'width:725px;height:460px',
             'required'  => true,
             'force_load' => true,
-            'config'    => Mage::getSingleton('cms/wysiwyg_config')->getConfig($config)
+            'config'    => Mage::getSingleton('Mage_Cms_Model_Wysiwyg_Config')->getConfig($config)
         ));
         $this->setForm($form);
         return parent::_prepareForm();

@@ -41,7 +41,7 @@ class Mage_Rss_Block_Catalog_Category extends Mage_Rss_Block_Catalog_Abstract
         $this->setCacheKey('rss_catalog_category_'
             . $this->getRequest()->getParam('cid') . '_'
             . $this->getRequest()->getParam('store_id') . '_'
-            . Mage::getModel('customer/session')->getId()
+            . Mage::getModel('Mage_Customer_Model_Session')->getId()
         );
         $this->setCacheLifetime(600);
     }
@@ -50,11 +50,11 @@ class Mage_Rss_Block_Catalog_Category extends Mage_Rss_Block_Catalog_Abstract
     {
         $categoryId = $this->getRequest()->getParam('cid');
         $storeId = $this->_getStoreId();
-        $rssObj = Mage::getModel('rss/rss');
+        $rssObj = Mage::getModel('Mage_Rss_Model_Rss');
         if ($categoryId) {
-            $category = Mage::getModel('catalog/category')->load($categoryId);
+            $category = Mage::getModel('Mage_Catalog_Model_Category')->load($categoryId);
             if ($category && $category->getId()) {
-                $layer = Mage::getSingleton('catalog/layer')->setStore($storeId);
+                $layer = Mage::getSingleton('Mage_Catalog_Model_Layer')->setStore($storeId);
                 //want to load all products no matter anchor or not
                 $category->setIsAnchor(true);
                 $newurl = $category->getUrl();
@@ -75,7 +75,7 @@ class Mage_Rss_Block_Catalog_Category extends Mage_Rss_Block_Catalog_Abstract
                     ->addIdFilter($category->getChildren())
                     ->load()
                 ;
-                $productCollection = Mage::getModel('catalog/product')->getCollection();
+                $productCollection = Mage::getModel('Mage_Catalog_Model_Product')->getCollection();
 
                 $currentCategory = $layer->setCurrentCategory($category);
                 $layer->prepareProductCollection($productCollection);
@@ -88,7 +88,7 @@ class Mage_Rss_Block_Catalog_Category extends Mage_Rss_Block_Catalog_Abstract
                 $_productCollection = $currentCategory
                     ->getProductCollection()
                     ->addAttributeToSort('updated_at','desc')
-                    ->setVisibility(Mage::getSingleton('catalog/product_visibility')->getVisibleInCatalogIds())
+                    ->setVisibility(Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')->getVisibleInCatalogIds())
                     ->setCurPage(1)
                     ->setPageSize(50)
                 ;
@@ -124,7 +124,7 @@ class Mage_Rss_Block_Catalog_Category extends Mage_Rss_Block_Catalog_Abstract
 
         $description = '<table><tr>'
                      . '<td><a href="'.$product->getProductUrl().'"><img src="'
-                     . $this->helper('catalog/image')->init($product, 'thumbnail')->resize(75, 75)
+                     . $this->helper('Mage_Catalog_Helper_Image')->init($product, 'thumbnail')->resize(75, 75)
                      . '" border="0" align="left" height="75" width="75"></a></td>'
                      . '<td  style="text-decoration:none;">' . $product->getDescription();
 

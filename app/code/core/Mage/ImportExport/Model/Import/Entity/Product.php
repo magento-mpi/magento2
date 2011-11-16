@@ -68,27 +68,28 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
     /**
      * Error codes.
      */
-    const ERROR_INVALID_SCOPE            = 'invalidScope';
-    const ERROR_INVALID_WEBSITE          = 'invalidWebsite';
-    const ERROR_INVALID_STORE            = 'invalidStore';
-    const ERROR_INVALID_ATTR_SET         = 'invalidAttrSet';
-    const ERROR_INVALID_TYPE             = 'invalidType';
-    const ERROR_INVALID_CATEGORY         = 'invalidCategory';
-    const ERROR_VALUE_IS_REQUIRED        = 'isRequired';
-    const ERROR_TYPE_CHANGED             = 'typeChanged';
-    const ERROR_SKU_IS_EMPTY             = 'skuEmpty';
-    const ERROR_NO_DEFAULT_ROW           = 'noDefaultRow';
-    const ERROR_CHANGE_TYPE              = 'changeProductType';
-    const ERROR_DUPLICATE_SCOPE          = 'duplicateScope';
-    const ERROR_DUPLICATE_SKU            = 'duplicateSKU';
-    const ERROR_CHANGE_ATTR_SET          = 'changeAttrSet';
-    const ERROR_TYPE_UNSUPPORTED         = 'productTypeUnsupported';
-    const ERROR_ROW_IS_ORPHAN            = 'rowIsOrphan';
-    const ERROR_INVALID_TIER_PRICE_QTY   = 'invalidTierPriceOrQty';
-    const ERROR_INVALID_TIER_PRICE_SITE  = 'tierPriceWebsiteInvalid';
-    const ERROR_INVALID_TIER_PRICE_GROUP = 'tierPriceGroupInvalid';
-    const ERROR_TIER_DATA_INCOMPLETE     = 'tierPriceDataIsIncomplete';
-    const ERROR_SKU_NOT_FOUND_FOR_DELETE = 'skuNotFoundToDelete';
+    const ERROR_INVALID_SCOPE                = 'invalidScope';
+    const ERROR_INVALID_WEBSITE              = 'invalidWebsite';
+    const ERROR_INVALID_STORE                = 'invalidStore';
+    const ERROR_INVALID_ATTR_SET             = 'invalidAttrSet';
+    const ERROR_INVALID_TYPE                 = 'invalidType';
+    const ERROR_INVALID_CATEGORY             = 'invalidCategory';
+    const ERROR_VALUE_IS_REQUIRED            = 'isRequired';
+    const ERROR_TYPE_CHANGED                 = 'typeChanged';
+    const ERROR_SKU_IS_EMPTY                 = 'skuEmpty';
+    const ERROR_NO_DEFAULT_ROW               = 'noDefaultRow';
+    const ERROR_CHANGE_TYPE                  = 'changeProductType';
+    const ERROR_DUPLICATE_SCOPE              = 'duplicateScope';
+    const ERROR_DUPLICATE_SKU                = 'duplicateSKU';
+    const ERROR_CHANGE_ATTR_SET              = 'changeAttrSet';
+    const ERROR_TYPE_UNSUPPORTED             = 'productTypeUnsupported';
+    const ERROR_ROW_IS_ORPHAN                = 'rowIsOrphan';
+    const ERROR_INVALID_TIER_PRICE_QTY       = 'invalidTierPriceOrQty';
+    const ERROR_INVALID_TIER_PRICE_SITE      = 'tierPriceWebsiteInvalid';
+    const ERROR_INVALID_TIER_PRICE_GROUP     = 'tierPriceGroupInvalid';
+    const ERROR_TIER_DATA_INCOMPLETE         = 'tierPriceDataIsIncomplete';
+    const ERROR_SKU_NOT_FOUND_FOR_DELETE     = 'skuNotFoundToDelete';
+    const ERROR_SUPER_PRODUCTS_SKU_NOT_FOUND = 'superProductsSkuNotFound';
 
     /**
      * Pairs of attribute set ID-to-name.
@@ -149,27 +150,28 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
      * @var array
      */
     protected $_messageTemplates = array(
-        self::ERROR_INVALID_SCOPE            => 'Invalid value in Scope column',
-        self::ERROR_INVALID_WEBSITE          => 'Invalid value in Website column (website does not exists?)',
-        self::ERROR_INVALID_STORE            => 'Invalid value in Store column (store does not exists?)',
-        self::ERROR_INVALID_ATTR_SET         => 'Invalid value for Attribute Set column (set does not exists?)',
-        self::ERROR_INVALID_TYPE             => 'Product Type is invalid or not supported',
-        self::ERROR_INVALID_CATEGORY         => 'Category does not exists',
-        self::ERROR_VALUE_IS_REQUIRED        => "Required attribute '%s' has an empty value",
-        self::ERROR_TYPE_CHANGED             => 'Trying to change type of existing products',
-        self::ERROR_SKU_IS_EMPTY             => 'SKU is empty',
-        self::ERROR_NO_DEFAULT_ROW           => 'Default values row does not exists',
-        self::ERROR_CHANGE_TYPE              => 'Product type change is not allowed',
-        self::ERROR_DUPLICATE_SCOPE          => 'Duplicate scope',
-        self::ERROR_DUPLICATE_SKU            => 'Duplicate SKU',
-        self::ERROR_CHANGE_ATTR_SET          => 'Product attribute set change is not allowed',
-        self::ERROR_TYPE_UNSUPPORTED         => 'Product type is not supported',
-        self::ERROR_ROW_IS_ORPHAN            => 'Orphan rows that will be skipped due default row errors',
-        self::ERROR_INVALID_TIER_PRICE_QTY   => 'Tier Price data price or quantity value is invalid',
-        self::ERROR_INVALID_TIER_PRICE_SITE  => 'Tier Price data website is invalid',
-        self::ERROR_INVALID_TIER_PRICE_GROUP => 'Tier Price customer group ID is invalid',
-        self::ERROR_TIER_DATA_INCOMPLETE     => 'Tier Price data is incomplete',
-        self::ERROR_SKU_NOT_FOUND_FOR_DELETE => 'Product with specified SKU not found'
+        self::ERROR_INVALID_SCOPE                => 'Invalid value in Scope column',
+        self::ERROR_INVALID_WEBSITE              => 'Invalid value in Website column (website does not exists?)',
+        self::ERROR_INVALID_STORE                => 'Invalid value in Store column (store does not exists?)',
+        self::ERROR_INVALID_ATTR_SET             => 'Invalid value for Attribute Set column (set does not exists?)',
+        self::ERROR_INVALID_TYPE                 => 'Product Type is invalid or not supported',
+        self::ERROR_INVALID_CATEGORY             => 'Category does not exists',
+        self::ERROR_VALUE_IS_REQUIRED            => "Required attribute '%s' has an empty value",
+        self::ERROR_TYPE_CHANGED                 => 'Trying to change type of existing products',
+        self::ERROR_SKU_IS_EMPTY                 => 'SKU is empty',
+        self::ERROR_NO_DEFAULT_ROW               => 'Default values row does not exists',
+        self::ERROR_CHANGE_TYPE                  => 'Product type change is not allowed',
+        self::ERROR_DUPLICATE_SCOPE              => 'Duplicate scope',
+        self::ERROR_DUPLICATE_SKU                => 'Duplicate SKU',
+        self::ERROR_CHANGE_ATTR_SET              => 'Product attribute set change is not allowed',
+        self::ERROR_TYPE_UNSUPPORTED             => 'Product type is not supported',
+        self::ERROR_ROW_IS_ORPHAN                => 'Orphan rows that will be skipped due default row errors',
+        self::ERROR_INVALID_TIER_PRICE_QTY       => 'Tier Price data price or quantity value is invalid',
+        self::ERROR_INVALID_TIER_PRICE_SITE      => 'Tier Price data website is invalid',
+        self::ERROR_INVALID_TIER_PRICE_GROUP     => 'Tier Price customer group ID is invalid',
+        self::ERROR_TIER_DATA_INCOMPLETE         => 'Tier Price data is incomplete',
+        self::ERROR_SKU_NOT_FOUND_FOR_DELETE     => 'Product with specified SKU not found',
+        self::ERROR_SUPER_PRODUCTS_SKU_NOT_FOUND => 'Product with specified super products SKU not found'
     );
 
     /**
@@ -300,7 +302,7 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
      */
     protected function _deleteProducts()
     {
-        $productEntityTable = Mage::getModel('importexport/import_proxy_product_resource')->getEntityTable();
+        $productEntityTable = Mage::getModel('Mage_ImportExport_Model_Import_Proxy_Product_Resource')->getEntityTable();
 
         while ($bunch = $this->_dataSourceModel->getNextBunch()) {
             $idToDelete = array();
@@ -351,7 +353,7 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
      */
     protected function _initAttributeSets()
     {
-        foreach (Mage::getResourceModel('eav/entity_attribute_set_collection')
+        foreach (Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute_Set_Collection')
                 ->setEntityTypeFilter($this->_entityTypeId) as $attributeSet) {
             $this->_attrSetNameToId[$attributeSet->getAttributeSetName()] = $attributeSet->getId();
             $this->_attrSetIdToName[$attributeSet->getId()] = $attributeSet->getAttributeSetName();
@@ -366,7 +368,7 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
      */
     protected function _initCategories()
     {
-        $collection = Mage::getResourceModel('catalog/category_collection')->addNameToResult();
+        $collection = Mage::getResourceModel('Mage_Catalog_Model_Resource_Category_Collection')->addNameToResult();
         /* @var $collection Mage_Catalog_Model_Resource_Category_Collection */
         foreach ($collection as $category) {
             $structure = explode('/', $category->getPath());
@@ -389,7 +391,7 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
      */
     protected function _initCustomerGroups()
     {
-        foreach (Mage::getResourceModel('customer/group_collection') as $customerGroup) {
+        foreach (Mage::getResourceModel('Mage_Customer_Model_Resource_Group_Collection') as $customerGroup) {
             $this->_customerGroups[$customerGroup->getId()] = true;
         }
         return $this;
@@ -403,7 +405,7 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
     protected function _initSkus()
     {
         $columns = array('entity_id', 'type_id', 'attribute_set_id', 'sku');
-        foreach (Mage::getModel('catalog/product')->getProductEntitiesInfo($columns) as $info) {
+        foreach (Mage::getModel('Mage_Catalog_Model_Product')->getProductEntitiesInfo($columns) as $info) {
             $typeId = $info['type_id'];
             $sku = $info['sku'];
             $this->_oldSku[$sku] = array(
@@ -445,7 +447,7 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
             }
             if (! $model instanceof Mage_ImportExport_Model_Import_Entity_Product_Type_Abstract) {
                 Mage::throwException(
-                    Mage::helper('importexport')->__('Entity type model must be an instance of Mage_ImportExport_Model_Import_Entity_Product_Type_Abstract')
+                    Mage::helper('Mage_ImportExport_Helper_Data')->__('Entity type model must be an instance of Mage_ImportExport_Model_Import_Entity_Product_Type_Abstract')
                 );
             }
             if ($model->isSuitable()) {
@@ -574,22 +576,49 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
     }
 
     /**
+     * Check super products SKU
+     *
+     * @param array $rowData
+     * @param int $rowNum
+     * @return bool
+     */
+    protected function _isSuperProductsSkuValid($rowData, $rowNum)
+    {
+        if (!empty($rowData['_super_products_sku'])
+            && (!isset($this->_oldSku[$rowData['_super_products_sku']])
+                && !isset($this->_newSku[$rowData['_super_products_sku']])
+            )
+        ) {
+            $this->addRowError(self::ERROR_SUPER_PRODUCTS_SKU_NOT_FOUND, $rowNum);
+            return false;
+        }
+        return true;
+    }
+
+    /**
      * Custom options save.
      *
      * @return Mage_ImportExport_Model_Import_Entity_Product
      */
     protected function _saveCustomOptions()
     {
-        $productTable   = Mage::getSingleton('core/resource')->getTableName('catalog_product_entity');
-        $optionTable    = Mage::getSingleton('core/resource')->getTableName('catalog_product_option');
-        $priceTable     = Mage::getSingleton('core/resource')->getTableName('catalog_product_option_price');
-        $titleTable     = Mage::getSingleton('core/resource')->getTableName('catalog_product_option_title');
-        $typePriceTable = Mage::getSingleton('core/resource')->getTableName('catalog_product_option_type_price');
-        $typeTitleTable = Mage::getSingleton('core/resource')->getTableName('catalog_product_option_type_title');
-        $typeValueTable = Mage::getSingleton('core/resource')->getTableName('catalog_product_option_type_value');
-        $nextOptionId   = Mage::getResourceHelper('importexport')->getNextAutoincrement($optionTable);
-        $nextValueId    = Mage::getResourceHelper('importexport')->getNextAutoincrement($typeValueTable);
-        $priceIsGlobal  = Mage::helper('catalog')->isPriceGlobal();
+        $productTable   = Mage::getSingleton('Mage_Core_Model_Resource')
+                ->getTableName('catalog_product_entity');
+        $optionTable    = Mage::getSingleton('Mage_Core_Model_Resource')
+                ->getTableName('catalog_product_option');
+        $priceTable     = Mage::getSingleton('Mage_Core_Model_Resource')
+                ->getTableName('catalog_product_option_price');
+        $titleTable     = Mage::getSingleton('Mage_Core_Model_Resource')
+                ->getTableName('catalog_product_option_title');
+        $typePriceTable = Mage::getSingleton('Mage_Core_Model_Resource')
+                ->getTableName('catalog_product_option_type_price');
+        $typeTitleTable = Mage::getSingleton('Mage_Core_Model_Resource')
+                ->getTableName('catalog_product_option_type_title');
+        $typeValueTable = Mage::getSingleton('Mage_Core_Model_Resource')
+                ->getTableName('catalog_product_option_type_value');
+        $nextOptionId   = Mage::getResourceHelper('Mage_ImportExport')->getNextAutoincrement($optionTable);
+        $nextValueId    = Mage::getResourceHelper('Mage_ImportExport')->getNextAutoincrement($typeValueTable);
+        $priceIsGlobal  = Mage::helper('Mage_Catalog_Helper_Data')->isPriceGlobal();
         $type           = null;
         $typeSpecific   = array(
             'date'      => array('price', 'sku'),
@@ -836,10 +865,10 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
      */
     protected function _saveLinks()
     {
-        $resource       = Mage::getResourceModel('catalog/product_link');
+        $resource       = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Link');
         $mainTable      = $resource->getMainTable();
         $positionAttrId = array();
-        $nextLinkId     = Mage::getResourceHelper('importexport')->getNextAutoincrement($mainTable);
+        $nextLinkId     = Mage::getResourceHelper('Mage_ImportExport')->getNextAutoincrement($mainTable);
         $adapter = $this->_connection;
 
         // pre-load 'position' attributes ID for each link type once
@@ -969,7 +998,7 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
         static $tableName = null;
 
         if (!$tableName) {
-            $tableName = Mage::getModel('importexport/import_proxy_product_resource')->getProductCategoryTable();
+            $tableName = Mage::getModel('Mage_ImportExport_Model_Import_Proxy_Product_Resource')->getProductCategoryTable();
         }
         if ($categoriesData) {
             $categoriesIn = array();
@@ -1008,7 +1037,7 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
         static $entityTable = null;
 
         if (!$entityTable) {
-            $entityTable = Mage::getModel('importexport/import_proxy_product_resource')->getEntityTable();
+            $entityTable = Mage::getModel('Mage_ImportExport_Model_Import_Proxy_Product_Resource')->getEntityTable();
         }
         if ($entityRowsUp) {
             $this->_connection->insertOnDuplicate(
@@ -1039,8 +1068,8 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
     protected function _saveProducts()
     {
         /** @var $resource Mage_ImportExport_Model_Import_Proxy_Product_Resource */
-        $resource       = Mage::getModel('importexport/import_proxy_product_resource');
-        $priceIsGlobal  = Mage::helper('catalog')->isPriceGlobal();
+        $resource       = Mage::getModel('Mage_ImportExport_Model_Import_Proxy_Product_Resource');
+        $priceIsGlobal  = Mage::helper('Mage_Catalog_Helper_Data')->isPriceGlobal();
         $strftimeFormat = Varien_Date::convertZendToStrftime(Varien_Date::DATETIME_INTERNAL_FORMAT, true, true);
         $productLimit   = null;
         $productsQty    = null;
@@ -1153,7 +1182,7 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
                     }
                 }
                 $rowData      = $this->_productTypeModels[$productType]->prepareAttributesForSave($rowData);
-                $product      = Mage::getModel('importexport/import_proxy_product', $rowData);
+                $product      = Mage::getModel('Mage_ImportExport_Model_Import_Proxy_Product', $rowData);
 
                 foreach ($rowData as $attrCode => $attrValue) {
                     $attribute = $resource->getAttribute($attrCode);
@@ -1218,7 +1247,7 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
         static $tableName = null;
 
         if (!$tableName) {
-            $tableName = Mage::getModel('importexport/import_proxy_product_resource')
+            $tableName = Mage::getModel('Mage_ImportExport_Model_Import_Proxy_Product_Resource')
                     ->getTable('catalog_product_entity_tier_price');
         }
         if ($tierPriceData) {
@@ -1306,12 +1335,12 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
         static $productId = null;
 
         if (!$mediaGalleryTableName) {
-            $mediaGalleryTableName = Mage::getModel('importexport/import_proxy_product_resource')
+            $mediaGalleryTableName = Mage::getModel('Mage_ImportExport_Model_Import_Proxy_Product_Resource')
                     ->getTable('catalog_product_entity_media_gallery');
         }
 
         if (!$mediaValueTableName) {
-            $mediaValueTableName = Mage::getModel('importexport/import_proxy_product_resource')
+            $mediaValueTableName = Mage::getModel('Mage_ImportExport_Model_Import_Proxy_Product_Resource')
                     ->getTable('catalog_product_entity_media_gallery_value');
         }
 
@@ -1383,7 +1412,7 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
         static $tableName = null;
 
         if (!$tableName) {
-            $tableName = Mage::getModel('importexport/import_proxy_product_resource')->getProductWebsiteTable();
+            $tableName = Mage::getModel('Mage_ImportExport_Model_Import_Proxy_Product_Resource')->getProductWebsiteTable();
         }
         if ($websiteData) {
             $websitesData = array();
@@ -1444,8 +1473,8 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
             'stock_status_changed_auto'          => 0
         );
 
-        $entityTable = Mage::getResourceModel('cataloginventory/stock_item')->getMainTable();
-        $helper      = Mage::helper('catalogInventory');
+        $entityTable = Mage::getResourceModel('Mage_CatalogInventory_Model_Resource_Stock_Item')->getMainTable();
+        $helper      = Mage::helper('Mage_CatalogInventory_Helper_Data');
 
         while ($bunch = $this->_dataSourceModel->getNextBunch()) {
             $stockData = array();
@@ -1467,7 +1496,7 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
                 $row['product_id'] = $this->_newSku[$rowData[self::COL_SKU]]['entity_id'];
                 $row['stock_id'] = 1;
                 /** @var $stockItem Mage_CatalogInventory_Model_Stock_Item */
-                $stockItem = Mage::getModel('cataloginventory/stock_item', $row);
+                $stockItem = Mage::getModel('Mage_CatalogInventory_Model_Stock_Item', $row);
 
                 if ($helper->isQty($this->_newSku[$rowData[self::COL_SKU]]['type_id'])) {
                     if ($stockItem->verifyNotification()) {
@@ -1613,6 +1642,7 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
         $this->_isProductWebsiteValid($rowData, $rowNum);
         $this->_isProductCategoryValid($rowData, $rowNum);
         $this->_isTierPriceValid($rowData, $rowNum);
+        $this->_isSuperProductsSkuValid($rowData, $rowNum);
 
         if (self::SCOPE_DEFAULT == $rowScope) { // SKU is specified, row is SCOPE_DEFAULT, new product block begins
             $this->_processedEntitiesCount ++;

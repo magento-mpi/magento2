@@ -31,7 +31,6 @@
             <version>1.0.0.0</version>
         </Enterprise_Persistent>
     </modules>
-
     <default>
         <persistent>
             <options>
@@ -44,55 +43,36 @@
             </options>
         </persistent>
     </default>
-
     <global>
-        <models>
-            <enterprise_persistent>
-                <class>Enterprise_Persistent_Model</class>
-                <resourceModel>enterprise_persistent_resource</resourceModel>
-            </enterprise_persistent>
-        </models>
-        <helpers>
-            <enterprise_persistent>
-                <class>Enterprise_Persistent_Helper</class>
-            </enterprise_persistent>
-        </helpers>
         <events>
             <clear_expired_quotes_before>
                 <observers>
                     <enterprise_persistent>
-                        <class>enterprise_persistent/observer</class>
+                        <class>Enterprise_Persistent_Model_Observer</class>
                         <method>modifyExpiredQuotesCleanup</method>
                     </enterprise_persistent>
                 </observers>
             </clear_expired_quotes_before>
         </events>
-        <blocks>
-            <enterprise_persistent>
-                <class>Enterprise_Persistent_Block</class>
-            </enterprise_persistent>
-        </blocks>
     </global>
-
     <adminhtml>
         <events>
             <enterprise_persistent_options_shopping_cart_save_after>
                 <observers>
                     <enterprise_persistent>
-                        <class>enterprise_persistent/observer</class>
+                        <class>Enterprise_Persistent_Model_Observer</class>
                         <method>updateOptionCustomerSegmentation</method>
                     </enterprise_persistent>
                 </observers>
             </enterprise_persistent_options_shopping_cart_save_after>
         </events>
     </adminhtml>
-
     <frontend>
         <events>
             <websiterestriction_frontend>
                 <observers>
                     <enterprise_persistent>
-                        <class>enterprise_persistent/observer</class>
+                        <class>Enterprise_Persistent_Model_Observer</class>
                         <method>skipWebsiteRestriction</method>
                     </enterprise_persistent>
                 </observers>
@@ -100,11 +80,11 @@
             <controller_action_layout_generate_blocks_after>
                 <observers>
                     <enterprise_persistent>
-                        <class>enterprise_persistent/observer</class>
+                        <class>Enterprise_Persistent_Model_Observer</class>
                         <method>applyPersistentData</method>
                     </enterprise_persistent>
                     <enterprise_persistent_cart>
-                        <class>enterprise_persistent/observer</class>
+                        <class>Enterprise_Persistent_Model_Observer</class>
                         <method>removeCartLink</method>
                     </enterprise_persistent_cart>
                 </observers>
@@ -112,7 +92,7 @@
             <controller_action_predispatch_catalog_product_compare_clear>
                 <observers>
                     <enterprise_persistent>
-                        <class>enterprise_persistent/observer</class>
+                        <class>Enterprise_Persistent_Model_Observer</class>
                         <method>applyCustomerId</method>
                     </enterprise_persistent>
                 </observers>
@@ -120,7 +100,7 @@
             <controller_action_predispatch_catalog_product_compare_remove>
                 <observers>
                     <enterprise_persistent>
-                        <class>enterprise_persistent/observer</class>
+                        <class>Enterprise_Persistent_Model_Observer</class>
                         <method>applyCustomerId</method>
                     </enterprise_persistent>
                 </observers>
@@ -128,7 +108,7 @@
             <controller_action_predispatch>
                 <observers>
                     <enterprise_persistent>
-                        <class>enterprise_persistent/observer</class>
+                        <class>Enterprise_Persistent_Model_Observer</class>
                         <method>emulateCustomer</method>
                     </enterprise_persistent>
                     <persistent_customer>
@@ -139,7 +119,7 @@
             <controller_action_predispatch_wishlist_index_index>
                 <observers>
                     <enterprise_persistent>
-                        <class>enterprise_persistent/observer</class>
+                        <class>Enterprise_Persistent_Model_Observer</class>
                         <method>emulateWishlist</method>
                     </enterprise_persistent>
                 </observers>
@@ -147,7 +127,7 @@
             <controller_action_predispatch_wishlist_index_remove>
                 <observers>
                     <enterprise_persistent>
-                        <class>enterprise_persistent/observer</class>
+                        <class>Enterprise_Persistent_Model_Observer</class>
                         <method>emulateWishlist</method>
                     </enterprise_persistent>
                 </observers>
@@ -155,7 +135,7 @@
             <controller_action_predispatch_wishlist_index_add>
                 <observers>
                     <enterprise_persistent>
-                        <class>enterprise_persistent/observer</class>
+                        <class>Enterprise_Persistent_Model_Observer</class>
                         <method>emulateWishlist</method>
                     </enterprise_persistent>
                 </observers>
@@ -163,7 +143,7 @@
             <controller_action_predispatch_wishlist_index_cart>
                 <observers>
                     <enterprise_persistent>
-                        <class>enterprise_persistent/observer</class>
+                        <class>Enterprise_Persistent_Model_Observer</class>
                         <method>emulateWishlist</method>
                     </enterprise_persistent>
                 </observers>
@@ -171,7 +151,7 @@
             <controller_action_predispatch_wishlist_index_allcart>
                 <observers>
                     <enterprise_persistent>
-                        <class>enterprise_persistent/observer</class>
+                        <class>Enterprise_Persistent_Model_Observer</class>
                         <method>emulateWishlist</method>
                     </enterprise_persistent>
                 </observers>
@@ -179,7 +159,7 @@
             <controller_action_predispatch_wishlist_index_configure>
                 <observers>
                     <enterprise_persistent>
-                        <class>enterprise_persistent/observer</class>
+                        <class>Enterprise_Persistent_Model_Observer</class>
                         <method>emulateWishlist</method>
                     </enterprise_persistent>
                 </observers>
@@ -187,7 +167,7 @@
             <controller_action_predispatch_wishlist_index_update>
                 <observers>
                     <enterprise_persistent>
-                        <class>enterprise_persistent/observer</class>
+                        <class>Enterprise_Persistent_Model_Observer</class>
                         <method>emulateWishlist</method>
                     </enterprise_persistent>
                 </observers>
@@ -195,7 +175,7 @@
             <controller_action_predispatch_wishlist_index_updateItemOptions>
                 <observers>
                     <enterprise_persistent>
-                        <class>enterprise_persistent/observer</class>
+                        <class>Enterprise_Persistent_Model_Observer</class>
                         <method>emulateWishlist</method>
                     </enterprise_persistent>
                 </observers>
@@ -203,7 +183,7 @@
             <sales_quote_save_before>
                 <observers>
                     <enterprise_persistent>
-                        <class>enterprise_persistent/observer</class>
+                        <class>Enterprise_Persistent_Model_Observer</class>
                         <method>setQuotePersistentData</method>
                     </enterprise_persistent>
                 </observers>
@@ -211,7 +191,7 @@
             <controller_action_predispatch_checkout_onepage_saveMethod>
                 <observers>
                     <enterprise_persistent>
-                        <class>enterprise_persistent/observer</class>
+                        <class>Enterprise_Persistent_Model_Observer</class>
                         <method>preventSettingQuotePersistent</method>
                     </enterprise_persistent>
                 </observers>
@@ -219,7 +199,7 @@
             <controller_action_predispatch_checkout_onepage_saveOrder>
                 <observers>
                     <enterprise_persistent>
-                        <class>enterprise_persistent/observer</class>
+                        <class>Enterprise_Persistent_Model_Observer</class>
                         <method>preventSettingQuotePersistent</method>
                     </enterprise_persistent>
                 </observers>
@@ -227,7 +207,7 @@
             <render_block>
                 <observers>
                     <enterprise_persistent>
-                        <class>enterprise_persistent/observer</class>
+                        <class>Enterprise_Persistent_Model_Observer</class>
                         <method>applyBlockPersistentData</method>
                     </enterprise_persistent>
                 </observers>
@@ -235,7 +215,7 @@
             <persistent_session_expired>
                 <observers>
                     <enterprise_persistent>
-                        <class>enterprise_persistent/observer</class>
+                        <class>Enterprise_Persistent_Model_Observer</class>
                         <method>expireSidebars</method>
                     </enterprise_persistent>
                 </observers>

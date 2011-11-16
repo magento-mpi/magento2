@@ -37,19 +37,19 @@ class Mage_Adminhtml_Customer_ConfigController extends Mage_Adminhtml_Controller
     {
         $this->loadLayout();
         $this->_setActiveMenu('customer/config');
-        $this->_addBreadcrumb(Mage::helper('customer')->__('Customer'),  Mage::helper('customer')->__('Customer'));
-        $this->_addBreadcrumb(Mage::helper('customer')->__('Config'), Mage::helper('customer')->__('Config'));
+        $this->_addBreadcrumb(Mage::helper('Mage_Customer_Helper_Data')->__('Customer'),  Mage::helper('Mage_Customer_Helper_Data')->__('Customer'));
+        $this->_addBreadcrumb(Mage::helper('Mage_Customer_Helper_Data')->__('Config'), Mage::helper('Mage_Customer_Helper_Data')->__('Config'));
         $this->_addContent(
-            $this->getLayout()->createBlock('adminhtml/customer_config')
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Customer_Config')
         );
         $this->getLayout()->getBlock('left')
-            ->append($this->getLayout()->createBlock('adminhtml/customer_config_tabs'));
+            ->append($this->getLayout()->createBlock('Mage_Adminhtml_Block_Customer_Config_Tabs'));
 
         $this->renderLayout();
     }
 
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('customer/config');
+        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('customer/config');
     }
 }

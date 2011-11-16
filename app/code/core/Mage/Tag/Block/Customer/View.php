@@ -66,7 +66,7 @@ class Mage_Tag_Block_Customer_View extends Mage_Catalog_Block_Product_Abstract
     public function getTagInfo()
     {
         if (is_null($this->_tagInfo)) {
-            $this->_tagInfo = Mage::getModel('tag/tag')
+            $this->_tagInfo = Mage::getModel('Mage_Tag_Model_Tag')
                 ->load($this->getTagId());
         }
         return $this->_tagInfo;
@@ -111,7 +111,7 @@ class Mage_Tag_Block_Customer_View extends Mage_Catalog_Block_Product_Abstract
     protected function _prepareLayout()
     {
         $toolbar = $this->getLayout()
-            ->createBlock('page/html_pager', 'customer_tag_list.toolbar')
+            ->createBlock('Mage_Page_Block_Html_Pager', 'customer_tag_list.toolbar')
             ->setCollection($this->_getCollection());
 
         $this->setChild('toolbar', $toolbar);
@@ -146,17 +146,17 @@ class Mage_Tag_Block_Customer_View extends Mage_Catalog_Block_Product_Abstract
     protected function _getCollection()
     {
         if (is_null($this->_collection)) {
-            $this->_collection = Mage::getModel('tag/tag')
+            $this->_collection = Mage::getModel('Mage_Tag_Model_Tag')
                 ->getEntityCollection()
                 ->addTagFilter($this->getTagId())
-                ->addCustomerFilter(Mage::getSingleton('customer/session')->getCustomerId())
+                ->addCustomerFilter(Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerId())
                 ->addStoreFilter(Mage::app()->getStore()->getId())
-                ->addAttributeToSelect(Mage::getSingleton('catalog/config')->getProductAttributes())
+                ->addAttributeToSelect(Mage::getSingleton('Mage_Catalog_Model_Config')->getProductAttributes())
                 ->setActiveFilter();
 
-            Mage::getSingleton('catalog/product_status')
+            Mage::getSingleton('Mage_Catalog_Model_Product_Status')
                 ->addVisibleFilterToCollection($this->_collection);
-            Mage::getSingleton('catalog/product_visibility')
+            Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')
                 ->addVisibleInSiteFilterToCollection($this->_collection);
         }
         return $this->_collection;
@@ -170,7 +170,7 @@ class Mage_Tag_Block_Customer_View extends Mage_Catalog_Block_Product_Abstract
      */
     public function getImageUrl($product)
     {
-        return (string) $this->helper('catalog/image')->init($product, 'small_image')->resize($this->getImageSize());
+        return (string) $this->helper('Mage_Catalog_Helper_Image')->init($product, 'small_image')->resize($this->getImageSize());
     }
 
     /**

@@ -53,7 +53,14 @@
  */
 class Mage_Catalog_Model_Product_Flat_Indexer extends Mage_Core_Model_Abstract
 {
+    /**
+     * Catalog product flat entity for indexers
+     */
     const ENTITY = 'catalog_product_flat';
+
+    /**
+     * Indexers rebuild event type
+     */
     const EVENT_TYPE_REBUILD = 'catalog_product_flat_rebuild';
 
     /**
@@ -62,7 +69,7 @@ class Mage_Catalog_Model_Product_Flat_Indexer extends Mage_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('catalog/product_flat_indexer');
+        $this->_init('Mage_Catalog_Model_Resource_Product_Flat_Indexer');
     }
 
     /**
@@ -78,7 +85,7 @@ class Mage_Catalog_Model_Product_Flat_Indexer extends Mage_Core_Model_Abstract
         } else {
             $this->_getResource()->prepareFlatTable($store);
         }
-        Mage::getSingleton('index/indexer')->processEntityAction(
+        Mage::getSingleton('Mage_Index_Model_Indexer')->processEntityAction(
             new Varien_Object(array('id' => $store)),
             self::ENTITY,
             self::EVENT_TYPE_REBUILD

@@ -112,7 +112,7 @@ class Enterprise_Staging_Block_Adminhtml_Backup_Edit_Tabs_Rollback_Items extends
     public function getCollection()
     {
         if (!$this->hasData('collection')) {
-            $collection = Mage::getResourceModel('enterprise_staging/staging_item_xml_collection')
+            $collection = Mage::getResourceModel('Enterprise_Staging_Model_Resource_Staging_Item_Xml_Collection')
                 ->fillCollectionWithStagingItems($this->getExtendInfo());
 
             $this->setData('collection', $collection);

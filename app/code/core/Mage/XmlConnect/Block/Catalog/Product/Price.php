@@ -38,7 +38,7 @@ class Mage_XmlConnect_Block_Catalog_Product_Price extends Mage_XmlConnect_Block_
      *
      * @var string
      */
-    protected $_defaultPriceRenderer = 'xmlconnect/catalog_product_price_default';
+    protected $_defaultPriceRenderer = 'Mage_XmlConnect_Block_Catalog_Product_Price_Default';
 
     /**
      * Store supported product price xml renderers based on product types

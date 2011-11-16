@@ -77,7 +77,7 @@ class Enterprise_PageCache_Model_Crawler extends Mage_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('enterprise_pagecache/crawler');
+        $this->_init('Enterprise_PageCache_Model_Resource_Crawler');
     }
 
     /**
@@ -121,7 +121,7 @@ class Enterprise_PageCache_Model_Crawler extends Mage_Core_Model_Abstract
         foreach (Mage::app()->getStores() as $store) {
             $website               = Mage::app()->getWebsite($store->getWebsiteId());
             if ($website->getIsStaging()
-                || Mage::helper('enterprise_websiterestriction')->getIsRestrictionEnabled($store)
+                || Mage::helper('Enterprise_WebsiteRestriction_Helper_Data')->getIsRestrictionEnabled($store)
             ) {
                 continue;
             }

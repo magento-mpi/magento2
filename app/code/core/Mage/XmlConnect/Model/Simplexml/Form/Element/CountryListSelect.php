@@ -171,7 +171,7 @@ class Mage_XmlConnect_Model_Simplexml_Form_Element_CountryListSelect
 
                     $regionsXmlObj = $item->addCustomChild('field', null, array(
                         'id' => 'region_list_' . $data['value'], 'name' => 'region_id',
-                        'label' => Mage::helper('xmlconnect')->__('State/Province'), 'type' => 'select',
+                        'label' => Mage::helper('Mage_XmlConnect_Helper_Data')->__('State/Province'), 'type' => 'select',
                         'required' => 1
                     ) + $selectedRegion);
 
@@ -185,7 +185,7 @@ class Mage_XmlConnect_Model_Simplexml_Form_Element_CountryListSelect
                 } elseif ($this->getCountryId() == $data['value']) {
                     $item->addCustomChild('field', null, array(
                         'id' => 'region_' . $data['value'], 'name' => 'region',
-                        'label' => Mage::helper('xmlconnect')->__('State/Province'), 'type' => 'text',
+                        'label' => Mage::helper('Mage_XmlConnect_Helper_Data')->__('State/Province'), 'type' => 'text',
                         'value' => $this->getRegion(), 'required' => 1
                     ));
                 }
@@ -207,7 +207,7 @@ class Mage_XmlConnect_Model_Simplexml_Form_Element_CountryListSelect
         if (Mage::app()->useCache('config') && $cache) {
             $options = unserialize($cache);
         } else {
-            $collection = Mage::getModel('directory/region')->getResourceCollection()->addCountryFilter($countryId)
+            $collection = Mage::getModel('Mage_Directory_Model_Region')->getResourceCollection()->addCountryFilter($countryId)
                 ->load();
             $options = $collection->toOptionArray();
             if (Mage::app()->useCache('config')) {
@@ -229,7 +229,7 @@ class Mage_XmlConnect_Model_Simplexml_Form_Element_CountryListSelect
         if (Mage::app()->useCache('config') && $cache) {
             $options = unserialize($cache);
         } else {
-            $collection = Mage::getModel('directory/country')->getResourceCollection()->loadByStore();
+            $collection = Mage::getModel('Mage_Directory_Model_Country')->getResourceCollection()->loadByStore();
             $options = $collection->toOptionArray(false);
             if (Mage::app()->useCache('config')) {
                 Mage::app()->saveCache(serialize($options), $cacheKey, array('config'));

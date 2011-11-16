@@ -129,9 +129,9 @@ class Enterprise_Logging_Model_Processor
      */
     public function __construct()
     {
-        $this->_config = Mage::getSingleton('enterprise_logging/config');
-        $this->_modelsHandler = Mage::getModel('enterprise_logging/handler_models');
-        $this->_controllerActionsHandler = Mage::getModel('enterprise_logging/handler_controllers');
+        $this->_config = Mage::getSingleton('Enterprise_Logging_Model_Config');
+        $this->_modelsHandler = Mage::getModel('Enterprise_Logging_Model_Handler_Models');
+        $this->_controllerActionsHandler = Mage::getModel('Enterprise_Logging_Model_Handler_Controllers');
     }
 
     /**
@@ -163,12 +163,12 @@ class Enterprise_Logging_Model_Processor
          * like customer balance, when customer balance ajax tab loaded after
          * customer page.
          */
-        if ($doNotLog = Mage::getSingleton('admin/session')->getSkipLoggingAction()) {
+        if ($doNotLog = Mage::getSingleton('Mage_Admin_Model_Session')->getSkipLoggingAction()) {
             if (is_array($doNotLog)) {
                 $key = array_search($fullActionName, $doNotLog);
                 if ($key !== false) {
                     unset($doNotLog[$key]);
-                    Mage::getSingleton('admin/session')->setSkipLoggingAction($doNotLog);
+                    Mage::getSingleton('Mage_Admin_Model_Session')->setSkipLoggingAction($doNotLog);
                     $this->_skipNextAction = true;
                     return;
                 }
@@ -177,7 +177,7 @@ class Enterprise_Logging_Model_Processor
 
         if (isset($this->_eventConfig->skip_on_back)) {
             $addValue = array_keys($this->_eventConfig->skip_on_back->asArray());
-            $sessionValue = Mage::getSingleton('admin/session')->getSkipLoggingAction();
+            $sessionValue = Mage::getSingleton('Mage_Admin_Model_Session')->getSkipLoggingAction();
             if (!is_array($sessionValue) && $sessionValue) {
                 $sessionValue = explode(',', $sessionValue);
             }
@@ -185,7 +185,7 @@ class Enterprise_Logging_Model_Processor
                 $sessionValue = array();
             }
             $merge = array_merge($addValue, $sessionValue);
-            Mage::getSingleton('admin/session')->setSkipLoggingAction($merge);
+            Mage::getSingleton('Mage_Admin_Model_Session')->setSkipLoggingAction($merge);
         }
     }
 
@@ -259,7 +259,7 @@ class Enterprise_Logging_Model_Processor
              */
             $additionalData = array_diff($additionalData, $skipData);
 
-            $className = Mage::getConfig()->getModelClassName(str_replace('__', '/', $expect));
+            $className = Mage::getConfig()->getModelClassName($expect);
             if ($model instanceof $className) {
                 $classMap = $this->_getCallbackFunction(trim($callback), $this->_modelsHandler,
                     sprintf('model%sAfter', ucfirst($action)));
@@ -296,13 +296,13 @@ class Enterprise_Logging_Model_Processor
         }
         $username = null;
         $userId   = null;
-        if (Mage::getSingleton('admin/session')->isLoggedIn()) {
-            $userId = Mage::getSingleton('admin/session')->getUser()->getId();
-            $username = Mage::getSingleton('admin/session')->getUser()->getUsername();
+        if (Mage::getSingleton('Mage_Admin_Model_Session')->isLoggedIn()) {
+            $userId = Mage::getSingleton('Mage_Admin_Model_Session')->getUser()->getId();
+            $username = Mage::getSingleton('Mage_Admin_Model_Session')->getUser()->getUsername();
         }
-        $errors = Mage::getModel('adminhtml/session')->getMessages()->getErrors();
-        $loggingEvent = Mage::getModel('enterprise_logging/event')->setData(array(
-            'ip'            => Mage::helper('core/http')->getRemoteAddr(),
+        $errors = Mage::getModel('Mage_Adminhtml_Model_Session')->getMessages()->getErrors();
+        $loggingEvent = Mage::getModel('Enterprise_Logging_Model_Event')->setData(array(
+            'ip'            => Mage::helper('Mage_Core_Helper_Http')->getRemoteAddr(),
             'x_forwarded_ip'=> Mage::app()->getRequest()->getServer('HTTP_X_FORWARDED_FOR'),
             'user'          => $username,
             'user_id'       => $userId,
@@ -318,7 +318,7 @@ class Enterprise_Logging_Model_Processor
             }
             $loggingEvent->setAction($_conf->action);
             $loggingEvent->setEventCode($_conf->getParent()->getParent()->getName());
-            $loggingEvent->setInfo(Mage::helper('enterprise_logging')->__('Access denied'));
+            $loggingEvent->setInfo(Mage::helper('Enterprise_Logging_Helper_Data')->__('Access denied'));
             $loggingEvent->setIsSuccess(0);
             $loggingEvent->save();
             return;

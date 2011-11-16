@@ -33,7 +33,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Subselection
     public function __construct()
     {
         parent::__construct();
-        $this->setType('enterprise_reminder/rule_condition_cart_subselection');
+        $this->setType('Enterprise_Reminder_Model_Rule_Condition_Cart_Subselection');
     }
 
     /**
@@ -43,7 +43,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Subselection
      */
     public function getNewChildSelectOptions()
     {
-        return Mage::getModel('enterprise_reminder/rule_condition_cart_subcombine')->getNewChildSelectOptions();
+        return Mage::getModel('Enterprise_Reminder_Model_Rule_Condition_Cart_Subcombine')->getNewChildSelectOptions();
     }
 
     /**
@@ -65,8 +65,8 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Subselection
     {
         parent::loadOperatorOptions();
         $this->setOperatorOption(array(
-            '==' => Mage::helper('enterprise_reminder')->__('found'),
-            '!=' => Mage::helper('enterprise_reminder')->__('not found')
+            '==' => Mage::helper('Enterprise_Reminder_Helper_Data')->__('found'),
+            '!=' => Mage::helper('Enterprise_Reminder_Helper_Data')->__('not found')
         ));
         return $this;
     }
@@ -79,7 +79,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Subselection
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . Mage::helper('enterprise_reminder')->__('If an item is %s in the shopping cart with %s of these conditions match:',
+            . Mage::helper('Enterprise_Reminder_Helper_Data')->__('If an item is %s in the shopping cart with %s of these conditions match:',
                 $this->getOperatorElementHtml(),
                 $this->getAggregatorElement()->getHtml())
             . $this->getRemoveLinkHtml();
@@ -109,7 +109,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Subselection
         $this->_limitByStoreWebsite($select, $website, 'quote.store_id');
         $select->where('quote.is_active = 1');
         $select->where($this->_createCustomerFilter($customer, 'quote.customer_id'));
-        Mage::getResourceHelper('enterprise_reminder')->setRuleLimit($select, 1);
+        Mage::getResourceHelper('Enterprise_Reminder')->setRuleLimit($select, 1);
 
         return $select;
     }

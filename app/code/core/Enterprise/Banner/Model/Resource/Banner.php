@@ -104,7 +104,7 @@ class Enterprise_Banner_Model_Resource_Banner extends Mage_Core_Model_Resource_D
      */
     public function filterByTypes($types = array())
     {
-        $this->_bannerTypesFilter = Mage::getSingleton('enterprise_banner/config')->explodeTypes($types);
+        $this->_bannerTypesFilter = Mage::getSingleton('Enterprise_Banner_Model_Config')->explodeTypes($types);
         return $this;
     }
 
@@ -442,7 +442,7 @@ class Enterprise_Banner_Model_Resource_Banner extends Mage_Core_Model_Resource_D
     public function getSalesRuleRelatedBannerIds($matchedCustomerSegments, $aplliedRules)
     {
         $adapter = $this->_getReadAdapter();
-        $collection = Mage::getResourceModel('enterprise_banner/salesrule_collection');
+        $collection = Mage::getResourceModel('Enterprise_Banner_Model_Resource_Salesrule_Collection');
         $collection->resetColumns()
                ->addBannersFilter($aplliedRules, true)
                ->addCustomerSegmentFilter($matchedCustomerSegments);
@@ -460,7 +460,7 @@ class Enterprise_Banner_Model_Resource_Banner extends Mage_Core_Model_Resource_D
     public function getCatalogRuleRelatedBannerIds($websiteId, $customerGroupId, $matchedCustomerSegments)
     {
         $adapter = $this->_getReadAdapter();
-        $collection = Mage::getResourceModel('enterprise_banner/catalogrule_collection');
+        $collection = Mage::getResourceModel('Enterprise_Banner_Model_Resource_Catalogrule_Collection');
         $collection->resetSelect()
                ->addAppliedRuleFilter($websiteId, $customerGroupId)
                ->addBannersFilter(true)

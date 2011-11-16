@@ -41,7 +41,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Carts extends Mage_Adminhtml_Block_
         $isShared = count($sharedWebsiteIds) > 1;
         foreach ($sharedWebsiteIds as $websiteId) {
             $blockName = 'customer_cart_' . $websiteId;
-            $block = $this->getLayout()->createBlock('adminhtml/customer_edit_tab_cart',
+            $block = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Customer_Edit_Tab_Cart',
                 $blockName, array('website_id' => $websiteId));
             if ($isShared) {
                 $block->setCartHeader($this->__('Shopping Cart from %s', Mage::app()->getWebsite($websiteId)->getName()));

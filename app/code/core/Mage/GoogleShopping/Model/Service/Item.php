@@ -120,7 +120,7 @@ class Mage_GoogleShopping_Model_Service_Item extends Mage_GoogleShopping_Model_S
      */
     public function convertContentDateToTimestamp($gContentDate)
     {
-        return Mage::getSingleton('core/date')->date(null, $gContentDate);
+        return Mage::getSingleton('Mage_Core_Model_Date')->date(null, $gContentDate);
     }
 
     /**
@@ -150,7 +150,7 @@ class Mage_GoogleShopping_Model_Service_Item extends Mage_GoogleShopping_Model_S
         $service = $this->getService($storeId);
 
         $countryInfo = $this->getConfig()->getTargetCountryInfo($storeId);
-        $itemId = Mage::helper('googleshopping')->buildContentProductId($item->getProductId(), $item->getStoreId());
+        $itemId = Mage::helper('Mage_GoogleShopping_Helper_Data')->buildContentProductId($item->getProductId(), $item->getStoreId());
 
         $query = $service->newItemQuery()
             ->setId($itemId)

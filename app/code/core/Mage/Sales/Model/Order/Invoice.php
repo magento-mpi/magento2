@@ -181,7 +181,7 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Sales_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('sales/order_invoice');
+        $this->_init('Mage_Sales_Model_Resource_Order_Invoice');
     }
 
     /**
@@ -210,7 +210,7 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Sales_Model_Abstract
      */
     public function getConfig()
     {
-        return Mage::getSingleton('sales/order_invoice_config');
+        return Mage::getSingleton('Mage_Sales_Model_Order_Invoice_Config');
     }
 
     /**
@@ -245,7 +245,7 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Sales_Model_Abstract
     public function getOrder()
     {
         if (!$this->_order instanceof Mage_Sales_Model_Order) {
-            $this->_order = Mage::getModel('sales/order')->load($this->getOrderId());
+            $this->_order = Mage::getModel('Mage_Sales_Model_Order')->load($this->getOrderId());
         }
         return $this->_order->setHistoryEntityName(self::HISTORY_ENTITY_NAME);
     }
@@ -257,7 +257,7 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Sales_Model_Abstract
      */
     public function getOrderIncrementId()
     {
-        return Mage::getModel('sales/order')->getResource()->getIncrementId($this->getOrderId());
+        return Mage::getModel('Mage_Sales_Model_Order')->getResource()->getIncrementId($this->getOrderId());
     }
 
     /**
@@ -490,7 +490,7 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Sales_Model_Abstract
     public function getItemsCollection()
     {
         if (empty($this->_items)) {
-            $this->_items = Mage::getResourceModel('sales/order_invoice_item_collection')
+            $this->_items = Mage::getResourceModel('Mage_Sales_Model_Resource_Order_Invoice_Item_Collection')
                 ->setInvoiceFilter($this->getId());
 
             if ($this->getId()) {
@@ -544,9 +544,9 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Sales_Model_Abstract
     {
         if (is_null(self::$_states)) {
             self::$_states = array(
-                self::STATE_OPEN       => Mage::helper('sales')->__('Pending'),
-                self::STATE_PAID       => Mage::helper('sales')->__('Paid'),
-                self::STATE_CANCELED   => Mage::helper('sales')->__('Canceled'),
+                self::STATE_OPEN       => Mage::helper('Mage_Sales_Helper_Data')->__('Pending'),
+                self::STATE_PAID       => Mage::helper('Mage_Sales_Helper_Data')->__('Paid'),
+                self::STATE_CANCELED   => Mage::helper('Mage_Sales_Helper_Data')->__('Canceled'),
             );
         }
         return self::$_states;
@@ -570,7 +570,7 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Sales_Model_Abstract
         if (isset(self::$_states[$stateId])) {
             return self::$_states[$stateId];
         }
-        return Mage::helper('sales')->__('Unknown State');
+        return Mage::helper('Mage_Sales_Helper_Data')->__('Unknown State');
     }
 
     /**
@@ -583,7 +583,7 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Sales_Model_Abstract
     public function register()
     {
         if ($this->getId()) {
-            Mage::throwException(Mage::helper('sales')->__('Cannot register existing invoice'));
+            Mage::throwException(Mage::helper('Mage_Sales_Helper_Data')->__('Cannot register existing invoice'));
         }
 
         foreach ($this->getAllItems() as $item) {
@@ -673,7 +673,7 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Sales_Model_Abstract
     public function addComment($comment, $notify=false, $visibleOnFront=false)
     {
         if (!($comment instanceof Mage_Sales_Model_Order_Invoice_Comment)) {
-            $comment = Mage::getModel('sales/order_invoice_comment')
+            $comment = Mage::getModel('Mage_Sales_Model_Order_Invoice_Comment')
                 ->setComment($comment)
                 ->setIsCustomerNotified($notify)
                 ->setIsVisibleOnFront($visibleOnFront);
@@ -691,7 +691,7 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Sales_Model_Abstract
     public function getCommentsCollection($reload=false)
     {
         if (is_null($this->_comments) || $reload) {
-            $this->_comments = Mage::getResourceModel('sales/order_invoice_comment_collection')
+            $this->_comments = Mage::getResourceModel('Mage_Sales_Model_Resource_Order_Invoice_Comment_Collection')
                 ->setInvoiceFilter($this->getId())
                 ->setCreatedAtOrder();
             /**
@@ -721,7 +721,7 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Sales_Model_Abstract
         $order = $this->getOrder();
         $storeId = $order->getStore()->getId();
 
-        if (!Mage::helper('sales')->canSendNewInvoiceEmail($storeId)) {
+        if (!Mage::helper('Mage_Sales_Helper_Data')->canSendNewInvoiceEmail($storeId)) {
             return $this;
         }
         // Get the destination email addresses to send copies to
@@ -733,12 +733,12 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Sales_Model_Abstract
         }
 
         // Start store emulation process
-        $appEmulation = Mage::getSingleton('core/app_emulation');
+        $appEmulation = Mage::getSingleton('Mage_Core_Model_App_Emulation');
         $initialEnvironmentInfo = $appEmulation->startEnvironmentEmulation($storeId);
 
         try {
             // Retrieve specified view block from appropriate design package (depends on emulated store)
-            $paymentBlock = Mage::helper('payment')->getInfoBlock($order->getPayment())
+            $paymentBlock = Mage::helper('Mage_Payment_Helper_Data')->getInfoBlock($order->getPayment())
                 ->setIsSecureMode(true);
             $paymentBlock->getMethod()->setStore($storeId);
             $paymentBlockHtml = $paymentBlock->toHtml();
@@ -760,9 +760,9 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Sales_Model_Abstract
             $customerName = $order->getCustomerName();
         }
 
-        $mailer = Mage::getModel('core/email_template_mailer');
+        $mailer = Mage::getModel('Mage_Core_Model_Email_Template_Mailer');
         if ($notifyCustomer) {
-            $emailInfo = Mage::getModel('core/email_info');
+            $emailInfo = Mage::getModel('Mage_Core_Model_Email_Info');
             $emailInfo->addTo($order->getCustomerEmail(), $customerName);
             if ($copyTo && $copyMethod == 'bcc') {
                 // Add bcc to customer email
@@ -776,7 +776,7 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Sales_Model_Abstract
         // Email copies are sent as separated emails if their copy method is 'copy' or a customer should not be notified
         if ($copyTo && ($copyMethod == 'copy' || !$notifyCustomer)) {
             foreach ($copyTo as $email) {
-                $emailInfo = Mage::getModel('core/email_info');
+                $emailInfo = Mage::getModel('Mage_Core_Model_Email_Info');
                 $emailInfo->addTo($email);
                 $mailer->addEmailInfo($emailInfo);
             }
@@ -813,7 +813,7 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Sales_Model_Abstract
         $order = $this->getOrder();
         $storeId = $order->getStore()->getId();
 
-        if (!Mage::helper('sales')->canSendInvoiceCommentEmail($storeId)) {
+        if (!Mage::helper('Mage_Sales_Helper_Data')->canSendInvoiceCommentEmail($storeId)) {
             return $this;
         }
         // Get the destination email addresses to send copies to
@@ -833,9 +833,9 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Sales_Model_Abstract
             $customerName = $order->getCustomerName();
         }
 
-        $mailer = Mage::getModel('core/email_template_mailer');
+        $mailer = Mage::getModel('Mage_Core_Model_Email_Template_Mailer');
         if ($notifyCustomer) {
-            $emailInfo = Mage::getModel('core/email_info');
+            $emailInfo = Mage::getModel('Mage_Core_Model_Email_Info');
             $emailInfo->addTo($order->getCustomerEmail(), $customerName);
             if ($copyTo && $copyMethod == 'bcc') {
                 // Add bcc to customer email
@@ -849,7 +849,7 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Sales_Model_Abstract
         // Email copies are sent as separated emails if their copy method is 'copy' or a customer should not be notified
         if ($copyTo && ($copyMethod == 'copy' || !$notifyCustomer)) {
             foreach ($copyTo as $email) {
-                $emailInfo = Mage::getModel('core/email_info');
+                $emailInfo = Mage::getModel('Mage_Core_Model_Email_Info');
                 $emailInfo->addTo($email);
                 $mailer->addEmailInfo($emailInfo);
             }

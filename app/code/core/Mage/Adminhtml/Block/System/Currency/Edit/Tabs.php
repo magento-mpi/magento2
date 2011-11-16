@@ -38,20 +38,22 @@ class Mage_Adminhtml_Block_System_Currency_Edit_Tabs extends Mage_Adminhtml_Bloc
         parent::__construct();
         $this->setId('currency_edit_tabs');
         $this->setDestElementId('currency_edit_form');
-        $this->setTitle(Mage::helper('adminhtml')->__('Currency'));
+        $this->setTitle(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Currency'));
     }
 
     protected function _beforeToHtml()
     {
         $this->addTab('general', array(
-            'label'     => Mage::helper('adminhtml')->__('General Information'),
-            'content'   => $this->getLayout()->createBlock('adminhtml/system_currency_edit_tab_main')->toHtml(),
+            'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('General Information'),
+            'content'   => $this->getLayout()
+                ->createBlock('Mage_Adminhtml_Block_System_Currency_Edit_Tab_Main')->toHtml(),
             'active'    => true
         ));
 
         $this->addTab('currency_rates', array(
-            'label'     => Mage::helper('adminhtml')->__('Rates'),
-            'content'   => $this->getLayout()->createBlock('adminhtml/system_currency_edit_tab_rates')->toHtml(),
+            'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Rates'),
+            'content'   => $this->getLayout()
+                ->createBlock('Mage_Adminhtml_Block_System_Currency_Edit_Tab_Rates')->toHtml(),
         ));
         
         return parent::_beforeToHtml();

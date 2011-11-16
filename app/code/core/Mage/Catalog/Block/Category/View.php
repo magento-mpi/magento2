@@ -37,7 +37,7 @@ class Mage_Catalog_Block_Category_View extends Mage_Core_Block_Template
     {
         parent::_prepareLayout();
 
-        $this->getLayout()->createBlock('catalog/breadcrumbs');
+        $this->getLayout()->createBlock('Mage_Catalog_Block_Breadcrumbs');
 
         if ($headBlock = $this->getLayout()->getBlock('head')) {
             $category = $this->getCurrentCategory();
@@ -50,14 +50,14 @@ class Mage_Catalog_Block_Category_View extends Mage_Core_Block_Template
             if ($keywords = $category->getMetaKeywords()) {
                 $headBlock->setKeywords($keywords);
             }
-            if ($this->helper('catalog/category')->canUseCanonicalTag()) {
+            if ($this->helper('Mage_Catalog_Helper_Category')->canUseCanonicalTag()) {
                 $headBlock->addLinkRel('canonical', $category->getUrl());
             }
             /*
             want to show rss feed in the url
             */
             if ($this->IsRssCatalogEnable() && $this->IsTopCategory()) {
-                $title = $this->helper('rss')->__('%s RSS Feed',$this->getCurrentCategory()->getName());
+                $title = $this->helper('Mage_Rss_Helper_Data')->__('%s RSS Feed',$this->getCurrentCategory()->getName());
                 $headBlock->addRss($title, $this->getRssLink());
             }
         }
@@ -101,7 +101,7 @@ class Mage_Catalog_Block_Category_View extends Mage_Core_Block_Template
     public function getCmsBlockHtml()
     {
         if (!$this->getData('cms_block_html')) {
-            $html = $this->getLayout()->createBlock('cms/block')
+            $html = $this->getLayout()->createBlock('Mage_Cms_Block_Block')
                 ->setBlockId($this->getCurrentCategory()->getLandingPage())
                 ->toHtml();
             $this->setData('cms_block_html', $html);
@@ -140,7 +140,7 @@ class Mage_Catalog_Block_Category_View extends Mage_Core_Block_Template
         if ($category->getDisplayMode()==Mage_Catalog_Model_Category::DM_PAGE) {
             $res = true;
             if ($category->getIsAnchor()) {
-                $state = Mage::getSingleton('catalog/layer')->getState();
+                $state = Mage::getSingleton('Mage_Catalog_Model_Layer')->getState();
                 if ($state && $state->getFilters()) {
                     $res = false;
                 }

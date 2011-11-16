@@ -48,7 +48,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create extends Mage_Adminhtml_Block_Widge
         $storeId    = $this->_getSession()->getStoreId();
 
 
-        $this->_updateButton('save', 'label', Mage::helper('sales')->__('Submit Order'));
+        $this->_updateButton('save', 'label', Mage::helper('Mage_Sales_Helper_Data')->__('Submit Order'));
         $this->_updateButton('save', 'onclick', "order.submit()");
         $this->_updateButton('save', 'id', 'submit_order_top_button');
         if (is_null($customerId) || !$storeId) {
@@ -64,8 +64,8 @@ class Mage_Adminhtml_Block_Sales_Order_Create extends Mage_Adminhtml_Block_Widge
             $this->_updateButton('back', 'style', 'display:none');
         }
 
-        $confirm = Mage::helper('sales')->__('Are you sure you want to cancel this order?');
-        $this->_updateButton('reset', 'label', Mage::helper('sales')->__('Cancel'));
+        $confirm = Mage::helper('Mage_Sales_Helper_Data')->__('Are you sure you want to cancel this order?');
+        $this->_updateButton('reset', 'label', Mage::helper('Mage_Sales_Helper_Data')->__('Cancel'));
         $this->_updateButton('reset', 'class', 'cancel');
         $this->_updateButton('reset', 'onclick', 'deleteConfirm(\''.$confirm.'\', \'' . $this->getCancelUrl() . '\')');
     }
@@ -78,7 +78,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create extends Mage_Adminhtml_Block_Widge
     public function getHeaderHtml()
     {
         $out = '<div id="order-header">'
-            . $this->getLayout()->createBlock('adminhtml/sales_order_create_header')->toHtml()
+            . $this->getLayout()->createBlock('Mage_Adminhtml_Block_Sales_Order_Create_Header')->toHtml()
             . '</div>';
         return $out;
     }
@@ -91,7 +91,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create extends Mage_Adminhtml_Block_Widge
     public function getFormHtml()
     {
         $html = parent::getFormHtml();
-        $html .= $this->getLayout()->createBlock('adminhtml/catalog_product_composite_configure')->toHtml();
+        $html .= $this->getLayout()->createBlock('Mage_Adminhtml_Block_Catalog_Product_Composite_Configure')->toHtml();
         return $html;
     }
 
@@ -107,14 +107,14 @@ class Mage_Adminhtml_Block_Sales_Order_Create extends Mage_Adminhtml_Block_Widge
      */
     protected function _getSession()
     {
-        return Mage::getSingleton('adminhtml/session_quote');
+        return Mage::getSingleton('Mage_Adminhtml_Model_Session_Quote');
     }
 
     public function getCancelUrl()
     {
         if ($this->_getSession()->getOrder()->getId()) {
             $url = $this->getUrl('*/sales_order/view', array(
-                'order_id' => Mage::getSingleton('adminhtml/session_quote')->getOrder()->getId()
+                'order_id' => Mage::getSingleton('Mage_Adminhtml_Model_Session_Quote')->getOrder()->getId()
             ));
         } else {
             $url = $this->getUrl('*/*/cancel');

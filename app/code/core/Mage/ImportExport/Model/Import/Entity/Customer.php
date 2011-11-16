@@ -220,8 +220,8 @@ class Mage_ImportExport_Model_Import_Entity_Customer extends Mage_ImportExport_M
             ->_initAttributes()
             ->_initCustomers();
 
-        $this->_entityTable   = Mage::getModel('customer/customer')->getResource()->getEntityTable();
-        $this->_addressEntity = Mage::getModel('importexport/import_entity_customer_address', $this);
+        $this->_entityTable   = Mage::getModel('Mage_Customer_Model_Customer')->getResource()->getEntityTable();
+        $this->_addressEntity = Mage::getModel('Mage_ImportExport_Model_Import_Entity_Customer_Address', $this);
     }
 
     /**
@@ -274,7 +274,8 @@ class Mage_ImportExport_Model_Import_Entity_Customer extends Mage_ImportExport_M
      */
     protected function _initAttributes()
     {
-        $collection = Mage::getResourceModel('customer/attribute_collection')->addSystemHiddenFilterWithPasswordHash();
+        $collection = Mage::getResourceModel('Mage_Customer_Model_Resource_Attribute_Collection')
+            ->addSystemHiddenFilterWithPasswordHash();
         foreach ($collection as $attribute) {
             $this->_attributes[$attribute->getAttributeCode()] = array(
                 'id'          => $attribute->getId(),
@@ -295,7 +296,7 @@ class Mage_ImportExport_Model_Import_Entity_Customer extends Mage_ImportExport_M
      */
     protected function _initCustomerGroups()
     {
-        foreach (Mage::getResourceModel('customer/group_collection') as $customerGroup) {
+        foreach (Mage::getResourceModel('Mage_Customer_Model_Resource_Group_Collection') as $customerGroup) {
             $this->_customerGroups[$customerGroup->getId()] = true;
         }
         return $this;
@@ -308,7 +309,7 @@ class Mage_ImportExport_Model_Import_Entity_Customer extends Mage_ImportExport_M
      */
     protected function _initCustomers()
     {
-        foreach (Mage::getResourceModel('customer/customer_collection') as $customer) {
+        foreach (Mage::getResourceModel('Mage_Customer_Model_Resource_Customer_Collection') as $customer) {
             $email = $customer->getEmail();
 
             if (!isset($this->_oldCustomers[$email])) {
@@ -316,7 +317,7 @@ class Mage_ImportExport_Model_Import_Entity_Customer extends Mage_ImportExport_M
             }
             $this->_oldCustomers[$email][$this->_websiteIdToCode[$customer->getWebsiteId()]] = $customer->getId();
         }
-        $this->_customerGlobal = Mage::getModel('customer/customer')->getSharingConfig()->isGlobalScope();
+        $this->_customerGlobal = Mage::getModel('Mage_Customer_Model_Customer')->getSharingConfig()->isGlobalScope();
 
         return $this;
     }
@@ -357,10 +358,10 @@ class Mage_ImportExport_Model_Import_Entity_Customer extends Mage_ImportExport_M
     protected function _saveCustomers()
     {
         /** @var $resource Mage_Customer_Model_Customer */
-        $resource       = Mage::getModel('customer/customer');
+        $resource       = Mage::getModel('Mage_Customer_Model_Customer');
         $strftimeFormat = Varien_Date::convertZendToStrftime(Varien_Date::DATETIME_INTERNAL_FORMAT, true, true);
         $table = $resource->getResource()->getEntityTable();
-        $nextEntityId   = Mage::getResourceHelper('importexport')->getNextAutoincrement($table);
+        $nextEntityId   = Mage::getResourceHelper('Mage_ImportExport')->getNextAutoincrement($table);
         $passId         = $resource->getAttribute('password_hash')->getId();
         $passTable      = $resource->getAttribute('password_hash')->getBackend()->getTable();
 
@@ -578,7 +579,7 @@ class Mage_ImportExport_Model_Import_Entity_Customer extends Mage_ImportExport_M
                 }
                 // check password
                 if (isset($rowData['password']) && strlen($rowData['password'])
-                    && Mage::helper('core/string')->strlen($rowData['password']) < self::MAX_PASSWD_LENGTH
+                    && Mage::helper('Mage_Core_Helper_String')->strlen($rowData['password']) < self::MAX_PASSWD_LENGTH
                 ) {
                     $this->addRowError(self::ERROR_PASSWORD_LENGTH, $rowNum);
                 }

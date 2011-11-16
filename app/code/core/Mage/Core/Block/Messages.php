@@ -73,11 +73,11 @@ class Mage_Core_Block_Messages extends Mage_Core_Block_Template
      *
      * @var array
      */
-    protected $_usedStorageTypes = array('core/session');
+    protected $_usedStorageTypes = array('Mage_Core_Model_Session');
 
     public function _prepareLayout()
     {
-        $this->addMessages(Mage::getSingleton('core/session')->getMessages(true));
+        $this->addMessages(Mage::getSingleton('Mage_Core_Model_Session')->getMessages(true));
         parent::_prepareLayout();
     }
 
@@ -126,7 +126,7 @@ class Mage_Core_Block_Messages extends Mage_Core_Block_Template
     public function getMessageCollection()
     {
         if (!($this->_messages instanceof Mage_Core_Model_Message_Collection)) {
-            $this->_messages = Mage::getModel('core/message_collection');
+            $this->_messages = Mage::getModel('Mage_Core_Model_Message_Collection');
         }
         return $this->_messages;
     }
@@ -151,7 +151,7 @@ class Mage_Core_Block_Messages extends Mage_Core_Block_Template
      */
     public function addError($message)
     {
-        $this->addMessage(Mage::getSingleton('core/message')->error($message));
+        $this->addMessage(Mage::getSingleton('Mage_Core_Model_Message')->error($message));
         return $this;
     }
 
@@ -163,7 +163,7 @@ class Mage_Core_Block_Messages extends Mage_Core_Block_Template
      */
     public function addWarning($message)
     {
-        $this->addMessage(Mage::getSingleton('core/message')->warning($message));
+        $this->addMessage(Mage::getSingleton('Mage_Core_Model_Message')->warning($message));
         return $this;
     }
 
@@ -175,7 +175,7 @@ class Mage_Core_Block_Messages extends Mage_Core_Block_Template
      */
     public function addNotice($message)
     {
-        $this->addMessage(Mage::getSingleton('core/message')->notice($message));
+        $this->addMessage(Mage::getSingleton('Mage_Core_Model_Message')->notice($message));
         return $this;
     }
 
@@ -187,7 +187,7 @@ class Mage_Core_Block_Messages extends Mage_Core_Block_Template
      */
     public function addSuccess($message)
     {
-        $this->addMessage(Mage::getSingleton('core/message')->success($message));
+        $this->addMessage(Mage::getSingleton('Mage_Core_Model_Message')->success($message));
         return $this;
     }
 

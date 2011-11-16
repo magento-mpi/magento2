@@ -36,7 +36,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Order_Status
     public function __construct()
     {
         parent::__construct();
-        $this->setType('enterprise_customersegment/segment_condition_order_status');
+        $this->setType('Enterprise_CustomerSegment_Model_Segment_Condition_Order_Status');
         $this->setValue(null);
     }
 
@@ -59,7 +59,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Order_Status
     {
         return array(
             'value' => $this->getType(),
-            'label' => Mage::helper('enterprise_customersegment')->__('Order Status')
+            'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Order Status')
         );
     }
 
@@ -81,8 +81,8 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Order_Status
     public function loadValueOptions()
     {
         $this->setValueOption(array_merge(
-            array(self::VALUE_ANY => Mage::helper('enterprise_customersegment')->__('Any')),
-            Mage::getSingleton('sales/order_config')->getStatuses())
+            array(self::VALUE_ANY => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Any')),
+            Mage::getSingleton('Mage_Sales_Model_Order_Config')->getStatuses())
         );
         return $this;
     }
@@ -95,7 +95,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Order_Status
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . Mage::helper('enterprise_customersegment')->__('Order Status %s %s:',
+            . Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Order Status %s %s:',
                 $this->getOperatorElementHtml(), $this->getValueElementHtml())
             . $this->getRemoveLinkHtml();
     }
@@ -107,7 +107,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Order_Status
      */
     public function getAttributeObject()
     {
-        return Mage::getSingleton('eav/config')->getAttribute('order', 'status');
+        return Mage::getSingleton('Mage_Eav_Model_Config')->getAttribute('order', 'status');
     }
 
     /**

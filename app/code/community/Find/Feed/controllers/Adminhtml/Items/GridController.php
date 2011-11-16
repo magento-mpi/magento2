@@ -47,7 +47,9 @@ class Find_Feed_Adminhtml_Items_GridController extends Mage_Adminhtml_Controller
     public function gridAction()
     {
         $this->loadLayout();
-        $this->getResponse()->setBody($this->getLayout()->createBlock('find_feed/adminhtml_list_items_grid')->toHtml());
+        $this->getResponse()->setBody(
+            $this->getLayout()->createBlock('Find_Feed_Block_Adminhtml_List_Items_Grid')->toHtml()
+        );
     }
 
     /**
@@ -61,7 +63,7 @@ class Find_Feed_Adminhtml_Items_GridController extends Mage_Adminhtml_Controller
         if (!empty($idList)) {
             $products = array();
             foreach ($idList as $id) {
-                $model = Mage::getModel('catalog/product');
+                $model = Mage::getModel('Mage_Catalog_Model_Product');
                 if ($model->load($id)) {
                     array_push($products, $model);
                 }
@@ -78,7 +80,7 @@ class Find_Feed_Adminhtml_Items_GridController extends Mage_Adminhtml_Controller
     public function massEnableAction()
     {
         $idList = $this->getRequest()->getParam('item_id');
-        $updateAction = Mage::getModel('catalog/product_action');
+        $updateAction = Mage::getModel('Mage_Catalog_Model_Product_Action');
         $attrData = array(
             'is_imported' => 1
         );
@@ -86,10 +88,10 @@ class Find_Feed_Adminhtml_Items_GridController extends Mage_Adminhtml_Controller
         if ($updatedProducts) {
             try {
                 $updateAction->updateAttributes($idList, $attrData, Mage::app()->getStore()->getId());
-                Mage::getModel('find_feed/import')->processImport();
-                $this->_getSession()->addSuccess(Mage::helper('find_feed')->__("%s product in feed.", $updatedProducts));
+                Mage::getModel('Find_Feed_Model_Import')->processImport();
+                $this->_getSession()->addSuccess(Mage::helper('Find_Feed_Helper_Data')->__("%s product in feed.", $updatedProducts));
             } catch (Exception $e) {
-                $this->_getSession()->addError(Mage::helper('find_feed')->__("Unable to process an import. ") . $e->getMessage());
+                $this->_getSession()->addError(Mage::helper('Find_Feed_Helper_Data')->__("Unable to process an import. ") . $e->getMessage());
             }
         }
         $this->_redirect('*/*/index');
@@ -107,8 +109,8 @@ class Find_Feed_Adminhtml_Items_GridController extends Mage_Adminhtml_Controller
             $updatedProducts++;
         }
         if ($updatedProducts) {
-            Mage::getModel('find_feed/import')->processImport();
-            $this->_getSession()->addSuccess(Mage::helper('find_feed')->__("%s product not in feed.", $updatedProducts));
+            Mage::getModel('Find_Feed_Model_Import')->processImport();
+            $this->_getSession()->addSuccess(Mage::helper('Find_Feed_Helper_Data')->__("%s product not in feed.", $updatedProducts));
         }
         $this->_redirect('*/*/index');
     }
@@ -119,6 +121,6 @@ class Find_Feed_Adminhtml_Items_GridController extends Mage_Adminhtml_Controller
      * @return boolean
      */
     protected function _isAllowed() {
-        return Mage::getSingleton('admin/session')->isAllowed('catalog/feed/import_items');
+        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('catalog/feed/import_items');
     }
 }

@@ -48,8 +48,8 @@ class Mage_Adminhtml_Block_Report_Tag_Popular_Detail_Grid extends Mage_Adminhtml
     protected function _prepareCollection()
     {
         /* @var $collection Mage_Reports_Model_Resource_Tag_Customer_Collection */
-        $collection = Mage::getResourceModel('reports/tag_customer_collection');
-        $collection->addStatusFilter(Mage::getModel('tag/tag')->getApprovedStatus())
+        $collection = Mage::getResourceModel('Mage_Reports_Model_Resource_Tag_Customer_Collection');
+        $collection->addStatusFilter(Mage::getModel('Mage_Tag_Model_Tag')->getApprovedStatus())
                 ->addTagFilter($this->getRequest()->getParam('id'))
                 ->addDescOrder()
                 ->addProductName();
@@ -68,26 +68,26 @@ class Mage_Adminhtml_Block_Report_Tag_Popular_Detail_Grid extends Mage_Adminhtml
     {
 
         $this->addColumn('firstname', array(
-            'header'    =>Mage::helper('reports')->__('First Name'),
+            'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('First Name'),
             'sortable'  => false,
             'index'     =>'firstname'
         ));
 
         $this->addColumn('lastname', array(
-            'header'    =>Mage::helper('reports')->__('Last Name'),
+            'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('Last Name'),
             'sortable'  => false,
             'index'     =>'lastname'
         ));
 
         $this->addColumn('product', array(
-            'header'    =>Mage::helper('reports')->__('Product Name'),
+            'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('Product Name'),
             'sortable'  => false,
             'index'     =>'product'
         ));
 
         if (!Mage::app()->isSingleStoreMode()) {
             $this->addColumn('added_in', array(
-                'header'    => Mage::helper('reports')->__('Submitted In'),
+                'header'    => Mage::helper('Mage_Reports_Helper_Data')->__('Submitted In'),
                 'sortable'  => false,
                 'index'     => 'store_id',
                 'type'      => 'store',
@@ -97,8 +97,8 @@ class Mage_Adminhtml_Block_Report_Tag_Popular_Detail_Grid extends Mage_Adminhtml
 
         $this->setFilterVisibility(false);
 
-        $this->addExportType('*/*/exportTagDetailCsv', Mage::helper('reports')->__('CSV'));
-        $this->addExportType('*/*/exportTagDetailExcel', Mage::helper('reports')->__('Excel XML'));
+        $this->addExportType('*/*/exportTagDetailCsv', Mage::helper('Mage_Reports_Helper_Data')->__('CSV'));
+        $this->addExportType('*/*/exportTagDetailExcel', Mage::helper('Mage_Reports_Helper_Data')->__('Excel XML'));
 
         return parent::_prepareColumns();
     }

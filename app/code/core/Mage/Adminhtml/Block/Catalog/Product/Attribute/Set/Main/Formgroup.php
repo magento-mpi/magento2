@@ -41,11 +41,11 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main_Formgroup extends 
     {
         $form = new Varien_Data_Form();
 
-        $fieldset = $form->addFieldset('set_fieldset', array('legend'=>Mage::helper('catalog')->__('Add New Group')));
+        $fieldset = $form->addFieldset('set_fieldset', array('legend'=>Mage::helper('Mage_Catalog_Helper_Data')->__('Add New Group')));
 
         $fieldset->addField('attribute_group_name', 'text',
                             array(
-                                'label' => Mage::helper('catalog')->__('Name'),
+                                'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Name'),
                                 'name' => 'attribute_group_name',
                                 'required' => true,
                             )
@@ -53,9 +53,9 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main_Formgroup extends 
 
         $fieldset->addField('submit', 'note',
                             array(
-                                'text' => $this->getLayout()->createBlock('adminhtml/widget_button')
+                                'text' => $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                                             ->setData(array(
-                                                'label'     => Mage::helper('catalog')->__('Add Group'),
+                                                'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Add Group'),
                                                 'onclick'   => 'this.form.submit();',
                                                                                                 'class' => 'add'
                                             ))
@@ -81,7 +81,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main_Formgroup extends 
     {
         return ( intval($this->getRequest()->getParam('id')) > 0 )
                     ? intval($this->getRequest()->getParam('id'))
-                    : Mage::getModel('eav/entity_type')
+                    : Mage::getModel('Mage_Eav_Model_Entity_Type')
                         ->load(Mage::registry('entityType'))
                         ->getDefaultAttributeSetId();
     }

@@ -30,17 +30,17 @@
 
     <default>
         <reference name="header">
-            <block type="core/template" name="top.search" as="topSearch" template="Mage_CatalogSearch::form.mini.phtml"/>
+            <block type="Mage_Core_Block_Template" name="top.search" as="topSearch" template="Mage_CatalogSearch::form.mini.phtml"/>
         </reference>
         <reference name="footer_links">
-            <action method="addLink" translate="label title" module="catalogsearch" ifconfig="catalog/seo/search_terms">
+            <action method="addLink" translate="label title" module="Mage_CatalogSearch" ifconfig="catalog/seo/search_terms">
                 <label>Search Terms</label>
-                <url helper="catalogsearch/getSearchTermUrl" />
+                <url helper="Mage_CatalogSearch_Helper_Data::getSearchTermUrl" />
                 <title>Search Terms</title>
             </action>
-            <action method="addLink" translate="label title" module="catalogsearch">
+            <action method="addLink" translate="label title" module="Mage_CatalogSearch">
                 <label>Advanced Search</label>
-                <url helper="catalogsearch/getAdvancedSearchUrl" />
+                <url helper="Mage_CatalogSearch_Helper_Data::getAdvancedSearchUrl" />
                 <title>Advanced Search</title>
             </action>
         </reference>
@@ -52,13 +52,13 @@
             <action method="setTemplate"><template>1column.phtml</template></action>
         </reference>
         <reference name="left">
-            <block type="catalogsearch/layer" name="catalogsearch.leftnav" after="currency" template="Mage_Catalog::layer/view.phtml"/>
+            <block type="Mage_CatalogSearch_Block_Layer" name="catalogsearch.leftnav" after="currency" template="Mage_Catalog::layer/view.phtml"/>
         </reference>
         <reference name="content">
-            <block type="catalogsearch/result" name="search.result" template="result.phtml">
-                <block type="catalog/product_list" name="search_result_list" template="product/list.phtml">
-                    <block type="catalog/product_list_toolbar" name="product_list_toolbar" template="product/list/toolbar.phtml">
-                        <block type="page/html_pager" name="product_list_toolbar_pager"/>
+            <block type="Mage_CatalogSearch_Block_Result" name="search.result" template="result.phtml">
+                <block type="Mage_Catalog_Block_Product_List" name="search_result_list" template="product/list.phtml">
+                    <block type="Mage_Catalog_Block_Product_List_Toolbar" name="product_list_toolbar" template="product/list/toolbar.phtml">
+                        <block type="Mage_Page_Block_Html_Pager" name="product_list_toolbar_pager"/>
                     </block>
                     <action method="addColumnCountLayoutDepend"><layout>empty</layout><count>6</count></action>
                     <action method="addColumnCountLayoutDepend"><layout>one_column</layout><count>5</count></action>
@@ -86,8 +86,8 @@
             <action method="addJs"><file>calendar/calendar-setup.js</file><!--<params/><if/><condition>can_load_calendar_js</condition>--></action>
         </reference>
         <reference name="content">
-            <block type="catalogsearch/advanced_form" name="catalogsearch_advanced_form" template="advanced/form.phtml"/>
-            <block type="core/html_calendar" name="html_calendar" as="html_calendar" template="Mage_Page::js/calendar.phtml"/>
+            <block type="Mage_CatalogSearch_Block_Advanced_Form" name="catalogsearch_advanced_form" template="advanced/form.phtml"/>
+            <block type="Mage_Core_Block_Html_Calendar" name="html_calendar" as="html_calendar" template="Mage_Page::js/calendar.phtml"/>
         </reference>
     </catalogsearch_advanced_index>
 
@@ -103,10 +103,10 @@ Advanced search results
             <action method="setTemplate"><template>2columns-right.phtml</template></action>
         </reference>
         <reference name="content">
-            <block type="catalogsearch/advanced_result" name="catalogsearch_advanced_result" template="advanced/result.phtml">
-                <block type="catalog/product_list" name="search_result_list" template="product/list.phtml">
-                    <block type="catalog/product_list_toolbar" name="product_list_toolbar" template="product/list/toolbar.phtml">
-                        <block type="page/html_pager" name="product_list_toolbar_pager"/>
+            <block type="Mage_CatalogSearch_Block_Advanced_Result" name="catalogsearch_advanced_result" template="advanced/result.phtml">
+                <block type="Mage_Catalog_Block_Product_List" name="search_result_list" template="product/list.phtml">
+                    <block type="Mage_Catalog_Block_Product_List_Toolbar" name="product_list_toolbar" template="product/list/toolbar.phtml">
+                        <block type="Mage_Page_Block_Html_Pager" name="product_list_toolbar_pager"/>
                     </block>
                     <action method="addColumnCountLayoutDepend"><layout>empty</layout><count>6</count></action>
                     <action method="addColumnCountLayoutDepend"><layout>one_column</layout><count>5</count></action>
@@ -131,9 +131,9 @@ Advanced search results
             <action method="setTemplate"><template>1column.phtml</template></action>
         </reference>
         <reference name="content">
-            <block type="catalogsearch/term" name="seo.searchterm" template="term.phtml"/>
-            <block type="page/html_breadcrumbs" name="breadcrumbs" as="breadcrumbs" before="-">
-                <action method="addCrumb" translate="crumbName" module="catalog">
+            <block type="Mage_CatalogSearch_Block_Term" name="seo.searchterm" template="term.phtml"/>
+            <block type="Mage_Page_Block_Html_Breadcrumbs" name="breadcrumbs" as="breadcrumbs" before="-">
+                <action method="addCrumb" translate="crumbName" module="Mage_Catalog">
                     <crumbName>home</crumbName>
                     <crumbInfo>
                         <label>Home</label>
@@ -141,7 +141,7 @@ Advanced search results
                         <link>/</link>
                     </crumbInfo>
                 </action>
-                <action method="addCrumb" translate="crumbName" module="catalog">
+                <action method="addCrumb" translate="crumbName" module="Mage_Catalog">
                     <crumbName>categories</crumbName>
                     <crumbInfo>
                         <label>Categories</label>

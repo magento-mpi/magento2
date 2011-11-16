@@ -74,7 +74,8 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items_Order_Grid
 
         /** @var $collection Enterprise_Rma_Model_Resource_Item */
 
-        $orderItemsCollection = Mage::getResourceModel('enterprise_rma/item')->getOrderItemsCollection($orderId);
+        $orderItemsCollection = Mage::getResourceModel('Enterprise_Rma_Model_Resource_Item')
+            ->getOrderItemsCollection($orderId);
 
         $this->setCollection($orderItemsCollection);
 
@@ -92,9 +93,11 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items_Order_Grid
     protected function _afterLoadCollection()
     {
         $orderId = Mage::registry('current_order')->getId();
-        $itemsInActiveRmaArray = Mage::getResourceModel('enterprise_rma/item')->getItemsIdsByOrder($orderId);
+        $itemsInActiveRmaArray = Mage::getResourceModel('Enterprise_Rma_Model_Resource_Item')
+            ->getItemsIdsByOrder($orderId);
 
-        $fullItemsCollection = Mage::getResourceModel('enterprise_rma/item')->getOrderItemsCollection($orderId);
+        $fullItemsCollection = Mage::getResourceModel('Enterprise_Rma_Model_Resource_Item')
+            ->getOrderItemsCollection($orderId);
         /**
          * contains data that defines possibility of return for an order item
          * array value ['self'] refers to item's own rules
@@ -103,7 +106,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items_Order_Grid
         $parent = array();
 
         /** @var $product Mage_Catalog_Model_Product */
-        $product = Mage::getModel('catalog/product');
+        $product = Mage::getModel('Mage_Catalog_Model_Product');
 
         foreach ($fullItemsCollection as $item) {
             $allowed = true;
@@ -116,7 +119,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items_Order_Grid
                 $product->setStoreId($item->getStoreId());
                 $product->load($item->getProductId());
 
-                if (!Mage::helper('enterprise_rma')->canReturnProduct($product, $item->getStoreId())) {
+                if (!Mage::helper('Enterprise_Rma_Helper_Data')->canReturnProduct($product, $item->getStoreId())) {
                     $allowed = false;
                 }
             }
@@ -152,13 +155,13 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items_Order_Grid
                 $productOptions     = $item->getProductOptions();
                 $product->reset();
                 $product->load($product->getIdBySku($productOptions['simple_sku']));
-                if (!Mage::helper('enterprise_rma')->canReturnProduct($product, $item->getStoreId())) {
+                if (!Mage::helper('Enterprise_Rma_Helper_Data')->canReturnProduct($product, $item->getStoreId())) {
                     $this->getCollection()->removeItemByKey($item->getId());
                     continue;
                 }
             }
 
-            $item->setName(Mage::helper('enterprise_rma')->getAdminProductName($item));
+            $item->setName(Mage::helper('Enterprise_Rma_Helper_Data')->getAdminProductName($item));
         }
 
         return $this;
@@ -172,7 +175,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items_Order_Grid
     protected function _prepareColumns()
     {
         $this->addColumn('select', array(
-            'header'=> Mage::helper('enterprise_rma')->__('Select'),
+            'header'=> Mage::helper('Enterprise_Rma_Helper_Data')->__('Select'),
             'width' => '40px',
             'type'  => 'checkbox',
             'align'     => 'center',
@@ -183,31 +186,31 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items_Order_Grid
         ));
 
         $this->addColumn('product_name', array(
-            'header'    => Mage::helper('enterprise_rma')->__('Product Name'),
-            'renderer'  => 'enterprise_rma/adminhtml_product_bundle_product',
+            'header'    => Mage::helper('Enterprise_Rma_Helper_Data')->__('Product Name'),
+            'renderer'  => 'Enterprise_Rma_Block_Adminhtml_Product_Bundle_Product',
             'index'     => 'name'
         ));
 
         $this->addColumn('sku', array(
-            'header'=> Mage::helper('enterprise_rma')->__('SKU'),
+            'header'=> Mage::helper('Enterprise_Rma_Helper_Data')->__('SKU'),
             'width' => '80px',
             'type'  => 'text',
             'index' => 'sku',
         ));
 
         $this->addColumn('price', array(
-            'header'=> Mage::helper('enterprise_rma')->__('Price'),
+            'header'=> Mage::helper('Enterprise_Rma_Helper_Data')->__('Price'),
             'width' => '80px',
             'type'  => 'currency',
             'index' => 'price',
         ));
 
         $this->addColumn('available_qty', array(
-            'header'=> Mage::helper('enterprise_rma')->__('Remaining Qty'),
+            'header'=> Mage::helper('Enterprise_Rma_Helper_Data')->__('Remaining Qty'),
             'width' => '80px',
             'type'  => 'text',
             'index' => 'available_qty',
-            'renderer'  => 'enterprise_rma/adminhtml_rma_edit_tab_items_grid_column_renderer_quantity',
+            'renderer'  => 'Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid_Column_Renderer_Quantity',
             'filter' => false,
             'sortable' => false,
         ));

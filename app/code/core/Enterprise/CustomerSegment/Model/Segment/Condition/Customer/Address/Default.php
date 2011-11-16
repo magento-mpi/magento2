@@ -38,7 +38,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Defaul
     public function __construct()
     {
         parent::__construct();
-        $this->setType('enterprise_customersegment/segment_condition_customer_address_default');
+        $this->setType('Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Default');
         $this->setValue('default_billing');
     }
 
@@ -61,7 +61,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Defaul
     {
         return array(
             'value' => $this->getType(),
-            'label' => Mage::helper('enterprise_customersegment')->__('Default Address')
+            'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Default Address')
         );
     }
 
@@ -73,8 +73,8 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Defaul
     public function loadValueOptions()
     {
         $this->setValueOption(array(
-            'default_billing'  => Mage::helper('enterprise_customersegment')->__('Billing'),
-            'default_shipping' => Mage::helper('enterprise_customersegment')->__('Shipping'),
+            'default_billing'  => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Billing'),
+            'default_shipping' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Shipping'),
         ));
         return $this;
     }
@@ -97,7 +97,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Defaul
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . Mage::helper('enterprise_customersegment')->__('Customer Address %s Default %s Address',
+            . Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Customer Address %s Default %s Address',
                 $this->getOperatorElementHtml(), $this->getValueElement()->getHtml())
             . $this->getRemoveLinkHtml();
     }
@@ -112,14 +112,14 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Defaul
     public function getConditionsSql($customer, $website)
     {
         $select = $this->getResource()->createSelect();
-        $attribute = Mage::getSingleton('eav/config')->getAttribute('customer', $this->getValue());
+        $attribute = Mage::getSingleton('Mage_Eav_Model_Config')->getAttribute('customer', $this->getValue());
         $select->from(array('default'=>$attribute->getBackendTable()), array(new Zend_Db_Expr(1)));
 
         $select->where('default.attribute_id = ?', $attribute->getId())
             ->where('default.value=customer_address.entity_id')
             ->where($this->_createCustomerFilter($customer, 'default.entity_id'));
 
-        Mage::getResourceHelper('enterprise_customersegment')->setOneRowLimit($select);
+        Mage::getResourceHelper('Enterprise_CustomerSegment')->setOneRowLimit($select);
 
         return $select;
     }

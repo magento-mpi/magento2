@@ -67,7 +67,7 @@ class Mage_Sales_Model_Order_Config extends Mage_Core_Model_Config_Base
     {
         $status = false;
         if ($stateNode = $this->_getState($state)) {
-            $status = Mage::getModel('sales/order_status')
+            $status = Mage::getModel('Mage_Sales_Model_Order_Status')
                 ->loadDefaultByState($state);
             $status = $status->getStatus();
         }
@@ -82,7 +82,7 @@ class Mage_Sales_Model_Order_Config extends Mage_Core_Model_Config_Base
      */
     public function getStatusLabel($code)
     {
-        $status = Mage::getModel('sales/order_status')
+        $status = Mage::getModel('Mage_Sales_Model_Order_Status')
             ->load($code);
         return $status->getStoreLabel();
     }
@@ -97,7 +97,7 @@ class Mage_Sales_Model_Order_Config extends Mage_Core_Model_Config_Base
     {
         if ($stateNode = $this->_getState($state)) {
             $state = (string) $stateNode->label;
-            return Mage::helper('sales')->__($state);
+            return Mage::helper('Mage_Sales_Helper_Data')->__($state);
         }
         return $state;
     }
@@ -110,7 +110,7 @@ class Mage_Sales_Model_Order_Config extends Mage_Core_Model_Config_Base
      */
     public function getStatuses()
     {
-        $statuses = Mage::getResourceModel('sales/order_status_collection')
+        $statuses = Mage::getResourceModel('Mage_Sales_Model_Resource_Order_Status_Collection')
             ->toOptionHash();
         return $statuses;
     }
@@ -125,7 +125,7 @@ class Mage_Sales_Model_Order_Config extends Mage_Core_Model_Config_Base
         $states = array();
         foreach ($this->getNode('states')->children() as $state) {
             $label = (string) $state->label;
-            $states[$state->getName()] = Mage::helper('sales')->__($label);
+            $states[$state->getName()] = Mage::helper('Mage_Sales_Helper_Data')->__($label);
         }
         return $states;
     }
@@ -152,7 +152,7 @@ class Mage_Sales_Model_Order_Config extends Mage_Core_Model_Config_Base
         }
         foreach ($state as $_state) {
             if ($stateNode = $this->_getState($_state)) {
-                $collection = Mage::getResourceModel('sales/order_status_collection')
+                $collection = Mage::getResourceModel('Mage_Sales_Model_Resource_Order_Status_Collection')
                     ->addStateFilter($_state)
                     ->orderByLabel();
                 foreach ($collection as $status) {

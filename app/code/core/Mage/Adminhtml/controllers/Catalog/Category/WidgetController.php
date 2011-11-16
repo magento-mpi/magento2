@@ -51,7 +51,7 @@ class Mage_Adminhtml_Catalog_Category_WidgetController extends Mage_Adminhtml_Co
     {
         if ($categoryId = (int) $this->getRequest()->getPost('id')) {
 
-            $category = Mage::getModel('catalog/category')->load($categoryId);
+            $category = Mage::getModel('Mage_Catalog_Model_Category')->load($categoryId);
             if ($category->getId()) {
                 Mage::register('category', $category);
                 Mage::register('current_category', $category);
@@ -64,7 +64,7 @@ class Mage_Adminhtml_Catalog_Category_WidgetController extends Mage_Adminhtml_Co
 
     protected function _getCategoryTreeBlock()
     {
-        return $this->getLayout()->createBlock('adminhtml/catalog_category_widget_chooser', '', array(
+        return $this->getLayout()->createBlock('Mage_Adminhtml_Block_Catalog_Category_Widget_Chooser', '', array(
             'id' => $this->getRequest()->getParam('uniq_id'),
             'use_massaction' => $this->getRequest()->getParam('use_massaction', false)
         ));

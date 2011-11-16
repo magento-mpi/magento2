@@ -42,7 +42,7 @@ class Mage_GoogleShopping_Model_Type extends Mage_Core_Model_Abstract
 
     protected function _construct()
     {
-        $this->_init('googleshopping/type');
+        $this->_init('Mage_GoogleShopping_Model_Resource_Type');
     }
 
     /**
@@ -88,9 +88,9 @@ class Mage_GoogleShopping_Model_Type extends Mage_Core_Model_Abstract
     protected function _getAttributesMapByProduct(Mage_Catalog_Model_Product $product)
     {
         $result = array();
-        $group = Mage::getSingleton('googleshopping/config')->getAttributeGroupsFlat();
+        $group = Mage::getSingleton('Mage_GoogleShopping_Model_Config')->getAttributeGroupsFlat();
         foreach ($this->_getAttributesCollection() as $attribute) {
-            $productAttribute = Mage::helper('googleshopping/product')
+            $productAttribute = Mage::helper('Mage_GoogleShopping_Helper_Product')
                 ->getProductAttribute($product, $attribute->getAttributeId());
 
             if (!is_null($productAttribute)) {
@@ -98,11 +98,11 @@ class Mage_GoogleShopping_Model_Type extends Mage_Core_Model_Abstract
                 if ($attribute->getGcontentAttribute()) {
                     $name = $attribute->getGcontentAttribute();
                 } else {
-                    $name = Mage::helper('googleshopping/product')->getAttributeLabel($productAttribute, $product->getStoreId());
+                    $name = Mage::helper('Mage_GoogleShopping_Helper_Product')->getAttributeLabel($productAttribute, $product->getStoreId());
                 }
 
                 if (!is_null($name)) {
-                    $name = Mage::helper('googleshopping')->normalizeName($name);
+                    $name = Mage::helper('Mage_GoogleShopping_Helper_Data')->normalizeName($name);
                     if (isset($group[$name])) {
                         // if attribute is in the group
                         if (!isset($result[$group[$name]])) {
@@ -133,7 +133,7 @@ class Mage_GoogleShopping_Model_Type extends Mage_Core_Model_Abstract
      */
     protected function _getBaseAttributes()
     {
-        $names = Mage::getSingleton('googleshopping/config')->getBaseAttributes();
+        $names = Mage::getSingleton('Mage_GoogleShopping_Model_Config')->getBaseAttributes();
         $attributes = array();
         foreach ($names as $name) {
             $attributes[$name] = $this->_createAttribute($name);
@@ -150,7 +150,7 @@ class Mage_GoogleShopping_Model_Type extends Mage_Core_Model_Abstract
      */
     protected function _initGroupAttributes($attributes)
     {
-        $group = Mage::getSingleton('googleshopping/config')->getAttributeGroupsFlat();
+        $group = Mage::getSingleton('Mage_GoogleShopping_Model_Config')->getAttributeGroupsFlat();
         foreach ($group as $child => $parent) {
             if (isset($attributes[$parent]) &&
                 !isset($attributes[$parent]['group_attribute_' . $child])) {
@@ -171,8 +171,7 @@ class Mage_GoogleShopping_Model_Type extends Mage_Core_Model_Abstract
      */
     protected function _prepareModelName($string)
     {
-        $string = Mage::helper('googleshopping')->normalizeName($string);
-        return str_replace(' ', '', ucwords(str_replace('_', ' ', $string)));
+        return uc_words(Mage::helper('Mage_GoogleShopping_Helper_Data')->normalizeName($string));
     }
 
     /**
@@ -183,7 +182,7 @@ class Mage_GoogleShopping_Model_Type extends Mage_Core_Model_Abstract
      */
     protected function _createAttribute($name)
     {
-        $modelName = 'googleshopping/attribute_' . $this->_prepareModelName($name);
+        $modelName = 'Mage_GoogleShopping_Model_Attribute_' . $this->_prepareModelName($name);
         $useDefault = false;
         try {
             $attributeModel = Mage::getModel($modelName);
@@ -192,7 +191,7 @@ class Mage_GoogleShopping_Model_Type extends Mage_Core_Model_Abstract
             $useDefault = true;
         }
         if ($useDefault) {
-            $attributeModel = Mage::getModel('googleshopping/attribute_default');
+            $attributeModel = Mage::getModel('Mage_GoogleShopping_Model_Attribute_Default');
         }
         $attributeModel->setName($name);
 
@@ -208,7 +207,9 @@ class Mage_GoogleShopping_Model_Type extends Mage_Core_Model_Abstract
     protected function _getAttributesCollection()
     {
         if (is_null($this->_attributesCollection)) {
-            $this->_attributesCollection = Mage::getResourceModel('googleshopping/attribute_collection')
+            $this->_attributesCollection = Mage::getResourceModel(
+                    'Mage_GoogleShopping_Model_Resource_Attribute_Collection'
+                )
                 ->addAttributeSetFilter($this->getAttributeSetId(), $this->getTargetCountry());
         }
         return $this->_attributesCollection;
@@ -235,7 +236,7 @@ class Mage_GoogleShopping_Model_Type extends Mage_Core_Model_Abstract
 
         $contentAttributes = $entry->getContentAttributes();
         foreach ($contentAttributes as $contentAttribute) {
-            $name = Mage::helper('googleshopping')->normalizeName($contentAttribute->getName());
+            $name = Mage::helper('Mage_GoogleShopping_Helper_Data')->normalizeName($contentAttribute->getName());
             if (!in_array($name, $ignoredAttributes) &&
                 !in_array($existAttributes, $existAttributes)) {
                     $entry->removeContentAttribute($name);

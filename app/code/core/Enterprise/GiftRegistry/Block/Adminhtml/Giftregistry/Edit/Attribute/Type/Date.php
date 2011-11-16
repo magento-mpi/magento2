@@ -40,7 +40,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Type_D
      */
     public function getDateFormatSelectHtml()
     {
-        $select = $this->getLayout()->createBlock('adminhtml/html_select')
+        $select = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Html_Select')
             ->setData(array(
                 'id'    =>  '{{prefix}}_attribute_{{id}}_date_format',
                 'class' => 'select global-scope'
@@ -61,19 +61,19 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Type_D
          return array(
             array(
                 'value' => Mage_Core_Model_Locale::FORMAT_TYPE_SHORT,
-                'label' => Mage::helper('enterprise_giftregistry')->__('Short')
+                'label' => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Short')
             ),
             array(
                 'value' => Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM,
-                'label' => Mage::helper('enterprise_giftregistry')->__('Medium')
+                'label' => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Medium')
             ),
             array(
                 'value' => Mage_Core_Model_Locale::FORMAT_TYPE_LONG,
-                'label' => Mage::helper('enterprise_giftregistry')->__('Long')
+                'label' => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Long')
             ),
             array(
                 'value' => Mage_Core_Model_Locale::FORMAT_TYPE_FULL,
-                'label' => Mage::helper('enterprise_giftregistry')->__('Full')
+                'label' => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Full')
             )
         );
     }

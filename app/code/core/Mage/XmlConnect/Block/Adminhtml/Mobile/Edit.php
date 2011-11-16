@@ -41,11 +41,11 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit
     {
         $this->_objectId    = 'application_id';
         $this->_controller  = 'adminhtml_mobile';
-        $this->_blockGroup  = 'xmlconnect';
+        $this->_blockGroup  = 'Mage_XmlConnect';
         parent::__construct();
-        if ((bool)!Mage::getSingleton('adminhtml/session')->getNewApplication()) {
+        if ((bool)!Mage::getSingleton('Mage_Adminhtml_Model_Session')->getNewApplication()) {
             try {
-                $app = Mage::helper('xmlconnect')->getApplication();
+                $app = Mage::helper('Mage_XmlConnect_Helper_Data')->getApplication();
             } catch (Mage_Core_Exception $e) {
                 Mage::logException($e);
                 return;
@@ -97,8 +97,8 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit
         $this->getLayout()->getBlock('head')->addJs('jscolor/jscolor.js');
         $this->getLayout()->getBlock('head')->addJs('scriptaculous/scriptaculous.js');
 
-        if ((bool)!Mage::getSingleton('adminhtml/session')->getNewApplication()) {
-            $deviceType = Mage::helper('xmlconnect')->getDeviceType();
+        if ((bool)!Mage::getSingleton('Mage_Adminhtml_Model_Session')->getNewApplication()) {
+            $deviceType = Mage::helper('Mage_XmlConnect_Helper_Data')->getDeviceType();
             switch ($deviceType) {
                 case Mage_XmlConnect_Helper_Data::DEVICE_TYPE_IPHONE:
                     $this->getLayout()->getBlock('head')->addCss('Mage_XmlConnect::css/mobile-home.css');
@@ -129,8 +129,8 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit
      */
     public function getHeaderText()
     {
-        if ((bool)!Mage::getSingleton('adminhtml/session')->getNewApplication()) {
-            $app = Mage::helper('xmlconnect')->getApplication();
+        if ((bool)!Mage::getSingleton('Mage_Adminhtml_Model_Session')->getNewApplication()) {
+            $app = Mage::helper('Mage_XmlConnect_Helper_Data')->getApplication();
         }
 
         if (isset($app) && $app->getId()) {

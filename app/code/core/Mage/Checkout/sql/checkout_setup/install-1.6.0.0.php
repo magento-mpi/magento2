@@ -88,35 +88,35 @@ $select = $setup->select()
     ->from($installer->getTable('core_config_data'), 'COUNT(*)')
     ->where('path=?', 'customer/address/prefix_show')
     ->where('value NOT LIKE ?', '0');
-$showPrefix = (bool)Mage::helper('customer/address')->getConfig('prefix_show')
+$showPrefix = (bool)Mage::helper('Mage_Customer_Helper_Address')->getConfig('prefix_show')
     || ($setup->fetchOne($select) > 0);
 
 $select = $setup->select()
     ->from($installer->getTable('core_config_data'), 'COUNT(*)')
     ->where('path=?', 'customer/address/middlename_show')
     ->where('value NOT LIKE ?', '0');
-$showMiddlename = (bool)Mage::helper('customer/address')->getConfig('middlename_show')
+$showMiddlename = (bool)Mage::helper('Mage_Customer_Helper_Address')->getConfig('middlename_show')
     || ($setup->fetchOne($select) > 0);
 
 $select = $setup->select()
     ->from($installer->getTable('core_config_data'), 'COUNT(*)')
     ->where('path=?', 'customer/address/suffix_show')
     ->where('value NOT LIKE ?', '0');
-$showSuffix = (bool)Mage::helper('customer/address')->getConfig('suffix_show')
+$showSuffix = (bool)Mage::helper('Mage_Customer_Helper_Address')->getConfig('suffix_show')
     || ($setup->fetchOne($select) > 0);
 
 $select = $setup->select()
     ->from($installer->getTable('core_config_data'), 'COUNT(*)')
     ->where('path=?', 'customer/address/dob_show')
     ->where('value NOT LIKE ?', '0');
-$showDob = (bool)Mage::helper('customer/address')->getConfig('dob_show')
+$showDob = (bool)Mage::helper('Mage_Customer_Helper_Address')->getConfig('dob_show')
     || ($setup->fetchOne($select) > 0);
 
 $select = $setup->select()
     ->from($installer->getTable('core_config_data'), 'COUNT(*)')
     ->where('path=?', 'customer/address/taxvat_show')
     ->where('value NOT LIKE ?', '0');
-$showTaxVat = (bool)Mage::helper('customer/address')->getConfig('taxvat_show')
+$showTaxVat = (bool)Mage::helper('Mage_Customer_Helper_Address')->getConfig('taxvat_show')
     || ($setup->fetchOne($select) > 0);
 
 $customerEntityTypeId = $installer->getEntityTypeId('customer');

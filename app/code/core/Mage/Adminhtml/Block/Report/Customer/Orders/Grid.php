@@ -43,7 +43,7 @@ class Mage_Adminhtml_Block_Report_Customer_Orders_Grid extends Mage_Adminhtml_Bl
     protected function _prepareCollection()
     {
         parent::_prepareCollection();
-        $this->getCollection()->initReport('reports/customer_orders_collection');
+        $this->getCollection()->initReport('Mage_Reports_Model_Resource_Customer_Orders_Collection');
     }
 
     protected function _prepareColumns()
@@ -74,7 +74,7 @@ class Mage_Adminhtml_Block_Report_Customer_Orders_Grid extends Mage_Adminhtml_Bl
             'currency_code'  => $baseCurrencyCode,
             'index'     => 'orders_avg_amount',
             'total'     => 'orders_sum_amount/orders_count',
-            'renderer'  =>'adminhtml/report_grid_column_renderer_currency'
+            'renderer'  =>'Mage_Adminhtml_Block_Report_Grid_Column_Renderer_Currency'
         ));
 
         $this->addColumn('orders_sum_amount', array(
@@ -86,11 +86,11 @@ class Mage_Adminhtml_Block_Report_Customer_Orders_Grid extends Mage_Adminhtml_Bl
             'currency_code'  => $baseCurrencyCode,
             'index'     => 'orders_sum_amount',
             'total'     => 'sum',
-            'renderer'  => 'adminhtml/report_grid_column_renderer_currency',
+            'renderer'  => 'Mage_Adminhtml_Block_Report_Grid_Column_Renderer_Currency',
         ));
 
-        $this->addExportType('*/*/exportOrdersCsv', Mage::helper('reports')->__('CSV'));
-        $this->addExportType('*/*/exportOrdersExcel', Mage::helper('reports')->__('Excel XML'));
+        $this->addExportType('*/*/exportOrdersCsv', Mage::helper('Mage_Reports_Helper_Data')->__('CSV'));
+        $this->addExportType('*/*/exportOrdersExcel', Mage::helper('Mage_Reports_Helper_Data')->__('Excel XML'));
 
         return parent::_prepareColumns();
     }

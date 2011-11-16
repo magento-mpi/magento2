@@ -132,11 +132,7 @@ class Enterprise_PageCache_Model_Container_Placeholder
      */
     public function getContainerClass()
     {
-        $class = $this->getAttribute('container');
-        if (strpos($class, '/') !== false) {
-            return Mage::getConfig()->getModelClassName($class);
-        }
-        return $class;
+        return $this->getAttribute('container');
     }
 
     /**

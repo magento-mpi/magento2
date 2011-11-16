@@ -39,6 +39,6 @@ class Mage_Adminhtml_Block_Sales_Order_Status_Edit extends Mage_Adminhtml_Block_
      */
     public function getHeaderText()
     {
-        return Mage::helper('sales')->__('Edit Order Status');
+        return Mage::helper('Mage_Sales_Helper_Data')->__('Edit Order Status');
     }
 }

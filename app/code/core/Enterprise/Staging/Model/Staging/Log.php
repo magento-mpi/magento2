@@ -76,7 +76,7 @@ class Enterprise_Staging_Model_Staging_Log extends Mage_Core_Model_Abstract
 
     protected function _construct()
     {
-        $this->_init('enterprise_staging/staging_log');
+        $this->_init('Enterprise_Staging_Model_Resource_Staging_Log');
     }
 
     /**
@@ -99,7 +99,7 @@ class Enterprise_Staging_Model_Staging_Log extends Mage_Core_Model_Abstract
     public function getStaging()
     {
         if (!$this->_staging instanceof Enterprise_Staging_Model_Staging) {
-            $this->_staging = Mage::getModel('enterprise_staging/staging')->load($this->getStagingId());
+            $this->_staging = Mage::getModel('Enterprise_Staging_Model_Staging')->load($this->getStagingId());
         }
         return $this->_staging;
     }
@@ -142,7 +142,7 @@ class Enterprise_Staging_Model_Staging_Log extends Mage_Core_Model_Abstract
 
         $additionalData = array();
         $exceptionMessage = '';
-        $config = Mage::getSingleton('enterprise_staging/staging_config');
+        $config = Mage::getSingleton('Enterprise_Staging_Model_Staging_Config');
 
         if ($onState == 'before') {
             $status = Enterprise_Staging_Model_Staging_Config::STATUS_STARTED;

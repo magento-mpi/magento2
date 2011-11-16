@@ -52,7 +52,7 @@ class Mage_Authorizenet_Block_Directpost_Form extends Mage_Payment_Block_Form_Cc
      */
     protected function _toHtml()
     {
-        if ($this->getMethod()->getCode() != Mage::getSingleton('authorizenet/directpost')->getCode()) {
+        if ($this->getMethod()->getCode() != Mage::getSingleton('Mage_Authorizenet_Model_Directpost')->getCode()) {
             return null;
         }
 
@@ -66,7 +66,7 @@ class Mage_Authorizenet_Block_Directpost_Form extends Mage_Payment_Block_Form_Cc
      */
     public function setMethodInfo()
     {
-        $payment = Mage::getSingleton('checkout/type_onepage')
+        $payment = Mage::getSingleton('Mage_Checkout_Model_Type_Onepage')
             ->getQuote()
             ->getPayment();
         $this->setMethod($payment->getMethodInstance());

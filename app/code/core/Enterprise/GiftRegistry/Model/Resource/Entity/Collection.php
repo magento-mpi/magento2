@@ -40,7 +40,7 @@ class Enterprise_GiftRegistry_Model_Resource_Entity_Collection extends Mage_Core
      */
     protected function _construct()
     {
-        $this->_init('enterprise_giftregistry_entity', 'entity_id');
+        $this->_init('Enterprise_GiftRegistry_Model_Entity', 'Enterprise_GiftRegistry_Model_Resource_Entity');
     }
 
     /**
@@ -95,7 +95,7 @@ class Enterprise_GiftRegistry_Model_Resource_Entity_Collection extends Mage_Core
                 'qty_remaining' => new Zend_Db_Expr('SUM(item.qty - item.qty_fulfilled)')
             ))
             ->group('entity_id');
-        $helper = Mage::getResourceHelper('core');
+        $helper = Mage::getResourceHelper('Mage_Core');
         $query = $helper->getQueryUsingAnalyticFunction($select);
 
         $this->getSelect()->joinLeft(
@@ -133,7 +133,7 @@ class Enterprise_GiftRegistry_Model_Resource_Entity_Collection extends Mage_Core
             ->from($this->getTable('enterprise_giftregistry_person'), array('entity_id'))
             ->group('entity_id');
 
-        $helper = Mage::getResourceHelper('core');
+        $helper = Mage::getResourceHelper('Mage_Core');
         $helper->addGroupConcatColumn($select, 'registrants', array('firstname', 'lastname'), ', ', ' ');
         $query  = $helper->getQueryUsingAnalyticFunction($select);
 
@@ -218,7 +218,7 @@ class Enterprise_GiftRegistry_Model_Resource_Entity_Collection extends Mage_Core
          * Apply search filters by static attributes
          */
         /** @var $config Enterprise_GiftRegistry_Model_Attribute_Config */
-        $config = Mage::getSingleton('enterprise_giftregistry/attribute_config');
+        $config = Mage::getSingleton('Enterprise_GiftRegistry_Model_Attribute_Config');
         $staticCodes = $config->getStaticTypesCodes();
         foreach ($staticCodes as $code) {
             if (!empty($params[$code])) {
@@ -235,7 +235,7 @@ class Enterprise_GiftRegistry_Model_Resource_Entity_Collection extends Mage_Core
 
         $select->group('m.entity_id');
 
-        $helper = Mage::getResourceHelper('core');
+        $helper = Mage::getResourceHelper('Mage_Core');
         $query  = $helper->getQueryUsingAnalyticFunction($select);
         $this->getSelect()->reset()->from(array('main_table' => new Zend_Db_Expr(sprintf('(%s)', $query))), array('*'));
 

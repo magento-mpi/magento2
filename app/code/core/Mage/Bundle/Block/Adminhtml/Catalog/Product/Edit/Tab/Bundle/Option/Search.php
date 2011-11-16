@@ -42,14 +42,15 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Search 
 
     public function getHeaderText()
     {
-        return Mage::helper('bundle')->__('Please Select Products to Add');
+        return Mage::helper('Mage_Bundle_Helper_Data')->__('Please Select Products to Add');
     }
 
     protected function _prepareLayout()
     {
         $this->setChild(
             'grid',
-            $this->getLayout()->createBlock('bundle/adminhtml_catalog_product_edit_tab_bundle_option_search_grid',
+            $this->getLayout()->createBlock(
+                'Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Search_Grid',
                 'adminhtml.catalog.product.edit.tab.bundle.option.search.grid')
         );
         return parent::_prepareLayout();
@@ -67,11 +68,11 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Search 
     {
         $addButtonData = array(
             'id'    => 'add_button_' . $this->getIndex(),
-            'label' => Mage::helper('sales')->__('Add Selected Product(s) to Option'),
+            'label' => Mage::helper('Mage_Sales_Helper_Data')->__('Add Selected Product(s) to Option'),
             'onclick' => 'bSelection.productGridAddSelected(event)',
             'class' => 'add',
         );
-        return $this->getLayout()->createBlock('adminhtml/widget_button')->setData($addButtonData)->toHtml();
+        return $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')->setData($addButtonData)->toHtml();
     }
 
     public function getHeaderCssClass()

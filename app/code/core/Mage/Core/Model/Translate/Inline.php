@@ -149,10 +149,10 @@ class Mage_Core_Model_Translate_Inline
                 $active = Mage::getStoreConfigFlag('dev/translate_inline/active', $store);
             }
 
-            $this->_isAllowed = $active && Mage::helper('core')->isDevAllowed($store);
+            $this->_isAllowed = $active && Mage::helper('Mage_Core_Helper_Data')->isDevAllowed($store);
         }
 
-        $translate = Mage::getSingleton('core/translate');
+        $translate = Mage::getSingleton('Mage_Core_Model_Translate');
         /* @var $translate Mage_Core_Model_Translate */
 
         return $translate->getTranslateInline() && $this->_isAllowed;
@@ -171,7 +171,7 @@ class Mage_Core_Model_Translate_Inline
         }
 
         /* @var $resource Mage_Core_Model_Resource_Translate_String */
-        $resource = Mage::getResourceModel('core/translate_string');
+        $resource = Mage::getResourceModel('Mage_Core_Model_Resource_Translate_String');
         foreach ($translate as $t) {
             if (Mage::getDesign()->getArea() == 'adminhtml') {
                 $storeId = 0;

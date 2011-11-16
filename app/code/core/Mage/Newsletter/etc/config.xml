@@ -32,20 +32,6 @@
         </Mage_Newsletter>
     </modules>
     <global>
-        <blocks>
-            <newsletter>
-                <class>Mage_Newsletter_Block</class>
-            </newsletter>
-        </blocks>
-        <models>
-            <newsletter>
-                <class>Mage_Newsletter_Model</class>
-                <resourceModel>newsletter_resource</resourceModel>
-            </newsletter>
-            <newsletter_resource>
-                <class>Mage_Newsletter_Model_Resource</class>
-            </newsletter_resource>
-        </models>
         <resources>
             <newsletter_setup>
                 <setup>
@@ -55,17 +41,17 @@
         </resources>
         <template>
             <email>
-                <newsletter_subscription_confirm_email_template translate="label" module="newsletter">
+                <newsletter_subscription_confirm_email_template translate="label" module="Mage_Newsletter">
                     <label>Subscription Confirmation</label>
                     <file>email/subscr_confirm.html</file>
                     <type>html</type>
                 </newsletter_subscription_confirm_email_template>
-                <newsletter_subscription_success_email_template translate="label" module="newsletter">
+                <newsletter_subscription_success_email_template translate="label" module="Mage_Newsletter">
                     <label>Subscription Success</label>
                     <file>email/subscr_success.html</file>
                     <type>html</type>
                 </newsletter_subscription_success_email_template>
-                <newsletter_subscription_un_email_template translate="label" module="newsletter">
+                <newsletter_subscription_un_email_template translate="label" module="Mage_Newsletter">
                     <label>Unsubscription Success</label>
                     <file>email/unsub_success.html</file>
                     <type>html</type>
@@ -73,7 +59,7 @@
             </email>
         </template>
         <newsletter>
-            <tempate_filter>newsletter/template_filter</tempate_filter>
+            <tempate_filter>Mage_Newsletter_Model_Template_Filter</tempate_filter>
         </newsletter>
     </global>
     <adminhtml>
@@ -81,7 +67,7 @@
             <customer_save_after>
                 <observers>
                     <newsletter_subscribe_observer>
-                        <class>newsletter/observer</class>
+                        <class>Mage_Newsletter_Model_Observer</class>
                         <method>subscribeCustomer</method>
                     </newsletter_subscribe_observer>
                 </observers>
@@ -89,7 +75,7 @@
             <customer_delete_after>
                 <observers>
                     <newsletter_subscribe_observer>
-                        <class>newsletter/observer</class>
+                        <class>Mage_Newsletter_Model_Observer</class>
                         <method>customerDeleted</method>
                     </newsletter_subscribe_observer>
                 </observers>
@@ -110,7 +96,7 @@
             <customer_save_after>
                 <observers>
                     <newsletter_subscribe_observer>
-                        <class>newsletter/observer</class>
+                        <class>Mage_Newsletter_Model_Observer</class>
                         <method>subscribeCustomer</method>
                     </newsletter_subscribe_observer>
                 </observers>
@@ -118,7 +104,7 @@
             <customer_delete_after>
                 <observers>
                     <newsletter_subscribe_observer>
-                        <class>newsletter/observer</class>
+                        <class>Mage_Newsletter_Model_Observer</class>
                         <method>customerDeleted</method>
                     </newsletter_subscribe_observer>
                 </observers>
@@ -177,7 +163,7 @@
                     <cron_expr>*/5 * * * *</cron_expr>
                 </schedule>
                 <run>
-                    <model>newsletter/observer::scheduledSend</model>
+                    <model>Mage_Newsletter_Model_Observer::scheduledSend</model>
                 </run>
             </newsletter_send_all>
         </jobs>

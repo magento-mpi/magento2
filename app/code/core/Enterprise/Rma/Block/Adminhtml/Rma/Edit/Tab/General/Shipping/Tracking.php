@@ -51,7 +51,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Tracking exte
      */
     public function getCarriers()
     {
-        return Mage::helper('enterprise_rma')->getAllowedShippingCarriers($this->getRma()->getStoreId());
+        return Mage::helper('Enterprise_Rma_Helper_Data')->getAllowedShippingCarriers($this->getRma()->getStoreId());
     }
 
     /**
@@ -61,7 +61,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Tracking exte
      */
     public function getAllTracks()
     {
-        return Mage::getResourceModel('enterprise_rma/shipping_collection')
+        return Mage::getResourceModel('Enterprise_Rma_Model_Resource_Shipping_Collection')
             ->addFieldToFilter('rma_entity_id', $this->getRma()->getId())
             ->addFieldToFilter('is_admin', array("neq" => Enterprise_Rma_Model_Shipping::IS_ADMIN_STATUS_ADMIN_LABEL))
         ;
@@ -77,10 +77,10 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Tracking exte
         $onclick = "submitAndReloadArea($('shipment_tracking_info').parentNode, '".$this->getSubmitUrl()."')";
         $this->setChild(
             'save_button',
-            $this->getLayout()->createBlock('adminhtml/widget_button')
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->setData(
                     array(
-                        'label'   => Mage::helper('sales')->__('Add'),
+                        'label'   => Mage::helper('Mage_Sales_Helper_Data')->__('Add'),
                         'class'   => 'save',
                         'onclick' => $onclick
                     )
@@ -140,10 +140,10 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Tracking exte
      */
     public function getCarrierTitle($code)
     {
-        if ($carrier = Mage::getSingleton('shipping/config')->getCarrierInstance($code)) {
+        if ($carrier = Mage::getSingleton('Mage_Shipping_Model_Config')->getCarrierInstance($code)) {
             return $carrier->getConfigData('title');
         } else {
-            return Mage::helper('sales')->__('Custom Value');
+            return Mage::helper('Mage_Sales_Helper_Data')->__('Custom Value');
         }
         return false;
     }

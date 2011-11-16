@@ -35,16 +35,16 @@ class Mage_Tax_Model_Class_Source_Product extends Mage_Eav_Model_Entity_Attribut
     public function getAllOptions($withEmpty = false)
     {
         if (is_null($this->_options)) {
-            $this->_options = Mage::getResourceModel('tax/class_collection')
+            $this->_options = Mage::getResourceModel('Mage_Tax_Model_Resource_Class_Collection')
                 ->addFieldToFilter('class_type', Mage_Tax_Model_Class::TAX_CLASS_TYPE_PRODUCT)
                 ->load()
                 ->toOptionArray();
         }
 
         $options = $this->_options;
-        array_unshift($options, array('value'=>'0', 'label'=>Mage::helper('tax')->__('None')));
+        array_unshift($options, array('value'=>'0', 'label'=>Mage::helper('Mage_Tax_Helper_Data')->__('None')));
         if ($withEmpty) {
-            array_unshift($options, array('value'=>'', 'label'=>Mage::helper('tax')->__('-- Please Select --')));
+            array_unshift($options, array('value'=>'', 'label'=>Mage::helper('Mage_Tax_Helper_Data')->__('-- Please Select --')));
         }
         return $options;
     }
@@ -91,7 +91,7 @@ class Mage_Tax_Model_Class_Source_Product extends Mage_Eav_Model_Entity_Attribut
             'extra'     => null
         );
 
-        if (Mage::helper('core')->useDbCompatibleMode()) {
+        if (Mage::helper('Mage_Core_Helper_Data')->useDbCompatibleMode()) {
             $column['type']     = 'int';
             $column['is_null']  = true;
         } else {
@@ -111,7 +111,7 @@ class Mage_Tax_Model_Class_Source_Product extends Mage_Eav_Model_Entity_Attribut
      */
     public function getFlatUpdateSelect($store)
     {
-        return Mage::getResourceModel('eav/entity_attribute_option')
+        return Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute_Option')
             ->getFlatUpdateSelect($this->getAttribute(), $store, false);
     }
 }

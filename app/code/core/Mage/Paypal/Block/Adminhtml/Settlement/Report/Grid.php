@@ -57,7 +57,7 @@ class Mage_Paypal_Block_Adminhtml_Settlement_Report_Grid extends Mage_Adminhtml_
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('paypal/report_settlement_row_collection');
+        $collection = Mage::getResourceModel('Mage_Paypal_Model_Resource_Report_Settlement_Row_Collection');
         $this->setCollection($collection);
         if (!$this->getParam($this->getVarNameSort())) {
             $collection->setOrder('row_id', 'desc');
@@ -71,7 +71,7 @@ class Mage_Paypal_Block_Adminhtml_Settlement_Report_Grid extends Mage_Adminhtml_
      */
     protected function _prepareColumns()
     {
-        $settlement = Mage::getSingleton('paypal/report_settlement');
+        $settlement = Mage::getSingleton('Mage_Paypal_Model_Report_Settlement');
         $this->addColumn('report_date', array(
             'header'    => $settlement->getFieldLabel('report_date'),
             'index'     => 'report_date',
@@ -97,7 +97,7 @@ class Mage_Paypal_Block_Adminhtml_Settlement_Report_Grid extends Mage_Adminhtml_
             'header'    => $settlement->getFieldLabel('transaction_event'),
             'index'     => 'transaction_event_code',
             'type'      => 'options',
-            'options'   => Mage::getModel('paypal/report_settlement_row')->getTransactionEvents()
+            'options'   => Mage::getModel('Mage_Paypal_Model_Report_Settlement_Row')->getTransactionEvents()
         ));
         $this->addColumn('transaction_initiation_date', array(
             'header'    => $settlement->getFieldLabel('transaction_initiation_date'),

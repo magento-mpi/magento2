@@ -34,6 +34,9 @@
  */
 class Mage_Catalog_Model_Category_Indexer_Flat extends Mage_Index_Model_Indexer_Abstract
 {
+    /**
+     * Data key for matching result to be saved in
+     */
     const EVENT_MATCH_RESULT_KEY = 'catalog_category_flat_match_result';
 
     /**
@@ -61,7 +64,7 @@ class Mage_Catalog_Model_Category_Indexer_Flat extends Mage_Index_Model_Indexer_
      */
     public function getName()
     {
-        return Mage::helper('catalog')->__('Category Flat Data');
+        return Mage::helper('Mage_Catalog_Helper_Data')->__('Category Flat Data');
     }
 
     /**
@@ -71,7 +74,7 @@ class Mage_Catalog_Model_Category_Indexer_Flat extends Mage_Index_Model_Indexer_
      */
     public function getDescription()
     {
-        return Mage::helper('catalog')->__('Reorganize EAV category structure to flat structure');
+        return Mage::helper('Mage_Catalog_Helper_Data')->__('Reorganize EAV category structure to flat structure');
     }
 
     /**
@@ -81,7 +84,7 @@ class Mage_Catalog_Model_Category_Indexer_Flat extends Mage_Index_Model_Indexer_
      */
     protected function _getIndexer()
     {
-        return Mage::getResourceSingleton('catalog/category_flat');
+        return Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Category_Flat');
     }
 
     /**
@@ -94,7 +97,7 @@ class Mage_Catalog_Model_Category_Indexer_Flat extends Mage_Index_Model_Indexer_
      */
     public function matchEvent(Mage_Index_Model_Event $event)
     {
-        if (!Mage::helper('catalog/category_flat')->isEnabled(true)) {
+        if (!Mage::helper('Mage_Catalog_Helper_Category_Flat')->isEnabled(true)) {
             return false;
         }
 

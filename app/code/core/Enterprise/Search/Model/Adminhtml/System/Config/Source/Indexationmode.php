@@ -43,11 +43,11 @@ class Enterprise_Search_Model_Adminhtml_System_Config_Source_Indexationmode
     {
         $modes = array(
             Enterprise_Search_Model_Indexer_Indexer::SEARCH_ENGINE_INDEXATION_COMMIT_MODE_FINAL    =>
-                Mage::helper('enterprise_search')->__('Final commit'),
+                Mage::helper('Enterprise_Search_Helper_Data')->__('Final commit'),
             Enterprise_Search_Model_Indexer_Indexer::SEARCH_ENGINE_INDEXATION_COMMIT_MODE_PARTIAL  =>
-                Mage::helper('enterprise_search')->__('Partial commit'),
+                Mage::helper('Enterprise_Search_Helper_Data')->__('Partial commit'),
             Enterprise_Search_Model_Indexer_Indexer::SEARCH_ENGINE_INDEXATION_COMMIT_MODE_ENGINE   =>
-                Mage::helper('enterprise_search')->__('Engine autocommit')
+                Mage::helper('Enterprise_Search_Helper_Data')->__('Engine autocommit')
         );
 
         $options = array();

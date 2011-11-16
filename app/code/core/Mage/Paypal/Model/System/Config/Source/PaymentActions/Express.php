@@ -36,7 +36,7 @@ class Mage_Paypal_Model_System_Config_Source_PaymentActions_Express
      */
     public function toOptionArray()
     {
-        $configModel = Mage::getModel('paypal/config');
+        $configModel = Mage::getModel('Mage_Paypal_Model_Config');
         $configModel->setMethod(Mage_Paypal_Model_Config::METHOD_WPP_EXPRESS);
         return $configModel->getPaymentActions();
     }

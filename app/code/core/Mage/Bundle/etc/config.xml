@@ -32,15 +32,6 @@
         </Mage_Bundle>
     </modules>
     <global>
-        <models>
-            <bundle>
-                <class>Mage_Bundle_Model</class>
-                <resourceModel>bundle_resource</resourceModel>
-            </bundle>
-            <bundle_resource>
-                <class>Mage_Bundle_Model_Resource</class>
-            </bundle_resource>
-        </models>
         <resources>
             <bundle_setup>
                 <setup>
@@ -49,41 +40,36 @@
                 </setup>
             </bundle_setup>
         </resources>
-        <blocks>
-            <bundle>
-                <class>Mage_Bundle_Block</class>
-            </bundle>
-        </blocks>
         <catalog>
             <product>
                 <type>
-                    <bundle translate="label" module="bundle">
+                    <bundle translate="label" module="Mage_Bundle">
                         <label>Bundle Product</label>
-                        <model>bundle/product_type</model>
+                        <model>Mage_Bundle_Model_Product_Type</model>
                         <composite>1</composite>
                         <allowed_selection_types>
                             <simple/>
                             <virtual/>
                         </allowed_selection_types>
-                        <price_model>bundle/product_price</price_model>
+                        <price_model>Mage_Bundle_Model_Product_Price</price_model>
                         <index_priority>40</index_priority>
-                        <price_indexer>bundle/indexer_price</price_indexer>
-                        <stock_indexer>bundle/indexer_stock</stock_indexer>
+                        <price_indexer>Mage_Bundle_Model_Resource_Indexer_Price</price_indexer>
+                        <stock_indexer>Mage_Bundle_Model_Resource_Indexer_Stock</stock_indexer>
                     </bundle>
                 </type>
                 <options>
                     <bundle>
                         <types>
-                            <select translate="label" module="bundle">
+                            <select translate="label" module="Mage_Bundle">
                                 <label>Drop-down</label>
                             </select>
-                            <radio translate="label" module="bundle">
+                            <radio translate="label" module="Mage_Bundle">
                                 <label>Radio Buttons</label>
                             </radio>
-                            <checkbox translate="label" module="bundle">
+                            <checkbox translate="label" module="Mage_Bundle">
                                 <label>Checkbox</label>
                             </checkbox>
-                            <multi translate="label" module="bundle">
+                            <multi translate="label" module="Mage_Bundle">
                                 <label>Multiple Select</label>
                             </multi>
                         </types>
@@ -106,13 +92,13 @@
         </sales>
         <pdf>
             <invoice>
-                <bundle>bundle/sales_order_pdf_items_invoice</bundle>
+                <bundle>Mage_Bundle_Model_Sales_Order_Pdf_Items_Invoice</bundle>
             </invoice>
             <shipment>
-                <bundle>bundle/sales_order_pdf_items_shipment</bundle>
+                <bundle>Mage_Bundle_Model_Sales_Order_Pdf_Items_Shipment</bundle>
             </shipment>
             <creditmemo>
-                <bundle>bundle/sales_order_pdf_items_creditmemo</bundle>
+                <bundle>Mage_Bundle_Model_Sales_Order_Pdf_Items_Creditmemo</bundle>
             </creditmemo>
         </pdf>
     </global>
@@ -145,7 +131,7 @@
             <catalog_product_upsell>
                 <observers>
                     <bundle_observer>
-                        <class>bundle/observer</class>
+                        <class>Mage_Bundle_Model_Observer</class>
                         <method>appendUpsellProducts</method>
                     </bundle_observer>
                 </observers>
@@ -153,7 +139,7 @@
             <sales_convert_quote_item_to_order_item>
                 <observers>
                     <bundle_observer>
-                        <class>bundle/observer</class>
+                        <class>Mage_Bundle_Model_Observer</class>
                         <method>appendBundleSelectionData</method>
                     </bundle_observer>
                 </observers>
@@ -161,7 +147,7 @@
             <catalog_product_collection_load_after>
                 <observers>
                     <bundle_observer>
-                        <class>bundle/observer</class>
+                        <class>Mage_Bundle_Model_Observer</class>
                         <method>loadProductOptions</method>
                     </bundle_observer>
                 </observers>
@@ -209,7 +195,7 @@
             <catalog_product_prepare_save>
                 <observers>
                     <bundle_observer>
-                        <class>bundle/observer</class>
+                        <class>Mage_Bundle_Model_Observer</class>
                         <method>prepareProductSave</method>
                     </bundle_observer>
                 </observers>
@@ -217,7 +203,7 @@
             <sales_convert_quote_item_to_order_item>
                 <observers>
                     <bundle_observer>
-                        <class>bundle/observer</class>
+                        <class>Mage_Bundle_Model_Observer</class>
                         <method>appendBundleSelectionData</method>
                     </bundle_observer>
                 </observers>
@@ -225,7 +211,7 @@
             <catalog_model_product_duplicate>
                 <observers>
                     <bundle_observer>
-                        <class>bundle/observer</class>
+                        <class>Mage_Bundle_Model_Observer</class>
                         <method>duplicateProduct</method>
                     </bundle_observer>
                 </observers>
@@ -233,7 +219,7 @@
             <catalog_product_edit_action>
                 <observers>
                     <bundle_observer>
-                        <class>bundle/observer</class>
+                        <class>Mage_Bundle_Model_Observer</class>
                         <method>setAttributeTabBlock</method>
                     </bundle_observer>
                 </observers>
@@ -241,7 +227,7 @@
             <catalog_product_new_action>
                 <observers>
                     <bundle_observer>
-                        <class>bundle/observer</class>
+                        <class>Mage_Bundle_Model_Observer</class>
                         <method>setAttributeTabBlock</method>
                     </bundle_observer>
                 </observers>

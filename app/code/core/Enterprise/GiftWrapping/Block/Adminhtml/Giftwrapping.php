@@ -41,9 +41,9 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Giftwrapping extends Mage_Adminhtm
     public function _construct()
     {
         $this->_controller = 'adminhtml_giftwrapping';
-        $this->_blockGroup = 'enterprise_giftwrapping';
-        $this->_headerText = Mage::helper('enterprise_giftwrapping')->__('Manage Gift Wrapping');
-        $this->_addButtonLabel = Mage::helper('enterprise_giftwrapping')->__('Add Gift Wrapping');
+        $this->_blockGroup = 'Enterprise_GiftWrapping';
+        $this->_headerText = Mage::helper('Enterprise_GiftWrapping_Helper_Data')->__('Manage Gift Wrapping');
+        $this->_addButtonLabel = Mage::helper('Enterprise_GiftWrapping_Helper_Data')->__('Add Gift Wrapping');
         parent::_construct();
     }
 }

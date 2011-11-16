@@ -102,7 +102,7 @@ class Mage_Catalog_Model_Resource_Url extends Mage_Core_Model_Resource_Db_Abstra
      */
     public function getCategoryModel()
     {
-        return Mage::getSingleton('catalog/category');
+        return Mage::getSingleton('Mage_Catalog_Model_Category');
     }
 
     /**
@@ -112,7 +112,7 @@ class Mage_Catalog_Model_Resource_Url extends Mage_Core_Model_Resource_Db_Abstra
      */
     public function getProductModel()
     {
-        return Mage::getSingleton('catalog/product');
+        return Mage::getSingleton('Mage_Catalog_Model_Product');
     }
 
     /**
@@ -153,7 +153,7 @@ class Mage_Catalog_Model_Resource_Url extends Mage_Core_Model_Resource_Db_Abstra
      */
     public function getRewriteByRequestPath($requestPath, $storeId)
     {
-        $adapter = $this->_getReadAdapter();
+        $adapter = $this->_getWriteAdapter();
         $select = $adapter->select()
             ->from($this->getMainTable())
             ->where('store_id = :store_id')
@@ -182,7 +182,7 @@ class Mage_Catalog_Model_Resource_Url extends Mage_Core_Model_Resource_Db_Abstra
      */
     public function checkRequestPaths($paths, $storeId)
     {
-        $adapter = $this->_getReadAdapter();
+        $adapter = $this->_getWriteAdapter();
         $select = $adapter->select()
             ->from($this->getMainTable(), 'request_path')
             ->where('store_id = :store_id')
@@ -283,7 +283,7 @@ class Mage_Catalog_Model_Resource_Url extends Mage_Core_Model_Resource_Db_Abstra
                 $adapter->insert($this->getMainTable(), $rewriteData);
             } catch (Exception $e) {
                 Mage::logException($e);
-                Mage::throwException(Mage::helper('catalog')->__('An error occurred while saving the URL rewrite'));
+                Mage::throwException(Mage::helper('Mage_Catalog_Helper_Data')->__('An error occurred while saving the URL rewrite'));
             }
         }
         unset($rewriteData);
@@ -663,7 +663,7 @@ class Mage_Catalog_Model_Resource_Url extends Mage_Core_Model_Resource_Db_Abstra
      */
     protected function _getCategories($categoryIds, $storeId = null, $path = null)
     {
-        $isActiveAttribute = Mage::getSingleton('eav/config')
+        $isActiveAttribute = Mage::getSingleton('Mage_Eav_Model_Config')
             ->getAttribute(Mage_Catalog_Model_Category::ENTITY, 'is_active');
         $categories        = array();
         $adapter           = $this->_getReadAdapter();

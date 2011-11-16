@@ -52,13 +52,13 @@ class Enterprise_Staging_Block_Adminhtml_Staging_Merge_Settings_Website extends 
     {
         $this->setChild('items',
             $this->getLayout()
-                ->createBlock('enterprise_staging/adminhtml_staging_edit_tabs_item')
+                ->createBlock('Enterprise_Staging_Block_Adminhtml_Staging_Edit_Tabs_Item')
                 ->setFieldNameSuffix('map[staging_items]')
         );
 
         $this->setChild('schedule',
             $this->getLayout()
-                ->createBlock('enterprise_staging/adminhtml_staging_edit_tabs_schedule')
+                ->createBlock('Enterprise_Staging_Block_Adminhtml_Staging_Edit_Tabs_Schedule')
                 ->setFieldNameSuffix('map[schedule]')
                 ->setStagingJsObjectName($this->getJsObjectName())
         );
@@ -93,7 +93,7 @@ class Enterprise_Staging_Block_Adminhtml_Staging_Merge_Settings_Website extends 
      */
     public function getWebsiteCollection()
     {
-        $collection = Mage::getModel('core/website')
+        $collection = Mage::getModel('Mage_Core_Model_Website')
             ->getResourceCollection()
             ->addFieldToFilter('website_id',array('nin'=>array(0, $this->getStaging()->getStagingWebsiteId())));
 
@@ -141,7 +141,7 @@ class Enterprise_Staging_Block_Adminhtml_Staging_Merge_Settings_Website extends 
         if (!$stores) {
             return '{}';
         } else {
-            return Mage::helper('core')->jsonEncode($stores);
+            return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($stores);
         }
     }
 

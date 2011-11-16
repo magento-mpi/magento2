@@ -25,11 +25,11 @@
  */
 /* @var $this Mage_Wishlist_Block_Customer_Wishlist */
 ?>
-<?php if ($this->helper('wishlist')->isAllow()) : ?>
+<?php if ($this->helper('Mage_Wishlist_Helper_Data')->isAllow()) : ?>
 <div class="my-wishlist">
     <div class="page-title title-buttons">
-        <?php if ($this->helper('wishlist')->isRssAllow() && $this->hasWishlistItems()): ?>
-            <a href="<?php echo $this->helper('wishlist')->getRssUrl(); ?>" class="link-rss"><?php echo $this->__('RSS Feed') ?></a>
+        <?php if ($this->helper('Mage_Wishlist_Helper_Data')->isRssAllow() && $this->hasWishlistItems()): ?>
+            <a href="<?php echo $this->helper('Mage_Wishlist_Helper_Data')->getRssUrl(); ?>" class="link-rss"><?php echo $this->__('RSS Feed') ?></a>
         <?php endif; ?>
         <h1><?php echo $this->__('My Wishlist') ?></h1>
     </div>
@@ -114,10 +114,10 @@
     }
 
     function focusComment(obj) {
-        if( obj.value == '<?php echo $this->helper('wishlist')->defaultCommentString() ?>' ) {
+        if( obj.value == '<?php echo $this->helper('Mage_Wishlist_Helper_Data')->defaultCommentString() ?>' ) {
             obj.value = '';
         } else if( obj.value == '' ) {
-            obj.value = '<?php echo $this->helper('wishlist')->defaultCommentString() ?>';
+            obj.value = '<?php echo $this->helper('Mage_Wishlist_Helper_Data')->defaultCommentString() ?>';
         }
     }
 

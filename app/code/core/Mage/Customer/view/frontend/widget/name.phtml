@@ -29,13 +29,13 @@ USAGE:
 
 Simple:
 
-<?php echo $this->getLayout()->createBlock('customer/widget_name')
+<?php echo $this->getLayout()->createBlock('Mage_Customer_Block_Widget_Name')
    ->setObject($this->getAddress())
    ->toHtml() ?>
 
 For checkout/onepage/shipping.phtml:
 
-<?php echo $this->getLayout()->createBlock('customer/widget_name')
+<?php echo $this->getLayout()->createBlock('Mage_Customer_Block_Widget_Name')
    ->setObject($this->getAddress())
    ->setFieldIdFormat('shipping:%s')
    ->setFieldNameFormat('shipping[%s]')

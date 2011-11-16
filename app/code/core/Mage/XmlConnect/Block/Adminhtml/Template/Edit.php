@@ -40,7 +40,7 @@ class Mage_XmlConnect_Block_Adminhtml_Template_Edit extends Mage_Adminhtml_Block
     {
         $this->_objectId    = 'id';
         $this->_controller  = 'adminhtml_template';
-        $this->_blockGroup  = 'xmlconnect';
+        $this->_blockGroup  = 'Mage_XmlConnect';
         parent::__construct();
 
         $this->_updateButton('delete', 'onclick', 'deleteConfirm(\''

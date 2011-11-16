@@ -45,7 +45,7 @@ class Mage_Adminhtml_Model_System_Config_Backend_Admin_Usecustom extends Mage_Co
         if ($value == 1) {
             $customUrl = $this->getData('groups/url/fields/custom/value');
             if (empty($customUrl)) {
-                Mage::throwException(Mage::helper('adminhtml')->__('Please specify the admin custom URL.'));
+                Mage::throwException(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Please specify the admin custom URL.'));
             }
         }
 

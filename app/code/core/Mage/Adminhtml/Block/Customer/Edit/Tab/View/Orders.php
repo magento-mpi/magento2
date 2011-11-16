@@ -53,7 +53,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View_Orders extends Mage_Adminhtml_
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('sales/order_grid_collection')
+        $collection = Mage::getResourceModel('Mage_Sales_Model_Resource_Order_Grid_Collection')
             ->addFieldToFilter('customer_id', Mage::registry('current_customer')->getId())
             ->setIsCustomerMode(true);
         $this->setCollection($collection);
@@ -64,30 +64,30 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View_Orders extends Mage_Adminhtml_
     {
 
         $this->addColumn('increment_id', array(
-            'header'    => Mage::helper('customer')->__('Order #'),
+            'header'    => Mage::helper('Mage_Customer_Helper_Data')->__('Order #'),
             'align'     => 'center',
             'index'     => 'increment_id',
             'width'     => '100px',
         ));
 
         $this->addColumn('created_at', array(
-            'header'    => Mage::helper('customer')->__('Purchased At'),
+            'header'    => Mage::helper('Mage_Customer_Helper_Data')->__('Purchased At'),
             'index'     => 'created_at',
             'type'      => 'datetime',
         ));
 
         $this->addColumn('billing_name', array(
-            'header'    => Mage::helper('customer')->__('Bill to Name'),
+            'header'    => Mage::helper('Mage_Customer_Helper_Data')->__('Bill to Name'),
             'index'     => 'billing_name',
         ));
 
         $this->addColumn('shipping_name', array(
-            'header'    => Mage::helper('customer')->__('Shipped to Name'),
+            'header'    => Mage::helper('Mage_Customer_Helper_Data')->__('Shipped to Name'),
             'index'     => 'shipping_name',
         ));
 
         $this->addColumn('grand_total', array(
-            'header'    => Mage::helper('customer')->__('Grand Total'),
+            'header'    => Mage::helper('Mage_Customer_Helper_Data')->__('Grand Total'),
             'index'     => 'grand_total',
             'type'      => 'currency',
             'currency'  => 'order_currency_code',
@@ -95,7 +95,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View_Orders extends Mage_Adminhtml_
 
         if (!Mage::app()->isSingleStoreMode()) {
             $this->addColumn('store_id', array(
-                'header'    => Mage::helper('customer')->__('Bought From'),
+                'header'    => Mage::helper('Mage_Customer_Helper_Data')->__('Bought From'),
                 'index'     => 'store_id',
                 'type'      => 'store',
                 'store_view' => true,
@@ -107,7 +107,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View_Orders extends Mage_Adminhtml_
             'filter'    =>  false,
             'sortable'  =>  false,
             'width'     => '100px',
-            'renderer'  =>  'adminhtml/sales_reorder_renderer_action'
+            'renderer'  =>  'Mage_Adminhtml_Block_Sales_Reorder_Renderer_Action'
         ));
 
         return parent::_prepareColumns();

@@ -136,7 +136,7 @@ class Mage_GiftMessage_Block_Adminhtml_Sales_Order_View_Items extends Mage_Admin
     protected function _initMessage()
     {
         $this->_giftMessage[$this->getItem()->getGiftMessageId()] =
-            $this->helper('giftmessage/message')->getGiftMessage($this->getItem()->getGiftMessageId());
+            $this->helper('Mage_GiftMessage_Helper_Message')->getGiftMessage($this->getItem()->getGiftMessageId());
 
         // init default values for giftmessage form
         if(!$this->getMessage()->getSender()) {

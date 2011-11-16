@@ -40,23 +40,23 @@ class Enterprise_Search_Model_Recommendations
      */
     public function getSearchRecommendations()
     {
-        $productCollection = Mage::getSingleton('enterprise_search/search_layer')->getProductCollection();
-        $searchQueryText = Mage::helper('catalogsearch')->getQuery()->getQueryText();
+        $productCollection = Mage::getSingleton('Enterprise_Search_Model_Search_Layer')->getProductCollection();
+        $searchQueryText = Mage::helper('Mage_CatalogSearch_Helper_Data')->getQuery()->getQueryText();
 
         $params = array(
             'store_id' => $productCollection->getStoreId(),
         );
 
-        $searchRecommendationsEnabled = (boolean)Mage::helper('enterprise_search')
+        $searchRecommendationsEnabled = (boolean)Mage::helper('Enterprise_Search_Helper_Data')
             ->getSearchConfigData('search_recommendations_enabled');
-        $searchRecommendationsCount   = (int)Mage::helper('enterprise_search')
+        $searchRecommendationsCount   = (int)Mage::helper('Enterprise_Search_Helper_Data')
             ->getSearchConfigData('search_recommendations_count');
 
         if ($searchRecommendationsCount < 1) {
             $searchRecommendationsCount = 1;
         }
         if ($searchRecommendationsEnabled) {
-            $model = Mage::getResourceModel('enterprise_search/recommendations');
+            $model = Mage::getResourceModel('Enterprise_Search_Model_Resource_Recommendations');
             return $model->getRecommendationsByQuery($searchQueryText, $params, $searchRecommendationsCount);
         } else {
             return array();

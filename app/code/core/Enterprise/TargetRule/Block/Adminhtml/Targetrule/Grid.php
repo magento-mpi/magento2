@@ -50,7 +50,7 @@ class Enterprise_TargetRule_Block_Adminhtml_Targetrule_Grid extends Mage_Adminht
     protected function _prepareCollection()
     {
         /* @var $collection Enterprise_TargetRule_Model_Resource_Rule_Collection */
-        $collection = Mage::getModel('enterprise_targetrule/rule')
+        $collection = Mage::getModel('Enterprise_TargetRule_Model_Rule')
             ->getCollection();
         $this->setCollection($collection);
 
@@ -85,21 +85,21 @@ class Enterprise_TargetRule_Block_Adminhtml_Targetrule_Grid extends Mage_Adminht
     protected function _prepareColumns()
     {
         $this->addColumn('rule_id', array(
-            'header'    => Mage::helper('enterprise_targetrule')->__('ID'),
+            'header'    => Mage::helper('Enterprise_TargetRule_Helper_Data')->__('ID'),
             'index'     => 'rule_id',
             'type'      => 'text',
             'width'     => 20,
         ));
 
         $this->addColumn('name', array(
-            'header'    => Mage::helper('enterprise_targetrule')->__('Rule Name'),
+            'header'    => Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Rule Name'),
             'index'     => 'name',
             'type'      => 'text',
             'escape'    => true
         ));
 
         $this->addColumn('from_date', array(
-            'header'    => Mage::helper('enterprise_targetrule')->__('Date Starts'),
+            'header'    => Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Date Starts'),
             'index'     => 'from_date',
             'type'      => 'date',
             'default'   => '--',
@@ -107,7 +107,7 @@ class Enterprise_TargetRule_Block_Adminhtml_Targetrule_Grid extends Mage_Adminht
         ));
 
         $this->addColumn('to_date', array(
-            'header'    => Mage::helper('enterprise_targetrule')->__('Date Ends'),
+            'header'    => Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Date Ends'),
             'index'     => 'to_date',
             'type'      => 'date',
             'default'   => '--',
@@ -115,29 +115,29 @@ class Enterprise_TargetRule_Block_Adminhtml_Targetrule_Grid extends Mage_Adminht
         ));
 
         $this->addColumn('sort_order', array(
-            'header'    => Mage::helper('enterprise_targetrule')->__('Priority'),
+            'header'    => Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Priority'),
             'index'     => 'sort_order',
             'type'      => 'text',
             'width'     => 1,
         ));
 
         $this->addColumn('apply_to', array(
-            'header'    => Mage::helper('enterprise_targetrule')->__('Applies To'),
+            'header'    => Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Applies To'),
             'align'     => 'left',
             'index'     => 'apply_to',
             'type'      => 'options',
-            'options'   => Mage::getSingleton('enterprise_targetrule/rule')->getAppliesToOptions(),
+            'options'   => Mage::getSingleton('Enterprise_TargetRule_Model_Rule')->getAppliesToOptions(),
             'width'     => 150,
         ));
 
         $this->addColumn('is_active', array(
-            'header'    => Mage::helper('enterprise_targetrule')->__('Status'),
+            'header'    => Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Status'),
             'align'     => 'left',
             'index'     => 'is_active',
             'type'      => 'options',
             'options'   => array(
-                1 => Mage::helper('enterprise_targetrule')->__('Active'),
-                0 => Mage::helper('enterprise_targetrule')->__('Inactive'),
+                1 => Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Active'),
+                0 => Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Inactive'),
             ),
             'width'     => 1,
         ));

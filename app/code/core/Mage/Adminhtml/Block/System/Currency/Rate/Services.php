@@ -53,12 +53,12 @@ class Mage_Adminhtml_Block_System_Currency_Rate_Services extends Mage_Adminhtml_
     protected function _prepareLayout()
     {
         $this->setChild('import_services',
-            $this->getLayout()->createBlock('adminhtml/html_select')
-            ->setOptions(Mage::getModel('adminhtml/system_config_source_currency_service')->toOptionArray(0))
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Html_Select')
+            ->setOptions(Mage::getModel('Mage_Adminhtml_Model_System_Config_Source_Currency_Service')->toOptionArray(0))
             ->setId('rate_services')
             ->setName('rate_services')
-            ->setValue(Mage::getSingleton('adminhtml/session')->getCurrencyRateService(true))
-            ->setTitle(Mage::helper('adminhtml')->__('Import Service'))
+            ->setValue(Mage::getSingleton('Mage_Adminhtml_Model_Session')->getCurrencyRateService(true))
+            ->setTitle(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Import Service'))
         );
 
         return parent::_prepareLayout();

@@ -53,7 +53,7 @@ class Enterprise_Reward_Model_Action_Salesrule extends Enterprise_Reward_Model_A
             if ($this->_quote->getAppliedRuleIds()) { 
                 $ruleIds = explode(',', $this->_quote->getAppliedRuleIds());
                 $ruleIds = array_unique($ruleIds);
-                $data = Mage::getResourceModel('enterprise_reward/reward')->getRewardSalesrule($ruleIds);
+                $data = Mage::getResourceModel('Enterprise_Reward_Model_Resource_Reward')->getRewardSalesrule($ruleIds);
                 foreach ($data as $rule) {
                     $pointsDelta += (int)$rule['points_delta'];
                 }
@@ -93,7 +93,7 @@ class Enterprise_Reward_Model_Action_Salesrule extends Enterprise_Reward_Model_A
     public function getHistoryMessage($args = array())
     {
         $incrementId = isset($args['increment_id']) ? $args['increment_id'] : '';
-        return Mage::helper('enterprise_reward')->__('Earned promotion extra points from order #%s.', $incrementId);
+        return Mage::helper('Enterprise_Reward_Helper_Data')->__('Earned promotion extra points from order #%s.', $incrementId);
     }
 
     /**

@@ -39,7 +39,7 @@ class Mage_Adminhtml_DashboardController extends Mage_Adminhtml_Controller_Actio
 
         $this->loadLayout();
         $this->_setActiveMenu('dashboard');
-        $this->_addBreadcrumb(Mage::helper('adminhtml')->__('Dashboard'), Mage::helper('adminhtml')->__('Dashboard'));
+        $this->_addBreadcrumb(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Dashboard'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('Dashboard'));
         $this->renderLayout();
     }
 
@@ -77,8 +77,10 @@ class Mage_Adminhtml_DashboardController extends Mage_Adminhtml_Controller_Actio
     {
         $output   = '';
         $blockTab = $this->getRequest()->getParam('block');
+        $blockClassSuffix = str_replace(' ', '_', ucwords(str_replace('_', ' ', $blockTab)));
+
         if (in_array($blockTab, array('tab_orders', 'tab_amounts', 'totals'))) {
-            $output = $this->getLayout()->createBlock('adminhtml/dashboard_' . $blockTab)->toHtml();
+            $output = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Dashboard_' . $blockClassSuffix)->toHtml();
         }
         $this->getResponse()->setBody($output);
         return;
@@ -90,7 +92,7 @@ class Mage_Adminhtml_DashboardController extends Mage_Adminhtml_Controller_Actio
         $gaData = $this->getRequest()->getParam('ga');
         $gaHash = $this->getRequest()->getParam('h');
         if ($gaData && $gaHash) {
-            $newHash = Mage::helper('adminhtml/dashboard_data')->getChartDataHash($gaData);
+            $newHash = Mage::helper('Mage_Adminhtml_Helper_Dashboard_Data')->getChartDataHash($gaData);
             if ($newHash == $gaHash) {
                 if ($params = unserialize(base64_decode(urldecode($gaData)))) {
                     $response = $httpClient->setUri(Mage_Adminhtml_Block_Dashboard_Graph::API_URL)
@@ -110,6 +112,6 @@ class Mage_Adminhtml_DashboardController extends Mage_Adminhtml_Controller_Actio
 
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('dashboard');
+        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('dashboard');
     }
 }

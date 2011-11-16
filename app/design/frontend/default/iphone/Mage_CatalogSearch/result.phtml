@@ -28,10 +28,10 @@
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
 <!--
 <div class="page-title">
-    <?php if ($this->helper('rss/catalog')->getTagFeedUrl()): ?>
-        <a href="<?php echo $this->helper('rss/catalog')->getTagFeedUrl() ?>" class="nobr link-rss"><?php echo $this->__('Subscribe to Feed') ?></a>
+    <?php if ($this->helper('Mage_Rss_Helper_Catalog')->getTagFeedUrl()): ?>
+        <a href="<?php echo $this->helper('Mage_Rss_Helper_Catalog')->getTagFeedUrl() ?>" class="nobr link-rss"><?php echo $this->__('Subscribe to Feed') ?></a>
     <?php endif; ?>
-    <h1><?php echo ($this->getHeaderText() || $this->getHeaderText() === false) ? $this->getHeaderText() : $this->__("Search results for '%s'", $this->helper('catalogsearch')->getEscapedQueryText()) ?></h1>
+    <h1><?php echo ($this->getHeaderText() || $this->getHeaderText() === false) ? $this->getHeaderText() : $this->__("Search results for '%s'", $this->helper('Mage_CatalogSearch_Helper_Data')->getEscapedQueryText()) ?></h1>
 </div>
 -->
 <div class="breadcrumbs">
@@ -40,7 +40,7 @@
             <a href="http://kd.varien.com/dev/andrey.poplavskiy/magento/index.php/" title="Go to Home Page">Home</a>
         </li>
         <li class="search">
-            <strong><?php echo ($this->getHeaderText() || $this->getHeaderText() === false) ? $this->getHeaderText() : $this->__("Results for: %s", $this->helper('catalogsearch')->getEscapedQueryText()) ?></strong>
+            <strong><?php echo ($this->getHeaderText() || $this->getHeaderText() === false) ? $this->getHeaderText() : $this->__("Results for: %s", $this->helper('Mage_CatalogSearch_Helper_Data')->getEscapedQueryText()) ?></strong>
         </li>
     </ul>
 </div>
@@ -55,7 +55,7 @@
 <?php else: ?>
 <!--
 <div class="page-title">
-    <h1><?php echo ($this->getHeaderText() || $this->getHeaderText() === false) ? $this->getHeaderText() : $this->__("Search results for '%s'", $this->helper('catalogsearch')->getEscapedQueryText()) ?></h1>
+    <h1><?php echo ($this->getHeaderText() || $this->getHeaderText() === false) ? $this->getHeaderText() : $this->__("Search results for '%s'", $this->helper('Mage_CatalogSearch_Helper_Data')->getEscapedQueryText()) ?></h1>
 </div>
 -->
 <div class="breadcrumbs">
@@ -64,7 +64,7 @@
             <a href="http://kd.varien.com/dev/andrey.poplavskiy/magento/index.php/" title="Go to Home Page">Home</a>
         </li>
         <li class="search">
-            <strong><?php echo ($this->getHeaderText() || $this->getHeaderText() === false) ? $this->getHeaderText() : $this->__("Results for: %s", $this->helper('catalogsearch')->getEscapedQueryText()) ?></strong>
+            <strong><?php echo ($this->getHeaderText() || $this->getHeaderText() === false) ? $this->getHeaderText() : $this->__("Results for: %s", $this->helper('Mage_CatalogSearch_Helper_Data')->getEscapedQueryText()) ?></strong>
         </li>
     </ul>
 </div>

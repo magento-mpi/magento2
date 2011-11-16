@@ -75,7 +75,7 @@ class Mage_Adminhtml_Block_Sales_Order_Totals_Item extends Mage_Adminhtml_Block_
      */
     public function displayPrices($baseAmount, $amount)
     {
-        return $this->helper('adminhtml/sales')->displayPrices($this->getOrder(), $baseAmount, $amount);
+        return $this->helper('Mage_Adminhtml_Helper_Sales')->displayPrices($this->getOrder(), $baseAmount, $amount);
     }
 
     /**
@@ -88,7 +88,7 @@ class Mage_Adminhtml_Block_Sales_Order_Totals_Item extends Mage_Adminhtml_Block_
      */
     public function displayPriceAttribute($code, $strong = false, $separator = '<br/>')
     {
-        return $this->helper('adminhtml/sales')->displayPriceAttribute($this->getSource(), $code, $strong, $separator);
+        return $this->helper('Mage_Adminhtml_Helper_Sales')->displayPriceAttribute($this->getSource(), $code, $strong, $separator);
     }
 
     /**

@@ -47,18 +47,20 @@ class Mage_Poll_Model_Poll_Answer extends Mage_Core_Model_Abstract
 {
     protected function _construct()
     {
-        $this->_init('poll/poll_answer');
+        $this->_init('Mage_Poll_Model_Resource_Poll_Answer');
     }
 
     public function countPercent($poll)
     {
-        $this->setPercent(round(( $poll->getVotesCount() > 0 ) ? ($this->getVotesCount() * 100 / $poll->getVotesCount()) : 0));
+        $this->setPercent(
+            round(($poll->getVotesCount() > 0 ) ? ($this->getVotesCount() * 100 / $poll->getVotesCount()) : 0, 2)
+        );
         return $this;
     }
 
     protected function _afterSave()
     {
-        Mage::getModel('poll/poll')
+        Mage::getModel('Mage_Poll_Model_Poll')
             ->setId($this->getPollId())
             ->resetVotesCount();
     }
@@ -70,7 +72,7 @@ class Mage_Poll_Model_Poll_Answer extends Mage_Core_Model_Abstract
 
     protected function _afterDelete()
     {
-        Mage::getModel('poll/poll')
+        Mage::getModel('Mage_Poll_Model_Poll')
             ->setId($this->getPollId())
             ->resetVotesCount();
     }

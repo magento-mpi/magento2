@@ -32,9 +32,9 @@ OptionTemplateSelect =
     '<table class="border" cellpadding="0" cellspacing="0">'+
         '<thead>'+
         '<tr class="headings">'+
-            '<th><?php echo Mage::helper('enterprise_giftregistry')->__('Code') ?> <span class="required">*</span></th>'+
-            '<th><?php echo Mage::helper('enterprise_giftregistry')->__('Label') ?> <span class="required">*</span></th>'+
-            '<th><?php echo Mage::helper('enterprise_giftregistry')->__('Is Default') ?></th>'+
+            '<th><?php echo Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Code') ?> <span class="required">*</span></th>'+
+            '<th><?php echo Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Label') ?> <span class="required">*</span></th>'+
+            '<th><?php echo Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Is Default') ?></th>'+
             '<th class="type-butt scope-item">&nbsp;</th>'+
         '</tr>'+
         '</thead>'+
@@ -54,7 +54,7 @@ OptionTemplateSelectRow =
         '<input type="text" class="required-entry validate-code input-text global-scope select-option-code" id="{{prefix}}_attribute_{{id}}_select_{{select_id}}_code" name="attributes[{{prefix}}][{{id}}][options][{{select_id}}][code]" value="{{code}}"></td>'+
         '<td><input type="text" class="required-entry input-text" id="{{prefix}}_attribute_{{id}}_select_{{select_id}}_label" name="attributes[{{prefix}}][{{id}}][options][{{select_id}}][label]" value="{{label}}">{{checkbox_scope}}</td>'+
         '<td><input type="radio" class="input-text global-scope" id="{{prefix}}_attribute_{{id}}_select_{{select_id}}_default" name="attributes[{{prefix}}][{{id}}][default]" value="{{select_id}}" {{checked}}></td>'+
-        '<td class="scope-item"><span title="<?php echo Mage::helper('enterprise_giftregistry')->__('Delete Option') ?>"><?php echo $this->getDeleteButtonHtml() ?></span></td>'+
+        '<td class="scope-item"><span title="<?php echo Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Delete Option') ?>"><?php echo $this->getDeleteButtonHtml() ?></span></td>'+
     '</tr>';
 
 selectOptionType = {

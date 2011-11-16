@@ -31,8 +31,8 @@
         <col width="1" />
         <thead>
             <tr class="headings">
-                <th><?php echo $this->helper('sales')->__('Product') ?></th>
-                <th class="a-center last"><span class="nobr"><?php echo $this->helper('sales')->__('Qty Shipped') ?></span></th>
+                <th><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Product') ?></th>
+                <th class="a-center last"><span class="nobr"><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Qty Shipped') ?></span></th>
             </tr>
         </thead>
         <?php $_items = $this->getShipment()->getAllItems() ?>

@@ -72,7 +72,7 @@ abstract class Enterprise_Pbridge_Block_Payment_Form_Abstract extends Enterprise
      */
     public function getQuote()
     {
-        return Mage::getSingleton('checkout/session')->getQuote();
+        return Mage::getSingleton('Mage_Checkout_Model_Session')->getQuote();
     }
 
     /**
@@ -99,7 +99,7 @@ abstract class Enterprise_Pbridge_Block_Payment_Form_Abstract extends Enterprise
             $shipping = $this->getQuote()->getShippingAddress();
             $requestParams['shipping'] = $this->getMethod()->getPbridgeMethodInstance()->getAddressInfo($shipping);
         }
-        $sourceUrl = Mage::helper('enterprise_pbridge')->getGatewayFormUrl($requestParams, $this->getQuote());
+        $sourceUrl = Mage::helper('Enterprise_Pbridge_Helper_Data')->getGatewayFormUrl($requestParams, $this->getQuote());
         return $sourceUrl;
     }
 

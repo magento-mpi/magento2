@@ -42,9 +42,9 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_History
     protected function _prepareLayout()
     {
         $onclick = "submitAndReloadArea($('rma-history-block').parentNode, '".$this->getSubmitUrl()."')";
-        $button = $this->getLayout()->createBlock('adminhtml/widget_button')
+        $button = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
             ->setData(array(
-                'label'   => Mage::helper('enterprise_rma')->__('Submit Comment'),
+                'label'   => Mage::helper('Enterprise_Rma_Helper_Data')->__('Submit Comment'),
                 'class'   => 'save',
                 'onclick' => $onclick
             ));
@@ -61,7 +61,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_History
     public function canSendCommentEmail()
     {
         /** @var $configRmaEmail Enterprise_Rma_Model_Config */
-        $configRmaEmail = Mage::getSingleton('enterprise_rma/config');
+        $configRmaEmail = Mage::getSingleton('Enterprise_Rma_Model_Config');
         $configRmaEmail->init($configRmaEmail->getRootCommentEmail(), $this->getOrder()->getStore());
         return $configRmaEmail->isEnabled();
     }
@@ -74,7 +74,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_History
     public function canSendConfirmationEmail()
     {
         /** @var $configRmaEmail Enterprise_Rma_Model_Config */
-        $configRmaEmail = Mage::getSingleton('enterprise_rma/config');
+        $configRmaEmail = Mage::getSingleton('Enterprise_Rma_Model_Config');
         $configRmaEmail->init($configRmaEmail->getRootRmaEmail(), $this->getOrder()->getStore());
         return $configRmaEmail->isEnabled();
     }
@@ -90,7 +90,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_History
     }
 
     public function getComments() {
-        return Mage::getResourceModel('enterprise_rma/rma_status_history_collection')
+        return Mage::getResourceModel('Enterprise_Rma_Model_Resource_Rma_Status_History_Collection')
             ->addFieldToFilter('rma_entity_id', Mage::registry('current_rma')->getId());
     }
 

@@ -91,7 +91,7 @@ class Mage_Sales_Block_Adminhtml_Customer_Edit_Tab_Recurring_Profile
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('sales/recurring_profile_collection')
+        $collection = Mage::getResourceModel('Mage_Sales_Model_Resource_Recurring_Profile_Collection')
             ->addFieldToFilter('customer_id', Mage::registry('current_customer')->getId());
         if (!$this->getParam($this->getVarNameSort())) {
             $collection->setOrder('profile_id', 'desc');

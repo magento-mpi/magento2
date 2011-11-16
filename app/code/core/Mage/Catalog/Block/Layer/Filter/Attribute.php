@@ -36,7 +36,7 @@ class Mage_Catalog_Block_Layer_Filter_Attribute extends Mage_Catalog_Block_Layer
     public function __construct()
     {
         parent::__construct();
-        $this->_filterModelName = 'catalog/layer_filter_attribute';
+        $this->_filterModelName = 'Mage_Catalog_Model_Layer_Filter_Attribute';
     }
     
     protected function _prepareFilter()

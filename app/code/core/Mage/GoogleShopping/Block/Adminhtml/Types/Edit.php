@@ -37,7 +37,7 @@ class Mage_GoogleShopping_Block_Adminhtml_Types_Edit extends Mage_Adminhtml_Bloc
     public function __construct()
     {
         parent::__construct();
-        $this->_blockGroup = 'googleshopping';
+        $this->_blockGroup = 'Mage_GoogleShopping';
         $this->_controller = 'adminhtml_types';
         $this->_mode = 'edit';
         $model = Mage::registry('current_item_type');
@@ -57,7 +57,7 @@ class Mage_GoogleShopping_Block_Adminhtml_Types_Edit extends Mage_Adminhtml_Bloc
      */
     public function getFormInitScripts()
     {
-        return $this->getLayout()->createBlock('core/template')
+        return $this->getLayout()->createBlock('Mage_Core_Block_Template')
             ->setTemplate('Mage_GoogleShopping::types/edit.phtml')
             ->toHtml();
     }

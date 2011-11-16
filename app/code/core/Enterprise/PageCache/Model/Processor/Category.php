@@ -58,7 +58,7 @@ class Enterprise_PageCache_Model_Processor_Category extends Enterprise_PageCache
         Enterprise_PageCache_Model_Cookie::setCategoryCookieValue($queryParams);
         $this->_prepareCatalogSession();
 
-        $category = Mage::helper('catalog')->getCategory();
+        $category = Mage::helper('Mage_Catalog_Helper_Data')->getCategory();
         if ($category) {
             $processor->setMetadata(self::METADATA_CATEGORY_ID, $category->getId());
             $this->_updateCategoryViewedCookie($processor);
@@ -120,7 +120,7 @@ class Enterprise_PageCache_Model_Processor_Category extends Enterprise_PageCache
     protected function _getSessionParams()
     {
         $params = array();
-        $data   = Mage::getSingleton('catalog/session')->getData();
+        $data   = Mage::getSingleton('Mage_Catalog_Model_Session')->getData();
         foreach ($this->_paramsMap as $sessionParam => $queryParam) {
             if (isset($data[$sessionParam])) {
                 $params[$queryParam] = $data[$sessionParam];
@@ -143,7 +143,7 @@ class Enterprise_PageCache_Model_Processor_Category extends Enterprise_PageCache
         }
 
         if (is_array($queryParams) && !empty($queryParams)) {
-            $session = Mage::getSingleton('catalog/session');
+            $session = Mage::getSingleton('Mage_Catalog_Model_Session');
             $flipParamsMap = array_flip($this->_paramsMap);
             foreach ($queryParams as $key => $value) {
                 if (in_array($key, $this->_paramsMap)) {

@@ -32,96 +32,84 @@
         </Mage_Sales>
     </modules>
     <global>
-        <models>
-            <sales>
-                <class>Mage_Sales_Model</class>
-                <resourceModel>sales_resource</resourceModel>
-            </sales>
-            <sales_entity>
-                <class>Mage_Sales_Model_Entity</class>
-            </sales_entity>
-            <sales_resource>
-                <class>Mage_Sales_Model_Resource</class>
-            </sales_resource>
-        </models>
         <template>
             <email>
-                <sales_email_order_template translate="label" module="sales">
+                <sales_email_order_template translate="label" module="Mage_Sales">
                     <label>New Order</label>
                     <file>email/order_new.html</file>
                     <type>html</type>
                 </sales_email_order_template>
-                <sales_email_order_guest_template translate="label" module="sales">
+                <sales_email_order_guest_template translate="label" module="Mage_Sales">
                     <label>New Order for Guest</label>
                     <file>email/order_new_guest.html</file>
                     <type>html</type>
                 </sales_email_order_guest_template>
-                <sales_email_order_comment_template translate="label" module="sales">
+                <sales_email_order_comment_template translate="label" module="Mage_Sales">
                     <label>Order Update</label>
                     <file>email/order_update.html</file>
                     <type>html</type>
                 </sales_email_order_comment_template>
-                <sales_email_order_comment_guest_template translate="label" module="sales">
+                <sales_email_order_comment_guest_template translate="label" module="Mage_Sales">
                     <label>Order Update for Guest</label>
                     <file>email/order_update_guest.html</file>
                     <type>html</type>
                 </sales_email_order_comment_guest_template>
-                <sales_email_invoice_template translate="label" module="sales">
+                <sales_email_invoice_template translate="label" module="Mage_Sales">
                     <label>New Invoice</label>
                     <file>email/invoice_new.html</file>
                     <type>html</type>
                 </sales_email_invoice_template>
-                <sales_email_invoice_guest_template translate="label" module="sales">
+                <sales_email_invoice_guest_template translate="label" module="Mage_Sales">
                     <label>New Invoice for Guest</label>
                     <file>email/invoice_new_guest.html</file>
                     <type>html</type>
                 </sales_email_invoice_guest_template>
-                <sales_email_invoice_comment_template translate="label" module="sales">
+                <sales_email_invoice_comment_template translate="label" module="Mage_Sales">
                     <label>Invoice Update</label>
                     <file>email/invoice_update.html</file>
                     <type>html</type>
                 </sales_email_invoice_comment_template>
-                <sales_email_invoice_comment_guest_template translate="label" module="sales">
+                <sales_email_invoice_comment_guest_template translate="label" module="Mage_Sales">
                     <label>Invoice Update for Guest</label>
                     <file>email/invoice_update_guest.html</file>
                     <type>html</type>
                 </sales_email_invoice_comment_guest_template>
-                <sales_email_creditmemo_template translate="label" module="sales">
+                <sales_email_creditmemo_template translate="label" module="Mage_Sales">
                     <label>New Credit Memo</label>
                     <file>email/creditmemo_new.html</file>
                     <type>html</type>
                 </sales_email_creditmemo_template>
-                <sales_email_creditmemo_guest_template translate="label" module="sales">
+                <sales_email_creditmemo_guest_template translate="label" module="Mage_Sales">
                     <label>New Credit Memo for Guest</label>
                     <file>email/creditmemo_new_guest.html</file>
                     <type>html</type>
                 </sales_email_creditmemo_guest_template>
-                <sales_email_creditmemo_comment_template translate="label" module="sales">
+                <sales_email_creditmemo_comment_template translate="label" module="Mage_Sales">
                     <label>Credit Memo Update</label>
                     <file>email/creditmemo_update.html</file>
                     <type>html</type>
                 </sales_email_creditmemo_comment_template>
-                <sales_email_creditmemo_comment_guest_template translate="label" module="sales">
+                <sales_email_creditmemo_comment_guest_template translate="label" module="Mage_Sales">
                     <label>Credit Memo Update for Guest</label>
                     <file>email/creditmemo_update_guest.html</file>
                     <type>html</type>
                 </sales_email_creditmemo_comment_guest_template>
-                <sales_email_shipment_template translate="label" module="sales">
+                <sales_email_shipment_template translate="label" module="Mage_Sales">
                     <label>New Shipment</label>
                     <file>email/shipment_new.html</file>
                     <type>html</type>
                 </sales_email_shipment_template>
-                <sales_email_shipment_guest_template translate="label" module="sales">
+                <sales_email_shipment_guest_template translate="label" module="Mage_Sales">
                     <label>New Shipment for Guest</label>
                     <file>email/shipment_new_guest.html</file>
                     <type>html</type>
                 </sales_email_shipment_guest_template>
-                <sales_email_shipment_comment_template translate="label" module="sales">
+                <sales_email_shipment_comment_template translate="label" module="Mage_Sales">
                     <label>Shipment Update</label>
                     <file>email/shipment_update.html</file>
                     <type>html</type>
                 </sales_email_shipment_comment_template>
-                <sales_email_shipment_comment_guest_template translate="label" module="sales">
+                <sales_email_shipment_comment_guest_template translate="label" module="Mage_Sales">
                     <label>Shipment Update for Guest</label>
                     <file>email/shipment_update_guest.html</file>
                     <type>html</type>
@@ -136,11 +124,6 @@
                 </setup>
             </sales_setup>
         </resources>
-        <blocks>
-            <sales>
-                <class>Mage_Sales_Block</class>
-            </sales>
-        </blocks>
         <catalog>
             <product>
                 <flat>
@@ -154,42 +137,42 @@
             <quote>
                 <totals>
                     <nominal>
-                        <class>sales/quote_address_total_nominal</class>
+                        <class>Mage_Sales_Model_Quote_Address_Total_Nominal</class>
                         <before>subtotal</before>
                     </nominal>
                     <subtotal>
-                        <class>sales/quote_address_total_subtotal</class>
+                        <class>Mage_Sales_Model_Quote_Address_Total_Subtotal</class>
                         <after>nominal</after>
                         <before>grand_total</before>
                     </subtotal>
                     <shipping>
-                        <class>sales/quote_address_total_shipping</class>
+                        <class>Mage_Sales_Model_Quote_Address_Total_Shipping</class>
                         <after>subtotal,freeshipping,tax_subtotal</after>
                         <before>grand_total</before>
                     </shipping>
                     <grand_total>
-                        <class>sales/quote_address_total_grand</class>
+                        <class>Mage_Sales_Model_Quote_Address_Total_Grand</class>
                         <after>subtotal</after>
                     </grand_total>
                     <msrp>
-                        <class>sales/quote_address_total_msrp</class>
+                        <class>Mage_Sales_Model_Quote_Address_Total_Msrp</class>
                     </msrp>
                 </totals>
                 <nominal_totals>
                     <recurring_initial_fee>
-                        <class>sales/quote_address_total_nominal_recurring_initial</class>
+                        <class>Mage_Sales_Model_Quote_Address_Total_Nominal_Recurring_Initial</class>
                         <sort_order>10</sort_order>
                     </recurring_initial_fee>
                     <recurring_trial_payment>
-                        <class>sales/quote_address_total_nominal_recurring_trial</class>
+                        <class>Mage_Sales_Model_Quote_Address_Total_Nominal_Recurring_Trial</class>
                         <sort_order>50</sort_order>
                     </recurring_trial_payment>
                     <nominal_subtotal>
-                        <class>sales/quote_address_total_nominal_subtotal</class>
+                        <class>Mage_Sales_Model_Quote_Address_Total_Nominal_Subtotal</class>
                         <sort_order>250</sort_order>
                     </nominal_subtotal>
                     <nominal_shipping>
-                        <class>sales/quote_address_total_nominal_shipping</class>
+                        <class>Mage_Sales_Model_Quote_Address_Total_Nominal_Shipping</class>
                         <sort_order>1250</sort_order>
                     </nominal_shipping>
                 </nominal_totals>
@@ -316,59 +299,59 @@
             <order_invoice>
                 <totals>
                     <subtotal>
-                        <class>sales/order_invoice_total_subtotal</class>
+                        <class>Mage_Sales_Model_Order_Invoice_Total_Subtotal</class>
                     </subtotal>
                     <discount>
-                        <class>sales/order_invoice_total_discount</class>
+                        <class>Mage_Sales_Model_Order_Invoice_Total_Discount</class>
                     </discount>
                     <shipping>
-                        <class>sales/order_invoice_total_shipping</class>
+                        <class>Mage_Sales_Model_Order_Invoice_Total_Shipping</class>
                     </shipping>
                     <tax>
-                        <class>sales/order_invoice_total_tax</class>
+                        <class>Mage_Sales_Model_Order_Invoice_Total_Tax</class>
                     </tax>
                     <grand_total>
-                        <class>sales/order_invoice_total_grand</class>
+                        <class>Mage_Sales_Model_Order_Invoice_Total_Grand</class>
                     </grand_total>
                     <cost_total>
-                        <class>sales/order_invoice_total_cost</class>
+                        <class>Mage_Sales_Model_Order_Invoice_Total_Cost</class>
                     </cost_total>
                 </totals>
             </order_invoice>
             <order_creditmemo>
                 <totals>
                     <subtotal>
-                        <class>sales/order_creditmemo_total_subtotal</class>
+                        <class>Mage_Sales_Model_Order_Creditmemo_Total_Subtotal</class>
                     </subtotal>
                     <shipping>
-                        <class>sales/order_creditmemo_total_shipping</class>
+                        <class>Mage_Sales_Model_Order_Creditmemo_Total_Shipping</class>
                     </shipping>
                     <tax>
-                        <class>sales/order_creditmemo_total_tax</class>
+                        <class>Mage_Sales_Model_Order_Creditmemo_Total_Tax</class>
                     </tax>
                     <discount>
-                        <class>sales/order_creditmemo_total_discount</class>
+                        <class>Mage_Sales_Model_Order_Creditmemo_Total_Discount</class>
                     </discount>
                     <grand_total>
-                        <class>sales/order_creditmemo_total_grand</class>
+                        <class>Mage_Sales_Model_Order_Creditmemo_Total_Grand</class>
                     </grand_total>
                     <cost_total>
-                        <class>sales/order_creditmemo_total_cost</class>
+                        <class>Mage_Sales_Model_Order_Creditmemo_Total_Cost</class>
                     </cost_total>
                 </totals>
             </order_creditmemo>
         </sales>
         <pdf>
             <invoice>
-                <default>sales/order_pdf_items_invoice_default</default>
-                <grouped>sales/order_pdf_items_invoice_grouped</grouped>
+                <default>Mage_Sales_Model_Order_Pdf_Items_Invoice_Default</default>
+                <grouped>Mage_Sales_Model_Order_Pdf_Items_Invoice_Grouped</grouped>
             </invoice>
             <shipment>
-                <default>sales/order_pdf_items_shipment_default</default>
+                <default>Mage_Sales_Model_Order_Pdf_Items_Shipment_Default</default>
             </shipment>
             <creditmemo>
-                <default>sales/order_pdf_items_creditmemo_default</default>
-                <grouped>sales/order_pdf_items_creditmemo_grouped</grouped>
+                <default>Mage_Sales_Model_Order_Pdf_Items_Creditmemo_Default</default>
+                <grouped>Mage_Sales_Model_Order_Pdf_Items_Creditmemo_Grouped</grouped>
             </creditmemo>
             <totals>
                 <subtotal translate="title">
@@ -456,7 +439,7 @@
             <sales_quote_collect_totals_after>
                 <observers>
                     <catalog_msrp>
-                        <class>sales/observer</class>
+                        <class>Mage_Sales_Model_Observer</class>
                         <method>setQuoteCanApplyMsrp</method>
                     </catalog_msrp>
                 </observers>
@@ -477,7 +460,7 @@
             <catalog_product_delete_before>
                 <observers>
                     <sales_quote_observer>
-                        <class>sales/observer</class>
+                        <class>Mage_Sales_Model_Observer</class>
                         <method>substractQtyFromQuotes</method>
                     </sales_quote_observer>
                 </observers>
@@ -485,7 +468,7 @@
             <catalogrule_before_apply>
                 <observers>
                     <sales_quote_observer>
-                        <class>sales/observer</class>
+                        <class>Mage_Sales_Model_Observer</class>
                         <method>markQuotesRecollectOnCatalogRules</method>
                     </sales_quote_observer>
                 </observers>
@@ -493,7 +476,7 @@
             <catalogrule_after_apply>
                 <observers>
                     <sales_quote_observer>
-                        <class>sales/observer</class>
+                        <class>Mage_Sales_Model_Observer</class>
                         <method>markQuotesRecollectOnCatalogRules</method>
                     </sales_quote_observer>
                 </observers>
@@ -501,7 +484,7 @@
             <catalog_product_save_after>
                 <observers>
                     <sales_quote>
-                        <class>sales/observer</class>
+                        <class>Mage_Sales_Model_Observer</class>
                         <method>catalogProductSaveAfter</method>
                     </sales_quote>
                 </observers>
@@ -509,7 +492,7 @@
             <catalog_product_status_update>
                 <observers>
                     <sales_quote>
-                        <class>sales/observer</class>
+                        <class>Mage_Sales_Model_Observer</class>
                         <method>catalogProductStatusUpdate</method>
                     </sales_quote>
                 </observers>
@@ -517,7 +500,7 @@
             <catalog_product_edit_form_render_recurring>
                 <observers>
                     <payment>
-                        <class>sales/observer</class>
+                        <class>Mage_Sales_Model_Observer</class>
                         <method>prepareProductEditFormRecurringProfile</method>
                     </payment>
                 </observers>
@@ -525,16 +508,15 @@
             <payment_method_is_active>
                 <observers>
                     <sales_billing_agreement>
-                        <class>sales/observer</class>
+                        <class>Mage_Sales_Model_Observer</class>
                         <method>restrictAdminBillingAgreementUsage</method>
                     </sales_billing_agreement>
                 </observers>
             </payment_method_is_active>
-
             <customer_save_after>
                 <observers>
                     <customer>
-                        <class>sales/observer</class>
+                        <class>Mage_Sales_Model_Observer</class>
                         <method>customerSaveAfter</method>
                     </customer>
                 </observers>
@@ -545,7 +527,7 @@
         <payment>
             <googlecheckout>
                 <active>1</active>
-                <model>googlecheckout/payment</model>
+                <model>Mage_GoogleCheckout_Model_Payment</model>
                 <title>Google Checkout</title>
             </googlecheckout>
         </payment>
@@ -641,7 +623,7 @@
                     <cron_expr>0 0 * * *</cron_expr>
                 </schedule>
                 <run>
-                    <model>sales/observer::cleanExpiredQuotes</model>
+                    <model>Mage_Sales_Model_Observer::cleanExpiredQuotes</model>
                 </run>
             </sales_clean_quotes>
             <aggregate_sales_report_order_data>
@@ -649,7 +631,7 @@
                     <cron_expr>0 0 * * *</cron_expr>
                 </schedule>
                 <run>
-                    <model>sales/observer::aggregateSalesReportOrderData</model>
+                    <model>Mage_Sales_Model_Observer::aggregateSalesReportOrderData</model>
                 </run>
             </aggregate_sales_report_order_data>
             <aggregate_sales_report_shipment_data>
@@ -657,7 +639,7 @@
                     <cron_expr>0 0 * * *</cron_expr>
                 </schedule>
                 <run>
-                    <model>sales/observer::aggregateSalesReportShipmentData</model>
+                    <model>Mage_Sales_Model_Observer::aggregateSalesReportShipmentData</model>
                 </run>
             </aggregate_sales_report_shipment_data>
             <aggregate_sales_report_invoiced_data>
@@ -665,7 +647,7 @@
                     <cron_expr>0 0 * * *</cron_expr>
                 </schedule>
                 <run>
-                    <model>sales/observer::aggregateSalesReportInvoicedData</model>
+                    <model>Mage_Sales_Model_Observer::aggregateSalesReportInvoicedData</model>
                 </run>
             </aggregate_sales_report_invoiced_data>
             <aggregate_sales_report_refunded_data>
@@ -673,7 +655,7 @@
                     <cron_expr>0 0 * * *</cron_expr>
                 </schedule>
                 <run>
-                    <model>sales/observer::aggregateSalesReportRefundedData</model>
+                    <model>Mage_Sales_Model_Observer::aggregateSalesReportRefundedData</model>
                 </run>
             </aggregate_sales_report_refunded_data>
             <aggregate_sales_report_bestsellers_data>
@@ -681,7 +663,7 @@
                     <cron_expr>0 0 * * *</cron_expr>
                 </schedule>
                 <run>
-                    <model>sales/observer::aggregateSalesReportBestsellersData</model>
+                    <model>Mage_Sales_Model_Observer::aggregateSalesReportBestsellersData</model>
                 </run>
             </aggregate_sales_report_bestsellers_data>
         </jobs>

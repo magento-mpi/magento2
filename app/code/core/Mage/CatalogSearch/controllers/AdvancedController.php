@@ -37,7 +37,7 @@ class Mage_CatalogSearch_AdvancedController extends Mage_Core_Controller_Front_A
     public function indexAction()
     {
         $this->loadLayout();
-        $this->_initLayoutMessages('catalogsearch/session');
+        $this->_initLayoutMessages('Mage_CatalogSearch_Model_Session');
         $this->renderLayout();
     }
 
@@ -45,16 +45,16 @@ class Mage_CatalogSearch_AdvancedController extends Mage_Core_Controller_Front_A
     {
         $this->loadLayout();
         try {
-            Mage::getSingleton('catalogsearch/advanced')->addFilters($this->getRequest()->getQuery());
+            Mage::getSingleton('Mage_CatalogSearch_Model_Advanced')->addFilters($this->getRequest()->getQuery());
         } catch (Mage_Core_Exception $e) {
-            Mage::getSingleton('catalogsearch/session')->addError($e->getMessage());
+            Mage::getSingleton('Mage_CatalogSearch_Model_Session')->addError($e->getMessage());
             $this->_redirectError(
-                Mage::getModel('core/url')
+                Mage::getModel('Mage_Core_Model_Url')
                     ->setQueryParams($this->getRequest()->getQuery())
                     ->getUrl('*/*/')
             );
         }
-        $this->_initLayoutMessages('catalog/session');
+        $this->_initLayoutMessages('Mage_Catalog_Model_Session');
         $this->renderLayout();
     }
 }

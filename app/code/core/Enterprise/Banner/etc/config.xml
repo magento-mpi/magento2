@@ -32,25 +32,6 @@
         </Enterprise_Banner>
     </modules>
     <global>
-        <models>
-            <enterprise_banner>
-                <class>Enterprise_Banner_Model</class>
-                <resourceModel>enterprise_banner_resource</resourceModel>
-            </enterprise_banner>
-            <enterprise_banner_resource>
-                <class>Enterprise_Banner_Model_Resource</class>
-            </enterprise_banner_resource>
-        </models>
-        <helpers>
-            <enterprise_banner>
-                <class>Enterprise_Banner_Helper</class>
-            </enterprise_banner>
-        </helpers>
-        <blocks>
-            <enterprise_banner>
-                <class>Enterprise_Banner_Block</class>
-            </enterprise_banner>
-        </blocks>
         <resources>
             <enterprise_banner_setup>
                 <setup>
@@ -112,7 +93,7 @@
             <adminhtml_controller_catalogrule_prepare_save>
                 <observers>
                     <enterprise_banner>
-                        <class>enterprise_banner/observer</class>
+                        <class>Enterprise_Banner_Model_Observer</class>
                         <method>prepareCatalogRuleSave</method>
                     </enterprise_banner>
                 </observers>
@@ -120,7 +101,7 @@
             <catalogrule_rule_save_after>
                 <observers>
                     <enterprise_banner>
-                        <class>enterprise_banner/observer</class>
+                        <class>Enterprise_Banner_Model_Observer</class>
                         <method>bindRelatedBannersToCatalogRule</method>
                     </enterprise_banner>
                 </observers>
@@ -128,7 +109,7 @@
             <adminhtml_controller_salesrule_prepare_save>
                 <observers>
                     <enterprise_banner>
-                        <class>enterprise_banner/observer</class>
+                        <class>Enterprise_Banner_Model_Observer</class>
                         <method>prepareSalesRuleSave</method>
                     </enterprise_banner>
                 </observers>
@@ -136,7 +117,7 @@
             <salesrule_rule_save_after>
                 <observers>
                     <enterprise_banner>
-                        <class>enterprise_banner/observer</class>
+                        <class>Enterprise_Banner_Model_Observer</class>
                         <method>bindRelatedBannersToSalesRule</method>
                     </enterprise_banner>
                 </observers>

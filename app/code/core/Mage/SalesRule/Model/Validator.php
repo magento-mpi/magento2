@@ -95,7 +95,7 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
 
         $key = $websiteId . '_' . $customerGroupId . '_' . $couponCode;
         if (!isset($this->_rules[$key])) {
-            $this->_rules[$key] = Mage::getResourceModel('salesrule/rule_collection')
+            $this->_rules[$key] = Mage::getResourceModel('Mage_SalesRule_Model_Resource_Rule_Collection')
                 ->setValidationFilter($websiteId, $customerGroupId, $couponCode)
                 ->load();
         }
@@ -150,7 +150,7 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
         if ($rule->getCouponType() != Mage_SalesRule_Model_Rule::COUPON_TYPE_NO_COUPON) {
             $couponCode = $address->getQuote()->getCouponCode();
             if (strlen($couponCode)) {
-                $coupon = Mage::getModel('salesrule/coupon');
+                $coupon = Mage::getModel('Mage_SalesRule_Model_Coupon');
                 $coupon->load($couponCode, 'code');
                 if ($coupon->getId()) {
                     // check entire usage limit
@@ -162,7 +162,7 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
                     $customerId = $address->getQuote()->getCustomerId();
                     if ($customerId && $coupon->getUsagePerCustomer()) {
                         $couponUsage = new Varien_Object();
-                        Mage::getResourceModel('salesrule/coupon_usage')->loadByCustomerCoupon(
+                        Mage::getResourceModel('Mage_SalesRule_Model_Resource_Coupon_Usage')->loadByCustomerCoupon(
                             $couponUsage, $customerId, $coupon->getId());
                         if ($couponUsage->getCouponId() &&
                             $couponUsage->getTimesUsed() >= $coupon->getUsagePerCustomer()
@@ -181,7 +181,7 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
         $ruleId = $rule->getId();
         if ($ruleId && $rule->getUsesPerCustomer()) {
             $customerId     = $address->getQuote()->getCustomerId();
-            $ruleCustomer   = Mage::getModel('salesrule/rule_customer');
+            $ruleCustomer   = Mage::getModel('Mage_SalesRule_Model_Rule_Customer');
             $ruleCustomer->loadByCustomerRule($customerId, $ruleId);
             if ($ruleCustomer->getId()) {
                 if ($ruleCustomer->getTimesUsed() >= $rule->getUsesPerCustomer()) {
@@ -346,7 +346,7 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
 
                 case Mage_SalesRule_Model_Rule::CART_FIXED_ACTION:
                     if (empty($this->_rulesItemTotals[$rule->getId()])) {
-                        Mage::throwException(Mage::helper('salesrule')->__('Item totals are not set for rule.'));
+                        Mage::throwException(Mage::helper('Mage_SalesRule_Helper_Data')->__('Item totals are not set for rule.'));
                     }
 
                     /**
@@ -747,7 +747,7 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
      */
     protected function _getItemOriginalPrice($item)
     {
-        return Mage::helper('tax')->getPrice($item, $item->getOriginalPrice(), true);
+        return Mage::helper('Mage_Tax_Helper_Data')->getPrice($item, $item->getOriginalPrice(), true);
     }
 
     /**
@@ -770,7 +770,7 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
      */
     protected function _getItemBaseOriginalPrice($item)
     {
-        return Mage::helper('tax')->getPrice($item, $item->getBaseOriginalPrice(), true);
+        return Mage::helper('Mage_Tax_Helper_Data')->getPrice($item, $item->getBaseOriginalPrice(), true);
     }
 
     /**

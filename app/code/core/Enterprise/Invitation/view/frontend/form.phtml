@@ -30,37 +30,37 @@
  */
 ?>
 <div class="page-title">
-    <h1><?php echo Mage::helper('enterprise_invitation')->__('Send Invitations') ?></h1>
+    <h1><?php echo Mage::helper('Enterprise_Invitation_Helper_Data')->__('Send Invitations') ?></h1>
 </div>
 <div id="messages"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
 <?php echo $this->getChildHtml('form_before')?>
-<?php if ($maxPerSend = (int)Mage::helper('enterprise_invitation')->getMaxInvitationsPerSend()): ?>
+<?php if ($maxPerSend = (int)Mage::helper('Enterprise_Invitation_Helper_Data')->getMaxInvitationsPerSend()): ?>
 <form id="invitationForm" action="" method="post">
     <div class="fieldset">
-    <h2 class="legend"><?php echo Mage::helper('enterprise_invitation')->__('Invite your friends by entering their email addresses below'); ?></h2>
+    <h2 class="legend"><?php echo Mage::helper('Enterprise_Invitation_Helper_Data')->__('Invite your friends by entering their email addresses below'); ?></h2>
         <ul class="form-list">
             <?php $_perRow = ceil($maxPerSend/3); for($_index = 1; $_index <= $maxPerSend; $_index ++): ?>
             <li>
                 <label for="email_<?php echo $_index ?>"<?php if ($_index == 1) echo ' class="required"' ?>><?php if ($_index == 1) echo '<em>*</em>' ?><?php echo $_index; ?>:</label>
                 <div class="input-box">
-                    <input tabindex="<?php echo $_index ?>" name="email[]" id="email_<?php echo $_index ?>" title="<?php echo Mage::helper('enterprise_invitation')->__('Email') ?>" value="" class="<?php if ($_index == 1): ?>required-entry <?php endif;?>input-text validate-email" type="text" />
+                    <input tabindex="<?php echo $_index ?>" name="email[]" id="email_<?php echo $_index ?>" title="<?php echo Mage::helper('Enterprise_Invitation_Helper_Data')->__('Email') ?>" value="" class="<?php if ($_index == 1): ?>required-entry <?php endif;?>input-text validate-email" type="text" />
                 </div>
             </li>
             <?php endfor; ?>
-        <?php if (Mage::helper('enterprise_invitation')->isInvitationMessageAllowed()): ?>
+        <?php if (Mage::helper('Enterprise_Invitation_Helper_Data')->isInvitationMessageAllowed()): ?>
             <li>
-                <label for="message"><?php echo Mage::helper('enterprise_invitation')->__('Message');?>: </label>
+                <label for="message"><?php echo Mage::helper('Enterprise_Invitation_Helper_Data')->__('Message');?>: </label>
                 <div class="input-box">
-                    <textarea tabindex="<?php echo $_index+1 ?>" name="message" id="message" title="<?php echo Mage::helper('enterprise_invitation')->__('Message') ?>"  class="input-text" rows="5" cols="5"></textarea>
+                    <textarea tabindex="<?php echo $_index+1 ?>" name="message" id="message" title="<?php echo Mage::helper('Enterprise_Invitation_Helper_Data')->__('Message') ?>"  class="input-text" rows="5" cols="5"></textarea>
                 </div>
             </li>
         </ul>
         <?php endif;?>
     </div>
-   <p class="required"><?php echo Mage::helper('enterprise_invitation')->__('* Required Fields') ?></p>
+   <p class="required"><?php echo Mage::helper('Enterprise_Invitation_Helper_Data')->__('* Required Fields') ?></p>
     <div class="buttons-set form-buttons">
-        <p class="back-link"><a href="<?php echo Mage::helper('enterprise_invitation')->getCustomerInvitationUrl() ?>"><small>&laquo; </small><?php  echo Mage::helper('enterprise_invitation')->__('Back to Invitations') ?></a></p>
-        <button class="button" type="submit"><span><span><?php echo Mage::helper('enterprise_invitation')->__('Send Invitations') ?></span></span></button>
+        <p class="back-link"><a href="<?php echo Mage::helper('Enterprise_Invitation_Helper_Data')->getCustomerInvitationUrl() ?>"><small>&laquo; </small><?php  echo Mage::helper('Enterprise_Invitation_Helper_Data')->__('Back to Invitations') ?></a></p>
+        <button class="button" type="submit"><span><span><?php echo Mage::helper('Enterprise_Invitation_Helper_Data')->__('Send Invitations') ?></span></span></button>
     </div>
 
 </form>
@@ -68,5 +68,5 @@
     var contactForm = new VarienForm('invitationForm', true);
 </script>
 <?php else:?>
-<p><?php echo Mage::helper('enterprise_invitation')->__('You cannot send more invitations'); ?></p>
+<p><?php echo Mage::helper('Enterprise_Invitation_Helper_Data')->__('You cannot send more invitations'); ?></p>
 <?php endif; ?>

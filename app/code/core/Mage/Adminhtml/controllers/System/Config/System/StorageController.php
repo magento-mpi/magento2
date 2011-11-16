@@ -40,7 +40,7 @@ class Mage_Adminhtml_System_Config_System_StorageController extends Mage_Adminht
      */
     protected function _getSyncSingleton()
     {
-        return Mage::getSingleton('core/file_storage');
+        return Mage::getSingleton('Mage_Core_Model_File_Storage');
     }
 
     /**
@@ -75,7 +75,7 @@ class Mage_Adminhtml_System_Config_System_StorageController extends Mage_Adminht
         }
 
         $flag->setState(Mage_Core_Model_File_Storage_Flag::STATE_RUNNING)->save();
-        Mage::getSingleton('admin/session')->setSyncProcessStopWatch(false);
+        Mage::getSingleton('Mage_Admin_Model_Session')->setSyncProcessStopWatch(false);
 
         $storage = array('type' => (int) $_REQUEST['storage']);
         if (isset($_REQUEST['connection']) && !empty($_REQUEST['connection'])) {
@@ -125,9 +125,9 @@ class Mage_Adminhtml_System_Config_System_StorageController extends Mage_Adminht
                             && isset($flagData['source']) && !empty($flagData['source'])
                             && isset($flagData['destination']) && !empty($flagData['destination'])
                         ) {
-                            $result['message'] = Mage::helper('adminhtml')->__('Synchronizing %s to %s', $flagData['source'], $flagData['destination']);
+                            $result['message'] = Mage::helper('Mage_Adminhtml_Helper_Data')->__('Synchronizing %s to %s', $flagData['source'], $flagData['destination']);
                         } else {
-                            $result['message'] = Mage::helper('adminhtml')->__('Synchronizing...');
+                            $result['message'] = Mage::helper('Mage_Adminhtml_Helper_Data')->__('Synchronizing...');
                         }
 
                         break;
@@ -137,7 +137,7 @@ class Mage_Adminhtml_System_Config_System_StorageController extends Mage_Adminht
                             && !(isset($flagData['timeout_reached']) && $flagData['timeout_reached'])
                         ) {
                             Mage::logException(new Mage_Exception(
-                                Mage::helper('adminhtml')->__('Timeout limit for response from synchronize process was reached.')
+                                Mage::helper('Mage_Adminhtml_Helper_Data')->__('Timeout limit for response from synchronize process was reached.')
                             ));
 
                             $state = Mage_Core_Model_File_Storage_Flag::STATE_FINISHED;
@@ -155,8 +155,8 @@ class Mage_Adminhtml_System_Config_System_StorageController extends Mage_Adminht
 
                     $state = Mage_Core_Model_File_Storage_Flag::STATE_NOTIFIED;
                 case Mage_Core_Model_File_Storage_Flag::STATE_NOTIFIED:
-                    $block = Mage::getSingleton('core/layout')
-                        ->createBlock('adminhtml/notification_toolbar')
+                    $block = Mage::getSingleton('Mage_Core_Model_Layout')
+                        ->createBlock('Mage_Adminhtml_Block_Notification_Toolbar')
                         ->setTemplate('notification/toolbar.phtml');
                     $result['html'] = $block->toHtml();
 
@@ -177,7 +177,7 @@ class Mage_Adminhtml_System_Config_System_StorageController extends Mage_Adminht
         }
         $result['state'] = $state;
 
-        $result = Mage::helper('core')->jsonEncode($result);
+        $result = Mage::helper('Mage_Core_Helper_Data')->jsonEncode($result);
         Mage::app()->getResponse()->setBody($result);
     }
 }

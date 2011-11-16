@@ -207,7 +207,7 @@ class Enterprise_Search_Helper_Data extends Mage_Core_Helper_Abstract
     public function isThirdPartSearchEngine()
     {
         $engine = $this->getSearchConfigData('engine');
-        if ($engine == 'enterprise_search/engine') {
+        if ($engine == 'Enterprise_Search_Model_Resource_Engine') {
             return true;
         }
 
@@ -365,7 +365,7 @@ class Enterprise_Search_Helper_Data extends Mage_Core_Helper_Abstract
     {
         $engine = $this->getSearchConfigData('engine');
 
-        if ($engine && Mage::getConfig()->getResourceModelClassName($engine)) {
+        if ($engine) {
             $model = Mage::getResourceSingleton($engine);
             if ($model && $model->test() && $model->allowAdvancedIndex()) {
                 return true;
@@ -397,7 +397,7 @@ class Enterprise_Search_Helper_Data extends Mage_Core_Helper_Abstract
     public function getTaxInfluence()
     {
         if (is_null($this->_taxInfluence)) {
-            $this->_taxInfluence = (bool) Mage::helper('tax')->getPriceTaxSql('price', 'tax');
+            $this->_taxInfluence = (bool) Mage::helper('Mage_Tax_Helper_Data')->getPriceTaxSql('price', 'tax');
         }
 
         return $this->_taxInfluence;

@@ -40,7 +40,7 @@ class Mage_Tax_Model_Sales_Pdf_Subtotal extends Mage_Sales_Model_Order_Pdf_Total
     public function getTotalsForDisplay()
     {
         $store = $this->getOrder()->getStore();
-        $helper= Mage::helper('tax');
+        $helper= Mage::helper('Mage_Tax_Helper_Data');
         $amount = $this->getOrder()->formatPriceTxt($this->getAmount());
         if ($this->getSource()->getSubtotalInclTax()) {
             $amountInclTax = $this->getSource()->getSubtotalInclTax();
@@ -57,25 +57,25 @@ class Mage_Tax_Model_Sales_Pdf_Subtotal extends Mage_Sales_Model_Order_Pdf_Total
             $totals = array(
                 array(
                     'amount'    => $this->getAmountPrefix().$amount,
-                    'label'     => Mage::helper('tax')->__('Subtotal (Excl. Tax)') . ':',
+                    'label'     => Mage::helper('Mage_Tax_Helper_Data')->__('Subtotal (Excl. Tax)') . ':',
                     'font_size' => $fontSize
                 ),
                 array(
                     'amount'    => $this->getAmountPrefix().$amountInclTax,
-                    'label'     => Mage::helper('tax')->__('Subtotal (Incl. Tax)') . ':',
+                    'label'     => Mage::helper('Mage_Tax_Helper_Data')->__('Subtotal (Incl. Tax)') . ':',
                     'font_size' => $fontSize
                 ),
             );
         } elseif ($helper->displaySalesSubtotalInclTax($store)) {
             $totals = array(array(
                 'amount'    => $this->getAmountPrefix().$amountInclTax,
-                'label'     => Mage::helper('sales')->__($this->getTitle()) . ':',
+                'label'     => Mage::helper('Mage_Sales_Helper_Data')->__($this->getTitle()) . ':',
                 'font_size' => $fontSize
             ));
         } else {
             $totals = array(array(
                 'amount'    => $this->getAmountPrefix().$amount,
-                'label'     => Mage::helper('sales')->__($this->getTitle()) . ':',
+                'label'     => Mage::helper('Mage_Sales_Helper_Data')->__($this->getTitle()) . ':',
                 'font_size' => $fontSize
             ));
         }

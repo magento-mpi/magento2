@@ -73,7 +73,7 @@ class Mage_Paypal_Block_Iframe extends Mage_Payment_Block_Form
             ->getQuote()
             ->getPayment()
             ->getMethod();
-        if (in_array($paymentCode, $this->helper('paypal/hss')->getHssMethods())) {
+        if (in_array($paymentCode, $this->helper('Mage_Paypal_Helper_Hss')->getHssMethods())) {
             $this->_paymentMethodCode = $paymentCode;
         }
         $this->setTemplate('hss/iframe.phtml');
@@ -89,7 +89,9 @@ class Mage_Paypal_Block_Iframe extends Mage_Payment_Block_Form
         if (!$this->_block) {
             $this->_block = $this->getAction()
                 ->getLayout()
-                ->createBlock('paypal/'.$this->_paymentMethodCode.'_iframe');
+                ->createBlock('Mage_Paypal_Block_'
+                    . str_replace(' ', '_', ucwords(str_replace('_', ' ', $this->_paymentMethodCode)))
+                    . '_Iframe');
             if (!$this->_block instanceof Mage_Paypal_Block_Iframe) {
                 Mage::throwException('Invalid block type');
             }
@@ -107,7 +109,7 @@ class Mage_Paypal_Block_Iframe extends Mage_Payment_Block_Form
     {
         if (!$this->_order) {
             $incrementId = $this->_getCheckout()->getLastRealOrderId();
-            $this->_order = Mage::getModel('sales/order')
+            $this->_order = Mage::getModel('Mage_Sales_Model_Order')
                 ->loadByIncrementId($incrementId);
         }
         return $this->_order;
@@ -120,7 +122,7 @@ class Mage_Paypal_Block_Iframe extends Mage_Payment_Block_Form
      */
     protected function _getCheckout()
     {
-        return Mage::getSingleton('checkout/session');
+        return Mage::getSingleton('Mage_Checkout_Model_Session');
     }
 
     /**

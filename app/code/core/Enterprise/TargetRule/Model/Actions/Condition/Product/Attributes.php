@@ -50,7 +50,7 @@ class Enterprise_TargetRule_Model_Actions_Condition_Product_Attributes
     public function __construct()
     {
         parent::__construct();
-        $this->setType('enterprise_targetrule/actions_condition_product_attributes');
+        $this->setType('Enterprise_TargetRule_Model_Actions_Condition_Product_Attributes');
         $this->setValue(null);
         $this->setValueType(self::VALUE_TYPE_SAME_AS);
     }
@@ -63,7 +63,7 @@ class Enterprise_TargetRule_Model_Actions_Condition_Product_Attributes
     protected function _addSpecialAttributes(array &$attributes)
     {
         parent::_addSpecialAttributes($attributes);
-        $attributes['type_id'] = Mage::helper('catalogrule')->__('Type');
+        $attributes['type_id'] = Mage::helper('Mage_CatalogRule_Helper_Data')->__('Type');
     }
 
     /**
@@ -76,7 +76,7 @@ class Enterprise_TargetRule_Model_Actions_Condition_Product_Attributes
     public function getValueOption($option = null)
     {
         if (!$this->getData('value_option') && $this->getAttribute() == 'type_id') {
-            $options = Mage::getSingleton('catalog/product_type')->getAllOption();
+            $options = Mage::getSingleton('Mage_Catalog_Model_Product_Type')->getAllOption();
             $this->setData('value_option', $options);
         }
         return parent::getValueOption($option);
@@ -91,7 +91,7 @@ class Enterprise_TargetRule_Model_Actions_Condition_Product_Attributes
     public function getValueSelectOptions()
     {
         if (!$this->getData('value_select_options') && $this->getAttribute() == 'type_id') {
-            $options = Mage::getSingleton('catalog/product_type')->getAllOptions();
+            $options = Mage::getSingleton('Mage_Catalog_Model_Product_Type')->getAllOptions();
             $this->setData('value_select_options', $options);
         }
         return parent::getValueSelectOptions();
@@ -135,7 +135,7 @@ class Enterprise_TargetRule_Model_Actions_Condition_Product_Attributes
      */
     public function asHtml()
     {
-        return Mage::helper('enterprise_targetrule')->__('Product %s%s%s%s%s%s%s',
+        return Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Product %s%s%s%s%s%s%s',
             $this->getTypeElementHtml(),
             $this->getAttributeElementHtml(),
             $this->getOperatorElementHtml(),
@@ -155,23 +155,23 @@ class Enterprise_TargetRule_Model_Actions_Condition_Product_Attributes
         $options = array(
             array(
                 'value' => self::VALUE_TYPE_CONSTANT,
-                'label' => Mage::helper('enterprise_targetrule')->__('Constant Value')
+                'label' => Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Constant Value')
             )
         );
 
         if ($this->getAttribute() == 'category_ids') {
             $options[] = array(
                 'value' => self::VALUE_TYPE_SAME_AS,
-                'label' => Mage::helper('enterprise_targetrule')->__('the Same as Matched Product Categories')
+                'label' => Mage::helper('Enterprise_TargetRule_Helper_Data')->__('the Same as Matched Product Categories')
             );
             $options[] = array(
                 'value' => self::VALUE_TYPE_CHILD_OF,
-                'label' => Mage::helper('enterprise_targetrule')->__('the Child of the Matched Product Categories')
+                'label' => Mage::helper('Enterprise_TargetRule_Helper_Data')->__('the Child of the Matched Product Categories')
             );
         } else {
             $options[] = array(
                 'value' => self::VALUE_TYPE_SAME_AS,
-                'label' => Mage::helper('enterprise_targetrule')->__('Matched Product %s', $this->getAttributeName())
+                'label' => Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Matched Product %s', $this->getAttributeName())
             );
         }
 
@@ -208,7 +208,7 @@ class Enterprise_TargetRule_Model_Actions_Condition_Product_Attributes
             'value'         => $this->getValueType(),
             'value_name'    => $this->getValueTypeName(),
             'class'         => 'value-type-chooser',
-        ))->setRenderer(Mage::getBlockSingleton('rule/editable'));
+        ))->setRenderer(Mage::getBlockSingleton('Mage_Rule_Block_Editable'));
         return $element;
     }
 
@@ -263,7 +263,7 @@ class Enterprise_TargetRule_Model_Actions_Condition_Product_Attributes
         if (!$format) {
             $format = ' %s %s %s %s';
         }
-        return sprintf(Mage::helper('enterprise_targetrule')->__('Target Product ') . $format,
+        return sprintf(Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Target Product ') . $format,
            $this->getAttributeName(),
            $this->getOperatorName(),
            $this->getValueTypeName(),

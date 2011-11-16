@@ -48,7 +48,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Rviewed
         $this->setId('source_rviewed');
         if ($this->_getStore()) {
             $this->setHeaderText(
-                Mage::helper('enterprise_checkout')->__('Recently Viewed Products (%s)', $this->getItemsCount())
+                Mage::helper('Enterprise_Checkout_Helper_Data')->__('Recently Viewed Products (%s)', $this->getItemsCount())
             );
         }
     }
@@ -61,7 +61,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Rviewed
     public function getItemsCollection()
     {
         if (!$this->hasData('items_collection')) {
-            $collection = Mage::getModel('reports/event')
+            $collection = Mage::getModel('Mage_Reports_Model_Event')
                 ->getCollection()
                 ->addStoreFilter($this->_getStore()->getWebsite()->getStoreIds())
                 ->addRecentlyFiler(Mage_Reports_Model_Event::EVENT_PRODUCT_VIEW, $this->_getCustomer()->getId(), 0);
@@ -72,14 +72,14 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Rviewed
 
             $productCollection = parent::getItemsCollection();
             if ($productIds) {
-                $attributes = Mage::getSingleton('catalog/config')->getProductAttributes();
-                $productCollection = Mage::getModel('catalog/product')->getCollection()
+                $attributes = Mage::getSingleton('Mage_Catalog_Model_Config')->getProductAttributes();
+                $productCollection = Mage::getModel('Mage_Catalog_Model_Product')->getCollection()
                     ->setStoreId($this->_getStore()->getId())
                     ->addStoreFilter($this->_getStore()->getId())
                     ->addAttributeToSelect($attributes)
                     ->addIdFilter($productIds)
                     ->load();
-                $productCollection = Mage::helper('adminhtml/sales')->applySalableProductTypesFilter($productCollection);
+                $productCollection = Mage::helper('Mage_Adminhtml_Helper_Sales')->applySalableProductTypesFilter($productCollection);
                 $productCollection->addOptionsToResult();
             }
             $this->setData('items_collection', $productCollection);

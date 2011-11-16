@@ -201,7 +201,7 @@ class Mage_Centinel_Model_Api extends Varien_Object
         $currencyNumber = isset(self::$_iso4217Currencies[$currencyCode]) ? self::$_iso4217Currencies[$currencyCode] : '';
         if (!$currencyNumber) {
             return $result->setErrorNo(1)->setErrorDesc(
-                Mage::helper('payment')->__('Unsupported currency code: %s.', $currencyCode)
+                Mage::helper('Mage_Payment_Helper_Data')->__('Unsupported currency code: %s.', $currencyCode)
             );
         }
 
@@ -258,7 +258,7 @@ class Mage_Centinel_Model_Api extends Varien_Object
     protected function _debug($debugData)
     {
         if ($this->getDebugFlag()) {
-            Mage::getModel('core/log_adapter', 'card_validation_3d_secure.log')
+            Mage::getModel('Mage_Core_Model_Log_Adapter', 'card_validation_3d_secure.log')
                ->setFilterDataKeys($this->_debugReplacePrivateDataKeys)
                ->log($debugData);
         }

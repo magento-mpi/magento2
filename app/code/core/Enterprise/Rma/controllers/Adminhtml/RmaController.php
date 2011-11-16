@@ -48,7 +48,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
      */
     protected function _initModel($requestParam = 'id')
     {
-        $model = Mage::getModel('enterprise_rma/rma');
+        $model = Mage::getModel('Enterprise_Rma_Model_Rma');
         $model->setStoreId($this->getRequest()->getParam('store', 0));
 
         $orderId = 0;
@@ -64,7 +64,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
             $orderId = $this->getRequest()->getParam('order_id');
         }
         if ($orderId) {
-            $order = Mage::getModel('sales/order')->load($orderId);
+            $order = Mage::getModel('Mage_Sales_Model_Order')->load($orderId);
             if (!$order->getId()) {
                 Mage::throwException($this->__('Wrong RMA order id.'));
             }
@@ -81,11 +81,11 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
      */
     protected function _initCreateModel()
     {
-        $model = Mage::getModel('enterprise_rma/rma_create');
+        $model = Mage::getModel('Enterprise_Rma_Model_Rma_Create');
         $orderId = $this->getRequest()->getParam('order_id');
         $model->setOrderId($orderId);
         if ($orderId) {
-            $order =  Mage::getModel('sales/order')->load($orderId);
+            $order =  Mage::getModel('Mage_Sales_Model_Order')->load($orderId);
             $model->setCustomerId($order->getCustomerId());
             $model->setStoreId($order->getStoreId());
         }
@@ -118,13 +118,13 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
             try {
                 $createModel = $this->_initCreateModel();
                 $model = $this->_initModel();
-                if (!Mage::helper('enterprise_rma')->canCreateRma($orderId, true)) {
-                    Mage::getSingleton('adminhtml/session')->addError(
-                        Mage::helper('enterprise_rma')->__('There are no applicable items for return in this order')
+                if (!Mage::helper('Enterprise_Rma_Helper_Data')->canCreateRma($orderId, true)) {
+                    Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(
+                        Mage::helper('Enterprise_Rma_Helper_Data')->__('There are no applicable items for return in this order')
                     );
                 }
             } catch (Mage_Core_Exception $e) {
-                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
                 $this->_redirect('*/*/');
                 return;
             }
@@ -160,7 +160,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
                 Mage::throwException($this->__('Wrong RMA requested.'));
             }
         } catch (Mage_Core_Exception $e) {
-            Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
             $this->_redirect('*/*/');
             return;
         }
@@ -189,7 +189,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
                 $order = Mage::registry('current_order');
                 $rmaData = array(
                     'status'                => Enterprise_Rma_Model_Rma_Source_Status::STATE_PENDING,
-                    'date_requested'        => Mage::getSingleton('core/date')->gmtDate(),
+                    'date_requested'        => Mage::getSingleton('Mage_Core_Model_Date')->gmtDate(),
                     'order_id'              => $order->getId(),
                     'order_increment_id'    => $order->getIncrementId(),
                     'store_id'              => $order->getStoreId(),
@@ -208,25 +208,25 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
                     ) {
                         $visible = isset($data['comment']['is_visible_on_front']) ? true : false;
 
-                        Mage::getModel('enterprise_rma/rma_status_history')
+                        Mage::getModel('Enterprise_Rma_Model_Rma_Status_History')
                             ->setRmaEntityId($result->getId())
                             ->setComment($data['comment']['comment'])
                             ->setIsVisibleOnFront($visible)
                             ->setStatus($result->getStatus())
-                            ->setCreatedAt(Mage::getSingleton('core/date')->gmtDate())
+                            ->setCreatedAt(Mage::getSingleton('Mage_Core_Model_Date')->gmtDate())
                             ->setIsAdmin(1)
                             ->save();
                     }
                     if (isset($data['rma_confirmation']) && !empty($data['rma_confirmation'])) {
                         $model->sendNewRmaEmail();
                     }
-                    Mage::getSingleton('adminhtml/session')->addSuccess($this->__('The RMA request has been submitted.'));
+                    Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess($this->__('The RMA request has been submitted.'));
                 } else {
                     Mage::throwException($this->__('Failed to save RMA.'));
                 }
             } catch (Mage_Core_Exception $e) {
-                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
-                $errorKeys = Mage::getSingleton('core/session')->getRmaErrorKeys();
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
+                $errorKeys = Mage::getSingleton('Mage_Core_Model_Session')->getRmaErrorKeys();
                 $controllerParams = array('order_id' => Mage::registry('current_order')->getId());
                 if (!empty($errorKeys) && isset($errorKeys['tabs']) && ($errorKeys['tabs'] == 'items_section')) {
                     $controllerParams['active_tab'] = 'items_section';
@@ -235,7 +235,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
 
                 return;
             } catch (Exception $e) {
-                Mage::getSingleton('adminhtml/session')->addError($this->__('Failed to save RMA.'));
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($this->__('Failed to save RMA.'));
                 Mage::logException($e);
             }
         }
@@ -274,7 +274,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
                     }
                 }
                 /* Merge RMA Items status with POST data*/
-                $rmaItems = Mage::getModel('enterprise_rma/item')
+                $rmaItems = Mage::getModel('Enterprise_Rma_Model_Item')
                     ->getCollection()
                     ->addAttributeToFilter('rma_entity_id', $rmaId);
                 foreach ($rmaItems as $rmaItem) {
@@ -285,14 +285,14 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
 
                 $this->getRequest()->setPost($data);
                 $model->setStatus(
-                    Mage::getModel('enterprise_rma/rma_source_status')
+                    Mage::getModel('Enterprise_Rma_Model_Rma_Source_Status')
                         ->getStatusByItems($statuses)
                 );
                 $model->setIsUpdate(1);
                 $result = $model->saveRma();
                 if ($result && $result->getId()) {
                     $model->sendAuthorizeEmail();
-                    Mage::getSingleton('adminhtml/session')->addSuccess($this->__('The RMA request has been saved.'));
+                    Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess($this->__('The RMA request has been saved.'));
                 } else {
                     Mage::throwException($this->__('Failed to save RMA.'));
                 }
@@ -302,9 +302,9 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
                     return;
                 }
             } catch (Mage_Core_Exception $e) {
-                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
 
-                $errorKeys = Mage::getSingleton('core/session')->getRmaErrorKeys();
+                $errorKeys = Mage::getSingleton('Mage_Core_Model_Session')->getRmaErrorKeys();
                 $controllerParams = array('id' => $model->getId());
                 if (!empty($errorKeys) && isset($errorKeys['tabs']) && ($errorKeys['tabs'] == 'items_section')) {
                     $controllerParams['active_tab'] = 'items_section';
@@ -312,7 +312,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
                 $this->_redirect('*/*/edit', $controllerParams);
                 return;
             } catch (Exception $e) {
-                Mage::getSingleton('adminhtml/session')->addError($this->__('Failed to save RMA.'));
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($this->__('Failed to save RMA.'));
                 Mage::logException($e);
             }
         }
@@ -343,7 +343,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
         $countCloseRma = 0;
         $countNonCloseRma = 0;
         foreach ($entityIds as $entityId) {
-            $rma = Mage::getModel('enterprise_rma/rma')->load($entityId);
+            $rma = Mage::getModel('Enterprise_Rma_Model_Rma')->load($entityId);
             if ($rma->canClose()) {
                 $rma->close()
                     ->save();
@@ -388,22 +388,22 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
 
             $rma = Mage::registry('current_rma');
             if (!$rma) {
-                Mage::throwException(Mage::helper('enterprise_rma')->__('Invalid RMA.'));
+                Mage::throwException(Mage::helper('Enterprise_Rma_Helper_Data')->__('Invalid RMA.'));
             }
 
             if (!empty($comment)) {
                 /** @var $history Enterprise_Rma_Model_Rma_Status_History */
-                $history = Mage::getModel('enterprise_rma/rma_status_history');
+                $history = Mage::getModel('Enterprise_Rma_Model_Rma_Status_History');
                 $history->setRmaEntityId((int)$rma->getId())
                     ->setComment($comment)
                     ->setIsVisibleOnFront($visible)
                     ->setIsCustomerNotified($notify)
                     ->setStatus($rma->getStatus())
-                    ->setCreatedAt(Mage::getSingleton('core/date')->gmtDate())
+                    ->setCreatedAt(Mage::getSingleton('Mage_Core_Model_Date')->gmtDate())
                     ->setIsAdmin(1)
                     ->save();
             } else {
-                Mage::throwException(Mage::helper('enterprise_rma')->__('Enter valid message.'));
+                Mage::throwException(Mage::helper('Enterprise_Rma_Helper_Data')->__('Enter valid message.'));
             }
 
             if ($notify && $history) {
@@ -426,7 +426,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
             );
         }
         if (is_array($response)) {
-            $response = Mage::helper('core')->jsonEncode($response);
+            $response = Mage::helper('Mage_Core_Helper_Data')->jsonEncode($response);
             $this->getResponse()->setBody($response);
         } else {
             $this->getResponse()->setBody($response);
@@ -443,7 +443,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
             $this->getResponse()->setBody(
                 $this
                     ->getLayout()
-                    ->createBlock('enterprise_rma/adminhtml_customer_edit_tab_rma')
+                    ->createBlock('Enterprise_Rma_Block_Adminhtml_Customer_Edit_Tab_Rma')
                     ->setCustomerId($customerId)
                     ->toHtml()
             );
@@ -459,7 +459,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
         $this->getResponse()->setBody(
             $this
                 ->getLayout()
-                ->createBlock('enterprise_rma/adminhtml_order_view_tab_rma')
+                ->createBlock('Enterprise_Rma_Block_Adminhtml_Order_View_Tab_Rma')
                 ->setOrderId($orderId)
                 ->toHtml()
         );
@@ -476,7 +476,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
             $this->_initModel();
             $order = Mage::registry('current_order');
             if (!$order) {
-                Mage::throwException(Mage::helper('enterprise_rma')->__('Invalid order.'));
+                Mage::throwException(Mage::helper('Enterprise_Rma_Helper_Data')->__('Invalid order.'));
             }
             $this->loadLayout();
             $response = $this->getLayout()->getBlock('add_product_grid')->toHtml();
@@ -492,7 +492,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
             );
         }
         if (is_array($response)) {
-            $response = Mage::helper('core')->jsonEncode($response);
+            $response = Mage::helper('Mage_Core_Helper_Data')->jsonEncode($response);
             $this->getResponse()->setBody($response);
         } else {
             $this->getResponse()->setBody($response);
@@ -506,10 +506,10 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
     {
         $rmaId = (int)$this->getRequest()->getParam('rma_id');
         if ($rmaId) {
-            if ($rma = Mage::getModel('enterprise_rma/rma')->load($rmaId)) {
-                $pdf = Mage::getModel('enterprise_rma/pdf_rma')->getPdf(array($rma));
+            if ($rma = Mage::getModel('Enterprise_Rma_Model_Rma')->load($rmaId)) {
+                $pdf = Mage::getModel('Enterprise_Rma_Model_Pdf_Rma')->getPdf(array($rma));
                 $this->_prepareDownloadResponse(
-                    'rma'.Mage::getSingleton('core/date')->date('Y-m-d_H-i-s').'.pdf',
+                    'rma'.Mage::getSingleton('Mage_Core_Model_Date')->date('Y-m-d_H-i-s').'.pdf',
                     $pdf->render(),
                     'application/pdf'
                 );
@@ -534,7 +534,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
             if (!$model->getId()) {
                 Mage::throwException($this->__('Wrong RMA requested.'));
             }
-            $rma_item = Mage::getModel('enterprise_rma/item');
+            $rma_item = Mage::getModel('Enterprise_Rma_Model_Item');
 
             if ($itemId) {
                 $rma_item->load($itemId);
@@ -566,7 +566,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
         $response = $block->toHtml();
 
         if (is_array($response)) {
-            $response = Mage::helper('core')->jsonEncode($response);
+            $response = Mage::helper('Mage_Core_Helper_Data')->jsonEncode($response);
             $this->getResponse()->setBody($response);
         } else {
             $this->getResponse()->setBody($response);
@@ -582,7 +582,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
         $orderId = $this->getRequest()->getParam('order_id');
         $productId = $this->getRequest()->getParam('product_id');
 
-        $rma_item = Mage::getModel('enterprise_rma/item');
+        $rma_item = Mage::getModel('Enterprise_Rma_Model_Item');
         Mage::register('current_rma_item', $rma_item);
 
         $this->loadLayout();
@@ -594,7 +594,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
             ->toHtml();
 
         if (is_array($response)) {
-            $response = Mage::helper('core')->jsonEncode($response);
+            $response = Mage::helper('Mage_Core_Helper_Data')->jsonEncode($response);
             $this->getResponse()->setBody($response);
         } else {
             $this->getResponse()->setBody($response);
@@ -618,7 +618,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
             if (!$model->getId()) {
                 Mage::throwException($this->__('Wrong RMA requested.'));
             }
-            $rma_item = Mage::getModel('enterprise_rma/item');
+            $rma_item = Mage::getModel('Enterprise_Rma_Model_Item');
 
             if ($itemId) {
                 $rma_item->load($itemId);
@@ -651,7 +651,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
             ->toHtml();
 
         if (is_array($response)) {
-            $response = Mage::helper('core')->jsonEncode($response);
+            $response = Mage::helper('Mage_Core_Helper_Data')->jsonEncode($response);
             $this->getResponse()->setBody($response);
         } else {
             $this->getResponse()->setBody($response);
@@ -666,7 +666,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('sales/enterprise_rma');
+        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('sales/enterprise_rma');
     }
 
     /**
@@ -683,7 +683,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
         try {
             if ($orderId && $itemId) {
                 /** @var $items Enterprise_Rma_Model_Resource_Item */
-                $items = Mage::getResourceModel('enterprise_rma/item')->getOrderItems($orderId, $itemId);
+                $items = Mage::getResourceModel('Enterprise_Rma_Model_Resource_Item')->getOrderItems($orderId, $itemId);
                 if (empty($items)) {
                     Mage::throwException($this->__('No items for bundle product.'));
                 }
@@ -711,7 +711,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
         ;
 
         if (is_array($response)) {
-            $response = Mage::helper('core')->jsonEncode($response);
+            $response = Mage::helper('Mage_Core_Helper_Data')->jsonEncode($response);
             $this->getResponse()->setBody($response);
         } else {
             $this->getResponse()->setBody($response);
@@ -727,10 +727,10 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
         $plain  = false;
         if ($this->getRequest()->getParam('file')) {
             // download file
-            $file   = Mage::helper('core')->urlDecode($this->getRequest()->getParam('file'));
+            $file   = Mage::helper('Mage_Core_Helper_Data')->urlDecode($this->getRequest()->getParam('file'));
         } else if ($this->getRequest()->getParam('image')) {
             // show plain image
-            $file   = Mage::helper('core')->urlDecode($this->getRequest()->getParam('image'));
+            $file   = Mage::helper('Mage_Core_Helper_Data')->urlDecode($this->getRequest()->getParam('image'));
             $plain  = true;
         } else {
             return $this->norouteAction();
@@ -825,7 +825,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
         ;
 
         if (is_array($response)) {
-            $response = Mage::helper('core')->jsonEncode($response);
+            $response = Mage::helper('Mage_Core_Helper_Data')->jsonEncode($response);
             $this->getResponse()->setBody($response);
         } else {
             $this->getResponse()->setBody($response);
@@ -874,7 +874,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
         ;
 
         if (is_array($response)) {
-            $response = Mage::helper('core')->jsonEncode($response);
+            $response = Mage::helper('Mage_Core_Helper_Data')->jsonEncode($response);
         }
         $this->getResponse()->setBody($response);
     }
@@ -902,7 +902,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
         $thisPage       = $this->getUrl('*/*/edit', $urlParams);
 
         $code    = $this->getRequest()->getParam('method');
-        $carrier = Mage::helper('enterprise_rma')->getCarrier($code, $model->getStoreId());
+        $carrier = Mage::helper('Enterprise_Rma_Helper_Data')->getCarrier($code, $model->getStoreId());
         if ($carrier) {
             $getCustomizableContainers =  $carrier->getCustomizableContainerTypes();
         }
@@ -917,16 +917,16 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
         }
 
         $shippingInformation = $this->getLayout()
-            ->createBlock('enterprise_rma/adminhtml_rma_edit_tab_general_shipping_information')
+            ->createBlock('Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Information')
             ->setIndex($this->getRequest()->getParam('index'))
             ->toHtml();
 
         $data = array(
             'createLabelUrl'            => $createLabelUrl,
             'itemsGridUrl'              => $itemsGridUrl,
-            'errorQtyOverLimit'         => Mage::helper('enterprise_rma')->__('The quantity you want to add exceeds the total shipped quantity for some of selected Product(s)'),
-            'titleDisabledSaveBtn'      => Mage::helper('enterprise_rma')->__('Products should be added to package(s)'),
-            'validationErrorMsg'        => Mage::helper('enterprise_rma')->__('The value that you entered is not valid.'),
+            'errorQtyOverLimit'         => Mage::helper('Enterprise_Rma_Helper_Data')->__('The quantity you want to add exceeds the total shipped quantity for some of selected Product(s)'),
+            'titleDisabledSaveBtn'      => Mage::helper('Enterprise_Rma_Helper_Data')->__('Products should be added to package(s)'),
+            'validationErrorMsg'        => Mage::helper('Enterprise_Rma_Helper_Data')->__('The value that you entered is not valid.'),
             'shipmentItemsQty'          => $itemsQty,
             'shipmentItemsPrice'        => $itemsPrice,
             'shipmentItemsName'         => $itemsName,
@@ -939,7 +939,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
             'customizable'              => $getCustomizableContainers
         );
 
-        return Mage::helper('core')->jsonEncode($data);
+        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($data);
     }
 
     /**
@@ -955,7 +955,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
         ;
 
         if (is_array($response)) {
-            $response = Mage::helper('core')->jsonEncode($response);
+            $response = Mage::helper('Mage_Core_Helper_Data')->jsonEncode($response);
         }
         $this->getResponse()->setBody($response);
     }
@@ -978,7 +978,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
                         ->addSuccess($this->__('The shipping label has been created.'));
                     $responseAjax->setOk(true);
                 }
-                Mage::getSingleton('adminhtml/session')->getCommentText(true);
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->getCommentText(true);
             } else {
                 $this->_forward('noRoute');
                 return;
@@ -989,7 +989,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
         } catch (Exception $e) {
                 Mage::logException($e);
                 $responseAjax->setError(true);
-                $responseAjax->setMessage(Mage::helper('enterprise_rma')->__('An error occurred while creating shipping label.'));
+                $responseAjax->setMessage(Mage::helper('Enterprise_Rma_Helper_Data')->__('An error occurred while creating shipping label.'));
         }
         $this->getResponse()->setBody($responseAjax->toJson());
     }
@@ -1006,7 +1006,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
             $shipment = $this->_initShipment();
             if ($this->_createShippingLabel($shipment)) {
                 $shipment->save();
-                $this->_getSession()->addSuccess(Mage::helper('enterprise_rma')->__('The shipping label has been created.'));
+                $this->_getSession()->addSuccess(Mage::helper('Enterprise_Rma_Helper_Data')->__('The shipping label has been created.'));
                 $response->setOk(true);
             }
         } catch (Mage_Core_Exception $e) {
@@ -1015,7 +1015,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
         } catch (Exception $e) {
             Mage::logException($e);
             $response->setError(true);
-            $response->setMessage(Mage::helper('enterprise_rma')->__('An error occurred while creating shipping label.'));
+            $response->setMessage(Mage::helper('Enterprise_Rma_Helper_Data')->__('An error occurred while creating shipping label.'));
         }
 
         $this->getResponse()->setBody($response->toJson());
@@ -1033,10 +1033,10 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
         $data = $this->getRequest()->getPost();
         if ($model && isset($data['packages']) && !empty($data['packages'])) {
             /** @var $shipment Enterprise_Rma_Model_Shipping */
-            $shipment =  Mage::getModel('enterprise_rma/shipping')
+            $shipment =  Mage::getModel('Enterprise_Rma_Model_Shipping')
                 ->getShippingLabelByRma($model);
 
-            $carrier = Mage::helper('enterprise_rma')->getCarrier($data['code'], $model->getStoreId());
+            $carrier = Mage::helper('Enterprise_Rma_Helper_Data')->getCarrier($data['code'], $model->getStoreId());
             if (!$carrier->isShippingLabelsAvailable()) {
                 return false;
             }
@@ -1081,9 +1081,9 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
                 $carrierCode = $carrier->getCarrierCode();
                 $carrierTitle = Mage::getStoreConfig('carriers/'.$carrierCode.'/title', $shipment->getStoreId());
                 if ($trackingNumbers) {
-                    Mage::getResourceModel('enterprise_rma/shipping')->deleteTrackingNumbers($model);
+                    Mage::getResourceModel('Enterprise_Rma_Model_Resource_Shipping')->deleteTrackingNumbers($model);
                     foreach ($trackingNumbers as $trackingNumber) {
-                        Mage::getModel('enterprise_rma/shipping')
+                        Mage::getModel('Enterprise_Rma_Model_Shipping')
                             ->setTrackNumber($trackingNumber)
                             ->setCarrierCode($carrierCode)
                             ->setCarrierTitle($carrierTitle)
@@ -1110,7 +1110,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
     {
         try {
             $model = $this->_initModel();
-            $labelContent = Mage::getModel('enterprise_rma/shipping')
+            $labelContent = Mage::getModel('Enterprise_Rma_Model_Shipping')
                 ->getShippingLabelByRma($model)
                 ->getShippingLabel();
             if ($labelContent) {
@@ -1121,7 +1121,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
                     $pdf = new Zend_Pdf();
                     $page = $this->_createPdfPageFromImageString($labelContent);
                     if (!$page) {
-                        $this->_getSession()->addError(Mage::helper('enterprise_rma')->__('File extension not known or unsupported type in the following shipment: %s', $model->getIncrementId()));
+                        $this->_getSession()->addError(Mage::helper('Enterprise_Rma_Helper_Data')->__('File extension not known or unsupported type in the following shipment: %s', $model->getIncrementId()));
                     }
                     $pdf->pages[] = $page;
                     $pdfContent = $pdf->render();
@@ -1138,7 +1138,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
         } catch (Exception $e) {
             Mage::logException($e);
             $this->_getSession()
-                ->addError(Mage::helper('enterprise_rma')->__('An error occurred while creating shipping label.'));
+                ->addError(Mage::helper('Enterprise_Rma_Helper_Data')->__('An error occurred while creating shipping label.'));
        }
         $this->_redirect('*/*/edit', array(
             'id' => $this->getRequest()->getParam('id')
@@ -1151,17 +1151,17 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
     public function printPackageAction()
     {
         $model = $this->_initModel();
-        $shipment = Mage::getModel('enterprise_rma/shipping')
+        $shipment = Mage::getModel('Enterprise_Rma_Model_Shipping')
             ->getShippingLabelByRma($model);
 
         if ($shipment) {
-            $pdf = Mage::getModel('sales/order_pdf_shipment_packaging')
+            $pdf = Mage::getModel('Mage_Sales_Model_Order_Pdf_Shipment_Packaging')
                     ->setPackageShippingBlock(
-                        Mage::getBlockSingleton('enterprise_rma/adminhtml_rma_edit_tab_general_shippingmethod')
+                        Mage::getBlockSingleton('Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod')
                     )
                     ->getPdf($shipment);
             $this->_prepareDownloadResponse(
-                'packingslip'.Mage::getSingleton('core/date')->date('Y-m-d_H-i-s').'.pdf', $pdf->render(),
+                'packingslip'.Mage::getSingleton('Mage_Core_Model_Date')->date('Y-m-d_H-i-s').'.pdf', $pdf->render(),
                 'application/pdf'
             );
         }
@@ -1242,7 +1242,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
 
             $model = $this->_initModel();
             if ($model->getId()) {
-                Mage::getModel('enterprise_rma/shipping')
+                Mage::getModel('Enterprise_Rma_Model_Shipping')
                     ->setTrackNumber($number)
                     ->setCarrierCode($carrier)
                     ->setCarrierTitle($title)
@@ -1271,7 +1271,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
             );
         }
         if (is_array($response)) {
-            $response = Mage::helper('core')->jsonEncode($response);
+            $response = Mage::helper('Mage_Core_Helper_Data')->jsonEncode($response);
         }
         $this->getResponse()->setBody($response);
     }
@@ -1282,7 +1282,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
     public function removeTrackAction()
     {
         $trackId    = $this->getRequest()->getParam('track_id');
-        $track      = Mage::getModel('enterprise_rma/shipping')->load($trackId);
+        $track      = Mage::getModel('Enterprise_Rma_Model_Shipping')->load($trackId);
         if ($track->getId()) {
             try {
                 $model = $this->_initModel();
@@ -1310,7 +1310,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
             );
         }
         if (is_array($response)) {
-            $response = Mage::helper('core')->jsonEncode($response);
+            $response = Mage::helper('Mage_Core_Helper_Data')->jsonEncode($response);
         }
         $this->getResponse()->setBody($response);
     }

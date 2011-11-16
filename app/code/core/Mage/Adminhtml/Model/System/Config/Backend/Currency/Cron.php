@@ -61,13 +61,13 @@ class Mage_Adminhtml_Model_System_Config_Backend_Currency_Cron extends Mage_Core
         $cronExprString = join(' ', $cronExprArray);
 
         try {
-            Mage::getModel('core/config_data')
+            Mage::getModel('Mage_Core_Model_Config_Data')
                 ->load(self::CRON_STRING_PATH, 'path')
                 ->setValue($cronExprString)
                 ->setPath(self::CRON_STRING_PATH)
                 ->save();
         } catch (Exception $e) {
-            throw new Exception(Mage::helper('cron')->__('Unable to save the cron expression.'));
+            throw new Exception(Mage::helper('Mage_Cron_Helper_Data')->__('Unable to save the cron expression.'));
         }
     }
 

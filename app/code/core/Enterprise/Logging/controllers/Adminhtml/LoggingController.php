@@ -63,7 +63,7 @@ class Enterprise_Logging_Adminhtml_LoggingController extends Mage_Adminhtml_Cont
              ->_title($this->__('View Entry'));
 
         $eventId = $this->getRequest()->getParam('event_id');
-        $model   = Mage::getModel('enterprise_logging/event')
+        $model   = Mage::getModel('Enterprise_Logging_Model_Event')
             ->load($eventId);
         if (!$model->getId()) {
             $this->_redirect('*/*/');
@@ -82,7 +82,7 @@ class Enterprise_Logging_Adminhtml_LoggingController extends Mage_Adminhtml_Cont
     public function exportCsvAction()
     {
         $this->_prepareDownloadResponse('log.csv',
-            $this->getLayout()->createBlock('enterprise_logging/adminhtml_index_grid')->getCsvFile()
+            $this->getLayout()->createBlock('Enterprise_Logging_Block_Adminhtml_Index_Grid')->getCsvFile()
         );
     }
 
@@ -92,7 +92,7 @@ class Enterprise_Logging_Adminhtml_LoggingController extends Mage_Adminhtml_Cont
     public function exportXmlAction()
     {
         $this->_prepareDownloadResponse('log.xml',
-            $this->getLayout()->createBlock('enterprise_logging/adminhtml_index_grid')->getExcelFile()
+            $this->getLayout()->createBlock('Enterprise_Logging_Block_Adminhtml_Index_Grid')->getExcelFile()
         );
     }
 
@@ -124,7 +124,7 @@ class Enterprise_Logging_Adminhtml_LoggingController extends Mage_Adminhtml_Cont
      */
     public function downloadAction()
     {
-        $archive = Mage::getModel('enterprise_logging/archive')->loadByBaseName(
+        $archive = Mage::getModel('Enterprise_Logging_Model_Archive')->loadByBaseName(
             $this->getRequest()->getParam('basename')
         );
         if ($archive->getFilename()) {
@@ -141,14 +141,14 @@ class Enterprise_Logging_Adminhtml_LoggingController extends Mage_Adminhtml_Cont
             case 'archive':
             case 'download':
             case 'archiveGrid':
-                return Mage::getSingleton('admin/session')->isAllowed('admin/system/enterprise_logging/backups');
+                return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('admin/system/enterprise_logging/backups');
                 break;
             case 'grid':
             case 'exportCsv':
             case 'exportXml':
             case 'details':
             case 'index':
-                return Mage::getSingleton('admin/session')->isAllowed('admin/system/enterprise_logging/events');
+                return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('admin/system/enterprise_logging/events');
                 break;
         }
 

@@ -44,6 +44,9 @@ class Mage_Rule_Block_Editable extends Mage_Core_Block_Abstract
             $valueName = '...';
         }
 
+        $coreHelper = Mage::helper('Mage_Core_Helper_Data');
+        $stringHelper = Mage::helper('Mage_Core_Helper_String');
+
         if ($element->getShowAsText()) {
             $html = ' <input type="hidden" class="hidden" id="' . $element->getHtmlId()
                 . '" name="' . $element->getName() . '" value="' . $element->getValue() . '"/> '
@@ -53,10 +56,10 @@ class Mage_Rule_Block_Editable extends Mage_Core_Block_Abstract
                 . ($element->getParamId() ? ' id="' . $element->getParamId() . '"' : '') . '>'
                 . '<a href="javascript:void(0)" class="label">';
 
-            $translate = Mage::getSingleton('core/translate_inline');
+            $translate = Mage::getSingleton('Mage_Core_Model_Translate_Inline');
 
-            $html .= $translate->isAllowed() ? Mage::helper('core')->escapeHtml($valueName) :
-                Mage::helper('core')->escapeHtml(Mage::helper('core/string')->truncate($valueName, 33, '...'));
+            $html .= $translate->isAllowed() ? $coreHelper->escapeHtml($valueName) :
+                $coreHelper->escapeHtml($stringHelper->truncate($valueName, 33, '...'));
 
             $html .= '</a><span class="element"> ' . $element->getElementHtml();
 

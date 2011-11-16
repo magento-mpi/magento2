@@ -48,7 +48,7 @@ class Mage_CatalogSearch_Block_Layer extends Mage_Catalog_Block_Layer_View
      */
     protected function _getAttributeFilterBlockName()
     {
-        return 'catalogsearch/layer_filter_attribute';
+        return 'Mage_CatalogSearch_Block_Layer_Filter_Attribute';
     }
 
     /**
@@ -58,7 +58,7 @@ class Mage_CatalogSearch_Block_Layer extends Mage_Catalog_Block_Layer_View
     {
         parent::_initBlocks();
 
-        $this->_attributeFilterBlockName = 'catalogsearch/layer_filter_attribute';
+        $this->_attributeFilterBlockName = 'Mage_CatalogSearch_Block_Layer_Filter_Attribute';
     }
 
     /**
@@ -68,7 +68,7 @@ class Mage_CatalogSearch_Block_Layer extends Mage_Catalog_Block_Layer_View
      */
     public function getLayer()
     {
-        return Mage::getSingleton('catalogsearch/layer');
+        return Mage::getSingleton('Mage_CatalogSearch_Model_Layer');
     }
 
     /**
@@ -78,7 +78,7 @@ class Mage_CatalogSearch_Block_Layer extends Mage_Catalog_Block_Layer_View
      */
     public function canShowBlock()
     {
-        $_isLNAllowedByEngine = Mage::helper('catalogsearch')->getEngine()->isLeyeredNavigationAllowed();
+        $_isLNAllowedByEngine = Mage::helper('Mage_CatalogSearch_Helper_Data')->getEngine()->isLeyeredNavigationAllowed();
         if (!$_isLNAllowedByEngine) {
             return false;
         }

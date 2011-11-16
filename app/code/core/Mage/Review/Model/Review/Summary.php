@@ -37,7 +37,7 @@ class Mage_Review_Model_Review_Summary extends Mage_Core_Model_Abstract
 
     public function __construct()
     {
-        $this->_init('review/review_summary');
+        $this->_init('Mage_Review_Model_Resource_Review_Summary');
     }
 
     public function getEntityPkValue()

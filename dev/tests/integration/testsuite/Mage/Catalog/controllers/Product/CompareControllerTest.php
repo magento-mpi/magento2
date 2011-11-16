@@ -24,7 +24,7 @@ class Mage_Catalog_Product_CompareControllerTest extends Magento_Test_TestCase_C
             ->setLastVisitAt(now())
             ->save();
 
-        Mage::getSingleton('log/visitor')->load($visitor->getId());
+        Mage::getSingleton('Mage_Log_Model_Visitor')->load($visitor->getId());
 
         $this->_assertCompareListEquals(array());
     }
@@ -46,7 +46,7 @@ class Mage_Catalog_Product_CompareControllerTest extends Magento_Test_TestCase_C
             ->setProductId(2)
             ->save();
 
-        Mage::getSingleton('log/visitor')->load($visitor->getId());
+        Mage::getSingleton('Mage_Log_Model_Visitor')->load($visitor->getId());
 
         $this->_assertCompareListEquals(array(1, 2));
     }
@@ -61,7 +61,7 @@ class Mage_Catalog_Product_CompareControllerTest extends Magento_Test_TestCase_C
         $compareItems = new Mage_Catalog_Model_Resource_Product_Compare_Item_Collection;
         $compareItems->useProductItem(true); // important
         $compareItems->setVisitorId(
-            Mage::getSingleton('log/visitor')->getId()
+            Mage::getSingleton('Mage_Log_Model_Visitor')->getId()
         );
         $actualProductIds = array();
         foreach ($compareItems as $compareItem) {
@@ -78,7 +78,7 @@ class Mage_Catalog_Product_CompareControllerTest extends Magento_Test_TestCase_C
         $this->dispatch('catalog/product_compare/add/product/1?nocookie=1');
 
         /** @var $session Mage_Catalog_Model_Session */
-        $session = Mage::getSingleton('catalog/session');
+        $session = Mage::getSingleton('Mage_Catalog_Model_Session');
         $this->assertInstanceOf('Mage_Core_Model_Message_Success', $session->getMessages()->getLastAddedMessage());
         $this->assertContains('Simple Product 1 Name', $session->getMessages()->getLastAddedMessage()->getText());
 
@@ -105,7 +105,7 @@ class Mage_Catalog_Product_CompareControllerTest extends Magento_Test_TestCase_C
         $this->dispatch('catalog/product_compare/remove/product/2');
 
         /** @var $session Mage_Catalog_Model_Session */
-        $session = Mage::getSingleton('catalog/session');
+        $session = Mage::getSingleton('Mage_Catalog_Model_Session');
         $this->assertInstanceOf('Mage_Core_Model_Message_Success', $session->getMessages()->getLastAddedMessage());
         $this->assertContains('Simple Product 2 Name', $session->getMessages()->getLastAddedMessage()->getText());
 
@@ -144,7 +144,7 @@ class Mage_Catalog_Product_CompareControllerTest extends Magento_Test_TestCase_C
         $this->dispatch('catalog/product_compare/clear');
 
         /** @var $session Mage_Catalog_Model_Session */
-        $session = Mage::getSingleton('catalog/session');
+        $session = Mage::getSingleton('Mage_Catalog_Model_Session');
         $this->assertInstanceOf('Mage_Core_Model_Message_Success', $session->getMessages()->getLastAddedMessage());
 
         $this->assertRedirect();

@@ -61,7 +61,7 @@ class Mage_GoogleShopping_Block_Adminhtml_Items_Product extends Mage_Adminhtml_B
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('catalog/product')->getCollection()
+        $collection = Mage::getModel('Mage_Catalog_Model_Product')->getCollection()
             ->setStore($this->_getStore())
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('sku')
@@ -78,7 +78,7 @@ class Mage_GoogleShopping_Block_Adminhtml_Items_Product extends Mage_Adminhtml_B
             $collection->addIdFilter($excludeIds, true);
         }
 
-        Mage::getSingleton('catalog/product_status')->addSaleableFilterToCollection($collection);
+        Mage::getSingleton('Mage_Catalog_Model_Product_Status')->addSaleableFilterToCollection($collection);
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
@@ -91,34 +91,34 @@ class Mage_GoogleShopping_Block_Adminhtml_Items_Product extends Mage_Adminhtml_B
     protected function _prepareColumns()
     {
         $this->addColumn('id', array(
-            'header'    => Mage::helper('sales')->__('ID'),
+            'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('ID'),
             'sortable'  => true,
             'width'     => '60px',
             'index'     => 'entity_id'
         ));
         $this->addColumn('name', array(
-            'header'    => Mage::helper('sales')->__('Product Name'),
+            'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Product Name'),
             'index'     => 'name',
             'column_css_class'=> 'name'
         ));
 
-        $sets = Mage::getResourceModel('eav/entity_attribute_set_collection')
-            ->setEntityTypeFilter(Mage::getModel('catalog/product')->getResource()->getTypeId())
+        $sets = Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute_Set_Collection')
+            ->setEntityTypeFilter(Mage::getModel('Mage_Catalog_Model_Product')->getResource()->getTypeId())
             ->load()
             ->toOptionHash();
 
         $this->addColumn('type',
             array(
-                'header'=> Mage::helper('catalog')->__('Type'),
+                'header'=> Mage::helper('Mage_Catalog_Helper_Data')->__('Type'),
                 'width' => '60px',
                 'index' => 'type_id',
                 'type'  => 'options',
-                'options' => Mage::getSingleton('catalog/product_type')->getOptionArray(),
+                'options' => Mage::getSingleton('Mage_Catalog_Model_Product_Type')->getOptionArray(),
         ));
 
         $this->addColumn('set_name',
             array(
-                'header'=> Mage::helper('catalog')->__('Attrib. Set Name'),
+                'header'=> Mage::helper('Mage_Catalog_Helper_Data')->__('Attrib. Set Name'),
                 'width' => '100px',
                 'index' => 'attribute_set_id',
                 'type'  => 'options',
@@ -126,13 +126,13 @@ class Mage_GoogleShopping_Block_Adminhtml_Items_Product extends Mage_Adminhtml_B
         ));
 
         $this->addColumn('sku', array(
-            'header'    => Mage::helper('sales')->__('SKU'),
+            'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('SKU'),
             'width'     => '80px',
             'index'     => 'sku',
             'column_css_class'=> 'sku'
         ));
         $this->addColumn('price', array(
-            'header'    => Mage::helper('sales')->__('Price'),
+            'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Price'),
             'align'     => 'center',
             'type'      => 'currency',
             'currency_code' => $this->_getStore()->getDefaultCurrencyCode(),
@@ -177,7 +177,7 @@ class Mage_GoogleShopping_Block_Adminhtml_Items_Product extends Mage_Adminhtml_B
      */
     protected function _getGoogleShoppingProductIds()
     {
-        $collection = Mage::getResourceModel('googleshopping/item_collection')
+        $collection = Mage::getResourceModel('Mage_GoogleShopping_Model_Resource_Item_Collection')
             ->addStoreFilter($this->_getStore()->getId())
             ->load();
         $productIds = array();

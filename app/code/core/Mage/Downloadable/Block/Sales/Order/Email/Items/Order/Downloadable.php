@@ -43,9 +43,9 @@ class Mage_Downloadable_Block_Sales_Order_Email_Items_Order_Downloadable extends
      */
     public function getLinks()
     {
-        $this->_purchased = Mage::getModel('downloadable/link_purchased')
+        $this->_purchased = Mage::getModel('Mage_Downloadable_Model_Link_Purchased')
             ->load($this->getItem()->getOrder()->getId(), 'order_id');
-        $purchasedLinks = Mage::getModel('downloadable/link_purchased_item')->getCollection()
+        $purchasedLinks = Mage::getModel('Mage_Downloadable_Model_Link_Purchased_Item')->getCollection()
             ->addFieldToFilter('order_item_id', $this->getItem()->getId());
         $this->_purchased->setPurchasedItems($purchasedLinks);
 

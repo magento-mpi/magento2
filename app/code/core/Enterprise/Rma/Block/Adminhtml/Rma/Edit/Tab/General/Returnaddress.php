@@ -54,7 +54,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Returnaddress
      */
     public function getReturnAddress()
     {
-        return Mage::helper('enterprise_rma')->getReturnAddress('html', array(), $this->getStoreId());
+        return Mage::helper('Enterprise_Rma_Helper_Data')->getReturnAddress('html', array(), $this->getStoreId());
     }
 
 }

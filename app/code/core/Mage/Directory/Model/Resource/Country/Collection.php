@@ -40,7 +40,7 @@ class Mage_Directory_Model_Resource_Country_Collection extends Mage_Core_Model_R
      */
     protected function _construct()
     {
-        $this->_init('directory/country');
+        $this->_init('Mage_Directory_Model_Country', 'Mage_Directory_Model_Resource_Country');
     }
 
     /**
@@ -71,7 +71,7 @@ class Mage_Directory_Model_Resource_Country_Collection extends Mage_Core_Model_R
                 return $country;
             }
         }
-        return Mage::getResourceModel('directory/country');
+        return Mage::getResourceModel('Mage_Directory_Model_Resource_Country');
     }
 
     /**
@@ -148,7 +148,7 @@ class Mage_Directory_Model_Resource_Country_Collection extends Mage_Core_Model_R
             }
         }
 
-        Mage::helper('core/string')->ksortMultibyte($sort);
+        Mage::helper('Mage_Core_Helper_String')->ksortMultibyte($sort);
         $options = array();
         foreach ($sort as $label=>$value) {
             $options[] = array(

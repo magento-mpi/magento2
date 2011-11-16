@@ -283,7 +283,7 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
      */
     public function limitAdminPermissionRoles($collection)
     {
-        $limited = Mage::getResourceModel('enterprise_admingws/collections')
+        $limited = Mage::getResourceModel('Enterprise_AdminGws_Model_Resource_Collections')
             ->getRolesOutsideLimitedScope(
                 $this->_role->getIsAll(),
                 $this->_role->getWebsiteIds(),
@@ -300,7 +300,7 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
      */
     public function limitAdminPermissionUsers($collection)
     {
-        $limited = Mage::getResourceModel('enterprise_admingws/collections')
+        $limited = Mage::getResourceModel('Enterprise_AdminGws_Model_Resource_Collections')
             ->getUsersOutsideLimitedScope(
                 $this->_role->getIsAll(),
                 $this->_role->getWebsiteIds(),
@@ -342,7 +342,7 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
     protected function _initRssAdminRole()
     {
         /* @var $rssSession Mage_Rss_Model_Session */
-        $rssSession = Mage::getSingleton('rss/session');
+        $rssSession = Mage::getSingleton('Mage_Rss_Model_Session');
         /* @var $adminUser Mage_Admin_Model_User */
         $adminUser = $rssSession->getAdmin();
         if ($adminUser) {

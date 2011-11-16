@@ -98,12 +98,12 @@ class Mage_Adminhtml_Block_Report_Sales_Grid_Column_Renderer_Date
             try {
                 $data = ($this->getColumn()->getGmtoffset())
                     ? Mage::app()->getLocale()->date($data, $dateFormat)->toString($format)
-                    : Mage::getSingleton('core/locale')->date($data, Zend_Date::ISO_8601, null, false)->toString($format);
+                    : Mage::getSingleton('Mage_Core_Model_Locale')->date($data, Zend_Date::ISO_8601, null, false)->toString($format);
             }
             catch (Exception $e) {
                 $data = ($this->getColumn()->getTimezone())
                     ? Mage::app()->getLocale()->date($data, $dateFormat)->toString($format)
-                    : Mage::getSingleton('core/locale')->date($data, $dateFormat, null, false)->toString($format);
+                    : Mage::getSingleton('Mage_Core_Model_Locale')->date($data, $dateFormat, null, false)->toString($format);
             }
             return $data;
         }

@@ -39,8 +39,8 @@ class Mage_Newsletter_SubscriberController extends Mage_Core_Controller_Front_Ac
     public function newAction()
     {
         if ($this->getRequest()->isPost() && $this->getRequest()->getPost('email')) {
-            $session            = Mage::getSingleton('core/session');
-            $customerSession    = Mage::getSingleton('customer/session');
+            $session            = Mage::getSingleton('Mage_Core_Model_Session');
+            $customerSession    = Mage::getSingleton('Mage_Customer_Model_Session');
             $email              = (string) $this->getRequest()->getPost('email');
 
             try {
@@ -50,10 +50,10 @@ class Mage_Newsletter_SubscriberController extends Mage_Core_Controller_Front_Ac
 
                 if (Mage::getStoreConfig(Mage_Newsletter_Model_Subscriber::XML_PATH_ALLOW_GUEST_SUBSCRIBE_FLAG) != 1 && 
                     !$customerSession->isLoggedIn()) {
-                    Mage::throwException($this->__('Sorry, but administrator denied subscription for guests. Please <a href="%s">register</a>.', Mage::helper('customer')->getRegisterUrl()));
+                    Mage::throwException($this->__('Sorry, but administrator denied subscription for guests. Please <a href="%s">register</a>.', Mage::helper('Mage_Customer_Helper_Data')->getRegisterUrl()));
                 }
 
-                $ownerId = Mage::getModel('customer/customer')
+                $ownerId = Mage::getModel('Mage_Customer_Model_Customer')
                         ->setWebsiteId(Mage::app()->getStore()->getWebsiteId())
                         ->loadByEmail($email)
                         ->getId();
@@ -61,7 +61,7 @@ class Mage_Newsletter_SubscriberController extends Mage_Core_Controller_Front_Ac
                     Mage::throwException($this->__('This email address is already assigned to another user.'));
                 }
 
-                $status = Mage::getModel('newsletter/subscriber')->subscribe($email);
+                $status = Mage::getModel('Mage_Newsletter_Model_Subscriber')->subscribe($email);
                 if ($status == Mage_Newsletter_Model_Subscriber::STATUS_NOT_ACTIVE) {
                     $session->addSuccess($this->__('Confirmation request has been sent.'));
                 }
@@ -88,8 +88,8 @@ class Mage_Newsletter_SubscriberController extends Mage_Core_Controller_Front_Ac
         $code  = (string) $this->getRequest()->getParam('code');
 
         if ($id && $code) {
-            $subscriber = Mage::getModel('newsletter/subscriber')->load($id);
-            $session = Mage::getSingleton('core/session');
+            $subscriber = Mage::getModel('Mage_Newsletter_Model_Subscriber')->load($id);
+            $session = Mage::getSingleton('Mage_Core_Model_Session');
 
             if($subscriber->getId() && $subscriber->getCode()) {
                 if($subscriber->confirm($code)) {
@@ -114,9 +114,9 @@ class Mage_Newsletter_SubscriberController extends Mage_Core_Controller_Front_Ac
         $code  = (string) $this->getRequest()->getParam('code');
 
         if ($id && $code) {
-            $session = Mage::getSingleton('core/session');
+            $session = Mage::getSingleton('Mage_Core_Model_Session');
             try {
-                Mage::getModel('newsletter/subscriber')->load($id)
+                Mage::getModel('Mage_Newsletter_Model_Subscriber')->load($id)
                     ->setCheckCode($code)
                     ->unsubscribe();
                 $session->addSuccess($this->__('You have been unsubscribed.'));

@@ -42,8 +42,8 @@ abstract class Mage_Sales_Controller_Abstract extends Mage_Core_Controller_Front
      */
     protected function _canViewOrder($order)
     {
-        $customerId = Mage::getSingleton('customer/session')->getCustomerId();
-        $availableStates = Mage::getSingleton('sales/order_config')->getVisibleOnFrontStates();
+        $customerId = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerId();
+        $availableStates = Mage::getSingleton('Mage_Sales_Model_Order_Config')->getVisibleOnFrontStates();
         if ($order->getId() && $order->getCustomerId() && ($order->getCustomerId() == $customerId)
             && in_array($order->getState(), $availableStates, $strict = true)
             ) {
@@ -64,7 +64,7 @@ abstract class Mage_Sales_Controller_Abstract extends Mage_Core_Controller_Front
         }
 
         $this->loadLayout();
-        $this->_initLayoutMessages('catalog/session');
+        $this->_initLayoutMessages('Mage_Catalog_Model_Session');
 
         $navigationBlock = $this->getLayout()->getBlock('customer_account_navigation');
         if ($navigationBlock) {
@@ -89,7 +89,7 @@ abstract class Mage_Sales_Controller_Abstract extends Mage_Core_Controller_Front
             return false;
         }
 
-        $order = Mage::getModel('sales/order')->load($orderId);
+        $order = Mage::getModel('Mage_Sales_Model_Order')->load($orderId);
 
         if ($this->_canViewOrder($order)) {
             Mage::register('current_order', $order);
@@ -142,7 +142,7 @@ abstract class Mage_Sales_Controller_Abstract extends Mage_Core_Controller_Front
         }
         $order = Mage::registry('current_order');
 
-        $cart = Mage::getSingleton('checkout/cart');
+        $cart = Mage::getSingleton('Mage_Checkout_Model_Cart');
         $cartTruncated = false;
         /* @var $cart Mage_Checkout_Model_Cart */
 
@@ -151,16 +151,16 @@ abstract class Mage_Sales_Controller_Abstract extends Mage_Core_Controller_Front
             try {
                 $cart->addOrderItem($item);
             } catch (Mage_Core_Exception $e){
-                if (Mage::getSingleton('checkout/session')->getUseNotice(true)) {
-                    Mage::getSingleton('checkout/session')->addNotice($e->getMessage());
+                if (Mage::getSingleton('Mage_Checkout_Model_Session')->getUseNotice(true)) {
+                    Mage::getSingleton('Mage_Checkout_Model_Session')->addNotice($e->getMessage());
                 }
                 else {
-                    Mage::getSingleton('checkout/session')->addError($e->getMessage());
+                    Mage::getSingleton('Mage_Checkout_Model_Session')->addError($e->getMessage());
                 }
                 $this->_redirect('*/*/history');
             } catch (Exception $e) {
-                Mage::getSingleton('checkout/session')->addException($e,
-                    Mage::helper('checkout')->__('Cannot add the item to shopping cart.')
+                Mage::getSingleton('Mage_Checkout_Model_Session')->addException($e,
+                    Mage::helper('Mage_Checkout_Helper_Data')->__('Cannot add the item to shopping cart.')
                 );
                 $this->_redirect('checkout/cart');
             }
@@ -189,11 +189,11 @@ abstract class Mage_Sales_Controller_Abstract extends Mage_Core_Controller_Front
     {
         $invoiceId = (int) $this->getRequest()->getParam('invoice_id');
         if ($invoiceId) {
-            $invoice = Mage::getModel('sales/order_invoice')->load($invoiceId);
+            $invoice = Mage::getModel('Mage_Sales_Model_Order_Invoice')->load($invoiceId);
             $order = $invoice->getOrder();
         } else {
             $orderId = (int) $this->getRequest()->getParam('order_id');
-            $order = Mage::getModel('sales/order')->load($orderId);
+            $order = Mage::getModel('Mage_Sales_Model_Order')->load($orderId);
         }
 
         if ($this->_canViewOrder($order)) {
@@ -204,7 +204,7 @@ abstract class Mage_Sales_Controller_Abstract extends Mage_Core_Controller_Front
             $this->loadLayout('print');
             $this->renderLayout();
         } else {
-            if (Mage::getSingleton('customer/session')->isLoggedIn()) {
+            if (Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()) {
                 $this->_redirect('*/*/history');
             } else {
                 $this->_redirect('sales/guest/form');
@@ -219,11 +219,11 @@ abstract class Mage_Sales_Controller_Abstract extends Mage_Core_Controller_Front
     {
         $shipmentId = (int) $this->getRequest()->getParam('shipment_id');
         if ($shipmentId) {
-            $shipment = Mage::getModel('sales/order_shipment')->load($shipmentId);
+            $shipment = Mage::getModel('Mage_Sales_Model_Order_Shipment')->load($shipmentId);
             $order = $shipment->getOrder();
         } else {
             $orderId = (int) $this->getRequest()->getParam('order_id');
-            $order = Mage::getModel('sales/order')->load($orderId);
+            $order = Mage::getModel('Mage_Sales_Model_Order')->load($orderId);
         }
         if ($this->_canViewOrder($order)) {
             Mage::register('current_order', $order);
@@ -233,7 +233,7 @@ abstract class Mage_Sales_Controller_Abstract extends Mage_Core_Controller_Front
             $this->loadLayout('print');
             $this->renderLayout();
         } else {
-            if (Mage::getSingleton('customer/session')->isLoggedIn()) {
+            if (Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()) {
                 $this->_redirect('*/*/history');
             } else {
                 $this->_redirect('sales/guest/form');
@@ -248,11 +248,11 @@ abstract class Mage_Sales_Controller_Abstract extends Mage_Core_Controller_Front
     {
         $creditmemoId = (int) $this->getRequest()->getParam('creditmemo_id');
         if ($creditmemoId) {
-            $creditmemo = Mage::getModel('sales/order_creditmemo')->load($creditmemoId);
+            $creditmemo = Mage::getModel('Mage_Sales_Model_Order_Creditmemo')->load($creditmemoId);
             $order = $creditmemo->getOrder();
         } else {
             $orderId = (int) $this->getRequest()->getParam('order_id');
-            $order = Mage::getModel('sales/order')->load($orderId);
+            $order = Mage::getModel('Mage_Sales_Model_Order')->load($orderId);
         }
 
         if ($this->_canViewOrder($order)) {
@@ -263,7 +263,7 @@ abstract class Mage_Sales_Controller_Abstract extends Mage_Core_Controller_Front
             $this->loadLayout('print');
             $this->renderLayout();
         } else {
-            if (Mage::getSingleton('customer/session')->isLoggedIn()) {
+            if (Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()) {
                 $this->_redirect('*/*/history');
             } else {
                 $this->_redirect('sales/guest/form');

@@ -41,11 +41,11 @@ extends Varien_Object
         return array(
             array(
                 'value' => Enterprise_WebsiteRestriction_Model_Mode::HTTP_302_LOGIN,
-                'label' => Mage::helper('enterprise_websiterestriction')->__('To login form (302 Found)'),
+                'label' => Mage::helper('Enterprise_WebsiteRestriction_Helper_Data')->__('To login form (302 Found)'),
             ),
             array(
                 'value' => Enterprise_WebsiteRestriction_Model_Mode::HTTP_302_LANDING,
-                'label' => Mage::helper('enterprise_websiterestriction')->__('To landing page (302 Found)'),
+                'label' => Mage::helper('Enterprise_WebsiteRestriction_Helper_Data')->__('To landing page (302 Found)'),
             ),
         );
     }

@@ -71,9 +71,9 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Sa
      */
     public function getAddButtonHtml()
     {
-        $addButton = $this->getLayout()->createBlock('adminhtml/widget_button')
+        $addButton = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
             ->setData(array(
-                'label' => Mage::helper('downloadable')->__('Add New Row'),
+                'label' => Mage::helper('Mage_Downloadable_Helper_Data')->__('Add New Row'),
                 'id' => 'add_sample_item',
                 'class' => 'add',
             ));
@@ -89,6 +89,7 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Sa
     {
         $samplesArr = array();
         $samples = $this->getProduct()->getTypeInstance(true)->getSamples($this->getProduct());
+        $fileHelper = Mage::helper('Mage_Downloadable_Helper_File');
         foreach ($samples as $item) {
             $tmpSampleItem = array(
                 'sample_id' => $item->getId(),
@@ -97,17 +98,17 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Sa
                 'sample_type' => $item->getSampleType(),
                 'sort_order' => $item->getSortOrder(),
             );
-            $file = Mage::helper('downloadable/file')->getFilePath(
+            $file = $fileHelper->getFilePath(
                 Mage_Downloadable_Model_Sample::getBasePath(), $item->getSampleFile()
             );
             if ($item->getSampleFile() && !is_file($file)) {
-                Mage::helper('core/file_storage_database')->saveFileToFilesystem($file);
+                Mage::helper('Mage_Core_Helper_File_Storage_Database')->saveFileToFilesystem($file);
             }
             if ($item->getSampleFile() && is_file($file)) {
                 $tmpSampleItem['file_save'] = array(
                     array(
                         'file' => $item->getSampleFile(),
-                        'name' => Mage::helper('downloadable/file')->getFileFromPathFile($item->getSampleFile()),
+                        'name' => $fileHelper->getFileFromPathFile($item->getSampleFile()),
                         'size' => filesize($file),
                         'status' => 'old'
                     ));
@@ -149,10 +150,10 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Sa
     {
         $this->setChild(
             'upload_button',
-            $this->getLayout()->createBlock('adminhtml/widget_button')
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->addData(array(
                     'id'      => '',
-                    'label'   => Mage::helper('adminhtml')->__('Upload Files'),
+                    'label'   => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Upload Files'),
                     'type'    => 'button',
                     'onclick' => 'Downloadable.massUploadByType(\'samples\')'
                 ))
@@ -176,19 +177,19 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Sa
      */
     public function getConfigJson()
     {
-        $this->getConfig()->setUrl(Mage::getModel('adminhtml/url')->addSessionParam()->getUrl('*/downloadable_file/upload', array('type' => 'samples', '_secure' => true)));
+        $this->getConfig()->setUrl(Mage::getModel('Mage_Adminhtml_Model_Url')->addSessionParam()->getUrl('*/downloadable_file/upload', array('type' => 'samples', '_secure' => true)));
         $this->getConfig()->setParams(array('form_key' => $this->getFormKey()));
         $this->getConfig()->setFileField('samples');
         $this->getConfig()->setFilters(array(
             'all'    => array(
-                'label' => Mage::helper('adminhtml')->__('All Files'),
+                'label' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('All Files'),
                 'files' => array('*.*')
             )
         ));
         $this->getConfig()->setReplaceBrowseWithRemove(true);
         $this->getConfig()->setWidth('32');
         $this->getConfig()->setHideUploadButton(true);
-        return Mage::helper('core')->jsonEncode($this->getConfig()->getData());
+        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($this->getConfig()->getData());
     }
 
     /**

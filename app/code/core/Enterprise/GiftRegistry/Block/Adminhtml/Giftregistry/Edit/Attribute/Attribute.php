@@ -49,18 +49,18 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Attrib
     protected function _prepareLayout()
     {
         $this->setChild('add_button',
-            $this->getLayout()->createBlock('adminhtml/widget_button')
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->setData(array(
-                    'label' => Mage::helper('enterprise_giftregistry')->__('Add Attribute'),
+                    'label' => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Add Attribute'),
                     'class' => 'add',
                     'id'    => $this->getFieldPrefix() . '_add_new_attribute'
                 ))
         );
 
         $this->setChild('delete_button',
-            $this->getLayout()->createBlock('adminhtml/widget_button')
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->setData(array(
-                    'label' => Mage::helper('enterprise_giftregistry')->__('Delete Attribute'),
+                    'label' => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Delete Attribute'),
                     'class' => 'delete delete-attribute-option'
                 ))
         );
@@ -108,7 +108,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Attrib
      */
     public function getConfig()
     {
-        return Mage::getSingleton('enterprise_giftregistry/attribute_config');
+        return Mage::getSingleton('Enterprise_GiftRegistry_Model_Attribute_Config');
     }
 
     /**
@@ -122,7 +122,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Attrib
             if ($type = Mage::registry('current_giftregistry_type')) {
                 $this->_typeInstance = $type;
             } else {
-                $this->_typeInstance = Mage::getSingleton('enterprise_giftregistry/type');
+                $this->_typeInstance = Mage::getSingleton('Enterprise_GiftRegistry_Model_Type');
             }
         }
         return $this->_typeInstance;
@@ -145,7 +145,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Attrib
      */
     public function getTypeSelectHtml()
     {
-        $select = $this->getLayout()->createBlock('adminhtml/html_select')
+        $select = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Html_Select')
             ->setData(array(
                 'id'    => $this->getFieldPrefix() . '_attribute_{{id}}_type',
                 'class' => 'select required-entry attribute-type global-scope'
@@ -163,7 +163,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Attrib
      */
     public function getGroupSelectHtml()
     {
-        $select = $this->getLayout()->createBlock('adminhtml/html_select')
+        $select = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Html_Select')
             ->setData(array(
                 'id'    => $this->getFieldPrefix() . '_attribute_{{id}}_group',
                 'class' => 'select required-entry global-scope'
@@ -181,13 +181,13 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Attrib
      */
     public function getSearcheableSelectHtml()
     {
-        $select = $this->getLayout()->createBlock('adminhtml/html_select')
+        $select = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Html_Select')
             ->setData(array(
                  'id'    => $this->getFieldPrefix() . '_attribute_{{id}}_is_searcheable',
                  'class' => 'select required-entry global-scope'
             ))
             ->setName('attributes[' . $this->getFieldPrefix() . '][{{id}}][frontend][is_searcheable]')
-            ->setOptions(Mage::getSingleton('adminhtml/system_config_source_yesno')->toOptionArray());
+            ->setOptions(Mage::getSingleton('Mage_Adminhtml_Model_System_Config_Source_Yesno')->toOptionArray());
 
         return $select->getHtml();
     }
@@ -199,13 +199,13 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Attrib
      */
     public function getListedSelectHtml()
     {
-        $select = $this->getLayout()->createBlock('adminhtml/html_select')
+        $select = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Html_Select')
             ->setData(array(
                  'id'    => $this->getFieldPrefix() . '_attribute_{{id}}_is_listed',
                  'class' => 'select required-entry global-scope'
             ))
             ->setName('attributes[' . $this->getFieldPrefix() . '][{{id}}][frontend][is_listed]')
-            ->setOptions(Mage::getSingleton('adminhtml/system_config_source_yesno')->toOptionArray());
+            ->setOptions(Mage::getSingleton('Mage_Adminhtml_Model_System_Config_Source_Yesno')->toOptionArray());
 
         return $select->getHtml();
     }
@@ -217,13 +217,13 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Attrib
      */
     public function getRequiredSelectHtml()
     {
-        $select = $this->getLayout()->createBlock('adminhtml/html_select')
+        $select = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Html_Select')
             ->setData(array(
                  'id'    => $this->getFieldPrefix() . '_attribute_{{id}}_is_required',
                  'class' => 'select required-entry global-scope'
             ))
             ->setName('attributes[' . $this->getFieldPrefix() . '][{{id}}][frontend][is_required]')
-            ->setOptions(Mage::getSingleton('adminhtml/system_config_source_yesno')->toOptionArray());
+            ->setOptions(Mage::getSingleton('Mage_Adminhtml_Model_System_Config_Source_Yesno')->toOptionArray());
 
         return $select->getHtml();
     }
@@ -236,10 +236,10 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Attrib
     public function getTemplatesHtml()
     {
         $templates = array();
-        $types = array('select', 'date', 'country');
+        $types = array('Select', 'Date', 'Country');
 
         foreach ($types as $type) {
-            $renderer = 'enterprise_giftregistry/adminhtml_giftregistry_edit_attribute_type_' . $type;
+            $renderer = 'Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Type_' . $type;
             $block = $this->getLayout()->createBlock($renderer)->setFieldPrefix($this->getFieldPrefix());
             $templates[] = $block->toHtml();
         }
@@ -323,7 +323,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Attrib
         $selectNameHtml = '';
         $selectIdHtml = '';
         $checkedHtml = ($checked) ? ' checked="checked"' : '';
-        $elementLabel = Mage::helper('enterprise_giftregistry')->__('Use Default Value');
+        $elementLabel = Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Use Default Value');
 
         if (!is_null($selectId)) {
             $selectNameHtml = '[options]['.$selectId.']';

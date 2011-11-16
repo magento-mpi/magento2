@@ -52,7 +52,7 @@ class Mage_Adminhtml_Block_Dashboard_Tab_Orders extends Mage_Adminhtml_Block_Das
      */
     protected function _prepareData()
     {
-        $this->setDataHelperName('adminhtml/dashboard_order');
+        $this->setDataHelperName('Mage_Adminhtml_Helper_Dashboard_Order');
         $this->getDataHelper()->setParam('store', $this->getRequest()->getParam('store'));
         $this->getDataHelper()->setParam('website', $this->getRequest()->getParam('website'));
         $this->getDataHelper()->setParam('group', $this->getRequest()->getParam('group'));

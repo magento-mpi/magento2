@@ -63,7 +63,7 @@ class Mage_Persistent_Helper_Session extends Mage_Core_Helper_Data
     public function getSession()
     {
         if (is_null($this->_sessionModel)) {
-            $this->_sessionModel = Mage::getModel('persistent/session');
+            $this->_sessionModel = Mage::getModel('Mage_Persistent_Model_Session');
             $this->_sessionModel->loadByCookieKey();
         }
         return $this->_sessionModel;
@@ -88,7 +88,7 @@ class Mage_Persistent_Helper_Session extends Mage_Core_Helper_Data
      */
     public function isPersistent()
     {
-        return (bool)$this->getSession()->getId() && Mage::helper('persistent')->isEnabled();
+        return (bool)$this->getSession()->getId() && Mage::helper('Mage_Persistent_Helper_Data')->isEnabled();
     }
 
     /**
@@ -100,15 +100,15 @@ class Mage_Persistent_Helper_Session extends Mage_Core_Helper_Data
     {
         if (is_null($this->_isRememberMeChecked)) {
             //Try to get from checkout session
-            $isRememberMeChecked = Mage::getSingleton('checkout/session')->getRememberMeChecked();
+            $isRememberMeChecked = Mage::getSingleton('Mage_Checkout_Model_Session')->getRememberMeChecked();
             if (!is_null($isRememberMeChecked)) {
                 $this->_isRememberMeChecked = $isRememberMeChecked;
-                Mage::getSingleton('checkout/session')->unsRememberMeChecked();
+                Mage::getSingleton('Mage_Checkout_Model_Session')->unsRememberMeChecked();
                 return $isRememberMeChecked;
             }
 
             /** @var $helper Mage_Persistent_Helper_Data */
-            $helper = Mage::helper('persistent');
+            $helper = Mage::helper('Mage_Persistent_Helper_Data');
             return $helper->isEnabled() && $helper->isRememberMeEnabled() && $helper->isRememberMeCheckedDefault();
         }
 
@@ -134,7 +134,7 @@ class Mage_Persistent_Helper_Session extends Mage_Core_Helper_Data
     {
         if (is_null($this->_customer)) {
             $customerId = $this->getSession()->getCustomerId();
-            $this->_customer = Mage::getModel('customer/customer')->load($customerId);
+            $this->_customer = Mage::getModel('Mage_Customer_Model_Customer')->load($customerId);
         }
         return $this->_customer;
     }

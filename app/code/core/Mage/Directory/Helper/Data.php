@@ -79,7 +79,7 @@ class Mage_Directory_Helper_Data extends Mage_Core_Helper_Abstract
     public function getRegionCollection()
     {
         if (!$this->_regionCollection) {
-            $this->_regionCollection = Mage::getModel('directory/region')->getResourceCollection()
+            $this->_regionCollection = Mage::getModel('Mage_Directory_Model_Region')->getResourceCollection()
                 ->addCountryFilter($this->getAddress()->getCountryId())
                 ->load();
         }
@@ -94,7 +94,7 @@ class Mage_Directory_Helper_Data extends Mage_Core_Helper_Abstract
     public function getCountryCollection()
     {
         if (!$this->_countryCollection) {
-            $this->_countryCollection = Mage::getModel('directory/country')->getResourceCollection()
+            $this->_countryCollection = Mage::getModel('Mage_Directory_Model_Country')->getResourceCollection()
                 ->loadByStore();
         }
         return $this->_countryCollection;
@@ -119,7 +119,7 @@ class Mage_Directory_Helper_Data extends Mage_Core_Helper_Abstract
                 foreach ($this->getCountryCollection() as $country) {
                     $countryIds[] = $country->getCountryId();
                 }
-                $collection = Mage::getModel('directory/region')->getResourceCollection()
+                $collection = Mage::getModel('Mage_Directory_Model_Region')->getResourceCollection()
                     ->addCountryFilter($countryIds)
                     ->load();
                 $regions = array();
@@ -132,7 +132,7 @@ class Mage_Directory_Helper_Data extends Mage_Core_Helper_Abstract
                         'name' => $this->__($region->getName())
                     );
                 }
-                $json = Mage::helper('core')->jsonEncode($regions);
+                $json = Mage::helper('Mage_Core_Helper_Data')->jsonEncode($regions);
 
                 if (Mage::app()->useCache('config')) {
                     Mage::app()->saveCache($json, $cacheKey, array('config'));
@@ -156,7 +156,7 @@ class Mage_Directory_Helper_Data extends Mage_Core_Helper_Abstract
     public function currencyConvert($amount, $from, $to = null)
     {
         if (empty($this->_currencyCache[$from])) {
-            $this->_currencyCache[$from] = Mage::getModel('directory/currency')->load($from);
+            $this->_currencyCache[$from] = Mage::getModel('Mage_Directory_Model_Currency')->load($from);
         }
         if (is_null($to)) {
             $to = Mage::app()->getStore()->getCurrentCurrencyCode();
@@ -178,7 +178,7 @@ class Mage_Directory_Helper_Data extends Mage_Core_Helper_Abstract
                 Mage::getStoreConfig(self::OPTIONAL_ZIP_COUNTRIES_CONFIG_PATH), 0, PREG_SPLIT_NO_EMPTY);
         }
         if ($asJson) {
-            return Mage::helper('core')->jsonEncode($this->_optionalZipCountries);
+            return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($this->_optionalZipCountries);
         }
         return $this->_optionalZipCountries;
     }

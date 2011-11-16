@@ -49,7 +49,7 @@ class Enterprise_Logging_Block_Adminhtml_Details_Grid extends Mage_Adminhtml_Blo
     protected function _prepareCollection()
     {
         $event = Mage::registry('current_event');
-        $collection = Mage::getResourceModel('enterprise_logging/event_changes_collection')
+        $collection = Mage::getResourceModel('Enterprise_Logging_Model_Resource_Event_Changes_Collection')
             ->addFieldToFilter('event_id', $event->getId());
         $this->setCollection($collection);
         return parent::_prepareCollection();
@@ -63,24 +63,24 @@ class Enterprise_Logging_Block_Adminhtml_Details_Grid extends Mage_Adminhtml_Blo
     protected function _prepareColumns()
     {
         $this->addColumn('source_name', array(
-            'header'    => Mage::helper('enterprise_logging')->__('Source Data'),
+            'header'    => Mage::helper('Enterprise_Logging_Helper_Data')->__('Source Data'),
             'sortable'  => false,
-            'renderer'  => 'enterprise_logging/adminhtml_details_renderer_sourcename',
+            'renderer'  => 'Enterprise_Logging_Block_Adminhtml_Details_Renderer_Sourcename',
             'index'     => 'source_name',
             'width'     => 1
         ));
 
         $this->addColumn('original_data', array(
-            'header'    => Mage::helper('enterprise_logging')->__('Value Before Change'),
+            'header'    => Mage::helper('Enterprise_Logging_Helper_Data')->__('Value Before Change'),
             'sortable'  => false,
-            'renderer'  => 'enterprise_logging/adminhtml_details_renderer_diff',
+            'renderer'  => 'Enterprise_Logging_Block_Adminhtml_Details_Renderer_Diff',
             'index'     => 'original_data'
         ));
 
         $this->addColumn('result_data', array(
-            'header'    => Mage::helper('enterprise_logging')->__('Value After Change'),
+            'header'    => Mage::helper('Enterprise_Logging_Helper_Data')->__('Value After Change'),
             'sortable'  => false,
-            'renderer'  => 'enterprise_logging/adminhtml_details_renderer_diff',
+            'renderer'  => 'Enterprise_Logging_Block_Adminhtml_Details_Renderer_Diff',
             'index'     => 'result_data'
         ));
 

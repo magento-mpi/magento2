@@ -54,7 +54,7 @@ class Enterprise_GiftRegistry_Model_Item_Option extends Mage_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('enterprise_giftregistry/item_option');
+        $this->_init('Enterprise_GiftRegistry_Model_Resource_Item_Option');
     }
 
     /**

@@ -39,8 +39,8 @@ class Mage_Paypal_Model_Payflowlink extends Mage_Paypal_Model_Payflowpro
      */
     protected $_code = Mage_Paypal_Model_Config::METHOD_PAYFLOWLINK;
 
-    protected $_formBlockType = 'paypal/payflow_link_form';
-    protected $_infoBlockType = 'paypal/payflow_link_info';
+    protected $_formBlockType = 'Mage_Paypal_Block_Payflow_Link_Form';
+    protected $_infoBlockType = 'Mage_Paypal_Block_Payflow_Link_Info';
 
     /**
      * Availability options
@@ -98,7 +98,7 @@ class Mage_Paypal_Model_Payflowlink extends Mage_Paypal_Model_Payflowpro
     public function isAvailable($quote = null)
     {
         $storeId = Mage::app()->getStore($this->getStore())->getId();
-        $config = Mage::getModel('paypal/config')->setStoreId($storeId);
+        $config = Mage::getModel('Mage_Paypal_Model_Config')->setStoreId($storeId);
         if (Mage_Payment_Model_Method_Abstract::isAvailable($quote) && $config->isMethodAvailable($this->getCode())) {
             return true;
         }
@@ -196,7 +196,7 @@ class Mage_Paypal_Model_Payflowlink extends Mage_Paypal_Model_Payflowpro
     {
         $txnId = $payment->getAdditionalInformation('authorization_id');
         /** @var $transaction Mage_Paypal_Model_Payment_Transaction */
-        $transaction =  Mage::getModel('paypal/payment_transaction');
+        $transaction =  Mage::getModel('Mage_Paypal_Model_Payment_Transaction');
         $transaction->loadByTxnId($txnId);
 
         $payment->setTransactionId($txnId)->setIsTransactionClosed(0);
@@ -258,7 +258,7 @@ class Mage_Paypal_Model_Payflowlink extends Mage_Paypal_Model_Payflowpro
     {
         $removePaypalTransaction = false;
         /** @var $transaction Mage_Paypal_Model_Payment_Transaction */
-        $transaction =  Mage::getModel('paypal/payment_transaction');
+        $transaction =  Mage::getModel('Mage_Paypal_Model_Payment_Transaction');
         $txnId = $payment->getAdditionalInformation('authorization_id');
         $transaction->loadByTxnId($txnId);
         if ($transaction->getId()) {
@@ -267,7 +267,10 @@ class Mage_Paypal_Model_Payflowlink extends Mage_Paypal_Model_Payflowpro
 
             $this->_addTransaction($payment, $txnId);
 
-            $payment->setReferenceTransactionId($payment->getAdditionalInformation('authorization_id'));
+            // Handle case when order is placed via 'Pay With PayPal' button of Payflowlink iFrame
+            if (!$payment->getAdditionalInformation('express_checkout_token')) {
+                $payment->setReferenceTransactionId($payment->getAdditionalInformation('authorization_id'));
+            }
         }
 
         $payment->setParentTransactionId($txnId);
@@ -316,12 +319,12 @@ class Mage_Paypal_Model_Payflowlink extends Mage_Paypal_Model_Payflowpro
     /**
      * Return response model.
      *
-     * @return Mage_Mage_Paypal_Model_Payflow_Request
+     * @return Mage_Paypal_Model_Payflow_Request
      */
     public function getResponse()
     {
         if (!$this->_response) {
-            $this->_response = Mage::getModel('paypal/payflow_request');
+            $this->_response = Mage::getModel('Mage_Paypal_Model_Payflow_Request');
         }
 
         return $this->_response;
@@ -390,7 +393,7 @@ class Mage_Paypal_Model_Payflowlink extends Mage_Paypal_Model_Payflowpro
         $payment->setAdditionalInformation('authorization_id', $response->getPnref());
 
         /** @var $transaction Mage_Paypal_Model_Payment_Transaction */
-        $transaction =  Mage::getModel('paypal/payment_transaction');
+        $transaction =  Mage::getModel('Mage_Paypal_Model_Payment_Transaction');
         $transaction->setTxnId($response->getPnref());
 
         $transaction->setAdditionalInformation('amt', $response->getAmt());
@@ -427,13 +430,13 @@ class Mage_Paypal_Model_Payflowlink extends Mage_Paypal_Model_Payflowpro
     protected function _checkTransaction($transaction, $amount)
     {
         if (!$transaction->getId()) {
-            Mage::throwException(Mage::helper('paypal')->__(self::SHOPPING_CART_CHANGED_ERROR_MSG));
+            Mage::throwException(Mage::helper('Mage_Paypal_Helper_Data')->__(self::SHOPPING_CART_CHANGED_ERROR_MSG));
         }
 
         $authorizedAmt = $transaction->getAdditionalInformation('amt');
 
         if (!$authorizedAmt || $amount > $authorizedAmt) {
-            Mage::throwException(Mage::helper('paypal')->__(self::SHOPPING_CART_CHANGED_ERROR_MSG));
+            Mage::throwException(Mage::helper('Mage_Paypal_Helper_Data')->__(self::SHOPPING_CART_CHANGED_ERROR_MSG));
         }
         return $this;
     }
@@ -448,7 +451,7 @@ class Mage_Paypal_Model_Payflowlink extends Mage_Paypal_Model_Payflowpro
     {
         $response = $this->getResponse();
 
-        $salesDocument = Mage::getModel('sales/quote')->load($response->getPonum());
+        $salesDocument = Mage::getModel('Mage_Sales_Model_Quote')->load($response->getPonum());
         $salesDocument->getPayment()->setMethod($this->_code);
 
         if ($this->_getSecureSilentPostHash($salesDocument->getPayment()) != $response->getUser2()
@@ -565,7 +568,7 @@ class Mage_Paypal_Model_Payflowlink extends Mage_Paypal_Model_Payflowpro
       */
     protected function _buildBasicRequest(Varien_Object $payment)
     {
-        $request = Mage::getModel('paypal/payflow_request');
+        $request = Mage::getModel('Mage_Paypal_Model_Payflow_Request');
         $request
             ->setUser($this->getConfigData('user', $this->_getStoreId()))
             ->setVendor($this->getConfigData('vendor', $this->_getStoreId()))
@@ -612,7 +615,7 @@ class Mage_Paypal_Model_Payflowlink extends Mage_Paypal_Model_Payflowpro
       */
     protected function _generateSecureTokenId()
     {
-        return Mage::helper('core')->uniqHash();
+        return Mage::helper('Mage_Core_Helper_Data')->uniqHash();
     }
 
     /**
@@ -638,7 +641,7 @@ class Mage_Paypal_Model_Payflowlink extends Mage_Paypal_Model_Payflowpro
     protected function _processTokenErrors($response, $payment)
     {
         if ($response->getResult() == self::RESPONSE_CODE_INVALID_AMOUNT) {
-            throw new Mage_Paypal_Exception(Mage::helper('paypal')->__('Invalid Amount'));
+            throw new Mage_Paypal_Exception(Mage::helper('Mage_Paypal_Helper_Data')->__('Invalid Amount'));
         } elseif (!$response->getSecuretoken() &&
             $response->getResult() != self::RESPONSE_CODE_APPROVED
             && $response->getResult() != self::RESPONSE_CODE_FRAUDSERVICE_FILTER) {
@@ -668,7 +671,7 @@ class Mage_Paypal_Model_Payflowlink extends Mage_Paypal_Model_Payflowpro
      */
     protected function _generateSecureSilentPostHash($payment)
     {
-        $secureHash = md5(Mage::helper('core')->getRandomString(10));
+        $secureHash = md5(Mage::helper('Mage_Core_Helper_Data')->getRandomString(10));
         $payment->setAdditionalInformation($this->_secureSilentPostHashKey, $secureHash);
         return $secureHash;
     }

@@ -41,7 +41,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission
     {
         $this->_objectId    = 'application_id';
         $this->_controller  = 'adminhtml_mobile';
-        $this->_blockGroup  = 'xmlconnect';
+        $this->_blockGroup  = 'Mage_XmlConnect';
         $this->_mode = 'submission';
         parent::__construct();
 
@@ -50,7 +50,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission
         $this->removeButton('reset');
 
         try {
-            $app = Mage::helper('xmlconnect')->getApplication();
+            $app = Mage::helper('Mage_XmlConnect_Helper_Data')->getApplication();
         } catch (Mage_Core_Exception $e) {
             Mage::logException($e);
             return;
@@ -88,7 +88,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission
         $this->getLayout()->getBlock('head')->addJs('scriptaculous/scriptaculous.js');
 
 
-        $deviceType = Mage::helper('xmlconnect')->getDeviceType();
+        $deviceType = Mage::helper('Mage_XmlConnect_Helper_Data')->getDeviceType();
         switch ($deviceType) {
             case Mage_XmlConnect_Helper_Data::DEVICE_TYPE_IPHONE:
                 $this->getLayout()->getBlock('head')->addCss('Mage_XmlConnect::css/mobile-home.css');
@@ -118,7 +118,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission
      */
     public function getHeaderText()
     {
-        $app = Mage::helper('xmlconnect')->getApplication();
+        $app = Mage::helper('Mage_XmlConnect_Helper_Data')->getApplication();
         if ($app && $app->getId()) {
             return $this->__('Submit App "%s"', $this->escapeHtml($app->getName()));
         }

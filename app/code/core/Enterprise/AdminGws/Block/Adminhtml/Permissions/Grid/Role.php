@@ -44,7 +44,7 @@ class Enterprise_AdminGws_Block_Adminhtml_Permissions_Grid_Role extends Mage_Adm
             'width'    => '200',
             'sortable' => false,
             'filter'   => false,
-            'renderer' => 'enterprise_admingws/adminhtml_permissions_grid_renderer_gws'
+            'renderer' => 'Enterprise_AdminGws_Block_Adminhtml_Permissions_Grid_Renderer_Gws'
         ));
 
         return $this;

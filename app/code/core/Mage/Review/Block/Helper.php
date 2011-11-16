@@ -49,7 +49,7 @@ class Mage_Review_Block_Helper extends Mage_Core_Block_Template
         $this->setDisplayIfEmpty($displayIfNoReviews);
 
         if (!$product->getRatingSummary()) {
-            Mage::getModel('review/review')
+            Mage::getModel('Mage_Review_Model_Review')
                ->getEntitySummary($product, Mage::app()->getStore()->getId());
         }
         $this->setProduct($product);

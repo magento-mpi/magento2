@@ -40,7 +40,7 @@ class Enterprise_GiftRegistry_Block_Customer_List
      */
     protected function _prepareLayout()
     {
-        $pager = $this->getLayout()->createBlock('page/html_pager', 'giftregistry.list.pager')
+        $pager = $this->getLayout()->createBlock('Mage_Page_Block_Html_Pager', 'giftregistry.list.pager')
             ->setCollection($this->getEntityCollection())->setIsOutputRequired(false);
         $this->setChild('pager', $pager);
         return parent::_prepareLayout();
@@ -54,8 +54,8 @@ class Enterprise_GiftRegistry_Block_Customer_List
     public function getEntityCollection()
     {
         if (!$this->hasEntityCollection()) {
-            $this->setData('entity_collection', Mage::getModel('enterprise_giftregistry/entity')->getCollection()
-                ->filterByCustomerId(Mage::getSingleton('customer/session')->getCustomerId())
+            $this->setData('entity_collection', Mage::getModel('Enterprise_GiftRegistry_Model_Entity')->getCollection()
+                ->filterByCustomerId(Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerId())
             );
         }
         return $this->_getData('entity_collection');
@@ -68,7 +68,7 @@ class Enterprise_GiftRegistry_Block_Customer_List
      */
     public function canAddNewEntity()
     {
-        $collection = Mage::getModel('enterprise_giftregistry/type')->getCollection()
+        $collection = Mage::getModel('Enterprise_GiftRegistry_Model_Type')->getCollection()
             ->addStoreData(Mage::app()->getStore()->getId())
             ->applyListedFilter();
 

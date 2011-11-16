@@ -77,7 +77,7 @@ class Mage_XmlConnect_Model_Preview_Ipad extends Mage_XmlConnect_Model_Preview_A
                 if ($imageUrlOrig) {
                     $width  = Mage_XmlConnect_Helper_Ipad::PREVIEW_LANDSCAPE_BANNER_WIDTH;
                     $height = Mage_XmlConnect_Helper_Ipad::PREVIEW_LANDSCAPE_BANNER_HEIGHT;
-                    $bannerImage = Mage::helper('xmlconnect/image')
+                    $bannerImage = Mage::helper('Mage_XmlConnect_Helper_Image')
                         ->getCustomSizeImageUrl($imageUrlOrig, $width, $height);
                 } else {
                     $bannerImage = $this->getPreviewImagesUrl('ipad/banner_image_l.png');
@@ -89,7 +89,7 @@ class Mage_XmlConnect_Model_Preview_Ipad extends Mage_XmlConnect_Model_Preview_A
                 if ($imageUrlOrig) {
                     $width  = Mage_XmlConnect_Helper_Ipad::PREVIEW_PORTRAIT_BANNER_WIDTH;
                     $height = Mage_XmlConnect_Helper_Ipad::PREVIEW_PORTRAIT_BANNER_HEIGHT;
-                    $bannerImage = Mage::helper('xmlconnect/image')
+                    $bannerImage = Mage::helper('Mage_XmlConnect_Helper_Image')
                         ->getCustomSizeImageUrl($imageUrlOrig, $width, $height);
                 } else {
                     $bannerImage = $this->getPreviewImagesUrl('ipad/banner_image.png');
@@ -110,7 +110,7 @@ class Mage_XmlConnect_Model_Preview_Ipad extends Mage_XmlConnect_Model_Preview_A
         $orientation = $this->getOrientation();
         $backgroundImage = '';
         /** @var $helperImage Mage_XmlConnect_Helper_Image */
-        $helperImage = Mage::helper('xmlconnect/image');
+        $helperImage = Mage::helper('Mage_XmlConnect_Helper_Image');
 
         switch ($orientation) {
             case Mage_XmlConnect_Helper_Ipad::ORIENTATION_LANDSCAPE:
@@ -137,7 +137,7 @@ class Mage_XmlConnect_Model_Preview_Ipad extends Mage_XmlConnect_Model_Preview_A
                 break;
             default:
                 Mage::throwException(
-                    Mage::helper('xmlconnect')->__('Wrong Ipad background image orientation has been specified: "%s".', $orientation)
+                    Mage::helper('Mage_XmlConnect_Helper_Data')->__('Wrong Ipad background image orientation has been specified: "%s".', $orientation)
                 );
                 break;
         }

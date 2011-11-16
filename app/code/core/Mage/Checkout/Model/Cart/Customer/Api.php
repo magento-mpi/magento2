@@ -69,7 +69,7 @@ class Mage_Checkout_Model_Cart_Customer_Api extends Mage_Checkout_Model_Api_Reso
         case self::MODE_REGISTER:
         case self::MODE_GUEST:
             /** @var $customer Mage_Customer_Model_Customer */
-            $customer = Mage::getModel('customer/customer')
+            $customer = Mage::getModel('Mage_Customer_Model_Customer')
                 ->setData($customerData);
 
             if ($customer->getMode() == self::MODE_GUEST) {
@@ -119,11 +119,11 @@ class Mage_Checkout_Model_Cart_Customer_Api extends Mage_Checkout_Model_Api_Reso
 //            switch($addressItem['mode']) {
 //            case self::ADDRESS_BILLING:
                 /** @var $address Mage_Sales_Model_Quote_Address */
-                $address = Mage::getModel("sales/quote_address");
+                $address = Mage::getModel('Mage_Sales_Model_Quote_Address');
 //                break;
 //            case self::ADDRESS_SHIPPING:
 //                /** @var $address Mage_Sales_Model_Quote_Address */
-//                $address = Mage::getModel("sales/quote_address");
+//                $address = Mage::getModel('Mage_Sales_Model_Quote_Address');
 //                break;
 //            }
             $addressMode = $addressItem['mode'];

@@ -68,8 +68,8 @@ class Enterprise_AdminGws_Model_Resource_Collections extends Mage_Core_Model_Res
             $roles = $this->_getReadAdapter()->fetchAll($select);
 
             foreach ($roles as $role) {
-                $roleStoreGroups = Mage::helper('enterprise_admingws')->explodeIds($role['gws_store_groups']);
-                $roleWebsites = Mage::helper('enterprise_admingws')->explodeIds($role['gws_websites']);
+                $roleStoreGroups = Mage::helper('Enterprise_AdminGws_Helper_Data')->explodeIds($role['gws_store_groups']);
+                $roleWebsites = Mage::helper('Enterprise_AdminGws_Helper_Data')->explodeIds($role['gws_websites']);
 
                 $hasAllPermissions = ($role['gws_is_all'] == 1);
 

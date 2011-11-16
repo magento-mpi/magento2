@@ -66,10 +66,10 @@ class Mage_Paypal_Block_Express_Shortcut extends Mage_Core_Block_Template
     protected function _beforeToHtml()
     {
         $result = parent::_beforeToHtml();
-        $config = Mage::getModel('paypal/config', array($this->_paymentMethodCode));
+        $config = Mage::getModel('Mage_Paypal_Model_Config', array($this->_paymentMethodCode));
         $isInCatalog = $this->getIsInCatalogProduct();
         $quote = ($isInCatalog || '' == $this->getIsQuoteAllowed())
-            ? null : Mage::getSingleton('checkout/session')->getQuote();
+            ? null : Mage::getSingleton('Mage_Checkout_Model_Session')->getQuote();
 
         // check visibility on cart or product page
         $context = $isInCatalog ? 'visible_on_product' : 'visible_on_cart';
@@ -98,14 +98,14 @@ class Mage_Paypal_Block_Express_Shortcut extends Mage_Core_Block_Template
         }
 
         // check payment method availability
-        $methodInstance = Mage::helper('payment')->getMethodInstance($this->_paymentMethodCode);
+        $methodInstance = Mage::helper('Mage_Payment_Helper_Data')->getMethodInstance($this->_paymentMethodCode);
         if (!$methodInstance || !$methodInstance->isAvailable($quote)) {
             $this->_shouldRender = false;
             return $result;
         }
 
         // set misc data
-        $this->setShortcutHtmlId($this->helper('core')->uniqHash('ec_shortcut_'))
+        $this->setShortcutHtmlId($this->helper('Mage_Core_Helper_Data')->uniqHash('ec_shortcut_'))
             ->setCheckoutUrl($this->getUrl($this->_startAction))
         ;
 
@@ -120,12 +120,12 @@ class Mage_Paypal_Block_Express_Shortcut extends Mage_Core_Block_Template
         }
 
         // ask whether to create a billing agreement
-        $customerId = Mage::getSingleton('customer/session')->getCustomerId(); // potential issue for caching
-        if (Mage::helper('paypal')->shouldAskToCreateBillingAgreement($config, $customerId)) {
+        $customerId = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerId(); // potential issue for caching
+        if (Mage::helper('Mage_Paypal_Helper_Data')->shouldAskToCreateBillingAgreement($config, $customerId)) {
             $this->setConfirmationUrl($this->getUrl($this->_startAction,
                 array(Mage_Paypal_Model_Express_Checkout::PAYMENT_INFO_TRANSPORT_BILLING_AGREEMENT => 1)
             ));
-            $this->setConfirmationMessage(Mage::helper('paypal')->__('Would you like to sign a billing agreement to streamline further purchases with PayPal?'));
+            $this->setConfirmationMessage(Mage::helper('Mage_Paypal_Helper_Data')->__('Would you like to sign a billing agreement to streamline further purchases with PayPal?'));
         }
 
         return $result;

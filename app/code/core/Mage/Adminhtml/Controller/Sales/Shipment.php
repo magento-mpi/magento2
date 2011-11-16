@@ -62,7 +62,7 @@ class Mage_Adminhtml_Controller_Sales_Shipment extends Mage_Adminhtml_Controller
         $this->_title($this->__('Sales'))->_title($this->__('Shipments'));
 
         $this->_initAction()
-            ->_addContent($this->getLayout()->createBlock('adminhtml/sales_shipment'))
+            ->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_Sales_Shipment'))
             ->renderLayout();
     }
 
@@ -81,18 +81,18 @@ class Mage_Adminhtml_Controller_Sales_Shipment extends Mage_Adminhtml_Controller
     public function pdfshipmentsAction(){
         $shipmentIds = $this->getRequest()->getPost('shipment_ids');
         if (!empty($shipmentIds)) {
-            $shipments = Mage::getResourceModel('sales/order_shipment_collection')
+            $shipments = Mage::getResourceModel('Mage_Sales_Model_Resource_Order_Shipment_Collection')
                 ->addAttributeToSelect('*')
                 ->addAttributeToFilter('entity_id', array('in' => $shipmentIds))
                 ->load();
             if (!isset($pdf)){
-                $pdf = Mage::getModel('sales/order_pdf_shipment')->getPdf($shipments);
+                $pdf = Mage::getModel('Mage_Sales_Model_Order_Pdf_Shipment')->getPdf($shipments);
             } else {
-                $pages = Mage::getModel('sales/order_pdf_shipment')->getPdf($shipments);
+                $pages = Mage::getModel('Mage_Sales_Model_Order_Pdf_Shipment')->getPdf($shipments);
                 $pdf->pages = array_merge ($pdf->pages, $pages->pages);
             }
 
-            return $this->_prepareDownloadResponse('packingslip'.Mage::getSingleton('core/date')->date('Y-m-d_H-i-s').'.pdf', $pdf->render(), 'application/pdf');
+            return $this->_prepareDownloadResponse('packingslip'.Mage::getSingleton('Mage_Core_Model_Date')->date('Y-m-d_H-i-s').'.pdf', $pdf->render(), 'application/pdf');
         }
         $this->_redirect('*/*/');
     }
@@ -102,9 +102,9 @@ class Mage_Adminhtml_Controller_Sales_Shipment extends Mage_Adminhtml_Controller
     {
         /** @see Mage_Adminhtml_Sales_Order_InvoiceController */
         if ($shipmentId = $this->getRequest()->getParam('invoice_id')) { // invoice_id o_0
-            if ($shipment = Mage::getModel('sales/order_shipment')->load($shipmentId)) {
-                $pdf = Mage::getModel('sales/order_pdf_shipment')->getPdf(array($shipment));
-                $this->_prepareDownloadResponse('packingslip'.Mage::getSingleton('core/date')->date('Y-m-d_H-i-s').'.pdf', $pdf->render(), 'application/pdf');
+            if ($shipment = Mage::getModel('Mage_Sales_Model_Order_Shipment')->load($shipmentId)) {
+                $pdf = Mage::getModel('Mage_Sales_Model_Order_Pdf_Shipment')->getPdf(array($shipment));
+                $this->_prepareDownloadResponse('packingslip'.Mage::getSingleton('Mage_Core_Model_Date')->date('Y-m-d_H-i-s').'.pdf', $pdf->render(), 'application/pdf');
             }
         }
         else {
@@ -114,6 +114,6 @@ class Mage_Adminhtml_Controller_Sales_Shipment extends Mage_Adminhtml_Controller
 
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('sales/shipment');
+        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('sales/shipment');
     }
 }

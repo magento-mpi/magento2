@@ -43,7 +43,7 @@ class Mage_Catalog_Model_Layer_Filter_Item extends Varien_Object
         $filter = $this->getData('filter');
         if (!is_object($filter)) {
             Mage::throwException(
-                Mage::helper('catalog')->__('Filter must be an object. Please set correct filter.')
+                Mage::helper('Mage_Catalog_Helper_Data')->__('Filter must be an object. Please set correct filter.')
             );
         }
         return $filter;
@@ -58,7 +58,7 @@ class Mage_Catalog_Model_Layer_Filter_Item extends Varien_Object
     {
         $query = array(
             $this->getFilter()->getRequestVar()=>$this->getValue(),
-            Mage::getBlockSingleton('page/html_pager')->getPageVarName() => null // exclude current page from urls
+            Mage::getBlockSingleton('Mage_Page_Block_Html_Pager')->getPageVarName() => null // exclude current page from urls
         );
         return Mage::getUrl('*/*/*', array('_current'=>true, '_use_rewrite'=>true, '_query'=>$query));
     }

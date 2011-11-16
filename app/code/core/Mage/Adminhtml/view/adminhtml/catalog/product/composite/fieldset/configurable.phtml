@@ -27,10 +27,10 @@
 
 <?php /* @var $this Mage_Adminhtml_Block_Catalog_Product_Composite_Fieldset_Configurable */ ?>
 <?php $_product = $this->getProduct(); ?>
-<?php $_attributes = Mage::helper('core')->decorateArray($this->getAllowAttributes()); ?>
+<?php $_attributes = Mage::helper('Mage_Core_Helper_Data')->decorateArray($this->getAllowAttributes()); ?>
 <?php if ($_product->isSaleable() && count($_attributes)):?>
 <div id="catalog_product_composite_configure_fields_configurable" class="<?php echo $this->getIsLastFieldset() ? 'last-fieldset' : '' ?>">
-    <h4><?php echo Mage::helper('catalog')->__('Associated Products') ?></h4>
+    <h4><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Associated Products') ?></h4>
     <div class="product-options">
         <dl>
         <?php foreach($_attributes as $_attribute): ?>
@@ -38,7 +38,7 @@
             <dd<?php if ($_attribute->decoratedIsLast){?> class="last"<?php }?>>
                 <div class="input-box">
                     <select name="super_attribute[<?php echo $_attribute->getAttributeId() ?>]" id="attribute<?php echo $_attribute->getAttributeId() ?>" class="required-entry super-attribute-select">
-                        <option><?php echo Mage::helper('catalog')->__('Choose an Option...') ?></option>
+                        <option><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Choose an Option...') ?></option>
                     </select>
                 </div>
             </dd>

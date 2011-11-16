@@ -48,13 +48,13 @@ class Mage_Directory_Model_Observer
 
         $service = Mage::getStoreConfig(self::IMPORT_SERVICE);
         if( !$service ) {
-            $importWarnings[] = Mage::helper('directory')->__('FATAL ERROR:') . ' ' . Mage::helper('directory')->__('Invalid Import Service specified.');
+            $importWarnings[] = Mage::helper('Mage_Directory_Helper_Data')->__('FATAL ERROR:') . ' ' . Mage::helper('Mage_Directory_Helper_Data')->__('Invalid Import Service specified.');
         }
 
         try {
             $importModel = Mage::getModel(Mage::getConfig()->getNode('global/currency/import/services/' . $service . '/model')->asArray());
         } catch (Exception $e) {
-            $importWarnings[] = Mage::helper('directory')->__('FATAL ERROR:') . ' ' . Mage::throwException(Mage::helper('directory')->__('Unable to initialize the import model.'));
+            $importWarnings[] = Mage::helper('Mage_Directory_Helper_Data')->__('FATAL ERROR:') . ' ' . Mage::throwException(Mage::helper('Mage_Directory_Helper_Data')->__('Unable to initialize the import model.'));
         }
 
         $rates = $importModel->fetchRates();
@@ -62,20 +62,20 @@ class Mage_Directory_Model_Observer
 
         if( sizeof($errors) > 0 ) {
             foreach ($errors as $error) {
-                $importWarnings[] = Mage::helper('directory')->__('WARNING:') . ' ' . $error;
+                $importWarnings[] = Mage::helper('Mage_Directory_Helper_Data')->__('WARNING:') . ' ' . $error;
             }
         }
 
         if (sizeof($importWarnings) == 0) {
-            Mage::getModel('directory/currency')->saveRates($rates);
+            Mage::getModel('Mage_Directory_Model_Currency')->saveRates($rates);
         }
         else {
-            $translate = Mage::getSingleton('core/translate');
+            $translate = Mage::getSingleton('Mage_Core_Model_Translate');
             /* @var $translate Mage_Core_Model_Translate */
             $translate->setTranslateInline(false);
 
             /* @var $mailTemplate Mage_Core_Model_Email_Template */
-            $mailTemplate = Mage::getModel('core/email_template');
+            $mailTemplate = Mage::getModel('Mage_Core_Model_Email_Template');
             $mailTemplate->setDesignConfig(array('area' => 'frontend', 'store' => Mage::app()->getStore()->getId()))
                 ->sendTransactional(
                     Mage::getStoreConfig(self::XML_PATH_ERROR_TEMPLATE),

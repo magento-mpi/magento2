@@ -61,7 +61,7 @@ class Mage_Customer_Model_Session extends Mage_Core_Model_Session_Abstract
      */
     public function getCustomerConfigShare()
     {
-        return Mage::getSingleton('customer/config_share');
+        return Mage::getSingleton('Mage_Customer_Model_Config_Share');
     }
 
     public function __construct()
@@ -110,7 +110,7 @@ class Mage_Customer_Model_Session extends Mage_Core_Model_Session_Abstract
             return $this->_customer;
         }
 
-        $customer = Mage::getModel('customer/customer')
+        $customer = Mage::getModel('Mage_Customer_Model_Customer')
             ->setWebsiteId(Mage::app()->getStore()->getWebsiteId());
         if ($this->getId()) {
             $customer->load($this->getId());
@@ -192,7 +192,8 @@ class Mage_Customer_Model_Session extends Mage_Core_Model_Session_Abstract
     public function checkCustomerId($customerId)
     {
         if ($this->_isCustomerIdChecked === null) {
-            $this->_isCustomerIdChecked = Mage::getResourceSingleton('customer/customer')->checkCustomerId($customerId);
+            $this->_isCustomerIdChecked = Mage::getResourceSingleton('Mage_Customer_Model_Resource_Customer')
+                ->checkCustomerId($customerId);
         }
         return $this->_isCustomerIdChecked;
     }
@@ -207,7 +208,7 @@ class Mage_Customer_Model_Session extends Mage_Core_Model_Session_Abstract
     public function login($username, $password)
     {
         /** @var $customer Mage_Customer_Model_Customer */
-        $customer = Mage::getModel('customer/customer')
+        $customer = Mage::getModel('Mage_Customer_Model_Customer')
             ->setWebsiteId(Mage::app()->getStore()->getWebsiteId());
 
         if ($customer->authenticate($username, $password)) {
@@ -233,7 +234,7 @@ class Mage_Customer_Model_Session extends Mage_Core_Model_Session_Abstract
      */
     public function loginById($customerId)
     {
-        $customer = Mage::getModel('customer/customer')->load($customerId);
+        $customer = Mage::getModel('Mage_Customer_Model_Customer')->load($customerId);
         if ($customer->getId()) {
             $this->setCustomerAsLoggedIn($customer);
             return true;
@@ -266,7 +267,7 @@ class Mage_Customer_Model_Session extends Mage_Core_Model_Session_Abstract
         if (!$this->isLoggedIn()) {
             $this->setBeforeAuthUrl(Mage::getUrl('*/*/*', array('_current'=>true)));
             if (is_null($loginUrl)) {
-                $loginUrl = Mage::helper('customer')->getLoginUrl();
+                $loginUrl = Mage::helper('Mage_Customer_Helper_Data')->getLoginUrl();
             }
             $action->getResponse()->setRedirect($loginUrl);
             return false;
@@ -283,10 +284,10 @@ class Mage_Customer_Model_Session extends Mage_Core_Model_Session_Abstract
      */
     protected function _setAuthUrl($key, $url)
     {
-        $url = Mage::helper('core/url')
-            ->removeRequestParam($url, Mage::getSingleton('core/session')->getSessionIdQueryParam());
+        $url = Mage::helper('Mage_Core_Helper_Url')
+            ->removeRequestParam($url, Mage::getSingleton('Mage_Core_Model_Session')->getSessionIdQueryParam());
         // Add correct session ID to URL if needed
-        $url = Mage::getModel('core/url')->getRebuiltUrl($url);
+        $url = Mage::getModel('Mage_Core_Model_Url')->getRebuiltUrl($url);
         return $this->setData($key, $url);
     }
 
@@ -333,7 +334,7 @@ class Mage_Customer_Model_Session extends Mage_Core_Model_Session_Abstract
     public function renewSession()
     {
         parent::renewSession();
-        Mage::getSingleton('core/session')->unsSessionHosts();
+        Mage::getSingleton('Mage_Core_Model_Session')->unsSessionHosts();
 
         return $this;
     }

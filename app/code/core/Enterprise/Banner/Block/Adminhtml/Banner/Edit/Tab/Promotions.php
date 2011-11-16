@@ -41,7 +41,7 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions extends Mage_
      */
     public function getTabLabel()
     {
-        return Mage::helper('enterprise_banner')->__('Related Promotions');
+        return Mage::helper('Enterprise_Banner_Helper_Data')->__('Related Promotions');
     }
 
     /**

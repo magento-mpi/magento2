@@ -61,13 +61,13 @@ class Mage_Adminhtml_Sales_Order_InvoiceController extends Mage_Adminhtml_Contro
         $invoiceId = $this->getRequest()->getParam('invoice_id');
         $orderId = $this->getRequest()->getParam('order_id');
         if ($invoiceId) {
-            $invoice = Mage::getModel('sales/order_invoice')->load($invoiceId);
+            $invoice = Mage::getModel('Mage_Sales_Model_Order_Invoice')->load($invoiceId);
             if (!$invoice->getId()) {
                 $this->_getSession()->addError($this->__('The invoice no longer exists.'));
                 return false;
             }
         } elseif ($orderId) {
-            $order = Mage::getModel('sales/order')->load($orderId);
+            $order = Mage::getModel('Mage_Sales_Model_Order')->load($orderId);
             /**
              * Check order existing
              */
@@ -83,7 +83,7 @@ class Mage_Adminhtml_Sales_Order_InvoiceController extends Mage_Adminhtml_Contro
                 return false;
             }
             $savedQtys = $this->_getItemQtys();
-            $invoice = Mage::getModel('sales/service_order', $order)->prepareInvoice($savedQtys);
+            $invoice = Mage::getModel('Mage_Sales_Model_Service_Order', $order)->prepareInvoice($savedQtys);
             if (!$invoice->getTotalQty()) {
                 Mage::throwException($this->__('Cannot create an invoice without products.'));
             }
@@ -102,7 +102,7 @@ class Mage_Adminhtml_Sales_Order_InvoiceController extends Mage_Adminhtml_Contro
     protected function _saveInvoice($invoice)
     {
         $invoice->getOrder()->setIsInProcess(true);
-        $transactionSave = Mage::getModel('core/resource_transaction')
+        $transactionSave = Mage::getModel('Mage_Core_Model_Resource_Transaction')
             ->addObject($invoice)
             ->addObject($invoice->getOrder())
             ->save();
@@ -119,7 +119,7 @@ class Mage_Adminhtml_Sales_Order_InvoiceController extends Mage_Adminhtml_Contro
     protected function _prepareShipment($invoice)
     {
         $savedQtys = $this->_getItemQtys();
-        $shipment = Mage::getModel('sales/service_order', $invoice->getOrder())->prepareShipment($savedQtys);
+        $shipment = Mage::getModel('Mage_Sales_Model_Service_Order', $invoice->getOrder())->prepareShipment($savedQtys);
         if (!$shipment->getTotalQty()) {
             return false;
         }
@@ -129,7 +129,7 @@ class Mage_Adminhtml_Sales_Order_InvoiceController extends Mage_Adminhtml_Contro
         $tracks = $this->getRequest()->getPost('tracking');
         if ($tracks) {
             foreach ($tracks as $data) {
-                $track = Mage::getModel('sales/order_shipment_track')
+                $track = Mage::getModel('Mage_Sales_Model_Order_Shipment_Track')
                     ->addData($data);
                 $shipment->addTrack($track);
             }
@@ -178,7 +178,7 @@ class Mage_Adminhtml_Sales_Order_InvoiceController extends Mage_Adminhtml_Contro
         if ($invoice) {
             $this->_title($this->__('New Invoice'));
 
-            if ($comment = Mage::getSingleton('adminhtml/session')->getCommentText(true)) {
+            if ($comment = Mage::getSingleton('Mage_Adminhtml_Model_Session')->getCommentText(true)) {
                 $invoice->setCommentText($comment);
             }
 
@@ -209,13 +209,13 @@ class Mage_Adminhtml_Sales_Order_InvoiceController extends Mage_Adminhtml_Contro
                 'error'     => true,
                 'message'   => $e->getMessage()
             );
-            $response = Mage::helper('core')->jsonEncode($response);
+            $response = Mage::helper('Mage_Core_Helper_Data')->jsonEncode($response);
         } catch (Exception $e) {
             $response = array(
                 'error'     => true,
                 'message'   => $this->__('Cannot update item quantity.')
             );
-            $response = Mage::helper('core')->jsonEncode($response);
+            $response = Mage::helper('Mage_Core_Helper_Data')->jsonEncode($response);
         }
         $this->getResponse()->setBody($response);
     }
@@ -230,7 +230,7 @@ class Mage_Adminhtml_Sales_Order_InvoiceController extends Mage_Adminhtml_Contro
         $orderId = $this->getRequest()->getParam('order_id');
 
         if (!empty($data['comment_text'])) {
-            Mage::getSingleton('adminhtml/session')->setCommentText($data['comment_text']);
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')->setCommentText($data['comment_text']);
         }
 
         try {
@@ -258,7 +258,7 @@ class Mage_Adminhtml_Sales_Order_InvoiceController extends Mage_Adminhtml_Contro
                 $invoice->getOrder()->setCustomerNoteNotify(!empty($data['send_email']));
                 $invoice->getOrder()->setIsInProcess(true);
 
-                $transactionSave = Mage::getModel('core/resource_transaction')
+                $transactionSave = Mage::getModel('Mage_Core_Model_Resource_Transaction')
                     ->addObject($invoice)
                     ->addObject($invoice->getOrder());
                 $shipment = false;
@@ -298,7 +298,7 @@ class Mage_Adminhtml_Sales_Order_InvoiceController extends Mage_Adminhtml_Contro
                         $this->_getSession()->addError($this->__('Unable to send the shipment email.'));
                     }
                 }
-                Mage::getSingleton('adminhtml/session')->getCommentText(true);
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->getCommentText(true);
                 $this->_redirect('*/sales_order/view', array('order_id' => $orderId));
             } else {
                 $this->_redirect('*/*/new', array('order_id' => $orderId));
@@ -401,13 +401,13 @@ class Mage_Adminhtml_Sales_Order_InvoiceController extends Mage_Adminhtml_Contro
                 'error'     => true,
                 'message'   => $e->getMessage()
             );
-            $response = Mage::helper('core')->jsonEncode($response);
+            $response = Mage::helper('Mage_Core_Helper_Data')->jsonEncode($response);
         } catch (Exception $e) {
             $response = array(
                 'error'     => true,
                 'message'   => $this->__('Cannot add new comment.')
             );
-            $response = Mage::helper('core')->jsonEncode($response);
+            $response = Mage::helper('Mage_Core_Helper_Data')->jsonEncode($response);
         }
         $this->getResponse()->setBody($response);
     }

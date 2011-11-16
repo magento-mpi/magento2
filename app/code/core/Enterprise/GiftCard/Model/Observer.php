@@ -40,7 +40,9 @@ class Enterprise_GiftCard_Model_Observer extends Mage_Core_Model_Abstract
         $elem = $form->getElement(self::ATTRIBUTE_CODE);
 
         if ($elem) {
-            $elem->setRenderer(Mage::app()->getLayout()->createBlock('enterprise_giftcard/adminhtml_renderer_amount'));
+            $elem->setRenderer(
+                Mage::app()->getLayout()->createBlock('Enterprise_GiftCard_Block_Adminhtml_Renderer_Amount')
+            );
         }
     }
 
@@ -155,7 +157,9 @@ class Enterprise_GiftCard_Model_Observer extends Mage_Core_Model_Abstract
                             ? $options['giftcard_paid_invoice_items']
                             : array());
                         // find invoice for this order item
-                        $invoiceItemCollection = Mage::getResourceModel('sales/order_invoice_item_collection')
+                        $invoiceItemCollection = Mage::getResourceModel(
+                                'Mage_Sales_Model_Resource_Order_Invoice_Item_Collection'
+                            )
                             ->addFieldToFilter('order_item_id', $item->getId());
 
                         foreach ($invoiceItemCollection as $invoiceItem) {
@@ -163,7 +167,7 @@ class Enterprise_GiftCard_Model_Observer extends Mage_Core_Model_Abstract
                             if(isset($loadedInvoices[$invoiceId])) {
                                 $invoice = $loadedInvoices[$invoiceId];
                             } else {
-                                $invoice = Mage::getModel('sales/order_invoice')
+                                $invoice = Mage::getModel('Mage_Sales_Model_Order_Invoice')
                                     ->load($invoiceId);
                                 $loadedInvoices[$invoiceId] = $invoice;
                             }
@@ -229,7 +233,7 @@ class Enterprise_GiftCard_Model_Observer extends Mage_Core_Model_Abstract
                             $sender = "$sender <$senderEmail>";
                         }
 
-                        $codeList = Mage::helper('enterprise_giftcard')->getEmailGeneratedItemsBlock()
+                        $codeList = Mage::helper('Enterprise_GiftCard_Helper_Data')->getEmailGeneratedItemsBlock()
                             ->setCodes($codes)
                             ->setIsRedeemable($isRedeemable)
                             ->setStore(Mage::app()->getStore($order->getStoreId()));
@@ -251,7 +255,7 @@ class Enterprise_GiftCard_Model_Observer extends Mage_Core_Model_Abstract
                             'is_redeemable'          => $isRedeemable,
                         );
 
-                        $email = Mage::getModel('core/email_template')
+                        $email = Mage::getModel('Mage_Core_Model_Email_Template')
                             ->setDesignConfig(array('store' => $item->getOrder()->getStoreId()));
                         $email->sendTransactional(
                             $item->getProductOptionByCode('giftcard_email_template'),
@@ -272,10 +276,10 @@ class Enterprise_GiftCard_Model_Observer extends Mage_Core_Model_Abstract
                     $item->save();
                 }
                 if ($hasFailedCodes) {
-                    $url = Mage::getSingleton('adminhtml/url')->getUrl('adminhtml/giftcardaccount');
-                    $message = Mage::helper('enterprise_giftcard')->__('Some of Gift Card Accounts were not generated properly. You can create Gift Card Accounts manually <a href="%s">here</a>.', $url);
+                    $url = Mage::getSingleton('Mage_Adminhtml_Model_Url')->getUrl('adminhtml/giftcardaccount');
+                    $message = Mage::helper('Enterprise_GiftCard_Helper_Data')->__('Some of Gift Card Accounts were not generated properly. You can create Gift Card Accounts manually <a href="%s">here</a>.', $url);
 
-                    Mage::getSingleton('adminhtml/session')->addError($message);
+                    Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($message);
                 }
             }
         }

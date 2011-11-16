@@ -42,8 +42,9 @@ class Mage_Sales_Model_Resource_Report_Invoiced_Collection_Invoiced
     public function __construct()
     {
         parent::_construct();
-        $this->setModel('adminhtml/report_item');
-        $this->_resource = Mage::getResourceModel('sales/report')->init('sales_invoiced_aggregated');
+        $this->setModel('Mage_Adminhtml_Model_Report_Item');
+        $this->_resource = Mage::getResourceModel('Mage_Sales_Model_Resource_Report')
+            ->init('sales_invoiced_aggregated');
         $this->setConnection($this->getResource()->getReadConnection());
     }
 }

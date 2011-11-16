@@ -50,7 +50,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Preview_Buttons extends Mage_Admin
                 'onclick' => 'preview()'
             ));
 
-        if (Mage::getSingleton('enterprise_cms/config')->canCurrentUserPublishRevision()) {
+        if (Mage::getSingleton('Enterprise_Cms_Model_Config')->canCurrentUserPublishRevision()) {
             $this->_addButton('publish', array(
                 'id' => 'preview-buttons-publish',
                 'label' => 'Publish',

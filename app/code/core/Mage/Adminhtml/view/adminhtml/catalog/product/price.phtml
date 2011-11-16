@@ -34,11 +34,11 @@
 ?>
 <?php
     /** @var $_coreHelper Mage_Core_Helper_Data */
-    $_coreHelper        = $this->helper('core');
+    $_coreHelper        = $this->helper('Mage_Core_Helper_Data');
     /** @var $_weeeHelper Mage_Weee_Helper_Data */
-    $_weeeHelper        = $this->helper('weee');
+    $_weeeHelper        = $this->helper('Mage_Weee_Helper_Data');
     /** @var $_taxHelper Mage_Tax_Helper_Data */
-    $_taxHelper         = $this->helper('tax');
+    $_taxHelper         = $this->helper('Mage_Tax_Helper_Data');
 
     $_product           = $this->getProduct();
     $_id                = $_product->getId();
@@ -72,26 +72,26 @@ $_inclTax = $_taxHelper->getPrice($_product, $_minimalPriceValue, $includingTax 
     <?php if ($_taxHelper->displayBothPrices()): ?>
         <?php if ($_weeeTaxAmount && $_weeeHelper->typeOfDisplay($_product, 0)): // including ?>
             <span class="price-excluding-tax">
-                <span class="label"><?php echo $this->helper('tax')->__('Excl. Tax:') ?></span>
+                <span class="label"><?php echo $this->helper('Mage_Tax_Helper_Data')->__('Excl. Tax:') ?></span>
                 <span class="price" id="price-excluding-tax-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>">
                     <?php echo $_coreHelper->currencyByStore($_price+$_weeeTaxAmount, $_storeId, true, false) ?>
                 </span>
             </span>
             <span class="price-including-tax">
-                <span class="label"><?php echo $this->helper('tax')->__('Incl. Tax:') ?></span>
+                <span class="label"><?php echo $this->helper('Mage_Tax_Helper_Data')->__('Incl. Tax:') ?></span>
                 <span class="price" id="price-including-tax-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>">
                     <?php echo $_coreHelper->currencyByStore($_finalPriceInclTax+$_weeeTaxAmount,true,false) ?>
                 </span>
             </span>
         <?php elseif ($_weeeTaxAmount && $_weeeHelper->typeOfDisplay($_product, 1)): // incl. + weee ?>
             <span class="price-excluding-tax">
-                <span class="label"><?php echo $this->helper('tax')->__('Excl. Tax:') ?></span>
+                <span class="label"><?php echo $this->helper('Mage_Tax_Helper_Data')->__('Excl. Tax:') ?></span>
                 <span class="price" id="price-excluding-tax-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>">
                     <?php echo $_coreHelper->currencyByStore($_price+$_weeeTaxAmount, $_storeId, true, false) ?>
                 </span>
             </span>
             <span class="price-including-tax">
-                <span class="label"><?php echo $this->helper('tax')->__('Incl. Tax:') ?></span>
+                <span class="label"><?php echo $this->helper('Mage_Tax_Helper_Data')->__('Incl. Tax:') ?></span>
                 <span class="price" id="price-including-tax-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>">
                     <?php echo $_coreHelper->currencyByStore($_finalPriceInclTax+$_weeeTaxAmount, $_storeId, true, false) ?>
                 </span>
@@ -105,13 +105,13 @@ $_inclTax = $_taxHelper->getPrice($_product, $_minimalPriceValue, $includingTax 
             </span>
         <?php elseif ($_weeeTaxAmount && $_weeeHelper->typeOfDisplay($_product, 4)): // incl. + weee ?>
             <span class="price-excluding-tax">
-                <span class="label"><?php echo $this->helper('tax')->__('Excl. Tax:') ?></span>
+                <span class="label"><?php echo $this->helper('Mage_Tax_Helper_Data')->__('Excl. Tax:') ?></span>
                 <span class="price" id="price-excluding-tax-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>">
                     <?php echo $_coreHelper->currencyByStore($_price+$_weeeTaxAmount, $_storeId, true, false) ?>
                 </span>
             </span>
             <span class="price-including-tax">
-                <span class="label"><?php echo $this->helper('tax')->__('Incl. Tax:') ?></span>
+                <span class="label"><?php echo $this->helper('Mage_Tax_Helper_Data')->__('Incl. Tax:') ?></span>
                 <span class="price" id="price-including-tax-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>">
                     <?php echo $_coreHelper->currencyByStore($_finalPriceInclTax+$_weeeTaxAmount, $_storeId, true, false) ?>
                 </span>
@@ -125,7 +125,7 @@ $_inclTax = $_taxHelper->getPrice($_product, $_minimalPriceValue, $includingTax 
             </span>
         <?php elseif ($_weeeTaxAmount && $_weeeHelper->typeOfDisplay($_product, 2)): // excl. + weee + final ?>
             <span class="price-excluding-tax">
-                <span class="label"><?php echo $this->helper('tax')->__('Excl. Tax:') ?></span>
+                <span class="label"><?php echo $this->helper('Mage_Tax_Helper_Data')->__('Excl. Tax:') ?></span>
                 <span class="price" id="price-excluding-tax-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>">
                     <?php echo $_coreHelper->currencyByStore($_price, $_storeId, true, false) ?>
                 </span>
@@ -136,20 +136,20 @@ $_inclTax = $_taxHelper->getPrice($_product, $_minimalPriceValue, $includingTax 
                 </span>
             <?php endforeach; ?>
             <span class="price-including-tax">
-                <span class="label"><?php echo $this->helper('tax')->__('Incl. Tax:') ?></span>
+                <span class="label"><?php echo $this->helper('Mage_Tax_Helper_Data')->__('Incl. Tax:') ?></span>
                 <span class="price" id="price-including-tax-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>">
                     <?php echo $_coreHelper->currencyByStore($_finalPriceInclTax+$_weeeTaxAmount, $_storeId, true, false) ?>
                 </span>
             </span>
         <?php else: ?>
             <span class="price-excluding-tax">
-                <span class="label"><?php echo $this->helper('tax')->__('Excl. Tax:') ?></span>
+                <span class="label"><?php echo $this->helper('Mage_Tax_Helper_Data')->__('Excl. Tax:') ?></span>
                 <span class="price" id="price-excluding-tax-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>">
                     <?php echo $_coreHelper->currencyByStore($_price, $_storeId, true, false) ?>
                 </span>
             </span>
             <span class="price-including-tax">
-                <span class="label"><?php echo $this->helper('tax')->__('Incl. Tax:') ?></span>
+                <span class="label"><?php echo $this->helper('Mage_Tax_Helper_Data')->__('Incl. Tax:') ?></span>
                 <span class="price" id="price-including-tax-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>">
                     <?php echo $_coreHelper->currencyByStore($_finalPriceInclTax, $_storeId, true, false) ?>
                 </span>
@@ -258,7 +258,7 @@ $_inclTax = $_taxHelper->getPrice($_product, $_minimalPriceValue, $includingTax 
             <?php endforeach; ?>
             )</span>
         <span class="price-including-tax">
-            <span class="label"><?php echo $this->helper('tax')->__('Incl. Tax:') ?></span>
+            <span class="label"><?php echo $this->helper('Mage_Tax_Helper_Data')->__('Incl. Tax:') ?></span>
             <span class="price" id="price-including-tax-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>">
                 <?php echo $_coreHelper->currencyByStore($_finalPriceInclTax+$_weeeTaxAmount, $_storeId, true, false) ?>
             </span>
@@ -288,7 +288,7 @@ $_inclTax = $_taxHelper->getPrice($_product, $_minimalPriceValue, $includingTax 
             <?php endforeach; ?>
             )</span>
         <span class="price-including-tax">
-            <span class="label"><?php echo $this->helper('tax')->__('Incl. Tax:') ?></span>
+            <span class="label"><?php echo $this->helper('Mage_Tax_Helper_Data')->__('Incl. Tax:') ?></span>
             <span class="price" id="price-including-tax-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>">
                 <?php echo $_coreHelper->currencyByStore($_finalPriceInclTax+$_weeeTaxAmount, $_storeId, true, false) ?>
             </span>
@@ -340,7 +340,7 @@ $_inclTax = $_taxHelper->getPrice($_product, $_minimalPriceValue, $includingTax 
                     </span>
                 </span>
                 <span class="price-including-tax">
-                    <span class="label"><?php echo $this->helper('tax')->__('Incl. Tax:') ?></span>
+                    <span class="label"><?php echo $this->helper('Mage_Tax_Helper_Data')->__('Incl. Tax:') ?></span>
                     <span class="price" id="price-including-tax-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>">
                         <?php echo $_coreHelper->currencyByStore($_finalPriceInclTax, $_storeId, true, false) ?>
                     </span>

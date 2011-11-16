@@ -53,14 +53,14 @@ class Mage_Adminhtml_Model_Sales_Order_Random
 
     public function __construct()
     {
-        $this->_quote = Mage::getModel('sales/quote')->save();
-        $this->_order = Mage::getModel('sales/order');
+        $this->_quote = Mage::getModel('Mage_Sales_Model_Quote')->save();
+        $this->_order = Mage::getModel('Mage_Sales_Model_Order');
     }
 
     protected function _getStores()
     {
         if (!self::$_storeCollection) {
-            self::$_storeCollection = Mage::getResourceModel('core/store_collection')
+            self::$_storeCollection = Mage::getResourceModel('Mage_Core_Model_Resource_Store_Collection')
                 ->load();
         }
         return self::$_storeCollection->getItems();
@@ -69,7 +69,7 @@ class Mage_Adminhtml_Model_Sales_Order_Random
     protected function _getCustomers()
     {
         if (!self::$_customerCollection) {
-            self::$_customerCollection = Mage::getResourceModel('customer/customer_collection')
+            self::$_customerCollection = Mage::getResourceModel('Mage_Customer_Model_Resource_Customer_Collection')
                 ->joinAttribute('billing_country_id', 'customer_address/country_id', 'default_billing', null, 'inner')
                 ->joinAttribute('shipping_country_id', 'customer_address/country_id', 'default_shipping', null, 'inner')
                 ->load();
@@ -80,10 +80,10 @@ class Mage_Adminhtml_Model_Sales_Order_Random
     protected function _getProducts()
     {
         if (!$this->_productCollection) {
-            $this->_productCollection= Mage::getResourceModel('catalog/product_collection');
+            $this->_productCollection= Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Collection');
             //$this->_productCollection->getEntity()->setStore($this->_getStore());
-            Mage::getSingleton('catalog/product_status')->addVisibleFilterToCollection($this->_productCollection);
-            Mage::getSingleton('catalog/product_visibility')->addVisibleInSearchFilterToCollection($this->_productCollection);
+            Mage::getSingleton('Mage_Catalog_Model_Product_Status')->addVisibleFilterToCollection($this->_productCollection);
+            Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')->addVisibleInSearchFilterToCollection($this->_productCollection);
             $this->_productCollection->addAttributeToSelect('name')
                 ->addAttributeToSelect('sku')
                 ->addAttributeToFilter('type_id', Mage_Catalog_Model_Product_Type::TYPE_SIMPLE)

@@ -60,7 +60,7 @@ class Mage_Tax_Model_Calculation_Rate extends Mage_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('tax/calculation_rate');
+        $this->_init('Mage_Tax_Model_Resource_Calculation_Rate');
     }
 
     /**
@@ -92,7 +92,7 @@ class Mage_Tax_Model_Calculation_Rate extends Mage_Core_Model_Abstract
         parent::_beforeSave();
         $country = $this->getTaxCountryId();
         $region = $this->getTaxRegionId();
-        $regionModel = Mage::getModel('directory/region');
+        $regionModel = Mage::getModel('Mage_Directory_Model_Region');
         $regionModel->load($region);
         if ($regionModel->getCountryId() != $country) {
             $this->setTaxRegionId('*');
@@ -121,7 +121,7 @@ class Mage_Tax_Model_Calculation_Rate extends Mage_Core_Model_Abstract
     protected function _beforeDelete()
     {
         if ($this->_isInRule()) {
-            Mage::throwException(Mage::helper('tax')->__('Tax rate cannot be removed. It exists in tax rule'));
+            Mage::throwException(Mage::helper('Mage_Tax_Helper_Data')->__('Tax rate cannot be removed. It exists in tax rule'));
         }
         return parent::_beforeDelete();
     }
@@ -162,7 +162,7 @@ class Mage_Tax_Model_Calculation_Rate extends Mage_Core_Model_Abstract
     public function getTitleModel()
     {
         if (is_null($this->_titleModel)) {
-            $this->_titleModel = Mage::getModel('tax/calculation_rate_title');
+            $this->_titleModel = Mage::getModel('Mage_Tax_Model_Calculation_Rate_Title');
         }
         return $this->_titleModel;
     }

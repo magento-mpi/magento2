@@ -179,7 +179,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('sales/quote');
+        $this->_init('Mage_Sales_Model_Resource_Quote');
     }
 
     /**
@@ -393,7 +393,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
             } else {
                 $defaultBillingAddress = $customer->getDefaultBillingAddress();
                 if ($defaultBillingAddress && $defaultBillingAddress->getId()) {
-                    $billingAddress = Mage::getModel('sales/quote_address')
+                    $billingAddress = Mage::getModel('Mage_Sales_Model_Quote_Address')
                         ->importCustomerAddress($defaultBillingAddress);
                     $this->setBillingAddress($billingAddress);
                 }
@@ -402,10 +402,10 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
             if (is_null($shippingAddress)) {
                 $defaultShippingAddress = $customer->getDefaultShippingAddress();
                 if ($defaultShippingAddress && $defaultShippingAddress->getId()) {
-                    $shippingAddress = Mage::getModel('sales/quote_address')
+                    $shippingAddress = Mage::getModel('Mage_Sales_Model_Quote_Address')
                         ->importCustomerAddress($defaultShippingAddress);
                 } else {
-                    $shippingAddress = Mage::getModel('sales/quote_address');
+                    $shippingAddress = Mage::getModel('Mage_Sales_Model_Quote_Address');
                 }
             }
             $this->setShippingAddress($shippingAddress);
@@ -424,7 +424,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
     {
         $this->_customer = $customer;
         $this->setCustomerId($customer->getId());
-        Mage::helper('core')->copyFieldset('customer_account', 'to_quote', $customer, $this);
+        Mage::helper('Mage_Core_Helper_Data')->copyFieldset('customer_account', 'to_quote', $customer, $this);
         return $this;
     }
 
@@ -436,7 +436,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
     public function getCustomer()
     {
         if (is_null($this->_customer)) {
-            $this->_customer = Mage::getModel('customer/customer');
+            $this->_customer = Mage::getModel('Mage_Customer_Model_Customer');
             if ($customerId = $this->getCustomerId()) {
                 $this->_customer->load($customerId);
                 if (!$this->_customer->getId()) {
@@ -469,7 +469,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         * we need to retrieve from db everytime to get the correct tax class
         */
         //if (!$this->getData('customer_group_id') && !$this->getData('customer_tax_class_id')) {
-        $classId = Mage::getModel('customer/group')->getTaxClassId($this->getCustomerGroupId());
+        $classId = Mage::getModel('Mage_Customer_Model_Group')->getTaxClassId($this->getCustomerGroupId());
         $this->setCustomerTaxClassId($classId);
         //}
 
@@ -484,7 +484,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
     public function getAddressesCollection()
     {
         if (is_null($this->_addresses)) {
-            $this->_addresses = Mage::getModel('sales/quote_address')->getCollection()
+            $this->_addresses = Mage::getModel('Mage_Sales_Model_Quote_Address')->getCollection()
                 ->setQuoteFilter($this->getId());
 
             if ($this->getId()) {
@@ -510,7 +510,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
             }
         }
 
-        $address = Mage::getModel('sales/quote_address')->setAddressType($type);
+        $address = Mage::getModel('Mage_Sales_Model_Quote_Address')->setAddressType($type);
         $this->addAddress($address);
         return $address;
     }
@@ -678,7 +678,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
     public function getItemsCollection($useCache = true)
     {
         if (is_null($this->_items)) {
-            $this->_items = Mage::getModel('sales/quote_item')->getCollection();
+            $this->_items = Mage::getModel('Mage_Sales_Model_Quote_Item')->getCollection();
             $this->_items->setQuote($this);
         }
         return $this->_items;
@@ -822,7 +822,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
          */
         if ($item->isNominal() && $this->hasItems() || $this->hasNominalItems()) {
             Mage::throwException(
-                Mage::helper('sales')->__('Nominal item can be purchased standalone only. To proceed please remove other items from the quote.')
+                Mage::helper('Mage_Sales_Helper_Data')->__('Nominal item can be purchased standalone only. To proceed please remove other items from the quote.')
             );
         }
 
@@ -852,7 +852,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
             $request = new Varien_Object(array('qty'=>$request));
         }
         if (!($request instanceof Varien_Object)) {
-            Mage::throwException(Mage::helper('sales')->__('Invalid request for adding product to quote.'));
+            Mage::throwException(Mage::helper('Mage_Sales_Helper_Data')->__('Invalid request for adding product to quote.'));
         }
 
         $cartCandidates = $product->getTypeInstance(true)
@@ -944,7 +944,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         $newItem = false;
         $item = $this->getItemByProduct($product);
         if (!$item) {
-            $item = Mage::getModel('sales/quote_item');
+            $item = Mage::getModel('Mage_Sales_Model_Quote_Item');
             $item->setQuote($this);
             if (Mage::app()->getStore()->isAdmin()) {
                 $item->setStoreId($this->getStore()->getId());
@@ -998,13 +998,13 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
     {
         $item = $this->getItemById($itemId);
         if (!$item) {
-            Mage::throwException(Mage::helper('sales')->__('Wrong quote item id to update configuration.'));
+            Mage::throwException(Mage::helper('Mage_Sales_Helper_Data')->__('Wrong quote item id to update configuration.'));
         }
         $productId = $item->getProduct()->getId();
 
         //We need to create new clear product instance with same $productId
         //to set new option values from $buyRequest
-        $product = Mage::getModel('catalog/product')
+        $product = Mage::getModel('Mage_Catalog_Model_Product')
             ->setStoreId($this->getStore()->getId())
             ->load($productId);
 
@@ -1014,7 +1014,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
             $params = new Varien_Object($params);
         }
         $params->setCurrentConfig($item->getBuyRequest());
-        $buyRequest = Mage::helper('catalog/product')->addParamsToBuyRequest($buyRequest, $params);
+        $buyRequest = Mage::helper('Mage_Catalog_Helper_Product')->addParamsToBuyRequest($buyRequest, $params);
 
         $buyRequest->setResetCount(true);
         $resultItem = $this->addProduct($product, $buyRequest);
@@ -1122,7 +1122,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
     public function getPaymentsCollection()
     {
         if (is_null($this->_payments)) {
-            $this->_payments = Mage::getModel('sales/quote_payment')->getCollection()
+            $this->_payments = Mage::getModel('Mage_Sales_Model_Quote_Payment')->getCollection()
                 ->setQuoteFilter($this->getId());
 
             if ($this->getId()) {
@@ -1144,7 +1144,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
                 return $payment;
             }
         }
-        $payment = Mage::getModel('sales/quote_payment');
+        $payment = Mage::getModel('Mage_Sales_Model_Quote_Payment');
         $this->addPayment($payment);
         return $payment;
     }
@@ -1236,8 +1236,8 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
             $this->setBaseGrandTotal((float) $this->getBaseGrandTotal() + $address->getBaseGrandTotal());
         }
 
-        Mage::helper('sales')->checkQuoteAmount($this, $this->getGrandTotal());
-        Mage::helper('sales')->checkQuoteAmount($this, $this->getBaseGrandTotal());
+        Mage::helper('Mage_Sales_Helper_Data')->checkQuoteAmount($this, $this->getGrandTotal());
+        Mage::helper('Mage_Sales_Helper_Data')->checkQuoteAmount($this, $this->getBaseGrandTotal());
 
         $this->setItemsCount(0);
         $this->setItemsQty(0);
@@ -1330,7 +1330,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         }
 
         if (is_string($message)) {
-            $message = Mage::getSingleton('core/message')->error($message);
+            $message = Mage::getSingleton('Mage_Core_Model_Message')->error($message);
         }
 
         $messages[$index] = $message;
@@ -1406,7 +1406,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
     public function addErrorInfo($type = 'error', $origin = null, $code = null, $message = null, $additionalData = null)
     {
         if (!isset($this->_errorInfoGroups[$type])) {
-            $this->_errorInfoGroups[$type] = Mage::getModel('sales/status_list');
+            $this->_errorInfoGroups[$type] = Mage::getModel('Mage_Sales_Model_Status_List');
         }
 
         $this->_errorInfoGroups[$type]->addItem($origin, $code, $message, $additionalData);
@@ -1738,7 +1738,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         foreach ($this->getAllVisibleItems() as $item) {
             $product = $item->getProduct();
             if (is_object($product) && ($product->isRecurring())
-                && $profile = Mage::getModel('sales/recurring_profile')->importProduct($product)
+                && $profile = Mage::getModel('Mage_Sales_Model_Recurring_Profile')->importProduct($product)
             ) {
                 $profile->importQuote($this);
                 $profile->importQuoteItem($item);
@@ -1812,6 +1812,6 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
      */
     public function isAllowedGuestCheckout()
     {
-        return Mage::helper('checkout')->isAllowedGuestCheckout($this, $this->getStoreId());
+        return Mage::helper('Mage_Checkout_Helper_Data')->isAllowedGuestCheckout($this, $this->getStoreId());
     }
 }

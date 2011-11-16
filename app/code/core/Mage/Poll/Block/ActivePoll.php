@@ -64,7 +64,7 @@ class Mage_Poll_Block_ActivePoll extends Mage_Core_Block_Template
     public function __construct()
     {
         parent::__construct();
-        $this->_pollModel = Mage::getModel('poll/poll');
+        $this->_pollModel = Mage::getModel('Mage_Poll_Model_Poll');
     }
 
     /**
@@ -126,7 +126,7 @@ class Mage_Poll_Block_ActivePoll extends Mage_Core_Block_Template
             return $this->getPollId();
         }
         // get last voted poll (from session only)
-        $pollId = Mage::getSingleton('core/session')->getJustVotedPoll();
+        $pollId = Mage::getSingleton('Mage_Core_Model_Session')->getJustVotedPoll();
         if (empty($pollId)) {
             // get random not voted yet poll
             $votedIds = $this->getVotedPollsIds();
@@ -153,7 +153,7 @@ class Mage_Poll_Block_ActivePoll extends Mage_Core_Block_Template
         }
         $poll = $this->_pollModel->load($pollId);
 
-        $pollAnswers = Mage::getModel('poll/poll_answer')
+        $pollAnswers = Mage::getModel('Mage_Poll_Model_Poll_Answer')
             ->getResourceCollection()
             ->addPollFilter($pollId)
             ->load()
@@ -208,7 +208,7 @@ class Mage_Poll_Block_ActivePoll extends Mage_Core_Block_Template
         $data = $this->getPollData($pollId);
         $this->assign($data);
 
-        Mage::getSingleton('core/session')->setJustVotedPoll(false);
+        Mage::getSingleton('Mage_Core_Model_Session')->setJustVotedPoll(false);
 
         if ($this->_pollModel->isVoted($pollId) === true) {
             $this->setTemplate($this->_templates['results']);

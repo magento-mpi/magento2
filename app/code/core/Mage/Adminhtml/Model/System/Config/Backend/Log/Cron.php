@@ -69,20 +69,20 @@ class Mage_Adminhtml_Model_System_Config_Backend_Log_Cron extends Mage_Core_Mode
         }
 
         try {
-            Mage::getModel('core/config_data')
+            Mage::getModel('Mage_Core_Model_Config_Data')
                 ->load(self::CRON_STRING_PATH, 'path')
                 ->setValue($cronExprString)
                 ->setPath(self::CRON_STRING_PATH)
                 ->save();
 
-            Mage::getModel('core/config_data')
+            Mage::getModel('Mage_Core_Model_Config_Data')
                 ->load(self::CRON_MODEL_PATH, 'path')
                 ->setValue((string) Mage::getConfig()->getNode(self::CRON_MODEL_PATH))
                 ->setPath(self::CRON_MODEL_PATH)
                 ->save();
         }
         catch (Exception $e) {
-            Mage::throwException(Mage::helper('adminhtml')->__('Unable to save the cron expression.'));
+            Mage::throwException(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Unable to save the cron expression.'));
         }
     }
 }

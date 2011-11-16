@@ -76,7 +76,7 @@ class Mage_Tag_Model_Indexer_Summary extends Mage_Index_Model_Indexer_Abstract
      */
     protected function _construct()
     {
-        $this->_init('tag/indexer_summary');
+        $this->_init('Mage_Tag_Model_Resource_Indexer_Summary');
     }
 
     /**
@@ -86,7 +86,7 @@ class Mage_Tag_Model_Indexer_Summary extends Mage_Index_Model_Indexer_Abstract
      */
     public function getName()
     {
-        return Mage::helper('tag')->__('Tag Aggregation Data');
+        return Mage::helper('Mage_Tag_Helper_Data')->__('Tag Aggregation Data');
     }
 
     /**
@@ -96,7 +96,7 @@ class Mage_Tag_Model_Indexer_Summary extends Mage_Index_Model_Indexer_Abstract
      */
     public function getDescription()
     {
-        return Mage::helper('tag')->__('Rebuild Tag aggregation data');
+        return Mage::helper('Mage_Tag_Helper_Data')->__('Rebuild Tag aggregation data');
     }
 
     /**
@@ -156,7 +156,7 @@ class Mage_Tag_Model_Indexer_Summary extends Mage_Index_Model_Indexer_Abstract
      */
     protected function _registerCatalogProductDeleteEvent(Mage_Index_Model_Event $event)
     {
-        $tagIds = Mage::getModel('tag/tag_relation')
+        $tagIds = Mage::getModel('Mage_Tag_Model_Tag_Relation')
             ->setProductId($event->getEntityPk())
             ->getRelatedTagIds();
         if ($tagIds) {
@@ -194,7 +194,7 @@ class Mage_Tag_Model_Indexer_Summary extends Mage_Index_Model_Indexer_Abstract
 
         // register affected tags
         if ($reindexTags) {
-            $tagIds = Mage::getModel('tag/tag_relation')
+            $tagIds = Mage::getModel('Mage_Tag_Model_Tag_Relation')
                 ->setProductId($actionObject->getProductIds())
                 ->getRelatedTagIds();
             if ($tagIds) {

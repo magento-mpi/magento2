@@ -60,7 +60,7 @@ class Mage_Downloadable_Model_Link_Purchased extends Mage_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('downloadable/link_purchased');
+        $this->_init('Mage_Downloadable_Model_Resource_Link_Purchased');
         parent::_construct();
     }
 
@@ -73,7 +73,7 @@ class Mage_Downloadable_Model_Link_Purchased extends Mage_Core_Model_Abstract
     {
         if (null == $this->getOrderId()) {
             throw new Exception(
-                Mage::helper('downloadable')->__('Order id cannot be null'));
+                Mage::helper('Mage_Downloadable_Helper_Data')->__('Order id cannot be null'));
         }
         return parent::_beforeSave();
     }

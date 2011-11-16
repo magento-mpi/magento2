@@ -85,7 +85,7 @@ class Mage_XmlConnect_Model_Payment_Method_Paypal_Mecl extends Mage_Paypal_Model
             $storeId = $quote ? $quote->getStoreId() : Mage::app()->getStore()->getId();
         }
 
-        return (bool) Mage::getModel('paypal/config')->setStoreId($storeId)
+        return (bool) Mage::getModel('Mage_Paypal_Model_Config')->setStoreId($storeId)
             ->isMethodAvailable(Mage_Paypal_Model_Config::METHOD_WPP_EXPRESS);
     }
 
@@ -96,6 +96,6 @@ class Mage_XmlConnect_Model_Payment_Method_Paypal_Mecl extends Mage_Paypal_Model
      */
     public function getTitle()
     {
-        return Mage::helper('xmlconnect')->__('PayPal Mobile Express Checkout');
+        return Mage::helper('Mage_XmlConnect_Helper_Data')->__('PayPal Mobile Express Checkout');
     }
 }

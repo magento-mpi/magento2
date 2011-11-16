@@ -71,7 +71,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
     protected function _initOrder()
     {
         $id = $this->getRequest()->getParam('order_id');
-        $order = Mage::getModel('sales/order')->load($id);
+        $order = Mage::getModel('Mage_Sales_Model_Order')->load($id);
 
         if (!$order->getId()) {
             $this->_getSession()->addError($this->__('This order no longer exists.'));
@@ -128,7 +128,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
         if ($order = $this->_initOrder()) {
             try {
                 $order->sendNewOrderEmail();
-                $historyItem = Mage::getResourceModel('sales/order_status_history_collection')
+                $historyItem = Mage::getResourceModel('Mage_Sales_Model_Resource_Order_Status_History_Collection')
                     ->getUnnotifiedForInstance($order, Mage_Sales_Model_Order::HISTORY_ENTITY_NAME);
                 if ($historyItem) {
                     $historyItem->setIsCustomerNotified(1);
@@ -291,7 +291,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
                 );
             }
             if (is_array($response)) {
-                $response = Mage::helper('core')->jsonEncode($response);
+                $response = Mage::helper('Mage_Core_Helper_Data')->jsonEncode($response);
                 $this->getResponse()->setBody($response);
             }
         }
@@ -304,7 +304,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
     {
         $this->_initOrder();
         $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('adminhtml/sales_order_view_tab_invoices')->toHtml()
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Sales_Order_View_Tab_Invoices')->toHtml()
         );
     }
 
@@ -315,7 +315,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
     {
         $this->_initOrder();
         $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('adminhtml/sales_order_view_tab_shipments')->toHtml()
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Sales_Order_View_Tab_Shipments')->toHtml()
         );
     }
 
@@ -326,7 +326,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
     {
         $this->_initOrder();
         $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('adminhtml/sales_order_view_tab_creditmemos')->toHtml()
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Sales_Order_View_Tab_Creditmemos')->toHtml()
         );
     }
 
@@ -336,9 +336,9 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
     public function commentsHistoryAction()
     {
         $this->_initOrder();
-        $html = $this->getLayout()->createBlock('adminhtml/sales_order_view_tab_history')->toHtml();
+        $html = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Sales_Order_View_Tab_History')->toHtml();
         /* @var $translate Mage_Core_Model_Translate_Inline */
-        $translate = Mage::getModel('core/translate_inline');
+        $translate = Mage::getModel('Mage_Core_Model_Translate_Inline');
         if ($translate->isAllowed()) {
             $translate->processResponseBody($html);
         }
@@ -354,7 +354,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
         $countCancelOrder = 0;
         $countNonCancelOrder = 0;
         foreach ($orderIds as $orderId) {
-            $order = Mage::getModel('sales/order')->load($orderId);
+            $order = Mage::getModel('Mage_Sales_Model_Order')->load($orderId);
             if ($order->canCancel()) {
                 $order->cancel()
                     ->save();
@@ -385,7 +385,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
         $countHoldOrder = 0;
         $countNonHoldOrder = 0;
         foreach ($orderIds as $orderId) {
-            $order = Mage::getModel('sales/order')->load($orderId);
+            $order = Mage::getModel('Mage_Sales_Model_Order')->load($orderId);
             if ($order->canHold()) {
                 $order->hold()
                     ->save();
@@ -418,7 +418,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
         $countNonUnholdOrder = 0;
 
         foreach ($orderIds as $orderId) {
-            $order = Mage::getModel('sales/order')->load($orderId);
+            $order = Mage::getModel('Mage_Sales_Model_Order')->load($orderId);
             if ($order->canUnhold()) {
                 $order->unhold()
                     ->save();
@@ -465,22 +465,22 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
         $flag = false;
         if (!empty($orderIds)) {
             foreach ($orderIds as $orderId) {
-                $invoices = Mage::getResourceModel('sales/order_invoice_collection')
+                $invoices = Mage::getResourceModel('Mage_Sales_Model_Resource_Order_Invoice_Collection')
                     ->setOrderFilter($orderId)
                     ->load();
                 if ($invoices->getSize() > 0) {
                     $flag = true;
                     if (!isset($pdf)){
-                        $pdf = Mage::getModel('sales/order_pdf_invoice')->getPdf($invoices);
+                        $pdf = Mage::getModel('Mage_Sales_Model_Order_Pdf_Invoice')->getPdf($invoices);
                     } else {
-                        $pages = Mage::getModel('sales/order_pdf_invoice')->getPdf($invoices);
+                        $pages = Mage::getModel('Mage_Sales_Model_Order_Pdf_Invoice')->getPdf($invoices);
                         $pdf->pages = array_merge ($pdf->pages, $pages->pages);
                     }
                 }
             }
             if ($flag) {
                 return $this->_prepareDownloadResponse(
-                    'invoice'.Mage::getSingleton('core/date')->date('Y-m-d_H-i-s').'.pdf', $pdf->render(),
+                    'invoice'.Mage::getSingleton('Mage_Core_Model_Date')->date('Y-m-d_H-i-s').'.pdf', $pdf->render(),
                     'application/pdf'
                 );
             } else {
@@ -499,22 +499,22 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
         $flag = false;
         if (!empty($orderIds)) {
             foreach ($orderIds as $orderId) {
-                $shipments = Mage::getResourceModel('sales/order_shipment_collection')
+                $shipments = Mage::getResourceModel('Mage_Sales_Model_Resource_Order_Shipment_Collection')
                     ->setOrderFilter($orderId)
                     ->load();
                 if ($shipments->getSize()) {
                     $flag = true;
                     if (!isset($pdf)){
-                        $pdf = Mage::getModel('sales/order_pdf_shipment')->getPdf($shipments);
+                        $pdf = Mage::getModel('Mage_Sales_Model_Order_Pdf_Shipment')->getPdf($shipments);
                     } else {
-                        $pages = Mage::getModel('sales/order_pdf_shipment')->getPdf($shipments);
+                        $pages = Mage::getModel('Mage_Sales_Model_Order_Pdf_Shipment')->getPdf($shipments);
                         $pdf->pages = array_merge ($pdf->pages, $pages->pages);
                     }
                 }
             }
             if ($flag) {
                 return $this->_prepareDownloadResponse(
-                    'packingslip'.Mage::getSingleton('core/date')->date('Y-m-d_H-i-s').'.pdf', $pdf->render(),
+                    'packingslip'.Mage::getSingleton('Mage_Core_Model_Date')->date('Y-m-d_H-i-s').'.pdf', $pdf->render(),
                     'application/pdf'
                 );
             } else {
@@ -533,22 +533,22 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
         $flag = false;
         if (!empty($orderIds)) {
             foreach ($orderIds as $orderId) {
-                $creditmemos = Mage::getResourceModel('sales/order_creditmemo_collection')
+                $creditmemos = Mage::getResourceModel('Mage_Sales_Model_Resource_Order_Creditmemo_Collection')
                     ->setOrderFilter($orderId)
                     ->load();
                 if ($creditmemos->getSize()) {
                     $flag = true;
                     if (!isset($pdf)){
-                        $pdf = Mage::getModel('sales/order_pdf_creditmemo')->getPdf($creditmemos);
+                        $pdf = Mage::getModel('Mage_Sales_Model_Order_Pdf_Creditmemo')->getPdf($creditmemos);
                     } else {
-                        $pages = Mage::getModel('sales/order_pdf_creditmemo')->getPdf($creditmemos);
+                        $pages = Mage::getModel('Mage_Sales_Model_Order_Pdf_Creditmemo')->getPdf($creditmemos);
                         $pdf->pages = array_merge ($pdf->pages, $pages->pages);
                     }
                 }
             }
             if ($flag) {
                 return $this->_prepareDownloadResponse(
-                    'creditmemo'.Mage::getSingleton('core/date')->date('Y-m-d_H-i-s').'.pdf', $pdf->render(),
+                    'creditmemo'.Mage::getSingleton('Mage_Core_Model_Date')->date('Y-m-d_H-i-s').'.pdf', $pdf->render(),
                     'application/pdf'
                 );
             } else {
@@ -567,48 +567,48 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
         $flag = false;
         if (!empty($orderIds)) {
             foreach ($orderIds as $orderId) {
-                $invoices = Mage::getResourceModel('sales/order_invoice_collection')
+                $invoices = Mage::getResourceModel('Mage_Sales_Model_Resource_Order_Invoice_Collection')
                     ->setOrderFilter($orderId)
                     ->load();
                 if ($invoices->getSize()){
                     $flag = true;
                     if (!isset($pdf)){
-                        $pdf = Mage::getModel('sales/order_pdf_invoice')->getPdf($invoices);
+                        $pdf = Mage::getModel('Mage_Sales_Model_Order_Pdf_Invoice')->getPdf($invoices);
                     } else {
-                        $pages = Mage::getModel('sales/order_pdf_invoice')->getPdf($invoices);
+                        $pages = Mage::getModel('Mage_Sales_Model_Order_Pdf_Invoice')->getPdf($invoices);
                         $pdf->pages = array_merge ($pdf->pages, $pages->pages);
                     }
                 }
 
-                $shipments = Mage::getResourceModel('sales/order_shipment_collection')
+                $shipments = Mage::getResourceModel('Mage_Sales_Model_Resource_Order_Shipment_Collection')
                     ->setOrderFilter($orderId)
                     ->load();
                 if ($shipments->getSize()){
                     $flag = true;
                     if (!isset($pdf)){
-                        $pdf = Mage::getModel('sales/order_pdf_shipment')->getPdf($shipments);
+                        $pdf = Mage::getModel('Mage_Sales_Model_Order_Pdf_Shipment')->getPdf($shipments);
                     } else {
-                        $pages = Mage::getModel('sales/order_pdf_shipment')->getPdf($shipments);
+                        $pages = Mage::getModel('Mage_Sales_Model_Order_Pdf_Shipment')->getPdf($shipments);
                         $pdf->pages = array_merge ($pdf->pages, $pages->pages);
                     }
                 }
 
-                $creditmemos = Mage::getResourceModel('sales/order_creditmemo_collection')
+                $creditmemos = Mage::getResourceModel('Mage_Sales_Model_Resource_Order_Creditmemo_Collection')
                     ->setOrderFilter($orderId)
                     ->load();
                 if ($creditmemos->getSize()) {
                     $flag = true;
                     if (!isset($pdf)){
-                        $pdf = Mage::getModel('sales/order_pdf_creditmemo')->getPdf($creditmemos);
+                        $pdf = Mage::getModel('Mage_Sales_Model_Order_Pdf_Creditmemo')->getPdf($creditmemos);
                     } else {
-                        $pages = Mage::getModel('sales/order_pdf_creditmemo')->getPdf($creditmemos);
+                        $pages = Mage::getModel('Mage_Sales_Model_Order_Pdf_Creditmemo')->getPdf($creditmemos);
                         $pdf->pages = array_merge ($pdf->pages, $pages->pages);
                     }
                 }
             }
             if ($flag) {
                 return $this->_prepareDownloadResponse(
-                    'docs'.Mage::getSingleton('core/date')->date('Y-m-d_H-i-s').'.pdf',
+                    'docs'.Mage::getSingleton('Mage_Core_Model_Date')->date('Y-m-d_H-i-s').'.pdf',
                     $pdf->render(), 'application/pdf'
                 );
             } else {
@@ -680,7 +680,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
                 break;
 
         }
-        return Mage::getSingleton('admin/session')->isAllowed($aclResource);
+        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed($aclResource);
     }
 
     /**
@@ -689,7 +689,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
     public function exportCsvAction()
     {
         $fileName   = 'orders.csv';
-        $grid       = $this->getLayout()->createBlock('adminhtml/sales_order_grid');
+        $grid       = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Sales_Order_Grid');
         $this->_prepareDownloadResponse($fileName, $grid->getCsvFile());
     }
 
@@ -699,7 +699,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
     public function exportExcelAction()
     {
         $fileName   = 'orders.xml';
-        $grid       = $this->getLayout()->createBlock('adminhtml/sales_order_grid');
+        $grid       = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Sales_Order_Grid');
         $this->_prepareDownloadResponse($fileName, $grid->getExcelFile($fileName));
     }
 
@@ -720,7 +720,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
     public function addressAction()
     {
         $addressId = $this->getRequest()->getParam('address_id');
-        $address = Mage::getModel('sales/order_address')
+        $address = Mage::getModel('Mage_Sales_Model_Order_Address')
             ->getCollection()
             ->getItemById($addressId);
         if ($address) {
@@ -738,14 +738,14 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
     public function addressSaveAction()
     {
         $addressId  = $this->getRequest()->getParam('address_id');
-        $address    = Mage::getModel('sales/order_address')->load($addressId);
+        $address    = Mage::getModel('Mage_Sales_Model_Order_Address')->load($addressId);
         $data       = $this->getRequest()->getPost();
         if ($data && $address->getId()) {
             $address->addData($data);
             try {
                 $address->implodeStreetAddress()
                     ->save();
-                $this->_getSession()->addSuccess(Mage::helper('sales')->__('The order address has been updated.'));
+                $this->_getSession()->addSuccess(Mage::helper('Mage_Sales_Helper_Data')->__('The order address has been updated.'));
                 $this->_redirect('*/*/view', array('order_id'=>$address->getParentId()));
                 return;
             } catch (Mage_Core_Exception $e) {
@@ -753,7 +753,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
             } catch (Exception $e) {
                 $this->_getSession()->addException(
                     $e,
-                    Mage::helper('sales')->__('An error occurred while updating the order address. The address has not been changed.')
+                    Mage::helper('Mage_Sales_Helper_Data')->__('An error occurred while updating the order address. The address has not been changed.')
                 );
             }
             $this->_redirect('*/*/address', array('address_id'=>$address->getId()));

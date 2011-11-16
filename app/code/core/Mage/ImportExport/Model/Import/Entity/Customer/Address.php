@@ -145,7 +145,7 @@ class Mage_ImportExport_Model_Import_Entity_Customer_Address extends Mage_Import
 
         $this->_initAttributes()->_initCountryRegions();
 
-        $this->_entityTable = Mage::getModel('customer/address')->getResource()->getEntityTable();
+        $this->_entityTable = Mage::getModel('Mage_Customer_Model_Address')->getResource()->getEntityTable();
         $this->_customer    = $customer;
 
         foreach ($this->_messageTemplates as $errorCode => $message) {
@@ -161,16 +161,16 @@ class Mage_ImportExport_Model_Import_Entity_Customer_Address extends Mage_Import
     protected function _importData()
     {
         /** @var $customer Mage_Customer_Model_Customer */
-        $customer       = Mage::getModel('customer/customer');
+        $customer       = Mage::getModel('Mage_Customer_Model_Customer');
         /** @var $resource Mage_Customer_Model_Address */
-        $resource       = Mage::getModel('customer/address');
+        $resource       = Mage::getModel('Mage_Customer_Model_Address');
         $strftimeFormat = Varien_Date::convertZendToStrftime(Varien_Date::DATETIME_INTERNAL_FORMAT, true, true);
         $table = $resource->getResource()->getEntityTable();
-        $nextEntityId   = Mage::getResourceHelper('importexport')->getNextAutoincrement($table);
+        $nextEntityId   = Mage::getResourceHelper('Mage_ImportExport')->getNextAutoincrement($table);
         $customerId     = null;
         $regionColName  = self::getColNameForAttrCode('region');
         $countryColName = self::getColNameForAttrCode('country_id');
-        $regionIdAttr   = Mage::getSingleton('eav/config')->getAttribute($this->getEntityTypeCode(), 'region_id');
+        $regionIdAttr   = Mage::getSingleton('Mage_Eav_Model_Config')->getAttribute($this->getEntityTypeCode(), 'region_id');
         $regionIdTable  = $regionIdAttr->getBackend()->getTable();
         $regionIdAttrId = $regionIdAttr->getId();
 
@@ -250,7 +250,7 @@ class Mage_ImportExport_Model_Import_Entity_Customer_Address extends Mage_Import
      */
     protected function _initAttributes()
     {
-        $addrCollection = Mage::getResourceModel('customer/address_attribute_collection')
+        $addrCollection = Mage::getResourceModel('Mage_Customer_Model_Resource_Address_Attribute_Collection')
                             ->addSystemHiddenFilter()
                             ->addExcludeHiddenFrontendFilter();
 
@@ -275,7 +275,7 @@ class Mage_ImportExport_Model_Import_Entity_Customer_Address extends Mage_Import
      */
     protected function _initCountryRegions()
     {
-        foreach (Mage::getResourceModel('directory/region_collection') as $regionRow) {
+        foreach (Mage::getResourceModel('Mage_Directory_Model_Resource_Region_Collection') as $regionRow) {
             $countryNormalized = strtolower($regionRow['country_id']);
             $regionCode = strtolower($regionRow['code']);
             $regionName = strtolower($regionRow['default_name']);

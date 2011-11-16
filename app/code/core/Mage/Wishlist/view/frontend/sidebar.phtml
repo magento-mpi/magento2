@@ -25,7 +25,7 @@
  */
 /* @var $this Mage_Wishlist_Block_Customer_Sidebar */
 ?>
-<?php if ($this->helper('wishlist')->isAllow()) : ?>
+<?php if ($this->helper('Mage_Wishlist_Helper_Data')->isAllow()) : ?>
 <div class="block block-wishlist">
     <div class="block-title">
         <strong><span><?php echo $this->__('My Wishlist <small>(%d)</small>', $this->getItemCount()) ?></span></strong>
@@ -51,7 +51,7 @@
     </ol>
     <script type="text/javascript">decorateList('wishlist-sidebar');</script>
     <div class="actions">
-        <a href="<?php echo $this->helper('wishlist')->getListUrl() ?>"><?php echo $this->__('Go to Wishlist') ?></a>
+        <a href="<?php echo $this->helper('Mage_Wishlist_Helper_Data')->getListUrl() ?>"><?php echo $this->__('Go to Wishlist') ?></a>
     </div>
     <?php else: ?>
         <p class="empty"><?php echo $this->__('You have no items in your wishlist.') ?></p>

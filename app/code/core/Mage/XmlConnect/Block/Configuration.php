@@ -47,11 +47,11 @@ class Mage_XmlConnect_Block_Configuration extends Mage_Core_Block_Template
      */
     protected function _beforeToHtml()
     {
-        $app = Mage::helper('xmlconnect')->getApplication();
+        $app = Mage::helper('Mage_XmlConnect_Helper_Data')->getApplication();
         if ($app) {
             $this->_app = $app;
         } else {
-            $this->_app = Mage::getModel('xmlconnect/application');
+            $this->_app = Mage::getModel('Mage_XmlConnect_Model_Application');
             $this->_app->loadDefaultConfiguration();
         }
         return $this;
@@ -66,7 +66,7 @@ class Mage_XmlConnect_Block_Configuration extends Mage_Core_Block_Template
      */
     protected function _buildRecursive($section, $subtree)
     {
-        Mage::helper('xmlconnect')->getDeviceHelper()->checkRequiredConfigFields($subtree);
+        Mage::helper('Mage_XmlConnect_Helper_Data')->getDeviceHelper()->checkRequiredConfigFields($subtree);
 
         foreach ($subtree as $key => $value) {
             if (is_array($value)) {
@@ -99,7 +99,7 @@ class Mage_XmlConnect_Block_Configuration extends Mage_Core_Block_Template
             } else {
                 $value = (string)$value;
                 if ($value != '') {
-                    $section->addChild($key, Mage::helper('core')->escapeHtml($value));
+                    $section->addChild($key, Mage::helper('Mage_Core_Helper_Data')->escapeHtml($value));
                 }
             }
         }
@@ -112,8 +112,10 @@ class Mage_XmlConnect_Block_Configuration extends Mage_Core_Block_Template
      */
     protected function _toHtml()
     {
-        $xml = Mage::getModel('xmlconnect/simplexml_element', '<configuration></configuration>');
-        $this->_buildRecursive($xml, Mage::helper('xmlconnect')->excludeXmlConfigKeys($this->_app->getRenderConf()));
+        $xml = Mage::getModel('Mage_XmlConnect_Model_Simplexml_Element', '<configuration></configuration>');
+        $this->_buildRecursive($xml,
+            Mage::helper('Mage_XmlConnect_Helper_Data')->excludeXmlConfigKeys($this->_app->getRenderConf())
+        );
         return $xml->asNiceXml();
     }
 }

@@ -25,7 +25,7 @@
  */
 /** @var $this Enterprise_Rma_Block_Order_Button */
 ?>
-<?php if($this->helper('enterprise_rma')->canCreateRma($this->getOrder())): ?>
+<?php if($this->helper('Enterprise_Rma_Helper_Data')->canCreateRma($this->getOrder())): ?>
     <span class="separator">|</span>
-    <a href="<?php echo $this->helper('enterprise_rma')->getReturnCreateUrl($this->getOrder()) ?>"><?php echo $this->__('Return') ?></a>
+    <a href="<?php echo $this->helper('Enterprise_Rma_Helper_Data')->getReturnCreateUrl($this->getOrder()) ?>"><?php echo $this->__('Return') ?></a>
 <?php endif;?>

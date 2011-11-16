@@ -28,33 +28,33 @@
 <?php if ($this->getEnabled() && $this->getTypesCollection()->getSize()) : ?>
 <div class="block block-gr-search">
     <div class="block-title">
-        <strong><span><?php echo Mage::helper('enterprise_giftregistry')->__('Gift Registry Search') ?></span></strong>
+        <strong><span><?php echo Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Gift Registry Search') ?></span></strong>
     </div>
     <div class="block-content">
         <form id="gr-quick-search-form" action="<?php echo $this->getActionUrl() ?>" method="post">
             <ul class="form-alt">
                 <li>
                     <?php echo $this->getBlockHtml('formkey')?>
-                    <label for="params_firstname" class="required"><?php echo Mage::helper('enterprise_giftregistry')->__('First Name') ?> <em>*</em></label>
+                    <label for="params_firstname" class="required"><?php echo Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('First Name') ?> <em>*</em></label>
                     <div class="input-box">
                         <input type="text" class="input-text required-entry validate-name-length" id="params_firstname" name="params[firstname]" />
                     </div>
                 </li>
                 <li>
-                    <label for="params_lastname" class="required"><?php echo Mage::helper('enterprise_giftregistry')->__('Last Name') ?> <em>*</em></label>
+                    <label for="params_lastname" class="required"><?php echo Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Last Name') ?> <em>*</em></label>
                     <div class="input-box">
                         <input type="text" class="input-text required-entry validate-name-length" id="params_lastname" name="params[lastname]" />
                     </div>
-                    <p class="note"><em>*</em> <?php echo Mage::helper('enterprise_giftregistry')->__('Enter at least two letters of the name') ?></p>
+                    <p class="note"><em>*</em> <?php echo Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Enter at least two letters of the name') ?></p>
                 </li>
                 <li>
-                    <label class="required"><?php echo Mage::helper('enterprise_giftregistry')->__('Type') ?></label>
+                    <label class="required"><?php echo Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Type') ?></label>
                     <div class="input-box"><?php echo $this->getTypeSelectHtml() ?></div>
                 </li>
             </ul>
             <div class="actions">
                 <input type="hidden" name="params[search]" value="type" />
-                <button type="submit" title="<?php echo Mage::helper('enterprise_giftregistry')->__('Go') ?>" class="button"><span><span><?php echo Mage::helper('enterprise_giftregistry')->__('Search') ?></span></span></button>
+                <button type="submit" title="<?php echo Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Go') ?>" class="button"><span><span><?php echo Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Search') ?></span></span></button>
                 </div>
         </form>
 
@@ -62,7 +62,7 @@
             <ul class="form-alt">
                 <li>
                     <?php echo $this->getBlockHtml('formkey')?>
-                    <label for="params_email" class="required"><?php echo Mage::helper('enterprise_giftregistry')->__('Recipient Email') ?> <em>*</em></label>
+                    <label for="params_email" class="required"><?php echo Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Recipient Email') ?> <em>*</em></label>
                     <div class="input-box">
                         <input type="text" class="input-text required-entry validate-email" id="params_email" name="params[email]" />
                     </div>
@@ -70,7 +70,7 @@
             </ul>
             <div class="actions">
                 <input type="hidden" name="params[search]" value="email" />
-                <button type="submit" title="<?php echo Mage::helper('enterprise_giftregistry')->__('Go') ?>" class="button"><span><span><?php echo Mage::helper('enterprise_giftregistry')->__('Search') ?></span></span></button>
+                <button type="submit" title="<?php echo Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Go') ?>" class="button"><span><span><?php echo Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Search') ?></span></span></button>
             </div>
         </form>
 
@@ -78,7 +78,7 @@
             <ul class="form-alt">
                 <li>
                     <?php echo $this->getBlockHtml('formkey')?>
-                    <label for="params_id" class="required"><?php echo Mage::helper('enterprise_giftregistry')->__('Gift Registry ID') ?> <em>*</em></label>
+                    <label for="params_id" class="required"><?php echo Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Gift Registry ID') ?> <em>*</em></label>
                     <div class="input-box">
                         <input type="text" class="input-text required-entry" id="params_id" name="params[id]" />
                     </div>
@@ -86,7 +86,7 @@
             </ul>
             <div class="actions">
                 <input type="hidden" name="params[search]" value="id" />
-                <button type="submit" title="<?php echo Mage::helper('enterprise_giftregistry')->__('Go') ?>" class="button"><span><span><?php echo Mage::helper('enterprise_giftregistry')->__('Search') ?></span></span></button>
+                <button type="submit" title="<?php echo Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Go') ?>" class="button"><span><span><?php echo Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Search') ?></span></span></button>
             </div>
         </form>
     </div>

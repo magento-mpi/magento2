@@ -27,8 +27,8 @@
         <input type="hidden" name="payment[use_customer_balance]" value="0" />
         <input type="checkbox" class="checkbox" name="payment[use_customer_balance]" value="1" id="use_customer_balance" <?php echo ($this->isCustomerBalanceUsed() ? 'checked' : '') ?>/>
 
-        <?php $balance = Mage::helper('core')->currency($this->getBalance()); ?>
-        <label for="use_customer_balance"><strong><?php echo Mage::helper('enterprise_customerbalance')->__('Use Store Credit (%s available)', $balance); ?></strong></label>
+        <?php $balance = Mage::helper('Mage_Core_Helper_Data')->currency($this->getBalance()); ?>
+        <label for="use_customer_balance"><strong><?php echo Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Use Store Credit (%s available)', $balance); ?></strong></label>
     </div>
     <script type="text/javascript">
     //<![CDATA[

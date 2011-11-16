@@ -42,7 +42,7 @@ class Mage_Review_CustomerController extends Mage_Core_Controller_Front_Action
     public function preDispatch()
     {
         parent::preDispatch();
-        if (!Mage::getSingleton('customer/session')->authenticate($this)) {
+        if (!Mage::getSingleton('Mage_Customer_Model_Session')->authenticate($this)) {
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
         }
     }
@@ -50,7 +50,7 @@ class Mage_Review_CustomerController extends Mage_Core_Controller_Front_Action
     public function indexAction()
     {
         $this->loadLayout();
-        $this->_initLayoutMessages('catalog/session');
+        $this->_initLayoutMessages('Mage_Catalog_Model_Session');
 
         if ($navigationBlock = $this->getLayout()->getBlock('customer_account_navigation')) {
             $navigationBlock->setActive('review/customer');

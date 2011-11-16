@@ -74,10 +74,10 @@ class Enterprise_Search_Model_Indexer_Indexer
      */
     public function reindexAll()
     {
-        $helper = Mage::helper('enterprise_search');
+        $helper = Mage::helper('Enterprise_Search_Helper_Data');
         if ($helper->isThirdPartSearchEngine() && $helper->isActiveEngine()) {
             /* Change index status to running */
-            $indexProcess = Mage::getSingleton('index/indexer')->getProcessByCode('catalogsearch_fulltext');
+            $indexProcess = Mage::getSingleton('Mage_Index_Model_Indexer')->getProcessByCode('catalogsearch_fulltext');
             if ($indexProcess) {
                 $indexProcess->reindexAll();
             }
@@ -101,7 +101,7 @@ class Enterprise_Search_Model_Indexer_Indexer
      */
     protected function _changeIndexesStatus($indexList, $status)
     {
-        $indexer = Mage::getSingleton('index/indexer');
+        $indexer = Mage::getSingleton('Mage_Index_Model_Indexer');
 
         if (!is_array($indexList)) {
             $indexList = array($indexList);

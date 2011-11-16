@@ -26,7 +26,7 @@ class Phoenix_Moneybookers_ProcessingController extends Mage_Core_Controller_Fro
      */
     protected function _getCheckout()
     {
-        return Mage::getSingleton('checkout/session');
+        return Mage::getSingleton('Mage_Checkout_Model_Session');
     }
 
     /**
@@ -46,13 +46,13 @@ class Phoenix_Moneybookers_ProcessingController extends Mage_Core_Controller_Fro
         try {
             $session = $this->_getCheckout();
 
-            $order = Mage::getModel('sales/order');
+            $order = Mage::getModel('Mage_Sales_Model_Order');
             $order->loadByIncrementId($session->getLastRealOrderId());
             if (!$order->getId()) {
                 Mage::throwException('No order for processing found');
             }
             $order->setState(Mage_Sales_Model_Order::STATE_PENDING_PAYMENT, Mage_Sales_Model_Order::STATE_PENDING_PAYMENT,
-                Mage::helper('phoenix_moneybookers')->__('The customer was redirected to Moneybookers.')
+                Mage::helper('Phoenix_Moneybookers_Helper_Data')->__('The customer was redirected to Moneybookers.')
             );
             $order->save();
 
@@ -74,7 +74,7 @@ class Phoenix_Moneybookers_ProcessingController extends Mage_Core_Controller_Fro
      */
     public function successAction()
     {
-        $event = Mage::getModel('moneybookers/event')
+        $event = Mage::getModel('Phoenix_Moneybookers_Model_Event')
                  ->setEventData($this->getRequest()->getParams());
         try {
             $quoteId = $event->successEvent();
@@ -96,14 +96,14 @@ class Phoenix_Moneybookers_ProcessingController extends Mage_Core_Controller_Fro
      */
     public function cancelAction()
     {
-        $event = Mage::getModel('moneybookers/event')
+        $event = Mage::getModel('Phoenix_Moneybookers_Model_Event')
                  ->setEventData($this->getRequest()->getParams());
         $message = $event->cancelEvent();
 
         // set quote to active
         $session = $this->_getCheckout();
         if ($quoteId = $session->getMoneybookersQuoteId()) {
-            $quote = Mage::getModel('sales/quote')->load($quoteId);
+            $quote = Mage::getModel('Mage_Sales_Model_Quote')->load($quoteId);
             if ($quote->getId()) {
                 $quote->setIsActive(true)->save();
                 $session->setQuoteId($quoteId);
@@ -120,7 +120,7 @@ class Phoenix_Moneybookers_ProcessingController extends Mage_Core_Controller_Fro
      */
     public function statusAction()
     {
-        $event = Mage::getModel('moneybookers/event')
+        $event = Mage::getModel('Phoenix_Moneybookers_Model_Event')
             ->setEventData($this->getRequest()->getParams());
         $message = $event->processStatusEvent();
         $this->getResponse()->setBody($message);
@@ -137,7 +137,7 @@ class Phoenix_Moneybookers_ProcessingController extends Mage_Core_Controller_Fro
     {
         $this->getResponse()->setBody(
             $this->getLayout()
-                ->createBlock('moneybookers/redirect')
+                ->createBlock('Phoenix_Moneybookers_Block_Redirect')
                 ->setRedirectUrl(Mage::getUrl($path, $arguments))
                 ->toHtml()
         );

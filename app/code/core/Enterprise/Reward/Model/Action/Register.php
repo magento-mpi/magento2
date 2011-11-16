@@ -41,7 +41,7 @@ class Enterprise_Reward_Model_Action_Register extends Enterprise_Reward_Model_Ac
      */
     public function getPoints($websiteId)
     {
-        return (int)Mage::helper('enterprise_reward')->getPointsConfig('register', $websiteId);
+        return (int)Mage::helper('Enterprise_Reward_Helper_Data')->getPointsConfig('register', $websiteId);
     }
 
     /**
@@ -52,6 +52,6 @@ class Enterprise_Reward_Model_Action_Register extends Enterprise_Reward_Model_Ac
      */
     public function getHistoryMessage($args = array())
     {
-        return Mage::helper('enterprise_reward')->__('Registered as customer.');
+        return Mage::helper('Enterprise_Reward_Helper_Data')->__('Registered as customer.');
     }
 }

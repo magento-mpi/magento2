@@ -37,13 +37,13 @@ class Enterprise_CustomerSegment_Model_Observer
      */
     public function addSegmentsToSalesRuleCombine(Varien_Event_Observer $observer)
     {
-        if (!Mage::helper('enterprise_customersegment')->isEnabled()) {
+        if (!Mage::helper('Enterprise_CustomerSegment_Helper_Data')->isEnabled()) {
             return;
         }
         $additional = $observer->getEvent()->getAdditional();
         $additional->setConditions(array(array(
-            'label' => Mage::helper('enterprise_customersegment')->__('Customer Segment'),
-            'value' => 'enterprise_customersegment/segment_condition_segment'
+            'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Customer Segment'),
+            'value' => 'Enterprise_CustomerSegment_Model_Segment_Condition_Segment'
         )));
     }
 
@@ -67,7 +67,7 @@ class Enterprise_CustomerSegment_Model_Observer
         }
 
         if ($customerId) {
-            Mage::getSingleton('enterprise_customersegment/customer')->processCustomerEvent(
+            Mage::getSingleton('Enterprise_CustomerSegment_Model_Customer')->processCustomerEvent(
                 $eventName,
                 $customerId
             );
@@ -85,7 +85,7 @@ class Enterprise_CustomerSegment_Model_Observer
         $eventName = $observer->getEvent()->getName();
         $customer = Mage::registry('segment_customer');
 
-        $customerSession = Mage::getSingleton('customer/session');
+        $customerSession = Mage::getSingleton('Mage_Customer_Model_Session');
         if (!$customerSession->isLoggedIn() && !$customer) {
             return $this;
         }
@@ -93,7 +93,7 @@ class Enterprise_CustomerSegment_Model_Observer
             $customer = $customerSession->getCustomer();
         }
         $website = Mage::app()->getStore()->getWebsite();
-        Mage::getSingleton('enterprise_customersegment/customer')->processEvent($eventName, $customer, $website);
+        Mage::getSingleton('Enterprise_CustomerSegment_Model_Customer')->processEvent($eventName, $customer, $website);
     }
 
     /**
@@ -109,7 +109,7 @@ class Enterprise_CustomerSegment_Model_Observer
         $customer = $quote->getCustomer();
         if ($customer && $customer->getId()) {
             $website = $quote->getStore()->getWebsite();
-            Mage::getSingleton('enterprise_customersegment/customer')->processCustomer($customer, $website);
+            Mage::getSingleton('Enterprise_CustomerSegment_Model_Customer')->processCustomer($customer, $website);
         }
     }
 
@@ -124,9 +124,9 @@ class Enterprise_CustomerSegment_Model_Observer
         $fieldset   = $form->getElement('base_fieldset');
         $fieldset->addField('is_used_for_customer_segment', 'select', array(
             'name'      => 'is_used_for_customer_segment',
-            'label'     => Mage::helper('enterprise_customersegment')->__('Use in Customer Segment'),
-            'title'     => Mage::helper('enterprise_customersegment')->__('Use in Customer Segment'),
-            'values'    => Mage::getModel('adminhtml/system_config_source_yesno')->toOptionArray(),
+            'label'     => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Use in Customer Segment'),
+            'title'     => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Use in Customer Segment'),
+            'values'    => Mage::getModel('Mage_Adminhtml_Model_System_Config_Source_Yesno')->toOptionArray(),
         ));
     }
 }

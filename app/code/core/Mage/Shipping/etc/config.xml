@@ -32,15 +32,6 @@
         </Mage_Shipping>
     </modules>
     <global>
-        <models>
-            <shipping>
-                <class>Mage_Shipping_Model</class>
-                <resourceModel>shipping_resource</resourceModel>
-            </shipping>
-            <shipping_resource>
-                <class>Mage_Shipping_Model_Resource</class>
-            </shipping_resource>
-        </models>
         <resources>
             <shipping_setup>
                 <setup>
@@ -48,40 +39,6 @@
                 </setup>
             </shipping_setup>
         </resources>
-        <sales>
-            <shipping>
-                <rule>
-                    <conditions>
-                        <dest_country>
-                            <class>Mage_Sales_Model_Shipping_Rule_Condition_Dest_Country</class>
-                        </dest_country>
-                        <dest_region>
-                            <class>Mage_Sales_Model_Shipping_Rule_Condition_Dest_Region</class>
-                        </dest_region>
-                        <dest_zip>
-                            <class>Mage_Sales_Model_Shipping_Rule_Condition_Dest_Zip</class>
-                        </dest_zip>
-                        <package_weight>
-                            <class>Mage_Sales_Model_Shipping_Rule_Condition_Package_Weight</class>
-                        </package_weight>
-                        <order_subtotal>
-                            <class>Mage_Sales_Model_Shipping_Rule_Condition_Order_Subtotal</class>
-                        </order_subtotal>
-                        <order_totalqty>
-                            <class>Mage_Sales_Model_Shipping_Rule_Condition_Order_Totalqty</class>
-                        </order_totalqty>
-                    </conditions>
-                    <actions>
-                        <carrier>
-                            <class>Mage_Sales_Model_Shipping_Rule_Action_Carrier</class>
-                        </carrier>
-                        <method>
-                            <class>Mage_Sales_Model_Shipping_Rule_Action_Method</class>
-                        </method>
-                    </actions>
-                </rule>
-            </shipping>
-        </sales>
     </global>
     <adminhtml>
         <translate>
@@ -137,7 +94,7 @@
             <flatrate>
                 <active>1</active>
                 <sallowspecific>0</sallowspecific>
-                <model>shipping/carrier_flatrate</model>
+                <model>Mage_Shipping_Model_Carrier_Flatrate</model>
                 <name>Fixed</name>
                 <price>5.00</price>
                 <title>Flat Rate</title>
@@ -149,7 +106,7 @@
                 <active>0</active>
                 <sallowspecific>0</sallowspecific>
                 <cutoff_cost>50</cutoff_cost>
-                <model>shipping/carrier_freeshipping</model>
+                <model>Mage_Shipping_Model_Carrier_Freeshipping</model>
                 <name>Free</name>
                 <title>Free Shipping</title>
                 <specificerrmsg>This shipping method is currently unavailable. If you would like to ship using this shipping method, please contact us.</specificerrmsg>
@@ -159,7 +116,7 @@
                 <sallowspecific>0</sallowspecific>
                 <condition_name>package_weight</condition_name>
                 <include_virtual_price>1</include_virtual_price>
-                <model>shipping/carrier_tablerate</model>
+                <model>Mage_Shipping_Model_Carrier_Tablerate</model>
                 <name>Table Rate</name>
                 <title>Best Way</title>
                 <specificerrmsg>This shipping method is currently unavailable. If you would like to ship using this shipping method, please contact us.</specificerrmsg>

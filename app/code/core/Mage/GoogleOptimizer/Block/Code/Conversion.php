@@ -39,7 +39,7 @@ class Mage_GoogleOptimizer_Block_Code_Conversion extends Mage_GoogleOptimizer_Bl
 
     protected function _initGoogleOptimizerModel()
     {
-        $collection = Mage::getModel('googleoptimizer/code')
+        $collection = Mage::getModel('Mage_GoogleOptimizer_Model_Code')
             ->getCollection();
 
         if ($this->getPageType()) {

@@ -82,7 +82,7 @@ class Mage_Adminhtml_Model_Config extends Varien_Simplexml_Config
 
     protected function _initSectionsAndTabs()
     {
-        $mergeConfig = Mage::getModel('core/config_base');
+        $mergeConfig = Mage::getModel('Mage_Core_Model_Config_Base');
 
         $config = Mage::getConfig()->loadModulesConfiguration('system.xml');
 
@@ -175,7 +175,7 @@ class Mage_Adminhtml_Model_Config extends Varien_Simplexml_Config
      */
     function getAttributeModule($sectionNode = null, $groupNode = null, $fieldNode = null)
     {
-        $moduleName = 'adminhtml';
+        $moduleName = 'Mage_Adminhtml';
         if (is_object($sectionNode) && method_exists($sectionNode, 'attributes')) {
             $sectionAttributes = $sectionNode->attributes();
             $moduleName = isset($sectionAttributes['module']) ? (string)$sectionAttributes['module'] : $moduleName;
@@ -216,7 +216,7 @@ class Mage_Adminhtml_Model_Config extends Varien_Simplexml_Config
                 $fieldNode = $this->_sections->xpath($path);
             }
             else {
-                Mage::throwException(Mage::helper('adminhtml')->__('The group node name must be specified with field node name.'));
+                Mage::throwException(Mage::helper('Mage_Adminhtml_Helper_Data')->__('The group node name must be specified with field node name.'));
             }
         }
         $moduleName = $this->getAttributeModule($sectionNode, $groupNode, $fieldNode);

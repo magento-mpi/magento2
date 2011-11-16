@@ -40,7 +40,7 @@ class Mage_Sales_Block_Order_Print extends Mage_Sales_Block_Items_Abstract
         }
         $this->setChild(
             'payment_info',
-            $this->helper('payment')->getInfoBlock($this->getOrder()->getPayment())
+            $this->helper('Mage_Payment_Helper_Data')->getInfoBlock($this->getOrder()->getPayment())
         );
     }
 

@@ -62,7 +62,7 @@ class Enterprise_Rma_Model_Rma_Create extends Varien_object
             $customerId = intval($customerId);
 
             if ($customerId) {
-                $customer = Mage::getModel('customer/customer');
+                $customer = Mage::getModel('Mage_Customer_Model_Customer');
                 $customer->load($customerId);
                 $this->_customer = $customer;
             } elseif (intval($this->getOrderId())) {
@@ -86,7 +86,7 @@ class Enterprise_Rma_Model_Rma_Create extends Varien_object
             }
             $orderId = intval($orderId);
             if ($orderId) {
-                $order = Mage::getModel('sales/order');
+                $order = Mage::getModel('Mage_Sales_Model_Order');
                 $order->load($orderId);
                 $this->_order = $order;
             }

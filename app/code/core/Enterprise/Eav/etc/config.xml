@@ -31,16 +31,4 @@
             <version>1.11.0.0</version>
         </Enterprise_Eav>
     </modules>
-    <global>
-        <helpers>
-            <enterprise_eav>
-                <class>Enterprise_Eav_Helper</class>
-            </enterprise_eav>
-        </helpers>
-        <blocks>
-            <enterprise_eav>
-                <class>Enterprise_Eav_Block</class>
-            </enterprise_eav>
-        </blocks>
-    </global>
 </config>

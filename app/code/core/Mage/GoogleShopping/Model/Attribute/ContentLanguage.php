@@ -42,7 +42,7 @@ class Mage_GoogleShopping_Model_Attribute_ContentLanguage extends Mage_GoogleSho
      */
     public function convertAttribute($product, $entry)
     {
-        $config = Mage::getSingleton('googleshopping/config');
+        $config = Mage::getSingleton('Mage_GoogleShopping_Model_Config');
         $targetCountry = $config->getTargetCountry($product->getStoreId());
         $value = $config->getCountryInfo($targetCountry, 'language', $product->getStoreId());
 

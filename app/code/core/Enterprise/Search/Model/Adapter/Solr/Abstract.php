@@ -86,7 +86,7 @@ abstract class Enterprise_Search_Model_Adapter_Solr_Abstract extends Enterprise_
      */
     protected function _getLanguageCodeByLocaleCode($localeCode)
     {
-        return Mage::helper('enterprise_search')->getLanguageCodeByLocaleCode($localeCode);
+        return Mage::helper('Enterprise_Search_Helper_Data')->getLanguageCodeByLocaleCode($localeCode);
     }
 
     /**
@@ -98,7 +98,7 @@ abstract class Enterprise_Search_Model_Adapter_Solr_Abstract extends Enterprise_
      */
     protected function _getLanguageSuffix($localeCode)
     {
-        return Mage::helper('enterprise_search')->getLanguageSuffix($localeCode);
+        return Mage::helper('Enterprise_Search_Helper_Data')->getLanguageSuffix($localeCode);
     }
 
     /**
@@ -384,7 +384,7 @@ abstract class Enterprise_Search_Model_Adapter_Solr_Abstract extends Enterprise_
                 $sortBy = 'position_category_' . Mage::registry('current_category')->getId();
             } elseif ($sortBy == 'price') {
                 $websiteId       = Mage::app()->getStore()->getWebsiteId();
-                $customerGroupId = Mage::getSingleton('customer/session')->getCustomerGroupId();
+                $customerGroupId = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerGroupId();
 
                 $sortBy = 'price_'. $customerGroupId .'_'. $websiteId;
             }
@@ -404,7 +404,7 @@ abstract class Enterprise_Search_Model_Adapter_Solr_Abstract extends Enterprise_
                 $sortField = 'position_category_' . Mage::registry('current_category')->getId();
             } elseif ($sortField == 'price') {
                 $websiteId       = Mage::app()->getStore()->getWebsiteId();
-                $customerGroupId = Mage::getSingleton('customer/session')->getCustomerGroupId();
+                $customerGroupId = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerGroupId();
 
                 $sortField = 'price_'. $customerGroupId .'_'. $websiteId;
             } else {
@@ -445,9 +445,9 @@ abstract class Enterprise_Search_Model_Adapter_Solr_Abstract extends Enterprise_
         if ($attributeCode == 'score') {
             return $attributeCode;
         }
-        $entityType     = Mage::getSingleton('eav/config')->getEntityType('catalog_product');
-        $attribute      = Mage::getSingleton('eav/config')->getAttribute($entityType, $attributeCode);
+        $entityType     = Mage::getSingleton('Mage_Eav_Model_Config')->getEntityType('catalog_product');
+        $attribute      = Mage::getSingleton('Mage_Eav_Model_Config')->getAttribute($entityType, $attributeCode);
 
-        return Mage::helper('enterprise_search')->getAttributeSolrFieldName($attribute);
+        return Mage::helper('Enterprise_Search_Helper_Data')->getAttributeSolrFieldName($attribute);
     }
 }

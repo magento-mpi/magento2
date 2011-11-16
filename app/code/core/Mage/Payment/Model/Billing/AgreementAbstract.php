@@ -77,7 +77,7 @@ abstract class Mage_Payment_Model_Billing_AgreementAbstract extends Mage_Core_Mo
     public function getPaymentMethodInstance()
     {
         if (is_null($this->_paymentMethodInstance)) {
-            $this->_paymentMethodInstance = Mage::helper('payment')->getMethodInstance($this->getMethodCode());
+            $this->_paymentMethodInstance = Mage::helper('Mage_Payment_Helper_Data')->getMethodInstance($this->getMethodCode());
         }
         if ($this->_paymentMethodInstance) {
             $this->_paymentMethodInstance->setStore($this->getStoreId());
@@ -94,10 +94,10 @@ abstract class Mage_Payment_Model_Billing_AgreementAbstract extends Mage_Core_Mo
     {
         $this->_errors = array();
         if (is_null($this->getPaymentMethodInstance()) || !$this->getPaymentMethodInstance()->getCode()) {
-            $this->_errors[] = Mage::helper('payment')->__('Payment method code is not set.');
+            $this->_errors[] = Mage::helper('Mage_Payment_Helper_Data')->__('Payment method code is not set.');
         }
         if (!$this->getReferenceId()) {
-            $this->_errors[] = Mage::helper('payment')->__('Reference ID is not set.');
+            $this->_errors[] = Mage::helper('Mage_Payment_Helper_Data')->__('Reference ID is not set.');
         }
         return empty($this->_errors);
     }
@@ -113,7 +113,7 @@ abstract class Mage_Payment_Model_Billing_AgreementAbstract extends Mage_Core_Mo
         if ($this->isValid()) {
             return parent::_beforeSave();
         }
-        array_unshift($this->_errors, Mage::helper('payment')->__('Unable to save Billing Agreement:'));
+        array_unshift($this->_errors, Mage::helper('Mage_Payment_Helper_Data')->__('Unable to save Billing Agreement:'));
         throw new Mage_Core_Exception(implode(' ', $this->_errors));
     }
 }

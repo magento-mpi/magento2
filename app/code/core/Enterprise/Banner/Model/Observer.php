@@ -39,7 +39,10 @@ class Enterprise_Banner_Model_Observer
     public function prepareCatalogRuleSave(Varien_Event_Observer $observer)
     {
         $request = $observer->getEvent()->getRequest();
-        $request->setPost('related_banners', Mage::helper('adminhtml/js')->decodeGridSerializedInput($request->getPost('related_banners')));
+        $request->setPost(
+            'related_banners',
+            Mage::helper('Mage_Adminhtml_Helper_Js')->decodeGridSerializedInput($request->getPost('related_banners'))
+        );
         return $this;
     }
 
@@ -52,7 +55,7 @@ class Enterprise_Banner_Model_Observer
     public function bindRelatedBannersToCatalogRule(Varien_Event_Observer $observer)
     {
         $catalogRule = $observer->getEvent()->getRule();
-        $resource = Mage::getResourceModel('enterprise_banner/banner');
+        $resource = Mage::getResourceModel('Enterprise_Banner_Model_Resource_Banner');
         $banners = $catalogRule->getRelatedBanners();
         if (empty($banners)) {
             $banners = array();
@@ -70,7 +73,10 @@ class Enterprise_Banner_Model_Observer
     public function prepareSalesRuleSave(Varien_Event_Observer $observer)
     {
         $request = $observer->getEvent()->getRequest();
-        $request->setPost('related_banners', Mage::helper('adminhtml/js')->decodeGridSerializedInput($request->getPost('related_banners')));
+        $request->setPost(
+            'related_banners',
+            Mage::helper('Mage_Adminhtml_Helper_Js')->decodeGridSerializedInput($request->getPost('related_banners'))
+        );
         return $this;
     }
 
@@ -83,7 +89,7 @@ class Enterprise_Banner_Model_Observer
     public function bindRelatedBannersToSalesRule(Varien_Event_Observer $observer)
     {
         $salesRule = $observer->getEvent()->getRule();
-        $resource = Mage::getResourceModel('enterprise_banner/banner');
+        $resource = Mage::getResourceModel('Enterprise_Banner_Model_Resource_Banner');
         $banners = $salesRule->getRelatedBanners();
         if (empty($banners)) {
             $banners = array();

@@ -34,7 +34,7 @@ class Enterprise_Rma_TrackingController extends Mage_Core_Controller_Front_Actio
      */
     public function popupAction()
     {
-        $shippingInfoModel = Mage::getModel('enterprise_rma/shipping_info')
+        $shippingInfoModel = Mage::getModel('Enterprise_Rma_Model_Shipping_Info')
             ->loadByHash($this->getRequest()->getParam('hash'));
 
         Mage::register('rma_current_shipping', $shippingInfoModel);
@@ -54,7 +54,7 @@ class Enterprise_Rma_TrackingController extends Mage_Core_Controller_Front_Actio
      */
     public function packageAction()
     {
-        $shippingInfoModel = Mage::getModel('enterprise_rma/shipping_info')
+        $shippingInfoModel = Mage::getModel('Enterprise_Rma_Model_Shipping_Info')
             ->loadPackage($this->getRequest()->getParam('hash'));
 
         Mage::register('rma_package_shipping', $shippingInfoModel);
@@ -74,7 +74,7 @@ class Enterprise_Rma_TrackingController extends Mage_Core_Controller_Front_Actio
      */
     protected function _canViewRma($rma)
     {
-        if (!Mage::getSingleton('customer/session')->isLoggedIn()) {
+        if (!Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()) {
             $currentOrder = Mage::registry('current_order');
             if ($rma->getOrderId() && ($rma->getOrderId() === $currentOrder->getId())) {
                 return true;
@@ -93,7 +93,9 @@ class Enterprise_Rma_TrackingController extends Mage_Core_Controller_Front_Actio
      */
     protected function _loadValidRma($entityId = null)
     {
-        if (!Mage::getSingleton('customer/session')->isLoggedIn() && !Mage::helper('sales/guest')->loadValidOrder()) {
+        if (!Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()
+            && !Mage::helper('Mage_Sales_Helper_Guest')->loadValidOrder()
+        ) {
             return;
         }
 
@@ -106,7 +108,7 @@ class Enterprise_Rma_TrackingController extends Mage_Core_Controller_Front_Actio
             return false;
         }
 
-        $rma = Mage::getModel('enterprise_rma/rma')->load($entityId);
+        $rma = Mage::getModel('Enterprise_Rma_Model_Rma')->load($entityId);
 
         if ($this->_canViewRma($rma)) {
             Mage::register('current_rma', $rma);
@@ -123,7 +125,8 @@ class Enterprise_Rma_TrackingController extends Mage_Core_Controller_Front_Actio
     public function printLabelAction()
     {
         try {
-            $data = Mage::helper('enterprise_rma')->decodeTrackingHash($this->getRequest()->getParam('hash'));
+            $data = Mage::helper('Enterprise_Rma_Helper_Data')
+                ->decodeTrackingHash($this->getRequest()->getParam('hash'));
 
             $rmaIncrementId = '';
             if ($data['key'] == 'rma_id') {
@@ -132,10 +135,10 @@ class Enterprise_Rma_TrackingController extends Mage_Core_Controller_Front_Actio
                     $rmaIncrementId = Mage::registry('current_rma')->getIncrementId();
                 }
             }
-            $model = Mage::getModel('enterprise_rma/shipping_info')
+            $model = Mage::getModel('Enterprise_Rma_Model_Shipping_Info')
                 ->loadPackage($this->getRequest()->getParam('hash'));
 
-            $shipping = Mage::getModel('enterprise_rma/shipping');
+            $shipping = Mage::getModel('Enterprise_Rma_Model_Shipping');
             $labelContent = $model->getShippingLabel();
             if ($labelContent) {
                 $pdfContent = null;
@@ -145,7 +148,7 @@ class Enterprise_Rma_TrackingController extends Mage_Core_Controller_Front_Actio
                     $pdf = new Zend_Pdf();
                     $page = $shipping->createPdfPageFromImageString($labelContent);
                     if (!$page) {
-                        $this->_getSession()->addError(Mage::helper('sales')->__('File extension not known or unsupported type in the following shipment: %s', $shipment->getIncrementId()));
+                        $this->_getSession()->addError(Mage::helper('Mage_Sales_Helper_Data')->__('File extension not known or unsupported type in the following shipment: %s', $shipping->getIncrementId()));
                     }
                     $pdf->pages[] = $page;
                     $pdfContent = $pdf->render();
@@ -162,7 +165,7 @@ class Enterprise_Rma_TrackingController extends Mage_Core_Controller_Front_Actio
         } catch (Exception $e) {
             Mage::logException($e);
             $this->_getSession()
-                ->addError(Mage::helper('sales')->__('An error occurred while creating shipping label.'));
+                ->addError(Mage::helper('Mage_Sales_Helper_Data')->__('An error occurred while creating shipping label.'));
         }
         $this->norouteAction();
         return;
@@ -174,24 +177,24 @@ class Enterprise_Rma_TrackingController extends Mage_Core_Controller_Front_Actio
      */
     public function packagePrintAction()
     {
-        $data = Mage::helper('enterprise_rma')->decodeTrackingHash($this->getRequest()->getParam('hash'));
+        $data = Mage::helper('Enterprise_Rma_Helper_Data')->decodeTrackingHash($this->getRequest()->getParam('hash'));
 
         if ($data['key'] == 'rma_id') {
             $this->_loadValidRma($data['id']);
         }
-        $model = Mage::getModel('enterprise_rma/shipping_info')
+        $model = Mage::getModel('Enterprise_Rma_Model_Shipping_Info')
             ->loadPackage($this->getRequest()->getParam('hash'));
 
         if ($model) {
-            $pdf = Mage::getModel('sales/order_pdf_shipment_packaging')
+            $pdf = Mage::getModel('Mage_Sales_Model_Order_Pdf_Shipment_Packaging')
                     ->setPackageShippingBlock(
-                        Mage::getBlockSingleton('enterprise_rma/adminhtml_rma_edit_tab_general_shippingmethod')
+                        Mage::getBlockSingleton('Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod')
                     )
                     ->getPdf($model)
             ;
 
             $this->_prepareDownloadResponse(
-                'packingslip'.Mage::getSingleton('core/date')->date('Y-m-d_H-i-s').'.pdf', $pdf->render(),
+                'packingslip'.Mage::getSingleton('Mage_Core_Model_Date')->date('Y-m-d_H-i-s').'.pdf', $pdf->render(),
                 'application/pdf'
             );
         }

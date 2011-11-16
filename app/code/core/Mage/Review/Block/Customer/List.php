@@ -39,10 +39,10 @@ class Mage_Review_Block_Customer_List extends Mage_Customer_Block_Account_Dashbo
 
     protected function _construct()
     {
-        $this->_collection = Mage::getModel('review/review')->getProductCollection();
+        $this->_collection = Mage::getModel('Mage_Review_Model_Review')->getProductCollection();
         $this->_collection
             ->addStoreFilter(Mage::app()->getStore()->getId())
-            ->addCustomerFilter(Mage::getSingleton('customer/session')->getCustomerId())
+            ->addCustomerFilter(Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerId())
             ->setDateOrder();
     }
 
@@ -58,7 +58,7 @@ class Mage_Review_Block_Customer_List extends Mage_Customer_Block_Account_Dashbo
 
     protected function _prepareLayout()
     {
-        $toolbar = $this->getLayout()->createBlock('page/html_pager', 'customer_review_list.toolbar')
+        $toolbar = $this->getLayout()->createBlock('Mage_Page_Block_Html_Pager', 'customer_review_list.toolbar')
             ->setCollection($this->_getCollection());
 
         $this->setChild('toolbar', $toolbar);

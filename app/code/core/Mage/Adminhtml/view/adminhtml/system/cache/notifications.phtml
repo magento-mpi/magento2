@@ -27,8 +27,8 @@
 <?php $_processes = $this->getCacheTypesForRefresh()?>
 <?php if($_processes):?>
 <div class="notification-global">
-    <strong><?php echo $this->helper('adminhtml')->__('One or more of the Cache Types are invalidated:') ?></strong>
+    <strong><?php echo $this->helper('Mage_Adminhtml_Helper_Data')->__('One or more of the Cache Types are invalidated:') ?></strong>
     <?php echo implode(', ', $_processes)?>.
-    <?php echo $this->helper('index')->__('Click here to go to <a href="%s">Cache Management</a> and refresh cache types.', $this->getManageUrl());?>
+    <?php echo $this->helper('Mage_Index_Helper_Data')->__('Click here to go to <a href="%s">Cache Management</a> and refresh cache types.', $this->getManageUrl());?>
 </div>
 <?php endif;?>

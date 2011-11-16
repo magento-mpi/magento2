@@ -20,7 +20,7 @@ class Mage_Widget_Model_Widget_InstanceTest extends PHPUnit_Framework_TestCase
     public function testGetWidgetConfig()
     {
         $model = new Mage_Widget_Model_Widget_Instance;
-        $config = $model->setType('catalog/product_widget_new')->getWidgetConfig();
+        $config = $model->setType('Mage_Catalog_Block_Product_Widget_New')->getWidgetConfig();
         $this->assertInstanceOf('Varien_Simplexml_Element', $config);
         /** @var Varien_Simplexml_Element $config */
         $element = $config->xpath('/widgets/new_products/parameters/template/values/list');

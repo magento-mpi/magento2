@@ -41,7 +41,7 @@ class Mage_XmlConnect_Block_Wishlist extends Mage_Wishlist_Block_Customer_Wishli
     protected function _toHtml()
     {
         /** @var Mage_XmlConnect_Model_Simplexml_Element $wishlistXmlObj */
-        $wishlistXmlObj = Mage::getModel('xmlconnect/simplexml_element', '<wishlist></wishlist>');
+        $wishlistXmlObj = Mage::getModel('Mage_XmlConnect_Model_Simplexml_Element', '<wishlist></wishlist>');
         /**
          * Apply offset and count
          */
@@ -81,12 +81,12 @@ class Mage_XmlConnect_Block_Wishlist extends Mage_Wishlist_Block_Customer_Wishli
                 }
                 $itemXmlObj->addChild('has_options', (int)$item->getProduct()->getHasOptions());
 
-                $icon = $this->helper('catalog/image')->init($item->getProduct(), 'small_image')
-                    ->resize(Mage::helper('xmlconnect/image')->getImageSizeForContent('product_small'));
+                $icon = $this->helper('Mage_Catalog_Helper_Image')->init($item->getProduct(), 'small_image')
+                    ->resize(Mage::helper('Mage_XmlConnect_Helper_Image')->getImageSizeForContent('product_small'));
 
                 $iconXml = $itemXmlObj->addChild('icon', $icon);
 
-                $file = Mage::helper('xmlconnect')->urlToPath($icon);
+                $file = Mage::helper('Mage_XmlConnect_Helper_Data')->urlToPath($icon);
                 $iconXml->addAttribute('modification_time', filemtime($file));
 
                 $description = $wishlistXmlObj->xmlentities(strip_tags($item->getDescription()));
@@ -101,7 +101,7 @@ class Mage_XmlConnect_Block_Wishlist extends Mage_Wishlist_Block_Customer_Wishli
                 }
 
                 if (!$item->getProduct()->getRatingSummary()) {
-                    Mage::getModel('review/review')
+                    Mage::getModel('Mage_Review_Model_Review')
                         ->getEntitySummary($item->getProduct(), Mage::app()->getStore()->getId());
                 }
                 $ratingSummary = (int)$item->getProduct()->getRatingSummary()->getRatingSummary();

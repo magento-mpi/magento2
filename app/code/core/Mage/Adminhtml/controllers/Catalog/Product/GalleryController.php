@@ -39,11 +39,11 @@ class Mage_Adminhtml_Catalog_Product_GalleryController extends Mage_Adminhtml_Co
             $uploader = new Mage_Core_Model_File_Uploader('image');
             $uploader->setAllowedExtensions(array('jpg','jpeg','gif','png'));
             $uploader->addValidateCallback('catalog_product_image',
-                Mage::helper('catalog/image'), 'validateUploadFile');
+                Mage::helper('Mage_Catalog_Helper_Image'), 'validateUploadFile');
             $uploader->setAllowRenameFiles(true);
             $uploader->setFilesDispersion(true);
             $result = $uploader->save(
-                Mage::getSingleton('catalog/product_media_config')->getBaseTmpMediaPath()
+                Mage::getSingleton('Mage_Catalog_Model_Product_Media_Config')->getBaseTmpMediaPath()
             );
 
             /**
@@ -52,7 +52,7 @@ class Mage_Adminhtml_Catalog_Product_GalleryController extends Mage_Adminhtml_Co
             $result['tmp_name'] = str_replace(DS, "/", $result['tmp_name']);
             $result['path'] = str_replace(DS, "/", $result['path']);
 
-            $result['url'] = Mage::getSingleton('catalog/product_media_config')->getTmpMediaUrl($result['file']);
+            $result['url'] = Mage::getSingleton('Mage_Catalog_Model_Product_Media_Config')->getTmpMediaUrl($result['file']);
             $result['file'] = $result['file'] . '.tmp';
             $result['cookie'] = array(
                 'name'     => session_name(),
@@ -68,11 +68,11 @@ class Mage_Adminhtml_Catalog_Product_GalleryController extends Mage_Adminhtml_Co
                 'errorcode' => $e->getCode());
         }
 
-        $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
+        $this->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode($result));
     }
 
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('catalog/products');
+        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('catalog/products');
     }
 } // Class Mage_Adminhtml_Catalog_Product_GalleryController End

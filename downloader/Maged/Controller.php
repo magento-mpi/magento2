@@ -508,7 +508,7 @@ final class Maged_Controller
 
             if (self::$_instance->isDownloaded() && self::$_instance->isInstalled()) {
                 Mage::app('', 'store', array('global_ban_use_cache'=>true));
-                Mage::getSingleton('adminhtml/url')->turnOffSecretKey();
+                Mage::getSingleton('Mage_Adminhtml_Model_Url')->turnOffSecretKey();
             }
         }
         return self::$_instance;
@@ -539,10 +539,10 @@ final class Maged_Controller
      *
      * @return string
      */
-    public function getMageFilename()
+    public function getBootstrapPath()
     {
         $ds = DIRECTORY_SEPARATOR;
-        return $this->getMageDir() . $ds . 'app' . $ds . 'Mage.php';
+        return $this->getMageDir() . $ds . 'app' . $ds . 'bootstrap.php';
     }
 
     /**
@@ -815,7 +815,7 @@ final class Maged_Controller
      */
     public function isDownloaded()
     {
-        return file_exists($this->getMageFilename()) && file_exists($this->getVarFilename());
+        return file_exists($this->getBootstrapPath()) && file_exists($this->getVarFilename());
     }
 
     /**
@@ -829,10 +829,10 @@ final class Maged_Controller
             return false;
         }
         if (!class_exists('Mage', false)) {
-            if (!file_exists($this->getMageFilename())) {
+            if (!file_exists($this->getBootstrapPath())) {
                 return false;
             }
-            include_once $this->getMageFilename();
+            include_once $this->getBootstrapPath();
             Mage::setIsDownloader();
         }
         return Mage::isInstalled();

@@ -197,7 +197,7 @@ class Mage_Bundle_Block_Catalog_Product_View_Type_Bundle_Option extends Mage_Bun
         if ($_selection) {
             $price = $this->getProduct()->getPriceModel()->getSelectionPreFinalPrice($this->getProduct(), $_selection);
             if (is_numeric($price)) {
-                $price = $this->helper('core')->currencyByStore($price, $store, false);
+                $price = $this->helper('Mage_Core_Helper_Data')->currencyByStore($price, $store, false);
             }
         }
         return is_numeric($price) ? $price : 0;
@@ -245,8 +245,8 @@ class Mage_Bundle_Block_Catalog_Product_View_Type_Bundle_Option extends Mage_Bun
      */
     public function formatPriceString($price, $includeContainer = true)
     {
-        $taxHelper  = Mage::helper('tax');
-        $coreHelper = $this->helper('core');
+        $taxHelper  = Mage::helper('Mage_Tax_Helper_Data');
+        $coreHelper = $this->helper('Mage_Core_Helper_Data');
         $currentProduct = $this->getProduct();
         if ($currentProduct->getPriceType() == Mage_Bundle_Model_Product_Price::PRICE_TYPE_DYNAMIC
                 && $this->getFormatProduct()

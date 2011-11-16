@@ -40,7 +40,7 @@ class Mage_Sales_Block_Adminhtml_Billing_Agreement_View extends Mage_Adminhtml_B
         $this->_objectId    = 'agreement';
         $this->_controller  = 'adminhtml_billing_agreement';
         $this->_mode        = 'view';
-        $this->_blockGroup  = 'sales';
+        $this->_blockGroup  = 'Mage_Sales';
 
         parent::__construct();
 
@@ -52,7 +52,7 @@ class Mage_Sales_Block_Adminhtml_Billing_Agreement_View extends Mage_Adminhtml_B
         $this->setId('billing_agreement_view');
 
         $this->_addButton('back', array(
-            'label'     => Mage::helper('adminhtml')->__('Back'),
+            'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Back'),
             'onclick'   => 'setLocation(\'' . $this->getBackUrl() . '\')',
             'class'     => 'back',
         ), -1);
@@ -60,7 +60,7 @@ class Mage_Sales_Block_Adminhtml_Billing_Agreement_View extends Mage_Adminhtml_B
         $agreement = $this->_getBillingAgreement();
         if ($agreement && $agreement->canCancel() && $this->_isAllowed('sales/billing_agreement/actions/manage')) {
             $this->_addButton('cancel', array(
-                'label'     => Mage::helper('adminhtml')->__('Cancel'),
+                'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Cancel'),
                 'onclick'   => "confirmSetLocation('{$this->__('Are you sure you want to do this?')}', '{$this->_getCancelUrl()}')",
                 'class'     => 'cancel',
             ), -1);
@@ -105,6 +105,6 @@ class Mage_Sales_Block_Adminhtml_Billing_Agreement_View extends Mage_Adminhtml_B
      */
     protected function _isAllowed($action)
     {
-        return Mage::getSingleton('admin/session')->isAllowed($action);
+        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed($action);
     }
 }

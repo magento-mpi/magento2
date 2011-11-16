@@ -101,7 +101,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Form_Element_Page
         return $element->toHtml()
             . '</td><td class="label" style="width: 5em">'
             . '<button class=" scalable save onclick_button" value="&minus;"><span>'
-            . Mage::helper('xmlconnect')->__('Delete')
+            . Mage::helper('Mage_XmlConnect_Helper_Data')->__('Delete')
             . '</span></button>';
     }
 }

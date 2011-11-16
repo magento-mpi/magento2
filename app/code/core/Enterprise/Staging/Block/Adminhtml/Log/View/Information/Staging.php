@@ -80,7 +80,7 @@ class Enterprise_Staging_Block_Adminhtml_Log_View_Information_Staging extends En
         }
 
         if (!count($map)) {
-            return Mage::helper('enterprise_staging')->__('There was no mapping defined for store views.');
+            return Mage::helper('Enterprise_Staging_Helper_Data')->__('There was no mapping defined for store views.');
         }
 
         return $map;
@@ -108,7 +108,7 @@ class Enterprise_Staging_Block_Adminhtml_Log_View_Information_Staging extends En
         }
 
         if (!count($map)) {
-            return Mage::helper('enterprise_staging')->__('There was no mapping defined for store views.');
+            return Mage::helper('Enterprise_Staging_Helper_Data')->__('There was no mapping defined for store views.');
         }
 
         return $map;

@@ -40,7 +40,7 @@ class Enterprise_Search_Block_Catalog_Layer_Filter_Decimal extends Mage_Catalog_
     public function __construct()
     {
         parent::__construct();
-        $this->_filterModelName = 'enterprise_search/catalog_layer_filter_decimal';
+        $this->_filterModelName = 'Enterprise_Search_Model_Catalog_Layer_Filter_Decimal';
     }
 
     /**

@@ -90,17 +90,17 @@ class Enterprise_PricePermissions_Model_Observer
     public function adminControllerPredispatch($observer)
     {
         /* @var $session Mage_Admin_Model_Session */
-        $session = Mage::getSingleton('admin/session');
+        $session = Mage::getSingleton('Mage_Admin_Model_Session');
 
         // load role with true websites and store groups
         if ($session->isLoggedIn() && $session->getUser()->getRole()) {
             // Set all necessary flags
-            $this->_canEditProductPrice = Mage::helper('enterprise_pricepermissions')->getCanAdminEditProductPrice();
-            $this->_canReadProductPrice = Mage::helper('enterprise_pricepermissions')->getCanAdminReadProductPrice();
-            $this->_canEditProductStatus = Mage::helper('enterprise_pricepermissions')->getCanAdminEditProductStatus();
+            $helper = Mage::helper('Enterprise_PricePermissions_Helper_Data');
+            $this->_canEditProductPrice = $helper->getCanAdminEditProductPrice();
+            $this->_canReadProductPrice = $helper->getCanAdminReadProductPrice();
+            $this->_canEditProductStatus = $helper->getCanAdminEditProductStatus();
             // Retrieve value of the default product price
-            $this->_defaultProductPriceString = Mage::helper('enterprise_pricepermissions')
-                    ->getDefaultProductPriceString();
+            $this->_defaultProductPriceString = $helper->getDefaultProductPriceString();
         }
     }
 
@@ -120,7 +120,7 @@ class Enterprise_PricePermissions_Model_Observer
             case 'adminhtml_recurring_profile_edit_form' :
                 if (!Mage::registry('product')->isObjectNew()) {
                     if (!$this->_canReadProductPrice) {
-                        $block->setProductEntity(Mage::getModel('catalog/product'));
+                        $block->setProductEntity(Mage::getModel('Mage_Catalog_Model_Product'));
                     }
                 }
                 if (!$this->_canEditProductPrice) {

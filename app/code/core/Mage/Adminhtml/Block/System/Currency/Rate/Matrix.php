@@ -40,10 +40,10 @@ class Mage_Adminhtml_Block_System_Currency_Rate_Matrix extends Mage_Adminhtml_Bl
 
     protected function _prepareLayout()
     {
-        $newRates = Mage::getSingleton('adminhtml/session')->getRates();
-        Mage::getSingleton('adminhtml/session')->unsetData('rates');
+        $newRates = Mage::getSingleton('Mage_Adminhtml_Model_Session')->getRates();
+        Mage::getSingleton('Mage_Adminhtml_Model_Session')->unsetData('rates');
 
-        $currencyModel = Mage::getModel('directory/currency');
+        $currencyModel = Mage::getModel('Mage_Directory_Model_Currency');
         $currencies = $currencyModel->getConfigAllowCurrencies();
         $defaultCurrencies = $currencyModel->getConfigBaseCurrencies();
         $oldCurrencies = $this->_prepareRates($currencyModel->getCurrencyRates($defaultCurrencies, $currencies));

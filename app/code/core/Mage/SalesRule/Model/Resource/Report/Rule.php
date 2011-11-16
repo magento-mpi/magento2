@@ -52,8 +52,8 @@ class Mage_SalesRule_Model_Resource_Report_Rule extends Mage_Reports_Model_Resou
      */
     public function aggregate($from = null, $to = null)
     {
-        Mage::getResourceModel('salesrule/report_rule_createdat')->aggregate($from, $to);
-        Mage::getResourceModel('salesrule/report_rule_updatedat')->aggregate($from, $to);
+        Mage::getResourceModel('Mage_SalesRule_Model_Resource_Report_Rule_Createdat')->aggregate($from, $to);
+        Mage::getResourceModel('Mage_SalesRule_Model_Resource_Report_Rule_Updatedat')->aggregate($from, $to);
         $this->_setFlagData(Mage_Reports_Model_Flag::REPORT_COUPONS_FLAG_CODE);
 
         return $this;
@@ -70,7 +70,7 @@ class Mage_SalesRule_Model_Resource_Report_Rule extends Mage_Reports_Model_Resou
      */
     protected function _aggregateByOrderCreatedAt($from, $to)
     {
-        Mage::getResourceModel('salesrule/report_rule_createdat')->aggregate($from, $to);
+        Mage::getResourceModel('Mage_SalesRule_Model_Resource_Report_Rule_Createdat')->aggregate($from, $to);
         return $this;
     }
 }

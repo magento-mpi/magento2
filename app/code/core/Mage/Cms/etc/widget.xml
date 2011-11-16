@@ -26,7 +26,7 @@
  */
 -->
 <widgets>
-    <cms_page_link type="cms/widget_page_link" translate="name description" module="cms">
+    <cms_page_link type="Mage_Cms_Block_Widget_Page_Link" translate="name description" module="Mage_Cms">
         <name>CMS Page Link</name>
         <description>Link to a CMS Page</description>
         <is_email_compatible>1</is_email_compatible>
@@ -38,7 +38,7 @@
                 <label>CMS Page</label>
                 <type>label</type>
                 <helper_block>
-                    <type>adminhtml/cms_page_widget_chooser</type>
+                    <type>Mage_Adminhtml_Block_Cms_Page_Widget_Chooser</type>
                     <data>
                         <button translate="open">
                             <open>Select Page...</open>
@@ -76,7 +76,7 @@
             </template>
         </parameters>
     </cms_page_link>
-    <cms_static_block type="cms/widget_block" translate="name description" module="cms">
+    <cms_static_block type="Mage_Cms_Block_Widget_Block" translate="name description" module="Mage_Cms">
         <name>CMS Static Block</name>
         <description>Contents of a Static Block</description>
         <placeholder_image>Mage_Cms::images/widget_block.gif</placeholder_image>
@@ -87,7 +87,7 @@
                 <label>Block</label>
                 <type>label</type>
                 <helper_block>
-                    <type>adminhtml/cms_block_widget_chooser</type>
+                    <type>Mage_Adminhtml_Block_Cms_Block_Widget_Chooser</type>
                     <data>
                         <button translate="open">
                             <open>Select Block...</open>

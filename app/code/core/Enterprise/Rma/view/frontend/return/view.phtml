@@ -43,7 +43,7 @@
                         <br />
                         <?php echo $this->__('ID') ?>: <?php echo $this->escapeHtml($_rma->getIncrementId()) ?><br />
                         <?php echo $this->__('Order ID') ?>: <a href="<?php echo $this->getOrderUrl($_rma) ?>"><?php echo $this->escapeHtml($_rma->getOrderIncrementId()) ?></a><br />
-                        <?php echo $this->__('Date Requested') ?>: <?php echo Mage::helper('enterprise_rma')->getFormatedDate($_rma->getDateRequested()) ?><br />
+                        <?php echo $this->__('Date Requested') ?>: <?php echo Mage::helper('Enterprise_Rma_Helper_Data')->getFormatedDate($_rma->getDateRequested()) ?><br />
                         <?php echo $this->__('Email Address') ?>: <?php echo $this->escapeHtml($_order->getCustomerEmail()) ?><br />
                         <?php echo $this->__('Contact Email Address') ?>: <?php echo $this->escapeHtml($_rma->getCustomerCustomEmail()) ?>
                     </p>
@@ -77,7 +77,7 @@
                         <?php if ($trackingNumbers->count()): ?>
                             <a class="f-left"
                                 href="#"
-                                onclick="popWin('<?php echo $this->helper('enterprise_rma')->getTrackingPopupUrlBySalesModel($this->getRma()) ?>','trackshipment','width=800,height=600,top=0,left=0,resizable=yes,scrollbars=yes'); return false;"
+                                onclick="popWin('<?php echo $this->helper('Enterprise_Rma_Helper_Data')->getTrackingPopupUrlBySalesModel($this->getRma()) ?>','trackshipment','width=800,height=600,top=0,left=0,resizable=yes,scrollbars=yes'); return false;"
                                 title="<?php echo $this->__('Track this shipment') ?>">
                                     <?php echo $this->__('Track this shipment') ?>
                             </a>
@@ -193,8 +193,8 @@
             <td><?php echo $this->escapeHtml($item->getProductSku()) ?></span></td>
             <td><?php echo $this->escapeHtml($this->getAttributeValue($item->getId(), 'condition')) ?></td>
             <td><?php echo $this->escapeHtml($this->getAttributeValue($item->getId(), 'resolution')) ?></td>
-            <td><?php echo $this->escapeHtml($this->helper('enterprise_rma')->parseQuantity($item->getQtyRequested(), $item)); ?></td>
-            <td><?php echo $this->escapeHtml($this->helper('enterprise_rma')->getQty($item));?></td>
+            <td><?php echo $this->escapeHtml($this->helper('Enterprise_Rma_Helper_Data')->parseQuantity($item->getQtyRequested(), $item)); ?></td>
+            <td><?php echo $this->escapeHtml($this->helper('Enterprise_Rma_Helper_Data')->getQty($item));?></td>
             <td><span class="nobr"><?php echo $this->escapeHtml($item->getStatusLabel()) ?></span></td>
             <td>
                 <a id="as_<?php echo $key ?>" href="javascript:void(0)" onclick="showHiddenForm(<?php echo $key ?>)"><?php echo $this->escapeHtml($this->__('Show Details')) ?></a>

@@ -55,7 +55,7 @@ class Mage_Log_Model_Log extends Mage_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('log/log');
+        $this->_init('Mage_Log_Model_Resource_Log');
     }
 
     public function getLogCleanTime()

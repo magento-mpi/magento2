@@ -57,7 +57,7 @@ class Enterprise_TargetRule_Helper_Data extends Mage_Core_Helper_Abstract
                 $number = Mage::getStoreConfig(self::XML_PATH_TARGETRULE_CONFIG . 'crosssell_position_limit');
                 break;
             default:
-                Mage::throwException(Mage::helper('enterprise_targetrule')->__('Invalid product list type'));
+                Mage::throwException(Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Invalid product list type'));
         }
 
         return $this->getMaxProductsListResult($number);
@@ -83,7 +83,7 @@ class Enterprise_TargetRule_Helper_Data extends Mage_Core_Helper_Abstract
                 $show = Mage::getStoreConfig(self::XML_PATH_TARGETRULE_CONFIG . 'crosssell_position_behavior');
                 break;
             default:
-                Mage::throwException(Mage::helper('enterprise_targetrule')->__('Invalid product list type'));
+                Mage::throwException(Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Invalid product list type'));
         }
 
         return $show;
@@ -126,7 +126,7 @@ class Enterprise_TargetRule_Helper_Data extends Mage_Core_Helper_Abstract
                 $mode = Mage::getStoreConfig(self::XML_PATH_TARGETRULE_CONFIG . 'crosssell_rotation_mode');
                 break;
             default:
-                Mage::throwException(Mage::helper('enterprise_targetrule')->__('Invalid rotation mode type'));
+                Mage::throwException(Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Invalid rotation mode type'));
         }
         return $mode;
     }

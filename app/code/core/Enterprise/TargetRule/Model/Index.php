@@ -42,9 +42,24 @@
  */
 class Enterprise_TargetRule_Model_Index extends Mage_Index_Model_Indexer_Abstract
 {
+    /**
+     * Reindex products target-rules event type
+     */
     const EVENT_TYPE_REINDEX_PRODUCTS = 'reindex_targetrules';
+
+    /**
+     * Clean target-rules event type
+     */
     const EVENT_TYPE_CLEAN_TARGETRULES = 'clean_targetrule_index';
+
+    /**
+     * Product entity for indexers
+     */
     const ENTITY_PRODUCT = 'targetrule_product';
+
+    /**
+     * Target-rule entity for indexers
+     */
     const ENTITY_TARGETRULE = 'targetrule_entity';
 
     /**
@@ -70,7 +85,7 @@ class Enterprise_TargetRule_Model_Index extends Mage_Index_Model_Indexer_Abstrac
      */
     protected function _construct()
     {
-        $this->_init('enterprise_targetrule/index');
+        $this->_init('Enterprise_TargetRule_Model_Resource_Index');
     }
 
     /**
@@ -105,7 +120,7 @@ class Enterprise_TargetRule_Model_Index extends Mage_Index_Model_Indexer_Abstrac
         $type = $this->getData('type');
         if (is_null($type)) {
             Mage::throwException(
-                Mage::helper('enterprise_targetrule')->__('Undefined Catalog Product List Type')
+                Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Undefined Catalog Product List Type')
             );
         }
         return $type;
@@ -156,7 +171,7 @@ class Enterprise_TargetRule_Model_Index extends Mage_Index_Model_Indexer_Abstrac
     {
         $customerGroupId = $this->getData('customer_group_id');
         if (is_null($customerGroupId)) {
-            $customerGroupId = Mage::getSingleton('customer/session')->getCustomerGroupId();
+            $customerGroupId = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerGroupId();
         }
         return $customerGroupId;
     }
@@ -181,7 +196,7 @@ class Enterprise_TargetRule_Model_Index extends Mage_Index_Model_Indexer_Abstrac
     {
         $limit = $this->getData('limit');
         if (is_null($limit)) {
-            $limit = Mage::helper('enterprise_targetrule')->getMaximumNumberOfProduct($this->getType());
+            $limit = Mage::helper('Enterprise_TargetRule_Helper_Data')->getMaximumNumberOfProduct($this->getType());
         }
         return $limit;
     }
@@ -207,7 +222,7 @@ class Enterprise_TargetRule_Model_Index extends Mage_Index_Model_Indexer_Abstrac
     {
         $product = $this->getData('product');
         if (!$product instanceof Varien_Object) {
-            Mage::throwException(Mage::helper('enterprise_targetrule')->__('Please define product data object'));
+            Mage::throwException(Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Please define product data object'));
         }
         return $product;
     }
@@ -258,7 +273,7 @@ class Enterprise_TargetRule_Model_Index extends Mage_Index_Model_Indexer_Abstrac
     public function getRuleCollection()
     {
         /* @var $collection Enterprise_TargetRule_Model_Resource_Rule_Collection */
-        $collection = Mage::getResourceModel('enterprise_targetrule/rule_collection');
+        $collection = Mage::getResourceModel('Enterprise_TargetRule_Model_Resource_Rule_Collection');
         $collection->addApplyToFilter($this->getType())
             ->addProductFilter($this->getProduct()->getId())
             ->addIsActiveFilter()
@@ -288,7 +303,7 @@ class Enterprise_TargetRule_Model_Index extends Mage_Index_Model_Indexer_Abstrac
         $websites = Mage::app()->getWebsites();
 
         /** @var $indexer Mage_Index_Model_Indexer */
-        $indexer = Mage::getSingleton('index/indexer');
+        $indexer = Mage::getSingleton('Mage_Index_Model_Indexer');
 
         foreach ($websites as $website) {
             /* @var $website Mage_Core_Model_Website */
@@ -315,7 +330,7 @@ class Enterprise_TargetRule_Model_Index extends Mage_Index_Model_Indexer_Abstrac
      */
     public function getName()
     {
-        return Mage::helper('enterprise_targetrule')->__('Target Rules');
+        return Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Target Rules');
     }
 
     /**
@@ -355,7 +370,7 @@ class Enterprise_TargetRule_Model_Index extends Mage_Index_Model_Indexer_Abstrac
                 switch ($event->getEntity()) {
                     case self::ENTITY_PRODUCT:
                         $data = $event->getNewData();
-                        if ($data['product']) {
+                        if (!empty($data['product'])) {
                             $this->_reindex($data['product']);
                         }
                         break;
@@ -365,7 +380,7 @@ class Enterprise_TargetRule_Model_Index extends Mage_Index_Model_Indexer_Abstrac
                 switch ($event->getEntity()) {
                     case self::ENTITY_TARGETRULE:
                         $data = $event->getNewData();
-                        if ($data['params']) {
+                        if (!empty($data['params'])) {
                             $params = $data['params'];
                             $this->_cleanIndex($params->getTypeId(), $params->getStore());
                         }
@@ -391,7 +406,7 @@ class Enterprise_TargetRule_Model_Index extends Mage_Index_Model_Indexer_Abstrac
         // remove old matched product index
         $indexResource->removeProductIndex($product->getId());
 
-        $ruleCollection = Mage::getResourceModel('enterprise_targetrule/rule_collection')
+        $ruleCollection = Mage::getResourceModel('Enterprise_TargetRule_Model_Resource_Rule_Collection')
             ->addProductFilter($product->getId());
 
         foreach ($ruleCollection as $rule) {

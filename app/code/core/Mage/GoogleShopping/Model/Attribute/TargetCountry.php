@@ -42,7 +42,7 @@ class Mage_GoogleShopping_Model_Attribute_TargetCountry extends Mage_GoogleShopp
      */
     public function convertAttribute($product, $entry)
     {
-        $value = Mage::getSingleton('googleshopping/config')
+        $value = Mage::getSingleton('Mage_GoogleShopping_Model_Config')
             ->getTargetCountry($product->getStoreId());
         return $this->_setAttribute($entry, 'target_country', self::ATTRIBUTE_TYPE_TEXT, $value);
     }

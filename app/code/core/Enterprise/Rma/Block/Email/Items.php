@@ -42,7 +42,7 @@ class Enterprise_Rma_Block_Email_Items extends Enterprise_Rma_Block_Form
     public function getOptionAttributeStringValue($attributeValue)
     {
         if (is_null($this->_attributeOptionValues)) {
-            $this->_attributeOptionValues = Mage::helper('enterprise_rma/eav')->getAttributeOptionStringValues();
+            $this->_attributeOptionValues = Mage::helper('Enterprise_Rma_Helper_Eav')->getAttributeOptionStringValues();
         }
         if (isset($this->_attributeOptionValues[$attributeValue])) {
             return $this->_attributeOptionValues[$attributeValue];

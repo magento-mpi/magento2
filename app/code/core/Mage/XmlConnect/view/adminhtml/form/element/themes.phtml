@@ -27,7 +27,7 @@
 <?php
 /** @var $this Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Themes */
 /** @var $_themesHelper Mage_XmlConnect_Helper_Theme */
-$_themesHelper  = Mage::helper('xmlconnect/theme');
+$_themesHelper  = Mage::helper('Mage_XmlConnect_Helper_Theme');
 $themeId        = $_themesHelper->getThemeId();
 $defaultThemesArray = $_themesHelper->getDefaultThemes();
 ?>
@@ -312,7 +312,7 @@ function createInputHiddenElementThemeLoaded() {
     $('theme_selector_id_value').parentNode.appendChild(inputElement);
 }
 mmColorUpdate = false;
-mmColorThemes = <?php echo Mage::helper('core')->jsonEncode($this->getAllThemes()); ?>;
+mmColorThemes = <?php echo Mage::helper('Mage_Core_Helper_Data')->jsonEncode($this->getAllThemes()); ?>;
 
 function setThemeSelector(theme) {
     $('theme_selector_id_value').setValue(theme);

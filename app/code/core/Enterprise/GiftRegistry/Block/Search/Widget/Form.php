@@ -124,12 +124,12 @@ class Enterprise_GiftRegistry_Block_Search_Widget_Form
         $options = array_merge(array(
             array(
                 'value' => '',
-                'label' => Mage::helper('enterprise_giftregistry')->__('Select Search Type'))
+                'label' => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Select Search Type'))
             ),
             $this->getSearchFormOptions()
         );
 
-        $select = $this->getLayout()->createBlock('core/html_select')
+        $select = $this->getLayout()->createBlock('Mage_Core_Block_Html_Select')
             ->setName('search_by')
             ->setId('search_by')
             ->setOptions($options);
@@ -146,7 +146,7 @@ class Enterprise_GiftRegistry_Block_Search_Widget_Form
     public function getSearchFormOptions()
     {
         if (is_null($this->_selectOptions)) {
-            $allForms = Mage::getSingleton('enterprise_giftregistry/source_search')->getTypes();
+            $allForms = Mage::getSingleton('Enterprise_GiftRegistry_Model_Source_Search')->getTypes();
             $useForms = $this->_getFormTypes();
             $codeAll = Enterprise_GiftRegistry_Model_Source_Search::SEARCH_ALL_FORM;
 

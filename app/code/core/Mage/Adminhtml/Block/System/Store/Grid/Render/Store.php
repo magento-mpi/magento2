@@ -40,7 +40,7 @@ class Mage_Adminhtml_Block_System_Store_Grid_Render_Store
         if (!$row->getData($this->getColumn()->getIndex())) {
             return null;
         }
-        return '<a title="' . Mage::helper('core')->__('Edit Store View') . '"
+        return '<a title="' . Mage::helper('Mage_Core_Helper_Data')->__('Edit Store View') . '"
             href="' . $this->getUrl('*/*/editStore', array('store_id' => $row->getStoreId())) . '">'
             . $this->escapeHtml($row->getData($this->getColumn()->getIndex())) . '</a>';
     }

@@ -44,7 +44,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Products
         $this->setDefaultSort('entity_id');
         $this->setPagerVisibility(true);
         $this->setFilterVisibility(true);
-        $this->setHeaderText(Mage::helper('enterprise_checkout')->__('Products'));
+        $this->setHeaderText(Mage::helper('Enterprise_Checkout_Helper_Data')->__('Products'));
     }
 
     /**
@@ -65,8 +65,8 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Products
     public function getItemsCollection()
     {
         if (!$this->hasData('items_collection')) {
-            $attributes = Mage::getSingleton('catalog/config')->getProductAttributes();
-            $collection = Mage::getModel('catalog/product')->getCollection()
+            $attributes = Mage::getSingleton('Mage_Catalog_Model_Config')->getProductAttributes();
+            $collection = Mage::getModel('Mage_Catalog_Model_Product')->getCollection()
                 ->setStore($this->_getStore())
                 ->addAttributeToSelect($attributes)
                 ->addAttributeToSelect('sku')
@@ -74,7 +74,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Products
                     array_keys(Mage::getConfig()->getNode('adminhtml/sales/order/create/available_product_types')->asArray())
                 )
                 ->addStoreFilter($this->_getStore());
-            Mage::getSingleton('catalog/product_status')->addSaleableFilterToCollection($collection);
+            Mage::getSingleton('Mage_Catalog_Model_Product_Status')->addSaleableFilterToCollection($collection);
             $this->setData('items_collection', $collection);
         }
         return $this->getData('items_collection');
@@ -88,32 +88,32 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Products
     protected function _prepareColumns()
     {
         $this->addColumn('entity_id', array(
-            'header'    => Mage::helper('enterprise_checkout')->__('ID'),
+            'header'    => Mage::helper('Enterprise_Checkout_Helper_Data')->__('ID'),
             'sortable'  => true,
             'width'     => '60',
             'index'     => 'entity_id'
         ));
 
         $this->addColumn('name', array(
-            'header'    => Mage::helper('enterprise_checkout')->__('Product Name'),
-            'renderer'  => 'adminhtml/sales_order_create_search_grid_renderer_product',
+            'header'    => Mage::helper('Enterprise_Checkout_Helper_Data')->__('Product Name'),
+            'renderer'  => 'Mage_Adminhtml_Block_Sales_Order_Create_Search_Grid_Renderer_Product',
             'index'     => 'name'
         ));
 
         $this->addColumn('sku', array(
-            'header'    => Mage::helper('enterprise_checkout')->__('SKU'),
+            'header'    => Mage::helper('Enterprise_Checkout_Helper_Data')->__('SKU'),
             'width'     => '80',
             'index'     => 'sku'
         ));
 
         $this->addColumn('price', array(
-            'header'    => Mage::helper('enterprise_checkout')->__('Price'),
+            'header'    => Mage::helper('Enterprise_Checkout_Helper_Data')->__('Price'),
             'type'      => 'currency',
             'column_css_class' => 'price',
             'currency_code' => $this->_getStore()->getCurrentCurrencyCode(),
             'rate'      => $this->_getStore()->getBaseCurrency()->getRate($this->_getStore()->getCurrentCurrencyCode()),
             'index'     => 'price',
-            'renderer'  => 'adminhtml/sales_order_create_search_grid_renderer_price'
+            'renderer'  => 'Mage_Adminhtml_Block_Sales_Order_Create_Search_Grid_Renderer_Price'
         ));
 
         $this->_addControlColumns();
@@ -165,7 +165,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Products
     protected function _getSelectedProducts()
     {
         if ($this->getRequest()->getPost('source')) {
-            $source = Mage::helper('core')->jsonDecode($this->getRequest()->getPost('source'));
+            $source = Mage::helper('Mage_Core_Helper_Data')->jsonDecode($this->getRequest()->getPost('source'));
             if (isset($source['source_products']) && is_array($source['source_products'])) {
                 return array_keys($source['source_products']);
             }

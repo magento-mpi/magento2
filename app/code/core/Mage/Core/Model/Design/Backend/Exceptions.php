@@ -28,7 +28,7 @@ class Mage_Core_Model_Design_Backend_Exceptions extends Mage_Adminhtml_Model_Sys
             foreach (array('search', 'value') as $fieldName) {
                 if (!isset($row[$fieldName])) {
                     Mage::throwException(
-                        Mage::helper('core')->__("Exception does not contain field '{$fieldName}'")
+                        Mage::helper('Mage_Core_Helper_Data')->__("Exception does not contain field '{$fieldName}'")
                     );
                 }
             }
@@ -66,7 +66,7 @@ class Mage_Core_Model_Design_Backend_Exceptions extends Mage_Adminhtml_Model_Sys
 
         // Find out - whether user wanted to enter regexp or normal string.
         if ($this->_isRegexp($search)) {
-            Mage::throwException(Mage::helper('core')->__('Invalid regular expression: "%s".', $search));
+            Mage::throwException(Mage::helper('Mage_Core_Helper_Data')->__('Invalid regular expression: "%s".', $search));
         }
 
         return '/' . preg_quote($search, '/') . '/i';

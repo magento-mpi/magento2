@@ -32,12 +32,12 @@
  */
 ?>
 
-<?php echo $this->helper('adminhtml/media_js')->getTranslatorScript() ?>
+<?php echo $this->helper('Mage_Adminhtml_Helper_Media_Js')->getTranslatorScript() ?>
 
 <div id="<?php echo $this->getHtmlId() ?>" class="uploader">
     <div class="buttons">
         <div id="<?php echo $this->getHtmlId() ?>-install-flash" style="display:none">
-            <?php echo Mage::helper('media')->__('This content requires last version of Adobe Flash Player. <a href="%s">Get Flash</a>', 'http://www.adobe.com/go/getflash/') ?>
+            <?php echo Mage::helper('Mage_Media_Helper_Data')->__('This content requires last version of Adobe Flash Player. <a href="%s">Get Flash</a>', 'http://www.adobe.com/go/getflash/') ?>
         </div>
     </div>
     <div class="clear"></div>

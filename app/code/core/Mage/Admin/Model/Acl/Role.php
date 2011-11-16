@@ -55,6 +55,6 @@ class Mage_Admin_Model_Acl_Role extends Mage_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('admin/acl_role');
+        $this->_init('Mage_Admin_Model_Resource_Acl_Role');
     }
 }

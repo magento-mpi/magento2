@@ -59,8 +59,8 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Flurryanalytics
 
         $this->setForm($form);
 
-        $data = Mage::helper('xmlconnect')->getApplication()->getFormData();
-        $yesNoValues = Mage::getModel('adminhtml/system_config_source_yesno')->toOptionArray();
+        $data = Mage::helper('Mage_XmlConnect_Helper_Data')->getApplication()->getFormData();
+        $yesNoValues = Mage::getModel('Mage_Adminhtml_Model_System_Config_Source_Yesno')->toOptionArray();
 
         $fieldset = $form->addFieldset('flurryAnalytics', array('legend' => $this->__('Flurry Analytics')));
 
@@ -107,7 +107,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Flurryanalytics
 
         // field dependencies
         $this->setChild('form_after', $this->getLayout()
-            ->createBlock('adminhtml/widget_form_element_dependence')
+            ->createBlock('Mage_Adminhtml_Block_Widget_Form_Element_Dependence')
             ->addFieldMap($flurryApiCode->getHtmlId(), $flurryApiCode->getName())
             ->addFieldMap($enabled->getHtmlId(), $enabled->getName())
             ->addFieldDependence(
@@ -145,8 +145,9 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Flurryanalytics
      */
     public function canShowTab()
     {
-        return (bool) !Mage::getSingleton('adminhtml/session')->getNewApplication()
-            && Mage::helper('xmlconnect')->getDeviceType() == Mage_XmlConnect_Helper_Data::DEVICE_TYPE_IPHONE;
+        $deviceType = Mage::helper('Mage_XmlConnect_Helper_Data')->getDeviceType();
+        return (bool) !Mage::getSingleton('Mage_Adminhtml_Model_Session')->getNewApplication()
+            && $deviceType == Mage_XmlConnect_Helper_Data::DEVICE_TYPE_IPHONE;
     }
 
     /**

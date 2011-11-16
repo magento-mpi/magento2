@@ -206,7 +206,7 @@ class Enterprise_Rma_Model_Resource_Item extends Mage_Eav_Model_Entity_Abstract
      */
     public function getOrderItemsCollection($orderId)
     {
-        return Mage::getModel('sales/order_item')
+        return Mage::getModel('Mage_Sales_Model_Order_Item')
             ->getCollection()
             ->addExpressionFieldToSelect(
                 'available_qty',
@@ -245,7 +245,7 @@ class Enterprise_Rma_Model_Resource_Item extends Mage_Eav_Model_Entity_Abstract
         $parent = array();
 
         /** @var $product Mage_Catalog_Model_Product */
-        $product = Mage::getModel('catalog/product');
+        $product = Mage::getModel('Mage_Catalog_Model_Product');
 
         foreach ($orderItemsCollection as $item) {
             /* retrieves only bundle and children by $parentId */
@@ -266,7 +266,7 @@ class Enterprise_Rma_Model_Resource_Item extends Mage_Eav_Model_Entity_Abstract
             $product->setStoreId($item->getStoreId());
             $product->load($item->getProductId());
 
-            if (!Mage::helper('enterprise_rma')->canReturnProduct($product, $item->getStoreId())) {
+            if (!Mage::helper('Enterprise_Rma_Helper_Data')->canReturnProduct($product, $item->getStoreId())) {
                 $allowed = false;
             }
 
@@ -317,7 +317,7 @@ class Enterprise_Rma_Model_Resource_Item extends Mage_Eav_Model_Entity_Abstract
                 $productOptions     = $item->getProductOptions();
                 $product->reset();
                 $product->load($product->getIdBySku($productOptions['simple_sku']));
-                if (!Mage::helper('enterprise_rma')->canReturnProduct($product, $item->getStoreId())) {
+                if (!Mage::helper('Enterprise_Rma_Helper_Data')->canReturnProduct($product, $item->getStoreId())) {
                     $orderItemsCollection->removeItemByKey($item->getId());
                     continue;
                 }

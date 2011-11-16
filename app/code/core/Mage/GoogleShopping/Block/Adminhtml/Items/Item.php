@@ -47,7 +47,7 @@ class Mage_GoogleShopping_Block_Adminhtml_Items_Item extends Mage_Adminhtml_Bloc
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('googleshopping/item_collection');
+        $collection = Mage::getResourceModel('Mage_GoogleShopping_Model_Resource_Item_Collection');
         $store = $this->_getStore();
         $collection->addStoreFilter($store->getId());
         $this->setCollection($collection);

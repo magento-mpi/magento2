@@ -93,7 +93,7 @@ class Enterprise_Search_Model_Resource_Advanced extends Mage_Core_Model_Resource
         }
 
         $localeCode = Mage::app()->getStore()->getConfig(Mage_Core_Model_Locale::XML_PATH_DEFAULT_LOCALE);
-        $languageSuffix = Mage::helper('enterprise_search')->getLanguageSuffix($localeCode);
+        $languageSuffix = Mage::helper('Enterprise_Search_Helper_Data')->getLanguageSuffix($localeCode);
 
         $field = $attribute->getAttributeCode();
         $backendType = $attribute->getBackendType();
@@ -108,7 +108,7 @@ class Enterprise_Search_Model_Resource_Advanced extends Mage_Core_Model_Resource
         } elseif ($backendType == 'datetime') {
             $field = 'attr_datetime_'. $field;
             $dateFormat = Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
-            $invalidDateMessage = Mage::helper('enterprise_search')->__('Specified date is invalid.');
+            $invalidDateMessage = Mage::helper('Enterprise_Search_Helper_Data')->__('Specified date is invalid.');
             if (is_array($value)) {
                 foreach ($value as &$val) {
                     if (!is_empty_date($val)) {

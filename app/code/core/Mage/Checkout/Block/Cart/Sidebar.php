@@ -42,7 +42,11 @@ class Mage_Checkout_Block_Cart_Sidebar extends Mage_Checkout_Block_Cart_Abstract
     public function __construct()
     {
         parent::__construct();
-        $this->addItemRender('default', 'checkout/cart_item_renderer', 'cart/sidebar/default.phtml');
+        $this->addItemRender(
+            'default',
+            'Mage_Checkout_Block_Cart_Item_Renderer',
+            'cart/sidebar/default.phtml'
+        );
     }
 
     /**
@@ -82,7 +86,7 @@ class Mage_Checkout_Block_Cart_Sidebar extends Mage_Checkout_Block_Cart_Abstract
             /* @var $item Mage_Sales_Model_Quote_Item */
             if (!$item->getProduct()->isVisibleInSiteVisibility()) {
                 $productId = $item->getProduct()->getId();
-                $products  = Mage::getResourceSingleton('catalog/url')
+                $products  = Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Url')
                     ->getRewriteByProductStore(array($productId => $item->getStoreId()));
                 if (!isset($products[$productId])) {
                     continue;
@@ -112,7 +116,7 @@ class Mage_Checkout_Block_Cart_Sidebar extends Mage_Checkout_Block_Cart_Abstract
     {
         $subtotal = 0;
         $totals = $this->getTotals();
-        $config = Mage::getSingleton('tax/config');
+        $config = Mage::getSingleton('Mage_Tax_Model_Config');
         if (isset($totals['subtotal'])) {
             if ($config->displayCartSubtotalBoth()) {
                 if ($skipTax) {
@@ -140,7 +144,7 @@ class Mage_Checkout_Block_Cart_Sidebar extends Mage_Checkout_Block_Cart_Abstract
      */
     public function getSubtotalInclTax()
     {
-        if (!Mage::getSingleton('tax/config')->displayCartSubtotalBoth()) {
+        if (!Mage::getSingleton('Mage_Tax_Model_Config')->displayCartSubtotalBoth()) {
             return 0;
         }
         return $this->getSubtotal(false);
@@ -186,7 +190,7 @@ class Mage_Checkout_Block_Cart_Sidebar extends Mage_Checkout_Block_Cart_Abstract
         if ($this->getData('summary_qty')) {
             return $this->getData('summary_qty');
         }
-        return Mage::getSingleton('checkout/cart')->getSummaryQty();
+        return Mage::getSingleton('Mage_Checkout_Model_Cart')->getSummaryQty();
     }
 
     /**
@@ -197,7 +201,7 @@ class Mage_Checkout_Block_Cart_Sidebar extends Mage_Checkout_Block_Cart_Abstract
      */
     public function getIncExcTax($flag)
     {
-        $text = Mage::helper('tax')->getIncExcText($flag);
+        $text = Mage::helper('Mage_Tax_Helper_Data')->getIncExcText($flag);
         return $text ? ' ('.$text.')' : '';
     }
 
@@ -208,7 +212,7 @@ class Mage_Checkout_Block_Cart_Sidebar extends Mage_Checkout_Block_Cart_Abstract
      */
     public function isPossibleOnepageCheckout()
     {
-        return $this->helper('checkout')->canOnepageCheckout() && !$this->getQuote()->getHasError();
+        return $this->helper('Mage_Checkout_Helper_Data')->canOnepageCheckout() && !$this->getQuote()->getHasError();
     }
 
     /**
@@ -218,7 +222,7 @@ class Mage_Checkout_Block_Cart_Sidebar extends Mage_Checkout_Block_Cart_Abstract
      */
     public function getCheckoutUrl()
     {
-        return $this->helper('checkout/url')->getCheckoutUrl();
+        return $this->helper('Mage_Checkout_Helper_Url')->getCheckoutUrl();
     }
 
     /**

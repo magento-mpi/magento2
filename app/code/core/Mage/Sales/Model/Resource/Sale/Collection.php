@@ -71,7 +71,7 @@ class Mage_Sales_Model_Resource_Sale_Collection extends Varien_Data_Collection_D
      */
     public function __construct()
     {
-        $conn = Mage::getResourceSingleton('sales/order')->getReadConnection();
+        $conn = Mage::getResourceSingleton('Mage_Sales_Model_Resource_Order')->getReadConnection();
         $this->setConnection($conn);
     }
 
@@ -122,7 +122,7 @@ class Mage_Sales_Model_Resource_Sale_Collection extends Varien_Data_Collection_D
     {
         $this->getSelect()
             ->from(
-                array('sales' => Mage::getResourceSingleton('sales/order')->getMainTable()),
+                array('sales' => Mage::getResourceSingleton('Mage_Sales_Model_Resource_Order')->getMainTable()),
                 array(
                     'store_id',
                     'lifetime'      => new Zend_Db_Expr('SUM(sales.base_grand_total)'),
@@ -177,7 +177,7 @@ class Mage_Sales_Model_Resource_Sale_Collection extends Varien_Data_Collection_D
         $data = $this->getData();
         $this->resetData();
 
-        $stores = Mage::getResourceModel('core/store_collection')
+        $stores = Mage::getResourceModel('Mage_Core_Model_Resource_Store_Collection')
             ->setWithoutDefaultFilter()
             ->load()
             ->toOptionHash();

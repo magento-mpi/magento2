@@ -41,7 +41,7 @@
     <td>
         <a
             href="#"
-            onclick="popWin('<?php echo $this->helper('enterprise_rma')->getTrackingPopupUrlBySalesModel($number) ?>','trackshipment','width=800,height=600,top=0,left=0,resizable=yes,scrollbars=yes'); return false;"
+            onclick="popWin('<?php echo $this->helper('Enterprise_Rma_Helper_Data')->getTrackingPopupUrlBySalesModel($number) ?>','trackshipment','width=800,height=600,top=0,left=0,resizable=yes,scrollbars=yes'); return false;"
             title="<?php echo $this->escapeHtml($number->getTrackNumber()) ?>">
                 <?php echo $this->escapeHtml($number->getTrackNumber()) ?>
         </a>

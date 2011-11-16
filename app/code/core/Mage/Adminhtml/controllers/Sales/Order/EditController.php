@@ -50,7 +50,7 @@ class Mage_Adminhtml_Sales_Order_EditController extends Mage_Adminhtml_Sales_Ord
     {
         $this->_getSession()->clear();
         $orderId = $this->getRequest()->getParam('order_id');
-        $order = Mage::getModel('sales/order')->load($orderId);
+        $order = Mage::getModel('Mage_Sales_Model_Order')->load($orderId);
 
         if ($order->getId()) {
             $this->_getSession()->setUseOldShippingMethod(true);
@@ -82,6 +82,6 @@ class Mage_Adminhtml_Sales_Order_EditController extends Mage_Adminhtml_Sales_Ord
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('sales/order/actions/edit');
+        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('sales/order/actions/edit');
     }    
 }

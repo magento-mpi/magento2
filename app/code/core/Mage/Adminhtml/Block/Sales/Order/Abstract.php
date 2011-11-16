@@ -49,7 +49,7 @@ class Mage_Adminhtml_Block_Sales_Order_Abstract extends Mage_Adminhtml_Block_Wid
         if (Mage::registry('order')) {
             return Mage::registry('order');
         }
-        Mage::throwException(Mage::helper('sales')->__('Cannot get order instance'));
+        Mage::throwException(Mage::helper('Mage_Sales_Helper_Data')->__('Cannot get order instance'));
     }
 
     public function getPriceDataObject()
@@ -63,12 +63,12 @@ class Mage_Adminhtml_Block_Sales_Order_Abstract extends Mage_Adminhtml_Block_Wid
 
     public function displayPriceAttribute($code, $strong = false, $separator = '<br/>')
     {
-        return $this->helper('adminhtml/sales')->displayPriceAttribute($this->getPriceDataObject(), $code, $strong, $separator);
+        return $this->helper('Mage_Adminhtml_Helper_Sales')->displayPriceAttribute($this->getPriceDataObject(), $code, $strong, $separator);
     }
 
     public function displayPrices($basePrice, $price, $strong = false, $separator = '<br/>')
     {
-        return $this->helper('adminhtml/sales')->displayPrices($this->getPriceDataObject(), $basePrice, $price, $strong, $separator);
+        return $this->helper('Mage_Adminhtml_Helper_Sales')->displayPrices($this->getPriceDataObject(), $basePrice, $price, $strong, $separator);
     }
 
     /**

@@ -61,9 +61,9 @@ class Enterprise_Reward_Model_Reward_Rate extends Mage_Core_Model_Abstract
     {
         switch ($direction) {
             case self::RATE_EXCHANGE_DIRECTION_TO_CURRENCY:
-                return Mage::helper('enterprise_reward')->formatRateToCurrency($points, $amount, $currencyCode);
+                return Mage::helper('Enterprise_Reward_Helper_Data')->formatRateToCurrency($points, $amount, $currencyCode);
             case self::RATE_EXCHANGE_DIRECTION_TO_POINTS:
-                return Mage::helper('enterprise_reward')->formatRateToPoints($points, $amount, $currencyCode);
+                return Mage::helper('Enterprise_Reward_Helper_Data')->formatRateToPoints($points, $amount, $currencyCode);
         }
     }
 
@@ -72,7 +72,7 @@ class Enterprise_Reward_Model_Reward_Rate extends Mage_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('enterprise_reward/reward_rate');
+        $this->_init('Enterprise_Reward_Model_Resource_Reward_Rate');
     }
 
     /**
@@ -211,8 +211,8 @@ class Enterprise_Reward_Model_Reward_Rate extends Mage_Core_Model_Abstract
     public function getDirectionsOptionArray()
     {
         $optArray = array(
-            self::RATE_EXCHANGE_DIRECTION_TO_CURRENCY => Mage::helper('enterprise_reward')->__('Points to Currency'),
-            self::RATE_EXCHANGE_DIRECTION_TO_POINTS => Mage::helper('enterprise_reward')->__('Currency to Points')
+            self::RATE_EXCHANGE_DIRECTION_TO_CURRENCY => Mage::helper('Enterprise_Reward_Helper_Data')->__('Points to Currency'),
+            self::RATE_EXCHANGE_DIRECTION_TO_POINTS => Mage::helper('Enterprise_Reward_Helper_Data')->__('Currency to Points')
         );
         return $optArray;
     }

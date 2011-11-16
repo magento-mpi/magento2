@@ -81,7 +81,7 @@ class Mage_Review_Model_Resource_Review_Collection extends Mage_Core_Model_Resou
      */
     protected function _construct()
     {
-        $this->_init('review/review');
+        $this->_init('Mage_Review_Model_Review', 'Mage_Review_Model_Resource_Review');
         $this->_reviewTable         = $this->getTable('review');
         $this->_reviewDetailTable   = $this->getTable('review_detail');
         $this->_reviewStatusTable   = $this->getTable('review_status');
@@ -220,7 +220,7 @@ class Mage_Review_Model_Resource_Review_Collection extends Mage_Core_Model_Resou
     public function addRateVotes()
     {
         foreach ($this->getItems() as $item) {
-            $votesCollection = Mage::getModel('rating/rating_option_vote')
+            $votesCollection = Mage::getModel('Mage_Rating_Model_Rating_Option_Vote')
                 ->getResourceCollection()
                 ->setReviewFilter($item->getId())
                 ->setStoreFilter(Mage::app()->getStore()->getId())

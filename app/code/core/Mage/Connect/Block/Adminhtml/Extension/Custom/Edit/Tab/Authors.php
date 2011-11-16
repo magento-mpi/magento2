@@ -41,7 +41,7 @@ class Mage_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Authors
      */
     public function getTabLabel()
     {
-        return Mage::helper('connect')->__('Authors');
+        return Mage::helper('Mage_Connect_Helper_Data')->__('Authors');
     }
 
     /**
@@ -51,7 +51,7 @@ class Mage_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Authors
      */
     public function getTabTitle()
     {
-        return Mage::helper('connect')->__('Authors');
+        return Mage::helper('Mage_Connect_Helper_Data')->__('Authors');
     }
 
     /**
@@ -61,7 +61,7 @@ class Mage_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Authors
      */
     public function getAddAuthorButtonHtml()
     {
-        return $this->getLayout()->createBlock('adminhtml/widget_button')
+        return $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
             ->setType('button')
             ->setClass('add')
             ->setLabel($this->__('Add Author'))
@@ -87,7 +87,7 @@ class Mage_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Authors
                 }
             }
             foreach ($temp as $key => $value) {
-                $authors[$key] = Mage::helper('core')->jsonEncode($value);
+                $authors[$key] = Mage::helper('Mage_Core_Helper_Data')->jsonEncode($value);
             }
         }
         return $authors;

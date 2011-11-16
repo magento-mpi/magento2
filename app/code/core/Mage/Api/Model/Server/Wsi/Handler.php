@@ -47,7 +47,7 @@ class Mage_Api_Model_Server_WSI_Handler extends Mage_Api_Model_Server_Handler_Ab
         $args = $args[0];
 
         /** @var Mage_Api_Helper_Data */
-        $helper = Mage::helper('api/data');
+        $helper = Mage::helper('Mage_Api_Helper_Data');
 
         $helper->wsiArrayUnpacker($args);
         $args = get_object_vars($args);
@@ -61,7 +61,7 @@ class Mage_Api_Model_Server_WSI_Handler extends Mage_Api_Model_Server_Handler_Ab
         }
 
         $apiKey = '';
-        $nodes = Mage::getSingleton('api/config')->getNode('v2/resources_function_prefix')->children();
+        $nodes = Mage::getSingleton('Mage_Api_Model_Config')->getNode('v2/resources_function_prefix')->children();
         foreach ($nodes as $resource => $prefix) {
             $prefix = $prefix->asArray();
             if (false !== strpos($function, $prefix)) {

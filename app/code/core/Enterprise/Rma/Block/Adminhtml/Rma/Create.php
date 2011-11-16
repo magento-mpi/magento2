@@ -40,7 +40,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Create extends Mage_Adminhtml_Block_Wid
         $this->_objectId = 'id';
         $this->_controller = 'adminhtml_rma';
         $this->_mode = 'create';
-        $this->_blockGroup = 'enterprise_rma';
+        $this->_blockGroup = 'Enterprise_Rma';
 
         parent::__construct();
 
@@ -51,6 +51,6 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Create extends Mage_Adminhtml_Block_Wid
 
     public function getHeaderHtml()
     {
-        return $this->getLayout()->createBlock('enterprise_rma/adminhtml_rma_create_header')->toHtml();
+        return $this->getLayout()->createBlock('Enterprise_Rma_Block_Adminhtml_Rma_Create_Header')->toHtml();
     }
 }

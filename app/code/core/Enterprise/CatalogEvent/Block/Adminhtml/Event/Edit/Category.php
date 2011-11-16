@@ -54,7 +54,7 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit_Category extends Mage_A
     {
         $result = array();
         if ($parentId) {
-            $category = Mage::getModel('catalog/category')->load($parentId);
+            $category = Mage::getModel('Mage_Catalog_Model_Category')->load($parentId);
             if (!empty($category)) {
                 $tree = $this->_getNodesArray($this->getNode($category, $recursionLevel));
                 if (!empty($tree) && !empty($tree['children'])) {
@@ -66,7 +66,7 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit_Category extends Mage_A
             $result = $this->_getNodesArray($this->getRoot(null, $recursionLevel));
         }
         if ($asJson) {
-            return Mage::helper('core')->jsonEncode($result);
+            return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($result);
         }
         return $result;
     }
@@ -80,7 +80,7 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit_Category extends Mage_A
     {
         $collection = $this->_getData('category_collection');
         if (is_null($collection)) {
-            $collection = Mage::getModel('catalog/category')->getCollection()
+            $collection = Mage::getModel('Mage_Catalog_Model_Category')->getCollection()
                 ->addAttributeToSelect(array('name', 'is_active'))
                 ->setLoadProductCount(true)
             ;
@@ -96,6 +96,7 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit_Category extends Mage_A
      */
     protected function _getNodesArray($node)
     {
+        $eventHelper = $this->helper('Enterprise_CatalogEvent_Helper_Adminhtml_Event');
         $result = array(
             'id'             => (int)$node->getId(),
             'parent_id'      => (int)$node->getParentId(),
@@ -103,7 +104,7 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit_Category extends Mage_A
             'is_active'      => (bool)$node->getIsActive(),
             'disabled'       => ($node->getLevel() <= 1 || in_array(
                                     $node->getId(),
-                                    $this->helper('enterprise_catalogevent/adminhtml_event')->getInEventCategoryIds()
+                                    $eventHelper->getInEventCategoryIds()
                                 )),
             'name'           => $node->getName(),
             'level'          => (int)$node->getLevel(),

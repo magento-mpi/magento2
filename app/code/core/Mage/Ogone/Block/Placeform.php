@@ -38,7 +38,7 @@ class Mage_Ogone_Block_Placeform extends Mage_Core_Block_Template
      */
     public function getCheckout()
     {
-        return Mage::getSingleton('checkout/session');
+        return Mage::getSingleton('Mage_Checkout_Model_Session');
     }
 
     /**
@@ -48,7 +48,7 @@ class Mage_Ogone_Block_Placeform extends Mage_Core_Block_Template
      */
     protected function _getApi()
     {
-        return Mage::getSingleton('ogone/api');
+        return Mage::getSingleton('Mage_Ogone_Model_Api');
     }
 
     /**
@@ -61,7 +61,7 @@ class Mage_Ogone_Block_Placeform extends Mage_Core_Block_Template
         if ($this->getOrder()) {
             $order = $this->getOrder();
         } else if ($this->getCheckout()->getLastRealOrderId()) {
-            $order = Mage::getModel('sales/order')->loadByIncrementId($this->getCheckout()->getLastRealOrderId());
+            $order = Mage::getModel('Mage_Sales_Model_Order')->loadByIncrementId($this->getCheckout()->getLastRealOrderId());
         } else {
             return null;
         }

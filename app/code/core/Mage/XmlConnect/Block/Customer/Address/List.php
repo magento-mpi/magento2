@@ -40,8 +40,8 @@ class Mage_XmlConnect_Block_Customer_Address_List extends Mage_Core_Block_Templa
      */
     protected function _toHtml()
     {
-        $addressXmlObj          = Mage::getModel('xmlconnect/simplexml_element', '<address></address>');
-        $customer               = Mage::getSingleton('customer/session')->getCustomer();
+        $addressXmlObj          = Mage::getModel('Mage_XmlConnect_Model_Simplexml_Element', '<address></address>');
+        $customer               = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer();
 
         $_billingAddssesId      = $customer->getDefaultBilling();
         $_shippingAddssesId     = $customer->getDefaultShipping();
@@ -90,7 +90,7 @@ class Mage_XmlConnect_Block_Customer_Address_List extends Mage_Core_Block_Templa
             return array();
         }
 
-        $attributes = Mage::helper('customer/address')->getAttributes();
+        $attributes = Mage::helper('Mage_Customer_Helper_Address')->getAttributes();
 
         $data = array('entity_id' => $address->getId());
 

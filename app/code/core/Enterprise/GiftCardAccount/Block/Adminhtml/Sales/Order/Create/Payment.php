@@ -33,14 +33,14 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Sales_Order_Create_Payment exte
      */
     protected function _getOrderCreateModel()
     {
-        return Mage::getSingleton('adminhtml/sales_order_create');
+        return Mage::getSingleton('Mage_Adminhtml_Model_Sales_Order_Create');
     }
 
     public function getGiftCards()
     {
         $result = array();
         $quote = $this->_getOrderCreateModel()->getQuote();
-        $cards = Mage::helper('enterprise_giftcardaccount')->getCards($quote);
+        $cards = Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->getCards($quote);
         foreach ($cards as $card) {
             $result[] = $card['c'];
         }

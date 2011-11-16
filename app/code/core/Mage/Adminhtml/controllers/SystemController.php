@@ -37,7 +37,7 @@ class Mage_Adminhtml_SystemController extends Mage_Adminhtml_Controller_Action
     {
         $this->loadLayout();
         $this->_setActiveMenu('system');
-        $this->_addBreadcrumb(Mage::helper('adminhtml')->__('System'), Mage::helper('adminhtml')->__('System'));
+        $this->_addBreadcrumb(Mage::helper('Mage_Adminhtml_Helper_Data')->__('System'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('System'));
         $this->renderLayout();
     }
 
@@ -45,13 +45,13 @@ class Mage_Adminhtml_SystemController extends Mage_Adminhtml_Controller_Action
     {
         $storeId = (int) $this->getRequest()->getParam('store');
         if ($storeId) {
-            Mage::getSingleton('adminhtml/session')->setStoreId($storeId);
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')->setStoreId($storeId);
         }
         $this->_redirectReferer();
     }
 
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('system');
+        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('system');
     }
 }

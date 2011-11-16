@@ -44,6 +44,6 @@ class Mage_GoogleShopping_Block_Adminhtml_Types_Renderer_Country
     public function render(Varien_Object $row)
     {
         $iso = $row->getData($this->getColumn()->getIndex());
-        return Mage::getSingleton('googleshopping/config')->getCountryInfo($iso, 'name');
+        return Mage::getSingleton('Mage_GoogleShopping_Model_Config')->getCountryInfo($iso, 'name');
     }
 }

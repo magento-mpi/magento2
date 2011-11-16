@@ -139,7 +139,7 @@ class Mage_ProductAlert_Model_Email extends Mage_Core_Model_Abstract
      */
     public function setCustomerId($customerId)
     {
-        $this->_customer = Mage::getModel('customer/customer')->load($customerId);
+        $this->_customer = Mage::getModel('Mage_Customer_Model_Customer')->load($customerId);
         return $this;
     }
 
@@ -201,8 +201,8 @@ class Mage_ProductAlert_Model_Email extends Mage_Core_Model_Abstract
     protected function _getPriceBlock()
     {
         if (is_null($this->_priceBlock)) {
-            $this->_priceBlock = Mage::helper('productalert')
-                ->createBlock('productalert/email_price');
+            $this->_priceBlock = Mage::helper('Mage_ProductAlert_Helper_Data')
+                ->createBlock('Mage_ProductAlert_Block_Email_Price');
         }
         return $this->_priceBlock;
     }
@@ -215,8 +215,8 @@ class Mage_ProductAlert_Model_Email extends Mage_Core_Model_Abstract
     protected function _getStockBlock()
     {
         if (is_null($this->_stockBlock)) {
-            $this->_stockBlock = Mage::helper('productalert')
-                ->createBlock('productalert/email_stock');
+            $this->_stockBlock = Mage::helper('Mage_ProductAlert_Helper_Data')
+                ->createBlock('Mage_ProductAlert_Block_Email_Stock');
         }
         return $this->_stockBlock;
     }
@@ -251,7 +251,7 @@ class Mage_ProductAlert_Model_Email extends Mage_Core_Model_Abstract
             return false;
         }
 
-        $appEmulation = Mage::getSingleton('core/app_emulation');
+        $appEmulation = Mage::getSingleton('Mage_Core_Model_App_Emulation');
         $initialEnvironmentInfo = $appEmulation->startEnvironmentEmulation($storeId);
 
         if ($this->_type == 'price') {
@@ -278,7 +278,7 @@ class Mage_ProductAlert_Model_Email extends Mage_Core_Model_Abstract
 
         $appEmulation->stopEnvironmentEmulation($initialEnvironmentInfo);
 
-        Mage::getModel('core/email_template')
+        Mage::getModel('Mage_Core_Model_Email_Template')
             ->setDesignConfig(array(
                 'area'  => 'frontend',
                 'store' => $storeId

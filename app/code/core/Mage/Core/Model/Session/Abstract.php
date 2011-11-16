@@ -207,7 +207,7 @@ class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_
     public function getMessages($clear=false)
     {
         if (!$this->getData('messages')) {
-            $this->setMessages(Mage::getModel('core/message_collection'));
+            $this->setMessages(Mage::getModel('Mage_Core_Model_Message_Collection'));
         }
 
         if ($clear) {
@@ -236,7 +236,7 @@ class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_
         $file    = Mage::getStoreConfig(self::XML_PATH_LOG_EXCEPTION_FILE);
         Mage::log($message, Zend_Log::DEBUG, $file);
 
-        $this->addMessage(Mage::getSingleton('core/message')->error($alternativeText));
+        $this->addMessage(Mage::getSingleton('Mage_Core_Model_Message')->error($alternativeText));
         return $this;
     }
 
@@ -261,7 +261,7 @@ class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_
      */
     public function addError($message)
     {
-        $this->addMessage(Mage::getSingleton('core/message')->error($message));
+        $this->addMessage(Mage::getSingleton('Mage_Core_Model_Message')->error($message));
         return $this;
     }
 
@@ -273,7 +273,7 @@ class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_
      */
     public function addWarning($message)
     {
-        $this->addMessage(Mage::getSingleton('core/message')->warning($message));
+        $this->addMessage(Mage::getSingleton('Mage_Core_Model_Message')->warning($message));
         return $this;
     }
 
@@ -285,7 +285,7 @@ class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_
      */
     public function addNotice($message)
     {
-        $this->addMessage(Mage::getSingleton('core/message')->notice($message));
+        $this->addMessage(Mage::getSingleton('Mage_Core_Model_Message')->notice($message));
         return $this;
     }
 
@@ -297,7 +297,7 @@ class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_
      */
     public function addSuccess($message)
     {
-        $this->addMessage(Mage::getSingleton('core/message')->success($message));
+        $this->addMessage(Mage::getSingleton('Mage_Core_Model_Message')->success($message));
         return $this;
     }
 
@@ -377,12 +377,12 @@ class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_
     {
         if (is_null($id) && $this->useSid()) {
             $_queryParam = $this->getSessionIdQueryParam();
-            if (isset($_GET[$_queryParam]) && Mage::getSingleton('core/url')->isOwnOriginUrl()) {
+            if (isset($_GET[$_queryParam]) && Mage::getSingleton('Mage_Core_Model_Url')->isOwnOriginUrl()) {
                 $id = $_GET[$_queryParam];
                 /**
                  * No reason use crypt key for session
                  */
-//                if ($tryId = Mage::helper('core')->decrypt($_GET[self::SESSION_ID_QUERY_PARAM])) {
+//                if ($tryId = Mage::helper('Mage_Core_Helper_Data')->decrypt($_GET[self::SESSION_ID_QUERY_PARAM])) {
 //                    $id = $tryId;
 //                }
             }
@@ -402,7 +402,7 @@ class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_
     public function getEncryptedSessionId()
     {
         if (!self::$_encryptedSessionId) {
-//            $helper = Mage::helper('core');
+//            $helper = Mage::helper('Mage_Core_Helper_Data');
 //            if (!$helper) {
 //                return $this;
 //            }

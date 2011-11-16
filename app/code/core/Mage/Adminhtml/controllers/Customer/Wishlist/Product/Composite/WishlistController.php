@@ -61,14 +61,14 @@ class Mage_Adminhtml_Customer_Wishlist_Product_Composite_WishlistController
         }
 
         /* @var $wishlistItem Mage_Wishlist_Model_Item */
-        $wishlistItem = Mage::getModel('wishlist/item')
+        $wishlistItem = Mage::getModel('Mage_Wishlist_Model_Item')
             ->loadWithOptions($wishlistItemId);
 
         if (!$wishlistItem->getWishlistId()) {
             Mage::throwException($this->__('Wishlist item is not loaded.'));
         }
 
-        $this->_wishlist = Mage::getModel('wishlist/wishlist')
+        $this->_wishlist = Mage::getModel('Mage_Wishlist_Model_Wishlist')
             ->load($wishlistItem->getWishlistId());
 
         $this->_wishlistItem = $wishlistItem;
@@ -99,7 +99,7 @@ class Mage_Adminhtml_Customer_Wishlist_Product_Composite_WishlistController
         }
 
         /* @var $helper Mage_Adminhtml_Helper_Catalog_Product_Composite */
-        $helper = Mage::helper('adminhtml/catalog_product_composite');
+        $helper = Mage::helper('Mage_Adminhtml_Helper_Catalog_Product_Composite');
         $helper->renderConfigureResult($this, $configureResult);
 
         return $this;
@@ -129,7 +129,7 @@ class Mage_Adminhtml_Customer_Wishlist_Product_Composite_WishlistController
             $updateResult->setMessage($e->getMessage());
         }
         $updateResult->setJsVarName($this->getRequest()->getParam('as_js_varname'));
-        Mage::getSingleton('adminhtml/session')->setCompositeProductResult($updateResult);
+        Mage::getSingleton('Mage_Adminhtml_Model_Session')->setCompositeProductResult($updateResult);
         $this->_redirect('*/catalog_product/showUpdateResult');
 
         return false;
@@ -142,6 +142,6 @@ class Mage_Adminhtml_Customer_Wishlist_Product_Composite_WishlistController
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('customer/manage');
+        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('customer/manage');
     }
 }

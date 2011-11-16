@@ -53,6 +53,9 @@
  */
 class Mage_Catalog_Model_Category_Indexer_Product extends Mage_Index_Model_Indexer_Abstract
 {
+    /**
+     * Data key for matching result to be saved in
+     */
     const EVENT_MATCH_RESULT_KEY = 'catalog_category_product_match_result';
 
     /**
@@ -82,7 +85,7 @@ class Mage_Catalog_Model_Category_Indexer_Product extends Mage_Index_Model_Index
      */
     protected function _construct()
     {
-        $this->_init('catalog/category_indexer_product');
+        $this->_init('Mage_Catalog_Model_Resource_Category_Indexer_Product');
     }
 
     /**
@@ -92,7 +95,7 @@ class Mage_Catalog_Model_Category_Indexer_Product extends Mage_Index_Model_Index
      */
     public function getName()
     {
-        return Mage::helper('catalog')->__('Category Products');
+        return Mage::helper('Mage_Catalog_Helper_Data')->__('Category Products');
     }
 
     /**
@@ -102,7 +105,7 @@ class Mage_Catalog_Model_Category_Indexer_Product extends Mage_Index_Model_Index
      */
     public function getDescription()
     {
-        return Mage::helper('catalog')->__('Indexed category/products association');
+        return Mage::helper('Mage_Catalog_Helper_Data')->__('Indexed category/products association');
     }
 
     /**

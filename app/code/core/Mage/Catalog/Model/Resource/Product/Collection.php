@@ -156,7 +156,7 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
      */
     public function getFlatHelper()
     {
-        return Mage::helper('catalog/product_flat');
+        return Mage::helper('Mage_Catalog_Helper_Product_Flat');
     }
 
     /**
@@ -184,10 +184,10 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
     protected function _construct()
     {
         if ($this->isEnabledFlat()) {
-            $this->_init('catalog/product', 'catalog/product_flat');
+            $this->_init('Mage_Catalog_Model_Product', 'Mage_Catalog_Model_Resource_Product_Flat');
         }
         else {
-            $this->_init('catalog/product');
+            $this->_init('Mage_Catalog_Model_Product', 'Mage_Catalog_Model_Resource_Product');
         }
         $this->_initTables();
     }
@@ -209,7 +209,7 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
      * @param unknown_type $entityModel
      * @return Mage_Catalog_Model_Resource_Product_Collection
      */
-    protected function _init($model, $entityModel = null)
+    protected function _init($model, $entityModel)
     {
         if ($this->isEnabledFlat()) {
             $entityModel = 'catalog/product_flat';
@@ -411,7 +411,7 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
         }
 
         if ($objects && $this->hasFlag('url_data_object')) {
-            $objects = Mage::getResourceSingleton('catalog/url')
+            $objects = Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Url')
                 ->getRewriteByProductStore($objects);
             foreach ($this->_items as $item) {
                 if (isset($objects[$item->getEntityId()])) {
@@ -1033,17 +1033,17 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
     protected function _joinPriceRules()
     {
         if ($this->isEnabledFlat()) {
-            $customerGroup = Mage::getSingleton('customer/session')->getCustomerGroupId();
+            $customerGroup = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerGroupId();
             $priceColumn   = 'e.display_price_group_' . $customerGroup;
             $this->getSelect()->columns(array('_rule_price' => $priceColumn));
 
             return $this;
         }
-        if (!Mage::helper('catalog')->isModuleEnabled('Mage_CatalogRule')) {
+        if (!Mage::helper('Mage_Catalog_Helper_Data')->isModuleEnabled('Mage_CatalogRule')) {
             return $this;
         }
         $wId = Mage::app()->getWebsite()->getId();
-        $gId = Mage::getSingleton('customer/session')->getCustomerGroupId();
+        $gId = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerGroupId();
 
         $storeDate = Mage::app()->getLocale()->storeTimeStamp($this->getStoreId());
         $conditions  = 'price_rule.product_id = e.entity_id AND ';
@@ -1104,7 +1104,7 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
         $this->_productLimitationFilters['use_price_index'] = true;
 
         if (!isset($this->_productLimitationFilters['customer_group_id']) && is_null($customerGroupId)) {
-            $customerGroupId = Mage::getSingleton('customer/session')->getCustomerGroupId();
+            $customerGroupId = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerGroupId();
         }
         if (!isset($this->_productLimitationFilters['website_id']) && is_null($websiteId)) {
             $websiteId       = Mage::app()->getStore($this->getStoreId())->getWebsiteId();
@@ -1216,14 +1216,14 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
     protected function _addTaxPercents()
     {
         $classToRate = array();
-        $request = Mage::getSingleton('tax/calculation')->getRateRequest();
+        $request = Mage::getSingleton('Mage_Tax_Model_Calculation')->getRateRequest();
         foreach ($this as &$item) {
             if (null === $item->getTaxClassId()) {
                 $item->setTaxClassId($item->getMinimalTaxClassId());
             }
             if (!isset($classToRate[$item->getTaxClassId()])) {
                 $request->setProductClassId($item->getTaxClassId());
-                $classToRate[$item->getTaxClassId()] = Mage::getSingleton('tax/calculation')->getRate($request);
+                $classToRate[$item->getTaxClassId()] = Mage::getSingleton('Mage_Tax_Model_Calculation')->getRate($request);
             }
             $item->setTaxPercent($classToRate[$item->getTaxClassId()]);
         }
@@ -1241,7 +1241,7 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
             $productIds[] = $product->getId();
         }
         if (!empty($productIds)) {
-            $options = Mage::getModel('catalog/product_option')
+            $options = Mage::getModel('Mage_Catalog_Model_Product_Option')
                 ->getCollection()
                 ->addTitleToResult(Mage::app()->getStore()->getId())
                 ->addPriceToResult(Mage::app()->getStore()->getId())
@@ -1471,7 +1471,7 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
             );
         }
         // Avoid column duplication problems
-        Mage::getResourceHelper('core')->prepareColumnsList($this->getSelect());
+        Mage::getResourceHelper('Mage_Core')->prepareColumnsList($this->getSelect());
 
         $whereCond = join(' OR ', array(
             $this->getConnection()->quoteInto('cat_index.visibility IN(?)', $filters['visibility']),
@@ -1505,7 +1505,7 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
             return $this;
         }
 
-        $helper     = Mage::getResourceHelper('core');
+        $helper     = Mage::getResourceHelper('Mage_Core');
         $connection = $this->getConnection();
         $select     = $this->getSelect();
         $joinCond   = join(' AND ', array(
@@ -1550,7 +1550,7 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
     {
         $this->_productLimitationFilters['use_price_index'] = true;
         if (!isset($this->_productLimitationFilters['customer_group_id'])) {
-            $customerGroupId = Mage::getSingleton('customer/session')->getCustomerGroupId();
+            $customerGroupId = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerGroupId();
             $this->_productLimitationFilters['customer_group_id'] = $customerGroupId;
         }
         if (!isset($this->_productLimitationFilters['website_id'])) {

@@ -47,7 +47,7 @@ class Enterprise_Rma_Block_Return_Info extends Mage_Core_Block_Template
         }
         $this->setChild(
             'payment_info',
-            $this->helper('payment')->getInfoBlock($this->getOrder()->getPayment())
+            $this->helper('Mage_Payment_Helper_Data')->getInfoBlock($this->getOrder()->getPayment())
         );
     }
 

@@ -35,7 +35,7 @@ class Enterprise_GiftRegistry_ViewController extends Mage_Core_Controller_Front_
     public function preDispatch()
     {
         parent::preDispatch();
-        if (!Mage::helper('enterprise_giftregistry')->isEnabled()) {
+        if (!Mage::helper('Enterprise_GiftRegistry_Helper_Data')->isEnabled()) {
             $this->norouteAction();
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             return;
@@ -47,7 +47,7 @@ class Enterprise_GiftRegistry_ViewController extends Mage_Core_Controller_Front_
      */
     public function indexAction()
     {
-        $entity = Mage::getModel('enterprise_giftregistry/entity');
+        $entity = Mage::getModel('Enterprise_GiftRegistry_Model_Entity');
         $entity->loadByUrlKey($this->getRequest()->getParam('id'));
         if (!$entity->getId() || !$entity->getCustomerId() || !$entity->getTypeId() || !$entity->getIsActive()) {
             $this->_forward('noroute');
@@ -55,16 +55,16 @@ class Enterprise_GiftRegistry_ViewController extends Mage_Core_Controller_Front_
         }
 
         /** @var Mage_Customer_Model_Customer */
-        $customer = Mage::getModel('customer/customer');
+        $customer = Mage::getModel('Mage_Customer_Model_Customer');
         $customer->load($entity->getCustomerId());
         $entity->setCustomer($customer);
         Mage::register('current_entity', $entity);
 
         $this->loadLayout();
-        $this->_initLayoutMessages('customer/session');
+        $this->_initLayoutMessages('Mage_Customer_Model_Session');
         $headBlock = $this->getLayout()->getBlock('head');
         if ($headBlock) {
-            $headBlock->setTitle(Mage::helper('enterprise_giftregistry')->__('Gift Registry Info'));
+            $headBlock->setTitle(Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Gift Registry Info'));
         }
         $this->renderLayout();
     }
@@ -80,16 +80,16 @@ class Enterprise_GiftRegistry_ViewController extends Mage_Core_Controller_Front_
             return;
         }
         /* @var Mage_Checkout_Model_Cart */
-        $cart = Mage::getSingleton('checkout/cart');
+        $cart = Mage::getSingleton('Mage_Checkout_Model_Cart');
         /* @var $session Mage_Wishlist_Model_Session */
-        $session    = Mage::getSingleton('customer/session');
+        $session    = Mage::getSingleton('Mage_Customer_Model_Session');
         $success = false;
 
         try {
             $count = 0;
             foreach ($items as $itemId => $itemInfo) {
-                $item = Mage::getModel('enterprise_giftregistry/item')->load($itemId);
-                $optionCollection = Mage::getModel('enterprise_giftregistry/item_option')->getCollection()
+                $item = Mage::getModel('Enterprise_GiftRegistry_Model_Item')->load($itemId);
+                $optionCollection = Mage::getModel('Enterprise_GiftRegistry_Model_Item_Option')->getCollection()
                     ->addItemFilter($itemId);
                 $item->setOptions($optionCollection->getOptionsByItem($item));
                 if (!$item->getId() || $itemInfo['qty'] < 1 || ($item->getQty() <= $item->getQtyFulfilled())) {
@@ -102,12 +102,12 @@ class Enterprise_GiftRegistry_ViewController extends Mage_Core_Controller_Front_
             $success = true;
             if (!$count) {
                 $success = false;
-                $session->addError(Mage::helper('enterprise_giftregistry')->__('Please specify the quantity of items that you want to add to cart.'));
+                $session->addError(Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Please specify the quantity of items that you want to add to cart.'));
             }
         } catch (Mage_Core_Exception $e) {
-            $session->addError(Mage::helper('enterprise_giftregistry')->__($e->getMessage()));
+            $session->addError(Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__($e->getMessage()));
         } catch (Exception $e) {
-            $session->addException($e, Mage::helper('enterprise_giftregistry')->__('Cannot add item to shopping cart'));
+            $session->addException($e, Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Cannot add item to shopping cart'));
             Mage::logException($e);
         }
         if (!$success) {

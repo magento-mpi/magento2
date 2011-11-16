@@ -38,11 +38,11 @@ class Mage_CatalogSearch_Block_Advanced_Form extends Mage_Core_Block_Template
         // add Home breadcrumb
         if ($breadcrumbs = $this->getLayout()->getBlock('breadcrumbs')) {
             $breadcrumbs->addCrumb('home', array(
-                'label'=>Mage::helper('catalogsearch')->__('Home'),
-                'title'=>Mage::helper('catalogsearch')->__('Go to Home Page'),
+                'label'=>Mage::helper('Mage_CatalogSearch_Helper_Data')->__('Home'),
+                'title'=>Mage::helper('Mage_CatalogSearch_Helper_Data')->__('Go to Home Page'),
                 'link'=>Mage::getBaseUrl()
             ))->addCrumb('search', array(
-                'label'=>Mage::helper('catalogsearch')->__('Catalog Advanced Search')
+                'label'=>Mage::helper('Mage_CatalogSearch_Helper_Data')->__('Catalog Advanced Search')
             ));
         }
         return parent::_prepareLayout();
@@ -106,7 +106,7 @@ class Mage_CatalogSearch_Block_Advanced_Form extends Mage_Core_Block_Template
             $currencies = array();
             $codes = Mage::app()->getStore()->getAvailableCurrencyCodes(true);
             if (is_array($codes) && count($codes)) {
-                $rates = Mage::getModel('directory/currency')->getCurrencyRates(
+                $rates = Mage::getModel('Mage_Directory_Model_Currency')->getCurrencyRates(
                     Mage::app()->getStore()->getBaseCurrency(),
                     $codes
                 );
@@ -183,7 +183,7 @@ class Mage_CatalogSearch_Block_Advanced_Form extends Mage_Core_Block_Template
             $name.= '[]';
         }
         else {
-            array_unshift($options, array('value'=>'', 'label'=>Mage::helper('catalogsearch')->__('All')));
+            array_unshift($options, array('value'=>'', 'label'=>Mage::helper('Mage_CatalogSearch_Helper_Data')->__('All')));
         }
 
 
@@ -202,9 +202,9 @@ class Mage_CatalogSearch_Block_Advanced_Form extends Mage_Core_Block_Template
     public function getAttributeYesNoElement($attribute)
     {
         $options = array(
-            array('value' => '',  'label' => Mage::helper('catalogsearch')->__('All')),
-            array('value' => '1', 'label' => Mage::helper('catalogsearch')->__('Yes')),
-            array('value' => '0', 'label' => Mage::helper('catalogsearch')->__('No'))
+            array('value' => '',  'label' => Mage::helper('Mage_CatalogSearch_Helper_Data')->__('All')),
+            array('value' => '1', 'label' => Mage::helper('Mage_CatalogSearch_Helper_Data')->__('Yes')),
+            array('value' => '0', 'label' => Mage::helper('Mage_CatalogSearch_Helper_Data')->__('No'))
         );
 
         $name = $attribute->getAttributeCode();
@@ -222,7 +222,7 @@ class Mage_CatalogSearch_Block_Advanced_Form extends Mage_Core_Block_Template
     {
         $block = $this->getData('_select_block');
         if (is_null($block)) {
-            $block = $this->getLayout()->createBlock('core/html_select');
+            $block = $this->getLayout()->createBlock('Mage_Core_Block_Html_Select');
             $this->setData('_select_block', $block);
         }
         return $block;
@@ -232,7 +232,7 @@ class Mage_CatalogSearch_Block_Advanced_Form extends Mage_Core_Block_Template
     {
         $block = $this->getData('_date_block');
         if (is_null($block)) {
-            $block = $this->getLayout()->createBlock('core/html_date');
+            $block = $this->getLayout()->createBlock('Mage_Core_Block_Html_Date');
             $this->setData('_date_block', $block);
         }
         return $block;
@@ -244,7 +244,7 @@ class Mage_CatalogSearch_Block_Advanced_Form extends Mage_Core_Block_Template
      */
     public function getModel()
     {
-        return Mage::getSingleton('catalogsearch/advanced');
+        return Mage::getSingleton('Mage_CatalogSearch_Model_Advanced');
     }
 
     public function getSearchPostUrl()

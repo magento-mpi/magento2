@@ -49,7 +49,7 @@ class Mage_Core_Model_Resource_File_Storage_File
     public function getMediaBaseDirectory()
     {
         if (is_null($this->_mediaBaseDirectory)) {
-            $this->_mediaBaseDirectory = Mage::helper('core/file_storage_database')->getMediaBaseDir();
+            $this->_mediaBaseDirectory = Mage::helper('Mage_Core_Helper_File_Storage_Database')->getMediaBaseDir();
         }
 
         return $this->_mediaBaseDirectory;
@@ -147,11 +147,11 @@ class Mage_Core_Model_Resource_File_Storage_File
         $path = (strlen($dir['path']))
             ? $dir['path'] . DS . $dir['name']
             : $dir['name'];
-        $path = Mage::helper('core/file_storage_database')->getMediaBaseDir() . DS . str_replace('/', DS, $path);
+        $path = Mage::helper('Mage_Core_Helper_File_Storage_Database')->getMediaBaseDir() . DS . str_replace('/', DS, $path);
 
         if (!file_exists($path) || !is_dir($path)) {
             if (!@mkdir($path, 0777, true)) {
-                Mage::throwException(Mage::helper('core')->__('Unable to create directory: %s', $path));
+                Mage::throwException(Mage::helper('Mage_Core_Helper_Data')->__('Unable to create directory: %s', $path));
             }
         }
 
@@ -189,7 +189,7 @@ class Mage_Core_Model_Resource_File_Storage_File
                 return true;
             }
 
-            Mage::throwException(Mage::helper('core')->__('Unable to save file: %s', $filePath));
+            Mage::throwException(Mage::helper('Mage_Core_Helper_Data')->__('Unable to save file: %s', $filePath));
         }
 
         return false;

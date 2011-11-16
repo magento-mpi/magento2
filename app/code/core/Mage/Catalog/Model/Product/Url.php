@@ -58,7 +58,7 @@ class Mage_Catalog_Model_Product_Url extends Varien_Object
     public function getUrlInstance()
     {
         if (!self::$_url) {
-            self::$_url = Mage::getModel('core/url');
+            self::$_url = Mage::getModel('Mage_Core_Model_Url');
         }
         return self::$_url;
     }
@@ -71,7 +71,7 @@ class Mage_Catalog_Model_Product_Url extends Varien_Object
     public function getUrlRewrite()
     {
         if (!self::$_urlRewrite) {
-            self::$_urlRewrite = Mage::getModel('core/url_rewrite');
+            self::$_urlRewrite = Mage::getModel('Mage_Core_Model_Url_Rewrite');
         }
         return self::$_urlRewrite;
     }
@@ -132,7 +132,7 @@ class Mage_Catalog_Model_Product_Url extends Varien_Object
      */
     public function formatUrlKey($str)
     {
-        $urlKey = preg_replace('#[^0-9a-z]+#i', '-', Mage::helper('catalog/product_url')->format($str));
+        $urlKey = preg_replace('#[^0-9a-z]+#i', '-', Mage::helper('Mage_Catalog_Helper_Product_Url')->format($str));
         $urlKey = strtolower($urlKey);
         $urlKey = trim($urlKey, '-');
 
@@ -158,7 +158,7 @@ class Mage_Catalog_Model_Product_Url extends Varien_Object
             Mage::throwException('Invalid category object supplied');
         }
 
-        return Mage::helper('catalog/category')->getCategoryUrlPath($category->getUrlPath())
+        return Mage::helper('Mage_Catalog_Helper_Category')->getCategoryUrlPath($category->getUrlPath())
             . '/' . $path;
     }
 

@@ -32,15 +32,6 @@
         </Find_Feed>
     </modules>
     <global>
-        <models>
-            <find_feed>
-                <class>Find_Feed_Model</class>
-                <resourceModel>find_feed_resource</resourceModel>
-            </find_feed>
-            <find_feed_resource>
-                <class>Find_Feed_Model_Resource</class>
-            </find_feed_resource>
-        </models>
         <resources>
             <find_feed_setup>
                 <setup>
@@ -49,21 +40,13 @@
                 </setup>
             </find_feed_setup>
         </resources>
-        <blocks>
-            <find_feed><class>Find_Feed_Block</class></find_feed>
-        </blocks>
-        <helpers>
-            <find_feed>
-                <class>Find_Feed_Helper</class>
-            </find_feed>
-        </helpers>
     </global>
     <adminhtml>
         <events>
             <admin_system_config_changed_section_feed>
                 <observers>
                     <find_feed>
-                        <class>find_feed/observer</class>
+                        <class>Find_Feed_Model_Observer</class>
                         <method>saveSystemConfig</method>
                     </find_feed>
                 </observers>
@@ -103,20 +86,20 @@
                     <config_path>feed/settings/cron_schedule</config_path>
                 </schedule>
                 <run>
-                    <model>find_feed/import::dispatch</model>
+                    <model>Find_Feed_Model_Import::dispatch</model>
                 </run>
             </find_feed_file_send>
         </jobs>
     </crontab>
     <admin>
         <routers>
-             <adminhtml>
-                 <args>
-                     <modules>
-                         <find_feed before="Mage_Adminhtml">Find_Feed_Adminhtml</find_feed>
-                     </modules>
-                 </args>
-             </adminhtml>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <find_feed before="Mage_Adminhtml">Find_Feed_Adminhtml</find_feed>
+                    </modules>
+                </args>
+            </adminhtml>
         </routers>
     </admin>
     <stores>

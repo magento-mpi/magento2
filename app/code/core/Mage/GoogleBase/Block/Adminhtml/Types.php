@@ -36,16 +36,17 @@ class Mage_GoogleBase_Block_Adminhtml_Types extends Mage_Adminhtml_Block_Widget_
 {
     public function __construct()
     {
-        $this->_blockGroup = 'googlebase';
+        $this->_blockGroup = 'Mage_GoogleBase';
         $this->_controller = 'adminhtml_types';
-        $this->_addButtonLabel = Mage::helper('googlebase')->__('Add Attribute Mapping');
-        $this->_headerText = Mage::helper('googlebase')->__('Manage Attribute Mapping');
+        $this->_addButtonLabel = Mage::helper('Mage_GoogleBase_Helper_Data')->__('Add Attribute Mapping');
+        $this->_headerText = Mage::helper('Mage_GoogleBase_Helper_Data')->__('Manage Attribute Mapping');
         parent::__construct();
     }
 
 //    public function getGridHtml()
 //    {
-//        $_storeSwitcherHtml = $this->getLayout()->createBlock('googlebase/adminhtml_store_switcher')->toHtml();
+//        $_storeSwitcherHtml = $this->getLayout()
+//            ->createBlock('Mage_GoogleBase_Block_Adminhtml_Store_Switcher')->toHtml();
 //        return $_storeSwitcherHtml . parent::getGridHtml();
 //    }
 //

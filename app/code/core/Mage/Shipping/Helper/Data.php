@@ -44,7 +44,7 @@ class Mage_Shipping_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function decodeTrackingHash($hash)
     {
-        $hash = explode(':', Mage::helper('core')->urlDecode($hash));
+        $hash = explode(':', Mage::helper('Mage_Core_Helper_Data')->urlDecode($hash));
         if (count($hash) === 3 && in_array($hash[0], $this->_allowedHashKeys)) {
             return array('key' => $hash[0], 'id' => (int)$hash[1], 'hash' => $hash[2]);
         }
@@ -69,7 +69,7 @@ class Mage_Shipping_Helper_Data extends Mage_Core_Helper_Abstract
              $param = array($key => $model); // @deprecated after 1.4.0.0-alpha3
          } else {
              $param = array(
-                 'hash' => Mage::helper('core')->urlEncode("{$key}:{$model->$method()}:{$model->getProtectCode()}")
+                 'hash' => Mage::helper('Mage_Core_Helper_Data')->urlEncode("{$key}:{$model->$method()}:{$model->getProtectCode()}")
              );
          }
          $storeId = is_object($model) ? $model->getStoreId() : null;
@@ -87,7 +87,7 @@ class Mage_Shipping_Helper_Data extends Mage_Core_Helper_Abstract
     public function getTrackingPopUpUrlByOrderId($order = '')
     {
         if ($order && !is_object($order)) {
-            $order = Mage::getModel('sales/order')->load($order);
+            $order = Mage::getModel('Mage_Sales_Model_Order')->load($order);
         }
         return $this->_getTrackingUrl('order_id', $order);
     }
@@ -102,7 +102,7 @@ class Mage_Shipping_Helper_Data extends Mage_Core_Helper_Abstract
     public function getTrackingPopUpUrlByTrackId($track = '')
     {
         if ($track && !is_object($track)) {
-            $track = Mage::getModel('sales/order_shipment_track')->load($track);
+            $track = Mage::getModel('Mage_Sales_Model_Order_Shipment_Track')->load($track);
         }
         return $this->_getTrackingUrl('track_id', $track, 'getEntityId');
     }
@@ -117,7 +117,7 @@ class Mage_Shipping_Helper_Data extends Mage_Core_Helper_Abstract
     public function getTrackingPopUpUrlByShipId($ship = '')
     {
         if ($ship && !is_object($ship)) {
-            $ship = Mage::getModel('sales/order_shipment')->load($ship);
+            $ship = Mage::getModel('Mage_Sales_Model_Order_Shipment')->load($ship);
         }
         return $this->_getTrackingUrl('ship_id', $ship);
     }

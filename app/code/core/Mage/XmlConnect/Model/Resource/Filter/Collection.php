@@ -57,7 +57,7 @@ class Mage_XmlConnect_Model_Resource_Filter_Collection extends Varien_Data_Colle
     public function load($printQuery = false, $logQuery = false)
     {
         if (empty($this->_items)) {
-            $layer = Mage::getSingleton('catalog/layer');
+            $layer = Mage::getSingleton('Mage_Catalog_Model_Layer');
             foreach ($this->_filters as $filter) {
                 if ('category_id' == $filter['field']) {
                     $layer->setCurrentCategory((int)$filter['value']);
@@ -65,16 +65,13 @@ class Mage_XmlConnect_Model_Resource_Filter_Collection extends Varien_Data_Colle
             }
             if ($layer->getCurrentCategory()->getIsAnchor()) {
                 foreach ($layer->getFilterableAttributes() as $attributeItem) {
-                    $filterModelName = 'catalog/layer_filter_attribute';
+                    $filterModelName = 'Mage_Catalog_Model_Layer_Filter_Attribute';
                     switch ($attributeItem->getAttributeCode()) {
                         case 'price':
-                            $filterModelName = 'catalog/layer_filter_price';
+                            $filterModelName = 'Mage_Catalog_Model_Layer_Filter_Price';
                             break;
                         case 'decimal':
-                            $filterModelName = 'catalog/layer_filter_decimal';
-                            break;
-                        default:
-                            $filterModelName = 'catalog/layer_filter_attribute';
+                            $filterModelName = 'Mage_Catalog_Model_Layer_Filter_Decimal';
                             break;
                     }
 

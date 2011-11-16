@@ -41,7 +41,7 @@ class Enterprise_GiftRegistry_Block_Search_Form extends Mage_Core_Block_Template
      */
     public function getFormHeader()
     {
-        return Mage::helper('enterprise_giftregistry')->__('Gift Registry Search');
+        return Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Gift Registry Search');
     }
 
     /**
@@ -53,7 +53,7 @@ class Enterprise_GiftRegistry_Block_Search_Form extends Mage_Core_Block_Template
     public function getFormData($key)
     {
         if (is_null($this->_formData)) {
-            $this->_formData = Mage::getSingleton('customer/session')->getRegistrySearchData();
+            $this->_formData = Mage::getSingleton('Mage_Customer_Model_Session')->getRegistrySearchData();
         }
         if (!$this->_formData || !isset($this->_formData[$key])) {
             return null;
@@ -68,7 +68,7 @@ class Enterprise_GiftRegistry_Block_Search_Form extends Mage_Core_Block_Template
      */
     public function getTypesCollection()
     {
-        return Mage::getModel('enterprise_giftregistry/type')->getCollection()
+        return Mage::getModel('Enterprise_GiftRegistry_Model_Type')->getCollection()
             ->addStoreData(Mage::app()->getStore()->getId());
     }
 
@@ -79,7 +79,7 @@ class Enterprise_GiftRegistry_Block_Search_Form extends Mage_Core_Block_Template
      */
     public function getTypeSelectHtml()
     {
-        $select = $this->getLayout()->createBlock('core/html_select')
+        $select = $this->getLayout()->createBlock('Mage_Core_Block_Html_Select')
             ->setData(array(
                 'id'    => 'params_type_id',
                 'class' => 'select'

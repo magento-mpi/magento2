@@ -84,7 +84,7 @@ class Mage_CatalogSearch_Model_Resource_Fulltext_Engine extends Mage_Core_Model_
         }
 
         if ($data) {
-            Mage::getResourceHelper('catalogsearch')
+            Mage::getResourceHelper('Mage_CatalogSearch')
                 ->insertOnDuplicate($this->getMainTable(), $data, array('data_index'));
         }
 
@@ -134,7 +134,7 @@ class Mage_CatalogSearch_Model_Resource_Fulltext_Engine extends Mage_Core_Model_
      */
     public function prepareEntityIndex($index, $separator = ' ')
     {
-        return Mage::helper('catalogsearch')->prepareIndexdata($index, $separator);
+        return Mage::helper('Mage_CatalogSearch_Helper_Data')->prepareIndexdata($index, $separator);
     }
 
     /**
@@ -154,7 +154,7 @@ class Mage_CatalogSearch_Model_Resource_Fulltext_Engine extends Mage_Core_Model_
      */
     public function getResultCollection()
     {
-        return Mage::getResourceModel('catalogsearch/fulltext_collection');
+        return Mage::getResourceModel('Mage_CatalogSearch_Model_Resource_Fulltext_Collection');
     }
 
     /**
@@ -164,7 +164,7 @@ class Mage_CatalogSearch_Model_Resource_Fulltext_Engine extends Mage_Core_Model_
      */
     public function getAdvancedResultCollection()
     {
-        return Mage::getResourceModel('catalogsearch/advanced_collection');
+        return Mage::getResourceModel('Mage_CatalogSearch_Model_Resource_Advanced_Collection');
     }
 
     /**

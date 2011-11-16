@@ -56,7 +56,7 @@ class Mage_Persistent_Model_Session extends Mage_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('persistent/session');
+        $this->_init('Mage_Persistent_Model_Resource_Session');
     }
 
     /**
@@ -89,7 +89,7 @@ class Mage_Persistent_Model_Session extends Mage_Core_Model_Abstract
      */
     public function getExpiredBefore($store = null)
     {
-        return gmdate('Y-m-d H:i:s', time() - Mage::helper('persistent')->getLifeTime($store));
+        return gmdate('Y-m-d H:i:s', time() - Mage::helper('Mage_Persistent_Helper_Data')->getLifeTime($store));
     }
 
     /**
@@ -109,13 +109,13 @@ class Mage_Persistent_Model_Session extends Mage_Core_Model_Abstract
                 $info[$index] = $value;
             }
         }
-        $this->setInfo(Mage::helper('core')->jsonEncode($info));
+        $this->setInfo(Mage::helper('Mage_Core_Helper_Data')->jsonEncode($info));
 
         if ($this->isObjectNew()) {
             $this->setWebsiteId(Mage::app()->getStore()->getWebsiteId());
             // Setting cookie key
             do {
-                $this->setKey(Mage::helper('core')->getRandomString(self::KEY_LENGTH));
+                $this->setKey(Mage::helper('Mage_Core_Helper_Data')->getRandomString(self::KEY_LENGTH));
             } while (!$this->getResource()->isKeyAllowed($this->getKey()));
         }
 
@@ -130,7 +130,7 @@ class Mage_Persistent_Model_Session extends Mage_Core_Model_Abstract
     protected function _afterLoad()
     {
         parent::_afterLoad();
-        $info = Mage::helper('core')->jsonDecode($this->getInfo());
+        $info = Mage::helper('Mage_Core_Helper_Data')->jsonDecode($this->getInfo());
         if (is_array($info)) {
             foreach ($info as $key => $value) {
                 $this->setData($key, $value);
@@ -148,7 +148,7 @@ class Mage_Persistent_Model_Session extends Mage_Core_Model_Abstract
     public function loadByCookieKey($key = null)
     {
         if (is_null($key)) {
-            $key = Mage::getSingleton('core/cookie')->get(Mage_Persistent_Model_Session::COOKIE_NAME);
+            $key = Mage::getSingleton('Mage_Core_Model_Cookie')->get(Mage_Persistent_Model_Session::COOKIE_NAME);
         }
         if ($key) {
             $this->load($key, 'key');
@@ -191,7 +191,7 @@ class Mage_Persistent_Model_Session extends Mage_Core_Model_Abstract
      */
     public function removePersistentCookie()
     {
-        Mage::getSingleton('core/cookie')->delete(Mage_Persistent_Model_Session::COOKIE_NAME);
+        Mage::getSingleton('Mage_Core_Model_Cookie')->delete(Mage_Persistent_Model_Session::COOKIE_NAME);
         return $this;
     }
 
@@ -229,7 +229,7 @@ class Mage_Persistent_Model_Session extends Mage_Core_Model_Abstract
      * @return Mage_Core_Model_Abstract
      */
     protected function _afterDeleteCommit() {
-        Mage::getSingleton('core/cookie')->delete(Mage_Persistent_Model_Session::COOKIE_NAME);
+        Mage::getSingleton('Mage_Core_Model_Cookie')->delete(Mage_Persistent_Model_Session::COOKIE_NAME);
         return parent::_afterDeleteCommit();
     }
 

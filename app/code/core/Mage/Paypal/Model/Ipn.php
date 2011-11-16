@@ -168,13 +168,13 @@ class Mage_Paypal_Model_Ipn
         if (empty($this->_order)) {
             // get proper order
             $id = $this->_request['invoice'];
-            $this->_order = Mage::getModel('sales/order')->loadByIncrementId($id);
+            $this->_order = Mage::getModel('Mage_Sales_Model_Order')->loadByIncrementId($id);
             if (!$this->_order->getId()) {
                 throw new Exception(sprintf('Wrong order ID: "%s".', $id));
             }
             // re-initialize config with the method code and store id
             $methodCode = $this->_order->getPayment()->getMethod();
-            $this->_config = Mage::getModel('paypal/config', array($methodCode, $this->_order->getStoreId()));
+            $this->_config = Mage::getModel('Mage_Paypal_Model_Config', array($methodCode, $this->_order->getStoreId()));
             if (!$this->_config->isMethodActive($methodCode) || !$this->_config->isMethodAvailable()) {
                 throw new Exception(sprintf('Method "%s" is not available.', $methodCode));
             }
@@ -195,7 +195,7 @@ class Mage_Paypal_Model_Ipn
         if (empty($this->_recurringProfile)) {
             // get proper recurring profile
             $internalReferenceId = $this->_request['rp_invoice_id'];
-            $this->_recurringProfile = Mage::getModel('sales/recurring_profile')
+            $this->_recurringProfile = Mage::getModel('Mage_Sales_Model_Recurring_Profile')
                 ->loadByInternalReferenceId($internalReferenceId);
             if (!$this->_recurringProfile->getId()) {
                 throw new Exception(
@@ -205,7 +205,7 @@ class Mage_Paypal_Model_Ipn
             // re-initialize config with the method code and store id
             $methodCode = $this->_recurringProfile->getMethodCode();
             $this->_config = Mage::getModel(
-                'paypal/config', array($methodCode, $this->_recurringProfile->getStoreId())
+                'Mage_Paypal_Model_Config', array($methodCode, $this->_recurringProfile->getStoreId())
             );
             if (!$this->_config->isMethodActive($methodCode) || !$this->_config->isMethodAvailable()) {
                 throw new Exception(sprintf('Method "%s" is not available.', $methodCode));
@@ -249,7 +249,7 @@ class Mage_Paypal_Model_Ipn
         $this->_order = null;
         $this->_getOrder();
 
-        $this->_info = Mage::getSingleton('paypal/info');
+        $this->_info = Mage::getSingleton('Mage_Paypal_Model_Info');
         try {
             // handle payment_status
             $paymentStatus = $this->_filterPaymentStatus($this->_request['payment_status']);
@@ -302,7 +302,7 @@ class Mage_Paypal_Model_Ipn
                     throw new Exception("Cannot handle payment status '{$paymentStatus}'.");
             }
         } catch (Mage_Core_Exception $e) {
-            $comment = $this->_createIpnComment(Mage::helper('paypal')->__('Note: %s', $e->getMessage()), true);
+            $comment = $this->_createIpnComment(Mage::helper('Mage_Paypal_Helper_Data')->__('Note: %s', $e->getMessage()), true);
             $comment->save();
             throw $e;
         }
@@ -331,7 +331,7 @@ class Mage_Paypal_Model_Ipn
             }
         } catch (Mage_Core_Exception $e) {
 // TODO: add to payment profile comments
-//            $comment = $this->_createIpnComment(Mage::helper('paypal')->__('Note: %s', $e->getMessage()), true);
+//            $comment = $this->_createIpnComment(Mage::helper('Mage_Paypal_Helper_Data')->__('Note: %s', $e->getMessage()), true);
 //            $comment->save();
             throw $e;
         }
@@ -367,7 +367,7 @@ class Mage_Paypal_Model_Ipn
 
         // notify customer
         if ($invoice = $payment->getCreatedInvoice()) {
-            $message = Mage::helper('paypal')->__('Notified customer about invoice #%s.', $invoice->getIncrementId());
+            $message = Mage::helper('Mage_Paypal_Helper_Data')->__('Notified customer about invoice #%s.', $invoice->getIncrementId());
             $comment = $order->sendNewOrderEmail()->addStatusHistoryComment($message)
                 ->setIsCustomerNotified(true)
                 ->save();
@@ -395,7 +395,7 @@ class Mage_Paypal_Model_Ipn
         // notify customer
         if ($invoice = $payment->getCreatedInvoice() && !$this->_order->getEmailSent()) {
             $comment = $this->_order->sendNewOrderEmail()->addStatusHistoryComment(
-                    Mage::helper('paypal')->__('Notified customer about invoice #%s.', $invoice->getIncrementId())
+                    Mage::helper('Mage_Paypal_Helper_Data')->__('Notified customer about invoice #%s.', $invoice->getIncrementId())
                 )
                 ->setIsCustomerNotified(true)
                 ->save();
@@ -448,7 +448,7 @@ class Mage_Paypal_Model_Ipn
         if ($creditmemo = $payment->getCreatedCreditmemo()) {
             $creditmemo->sendEmail();
             $comment = $this->_order->addStatusHistoryComment(
-                    Mage::helper('paypal')->__('Notified customer about creditmemo #%s.', $creditmemo->getIncrementId())
+                    Mage::helper('Mage_Paypal_Helper_Data')->__('Notified customer about creditmemo #%s.', $creditmemo->getIncrementId())
                 )
                 ->setIsCustomerNotified(true)
                 ->save();
@@ -568,7 +568,7 @@ class Mage_Paypal_Model_Ipn
     protected function _createIpnComment($comment = '', $addToHistory = false)
     {
         $paymentStatus = $this->getRequestData('payment_status');
-        $message = Mage::helper('paypal')->__('IPN "%s".', $paymentStatus);
+        $message = Mage::helper('Mage_Paypal_Helper_Data')->__('IPN "%s".', $paymentStatus);
         if ($comment) {
             $message .= ' ' . $comment;
         }
@@ -683,7 +683,7 @@ class Mage_Paypal_Model_Ipn
         if ($this->_config && $this->_config->debug) {
             $file = $this->_config->getMethodCode() ? "payment_{$this->_config->getMethodCode()}.log"
                 : self::DEFAULT_LOG_FILE;
-            Mage::getModel('core/log_adapter', $file)->log($this->_debugData);
+            Mage::getModel('Mage_Core_Model_Log_Adapter', $file)->log($this->_debugData);
         }
     }
 }

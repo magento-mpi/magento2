@@ -33,7 +33,7 @@
  */
 class Mage_Adminhtml_Block_System_Config_Edit extends Mage_Adminhtml_Block_Widget
 {
-    const DEFAULT_SECTION_BLOCK = 'adminhtml/system_config_form';
+    const DEFAULT_SECTION_BLOCK = 'Mage_Adminhtml_Block_System_Config_Form';
 
     protected $_section;
 
@@ -43,7 +43,7 @@ class Mage_Adminhtml_Block_System_Config_Edit extends Mage_Adminhtml_Block_Widge
         $this->setTemplate('system/config/edit.phtml');
 
         $sectionCode = $this->getRequest()->getParam('section');
-        $sections = Mage::getSingleton('adminhtml/config')->getSections();
+        $sections = Mage::getSingleton('Mage_Adminhtml_Model_Config')->getSections();
 
         $this->_section = $sections->$sectionCode;
 
@@ -54,9 +54,9 @@ class Mage_Adminhtml_Block_System_Config_Edit extends Mage_Adminhtml_Block_Widge
     protected function _prepareLayout()
     {
         $this->setChild('save_button',
-            $this->getLayout()->createBlock('adminhtml/widget_button')
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->setData(array(
-                    'label'     => Mage::helper('adminhtml')->__('Save Config'),
+                    'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Save Config'),
                     'onclick'   => 'configForm.submit()',
                     'class' => 'save',
                 ))
@@ -78,7 +78,7 @@ class Mage_Adminhtml_Block_System_Config_Edit extends Mage_Adminhtml_Block_Widge
     {
         /*
         $this->setChild('dwstree',
-            $this->getLayout()->createBlock('adminhtml/system_config_dwstree')
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_System_Config_Dwstree')
                 ->initTabs()
         );
         */

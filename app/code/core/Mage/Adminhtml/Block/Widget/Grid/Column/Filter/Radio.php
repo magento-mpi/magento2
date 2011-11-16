@@ -37,15 +37,15 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Radio extends Mage_Adminhtm
     {
         return array(
             array(
-                'label' => Mage::helper('adminhtml')->__('Any'),
+                'label' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Any'),
                 'value' => ''
             ),
             array(
-                'label' => Mage::helper('adminhtml')->__('Yes'),
+                'label' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Yes'),
                 'value' => 1
             ),
             array(
-                'label' => Mage::helper('adminhtml')->__('No'),
+                'label' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('No'),
                 'value' => 0
             ),
         );

@@ -51,7 +51,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View
     public function getGroupName()
     {
         if ($groupId = $this->getCustomer()->getGroupId()) {
-            return Mage::getModel('customer/group')
+            return Mage::getModel('Mage_Customer_Model_Group')
                 ->load($groupId)
                 ->getCustomerGroupCode();
         }
@@ -65,7 +65,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View
     public function getCustomerLog()
     {
         if (!$this->_customerLog) {
-            $this->_customerLog = Mage::getModel('log/customer')
+            $this->_customerLog = Mage::getModel('Mage_Log_Model_Customer')
                 ->loadByCustomer($this->getCustomer()->getId());
         }
         return $this->_customerLog;
@@ -78,8 +78,11 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View
      */
     public function getCreateDate()
     {
-        return Mage::helper('core')->formatDate($this->getCustomer()->getCreatedAtTimestamp(),
-            Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM, true);
+        return Mage::helper('Mage_Core_Helper_Data')->formatDateRespectTimezone(
+            $this->getCustomer()->getCreatedAtTimestamp(),
+            Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM,
+            true
+        );
     }
 
     public function getStoreCreateDate()
@@ -107,9 +110,13 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View
     {
         $date = $this->getCustomerLog()->getLoginAtTimestamp();
         if ($date) {
-            return Mage::helper('core')->formatDate($date, Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM, true);
+            return Mage::helper('Mage_Core_Helper_Data')->formatDateRespectTimezone(
+                Mage::app()->getLocale()->date($date),
+                Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM,
+                true
+            );
         }
-        return Mage::helper('customer')->__('Never');
+        return Mage::helper('Mage_Customer_Helper_Data')->__('Never');
     }
 
     public function getStoreLastLoginDate()
@@ -122,7 +129,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View
             );
             return $this->formatDate($date, Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM, true);
         }
-        return Mage::helper('customer')->__('Never');
+        return Mage::helper('Mage_Customer_Helper_Data')->__('Never');
     }
 
     public function getStoreLastLoginDateTimezone()
@@ -136,21 +143,21 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View
         $log = $this->getCustomerLog();
         if ($log->getLogoutAt() ||
             strtotime(now())-strtotime($log->getLastVisitAt())>Mage_Log_Model_Visitor::getOnlineMinutesInterval()*60) {
-            return Mage::helper('customer')->__('Offline');
+            return Mage::helper('Mage_Customer_Helper_Data')->__('Offline');
         }
-        return Mage::helper('customer')->__('Online');
+        return Mage::helper('Mage_Customer_Helper_Data')->__('Online');
     }
 
     public function getIsConfirmedStatus()
     {
         $this->getCustomer();
         if (!$this->_customer->getConfirmation()) {
-            return Mage::helper('customer')->__('Confirmed');
+            return Mage::helper('Mage_Customer_Helper_Data')->__('Confirmed');
         }
         if ($this->_customer->isConfirmationRequired()) {
-            return Mage::helper('customer')->__('Not confirmed, cannot login');
+            return Mage::helper('Mage_Customer_Helper_Data')->__('Not confirmed, cannot login');
         }
-        return Mage::helper('customer')->__('Not confirmed, can login');
+        return Mage::helper('Mage_Customer_Helper_Data')->__('Not confirmed, can login');
     }
 
     public function getCreatedInStore()
@@ -170,7 +177,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View
             $html = $address->format('html');
         }
         else {
-            $html = Mage::helper('customer')->__('The customer does not have default billing address.');
+            $html = Mage::helper('Mage_Customer_Helper_Data')->__('The customer does not have default billing address.');
         }
         return $html;
     }
@@ -187,12 +194,12 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View
 
     public function getTabLabel()
     {
-        return Mage::helper('customer')->__('Customer View');
+        return Mage::helper('Mage_Customer_Helper_Data')->__('Customer View');
     }
 
     public function getTabTitle()
     {
-        return Mage::helper('customer')->__('Customer View');
+        return Mage::helper('Mage_Customer_Helper_Data')->__('Customer View');
     }
 
     public function canShowTab()

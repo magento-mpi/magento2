@@ -41,20 +41,20 @@ class Mage_Adminhtml_Block_Media_Uploader extends Mage_Adminhtml_Block_Widget
         parent::__construct();
         $this->setId($this->getId() . '_Uploader');
         $this->setTemplate('media/uploader.phtml');
-        $this->getConfig()->setUrl(Mage::getModel('adminhtml/url')->addSessionParam()->getUrl('*/*/upload'));
+        $this->getConfig()->setUrl(Mage::getModel('Mage_Adminhtml_Model_Url')->addSessionParam()->getUrl('*/*/upload'));
         $this->getConfig()->setParams(array('form_key' => $this->getFormKey()));
         $this->getConfig()->setFileField('file');
         $this->getConfig()->setFilters(array(
             'images' => array(
-                'label' => Mage::helper('adminhtml')->__('Images (.gif, .jpg, .png)'),
+                'label' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Images (.gif, .jpg, .png)'),
                 'files' => array('*.gif', '*.jpg', '*.png')
             ),
             'media' => array(
-                'label' => Mage::helper('adminhtml')->__('Media (.avi, .flv, .swf)'),
+                'label' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Media (.avi, .flv, .swf)'),
                 'files' => array('*.avi', '*.flv', '*.swf')
             ),
             'all'    => array(
-                'label' => Mage::helper('adminhtml')->__('All Files'),
+                'label' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('All Files'),
                 'files' => array('*.*')
             )
         ));
@@ -64,10 +64,10 @@ class Mage_Adminhtml_Block_Media_Uploader extends Mage_Adminhtml_Block_Widget
     {
         $this->setChild(
             'browse_button',
-            $this->getLayout()->createBlock('adminhtml/widget_button')
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->addData(array(
                     'id'      => $this->_getButtonId('browse'),
-                    'label'   => Mage::helper('adminhtml')->__('Browse Files...'),
+                    'label'   => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Browse Files...'),
                     'type'    => 'button',
                     'onclick' => $this->getJsObjectName() . '.browse()'
                 ))
@@ -75,10 +75,10 @@ class Mage_Adminhtml_Block_Media_Uploader extends Mage_Adminhtml_Block_Widget
 
         $this->setChild(
             'upload_button',
-            $this->getLayout()->createBlock('adminhtml/widget_button')
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->addData(array(
                     'id'      => $this->_getButtonId('upload'),
-                    'label'   => Mage::helper('adminhtml')->__('Upload Files'),
+                    'label'   => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Upload Files'),
                     'type'    => 'button',
                     'onclick' => $this->getJsObjectName() . '.upload()'
                 ))
@@ -86,12 +86,12 @@ class Mage_Adminhtml_Block_Media_Uploader extends Mage_Adminhtml_Block_Widget
 
         $this->setChild(
             'delete_button',
-            $this->getLayout()->createBlock('adminhtml/widget_button')
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->addData(array(
                     'id'      => '{{id}}-delete',
                     'class'   => 'delete',
                     'type'    => 'button',
-                    'label'   => Mage::helper('adminhtml')->__('Remove'),
+                    'label'   => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Remove'),
                     'onclick' => $this->getJsObjectName() . '.removeFile(\'{{fileId}}\')'
                 ))
         );
@@ -136,7 +136,7 @@ class Mage_Adminhtml_Block_Media_Uploader extends Mage_Adminhtml_Block_Widget
      */
     public function getConfigJson()
     {
-        return Mage::helper('core')->jsonEncode($this->getConfig()->getData());
+        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($this->getConfig()->getData());
     }
 
     /**

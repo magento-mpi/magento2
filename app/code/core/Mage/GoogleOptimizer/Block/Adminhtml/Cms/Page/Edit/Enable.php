@@ -45,7 +45,7 @@ class Mage_GoogleOptimizer_Block_Adminhtml_Cms_Page_Edit_Enable extends Mage_Adm
      */
     public function ifGoogleOptimizerEnabled($name, $method, $params = array())
     {
-        if (Mage::helper('googleoptimizer')->isOptimizerActiveForCms()) {
+        if (Mage::helper('Mage_GoogleOptimizer_Helper_Data')->isOptimizerActiveForCms()) {
             $block = $this->getLayout()->getBlock($name);
             if ($block) {
                 call_user_func_array(array($block, $method), $params);
@@ -67,7 +67,7 @@ class Mage_GoogleOptimizer_Block_Adminhtml_Cms_Page_Edit_Enable extends Mage_Adm
      */
     public function ifGoogleOptimizerEnabledAppend($container, $name, $type, $attributes = array())
     {
-        if (Mage::helper('googleoptimizer')->isOptimizerActiveForCms()) {
+        if (Mage::helper('Mage_GoogleOptimizer_Helper_Data')->isOptimizerActiveForCms()) {
             $containerBlock = $this->getLayout()->getBlock($container);
             if ($containerBlock) {
                 $block = $this->getLayout()->createBlock($type, $name, $attributes);

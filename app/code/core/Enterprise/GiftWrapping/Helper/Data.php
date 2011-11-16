@@ -435,13 +435,13 @@ class Enterprise_GiftWrapping_Helper_Data extends Mage_Core_Helper_Abstract
         $store = Mage::app()->getStore($store);
         $taxClassId = $item->getTaxClassId();
         if ($taxClassId && $includeTax) {
-            $request = Mage::getSingleton('tax/calculation')->getRateRequest(
+            $request = Mage::getSingleton('Mage_Tax_Model_Calculation')->getRateRequest(
                 $shippingAddress,
                 $billingAddress,
                 $ctc,
                 $store
             );
-            $percent = Mage::getSingleton('tax/calculation')->getRate($request->setProductClassId($taxClassId));
+            $percent = Mage::getSingleton('Mage_Tax_Model_Calculation')->getRate($request->setProductClassId($taxClassId));
             if ($percent) {
                 $price = $price * (1 + ($percent / 100));
             }

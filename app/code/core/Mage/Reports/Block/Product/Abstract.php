@@ -87,7 +87,7 @@ abstract class Mage_Reports_Block_Product_Abstract extends Mage_Catalog_Block_Pr
     {
         if (is_null($this->_indexModel)) {
             if (is_null($this->_indexName)) {
-                Mage::throwException(Mage::helper('reports')->__('Index model name must be defined'));
+                Mage::throwException(Mage::helper('Mage_Reports_Helper_Data')->__('Index model name must be defined'));
             }
 
             $this->_indexModel = Mage::getModel($this->_indexName);
@@ -114,7 +114,7 @@ abstract class Mage_Reports_Block_Product_Abstract extends Mage_Catalog_Block_Pr
     public function getItemsCollection()
     {
         if (is_null($this->_collection)) {
-            $attributes = Mage::getSingleton('catalog/config')->getProductAttributes();
+            $attributes = Mage::getSingleton('Mage_Catalog_Model_Config')->getProductAttributes();
 
             $this->_collection = $this->_getModel()
                 ->getCollection()
@@ -140,7 +140,7 @@ abstract class Mage_Reports_Block_Product_Abstract extends Mage_Catalog_Block_Pr
             }
             $this->_collection->setAddedAtOrder();
 
-            Mage::getSingleton('catalog/product_visibility')
+            Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')
                 ->addVisibleInSiteFilterToCollection($this->_collection);
         }
 

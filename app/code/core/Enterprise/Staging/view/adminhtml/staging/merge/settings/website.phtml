@@ -193,7 +193,7 @@ stagingGrid.rows.each(function(row){<?php echo $this->getRowInitCallback() ?>(st
 <?php endif; ?>
 
 Validation.addAllThese([
-    ['schedule_merge_later', '<?php echo Mage::helper('catalog')->__('Please set up merge date/time later then present date') ?>', function(v) {
+    ['schedule_merge_later', '<?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Please set up merge date/time later then present date') ?>', function(v) {
         if ($('schedule_merge_later_flag').value == 1) {
             var dateV = $('schedule_merge_later').value;
             if (!dateV) {
@@ -208,7 +208,7 @@ Validation.addAllThese([
         }
         return true;
     }],
-    ['schedule_merge_empty', '<?php echo Mage::helper('catalog')->__('Please set up merge date/time') ?>', function(v) {
+    ['schedule_merge_empty', '<?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Please set up merge date/time') ?>', function(v) {
         if ($('schedule_merge_later_flag').value == 1) {
             var dateV = $('schedule_merge_later').value;
             if (!dateV) {

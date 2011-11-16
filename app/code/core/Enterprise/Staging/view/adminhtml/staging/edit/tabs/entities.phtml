@@ -36,7 +36,7 @@
     <div class="clear"></div>
     <div>
         <select style="width: 280px;" id="staging_used_entities" class="select multiselect" multiple="multiple" size=10 name="staging[used_entities][]">
-            <option value="all"><?php echo Mage::helper('enterprise_staging')->__('Use All'); ?></option>
+            <option value="all"><?php echo Mage::helper('Enterprise_Staging_Helper_Data')->__('Use All'); ?></option>
             <?php foreach ($this->getStagingEntities() as $entity): ?>
                 <option value="<?php echo $entity['code']; ?>"><?php echo $entity['label']; ?></option>
             <?php endforeach; ?>

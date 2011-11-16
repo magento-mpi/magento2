@@ -52,14 +52,14 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Bala
      */
     protected function _prepareLayout()
     {
-        if (!Mage::getSingleton('admin/session')
+        if (!Mage::getSingleton('Mage_Admin_Model_Session')
             ->isAllowed(Enterprise_Reward_Helper_Data::XML_PATH_PERMISSION_BALANCE)
         ) {
             // unset template to get empty output
             $this->setTemplate(null);
         } else {
             $grid = $this->getLayout()
-                ->createBlock('enterprise_reward/adminhtml_customer_edit_tab_reward_management_balance_grid');
+                ->createBlock('Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Balance_Grid');
             $this->setChild('grid', $grid);
         }
         return parent::_prepareLayout();

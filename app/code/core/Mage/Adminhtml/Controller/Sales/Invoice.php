@@ -61,7 +61,7 @@ class Mage_Adminhtml_Controller_Sales_Invoice extends Mage_Adminhtml_Controller_
     {
         $this->loadLayout();
         $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('adminhtml/sales_invoice_grid')->toHtml()
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Sales_Invoice_Grid')->toHtml()
         );
     }
 
@@ -73,7 +73,7 @@ class Mage_Adminhtml_Controller_Sales_Invoice extends Mage_Adminhtml_Controller_
         $this->_title($this->__('Sales'))->_title($this->__('Invoices'));
 
         $this->_initAction()
-            ->_addContent($this->getLayout()->createBlock('adminhtml/sales_invoice'))
+            ->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_Sales_Invoice'))
             ->renderLayout();
     }
 
@@ -95,15 +95,15 @@ class Mage_Adminhtml_Controller_Sales_Invoice extends Mage_Adminhtml_Controller_
     public function emailAction()
     {
         if ($invoiceId = $this->getRequest()->getParam('invoice_id')) {
-            if ($invoice = Mage::getModel('sales/order_invoice')->load($invoiceId)) {
+            if ($invoice = Mage::getModel('Mage_Sales_Model_Order_Invoice')->load($invoiceId)) {
                 $invoice->sendEmail();
-                $historyItem = Mage::getResourceModel('sales/order_status_history_collection')
+                $historyItem = Mage::getResourceModel('Mage_Sales_Model_Resource_Order_Status_History_Collection')
                     ->getUnnotifiedForInstance($invoice, Mage_Sales_Model_Order_Invoice::HISTORY_ENTITY_NAME);
                 if ($historyItem) {
                     $historyItem->setIsCustomerNotified(1);
                     $historyItem->save();
                 }
-                $this->_getSession()->addSuccess(Mage::helper('sales')->__('The message has been sent.'));
+                $this->_getSession()->addSuccess(Mage::helper('Mage_Sales_Helper_Data')->__('The message has been sent.'));
                 $this->_redirect('*/sales_invoice/view', array(
                     'order_id'  => $invoice->getOrder()->getId(),
                     'invoice_id'=> $invoiceId,
@@ -115,9 +115,9 @@ class Mage_Adminhtml_Controller_Sales_Invoice extends Mage_Adminhtml_Controller_
     public function printAction()
     {
         if ($invoiceId = $this->getRequest()->getParam('invoice_id')) {
-            if ($invoice = Mage::getModel('sales/order_invoice')->load($invoiceId)) {
-                $pdf = Mage::getModel('sales/order_pdf_invoice')->getPdf(array($invoice));
-                $this->_prepareDownloadResponse('invoice'.Mage::getSingleton('core/date')->date('Y-m-d_H-i-s').
+            if ($invoice = Mage::getModel('Mage_Sales_Model_Order_Invoice')->load($invoiceId)) {
+                $pdf = Mage::getModel('Mage_Sales_Model_Order_Pdf_Invoice')->getPdf(array($invoice));
+                $this->_prepareDownloadResponse('invoice'.Mage::getSingleton('Mage_Core_Model_Date')->date('Y-m-d_H-i-s').
                     '.pdf', $pdf->render(), 'application/pdf');
             }
         }
@@ -129,18 +129,18 @@ class Mage_Adminhtml_Controller_Sales_Invoice extends Mage_Adminhtml_Controller_
     public function pdfinvoicesAction(){
         $invoicesIds = $this->getRequest()->getPost('invoice_ids');
         if (!empty($invoicesIds)) {
-            $invoices = Mage::getResourceModel('sales/order_invoice_collection')
+            $invoices = Mage::getResourceModel('Mage_Sales_Model_Resource_Order_Invoice_Collection')
                 ->addAttributeToSelect('*')
                 ->addAttributeToFilter('entity_id', array('in' => $invoicesIds))
                 ->load();
             if (!isset($pdf)){
-                $pdf = Mage::getModel('sales/order_pdf_invoice')->getPdf($invoices);
+                $pdf = Mage::getModel('Mage_Sales_Model_Order_Pdf_Invoice')->getPdf($invoices);
             } else {
-                $pages = Mage::getModel('sales/order_pdf_invoice')->getPdf($invoices);
+                $pages = Mage::getModel('Mage_Sales_Model_Order_Pdf_Invoice')->getPdf($invoices);
                 $pdf->pages = array_merge ($pdf->pages, $pages->pages);
             }
 
-            return $this->_prepareDownloadResponse('invoice'.Mage::getSingleton('core/date')->date('Y-m-d_H-i-s').
+            return $this->_prepareDownloadResponse('invoice'.Mage::getSingleton('Mage_Core_Model_Date')->date('Y-m-d_H-i-s').
                 '.pdf', $pdf->render(), 'application/pdf');
         }
         $this->_redirect('*/*/');
@@ -148,7 +148,7 @@ class Mage_Adminhtml_Controller_Sales_Invoice extends Mage_Adminhtml_Controller_
 
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('sales/invoice');
+        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('sales/invoice');
     }
 
 }

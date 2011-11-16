@@ -71,7 +71,7 @@ abstract class Enterprise_PageCache_Model_Container_Advanced_Abstract
     {
         $additionalCacheId = $this->_getAdditionalCacheId();
         if (!$additionalCacheId) {
-            Mage::throwException(Mage::helper('enterprise_pagecache')->__('Additional id should not be empty'));
+            Mage::throwException(Mage::helper('Enterprise_PageCache_Helper_Data')->__('Additional id should not be empty'));
         }
 
         $tags[] = Enterprise_PageCache_Model_Processor::CACHE_TAG;

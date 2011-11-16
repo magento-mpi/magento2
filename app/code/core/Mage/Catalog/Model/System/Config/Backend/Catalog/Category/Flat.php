@@ -37,7 +37,7 @@ class Mage_Catalog_Model_System_Config_Backend_Catalog_Category_Flat extends Mag
     protected function _afterSave()
     {
         if ($this->isValueChanged() && $this->getValue()) {
-            Mage::getSingleton('index/indexer')->getProcessByCode('catalog_category_flat')
+            Mage::getSingleton('Mage_Index_Model_Indexer')->getProcessByCode('catalog_category_flat')
                 ->changeStatus(Mage_Index_Model_Process::STATUS_REQUIRE_REINDEX);
         }
 

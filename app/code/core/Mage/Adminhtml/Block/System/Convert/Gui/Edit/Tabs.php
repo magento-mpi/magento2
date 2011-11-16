@@ -38,20 +38,20 @@ class Mage_Adminhtml_Block_System_Convert_Gui_Edit_Tabs extends Mage_Adminhtml_B
         parent::__construct();
         $this->setId('convert_profile_tabs');
         $this->setDestElementId('edit_form');
-        $this->setTitle(Mage::helper('adminhtml')->__('Import/Export Profile'));
+        $this->setTitle(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Import/Export Profile'));
     }
 
     protected function _beforeToHtml()
     {
         $profile = Mage::registry('current_convert_profile');
 
-        $wizardBlock = $this->getLayout()->createBlock('adminhtml/system_convert_gui_edit_tab_wizard');
+        $wizardBlock = $this->getLayout()->createBlock('Mage_Adminhtml_Block_System_Convert_Gui_Edit_Tab_Wizard');
         $wizardBlock->addData($profile->getData());
 
         $new = !$profile->getId();
 
         $this->addTab('wizard', array(
-            'label'     => Mage::helper('adminhtml')->__('Profile Wizard'),
+            'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Profile Wizard'),
             'content'   => $wizardBlock->toHtml(),
             'active'    => true,
         ));
@@ -59,24 +59,28 @@ class Mage_Adminhtml_Block_System_Convert_Gui_Edit_Tabs extends Mage_Adminhtml_B
         if (!$new) {
             if ($profile->getDirection()!='export') {
                 $this->addTab('upload', array(
-                    'label'     => Mage::helper('adminhtml')->__('Upload File'),
-                    'content'   => $this->getLayout()->createBlock('adminhtml/system_convert_gui_edit_tab_upload')->toHtml(),
+                    'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Upload File'),
+                    'content'   => $this->getLayout()
+                        ->createBlock('Mage_Adminhtml_Block_System_Convert_Gui_Edit_Tab_Upload')->toHtml(),
                 ));
             }
 
             $this->addTab('run', array(
-                'label'     => Mage::helper('adminhtml')->__('Run Profile'),
-                'content'   => $this->getLayout()->createBlock('adminhtml/system_convert_profile_edit_tab_run')->toHtml(),
+                'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Run Profile'),
+                'content'   => $this->getLayout()
+                    ->createBlock('Mage_Adminhtml_Block_System_Convert_Profile_Edit_Tab_Run')->toHtml(),
             ));
 
             $this->addTab('view', array(
-                'label'     => Mage::helper('adminhtml')->__('Profile Actions XML'),
-                'content'   => $this->getLayout()->createBlock('adminhtml/system_convert_gui_edit_tab_view')->initForm()->toHtml(),
+                'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Profile Actions XML'),
+                'content'   => $this->getLayout()
+                    ->createBlock('Mage_Adminhtml_Block_System_Convert_Gui_Edit_Tab_View')->initForm()->toHtml(),
             ));
 
             $this->addTab('history', array(
-                'label'     => Mage::helper('adminhtml')->__('Profile History'),
-                'content'   => $this->getLayout()->createBlock('adminhtml/system_convert_profile_edit_tab_history')->toHtml(),
+                'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Profile History'),
+                'content'   => $this->getLayout()
+                    ->createBlock('Mage_Adminhtml_Block_System_Convert_Profile_Edit_Tab_History')->toHtml(),
             ));
         }
 

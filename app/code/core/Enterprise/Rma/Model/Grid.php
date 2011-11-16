@@ -37,7 +37,7 @@ class Enterprise_Rma_Model_Grid extends Mage_Core_Model_Abstract
      * Init resource model
      */
     protected function _construct() {
-        $this->_init('enterprise_rma/grid');
+        $this->_init('Enterprise_Rma_Model_Resource_Grid');
         parent::_construct();
     }
 
@@ -67,7 +67,7 @@ class Enterprise_Rma_Model_Grid extends Mage_Core_Model_Abstract
     public function getStatusLabel()
     {
         if (is_null(parent::getStatusLabel())){
-            $this->setStatusLabel(Mage::getModel('enterprise_rma/rma_source_status')->getItemLabel($this->getStatus()));
+            $this->setStatusLabel(Mage::getModel('Enterprise_Rma_Model_Rma_Source_Status')->getItemLabel($this->getStatus()));
     }
         return parent::getStatusLabel();
     }

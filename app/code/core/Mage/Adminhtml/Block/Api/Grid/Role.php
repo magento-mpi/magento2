@@ -45,7 +45,7 @@ class Mage_Adminhtml_Block_Api_Grid_Role extends Mage_Adminhtml_Block_Widget_Gri
 
     protected function _prepareCollection()
     {
-        $collection =  Mage::getModel("api/roles")->getCollection();
+        $collection =  Mage::getModel('Mage_Api_Model_Roles')->getCollection();
         $this->setCollection($collection);
 
         return parent::_prepareCollection();
@@ -55,14 +55,14 @@ class Mage_Adminhtml_Block_Api_Grid_Role extends Mage_Adminhtml_Block_Widget_Gri
     {
 
         $this->addColumn('role_id', array(
-            'header'    =>Mage::helper('adminhtml')->__('ID'),
+            'header'    =>Mage::helper('Mage_Adminhtml_Helper_Data')->__('ID'),
             'index'     =>'role_id',
             'align'     => 'right',
             'width'    => '50px'
         ));
 
         $this->addColumn('role_name', array(
-            'header'    =>Mage::helper('adminhtml')->__('Role Name'),
+            'header'    =>Mage::helper('Mage_Adminhtml_Helper_Data')->__('Role Name'),
             'index'     =>'role_name'
         ));
 

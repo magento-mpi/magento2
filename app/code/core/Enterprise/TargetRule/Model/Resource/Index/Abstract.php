@@ -52,7 +52,7 @@ abstract class Enterprise_TargetRule_Model_Resource_Index_Abstract extends Mage_
     {
         if (is_null($this->_listType)) {
             Mage::throwException(
-                Mage::helper('enterprise_targetrule')->__('Product list type identifier does not defined')
+                Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Product list type identifier does not defined')
             );
         }
         return $this->_listType;
@@ -77,7 +77,7 @@ abstract class Enterprise_TargetRule_Model_Resource_Index_Abstract extends Mage_
      */
     public function getProductResource()
     {
-        return Mage::getResourceSingleton('catalog/product');
+        return Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Product');
     }
 
     /**

@@ -30,10 +30,10 @@
  * Example:
  *
  * // Loading of template
- * $emailTemplate  = Mage::getModel('core/email_template')
+ * $emailTemplate  = Mage::getModel('Mage_Core_Model_Email_Template')
  *    ->load(Mage::getStoreConfig('path_to_email_template_id_config'));
  * $variables = array(
- *    'someObject' => Mage::getSingleton('some_model')
+ *    'someObject' => Mage::getSingleton('Mage_Core_Model_Resource_Email_Template')
  *    'someString' => 'Some string value'
  * );
  * $emailTemplate->send('some@domain.com', 'Name Of User', $variables);
@@ -96,7 +96,7 @@ class Mage_Core_Model_Email_Template extends Mage_Core_Model_Template
      */
     protected function _construct()
     {
-        $this->_init('core/email_template');
+        $this->_init('Mage_Core_Model_Resource_Email_Template');
     }
 
     /**
@@ -129,7 +129,7 @@ class Mage_Core_Model_Email_Template extends Mage_Core_Model_Template
     public function getTemplateFilter()
     {
         if (empty($this->_templateFilter)) {
-            $this->_templateFilter = Mage::getModel('core/email_template_filter');
+            $this->_templateFilter = Mage::getModel('Mage_Core_Model_Email_Template_Filter');
             $this->_templateFilter->setUseAbsoluteLinks($this->getUseAbsoluteLinks())
                 ->setStoreId($this->getDesignConfig()->getStore());
         }
@@ -489,7 +489,7 @@ class Mage_Core_Model_Email_Template extends Mage_Core_Model_Template
         }
 
         if (!$this->getId()) {
-            Mage::throwException(Mage::helper('core')->__('Invalid transactional email code: "%s"', $templateId));
+            throw Mage::exception('Mage_Core', Mage::helper('Mage_Core_Helper_Data')->__('Invalid transactional email code: "%s"', $templateId));
         }
 
         if (!is_array($sender)) {
@@ -604,12 +604,12 @@ class Mage_Core_Model_Email_Template extends Mage_Core_Model_Template
             foreach ($variables as $value => $label) {
                 $optionArray[] = array(
                     'value' => '{{' . $value . '}}',
-                    'label' => Mage::helper('core')->__('%s', $label)
+                    'label' => Mage::helper('Mage_Core_Helper_Data')->__('%s', $label)
                 );
             }
             if ($withGroup) {
                 $optionArray = array(
-                    'label' => Mage::helper('core')->__('Template Variables'),
+                    'label' => Mage::helper('Mage_Core_Helper_Data')->__('Template Variables'),
                     'value' => $optionArray
                 );
             }
@@ -626,10 +626,10 @@ class Mage_Core_Model_Email_Template extends Mage_Core_Model_Template
     {
         $code = $this->getTemplateCode();
         if (empty($code)) {
-            Mage::throwException(Mage::helper('core')->__('The template Name must not be empty.'));
+            Mage::throwException(Mage::helper('Mage_Core_Helper_Data')->__('The template Name must not be empty.'));
         }
         if($this->_getResource()->checkCodeUsage($this)) {
-            Mage::throwException(Mage::helper('core')->__('Duplicate Of Template Name'));
+            Mage::throwException(Mage::helper('Mage_Core_Helper_Data')->__('Duplicate Of Template Name'));
         }
         return parent::_beforeSave();
     }

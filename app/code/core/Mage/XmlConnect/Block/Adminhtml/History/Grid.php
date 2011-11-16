@@ -53,7 +53,7 @@ class Mage_XmlConnect_Block_Adminhtml_History_Grid extends Mage_Adminhtml_Block_
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('xmlconnect/history')->getCollection();
+        $collection = Mage::getModel('Mage_XmlConnect_Model_History')->getCollection();
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }

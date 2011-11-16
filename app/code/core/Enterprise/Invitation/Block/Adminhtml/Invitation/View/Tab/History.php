@@ -41,11 +41,11 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_View_Tab_History
 
     public function getTabLabel()
     {
-        return Mage::helper('enterprise_invitation')->__('Status History');
+        return Mage::helper('Enterprise_Invitation_Helper_Data')->__('Status History');
     }
     public function getTabTitle()
     {
-        return Mage::helper('enterprise_invitation')->__('Status History');
+        return Mage::helper('Enterprise_Invitation_Helper_Data')->__('Status History');
     }
 
     public function canShowTab()
@@ -74,7 +74,7 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_View_Tab_History
      */
     public function getHistoryCollection()
     {
-        return Mage::getModel('enterprise_invitation/invitation_history')
+        return Mage::getModel('Enterprise_Invitation_Model_Invitation_History')
             ->getCollection()
             ->addFieldToFilter('invitation_id', $this->getInvitation()->getId())
             ->addOrder('history_id');

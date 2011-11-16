@@ -55,7 +55,7 @@ class Mage_Newsletter_Model_Resource_Queue_Collection extends Mage_Core_Model_Re
     protected function _construct()
     {
         $this->_map['fields']['queue_id'] = 'main_table.queue_id';
-        $this->_init('newsletter/queue');
+        $this->_init('Mage_Newsletter_Model_Queue', 'Mage_Newsletter_Model_Resource_Queue');
     }
 
     /**
@@ -67,7 +67,7 @@ class Mage_Newsletter_Model_Resource_Queue_Collection extends Mage_Core_Model_Re
      */
     public function addTemplateInfo()
     {
-        $this->getSelect()->joinLeft(array('template'=>$this->getTable('template')),
+        $this->getSelect()->joinLeft(array('template'=>$this->getTable('newsletter_template')),
             'template.template_id=main_table.template_id',
             array('template_subject','template_sender_name','template_sender_email')
         );
@@ -201,7 +201,7 @@ class Mage_Newsletter_Model_Resource_Queue_Collection extends Mage_Core_Model_Re
         $this->getSelect()
             ->where('main_table.queue_status in (?)', array(Mage_Newsletter_Model_Queue::STATUS_SENDING,
                                                             Mage_Newsletter_Model_Queue::STATUS_NEVER))
-            ->where('main_table.queue_start_at < ?', Mage::getSingleton('core/date')->gmtdate())
+            ->where('main_table.queue_start_at < ?', Mage::getSingleton('Mage_Core_Model_Date')->gmtdate())
             ->where('main_table.queue_start_at IS NOT NULL');
 
         return $this;

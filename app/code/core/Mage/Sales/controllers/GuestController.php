@@ -42,7 +42,7 @@ class Mage_Sales_GuestController extends Mage_Sales_Controller_Abstract
      */
     protected function _loadValidOrder($orderId = null)
     {
-        return Mage::helper('sales/guest')->loadValidOrder();
+        return Mage::helper('Mage_Sales_Helper_Guest')->loadValidOrder();
     }
 
     /**
@@ -67,7 +67,7 @@ class Mage_Sales_GuestController extends Mage_Sales_Controller_Abstract
         }
 
         $this->loadLayout();
-        Mage::helper('sales/guest')->getBreadcrumbs($this);
+        Mage::helper('Mage_Sales_Helper_Guest')->getBreadcrumbs($this);
         $this->renderLayout();
     }
 
@@ -76,12 +76,12 @@ class Mage_Sales_GuestController extends Mage_Sales_Controller_Abstract
      */
     public function formAction()
     {
-        if (Mage::getSingleton('customer/session')->isLoggedIn()) {
+        if (Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()) {
             $this->_redirect('customer/account/');
             return;
         }
         $this->loadLayout();
-        Mage::helper('sales/guest')->getBreadcrumbs($this);
+        Mage::helper('Mage_Sales_Helper_Guest')->getBreadcrumbs($this);
         $this->renderLayout();
     }
 
@@ -93,7 +93,7 @@ class Mage_Sales_GuestController extends Mage_Sales_Controller_Abstract
 
         $invoiceId = (int) $this->getRequest()->getParam('invoice_id');
         if ($invoiceId) {
-            $invoice = Mage::getModel('sales/order_invoice')->load($invoiceId);
+            $invoice = Mage::getModel('Mage_Sales_Model_Order_Invoice')->load($invoiceId);
             $order = $invoice->getOrder();
         } else {
             $order = Mage::registry('current_order');
@@ -118,7 +118,7 @@ class Mage_Sales_GuestController extends Mage_Sales_Controller_Abstract
 
         $shipmentId = (int) $this->getRequest()->getParam('shipment_id');
         if ($shipmentId) {
-            $shipment = Mage::getModel('sales/order_shipment')->load($shipmentId);
+            $shipment = Mage::getModel('Mage_Sales_Model_Order_Shipment')->load($shipmentId);
             $order = $shipment->getOrder();
         } else {
             $order = Mage::registry('current_order');
@@ -142,7 +142,7 @@ class Mage_Sales_GuestController extends Mage_Sales_Controller_Abstract
 
         $creditmemoId = (int) $this->getRequest()->getParam('creditmemo_id');
         if ($creditmemoId) {
-            $creditmemo = Mage::getModel('sales/order_creditmemo')->load($creditmemoId);
+            $creditmemo = Mage::getModel('Mage_Sales_Model_Order_Creditmemo')->load($creditmemoId);
             $order = $creditmemo->getOrder();
         } else {
             $order = Mage::registry('current_order');

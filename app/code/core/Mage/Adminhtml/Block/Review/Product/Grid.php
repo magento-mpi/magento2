@@ -44,49 +44,49 @@ class Mage_Adminhtml_Block_Review_Product_Grid extends Mage_Adminhtml_Block_Cata
     protected function _prepareColumns()
     {
         $this->addColumn('entity_id', array(
-                'header'    => Mage::helper('review')->__('ID'),
+                'header'    => Mage::helper('Mage_Review_Helper_Data')->__('ID'),
                 'width'     => '50px',
                 'index'     => 'entity_id',
         ));
 
         $this->addColumn('name', array(
-                'header'    => Mage::helper('review')->__('Name'),
+                'header'    => Mage::helper('Mage_Review_Helper_Data')->__('Name'),
                 'index'     => 'name',
         ));
 
         if ((int)$this->getRequest()->getParam('store', 0)) {
             $this->addColumn('custom_name', array(
-                    'header'    => Mage::helper('review')->__('Name in Store'),
+                    'header'    => Mage::helper('Mage_Review_Helper_Data')->__('Name in Store'),
                     'index'     => 'custom_name'
             ));
         }
 
         $this->addColumn('sku', array(
-                'header'    => Mage::helper('review')->__('SKU'),
+                'header'    => Mage::helper('Mage_Review_Helper_Data')->__('SKU'),
                 'width'     => '80px',
                 'index'     => 'sku'
         ));
 
         $this->addColumn('price', array(
-                'header'    => Mage::helper('review')->__('Price'),
+                'header'    => Mage::helper('Mage_Review_Helper_Data')->__('Price'),
                 'type'      => 'currency',
                 'index'     => 'price'
         ));
 
         $this->addColumn('qty', array(
-                'header'    => Mage::helper('review')->__('Qty'),
+                'header'    => Mage::helper('Mage_Review_Helper_Data')->__('Qty'),
                 'width'     => '130px',
                 'type'      => 'number',
                 'index'     => 'qty'
         ));
 
         $this->addColumn('status', array(
-                'header'    => Mage::helper('review')->__('Status'),
+                'header'    => Mage::helper('Mage_Review_Helper_Data')->__('Status'),
                 'width'     => '90px',
                 'index'     => 'status',
                 'type'      => 'options',
-                'source'    => 'catalog/product_status',
-                'options'   => Mage::getSingleton('catalog/product_status')->getOptionArray(),
+                'source'    => 'Mage_Catalog_Model_Product_Status',
+                'options'   => Mage::getSingleton('Mage_Catalog_Model_Product_Status')->getOptionArray(),
         ));
 
         /**
@@ -95,12 +95,12 @@ class Mage_Adminhtml_Block_Review_Product_Grid extends Mage_Adminhtml_Block_Cata
         if (!Mage::app()->isSingleStoreMode()) {
             $this->addColumn('websites',
                 array(
-                    'header'=> Mage::helper('review')->__('Websites'),
+                    'header'=> Mage::helper('Mage_Review_Helper_Data')->__('Websites'),
                     'width' => '100px',
                     'sortable'  => false,
                     'index'     => 'websites',
                     'type'      => 'options',
-                    'options'   => Mage::getModel('core/website')->getCollection()->toOptionHash(),
+                    'options'   => Mage::getModel('Mage_Core_Model_Website')->getCollection()->toOptionHash(),
             ));
         }
     }

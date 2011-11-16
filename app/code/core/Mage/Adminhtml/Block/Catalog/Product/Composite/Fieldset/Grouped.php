@@ -41,10 +41,10 @@ class Mage_Adminhtml_Block_Catalog_Product_Composite_Fieldset_Grouped extends Ma
     {
         parent::_construct();
 
-        $this->_block = 'adminhtml/catalog_product_price';
+        $this->_block = 'Mage_Adminhtml_Block_Catalog_Product_Price';
         $this->_useLinkForAsLowAs = false;
 
-        $taxCalculation = Mage::getSingleton('tax/calculation');
+        $taxCalculation = Mage::getSingleton('Mage_Tax_Model_Calculation');
         if (!$taxCalculation->getCustomer() && Mage::registry('current_customer')) {
             $taxCalculation->setCustomer(Mage::registry('current_customer'));
         }
@@ -141,6 +141,6 @@ class Mage_Adminhtml_Block_Catalog_Product_Composite_Fieldset_Grouped extends Ma
     public function getCurrencyPrice($price)
     {
         $store = $this->getProduct()->getStore();
-        return $this->helper('core')->currencyByStore($price, $store, false);
+        return $this->helper('Mage_Core_Helper_Data')->currencyByStore($price, $store, false);
     }
 }

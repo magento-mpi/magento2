@@ -113,7 +113,7 @@ class Mage_Core_Model_Translate
     {
         $this->setConfig(array(self::CONFIG_KEY_AREA=>$area));
 
-        $this->_translateInline = Mage::getSingleton('core/translate_inline')
+        $this->_translateInline = Mage::getSingleton('Mage_Core_Model_Translate_Inline')
             ->isAllowed($area=='adminhtml' ? 'admin' : null);
 
         if (!$forceReload) {
@@ -357,7 +357,7 @@ class Mage_Core_Model_Translate
      */
     public function getResource()
     {
-        return Mage::getResourceSingleton('core/translate');
+        return Mage::getResourceSingleton('Mage_Core_Model_Resource_Translate');
     }
 
     /**

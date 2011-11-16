@@ -41,7 +41,10 @@ class Enterprise_CustomerBalance_Model_Resource_Balance_History_Collection
      */
     protected function _construct()
     {
-        $this->_init('enterprise_customerbalance/balance_history');
+        $this->_init(
+            'enterprise_customerbalance/balance_history',
+            'Enterprise_CustomerBalance_Model_Resource_Balance_History'
+        );
     }
 
     /**

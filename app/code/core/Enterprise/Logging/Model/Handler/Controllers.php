@@ -47,7 +47,7 @@ class Enterprise_Logging_Model_Handler_Controllers
     public function postDispatchGeneric($config, $eventModel, $processorModel)
     {
         if ($collectedIds = $processorModel->getCollectedIds()) {
-            $eventModel->setInfo(Mage::helper('enterprise_logging')->implodeValues($collectedIds));
+            $eventModel->setInfo(Mage::helper('Enterprise_Logging_Helper_Data')->implodeValues($collectedIds));
             return true;
         }
         return false;
@@ -99,10 +99,10 @@ class Enterprise_Logging_Model_Handler_Controllers
         $request = Mage::app()->getRequest();
         $postData = $request->getPost();
         $groupFieldsData = array();
-        $change = Mage::getModel('enterprise_logging/event_changes');
+        $change = Mage::getModel('Enterprise_Logging_Model_Event_Changes');
 
         //Collect skip encrypted fields
-        $encryptedNodeEntriesPaths = Mage::getSingleton('adminhtml/config')->getEncryptedNodeEntriesPaths(true);
+        $encryptedNodeEntriesPaths = Mage::getSingleton('Mage_Adminhtml_Model_Config')->getEncryptedNodeEntriesPaths(true);
         $skipEncrypted = array();
         foreach ($encryptedNodeEntriesPaths as $fieldName) {
             $skipEncrypted[] = $fieldName['field'];
@@ -173,7 +173,7 @@ class Enterprise_Logging_Model_Handler_Controllers
                 $info = Mage::app()->getRequest()->getParam('email');
             }
             $success = true;
-            $messages = Mage::getSingleton('adminhtml/session')->getMessages()->getLastAddedMessage();
+            $messages = Mage::getSingleton('Mage_Adminhtml_Model_Session')->getMessages()->getLastAddedMessage();
             if ($messages) {
                 $success = 'error' != $messages->getType();
             }
@@ -242,13 +242,13 @@ class Enterprise_Logging_Model_Handler_Controllers
 
         //Need when in request data there are was no period info
         if ($filter) {
-            $filterData = Mage::app()->getHelper('adminhtml')->prepareFilterString($filter);
+            $filterData = Mage::app()->getHelper('Mage_Adminhtml_Helper_Data')->prepareFilterString($filter);
             $data = array_merge($data, (array)$filterData);
         }
 
         //Add log entry details
         if ($data) {
-            $change = Mage::getModel('enterprise_logging/event_changes');
+            $change = Mage::getModel('Enterprise_Logging_Model_Event_Changes');
             $processor->addEventChanges($change->setSourceName('params')
                 ->setOriginalData(array())
                 ->setResultData($data));
@@ -284,7 +284,7 @@ class Enterprise_Logging_Model_Handler_Controllers
 
         $this->postDispatchGeneric($config, $eventModel, $processorModel);
         if ($request->getParam('auto_apply')) {
-            $eventModel->setInfo(Mage::helper('enterprise_logging')->__('%s & applied', $eventModel->getInfo()));
+            $eventModel->setInfo(Mage::helper('Enterprise_Logging_Helper_Data')->__('%s & applied', $eventModel->getInfo()));
         }
 
         return $eventModel;
@@ -325,11 +325,11 @@ class Enterprise_Logging_Model_Handler_Controllers
             return false;
         }
         $success = true;
-        $messages = Mage::getSingleton('adminhtml/session')->getMessages()->getLastAddedMessage();
+        $messages = Mage::getSingleton('Mage_Adminhtml_Model_Session')->getMessages()->getLastAddedMessage();
         if ($messages) {
             $success = 'error' != $messages->getType();
         }
-        return $eventModel->setIsSuccess($success)->setInfo(Mage::helper('enterprise_logging')->__('Tax Rates Import'));
+        return $eventModel->setIsSuccess($success)->setInfo(Mage::helper('Enterprise_Logging_Helper_Data')->__('Tax Rates Import'));
     }
 
     /**
@@ -348,10 +348,10 @@ class Enterprise_Logging_Model_Handler_Controllers
     public function postDispatchProductUpdateAttributes($config, $eventModel, $processor)
     {
         $request = Mage::app()->getRequest();
-        $change = Mage::getModel('enterprise_logging/event_changes');
+        $change = Mage::getModel('Enterprise_Logging_Model_Event_Changes');
         $products = $request->getParam('product');
         if (!$products) {
-            $products = Mage::helper('adminhtml/catalog_product_edit_action_attribute')->getProductIds();
+            $products = Mage::helper('Mage_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute')->getProductIds();
         }
         if ($products) {
             $processor->addEventChanges(clone $change->setSourceName('product')
@@ -385,7 +385,7 @@ class Enterprise_Logging_Model_Handler_Controllers
                 ->setResultData(array('ids' => implode(', ', $websiteIds))));
         }
 
-        return $eventModel->setInfo(Mage::helper('enterprise_logging')->__('Attributes Updated'));
+        return $eventModel->setInfo(Mage::helper('Enterprise_Logging_Helper_Data')->__('Attributes Updated'));
     }
 
      /**
@@ -406,7 +406,7 @@ class Enterprise_Logging_Model_Handler_Controllers
             $eventModel->setEventCode('tax_product_tax_classes');
         }
         $success = true;
-        $messages = Mage::getSingleton('adminhtml/session')->getMessages()->getLastAddedMessage();
+        $messages = Mage::getSingleton('Mage_Adminhtml_Model_Session')->getMessages()->getLastAddedMessage();
         if ($messages) {
             $success = 'error' != $messages->getType();
         }
@@ -423,11 +423,11 @@ class Enterprise_Logging_Model_Handler_Controllers
     public function postDispatchCustomerSegmentMatch($config, $eventModel)
     {
         $request = Mage::app()->getRequest();
-        $customersQty = Mage::getModel('enterprise_customersegment/segment')->getResource()
+        $customersQty = Mage::getModel('Enterprise_CustomerSegment_Model_Segment')->getResource()
                 ->getSegmentCustomersQty($request->getParam('id'));
         return $eventModel->setInfo(
             $request->getParam('id') ?
-                Mage::helper('enterprise_customersegment')->__('Matched %d Customers of Segment %s', $customersQty, $request->getParam('id')) :
+                Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Matched %d Customers of Segment %s', $customersQty, $request->getParam('id')) :
                 '-'
         );
     }
@@ -520,7 +520,7 @@ class Enterprise_Logging_Model_Handler_Controllers
             return false;
         }
         $success = true;
-        $messages = Mage::getSingleton('adminhtml/session')->getMessages()->getLastAddedMessage();
+        $messages = Mage::getSingleton('Mage_Adminhtml_Model_Session')->getMessages()->getLastAddedMessage();
         if ($messages) {
             $success = 'error' != $messages->getType();
         }
@@ -537,7 +537,7 @@ class Enterprise_Logging_Model_Handler_Controllers
     public function postDispatchSystemCurrencySave($config, $eventModel, $processor)
     {
         $request = Mage::app()->getRequest();
-        $change = Mage::getModel('enterprise_logging/event_changes');
+        $change = Mage::getModel('Enterprise_Logging_Model_Event_Changes');
         $data = $request->getParam('rate');
         $values = array();
         if (!is_array($data)) {
@@ -557,11 +557,11 @@ class Enterprise_Logging_Model_Handler_Controllers
             ->setOriginalData(array())
             ->setResultData(array('rates' => implode(', ', $values))));
         $success = true;
-        $messages = Mage::getSingleton('adminhtml/session')->getMessages()->getLastAddedMessage();
+        $messages = Mage::getSingleton('Mage_Adminhtml_Model_Session')->getMessages()->getLastAddedMessage();
         if ($messages) {
             $success = 'error' != $messages->getType();
         }
-        return $eventModel->setIsSuccess($success)->setInfo(Mage::helper('enterprise_logging')->__('Currency Rates Saved'));
+        return $eventModel->setIsSuccess($success)->setInfo(Mage::helper('Enterprise_Logging_Helper_Data')->__('Currency Rates Saved'));
     }
 
     /**
@@ -581,11 +581,11 @@ class Enterprise_Logging_Model_Handler_Controllers
         $cacheTypes = $request->getPost('types');
         if (is_array($cacheTypes) && !empty($cacheTypes)) {
             $cacheTypes = implode(', ', $cacheTypes);
-            $info = Mage::helper('enterprise_logging')->__('Cache types: %s ', $cacheTypes);
+            $info = Mage::helper('Enterprise_Logging_Helper_Data')->__('Cache types: %s ', $cacheTypes);
         }
 
         $success = true;
-        $messages = Mage::getSingleton('adminhtml/session')->getMessages()->getLastAddedMessage();
+        $messages = Mage::getSingleton('Mage_Adminhtml_Model_Session')->getMessages()->getLastAddedMessage();
         if ($messages) {
             $success = 'error' != $messages->getType();
         }
@@ -605,11 +605,11 @@ class Enterprise_Logging_Model_Handler_Controllers
             return false;
         }
         $success = true;
-        $messages = Mage::getSingleton('adminhtml/session')->getMessages()->getLastAddedMessage();
+        $messages = Mage::getSingleton('Mage_Adminhtml_Model_Session')->getMessages()->getLastAddedMessage();
         if ($messages) {
             $success = 'error' != $messages->getType();
         }
-        return $eventModel->setIsSuccess($success)->setInfo(Mage::helper('enterprise_logging')->__('Tax Rates Export'));
+        return $eventModel->setIsSuccess($success)->setInfo(Mage::helper('Enterprise_Logging_Helper_Data')->__('Tax Rates Export'));
     }
 
     /**
@@ -643,7 +643,7 @@ class Enterprise_Logging_Model_Handler_Controllers
         if ($request->getParam('action')) {
             $message .= ucfirst($request->getParam('action')) . ' action: ';
         }
-        $message .= Mage::getSingleton('adminhtml/session')->getMessages()->getLastAddedMessage()->getCode();
+        $message .= Mage::getSingleton('Mage_Adminhtml_Model_Session')->getMessages()->getLastAddedMessage()->getCode();
         return $eventModel->setInfo($message);
     }
 }

@@ -61,7 +61,7 @@ class Mage_Catalog_Model_Layer_Filter_Decimal extends Mage_Catalog_Model_Layer_F
     protected function _getResource()
     {
         if (is_null($this->_resource)) {
-            $this->_resource = Mage::getResourceModel('catalog/layer_filter_decimal');
+            $this->_resource = Mage::getResourceModel('Mage_Catalog_Model_Resource_Layer_Filter_Decimal');
         }
         return $this->_resource;
     }
@@ -128,7 +128,7 @@ class Mage_Catalog_Model_Layer_Filter_Decimal extends Mage_Catalog_Model_Layer_F
     {
         $from   = Mage::app()->getStore()->formatPrice(($value - 1) * $range, false);
         $to     = Mage::app()->getStore()->formatPrice($value * $range, false);
-        return Mage::helper('catalog')->__('%s - %s', $from, $to);
+        return Mage::helper('Mage_Catalog_Helper_Data')->__('%s - %s', $from, $to);
     }
 
     /**

@@ -53,7 +53,7 @@ class Mage_Sales_Block_Billing_Agreements extends Mage_Core_Block_Template
     protected function _prepareLayout()
     {
         parent::_prepareLayout();
-        $pager = $this->getLayout()->createBlock('page/html_pager')
+        $pager = $this->getLayout()->createBlock('Mage_Page_Block_Html_Pager')
             ->setCollection($this->getBillingAgreements())->setIsOutputRequired(false);
         $this->setChild('pager', $pager)
             ->setBackUrl($this->getUrl('customer/account/'));
@@ -69,8 +69,8 @@ class Mage_Sales_Block_Billing_Agreements extends Mage_Core_Block_Template
     public function getBillingAgreements()
     {
         if (is_null($this->_billingAgreements)) {
-            $this->_billingAgreements = Mage::getResourceModel('sales/billing_agreement_collection')
-                ->addFieldToFilter('customer_id', Mage::getSingleton('customer/session')->getCustomerId())
+            $this->_billingAgreements = Mage::getResourceModel('Mage_Sales_Model_Resource_Billing_Agreement_Collection')
+                ->addFieldToFilter('customer_id', Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerId())
                 ->setOrder('agreement_id', 'desc');
         }
         return $this->_billingAgreements;
@@ -89,7 +89,7 @@ class Mage_Sales_Block_Billing_Agreements extends Mage_Core_Block_Template
             case 'created_at':
             case 'updated_at':
                 $value = ($item->getData($key))
-                    ? $this->helper('core')->formatDate($item->getData($key), 'short', true) : $this->__('N/A');
+                    ? $this->helper('Mage_Core_Helper_Data')->formatDate($item->getData($key), 'short', true) : $this->__('N/A');
                 break;
             case 'edit_url':
                 $value = $this->getUrl('*/billing_agreement/view', array('agreement' => $item->getAgreementId()));
@@ -115,7 +115,7 @@ class Mage_Sales_Block_Billing_Agreements extends Mage_Core_Block_Template
     protected function _loadPaymentMethods()
     {
         if (!$this->_paymentMethods) {
-            foreach ($this->helper('payment')->getBillingAgreementMethods() as $paymentMethod) {
+            foreach ($this->helper('Mage_Payment_Helper_Data')->getBillingAgreementMethods() as $paymentMethod) {
                 $this->_paymentMethods[$paymentMethod->getCode()] = $paymentMethod->getTitle();
             }
         }
@@ -130,7 +130,7 @@ class Mage_Sales_Block_Billing_Agreements extends Mage_Core_Block_Template
     public function getWizardPaymentMethodOptions()
     {
         $paymentMethodOptions = array();
-        foreach ($this->helper('payment')->getBillingAgreementMethods() as $paymentMethod) {
+        foreach ($this->helper('Mage_Payment_Helper_Data')->getBillingAgreementMethods() as $paymentMethod) {
             if ($paymentMethod->getConfigData('allow_billing_agreement_wizard') == 1) {
                 $paymentMethodOptions[$paymentMethod->getCode()] = $paymentMethod->getTitle();
             }

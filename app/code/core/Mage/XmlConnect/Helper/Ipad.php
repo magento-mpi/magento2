@@ -130,22 +130,22 @@ class Mage_XmlConnect_Helper_Ipad extends Mage_Core_Helper_Abstract
             $design = Mage::getDesign();
             $this->_tabs = array(
                 array(
-                    'label' => Mage::helper('xmlconnect')->__('Home'),
+                    'label' => Mage::helper('Mage_XmlConnect_Helper_Data')->__('Home'),
                     'image' => $design->getSkinUrl('Mage_XmlConnect::images/tab_home.png'),
                     'action' => 'Home',
                 ),
                 array(
-                    'label' => Mage::helper('xmlconnect')->__('Search'),
+                    'label' => Mage::helper('Mage_XmlConnect_Helper_Data')->__('Search'),
                     'image' => $design->getSkinUrl('Mage_XmlConnect::images/tab_search.png'),
                     'action' => 'Search',
                 ),
                 array(
-                    'label' => Mage::helper('xmlconnect')->__('Cart'),
+                    'label' => Mage::helper('Mage_XmlConnect_Helper_Data')->__('Cart'),
                     'image' => $design->getSkinUrl('Mage_XmlConnect::images/tab_cart.png'),
                     'action' => 'Cart',
                 ),
                 array(
-                    'label' => Mage::helper('xmlconnect')->__('Account'),
+                    'label' => Mage::helper('Mage_XmlConnect_Helper_Data')->__('Account'),
                     'image' => $design->getSkinUrl('Mage_XmlConnect::images/tab_account_ipad.png'),
                     'action' => 'Account',
                 ),
@@ -475,7 +475,7 @@ class Mage_XmlConnect_Helper_Ipad extends Mage_Core_Helper_Abstract
      */
     public function getItunesCountriesArray()
     {
-        return Mage::helper('xmlconnect/iphone')->getItunesCountriesArray();
+        return Mage::helper('Mage_XmlConnect_Helper_Iphone')->getItunesCountriesArray();
     }
 
     /**
@@ -489,61 +489,61 @@ class Mage_XmlConnect_Helper_Ipad extends Mage_Core_Helper_Abstract
         $errors = array();
 
         if (!Zend_Validate::is(isset($params['title']) ? $params['title'] : null, 'NotEmpty')) {
-            $errors[] = Mage::helper('xmlconnect')->__('Please enter the Title.');
+            $errors[] = Mage::helper('Mage_XmlConnect_Helper_Data')->__('Please enter the Title.');
         }
 
         if (isset($params['title'])) {
             $titleLength = self::SUBMISSION_TITLE_LENGTH;
             $strRules = array('min' => '1', 'max' => $titleLength);
             if (!Zend_Validate::is($params['title'], 'StringLength', $strRules)) {
-                $errors[] = Mage::helper('xmlconnect')->__('"Title" is more than %d characters long', $strRules['max']);
+                $errors[] = Mage::helper('Mage_XmlConnect_Helper_Data')->__('"Title" is more than %d characters long', $strRules['max']);
             }
         }
 
         if (!Zend_Validate::is(isset($params['description']) ? $params['description'] : null, 'NotEmpty')) {
-            $errors[] = Mage::helper('xmlconnect')->__('Please enter the Description.');
+            $errors[] = Mage::helper('Mage_XmlConnect_Helper_Data')->__('Please enter the Description.');
         }
 
         if (isset($params['description'])) {
             $descriptionLength = self::SUBMISSION_DESCRIPTION_LENGTH;
             $strRules = array('min' => '1', 'max' => $descriptionLength);
             if (!Zend_Validate::is($params['title'], 'StringLength', $strRules)) {
-                $errors[] = Mage::helper('xmlconnect')->__('"Description" is more than %d characters long', $strRules['max']);
+                $errors[] = Mage::helper('Mage_XmlConnect_Helper_Data')->__('"Description" is more than %d characters long', $strRules['max']);
             }
         }
 
         if (!Zend_Validate::is(isset($params['copyright']) ? $params['copyright'] : null, 'NotEmpty')) {
-            $errors[] = Mage::helper('xmlconnect')->__('Please enter the Copyright.');
+            $errors[] = Mage::helper('Mage_XmlConnect_Helper_Data')->__('Please enter the Copyright.');
         }
 
         if (empty($params['price_free'])) {
             if (!Zend_Validate::is(isset($params['price']) ? $params['price'] : null, 'NotEmpty')) {
-                $errors[] = Mage::helper('xmlconnect')->__('Please enter the Price.');
+                $errors[] = Mage::helper('Mage_XmlConnect_Helper_Data')->__('Please enter the Price.');
             }
         }
 
         if (!Zend_Validate::is(isset($params['country']) ? $params['country'] : null, 'NotEmpty')) {
-            $errors[] = Mage::helper('xmlconnect')->__('Please select at least one country.');
+            $errors[] = Mage::helper('Mage_XmlConnect_Helper_Data')->__('Please select at least one country.');
         }
 
         $keyLenght = Mage_XmlConnect_Model_Application::APP_MAX_KEY_LENGTH;
-        if (Mage::helper('xmlconnect')->getApplication()->getIsResubmitAction()) {
+        if (Mage::helper('Mage_XmlConnect_Helper_Data')->getApplication()->getIsResubmitAction()) {
             if (isset($params['resubmission_activation_key'])) {
                 $resubmissionKey = $params['resubmission_activation_key'];
             } else {
                 $resubmissionKey = null;
             }
             if (!Zend_Validate::is($resubmissionKey, 'NotEmpty')) {
-                $errors[] = Mage::helper('xmlconnect')->__('Please enter the Resubmission Key.');
+                $errors[] = Mage::helper('Mage_XmlConnect_Helper_Data')->__('Please enter the Resubmission Key.');
             } elseif (!Zend_Validate::is($resubmissionKey, 'StringLength', array(1, $keyLenght))) {
-                $errors[] = Mage::helper('xmlconnect')->__('Submit App failure. Invalid activation key provided');
+                $errors[] = Mage::helper('Mage_XmlConnect_Helper_Data')->__('Submit App failure. Invalid activation key provided');
             }
         } else {
             $key = isset($params['key']) ? $params['key'] : null;
             if (!Zend_Validate::is($key, 'NotEmpty')) {
-                $errors[] = Mage::helper('xmlconnect')->__('Please enter the Activation Key.');
+                $errors[] = Mage::helper('Mage_XmlConnect_Helper_Data')->__('Please enter the Activation Key.');
             } elseif (!Zend_Validate::is($key, 'StringLength', array(1, $keyLenght))) {
-                $errors[] = Mage::helper('xmlconnect')->__('Submit App failure. Invalid activation key provided');
+                $errors[] = Mage::helper('Mage_XmlConnect_Helper_Data')->__('Submit App failure. Invalid activation key provided');
             }
         }
         return $errors;
@@ -557,29 +557,30 @@ class Mage_XmlConnect_Helper_Ipad extends Mage_Core_Helper_Abstract
      */
     public function validateConfig($native)
     {
+        $helper = Mage::helper('Mage_XmlConnect_Helper_Data');
         $errors = array();
         if ($native === false
             || (!isset($native['navigationBar']['icon'])
                 || !Zend_Validate::is($native['navigationBar']['icon'], 'NotEmpty')
             )
         ) {
-            $errors[] = Mage::helper('xmlconnect')->__('Please upload  an image for "Logo in Header" field from Design Tab.');
+            $errors[] = Mage::helper('Mage_XmlConnect_Helper_Data')->__('Please upload  an image for "Logo in Header" field from Design Tab.');
         }
 
-        if (!Mage::helper('xmlconnect')->validateConfFieldNotEmpty('bannerIpadLandscapeImage', $native)) {
-            $errors[] = Mage::helper('xmlconnect')->__('Please upload  an image for "Banner on Home Screen (landscape mode)" field from Design Tab.');
+        if (!$helper->validateConfFieldNotEmpty('bannerIpadLandscapeImage', $native)) {
+            $errors[] = Mage::helper('Mage_XmlConnect_Helper_Data')->__('Please upload  an image for "Banner on Home Screen (landscape mode)" field from Design Tab.');
         }
 
-        if (!Mage::helper('xmlconnect')->validateConfFieldNotEmpty('bannerIpadImage', $native)) {
-            $errors[] = Mage::helper('xmlconnect')->__('Please upload  an image for "Banner on Home Screen (portrait mode)" field from Design Tab.');
+        if (!$helper->validateConfFieldNotEmpty('bannerIpadImage', $native)) {
+            $errors[] = Mage::helper('Mage_XmlConnect_Helper_Data')->__('Please upload  an image for "Banner on Home Screen (portrait mode)" field from Design Tab.');
         }
 
-        if (!Mage::helper('xmlconnect')->validateConfFieldNotEmpty('backgroundIpadLandscapeImage', $native)) {
-            $errors[] = Mage::helper('xmlconnect')->__('Please upload  an image for "App Background (landscape mode)" field from Design Tab.');
+        if (!$helper->validateConfFieldNotEmpty('backgroundIpadLandscapeImage', $native)) {
+            $errors[] = Mage::helper('Mage_XmlConnect_Helper_Data')->__('Please upload  an image for "App Background (landscape mode)" field from Design Tab.');
         }
 
-        if (!Mage::helper('xmlconnect')->validateConfFieldNotEmpty('backgroundIpadPortraitImage', $native)) {
-            $errors[] = Mage::helper('xmlconnect')->__('Please upload  an image for "App Background (portrait mode)" field from Design Tab.');
+        if (!$helper->validateConfFieldNotEmpty('backgroundIpadPortraitImage', $native)) {
+            $errors[] = Mage::helper('Mage_XmlConnect_Helper_Data')->__('Please upload  an image for "App Background (portrait mode)" field from Design Tab.');
         }
 
         return $errors;
@@ -593,8 +594,7 @@ class Mage_XmlConnect_Helper_Ipad extends Mage_Core_Helper_Abstract
     public function getCountryRenderer()
     {
         if (empty($this->_countryRenderer)) {
-            $renderer = 'xmlconnect/adminhtml_mobile_submission_renderer_country_'
-                . Mage_XmlConnect_Helper_Iphone::SUBMISSION_COUNTRY_RENDERER;
+            $renderer = 'Mage_XmlConnect_Block_Adminhtml_Mobile_Submission_Renderer_Country_Istore';
             $this->_countryRenderer = Mage::app()->getLayout()->createBlock($renderer);
         }
         return $this->_countryRenderer;
@@ -607,7 +607,7 @@ class Mage_XmlConnect_Helper_Ipad extends Mage_Core_Helper_Abstract
      */
     public function getCountryLabel()
     {
-        return Mage::helper('xmlconnect')->__('App Stores');
+        return Mage::helper('Mage_XmlConnect_Helper_Data')->__('App Stores');
     }
 
     /**
@@ -651,7 +651,7 @@ class Mage_XmlConnect_Helper_Ipad extends Mage_Core_Helper_Abstract
     public function checkImages(array $data)
     {
         /** @var $helper Mage_XmlConnect_Helper_Image */
-        $helper = Mage::helper('xmlconnect/image');
+        $helper = Mage::helper('Mage_XmlConnect_Helper_Image');
 
         $icon =& $data['conf']['native']['navigationBar']['icon'];
 
@@ -701,31 +701,31 @@ class Mage_XmlConnect_Helper_Ipad extends Mage_Core_Helper_Abstract
 
         if (isset($data['navigationBar']['icon']) && empty($data['navigationBar']['icon'])) {
             Mage::throwException(
-                Mage::helper('xmlconnect')->__('Logo in Header image missing.')
+                Mage::helper('Mage_XmlConnect_Helper_Data')->__('Logo in Header image missing.')
             );
         }
         if (isset($data['body']['bannerIpadImage']) && empty($data['body']['bannerIpadImage'])) {
             Mage::throwException(
-                Mage::helper('xmlconnect')->__('Banner on Home Screen (portrait mode) image missing.')
+                Mage::helper('Mage_XmlConnect_Helper_Data')->__('Banner on Home Screen (portrait mode) image missing.')
             );
         }
         if (isset($data['body']['bannerIpadLandscapeImage']) && empty($data['body']['bannerIpadLandscapeImage'])) {
             Mage::throwException(
-                Mage::helper('xmlconnect')->__('Banner on Home Screen (landscape mode) image missing.')
+                Mage::helper('Mage_XmlConnect_Helper_Data')->__('Banner on Home Screen (landscape mode) image missing.')
             );
         }
         if (isset($data['body']['backgroundIpadLandscapeImage'])
             && empty($data['body']['backgroundIpadLandscapeImage'])
         ) {
             Mage::throwException(
-                Mage::helper('xmlconnect')->__('App Background (landscape mode).')
+                Mage::helper('Mage_XmlConnect_Helper_Data')->__('App Background (landscape mode).')
             );
         }
         if (isset($data['body']['backgroundIpadPortraitImage'])
             && empty($data['body']['backgroundIpadPortraitImage'])
         ) {
             Mage::throwException(
-                Mage::helper('xmlconnect')->__('App Background (portrait mode).')
+                Mage::helper('Mage_XmlConnect_Helper_Data')->__('App Background (portrait mode).')
             );
         }
     }

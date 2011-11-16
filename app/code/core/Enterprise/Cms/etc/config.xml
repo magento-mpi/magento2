@@ -32,25 +32,6 @@
         </Enterprise_Cms>
     </modules>
     <global>
-        <models>
-            <enterprise_cms>
-                <class>Enterprise_Cms_Model</class>
-                <resourceModel>enterprise_cms_resource</resourceModel>
-            </enterprise_cms>
-            <enterprise_cms_resource>
-                <class>Enterprise_Cms_Model_Resource</class>
-            </enterprise_cms_resource>
-        </models>
-        <blocks>
-            <enterprise_cms>
-                <class>Enterprise_Cms_Block</class>
-            </enterprise_cms>
-        </blocks>
-        <helpers>
-            <enterprise_cms>
-                <class>Enterprise_Cms_Helper</class>
-            </enterprise_cms>
-        </helpers>
         <resources>
             <enterprise_cms_setup>
                 <setup>
@@ -63,7 +44,7 @@
             <cms_controller_router_match_before>
                 <observers>
                     <enterprise_cms>
-                        <class>enterprise_cms/observer</class>
+                        <class>Enterprise_Cms_Model_Observer</class>
                         <method>cmsControllerRouterMatchBefore</method>
                     </enterprise_cms>
                 </observers>
@@ -73,12 +54,12 @@
             <hierarchy>
                 <menu>
                     <layouts>
-                        <content module="enterprise_cms" translate="label">
+                        <content module="Enterprise_Cms" translate="label">
                             <label>Content</label>
                             <layout_handle>enterprise_cms_hierarchy_menu_content</layout_handle>
                             <is_default>1</is_default>
                         </content>
-                        <left_column module="enterprise_cms" translate="label">
+                        <left_column module="Enterprise_Cms" translate="label">
                             <label>Left Column</label>
                             <layout_handle>enterprise_cms_hierarchy_menu_left_column</layout_handle>
                             <page_layout_handles>
@@ -86,7 +67,7 @@
                                 <page_three_columns/>
                             </page_layout_handles>
                         </left_column>
-                        <right_column module="enterprise_cms" translate="label">
+                        <right_column module="Enterprise_Cms" translate="label">
                             <label>Right Column</label>
                             <layout_handle>enterprise_cms_hierarchy_menu_right_column</layout_handle>
                             <page_layout_handles>
@@ -104,7 +85,7 @@
             <cms_page_render>
                 <observers>
                     <enterprise_cms>
-                        <class>enterprise_cms/observer</class>
+                        <class>Enterprise_Cms_Model_Observer</class>
                         <method>affectCmsPageRender</method>
                     </enterprise_cms>
                 </observers>
@@ -130,7 +111,7 @@
             <adminhtml_cms_page_edit_tab_main_prepare_form>
                 <observers>
                     <enterprise_cms>
-                        <class>enterprise_cms/observer</class>
+                        <class>Enterprise_Cms_Model_Observer</class>
                         <method>onMainTabPrepareForm</method>
                     </enterprise_cms>
                 </observers>
@@ -138,7 +119,7 @@
             <cms_page_save_before>
                 <observers>
                     <enterprise_cms>
-                        <class>enterprise_cms/observer</class>
+                        <class>Enterprise_Cms_Model_Observer</class>
                         <method>cmsPageSaveBefore</method>
                     </enterprise_cms>
                 </observers>
@@ -146,7 +127,7 @@
             <cms_page_save_after>
                 <observers>
                     <enterprise_cms>
-                        <class>enterprise_cms/observer</class>
+                        <class>Enterprise_Cms_Model_Observer</class>
                         <method>cmsPageSaveAfter</method>
                     </enterprise_cms>
                 </observers>
@@ -154,7 +135,7 @@
             <admin_user_delete_after>
                 <observers>
                     <enterprise_cms>
-                        <class>enterprise_cms/observer</class>
+                        <class>Enterprise_Cms_Model_Observer</class>
                         <method>adminUserDeleteAfter</method>
                     </enterprise_cms>
                 </observers>
@@ -162,7 +143,7 @@
             <cms_page_get_available_statuses>
                 <observers>
                     <enterprise_cms>
-                        <class>enterprise_cms/observer</class>
+                        <class>Enterprise_Cms_Model_Observer</class>
                         <method>modifyPageStatuses</method>
                     </enterprise_cms>
                 </observers>
@@ -170,7 +151,7 @@
             <cms_page_delete_after>
                 <observers>
                     <enterprise_cms>
-                        <class>enterprise_cms/observer</class>
+                        <class>Enterprise_Cms_Model_Observer</class>
                         <method>cmsPageDeleteAfter</method>
                     </enterprise_cms>
                 </observers>

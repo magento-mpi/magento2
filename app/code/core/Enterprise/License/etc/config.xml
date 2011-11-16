@@ -31,23 +31,6 @@
             <version>1.11.0.0</version>
         </Enterprise_License>
     </modules>
-    <global>
-        <models>
-            <enterprise_license>
-                <class>Enterprise_License_Model</class>
-            </enterprise_license>
-        </models>
-        <blocks>
-            <enterprise_license>
-                <class>Enterprise_License_Block</class>
-            </enterprise_license>
-        </blocks>
-        <helpers>
-            <enterprise_license>
-                <class>Enterprise_License_Helper</class>
-            </enterprise_license>
-        </helpers>
-    </global>
     <adminhtml>
         <translate>
             <modules>
@@ -69,7 +52,7 @@
             <admin_user_authenticate_after>
                 <observers>
                     <enterprise_license>
-                        <class>enterprise_license/observer</class>
+                        <class>Enterprise_License_Model_Observer</class>
                         <method>adminUserAuthenticateAfter</method>
                     </enterprise_license>
                 </observers>
@@ -77,7 +60,7 @@
             <controller_action_predispatch>
                 <observers>
                     <enterprise_license>
-                        <class>enterprise_license/observer</class>
+                        <class>Enterprise_License_Model_Observer</class>
                         <method>preDispatch</method>
                     </enterprise_license>
                 </observers>

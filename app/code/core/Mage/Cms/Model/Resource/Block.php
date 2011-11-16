@@ -69,13 +69,13 @@ class Mage_Cms_Model_Resource_Block extends Mage_Core_Model_Resource_Db_Abstract
     protected function _beforeSave(Mage_Core_Model_Abstract $object)
     {
         if (!$this->getIsUniqueBlockToStores($object)) {
-            Mage::throwException(Mage::helper('cms')->__('A block identifier with the same properties already exists in the selected store.'));
+            Mage::throwException(Mage::helper('Mage_Cms_Helper_Data')->__('A block identifier with the same properties already exists in the selected store.'));
         }
 
         if (! $object->getId()) {
-            $object->setCreationTime(Mage::getSingleton('core/date')->gmtDate());
+            $object->setCreationTime(Mage::getSingleton('Mage_Core_Model_Date')->gmtDate());
         }
-        $object->setUpdateTime(Mage::getSingleton('core/date')->gmtDate());
+        $object->setUpdateTime(Mage::getSingleton('Mage_Core_Model_Date')->gmtDate());
         return $this;
     }
 

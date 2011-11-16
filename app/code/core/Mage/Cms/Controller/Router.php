@@ -86,7 +86,7 @@ class Mage_Cms_Controller_Router extends Mage_Core_Controller_Varien_Router_Abst
             return false;
         }
 
-        $page   = Mage::getModel('cms/page');
+        $page   = Mage::getModel('Mage_Cms_Model_Page');
         $pageId = $page->checkIdentifier($identifier, Mage::app()->getStore()->getId());
         if (!$pageId) {
             return false;

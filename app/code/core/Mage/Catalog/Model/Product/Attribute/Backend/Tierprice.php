@@ -48,7 +48,7 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Tierprice extends Mage_Catalo
      */
     protected function _getResource()
     {
-        return Mage::getResourceSingleton('catalog/product_attribute_backend_tierprice');
+        return Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Product_Attribute_Backend_Tierprice');
     }
 
     /**
@@ -64,7 +64,7 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Tierprice extends Mage_Catalo
             foreach (Mage::app()->getWebsites() as $website) {
                 /* @var $website Mage_Core_Model_Website */
                 if ($website->getBaseCurrencyCode() != $baseCurrency) {
-                    $rate = Mage::getModel('directory/currency')
+                    $rate = Mage::getModel('Mage_Directory_Model_Currency')
                         ->load($baseCurrency)
                         ->getRate($website->getBaseCurrencyCode());
                     if (!$rate) {
@@ -109,7 +109,7 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Tierprice extends Mage_Catalo
             $compare = join('-', array($tier['website_id'], $tier['cust_group'], $tier['price_qty'] * 1));
             if (isset($duplicates[$compare])) {
                 Mage::throwException(
-                    Mage::helper('catalog')->__('Duplicate website tier price customer group and quantity.')
+                    Mage::helper('Mage_Catalog_Helper_Data')->__('Duplicate website tier price customer group and quantity.')
                 );
             }
             $duplicates[$compare] = true;
@@ -144,7 +144,7 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Tierprice extends Mage_Catalo
 
             if ($baseCurrency == $websiteCurrency && isset($duplicates[$globalCompare])) {
                 Mage::throwException(
-                    Mage::helper('catalog')->__('Duplicate website tier price customer group and quantity.')
+                    Mage::helper('Mage_Catalog_Helper_Data')->__('Duplicate website tier price customer group and quantity.')
                 );
             }
         }
@@ -164,7 +164,7 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Tierprice extends Mage_Catalo
     {
         $rates  = $this->_getWebsiteRates();
         $data   = array();
-        $price  = Mage::getSingleton('catalog/product_type')->priceFactory($productTypeId);
+        $price  = Mage::getSingleton('Mage_Catalog_Model_Product_Type')->priceFactory($productTypeId);
         foreach ($priceData as $v) {
             $key = join('-', array($v['cust_group'], $v['price_qty']));
             if ($v['website_id'] == $websiteId) {

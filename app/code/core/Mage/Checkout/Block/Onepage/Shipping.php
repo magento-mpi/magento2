@@ -44,7 +44,7 @@ class Mage_Checkout_Block_Onepage_Shipping extends Mage_Checkout_Block_Onepage_A
     protected function _construct()
     {
         $this->getCheckout()->setStepData('shipping', array(
-            'label'     => Mage::helper('checkout')->__('Shipping Information'),
+            'label'     => Mage::helper('Mage_Checkout_Helper_Data')->__('Shipping Information'),
             'is_show'   => $this->isShow()
         ));
 
@@ -72,7 +72,7 @@ class Mage_Checkout_Block_Onepage_Shipping extends Mage_Checkout_Block_Onepage_A
             if ($this->isCustomerLoggedIn()) {
                 $this->_address = $this->getQuote()->getShippingAddress();
             } else {
-                $this->_address = Mage::getModel('sales/quote_address');
+                $this->_address = Mage::getModel('Mage_Sales_Model_Quote_Address');
             }
         }
 

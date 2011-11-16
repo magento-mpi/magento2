@@ -43,7 +43,7 @@ class Mage_Sales_Model_Order_Creditmemo_Api_V2 extends Mage_Sales_Model_Order_Cr
     protected function _prepareListFilter($filters = null)
     {
         $preparedFilters = array();
-        $helper = Mage::helper('api');
+        $helper = Mage::helper('Mage_Api_Helper_Data');
         if (isset($filters->filter)) {
             $helper->associativeArrayUnpack($filters->filter);
             $preparedFilters += $filters->filter;

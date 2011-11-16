@@ -32,26 +32,11 @@
         </Enterprise_Pbridge>
     </modules>
     <global>
-        <models>
-            <enterprise_pbridge>
-                <class>Enterprise_Pbridge_Model</class>
-            </enterprise_pbridge>
-        </models>
-        <blocks>
-            <enterprise_pbridge>
-                <class>Enterprise_Pbridge_Block</class>
-            </enterprise_pbridge>
-        </blocks>
-        <helpers>
-            <enterprise_pbridge>
-                <class>Enterprise_Pbridge_Helper</class>
-            </enterprise_pbridge>
-        </helpers>
         <events>
             <controller_action_predispatch>
                 <observers>
                     <enterprise_pbridge>
-                        <class>enterprise_pbridge/observer</class>
+                        <class>Enterprise_Pbridge_Model_Observer</class>
                         <method>addPrivacyHeader</method>
                     </enterprise_pbridge>
                 </observers>
@@ -59,7 +44,7 @@
             <payment_method_is_active>
                 <observers>
                     <enterprise_pbridge>
-                        <class>enterprise_pbridge/observer</class>
+                        <class>Enterprise_Pbridge_Model_Observer</class>
                         <method>isPaymentMethodAvailable</method>
                     </enterprise_pbridge>
                 </observers>
@@ -115,33 +100,33 @@
     </admin>
     <default>
         <payment>
-            <pbridge translate="title" module="enterprise_pbridge">
-                <model>enterprise_pbridge/payment_method_pbridge</model>
+            <pbridge translate="title" module="Enterprise_Pbridge">
+                <model>Enterprise_Pbridge_Model_Payment_Method_Pbridge</model>
                 <title>Payment Bridge</title>
                 <debug>0</debug>
             </pbridge>
             <pbridge_paypal_direct>
-                <model>enterprise_pbridge/payment_method_paypal</model>
+                <model>Enterprise_Pbridge_Model_Payment_Method_Paypal</model>
                 <active>1</active>
             </pbridge_paypal_direct>
             <pbridge_paypaluk_direct>
-                <model>enterprise_pbridge/payment_method_paypaluk</model>
+                <model>Enterprise_Pbridge_Model_Payment_Method_Paypaluk</model>
                 <active>1</active>
             </pbridge_paypaluk_direct>
             <pbridge_authorizenet>
-                <model>enterprise_pbridge/payment_method_authorizenet</model>
+                <model>Enterprise_Pbridge_Model_Payment_Method_Authorizenet</model>
                 <enabled>1</enabled>
             </pbridge_authorizenet>
             <pbridge_verisign>
-                <model>enterprise_pbridge/payment_method_payflow_pro</model>
+                <model>Enterprise_Pbridge_Model_Payment_Method_Payflow_Pro</model>
                 <enabled>1</enabled>
             </pbridge_verisign>
             <pbridge_ogone_direct>
-                <model>enterprise_pbridge/payment_method_ogone</model>
+                <model>Enterprise_Pbridge_Model_Payment_Method_Ogone</model>
                 <title>Ogone Direct Link</title>
-                <userid backend_model="adminhtml/system_config_backend_encrypted"/>
-                <password backend_model="adminhtml/system_config_backend_encrypted"/>
-                <passphrase backend_model="adminhtml/system_config_backend_encrypted"/>
+                <userid backend_model="Mage_Adminhtml_Model_System_Config_Backend_Encrypted"/>
+                <password backend_model="Mage_Adminhtml_Model_System_Config_Backend_Encrypted"/>
+                <passphrase backend_model="Mage_Adminhtml_Model_System_Config_Backend_Encrypted"/>
                 <payment_action>authorize</payment_action>
                 <useccv>1</useccv>
             </pbridge_ogone_direct>

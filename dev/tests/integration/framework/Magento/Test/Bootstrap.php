@@ -208,12 +208,12 @@ class Magento_Test_Bootstrap
     public function initialize($scopeCode = '', $scopeType = 'store')
     {
         if (!class_exists('Mage', false)) {
-            require $this->_magentoDir . '/app/Mage.php';
+            require_once $this->_magentoDir . '/app/bootstrap.php';
         } else {
-            $resource = Mage::registry('_singleton/core/resource');
+            $resource = Mage::registry('_singleton/Mage_Core_Model_Resource');
             Mage::reset();
             if ($resource) {
-                Mage::register('_singleton/core/resource', $resource);
+                Mage::register('_singleton/Mage_Core_Model_Resource', $resource);
             }
         }
         $this->_options = array(
@@ -317,8 +317,8 @@ class Magento_Test_Bootstrap
     protected function _verifyDirectories($tmpDir)
     {
         /* Magento application dir */
-        if (!is_file($this->_magentoDir . '/app/Mage.php')) {
-            throw new Exception('Unable to locate Magento root folder and Mage.php.');
+        if (!is_file($this->_magentoDir . '/app/bootstrap.php')) {
+            throw new Exception('Unable to locate Magento root folder and bootstrap.php.');
         }
         /* Temporary directory */
         if (!is_dir($tmpDir) || !is_writable($tmpDir)) {

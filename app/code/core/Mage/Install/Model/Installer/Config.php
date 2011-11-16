@@ -65,7 +65,7 @@ class Mage_Install_Model_Installer_Config extends Mage_Install_Model_Installer_A
     public function install()
     {
         $data = $this->getConfigData();
-        foreach (Mage::getModel('core/config')->getDistroServerVars() as $index=>$value) {
+        foreach (Mage::getModel('Mage_Core_Model_Config')->getDistroServerVars() as $index=>$value) {
             if (!isset($data[$index])) {
                 $data[$index] = $value;
             }
@@ -123,7 +123,7 @@ class Mage_Install_Model_Installer_Config extends Mage_Install_Model_Installer_A
         $connectDefault = Mage::getConfig()
                 ->getResourceConnectionConfig(Mage_Core_Model_Resource::DEFAULT_SETUP_RESOURCE);
 
-        $data = Mage::getModel('varien/object')
+        $data = Mage::getModel('Varien_Object')
             ->setDbHost($connectDefault->host)
             ->setDbName($connectDefault->dbname)
             ->setDbUser($connectDefault->username)
@@ -160,14 +160,14 @@ class Mage_Install_Model_Installer_Config extends Mage_Install_Model_Installer_A
         }
         catch (Exception $e){
             $this->_getInstaller()->getDataModel()
-                ->addError(Mage::helper('install')->__('The URL "%s" is not accessible.', $url));
+                ->addError(Mage::helper('Mage_Install_Helper_Data')->__('The URL "%s" is not accessible.', $url));
             throw $e;
         }
 
         if ($body != Mage_Install_Model_Installer::INSTALLER_HOST_RESPONSE) {
             $this->_getInstaller()->getDataModel()
-                ->addError(Mage::helper('install')->__('The URL "%s" is invalid.', $url));
-            Mage::throwException(Mage::helper('install')->__('Response from server isn\'t valid.'));
+                ->addError(Mage::helper('Mage_Install_Helper_Data')->__('The URL "%s" is invalid.', $url));
+            Mage::throwException(Mage::helper('Mage_Install_Helper_Data')->__('Response from server isn\'t valid.'));
         }
         return $this;
     }
@@ -185,7 +185,7 @@ class Mage_Install_Model_Installer_Config extends Mage_Install_Model_Installer_A
     public function replaceTmpEncryptKey($key = null)
     {
         if (!$key) {
-            $key = md5(Mage::helper('core')->getRandomString(10));
+            $key = md5(Mage::helper('Mage_Core_Helper_Data')->getRandomString(10));
         }
         $localXml = file_get_contents($this->_localConfigFile);
         $localXml = str_replace(self::TMP_ENCRYPT_KEY_VALUE, $key, $localXml);

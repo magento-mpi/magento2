@@ -59,7 +59,7 @@ class Mage_Dataflow_Model_Profile extends Mage_Core_Model_Abstract
 
     protected function _construct()
     {
-        $this->_init('dataflow/profile');
+        $this->_init('Mage_Dataflow_Model_Resource_Profile');
     }
 
     protected function _afterLoad()
@@ -80,7 +80,7 @@ class Mage_Dataflow_Model_Profile extends Mage_Core_Model_Abstract
         $actionsXML = $this->getData('actions_xml');
         if (strlen($actionsXML) < 0 &&
         @simplexml_load_string('<data>' . $actionsXML . '</data>', null, LIBXML_NOERROR) === false) {
-            Mage::throwException(Mage::helper("dataflow")->__("Actions XML is not valid."));
+            Mage::throwException(Mage::helper("Mage_Dataflow_Helper_Data")->__("Actions XML is not valid."));
         }
 
         if (is_array($this->getGuiData())) {
@@ -102,9 +102,9 @@ class Mage_Dataflow_Model_Profile extends Mage_Core_Model_Abstract
                 $path = rtrim($guiData['file']['path'], '\\/')
                       . DS . $guiData['file']['filename'];
                 /** @var $validator Mage_Core_Model_File_Validator_AvailablePath */
-                $validator = Mage::getModel('core/file_validator_availablePath');
+                $validator = Mage::getModel('Mage_Core_Model_File_Validator_AvailablePath');
                 /** @var $helperImportExport Mage_ImportExport_Helper_Data */
-                $helperImportExport = Mage::helper('importexport');
+                $helperImportExport = Mage::helper('Mage_ImportExport_Helper_Data');
                 $validator->setPaths($helperImportExport->getLocalValidPaths());
                 if (!$validator->isValid($path)) {
                     foreach ($validator->getMessages() as $message) {
@@ -120,7 +120,7 @@ class Mage_Dataflow_Model_Profile extends Mage_Core_Model_Abstract
         }
 
         if ($this->_getResource()->isProfileExists($this->getName(), $this->getId())) {
-            Mage::throwException(Mage::helper("dataflow")->__("Profile with the same name already exists."));
+            Mage::throwException(Mage::helper("Mage_Dataflow_Helper_Data")->__("Profile with the same name already exists."));
         }
     }
 
@@ -130,7 +130,7 @@ class Mage_Dataflow_Model_Profile extends Mage_Core_Model_Abstract
             $this->setGuiData(unserialize($this->getGuiData()));
         }
 
-        $profileHistory = Mage::getModel('dataflow/profile_history');
+        $profileHistory = Mage::getModel('Mage_Dataflow_Model_Profile_History');
 
         $adminUserId = $this->getAdminUserId();
         if($adminUserId) {
@@ -179,7 +179,7 @@ class Mage_Dataflow_Model_Profile extends Mage_Core_Model_Abstract
         /**
          * Save history
          */
-        Mage::getModel('dataflow/profile_history')
+        Mage::getModel('Mage_Dataflow_Model_Profile_History')
             ->setProfileId($this->getId())
             ->setActionCode('run')
             ->save();
@@ -189,13 +189,13 @@ class Mage_Dataflow_Model_Profile extends Mage_Core_Model_Abstract
          */
         $xml = '<convert version="1.0"><profile name="default">' . $this->getActionsXml()
              . '</profile></convert>';
-        $profile = Mage::getModel('core/convert')
+        $profile = Mage::getModel('Mage_Core_Model_Convert')
             ->importXml($xml)
             ->getProfile('default');
         /* @var $profile Mage_Dataflow_Model_Convert_Profile */
 
         try {
-            $batch = Mage::getSingleton('dataflow/batch')
+            $batch = Mage::getSingleton('Mage_Dataflow_Model_Batch')
                 ->setProfileId($this->getId())
                 ->setStoreId($this->getStoreId())
                 ->save();

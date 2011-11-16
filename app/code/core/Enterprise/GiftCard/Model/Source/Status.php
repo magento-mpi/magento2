@@ -31,11 +31,11 @@ class Enterprise_GiftCard_Model_Source_Status extends Mage_Core_Model_Abstract
         return array(
             array(
                 'value' => Mage_Sales_Model_Order_Item::STATUS_PENDING,
-                'label' => Mage::helper('enterprise_giftcard')->__('Ordered')
+                'label' => Mage::helper('Enterprise_GiftCard_Helper_Data')->__('Ordered')
             ),
             array(
                 'value' => Mage_Sales_Model_Order_Item::STATUS_INVOICED,
-                'label' => Mage::helper('enterprise_giftcard')->__('Invoiced')
+                'label' => Mage::helper('Enterprise_GiftCard_Helper_Data')->__('Invoiced')
             )
         );
     }

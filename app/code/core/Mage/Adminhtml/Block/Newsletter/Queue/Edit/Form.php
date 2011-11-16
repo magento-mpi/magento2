@@ -45,12 +45,12 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Edit_Form extends Mage_Adminhtml_Blo
     protected function _prepareForm()
     {
         /* @var $queue Mage_Newsletter_Model_Queue */
-        $queue = Mage::getSingleton('newsletter/queue');
+        $queue = Mage::getSingleton('Mage_Newsletter_Model_Queue');
 
         $form = new Varien_Data_Form();
 
         $fieldset = $form->addFieldset('base_fieldset', array(
-            'legend'    =>  Mage::helper('newsletter')->__('Queue Information')
+            'legend'    =>  Mage::helper('Mage_Newsletter_Helper_Data')->__('Queue Information')
         ));
 
         $outputFormat = Mage::app()->getLocale()->getDateTimeFormat(Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM);
@@ -60,16 +60,16 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Edit_Form extends Mage_Adminhtml_Blo
                 'name'      =>    'start_at',
                 'time'      =>    true,
                 'format'    =>    $outputFormat,
-                'label'     =>    Mage::helper('newsletter')->__('Queue Date Start'),
+                'label'     =>    Mage::helper('Mage_Newsletter_Helper_Data')->__('Queue Date Start'),
                 'image'     =>    $this->getSkinUrl('images/grid-cal.gif')
             ));
 
             if (!Mage::app()->isSingleStoreMode()) {
                 $fieldset->addField('stores','multiselect',array(
                     'name'          => 'stores[]',
-                    'label'         => Mage::helper('newsletter')->__('Subscribers From'),
+                    'label'         => Mage::helper('Mage_Newsletter_Helper_Data')->__('Subscribers From'),
                     'image'         => $this->getSkinUrl('images/grid-cal.gif'),
-                    'values'        => Mage::getSingleton('adminhtml/system_store')->getStoreValuesForForm(),
+                    'values'        => Mage::getSingleton('Mage_Adminhtml_Model_System_Store')->getStoreValuesForForm(),
                     'value'         => $queue->getStores()
                 ));
             }
@@ -86,17 +86,17 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Edit_Form extends Mage_Adminhtml_Blo
                 'disabled'  => 'true',
                 'style'     => 'width:38%;',
                 'format'    => $outputFormat,
-                'label'     => Mage::helper('newsletter')->__('Queue Date Start'),
+                'label'     => Mage::helper('Mage_Newsletter_Helper_Data')->__('Queue Date Start'),
                 'image'     => $this->getSkinUrl('images/grid-cal.gif')
             ));
 
             if (!Mage::app()->isSingleStoreMode()) {
                 $fieldset->addField('stores','multiselect',array(
                     'name'          => 'stores[]',
-                    'label'         => Mage::helper('newsletter')->__('Subscribers From'),
+                    'label'         => Mage::helper('Mage_Newsletter_Helper_Data')->__('Subscribers From'),
                     'image'         => $this->getSkinUrl('images/grid-cal.gif'),
                     'required'      => true,
-                    'values'        => Mage::getSingleton('adminhtml/system_store')->getStoreValuesForForm(),
+                    'values'        => Mage::getSingleton('Mage_Adminhtml_Model_System_Store')->getStoreValuesForForm(),
                     'value'         => $queue->getStores()
                 ));
             }
@@ -116,35 +116,35 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Edit_Form extends Mage_Adminhtml_Blo
 
         $fieldset->addField('subject', 'text', array(
             'name'      =>'subject',
-            'label'     => Mage::helper('newsletter')->__('Subject'),
+            'label'     => Mage::helper('Mage_Newsletter_Helper_Data')->__('Subject'),
             'required'  => true,
             'value'     => ($queue->isNew() ? $queue->getTemplate()->getTemplateSubject() : $queue->getNewsletterSubject())
         ));
 
         $fieldset->addField('sender_name', 'text', array(
             'name'      =>'sender_name',
-            'label'     => Mage::helper('newsletter')->__('Sender Name'),
-            'title'     => Mage::helper('newsletter')->__('Sender Name'),
+            'label'     => Mage::helper('Mage_Newsletter_Helper_Data')->__('Sender Name'),
+            'title'     => Mage::helper('Mage_Newsletter_Helper_Data')->__('Sender Name'),
             'required'  => true,
             'value'     => ($queue->isNew() ? $queue->getTemplate()->getTemplateSenderName() : $queue->getNewsletterSenderName())
         ));
 
         $fieldset->addField('sender_email', 'text', array(
             'name'      =>'sender_email',
-            'label'     => Mage::helper('newsletter')->__('Sender Email'),
-            'title'     => Mage::helper('newsletter')->__('Sender Email'),
+            'label'     => Mage::helper('Mage_Newsletter_Helper_Data')->__('Sender Email'),
+            'title'     => Mage::helper('Mage_Newsletter_Helper_Data')->__('Sender Email'),
             'class'     => 'validate-email',
             'required'  => true,
             'value'     => ($queue->isNew() ? $queue->getTemplate()->getTemplateSenderEmail() : $queue->getNewsletterSenderEmail())
         ));
 
         $widgetFilters = array('is_email_compatible' => 1);
-        $wysiwygConfig = Mage::getSingleton('cms/wysiwyg_config')->getConfig(array('widget_filters' => $widgetFilters));
+        $wysiwygConfig = Mage::getSingleton('Mage_Cms_Model_Wysiwyg_Config')->getConfig(array('widget_filters' => $widgetFilters));
 
         if ($queue->isNew()) {
             $fieldset->addField('text','editor', array(
                 'name'      => 'text',
-                'label'     => Mage::helper('newsletter')->__('Message'),
+                'label'     => Mage::helper('Mage_Newsletter_Helper_Data')->__('Message'),
                 'state'     => 'html',
                 'required'  => true,
                 'value'     => $queue->getTemplate()->getTemplateText(),
@@ -154,20 +154,20 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Edit_Form extends Mage_Adminhtml_Blo
 
             $fieldset->addField('styles', 'textarea', array(
                 'name'          =>'styles',
-                'label'         => Mage::helper('newsletter')->__('Newsletter Styles'),
+                'label'         => Mage::helper('Mage_Newsletter_Helper_Data')->__('Newsletter Styles'),
                 'container_id'  => 'field_newsletter_styles',
                 'value'         => $queue->getTemplate()->getTemplateStyles()
             ));
         } elseif (Mage_Newsletter_Model_Queue::STATUS_NEVER != $queue->getQueueStatus()) {
             $fieldset->addField('text','textarea', array(
                 'name'      =>    'text',
-                'label'     =>    Mage::helper('newsletter')->__('Message'),
+                'label'     =>    Mage::helper('Mage_Newsletter_Helper_Data')->__('Message'),
                 'value'     =>    $queue->getNewsletterText(),
             ));
 
             $fieldset->addField('styles', 'textarea', array(
                 'name'          =>'styles',
-                'label'         => Mage::helper('newsletter')->__('Newsletter Styles'),
+                'label'         => Mage::helper('Mage_Newsletter_Helper_Data')->__('Newsletter Styles'),
                 'value'         => $queue->getNewsletterStyles()
             ));
 
@@ -180,7 +180,7 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Edit_Form extends Mage_Adminhtml_Blo
         } else {
             $fieldset->addField('text','editor', array(
                 'name'      =>    'text',
-                'label'     =>    Mage::helper('newsletter')->__('Message'),
+                'label'     =>    Mage::helper('Mage_Newsletter_Helper_Data')->__('Message'),
                 'state'     => 'html',
                 'required'  => true,
                 'value'     =>    $queue->getNewsletterText(),
@@ -190,7 +190,7 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Edit_Form extends Mage_Adminhtml_Blo
 
             $fieldset->addField('styles', 'textarea', array(
                 'name'          =>'styles',
-                'label'         => Mage::helper('newsletter')->__('Newsletter Styles'),
+                'label'         => Mage::helper('Mage_Newsletter_Helper_Data')->__('Newsletter Styles'),
                 'value'         => $queue->getNewsletterStyles(),
                 'style'         => 'width:98%; height: 300px;',
             ));

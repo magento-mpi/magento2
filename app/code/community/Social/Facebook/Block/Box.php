@@ -27,7 +27,8 @@ class Social_Facebook_Block_Box extends Mage_Core_Block_Template
      */
     protected function _construct()
     {
-        if (!Mage::helper('social_facebook')->isEnabled() || Mage::getSingleton('core/session')->getNoBoxes()) {
+        $helper = Mage::helper('Social_Facebook_Helper_Data');
+        if (!$helper->isEnabled() || Mage::getSingleton('Mage_Core_Model_Session')->getNoBoxes()) {
             return;
         }
         parent::_construct();
@@ -35,9 +36,9 @@ class Social_Facebook_Block_Box extends Mage_Core_Block_Template
         $product = Mage::registry('product');
         $this->setProductId($product->getId());
 
-        $this->setAllActions(Mage::helper('social_facebook')->getAllActions());
+        $this->setAllActions($helper->getAllActions());
 
-        $this->setFacebookId(Mage::getSingleton('core/session')->getData('facebook_id'));
+        $this->setFacebookId(Mage::getSingleton('Mage_Core_Model_Session')->getData('facebook_id'));
 
         return $this;
     }
@@ -50,7 +51,7 @@ class Social_Facebook_Block_Box extends Mage_Core_Block_Template
      */
     public function getFriendBox($action)
     {
-        return Mage::getModel('social_facebook/facebook')->getLinkedFriends($this->getFacebookId(),
+        return Mage::getModel('Social_Facebook_Model_Facebook')->getLinkedFriends($this->getFacebookId(),
             $this->getProductId(), $action);
     }
 
@@ -62,7 +63,7 @@ class Social_Facebook_Block_Box extends Mage_Core_Block_Template
      */
     public function getCountOfUsers($action)
     {
-        return Mage::getModel('social_facebook/facebook')->getCountByActionProduct(
+        return Mage::getModel('Social_Facebook_Model_Facebook')->getCountByActionProduct(
             $this->escapeHtml($action),
             $this->getProductId()
         );

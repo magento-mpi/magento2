@@ -78,7 +78,7 @@ class Mage_GoogleShopping_Block_Adminhtml_Types_Edit_Form extends Mage_Adminhtml
             'text'      => '<div id="attribute_set_select">' . $attributeSetsSelect->toHtml() . '</div>',
         ));
 
-        $categories = Mage::helper('googleshopping/category')->getCategories();
+        $categories = Mage::helper('Mage_GoogleShopping_Helper_Category')->getCategories();
         $fieldset->addField('category', 'select', array(
             'label'     => $this->__('Google Product Category'),
             'title'     => $this->__('Google Product Category'),
@@ -89,7 +89,7 @@ class Mage_GoogleShopping_Block_Adminhtml_Types_Edit_Form extends Mage_Adminhtml
         ));
 
         $attributesBlock = $this->getLayout()
-            ->createBlock('googleshopping/adminhtml_types_edit_attributes')
+            ->createBlock('Mage_GoogleShopping_Block_Adminhtml_Types_Edit_Attributes')
             ->setTargetCountry($targetCountry);
         if ($itemType->getId()) {
             $attributesBlock->setAttributeSetId($itemType->getAttributeSetId())
@@ -140,7 +140,7 @@ class Mage_GoogleShopping_Block_Adminhtml_Types_Edit_Form extends Mage_Adminhtml
      */
     protected function _getCountriesArray()
     {
-        $_allowed = Mage::getSingleton('googleshopping/config')->getAllowedCountries();
+        $_allowed = Mage::getSingleton('Mage_GoogleShopping_Model_Config')->getAllowedCountries();
         $result = array();
         foreach ($_allowed as $iso => $info) {
             $result[$iso] = $info['name'];
@@ -156,14 +156,14 @@ class Mage_GoogleShopping_Block_Adminhtml_Types_Edit_Form extends Mage_Adminhtml
      */
     protected function _getAttributeSetsArray($targetCountry)
     {
-        $entityType = Mage::getModel('catalog/product')->getResource()->getEntityType();
-        $collection = Mage::getResourceModel('eav/entity_attribute_set_collection')
+        $entityType = Mage::getModel('Mage_Catalog_Model_Product')->getResource()->getEntityType();
+        $collection = Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute_Set_Collection')
             ->setEntityTypeFilter($entityType->getId());
 
         $ids = array();
         $itemType = $this->getItemType();
         if ( !($itemType instanceof Varien_Object && $itemType->getId()) ) {
-            $typesCollection = Mage::getResourceModel('googleshopping/type_collection')
+            $typesCollection = Mage::getResourceModel('Mage_GoogleShopping_Model_Resource_Type_Collection')
                 ->addCountryFilter($targetCountry)
                 ->load();
             foreach ($typesCollection as $type) {

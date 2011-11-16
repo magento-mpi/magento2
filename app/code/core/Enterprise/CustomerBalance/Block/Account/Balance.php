@@ -37,12 +37,12 @@ class Enterprise_CustomerBalance_Block_Account_Balance extends Mage_Core_Block_T
      */
     public function getBalance()
     {
-        $customerId = Mage::getSingleton('customer/session')->getCustomerId();
+        $customerId = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerId();
         if (!$customerId) {
             return 0;
         }
 
-        $model = Mage::getModel('enterprise_customerbalance/balance')
+        $model = Mage::getModel('Enterprise_CustomerBalance_Model_Balance')
             ->setCustomerId($customerId)
             ->loadByCustomer();
 

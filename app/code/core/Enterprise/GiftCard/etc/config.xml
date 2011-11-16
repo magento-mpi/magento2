@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Enterprise_GiftCard>
-             <version>1.11.0.0</version>
+            <version>1.11.0.0</version>
         </Enterprise_GiftCard>
     </modules>
     <global>
@@ -40,43 +40,24 @@
                 </setup>
             </enterprise_giftcard_setup>
         </resources>
-        <models>
-            <enterprise_giftcard>
-                <class>Enterprise_GiftCard_Model</class>
-                <resourceModel>enterprise_giftcard_resource</resourceModel>
-            </enterprise_giftcard>
-            <enterprise_giftcard_resource>
-                <class>Enterprise_GiftCard_Model_Resource</class>
-            </enterprise_giftcard_resource>
-        </models>
-        <blocks>
-            <enterprise_giftcard>
-                <class>Enterprise_GiftCard_Block</class>
-            </enterprise_giftcard>
-        </blocks>
-        <helpers>
-            <enterprise_giftcard>
-                <class>Enterprise_GiftCard_Helper</class>
-            </enterprise_giftcard>
-        </helpers>
         <catalog>
             <product>
                 <type>
-                    <giftcard translate="label" module="enterprise_giftcard">
+                    <giftcard translate="label" module="Enterprise_GiftCard">
                         <label>Gift Card</label>
-                        <model>enterprise_giftcard/catalog_product_type_giftcard</model>
-                        <price_model>enterprise_giftcard/catalog_product_price_giftcard</price_model>
+                        <model>Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard</model>
+                        <price_model>Enterprise_GiftCard_Model_Catalog_Product_Price_Giftcard</price_model>
                         <index_priority>45</index_priority>
                         <composite>0</composite>
                         <is_qty>1</is_qty>
-                        <price_indexer>enterprise_giftcard/indexer_price</price_indexer>
+                        <price_indexer>Enterprise_GiftCard_Model_Resource_Indexer_Price</price_indexer>
                     </giftcard>
                 </type>
             </product>
         </catalog>
         <template>
             <email>
-                <giftcard_email_template translate="label" module="enterprise_giftcard">
+                <giftcard_email_template translate="label" module="Enterprise_GiftCard">
                     <label>Gift Card(s) Purchase</label>
                     <file>email/gift_information.html</file>
                     <type>html</type>
@@ -106,7 +87,7 @@
             <sales_convert_quote_item_to_order_item>
                 <observers>
                     <enterprise_giftcard_append_additional_data>
-                        <class>enterprise_giftcard/observer</class>
+                        <class>Enterprise_GiftCard_Model_Observer</class>
                         <method>appendGiftcardAdditionalData</method>
                     </enterprise_giftcard_append_additional_data>
                 </observers>
@@ -114,7 +95,7 @@
             <sales_order_save_commit_after>
                 <observers>
                     <enterprise_giftcard_generate_giftcardaccounts>
-                        <class>enterprise_giftcard/observer</class>
+                        <class>Enterprise_GiftCard_Model_Observer</class>
                         <method>generateGiftCardAccounts</method>
                     </enterprise_giftcard_generate_giftcardaccounts>
                 </observers>
@@ -122,7 +103,7 @@
             <catalog_product_collection_load_after>
                 <observers>
                     <enterprise_giftcard>
-                        <class>enterprise_giftcard/observer</class>
+                        <class>Enterprise_GiftCard_Model_Observer</class>
                         <method>loadAttributesAfterCollectionLoad</method>
                     </enterprise_giftcard>
                 </observers>
@@ -195,7 +176,7 @@
             <adminhtml_catalog_product_edit_prepare_form>
                 <observers>
                     <enterprise_giftcard_product_edit_prepare_form>
-                        <class>enterprise_giftcard/observer</class>
+                        <class>Enterprise_GiftCard_Model_Observer</class>
                         <method>setAmountsRendererInForm</method>
                     </enterprise_giftcard_product_edit_prepare_form>
                 </observers>
@@ -203,7 +184,7 @@
             <adminhtml_catalog_product_form_prepare_excluded_field_list>
                 <observers>
                     <enterprise_giftcard_product_excluded_field_list>
-                        <class>enterprise_giftcard/observer</class>
+                        <class>Enterprise_GiftCard_Model_Observer</class>
                         <method>updateExcludedFieldList</method>
                     </enterprise_giftcard_product_excluded_field_list>
                 </observers>

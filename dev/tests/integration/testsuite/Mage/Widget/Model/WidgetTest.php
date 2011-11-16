@@ -61,7 +61,10 @@ class Mage_Widget_Model_WidgetTest extends PHPUnit_Framework_TestCase
     public function getPlaceholderImageUrlDataProvider()
     {
         return array(
-            'custom image'  => array('catalog/product_widget_new', 'Mage_Catalog/images/product_widget_new.gif'),
+            'custom image'  => array(
+                'Mage_Catalog_Block_Product_Widget_New',
+                'Mage_Catalog/images/product_widget_new.gif'
+            ),
             'default image' => array('non_existing_widget_type', 'Mage_Widget/placeholder.gif'),
         );
     }

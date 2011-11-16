@@ -39,5 +39,5 @@ class Mage_XmlConnect_Block_Checkout_Payment_Method_Pbridge_Paypal
      *
      * @var string
      */
-    protected $_model = 'paypal';
+    protected $_model = 'Paypal';
 }

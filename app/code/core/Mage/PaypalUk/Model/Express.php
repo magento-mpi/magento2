@@ -30,7 +30,7 @@
 class Mage_PaypalUk_Model_Express extends Mage_Paypal_Model_Express
 {
     protected $_code = Mage_Paypal_Model_Config::METHOD_WPP_PE_EXPRESS;
-    protected $_formBlockType = 'paypaluk/express_form';
+    protected $_formBlockType = 'Mage_PaypalUk_Block_Express_Form';
     protected $_canCreateBillingAgreement = false;
     protected $_canManageRecurringProfiles = false;
 
@@ -39,7 +39,7 @@ class Mage_PaypalUk_Model_Express extends Mage_Paypal_Model_Express
      *
      * @var $_proType string
      */
-    protected $_proType = 'paypaluk/pro';
+    protected $_proType = 'Mage_PaypalUk_Model_Pro';
 
     /**
      * Express Checkout payment method instance
@@ -60,7 +60,8 @@ class Mage_PaypalUk_Model_Express extends Mage_Paypal_Model_Express
             return false;
         }
         if (!$this->_ecInstance) {
-            $this->_ecInstance = Mage::helper('payment')->getMethodInstance(Mage_Paypal_Model_Config::METHOD_WPP_EXPRESS);
+            $this->_ecInstance = Mage::helper('Mage_Payment_Helper_Data')
+                ->getMethodInstance(Mage_Paypal_Model_Config::METHOD_WPP_EXPRESS);
         }
         if ($quote && $this->_ecInstance) {
             $this->_ecInstance->setStore($quote->getStoreId());
@@ -83,8 +84,8 @@ class Mage_PaypalUk_Model_Express extends Mage_Paypal_Model_Express
             ->setIsTransactionPending($api->getIsPaymentPending())
             ->setTransactionAdditionalInfo(Mage_PaypalUk_Model_Pro::TRANSPORT_PAYFLOW_TXN_ID, $api->getTransactionId())
         ;
-        $payment->setPreparedMessage(Mage::helper('paypaluk')->__('Payflow PNREF: #%s.', $api->getTransactionId()));
-        Mage::getModel('paypal/info')->importToPayment($api, $payment);
+        $payment->setPreparedMessage(Mage::helper('Mage_PaypalUk_Helper_Data')->__('Payflow PNREF: #%s.', $api->getTransactionId()));
+        Mage::getModel('Mage_Paypal_Model_Info')->importToPayment($api, $payment);
     }
 
     /**

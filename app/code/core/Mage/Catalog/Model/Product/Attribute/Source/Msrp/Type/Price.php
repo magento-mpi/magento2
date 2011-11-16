@@ -49,7 +49,7 @@ class Mage_Catalog_Model_Product_Attribute_Source_Msrp_Type_Price
         if (!$this->_options) {
             $this->_options = parent::getAllOptions();
             $this->_options[] = array(
-                'label' => Mage::helper('catalog')->__('Use config'),
+                'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Use config'),
                 'value' => self::TYPE_USE_CONFIG
             );
         }
@@ -71,11 +71,11 @@ class Mage_Catalog_Model_Product_Attribute_Source_Msrp_Type_Price
             'extra'     => null
         );
 
-        if (Mage::helper('core')->useDbCompatibleMode()) {
+        if (Mage::helper('Mage_Core_Helper_Data')->useDbCompatibleMode()) {
             $column['type']     = $attributeType;
             $column['is_null']  = true;
         } else {
-            $column['type']     = Mage::getResourceHelper('eav')->getDdlTypeByColumnType($attributeType);
+            $column['type']     = Mage::getResourceHelper('Mage_Eav')->getDdlTypeByColumnType($attributeType);
             $column['nullable'] = true;
         }
 
@@ -90,7 +90,7 @@ class Mage_Catalog_Model_Product_Attribute_Source_Msrp_Type_Price
      */
     public function getFlatUpdateSelect($store)
     {
-        return Mage::getResourceModel('eav/entity_attribute')
+        return Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute')
             ->getFlatUpdateSelect($this->getAttribute(), $store);
     }
 }

@@ -31,22 +31,6 @@
             <version>1.5.0.0</version>
         </Mage_Authorizenet>
     </modules>
-    <global>
-        <blocks>
-            <directpost><class>Mage_Authorizenet_Block_Directpost</class></directpost>
-        </blocks>
-        <models>
-            <authorizenet>
-                <class>Mage_Authorizenet_Model</class>
-           </authorizenet>
-        </models>
-        <helpers>
-            <authorizenet>
-                <class>Mage_Authorizenet_Helper</class>
-            </authorizenet>
-        </helpers>
-    </global>
-
     <adminhtml>
         <translate>
             <modules>
@@ -68,14 +52,13 @@
             <checkout_submit_all_after>
                 <observers>
                     <directpost_update_all_edit_increments>
-                        <class>authorizenet/directpost_observer</class>
+                        <class>Mage_Authorizenet_Model_Directpost_Observer</class>
                         <method>updateAllEditIncrements</method>
                     </directpost_update_all_edit_increments>
                 </observers>
             </checkout_submit_all_after>
         </events>
     </adminhtml>
-
     <frontend>
         <translate>
             <modules>
@@ -86,7 +69,7 @@
                 </Mage_Authorizenet>
             </modules>
         </translate>
-         <routers>
+        <routers>
             <authorizenet>
                 <use>standard</use>
                 <args>
@@ -106,7 +89,7 @@
             <checkout_submit_all_after>
                 <observers>
                     <directpost_save_order_after_submit>
-                        <class>authorizenet/directpost_observer</class>
+                        <class>Mage_Authorizenet_Model_Directpost_Observer</class>
                         <method>saveOrderAfterSubmit</method>
                     </directpost_save_order_after_submit>
                 </observers>
@@ -114,14 +97,13 @@
             <controller_action_postdispatch_checkout_onepage_saveOrder>
                 <observers>
                     <directpost_save_order_onepage>
-                        <class>authorizenet/directpost_observer</class>
+                        <class>Mage_Authorizenet_Model_Directpost_Observer</class>
                         <method>addAdditionalFieldsToResponseFrontend</method>
                     </directpost_save_order_onepage>
                 </observers>
             </controller_action_postdispatch_checkout_onepage_saveOrder>
         </events>
     </frontend>
-
     <admin>
         <routers>
             <adminhtml>
@@ -133,7 +115,6 @@
             </adminhtml>
         </routers>
     </admin>
-
     <default>
         <payment>
             <authorizenet_directpost>
@@ -142,15 +123,15 @@
                 <cgi_url>https://secure.authorize.net/gateway/transact.dll</cgi_url>
                 <debug>0</debug>
                 <email_customer>0</email_customer>
-                <login backend_model="adminhtml/system_config_backend_encrypted"/>
-                <merchant_email></merchant_email>
-                <model>authorizenet/directpost</model>
+                <login backend_model="Mage_Adminhtml_Model_System_Config_Backend_Encrypted"/>
+                <merchant_email/>
+                <model>Mage_Authorizenet_Model_Directpost</model>
                 <order_status>processing</order_status>
                 <payment_action>authorize</payment_action>
                 <test>1</test>
                 <title>Credit Card Direct Post (Authorize.net)</title>
-                <trans_key backend_model="adminhtml/system_config_backend_encrypted"/>
-                <trans_md5 backend_model="adminhtml/system_config_backend_encrypted"/>
+                <trans_key backend_model="Mage_Adminhtml_Model_System_Config_Backend_Encrypted"/>
+                <trans_md5 backend_model="Mage_Adminhtml_Model_System_Config_Backend_Encrypted"/>
                 <allowspecific>0</allowspecific>
                 <currency>USD</currency>
                 <create_order_before>1</create_order_before>

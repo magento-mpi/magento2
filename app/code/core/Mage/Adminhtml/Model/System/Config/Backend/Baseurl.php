@@ -34,7 +34,7 @@ class Mage_Adminhtml_Model_System_Config_Backend_Baseurl extends Mage_Core_Model
         if (!preg_match('#^{{((un)?secure_)?base_url}}#', $value)) {
             $parsedUrl = parse_url($value);
             if (!isset($parsedUrl['scheme']) || !isset($parsedUrl['host'])) {
-                Mage::throwException(Mage::helper('core')->__('The %s you entered is invalid. Please make sure that it follows "http://domain.com/" format.', $this->getFieldConfig()->label));
+                Mage::throwException(Mage::helper('Mage_Core_Helper_Data')->__('The %s you entered is invalid. Please make sure that it follows "http://domain.com/" format.', $this->getFieldConfig()->label));
             }
         }
 
@@ -57,7 +57,7 @@ class Mage_Adminhtml_Model_System_Config_Backend_Baseurl extends Mage_Core_Model
     protected function _afterSave()
     {
         if ($this->isValueChanged()) {
-            Mage::getModel('core/design_package')->cleanMergedJsCss();
+            Mage::getModel('Mage_Core_Model_Design_Package')->cleanMergedJsCss();
         }
     }
 }

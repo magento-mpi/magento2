@@ -52,7 +52,7 @@ class Mage_XmlConnect_Block_Checkout_Payment_Method_Paypal_Payflow extends Mage_
     {
         $method = $this->getData('method');
         if (!$method) {
-            $method = Mage::getModel('paypal/payflowpro');
+            $method = Mage::getModel('Mage_Paypal_Model_Payflowpro');
             $this->setData('method', $method);
         }
 
@@ -145,7 +145,7 @@ EOT;
             $ccMonthes
         </values>
     </field>
-    <field name="payment[cc_exp_year]" type="select" label="{$this->helper('xmlconnect')->__('Expiration Date - Year')}" required="true">
+    <field name="payment[cc_exp_year]" type="select" label="{$this->helper('Mage_XmlConnect_Helper_Data')->__('Expiration Date - Year')}" required="true">
         <values>
             $ccYears
         </values>
@@ -153,7 +153,7 @@ EOT;
     $verification
 </fieldset>
 EOT;
-        $fieldsetXmlObj = Mage::getModel('xmlconnect/simplexml_element', $xml);
+        $fieldsetXmlObj = Mage::getModel('Mage_XmlConnect_Model_Simplexml_Element', $xml);
         $formXmlObj->appendChild($fieldsetXmlObj);
     }
 }

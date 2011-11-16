@@ -124,7 +124,7 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Layout
      */
     protected function _toHtml()
     {
-        $selectBlock = $this->getLayout()->createBlock('core/html_select')
+        $selectBlock = $this->getLayout()->createBlock('Mage_Core_Block_Html_Select')
             ->setName($this->getSelectName())
             ->setId('layout_handle')
             ->setClass('required-entry select')
@@ -149,8 +149,8 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Layout
     {
         if (empty($this->_layoutHandles)) {
             /* @var $update Mage_Core_Model_Layout_Update */
-            $update = Mage::getModel('core/layout')->getUpdate();
-            $this->_layoutHandles[''] = Mage::helper('widget')->__('-- Please Select --');
+            $update = Mage::getModel('Mage_Core_Model_Layout')->getUpdate();
+            $this->_layoutHandles[''] = Mage::helper('Mage_Widget_Helper_Data')->__('-- Please Select --');
             $this->_collectLayoutHandles($update->getFileLayoutUpdatesXml($area, $package, $theme));
         }
         return $this->_layoutHandles;
@@ -167,7 +167,7 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Layout
             foreach ($layoutHandlesArr as $node) {
                 if ($this->_filterLayoutHandle($node->getName())) {
                     $helper = Mage::helper(Mage_Core_Model_Layout::findTranslationModuleName($node));
-                    $this->_layoutHandles[$node->getName()] = $this->helper('core')->jsQuoteEscape(
+                    $this->_layoutHandles[$node->getName()] = $this->helper('Mage_Core_Helper_Data')->jsQuoteEscape(
                         $helper->__((string)$node->label)
                     );
                 }

@@ -524,31 +524,22 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
                             asort($priceArr);
                         }
                     }
-                    /**
-                     * following if statement is obsolete
-                     * we don't have adminhtml/config resoure model
-                     */
-                    if (false && $newMethod) {
-                        sort($allMethods);
-                        $insert['usps']['fields']['methods']['value'] = $allMethods;
-                        Mage::getResourceModel('adminhtml/config')->saveSectionPost('carriers','','',$insert);
-                    }
                 }
             } else {
                 $errorTitle = 'Response is in the wrong format';
             }
         }
 
-        $result = Mage::getModel('shipping/rate_result');
+        $result = Mage::getModel('Mage_Shipping_Model_Rate_Result');
         if (empty($priceArr)) {
-            $error = Mage::getModel('shipping/rate_result_error');
+            $error = Mage::getModel('Mage_Shipping_Model_Rate_Result_Error');
             $error->setCarrier('usps');
             $error->setCarrierTitle($this->getConfigData('title'));
             $error->setErrorMessage($this->getConfigData('specificerrmsg'));
             $result->append($error);
         } else {
             foreach ($priceArr as $method=>$price) {
-                $rate = Mage::getModel('shipping/rate_result_method');
+                $rate = Mage::getModel('Mage_Shipping_Model_Rate_Result_Method');
                 $rate->setCarrier('usps');
                 $rate->setCarrierTitle($this->getConfigData('title'));
                 $rate->setMethod($method);
@@ -574,13 +565,13 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
         $codes = array(
 
             'service'=>array(
-                'FIRST CLASS' => Mage::helper('usa')->__('First-Class'),
-                'PRIORITY'    => Mage::helper('usa')->__('Priority Mail'),
-                'EXPRESS'     => Mage::helper('usa')->__('Express Mail'),
-                'BPM'         => Mage::helper('usa')->__('Bound Printed Matter'),
-                'PARCEL'      => Mage::helper('usa')->__('Parcel Post'),
-                'MEDIA'       => Mage::helper('usa')->__('Media Mail'),
-                'LIBRARY'     => Mage::helper('usa')->__('Library'),
+                'FIRST CLASS' => Mage::helper('Mage_Usa_Helper_Data')->__('First-Class'),
+                'PRIORITY'    => Mage::helper('Mage_Usa_Helper_Data')->__('Priority Mail'),
+                'EXPRESS'     => Mage::helper('Mage_Usa_Helper_Data')->__('Express Mail'),
+                'BPM'         => Mage::helper('Mage_Usa_Helper_Data')->__('Bound Printed Matter'),
+                'PARCEL'      => Mage::helper('Mage_Usa_Helper_Data')->__('Parcel Post'),
+                'MEDIA'       => Mage::helper('Mage_Usa_Helper_Data')->__('Media Mail'),
+                'LIBRARY'     => Mage::helper('Mage_Usa_Helper_Data')->__('Library'),
             ),
 
             'service_to_code'=>array(
@@ -627,17 +618,17 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
             ),
 
             'first_class_mail_type'=>array(
-                'LETTER'      => Mage::helper('usa')->__('Letter'),
-                'FLAT'        => Mage::helper('usa')->__('Flat'),
-                'PARCEL'      => Mage::helper('usa')->__('Parcel'),
+                'LETTER'      => Mage::helper('Mage_Usa_Helper_Data')->__('Letter'),
+                'FLAT'        => Mage::helper('Mage_Usa_Helper_Data')->__('Flat'),
+                'PARCEL'      => Mage::helper('Mage_Usa_Helper_Data')->__('Parcel'),
             ),
 
             'container'=>array(
-                'VARIABLE'           => Mage::helper('usa')->__('Variable'),
-                'FLAT RATE BOX'      => Mage::helper('usa')->__('Flat-Rate Box'),
-                'FLAT RATE ENVELOPE' => Mage::helper('usa')->__('Flat-Rate Envelope'),
-                'RECTANGULAR'        => Mage::helper('usa')->__('Rectangular'),
-                'NONRECTANGULAR'     => Mage::helper('usa')->__('Non-rectangular'),
+                'VARIABLE'           => Mage::helper('Mage_Usa_Helper_Data')->__('Variable'),
+                'FLAT RATE BOX'      => Mage::helper('Mage_Usa_Helper_Data')->__('Flat-Rate Box'),
+                'FLAT RATE ENVELOPE' => Mage::helper('Mage_Usa_Helper_Data')->__('Flat-Rate Envelope'),
+                'RECTANGULAR'        => Mage::helper('Mage_Usa_Helper_Data')->__('Rectangular'),
+                'NONRECTANGULAR'     => Mage::helper('Mage_Usa_Helper_Data')->__('Non-rectangular'),
             ),
 
             'containers_filter' => array(
@@ -759,18 +750,18 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
              ),
 
             'size'=>array(
-                'REGULAR'     => Mage::helper('usa')->__('Regular'),
-                'LARGE'       => Mage::helper('usa')->__('Large'),
+                'REGULAR'     => Mage::helper('Mage_Usa_Helper_Data')->__('Regular'),
+                'LARGE'       => Mage::helper('Mage_Usa_Helper_Data')->__('Large'),
             ),
 
             'machinable'=>array(
-                'true'        => Mage::helper('usa')->__('Yes'),
-                'false'       => Mage::helper('usa')->__('No'),
+                'true'        => Mage::helper('Mage_Usa_Helper_Data')->__('Yes'),
+                'false'       => Mage::helper('Mage_Usa_Helper_Data')->__('No'),
             ),
 
             'delivery_confirmation_types' => array(
-                'True' => Mage::helper('usa')->__('Not Required'),
-                'False'  => Mage::helper('usa')->__('Required'),
+                'True' => Mage::helper('Mage_Usa_Helper_Data')->__('Not Required'),
+                'False'  => Mage::helper('Mage_Usa_Helper_Data')->__('Required'),
             ),
         );
 
@@ -882,7 +873,7 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
      */
     protected function _parseXmlTrackingResponse($trackingvalue, $response)
     {
-        $errorTitle = Mage::helper('usa')->__('Unable to retrieve tracking');
+        $errorTitle = Mage::helper('Mage_Usa_Helper_Data')->__('Unable to retrieve tracking');
         $resultArr=array();
         if (strlen(trim($response)) > 0) {
             if (strpos(trim($response), '<?xml')===0) {
@@ -897,7 +888,7 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
                     ) {
                         $errorTitle = (string)$xml->TrackInfo->Error->Description;
                     } else {
-                        $errorTitle = Mage::helper('usa')->__('Unknown error');
+                        $errorTitle = Mage::helper('Mage_Usa_Helper_Data')->__('Unknown error');
                     }
 
                     if(isset($xml->TrackInfo) && isset($xml->TrackInfo->TrackSummary)){
@@ -909,19 +900,19 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
         }
 
         if (!$this->_result) {
-            $this->_result = Mage::getModel('shipping/tracking_result');
+            $this->_result = Mage::getModel('Mage_Shipping_Model_Tracking_Result');
         }
         $defaults = $this->getDefaults();
 
         if ($resultArr) {
-             $tracking = Mage::getModel('shipping/tracking_result_status');
+             $tracking = Mage::getModel('Mage_Shipping_Model_Tracking_Result_Status');
              $tracking->setCarrier('usps');
              $tracking->setCarrierTitle($this->getConfigData('title'));
              $tracking->setTracking($trackingvalue);
              $tracking->setTrackSummary($resultArr['tracksummary']);
              $this->_result->append($tracking);
          } else {
-            $error = Mage::getModel('shipping/tracking_result_error');
+            $error = Mage::getModel('Mage_Shipping_Model_Tracking_Result_Error');
             $error->setCarrier('usps');
             $error->setCarrierTitle($this->getConfigData('title'));
             $error->setTracking($trackingvalue);
@@ -943,16 +934,16 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
                 foreach ($trackings as $tracking) {
                     if($data = $tracking->getAllData()) {
                         if (!empty($data['track_summary'])) {
-                            $statuses .= Mage::helper('usa')->__($data['track_summary']);
+                            $statuses .= Mage::helper('Mage_Usa_Helper_Data')->__($data['track_summary']);
                         } else {
-                            $statuses .= Mage::helper('usa')->__('Empty response');
+                            $statuses .= Mage::helper('Mage_Usa_Helper_Data')->__('Empty response');
                         }
                     }
                 }
             }
         }
         if (empty($statuses)) {
-            $statuses = Mage::helper('usa')->__('Empty response');
+            $statuses = Mage::helper('Mage_Usa_Helper_Data')->__('Empty response');
         }
         return $statuses;
     }
@@ -1241,7 +1232,7 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
 
         $packageWeight = $request->getPackageWeight();
         if ($packageParams->getWeightUnits() != Zend_Measure_Weight::OUNCE) {
-            $packageWeight = round(Mage::helper('usa')->convertMeasureWeight(
+            $packageWeight = round(Mage::helper('Mage_Usa_Helper_Data')->convertMeasureWeight(
                 $request->getPackageWeight(),
                 $packageParams->getWeightUnits(),
                 Zend_Measure_Weight::OUNCE
@@ -1319,12 +1310,12 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
                 $serviceType = 'Library Mail';
                 break;
             default:
-                throw new Exception(Mage::helper('usa')->__('Service type does not match'));
+                throw new Exception(Mage::helper('Mage_Usa_Helper_Data')->__('Service type does not match'));
         }
         $packageParams = $request->getPackageParams();
         $packageWeight = $request->getPackageWeight();
         if ($packageParams->getWeightUnits() != Zend_Measure_Weight::OUNCE) {
-            $packageWeight = round(Mage::helper('usa')->convertMeasureWeight(
+            $packageWeight = round(Mage::helper('Mage_Usa_Helper_Data')->convertMeasureWeight(
                 $request->getPackageWeight(),
                 $packageParams->getWeightUnits(),
                 Zend_Measure_Weight::OUNCE
@@ -1397,31 +1388,31 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
         $girth = $packageParams->getGirth();
         $packageWeight = $request->getPackageWeight();
         if ($packageParams->getWeightUnits() != Zend_Measure_Weight::POUND) {
-            $packageWeight = Mage::helper('usa')->convertMeasureWeight(
+            $packageWeight = Mage::helper('Mage_Usa_Helper_Data')->convertMeasureWeight(
                 $request->getPackageWeight(),
                 $packageParams->getWeightUnits(),
                 Zend_Measure_Weight::POUND
             );
         }
         if ($packageParams->getDimensionUnits() != Zend_Measure_Length::INCH) {
-            $length = round(Mage::helper('usa')->convertMeasureDimension(
+            $length = round(Mage::helper('Mage_Usa_Helper_Data')->convertMeasureDimension(
                 $packageParams->getLength(),
                 $packageParams->getDimensionUnits(),
                 Zend_Measure_Length::INCH
             ));
-            $width = round(Mage::helper('usa')->convertMeasureDimension(
+            $width = round(Mage::helper('Mage_Usa_Helper_Data')->convertMeasureDimension(
                 $packageParams->getWidth(),
                 $packageParams->getDimensionUnits(),
                 Zend_Measure_Length::INCH
             ));
-            $height = round(Mage::helper('usa')->convertMeasureDimension(
+            $height = round(Mage::helper('Mage_Usa_Helper_Data')->convertMeasureDimension(
                 $packageParams->getHeight(),
                 $packageParams->getDimensionUnits(),
                 Zend_Measure_Length::INCH
             ));
         }
         if ($packageParams->getGirthDimensionUnits() != Zend_Measure_Length::INCH) {
-            $girth = round(Mage::helper('usa')->convertMeasureDimension(
+            $girth = round(Mage::helper('Mage_Usa_Helper_Data')->convertMeasureDimension(
                 $packageParams->getGirth(),
                 $packageParams->getGirthDimensionUnits(),
                 Zend_Measure_Length::INCH
@@ -1531,7 +1522,7 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
 
                 $productIds[]= $item->getProductId();
         }
-        $productCollection = Mage::getResourceModel('catalog/product_collection')
+        $productCollection = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Collection')
             ->addStoreFilter($request->getStoreId())
             ->addFieldToFilter('entity_id', array('in' => $productIds))
             ->addAttributeToSelect('country_of_manufacture');
@@ -1547,7 +1538,7 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
 
             $itemWeight = $item->getWeight() * $item->getQty();
             if ($packageParams->getWeightUnits() != Zend_Measure_Weight::POUND) {
-                $itemWeight = Mage::helper('usa')->convertMeasureWeight(
+                $itemWeight = Mage::helper('Mage_Usa_Helper_Data')->convertMeasureWeight(
                     $itemWeight,
                     $packageParams->getWeightUnits(),
                     Zend_Measure_Weight::POUND
@@ -1768,12 +1759,12 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
             && $countryRecipient != self::USA_COUNTRY_ID
         ) {
             return array(
-                'MERCHANDISE' => Mage::helper('usa')->__('Merchandise'),
-                'SAMPLE' => Mage::helper('usa')->__('Sample'),
-                'GIFT' => Mage::helper('usa')->__('Gift'),
-                'DOCUMENTS' => Mage::helper('usa')->__('Documents'),
-                'RETURN' => Mage::helper('usa')->__('Return'),
-                'OTHER' => Mage::helper('usa')->__('Other'),
+                'MERCHANDISE' => Mage::helper('Mage_Usa_Helper_Data')->__('Merchandise'),
+                'SAMPLE' => Mage::helper('Mage_Usa_Helper_Data')->__('Sample'),
+                'GIFT' => Mage::helper('Mage_Usa_Helper_Data')->__('Gift'),
+                'DOCUMENTS' => Mage::helper('Mage_Usa_Helper_Data')->__('Documents'),
+                'RETURN' => Mage::helper('Mage_Usa_Helper_Data')->__('Return'),
+                'OTHER' => Mage::helper('Mage_Usa_Helper_Data')->__('Other'),
             );
         }
         return array();

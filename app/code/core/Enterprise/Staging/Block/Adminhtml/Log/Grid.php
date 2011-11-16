@@ -50,7 +50,7 @@ class Enterprise_Staging_Block_Adminhtml_Log_Grid extends Mage_Adminhtml_Block_W
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('enterprise_staging/staging_log_collection');
+        $collection = Mage::getResourceModel('Enterprise_Staging_Model_Resource_Staging_Log_Collection');
         $this->setCollection($collection);
 
         parent::_prepareCollection();
@@ -64,46 +64,46 @@ class Enterprise_Staging_Block_Adminhtml_Log_Grid extends Mage_Adminhtml_Block_W
     protected function _prepareColumns()
     {
          $this->addColumn('log_id', array(
-            'header'    => Mage::helper('enterprise_staging')->__('ID'),
+            'header'    => Mage::helper('Enterprise_Staging_Helper_Data')->__('ID'),
             'index'     => 'log_id',
             'type'      => 'number'
         ));
         $this->addColumn('created_at', array(
-            'header'    => Mage::helper('enterprise_staging')->__('Logged At'),
+            'header'    => Mage::helper('Enterprise_Staging_Helper_Data')->__('Logged At'),
             'index'     => 'created_at',
             'type'      => 'datetime',
             'width'     => 200
         ));
 
         $this->addColumn('action', array(
-            'header'    => Mage::helper('enterprise_staging')->__('Action'),
+            'header'    => Mage::helper('Enterprise_Staging_Helper_Data')->__('Action'),
             'index'     => 'action',
             'type'      => 'options',
-            'options'   => Mage::getSingleton('enterprise_staging/staging_config')->getActionLabelsArray(),
+            'options'   => Mage::getSingleton('Enterprise_Staging_Model_Staging_Config')->getActionLabelsArray(),
             'width' => 200
         ));
 
         $this->addColumn('from', array(
-            'header'    => Mage::helper('enterprise_staging')->__('Website From'),
+            'header'    => Mage::helper('Enterprise_Staging_Helper_Data')->__('Website From'),
             'index'     => 'master_website_name',
             'type'      => 'text',
-            'renderer' => 'enterprise_staging/adminhtml_log_grid_renderer_website',
+            'renderer' => 'Enterprise_Staging_Block_Adminhtml_Log_Grid_Renderer_Website',
             'width'     => 300
         ));
 
         $this->addColumn('to', array(
-            'header'    => Mage::helper('enterprise_staging')->__('Website To'),
+            'header'    => Mage::helper('Enterprise_Staging_Helper_Data')->__('Website To'),
             'index'     => 'staging_website_name',
             'type'      => 'text',
-            'renderer' => 'enterprise_staging/adminhtml_log_grid_renderer_website',
+            'renderer' => 'Enterprise_Staging_Block_Adminhtml_Log_Grid_Renderer_Website',
             'width'     => 300
         ));
 
         $this->addColumn('status', array(
-            'header'    => Mage::helper('enterprise_staging')->__('Result'),
+            'header'    => Mage::helper('Enterprise_Staging_Helper_Data')->__('Result'),
             'index'     => 'status',
             'type'      => 'options',
-            'options'   => Mage::getSingleton('enterprise_staging/staging_config')->getStatusLabelsArray(),
+            'options'   => Mage::getSingleton('Enterprise_Staging_Model_Staging_Config')->getStatusLabelsArray(),
             'width'  => 100
         ));
 

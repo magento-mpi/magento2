@@ -46,5 +46,5 @@ class Enterprise_Rma_Block_Form extends Enterprise_Eav_Block_Form
      *
      * @var string
      */
-    protected $_formModelPath = 'enterprise_rma/item_form';
+    protected $_formModelPath = 'Enterprise_Rma_Model_Item_Form';
 }

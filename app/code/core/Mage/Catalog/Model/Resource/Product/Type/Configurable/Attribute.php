@@ -66,7 +66,7 @@ class Mage_Catalog_Model_Resource_Product_Type_Configurable_Attribute extends Ma
      */
     public function getCatalogHelper()
     {
-        return Mage::helper('catalog');
+        return Mage::helper('Mage_Catalog_Helper_Data');
     }
 
     /**

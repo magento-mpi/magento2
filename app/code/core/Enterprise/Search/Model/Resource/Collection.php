@@ -128,9 +128,12 @@ class Enterprise_Search_Model_Resource_Collection
      */
     protected $_storedPageSize = false;
 
-
-
-
+    /**
+     * Loaded data by fields
+     *
+     * @var array
+     */
+    protected $_fieldsData = array();
 
     /**
      * Load faceted data if not loaded
@@ -222,7 +225,7 @@ class Enterprise_Search_Model_Resource_Collection
         /**
          * @var Mage_CatalogSearch_Model_Query $query
          */
-        $query = Mage::helper('catalogsearch')->getQuery();
+        $query = Mage::helper('Mage_CatalogSearch_Helper_Data')->getQuery();
         $this->_searchQueryText = $queryText;
         $synonymFor = $query->getSynonymFor();
         if (!empty($synonymFor)) {
@@ -432,7 +435,7 @@ class Enterprise_Search_Model_Resource_Collection
             list($query, $params) = $this->_prepareBaseParams();
             $params['limit'] = 1;
 
-            $helper = Mage::helper('enterprise_search');
+            $helper = Mage::helper('Enterprise_Search_Helper_Data');
             $searchSuggestionsEnabled = ($this->_searchQueryParams != $this->_generalDefaultQuery
                     && $helper->getSolrConfigData('server_suggestion_enabled'));
             if ($searchSuggestionsEnabled) {
@@ -588,5 +591,27 @@ class Enterprise_Search_Model_Resource_Collection
         }
 
         return $this;
+    }
+
+    /**
+     * Get field data from search results
+     *
+     * @param string $field
+     * @return array
+     */
+    public function getFieldData($field)
+    {
+        if (!array_key_exists($field, $this->_fieldsData)) {
+            list($query, $params) = $this->_prepareBaseParams();
+            $params['fields'] = $field;
+
+            $data = $this->_engine->getResultForRequest($query, $params);
+            $this->_fieldsData[$field] = array();
+            foreach ($data['ids'] as $value) {
+                $this->_fieldsData[$field][] = $value[$field];
+            }
+        }
+
+        return $this->_fieldsData[$field];
     }
 }

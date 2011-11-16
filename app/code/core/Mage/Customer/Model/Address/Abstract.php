@@ -55,7 +55,7 @@ class Mage_Customer_Model_Address_Abstract extends Mage_Core_Model_Abstract
     public function getName()
     {
         $name = '';
-        $config = Mage::getSingleton('eav/config');
+        $config = Mage::getSingleton('Mage_Eav_Model_Config');
         if ($config->getAttribute('customer_address', 'prefix')->getIsVisible() && $this->getPrefix()) {
             $name .= $this->getPrefix() . ' ';
         }
@@ -231,7 +231,7 @@ class Mage_Customer_Model_Address_Abstract extends Mage_Core_Model_Abstract
                 $this->setData('region_id', $region);
                 $this->unsRegion();
             } else {
-                $regionModel = Mage::getModel('directory/region')->loadByCode($this->getRegionCode(), $this->getCountryId());
+                $regionModel = Mage::getModel('Mage_Directory_Model_Region')->loadByCode($this->getRegionCode(), $this->getCountryId());
                 $this->setData('region_id', $regionModel->getId());
             }
         }
@@ -241,7 +241,7 @@ class Mage_Customer_Model_Address_Abstract extends Mage_Core_Model_Abstract
     public function getCountry()
     {
         /*if ($this->getData('country_id') && !$this->getData('country')) {
-            $this->setData('country', Mage::getModel('directory/country')->load($this->getData('country_id'))->getIso2Code());
+            $this->setData('country', Mage::getModel('Mage_Directory_Model_Country')->load($this->getData('country_id'))->getIso2Code());
         }
         return $this->getData('country');*/
         $country = $this->getCountryId();
@@ -256,7 +256,7 @@ class Mage_Customer_Model_Address_Abstract extends Mage_Core_Model_Abstract
     public function getCountryModel()
     {
         if(!isset(self::$_countryModels[$this->getCountryId()])) {
-            self::$_countryModels[$this->getCountryId()] = Mage::getModel('directory/country')->load($this->getCountryId());
+            self::$_countryModels[$this->getCountryId()] = Mage::getModel('Mage_Directory_Model_Country')->load($this->getCountryId());
         }
 
         return self::$_countryModels[$this->getCountryId()];
@@ -274,7 +274,7 @@ class Mage_Customer_Model_Address_Abstract extends Mage_Core_Model_Abstract
         }
 
         if(!isset(self::$_regionModels[$region])) {
-            self::$_regionModels[$region] = Mage::getModel('directory/region')->load($region);
+            self::$_regionModels[$region] = Mage::getModel('Mage_Directory_Model_Region')->load($region);
         }
 
         return self::$_regionModels[$region];
@@ -293,7 +293,7 @@ class Mage_Customer_Model_Address_Abstract extends Mage_Core_Model_Abstract
      */
     public function getFormated($html=false)
     {
-        return $this->format($html ? 'html' : 'text');//Mage::getModel('directory/country')->load($this->getCountryId())->formatAddress($this, $html);
+        return $this->format($html ? 'html' : 'text');//Mage::getModel('Mage_Directory_Model_Country')->load($this->getCountryId())->formatAddress($this, $html);
     }
 
     public function format($type)
@@ -313,7 +313,7 @@ class Mage_Customer_Model_Address_Abstract extends Mage_Core_Model_Abstract
      */
     public function getConfig()
     {
-        return Mage::getSingleton('customer/address_config');
+        return Mage::getSingleton('Mage_Customer_Model_Address_Config');
     }
 
     protected function _beforeSave()
@@ -331,7 +331,7 @@ class Mage_Customer_Model_Address_Abstract extends Mage_Core_Model_Abstract
     public function validate()
     {
         $errors = array();
-        $helper = Mage::helper('customer');
+        $helper = Mage::helper('Mage_Customer_Helper_Data');
         $this->implodeStreetAddress();
         if (!Zend_Validate::is($this->getFirstname(), 'NotEmpty')) {
             $errors[] = $helper->__('Please enter the first name.');
@@ -353,7 +353,7 @@ class Mage_Customer_Model_Address_Abstract extends Mage_Core_Model_Abstract
             $errors[] = $helper->__('Please enter the telephone number.');
         }
 
-        $_havingOptionalZip = Mage::helper('directory')->getCountriesWithOptionalZip();
+        $_havingOptionalZip = Mage::helper('Mage_Directory_Helper_Data')->getCountriesWithOptionalZip();
         if (!in_array($this->getCountryId(), $_havingOptionalZip) && !Zend_Validate::is($this->getPostcode(), 'NotEmpty')) {
             $errors[] = $helper->__('Please enter the zip/postal code.');
         }

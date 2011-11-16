@@ -43,7 +43,7 @@ class Enterprise_Invitation_Model_Observer
 
     public function __construct()
     {
-        $this->_config = Mage::getSingleton('enterprise_invitation/config');
+        $this->_config = Mage::getSingleton('Enterprise_Invitation_Model_Config');
     }
 
     /**
@@ -60,9 +60,9 @@ class Enterprise_Invitation_Model_Observer
         $result = $observer->getEvent()->getResult();
 
         if (!$result->getIsAllowed()) {
-            Mage::helper('enterprise_invitation')->isRegistrationAllowed(false);
+            Mage::helper('Enterprise_Invitation_Helper_Data')->isRegistrationAllowed(false);
         } else {
-            Mage::helper('enterprise_invitation')->isRegistrationAllowed(true);
+            Mage::helper('Enterprise_Invitation_Helper_Data')->isRegistrationAllowed(true);
             $result->setIsAllowed(!$this->_config->getInvitationRequired());
         }
     }
@@ -76,7 +76,7 @@ class Enterprise_Invitation_Model_Observer
      */
     public function postDispatchInvitationMassUpdate($config, $eventModel)
     {
-        $messages = Mage::getSingleton('admin/session')->getMessages();
+        $messages = Mage::getSingleton('Mage_Admin_Model_Session')->getMessages();
         $errors = $messages->getErrors();
         $notices = $messages->getItemsByType(Mage_Core_Model_Message::NOTICE);
         $status = (empty($errors) && empty($notices))
@@ -97,7 +97,7 @@ class Enterprise_Invitation_Model_Observer
     public function logInvitationSave($model, $processor)
     {
         $processor->collectId($model);
-        return Mage::getModel('enterprise_logging/event_changes')
+        return Mage::getModel('Enterprise_Logging_Model_Event_Changes')
             ->setOrigibalData(array())
             ->setResultData($model->getData());
     }

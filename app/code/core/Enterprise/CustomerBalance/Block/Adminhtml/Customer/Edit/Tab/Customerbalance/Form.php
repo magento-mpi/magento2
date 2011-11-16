@@ -34,34 +34,34 @@ class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalan
         $form->setHtmlIdPrefix($prefix);
         $form->setFieldNameSuffix('customerbalance');
 
-        $customer = Mage::getModel('customer/customer')->load($this->getRequest()->getParam('id'));
+        $customer = Mage::getModel('Mage_Customer_Model_Customer')->load($this->getRequest()->getParam('id'));
 
         /** @var $fieldset Varien_Data_Form_Element_Fieldset */
         $fieldset = $form->addFieldset('storecreidt_fieldset',
-            array('legend' => Mage::helper('enterprise_customerbalance')->__('Update Balance'))
+            array('legend' => Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Update Balance'))
         );
 
-        if (!Mage::getSingleton('enterprise_customerbalance/balance')->shouldCustomerHaveOneBalance($customer)) {
+        if (!Mage::getSingleton('Enterprise_CustomerBalance_Model_Balance')->shouldCustomerHaveOneBalance($customer)) {
             $fieldset->addField('website_id', 'select', array(
                 'name'     => 'website_id',
-                'label'    => Mage::helper('enterprise_customerbalance')->__('Website'),
-                'title'    => Mage::helper('enterprise_customerbalance')->__('Website'),
-                'values'   => Mage::getSingleton('adminhtml/system_store')->getWebsiteValuesForForm(),
+                'label'    => Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Website'),
+                'title'    => Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Website'),
+                'values'   => Mage::getSingleton('Mage_Adminhtml_Model_System_Store')->getWebsiteValuesForForm(),
                 'onchange' => 'updateEmailWebsites()',
             ));
         }
 
         $fieldset->addField('amount_delta', 'text', array(
             'name'     => 'amount_delta',
-            'label'    => Mage::helper('enterprise_customerbalance')->__('Update Balance'),
-            'title'    => Mage::helper('enterprise_customerbalance')->__('Update Balance'),
-            'comment'  => Mage::helper('enterprise_customerbalance')->__('An amount on which to change the balance'),
+            'label'    => Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Update Balance'),
+            'title'    => Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Update Balance'),
+            'comment'  => Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('An amount on which to change the balance'),
         ));
 
         $fieldset->addField('notify_by_email', 'checkbox', array(
             'name'     => 'notify_by_email',
-            'label'    => Mage::helper('enterprise_customerbalance')->__('Notify Customer by Email'),
-            'title'    => Mage::helper('enterprise_customerbalance')->__('Notify Customer by Email'),
+            'label'    => Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Notify Customer by Email'),
+            'title'    => Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Notify Customer by Email'),
             'after_element_html' => '<script type="text/javascript">'
                 . "
                 updateEmailWebsites();
@@ -76,15 +76,15 @@ class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalan
 
         $fieldset->addField('store_id', 'select', array(
             'name'     => 'store_id',
-            'label'    => Mage::helper('enterprise_customerbalance')->__('Send Email Notification From the Following Store View'),
-            'title'    => Mage::helper('enterprise_customerbalance')->__('Send Email Notification From the Following Store View'),
+            'label'    => Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Send Email Notification From the Following Store View'),
+            'title'    => Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Send Email Notification From the Following Store View'),
         ));
 
         $fieldset->addField('comment', 'text', array(
             'name'     => 'comment',
-            'label'    => Mage::helper('enterprise_customerbalance')->__('Comment'),
-            'title'    => Mage::helper('enterprise_customerbalance')->__('Comment'),
-            'comment'  => Mage::helper('enterprise_customerbalance')->__('Comment'),
+            'label'    => Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Comment'),
+            'title'    => Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Comment'),
+            'comment'  => Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Comment'),
         ));
 
         if ($customer->isReadonly()) {

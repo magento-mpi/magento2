@@ -61,7 +61,7 @@ $this->addAttribute('catalog_product', 'is_imported', array(
     'visible_on_front'         => 0,
     'is_html_allowed_on_front' => 0,
     'is_configurable'          => 0,
-    'source'                   => 'eav/entity_attribute_source_boolean',
+    'source'                   => 'Mage_Eav_Model_Entity_Attribute_Source_Boolean',
     'searchable'               => 0,
     'filterable'               => 0,
     'comparable'               => 0,

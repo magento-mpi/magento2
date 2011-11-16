@@ -29,7 +29,7 @@
     <enterprise_banner translate="label">
         <label>Manage Banners</label>
         <expected_models>
-            <enterprise_banner__banner/>
+            <Enterprise_Banner_Model_Banner/>
         </expected_models>
         <actions>
             <adminhtml_banner_edit>

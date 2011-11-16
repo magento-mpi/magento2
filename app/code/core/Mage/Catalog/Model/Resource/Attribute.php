@@ -107,11 +107,11 @@ class Mage_Catalog_Model_Resource_Attribute extends Mage_Eav_Model_Resource_Enti
         $result = $this->_getReadAdapter()->fetchRow($select);
 
         if ($result) {
-            $attribute = Mage::getSingleton('eav/config')
+            $attribute = Mage::getSingleton('Mage_Eav_Model_Config')
                 ->getAttribute(Mage_Catalog_Model_Product::ENTITY, $result['attribute_id']);
 
             if ($this->isUsedBySuperProducts($attribute, $result['attribute_set_id'])) {
-                Mage::throwException(Mage::helper('eav')->__("Attribute '%s' used in configurable products", $attribute->getAttributeCode()));
+                Mage::throwException(Mage::helper('Mage_Eav_Helper_Data')->__("Attribute '%s' used in configurable products", $attribute->getAttributeCode()));
             }
             $backendTable = $attribute->getBackend()->getTable();
             if ($backendTable) {
@@ -161,7 +161,7 @@ class Mage_Catalog_Model_Resource_Attribute extends Mage_Eav_Model_Resource_Enti
             $select->where('entity.attribute_set_id = :attribute_set_id');
         }
 
-        $helper = Mage::getResourceHelper('core');
+        $helper = Mage::getResourceHelper('Mage_Core');
         $query  = $helper->getQueryUsingAnalyticFunction($select);
         return $adapter->fetchOne($query, $bind);
     }

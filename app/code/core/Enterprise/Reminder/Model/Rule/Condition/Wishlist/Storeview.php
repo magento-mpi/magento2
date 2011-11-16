@@ -32,7 +32,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist_Storeview
     public function __construct()
     {
         parent::__construct();
-        $this->setType('enterprise_reminder/rule_condition_wishlist_storeview');
+        $this->setType('Enterprise_Reminder_Model_Rule_Condition_Wishlist_Storeview');
         $this->setValue(null);
     }
 
@@ -44,7 +44,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist_Storeview
     public function getNewChildSelectOptions()
     {
         return array('value' => $this->getType(),
-            'label' => Mage::helper('enterprise_reminder')->__('Store View'));
+            'label' => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Store View'));
     }
 
     /**
@@ -55,7 +55,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist_Storeview
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . Mage::helper('enterprise_reminder')->__('Item was added to wishlist %s store view %s',
+            . Mage::helper('Enterprise_Reminder_Helper_Data')->__('Item was added to wishlist %s store view %s',
                 $this->getOperatorElementHtml(), $this->getValueElementHtml())
             . $this->getRemoveLinkHtml();
     }
@@ -67,7 +67,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist_Storeview
      */
     public function loadValueOptions()
     {
-        $this->setValueOption(Mage::getSingleton('adminhtml/system_store')->getStoreValuesForForm());
+        $this->setValueOption(Mage::getSingleton('Mage_Adminhtml_Model_System_Store')->getStoreValuesForForm());
         return $this;
     }
 
@@ -100,8 +100,8 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist_Storeview
     {
         parent::loadOperatorOptions();
         $this->setOperatorOption(array(
-            '==' => Mage::helper('rule')->__('from'),
-            '!=' => Mage::helper('rule')->__('not from')
+            '==' => Mage::helper('Mage_Rule_Helper_Data')->__('from'),
+            '!=' => Mage::helper('Mage_Rule_Helper_Data')->__('not from')
         ));
         return $this;
     }
@@ -131,7 +131,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist_Storeview
         $this->_limitByStoreWebsite($select, $website, 'item.store_id');
         $select->where("item.store_id {$operator} ?", $this->getValue());
         $select->where($this->_createCustomerFilter($customer, 'list.customer_id'));
-        Mage::getResourceHelper('enterprise_reminder')->setRuleLimit($select, 1);
+        Mage::getResourceHelper('Enterprise_Reminder')->setRuleLimit($select, 1);
 
         return $select;
     }

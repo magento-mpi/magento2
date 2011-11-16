@@ -138,7 +138,7 @@ class Enterprise_Logging_Model_Config
             foreach ($this->_xmlConfig->getXpath('/logging/*/label') as $labelNode) {
                 $helperName = $labelNode->getParent()->getAttribute('module');
                 if (!$helperName) {
-                    $helperName = 'enterprise_logging';
+                    $helperName = 'Enterprise_Logging_Helper_Data';
                 }
                 $this->_labels[$labelNode->getParent()->getName()] = Mage::helper($helperName)->__((string)$labelNode);
             }

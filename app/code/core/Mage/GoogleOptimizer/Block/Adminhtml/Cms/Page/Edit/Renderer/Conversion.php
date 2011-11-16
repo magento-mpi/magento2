@@ -69,8 +69,8 @@ class Mage_GoogleOptimizer_Block_Adminhtml_Cms_Page_Edit_Renderer_Conversion ext
     {
         $storeViewsUrls = array();
         foreach ($this->getStoreViews() as $_store) {
-            Mage::helper('googleoptimizer')->setStoreId($_store->getId());
-            $storeViewsUrls[$_store->getCode()] = Mage::helper('googleoptimizer')->getConversionPagesUrl()->getData();
+            Mage::helper('Mage_GoogleOptimizer_Helper_Data')->setStoreId($_store->getId());
+            $storeViewsUrls[$_store->getCode()] = Mage::helper('Mage_GoogleOptimizer_Helper_Data')->getConversionPagesUrl()->getData();
         }
         $storeViewsUrls = new Varien_Object($storeViewsUrls);
         return $storeViewsUrls->toJson();

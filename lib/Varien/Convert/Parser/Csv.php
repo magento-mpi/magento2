@@ -92,7 +92,7 @@ class Varien_Convert_Parser_Csv extends Varien_Convert_Parser_Abstract
 
         $data = array();
         $sessionId = Mage::registry('current_dataflow_session_id');
-        $import = Mage::getModel('dataflow/import');
+        $import = Mage::getModel('Mage_Dataflow_Model_Import');
         $map = new Varien_Convert_Mapper_Column();
         for ($i=0; $line = fgetcsv($fp, 4096, $fDel, $fEnc); $i++) {
             if (0==$i) {

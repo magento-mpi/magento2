@@ -37,7 +37,7 @@ class Mage_SalesRule_Model_Quote_Discount extends Mage_Sales_Model_Quote_Address
     public function __construct()
     {
         $this->setCode('discount');
-        $this->_calculator = Mage::getSingleton('salesrule/validator');
+        $this->_calculator = Mage::getSingleton('Mage_SalesRule_Model_Validator');
     }
 
     /**
@@ -140,9 +140,9 @@ class Mage_SalesRule_Model_Quote_Discount extends Mage_Sales_Model_Quote_Address
         if ($amount!=0) {
             $description = $address->getDiscountDescription();
             if ($description) {
-                $title = Mage::helper('sales')->__('Discount (%s)', $description);
+                $title = Mage::helper('Mage_Sales_Helper_Data')->__('Discount (%s)', $description);
             } else {
-                $title = Mage::helper('sales')->__('Discount');
+                $title = Mage::helper('Mage_Sales_Helper_Data')->__('Discount');
             }
             $address->addTotal(array(
                 'code'  => $this->getCode(),

@@ -70,7 +70,7 @@ class Mage_Reports_Model_Resource_Product_Collection extends Mage_Catalog_Model_
      */
     public function __construct()
     {
-        $product = Mage::getResourceSingleton('catalog/product');
+        $product = Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Product');
         /* @var $product Mage_Catalog_Model_Entity_Product */
         $this->setProductEntityId($product->getEntityIdField());
         $this->setProductEntityTableName($product->getEntityTable());
@@ -274,7 +274,7 @@ class Mage_Reports_Model_Resource_Product_Collection extends Mage_Catalog_Model_
     public function addOrderedQty($from = '', $to = '')
     {
         $adapter              = $this->getConnection();
-        $compositeTypeIds     = Mage::getSingleton('catalog/product_type')->getCompositeTypes();
+        $compositeTypeIds     = Mage::getSingleton('Mage_Catalog_Model_Product_Type')->getCompositeTypes();
         $orderTableAliasName  = $adapter->quoteIdentifier('order');
 
         $orderJoinCondition   = array(
@@ -355,7 +355,7 @@ class Mage_Reports_Model_Resource_Product_Collection extends Mage_Catalog_Model_
         /**
          * Getting event type id for catalog_product_view event
          */
-        foreach (Mage::getModel('reports/event_type')->getCollection() as $eventType) {
+        foreach (Mage::getModel('Mage_Reports_Model_Event_Type')->getCollection() as $eventType) {
             if ($eventType->getEventName() == 'catalog_product_view') {
                 $productViewEvent = (int)$eventType->getId();
                 break;

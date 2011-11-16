@@ -66,7 +66,7 @@ class Mage_Sales_Model_Order_Pdf_Invoice extends Mage_Sales_Model_Order_Pdf_Abst
 
             $page->setFillColor(new Zend_Pdf_Color_GrayScale(1));
             $this->_setFontRegular($page);
-            $page->drawText(Mage::helper('sales')->__('Invoice # ') . $invoice->getIncrementId(), 35, 780, 'UTF-8');
+            $page->drawText(Mage::helper('Mage_Sales_Helper_Data')->__('Invoice # ') . $invoice->getIncrementId(), 35, 780, 'UTF-8');
 
             /* Add table */
             $page->setFillColor(new Zend_Pdf_Color_RGB(0.93, 0.92, 0.92));
@@ -78,12 +78,12 @@ class Mage_Sales_Model_Order_Pdf_Invoice extends Mage_Sales_Model_Order_Pdf_Abst
 
             /* Add table head */
             $page->setFillColor(new Zend_Pdf_Color_RGB(0.4, 0.4, 0.4));
-            $page->drawText(Mage::helper('sales')->__('Products'), 35, $this->y, 'UTF-8');
-            $page->drawText(Mage::helper('sales')->__('SKU'), 255, $this->y, 'UTF-8');
-            $page->drawText(Mage::helper('sales')->__('Price'), 380, $this->y, 'UTF-8');
-            $page->drawText(Mage::helper('sales')->__('Qty'), 430, $this->y, 'UTF-8');
-            $page->drawText(Mage::helper('sales')->__('Tax'), 480, $this->y, 'UTF-8');
-            $page->drawText(Mage::helper('sales')->__('Subtotal'), 535, $this->y, 'UTF-8');
+            $page->drawText(Mage::helper('Mage_Sales_Helper_Data')->__('Products'), 35, $this->y, 'UTF-8');
+            $page->drawText(Mage::helper('Mage_Sales_Helper_Data')->__('SKU'), 255, $this->y, 'UTF-8');
+            $page->drawText(Mage::helper('Mage_Sales_Helper_Data')->__('Price'), 380, $this->y, 'UTF-8');
+            $page->drawText(Mage::helper('Mage_Sales_Helper_Data')->__('Qty'), 430, $this->y, 'UTF-8');
+            $page->drawText(Mage::helper('Mage_Sales_Helper_Data')->__('Tax'), 480, $this->y, 'UTF-8');
+            $page->drawText(Mage::helper('Mage_Sales_Helper_Data')->__('Subtotal'), 535, $this->y, 'UTF-8');
 
             $this->y -=15;
 
@@ -138,12 +138,12 @@ class Mage_Sales_Model_Order_Pdf_Invoice extends Mage_Sales_Model_Order_Pdf_Abst
             $this->y -=10;
 
             $page->setFillColor(new Zend_Pdf_Color_RGB(0.4, 0.4, 0.4));
-            $page->drawText(Mage::helper('sales')->__('Product'), 35, $this->y, 'UTF-8');
-            $page->drawText(Mage::helper('sales')->__('SKU'), 255, $this->y, 'UTF-8');
-            $page->drawText(Mage::helper('sales')->__('Price'), 380, $this->y, 'UTF-8');
-            $page->drawText(Mage::helper('sales')->__('Qty'), 430, $this->y, 'UTF-8');
-            $page->drawText(Mage::helper('sales')->__('Tax'), 480, $this->y, 'UTF-8');
-            $page->drawText(Mage::helper('sales')->__('Subtotal'), 535, $this->y, 'UTF-8');
+            $page->drawText(Mage::helper('Mage_Sales_Helper_Data')->__('Product'), 35, $this->y, 'UTF-8');
+            $page->drawText(Mage::helper('Mage_Sales_Helper_Data')->__('SKU'), 255, $this->y, 'UTF-8');
+            $page->drawText(Mage::helper('Mage_Sales_Helper_Data')->__('Price'), 380, $this->y, 'UTF-8');
+            $page->drawText(Mage::helper('Mage_Sales_Helper_Data')->__('Qty'), 430, $this->y, 'UTF-8');
+            $page->drawText(Mage::helper('Mage_Sales_Helper_Data')->__('Tax'), 480, $this->y, 'UTF-8');
+            $page->drawText(Mage::helper('Mage_Sales_Helper_Data')->__('Subtotal'), 535, $this->y, 'UTF-8');
 
             $page->setFillColor(new Zend_Pdf_Color_GrayScale(0));
             $this->y -=20;

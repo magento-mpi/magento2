@@ -48,9 +48,24 @@
  */
 class Enterprise_CatalogPermissions_Model_Permission_Index extends Mage_Index_Model_Indexer_Abstract
 {
+    /**
+     * Reindex products permissions event type
+     */
     const EVENT_TYPE_REINDEX_PRODUCTS = 'reindex_permissions';
+
+    /**
+     * Category entity for indexers
+     */
     const ENTITY_CATEGORY = 'catalogpermissions_category';
+
+    /**
+     * Product entity for indexers
+     */
     const ENTITY_PRODUCT = 'catalogpermissions_product';
+
+    /**
+     * Config entity for indexers
+     */
     const ENTITY_CONFIG = 'catalogpermissions_config';
 
     /**
@@ -73,7 +88,7 @@ class Enterprise_CatalogPermissions_Model_Permission_Index extends Mage_Index_Mo
 
     protected function _construct()
     {
-        $this->_init('enterprise_catalogpermissions/permission_index');
+        $this->_init('Enterprise_CatalogPermissions_Model_Resource_Permission_Index');
     }
 
     /**
@@ -222,7 +237,7 @@ class Enterprise_CatalogPermissions_Model_Permission_Index extends Mage_Index_Mo
      */
     public function getName()
     {
-        return Mage::helper('enterprise_catalogpermissions')->__('Catalog Permissions');
+        return Mage::helper('Enterprise_CatalogPermissions_Helper_Data')->__('Catalog Permissions');
     }
 
     /**

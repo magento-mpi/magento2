@@ -38,8 +38,8 @@ class Mage_GoogleBase_Adminhtml_Googlebase_ItemsController extends Mage_Adminhtm
     {
         $this->loadLayout()
             ->_setActiveMenu('catalog/googlebase/items')
-            ->_addBreadcrumb(Mage::helper('adminhtml')->__('Catalog'), Mage::helper('adminhtml')->__('Catalog'))
-            ->_addBreadcrumb(Mage::helper('adminhtml')->__('Google Base'), Mage::helper('adminhtml')->__('Google Base'));
+            ->_addBreadcrumb(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Catalog'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('Catalog'))
+            ->_addBreadcrumb(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Google Base'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('Google Base'));
         return $this;
     }
 
@@ -53,14 +53,15 @@ class Mage_GoogleBase_Adminhtml_Googlebase_ItemsController extends Mage_Adminhtm
             $this->_redirect('*/*/', array('store' => Mage::app()->getAnyStoreView()->getId(), '_current' => true));
             return;
         }
-        $contentBlock = $this->getLayout()->createBlock('googlebase/adminhtml_items')->setStore($this->_getStore());
+        $contentBlock = $this->getLayout()
+            ->createBlock('Mage_GoogleBase_Block_Adminhtml_Items')->setStore($this->_getStore());
 
         if ($this->getRequest()->getParam('captcha_token') && $this->getRequest()->getParam('captcha_url')) {
             $contentBlock->setGbaseCaptchaToken(
-                Mage::helper('core')->urlDecode($this->getRequest()->getParam('captcha_token'))
+                Mage::helper('Mage_Core_Helper_Data')->urlDecode($this->getRequest()->getParam('captcha_token'))
             );
             $contentBlock->setGbaseCaptchaUrl(
-                Mage::helper('core')->urlDecode($this->getRequest()->getParam('captcha_url'))
+                Mage::helper('Mage_Core_Helper_Data')->urlDecode($this->getRequest()->getParam('captcha_url'))
             );
         }
 
@@ -72,7 +73,7 @@ class Mage_GoogleBase_Adminhtml_Googlebase_ItemsController extends Mage_Adminhtm
         }
 
         $this->_initAction()
-            ->_addBreadcrumb(Mage::helper('googlebase')->__('Items'), Mage::helper('googlebase')->__('Items'))
+            ->_addBreadcrumb(Mage::helper('Mage_GoogleBase_Helper_Data')->__('Items'), Mage::helper('Mage_GoogleBase_Helper_Data')->__('Items'))
             ->_addContent($contentBlock)
             ->renderLayout();
     }
@@ -82,7 +83,7 @@ class Mage_GoogleBase_Adminhtml_Googlebase_ItemsController extends Mage_Adminhtm
         $this->loadLayout();
         return $this->getResponse()->setBody(
             $this->getLayout()
-                ->createBlock('googlebase/adminhtml_items_item')
+                ->createBlock('Mage_GoogleBase_Block_Adminhtml_Items_Item')
                 ->setIndex($this->getRequest()->getParam('index'))
                 ->toHtml()
            );
@@ -98,12 +99,12 @@ class Mage_GoogleBase_Adminhtml_Googlebase_ItemsController extends Mage_Adminhtm
         try {
             if (is_array($productIds)) {
                 foreach ($productIds as $productId) {
-                    $product = Mage::getSingleton('catalog/product')
+                    $product = Mage::getSingleton('Mage_Catalog_Model_Product')
                         ->setStoreId($storeId)
                         ->load($productId);
 
                     if ($product->getId()) {
-                        Mage::getModel('googlebase/item')
+                        Mage::getModel('Mage_GoogleBase_Model_Item')
                             ->setProduct($product)
                             ->insertItem()
                             ->save();
@@ -144,7 +145,7 @@ class Mage_GoogleBase_Adminhtml_Googlebase_ItemsController extends Mage_Adminhtm
 
         try {
             foreach ($itemIds as $itemId) {
-                $item = Mage::getModel('googlebase/item')->load($itemId);
+                $item = Mage::getModel('Mage_GoogleBase_Model_Item')->load($itemId);
                 if ($item->getId()) {
                     $item->deleteItem();
                     $item->delete();
@@ -181,7 +182,7 @@ class Mage_GoogleBase_Adminhtml_Googlebase_ItemsController extends Mage_Adminhtm
         try {
             if (!empty($itemIds) && is_array($itemIds)) {
                 foreach ($itemIds as $itemId) {
-                    $item = Mage::getModel('googlebase/item')->load($itemId);
+                    $item = Mage::getModel('Mage_GoogleBase_Model_Item')->load($itemId);
                     if ($item->getId()) {
                         $item->activateItem();
                         $totalPublished++;
@@ -217,7 +218,7 @@ class Mage_GoogleBase_Adminhtml_Googlebase_ItemsController extends Mage_Adminhtm
 
         try {
             foreach ($itemIds as $itemId) {
-                $item = Mage::getModel('googlebase/item')->load($itemId);
+                $item = Mage::getModel('Mage_GoogleBase_Model_Item')->load($itemId);
                 if ($item->getId()) {
                     $item->hideItem();
                     $totalHidden++;
@@ -255,9 +256,9 @@ class Mage_GoogleBase_Adminhtml_Googlebase_ItemsController extends Mage_Adminhtm
         try {
             $itemIds = $this->getRequest()->getParam('item');
             foreach ($itemIds as $itemId) {
-                $item = Mage::getModel('googlebase/item')->load($itemId);
+                $item = Mage::getModel('Mage_GoogleBase_Model_Item')->load($itemId);
 
-                $stats = Mage::getSingleton('googlebase/service_feed')->getItemStats($item->getGbaseItemId(), $storeId);
+                $stats = Mage::getSingleton('Mage_GoogleBase_Model_Service_Feed')->getItemStats($item->getGbaseItemId(), $storeId);
                 if ($stats === null) {
                     $item->delete();
                     $totalDeleted++;
@@ -305,9 +306,9 @@ class Mage_GoogleBase_Adminhtml_Googlebase_ItemsController extends Mage_Adminhtm
     {
         $storeId = $this->_getStore()->getId();
         try {
-            Mage::getModel('googlebase/service')->getClient(
+            Mage::getModel('Mage_GoogleBase_Model_Service')->getClient(
                 $storeId,
-                Mage::helper('core')->urlDecode($this->getRequest()->getParam('captcha_token')),
+                Mage::helper('Mage_Core_Helper_Data')->urlDecode($this->getRequest()->getParam('captcha_token')),
                 $this->getRequest()->getParam('user_confirm')
             );
             $this->_getSession()->addSuccess($this->__('Captcha has been confirmed.'));
@@ -334,8 +335,8 @@ class Mage_GoogleBase_Adminhtml_Googlebase_ItemsController extends Mage_Adminhtm
     {
         $this->_redirect('*/*/index',
             array('store' => $this->_getStore()->getId(),
-                'captcha_token' => Mage::helper('core')->urlEncode($e->getCaptchaToken()),
-                'captcha_url' => Mage::helper('core')->urlEncode($e->getCaptchaUrl())
+                'captcha_token' => Mage::helper('Mage_Core_Helper_Data')->urlEncode($e->getCaptchaToken()),
+                'captcha_url' => Mage::helper('Mage_Core_Helper_Data')->urlEncode($e->getCaptchaUrl())
             )
         );
     }
@@ -357,12 +358,12 @@ class Mage_GoogleBase_Adminhtml_Googlebase_ItemsController extends Mage_Adminhtm
 
     protected function _getConfig()
     {
-        return Mage::getSingleton('googlebase/config');
+        return Mage::getSingleton('Mage_GoogleBase_Model_Config');
     }
 
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('catalog/googlebase/items');
+        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('catalog/googlebase/items');
     }
 
     /**

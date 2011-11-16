@@ -35,11 +35,11 @@ class Mage_Checkout_Block_Onepage_Review_Info extends Mage_Sales_Block_Items_Abs
 {
     public function getItems()
     {
-        return Mage::getSingleton('checkout/session')->getQuote()->getAllVisibleItems();
+        return Mage::getSingleton('Mage_Checkout_Model_Session')->getQuote()->getAllVisibleItems();
     }
 
     public function getTotals()
     {
-        return Mage::getSingleton('checkout/session')->getQuote()->getTotals();
+        return Mage::getSingleton('Mage_Checkout_Model_Session')->getQuote()->getTotals();
     }
 }

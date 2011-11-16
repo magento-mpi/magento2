@@ -45,7 +45,7 @@ class Mage_XmlConnect_Block_Customer_Order_Totals_Giftcards
         $cards  = $this->getGiftCards();
         if ($cards) {
             foreach ($cards as $card) {
-                $label = Mage::helper('enterprise_giftcardaccount')->__('Gift Card (%s)', $card->getCode());
+                $label = Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Gift Card (%s)', $card->getCode());
                 $totalsXml->addCustomChild($this->getTotal()->getCode(), '-' . $this->_formatPrice($card->getAmount()),
                     array('label' => $label)
                 );
@@ -54,7 +54,7 @@ class Mage_XmlConnect_Block_Customer_Order_Totals_Giftcards
             $cardsAmount = $this->getSource()->getGiftCardsAmount();
             if ($cardsAmount > 0) {
                 $totalsXml->addCustomChild($this->getTotal()->getCode(), '-' . $this->_formatPrice($cardsAmount),
-                    array('label' => Mage::helper('enterprise_giftcardaccount')->__('Gift Card'))
+                    array('label' => Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Gift Card'))
                 );
             }
         }
@@ -68,6 +68,6 @@ class Mage_XmlConnect_Block_Customer_Order_Totals_Giftcards
      */
     protected function _formatPrice($amount)
     {
-        return Mage::helper('xmlconnect/customer_order')->formatPrice($this, $amount);
+        return Mage::helper('Mage_XmlConnect_Helper_Customer_Order')->formatPrice($this, $amount);
     }
 }

@@ -43,7 +43,10 @@ class Mage_Adminhtml_Block_Newsletter_Template extends Mage_Adminhtml_Block_Temp
 
     protected function _prepareLayout()
     {
-        $this->setChild('grid', $this->getLayout()->createBlock('adminhtml/newsletter_template_grid', 'newsletter.template.grid'));
+        $this->setChild(
+            'grid',
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Newsletter_Template_Grid', 'newsletter.template.grid')
+        );
         return parent::_prepareLayout();
     }
 
@@ -54,6 +57,6 @@ class Mage_Adminhtml_Block_Newsletter_Template extends Mage_Adminhtml_Block_Temp
 
     public function getHeaderText()
     {
-        return Mage::helper('newsletter')->__('Newsletter Templates');
+        return Mage::helper('Mage_Newsletter_Helper_Data')->__('Newsletter Templates');
     }
 }

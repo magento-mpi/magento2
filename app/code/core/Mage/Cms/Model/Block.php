@@ -54,7 +54,7 @@ class Mage_Cms_Model_Block extends Mage_Core_Model_Abstract
 
     protected function _construct()
     {
-        $this->_init('cms/block');
+        $this->_init('Mage_Cms_Model_Resource_Block');
     }
 
     /**
@@ -70,7 +70,7 @@ class Mage_Cms_Model_Block extends Mage_Core_Model_Abstract
             return parent::_beforeSave();
         }
         Mage::throwException(
-            Mage::helper('cms')->__('The static block content cannot contain  directive with its self.')
+            Mage::helper('Mage_Cms_Helper_Data')->__('The static block content cannot contain  directive with its self.')
         );
     }
 }

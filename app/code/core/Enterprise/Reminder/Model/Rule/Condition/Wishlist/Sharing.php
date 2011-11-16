@@ -33,7 +33,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist_Sharing
     public function __construct()
     {
         parent::__construct();
-        $this->setType('enterprise_reminder/rule_condition_wishlist_sharing');
+        $this->setType('Enterprise_Reminder_Model_Rule_Condition_Wishlist_Sharing');
         $this->setValue(1);
     }
 
@@ -45,7 +45,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist_Sharing
     public function getNewChildSelectOptions()
     {
         return array('value' => $this->getType(),
-            'label' => Mage::helper('enterprise_reminder')->__('Sharing'));
+            'label' => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Sharing'));
     }
 
     /**
@@ -56,7 +56,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist_Sharing
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . Mage::helper('enterprise_reminder')->__('Wishlist %s shared',
+            . Mage::helper('Enterprise_Reminder_Helper_Data')->__('Wishlist %s shared',
                 $this->getValueElementHtml())
             . $this->getRemoveLinkHtml();
     }
@@ -79,8 +79,8 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist_Sharing
     public function loadValueOptions()
     {
         $this->setValueOption(array(
-            '1' => Mage::helper('enterprise_reminder')->__('is'),
-            '0' => Mage::helper('enterprise_reminder')->__('is not'),
+            '1' => Mage::helper('Enterprise_Reminder_Helper_Data')->__('is'),
+            '0' => Mage::helper('Enterprise_Reminder_Helper_Data')->__('is not'),
         ));
         return $this;
     }
@@ -100,7 +100,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist_Sharing
         $select->from(array('list' => $table), array(new Zend_Db_Expr(1)));
         $select->where("list.shared = ?", $this->getValue());
         $select->where($this->_createCustomerFilter($customer, 'list.customer_id'));
-        Mage::getResourceHelper('enterprise_reminder')->setRuleLimit($select, 1);
+        Mage::getResourceHelper('Enterprise_Reminder')->setRuleLimit($select, 1);
 
         return $select;
     }

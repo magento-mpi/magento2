@@ -44,7 +44,7 @@ class Enterprise_Rma_Block_Return_View extends Enterprise_Rma_Block_Form
         $this->setOrder(Mage::registry('current_order'));
 
         /** @var $collection Enterprise_Rma_Model_Resource_Item */
-        $collection = Mage::getResourceModel('enterprise_rma/item_collection')
+        $collection = Mage::getResourceModel('Enterprise_Rma_Model_Resource_Item_Collection')
             ->addAttributeToSelect('*')
             ->addFilter('rma_entity_id', $this->getRma()->getEntityId())
         ;
@@ -52,7 +52,7 @@ class Enterprise_Rma_Block_Return_View extends Enterprise_Rma_Block_Form
         $this->setItems($collection);
 
         /** @var $comments Enterprise_Rma_Model_Resource_Rma_Status_History_Collection */
-        $comments = Mage::getResourceModel('enterprise_rma/rma_status_history_collection')
+        $comments = Mage::getResourceModel('Enterprise_Rma_Model_Resource_Rma_Status_History_Collection')
             ->addFilter('rma_entity_id', $this->getRma()->getEntityId())
         ;
         $this->setComments($comments);
@@ -68,7 +68,7 @@ class Enterprise_Rma_Block_Return_View extends Enterprise_Rma_Block_Form
         $array = array();
 
         /** @var $collection Enterprise_Rma_Model_Resource_Item */
-        $collection = Mage::getResourceModel('enterprise_rma/item_collection')
+        $collection = Mage::getResourceModel('Enterprise_Rma_Model_Resource_Item_Collection')
             ->addFilter('rma_entity_id', $this->getRma()->getEntityId())
         ;
         foreach ($collection as $item) {
@@ -79,10 +79,10 @@ class Enterprise_Rma_Block_Return_View extends Enterprise_Rma_Block_Form
         }
 
         /* @var $itemModel Enterprise_Rma_Model_Item */
-        $itemModel = Mage::getModel('enterprise_rma/item');
+        $itemModel = Mage::getModel('Enterprise_Rma_Model_Item');
 
         /* @var $itemForm Enterprise_Rma_Model_Item_Form */
-        $itemForm   = Mage::getModel('enterprise_rma/item_form');
+        $itemForm   = Mage::getModel('Enterprise_Rma_Model_Item_Form');
         $itemForm->setFormCode('default')
             ->setStore($this->getStore())
             ->setEntity($itemModel);
@@ -118,7 +118,7 @@ class Enterprise_Rma_Block_Return_View extends Enterprise_Rma_Block_Form
         foreach ($items as $item) {
             if (!$itemForm) {
                 /* @var $itemForm Enterprise_Rma_Model_Item_Form */
-                $itemForm   = Mage::getModel('enterprise_rma/item_form');
+                $itemForm   = Mage::getModel('Enterprise_Rma_Model_Item_Form');
                 $itemForm->setFormCode('default')
                     ->setStore($this->getStore())
                     ->setEntity($item);
@@ -218,7 +218,7 @@ class Enterprise_Rma_Block_Return_View extends Enterprise_Rma_Block_Form
 
     public function getBackUrl()
     {
-        if (Mage::getSingleton('customer/session')->isLoggedIn()) {
+        if (Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()) {
             return $this->getUrl('rma/return/history');
         } else {
             return $this->getUrl('rma/guest/returns');
@@ -227,7 +227,7 @@ class Enterprise_Rma_Block_Return_View extends Enterprise_Rma_Block_Form
 
     public function getAddress()
     {
-        return  Mage::helper('enterprise_rma')->getReturnAddress();
+        return  Mage::helper('Enterprise_Rma_Helper_Data')->getReturnAddress();
     }
 
     public function getSubmitUrl()
@@ -237,13 +237,13 @@ class Enterprise_Rma_Block_Return_View extends Enterprise_Rma_Block_Form
 
     public function getCustomerName()
     {
-        if (Mage::getSingleton('customer/session')->isLoggedIn()) {
-            return Mage::helper('customer')->getCustomerName();
+        if (Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()) {
+            return Mage::helper('Mage_Customer_Helper_Data')->getCustomerName();
         } else {
             $billingAddress = Mage::registry('current_order')->getBillingAddress();
 
             $name = '';
-            $config = Mage::getSingleton('eav/config');
+            $config = Mage::getSingleton('Mage_Eav_Model_Config');
             if ($config->getAttribute('customer', 'prefix')->getIsVisible() && $billingAddress->getPrefix()) {
                 $name .= $billingAddress->getPrefix() . ' ';
             }
@@ -314,12 +314,12 @@ class Enterprise_Rma_Block_Return_View extends Enterprise_Rma_Block_Form
         $data['id'] = $this->getRma()->getId();
         $url = $this->getUrl('*/rma/printLabel', $data);
         return $this->getLayout()
-            ->createBlock('core/html_link')
+            ->createBlock('Mage_Core_Block_Html_Link')
             ->setData(array(
-                'label'   => Mage::helper('enterprise_rma')->__('Print Shipping Label'),
+                'label'   => Mage::helper('Enterprise_Rma_Helper_Data')->__('Print Shipping Label'),
                 'onclick' => 'setLocation(\'' . $url . '\')'
             ))
-            ->setAnchorText(Mage::helper('enterprise_rma')->__('Print Shipping Label'))
+            ->setAnchorText(Mage::helper('Enterprise_Rma_Helper_Data')->__('Print Shipping Label'))
             ->toHtml();
     }
 
@@ -331,16 +331,16 @@ class Enterprise_Rma_Block_Return_View extends Enterprise_Rma_Block_Form
     public function getShowPackagesButton()
     {
         return $this->getLayout()
-            ->createBlock('core/html_link')
+            ->createBlock('Mage_Core_Block_Html_Link')
             ->setData(array(
                 'href'      => "javascript:void(0)",
-                'title'     => Mage::helper('enterprise_rma')->__('Show Packages'),
+                'title'     => Mage::helper('Enterprise_Rma_Helper_Data')->__('Show Packages'),
                 'onclick'   => "popWin(
-                        '".$this->helper('enterprise_rma')->getPackagePopupUrlByRmaModel($this->getRma())."',
+                        '".$this->helper('Enterprise_Rma_Helper_Data')->getPackagePopupUrlByRmaModel($this->getRma())."',
                         'package',
                         'width=800,height=600,top=0,left=0,resizable=yes,scrollbars=yes'); return false;"
             ))
-            ->setAnchorText(Mage::helper('enterprise_rma')->__('Show Packages'))
+            ->setAnchorText(Mage::helper('Enterprise_Rma_Helper_Data')->__('Show Packages'))
             ->toHtml();
     }
 
@@ -352,15 +352,15 @@ class Enterprise_Rma_Block_Return_View extends Enterprise_Rma_Block_Form
     public function getPrintShippingLabelButton()
     {
         return $this->getLayout()
-            ->createBlock('core/html_link')
+            ->createBlock('Mage_Core_Block_Html_Link')
             ->setData(array(
-                'href'      => $this->helper('enterprise_rma')->getPackagePopupUrlByRmaModel(
+                'href'      => $this->helper('Enterprise_Rma_Helper_Data')->getPackagePopupUrlByRmaModel(
                     $this->getRma(),
                     'printlabel'
                 ),
-                'title'     => Mage::helper('enterprise_rma')->__('Print Shipping Label'),
+                'title'     => Mage::helper('Enterprise_Rma_Helper_Data')->__('Print Shipping Label'),
             ))
-            ->setAnchorText(Mage::helper('enterprise_rma')->__('Print Shipping Label'))
+            ->setAnchorText(Mage::helper('Enterprise_Rma_Helper_Data')->__('Print Shipping Label'))
             ->toHtml();
     }
 
@@ -371,7 +371,7 @@ class Enterprise_Rma_Block_Return_View extends Enterprise_Rma_Block_Form
      */
     public function getCarriers()
     {
-        return Mage::helper('enterprise_rma')->getShippingCarriers($this->getRma()->getStoreId());
+        return Mage::helper('Enterprise_Rma_Helper_Data')->getShippingCarriers($this->getRma()->getStoreId());
     }
 
     /**

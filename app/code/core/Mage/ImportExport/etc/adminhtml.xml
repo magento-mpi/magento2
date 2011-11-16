@@ -31,12 +31,12 @@
             <children>
                 <convert translate="title">
                     <children>
-                        <import translate="title" module="importexport">
+                        <import translate="title" module="Mage_ImportExport">
                             <title>Import</title>
                             <action>adminhtml/import</action>
                             <sort_order>10</sort_order>
                         </import>
-                        <export translate="title" module="importexport">
+                        <export translate="title" module="Mage_ImportExport">
                             <title>Export</title>
                             <action>adminhtml/export</action>
                             <sort_order>20</sort_order>
@@ -52,7 +52,7 @@
                 <children>
                     <system>
                         <children>
-                            <convert module="importexport">
+                            <convert module="Mage_ImportExport">
                                 <children>
                                     <import translate="title">
                                         <title>Import</title>

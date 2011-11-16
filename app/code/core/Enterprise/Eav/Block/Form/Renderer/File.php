@@ -42,7 +42,7 @@ class Enterprise_Eav_Block_Form_Renderer_File extends Enterprise_Eav_Block_Form_
     public function getEscapedValue()
     {
         if ($this->getValue()) {
-            return $this->escapeHtml(Mage::helper('core')->urlEncode($this->getValue()));
+            return $this->escapeHtml(Mage::helper('Mage_Core_Helper_Data')->urlEncode($this->getValue()));
         }
         return '';
     }

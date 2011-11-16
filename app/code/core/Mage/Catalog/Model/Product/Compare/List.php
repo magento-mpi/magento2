@@ -42,7 +42,7 @@ class Mage_Catalog_Model_Product_Compare_List extends Varien_Object
     public function addProduct($product)
     {
         /* @var $item Mage_Catalog_Model_Product_Compare_Item */
-        $item = Mage::getModel('catalog/product_compare_item');
+        $item = Mage::getModel('Mage_Catalog_Model_Product_Compare_Item');
         $this->_addVisitorToItem($item);
         $item->loadByProduct($product);
 
@@ -77,7 +77,7 @@ class Mage_Catalog_Model_Product_Compare_List extends Varien_Object
      */
     public function getItemCollection()
     {
-        return Mage::getResourceModel('catalog/product_compare_item_collection');
+        return Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Compare_Item_Collection');
     }
 
     /**
@@ -89,7 +89,7 @@ class Mage_Catalog_Model_Product_Compare_List extends Varien_Object
     public function removeProduct($product)
     {
         /* @var $item Mage_Catalog_Model_Product_Compare_Item */
-        $item = Mage::getModel('catalog/product_compare_item');
+        $item = Mage::getModel('Mage_Catalog_Model_Product_Compare_Item');
         $this->_addVisitorToItem($item);
         $item->loadByProduct($product);
 
@@ -108,9 +108,9 @@ class Mage_Catalog_Model_Product_Compare_List extends Varien_Object
      */
     protected function _addVisitorToItem($item)
     {
-        $item->addVisitorId(Mage::getSingleton('log/visitor')->getId());
-        if (Mage::getSingleton('customer/session')->isLoggedIn()) {
-            $item->addCustomerData(Mage::getSingleton('customer/session')->getCustomer());
+        $item->addVisitorId(Mage::getSingleton('Mage_Log_Model_Visitor')->getId());
+        if (Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()) {
+            $item->addCustomerData(Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer());
         }
 
         return $this;
@@ -125,7 +125,7 @@ class Mage_Catalog_Model_Product_Compare_List extends Varien_Object
      */
     public function hasItems($customerId, $visitorId)
     {
-        return Mage::getResourceSingleton('catalog/product_compare_item')
+        return Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Product_Compare_Item')
             ->getCount($customerId, $visitorId);
     }
 }

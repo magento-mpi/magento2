@@ -151,7 +151,7 @@ abstract class Mage_Catalog_Model_Resource_Abstract extends Mage_Eav_Model_Entit
     protected function _addLoadAttributesSelectFields($select, $table, $type)
     {
         $select->columns(
-            Mage::getResourceHelper('catalog')->attributeSelectFields('attr_table', $type)
+            Mage::getResourceHelper('Mage_Catalog')->attributeSelectFields('attr_table', $type)
         );
         return $select;
     }

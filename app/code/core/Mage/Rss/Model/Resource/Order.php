@@ -134,7 +134,7 @@ class Mage_Rss_Model_Resource_Order
      */
     public function getCoreResource()
     {
-        return Mage::getSingleton('core/resource');
+        return Mage::getSingleton('Mage_Core_Model_Resource');
     }
 
     /**

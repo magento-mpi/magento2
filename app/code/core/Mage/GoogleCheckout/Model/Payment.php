@@ -30,7 +30,7 @@ class Mage_GoogleCheckout_Model_Payment extends Mage_Payment_Model_Method_Abstra
     const ACTION_AUTHORIZE_CAPTURE = 1;
 
     protected $_code  = 'googlecheckout';
-    protected $_formBlockType = 'googlecheckout/form';
+    protected $_formBlockType = 'Mage_GoogleCheckout_Block_Form';
 
     /**
      * Availability options
@@ -74,7 +74,7 @@ class Mage_GoogleCheckout_Model_Payment extends Mage_Payment_Model_Method_Abstra
      */
     public function authorize(Varien_Object $payment, $amount)
     {
-        $api = Mage::getModel('googlecheckout/api')->setStoreId($payment->getOrder()->getStoreId());
+        $api = Mage::getModel('Mage_GoogleCheckout_Model_Api')->setStoreId($payment->getOrder()->getStoreId());
         $api->authorize($payment->getOrder()->getExtOrderId());
 
         return $this;
@@ -96,7 +96,7 @@ class Mage_GoogleCheckout_Model_Payment extends Mage_Payment_Model_Method_Abstra
         }
         */
 
-        if ($payment->getOrder()->getPaymentAuthExpiration() < Mage::getModel('core/date')->gmtTimestamp()) {
+        if ($payment->getOrder()->getPaymentAuthExpiration() < Mage::getModel('Mage_Core_Model_Date')->gmtTimestamp()) {
             try {
                 $this->authorize($payment, $amount);
             } catch (Exception $e) {
@@ -104,7 +104,7 @@ class Mage_GoogleCheckout_Model_Payment extends Mage_Payment_Model_Method_Abstra
             }
         }
 
-        $api = Mage::getModel('googlecheckout/api')->setStoreId($payment->getOrder()->getStoreId());
+        $api = Mage::getModel('Mage_GoogleCheckout_Model_Api')->setStoreId($payment->getOrder()->getStoreId());
         $api->charge($payment->getOrder()->getExtOrderId(), $amount);
         $payment->setForcedState(Mage_Sales_Model_Order_Invoice::STATE_OPEN);
 
@@ -120,7 +120,7 @@ class Mage_GoogleCheckout_Model_Payment extends Mage_Payment_Model_Method_Abstra
     //public function refund(Varien_Object $payment, $amount)
     public function refund(Varien_Object $payment, $amount)
     {
-        $hlp = Mage::helper('googlecheckout');
+        $hlp = Mage::helper('Mage_GoogleCheckout_Helper_Data');
 
 //        foreach ($payment->getCreditMemo()->getCommentsCollection() as $comment) {
 //            $this->setReason($hlp->__('See Comments'));
@@ -130,7 +130,7 @@ class Mage_GoogleCheckout_Model_Payment extends Mage_Payment_Model_Method_Abstra
         $reason = $this->getReason() ? $this->getReason() : $hlp->__('No Reason');
         $comment = $this->getComment() ? $this->getComment() : $hlp->__('No Comment');
 
-        $api = Mage::getModel('googlecheckout/api')->setStoreId($payment->getOrder()->getStoreId());
+        $api = Mage::getModel('Mage_GoogleCheckout_Model_Api')->setStoreId($payment->getOrder()->getStoreId());
         $api->refund($payment->getOrder()->getExtOrderId(), $amount, $reason, $comment);
 
         return $this;
@@ -152,11 +152,11 @@ class Mage_GoogleCheckout_Model_Payment extends Mage_Payment_Model_Method_Abstra
     public function cancel(Varien_Object $payment)
     {
         if (!$payment->getOrder()->getBeingCanceledFromGoogleApi()) {
-            $hlp = Mage::helper('googlecheckout');
+            $hlp = Mage::helper('Mage_GoogleCheckout_Helper_Data');
             $reason = $this->getReason() ? $this->getReason() : $hlp->__('Unknown Reason');
             $comment = $this->getComment() ? $this->getComment() : $hlp->__('No Comment');
 
-            $api = Mage::getModel('googlecheckout/api')->setStoreId($payment->getOrder()->getStoreId());
+            $api = Mage::getModel('Mage_GoogleCheckout_Model_Api')->setStoreId($payment->getOrder()->getStoreId());
             $api->cancel($payment->getOrder()->getExtOrderId(), $reason, $comment);
         }
 

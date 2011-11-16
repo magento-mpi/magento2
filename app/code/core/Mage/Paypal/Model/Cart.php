@@ -319,26 +319,20 @@ class Mage_Paypal_Model_Cart
 
         // distinguish original discount among the others
         if ($originalDiscount > 0.0001 && isset($this->_totalLineItemDescriptions[self::TOTAL_DISCOUNT])) {
-            $this->_totalLineItemDescriptions[self::TOTAL_DISCOUNT][] = Mage::helper('sales')->__('Discount (%s)', Mage::app()->getStore()->convertPrice($originalDiscount, true, false));
+            $this->_totalLineItemDescriptions[self::TOTAL_DISCOUNT][] = Mage::helper('Mage_Sales_Helper_Data')->__('Discount (%s)', Mage::app()->getStore()->convertPrice($originalDiscount, true, false));
         }
 
         // discount, shipping as items
         if ($this->_isDiscountAsItem && $this->_totals[self::TOTAL_DISCOUNT]) {
-            $this->addItem(Mage::helper('paypal')->__('Discount'), 1, -1.00 * $this->_totals[self::TOTAL_DISCOUNT],
+            $this->addItem(Mage::helper('Mage_Paypal_Helper_Data')->__('Discount'), 1, -1.00 * $this->_totals[self::TOTAL_DISCOUNT],
                 $this->_renderTotalLineItemDescriptions(self::TOTAL_DISCOUNT)
             );
         }
         $shippingItemId = $this->_renderTotalLineItemDescriptions(self::TOTAL_SHIPPING, $shippingDescription);
         if ($this->_isShippingAsItem && (float)$this->_totals[self::TOTAL_SHIPPING]) {
-            $this->addItem(Mage::helper('paypal')->__('Shipping'), 1, (float)$this->_totals[self::TOTAL_SHIPPING],
+            $this->addItem(Mage::helper('Mage_Paypal_Helper_Data')->__('Shipping'), 1, (float)$this->_totals[self::TOTAL_SHIPPING],
                 $shippingItemId
             );
-        }
-
-        $this->_validate();
-        // if cart items are invalid, prepare cart for transfer without line items
-        if (!$this->_areItemsValid) {
-            $this->removeItem($shippingItemId);
         }
 
         // compound non-regular items into subtotal
@@ -346,6 +340,12 @@ class Mage_Paypal_Model_Cart
             if ($key > $lastRegularItemKey && $item->getAmount() != 0) {
                 $this->_totals[self::TOTAL_SUBTOTAL] += $item->getAmount();
             }
+        }
+
+        $this->_validate();
+        // if cart items are invalid, prepare cart for transfer without line items
+        if (!$this->_areItemsValid) {
+            $this->removeItem($shippingItemId);
         }
 
         $this->_shouldRender = false;

@@ -42,7 +42,7 @@ class Mage_GoogleBase_Block_Adminhtml_Items_Item extends Mage_Adminhtml_Block_Wi
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('googlebase/item_collection');
+        $collection = Mage::getResourceModel('Mage_GoogleBase_Model_Resource_Item_Collection');
         $store = $this->_getStore();
         $collection->addStoreFilterId($store->getId());
         $this->setCollection($collection);
@@ -64,7 +64,7 @@ class Mage_GoogleBase_Block_Adminhtml_Items_Item extends Mage_Adminhtml_Block_Wi
                 'header'    => $this->__('Google Base ID'),
                 'width'     => '150px',
                 'index'     => 'gbase_item_id',
-                'renderer'  => 'googlebase/adminhtml_items_renderer_id',
+                'renderer'  => 'Mage_GoogleBase_Block_Adminhtml_Items_Renderer_Id',
 
         ));
 
@@ -113,7 +113,7 @@ class Mage_GoogleBase_Block_Adminhtml_Items_Item extends Mage_Adminhtml_Block_Wi
                 'width'     => '150px',
                 'type'      => 'options',
                 'width'     => '70px',
-                'options'   => Mage::getSingleton('googlebase/source_statuses')->getStatuses(),
+                'options'   => Mage::getSingleton('Mage_GoogleBase_Model_Source_Statuses')->getStatuses(),
                 'index'     => 'is_hidden',
         ));
 
@@ -154,7 +154,7 @@ class Mage_GoogleBase_Block_Adminhtml_Items_Item extends Mage_Adminhtml_Block_Wi
 //    {
 //        $confirmMsg = $this->__('This action will update items statistics and remove the items which are not available in Google Base. Continue?');
 //
-//        $refreshButtonHtml = $this->getLayout()->createBlock('adminhtml/widget_button')
+//        $refreshButtonHtml = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
 //            ->setData(array(
 //                'label'     => $this->__('Synchronize'),
 //                'onclick'   => "if(confirm('".$confirmMsg."'))

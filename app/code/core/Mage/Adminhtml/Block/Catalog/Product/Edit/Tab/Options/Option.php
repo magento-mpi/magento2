@@ -75,7 +75,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Option extends Mage_
             if ($product = Mage::registry('product')) {
                 $this->_productInstance = $product;
             } else {
-                $this->_productInstance = Mage::getSingleton('catalog/product');
+                $this->_productInstance = Mage::getSingleton('Mage_Catalog_Model_Product');
             }
         }
 
@@ -121,9 +121,9 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Option extends Mage_
     protected function _prepareLayout()
     {
         $this->setChild('delete_button',
-            $this->getLayout()->createBlock('adminhtml/widget_button')
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->setData(array(
-                    'label' => Mage::helper('catalog')->__('Delete Option'),
+                    'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Delete Option'),
                     'class' => 'delete delete-product-option '
                 ))
         );
@@ -156,26 +156,26 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Option extends Mage_
 
     public function getTypeSelectHtml()
     {
-        $select = $this->getLayout()->createBlock('adminhtml/html_select')
+        $select = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Html_Select')
             ->setData(array(
                 'id' => $this->getFieldId().'_{{id}}_type',
                 'class' => 'select select-product-option-type required-option-select'
             ))
             ->setName($this->getFieldName().'[{{id}}][type]')
-            ->setOptions(Mage::getSingleton('adminhtml/system_config_source_product_options_type')->toOptionArray());
+            ->setOptions(Mage::getSingleton('Mage_Adminhtml_Model_System_Config_Source_Product_Options_Type')->toOptionArray());
 
         return $select->getHtml();
     }
 
     public function getRequireSelectHtml()
     {
-        $select = $this->getLayout()->createBlock('adminhtml/html_select')
+        $select = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Html_Select')
             ->setData(array(
                 'id' => $this->getFieldId().'_{{id}}_is_require',
                 'class' => 'select'
             ))
             ->setName($this->getFieldName().'[{{id}}][is_require]')
-            ->setOptions(Mage::getSingleton('adminhtml/system_config_source_yesno')->toOptionArray());
+            ->setOptions(Mage::getSingleton('Mage_Adminhtml_Model_System_Config_Source_Yesno')->toOptionArray());
 
         return $select->getHtml();
     }

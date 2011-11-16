@@ -33,7 +33,7 @@ class Mage_Adminhtml_Model_System_Config_Backend_Secure extends Mage_Core_Model_
     protected function _afterSave()
     {
         if ($this->isValueChanged()) {
-            Mage::getModel('core/design_package')->cleanMergedJsCss();
+            Mage::getModel('Mage_Core_Model_Design_Package')->cleanMergedJsCss();
         }
     }
 }

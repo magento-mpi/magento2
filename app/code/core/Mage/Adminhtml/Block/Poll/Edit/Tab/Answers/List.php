@@ -44,7 +44,7 @@ class Mage_Adminhtml_Block_Poll_Edit_Tab_Answers_List extends Mage_Adminhtml_Blo
             return parent::_toHtml();
         }
 
-        $collection = Mage::getModel('poll/poll_answer')
+        $collection = Mage::getModel('Mage_Poll_Model_Poll_Answer')
             ->getResourceCollection()
             ->addPollFilter(Mage::registry('poll_data')->getId())
             ->load();
@@ -56,18 +56,18 @@ class Mage_Adminhtml_Block_Poll_Edit_Tab_Answers_List extends Mage_Adminhtml_Blo
     protected function _prepareLayout()
     {
         $this->setChild('deleteButton',
-            $this->getLayout()->createBlock('adminhtml/widget_button')
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->setData(array(
-                    'label'     => Mage::helper('poll')->__('Delete'),
+                    'label'     => Mage::helper('Mage_Poll_Helper_Data')->__('Delete'),
                     'onclick'   => 'answer.del(this)',
                     'class' => 'delete'
                 ))
         );
 
         $this->setChild('addButton',
-            $this->getLayout()->createBlock('adminhtml/widget_button')
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->setData(array(
-                    'label'     => Mage::helper('poll')->__('Add New Answer'),
+                    'label'     => Mage::helper('Mage_Poll_Helper_Data')->__('Add New Answer'),
                     'onclick'   => 'answer.add(this)',
                     'class' => 'add'
                 ))

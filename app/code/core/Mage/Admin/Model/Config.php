@@ -94,11 +94,11 @@ class Mage_Admin_Model_Config extends Varien_Simplexml_Config
             $resourceName = null;
         } else {
             $resourceName = (is_null($parentName) ? '' : $parentName . '/') . $resource->getName();
-            $acl->add(Mage::getModel('admin/acl_resource', $resourceName), $parentName);
+            $acl->add(Mage::getModel('Mage_Admin_Model_Acl_Resource', $resourceName), $parentName);
         }
 
         if (isset($resource->all)) {
-            $acl->add(Mage::getModel('admin/acl_resource', 'all'), null);
+            $acl->add(Mage::getModel('Mage_Admin_Model_Acl_Resource', 'all'), null);
         }
 
         if (isset($resource->admin)) {
@@ -177,7 +177,7 @@ class Mage_Admin_Model_Config extends Varien_Simplexml_Config
      */
     public function getMenuItemLabel($path)
     {
-        $moduleName = 'adminhtml';
+        $moduleName = 'Mage_Adminhtml_Helper_Data';
         $menuNode = $this->getAdminhtmlConfig()->getNode('menu/' . str_replace('/', '/children/', trim($path, '/')));
         if ($menuNode->getAttribute('module')) {
             $moduleName = (string)$menuNode->getAttribute('module');

@@ -49,7 +49,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Rcompared
         $this->setId('source_rcompared');
         if ($this->_getStore()) {
             $this->setHeaderText(
-                Mage::helper('enterprise_checkout')->__('Recently Compared Products (%s)', $this->getItemsCount())
+                Mage::helper('Enterprise_Checkout_Helper_Data')->__('Recently Compared Products (%s)', $this->getItemsCount())
             );
         }
     }
@@ -63,7 +63,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Rcompared
     {
         if (!$this->hasData('items_collection')) {
             $skipProducts = array();
-            $collection = Mage::getModel('catalog/product_compare_list')
+            $collection = Mage::getModel('Mage_Catalog_Model_Product_Compare_List')
                 ->getItemCollection()
                 ->useProductItem(true)
                 ->setStoreId($this->_getStore()->getId())
@@ -74,15 +74,15 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Rcompared
             }
 
             // prepare products collection and apply visitors log to it
-            $attributes = Mage::getSingleton('catalog/config')->getProductAttributes();
-            $productCollection = Mage::getModel('catalog/product')->getCollection()
+            $attributes = Mage::getSingleton('Mage_Catalog_Model_Config')->getProductAttributes();
+            $productCollection = Mage::getModel('Mage_Catalog_Model_Product')->getCollection()
                 ->setStoreId($this->_getStore()->getId())
                 ->addStoreFilter($this->_getStore()->getId())
                 ->addAttributeToSelect($attributes);
-            Mage::getResourceSingleton('reports/event')->applyLogToCollection(
+            Mage::getResourceSingleton('Mage_Reports_Model_Resource_Event')->applyLogToCollection(
                 $productCollection, Mage_Reports_Model_Event::EVENT_PRODUCT_COMPARE, $this->_getCustomer()->getId(), 0, $skipProducts
             );
-            $productCollection = Mage::helper('adminhtml/sales')->applySalableProductTypesFilter($productCollection);
+            $productCollection = Mage::helper('Mage_Adminhtml_Helper_Sales')->applySalableProductTypesFilter($productCollection);
             $productCollection->addOptionsToResult();
             $this->setData('items_collection', $productCollection);
         }

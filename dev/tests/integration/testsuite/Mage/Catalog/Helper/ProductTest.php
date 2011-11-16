@@ -166,7 +166,7 @@ class Mage_Catalog_Helper_ProductTest extends PHPUnit_Framework_TestCase
      */
     public function testInitProduct()
     {
-        Mage::getSingleton('catalog/session')->setLastVisitedCategoryId(2);
+        Mage::getSingleton('Mage_Catalog_Model_Session')->setLastVisitedCategoryId(2);
         $this->_helper->initProduct(1, 'view');
         $this->assertInstanceOf('Mage_Catalog_Model_Product', Mage::registry('current_product'));
         $this->assertInstanceOf('Mage_Catalog_Model_Category', Mage::registry('current_category'));

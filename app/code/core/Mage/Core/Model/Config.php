@@ -211,7 +211,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     public function getResourceModel()
     {
         if (is_null($this->_resourceModel)) {
-            $this->_resourceModel = Mage::getResourceModel('core/config');
+            $this->_resourceModel = Mage::getResourceModel('Mage_Core_Model_Resource_Config');
         }
         return $this->_resourceModel;
     }
@@ -649,7 +649,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
                 } elseif ('websites' == $scope) {
                     $scopeCode = Mage::app()->getWebsite($scopeCode)->getCode();
                 } else {
-                    Mage::throwException(Mage::helper('core')->__('Unknown scope "%s".', $scope));
+                    Mage::throwException(Mage::helper('Mage_Core_Helper_Data')->__('Unknown scope "%s".', $scope));
                 }
             }
             $path = $scope . ($scopeCode ? '/' . $scopeCode : '' ) . (empty($path) ? '' : '/' . $path);
@@ -849,7 +849,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
             foreach ($moduleProps['depends'] as $depend => $true) {
                 if ($moduleProps['active'] && ((!isset($modules[$depend])) || empty($modules[$depend]['active']))) {
                     Mage::throwException(
-                        Mage::helper('core')->__('Module "%1$s" requires module "%2$s".', $moduleName, $depend)
+                        Mage::helper('Mage_Core_Helper_Data')->__('Module "%1$s" requires module "%2$s".', $moduleName, $depend)
                     );
                 }
                 $depends = array_merge($depends, $modules[$depend]['depends']);
@@ -874,7 +874,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
             foreach ($moduleProp['depends'] as $dependModule => $true) {
                 if (!isset($definedModules[$dependModule])) {
                     Mage::throwException(
-                        Mage::helper('core')->__(
+                        Mage::helper('Mage_Core_Helper_Data')->__(
                             'Module "%1$s" cannot depend on "%2$s".', $moduleProp['module'], $dependModule
                         )
                     );
@@ -1221,86 +1221,50 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     }
 
     /**
-     * Retrieve class name by class group
+     * Check rewrite section and apply rewrites to $className, if any
      *
-     * @param   string $groupType currently supported model, block, helper
-     * @param   string $classId slash separated class identifier, ex. group/class
-     * @param   string $groupRootNode optional config path for group config
+     * @param   string $className
      * @return  string
      */
-    public function getGroupedClassName($groupType, $classId, $groupRootNode=null)
+    protected function _applyClassRewrites($className)
     {
-        if (empty($groupRootNode)) {
-            $groupRootNode = 'global/'.$groupType.'s';
-        }
-
-        $classArr = explode('/', trim($classId));
-        $group = $classArr[0];
-        $class = !empty($classArr[1]) ? $classArr[1] : null;
-
-        if (isset($this->_classNameCache[$groupRootNode][$group][$class])) {
-            return $this->_classNameCache[$groupRootNode][$group][$class];
-        }
-
-        $config = $this->_xml->global->{$groupType.'s'}->{$group};
-
-        // First - check maybe the entity class was rewritten
-        $className = null;
-        if (isset($config->rewrite->$class)) {
-            $className = (string)$config->rewrite->$class;
-        }
-
-        // Second - if entity is not rewritten then use class prefix to form class name
-        if (empty($className)) {
-            if (!empty($config)) {
-                $className = $config->getClassName();
+        if (!isset($this->_classNameCache[$className])) {
+            if (isset($this->_xml->global->rewrites->$className)) {
+                $className = (string) $this->_xml->global->rewrites->$className;
             }
-            if (empty($className)) {
-                $className = 'mage_'.$group.'_'.$groupType;
-            }
-            if (!empty($class)) {
-                $className .= '_'.$class;
-            }
-            $className = uc_words($className);
+            $this->_classNameCache[$className] = $className;
         }
 
-        $this->_classNameCache[$groupRootNode][$group][$class] = $className;
-        return $className;
+        return $this->_classNameCache[$className];
     }
 
     /**
      * Retrieve block class name
      *
-     * @param   string $blockType
+     * @param   string $blockClass
      * @return  string
      */
-    public function getBlockClassName($blockType)
+    public function getBlockClassName($blockClass)
     {
-        if (strpos($blockType, '/')===false) {
-            return $blockType;
-        }
-        return $this->getGroupedClassName('block', $blockType);
+        return $this->getModelClassName($blockClass);
     }
 
     /**
      * Retrieve helper class name
      *
-     * @param   string $name
+     * @param   string $helperClass
      * @return  string
      */
-    public function getHelperClassName($helperName)
+    public function getHelperClassName($helperClass)
     {
-        if (strpos($helperName, '/') === false) {
-            $helperName .= '/data';
-        }
-        return $this->getGroupedClassName('helper', $helperName);
+        return $this->getModelClassName($helperClass);
     }
 
     /**
-     * Retreive resource helper instance
+     * Retrieve resource helper instance
      *
      * Example:
-     * $config->getResourceHelper('cms')
+     * $config->getResourceHelper('Mage_Cms')
      * will instantiate Mage_Cms_Model_Resource_Helper_<db_adapter_name>
      *
      * @param string $moduleName
@@ -1308,29 +1272,25 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      */
     public function getResourceHelper($moduleName)
     {
-        $connectionModel = $this->_getResourceConnectionModel($moduleName);
-        $helperClass     = sprintf('%s/helper_%s', $moduleName, $connectionModel);
-        $helperClassName = $this->_getResourceModelFactoryClassName($helperClass);
-        if ($helperClassName) {
-            return $this->getModelInstance($helperClassName, $moduleName);
-        }
+        $connectionModel = $this->_getResourceConnectionModel('core');
 
-        return false;
+        $helperClassName = $moduleName . '_Model_Resource_Helper_' . ucfirst($connectionModel);
+        $connection = strtolower($moduleName);
+        if (substr($moduleName, 0, 5) == 'Mage_') {
+            $connection = substr($connection, 5);
+        }
+        return $this->getModelInstance($helperClassName, $connection);
     }
 
     /**
      * Retrieve module class name
      *
-     * @param   sting $modelClass
+     * @param   string $modelClass
      * @return  string
      */
     public function getModelClassName($modelClass)
     {
-        $modelClass = trim($modelClass);
-        if (strpos($modelClass, '/')===false) {
-            return $modelClass;
-        }
-        return $this->getGroupedClassName('model', $modelClass);
+        return $this->_applyClassRewrites($modelClass);
     }
 
     /**
@@ -1356,20 +1316,9 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         } else {
             /* throw Mage::exception(
                 'Mage_Core',
-                Mage::helper('core')->__('Model class does not exist: %s.', $modelClass)
+                Mage::helper('Mage_Core_Helper_Data')->__('Model class does not exist: %s.', $modelClass)
             ); */
             return false;
-        }
-    }
-
-    public function getNodeClassInstance($path)
-    {
-        $config = Mage::getConfig()->getNode($path);
-        if (!$config) {
-            return false;
-        } else {
-            $className = $config->getClassName();
-            return new $className();
         }
     }
 
@@ -1382,11 +1331,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      */
     public function getResourceModelInstance($modelClass='', $constructArguments=array())
     {
-        $factoryName = $this->_getResourceModelFactoryClassName($modelClass);
-        if (!$factoryName) {
-            return false;
-        }
-        return $this->getModelInstance($factoryName, $constructArguments);
+        return $this->getModelInstance($modelClass, $constructArguments);
     }
 
     /**
@@ -1567,7 +1512,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     public function getFieldset($name, $root = 'global')
     {
         /** @var $config Mage_Core_Model_Config_Base */
-        $config = Mage::getSingleton('core/config_fieldset');
+        $config = Mage::getSingleton('Mage_Core_Model_Config_Fieldset');
         $rootNode = $config->getNode($root . '/fieldsets');
         if (!$rootNode) {
             return null;
@@ -1596,34 +1541,6 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     }
 
     /**
-     * Get factory class name for a resource
-     *
-     * @param string $modelClass
-     * @return string|false
-     */
-    protected function _getResourceModelFactoryClassName($modelClass)
-    {
-        $classArray = explode('/', $modelClass);
-        if (count($classArray) != 2) {
-            return false;
-        }
-
-        list($module, $model) = $classArray;
-        if (!isset($this->_xml->global->models->{$module})) {
-            return false;
-        }
-
-        $moduleNode = $this->_xml->global->models->{$module};
-        if (!empty($moduleNode->resourceModel)) {
-            $resourceModel = (string)$moduleNode->resourceModel;
-        } else {
-            return false;
-        }
-
-        return $resourceModel . '/' . $model;
-    }
-
-    /**
      * Get a resource model class name
      *
      * @param string $modelClass
@@ -1631,10 +1548,6 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      */
     public function getResourceModelClassName($modelClass)
     {
-        $factoryName = $this->_getResourceModelFactoryClassName($modelClass);
-        if ($factoryName) {
-            return $this->getModelClassName($factoryName);
-        }
-        return false;
+        return $this->getModelClassName($modelClass);
     }
 }
