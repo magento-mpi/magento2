@@ -3,13 +3,13 @@
 if [ ! "$1" = "" ] ; then
 CRONSCRIPT=$1
 else
-CRONSCRIPT=cron.php
+CRONSCRIPT=pub/cron.php
 fi
 
 PHP_BIN=`which php`
 
 # absolute path to magento installation
-INSTALLDIR=`echo $0 | sed 's/cron\.sh//g'`"../pub/"
+INSTALLDIR=`echo $0 | sed 's/cron\.sh//g'`"../"
 
 # prepend the intallation path if not given an absolute path
 if [ "$INSTALLDIR" != "" -a "`expr index $CRONSCRIPT /`" != "1" ];then
