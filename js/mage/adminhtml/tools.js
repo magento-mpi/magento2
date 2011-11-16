@@ -482,24 +482,6 @@ var toolbarToggle = {
     }
 }
 
-// Deprecated since 1.4.2.0-beta1 - use toolbarToggle.reset() instead
-function updateTopButtonToolbarToggle()
-{
-    toolbarToggle.reset();
-}
-
-// Deprecated since 1.4.2.0-beta1 - use toolbarToggle.createToolbar() instead
-function createTopButtonToolbarToggle()
-{
-    toolbarToggle.createToolbar();
-}
-
-// Deprecated since 1.4.2.0-beta1 - use toolbarToggle.updateForScroll() instead
-function floatingTopButtonToolbarToggle()
-{
-    toolbarToggle.updateForScroll();
-}
-
 // Start toolbar on window load
 toolbarToggle.startOnLoad();
 
