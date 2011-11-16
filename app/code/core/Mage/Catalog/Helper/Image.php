@@ -452,17 +452,6 @@ class Mage_Catalog_Helper_Image extends Mage_Core_Helper_Abstract
     /**
      * Retrieve original image height
      *
-     * @deprecated
-     * @return int|null
-     */
-    public function getOriginalHeigh()
-    {
-        return $this->getOriginalHeight();
-    }
-
-    /**
-     * Retrieve original image height
-     *
      * @return int|null
      */
     public function getOriginalHeight()

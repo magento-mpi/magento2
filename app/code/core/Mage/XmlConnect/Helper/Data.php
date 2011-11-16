@@ -240,10 +240,9 @@ class Mage_XmlConnect_Helper_Data extends Mage_Core_Helper_Abstract
      * Retrieve device specific country options array
      *
      * @throws Mage_Core_Exception
-     * @param bool $isItunes deprecated after 1.6.0.0
      * @return array
      */
-    public function getCountryOptionsArray($isItunes = false)
+    public function getCountryOptionsArray()
     {
         Magento_Profiler::start('TEST: ' . __METHOD__);
         $deviceType = $this->getDeviceType();
@@ -598,18 +597,6 @@ EOT;
             }
         }
         return $apps;
-    }
-
-    /**
-     * Check if creating AirMail template for the application is allowed
-     *
-     * @param Mage_XmlConnect_Model_Application $application
-     * @deprecated after 1.6.0.0
-     * @return boolean
-     */
-    public static function isTemplateAllowedForApplication($application = null)
-    {
-        return true;
     }
 
     /**

@@ -108,30 +108,4 @@ class Mage_AdminNotification_Helper_Data extends Mage_Core_Helper_Abstract
         }
         return $this->_popupUrl . ($withExt ? '.swf' : '');
     }
-
-    /**
-     * Check is readable Popup Notification Object
-     * @deprecated after 1.4.2.0
-     *
-     * @return bool
-     */
-    public function isReadablePopupObject()
-    {
-        if (is_null($this->_popupReadable)) {
-            $this->_popupReadable = false;
-            $curl = new Varien_Http_Adapter_Curl();
-            $curl->setConfig(array(
-                'timeout'   => 2
-            ));
-            $curl->write(Zend_Http_Client::GET, $this->getPopupObjectUrl(true));
-            if ($curl->read()) {
-                if ($curl->getInfo(CURLINFO_HTTP_CODE) == 200) {
-                    $this->_popupReadable = true;
-                }
-            }
-
-            $curl->close();
-        }
-        return $this->_popupReadable;
-    }
 }

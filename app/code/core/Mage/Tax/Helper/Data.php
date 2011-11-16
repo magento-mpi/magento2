@@ -350,20 +350,6 @@ class Mage_Tax_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * Get all tax rates JSON for all product tax classes
-     *
-     * array(
-     *      value_{$productTaxVlassId} => $rate
-     * )
-     * @deprecated after 1.4 - please use getAllRatesByProductClass
-     * @return string
-     */
-    public function getTaxRatesByProductClass()
-    {
-        return $this->_getAllRatesByProductClass();
-    }
-
-    /**
      * Get all tax rates JSON for all product tax classes of specific store
      *
      * array(

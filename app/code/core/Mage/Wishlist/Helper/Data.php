@@ -120,18 +120,6 @@ class Mage_Wishlist_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * Retrieve wishlist items availability
-     *
-     * @deprecated after 1.6.0.0
-     *
-     * @return bool
-     */
-    public function hasItems()
-    {
-        return $this->getWishlist()->getItemsCount() > 0;
-    }
-
-    /**
      * Retrieve wishlist item count (include config settings)
      * Used in top link menu only
      *
@@ -155,22 +143,6 @@ class Mage_Wishlist_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * Retrieve wishlist product items collection
-     *
-     * alias for getProductCollection
-     *
-     * @deprecated after 1.4.2.0
-     * @see Mage_Wishlist_Model_Wishlist::getItemCollection()
-     *
-     * @return Mage_Wishlist_Model_Resource_Item_Collection
-     */
-    public function getItemCollection()
-    {
-        return $this->getProductCollection();
-    }
-
-
-    /**
      * Retrieve wishlist items collection
      *
      * @return Mage_Wishlist_Model_Resource_Item_Collection
@@ -182,27 +154,6 @@ class Mage_Wishlist_Helper_Data extends Mage_Core_Helper_Abstract
                 ->getItemCollection();
         }
         return $this->_wishlistItemCollection;
-    }
-
-
-    /**
-     * Retrieve wishlist product items collection
-     *
-     * @deprecated after 1.4.2.0
-     * @see Mage_Wishlist_Model_Wishlist::getItemCollection()
-     *
-     * @return Mage_Wishlist_Model_Resource_Item_Collection
-     */
-    public function getProductCollection()
-    {
-        if (is_null($this->_productCollection)) {
-            $this->_productCollection = $this->getWishlist()
-                ->getItemCollection();
-            $this->_productCollection->setVisibility(
-                Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')->getVisibleInSiteIds()
-            );
-        }
-        return $this->_productCollection;
     }
 
     /**
@@ -365,18 +316,6 @@ class Mage_Wishlist_Helper_Data extends Mage_Core_Helper_Abstract
             $urlParamName => $continueUrl
         );
         return $this->_getUrlStore($item)->getUrl('wishlist/shared/cart', $params);
-    }
-
-    /**
-     * Retrieve url for adding item to shoping cart with b64 referer
-     *
-     * @deprecated
-     * @param   Mage_Catalog_Model_Product|Mage_Wishlist_Model_Item $item
-     * @return  string
-     */
-    public function getAddToCartUrlBase64($item)
-    {
-        return $this->getAddToCartUrl($item);
     }
 
     /**
