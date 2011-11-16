@@ -523,14 +523,4 @@ class Mage_Ogone_ApiController extends Mage_Core_Controller_Front_Action
     {
         return Mage_Ogone_Model_Api::PAYMENT_CODE == $order->getPayment()->getMethodInstance()->getCode();
     }
-
-    /**
-     * @deprecated after 1.4.2.0-beta1
-     * @see Mage_Ogone_Model_Api::$_inShortMap
-     * @return string
-     */
-    protected function _getSHAInSet($params, $key)
-    {
-        return '';
-    }
 }

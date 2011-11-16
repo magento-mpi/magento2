@@ -20,7 +20,14 @@ class Integrity_DeprecatesTest extends Magento_Test_TestCase_VisitorAbstract
     protected $_deprecatedClasses = array(
         'Mage_XmlConnect_Helper_Payment' => 'remove this usage',
         'Mage_Catalog_Model_Entity_Product_Attribute_Frontend_Image' => 'remove it, old and non-used model',
-        'Mage_Catalog_Model_Resource_Product_Attribute_Frontend_Image' => 'remove it, was not used'
+        'Mage_Catalog_Model_Resource_Product_Attribute_Frontend_Image' => 'remove it, was not used',
+        'Mage_Bundle_SelectionController' => 'use Mage_Bundle_Adminhtml_Bundle_SelectionController',
+        'Mage_Bundle_Product_EditController' => 'use Mage_Bundle_Adminhtml_Bundle_SelectionController',
+        'Mage_Downloadable_FileController' => 'use Mage_Downloadable_Adminhtml_Downloadable_FileController',
+        'Mage_Downloadable_Product_EditController' => 'use Mage_Adminhtml_Catalog_ProductController',
+        'Mage_GiftMessage_IndexController' => 'remove it, gift message is set during checkout process',
+        'Mage_GoogleOptimizer_IndexController' => 'use Mage_GoogleOptimizer_Adminhtml_Googleoptimizer_IndexController',
+        'Mage_Shipping_ShippingController' => 'remove it, not used anymore'
     );
 
     /**
@@ -33,7 +40,9 @@ class Integrity_DeprecatesTest extends Magento_Test_TestCase_VisitorAbstract
         array('method' => 'shaCryptValidation', 'suggestion' => 'use Mage_Ogone_Model_Api::getHash()'),
         array('method' => 'getTaxRatesByProductClass', 'suggestion' => 'use _getAllRatesByProductClass()'),
         array('method' => 'getAddToCartUrlBase64', 'suggestion' => 'use _getAddToCartUrl()'),
-        array('method' => 'isTemplateAllowedForApplication', 'suggestion' => 'remove it')
+        array('method' => 'isTemplateAllowedForApplication', 'suggestion' => 'remove it'),
+        array('method' => '_inludeControllerClass', 'suggestion' => 'use _includeControllerClass()'),
+        array('method' => '_getSHAInSet', 'suggestion' => 'use Mage_Ogone_Model_Api - getHash() or $_inShortMap')
     );
 
     /**

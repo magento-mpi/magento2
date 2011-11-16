@@ -297,16 +297,6 @@ class Mage_Core_Controller_Varien_Router_Standard extends Mage_Core_Controller_V
         return $controllerClassName;
     }
 
-
-    /**
-     * @deprecated
-     * @see _includeControllerClass()
-     */
-    protected function _inludeControllerClass($controllerFileName, $controllerClassName)
-    {
-        return $this->_includeControllerClass($controllerFileName, $controllerClassName);
-    }
-
     /**
      * Include the file containing controller class if this class is not defined yet
      *

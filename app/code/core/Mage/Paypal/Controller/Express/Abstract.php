@@ -126,7 +126,7 @@ abstract class Mage_Paypal_Controller_Express_Abstract extends Mage_Core_Control
     {
         try {
             $this->_initToken(false);
-            // TODO verify if this logic of order cancelation is deprecated
+            // TODO verify if this logic of order cancellation is deprecated
             // if there is an order - cancel it
             $orderId = $this->_getCheckoutSession()->getLastOrderId();
             $order = ($orderId) ? Mage::getModel('Mage_Sales_Model_Order')->load($orderId) : false;

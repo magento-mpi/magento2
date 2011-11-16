@@ -43,11 +43,6 @@ class Enterprise_WebsiteRestriction_IndexController extends Mage_Core_Controller
     protected $_cacheKeyPrefix = 'RESTRICTION_LANGING_PAGE_';
 
     /**
-     * Depricated, full action name used instead
-     */
-    protected $_layoutUpdate = 'restriction_index_stub';
-
-    /**
      * Cache  will be ralted on configuration and website
      *
      * @var array
