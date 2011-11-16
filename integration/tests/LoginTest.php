@@ -117,7 +117,7 @@ class LoginTest extends Magento_Test_Webservice
             return;
         }
 
-        $this->setExpectedException('SoapFault');
+        //$this->setExpectedException('SoapFault');
 
         $requestXml = file_get_contents(dirname(__FILE__) . '/_files/requestInvalidStructure.xml');
         $location = TESTS_WEBSERVICE_URL . '/index.php/api/soap/index/';
@@ -128,6 +128,12 @@ class LoginTest extends Magento_Test_Webservice
             $this->getWebService()->getClient()->getSoapClient(),
             $requestXml, $location, $action, $version
         );
+
+        $doc = new DOMDocument;
+        $doc->loadXML($responseXml);
+        $xpath = new DOMXpath($doc);
+        $element = $xpath->query('//SOAP-ENV:Fault/faultstring')->item(0);
+        $this->assertEquals('Required parameter is missing, for more details see "exception.log".', $element->textContent);
     }
 
     /**
