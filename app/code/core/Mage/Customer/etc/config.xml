@@ -470,6 +470,36 @@ T: {{var telephone}}
 {{depend fax}}&lt;br/&gt;F: {{var fax}}{{/depend}}|</pdf>
                 <js_template>#{prefix} #{firstname} #{middlename} #{lastname} #{suffix}&lt;br/&gt;#{company}&lt;br/&gt;#{street0}&lt;br/&gt;#{street1}&lt;br/&gt;#{street2}&lt;br/&gt;#{street3}&lt;br/&gt;#{city}, #{region}, #{postcode}&lt;br/&gt;#{country_id}&lt;br/&gt;T: #{telephone}&lt;br/&gt;F: #{fax}</js_template>
             </address_templates>
+            <captcha>
+                <enable>1</enable>
+                <font>dejavu</font>
+                <mode>after_fail</mode>
+                <failed_attempts>5</failed_attempts>
+                <timeout>600</timeout>
+                <length>4-5</length>
+                <symbols>abcdefghjkmnpqrstuvwxyz23456789</symbols>
+                <case_sensitive>0</case_sensitive>
+            </captcha>
         </customer>
+        <captcha>
+            <frontend>
+                <user_create>
+                    <label>Create user</label>
+                    <enable>1</enable>
+                </user_create>
+                <user_login>
+                    <label>Login</label>
+                    <enable>1</enable>
+                </user_login>
+                <user_forgotpassword>
+                    <label>Forgot password</label>
+                    <enable>1</enable>
+                </user_forgotpassword>
+            </frontend>
+            <always_for>
+                <user_create>1</user_create>
+                <user_forgotpassword>1</user_forgotpassword>
+            </always_for>
+        </captcha>
     </default>
 </config>

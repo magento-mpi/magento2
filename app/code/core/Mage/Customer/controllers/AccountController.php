@@ -146,7 +146,24 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
             $login = $this->getRequest()->getPost('login');
             if (!empty($login['username']) && !empty($login['password'])) {
                 try {
-                    $session->login($login['username'], $login['password']);
+                    /* @var $captcha Mage_Core_Model_Captcha_Zend */
+                    $captcha = Mage::getModel('core/captcha_zend');
+                    /* @var $captchaHelper Mage_Core_Helper_Captcha */
+                    $captchaHelper = Mage::helper('core/captcha');
+                    $userCaptchaInput = $this->getRequest()->getPost(Mage_Core_Helper_Captcha::INPUT_NAME_FIELD_VALUE);
+                    if (!$captcha->isCorrect($userCaptchaInput)) {
+                        Mage::throwException($captchaHelper->__('Incorrect captcha'));
+                    }
+                    try {
+                        $session->login($login['username'], $login['password']);
+                        $loggedIn = true;
+                    } catch (Exception $e) {
+                        $loggedIn = false;
+                    }
+                    $captchaHelper->checkAttempt($loggedIn, 'user_login');
+                    if (!$loggedIn) {
+                        throw $e;
+                    }
                     if ($session->getCustomer()->getIsJustConfirmed()) {
                         $this->_welcomeCustomer($session->getCustomer(), true);
                     }
@@ -315,6 +332,12 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
             }
 
             try {
+                /* @var $captcha Mage_Core_Model_Captcha_Zend */
+                $captcha = Mage::getModel('core/captcha_zend');
+                $userCaptchaInput = $this->getRequest()->getPost(Mage_Core_Helper_Captcha::INPUT_NAME_FIELD_VALUE);
+                if (!$captcha->isCorrect($userCaptchaInput)) {
+                    Mage::throwException(Mage::helper('core/captcha')->__('Incorrect captcha'));
+                }
                 $customerErrors = $customerForm->validateData($customerData);
                 if ($customerErrors !== true) {
                     $errors = array_merge($customerErrors, $errors);
@@ -536,7 +559,16 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
     public function forgotPasswordPostAction()
     {
         $email = (string) $this->getRequest()->getPost('email');
-        if ($email) {
+        /* @var $captcha Mage_Core_Model_Captcha_Zend */
+        $captcha = Mage::getModel('core/captcha_zend');
+        /* @var $captchaHelper Mage_Core_Helper_Captcha */
+        $captchaHelper = Mage::helper('core/captcha');
+        $userCaptchaInput = $this->getRequest()->getPost(Mage_Core_Helper_Captcha::INPUT_NAME_FIELD_VALUE);
+        $isCaptchaOk = $captcha->isCorrect($userCaptchaInput);
+        if (!$isCaptchaOk) {
+            $this->_getSession()->addError($captchaHelper->__('Incorrect captcha'));
+        }
+        if ($email && $isCaptchaOk) {
             if (!Zend_Validate::is($email, 'EmailAddress')) {
                 $this->_getSession()->setForgottenEmail($email);
                 $this->_getSession()->addError($this->__('Invalid email address.'));
@@ -548,7 +580,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
             $customer = Mage::getModel('customer/customer')
                 ->setWebsiteId(Mage::app()->getStore()->getWebsiteId())
                 ->loadByEmail($email);
-
+            $captchaHelper->checkAttempt($customer->getId(), 'user_forgotpassword');
             if ($customer->getId()) {
                 try {
                     $newResetPasswordLinkToken = Mage::helper('customer')->generateResetPasswordLinkToken();
@@ -565,7 +597,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
             $this->_redirect('*/*/');
             return;
         } else {
-            $this->_getSession()->addError($this->__('Please enter your email.'));
+            empty($email) && $this->_getSession()->addError($this->__('Please enter your email.'));
             $this->_redirect('*/*/forgotpassword');
             return;
         }

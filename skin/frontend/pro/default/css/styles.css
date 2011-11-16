@@ -1833,3 +1833,8 @@ tr.summary-details-excluded { font-style:italic; }
 /* ======================================================================================= */
 
 .guest-select {width:305px !important;}
+
+/* Captcha ================================================================================ */
+div.input-box.captcha {width:244px;}
+div.captcha-image {margin:0; border:1px solid #ccc;}
+div.registered-users div ul li div.captcha-image {border:solid 1px #ccc; margin:0;}

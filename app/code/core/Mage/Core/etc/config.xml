@@ -362,6 +362,16 @@
             <security>
                 <use_form_key>1</use_form_key>
             </security>
+            <captcha>
+                <enable>1</enable>
+                <font>dejavu</font>
+                <mode>after_fail</mode>
+                <failed_attempts>5</failed_attempts>
+                <timeout>600</timeout>
+                <length>5-8</length>
+                <symbols>abcdefghjkmnpqrstuvwxyz23456789</symbols>
+                <case_sensitive>1</case_sensitive>
+            </captcha>
         </admin>
         <general>
             <locale>
@@ -402,6 +412,39 @@
                 </public_files_valid_paths>
             </file>
         </general>
+        <captcha translate="label">
+            <backend>
+                <backend_login>
+                    <label>Backend Login</label>
+                    <enable>1</enable>
+                </backend_login>
+                <backend_forgotpassword>
+                    <label>Backend forgot password</label>
+                    <enable>1</enable>
+                </backend_forgotpassword>
+            </backend>
+            <fonts>
+                <belligerent>
+                    <label>Belligerent Madness</label>
+                    <path>fonts/Belligerent-Madness/belligerent.ttf</path>
+                </belligerent>
+                <bitstream>
+                    <label>Bitstream</label>
+                    <path>fonts/Bitstream-Vera-Sans-Mono/VeraMono.ttf</path>
+                </bitstream>
+                <dejavu>
+                    <label>DejaVu</label>
+                    <path>fonts/DejaVu-Serif/DejaVuSerif.ttf</path>
+                </dejavu>
+                <silkscreen>
+                    <label>Silkscreen</label>
+                    <path>fonts/Silkscreen/slkscr.ttf</path>
+                </silkscreen>
+            </fonts>
+            <always_for>
+                <backend_forgotpassword>1</backend_forgotpassword>
+            </always_for>
+        </captcha>
     </default>
     <stores>
         <default>

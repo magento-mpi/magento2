@@ -33,6 +33,7 @@
  */
 class Mage_Admin_Model_Observer
 {
+    const CAPTCHA_FORM_ID = 'backend_login';
     /**
      * Handler for controller_action_predispatch event
      *
@@ -62,9 +63,23 @@ class Mage_Admin_Model_Observer
             if (!$user || !$user->getId()) {
                 if ($request->getPost('login')) {
                     $postLogin  = $request->getPost('login');
-                    $username   = isset($postLogin['username']) ? $postLogin['username'] : '';
-                    $password   = isset($postLogin['password']) ? $postLogin['password'] : '';
-                    $user = $session->login($username, $password, $request);
+                    $isCaptchaOk = true;
+                    /* @var $captcha Mage_Core_Model_Captcha_Zend */
+                    $captcha = Mage::getModel('core/captcha_zend');
+                    if (!$captcha->isCorrect($request->getPost(Mage_Core_Helper_Captcha::INPUT_NAME_FIELD_VALUE))) {
+                        $msg = Mage::helper('core/captcha')->__('Incorrect captcha.');
+                        Mage::getSingleton('adminhtml/session')->addError($msg);
+                        $isCaptchaOk = false;
+                    }
+                    if ($isCaptchaOk) {
+                        /* @var $captchaHelper Mage_Core_Helper_Captcha */
+                        $captchaHelper = Mage::helper('core/captcha');
+                        $username   = isset($postLogin['username']) ? $postLogin['username'] : '';
+                        $password   = isset($postLogin['password']) ? $postLogin['password'] : '';
+                        /* @var $user Mage_Admin_Model_User */
+                        $user = $session->login($username, $password, $request);
+                        $captchaHelper->checkAttempt($user->getId(), self::CAPTCHA_FORM_ID);
+                    }
                     $request->setPost('login', null);
                 }
                 if (!$request->getParam('forwarded')) {

@@ -165,6 +165,9 @@
                         </div>
                     </div>
                 </li>
+                <?php if (Mage::helper('core/captcha')->isRequired('user_create')): ?>
+                    <?php echo $this->getChildHtml('captcha') ?>
+                <?php endif ?>
                 <?php echo $this->getChildHtml('persistent.remember.me'); ?>
             </ul>
             <?php echo $this->getChildHtml('persistent.remember.me.tooltip'); ?>
