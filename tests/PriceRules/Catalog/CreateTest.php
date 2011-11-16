@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Magento
  *
@@ -36,6 +35,7 @@
  */
 class PriceRules_Catalog_CreateTest extends Mage_Selenium_TestCase
 {
+
     /**
      * <p>Login to backend</p>
      */
@@ -46,7 +46,7 @@ class PriceRules_Catalog_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Preconditions:</p>
-     * <p>Navigate to Catalog -> Manage Products</p>
+     * <p>Navigate to Promotions -> Catalog Price Rules</p>
      */
     protected function assertPreConditions()
     {
@@ -55,14 +55,15 @@ class PriceRules_Catalog_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Create catalog price rule</p>
+     * <p>Create a new catalog price rule</p>
      *
      * <p>Steps</p>
      * <p>1. Click "Add New Rule"</p>
-     * <p>2. Fill in fields in all tab</p>
+     * <p>2. Fill in only required fields in all tabs</p>
      * <p>3. Click "Save Rule" button</p>
      *
-     * <p>Expected result: New rule created, success message appears</p>
+     * <p>Expected result:</p>
+     * <p>New rule is created. Success message appears.</p>
      *
      * @test
      */
@@ -81,7 +82,7 @@ class PriceRules_Catalog_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Empty Fields validation</p>
+     * <p>Validation of empty required fields</p>
      *
      * <p>Steps</p>
      * <p>1. Click "Add New Rule"</p>
@@ -93,17 +94,17 @@ class PriceRules_Catalog_CreateTest extends Mage_Selenium_TestCase
      * @dataProvider dataEmptyField
      * @test
      */
-    public function createCatalogPriceRuleEmptyFields($emptyField, $fieldType)
+    public function createCatalogPriceRuleEmptyRequiredFields($emptyField, $fieldType)
     {
         //Data
         $priceRuleData = $this->loadData('test_catalog_rule', array($emptyField => '%noValue%'), 'rule_name');
         //Steps
         $this->priceRulesHelper()->createRule($priceRuleData);
         //Verification
-        if($emptyField == 'discount_amount'){
+        if ($emptyField == 'discount_amount') {
             $this->assertTrue($this->validationMessage('invalid_discount_amount'), $this->messages);
             $this->assertTrue($this->verifyMessagesCount(), $this->messages);
-        } else{
+        } else {
             $this->addFieldIdToMessage($fieldType, $emptyField);
             $this->assertTrue($this->validationMessage('empty_required_field'), $this->messages);
             $this->assertTrue($this->verifyMessagesCount(), $this->messages);
@@ -121,7 +122,7 @@ class PriceRules_Catalog_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Discount Amount field validation</p>
+     * <p>Validation of Discount Amount field</p>
      *
      * <p>Steps</p>
      * <p>1. Click "Add New Rule"</p>
@@ -138,9 +139,8 @@ class PriceRules_Catalog_CreateTest extends Mage_Selenium_TestCase
     {
         //Data
         $priceRuleData = $this->loadData('test_catalog_rule', array(
-                        'sub_discount_amount'   => $invalidDiscountData,
-                        'discount_amount'       => $invalidDiscountData),
-                        'rule_name');
+            'sub_discount_amount' => $invalidDiscountData,
+            'discount_amount' => $invalidDiscountData), 'rule_name');
         //Steps
         $this->priceRulesHelper()->createRule($priceRuleData);
         //Verification
@@ -163,11 +163,12 @@ class PriceRules_Catalog_CreateTest extends Mage_Selenium_TestCase
      * <p>Create catalog price rule - editing created rule</p>
      *
      * <p>Steps</p>
-     * <p>1. Select created rule from the grid and open it</p>
+     * <p>1. Select an existing rule from the grid and open it</p>
      * <p>2. Make some changes into the rule</p>
      * <p>3. Click "Save Rule" button</p>
      *
-     * <p>Expected result: New rule created, success message appears</p>
+     * <p>Expected result:</p>
+     * <p>New rule is created. Success message appears</p>
      *
      * @depends createCatalogPriceRuleRequiredFields
      * @test
@@ -176,11 +177,11 @@ class PriceRules_Catalog_CreateTest extends Mage_Selenium_TestCase
     {
         //Data
         $editRuleData = $this->loadData('test_catalog_rule', array(
-                        'rule_name'           => 'edited_rule_name',
-                        'status'              => 'Inactive',
-                        'customer_groups'     => 'General',
-                        'discount_amount'     => '25',
-                        'sub_discount_amount' => '35')
+            'rule_name' => 'edited_rule_name',
+            'status' => 'Inactive',
+            'customer_groups' => 'General',
+            'discount_amount' => '25',
+            'sub_discount_amount' => '35')
         );
         //Steps
         $this->search(array('filter_rule_name' => $createdRuleData));
