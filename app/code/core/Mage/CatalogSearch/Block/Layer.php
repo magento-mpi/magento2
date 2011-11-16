@@ -40,18 +40,6 @@ class Mage_CatalogSearch_Block_Layer extends Mage_Catalog_Block_Layer_View
     }
 
     /**
-     * Get attribute filter block name
-     *
-     * @deprecated after 1.4.1.0
-     *
-     * @return string
-     */
-    protected function _getAttributeFilterBlockName()
-    {
-        return 'Mage_CatalogSearch_Block_Layer_Filter_Attribute';
-    }
-
-    /**
      * Initialize blocks names
      */
     protected function _initBlocks()

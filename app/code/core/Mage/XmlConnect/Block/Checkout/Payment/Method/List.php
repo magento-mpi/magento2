@@ -317,30 +317,4 @@ class Mage_XmlConnect_Block_Checkout_Payment_Method_List extends Mage_Payment_Bl
         }
         return parent::_canUseMethod($method);
     }
-
-    /**
-     * Deprecated function adding Payment method to the xml
-     *
-     * @deprecated after 1.4.2.0
-     * @param Mage_Core_Block_Template $block
-     * @param Mage_XmlConnect_Model_Simplexml_Element $methodsXmlObj
-     * @param array $usedCodes
-     * @return bool
-     */
-    protected function _addToXml($block, $methodsXmlObj, $usedCodes)
-    {
-        return false;
-    }
-
-    /**
-     * Deprecated function check method status
-     *
-     * @deprecated after 1.4.2.0
-     * @param Mage_Payment_Model_Method_Abstract $method
-     * @return bool
-     */
-    public function isAvailable($method)
-    {
-        return $method->isAvailable($this->getQuote());
-    }
 }

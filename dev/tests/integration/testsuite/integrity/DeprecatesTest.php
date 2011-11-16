@@ -27,7 +27,13 @@ class Integrity_DeprecatesTest extends Magento_Test_TestCase_VisitorAbstract
         'Mage_Downloadable_Product_EditController' => 'use Mage_Adminhtml_Catalog_ProductController',
         'Mage_GiftMessage_IndexController' => 'remove it, gift message is set during checkout process',
         'Mage_GoogleOptimizer_IndexController' => 'use Mage_GoogleOptimizer_Adminhtml_Googleoptimizer_IndexController',
-        'Mage_Shipping_ShippingController' => 'remove it, not used anymore'
+        'Mage_Shipping_ShippingController' => 'remove it, not used anymore',
+        'Mage_Page_Block_Html_Toplinks' => 'remove it, not used anymore',
+        'Mage_ProductAlert_Block_Price' => 'remove it, not used anymore',
+        'Mage_ProductAlert_Block_Stock' => 'remove it, not used anymore',
+        'Mage_Sales_Block_Order_Details' => 'remove it, not used anymore',
+        'Mage_Sales_Block_Order_Tax' => 'remove it, not used anymore',
+        'Mage_Tag_Block_Customer_Edit' => 'remove it, not used anymore'
     );
 
     /**
@@ -42,7 +48,9 @@ class Integrity_DeprecatesTest extends Magento_Test_TestCase_VisitorAbstract
         array('method' => 'getAddToCartUrlBase64', 'suggestion' => 'use _getAddToCartUrl()'),
         array('method' => 'isTemplateAllowedForApplication', 'suggestion' => 'remove it'),
         array('method' => '_inludeControllerClass', 'suggestion' => 'use _includeControllerClass()'),
-        array('method' => '_getSHAInSet', 'suggestion' => 'use Mage_Ogone_Model_Api - getHash() or $_inShortMap')
+        array('method' => '_getSHAInSet', 'suggestion' => 'use Mage_Ogone_Model_Api - getHash() or $_inShortMap'),
+        array('method' => '_getAttributeFilterBlockName', 'suggestion' => 'remove it'),
+        array('method' => 'getIsActiveAanalytics', 'suggestion' => 'use getOnsubmitJs() instead')
     );
 
     /**

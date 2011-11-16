@@ -58,15 +58,6 @@ class Mage_GoogleCheckout_Block_Link extends Mage_Core_Block_Template
         return $this->getUrl('googlecheckout/redirect/checkout');
     }
 
-    /**
-     * @deprecated after 1.4.1.1
-     * @return bool
-     */
-    public function getIsActiveAanalytics()
-    {
-        return false;
-    }
-
     public function getImageWidth()
     {
          $v = $this->getImageStyle();

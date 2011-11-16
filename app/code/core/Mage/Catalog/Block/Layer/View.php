@@ -91,18 +91,6 @@ class Mage_Catalog_Block_Layer_View extends Mage_Core_Block_Template
     }
 
     /**
-     * Get attribute filter block name
-     *
-     * @deprecated after 1.4.1.0
-     *
-     * @return string
-     */
-    protected function _getAttributeFilterBlockName()
-    {
-        return 'Mage_Catalog_Block_Layer_Filter_Attribute';
-    }
-
-    /**
      * Prepare child blocks
      *
      * @return Mage_Catalog_Block_Layer_View

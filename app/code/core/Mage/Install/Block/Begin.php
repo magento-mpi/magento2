@@ -42,13 +42,6 @@ class Mage_Install_Block_Begin extends Mage_Install_Block_Abstract
     }
 
     /**
-     * Deprecated
-     */
-    public function getLanguages()
-    {
-    }
-
-    /**
      * Get wizard URL
      *
      * @return string

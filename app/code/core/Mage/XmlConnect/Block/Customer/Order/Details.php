@@ -167,20 +167,4 @@ class Mage_XmlConnect_Block_Customer_Order_Details extends Mage_Payment_Block_In
         }
         return $order;
     }
-
-    /**
-     * Format address string
-     *
-     * @deprecated after 1.6.0.0
-     * @param string $address
-     * @return string
-     */
-    protected function _formatAddress($address)
-    {
-        return preg_replace(
-            array('@\r@', '@\n+@'),
-            array('', '\n'),
-            $address
-        );
-    }
 }

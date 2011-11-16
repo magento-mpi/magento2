@@ -35,36 +35,6 @@
 class Mage_GoogleAnalytics_Block_Ga extends Mage_Core_Block_Template
 {
     /**
-     * @deprecated after 1.4.1.1
-     * @see self::_getOrdersTrackingCode()
-     * @return string
-     */
-    public function getQuoteOrdersHtml()
-    {
-        return '';
-    }
-
-    /**
-     * @deprecated after 1.4.1.1
-     * self::_getOrdersTrackingCode()
-     * @return string
-     */
-    public function getOrderHtml()
-    {
-        return '';
-    }
-
-    /**
-     * @deprecated after 1.4.1.1
-     * @see _toHtml()
-     * @return string
-     */
-    public function getAccount()
-    {
-        return '';
-    }
-
-    /**
      * Get a specific page name (may be customized via layout)
      *
      * @return string|null

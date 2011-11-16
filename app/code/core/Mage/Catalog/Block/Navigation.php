@@ -322,20 +322,6 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
     }
 
     /**
-     * Render category to html
-     *
-     * @deprecated deprecated after 1.4
-     * @param Mage_Catalog_Model_Category $category
-     * @param int Nesting level number
-     * @param boolean Whether ot not this item is last, affects list item class
-     * @return string
-     */
-    public function drawItem($category, $level = 0, $last = false)
-    {
-        return $this->_renderCategoryMenuItemHtml($category, $level, $last);
-    }
-
-    /**
      * Enter description here...
      *
      * @return Mage_Catalog_Model_Category

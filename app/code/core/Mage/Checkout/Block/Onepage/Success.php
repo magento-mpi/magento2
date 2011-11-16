@@ -34,55 +34,6 @@
 class Mage_Checkout_Block_Onepage_Success extends Mage_Core_Block_Template
 {
     /**
-     * @deprecated after 1.4.0.1
-     */
-    private $_order;
-
-    /**
-     * Retrieve identifier of created order
-     *
-     * @return string
-     * @deprecated after 1.4.0.1
-     */
-    public function getOrderId()
-    {
-        return $this->_getData('order_id');
-    }
-
-    /**
-     * Check order print availability
-     *
-     * @return bool
-     * @deprecated after 1.4.0.1
-     */
-    public function canPrint()
-    {
-        return $this->_getData('can_view_order');
-    }
-
-    /**
-     * Get url for order detale print
-     *
-     * @return string
-     * @deprecated after 1.4.0.1
-     */
-    public function getPrintUrl()
-    {
-        return $this->_getData('print_url');
-    }
-
-    /**
-     * Get url for view order details
-     *
-     * @return string
-     * @deprecated after 1.4.0.1
-     */
-    public function getViewOrderUrl()
-    {
-        return $this->_getData('view_order_id');
-    }
-
-    /**
      * See if the order has state, visible on frontend
      *
      * @return bool
@@ -126,7 +77,7 @@ class Mage_Checkout_Block_Onepage_Success extends Mage_Core_Block_Template
                     Mage::getSingleton('Mage_Sales_Model_Order_Config')->getInvisibleOnFrontStates());
                 $this->addData(array(
                     'is_order_visible' => $isVisible,
-                    'view_order_id' => $this->getUrl('sales/order/view/', array('order_id' => $orderId)),
+                    'view_order_url' => $this->getUrl('sales/order/view/', array('order_id' => $orderId)),
                     'print_url' => $this->getUrl('sales/order/print', array('order_id'=> $orderId)),
                     'can_print_order' => $isVisible,
                     'can_view_order'  => Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn() && $isVisible,
