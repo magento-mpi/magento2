@@ -34,23 +34,20 @@
  */
 class Mage_Catalog_Model_Product_Attribute_Frontend_Image extends Mage_Eav_Model_Entity_Attribute_Frontend_Abstract
 {
-
-    public function getUrl($object, $size=null)
+    /**
+     * Returns url to product image
+     *
+     * @param  Mage_Catalog_Model_Product $product
+     * @return string|false
+     */
+    public function getUrl($product)
     {
-        $url = false;
-        $image = $object->getData($this->getAttribute()->getAttributeCode());
-
-        if( !is_null($size) && file_exists(Mage::getBaseDir('media').DS.'catalog'.DS.'product'.DS.$size.DS.$image) ) {
-            # resized image is cached
-            $url = Mage::app()->getStore($object->getStore())->getBaseUrl('media').'catalog/product/' . $size . '/' . $image;
-        } elseif( !is_null($size) ) {
-            # resized image is not cached
-            $url = Mage::app()->getStore($object->getStore())->getBaseUrl().'catalog/product/image/size/' . $size . '/' . $image;
-        } elseif ($image) {
-            # using original image
-            $url = Mage::app()->getStore($object->getStore())->getBaseUrl('media').'catalog/product/'.$image;
+        $image = $product->getData($this->getAttribute()->getAttributeCode());
+        if ($image) {
+            $url = Mage::app()->getStore($product->getStore())->getBaseUrl('media') . 'catalog/product/' . $image;
+        } else {
+            $url = false;
         }
         return $url;
     }
-
 }

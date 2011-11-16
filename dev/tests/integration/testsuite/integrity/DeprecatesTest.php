@@ -18,7 +18,9 @@ class Integrity_DeprecatesTest extends Magento_Test_TestCase_VisitorAbstract
      * @var array
      */
     protected $_deprecatedClasses = array(
-        'Mage_XmlConnect_Helper_Payment' => 'remove this usage'
+        'Mage_XmlConnect_Helper_Payment' => 'remove this usage',
+        'Mage_Catalog_Model_Entity_Product_Attribute_Frontend_Image' => 'remove it, old and non-used model',
+        'Mage_Catalog_Model_Resource_Product_Attribute_Frontend_Image' => 'remove it, was not used'
     );
 
     /**
@@ -247,7 +249,7 @@ class Integrity_DeprecatesTest extends Magento_Test_TestCase_VisitorAbstract
 
             $result[] = array(
                 'description' => 'class',
-                'needle' => $class . '()',
+                'needle' => $class,
                 'suggestion' => $suggestion
             );
         }
@@ -298,15 +300,15 @@ class Integrity_DeprecatesTest extends Magento_Test_TestCase_VisitorAbstract
             return array();
         }
 
-        if (strpos($content, '/catalog/product/image') === false) {
+        if (strpos($content, 'catalog/product/image') === false) {
             return array();
         }
 
         return array(
             array(
                 'description' => 'controller action',
-                'needle' => '/catalog/product/image/',
-                'suggestion' => 'do not resize image on client request, otherwise you may be DOS-attacked'
+                'needle' => 'catalog/product/image',
+                'suggestion' => 'resize image at server size, do not resize it on client request'
             )
         );
     }
