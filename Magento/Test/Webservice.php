@@ -54,7 +54,7 @@ class Magento_Test_Webservice extends Magento_TestCase
     protected $_webServiceMap = array(
         self::TYPE_SOAPV1   =>'Magento_Test_Webservice_SoapV1',
         self::TYPE_SOAPV2   =>'Magento_Test_Webservice_SoapV2',
-        self::TYPE_XMLRPC    =>'Magento_Test_Webservice_XmlRpc'
+        self::TYPE_XMLRPC   =>'Magento_Test_Webservice_XmlRpc'
     );
 
     /**
@@ -66,7 +66,7 @@ class Magento_Test_Webservice extends Magento_TestCase
     public function getWebService($options = null)
     {
         if (null === self::$_ws) {
-            $class = $this->_webServiceMap[TESTS_WEBSERVICE_TYPE];
+            $class = $this->_webServiceMap[strtolower(TESTS_WEBSERVICE_TYPE)];
             self::$_ws = new $class($options);
             self::$_ws->init();
         }
@@ -119,7 +119,7 @@ class Magento_Test_Webservice extends Magento_TestCase
             $isTrimmed = true;
         }
 
-        if(is_object($xml)){
+        if (is_object($xml)){
             foreach (get_object_vars($xml->children()) as $key => $node)
             {
                 $arrKey = $key;
