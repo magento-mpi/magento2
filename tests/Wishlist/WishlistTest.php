@@ -343,13 +343,15 @@ class Wishlist_Wishlist extends Mage_Selenium_TestCase
      * <p>2. Add product to wishlist</p>
      * <p>Expected result:</p>
      * <p>Success message is displayed</p>
-     *
+     *      *
      * @depends createCustomer
      * @depends createAllProductsWithoutCustomOptions
      * @param array $customer
      * @param array $productDataSet
      *
      * @test
+     *
+     * <p>Note: Currently fails because of MAGE-4889</p>
      */
     public function addProductsWithoutCustomOptionsToWishlistFromProductPage($customer, $productDataSet)
     {
