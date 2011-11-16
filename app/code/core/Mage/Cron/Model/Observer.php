@@ -43,7 +43,7 @@ class Mage_Cron_Model_Observer
     const XML_PATH_HISTORY_SUCCESS          = 'system/cron/history_success_lifetime';
     const XML_PATH_HISTORY_FAILURE          = 'system/cron/history_failure_lifetime';
 
-    const REGEX_RUN_MODEL = '#^([a-z0-9_]+/[a-z0-9_]+)::([a-z0-9_]+)$#i';
+    const REGEX_RUN_MODEL = '#^([a-z0-9_]+)::([a-z0-9_]+)$#i';
 
     protected $_pendingSchedules;
 
@@ -87,7 +87,7 @@ class Mage_Cron_Model_Observer
 
                 if ($runConfig->model) {
                     if (!preg_match(self::REGEX_RUN_MODEL, (string)$runConfig->model, $run)) {
-                        Mage::throwException(Mage::helper('Mage_Cron_Helper_Data')->__('Invalid model/method definition, expecting "model/class::method".'));
+                        Mage::throwException(Mage::helper('Mage_Cron_Helper_Data')->__('Invalid model/method definition, expecting "Model_Class::method".'));
                     }
                     if (!($model = Mage::getModel($run[1])) || !method_exists($model, $run[2])) {
                         Mage::throwException(Mage::helper('Mage_Cron_Helper_Data')->__('Invalid callback: %s::%s does not exist', $run[1], $run[2]));

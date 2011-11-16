@@ -44,11 +44,17 @@ HTML;
     exit;
 }
 
-if (file_exists('../maintenance.flag')) {
+/**
+ * Constants definition
+ */
+define('DS', DIRECTORY_SEPARATOR);
+define('BP', dirname(__DIR__));
+
+if (file_exists(BP . '/maintenance.flag')) {
     if (PHP_SAPI == 'cli') {
         echo 'Service temporarily unavailable due to maintenance downtime.';
     } else {
-        include_once dirname(__DIR__) . '/pub/errors/503.php';
+        include_once BP . '/pub/errors/503.php';
     }
     exit;
 }
@@ -59,12 +65,6 @@ if (file_exists('../maintenance.flag')) {
 error_reporting(E_ALL | E_STRICT);
 #ini_set('display_errors', 1);
 umask(0);
-
-/**
- * Constants definition
- */
-define('DS', DIRECTORY_SEPARATOR);
-define('BP', dirname(dirname(__FILE__)));
 
 /**
  * Require necessary files
