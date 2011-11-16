@@ -2557,6 +2557,7 @@ section .category-title { display:none; }
     -webkit-background-clip:padding-box;
 }
 .wishlist-wrap { position:relative; }
+.wishlist-wrap.grouped-items #wishlist-list li { min-height:initial; position:static; }
 .wishlist-wrap .remove-all { display:none; top:12px; right:10px; }
 .wishlist-index-index .my-account > a { display:none; }
 
