@@ -28,7 +28,7 @@
  */
 
 /**
- * Applying rules for SCPR
+ * Applying rules for SCPR tests
  *
  * @package     selenium
  * @subpackage  tests
