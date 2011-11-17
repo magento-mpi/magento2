@@ -52,7 +52,7 @@ class Mage_Backup_Db extends Mage_Backup_Abstract
 
         $file = fopen($source, "r");
         $query = '';
-        while(!feof($file)){
+        while(!feof($file)) {
             $line = fgets($file);
             $query .= $line;
             if ($this->_isLineLastInCommand($line)){

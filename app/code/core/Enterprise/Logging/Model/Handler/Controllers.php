@@ -485,12 +485,15 @@ class Enterprise_Logging_Model_Handler_Controllers
      */
     public function postDispatchSystemRollback($config, $eventModel)
     {
-        if ($backup = Mage::registry('backup_manager')) {
+        $backup = Mage::registry('backup_manager');
+
+        if ($backup) {
             $eventModel->setIsSuccess($backup->getIsSuccess())
                 ->setInfo($backup->getBackupFilename());
         } else {
             $eventModel->setIsSuccess(false);
         }
+
         return $eventModel;
     }
 

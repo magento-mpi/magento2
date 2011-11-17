@@ -20,7 +20,7 @@
  *
  * @category    Mage
  * @package     Mage_System
- * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @copyright   Copyright (c) 2011 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
@@ -57,7 +57,7 @@ class Mage_System_Ftp
     /**
      * ftp_mkdir wrapper
      *
-     * @param stin$name
+     * @param sting $name
      * @return unknown_type
      */
     public function mdkir($name)
@@ -102,7 +102,7 @@ class Mage_System_Ftp
      * @throws Exception on invalid login credentials
      * @return bool
      */
-    public function login($login = "anonymous", $password = "test@gmail.com")
+    public function login($login = "anonymous", $password = "")
     {
         $this->checkConnected();
         $res = @ftp_login($this->_conn, $login, $password);

@@ -300,6 +300,9 @@ class Mage_Adminhtml_System_BackupController extends Mage_Adminhtml_Controller_A
             );
         } catch (Exception $e) {
             $resultData->setIsSuccess(false);
+            $this->_getSession()->addError(
+                Mage::helper('backup')->__('Failed to delete one or several backups.')
+            );
         }
 
         return $this->_redirect('*/*/index');

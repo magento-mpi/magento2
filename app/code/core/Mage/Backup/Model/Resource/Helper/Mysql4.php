@@ -217,6 +217,8 @@ class Mage_Backup_Model_Resource_Helper_Mysql4 extends Mage_Core_Model_Resource_
      * Return table part data SQL insert
      *
      * @param string $tableName
+     * @param int $count
+     * @param int $offset
      * @return string
      */
     public function getPartInsertSql($tableName, $count = null, $offset = null)

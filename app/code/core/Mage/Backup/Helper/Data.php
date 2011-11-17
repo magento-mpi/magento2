@@ -102,7 +102,7 @@ class Mage_Backup_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getBackupsDir()
     {
-        return Mage::getBaseDir("var") . DS . "backups";
+        return Mage::getBaseDir('var') . DS . 'backups';
     }
 
     /**
@@ -163,11 +163,11 @@ class Mage_Backup_Helper_Data extends Mage_Core_Helper_Abstract
         return array(
             '.svn',
             'maintenance.flag',
-            Mage::getBaseDir("var") . DS . 'session',
-            Mage::getBaseDir("var") . DS . 'cache',
-            Mage::getBaseDir("var") . DS . 'full_page_cache',
-            Mage::getBaseDir("var") . DS . 'locks',
-            Mage::getBaseDir("var") . DS . 'log'
+            Mage::getBaseDir('var') . DS . 'session',
+            Mage::getBaseDir('var') . DS . 'cache',
+            Mage::getBaseDir('var') . DS . 'full_page_cache',
+            Mage::getBaseDir('var') . DS . 'locks',
+            Mage::getBaseDir('var') . DS . 'log'
         );
     }
 

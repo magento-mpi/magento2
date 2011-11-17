@@ -19,7 +19,7 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Backup
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
@@ -83,7 +83,7 @@ class Mage_Backup_Model_Config_Backend_Cron extends Mage_Core_Model_Config_Data
                 ->save();
         }
         catch (Exception $e) {
-            Mage::throwException(Mage::helper('adminhtml')->__('Unable to save the cron expression.'));
+            Mage::throwException(Mage::helper('backup')->__('Unable to save the cron expression.'));
         }
     }
 }
