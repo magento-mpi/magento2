@@ -55,8 +55,9 @@ manage_catalog_price_rules:
             add_new_rule: //button[span='Add New Rule']
             apply_rules: //button[span='Apply Rules']
         messages: &catalogPriceRuleMessages
-            success_saved_rule: //li[normalize-space(@class)='success-msg' and contains(.,'The rule has been saved.')]
+            success_saved_rule: //li[@class='success-msg']//span[text() = 'The rule has been saved.']
             success_deleted_rule: //li[normalize-space(@class)='success-msg' and contains(.,'The rule has been deleted.')]
+            success_applied_rule: //li[@class='success-msg']//span[text() = 'The rules have been applied.']
             notification_message: //li[normalize-space(@class)='notice-msg' and contains(.,'There are rules that have been changed but were not applied. Please, click Apply Rules in order to see immediate effect in the catalog.')]
             invalid_url_key_with_numbers_only: //li[normalize-space(@class)='error-msg' and contains(.,'The page URL key cannot consist only of numbers.')]
             invalid_rule_data: //li[normalize-space(@class)='error-msg' and contains(.,'An error occurred while saving the rule data. Please review the log and try again.')]
@@ -113,6 +114,9 @@ add_new_rule:
                                         condition_attribute: //ul[@id='conditions__%condition%__children']/li[%key%]/span[.//select[contains(@name,'attribute')]]/a
                                         open_chosser: //ul[@id='conditions__%condition%__children']/li[%key%]//img[contains(@src,'rule_chooser_trigger')]
                                         confirm_choise: //ul[@id='conditions__%condition%__children']/li[%key%]//img[contains(@src,'rule_component_apply')]
+                                        root_category: //ul/div/li[contains(div/a/span,'%rootName%')]
+                                        sub_category: //*[@id='%parentCategoryId%']/ancestor::li/ul/li[contains(div/a/span,'%subName%') and not(div/a/span/@id='%parentCategoryId%')]
+                                        expand_category: //*[@id='%parentCategoryId%']/ancestor::div/img[contains(@class,'x-tree-elbow-plus') or contains(@class,'x-tree-elbow-end-plus')]
                                     dropdowns:
                                         select_condition_new_child: /li[%key%]//span[contains(.//@src,'rule_component_add')]//select
                                         select_condition_operator: /li[%key%]/span[contains(.//@name,'operator')]//select
@@ -124,8 +128,7 @@ add_new_rule:
                                     buttons:
                                         delete_rule_condition_item: /li[%key%]//img[contains(@src,'rule_component_remove')]
                                     checkboxes:
-                                        select_root_category: //ul/div/li[contains(div/a/span,'%rootName%')]//input
-                                        select_sub_category: //*[@id='%parentCategoryId%']/ancestor::li/ul/li[contains(div/a/span,'%subName%') and not(div/a/span/@id='%parentCategoryId%')]
+                                        category: //div[contains(a/span,'%categoryName%')]//input
                 -
                     rule_actions:
                         xpath: //a[@title='Actions']/span
@@ -144,6 +147,7 @@ add_new_rule:
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
+            save_and_apply: //button[span='Save and Apply']
             save_rule: //button[span='Save Rule']
             save_and_continue_edit: //button[span='Save and Continue Edit']
         messages: *catalogPriceRuleMessages
@@ -156,6 +160,7 @@ edit_rule_page:
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
+            save_and_apply: //button[span='Save and Apply']
             save_rule: //button[span='Save Rule']
             save_and_continue_edit: //button[span='Save and Continue Edit']
             delete_rule: //button[span='Delete Rule']

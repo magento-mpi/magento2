@@ -56,13 +56,9 @@ class PriceRules_Catalog_DeleteTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Delete Catalog Price Rule</p>
-     *
      * <p>PreConditions</p>
-     *
      * <p>New Catalog Price rule created</p>
-     *
      * <p>Steps</p>
-     *
      * <p>1. Open created Rule</p>
      * <p>2. Click "Delete Rule" button</p>
      * <p>3. Click "Ok" in confirmation window</p>
