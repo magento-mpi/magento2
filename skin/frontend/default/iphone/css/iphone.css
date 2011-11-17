@@ -1535,7 +1535,9 @@ section .category-title { display:none; }
 .product-essential .availability span { font-weight:normal; }
 .product-essential .product-options dt label { font-size:14px; font-weight:bold; }
 .product-essential .product-options dt label em { float:left; margin:0 4px 0 0; color:#F9721F; }
-.product-essential .product-options dd { border-bottom:1px dotted #555; margin:0 0 10px; padding:0 0 10px; }
+.product-essential .product-options dd { border-bottom:1px solid #bbb; padding:0 0 10px; }
+.product-essential .product-options dd + dt { border-top:1px solid rgba(255, 255, 255, 0.75); padding:10px 0 0; }
+.product-essential .product-options dd:last-child { border:none; }
 .product-essential .product-options select { width:100%; }
 .product-essential .product-options input[type=text] { font-size:12px; width:20%; }
 .product-essential .product-options input[type=text]:disabled { background:#ddd; }
