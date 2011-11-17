@@ -464,15 +464,15 @@ final class Mage
     }
 
     /**
-     * Deprecated, use self::helper()
+     * Returns block singleton instance, if current action exists. Otherwise returns FALSE.
      *
-     * @param string $type
-     * @return object
+     * @param string $className
+     * @return mixed
      */
-    public static function getBlockSingleton($type)
+    public static function getBlockSingleton($className)
     {
         $action = self::app()->getFrontController()->getAction();
-        return $action ? $action->getLayout()->getBlockSingleton($type) : false;
+        return $action ? $action->getLayout()->getBlockSingleton($className) : false;
     }
 
     /**
