@@ -43,6 +43,7 @@ class PriceRules_ShoppingCart_ApplyTest extends Mage_Selenium_TestCase
     {}
 
     /**
+     * 
      * <p>Preconditions:</p>
      * <p>Navigate to Catalog - Manage Products</p>
      */
