@@ -28,7 +28,7 @@
  */
 
 /**
- * @TODO
+ * Deleting Rules
  *
  * @package     selenium
  * @subpackage  tests
