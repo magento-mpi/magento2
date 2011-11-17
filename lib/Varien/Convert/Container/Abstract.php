@@ -92,7 +92,7 @@ abstract class Varien_Convert_Container_Abstract
             if (count($data)==0) {
                 return true;
             }
-        	$this->addException("Invalid data type, expecting 2D grid array.", Varien_Convert_Exception::FATAL);
+            $this->addException("Invalid data type, expecting 2D grid array.", Varien_Convert_Exception::FATAL);
         }
         return true;
     }
@@ -100,8 +100,8 @@ abstract class Varien_Convert_Container_Abstract
     public function getGridFields($grid)
     {
         $fields = array();
-        foreach ($grid as $i=>$row) {
-            foreach ($row as $fieldName=>$data) {
+        foreach ($grid as $row) {
+            foreach (array_keys($row) as $fieldName) {
                 if (!in_array($fieldName, $fields)) {
                     $fields[] = $fieldName;
                 }
@@ -112,12 +112,12 @@ abstract class Varien_Convert_Container_Abstract
 
     public function addException($error, $level=null)
     {
-        $e = new Varien_Convert_Exception($error);
-        $e->setLevel(!is_null($level) ? $level : Varien_Convert_Exception::NOTICE);
-        $e->setContainer($this);
-        $e->setPosition($this->getPosition());
+        $exception = new Varien_Convert_Exception($error);
+        $exception->setLevel(!is_null($level) ? $level : Varien_Convert_Exception::NOTICE);
+        $exception->setContainer($this);
+        $exception->setPosition($this->getPosition());
 
-        return $e;
+        return $exception;
     }
 
     public function getPosition()

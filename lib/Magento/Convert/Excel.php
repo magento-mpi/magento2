@@ -13,7 +13,7 @@
  */
 
 class Magento_Convert_Excel
- {
+{
     /**
      * ArrayIterator Object
      *
@@ -182,13 +182,13 @@ class Magento_Convert_Excel
     /**
      * Write Converted XML Data to Temporary File
      */
-    public function write(Varien_Io_Abstract $io, $sheetName = '')
+    public function write(Varien_Io_Abstract $ioStream, $sheetName = '')
     {
-        $io->streamWrite($this->_getXmlHeader($sheetName));
+        $ioStream->streamWrite($this->_getXmlHeader($sheetName));
 
         foreach ($this->_iterator as $dataRow) {
-            $io->streamWrite($this->_getXmlRow($dataRow, true));
+            $ioStream->streamWrite($this->_getXmlRow($dataRow, true));
         }
-        $io->streamWrite($this->_getXmlFooter());
+        $ioStream->streamWrite($this->_getXmlFooter());
     }
 }

@@ -23,6 +23,8 @@ return array(
         "{$baseDir}/dev/tools",
         "{$baseDir}/lib/Magento/Profiler",
         "{$baseDir}/lib/Magento/Profiler.php",
+        "{$baseDir}/lib/Magento/Convert",
+        "{$baseDir}/lib/Varien/Convert",
         "{$baseDir}/lib/Varien/Object.php",
         "{$baseDir}/app/code/core/Mage/Index/Model/Indexer/Abstract.php",
     ),

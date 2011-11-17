@@ -34,5 +34,5 @@
  */
 interface Varien_Convert_Mapper_Interface
 {
-	public function map();
+    public function map();
 }
