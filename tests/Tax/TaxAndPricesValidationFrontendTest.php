@@ -115,7 +115,6 @@ class Tax_TaxAndPricesValidationFrontendTest extends Mage_Selenium_TestCase
     {
         //Data
         $category = substr($category, strpos($category, '/') + 1);
-        $checkoutData = $this->loadData('checkout_data');
         //Preconditions
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure($dataProv);
@@ -130,7 +129,8 @@ class Tax_TaxAndPricesValidationFrontendTest extends Mage_Selenium_TestCase
                     array('product_name' => $productName, 'category' => $category));
             $priceInProdDetails = $this->loadData($dataProv . '_front_prices_in_product_simple_' . $key);
             $this->categoryHelper()->frontOpenCategoryAndValidateProduct($priceInCategory);
-            $this->productHelper()->frontOpenProduct($productName);
+            $this->addParameter('categoryUrl', NULL);
+            $this->productHelper()->frontOpenProduct($productName, $category);
             $this->categoryHelper()->frontVerifyProductPrices($priceInProdDetails);
             $this->productHelper()->frontAddProductToCart();
             $cartProductsData['product_' . $key]['product_name'] = $productName;
@@ -144,6 +144,9 @@ class Tax_TaxAndPricesValidationFrontendTest extends Mage_Selenium_TestCase
         $this->shoppingCartHelper()->verifyPricesDataOnPage($cartProductsData, $checkoutData['validate_total_data']);
         $this->clickButton('proceed_to_checkout');
         $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
+        $xpath = $this->_getControlXpath('link', 'order_number');
+        $orderId = '# ' . $this->getText($xpath);
+        $this->addParameter('orderId', $orderId);
         $this->clickControl('link', 'order_number');
         $this->shoppingCartHelper()->verifyPricesDataOnPage($orderDetailsData['validate_prod_data'],
                 $orderDetailsData['validate_total_data']);

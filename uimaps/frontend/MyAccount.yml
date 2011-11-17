@@ -53,7 +53,7 @@ my_orders_history_index:
 
 view_order:
     mca: sales/order/view/order_id/%id%/
-    title: Order # %orderId%
+    title: Order %orderId%
     uimap:
         form:
             fieldsets:

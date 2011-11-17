@@ -187,6 +187,8 @@ onepage_checkout:
                             shipping_address_change_link: //dt[contains(.,'Shipping Address')]/a[@href='#payment']
                             shipping_method_change_link: //dt[contains(.,'Shipping Method')]/a[@href='#shipping_method']
                             payment_method_change_link: //dt[contains(.,'Payment Method')]/a[@href='#payment']
+            links:
+                order_number: //a[contains(@href, '/sales/order/view/order_id/')]
             messages: &checkoutMessages
                 empty_required_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
                 please_select_option: "%fieldXpath%/following-sibling::*[text()='Please select an option.' and not(contains(@style,'display: none;'))]"
@@ -204,6 +206,7 @@ onepage_checkout:
                 paypal_alert: There was an error processing your order. Please contact us or try again later.
                 shipping_alert: Please specify shipping method.
                 payment_alert: Please specify payment method.
+                success_checkout: //h1[contains(.,'Your order has been received')]
                 billing_long_values_data_alert: '"First Name" length must be equal or less than 255 characters. "Last Name" length must be equal or less than 255 characters. "Street Address" length must be equal or less than 255 characters. "City" length must be equal or less than 255 characters. "Telephone" length must be equal or less than 255 characters.'
 
 onepage_checkout_success:
