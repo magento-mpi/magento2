@@ -34,6 +34,12 @@
 
 class Mage_Customer_Block_Account_Dashboard_Info extends Mage_Core_Block_Template
 {
+    /**
+     * Cached subscription object
+     * @var Mage_Newsletter_Model_Subscriber
+     */
+    protected $_subscription;
+
     public function getCustomer()
     {
         return Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer();
@@ -51,10 +57,10 @@ class Mage_Customer_Block_Account_Dashboard_Info extends Mage_Core_Block_Templat
      */
     public function getSubscriptionObject()
     {
-        if(is_null($this->_subscription)) {
-            $this->_subscription = Mage::getModel('Mage_Newsletter_Model_Subscriber')->loadByCustomer(Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer());
+        if (!$this->_subscription) {
+            $this->_subscription = Mage::getModel('Mage_Newsletter_Model_Subscriber');
+            $this->_subscription->loadByCustomer(Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer());
         }
-
         return $this->_subscription;
     }
 
