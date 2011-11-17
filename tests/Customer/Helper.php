@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Magento
  *
@@ -152,7 +151,16 @@ class Customer_Helper extends Mage_Selenium_TestCase
      */
     public function registerCustomer(array $registerData)
     {
+        $currentPage = $this->getCurrentPage();
         $this->clickButton('create_account');
+        // Disable CAPTCHA if present
+        if ($this->controlIsPresent('pageelement', 'captcha')) {
+            $this->loginAdminUser();
+            $this->navigate('system_configuration');
+            $this->systemConfigurationHelper()->configure('disable_customer_captcha');
+            $this->frontend($currentPage);
+            $this->clickButton('create_account');
+        }
         $this->fillForm($registerData);
         $this->saveForm('submit');
     }

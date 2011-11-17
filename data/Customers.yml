@@ -25,7 +25,10 @@
 # @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 #
 ---
-#Test data for customer registration(Frontend)
+
+#*******************************************************
+#*   Test data for customer registration(Frontend)     *
+#*******************************************************
 customer_account_register:
     first_name: First name
     last_name: Last name
@@ -33,7 +36,19 @@ customer_account_register:
     password: 123123q
     password_confirmation: 123123q
 
-#Test data for customer creation(Backend)
+#*******************************************************
+#*       Data for system configuration(Backend)        *
+#*******************************************************
+disable_customer_captcha:
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: customers_customer_configuration
+        configuration:
+            captcha_enable_frontend: No
+
+#*******************************************************
+#*       Test data for customer creation(Backend)      *
+#*******************************************************
 generic_customer_account:
     associate_to_website: Main Website
     group: General

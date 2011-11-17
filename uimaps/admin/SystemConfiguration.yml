@@ -1054,6 +1054,21 @@ system_configuration:
                                         html_use_default: //input[@name='groups[address_templates][fields][html][inherit]']
                                         pdf_use_default: //input[@name='groups[address_templates][fields][pdf][inherit]']
                                         javascript_template_use_default: //input[@name='groups[address_templates][fields][js_template][inherit]']
+                            -
+                                captcha:
+                                      xpath: //div/fieldset[legend='CAPTCHA']
+                                      dropdowns:
+                                          captcha_enable_frontend: //select[@id='customer_captcha_enable']
+                                          captcha_font: //select[@id='customer_captcha_font']
+                                          captcha_display_mode: //select[@id='customer_captcha_mode']
+                                          captcha_case_sensitive: //select[@id='customer_captcha_case_sensitive']
+                                      fields:
+                                          captcha_number_of_attempts: //input[@id='customer_captcha_failed_attempts']
+                                          captcha_timeout: //input[@id='customer_captcha_timeout']
+                                          captcha_word_length: //input[@id='customer_captcha_length']
+                                          captcha_symbols: //input[@id='customer_captcha_symbols']
+                                      multiselects:
+                                          captcha_forms: //select[@id='customer_captcha_forms']
                 -
                     customers_wishlist:
                         xpath: //a[contains(@href, 'edit/section/wishlist/')]
