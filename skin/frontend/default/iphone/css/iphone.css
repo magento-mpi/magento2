@@ -1561,7 +1561,7 @@ section .category-title { display:none; }
 .product-shop .product-desc .ratings { overflow:hidden; }
 .product-shop .product-desc .ratings,
 .product-shop .product-desc .ratings a { color:#FB6B36; }
-.rating-box { width:75px; height:15px; margin:3px 0; }
+.rating-box { background:url(../images/i_star_black.png) repeat-x center left; background-size:15px 15px; width:75px; height:15px; margin:3px 0; }
 .rating-box .rating { height:15px; background:url(../images/i_star.png) repeat-x center left; background-size:15px 15px; }
 
 .product-shop .product-options-bottom .price-box { font-size:14px; font-weight:bold; text-align:right; }
