@@ -763,10 +763,9 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     /**
      * Load declared modules configuration
      *
-     * @param   null $mergeConfig depricated
      * @return  Mage_Core_Model_Config
      */
-    protected function _loadDeclaredModules($mergeConfig = null)
+    protected function _loadDeclaredModules()
     {
         $moduleFiles = $this->_getDeclaredModuleFiles();
         if (!$moduleFiles) {
