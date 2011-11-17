@@ -173,6 +173,14 @@ class CompareProducts_Helper extends Mage_Selenium_TestCase
         return $productsList;
     }
 
+    /**
+     * Gets text for all element(s) by XPath
+     * 
+     * @param string $elementsXpath General XPath of looking up element(s)
+     * @param string $additionalXPath Additional XPath (by defauilt = '')
+     * 
+     * @return array Array of elements text with id of element
+     */
     public function getElementsText($elementsXpath, $additionalXPath = '')
     {
         $elements = array();
@@ -263,6 +271,11 @@ class CompareProducts_Helper extends Mage_Selenium_TestCase
         }
     }
 
+    /**
+     * Will load additional product information to verify
+     *
+     * @return array Product information
+     */
     public function prepareProductForVerify($productsData)
     {
         $dataForVerify = array();
