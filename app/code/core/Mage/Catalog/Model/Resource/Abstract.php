@@ -48,7 +48,7 @@ abstract class Mage_Catalog_Model_Resource_Abstract extends Mage_Eav_Model_Entit
      */
     protected function _getDefaultAttributeModel()
     {
-        return 'catalog/resource_eav_attribute';
+        return 'Mage_Catalog_Model_Resource_Eav_Attribute';
     }
 
     /**
