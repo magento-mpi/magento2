@@ -131,7 +131,7 @@ class CompareProducts_Helper extends Mage_Selenium_TestCase
         $page = $this->getCurrentLocationUimapPage();
         $pageelements = $page->getAllElements('pageelements', $this->_paramsHelper);
         foreach ($pageelements as $key => $value) {
-            if ($this->isElementPresent($value) and (strpos($key, 'verify') ===! FALSE))
+            if ($this->isElementPresent($value) and strpos($key, 'verify') !== FALSE)
                 $productData[$key] = trim($this->getText($value), " $\n\t\r\0");
         }
         //GetAttributes
@@ -270,7 +270,7 @@ class CompareProducts_Helper extends Mage_Selenium_TestCase
             $key = $productData['general_name'];
             foreach ($productData as $attribute => $value) {
                 //remove 'general_'
-                $newAttributeName = str_replace('general_', '', $attribute);
+                $newAttributeName = preg_replace('/^[0-9a-z]+_/', '', $attribute);
                 $dataForVerify[$key][$newAttributeName] = $value;
             }
             $additionalProductData = $this->loadData('additional_product_data');
