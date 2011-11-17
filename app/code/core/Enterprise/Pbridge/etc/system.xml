@@ -89,7 +89,6 @@
                         </debug>
                     </fields>
                 </pbridge>
-
                 <authorizenet>
                     <fields>
                         <using_pbridge translate="label comment" module="Enterprise_Pbridge">

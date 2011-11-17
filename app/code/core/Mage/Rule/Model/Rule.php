@@ -24,7 +24,14 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-class Mage_Rule_Model_Rule extends Mage_Core_Model_Abstract
+/**
+ * Abstract promotion rule model
+ *
+ * The class is supposed to have name "Mage_Rule_Model_RuleAbstract",
+ * but the old name has been retained for backwards compatibility purposes.
+ * Also the architecture of abstract model doesn't allow to make the _construct() method abstract
+ */
+abstract class Mage_Rule_Model_Rule extends Mage_Core_Model_Abstract
 {
     protected $_conditions;
     protected $_actions;
@@ -43,17 +50,6 @@ class Mage_Rule_Model_Rule extends Mage_Core_Model_Abstract
      * @var boolean
      */
     protected $_isReadonly = false;
-
-    /**
-     * Init resoirce
-     *
-     * @return unknown_type
-     */
-    protected function _construct()
-    {
-        $this->_init('Mage_Rule_Model_Resource_Rule');
-        parent::_construct();
-    }
 
     public function getConditionsInstance()
     {

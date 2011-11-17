@@ -52,7 +52,7 @@ class Enterprise_Reward_Model_Observer
         if ($data) {
             if (!isset($data['store_id'])) {
                 if ($customer->getStoreId() == 0) {
-                    $data['store_id'] = Mage::app()->getDefaultStoreView()->getWebsiteId();
+                    $data['store_id'] = Mage::app()->getDefaultStoreView()->getStoreId();
                 } else {
                     $data['store_id'] = $customer->getStoreId();
                 }

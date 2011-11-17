@@ -38,6 +38,8 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Giftwrapping_Edit extends Mage_Adm
 
         parent::__construct();
 
+        $this->_removeButton('reset');
+
         $this->_addButton('save_and_continue_edit', array(
             'class'   => 'save',
             'label'   => Mage::helper('Enterprise_GiftWrapping_Helper_Data')->__('Save and Continue Edit'),
@@ -49,7 +51,6 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Giftwrapping_Edit extends Mage_Adm
             $this->_updateButton('delete', 'onclick',
                 'deleteConfirm(\'' . $this->jsQuoteEscape($confirmMessage) . '\', \'' . $this->getDeleteUrl() . '\')'
             );
-            $this->_removeButton('reset');
         }
 
         $this->_formScripts[] = '

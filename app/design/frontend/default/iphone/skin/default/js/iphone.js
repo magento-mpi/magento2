@@ -336,6 +336,21 @@ document.observe("dom:loaded", function() {
                 }
             });
         });
+        
+        $$('.menu-box')[0].select('a').each(function(elem) {
+            elem.innerHTML = elem.innerHTML.replace(/\((\d+)\)/, '<span class="badge" data-value="$1">$1</span>')
+        })
+        
+        $$('.top-link-cart')[0].up().remove();
+        
+        var sum = 0;
+        $$('.menu-box .badge').each(function (badge) {
+            sum += parseInt(badge.readAttribute('data-value'));
+        });
+        if (sum) {
+            $$('dt.menu')[0].insert({ bottom : new Element('span', { 'class' : 'badge' }).update(sum) });
+        }
+        
     }
 
     //iPhone header menu switchers

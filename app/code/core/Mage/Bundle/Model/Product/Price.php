@@ -216,9 +216,6 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
                             }
 
                             $qty = $selection->getSelectionQty();
-                            if ($selection->getSelectionCanChangeQty() && !$option->isMultiSelection()) {
-                                $qty = min(1, $qty);
-                            }
 
                             $item = $product->getPriceType() == self::PRICE_TYPE_FIXED ? $product : $selection;
 

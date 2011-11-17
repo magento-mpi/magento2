@@ -90,6 +90,7 @@ class Mage_Paypal_PayflowadvancedController extends Mage_Paypal_Controller_Expre
 
         $checkToken = $this->getRequest()->getParam('TOKEN');
         if ($checkToken) {
+            $payment->setAdditionalInformation('express_checkout_token', $checkToken)->save();
             Mage::getSingleton('Mage_Paypal_Model_Session')->setExpressCheckoutToken($checkToken);
             $this->_redirect('*/*/review');
             return;

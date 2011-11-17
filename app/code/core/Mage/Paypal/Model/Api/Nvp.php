@@ -1038,6 +1038,10 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
      */
     protected function _isCallSuccessful($response)
     {
+        if (!isset($response['ACK'])) {
+            return false;
+        }
+
         $ack = strtoupper($response['ACK']);
         $this->_callWarnings = array();
         if ($ack == 'SUCCESS' || $ack == 'SUCCESSWITHWARNING') {

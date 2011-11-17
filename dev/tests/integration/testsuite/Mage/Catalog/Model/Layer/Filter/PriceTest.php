@@ -94,13 +94,16 @@ class Mage_Catalog_Model_Layer_Filter_PriceTest extends PHPUnit_Framework_TestCa
         $this->assertEmpty($this->_model->getData('price_range'));
     }
 
-    public function testApply()
+    /**
+     * @magentoConfigFixture current_store catalog/layered_navigation/price_range_calculation manual
+     */
+    public function testApplyManual()
     {
         $request = new Magento_Test_Request();
-        $request->setParam('price', '2,10');
+        $request->setParam('price', '10-20');
         $this->_model->apply($request, new Mage_Core_Block_Text());
 
-        $this->assertEquals(10, $this->_model->getData('price_range'));
+        $this->assertEquals(array(10, 20), $this->_model->getData('interval'));
     }
 
     public function testGetSetCustomerGroupId()
