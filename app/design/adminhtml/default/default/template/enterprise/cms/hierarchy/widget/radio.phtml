@@ -152,7 +152,7 @@ $parameters = $this->getParameters();
 
     function hideOldHierarchy()
     {
-        $('options_<?php echo $uniqueHash; ?>_node_id').insert({
+        $('options_<?php echo $uniqueHash; ?>').insert({
             top: new Element('div', {id: 'real_<?php echo $uniqueHash; ?>_real'}).update($('<?php echo $uniqueHash; ?>_new').innerHTML)
         });
         $('<?php echo $uniqueHash; ?>_new').remove();
