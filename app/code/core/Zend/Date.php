@@ -28,6 +28,9 @@
 #require_once 'Zend/Locale/Math.php';
 
 /**
+ * This class replaces default Zend_Date because of problem described in Jira ticket MAGE-4872
+ * The only difference between current class and original one is overwritten implementation of mktime method
+ *
  * @category  Zend
  * @package   Zend_Date
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
@@ -120,7 +123,14 @@ class Zend_Date extends Zend_Date_DateObject
     const RSS               = 'SSS';
     const W3C               = 'WWW';
 
+    /**
+     * Minimum allowed year value
+     */
     const YEAR_MIN_VALUE = -10000;
+
+    /**
+     * Maximum allowed year value
+     */
     const YEAR_MAX_VALUE = 10000;
 
     /**
@@ -4728,46 +4738,6 @@ class Zend_Date extends Zend_Date_DateObject
     }
 
     /**
-     * Get unix timestamp.
-     * Function has limitation: year value can be from -10 000 to 10 000
-     *
-     * @see Zend_Date_DateObject::mktime
-     * @throws Exception
-     * @param $hour
-     * @param $minute
-     * @param $second
-     * @param $month
-     * @param $day
-     * @param $year
-     * @param bool $gmt
-     * @return float|int
-     */
-    protected function mktime($hour, $minute, $second, $month, $day, $year, $gmt = false)
-    {
-        $day   = intval($day);
-        $month = intval($month);
-        $year  = intval($year);
-
-        // correct months > 12 and months < 1
-        if ($month > 12) {
-            $overlap = floor($month / 12);
-            $year   += $overlap;
-            $month  -= $overlap * 12;
-        } else {
-            $overlap = ceil((1 - $month) / 12);
-            $year   -= $overlap;
-            $month  += $overlap * 12;
-        }
-
-        if ($year > self::YEAR_MAX_VALUE || $year < self::YEAR_MIN_VALUE) {
-            throw new Exception('Year value too big. Year value must be between ' . self::YEAR_MIN_VALUE . ' AND '
-                . self::YEAR_MAX_VALUE);
-        }
-
-        return parent::mktime($hour, $minute, $second, $month, $day, $year, $gmt = false);
-    }
-
-    /**
      * Checks if the given date is a real date or datepart.
      * Returns false if a expected datepart is missing or a datepart exceeds its possible border.
      * But the check will only be done for the expected dateparts which are given by format.
@@ -4993,5 +4963,46 @@ class Zend_Date extends Zend_Date_DateObject
         }
 
         return $token;
+    }
+
+    /**
+     * Get unix timestamp.
+     * Added limitation: $year value must be between -10 000 and 10 000
+     * Parent method implementation causes 504 error if it gets too big(small) year value
+     *
+     * @see Zend_Date_DateObject::mktime
+     * @throws Zend_Date_Exception
+     * @param $hour
+     * @param $minute
+     * @param $second
+     * @param $month
+     * @param $day
+     * @param $year
+     * @param bool $gmt
+     * @return float|int
+     */
+    protected function mktime($hour, $minute, $second, $month, $day, $year, $gmt = false)
+    {
+        $day   = intval($day);
+        $month = intval($month);
+        $year  = intval($year);
+
+        // correct months > 12 and months < 1
+        if ($month > 12) {
+            $overlap = floor($month / 12);
+            $year   += $overlap;
+            $month  -= $overlap * 12;
+        } else {
+            $overlap = ceil((1 - $month) / 12);
+            $year   -= $overlap;
+            $month  += $overlap * 12;
+        }
+
+        if ($year > self::YEAR_MAX_VALUE || $year < self::YEAR_MIN_VALUE) {
+            throw new Zend_Date_Exception('Invalid year, it must be between ' . self::YEAR_MIN_VALUE . ' and '
+                . self::YEAR_MAX_VALUE);
+        }
+
+        return parent::mktime($hour, $minute, $second, $month, $day, $year, $gmt = false);
     }
 }
