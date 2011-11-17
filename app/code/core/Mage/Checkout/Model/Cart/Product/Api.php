@@ -34,20 +34,15 @@
 
 class Mage_Checkout_Model_Cart_Product_Api extends Mage_Checkout_Model_Api_Resource_Product
 {
+    /**
+     * Base preparation of product data
+     *
+     * @param mixed $data
+     * @return null|array
+     */
     protected function _prepareProductsData($data)
     {
-        if (!is_array($data)) {
-            return null;
-        }
-
-        $_data = array();
-        if (is_array($data) && is_null($data[0])) {
-            $_data[] = $data;
-        } else {
-            $_data = $data;
-        }
-
-        return $_data;
+        return is_array($data) ? $data : null;
     }
 
     /**
