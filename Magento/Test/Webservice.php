@@ -68,8 +68,8 @@ class Magento_Test_Webservice extends Magento_TestCase
     {
         if (null === self::$_ws) {
             $class = $this->_webServiceMap[strtolower(TESTS_WEBSERVICE_TYPE)];
-            self::$_ws = new $class($options);
-            self::$_ws->init();
+            self::$_ws = new $class();
+            self::$_ws->init($options);
         }
         return self::$_ws;
     }
