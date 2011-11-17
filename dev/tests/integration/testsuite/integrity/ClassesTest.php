@@ -647,6 +647,7 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
         }
 
         $skippedFiles = array(
+            "app" . DS . "etc" . DS . "local.xml",
             "app" . DS . "etc" . DS . "config.xml",
             "Enterprise" . DS . "Staging" . DS . "etc" . DS . "config.xml",
             "app" . DS . "code" . DS . "core" .

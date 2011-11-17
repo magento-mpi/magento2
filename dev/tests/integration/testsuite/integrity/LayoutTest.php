@@ -21,15 +21,13 @@ class Integrity_LayoutTest extends Magento_Test_TestCase_IntegrityAbstract
     {
         $layoutXml = simplexml_load_file($layoutFile);
         $selectorHeadBlock = '(name()="block" or name()="reference") and (@name="head" or @name="convert_root_head")';
-        $this->assertSame(
-            array(),
+        $this->assertEmpty(
             $layoutXml->xpath(
                 '//*[' . $selectorHeadBlock . ']/action[@method="addItem"]'
             ),
             "Expected absence of the legacy call(s) to Mage_Page_Block_Html_Head::addItem."
         );
-        $this->assertSame(
-            array(),
+        $this->assertEmpty(
             $layoutXml->xpath(
                 '//action[@method="addJs" or @method="addCss"]/parent::*[not(' . $selectorHeadBlock . ')]'
             ),
