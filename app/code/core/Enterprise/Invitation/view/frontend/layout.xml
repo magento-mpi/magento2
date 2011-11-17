@@ -40,7 +40,7 @@
             <action method="setActive"><path>enterprise_invitation/index/index</path></action>
         </reference>
         <reference name="my.account.wrapper">
-            <block type="Mage_Core_Block_Template" name="invitationForm" template="Enterprise_Invitation::form.phtml">
+            <block type="Enterprise_Invitation_Block_Form" name="invitationForm" template="Enterprise_Invitation::form.phtml">
                 <block type="Mage_Page_Block_Html_Wrapper" name="invitations.form.form.before" as="form_before" translate="label">
                     <label>Invitation Form Before</label>
                     <!--action method="setMayBeInvisible"><value>1</value></action-->

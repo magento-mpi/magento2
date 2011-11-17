@@ -83,7 +83,7 @@ class Enterprise_Invitation_Model_Config
      */
     public function isInvitationMessageAllowed($storeId = null)
     {
-        return Mage::getStoreConfigFlag(self::XML_PATH_USE_INVITATION_MESSAGE, $storeId);
+        return (bool) Mage::getStoreConfigFlag(self::XML_PATH_USE_INVITATION_MESSAGE, $storeId);
     }
 
     /**

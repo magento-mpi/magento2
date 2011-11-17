@@ -24,17 +24,14 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 ?>
-<?php
-/**
- * @see Mage_Core_Block_Template
- */
-?>
+<?php /** @var $this Enterprise_Invitation_Block_Form */?>
 <div class="page-title">
     <h1><?php echo Mage::helper('Enterprise_Invitation_Helper_Data')->__('Send Invitations') ?></h1>
 </div>
 <div id="messages"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
 <?php echo $this->getChildHtml('form_before')?>
-<?php if ($maxPerSend = (int)Mage::getSingleton('Enterprise_Invitation_Model_Config')->getMaxInvitationsPerSend()): ?>
+<?php $maxPerSend = $this->getMaxInvitationsPerSend(); ?>
+<?php if ($maxPerSend): ?>
 <form id="invitationForm" action="" method="post">
     <div class="fieldset">
     <h2 class="legend"><?php echo Mage::helper('Enterprise_Invitation_Helper_Data')->__('Invite your friends by entering their email addresses below'); ?></h2>
@@ -47,7 +44,7 @@
                 </div>
             </li>
             <?php endfor; ?>
-        <?php if (Mage::getSingleton('Enterprise_Invitation_Model_Config')->isInvitationMessageAllowed()): ?>
+        <?php if ($this->isInvitationMessageAllowed()): ?>
             <li>
                 <label for="message"><?php echo Mage::helper('Enterprise_Invitation_Helper_Data')->__('Message');?>: </label>
                 <div class="input-box">
