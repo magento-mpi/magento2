@@ -81,4 +81,14 @@ class Mage_Checkout_Block_Onepage_Login extends Mage_Checkout_Block_Onepage_Abst
     {
         return Mage::getSingleton('Mage_Customer_Model_Session')->getUsername(true);
     }
+
+    /**
+     * Check if guests checkout is allowed
+     *
+     * @return bool
+     */
+    public function isAllowedGuestCheckout()
+    {
+        return Mage::helper('Mage_Checkout_Helper_Data')->isAllowedGuestCheckout($this->getQuote());
+    }
 }

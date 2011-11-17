@@ -62,6 +62,11 @@ class Enterprise_TargetRule_Block_Checkout_Cart_Crosssell extends Enterprise_Tar
     protected $_byLastAddedProduct = false;
 
     /**
+     * @var Enterprise_TargetRule_Model_Index
+     */
+    protected $_index;
+
+    /**
      * Retrieve Catalog Product List Type identifier
      *
      * @return int

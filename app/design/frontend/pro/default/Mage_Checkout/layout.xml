@@ -414,7 +414,7 @@ One page checkout order review block
                 <label>Items After</label>
             </block>
             <block type="Mage_Checkout_Block_Agreements" name="checkout.onepage.agreements" as="agreements" template="onepage/agreements.phtml"/>
-            <block type="Mage_Core_Block_Template" name="checkout.onepage.review.button" as="button" template="onepage/review/button.phtml"/>
+            <block type="Mage_Core_Block_Template" name="checkout.onepage.review.button" as="button" template="Mage_Checkout::onepage/review/button.phtml"/>
         </block>
     </checkout_onepage_review>
 

@@ -60,7 +60,9 @@ class Mage_Payment_Helper_Data extends Mage_Core_Helper_Abstract
     public function getStoreMethods($store = null, $quote = null)
     {
         $res = array();
-        foreach ($this->getPaymentMethods($store) as $code => $methodConfig) {
+        $methods = $this->getPaymentMethods($store);
+        uasort($methods, array($this, '_sortMethods'));
+        foreach ($methods as $code => $methodConfig) {
             $prefix = self::XML_PATH_PAYMENT_METHODS . '/' . $code . '/';
             if (!$model = Mage::getStoreConfig($prefix . 'model', $store)) {
                 continue;
@@ -79,7 +81,6 @@ class Mage_Payment_Helper_Data extends Mage_Core_Helper_Abstract
             $res[] = $methodInstance;
         }
 
-        usort($res, array($this, '_sortMethods'));
         return $res;
     }
 

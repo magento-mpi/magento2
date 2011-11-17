@@ -360,7 +360,7 @@ One page checkout main layout
                         <action method="setFormCode"><code>customer_register_address</code></action>
                     </block>
                 </block>
-                <block type="Mage_Checkout_Block_Onepage_Shipping" name="checkout.onepage.shipping" as="shipping" template="checkout/onepage/shipping.phtml">
+                <block type="Mage_Checkout_Block_Onepage_Shipping" name="checkout.onepage.shipping" as="shipping" template="onepage/shipping.phtml">
                     <block type="Enterprise_Customer_Block_Form" template="form/userattributes.phtml" name="customer_form_shipping_address_user_defined_attributes">
                         <action method="setFormCode"><code>customer_register_address</code></action>
                     </block>
@@ -457,7 +457,7 @@ One page checkout order review block
                 <label>Items After</label>
             </block>
             <block type="Mage_Checkout_Block_Agreements" name="checkout.onepage.agreements" as="agreements" template="onepage/agreements.phtml"/>
-            <block type="Mage_Core_Block_Template" name="checkout.onepage.review.button" as="button" template="onepage/review/button.phtml"/>
+            <block type="Mage_Core_Block_Template" name="checkout.onepage.review.button" as="button" template="Mage_Checkout::onepage/review/button.phtml"/>
         </block>
         <block type="Mage_Core_Block_Text_List" name="additional.product.info" translate="label">
             <label>Additional Product Info</label>

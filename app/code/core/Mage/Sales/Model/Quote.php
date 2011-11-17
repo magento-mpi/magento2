@@ -136,6 +136,8 @@
  */
 class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
 {
+    const CHECKOUT_METHOD_LOGIN_IN  = 'login_in';
+
     protected $_eventPrefix = 'sales_quote';
     protected $_eventObject = 'quote';
 
