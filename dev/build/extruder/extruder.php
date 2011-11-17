@@ -60,10 +60,7 @@ if (!is_dir($workingDir)) {
 
 $rmCommand = 'rm -rf';
 if (isset($options['s'])) {
-    $vcsName = $options['s'];
-    if ($vcsName == 'svn') {
-        $rmCommand = 'svn rm --force';
-    } elseif ($vcsName == 'git') {
+    if ($options['s'] == 'git') {
         $rmCommand = 'git rm -r --ignore-unmatch';
     } else {
         print USAGE;
