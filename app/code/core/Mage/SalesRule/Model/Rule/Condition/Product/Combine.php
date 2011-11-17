@@ -40,18 +40,27 @@ class Mage_SalesRule_Model_Rule_Condition_Product_Combine extends Mage_Rule_Mode
         $pAttributes = array();
         $iAttributes = array();
         foreach ($productAttributes as $code=>$label) {
-            if (strpos($code, 'quote_item_')===0) {
-                $iAttributes[] = array('value'=>'salesrule/rule_condition_product|'.$code, 'label'=>$label);
+            if (strpos($code, 'quote_item_') === 0) {
+                $iAttributes[] = array(
+                    'value' => 'Mage_SalesRule_Model_Rule_Condition_Product|' . $code, 'label' => $label
+                );
             } else {
-                $pAttributes[] = array('value'=>'salesrule/rule_condition_product|'.$code, 'label'=>$label);
+                $pAttributes[] =
+                    array('value' => 'Mage_SalesRule_Model_Rule_Condition_Product|' . $code, 'label' => $label);
             }
         }
 
         $conditions = parent::getNewChildSelectOptions();
         $conditions = array_merge_recursive($conditions, array(
-            array('value'=>'salesrule/rule_condition_product_combine', 'label'=>Mage::helper('Mage_Catalog_Helper_Data')->__('Conditions Combination')),
-            array('label'=>Mage::helper('Mage_Catalog_Helper_Data')->__('Cart Item Attribute'), 'value'=>$iAttributes),
-            array('label'=>Mage::helper('Mage_Catalog_Helper_Data')->__('Product Attribute'), 'value'=>$pAttributes),
+            array('value' => 'Mage_SalesRule_Model_Rule_Condition_Product_Combine',
+                'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Conditions Combination')
+            ),
+            array('label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Cart Item Attribute'),
+                'value' => $iAttributes
+            ),
+            array('label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Product Attribute'),
+                'value' => $pAttributes
+            ),
         ));
         return $conditions;
     }

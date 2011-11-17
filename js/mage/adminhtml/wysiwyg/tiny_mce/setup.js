@@ -81,9 +81,10 @@ tinyMceWysiwygSetup.prototype =
             plugins = 'magentowidget,' + plugins;
         }
 
+        var magentoPluginsOptions = $H({});
+        var magentoPlugins = '';
+
         if (this.config.plugins) {
-            var magentoPluginsOptions = $H({});
-            var magentoPlugins = '';
             (this.config.plugins).each(function(plugin){
                 magentoPlugins = plugin.name + ',' + magentoPlugins;
                 magentoPluginsOptions.set(plugin.name, plugin.options);
@@ -223,6 +224,12 @@ tinyMceWysiwygSetup.prototype =
         this.getPluginButtons().each(function(e) {
             e.show();
         });
+        if (Prototype.Browser.IE) {
+        	// workaround for ie textarea redraw bug
+        	window.setTimeout(function(){
+        		$(this.id).value = $(this.id).value;
+        	}.bind(this), 0);
+        }
     },
 
     closePopups: function() {

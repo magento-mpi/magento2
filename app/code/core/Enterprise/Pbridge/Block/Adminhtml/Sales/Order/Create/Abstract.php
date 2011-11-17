@@ -61,7 +61,7 @@ class Enterprise_Pbridge_Block_Adminhtml_Sales_Order_Create_Abstract
      *
      * @var string
      */
-    protected $_iframeTemplate = 'Enterprise_Pbridge::sales/order/create/iframe.phtml';
+    protected $_iframeTemplate = 'Enterprise_Pbridge::iframe.phtml';
 
     /**
      * Return url model class for adminhtml

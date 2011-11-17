@@ -66,7 +66,8 @@ class Mage_Core_Model_Variable_Config
      */
     public function getWysiwygJsPluginSrc()
     {
-        return Mage::getBaseUrl('js').'mage/adminhtml/wysiwyg/tiny_mce/plugins/magentovariable/editor_plugin.js';
+        $editorPluginJs = 'mage/adminhtml/wysiwyg/tiny_mce/plugins/magentovariable/editor_plugin.js';
+        return Mage::getDesign()->getSkinUrl($editorPluginJs);
     }
 
     /**

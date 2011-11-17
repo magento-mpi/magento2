@@ -32,7 +32,7 @@ Default layout, loads most of the pages
 
     <default>
         <reference name="head">
-            <action method="addCss"><stylesheet>Mage_Cms::widgets.css</stylesheet></action>
+            <action method="addCss"><file>Mage_Cms::widgets.css</file></action>
         </reference>
         <reference name="footer">
             <block type="Mage_Cms_Block_Block" name="cms_footer_links" before="footer_links">
@@ -47,7 +47,7 @@ Default layout, loads most of the pages
 
     <print>
         <reference name="head">
-            <action method="addCss"><stylesheet>Mage_Cms::widgets.css</stylesheet></action>
+            <action method="addCss"><file>Mage_Cms::widgets.css</file></action>
         </reference>
     </print>
 

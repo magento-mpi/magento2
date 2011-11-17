@@ -57,7 +57,7 @@
         <reference name="my.account.wrapper">
             <block type="Enterprise_Rma_Block_Return_Create" as="create" name="rma.return.create" template="return/create.phtml">
                 <action method="setFormCode"><code>default</code></action>
-                <action method="setEntityModelClass"><code>enterprise_rma/item</code></action>
+                <action method="setEntityModelClass"><code>Enterprise_Rma_Model_Item</code></action>
             </block>
         </reference>
         <update handle="enterprise_rma_return_create_handle"/>
@@ -205,7 +205,7 @@
             <block type="Enterprise_Rma_Block_Return_Info" as="info" name="sales.order.info" />
             <block type="Enterprise_Rma_Block_Return_Create" as="create" name="rma.return.create" template="return/create.phtml">
                 <action method="setFormCode"><code>default</code></action>
-                <action method="setEntityModelClass"><code>enterprise_rma/item</code></action>
+                <action method="setEntityModelClass"><code>Enterprise_Rma_Model_Item</code></action>
             </block>
         </reference>
         <update handle="enterprise_rma_return_create_handle"/>

@@ -34,13 +34,13 @@
             <block type="Mage_Reports_Block_Product_Compared" name="right.reports.product.compared" template="product_compared.phtml" />
         </reference>
         <reference name="head">
-            <action method="addCss"><stylesheet>Mage_Reports::widgets.css</stylesheet></action>
+            <action method="addCss"><file>Mage_Reports::widgets.css</file></action>
         </reference>
     </default>
 
     <print>
         <reference name="head">
-            <action method="addCss"><stylesheet>Mage_Reports::widgets.css</stylesheet></action>
+            <action method="addCss"><file>Mage_Reports::widgets.css</file></action>
         </reference>
     </print>
 

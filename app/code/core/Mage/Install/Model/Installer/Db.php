@@ -156,7 +156,7 @@ class Mage_Install_Model_Installer_Db extends Mage_Install_Model_Installer_Abstr
     protected function _getDbResource($model)
     {
         if (!isset($this->_dbResource)) {
-            $resource =  Mage::getSingleton("Mage_Install_Model_Installer_Db_" . uc_words($model));
+            $resource =  Mage::getSingleton("Mage_Install_Model_Installer_Db_" . ucfirst($model));
             if (!$resource) {
                 Mage::throwException(Mage::helper('Mage_Install_Helper_Data')->__(sprintf('Installer does not exist for %s database type', $model)));
             }

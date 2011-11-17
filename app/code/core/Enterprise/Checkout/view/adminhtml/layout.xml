@@ -36,10 +36,10 @@
 
     <adminhtml_checkout_index>
         <reference name="head">
-            <action method="addItem"><type>skin_js</type><name>Mage_Adminhtml::catalog/product/composite/configure.js</name></action>
+            <action method="addJs"><file>Mage_Adminhtml::catalog/product/composite/configure.js</file></action>
             <action method="addJs"><file>varien/configurable.js</file></action>
-            <action method="addItem">
-                <type>skin_js</type><name>Enterprise_Checkout::shopping_cart.js</name>
+            <action method="addJs">
+                <file>Enterprise_Checkout::shopping_cart.js</file>
             </action>
         </reference>
         <reference name="content">

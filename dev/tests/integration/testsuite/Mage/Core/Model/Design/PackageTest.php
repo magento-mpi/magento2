@@ -172,20 +172,30 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
                 $prefix . 'custom_theme/skin/theme_nested_skin/locale/ru_RU/Fixture_Module/fixture_script.js',
                 'ru_RU',
             ),
-            'primary fallback - same theme & default skin' => array(
+            'lib skin file inside theme' => array(
+                'varien/product.js',
+                array('_skin' => 'theme_nested_skin'),
+                $prefix . 'custom_theme/skin/theme_nested_skin/varien/product.js',
+            ),
+            'primary theme fallback - same theme & default skin' => array(
                 'fixture_script_two.js',
                 array('_skin' => 'theme_nested_skin'),
                 $prefix . 'custom_theme/skin/default/fixture_script_two.js',
             ),
-            'secondary fallback - default theme & same skin' => array(
+            'secondary theme fallback - default theme & same skin' => array(
                 'fixture_script_three.js',
                 array('_skin' => 'theme_nested_skin'),
                 $prefix . 'default/skin/theme_nested_skin/fixture_script_three.js',
             ),
-            'final fallback - default theme & default skin' => array(
+            'final theme fallback - default theme & default skin' => array(
                 'fixture_script_four.js',
                 array('_skin' => 'theme_nested_skin'),
                 $prefix . 'default/skin/default/fixture_script_four.js',
+            ),
+            'lib fallback' => array(
+                'varien/product.js',
+                array('_skin' => 'default'),
+                '%s/js/varien/product.js',
             ),
         );
     }
@@ -221,6 +231,14 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
                 'Module::favicon.ico',
                 'skin/frontend/test/default/default/en_US/Module/favicon.ico',
             ),
+            'lib file' => array(
+                'varien/product.js',
+                'http://localhost/js/varien/product.js',
+            ),
+            'lib folder' => array(
+                'varien',
+                'http://localhost/js/varien',
+            )
         );
     }
 
@@ -485,8 +503,8 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
             'http://localhost/js/calendar/calendar-blue.css',
         );
         $params = array(
-            'css/styles.css' => Mage_Core_Model_Design_Package::STATIC_TYPE_SKIN,
-            'calendar/calendar-blue.css' => Mage_Core_Model_Design_Package::STATIC_TYPE_LIB,
+            'css/styles.css',
+            'calendar/calendar-blue.css',
         );
         $this->assertEquals($expected, $this->_model->getOptimalCssUrls($params));
     }
@@ -506,14 +524,11 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
     {
         return array(
             array(
-                array(
-                    'css/styles.css' => Mage_Core_Model_Design_Package::STATIC_TYPE_SKIN,
-                    'calendar/calendar-blue.css' => Mage_Core_Model_Design_Package::STATIC_TYPE_LIB,
-                ),
+                array('css/styles.css', 'calendar/calendar-blue.css'),
                 array('http://localhost/media/skin/_merged/5594035976651f0a40d65ed577700fb5.css')
             ),
             array(
-                array('css/styles.css' => Mage_Core_Model_Design_Package::STATIC_TYPE_SKIN,),
+                array('css/styles.css'),
                 array('http://localhost/media/skin/frontend/test/default/default/en_US/css/styles.css',)
             ),
         );
@@ -527,8 +542,8 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
             'http://localhost/js/calendar/calendar.js',
         );
         $params = array(
-            'js/tabs.js' => Mage_Core_Model_Design_Package::STATIC_TYPE_SKIN,
-            'calendar/calendar.js' => Mage_Core_Model_Design_Package::STATIC_TYPE_LIB,
+            'js/tabs.js',
+            'calendar/calendar.js',
         );
         $this->assertEquals($expected, $this->_model->getOptimalJsUrls($params));
     }
@@ -548,25 +563,13 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
     {
         return array(
             array(
-                array(
-                    'js/tabs.js' => Mage_Core_Model_Design_Package::STATIC_TYPE_SKIN,
-                    'calendar/calendar.js' => Mage_Core_Model_Design_Package::STATIC_TYPE_LIB,
-                ),
+                array('js/tabs.js', 'calendar/calendar.js'),
                 array('http://localhost/media/skin/_merged/c5a9f4afba4ff0ff979445892214fc8b.js',)
             ),
             array(
-                array('calendar/calendar.js' => Mage_Core_Model_Design_Package::STATIC_TYPE_LIB,),
+                array('calendar/calendar.js'),
                 array('http://localhost/js/calendar/calendar.js',)
             ),
-        );
-    }
-
-    public function testGetStaticLibUrl()
-    {
-        $this->assertEquals('http://localhost/js/', $this->_model->getStaticLibUrl(''));
-        $this->assertEquals(
-            'http://localhost/js/calendar/calendar.js',
-            $this->_model->getStaticLibUrl('calendar/calendar.js')
         );
     }
 

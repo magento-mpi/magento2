@@ -41,6 +41,7 @@ class Enterprise_Reminder_Model_Resource_Rule_Collection extends Mage_Core_Model
     protected function _construct()
     {
         $this->_init('Enterprise_Reminder_Model_Rule', 'Enterprise_Reminder_Model_Resource_Rule');
+        $this->addFilterToMap('rule_id', 'main_table.rule_id');
     }
 
     /**

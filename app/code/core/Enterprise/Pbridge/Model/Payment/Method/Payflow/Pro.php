@@ -54,6 +54,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Payflow_Pro extends Mage_Paypal_Mo
      * @var Enterprise_Pbridge_Model_Payment_Method_Pbridge
      */
     protected $_pbridgeMethodInstance = null;
+    protected $_canFetchTransactionInfo = false;
 
     /**
      * Return that current payment method is dummy

@@ -57,7 +57,9 @@ class Social_Facebook_Block_Head extends Mage_Core_Block_Template
             );
             $tags[] = array(
                 'property'  => 'og:image',
-                'content'   => $this->escapeHtml(Mage::helper('Mage_Catalog_Helper_Image')->init($product, 'image')->resize(256))
+                'content'   => $this->escapeHtml(Mage::helper('Mage_Catalog_Helper_Image')->init($product, 'image')->resize(
+                    $this->getVar('product_base_image_size', 'Mage_Catalog')
+                ))
             );
             $tags[] = array(
                 'property'  => 'og:description',

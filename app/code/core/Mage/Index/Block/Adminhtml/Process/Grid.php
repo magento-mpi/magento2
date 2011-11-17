@@ -38,7 +38,7 @@ class Mage_Index_Block_Adminhtml_Process_Grid extends Mage_Adminhtml_Block_Widge
      *
      * @var string
      */
-    protected $_massactionBlockName = 'index/adminhtml_process_grid_massaction';
+    protected $_massactionBlockName = 'Mage_Index_Block_Adminhtml_Process_Grid_Massaction';
 
     /**
      * Class constructor

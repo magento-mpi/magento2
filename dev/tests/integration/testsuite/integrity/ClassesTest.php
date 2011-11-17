@@ -82,7 +82,7 @@ class Integrity_ClassesTest extends Magento_Test_TestCase_VisitorAbstract
      */
     protected function _findClassNamesInFile($fileInfo)
     {
-        $content = file_get_contents((string) $fileInfo);
+        $content = file_get_contents((string)$fileInfo);
 
         $result = array();
         $visitorMethods = $this->_getVisitorMethods();
@@ -580,11 +580,11 @@ class Integrity_ClassesTest extends Magento_Test_TestCase_VisitorAbstract
         }
 
         $skippedFiles = array(
+            "app" . DS . "etc" . DS . "local.xml",
             "app" . DS . "etc" . DS . "config.xml",
             "Enterprise" . DS . "Staging" . DS . "etc" . DS . "config.xml",
-            /** @TODO  path should be change after layout moved */
-            "app" . DS . "design" . DS . "adminhtml" .
-                DS . "default" . DS . "default" . DS . "layout" . DS . "enterprise" . DS . "customerbalance.xml",
+            "app" . DS . "code" . DS . "core" .
+                DS . "Enterprise" . DS . "CustomerBalance" . DS . "view" . DS . "adminhtml" . DS . "layout.xml",
         );
 
         foreach ($skippedFiles as $skippedFile) {
@@ -593,37 +593,35 @@ class Integrity_ClassesTest extends Magento_Test_TestCase_VisitorAbstract
             }
         }
 
-        $_wordsToFind = array(
-            "class",
-            "model",
-            "backend_model",
-            "source_model",
-            "price_model",
-            "model_token",
-            "attribute_model",
-            "writer_model"
-        );
-        $_patternsToFind = array(
-            ">([\\w\\d\\/\\_]+)?(<\\/)",
-            ">([\\w\\d\\/\\_]+)?(::[\\w\\d\\_]+<\\/)"
-        );
-
-        $patterns = array();
-        foreach ($_wordsToFind as $wordToFind) {
-            foreach ($_patternsToFind as $patternToFind) {
-                $patterns[] = "/<" . $wordToFind . $patternToFind . $wordToFind . ">/Ui";
-            }
-        }
-
         $result = array();
-        foreach ($patterns as $pattern) {
-            $matched = preg_match_all($pattern, $content, $matches);
-            if ($matched) {
-                $result = array_merge($result, $matches[1]);
+        $xml = new SimpleXMLElement($content);
+        $nodes = $xml->xpath('//class | //model | //backend_model | //source_model | //price_model | //model_token'
+            . ' | //attribute_model | //writer_model | //clone_model | //frontend_model'
+        );
+        if ($nodes) {
+            /** @var SimpleXMLElement $node */
+            foreach ($nodes as $node) {
+                $value = trim($node);
+                if (!$value || !preg_match('/^([\w\d_\/]+)(::[\w\d_\/]+)?$/i', $value, $matches)) {
+                    continue;
+                }
+                if (isset($matches[2])) {
+                    $value = $matches[1];
+                }
+                $result[] = $value;
             }
         }
-        $result = array_unique($result);
-        return $result;
+
+        $nodes = $xml->xpath('//@backend_model');
+        if ($nodes) {
+            /** @var SimpleXMLElement $node */
+            foreach ($nodes as $node) {
+                $node = (array)$node;
+                $result[] = (string)$node['@attributes']['backend_model'];
+            }
+        }
+
+        return array_unique($result);
     }
 
     /**
@@ -640,16 +638,7 @@ class Integrity_ClassesTest extends Magento_Test_TestCase_VisitorAbstract
         }
 
         $xml = new SimpleXMLElement($content);
-        $xpathes = array (
-            '//logging/*/expected_models',
-            '//logging/*/actions/*/expected_models'
-        );
-
-        $expectedModels = array();
-        foreach ($xpathes as $xpath) {
-            $expectedModels = array_merge($expectedModels, $xml->xpath($xpath));
-        }
-
+        $expectedModels = $xml->xpath('/logging/*/expected_models | /logging/*/actions/*/expected_models');
         $result = array();
         foreach ($expectedModels as $expectModelNode) {
             $expectedModel = (array) $expectModelNode;
@@ -664,4 +653,31 @@ class Integrity_ClassesTest extends Magento_Test_TestCase_VisitorAbstract
         return array_unique($result);
     }
 
+    /**
+     * Finds usage action[@method="setEntityModelClass"]/code in layout.xml files
+     *
+     * @param SplFileInfo $fileInfo
+     * @param string $content
+     * @return array
+     */
+    protected function _visitModelsInLayoutXmlDefinitions($fileInfo, $content)
+    {
+        if ($fileInfo->getBasename() != 'layout.xml') {
+            return array();
+        }
+
+        $xml = new SimpleXMLElement($content);
+        $xpathes = array (
+            '//layout/*/block/action[@method="setEntityModelClass"]/code',
+            '//layout/*/reference/block/action[@method="setEntityModelClass"]/code'
+        );
+
+        $result = array();
+        foreach ($xpathes as $xpath) {
+            foreach ($xml->xpath($xpath) as $expectModelNode) {
+                $result[] = (string) $expectModelNode;
+            }
+        }
+        return array_unique($result);
+    }
 }

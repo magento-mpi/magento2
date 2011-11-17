@@ -1311,8 +1311,7 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Index_Model_
      */
     public function prepareFlatTables()
     {
-        foreach (Mage::app()->getStores() as $store) {
-            $storeId = (int)Mage::app()->getStore($store)->getId();
+        foreach (Mage::app()->getStores() as $storeId => $store) {
             $this->prepareFlatTable($storeId);
         }
         return $this;

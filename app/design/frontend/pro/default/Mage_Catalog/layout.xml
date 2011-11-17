@@ -153,8 +153,8 @@ Compare products page
             <action method="setTemplate"><template>popup.phtml</template></action>
         </reference>
         <reference name="head">
-            <action method="addJs"><script>scriptaculous/scriptaculous.js</script></action>
-            <action method="addJs"><script>varien/product.js</script></action>
+            <action method="addJs"><file>scriptaculous/scriptaculous.js</file></action>
+            <action method="addJs"><file>varien/product.js</file></action>
         </reference>
         <reference name="content">
             <block type="Mage_Catalog_Block_Product_Compare_List" name="catalog.compare.list" template="product/compare/list.phtml"/>
@@ -178,12 +178,12 @@ Product view
             <action method="setTemplate"><template>2columns-right.phtml</template></action>
         </reference>
         <reference name="head">
-            <action method="addJs"><script>varien/product.js</script></action>
-            <action method="addJs"><script>varien/configurable.js</script></action>
+            <action method="addJs"><file>varien/product.js</file></action>
+            <action method="addJs"><file>varien/configurable.js</file></action>
 
-            <action method="addItem"><type>js_css</type><name>calendar/calendar-win2k-1.css</name><params/><!--<if/><condition>can_load_calendar_js</condition>--></action>
-            <action method="addItem"><type>js</type><name>calendar/calendar.js</name><!--<params/><if/><condition>can_load_calendar_js</condition>--></action>
-            <action method="addItem"><type>js</type><name>calendar/calendar-setup.js</name><!--<params/><if/><condition>can_load_calendar_js</condition>--></action>
+            <action method="addCss"><file>calendar/calendar-win2k-1.css</file><params/><!--<if/><condition>can_load_calendar_js</condition>--></action>
+            <action method="addJs"><file>calendar/calendar.js</file><!--<params/><if/><condition>can_load_calendar_js</condition>--></action>
+            <action method="addJs"><file>calendar/calendar-setup.js</file><!--<params/><if/><condition>can_load_calendar_js</condition>--></action>
         </reference>
         <reference name="content">
             <block type="Mage_Catalog_Block_Product_View" name="product.info" template="product/view.phtml">
