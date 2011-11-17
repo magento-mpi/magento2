@@ -667,16 +667,9 @@ class Integrity_ClassesTest extends Magento_Test_TestCase_VisitorAbstract
         }
 
         $xml = new SimpleXMLElement($content);
-        $xpathes = array (
-            '//layout/*/block/action[@method="setEntityModelClass"]/code',
-            '//layout/*/reference/block/action[@method="setEntityModelClass"]/code'
-        );
-
         $result = array();
-        foreach ($xpathes as $xpath) {
-            foreach ($xml->xpath($xpath) as $expectModelNode) {
-                $result[] = (string) $expectModelNode;
-            }
+        foreach ($xml->xpath('///action[@method="setEntityModelClass"]/code') as $expectModelNode) {
+            $result[] = (string) $expectModelNode;
         }
         return array_unique($result);
     }
