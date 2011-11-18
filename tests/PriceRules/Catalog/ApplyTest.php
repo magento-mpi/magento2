@@ -130,6 +130,7 @@ class PriceRules_Catalog_ApplyTest extends Mage_Selenium_TestCase
      * @depends createCategory
      * @depends createProduct
      * @test
+     *
      */
 
     public function applyRuleToSimpleFront($ruleType, $customerData, $categoryData, $productData)
