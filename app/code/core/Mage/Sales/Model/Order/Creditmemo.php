@@ -160,6 +160,13 @@ class Mage_Sales_Model_Order_Creditmemo extends Mage_Sales_Model_Abstract
     protected $_order;
     protected $_comments;
 
+    /**
+     * Calculator instances for delta rounding of prices
+     *
+     * @var array
+     */
+    protected $_calculators = array();
+
     protected $_eventPrefix = 'sales_order_creditmemo';
     protected $_eventObject = 'creditmemo';
 
@@ -323,6 +330,24 @@ class Mage_Sales_Model_Order_Creditmemo extends Mage_Sales_Model_Abstract
             $model->collect($this);
         }
         return $this;
+    }
+
+    /**
+     * Round price considering delta
+     *
+     * @param float $price
+     * @param string $type
+     * @return float
+     */
+    public function roundPrice($price, $type = 'regular')
+    {
+        if ($price) {
+            if (!isset($this->_calculators[$type])) {
+                $this->_calculators[$type] = Mage::getModel('core/calculator', $this->getStore());
+            }
+            $price = $this->_calculators[$type]->deltaRound($price);
+        }
+        return $price;
     }
 
     public function canRefund()
