@@ -95,7 +95,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Widget_Radio extends Mage_Adm
     {
         $ids = array();
         foreach($this->getAllStoreViews() as $view) {
-            $ids = $view['value'];
+            $ids[] = $view['value'];
         }
 
         return $ids;
