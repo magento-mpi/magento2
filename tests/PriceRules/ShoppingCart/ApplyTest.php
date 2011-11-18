@@ -56,6 +56,7 @@ class PriceRules_ShoppingCart_ApplyTest extends Mage_Selenium_TestCase
     /**
      * Create Customer for tests
      *
+     * @return array    Returns array with the registration info
      * @test
      */
     public function createCustomer()
@@ -75,6 +76,7 @@ class PriceRules_ShoppingCart_ApplyTest extends Mage_Selenium_TestCase
     /**
      * Create category
      *
+     * @return string   Returns category path
      * @test
      */
     public function createCategory()
@@ -94,6 +96,9 @@ class PriceRules_ShoppingCart_ApplyTest extends Mage_Selenium_TestCase
     /**
      * Create Simple Products for tests
      *
+     * @param string $category  String with the category path
+     * @return array    Returns the array with the sku and name of newly created products
+     *
      * @depends createCategory
      * @test
      */
@@ -109,6 +114,8 @@ class PriceRules_ShoppingCart_ApplyTest extends Mage_Selenium_TestCase
             $this->productHelper()->createProduct($simpleProductData);
             $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
         }
+        $this->reindexInvalidedData();
+        $this->clearInvalidedCache();
         return $products;
     }
 
@@ -125,6 +132,10 @@ class PriceRules_ShoppingCart_ApplyTest extends Mage_Selenium_TestCase
      * <p>Expected results:</p>
      * <p>Rule is created; Totals changed after applying coupon; Rule is discounting percent of each product;</p>
      *
+     * @param array  $customer  Array with the customer information for logging in to the frontend
+     * @param string $category  String with the category path for creating rules
+     * @param array  $products  Array with the products' names and sku for validating prices on the frontend
+     *
      * @depends createCustomer
      * @depends createCategory
      * @depends createProducts
@@ -133,6 +144,8 @@ class PriceRules_ShoppingCart_ApplyTest extends Mage_Selenium_TestCase
      */
     public function createPercentOfProductPriceDiscount($customer, $category, $products)
     {
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('default_tax_config');
         $cartProductsData = $this->loadData('prices_for_percent_of_product_price_discount');
         $checkoutData = $this->loadData('totals_for_percent_of_product_price_discount');
         $this->navigate('manage_shopping_cart_price_rules');
@@ -170,6 +183,10 @@ class PriceRules_ShoppingCart_ApplyTest extends Mage_Selenium_TestCase
      * <p>Expected results:</p>
      * <p>Rule is created; Totals changed after applying coupon; Rule is discounting fixed amount for each product in shopping cart;</p>
      *
+     * @param array  $customer  Array with the customer information for logging in to the frontend
+     * @param string $category  String with the category path for creating rules
+     * @param array  $products  Array with the products' names and sku for validating prices on the frontend
+     *
      * @depends createCustomer
      * @depends createCategory
      * @depends createProducts
@@ -178,6 +195,8 @@ class PriceRules_ShoppingCart_ApplyTest extends Mage_Selenium_TestCase
      */
     public function createFixedAmountDiscount($customer, $category, $products)
     {
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('default_tax_config');
         $cartProductsData = $this->loadData('prices_for_fixed_amount_discount');
         $checkoutData = $this->loadData('totals_for_fixed_amount_discount');
         $this->navigate('manage_shopping_cart_price_rules');
@@ -215,6 +234,10 @@ class PriceRules_ShoppingCart_ApplyTest extends Mage_Selenium_TestCase
      * <p>Expected results:</p>
      * <p>Rule is created; Totals changed after applying coupon; Rule is discounting fixed amount for whole cart;</p>
      *
+     * @param array  $customer  Array with the customer information for logging in to the frontend
+     * @param string $category  String with the category path for creating rules
+     * @param array  $products  Array with the products' names and sku for validating prices on the frontend
+     *
      * @depends createCustomer
      * @depends createCategory
      * @depends createProducts
@@ -223,6 +246,8 @@ class PriceRules_ShoppingCart_ApplyTest extends Mage_Selenium_TestCase
      */
     public function createFixedAmountDiscountForWholeCart($customer, $category, $products)
     {
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('default_tax_config');
         $cartProductsData = $this->loadData('prices_for_fixed_amount_discount_for_whole_cart');
         $checkoutData = $this->loadData('totals_for_fixed_amount_discount_for_whole_cart');
         $this->navigate('manage_shopping_cart_price_rules');
