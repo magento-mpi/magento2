@@ -76,7 +76,6 @@ class PriceRules_Catalog_CreateTest extends Mage_Selenium_TestCase
         //Verification
         $this->assertTrue($this->successMessage('success_saved_rule'), $this->messages);
         $this->assertTrue($this->successMessage('notification_message'), $this->messages);
-        $this->verifyMessagesCount(2);
         $this->search(array('filter_rule_name' => $priceRuleData['info']['rule_name']));
         return $priceRuleData['info']['rule_name'];
     }
@@ -90,6 +89,7 @@ class PriceRules_Catalog_CreateTest extends Mage_Selenium_TestCase
      * <p>3. Click "Save Rule" button</p>
      *
      * <p>Expected result: Validation message appears</p>
+     * <p>https://jira.magento.com/browse/MAGE-4870</p>
      *
      * @dataProvider dataEmptyField
      * @test
@@ -101,14 +101,9 @@ class PriceRules_Catalog_CreateTest extends Mage_Selenium_TestCase
         //Steps
         $this->priceRulesHelper()->createRule($priceRuleData);
         //Verification
-        if ($emptyField == 'discount_amount') {
-            $this->assertTrue($this->validationMessage('invalid_discount_amount'), $this->messages);
-            $this->assertTrue($this->verifyMessagesCount(), $this->messages);
-        } else {
-            $this->addFieldIdToMessage($fieldType, $emptyField);
-            $this->assertTrue($this->validationMessage('empty_required_field'), $this->messages);
-            $this->assertTrue($this->verifyMessagesCount(), $this->messages);
-        }
+        $this->addFieldIdToMessage($fieldType, $emptyField);
+        $this->assertTrue($this->validationMessage('empty_required_field'), $this->messages);
+        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
     }
 
     public function dataEmptyField()
@@ -138,9 +133,9 @@ class PriceRules_Catalog_CreateTest extends Mage_Selenium_TestCase
     public function createCatalogPriceRuleInvalidDiscountAmount($invalidDiscountData)
     {
         //Data
-        $priceRuleData = $this->loadData('test_catalog_rule', array(
-            'sub_discount_amount' => $invalidDiscountData,
-            'discount_amount' => $invalidDiscountData), 'rule_name');
+        $priceRuleData = $this->loadData('test_catalog_rule',
+            array('sub_discount_amount' => $invalidDiscountData,
+                  'discount_amount'     => $invalidDiscountData), 'rule_name');
         //Steps
         $this->priceRulesHelper()->createRule($priceRuleData);
         //Verification
@@ -176,19 +171,22 @@ class PriceRules_Catalog_CreateTest extends Mage_Selenium_TestCase
     public function editRule($createdRuleData)
     {
         //Data
-        $editRuleData = $this->loadData('test_catalog_rule', array(
-            'rule_name' => 'edited_rule_name',
-            'status' => 'Inactive',
-            'customer_groups' => 'General',
-            'discount_amount' => '25',
-            'sub_discount_amount' => '35')
+        $editRuleData = $this->loadData('test_catalog_rule',
+            array('rule_name'           => 'edited_rule_name',
+                  'status'              => 'Inactive',
+                  'customer_groups'     => 'General',
+                  'discount_amount'     => '25',
+                  'sub_discount_amount' => '35')
         );
+        $ruleSearch = $this->loadData('search_catalog_rule',
+            array('filter_rule_name'   => $editRuleData['info']['rule_name'], 'status' => 'Inactive'));
         //Steps
         $this->search(array('filter_rule_name' => $createdRuleData));
         $this->priceRulesHelper()->createRule($editRuleData);
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_rule'), $this->messages);
-        $this->search(array('filter_rule_name' => $editRuleData['info']['rule_name'], 'status' => 'Inactive'));
+        $this->priceRulesHelper()->openRule($ruleSearch);
+        $this->priceRulesHelper()->verifyRuleData($editRuleData);
     }
 
 }

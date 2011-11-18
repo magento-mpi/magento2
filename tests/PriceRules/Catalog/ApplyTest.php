@@ -47,6 +47,7 @@ class PriceRules_Catalog_ApplyTest extends Mage_Selenium_TestCase
         $this->addParameter('productUrl', NULL);
         $this->addParameter('categoryUrl', NULL);
         $this->loginAdminUser();
+        $this->priceRulesHelper()->setAllToInactive();
     }
 
     /**
@@ -99,208 +100,10 @@ class PriceRules_Catalog_ApplyTest extends Mage_Selenium_TestCase
         $this->loginAdminUser();
         $this->navigate('manage_products');
         $simpleProductData = $this->loadData('simple_product_for_price_rules_validation_front',
-               array('categories' => $category), array('general_name', 'general_sku'));
+            array('categories' => $category), array('general_name', 'general_sku'));
         $this->productHelper()->createProduct($simpleProductData);
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
         return $simpleProductData;
-    }
-
-    /**
-     * <p>Create catalog price rule - By Percentage of the Original Price</p>
-     *
-     * <p>Steps</p>
-     * <p>1. Click "Add New Rule"</p>
-     * <p>2. Fill in required fields</p>
-     * <p>3. Select in "General Information" -> "Customer Groups" = "NOT LOGGED IN"</p>
-     * <p>3. Select in "Apply" field option - "By Percentage of the Original Price"</p>
-     * <p>4. Specify "Discount Amount" = 10%</p>
-     * <p>5. Click "Save and Apply" button</p>
-     * <p>Expected result: New rule created, success message appears</p>
-     *
-     * <p>Verification</p>
-     *
-     * <p>6. Open product in Frontend as a GUEST</p>
-     * <p>7. Verify product special price = $108.00</p>
-     * <p>8. Login to Frontend</p>
-     * <p>9. Verify product REGULAR PRICE = $120.00</p>
-     *
-     * @depends createCustomer
-     * @depends createCategory
-     * @depends createProduct
-     * @test
-     */
-
-    public function applyRuleByPercentageOfOriginalPrice($customerData, $categoryData, $productData)
-    {
-        //Data
-       $nodes = explode('/', $categoryData);
-       $category = end($nodes);
-        $priceRuleData = $this->loadData('test_catalog_rule_with_conditions', array(
-                                         'category'         => $categoryData,
-                                         'apply'            => 'By Percentage of the Original Price'), 'rule_name');
-        $productPriceLogged = $this->loadData('by_percentage_of_the_original_price_simple_product_logged');
-        $productPriceNotLogged = $this->loadData('by_percentage_of_the_original_price_simple_product_not_logged');
-        $priceInCategoryLogged = $this->loadData('by_percentage_of_the_original_price_simple_logged_category',
-                    array('product_name' => $productData['general_name'], 'category' => $category));
-        $priceInCategoryNotLogged = $this->loadData('by_percentage_of_the_original_price_simple_not_logged_category',
-                    array('product_name' => $productData['general_name'], 'category' => $category));
-        //Steps
-        $this->navigate('manage_catalog_price_rules');
-        $this->assertTrue($this->checkCurrentPage('manage_catalog_price_rules'), $this->messages);
-        $this->priceRulesHelper()->createRule($priceRuleData);
-        $this->assertTrue($this->successMessage('success_saved_rule'), $this->messages);
-        $this->saveForm('apply_rules');
-        //Verification
-        $this->assertTrue($this->successMessage('success_applied_rule'), $this->messages);
-        $this->search(array('filter_rule_name' => $priceRuleData['info']['rule_name']));
-        //Verification on frontend
-        $this->logoutCustomer();
-        $this->categoryHelper()->frontOpenCategoryAndValidateProduct($priceInCategoryNotLogged);
-        $this->addParameter('categoryUrl', NULL);
-        $this->productHelper()->frontOpenProduct($productData['general_name'], $categoryData);
-        $this->categoryHelper()->frontVerifyProductPrices($productPriceNotLogged);
-        $this->customerHelper()->frontLoginCustomer($customerData);
-        $this->categoryHelper()->frontOpenCategoryAndValidateProduct($priceInCategoryLogged);
-        $this->addParameter('categoryUrl', NULL);
-        $this->productHelper()->frontOpenProduct($productData['general_name'], $categoryData);
-        $this->categoryHelper()->frontVerifyProductPrices($productPriceLogged);
-        //Cleanup
-        $this->loginAdminUser();
-        $this->navigate('manage_catalog_price_rules');
-        $this->ruleToBeDeleted = $this->loadData('search_catalog_rule',
-                                                 array('filter_rule_name' => $priceRuleData['info']['rule_name']));
-    }
-
-    /**
-     * <p>Create catalog price rule - By Fixed Amount</p>
-     *
-     * <p>Steps</p>
-     * <p>1. Click "Add New Rule"</p>
-     * <p>2. Fill in required fields</p>
-     * <p>3. Select in "General Information" -> "Customer Groups" = "NOT LOGGED IN"</p>
-     * <p>3. Select in "Apply" field option - "By Fixed Amount"</p>
-     * <p>4. Specify "Discount Amount" = $10</p>
-     * <p>5. Click "Save and Apply" button</p>
-     * <p>Expected result: New rule created, success message appears</p>
-     *
-     * <p>Verification</p>
-     *
-     * <p>6. Open product in Frontend as a GUEST</p>
-     * <p>7. Verify product special price = $110.00</p>
-     * <p>8. Login to Frontend</p>
-     * <p>9. Verify product REGULAR PRICE = $120.00</p>
-     *
-     * @depends createCustomer
-     * @depends createCategory
-     * @depends createProduct
-     * @test
-     */
-    public function applyRuleByFixedAmount($customerData, $categoryData, $productData)
-    {
-        //Data
-        $nodes = explode('/', $categoryData);
-        $category = end($nodes);
-        $priceRuleData = $this->loadData('test_catalog_rule_with_conditions', array(
-                                         'category'         => $categoryData,
-                                         'apply'            => 'By Fixed Amount'), 'rule_name');
-        $productPriceLogged = $this->loadData('by_fixed_amount_simple_product_logged');
-        $productPriceNotLogged = $this->loadData('by_fixed_amount_simple_product_not_logged');
-        $priceInCategoryLogged = $this->loadData('by_fixed_amount_simple_logged_category',
-                    array('product_name' => $productData['general_name'], 'category' => $category));
-        $priceInCategoryNotLogged = $this->loadData('by_fixed_amount_simple_not_logged_category',
-                    array('product_name' => $productData['general_name'], 'category' => $category));
-        //Steps
-        $this->navigate('manage_catalog_price_rules');
-        $this->assertTrue($this->checkCurrentPage('manage_catalog_price_rules'), $this->messages);
-        $this->priceRulesHelper()->createRule($priceRuleData);
-        $this->assertTrue($this->successMessage('success_saved_rule'), $this->messages);
-        $this->saveForm('apply_rules');
-        //Verification
-        $this->assertTrue($this->successMessage('success_applied_rule'), $this->messages);
-        $this->search(array('filter_rule_name' => $priceRuleData['info']['rule_name']));
-        //Verification on frontend
-        $this->logoutCustomer();
-        $this->categoryHelper()->frontOpenCategoryAndValidateProduct($priceInCategoryNotLogged);
-        $this->addParameter('categoryUrl', NULL);
-        $this->productHelper()->frontOpenProduct($productData['general_name'], $categoryData);
-        $this->categoryHelper()->frontVerifyProductPrices($productPriceNotLogged);
-
-        $this->customerHelper()->frontLoginCustomer($customerData);
-        $this->categoryHelper()->frontOpenCategoryAndValidateProduct($priceInCategoryLogged);
-        $this->addParameter('categoryUrl', NULL);
-        $this->productHelper()->frontOpenProduct($productData['general_name'], $categoryData);
-        $this->categoryHelper()->frontVerifyProductPrices($productPriceLogged);
-        //Cleanup
-        $this->loginAdminUser();
-        $this->navigate('manage_catalog_price_rules');
-        $this->ruleToBeDeleted = $this->loadData('search_catalog_rule',
-                                                 array('filter_rule_name' => $priceRuleData['info']['rule_name']));
-    }
-
-     /**
-     * <p>Create catalog price rule - To Percentage of the Original Price</p>
-     *
-     * <p>Steps</p>
-     * <p>1. Click "Add New Rule"</p>
-     * <p>2. Fill in required fields</p>
-     * <p>3. Select in "General Information" -> "Customer Groups" = "NOT LOGGED IN"</p>
-     * <p>3. Select in "Apply" field option - "To Percentage of the Original Price"</p>
-     * <p>4. Specify "Discount Amount" = 10%</p>
-     * <p>5. Click "Save and Apply" button</p>
-     * <p>Expected result: New rule created, success message appears</p>
-     *
-     * <p>Verification</p>
-     *
-     * <p>6. Open product in Frontend as a GUEST</p>
-     * <p>7. Verify product special price = $12.00</p>
-     * <p>8. Login to Frontend</p>
-     * <p>9. Verify product REGULAR PRICE = $120.00</p>
-     *
-     * @depends createCustomer
-     * @depends createCategory
-     * @depends createProduct
-     * @test
-     */
-
-    public function applyRuleToPercentageOfOriginalPrice($customerData, $categoryData, $productData)
-    {
-        //Data
-        $nodes = explode('/', $categoryData);
-        $category = end($nodes);
-        $priceRuleData = $this->loadData('test_catalog_rule_with_conditions', array(
-                                         'category'         => $categoryData,
-                                         'apply'            => 'To Percentage of the Original Price'), 'rule_name');
-        $productPriceLogged = $this->loadData('to_percentage_of_the_original_price_simple_product_logged');
-        $productPriceNotLogged = $this->loadData('to_percentage_of_the_original_price_simple_product_not_logged');
-        $priceInCategoryLogged = $this->loadData('to_percentage_of_the_original_price_simple_logged_category',
-                    array('product_name' => $productData['general_name'], 'category' => $category));
-        $priceInCategoryNotLogged = $this->loadData('to_percentage_of_the_original_price_simple_not_logged_category',
-                    array('product_name' => $productData['general_name'], 'category' => $category));
-        //Steps
-        $this->navigate('manage_catalog_price_rules');
-        $this->assertTrue($this->checkCurrentPage('manage_catalog_price_rules'), $this->messages);
-        $this->priceRulesHelper()->createRule($priceRuleData);
-        $this->assertTrue($this->successMessage('success_saved_rule'), $this->messages);
-        $this->saveForm('apply_rules');
-        //Verification
-        $this->assertTrue($this->successMessage('success_applied_rule'), $this->messages);
-        $this->search(array('filter_rule_name' => $priceRuleData['info']['rule_name']));
-        //Verification on frontend
-        $this->logoutCustomer();
-        $this->categoryHelper()->frontOpenCategoryAndValidateProduct($priceInCategoryNotLogged);
-        $this->addParameter('categoryUrl', NULL);
-        $this->productHelper()->frontOpenProduct($productData['general_name'], $categoryData);
-        $this->categoryHelper()->frontVerifyProductPrices($productPriceNotLogged);
-        $this->customerHelper()->frontLoginCustomer($customerData);
-        $this->categoryHelper()->frontOpenCategoryAndValidateProduct($priceInCategoryLogged);
-        $this->addParameter('categoryUrl', NULL);
-        $this->productHelper()->frontOpenProduct($productData['general_name'], $categoryData);
-        $this->categoryHelper()->frontVerifyProductPrices($productPriceLogged);
-        //Cleanup
-        $this->loginAdminUser();
-        $this->navigate('manage_catalog_price_rules');
-        $this->ruleToBeDeleted = $this->loadData('search_catalog_rule',
-                                                 array('filter_rule_name' => $priceRuleData['info']['rule_name']));
     }
 
     /**
@@ -322,26 +125,25 @@ class PriceRules_Catalog_ApplyTest extends Mage_Selenium_TestCase
      * <p>8. Login to Frontend</p>
      * <p>9. Verify product REGULAR PRICE = $120.00</p>
      *
+     * @dataProvider ruleTypes
      * @depends createCustomer
      * @depends createCategory
      * @depends createProduct
      * @test
      */
 
-    public function applyRuleToFixedAmount($customerData, $categoryData, $productData)
+    public function applyRuleToSimpleFront($ruleType, $customerData, $categoryData, $productData)
     {
         //Data
         $nodes = explode('/', $categoryData);
         $category = end($nodes);
-        $priceRuleData = $this->loadData('test_catalog_rule_with_conditions', array(
-                                         'category'         => $categoryData,
-                                         'apply'            => 'To Fixed Amount'), 'rule_name');
-        $productPriceLogged = $this->loadData('to_fixed_amount_simple_product_logged');
-        $productPriceNotLogged = $this->loadData('to_fixed_amount_simple_product_not_logged');
-        $priceInCategoryLogged = $this->loadData('to_fixed_amount_simple_logged_category',
-                    array('product_name' => $productData['general_name'], 'category' => $category));
-        $priceInCategoryNotLogged = $this->loadData('to_fixed_amount_simple_not_logged_category',
-                    array('product_name' => $productData['general_name'], 'category' => $category));
+        $priceRuleData = $this->loadData($ruleType . '_data', array('category' => $categoryData), 'rule_name');
+        $productPriceLogged = $this->loadData($ruleType . '_simple_product_logged');
+        $productPriceNotLogged = $this->loadData($ruleType . '_simple_product_not_logged');
+        $priceInCategoryLogged = $this->loadData($ruleType . '_simple_logged_category',
+            array('product_name' => $productData['general_name'], 'category' => $category));
+        $priceInCategoryNotLogged = $this->loadData($ruleType . '_simple_not_logged_category',
+            array('product_name' => $productData['general_name'], 'category' => $category));
         //Steps
         $this->navigate('manage_catalog_price_rules');
         $this->assertTrue($this->checkCurrentPage('manage_catalog_price_rules'), $this->messages);
@@ -350,7 +152,7 @@ class PriceRules_Catalog_ApplyTest extends Mage_Selenium_TestCase
         $this->saveForm('apply_rules');
         //Verification
         $this->assertTrue($this->successMessage('success_applied_rule'), $this->messages);
-        $this->search(array('filter_rule_name' => $priceRuleData['info']['rule_name']));
+        $this->assertNotEquals(NULL, $this->search(array('filter_rule_name' => $priceRuleData['info']['rule_name'])));
         //Verification on frontend
         $this->logoutCustomer();
         $this->categoryHelper()->frontOpenCategoryAndValidateProduct($priceInCategoryNotLogged);
@@ -366,7 +168,17 @@ class PriceRules_Catalog_ApplyTest extends Mage_Selenium_TestCase
         $this->loginAdminUser();
         $this->navigate('manage_catalog_price_rules');
         $this->ruleToBeDeleted = $this->loadData('search_catalog_rule',
-                                                 array('filter_rule_name' => $priceRuleData['info']['rule_name']));
+            array('filter_rule_name' => $priceRuleData['info']['rule_name']));
+    }
+
+    public function ruleTypes()
+    {
+       return array(
+           array('by_percentage_of_the_original_price'),
+           array('by_fixed_amount'),
+           array('to_percentage_of_the_original_price'),
+           array('to_fixed_amount')
+       );
     }
 
     protected function tearDown()

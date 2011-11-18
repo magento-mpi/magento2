@@ -74,14 +74,15 @@ class PriceRules_Catalog_DeleteTest extends Mage_Selenium_TestCase
         $priceRuleData = $this->loadData('test_catalog_rule', array('customer_groups' => 'General'), 'rule_name');
         $this->addParameter('id', $this->defineIdFromUrl());
         $this->addParameter('elementTitle', $priceRuleData['info']['rule_name']);
+        $ruleSearch = $this->loadData('search_catalog_rule',
+                 array('filter_rule_name'   => $priceRuleData['info']['rule_name']));
         //PreConditions
         $this->priceRulesHelper()->createRule($priceRuleData);
         //Verification
         $this->assertTrue($this->successMessage('success_saved_rule'), $this->messages);
         $this->assertTrue($this->successMessage('notification_message'), $this->messages);
-        $this->verifyMessagesCount(2);
         //Steps
-        $this->searchAndOpen(array($priceRuleData['info']['rule_name']));
+        $this->priceRulesHelper()->openRule($ruleSearch);
         $this->clickButtonAndConfirm('delete_rule', 'confirmation_for_delete');
         $this->assertTrue($this->successMessage('success_deleted_rule', $this->messages));
         //Verification

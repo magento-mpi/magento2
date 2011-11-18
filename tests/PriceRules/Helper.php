@@ -317,4 +317,28 @@ class PriceRules_Helper extends Mage_Selenium_TestCase
         //@TODO verify Conditions and storeView titles
     }
 
+    /**
+     * Sets all created Rules as inactive (PreConditions for prices verification in frontend)
+     */
+    public function setAllToInactive()
+    {
+        $this->navigate('manage_catalog_price_rules');
+        $this->clickButton('reset_filter');
+        $ruleSearch = array('Status'=>'Active');
+        $xpathTR = $this->search($ruleSearch, 'rule_search_grid');
+        $names = $this->shoppingCartHelper()->getColumnNamesAndNumbers('grid_head', false);
+        while ($this->isElementPresent($xpathTR)) {
+            $ruleTitle = trim($this->getText($xpathTR . '//td[' . $names['Rule Name'] . ']'));
+            $this->addParameter('elementTitle', $ruleTitle);
+            $this->click($xpathTR);
+            $this->waitForPageToLoad($this->_browserTimeoutPeriod);
+            $this->validatePage($this->_findCurrentPageFromUrl($this->getLocation()));
+            $this->fillSimpleTab(array('status'=>'Inactive'), 'rule_information');
+            $this->saveForm('save_and_apply');
+        }
+    }
+
+
+
+
 }
