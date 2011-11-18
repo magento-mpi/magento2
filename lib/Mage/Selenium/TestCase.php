@@ -535,15 +535,52 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * @param string $key Index of the target to override
      * @param array $overrideArray Target array, which contains some indexe(s) to override
      *
-     * @return null
+     * @return boolean
      */
-    function overrideData(&$value, $key, $overrideArray)
+    public function overrideData($overrideKey, $overrideValue, &$overrideArray)
     {
-        foreach ($overrideArray as $overrideField => $fieldValue) {
-            if ($overrideField === $key) {
-                $value = $fieldValue;
+        $overrideResult = false;
+        foreach ($overrideArray as $key => &$value) {
+            if ($key === $overrideKey) {
+                $overrideArray[$key] = $overrideValue;
+                $overrideResult = true;
+            } elseif (is_array($value)) {
+                $overrideResult = $this->overrideData($overrideKey, $overrideValue, $value);
             }
         }
+        return $overrideResult;
+    }
+
+    /**
+     *
+     * @param string $subArray
+     * @param string $overrideKey
+     * @param string|array $overrideValue
+     * @param array $overrideArray
+     * @return boolean
+     */
+    public function overrideDataInSubArray($subArray, $overrideKey, $overrideValue, &$overrideArray)
+    {
+        $overrideResult = false;
+        foreach ($overrideArray as $key => &$value) {
+            if (is_array($value)) {
+                if ($key === $subArray) {
+                    foreach ($value as $k => $v) {
+                        if ($k === $overrideKey) {
+                            $value[$k] = $overrideValue;
+                            $overrideResult = true;
+                        }
+                        if (is_array($v)) {
+                            $overrideResult = $this->overrideDataInSubArray($subArray, $overrideKey, $overrideValue,
+                                    $value);
+                        }
+                    }
+                } else {
+                    $overrideResult = $this->overrideDataInSubArray($subArray, $overrideKey, $overrideValue, $value);
+                }
+            }
+        }
+        return $overrideResult;
     }
 
     /**
@@ -553,7 +590,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * @param string $key Index of the target to randomize
      * @param array $randomizeArray Target array, which contains some indexe(s) to randomize
      */
-    function randomizeData(&$value, $key, $randomizeArray)
+    public function randomizeData(&$value, $key, $randomizeArray)
     {
         foreach ($randomizeArray as $randomizeField) {
             if ($randomizeField === $key) {
@@ -563,23 +600,19 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     }
 
     /**
-     * Get an array of keys from Multidimensional Array
+     * Set data params
      *
-     * @param array $arrayData Array of data
-     * @param array $arrayKeys Array of keys
-     *
-     * @return array
+     * @param string $value
+     * @param string $key Index of the target to randomize
      */
-    function arrayKeysRecursion(array $arrayData, &$arrayKeys)
+    public function setDataParams(&$value, $key)
     {
-        foreach ($arrayData as $key => $value) {
-            if (is_array($value)) {
-                $arrayKeys = $this->arrayKeysRecursion($value, $arrayKeys);
-            } else {
-                $arrayKeys[] = $key;
-            }
+        if (preg_match('/%randomize%/', $value)) {
+            $value = preg_replace('/%randomize%/', $this->generate('string', 5, ':lower:'), $value);
         }
-        return $arrayKeys;
+        if (preg_match('/%currentDate%/', $value)) {
+            $value = preg_replace('/%currentDate%/', date("m/d/Y"), $value);
+        }
     }
 
     /**
@@ -622,28 +655,34 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         $data = $this->_getData($dataSource);
 
+        array_walk_recursive($data, array($this, 'setDataParams'));
+
         if (!empty($randomize)) {
             $randomize = (!is_array($randomize)) ? array($randomize) : $randomize;
             array_walk_recursive($data, array($this, 'randomizeData'), $randomize);
         }
 
         if (!empty($override) && is_array($override)) {
-            $arrayKeys = array();
-            $needAddValues = array();
-
-            $arrayKeys = $this->arrayKeysRecursion($data, $arrayKeys);
-
+            $withSubArray = array();
+            $withOutSubArray = array();
             foreach ($override as $key => $value) {
-                if (!in_array($key, $arrayKeys)) {
-                    $needAddValues[$key] = $value;
-                    unset($override[$key]);
+                if (preg_match('|/|', $key)) {
+                    $withSubArray[$key]['subArray'] = preg_replace('|/[a-z0-9_]+$|', '', $key);
+                    $withSubArray[$key]['name'] = preg_replace('|^[a-z0-9_]+/|', '', $key);
+                    $withSubArray[$key]['value'] = $value;
+                } else {
+                    $withOutSubArray[$key] = $value;
                 }
             }
-
-            array_walk_recursive($data, array($this, 'overrideData'), $override);
-
-            foreach ($needAddValues as $field => $value) {
-                $data[$field] = $value;
+            foreach ($withOutSubArray as $key => $value) {
+                if (!$this->overrideData($key, $value, $data)) {
+                    $data[$key] = $value;
+                }
+            }
+            foreach ($withSubArray as $key => $value) {
+                if (!$this->overrideDataInSubArray($value['subArray'], $value['name'], $value['value'], $data)) {
+                    $data[$value['subArray']][$value['name']] = $value['value'];
+                }
             }
         }
 
@@ -1824,8 +1863,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                     $this->fillForm($loginData);
                     $this->clickButton('login', false);
                     $this->waitForElement(array(self::$xpathAdminLogo,
-                                                self::$xpathErrorMessage,
-                                                self::$xpathValidationMessage));
+                        self::$xpathErrorMessage,
+                        self::$xpathValidationMessage));
                     if (!$this->checkCurrentPage($this->_firstPageAfterAdminLogin)) {
                         throw new PHPUnit_Framework_Exception('Admin was not logged in');
                     }
@@ -2173,7 +2212,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 
         foreach ($data as $key => $value) {
             if (in_array($key, $skipElements) || $value === '%noValue%')
-                unset ($data[$key]);
+                unset($data[$key]);
         }
         $formDataMap = $this->_getFormDataMap($fieldsets, $data);
 
