@@ -425,6 +425,19 @@ search_catalog_rule:
     filter_date_expire_to: %noValue%
     filter_status: %noValue%
 
+edit_rule_data:
+    info:
+        rule_name: test_shopping_cart_rule
+        status: Inactive
+        customer_groups: General
+    actions:
+        apply: By Percentage of the Original Price
+        discount_amount: 15
+        enable_discount_to_subproducts: Yes
+        sub_apply: To Fixed Amount
+        sub_discount_amount: 15
+        stop_further_rules_processing: Yes
+
 test_catalog_rule:
     info:
         rule_name: test_shopping_cart_rule

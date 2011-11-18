@@ -171,21 +171,15 @@ class PriceRules_Catalog_CreateTest extends Mage_Selenium_TestCase
     public function editRule($createdRuleData)
     {
         //Data
-        $editRuleData = $this->loadData('test_catalog_rule',
-            array('rule_name'           => 'edited_rule_name',
-                  'status'              => 'Inactive',
-                  'customer_groups'     => 'General',
-                  'discount_amount'     => '25',
-                  'sub_discount_amount' => '35')
-        );
-        $ruleSearch = $this->loadData('search_catalog_rule',
+        $editRuleData = $this->loadData('edit_rule_data', NULL, 'rule_name');
+        $ruleSearchCreated = $this->loadData('search_catalog_rule', array('filter_rule_name' => $createdRuleData));
+        $ruleSearchEdited = $this->loadData('search_catalog_rule',
             array('filter_rule_name'   => $editRuleData['info']['rule_name'], 'status' => 'Inactive'));
         //Steps
-        $this->search(array('filter_rule_name' => $createdRuleData));
-        $this->priceRulesHelper()->createRule($editRuleData);
+        $this->priceRulesHelper()->editRule($editRuleData, $ruleSearchCreated);
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_rule'), $this->messages);
-        $this->priceRulesHelper()->openRule($ruleSearch);
+        $this->priceRulesHelper()->openRule($ruleSearchEdited);
         $this->priceRulesHelper()->verifyRuleData($editRuleData);
     }
 

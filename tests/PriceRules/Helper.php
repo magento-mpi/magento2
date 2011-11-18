@@ -338,7 +338,18 @@ class PriceRules_Helper extends Mage_Selenium_TestCase
         }
     }
 
-
-
+    /**
+     * Edit Created Rule
+     *
+     * @param array $editRuleData
+     * @param array $ruleSearchCreated
+     */
+    public function editRule($editRuleData, $ruleSearchCreated)
+    {
+        $this->openRule($ruleSearchCreated);
+        $this->fillSimpleTab($editRuleData['info'], 'rule_information');
+        $this->fillActionsTab($editRuleData['actions']);
+        $this->saveForm('save_rule');
+    }
 
 }

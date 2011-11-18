@@ -72,7 +72,6 @@ class PriceRules_Catalog_DeleteTest extends Mage_Selenium_TestCase
     {
         //Data
         $priceRuleData = $this->loadData('test_catalog_rule', array('customer_groups' => 'General'), 'rule_name');
-        $this->addParameter('id', $this->defineIdFromUrl());
         $this->addParameter('elementTitle', $priceRuleData['info']['rule_name']);
         $ruleSearch = $this->loadData('search_catalog_rule',
                  array('filter_rule_name'   => $priceRuleData['info']['rule_name']));

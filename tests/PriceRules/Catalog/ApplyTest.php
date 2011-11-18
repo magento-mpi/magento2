@@ -130,7 +130,6 @@ class PriceRules_Catalog_ApplyTest extends Mage_Selenium_TestCase
      * @depends createCategory
      * @depends createProduct
      * @test
-     *
      */
 
     public function applyRuleToSimpleFront($ruleType, $customerData, $categoryData, $productData)
@@ -147,7 +146,6 @@ class PriceRules_Catalog_ApplyTest extends Mage_Selenium_TestCase
             array('product_name' => $productData['general_name'], 'category' => $category));
         //Steps
         $this->navigate('manage_catalog_price_rules');
-        $this->assertTrue($this->checkCurrentPage('manage_catalog_price_rules'), $this->messages);
         $this->priceRulesHelper()->createRule($priceRuleData);
         $this->assertTrue($this->successMessage('success_saved_rule'), $this->messages);
         $this->saveForm('apply_rules');
