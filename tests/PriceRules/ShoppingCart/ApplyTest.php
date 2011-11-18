@@ -37,15 +37,8 @@
 class PriceRules_ShoppingCart_ApplyTest extends Mage_Selenium_TestCase
 {
     /**
-     * <p>Login to backend</p>
-     */
-    public function setUpBeforeTests()
-    {}
-
-    /**
-     * 
      * <p>Preconditions:</p>
-     * <p>Navigate to Catalog - Manage Products</p>
+     * <p>Login Admin to backend</p>
      */
     protected function assertPreConditions()
     {
@@ -120,10 +113,10 @@ class PriceRules_ShoppingCart_ApplyTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Create Shopping cart price rule with Percent Of Product Price Discount and coupon.</p>
+     * <p>Create Shopping cart price rule</p>
      * <p>Steps:</p>
      * <p>1. Navigate to Promotions - Shopping Cart Price Rules;</p>
-     * <p>2. Fill form for SCPR (Percent Of Product Price Discount in Actions - Apply section); Select specific category in conditions; Add coupon that should be applied;</p>
+     * <p>2. Fill form for SCPR (Type of discount is provided via data provider); Select specific category in conditions; Add coupon that should be applied;</p>
      * <p>3. Save newly created SCPR;</p>
      * <p>4. Navigate to frontend;</p>
      * <p>5. Add product(s) for which rule should be applied to shopping cart;</p>
@@ -136,20 +129,21 @@ class PriceRules_ShoppingCart_ApplyTest extends Mage_Selenium_TestCase
      * @param string $category  String with the category path for creating rules
      * @param array  $products  Array with the products' names and sku for validating prices on the frontend
      *
+     * @dataProvider ruleTypes
      * @depends createCustomer
      * @depends createCategory
      * @depends createProducts
      *
      * @test
      */
-    public function createPercentOfProductPriceDiscount($customer, $category, $products)
+    public function createSCPR($ruleType, $customer, $category, $products)
     {
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('default_tax_config');
-        $cartProductsData = $this->loadData('prices_for_percent_of_product_price_discount');
-        $checkoutData = $this->loadData('totals_for_percent_of_product_price_discount');
+        $cartProductsData = $this->loadData('prices_for_' . $ruleType);
+        $checkoutData = $this->loadData('totals_for_' . $ruleType);
         $this->navigate('manage_shopping_cart_price_rules');
-        $ruleData = $this->loadData('scpr_percent_of_product_price_discount',
+        $ruleData = $this->loadData('scpr_' . $ruleType,
                                     array('category' => $category),
                                     array('rule_name', 'coupon_code'));
         $this->PriceRulesHelper()->createRule($ruleData);
@@ -171,104 +165,16 @@ class PriceRules_ShoppingCart_ApplyTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Create Shopping cart price rule with Fixed Amount Discount and coupon.</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to Promotions - Shopping Cart Price Rules;</p>
-     * <p>2. Fill form for SCPR (Fixed Amount Discount in Actions - Apply section); Select specific category in conditions; Add coupon that should be applied;</p>
-     * <p>3. Save newly created SCPR;</p>
-     * <p>4. Navigate to frontend;</p>
-     * <p>5. Add product(s) for which rule should be applied to shopping cart;</p>
-     * <p>6. Apply coupon for the shopping cart;</p>
-     * <p>6. Verify prices for the product(s) in the totals of shopping cart;</p>
-     * <p>Expected results:</p>
-     * <p>Rule is created; Totals changed after applying coupon; Rule is discounting fixed amount for each product in shopping cart;</p>
+     * Data Provider for SCPR
      *
-     * @param array  $customer  Array with the customer information for logging in to the frontend
-     * @param string $category  String with the category path for creating rules
-     * @param array  $products  Array with the products' names and sku for validating prices on the frontend
-     *
-     * @depends createCustomer
-     * @depends createCategory
-     * @depends createProducts
-     *
-     * @test
+     * @return array
      */
-    public function createFixedAmountDiscount($customer, $category, $products)
+    public function ruleTypes()
     {
-        $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('default_tax_config');
-        $cartProductsData = $this->loadData('prices_for_fixed_amount_discount');
-        $checkoutData = $this->loadData('totals_for_fixed_amount_discount');
-        $this->navigate('manage_shopping_cart_price_rules');
-        $ruleData = $this->loadData('scpr_fixed_amount_discount',
-                                    array('category' => $category),
-                                    array('rule_name', 'coupon_code'));
-        $this->PriceRulesHelper()->createRule($ruleData);
-        $this->assertTrue($this->successMessage('success_saved_rule'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_shopping_cart_price_rules'), $this->messages);
-        $this->customerHelper()->frontLoginCustomer($customer);
-        $this->shoppingCartHelper()->frontClearShoppingCart();
-        foreach ($products['name'] as $key => $productName) {
-            $cartProductsData['product_' . $key]['product_name'] = $productName;
-            $this->productHelper()->frontOpenProduct($productName);
-            $this->productHelper()->frontAddProductToCart();
-        }
-        $this->shoppingCartHelper()->frontEstimateShipping('estimate_shipping', 'shipping_flatrate');
-        $this->addParameter('couponCode', $ruleData['info']['coupon_code']);
-        $this->fillForm(array('coupon_code' => $ruleData['info']['coupon_code']));
-        $this->clickButton('apply_coupon');
-        $this->assertTrue($this->successMessage('success_applied_coupon'), $this->messages);
-        $this->shoppingCartHelper()->verifyPricesDataOnPage($cartProductsData, $checkoutData);
-    }
-
-    /**
-     * <p>Create Shopping cart price rule with Fixed Amount Discount For Whole Cart and coupon.</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to Promotions - Shopping Cart Price Rules;</p>
-     * <p>2. Fill form for SCPR (Fixed Amount Discount For Whole Cart in Actions - Apply section); Select specific category in conditions; Add coupon that should be applied;</p>
-     * <p>3. Save newly created SCPR;</p>
-     * <p>4. Navigate to frontend;</p>
-     * <p>5. Add product(s) for which rule should be applied to shopping cart;</p>
-     * <p>6. Apply coupon for the shopping cart;</p>
-     * <p>6. Verify prices for the product(s) in the totals of shopping cart;</p>
-     * <p>Expected results:</p>
-     * <p>Rule is created; Totals changed after applying coupon; Rule is discounting fixed amount for whole cart;</p>
-     *
-     * @param array  $customer  Array with the customer information for logging in to the frontend
-     * @param string $category  String with the category path for creating rules
-     * @param array  $products  Array with the products' names and sku for validating prices on the frontend
-     *
-     * @depends createCustomer
-     * @depends createCategory
-     * @depends createProducts
-     *
-     * @test
-     */
-    public function createFixedAmountDiscountForWholeCart($customer, $category, $products)
-    {
-        $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('default_tax_config');
-        $cartProductsData = $this->loadData('prices_for_fixed_amount_discount_for_whole_cart');
-        $checkoutData = $this->loadData('totals_for_fixed_amount_discount_for_whole_cart');
-        $this->navigate('manage_shopping_cart_price_rules');
-        $ruleData = $this->loadData('scpr_fixed_amount_discount_for_whole_cart',
-                                    array('category' => $category),
-                                    array('rule_name', 'coupon_code'));
-        $this->PriceRulesHelper()->createRule($ruleData);
-        $this->assertTrue($this->successMessage('success_saved_rule'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_shopping_cart_price_rules'), $this->messages);
-        $this->customerHelper()->frontLoginCustomer($customer);
-        $this->shoppingCartHelper()->frontClearShoppingCart();
-        foreach ($products['name'] as $key => $productName) {
-            $cartProductsData['product_' . $key]['product_name'] = $productName;
-            $this->productHelper()->frontOpenProduct($productName);
-            $this->productHelper()->frontAddProductToCart();
-        }
-        $this->shoppingCartHelper()->frontEstimateShipping('estimate_shipping', 'shipping_flatrate');
-        $this->addParameter('couponCode', $ruleData['info']['coupon_code']);
-        $this->fillForm(array('coupon_code' => $ruleData['info']['coupon_code']));
-        $this->clickButton('apply_coupon');
-        $this->assertTrue($this->successMessage('success_applied_coupon'), $this->messages);
-        $this->shoppingCartHelper()->verifyPricesDataOnPage($cartProductsData, $checkoutData);
+        return array(
+            array('percent_of_product_price_discount'),
+            array('fixed_amount_discount'),
+            array('fixed_amount_discount_for_whole_cart')
+        );
     }
 }

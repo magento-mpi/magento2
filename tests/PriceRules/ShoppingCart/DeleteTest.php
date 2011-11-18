@@ -46,7 +46,7 @@ class PriceRules_ShoppingCart_DeleteTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Preconditions:</p>
-     * <p>Navigate to Catalog -> Manage Products</p>
+     * <p>Navigate to Manage Shopping Cart Price Rules</p>
      */
     protected function assertPreConditions()
     {
@@ -74,10 +74,10 @@ class PriceRules_ShoppingCart_DeleteTest extends Mage_Selenium_TestCase
         $ruleSearch = $this->loadData('search_shopping_cart_rule',
                                       array('filter_rule_name' => $ruleData['info']['rule_name'],
                                             'filter_coupon_code' => $ruleData['info']['coupon_code']));
-        $this->PriceRulesHelper()->createRule($ruleData);
+        $this->priceRulesHelper()->createRule($ruleData);
         $this->assertTrue($this->successMessage('success_saved_rule'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('manage_shopping_cart_price_rules'), $this->messages);
-        $this->PriceRulesHelper()->deleteRule($ruleSearch);
+        $this->priceRulesHelper()->deleteRule($ruleSearch);
         $this->assertTrue($this->successMessage('success_deleted_rule'), $this->messages);
     }
 }

@@ -36,15 +36,10 @@
  */
 class PriceRules_ShoppingCart_CreateTest extends Mage_Selenium_TestCase
 {
-    /**
-     * <p>Login to backend</p>
-     */
-    public function setUpBeforeTests()
-    {}
 
     /**
      * <p>Preconditions:</p>
-     * <p>Navigate to Catalog - Manage Products</p>
+     * <p>Login Admin user to backend</p>
      */
     protected function assertPreConditions()
     {
@@ -74,13 +69,9 @@ class PriceRules_ShoppingCart_CreateTest extends Mage_Selenium_TestCase
             $dataToOverride[$fieldName] = '';
         }
         $ruleData = $this->loadData('scpr_required_fields', $dataToOverride, array('rule_name', 'coupon_code'));
-        $this->PriceRulesHelper()->createRule($ruleData);
+        $this->priceRulesHelper()->createRule($ruleData);
         $this->addFieldIdToMessage($fieldType, $fieldName);
-        if ($fieldName == 'discount_amount') {
-            $this->assertTrue($this->validationMessage('enter_valid_number'), $this->messages);
-        } else {
-            $this->assertTrue($this->validationMessage('empty_required_field'), $this->messages);
-        }
+        $this->assertTrue($this->validationMessage('empty_required_field'), $this->messages);
         $this->assertTrue($this->verifyMessagesCount(), $this->messages);
     }
 
@@ -116,11 +107,11 @@ class PriceRules_ShoppingCart_CreateTest extends Mage_Selenium_TestCase
         $ruleSearch = $this->loadData('search_shopping_cart_rule',
                                       array('filter_rule_name' => $ruleData['info']['rule_name'],
                                             'filter_coupon_code' => $ruleData['info']['coupon_code']));
-        $this->PriceRulesHelper()->createRule($ruleData);
+        $this->priceRulesHelper()->createRule($ruleData);
         $this->assertTrue($this->successMessage('success_saved_rule'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('manage_shopping_cart_price_rules'), $this->messages);
-        $this->PriceRulesHelper()->openRule($ruleSearch);
-        $this->PriceRulesHelper()->verifyRuleData($ruleData);
+        $this->priceRulesHelper()->openRule($ruleSearch);
+        $this->priceRulesHelper()->verifyRuleData($ruleData);
     }
 
     /**
@@ -132,6 +123,8 @@ class PriceRules_ShoppingCart_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected results:</p>
      * <p>Rule is created;</p>
      *
+     * @return string   Returns coupon code
+     *
      * @test
      */
     public function createWithRequiredFields()
@@ -139,10 +132,11 @@ class PriceRules_ShoppingCart_CreateTest extends Mage_Selenium_TestCase
         $this->navigate('manage_shopping_cart_price_rules');
         $this->assertTrue($this->checkCurrentPage('manage_shopping_cart_price_rules'), $this->messages);
         $ruleData = $this->loadData('scpr_required_fields', NULL, array('rule_name', 'coupon_code'));
-        $this->PriceRulesHelper()->createRule($ruleData);
+        $this->priceRulesHelper()->createRule($ruleData);
         $this->assertTrue($this->successMessage('success_saved_rule'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('manage_shopping_cart_price_rules'), $this->messages);
 
+        return $ruleData['info']['coupon_code'];
     }
 
     /**
@@ -161,7 +155,7 @@ class PriceRules_ShoppingCart_CreateTest extends Mage_Selenium_TestCase
         $this->navigate('manage_shopping_cart_price_rules');
         $this->assertTrue($this->checkCurrentPage('manage_shopping_cart_price_rules'), $this->messages);
         $ruleData = $this->loadData('scpr_all_fields', NULL, array('rule_name', 'coupon_code'));
-        $this->PriceRulesHelper()->createRule($ruleData);
+        $this->priceRulesHelper()->createRule($ruleData);
         $this->assertTrue($this->successMessage('success_saved_rule'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('manage_shopping_cart_price_rules'), $this->messages);
     }
@@ -186,7 +180,7 @@ class PriceRules_ShoppingCart_CreateTest extends Mage_Selenium_TestCase
                                           'coupon_code'     => '%noValue%',
                                           'uses_per_coupon' => '%noValue%'),
                                     array('rule_name'));
-        $this->PriceRulesHelper()->createRule($ruleData);
+        $this->priceRulesHelper()->createRule($ruleData);
         $this->assertTrue($this->successMessage('success_saved_rule'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('manage_shopping_cart_price_rules'), $this->messages);
     }
@@ -204,17 +198,17 @@ class PriceRules_ShoppingCart_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected Results:</p>
      * <p>Rule is not created; Messsage "Coupon with the same code already exists." appears.</p>
      *
+     * @param string    Coupon Code
+     * @depends createWithRequiredFields
+     *
      * @test
      */
-    public function createWithExistingCoupon()
+    public function createWithExistingCoupon($coupon)
     {
         $this->navigate('manage_shopping_cart_price_rules');
         $this->assertTrue($this->checkCurrentPage('manage_shopping_cart_price_rules'), $this->messages);
-        $ruleData = $this->loadData('scpr_all_fields', NULL, array('rule_name', 'coupon_code'));
-        $this->PriceRulesHelper()->createRule($ruleData);
-        $this->assertTrue($this->successMessage('success_saved_rule'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_shopping_cart_price_rules'), $this->messages);
-        $this->PriceRulesHelper()->createRule($ruleData);
+        $ruleData = $this->loadData('scpr_all_fields', array('coupon_code' => $coupon), array('rule_name'));
+        $this->priceRulesHelper()->createRule($ruleData);
         $this->assertTrue($this->errorMessage('error_coupon_code_exists'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('manage_shopping_cart_price_rules'), $this->messages);
     }
