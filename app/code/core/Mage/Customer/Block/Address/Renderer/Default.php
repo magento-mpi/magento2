@@ -121,7 +121,7 @@ class Mage_Customer_Block_Address_Renderer_Default extends Mage_Core_Block_Abstr
             }
         }
 
-        if ($this->getType()->getHtmlEscape()) {
+        if ($this->getType()->getEscapeHtml()) {
             foreach ($data as $key => $value) {
                 $data[$key] = $this->escapeHtml($value);
             }

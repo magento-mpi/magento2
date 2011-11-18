@@ -43,7 +43,7 @@
                     </oneline>
                     <html translate="title" module="Mage_Customer">
                         <title>HTML</title>
-                        <htmlEscape>true</htmlEscape>
+                        <escapeHtml>true</escapeHtml>
                     </html>
                     <pdf translate="title" module="Mage_Customer">
                         <title>PDF</title>
