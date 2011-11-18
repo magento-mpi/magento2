@@ -393,12 +393,12 @@ abstract class Mage_Reports_Model_Resource_Report_Abstract extends Mage_Core_Mod
         $tzTransitions = array();
         try {
             if (!empty($from)) {
-                $from = new Zend_Date($from, 'y-MM-dd HH:mm:ss');
+                $from = new Zend_Date($from, Varien_Date::DATETIME_INTERNAL_FORMAT);
                 $from = $from->getTimestamp();
             }
 
-            $to = new Zend_Date($to);
-            $nextPeriod = $this->_getWriteAdapter()->formatDate($to->toString('y-MM-dd HH:mm:ss'));
+            $to = new Zend_Date($to, Varien_Date::DATETIME_INTERNAL_FORMAT);
+            $nextPeriod = $this->_getWriteAdapter()->formatDate($to->toString(Varien_Date::DATETIME_INTERNAL_FORMAT));
             $to = $to->getTimestamp();
 
             $dtz = new DateTimeZone($timezone);
@@ -412,7 +412,8 @@ abstract class Mage_Reports_Model_Resource_Report_Abstract extends Mage_Core_Mod
                 }
 
                 $dateTimeObject->set($tr['time']);
-                $tr['time'] = $this->_getWriteAdapter()->formatDate($dateTimeObject->toString('y-MM-dd HH:mm:ss'));
+                $tr['time'] = $this->_getWriteAdapter()
+                    ->formatDate($dateTimeObject->toString(Varien_Date::DATETIME_INTERNAL_FORMAT));
                 $tzTransitions[$tr['offset']][] = array('from' => $tr['time'], 'to' => $nextPeriod);
 
                 if (!empty($from) && $tr['ts'] < $from) {
