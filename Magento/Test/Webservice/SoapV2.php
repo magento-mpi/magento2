@@ -28,20 +28,40 @@
 class Magento_Test_Webservice_SoapV2 extends Magento_Test_Webservice_Abstract
 {
     /**
-     * @const Class of exception web services client throws
+     * Class of exception web services client throws
+     *
+     * @const
      */
     const EXCEPTION_CLASS = 'SoapFault';
 
+    /**
+     * Function prefixes
+     *
+     * @var array
+     */
     private $_configFunction;
+
+    /**
+     * Resources alias
+     *
+     * @var array
+     */
     private $_configAlias;
 
+    /**
+     * Initialize
+     *
+     * @param array|null $options
+     * @return Magento_Test_Webservice_SoapV2
+     */
     public function init($options = null)
     {
-        $this->_client = new Zend_Soap_Client(TESTS_WEBSERVICE_URL . '/api/v2_soap/?wsdl=1', $options);
+        $this->_client = new Zend_Soap_Client(TESTS_WEBSERVICE_URL . '/api/v2_soap?wsdl=1', $options);
         $this->_client->setSoapVersion(SOAP_1_1);
         $this->setSession($this->login(TESTS_WEBSERVICE_USER, TESTS_WEBSERVICE_APIKEY));
         $this->_configFunction = Mage::getSingleton('api/config')->getNode('v2/resources_function_prefix')->children();
         $this->_configAlias    = Mage::getSingleton('api/config')->getNode('resources_alias')->children();
+        return $this;
     }
 
     /**

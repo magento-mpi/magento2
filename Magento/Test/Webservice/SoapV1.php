@@ -27,24 +27,29 @@
 
 class Magento_Test_Webservice_SoapV1 extends Magento_Test_Webservice_Abstract
 {
-    /** @const Class of exception web services client throws */
+    /**
+     * Class of exception web services client throws
+     *
+     * @const
+     */
     const EXCEPTION_CLASS = 'SoapFault';
 
     /**
      * Init
      *
      * @param null|array $options
-     * @return void
+     * @return Magento_Test_Webservice_SoapV1
      */
     public function init($options = null)
     {
-        $this->_client = new Zend_Soap_Client(TESTS_WEBSERVICE_URL.'/api/soap/?wsdl=1', $options);
+        $this->_client = new Zend_Soap_Client(TESTS_WEBSERVICE_URL.'/api/soap?wsdl=1', $options);
         $this->setSession($this->login(TESTS_WEBSERVICE_USER, TESTS_WEBSERVICE_APIKEY));
+        return $this;
     }
 
     /**
      *  Call API methods
-     * 
+     *
      * @param $path
      * @param array $params
      * @return string

@@ -27,20 +27,32 @@
 
 /**
  * Base class for webservice clients
+ *
+ * @category    Magento
+ * @package     Magento_Test
+ * @author      Magento Api Team <api-team@magento.com>
  */
 abstract class Magento_Test_Webservice_Abstract
 {
-    /** @var string */
-    protected $_session = null;
+    /**
+     * Session ID
+     *
+     * @var string
+     */
+    protected $_session;
 
-    /** @var Zend_Soap_Client */
-    protected $_client = null;
+    /**
+     * Soap client adapter
+     *
+     * @var Zend_Soap_Client
+     */
+    protected $_client;
 
     /**
      * Webservice client base init method
      *
      * @abstract
-     * @return void
+     * @return Magento_Test_Webservice_Abstract
      */
     abstract public function init();
 
@@ -50,7 +62,7 @@ abstract class Magento_Test_Webservice_Abstract
      * @abstract
      * @param string $path
      * @param array $params
-     * @return void
+     * @return string|array
      */
     abstract public function call($path, $params = array());
 
@@ -76,21 +88,53 @@ abstract class Magento_Test_Webservice_Abstract
         return !empty($this->_session);
     }
 
+    /**
+     * Set session ID
+     *
+     * @param string $sessionId
+     * @return Magento_Test_Webservice_Abstract
+     */
     public function setSession($sessionId)
     {
         $this->_session = $sessionId;
         return $this;
     }
 
+    /**
+     * Get session ID
+     *
+     * @return string|null
+     */
+    public function getSession()
+    {
+        return $this->_session;
+    }
+
+    /**
+     * Get Soap Client adapter
+     *
+     * @return null|Zend_Soap_Client
+     */
     public function getClient()
     {
         return $this->_client;
     }
 
+    /**
+     * Get last response
+     *
+     * @return string
+     */
     public function getLastResponse()
     {
-        return $this->getClient()->getSoapClient()->__getLastResponse();
+        return $this->getClient()->getLastResponse();
     }
 
+    /**
+     * Get exception class name
+     *
+     * @abstract
+     * @return string
+     */
     abstract public function getExceptionClass();
 }
