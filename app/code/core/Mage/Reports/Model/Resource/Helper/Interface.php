@@ -19,42 +19,38 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Catalog
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
- * Adminhtml most viewed products report content block
+ * Reports resource helper interface
  *
- * @category   Mage
- * @package    Mage_Adminhtml
+ * @category    Mage
+ * @package     Mage_Reports
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
-class Mage_Adminhtml_Block_Report_Product_Viewed extends Mage_Adminhtml_Block_Widget_Grid_Container
+interface Mage_Reports_Model_Resource_Helper_Interface
 {
-    public function __construct()
-    {
-        $this->_controller = 'report_product_viewed';
-        $this->_headerText = Mage::helper('reports')->__('Most Viewed');
-        parent::__construct();
-        $this->setTemplate('report/grid/container.phtml');
-        $this->_removeButton('add');
-        $this->addButton('filter_form_submit', array(
-            'label'     => Mage::helper('reports')->__('Show Report'),
-            'onclick'   => 'filterFormSubmit()'
-        ));
-    }
-
     /**
-     * Get filter url
+     * Merge Index data
      *
+     * @param string $mainTable
+     * @param array $data
      * @return string
      */
-    public function getFilterUrl()
-    {
-        $this->getRequest()->setParam('filter', null);
-        return $this->getUrl('*/*/viewed', array('_current' => true));
-    }
+    public function mergeVisitorProductIndex($mainTable, $data, $matchFields);
+
+    /**
+     * Update rating position
+     *
+     * @param string $type day|month|year
+     * @param string $column
+     * @param string $mainTable
+     * @param string $aggregationTable
+     * @return Mage_Sales_Model_Resource_Helper_Abstract
+     */
+    public function updateReportRatingPos($type, $column, $mainTable, $aggregationTable);
 }

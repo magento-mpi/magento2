@@ -368,7 +368,7 @@ abstract class Mage_Reports_Model_Resource_Report_Abstract extends Mage_Core_Mod
         foreach ($periods as $offset => $timestamps) {
             $subParts = array();
             foreach ($timestamps as $ts) {
-                $subParts[] = "($column between '{$ts['from']}' and '{$ts['to']}')";
+                $subParts[] = "($column between {$ts['from']} and {$ts['to']})";
             }
 
             $then = $this->_getWriteAdapter()
@@ -393,16 +393,17 @@ abstract class Mage_Reports_Model_Resource_Report_Abstract extends Mage_Core_Mod
         $tzTransitions = array();
         try {
             if (!empty($from)) {
-                $from = new Zend_Date($from, 'Y-m-d H:i:s');
+                $from = new Zend_Date($from, 'y-MM-dd HH:mm:ss');
                 $from = $from->getTimestamp();
             }
 
             $to = new Zend_Date($to);
-            $nextPeriod = $to->toString('c');
+            $nextPeriod = $this->_getWriteAdapter()->formatDate($to->toString('y-MM-dd HH:mm:ss'));
             $to = $to->getTimestamp();
 
             $dtz = new DateTimeZone($timezone);
             $transitions = $dtz->getTransitions();
+            $dateTimeObject = new Zend_Date('c');
 
             for ($i = count($transitions) - 1; $i >= 0; $i--) {
                 $tr = $transitions[$i];
@@ -410,6 +411,8 @@ abstract class Mage_Reports_Model_Resource_Report_Abstract extends Mage_Core_Mod
                     continue;
                 }
 
+                $dateTimeObject->set($tr['time']);
+                $tr['time'] = $this->_getWriteAdapter()->formatDate($dateTimeObject->toString('y-MM-dd HH:mm:ss'));
                 $tzTransitions[$tr['offset']][] = array('from' => $tr['time'], 'to' => $nextPeriod);
 
                 if (!empty($from) && $tr['ts'] < $from) {

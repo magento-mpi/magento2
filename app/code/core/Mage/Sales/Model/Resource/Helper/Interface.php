@@ -26,14 +26,13 @@
 
 
 /**
- * Sales Oracle resource helper model
+ * Sales resource helper interface
  *
  * @category    Mage
  * @package     Mage_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Sales_Model_Resource_Helper_Oracle extends Mage_Core_Model_Resource_Helper_Oracle
-    implements Mage_Sales_Model_Resource_Helper_Interface
+interface Mage_Sales_Model_Resource_Helper_Interface
 {
     /**
      * Update rating position
@@ -46,21 +45,5 @@ class Mage_Sales_Model_Resource_Helper_Oracle extends Mage_Core_Model_Resource_H
      */
     public function getBestsellersReportUpdateRatingPos($aggregation, $aggregationAliases,
         $mainTable, $aggregationTable
-    ) {
-        /** @var $reportsResourceHelper Mage_Reports_Model_Resource_Helper_Interface */
-        $reportsResourceHelper = Mage::getResourceHelper('reports');
-
-        if ($aggregation == $aggregationAliases['monthly']) {
-            $reportsResourceHelper
-                ->updateReportRatingPos('month', 'qty_ordered', $mainTable, $aggregationTable);
-        } elseif ($aggregation == $aggregationAliases['yearly']) {
-            $reportsResourceHelper
-                ->updateReportRatingPos('year', 'qty_ordered', $mainTable, $aggregationTable);
-        } else {
-            $reportsResourceHelper
-                ->updateReportRatingPos('day', 'qty_ordered', $mainTable, $aggregationTable);
-        }
-
-        return $this;
-    }
+    );
 }
