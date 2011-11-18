@@ -106,20 +106,6 @@ class Catalog_Category_CategoryTest extends Magento_Test_Webservice
         $categoryRead = $this->call('catalog_category.info', array($categoryId));
         $this->assertEquals('0', $categoryRead['is_active']);
 
-        //update empty
-        $categoryFixture->update->categoryId = $categoryId;
-        $categoryFixture->update->categoryData->is_active = '';
-        $data = self::simpleXmlToArray($categoryFixture->update);
-
-        try {
-            $this->call('category.update', $data);
-            $this->fail('Exception not thrown');
-        } catch (SoapFault $e) {
-            //correct behavior
-        } catch (Exception $e) {
-            $this->fail('Wrong exception thrown');
-        }
-
         //update sql-injection
         $categoryFixture->update->categoryId = $categoryId;
         $categoryFixture->update->categoryData->is_active = '9-1';
