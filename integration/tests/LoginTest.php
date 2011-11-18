@@ -28,6 +28,9 @@
 /**
  * Test API login method
  *
+ * @category    Magento
+ * @package     Magento_Test
+ * @author      Magento Api Team <api-team@magento.com>
  */
 class LoginTest extends Magento_Test_Webservice
 {
@@ -36,27 +39,9 @@ class LoginTest extends Magento_Test_Webservice
      *
      * @return void
      */
-    public function testLogin()
+    public function testLoginSuccess()
     {
-        /** @var $client Magento_Test_Webservice_Abstract */
-        $client = $this->getWebService();
-        $this->assertTrue($client->hasSession());
-    }
-
-    /**
-     * Test API login through SoapClient (soap v1.1)
-     *
-     * @return void
-     */
-    public function _testLoginDirect()
-    {
-        if (TESTS_WEBSERVICE_TYPE != self::TYPE_SOAPV1) {
-            return;
-        }
-        
-        $client = new SoapClient(TESTS_WEBSERVICE_URL.'/api/soap/?wsdl=1', array('trace'=>true, 'exceptions'=>false));
-        $sessionId = $client->login(TESTS_WEBSERVICE_USER, TESTS_WEBSERVICE_APIKEY);
-        $this->assertNotEmpty($sessionId);
+        $this->assertTrue($this->getWebService()->hasSession());
     }
 
     /**
@@ -117,8 +102,6 @@ class LoginTest extends Magento_Test_Webservice
             return;
         }
 
-        //$this->setExpectedException('SoapFault');
-
         $requestXml = file_get_contents(dirname(__FILE__) . '/_files/requestInvalidStructure.xml');
         $location = TESTS_WEBSERVICE_URL . '/index.php/api/soap/index/';
         $action = 'urn:Mage_Api_Model_Server_HandlerAction';
@@ -151,7 +134,7 @@ class LoginTest extends Magento_Test_Webservice
         $location = TESTS_WEBSERVICE_URL . '/index.php/api/soap/index/';
         $action = 'urn:Mage_Api_Model_Server_HandlerAction';
         $version = 1;
-        
+
         $responseXml = $this->getWebService()->getClient()->_doRequest(
             $this->getWebService()->getClient()->getSoapClient(),
             $requestXml, $location, $action, $version
@@ -166,7 +149,6 @@ class LoginTest extends Magento_Test_Webservice
 
     /**
      * Test using API with arbitrary session id
-     *
      */
     public function testUseInvalidSessionIdCategoryCreate()
     {
@@ -177,21 +159,28 @@ class LoginTest extends Magento_Test_Webservice
 
         $categoryFixture = simplexml_load_file(dirname(__FILE__) . '/Catalog/Category/_fixtures/category.xml');
         $data = self::simpleXmlToArray($categoryFixture->create);
-        
+
         $client->setSession($sessionId);
-        $categoryId =$client->call('category.create', $data);
+        $client->call('category.create', $data);
     }
-    
+
     /**
      * Test vulnerability on session start
      */
     public function testSessionStartVulnerability()
     {
+        $timeStart = time();
         $session = $this->getWebService()->login(TESTS_WEBSERVICE_USER, TESTS_WEBSERVICE_APIKEY);
         //try assert equals session id by old algorithm with real session id
         $time = time();
-        $this->assertTrue(
-            md5($time) != $session,
-            'Session API starting has vulnerability.');
+        do {
+            $equal = md5($time) == $session;
+            if ($equal) {
+                break;
+            }
+            $time--;
+        } while ($time >= $timeStart);
+
+        $this->assertFalse($equal, 'Session API starting has vulnerability.');
     }
 }
