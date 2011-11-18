@@ -27,23 +27,40 @@
 
 class Magento_Test_Webservice_XmlRpc extends Magento_Test_Webservice_Abstract
 {
-    /** @const Class of exception web services client throws */
+    /**
+     * Class of exception web services client throws
+     */
     const EXCEPTION_CLASS = 'Zend_XmlRpc_Client_FaultException';
 
+    /**
+     * URL path
+     *
+     * @var string
+     */
+    protected $_urlPath = '/api/xmlrpc/';
+
+    /**
+     * Initialize
+     *
+     * @return Magento_Test_Webservice_XmlRpc
+     */
     public function init()
     {
-        $this->_client = new Zend_XmlRpc_Client(TESTS_WEBSERVICE_URL.'/api/xmlrpc/');
+        $this->_client = new Zend_XmlRpc_Client($this->getClientUrl());
         // 30 seconds wasn't enough for some crud tests, increased to timeout 60
         $this->_client->getHttpClient()->setConfig(array('timeout' => 60));
         $this->setSession($this->_client->call('login',array(TESTS_WEBSERVICE_USER, TESTS_WEBSERVICE_APIKEY)));
+        return $this;
     }
 
-    public function login($api, $key)
-    {
-        return $this->_client->call('login',array($api, $key));
-    }
-
-
+    /**
+     * Webservice client call method
+     *
+     * @abstract
+     * @param string $path
+     * @param array $params
+     * @return string|array
+     */
     public function call($path, $params = array())
     {
         return $this->_client->call('call', array($this->_session, $path, $params));
@@ -51,7 +68,7 @@ class Magento_Test_Webservice_XmlRpc extends Magento_Test_Webservice_Abstract
 
     /**
      * Give web service client exception class
-     * 
+     *
      * @return string
      */
     public function getExceptionClass()

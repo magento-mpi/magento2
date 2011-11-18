@@ -49,6 +49,20 @@ abstract class Magento_Test_Webservice_Abstract
     protected $_client;
 
     /**
+     * Webservice full URL
+     *
+     * @var string
+     */
+    protected $_url;
+
+    /**
+     * Webservice URL path
+     *
+     * @var string
+     */
+    protected $_urlPath = '';
+
+    /**
      * Webservice client base init method
      *
      * @abstract
@@ -137,4 +151,17 @@ abstract class Magento_Test_Webservice_Abstract
      * @return string
      */
     abstract public function getExceptionClass();
+
+    /**
+     * Get client URL
+     *
+     * @return string
+     */
+    public function getClientUrl()
+    {
+        if (null === $this->_url) {
+            $this->_url = rtrim(TESTS_WEBSERVICE_URL, '/') . '/' . ltrim($this->_urlPath, '/');
+        }
+        return $this->_url;
+    }
 }

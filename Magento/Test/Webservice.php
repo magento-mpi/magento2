@@ -27,7 +27,9 @@
 
 class Magento_Test_Webservice extends Magento_TestCase
 {
-    /**#@+ Webservice type */
+    /**#@+
+     * Webservice type
+     */
     const TYPE_SOAPV1 = 'soapv1';
     const TYPE_SOAPV2 = 'soapv2';
     const TYPE_XMLRPC = 'xmlrpc';

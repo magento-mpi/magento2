@@ -35,6 +35,13 @@ class Magento_Test_Webservice_SoapV1 extends Magento_Test_Webservice_Abstract
     const EXCEPTION_CLASS = 'SoapFault';
 
     /**
+     * URL path
+     *
+     * @var string
+     */
+    protected $_urlPath = '/api/soap?wsdl=1';
+
+    /**
      * Init
      *
      * @param null|array $options

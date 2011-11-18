@@ -35,6 +35,13 @@ class Magento_Test_Webservice_SoapV2 extends Magento_Test_Webservice_Abstract
     const EXCEPTION_CLASS = 'SoapFault';
 
     /**
+     * URL path
+     *
+     * @var string
+     */
+    protected $_urlPath = '/api/v2_soap?wsdl=1';
+
+    /**
      * Function prefixes
      *
      * @var array
@@ -56,7 +63,7 @@ class Magento_Test_Webservice_SoapV2 extends Magento_Test_Webservice_Abstract
      */
     public function init($options = null)
     {
-        $this->_client = new Zend_Soap_Client(TESTS_WEBSERVICE_URL . '/api/v2_soap?wsdl=1', $options);
+        $this->_client = new Zend_Soap_Client($this->getClientUrl(), $options);
         $this->_client->setSoapVersion(SOAP_1_1);
         $this->setSession($this->login(TESTS_WEBSERVICE_USER, TESTS_WEBSERVICE_APIKEY));
         $this->_configFunction = Mage::getSingleton('api/config')->getNode('v2/resources_function_prefix')->children();
