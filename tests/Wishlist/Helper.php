@@ -138,7 +138,7 @@ class Wishlist_Helper extends Mage_Selenium_TestCase
      *
      * @param string|array $productNameSet Product name (string) or array of product names to add
      */
-    public function frontAddToShoppingCart($productNameSet) //todo: specify custom options
+    public function frontAddToShoppingCart($productNameSet)
     {
         if (is_string($productNameSet))
             $productNameSet = array($productNameSet);
