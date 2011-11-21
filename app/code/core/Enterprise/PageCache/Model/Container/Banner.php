@@ -13,8 +13,7 @@
  *
  * @category    Enterprise
  * @package     Enterprise_PageCache
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
- * @license     http://www.magentocommerce.com/license/enterprise-edition
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_PageCache_Model_Container_Banner
     extends Enterprise_PageCache_Model_Container_Abstract

@@ -17,17 +17,21 @@ class Integrity_LicenseTest extends PHPUnit_Framework_TestCase
     public function testLegacyComment($filename)
     {
         $fileText = file_get_contents($filename);
-        if (!preg_match('#/\*\*.+?\*/#s', $fileText, $matches)) {
+        if (!preg_match_all('#/\*\*.+?\*/#s', $fileText, $matches)) {
             /* There are no PHPDoc comments */
             return;
         }
-        $firstCommentText = $matches[0];
-        foreach (array('Irubin Consulting Inc', 'DBA Varien', 'Magento Inc') as $legacyText) {
-            $this->assertNotContains(
-                $legacyText,
-                $firstCommentText,
-                "License comment must not contain legacy text '$legacyText'."
-            );
+
+        foreach ($matches[0] as $commentText) {
+            if (strpos($commentText, '@copyright') !== FALSE) {
+                foreach (array('Irubin Consulting Inc', 'DBA Varien', 'Magento Inc') as $legacyText) {
+                    $this->assertNotContains(
+                        $legacyText,
+                        $commentText,
+                        "License comment must not contain legacy text '$legacyText'."
+                    );
+                }
+            }
         }
     }
 

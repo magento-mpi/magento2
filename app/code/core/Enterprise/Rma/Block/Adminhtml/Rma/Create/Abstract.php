@@ -13,8 +13,7 @@
  *
  * @category    Enterprise
  * @package     Enterprise_Rma
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
- * @license     http://www.magentocommerce.com/license/enterprise-edition
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 
 abstract class Enterprise_Rma_Block_Adminhtml_Rma_Create_Abstract extends Mage_Adminhtml_Block_Widget
