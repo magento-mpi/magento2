@@ -34,9 +34,14 @@ class Magento_TestCase extends PHPUnit_Framework_TestCase
      */
     public static function tearDownAfterClass()
     {
+        //clear garbage in memory
         if (version_compare(PHP_VERSION, '5.3', '>=')) {
             gc_collect_cycles();
         }
+
+        //ever disable secure area on class down
+        Mage::unregister('isSecureArea');
+
         parent::tearDownAfterClass();
     }
 
@@ -140,5 +145,20 @@ class Magento_TestCase extends PHPUnit_Framework_TestCase
         $this->_replaceHelper($name, $mock);
 
         return $mock;
+    }
+
+    /**
+     * Enable secure/admin area
+     *
+     * @param bool $flag
+     * @return Magento_TestCase
+     */
+    protected function _enableSecureArea($flag = true)
+    {
+        Mage::unregister('isSecureArea');
+        if ($flag) {
+            Mage::register('isSecureArea', $flag);
+        }
+        return $this;
     }
 }
