@@ -60,7 +60,6 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     const URL_TYPE_LINK                   = 'link';
     const URL_TYPE_DIRECT_LINK            = 'direct_link';
     const URL_TYPE_WEB                    = 'web';
-    const URL_TYPE_SKIN                   = 'skin';
     const URL_TYPE_JS                     = 'js';
     const URL_TYPE_MEDIA                  = 'media';
 
@@ -422,13 +421,21 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
             $sValue = $backend->getValue();
         }
 
-        if (is_string($sValue) && strpos($sValue, '{{') !== false) {
-            if (strpos($sValue, '{{unsecure_base_url}}') !== false) {
-                $unsecureBaseUrl = $this->getConfig(self::XML_PATH_UNSECURE_BASE_URL);
-                $sValue = str_replace('{{unsecure_base_url}}', $unsecureBaseUrl, $sValue);
-            } elseif (strpos($sValue, '{{secure_base_url}}') !== false) {
-                $secureBaseUrl = $this->getConfig(self::XML_PATH_SECURE_BASE_URL);
-                $sValue = str_replace('{{secure_base_url}}', $secureBaseUrl, $sValue);
+        if (is_string($sValue) && preg_match('/{{(.*)}}.*/', $sValue, $matches)) {
+            $placeholder = $matches[1];
+            $url = false;
+            if ($placeholder == 'unsecure_base_url' || $placeholder == 'unsecure_public_url') {
+                $url = $this->getConfig(self::XML_PATH_UNSECURE_BASE_URL);
+            } elseif ($placeholder == 'secure_base_url' || $placeholder == 'secure_public_url') {
+                $url = $this->getConfig(self::XML_PATH_SECURE_BASE_URL);
+            }
+            if ($placeholder == 'unsecure_public_url' || $placeholder == 'secure_public_url') {
+                $pubName = Mage_Core_Model_Config_Options::PUB_DIRECTORY;
+                $url.= (substr(dirname($_SERVER['SCRIPT_FILENAME']), -4) == '/' . $pubName) ? '' : $pubName . '/';
+            }
+
+            if ($url) {
+                $sValue = str_replace('{{' . $placeholder . '}}', $url, $sValue);
             } elseif (strpos($sValue, '{{base_url}}') !== false) {
                 $sValue = Mage::getConfig()->substDistroServerVars($sValue);
             }
@@ -501,10 +508,9 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
                     $url = $this->_updatePathUseRewrites($url);
                     break;
 
-                case self::URL_TYPE_SKIN:
                 case self::URL_TYPE_JS:
                     $secure = is_null($secure) ? $this->isCurrentlySecure() : (bool) $secure;
-                    $url = $this->getConfig('web/' . ($secure ? 'secure' : 'unsecure') . '/base_' . $type . '_url');
+                    $url = $this->getConfig('web/' . ($secure ? 'secure' : 'unsecure') . '/base_public_url') . 'js/';
                     break;
 
                 case self::URL_TYPE_MEDIA:
@@ -561,7 +567,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
         if (!$this->getConfig(self::XML_PATH_USE_REWRITES)
             && Mage::helper('Mage_Core_Helper_File_Storage_Database')->checkDbUsage()
         ) {
-            $urlStart = $this->getConfig('web/' . $secureStringFlag . '/base_url');
+            $urlStart = $this->getConfig('web/' . $secureStringFlag . '/base_public_url');
             $url = str_replace($urlStart, $urlStart . self::MEDIA_REWRITE_SCRIPT, $url);
         }
         return $url;

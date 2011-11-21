@@ -95,18 +95,18 @@ class Mage_Shell_Log extends Mage_Shell_Abstract
             $adapter  = $resource->getReadConnection();
             // log tables
             $tables = array(
-                $resource->getTable('log/customer'),
-                $resource->getTable('log/visitor'),
-                $resource->getTable('log/visitor_info'),
-                $resource->getTable('log/url_table'),
-                $resource->getTable('log/url_info_table'),
-                $resource->getTable('log/quote_table'),
+                $resource->getTable('log_customer'),
+                $resource->getTable('log_visitor'),
+                $resource->getTable('log_visitor_info'),
+                $resource->getTable('log_url_table'),
+                $resource->getTable('log_url_info_table'),
+                $resource->getTable('log_quote_table'),
 
-                $resource->getTable('reports/viewed_product_index'),
-                $resource->getTable('reports/compared_product_index'),
-                $resource->getTable('reports/event'),
+                $resource->getTable('reports_viewed_product_index'),
+                $resource->getTable('reports_compared_product_index'),
+                $resource->getTable('reports_event'),
 
-                $resource->getTable('catalog/compare_item'),
+                $resource->getTable('catalog_compare_item'),
             );
 
             $rows        = 0;

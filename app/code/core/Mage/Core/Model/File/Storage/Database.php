@@ -60,7 +60,7 @@ class Mage_Core_Model_File_Storage_Database extends Mage_Core_Model_File_Storage
     {
         if (is_null($this->_directoryModel)) {
             $this->_directoryModel = Mage::getModel(
-                'core/file_storage_directory_database',
+                'Mage_Core_Model_File_Storage_Directory_Database',
                 array('connection' => $this->getConnectionName()));
         }
 
@@ -189,7 +189,7 @@ class Mage_Core_Model_File_Storage_Database extends Mage_Core_Model_File_Storage
                 $file['update_time'] = $dateSingleton->date();
                 $file['directory_id'] = (isset($file['directory']) && strlen($file['directory']))
                     ? Mage::getModel(
-                        'core/file_storage_directory_database',
+                        'Mage_Core_Model_File_Storage_Directory_Database',
                         array('connection' => $this->getConnectionName()))
                             ->loadByPath($file['directory'])->getId()
                     : null;

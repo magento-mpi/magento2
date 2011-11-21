@@ -20,7 +20,7 @@ if (!file_exists($bootstrapFile)) {
 }
 
 if (file_exists('maintenance.flag')) {
-    include_once dirname(__FILE__) . '/errors/503.php';
+    include_once dirname(__FILE__) . '/pub/errors/503.php';
     exit;
 }
 

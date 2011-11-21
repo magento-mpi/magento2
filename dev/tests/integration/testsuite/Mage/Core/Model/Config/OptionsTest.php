@@ -27,9 +27,9 @@ class Mage_Core_Model_Config_OptionsTest extends PHPUnit_Framework_TestCase
         'etc_dir'     => 'etc',
         'lib_dir'     => 'lib',
         'locale_dir'  => 'locale',
+        'pub_dir'     => 'pub',
         'js_dir'      => 'js',
         'media_dir'   => 'media',
-        'skin_dir'    => 'skin',
         'var_dir'     => 'var',
         'tmp_dir'     => 'tmp',
         'cache_dir'   => 'cache',
@@ -78,7 +78,6 @@ class Mage_Core_Model_Config_OptionsTest extends PHPUnit_Framework_TestCase
      * @covers Mage_Core_Model_Config_Options::getLibDir
      * @covers Mage_Core_Model_Config_Options::getLocaleDir
      * @covers Mage_Core_Model_Config_Options::getMediaDir
-     * @covers Mage_Core_Model_Config_Options::getSkinDir
      * @covers Mage_Core_Model_Config_Options::getSysTmpDir
      * @covers Mage_Core_Model_Config_Options::getVarDir
      * @covers Mage_Core_Model_Config_Options::getTmpDir
