@@ -40,7 +40,7 @@ class Magento_TestCase extends PHPUnit_Framework_TestCase
         }
 
         //ever disable secure area on class down
-        Mage::unregister('isSecureArea');
+        self::enableSecureArea(false);
 
         parent::tearDownAfterClass();
     }
@@ -151,15 +151,14 @@ class Magento_TestCase extends PHPUnit_Framework_TestCase
      * Enable secure/admin area
      *
      * @param bool $flag
-     * @return Magento_TestCase
+     * @return void
      */
-    protected function _enableSecureArea($flag = true)
+    static public function enableSecureArea($flag = true)
     {
         Mage::unregister('isSecureArea');
         if ($flag) {
             Mage::register('isSecureArea', $flag);
         }
-        return $this;
     }
 
     /**
@@ -173,11 +172,11 @@ class Magento_TestCase extends PHPUnit_Framework_TestCase
     {
         if ($model instanceof Mage_Core_Model_Abstract && $model->getId()) {
             if ($secure) {
-                $this->_enableSecureArea();
+                self::enableSecureArea();
             }
             $model->delete();
             if ($secure) {
-                $this->_enableSecureArea(false);
+                self::enableSecureArea(false);
             }
         }
         return $this;
