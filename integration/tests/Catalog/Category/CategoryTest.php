@@ -205,8 +205,22 @@ class Catalog_Category_CategoryTest extends Magento_Test_Webservice
              * Test update with empty category ID
              */
             $params = $categoryFixture['update'];
-            $result = $this->call('category.update', $params);
+            try {
+                $result = $this->call('category.update', $params);
+            } catch (SoapFault $e) {
+                //make result like in response
+                $result = array(
+                    'faultcode' => $e->getCode(),
+                    'faultstring' => $e->getMessage()
+                );
+            }
             $category->load($categoryId);
+            //name must has old value
+            $this->assertEquals(
+                $category['name'],
+                $categoryFixture['create']['categoryData']['name'],
+                'Category updated with empty ID.'
+            );
             //"102" is code error when category is not found on update
             $this->assertInternalType('array', $result);
             $this->assertEquals(102, $result['faultcode'], 'Fault code is not right.');
