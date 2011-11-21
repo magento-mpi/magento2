@@ -195,7 +195,7 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
             'lib fallback' => array(
                 'varien/product.js',
                 array('_skin' => 'default'),
-                '%s/js/varien/product.js',
+                '%s/pub/js/varien/product.js',
             ),
         );
     }
@@ -233,11 +233,11 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
             ),
             'lib file' => array(
                 'varien/product.js',
-                'http://localhost/js/varien/product.js',
+                'http://localhost/pub/js/varien/product.js',
             ),
             'lib folder' => array(
                 'varien',
-                'http://localhost/js/varien',
+                'http://localhost/pub/js/varien',
             )
         );
     }
@@ -499,8 +499,8 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
     public function testGetOptimalCssUrls()
     {
         $expected = array(
-            'http://localhost/media/skin/frontend/test/default/default/en_US/css/styles.css',
-            'http://localhost/js/calendar/calendar-blue.css',
+            'http://localhost/pub/media/skin/frontend/test/default/default/en_US/css/styles.css',
+            'http://localhost/pub/js/calendar/calendar-blue.css',
         );
         $params = array(
             'css/styles.css',
@@ -525,11 +525,11 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
         return array(
             array(
                 array('css/styles.css', 'calendar/calendar-blue.css'),
-                array('http://localhost/media/skin/_merged/5594035976651f0a40d65ed577700fb5.css')
+                array('http://localhost/pub/media/skin/_merged/5594035976651f0a40d65ed577700fb5.css')
             ),
             array(
                 array('css/styles.css'),
-                array('http://localhost/media/skin/frontend/test/default/default/en_US/css/styles.css',)
+                array('http://localhost/pub/media/skin/frontend/test/default/default/en_US/css/styles.css',)
             ),
         );
     }
@@ -538,8 +538,8 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
     public function testGetOptimalJsUrls()
     {
         $expected = array(
-            'http://localhost/media/skin/frontend/test/default/default/en_US/js/tabs.js',
-            'http://localhost/js/calendar/calendar.js',
+            'http://localhost/pub/media/skin/frontend/test/default/default/en_US/js/tabs.js',
+            'http://localhost/pub/js/calendar/calendar.js',
         );
         $params = array(
             'js/tabs.js',
@@ -564,11 +564,11 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
         return array(
             array(
                 array('js/tabs.js', 'calendar/calendar.js'),
-                array('http://localhost/media/skin/_merged/c5a9f4afba4ff0ff979445892214fc8b.js',)
+                array('http://localhost/pub/media/skin/_merged/c5a9f4afba4ff0ff979445892214fc8b.js',)
             ),
             array(
                 array('calendar/calendar.js'),
-                array('http://localhost/js/calendar/calendar.js',)
+                array('http://localhost/pub/js/calendar/calendar.js',)
             ),
         );
     }

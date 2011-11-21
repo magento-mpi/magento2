@@ -207,8 +207,7 @@
                 <media_database>default_setup</media_database>
                 <configuration_update_time>3600</configuration_update_time>
                 <allowed_resources>
-                    <compiled_css_folder>css</compiled_css_folder>
-                    <compiled_js_folder>js</compiled_js_folder>
+                    <skin_folder>skin</skin_folder>
                 </allowed_resources>
             </media_storage_configuration>
         </system>
@@ -256,17 +255,15 @@
                 <base_url>{{base_url}}</base_url>
                 <base_web_url>{{unsecure_base_url}}</base_web_url>
                 <base_link_url>{{unsecure_base_url}}</base_link_url>
-                <base_js_url>{{unsecure_base_url}}js/</base_js_url>
-                <base_skin_url>{{unsecure_base_url}}skin/</base_skin_url>
-                <base_media_url>{{unsecure_base_url}}media/</base_media_url>
+                <base_public_url>{{unsecure_public_url}}</base_public_url>
+                <base_media_url>{{unsecure_public_url}}media/</base_media_url>
             </unsecure>
             <secure>
                 <base_url>{{base_url}}</base_url>
                 <base_web_url>{{secure_base_url}}</base_web_url>
                 <base_link_url>{{secure_base_url}}</base_link_url>
-                <base_js_url>{{secure_base_url}}js/</base_js_url>
-                <base_skin_url>{{secure_base_url}}skin/</base_skin_url>
-                <base_media_url>{{secure_base_url}}media/</base_media_url>
+                <base_public_url>{{secure_public_url}}</base_public_url>
+                <base_media_url>{{secure_public_url}}media/</base_media_url>
                 <use_in_frontend>0</use_in_frontend>
                 <use_in_adminhtml>0</use_in_adminhtml>
                 <offloader_header>SSL_OFFLOADED</offloader_header>
