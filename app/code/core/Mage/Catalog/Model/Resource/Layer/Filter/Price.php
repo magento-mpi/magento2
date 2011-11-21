@@ -186,7 +186,7 @@ class Mage_Catalog_Model_Resource_Layer_Filter_Price extends Mage_Core_Model_Res
         $table      = $this->_getIndexTableAlias();
         $additional = join('', $response->getAdditionalCalculations());
         $rate       = $filter->getCurrencyRate();
-        $priceExpr  = new Zend_Db_Expr("(({$table}.min_price {$additional}) * {$rate})");
+        $priceExpr  = new Zend_Db_Expr("ROUND(({$table}.min_price {$additional}) * {$rate}, 2)");
 
         return array($select, $priceExpr);
     }
@@ -226,7 +226,7 @@ class Mage_Catalog_Model_Resource_Layer_Filter_Price extends Mage_Core_Model_Res
 
         $additional   = join('', $response->getAdditionalCalculations());
         $maxPriceExpr = new Zend_Db_Expr(
-            "({$table}.min_price {$additional}) * ". $connection->quote($filter->getCurrencyRate())
+            "ROUND(({$table}.min_price {$additional}) * " . $connection->quote($filter->getCurrencyRate()) . ", 2)"
         );
 
         $select->columns(array($maxPriceExpr));
