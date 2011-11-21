@@ -320,6 +320,8 @@
                         <price_range_step translate="label">
                             <label>Default Price Navigation Step</label>
                             <frontend_type>text</frontend_type>
+                            <validate>validate-number validate-number-range number-range-0.01-1000000000</validate>
+                            <frontend_model>catalog/adminhtml_system_config_step</frontend_model>
                             <sort_order>2</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
