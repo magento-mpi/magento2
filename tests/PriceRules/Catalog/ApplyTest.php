@@ -145,6 +145,8 @@ class PriceRules_Catalog_ApplyTest extends Mage_Selenium_TestCase
         $priceInCategoryNotLogged = $this->loadData($ruleType . '_simple_not_logged_category',
             array('product_name' => $productData['general_name'], 'category' => $category));
         //Steps
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('default_tax_config');
         $this->navigate('manage_catalog_price_rules');
         $this->priceRulesHelper()->createRule($priceRuleData);
         $this->assertTrue($this->successMessage('success_saved_rule'), $this->messages);

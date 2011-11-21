@@ -51,7 +51,6 @@ class PriceRules_Catalog_CreateTest extends Mage_Selenium_TestCase
     protected function assertPreConditions()
     {
         $this->navigate('manage_catalog_price_rules');
-        $this->assertTrue($this->checkCurrentPage('manage_catalog_price_rules'), $this->messages);
     }
 
     /**
@@ -76,7 +75,6 @@ class PriceRules_Catalog_CreateTest extends Mage_Selenium_TestCase
         //Verification
         $this->assertTrue($this->successMessage('success_saved_rule'), $this->messages);
         $this->assertTrue($this->successMessage('notification_message'), $this->messages);
-        $this->search(array('filter_rule_name' => $priceRuleData['info']['rule_name']));
         return $priceRuleData['info']['rule_name'];
     }
 
@@ -152,6 +150,61 @@ class PriceRules_Catalog_CreateTest extends Mage_Selenium_TestCase
             array('g3648GJHghj'),
             array('-128')
         );
+    }
+
+    /**
+     * <p>Create Catalog price rule with long values into required fields.</p>
+     * <p>Steps:</p>
+     * <p>1. Navigate to Promotions - Catalog Price Rules</p>
+     * <p>2. Fill form for Catalog Price Rule, but one field should be filled with long Values</p>
+     * <p>3. Click "Save Rule" button</p>
+     *
+     * <p>Expected result:</p>
+     * <p>Rule created, confirmation message appears</p>
+     *
+     * @test
+     */
+    public function createWithRequiredFieldsLongValues()
+    {
+        $priceRuleData = $this->loadData('test_catalog_rule',
+                array(
+                    'rule_name'              => $this->generate('string', 255, ':alnum:'),
+                    'discount_amount'        => 99999999.9999,
+                    'sub_discount_amount'    => 99999999.9999
+                ));
+        $ruleSearch = $this->loadData('search_catalog_rule',
+                                      array('filter_rule_name' => $priceRuleData['info']['rule_name']));
+        $this->priceRulesHelper()->createRule($priceRuleData);
+        $this->assertTrue($this->successMessage('success_saved_rule'), $this->messages);
+        $this->priceRulesHelper()->openRule($ruleSearch);
+        $this->priceRulesHelper()->verifyRuleData($priceRuleData);
+    }
+
+    /**
+     * <p>Create Catalog price rule with long values into required fields.</p>
+     * <p>Steps:</p>
+     * <p>1. Navigate to Promotions - Catalog Price Rules</p>
+     * <p>2. Fill form for Catalog Price Rule, but one field should be filled with long Values</p>
+     * <p>3. Click "Save Rule" button</p>
+     *
+     * <p>Expected result:</p>
+     * <p>Rule created, confirmation message appears</p>
+     *
+     * @test
+     */
+    public function createWithIncorrectLengthInDiscountAmount()
+    {
+        $priceRuleData = $this->loadData('test_catalog_rule',
+                array(
+                    'discount_amount'        => 99999999.99991,
+                    'sub_discount_amount'    => 99999999.99991
+                ));
+        $ruleSearch = $this->loadData('search_catalog_rule',
+                                      array('filter_rule_name' => $priceRuleData['info']['rule_name']));
+        $this->priceRulesHelper()->createRule($priceRuleData);
+        $this->assertTrue($this->successMessage('success_saved_rule'), $this->messages);
+        $this->priceRulesHelper()->openRule($ruleSearch);
+        $this->priceRulesHelper()->verifyRuleData($priceRuleData);
     }
 
     /**

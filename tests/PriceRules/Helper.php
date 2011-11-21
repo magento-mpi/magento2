@@ -44,9 +44,21 @@ class PriceRules_Helper extends Mage_Selenium_TestCase
     /**
      * Create new Rule
      *
+     * @param string|array $createRuleData
+     */
+    public function createRule($createRuleData)
+    {
+        $this->clickButton('add_new_rule');
+        $this->fillTabs($createRuleData);
+        $this->saveForm('save_rule');
+    }
+
+    /**
+     * Filling tabs
+     *
      * @param string|array $ruleData
      */
-    public function createRule($ruleData)
+    public function fillTabs($ruleData)
     {
         if (is_string($ruleData)) {
             $ruleData = $this->loadData($ruleData);
@@ -56,8 +68,6 @@ class PriceRules_Helper extends Mage_Selenium_TestCase
         $ruleConditions = (isset($ruleData['conditions'])) ? $ruleData['conditions'] : array();
         $ruleActions = (isset($ruleData['actions'])) ? $ruleData['actions'] : array();
         $ruleLabels = (isset($ruleData['labels'])) ? $ruleData['labels'] : null;
-
-        $this->clickButton('add_new_rule');
         if (array_key_exists('websites', $ruleInfo) && !$this->controlIsPresent('multiselect', 'websites')) {
             unset($ruleInfo['websites']);
         }
@@ -67,7 +77,6 @@ class PriceRules_Helper extends Mage_Selenium_TestCase
         if ($ruleLabels) {
             $this->fillLabelsTab($ruleLabels);
         }
-        $this->saveForm('save_rule');
     }
 
     /**
@@ -347,8 +356,7 @@ class PriceRules_Helper extends Mage_Selenium_TestCase
     public function editRule($editRuleData, $ruleSearchCreated)
     {
         $this->openRule($ruleSearchCreated);
-        $this->fillSimpleTab($editRuleData['info'], 'rule_information');
-        $this->fillActionsTab($editRuleData['actions']);
+        $this->fillTabs($editRuleData);
         $this->saveForm('save_rule');
     }
 
