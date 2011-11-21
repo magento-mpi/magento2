@@ -243,6 +243,11 @@ class Mage_Catalog_Model_Layer_Filter_Price extends Mage_Catalog_Model_Layer_Fil
      */
     protected function _getItemsData()
     {
+        // check if filter is already applied
+        if ($this->getInterval()) {
+            return array();
+        }
+
         if (Mage::app()->getStore()->getConfig(self::XML_PATH_RANGE_CALCULATION) == self::RANGE_CALCULATION_AUTO) {
             return $this->_getCalculatedItemsData();
         }
