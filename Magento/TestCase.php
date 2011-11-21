@@ -161,4 +161,25 @@ class Magento_TestCase extends PHPUnit_Framework_TestCase
         }
         return $this;
     }
+
+    /**
+     * Call safe delete for model
+     *
+     * @param Mage_Core_Model_Abstract $model
+     * @param bool $secure
+     * @return Magento_TestCase
+     */
+    protected function _modelCallDelete($model, $secure = false)
+    {
+        if ($model instanceof Mage_Core_Model_Abstract && $model->getId()) {
+            if ($secure) {
+                $this->_enableSecureArea();
+            }
+            $model->delete();
+            if ($secure) {
+                $this->_enableSecureArea(false);
+            }
+        }
+        return $this;
+    }
 }
