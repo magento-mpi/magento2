@@ -28,7 +28,7 @@
  */
 
 /**
- * Prices Validation on the frontend
+ * Tags Validation on the frontend
  *
  * @package     selenium
  * @subpackage  tests
