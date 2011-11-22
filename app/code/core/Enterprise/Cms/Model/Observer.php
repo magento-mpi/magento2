@@ -390,7 +390,7 @@ class Enterprise_Cms_Model_Observer
         $widgetModel = Mage::getModel('widget/widget_instance');
         $widgets = $widgetModel->getResourceCollection()
                 ->addStoreFilter(array($storeId, false))
-                ->addFieldToFilter('type','enterprise_cms/widget_node');
+                ->addFieldToFilter('instance_type','enterprise_cms/widget_node');
 
         /* @var $widgetInstance Mage_Widget_Model_Widget_Instance */
         foreach ($widgets as $widgetInstance) {
