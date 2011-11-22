@@ -131,3 +131,39 @@ my_account_my_tags_after_delete:
         form: *my_tags
         messages:
             success_deleted_tag: //li[normalize-space(@class)='success-msg' and contains(.,'The tag has been deleted.')]
+
+my_product_reviews:
+    mca: review/customer/
+    title: My Product Reviews
+    uimap:
+        form: &productReviews
+            fieldsets:
+                -
+                    reviews:
+                        xpath: //div[@class='my-account']
+                        links:
+                            product_name: //a[text()='%productName%']
+                            view_details: //td[h2 = '%productName%']/following-sibling::td[3]/a
+                        pagelelements:
+                            review_details: //td[h2 = '%productName%']/following-sibling::td[2]
+                            review_date: //td[h2 = %productName%']/preceding-sibling::td
+                        dropdowns:
+                            show_per_page: //div[@class='limiter']/select
+
+my_product_reviews_details:
+    mca: review/customer/view/id/%reviewId%
+    title: Review Details
+    uimap:
+        form: &productReviewDetails
+            fieldsets:
+                -
+                    review_details:
+                        xpath: //div[@class='my-account']
+                        links:
+
+                            view_details: //td[h2 = '%productName%']/following-sibling::td[3]/a
+                        pagelelements:
+                            product_name: //h2[@class='product-name']
+                            review_details: //div[@class='product-details']/dl/dd
+                        links:
+                            back_to_my_reviews: //p[@class='back-link']/a[@href]

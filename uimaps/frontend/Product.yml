@@ -30,10 +30,10 @@ product_page:
     mca: %productUrl%.html
     title: %productTitle%
     uimap:
-        form:
+        form:   &productPage
             fieldsets:
                 -
-                    product_info:
+                    product_info: &productInfo
                         xpath: //div[@class='product-essential']
                         buttons:
                             add_to_cart: //button[span='Add to Cart']
@@ -44,6 +44,8 @@ product_page:
                             add_to_compare: //a[text()='Add to Compare']
                             email_to_friend: //a[text()='Email to a Friend']
                             first_review: //a[text()='Be the first to review this product']
+                            add_your_review: //a[text()='Add Your Review']
+                            reviews: //a[contains(text(),'Review(s)')]
                         pageelements:
                             product_name: //div[@class='product-name']/h1
                             product_name_header: //div[@class='product-name']/h1[text()='%productName%']
@@ -69,7 +71,7 @@ product_page:
                             ex_price_special_inlcuding_tax: //div[@class='product-shop']//p[@class='special-price']/span[@class='price-including-tax']/span[@class='price']
                             ex_as_low_as: //div[@class='product-shop']//a[@class='minimal-price-link']/span[@class='price']
                 -
-                    product_custom_options:
+                    product_custom_options: &productCustomOptions
                         xpath: //div[@id='product-options-wrapper']
                         pageelements:
                             custom_option_non_select: //dt[./label[contains(normalize-space(text()),'%title%') and //span[normalize-space(text())='%price%']]]
@@ -81,22 +83,22 @@ product_page:
                             custom_option_check: //dt[./label[contains(normalize-space(text()),'%title%')]]/following-sibling::dd[1]//label[contains(normalize-space(text()),'%optionTitle%')]//span[contains(normalize-space(text()),'+')]/span[@class='price' and contains(normalize-space(text()),'%optionPrice%')]
                             custom_option_check_wo_price: //dt[./label[contains(normalize-space(text()),'%title%')]]/following-sibling::dd[1]//label[contains(normalize-space(text()),'%optionTitle%')]
                 -
-                    details:
+                    details: &details
                         xpath: //div[h2[text()='Details']]
                         pageelements:
                             descriprion: //div[@class='box-collateral box-description']//div[@class='std' and normalize-space(text())=normalize-space('%longDescription%')]
                 -
-                    additional_info:
+                    additional_info: &additionalInfo
                         xpath: //div[h2[text()='Additional Information']]
                 -
-                    add_tag:
+                    add_tag: &addTag
                         xpath: //div[label[text()='Add Your Tags:']]
                         buttons:
                             add_tags: //button[@title='Add Tags']
                         fields:
                             input_new_tags: //input[@id='productTagName']
                 -
-                    related_products:
+                    related_products: &relatedProducts
                         xpath: //div[@class='block block-related']
                         links:
                             related_select_all: //div[@class='block block-related']//a[text()='select all']
@@ -116,7 +118,7 @@ product_page:
                             related_as_low_as_excl_tax: //ol[@id='block-related']/li[*//a[text()='%productName%']]//a[@class='minimal-price-link']/span[@class='price-excluding-tax']/span[normalize-space(text())='%price%']
                             related_as_low_as_incl_tax: //ol[@id='block-related']/li[*//a[text()='%productName%']]//a[@class='minimal-price-link']/span[@class='price-including-tax']/span[normalize-space(text())='%price%']
                 -
-                    upsells:
+                    upsells: &upsells
                         xpath: //div[@class='box-collateral box-up-sell']
                         links:
                             upsell_product: //table[@id='upsell-product-table']//a[text()='%productName%']
@@ -132,7 +134,7 @@ product_page:
                             upsell_as_low_as_excl_tax: //table[@id='upsell-product-table']//td[*//a[text()='%productName%']]//a[@class='minimal-price-link']/span[@class='price-excluding-tax']/span[normalize-space(text())='%price%']
                             upsell_as_low_as_incl_tax: //table[@id='upsell-product-table']//td[*//a[text()='%productName%']]//a[@class='minimal-price-link']/span[@class='price-including-tax']/span[normalize-space(text())='%price%']
                 -
-                    compare_products:
+                    compare_products: &compareProducts
                         xpath: //div[@class[contains(.,'block-compare')] and */ol[@id='compare-items']]
                         links:
                           clear_all: //a[text()='Clear All']
@@ -142,11 +144,60 @@ product_page:
                           compare: //button[@title='Compare']
                         pageelements:
                           empty_comapre_block: //p[text()='You have no items to compare.']
-
-        messages:
+        messages: &productMessages
             tag_accepted_success: //li[normalize-space(@class)='success-msg' and contains(.,'%tagQty% tag(s) have been accepted for moderation.')]
             product_added_to_comparison: //li[normalize-space(@class)='success-msg' and contains(.,'The product %productName% has been added to comparison list.')]
             confirmation_for_removing_product_from_compare: Are you sure you would like to remove this item from the compare products?
             confirmation_clear_all_from_compare: Are you sure you would like to remove all products from your comparison?
             compare_list_cleared: //li[normalize-space(@class)='success-msg' and contains(.//span,'The comparison list was cleared.')]
             product_removed_from_comparison: //li[normalize-space(@class)='success-msg' and contains(.//span,'The product %productName% has been removed from comparison list.')]
+            accepted_review: //li[normalize-space(@class)='success-msg' and contains(.//span,'Your review has been accepted for moderation.')]
+
+product_review:
+    mca: review/product/list/id/%productId%/
+    title: %productTitle%
+    uimap: &productReview
+        form:
+            fieldsets:
+                -
+                    product_info: *productInfo
+                -
+                    product_custom_options: *productCustomOptions
+                -
+                    details: *details
+                -
+                    additional_info: *additionalInfo
+
+                -
+                    add_tag: *addTag
+                -
+                    related_products: *relatedProducts
+                -
+                    upsells: *upsells
+                -
+                    compare_products: *compareProducts
+                -
+                    customer_reviews:
+                        xpath: //div[@id = 'customer-reviews']
+                        dropdowns:
+                            show_per_page: //div[@class='limiter']/select
+                        fields:
+                            nickname: //input[@id='nickname_field']
+                            summary_of_your_review: //input[@id='summary_field']
+                            review: //textarea[@id='review_field']
+                        pageelements:
+                            review_summary: //dt[span='%reviewerName%']/a
+                            review_details: //dt[span='reviewerName']/following-sibling::dd[1]
+                        buttons:
+                            submit_review: //button[@title='Submit Review']
+        messages: *productMessages
+
+product_review_index:
+    mca: review/product/list/id/%productId%/#review-form
+    title: %productTitle%
+    uimap: &productReview
+
+product_review_category:
+    mca: review/product/list/id/%productId%/category/%categoryId%/#review-form
+    title: %productTitle%
+    uimap: *productReview
