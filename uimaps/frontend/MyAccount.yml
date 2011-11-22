@@ -144,6 +144,8 @@ my_product_reviews:
                         links:
                             product_name: //a[text()='%productName%']
                             view_details: //td[h2 = '%productName%']/following-sibling::td[3]/a
+                            add_your_review: //a[text()='Add Your Review']
+                            reviews: //a[contains(text(),'Review(s)')]
                         pagelelements:
                             review_details: //td[h2 = '%productName%']/following-sibling::td[2]
                             review_date: //td[h2 = %productName%']/preceding-sibling::td
@@ -165,5 +167,7 @@ my_product_reviews_details:
                         pagelelements:
                             product_name: //h2[@class='product-name']
                             review_details: //div[@class='product-details']/dl/dd
+                            review_rate_value: //tr[th='%rateName%']//div[@class='rating']
+                            average_customer_rating: //div[@class='ratings']//div[@class='rating']
                         links:
                             back_to_my_reviews: //p[@class='back-link']/a[@href]
