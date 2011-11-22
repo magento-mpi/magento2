@@ -694,7 +694,6 @@ class Mage_Catalog_Model_Url
         if (isset($this->_rewrites[$idPath])) {
             $this->_rewrite = $this->_rewrites[$idPath];
             $existingRequestPath = $this->_rewrites[$idPath]->getRequestPath();
-            $existingRequestPath = str_replace($suffix, '', $existingRequestPath);
         }
 
         if ($category->getUrlKey() == '') {
@@ -715,8 +714,8 @@ class Mage_Catalog_Model_Url
                                                                            true, $category->getStoreId());
 
         $requestPath = $parentPath . $urlKey . $categoryUrlSuffix;
-        if (isset($existingRequestPath) && $existingRequestPath == $requestPath) {
-            return $requestPath.$suffix;
+        if (isset($existingRequestPath) && $existingRequestPath == $requestPath . $suffix) {
+            return $existingRequestPath;
         }
 
         if ($this->_deleteOldTargetPath($requestPath, $idPath, $storeId)) {
@@ -788,18 +787,21 @@ class Mage_Catalog_Model_Url
         if (isset($this->_rewrites[$idPath])) {
             $this->_rewrite = $this->_rewrites[$idPath];
             $existingRequestPath = $this->_rewrites[$idPath]->getRequestPath();
-            $existingRequestPath = str_replace($suffix, '', $existingRequestPath);
 
-            if ($existingRequestPath == $requestPath) {
-                return $requestPath.$suffix;
+            if ($existingRequestPath == $requestPath . $suffix) {
+                return $existingRequestPath;
             }
+
+            $existingRequestPath = preg_replace('/' . preg_quote($suffix, '/') . '$/', '', $existingRequestPath);
             /**
              * Check if existing request past can be used
              */
             if ($product->getUrlKey() == '' && !empty($requestPath)
-                && strpos($existingRequestPath, $requestPath) !== false
+                && strpos($existingRequestPath, $requestPath) === 0
             ) {
-                $existingRequestPath = str_replace($requestPath, '', $existingRequestPath);
+                $existingRequestPath = preg_replace(
+                    '/^' . preg_quote($requestPath, '/') . '/', '', $existingRequestPath
+                );
                 if (preg_match('#^-([0-9]+)$#i', $existingRequestPath)) {
                     return $this->_rewrites[$idPath]->getRequestPath();
                 }
