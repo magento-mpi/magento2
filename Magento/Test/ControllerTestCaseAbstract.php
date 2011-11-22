@@ -144,10 +144,11 @@ abstract class Magento_Test_ControllerTestCaseAbstract extends Magento_TestCase
      * Login to admin panel
      *
      * @param string|null $username     Identity
+     * @param string|null $password     Credential
      * @return Magento_Test_ControllerTestCaseAbstract
      * @throws Magento_Test_Exception   Throw exception when admin user not found
      */
-    protected function loginToAdmin($username = null, $password = null)
+    public function loginToAdmin($username = null, $password = null)
     {
         /** @var $session Mage_Admin_Model_Session */
         $session = Mage::getSingleton('admin/session');
@@ -160,7 +161,17 @@ abstract class Magento_Test_ControllerTestCaseAbstract extends Magento_TestCase
         if (!$session->isLoggedIn() || false !== ($user = $session->getUser())
             && $user->getUsername() != $username
         ) {
-            $session->login($username, $password);
+            /** @var $user Mage_Admin_Model_User */
+            $user = Mage::getModel('admin/user');
+            $user->login($username, $password);
+            if ($user->getId()) {
+                $session->setIsFirstPageAfterLogin(true);
+                $session->setUser($user);
+                /** @var $acl Mage_Admin_Model_Resource_Acl */
+                $acl = Mage::getResourceModel('admin/acl');
+                $session->setAcl($acl->loadAcl());
+            }
+
             if (!$session->isLoggedIn()) {
                 throw new Magento_Test_Exception(
                     sprintf('Admin cannot logged with username "%s".', $username));
