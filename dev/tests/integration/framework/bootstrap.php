@@ -53,13 +53,19 @@ if (defined('TESTS_MODULE_CONFIG_FILES') && TESTS_MODULE_CONFIG_FILES) {
     $moduleEtcFiles = "../../../app/etc/modules/*.xml";
 }
 
+$developerMode = false;
+if (defined('TESTS_MAGENTO_DEVELOPER_MODE') && TESTS_MAGENTO_DEVELOPER_MODE == 'enabled') {
+    $developerMode = true;
+}
+
 Magento_Test_Bootstrap::setInstance(new Magento_Test_Bootstrap(
     realpath("$baseDir/../../../"),
     $localXmlFile,
     $globalEtcFiles,
     $moduleEtcFiles,
     "$baseDir/tmp",
-    $cleanupAction
+    $cleanupAction,
+    $developerMode
 ));
 
 /* Enable profiler if necessary */

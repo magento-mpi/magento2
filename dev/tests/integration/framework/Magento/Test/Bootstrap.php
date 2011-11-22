@@ -107,6 +107,13 @@ class Magento_Test_Bootstrap
     protected $_cleanupAction;
 
     /**
+     * Developer mode flag
+     *
+     * @var bool
+     */
+    protected $_developerMode = false;
+
+    /**
      * Set self instance for static access
      *
      * @param Magento_Test_Bootstrap $instance
@@ -154,7 +161,8 @@ class Magento_Test_Bootstrap
      * @param string $cleanupAction
      */
     public function __construct(
-        $magentoDir, $localXmlFile, $globalEtcFiles, $moduleEtcFiles, $tmpDir, $cleanupAction = self::CLEANUP_NONE
+        $magentoDir, $localXmlFile, $globalEtcFiles, $moduleEtcFiles, $tmpDir, $cleanupAction = self::CLEANUP_NONE,
+        $developerMode = false
     ) {
         if (!in_array($cleanupAction, array(self::CLEANUP_NONE, self::CLEANUP_UNINSTALL, self::CLEANUP_RESTORE_DB))) {
             throw new Exception("Cleanup action '{$cleanupAction}' is not supported.");
@@ -178,6 +186,8 @@ class Magento_Test_Bootstrap
         $this->_cleanupAction = $cleanupAction;
         $this->_cleanup();
         $this->_ensureDirExists($this->_installDir);
+
+        $this->_developerMode = $developerMode;
 
         $this->_emulateEnvironment();
 
@@ -227,7 +237,7 @@ class Magento_Test_Bootstrap
             'upload_dir'  => $this->_installDir . DIRECTORY_SEPARATOR . 'media' . DIRECTORY_SEPARATOR . 'upload',
         );
 
-        Mage::setIsDeveloperMode((int)$this->_localXml->global->development_mode);
+        Mage::setIsDeveloperMode($this->_developerMode);
         Mage::app($scopeCode, $scopeType, $this->_options);
     }
 
