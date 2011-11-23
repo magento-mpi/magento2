@@ -462,6 +462,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                             <depends><enable>1</enable></depends>
+                            <frontend_class>validate-alphanum</frontend_class>
                         </symbols>
                         <case_sensitive>
                             <label>Case sensitive</label>
