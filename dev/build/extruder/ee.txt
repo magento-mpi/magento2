@@ -3,7 +3,9 @@
 app/design/adminhtml/default/default/skin/pro
 app/design/frontend/pro
 app/design/install/default/pro
-pub/error/pro
+downloader/Maged/Model/Config/Professional.php
+downloader/template/professional/
+pub/errors/pro
 LICENSE_PRO.txt
 LICENSE_PRO.html
 app/code/core/Mage/PageCache

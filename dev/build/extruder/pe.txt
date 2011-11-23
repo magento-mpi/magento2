@@ -43,8 +43,13 @@ app/design/adminhtml/default/default/skin/enterprise
 app/design/frontend/enterprise
 app/design/install/default/enterprise
 dev/tests/integration/testsuite/Enterprise
-pub/error/enterprise
-pub/jslib/enterprise
+downloader/Maged/Model/Config/Professional.php
+downloader/skin/install/images/enterprise.gif
+downloader/template/professional/
+pub/errors/enterprise
+pub/js/enterprise
+pub/media/skin/adminhtml
+pub/media/skin/frontend
 lib/Apache
 LICENSE_EE.txt
 LICENSE_EE.html
