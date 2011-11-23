@@ -35,7 +35,6 @@ class Mage_Catalog_Model_Product_Type_ConfigurableTest extends PHPUnit_Framework
 
         // prevent fatal errors by assigning proper "singleton" of type instance to the product
         $this->_product->setTypeInstance($this->_model);
-        $this->_product->setTypeInstance($this->_model, true);
     }
 
     public function testGetRelationInfo()

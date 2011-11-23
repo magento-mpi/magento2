@@ -37,13 +37,13 @@ class Mage_XmlConnect_Block_Catalog_Product_Options_Configurable extends Mage_Xm
         /**
          * Configurable attributes
          */
-        $_attributes = $product->getTypeInstance(true)->getConfigurableAttributes($product);
+        $_attributes = $product->getTypeInstance()->getConfigurableAttributes($product);
         if (!sizeof($_attributes)) {
             return $isObject ? $xmlModel : $xmlModel->asNiceXml();
         }
 
         $_allowProducts = array();
-        $_allProducts = $product->getTypeInstance(true)->getUsedProducts(null, $product);
+        $_allProducts = $product->getTypeInstance()->getUsedProducts(null, $product);
         foreach ($_allProducts as $_product) {
             if ($_product->isSaleable()) {
                 $_allowProducts[] = $_product;

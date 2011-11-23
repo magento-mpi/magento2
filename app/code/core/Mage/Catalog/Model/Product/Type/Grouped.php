@@ -274,7 +274,7 @@ class Mage_Catalog_Model_Product_Type_Grouped extends Mage_Catalog_Model_Product
                         $qty = $productsInfo[$subProductId];
                         if (!empty($qty) && is_numeric($qty)) {
 
-                            $_result = $subProduct->getTypeInstance(true)
+                            $_result = $subProduct->getTypeInstance()
                                 ->_prepareProduct($buyRequest, $subProduct, $processMode);
                             if (is_string($_result) && !is_array($_result)) {
                                 return $_result;

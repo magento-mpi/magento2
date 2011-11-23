@@ -361,4 +361,31 @@ class Integrity_DeprecatesTest extends Magento_Test_TestCase_VisitorAbstract
         }
         return $result;
     }
+
+    /**
+     * Finds usage of deprecated parameters in product getTypeInstance, setTypeInstance
+     *
+     * @param SplFileInfo $fileInfo
+     * @param string $content
+     * @return array
+     */
+    protected function _visitGetTypeInstance($fileInfo, $content)
+    {
+        if (!$this->_fileHasExtensions($fileInfo, array('php', 'phtml'))) {
+            return array();
+        }
+
+        $num = preg_match('/getTypeInstance\([^)]+\)/', $content);
+        if (!$num) {
+            return array();
+        }
+
+        return array(
+            array(
+                'description' => "call to product's method",
+                'needle' => 'getTypeInstance() with parameter',
+                'suggestion' => 'remove parameter, refactor code to treat returned type instance as singleton'
+            )
+        );
+    }
 }

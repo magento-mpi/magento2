@@ -187,7 +187,7 @@ class Mage_Sales_Model_Resource_Quote_Item_Collection extends Mage_Core_Model_Re
                     /**
                      * Call type specified logic for product associated with quote item
                      */
-                    $product->getTypeInstance(true)->assignProductToOption(
+                    $product->getTypeInstance()->assignProductToOption(
                             $productCollection->getItemById($option->getProductId()),
                             $option,
                             $product

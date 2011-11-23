@@ -17,8 +17,8 @@ class Mage_LoadTest_Model_Renderer_Sales_Item_Type_Bundle extends Mage_LoadTest_
 
     public function prepareRequestForCart($_product)
     {
-	$this->_product = $_product;
-	$this->_typeInstance = $this->_product->getTypeInstance();
+        $this->_product = $_product;
+        $typeInstance = $this->_product->getTypeInstance();
 	//var_dump($this->_product->getId());
 	if($this->_product->hasData('_cache_instance_options_collection')) {
 	    $this->_product->unsetData('_cache_instance_options_collection');
@@ -29,7 +29,7 @@ class Mage_LoadTest_Model_Renderer_Sales_Item_Type_Bundle extends Mage_LoadTest_
 	Magento_Profiler::start("option::collection::init");
 	if(!isset($this->_optionCollections[$productId])) {
 	    Magento_Profiler::start("option::collection::insider");
-	    $this->_optionCollections[$productId] = $this->_typeInstance->getOptionsCollection();
+        $this->_optionCollections[$productId] = $typeInstance->getOptionsCollection($this->_product);
 	    Magento_Profiler::stop("option::collection::insider");
 	}
 	Magento_Profiler::stop("option::collection::init");
@@ -44,7 +44,10 @@ class Mage_LoadTest_Model_Renderer_Sales_Item_Type_Bundle extends Mage_LoadTest_
 	    }*/
 
 	    $requiredOptionIds = array();
-	    $selectionCollection = $this->_typeInstance->getSelectionsCollection($this->_optionCollections[$productId]->getAllIds());
+        $selectionCollection = $typeInstance->getSelectionsCollection(
+            $this->_optionCollections[$productId]->getAllIds(),
+            $this->_product
+        );
 	    $this->_filteredOptions[$productId] = array();
 	    $productCounts = array();
 	    foreach($selectionCollection->getItems() as $selection)
@@ -62,8 +65,9 @@ class Mage_LoadTest_Model_Renderer_Sales_Item_Type_Bundle extends Mage_LoadTest_
 	Magento_Profiler::stop("selection::collection::init");
 //	echo "finish\n";
 	$request = array();
-	if(!$this->_typeInstance->isSalable($this->_product))
-	    return $request;
+	if(!$typeInstance->isSalable($this->_product)) {
+        return $request;
+    }
 	$request['product'] = $productId;
 	$request['qty'] = 1;
 	$request['bundle_option'] = array();

@@ -138,7 +138,7 @@ class Mage_Sales_Model_Convert_Quote extends Varien_Object
 
         $options = $item->getProductOrderOptions();
         if (!$options) {
-            $options = $item->getProduct()->getTypeInstance(true)->getOrderOptions($item->getProduct());
+            $options = $item->getProduct()->getTypeInstance()->getOrderOptions($item->getProduct());
         }
         $orderItem->setProductOptions($options);
         Mage::helper('Mage_Core_Helper_Data')->copyFieldset(

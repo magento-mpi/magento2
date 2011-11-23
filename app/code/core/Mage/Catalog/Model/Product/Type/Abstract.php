@@ -305,7 +305,7 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
                     Mage::register('used_super_product_'.$superProductId, $superProduct);
                 }
                 if ($superProduct->getId()) {
-                    $assocProductIds = $superProduct->getTypeInstance(true)->getAssociatedProductIds($superProduct);
+                    $assocProductIds = $superProduct->getTypeInstance()->getAssociatedProductIds($superProduct);
                     if (in_array($product->getId(), $assocProductIds)) {
                         $productType = $superProductConfig['product_type'];
                         $product->addCustomOption('product_type', $productType, $superProduct);
@@ -657,7 +657,6 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
     /**
      * Check if product qty is fractional number
      *
-     * @param Mage_Catalog_Model_Product $product
      * @return bool
      */
     public function canUseQtyDecimals()

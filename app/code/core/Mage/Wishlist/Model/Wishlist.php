@@ -268,7 +268,7 @@ class Mage_Wishlist_Model_Wishlist extends Mage_Core_Model_Abstract
             $_buyRequest = new Varien_Object();
         }
 
-        $cartCandidates = $product->getTypeInstance(true)
+        $cartCandidates = $product->getTypeInstance()
             ->processConfiguration($_buyRequest, $product);
 
         /**

@@ -129,7 +129,7 @@ class Enterprise_GiftRegistry_Model_Entity extends Mage_Core_Model_Abstract
         }
         $product = $this->getProduct($productId);
 
-        if ($product->getTypeInstance(true)->hasRequiredOptions($product)
+        if ($product->getTypeInstance()->hasRequiredOptions($product)
             && (!$request && !($itemToAdd instanceof Mage_Sales_Model_Quote_Item))) {
             throw new Mage_Core_Exception(null, self::EXCEPTION_CODE_HAS_REQUIRED_OPTIONS);
         }
@@ -143,7 +143,7 @@ class Enterprise_GiftRegistry_Model_Entity extends Mage_Core_Model_Abstract
                 $request = new Varien_Object();
                 $request->setBundleOption(array());//Bundle options mocking for compatibility
             }
-            $cartCandidates = $product->getTypeInstance(true)->prepareForCart($request, $product);
+            $cartCandidates = $product->getTypeInstance()->prepareForCart($request, $product);
         }
 
         if (is_string($cartCandidates)) { //prepare process has error, seems like we have bundle

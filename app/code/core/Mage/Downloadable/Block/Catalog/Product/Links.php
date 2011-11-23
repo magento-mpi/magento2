@@ -34,7 +34,7 @@ class Mage_Downloadable_Block_Catalog_Product_Links extends Mage_Catalog_Block_P
      */
     public function getLinkSelectionRequired()
     {
-        return $this->getProduct()->getTypeInstance(true)
+        return $this->getProduct()->getTypeInstance()
             ->getLinkSelectionRequired($this->getProduct());
     }
 
@@ -45,7 +45,7 @@ class Mage_Downloadable_Block_Catalog_Product_Links extends Mage_Catalog_Block_P
      */
     public function hasLinks()
     {
-        return $this->getProduct()->getTypeInstance(true)
+        return $this->getProduct()->getTypeInstance()
             ->hasLinks($this->getProduct());
     }
 
@@ -56,7 +56,7 @@ class Mage_Downloadable_Block_Catalog_Product_Links extends Mage_Catalog_Block_P
      */
     public function getLinks()
     {
-        return $this->getProduct()->getTypeInstance(true)
+        return $this->getProduct()->getTypeInstance()
             ->getLinks($this->getProduct());
     }
 

@@ -218,12 +218,15 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
 
     public function getIsConfigured()
     {
-        if ($this->getProduct()->isConfigurable()
-            && !($superAttributes = $this->getProduct()->getTypeInstance(true)->getUsedProductAttributeIds($this->getProduct()))) {
-            $superAttributes = false;
+        $result = true;
+
+        $product = $this->getProduct();
+        if ($product->isConfigurable()) {
+            $superAttributes = $product->getTypeInstance()->getUsedProductAttributeIds($product);
+            $result = !empty($superAttributes);
         }
 
-        return !$this->getProduct()->isConfigurable() || $superAttributes !== false;
+        return $result;
     }
 
     public function getSelectedTabId()

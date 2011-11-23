@@ -362,7 +362,7 @@ class Mage_Wishlist_Model_Item extends Mage_Core_Model_Abstract
         $product = $this->getProduct();
         $query   = array();
 
-        if ($product->getTypeInstance(true)->hasRequiredOptions($product)) {
+        if ($product->getTypeInstance()->hasRequiredOptions($product)) {
             $query['options'] = 'cart';
         }
 

@@ -110,7 +110,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config extends Mage_Ad
      */
     public function getAttributesJson()
     {
-        $attributes = $this->_getProduct()->getTypeInstance(true)
+        $attributes = $this->_getProduct()->getTypeInstance()
             ->getConfigurableAttributesAsArray($this->_getProduct());
         if(!$attributes) {
             return '[]';
@@ -139,7 +139,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config extends Mage_Ad
      */
     public function getLinksJson()
     {
-        $products = $this->_getProduct()->getTypeInstance(true)
+        $products = $this->_getProduct()->getTypeInstance()
             ->getUsedProducts(null, $this->_getProduct());
         if(!$products) {
             return '{}';
@@ -159,7 +159,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config extends Mage_Ad
      */
     public function getConfigurableSettings($product) {
         $data = array();
-        $attributes = $this->_getProduct()->getTypeInstance(true)
+        $attributes = $this->_getProduct()->getTypeInstance()
             ->getUsedProductAttributes($this->_getProduct());
         foreach ($attributes as $attribute) {
             $data[] = array(
@@ -253,7 +253,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config extends Mage_Ad
     {
         $attributesIds = array();
         $configurableAttributes = $this->_getProduct()
-            ->getTypeInstance(true)->getConfigurableAttributes($this->_getProduct());
+            ->getTypeInstance()->getConfigurableAttributes($this->_getProduct());
         foreach ($configurableAttributes as $attribute) {
             $attributesIds[] = $attribute->getProductAttribute()->getId();
         }

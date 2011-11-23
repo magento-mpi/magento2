@@ -91,7 +91,7 @@ class Mage_XmlConnect_Block_Catalog_Product_Options_Giftcard extends Mage_XmlCon
      */
     public function isEmailAvailable(Mage_Catalog_Model_Product $product)
     {
-        if ($product->getTypeInstance()->isTypePhysical()) {
+        if ($product->getTypeInstance()->isTypePhysical($product)) {
             return false;
         }
         return true;

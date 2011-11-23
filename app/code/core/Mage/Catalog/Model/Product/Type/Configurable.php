@@ -585,7 +585,7 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
                     $product->addCustomOption('product_qty_'.$subProduct->getId(), 1, $subProduct);
                     $product->addCustomOption('simple_product', $subProduct->getId(), $subProduct);
 
-                    $_result = $subProduct->getTypeInstance(true)->_prepareProduct(
+                    $_result = $subProduct->getTypeInstance()->_prepareProduct(
                         $buyRequest,
                         $subProduct,
                         $processMode

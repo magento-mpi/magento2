@@ -1422,7 +1422,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
     {
         foreach ($this->getQuote()->getAllItems() as $item) {
             $options = array();
-            $productOptions = $item->getProduct()->getTypeInstance(true)->getOrderOptions($item->getProduct());
+            $productOptions = $item->getProduct()->getTypeInstance()->getOrderOptions($item->getProduct());
             if ($productOptions) {
                 $productOptions['info_buyRequest']['options'] = $this->_prepareOptionsForRequest($item);
                 $options = $productOptions;

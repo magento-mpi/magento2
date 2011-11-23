@@ -536,7 +536,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
                 return Mage::helper('Mage_Bundle_Helper_Data')->__('Please select options for product.');
             }
 
-            $product->getTypeInstance(true)->setStoreFilter($product->getStoreId(), $product);
+            $product->getTypeInstance()->setStoreFilter($product->getStoreId(), $product);
             $optionsCollection = $this->getOptionsCollection($product);
             if (!$this->getProduct($product)->getSkipCheckRequiredOption() && $isStrictProcessMode) {
                 foreach ($optionsCollection->getItems() as $option) {
@@ -589,14 +589,14 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
             }
         } else {
             $product->setOptionsValidationFail(true);
-            $product->getTypeInstance(true)->setStoreFilter($product->getStoreId(), $product);
+            $product->getTypeInstance()->setStoreFilter($product->getStoreId(), $product);
 
-            $optionCollection = $product->getTypeInstance(true)->getOptionsCollection($product);
+            $optionCollection = $product->getTypeInstance()->getOptionsCollection($product);
 
-            $optionIds = $product->getTypeInstance(true)->getOptionsIds($product);
+            $optionIds = $product->getTypeInstance()->getOptionsIds($product);
             $selectionIds = array();
 
-            $selectionCollection = $product->getTypeInstance(true)
+            $selectionCollection = $product->getTypeInstance()
                 ->getSelectionsCollection(
                     $optionIds,
                     $product
@@ -650,7 +650,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
                     'option_id'     => $selection->getOption()->getId()
                 );
 
-                $_result = $selection->getTypeInstance(true)->prepareForCart($buyRequest, $selection);
+                $_result = $selection->getTypeInstance()->prepareForCart($buyRequest, $selection);
                 if (is_string($_result) && !is_array($_result)) {
                     return $_result;
                 }
@@ -939,7 +939,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
             }
         }
 
-        $product->getTypeInstance(true)->setStoreFilter($product->getStoreId(), $product);
+        $product->getTypeInstance()->setStoreFilter($product->getStoreId(), $product);
         $optionsCollection = $this->getOptionsCollection($product);
         foreach ($optionsCollection->getItems() as $option) {
             if ($option->getRequired() && empty($bundleOption[$option->getId()])) {
