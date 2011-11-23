@@ -35,28 +35,28 @@ class Mage_Core_Helper_Captcha extends Mage_Core_Helper_Abstract
 {
     const SESSION_FAILED_ATTEMPT_PREFIX = 'failed_attempt_';
     // Number of unsuccessful attempts captcha will be shown after
-    const XML_PATH_FRONTEND_CAPTCHA_FAILED_ATTEMPTS = 'default/customer/captcha/failed_attempts';
+    const XML_PATH_FRONTEND_CAPTCHA_FAILED_ATTEMPTS = 'customer/captcha/failed_attempts';
     const XML_PATH_BACKEND_CAPTCHA_FAILED_ATTEMPTS  = 'default/admin/captcha/failed_attempts';
     // See MODE_* constants
-    const XML_PATH_FRONTEND_CAPTCHA_MODE            = 'default/customer/captcha/mode';
+    const XML_PATH_FRONTEND_CAPTCHA_MODE            = 'customer/captcha/mode';
     const XML_PATH_BACKEND_CAPTCHA_MODE             = 'default/admin/captcha/mode';
     // Captcha enabled or disabled
-    const XML_PATH_FRONTEND_CAPTCHA_ENABLE          = 'default/customer/captcha/enable';
+    const XML_PATH_FRONTEND_CAPTCHA_ENABLE          = 'customer/captcha/enable';
     const XML_PATH_BACKEND_CAPTCHA_ENABLE           = 'default/admin/captcha/enable';
     // After this number of seconds captcha won't be correct even if the word was guessed correctly
-    const XML_PATH_FRONTEND_CAPTCHA_TIMEOUT         = 'default/customer/captcha/timeout';
+    const XML_PATH_FRONTEND_CAPTCHA_TIMEOUT         = 'customer/captcha/timeout';
     const XML_PATH_BACKEND_CAPTCHA_TIMEOUT          = 'default/admin/captcha/timeout';
     // Font to render captcha
-    const XML_PATH_FRONTEND_CAPTCHA_FONT            = 'default/customer/captcha/font';
+    const XML_PATH_FRONTEND_CAPTCHA_FONT            = 'customer/captcha/font';
     const XML_PATH_BACKEND_CAPTCHA_FONT             = 'default/admin/captcha/font';
     // Number of symbols in captcha
-    const XML_PATH_FRONTEND_CAPTCHA_WORD_LENGTH     = 'default/customer/captcha/length';
+    const XML_PATH_FRONTEND_CAPTCHA_WORD_LENGTH     = 'customer/captcha/length';
     const XML_PATH_BACKEND_CAPTCHA_WORD_LENGTH      = 'default/admin/captcha/length';
     // Symbols used to generate captcha
-    const XML_PATH_FRONTEND_CAPTCHA_SYMBOLS         = 'default/customer/captcha/symbols';
+    const XML_PATH_FRONTEND_CAPTCHA_SYMBOLS         = 'customer/captcha/symbols';
     const XML_PATH_BACKEND_CAPTCHA_SYMBOLS          = 'default/admin/captcha/symbols';
     // Whether to respect case while checking the answer
-    const XML_PATH_FRONTEND_CAPTCHA_CASE_SENSITIVE   = 'default/customer/captcha/case_sensitive';
+    const XML_PATH_FRONTEND_CAPTCHA_CASE_SENSITIVE   = 'customer/captcha/case_sensitive';
     const XML_PATH_BACKEND_CAPTCHA_CASE_SENSITIVE    = 'default/admin/captcha/case_sensitive';
     // List of available fonts
     const XML_PATH_CAPTCHA_FONTS                    = 'default/captcha/fonts';
@@ -181,14 +181,24 @@ class Mage_Core_Helper_Captcha extends Mage_Core_Helper_Abstract
     public function getConfigNode($id)
     {
         $id = strtoupper($id);
-        $area = Mage::app()->getStore()->isAdmin() ? 'BACKEND' : 'FRONTEND';
+        /** @var $currentStore Mage_Core_Model_Store */
+        $currentStore = Mage::app()->getStore();
+        $isAdmin = $currentStore->isAdmin();
+        $area = $isAdmin ? 'BACKEND' : 'FRONTEND';
         $constName = "XML_PATH_{$area}_CAPTCHA_{$id}";
         if (!defined("self::{$constName}")) {
             $class = get_class($this);
             Mage::throwException("{$class}::{$constName} is undefined");
         }
+
         $path = constant("self::{$constName}");
-        $node = Mage::getConfig()->getNode($path);
+        if ($isAdmin) {
+            $node = Mage::getConfig()->getNode($path);
+        } else {
+            // For frontend area all config fields have WEBSITE scope
+            $node = Mage::getConfig()->getNode($path, 'websites', (int) $currentStore->getWebsiteId());
+        }
+
         return $node;
     }
 
