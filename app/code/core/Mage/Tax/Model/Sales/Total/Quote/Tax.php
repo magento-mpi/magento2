@@ -696,11 +696,11 @@ class Mage_Tax_Model_Sales_Total_Quote_Tax extends Mage_Sales_Model_Quote_Addres
     {
         if ($price) {
             $rate   = (string) $rate;
-            $type   = $type . $direction;
-            if (!isset($this->_roundingDeltas[$type][$rate])) {
-                $this->_roundingDeltas[$type][$rate] = Mage::getModel('core/calculator', $this->_store);
-            }
-            $price =  $this->_roundingDeltas[$type][$rate]->deltaRound($price);
+            $type   = $type.$direction;
+            $delta  = isset($this->_roundingDeltas[$type][$rate]) ? $this->_roundingDeltas[$type][$rate] : 0;
+            $price  += $delta;
+            $this->_roundingDeltas[$type][$rate] = $price - $this->_calculator->round($price);
+            $price  = $this->_calculator->round($price);
         }
         return $price;
     }

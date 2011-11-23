@@ -66,11 +66,6 @@ class Mage_Tax_Model_Sales_Total_Quote_Subtotal extends Mage_Sales_Model_Quote_A
 
     protected $_store;
 
-    /**
-     * Calculator instances for delta rounding of prices
-     *
-     * @var array
-     */
     protected $_roundingDeltas = array();
 
     /**
@@ -594,11 +589,11 @@ class Mage_Tax_Model_Sales_Total_Quote_Subtotal extends Mage_Sales_Model_Quote_A
     {
         if ($price) {
             $rate   = (string) $rate;
-            $type   = $type . $direction;
-            if (!isset($this->_roundingDeltas[$type][$rate])) {
-                $this->_roundingDeltas[$type][$rate] = Mage::getModel('core/calculator', $this->_store);
-            }
-            $price =  $this->_roundingDeltas[$type][$rate]->deltaRound($price);
+            $type   = $type.$direction;
+            $delta  = isset($this->_roundingDeltas[$type][$rate]) ? $this->_roundingDeltas[$type][$rate] : 0;
+            $price  += $delta;
+            $this->_roundingDeltas[$type][$rate] = $price - $this->_calculator->round($price);
+            $price = $this->_calculator->round($price);
         }
         return $price;
     }
