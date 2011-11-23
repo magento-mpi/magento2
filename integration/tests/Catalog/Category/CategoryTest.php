@@ -110,7 +110,10 @@ class Catalog_Category_CategoryTest extends Magento_Test_Webservice
                     continue;
                 }
                 $this->assertEquals($value, $category[$name],
-                    sprintf('Category data with name "%s" is not the same like sent to create.', $name));
+                    sprintf('Category "%s" is "%s" and not the same like sent to create "%s".',
+                            $name,
+                        $category[$name], $value)
+                );
             }
 
             /**
@@ -210,10 +213,11 @@ class Catalog_Category_CategoryTest extends Magento_Test_Webservice
             } catch (SoapFault $e) {
                 //make result like in response
                 $result = array(
-                    'faultcode' => $e->getCode(),
-                    'faultstring' => $e->getMessage()
+                    'faultcode' => $e->faultcode,
+                    'faultstring' => $e->faultstring
                 );
             }
+
             $category->load($categoryId);
             //name must has old value
             $this->assertEquals(
@@ -231,7 +235,15 @@ class Catalog_Category_CategoryTest extends Magento_Test_Webservice
             $params['categoryId'] = $categoryId;
             $params['categoryData']['custom_layout_update'] =
                     $categoryFixture['vulnerability']['categoryData']['custom_layout_update'];
-            $result = $this->call('category.update', $params);
+            try {
+                $result = $this->call('category.update', $params);
+            } catch (SoapFault $e) {
+                //make result like in response
+                $result = array(
+                    'faultcode' => $e->faultcode,
+                    'faultstring' => $e->faultstring
+                );
+            }
             $category->load($categoryId);
 
             //"103" is code error when data validation is not passed
