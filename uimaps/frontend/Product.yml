@@ -212,9 +212,9 @@ product_review:
                             review_rate_value: //dt[span='%reviewerName%']/following-sibling::dd[1]//tr[th='%rateName%']//div[@class='rating']
                             review_table_rate_name: //table[@id='product-review-table']//th[text()='%rateName%']
                         buttons:
-                            submit_review: //button[@title='Submit Review']
+                            submit_review: //button[span='Submit Review']
                         radiobuttons:
-                            select_rate:  //tr[th='%rateName%']//input[@id='%rateName%_%rateId%']
+                            select_rate:  //input[@id='%rateName%_%rateId%']
         messages: *productMessages
 
 product_review_index:
