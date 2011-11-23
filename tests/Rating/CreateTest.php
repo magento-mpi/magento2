@@ -115,4 +115,52 @@ class Rating_CreateTest extends Mage_Selenium_TestCase
         $this->markTestIncomplete('@TODO');
     }
 
+    /**
+     * <p>Creating a new rating with long values into required fields</p>
+     * <p>Steps:</p>
+     * <p>1. Click button "Add New Rating"</p>
+     * <p>2. Fill in fields in Rating Details area by long values</p>
+     * <p>4. Click button "Save Rating"</p>
+     * <p>Expected result:</p>
+     * <p>Received the message that the rating has been saved.</p>
+     *
+     * @test
+     */
+    public function withLongValues()
+    {
+        $this->markTestIncomplete('@TODO');
+    }
+
+    /**
+     * <p>Creating a new rating with incorrect length into required fields</p>
+     * <p>Steps:</p>
+     * <p>1. Click button "Add New Rating"</p>
+     * <p>2. Fill in fields in Rating Details area by long values</p>
+     * <p>4. Click button "Save Rating"</p>
+     * <p>Expected result:</p>
+     * <p>Received the message that the rating has been saved.</p>
+     *
+     * @test
+     */
+    public function withIncorrectLengthInRequiredFields()
+    {
+        $this->markTestIncomplete('@TODO');
+    }
+
+    /**
+     * <p>Creating a new rating with special characters into required fields</p>
+     * <p>Steps:</p>
+     * <p>1. Click button "Add New Rating"</p>
+     * <p>2. Fill in fields in Review Details area by special characters</p>
+     * <p>3. Click button "Save Rating"</p>
+     * <p>Expected result:</p>
+     * <p>Received the message that the rating has been saved.</p>
+     *
+     * @test
+     */
+    public function withSpecialCharacters()
+    {
+        $this->markTestIncomplete('@TODO');
+    }
+
 }
