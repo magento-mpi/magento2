@@ -20,7 +20,7 @@
  * Magento Comercial License information class
  *
  */
-class Mel extends LicenseAbstract
+class Mcl extends LicenseAbstract
 {
     /**
      * Prepare short information about license

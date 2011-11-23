@@ -56,7 +56,7 @@ if (isset($options['v'])) {
 
 $dryRun = false;
 if (isset($options['d'])) {
-    $dryRun = true;
+    Routine::$dryRun = true;
 }
 
 if (!isset($config)) {
@@ -64,28 +64,5 @@ if (!isset($config)) {
     exit(1);
 }
 
-$licenseInstances = array();
-
-foreach ($config as $dir => $types) {
-    $dir = $workingDir . DIRECTORY_SEPARATOR . $dir;
-    // Extract params for directory
-    $recursive = true;
-    if (isset($types['_params'])) {
-        $params = $types['_params'];
-        unset($types['_params']);
-        if (isset($params['recursive'])) {
-            $recursive = $params['recursive'];
-        }
-    }
-    // Process types
-    foreach ($types as $type => $licenseType) {
-        if (!isset($licenseInstances[$licenseType])) {
-            $licenseInstances[$licenseType] = Routine::createLicenseInstance($licenseType);
-            if (!$licenseInstances[$licenseType]) {
-                exit(1);
-            }
-        }
-        Routine::updateLicense($dir, Routine::$fileTypes[$type], $licenseInstances[$licenseType], $dryRun, $recursive);
-    }
-}
+Routine::run($config, $workingDir);
 

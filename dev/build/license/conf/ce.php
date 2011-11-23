@@ -35,7 +35,14 @@ $config = array(
         'phtml' => 'AFL',
         'php'   => 'OSL',
         'css'   => 'AFL',
-        'js'    => 'AFL'
+        'js'    => 'AFL',
+        '_params' => array(
+            'skipped' => array(
+                'file' => array(
+                    'app/code/core/Zend/Mime.php'
+                )
+            )
+        )
     ),
     'app/design' => array(
         'xml'   => 'AFL',
@@ -44,10 +51,18 @@ $config = array(
         'js'    => 'AFL'
     ),
     'app/etc' => array(
-        'xml'   => 'AFL'
+        'xml'   => 'AFL',
+        '_params' => array(
+            'skipped' => array(
+                'file' => 'app/etc/local.xml'
+            )
+        )
     ),
-    'app/Mage.php' => array(
-        'php'   => 'OSL'
+    'app' => array(
+        'php'   => 'OSL',
+        '_params' => array(
+            'recursive' => false
+        ),
     ),
     'app/code/community/Phoenix' => array(
         'xml'   => 'Phoenix',
@@ -68,27 +83,81 @@ $config = array(
         'phtml' => 'AFL',
         'php'   => 'OSL',
         'css'   => 'AFL',
-        'js'    => 'AFL'
+        'js'    => 'AFL',
+        '_params' => array(
+            'skipped' => array(
+                'dir' => array(
+                    'dev/build',
+                    'dev/tests/integration/tmp',
+                    'dev/tests/static/testsuite/Php',
+                    'dev/tests/static/report'
+
+                )
+            )
+        )
+    ),
+    'downloader' => array(
+        'xml'   => 'AFL',
+        'phtml' => 'AFL',
+        'php'   => 'OSL',
+        'css'   => 'AFL',
+        'js'    => 'AFL',
+        '_params' => array(
+            'skipped' => array(
+                'file' => array(
+                    'downloader/js/prototype.js'
+                )
+            )
+        )
     ),
     'lib/Varien' => array(
+        'php'   => 'OSL'
+    ),
+    'lib/Mage' => array(
         'php'   => 'OSL'
     ),
     'lib/Magento' => array(
         'php'   => 'OSL',
         'xml'   => 'AFL'
     ),
-    'pub/error' => array(
+    'pub' => array(
+        'php' => 'OSL',
+        '_params' => array(
+            'recursive' => false
+        ),
+    ),
+    'pub/errors' => array(
         'xml'   => 'AFL',
         'phtml' => 'AFL',
         'php'   => 'OSL',
         'css'   => 'AFL',
         'js'    => 'AFL'
     ),
-    'pub/jslib' => array(
+    'pub/js' => array(
         'xml'   => 'AFL',
         'php'   => 'OSL',
         'css'   => 'AFL',
-        'js'    => 'AFL'
+        'js'    => 'AFL',
+        '_params' => array(
+            'skipped' => array(
+                'dir' => array(
+                    'pub/js/calendar',
+                    'pub/js/extjs',
+                    'pub/js/firebug',
+                    'pub/js/prototype',
+                    'pub/js/tiny_mce',
+                    'pub/js/flash',
+                    'pub/js/jscolor',
+                    'pub/js/scriptaculous'
+                ),
+                'file' => array(
+                    'pub/js/lib/FABridge.js',
+                    'pub/js/lib/boxover.js',
+                    'pub/js/lib/ccard.js',
+                    'pub/js/lib/ds-sleight.js'
+                )
+            )
+        )
     ),
     'pub/media' => array(
         'xml'   => 'AFL',

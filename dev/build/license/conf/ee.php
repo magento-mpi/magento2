@@ -35,19 +35,42 @@ $config = array(
         'phtml' => 'MEL',
         'php'   => 'MEL',
         'css'   => 'MEL',
-        'js'    => 'MEL'
+        'js'    => 'MEL',
+        '_params' => array(
+            'skipped' => array(
+                'file' => array(
+                    'app/code/core/Zend/Mime.php'
+                )
+            )
+        )
     ),
     'app/design' => array(
         'xml'   => 'MEL',
         'phtml' => 'MEL',
         'css'   => 'MEL',
-        'js'    => 'MEL'
+        'js'    => 'MEL',
+        '_params' => array(
+            'skipped' => array(
+                'file' => array(
+                    'app/design/frontend/enterprise/default/skin/default/js/jqzoom/jquery-1.3.1.min.js',
+                    'app/design/frontend/enterprise/default/skin/default/js/jqzoom/jquery.jqzoom1.0.1.js'
+                )
+            )
+        )
     ),
     'app/etc' => array(
-        'xml'   => 'MEL'
+        'xml'   => 'MEL',
+        '_params' => array(
+            'skipped' => array(
+                'file' => 'app/etc/local.xml'
+            )
+        )
     ),
-    'app/Mage.php' => array(
-        'php'   => 'MEL'
+    'app' => array(
+        'php'   => 'MEL',
+        '_params' => array(
+            'recursive' => false
+        ),
     ),
     'app/code/community/Phoenix' => array(
         'xml'   => 'Phoenix',
@@ -68,27 +91,81 @@ $config = array(
         'phtml' => 'MEL',
         'php'   => 'MEL',
         'css'   => 'MEL',
-        'js'    => 'MEL'
+        'js'    => 'MEL',
+        '_params' => array(
+            'skipped' => array(
+                'dir' => array(
+                    'dev/build',
+                    'dev/tests/integration/tmp',
+                    'dev/tests/static/testsuite/Php',
+                    'dev/tests/static/report'
+
+                )
+            )
+        )
+    ),
+    'downloader' => array(
+        'xml'   => 'MEL',
+        'phtml' => 'MEL',
+        'php'   => 'MEL',
+        'css'   => 'MEL',
+        'js'    => 'MEL',
+        '_params' => array(
+            'skipped' => array(
+                'file' => array(
+                    'downloader/js/prototype.js'
+                )
+            )
+        )
     ),
     'lib/Varien' => array(
+        'php'   => 'MEL'
+    ),
+    'lib/Mage' => array(
         'php'   => 'MEL'
     ),
     'lib/Magento' => array(
         'php'   => 'MEL',
         'xml'   => 'MEL'
     ),
-    'pub/error' => array(
+    'pub' => array(
+        'php' => 'MEL',
+        '_params' => array(
+            'recursive' => false
+        ),
+    ),
+    'pub/errors' => array(
         'xml'   => 'MEL',
         'phtml' => 'MEL',
         'php'   => 'MEL',
         'css'   => 'MEL',
         'js'    => 'MEL'
     ),
-    'pub/jslib' => array(
+    'pub/js' => array(
         'xml'   => 'MEL',
         'php'   => 'MEL',
         'css'   => 'MEL',
-        'js'    => 'MEL'
+        'js'    => 'MEL',
+        '_params' => array(
+            'skipped' => array(
+                'dir' => array(
+                    'pub/js/calendar',
+                    'pub/js/extjs',
+                    'pub/js/firebug',
+                    'pub/js/prototype',
+                    'pub/js/tiny_mce',
+                    'pub/js/flash',
+                    'pub/js/jscolor',
+                    'pub/js/scriptaculous'
+                ),
+                'file' => array(
+                    'pub/js/lib/FABridge.js',
+                    'pub/js/lib/boxover.js',
+                    'pub/js/lib/ccard.js',
+                    'pub/js/lib/ds-sleight.js'
+                )
+            )
+        )
     ),
     'pub/media' => array(
         'xml'   => 'MEL',

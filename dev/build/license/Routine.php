@@ -46,6 +46,13 @@ class Routine
     public static $isVerbose = false;
 
     /**
+     * Dry run flag
+     *
+     * @var bool
+     */
+    public static $dryRun = false;
+
+    /**
      * File types
      *
      * @var array
@@ -88,15 +95,19 @@ class Routine
             self::$skipFiles = array();
             $paths = self::_filterPaths($paths);
         }
-        foreach ($paths as $dir) {
-            if (self::_isDirectorySkipped($dir)) {
+        foreach ($paths as $resource) {
+            if (is_file($resource) && !in_array(realpath($resource), self::$skipFiles)) {
+                $result[] = $resource;
+                continue;
+            }
+            if (self::_isDirectorySkipped($resource)) {
                 continue;
             }
             if ($allowRecursion) {
-                self::globSearch(glob($dir . '/*', GLOB_ONLYDIR), $fileMasks, $result, true, true);
+                self::globSearch(glob($resource . '/*', GLOB_ONLYDIR), $fileMasks, $result, true, true);
             }
             foreach ($fileMasks as $filesMask) {
-                self::_filterFiles($dir, $filesMask, $result);
+                self::_filterFiles($resource, $filesMask, $result);
             }
         }
     }
@@ -169,11 +180,10 @@ class Routine
      * @param string|array $directories
      * @param string|array $fileMasks
      * @param AbstractLicense $license
-     * @param bool $dryRun
      * @param bool $recursive
      * @return void
      */
-    public static function updateLicense($directories, $fileMasks, $license, $dryRun = false, $recursive = true)
+    public static function updateLicense($directories, $fileMasks, $license, $recursive = true)
     {
         if (!is_array($directories)) {
             $directories = rtrim($directories, '/');
@@ -214,7 +224,7 @@ class Routine
             $newContents = preg_replace('#(/\*\*).*(\*/.*)#Us', '$1'. $docBlock . '$2', $contents, 1);
 
             if ($contents !== $newContents) {
-                if (!$dryRun) {
+                if (!self::$dryRun) {
                     file_put_contents($filename, $newContents);
                 }
                 self::printLog("Ok\n");
@@ -251,14 +261,14 @@ class Routine
         if (!class_exists($licenseClassName)) {
             $licenseClassFile = dirname(__FILE__) . DIRECTORY_SEPARATOR . $licenseClassName . '.php';
             if (!file_exists($licenseClassFile) || !is_readable($licenseClassFile)) {
-                self::printLog("Can't access license file.\n");
+                self::printLog("Can't access license file: {$licenseClassFile}.\n");
                 return false;
             }
 
             include_once $licenseClassFile;
 
             if (!class_exists($licenseClassName)) {
-                self::printLog("Can't find license class.\n");
+                self::printLog("Can't find license class: {$licenseClassName}.\n");
                 return false;
             }
         }
@@ -266,10 +276,65 @@ class Routine
         $licenseObject = new $licenseClassName;
 
         if (!$licenseObject instanceof LicenseAbstract) {
-            self::printLog("License class does not have correct interface.\n");
+            self::printLog("License class does not have correct interface: {$licenseClassName}.\n");
             return false;
         }
 
         return $licenseObject;
+    }
+
+    public static function run($config, $workingDir)
+    {
+        $licenseInstances = array();
+
+        foreach ($config as $dir => $types) {
+            $dirs = array($workingDir . DIRECTORY_SEPARATOR . $dir);
+            // Extract params for directory
+            $recursive = true;
+            if (isset($types['_params'])) {
+                $params = $types['_params'];
+                unset($types['_params']);
+                if (isset($params['recursive'])) {
+                    $recursive = $params['recursive'];
+                }
+
+                // Exclude skipped files or directories
+                if (isset($params['skipped'])) {
+                    // Exclude directories
+                    if (isset($params['skipped']['dir'])) {
+                        if (!is_array($params['skipped']['dir'])) {
+                            $params['skipped']['dir'] = array($params['skipped']['dir']);
+                        }
+                        foreach($params['skipped']['dir'] as $key=>$excludeDir) {
+                            $params['skipped']['dir'][$key] = '!' . $excludeDir;
+                        }
+                        $dirs = array_merge($dirs, $params['skipped']['dir']);
+                    }
+
+                    // Exclude files
+                    if (isset($params['skipped']['file'])) {
+                        if (!is_array($params['skipped']['file'])) {
+                            $params['skipped']['file'] = array($params['skipped']['file']);
+                        }
+                        foreach($params['skipped']['file'] as $key=>$excludeFile) {
+                            $params['skipped']['file'][$key] = '!' . $excludeFile;
+                        }
+                        $dirs = array_merge($dirs, $params['skipped']['file']);
+                    }
+                }
+                unset($params);
+            }
+
+            // Process types
+            foreach ($types as $type => $licenseType) {
+                if (!isset($licenseInstances[$licenseType])) {
+                    $licenseInstances[$licenseType] = Routine::createLicenseInstance($licenseType);
+                    if (!$licenseInstances[$licenseType]) {
+                        exit(1);
+                    }
+                }
+                Routine::updateLicense($dirs, Routine::$fileTypes[$type], $licenseInstances[$licenseType], $recursive);
+            }
+        }
     }
 }
