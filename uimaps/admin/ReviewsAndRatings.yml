@@ -26,7 +26,7 @@
 ---
 #Reviews and Ratings
 manage_ratings:
-    mca: rating/index/
+    mca: rating/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'rating/index/')]
     title: Manage Ratings / Reviews and Ratings / Catalog / Magento Admin
     uimap:
@@ -44,6 +44,8 @@ manage_ratings:
                             page: //input[@name='page']
                             filter_id: //input[@name='rating_id']
                             filter_rating_name: //input[@name='rating_code']
+                        pageelements:
+                            grid_head: //table[@id='ratingsGrid_table']//tr[@class='headings']
         buttons:
             add_new_rating: //button[span='Add New Rating']
         messages:
@@ -66,7 +68,7 @@ new_rating:
                                     xpath: //div[@id='rating_form']
                                     fields:
                                         default_value: //input[@name='rating_code']
-                                        store_view_title: //tr[*/label='%storeViewName%']/td[@class='value']
+                                        store_view_title: //tr[*/label='%storeViewName%']/td[@class='value']/input
                             -
                                 rating_visibility:
                                     xpath: //div[@id='visibility_form']
@@ -91,14 +93,14 @@ edit_rating:
             confirmation_for_delete: Are you sure you want to do this?
 
 all_reviews:
-    mca: catalog_product_review/index/
+    mca: catalog_product_review/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'catalog_product_review/index/')]
     title: All Reviews / Customer Reviews / Reviews and Ratings / Catalog / Magento Admin
     uimap:
         form:
             fieldsets:
                 -
-                    all_reviews_grid:
+                    all_reviews_grid: &reviewGrid
                         xpath: //div[@id='reviwGrid']
                         buttons:
                             reset_filter: //button[span='Reset Filter']
@@ -159,13 +161,15 @@ add_new_review:
                             filter_price_to: //input[@name='price[to]']
                             filter_qty_from: //input[@name='qty[from]']
                             filter_qty_to: //input[@name='qty[to]']
+                        pageelements:
+                            grid_head: //table[@id='productGrid_table']//tr[@class='headings']
                 -
                     review_details: &reviewDetails
                         xpath: //div[@id='add_review_form']
                         links:
                             product: //a[text()='%productName%']
                         radiobuttons:
-                            detailed_rating: //input[@type='radio' and @id='%ratingName%_%star%']
+                            detailed_rating: //input[@type='radio' and @id='%ratingName%_%stars%']
                         dropdowns:
                             status: //select[@name='status_id']
                         multiselects:
@@ -204,34 +208,7 @@ pending_reviews:
         form:
             fieldsets:
                 -
-                    pending_reviews_grid:
-                        xpath: //div[@id='reviwGrid']
-                        buttons:
-                            reset_filter: //button[span='Reset Filter']
-                            search: //button[span='Search']
-                            submit: //button[span='Submit']
-                        dropdowns:
-                            view_per_page: //select[@name='limit']
-                            actions: //select[@id='reviwGrid_massaction-select']
-                            filter_massaction: //select[@name='massaction']
-                            filter_visible_in: //select[@name='visible_in']
-                            filter_type: //select[@name='type']
-                        fields:
-                            page: //input[@name='page']
-                            filter_id: //input[@name='review_id']
-                            filter_created_on_from: //input[@name='created_at[from]']
-                            filter_created_on_to: //input[@name='created_at[to]']
-                            filter_title: //input[@name='title']
-                            filter_nickname: //input[@name='nickname']
-                            filter_review: //input[@name='detail']
-                            filter_product_name: //input[@name='name']
-                            filter_product_sku: //input[@name='sku']
-                        links:
-                            select_all: //a[text()='Select All']
-                            unselect_all: //a[text()='Unselect All']
-                            select_visible: //a[text()='Select Visible']
-                            unselect_visible: //a[text()='Unselect Visible']
-                            pending_reviews_rss: //a[text()='Pending Reviews RSS']
+                    reviews_grid: *reviewGrid
 
 edit_pending_review:
     mca: catalog_product_review/edit/id/%id%/ret/pending/
