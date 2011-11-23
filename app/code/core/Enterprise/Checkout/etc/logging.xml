@@ -36,7 +36,7 @@
                 </expected_models>
             </adminhtml_checkout_index>
             <adminhtml_checkout_applyCoupon>
-                <action>apply coupon</action>
+                <action>apply_coupon</action>
                 <expected_models>
                     <sales__quote/>
                 </expected_models>
@@ -49,7 +49,7 @@
                 </expected_models>
             </adminhtml_checkout_updateItems>
             <adminhtml_checkout_addToCart>
-                <action>add to cart</action>
+                <action>add_to_cart</action>
                 <expected_models>
                     <sales__quote_item>
                     <additional_data>
