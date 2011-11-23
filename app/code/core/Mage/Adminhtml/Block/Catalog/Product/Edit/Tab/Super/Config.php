@@ -140,7 +140,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config extends Mage_Ad
     public function getLinksJson()
     {
         $products = $this->_getProduct()->getTypeInstance()
-            ->getUsedProducts(null, $this->_getProduct());
+            ->getUsedProducts($this->_getProduct());
         if(!$products) {
             return '{}';
         }

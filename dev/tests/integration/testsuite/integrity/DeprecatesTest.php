@@ -388,4 +388,35 @@ class Integrity_DeprecatesTest extends Magento_Test_TestCase_VisitorAbstract
             )
         );
     }
+
+    /**
+     * @param  $fileName
+     * @dataProvider getSetProductInProductTypeDataProvider
+     */
+    public function testGetSetProductInProductType($fileName)
+    {
+        $content = file_get_contents(Mage::getRoot() . '/' . $fileName);
+        $this->assertFalse(
+            strpos($content, '$this->getProduct('),
+            'getProduct() in product type models is not used anymore, remove it from ' . $fileName
+        );
+        $this->assertFalse(
+            strpos($content, '$this->setProduct('),
+            'setProduct() in product type models is not used anymore, remove it from ' . $fileName
+        );
+    }
+
+    public function getSetProductInProductTypeDataProvider()
+    {
+        return array(
+            array('code/core/Enterprise/GiftCard/Model/Catalog/Product/Type/Giftcard.php'),
+            array('code/core/Mage/Bundle/Model/Product/Type.php'),
+            array('code/core/Mage/Catalog/Model/Product/Type/Abstract.php'),
+            array('code/core/Mage/Catalog/Model/Product/Type/Configurable.php'),
+            array('code/core/Mage/Catalog/Model/Product/Type/Grouped.php'),
+            array('code/core/Mage/Catalog/Model/Product/Type/Simple.php'),
+            array('code/core/Mage/Catalog/Model/Product/Type/Virtual.php'),
+            array('code/core/Mage/Downloadable/Model/Product/Type.php')
+        );
+    }
 }

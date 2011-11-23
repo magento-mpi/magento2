@@ -144,7 +144,7 @@ class Mage_Catalog_Model_Resource_Product_Type_Configurable_Attribute_Collection
     public function _addAssociatedProductFilters()
     {
         $this->getProduct()->getTypeInstance()
-            ->getUsedProducts($this->getColumnValues('attribute_id'), $this->getProduct()); // Filter associated products
+            ->getUsedProducts($this->getProduct(), $this->getColumnValues('attribute_id')); // Filter associated products
         return $this;
     }
 
@@ -235,7 +235,7 @@ class Mage_Catalog_Model_Resource_Product_Type_Configurable_Attribute_Collection
                foreach ($options as $option) {
                    $usedProducts = $this->getProduct()
                        ->getTypeInstance()
-                       ->getUsedProducts(null, $this->getProduct());
+                       ->getUsedProducts($this->getProduct());
                    foreach ($usedProducts as $associatedProduct) {
                         if (!empty($option['value'])
                             && $option['value'] == $associatedProduct->getData(

@@ -43,7 +43,7 @@ class Mage_XmlConnect_Block_Catalog_Product_Options_Configurable extends Mage_Xm
         }
 
         $_allowProducts = array();
-        $_allProducts = $product->getTypeInstance()->getUsedProducts(null, $product);
+        $_allProducts = $product->getTypeInstance()->getUsedProducts($product);
         foreach ($_allProducts as $_product) {
             if ($_product->isSaleable()) {
                 $_allowProducts[] = $_product;

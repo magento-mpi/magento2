@@ -16,7 +16,7 @@ class Mage_LoadTest_Model_Renderer_Sales_Item_Type_Configurable extends Mage_Loa
         $typeInstance = $this->_product->getTypeInstance();
 
 	$request = array();
-	$allProducts = $typeInstance->getUsedProducts(null, $this->_product);
+	$allProducts = $typeInstance->getUsedProducts($this->_product);
 	if(count($allProducts) == 0)
 	    return $request;
 
