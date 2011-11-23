@@ -366,6 +366,7 @@
                 <enable>1</enable>
                 <font>dejavu</font>
                 <mode>after_fail</mode>
+                <forms>backend_forgotpassword</forms>
                 <failed_attempts>5</failed_attempts>
                 <timeout>600</timeout>
                 <length>5-8</length>
@@ -416,11 +417,9 @@
             <backend>
                 <backend_login>
                     <label>Backend Login</label>
-                    <enable>1</enable>
                 </backend_login>
                 <backend_forgotpassword>
                     <label>Backend forgot password</label>
-                    <enable>1</enable>
                 </backend_forgotpassword>
             </backend>
             <fonts>

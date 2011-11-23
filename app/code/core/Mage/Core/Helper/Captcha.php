@@ -46,6 +46,9 @@ class Mage_Core_Helper_Captcha extends Mage_Core_Helper_Abstract
     // After this number of seconds captcha won't be correct even if the word was guessed correctly
     const XML_PATH_FRONTEND_CAPTCHA_TIMEOUT         = 'customer/captcha/timeout';
     const XML_PATH_BACKEND_CAPTCHA_TIMEOUT          = 'default/admin/captcha/timeout';
+    // Forms where captcha must be used
+    const XML_PATH_FRONTEND_CAPTCHA_FORMS           = 'customer/captcha/forms';
+    const XML_PATH_BACKEND_CAPTCHA_FORMS            = 'default/admin/captcha/forms';
     // Font to render captcha
     const XML_PATH_FRONTEND_CAPTCHA_FONT            = 'customer/captcha/font';
     const XML_PATH_BACKEND_CAPTCHA_FONT             = 'default/admin/captcha/font';
@@ -226,7 +229,8 @@ class Mage_Core_Helper_Captcha extends Mage_Core_Helper_Abstract
      */
     public function isRequired($formId)
     {
-        if (empty($formId) || !$this->_isEnabled()) {
+        $targetForms = $this->getTargetForms();
+        if (empty($formId) || !$this->_isEnabled() || !in_array($formId, $targetForms)) {
             return false;
         }
         if ($this->_isShowAlways($formId)) {
@@ -265,5 +269,18 @@ class Mage_Core_Helper_Captcha extends Mage_Core_Helper_Abstract
             }
         }
         return $fonts;
+    }
+
+    /**
+     * Retrieve list of forms where captcha must be shown
+     *
+     * For frontend this list is based on current website
+     *
+     * @return array
+     */
+    public function getTargetForms()
+    {
+        $formsString = (string) $this->getConfigNode('forms');
+        return explode(',', $formsString);
     }
 }

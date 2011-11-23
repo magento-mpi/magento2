@@ -406,7 +406,6 @@
                             <label>Forms</label>
                             <frontend_type>multiselect</frontend_type>
                             <source_model>core/config_captcha_form_frontend</source_model>
-                            <backend_model>core/config_captcha_form_frontend</backend_model>
                             <comment>CAPTCHA for "Create user" and "Forgot password" forms is always enabled if chosen</comment>
                             <sort_order>3</sort_order>
                             <show_in_default>1</show_in_default>

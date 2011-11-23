@@ -474,6 +474,7 @@ T: {{var telephone}}
                 <enable>1</enable>
                 <font>dejavu</font>
                 <mode>after_fail</mode>
+                <forms>user_forgotpassword</forms>
                 <failed_attempts>5</failed_attempts>
                 <timeout>600</timeout>
                 <length>4-5</length>
@@ -485,15 +486,12 @@ T: {{var telephone}}
             <frontend>
                 <user_create>
                     <label>Create user</label>
-                    <enable>1</enable>
                 </user_create>
                 <user_login>
                     <label>Login</label>
-                    <enable>1</enable>
                 </user_login>
                 <user_forgotpassword>
                     <label>Forgot password</label>
-                    <enable>1</enable>
                 </user_forgotpassword>
             </frontend>
             <always_for>

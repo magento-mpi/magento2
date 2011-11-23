@@ -61,26 +61,4 @@ abstract class Mage_Core_Model_Config_Captcha_Form_Abstract extends Mage_Core_Mo
         }
         return $optionArray;
     }
-
-    /**
-     * Returns selected values for form multiselect
-     *
-     * @return string
-     */
-    public function getValue()
-    {
-        $selected = array();
-        /* @var $frontendNode Mage_Core_Model_Config_Element */
-        $frontendNode = Mage::getConfig()->getNode($this->_getConfigNodePath());
-        if ($frontendNode) {
-            foreach ($frontendNode->children() as $formNode) {
-                /* @var $formNode Mage_Core_Model_Config_Element */
-                // Double type cast, (bool)$formNode->enable won't work
-                if (isset($formNode->enable) && (bool)(string)$formNode->enable) {
-                    $selected[] = $formNode->getName();
-                }
-            }
-        }
-        return implode(',', $selected);
-    }
 }
