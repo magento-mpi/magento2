@@ -446,7 +446,7 @@
                         <length translate="label comment">
                             <label>Word length</label>
                             <frontend_type>text</frontend_type>
-                            <comment>Range allowed (e.g. 3-5)</comment>
+                            <comment>Range allowed (e.g. 3-5). Please specify 8 symbols at the most.</comment>
                             <sort_order>7</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
