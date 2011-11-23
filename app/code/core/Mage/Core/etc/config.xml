@@ -436,10 +436,6 @@
                     <label>DejaVu</label>
                     <path>fonts/DejaVu-Serif/DejaVuSerif.ttf</path>
                 </dejavu>
-                <silkscreen>
-                    <label>Silkscreen</label>
-                    <path>fonts/Silkscreen/slkscr.ttf</path>
-                </silkscreen>
             </fonts>
             <always_for>
                 <backend_forgotpassword>1</backend_forgotpassword>
