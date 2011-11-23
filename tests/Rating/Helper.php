@@ -63,20 +63,6 @@ class Rating_Helper extends Mage_Selenium_TestCase
     }
 
     /**
-     * Open Tab
-     *
-     * @param string $tabName
-     */
-    public function openTab($tabName)
-    {
-        $tabXpath = $this->_getControlXpath('tab', $tabName);
-        $isTabOpened = $this->getAttribute($tabXpath . '/parent::*/@class');
-        if (!preg_match('/active/', $isTabOpened)) {
-            $this->clickControl('tab', $tabName, false);
-        }
-    }
-
-    /**
      * Opens rating
      *
      * @param array $ratingSearch
@@ -109,8 +95,7 @@ class Rating_Helper extends Mage_Selenium_TestCase
         }
         $ratingData = $this->arrayEmptyClear($ratingData);
         foreach ($ratingData as $key => $value) {
-            $this->openTab($key);
-            $this->fillForm($value);
+            $this->fillForm($value, $key);
             if (isset($value['store_view_titles'])) {
                 $this->fillRatingTitles($value['store_view_titles']);
             }
