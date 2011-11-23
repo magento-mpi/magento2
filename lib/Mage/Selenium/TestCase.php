@@ -1143,23 +1143,21 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     }
 
     /**
-     * Fill simple tab by source data
+     * Open tab
      *
-     * @param array|string $tabData Array of data to filling or datasource name
      * @param string $tabName Defines a specific Tab on a page
      */
-    public function fillSimpleTab($tabData, $tabName)
+    public function openTab($tabName)
     {
-        if (is_string($tabData)) {
-            $tabData = $this->loadData($tabData);
-        }
-        if (!is_array($tabData)) {
-            throw new InvalidArgumentException('Argument "tabData" must be an array!!!');
-        }
-        $tabData = $this->arrayEmptyClear($tabData);
         $waitAjax = false;
         $tabXpath = $this->_getControlXpath('tab', $tabName);
-        $isTabOpened = $this->getAttribute($tabXpath . '/parent::*/@class');
+        if ($this->isElementPresent($tabXpath . '[@class]')) {
+            $isTabOpened = $this->getAttribute($tabXpath . '/@class');
+        } elseif ($this->isElementPresent($tabXpath . '/parent::*[@class]')) {
+            $isTabOpened = $this->getAttribute($tabXpath . '/parent::*/@class');
+        } else {
+            $this->fail('Wrong xpath for tab');
+        }
         if (!preg_match('/active/', $isTabOpened)) {
             if (preg_match('/ajax/', $isTabOpened)) {
                 $waitAjax = true;
@@ -1169,7 +1167,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                 $this->pleaseWait();
             }
         }
-        $this->fillForm($tabData, $tabName);
     }
 
     /**
@@ -1208,6 +1205,10 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         }
 
         $formDataMap = $this->_getFormDataMap($fieldsets, $data);
+
+        if ($tabId) {
+            $this->openTab($tabId);
+        }
 
         try {
             foreach ($formDataMap as $formFieldName => $formField) {
@@ -1480,6 +1481,27 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             }
         }
         return $xpathTR;
+    }
+
+    /**
+     *
+     * @param string $tableXpath
+     * @return array
+     */
+    public function getTableHeadRowNames($tableXpath = '//table[@id]')
+    {
+        $xpath = $tableXpath . "//tr[normalize-space(@class)='headings']";
+        if (!$this->isElementPresent($xpath)) {
+            $this->fail('Incorrect table head xpath: ' . $xpath);
+        }
+
+        $cellNum = $this->getXpathCount($xpath . '/th');
+        $headNames = array();
+        for ($cell = 0; $cell < $cellNum; $cell++) {
+            $cellLocator = $tableXpath . '.0.' . $cell;
+            $headNames[$cell] = $this->getTable($cellLocator);
+        }
+        return array_diff($headNames, array(''));
     }
 
     /**
