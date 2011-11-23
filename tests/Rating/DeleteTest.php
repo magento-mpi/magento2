@@ -28,7 +28,7 @@
  */
 
 /**
- * @TODO
+ * Delete Rating in Backend
  *
  * @package     selenium
  * @subpackage  tests
@@ -36,27 +36,60 @@
  */
 class Rating_DeleteTest extends Mage_Selenium_TestCase
 {
-
     /**
-     * @TODO
+     * <p>Log in to Backend.</p>
      */
-    protected function assertPreConditions()
+    public function setUpBeforeTests()
     {
-        // @TODO
+        $this->loginAdminUser();
     }
 
     /**
-     * @TODO
+     * <p>Preconditions:</p>
+     * <p>Navigate to Catalog -> Reviews and Ratings -> Manage Ratings</p>
      */
-    public function test_UsedInReview()
+    protected function assertPreConditions()
+    {
+        $this->navigate('manage_ratings');
+        $this->addParameter('storeId', '1');
+    }
+
+    /**
+     * <p>Delete rating that is used in Review</p>
+     * <p>Preconditions:</p>
+     * <p>Rating created</p>
+     * <p>Review created using Rating</p>
+     * <p>Steps:</p>
+     * <p>1. Open created rating;</p>
+     * <p>2. Click "Delete" button;</p>
+     * <p>Expected result:</p>
+     * <p>Success message appears - Rating removed from the list</p>
+     *
+     * <p>Verification:</p>
+     * <p>1. Navigate to Catalog -> Reviews and Ratings -> Customer Reviews -> All Reviews;</p>
+     * <p>2. Select created Review from the list and open it;</p>
+     * <p>3. Verify that Rating is absent in review;</p>
+     *
+     * @test
+     */
+    public function deleteRatingUsedInReview()
     {
         $this->markTestIncomplete('@TODO');
     }
 
     /**
-     * @TODO
+     * <p>Delete rating</p>
+     * <p>Preconditions:</p>
+     * <p>Rating created</p>
+     * <p>Steps:</p>
+     * <p>1. Open created rating;</p>
+     * <p>2. Click "Delete" button;</p>
+     * <p>Expected result:</p>
+     * <p>Success message appears - Rating removed from the list</p>
+     *
+     * @test
      */
-    public function test_NotUsedInReview()
+    public function deleteRatingNotUsedInReview()
     {
         $this->markTestIncomplete('@TODO');
     }

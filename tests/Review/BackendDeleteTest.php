@@ -28,13 +28,13 @@
  */
 
 /**
- * Rating creation into backend
+ * Delete review into backend
  *
  * @package     selenium
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Rating_CreateTest extends Mage_Selenium_TestCase
+class Review_DeleteTest extends Mage_Selenium_TestCase
 {
     /**
      * <p>Log in to Backend.</p>
@@ -46,73 +46,63 @@ class Rating_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Preconditions:</p>
-     * <p>Navigate to Catalog -> Reviews and Ratings -> Manage Ratings</p>
+     * <p>Navigate to Catalog -> Reviews and Ratings -> Customer Reviews -> All Reviews</p>
      */
     protected function assertPreConditions()
     {
-        $this->navigate('manage_ratings');
+        $this->navigate('all_reviews');
         $this->addParameter('storeId', '1');
     }
-    /**
-     * <p>Creating Rating with required fields only</p>
-     *
-     * <p>Steps:</p>
-     * <p>1. Click "Add New Rating" button;</p>
-     * <p>2. Fill in required fields by regular data;</p>
-     * <p>3. Click "Save Rating" button;</p>
-     * <p>Expected result:</p>
-     * <p>Success message appears - rating saved</p>
-     *
-     * @test
-     */
-    public function withRequiredFieldsOnly()
-    {
-        $this->markTestIncomplete('@TODO');
-    }
 
     /**
-     * <p>Creating Rating with empty required fields</p>
-     *
-     * <p>Steps:</p>
-     * <p>1. Click "Add New Rating" button;</p>
-     * <p>2. Leave required fields empty;</p>
-     * <p>3. Click "Save Rating" button;</p>
-     * <p>Expected result:</p>
-     * <p>Error message appears - "This is a required field";</p>
-     *
-     * @test
-     */
-    public function withEmptyDefaultValue()
-    {
-        $this->markTestIncomplete('@TODO');
-    }
-
-    /**
-     * <p>Creating Rating with Visible In option</p>
+     * <p>Delete review with Rating created</p>
      *
      * <p>Preconditions:</p>
-     * <p>Store View created</p>
-     * <p>Product created</p>
+     * <p>Review with rating created;</p>
+     * <p>Rating created</p>
      * <p>Steps:</p>
-     * <p>1. Click "Add New Rating" button;</p>
-     * <p>2. Fill in necessary fields by regular data - select created store view into "Visible In" block;</p>
-     * <p>3. Click "Save Rating" button;</p>
+     * <p>1. Select created review from the list and open it;</p>
+     * <p>2. Click "Delete Review" button;</p>
      * <p>Expected result:</p>
-     * <p>Success message appears - rating saved</p>
-     *
-     * <p>Verification:</p>
-     * <p>Goto Frontend;</p>
-     * <p>Open created Product</p>
-     * <p>Verify that rating is absent on Product Page;</p>
-     * <p>Switch to created Store View;</p>
-     * <p>Navigate to Product Page</p>
-     * <p>Verify that rating is present on product page</p>
-     *
-     * @test
+     * <p>Success message appears - review removed from the list</p>
      */
-    public function withVisibleIn()
+    public function deleteWithRating()
     {
         $this->markTestIncomplete('@TODO');
     }
+
+    /**
+     * <p>Delete review with Rating created</p>
+     *
+     * <p>Preconditions:</p>
+     * <p>Review with store view created;</p>
+     * <p>Store view created</p>
+     * <p>Steps:</p>
+     * <p>1. Select created review from the list and open it;</p>
+     * <p>2. Click "Delete Review" button;</p>
+     * <p>Success message appears - review removed from the list</p>
+     */
+    public function deleteWithVisibleIn()
+    {
+        $this->markTestIncomplete('@TODO');
+    }
+
+    /**
+     * <p>Delete review using Mass-Action</p>
+     *
+     * <p>Preconditions:</p>
+     * <p>Review created;</p>
+     * <p>Steps:</p>
+     * <p>1. Select created review from the list check it;</p>
+     * <p>2. Select "Delete" in Actions;</p>
+     * <p>3. Click "Submit" button;</p>
+     * <p>Success message appears - review removed from the list</p>
+     */
+    public function deleteMassAction()
+    {
+        $this->markTestIncomplete('@TODO');
+    }
+
+
 
 }
