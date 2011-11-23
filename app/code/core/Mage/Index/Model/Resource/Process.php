@@ -162,4 +162,14 @@ class Mage_Index_Model_Resource_Process extends Mage_Core_Model_Resource_Db_Abst
         $this->_updateProcessData($process->getId(), array('ended_at' => $this->formatDate(time())));
         return $this;
     }
+
+    /**
+     * Whether transaction is already started
+     *
+     * @return bool
+     */
+    public function isInTransaction()
+    {
+        return $this->_getWriteAdapter()->getTransactionLevel() > 0;
+    }
 }

@@ -155,14 +155,16 @@ class Mage_Index_Model_Indexer
     public function indexEvents($entity=null, $type=null)
     {
         Mage::dispatchEvent('start_index_events' . $this->_getEventTypeName($entity, $type));
-        $allowTableChanges = $this->_allowTableChanges;
+
+        /** @var $resourceModel Mage_Index_Model_Resource_Process */
+        $resourceModel = Mage::getResourceSingleton('index/process');
+
+        $allowTableChanges = $this->_allowTableChanges && !$resourceModel->isInTransaction();
         if ($allowTableChanges) {
             $this->_currentEvent = array($entity, $type);
             $this->_changeKeyStatus(false);
         }
 
-        /** @var $resourceModel Mage_Index_Model_Resource_Process */
-        $resourceModel = Mage::getResourceSingleton('index/process');
         $resourceModel->beginTransaction();
         $this->_allowTableChanges = false;
         try {
@@ -245,13 +247,16 @@ class Mage_Index_Model_Indexer
          */
         if ($event->getProcessIds()) {
             Mage::dispatchEvent('start_process_event' . $this->_getEventTypeName($entityType, $eventType));
-            $allowTableChanges = $this->_allowTableChanges;
+
+            /** @var $resourceModel Mage_Index_Model_Resource_Process */
+            $resourceModel = Mage::getResourceSingleton('index/process');
+
+            $allowTableChanges = $this->_allowTableChanges && !$resourceModel->isInTransaction();
             if ($allowTableChanges) {
                 $this->_currentEvent = $event;
                 $this->_changeKeyStatus(false);
             }
-            /** @var $resourceModel Mage_Index_Model_Resource_Process */
-            $resourceModel = Mage::getResourceSingleton('index/process');
+
             $resourceModel->beginTransaction();
             $this->_allowTableChanges = false;
             try {
