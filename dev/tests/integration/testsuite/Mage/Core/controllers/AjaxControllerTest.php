@@ -16,7 +16,7 @@ class Mage_Core_AjaxControllerTest extends Magento_Test_TestCase_ControllerAbstr
 {
     public function testTranslateAction()
     {
-        $this->getRequest()->setPost('translate', 'test');
+        $this->getRequest()->setPost('translate', array('test'));
         $this->dispatch('core/ajax/translate');
         $this->assertEquals('{success:true}', $this->getResponse()->getBody());
     }

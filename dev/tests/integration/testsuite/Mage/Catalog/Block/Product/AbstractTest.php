@@ -35,11 +35,23 @@ class Mage_Catalog_Block_Product_AbstractTest extends PHPUnit_Framework_TestCase
      */
     protected $_product;
 
+    /**
+     * @var string
+     */
+    protected static $_mediaDir;
+
     public static function setUpBeforeClass()
     {
-        $mediaDir = Mage::getSingleton('Mage_Catalog_Model_Product_Media_Config')->getBaseMediaPath();
-        mkdir($mediaDir . '/m/a', 0777, true);
-        copy(realpath(__DIR__ . '/../../_files') . '/magento_image.jpg', $mediaDir . '/m/a/magento_image.jpg');
+        self::$_mediaDir = Mage::getSingleton('Mage_Catalog_Model_Product_Media_Config')->getBaseMediaPath();
+        mkdir(self::$_mediaDir . '/m/a', 0777, true);
+        copy(realpath(__DIR__ . '/../../_files') . '/magento_image.jpg', self::$_mediaDir . '/m/a/magento_image.jpg');
+    }
+
+    public static function tearDownAfterClass()
+    {
+        unlink(self::$_mediaDir . '/m/a/magento_image.jpg');
+        rmdir(self::$_mediaDir . '/m/a');
+        rmdir(self::$_mediaDir . '/m');
     }
 
     protected function setUp()

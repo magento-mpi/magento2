@@ -221,9 +221,10 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Media extends Mage_Eav_Model_
             // Add per store labels, position, disabled
             $data = array();
             $data['value_id'] = $image['value_id'];
-            $data['label']    = $image['label'];
-            $data['position'] = (int) $image['position'];
-            $data['disabled'] = (int) $image['disabled'];
+
+            $data['label'] = isset($image['label']) ? $image['label'] : '';
+            $data['position'] = isset($image['position']) ? (int)$image['position'] : 0;
+            $data['disabled'] = isset($image['disabled']) ? (int)$image['disabled'] : 0;
             $data['store_id'] = (int) $object->getStoreId();
 
             $this->_getResource()->insertGalleryValueInStore($data);

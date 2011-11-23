@@ -478,6 +478,7 @@ class Magento_Test_Bootstrap
 
         /* Switch an application to installed mode */
         $this->initialize();
+        Mage::app()->getFrontController();
     }
 
     /**

@@ -565,4 +565,12 @@ class Mage_Catalog_Model_ProductTest extends PHPUnit_Framework_TestCase
         $this->_model->setPreconfiguredValues('test');
         $this->assertEquals('test', $this->_model->getPreconfiguredValues());
     }
+
+    public static function tearDownAfterClass()
+    {
+        $mediaDir = Mage::getSingleton('Mage_Catalog_Model_Product_Media_Config')->getBaseMediaPath();
+        unlink($mediaDir . '/m/a/magento_image.jpg');
+        rmdir($mediaDir . '/m/a');
+        rmdir($mediaDir . '/m');
+    }
 }

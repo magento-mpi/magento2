@@ -10,7 +10,7 @@
  */
 
 /* Create attribute */
-$installer = new Mage_Catalog_Model_Resource_Setup('catalog_write');
+$installer = new Mage_Catalog_Model_Resource_Setup('catalog_setup');
 $attribute = new Mage_Catalog_Model_Resource_Eav_Attribute();
 $attribute->setData(
     array(

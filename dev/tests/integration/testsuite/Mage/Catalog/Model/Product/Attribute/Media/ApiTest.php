@@ -23,7 +23,15 @@ class Mage_Catalog_Model_Product_Attribute_Media_ApiTest extends PHPUnit_Framewo
      */
     protected $_model;
 
+    /**
+     * @var string
+     */
     protected static $_fixtureDir;
+
+    /**
+     * @var string
+     */
+    protected static $_mediaTmpDir;
 
     protected function setUp()
     {
@@ -33,9 +41,15 @@ class Mage_Catalog_Model_Product_Attribute_Media_ApiTest extends PHPUnit_Framewo
     public static function setUpBeforeClass()
     {
         self::$_fixtureDir = realpath(__DIR__ . '/../../../../_files');
-        $mediaTmpDir = Mage::getSingleton('Mage_Catalog_Model_Product_Media_Config')->getTmpMediaPath();
-        mkdir("$mediaTmpDir/m/a", 0777, true);
-        copy(self::$_fixtureDir . '/magento_image.jpg', $mediaTmpDir . '/m/a/magento_image.jpg');
+        self::$_mediaTmpDir = Mage::getSingleton('Mage_Catalog_Model_Product_Media_Config')->getBaseTmpMediaPath();
+        mkdir(self::$_mediaTmpDir . "/m/a", 0777, true);
+        copy(self::$_fixtureDir . '/magento_image.jpg', self::$_mediaTmpDir . '/m/a/magento_image.jpg');
+    }
+
+    public static function tearDownAfterClass()
+    {
+        rmdir(self::$_mediaTmpDir . "/m/a");
+        rmdir(self::$_mediaTmpDir . "/m");
     }
 
     public static function productMediaFixture()
