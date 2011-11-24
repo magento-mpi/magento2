@@ -326,11 +326,6 @@ final class Maged_Controller
         } else {
             $ignoreLocalModification = '';
         }
-
-        if (!empty($_GET['archive_type'])){
-            $this->_createBackup($_GET['archive_type']);
-        }
-
         $this->model('connect', true)->applyPackagesActions($actions, $ignoreLocalModification);
     }
 
@@ -364,10 +359,6 @@ final class Maged_Controller
             echo "INVALID POST DATA";
             return;
         }
-
-        if ($archiveType = $_GET['archive_type']){
-            $this->_createBackup($archiveType);
-        }
         $this->model('connect', true)->installPackage($_POST['install_package_id']);
     }
 
@@ -398,10 +389,6 @@ final class Maged_Controller
         if(false === $res) {
             echo "Error moving uploaded file";
             return;
-        }
-
-        if ($archiveType = $_GET['archive_type']){
-            $this->_createBackup($archiveType);
         }
 
         $this->model('connect', true)->installUploadedPackage($target);
@@ -505,7 +492,6 @@ final class Maged_Controller
             self::singleton()->dispatch();
         } catch (Exception $e) {
             echo $e->getMessage();
-            //echo self::singleton()->view()->set('exception', $e)->template("exception.phtml");
         }
     }
 
@@ -897,6 +883,10 @@ final class Maged_Controller
                 @file_put_contents($this->_getMaintenanceFilePath(), 'maintenance');
             }
         }
+
+        if (!empty($_GET['archive_type'])) {
+            $this->_createBackup($_GET['archive_type']);
+        }
     }
 
     /**
@@ -988,7 +978,6 @@ final class Maged_Controller
         );
     }
 
-
     /**
      * Create Backup
      *
@@ -996,8 +985,9 @@ final class Maged_Controller
      * @return void
      */
     protected function _createBackup($archiveType){
-        $this->model('connect', true)->connect()->runHtmlConsole('Creating data backup... ');
-        echo "<br/>\n";
+        /** @var $connect Maged_Connect */
+        $connect = $this->model('connect', true)->connect();
+        $connect->runHtmlConsole('Creating data backup...');
 
         try {
             $type = $this->_getBackupTypeByCode($archiveType);
@@ -1014,25 +1004,27 @@ final class Maged_Controller
                     ->addIgnorePaths(Mage::helper('backup')->getIgnorePaths());
             }
             $backupManager->create();
-            $this->model('connect', true)->connect()->runHtmlConsole(
+            $connect->runHtmlConsole(
                 $this->_getCreateBackupSuccessMessageByType($type)
             );
-            echo "<br/>\n";
         } catch (Mage_Backup_Exception_NotEnoughFreeSpace $e) {
-            $this->model('connect', true)->connect()->runHtmlConsole('Not enough free space to create backup.');
-            echo "<br/>\n";
+            $connect->runHtmlConsole('Not enough free space to create backup.');
             Mage::logException($e);
         } catch (Mage_Backup_Exception_NotEnoughPermissions $e) {
-            $this->model('connect', true)->connect()->runHtmlConsole('Not enough permissions to create backup.');
-            echo "<br/>\n";
+            $connect->runHtmlConsole('Not enough permissions to create backup.');
             Mage::logException($e);
         } catch (Exception  $e) {
-            $this->model('connect', true)->connect()->runHtmlConsole('An error occurred while creating the backup.');
-            echo "<br/>\n";
+            $connect->runHtmlConsole('An error occurred while creating the backup.');
             Mage::logException($e);
         }
     }
 
+    /**
+     * Retrieve Backup Type by Code
+     *
+     * @param int $code
+     * @return string
+     */
     protected function _getBackupTypeByCode($code)
     {
         $typeMap = array(
@@ -1063,7 +1055,7 @@ final class Maged_Controller
         );
 
         if (!isset($messagesMap[$type])) {
-            return;
+            return '';
         }
 
         return $messagesMap[$type];
