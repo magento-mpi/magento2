@@ -35,7 +35,7 @@ class Routine
 
         if ($verbose) {
             echo $cmd . "\n";
-            echo implode("\n", $output);
+            echo implode("\n", $output) . "\n";
         }
 
         if (!$ignore && $exitCode > 0) {
@@ -43,5 +43,27 @@ class Routine
         }
 
         return 0;
+    }
+
+    /**
+     *  Parse path if enumeration found
+     *
+     * @static
+     * @param $path
+     * @return array
+     */
+    public static function parsePath($path)
+    {
+        $matches = $result = array();
+        if (preg_match('/{(.*)}/U', $path, $matches) > 0) {
+            foreach (explode(',', $matches[1]) as $match) {
+                $result[] = preg_replace('/{(.*)}/U', trim($match), $path);
+            }
+        } else {
+            $result[] = $path;
+        }
+        unset($matches);
+
+        return $result;
     }
 }
