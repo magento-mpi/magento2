@@ -1061,6 +1061,10 @@ tr.summary-details-excluded { font-style:italic; }
 .account-create {}
 /* Account Login/Create Pages ============================================================ */
 
+/* Captcha */
+.captcha {}
+.captcha-image {float:left;}
+.captcha-note {clear:left; padding-top:5px;}
 
 /* Remember Me Popup ===================================================================== */
 .window-overlay { background:url(../images/window_overlay.png) repeat; background:rgba(0, 0, 0, 0.35); position:absolute; top:0; left:0; height:100%; width:100%; z-index:990; }

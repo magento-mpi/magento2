@@ -1541,6 +1541,10 @@ tr.summary-details-excluded { font-style:italic; }
 
 /* Account Login/Create Pages ============================================================ */
 
+/* Captcha */
+.captcha {}
+.captcha-image {float:left;}
+.captcha-note {clear:left; padding-top:5px;}
 
 /* My Account ============================================================================= */
 .my-account .title-buttons .link-rss { float:none; margin:0; }

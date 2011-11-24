@@ -34,7 +34,12 @@
     </div>
 </li>
 <li>
-    <div class="captcha-image" style="width:<?php echo $captcha->getWidth() - 2 ?>px">
-        <img width="100%" height="<?php echo $captcha->getHeight() ?>" alt="<?php echo $captcha->getImgAlt() ?>" src="<?php echo $captcha->getImgUrl() . $captcha->getId() . $captcha->getSuffix() ?>"/>
+    <div class="captcha-image">
+        <img width="<?php echo $captcha->getWidth(); ?>" height="<?php echo $captcha->getHeight() ?>" alt="<?php echo $captcha->getImgAlt() ?>" src="<?php echo $captcha->getImgUrl() . $captcha->getId() . $captcha->getSuffix() ?>"/>
     </div>
+    <?php if ($captcha->isCaseSensitive()) :?>
+    <div class="captcha-note">
+        <p><strong>Attention</strong>: Captcha is case sensitive.</p>
+    </div>
+    <?php endif; ?>
 </li>

@@ -109,7 +109,7 @@ class Mage_Core_Model_Captcha_Zend extends Zend_Captcha_Image implements Mage_Co
      */
     protected function _getHash($word, $token)
     {
-        if (!$this->_isCaseSensitive()) {
+        if (!$this->isCaseSensitive()) {
             $word = strtolower($word);
         }
         $hash = md5($word . $token);
@@ -210,7 +210,7 @@ class Mage_Core_Model_Captcha_Zend extends Zend_Captcha_Image implements Mage_Co
      *
      * @return bool
      */
-    protected  function _isCaseSensitive()
+    public function isCaseSensitive()
     {
         $isCaseSensitive = (bool)(string)$this->_getHelper()->getConfigNode('case_sensitive');
         return $isCaseSensitive;
