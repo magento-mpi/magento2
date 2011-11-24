@@ -28,7 +28,7 @@
  */
 
 /**
- * @TODO
+ * Tax Rule deletion tests
  *
  * @package     selenium
  * @subpackage  tests
@@ -37,8 +37,18 @@
 class Tax_TaxRule_DeleteTest extends Mage_Selenium_TestCase
 {
 
+
     /**
-     * @TODO
+     * <p>Log in to Backend.</p>
+     */
+    public function setUpBeforeTests()
+    {
+        $this->loginAdminUser();
+    }
+
+    /**
+     * <p>Preconditions:</p>
+     * <p>Navigate to Sales->Tax->Manage Tax Zones&Rates</p>
      */
     protected function assertPreConditions()
     {
@@ -46,17 +56,17 @@ class Tax_TaxRule_DeleteTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * @TODO
+     * <p>Delete a Tax Rule</p>
+     * <p>Steps:</p>
+     * <p>1. Create a new Tax Rule</p>
+     * <p>2. Open the Tax Rule</p>
+     * <p>3. Delete the Tax Rule</p>
+     * <p>Expected result:</p>
+     * <p>Received the message that the Tax Rule has been deleted.</p>
+     *
+     * @test
      */
-    public function test_NotUsedInProduct()
-    {
-        $this->markTestIncomplete('@TODO');
-    }
-
-    /**
-     * @TODO
-     */
-    public function test_UsedInProduct()
+    public function deleteTaxRule()
     {
         $this->markTestIncomplete('@TODO');
     }

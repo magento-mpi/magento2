@@ -28,7 +28,7 @@
  */
 
 /**
- * @TODO
+ * Product Tax Class creation tests
  *
  * @package     selenium
  * @subpackage  tests
@@ -38,7 +38,16 @@ class Tax_ProductTaxClass_CreateTest extends Mage_Selenium_TestCase
 {
 
     /**
-     * @TODO
+     * <p>Login to backend</p>
+     */
+    public function setUpBeforeTests()
+    {
+        $this->loginAdminUser();
+    }
+
+    /**
+     * <p>Preconditions:</p>
+     * <p>Navigate to Sales->Tax->Product Tax Classes</p>
      */
     protected function assertPreConditions()
     {
@@ -46,43 +55,78 @@ class Tax_ProductTaxClass_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * @TODO
+     * <p>Creating Product Tax Class with required field</p>
+     * <p>Steps</p>
+     * <p>1. Click "Add New" button </p>
+     * <p>2. Fill in required fields</p>
+     * <p>3. Click "Save Class" button</p>
+     * <p>Expected Result:</p>
+     * <p>Product Tax Class created, success message appears</p>
+     *
+     * @test
      */
-    public function test_WithRequiredFieldsOnly()
+    public function withRequiredFieldsOnly()
     {
         $this->markTestIncomplete('@TODO');
     }
 
     /**
-     * @TODO
+     * <p>Creating Product Tax Class with name that exists</p>
+     * <p>Steps</p>
+     * <p>1. Click "Add New" button </p>
+     * <p>2. Fill in Class Name with value that exists</p>
+     * <p>3. Click "Save Class" button</p>
+     * <p>Expected Result:</p>
+     * <p>Product Tax Class should not be created, error message appears</p>
+     *
+     * @test
      */
-    public function test_WithNameThatAlreadyExists()
+    public function withNameThatAlreadyExists()
     {
         $this->markTestIncomplete('@TODO');
     }
 
     /**
-     * @TODO
+     * <p>Creating Product Tax Class with empty name</p>
+     * <p>Steps</p>
+     * <p>1. Click "Add New" button </p>
+     * <p>2. Leave Class Name empty</p>
+     * <p>3. Click "Save Class" button</p>
+     * <p>Expected Result:</p>
+     * <p>Product Tax Class should not be created, error message appears</p>
+     *
+     * @test
      */
-    public function test_WithEmptyName()
+    public function withEmptyName()
     {
         $this->markTestIncomplete('@TODO');
     }
 
     /**
-     * @TODO
+     * <p>Creating a new Product Tax Class with special values (long, special chars).</p>
+     * <p>Steps:</p>
+     * <p>1. Click button "Add New"</p>
+     * <p>2. Fill in the fields</p>
+     * <p>3. Click button "Save Class"</p>
+     * <p>4. Open the Tax Class</p>
+     * <p>Expected result:</p>
+     * <p>All fields has the same values.</p>
+     *
+     * @dataProvider dataSpecialValues
+     * @test
+     *
+     * @param array $specialValue
      */
-    public function test_WithSpecialCharacters()
+    public function withSpecialValues($specialValue)
     {
         $this->markTestIncomplete('@TODO');
     }
 
-    /**
-     * @TODO
-     */
-    public function test_WithLongValues()
+    public function dataSpecialValues()
     {
-        $this->markTestIncomplete('@TODO');
+        return array(
+            array(array()),//$this->generate('string', 255)
+            array(array()) //$this->generate('string', 50, ':punct:')
+        );
     }
-
 }

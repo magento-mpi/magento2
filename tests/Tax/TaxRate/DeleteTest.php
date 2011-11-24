@@ -28,7 +28,7 @@
  */
 
 /**
- * @TODO
+ * Tax Rate deletion tests
  *
  * @package     selenium
  * @subpackage  tests
@@ -38,7 +38,16 @@ class Tax_TaxRate_DeleteTest extends Mage_Selenium_TestCase
 {
 
     /**
-     * @TODO
+     * <p>Log in to Backend.</p>
+     */
+    public function setUpBeforeTests()
+    {
+        $this->loginAdminUser();
+    }
+
+    /**
+     * <p>Preconditions:</p>
+     * <p>Navigate to Sales->Tax->Manage Tax Zones&Rates</p>
      */
     protected function assertPreConditions()
     {
@@ -46,19 +55,35 @@ class Tax_TaxRate_DeleteTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * @TODO
+     * <p>Delete a Tax Rate</p>
+     * <p>Steps:</p>
+     * <p>1. Create a new Tax Rate</p>
+     * <p>2. Open the Tax Rate</p>
+     * <p>3. Delete the Tax Rate</p>
+     * <p>Expected result:</p>
+     * <p>Received the message that the Tax Rate has been deleted.</p>
+     *
+     * @test
      */
-    public function test_NotUsedInRule()
+    public function notUsedInRule()
     {
         $this->markTestIncomplete('@TODO');
     }
 
     /**
-     * @TODO
+     * <p>Delete a Tax Rate that used</p>
+     * <p>Steps:</p>
+     * <p>1. Create a new Tax Rate</p>
+     * <p>2. Create a new Tax Rule that use Tax Rate from previous step</p>
+     * <p>2. Open the Tax Rate</p>
+     * <p>3. Delete the Tax Rate</p>
+     * <p>Expected result:</p>
+     * <p>Received the message that the Tax Rate could not be deleted.</p>
+     *
+     * @test
      */
-    public function test_UsedInRule()
+    public function usedInRule()
     {
         $this->markTestIncomplete('@TODO');
     }
-
 }

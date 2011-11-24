@@ -28,7 +28,7 @@
  */
 
 /**
- * @TODO
+ * Customer Tax Class deletion tests
  *
  * @package     selenium
  * @subpackage  tests
@@ -38,7 +38,16 @@ class Tax_CustomerTaxClass_DeleteTest extends Mage_Selenium_TestCase
 {
 
     /**
-     * @TODO
+     * <p>Log in to Backend.</p>
+     */
+    public function setUpBeforeTests()
+    {
+        $this->loginAdminUser();
+    }
+
+    /**
+     * <p>Preconditions:</p>
+     * <p>Navigate to Sales-Tax-Customer Tax Classes</p>
      */
     protected function assertPreConditions()
     {
@@ -46,19 +55,35 @@ class Tax_CustomerTaxClass_DeleteTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * @TODO
+     * <p>Delete a Customer Tax Class</p>
+     * <p>Steps:</p>
+     * <p>1. Create a new Customer Tax Class</p>
+     * <p>2. Open the Customer Tax Class</p>
+     * <p>3. Delete the Customer Tax Class</p>
+     * <p>Expected result:</p>
+     * <p>Received the message that the Customer Tax Class has been deleted.</p>
+     *
+     * @test
      */
-    public function test_NotUsedInRule()
+    public function notUsedInRule()
     {
         $this->markTestIncomplete('@TODO');
     }
 
     /**
-     * @TODO
+     * <p>Delete a Customer Tax Class that used</p>
+     * <p>Steps:</p>
+     * <p>1. Create a new Customer Tax Class</p>
+     * <p>2. Create a new Tax Rule that use Customer Tax Class from previous step</p>
+     * <p>2. Open the Customer Tax Class</p>
+     * <p>3. Delete the Customer Tax Class</p>
+     * <p>Expected result:</p>
+     * <p>Received the message that the Customer Tax Class could not be deleted.</p>
+     *
+     * @test
      */
-    public function test_UsedInRule()
+    public function usedInRule()
     {
         $this->markTestIncomplete('@TODO');
     }
-
 }
