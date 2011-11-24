@@ -74,7 +74,7 @@ class Catalog_Category_CategoryTest extends Magento_Test_Webservice
         $categoryFixture = $this->_getFixtureData();
         $categoryId = $this->call('category.create', $categoryFixture['create']);
 
-        $this->assertInternalType('int', $categoryId,
+        $this->assertEquals($categoryId, (int) $categoryId,
             'Result of a create method is not an integer.');
         /**
          * Test create
@@ -195,7 +195,9 @@ class Catalog_Category_CategoryTest extends Magento_Test_Webservice
         $params['categoryData']['is_active'] = $categoryFixture['vulnerability']['categoryData']['is_active'];
 
         $categoryId = $this->call('category.create', $params);
-        $this->assertInternalType('int', $categoryId);
+        $this->assertEquals($categoryId, (int) $categoryId,
+            'Category cannot created with vulnerability in is_active field'
+        );
 
         $category = new Mage_Catalog_Model_Category();
         $category->load($categoryId);
@@ -215,6 +217,12 @@ class Catalog_Category_CategoryTest extends Magento_Test_Webservice
                 $result = array(
                     'faultcode' => $e->faultcode,
                     'faultstring' => $e->faultstring
+                );
+            } catch (Zend_XmlRpc_Client_FaultException $e) {
+                //make result like in response
+                $result = array(
+                    'faultcode' => $e->getCode(),
+                    'faultstring' => $e->getMessage()
                 );
             }
 
@@ -242,6 +250,12 @@ class Catalog_Category_CategoryTest extends Magento_Test_Webservice
                 $result = array(
                     'faultcode' => $e->faultcode,
                     'faultstring' => $e->faultstring
+                );
+            } catch (Zend_XmlRpc_Client_FaultException $e) {
+                //make result like in response
+                $result = array(
+                    'faultcode' => $e->getCode(),
+                    'faultstring' => $e->getMessage()
                 );
             }
             $category->load($categoryId);
