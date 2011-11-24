@@ -509,15 +509,34 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
     }
 
     /**
+     * Get current store view if available, or get any in current scope
+     *
+     * @return Mage_Core_Model_Store
+     */
+    protected function _getStore()
+    {
+        $store = null;
+        if ($this->_currentStore) {
+            $store = Mage::app()->getStore($this->_currentStore);
+        } elseif ($this->getCurrentScope() == Enterprise_Cms_Model_Hierarchy_Node::NODE_SCOPE_WEBSITE) {
+            $store = Mage::app()->getWebsite($this->getCurrentScopeId())->getDefaultStore();
+        }
+
+        if (!$store) {
+            $store = Mage::app()->getAnyStoreView();
+        }
+
+        return $store;
+    }
+
+    /**
      * Return URL query param for current store
      *
      * @return string
      */
     public function getCurrentStoreUrlParam()
     {
-        /* @var $store Mage_Core_Model_Store */
-        $store = $this->_currentStore ? Mage::app()->getStore($this->_currentStore) : Mage::app()->getAnyStoreView();
-        return '?___store=' . $store->getCode();
+        return '?___store=' . $this->_getStore()->getCode();
     }
 
     /**
@@ -527,9 +546,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
      */
     public function getStoreBaseUrl()
     {
-        /* @var $store Mage_Core_Model_Store */
-        $store = $this->_currentStore ? Mage::app()->getStore($this->_currentStore) : Mage::app()->getAnyStoreView();
-        return $store->getBaseUrl();
+        return $this->_getStore()->getBaseUrl();
     }
 
     /**
