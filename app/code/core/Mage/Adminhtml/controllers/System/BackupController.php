@@ -225,11 +225,11 @@ class Mage_Adminhtml_System_BackupController extends Mage_Adminhtml_Controller_A
 
             $backupManager->rollback();
 
-            $this->_getSession()->addSuccess(
-                Mage::helper('backup')->__('Rollback successfully completed')
-            );
+            $adminSession = $this->_getSession();
+            $adminSession->unsetAll();
+            $adminSession->getCookie()->delete($adminSession->getSessionName());
+            $response->setRedirectUrl($this->getUrl('*'));
 
-            $response->setRedirectUrl($this->getUrl('*/*/index'));
         } catch (Mage_Backup_Exception_CantLoadSnapshot $e) {
             $errorMsg = Mage::helper('backup')->__('Backup file not found');
         } catch (Mage_Backup_Exception_FtpConnectionFailed $e) {
