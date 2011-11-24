@@ -10,6 +10,4 @@
  */
 
 $mediaDir = Mage::getSingleton('Mage_Catalog_Model_Product_Media_Config')->getBaseMediaPath();
-unlink($mediaDir . '/m/a/magento_image.jpg');
-rmdir($mediaDir . '/m/a');
-rmdir($mediaDir . '/m');
+Varien_Io_File::rmdirRecursive($mediaDir);

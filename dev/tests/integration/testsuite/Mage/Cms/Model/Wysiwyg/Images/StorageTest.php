@@ -29,8 +29,7 @@ class Mage_Cms_Model_Wysiwyg_Images_StorageTest extends PHPUnit_Framework_TestCa
 
     public static function tearDownAfterClass()
     {
-        unlink(self::$_baseDir . DIRECTORY_SEPARATOR . '1.swf');
-        rmdir(self::$_baseDir);
+        Varien_Io_File::rmdirRecursive(self::$_baseDir);
     }
 
     /**

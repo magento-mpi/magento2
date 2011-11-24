@@ -106,7 +106,10 @@ class Mage_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
     {
         return array(
             array('', ''),
-            array('Text with different translation on different modules', 'Text translation by Mage_Core module'),
+            array(
+                'Text with different translation on different modules',
+                'Text with different translation on different modules'
+            ),
             array(
                 new Mage_Core_Model_Translate_Expr(
                     'Text with different translation on different modules',
@@ -124,7 +127,7 @@ class Mage_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
             array(
                 new Mage_Core_Model_Translate_Expr('text_with_no_translation'),
                 'text_with_no_translation'
-            ),
+            )
         );
     }
 

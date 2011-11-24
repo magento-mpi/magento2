@@ -348,13 +348,13 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
     public function testGetFieldset()
     {
         $fieldset = $this->_createModel(true)->getFieldset('customer_account');
-        $this->assertArrayHasKey('prefix', $fieldset);
-        $this->assertArrayHasKey('firstname', $fieldset);
-        $this->assertArrayHasKey('middlename', $fieldset);
-        $this->assertArrayHasKey('lastname', $fieldset);
-        $this->assertArrayHasKey('suffix', $fieldset);
-        $this->assertArrayHasKey('email', $fieldset);
-        $this->assertArrayHasKey('password', $fieldset);
+        $this->assertObjectHasAttribute('prefix', $fieldset);
+        $this->assertObjectHasAttribute('firstname', $fieldset);
+        $this->assertObjectHasAttribute('middlename', $fieldset);
+        $this->assertObjectHasAttribute('lastname', $fieldset);
+        $this->assertObjectHasAttribute('suffix', $fieldset);
+        $this->assertObjectHasAttribute('email', $fieldset);
+        $this->assertObjectHasAttribute('password', $fieldset);
     }
 
     /**

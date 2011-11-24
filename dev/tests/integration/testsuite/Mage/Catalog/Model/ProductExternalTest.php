@@ -286,8 +286,8 @@ class Mage_Catalog_Model_ProductExternalTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(array('one' => $option), $this->_model->getCustomOptions());
         $this->assertTrue($this->_model->hasCustomOptions());
 
-        $this->_model->setCustomOptions('test');
-        $this->assertEquals('test', $this->_model->getCustomOptions());
+        $this->_model->setCustomOptions(array('test'));
+        $this->assertTrue(is_array($this->_model->getCustomOptions()));
     }
 
     public function testCanBeShowInCategory()

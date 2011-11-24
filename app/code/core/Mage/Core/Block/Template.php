@@ -254,6 +254,9 @@ HTML;
      */
     public function renderView()
     {
+        if (!$this->getTemplate()) {
+            return '';
+        }
         $this->setScriptPath(Mage::getBaseDir('design'));
         $html = $this->fetchView($this->getTemplateFile());
         return $html;
@@ -266,9 +269,6 @@ HTML;
      */
     protected function _toHtml()
     {
-        if (!$this->getTemplate()) {
-            return '';
-        }
         $html = $this->renderView();
         return $html;
     }

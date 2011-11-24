@@ -973,7 +973,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         if(!$this->hasData('media_gallery_images') && is_array($this->getMediaGallery('images'))) {
             $images = new Varien_Data_Collection();
             foreach ($this->getMediaGallery('images') as $image) {
-                if ($image['disabled']) {
+                if (isset($image['disabled']) && $image['disabled']) {
                     continue;
                 }
                 $image['url'] = $this->getMediaConfig()->getMediaUrl($image['file']);

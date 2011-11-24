@@ -23,8 +23,8 @@ class Mage_Review_Block_Form extends Mage_Core_Block_Template
 
         parent::__construct();
 
-        $data =  Mage::getSingleton('Mage_Review_Model_Session')->getFormData(true);
-        $data = new Varien_Object($data);
+        $data = Mage::getSingleton('Mage_Review_Model_Session')->getFormData(true);
+        $data = new Varien_Object((array)$data);
 
         // add logged in customer name as nickname
         if (!$data->getNickname()) {
@@ -37,7 +37,7 @@ class Mage_Review_Block_Form extends Mage_Core_Block_Template
         $this->setAllowWriteReviewFlag(
             $customerSession->isLoggedIn() || Mage::helper('Mage_Review_Helper_Data')->getIsGuestAllowToWrite()
         );
-        if (!$this->getAllowWriteReviewFlag) {
+        if (!$this->getAllowWriteReviewFlag()) {
             $queryParam = Mage::helper('Mage_Core_Helper_Data')->urlEncode(
                 Mage::getUrl('*/*/*', array('_current' => true)) .
                 '#review-form'

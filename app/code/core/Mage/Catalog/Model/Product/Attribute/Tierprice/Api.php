@@ -158,7 +158,10 @@ class Mage_Catalog_Model_Product_Attribute_Tierprice_Api extends Mage_Catalog_Mo
      */
     protected function _initProduct($productId, $identifierType = null)
     {
-        $product = Mage::helper('Mage_Catalog_Helper_Product')->getProduct($productId, $this->_getStoreId($store), $identifierType);
+        $product = Mage::helper('Mage_Catalog_Helper_Product')->getProduct($productId,
+            $this->_getStoreId(), $identifierType
+        );
+
         if (!$product->getId()) {
             $this->_fault('product_not_exists');
         }

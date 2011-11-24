@@ -49,9 +49,7 @@ class Mage_Catalog_Block_Product_AbstractTest extends PHPUnit_Framework_TestCase
 
     public static function tearDownAfterClass()
     {
-        unlink(self::$_mediaDir . '/m/a/magento_image.jpg');
-        rmdir(self::$_mediaDir . '/m/a');
-        rmdir(self::$_mediaDir . '/m');
+        Varien_Io_File::rmdirRecursive(self::$_mediaDir);
     }
 
     protected function setUp()

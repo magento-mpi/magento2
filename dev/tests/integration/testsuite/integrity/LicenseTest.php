@@ -16,6 +16,9 @@ class Integrity_LicenseTest extends PHPUnit_Framework_TestCase
      */
     public function testLegacyComment($filename)
     {
+        if (!file_exists($filename) || !is_readable($filename)) {
+            return;
+        }
         $fileText = file_get_contents($filename);
         if (!preg_match_all('#/\*\*.+?\*/#s', $fileText, $matches)) {
             /* There are no PHPDoc comments */

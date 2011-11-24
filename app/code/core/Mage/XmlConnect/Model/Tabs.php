@@ -42,8 +42,12 @@ class Mage_XmlConnect_Model_Tabs
         if (is_string($data)) {
             $data = json_decode($data);
             if (is_object($data)) {
-                $this->_enabledTabs = $data->enabledTabs;
-                $this->_disabledTabs = $data->disabledTabs;
+                if (isset($data->enabledTabs)) {
+                    $this->_enabledTabs = $data->enabledTabs;
+                }
+                if (isset($data->disabledTabs)) {
+                    $this->_disabledTabs = $data->disabledTabs;
+                }
             }
         }
         $this->_translateLabel($this->_enabledTabs);

@@ -48,8 +48,7 @@ class Mage_Catalog_Model_Product_Attribute_Media_ApiTest extends PHPUnit_Framewo
 
     public static function tearDownAfterClass()
     {
-        rmdir(self::$_mediaTmpDir . "/m/a");
-        rmdir(self::$_mediaTmpDir . "/m");
+        Varien_Io_File::rmdirRecursive(self::$_mediaTmpDir);
     }
 
     public static function productMediaFixture()
@@ -101,7 +100,7 @@ class Mage_Catalog_Model_Product_Attribute_Media_ApiTest extends PHPUnit_Framewo
     public function createFaultDataProvider()
     {
         return array(
-            array(),
+            array('floor' => 'ceiling'),
             array('file' => array('mime' => 'test')),
             array('file' => array('mime' => 'image/jpeg', 'content' => 'not valid'))
         );

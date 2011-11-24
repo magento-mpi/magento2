@@ -131,13 +131,13 @@
             </block>
         </reference>
         <reference name="before_body_end">
-            <block type="Mage_Adminhtml_Block_Template" template="enterprise/rma/edit/mask.phtml" />
-            <block type="Enterprise_Rma_Block_Adminhtml_Product_Bundle_Js" template="enterprise/rma/edit/bundle/js.phtml" name="enterprise_rma_js_create" />
+            <block type="Mage_Adminhtml_Block_Template" template="Enterprise_Rma::edit/mask.phtml" />
+            <block type="Enterprise_Rma_Block_Adminhtml_Product_Bundle_Js" template="edit/bundle/js.phtml" name="enterprise_rma_js_create" />
         </reference>
     </adminhtml_rma_new>
 
     <adminhtml_rma_showbundleitems>
-        <block type="Enterprise_Rma_Block_Adminhtml_Product_Bundle_Items" template="enterprise/rma/edit/bundle/bundle.phtml" name="enterprise_rma_bundle" output="toHtml" />
+        <block type="Enterprise_Rma_Block_Adminhtml_Product_Bundle_Items" template="edit/bundle/bundle.phtml" name="enterprise_rma_bundle" output="toHtml" />
     </adminhtml_rma_showbundleitems>
 
     <!-- RMA item attributes -->

@@ -57,6 +57,7 @@ class Integrity_Theme_RenderersTest extends Magento_Test_TestCase_IntegrityAbstr
             array('Mage_Bundle', '//action[@method=\'addRenderer\']/block'),
             array('Mage_Catalog', '//action[@method=\'addOptionRenderer\']/block'),
             array('Mage_XmlConnect', '//action[@method=\'addRenderer\']/renderer'),
+            array('Mage_XmlConnect', '//action[@method=\'addItemRender\']/block')
         );
     }
 }

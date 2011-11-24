@@ -1022,6 +1022,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
         $storeUrl = Mage::app()->getStore()->isCurrentlySecure()
             ? $this->getUrl('', array('_secure' => true))
             : $this->getUrl('');
+
         $storeParsedUrl = parse_url($storeUrl);
 
         $storeParsedQuery = array();

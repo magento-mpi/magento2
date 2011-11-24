@@ -48,9 +48,7 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
 
     public static function tearDownAfterClass()
     {
-        unlink(self::$_pubJslib . '/file.css');
-        unlink(self::$_pubJslib . '/script.js');
-        rmdir(self::$_pubJslib);
+        Varien_Io_File::rmdirRecursive(self::$_pubJslib);
     }
 
     protected function setUp()
