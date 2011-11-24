@@ -125,8 +125,7 @@ class Category_DeleteTest extends Mage_Selenium_TestCase
     {
         //Data
         $rootCategoryData = $this->loadData('root_category_required', null, 'name');
-        $storeData = $this->loadData('generic_store', array('root_category' => $rootCategoryData['name']),
-                'store_name');
+        $storeData = $this->loadData('generic_store', array('root_category' => $rootCategoryData['name']));
         //Steps
         $this->categoryHelper()->createRootCategory($rootCategoryData);
         //Verifying
@@ -137,7 +136,7 @@ class Category_DeleteTest extends Mage_Selenium_TestCase
         //Verifying
         $this->assertTrue($this->checkCurrentPage('manage_stores'), $this->messages);
         //Steps
-        $this->storeHelper()->createStore($storeData);
+        $this->storeHelper()->createStore($storeData, 'store');
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_store'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('manage_stores'), $this->messages);

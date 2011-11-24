@@ -38,42 +38,100 @@ class Store_Helper extends Mage_Selenium_TestCase
 {
 
     /**
-     * Create Store.
+     * Create Website|Store|Store View
      *
-     * Preconditions: 'Manage Stores' is opened.
+     * Preconditions: 'Manage Stores' page is opened.
+     * @param array|string $data
+     * @param string $name
+     */
+    public function createStore($data, $name)
+    {
+        if (is_string($data)) {
+            $data = $this->loadData($data);
+        }
+        $data = $this->arrayEmptyClear($data);
+
+        $this->clickButton('create_' . $name);
+        $this->fillForm($data);
+        $this->saveForm('save_' . $name);
+    }
+
+    /**
+     * Delete Website|Store|Store View
+     *
      * @param array $storeData
+     * @return boolean
      */
-    public function createStore($storeData)
+    public function deleteStore(array $storeData)
     {
-        $this->clickButton('create_store');
-        $this->fillForm($storeData);
-        $this->saveForm('save_store');
-    }
+        //Delete array keys with value = '%noValue%'
+        $storeData = $this->arrayEmptyClear($storeData);
+        //Determination of element name
+        $elementName = '';
+        foreach ($storeData as $fieldName => $fieldValue) {
+            if (preg_match('/_name$/', $fieldName)) {
+                $elementName = $fieldName;
+            }
+        }
+        $element = preg_replace('/_name$/', '', $elementName);
+        if ($elementName == '') {
+            $this->fail('It is impossible to determine what needs to be deleted');
+        }
+        //Search
+        $this->clickButton('reset_filter');
+        $this->fillForm(array($elementName => $storeData[$elementName]));
+        $this->clickButton('search');
+        //Determination of found items amount
+        $fieldsetXpath = $this->_getControlXpath('fieldset', 'manage_stores');
+        $foundItems = $this->getText($fieldsetXpath . self::$qtyElementsInTable);
+        if ($foundItems == 0) {
+            $this->fail('No records found.');
+        }
+        //Determination of row id
+        $names = $this->getTableHeadRowNames();
+        foreach ($names as $key => $value) {
+            $names[$key] = trim(strtolower(preg_replace('#[^0-9a-z]+#i', '_', $value)), '_');
+        }
+        $number = (in_array($elementName, $names)) ? array_search($elementName, $names) + 1 : 0;
+        //Deletion
+        $error = false;
+        $this->addParameter('elementTitle', $storeData[$elementName]);
+        for ($i = 1; $i <= $foundItems; $i++) {
+            //Definition element url
+            $xpath = $fieldsetXpath . '//table[@id]/tbody' . '/tr[' . $i . ']/td[' . $number . ']/a';
+            $url = $this->getAttribute($xpath . '@href');
+            //Open element
+            $this->openWindow($url, 'edit');
+            $this->selectWindow('name=edit');
+            $this->waitForPageToLoad();
+            $this->validatePage('edit_' . $element);
+            //Searching a necessary element
+            if ($this->verifyForm($storeData)) {
+                if ($this->controlIsPresent('button', 'delete_' . $element)) {
+                    $this->clickButton('delete_' . $element);
+                    $this->fillForm(array('create_backup' => 'No'));
+                    $this->clickButton('delete_' . $element);
+                    $this->assertTrue($this->successMessage('success_deleted_' . $element, $this->messages));
+                    $this->close();
+                    $this->selectWindow(null);
 
-    /**
-     * Create Store View
-     *
-     * Preconditions: 'Manage Stores' is opened.
-     * @param array $storeViewData
-     */
-    public function createStoreView($storeViewData)
-    {
-        $this->clickButton('create_store_view');
-        $this->fillForm($storeViewData);
-        $this->saveForm('save_store_view');
-    }
+                    return true;
+                } else {
+                    $error = true;
+                    $this->close();
+                    $this->selectWindow(null);
+                }
+            } else {
+                $this->close();
+                $this->selectWindow(null);
+            }
+        }
 
-    /**
-     * Create Website
-     *
-     * Preconditions: 'Manage Stores' is opened.
-     * @param array $websiteData
-     */
-    public function createWebsite($websiteData)
-    {
-        $this->clickButton('create_website');
-        $this->fillForm($websiteData);
-        $this->saveForm('save_website');
+        if ($error) {
+            $this->fail('It is impossible to detele ' . $element);
+        }
+
+        return false;
     }
 
 }

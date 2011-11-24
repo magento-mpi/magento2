@@ -152,25 +152,24 @@ class Category_MoveTest extends Mage_Selenium_TestCase
      */
     public function rootCategoryAssignedToWebsite()
     {
+        //Data
+        $categoryDataFrom = $this->loadData('root_category_required', null, 'name');
+        $websiteData = $this->loadData('generic_website');
+        $storeData = $this->loadData('generic_store',
+                array('website' => $websiteData['website_name'], 'root_category' => $categoryDataFrom['name']));
+        $categoryDataTo = $this->loadData('root_category_required', null, 'name');
         //Create category to assign to store
         $this->navigate('manage_categories');
-        $categoryDataFrom = $this->loadData('root_category_required', null, 'name');
         $this->categoryHelper()->createRootCategory($categoryDataFrom);
         $this->assertTrue($this->successMessage('success_saved_category'), $this->messages);
         //Create Website and Store. Assign root category to store
         $this->navigate('manage_stores');
-        $websiteData = $this->loadData('generic_website', NULL, array('website_name', 'website_code'));
-        $this->storeHelper()->createWebsite($websiteData);
+        $this->storeHelper()->createStore($websiteData, 'website');
         $this->assertTrue($this->successMessage('success_saved_website'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_stores'), $this->messages);
-        $storeData = $this->loadData('generic_store', array('website' => $websiteData['website_name'],
-            'root_category' => $categoryDataFrom['name']), 'store_name');
-        $this->storeHelper()->createStore($storeData);
+        $this->storeHelper()->createStore($storeData, 'store');
         $this->assertTrue($this->successMessage('success_saved_store'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_stores'), $this->messages);
         //Try to move assigned to store root category
         $this->navigate('manage_categories');
-        $categoryDataTo = $this->loadData('root_category_required', null, 'name');
         $this->categoryHelper()->createRootCategory($categoryDataTo);
         $this->assertTrue($this->successMessage('success_saved_category'), $this->messages);
         $this->categoryHelper()->moveCategory($categoryDataFrom['name'], $categoryDataTo['name']);

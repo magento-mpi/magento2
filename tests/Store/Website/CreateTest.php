@@ -52,7 +52,6 @@ class Store_Website_CreateTest extends Mage_Selenium_TestCase
     protected function assertPreConditions()
     {
         $this->navigate('manage_stores');
-        $this->assertTrue($this->checkCurrentPage('manage_stores'), $this->messages);
     }
 
     /**
@@ -93,9 +92,9 @@ class Store_Website_CreateTest extends Mage_Selenium_TestCase
     public function withRequiredFieldsOnly()
     {
         //Data
-        $websiteData = $this->loadData('generic_website', NULL, array('website_name', 'website_code'));
+        $websiteData = $this->loadData('generic_website');
         //Steps
-        $this->storeHelper()->createWebsite($websiteData);
+        $this->storeHelper()->createStore($websiteData, 'website');
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_website'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('manage_stores'), $this->messages);
@@ -120,7 +119,7 @@ class Store_Website_CreateTest extends Mage_Selenium_TestCase
     public function withCodeThatAlreadyExists(array $websiteData)
     {
         //Steps
-        $this->storeHelper()->createWebsite($websiteData);
+        $this->storeHelper()->createStore($websiteData, 'website');
         //Verifying
         $this->assertTrue($this->errorMessage('website_code_exist'), $this->messages);
     }
@@ -142,9 +141,9 @@ class Store_Website_CreateTest extends Mage_Selenium_TestCase
     public function withRequiredFieldsEmpty($emptyField)
     {
         //Data
-        $websiteData = $this->loadData('generic_website', array($emptyField => '%noValue%'), 'website_code');
+        $websiteData = $this->loadData('generic_website', array($emptyField => '%noValue%'));
         //Steps
-        $this->storeHelper()->createWebsite($websiteData);
+        $this->storeHelper()->createStore($websiteData, 'website');
         //Verifying
         $xpath = $this->_getControlXpath('field', $emptyField);
         $this->addParameter('fieldXpath', $xpath);
@@ -182,11 +181,10 @@ class Store_Website_CreateTest extends Mage_Selenium_TestCase
         );
         $websiteData = $this->loadData('generic_website', $longValues);
         //Steps
-        $this->storeHelper()->createWebsite($websiteData);
+        $this->storeHelper()->createStore($websiteData, 'website');
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_website'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('manage_stores'), $this->messages);
-//        @TODO
     }
 
     /**
@@ -207,9 +205,9 @@ class Store_Website_CreateTest extends Mage_Selenium_TestCase
     {
         //Data
         $websiteData = $this->loadData('generic_website',
-                array('website_name' => $this->generate('string', 32, ':punct:')), 'website_code');
+                array('website_name' => $this->generate('string', 32, ':punct:')));
         //Steps
-        $this->storeHelper()->createWebsite($websiteData);
+        $this->storeHelper()->createStore($websiteData, 'website');
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_website'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('manage_stores'), $this->messages);
@@ -235,7 +233,7 @@ class Store_Website_CreateTest extends Mage_Selenium_TestCase
         //Data
         $websiteData = $this->loadData('generic_website', array('website_code' => $invalidCode));
         //Steps
-        $this->storeHelper()->createWebsite($websiteData);
+        $this->storeHelper()->createStore($websiteData, 'website');
         //Verifying
         $this->assertTrue($this->errorMessage('wrong_website_code'), $this->messages);
     }
@@ -264,19 +262,18 @@ class Store_Website_CreateTest extends Mage_Selenium_TestCase
     {
         //1.1.Create website
         //Data
-        $websiteData = $this->loadData('generic_website', NULL, array('website_name', 'website_code'));
+        $websiteData = $this->loadData('generic_website');
         //Steps
-        $this->storeHelper()->createWebsite($websiteData);
+        $this->storeHelper()->createStore($websiteData, 'website');
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_website'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('manage_stores'), $this->messages);
         //1.2.Create two stores
         for ($i = 1; $i <= 2; $i++) {
             //Data
-            $storeData = $this->loadData('generic_store', array('website' => $websiteData['website_name']),
-                    'store_name');
+            $storeData = $this->loadData('generic_store', array('website' => $websiteData['website_name']));
             //Steps
-            $this->storeHelper()->createStore($storeData);
+            $this->storeHelper()->createStore($storeData, 'store');
             //Verifying
             $this->assertTrue($this->successMessage('success_saved_store'), $this->messages);
             $this->assertTrue($this->checkCurrentPage('manage_stores'), $this->messages);
@@ -298,27 +295,26 @@ class Store_Website_CreateTest extends Mage_Selenium_TestCase
     {
         //1.1.Create website
         //Data
-        $websiteData = $this->loadData('generic_website', Null, array('website_code', 'website_name'));
+        $websiteData = $this->loadData('generic_website');
         //Steps
-        $this->storeHelper()->createWebsite($websiteData);
+        $this->storeHelper()->createStore($websiteData, 'website');
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_website'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('manage_stores'), $this->messages);
         //1.2.Create store
         //Data
-        $storeData = $this->loadData('generic_store', array('website' => $websiteData['website_name']), 'store_name');
+        $storeData = $this->loadData('generic_store', array('website' => $websiteData['website_name']));
         //Steps
-        $this->storeHelper()->createStore($storeData);
+        $this->storeHelper()->createStore($storeData, 'store');
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_store'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('manage_stores'), $this->messages);
         //1.3.Create two store view
         for ($i = 1; $i <= 2; $i++) {
             //Data
-            $storeViewData = $this->loadData('generic_store_view', array('store_name' => $storeData['store_name']),
-                    array('store_view_name', 'store_view_code'));
+            $storeViewData = $this->loadData('generic_store_view', array('store_name' => $storeData['store_name']));
             //Steps
-            $this->storeHelper()->createStoreView($storeViewData);
+            $this->storeHelper()->createStore($storeViewData, 'store_view');
             //Verifying
             $this->assertTrue($this->successMessage('success_saved_store_view'), $this->messages);
             $this->assertTrue($this->checkCurrentPage('manage_stores'), $this->messages);

@@ -52,7 +52,6 @@ class Store_Store_CreateTest extends Mage_Selenium_TestCase
     protected function assertPreConditions()
     {
         $this->navigate('manage_stores');
-        $this->assertTrue($this->checkCurrentPage('manage_stores'), 'Wrong page is opened');
     }
 
     /**
@@ -71,7 +70,6 @@ class Store_Store_CreateTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->controlIsPresent('button', 'create_store'),
                 'There is no "Create Store" button on the page');
         $this->clickButton('create_store');
-        $this->assertTrue($this->checkCurrentPage('new_store'), $this->messages);
         $this->assertTrue($this->controlIsPresent('button', 'back'), 'There is no "Back" button on the page');
         $this->assertTrue($this->controlIsPresent('button', 'save_store'), 'There is no "Save" button on the page');
         $this->assertTrue($this->controlIsPresent('button', 'reset'), 'There is no "Reset" button on the page');
@@ -91,13 +89,10 @@ class Store_Store_CreateTest extends Mage_Selenium_TestCase
      */
     public function withRequiredFieldsOnly()
     {
-        //Data
-        $storeData = $this->loadData('generic_store', null, 'store_name');
         //Steps
-        $this->storeHelper()->createStore($storeData);
+        $this->storeHelper()->createStore('generic_store', 'store');
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_store'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_stores'), $this->messages);
     }
 
     /**
@@ -119,7 +114,7 @@ class Store_Store_CreateTest extends Mage_Selenium_TestCase
         //Data
         $storeData = $this->loadData('generic_store', array($emptyField => '%noValue%'));
         //Steps
-        $this->storeHelper()->createStore($storeData);
+        $this->storeHelper()->createStore($storeData, 'store');
         //Verifying
         $xpath = $this->_getControlXpath($fieldType, $emptyField);
         $this->addParameter('fieldXpath', $xpath);
@@ -158,7 +153,7 @@ class Store_Store_CreateTest extends Mage_Selenium_TestCase
         $storeData = $this->loadData('generic_store',
                 array('store_name' => $this->generate('string', 255, ':alnum:')));
         //Steps
-        $this->storeHelper()->createStore($storeData);
+        $this->storeHelper()->createStore($storeData, 'store');
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_store'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('manage_stores'), $this->messages);
@@ -184,7 +179,7 @@ class Store_Store_CreateTest extends Mage_Selenium_TestCase
         $storeData = $this->loadData('generic_store',
                 array('store_name' => $this->generate('string', 32, ':punct:')));
         //Steps
-        $this->storeHelper()->createStore($storeData);
+        $this->storeHelper()->createStore($storeData, 'store');
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_store'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('manage_stores'), $this->messages);
