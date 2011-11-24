@@ -86,4 +86,23 @@ class Tax_CustomerTaxClass_DeleteTest extends Mage_Selenium_TestCase
     {
         $this->markTestIncomplete('@TODO');
     }
+
+    /**
+     * <p>Delete a Customer Tax Class that used in Customer Group</p>
+     * <p>Steps:</p>
+     * <p>1. Create a new Customer Tax Class</p>
+     * <p>2. Create a new Product that use Customer Tax Class from previous step</p>
+     * <p>2. Open the Customer Tax Class</p>
+     * <p>3. Delete the Customer Tax Class</p>
+     * <p>Expected result:</p>
+     * <p>Received the message that the Customer Tax Class could not be deleted.</p>
+     * <p>Error message: You cannot delete this tax class as it is used for 1 customer groups.</p>
+     *
+     * @test
+     */
+    public function usedInCustomerGroup()
+    {
+        $this->markTestIncomplete('@TODO');
+    }
+
 }

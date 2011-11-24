@@ -36,7 +36,7 @@
  */
 class Tax_ProductTaxClass_DeleteTest extends Mage_Selenium_TestCase
 {
-        /**
+    /**
      * <p>Log in to Backend.</p>
      */
     public function setUpBeforeTests()
@@ -44,7 +44,7 @@ class Tax_ProductTaxClass_DeleteTest extends Mage_Selenium_TestCase
         $this->loginAdminUser();
     }
 
-   /**
+    /**
      * <p>Preconditions:</p>
      * <p>Navigate to Sales-Tax-Product Tax Classes</p>
      */
@@ -86,7 +86,7 @@ class Tax_ProductTaxClass_DeleteTest extends Mage_Selenium_TestCase
         $this->markTestIncomplete('@TODO');
     }
 
-        /**
+    /**
      * <p>Delete a Product Tax Class that used in Product</p>
      * <p>Steps:</p>
      * <p>1. Create a new Product Tax Class</p>
@@ -103,6 +103,5 @@ class Tax_ProductTaxClass_DeleteTest extends Mage_Selenium_TestCase
     {
         $this->markTestIncomplete('@TODO');
     }
-
 
 }
