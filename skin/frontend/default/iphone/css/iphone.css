@@ -228,7 +228,7 @@ body > header dt.search > a {
     background-image:url(../images/i_menu_search.png);
     background-position:18px 10px;
     background-repeat:no-repeat;
-    text-indent:-99000px;
+    text-indent:-999em;
 }
 
 body > header dt.cart:before,
@@ -252,7 +252,7 @@ body > header dt.cart > span:first-child {
     background-image:url(../images/i_menu_cart.png);
     background-position:center 10px;
     background-repeat:no-repeat;
-    text-indent:-99000px;
+    text-indent:-999em;
 }
 body > header dt.active span:first-child {
     margin:-1px -6px -7px;
@@ -1009,7 +1009,7 @@ section .category-title { display:none; }
     display:inline-block;
     vertical-align:middle;
     top:-2px;
-    text-indent:-9999px;
+    text-indent:-999em;
     margin-right:2px;
 }
 
@@ -1124,7 +1124,7 @@ section .category-title { display:none; }
     position:relative;
     height:27px;
     width:27px;
-    text-indent:-9999px;
+    text-indent:-999em;
     -webkit-box-shadow:0 0 5px rgba(0, 0, 0, 0.15);
     -webkit-background-clip:padding-box;
 }
