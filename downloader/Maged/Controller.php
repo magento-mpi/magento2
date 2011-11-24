@@ -996,7 +996,7 @@ final class Maged_Controller
      * @return void
      */
     protected function _createBackup($archiveType){
-        $this->model('connect', true)->connect()->runHtmlConsole('Creating backup data.');
+        $this->model('connect', true)->connect()->runHtmlConsole('Creating data backup... ');
         echo "<br/>\n";
 
         try {
@@ -1014,7 +1014,9 @@ final class Maged_Controller
                     ->addIgnorePaths(Mage::helper('backup')->getIgnorePaths());
             }
             $backupManager->create();
-            $this->model('connect', true)->connect()->runHtmlConsole('The backup has been created.');
+            $this->model('connect', true)->connect()->runHtmlConsole(
+                $this->_getCreateBackupSuccessMessageByType($type)
+            );
             echo "<br/>\n";
         } catch (Mage_Backup_Exception_NotEnoughFreeSpace $e) {
             $this->model('connect', true)->connect()->runHtmlConsole('Not enough free space to create backup.');
@@ -1031,27 +1033,39 @@ final class Maged_Controller
         }
     }
 
+    protected function _getBackupTypeByCode($code)
+    {
+        $typeMap = array(
+            1 => Mage_Backup_Helper_Data::TYPE_DB,
+            2 => Mage_Backup_Helper_Data::TYPE_SYSTEM_SNAPSHOT,
+            3 => Mage_Backup_Helper_Data::TYPE_MEDIA
+        );
+
+        if (!isset($typeMap[$code])) {
+            Mage::throwException("Unknown backup type");
+        }
+
+        return $typeMap[$code];
+    }
+
     /**
-     * Get Backup Type By Int Code
+     * Get backup create success message by backup type
      *
-     * @param $archiveType
+     * @param string $type
      * @return string
      */
-    protected function _getBackupTypeByCode($archiveType){
-        $code = null;
-        switch($archiveType){
-            case 1: $code = Mage_Backup_Helper_Data::TYPE_DB;
-                break;
-            case 2: $code = Mage_Backup_Helper_Data::TYPE_SYSTEM_SNAPSHOT;
-                break;
+    protected function _getCreateBackupSuccessMessageByType($type)
+    {
+        $messagesMap = array(
+            Mage_Backup_Helper_Data::TYPE_SYSTEM_SNAPSHOT => 'System backup has been created',
+            Mage_Backup_Helper_Data::TYPE_MEDIA => 'Database and media backup has been created',
+            Mage_Backup_Helper_Data::TYPE_DB => 'Database backup has been created'
+        );
 
-            case 3: $code = Mage_Backup_Helper_Data::TYPE_MEDIA;
-                break;
-
-            default:
-                Mage::throwException("Unknown backup type");
-                break;
+        if (!isset($messagesMap[$type])) {
+            return;
         }
-        return $code;
+
+        return $messagesMap[$type];
     }
 }

@@ -76,14 +76,15 @@ class Mage_Adminhtml_System_BackupController extends Mage_Adminhtml_Controller_A
         }
 
         $response = new Varien_Object();
+        $helper = Mage::helper('backup');
 
         if ($this->getRequest()->getParam('maintenance_mode')) {
-            $turnedOn = Mage::helper('backup')->turnOnMaintenanceMode();
+            $turnedOn = $helper->turnOnMaintenanceMode();
 
             if (!$turnedOn) {
                 $response->setError(
-                    Mage::helper('backup')->__("Warning! System couldn't put store on the maintenance mode.") . ' '
-                    . Mage::helper('backup')->__("Please deselect the sufficient check-box, if you want to continue backup's creation")
+                    $helper->__("Warning! System couldn't put store on the maintenance mode.") . ' '
+                    . $helper->__("Please deselect the sufficient check-box, if you want to continue backup's creation")
                 );
                 return $this->getResponse()->setBody($response->toJson());
             }
@@ -93,35 +94,35 @@ class Mage_Adminhtml_System_BackupController extends Mage_Adminhtml_Controller_A
             $type = $this->getRequest()->getParam('type');
 
             $backupManager = Mage_Backup::getBackupInstance($type)
-                ->setBackupExtension(Mage::helper('backup')->getExtensionByType($type))
+                ->setBackupExtension($helper->getExtensionByType($type))
                 ->setTime(time())
-                ->setBackupsDir(Mage::helper('backup')->getBackupsDir());
+                ->setBackupsDir($helper->getBackupsDir());
 
             Mage::register('backup_manager', $backupManager);
 
             if ($type != Mage_Backup_Helper_Data::TYPE_DB) {
                 $backupManager->setRootDir(Mage::getBaseDir())
-                    ->addIgnorePaths(Mage::helper('backup')->getIgnorePaths());
+                    ->addIgnorePaths($helper->getIgnorePaths());
             }
 
-            $successMessage = Mage::helper('backup')->__('The backup has been created.');
+            $successMessage = $helper->getCreateSuccessMessageByType($type);
 
             $backupManager->create();
 
             $this->_getSession()->addSuccess($successMessage);
             $response->setRedirectUrl($this->getUrl('*/*/index'));
         } catch (Mage_Backup_Exception_NotEnoughFreeSpace $e) {
-            $errorMessage = Mage::helper('backup')->__('Not enough free space to create backup.');
+            $errorMessage = $helper->__('Not enough free space to create backup.');
         } catch (Mage_Backup_Exception_NotEnoughPermissions $e) {
             Mage::log($e->getMessage());
-            $errorMessage = Mage::helper('backup')->__('Not enough permissions to create backup.');
+            $errorMessage = $helper->__('Not enough permissions to create backup.');
         } catch (Exception  $e) {
             Mage::log($e->getMessage());
-            $errorMessage = Mage::helper('backup')->__('An error occurred while creating the backup.');
+            $errorMessage = $helper->__('An error occurred while creating the backup.');
         }
 
         if ($this->getRequest()->getParam('maintenance_mode')) {
-            Mage::helper('backup')->turnOffMaintenanceMode();
+            $helper->turnOffMaintenanceMode();
         }
 
         if (!empty($errorMessage)) {
@@ -190,7 +191,7 @@ class Mage_Adminhtml_System_BackupController extends Mage_Adminhtml_Controller_A
             if (!$turnedOn) {
                 $response->setError(
                     Mage::helper('backup')->__("Warning! System couldn't put store on the maintenance mode.") . ' '
-                    . Mage::helper('backup')->__("Please deselect the sufficient check-box, if you want to continue backup's creation")
+                    . Mage::helper('backup')->__("Please deselect the sufficient check-box, if you want to continue rollback processing")
                 );
                 return $this->getResponse()->setBody($response->toJson());
             }

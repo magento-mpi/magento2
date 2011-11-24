@@ -194,6 +194,27 @@ class Mage_Backup_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
+     * Get backup create success message by backup type
+     *
+     * @param string $type
+     * @return string
+     */
+    public function getCreateSuccessMessageByType($type)
+    {
+        $messagesMap = array(
+            self::TYPE_SYSTEM_SNAPSHOT => $this->__('The system backup has been created.'),
+            self::TYPE_MEDIA => $this->__('The database and media backup has been created.'),
+            self::TYPE_DB => $this->__('The database backup has been created.')
+        );
+
+        if (!isset($messagesMap[$type])) {
+            return;
+        }
+
+        return $messagesMap[$type];
+    }
+
+    /**
      * Get path to maintenance flag file
      *
      * @return string
