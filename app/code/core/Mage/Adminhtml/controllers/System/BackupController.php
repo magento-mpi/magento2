@@ -274,7 +274,11 @@ class Mage_Adminhtml_System_BackupController extends Mage_Adminhtml_Controller_A
         $resultData->setDeleteResult(array());
         Mage::register('backup_manager', $resultData);
 
+        $deleteFailMessage = Mage::helper('backup')->__('Failed to delete one or several backups.');
+
         try {
+            $allBackupsDeleted = true;
+
             foreach ($backupIds as $id) {
                 list($time, $type) = explode('_', $id);
 
@@ -284,6 +288,7 @@ class Mage_Adminhtml_System_BackupController extends Mage_Adminhtml_Controller_A
                     ->deleteFile();
 
                 if ($backupModel->exists()) {
+                    $allBackupsDeleted = false;
                     $result = Mage::helper('adminhtml')->__('failed');
                 } else {
                     $result = Mage::helper('adminhtml')->__('successful');
@@ -295,14 +300,17 @@ class Mage_Adminhtml_System_BackupController extends Mage_Adminhtml_Controller_A
             }
 
             $resultData->setIsSuccess(true);
-            $this->_getSession()->addSuccess(
-                Mage::helper('backup')->__('The selected backup(s) has been deleted.')
-            );
+            if ($allBackupsDeleted) {
+                $this->_getSession()->addSuccess(
+                    Mage::helper('backup')->__('The selected backup(s) has been deleted.')
+                );
+            }
+            else {
+                throw new Exception($deleteFailMessage);
+            }
         } catch (Exception $e) {
             $resultData->setIsSuccess(false);
-            $this->_getSession()->addError(
-                Mage::helper('backup')->__('Failed to delete one or several backups.')
-            );
+            $this->_getSession()->addError($deleteFailMessage);
         }
 
         return $this->_redirect('*/*/index');
