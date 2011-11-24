@@ -87,7 +87,8 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart_Productsqu
         $operator = $this->getResource()->getSqlOperator($this->getOperator());
 
         $select = $this->getResource()->createSelect();
-        $select->from(array('quote'=>$table), array(new Zend_Db_Expr(1)));
+        $select->from(array('quote' => $table), array(new Zend_Db_Expr(1)))
+            ->where('quote.is_active=1');
 
         $this->_limitByStoreWebsite($select, $website, 'quote.store_id');
         Mage::getResourceHelper('enterprise_customersegment')->setOneRowLimit($select);
