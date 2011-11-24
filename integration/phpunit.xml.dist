@@ -68,6 +68,15 @@
         <const name="TESTS_ADMIN_USERNAME" value="admin"/>
         <!-- Admin Password -->
         <const name="TESTS_ADMIN_PASSWORD" value="123123q"/>
+
+        <!-- Enable show content on get invalid response -->
+        <!--<const name="TESTS_WEBSERVICE_SHOW_INVALID_RESPONSE" value="1"/>-->
+
+        <!-- Define application relative path to cache dir -->
+        <!--<const name="TESTS_APP_CACHE_DIR_RELATIVE_PATH" value="/var/cache"/>-->
+        <!-- Define application relative path to etc dir -->
+        <!--<const name="TESTS_APP_ETC_DIR_RELATIVE_PATH" value="/app/etc"/>-->
+
         <!-- DB vendor, optional. Possible values: mysql (default), oracle, mssql -->
         <!--<const name="TESTS_DB_VENDOR" value="mysql"/>-->
         <!-- Environment cleanup, optional. Possible values: uninstall, restoreDatabase -->
