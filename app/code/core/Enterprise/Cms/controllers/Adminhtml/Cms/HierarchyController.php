@@ -128,20 +128,6 @@ class Enterprise_Cms_Adminhtml_Cms_HierarchyController extends Mage_Adminhtml_Co
              ->_title($this->__('Pages'))
              ->_title($this->__('Manage Hierarchy'));
 
-        $this->_getLockModel()->revalidate();
-
-        if ($this->_getLockModel()->isLockedByMe()) {
-            $this->_getSession()->addNotice(
-                Mage::helper('enterprise_cms')->__('This Page is locked by you.')
-            );
-        }
-
-        if ($this->_getLockModel()->isLockedByOther()) {
-            $this->_getSession()->addNotice(
-                Mage::helper('enterprise_cms')->__("This Page is locked by '%s'.", $this->_getLockModel()->getUserName())
-            );
-        }
-
         $this->_initScope();
 
         $nodeModel = Mage::getModel('enterprise_cms/hierarchy_node',
@@ -217,10 +203,10 @@ class Enterprise_Cms_Adminhtml_Cms_HierarchyController extends Mage_Adminhtml_Co
 
     /**
      * Lock page
+     * @deprecated since 1.12.0.0
      */
     public function lockAction()
     {
-        $this->_getLockModel()->lock();
         $this->_redirect('*/*/');
     }
 
@@ -231,14 +217,6 @@ class Enterprise_Cms_Adminhtml_Cms_HierarchyController extends Mage_Adminhtml_Co
     public function saveAction()
     {
         if ($this->getRequest()->isPost()) {
-            if (Mage::getModel('enterprise_cms/hierarchy_lock')->isLockedByOther()) {
-                $this->_getSession()->addError(
-                    Mage::helper('enterprise_cms')->__('This page is currently locked.')
-                );
-                $this->_redirectReferer();
-                return $this;
-            }
-
             $this->_initScope();
             /** @var $node Enterprise_Cms_Model_Hierarchy_Node */
             $node       = Mage::getModel('enterprise_cms/hierarchy_node', array(
@@ -322,6 +300,7 @@ class Enterprise_Cms_Adminhtml_Cms_HierarchyController extends Mage_Adminhtml_Co
     /**
      * Return lock model instance
      *
+     * @deprecated since 1.12.0.0
      * @return Enterprise_Cms_Model_Hierarchy_Lock
      */
     protected function _getLockModel()

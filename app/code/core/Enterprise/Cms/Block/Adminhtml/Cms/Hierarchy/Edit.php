@@ -48,16 +48,6 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit extends Mage_Adminhtml_B
         $this->_updateButton('save', 'onclick', 'hierarchyNodes.save()');
         $this->_updateButton('save', 'label', Mage::helper('enterprise_cms')->__('Save Pages Hierarchy'));
         $this->_removeButton('back');
-
-        if (Mage::getSingleton('enterprise_cms/hierarchy_lock')->isLockedByOther()) {
-            $confirmMessage = Mage::helper('enterprise_cms')->__('Are you sure you want to break current lock?');
-            $this->addButton('break_lock', array(
-                'label'     => Mage::helper('enterprise_cms')->__('Unlock This Page'),
-                'onclick'   => "confirmSetLocation('{$confirmMessage}', '{$this->getUrl('*/*/lock')}')"
-            ));
-            $this->_updateButton('save', 'disabled', true);
-            $this->_updateButton('save', 'class', 'disabled');
-        }
     }
 
     /**

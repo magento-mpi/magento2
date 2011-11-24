@@ -43,6 +43,10 @@
  * @package     Enterprise_Cms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
+
+/**
+ * @deprecated since 1.12.0.0
+ */
 class Enterprise_Cms_Model_Hierarchy_Lock extends Mage_Core_Model_Abstract
 {
     /**
@@ -223,7 +227,6 @@ class Enterprise_Cms_Model_Hierarchy_Lock extends Mage_Core_Model_Abstract
      */
     public function getLockLifeTime()
     {
-        $timeout = (int)Mage::getStoreConfig('cms/hierarchy/lock_timeout');
-        return ($timeout != 0 && $timeout < 120 ) ? 120 : $timeout;
+        return 0;
     }
 }

@@ -293,16 +293,6 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
             'tabindex'  => '150'
         ));
 
-        if ($this->isLockedByOther()) {
-            foreach ($form->getElements() as $formElement) {
-                if ($formElement->getType() == 'fieldset') {
-                    foreach ($formElement->getElements() as $fieldsetElement) {
-                        $fieldsetElement->setDisabled(true);
-                    }
-                }
-            }
-        }
-
         $form->setUseContainer(true);
         $this->setForm($form);
 
@@ -320,8 +310,8 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
             'id'        => 'add_cms_pages',
             'label'     => Mage::helper('enterprise_cms')->__('Add Selected Page(s) to Tree'),
             'onclick'   => 'hierarchyNodes.pageGridAddSelected()',
-            'class'     => 'add' . (($this->isLockedByOther()) ? ' disabled' : ''),
-            'disabled'  => $this->isLockedByOther()
+            'class'     => 'add',
+            'disabled'  => false,
         );
         return $this->getLayout()->createBlock('adminhtml/widget_button')
             ->setData($addButtonData)->toHtml();
@@ -339,22 +329,22 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
             'id'        => 'delete_node_button',
             'label'     => Mage::helper('enterprise_cms')->__('Remove From Tree'),
             'onclick'   => 'hierarchyNodes.deleteNodePage()',
-            'class'     => 'delete' . (($this->isLockedByOther()) ? ' disabled' : ''),
-            'disabled'  => $this->isLockedByOther()
+            'class'     => 'delete',
+            'disabled'  => false,
         ))->toHtml();
         $buttons[] = $this->getLayout()->createBlock('adminhtml/widget_button')->setData(array(
             'id'        => 'cancel_node_button',
             'label'     => Mage::helper('enterprise_cms')->__('Cancel'),
             'onclick'   => 'hierarchyNodes.cancelNodePage()',
-            'class'     => 'delete' . (($this->isLockedByOther()) ? ' disabled' : ''),
-            'disabled'  => $this->isLockedByOther()
+            'class'     => 'delete',
+            'disabled'  => false,
         ))->toHtml();
         $buttons[] = $this->getLayout()->createBlock('adminhtml/widget_button')->setData(array(
             'id'        => 'save_node_button',
             'label'     => Mage::helper('enterprise_cms')->__('Save'),
             'onclick'   => 'hierarchyNodes.saveNodePage()',
-            'class'     => 'save' . (($this->isLockedByOther()) ? ' disabled' : ''),
-            'disabled'  => $this->isLockedByOther()
+            'class'     => 'save',
+            'disabled'  => false,
         ))->toHtml();
 
         return join(' ', $buttons);
@@ -371,8 +361,8 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
             'id'        => 'new_node_button',
             'label'     => Mage::helper('enterprise_cms')->__('Add Node...'),
             'onclick'   => 'hierarchyNodes.newNodePage()',
-            'class'     => 'add' . (($this->isLockedByOther()) ? ' disabled' : ''),
-            'disabled'  => $this->isLockedByOther()
+            'class'     => 'add',
+            'disabled'  => false,
         ))->toHtml();
     }
 
@@ -582,42 +572,40 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
     /**
      * Check whether current user can drag nodes
      *
+     * @deprecated since 1.12.0.0
      * @return bool
      */
     public function canDragNodes()
     {
-        return !$this->isLockedByOther();
+        return true;
     }
 
     /**
      * Check whether page is locked by other user
      *
+     * @deprecated since 1.12.0.0
      * @return bool
      */
     public function isLockedByOther()
     {
-        if (!$this->hasData('locked_by_other')) {
-            $this->setData('locked_by_other', $this->_getLockModel()->isLockedByOther());
-        }
-        return $this->_getData('locked_by_other');
+        return false;
     }
 
     /**
      * Check whether page is locked by editor
      *
+     * @deprecated since 1.12.0.0
      * @return bool
      */
     public function isLockedByMe()
     {
-        if (!$this->hasData('locked_by_me')) {
-            $this->setData('locked_by_me', $this->_getLockModel()->isLockedByMe());
-        }
-        return $this->_getData('locked_by_me');
+        return true;
     }
 
     /**
      * Retrieve lock lifetime
      *
+     * @deprecated since 1.12.0.0
      * @return int
      */
     public function getLockLifetime()
@@ -628,16 +616,18 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
     /**
      * Retrieve lock message for js alert
      *
+     * @deprecated since 1.12.0.0
      * @return string
      */
     public function getLockAlertMessage()
     {
-        return Mage::helper('enterprise_cms')->__('Page lock expires in 60 seconds. Save changes to avoid possible data loss.');
+        return '';
     }
 
     /**
      * Retrieve lock model
      *
+     * @deprecated since 1.12.0.0
      * @return Enterprise_Cms_Model_Hierarchy_Lock
      */
     protected function _getLockModel()
