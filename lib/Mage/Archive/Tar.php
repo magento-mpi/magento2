@@ -289,9 +289,10 @@ class Mage_Archive_Tar extends Mage_Archive_Abstract implements Mage_Archive_Int
      * Recursively walk through file tree and create tarball
      *
      * @param boolean $skipRoot
+     * @param boolean $finalize
      * @throws Mage_Exception
      */
-    protected function _createTar($skipRoot = false)
+    protected function _createTar($skipRoot = false, $finalize = false)
     {
         if (!$skipRoot) {
             $this->_packAndWriteCurrentFile();
@@ -312,6 +313,10 @@ class Mage_Archive_Tar extends Mage_Archive_Abstract implements Mage_Archive_Int
             foreach ($dirFiles as $item) {
                 $this->_setCurrentFile($file . $item)->_createTar();
             }
+        }
+
+        if ($finalize) {
+            $this->_getWriter()->write(str_repeat("\0", self::TAR_BLOCK_SIZE * 12));
         }
     }
 
@@ -368,10 +373,12 @@ class Mage_Archive_Tar extends Mage_Archive_Abstract implements Mage_Archive_Int
         }
         $header = array();
         $header['100-name']       = $long?'././@LongLink':substr($nameFile, 0, 100);
-        $header['8-mode']         = $long?'       ':str_pad(substr(sprintf("%07o", $infoFile['mode']),-4), 6, '0', STR_PAD_LEFT);
+        $header['8-mode']         = $long ? '       '
+            : str_pad(substr(sprintf("%07o", $infoFile['mode']),-4), 6, '0', STR_PAD_LEFT);
         $header['8-uid']          = $long || $infoFile['uid']==0?"\0\0\0\0\0\0\0":sprintf("%07o", $infoFile['uid']);
         $header['8-gid']          = $long || $infoFile['gid']==0?"\0\0\0\0\0\0\0":sprintf("%07o", $infoFile['gid']);
-        $header['12-size']        = $long?sprintf("%011o", strlen($nameFile)):sprintf("%011o", is_dir($file) ? 0 : filesize($file));
+        $header['12-size']        = $long ? sprintf("%011o", strlen($nameFile)) : sprintf("%011o", is_dir($file)
+            ? 0 : filesize($file));
         $header['12-mtime']       = $long?'00000000000':sprintf("%011o", $infoFile['mtime']);
         $header['8-check']        = sprintf('% 8s', '');
         $header['1-type']         = $long?'L':(is_link($file) ? 2 : is_dir ($file) ? 5 : 0);
@@ -612,7 +619,7 @@ class Mage_Archive_Tar extends Mage_Archive_Abstract implements Mage_Archive_Int
             ->_setCurrentFile($source);
 
         $this->_initWriter();
-        $this->_createTar($skipRoot);
+        $this->_createTar($skipRoot, true);
         $this->_destroyWriter();
 
         return $destination;

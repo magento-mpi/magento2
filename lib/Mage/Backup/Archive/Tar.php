@@ -61,6 +61,9 @@ class Mage_Backup_Archive_Tar extends Mage_Archive_Tar
             $this->_setCurrentFile($item->__toString());
             $this->_packAndWriteCurrentFile();
         }
+
+        //finalize tarball
+        $this->_getWriter()->write(str_repeat("\0", self::TAR_BLOCK_SIZE * 12));
     }
 
     /**
