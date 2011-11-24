@@ -25,6 +25,14 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+/**
+ * Webservice XML-RPC adapter
+ *
+ * @category    Magento
+ * @package     Magento_Test
+ * @author      Magento Api Team <api-team@magento.com>
+ * @var _test Magento_Test_Webservice_XmlRpc
+ */
 class Magento_Test_Webservice_XmlRpc extends Magento_Test_Webservice_Abstract
 {
     /**
@@ -33,11 +41,25 @@ class Magento_Test_Webservice_XmlRpc extends Magento_Test_Webservice_Abstract
     const EXCEPTION_CLASS = 'Zend_XmlRpc_Client_FaultException';
 
     /**
+     * HTTP client options
+     *
+     * @var array
+     */
+    protected $_httpClientOptions = array('timeout' => 60);
+
+    /**
      * URL path
      *
      * @var string
      */
     protected $_urlPath = '/api/xmlrpc/';
+
+    /**
+     * XML-RPC client adapter
+     *
+     * @var Zend_XmlRpc_Client
+     */
+    protected $_client;
 
     /**
      * Initialize
@@ -48,7 +70,7 @@ class Magento_Test_Webservice_XmlRpc extends Magento_Test_Webservice_Abstract
     {
         $this->_client = new Zend_XmlRpc_Client($this->getClientUrl());
         // 30 seconds wasn't enough for some crud tests, increased to timeout 60
-        $this->_client->getHttpClient()->setConfig(array('timeout' => 60));
+        $this->_client->getHttpClient()->setConfig($this->_httpClientOptions);
         $this->setSession($this->_client->call('login',array(TESTS_WEBSERVICE_USER, TESTS_WEBSERVICE_APIKEY)));
         return $this;
     }
@@ -56,14 +78,30 @@ class Magento_Test_Webservice_XmlRpc extends Magento_Test_Webservice_Abstract
     /**
      * Webservice client call method
      *
-     * @abstract
      * @param string $path
      * @param array $params
      * @return string|array
+     * @throws Magento_Test_Webservice_Exception|Zend_XmlRpc_Client_FaultException
      */
     public function call($path, $params = array())
     {
-        return $this->_client->call('call', array($this->_session, $path, $params));
+        //add session ID as first param but except for "login" method
+        if ('login' != $path) {
+            array_unshift($params, $this->_session);
+        }
+        try {
+            return $this->_client->call($path, $params);
+        } catch (Zend_XmlRpc_Client_FaultException $e) {
+            if ($this->_isShowInvalidResponse()) {
+                $message = $e->getMessage();
+                if ('Failed to parse response' == $message || 'Invalid response' == $message) {
+                    throw new Magento_Test_Webservice_Exception(sprintf(
+                        'XML-RPC should be get XML document but got following: "%s"',
+                        $this->getLastResponse()));
+                }
+            }
+            throw $e;
+        }
     }
 
     /**
@@ -74,5 +112,15 @@ class Magento_Test_Webservice_XmlRpc extends Magento_Test_Webservice_Abstract
     public function getExceptionClass()
     {
         return self::EXCEPTION_CLASS;
+    }
+
+    /**
+     * Get content of last response from HTTP client
+     *
+     * @return string
+     */
+    public function getLastResponse()
+    {
+        return $this->_client->getHttpClient()->getLastResponse()->getBody();
     }
 }

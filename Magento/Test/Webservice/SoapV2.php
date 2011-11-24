@@ -56,6 +56,13 @@ class Magento_Test_Webservice_SoapV2 extends Magento_Test_Webservice_Abstract
     private $_configAlias;
 
     /**
+     * SOAP client adapter
+     *
+     * @var Zend_Soap_Client
+     */
+    protected $_client;
+
+    /**
      * Initialize
      *
      * @param array|null $options
@@ -63,11 +70,14 @@ class Magento_Test_Webservice_SoapV2 extends Magento_Test_Webservice_Abstract
      */
     public function init($options = null)
     {
+
         $this->_client = new Zend_Soap_Client($this->getClientUrl(), $options);
         $this->_client->setSoapVersion(SOAP_1_1);
-        $this->setSession($this->login(TESTS_WEBSERVICE_USER, TESTS_WEBSERVICE_APIKEY));
+
         $this->_configFunction = Mage::getSingleton('api/config')->getNode('v2/resources_function_prefix')->children();
         $this->_configAlias    = Mage::getSingleton('api/config')->getNode('resources_alias')->children();
+
+        $this->setSession($this->login(TESTS_WEBSERVICE_USER, TESTS_WEBSERVICE_APIKEY));
         return $this;
     }
 
@@ -107,23 +117,43 @@ class Magento_Test_Webservice_SoapV2 extends Magento_Test_Webservice_Abstract
      */
     public function call($path, $params = array())
     {
-        $pathExploded  = explode('.', $path);
+        if (strpos($path, '.')) {
+            $pathExploded  = explode('.', $path);
 
-        $pathApi       = $pathExploded[0];
-        $pathMethod    = isset($pathExploded[1]) ? $pathExploded[1] : '';
-        $pathMethod[0] = strtoupper($pathMethod[0]);
-        foreach ($this->_configAlias as $key => $value) {
-            if ((string) $value == $pathApi) {
-                $pathApi = $key;
-                break;
+            $pathApi       = $pathExploded[0];
+            $pathMethod    = isset($pathExploded[1]) ? $pathExploded[1] : '';
+            $pathMethod[0] = strtoupper($pathMethod[0]);
+            foreach ($this->_configAlias as $key => $value) {
+                if ((string) $value == $pathApi) {
+                    $pathApi = $key;
+                    break;
+                }
             }
+
+            $soap2method = (string) $this->_configFunction->$pathApi;
+            $soap2method .= $pathMethod;
+        } else {
+            $soap2method = $path;
         }
 
-        $soap2method = (string) $this->_configFunction->$pathApi;
-        $soap2method .= $pathMethod;
-        array_unshift($params, $this->_session);
+        //add session ID as first param but except for "login" method
+        if ('login' != $soap2method) {
+            array_unshift($params, $this->_session);
+        }
 
-        $soapResult = call_user_func_array(array($this->_client, $soap2method), $params);
+        try {
+            $soapResult = call_user_func_array(array($this->_client, $soap2method), $params);
+        } catch (SoapFault $e) {
+            if ($this->_isShowInvalidResponse()
+                && ('looks like we got no XML document' == $e->faultstring
+                || $e->getMessage() == 'Wrong Version')
+            ) {
+                throw new Magento_Test_Webservice_Exception(sprintf(
+                    'SoapClient should be get XML document but got following: "%s"',
+                    $this->getLastResponse()));
+            }
+            throw $e;
+        }
 
         if (is_array($soapResult) || is_object($soapResult)) {
             $result = self::soapResultToArray($soapResult);

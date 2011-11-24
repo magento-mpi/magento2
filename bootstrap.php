@@ -71,6 +71,24 @@ if (defined('TESTS_BAMBOO_PROFILER_FILE') && defined('TESTS_BAMBOO_PROFILER_METR
     ));
 }
 
+/**
+ * Define enable show content on get invalid response
+ */
+!defined('TESTS_WEBSERVICE_SHOW_INVALID_RESPONSE') &&
+    define('TESTS_WEBSERVICE_SHOW_INVALID_RESPONSE', '1');
+
+/**
+ * Define application relative path to cache dir
+ */
+!defined('TESTS_APP_CACHE_DIR_RELATIVE_PATH') &&
+    define('TESTS_APP_CACHE_DIR_RELATIVE_PATH', '/var/cache');
+
+/**
+ * Define application relative path to etc dir
+ */
+!defined('TESTS_APP_ETC_DIR_RELATIVE_PATH') &&
+    define('TESTS_APP_ETC_DIR_RELATIVE_PATH', '/app/etc');
+
 /* Activate custom annotations in doc comments */
 /*
  * Note: order of registering (and applying) annotations is important.

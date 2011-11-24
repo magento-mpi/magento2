@@ -26,7 +26,7 @@
  */
 
 /**
- * Base class for webservice clients
+ * Base abstract class for webservice client test adapters
  *
  * @category    Magento
  * @package     Magento_Test
@@ -44,7 +44,7 @@ abstract class Magento_Test_Webservice_Abstract
     /**
      * Soap client adapter
      *
-     * @var Zend_Soap_Client
+     * @var mixed
      */
     protected $_client;
 
@@ -89,7 +89,7 @@ abstract class Magento_Test_Webservice_Abstract
      */
     public function login($api, $key)
     {
-        return $this->_client->login($api, $key);
+        return $this->call('login', array($api, $key));
     }
 
     /**
@@ -163,5 +163,15 @@ abstract class Magento_Test_Webservice_Abstract
             $this->_url = rtrim(TESTS_WEBSERVICE_URL, '/') . '/' . ltrim($this->_urlPath, '/');
         }
         return $this->_url;
+    }
+
+    /**
+     * Get status of showing bad response
+     *
+     * @return string
+     */
+    protected function _isShowInvalidResponse()
+    {
+        return TESTS_WEBSERVICE_SHOW_INVALID_RESPONSE;
     }
 }

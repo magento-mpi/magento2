@@ -42,6 +42,13 @@ class Magento_Test_Webservice_SoapV1 extends Magento_Test_Webservice_Abstract
     protected $_urlPath = '/api/soap?wsdl=1';
 
     /**
+     * SOAP client adapter
+     *
+     * @var Zend_Soap_Client
+     */
+    protected $_client;
+
+    /**
      * Init
      *
      * @param null|array $options
@@ -49,7 +56,7 @@ class Magento_Test_Webservice_SoapV1 extends Magento_Test_Webservice_Abstract
      */
     public function init($options = null)
     {
-        $this->_client = new Zend_Soap_Client(TESTS_WEBSERVICE_URL.'/api/soap?wsdl=1', $options);
+        $this->_client = new Zend_Soap_Client($this->getClientUrl(), $options);
         $this->setSession($this->login(TESTS_WEBSERVICE_USER, TESTS_WEBSERVICE_APIKEY));
         return $this;
     }
@@ -63,7 +70,24 @@ class Magento_Test_Webservice_SoapV1 extends Magento_Test_Webservice_Abstract
      */
     public function call($path, $params = array())
     {
-        return $this->_client->call($this->_session, $path, $params);
+        //add session ID as first param but except for "login" method
+        if ('login' != $path) {
+            array_unshift($params, $this->_session);
+        }
+
+        try {
+            return call_user_func_array(array($this->_client, $path), $params);
+        } catch (SoapFault $e) {
+            if ($this->_isShowInvalidResponse()
+                && ('looks like we got no XML document' == $e->faultstring
+                || $e->getMessage() == 'Wrong Version')
+            ) {
+                throw new Magento_Test_Webservice_Exception(sprintf(
+                    'SoapClient should be get XML document but got following: "%s"',
+                    $this->getLastResponse()));
+            }
+            throw $e;
+        }
     }
 
     /**

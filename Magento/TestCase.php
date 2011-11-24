@@ -25,8 +25,24 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+/**
+ * Base test case class
+ *
+ * @category    Magento
+ * @package     Magento_Test
+ * @author      Magento Api Team <api-team@magento.com>
+ */
 class Magento_TestCase extends PHPUnit_Framework_TestCase
 {
+    /**
+     * Application cache model
+     *
+     * This model worked with cache of application
+     *
+     * @var Mage_Core_Model_Cache
+     */
+    protected $_appCache;
+
     /**
      * Run garbage collector for cleaning memory
      *
@@ -179,6 +195,90 @@ class Magento_TestCase extends PHPUnit_Framework_TestCase
                 self::enableSecureArea(false);
             }
         }
+        return $this;
+    }
+
+    /**
+     * Get application cache model
+     *
+     * @return Mage_Core_Model_Cache
+     */
+    protected function _getAppCache()
+    {
+        if (null === $this->_appCache) {
+            //set application path
+            $options = Mage::getConfig()->getOptions();
+            $currentCacheDir = $options->getCacheDir();
+            $currentEtcDir = $options->getEtcDir();
+            $appCacheDir = Magento_Test_Bootstrap::getInstance()->getMagentoDir() . DS
+                    . trim(TESTS_APP_CACHE_DIR_RELATIVE_PATH, '\\/');
+            $appEtcDir = Magento_Test_Bootstrap::getInstance()->getMagentoDir() . DS
+                    . trim(TESTS_APP_ETC_DIR_RELATIVE_PATH, '\\/');
+            $options->setCacheDir($appCacheDir);
+            $options->setEtcDir($appEtcDir);
+
+            $this->_appCache = new Mage_Core_Model_Cache(array(
+                'request_processors' => array(
+                    'ee' => 'Enterprise_PageCache_Model_Processor'
+                )
+            ));
+
+            //revert paths options
+            $options->setCacheDir($currentCacheDir);
+            $options->setEtcDir($currentEtcDir);
+        }
+        return $this->_appCache;
+    }
+
+    /**
+     * Clean config cache of application
+     *
+     * @return bool
+     */
+    protected function _cleanAppConfigCache()
+    {
+        return $this->_getAppCache()->clean(Mage_Core_Model_Config::CACHE_TAG);
+    }
+
+    /**
+     * Update application config data
+     *
+     * @param string $path              Config path with the form "section/group/node"
+     * @param string|int|null $value    Value of config item
+     * @param bool $cleanAppCache       If TRUE application cache will be refreshed
+     * @param bool $updateLocalConfig   If TRUE local config object will be updated too
+     * @return Magento_TestCase
+     * @throws Magento_Test_Exception
+     */
+    protected function _updateAppConfig($path, $value, $cleanAppCache = true, $updateLocalConfig = false)
+    {
+        list($section, $group, $node) = explode('/', $path);
+
+        if (!$section || !$group || !$node) {
+            throw new Magento_Test_Exception(sprintf(
+                'Config path must have view as "section/group/node" but now it "%s"',
+                $path));
+        }
+
+        /** @var $config Mage_Adminhtml_Model_Config_Data */
+        $config = Mage::getModel('adminhtml/config_data');
+        $data[$group]['fields'][$node]['value'] = $value;
+        $config->setSection($section)
+                ->setGroups($data)
+                ->save();
+
+        //refresh local cache
+        if ($cleanAppCache) {
+            if ($updateLocalConfig) {
+                Mage::getConfig()->reinit();
+                Mage::app()->reinitStores();
+            }
+
+            if (!$this->_cleanAppConfigCache()) {
+                throw new Magento_Test_Exception('Application configuration cache cannot be cleaned.');
+            }
+        }
+
         return $this;
     }
 }

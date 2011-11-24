@@ -98,3 +98,18 @@ define('TESTS_BAMBOO_PROFILER_FILE', '');
  */
 define('TESTS_BAMBOO_PROFILER_METRICS_FILE', '');
 
+/**
+ * Define enable show content on get invalid response
+ */
+define('TESTS_WEBSERVICE_SHOW_INVALID_RESPONSE', '');
+
+/**
+* Define relative cache application path
+*/
+define('TESTS_APP_CACHE_DIR_RELATIVE_PATH', '');
+
+/**
+* Define relative cache application path
+*/
+define('TESTS_APP_ETC_DIR_RELATIVE_PATH', '');
+
