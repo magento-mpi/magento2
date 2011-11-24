@@ -70,23 +70,48 @@ class Magento_Test_Webservice_SoapV1 extends Magento_Test_Webservice_Abstract
      */
     public function call($path, $params = array())
     {
-        //add session ID as first param but except for "login" method
-        if ('login' != $path) {
-            array_unshift($params, $this->_session);
-        }
-
         try {
-            return call_user_func_array(array($this->_client, $path), $params);
+            return $this->_client->call($this->_session, $path, $params);
         } catch (SoapFault $e) {
-            if ($this->_isShowInvalidResponse()
-                && ('looks like we got no XML document' == $e->faultstring
-                || $e->getMessage() == 'Wrong Version')
-            ) {
+            $this->_throwExceptionBadRequest($e);
+            throw $e;
+        }
+    }
+
+    /**
+     * Login with credentials
+     *
+     * @param $username
+     * @param $apiKey
+     * @return string
+     * @throws Zend_XmlRpc_Client_FaultException
+     */
+    public function login($username, $apiKey)
+    {
+        try {
+            return $this->_client->login($username, $apiKey);
+        } catch (SoapFault $e) {
+            $this->_throwExceptionBadRequest($e);
+            throw $e;
+        }
+    }
+
+    /**
+     * Try to throw exception with show response
+     *
+     * @param SoapFault $e
+     * @return Magento_Test_Webservice_SoapV1
+     * @throws SoapFault
+     */
+    protected function _throwExceptionBadRequest(SoapFault $e)
+    {
+        if ($this->_isShowInvalidResponse()) {
+            $message = $e->getMessage();
+            if ('Failed to parse response' == $message || 'Invalid response' == $message) {
                 throw new Magento_Test_Webservice_Exception(sprintf(
-                    'SoapClient should be get XML document but got following: "%s"',
+                    'SOAP client should be get XML document but got following: "%s"',
                     $this->getLastResponse()));
             }
-            throw $e;
         }
     }
 
