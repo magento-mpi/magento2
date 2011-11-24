@@ -152,7 +152,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
                     $captchaHelper = Mage::helper('core/captcha');
                     $userCaptchaInput = $this->getRequest()->getPost(Mage_Core_Helper_Captcha::INPUT_NAME_FIELD_VALUE);
                     if (!$captcha->isCorrect($userCaptchaInput)) {
-                        Mage::throwException($captchaHelper->__('Incorrect captcha'));
+                        Mage::throwException($captchaHelper->__('Incorrect CAPTCHA'));
                     }
                     try {
                         $session->login($login['username'], $login['password']);
@@ -336,7 +336,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
                 $captcha = Mage::getModel('core/captcha_zend');
                 $userCaptchaInput = $this->getRequest()->getPost(Mage_Core_Helper_Captcha::INPUT_NAME_FIELD_VALUE);
                 if (!$captcha->isCorrect($userCaptchaInput)) {
-                    Mage::throwException(Mage::helper('core/captcha')->__('Incorrect captcha'));
+                    Mage::throwException(Mage::helper('core/captcha')->__('Incorrect CAPTCHA'));
                 }
                 $customerErrors = $customerForm->validateData($customerData);
                 if ($customerErrors !== true) {
@@ -566,7 +566,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
         $userCaptchaInput = $this->getRequest()->getPost(Mage_Core_Helper_Captcha::INPUT_NAME_FIELD_VALUE);
         $isCaptchaOk = $captcha->isCorrect($userCaptchaInput);
         if (!$isCaptchaOk) {
-            $this->_getSession()->addError($captchaHelper->__('Incorrect captcha'));
+            $this->_getSession()->addError($captchaHelper->__('Incorrect CAPTCHA'));
         }
         if ($email && $isCaptchaOk) {
             if (!Zend_Validate::is($email, 'EmailAddress')) {

@@ -67,7 +67,7 @@ class Mage_Admin_Model_Observer
                     /* @var $captcha Mage_Core_Model_Captcha_Zend */
                     $captcha = Mage::getModel('core/captcha_zend');
                     if (!$captcha->isCorrect($request->getPost(Mage_Core_Helper_Captcha::INPUT_NAME_FIELD_VALUE))) {
-                        $msg = Mage::helper('core/captcha')->__('Incorrect captcha.');
+                        $msg = Mage::helper('core/captcha')->__('Incorrect CAPTCHA.');
                         Mage::getSingleton('adminhtml/session')->addError($msg);
                         $isCaptchaOk = false;
                     }
