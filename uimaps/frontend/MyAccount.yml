@@ -81,6 +81,14 @@ customer_account:
                         links:
                             product_info: //div[*/a[text()='%productName%']]//a[text()='%tagName%']
                             view_all_tags: //a[text()='View All Tags']
+                -
+                    my_recent_reviews:
+                        xpath: //div[@class='box-account box-reviews']
+                        links:
+                            product_name: //ol[@id='my_recent_reviews']//a[text()='%productName%']
+                            view_all_reviews: //a[text()='View All Reviews']
+                        pageelements:
+                            product_review_rating: //div[h3='%productName%']//div[@class='rating']
         messages:
             success_registration: //li[normalize-space(@class)='success-msg' and contains(.,'Thank you for registering with')]
             success_saved: //li[normalize-space(@class)='success-msg' and contains(.,'The account information has been saved.')]
@@ -146,6 +154,7 @@ my_product_reviews:
                             view_details: //td[h2 = '%productName%']/following-sibling::td[3]/a
                             add_your_review: //a[text()='Add Your Review']
                             reviews: //a[contains(text(),'Review(s)')]
+                            back: //p[@class='back-link']/a
                         pagelelements:
                             review_details: //td[h2 = '%productName%']/following-sibling::td[2]
                             review_date: //td[h2 = %productName%']/preceding-sibling::td
@@ -161,9 +170,6 @@ my_product_reviews_details:
                 -
                     review_details:
                         xpath: //div[@class='my-account']
-                        links:
-
-                            view_details: //td[h2 = '%productName%']/following-sibling::td[3]/a
                         pagelelements:
                             product_name: //h2[@class='product-name']
                             review_details: //div[@class='product-details']/dl/dd
