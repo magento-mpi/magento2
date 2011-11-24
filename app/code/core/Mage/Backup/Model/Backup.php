@@ -78,7 +78,7 @@ class Mage_Backup_Model_Backup extends Varien_Object
             'time' => (int)$time,
             'path' => $filePath,
             'extension' => Mage::helper('backup')->getExtensionByType($type),
-            'date_object' => new Zend_Date((int)$time)
+            'date_object' => new Zend_Date((int)$time, Mage::app()->getLocale()->getLocaleCode())
         ));
         $this->setType($type);
         return $this;

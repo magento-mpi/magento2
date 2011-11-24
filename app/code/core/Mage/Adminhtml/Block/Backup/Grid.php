@@ -53,6 +53,8 @@ class Mage_Adminhtml_Block_Backup_Grid extends Mage_Adminhtml_Block_Widget_Grid
 
     /**
      * Prepare mass action controls
+     *
+     * @return Mage_Adminhtml_Block_Backup_Grid
      */
     protected function _prepareMassaction()
     {
@@ -70,6 +72,8 @@ class Mage_Adminhtml_Block_Backup_Grid extends Mage_Adminhtml_Block_Widget_Grid
 
     /**
      * Configuration of grid
+     *
+     * @return Mage_Adminhtml_Block_Backup_Grid
      */
     protected function _prepareColumns()
     {
@@ -85,7 +89,7 @@ class Mage_Adminhtml_Block_Backup_Grid extends Mage_Adminhtml_Block_Widget_Grid
             'header'    => Mage::helper('backup')->__('Size, Bytes'),
             'index'     => 'size',
             'type'      => 'number',
-            'sortable'  => false,
+            'sortable'  => true,
             'filter'    => false
         ));
 
