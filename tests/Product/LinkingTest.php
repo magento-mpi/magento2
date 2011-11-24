@@ -42,8 +42,10 @@ class Product_LinkingTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Review related products on frontend.</p>
+     * <p>Preconditions:</p>
+     * <p>Create All Types of product and realize next test for all of the;</p>
      * <p>Steps:</p>
-     * <p>1. Create 2 simple products in stock; Attach one to another as related product</p>
+     * <p>1. Create 2 products in stock; Attach one to another as related product</p>
      * <p>2. Navigate to frontend;</p>
      * <p>3. Open product details page;</p>
      * <p>4. Validate prices for related product in "related products block";</p>
@@ -59,8 +61,10 @@ class Product_LinkingTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Review related products on frontend.</p>
+     * <p>Preconditions:</p>
+     * <p>Create All Types of product and realize next test for all of the;</p>
      * <p>Steps:</p>
-     * <p>1. Create 1 simple product in stock and another simple product out of stock; Attach the second one to the first as related product</p>
+     * <p>1. Create 1 product in stock and another product out of stock; Attach the second one to the first as related product</p>
      * <p>2. Navigate to frontend;</p>
      * <p>3. Open product details page for the first product;</p>
      * <p>4. Check if the first product contains any related products;</p>
@@ -76,8 +80,10 @@ class Product_LinkingTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Review Cross-sell products on frontend.</p>
+     * <p>Preconditions:</p>
+     * <p>Create All Types of product and realize next test for all of the;</p>
      * <p>Steps:</p>
-     * <p>1. Create 2 simple products in stock; Attach one to another as cross-sell product</p>
+     * <p>1. Create 2 products in stock; Attach one to another as cross-sell product</p>
      * <p>2. Navigate to frontend;</p>
      * <p>3. Open product details page;</p>
      * <p>4. Add product to shopping cart;</p>
@@ -94,8 +100,10 @@ class Product_LinkingTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Review Cross-sell products on frontend.</p>
+     * <p>Preconditions:</p>
+     * <p>Create All Types of product and realize next test for all of the;</p>
      * <p>Steps:</p>
-     * <p>1. Create 1 simple products in stock and another one out of stock; Attach the second one to the first one as cross-sell product</p>
+     * <p>1. Create 1 products in stock and another one out of stock; Attach the second one to the first one as cross-sell product</p>
      * <p>2. Navigate to frontend;</p>
      * <p>3. Open product details page;</p>
      * <p>4. Add product to shopping cart;</p>
@@ -112,8 +120,10 @@ class Product_LinkingTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Review Up-sell products on frontend.</p>
+     * <p>Preconditions:</p>
+     * <p>Create All Types of product and realize next test for all of the;</p>
      * <p>Steps:</p>
-     * <p>1. Create 2 simple products in stock; Attach one to another as up-sell product</p>
+     * <p>1. Create 2 products in stock; Attach one to another as up-sell product</p>
      * <p>2. Navigate to frontend;</p>
      * <p>3. Open product details page;</p>
      * <p>4. Validate prices for up-sell product in "up-sell products block";</p>
@@ -129,8 +139,10 @@ class Product_LinkingTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Review Up-sell products on frontend.</p>
+     * <p>Preconditions:</p>
+     * <p>Create All Types of product and realize next test for all of the;</p>
      * <p>Steps:</p>
-     * <p>1. Create 1 simple products in stock and another one out of stock; Attach the second one to the first one as up-sell product</p>
+     * <p>1. Create 1 products in stock and another one out of stock; Attach the second one to the first one as up-sell product</p>
      * <p>2. Navigate to frontend;</p>
      * <p>3. Open product details page;</p>
      * <p>4. Validate that product details page for the first product does not contain up-sell block with the second product;</p>
@@ -143,4 +155,17 @@ class Product_LinkingTest extends Mage_Selenium_TestCase
     {
         $this->markTestIncomplete('@TODO');
     }
+
+    public function productTypes()
+    {
+        return array(
+            array('simple'),
+            array('virtual'),
+            array('downloadable'),
+            array('bundle'),
+            array('configurable'),
+            array('grouped')
+        );
+    }
 }
+
