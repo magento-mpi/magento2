@@ -33,5 +33,12 @@
     <div class="captcha-image" style="padding:0; float:left; border: 1px solid #ccc;">
         <?php echo $this->render() ?>
     </div>
+    <img
+        class="captcha-reload"
+        src="<?php echo $this->getSkinUrl('images/reload.png') ?>"
+        style="float: right; position: relative; bottom: 57px;"
+        onmouseover="this.style.cursor='pointer'"
+        alt="<?php echo $this->__('Reload captcha') ?>"
+        onclick="Captcha.refresh('<?php echo Mage_Core_Helper_Captcha::getRefreshUrl() ?>', '<?php echo $this->getType() ?>', '<?php echo $this->getCaptchaInstance()->getWidth() ?>', '<?php echo $this->getCaptchaInstance()->getHeight() ?>', '<?php echo $this->getFormId() ?>', 'true')">
 </div>
 <div class="clear"></div>

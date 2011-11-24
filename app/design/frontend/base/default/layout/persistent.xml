@@ -33,6 +33,9 @@
             <block type="persistent/form_remember" name="persistent.remember.me" template="persistent/remember_me.phtml" />
             <block type="core/template" name="persistent.remember.me.tooltip" template="persistent/remember_me_tooltip.phtml" />
             <block type="core/captcha_zend" name="captcha">
+                <reference name="head">
+                    <action method="addJs"><file>mage/captcha.js</file></action>
+                </reference>
                 <action method="setFormId"><formId>user_login</formId></action>
                 <action method="setImgWidth"><width>230</width></action>
                 <action method="setImgHeight"><width>50</width></action>
@@ -46,6 +49,9 @@
             <block type="persistent/form_remember" name="persistent.remember.me" template="persistent/remember_me.phtml" />
             <block type="core/template" name="persistent.remember.me.tooltip" template="persistent/remember_me_tooltip.phtml" />
             <block type="core/captcha_zend" name="captcha">
+                <reference name="head">
+                    <action method="addJs"><file>mage/captcha.js</file></action>
+                </reference>
                 <action method="setFormId"><formId>user_create</formId></action>
                 <action method="setImgWidth"><width>230</width></action>
                 <action method="setImgHeight"><width>50</width></action>

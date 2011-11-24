@@ -33,112 +33,36 @@
  */
 class Mage_Core_Model_Captcha_Zend extends Zend_Captcha_Image implements Mage_Core_Model_Captcha_Interface
 {
-    const COOKIE_NAME = 'captcha';
-    const SESSION_TOKEN_NAME = 'captcha_token';
-    const SESSION_TIMEOUT_NAME = 'timeout';
+    const SESSION_CAPTCHA_ID = 'id';
+    const SESSION_WORD = 'word';
     const DEFAULT_WORD_LENGTH_FROM = 3;
     const DEFAULT_WORD_LENGTH_TO   = 5;
 
-    /* @var Mage_Core_Model_Session */
+    /* @var Mage_Core_Model_Captcha_Session */
     protected $_session = null;
     /* @var Mage_Core_Helper_Captcha */
     protected $_helper = null;
     // "alt" parameter of captcha's <img> tag
     protected $_imgAlt = "CAPTCHA";
+    protected $_expiration;
+    // Chance of garbage collection per captcha generation (1 = each time). Removes captcha image files for same formId
+    // in case user clicked "refresh"
+    protected $_gcFreq = 1;
+    // Chance of parent garbage collection (which removes old files)
+    protected $_parentGcFreq = 10;
+    protected $_word;
 
     /**
-     * Saves timestamp when captcha was generated
+     * Zend captcha constructor
      *
-     * @return Mage_Core_Model_Captcha_Zend
+     * @param string $formId
      */
-    protected function _setTimestamp()
+    public function __construct($formId)
     {
-        $this->getSession()->setData(self::SESSION_TIMEOUT_NAME, time());
-        return $this;
-    }
-
-    /**
-     * Retrieves timestamp when captcha was generated
-     *
-     * @return int
-     */
-    protected function _getTimestamp()
-    {
-        return (int)$this->getSession()->getData(self::SESSION_TIMEOUT_NAME);
-    }
-
-    /**
-     * Saves captcha token (salt)
-     *
-     * @param string $token
-     * @return Mage_Core_Model_Captcha_Zend
-     */
-    protected function _setToken($token)
-    {
-        $this->getSession()->setData(self::SESSION_TOKEN_NAME, $token);
-        return $this;
-    }
-
-    /**
-     * Retrieves captcha token (salt)
-     *
-     * @return string
-     */
-    protected function _getToken()
-    {
-        return $this->getSession()->getData(self::SESSION_TOKEN_NAME);
-    }
-
-    /**
-     * Removes stored token (salt)
-     *
-     * @return Mage_Core_Model_Captcha_Zend
-     */
-    protected function _removeToken()
-    {
-        $this->getSession()->unsetData(self::SESSION_TOKEN_NAME);
-        return $this;
-    }
-
-    /**
-     * Returns hash of the generated word with salt
-     *
-     * @param string $word
-     * @param string $token
-     * @return string
-     */
-    protected function _getHash($word, $token)
-    {
-        if (!$this->isCaseSensitive()) {
-            $word = strtolower($word);
+        if (empty($formId)) {
+            Mage::throwException('$formId can not be empty');
         }
-        $hash = md5($word . $token);
-        return $hash;
-    }
-
-    /**
-     * Generates captcha token (salt)
-     *
-     * @return string
-     */
-    protected function _generateToken()
-    {
-        $token = '';
-        for ($i = 0, $to = 8; $i < $to; $i++) {
-            $token .= chr(mt_rand(48, 122));
-        }
-        return $token;
-    }
-
-    /**
-     * Whether captcha was generated on previous page. In other words, do we expect captcha guess in the form data.
-     *
-     * @return bool
-     */
-    protected function _isGenerated()
-    {
-        $token = $this->_getToken();
-        return !empty($token);
+        $this->_formId = $formId;
     }
 
     /**
@@ -231,10 +155,12 @@ class Mage_Core_Model_Captcha_Zend extends Zend_Captcha_Image implements Mage_Co
      *
      * @return int
      */
-    public function getTimeout()
+    public function getExpiration()
     {
-        $timeout = (int)$this->_getHelper()->getConfigNode('timeout');
-        return $timeout;
+        if (!$this->_expiration) {
+            $this->_expiration = (int)$this->_getHelper()->getConfigNode('timeout');
+        }
+        return $this->_expiration;
     }
 
 
@@ -291,19 +217,6 @@ class Mage_Core_Model_Captcha_Zend extends Zend_Captcha_Image implements Mage_Co
     }
 
     /**
-     * Returns session object used to store captcha data between page refreshes
-     *
-     * @return Mage_Core_Model_Session
-     */
-    public function getSession()
-    {
-        if (!$this->_session) {
-            $this->_session = Mage::getSingleton('core/session');
-        }
-        return $this->_session;
-    }
-
-    /**
      * Generate captcha
      *
      * @return string
@@ -311,13 +224,29 @@ class Mage_Core_Model_Captcha_Zend extends Zend_Captcha_Image implements Mage_Co
     public function generate()
     {
         $id = parent::generate();
-        $token = $this->_generateToken();
-        $this->_setToken($token)->_setTimestamp();
-        $hash = $this->_getHash($this->getWord(), $token);
-        /* @var $cookie Mage_Core_Model_Cookie */
-        $cookie = Mage::getSingleton('core/cookie');
-        $cookie->set(self::COOKIE_NAME, $hash, $this->getTimeout());
+        $this->getSession()->setData(self::SESSION_CAPTCHA_ID, $id);
         return $id;
+    }
+
+    /**
+     * Garbage collector. Removes old captcha image file in case user clicked "refresh".
+     *
+     * @return Mage_Core_Model_Captcha_Zend
+     */
+    protected function _gc()
+    {
+        $oldId = $this->getSession()->getData(self::SESSION_CAPTCHA_ID);
+        if ($oldId) {
+            // An image for same form already exists - it won't be used after new captcha is generated, we can remove it
+            $filename = $this->getImgDir() . $oldId . $this->getSuffix();
+            if (file_exists($filename)) {
+                @unlink($filename);
+            }
+        }
+        if (mt_rand(1, $this->_parentGcFreq) == 1) {
+            parent::_gc();
+        }
+        return $this;
     }
 
     /**
@@ -328,24 +257,29 @@ class Mage_Core_Model_Captcha_Zend extends Zend_Captcha_Image implements Mage_Co
      */
     public function isCorrect($word)
     {
-        $isGenerated = $this->_isGenerated();
-        if (!$isGenerated) {
+        if (!$this->getSession()->getDataIgnoreTtl(self::SESSION_CAPTCHA_ID, true)) {
+            // Captcha has not been generated
             return true;
         }
-        $storedTimestamp = $this->_getTimestamp();
-        $isCorrect = false;
-        if ($isGenerated && $storedTimestamp) {
-            $isCorrect = (time() - $storedTimestamp) <= $this->getTimeout();
-            if ($isCorrect) {
-                /* @var $cookie Mage_Core_Model_Cookie */
-                $cookie = Mage::getSingleton('core/cookie');
-                $computedHash = $this->_getHash($word, $this->_getToken());
-                // Token is a one-time thing, we do not need it anymore
-                $this->_removeToken();
-                $storedHash = $cookie->get(self::COOKIE_NAME);
-                $isCorrect = ($computedHash == $storedHash);
-            }
+        $storedWord = $this->getSession()->getData(self::SESSION_WORD, true);
+        if (!$this->isCaseSensitive()) {
+            $storedWord = strtolower($storedWord);
+            $word = strtolower($word);
         }
-        return $isCorrect;
+        return ($word == $storedWord);
+    }
+
+    /**
+     * Returns session instance
+     *
+     * @return Mage_Core_Model_Captcha_Session
+     */
+    public function getSession()
+    {
+        if (!$this->_session) {
+            $this->_session = $this->_getHelper()->getSession($this->_formId);
+            $this->_session->setLifetime($this->getExpiration());
+        }
+        return $this->_session;
     }
 }

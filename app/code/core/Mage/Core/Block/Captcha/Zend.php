@@ -72,7 +72,7 @@ class Mage_Core_Block_Captcha_Zend extends Mage_Core_Block_Template
     {
         if (!$this->_captcha) {
             /* @var $captcha Mage_Core_Model_Captcha_Zend */
-            $captcha = Mage::getModel('core/captcha_zend');
+            $captcha = Mage::getModel('core/captcha_zend', $this->getFormId());
             $this->setCaptchaInstance($captcha);
         }
         return $this->_captcha;
@@ -112,9 +112,8 @@ class Mage_Core_Block_Captcha_Zend extends Mage_Core_Block_Template
     public function render()
     {
         $captcha = $this->getCaptchaInstance();
-        $html = '<img width="' . $captcha->getWidth() . '" height="' . $captcha->getHeight() . '" alt="'
-                . $captcha->getImgAlt() . '" src="' . $captcha->getImgUrl() . $captcha->getId() . $captcha->getSuffix()
-                . '"/>';
+        $html = '<img id="' . $this->getFormId() . '" width="' . $captcha->getWidth() . '" height="'
+                . $captcha->getHeight() . '" alt="' . $captcha->getImgAlt() . '" src="' . $this->getImgSrc() . '"/>';
         return $html;
     }
 
@@ -156,5 +155,16 @@ class Mage_Core_Block_Captcha_Zend extends Mage_Core_Block_Template
             return parent::_toHtml();
         }
         return '';
+    }
+
+    /**
+     * Return full URL to captcha image
+     *
+     * @return string
+     */
+    public function getImgSrc()
+    {
+        $captcha = $this->getCaptchaInstance();
+        return $captcha->getImgUrl() . $captcha->getId() . $captcha->getSuffix();
     }
 }

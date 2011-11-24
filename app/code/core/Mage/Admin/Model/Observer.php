@@ -52,7 +52,8 @@ class Mage_Admin_Model_Observer
             'forgotpassword',
             'resetpassword',
             'resetpasswordpost',
-            'logout'
+            'logout',
+            'refresh' // captcha refresh
         );
         if (in_array($requestedActionName, $openActions)) {
             $request->setDispatched(true);
@@ -65,7 +66,7 @@ class Mage_Admin_Model_Observer
                     $postLogin  = $request->getPost('login');
                     $isCaptchaOk = true;
                     /* @var $captcha Mage_Core_Model_Captcha_Zend */
-                    $captcha = Mage::getModel('core/captcha_zend');
+                    $captcha = Mage::getModel('core/captcha_zend', self::CAPTCHA_FORM_ID);
                     if (!$captcha->isCorrect($request->getPost(Mage_Core_Helper_Captcha::INPUT_NAME_FIELD_VALUE))) {
                         $msg = Mage::helper('core/captcha')->__('Incorrect CAPTCHA.');
                         Mage::getSingleton('adminhtml/session')->addError($msg);

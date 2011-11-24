@@ -33,6 +33,7 @@
  */
 class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
 {
+    const CAPTCHA_FORM_ID = 'user_login';
     /**
      * Action list where need check enabled cookie
      *
@@ -147,7 +148,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
             if (!empty($login['username']) && !empty($login['password'])) {
                 try {
                     /* @var $captcha Mage_Core_Model_Captcha_Zend */
-                    $captcha = Mage::getModel('core/captcha_zend');
+                    $captcha = Mage::getModel('core/captcha_zend', self::CAPTCHA_FORM_ID);
                     /* @var $captchaHelper Mage_Core_Helper_Captcha */
                     $captchaHelper = Mage::helper('core/captcha');
                     $userCaptchaInput = $this->getRequest()->getPost(Mage_Core_Helper_Captcha::INPUT_NAME_FIELD_VALUE);
@@ -160,7 +161,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
                     } catch (Exception $e) {
                         $loggedIn = false;
                     }
-                    $captchaHelper->checkAttempt($loggedIn, 'user_login');
+                    $captchaHelper->checkAttempt($loggedIn, self::CAPTCHA_FORM_ID);
                     if (!$loggedIn) {
                         throw $e;
                     }
@@ -333,7 +334,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
 
             try {
                 /* @var $captcha Mage_Core_Model_Captcha_Zend */
-                $captcha = Mage::getModel('core/captcha_zend');
+                $captcha = Mage::getModel('core/captcha_zend', self::CAPTCHA_FORM_ID);
                 $userCaptchaInput = $this->getRequest()->getPost(Mage_Core_Helper_Captcha::INPUT_NAME_FIELD_VALUE);
                 if (!$captcha->isCorrect($userCaptchaInput)) {
                     Mage::throwException(Mage::helper('core/captcha')->__('Incorrect CAPTCHA'));
@@ -560,7 +561,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
     {
         $email = (string) $this->getRequest()->getPost('email');
         /* @var $captcha Mage_Core_Model_Captcha_Zend */
-        $captcha = Mage::getModel('core/captcha_zend');
+        $captcha = Mage::getModel('core/captcha_zend', self::CAPTCHA_FORM_ID);
         /* @var $captchaHelper Mage_Core_Helper_Captcha */
         $captchaHelper = Mage::helper('core/captcha');
         $userCaptchaInput = $this->getRequest()->getPost(Mage_Core_Helper_Captcha::INPUT_NAME_FIELD_VALUE);

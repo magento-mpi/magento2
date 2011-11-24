@@ -33,7 +33,7 @@
  */
 class Mage_Core_Helper_Captcha extends Mage_Core_Helper_Abstract
 {
-    const SESSION_FAILED_ATTEMPT_PREFIX = 'failed_attempt_';
+    const SESSION_FAILED_ATTEMPTS = 'failed_attempts';
     // Number of unsuccessful attempts captcha will be shown after
     const XML_PATH_FRONTEND_CAPTCHA_FAILED_ATTEMPTS = 'customer/captcha/failed_attempts';
     const XML_PATH_BACKEND_CAPTCHA_FAILED_ATTEMPTS  = 'default/admin/captcha/failed_attempts';
@@ -77,17 +77,6 @@ class Mage_Core_Helper_Captcha extends Mage_Core_Helper_Abstract
     protected $_session = null;
 
     /**
-     * Returns session ID for particular form ID
-     *
-     * @param string $formId
-     * @return string
-     */
-    protected function _getFailedAttemptsSessionId($formId)
-    {
-        return self::SESSION_FAILED_ATTEMPT_PREFIX . $formId;
-    }
-
-    /**
      * Executed in case unsuccessful attempt was made (incorrect login/password on login page, for example)
      *
      * @param string $formId
@@ -95,10 +84,9 @@ class Mage_Core_Helper_Captcha extends Mage_Core_Helper_Abstract
      */
     protected function _logFailedAttempt($formId)
     {
-        $sessionId = $this->_getFailedAttemptsSessionId($formId);
-        $attemptCnt = (int)$this->_getSession()->getData($sessionId);
+        $attemptCnt = (int)$this->getSession($formId)->getData(self::SESSION_FAILED_ATTEMPTS);
         $attemptCnt++;
-        $this->_getSession()->setData($sessionId, $attemptCnt);
+        $this->getSession($formId)->setData(self::SESSION_FAILED_ATTEMPTS, $attemptCnt);
         return $attemptCnt;
     }
 
@@ -110,7 +98,7 @@ class Mage_Core_Helper_Captcha extends Mage_Core_Helper_Abstract
      */
     protected function _resetFailedAttempts($formId)
     {
-        $this->_getSession()->unsetData($this->_getFailedAttemptsSessionId($formId));
+        $this->getSession($formId)->unsetData(self::SESSION_FAILED_ATTEMPTS);
         return $this;
     }
 
@@ -128,14 +116,13 @@ class Mage_Core_Helper_Captcha extends Mage_Core_Helper_Abstract
     /**
      * Returns session where to save data between page refreshes
      *
-     * @return Mage_Core_Model_Session
+     * @param string $formId
+     * @return Mage_Core_Model_Captcha_Session
      */
-    protected function _getSession()
+    public function getSession($formId)
     {
-        if (!$this->_session) {
-            $this->_session = Mage::getSingleton('core/session');
-        }
-        return $this->_session;
+        // Own session implementation used to avoid data substitution in case several captchas used on same page
+        return Mage::getSingleton('core/captcha_session', array('formId' => $formId));
     }
 
     /**
@@ -236,8 +223,7 @@ class Mage_Core_Helper_Captcha extends Mage_Core_Helper_Abstract
         if ($this->_isShowAlways($formId)) {
             return true;
         }
-        $sessionId = $this->_getFailedAttemptsSessionId($formId);
-        $loggedFailedAttempts = (int)$this->_getSession()->getData($sessionId);
+        $loggedFailedAttempts = (int)$this->getSession($formId)->getData(self::SESSION_FAILED_ATTEMPTS);
         $showAfterFailedAttempts = $this->_getShowAfterFailedAttemptsNum();
         $isRequired = ($loggedFailedAttempts >= $showAfterFailedAttempts);
         return $isRequired;
@@ -282,5 +268,16 @@ class Mage_Core_Helper_Captcha extends Mage_Core_Helper_Abstract
     {
         $formsString = (string) $this->getConfigNode('forms');
         return explode(',', $formsString);
+    }
+
+    /**
+     * Returns URL to controller action which returns new captcha image
+     *
+     * @static
+     * @return string
+     */
+    public static function getRefreshUrl()
+    {
+        return Mage::getUrl("core/captcha/refresh");
     }
 }
