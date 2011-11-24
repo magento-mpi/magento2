@@ -88,7 +88,7 @@ class LoginTest extends Magento_Test_Webservice
         $client = $this->getWebService();
         $client->setSession(null);
         $this->setExpectedException($client->getExceptionClass());
-        $sessionId = $client->login(TESTS_WEBSERVICE_USER, 'invalid_api_key');
+        $client->login(TESTS_WEBSERVICE_USER, 'invalid_api_key');
     }
 
     /**
@@ -155,13 +155,13 @@ class LoginTest extends Magento_Test_Webservice
         $sessionId = '3e5f2c59cad5a08528461f6a9f4b727d';
 
         $client = $this->getWebService();
+
         $this->setExpectedException($client->getExceptionClass());
 
-        $categoryFixture = simplexml_load_file(dirname(__FILE__) . '/Catalog/Category/_fixtures/category.xml');
-        $data = self::simpleXmlToArray($categoryFixture->create);
+        $categoryFixture = require_once dirname(__FILE__) . '/Catalog/Category/_fixtures/categoryData.php';
 
-        $client->setSession($sessionId);
-        $client->call('category.create', $data);
+        $client->setSession($sessionId)
+            ->call('category.create', $categoryFixture['create']);
     }
 
     /**
@@ -182,5 +182,33 @@ class LoginTest extends Magento_Test_Webservice
         } while ($time >= $timeStart);
 
         $this->assertFalse($equal, 'Session API starting has vulnerability.');
+    }
+
+    /**
+     * Check login with WS-I compliance
+     *
+     * @throws Exception|SoapFault
+     */
+    public function testLoginWithWsiCompliance()
+    {
+        if (!$this->isWebserviceType(self::TYPE_SOAPV2)) {
+            return;
+        }
+        //enable WS-I compliance
+        $this->_updateAppConfig(Mage_Api_Helper_Data::XML_PATH_API_WSI, 1);
+
+        try {
+            $result = $this->getWebService()->login(TESTS_WEBSERVICE_USER, TESTS_WEBSERVICE_APIKEY);
+            $this->assertTrue((bool) $result, 'Login with WS-I Compliance is not return session hash.');
+        } catch (Exception $e) {
+            //no actions. Let revert config data
+        }
+
+        //revert config data
+        $this->_updateAppConfig(Mage_Api_Helper_Data::XML_PATH_API_WSI, 0);
+
+        if (isset($e)) {
+            throw $e;
+        }
     }
 }
