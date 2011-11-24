@@ -34,7 +34,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Product_LinkingTest extends Mage_Selenium_TestCase
+class Product_Linking_VirtualLinkingTest extends Mage_Selenium_TestCase
 {
 
     protected function assertPreConditions()
@@ -43,14 +43,14 @@ class Product_LinkingTest extends Mage_Selenium_TestCase
     /**
      * <p>Review related products on frontend.</p>
      * <p>Preconditions:</p>
-     * <p>Create All Types of product and realize next test for all of the;</p>
+     * <p>Create All Types of products (in stock) and realize next test for all of them;</p>
      * <p>Steps:</p>
-     * <p>1. Create 2 products in stock; Attach one to another as related product</p>
+     * <p>1. Create 1 virtual product in stock; Attach all types of products to the first one as related products</p>
      * <p>2. Navigate to frontend;</p>
      * <p>3. Open product details page;</p>
-     * <p>4. Validate prices for related product in "related products block";</p>
+     * <p>4. Validate prices for related products in "related products block";</p>
      * <p>Expected result:</p>
-     * <p>Products are created, One product contains block with related product; Price for related product is correct</p>
+     * <p>Products are created, The virtual product contains block with related products; Prices for related products are correct</p>
      *
      * @test
      */
@@ -62,14 +62,14 @@ class Product_LinkingTest extends Mage_Selenium_TestCase
     /**
      * <p>Review related products on frontend.</p>
      * <p>Preconditions:</p>
-     * <p>Create All Types of product and realize next test for all of the;</p>
+     * <p>Create All Types of products (out of stock) and realize next test for all of them;</p>
      * <p>Steps:</p>
-     * <p>1. Create 1 product in stock and another product out of stock; Attach the second one to the first as related product</p>
+     * <p>1. Create 1 virtual product in stock; Attach all types of products to the first one as related products</p>
      * <p>2. Navigate to frontend;</p>
      * <p>3. Open product details page for the first product;</p>
      * <p>4. Check if the first product contains any related products;</p>
      * <p>Expected result:</p>
-     * <p>Products are created, The first product does not contains any related products;</p>
+     * <p>Products are created, The virtual product does not contains any related products;</p>
      *
      * @test
      */
@@ -81,15 +81,15 @@ class Product_LinkingTest extends Mage_Selenium_TestCase
     /**
      * <p>Review Cross-sell products on frontend.</p>
      * <p>Preconditions:</p>
-     * <p>Create All Types of product and realize next test for all of the;</p>
+     * <p>Create All Types of products (in stock) and realize next test for all of them;</p>
      * <p>Steps:</p>
-     * <p>1. Create 2 products in stock; Attach one to another as cross-sell product</p>
+     * <p>1. Create 1 virtual product in stock;  Attach all types of products to the first one as cross-sell product</p>
      * <p>2. Navigate to frontend;</p>
      * <p>3. Open product details page;</p>
      * <p>4. Add product to shopping cart;</p>
-     * <p>5. Validate prices for cross-sell product in "cross-sell products block" in shopping cart;</p>
+     * <p>5. Validate prices for cross-sell products in "cross-sell products block" in shopping cart;</p>
      * <p>Expected result:</p>
-     * <p>Products are created, One product contains block with cross-sell product; Price for cross-sell product is correct</p>
+     * <p>Products are created, The virtual product contains block with cross-sell products; Prices for cross-sell products are correct</p>
      *
      * @test
      */
@@ -101,15 +101,15 @@ class Product_LinkingTest extends Mage_Selenium_TestCase
     /**
      * <p>Review Cross-sell products on frontend.</p>
      * <p>Preconditions:</p>
-     * <p>Create All Types of product and realize next test for all of the;</p>
+     * <p>Create All Types of products (out of stock) and realize next test for all of them;</p>
      * <p>Steps:</p>
-     * <p>1. Create 1 products in stock and another one out of stock; Attach the second one to the first one as cross-sell product</p>
+     * <p>1. Create 1 virtual products in stock; Attach all types of products to the first one as cross-sell product</p>
      * <p>2. Navigate to frontend;</p>
      * <p>3. Open product details page;</p>
      * <p>4. Add product to shopping cart;</p>
      * <p>5. Validate that shopping cart page with the added product does not contains any cross-sell products;</p>
      * <p>Expected result:</p>
-     * <p>Products are created, The first product in the shopping cart does not provided with the cross-sell products block</p>
+     * <p>Products are created, The virtual product in the shopping cart does not contain the cross-sell products</p>
      *
      * @test
      */
@@ -121,14 +121,14 @@ class Product_LinkingTest extends Mage_Selenium_TestCase
     /**
      * <p>Review Up-sell products on frontend.</p>
      * <p>Preconditions:</p>
-     * <p>Create All Types of product and realize next test for all of the;</p>
+     * <p>Create All Types of products (in stock) and realize next test for all of them;</p>
      * <p>Steps:</p>
-     * <p>1. Create 2 products in stock; Attach one to another as up-sell product</p>
+     * <p>1. Create 1 virtual product in stock; Attach all types of products to the first one as up-sell products</p>
      * <p>2. Navigate to frontend;</p>
      * <p>3. Open product details page;</p>
-     * <p>4. Validate prices for up-sell product in "up-sell products block";</p>
+     * <p>4. Validate prices for up-sell products in "up-sell products block";</p>
      * <p>Expected result:</p>
-     * <p>Products are created, One product contains block with up-sell product; Price for up-sell product is correct</p>
+     * <p>Products are created, The virtual product contains block with up-sell products; Prices for up-sell products are correct</p>
      *
      * @test
      */
@@ -140,32 +140,20 @@ class Product_LinkingTest extends Mage_Selenium_TestCase
     /**
      * <p>Review Up-sell products on frontend.</p>
      * <p>Preconditions:</p>
-     * <p>Create All Types of product and realize next test for all of the;</p>
+     * <p>Create All Types of products (out of stock) and realize next test for all of them;</p>
      * <p>Steps:</p>
-     * <p>1. Create 1 products in stock and another one out of stock; Attach the second one to the first one as up-sell product</p>
+     * <p>1. Create 1 virtual product in stock; Attach all types of products to the first one as up-sell products</p>
      * <p>2. Navigate to frontend;</p>
      * <p>3. Open product details page;</p>
-     * <p>4. Validate that product details page for the first product does not contain up-sell block with the second product;</p>
+     * <p>4. Validate that product details page for the first product does not contain up-sell block with the products;</p>
      * <p>Expected result:</p>
-     * <p>Products are created, The first products detail page does not contain the up-sell products block with the second product</p>
+     * <p>Products are created, The virtual product details page does not contain any up-sell product</p>
      *
      * @test
      */
     public function upSellsOutOfStock()
     {
         $this->markTestIncomplete('@TODO');
-    }
-
-    public function productTypes()
-    {
-        return array(
-            array('simple'),
-            array('virtual'),
-            array('downloadable'),
-            array('bundle'),
-            array('configurable'),
-            array('grouped')
-        );
     }
 }
 
