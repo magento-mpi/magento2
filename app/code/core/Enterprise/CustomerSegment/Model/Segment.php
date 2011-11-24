@@ -52,6 +52,13 @@ class Enterprise_CustomerSegment_Model_Segment extends Mage_Rule_Model_Rule
     const VIEW_MODE_INTERSECT_CODE  = 'intersect';
 
     /**
+     * Possible states of customer segment
+     */
+    const APPLY_TO_VISITORS = 2;
+    const APPLY_TO_REGISTERED = 1;
+    const APPLY_TO_VISITORS_AND_REGISTERED = 0;
+
+    /**
      * Intialize model
      *
      * @return void
@@ -99,13 +106,21 @@ class Enterprise_CustomerSegment_Model_Segment extends Mage_Rule_Model_Rule
     }
 
     /**
-     * Perform actions before object save.
+     * Perform actions before object save
+     *
      * Collect and save list of events which are applicable to segment.
+     *
+     * @return Enterprise_CustomerSegment_Model_Segment
      */
     protected function _beforeSave()
     {
         if (!$this->getData('processing_frequency')){
             $this->setData('processing_frequency', '1');
+        }
+
+        if (!$this->isObjectNew()) {
+            // Keep 'apply_to' property without changes for existing customer segnments
+            $this->setData('apply_to', $this->getOrigData('apply_to'));
         }
 
         $events = array();
@@ -118,7 +133,7 @@ class Enterprise_CustomerSegment_Model_Segment extends Mage_Rule_Model_Rule
             $this->getConditions()->getConditionsSql($customer, $website)
         );
         $this->setMatchedEvents(array_unique($events));
-        parent::_beforeSave();
+        return parent::_beforeSave();
     }
 
     /**
@@ -190,7 +205,7 @@ class Enterprise_CustomerSegment_Model_Segment extends Mage_Rule_Model_Rule
     }
 
     /**
-     * Validate customer by segment conditions for ran website
+     * Validate customer by segment conditions for current website
      *
      * @param Varien_Object $object
      * @return bool
@@ -199,6 +214,9 @@ class Enterprise_CustomerSegment_Model_Segment extends Mage_Rule_Model_Rule
     {
         $website = Mage::app()->getWebsite();
         if ($object instanceof Mage_Customer_Model_Customer) {
+            if (!$object->getId()) {
+                $this->setVisitorId(Mage::getSingleton('log/visitor')->getId());
+            }
             return $this->validateCustomer($object, $website);
         }
         return false;
@@ -214,7 +232,7 @@ class Enterprise_CustomerSegment_Model_Segment extends Mage_Rule_Model_Rule
     public function validateCustomer($customer, $website)
     {
         /**
-         * Use prepeared in beforeSave sql
+         * Use prepared in beforeSave sql
          */
         $sql = $this->getConditionSql();
         if (!$sql) {
@@ -233,8 +251,22 @@ class Enterprise_CustomerSegment_Model_Segment extends Mage_Rule_Model_Rule
         if (strpos($sql, ':website_id')) {
             $params['website_id']   = $website->getId();
         }
+        if (strpos($sql, ':quote_id')) {
+            if (!$customerId) {
+                $params['quote_id'] = Mage::getModel('log/visitor')->load($this->getVisitorId())->getQuoteId();
+            } else {
+                $params['quote_id'] = 0;
+            }
+        }
+        if (strpos($sql, ':visitor_id')) {
+            if (!$customerId) {
+                $params['visitor_id'] = $this->getVisitorId();
+            } else {
+                $params['visitor_id'] = 0;
+            }
+        }
         $result = $this->getResource()->runConditionSql($sql, $params);
-        return $result>0;
+        return $result > 0;
     }
 
     /**

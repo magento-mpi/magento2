@@ -57,7 +57,8 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart_Productsqu
     public function getNewChildSelectOptions()
     {
         return array('value' => $this->getType(),
-            'label' => Mage::helper('enterprise_customersegment')->__('Products Quantity'));
+            'label' => Mage::helper('enterprise_customersegment')->__('Products Quantity'),
+            'available_in_guest_mode' => true);
     }
 
     /**
@@ -92,7 +93,12 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart_Productsqu
         Mage::getResourceHelper('enterprise_customersegment')->setOneRowLimit($select);
 
         $select->where("quote.items_qty {$operator} ?", $this->getValue());
-        $select->where($this->_createCustomerFilter($customer, 'quote.customer_id'));
+        if ($customer) {
+            // Leave ability to check this condition not only by customer_id but also by quote_id
+            $select->where('quote.customer_id = :customer_id OR quote.entity_id = :quote_id');
+        } else {
+            $select->where($this->_createCustomerFilter($customer, 'quote.customer_id'));
+        }
 
         return $select;
     }

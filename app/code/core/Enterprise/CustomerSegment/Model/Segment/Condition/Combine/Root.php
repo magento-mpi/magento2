@@ -78,14 +78,19 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Combine_Root
     {
         $select = $this->getResource()->createSelect();
         $table = array('root' => $this->getResource()->getTable('customer/entity'));
-        $select->from($table, array('entity_id'));
+
         if ($customer) {
-            $select->where($this->_createCustomerFilter($customer, 'entity_id'));
-        } elseif ($customer === null) {
-            if (Mage::getSingleton('customer/config_share')->isWebsiteScope()) {
-                $select->where('website_id=?', $website);
+            // For existing customer
+            $select->from($table, new Zend_Db_Expr(1));
+        } else {
+            $select->from($table, array('entity_id'));
+            if ($customer === null) {
+                if (Mage::getSingleton('customer/config_share')->isWebsiteScope()) {
+                    $select->where('website_id=?', $website);
+                }
             }
         }
+
         return $select;
     }
 }

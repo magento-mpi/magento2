@@ -1,5 +1,4 @@
-<?xml version="1.0"?>
-<!--
+<?php
 /**
  * Magento Enterprise Edition
  *
@@ -21,23 +20,17 @@
  *
  * @category    Enterprise
  * @package     Enterprise_CustomerSegment
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @copyright   Copyright (c) 2011 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
--->
-<config>
-    <modules>
-        <Enterprise_CustomerSegment>
-            <active>false</active>
-            <codePool>core</codePool>
-            <depends>
-                <Mage_Customer/>
-                <Enterprise_Customer/>
-                <Mage_Adminhtml/>
-                <Mage_Catalog/>
-                <Mage_CatalogRule/>
-                <Mage_Log/>
-            </depends>
-        </Enterprise_CustomerSegment>
-    </modules>
-</config>
+
+/** @var $installer Enterprise_CustomerSegment_Model_Resource_Setup */
+$installer = $this;
+
+$installer->getConnection()->addColumn($installer->getTable('enterprise_customersegment/segment'), 'apply_to', array(
+    'type' => Varien_Db_Ddl_Table::TYPE_SMALLINT,
+    'unsigned' => true,
+    'nullable' => false,
+    'default' => 0,
+    'comment' => 'Customer types to which this segment applies'
+));
