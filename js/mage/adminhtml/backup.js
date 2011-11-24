@@ -13,6 +13,7 @@ AdminBackup.prototype = {
         $('use_ftp').checked = false;
         $('ftp-credentials-container').hide();
         $('backup_maintenance_mode').checked = false;
+        $('password').value = '';
         $$('#rollback-request-password .validation-advice').invoke('remove');
         $$('#rollback-request-password input').invoke('removeClassName', 'validation-failed');
         $$('#rollback-request-password input').invoke('removeClassName', 'validation-passed');
