@@ -18,7 +18,7 @@
  * @see Mage_Catalog_Model_ProductPriceTest
  * @magentoDataFixture Mage/Catalog/_files/categories.php
  */
-class Mage_Catalog_Model_ProductTest extends PHPUnit_Framework_TestCase
+class Mage_Catalog_Model_ProductGettersTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Mage_Catalog_Model_Product
