@@ -106,7 +106,7 @@ class Order_Helper extends Mage_Selenium_TestCase
         $verTotal = (isset($orderData['total_verification'])) ? $orderData['total_verification'] : NULL;
 
         $this->navigateToCreateOrderPage($customer, $storeView);
-        $this->fillForm($account, 'order_account_information');
+        $this->fillForm($account);
         foreach ($products as $value) {
             $this->addProductToOrder($value);
         }
@@ -388,7 +388,7 @@ class Order_Helper extends Mage_Selenium_TestCase
                 if ($card) {
                     $paymentId = $this->getAttribute($xpath . '/@value');
                     $this->addParameter('paymentId', $paymentId);
-                    $this->fillForm($card, 'order_payment_method');
+                    $this->fillForm($card);
                     $this->validate3dSecure();
                 }
             }
@@ -506,7 +506,7 @@ class Order_Helper extends Mage_Selenium_TestCase
     public function reconfigProduct($productSku, array $productData)
     {
         $this->addParameter('sku', $productSku);
-        $this->fillForm($productData, 'order_items_ordered');
+        $this->fillForm($productData);
         $this->clickButton('update_items_and_quantity', FALSE);
         $this->pleaseWait();
     }
