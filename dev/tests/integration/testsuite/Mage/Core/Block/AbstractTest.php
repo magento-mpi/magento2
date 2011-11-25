@@ -367,7 +367,7 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Mage_Core_Block_Messages', $this->_block->getMessagesBlock());
 
         // set explicitly
-        $messages = new Mage_Core_Block_Text;
+        $messages = new Mage_Core_Block_Messages;
         $this->_block->setMessagesBlock($messages);
         $this->assertSame($messages, $this->_block->getMessagesBlock());
     }

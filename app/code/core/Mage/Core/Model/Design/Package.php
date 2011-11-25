@@ -673,9 +673,15 @@ class Mage_Core_Model_Design_Package
                 $content = $this->_getPublicCssContent($file, dirname($publicFile), $skinFile, $params);
                 file_put_contents($publicFile, $content);
             } else {
-                copy($file, $publicFile);
+                if (is_file($file)) {
+                    copy($file, $publicFile);
+                } elseif (!is_dir($file)) {
+                    mkdir($publicFile, 0777, true);
+                }
             }
-            touch($publicFile, $fileMTime);
+            if (is_file($publicFile)) {
+                touch($publicFile, $fileMTime);
+            }
         }
         return $publicFile;
 

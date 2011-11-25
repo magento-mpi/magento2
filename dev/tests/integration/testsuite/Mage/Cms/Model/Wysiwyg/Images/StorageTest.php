@@ -14,6 +14,24 @@
  */
 class Mage_Cms_Model_Wysiwyg_Images_StorageTest extends PHPUnit_Framework_TestCase
 {
+
+    /**
+     * @var string
+     */
+    protected static $_baseDir;
+
+    public static function setUpBeforeClass()
+    {
+        self::$_baseDir = Mage::helper('Mage_Cms_Helper_Wysiwyg_Images')->getCurrentPath() . __CLASS__;
+        mkdir(self::$_baseDir, 0777);
+        touch(self::$_baseDir . DIRECTORY_SEPARATOR . '1.swf');
+    }
+
+    public static function tearDownAfterClass()
+    {
+        Varien_Io_File::rmdirRecursive(self::$_baseDir);
+    }
+
     /**
      * @magentoAppIsolation enabled
      */
@@ -21,10 +39,7 @@ class Mage_Cms_Model_Wysiwyg_Images_StorageTest extends PHPUnit_Framework_TestCa
     {
         Mage::getDesign()->setDesignTheme('default/default/default', 'adminhtml');
         $model = new Mage_Cms_Model_Wysiwyg_Images_Storage;
-        $baseDir = Mage::helper('Mage_Cms_Helper_Wysiwyg_Images')->getCurrentPath() . __CLASS__;
-        mkdir($baseDir, 0777);
-        touch($baseDir . DIRECTORY_SEPARATOR . '1.swf');
-        $collection = $model->getFilesCollection($baseDir, 'media');
+        $collection = $model->getFilesCollection(self::$_baseDir, 'media');
         $this->assertInstanceOf('Mage_Cms_Model_Wysiwyg_Images_Storage_Collection', $collection);
         foreach ($collection as $item) {
             $this->assertInstanceOf('Varien_Object', $item);

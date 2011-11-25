@@ -43,6 +43,10 @@ class Mage_Adminhtml_Block_System_Store_Edit extends Mage_Adminhtml_Block_Widget
                 $deleteLabel = Mage::helper('Mage_Core_Helper_Data')->__('Delete Store View');
                 $deleteUrl   = $this->getUrl('*/*/deleteStore', array('item_id' => Mage::registry('store_data')->getId()));
                 break;
+            default:
+                $saveLabel = '';
+                $deleteLabel = '';
+                $deleteUrl = '';
         }
         $this->_controller = 'system_store';
 

@@ -42,8 +42,9 @@ class Mage_Catalog_Model_Product_Type_PriceTest extends PHPUnit_Framework_TestCa
 
         // with options
         $product->addCustomOption('option_ids', implode(',', array_keys($product->getOptions())));
+
         foreach ($product->getOptions() as $id => $option) {
-            $product->addCustomOption("option_{$id}", $option);
+            $product->addCustomOption("option_{$id}", $option->getValue());
         }
         $this->assertEquals(13.0, $this->_model->getFinalPrice(1, $product));
     }
@@ -64,7 +65,7 @@ class Mage_Catalog_Model_Product_Type_PriceTest extends PHPUnit_Framework_TestCa
         // with options
         $product->addCustomOption('option_ids', implode(',', array_keys($product->getOptions())));
         foreach ($product->getOptions() as $id => $option) {
-            $product->addCustomOption("option_{$id}", $option);
+            $product->addCustomOption("option_{$id}", $option->getValue());
         }
         $this->assertEquals(13.0, $this->_model->getChildFinalPrice('', '', $product, 1));
     }

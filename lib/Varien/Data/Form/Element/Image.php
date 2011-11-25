@@ -24,7 +24,7 @@ class Varien_Data_Form_Element_Image extends Varien_Data_Form_Element_Abstract
      *
      * @param array $data
      */
-    public function __construct($data)
+    public function __construct($data = array())
     {
         parent::__construct($data);
         $this->setType('file');

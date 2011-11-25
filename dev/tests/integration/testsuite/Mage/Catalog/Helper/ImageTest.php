@@ -67,16 +67,7 @@ class Mage_Catalog_Helper_ImageTest extends PHPUnit_Framework_TestCase
 
     public static function tearDownAfterClass()
     {
-        unlink(self::$_fixtureMediaDir . '/m/a/magento_image.jpg');
-        unlink(self::$_fixtureMediaDir . '/m/a/magento_small_image.jpg');
-        unlink(self::$_fixtureMediaDir . '/m/a/magento_thumbnail.jpg');
-        rmdir(self::$_fixtureMediaDir . '/m/a');
-        rmdir(self::$_fixtureMediaDir . '/m');
-
-        unlink(self::$_fixtureMediaDir . '/watermark/stores/' . Mage::app()->getStore()->getId() . '/watermark.jpg');
-        rmdir(self::$_fixtureMediaDir . '/watermark/stores/' . Mage::app()->getStore()->getId());
-        rmdir(self::$_fixtureMediaDir . '/watermark/stores');
-        rmdir(self::$_fixtureMediaDir . '/watermark');
+        Varien_Io_File::rmdirRecursive(self::$_fixtureMediaDir);
 
         $images = new Mage_Catalog_Model_Product_Image;
         $images->clearCache();
