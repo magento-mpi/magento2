@@ -183,7 +183,10 @@ class Mage_Backup_Helper_Data extends Mage_Core_Helper_Abstract
             'maintenance.flag',
             Mage::getBaseDir('var') . DS . 'session',
             Mage::getBaseDir('var') . DS . 'locks',
-            Mage::getBaseDir('var') . DS . 'log'
+            Mage::getBaseDir('var') . DS . 'log',
+            Mage::getBaseDir('app') . DS . 'Mage.php',
+            Mage::getBaseDir() . DS . 'errors',
+            Mage::getBaseDir() . DS . 'index.php'
         );
     }
 
