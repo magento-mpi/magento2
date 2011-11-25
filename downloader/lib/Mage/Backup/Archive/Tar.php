@@ -46,8 +46,9 @@ class Mage_Backup_Archive_Tar extends Mage_Archive_Tar
      *
      * @see Mage_Archive_Tar::_createTar()
      * @param bool $skipRoot
+     * @param bool $finalize
      */
-    protected function _createTar($skipRoot = false)
+    protected function _createTar($skipRoot = false, $finalize = false)
     {
         $path = $this->_getCurrentFile();
 
@@ -62,8 +63,9 @@ class Mage_Backup_Archive_Tar extends Mage_Archive_Tar
             $this->_packAndWriteCurrentFile();
         }
 
-        //finalize tarball
-        $this->_getWriter()->write(str_repeat("\0", self::TAR_BLOCK_SIZE * 12));
+        if ($finalize) {
+            $this->_getWriter()->write(str_repeat("\0", self::TAR_BLOCK_SIZE * 12));
+        }
     }
 
     /**
