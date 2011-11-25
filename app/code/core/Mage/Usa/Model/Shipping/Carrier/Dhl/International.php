@@ -131,7 +131,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
             );
         }
 
-        return $returnValue;
+        return $origValue;
     }
 
     /**
