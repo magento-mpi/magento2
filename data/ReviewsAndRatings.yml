@@ -92,6 +92,6 @@ test_review:
 #*********************************************
 
 new_review:
-    nickname: First Name
-    summary_of_your_review: sadasasdasdadsa
-    review: asdasdasdasdads
+    nickname: Nickname
+    summary_of_your_review: Review Summary
+    review: Review Text
