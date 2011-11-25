@@ -78,6 +78,17 @@ new_rating:
             back: //button[span='Back']
             reset: //button[span='Reset']
             save_rating: //button[span='Save Rating']
+        messages:
+            empty_required_field: "//div[@id='advice-required-entry-%fieldId%' and not(contains(@style,'display: none;'))]"
+            existing_name: //li[normalize-space(@class)='error-msg' and contains(.,'already exists.')]
+
+new_edit_rating:
+    mca: rating/edit/
+    title: New Rating / Manage Ratings / Reviews and Ratings / Catalog / Magento Admin
+    uimap:
+        form: *newRating
+        messages:
+            existing_name: //li[normalize-space(@class)='error-msg' and contains(.,'already exists.')]
 
 edit_rating:
     mca: rating/edit/id/%id%/
@@ -182,6 +193,9 @@ add_new_review:
             back: //button[span='Back']
             reset: //button[span='Reset']
             save_review: //button[span='Save Review']
+        messages:
+            empty_required_field: "//div[@id='advice-required-entry-%fieldId%' and not(contains(@style,'display: none;'))]"
+            empty_validate_rating: "//div[@id='advice-validate-rating-validate_rating' and not(contains(@style,'display: none;'))]"
 
 edit_review:
     mca: catalog_product_review/edit/id/%id%/
@@ -190,7 +204,20 @@ edit_review:
         form: &editReview
             fieldsets:
                 -
-                    review_details: *reviewDetails
+                    review_details: 
+                        xpath: //div[@id='review_details']
+                        links:
+                            product: //a[text()='%productName%']
+                        radiobuttons:
+                            detailed_rating: //input[@type='radio' and @id='%ratingName%_%stars%']
+                        dropdowns:
+                            status: //select[@name='status_id']
+                        multiselects:
+                            visible_in: //select[@name='select_stores[]']
+                        fields:
+                            nickname: //input[@name='nickname']
+                            summary_of_review: //input[@name='title']
+                            review: //textarea[@name='detail']
         buttons: &editReviewButtons
             back: //button[span='Back']
             reset: //button[span='Reset']

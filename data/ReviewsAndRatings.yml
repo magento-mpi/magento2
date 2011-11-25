@@ -26,27 +26,27 @@
 #
 ---
 #Test data for Reviews and Ratings
-
+#<----------------------------------------------------Ratings---------------------------------------------------------->
 search_rating:
     filter_id: %noValue%
     filter_rating_name: %noValue%
 
 
-test_rating:
+default_rating:
     rating_information:
-        default_value: some_test
+        default_value: test_rating
         store_view_titles:
             store_view_1:
-                store_view_name: Default Store View
-                store_view_title: default store view for rating
-            store_view_2:
-                store_view_name: new_store_view
-                store_view_title: new store view for rating
-            store_view_3:
-                store_view_name: test_store_view
-                store_view_title: test store view for rating
-        visible_in: Default Store View, new_store_view, test_store_view
+                store_view_name: %noValue%
+                store_view_title: %noValue%
+            store_view_2: %noValue%
+        visible_in: %noValue%
 
+rating_required_fields:
+    rating_information:
+        default_value: test_rating
+
+#<----------------------------------------------------Reviews---------------------------------------------------------->
 search_review:
     filter_massaction: %noValue%
     filter_id: %noValue%
@@ -63,8 +63,8 @@ search_review:
 
 product_to_search: &productToSearch
     filter_id: %noValue%
-    filter_name: vecsi_Simple Product For Prices Validation
-    filter_sku: tdokk_simple_sku_price_validation
+    filter_name: %noValue%
+    filter_sku: %noValue%
     filter_price_from: %noValue%
     filter_price_to: %noValue%
     filter_qty_from: %noValue%
@@ -72,17 +72,14 @@ product_to_search: &productToSearch
     filter_status: %noValue%
     filter_websites: %noValue%
 
-test_review:
+review_required:
     product_to_review: *productToSearch
-    detailed_rating_select:
-        rating_1:
-            rating_name: 111111
-            stars: 3
-        rating_2:
-            rating_name: 222222
-            stars: 2
     status: Approved
     visible_in: Default Store View, new_store_view, test_store_view
+    detailed_rating_select:
+        rating_1:
+            rating_name:  %noValue%
+            stars: 3
     nickname: test_nickname
     summary_of_review: test summary for review
     review: some_test review
