@@ -44,6 +44,11 @@ class Mage_XmlConnect_Helper_Data extends Mage_Core_Helper_Abstract
     const MESSAGE_TITLE_LENGTH = 255;
 
     /**
+     * Curl default timeout
+     */
+    const CURLOPT_DEFAULT_TIMEOUT = 60;
+
+    /**
      * List of the keys for xml config that have to be excluded form application config
      *
      * @var array
@@ -620,13 +625,13 @@ EOT;
         }
 
         try {
-            $appCode = $queue->getAppCode();
+            $applicationId = Mage::getModel('xmlconnect/template')->load($queue->getTemplateId())->getApplicationId();
             /** @var $app Mage_XmlConnect_Model_Application */
-            $app = Mage::getModel('xmlconnect/application')->loadByCode($appCode);
+            $app = Mage::getModel('xmlconnect/application')->load($applicationId);
 
             if (!$app->getId()) {
                 Mage::throwException(
-                    Mage::helper('xmlconnect')->__('Can\'t load application with code "%s"', $appCode)
+                    Mage::helper('xmlconnect')->__('Can\'t load application with id "%s"', $applicationId)
                 );
             }
 
@@ -649,28 +654,20 @@ EOT;
                     break;
             }
 
-            $curlHandler = curl_init(Mage::getStoreConfig($configPath));
+            /** @var $curl Varien_Http_Adapter_Curl */
+            $curl = Mage::getModel('varien/http_adapter_curl');
+            $curl->setConfig($this->_getCurlConfig($app->getUserpwd()));
 
-            $httpHeaders = $this->getHttpHeaders();
+            $urbanUrl = Mage::getStoreConfig($configPath);
+            $curl->write(
+                Zend_Http_Client::POST, $urbanUrl, HTTP_REQUEST_HTTP_VER_1_1, $this->getHttpHeaders(), $params
+            );
 
-            curl_setopt($curlHandler, CURLOPT_POST, 1);
-            curl_setopt($curlHandler, CURLOPT_HTTPHEADER, $httpHeaders);
-            curl_setopt($curlHandler, CURLOPT_POSTFIELDS, $params);
-            curl_setopt($curlHandler, CURLOPT_RETURNTRANSFER, 1);
-            curl_setopt($curlHandler, CURLOPT_USERPWD, $app->getUserpwd());
-            curl_setopt($curlHandler, CURLOPT_TIMEOUT, 60);
-
-            // Execute the request.
-            curl_exec($curlHandler);
-            $succeeded  = curl_errno($curlHandler) == 0;
-            $responseCode = curl_getinfo($curlHandler, CURLINFO_HTTP_CODE) == 200;
-
-            // close cURL resource, and free up system resources
-            curl_close($curlHandler);
-
-            if ($succeeded && $responseCode) {
+            if ($curl->read() && $curl->getInfo(CURLINFO_HTTP_CODE) == 200) {
                 $queue->setStatus(Mage_XmlConnect_Model_Queue::STATUS_COMPLETED);
             }
+            $curl->close();
+
             $queue->setIsSent(true);
             $queue->save();
             return;
@@ -688,6 +685,18 @@ EOT;
     public function getHttpHeaders()
     {
         return array('Content-Type: application/json');
+    }
+
+    /**
+     * Get urban airship curl request configuration
+     *
+     * @param string $userPwd
+     * @param int $timeout
+     * @return array
+     */
+    protected function _getCurlConfig($userPwd, $timeout = self::CURLOPT_DEFAULT_TIMEOUT)
+    {
+        return array ('timeout' => $timeout, 'userpwd' => $userPwd);
     }
 
     /**
