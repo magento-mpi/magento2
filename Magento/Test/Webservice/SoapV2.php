@@ -70,6 +70,8 @@ class Magento_Test_Webservice_SoapV2 extends Magento_Test_Webservice_Abstract
      */
     public function init($options = null)
     {
+        // force to not use WSDL cache it helps to avoid clean WSDL cache every time WS-I - not WS-I mode changes
+        $options['cache_wsdl'] = WSDL_CACHE_NONE;
 
         $this->_client = new Zend_Soap_Client($this->getClientUrl(), $options);
         $this->_client->setSoapVersion(SOAP_1_1);
