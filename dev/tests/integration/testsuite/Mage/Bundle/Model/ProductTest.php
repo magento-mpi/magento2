@@ -43,7 +43,7 @@ class Mage_Bundle_Model_ProductTest extends PHPUnit_Framework_TestCase
         // singleton getter
         $otherProduct = new Mage_Catalog_Model_Product;
         $otherProduct->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_BUNDLE);
-        $this->assertSame($typeInstance, $otherProduct->getTypeInstance(true));
+        $this->assertSame($typeInstance, $otherProduct->getTypeInstance());
 
         // model setter
         $customTypeInstance = new Mage_Bundle_Model_Product_Type;
