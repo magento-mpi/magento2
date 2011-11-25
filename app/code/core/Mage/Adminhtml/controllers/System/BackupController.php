@@ -102,7 +102,7 @@ class Mage_Adminhtml_System_BackupController extends Mage_Adminhtml_Controller_A
 
             if ($type != Mage_Backup_Helper_Data::TYPE_DB) {
                 $backupManager->setRootDir(Mage::getBaseDir())
-                    ->addIgnorePaths($helper->getIgnorePaths());
+                    ->addIgnorePaths($helper->getBackupIgnorePaths());
             }
 
             $successMessage = $helper->getCreateSuccessMessageByType($type);
@@ -211,7 +211,7 @@ class Mage_Adminhtml_System_BackupController extends Mage_Adminhtml_Controller_A
             if ($type != Mage_Backup_Helper_Data::TYPE_DB) {
 
                 $backupManager->setRootDir(Mage::getBaseDir())
-                    ->addIgnorePaths(Mage::helper('backup')->getIgnorePaths());
+                    ->addIgnorePaths(Mage::helper('backup')->getRollbackIgnorePaths());
 
                 if ($this->getRequest()->getParam('use_ftp', false)) {
                     $backupManager->setUseFtp(

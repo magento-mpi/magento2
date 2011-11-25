@@ -73,7 +73,7 @@ class Mage_Backup_Model_Observer
 
             if ($type != Mage_Backup_Helper_Data::TYPE_DB) {
                 $backupManager->setRootDir(Mage::getBaseDir())
-                    ->addIgnorePaths(Mage::helper('backup')->getIgnorePaths());
+                    ->addIgnorePaths(Mage::helper('backup')->getBackupIgnorePaths());
             }
 
             $backupManager->create();

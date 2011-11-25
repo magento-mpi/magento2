@@ -154,11 +154,11 @@ class Mage_Backup_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * Get paths that should be ignored when creating or rolling back system snapshots
+     * Get paths that should be ignored when creating system snapshots
      *
      * @return array
      */
-    public function getIgnorePaths()
+    public function getBackupIgnorePaths()
     {
         return array(
             '.svn',
@@ -166,6 +166,22 @@ class Mage_Backup_Helper_Data extends Mage_Core_Helper_Abstract
             Mage::getBaseDir('var') . DS . 'session',
             Mage::getBaseDir('var') . DS . 'cache',
             Mage::getBaseDir('var') . DS . 'full_page_cache',
+            Mage::getBaseDir('var') . DS . 'locks',
+            Mage::getBaseDir('var') . DS . 'log'
+        );
+    }
+
+    /**
+     * Get paths that should be ignored when rolling back system snapshots
+     *
+     * @return array
+     */
+    public function getRollbackIgnorePaths()
+    {
+        return array(
+            '.svn',
+            'maintenance.flag',
+            Mage::getBaseDir('var') . DS . 'session',
             Mage::getBaseDir('var') . DS . 'locks',
             Mage::getBaseDir('var') . DS . 'log'
         );
