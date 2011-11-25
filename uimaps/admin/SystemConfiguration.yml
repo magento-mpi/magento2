@@ -3969,6 +3969,23 @@ system_configuration:
                                         dashboard_link: //a[text()='Dashboard']
                                     dropdowns:
                                         enable_charts: //select[@name='groups[dashboard][fields][enable_charts][value]']
+                            -
+                                captcha:
+                                    xpath: //div/fieldset[legend='CAPTCHA']
+                                    links:
+                                        dashboard_link: //a[text()='Dashboard']
+                                    dropdowns:
+                                        captcha_enable_admin: //select[@id='admin_captcha_enable']
+                                        captcha_font: //select[@id='admin_captcha_font']
+                                        captcha_display_mode: //select[@id='admin_captcha_mode']
+                                        captcha_case_sensitive: //select[@id='admin_captcha_case_sensitive']
+                                    fields:
+                                        captcha_number_of_attempts: //input[@id='admin_captcha_case_sensitive']
+                                        captcha_timeout: //input[@id='admin_captcha_timeout']
+                                        captcha_word_length: //input[@id='admin_captcha_length']
+                                        captcha_symbols: //input[@id='admin_captcha_symbols']
+                                    multiselects:
+                                        captcha_forms: //select[@id='admin_captcha_forms']
                 -
                     advanced_system:
                         xpath: //a[contains(@href, 'edit/section/system/')]
