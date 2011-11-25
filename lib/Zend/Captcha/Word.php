@@ -212,7 +212,7 @@ abstract class Zend_Captcha_Word extends Zend_Captcha_Base
      *
      * @return int
      */
-    public function getExpiration()
+    public function getTimeout()
     {
         return $this->_timeout;
     }

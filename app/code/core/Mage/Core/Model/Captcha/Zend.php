@@ -155,7 +155,7 @@ class Mage_Core_Model_Captcha_Zend extends Zend_Captcha_Image implements Mage_Co
      *
      * @return int
      */
-    public function getExpiration()
+    public function getTimeout()
     {
         if (!$this->_expiration) {
             $this->_expiration = (int)$this->_getHelper()->getConfigNode('timeout');
@@ -278,7 +278,7 @@ class Mage_Core_Model_Captcha_Zend extends Zend_Captcha_Image implements Mage_Co
     {
         if (!$this->_session) {
             $this->_session = $this->_getHelper()->getSession($this->_formId);
-            $this->_session->setLifetime($this->getExpiration());
+            $this->_session->setLifetime($this->getTimeout());
         }
         return $this->_session;
     }

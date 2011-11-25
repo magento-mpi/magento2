@@ -27,6 +27,9 @@
 /**
  * Zend captcha block
  *
+ * @method Mage_Core_Block_Captcha_Zend setIsAjax()
+ * @method bool                         getIsAjax()
+ *
  * @category   Mage
  * @package    Mage_Core
  * @author     Magento Core Team <core@magentocommerce.com>
@@ -41,17 +44,6 @@ class Mage_Core_Block_Captcha_Zend extends Mage_Core_Block_Template
     protected $_imgHeight;
 
     /**
-     * Returns template path
-     *
-     * @return string
-     */
-    public function getTemplate()
-    {
-        parent::getTemplate() || $this->setTemplate(self::DEFAULT_TEMPLATE);
-        return parent::getTemplate();
-    }
-
-    /**
      * Sets instance of a model used to generate captcha
      *
      * @param Mage_Core_Model_Captcha_Zend $captcha
@@ -61,6 +53,21 @@ class Mage_Core_Block_Captcha_Zend extends Mage_Core_Block_Template
     {
         $this->_captcha = $captcha;
         return $this;
+    }
+
+    /**
+     * Returns template path
+     *
+     * @return string
+     */
+    public function getTemplate()
+    {
+        if ($this->getIsAjax()) {
+            $this->setTemplate('');
+        } else {
+            parent::getTemplate() || $this->setTemplate(self::DEFAULT_TEMPLATE);
+        }
+        return parent::getTemplate();
     }
 
     /**

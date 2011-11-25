@@ -72,14 +72,14 @@ class Mage_Core_CaptchaController extends Mage_Core_Controller_Front_Action
                 /* @var $emulator Mage_Core_Model_App_Emulation */
                 $emulator = Mage::getModel('core/app_emulation');
                 $envInfo = $emulator->startEnvironmentEmulation(
-                    Mage_Core_Model_App::ADMIN_STORE_ID, Mage_Core_Model_App_Area::AREA_ADMIN);
+                    Mage_Core_Model_App::ADMIN_STORE_ID, Mage_Core_Model_App_Area::AREA_ADMINHTML);
             }
             /* @var $block Mage_Core_Block_Captcha_Zend */
             $block = $this->getLayout()->createBlock($blockType);
             $block->setFormId($formId)
                 ->setImgWidth($width)
                 ->setImgHeight($height)
-                ->setTemplate('page/empty.phtml')
+                ->setIsAjax(true)
                 ->toHtml();
             $response = $block->getImgSrc();
             if ($isAdmin) {
