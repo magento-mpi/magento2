@@ -106,9 +106,8 @@ class Review_Helper extends Mage_Selenium_TestCase
         }
         $reviewData = $this->arrayEmptyClear($reviewData);
 
-        $productToChoose = (isset($reviewData['product_to_review'])) ? $reviewData['product_to_review'] : NULL;
-        if ($productToChoose) {
-            $this->openProduct($productToChoose);
+        if (isset($reviewData['product_to_review'])) {
+            $this->openProduct($reviewData['product_to_review']);
         }
         $this->fillForm($reviewData);
         if (isset($reviewData['detailed_rating_select'])) {
