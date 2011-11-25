@@ -85,7 +85,7 @@ class Review_Helper extends Mage_Selenium_TestCase
      */
     public function openProduct(array $productSearch)
     {
-        $reviewSearch = $this->arrayEmptyClear($productSearch);
+        $productSearch = $this->arrayEmptyClear($productSearch);
         $xpathTR = $this->search($productSearch, 'select_product_grid');
         $this->assertNotEquals(null, $xpathTR, 'Product is not found');
         $this->click($xpathTR);

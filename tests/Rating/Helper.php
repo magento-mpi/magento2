@@ -145,7 +145,7 @@ class Rating_Helper extends Mage_Selenium_TestCase
         $ratingData = $this->arrayEmptyClear($ratingData);
         $simpleVerify = array();
         $specialVerify = array();
-        foreach ($ratingData as $tabName => $tabData) {
+        foreach ($ratingData as $tabData) {
             if (is_array($tabData)) {
                 foreach ($tabData as $fieldKey => $fieldValue) {
                     if (is_array($fieldValue)) {
