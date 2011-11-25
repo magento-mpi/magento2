@@ -174,27 +174,4 @@ class Magento_Test_Webservice extends Magento_TestCase
         }
         return null;
     }
-
-    /**
-     * Check webservice type
-     *
-     * @param $types
-     * @return bool
-     * @throws Magento_Test_Webservice_Exception
-     */
-    public function isWebserviceType($types)
-    {
-        if (!is_array($types)) {
-            $types = array($types);
-        }
-        foreach ($types as $item) {
-            if (!array_key_exists($item, $this->_webServiceMap)) {
-                throw new Magento_Test_Webservice_Exception('Unknown webservice type.');
-            }
-            if (strtolower(TESTS_WEBSERVICE_TYPE) == $item) {
-                return true;
-            }
-        }
-        return false;
-    }
 }

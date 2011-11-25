@@ -210,12 +210,9 @@ class Magento_TestCase extends PHPUnit_Framework_TestCase
             $options = Mage::getConfig()->getOptions();
             $currentCacheDir = $options->getCacheDir();
             $currentEtcDir = $options->getEtcDir();
-            $appCacheDir = Magento_Test_Bootstrap::getInstance()->getMagentoDir() . DS
-                    . trim(TESTS_APP_CACHE_DIR_RELATIVE_PATH, '\\/');
-            $appEtcDir = Magento_Test_Bootstrap::getInstance()->getMagentoDir() . DS
-                    . trim(TESTS_APP_ETC_DIR_RELATIVE_PATH, '\\/');
-            $options->setCacheDir($appCacheDir);
-            $options->setEtcDir($appEtcDir);
+
+            $options->setCacheDir(Magento_Test_Bootstrap::getInstance()->getMagentoDir() . DS . 'var' . DS . 'cache');
+            $options->setEtcDir(Magento_Test_Bootstrap::getInstance()->getMagentoDir() . DS . 'app' . DS . 'etc');
 
             $this->_appCache = new Mage_Core_Model_Cache(array(
                 'request_processors' => array(
