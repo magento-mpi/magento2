@@ -110,10 +110,13 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Copy extends Mage_Adminhtml_B
 
         foreach ($storeStructure as $website) {
             $value = Enterprise_Cms_Helper_Hierarchy::SCOPE_PREFIX_WEBSITE . $website['value'];
-            if (isset($website['children']) && !in_array($value, $excludeScopes)) {
-                $website['value'] = $value;
-                $website['style'] = 'border-bottom: none; font-weight: bold;';
-                $options[] = $website;
+            if (isset($website['children'])) {
+                $website['value'] = in_array($value, $excludeScopes) ? array() : $value;
+                $options[] = array(
+                    'label' => $website['label'],
+                    'value' => $website['value'],
+                    'style' => 'border-bottom: none; font-weight: bold;',
+                );
                 foreach ($website['children'] as $store) {
                     if (isset($store['children']) && !in_array($store['value'], $excludeScopes)) {
                         $storeViewOptions = array();
@@ -136,7 +139,10 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Copy extends Mage_Adminhtml_B
             } elseif ($website['value'] == Mage_Catalog_Model_Abstract::DEFAULT_STORE_ID) {
                 $website['value'] = Enterprise_Cms_Helper_Hierarchy::SCOPE_PREFIX_STORE
                                     . Mage_Catalog_Model_Abstract::DEFAULT_STORE_ID;
-                $options[] = $website;
+                $options[] = array(
+                    'label' => $website['label'],
+                    'value' => $website['value'],
+                );
             }
         }
         return $options;
