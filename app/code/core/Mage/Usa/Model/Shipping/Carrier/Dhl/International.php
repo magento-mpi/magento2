@@ -38,9 +38,8 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
     /**
      * Carrier Product indicator
      */
-    const DOC_DOC        = 'D';
-    const DOC_NON_DOC    = 'N';
-    const DOC_EVERYTHING = 'A';
+    const DHL_CONTENT_TYPE_DOC        = 'D';
+    const DHL_CONTENT_TYPE_NON_DOC    = 'N';
 
     /**
      * Code of the carrier
@@ -93,6 +92,49 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
     protected $_rates = array();
 
     /**
+     * Store Id
+     *
+     * @var int|null
+     */
+    protected $_storeId = null;
+
+    /**
+     * Request variables array
+     *
+     * @var array
+     */
+    protected $_requestVariables = array(
+        'id'                => array('code' => 'dhl_id',                'setCode' => 'id'),
+        'password'          => array('code' => 'dhl_password',          'setCode' => 'password'),
+        'account'           => array('code' => 'dhl_account',           'setCode' => 'account_nbr'),
+        'shipping_key'      => array('code' => 'dhl_shipping_key',      'setCode' => 'shipping_key'),
+        'shipping_intlkey'  => array('code' => 'dhl_shipping_intl_key', 'setCode' => 'shipping_intl_key'),
+        'shipment_type'     => array('code' => 'dhl_shipment_type',     'setCode' => 'shipment_type'),
+        'dutiable'          => array('code' => 'dhl_dutiable',          'setCode' => 'dutiable'),
+        'dutypaymenttype'   => array('code' => 'dhl_duty_payment_type', 'setCode' => 'duty_payment_type'),
+        'contentdesc'       => array('code' => 'dhl_content_desc',      'setCode' => 'content_desc')
+    );
+
+    /**
+     * Returns value of given variable
+     *
+     * @param mixed $origValue
+     * @param string $pathToValue
+     * @return mixed
+     */
+    protected function _getDefaultValue($origValue, $pathToValue)
+    {
+        if (!$origValue) {
+            $origValue = Mage::getStoreConfig(
+                $pathToValue,
+                $this->_storeId
+            );
+        }
+
+        return $returnValue;
+    }
+
+    /**
      * Collect and get rates
      *
      * @param Mage_Shipping_Model_Rate_Request $request
@@ -104,54 +146,42 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
             return false;
         }
 
-        $requestDhl = clone $request;
-        $origCompanyName = $requestDhl->getOrigCompanyName();
-        if (!$origCompanyName) {
-            $origCompanyName = Mage::getStoreConfig(
-                Mage_Core_Model_Store::XML_PATH_STORE_STORE_NAME,
-                $requestDhl->getStoreId()
-            );
-        }
+        $requestDhl     = clone $request;
+        $this->_storeId  = $requestDhl->getStoreId();
 
-        $origCountryId = $requestDhl->getOrigCountryId();
-        if (!$origCountryId) {
-            $origCountryId = Mage::getStoreConfig(
-                Mage_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID,
-                $requestDhl->getStoreId()
-            );
-        }
-        $origState = $requestDhl->getOrigState();
-        if (!$origState) {
-            $origState = Mage::getStoreConfig(
-                Mage_Shipping_Model_Shipping::XML_PATH_STORE_REGION_ID,
-                $requestDhl->getStoreId()
-            );
-        }
-        $origCity = $requestDhl->getOrigCity();
-        if (!$origCity) {
-            $origCity = Mage::getStoreConfig(
-                Mage_Shipping_Model_Shipping::XML_PATH_STORE_CITY,
-                $requestDhl->getStoreId()
-            );
-        }
+        $origCompanyName = $this->_getDefaultValue(
+            $requestDhl->getOrigCompanyName(),
+            Mage_Core_Model_Store::XML_PATH_STORE_STORE_NAME
+        );
+        $origCountryId = $this->_getDefaultValue(
+            $requestDhl->getOrigCountryId(),
+            Mage_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID
+        );
+        $origState = $this->_getDefaultValue(
+            $requestDhl->getOrigState(),
+            Mage_Shipping_Model_Shipping::XML_PATH_STORE_REGION_ID
+        );
+        $origCity = $this->_getDefaultValue(
+            $requestDhl->getOrigCity(),
+            Mage_Shipping_Model_Shipping::XML_PATH_STORE_CITY
+        );
+        $origPostcode = $this->_getDefaultValue(
+            $requestDhl->getOrigPostcode(),
+            Mage_Shipping_Model_Shipping::XML_PATH_STORE_ZIP
+        );
 
-        $origPostcode = $requestDhl->getOrigPostcode();
-        if (!$origPostcode) {
-            $origPostcode = Mage::getStoreConfig(
-                Mage_Shipping_Model_Shipping::XML_PATH_STORE_ZIP,
-                $requestDhl->getStoreId()
-            );
-        }
         $requestDhl->setOrigCompanyName($origCompanyName)
             ->setCountryId($origCountryId)
             ->setOrigState($origState)
             ->setOrigCity($origCity)
             ->setOrigPostal($origPostcode);
         $this->setRequest($requestDhl);
+
         $this->_result = $this->_getQuotes();
+
         $this->_updateFreeMethodQuote($request);
 
-        return $this->getResult();
+        return $this->_result;
     }
 
     /**
@@ -164,6 +194,20 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
         return $this->_result;
     }
 
+    protected function _addParams($requestObject)
+    {
+        $request = $this->_request;
+        foreach ($this->_requestVariables as $code => $objectCode) {
+            if ($request->getDhlId()) {
+                $value = $request->getData($objectCode['code']);
+            } else {
+                $value = $this->getConfigData($code);
+            }
+            $requestObject->setData($objectCode['setCode'], $value);
+        }
+        return $requestObject;
+    }
+
     /**
      * Prepare and set request in property of current instance
      *
@@ -173,6 +217,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
     public function setRequest(Varien_Object $request)
     {
         $this->_request = $request;
+        $this->_storeId = $request->getStoreId();
 
         $requestObject = new Varien_Object();
 
@@ -189,92 +234,20 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
             $requestObject->setService($request->getLimitMethod());
         }
 
-        if ($request->getDhlId()) {
-            $id = $request->getDhlId();
-        } else {
-            $id = $this->getConfigData('id');
-        }
-        $requestObject->setId($id);
-
-        if ($request->getDhlPassword()) {
-            $password = $request->getDhlPassword();
-        } else {
-            $password = $this->getConfigData('password');
-        }
-        $requestObject->setPassword($password);
-
-        if ($request->getDhlAccount()) {
-            $accountNbr = $request->getDhlAccount();
-        } else {
-            $accountNbr = $this->getConfigData('account');
-        }
-        $requestObject->setAccountNbr($accountNbr);
-
-        if ($request->getDhlShippingKey()) {
-            $shippingKey = $request->getDhlShippingKey();
-        } else {
-            $shippingKey = $this->getConfigData('shipping_key');
-        }
-        $requestObject->setShippingKey($shippingKey);
-
-        if ($request->getDhlShippingIntlKey()) {
-            $shippingKey = $request->getDhlShippingIntlKey();
-        } else {
-            $shippingKey = $this->getConfigData('shipping_intlkey');
-        }
-        $requestObject->setShippingIntlKey($shippingKey);
-
-        if ($request->getDhlShipmentType()) {
-            $shipmentType = $request->getDhlShipmentType();
-        } else {
-            $shipmentType = $this->getConfigData('shipment_type');
-        }
-        $requestObject->setShipmentType($shipmentType);
-
-        if ($request->getDhlDutiable()) {
-            $shipmentDutible = $request->getDhlDutiable();
-        } else {
-            $shipmentDutible = $this->getConfigData('dutiable');
-        }
-        $requestObject->setDutiable($shipmentDutible);
-
-        if ($request->getDhlDutyPaymentType()) {
-            $dutypaytype = $request->getDhlDutyPaymentType();
-        } else {
-            $dutypaytype = $this->getConfigData('dutypaymenttype');
-        }
-        $requestObject->setDutyPaymentType($dutypaytype);
-
-        if ($request->getDhlContentDesc()) {
-            $contentdesc = $request->getDhlContentDesc();
-        } else {
-            $contentdesc = $this->getConfigData('contentdesc');
-        }
-        $requestObject->setContentDesc($contentdesc);
+        $requestObject = $this->_addParams($requestObject);
 
         if ($request->getDestPostcode()) {
             $requestObject->setDestPostal($request->getDestPostcode());
         }
 
-        if ($request->getOrigCountry()) {
-            $origCountry = $request->getOrigCountry();
-        } else {
-            $origCountry = Mage::getStoreConfig(
-                Mage_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID,
-                $requestObject->getStoreId()
+        $requestObject->setOrigCountry(
+                $this->_getDefaultValue(
+                    $request->getOrigCountry(), Mage_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID)
+            )
+            ->setOrigCountryId(
+                $this->_getDefaultValue(
+                    $request->getOrigCountryId(), Mage_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID)
             );
-        }
-        $requestObject->setOrigCountry($origCountry);
-
-        if ($request->getOrigCountryId()) {
-            $origCountryId = $request->getOrigCountryId();
-        } else {
-            $origCountryId = Mage::getStoreConfig(
-                Mage_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID,
-                $requestObject->getStoreId()
-            );
-        }
-        $requestObject->setOrigCountryId($origCountryId);
 
         if ($request->getAction() == 'GenerateLabel') {
             $packageParams = $request->getPackageParams();
@@ -313,29 +286,29 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
             $shippingWeight = round(max(1, $weight), 0);
         }
 
-        $requestObject->setValue(round($request->getPackageValue(), 2));
-        $requestObject->setValueWithDiscount($request->getPackageValueWithDiscount());
-        $requestObject->setCustomsValue($request->getPackageCustomsValue());
-        $requestObject->setDestStreet(
-            Mage::helper('core/string')->substr(str_replace("\n", '', $request->getDestStreet()), 0, 35));
-        $requestObject->setDestStreetLine2($request->getDestStreetLine2());
-        $requestObject->setDestCity($request->getDestCity());
-        $requestObject->setOrigCompanyName($request->getOrigCompanyName());
-        $requestObject->setOrigCity($request->getOrigCity());
-        $requestObject->setOrigPhoneNumber($request->getOrigPhoneNumber());
-        $requestObject->setOrigPersonName($request->getOrigPersonName());
-        $requestObject->setOrigEmail(
-            Mage::getStoreConfig('trans_email/ident_general/email', $requestObject->getStoreId()));
-        $requestObject->setOrigCity($request->getOrigCity());
-        $requestObject->setOrigPostal($request->getOrigPostal());
-        $originStreet2 = Mage::getStoreConfig(
-            Mage_Shipping_Model_Shipping::XML_PATH_STORE_ADDRESS2, $requestObject->getStoreId());
-        $requestObject->setOrigStreet($request->getOrigStreet() ? $request->getOrigStreet() : $originStreet2);
-        $requestObject->setOrigStreetLine2($request->getOrigStreetLine2());
-        $requestObject->setDestPhoneNumber($request->getDestPhoneNumber());
-        $requestObject->setDestPersonName($request->getDestPersonName());
-        $requestObject->setDestCompanyName($request->getDestCompanyName());
+        $requestObject->setValue(round($request->getPackageValue(), 2))
+            ->setValueWithDiscount($request->getPackageValueWithDiscount())
+            ->setCustomsValue($request->getPackageCustomsValue())
+            ->setDestStreet(
+                Mage::helper('core/string')->substr(str_replace("\n", '', $request->getDestStreet()), 0, 35))
+            ->setDestStreetLine2($request->getDestStreetLine2())
+            ->setDestCity($request->getDestCity())
+            ->setOrigCompanyName($request->getOrigCompanyName())
+            ->setOrigCity($request->getOrigCity())
+            ->setOrigPhoneNumber($request->getOrigPhoneNumber())
+            ->setOrigPersonName($request->getOrigPersonName())
+            ->setOrigEmail(Mage::getStoreConfig('trans_email/ident_general/email', $requestObject->getStoreId()))
+            ->setOrigCity($request->getOrigCity())
+            ->setOrigPostal($request->getOrigPostal())
+            ->setOrigStreetLine2($request->getOrigStreetLine2())
+            ->setDestPhoneNumber($request->getDestPhoneNumber())
+            ->setDestPersonName($request->getDestPersonName())
+            ->setDestCompanyName($request->getDestCompanyName());
 
+        $originStreet2 = Mage::getStoreConfig(
+                Mage_Shipping_Model_Shipping::XML_PATH_STORE_ADDRESS2, $requestObject->getStoreId());
+
+        $requestObject->setOrigStreet($request->getOrigStreet() ? $request->getOrigStreet() : $originStreet2);
 
         if (is_numeric($request->getOrigState())) {
             $requestObject->setOrigState(Mage::getModel('directory/region')->load($request->getOrigState())->getCode());
@@ -357,13 +330,11 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
             $destCountry = self::PUERTORICO_COUNTRY_ID;
         }
 
-        $requestObject->setDestCountryId($destCountry);
-        $requestObject->setDestState($request->getDestRegionCode());
-
-        $requestObject->setWeight($shippingWeight);
-        $requestObject->setFreeMethodWeight($request->getFreeMethodWeight());
-
-        $requestObject->setOrderShipment($request->getOrderShipment());
+        $requestObject->setDestCountryId($destCountry)
+            ->setDestState($request->getDestRegionCode())
+            ->setWeight($shippingWeight)
+            ->setFreeMethodWeight($request->getFreeMethodWeight())
+            ->setOrderShipment($request->getOrderShipment());
 
         if ($request->getPackageId()) {
             $requestObject->setPackageId($request->getPackageId());
@@ -381,22 +352,21 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
     public function getAllowedMethods()
     {
         $contentType = $this->getConfigData('content_type');
-        $allowedMethods = '';
+        $allowedMethods = array();
         switch ($contentType) {
-            case self::DOC_DOC:
+            case self::DHL_CONTENT_TYPE_DOC:
                 $allowedMethods = explode(',', $this->getConfigData('doc_methods'));
                 break;
 
-            case self::DOC_NON_DOC:
+            case self::DHL_CONTENT_TYPE_NON_DOC:
                 $allowedMethods = explode(',', $this->getConfigData('nondoc_methods'));
                 break;
-
             default:
-                Mage::throwException('Content type is wrong. See DOC_* constants.');
+                Mage::throwException(Mage::helper('usa')->__('Wrong Content Type.'));
         }
         $methods = array();
-        foreach ($allowedMethods as $k) {
-            $methods[$k] = $this->getDhlProductDescription($k);
+        foreach ($allowedMethods as $method) {
+            $methods[$method] = $this->getDhlProductTitle($method);
         }
         return $methods;
     }
@@ -404,77 +374,67 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
     /**
      * Returns DHL shipment methods (depending on package content type, if necessary)
      *
-     * @param string $doc Package content type (doc/non-doc) see DOC_* constants
+     * @param string $doc Package content type (doc/non-doc) see DHL_CONTENT_TYPE_* constants
      * @return array
      */
-    public function getDhlProducts($doc = self::DOC_EVERYTHING)
+    public function getDhlProducts($doc)
     {
         $helper = Mage::helper('usa');
 
-        // Documents shipping
-        $docProducts = array(
-            '2' => $helper->__('Easy shop'),
-            '5' => $helper->__('Sprintline'),
-            '6' => $helper->__('Secureline'),
-            '7' => $helper->__('Express easy'),
-            '9' => $helper->__('Europack'),
-            'B' => $helper->__('Break bulk express'),
-            'C' => $helper->__('Medical express'),
-            'D' => $helper->__('Express worldwide'), // product content code: DOX
-            'U' => $helper->__('Express worldwide'), // product content code: ECX
-            'K' => $helper->__('Express 9:00'),
-            'L' => $helper->__('Express 10:30'),
-            'G' => $helper->__('Domestic economy select'),
-            'W' => $helper->__('Economy select'),
-            'I' => $helper->__('Break bulk economy'),
-            'N' => $helper->__('Domestic express'),
-            'O' => $helper->__('Others'),
-            'R' => $helper->__('Globalmail business'),
-            'S' => $helper->__('Same day'),
-            'T' => $helper->__('Express 12:00'),
-            'X' => $helper->__('Express envelope'),
-        );
-
-        // Services for shipping non-documents cargo
-        $nonDocProducts = array(
-            '1' => $helper->__('Customer services'),
-            '3' => $helper->__('Easy shop'),
-            '4' => $helper->__('Jetline'),
-            '8' => $helper->__('Express easy'),
-            'P' => $helper->__('Express worldwide'),
-            'Q' => $helper->__('Medical express'),
-            'E' => $helper->__('Express 9:00'),
-            'F' => $helper->__('Freight worldwide'),
-            'H' => $helper->__('Economy select'),
-            'J' => $helper->__('Jumbo box'),
-            'M' => $helper->__('Express 10:30'),
-            'V' => $helper->__('Europack'),
-            'Y' => $helper->__('Express 12:00'),
-        );
-
-        switch ($doc) {
-            case self::DOC_DOC:
-                $products = $docProducts;
-                break;
-            case self::DOC_NON_DOC:
-                $products = $nonDocProducts;
-                break;
-            default:
-                $products = array_merge($docProducts, $nonDocProducts);
+        if ($doc == self::DHL_CONTENT_TYPE_DOC) {
+            // Documents shipping
+            return array(
+                '2' => $helper->__('Easy shop'),
+                '5' => $helper->__('Sprintline'),
+                '6' => $helper->__('Secureline'),
+                '7' => $helper->__('Express easy'),
+                '9' => $helper->__('Europack'),
+                'B' => $helper->__('Break bulk express'),
+                'C' => $helper->__('Medical express'),
+                'D' => $helper->__('Express worldwide'), // product content code: DOX
+                'U' => $helper->__('Express worldwide'), // product content code: ECX
+                'K' => $helper->__('Express 9:00'),
+                'L' => $helper->__('Express 10:30'),
+                'G' => $helper->__('Domestic economy select'),
+                'W' => $helper->__('Economy select'),
+                'I' => $helper->__('Break bulk economy'),
+                'N' => $helper->__('Domestic express'),
+                'O' => $helper->__('Others'),
+                'R' => $helper->__('Globalmail business'),
+                'S' => $helper->__('Same day'),
+                'T' => $helper->__('Express 12:00'),
+                'X' => $helper->__('Express envelope'),
+            );
+        } else {
+            // Services for shipping non-documents cargo
+            return array(
+                '1' => $helper->__('Customer services'),
+                '3' => $helper->__('Easy shop'),
+                '4' => $helper->__('Jetline'),
+                '8' => $helper->__('Express easy'),
+                'P' => $helper->__('Express worldwide'),
+                'Q' => $helper->__('Medical express'),
+                'E' => $helper->__('Express 9:00'),
+                'F' => $helper->__('Freight worldwide'),
+                'H' => $helper->__('Economy select'),
+                'J' => $helper->__('Jumbo box'),
+                'M' => $helper->__('Express 10:30'),
+                'V' => $helper->__('Europack'),
+                'Y' => $helper->__('Express 12:00'),
+            );
         }
-
-        return $products;
     }
 
     /**
-     * Returns description of DHL shipping method by its code
+     * Returns title of DHL shipping method by its code
      *
      * @param string $code One-symbol code (see getDhlProducts())
      * @return bool
      */
-    public function getDhlProductDescription($code)
+    public function getDhlProductTitle($code)
     {
-        $dhlProducts = $this->getDhlProducts();
+        $contentType = $this->getConfigData('content_type');
+        $dhlProducts = $this->getDhlProducts($contentType);
         return isset($dhlProducts[$code]) ? $dhlProducts[$code] : false;
     }
 
@@ -505,9 +465,10 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
         $nodeFrom->addChild('City', $rawRequest->getOrigCity());
 
         $nodeBkgDetails = $nodeGetQuote->addChild('BkgDetails');
-        $nodeBkgDetails->addChild('PaymentCountryCode', $this->_getPaymentCountryId($rawRequest));
+        $nodeBkgDetails->addChild('PaymentCountryCode', $rawRequest->getOrigCountryId());
         $nodeBkgDetails->addChild('Date', Varien_Date::now(true));
-        $nodeBkgDetails->addChild('ReadyTime', $this->_getReadyTime());
+        $nodeBkgDetails->addChild('ReadyTime', 'PT' . (int)(string)$this->getConfigData('ready_time') . 'H00M');
+
         $nodeBkgDetails->addChild('DimensionUnit', $this->_getDimensionUnit());
         $nodeBkgDetails->addChild('WeightUnit', $this->_getWeightUnit());
         $nodeBkgDetails->addChild('NumberOfPieces', '1');
@@ -518,7 +479,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
         $nodeTo->addChild('Postalcode', $rawRequest->getDestPostal());
         $nodeTo->addChild('City', $rawRequest->getDestCity());
 
-        if ($this->getConfigData('content_type') == self::DOC_NON_DOC) {
+        if ($this->getConfigData('content_type') == self::DHL_CONTENT_TYPE_NON_DOC) {
             // IsDutiable flag and Dutiable node indicates that cargo is not a documentation
             $nodeBkgDetails->addChild('IsDutiable', 'Y');
             $nodeDutiable = $nodeGetQuote->addChild('Dutiable');
@@ -557,9 +518,9 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
      */
     protected function _parseResponse($response)
     {
-        $tr = get_html_translation_table(HTML_ENTITIES);
-        unset($tr['<'], $tr['>'], $tr['"']);
-        $response = str_replace(array_keys($tr), array_values($tr), $response);
+        $htmlTranslationTable = get_html_translation_table(HTML_ENTITIES);
+        unset($htmlTranslationTable['<'], $htmlTranslationTable['>'], $htmlTranslationTable['"']);
+        $response = str_replace(array_keys($htmlTranslationTable), array_values($htmlTranslationTable), $response);
 
         if (strlen(trim($response)) > 0) {
             if (strpos(trim($response), '<?xml') === 0) {
@@ -620,43 +581,34 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
     /**
      * Add rate to DHL rates array
      *
-     * @param SimpleXMLElement $nodeQtdShp
+     * @param SimpleXMLElement $shipmentDetails
      * @return Mage_Usa_Model_Shipping_Carrier_Dhl_International
      */
-    protected function _addRate(SimpleXMLElement $nodeQtdShp)
+    protected function _addRate(SimpleXMLElement $shipmentDetails)
     {
-        if (isset($nodeQtdShp->ProductShortName)
-            && isset($nodeQtdShp->ShippingCharge)
-            && isset($nodeQtdShp->GlobalProductCode)
-            && isset($nodeQtdShp->CurrencyCode)
-            && array_key_exists((string)$nodeQtdShp->GlobalProductCode, $this->getAllowedMethods())
+        if (isset($shipmentDetails->ProductShortName)
+            && isset($shipmentDetails->ShippingCharge)
+            && isset($shipmentDetails->GlobalProductCode)
+            && isset($shipmentDetails->CurrencyCode)
+            && array_key_exists((string)$shipmentDetails->GlobalProductCode, $this->getAllowedMethods())
         ) {
             // DHL product code, e.g. '3', 'A', 'Q', etc.
-            $dhlProduct = (string)$nodeQtdShp->GlobalProductCode;
-            $totalEstimate = (float)(string)$nodeQtdShp->ShippingCharge;
-            $currencyCode = (string)$nodeQtdShp->CurrencyCode;
-            $displayCurrencyCode = Mage::app()->getStore()->getDefaultCurrencyCode();
-            $dhlProductDescription = $this->getDhlProductDescription($dhlProduct);
+            $dhlProduct             = (string)$shipmentDetails->GlobalProductCode;
+            $totalEstimate          = (float)(string)$shipmentDetails->ShippingCharge;
+            $currencyCode           = (string)$shipmentDetails->CurrencyCode;
+            $displayCurrencyCode    = Mage::app()->getStore()->getDefaultCurrencyCode();
+            $dhlProductDescription  = $this->getDhlProductTitle($dhlProduct);
 
             if ($currencyCode != $displayCurrencyCode) {
-                // DHL returned shipping estimation in a currency different from store's display currency
-                if (isset($nodeQtdShp->ExchangeRate)) {
-                    // Convert to USD using DHL reported exchange rate
-                    $baseTotalEstimate = $totalEstimate * (float)(string)$nodeQtdShp->ExchangeRate;
-                    /* @var $currency Mage_Directory_Model_Currency */
-                    $currency = Mage::getModel('directory/currency');
-                    $rates = $currency->getCurrencyRates('USD', array($displayCurrencyCode));
-                    if (!empty($rates)) {
-                        // Convert to store display currency using store exchange rate
-                        $totalEstimate = $baseTotalEstimate * $rates[$displayCurrencyCode];
-                    } else {
-                        $totalEstimate = false;
-                        Mage::log("Exchange rate USD->{$displayCurrencyCode} not found. "
-                            . "DHL method {$dhlProductDescription} skipped");
-                    }
+                /* @var $currency Mage_Directory_Model_Currency */
+                $currency = Mage::getModel('directory/currency');
+                $rates = $currency->getCurrencyRates($currencyCode, array($displayCurrencyCode));
+                if (!empty($rates)) {
+                    // Convert to store display currency using store exchange rate
+                    $totalEstimate = $totalEstimate * $rates[$displayCurrencyCode];
                 } else {
-                    // Something is wrong
                     $totalEstimate = false;
+                    Mage::log(Mage::helper('usa')->__("Exchange rate %s->%s not found. DHL method %s skipped", $currencyCode, $displayCurrencyCode, $dhlProductDescription));
                 }
             }
             if ($totalEstimate) {
@@ -669,29 +621,6 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
     }
 
     /**
-     * Get code of the country which is paying for shipping
-     *
-     * @param Varien_Object $rawRequest
-     * @return string
-     */
-    protected function _getPaymentCountryId(Varien_Object $rawRequest)
-    {
-        return $rawRequest->getOrigCountryId();
-    }
-
-    /**
-     * Return ready time for package (in DHL format)
-     * Ready time - time between order submission and package ready
-     *
-     * @return string
-     */
-    protected function _getReadyTime()
-    {
-        $readyTime = (int)(string)$this->getConfigData('ready_time');
-        return "PT{$readyTime}H00M";
-    }
-
-    /**
      * Returns dimension unit (inch or cm)
      *
      * @return string
@@ -701,7 +630,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
         $countryId = $this->_rawRequest->getOrigCountryId();
         $measureUnit = $this->getCountryParams($countryId)->getMeasureUnit();
         if (empty($measureUnit)) {
-            Mage::throwException(Mage::helper('usa')->__("Can not identify measure unit for %s", $countryId));
+            Mage::throwException(Mage::helper('usa')->__("Cannot identify measure unit for %s", $countryId));
         }
         return $measureUnit;
     }
@@ -716,7 +645,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
         $countryId = $this->_rawRequest->getOrigCountryId();
         $weightUnit = $this->getCountryParams($countryId)->getWeightUnit();
         if (empty($weightUnit)) {
-            Mage::throwException(Mage::helper('usa')->__("Can not identify weight unit for %s", $countryId));
+            Mage::throwException(Mage::helper('usa')->__("Cannot identify weight unit for %s", $countryId));
         }
         return $weightUnit;
     }
@@ -737,9 +666,9 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
             $this->_countryParams = new Varien_Simplexml_Element($countriesXml);
         }
         if (isset($this->_countryParams->$countryCode)) {
-            $return = new Varien_Object($this->_countryParams->$countryCode->asArray());
+            $countryParams = new Varien_Object($this->_countryParams->$countryCode->asArray());
         }
-        return isset($return) ? $return : new Varien_Object();
+        return isset($countryParams) ? $countryParams : new Varien_Object();
     }
 
     /**

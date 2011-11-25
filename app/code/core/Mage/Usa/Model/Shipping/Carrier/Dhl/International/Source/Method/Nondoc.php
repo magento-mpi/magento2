@@ -32,21 +32,12 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Usa_Model_Shipping_Carrier_Dhl_International_Source_Method_Nondoc
+    extends Mage_Usa_Model_Shipping_Carrier_Dhl_International_Source_Method_Abstract
 {
     /**
-     * Returns array to be used in multiselect on back-end
+     * Carrier Product Type Indicator
      *
-     * @return array
+     * @var string $_contentType
      */
-    public function toOptionArray()
-    {
-        /* @var $dhl Mage_Usa_Model_Shipping_Carrier_Dhl_International */
-        $dhl = Mage::getModel('usa/shipping_carrier_dhl_international');
-        $options = array();
-        $dhlProducts = $dhl->getDhlProducts(Mage_Usa_Model_Shipping_Carrier_Dhl_International::DOC_NON_DOC);
-        foreach ($dhlProducts as $code => $title) {
-            $options[] = array('value' => $code, 'label' => $title);
-        }
-        return $options;
-    }
+    protected $_contentType = Mage_Usa_Model_Shipping_Carrier_Dhl_International::DHL_CONTENT_TYPE_NON_DOC;
 }

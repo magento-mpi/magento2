@@ -24,6 +24,13 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+/**
+ * Source model for DHL Content Type
+ *
+ * @category   Mage
+ * @package    Mage_Usa
+ * @author     Magento Core Team <core@magentocommerce.com>
+ */
 class Mage_Usa_Model_Shipping_Carrier_Dhl_International_Source_Contenttype
 {
     /**
@@ -36,9 +43,9 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International_Source_Contenttype
         $helper = Mage::helper('usa');
         return array(
             array('label' => $helper->__('Documents'),
-                'value' => Mage_Usa_Model_Shipping_Carrier_Dhl_International::DOC_DOC),
+                'value' => Mage_Usa_Model_Shipping_Carrier_Dhl_International::DHL_CONTENT_TYPE_DOC),
             array('label' => $helper->__('Non documents'),
-                'value' => Mage_Usa_Model_Shipping_Carrier_Dhl_International::DOC_NON_DOC),
+                'value' => Mage_Usa_Model_Shipping_Carrier_Dhl_International::DHL_CONTENT_TYPE_NON_DOC),
         );
     }
 }

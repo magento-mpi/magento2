@@ -24,18 +24,27 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-class Mage_Usa_Model_Shipping_Carrier_Dhl_International_Source_Freemethod
-    extends Mage_Usa_Model_Shipping_Carrier_Dhl_International_Source_Method
+/**
+ * Source model for DHL shipping methods for documentation
+ *
+ * @category   Mage
+ * @package    Mage_Usa
+ * @author     Magento Core Team <core@magentocommerce.com>
+ */
+class Mage_Usa_Model_Shipping_Carrier_Dhl_International_Source_Method_Freenondoc
+    extends Mage_Usa_Model_Shipping_Carrier_Dhl_International_Source_Method_Abstract
 {
     /**
-     * Get Shipping Methods
+     * Carrier Product Type Indicator
      *
-     * @return array
+     * @var string $_contentType
      */
-    public function toOptionArray()
-    {
-        $arr = parent::toOptionArray();
-        array_unshift($arr, array('value' => '', 'label' => Mage::helper('shipping')->__('None')));
-        return $arr;
-    }
+    protected $_contentType = Mage_Usa_Model_Shipping_Carrier_Dhl_International::DHL_CONTENT_TYPE_NON_DOC;
+
+    /**
+     * Show 'none' in methods list or not;
+     *
+     * @var bool
+     */
+    protected $_noneMethod = true;
 }

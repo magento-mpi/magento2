@@ -25,22 +25,48 @@
  */
 
 /**
- * Source model for DHL shipping methods for documentation
+ * Source model for DHL shipping methods
  *
  * @category   Mage
  * @package    Mage_Usa
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Usa_Model_Shipping_Carrier_Dhl_International_Source_Method_All
+abstract class Mage_Usa_Model_Shipping_Carrier_Dhl_International_Source_Method_Abstract
 {
+    /**
+     * Carrier Product Type Indicator
+     *
+     * @var string $_contentType
+     */
+    protected $_contentType;
+
+    /**
+     * Show 'none' in methods list or not;
+     *
+     * @var bool
+     */
+    protected $_noneMethod = false;
+
+    /**
+     * Returns array to be used in multiselect on back-end
+     *
+     * @return array
+     */
     public function toOptionArray()
     {
-        /* @var $dhl Mage_Usa_Model_Shipping_Carrier_Dhl_International */
-        $dhl = Mage::getModel('usa/shipping_carrier_dhl_international');
+        /* @var $carrierModel Mage_Usa_Model_Shipping_Carrier_Dhl_International */
+        $carrierModel   = Mage::getModel('usa/shipping_carrier_dhl_international');
+        $dhlProducts    = $carrierModel->getDhlProducts($this->_contentType);
+
         $options = array();
-        foreach ($dhl->getDhlProducts(Mage_Usa_Model_Shipping_Carrier_Dhl_International::DOC_EVERYTHING) as $k => $v) {
-            $options[] = array('value' => $k, 'label' => $v);
+        foreach ($dhlProducts as $code => $title) {
+            $options[] = array('value' => $code, 'label' => $title);
         }
+
+        if ($this->_noneMethod) {
+            array_unshift($options, array('value' => '', 'label' => Mage::helper('usa')->__('None')));
+        }
+
         return $options;
     }
 }
