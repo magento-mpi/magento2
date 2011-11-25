@@ -86,3 +86,12 @@ test_review:
     nickname: test_nickname
     summary_of_review: test summary for review
     review: some_test review
+
+#*********************************************
+#*         Frontend                          *
+#*********************************************
+
+new_review:
+    nickname: First Name
+    summary_of_your_review: sadasasdasdadsa
+    review: asdasdasdasdads

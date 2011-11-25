@@ -166,4 +166,129 @@ class Review_Helper extends Mage_Selenium_TestCase
         $this->assertTrue($this->verifyForm($simpleVerify), $this->messages);
     }
 
+    #********************************************
+    #           Frontend Methods                *
+    #********************************************
+
+    /**
+     * <p>Create Review</p>
+     *
+     * @param array $reviewData
+     */
+    public function frontendAddReview($reviewData)
+    {
+        if ($this->controlIsPresent('link', 'first_review')) {
+            $linkName = 'first_review';
+        } elseif($this->controlIsPresent('link', 'add_your_review')) {
+            $linkName = 'add_your_review';
+        } else ($this->fail('Element is absent on the page'));
+        $this->defineCorrectParam($linkName, 'productId');
+        $this->clickControl('link',$linkName);
+        $this->fillForm($reviewData);
+        $this->clickButton('submit_review');
+    }
+
+    /**
+     * Define parameter %Id% from Control
+     *
+     * @return integer
+     */
+    protected function defineIdFromControl($url, $idName)
+    {
+        // ID definition
+        $item_id = 0;
+        $title_arr = explode('/', $url);
+        $title_arr = array_reverse($title_arr);
+        foreach ($title_arr as $key => $value) {
+            if (preg_match("/$idName$/", $value) && isset($title_arr[$key - 1])) {
+                $item_id = $title_arr[$key - 1];
+                break;
+            }
+        }
+        return $item_id;
+    }
+
+    /**
+     * Verification review on frontend
+     *
+     * @param array $verificationData
+     * @param string $productName
+     * @param boolean $loggedIn
+     */
+    public function frontendReviewVerificationMyAccount(array $verificationData, $productName, $loggedIn = FALSE)
+    {
+        $this->addParameter('productName', $productName);
+        $reviewText = (isset($verificationData['review'])) ? $verificationData['review'] : NULL;
+        if($loggedIn){
+        //Verification in "My Recent Reviews" area
+        $this->navigate('customer_account');
+        $this->assertTrue($this->controlIsPresent('link', 'product_name'),
+                          "Cannot find product with name: $productName");
+        $this->defineCorrectParam('product_name', 'reviewId');
+        $this->clickControl('link', 'product_name');
+        $this->assertTrue($this->controlIsPresent('pageelement', 'review_details'),
+                          "Cannot find review with text: $reviewText");
+        $this->navigate('customer_account');
+        //Verification in "My Account -> My Product Reviews"
+        $this->navigate('my_product_reviews');
+        $this->assertTrue($this->controlIsPresent('link', 'product_name'), "Cannot find product with name: $productName");
+        $this->assertTrue($this->controlIsPresent('pageelement', 'review_details'),
+                          "Cannot find review with text: $reviewText");
+        $this->clickControl('link', 'view_details');
+        //Verification in "My Account -> Review Details"
+        $this->assertTrue($this->controlIsPresent('pageelement', 'product_name'), "Cannot find product with name: $productName");
+        $this->assertTrue($this->controlIsPresent('pageelement', 'review_details'),
+                          "Cannot find review with text: $reviewText");
+        $this->clickControl('link', 'back_to_my_reviews');
+        }
+    }
+
+    /**
+     * Add parameter ReviewId
+     *
+     * @param string $linkName
+     * @param string $paramName
+     */
+    public function defineCorrectParam($linkName, $paramName)
+    {
+        $linkXpath = $this->_getControlXpath('link', $linkName);
+        $url = $this->getAttribute($linkXpath . "/@href");
+        $id = $this->defineIdFromControl($url,'id');
+        $this->addParameter($paramName, $id);
+        $categoryId = $this->defineIdFromControl($url, 'category');
+        $this->addParameter('categoryId', $categoryId);
+    }
+
+    /**
+     * Review verification after approve
+     *
+     * @param array $verificationData
+     * @param string $productName
+     */
+    public function reviewVerificationInCategory($verificationData, $productName)
+    {
+        $this->addParameter('productName', $productName);
+        $reviewText = (isset($verificationData['review'])) ? $verificationData['review'] : NULL;
+        $reviewNickname = (isset($verificationData['nickname'])) ? $verificationData['nickname'] : NULL;
+        $reviewSummary = (isset($verificationData['summary_of_your_review'])) ? $verificationData['summary_of_your_review'] : NULL;
+        //Verification on product page
+        if($this->controlIsPresent('link', 'reviews')){
+        $this->defineCorrectParam('reviews', 'productId');
+        $this->clickControl('link', 'reviews');
+        $this->addParameter('reviewerName', $reviewNickname);
+        $this->assertTrue($this->controlIsPresent('link', 'review_summary'),
+                          "Cannot find review with summary: $reviewSummary");
+        $this->assertTrue($this->controlIsPresent('pageelement', 'review_details'),
+                          "Cannot find review with text: $reviewText");
+        $this->defineCorrectParam('review_summary', 'reviewId');
+        $this->clickControl('link', 'review_summary');
+        //Verification on Review Details page
+        $this->assertTrue($this->controlIsPresent('pageelement', 'product_name'),
+                          "Cannot find product with name: $productName");
+        $this->assertTrue($this->controlIsPresent('pageelement', 'review_details'),
+                          "Cannot find review with text: $reviewText");
+        $this->clickControl('link', 'back_to_my_reviews');
+        }
+    }
+
 }
