@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Magento
  *
@@ -51,7 +52,6 @@ class Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
     protected function assertPreConditions()
     {
         $this->navigate('manage_products');
-        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
         $this->addParameter('id', '0');
     }
 
@@ -252,7 +252,7 @@ class Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Create product with Custom Option: Use invalid value for field 'Price'</p>
+     * <p>Create product with Custom Option: Use special symbols for filling field 'Price'</p>
      * <p>Steps</p>
      * <p>1. Click "Add Product" button;</p>
      * <p>2. Fill in "Attribute Set", "Product Type" fields;</p>
@@ -260,53 +260,31 @@ class Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
      * <p>4. Fill in required fields with correct data;</p>
      * <p>5. Click "Custom Options" tab;</p>
      * <p>6. Click "Add New Option" button;</p>
-     * <p>7. Select "Multipleselect" into "Input Type" field;</p>
+     * <p>7. Select custom option type into "Input Type" field;</p>
      * <p>8. Fill in "Price" field with incorrect data;</p>
      * <p>9. Click "Save" button;</p>
      * <p>Expected result:</p>
      * <p>Product is not created, error message appears;</p>
      *
-     * @dataProvider dataInvalidPrice
+     * @dataProvider customOptionTypes
      * @test
-     *
-     * <p>NOTE: custom_options_date cases fail because of Fails because of MAGE-4621</p>
      */
-    public function invalidPriceInCustomOptions($optionDataName, $invalidPrice, $validationMessage)
+    public function specialSymbolsInCustomOptionsPrice($optionDataName, $message)
     {
         //Data
         $productData = $this->loadData('simple_product_required', null, 'general_sku');
         $productData['custom_options_data'][] = $this->loadData($optionDataName,
-                array('custom_options_price' => $invalidPrice));
+                array('custom_options_price' => $this->generate('string', 9, ':punct:')));
         //Steps
         $this->productHelper()->createProduct($productData);
         //Verifying
-        $this->addParameter('optionId', '1');
         $this->addFieldIdToMessage('field', 'custom_options_price');
-        $this->assertTrue($this->validationMessage($validationMessage), $this->messages);
+        $this->assertTrue($this->validationMessage($message), $this->messages);
         $this->assertTrue($this->verifyMessagesCount(), $this->messages);
     }
 
-    public function dataInvalidPrice()
-    {
-        return array(
-            array('custom_options_field', $this->generate('string', 9, ':punct:'), 'enter_valid_number'),
-            array('custom_options_field', $this->generate('string', 9, ':alpha:'), 'enter_valid_number'),
-            array('custom_options_field', 'g3648GJHghj', 'enter_valid_number'),
-            array('custom_options_file', $this->generate('string', 9, ':punct:'), 'enter_zero_or_greater'),
-            array('custom_options_file', $this->generate('string', 9, ':alpha:'), 'enter_zero_or_greater'),
-            array('custom_options_file', 'g3648GJHghj', 'enter_zero_or_greater'),
-            array('custom_options_file', '-123', 'enter_zero_or_greater'),
-            array('custom_options_dropdown', $this->generate('string', 9, ':punct:'), 'enter_valid_number'),
-            array('custom_options_dropdown', $this->generate('string', 9, ':alpha:'), 'enter_valid_number'),
-            array('custom_options_dropdown', 'g3648GJHghj', 'enter_valid_number'),
-            array('custom_options_date', $this->generate('string', 9, ':punct:'), 'enter_valid_number'),
-            array('custom_options_date', $this->generate('string', 9, ':alpha:'), 'enter_valid_number'),
-            array('custom_options_date', 'g3648GJHghj', 'enter_valid_number'),
-        );
-    }
-
     /**
-     * <p>Create product with Custom Option: Use negative number for field 'Price'</p>
+     * <p>Create product with Custom Option: Use text value for filling field 'Price'</p>
      * <p>Steps</p>
      * <p>1. Click "Add Product" button;</p>
      * <p>2. Fill in "Attribute Set", "Product Type" fields;</p>
@@ -314,22 +292,109 @@ class Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
      * <p>4. Fill in required fields with correct data;</p>
      * <p>5. Click "Custom Options" tab;</p>
      * <p>6. Click "Add New Option" button;</p>
-     * <p>7. Select "Multipleselect" into "Input Type" field;</p>
+     * <p>7. Select custom option type into "Input Type" field;</p>
      * <p>8. Fill in "Price" field with incorrect data;</p>
      * <p>9. Click "Save" button;</p>
      * <p>Expected result:</p>
-     * <p>Product is created, success message appears;</p>
+     * <p>Product is not created, error message appears;</p>
      *
-     * @dataProvider dataNegativePrice
+     * @dataProvider customOptionTypes
      * @test
-     *
-     * <p>NOTE: custom_options_date case fails because of Fails because of MAGE-4621</p>
      */
-    public function negativePriceInCustomOptions($optionDataName)
+    public function textValueInCustomOptionsPrice($optionDataName, $message)
     {
         //Data
         $productData = $this->loadData('simple_product_required', null, 'general_sku');
-        $productData['custom_options_data'][] = $this->loadData($optionDataName, array('custom_options_price' => -128));
+        $productData['custom_options_data'][] = $this->loadData($optionDataName,
+                array('custom_options_price' => $this->generate('string', 9, ':alpha:')));
+        //Steps
+        $this->productHelper()->createProduct($productData);
+        //Verifying
+        $this->addFieldIdToMessage('field', 'custom_options_price');
+        $this->assertTrue($this->validationMessage($message), $this->messages);
+        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
+    }
+
+    public function customOptionTypes()
+    {
+        return array(
+            array('custom_options_field', 'enter_valid_number'),
+            array('custom_options_area', 'enter_valid_number'),
+            array('custom_options_file', 'enter_zero_or_greater'),
+            array('custom_options_date', 'enter_zero_or_greater'),
+            array('custom_options_date_time', 'enter_zero_or_greater'),
+            array('custom_options_time', 'enter_zero_or_greater'),
+            array('custom_options_dropdown', 'enter_valid_number'),
+            array('custom_options_radiobutton', 'enter_valid_number'),
+            array('custom_options_checkbox', 'enter_valid_number'),
+            array('custom_options_multipleselect', 'enter_valid_number')
+        );
+    }
+
+    /**
+     * <p>Create product with Custom Option: Use negative number for filling field 'Price'</p>
+     * <p>Steps</p>
+     * <p>1. Click "Add Product" button;</p>
+     * <p>2. Fill in "Attribute Set", "Product Type" fields;</p>
+     * <p>3. Click "Continue" button;</p>
+     * <p>4. Fill in required fields with correct data;</p>
+     * <p>5. Click "Custom Options" tab;</p>
+     * <p>6. Click "Add New Option" button;</p>
+     * <p>7. Select custom option type into "Input Type" field;</p>
+     * <p>8. Fill in "Price" field with incorrect data;</p>
+     * <p>9. Click "Save" button;</p>
+     * <p>Expected result:</p>
+     * <p>Product is not created, error message appears;;</p>
+     *
+     * @dataProvider negativeNumberNegative
+     * @test
+     */
+    public function negativeNumberInCustomOptionsPriceNeg($optionName)
+    {
+        //Data
+        $productData = $this->loadData('simple_product_required', null, 'general_sku');
+        $productData['custom_options_data'][] = $this->loadData($optionName, array('custom_options_price' => -123));
+        //Steps
+        $this->productHelper()->createProduct($productData);
+        //Verifying
+        $this->addFieldIdToMessage('field', 'custom_options_price');
+        $this->assertTrue($this->validationMessage('enter_zero_or_greater'), $this->messages);
+        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
+    }
+
+    public function negativeNumberNegative()
+    {
+        return array(
+            array('custom_options_file'),
+            array('custom_options_date'),
+            array('custom_options_date_time'),
+            array('custom_options_time')
+        );
+    }
+
+    /**
+     * <p>Create product with Custom Option: Use negative number for filling field 'Price'</p>
+     * <p>Steps</p>
+     * <p>1. Click "Add Product" button;</p>
+     * <p>2. Fill in "Attribute Set", "Product Type" fields;</p>
+     * <p>3. Click "Continue" button;</p>
+     * <p>4. Fill in required fields with correct data;</p>
+     * <p>5. Click "Custom Options" tab;</p>
+     * <p>6. Click "Add New Option" button;</p>
+     * <p>7. Select custom option type into "Input Type" field;</p>
+     * <p>8. Fill in "Price" field with incorrect data;</p>
+     * <p>9. Click "Save" button;</p>
+     * <p>Expected result:</p>
+     * <p>Product is not created, error message appears;</p>
+     *
+     * @dataProvider negativeNumberPositive
+     * @test
+     */
+    public function negativeNumberInCustomOptionsPricePos($optionName)
+    {
+        //Data
+        $productData = $this->loadData('simple_product_required', null, 'general_sku');
+        $productData['custom_options_data'][] = $this->loadData($optionName, array('custom_options_price' => -123));
         $productSearch = $this->loadData('product_search', array('product_sku' => $productData['general_sku']));
         //Steps
         $this->productHelper()->createProduct($productData);
@@ -341,12 +406,15 @@ class Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
         $this->productHelper()->verifyProductInfo($productData);
     }
 
-    public function dataNegativePrice()
+    public function negativeNumberPositive()
     {
         return array(
             array('custom_options_field'),
+            array('custom_options_area'),
             array('custom_options_dropdown'),
-            array('custom_options_date')
+            array('custom_options_radiobutton'),
+            array('custom_options_checkbox'),
+            array('custom_options_multipleselect')
         );
     }
 
