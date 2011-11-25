@@ -205,8 +205,9 @@ product_review:
                             nickname: //input[@id='nickname_field']
                             summary_of_your_review: //input[@id='summary_field']
                             review: //textarea[@id='review_field']
-                        pageelements:
+                        links:
                             review_summary: //dt[span='%reviewerName%']/a
+                        pageelements:
                             review_details: //dt[span='%reviewerName%']/following-sibling::dd[1]
                             review_rate_name: //dt[span='%reviewerName%']/following-sibling::dd[1]//th[text()='%rateName%']
                             review_rate_value: //dt[span='%reviewerName%']/following-sibling::dd[1]//tr[th='%rateName%']//div[@class='rating']
@@ -221,7 +222,7 @@ product_review:
 product_review_index:
     mca: review/product/list/id/%productId%/#review-form
     title: %productTitle%
-    uimap: &productReview
+    uimap: *productReview
 
 product_review_category:
     mca: review/product/list/id/%productId%/category/%categoryId%/#review-form
