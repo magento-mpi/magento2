@@ -263,7 +263,7 @@ class Enterprise_Reminder_Model_Resource_Rule extends Mage_Core_Model_Resource_D
             case '!{}':
                 return 'NOT LIKE';
             case 'between':
-                return "BETWEEN %s AND %s";
+                return 'BETWEEN %s AND %s';
             case '>':
             case '<':
             case '>=':
