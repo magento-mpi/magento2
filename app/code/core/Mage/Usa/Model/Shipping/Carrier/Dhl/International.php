@@ -43,11 +43,8 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
 
     /**
      * Code of the carrier
-     *
-     * @var string
      */
     const CODE = 'dhlint';
-    protected $_code = self::CODE;
 
     /**
      * Rate request data
@@ -97,6 +94,13 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
      * @var int|null
      */
     protected $_storeId = null;
+
+    /**
+     * Carrier's code
+     *
+     * @var string
+     */
+    protected $_code = self::CODE;
 
     /**
      * Request variables array
