@@ -414,8 +414,6 @@ class Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Selenium_TestCas
      */
     public function reorderPendingOrder($orderData)
     {
-        //Data
-        $errors = array();
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -423,25 +421,9 @@ class Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Selenium_TestCas
         $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
         //Steps
         $this->clickButton('reorder');
-        $data = $orderData['payment_data']['payment_info'];
-        $emptyFields = array('card_number', 'card_verification_number');
-        foreach ($emptyFields as $field) {
-            $xpath = $this->_getControlXpath('field', $field);
-            $value = $this->getAttribute($xpath . '@value');
-            if ($value) {
-                $errors[] = "Value for field '$field' should be empty, but now is $value";
-            }
-        }
-        $this->fillForm(array('card_number' => $data['card_number'],
-            'card_verification_number' => $data['card_verification_number']));
-        $this->saveForm('submit_order', false);
-        $this->orderHelper()->defineOrderId();
-        $this->validatePage();
+        $this->orderHelper()->submitOreder();
         //Verifying
         $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
-        if ($errors) {
-            $this->fail(implode("\n", $errors));
-        }
     }
 
     /**

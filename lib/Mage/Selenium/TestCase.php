@@ -794,7 +794,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $this->assertTextNotPresent('Notice', 'Notice error on page');
         $this->assertTextNotPresent('Parse error', 'Parse error on page');
         if (!$this->isElementPresent(self::$xpathNoticeMessage)) {
-            $this->assertTextNotPresent('Warning', 'Warning on page');
+            $this->assertTextNotPresent('Warning:', 'Warning on page');
         }
         $this->assertTextNotPresent('was not found', 'Something was not found:)');
         $this->assertTextNotPresent('Service Temporarily Unavailable', 'Service Temporarily Unavailable');
