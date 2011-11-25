@@ -186,29 +186,13 @@ class LoginTest extends Magento_Test_Webservice
 
     /**
      * Check login with WS-I compliance
-     *
-     * @throws Exception|SoapFault
      */
     public function testLoginWithWsiCompliance()
     {
-        if (!$this->isWebserviceType(self::TYPE_SOAPV2)) {
+        if (TESTS_WEBSERVICE_TYPE != self::TYPE_SOAPV2) {
             return;
         }
-        //enable WS-I compliance
-        $this->_updateAppConfig(Mage_Api_Helper_Data::XML_PATH_API_WSI, 1);
-
-        try {
-            $result = $this->getWebService()->login(TESTS_WEBSERVICE_USER, TESTS_WEBSERVICE_APIKEY);
-            $this->assertTrue((bool) $result, 'Login with WS-I Compliance is not return session hash.');
-        } catch (Exception $e) {
-            //no actions. Let revert config data
-        }
-
-        //revert config data
-        $this->_updateAppConfig(Mage_Api_Helper_Data::XML_PATH_API_WSI, 0);
-
-        if (isset($e)) {
-            throw $e;
-        }
+        $result = $this->getWebService()->login(TESTS_WEBSERVICE_USER, TESTS_WEBSERVICE_APIKEY);
+        $this->assertEmpty($result, 'Login with WS-I Compliance is not return session hash.');
     }
 }
