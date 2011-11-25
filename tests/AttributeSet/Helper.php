@@ -46,7 +46,7 @@ class AttributeSet_Helper extends Mage_Selenium_TestCase
     {
         $attrSet = $this->arrayEmptyClear($attrSet);
         $this->clickButton('add_new_set');
-        $this->fillForm($attrSet, 'attribute_sets_grid');
+        $this->fillForm($attrSet);
         $this->addParameter('attributeName', $attrSet['set_name']);
         $this->saveForm('save_attribute_set');
         sleep(1);

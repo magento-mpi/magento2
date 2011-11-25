@@ -390,7 +390,7 @@ class Product_Helper extends Mage_Selenium_TestCase
                     $this->searchAndChoose($productSearch, 'select_product_to_bundle_option');
                     $this->clickButton('add_selected_products', FALSE);
                     if ($selectionSettings) {
-                        $this->fillForm($selectionSettings, 'new_bundle_option');
+                        $this->fillForm($selectionSettings);
                     }
                 }
             }
