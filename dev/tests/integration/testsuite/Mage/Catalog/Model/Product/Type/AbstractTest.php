@@ -114,7 +114,8 @@ class Mage_Catalog_Model_Product_Type_AbstractTest extends PHPUnit_Framework_Tes
 
     public function testIsVirtual()
     {
-        $this->assertFalse($this->_model->isVirtual());
+        $product = new Mage_Catalog_Model_Product;
+        $this->assertFalse($this->_model->isVirtual($product));
     }
 
     /**
