@@ -176,4 +176,19 @@ class Magento_Test_Webservice extends Magento_TestCase
         }
         return null;
     }
+
+    /**
+     * Delete fixture by key
+     *
+     * @param string $key
+     * @param bool $secure
+     * @return void
+     */
+    public static function deleteFixture($key, $secure = false)
+    {
+        if (array_key_exists($key, self::$_fixtures)) {
+            self::modelCallDelete(self::$_fixtures[$key], $secure);
+            unset(self::$_fixtures[$key]);
+        }
+    }
 }

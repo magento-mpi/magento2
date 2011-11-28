@@ -184,7 +184,7 @@ class Magento_TestCase extends PHPUnit_Framework_TestCase
      * @param bool $secure
      * @return Magento_TestCase
      */
-    protected function _modelCallDelete($model, $secure = false)
+    static public function modelCallDelete($model, $secure = false)
     {
         if ($model instanceof Mage_Core_Model_Abstract && $model->getId()) {
             if ($secure) {
@@ -195,7 +195,6 @@ class Magento_TestCase extends PHPUnit_Framework_TestCase
                 self::enableSecureArea(false);
             }
         }
-        return $this;
     }
 
     /**
