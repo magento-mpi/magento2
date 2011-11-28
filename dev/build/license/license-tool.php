@@ -64,5 +64,11 @@ if (!isset($config)) {
     exit(1);
 }
 
-Routine::run($config, $workingDir);
+try {
+    Routine::run($config, $workingDir);
+} catch(Exception $e) {
+    Routine::printLog($e->getMessage());
+    exit(1);
+}
+
 

@@ -25,6 +25,13 @@
 class Routine
 {
     /**
+     * Flag signalized that some files are not updated
+     *
+     * @var bool
+     */
+    protected static $_isFailedUpdate = false;
+
+    /**
      * List skipped directories
      *
      * @var null|array
@@ -73,10 +80,9 @@ class Routine
      * @param string|array $fileMasks
      * @param array $result
      * @param bool $allowRecursion
-     * @param bool $inRecursion
      * @return null
      */
-    public static function globSearch($paths, $fileMasks, &$result, $allowRecursion = true, $inRecursion = false)
+    public static function globSearch($paths, $fileMasks, &$result, $allowRecursion = true)
     {
         if (empty($paths)) {
             return;
@@ -90,24 +96,40 @@ class Routine
             $fileMasks = array($fileMasks);
         }
 
-        if (!$inRecursion) {
-            self::$skipDirectories = array();
-            self::$skipFiles = array();
-            $paths = self::_filterPaths($paths);
-        }
         foreach ($paths as $resource) {
             if (is_file($resource) && !in_array(realpath($resource), self::$skipFiles)) {
                 $result[] = $resource;
                 continue;
             }
+
             if (self::_isDirectorySkipped($resource)) {
                 continue;
             }
+
             if ($allowRecursion) {
-                self::globSearch(glob($resource . '/*', GLOB_ONLYDIR), $fileMasks, $result, true, true);
+                self::globSearch(glob($resource . '/*', GLOB_ONLYDIR), $fileMasks, $result, true);
             }
-            foreach ($fileMasks as $filesMask) {
-                self::_filterFiles($resource, $filesMask, $result);
+
+            self::_filterFilesByMask($resource, $fileMasks, $result);
+        }
+    }
+
+    /**
+     * Filter directory by passed file mask. Results will be saved in $result variable.
+     *
+     * @static
+     * @param $directory
+     * @param $fileMasks
+     * @param $result
+     * @return void
+     */
+    protected static function _filterFilesByMask($directory, $fileMasks, &$result)
+    {
+        foreach ($fileMasks as $filesMask) {
+            foreach (glob($directory . '/' . $filesMask) as $filename) {
+                if (!in_array(realpath($filename), self::$skipFiles)) {
+                    $result[] = $filename;
+                }
             }
         }
     }
@@ -121,37 +143,20 @@ class Routine
      */
     protected static function _filterPaths($paths)
     {
+        if (!is_array($paths)) {
+            $paths = array($paths);
+        }
         foreach ($paths as $k => $path) {
-            if (false !== strpos($path, '!')) {
-                $real = realpath(str_replace('!', '', $path));
-                if (is_dir($real)) {
-                    self::$skipDirectories[] = $real;
-                } elseif (is_file($real)) {
-                    self::$skipFiles[] = $real;
-                }
-                unset($paths[$k]);
+            $real = realpath($path);
+            if (is_dir($real)) {
+                self::$skipDirectories[] = $real;
+            } elseif (is_file($real)) {
+                self::$skipFiles[] = $real;
             }
+            unset($paths[$k]);
         }
 
         return $paths;
-    }
-
-    /**
-     * Filter directory by passed file mask. Results will be saved in $result variable.
-     *
-     * @static
-     * @param string $directory
-     * @param array $filesMask
-     * @param array $result
-     * @return null
-     */
-    protected static function _filterFiles($directory, $filesMask, &$result)
-    {
-        foreach (glob($directory . '/' . $filesMask) as $filename) {
-            if (!in_array(realpath($filename), self::$skipFiles)) {
-                $result[] = $filename;
-            }
-        }
     }
 
     /**
@@ -164,7 +169,7 @@ class Routine
     protected static function _isDirectorySkipped($directory)
     {
         foreach (self::$skipDirectories as $skipDir) {
-            if (false !== strpos(realpath($directory), $skipDir)) {
+            if (false !== strpos(realpath($directory) . DIRECTORY_SEPARATOR, $skipDir . DIRECTORY_SEPARATOR)) {
                 return true;
             }
         }
@@ -197,13 +202,14 @@ class Routine
         self::globSearch($directories, $fileMasks, $foundFiles, $recursive);
 
         foreach ($foundFiles as $filename) {
-            self::printLog($filename . '...');
+            // self::printLog($filename . '...');
             $contents = file_get_contents($filename);
 
             preg_match('#/\*\*(.*)\*/.*#Us', $contents, $matches);
 
             if (!isset($matches[1])) {
-                self::printLog("Failed!\n");
+                self::printLog($filename . '...'); self::printLog("Failed!\n");
+                self::$_isFailedUpdate = true;
                 continue;
             }
 
@@ -227,9 +233,10 @@ class Routine
                 if (!self::$dryRun) {
                     file_put_contents($filename, $newContents);
                 }
-                self::printLog("Ok\n");
+                //self::printLog("Ok\n");
             } else {
-                self::printLog("Failed!\n");
+                self::printLog($filename . '...'); self::printLog("Failed!\n");
+                self::$_isFailedUpdate = true;
             }
         }
     }
@@ -252,6 +259,7 @@ class Routine
      * Create instance of license class which contains information about license
      *
      * @statict
+     * @throws Exception
      * @param string $license
      * @return AbstractLicense
      */
@@ -261,80 +269,71 @@ class Routine
         if (!class_exists($licenseClassName)) {
             $licenseClassFile = dirname(__FILE__) . DIRECTORY_SEPARATOR . $licenseClassName . '.php';
             if (!file_exists($licenseClassFile) || !is_readable($licenseClassFile)) {
-                self::printLog("Can't access license file: {$licenseClassFile}.\n");
-                return false;
+                throw new Exception("Can't access license file: {$licenseClassFile}.\n");
             }
 
             include_once $licenseClassFile;
 
             if (!class_exists($licenseClassName)) {
-                self::printLog("Can't find license class: {$licenseClassName}.\n");
-                return false;
+                throw new Exception("Can't find license class: {$licenseClassName}.\n");
             }
         }
 
         $licenseObject = new $licenseClassName;
 
         if (!$licenseObject instanceof LicenseAbstract) {
-            self::printLog("License class does not have correct interface: {$licenseClassName}.\n");
-            return false;
+            throw new Exception("License class does not have correct interface: {$licenseClassName}.\n");
         }
 
         return $licenseObject;
     }
 
+    /**
+     * Entry point of routine work
+     *
+     * @static
+     * @param $config
+     * @param $workingDir
+     * @return void
+     */
     public static function run($config, $workingDir)
     {
         $licenseInstances = array();
 
-        foreach ($config as $dir => $types) {
-            $dirs = array($workingDir . DIRECTORY_SEPARATOR . $dir);
+        foreach ($config as $path => $types) {
+            $paths = array($workingDir . DIRECTORY_SEPARATOR . $path);
             // Extract params for directory
             $recursive = true;
+            self::$skipFiles = array();
+            self::$skipDirectories = array();
+
             if (isset($types['_params'])) {
-                $params = $types['_params'];
+                if (isset($types['_params']['recursive'])) {
+                    $recursive = $types['_params']['recursive'];
+                }
+
+                if (isset($types['_params']['skipped'])) {
+                    self::_filterPaths($types['_params']['skipped']);
+                }
                 unset($types['_params']);
-                if (isset($params['recursive'])) {
-                    $recursive = $params['recursive'];
-                }
-
-                // Exclude skipped files or directories
-                if (isset($params['skipped'])) {
-                    // Exclude directories
-                    if (isset($params['skipped']['dir'])) {
-                        if (!is_array($params['skipped']['dir'])) {
-                            $params['skipped']['dir'] = array($params['skipped']['dir']);
-                        }
-                        foreach($params['skipped']['dir'] as $key=>$excludeDir) {
-                            $params['skipped']['dir'][$key] = '!' . $excludeDir;
-                        }
-                        $dirs = array_merge($dirs, $params['skipped']['dir']);
-                    }
-
-                    // Exclude files
-                    if (isset($params['skipped']['file'])) {
-                        if (!is_array($params['skipped']['file'])) {
-                            $params['skipped']['file'] = array($params['skipped']['file']);
-                        }
-                        foreach($params['skipped']['file'] as $key=>$excludeFile) {
-                            $params['skipped']['file'][$key] = '!' . $excludeFile;
-                        }
-                        $dirs = array_merge($dirs, $params['skipped']['file']);
-                    }
-                }
-                unset($params);
             }
 
             // Process types
-            foreach ($types as $type => $licenseType) {
+            foreach ($types as $fileType => $licenseType) {
                 if (!isset($licenseInstances[$licenseType])) {
                     $licenseInstances[$licenseType] = Routine::createLicenseInstance($licenseType);
-                    if (!$licenseInstances[$licenseType]) {
-                        exit(1);
-                    }
                 }
-                Routine::updateLicense($dirs, Routine::$fileTypes[$type], $licenseInstances[$licenseType], $recursive);
+                Routine::updateLicense(
+                    $paths,
+                    Routine::$fileTypes[$fileType],
+                    $licenseInstances[$licenseType],
+                    $recursive
+                );
             }
+        }
+
+        if (self::$_isFailedUpdate) {
+            throw new Exception('Failed during updating files.\n');
         }
     }
 }

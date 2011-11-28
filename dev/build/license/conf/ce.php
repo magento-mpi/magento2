@@ -38,9 +38,33 @@ $config = array(
         'js'    => 'AFL',
         '_params' => array(
             'skipped' => array(
-                'file' => array(
-                    'app/code/core/Zend/Mime.php'
-                )
+                'app/code/core/Zend/Mime.php',
+                'app/code/core/Mage/Api/etc/wsdl.xml',
+                'app/code/core/Mage/Api/etc/wsdl2.xml',
+                'app/code/core/Mage/Api/etc/wsi.xml',
+                'app/code/core/Mage/Catalog/etc/wsdl.xml',
+                'app/code/core/Mage/Catalog/etc/wsi.xml',
+                'app/code/core/Mage/CatalogInventory/etc/wsdl.xml',
+                'app/code/core/Mage/CatalogInventory/etc/wsi.xml',
+                'app/code/core/Mage/Checkout/etc/wsdl.xml',
+                'app/code/core/Mage/Checkout/etc/wsi.xml',
+                'app/code/core/Mage/Core/etc/wsdl.xml',
+                'app/code/core/Mage/Core/etc/wsi.xml',
+                'app/code/core/Mage/Customer/etc/wsdl.xml',
+                'app/code/core/Mage/Customer/etc/wsi.xml',
+                'app/code/core/Mage/Directory/etc/wsdl.xml',
+                'app/code/core/Mage/Directory/etc/wsi.xml',
+                'app/code/core/Mage/Downloadable/etc/wsdl.xml',
+                'app/code/core/Mage/Downloadable/etc/wsi.xml',
+                'app/code/core/Mage/GiftMessage/etc/wsdl.xml',
+                'app/code/core/Mage/GiftMessage/etc/wsi.xml',
+                'app/code/core/Mage/GoogleCheckout/etc/wsdl.xml',
+                'app/code/core/Mage/GoogleCheckout/etc/wsi.xml',
+                'app/code/core/Mage/ImportExport/view/adminhtml/layout.xml',
+                'app/code/core/Mage/Sales/etc/wsdl.xml',
+                'app/code/core/Mage/Sales/etc/wsi.xml',
+                'app/code/core/Mage/Tag/etc/wsdl.xml',
+                'app/code/core/Mage/Tag/etc/wsi.xml',
             )
         )
     ),
@@ -48,14 +72,17 @@ $config = array(
         'xml'   => 'AFL',
         'phtml' => 'AFL',
         'css'   => 'AFL',
-        'js'    => 'AFL'
+        'js'    => 'AFL',
+        '_params' => array(
+            'skipped' => array(
+                'app/design/frontend/default/iphone/skin/default/js/dnd.js',
+            )
+        )
     ),
     'app/etc' => array(
         'xml'   => 'AFL',
         '_params' => array(
-            'skipped' => array(
-                'file' => 'app/etc/local.xml'
-            )
+            'skipped' => 'app/etc/local.xml'
         )
     ),
     'app' => array(
@@ -86,13 +113,10 @@ $config = array(
         'js'    => 'AFL',
         '_params' => array(
             'skipped' => array(
-                'dir' => array(
-                    'dev/build',
-                    'dev/tests/integration/tmp',
-                    'dev/tests/static/testsuite/Php',
-                    'dev/tests/static/report'
-
-                )
+                'dev/build',
+                'dev/tests/integration/tmp',
+                'dev/tests/static/report',
+                'dev/tests/static/testsuite/Php',
             )
         )
     ),
@@ -103,11 +127,7 @@ $config = array(
         'css'   => 'AFL',
         'js'    => 'AFL',
         '_params' => array(
-            'skipped' => array(
-                'file' => array(
-                    'downloader/js/prototype.js'
-                )
-            )
+            'skipped' => 'downloader/js/prototype.js'
         )
     ),
     'lib/Varien' => array(
@@ -140,22 +160,19 @@ $config = array(
         'js'    => 'AFL',
         '_params' => array(
             'skipped' => array(
-                'dir' => array(
-                    'pub/js/calendar',
-                    'pub/js/extjs',
-                    'pub/js/firebug',
-                    'pub/js/prototype',
-                    'pub/js/tiny_mce',
-                    'pub/js/flash',
-                    'pub/js/jscolor',
-                    'pub/js/scriptaculous'
-                ),
-                'file' => array(
-                    'pub/js/lib/FABridge.js',
-                    'pub/js/lib/boxover.js',
-                    'pub/js/lib/ccard.js',
-                    'pub/js/lib/ds-sleight.js'
-                )
+                'pub/js/calendar',
+                'pub/js/extjs',
+                'pub/js/firebug',
+                'pub/js/flash',
+                'pub/js/jscolor',
+                'pub/js/prototype',
+                'pub/js/scriptaculous',
+                'pub/js/tiny_mce',
+                'pub/js/lib/ds-sleight.js',
+                'pub/js/lib/ccard.js',
+                'pub/js/lib/boxover.js',
+                'pub/js/lib/FABridge.js',
+                'pub/js/mage/adminhtml/hash.js',
             )
         )
     ),
