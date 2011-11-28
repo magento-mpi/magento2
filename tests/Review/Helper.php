@@ -173,18 +173,21 @@ class Review_Helper extends Mage_Selenium_TestCase
     /**
      * <p>Create Review</p>
      *
-     * @param array $reviewData
+     * @param array|string $reviewData
      */
     public function frontendAddReview($reviewData)
     {
-        if ($this->controlIsPresent('link', 'first_review')) {
-            $linkName = 'first_review';
-        } elseif($this->controlIsPresent('link', 'add_your_review')) {
-            $linkName = 'add_your_review';
-        } else ($this->fail('Element is absent on the page'));
+        if (is_string($reviewData)) {
+            $reviewData = $this->loadData($reviewData);
+        }
+        $reviewData = $this->arrayEmptyClear($reviewData);
+        $linkName = ($this->controlIsPresent('link', 'add_your_review')) ? 'add_your_review' : 'first_review';
         $this->defineCorrectParam($linkName, 'productId');
         $this->clickControl('link',$linkName);
         $this->fillForm($reviewData);
+        if(isset($reviewData['ratings'])){
+            $this->frontendAddRating($reviewData['ratings']);
+        }
         $this->clickButton('submit_review');
     }
 
@@ -211,14 +214,13 @@ class Review_Helper extends Mage_Selenium_TestCase
     /**
      * Verification review on frontend
      *
-     * @param array $verificationData
+     * @param string $reviewText
      * @param string $productName
      * @param boolean $loggedIn
      */
-    public function frontendReviewVerificationMyAccount(array $verificationData, $productName, $loggedIn = FALSE)
+    public function frontendReviewVerificationMyAccount($reviewText, $productName, $loggedIn = FALSE)
     {
         $this->addParameter('productName', $productName);
-        $reviewText = (isset($verificationData['review'])) ? $verificationData['review'] : NULL;
         if($loggedIn){
         //Verification in "My Recent Reviews" area
         $this->navigate('customer_account');
@@ -226,20 +228,16 @@ class Review_Helper extends Mage_Selenium_TestCase
                           "Cannot find product with name: $productName");
         $this->defineCorrectParam('product_name', 'reviewId');
         $this->clickControl('link', 'product_name');
-        $this->assertTrue($this->controlIsPresent('pageelement', 'review_details'),
-                          "Cannot find review with text: $reviewText");
-        $this->navigate('customer_account');
-        //Verification in "My Account -> My Product Reviews"
-        $this->navigate('my_product_reviews');
-        $this->assertTrue($this->controlIsPresent('link', 'product_name'), "Cannot find product with name: $productName");
-        $this->assertTrue($this->controlIsPresent('pageelement', 'review_details'),
-                          "Cannot find review with text: $reviewText");
-        $this->clickControl('link', 'view_details');
-        //Verification in "My Account -> Review Details"
-        $this->assertTrue($this->controlIsPresent('pageelement', 'product_name'), "Cannot find product with name: $productName");
-        $this->assertTrue($this->controlIsPresent('pageelement', 'review_details'),
-                          "Cannot find review with text: $reviewText");
+        $xPath = $this->_getControlXpath('pageelement', 'review_details');
+        $text = trim($this->getText($xPath));
+        $this->assertEquals('0', strcmp($text, trim($reviewText)), "Text on the page {$text} is not equal {$reviewText}");
         $this->clickControl('link', 'back_to_my_reviews');
+        //Verification in "My Account -> My Product Reviews"
+        $xPath = $this->_getControlXpath('pageelement', 'review_details');
+        $text = trim($this->getText($xPath));
+        $this->assertEquals('0', strcmp($text, trim($reviewText)), "Text on the page {$text} is not equal {$reviewText}");
+        } else{
+            $this->fail('Customer is not logged in');
         }
     }
 
@@ -265,7 +263,7 @@ class Review_Helper extends Mage_Selenium_TestCase
      * @param array $verificationData
      * @param string $productName
      */
-    public function reviewVerificationInCategory($verificationData, $productName)
+    public function frontendReviewVerificationInCategory($verificationData, $productName)
     {
         $this->addParameter('productName', $productName);
         $reviewText = (isset($verificationData['review'])) ? $verificationData['review'] : NULL;
@@ -273,21 +271,41 @@ class Review_Helper extends Mage_Selenium_TestCase
         $reviewSummary = (isset($verificationData['summary_of_your_review'])) ? $verificationData['summary_of_your_review'] : NULL;
         //Verification on product page
         if($this->controlIsPresent('link', 'reviews')){
-        $this->defineCorrectParam('reviews', 'productId');
-        $this->clickControl('link', 'reviews');
-        $this->addParameter('reviewerName', $reviewNickname);
-        $this->assertTrue($this->controlIsPresent('link', 'review_summary'),
-                          "Cannot find review with summary: $reviewSummary");
-        $this->assertTrue($this->controlIsPresent('pageelement', 'review_details'),
-                          "Cannot find review with text: $reviewText");
-        $this->defineCorrectParam('review_summary', 'reviewId');
-        $this->clickControl('link', 'review_summary');
+            $this->defineCorrectParam('reviews', 'productId');
+            $this->clickControl('link', 'reviews');
+            $this->addParameter('reviewerName', $reviewNickname);
+            $xPath = $this->_getControlXpath('link', 'review_summary');
+            $text = trim($this->getText($xPath));
+            $this->assertEquals('0', strcmp($text, trim($reviewSummary)), "Text on the page {$text} is not equal {$reviewSummary}");
+            $this->defineCorrectParam('review_summary', 'reviewId');
+            $this->clickControl('link', 'review_summary');
         //Verification on Review Details page
-        $this->assertTrue($this->controlIsPresent('pageelement', 'product_name'),
-                          "Cannot find product with name: $productName");
-        $this->assertTrue($this->controlIsPresent('pageelement', 'review_details'),
-                          "Cannot find review with text: $reviewText");
-        $this->clickControl('link', 'back_to_my_reviews');
+            $xPath = $this->_getControlXpath('pageelement', 'review_details');
+            $text = trim($this->getText($xPath));
+            $this->assertEquals('0', strcmp($text, trim($reviewText)), "Text on the page {$text} is not equal {$reviewText}");
+        } else {
+            $this->fail('Review is not approved');
+        }
+    }
+
+    /**
+     * Filling In Rating
+     *
+     *@param array|string $ratingData
+     */
+    public function frontendAddRating($ratingData)
+    {
+        if (is_string($ratingData)) {
+            $ratingData = $this->loadData($ratingData);
+        }
+        foreach($ratingData as $value){
+            $this->addParameter('rateName', $value['rating_name']);
+            $this->addParameter('rateId', $value['stars']);
+            if($this->controlIsPresent('radiobutton', 'select_rate')){
+                $this->fillForm(array('select_rate' => 'Yes'));
+            } else {
+                return FALSE;
+            }
         }
     }
 

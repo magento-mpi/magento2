@@ -92,3 +92,10 @@ new_review:
     nickname: Nickname
     summary_of_your_review: Review Summary
     review: Review Text
+    ratings:
+        rating_1:
+            rating_name: my rating
+            stars: 3
+        rating_2:
+            rating_name: 1111111
+            stars: 5

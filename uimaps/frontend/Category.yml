@@ -45,6 +45,7 @@ category_page:
                             learn_more: //li[h2/a='%productName%']//a[@class='link-learn']
                             add_to_wishlist: //li[h2/a='%productName%']//a[@class='link-wishlist']
                             add_to_compare: //li[h2/a='%productName%']//a[@class='link-compare']
+                            reviews: //a[contains(text(),'Review(s)')]
                         buttons:
                             add_to_cart: //li[h2/a='%productName%']//button[span='Add to Cart']
                         pageelements:

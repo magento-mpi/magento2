@@ -89,10 +89,7 @@ customer_account:
                             view_all_reviews: //a[text()='View All Reviews']
                         pageelements:
                             product_review_rating: //div[h3='%productName%']//div[@class='rating']
-                        xpath: //div[@class='box-account box-tags']
-                        links:
-                            product_name: //ol[@id='my_recent_reviews']//a[text()='%productName%']
-                            view_all_tags: //a[text()='View All Reviews']
+
         messages:
             success_registration: //li[normalize-space(@class)='success-msg' and contains(.,'Thank you for registering with')]
             success_saved: //li[normalize-space(@class)='success-msg' and contains(.,'The account information has been saved.')]
