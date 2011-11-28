@@ -38,7 +38,7 @@
             <action method="setTemplate"><template>persistent/customer/form/login.phtml</template></action>
             <block type="persistent/form_remember" name="persistent.remember.me" template="persistent/remember_me.phtml" />
             <block type="core/template" name="persistent.remember.me.tooltip" template="persistent/remember_me_tooltip.phtml" />
-            <block type="core/captcha_zend" name="captcha">
+            <block type="core/captcha" name="captcha">
                 <reference name="head">
                     <action method="addJs"><file>mage/captcha.js</file></action>
                 </reference>
@@ -54,7 +54,7 @@
             <action method="setTemplate"><template>persistent/customer/form/register.phtml</template></action>
             <block type="persistent/form_remember" name="persistent.remember.me" template="persistent/remember_me.phtml" />
             <block type="core/template" name="persistent.remember.me.tooltip" template="persistent/remember_me_tooltip.phtml" />
-            <block type="core/captcha_zend" name="captcha">
+            <block type="core/captcha" name="captcha">
                 <reference name="head">
                     <action method="addJs"><file>mage/captcha.js</file></action>
                 </reference>
@@ -64,12 +64,12 @@
             </block>
         </reference>
     </customer_account_create>
-    
+
     <checkout_onepage_index>
         <reference name="checkout.onepage.login">
             <action method="setTemplate"><template>persistent/checkout/onepage/login.phtml</template></action>
             <block type="persistent/form_remember" name="persistent.remember.me" template="persistent/remember_me.phtml" />
-            <block type="core/captcha_zend" name="captcha">
+            <block type="core/captcha" name="captcha">
                 <reference name="head">
                     <action method="addJs"><file>mage/captcha.js</file></action>
                 </reference>
@@ -84,7 +84,7 @@
             <block type="core/template" name="persistent.remember.me.tooltip" template="persistent/remember_me_tooltip.phtml" />
         </reference>
     </checkout_onepage_index>
-    
+
     <checkout_onepage_index>
         <reference name="checkout.onepage.login">
             <action method="setTemplate"><template>persistent/checkout/onepage/login.phtml</template></action>

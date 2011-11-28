@@ -372,6 +372,7 @@
                 <length>5-8</length>
                 <symbols>abcdefghjkmnpqrstuvwxyz23456789</symbols>
                 <case_sensitive>1</case_sensitive>
+                <classpath>core/captcha_zend</classpath>
             </captcha>
         </admin>
         <general>

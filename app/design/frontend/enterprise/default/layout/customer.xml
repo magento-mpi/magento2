@@ -98,7 +98,7 @@ Layout for customer login page
         </reference>
         <reference name="content">
             <block type="customer/form_login" name="customer_form_login" template="customer/form/login.phtml">
-                <block type="core/captcha_zend" name="captcha">
+                <block type="core/captcha" name="captcha">
                     <reference name="head">
                         <action method="addJs"><file>mage/captcha.js</file></action>
                     </reference>
@@ -158,7 +158,7 @@ New customer registration
                 <action method="append"><block>customer.form.register.fields.before</block><alias>form_fields_before</alias></action>
                 <action method="append"><block>customer_form_user_attributes</block></action>
                 <action method="append"><block>customer_form_address_user_attributes</block></action>
-                <block type="core/captcha_zend" name="captcha">
+                <block type="core/captcha" name="captcha">
                     <reference name="head">
                         <action method="addJs"><file>mage/captcha.js</file></action>
                     </reference>
@@ -186,7 +186,7 @@ New customer registration
         <reference name="content">
             <!--<block type="core/template" name="forgotPassword" template="customer/form/forgotpassword.phtml"/>-->
             <block type="customer/account_forgotpassword" name="forgotPassword" template="customer/form/forgotpassword.phtml">
-                <block type="core/captcha_zend" name="captcha">
+                <block type="core/captcha" name="captcha">
                     <reference name="head">
                         <action method="addJs"><file>mage/captcha.js</file></action>
                     </reference>

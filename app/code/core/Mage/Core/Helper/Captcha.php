@@ -61,6 +61,9 @@ class Mage_Core_Helper_Captcha extends Mage_Core_Helper_Abstract
     // Whether to respect case while checking the answer
     const XML_PATH_FRONTEND_CAPTCHA_CASE_SENSITIVE   = 'customer/captcha/case_sensitive';
     const XML_PATH_BACKEND_CAPTCHA_CASE_SENSITIVE    = 'default/admin/captcha/case_sensitive';
+    // Captcha classpath (e.g. core/captcha_zend)
+    const XML_PATH_FRONTEND_CAPTCHA_CLASSPATH        = 'customer/captcha/classpath';
+    const XML_PATH_BACKEND_CAPTCHA_CLASSPATH         = 'default/admin/captcha/classpath';
     // List of available fonts
     const XML_PATH_CAPTCHA_FONTS                    = 'default/captcha/fonts';
     // List of form IDs where captcha is always enabled
@@ -75,6 +78,8 @@ class Mage_Core_Helper_Captcha extends Mage_Core_Helper_Abstract
 
     /* @var Mage_Core_Model_Session */
     protected $_session = null;
+    /* @var $_captcha Mage_Core_Model_Captcha_Interface */
+    protected $_captcha;
 
     /**
      * Executed in case unsuccessful attempt was made (incorrect login/password on login page, for example)
@@ -279,5 +284,23 @@ class Mage_Core_Helper_Captcha extends Mage_Core_Helper_Abstract
     public static function getRefreshUrl()
     {
         return Mage::getUrl("core/captcha/refresh");
+    }
+
+    /**
+     * Captcha factory. Returns captcha model instance accordingly to current config.
+     *
+     * @param string $formId
+     * @return Mage_Core_Model_Captcha_Interface
+     */
+    public function getCaptcha($formId)
+    {
+        if (!$this->_captcha) {
+            $classpath = (string)$this->getConfigNode('classpath');
+            if (empty($classpath)) {
+                $classpath = 'core/captcha_zend';
+            }
+            $this->_captcha = Mage::getModel($classpath, $formId);
+        }
+        return $this->_captcha;
     }
 }

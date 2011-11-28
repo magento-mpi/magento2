@@ -64,22 +64,18 @@ class Mage_Admin_Model_Observer
             if (!$user || !$user->getId()) {
                 if ($request->getPost('login')) {
                     $postLogin  = $request->getPost('login');
-                    $isCaptchaOk = true;
-                    /* @var $captcha Mage_Core_Model_Captcha_Zend */
-                    $captcha = Mage::getModel('core/captcha_zend', self::CAPTCHA_FORM_ID);
-                    if (!$captcha->isCorrect($request->getPost(Mage_Core_Helper_Captcha::INPUT_NAME_FIELD_VALUE))) {
-                        $msg = Mage::helper('core/captcha')->__('Incorrect CAPTCHA.');
-                        Mage::getSingleton('adminhtml/session')->addError($msg);
-                        $isCaptchaOk = false;
-                    }
-                    if ($isCaptchaOk) {
-                        /* @var $captchaHelper Mage_Core_Helper_Captcha */
-                        $captchaHelper = Mage::helper('core/captcha');
+                    /* @var $captchaHelper Mage_Core_Helper_Captcha */
+                    $captchaHelper = Mage::helper('core/captcha');
+                    $captcha = $captchaHelper->getCaptcha(self::CAPTCHA_FORM_ID);
+                    if ($captcha->isCorrect($request->getPost(Mage_Core_Helper_Captcha::INPUT_NAME_FIELD_VALUE))) {
                         $username   = isset($postLogin['username']) ? $postLogin['username'] : '';
                         $password   = isset($postLogin['password']) ? $postLogin['password'] : '';
                         /* @var $user Mage_Admin_Model_User */
                         $user = $session->login($username, $password, $request);
                         $captchaHelper->checkAttempt($user->getId(), self::CAPTCHA_FORM_ID);
+                    } else {
+                        $msg = Mage::helper('core/captcha')->__('Incorrect captcha.');
+                        Mage::getSingleton('adminhtml/session')->addError($msg);
                     }
                     $request->setPost('login', null);
                 }

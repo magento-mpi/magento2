@@ -383,7 +383,7 @@
                     <show_in_website>1</show_in_website>
                     <show_in_store>0</show_in_store>
                     <fields>
-                        <enable>
+                        <enable translate="label">
                             <label>Enable CAPTCHA on frontend</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
@@ -392,7 +392,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </enable>
-                        <font>
+                        <font translate="label">
                             <label>Font</label>
                             <frontend_type>select</frontend_type>
                             <source_model>core/config_captcha_font</source_model>
@@ -413,7 +413,7 @@
                             <show_in_store>0</show_in_store>
                             <depends><enable>1</enable></depends>
                         </forms>
-                        <mode>
+                        <mode translate="label">
                             <label>Display mode</label>
                             <frontend_type>select</frontend_type>
                             <source_model>core/config_captcha_mode</source_model>
@@ -423,7 +423,7 @@
                             <show_in_store>0</show_in_store>
                             <depends><enable>1</enable></depends>
                         </mode>
-                        <failed_attempts>
+                        <failed_attempts translate="label">
                             <label>Number of unsuccessful attempts</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>5</sort_order>
@@ -463,7 +463,7 @@
                             <depends><enable>1</enable></depends>
                             <frontend_class>validate-alphanum</frontend_class>
                         </symbols>
-                        <case_sensitive>
+                        <case_sensitive translate="label">
                             <label>Case sensitive</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>

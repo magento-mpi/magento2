@@ -99,7 +99,7 @@ Default layout, loads most of the pages
             <label>Additional Product Info</label>
         </block>
     </checkout_cart_index>
-    
+
     <checkout_cart_configure translate="label">
         <label>Configure Cart Item</label>
         <update handle="catalog_product_view"/>
@@ -320,7 +320,7 @@ One page checkout main layout
                         <label>Login/Registration Before</label>
                         <action method="setMayBeInvisible"><value>1</value></action>
                     </block>
-                    <block type="core/captcha_zend" name="captcha">
+                    <block type="core/captcha" name="captcha">
                         <reference name="head">
                             <action method="addJs"><file>mage/captcha.js</file></action>
                         </reference>
