@@ -81,6 +81,7 @@ class Mage_Backup_Model_Observer
         catch (Exception $e) {
             $this->_errors[] = $e->getMessage();
             $this->_errors[] = $e->getTrace();
+            Mage::logException($e);
         }
 
         if (Mage::getStoreConfigFlag(self::XML_PATH_BACKUP_MAINTENANCE_MODE)) {
