@@ -600,19 +600,19 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
             $dhlProduct             = (string)$shipmentDetails->GlobalProductCode;
             $totalEstimate          = (float)(string)$shipmentDetails->ShippingCharge;
             $currencyCode           = (string)$shipmentDetails->CurrencyCode;
-            $displayCurrencyCode    = Mage::app()->getStore()->getDefaultCurrencyCode();
+            $baseCurrencyCode       = Mage::app()->getWebsite($this->_request->getWebsiteId())->getBaseCurrencyCode();
             $dhlProductDescription  = $this->getDhlProductTitle($dhlProduct);
 
-            if ($currencyCode != $displayCurrencyCode) {
+            if ($currencyCode != $baseCurrencyCode) {
                 /* @var $currency Mage_Directory_Model_Currency */
                 $currency = Mage::getModel('directory/currency');
-                $rates = $currency->getCurrencyRates($currencyCode, array($displayCurrencyCode));
+                $rates = $currency->getCurrencyRates($currencyCode, array($baseCurrencyCode));
                 if (!empty($rates)) {
                     // Convert to store display currency using store exchange rate
-                    $totalEstimate = $totalEstimate * $rates[$displayCurrencyCode];
+                    $totalEstimate = $totalEstimate * $rates[$baseCurrencyCode];
                 } else {
                     $totalEstimate = false;
-                    Mage::log(Mage::helper('usa')->__("Exchange rate %s->%s not found. DHL method %s skipped", $currencyCode, $displayCurrencyCode, $dhlProductDescription));
+                    Mage::log(Mage::helper('usa')->__("Exchange rate %s -> %s not found. DHL method %s skipped", $currencyCode, $baseCurrencyCode, $dhlProductDescription));
                 }
             }
             if ($totalEstimate) {
