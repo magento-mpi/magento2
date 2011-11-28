@@ -1,3 +1,12 @@
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     default_default
+ * @subpackage  integration_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 @import url(../frontend/package/default/theme/en_US/recursive.css);
 @import url("../frontend/package/default/theme/en_US/css/deep/recursive.css");
 /* Import directives above popped up. */
