@@ -174,7 +174,7 @@ class Catalog_Category_CategoryTest extends Magento_Test_Webservice
             $this->assertEmpty($category->getId());
         } catch (Exception $e) {
             //delete created category
-            $this->_modelCallDelete($category, true);
+            $this->modelCallDelete($category, true);
             throw $e;
         }
     }
@@ -265,10 +265,10 @@ class Catalog_Category_CategoryTest extends Magento_Test_Webservice
             $this->assertEquals(103, $result['faultcode'], 'Fault code is not right.');
         } catch (Exception $e) {
             //delete created category
-            $this->_modelCallDelete($category, true);
+            $this->modelCallDelete($category, true);
             throw $e;
         }
 
-        $this->_modelCallDelete($category, true);
+        $this->modelCallDelete($category, true);
     }
 }
