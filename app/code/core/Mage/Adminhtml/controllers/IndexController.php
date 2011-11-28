@@ -33,10 +33,6 @@
  */
 class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
 {
-    /**
-     * Forgotpassword form ID where CAPTCHA must be used
-     */
-    const CAPTCHA_FORGOTPASSWORD_FORM_ID = 'backend_forgotpassword';
 
     /**
      * Render specified template
@@ -240,12 +236,10 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
         if (!empty($email) && !empty($params)) {
             // Validate CAPTCHA value if needed
             /** @var $captcha Mage_Core_Model_Captcha_Zend */
-            $captcha = Mage::getModel('core/captcha_zend', self::CAPTCHA_FORGOTPASSWORD_FORM_ID);
-            /** @var $captchaHelper Mage_Core_Helper_Captcha */
-            $captchaHelper = Mage::helper('core/captcha');
+            $captcha = Mage::getModel('core/captcha_zend', 'backend_forgotpassword');
             $userCaptchaInput = $this->getRequest()->getPost(Mage_Core_Helper_Captcha::INPUT_NAME_FIELD_VALUE);
             if (!$captcha->isCorrect($userCaptchaInput)) {
-                $this->_getSession()->addError($captchaHelper->__('Incorrect CAPTCHA'));
+                $this->_getSession()->addError(Mage::helper('core/captcha')->__('Incorrect CAPTCHA.'));
                 $this->_outTemplate('forgotpassword');
                 return;
             }
