@@ -25,11 +25,12 @@ class Mage_Customer_Model_Address_ConfigTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * @magentoAppIsolation enabled
      * @magentoDataFixture Mage/Customer/_files/address_formats.php
      */
     public function testGetFormats()
     {
-        $original = array(
+        $expectedFormatEscape = array(
             'escaped_one' => true,
             'escaped_two' => false,
             'escaped_three' => false,
@@ -38,24 +39,21 @@ class Mage_Customer_Model_Address_ConfigTest extends PHPUnit_Framework_TestCase
             'escaped_six' => true
         );
 
-        $formats = $this->_model->getFormats();
-        $storeId = $this->_model->getStore()->getId();
-        $this->assertNotEmpty($formats[$storeId]);
-        $foundFormats = 0;
-        $lastFormat = null;
-        foreach ($formats as $format) {
-            if (isset($original[$format->getCode()])) {
-                $this->assertEquals($original[$format->getCode()], $format->getEscapeHtml());
-                $lastFormat = $format;
-                ++$foundFormats;
-            }
+        $formats = array();
+        foreach ($this->_model->getFormats() as $format) {
+            $formats[$format->getCode()] = $format;
         }
 
-        $this->assertEquals(count($original), $foundFormats);
+        foreach ($expectedFormatEscape as $formatCode => $escapeHtml) {
+            if (isset($formats[$formatCode])) {
+                $format = $formats[$formatCode];
+                $this->assertEquals($escapeHtml, $format->getEscapeHtml());
+            }
 
-        $this->assertInstanceOf(
-            Mage_Customer_Model_Address_Config::DEFAULT_ADDRESS_RENDERER,
-            $lastFormat->getRenderer()
-        );
+            $this->assertInstanceOf(
+                Mage_Customer_Model_Address_Config::DEFAULT_ADDRESS_RENDERER,
+                $format->getRenderer()
+            );
+        }
     }
 }
