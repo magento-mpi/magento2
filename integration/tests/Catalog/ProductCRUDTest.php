@@ -108,6 +108,11 @@ class Catalog_ProductCRUDTest extends Magento_Test_Webservice
         $this->assertNull($product->getId());
     }
 
+    /**
+     * Test product CRUD with custom options
+     *
+     * @return void
+     */
     public function testProductWithOptionsCRUD()
     {
         list($optionValueApi, $optionValueInstaller) = $this->_addAttributes();
@@ -115,6 +120,7 @@ class Catalog_ProductCRUDTest extends Magento_Test_Webservice
 
         switch (TESTS_WEBSERVICE_TYPE) {
             case self::TYPE_SOAPV1:
+            case self::TYPE_XMLRPC:
                 $this->_testSoapV1($optionValueApi, $optionValueInstaller, $data);
                 break;
 
@@ -124,9 +130,17 @@ class Catalog_ProductCRUDTest extends Magento_Test_Webservice
         }
     }
 
-    public function _testSoapV1($optionValueApi, $optionValueInstaller, $data)
+    /**
+     * Test for SOAPV1 and XMLRPC
+     *
+     * @param int $optionValueApi
+     * @param int $optionValueInstaller
+     * @param array $data
+     * @return void
+     */
+    protected function _testSoapV1($optionValueApi, $optionValueInstaller, $data)
     {
-        $attributes = $data['create_with_attributes_soap']['productData']['additional_attributes'];
+        $attributes = &$data['create_with_attributes_soap']['productData']['additional_attributes'];
         $attributes['single_data']['a_select_api'] = $optionValueApi;
         $attributes['single_data']['a_select_ins'] = $optionValueInstaller;
 
@@ -147,9 +161,17 @@ class Catalog_ProductCRUDTest extends Magento_Test_Webservice
         $this->assertEquals($attributes['single_data']['a_select_ins'], $product->getData('a_select_ins'));
     }
 
-    public function _testSoapV2($optionValueApi, $optionValueInstaller, $data)
+    /**
+     * Test for SOAPV2
+     *
+     * @param int $optionValueApi
+     * @param int $optionValueInstaller
+     * @param array $data
+     * @return void
+     */
+    protected function _testSoapV2($optionValueApi, $optionValueInstaller, $data)
     {
-        $attributes = $data['create_with_attributes_soapv2']['productData']['additional_attributes'];
+        $attributes = &$data['create_with_attributes_soapv2']['productData']['additional_attributes'];
         $attributes['single_data'][1]['value'] = $optionValueApi;
         $attributes['single_data'][3]['value'] = $optionValueInstaller;
 
