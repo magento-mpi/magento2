@@ -37,6 +37,7 @@
 class Tax_CustomerTaxClass_DeleteTest extends Mage_Selenium_TestCase
 {
 
+    protected $ruleToBeDeleted = null;
     /**
      * <p>Log in to Backend.</p>
      */
@@ -51,7 +52,7 @@ class Tax_CustomerTaxClass_DeleteTest extends Mage_Selenium_TestCase
      */
     protected function assertPreConditions()
     {
-        // @TODO
+        $this->navigate('manage_customer_tax_class');
     }
 
     /**
@@ -67,7 +68,15 @@ class Tax_CustomerTaxClass_DeleteTest extends Mage_Selenium_TestCase
      */
     public function notUsedInRule()
     {
-        $this->markTestIncomplete('@TODO');
+        //Data
+        $customerTaxClassData = $this->loadData('new_customer_tax_class', null, 'customer_class_name');
+        //Steps
+        $this->taxHelper()->createCustomerTaxClass($customerTaxClassData);
+        $this->assertTrue($this->successMessage('success_saved_tax_class'), $this->messages);
+        $this->taxHelper()->openTaxItem($customerTaxClassData ,'customer_tax_class');
+        $this->clickButtonAndConfirm('delete_class', 'confirmation_for_delete');
+        //Verifying
+        $this->assertTrue($this->successMessage('success_deleted_tax_class'), $this->messages);
     }
 
     /**
@@ -84,7 +93,48 @@ class Tax_CustomerTaxClass_DeleteTest extends Mage_Selenium_TestCase
      */
     public function usedInRule()
     {
-        $this->markTestIncomplete('@TODO');
+        //Data
+        $customerTaxClassData = $this->loadData('new_customer_tax_class', null, 'customer_class_name');
+        //Steps
+        $this->taxHelper()->createCustomerTaxClass($customerTaxClassData);
+        $this->assertTrue($this->successMessage('success_saved_tax_class'), $this->messages);
+
+        $this->createTaxRule($customerTaxClassData['customer_class_name']);
+
+        $this->navigate('manage_customer_tax_class');
+        $this->taxHelper()->openTaxItem($customerTaxClassData ,'customer_tax_class');
+        $this->appendParamsDecorator($this->taxHelper()->_paramsHelper);        //Temporary workaround.TODO
+        $this->clickButtonAndConfirm('delete_class', 'confirmation_for_delete');
+        //Verifying
+        $this->assertTrue($this->errorMessage('error_delete_tax_class'), $this->messages);
+    }
+
+    /**
+     * Create new Tax Rule with new Tax Rate
+     * with defined customerTaxClas\productTaxClass
+     *
+     * @param array $customerTaxClassName
+     * @param array $productTaxClassName
+     */
+    public function createTaxRule($customerTaxClassName = null,$productTaxClassName = null)
+    {
+        //Data
+        $taxRateData = $this->loadData('tax_rate_create_test', null, 'tax_identifier');
+        $taxRuleData = $this->loadData('new_tax_rule_required',
+                                       array('tax_rate'=>$taxRateData['tax_identifier']),'name');
+        $taxRuleData['customer_tax_class'] =
+            (isset($customerTaxClassName)) ? $customerTaxClassName : $taxRuleData['customer_tax_class'];
+        $taxRuleData['product_tax_class'] =
+            (isset($productTaxClassName)) ? $productTaxClassName : $taxRuleData['product_tax_class'];
+        //Steps
+        $this->navigate('manage_tax_zones_and_rates');
+        $this->taxHelper()->createTaxRate($taxRateData);
+        $this->assertTrue($this->successMessage('success_saved_tax_rate'), $this->messages);
+        $this->navigate('manage_tax_rule');
+        $this->taxHelper()->createTaxRule($taxRuleData);
+        $this->assertTrue($this->successMessage('tax_rule_saved'), $this->messages);
+        //for tearDown()
+         $this->ruleToBeDeleted = $taxRuleData;
     }
 
     /**
@@ -102,7 +152,17 @@ class Tax_CustomerTaxClass_DeleteTest extends Mage_Selenium_TestCase
      */
     public function usedInCustomerGroup()
     {
-        $this->markTestIncomplete('@TODO');
+        //@TODO
     }
 
+    protected function tearDown()
+    {
+        //Remove Tax rule after test
+        if (!is_null($this->ruleToBeDeleted)) {
+            $this->navigate('manage_tax_rule');
+            $this->taxHelper()->openTaxItem($this->ruleToBeDeleted ,'tax_rules');
+            $this->clickButtonAndConfirm('delete_rule', 'confirmation_for_delete');
+            $this->ruleToBeDeleted = null;
+        }
+    }
 }

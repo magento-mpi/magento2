@@ -50,7 +50,8 @@ class Tax_Helper extends Mage_Selenium_TestCase
         $taxRateData = $this->arrayEmptyClear($taxRateData);
         $taxTitles = (isset($taxRateData['tax_titles'])) ? $taxRateData['tax_titles'] : NULL;
         $this->clickButton('add_new_tax_rate');
-        $this->fillForm($taxRateData, 'tax_rate_info');
+        //$this->fillForm($taxRateData, 'tax_rate_info');
+        $this->fillForm($taxRateData);
         $xpath = $this->_getControlXpath('fieldset', 'tax_titles');
         if ($taxTitles && $this->isElementPresent($xpath)) {
             foreach ($taxTitles as $key => $value) {
@@ -73,7 +74,8 @@ class Tax_Helper extends Mage_Selenium_TestCase
         }
         $taxRuleData = $this->arrayEmptyClear($taxRuleData);
         $this->clickButton('add_new_tax_rule');
-        $this->fillForm($taxRuleData, 'tax_rule_info');
+        //$this->fillForm($taxRuleData, 'tax_rule_info');
+        $this->fillForm($taxRuleData);
         $this->saveForm('save_rule');
     }
 
@@ -88,7 +90,8 @@ class Tax_Helper extends Mage_Selenium_TestCase
             $customerTaxClassData = $this->loadData($customerTaxClassData);
         }
         $this->clickButton('add_new');
-        $this->fillForm($customerTaxClassData, 'create_customer_tax_class');
+        //$this->fillForm($customerTaxClassData, 'create_customer_tax_class');
+        $this->fillForm($customerTaxClassData);
         $this->saveForm('save_class');
     }
 
@@ -124,6 +127,26 @@ class Tax_Helper extends Mage_Selenium_TestCase
             }
         }
         return 0;
+    }
+
+    /**
+     * Opens (Product\Customer)Tax Class\Rate\Rule
+     *
+     * @param array $taxClassSearch Data for search
+     * @param string $type search type (customer_tax_class|product_tax_class|tax_rates|tax_rules)
+     */
+    public function openTaxItem(array $taxClassSearch,$type)
+    {
+        $taxClassSearch = $this->arrayEmptyClear($taxClassSearch);
+        $gridName = 'manage_' . $type;
+        $xpathTR = $this->search($taxClassSearch,$gridName);
+        $this->assertNotEquals(null, $xpathTR, 'Search item is not found');
+        $elementTitle = $this->getText($xpathTR . '//td[1]');
+        $this->addParameter('elementTitle', $elementTitle);
+        $this->addParameter('id', $this->defineIdFromTitle($xpathTR));
+        $this->click($xpathTR);
+        $this->waitForPageToLoad($this->_browserTimeoutPeriod);
+        $this->validatePage($this->_findCurrentPageFromUrl($this->getLocation()));
     }
 
 }

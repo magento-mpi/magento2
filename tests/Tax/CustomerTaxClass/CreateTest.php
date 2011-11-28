@@ -51,7 +51,7 @@ class Tax_CustomerTaxClass_CreateTest extends Mage_Selenium_TestCase
      */
     protected function assertPreConditions()
     {
-        // @TODO
+        $this->navigate('manage_customer_tax_class');
     }
 
     /**
@@ -67,7 +67,13 @@ class Tax_CustomerTaxClass_CreateTest extends Mage_Selenium_TestCase
      */
     public function withRequiredFieldsOnly()
     {
-        $this->markTestIncomplete('@TODO');
+        //Data
+        $customerTaxClassData = $this->loadData('new_customer_tax_class', null, 'customer_class_name');
+        //Steps
+        $this->taxHelper()->createCustomerTaxClass($customerTaxClassData);
+        //Verifying
+        $this->assertTrue($this->successMessage('success_saved_tax_class'), $this->messages);
+        return $customerTaxClassData;
     }
 
     /**
@@ -79,11 +85,16 @@ class Tax_CustomerTaxClass_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected Result:</p>
      * <p>Customer Tax Class should not be created, error message appears</p>
      *
+     * @depends withRequiredFieldsOnly
+     * @param array $customerTaxClassData
      * @test
      */
-    public function withNameThatAlreadyExists()
+    public function withNameThatAlreadyExists($customerTaxClassData)
     {
-        $this->markTestIncomplete('@TODO');
+        //Steps
+        $this->taxHelper()->createCustomerTaxClass($customerTaxClassData);
+        //Verifying
+        $this->assertTrue($this->errorMessage('tax_class_exists'), $this->messages);
     }
 
     /**
@@ -95,11 +106,17 @@ class Tax_CustomerTaxClass_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected Result:</p>
      * <p>Customer Tax Class should not be created, error message appears</p>
      *
+     * @depends withRequiredFieldsOnly
      * @test
      */
     public function withEmptyName()
     {
-        $this->markTestIncomplete('@TODO');
+        //Data
+        $customerTaxClassData = $this->loadData('new_customer_tax_class', array('customer_class_name'=>''));
+        //Steps
+        $this->taxHelper()->createCustomerTaxClass($customerTaxClassData);
+        //Verifying
+        $this->assertTrue($this->errorMessage('empty_class_name'), $this->messages);
     }
 
     /**
@@ -112,6 +129,7 @@ class Tax_CustomerTaxClass_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>All fields has the same values.</p>
      *
+     * @depends withRequiredFieldsOnly
      * @dataProvider dataSpecialValues
      * @test
      *
@@ -119,14 +137,23 @@ class Tax_CustomerTaxClass_CreateTest extends Mage_Selenium_TestCase
      */
     public function withSpecialValues($specialValue)
     {
-        $this->markTestIncomplete('@TODO');
+        //Data
+        $customerTaxClassData = $this->loadData('new_customer_tax_class',
+                                                array('customer_class_name'=>$specialValue));
+        //Steps
+        $this->taxHelper()->createCustomerTaxClass($customerTaxClassData);
+        $this->assertTrue($this->successMessage('success_saved_tax_class'), $this->messages);
+        //Verifying
+        $this->taxHelper()->openTaxItem($customerTaxClassData ,'customer_tax_class');
+        $this->assertTrue($this->verifyForm($customerTaxClassData), $this->messages);
+
     }
 
     public function dataSpecialValues()
     {
         return array(
-            array(array()),//$this->generate('string', 255)
-            array(array()) //$this->generate('string', 50, ':punct:')
+            array($this->generate('string', 255)),
+            array($this->generate('string', 50, ':punct:'))
         );
     }
 

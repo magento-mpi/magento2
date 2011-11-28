@@ -41,7 +41,9 @@ manage_customer_tax_class:
                             reset_filter: //button[span='Reset Filter']
                             search: //button[span='Search']
                         fields:
-                            customer_class_name: //input[@id='filter_class_name']
+                            customer_class_name: //input[@id='taxClassGrid_filter_class_name']
+                        pageelements:
+                            grid_head: //*[@id='taxClassGrid_table']/thead/tr[@class='headings']
         buttons:
             add_new: //button[span='Add New']
         messages:
@@ -67,17 +69,18 @@ create_customer_tax_class:
             save_class: //button[span='Save Class']
         messages:
             empty_class_name: "//input[@id='class_name']//following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
+            tax_class_exists: //li[normalize-space(@class)='error-msg' and contains(.,'An error occurred while saving this tax class. A class with the same name already exists.')]
 
 # 'Edit Customer Tax Class' Page
 edit_customer_tax_class:
-    mca: tax_class_customer/edit/id/%customerTaxClassId%/
-    title: %customerTaxClassName% / Customer Tax Classes / Tax / Sales / Magento Admin
+    mca: tax_class_customer/edit/id/%id%/
+    title: %elementTitle% / Customer Tax Classes / Tax / Sales / Magento Admin
     uimap:
         form: &editCustomerTaxClassForm
             fieldsets:
                 -
                     customer_tax_class_info:
-                        xpath: //div[@id='edit_form']
+                        xpath: //form[@id='edit_form']
                         fields:
                             customer_class_name: //input[@id='class_name']
                         required: [class_name]
@@ -89,6 +92,8 @@ edit_customer_tax_class:
         messages:
             error_delete_tax_class: //div[@id='messages']//li[span='You cannot delete this tax class as it is used in Tax Rules. You have to delete the rules it is used in first.']
             empty_class_name: "//input[@id='class_name']//following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
+            tax_class_exists: //li[normalize-space(@class)='error-msg' and contains(.,'An error occurred while saving this tax class. A class with the same name already exists.')]
+            confirmation_for_delete: Are you sure you want to do this?
 
 # Product Tax Class and related pages
 # 'Manage Product Tax Classes' page
@@ -101,12 +106,14 @@ manage_product_tax_class:
             fieldsets:
                 -
                     manage_product_tax_class:
-                        xpath:
+                        xpath: //div[@id='taxClassGrid']
                         fields:
                             product_class_name: //input[@id='filter_class_name']
                         buttons:
                             reset_filter: //button[span='Reset Filter']
                             search: //button[span='Search']
+                        pageelements:
+                            grid_head: //*[@id='taxClassGrid_table']/thead/tr[@class='headings']
         buttons:
             add_new: //button[span='Add New']
         messages:
@@ -135,8 +142,8 @@ create_product_tax_class:
 
 # 'Edit Product Tax Class' Page
 edit_product_tax_class:
-    mca: tax_class_customer/edit/id/%productTaxClassId%/
-    title: %productTaxClassName% / Product Tax Classes / Tax / Sales / Magento Admin
+    mca: tax_class_product/edit/id/%id%/
+    title: %elementTitle% / Product Tax Classes / Tax / Sales / Magento Admin
     uimap:
         form: &editProductTaxClassForm
             fieldsets:
@@ -178,6 +185,8 @@ manage_tax_zones_and_rates:
                             zip_code: //input[@id='filter_tax_postcode']
                             rate_from: //input[@id='filter_rate_from']
                             rate_to: //input[@id='filter_rate_to']
+                        pageelements:
+                            grid_head: //*[@id='tax_rate_grid_table']/thead/tr[@class='headings']
         buttons:
             add_new_tax_rate: //button[span='Add New Tax Rate']
         messages:
@@ -221,8 +230,8 @@ create_tax_rate:
 
 # 'Edit Tax Rate' Page
 edit_tax_rate:
-    mca: tax_rate/edit/rate/%rateId%/
-    title: %rateIdentifier% / Manage Tax Zones and Rates / Tax / Sales / Magento Admin
+    mca: tax_rate/edit/rate/%id%/
+    title: %elementTitle% / Manage Tax Zones and Rates / Tax / Sales / Magento Admin
     uimap:
         form: &editTaxRatesForm
             fieldsets:
@@ -289,7 +298,7 @@ manage_tax_rule:
             fieldsets:
                 -
                     manage_tax_rules:
-                        xpath:
+                        xpath: //div[@id='taxRuleGrid']
                         buttons:
                             reset_filter: //button[span='Reset Filter']
                             search: //button[span='Search']
@@ -303,6 +312,8 @@ manage_tax_rule:
                             name: //input[@id='filter_code']
                             priority: //input[@id='filter_priority']
                             sort_order: //input[@id='filter_position']
+                        pageelements:
+                            grid_head: //*[@id='taxRuleGrid_table']/thead/tr[@class='headings']
         buttons:
             add_new_tax_rule: //button[span='Add New Tax Rule']
         messages:
@@ -340,8 +351,8 @@ create_tax_rule:
 
 # Edit Tax Rule page
 edit_tax_rule:
-    mca: tax_rule/edit/rule/%ruleId%/
-    title: %ruleName% / Manage Tax Rules / Tax / Sales / Magento Admin
+    mca: tax_rule/edit/rule/%id%/
+    title: %elementTitle% / Manage Tax Rules / Tax / Sales / Magento Admin
     uimap:
         form: &editTaxRuleForm
             fieldsets:
@@ -364,4 +375,5 @@ edit_tax_rule:
             save_rule: //button[span='Save Rule']
             save_and_continue_edit: //button[span='Save and Continue Edit']
         messages:
+            confirmation_for_delete: Are you sure you want to do this?
             # TODO

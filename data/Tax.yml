@@ -49,3 +49,13 @@ new_customer_tax_class:
 
 new_product_tax_class:
     product_class_name: Product Tax Class Name
+
+
+tax_rate_create_test:
+    tax_identifier: test_tax_id
+    country: United States
+    state: Nevada
+    zip_is_range: %noValue%
+    rate_percent: 10
+    tax_titles:
+        Default Store View: Store View 1
