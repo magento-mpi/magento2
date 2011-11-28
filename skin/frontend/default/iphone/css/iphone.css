@@ -1506,10 +1506,7 @@ section .category-title { display:none; }
     z-index:1;
 }
 .product-shop .product-image-wrap img { -webkit-border-radius:1px; -webkit-box-shadow:0 0 3px #D1D1D1; -webkit-transition:-webkit-transform ease-in 300ms; position:relative; }
-.product-shop .product-image-wrap img.animate { -webkit-transform:translate3d(100%,-150px,1px) scale(0) rotate(200deg); z-index:1000; }
-@media (orientation: landscape) {
-    .product-shop .product-image-wrap img.animate { -webkit-transform:translate3d(310px,-150px,1px) scale(0) rotate(200deg); }
-}
+.product-shop .product-image-wrap img.animate { z-index:101; }
 .product-shop .product-image-wrap img.cloned { position:absolute; top:0; left:0; }
 .product-shop .product-image .carousel-items li { padding:2px 2px 0; }
 .product-shop .product-image .more-views { padding:3px 0 0 0; }
