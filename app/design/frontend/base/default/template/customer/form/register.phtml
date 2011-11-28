@@ -164,6 +164,9 @@
                         </div>
                     </div>
                 </li>
+                <?php if (Mage::helper('core/captcha')->isRequired('user_create')): ?>
+                    <?php echo $this->getChildHtml('captcha') ?>
+                <?php endif ?>
             </ul>
         </div>
         <div class="buttons-set">

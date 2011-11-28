@@ -2325,5 +2325,6 @@ address.copyright { margin-top:6px; }
 /* Captcha ================================================================================ */
 div.input-box.captcha {width:230px;}
 div.captcha-image {margin:0 0 0 240px; border:1px solid #ccc; position: relative;}
+form#login-form div.captcha-image {margin:0 0 0 100px; border:1px solid #ccc;}
 div.registered-users ul li div.captcha-image {border:solid 1px #ccc; margin:-12px 0 0 113px;}
 img.captcha-reload {position: absolute; top: 2px; right: 2px;}

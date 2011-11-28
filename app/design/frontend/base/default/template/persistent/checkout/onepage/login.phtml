@@ -87,6 +87,9 @@
                         <input type="password" class="input-text required-entry" id="login-password" name="login[password]" />
                     </div>
                 </li>
+                <?php if (Mage::helper('core/captcha')->isRequired('user_login')): ?>
+                    <?php echo $this->getChildHtml('captcha') ?>
+                <?php endif ?>
                 <?php echo $this->getChildHtml('persistent.remember.me'); ?>
             </ul>
             <input name="context" type="hidden" value="checkout" />

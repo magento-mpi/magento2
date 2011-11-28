@@ -59,6 +59,9 @@
                                 <input name="login[password]" type="password" class="input-text required-entry validate-password" id="pass" title="<?php echo $this->__('Password') ?>" />
                             </div>
                         </li>
+                        <?php if (Mage::helper('core/captcha')->isRequired('user_login')): ?>
+                            <?php echo $this->getChildHtml('captcha') ?>
+                        <?php endif ?>
                     </ul>
                     <div class="buttons-set form-buttons btn-only">
                         <button type="submit" class="button" name="send" id="send2"><span><span><?php echo $this->__('Login') ?></span></span></button>

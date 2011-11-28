@@ -46,6 +46,9 @@
                     <label for="pass"><?php echo $this->__('Enter your password') ?>:</label>
                     <input type="password" class="required-entry validate-password" name="login[password]" id="pass" placeholder="<?php echo $this->__('Password') ?>" />
                 </li>
+                <?php if (Mage::helper('core/captcha')->isRequired('user_login')): ?>
+                    <?php echo $this->getChildHtml('captcha') ?>
+                <?php endif ?>
             </ul>
             <a href="<?php echo $this->getForgotPasswordUrl() ?>"><?php echo $this->__('Forgot your password?') ?></a>
             <div class="login-button">
