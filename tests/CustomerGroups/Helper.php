@@ -42,7 +42,7 @@ class CustomerGroups_Helper extends Mage_Selenium_TestCase
      *
      * @param array|string $customerGroupData
      */
-    public function createCustomerGroup(array $customerGroupData)
+    public function createCustomerGroup($customerGroupData)
     {
         if (is_string($customerGroupData)) {
             $customerGroupData = $this->loadData($customerGroupData);
@@ -91,10 +91,10 @@ class CustomerGroups_Helper extends Mage_Selenium_TestCase
     /**
      * Edit existing Customer Group
      *
-     * @param $customerGroupData
-     * @param $searchData
+     * @param array $customerGroupData
+     * @param array|string $searchData
      */
-    public function editCustomerGroup($customerGroupData, $searchData)
+    public function editCustomerGroup(array $customerGroupData, $searchData)
     {
         $this->openCustomerGroup($searchData);
         $this->fillForm($customerGroupData);
