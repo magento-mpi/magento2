@@ -47,9 +47,9 @@ manage_customer_groups:
                             filter_group_name: //input[@id='customerGroupGrid_filter_type']
                             filter_tax_class: //input[@id='customerGroupGrid_filter_class_name']
                         pageelements:
-                            customer_grid_head: //table[@id='customerGroupGrid_table']/thead/tr[@class='headings']
+                            customer_group_grid_head: //table[@id='customerGroupGrid_table']/thead/tr[@class='headings']
         buttons:
-            add_new_customer: //button[span='Add New Customer Group' or span='Add New']
+            add_new_customer_group: //button[span='Add New Customer Group']
         messages: &customerGroupsMessages
             success_deleted_customer_group: //li[normalize-space(@class)='success-msg' and contains(.,'The customer group has been deleted.')]
             success_saved_customer_group: //li[normalize-space(@class)='success-msg' and contains(.,'The customer group has been saved.')]
