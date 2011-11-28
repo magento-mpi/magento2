@@ -25,7 +25,7 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
      * @param Mage_Catalog_Model_Product $product
      * @return array
      */
-    public function getLinks($product = null)
+    public function getLinks($product)
     {
         if (is_null($product->getDownloadableLinks())) {
             $_linkCollection = Mage::getModel('Mage_Downloadable_Model_Link')->getCollection()
@@ -50,7 +50,7 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
      * @param Mage_Catalog_Model_Product $product
      * @return boolean
      */
-    public function hasLinks($product = null)
+    public function hasLinks($product)
     {
         if ($product->hasData('links_exist')) {
             return $product->getData('links_exist');
@@ -64,7 +64,7 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
      * @param Mage_Catalog_Model_Product $product
      * @return boolean
      */
-    public function hasOptions($product = null)
+    public function hasOptions($product)
     {
         //return true;
         return $product->getLinksPurchasedSeparately()
@@ -77,7 +77,7 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
      * @param Mage_Catalog_Model_Product $product
      * @return bool
      */
-    public function hasRequiredOptions($product = null)
+    public function hasRequiredOptions($product)
     {
         if (parent::hasRequiredOptions($product) || $product->getLinksPurchasedSeparately()) {
             return true;
@@ -91,7 +91,7 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
      * @param Mage_Catalog_Model_Product $product
      * @return boolean
      */
-    public function getLinkSelectionRequired($product = null)
+    public function getLinkSelectionRequired($product)
     {
         return $product->getLinksPurchasedSeparately();
     }
@@ -102,7 +102,7 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
      * @param Mage_Catalog_Model_Product $product
      * @return Mage_Downloadable_Model_Resource_Sample_Collection
      */
-    public function getSamples($product = null)
+    public function getSamples($product)
     {
         if (is_null($product->getDownloadableSamples())) {
             $_sampleCollection = Mage::getModel('Mage_Downloadable_Model_Sample')->getCollection()
@@ -120,7 +120,7 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
      * @param Mage_Catalog_Model_Product $product
      * @return boolean
      */
-    public function hasSamples($product = null)
+    public function hasSamples($product)
     {
         return count($this->getSamples($product)) > 0;
     }
@@ -131,7 +131,7 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
      * @param Mage_Catalog_Model_Product $product
      * @return Mage_Downloadable_Model_Product_Type
      */
-    public function save($product = null)
+    public function save($product)
     {
         parent::save($product);
 
@@ -305,7 +305,7 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
      * @return Mage_Bundle_Model_Product_Type
      * @throws Mage_Core_Exception
      */
-    public function checkProductBuyState($product = null)
+    public function checkProductBuyState($product)
     {
         parent::checkProductBuyState($product);
         $option = $product->getCustomOption('info_buyRequest');
@@ -336,7 +336,7 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
      * @param Mage_Catalog_Model_Product $product
      * @return array
      */
-    public function getOrderOptions($product = null)
+    public function getOrderOptions($product)
     {
         $options = parent::getOrderOptions($product);
         if ($linkIds = $product->getCustomOption('downloadable_link_ids')) {
@@ -364,7 +364,7 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
      *
      * @param Mage_Catalog_Model_Product $product
      */
-    public function beforeSave($product = null)
+    public function beforeSave($product)
     {
         parent::beforeSave($product);
         if ($this->getLinkSelectionRequired($product)) {
@@ -402,7 +402,7 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
      * @param Mage_Catalog_Model_Product $product
      * @return array
      */
-    public function getSearchableData($product = null)
+    public function getSearchableData($product)
     {
         $searchData = parent::getSearchableData($product);
 
@@ -427,7 +427,7 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
      * @param Mage_Catalog_Model_Product $product
      * @return bool
      */
-    public function isSalable($product = null)
+    public function isSalable($product)
     {
         return $this->hasLinks($product) && parent::isSalable($product);
     }
@@ -455,7 +455,7 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
      * @param Mage_Catalog_Model_Product $product
      * @return bool
      */
-    public function canConfigure($product = null)
+    public function canConfigure($product)
     {
         return $this->hasLinks($product) && $product->getLinksPurchasedSeparately();
     }
