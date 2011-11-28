@@ -103,11 +103,16 @@ class Mage_Adminhtml_Block_Catalog_Search_Edit_Form extends Mage_Adminhtml_Block
         }
 
         if ($model->getId()) {
+            $afterElementHtml = '<p class="nm"><small>'
+                . Mage::helper('catalog')->__('(For the last time placed)')
+                . '</small></p>';
+
             $fieldset->addField('num_results', 'text', array(
-                'name'      => 'num_results',
-                'label'     => Mage::helper('catalog')->__('Number of results<br/>(For the last time placed)'),
-                'title'     => Mage::helper('catalog')->__('Number of results<br/>(For the last time placed)'),
-                'required'  => true,
+                'name' => 'num_results',
+                'label' => Mage::helper('catalog')->__('Number of results'),
+                'title' => Mage::helper('catalog')->__('Number of results (For the last time placed)'),
+                'after_element_html' => $afterElementHtml,
+                'required' => true,
             ));
 
             $fieldset->addField('popularity', 'text', array(
