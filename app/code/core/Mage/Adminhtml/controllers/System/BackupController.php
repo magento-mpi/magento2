@@ -226,6 +226,8 @@ class Mage_Adminhtml_System_BackupController extends Mage_Adminhtml_Controller_A
 
             $backupManager->rollback();
 
+            Mage::helper('backup')->invalidateCache()->invalidateIndexer();
+
             $adminSession = $this->_getSession();
             $adminSession->unsetAll();
             $adminSession->getCookie()->delete($adminSession->getSessionName());

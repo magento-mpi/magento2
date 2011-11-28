@@ -244,4 +244,30 @@ class Mage_Backup_Helper_Data extends Mage_Core_Helper_Abstract
     {
         return Mage::getBaseDir() . DS . 'maintenance.flag';
     }
+
+    /**
+     * Invalidate Cache
+     * @return Mage_Backup_Helper_Data
+     */
+    public function invalidateCache()
+    {
+        if ($cacheTypesNode = Mage::getConfig()->getNode(Mage_Core_Model_Cache::XML_PATH_TYPES)) {
+            $cacheTypesList = array_keys($cacheTypesNode->asArray());
+            Mage::app()->getCacheInstance()->invalidateType($cacheTypesList);
+        }
+        return $this;
+    }
+
+    /**
+     * Invalidate Indexer
+     *
+     * @return Mage_Backup_Helper_Data
+     */
+    public function invalidateIndexer()
+    {
+        foreach (Mage::getResourceModel('index/process_collection') as $process){
+            $process->changeStatus(Mage_Index_Model_Process::STATUS_REQUIRE_REINDEX);
+        }
+        return $this;
+    }
 }
