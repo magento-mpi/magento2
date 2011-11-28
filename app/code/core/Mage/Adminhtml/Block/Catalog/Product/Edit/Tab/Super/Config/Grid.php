@@ -114,7 +114,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid extends Ma
             Mage::getModel('Mage_CatalogInventory_Model_Stock_Item')->addCatalogInventoryToProductCollection($collection);
         }
 
-        foreach ($product->getTypeInstance(true)->getUsedProductAttributes($product) as $attribute) {
+        foreach ($product->getTypeInstance()->getUsedProductAttributes($product) as $attribute) {
             $collection->addAttributeToSelect($attribute->getAttributeCode());
             $collection->addAttributeToFilter($attribute->getAttributeCode(), array('notnull'=>1));
         }
@@ -133,7 +133,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid extends Ma
     {
         $products = $this->getRequest()->getPost('products', null);
         if (!is_array($products)) {
-            $products = $this->_getProduct()->getTypeInstance(true)->getUsedProductIds($this->_getProduct());
+            $products = $this->_getProduct()->getTypeInstance()->getUsedProductIds($this->_getProduct());
         }
         return $products;
     }
@@ -154,7 +154,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid extends Ma
     protected function _prepareColumns()
     {
         $product = $this->_getProduct();
-        $attributes = $product->getTypeInstance(true)->getConfigurableAttributes($product);
+        $attributes = $product->getTypeInstance()->getConfigurableAttributes($product);
 
         if (!$this->isReadonly()) {
             $this->addColumn('in_products', array(
@@ -268,7 +268,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid extends Ma
         $attributesIds = array();
         foreach (
             $this->_getProduct()
-                ->getTypeInstance(true)
+                ->getTypeInstance()
                 ->getConfigurableAttributes($this->_getProduct()) as $attribute
         ) {
             $attributesIds[] = $attribute->getProductAttribute()->getId();

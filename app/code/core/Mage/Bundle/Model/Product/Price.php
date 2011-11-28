@@ -84,7 +84,7 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
         if ($product->hasCustomOptions()) {
             $customOption = $product->getCustomOption('bundle_selection_ids');
             $selectionIds = unserialize($customOption->getValue());
-            $selections = $product->getTypeInstance(true)->getSelectionsByIds($selectionIds, $product);
+            $selections = $product->getTypeInstance()->getSelectionsByIds($selectionIds, $product);
             $selections->addTierPriceData();
             Mage::dispatchEvent('prepare_catalog_product_collection_prices', array(
                 'collection'    => $selections,
@@ -293,15 +293,15 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
      */
     public function getOptions($product)
     {
-        $product->getTypeInstance(true)
+        $product->getTypeInstance()
             ->setStoreFilter($product->getStoreId(), $product);
 
-        $optionCollection = $product->getTypeInstance(true)
+        $optionCollection = $product->getTypeInstance()
             ->getOptionsCollection($product);
 
-        $selectionCollection = $product->getTypeInstance(true)
+        $selectionCollection = $product->getTypeInstance()
             ->getSelectionsCollection(
-                $product->getTypeInstance(true)->getOptionsIds($product),
+                $product->getTypeInstance()->getOptionsIds($product),
                 $product
             );
 

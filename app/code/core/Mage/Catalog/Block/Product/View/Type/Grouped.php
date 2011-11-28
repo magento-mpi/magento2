@@ -20,7 +20,7 @@ class Mage_Catalog_Block_Product_View_Type_Grouped extends Mage_Catalog_Block_Pr
 {
     public function getAssociatedProducts()
     {
-        return $this->getProduct()->getTypeInstance(true)
+        return $this->getProduct()->getTypeInstance()
             ->getAssociatedProducts($this->getProduct());
     }
 

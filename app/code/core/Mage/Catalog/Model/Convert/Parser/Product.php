@@ -206,9 +206,9 @@ class Mage_Catalog_Model_Convert_Parser_Product
         $type = $product->getTypeId();
         if (!isset($this->_productTypeInstances[$type])) {
             $this->_productTypeInstances[$type] = Mage::getSingleton('Mage_Catalog_Model_Product_Type')
-                ->factory($product, true);
+                ->factory($product);
         }
-        $product->setTypeInstance($this->_productTypeInstances[$type], true);
+        $product->setTypeInstance($this->_productTypeInstances[$type]);
         return $this;
     }
 

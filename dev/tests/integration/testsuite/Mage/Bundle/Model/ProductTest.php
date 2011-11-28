@@ -36,29 +36,19 @@ class Mage_Bundle_Model_ProductTest extends PHPUnit_Framework_TestCase
     public function testGetSetTypeInstance()
     {
         // model getter
-        $model = $this->_model->getTypeInstance();
-        $this->assertInstanceOf('Mage_Bundle_Model_Product_Type', $model);
-        $this->assertSame($model, $this->_model->getTypeInstance());
+        $typeInstance = $this->_model->getTypeInstance();
+        $this->assertInstanceOf('Mage_Bundle_Model_Product_Type', $typeInstance);
+        $this->assertSame($typeInstance, $this->_model->getTypeInstance());
 
         // singleton getter
-        $singleton = $this->_model->getTypeInstance(true);
-        $this->assertInstanceOf('Mage_Bundle_Model_Product_Type', $singleton);
-        $this->assertNotSame($model, $this->_model->getTypeInstance(true));
-        $this->assertSame($singleton, $this->_model->getTypeInstance(true));
+        $otherProduct = new Mage_Catalog_Model_Product;
+        $otherProduct->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_BUNDLE);
+        $this->assertSame($typeInstance, $otherProduct->getTypeInstance());
 
         // model setter
-        $bundleModel = new Mage_Bundle_Model_Product_Type;
-        $this->_model->setTypeInstance($bundleModel);
-        $this->assertSame($bundleModel, $this->_model->getTypeInstance());
-        $this->assertNotSame($model, $this->_model->getTypeInstance());
-
-        // singleton setter
-        $bundleSingleton = new Mage_Bundle_Model_Product_Type;
-        $this->_model->setTypeInstance($bundleSingleton, true);
-        $this->assertNotSame($model, $this->_model->getTypeInstance(true));
-        $this->assertNotSame($bundleModel, $this->_model->getTypeInstance(true));
-        $this->assertSame($bundleSingleton, $this->_model->getTypeInstance(true));
-        $this->assertSame($bundleSingleton, $this->_model->getTypeInstance(true));
+        $customTypeInstance = new Mage_Bundle_Model_Product_Type;
+        $this->_model->setTypeInstance($customTypeInstance);
+        $this->assertSame($customTypeInstance, $this->_model->getTypeInstance());
     }
 
     /**

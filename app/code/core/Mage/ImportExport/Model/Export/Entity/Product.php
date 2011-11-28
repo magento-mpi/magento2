@@ -541,7 +541,7 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
             );
             $configurableData = array();
             while ($product = $configurableProductsCollection->fetchItem()) {
-                $productAttributesOptions = $product->getTypeInstance(true)->getConfigurableOptions($product);
+                $productAttributesOptions = $product->getTypeInstance()->getConfigurableOptions($product);
 
                 foreach ($productAttributesOptions as $productAttributeOption) {
                     $configurableData[$product->getId()] = array();

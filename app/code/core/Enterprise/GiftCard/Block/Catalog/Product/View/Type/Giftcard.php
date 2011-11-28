@@ -74,7 +74,7 @@ class Enterprise_GiftCard_Block_Catalog_Product_View_Type_Giftcard extends Mage_
 
     public function isEmailAvailable($product)
     {
-        if ($product->getTypeInstance()->isTypePhysical()) {
+        if ($product->getTypeInstance()->isTypePhysical($product)) {
             return false;
         }
         return true;

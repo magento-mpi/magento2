@@ -73,7 +73,7 @@ class Mage_Checkout_Model_Api_Resource_Product extends Mage_Checkout_Model_Api_R
                             Mage_Catalog_Model_Product $product,
                             Varien_Object $requestInfo)
     {
-        $cartCandidates = $product->getTypeInstance(true)
+        $cartCandidates = $product->getTypeInstance()
                         ->prepareForCartAdvanced($requestInfo,
                                 $product,
                                 Mage_Catalog_Model_Product_Type_Abstract::PROCESS_MODE_FULL

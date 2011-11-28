@@ -833,7 +833,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
             Mage::throwException(Mage::helper('Mage_Sales_Helper_Data')->__('Invalid request for adding product to quote.'));
         }
 
-        $cartCandidates = $product->getTypeInstance(true)
+        $cartCandidates = $product->getTypeInstance()
             ->prepareForCartAdvanced($request, $product, $processMode);
 
         /**

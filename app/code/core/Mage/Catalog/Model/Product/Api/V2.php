@@ -102,7 +102,7 @@ class Mage_Catalog_Model_Product_Api_V2 extends Mage_Catalog_Model_Product_Api
         if (!empty($attributes->attributes)) {
             $allAttributes = array_merge($allAttributes, $attributes->attributes);
         } else {
-            foreach ($product->getTypeInstance(true)->getEditableAttributes($product) as $attribute) {
+            foreach ($product->getTypeInstance()->getEditableAttributes($product) as $attribute) {
                 if ($this->_isAllowedAttribute($attribute, $attributes)) {
                     $allAttributes[] = $attribute->getAttributeCode();
                 }
@@ -118,7 +118,7 @@ class Mage_Catalog_Model_Product_Api_V2 extends Mage_Catalog_Model_Product_Api
         }
 
         $_additionalAttribute = 0;
-        foreach ($product->getTypeInstance(true)->getEditableAttributes($product) as $attribute) {
+        foreach ($product->getTypeInstance()->getEditableAttributes($product) as $attribute) {
             if ($this->_isAllowedAttribute($attribute, $allAttributes)) {
                 if (in_array($attribute->getAttributeCode(), $_additionalAttributeCodes)) {
                     $result['additional_attributes'][$_additionalAttribute]['key'] = $attribute->getAttributeCode();
@@ -255,7 +255,7 @@ class Mage_Catalog_Model_Product_Api_V2 extends Mage_Catalog_Model_Product_Api
             unset($productData->additional_attributes);
         }
 
-        foreach ($product->getTypeInstance(true)->getEditableAttributes($product) as $attribute) {
+        foreach ($product->getTypeInstance()->getEditableAttributes($product) as $attribute) {
             $_attrCode = $attribute->getAttributeCode();
             if ($this->_isAllowedAttribute($attribute) && (isset($productData->$_attrCode))) {
                 $product->setData(
