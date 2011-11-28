@@ -1,3 +1,12 @@
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     default_default
+ * @subpackage  integration_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 @import url(../recursive.css);
 @import url("deep/recursive.css");
 body {background: url(body.gif);}

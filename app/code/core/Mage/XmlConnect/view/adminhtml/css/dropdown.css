@@ -1,3 +1,11 @@
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 .dropdown { float:left; width:200px; border:1px solid #ccc; position:relative; }
 .dropdown a { padding:3px 18px 3px 10px ; display:block; text-decoration:none; color:#000; position:relative; }
 .dropdown a:hover { background:#ccc; }

@@ -1,4 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Enterprise
+ * @package     Enterprise_PageCache
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
 <config>
     <placeholders>
         <last_viewed_products>

@@ -14,15 +14,16 @@ require dirname(__FILE__) . '/Routine.php';
 define('USAGE', <<<USAGE
 $>./extruder.php -l common.txt [[-l extra.txt] parameters]
     additional parameters:
-    -s vcs_name use "svn rm" command instead of "rm -rf" if the value is "svn" and "git rm" if the value is "git"
     -w dir      use specified working dir instead of current
+    -g          use "git rm" command instead of "rm -rf"
+    -d          remove in dry-run mode (available for "git rm" command only)
     -v          verbose output
     -i          ignore errors from remove command
 
 USAGE
 );
 
-$shortOpts = 'l:s:w:vi';
+$shortOpts = 'l:w:gdvi';
 $options = getopt($shortOpts);
 
 if (!isset($options['l'])) {
@@ -59,12 +60,10 @@ if (!is_dir($workingDir)) {
 }
 
 $rmCommand = 'rm -rf';
-if (isset($options['s'])) {
-    if ($options['s'] == 'git') {
-        $rmCommand = 'git rm -r --ignore-unmatch';
-    } else {
-        print USAGE;
-        exit(1);
+if (isset($options['g'])) {
+    $rmCommand = 'git rm -r --ignore-unmatch';
+    if (isset($options['d'])) {
+        $rmCommand .= " --dry-run";
     }
 }
 
@@ -82,10 +81,12 @@ foreach ($list as $item) {
     if (empty($item)) {
         continue;
     }
-    $item = $workingDir . DIRECTORY_SEPARATOR . $item;
-    $result = Routine::execCmd("$rmCommand $item", $verbose, $ignore);
-    if ($result !== 0) {
-        exit($result);
+    foreach (Routine::parsePath($item) as $currItem) {
+        $currItem = $workingDir . DIRECTORY_SEPARATOR . $currItem;
+        $result = Routine::execCmd("$rmCommand $currItem", $verbose, $ignore);
+        if ($result !== 0) {
+            exit($result);
+        }
     }
 }
 

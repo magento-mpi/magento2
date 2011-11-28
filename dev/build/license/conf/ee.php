@@ -1,25 +1,15 @@
 <?php
 /**
- * Configuration file used by licence-tool.php script to prepare  Magento Enterprise Edition
- *
- * NOTICE OF LICENSE
- *
- * This source file is subject to the Open Software License (OSL 3.0)
- * that is bundled with this package in the file LICENSE.txt.
- * It is also available through the world-wide-web at this URL:
- * http://opensource.org/licenses/osl-3.0.php
- * If you did not receive a copy of the license and are unable to
- * obtain it through the world-wide-web, please send an email
- * to license@magentocommerce.com so we can send you a copy immediately.
+ * {license_notice}
  *
  * @category   build
  * @package    license
- * @subpackage conf
- * @copyright  Copyright (c) 2011 Magento Inc. (http://www.magentocommerce.com)
- * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @copyright  {copyright}
+ * @license    {license_link}
  */
 
 /**
+ * Configuration file used by licence-tool.php script to prepare  Magento Enterprise Edition
  * @var $config array of specified paths and file types with appropriate licenses
  *
  */
@@ -38,9 +28,39 @@ $config = array(
         'js'    => 'MEL',
         '_params' => array(
             'skipped' => array(
-                'file' => array(
-                    'app/code/core/Zend/Mime.php'
-                )
+                'app/code/core/Zend/Mime.php',
+                'app/code/core/Enterprise/CustomerBalance/etc/wsdl.xml',
+                'app/code/core/Enterprise/CustomerBalance/etc/wsi.xml',
+                'app/code/core/Enterprise/GiftCard/etc/wsdl.xml',
+                'app/code/core/Enterprise/GiftCard/etc/wsi.xml',
+                'app/code/core/Enterprise/GiftCardAccount/etc/wsdl.xml',
+                'app/code/core/Enterprise/GiftCardAccount/etc/wsi.xml',
+                'app/code/core/Mage/Api/etc/wsdl.xml',
+                'app/code/core/Mage/Api/etc/wsdl2.xml',
+                'app/code/core/Mage/Api/etc/wsi.xml',
+                'app/code/core/Mage/Catalog/etc/wsdl.xml',
+                'app/code/core/Mage/Catalog/etc/wsi.xml',
+                'app/code/core/Mage/CatalogInventory/etc/wsdl.xml',
+                'app/code/core/Mage/CatalogInventory/etc/wsi.xml',
+                'app/code/core/Mage/Checkout/etc/wsdl.xml',
+                'app/code/core/Mage/Checkout/etc/wsi.xml',
+                'app/code/core/Mage/Core/etc/wsdl.xml',
+                'app/code/core/Mage/Core/etc/wsi.xml',
+                'app/code/core/Mage/Customer/etc/wsdl.xml',
+                'app/code/core/Mage/Customer/etc/wsi.xml',
+                'app/code/core/Mage/Directory/etc/wsdl.xml',
+                'app/code/core/Mage/Directory/etc/wsi.xml',
+                'app/code/core/Mage/Downloadable/etc/wsdl.xml',
+                'app/code/core/Mage/Downloadable/etc/wsi.xml',
+                'app/code/core/Mage/GiftMessage/etc/wsdl.xml',
+                'app/code/core/Mage/GiftMessage/etc/wsi.xml',
+                'app/code/core/Mage/GoogleCheckout/etc/wsdl.xml',
+                'app/code/core/Mage/GoogleCheckout/etc/wsi.xml',
+                'app/code/core/Mage/ImportExport/view/adminhtml/layout.xml',
+                'app/code/core/Mage/Sales/etc/wsdl.xml',
+                'app/code/core/Mage/Sales/etc/wsi.xml',
+                'app/code/core/Mage/Tag/etc/wsdl.xml',
+                'app/code/core/Mage/Tag/etc/wsi.xml',
             )
         )
     ),
@@ -51,19 +71,16 @@ $config = array(
         'js'    => 'MEL',
         '_params' => array(
             'skipped' => array(
-                'file' => array(
-                    'app/design/frontend/enterprise/default/skin/default/js/jqzoom/jquery-1.3.1.min.js',
-                    'app/design/frontend/enterprise/default/skin/default/js/jqzoom/jquery.jqzoom1.0.1.js'
-                )
+                'app/design/frontend/default/iphone/skin/default/js/dnd.js',
+                'app/design/frontend/enterprise/default/skin/default/js/jqzoom/jquery-1.3.1.min.js',
+                'app/design/frontend/enterprise/default/skin/default/js/jqzoom/jquery.jqzoom1.0.1.js',
             )
         )
     ),
     'app/etc' => array(
         'xml'   => 'MEL',
         '_params' => array(
-            'skipped' => array(
-                'file' => 'app/etc/local.xml'
-            )
+            'skipped' => 'app/etc/local.xml'
         )
     ),
     'app' => array(
@@ -94,13 +111,10 @@ $config = array(
         'js'    => 'MEL',
         '_params' => array(
             'skipped' => array(
-                'dir' => array(
-                    'dev/build',
-                    'dev/tests/integration/tmp',
-                    'dev/tests/static/testsuite/Php',
-                    'dev/tests/static/report'
-
-                )
+                'dev/build',
+                'dev/tests/integration/tmp',
+                'dev/tests/static/report',
+                'dev/tests/static/testsuite/Php',
             )
         )
     ),
@@ -111,11 +125,7 @@ $config = array(
         'css'   => 'MEL',
         'js'    => 'MEL',
         '_params' => array(
-            'skipped' => array(
-                'file' => array(
-                    'downloader/js/prototype.js'
-                )
-            )
+            'skipped' => 'downloader/js/prototype.js'
         )
     ),
     'lib/Varien' => array(
@@ -148,22 +158,19 @@ $config = array(
         'js'    => 'MEL',
         '_params' => array(
             'skipped' => array(
-                'dir' => array(
-                    'pub/js/calendar',
-                    'pub/js/extjs',
-                    'pub/js/firebug',
-                    'pub/js/prototype',
-                    'pub/js/tiny_mce',
-                    'pub/js/flash',
-                    'pub/js/jscolor',
-                    'pub/js/scriptaculous'
-                ),
-                'file' => array(
-                    'pub/js/lib/FABridge.js',
-                    'pub/js/lib/boxover.js',
-                    'pub/js/lib/ccard.js',
-                    'pub/js/lib/ds-sleight.js'
-                )
+                'pub/js/calendar',
+                'pub/js/extjs',
+                'pub/js/firebug',
+                'pub/js/flash',
+                'pub/js/jscolor',
+                'pub/js/prototype',
+                'pub/js/scriptaculous',
+                'pub/js/tiny_mce',
+                'pub/js/lib/ds-sleight.js',
+                'pub/js/lib/ccard.js',
+                'pub/js/lib/boxover.js',
+                'pub/js/lib/FABridge.js',
+                'pub/js/mage/adminhtml/hash.js'
             )
         )
     ),
