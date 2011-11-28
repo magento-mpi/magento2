@@ -258,11 +258,12 @@ class Mage_Backup_Model_Backup extends Varien_Object
 
         $mode = $write ? 'wb' . self::COMPRESS_RATE : 'rb';
 
-        try {
-            $this->_handler = gzopen($filePath, $mode);
-        }
-        catch (Exception $e) {
-            Mage::exception('Mage_Backup', Mage::helper('backup')->__('Backup file "%s" cannot be read from or written to.', $this->getFileName()));
+        $this->_handler = @gzopen($filePath, $mode);
+
+        if (!$this->_handler) {
+            throw new Mage_Backup_Exception_NotEnoughPermissions(
+                Mage::helper('backup')->__('Backup file "%s" cannot be read from or written to.', $this->getFileName())
+            );
         }
 
         return $this;
