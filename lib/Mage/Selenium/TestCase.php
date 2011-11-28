@@ -372,6 +372,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 
                 if ($this->_testHelpers[$helperClassName] instanceof Mage_Selenium_TestCase) {
                     $this->_testHelpers[$helperClassName]->appendParamsDecorator($this->_paramsHelper);
+                    $this->_testHelpers[$helperClassName]->appendMessages($this->messages);
                 }
             } else {
                 return false;
@@ -462,6 +463,16 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     public function appendParamsDecorator($paramsHelperObject)
     {
         $this->_paramsHelper = $paramsHelperObject;
+    }
+
+    /**
+     * Append messages
+     * 
+     * @param type $messagesObject 
+     */
+    public function appendMessages($messagesObject)
+    {
+        $this->messages = $messagesObject;
     }
 
     /**
@@ -1695,18 +1706,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     }
 
     /**
-     * Returns all 'error' messages on page
-     *
-     * @return array
-     */
-    public function getErrorMessages()
-    {
-        $this->_parseMessages();
-
-        return $this->messages['error'];
-    }
-
-    /**
      * Check if any 'success' message exists on page
      *
      * @param string $message Success message's ID from UIMap OR XPath of success message (by default = NULL)
@@ -1718,18 +1717,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         return (!empty($message))
             ? $this->checkMessage($message)
             : $this->checkMessageByXpath(self::$xpathSuccessMessage);
-    }
-
-    /**
-     * Returns all 'success' messages on page
-     *
-     * @return array
-     */
-    public function getSuccessMessages()
-    {
-        $this->_parseMessages();
-
-        return $this->messages['success'];
     }
 
     /**
@@ -1747,15 +1734,52 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     }
 
     /**
-     * Returns all 'validation' messages on page
+     * Returns all messages(or specific type of messages) on page
      *
+     * @param null|string $type tye of message validation|error|success
      * @return array
      */
-    public function getValidationMessages()
+    public function getMessagesOnPage($type = null)
     {
         $this->_parseMessages();
 
-        return $this->messages['validation'];
+        if ($type) {
+            return $this->messages[$type];
+        }
+
+        return $this->messages;
+    }
+
+    /**
+     * Returns all parsed messages(or specific type of messages)
+     *
+     * @param null|string $type
+     * @return array
+     */
+    public function getParsedMessages($type = null)
+    {
+        if ($type) {
+            return (isset($this->messages[$type])) ? $this->messages[$type] : array();
+        }
+
+        return $this->messages;
+    }
+
+    /**
+     * Add validation|error|success message(s)
+     *
+     * @param string $type
+     * @param string|array $message
+     */
+    public function addMessage($type, $message)
+    {
+        if (is_array($message)) {
+            foreach ($message as $value) {
+                $this->messages[$type][] = $value;
+            }
+        } else {
+            $this->messages[$type][] = $message;
+        }
     }
 
     /**
