@@ -127,6 +127,7 @@ class Mage_Adminhtml_System_BackupController extends Mage_Adminhtml_Controller_A
 
         if (!empty($errorMessage)) {
             $response->setError($errorMessage);
+            Mage::register('backup_error_message', $errorMessage);
         }
 
         $this->getResponse()->setBody($response->toJson());
@@ -250,6 +251,7 @@ class Mage_Adminhtml_System_BackupController extends Mage_Adminhtml_Controller_A
 
         if (!empty($errorMsg)) {
             $response->setError($errorMsg);
+            Mage::register('rollback_error_message', $errorMsg);
         }
 
         $this->getResponse()->setBody($response->toJson());

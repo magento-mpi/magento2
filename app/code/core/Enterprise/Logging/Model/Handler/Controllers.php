@@ -452,6 +452,11 @@ class Enterprise_Logging_Model_Handler_Controllers
         if ($backup = Mage::registry('backup_manager')) {
             $eventModel->setIsSuccess($backup->getIsSuccess())
                 ->setInfo($backup->getBackupFilename());
+
+            $errorMessage = Mage::registry('backup_error_message');
+            if (!empty($errorMessage)) {
+                $eventModel->setErrorMessage($errorMessage);
+            }
         } else {
             $eventModel->setIsSuccess(false);
         }
@@ -490,6 +495,11 @@ class Enterprise_Logging_Model_Handler_Controllers
         if ($backup) {
             $eventModel->setIsSuccess($backup->getIsSuccess())
                 ->setInfo($backup->getBackupFilename());
+
+            $errorMessage = Mage::registry('rollback_error_message');
+            if (!empty($errorMessage)) {
+                $eventModel->setErrorMessage($errorMessage);
+            }
         } else {
             $eventModel->setIsSuccess(false);
         }
