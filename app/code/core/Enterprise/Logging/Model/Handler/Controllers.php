@@ -449,11 +449,13 @@ class Enterprise_Logging_Model_Handler_Controllers
      */
     public function postDispatchSystemBackupsCreate($config, $eventModel)
     {
-        if ($backup = Mage::registry('backup_manager')) {
+        $backup = Mage::registry('backup_manager');
+
+        if ($backup) {
             $eventModel->setIsSuccess($backup->getIsSuccess())
                 ->setInfo($backup->getBackupFilename());
 
-            $errorMessage = Mage::registry('backup_error_message');
+            $errorMessage = $backup->getErrorMessage();
             if (!empty($errorMessage)) {
                 $eventModel->setErrorMessage($errorMessage);
             }
@@ -472,7 +474,9 @@ class Enterprise_Logging_Model_Handler_Controllers
      */
     public function postDispatchSystemBackupsDelete($config, $eventModel)
     {
-        if ($backup = Mage::registry('backup_manager')) {
+        $backup = Mage::registry('backup_manager');
+
+        if ($backup) {
             $eventModel->setIsSuccess($backup->getIsSuccess())
                 ->setInfo(Mage::helper('enterprise_logging')->implodeValues($backup->getDeleteResult()));
         } else {
@@ -496,7 +500,7 @@ class Enterprise_Logging_Model_Handler_Controllers
             $eventModel->setIsSuccess($backup->getIsSuccess())
                 ->setInfo($backup->getBackupFilename());
 
-            $errorMessage = Mage::registry('rollback_error_message');
+            $errorMessage = $backup->getErrorMessage();
             if (!empty($errorMessage)) {
                 $eventModel->setErrorMessage($errorMessage);
             }

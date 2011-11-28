@@ -75,6 +75,13 @@ abstract class Mage_Backup_Abstract implements  Mage_Backup_Interface
      */
     protected $_lastOperationSucceed = false;
 
+    /**
+     * Last failed operation error message
+     *
+     * @var string
+     */
+    protected $_lastErrorMessage;
+
 
     /**
      * Set Backup Extension
@@ -218,5 +225,26 @@ abstract class Mage_Backup_Abstract implements  Mage_Backup_Interface
     public function getIsSuccess()
     {
         return $this->_lastOperationSucceed;
+    }
+
+    /**
+     * Get last error message
+     *
+     * @return string
+     */
+    public function getErrorMessage()
+    {
+        return $this->_lastErrorMessage;
+    }
+
+    /**
+     * Set error message
+     *
+     * @param string $errorMessage
+     * @return string
+     */
+    public function setErrorMessage($errorMessage)
+    {
+        $this->_lastErrorMessage = $errorMessage;
     }
 }
