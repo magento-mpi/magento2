@@ -46,6 +46,23 @@ h2 { font-size:12px; font-weight:normal; line-height:20px; }
 
 legend { display:none; }
 
+.messages .notice-msg,
+.messages .success-msg {
+    background:-webkit-gradient(linear, left top, left bottom, color-stop(0%, #FFE38D), color-stop(100%, #FFD040));
+    padding:10px;
+    color:#222;
+    font-weight:bold;
+    text-shadow:0 1px 0 #eee;
+    -webkit-box-shadow:0 3px 3px #ccc;
+}
+.messages .success-msg {
+    background:-webkit-gradient(linear, left top, left bottom, color-stop(0%, #62c462), color-stop(100%, #57a957));
+    border:solid #3D773D;
+    border-width:1px 0;
+    color:#fff;
+    text-shadow:0 -1px 0 rgba(0, 0, 0, 0.25);
+    margin-bottom:10px;
+}
 
 /* Header
 -----------------------------*/
@@ -1466,27 +1483,7 @@ section .category-title { display:none; }
 
 /* Product Info Box
 -----------------------------*/
-.catalog-product-view .messages {
-    margin:0 -10px 0;
-}
-.catalog-product-view .messages .notice-msg {
-    background:-webkit-gradient(linear, left top, left bottom, color-stop(0%, #FFE38D), color-stop(100%, #FFD040));
-    padding:10px;
-    color:#222;
-    font-weight:bold;
-    text-shadow:0 1px 0 #eee;
-}
-.catalog-product-view .messages .success-msg {
-    background:-webkit-gradient(linear, left top, left bottom, color-stop(0%, #62c462), color-stop(100%, #57a957));
-    border:solid #3D773D;
-    border-width:1px 0;
-    color:#fff;
-    font-weight:bold;
-    text-shadow:0 -1px 0 rgba(0, 0, 0, 0.25);
-    margin-bottom:10px;
-    padding:10px;
-    -webkit-box-shadow:0 3px 3px #ccc;
-}
+.catalog-product-view .messages { margin:0 -10px 0; }
 .product-view { padding:0 0 0; }
 .product-shop { padding:8px 0 0; }
 .product-shop .product-image-and-actions { float:left; margin:0 10px 0 0; }
@@ -2644,24 +2641,6 @@ section .category-title { display:none; }
 .checkout-cart-index .messages {
     margin:0 -10px 0 !important;
 }
-.checkout-cart-index .messages .notice-msg,
-.checkout-cart-index .messages .success-msg,
-.my-account .messages .success-msg {
-    background:-webkit-gradient(linear, left top, left bottom, color-stop(0%, #FFE38D), color-stop(100%, #FFD040));
-    padding:10px;
-    color:#222;
-    font-weight:bold;
-    text-shadow:0 1px 0 #eee;
-}
-.checkout-cart-index .messages .success-msg,
-.my-account .messages .success-msg {
-    background:-webkit-gradient(linear, left top, left bottom, color-stop(0%, #62c462), color-stop(100%, #57a957));
-    border:solid #3D773D;
-    border-width:1px 0;
-    color:#fff;
-    text-shadow:0 -1px 0 rgba(0, 0, 0, 0.25);
-    margin-bottom:10px;
-}
 
 .checkout-onepage-index .page-title { background:-webkit-gradient(linear, 0 0, 0 100%, from(#fff), to(#ccc)); border:solid #999; border-width:1px 0; border-top-color:#ccc; margin:0 -10px 10px; padding:10px; }
 #checkoutSteps { margin:-7px; padding:0; list-style:none;  -webkit-box-shadow:3px -3px 2px 0 #F0F0F0; color:#636363; }
@@ -2820,11 +2799,12 @@ section .category-title { display:none; }
 -----------------------------*/
 .contacts-index-index .page-title { display:none; }
 .contacts-index-index .fieldset h2 { display:none; }
+.contacts-index-index .messages { margin:0 -10px 0; }
 .contacts-index-index form { display:block; border:1px solid #D1D1D1; margin:2px -7px -7px; padding:9px; border-radius:2px 2px 5px 5px; background:-webkit-gradient(linear, 0 0, 0 100%,color-stop(0, #FCFDFD), color-stop(0.8, #EEEEEE), color-stop(1, #E8E9E9)); }
-.contacts-index-index textarea { width:99%; height:200px; }
-.contacts-index-index .fields .field { margin:0 0 8px 0; }
 .contacts-index-index label { color:#5E5E5E; font-weight:bold; }
 .contacts-index-index label em { margin:0 3px 0 0; color:#F4641E; }
+.contacts-index-index textarea { width:99%; height:200px; }
+.contacts-index-index .fields .field { margin:0 0 8px 0; }
 .contacts-index-index .buttons-set .required { float:right; font-size:12px; font-weight:bold; color:#F4641E; }
 .contacts-index-index .buttons-set button { padding:5px 10px; background:-webkit-gradient(linear, 0 0, 0 100%, from(#F39823), to(#F37221)); font-size:12px; color:#FFF; border:1px solid #FFF; border-radius:5px; -webkit-box-shadow:0 3px 3px 0 #9F9F9F; }
 
