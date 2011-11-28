@@ -4310,7 +4310,11 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         $joinSelect = clone $select;
         $joinSelect->reset(Zend_Db_Select::DISTINCT);
         $joinSelect->reset(Zend_Db_Select::COLUMNS);
-        $joinSelect->from(array($tableAlias => $tableName), null);
+        if (count($joinSelect->getPart(Zend_Db_Select::FROM)) > 0) {
+            $joinSelect->joinCross(array($tableAlias => $tableName), null);
+        } else {
+            $joinSelect->from(array($tableAlias => $tableName), null);
+        }
 
         $query = sprintf('UPDATE %s SET %s %s',
             $this->quoteIdentifier($tableAlias),
