@@ -71,7 +71,7 @@ class PriceRules_Helper extends Mage_Selenium_TestCase
         if (array_key_exists('websites', $ruleInfo) && !$this->controlIsPresent('multiselect', 'websites')) {
             unset($ruleInfo['websites']);
         }
-        $this->fillSimpleTab($ruleInfo, 'rule_information');
+        $this->fillForm($ruleInfo, 'rule_information');
         $this->fillConditionsTab($ruleConditions);
         $this->fillActionsTab($ruleActions);
         if ($ruleLabels) {
@@ -102,7 +102,7 @@ class PriceRules_Helper extends Mage_Selenium_TestCase
             $conditionsData = $actionsData['action_conditions'];
             unset($actionsData['action_conditions']);
         }
-        $this->fillSimpleTab($actionsData, 'rule_actions');
+        $this->fillForm($actionsData, 'rule_actions');
         $this->addConditions($conditionsData, 'rule_actions');
     }
 
@@ -342,7 +342,7 @@ class PriceRules_Helper extends Mage_Selenium_TestCase
             $this->click($xpathTR);
             $this->waitForPageToLoad($this->_browserTimeoutPeriod);
             $this->validatePage($this->_findCurrentPageFromUrl($this->getLocation()));
-            $this->fillSimpleTab(array('status'=>'Inactive'), 'rule_information');
+            $this->fillForm(array('status'=>'Inactive'), 'rule_information');
             $this->saveForm('save_and_apply');
         }
     }

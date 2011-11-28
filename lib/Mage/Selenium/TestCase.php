@@ -802,7 +802,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $this->assertTextNotPresent('Fatal error', 'Fatal error on page');
         $this->assertTextNotPresent('There has been an error processing your request',
                 'Fatal error on page: \'There has been an error processing your request\'');
-        $this->assertTextNotPresent('Notice', 'Notice error on page');
+        $this->assertTextNotPresent('Notice:', 'Notice error on page');
         $this->assertTextNotPresent('Parse error', 'Parse error on page');
         if (!$this->isElementPresent(self::$xpathNoticeMessage)) {
             $this->assertTextNotPresent('Warning:', 'Warning on page');
