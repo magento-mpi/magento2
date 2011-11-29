@@ -1520,6 +1520,17 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     }
 
     /**
+     *
+     * @param string $columnName
+     * @param string $tableXpath
+     * @return number 
+     */
+    public function getColumnIdByName($columnName, $tableXpath = '//table[@id]')
+    {
+        return array_search($columnName, $this->getTableHeadRowNames($tableXpath)) + 1;;
+    }
+
+    /**
      * Perform search specified data in specific grid and open result
      *
      * @param array $data Array of looking up data
