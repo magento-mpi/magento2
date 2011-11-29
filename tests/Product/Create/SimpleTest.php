@@ -569,7 +569,7 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
         $this->navigate('manage_products');
         $productXpath = $this->search($data['search']);
         $this->assertNotEquals(null, $productXpath);
-        $columnId = $this->productHelper()->findColumnNumberByName('Attrib. Set Name');
+        $columnId = $this->getColumnIdByName('Attrib. Set Name');
         $value = $this->getText($productXpath . "/td[$columnId]");
         $setId = $this->getValue("//tr[@class='filter']/th[$columnId]//option[text()='$value']");
         $this->addParameter('setId', $setId);
@@ -609,7 +609,7 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
         $this->navigate('manage_products');
         $productXpath = $this->search($data['search']);
         $this->assertNotEquals(null, $productXpath);
-        $columnId = $this->productHelper()->findColumnNumberByName('Attrib. Set Name');
+        $columnId = $this->getColumnIdByName('Attrib. Set Name');
         $value = $this->getText($productXpath . "/td[$columnId]");
         $setId = $this->getValue("//tr[@class='filter']/th[$columnId]//option[text()='$value']");
         $this->addParameter('setId', $setId);

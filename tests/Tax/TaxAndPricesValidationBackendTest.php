@@ -141,7 +141,7 @@ class Tax_TaxAndPricesValidationBackendTest extends Mage_Selenium_TestCase
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($crOrder);
         //Define Order Id to work with
-        $orderId = $this->orderHelper()->defineOrderIdFromTitle();
+        $orderId = $this->orderHelper()->defineOrderId();
         //Verify prices on order review page after order creation
         $this->shoppingCartHelper()->verifyPricesDataOnPage($priceAftOrdCr, $totAftOrdCr);
         //Verify prices before creating Invoice

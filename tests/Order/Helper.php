@@ -599,12 +599,12 @@ class Order_Helper extends Mage_Selenium_TestCase
         $actualData = array();
 
         $needColumnNames = array('Product', 'Subtotal', 'Discount', 'Row Subtotal');
-        $xpath = $this->_getControlXpath('pageelement', 'product_table_tfoot');
-        $tableHead = $this->_getControlXpath('pageelement', 'product_table_head');
+        $names = $this->getTableHeadRowNames("//*[@id='order-items_grid']/table");
+        $xpath = $this->_getControlXpath('pageelement', 'product_table_tfoot');        
         foreach ($needColumnNames as $value) {
-            $number = $this->productHelper()->findColumnNumberByName($value, NULL, $tableHead);
-            if ($value != 'Product') {
-                $number -= 1;
+            $number = array_search($value, $names);
+            if ($value == 'Product') {
+                $number += 1;
             }
             $key = trim(strtolower(preg_replace('#[^0-9a-z]+#i', '_', $value)), '_');
             $actualData[$key] = $this->getText($xpath . "//td[$number]");
