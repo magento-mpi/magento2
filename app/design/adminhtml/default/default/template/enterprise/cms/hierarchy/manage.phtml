@@ -29,11 +29,12 @@
 ?>
 <div id="cms-hierarchy-manage-container" class="hierarchy-manage">
     <div><?php echo $this->getButtonHtml($this->__('Manage Hierarchies'), "$('cms-hierarchy-manage-form').toggle()") ?></div>
-    <div class="cms-hierarchy manage-comment"><?php echo $this->__('Allows coping hierarchy tree to other websites') ?></div>
+    <div class="cms-hierarchy manage-comment"><?php echo $this->__('Allows coping hierarchy tree to other scopes and deleting hierarchy trees from other scopes') ?></div>
     <div id="cms-hierarchy-manage-form" class="cms-hierarchy manage-form" style="display:none;">
         <?php echo $this->getFormHtml() ?>
     </div>
     <script type="text/javascript">
+    //<![CDATA[
         function submitCopy(obj)
         {
             if (confirm("<?php echo $this->__("Please confirm pages hierarchy changes.\\nAll data that hasn't been saved will be lost.") ?>")) {
@@ -48,5 +49,6 @@
                 obj.form.submit();
             }
         }
+    //]]>
     </script>
 </div>
