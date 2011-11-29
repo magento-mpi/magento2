@@ -70,6 +70,9 @@ class Checkout_CartTest extends Magento_Test_Webservice
         ));
         $this->_product->save();
 
+        // Disable exceptions to avoid errors in cookie processing
+        Mage::$headersSentThrowsException = false;
+
         // create quote for test
         $this->_quote = new Mage_Sales_Model_Quote();
 
@@ -179,5 +182,27 @@ class Checkout_CartTest extends Magento_Test_Webservice
         $this->assertEquals(
             $customOptionValue, $itemOptionValue, 'Custom option value in DB does not match value passed by API'
         );
+    }
+
+    /**
+     * Test for product list from shopping cart API method
+     *
+     * @return void
+     */
+    public function testCartProductList()
+    {
+        // have to re-load product for stock item set
+        $this->_product->load($this->_product->getId());
+
+        // add product as a quote item
+        $this->_quote->addProduct($this->_product);
+        $this->_quote->collectTotals()->save();
+
+        $soapResult = $this->getWebService()->call('cart_product.list', array('quoteId' => $this->_quote->getId()));
+
+        $this->assertInternalType('array', $soapResult, 'Product List call result is not an array');
+        $this->assertCount(1, $soapResult, 'Product List call result contain not exactly one product');
+        $this->assertArrayHasKey('name', $soapResult[0], 'Product List call result does not contain a product name');
+        $this->assertEquals($this->_product->getName(), $soapResult[0]['name'], 'Product Name does not match fixture');
     }
 }
