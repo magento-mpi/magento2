@@ -91,6 +91,55 @@
         </exec>
     </target>
 
+    <!-- product unit tests -->
+    <target name="unit-tests-magento">
+        <exec dir="dev/tests/unit" executable="phpunit" failonerror="true">
+            <arg line="--stderr --log-junit ${dir.build_report}/unit-tests-magento.xml"/>
+        </exec>
+    </target>
+
+    <!-- product unit tests with xdebug -->
+    <target name="unit-tests-magento-xdebug">
+        <exec dir="dev/tests/unit" executable="${dir.build_base}/bin/phpunit-with-xdebug.sh" failonerror="true">
+            <arg line="--stderr --log-junit ${dir.build_report}/unit-tests-magento-xdebug.xml"/>
+        </exec>
+    </target>
+
+    <!-- integration testing framework unit tests -->
+    <target name="unit-tests-integration-framework">
+        <exec dir="dev/tests/integration/framework/tests/unit" executable="phpunit" failonerror="true">
+            <arg line="--stderr --log-junit ${dir.build_report}/unit-tests-integration-framework.xml"/>
+        </exec>
+    </target>
+
+    <!-- static code analysis framework unit tests -->
+    <target name="unit-tests-static-framework">
+        <exec dir="dev/tests/static/framework/tests/unit" executable="phpunit" failonerror="true">
+            <arg line="--stderr --log-junit ${dir.build_report}/unit-tests-static-framework.xml"/>
+        </exec>
+    </target>
+
+    <!-- product integration tests -->
+    <target name="integration-tests-magento">
+        <exec dir="dev/tests/integration" executable="phpunit" failonerror="true">
+            <arg line="--stderr --log-junit ${dir.build_report}/integration-tests-magento.xml"/>
+        </exec>
+    </target>
+
+    <!-- product integration tests with xdebug -->
+    <target name="integration-tests-magento-xdebug">
+        <exec dir="dev/tests/integration" executable="${dir.build_base}/bin/phpunit-with-xdebug.sh" failonerror="true">
+            <arg line="--stderr --log-junit ${dir.build_report}/integration-tests-magento-xdebug.xml"/>
+        </exec>
+    </target>
+
+    <!-- all static tests -->
+    <target name="static-tests-all">
+        <exec dir="dev/tests/static" executable="phpunit" failonerror="true">
+            <arg line="--stderr --log-junit ${dir.build_report}/static-tests-all.xml"/>
+        </exec>
+    </target>
+
     <target name="phpunit-selenium" description="Functional tests with selenium">
         <exec dir="${basedir}/dev/tests/functional/selenium" executable="phpunit" failonerror="true">
             <arg line="--log-junit ${dir.build_report}/phpunit-selenium.xml
