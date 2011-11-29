@@ -15,7 +15,7 @@
         </exec>
     </target>
 
-    <target name="phpunit-xdebug">
+    <target name="prepare-xdebug">
         <exec executable="chmod" failonerror="true">
             <arg line="u+x ${file.phpunit_xdebug}"/>
         </exec>
@@ -109,7 +109,7 @@
     </target>
 
     <!-- product unit tests with xdebug -->
-    <target name="unit-tests-magento-xdebug" depends="phpunit-xdebug">
+    <target name="unit-tests-magento-xdebug" depends="prepare-xdebug">
         <exec dir="dev/tests/unit" executable="${file.phpunit_xdebug}" failonerror="true">
             <arg line="--stderr --log-junit ${basedir}/unit-tests-magento-xdebug.xml"/>
         </exec>
@@ -130,14 +130,14 @@
     </target>
 
     <!-- product integration tests -->
-    <target name="integration-tests-magento">
+    <target name="integration-tests-magento" depends="init">
         <exec dir="dev/tests/integration" executable="phpunit" failonerror="true">
             <arg line="--stderr --log-junit ${basedir}/integration-tests-magento.xml"/>
         </exec>
     </target>
 
     <!-- product integration tests with xdebug -->
-    <target name="integration-tests-magento-xdebug" depends="phpunit-xdebug">
+    <target name="integration-tests-magento-xdebug" depends="init,prepare-xdebug">
         <exec dir="dev/tests/integration" executable="${file.phpunit_xdebug}" failonerror="true">
             <arg line="--stderr --log-junit ${basedir}/integration-tests-magento-xdebug.xml"/>
         </exec>
