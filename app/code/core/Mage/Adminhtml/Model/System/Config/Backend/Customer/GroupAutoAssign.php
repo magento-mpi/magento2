@@ -25,30 +25,33 @@
  */
 
 /**
- * Fieldset element renderer
+ * Auto-assign customer group Model
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_Widget_Form_Renderer_Fieldset_Element extends Mage_Adminhtml_Block_Template
-    implements Varien_Data_Form_Element_Renderer_Interface
+class Mage_Adminhtml_Model_System_Config_Backend_Customer_GroupAutoAssign extends Mage_Core_Model_Config_Data
 {
-    protected $_element;
-
-    protected function _construct()
+    /**
+     * If merchant country is not in EU, VAT Validation should be disabled
+     *
+     * @return Mage_Core_Model_Abstract
+     */
+    protected function _beforeSave()
     {
-        $this->setTemplate('widget/form/renderer/fieldset/element.phtml');
-    }
+        $storeId = $this->getScopeId();
+        $merchantCountry = Mage::getStoreConfig('general/store_information/merchant_country', $storeId);
 
-    public function getElement()
-    {
-        return $this->_element;
-    }
+        if (!Mage::helper('core')->isCountryInEU($merchantCountry, $storeId)) {
+            Mage::getConfig()->saveConfig(
+                Mage_Customer_Helper_Address::XML_PATH_VAT_VALIDATION_ENABLED,
+                0,
+                $this->getScope(),
+                $storeId
+            );
+        }
 
-    public function render(Varien_Data_Form_Element_Abstract $element)
-    {
-        $this->_element = $element;
-        return $this->toHtml();
+        return parent::_beforeSave();
     }
 }

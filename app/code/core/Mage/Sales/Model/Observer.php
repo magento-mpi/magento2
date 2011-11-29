@@ -334,5 +334,99 @@ class Mage_Sales_Model_Observer
 
         $quote->setCanApplyMsrp($canApplyMsrp);
     }
-}
 
+    /**
+     * Handle customer VAT number if needed
+     *
+     * @param Varien_Event_Observer $observer
+     */
+    public function handleCustomerVatNumber(Varien_Event_Observer $observer)
+    {
+        /** @var $addressHelper Mage_Customer_Helper_Address */
+        $addressHelper = Mage::helper('customer/address');
+
+        if (!$addressHelper->isVatValidationEnabled()) {
+            return;
+        }
+
+        /** @var $quoteInstance Mage_Sales_Model_Quote */
+        $quoteInstance = $observer->getQuote();
+        $quoteBillingAddress = $quoteInstance->getBillingAddress();
+
+        /** @var $customerInstance Mage_Customer_Model_Customer */
+        $customerInstance = $observer->getQuote()->getCustomer();
+
+        $customerAddressId = $quoteBillingAddress->getCustomerAddressId();
+        $customerDefaultBillingAddressId = $customerInstance->getDefaultBilling();
+
+        $customerCountryCode = $quoteBillingAddress->getCountryId();
+        $customerVatNumber = $quoteBillingAddress->getVatId();
+
+        $isCustomerVatNumberValid = $quoteBillingAddress->getVatIsValid();
+
+        if (!is_null($isCustomerVatNumberValid) && !$addressHelper->getValidateOnEachTransaction()
+            || empty($customerVatNumber) || !Mage::helper('core')->isCountryInEU($customerCountryCode)
+        ) {
+            return;
+        }
+
+        /** @var $coreHelper Mage_Core_Helper_Data */
+        $coreHelper = Mage::helper('core');
+        $merchantCountryCode = $coreHelper->getMerchantCountryCode();
+        $merchantVatNumber = $coreHelper->getMerchantVatNumber();
+
+        /** @var $customerHelper Mage_Customer_Helper_Data */
+        $customerHelper = Mage::helper('customer');
+
+        $gatewayResponse = $customerHelper->checkVatNumber(
+            $customerCountryCode,
+            $customerVatNumber,
+            ($merchantVatNumber !== '') ? $merchantCountryCode : '',
+            $merchantVatNumber
+        );
+
+        // Store validation results in quote billing address
+        $quoteBillingAddress->setVatIsValid((int) $gatewayResponse->getIsValid())
+            ->setVatRequestId($gatewayResponse->getRequestIdentifier())
+            ->setVatRequestDate($gatewayResponse->getRequestDate())
+            ->setVatRequestSuccess($gatewayResponse->getRequestSuccess())
+            ->save();
+
+        if ($customerAddressId != $customerDefaultBillingAddressId) {
+            $groupId = $customerHelper->getCustomerGroupIdBasedOnVatNumber($customerCountryCode, $gatewayResponse);
+
+            if ($groupId) {
+                $quoteInstance->setCustomer($customerInstance->setGroupId($groupId));
+                $quoteInstance->setCustomerGroupId($groupId);
+            }
+        }
+    }
+
+    /**
+     * Add VAT validation request date and identifier to order comments
+     *
+     * @param Varien_Event_Observer $observer
+     * @return null
+     */
+    public function addVatRequestParamsOrderComment(Varien_Event_Observer $observer)
+    {
+        /** @var $orderInstance Mage_Sales_Model_Order */
+        $orderInstance = $observer->getOrder();
+        /** @var $billingAddress Mage_Sales_Model_Order_Address */
+        $billingAddress = $orderInstance->getBillingAddress();
+        if ($billingAddress instanceof Mage_Sales_Model_Order_Address) {
+            $vatRequestId = $billingAddress->getVatRequestId();
+            $vatRequestDate = $billingAddress->getVatRequestDate();
+            if (is_string($vatRequestId)
+                && !empty($vatRequestId)
+                && is_string($vatRequestDate)
+                && !empty($vatRequestDate)
+            ) {
+                $orderHistoryComment = Mage::helper('customer')->__('VAT Request Identifier')
+                    . ': ' . $vatRequestId . '<br />' . Mage::helper('customer')->__('VAT Request Date')
+                    . ': ' . $vatRequestDate;
+                $orderInstance->addStatusHistoryComment($orderHistoryComment, false);
+            }
+        }
+    }
+}

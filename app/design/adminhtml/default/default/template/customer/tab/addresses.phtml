@@ -407,7 +407,8 @@ addressesModel.prototype = {
                 html = html.replace(new RegExp('(<br\\s*/?>\\s*){2,}','img'),'<br/>');
                 html = html.replace(new RegExp('<br\\s*/?>(\\s*,){1,}\\s*<br\\s*/?>','ig'),'<br/>');
                 html = html.replace(new RegExp('t:\\s*<br\\s*/?>','ig'),'');
-                html = html.replace(new RegExp('f:\\s*$','ig'),'');
+                html = html.replace(new RegExp('f:\\s*<br\\s*/?>','ig'),'');
+                html = html.replace(new RegExp('vat:\\s*$','ig'),'');
                 itemContainer[0].innerHTML = html;
             }
         }

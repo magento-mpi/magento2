@@ -272,7 +272,7 @@ class Mage_Checkout_Model_Type_Onepage
                     $address->setData($attribute->getAttributeCode(), NULL);
                 }
             }
-
+            $address->setCustomerAddressId(null);
             // Additional form data, not fetched by extractData (as it fetches only attributes)
             $address->setSaveInAddressBook(empty($data['save_in_address_book']) ? 0 : 1);
         }

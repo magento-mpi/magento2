@@ -426,10 +426,13 @@ button.add-image span,
 button.add-widget span { padding-left:20px; }
 button.back { border-color:#ccc #aaa #aaa #ccc; background-color:#fff; background-image:url(images/btn_back_bg.gif); color:#555; }
 button.back span { background-image:url(images/icon_btn_back.gif); }
+button.fail,
 button.cancel,
 button.delete { border-color:#d24403 #a92000 #a92000 #d24403; background-image:url(images/cancel_btn_bg.gif); background-color:#fcaf81; color:#fff; }
+button.fail:hover,
 button.cancel:hover,
 button.delete:hover { background-image:url(images/cancel_btn_over_bg.gif); }
+button.fail:active,
 button.cancel:active,
 button.delete:active { background-image:url(images/cancel_btn_active_bg.gif); background-color:#e0612f; }
 button.cancel span,
@@ -442,6 +445,9 @@ button.add-widget span { background-image:url(images/btn_add-widget_icon2.gif); 
 button.add-variable span { background-image:url(images/btn_add-variable_icon.gif); padding-left:26px; }
 button.go span { background-image:url(images/btn_go.gif); padding-left:16px; }
 button.btn-chooser { display:block; margin:0 0 10px; }
+button.success { background-image:url(images/btn_gr_bg.gif); border-color:#46745E; }
+button.success:hover { background:url(images/btn_gr_over.gif) #6cac46; }
+button.success:active { background:url(images/btn_gr_on.gif) repeat-x 0 0 #3fa05e; }
 
 button.disabled,
 button.disabled:hover,
@@ -758,9 +764,10 @@ ul.item-options li { padding-left:.7em; }
 
 .entry-edit .order-address td.label label { width:100px; }
 .entry-edit .order-address input.input-text,
-.entry-edit .order-address .textarea    { width:95% !important; }
-.entry-edit .order-address .select      { width:96.5%; }
-.order-search-items .entry-edit .grid   { height:610px; overflow:auto; }
+.entry-edit .order-address .textarea     { width:95% !important; }
+.entry-edit .order-address .select       { width:96.5%; }
+.entry-edit .order-address .validate-vat { text-align:right; padding:10px 0 0; width:96%; }
+.order-search-items .entry-edit .grid    { height:610px; overflow:auto; }
 .order-search-items .entry-edit .grid table { width:99.9%; }
 /* .create-order-totals                 { background:url(images/bg_create_order_totals.gif) repeat-y 50% 0 !important; } */
 

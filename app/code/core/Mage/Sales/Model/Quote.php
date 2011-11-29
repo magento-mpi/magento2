@@ -1210,12 +1210,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         if ($this->getTotalsCollectedFlag()) {
             return $this;
         }
-        Mage::dispatchEvent(
-            $this->_eventPrefix . '_collect_totals_before',
-            array(
-                 $this->_eventObject=>$this
-            )
-        );
+        Mage::dispatchEvent($this->_eventPrefix . '_collect_totals_before', array($this->_eventObject => $this));
 
         $this->setSubtotal(0);
         $this->setBaseSubtotal(0);
@@ -1280,10 +1275,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         $this->setData('trigger_recollect', 0);
         $this->_validateCouponCode();
 
-        Mage::dispatchEvent(
-            $this->_eventPrefix . '_collect_totals_after',
-            array($this->_eventObject => $this)
-        );
+        Mage::dispatchEvent($this->_eventPrefix . '_collect_totals_after', array($this->_eventObject => $this));
 
         $this->setTotalsCollectedFlag(true);
         return $this;

@@ -19,36 +19,29 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Sales
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-/**
- * Fieldset element renderer
- *
- * @category   Mage
- * @package    Mage_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
- */
-class Mage_Adminhtml_Block_Widget_Form_Renderer_Fieldset_Element extends Mage_Adminhtml_Block_Template
-    implements Varien_Data_Form_Element_Renderer_Interface
-{
-    protected $_element;
+/* @var $installer Mage_Sales_Model_Entity_Setup */
+$installer = $this;
 
-    protected function _construct()
-    {
-        $this->setTemplate('widget/form/renderer/fieldset/element.phtml');
-    }
+$entitiesToAlter = array(
+    'quote_address',
+    'order_address'
+);
 
-    public function getElement()
-    {
-        return $this->_element;
-    }
+$attributes = array(
+    'vat_id' => array('type' => Varien_Db_Ddl_Table::TYPE_TEXT),
+    'vat_is_valid' => array('type' => Varien_Db_Ddl_Table::TYPE_SMALLINT),
+    'vat_request_id' => array('type' => Varien_Db_Ddl_Table::TYPE_TEXT),
+    'vat_request_date' => array('type' => Varien_Db_Ddl_Table::TYPE_TEXT),
+    'vat_request_success' => array('type' => Varien_Db_Ddl_Table::TYPE_SMALLINT)
+);
 
-    public function render(Varien_Data_Form_Element_Abstract $element)
-    {
-        $this->_element = $element;
-        return $this->toHtml();
+foreach ($entitiesToAlter as $entityName) {
+    foreach ($attributes as $attributeCode => $attributeParams) {
+        $installer->addAttribute($entityName, $attributeCode, $attributeParams);
     }
 }
