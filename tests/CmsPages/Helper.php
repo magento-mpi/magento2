@@ -54,19 +54,17 @@ class CmsPages_Helper extends Mage_Selenium_TestCase
         $metaData = (isset($pageData['meta_data'])) ? $pageData['meta_data'] : NULL;
         $this->clickButton('add_new_page');
         if ($pageInfo) {
-            $this->clickControl('tab', 'page_information', FALSE);
+            $this->openTab('page_information');
             $this->fillPageInfo($pageInfo);
         }
         if ($content) {
             $this->fillContent($content);
         }
         if ($design) {
-            $this->clickControl('tab', 'design', FALSE);
-            $this->fillForm($design);
+            $this->fillForm($design, 'design');
         }
         if ($metaData) {
-            $this->clickControl('tab', 'meta_data', FALSE);
-            $this->fillForm($widgetOptions);
+            $this->fillForm($widgetOptions, 'meta_data');
         }
         $this->saveForm('save_page');
     }
@@ -102,8 +100,7 @@ class CmsPages_Helper extends Mage_Selenium_TestCase
             $content = $this->loadData($content);
         }
         $content = $this->arrayEmptyClear($content);
-        $this->clickControl('tab', 'content', FALSE);
-        $this->fillForm($content);
+        $this->fillForm($content, 'content');
         if (array_key_exists('widgets', $content)) {
             $this->insertWidget($content['widgets']);
         }

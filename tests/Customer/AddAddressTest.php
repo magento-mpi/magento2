@@ -218,7 +218,7 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->checkCurrentPage('manage_customers'), $this->messages);
         //Steps
         $this->customerHelper()->openCustomer($searchData);
-        $this->clickControl('tab', 'addresses', false);
+        $this->openTab('addresses');
         //Verifying #–2 - Check saved values
         $addressNumber = $this->customerHelper()->isAddressPresent($addressData);
         $this->assertNotEquals(0, $addressNumber, 'The specified address is not present.');
@@ -269,7 +269,7 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->checkCurrentPage('manage_customers'), $this->messages);
         //Steps
         $this->customerHelper()->openCustomer($searchData);
-        $this->clickControl('tab', 'addresses', false);
+        $this->openTab('addresses');
         //Verifying #–2 - Check saved values
         $addressNumber = $this->customerHelper()->isAddressPresent($addressData);
         $this->assertNotEquals(0, $addressNumber, 'The specified address is not present.');
@@ -304,7 +304,7 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->checkCurrentPage('manage_customers'), $this->messages);
         //Steps
         $this->customerHelper()->openCustomer($searchData);
-        $this->clickControl('tab', 'addresses', FALSE);
+        $this->openTab('addresses');
         //Verifying #–2 - Check saved values
         $addressNumber = $this->customerHelper()->isAddressPresent($addressData);
         $this->assertNotEquals(0, $addressNumber, 'The specified address is not present.');
@@ -337,7 +337,7 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->checkCurrentPage('manage_customers'), $this->messages);
         //Steps
         $this->customerHelper()->openCustomer($searchData);
-        $this->clickControl('tab', 'addresses', FALSE);
+        $this->openTab('addresses');
         //Verifying #–2 - Check saved values
         $addressNumber = $this->customerHelper()->isAddressPresent($addressData);
         $this->assertNotEquals(0, $addressNumber, 'The specified address is not present.');

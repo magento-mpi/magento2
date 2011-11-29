@@ -51,7 +51,7 @@ class AdminUser_Helper extends Mage_Selenium_TestCase
         $param = $first . ' ' . $last;
         $this->addParameter('user_first_last_name', $param);
         if (array_key_exists('role_name', $userData)) {
-            $this->clickControl('tab', 'user_role', false);
+            $this->openTab('addresses');
             $this->searchAndChoose(array('role_name' => $userData['role_name']), 'permissions_user_roles');
         }
         $this->saveForm('save_admin_user');

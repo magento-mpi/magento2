@@ -203,7 +203,7 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
         $param = $userData['first_name'] .' '.$userData['last_name'];
         $this->addParameter('customer_first_last_name', $param);
         $this->customerHelper()->openCustomer($searchData);
-        $this->clickControl('tab', 'account_information', FALSE);
+        $this->openTab('account_information');
         //Verifying
         $this->assertTrue($this->verifyForm($userData, 'account_information'), $this->messages);
     }
@@ -245,7 +245,7 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
         $param = $userData['first_name'] .' '.$userData['last_name'];
         $this->addParameter('customer_first_last_name', $param);
         $this->customerHelper()->openCustomer($searchData);
-        $this->clickControl('tab', 'account_information', FALSE);
+        $this->openTab('account_information');
         //Verifying
         $this->assertTrue($this->verifyForm($userData, 'account_information'), $this->messages);
     }

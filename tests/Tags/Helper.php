@@ -305,8 +305,7 @@ class Tags_Helper extends Mage_Selenium_TestCase
     public function verifyTagProduct(array $tagSearchData, array $productSearchData)
     {
         $this->productHelper()->openProduct($productSearchData);
-        $this->clickControl('tab', 'product_tags', false);
-        $this->pleaseWait();
+        $this->openTab('product_tags');
         $xpathTR = $this->search($tagSearchData, 'product_tags');
         return $xpathTR ? true : false;
     }
@@ -322,8 +321,7 @@ class Tags_Helper extends Mage_Selenium_TestCase
     {
         $tagSearchData = $this->arrayEmptyClear($tagSearchData);
         $this->customerHelper()->openCustomer($customerSearchData);
-        $this->clickControl('tab', 'product_tags', false);
-        $this->pleaseWait();
+        $this->openTab('product_tags');
         $xpathTR = $this->formSearchXpath($tagSearchData);
         do {
             if ($this->isElementPresent($xpathTR))

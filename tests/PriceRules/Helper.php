@@ -127,20 +127,6 @@ class PriceRules_Helper extends Mage_Selenium_TestCase
     }
 
     /**
-     * Open Tab
-     *
-     * @param string $tabName
-     */
-    public function openTab($tabName)
-    {
-        $tabXpath = $this->_getControlXpath('tab', $tabName);
-        $isTabOpened = $this->getAttribute($tabXpath . '/parent::*/@class');
-        if (!preg_match('/active/', $isTabOpened)) {
-            $this->clickControl('tab', $tabName, false);
-        }
-    }
-
-    /**
      * Add rule conditions
      *
      * @param array $conditionsData

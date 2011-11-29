@@ -537,8 +537,6 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
         //Steps
         $this->productHelper()->openProduct($productSearch);
-        $this->clickControl('tab', 'associated', false);
-        $this->pleaseWait();
         $this->addParameter('attributeCode', $attrData['attribute_code']);
         $this->fillForm($quickSimple, 'associated');
         $this->clickButton('quick_create', false);
@@ -575,8 +573,7 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
         $this->addParameter('setId', $setId);
         //3. Open product and create simple product
         $this->productHelper()->openProduct($data['search']);
-        $this->clickControl('tab', 'associated', false);
-        $this->pleaseWait();
+        $this->openTab('associated');
         $this->clickButton('create_empty', false);
         $names = $this->getAllWindowNames();
         $this->waitForPopUp(end($names), '30000');
@@ -615,9 +612,8 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
         $this->addParameter('setId', $setId);
         //3. Open product and create simple product
         $this->productHelper()->openProduct($data['search']);
-         $this->addParameter('productId', $this->_paramsHelper->getParameter('id'));
-        $this->clickControl('tab', 'associated', false);
-        $this->pleaseWait();
+        $this->addParameter('productId', $this->_paramsHelper->getParameter('id'));
+        $this->openTab('associated');
         $this->clickButton('create_copy_from_configurable', false);
         $names = $this->getAllWindowNames();
         $this->waitForPopUp(end($names), '30000');

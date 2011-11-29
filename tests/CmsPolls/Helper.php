@@ -49,11 +49,7 @@ class CmsPolls_Helper extends Mage_Selenium_TestCase
         if (!$answersSet) {
             return true;
         }
-        $tabXpath = $this->_getControlXpath('tab', 'poll_answers');
-        $isTabOpened = $this->getAttribute($tabXpath . '/parent::*/@class');
-        if (!preg_match('/active/', $isTabOpened)) {
-            $this->clickControl('tab', 'poll_answers', false);
-        }
+        $this->openTab('poll_answers');
         $answerId = 1;
         foreach ($answersSet as $value) {
             $this->clickButton('add_new_answer', FALSE);
@@ -174,7 +170,7 @@ class CmsPolls_Helper extends Mage_Selenium_TestCase
             unset($pollData['visible_in']);
         $this->assertTrue($this->verifyForm($pollData, 'poll_information', array('assigned_answers_set'),
                         $this->messages));
-        $this->clickControl('tab', 'poll_answers', false);
+        $this->openTab('poll_answers');
         $answersXpath = $this->_getControlXpath('fieldset', 'assigned_answers_set');
         $answersCount = $this->getXpathCount($answersXpath);
         if (count($pollData['assigned_answers_set']) == $answersCount) {

@@ -47,7 +47,6 @@ class ProductAttribute_Helper extends Mage_Selenium_TestCase
     {
         $this->clickButton('add_new_attribute');
         $this->fillForm($attrData, 'properties');
-        $this->clickControl('tab', 'manage_lables_options', false);
         $this->fillForm($attrData, 'manage_lables_options');
         $this->storeViewTitles($attrData);
         $this->attributeOptions($attrData);
@@ -85,8 +84,7 @@ class ProductAttribute_Helper extends Mage_Selenium_TestCase
     public function verifyAttribute($attrData)
     {
         $this->assertTrue($this->verifyForm($attrData, 'properties'), $this->messages);
-        $this->clickControl('tab', 'manage_lables_options', FALSE);
-//        $this->assertTrue($this->verifyForm($attrData, 'manage_lables_options'), $this->messages);
+        $this->openTab('manage_lables_options');
         $this->storeViewTitles($attrData, 'manage_titles', 'verify');
         $this->attributeOptions($attrData, 'verify');
     }
@@ -115,7 +113,6 @@ class ProductAttribute_Helper extends Mage_Selenium_TestCase
         $this->selectWindow("name=" . end($names));
         $this->validatePage();
         $this->fillForm($attrData, 'properties');
-        $this->clickControl('tab', 'manage_lables_options', FALSE);
         $this->fillForm($attrData, 'manage_lables_options');
         $this->storeViewTitles($attrData);
         $this->attributeOptions($attrData);

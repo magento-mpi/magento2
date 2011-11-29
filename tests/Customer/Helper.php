@@ -93,7 +93,7 @@ class Customer_Helper extends Mage_Selenium_TestCase
     public function addAddress(array $addressData)
     {
         //Open 'Addresses' tab
-        $this->clickControl('tab', 'addresses', FALSE);
+        $this->openTab('addresses');
         $addressNumber = $this->addAddressNumber();
         $this->clickButton('add_new_address', FALSE);
         $this->click("//*[@id='new_item$addressNumber']");

@@ -182,8 +182,7 @@ class CmsWidgets_Helper extends Mage_Selenium_TestCase
         }
         $widgetOptions = $this->arrayEmptyClear($widgetOptions);
         $options = (isset($widgetOptions['chosen_option'])) ? $widgetOptions['chosen_option'] : null;
-        $this->clickControl('tab', 'widgets_options', FALSE);
-        $this->fillForm($widgetOptions);
+        $this->fillForm($widgetOptions, 'widgets_options');
         if ($options) {
             $this->fillSelectOption($options);
         }

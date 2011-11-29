@@ -131,16 +131,11 @@ class Category_Helper extends Mage_Selenium_TestCase
         $page = $this->getCurrentUimapPage();
         $tabs = $page->getAllTabs();
         foreach ($tabs as $tab => $values) {
-            $tabXpath = $page->findTab($tab)->getXpath();
-            $isTabOpened = $this->getAttribute($tabXpath . '/parent::*/@class');
-            if (!preg_match('/active/', $isTabOpened)) {
-                $this->clickControl('tab', $tab, FALSE);
-            }
             if ($tab != 'category_products') {
                 $this->fillForm($categoryData, $tab);
             } else {
-
                 $arrayKey = $tab . '_data';
+                $this->openTab($tab);
                 if (array_key_exists($arrayKey, $categoryData) && is_array($categoryData[$arrayKey])) {
                     foreach ($categoryData[$arrayKey] as $key => $value) {
                         $this->productHelper()->assignProduct($value, $tab);

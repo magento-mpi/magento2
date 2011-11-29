@@ -111,11 +111,8 @@ class Order_Create_NewCustomerTest extends Mage_Selenium_TestCase
         //Steps
         $this->navigate('manage_customers');
         $this->customerHelper()->openCustomer($searchCustomer);
-        $this->clickControl('tab', 'addresses', false);
-        $this->waitForAjax();
-        $page = $this->getUimapPage('admin', 'edit_customer');
-        $fieldSet = $page->findFieldset('list_customer_addresses');
-        $xpath = $fieldSet->getXPath() . '//li';
+        $this->openTab('addresses');
+        $xpath = $this->_getControlXpath('fieldset', 'list_customer_addresses') . '//li';
         $addressCount = $this->getXpathCount($xpath);
         $this->assertEquals(0, $addressCount, 'Customer should not have address, but have ' . $addressCount);
     }
@@ -163,7 +160,7 @@ class Order_Create_NewCustomerTest extends Mage_Selenium_TestCase
         //Steps
         $this->navigate('manage_customers');
         $this->customerHelper()->openCustomer($searchCustomer);
-        $this->clickControl('tab', 'addresses', false);
+        $this->openTab('addresses');
         foreach ($addressVerify as $value) {
             $addressNumber = $this->customerHelper()->isAddressPresent($value);
             $this->assertNotEquals(0, $addressNumber, 'The specified address is not present.');
