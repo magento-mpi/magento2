@@ -55,6 +55,30 @@ class Store_StoreView_DeleteTest extends Mage_Selenium_TestCase
     }
 
     /**
+     * <p>Create Store View. Fill in only required fields.</p>
+     * <p>Steps:</p>
+     * <p>1. Click 'Create Store View' button.</p>
+     * <p>2. Fill in required fields.</p>
+     * <p>3. Click 'Save Store View' button.</p>
+     * <p>Expected result:</p>
+     * <p>Store View is created.</p>
+     * <p>Success Message is displayed</p>
+     *
+     * @test
+     */
+    public function creationStoreView()
+    {
+        //Data
+        $storeViewData = $this->loadData('generic_store_view');
+        //Steps
+        $this->storeHelper()->createStore($storeViewData, 'store_view');
+        //Verifying
+        $this->assertTrue($this->successMessage('success_saved_store_view'), $this->messages);
+
+        return $storeViewData;
+    }
+
+    /**
      * <p>Delete Store View Without creating DB backup</p>
      * <p>Steps:</p>
      * <p>1. Navigate to "System->Manage Stores";</p>
@@ -65,31 +89,15 @@ class Store_StoreView_DeleteTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Success message appears - "The store view has been deleted."</p>
      *
+     * @depends creationStoreView
      * @test
      */
-    public function deleteStoreViewWithoutBackup()
+    public function deleteStoreViewWithoutBackup($storeViewData)
     {
-        $this->markTestIncomplete('@TODO');
-    }
-
-    /**
-     * <p>Delete Store View with assigned product</p>
-     * <p>Preconditions:</p>
-     * <p>Create product and assign it to created store view</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to "System->Manage Stores";</p>
-     * <p>2. Select created Store View from the grid and open it;</p>
-     * <p>3. Click "Delete Store View" button;</p>
-     * <p>4. Select "No" on Backup Options page;</p>
-     * <p>5. Click "Delete Store View" button;</p>
-     * <p>Expected result:</p>
-     * <p>Success message appears - "The store view has been deleted."</p>
-     *
-     * @test
-     */
-    public function deleteStoreViewWithAssignedProduct()
-    {
-        $this->markTestIncomplete('@TODO');
+        //Data
+        $storeData = array('store_view_name' =>$storeViewData['store_view_name']);
+        //Steps
+        $this->storeHelper()->deleteStore($storeData);
     }
 
 }

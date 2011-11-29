@@ -71,7 +71,14 @@ class Store_Website_DeleteTest extends Mage_Selenium_TestCase
      */
     public function deleteWithoutStore()
     {
-        $this->markTestIncomplete('@TODO');
+        //Preconditions
+        $websiteData = $this->loadData('generic_website');
+        $this->storeHelper()->createStore($websiteData, 'website');
+        $this->assertTrue($this->successMessage('success_saved_website'), $this->messages);
+        //Data
+        $deleteWebsiteData = array('website_name' =>$websiteData['website_name']);
+        //Steps
+        $this->storeHelper()->deleteStore($deleteWebsiteData);
     }
 
     /**
@@ -91,7 +98,17 @@ class Store_Website_DeleteTest extends Mage_Selenium_TestCase
      */
     public function deleteWithStore()
     {
-        $this->markTestIncomplete('@TODO');
+        //Preconditions
+        $websiteData = $this->loadData('generic_website');
+        $storeData = $this->loadData('generic_store', array('website' => $websiteData['website_name']));
+        $this->storeHelper()->createStore($websiteData, 'website');
+        $this->assertTrue($this->successMessage('success_saved_website'), $this->messages);
+        $this->storeHelper()->createStore($storeData, 'store');
+        $this->assertTrue($this->successMessage('success_saved_store'), $this->messages);
+        //Data
+        $deleteWebsiteData = array('website_name' =>$websiteData['website_name']);
+        //Steps
+        $this->storeHelper()->deleteStore($deleteWebsiteData);
     }
 
     /**
@@ -111,7 +128,20 @@ class Store_Website_DeleteTest extends Mage_Selenium_TestCase
      */
     public function deleteWithStoreAndStoreView()
     {
-        $this->markTestIncomplete('@TODO');
+        //Preconditions
+        $websiteData = $this->loadData('generic_website');
+        $storeData = $this->loadData('generic_store', array('website' => $websiteData['website_name']));
+        $storeViewData = $this->loadData('generic_store_view', array('store_name' => $storeData['store_name']));
+        $this->storeHelper()->createStore($websiteData, 'website');
+        $this->assertTrue($this->successMessage('success_saved_website'), $this->messages);
+        $this->storeHelper()->createStore($storeData, 'store');
+        $this->assertTrue($this->successMessage('success_saved_store'), $this->messages);
+        $this->storeHelper()->createStore($storeViewData, 'store_view');
+        $this->assertTrue($this->successMessage('success_saved_store_view'), $this->messages);
+        //Data
+        $deleteWebsiteData = array('website_name' =>$websiteData['website_name']);
+        //Steps
+        $this->storeHelper()->deleteStore($deleteWebsiteData);
     }
 
     /**
@@ -131,7 +161,19 @@ class Store_Website_DeleteTest extends Mage_Selenium_TestCase
      */
     public function deleteWithAssignedProduct()
     {
-        $this->markTestIncomplete('@TODO');
+        //Preconditions
+        $websiteData = $this->loadData('generic_website');
+        $productData = $this->loadData('simple_product_visible', array('websites' => $websiteData['website_name']), array('general_name', 'general_sku'));
+        $this->storeHelper()->createStore($websiteData, 'website');
+        $this->assertTrue($this->successMessage('success_saved_website'), $this->messages);
+        $this->navigate('manage_products');
+        $this->productHelper()->createProduct($productData);
+        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        //Data
+        $deleteWebsiteData = array('website_name' =>$websiteData['website_name']);
+        //Steps
+        $this->navigate('manage_stores');
+        $this->storeHelper()->deleteStore($deleteWebsiteData);
     }
 
 }

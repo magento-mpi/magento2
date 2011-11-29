@@ -71,7 +71,14 @@ class Store_Store_DeleteTest extends Mage_Selenium_TestCase
      */
     public function deleteWithoutStoreView()
     {
-        $this->markTestIncomplete('@TODO');
+        //Preconditions
+        $storeData = $this->loadData('generic_store');
+        $this->storeHelper()->createStore($storeData, 'store');
+        $this->assertTrue($this->successMessage('success_saved_store'), $this->messages);
+        //Data
+        $deleteStoreData = array('store_name' =>$storeData['store_name']);
+        //Steps
+        $this->storeHelper()->deleteStore($deleteStoreData);
     }
 
     /**
@@ -91,7 +98,17 @@ class Store_Store_DeleteTest extends Mage_Selenium_TestCase
      */
     public function deletableWithStoreView()
     {
-        $this->markTestIncomplete('@TODO');
+        //Preconditions
+        $storeData = $this->loadData('generic_store');
+        $storeViewData = $this->loadData('generic_store_view', array('store_name' => $storeData['store_name']));
+        $this->storeHelper()->createStore($storeData, 'store');
+        $this->assertTrue($this->successMessage('success_saved_store'), $this->messages);
+        $this->storeHelper()->createStore($storeViewData, 'store_view');
+        $this->assertTrue($this->successMessage('success_saved_store_view'), $this->messages);
+        //Data
+        $deleteStoreData = array('store_name' =>$storeData['store_name']);
+        //Steps
+        $this->storeHelper()->deleteStore($deleteStoreData);
     }
 
 }
