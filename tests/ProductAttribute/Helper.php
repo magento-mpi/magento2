@@ -147,7 +147,8 @@ class ProductAttribute_Helper extends Mage_Selenium_TestCase
                 }
                 if ($number != -1) {
                     $this->addParameter('storeViewNumber', $number);
-                    $fieldXpath = $fieldSetXpath . $this->_getControlXpath('field', 'titles_by_store_name');
+                    $set = $this->getCurrentUimapPage()->findFieldset($fieldsetName);
+                    $fieldXpath = $fieldSetXpath . $set->findField('titles_by_store_name');
 
                     switch ($action) {
                         case 'fill':
