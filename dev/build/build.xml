@@ -130,16 +130,16 @@
     </target>
 
     <!-- product integration tests -->
-    <target name="integration-tests-magento" depends="clean,init">
+    <target name="integration-tests-magento">
         <exec dir="dev/tests/integration" executable="phpunit" failonerror="true">
-            <arg line="--stderr --log-junit ${dir.build_report}/integration-tests-magento.xml"/>
+            <arg line="--stderr --log-junit ${basedir}/integration-tests-magento.xml"/>
         </exec>
     </target>
 
     <!-- product integration tests with xdebug -->
-    <target name="integration-tests-magento-xdebug" depends="clean,init">
+    <target name="integration-tests-magento-xdebug" depends="phpunit-xdebug">
         <exec dir="dev/tests/integration" executable="${file.phpunit_xdebug}" failonerror="true">
-            <arg line="--stderr --log-junit ${dir.build_report}/integration-tests-magento-xdebug.xml"/>
+            <arg line="--stderr --log-junit ${basedir}/integration-tests-magento-xdebug.xml"/>
         </exec>
     </target>
 
