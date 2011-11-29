@@ -67,10 +67,20 @@ class SalesOrder_ListTest extends Magento_Test_Webservice
                         'value' => array($order->getId(), 0)
                     ),
                 ),
+                array(
+                    'key' => 'protect_code',
+                    'value' => array(
+                        'key' => 'in',
+                        //add not exist ID "0"
+                        'value' => $order->getData('protect_code')
+                    ),
+                ),
             )
         ));
 
-        $result = $this->getWebService()->call('order.list', $filters);
+
+
+        $result = $this->call('order.list', $filters);
 
         //should be got array with one order item
         $this->assertInternalType('array', $result);
@@ -96,7 +106,7 @@ class SalesOrder_ListTest extends Magento_Test_Webservice
             'order_id' => array('in' => array($order->getId(), 0)),
         ));
 
-        $result = $this->getWebService()->call('order.list', $filters);
+        $result = $this->call('order.list', $filters);
 
         //should be got array with one order item
         $this->assertInternalType('array', $result);
