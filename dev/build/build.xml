@@ -7,8 +7,11 @@
     <!-- Copy the build customization files -->
     <target name="init" if="env.build_customization_dir">
         <copy todir="${basedir}" failonerror="true">
-            <fileset dir="${basedir}/${env.build_customization_dir}" />
+            <fileset dir="${basedir}/${env.build_customization_dir}"/>
         </copy>
+        <exec executable="chmod" failonerror="true">
+            <arg line="u+x ${dir.build_base}/bin/phpunit-with-xdebug.sh"/>
+        </exec>
     </target>
 
     <target name="clean">
