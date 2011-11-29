@@ -293,9 +293,7 @@ class Mage_Weee_Model_Observer extends Mage_Core_Model_Abstract
         if (!$_product) {
             return $this;
         }
-        if (!$weeeHelper->typeOfDisplay($_product, array(0, 1, 4))) {
-            return $this;
-        }
+
         $amount          = $weeeHelper->getAmount($_product);
         $origAmount      = $weeeHelper->getOriginalAmount($_product);
         $attributes      = $weeeHelper->getProductWeeeAttributes($_product, null, null, null, $weeeHelper->isTaxable());
@@ -305,6 +303,11 @@ class Mage_Weee_Model_Observer extends Mage_Core_Model_Abstract
         $options['oldPlusDisposition'] = $origAmount;
         $options['plusDisposition']    = $amount;
         $options['plusDispositionTax'] = ($taxes < 0) ? 0 : $taxes;
+
+        // Exclude Weee amount from excluding tax amount
+        if (!$weeeHelper->typeOfDisplay($_product, array(0, 1, 4))) {
+            $options['exclDisposition'] = true;
+        }
 
         $response->setAdditionalOptions($options);
 
@@ -319,7 +322,9 @@ class Mage_Weee_Model_Observer extends Mage_Core_Model_Abstract
      */
     public function updateBundleProductOptions(Varien_Event_Observer $observer)
     {
-        if (!Mage::helper('weee')->isEnabled()) {
+        /* @var $weeeHelper Mage_Weee_Helper_Data */
+        $weeeHelper = Mage::helper('weee');
+        if (!$weeeHelper->isEnabled()) {
             return $this;
         }
 
@@ -328,16 +333,22 @@ class Mage_Weee_Model_Observer extends Mage_Core_Model_Abstract
         $options = $response->getAdditionalOptions();
 
         $_product = Mage::registry('current_product');
-        if (!Mage::helper('weee')->typeOfDisplay($_product, array(0, 1, 4))) {
-            return $this;
-        }
+
         $typeDynamic = Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Attributes_Extend::DYNAMIC;
         if (!$_product || $_product->getPriceType() != $typeDynamic) {
             return $this;
         }
 
-        $amount = Mage::helper('weee')->getAmount($selection);
-        $options['plusDisposition'] = $amount;
+        $amount          = $weeeHelper->getAmount($selection);
+        $attributes      = $weeeHelper->getProductWeeeAttributes($_product, null, null, null, $weeeHelper->isTaxable());
+        $amountInclTaxes = $weeeHelper->getAmountInclTaxes($attributes);
+        $taxes           = $amountInclTaxes - $amount;
+        $options['plusDisposition']    = $amount;
+        $options['plusDispositionTax'] = ($taxes < 0) ? 0 : $taxes;
+        // Exclude Weee amount from excluding tax amount
+        if (!$weeeHelper->typeOfDisplay($_product, array(0, 1, 4))) {
+            $options['exclDisposition'] = true;
+        }
 
         $response->setAdditionalOptions($options);
 

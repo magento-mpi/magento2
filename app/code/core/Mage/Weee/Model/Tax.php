@@ -167,7 +167,11 @@ class Mage_Weee_Model_Tax extends Mage_Core_Model_Abstract
                             ->getRate($defaultRateRequest
                             ->setProductClassId($product->getTaxClassId()));
                         $currentPercent = $product->getTaxPercent();
-                        $taxAmount = Mage::app()->getStore()->roundPrice($value/(100+$defaultPercent)*$currentPercent);
+                        if (Mage::helper('tax')->priceIncludesTax($store)) {
+                            $taxAmount = Mage::app()->getStore()->roundPrice($value/(100+$defaultPercent)*$currentPercent);
+                        } else {
+                            $taxAmount = Mage::app()->getStore()->roundPrice($value*$defaultPercent/100);
+                        }
                     }
 
                     $one = new Varien_Object();

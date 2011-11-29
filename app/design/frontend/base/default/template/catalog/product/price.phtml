@@ -227,7 +227,7 @@
             <p class="special-price">
                 <span class="price-label"><?php echo $this->__('Special Price:') ?></span>
                 <span class="price" id="product-price-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>">
-                    <?php echo $_coreHelper->currency($_finalPrice+$_weeeTaxAmount,true,false) ?>
+                    <?php echo $_coreHelper->currency($_finalPrice+$_weeeTaxAmountInclTaxes,true,false) ?>
                 </span>
             </p>
             <?php endif; ?>
