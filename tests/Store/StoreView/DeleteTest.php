@@ -55,24 +55,6 @@ class Store_StoreView_DeleteTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Delete Store View With creating DB backup</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to "System->Manage Stores";</p>
-     * <p>2. Select created Store View from the grid and open it;</p>
-     * <p>3. Click "Delete Store View" button;</p>
-     * <p>4. Select "Yes" on Backup Options page;</p>
-     * <p>5. Click "Delete Store View" button;</p>
-     * <p>Expected result:</p>
-     * <p>Success message appears - "Database was successfuly backed up. The store view has been deleted."</p>
-     *
-     * @test
-     */
-    public function deleteStoreViewBackup()
-    {
-        $this->markTestIncomplete('@TODO');
-    }
-
-    /**
      * <p>Delete Store View Without creating DB backup</p>
      * <p>Steps:</p>
      * <p>1. Navigate to "System->Manage Stores";</p>
@@ -106,21 +88,6 @@ class Store_StoreView_DeleteTest extends Mage_Selenium_TestCase
      * @test
      */
     public function deleteStoreViewWithAssignedProduct()
-    {
-        $this->markTestIncomplete('@TODO');
-    }
-
-    /**
-     * <p>Store View that cannot be deleted</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to "System->Manage Stores";</p>
-     * <p>2. Select Default Store View from the grid (Store view should be only one into the grid) and open it;</p>
-     * <p>Expected result:</p>
-     * <p>Verify that "Delete Store View" button is absent on the page;</p>
-     *
-     * @test
-     */
-    public function undeletableStoreView()
     {
         $this->markTestIncomplete('@TODO');
     }
