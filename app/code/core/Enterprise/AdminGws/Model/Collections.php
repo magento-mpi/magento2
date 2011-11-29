@@ -201,7 +201,7 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
      */
     public function limitStoreCredits($collection)
     {
-        $collection->addWebsiteFilter($this->_role->getRelevantWebsiteIds());
+        $collection->addWebsitesFilter($this->_role->getRelevantWebsiteIds());
     }
 
     /**
@@ -211,7 +211,7 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
      */
     public function limitStoreCreditsHistory($collection)
     {
-        $collection->addWebsiteFilter($this->_role->getRelevantWebsiteIds());
+        $collection->addWebsitesFilter($this->_role->getRelevantWebsiteIds());
     }
 
 
