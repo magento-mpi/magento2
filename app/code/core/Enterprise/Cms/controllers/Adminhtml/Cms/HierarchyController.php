@@ -198,12 +198,12 @@ class Enterprise_Cms_Adminhtml_Cms_HierarchyController extends Mage_Adminhtml_Co
                     $nodeModel->deleteByScope($scope, $scopeId);
                     $nodeModel->collectTree(array(), array());
                 }
-                $this->_getSession()->addSuccess($this->__('Pages Hierarchy has been deleted from the selected scopes.'));
+                $this->_getSession()->addSuccess($this->__('Pages hierarchy has been deleted from the selected scopes.'));
             } catch (Mage_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             } catch (Exception $e) {
                 $this->_getSession()->addException($e,
-                    Mage::helper('enterprise_cms')->__('There has been an error deleting Hierarchy.')
+                    Mage::helper('enterprise_cms')->__('There has been an error deleting hierarchy.')
                 );
             }
         }
@@ -233,12 +233,12 @@ class Enterprise_Cms_Adminhtml_Cms_HierarchyController extends Mage_Adminhtml_Co
                     list ($scope, $scopeId) = $this->_getScopeData($value);
                     $nodeHeritageModel->copyTo($scope, $scopeId);
                 }
-                $this->_getSession()->addSuccess($this->__('Pages Hierarchy has been copied to the selected scopes.'));
+                $this->_getSession()->addSuccess($this->__('Pages hierarchy has been copied to the selected scopes.'));
             } catch (Mage_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             } catch (Exception $e) {
                 $this->_getSession()->addException($e,
-                    Mage::helper('enterprise_cms')->__('There has been an error copying Hierarchy.')
+                    Mage::helper('enterprise_cms')->__('There has been an error copying hierarchy.')
                 );
             }
         }
@@ -318,7 +318,7 @@ class Enterprise_Cms_Adminhtml_Cms_HierarchyController extends Mage_Adminhtml_Co
                 $this->_getSession()->addError($e->getMessage());
             } catch (Exception $e) {
                 $this->_getSession()->addException($e,
-                    Mage::helper('enterprise_cms')->__('Error in saving hierarchy.')
+                    Mage::helper('enterprise_cms')->__('There has been an error saving hierarchy.')
                 );
             }
 
