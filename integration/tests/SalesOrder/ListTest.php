@@ -51,7 +51,7 @@ class SalesOrder_ListTest extends Magento_Test_Webservice
             'filter' => array(
                 array(
                     'key' => 'status',
-                    'value' => array('processing', $order->getData('status'))
+                    'value' => $order->getData('status')
                 ),
                 array(
                     'key' => 'created_at',
