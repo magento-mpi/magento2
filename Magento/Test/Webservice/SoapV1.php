@@ -49,6 +49,18 @@ class Magento_Test_Webservice_SoapV1 extends Magento_Test_Webservice_Abstract
     protected $_client;
 
     /**
+     * Bad request messages
+     *
+     * @var array
+     */
+    protected $_badRequestMessages = array(
+        'Failed to parse response',
+        'Invalid response',
+        'looks like we got no XML document',
+        'Wrong Version'
+    );
+
+    /**
      * Init
      *
      * @param null|array $options
@@ -105,13 +117,12 @@ class Magento_Test_Webservice_SoapV1 extends Magento_Test_Webservice_Abstract
      */
     protected function _throwExceptionBadRequest(SoapFault $e)
     {
-        if ($this->_isShowInvalidResponse()) {
-            $message = $e->getMessage();
-            if ('Failed to parse response' == $message || 'Invalid response' == $message) {
-                throw new Magento_Test_Webservice_Exception(sprintf(
-                    'SOAP client should be get XML document but got following: "%s"',
-                    $this->getLastResponse()));
-            }
+        if ($this->_isShowInvalidResponse()
+            && in_array($e->getMessage(), $this->_badRequestMessages)
+        ) {
+            throw new Magento_Test_Webservice_Exception(sprintf(
+                'SOAP client should be get XML document but got following: "%s"',
+                $this->getLastResponse()));
         }
     }
 
