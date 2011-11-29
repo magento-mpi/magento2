@@ -132,20 +132,24 @@ $parameters = $this->getParameters();
             changeHierarchyArray.each(function(id){
                 if (id == 0) {
                     showAll = true;
-                }
-            });
-            if (showAll) {
-                a.each(function(div){
-                    div.show();
-                });
-            } else {
-                if (id != 0) {
-                    changeHierarchyArray.each(function(id){
-                        $('<?php echo $uniqueHash; ?>_'+id).show();
-                        addClassEnable(id);
+                    a.each(function(div){
+                        div.show();
+                    });
+                    storesArray.each(function(id){
+                        if (id != 0) {
+                            $('<?php echo $uniqueHash; ?>_'+id).show();
+                            addClassEnable(id);
+                        }
                     });
                 }
-            }
+            });
+
+            changeHierarchyArray.each(function(id){
+                if (id != 0) {
+                    $('<?php echo $uniqueHash; ?>_'+id).show();
+                    addClassEnable(id);
+                }
+            });
             $('<?php echo $uniqueHash; ?>_0').hide();
         }
     }
