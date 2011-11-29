@@ -467,8 +467,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 
     /**
      * Append messages
-     * 
-     * @param type $messagesObject 
+     *
+     * @param type $messagesObject
      */
     public function appendMessages($messagesObject)
     {
@@ -556,9 +556,13 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                 $overrideArray[$key] = $overrideValue;
                 $overrideResult = true;
             } elseif (is_array($value)) {
-                $overrideResult = $this->overrideData($overrideKey, $overrideValue, $value);
+                $result = $this->overrideData($overrideKey, $overrideValue, $value);
+                if ($result || $overrideResult) {
+                    $overrideResult = true;
+                }
             }
         }
+
         return $overrideResult;
     }
 
