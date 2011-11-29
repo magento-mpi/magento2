@@ -597,6 +597,12 @@
             }
         },
 
+        checkCheckboxes: function(grid, element, checked) {
+            if (element.disabled) {
+                element.checked = false;
+            }
+        },
+
         pageGridLoad: function(){
             var node = this.tree.getSelectionModel().getSelectedNode();
             var fullReset = !node ? true : false;

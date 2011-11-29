@@ -41,6 +41,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form_Grid extends Mage_A
     {
         parent::__construct();
         $this->setRowClickCallback('hierarchyNodes.pageGridRowClick.bind(hierarchyNodes)');
+        $this->setCheckboxCheckCallback('hierarchyNodes.checkCheckboxes.bind(hierarchyNodes)');
         $this->setDefaultSort('page_id');
         $this->setMassactionIdField('page_id');
         $this->setUseAjax(true);
