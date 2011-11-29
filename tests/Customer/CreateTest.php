@@ -149,7 +149,7 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
         //Steps
         $this->customerHelper()->createCustomer($userData);
         //Verifying
-        $tab = $this->getCurrentLocationUimapPage()->findTab('account_information');
+        $tab = $this->getCurrentUimapPage()->findTab('account_information');
         $xpath = $tab->findField($emptyField);
         $this->addParameter('fieldXpath', $xpath);
         $this->assertTrue($this->errorMessage('empty_required_field'), $this->messages);

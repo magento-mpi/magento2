@@ -100,9 +100,7 @@ class ProductAttribute_Helper extends Mage_Selenium_TestCase
     public function createAttributeOnGeneralTab($attrData)
     {
         // Defining and adding %fieldSetId% for Uimap pages.
-        $page = $this->getCurrentLocationUimapPage();
-        $fieldSet = $page->findFieldset('product_general');
-        $id = explode('_', $this->getAttribute($fieldSet->getXPath() . '@id'));
+        $id = explode('_', $this->getAttribute($this->_getControlXpath('fieldset', 'product_general') . '@id'));
         foreach ($id as $value) {
             if (is_numeric($value)) {
                 $fieldSetId = $value;
@@ -140,9 +138,7 @@ class ProductAttribute_Helper extends Mage_Selenium_TestCase
         if (array_key_exists($name, $attrData)
                 && is_array($attrData[$name])
                 && $attrData[$name] != '%noValue%') {
-            $page = $this->getCurrentLocationUimapPage();
-            $fieldSet = $page->findFieldset($fieldsetName);
-            $fieldSetXpath = $fieldSet->getXPath();
+            $fieldSetXpath = $this->_getControlXpath('fieldset', $fieldsetName);
             $qtyStore = $this->getXpathCount($fieldSetXpath . '//th');
             foreach ($attrData[$name] as $storeViewName => $storeViewValue) {
                 $number = -1;
@@ -154,8 +150,7 @@ class ProductAttribute_Helper extends Mage_Selenium_TestCase
                 }
                 if ($number != -1) {
                     $this->addParameter('storeViewNumber', $number);
-                    $page->assignParams($this->_paramsHelper);
-                    $fieldXpath = $fieldSetXpath . $fieldSet->findField('titles_by_store_name');
+                    $fieldXpath = $fieldSetXpath . $this->_getControlXpath('field', 'titles_by_store_name');
 
                     switch ($action) {
                         case 'fill':
@@ -185,9 +180,7 @@ class ProductAttribute_Helper extends Mage_Selenium_TestCase
      */
     public function attributeOptions($attrData, $action='fill')
     {
-        $page = $this->getCurrentLocationUimapPage();
-        $fieldSet = $page->findFieldset('manage_options');
-        $fieldSetXpath = $fieldSet->getXPath();
+        $fieldSetXpath = $this->_getControlXpath('fieldset', 'manage_options');
 
         if ($action == 'verify') {
             $option = $this->getXpathCount($fieldSetXpath . "//tr[contains(@class,'option-row')]");
@@ -197,24 +190,21 @@ class ProductAttribute_Helper extends Mage_Selenium_TestCase
         foreach ($attrData as $f_key => $d_value) {
             if (preg_match('/^option_/', $f_key) and is_array($attrData[$f_key])) {
                 if ($this->isElementPresent($fieldSetXpath)) {
-                    $optionCount = $this->getXpathCount($fieldSetXpath .
-                            "//tr[contains(@class,'option-row')]");
+                    $optionCount = $this->getXpathCount($fieldSetXpath . "//tr[contains(@class,'option-row')]");
 
                     switch ($action) {
                         case 'fill':
                             $this->addParameter('fieldOptionNumber', $optionCount);
-                            $page->assignParams($this->_paramsHelper);
                             $this->clickButton('add_option', FALSE);
                             $this->storeViewTitles($attrData[$f_key], 'manage_options');
                             $this->fillForm($attrData[$f_key], 'manage_lables_options');
                             break;
                         case 'verify':
                             if ($option > 0) {
-                                $fieldOptionNumber = $this->getAttribute($fieldSetXpath .
-                                        "//tr[contains(@class,'option-row')][" .
-                                        $num . "]//input[@class='input-radio']/@value");
+                                $fieldOptionNumber = $this->getAttribute($fieldSetXpath
+                                        . "//tr[contains(@class,'option-row')][" . $num
+                                        . "]//input[@class='input-radio']/@value");
                                 $this->addParameter('fieldOptionNumber', $fieldOptionNumber);
-                                $page->assignParams($this->_paramsHelper);
                                 $this->assertTrue($this->verifyForm($attrData[$f_key], 'manage_lables_options'),
                                         $this->messages);
                                 $this->storeViewTitles($attrData[$f_key], 'manage_options', 'verify');

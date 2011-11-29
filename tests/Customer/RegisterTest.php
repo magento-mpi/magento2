@@ -159,8 +159,7 @@ class Customer_RegisterTest extends Mage_Selenium_TestCase
         //Steps
         $this->customerHelper()->registerCustomer($userData);
         //Verifying
-        $page = $this->getCurrentLocationUimapPage();
-        $fieldset = $page->findFieldset('account_info');
+        $fieldset = $this->getCurrentUimapPage()->findFieldset('account_info');
         foreach ($field as $key => $value) {
             $xpath = $fieldset->findField($key);
             $this->addParameter('fieldXpath', $xpath);

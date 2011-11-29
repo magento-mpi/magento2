@@ -249,7 +249,7 @@ class CmsPages_Helper extends Mage_Selenium_TestCase
             if ($val == '%noValue%' or empty($val)) {
                 unset($data[$key]);
             } elseif (preg_match('/store_view/', $key)) {
-                $xpathField = $this->getCurrentLocationUimapPage()->getMainForm()->findDropdown($key);
+                $xpathField = $this->_getControlXpath('dropdown', $key);
                 if (!$this->isElementPresent($xpathField)) {
                     unset($data[$key]);
                 }

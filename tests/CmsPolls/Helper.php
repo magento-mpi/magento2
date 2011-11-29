@@ -49,7 +49,7 @@ class CmsPolls_Helper extends Mage_Selenium_TestCase
         if (!$answersSet) {
             return true;
         }
-        $tabXpath = $this->getCurrentLocationUimapPage()->findTab('poll_answers')->getXpath();
+        $tabXpath = $this->_getControlXpath('tab', 'poll_answers');
         $isTabOpened = $this->getAttribute($tabXpath . '/parent::*/@class');
         if (!preg_match('/active/', $isTabOpened)) {
             $this->clickControl('tab', 'poll_answers', false);
@@ -119,12 +119,11 @@ class CmsPolls_Helper extends Mage_Selenium_TestCase
     public function frontCheckPoll($pollTitle)
     {
         $this->addParameter('pollTitle', $pollTitle);
-        $page = $this->getCurrentLocationUimapPage();
-        $pollXpath = $page->findFieldset('community_poll')->getXpath();
+        $pollXpath = $this->_getControlXpath('fieldset', 'community_poll');
         if (!$this->isElementPresent($pollXpath)) {
             return false;
         }
-        $pollTitleXPath = $page->findPageelement('poll_title');
+        $pollTitleXPath = $this->_getControlXpath('pageelement', 'poll_title');
 
         return $this->isElementPresent($pollTitleXPath);
     }
@@ -176,7 +175,7 @@ class CmsPolls_Helper extends Mage_Selenium_TestCase
         $this->assertTrue($this->verifyForm($pollData, 'poll_information', array('assigned_answers_set'),
                         $this->messages));
         $this->clickControl('tab', 'poll_answers', false);
-        $answersXpath = $this->getCurrentLocationUimapPage()->findFieldset('assigned_answers_set')->getXpath();
+        $answersXpath = $this->_getControlXpath('fieldset', 'assigned_answers_set');
         $answersCount = $this->getXpathCount($answersXpath);
         if (count($pollData['assigned_answers_set']) == $answersCount) {
             $i = 1;
@@ -214,7 +213,7 @@ class CmsPolls_Helper extends Mage_Selenium_TestCase
     public function vote($pollTitle, $pollAnswer)
     {
         $this->addParameter('pollTitle', $pollTitle);
-        $pollTitleXPath = $this->getCurrentLocationUimapPage()->findPageelement('poll_title');
+        $pollTitleXPath = $this->_getControlXpath('pageelement', 'poll_title');
         $isPresent = $this->isElementPresent($pollTitleXPath);
         $this->addParameter('answer', $pollAnswer);
         if ($isPresent and $this->controlIsPresent('radiobutton', 'vote')) {

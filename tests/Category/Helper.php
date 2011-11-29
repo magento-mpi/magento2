@@ -55,7 +55,6 @@ class Category_Helper extends Mage_Selenium_TestCase
         } else {
             $this->addParameter('parentCategoryId', $parentCategoryId);
             $this->addParameter('subName', $catName);
-            $this->getCurrentLocationUimapPage()->assignParams($this->_paramsHelper);
             $isDiscloseCategory = $this->_getControlXpath('link', 'expand_category');
             $catXpath = $this->_getControlXpath('link', 'sub_category');
 
@@ -129,7 +128,7 @@ class Category_Helper extends Mage_Selenium_TestCase
     public function fillCategoryInfo(array $categoryData)
     {
         $categoryData = $this->arrayEmptyClear($categoryData);
-        $page = $this->getCurrentLocationUimapPage();
+        $page = $this->getCurrentUimapPage();
         $tabs = $page->getAllTabs();
         foreach ($tabs as $tab => $values) {
             $tabXpath = $page->findTab($tab)->getXpath();
@@ -200,7 +199,7 @@ class Category_Helper extends Mage_Selenium_TestCase
     {
         $buttonXpath = $this->_getControlXpath('button', $buttonName);
         if ($this->isElementPresent($buttonXpath)) {
-            $confirmation = $this->getCurrentLocationUimapPage()->findMessage($message);
+            $confirmation = $this->getCurrentUimapPage()->findMessage($message);
             $this->chooseCancelOnNextConfirmation();
             $this->click($buttonXpath);
             if ($this->isConfirmationPresent()) {

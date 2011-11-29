@@ -330,8 +330,7 @@ class Order_Helper extends Mage_Selenium_TestCase
      */
     public function configureProduct(array $configurData)
     {
-        $page = $this->getCurrentLocationUimapPage();
-        $set = $page->findFieldset('product_composite_configure_form');
+        $set = $this->getCurrentUimapPage()->findFieldset('product_composite_configure_form');
 
         foreach ($configurData as $key => $value) {
             if (is_array($value)) {
@@ -483,8 +482,7 @@ class Order_Helper extends Mage_Selenium_TestCase
             $this->assertTrue($this->searchAndOpen($customerData, FALSE, 'order_customer_grid'),"Customer isn't found");
         }
 
-        $page = $this->getCurrentLocationUimapPage();
-        $storeSelectorXpath = $page->findFieldset('order_store_selector')->getXpath();
+        $storeSelectorXpath = $this->_getControlXpath('fieldset', 'order_store_selector');
         // Select a store if there is more then one default store
         if ($this->isElementPresent($storeSelectorXpath .
                         "[not(contains(@style,'display: none'))][not(contains(@style,'display:none'))]")) {

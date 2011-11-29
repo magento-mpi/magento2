@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Magento
  *
@@ -128,8 +129,7 @@ class CompareProducts_Helper extends Mage_Selenium_TestCase
         $productData = array();
         $this->addParameter('productName', $productName);
         $this->addParameter('columnIndex', $productIndex);
-        $page = $this->getCurrentLocationUimapPage();
-        $pageelements = $page->getAllElements('pageelements', $this->_paramsHelper);
+        $pageelements = $this->getCurrentUimapPage()->getAllElements('pageelements', $this->_paramsHelper);
         foreach ($pageelements as $key => $value) {
             if ($this->isElementPresent($value) and strpos($key, 'verify') !== FALSE)
                 $productData[$key] = trim($this->getText($value), " $\n\t\r\0");
@@ -155,7 +155,7 @@ class CompareProducts_Helper extends Mage_Selenium_TestCase
      */
     public function frontGetAttributesListComparePopup()
     {
-        $attrXPath = $this->getCurrentLocationUimapPage()->findPageelement('product_attribute_names');
+        $attrXPath = $this->_getControlXpath('pageelement', 'product_attribute_names');
         $attributesList = $this->getElementsText($attrXPath, "/th/span");
         return $attributesList;
     }
@@ -168,7 +168,7 @@ class CompareProducts_Helper extends Mage_Selenium_TestCase
      */
     public function frontGetProductsListComparePopup()
     {
-        $productsXPath = $this->getCurrentLocationUimapPage()->findPageelement('product_names');
+        $productsXPath = $this->_getControlXpath('pageelement', 'product_names');
         $productsList = $this->getElementsText($productsXPath, "//h2[@class='product-name']");
         return $productsList;
     }
@@ -291,4 +291,5 @@ class CompareProducts_Helper extends Mage_Selenium_TestCase
         }
         return $dataForVerify;
     }
+
 }
