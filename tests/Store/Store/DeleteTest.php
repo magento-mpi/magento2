@@ -28,7 +28,7 @@
  */
 
 /**
- * @TODO
+ * Delete Store in Backend
  *
  * @package     selenium
  * @subpackage  tests
@@ -38,33 +38,73 @@ class Store_Store_DeleteTest extends Mage_Selenium_TestCase
 {
 
     /**
-     * @TODO
+     * <p>Login to backend</p>
+     */
+    public function setUpBeforeTests()
+    {
+        $this->loginAdminUser();
+    }
+
+    /**
+     * <p>Preconditions:</p>
+     * <p>Navigate to System -> Manage Stores</p>
      */
     protected function assertPreConditions()
     {
-        // @TODO
+        $this->navigate('manage_stores');
     }
 
     /**
-     * @TODO
+     * <p>Delete Store with creating DB backup</p>
+     * <p>Steps:</p>
+     * <p>1. Navigate to "System->Manage Stores";</p>
+     * <p>2. Select created Store from the grid and open it;</p>
+     * <p>3. Click "Delete Store" button;</p>
+     * <p>4. Select "Yes" on Backup Options page;</p>
+     * <p>5. Click "Delete Store" button;</p>
+     * <p>Expected result:</p>
+     * <p>Success message appears - "Database was successfuly backed up. The store has been deleted."</p>
+     *
      * @test
      */
-    public function deletable()
+    public function deleteStoreWithBackup()
     {
         $this->markTestIncomplete('@TODO');
     }
 
     /**
-     * @TODO
+     * <p>Delete Store without Store View</p>
+     * <p>Preconditions:</p>
+     * <p>Store created without Store View;</p>
+     * <p>Steps:</p>
+     * <p>1. Navigate to "System->Manage Stores";</p>
+     * <p>2. Select created Store from the grid and open it;</p>
+     * <p>3. Click "Delete Store" button;</p>
+     * <p>4. Select "No" on Backup Options page;</p>
+     * <p>5. Click "Delete Store" button;</p>
+     * <p>Expected result:</p>
+     * <p>Success message appears - "The store has been deleted."</p>
+     *
      * @test
      */
-    public function deletableWithoutStoreView()
+    public function deleteWithoutStoreView()
     {
         $this->markTestIncomplete('@TODO');
     }
 
     /**
-     * @TODO
+     * <p>Delete Store with Store View</p>
+     * <p>Preconditions:</p>
+     * <p>Store with Store View created;</p>
+     * <p>Steps:</p>
+     * <p>1. Navigate to "System->Manage Stores";</p>
+     * <p>2. Select created Store from the grid and open it;</p>
+     * <p>3. Click "Delete Store" button;</p>
+     * <p>4. Select "No" on Backup Options page;</p>
+     * <p>5. Click "Delete Store" button;</p>
+     * <p>Expected result:</p>
+     * <p>Success message appears - "The store has been deleted."</p>
+     *
      * @test
      */
     public function deletableWithStoreView()
@@ -73,10 +113,16 @@ class Store_Store_DeleteTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * @TODO
+     * <p>Store that cannot be deleted</p>
+     * <p>Steps:</p>
+     * <p>1. Navigate to "System->Manage Stores";</p>
+     * <p>2. Select Default Store from the grid (Store should be only one into the grid) and open it;</p>
+     * <p>Expected result:</p>
+     * <p>Verify that "Delete Store" button is absent on the page;</p>
+     *
      * @test
      */
-    public function thatCannotBeDeleted()
+    public function undeletableStore()
     {
         $this->markTestIncomplete('@TODO');
     }

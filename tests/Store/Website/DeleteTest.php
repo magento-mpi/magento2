@@ -28,7 +28,7 @@
  */
 
 /**
- * @TODO
+ * Delete Website into Backend
  *
  * @package     selenium
  * @subpackage  tests
@@ -38,45 +38,131 @@ class Store_Website_DeleteTest extends Mage_Selenium_TestCase
 {
 
     /**
-     * @TODO
+     * <p>Login to backend</p>
+     */
+    public function setUpBeforeTests()
+    {
+        $this->loginAdminUser();
+    }
+
+    /**
+     * <p>Preconditions:</p>
+     * <p>Navigate to System -> Manage Stores</p>
      */
     protected function assertPreConditions()
     {
-        // @TODO
+        $this->navigate('manage_stores');
     }
 
-    /**
-     * @TODO
+   /**
+     * <p>Delete Website with creating DB backup</p>
+     * <p>Steps:</p>
+     * <p>1. Navigate to "System->Manage Stores";</p>
+     * <p>2. Select created Website from the grid and open it;</p>
+     * <p>3. Click "Delete Website" button;</p>
+     * <p>4. Select "Yes" on Backup Options page;</p>
+     * <p>5. Click "Delete Website" button;</p>
+     * <p>Expected result:</p>
+     * <p>Success message appears - "Database was successfuly backed up. The website has been deleted."</p>
+     *
      * @test
      */
-    public function deletableWithoutStore()
+    public function deleteWithBackup()
     {
         $this->markTestIncomplete('@TODO');
     }
 
     /**
-     * @TODO
+     * <p>Delete Website without Store</p>
+     * <p>Preconditions:</p>
+     * <p>Website created without Store;</p>
+     * <p>Steps:</p>
+     * <p>1. Navigate to "System->Manage Stores";</p>
+     * <p>2. Select created Website from the grid and open it;</p>
+     * <p>3. Click "Delete Website" button;</p>
+     * <p>4. Select "No" on Backup Options page;</p>
+     * <p>5. Click "Delete Website" button;</p>
+     * <p>Expected result:</p>
+     * <p>Success message appears - "The website has been deleted."</p>
+     *
      * @test
      */
-    public function deletableWithStore()
+    public function deleteWithoutStore()
     {
         $this->markTestIncomplete('@TODO');
     }
 
     /**
-     * @TODO
+     * <p>Delete Website with Store</p>
+     * <p>Preconditions:</p>
+     * <p>Website created with Store;</p>
+     * <p>Steps:</p>
+     * <p>1. Navigate to "System->Manage Stores";</p>
+     * <p>2. Select created Website from the grid and open it;</p>
+     * <p>3. Click "Delete Website" button;</p>
+     * <p>4. Select "No" on Backup Options page;</p>
+     * <p>5. Click "Delete Website" button;</p>
+     * <p>Expected result:</p>
+     * <p>Success message appears - "The website has been deleted."</p>
+     *
      * @test
      */
-    public function deletableWithStoreAndStoreView()
+    public function deleteWithStore()
     {
         $this->markTestIncomplete('@TODO');
     }
 
     /**
-     * @TODO
+     * <p>Delete Website with Store and Store View</p>
+     * <p>Preconditions:</p>
+     * <p>Website created with Store and Store View;</p>
+     * <p>Steps:</p>
+     * <p>1. Navigate to "System->Manage Stores";</p>
+     * <p>2. Select created Website from the grid and open it;</p>
+     * <p>3. Click "Delete Website" button;</p>
+     * <p>4. Select "No" on Backup Options page;</p>
+     * <p>5. Click "Delete Website" button;</p>
+     * <p>Expected result:</p>
+     * <p>Success message appears - "The website has been deleted."</p>
+     *
      * @test
      */
-    public function thatCannotBeDeleted()
+    public function deleteWithStoreAndStoreView()
+    {
+        $this->markTestIncomplete('@TODO');
+    }
+
+    /**
+     * <p>Delete Website with assigned product</p>
+     * <p>Preconditions:</p>
+     * <p>Create product and assign it to created Website</p>
+     * <p>Steps:</p>
+     * <p>1. Navigate to "System->Manage Stores";</p>
+     * <p>2. Select created Website from the grid and open it;</p>
+     * <p>3. Click "Delete Website" button;</p>
+     * <p>4. Select "No" on Backup Options page;</p>
+     * <p>5. Click "Delete Website" button;</p>
+     * <p>Expected result:</p>
+     * <p>Success message appears - "The website has been deleted."</p>
+     *
+     * @test
+     */
+    public function deleteWithAssignedProduct()
+    {
+        $this->markTestIncomplete('@TODO');
+    }
+
+    /**
+     * <p>Website that cannot be deleted</p>
+     * <p>Steps:</p>
+     * <p>1. Navigate to "System->Manage Stores";</p>
+     * <p>2. Select Default Website from the grid (Store should be only one into the grid) and open it;</p>
+     * <p>Expected result:</p>
+     * <p>Verify that "Delete Website" button is absent on the page;</p>
+     *
+     * @test
+     */
+    public function undeletableWebsite()
     {
         $this->markTestIncomplete('@TODO');
     }
