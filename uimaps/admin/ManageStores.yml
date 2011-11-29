@@ -50,7 +50,7 @@ manage_stores:
             create_website: //button[span='Create Website']
             create_store: //button[span='Create Store']
             create_store_view: //button[span='Create Store View']
-        messages:
+        messages: &mainMessages
             success_saved_store:  //li[normalize-space(@class)='success-msg' and contains(., 'The store has been saved')]
             success_saved_store_view: //li[normalize-space(@class)='success-msg' and contains(., 'The store view has been saved')]
             success_saved_website: //li[normalize-space(@class)='success-msg' and contains(., 'The website has been saved')]
@@ -264,6 +264,6 @@ detele_store_view:
                             create_backup: //select[@id='store_create_backup']
                         buttons:
                             reset: //button[span='Cancel']
-                            delete_website: //button[span='Delete Store View']
+                            delete_store_view: //button[span='Delete Store View']
         buttons:
             back: //button[span='Back']
