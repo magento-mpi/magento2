@@ -86,7 +86,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
     public function gridAction()
     {
         $this->loadLayout();
-        $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/customer_grid')->toHtml());
+        $this->renderLayout();
     }
 
     /**
@@ -424,8 +424,8 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
             ->loadByCustomer(Mage::registry('current_customer'));
 
         Mage::register('subscriber', $subscriber);
-        $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('adminhtml/customer_edit_tab_newsletter_grid')->toHtml());
+        $this->loadLayout();
+        $this->renderLayout();
     }
 
     public function wishlistAction()
@@ -485,10 +485,9 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
             }
         }
 
-        $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('adminhtml/customer_edit_tab_cart', 'admin.customer.view.cart',
-                array('website_id'=>$websiteId))->toHtml()
-        );
+        $this->loadLayout();
+        $this->getLayout()->getBlock('admin.customer.view.edit.cart')->setWebsiteId($websiteId);
+        $this->renderLayout();
     }
 
     /**
@@ -549,11 +548,11 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
     public function tagGridAction()
     {
         $this->_initCustomer();
-        $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('adminhtml/customer_edit_tab_tag', 'admin.customer.tags')
-                ->setCustomerId(Mage::registry('current_customer'))
-                ->toHtml()
+        $this->loadLayout();
+        $this->getLayout()->getBlock('admin.customer.tags')->setCustomerId(
+            Mage::registry('current_customer')
         );
+        $this->renderLayout();
     }
 
     public function validateAction()
