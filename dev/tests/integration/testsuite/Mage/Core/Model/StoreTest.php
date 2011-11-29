@@ -15,13 +15,16 @@
 class Mage_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_Core_Model_Store
+     * @var Mage_Core_Model_Store|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_model;
 
     public function setUp()
     {
-        $this->_model = new Mage_Core_Model_Store();
+        $this->_model = $this->getMock(
+            'Mage_Core_Model_Store',
+            array('getUrl')
+        );
     }
 
     /**
@@ -151,7 +154,9 @@ class Mage_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
 
     public function testGetCurrentUrl()
     {
-        $this->markTestSkipped("Method does not works as expected under console.");
+        $this->_model->expects($this->any())
+            ->method('getUrl')
+            ->will($this->returnValue('http://localhost/index.php'));
         $this->assertStringEndsWith('default', $this->_model->getCurrentUrl());
         $this->assertStringEndsNotWith('default', $this->_model->getCurrentUrl(false));
     }
