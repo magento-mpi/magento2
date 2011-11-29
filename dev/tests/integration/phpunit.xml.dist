@@ -17,7 +17,6 @@
             <directory suffix="Test.php">testsuite</directory>
         </testsuite>
     </testsuites>
-
      <!-- Code coverage filters -->
     <filter>
         <whitelist>
@@ -31,7 +30,6 @@
             </exclude>
         </whitelist>
     </filter>
-
     <!-- Code coverage report, optional -->
 <!--
     <logging>
@@ -42,7 +40,6 @@
         <log type="coverage-clover" target="../../build/report/integration/clover.xml"/>
     </logging>
 -->
-
     <!-- PHP INI settings and constants definition -->
     <php>
         <includePath>.</includePath>
@@ -64,10 +61,8 @@
         <!-- Magento Developer Mode status during tests execution. Possible values "enabled" and anything else which will be treated as false.-->
         <!--<const name="TESTS_MAGENTO_DEVELOPER_MODE" value="enabled"/>-->
     </php>
-
     <!-- Test listeners -->
     <listeners>
         <listener class="Magento_Test_Listener"/>
     </listeners>
-
 </phpunit>

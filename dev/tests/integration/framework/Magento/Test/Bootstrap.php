@@ -478,6 +478,10 @@ class Magento_Test_Bootstrap
 
         /* Switch an application to installed mode */
         $this->initialize();
+        /**
+         * Initialization of front controller with all routers.
+         * Should be here as needed only once after installation process. 
+         */
         Mage::app()->getFrontController();
     }
 
