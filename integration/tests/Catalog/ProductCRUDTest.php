@@ -67,7 +67,7 @@ class Catalog_ProductCRUDTest extends Magento_Test_Webservice
      *
      * @return void
      */
-    public function _testProductCRUD()
+    public function testProductCRUD()
     {
         $data = require dirname(__FILE__).'/_fixtures/ProductData.php';
 
