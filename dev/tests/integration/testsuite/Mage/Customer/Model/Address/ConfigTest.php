@@ -48,6 +48,8 @@ class Mage_Customer_Model_Address_ConfigTest extends PHPUnit_Framework_TestCase
             if (isset($formats[$formatCode])) {
                 $format = $formats[$formatCode];
                 $this->assertEquals($escapeHtml, $format->getEscapeHtml());
+            } else {
+                $this->fail("Missing '{$formatCode}' item in the fixture.");
             }
 
             $this->assertInstanceOf(
