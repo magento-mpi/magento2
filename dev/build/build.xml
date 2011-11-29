@@ -3,7 +3,7 @@
     <property environment="env"/>
     <property name="dir.build_base" location="${basedir}/dev/build"/>
     <property name="dir.build_report" location="${basedir}/dev/build/report"/>
-    <property name="file.phpunit_xdebug" location="dev/build/bin/phpunit-with-xdebug.sh" relative="true"/>
+    <property name="file.phpunit_xdebug" location="dev/build/bin/phpunit-with-xdebug.sh"/>
 
     <!-- Copy the build customization files -->
     <target name="init" if="env.build_customization_dir">
