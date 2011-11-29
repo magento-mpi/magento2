@@ -487,7 +487,8 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
             // IsDutiable flag and Dutiable node indicates that cargo is not a documentation
             $nodeBkgDetails->addChild('IsDutiable', 'Y');
             $nodeDutiable = $nodeGetQuote->addChild('Dutiable');
-            $nodeDutiable->addChild('DeclaredCurrency', Mage::app()->getStore()->getDefaultCurrencyCode());
+            $baseCurrencyCode = Mage::app()->getWebsite($this->_request->getWebsiteId())->getBaseCurrencyCode();
+            $nodeDutiable->addChild('DeclaredCurrency', $baseCurrencyCode);
             $nodeDutiable->addChild('DeclaredValue', $rawRequest->getValue());
         }
 
