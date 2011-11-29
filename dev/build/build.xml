@@ -3,6 +3,7 @@
     <property environment="env"/>
     <property name="dir.build_base" location="${basedir}/dev/build"/>
     <property name="dir.build_report" location="${basedir}/dev/build/report"/>
+    <property name="file.phpunit_xdebug" location="dev/build/bin/phpunit-with-xdebug.sh" relative="true"/>
 
     <!-- Copy the build customization files -->
     <target name="init" if="env.build_customization_dir">
@@ -11,6 +12,12 @@
         </copy>
         <exec executable="chmod" failonerror="true">
             <arg line="u+x ${dir.build_base}/bin/phpunit-with-xdebug.sh"/>
+        </exec>
+    </target>
+
+    <target name="phpunit-xdebug">
+        <exec executable="chmod" failonerror="true">
+            <arg line="u+x ${file.phpunit_xdebug}"/>
         </exec>
     </target>
 
@@ -97,47 +104,47 @@
     <!-- product unit tests -->
     <target name="unit-tests-magento">
         <exec dir="dev/tests/unit" executable="phpunit" failonerror="true">
-            <arg line="--stderr --log-junit ${dir.build_report}/unit-tests-magento.xml"/>
+            <arg line="--stderr --log-junit _build_report/unit-tests-magento.xml"/>
         </exec>
     </target>
 
     <!-- product unit tests with xdebug -->
-    <target name="unit-tests-magento-xdebug">
-        <exec dir="dev/tests/unit" executable="${dir.build_base}/bin/phpunit-with-xdebug.sh" failonerror="true">
-            <arg line="--stderr --log-junit ${dir.build_report}/unit-tests-magento-xdebug.xml"/>
+    <target name="unit-tests-magento-xdebug" depends="phpunit-xdebug">
+        <exec dir="dev/tests/unit" executable="${file.phpunit_xdebug}" failonerror="true">
+            <arg line="--stderr --log-junit _build_report/unit-tests-magento-xdebug.xml"/>
         </exec>
     </target>
 
     <!-- integration testing framework unit tests -->
     <target name="unit-tests-integration-framework">
         <exec dir="dev/tests/integration/framework/tests/unit" executable="phpunit" failonerror="true">
-            <arg line="--stderr --log-junit ${dir.build_report}/unit-tests-integration-framework.xml"/>
+            <arg line="--stderr --log-junit _build_report/unit-tests-integration-framework.xml"/>
         </exec>
     </target>
 
     <!-- static code analysis framework unit tests -->
     <target name="unit-tests-static-framework">
         <exec dir="dev/tests/static/framework/tests/unit" executable="phpunit" failonerror="true">
-            <arg line="--stderr --log-junit ${dir.build_report}/unit-tests-static-framework.xml"/>
+            <arg line="--stderr --log-junit _build_report/unit-tests-static-framework.xml"/>
         </exec>
     </target>
 
     <!-- product integration tests -->
-    <target name="integration-tests-magento" depends="init">
+    <target name="integration-tests-magento" depends="clean,init">
         <exec dir="dev/tests/integration" executable="phpunit" failonerror="true">
             <arg line="--stderr --log-junit ${dir.build_report}/integration-tests-magento.xml"/>
         </exec>
     </target>
 
     <!-- product integration tests with xdebug -->
-    <target name="integration-tests-magento-xdebug" depends="init">
-        <exec dir="dev/tests/integration" executable="${dir.build_base}/bin/phpunit-with-xdebug.sh" failonerror="true">
+    <target name="integration-tests-magento-xdebug" depends="clean,init">
+        <exec dir="dev/tests/integration" executable="${file.phpunit_xdebug}" failonerror="true">
             <arg line="--stderr --log-junit ${dir.build_report}/integration-tests-magento-xdebug.xml"/>
         </exec>
     </target>
 
     <!-- all static tests -->
-    <target name="static-tests-all">
+    <target name="static-tests-all" depends="clean">
         <exec dir="dev/tests/static" executable="phpunit" failonerror="true">
             <arg line="--stderr --log-junit ${dir.build_report}/static-tests-all.xml"/>
         </exec>
