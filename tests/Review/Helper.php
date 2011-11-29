@@ -174,8 +174,9 @@ class Review_Helper extends Mage_Selenium_TestCase
      * <p>Create Review</p>
      *
      * @param array|string $reviewData
+     * @param bool $validateRating      In case $validateRating == TRUE - rating filling will be mandatory
      */
-    public function frontendAddReview($reviewData)
+    public function frontendAddReview($reviewData, $validateRating = FALSE)
     {
         if (is_string($reviewData)) {
             $reviewData = $this->loadData($reviewData);
@@ -186,15 +187,18 @@ class Review_Helper extends Mage_Selenium_TestCase
         $this->clickControl('link',$linkName);
         $this->fillForm($reviewData);
         if(isset($reviewData['ratings'])){
-            $this->frontendAddRating($reviewData['ratings']);
+            $this->frontendAddRating($reviewData['ratings'], $validateRating);
         }
-        $this->clickButton('submit_review');
+        $this->saveForm('submit_review');
     }
 
     /**
      * Define parameter %Id% from Control
      *
-     * @return integer
+     *
+     * @param string $url
+     * @param string $idName
+     * @return string
      */
     protected function defineIdFromControl($url, $idName)
     {
@@ -216,16 +220,13 @@ class Review_Helper extends Mage_Selenium_TestCase
      *
      * @param string $reviewText
      * @param string $productName
-     * @param boolean $loggedIn
      */
-    public function frontendReviewVerificationMyAccount($reviewText, $productName, $loggedIn = FALSE)
+    public function frontendReviewVerificationMyAccount($reviewText, $productName)
     {
         $this->addParameter('productName', $productName);
-        if($loggedIn){
-        //Verification in "My Recent Reviews" area
         $this->navigate('customer_account');
         $this->assertTrue($this->controlIsPresent('link', 'product_name'),
-                          "Cannot find product with name: $productName");
+                            "Cannot find product with name: $productName");
         $this->defineCorrectParam('product_name', 'reviewId');
         $this->clickControl('link', 'product_name');
         $xPath = $this->_getControlXpath('pageelement', 'review_details');
@@ -236,9 +237,6 @@ class Review_Helper extends Mage_Selenium_TestCase
         $xPath = $this->_getControlXpath('pageelement', 'review_details');
         $text = trim($this->getText($xPath));
         $this->assertEquals('0', strcmp($text, trim($reviewText)), "Text on the page {$text} is not equal {$reviewText}");
-        } else{
-            $this->fail('Customer is not logged in');
-        }
     }
 
     /**
@@ -263,7 +261,7 @@ class Review_Helper extends Mage_Selenium_TestCase
      * @param array $verificationData
      * @param string $productName
      */
-    public function frontendReviewVerificationInCategory($verificationData, $productName)
+    public function frontendReviewVerificationInCategory(array $verificationData, $productName)
     {
         $this->addParameter('productName', $productName);
         $reviewText = (isset($verificationData['review'])) ? $verificationData['review'] : NULL;
@@ -279,7 +277,7 @@ class Review_Helper extends Mage_Selenium_TestCase
             $this->assertEquals('0', strcmp($text, trim($reviewSummary)), "Text on the page {$text} is not equal {$reviewSummary}");
             $this->defineCorrectParam('review_summary', 'reviewId');
             $this->clickControl('link', 'review_summary');
-        //Verification on Review Details page
+            //Verification on Review Details page
             $xPath = $this->_getControlXpath('pageelement', 'review_details');
             $text = trim($this->getText($xPath));
             $this->assertEquals('0', strcmp($text, trim($reviewText)), "Text on the page {$text} is not equal {$reviewText}");
@@ -293,8 +291,9 @@ class Review_Helper extends Mage_Selenium_TestCase
      *
      *@param array|string $ratingData
      */
-    public function frontendAddRating($ratingData)
+    public function frontendAddRating($ratingData, $validateRating = FALSE)
     {
+        $this->messages['error'] = array();
         if (is_string($ratingData)) {
             $ratingData = $this->loadData($ratingData);
         }
@@ -304,8 +303,12 @@ class Review_Helper extends Mage_Selenium_TestCase
             if($this->controlIsPresent('radiobutton', 'select_rate')){
                 $this->fillForm(array('select_rate' => 'Yes'));
             } else {
-                return FALSE;
+                $xpath = $this->_getControlXpath('radiobutton', 'select_rate');
+                $this->messages['error'][] = 'Control with Xpath ' . $xpath . ' is not on the page';
             }
+        }
+        if ($validateRating && !empty($this->messages['error'])) {
+            $this->fail($this->messages['error']);
         }
     }
 

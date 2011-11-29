@@ -50,13 +50,10 @@ class Review_FrontendCreateTest extends Mage_Selenium_TestCase
      */
     public function createCustomer()
     {
-        //Data
         $userData = $this->loadData('customer_account_for_prices_validation', NULL, 'email');
-        //Steps
         $this->loginAdminUser();
         $this->navigate('manage_customers');
         $this->customerHelper()->createCustomer($userData);
-        //Verifying
         $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
 
         return array('email' => $userData['email'], 'password' => $userData['password']);
@@ -64,40 +61,101 @@ class Review_FrontendCreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Preconditions</p>
-     * <p>Creates Category to use during tests</p>
+     * <p>Create Simple Products for tests</p>
      *
      * @test
      */
-    public function createCategory()
+    public function createProduct()
     {
-        $this->loginAdminUser();
-        $this->navigate('manage_categories');
-        $this->categoryHelper()->checkCategoriesPage();
-        $rootCat = 'Default Category';
-        $categoryData = $this->loadData('sub_category_required', null, 'name');
-        $this->categoryHelper()->createSubCategory($rootCat, $categoryData);
-        $this->assertTrue($this->successMessage('success_saved_category'), $this->messages);
-        $this->categoryHelper()->checkCategoriesPage();
+        $this->navigate('manage_products');
+        $simpleProductData = $this->loadData('simple_product_visible', NULL, array('general_name', 'general_sku'));
+        $this->productHelper()->createProduct($simpleProductData);
+        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
 
-        return $rootCat . '/' . $categoryData['name'];
+        return $simpleProductData;
     }
 
     /**
-     * <p>Preconditions</p>
-     * <p>Create Simple Products for tests</p>
+     * <p>Review creating with Logged Customer with empty fields</p>
      *
-     * @depends createCategory
+     * <p>1. Login to Frontend</p>
+     * <p>2. Open created product</p>
+     * <p>3. Add Information to the Review of the product, but with one empty field (via data provider)</p>
+     * <p>Expected result:</p>
+     * <p>Review is not created. Empty Required Field message appears.</p>
+     *
+     * @dataProvider emptyFields
+     * @depends createCustomer
+     * @depends createProduct
+     *
      * @test
      */
-    public function createProduct($category)
+    public function frontendReviewEmptyFields($emptyFieldName, $emptyFieldType, $customer, $product)
     {
+        $reviewData = $this->loadData('frontend_review', array($emptyFieldName => ''));
+        $performLogin = $this->loadData('perform_login',
+                                        array('email'    => $customer['email'],
+                                              'password' => $customer['password']));
+        $this->logoutCustomer();
+        $this->clickControl('link', 'log_in');
+        $this->fillForm($performLogin);
+        $this->clickButton('login');
+        $this->productHelper()->frontOpenProduct($product['general_name']);
+        $this->reviewHelper()->frontendAddReview($reviewData);
+        $this->addFieldIdToMessage($emptyFieldType, $emptyFieldName);
+        $this->assertTrue($this->validationMessage('empty_required_field'), $this->messages);
+        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
+    }
+
+    public function emptyFields()
+    {
+        return array(
+            array('nickname', 'field'),
+            array('summary_of_your_review', 'field'),
+            array('review', 'field')
+        );
+    }
+
+    /**
+     * <p>Review creating with Logged Customer with special characters in fields</p>
+     *
+     * <p>1. Login to Frontend</p>
+     * <p>2. Open created product</p>
+     * <p>3. Add Information to the Review of the product, but empty fields</p>
+     * <p>Expected result:</p>
+     * <p>Review is created. Review can be opened on the backend.</p>
+     *
+     * @depends createCustomer
+     * @depends createProduct
+     *
+     * @test
+     */
+    public function frontendReviewSpecialCharacters($customer, $product)
+    {
+        $reviewData = $this->loadData('frontend_review',
+                                      array('nickname'               => $this->generate('string', 32, ':punct:'),
+                                            'summary_of_your_review' => $this->generate('string', 32, ':punct:'),
+                                            'review'                 => $this->generate('string', 32, ':punct:')));
+        $searchData = $this->loadData('search_review',
+                                      array('filter_nickname'        => $reviewData['nickname'],
+                                            'filter_product_sku'     => $product['general_sku'],
+                                            'filter_title'           => $reviewData['summary_of_your_review'],
+                                            'filter_review'          => $reviewData['review'],
+                                            'filter_type'            => 'Customer',
+                                            'filter_status'          => 'Pending'));
+        $performLogin = $this->loadData('perform_login',
+                                        array('email'                => $customer['email'],
+                                              'password'             => $customer['password']));
+        $this->logoutCustomer();
+        $this->clickControl('link', 'log_in');
+        $this->fillForm($performLogin);
+        $this->clickButton('login');
+        $this->productHelper()->frontOpenProduct($product['general_name']);
+        $this->reviewHelper()->frontendAddReview($reviewData);
+        $this->assertTrue($this->successMessage('accepted_review'), $this->messages);
         $this->loginAdminUser();
-        $this->navigate('manage_products');
-        $simpleProductData = $this->loadData('simple_product_for_prices_validation_front_1',
-                array('categories' => $category), array('general_name', 'general_sku'));
-        $this->productHelper()->createProduct($simpleProductData);
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        return $simpleProductData['general_name'];
+        $this->navigate('all_reviews');
+        $this->reviewHelper()->openReview($searchData);
     }
 
     /**
@@ -115,16 +173,42 @@ class Review_FrontendCreateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Review is assigned to correct product</p>
      *
-     * @dataProvider dataReviewName
      * @depends createCustomer
-     * @depends createCategory
      * @depends createProduct
      *
      * @test
      */
-    public function frontendReviewVerificationLoggedCustomer($dataReviewName, $customer, $category, $products)
+    public function frontendReviewVerificationLoggedCustomer($customer, $product)
     {
-
+        $reviewData = $this->loadData('frontend_review', NULL, array('nickname'));
+        $searchData = $this->loadData('search_review',
+                                      array('filter_nickname'    => $reviewData['nickname'],
+                                            'filter_product_sku' => $product['general_sku'],
+                                            'filter_type'        => 'Customer',
+                                            'filter_status'      => 'Pending'));
+        $editReview = array('status' => 'Approved');
+        $performLogin = $this->loadData('perform_login',
+                                        array('email'            => $customer['email'],
+                                              'password'         => $customer['password']));
+        $this->logoutCustomer();
+        $this->clickControl('link', 'log_in');
+        $this->fillForm($performLogin);
+        $this->clickButton('login');
+        $this->productHelper()->frontOpenProduct($product['general_name']);
+        $this->reviewHelper()->frontendAddReview($reviewData);
+        $this->assertTrue($this->successMessage('accepted_review'), $this->messages);
+        $this->loginAdminUser();
+        $this->navigate('all_reviews');
+        $this->reviewHelper()->editReview($editReview, $searchData);
+        $this->assertTrue($this->successMessage('success_saved_review'), $this->messages);
+        $this->logoutCustomer();
+        $this->clickControl('link', 'log_in');
+        $this->fillForm($performLogin);
+        $this->clickButton('login');
+        $this->productHelper()->frontOpenProduct($product['general_name']);
+        $this->reviewHelper()->frontendReviewVerificationInCategory($reviewData, $product['general_name']);
+        $this->reviewHelper()->frontendReviewVerificationMyAccount($reviewData['review'],
+                                                                   $product['general_name'],TRUE);
     }
 
     /**
@@ -142,15 +226,30 @@ class Review_FrontendCreateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Review is assigned to correct product</p>
      *
-     * @depends createCustomer
-     * @depends createCategory
      * @depends createProduct
      *
      * @test
      */
-    public function frontendReviewVerificationInCategory($customer, $category, $products)
+    public function frontendReviewVerificationInCategory($product)
     {
-
+        $reviewData = $this->loadData('frontend_review', NULL, array('nickname'));
+        $searchData = $this->loadData('search_review',
+                                      array('filter_nickname'    => $reviewData['nickname'],
+                                            'filter_product_sku' => $product['general_sku'],
+                                            'filter_type'        => 'Guest',
+                                            'filter_status'      => 'Pending'));
+        $editReview = array('status' => 'Approved');
+        $this->logoutCustomer();
+        $this->productHelper()->frontOpenProduct($product['general_name']);
+        $this->reviewHelper()->frontendAddReview($reviewData);
+        $this->assertTrue($this->successMessage('accepted_review'), $this->messages);
+        $this->loginAdminUser();
+        $this->navigate('all_reviews');
+        $this->reviewHelper()->editReview($editReview, $searchData);
+        $this->assertTrue($this->successMessage('success_saved_review'), $this->messages);
+        $this->logoutCustomer();
+        $this->productHelper()->frontOpenProduct($product['general_name']);
+        $this->reviewHelper()->frontendReviewVerificationInCategory($reviewData, $product['general_name']);
     }
 
     /**
@@ -169,15 +268,24 @@ class Review_FrontendCreateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Review is present into the list and has type - "Guest";</p>
      *
-     * @depends createCategory
      * @depends createProduct
      *
      * @test
      */
-    public function frontendReviewVerificationNotLoggedCustomer($category, $products)
+    public function frontendReviewVerificationNotLoggedCustomer($product)
     {
+        $reviewData = $this->loadData('frontend_review', NULL, array('nickname'));
+        $searchData = $this->loadData('search_review',
+                                      array('filter_nickname'    => $reviewData['nickname'],
+                                            'filter_product_sku' => $product['general_sku'],
+                                            'filter_type'        => 'Guest',
+                                            'filter_status'      => 'Pending'));
+        $this->logoutCustomer();
+        $this->productHelper()->frontOpenProduct($product['general_name']);
+        $this->reviewHelper()->frontendAddReview($reviewData);
+        $this->assertTrue($this->successMessage('accepted_review'), $this->messages);
+        $this->loginAdminUser();
+        $this->navigate('all_reviews');
+        $this->reviewHelper()->openReview($searchData);
     }
-
-
-
 }

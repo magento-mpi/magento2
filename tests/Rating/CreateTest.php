@@ -37,23 +37,50 @@
 class Rating_CreateTest extends Mage_Selenium_TestCase
 {
     /**
-     * <p>Log in to Backend.</p>
-     */
-    public function setUpBeforeTests()
-    {
-        $this->loginAdminUser();
-    }
-
-    /**
      * <p>Preconditions:</p>
+     * <p>Log in to Backend.</p>
      * <p>Navigate to Catalog -> Reviews and Ratings -> Manage Ratings</p>
      */
     protected function assertPreConditions()
     {
+        $this->loginAdminUser();
         $this->navigate('manage_ratings');
-        //$this->addParameter('storeId', '1');
     }
 
+    /**
+     * <p>Preconditions:</p>
+     * <p>Create Simple product</p>
+     *
+     * @test
+     * @return array
+     */
+    public function createProduct()
+    {
+        $this->loginAdminUser();
+        $this->navigate('manage_products');
+        $simpleProductData = $this->loadData('simple_product_visible', NULL, array('general_name', 'general_sku'));
+        $this->productHelper()->createProduct($simpleProductData);
+        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+
+        return $simpleProductData;
+    }
+
+    /**
+     * <p>Preconditions:</p>
+     * <p>Create Store View</p>
+     *
+     * @test
+     * @return string
+     */
+    public function createStoreView()
+    {
+        $this->navigate('manage_stores');
+        $storeViewData = $this->loadData('generic_store_view');
+        $this->storeHelper()->createStore($storeViewData, 'store_view');
+        $this->assertTrue($this->successMessage('success_saved_store_view'), $this->messages);
+
+        return $storeViewData['store_view_name'];
+    }
 
     /**
      * <p>Creating Rating with required fields only</p>
@@ -118,33 +145,71 @@ class Rating_CreateTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->errorMessage('existing_name'), $this->messages);
     }
 
-//    /**
-//     * <p>Creating Rating with Visible In option</p>
-//     *
-//     * <p>Preconditions:</p>
-//     * <p>Store View created</p>
-//     * <p>Product created</p>
-//     * <p>Steps:</p>
-//     * <p>1. Click "Add New Rating" button;</p>
-//     * <p>2. Fill in necessary fields by regular data - select created store view into "Visible In" block;</p>
-//     * <p>3. Click "Save Rating" button;</p>
-//     * <p>Expected result:</p>
-//     * <p>Success message appears - rating saved</p>
-//     *
-//     * <p>Verification:</p>
-//     * <p>Goto Frontend;</p>
-//     * <p>Open created Product</p>
-//     * <p>Verify that rating is absent on Product Page;</p>
-//     * <p>Switch to created Store View;</p>
-//     * <p>Navigate to Product Page</p>
-//     * <p>Verify that rating is present on product page</p>
-//     *
-//     * @test
-//     */
-//    public function withVisibleIn()
-//    {
-//        $this->markTestIncomplete('@TODO');
-//    }
+    /**
+     * <p>Creating Rating with Visible In option</p>
+     *
+     * <p>Preconditions:</p>
+     * <p>Store View created</p>
+     * <p>Product created</p>
+     * <p>Steps:</p>
+     * <p>1. Click "Add New Rating" button;</p>
+     * <p>2. Fill in necessary fields by regular data - select created store view into "Visible In" block;</p>
+     * <p>3. Click "Save Rating" button;</p>
+     * <p>Expected result:</p>
+     * <p>Success message appears - rating saved</p>
+     *
+     * <p>Verification:</p>
+     * <p>Goto Frontend;</p>
+     * <p>Open created Product</p>
+     * <p>Verify that rating is absent on Product Page;</p>
+     * <p>Switch to created Store View;</p>
+     * <p>Navigate to Product Page</p>
+     * <p>Verify that rating is present on product page</p>
+     *
+     * @depends createProduct
+     * @depends createStoreView
+     * @test
+     */
+    public function withVisibleIn($product, $storeView)
+    {
+        $this->navigate('manage_ratings');
+        $ratingData = $this->loadData('default_rating', array('visible_in' => $storeView), 'default_value');
+        $this->ratingHelper()->createRating($ratingData);
+        $this->assertTrue($this->successMessage('success_saved_rating'), $this->messages);
+        $this->reindexInvalidedData();
+        $this->frontend();
+        $xpath = $this->_getControlXpath('dropdown', 'your_language') . '/option[@selected]';
+        $text = trim($this->getText($xpath));
+        if (strcmp(trim('Default Store View'), $text) != 0) {
+            $this->fillForm(array('your_language' => 'Default Store View'));
+            $this->waitForPageToLoad();
+        }
+        $this->productHelper()->frontOpenProduct($product['general_name']);
+        $this->addParameter('productId', NULL);
+        $this->addParameter('productId', '');
+        $this->addParameter('productTitle', $product['general_name']);
+        $this->reviewHelper()->defineCorrectParam('first_review', 'productId');
+        $this->clickControl('link', 'first_review');
+        $this->addParameter('rateName', $ratingData['rating_information']['default_value']);
+        $this->assertFalse($this->controlIsPresent('pageelement', 'review_table_rate_name'),
+                           'Rating is on the page, but should not be there');
+        $this->frontend();
+        $xpath = $this->_getControlXpath('dropdown', 'your_language') . '/option[@selected]';
+        $text = trim($this->getText($xpath));
+        if (strcmp(trim($storeView), $text) != 0) {
+            $this->fillForm(array('your_language' => $storeView));
+            $this->waitForPageToLoad();
+        }
+        $this->productHelper()->frontOpenProduct($product['general_name']);
+        $this->addParameter('productId', NULL);
+        $this->addParameter('productId', '');
+        $this->addParameter('productTitle', $product['general_name']);
+        $this->reviewHelper()->defineCorrectParam('first_review', 'productId');
+        $this->clickControl('link', 'first_review');
+        $this->addParameter('rateName', $ratingData['rating_information']['default_value']);
+        $this->assertTrue($this->controlIsPresent('pageelement', 'review_table_rate_name'),
+                           'Rating is not on the page, but should be there');
+    }
 
     /**
      * <p>Creating a new rating with long values into required fields</p>
@@ -212,5 +277,4 @@ class Rating_CreateTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->successMessage('success_saved_rating'), $this->messages);
         $this->ratingHelper()->openRating($searchData);
     }
-
 }

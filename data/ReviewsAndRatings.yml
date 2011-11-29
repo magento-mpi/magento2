@@ -26,6 +26,9 @@
 #
 ---
 #Test data for Reviews and Ratings
+########################################################################################################################
+#                                                 Backend                                                              #
+########################################################################################################################
 #<----------------------------------------------------Ratings---------------------------------------------------------->
 search_rating:
     filter_id: %noValue%
@@ -53,13 +56,13 @@ search_review:
     filter_created_on_from: %noValue%
     filter_created_on_to: %noValue%
     filter_status: %noValue%
-    filter_title: test summary for review
+    filter_title: %noValue%
     filter_nickname: test_nickname
     filter_review: %noValue%
     filter_visible_in: %noValue%
     filter_type: %noValue%
     filter_product_name: %noValue%
-    filter_product_sku: tdokk_simple_sku_price_validation
+    filter_product_sku: %noValue%
 
 product_to_search: &productToSearch
     filter_id: %noValue%
@@ -71,6 +74,18 @@ product_to_search: &productToSearch
     filter_qty_to: %noValue%
     filter_status: %noValue%
     filter_websites: %noValue%
+
+default_review:
+    product_to_review: *productToSearch
+    status: Approved
+    visible_in: Default Store View, new_store_view, test_store_view
+    detailed_rating_select:
+        rating_1:
+            rating_name:  %noValue%
+            stars: 3
+    nickname: test_nickname
+    summary_of_review: test summary for review
+    review: some_test review
 
 review_required:
     product_to_review: *productToSearch
@@ -84,11 +99,11 @@ review_required:
     summary_of_review: test summary for review
     review: some_test review
 
-#*********************************************
-#*         Frontend                          *
-#*********************************************
+########################################################################################################################
+#                                                  Frontend                                                            #
+########################################################################################################################
 
-new_review:
+default_review:
     nickname: Nickname
     summary_of_your_review: Review Summary
     review: Review Text
@@ -99,3 +114,9 @@ new_review:
         rating_2:
             rating_name: 1111111
             stars: 5
+
+frontend_review:
+    nickname: Test Nickname
+    summary_of_your_review: Test Review Summary
+    review: Test Review Text
+    ratings: %noValue%

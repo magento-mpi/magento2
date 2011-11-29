@@ -41,6 +41,8 @@ home:
                             my_cart: //a[@title='My Cart']
                             checkout: //a[@title='Checkout']
                             log_in: //a[@title='Log In']
+                        dropdowns:
+                            your_language: //select[@id='select-language']
                 -
                     community_poll:
                         xpath: //div[@class='block block-poll']

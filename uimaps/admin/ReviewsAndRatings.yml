@@ -145,6 +145,8 @@ all_reviews:
         messages:
             success_saved_review: //li[normalize-space(@class)='success-msg' and contains(.,'The review has been saved.')]
             success_deleted_review: //li[normalize-space(@class)='success-msg' and contains(.,'The review has been deleted')]
+            success_deleted_review_massaction: //li[normalize-space(@class)='success-msg' and contains(.,'record(s) have been deleted.')]
+            confirmation_for_delete_all: Are you sure?
 
 
 add_new_review:

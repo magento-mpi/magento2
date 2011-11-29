@@ -34,7 +34,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Review_CreateTest extends Mage_Selenium_TestCase
+class Review_BackendCreateTest extends Mage_Selenium_TestCase
 {
 
     /**
@@ -55,7 +55,6 @@ class Review_CreateTest extends Mage_Selenium_TestCase
      */
     public function createProduct()
     {
-        $this->loginAdminUser();
         $this->navigate('manage_products');
         $simpleProductData = $this->loadData('simple_product_visible', NULL, array('general_name', 'general_sku'));
         $this->productHelper()->createProduct($simpleProductData);
@@ -145,37 +144,56 @@ class Review_CreateTest extends Mage_Selenium_TestCase
      * <p>4. Verify review in category;</p>
      * <p>5. Verify review on product page;</p>
      *
+     * @depends createProduct
+     * @depends createStoreView
+     * @depends createRating
      * @test
      */
-    public function test_WithRequiredFieldsRatingAndVisibleIn()
+    public function withRequiredFieldsRatingAndVisibleIn($product, $storeView, $ratingData)
     {
-        $this->markTestIncomplete('@TODO');
-    }
+        $this->navigate('all_reviews');
+        $reviewData = $this->loadData('review_required',
+                                      array ('filter_sku' =>  $product['general_sku'],
+                                            'rating_name' => $ratingData['rating_information']['default_value'],
+                                            'visible_in' => $ratingData['rating_information']['visible_in']),
+                                      array('nickname', 'summary_of_review', 'review'));
+        $this->reviewHelper()->createReview($reviewData);
+        $this->assertTrue($this->successMessage('success_saved_review'), $this->messages);
+        $this->reindexInvalidedData();
 
-    /**
-     * <p>Creating a new review visible in other store view</p>
-     * <p>Preconditions:</p>
-     * <p>Store View created</p>
-     * <p>Steps:</p>
-     * <p>1. Click button "Add New Review"</p>
-     * <p>2. Select product from the grid</p>
-     * <p>3. Fill in fields in Review Details area - specify Rating</p>
-     * <p>4. Click button "Save Review"</p>
-     * <p>Expected result:</p>
-     * <p>Received the message that the review has been saved.</p>
-     *
-     * <p>Verification:</p>
-     * <p>1. Login to frontend;</p>
-     * <p>2. Verify that review is absent in Category and product Page in Default Store View;</p>
-     * <p>3. Switch to correct store view;</p>
-     * <p>4. Verify review in category;</p>
-     * <p>5. Verify review on product page;</p>
-     *
-     * @test
-     */
-    public function withRequiredFieldsWithVisibleIn()
-    {
-        $this->markTestIncomplete('@TODO');
+
+        $this->frontend();
+        $xpath = $this->_getControlXpath('dropdown', 'your_language') . '/option[@selected]';
+        $text = trim($this->getText($xpath));
+        if (strcmp(trim('Default Store View'), $text) != 0) {
+            $this->fillForm(array('your_language' => 'Default Store View'));
+            $this->waitForPageToLoad();
+        }
+        $this->productHelper()->frontOpenProduct($product['general_name']);
+        $this->addParameter('productId', NULL);
+        $this->addParameter('productId', '');
+        $this->addParameter('productTitle', $product['general_name']);
+        $this->reviewHelper()->defineCorrectParam('first_review', 'productId');
+        $this->clickControl('link', 'first_review');
+        $this->addParameter('reviewerName', $reviewData['nickname']);
+        $this->assertFalse($this->controlIsPresent('pageelement', 'review_details'),
+                           'Review is on the page, but should not be there');
+
+        $this->frontend();
+        $text = trim($this->getText($xpath));
+        if (strcmp(trim($storeView), $text) != 0) {
+            $this->fillForm(array('your_language' => $storeView));
+            $this->waitForPageToLoad();
+        }
+        $this->productHelper()->frontOpenProduct($product['general_name']);
+        $this->addParameter('productId', NULL);
+        $this->addParameter('productId', '');
+        $this->addParameter('productTitle', $product['general_name']);
+        $this->reviewHelper()->defineCorrectParam('add_your_review', 'productId');
+        $this->clickControl('link', 'add_your_review');
+        $this->addParameter('reviewerName', $reviewData['nickname']);
+        $this->assertTrue($this->controlIsPresent('pageelement', 'review_details'),
+                           'Review is not on the page, but should be there');
     }
 
     /**
