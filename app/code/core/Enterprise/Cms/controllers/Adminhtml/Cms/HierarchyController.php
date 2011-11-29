@@ -98,7 +98,7 @@ class Enterprise_Cms_Adminhtml_Cms_HierarchyController extends Mage_Adminhtml_Co
             $this->_scope = Enterprise_Cms_Model_Hierarchy_Node::NODE_SCOPE_STORE;
             $store = Mage::app()->getStore($this->_store);
             $this->_scopeId = $store->getId();
-            $this->_store = $store;
+            $this->_store = $store->getCode();
         }
     }
 
@@ -119,8 +119,33 @@ class Enterprise_Cms_Adminhtml_Cms_HierarchyController extends Mage_Adminhtml_Co
     }
 
     /**
-     * Edit Page Tree
+     * Retrieve Scope and ScopeId from string with prefix
      *
+     * @param string $value
+     * @return array()
+     */
+    protected function _getScopeData($value)
+    {
+        $scopeId = false;
+        $scope = Enterprise_Cms_Model_Hierarchy_Node::NODE_SCOPE_DEFAULT;
+        if (0 === strpos($value, Enterprise_Cms_Helper_Hierarchy::SCOPE_PREFIX_WEBSITE)) {
+            $scopeId = (int)str_replace(Enterprise_Cms_Helper_Hierarchy::SCOPE_PREFIX_WEBSITE, '', $value);
+            $scope = Enterprise_Cms_Model_Hierarchy_Node::NODE_SCOPE_WEBSITE;
+        } elseif (0 === strpos($value, Enterprise_Cms_Helper_Hierarchy::SCOPE_PREFIX_STORE)) {
+            $scopeId = (int)str_replace(Enterprise_Cms_Helper_Hierarchy::SCOPE_PREFIX_STORE, '', $value);
+            $scope = Enterprise_Cms_Model_Hierarchy_Node::NODE_SCOPE_STORE;
+        }
+        if (!$scopeId || $scopeId == Mage_Catalog_Model_Abstract::DEFAULT_STORE_ID) {
+            $scopeId = Enterprise_Cms_Model_Hierarchy_Node::NODE_SCOPE_DEFAULT_ID;
+            $scope = Enterprise_Cms_Model_Hierarchy_Node::NODE_SCOPE_DEFAULT;
+        }
+        return array($scope, $scopeId);
+    }
+
+    /**
+     * Show Tree Edit Page
+     *
+     * @return null
      */
     public function indexAction()
     {
@@ -147,15 +172,57 @@ class Enterprise_Cms_Adminhtml_Cms_HierarchyController extends Mage_Adminhtml_Co
     }
 
     /**
+     * Delete hierarchy from one or several scopes
+     *
+     * @return null
+     */
+    public function deleteAction()
+    {
+        $this->_initScope();
+        $scopes = $this->getRequest()->getParam('scopes');
+        if (empty($scopes) || ($this->getRequest()->isPost() && !is_array($scopes))
+            || $this->getRequest()->isGet() && !is_string($scopes)
+        ) {
+            $this->_getSession()->addError($this->__('Invalid Scope.'));
+        } else {
+            if (!is_array($scopes)) {
+                $scopes = array($scopes);
+            }
+            try {
+                /* @var $nodeModel Enterprise_Cms_Model_Hierarchy_Node */
+                $nodeModel = Mage::getModel('enterprise_cms/hierarchy_node');
+                foreach (array_unique($scopes) as $value) {
+                    list ($scope, $scopeId) = $this->_getScopeData($value);
+                    $nodeModel->setScope($scope);
+                    $nodeModel->setScopeId($scopeId);
+                    $nodeModel->deleteByScope($scope, $scopeId);
+                    $nodeModel->collectTree(array(), array());
+                }
+                $this->_getSession()->addSuccess($this->__('Pages Hierarchy have been deleted from the selected scopes.'));
+            } catch (Mage_Core_Exception $e) {
+                $this->_getSession()->addError($e->getMessage());
+            } catch (Exception $e) {
+                $this->_getSession()->addException($e,
+                    Mage::helper('enterprise_cms')->__('Error in copying hierarchy.')
+                );
+                Mage::logException($e);
+            }
+        }
+
+        $this->_redirect('*/*/index', array('website' => $this->_website, 'store' => $this->_store));
+        return;
+    }
+
+    /**
      * Copy hierarchy from one scope to other scopes
      *
      * @return null
      */
     public function copyAction()
     {
+        $this->_initScope();
         $scopes = $this->getRequest()->getParam('scopes');
         if ($this->getRequest()->isPost() && is_array($scopes) && !empty($scopes)) {
-            $this->_initScope();
             /** @var $nodeModel Enterprise_Cms_Model_Hierarchy_Node */
             $nodeModel = Mage::getModel('enterprise_cms/hierarchy_node', array(
                 'scope' =>  $this->_scope,
@@ -164,40 +231,21 @@ class Enterprise_Cms_Adminhtml_Cms_HierarchyController extends Mage_Adminhtml_Co
             $nodeHeritageModel = $nodeModel->getHeritage();
             try {
                 foreach (array_unique($scopes) as $value) {
-                    $scopeId = false;
-                    $scope = Enterprise_Cms_Model_Hierarchy_Node::NODE_SCOPE_DEFAULT;
-                    if (0 === strpos($value, Enterprise_Cms_Helper_Hierarchy::SCOPE_PREFIX_WEBSITE)) {
-                        $scopeId = (int)str_replace(Enterprise_Cms_Helper_Hierarchy::SCOPE_PREFIX_WEBSITE, '', $value);
-                        $scope = Enterprise_Cms_Model_Hierarchy_Node::NODE_SCOPE_WEBSITE;
-                    } elseif (0 === strpos($value, Enterprise_Cms_Helper_Hierarchy::SCOPE_PREFIX_STORE)) {
-                        $scopeId = (int)str_replace(Enterprise_Cms_Helper_Hierarchy::SCOPE_PREFIX_STORE, '', $value);
-                        $scope = Enterprise_Cms_Model_Hierarchy_Node::NODE_SCOPE_STORE;
-                    }
-                    if (!$scopeId || $scopeId == Mage_Catalog_Model_Abstract::DEFAULT_STORE_ID) {
-                        $scopeId = Enterprise_Cms_Model_Hierarchy_Node::NODE_SCOPE_DEFAULT_ID;
-                        $scope = Enterprise_Cms_Model_Hierarchy_Node::NODE_SCOPE_DEFAULT;
-                    }
+                    list ($scope, $scopeId) = $this->_getScopeData($value);
                     $nodeHeritageModel->copyTo($scope, $scopeId);
                 }
+                $this->_getSession()->addSuccess($this->__('Pages Hierarchy have been copied to the selected scopes.'));
             } catch (Mage_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
-                $this->_redirect('*/*/index', array('website' => $this->_website,
-                    'store' => $this->_store));
-                return;
             } catch (Exception $e) {
                 $this->_getSession()->addException($e,
                     Mage::helper('enterprise_cms')->__('Error in copying hierarchy.')
                 );
                 Mage::logException($e);
-                $this->_redirect('*/*/index', array('website' => $this->_website,
-                    'store' => $this->_store));
-                return;
             }
-            $this->_getSession()->addSuccess($this->__('Pages Hierarchy have been copied to the selected scopes.'));
         }
 
-        $this->_redirect('*/*/index', array('website' => $this->_website,
-            'store' => $this->_store));
+        $this->_redirect('*/*/index', array('website' => $this->_website, 'store' => $this->_store));
         return;
     }
 
@@ -213,11 +261,12 @@ class Enterprise_Cms_Adminhtml_Cms_HierarchyController extends Mage_Adminhtml_Co
     /**
      * Save changes
      *
+     * @return null
      */
     public function saveAction()
     {
+        $this->_initScope();
         if ($this->getRequest()->isPost()) {
-            $this->_initScope();
             /** @var $node Enterprise_Cms_Model_Hierarchy_Node */
             $node       = Mage::getModel('enterprise_cms/hierarchy_node', array(
                 'scope' =>  $this->_scope,
@@ -282,14 +331,14 @@ class Enterprise_Cms_Adminhtml_Cms_HierarchyController extends Mage_Adminhtml_Co
             }
         }
 
-        $this->_redirect('*/*/index', array('website' => $this->_website,
-            'store' => $this->_store));
+        $this->_redirect('*/*/index', array('website' => $this->_website, 'store' => $this->_store));
         return;
     }
 
     /**
      * Cms Pages Ajax Grid
      *
+     * @return null
      */
     public function pageGridAction()
     {

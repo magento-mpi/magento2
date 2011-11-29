@@ -25,7 +25,7 @@
  */
 ?>
 <?php
-/* @var $this Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Edit_Form */
+/* @var $this Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form */
 ?>
 <?php $treeNodes = $this->getNodesJson(); ?>
 <div class="cms-hierarchy">
@@ -35,7 +35,7 @@
         <col width="50%" />
         <tr>
             <td class="col-left">
-                <?php echo $this->getParentBlock()->getChildHtml('hierarchy_copy') ?>
+                <?php echo $this->getParentBlock()->getChildHtml('hierarchy_manage') ?>
                 <?php if ($this->getData('current_scope') != Enterprise_Cms_Model_Hierarchy_Node::NODE_SCOPE_DEFAULT): ?>
                 <span style="float:right; line-height:18px; margin:0 0 -18px; position:relative;">
                     <input type="checkbox" name="use_default_scope" id="use_default_scope" <?php echo $this->getData('use_default_scope') ? 'checked="checked"' : '' ?> onchange="hierarchyNodes.useDefaultScope()" />
@@ -43,6 +43,7 @@
                 </span>
                 <?php endif; ?>
                 <div id="tree-container" class="cms-tree tree x-tree"></div>
+                <?php echo $this->getButtonHtml($this->__('Delete Hierarchy'), "deleteCurrentHierarchy()") ?>
             </td>
             <td class="col-right">
                 <div class="buttons-set">
@@ -65,6 +66,14 @@
         var ee = e.browserEvent || e;
         return ee.target ? Event.element(ee) : null;
     };
+
+    function deleteCurrentHierarchy()
+    {
+        if (confirm("<?php echo $this->__("Are you sure?") ?>")) {
+            document.location = '<?php echo $this->getDeleteHierarchyUrl() ?>';
+        }
+    }
+
     hierarchyNodes = {
         nodes: <?php echo $treeNodes ?>,
         removedNodes: $A(),

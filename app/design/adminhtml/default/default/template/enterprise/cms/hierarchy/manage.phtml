@@ -25,18 +25,26 @@
  */
 ?>
 <?php
-/** @var $this Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Copy */
+/** @var $this Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Manage */
 ?>
-<div id="cms-hierarchy-copy-container" class="hierarchy-copy">
-    <div><?php echo $this->getButtonHtml($this->__('Copy Hierarchy To'), "$('cms-hierarchy-copy-form').toggle()") ?></div>
-    <div class="cms-hierarchy copy-comment"><?php echo $this->__('Allows coping hierarchy tree to other websites') ?></div>
-    <div id="cms-hierarchy-copy-form" class="cms-hierarchy copy-form" style="display:none;">
+<div id="cms-hierarchy-manage-container" class="hierarchy-manage">
+    <div><?php echo $this->getButtonHtml($this->__('Manage Hierarchies'), "$('cms-hierarchy-manage-form').toggle()") ?></div>
+    <div class="cms-hierarchy manage-comment"><?php echo $this->__('Allows coping hierarchy tree to other websites') ?></div>
+    <div id="cms-hierarchy-manage-form" class="cms-hierarchy manage-form" style="display:none;">
         <?php echo $this->getFormHtml() ?>
     </div>
     <script type="text/javascript">
         function submitCopy(obj)
         {
             if (confirm("<?php echo $this->__("Please confirm pages hierarchy changes.\\nAll data that hasn't been saved will be lost.") ?>")) {
+                obj.form.action = '<?php echo $this->getCopyHierarchyUrl() ?>';
+                obj.form.submit();
+            }
+        }
+        function submitDelete(obj)
+        {
+            if (confirm("<?php echo $this->__("Are you sure?") ?>")) {
+                obj.form.action = '<?php echo $this->getDeleteHierarchiesUrl() ?>';
                 obj.form.submit();
             }
         }

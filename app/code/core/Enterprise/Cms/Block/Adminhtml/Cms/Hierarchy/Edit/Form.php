@@ -80,17 +80,17 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
 
         $currentWebsite = $this->getRequest()->getParam('website');
         $currentStore   = $this->getRequest()->getParam('store');
+        if ($currentStore) {
+            $fieldset->addField('store', 'hidden', array(
+                'name'   => 'store',
+                'value' => $currentStore,
+            ));
+        }
         if ($currentWebsite) {
             $fieldset->addField('website', 'hidden', array(
                 'name'   => 'website',
                 'value' => $currentWebsite,
             ));
-            if ($currentStore) {
-                $fieldset->addField('store', 'hidden', array(
-                    'name'   => 'store',
-                    'value' => $currentStore,
-                ));
-            }
         }
 
         $fieldset->addField('removed_nodes', 'hidden', array(
@@ -622,6 +622,21 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
     public function getLockAlertMessage()
     {
         return '';
+    }
+
+    /**
+     * Retrieve Url to Hierarchy delete action
+     *
+     * @return string
+     */
+    public function getDeleteHierarchyUrl()
+    {
+        $params = array(
+            'website'=> $this->getRequest()->getParam('website'),
+            'store'  => $this->getRequest()->getParam('store'),
+            'scopes' => $this->getData('current_scope') . '_' . $this->getData('current_scope_id'),
+        );
+        return $this->getUrl('*/*/delete', $params);
     }
 
     /**

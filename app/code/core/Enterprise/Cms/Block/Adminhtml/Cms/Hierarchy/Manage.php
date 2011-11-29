@@ -31,8 +31,29 @@
  * @package    Enterprise_Cms
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Copy extends Mage_Adminhtml_Block_Widget_Form
+class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Manage extends Mage_Adminhtml_Block_Widget_Form
 {
+
+    /**
+     * Retrieve Delete Hierarchies Url
+     *
+     * @return string
+     */
+    public function getDeleteHierarchiesUrl()
+    {
+        return $this->getUrl('*/*/delete');
+    }
+
+    /**
+     * Retrieve Copy Hierarchy Url
+     *
+     * @return string
+     */
+    public function getCopyHierarchyUrl()
+    {
+        return $this->getUrl('*/*/copy');
+    }
+
     /**
      * Prepare form before rendering HTML
      *
@@ -41,8 +62,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Copy extends Mage_Adminhtml_B
     protected function _prepareForm()
     {
         $form = new Varien_Data_Form(array(
-            'id'        => 'copy_form',
-            'action'    => $this->getUrl('*/*/copy'),
+            'id'        => 'manage_form',
             'method'    => 'post'
         ));
 
@@ -50,28 +70,37 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Copy extends Mage_Adminhtml_B
         $currentStore   = $this->getRequest()->getParam('store');
         $excludeScopes = array();
         if ($currentStore) {
-            $stores = Mage::app()->getStores(true, $currentStore);
+            $storeId = Mage::app()->getStore($currentStore)->getId();
             $excludeScopes = array(
-                Enterprise_Cms_Helper_Hierarchy::SCOPE_PREFIX_STORE . $stores[$currentStore]->getId()
+                Enterprise_Cms_Helper_Hierarchy::SCOPE_PREFIX_STORE . $storeId
             );
         } elseif ($currentWebsite) {
-            $websites = Mage::app()->getWebsites(true, $currentWebsite);
+            $websiteId = Mage::app()->getWebsite($currentWebsite)->getId();
             $excludeScopes = array(
-                Enterprise_Cms_Helper_Hierarchy::SCOPE_PREFIX_WEBSITE . $websites[$currentWebsite]->getId()
+                Enterprise_Cms_Helper_Hierarchy::SCOPE_PREFIX_WEBSITE . $websiteId
             );
         }
+        $allStoreViews = $currentStore || $currentWebsite;
         $form->addField('scopes', 'multiselect', array(
             'name'      => 'scopes[]',
-            'class'     => 'copy-to-select',
-            'title'     => Mage::helper('enterprise_cms')->__('Copy Hierarchy To'),
-            'values'    => $this->_prepareOptions($currentWebsite, $excludeScopes)
+            'class'     => 'manage-select',
+            'title'     => Mage::helper('enterprise_cms')->__('Manage Hierarchies'),
+            'values'    => $this->_prepareOptions($allStoreViews, $excludeScopes)
         ));
 
-        $form->addField('submit', 'note', array(
+        $form->addField('submit_copy', 'note', array(
             'text'      => $this->getLayout()->createBlock('adminhtml/widget_button')->setData(array(
-                'label'   => Mage::helper('enterprise_cms')->__('Copy'),
+                'label'   => Mage::helper('enterprise_cms')->__('Copy Hierarchy To'),
                 'class'   => 'cms-hierarchy copy-submit',
                 'onclick' => 'submitCopy(this)'
+            ))->toHtml(),
+        ));
+
+        $form->addField('submit_delete', 'note', array(
+            'text'      => $this->getLayout()->createBlock('adminhtml/widget_button')->setData(array(
+                'label'   => Mage::helper('enterprise_cms')->__('Delete Hierarchies From'),
+                'class'   => 'cms-hierarchy delete-submit',
+                'onclick' => 'submitDelete(this)'
             ))->toHtml(),
         ));
 
@@ -80,12 +109,12 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Copy extends Mage_Adminhtml_B
                 'name'   => 'website',
                 'value' => $currentWebsite,
             ));
-            if ($currentStore) {
-                $form->addField('store', 'hidden', array(
-                    'name'   => 'store',
-                    'value' => $currentStore,
-                ));
-            }
+        }
+        if ($currentStore) {
+            $form->addField('store', 'hidden', array(
+                'name'   => 'store',
+                'value' => $currentStore,
+            ));
         }
 
         $form->setUseContainer(true);
@@ -95,7 +124,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Copy extends Mage_Adminhtml_B
     }
 
     /**
-     * Prepare options for Copy To select
+     * Prepare options for Manage select
      *
      * @param boolean $all
      * @param string $excludeScopes
