@@ -99,7 +99,7 @@ class Tax_TaxRule_CreateTest extends Mage_Selenium_TestCase
         $searchTaxRuleData = $this->loadData('search_tax_rule',
                                              array('filter_name' => $taxRuleData['name']));
         //Steps
-        $this->taxHelper()->createTaxRule($taxRuleData);
+        $this->taxHelper()->createTaxItem($taxRuleData);
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_tax_rule'), $this->messages);
         $this->taxHelper()->openTaxItem($searchTaxRuleData ,'tax_rules');
@@ -127,7 +127,7 @@ class Tax_TaxRule_CreateTest extends Mage_Selenium_TestCase
                                              array('filter_name' => $taxRuleData['name']));
         $this->ruleToBeDeleted = $searchTaxRuleData;
         //Steps
-        $this->taxHelper()->createTaxRule($taxRuleData);
+        $this->taxHelper()->createTaxItem($taxRuleData);
         //Verifying
         $this->assertTrue($this->errorMessage('code_already_exists'), $this->messages);
     }
@@ -153,7 +153,7 @@ class Tax_TaxRule_CreateTest extends Mage_Selenium_TestCase
         //Data
         $taxRateData = $this->loadData('new_tax_rule_required', array($emptyFieldName => ''),'name');
         //Steps
-        $this->taxHelper()->createTaxRule($taxRateData);
+        $this->taxHelper()->createTaxItem($taxRateData);
         //Verifying
         $this->addFieldIdToMessage($fieldType, $emptyFieldName);
         $this->assertTrue($this->errorMessage($validationMessage), $this->messages);
@@ -197,7 +197,7 @@ class Tax_TaxRule_CreateTest extends Mage_Selenium_TestCase
         $searchTaxRuleData = $this->loadData('search_tax_rule',
                                              array('filter_name' => $taxRuleData['name']));
         //Steps
-        $this->taxHelper()->createTaxRule($taxRuleData);
+        $this->taxHelper()->createTaxItem($taxRuleData);
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_tax_rule'), $this->messages);
         $this->ruleToBeDeleted = $searchTaxRuleData;
@@ -238,7 +238,7 @@ class Tax_TaxRule_CreateTest extends Mage_Selenium_TestCase
                                        array('tax_rate' => $taxRateData['tax_identifier'],
                                             'priority' => $specialValue),'name');
         //Steps
-        $this->taxHelper()->createTaxRule($taxRuleData);
+        $this->taxHelper()->createTaxItem($taxRuleData);
         //Verifying
         $this->addFieldIdToMessage('field', 'priority');
         $this->assertTrue($this->errorMessage('enter_not_negative_number'), $this->messages);
@@ -269,7 +269,7 @@ class Tax_TaxRule_CreateTest extends Mage_Selenium_TestCase
                                        array('tax_rate' => $taxRateData['tax_identifier'],
                                             'sort_order' => $specialValue),'name');
         //Steps
-        $this->taxHelper()->createTaxRule($taxRuleData);
+        $this->taxHelper()->createTaxItem($taxRuleData);
         //Verifying
         $this->addFieldIdToMessage('field', 'sort_order');
         $this->assertTrue($this->errorMessage('enter_not_negative_number'), $this->messages);

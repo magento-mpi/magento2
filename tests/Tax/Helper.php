@@ -63,56 +63,7 @@ class Tax_Helper extends Mage_Selenium_TestCase
     }
 
     /**
-     * Create new Tax rule
-     *
-     * @param array|string $taxRuleData
-     */
-    public function createTaxRule(array $taxRuleData)
-    {
-        if (is_string($taxRuleData)) {
-            $taxRuleData = $this->loadData($taxRuleData);
-        }
-        $taxRuleData = $this->arrayEmptyClear($taxRuleData);
-        $this->clickButton('add_new_tax_rule');
-        //$this->fillForm($taxRuleData, 'tax_rule_info');
-        $this->fillForm($taxRuleData);
-        $this->saveForm('save_rule');
-    }
-
-    /**
-     * Create Customer Tax class
-     *
-     * @param array|string $customerTaxClassData
-     */
-    public function createCustomerTaxClass($customerTaxClassData)
-    {
-        if (is_string($customerTaxClassData)) {
-            $customerTaxClassData = $this->loadData($customerTaxClassData);
-        }
-        $this->clickButton('add_new');
-        //$this->fillForm($customerTaxClassData, 'create_customer_tax_class');
-        $this->fillForm($customerTaxClassData);
-        $this->saveForm('save_class');
-    }
-
-    /**
-     * Create Product Tax class
-     *
-     * @param array|string $productTaxClassData
-     */
-    public function createProductTaxClass($productTaxClassData)
-    {
-        if (is_string($productTaxClassData)) {
-            $productTaxClassData = $this->loadData($productTaxClassData);
-        }
-        $this->clickButton('add_new');
-        //$this->fillForm($productTaxClassData, 'create_product_tax_class');
-        $this->fillForm($productTaxClassData);
-        $this->saveForm('save_class');
-    }
-
-    /**
-     * Search and Open Product rule
+     * Search
      *
      * @param string $taxTitleData
      * @return int
@@ -131,9 +82,37 @@ class Tax_Helper extends Mage_Selenium_TestCase
     }
 
     /**
+     * Create (Product\Customer)Tax Class\Rule
+     *
+     * @param array|string $taxItemData
+     */
+    public function createTaxItem($taxItemData)
+    {
+        if (is_string($taxItemData)) {
+            $taxItemData = $this->loadData($taxItemData);
+        }
+        $taxItemData = $this->arrayEmptyClear($taxItemData);
+        $buttons = $this->getCurrentLocationUimapPage()->getAllButtons();
+        //Open form
+        foreach($buttons as $buttonName => $buttonXpath) {
+            if (preg_match('/add_new(_tax_rule)?$/', $buttonName)) {
+                $this->clickButton($buttonName);
+            }
+        }
+        $this->fillForm($taxItemData);
+        //Save form
+        $buttons = $this->getCurrentLocationUimapPage()->getAllButtons();
+        foreach($buttons as $buttonName => $buttonXpath) {
+            if (preg_match('/save_(rule|class)/', $buttonName)) {
+                $this->saveForm($buttonName);
+            }
+        }
+    }
+
+    /**
      * Opens (Product\Customer)Tax Class\Rate\Rule
      *
-     * @param array $taxClassSearch Data for search
+     * @param array $taxSearchData Data for search
      * @param string $type search type (customer_tax_class|product_tax_class|tax_rates|tax_rules)
      */
     public function openTaxItem(array $taxSearchData,$type)
@@ -147,13 +126,13 @@ class Tax_Helper extends Mage_Selenium_TestCase
         $this->addParameter('id', $this->defineIdFromTitle($xpathTR));
         $this->click($xpathTR);
         $this->waitForPageToLoad($this->_browserTimeoutPeriod);
-        $this->validatePage($this->_findCurrentPageFromUrl($this->getLocation()));
+        $this->validatePage();
     }
 
     /**
      * Open (Product\Customer)Tax Class\Rate\Rule and delete
      *
-     * @param array $taxClassSearch Data for search
+     * @param array $taxSearchData Data for search
      * @param string $type search type (customer_tax_class|product_tax_class|tax_rates|tax_rules)
      * @return boolean
      */
@@ -163,12 +142,12 @@ class Tax_Helper extends Mage_Selenium_TestCase
             $this->openTaxItem($taxSearchData,$type);
             $buttons = $this->getCurrentLocationUimapPage()->getAllButtons();
             foreach($buttons as $buttonName => $buttonXpath) {
-                if (preg_match('/delete_/', $buttonName)) {
-                    $this->clickButtonAndConfirm($buttonName, 'confirmation_for_delete');
-                    return true;
+                if (preg_match('/delete_(rate|class|rule)$/', $buttonName)) {
+                    return $this->clickButtonAndConfirm($buttonName, 'confirmation_for_delete');
                 }
             }
         }
         return false;
     }
+    
 }

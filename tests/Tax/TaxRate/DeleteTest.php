@@ -110,7 +110,7 @@ class Tax_TaxRate_DeleteTest extends Mage_Selenium_TestCase
         $this->taxHelper()->createTaxRate($taxRateData);
         $this->assertTrue($this->successMessage('success_saved_tax_rate'), $this->messages);
         $this->navigate('manage_tax_rule');
-        $this->taxHelper()->createTaxRule($taxRuleData);
+        $this->taxHelper()->createTaxItem($taxRuleData);
         $this->assertTrue($this->successMessage('success_saved_tax_rule'), $this->messages);
         $this->ruleToBeDeleted = $searchTaxRuleData;
         $this->navigate('manage_tax_zones_and_rates');

@@ -71,7 +71,7 @@ class Tax_ProductTaxClass_CreateTest extends Mage_Selenium_TestCase
         //Data
         $productTaxClassData = $this->loadData('new_product_tax_class', null, 'product_class_name');
         //Steps
-        $this->taxHelper()->createProductTaxClass($productTaxClassData);
+        $this->taxHelper()->createTaxItem($productTaxClassData);
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_tax_class'), $this->messages);
         $this->taxHelper()->openTaxItem($productTaxClassData ,'product_tax_class');
@@ -95,7 +95,7 @@ class Tax_ProductTaxClass_CreateTest extends Mage_Selenium_TestCase
     public function withNameThatAlreadyExists($productTaxClassData)
     {
         //Steps
-        $this->taxHelper()->createProductTaxClass($productTaxClassData);
+        $this->taxHelper()->createTaxItem($productTaxClassData);
         //Verifying
         $this->assertTrue($this->errorMessage('tax_class_exists'), $this->messages);
     }
@@ -117,7 +117,7 @@ class Tax_ProductTaxClass_CreateTest extends Mage_Selenium_TestCase
         //Data
         $productTaxClassData = $this->loadData('new_product_tax_class', array('product_class_name' => ''));
         //Steps
-        $this->taxHelper()->createProductTaxClass($productTaxClassData);
+        $this->taxHelper()->createTaxItem($productTaxClassData);
         //Verifying
         $this->assertTrue($this->errorMessage('empty_class_name'), $this->messages);
     }
@@ -143,7 +143,7 @@ class Tax_ProductTaxClass_CreateTest extends Mage_Selenium_TestCase
         $productTaxClassData = $this->loadData('new_product_tax_class',
                                                array('product_class_name' => $specialValue));
         //Steps
-        $this->taxHelper()->createProductTaxClass($productTaxClassData);
+        $this->taxHelper()->createTaxItem($productTaxClassData);
         $this->assertTrue($this->successMessage('success_saved_tax_class'), $this->messages);
         //Verifying
         $this->taxHelper()->openTaxItem($productTaxClassData ,'product_tax_class');

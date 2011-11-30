@@ -47,8 +47,8 @@ manage_customer_tax_class:
         buttons:
             add_new: //button[span='Add New']
         messages:
-            success_saved_tax_class: //div[@id='messages']//li[span='The tax class has been saved.']
-            success_deleted_tax_class: //div[@id='messages']//li[span='The tax class has been deleted.']
+            success_saved_tax_class: //li[normalize-space(@class)='success-msg' and contains(.,'The tax class has been saved.')]
+            success_deleted_tax_class: //li[normalize-space(@class)='success-msg' and contains(.,'The tax class has been deleted.')]
 
 # 'New Customer Tax Class' Page
 create_customer_tax_class:
@@ -70,8 +70,8 @@ create_customer_tax_class:
         messages: &newCustomerTaxClassMsg
             empty_class_name: "//input[@id='class_name']//following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
             tax_class_exists: //li[normalize-space(@class)='error-msg' and contains(.,'An error occurred while saving this tax class. A class with the same name already exists.')]
-            error_delete_tax_class: //div[@id='messages']//li[span='You cannot delete this tax class as it is used in Tax Rules. You have to delete the rules it is used in first.']
-            error_delete_tax_class_group: //div[@id='messages']//li[span='You cannot delete this tax class as it is used for 1 customer groups.']
+            error_delete_tax_class: //li[normalize-space(@class)='error-msg' and contains(.,'You cannot delete this tax class as it is used in Tax Rules. You have to delete the rules it is used in first.')]
+            error_delete_tax_class_group: //li[normalize-space(@class)='error-msg' and contains(.,'You cannot delete this tax class as it is used for 1 customer groups.')]
             confirmation_for_delete: Are you sure you want to do this?
 
 # 'Edit Customer Tax Class' Page
@@ -116,8 +116,8 @@ manage_product_tax_class:
         buttons:
             add_new: //button[span='Add New']
         messages:
-            success_saved_tax_class: //div[@id='messages']//li[span='The tax class has been saved.']
-            success_deleted_tax_class: //div[@id='messages']//li[span='The tax class has been deleted.']
+            success_saved_tax_class: //li[normalize-space(@class)='success-msg' and contains(.,'The tax class has been saved.')]
+            success_deleted_tax_class: //li[normalize-space(@class)='success-msg' and contains(.,'The tax class has been deleted.')]
 
 # 'New Product Tax Class' Page
 create_product_tax_class:
@@ -139,8 +139,8 @@ create_product_tax_class:
         messages: &newProductTaxClassMsg
             empty_class_name: "//input[@id='class_name']//following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
             tax_class_exists: //li[normalize-space(@class)='error-msg' and contains(.,'An error occurred while saving this tax class. A class with the same name already exists.')]
-            error_delete_tax_class: //div[@id='messages']//li[span='You cannot delete this tax class as it is used in Tax Rules. You have to delete the rules it is used in first.']
-            error_delete_tax_class_product: //div[@id='messages']//li[span='You cannot delete this tax class as it is used for 1 products.']
+            error_delete_tax_class: //li[normalize-space(@class)='error-msg' and contains(.,'You cannot delete this tax class as it is used in Tax Rules. You have to delete the rules it is used in first.')]
+            error_delete_tax_class_product: //li[normalize-space(@class)='error-msg' and contains(.,'You cannot delete this tax class as it is used for 1 products.')]
             confirmation_for_delete: Are you sure you want to do this?
 
 # 'Edit Product Tax Class' Page
@@ -191,8 +191,8 @@ manage_tax_zones_and_rates:
         buttons:
             add_new_tax_rate: //button[span='Add New Tax Rate']
         messages:
-            success_saved_tax_rate: //div[@id='messages']//li[span='The tax rate has been saved.']
-            success_deleted_tax_rate: //div[@id='messages']//li[span='The tax rate has been deleted.']
+            success_saved_tax_rate: //li[normalize-space(@class)='success-msg' and contains(.,'The tax rate has been saved.')]
+            success_deleted_tax_rate: //li[normalize-space(@class)='success-msg' and contains(.,'The tax rate has been deleted.')]
 
 # 'New Tax Rate' Page
 create_tax_rate:
@@ -228,7 +228,7 @@ create_tax_rate:
             save_rate: //button[span='Save Rate']
         messages: &newTaxRateMessages
             code_already_exists: //li[normalize-space(@class)='error-msg' and contains(.,'Code already exists.')]
-            error_delete_tax_rate: //div[@id='messages']//li[span='Tax rate cannot be removed. It exists in tax rule']
+            error_delete_tax_rate: //li[normalize-space(@class)='error-msg' and contains(.,'Tax rate cannot be removed. It exists in tax rule')]
             empty_required_field: "//div[@id='advice-required-entry-%fieldId%' and not(contains(@style,'display: none;'))]"
             enter_not_negative_number: "//div[@id='advice-validate-not-negative-number-%fieldId%' and not(contains(@style,'display: none;'))]"
             enter_valid_digits: "//div[@id='advice-validate-digits-%fieldId%' and not(contains(@style,'display: none;'))]"
@@ -322,7 +322,7 @@ manage_tax_rule:
             add_new_tax_rule: //button[span='Add New Tax Rule']
         messages:
             success_saved_tax_rule: //li[normalize-space(@class)='success-msg' and contains(.,'The tax rule has been saved.')]
-            success_deleted_tax_rule: //div[@id='messages']//li[span='The tax rule has been deleted.']
+            success_deleted_tax_rule: //li[normalize-space(@class)='success-msg' and contains(.,'The tax rule has been deleted.')]
 
 # Add New Tax Rule page
 create_tax_rule:

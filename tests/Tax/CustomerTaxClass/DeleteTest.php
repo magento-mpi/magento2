@@ -92,7 +92,7 @@ class Tax_CustomerTaxClass_DeleteTest extends Mage_Selenium_TestCase
         //Data
         $customerTaxClassData = $this->loadData('new_customer_tax_class', null, 'customer_class_name');
         //Steps
-        $this->taxHelper()->createCustomerTaxClass($customerTaxClassData);
+        $this->taxHelper()->createTaxItem($customerTaxClassData);
         $this->assertTrue($this->successMessage('success_saved_tax_class'), $this->messages);
         $this->taxHelper()->deleteTaxItem($customerTaxClassData ,'customer_tax_class');
         //Verifying
@@ -123,10 +123,10 @@ class Tax_CustomerTaxClass_DeleteTest extends Mage_Selenium_TestCase
         $searchTaxRuleData = $this->loadData('search_tax_rule',
                                              array('filter_name' => $taxRuleData['name']));
         //Steps
-        $this->taxHelper()->createCustomerTaxClass($customerTaxClassData);
+        $this->taxHelper()->createTaxItem($customerTaxClassData);
         $this->assertTrue($this->successMessage('success_saved_tax_class'), $this->messages);
         $this->navigate('manage_tax_rule');
-        $this->taxHelper()->createTaxRule($taxRuleData);
+        $this->taxHelper()->createTaxItem($taxRuleData);
         $this->assertTrue($this->successMessage('success_saved_tax_rule'), $this->messages);
         $this->ruleToBeDeleted = $searchTaxRuleData;      //For Clean Up
         $this->navigate('manage_customer_tax_class');
@@ -156,7 +156,7 @@ class Tax_CustomerTaxClass_DeleteTest extends Mage_Selenium_TestCase
                                              array('tax_class' => $customerTaxClassData['customer_class_name']),
                                              'group_name');
         //Steps
-        $this->taxHelper()->createCustomerTaxClass($customerTaxClassData);
+        $this->taxHelper()->createTaxItem($customerTaxClassData);
         $this->assertTrue($this->successMessage('success_saved_tax_class'), $this->messages);
         $this->navigate('manage_customer_groups');
         $this->customerGroupsHelper()->createCustomerGroup($customerGroupData);

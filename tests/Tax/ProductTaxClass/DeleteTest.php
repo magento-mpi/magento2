@@ -92,7 +92,7 @@ class Tax_ProductTaxClass_DeleteTest extends Mage_Selenium_TestCase
         //Data
         $productTaxClassData = $this->loadData('new_product_tax_class', null, 'product_class_name');
         //Steps
-        $this->taxHelper()->createProductTaxClass($productTaxClassData);
+        $this->taxHelper()->createTaxItem($productTaxClassData);
         $this->assertTrue($this->successMessage('success_saved_tax_class'), $this->messages);
         $this->taxHelper()->deleteTaxItem($productTaxClassData ,'product_tax_class');
         //Verifying
@@ -123,10 +123,10 @@ class Tax_ProductTaxClass_DeleteTest extends Mage_Selenium_TestCase
         $searchTaxRuleData = $this->loadData('search_tax_rule',
                                              array('filter_name' => $taxRuleData['name']));
         //Steps
-        $this->taxHelper()->createProductTaxClass($productTaxClassData);
+        $this->taxHelper()->createTaxItem($productTaxClassData);
         $this->assertTrue($this->successMessage('success_saved_tax_class'), $this->messages);
         $this->navigate('manage_tax_rule');
-        $this->taxHelper()->createTaxRule($taxRuleData);
+        $this->taxHelper()->createTaxItem($taxRuleData);
         $this->assertTrue($this->successMessage('success_saved_tax_rule'), $this->messages);
         $this->ruleToBeDeleted = $searchTaxRuleData;      //For Clean Up
         $this->navigate('manage_product_tax_class');
@@ -156,7 +156,7 @@ class Tax_ProductTaxClass_DeleteTest extends Mage_Selenium_TestCase
                                        array('prices_tax_class' => $productTaxClassData['product_class_name']),
                                        array('general_name', 'general_sku'));
         //Steps
-        $this->taxHelper()->createProductTaxClass($productTaxClassData);
+        $this->taxHelper()->createTaxItem($productTaxClassData);
         $this->assertTrue($this->successMessage('success_saved_tax_class'), $this->messages);
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($productData);

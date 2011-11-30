@@ -71,7 +71,7 @@ class Tax_CustomerTaxClass_CreateTest extends Mage_Selenium_TestCase
         //Data
         $customerTaxClassData = $this->loadData('new_customer_tax_class', null, 'customer_class_name');
         //Steps
-        $this->taxHelper()->createCustomerTaxClass($customerTaxClassData);
+        $this->taxHelper()->createTaxItem($customerTaxClassData);
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_tax_class'), $this->messages);
         $this->taxHelper()->openTaxItem($customerTaxClassData ,'customer_tax_class');
@@ -95,7 +95,7 @@ class Tax_CustomerTaxClass_CreateTest extends Mage_Selenium_TestCase
     public function withNameThatAlreadyExists($customerTaxClassData)
     {
         //Steps
-        $this->taxHelper()->createCustomerTaxClass($customerTaxClassData);
+        $this->taxHelper()->createTaxItem($customerTaxClassData);
         //Verifying
         $this->assertTrue($this->errorMessage('tax_class_exists'), $this->messages);
     }
@@ -117,7 +117,7 @@ class Tax_CustomerTaxClass_CreateTest extends Mage_Selenium_TestCase
         //Data
         $customerTaxClassData = $this->loadData('new_customer_tax_class', array('customer_class_name' => ''));
         //Steps
-        $this->taxHelper()->createCustomerTaxClass($customerTaxClassData);
+        $this->taxHelper()->createTaxItem($customerTaxClassData);
         //Verifying
         $this->assertTrue($this->errorMessage('empty_class_name'), $this->messages);
     }
@@ -144,7 +144,7 @@ class Tax_CustomerTaxClass_CreateTest extends Mage_Selenium_TestCase
         $customerTaxClassData = $this->loadData('new_customer_tax_class',
                                                 array('customer_class_name' => $specialValue));
         //Steps
-        $this->taxHelper()->createCustomerTaxClass($customerTaxClassData);
+        $this->taxHelper()->createTaxItem($customerTaxClassData);
         $this->assertTrue($this->successMessage('success_saved_tax_class'), $this->messages);
         //Verifying
         $this->taxHelper()->openTaxItem($customerTaxClassData ,'customer_tax_class');
