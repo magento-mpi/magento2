@@ -62,8 +62,8 @@ return array(
         'storeView' => '1',
     ),
     //skip test keys list.
-    'create_skip_to_check' => array('custom_design_apply', 'custom_design_from', 'custom_design_to'),
-    'update_skip_to_check' => array('custom_design_apply', 'custom_design_from'),
+    'create_skip_to_check' => array('custom_design_apply', 'custom_design_from', 'custom_design_to', 'position'),
+    'update_skip_to_check' => array('custom_design_apply', 'custom_design_from', 'available_sort_by'),
     'vulnerability' => array(
         'categoryData' => array(
             'is_active' => '8-1',
