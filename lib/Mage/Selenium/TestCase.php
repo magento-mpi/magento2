@@ -2622,6 +2622,17 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             $className = get_class($this);
             $passed = $this->result->passed();
 
+            //backward compatibility with our old-styled tests and old PHPUnit
+            $backwardCompatible = array();
+            foreach ($passed as $depName => $depArray){
+                if (is_array($depArray) && array_key_exists('result', $depArray)) {
+                    $backwardCompatible[$depName] = $depArray['result'];
+                }
+            }
+            if (!empty($backwardCompatible)) {
+                $passed = $backwardCompatible;
+            }
+
             $passedKeys = array_keys($passed);
             $numKeys = count($passedKeys);
 
