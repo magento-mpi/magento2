@@ -8,4 +8,3 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-?>
