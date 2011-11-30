@@ -181,12 +181,6 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
      */
     protected function _afterCommit()
     {
-        /**
-         * Cleaning MAXPRICE cache
-         */
-        $cacheTag = Mage::getSingleton('enterprise_search/catalog_layer_filter_price')->getCacheTag();
-        Mage::app()->cleanCache(array($cacheTag));
-
         $this->_indexNeedsOptimization = true;
 
         return $this;
@@ -296,7 +290,7 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
                     $isSearchable = $attributeParams['price']['isSearchable'];
                 }
 
-                if ($weight && $isSearchable) {
+                if ($weight && $isSearchable && !in_array($code, $this->_notInFulltextField)) {
                     if ($frontendInput == 'multiselect') {
                         foreach ($value as &$val) {
                             $val = str_replace($this->_separator, ' ', $val);
