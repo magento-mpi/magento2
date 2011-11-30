@@ -303,9 +303,15 @@ class Product_Linking_DownloadableLinkingTest extends Mage_Selenium_TestCase
             $this->addParameter('crosssellProductName', $prod['general_name']);
             if ($i % 2) {
                 $this->productHelper()->frontOpenProduct($productData1['general_name']);
+                $this->addParameter('title', 'Links Title');
+                $chooseOption = array('custom_option_check_attribute' => 'Yes');
+                $this->fillForm($chooseOption);
                 $this->productHelper()->frontAddProductToCart();
             } else {
                 $this->productHelper()->frontOpenProduct($productData2['general_name']);
+                $this->addParameter('title', 'Links Title');
+                $chooseOption = array('custom_option_check_attribute' => 'Yes');
+                $this->fillForm($chooseOption);
                 $this->productHelper()->frontAddProductToCart();
             }
             if (!$this->controlIsPresent('link', 'crosssell_product')) {
@@ -354,6 +360,9 @@ class Product_Linking_DownloadableLinkingTest extends Mage_Selenium_TestCase
         $i = 1;
         $errors = array();
         $this->productHelper()->frontOpenProduct($productData['general_name']);
+        $this->addParameter('title', 'Links Title');
+        $chooseOption = array('custom_option_check_attribute' => 'Yes');
+        $this->fillForm($chooseOption);
         $this->productHelper()->frontAddProductToCart();
         foreach (self::$productsOutOfStock as $prod) {
             $this->addParameter('crosssellProductName', $prod['general_name']);
