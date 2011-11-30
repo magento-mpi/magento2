@@ -51,7 +51,7 @@ class Tax_ProductTaxClass_CreateTest extends Mage_Selenium_TestCase
      */
     protected function assertPreConditions()
     {
-        // @TODO
+        $this->navigate('manage_product_tax_class');
     }
 
     /**
@@ -63,11 +63,20 @@ class Tax_ProductTaxClass_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected Result:</p>
      * <p>Product Tax Class created, success message appears</p>
      *
+     * @return array $productTaxClassData
      * @test
      */
     public function withRequiredFieldsOnly()
     {
-        $this->markTestIncomplete('@TODO');
+        //Data
+        $productTaxClassData = $this->loadData('new_product_tax_class', null, 'product_class_name');
+        //Steps
+        $this->taxHelper()->createProductTaxClass($productTaxClassData);
+        //Verifying
+        $this->assertTrue($this->successMessage('success_saved_tax_class'), $this->messages);
+        $this->taxHelper()->openTaxItem($productTaxClassData ,'product_tax_class');
+        $this->assertTrue($this->verifyForm($productTaxClassData), $this->messages);
+        return $productTaxClassData;
     }
 
     /**
@@ -79,11 +88,16 @@ class Tax_ProductTaxClass_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected Result:</p>
      * <p>Product Tax Class should not be created, error message appears</p>
      *
+     * @depends withRequiredFieldsOnly
+     * @param array $productTaxClassData
      * @test
      */
-    public function withNameThatAlreadyExists()
+    public function withNameThatAlreadyExists($productTaxClassData)
     {
-        $this->markTestIncomplete('@TODO');
+        //Steps
+        $this->taxHelper()->createProductTaxClass($productTaxClassData);
+        //Verifying
+        $this->assertTrue($this->errorMessage('tax_class_exists'), $this->messages);
     }
 
     /**
@@ -95,11 +109,17 @@ class Tax_ProductTaxClass_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected Result:</p>
      * <p>Product Tax Class should not be created, error message appears</p>
      *
+     * @depends withRequiredFieldsOnly
      * @test
      */
     public function withEmptyName()
     {
-        $this->markTestIncomplete('@TODO');
+        //Data
+        $productTaxClassData = $this->loadData('new_product_tax_class', array('product_class_name' => ''));
+        //Steps
+        $this->taxHelper()->createProductTaxClass($productTaxClassData);
+        //Verifying
+        $this->assertTrue($this->errorMessage('empty_class_name'), $this->messages);
     }
 
     /**
@@ -112,21 +132,29 @@ class Tax_ProductTaxClass_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>All fields has the same values.</p>
      *
+     * @depends withRequiredFieldsOnly
      * @dataProvider dataSpecialValues
-     * @test
-     *
      * @param array $specialValue
+     * @test
      */
     public function withSpecialValues($specialValue)
     {
-        $this->markTestIncomplete('@TODO');
+        //Data
+        $productTaxClassData = $this->loadData('new_product_tax_class',
+                                               array('product_class_name' => $specialValue));
+        //Steps
+        $this->taxHelper()->createProductTaxClass($productTaxClassData);
+        $this->assertTrue($this->successMessage('success_saved_tax_class'), $this->messages);
+        //Verifying
+        $this->taxHelper()->openTaxItem($productTaxClassData ,'product_tax_class');
+        $this->assertTrue($this->verifyForm($productTaxClassData), $this->messages);
     }
 
     public function dataSpecialValues()
     {
         return array(
-            array(array()),//$this->generate('string', 255)
-            array(array()) //$this->generate('string', 50, ':punct:')
+            array($this->generate('string', 255)),
+            array($this->generate('string', 50, ':punct:'))
         );
     }
 }

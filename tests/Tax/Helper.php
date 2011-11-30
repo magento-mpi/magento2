@@ -106,7 +106,8 @@ class Tax_Helper extends Mage_Selenium_TestCase
             $productTaxClassData = $this->loadData($productTaxClassData);
         }
         $this->clickButton('add_new');
-        $this->fillForm($productTaxClassData, 'create_product_tax_class');
+        //$this->fillForm($productTaxClassData, 'create_product_tax_class');
+        $this->fillForm($productTaxClassData);
         $this->saveForm('save_class');
     }
 
@@ -135,11 +136,11 @@ class Tax_Helper extends Mage_Selenium_TestCase
      * @param array $taxClassSearch Data for search
      * @param string $type search type (customer_tax_class|product_tax_class|tax_rates|tax_rules)
      */
-    public function openTaxItem(array $taxClassSearch,$type)
+    public function openTaxItem(array $taxSearchData,$type)
     {
-        $taxClassSearch = $this->arrayEmptyClear($taxClassSearch);
+        $taxSearchData = $this->arrayEmptyClear($taxSearchData);
         $gridName = 'manage_' . $type;
-        $xpathTR = $this->search($taxClassSearch,$gridName);
+        $xpathTR = $this->search($taxSearchData,$gridName);
         $this->assertNotEquals(null, $xpathTR, 'Search item is not found');
         $elementTitle = $this->getText($xpathTR . '//td[1]');
         $this->addParameter('elementTitle', $elementTitle);
@@ -149,4 +150,25 @@ class Tax_Helper extends Mage_Selenium_TestCase
         $this->validatePage($this->_findCurrentPageFromUrl($this->getLocation()));
     }
 
+    /**
+     * Open (Product\Customer)Tax Class\Rate\Rule and delete
+     *
+     * @param array $taxClassSearch Data for search
+     * @param string $type search type (customer_tax_class|product_tax_class|tax_rates|tax_rules)
+     * @return boolean
+     */
+    public function deleteTaxItem(array $taxSearchData,$type)
+    {
+        if ($taxSearchData and $type) {
+            $this->openTaxItem($taxSearchData,$type);
+            $buttons = $this->getCurrentLocationUimapPage()->getAllButtons();
+            foreach($buttons as $buttonName => $buttonXpath) {
+                if (preg_match('/delete_/', $buttonName)) {
+                    $this->clickButtonAndConfirm($buttonName, 'confirmation_for_delete');
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }

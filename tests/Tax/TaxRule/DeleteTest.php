@@ -52,7 +52,25 @@ class Tax_TaxRule_DeleteTest extends Mage_Selenium_TestCase
      */
     protected function assertPreConditions()
     {
-        // @TODO
+        $this->navigate('manage_tax_rule');
+    }
+
+    /**
+     * <p>Create Tax Rate for tests<p>
+     *
+     * @return array $taxRateData
+     *
+     * @test
+     */
+    public function setupTestDataCreateTaxRate()
+    {
+        //Data
+        $taxRateData = $this->loadData('tax_rate_create_test', null, 'tax_identifier');
+        //Steps
+        $this->navigate('manage_tax_zones_and_rates');
+        $this->taxHelper()->createTaxRate($taxRateData);
+        $this->assertTrue($this->successMessage('success_saved_tax_rate'), $this->messages);
+        return $taxRateData;
     }
 
     /**
@@ -64,11 +82,23 @@ class Tax_TaxRule_DeleteTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Received the message that the Tax Rule has been deleted.</p>
      *
+     * @depends setupTestDataCreateTaxRate
+     * @param array $taxRateData
      * @test
      */
-    public function deleteTaxRule()
+    public function deleteTaxRule($taxRateData)
     {
-        $this->markTestIncomplete('@TODO');
+        //Data
+        $taxRuleData = $this->loadData('new_tax_rule_required',
+                                       array('tax_rate'=>$taxRateData['tax_identifier']),'name');
+        $searchTaxRuleData = $this->loadData('search_tax_rule',
+                                             array('filter_name' => $taxRuleData['name']));
+        //Steps
+        $this->taxHelper()->createTaxRule($taxRuleData);
+        $this->assertTrue($this->successMessage('success_saved_tax_rule'), $this->messages);
+        $this->taxHelper()->deleteTaxItem($searchTaxRuleData ,'tax_rules');
+        //Verifying
+        $this->assertTrue($this->successMessage('success_deleted_tax_rule'), $this->messages);
     }
 
 }

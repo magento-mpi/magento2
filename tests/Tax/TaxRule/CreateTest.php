@@ -38,6 +38,11 @@ class Tax_TaxRule_CreateTest extends Mage_Selenium_TestCase
 {
 
     /**
+     * <p>Save rule name for clean up</p>
+     */
+    protected $ruleToBeDeleted = null;
+
+    /**
      * <p>Login to backend</p>
      */
     public function setUpBeforeTests()
@@ -51,9 +56,27 @@ class Tax_TaxRule_CreateTest extends Mage_Selenium_TestCase
      */
     protected function assertPreConditions()
     {
-        // @TODO
+        $this->navigate('manage_tax_rule');
     }
 
+
+    /**
+     * <p>Create Tax Rate for tests<p>
+     *
+     * @return array $taxRateData
+     *
+     * @test
+     */
+    public function setupTestDataCreateTaxRate()
+    {
+        //Data
+        $taxRateData = $this->loadData('tax_rate_create_test', null, 'tax_identifier');
+        //Steps
+        $this->navigate('manage_tax_zones_and_rates');
+        $this->taxHelper()->createTaxRate($taxRateData);
+        $this->assertTrue($this->successMessage('success_saved_tax_rate'), $this->messages);
+        return $taxRateData;
+    }
     /**
      * <p>Creating Tax Rule with required fields</p>
      * <p>Steps</p>
@@ -63,11 +86,50 @@ class Tax_TaxRule_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected Result:</p>
      * <p>Tax Rule created, success message appears</p>
      *
+     * @depends setupTestDataCreateTaxRate
+     * @param array $taxRateData
+     * @return array $taxRuleData
      * @test
      */
-    public function withRequiredFieldsOnly()
+    public function withRequiredFieldsOnly($taxRateData)
     {
-        $this->markTestIncomplete('@TODO');
+        //Data
+        $taxRuleData = $this->loadData('new_tax_rule_required',
+                                       array('tax_rate'=>$taxRateData['tax_identifier']),'name');
+        $searchTaxRuleData = $this->loadData('search_tax_rule',
+                                             array('filter_name' => $taxRuleData['name']));
+        //Steps
+        $this->taxHelper()->createTaxRule($taxRuleData);
+        //Verifying
+        $this->assertTrue($this->successMessage('success_saved_tax_rule'), $this->messages);
+        $this->taxHelper()->openTaxItem($searchTaxRuleData ,'tax_rules');
+        $this->assertTrue($this->verifyForm($taxRuleData), $this->messages);
+        return $taxRuleData;
+    }
+
+    /**
+     * <p>Creating Tax Rule with name that exists</p>
+     * <p>Steps</p>
+     * <p>1. Click "Add New Tax Rule" button </p>
+     * <p>2. Fill in Name with value that exists</p>
+     * <p>3. Click "Save Rule" button</p>
+     * <p>Expected Result:</p>
+     * <p>Tax Rule should not be created, error message appears</p>
+     *
+     * @depends withRequiredFieldsOnly
+     * @param array $taxRuleData
+     * @test
+     */
+    public function withNameThatAlreadyExists($taxRuleData)
+    {
+        //Data
+        $searchTaxRuleData = $this->loadData('search_tax_rule',
+                                             array('filter_name' => $taxRuleData['name']));
+        $this->ruleToBeDeleted = $searchTaxRuleData;
+        //Steps
+        $this->taxHelper()->createTaxRule($taxRuleData);
+        //Verifying
+        $this->assertTrue($this->errorMessage('code_already_exists'), $this->messages);
     }
 
     /**
@@ -80,42 +142,33 @@ class Tax_TaxRule_CreateTest extends Mage_Selenium_TestCase
      * <p>Received error message</p>
      *
      * @dataProvider dataEmptyRequiredFields
-     * @test
-     *
-     * @param string $taxRuleData Name of the field to leave empty
+     * @param string $emptyFieldName Name of the field to leave empty
+     * @param string $fieldType Type of the field to leave empty
      * @param string $validationMessage Validation message to be verified
+     *
+     * @test
      */
-    public function withEmptyRequiredFields($taxRateData,$validationMessage)
+    public function withEmptyRequiredFields($emptyFieldName,$fieldType,$validationMessage)
     {
-        $this->markTestIncomplete('@TODO');
+        //Data
+        $taxRateData = $this->loadData('new_tax_rule_required', array($emptyFieldName => ''),'name');
+        //Steps
+        $this->taxHelper()->createTaxRule($taxRateData);
+        //Verifying
+        $this->addFieldIdToMessage($fieldType, $emptyFieldName);
+        $this->assertTrue($this->errorMessage($validationMessage), $this->messages);
     }
 
     public function dataEmptyRequiredFields()
     {
         return array(
-            array(),//Name
-            array(),//Customer Tax Class
-            array(),//Product Tax Class
-            array(),//Tax Rate
-            array(),//Priority
-            array()//Sort Order
+            array('name','field','empty_required_field'),
+            array('customer_tax_class','multiselect','empty_required_field'),
+            array('product_tax_class','multiselect','empty_required_field'),
+            array('tax_rate','multiselect','empty_required_field'),
+            array('priority','field','enter_not_negative_number'),
+            array('sort_order','field','enter_not_negative_number')
         );
-    }
-
-    /**
-     * <p>Creating Tax Rule with name that exists</p>
-     * <p>Steps</p>
-     * <p>1. Click "Add New Tax Rule" button </p>
-     * <p>2. Fill in Name with value that exists</p>
-     * <p>3. Click "Save Rule" button</p>
-     * <p>Expected Result:</p>
-     * <p>Tax Rule should not be created, error message appears</p>
-     *
-     * @test
-     */
-    public function withNameThatAlreadyExists()
-    {
-        $this->markTestIncomplete('@TODO');
     }
 
     /**
@@ -128,21 +181,35 @@ class Tax_TaxRule_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>All fields has the same values.</p>
      *
+     * @depends setupTestDataCreateTaxRate
      * @dataProvider dataSpecialValues
-     * @test
-     *
+     * @param array $taxRateData
      * @param array $specialValue
+     *
+     * @test
      */
-    public function withSpecialValues($specialValue)
+    public function withSpecialValues($specialValue,$taxRateData)
     {
-        // @TODO
+        //Data
+        $taxRuleData = $this->loadData('new_tax_rule_required',
+                                       array('tax_rate' => $taxRateData['tax_identifier'],
+                                            'name' => $specialValue));
+        $searchTaxRuleData = $this->loadData('search_tax_rule',
+                                             array('filter_name' => $taxRuleData['name']));
+        //Steps
+        $this->taxHelper()->createTaxRule($taxRuleData);
+        //Verifying
+        $this->assertTrue($this->successMessage('success_saved_tax_rule'), $this->messages);
+        $this->ruleToBeDeleted = $searchTaxRuleData;
+        $this->taxHelper()->openTaxItem($searchTaxRuleData ,'tax_rules');
+        $this->assertTrue($this->verifyForm($taxRuleData), $this->messages);
     }
 
     public function dataSpecialValues()
     {
         return array(
-            array(array()),//$this->generate('string', 255)
-            array(array()) //$this->generate('string', 50, ':punct:')
+            array($this->generate('string', 255)),
+            array($this->generate('string', 50, ':punct:'))
         );
     }
 
@@ -157,14 +224,24 @@ class Tax_TaxRule_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Error message: Please enter a valid number in this field.</p>
      *
+     * @depends setupTestDataCreateTaxRate
      * @dataProvider dataSpecialValuesFields
      * @test
      *
+     * @param array $taxRateData
      * @param array $specialValue
      */
-    public function withInvalidValuesForPriority($specialValue)
+    public function withInvalidValuesForPriority($specialValue,$taxRateData)
     {
-        // @TODO
+        //Data
+        $taxRuleData = $this->loadData('new_tax_rule_required',
+                                       array('tax_rate' => $taxRateData['tax_identifier'],
+                                            'priority' => $specialValue),'name');
+        //Steps
+        $this->taxHelper()->createTaxRule($taxRuleData);
+        //Verifying
+        $this->addFieldIdToMessage('field', 'priority');
+        $this->assertTrue($this->errorMessage('enter_not_negative_number'), $this->messages);
     }
 
 
@@ -178,22 +255,45 @@ class Tax_TaxRule_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Error message: Please enter a valid number in this field.</p>
      *
+     * @depends setupTestDataCreateTaxRate
      * @dataProvider dataSpecialValuesFields
      * @test
      *
+     * @param array $taxRateData
      * @param array $specialValue
      */
-    public function withInvalidValuesForSortOrder($specialValue)
+    public function withInvalidValuesForSortOrder($specialValue,$taxRateData)
     {
-        // @TODO
+        //Data
+        $taxRuleData = $this->loadData('new_tax_rule_required',
+                                       array('tax_rate' => $taxRateData['tax_identifier'],
+                                            'sort_order' => $specialValue),'name');
+        //Steps
+        $this->taxHelper()->createTaxRule($taxRuleData);
+        //Verifying
+        $this->addFieldIdToMessage('field', 'sort_order');
+        $this->assertTrue($this->errorMessage('enter_not_negative_number'), $this->messages);
     }
 
     public function dataSpecialValuesFields()
     {
         return array(
-            array(),// string
-            array() // special chars
+            array($this->generate('string', 50,':alpha:')),
+            array($this->generate('string', 50, ':punct:'))
         );
+    }
+
+    /**
+     * Clean up
+     */
+    protected function tearDown()
+    {
+        //Remove Tax rule after test
+        if (!is_null($this->ruleToBeDeleted)) {
+            $this->navigate('manage_tax_rule');
+            $this->taxHelper()->deleteTaxItem($this->ruleToBeDeleted ,'tax_rules');
+            $this->ruleToBeDeleted = null;
+        }
     }
 
 }

@@ -63,6 +63,7 @@ class Tax_CustomerTaxClass_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected Result:</p>
      * <p>Customer Tax Class created, success message appears</p>
      *
+     * @return array $customerTaxClassData
      * @test
      */
     public function withRequiredFieldsOnly()
@@ -73,6 +74,8 @@ class Tax_CustomerTaxClass_CreateTest extends Mage_Selenium_TestCase
         $this->taxHelper()->createCustomerTaxClass($customerTaxClassData);
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_tax_class'), $this->messages);
+        $this->taxHelper()->openTaxItem($customerTaxClassData ,'customer_tax_class');
+        $this->assertTrue($this->verifyForm($customerTaxClassData), $this->messages);
         return $customerTaxClassData;
     }
 
@@ -112,7 +115,7 @@ class Tax_CustomerTaxClass_CreateTest extends Mage_Selenium_TestCase
     public function withEmptyName()
     {
         //Data
-        $customerTaxClassData = $this->loadData('new_customer_tax_class', array('customer_class_name'=>''));
+        $customerTaxClassData = $this->loadData('new_customer_tax_class', array('customer_class_name' => ''));
         //Steps
         $this->taxHelper()->createCustomerTaxClass($customerTaxClassData);
         //Verifying
@@ -139,16 +142,20 @@ class Tax_CustomerTaxClass_CreateTest extends Mage_Selenium_TestCase
     {
         //Data
         $customerTaxClassData = $this->loadData('new_customer_tax_class',
-                                                array('customer_class_name'=>$specialValue));
+                                                array('customer_class_name' => $specialValue));
         //Steps
         $this->taxHelper()->createCustomerTaxClass($customerTaxClassData);
         $this->assertTrue($this->successMessage('success_saved_tax_class'), $this->messages);
         //Verifying
         $this->taxHelper()->openTaxItem($customerTaxClassData ,'customer_tax_class');
         $this->assertTrue($this->verifyForm($customerTaxClassData), $this->messages);
-
     }
 
+    /**
+     * dataProvider for withSpecialValues test
+     *
+     * @return array
+     */
     public function dataSpecialValues()
     {
         return array(
