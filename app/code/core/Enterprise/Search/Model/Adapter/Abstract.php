@@ -133,23 +133,23 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
     /**
      * Searchable attribute params
      *
-     * @var array
+     * @var array | null
      */
-    protected $_indexableAttributeParams;
+    protected $_indexableAttributeParams    = null;
 
     /**
      * Define if automatic commit on changes for adapter is allowed
      *
      * @var bool
      */
-    protected $_holdCommit = false;
+    protected $_holdCommit                  = false;
 
     /**
      * Define if search engine index needs optimization
      *
      * @var bool
      */
-    protected $_indexNeedsOptimization = false;
+    protected $_indexNeedsOptimization      = false;
 
     /**
      * Text fields which can store data differ in different languages
@@ -158,7 +158,7 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
      *
      * @var array
      */
-    protected $_searchTextFields = array('name', 'alphaNameSort');
+    protected $_searchTextFields            = array('name', 'alphaNameSort');
 
 
 
@@ -227,17 +227,16 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
      */
     protected function _getIndexableAttributeParams()
     {
-        if (empty($this->_searchableAttributeParams)) {
-            $entityTypeId = Mage::getSingleton('eav/config')
+        if ($this->_indexableAttributeParams === null) {
+            $productEntityTypeId = Mage::getSingleton('eav/config')
                 ->getEntityType('catalog_product')
                 ->getEntityTypeId();
-            $items = Mage::getResourceSingleton('catalog/product_attribute_collection')
-                ->setEntityTypeFilter($entityTypeId)
-                ->addToIndexFilter()
-                ->getItems();
+            $attributeCollection = Mage::getResourceSingleton('catalog/product_attribute_collection')
+                ->setEntityTypeFilter($productEntityTypeId)
+                ->addToIndexFilter();
 
             $this->_indexableAttributeParams = array();
-            foreach ($items as $item) {
+            while ($item = $attributeCollection->fetchItem()) {
                 $this->_indexableAttributeParams[$item->getAttributeCode()] = array(
                     'backendType'   => $item->getBackendType(),
                     'frontendInput' => $item->getFrontendInput(),
@@ -272,31 +271,26 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
         foreach ($docData as $entityId => $index) {
             $doc = new $this->_clientDocObjectName;
 
-            $index[self::UNIQUE_KEY] = $entityId . '|' . $index['store_id'];
-            $index['id'] = $entityId;
-
-            $fulltext = $index;
-            foreach ($this->_notInFulltextField as $field) {
-                if (isset($fulltext[$field])) {
-                    unset($fulltext[$field]);
-                }
-            }
-
             /*
              * Merge attributes to fulltext fields according to their search weights
              */
             $attributesWeights = array();
             $spellData = array();
             foreach ($index as $code => $value) {
+                if ($code == 'options') {
+                    unset($index[$code]);
+                    continue;
+                }
+
                 $weight = 0;
                 $isSearchable = 0;
 
                 if (!empty($attributeParams[$code])) {
-                    $weight = $attributeParams[$code]['searchWeight'];
-                    $frontendInput = $attributeParams[$code]['frontendInput'];
-                    $isSearchable = $attributeParams[$code]['isSearchable'];
-                } elseif ((substr($code, 0, 5 + $fieldPrefixLength) == $fieldPrefix . 'price'
-                    && !empty($attributeParams['price']))
+                    $weight         = $attributeParams[$code]['searchWeight'];
+                    $frontendInput  = $attributeParams[$code]['frontendInput'];
+                    $isSearchable   = $attributeParams[$code]['isSearchable'];
+                } elseif (substr($code, 0, 5 + $fieldPrefixLength) == $fieldPrefix . 'price'
+                    && !empty($attributeParams['price'])
                 ) {
                     $weight = $attributeParams['price']['searchWeight'];
                     $isSearchable = $attributeParams['price']['isSearchable'];
@@ -329,6 +323,9 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
             foreach ($attributesWeights as $key => $value) {
                 $index[$key] = $this->_implodeIndexData($value);
             }
+
+            $index[self::UNIQUE_KEY] = $entityId . '|' . $index['store_id'];
+            $index['id'] = $entityId;
 
             $index = $this->_prepareIndexData($index, $attributeParams, $localeCode);
             if (!$index) {

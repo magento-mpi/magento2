@@ -157,9 +157,6 @@ abstract class Enterprise_Search_Model_Adapter_Solr_Abstract extends Enterprise_
         foreach ($data as $key => $value) {
             if (in_array($key, $this->_usedFields)) {
                 continue;
-            } elseif ($key == 'options') {
-                unset($data[$key]);
-                continue;
             }
 
             if (!array_key_exists($key, $attributesParams)) {

@@ -201,8 +201,9 @@ class Enterprise_Search_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * Return true if third part search engine used
+     * Return true if third party search engine is used
      *
+     * @return bool
      */
     public function isThirdPartSearchEngine()
     {

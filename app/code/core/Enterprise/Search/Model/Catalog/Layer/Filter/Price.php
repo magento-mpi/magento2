@@ -177,6 +177,10 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Price extends Mage_Catalog_Mo
             Mage::app()->saveCache($cachedData, $cacheKey, $tags);
         }
 
+        if (!$cachedData) {
+            return array();
+        }
+
         $cachedData = explode(',', $cachedData);
         foreach ($cachedData as $k => $v) {
             $cachedData[$k] = explode('-', $v);
