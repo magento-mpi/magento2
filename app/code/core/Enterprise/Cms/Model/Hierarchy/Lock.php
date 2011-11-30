@@ -227,6 +227,8 @@ class Enterprise_Cms_Model_Hierarchy_Lock extends Mage_Core_Model_Abstract
      */
     public function getLockLifeTime()
     {
-        return 0;
+        $timeout = (int)Mage::getStoreConfig('cms/hierarchy/lock_timeout');
+        return ($timeout != 0 && $timeout < 120 ) ? 120 : $timeout;
+
     }
 }

@@ -310,8 +310,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
             'id'        => 'add_cms_pages',
             'label'     => Mage::helper('enterprise_cms')->__('Add Selected Page(s) to Tree'),
             'onclick'   => 'hierarchyNodes.pageGridAddSelected()',
-            'class'     => 'add',
-            'disabled'  => false,
+            'class'     => 'add'
         );
         return $this->getLayout()->createBlock('adminhtml/widget_button')
             ->setData($addButtonData)->toHtml();
@@ -329,22 +328,19 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
             'id'        => 'delete_node_button',
             'label'     => Mage::helper('enterprise_cms')->__('Remove From Tree'),
             'onclick'   => 'hierarchyNodes.deleteNodePage()',
-            'class'     => 'delete',
-            'disabled'  => false,
+            'class'     => 'delete'
         ))->toHtml();
         $buttons[] = $this->getLayout()->createBlock('adminhtml/widget_button')->setData(array(
             'id'        => 'cancel_node_button',
             'label'     => Mage::helper('enterprise_cms')->__('Cancel'),
             'onclick'   => 'hierarchyNodes.cancelNodePage()',
-            'class'     => 'delete',
-            'disabled'  => false,
+            'class'     => 'delete'
         ))->toHtml();
         $buttons[] = $this->getLayout()->createBlock('adminhtml/widget_button')->setData(array(
             'id'        => 'save_node_button',
             'label'     => Mage::helper('enterprise_cms')->__('Save'),
             'onclick'   => 'hierarchyNodes.saveNodePage()',
-            'class'     => 'save',
-            'disabled'  => false,
+            'class'     => 'save'
         ))->toHtml();
 
         return join(' ', $buttons);
@@ -361,8 +357,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
             'id'        => 'new_node_button',
             'label'     => Mage::helper('enterprise_cms')->__('Add Node...'),
             'onclick'   => 'hierarchyNodes.newNodePage()',
-            'class'     => 'add',
-            'disabled'  => false,
+            'class'     => 'add'
         ))->toHtml();
     }
 
@@ -577,7 +572,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
      */
     public function canDragNodes()
     {
-        return true;
+        return !$this->isLockedByOther();
     }
 
     /**
@@ -588,7 +583,10 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
      */
     public function isLockedByOther()
     {
-        return false;
+        if (!$this->hasData('locked_by_other')) {
+            $this->setData('locked_by_other', $this->_getLockModel()->isLockedByOther());
+        }
+        return $this->_getData('locked_by_other');
     }
 
     /**
@@ -599,7 +597,10 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
      */
     public function isLockedByMe()
     {
-        return true;
+        if (!$this->hasData('locked_by_me')) {
+            $this->setData('locked_by_me', $this->_getLockModel()->isLockedByMe());
+        }
+        return $this->_getData('locked_by_me');
     }
 
     /**
@@ -621,7 +622,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
      */
     public function getLockAlertMessage()
     {
-        return '';
+        return Mage::helper('enterprise_cms')->__('Page lock expires in 60 seconds. Save changes to avoid possible data loss.');
     }
 
     /**
