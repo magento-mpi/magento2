@@ -87,6 +87,30 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Widget_Radio extends Mage_Adm
     }
 
     /**
+     * Get array with Store View labels and ids
+     *
+     * @return array
+     */
+    public function getAllStoreViewsList()
+    {
+        $allStoreViews = $this->getAllStoreViews();
+        reset($allStoreViews);
+        $storeViews[] = current($allStoreViews);
+        unset($allStoreViews);
+
+        $storeValues = Mage::getSingleton('adminhtml/system_store')->getStoreCollection();
+
+        foreach ($storeValues as $store) {
+            $storeViews[] = array(
+                'label' => $store->getName(),
+                'value' => $store->getId()
+            );
+        }
+
+        return $storeViews;
+    }
+
+    /**
      * Get All Store Views Ids array
      *
      * @return array

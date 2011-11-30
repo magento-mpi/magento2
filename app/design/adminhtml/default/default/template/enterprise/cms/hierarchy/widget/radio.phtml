@@ -33,17 +33,17 @@ $parameters = $this->getParameters();
 <div id="<?php echo $uniqueHash; ?>_new" style="display:none;">
     <dl style="margin-bottom:5px;">
         <input type="radio" name="parameters[radio]" value="0" id="general_<?php echo $uniqueHash; ?>">
-        <label for="general_<?php echo $uniqueHash; ?>" style="font-size: 1.25em;font-weight: bold;"><?php echo $this->__('General Hierarchy for All Store Views'); ?></label>
+        <label for="general_<?php echo $uniqueHash; ?>"><?php echo $this->__('General Hierarchy for All Store Views'); ?></label>
     </dl>
     <dl style="margin-bottom:5px;">
         <input type="radio" name="parameters[radio]" value="1" id="individual_<?php echo $uniqueHash; ?>">
-        <label for="individual_<?php echo $uniqueHash; ?>" style="font-size: 1.25em;font-weight: bold;"><?php echo $this->__('Individual Hierarchy for Each Store Views'); ?></label>
+        <label for="individual_<?php echo $uniqueHash; ?>"><?php echo $this->__('Individual Hierarchy for Each Store Views'); ?></label>
     </dl>
 
-<?php foreach ($this->getAllStoreViews() as $store): ?>
+<?php foreach ($this->getAllStoreViewsList() as $store): ?>
     <div id="<?php echo $uniqueHash; ?>_<?php echo $store['value']; ?>" class="form-list">
         <dl style="margin-bottom:5px;">
-            <h3><?php echo $this->escapeHtml($this->__('CMS Hierarchy for ').$store['label']);?></h3>
+            <h3><?php echo $this->__('CMS Hierarchy for').$store['label'] ?></h3>
         </dl>
         <dl style="margin-bottom:5px;">
             <dt style="float:left;width:150px;height:25px;"><label for="options_<?php echo $uniqueHash; ?>_anchor_text_<?php echo $store['value']; ?>"><?php echo $this->__('Anchor Custom Text'); ?></label></dt>
@@ -65,18 +65,18 @@ $parameters = $this->getParameters();
                 <?php echo $this->__('Node');?>
             </dt>
             <dd>
+                <input style="display:none;" type="text" class="widget-option required-entry" value="<?php echo $this->getParamValue('node_id_'.$store['value']); ?>" name="parameters[node_id_<?php echo $store['value']; ?>]" id="<?php echo $uniqueId; ?>_<?php echo $store['value']; ?>value" />
                 <label id="<?php echo $uniqueId; ?>_<?php echo $store['value']; ?>label" class="widget-option-label"><?php echo $this->__('Not Selected'); ?></label>
                 <div class="hidden" id="<?php echo $uniqueId; ?>_<?php echo $store['value']; ?>advice-container">
                 </div>
             </dd>
         </dl>
-        <dl style="margin-bottom:5px;">
+        <dl style="margin-bottom:5px;clear:both;">
             <dt style="float:left;width:150px;height:25px;">
                 <label for="chooseroptions_<?php echo $uniqueHash; ?>_node_id_<?php echo $store['value']; ?>"></label>
             </dt>
             <dd>
                 <span id="chooseroptions_<?php echo $uniqueHash; ?>_<?php echo $store['value']; ?>node_id"></span>
-                <input style="display:none;" type="text" class="widget-option required-entry" value="<?php echo $this->getParamValue('node_id_'.$store['value']); ?>" name="parameters[node_id_<?php echo $store['value']; ?>]" id="<?php echo $uniqueId; ?>_<?php echo $store['value']; ?>value" />
                 <button style="" onclick="<?php echo $uniqueId; ?>_<?php echo $store['value']; ?>.choose()" class="scalable btn-chooser" type="button" id="<?php echo $uniqueId; ?>_<?php echo $store['value']; ?>control"><span><?php echo $this->__('Select Page or Node...'); ?></span></button>
             </dd>
         </dl>
