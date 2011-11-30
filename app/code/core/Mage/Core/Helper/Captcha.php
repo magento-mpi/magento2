@@ -228,7 +228,7 @@ class Mage_Core_Helper_Captcha extends Mage_Core_Helper_Abstract
         if ($this->_isShowAlways($formId)) {
             return true;
         }
-        $loggedFailedAttempts = (int)$this->getSession($formId)->getData(self::SESSION_FAILED_ATTEMPTS);
+        $loggedFailedAttempts = (int)$this->getSession($formId)->getDataIgnoreTtl(self::SESSION_FAILED_ATTEMPTS);
         $showAfterFailedAttempts = $this->_getShowAfterFailedAttemptsNum();
         $isRequired = ($loggedFailedAttempts >= $showAfterFailedAttempts);
         return $isRequired;
