@@ -49,7 +49,6 @@ class AttributeSet_Helper extends Mage_Selenium_TestCase
         $this->fillForm($attrSet);
         $this->addParameter('attributeName', $attrSet['set_name']);
         $this->saveForm('save_attribute_set');
-        sleep(1);
         if (array_key_exists('new_groups', $attrSet)) {
             $this->addNewGroup($attrSet['new_groups']);
         }

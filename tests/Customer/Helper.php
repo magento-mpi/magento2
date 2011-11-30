@@ -51,9 +51,7 @@ class Customer_Helper extends Mage_Selenium_TestCase
      */
     public function isAddressPresent(array $addressData)
     {
-        $page = $this->getCurrentUimapPage();
-        $fieldSet = $page->findFieldset('list_customer_addresses');
-        $xpath = $fieldSet->getXPath() . '//li';
+        $xpath = $this->_getControlXpath('fieldset', 'list_customer_addresses') . '//li';
         $addressCount = $this->getXpathCount($xpath);
         for ($i = $addressCount; $i > 0; $i--) {
             $this->click($xpath . "[$i]");
@@ -61,7 +59,6 @@ class Customer_Helper extends Mage_Selenium_TestCase
             $arrayId = explode('_', $id);
             $id = end($arrayId);
             $this->addParameter('address_number', $id);
-            $page->assignParams($this->_paramsHelper);
             if ($this->verifyForm($addressData, 'addresses')) {
                 return $id;
             }
@@ -76,9 +73,7 @@ class Customer_Helper extends Mage_Selenium_TestCase
      */
     public function addAddressNumber()
     {
-        $page = $this->getCurrentUimapPage();
-        $fieldSet = $page->findFieldset('list_customer_addresses');
-        $xpath = $fieldSet->getXPath();
+        $xpath = $this->_getControlXpath('fieldset', 'list_customer_addresses');
         $addressCount = $this->getXpathCount($xpath . '//li') + 1;
         $this->addParameter('address_number', $addressCount);
         return $addressCount;
@@ -96,8 +91,7 @@ class Customer_Helper extends Mage_Selenium_TestCase
         $this->openTab('addresses');
         $addressNumber = $this->addAddressNumber();
         $this->clickButton('add_new_address', FALSE);
-        $this->click("//*[@id='new_item$addressNumber']");
-        sleep(1);
+        $this->click('//*[@id=\'new_item' . $addressNumber . '\']');
         //Fill in 'Customer's Address' tab
         $this->fillForm($addressData, 'addresses');
     }

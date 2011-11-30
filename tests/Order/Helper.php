@@ -172,7 +172,7 @@ class Order_Helper extends Mage_Selenium_TestCase
                 }
             }
             if ($addressType == 'shipping') {
-                $xpath = $this->_getControlXpath('checkboxe', 'shipping_same_as_billing_address');
+                $xpath = $this->_getControlXpath('checkbox', 'shipping_same_as_billing_address');
                 $value = $this->getValue($xpath);
                 if ($value == 'on') {
                     $this->click($xpath);
@@ -183,7 +183,7 @@ class Order_Helper extends Mage_Selenium_TestCase
         }
         if ($addressChoise == 'exist') {
             if ($addressType == 'shipping') {
-                $xpath = $this->_getControlXpath('checkboxe', 'shipping_same_as_billing_address');
+                $xpath = $this->_getControlXpath('checkbox', 'shipping_same_as_billing_address');
                 $value = $this->getValue($xpath);
                 if ($value == 'on') {
                     $this->click($xpath);

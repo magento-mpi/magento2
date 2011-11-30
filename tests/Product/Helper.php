@@ -85,7 +85,7 @@ class Product_Helper extends Mage_Selenium_TestCase
 
             foreach ($attributes as $attributeTitle) {
                 $this->addParameter('attributeTitle', $attributeTitle);
-                $xpath = $this->_getControlXpath('checkboxe', 'configurable_attribute_title');
+                $xpath = $this->_getControlXpath('checkbox', 'configurable_attribute_title');
                 if ($this->isElementPresent($xpath)) {
                     $attributesId[] = $this->getAttribute($xpath . '/@value');
                     $this->click($xpath);
@@ -280,7 +280,7 @@ class Product_Helper extends Mage_Selenium_TestCase
     {
         $fieldsetXpath = $this->_getControlXpath('fieldset', 'product_websites');
         $this->addParameter('websiteName', $websiteName);
-        $websiteXpath = $fieldsetXpath . $this->_getControlXpath('checkboxe', 'websites');
+        $websiteXpath = $fieldsetXpath . $this->_getControlXpath('checkbox', 'websites');
         if ($this->isElementPresent($websiteXpath)) {
             if ($this->getValue($websiteXpath) == 'off') {
                 switch ($action) {
