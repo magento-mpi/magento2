@@ -10,6 +10,7 @@ app/code/core/Mage/Install/view/install/layout_{oracle,mssql}.xml
 app/code/local/*
 app/etc/config.{oracle,mssql}.xml
 app/etc/modules/Find_Feed.xml
+app/etc/modules/XEnterprise_Enabler.xml.dist
 app/etc/modules/Zrdbms.xml
 dev/build
 dev/tests/integration/etc/local-{oracle,mssql}.xml.dist

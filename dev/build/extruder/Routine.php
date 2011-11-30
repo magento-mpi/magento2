@@ -55,15 +55,20 @@ class Routine
     public static function parsePath($path)
     {
         $matches = $result = array();
-        if (preg_match('/{(.*)}/U', $path, $matches) > 0) {
+        if (preg_match('/{([^}]+)}/U', $path, $matches) > 0) {
             foreach (explode(',', $matches[1]) as $match) {
-                $result[] = preg_replace('/{(.*)}/U', trim($match), $path);
+                $newPath = preg_replace('/{'.$matches[1].'}/U', trim($match), $path);
+                if (preg_match('/{([^}]+)}/U', $newPath) > 0) {
+                    $result = array_merge($result, self::parsePath($newPath));
+                } else {
+                    $result[] = $newPath;
+                }
             }
         } else {
             $result[] = $path;
         }
         unset($matches);
 
-        return $result;
+        return array_unique($result);
     }
 }
