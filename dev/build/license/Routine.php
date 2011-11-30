@@ -132,13 +132,13 @@ class Routine
      * @param array $paths
      * @return array
      */
-    protected static function _setSkippedPaths($paths)
+    protected static function _setSkippedPaths($workingDir, $paths)
     {
         if (!is_array($paths)) {
             $paths = array($paths);
         }
         foreach ($paths as $path) {
-            $real = realpath($path);
+            $real = realpath($workingDir . DIRECTORY_SEPARATOR . $path);
             if (is_dir($real)) {
                 self::$skipDirectories[] = $real;
             } elseif (is_file($real)) {
@@ -314,7 +314,7 @@ class Routine
                 }
 
                 if (isset($types['_params']['skipped'])) {
-                    self::_setSkippedPaths($types['_params']['skipped']);
+                    self::_setSkippedPaths($workingDir, $types['_params']['skipped']);
                 }
                 unset($types['_params']);
             }
