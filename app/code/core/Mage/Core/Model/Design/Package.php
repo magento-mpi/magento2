@@ -675,7 +675,7 @@ class Mage_Core_Model_Design_Package
             } else {
                 if (is_file($file)) {
                     copy($file, $publicFile);
-                } elseif (!is_dir($file)) {
+                } elseif (!is_dir($publicFile)) {
                     mkdir($publicFile, 0777, true);
                 }
             }
