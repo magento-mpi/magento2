@@ -426,8 +426,8 @@ Validation.addAllThese([
             }],
     ['validate-number-range', 'The value is not within the specified range.', function(v, elm) {
                 var result = Validation.get('IsEmpty').test(v)
-                    || (!isNaN(parseNumber(v)) && !/^\\s+$/.test(parseNumber(v)));
-                var reRange = new RegExp(/^number\\-range\\-[^-]+-[^-]+$/);
+                    || (!isNaN(parseNumber(v)) && !/^\s+$/.test(parseNumber(v)));
+                var reRange = new RegExp(/^number\-range\-[^-]+\-[^-]+$/);
                 $w(elm.className).each(function(name, index) {
                     if (name.match(reRange) && result) {
                         var nameParts = name.split('-');
