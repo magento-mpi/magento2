@@ -453,7 +453,7 @@
                     <show_in_store>0</show_in_store>
                     <fields>
                         <enable translate="label">
-                            <label>Enable CAPTCHA on frontend</label>
+                            <label>Enable CAPTCHA on Frontend</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
                             <sort_order>1</sort_order>
@@ -483,7 +483,7 @@
                             <depends><enable>1</enable></depends>
                         </forms>
                         <mode translate="label">
-                            <label>Display mode</label>
+                            <label>Displaying Mode</label>
                             <frontend_type>select</frontend_type>
                             <source_model>core/config_captcha_mode</source_model>
                             <sort_order>4</sort_order>
@@ -493,7 +493,7 @@
                             <depends><enable>1</enable></depends>
                         </mode>
                         <failed_attempts translate="label">
-                            <label>Number of unsuccessful attempts</label>
+                            <label>Number of Unsuccessful Attempts to Login</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>5</sort_order>
                             <show_in_default>1</show_in_default>
@@ -515,7 +515,7 @@
                             <backend_model>adminhtml/system_config_backend_captcha_naturalnumber</backend_model>
                         </timeout>
                         <length translate="label comment">
-                            <label>Word length</label>
+                            <label>Number of Symbols</label>
                             <frontend_type>text</frontend_type>
                             <comment>Please specify 8 symbols at the most. Range allowed (e.g. 3-5)</comment>
                             <sort_order>7</sort_order>
@@ -527,7 +527,7 @@
                             <backend_model>adminhtml/system_config_backend_captcha_range</backend_model>
                         </length>
                         <symbols translate="label comment">
-                            <label>Symbols used in CAPTCHA</label>
+                            <label>Symbols Used in CAPTCHA</label>
                             <frontend_type>text</frontend_type>
                             <comment><![CDATA[Please use only letters (a-z or A-Z) or numbers (0-9) in this field. No spaces or other characters are allowed.<br />Similar looking characters (e.g. "i", "l", "1") decrease chance of correct recognition by customer.]]></comment>
                             <sort_order>8</sort_order>
@@ -539,7 +539,7 @@
                             <backend_model>adminhtml/system_config_backend_captcha_alphanum</backend_model>
                         </symbols>
                         <case_sensitive translate="label">
-                            <label>Case sensitive</label>
+                            <label>Case Sensitive</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
                             <sort_order>9</sort_order>
