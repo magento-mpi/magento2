@@ -43,7 +43,7 @@
     </div>
     <?php if ($captcha->isCaseSensitive()) :?>
     <div class="captcha-note">
-        <p><strong>Attention</strong>: Captcha is case sensitive.</p>
+        <p><?php echo Mage::helper('core/captcha')->__('<strong>Attention</strong>: Captcha is case sensitive.') ?></p>
     </div>
     <?php endif; ?>
 </li>
