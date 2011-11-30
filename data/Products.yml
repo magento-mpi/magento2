@@ -1438,3 +1438,518 @@ frontend_virtual_product_details_validation:
     websites: Main Website
     categories: Default Category
     custom_options_data: *customOptionsData
+
+########################################################################################################################
+#                                             Linking to Simple product                                                #
+########################################################################################################################
+#<---------------------------------------------Related, Up-sell, Cross-sell products----------------------------------->
+simple_product_related:
+    product_attribute_set: Default
+    general_name: Simple Product Visible
+    general_description: Description for Simple Product Visible
+    general_short_description: Short Description for Simple Product Visible
+    general_sku: simple_visible_sku.req
+    general_weight: 1.14
+    general_status: Enabled
+    general_visibility: Catalog, Search
+    prices_price: 8.99
+    prices_tax_class: None
+    inventory_qty: 50
+    inventory_stock_availability: In Stock
+    websites: Main Website
+    categories: Default Category
+
+virtual_product_related:
+    product_attribute_set: Default
+    general_name: Virtual Product Visible
+    general_description: Description for Virtual Product Visible
+    general_short_description: Short Description for Virtual Product Visible
+    general_sku: virtual_visible_sku.req
+    general_status: Enabled
+    general_visibility: Catalog, Search
+    prices_price: 18.99
+    prices_tax_class: None
+    inventory_qty: 50
+    inventory_stock_availability: In Stock
+    websites: Main Website
+    categories: Default Category
+
+downloadable_product_related:
+    product_attribute_set: Default
+    general_name: Downloadable Product Visible
+    general_description: Description for Downloadable Product Visible
+    general_short_description: Short Description for Downloadable Product Visible
+    general_sku: downloadable_visible_sku.req
+    general_status: Enabled
+    general_visibility: Catalog, Search
+    prices_price: 98.99
+    prices_tax_class: None
+    inventory_qty: 50
+    inventory_stock_availability: In Stock
+    websites: Main Website
+    categories: Default Category
+    downloadable_information_data:
+        downloadable_samples_title: Samples Title
+        downloadable_links_title: Links Title
+        downloadable_links_purchased_separately: Yes
+        downloadable_sample_1:
+            downloadable_sample_row_title: Sample Row Title
+            downloadable_sample_row_url_radiobutton: Yes
+            downloadable_sample_row_url: www.localhost.com
+            downloadable_sample_row_sort_order: 1
+        downloadable_link_1:
+            downloadable_link_row_title: Link Row Title
+            downloadable_link_row_price: 12
+            downloadable_link_row_unlimited_downloads: No
+            downloadable_link_max_downloads: 100
+            downloadable_link_shareable: No
+            downloadable_link_row_sample_url_radiobutton: Yes
+            downloadable_link_row_sample_url: www.sample.com
+            downloadable_link_row_url_radiobutton: Yes
+            downloadable_link_row_file_url: www.file.com
+            downloadable_link_row_sort_order: 1
+
+
+bundle_product_related:
+    product_attribute_set: Default
+    general_name: Bundle(Fixed) Product
+    general_description: Description for Bundle(Fixed) Product
+    general_short_description: Short Description for Bundle(Fixed) Product
+    general_sku_type: Fixed
+    general_sku: bundle_sku
+    general_weight_type: Fixed
+    general_weight: 0.111
+    general_status: Enabled
+    general_visibility: Catalog, Search
+    prices_price_type: Fixed
+    prices_price: 66.32
+    inventory_stock_availability: In Stock
+    websites: Main Website
+    categories: Default Category
+    bundle_items_data:
+        ship_bundle_items: Separately
+        item_1:
+            bundle_items_default_title: Drop-down
+            bundle_items_input_type: Drop-down
+            bundle_items_is_required: No
+            bundle_items_position: 2
+            add_product_1:
+                bundle_items_search_sku: %noValue%
+                bundle_items_qty_to_add: 1
+
+configurable_product_related:
+    product_attribute_set: Default
+    configurable_attribute_title: %noValue%
+    general_name: Configurable Product
+    general_description: Description for Configurable Product
+    general_short_description: Short Description for Configurable Product
+    general_sku: configurable_sku
+    general_status: Enabled
+    general_visibility: Catalog, Search
+    prices_price: 4.95
+    prices_tax_class: None
+    inventory_stock_availability: In Stock
+    websites: Main Website
+    categories: Default Category
+    associated_configurable_data:
+        associated_products_attribute_name_default: test
+        associated_products_attribute_name: test
+        associated_configurable_1:
+            associated_search_sku: %noValue%
+
+
+
+grouped_product_related:
+    product_attribute_set: Default
+    general_name: Grouped Product
+    general_description: Description for Grouped Product
+    general_short_description: Short Description for Grouped Product
+    general_sku: grouped_sku
+    general_status: Enabled
+    general_visibility: Catalog, Search
+    inventory_stock_availability: In Stock
+    websites: Main Website
+    categories: Default Category
+    associated_grouped_data:
+        associated_grouped_1:
+            associated_search_sku: %noValue%
+
+
+
+
+
+
+
+
+#<---------------------------------------------Base products for lining to--------------------------------------------->
+
+simple_product_for_linking_products:
+    product_attribute_set: Default
+    general_name: Simple Product
+    general_description: Description for Simple Product
+    general_short_description: Short Description for Simple Product
+    general_sku: simple_sku
+    general_weight: 2.56
+    general_status: Enabled
+    general_visibility: Catalog, Search
+    prices_price: 4.95
+    prices_tax_class: None
+    inventory_manage_stock_default: No
+    inventory_manage_stock: Yes
+    inventory_qty: 120
+    inventory_stock_availability: In Stock
+    websites: Main Website
+    categories: Default Category
+    related_data:
+        related_1:
+            related_search_sku: %noValue%
+        related_2:
+            related_search_sku: %noValue%
+        related_3:
+            related_search_sku: %noValue%
+        related_4:
+            related_search_sku: %noValue%
+        related_5:
+            related_search_sku: %noValue%
+        related_6: 
+            related_search_sku: %noValue%
+    up_sells_data:
+        up_sells_1:
+            up_sells_search_sku: %noValue%
+        up_sells_2:
+            up_sells_search_sku: %noValue%
+        up_sells_3:
+            up_sells_search_sku: %noValue%
+        up_sells_4:
+            up_sells_search_sku: %noValue%
+        up_sells_5:
+            up_sells_search_sku: %noValue%
+        up_sells_6:
+            up_sells_search_sku: %noValue%
+    cross_sells_data:
+        cross_sells_1:
+            cross_sells_search_sku: %noValue%
+        cross_sells_2:
+            cross_sells_search_sku: %noValue%
+        cross_sells_3:
+            cross_sells_search_sku: %noValue%
+        cross_sells_4:
+            cross_sells_search_sku: %noValue%
+        cross_sells_5:
+            cross_sells_search_sku: %noValue%
+        cross_sells_6:
+            cross_sells_search_sku: %noValue%
+
+virtual_product_for_linking_products:
+    product_attribute_set: Default
+    general_name: Virtual Product Visible
+    general_description: Description for Virtual Product Visible
+    general_short_description: Short Description for Virtual Product Visible
+    general_sku: virtual_visible_sku.req
+    general_status: Enabled
+    general_visibility: Catalog, Search
+    prices_price: 18.99
+    prices_tax_class: None
+    inventory_qty: 50
+    inventory_stock_availability: In Stock
+    websites: Main Website
+    categories: Default Category
+    related_data:
+        related_1:
+            related_search_sku: %noValue%
+        related_2:
+            related_search_sku: %noValue%
+        related_3:
+            related_search_sku: %noValue%
+        related_4:
+            related_search_sku: %noValue%
+        related_5:
+            related_search_sku: %noValue%
+        related_6:
+            related_search_sku: %noValue%
+    up_sells_data:
+        up_sells_1:
+            up_sells_search_sku: %noValue%
+        up_sells_2:
+            up_sells_search_sku: %noValue%
+        up_sells_3:
+            up_sells_search_sku: %noValue%
+        up_sells_4:
+            up_sells_search_sku: %noValue%
+        up_sells_5:
+            up_sells_search_sku: %noValue%
+        up_sells_6:
+            up_sells_search_sku: %noValue%
+    cross_sells_data:
+        cross_sells_1:
+            cross_sells_search_sku: %noValue%
+        cross_sells_2:
+            cross_sells_search_sku: %noValue%
+        cross_sells_3:
+            cross_sells_search_sku: %noValue%
+        cross_sells_4:
+            cross_sells_search_sku: %noValue%
+        cross_sells_5:
+            cross_sells_search_sku: %noValue%
+        cross_sells_6:
+            cross_sells_search_sku: %noValue%
+
+
+downloadable_product_for_linking_products:
+    product_attribute_set: Default
+    general_name: Downloadable Product Visible
+    general_description: Description for Downloadable Product Visible
+    general_short_description: Short Description for Downloadable Product Visible
+    general_sku: downloadable_visible_sku.req
+    general_status: Enabled
+    general_visibility: Catalog, Search
+    prices_price: 98.99
+    prices_tax_class: None
+    inventory_qty: 50
+    inventory_stock_availability: In Stock
+    websites: Main Website
+    categories: Default Category
+    downloadable_information_data:
+        downloadable_samples_title: Samples Title
+        downloadable_links_title: Links Title
+        downloadable_links_purchased_separately: Yes
+        downloadable_sample_1:
+            downloadable_sample_row_title: Sample Row Title
+            downloadable_sample_row_url_radiobutton: Yes
+            downloadable_sample_row_url: www.localhost.com
+            downloadable_sample_row_sort_order: 1
+        downloadable_link_1:
+            downloadable_link_row_title: Link Row Title
+            downloadable_link_row_price: 12
+            downloadable_link_row_unlimited_downloads: No
+            downloadable_link_max_downloads: 100
+            downloadable_link_shareable: No
+            downloadable_link_row_sample_url_radiobutton: Yes
+            downloadable_link_row_sample_url: www.sample.com
+            downloadable_link_row_url_radiobutton: Yes
+            downloadable_link_row_file_url: www.file.com
+            downloadable_link_row_sort_order: 1
+    related_data:
+        related_1:
+            related_search_sku: %noValue%
+        related_2:
+            related_search_sku: %noValue%
+        related_3:
+            related_search_sku: %noValue%
+        related_4:
+            related_search_sku: %noValue%
+        related_5:
+            related_search_sku: %noValue%
+        related_6:
+            related_search_sku: %noValue%
+    up_sells_data:
+        up_sells_1:
+            up_sells_search_sku: %noValue%
+        up_sells_2:
+            up_sells_search_sku: %noValue%
+        up_sells_3:
+            up_sells_search_sku: %noValue%
+        up_sells_4:
+            up_sells_search_sku: %noValue%
+        up_sells_5:
+            up_sells_search_sku: %noValue%
+        up_sells_6:
+            up_sells_search_sku: %noValue%
+    cross_sells_data:
+        cross_sells_1:
+            cross_sells_search_sku: %noValue%
+        cross_sells_2:
+            cross_sells_search_sku: %noValue%
+        cross_sells_3:
+            cross_sells_search_sku: %noValue%
+        cross_sells_4:
+            cross_sells_search_sku: %noValue%
+        cross_sells_5:
+            cross_sells_search_sku: %noValue%
+        cross_sells_6:
+            cross_sells_search_sku: %noValue%
+
+bundle_product_for_linking_products:
+    product_attribute_set: Default
+    general_name: Bundle(Fixed) Product
+    general_description: Description for Bundle(Fixed) Product
+    general_short_description: Short Description for Bundle(Fixed) Product
+    general_sku_type: Fixed
+    general_sku: bundle_sku
+    general_weight_type: Fixed
+    general_weight: 0.111
+    general_status: Enabled
+    general_visibility: Catalog, Search
+    prices_price_type: Fixed
+    prices_price: 66.32
+    inventory_stock_availability: In Stock
+    websites: Main Website
+    categories: Default Category
+    bundle_items_data:
+        ship_bundle_items: Separately
+        item_1:
+            bundle_items_default_title: Drop-down
+            bundle_items_input_type: Drop-down
+            bundle_items_is_required: No
+            bundle_items_position: 2
+            add_product_1:
+                bundle_items_search_sku: %noValue%
+                bundle_items_qty_to_add: 1
+                selection_item_price: 10
+                selection_item_price_type: Fixed
+                selection_item_default: Yes
+    related_data:
+        related_1:
+            related_search_sku: %noValue%
+        related_2:
+            related_search_sku: %noValue%
+        related_3:
+            related_search_sku: %noValue%
+        related_4:
+            related_search_sku: %noValue%
+        related_5:
+            related_search_sku: %noValue%
+        related_6:
+            related_search_sku: %noValue%
+    up_sells_data:
+        up_sells_1:
+            up_sells_search_sku: %noValue%
+        up_sells_2:
+            up_sells_search_sku: %noValue%
+        up_sells_3:
+            up_sells_search_sku: %noValue%
+        up_sells_4:
+            up_sells_search_sku: %noValue%
+        up_sells_5:
+            up_sells_search_sku: %noValue%
+        up_sells_6:
+            up_sells_search_sku: %noValue%
+    cross_sells_data:
+        cross_sells_1:
+            cross_sells_search_sku: %noValue%
+        cross_sells_2:
+            cross_sells_search_sku: %noValue%
+        cross_sells_3:
+            cross_sells_search_sku: %noValue%
+        cross_sells_4:
+            cross_sells_search_sku: %noValue%
+        cross_sells_5:
+            cross_sells_search_sku: %noValue%
+        cross_sells_6:
+            cross_sells_search_sku: %noValue%
+
+
+configurable_product_for_linking_products:
+    product_attribute_set: Default
+    configurable_attribute_title: %noValue%
+    general_name: Configurable Product
+    general_description: Description for Configurable Product
+    general_short_description: Short Description for Configurable Product
+    general_sku: configurable_sku
+    general_status: Enabled
+    general_visibility: Catalog, Search
+    prices_price: 4.95
+    prices_tax_class: None
+    inventory_stock_availability: In Stock
+    websites: Main Website
+    categories: Default Category
+    associated_configurable_data:
+        associated_products_attribute_name_default: test
+        associated_products_attribute_name: test
+        associated_configurable_1:
+            associated_search_sku: %noValue%
+    related_data:
+        related_1:
+            related_search_sku: %noValue%
+        related_2:
+            related_search_sku: %noValue%
+        related_3:
+            related_search_sku: %noValue%
+        related_4:
+            related_search_sku: %noValue%
+        related_5:
+            related_search_sku: %noValue%
+        related_6:
+            related_search_sku: %noValue%
+    up_sells_data:
+        up_sells_1:
+            up_sells_search_sku: %noValue%
+        up_sells_2:
+            up_sells_search_sku: %noValue%
+        up_sells_3:
+            up_sells_search_sku: %noValue%
+        up_sells_4:
+            up_sells_search_sku: %noValue%
+        up_sells_5:
+            up_sells_search_sku: %noValue%
+        up_sells_6:
+            up_sells_search_sku: %noValue%
+    cross_sells_data:
+        cross_sells_1:
+            cross_sells_search_sku: %noValue%
+        cross_sells_2:
+            cross_sells_search_sku: %noValue%
+        cross_sells_3:
+            cross_sells_search_sku: %noValue%
+        cross_sells_4:
+            cross_sells_search_sku: %noValue%
+        cross_sells_5:
+            cross_sells_search_sku: %noValue%
+        cross_sells_6:
+            cross_sells_search_sku: %noValue%
+
+
+grouped_product_for_linking_products:
+    product_attribute_set: Default
+    general_name: Grouped Product
+    general_description: Description for Grouped Product
+    general_short_description: Short Description for Grouped Product
+    general_sku: grouped_sku
+    general_status: Enabled
+    general_visibility: Catalog, Search
+    inventory_stock_availability: In Stock
+    websites: Main Website
+    categories: Default Category
+    associated_grouped_data:
+        associated_grouped_1:
+            associated_search_sku: %noValue%
+            associated_product_default_qty: 1
+    related_data:
+        related_1:
+            related_search_sku: %noValue%
+        related_2:
+            related_search_sku: %noValue%
+        related_3:
+            related_search_sku: %noValue%
+        related_4:
+            related_search_sku: %noValue%
+        related_5:
+            related_search_sku: %noValue%
+        related_6:
+            related_search_sku: %noValue%
+    up_sells_data:
+        up_sells_1:
+            up_sells_search_sku: %noValue%
+        up_sells_2:
+            up_sells_search_sku: %noValue%
+        up_sells_3:
+            up_sells_search_sku: %noValue%
+        up_sells_4:
+            up_sells_search_sku: %noValue%
+        up_sells_5:
+            up_sells_search_sku: %noValue%
+        up_sells_6:
+            up_sells_search_sku: %noValue%
+    cross_sells_data:
+        cross_sells_1:
+            cross_sells_search_sku: %noValue%
+        cross_sells_2:
+            cross_sells_search_sku: %noValue%
+        cross_sells_3:
+            cross_sells_search_sku: %noValue%
+        cross_sells_4:
+            cross_sells_search_sku: %noValue%
+        cross_sells_5:
+            cross_sells_search_sku: %noValue%
+        cross_sells_6:
+            cross_sells_search_sku: %noValue%

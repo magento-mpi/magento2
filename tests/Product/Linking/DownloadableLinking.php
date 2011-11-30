@@ -36,9 +36,120 @@
  */
 class Product_Linking_DownloadableLinkingTest extends Mage_Selenium_TestCase
 {
-
+    protected static $productsInStock = array();
+    protected static $productsOutOfStock = array();
     protected function assertPreConditions()
     {}
+
+    /**
+     * <p>Preconditions</p>
+     * <p>Create attribute</p>
+     *
+     * @test
+     */
+    public function createAttribute()
+    {
+        $attrData = $this->loadData('product_attribute_dropdown_with_options_link_prod', NULL,
+                array('admin_title', 'attribute_code'));
+        $associatedAttributes = $this->loadData('associated_attributes',
+                array('General' => $attrData['attribute_code']));
+        $this->loginAdminUser();
+        $this->navigate('manage_attributes');
+        $this->productAttributeHelper()->createAttribute($attrData);
+        $this->assertTrue($this->successMessage('success_saved_attribute'), $this->messages);
+        $this->navigate('manage_attribute_sets');
+        $this->attributeSetHelper()->openAttributeSet();
+        $this->attributeSetHelper()->addAttributeToSet($associatedAttributes);
+        $this->saveForm('save_attribute_set');
+        $this->assertTrue($this->successMessage('success_attribute_set_saved'), $this->messages);
+
+        return $attrData;
+    }
+
+    /**
+     * <p>Preconditions</p>
+     * <p>Create simple product for adding it to bundle and associated product</p>
+     *
+     * @depends createAttribute
+     * @test
+     * @return string
+     */
+    public function createSimpleProductForBundle($attrData)
+    {
+        $productData = $this->loadData('simple_product_visible', NULL, array('general_name','general_sku'));
+        $productData['general_user_attr']['dropdown'][$attrData['attribute_code']] =
+                $attrData['option_1']['admin_option_name'];
+        $this->loginAdminUser();
+        $this->navigate('manage_products');
+        $this->productHelper()->createProduct($productData);
+        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+
+        return $productData['general_sku'];
+    }
+    /**
+     * <p>Preconditions</p>
+     * <p>Create products for linking in stock</p>
+     *
+     * @dataProvider productTypes
+     * @depends createAttribute
+     * @depends createSimpleProductForBundle
+     *
+     * @test
+     */
+    public function createProductsForLinkingInStock($productType, $attrData, $simple)
+    {
+        $productData = $this->loadData($productType. '_product_related',
+                                           array('bundle_items_search_sku' => $simple,
+                                                 'configurable_attribute_title' => $attrData['admin_title'],
+                                                 'associated_search_sku' => $simple),
+                                           array('general_name','general_sku'));
+        $this->loginAdminUser();
+        $this->navigate('manage_products');
+        $this->productHelper()->createProduct($productData, $productType);
+        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+
+        self::$productsInStock[$productType]['general_name'] = $productData['general_name'];
+        self::$productsInStock[$productType]['general_sku'] = $productData['general_sku'];
+    }
+
+    /**
+     * <p>Preconditions</p>
+     * <p>Create products for linking out of stock</p>
+     *
+     * @dataProvider productTypes
+     * @depends createAttribute
+     * @depends createSimpleProductForBundle
+     *
+     * @test
+     */
+    public function createProductsForLinkingOutOfStock($productType, $attrData, $simple)
+    {
+        $productData = $this->loadData($productType. '_product_related',
+                                           array('bundle_items_search_sku' => $simple,
+                                                 'configurable_attribute_title' => $attrData['admin_title'],
+                                                 'associated_search_sku' => $simple,
+                                                 'inventory_stock_availability' => 'Out of Stock'),
+                                           array('general_name','general_sku'));
+        $this->loginAdminUser();
+        $this->navigate('manage_products');
+        $this->productHelper()->createProduct($productData, $productType);
+        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+
+        self::$productsOutOfStock[$productType]['general_name'] = $productData['general_name'];
+        self::$productsOutOfStock[$productType]['general_sku'] = $productData['general_sku'];
+    }
+
+    public function productTypes()
+    {
+        return array(
+            array('simple'),
+            array('virtual'),
+            array('downloadable'),
+            array('bundle'),
+            array('configurable'),
+            array('grouped')
+        );
+    }
 
     /**
      * <p>Review related products on frontend.</p>
@@ -52,11 +163,51 @@ class Product_Linking_DownloadableLinkingTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Products are created, The downloadable product contains block with related products; Prices for related products are correct</p>
      *
+     * @depends createProductsForLinkingInStock
      * @test
      */
     public function relatedInStock()
     {
-        $this->markTestIncomplete('@TODO');
+        $productData1 = $this->loadData('downloadable_product_for_linking_products',
+                                       NULL, array('general_name', 'general_sku'));
+        $productData2 = $this->loadData('downloadable_product_for_linking_products',
+                                       NULL, array('general_name', 'general_sku'));
+        $i = 1;
+        foreach (self::$productsInStock as $prod) {
+            if ($i % 2) {
+                $productData1['related_data']['related_' . $i++]['related_search_sku'] = $prod['general_sku'];
+            } else {
+                $productData2['related_data']['related_' . $i++]['related_search_sku'] = $prod['general_sku'];
+            }
+
+        }
+        $this->loginAdminUser();
+        $this->navigate('manage_products');
+        $this->productHelper()->createProduct($productData1, 'downloadable');
+        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        $this->productHelper()->createProduct($productData2, 'downloadable');
+        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+
+        $this->reindexInvalidedData();
+        $this->clearInvalidedCache();
+        $this->logoutCustomer();
+        $i = 1;
+        $errors = array();
+        foreach (self::$productsInStock as $prod) {
+            $this->addParameter('productName', $prod['general_name']);
+            if ($i % 2) {
+                $this->productHelper()->frontOpenProduct($productData1['general_name']);
+            } else {
+                $this->productHelper()->frontOpenProduct($productData2['general_name']);
+            }
+            if (!$this->controlIsPresent('link', 'related_product')) {
+                $errors[] = 'Related Product ' . $prod['general_name'] . ' is not on the page';
+            }
+            $i++;
+        }
+        if (!empty($errors)) {
+            $this->fail(implode("\n", $errors));
+        }
     }
 
     /**
@@ -71,11 +222,38 @@ class Product_Linking_DownloadableLinkingTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Products are created, The downloadable product does not contains any related products;</p>
      *
+     * @depends createProductsForLinkingOutOfStock
      * @test
      */
     public function relatedOutOfStock()
     {
-        $this->markTestIncomplete('@TODO');
+        $productData = $this->loadData('downloadable_product_for_linking_products',
+                                       NULL, array('general_name', 'general_sku'));
+        $i = 1;
+        foreach (self::$productsOutOfStock as $prod) {
+            $productData['related_data']['related_' . $i++]['related_search_sku'] = $prod['general_sku'];
+        }
+        $this->loginAdminUser();
+        $this->navigate('manage_products');
+        $this->productHelper()->createProduct($productData, 'downloadable');
+        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+
+        $this->reindexInvalidedData();
+        $this->clearInvalidedCache();
+        $this->logoutCustomer();
+        $i = 1;
+        $errors = array();
+        $this->productHelper()->frontOpenProduct($productData['general_name']);
+        foreach (self::$productsOutOfStock as $prod) {
+            $this->addParameter('productName', $prod['general_name']);
+            if ($this->controlIsPresent('link', 'related_product')) {
+                $errors[] = 'Related Product ' . $prod['general_name'] . ' is on the page';
+            }
+            $i++;
+        }
+        if (!empty($errors)) {
+            $this->fail(implode("\n", $errors));
+        }
     }
 
     /**
@@ -91,11 +269,54 @@ class Product_Linking_DownloadableLinkingTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Products are created, The downloadable product contains block with cross-sell products; Prices for cross-sell products are correct</p>
      *
+     * @depends createProductsForLinkingInStock
      * @test
      */
     public function crossSellsInStock()
     {
-        $this->markTestIncomplete('@TODO');
+        $productData1 = $this->loadData('downloadable_product_for_linking_products',
+                                       NULL, array('general_name', 'general_sku'));
+        $productData2 = $this->loadData('downloadable_product_for_linking_products',
+                                       NULL, array('general_name', 'general_sku'));
+        $i = 1;
+        foreach (self::$productsInStock as $prod) {
+            if ($i % 2) {
+                $productData1['cross_sells_data']['cross_sells_' . $i++]['cross_sells_search_sku'] = $prod['general_sku'];
+            } else {
+                $productData2['cross_sells_data']['cross_sells_' . $i++]['cross_sells_search_sku'] = $prod['general_sku'];
+            }
+
+        }
+        $this->loginAdminUser();
+        $this->navigate('manage_products');
+        $this->productHelper()->createProduct($productData1, 'downloadable');
+        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        $this->productHelper()->createProduct($productData2, 'downloadable');
+        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+
+        $this->reindexInvalidedData();
+        $this->clearInvalidedCache();
+        $this->logoutCustomer();
+        $i = 1;
+        $errors = array();
+        foreach (self::$productsInStock as $prod) {
+            $this->addParameter('crosssellProductName', $prod['general_name']);
+            if ($i % 2) {
+                $this->productHelper()->frontOpenProduct($productData1['general_name']);
+                $this->productHelper()->frontAddProductToCart();
+            } else {
+                $this->productHelper()->frontOpenProduct($productData2['general_name']);
+                $this->productHelper()->frontAddProductToCart();
+            }
+            if (!$this->controlIsPresent('link', 'crosssell_product')) {
+                $errors[] = 'Cross-sell Product ' . $prod['general_name'] . ' is not on the page';
+            }
+            $this->shoppingCartHelper()->frontClearShoppingCart();
+            $i++;
+        }
+        if (!empty($errors)) {
+            $this->fail(implode("\n", $errors));
+        }
     }
 
     /**
@@ -111,11 +332,39 @@ class Product_Linking_DownloadableLinkingTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Products are created, The downloadable product in the shopping cart does not contain the cross-sell products</p>
      *
+     * @depends createProductsForLinkingOutOfStock
      * @test
      */
     public function crossSellsOutOfStock()
     {
-        $this->markTestIncomplete('@TODO');
+        $productData = $this->loadData('downloadable_product_for_linking_products',
+                                       NULL, array('general_name', 'general_sku'));
+        $i = 1;
+        foreach (self::$productsOutOfStock as $prod) {
+            $productData['cross_sells_data']['cross_sells_' . $i++]['cross_sells_search_sku'] = $prod['general_sku'];
+        }
+        $this->loginAdminUser();
+        $this->navigate('manage_products');
+        $this->productHelper()->createProduct($productData, 'downloadable');
+        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+
+        $this->reindexInvalidedData();
+        $this->clearInvalidedCache();
+        $this->logoutCustomer();
+        $i = 1;
+        $errors = array();
+        $this->productHelper()->frontOpenProduct($productData['general_name']);
+        $this->productHelper()->frontAddProductToCart();
+        foreach (self::$productsOutOfStock as $prod) {
+            $this->addParameter('crosssellProductName', $prod['general_name']);
+            if ($this->controlIsPresent('link', 'crosssell_product')) {
+                $errors[] = 'Cross-sell Product ' . $prod['general_name'] . ' is on the page';
+            }
+            $i++;
+        }
+        if (!empty($errors)) {
+            $this->fail(implode("\n", $errors));
+        }
     }
 
     /**
@@ -130,11 +379,51 @@ class Product_Linking_DownloadableLinkingTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Products are created, The downloadable product contains block with up-sell products; Prices for up-sell products are correct</p>
      *
+     * @depends createProductsForLinkingInStock
      * @test
      */
     public function upSellsInStock()
     {
-        $this->markTestIncomplete('@TODO');
+        $productData1 = $this->loadData('downloadable_product_for_linking_products',
+                                       NULL, array('general_name', 'general_sku'));
+        $productData2 = $this->loadData('downloadable_product_for_linking_products',
+                                       NULL, array('general_name', 'general_sku'));
+        $i = 1;
+        foreach (self::$productsInStock as $prod) {
+            if ($i % 2) {
+                $productData1['up_sells_data']['up_sells_' . $i++]['up_sells_search_sku'] = $prod['general_sku'];
+            } else {
+                $productData2['up_sells_data']['up_sells_' . $i++]['up_sells_search_sku'] = $prod['general_sku'];
+            }
+
+        }
+        $this->loginAdminUser();
+        $this->navigate('manage_products');
+        $this->productHelper()->createProduct($productData1, 'downloadable');
+        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        $this->productHelper()->createProduct($productData2, 'downloadable');
+        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+
+        $this->reindexInvalidedData();
+        $this->clearInvalidedCache();
+        $this->logoutCustomer();
+        $i = 1;
+        $errors = array();
+        foreach (self::$productsInStock as $prod) {
+            $this->addParameter('productName', $prod['general_name']);
+            if ($i % 2) {
+                $this->productHelper()->frontOpenProduct($productData1['general_name']);
+            } else {
+                $this->productHelper()->frontOpenProduct($productData2['general_name']);
+            }
+            if (!$this->controlIsPresent('link', 'upsell_product')) {
+                $errors[] = 'Up-sell Product ' . $prod['general_name'] . ' is not on the page';
+            }
+            $i++;
+        }
+        if (!empty($errors)) {
+            $this->fail(implode("\n", $errors));
+        }
     }
 
     /**
@@ -149,11 +438,37 @@ class Product_Linking_DownloadableLinkingTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Products are created, The downloadable product details page does not contain any up-sell product</p>
      *
+     * @depends createProductsForLinkingOutOfStock
      * @test
      */
     public function upSellsOutOfStock()
     {
-        $this->markTestIncomplete('@TODO');
+        $productData = $this->loadData('downloadable_product_for_linking_products',
+                                       NULL, array('general_name', 'general_sku'));
+        $i = 1;
+        foreach (self::$productsOutOfStock as $prod) {
+            $productData['up_sells_data']['up_sells_' . $i++]['up_sells_search_sku'] = $prod['general_sku'];
+        }
+        $this->loginAdminUser();
+        $this->navigate('manage_products');
+        $this->productHelper()->createProduct($productData, 'downloadable');
+        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+
+        $this->reindexInvalidedData();
+        $this->clearInvalidedCache();
+        $this->logoutCustomer();
+        $i = 1;
+        $errors = array();
+        $this->productHelper()->frontOpenProduct($productData['general_name']);
+        foreach (self::$productsOutOfStock as $prod) {
+            $this->addParameter('productName', $prod['general_name']);
+            if ($this->controlIsPresent('link', 'upsell_product')) {
+                $errors[] = 'Up-sell Product ' . $prod['general_name'] . ' is on the page';
+            }
+            $i++;
+        }
+        if (!empty($errors)) {
+            $this->fail(implode("\n", $errors));
+        }
     }
 }
-

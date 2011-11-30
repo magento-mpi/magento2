@@ -73,6 +73,8 @@ product_page:
                 -
                     product_custom_options: &productCustomOptions
                         xpath: //div[@id='product-options-wrapper']
+                        dropdowns:
+                            custom_option_select_attribute:  //dt[./label[contains(normalize-space(text()),'%title%')]]/following-sibling::dd[1]//select
                         pageelements:
                             custom_option_non_select: //dt[./label[contains(normalize-space(text()),'%title%') and //span[normalize-space(text())='%price%']]]
                             custom_option_max_chars: "/following-sibling::dd[1]//p[@class='note' and //strong='%maxChars%']"
