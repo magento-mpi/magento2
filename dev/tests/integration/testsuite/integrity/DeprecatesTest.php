@@ -81,7 +81,7 @@ class Integrity_DeprecatesTest extends Magento_Test_TestCase_VisitorAbstract
     {
         $directory  = new RecursiveDirectoryIterator(Mage::getRoot());
         $iterator = new RecursiveIteratorIterator($directory);
-        $regexIterator = new RegexIterator($iterator, '/(\.php|\.phtml|\.xml|\.js)$/');
+        $regexIterator = new RegexIterator($iterator, '/(\.php|\.phtml|\.xml|\.js|\.html)$/');
 
         $result = array();
         foreach ($regexIterator as $fileInfo) {
@@ -141,6 +141,31 @@ class Integrity_DeprecatesTest extends Magento_Test_TestCase_VisitorAbstract
                 'description' => 'method',
                 'needle' => 'htmlEscape()',
                 'suggestion' => 'change to escapeHtml()'
+            );
+        }
+
+        return $result;
+    }
+
+    /**
+     * Finds usage of htmlescape directive
+     *
+     * @param SplFileInfo $fileInfo
+     * @param string $content
+     * @return array
+     */
+    protected function _visitHtmlescapeDirective($fileInfo, $content)
+    {
+        if (!$this->_fileHasExtensions($fileInfo, array('html'))) {
+            return array();
+        }
+
+        $result = array();
+        if (preg_match('{{htmlescape.*}}', $content)) {
+            $result[] = array(
+                'description' => 'directive',
+                'needle' => '{{htmlescape}}',
+                'suggestion' => 'change to {{escapehtml}}'
             );
         }
 

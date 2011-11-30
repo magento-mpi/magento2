@@ -3,12 +3,13 @@
 app/code/community/Find
 app/etc/modules/Find_Feed.xml
 app/etc/modules/Zrdbms.xml
-dev/build
-dev/tools/batch_tests
+app/etc/modules/XEnterprise_Enabler.xml.dist
+// dev/build
 // dev/tests/functional
 // dev/tests/performance
 // dev/tests/static
 // dev/tests/unit
+// dev/tools/batch_tests
 lib/Magento/Db
 lib/Magento/Payment
 app/code/*/*/*/Model/Resource/Helper/{Oracle,Mssql}.php
