@@ -64,7 +64,7 @@ class CmsPages_Helper extends Mage_Selenium_TestCase
             $this->fillForm($design, 'design');
         }
         if ($metaData) {
-            $this->fillForm($widgetOptions, 'meta_data');
+            $this->fillForm($metaData, 'meta_data');
         }
         $this->saveForm('save_page');
     }
