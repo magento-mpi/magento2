@@ -49,7 +49,7 @@ class Product_Linking_GroupedLinkingTest extends Mage_Selenium_TestCase
      */
     public function createAttribute()
     {
-        $attrData = $this->loadData('product_attribute_dropdown_with_options_link_prod', NULL,
+        $attrData = $this->loadData('product_attribute_dropdown_with_options', NULL,
                 array('admin_title', 'attribute_code'));
         $associatedAttributes = $this->loadData('associated_attributes',
                 array('General' => $attrData['attribute_code']));
@@ -101,8 +101,7 @@ class Product_Linking_GroupedLinkingTest extends Mage_Selenium_TestCase
         $productData = $this->loadData($productType. '_product_related',
                                            array('bundle_items_search_sku' => $simple,
                                                  'configurable_attribute_title' => $attrData['admin_title'],
-                                                 'associated_search_sku' => $simple),
-                                           array('general_name','general_sku'));
+                                                 'associated_search_sku' => $simple));
         $this->loginAdminUser();
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($productData, $productType);
@@ -128,8 +127,7 @@ class Product_Linking_GroupedLinkingTest extends Mage_Selenium_TestCase
                                            array('bundle_items_search_sku' => $simple,
                                                  'configurable_attribute_title' => $attrData['admin_title'],
                                                  'associated_search_sku' => $simple,
-                                                 'inventory_stock_availability' => 'Out of Stock'),
-                                           array('general_name','general_sku'));
+                                                 'inventory_stock_availability' => 'Out of Stock'));
         $this->loginAdminUser();
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($productData, $productType);
@@ -170,11 +168,9 @@ class Product_Linking_GroupedLinkingTest extends Mage_Selenium_TestCase
     public function relatedInStock($simple)
     {
         $productData1 = $this->loadData('grouped_product_for_linking_products',
-                                       array('associated_search_sku' => $simple),
-                                       array('general_name', 'general_sku'));
+                                       array('associated_search_sku' => $simple));
         $productData2 = $this->loadData('grouped_product_for_linking_products',
-                                       array('associated_search_sku' => $simple),
-                                       array('general_name', 'general_sku'));
+                                       array('associated_search_sku' => $simple));
         $i = 1;
         foreach (self::$productsInStock as $prod) {
             if ($i % 2) {
@@ -232,8 +228,7 @@ class Product_Linking_GroupedLinkingTest extends Mage_Selenium_TestCase
     public function relatedOutOfStock($simple)
     {
         $productData = $this->loadData('grouped_product_for_linking_products',
-                                       array('associated_search_sku' => $simple),
-                                       array('general_name', 'general_sku'));
+                                       array('associated_search_sku' => $simple));
         $i = 1;
         foreach (self::$productsOutOfStock as $prod) {
             $productData['related_data']['related_' . $i++]['related_search_sku'] = $prod['general_sku'];
@@ -279,11 +274,9 @@ class Product_Linking_GroupedLinkingTest extends Mage_Selenium_TestCase
     public function crossSellsInStock($simple)
     {
         $productData1 = $this->loadData('grouped_product_for_linking_products',
-                                       array('associated_search_sku' => $simple),
-                                       array('general_name', 'general_sku'));
+                                       array('associated_search_sku' => $simple));
         $productData2 = $this->loadData('grouped_product_for_linking_products',
-                                       array('associated_search_sku' => $simple),
-                                       array('general_name', 'general_sku'));
+                                       array('associated_search_sku' => $simple));
         $i = 1;
         foreach (self::$productsInStock as $prod) {
             if ($i % 2) {
@@ -345,8 +338,7 @@ class Product_Linking_GroupedLinkingTest extends Mage_Selenium_TestCase
     public function crossSellsOutOfStock($simple)
     {
         $productData = $this->loadData('grouped_product_for_linking_products',
-                                       array('associated_search_sku' => $simple),
-                                       array('general_name', 'general_sku'));
+                                       array('associated_search_sku' => $simple));
         $i = 1;
         foreach (self::$productsOutOfStock as $prod) {
             $productData['cross_sells_data']['cross_sells_' . $i++]['cross_sells_search_sku'] = $prod['general_sku'];
@@ -392,11 +384,9 @@ class Product_Linking_GroupedLinkingTest extends Mage_Selenium_TestCase
     public function upSellsInStock($simple)
     {
         $productData1 = $this->loadData('grouped_product_for_linking_products',
-                                       array('associated_search_sku' => $simple),
-                                       array('general_name', 'general_sku'));
+                                       array('associated_search_sku' => $simple));
         $productData2 = $this->loadData('grouped_product_for_linking_products',
-                                       array('associated_search_sku' => $simple),
-                                       array('general_name', 'general_sku'));
+                                       array('associated_search_sku' => $simple));
         $i = 1;
         foreach (self::$productsInStock as $prod) {
             if ($i % 2) {
@@ -454,8 +444,7 @@ class Product_Linking_GroupedLinkingTest extends Mage_Selenium_TestCase
     public function upSellsOutOfStock($simple)
     {
         $productData = $this->loadData('grouped_product_for_linking_products',
-                                       array('associated_search_sku' => $simple),
-                                       array('general_name', 'general_sku'));
+                                       array('associated_search_sku' => $simple));
         $i = 1;
         foreach (self::$productsOutOfStock as $prod) {
             $productData['up_sells_data']['up_sells_' . $i++]['up_sells_search_sku'] = $prod['general_sku'];

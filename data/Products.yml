@@ -1445,10 +1445,10 @@ frontend_virtual_product_details_validation:
 #<---------------------------------------------Related, Up-sell, Cross-sell products----------------------------------->
 simple_product_related:
     product_attribute_set: Default
-    general_name: Simple Product Visible
+    general_name: %randomize%_Simple Product Visible
     general_description: Description for Simple Product Visible
     general_short_description: Short Description for Simple Product Visible
-    general_sku: simple_visible_sku.req
+    general_sku: %randomize%_simple_visible_sku.req
     general_weight: 1.14
     general_status: Enabled
     general_visibility: Catalog, Search
@@ -1461,10 +1461,10 @@ simple_product_related:
 
 virtual_product_related:
     product_attribute_set: Default
-    general_name: Virtual Product Visible
+    general_name: %randomize%_Virtual Product Visible
     general_description: Description for Virtual Product Visible
     general_short_description: Short Description for Virtual Product Visible
-    general_sku: virtual_visible_sku.req
+    general_sku: %randomize%_virtual_visible_sku.req
     general_status: Enabled
     general_visibility: Catalog, Search
     prices_price: 18.99
@@ -1476,10 +1476,10 @@ virtual_product_related:
 
 downloadable_product_related:
     product_attribute_set: Default
-    general_name: Downloadable Product Visible
+    general_name: %randomize%_Downloadable Product Visible
     general_description: Description for Downloadable Product Visible
     general_short_description: Short Description for Downloadable Product Visible
-    general_sku: downloadable_visible_sku.req
+    general_sku: %randomize%_downloadable_visible_sku.req
     general_status: Enabled
     general_visibility: Catalog, Search
     prices_price: 98.99
@@ -1512,11 +1512,11 @@ downloadable_product_related:
 
 bundle_product_related:
     product_attribute_set: Default
-    general_name: Bundle(Fixed) Product
+    general_name: %randomize%_Bundle(Fixed) Product
     general_description: Description for Bundle(Fixed) Product
     general_short_description: Short Description for Bundle(Fixed) Product
     general_sku_type: Fixed
-    general_sku: bundle_sku
+    general_sku: %randomize%_bundle_sku
     general_weight_type: Fixed
     general_weight: 0.111
     general_status: Enabled
@@ -1540,10 +1540,10 @@ bundle_product_related:
 configurable_product_related:
     product_attribute_set: Default
     configurable_attribute_title: %noValue%
-    general_name: Configurable Product
+    general_name: %randomize%_Configurable Product
     general_description: Description for Configurable Product
     general_short_description: Short Description for Configurable Product
-    general_sku: configurable_sku
+    general_sku: %randomize%_configurable_sku
     general_status: Enabled
     general_visibility: Catalog, Search
     prices_price: 4.95
@@ -1561,10 +1561,10 @@ configurable_product_related:
 
 grouped_product_related:
     product_attribute_set: Default
-    general_name: Grouped Product
+    general_name: %randomize%_Grouped Product
     general_description: Description for Grouped Product
     general_short_description: Short Description for Grouped Product
-    general_sku: grouped_sku
+    general_sku: %randomize%_grouped_sku
     general_status: Enabled
     general_visibility: Catalog, Search
     inventory_stock_availability: In Stock
@@ -1581,14 +1581,14 @@ grouped_product_related:
 
 
 
-#<---------------------------------------------Base products for lining to--------------------------------------------->
+#<--------------------------------------------Base products for linking to--------------------------------------------->
 
 simple_product_for_linking_products:
     product_attribute_set: Default
-    general_name: Simple Product
+    general_name: %randomize%_Simple Product
     general_description: Description for Simple Product
     general_short_description: Short Description for Simple Product
-    general_sku: simple_sku
+    general_sku: %randomize%_simple_sku
     general_weight: 2.56
     general_status: Enabled
     general_visibility: Catalog, Search
@@ -1642,10 +1642,10 @@ simple_product_for_linking_products:
 
 virtual_product_for_linking_products:
     product_attribute_set: Default
-    general_name: Virtual Product Visible
+    general_name: %randomize%_Virtual Product Visible
     general_description: Description for Virtual Product Visible
     general_short_description: Short Description for Virtual Product Visible
-    general_sku: virtual_visible_sku.req
+    general_sku: %randomize%_virtual_visible_sku.req
     general_status: Enabled
     general_visibility: Catalog, Search
     prices_price: 18.99
@@ -1697,10 +1697,10 @@ virtual_product_for_linking_products:
 
 downloadable_product_for_linking_products:
     product_attribute_set: Default
-    general_name: Downloadable Product Visible
+    general_name: %randomize%_Downloadable Product Visible
     general_description: Description for Downloadable Product Visible
     general_short_description: Short Description for Downloadable Product Visible
-    general_sku: downloadable_visible_sku.req
+    general_sku: %randomize%_downloadable_visible_sku.req
     general_status: Enabled
     general_visibility: Catalog, Search
     prices_price: 98.99
@@ -1771,11 +1771,11 @@ downloadable_product_for_linking_products:
 
 bundle_product_for_linking_products:
     product_attribute_set: Default
-    general_name: Bundle(Fixed) Product
+    general_name: %randomize%_Bundle(Fixed) Product
     general_description: Description for Bundle(Fixed) Product
     general_short_description: Short Description for Bundle(Fixed) Product
     general_sku_type: Fixed
-    general_sku: bundle_sku
+    general_sku: %randomize%_bundle_sku
     general_weight_type: Fixed
     general_weight: 0.111
     general_status: Enabled
@@ -1842,10 +1842,10 @@ bundle_product_for_linking_products:
 configurable_product_for_linking_products:
     product_attribute_set: Default
     configurable_attribute_title: %noValue%
-    general_name: Configurable Product
+    general_name: %randomize%_Configurable Product
     general_description: Description for Configurable Product
     general_short_description: Short Description for Configurable Product
-    general_sku: configurable_sku
+    general_sku: %randomize%_configurable_sku
     general_status: Enabled
     general_visibility: Catalog, Search
     prices_price: 4.95
@@ -1901,10 +1901,10 @@ configurable_product_for_linking_products:
 
 grouped_product_for_linking_products:
     product_attribute_set: Default
-    general_name: Grouped Product
+    general_name: %randomize%_Grouped Product
     general_description: Description for Grouped Product
     general_short_description: Short Description for Grouped Product
-    general_sku: grouped_sku
+    general_sku: %randomize%_grouped_sku
     general_status: Enabled
     general_visibility: Catalog, Search
     inventory_stock_availability: In Stock
