@@ -490,14 +490,17 @@ class Mage_Core_Helper_Data extends Mage_Core_Helper_Abstract
         return $array;
     }
 
+    /**
+     * Mark passed object with specified flag and appropriate value.
+     *
+     * @param Varien_Object $element
+     * @param string $key
+     * @param mixed $value
+     * @param bool $dontSkip
+     */
     private function _decorateArrayObject($element, $key, $value, $dontSkip) {
-        if ($dontSkip) {
-            if ($element instanceof Varien_Object) {
-                $element->setData($key, $value);
-            }
-            else {
-                $element->$key = $value;
-            }
+        if ($dontSkip && $element instanceof Varien_Object) {
+            $element->setData($key, $value);
         }
     }
 

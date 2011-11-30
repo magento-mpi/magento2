@@ -54,6 +54,16 @@ class Integrity_DeprecatesTest extends Magento_Test_TestCase_VisitorAbstract
     );
 
     /**
+     * List of deprecated properties. Only unique names must be placed there, so we don't get wrong alerts.
+     */
+    protected $_deprecatedProps = array(
+        array('property' => 'decoratedIsFirst', 'suggestion' => 'use getDecoratedIsFirst()'),
+        array('property' => 'decoratedIsEven', 'suggestion' => 'use getDecoratedIsEven()'),
+        array('property' => 'decoratedIsOdd', 'suggestion' => 'use getDecoratedIsOdd()'),
+        array('property' => 'decoratedIsLast', 'suggestion' => 'use getDecoratedIsLast()')
+    );
+
+    /**
      * @return void
      */
     public function testFindDeprecatedStuff()
@@ -419,4 +429,35 @@ class Integrity_DeprecatesTest extends Magento_Test_TestCase_VisitorAbstract
             array('code/core/Mage/Downloadable/Model/Product/Type.php')
         );
     }
+
+    /**
+     * Finds usage of deprecated properties
+     *
+     * @param SplFileInfo $fileInfo
+     * @param string $content
+     * @return array
+     */
+    protected function _visitDeprecatedProperties($fileInfo, $content)
+    {
+        if (!$this->_fileHasExtensions($fileInfo, array('php', 'phtml'))) {
+            return array();
+        }
+
+        $result = array();
+        foreach ($this->_deprecatedProps as $searchInfo) {
+            $property = $searchInfo['property'];
+            $suggestion = $searchInfo['suggestion'];
+            $needle = '->' . $property;
+            if (strpos($content, $needle) === false) {
+                continue;
+            }
+            $result[] = array(
+                'description' => 'property',
+                'needle' => $property,
+                'suggestion' => $suggestion
+            );
+        }
+        return $result;
+    }
+
 }

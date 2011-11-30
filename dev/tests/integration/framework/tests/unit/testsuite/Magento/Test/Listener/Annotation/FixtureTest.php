@@ -158,11 +158,14 @@ class Magento_Test_Listener_Annotation_FixtureTest extends PHPUnit_Framework_Tes
     {
         $this->_annotation->startTest();
 
+        $expectedFilename = str_replace('/', DIRECTORY_SEPARATOR,
+            'Magento/Test/Listener/_files/sample_fixture_two_rollback.php'
+        );
+
         $this->_annotation
             ->expects($this->at(1))
             ->method('_applyOneFixture')
-            ->with($this->stringEndsWith('Magento/Test/Listener/_files/sample_fixture_two_rollback.php'))
-        ;
+            ->with($this->stringEndsWith($expectedFilename));
 
         $this->_annotation->endTest();
     }
