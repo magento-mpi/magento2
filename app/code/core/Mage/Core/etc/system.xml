@@ -1176,7 +1176,7 @@
                         <length translate="label comment">
                             <label>Word length</label>
                             <frontend_type>text</frontend_type>
-                            <comment>Range allowed (e.g. 3-5). Please specify 8 symbols at the most.</comment>
+                            <comment>Please specify 8 symbols at the most. Range allowed (e.g. 3-5)</comment>
                             <sort_order>7</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
@@ -1188,7 +1188,7 @@
                         <symbols translate="label comment">
                             <label>Symbols used in CAPTCHA</label>
                             <frontend_type>text</frontend_type>
-                            <comment>Similar looking characters (e.g. "i", "l", "1") decrease chance of correct recognition</comment>
+                            <comment><![CDATA[Please use only letters (a-z or A-Z) or numbers (0-9) in this field. No spaces or other characters are allowed.<br />Similar looking characters (e.g. "i", "l", "1") decrease chance of correct recognition by customer.]]></comment>
                             <sort_order>8</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
