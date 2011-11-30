@@ -282,12 +282,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
             }
             $requestObject->setPackageParams($packageParams);
         } else {
-            /*
-            * DHL only accepts weight as a whole number. Maximum length is 3 digits.
-            */
             $shippingWeight = $request->getPackageWeight();
-            $weight = $this->getTotalNumOfBoxes($shippingWeight);
-            $shippingWeight = round(max(1, $weight), 0);
         }
 
         $requestObject->setValue(round($request->getPackageValue(), 2))
