@@ -57,7 +57,7 @@ class Routine
      */
     public static $fileTypes = array(
         'xml'   => array('*.xml', '*.xml.template', '*.xml.additional', '*.xml.dist', '*.xml.sample', '*.xsd'),
-        'php'   => array('*.php'),
+        'php'   => array('*.php', '*.php.sample'),
         'phtml' => array('*.phtml'),
         'css'   => array('*.css'),
         'js'    => array('*.js')
@@ -88,7 +88,7 @@ class Routine
         }
 
         foreach ($paths as $resource) {
-            if (is_file($resource) && !in_array(realpath($resource), self::$skipFiles)) {
+            if (is_file($resource) && !self::_isFileSkipped($resource)) {
                 $result[] = $resource;
                 continue;
             }
@@ -118,7 +118,7 @@ class Routine
     {
         foreach ($fileMasks as $filesMask) {
             foreach (glob($directory . '/' . $filesMask) as $filename) {
-                if (!in_array(realpath($filename), self::$skipFiles)) {
+                if (!self::_isFileSkipped($filename)) {
                     $result[] = $filename;
                 }
             }
@@ -132,22 +132,19 @@ class Routine
      * @param array $paths
      * @return array
      */
-    protected static function _filterPaths($paths)
+    protected static function _setSkippedPaths($paths)
     {
         if (!is_array($paths)) {
             $paths = array($paths);
         }
-        foreach ($paths as $k => $path) {
+        foreach ($paths as $path) {
             $real = realpath($path);
             if (is_dir($real)) {
                 self::$skipDirectories[] = $real;
             } elseif (is_file($real)) {
                 self::$skipFiles[] = $real;
             }
-            unset($paths[$k]);
         }
-
-        return $paths;
     }
 
     /**
@@ -159,13 +156,26 @@ class Routine
      */
     protected static function _isDirectorySkipped($directory)
     {
+        $directory = realpath($directory) . DIRECTORY_SEPARATOR;
         foreach (self::$skipDirectories as $skipDir) {
-            if (false !== strpos(realpath($directory) . DIRECTORY_SEPARATOR, $skipDir . DIRECTORY_SEPARATOR)) {
+            if (false !== strpos($directory, $skipDir . DIRECTORY_SEPARATOR)) {
                 return true;
             }
         }
 
         return false;
+    }
+
+    /**
+     * Analyzes passed file should it be skipped or not.
+     *
+     * @static
+     * @param string $filename
+     * @return bool
+     */
+    protected static function _isFileSkipped($filename)
+    {
+        return in_array(realpath($filename), self::$skipFiles);
     }
 
     /**
@@ -304,7 +314,7 @@ class Routine
                 }
 
                 if (isset($types['_params']['skipped'])) {
-                    self::_filterPaths($types['_params']['skipped']);
+                    self::_setSkippedPaths($types['_params']['skipped']);
                 }
                 unset($types['_params']);
             }
@@ -324,7 +334,7 @@ class Routine
         }
 
         if (self::$_isFailedUpdate) {
-            throw new Exception('Failed during updating files.\n');
+            throw new Exception("Failed during updating files.\n");
         }
     }
 }

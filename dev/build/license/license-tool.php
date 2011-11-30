@@ -64,5 +64,3 @@ try {
     Routine::printLog($e->getMessage());
     exit(1);
 }
-
-

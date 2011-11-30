@@ -52,7 +52,12 @@ foreach ($list as $key => $line) {
 
 $workingDir = '.';
 if (isset($options['w'])) {
-    $workingDir = rtrim($options['w'], DIRECTORY_SEPARATOR);
+    $workingDir = realpath(
+        rtrim(
+            str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, $options['w']),
+            DIRECTORY_SEPARATOR
+        )
+    );
 }
 if (!is_dir($workingDir)) {
     print 'Working dir "' . $workingDir . '" does not exist' . "\n";
@@ -77,17 +82,21 @@ if (isset($options['i'])) {
     $ignore = true;
 }
 
+$currentWorkingDir = getcwd();
+chdir($workingDir);
 foreach ($list as $item) {
     if (empty($item)) {
         continue;
     }
     foreach (Routine::parsePath($item) as $currItem) {
-        $currItem = $workingDir . DIRECTORY_SEPARATOR . $currItem;
+        $currItem = str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, $currItem);
         $result = Routine::execCmd("$rmCommand $currItem", $verbose, $ignore);
         if ($result !== 0) {
+            chdir($currentWorkingDir);
             exit($result);
         }
     }
 }
+chdir($currentWorkingDir);
 
 exit(0);
