@@ -1638,10 +1638,11 @@
         <dynamicField name="ignored_*" type="ignored" multiValued="true"/>
         <dynamicField name="random_*" type="random"/>
 
-        <dynamicField name="attr_decimal_*" type="float" indexed="true" multiValued="true"/>
-        <dynamicField name="attr_datetime_*" type="date" indexed="true" multiValued="true"/>
+        <dynamicField name="attr_decimal_*" type="float" indexed="true"/>
+        <dynamicField name="attr_datetime_*" type="date" indexed="true"/>
+        <dynamicField name="attr_select_*" type="string" indexed="true"/>
         <dynamicField name="attr_multi_*" type="string" indexed="true" multiValued="true"/>
-        <dynamicField name="attr_select_*" type="string" indexed="true" multiValued="true"/>
+
         <dynamicField name="price_*" type="tfloat" indexed="true"/>
         <dynamicField name="position_category_*" type="int" indexed="true"/>
 

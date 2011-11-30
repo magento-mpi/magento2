@@ -77,13 +77,11 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
         self::UNIQUE_KEY,
         'id',
         'sku',
-        'price',
         'store_id',
         'categories',
         'show_in_categories',
         'visibility',
-        'in_stock',
-        'score'
+        'in_stock'
     );
 
     /**
@@ -152,10 +150,6 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
      * @var bool
      */
     protected $_indexNeedsOptimization = false;
-
-
-
-
 
     /**
      * Text fields which can store data differ in different languages
@@ -288,13 +282,11 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
                 }
             }
 
-            /**
+            /*
              * Merge attributes to fulltext fields according to their search weights
              */
             $attributesWeights = array();
-            $attributesSpell = array();
-            $needToReplaceSeparator = ($this->_separator != ' ');
-            $currentCurrency = Mage::app()->getStore($index['store_id'])->getDefaultCurrency();
+            $spellData = array();
             foreach ($index as $code => $value) {
                 $weight = 0;
                 $isSearchable = 0;
@@ -304,35 +296,35 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
                     $frontendInput = $attributeParams[$code]['frontendInput'];
                     $isSearchable = $attributeParams[$code]['isSearchable'];
                 } elseif ((substr($code, 0, 5 + $fieldPrefixLength) == $fieldPrefix . 'price'
-                        && !empty($attributeParams['price']))) {
+                    && !empty($attributeParams['price']))
+                ) {
                     $weight = $attributeParams['price']['searchWeight'];
-                    $frontendInput = 'price';
                     $isSearchable = $attributeParams['price']['isSearchable'];
                 }
 
                 if ($weight && $isSearchable) {
-                    if ($needToReplaceSeparator && $frontendInput == 'multiselect') {
-                        $value = str_replace($this->_separator, ' ', $value);
-                    } elseif ($code == 'price' || $frontendInput == 'price') {
-                        if (!is_array($value)) {
-                            $value = array($value);
-                        }
-
-                        foreach ($value as $key => $price) {
-                            if ($price == round($price, 0)) {
-                                $value[] = $currentCurrency->formatPrecision($price, 0, array(), false);
-                            } elseif ($price == round($price, 1)) {
-                                $value[] = $currentCurrency->formatPrecision($price, 1, array(), false);
-                            }
-                            $value[$key] = $currentCurrency->formatPrecision($price, 2, array(), false);
+                    if ($frontendInput == 'multiselect') {
+                        foreach ($value as &$val) {
+                            $val = str_replace($this->_separator, ' ', $val);
                         }
                     }
 
                     $attributesWeights['fulltext' . $weight][] = $value;
-                    $attributesSpell[] = $value;
+                    $spellData[] = $value;
+                }
+
+                /*
+                 * Remove child products data from fields index. It would be present just at fulltext index.
+                 */
+                if (is_array($value) && !empty($attributeParams[$code])) {
+                    if (!array_key_exists($entityId, $value)) {
+                        unset($index[$code]);
+                    } else {
+                        $index[$code] = $value[$entityId];
+                    }
                 }
             }
-            $index['fulltext_spell'] = $this->_implodeIndexData($attributesSpell);
+            $index['fulltext_spell'] = $this->_implodeIndexData($spellData);
 
             foreach ($attributesWeights as $key => $value) {
                 $index[$key] = $this->_implodeIndexData($value);

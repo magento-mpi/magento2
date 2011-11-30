@@ -171,24 +171,15 @@ abstract class Enterprise_Search_Model_Adapter_Solr_Abstract extends Enterprise_
             }
 
             if ($frontendInput == 'multiselect') {
-                if (!is_array($value)) {
-                    $value = explode($this->_separator, $value);
-                    $value = array_unique($value);
-                } else {
-                    $result = array();
-                    foreach ($value as $val) {
-                        if (is_array($val)) {
-                            $result = array_merge($result, explode($this->_separator, $val));
-                        }
-                    }
-                    $value = array_unique($result);
-                }
+                $value = array_unique(explode($this->_separator, $value));
+
                 $data['attr_multi_'. $key] = $value;
                 unset($data[$key]);
             } elseif ($frontendInput == 'select' || $frontendInput == 'boolean') {
                 if (is_array($value)) {
                     $value = array_unique($value);
                 }
+
                 $data['attr_select_'. $key] = $value;
                 unset($data[$key]);
             } elseif (in_array($backendType, $this->_textFieldTypes)) {
@@ -209,16 +200,7 @@ abstract class Enterprise_Search_Model_Adapter_Solr_Abstract extends Enterprise_
                 }
 
                 if ($backendType == 'datetime') {
-                    if (is_array($value)) {
-                        foreach ($value as $k => &$val) {
-                            $val = $this->_getSolrDate($data['store_id'], $val);
-                            if (empty($val)) {
-                                unset($value[$k]);
-                            }
-                        }
-                    } else {
-                        $value = $this->_getSolrDate($data['store_id'], $value);
-                    }
+                    $value = $this->_getSolrDate($data['store_id'], $value);
                 }
                 if (!empty($value)) {
                     $data['attr_'. $backendType .'_'. $key] = $value;

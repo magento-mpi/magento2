@@ -629,21 +629,16 @@ class Mage_CatalogSearch_Model_Resource_Fulltext extends Mage_Core_Model_Resourc
             }
         }
 
-        foreach ($indexData as $attributeData) {
+        foreach ($indexData as $entityId => $attributeData) {
             foreach ($attributeData as $attributeId => $attributeValue) {
                 $value = $this->_getAttributeValue($attributeId, $attributeValue, $storeId);
                 if (!is_null($value) && $value !== false) {
                     $code = $this->_getSearchableAttribute($attributeId)->getAttributeCode();
-                    //For grouped products
+
                     if (isset($index[$code])) {
-                        if (!is_array($index[$code])) {
-                            $index[$code] = array($index[$code]);
-                        }
-                        $index[$code][] = $value;
-                    }
-                    //For other types of products
-                    else {
-                        $index[$code] = $value;
+                        $index[$code][$entityId] = $value;
+                    } else {
+                        $index[$code] = array($entityId => $value);
                     }
                 }
             }
@@ -684,10 +679,12 @@ class Mage_CatalogSearch_Model_Resource_Fulltext extends Mage_Core_Model_Resourc
     protected function _getAttributeValue($attributeId, $value, $storeId)
     {
         $attribute = $this->_getSearchableAttribute($attributeId);
-        if (!($attribute->getIsSearchable() ||
-            $attribute->getIsVisibleInAdvancedSearch() ||
-            $attribute->getIsFilterable() ||
-            $attribute->getIsFilterableInSearch())) {
+        if (!($attribute->getIsSearchable()
+            || $attribute->getIsVisibleInAdvancedSearch()
+            || $attribute->getIsFilterable()
+            || $attribute->getIsFilterableInSearch()
+            || $attribute->getUsedForSortBy())
+        ) {
             return null;
         }
 
