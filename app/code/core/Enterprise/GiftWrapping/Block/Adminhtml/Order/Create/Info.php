@@ -146,7 +146,7 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Order_Create_Info
     /**
      * Get url for ajax to refresh Gift Wrapping block
      *
-     * @deprecated after 1.11.2.0
+     * @deprecated since 1.12.0.0
      *
      * @return void
      */
