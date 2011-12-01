@@ -159,9 +159,9 @@ class Product_Linking_SimpleLinkingTest extends Mage_Selenium_TestCase
      * <p>1. Create 1 simple product in stock; Attach all types of products to the first one as related products</p>
      * <p>2. Navigate to frontend;</p>
      * <p>3. Open product details page;</p>
-     * <p>4. Validate prices for related products in "related products block";</p>
+     * <p>4. Validate names of related products in "related products block";</p>
      * <p>Expected result:</p>
-     * <p>Products are created, The simple product contains block with related products; Prices for related products are correct</p>
+     * <p>Products are created, The simple product contains block with related products; Names of related products are correct</p>
      *
      * @depends createProductsForLinkingInStock
      * @test
@@ -238,7 +238,6 @@ class Product_Linking_SimpleLinkingTest extends Mage_Selenium_TestCase
         $this->reindexInvalidedData();
         $this->clearInvalidedCache();
         $this->logoutCustomer();
-        $i = 1;
         $errors = array();
         $this->productHelper()->frontOpenProduct($productData['general_name']);
         foreach (self::$productsOutOfStock as $prod) {
@@ -246,7 +245,6 @@ class Product_Linking_SimpleLinkingTest extends Mage_Selenium_TestCase
             if ($this->controlIsPresent('link', 'related_product')) {
                 $errors[] = 'Related Product ' . $prod['general_name'] . ' is on the page';
             }
-            $i++;
         }
         if (!empty($errors)) {
             $this->fail(implode("\n", $errors));
@@ -262,9 +260,9 @@ class Product_Linking_SimpleLinkingTest extends Mage_Selenium_TestCase
      * <p>2. Navigate to frontend;</p>
      * <p>3. Open product details page;</p>
      * <p>4. Add product to shopping cart;</p>
-     * <p>5. Validate prices for cross-sell products in "cross-sell products block" in shopping cart;</p>
+     * <p>5. Validate names of cross-sell products in "cross-sell products block" in shopping cart;</p>
      * <p>Expected result:</p>
-     * <p>Products are created, The simple product contains block with cross-sell products; Prices for cross-sell products are correct</p>
+     * <p>Products are created, The simple product contains block with cross-sell products; Names of cross-sell products are correct</p>
      *
      * @depends createProductsForLinkingInStock
      * @test
@@ -367,9 +365,9 @@ class Product_Linking_SimpleLinkingTest extends Mage_Selenium_TestCase
      * <p>1. Create 1 simple product in stock; Attach all types of products to the first one as up-sell products</p>
      * <p>2. Navigate to frontend;</p>
      * <p>3. Open product details page;</p>
-     * <p>4. Validate prices for up-sell products in "up-sell products block";</p>
+     * <p>4. Validate names of up-sell products in "up-sell products block";</p>
      * <p>Expected result:</p>
-     * <p>Products are created, The simple product contains block with up-sell products; Prices for up-sell products are correct</p>
+     * <p>Products are created, The simple product contains block with up-sell products; Names of up-sell products are correct</p>
      *
      * @depends createProductsForLinkingInStock
      * @test
