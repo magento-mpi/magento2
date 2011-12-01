@@ -106,7 +106,6 @@ class CheckoutOnePage_Guest_CheckingValidationTest extends Mage_Selenium_TestCas
         $this->navigate('system_configuration');
         $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
         $this->systemConfigurationHelper()->configure('savedcc_without_3Dsecure');
-        $this->assertTrue($this->successMessage('success_saved_config'), $this->messages);
         //Data
         $checkoutData = $this->loadData('checkout_data_saved_cc_req_guest',
                 array('general_name' => $productData), array('billing_email'));
@@ -235,7 +234,6 @@ class CheckoutOnePage_Guest_CheckingValidationTest extends Mage_Selenium_TestCas
         $this->navigate('system_configuration');
         $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
         $this->systemConfigurationHelper()->configure('savedcc_without_3Dsecure');
-        $this->assertTrue($this->successMessage('success_saved_config'), $this->messages);
         //Data
         $longValues = array(
             'billing_address_choice'    => 'New Address',
@@ -282,7 +280,6 @@ class CheckoutOnePage_Guest_CheckingValidationTest extends Mage_Selenium_TestCas
         $this->navigate('system_configuration');
         $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
         $this->systemConfigurationHelper()->configure('savedcc_without_3Dsecure');
-        $this->assertTrue($this->successMessage('success_saved_config'), $this->messages);
         //Data
         $specValues = array(
             'billing_address_choice'    => 'New Address',
@@ -393,7 +390,6 @@ class CheckoutOnePage_Guest_CheckingValidationTest extends Mage_Selenium_TestCas
         $this->navigate('system_configuration');
         $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
         $this->systemConfigurationHelper()->configure('savedcc_without_3Dsecure');
-        $this->assertTrue($this->successMessage('success_saved_config'), $this->messages);
         //Data
         $specValues = array(
             'shipping_address_choice'    => 'New Address',
@@ -443,7 +439,6 @@ class CheckoutOnePage_Guest_CheckingValidationTest extends Mage_Selenium_TestCas
         $this->navigate('system_configuration');
         $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
         $this->systemConfigurationHelper()->configure('savedcc_without_3Dsecure');
-        $this->assertTrue($this->successMessage('success_saved_config'), $this->messages);
         //Data
         $checkoutData = $this->loadData('checkout_data_saved_cc',
                 array('general_name' => $productData), array('billing_email'));
@@ -483,12 +478,10 @@ class CheckoutOnePage_Guest_CheckingValidationTest extends Mage_Selenium_TestCas
         $this->navigate('system_configuration');
         $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
         $this->systemConfigurationHelper()->configure('savedcc_without_3Dsecure');
-        $this->assertTrue($this->successMessage('success_saved_config'), $this->messages);
         $this->loginAdminUser();
         $this->navigate('system_configuration');
         $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
         $this->systemConfigurationHelper()->configure('free_enable');
-        $this->assertTrue($this->successMessage('success_saved_config'), $this->messages);
         //Data
         $checkoutData = $this->loadData('checkout_data_saved_cc_req_guest_no_shipping_method',
                 array('general_name' => $productData), array('billing_email'));
@@ -536,7 +529,6 @@ class CheckoutOnePage_Guest_CheckingValidationTest extends Mage_Selenium_TestCas
         $this->navigate('system_configuration');
         $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
         $this->systemConfigurationHelper()->configure('savedcc_without_3Dsecure');
-        $this->assertTrue($this->successMessage('success_saved_config'), $this->messages);
         //Data
         $checkoutData = $this->loadData('checkout_data_saved_cc_req_guest_no_payment_method',
                 array('general_name' => $productData), array('billing_email'));

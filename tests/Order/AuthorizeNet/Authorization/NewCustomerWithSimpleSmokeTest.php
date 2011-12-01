@@ -46,7 +46,6 @@ class Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest extends Ma
         $this->loginAdminUser();
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('authorizenet_without_3Dsecure');
-        $this->assertTrue($this->successMessage('success_saved_config'), $this->messages);
     }
 
     protected function assertPreConditions()
@@ -449,7 +448,6 @@ class Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest extends Ma
         if ($needSetUp) {
             $this->systemConfigurationHelper()->useHttps('admin', 'yes');
             $this->systemConfigurationHelper()->configure('authorizenet_with_3Dsecure');
-            $this->assertTrue($this->successMessage('success_saved_config'), $this->messages);
         }
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);

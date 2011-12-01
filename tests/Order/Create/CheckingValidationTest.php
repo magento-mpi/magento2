@@ -348,7 +348,6 @@ class Order_Create_CheckingValidationTest extends Mage_Selenium_TestCase
         //Steps
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('savedcc_without_3Dsecure');
-        $this->assertTrue($this->successMessage('success_saved_config'), $this->messages);
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData, false);
         //Verifying
@@ -375,7 +374,6 @@ class Order_Create_CheckingValidationTest extends Mage_Selenium_TestCase
         //Steps
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('savedcc_without_3Dsecure');
-        $this->assertTrue($this->successMessage('success_saved_config'), $this->messages);
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData, false);
         //Verifying
@@ -400,7 +398,6 @@ class Order_Create_CheckingValidationTest extends Mage_Selenium_TestCase
         //Steps
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('savedcc_without_3Dsecure');
-        $this->assertTrue($this->successMessage('success_saved_config'), $this->messages);
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData, false);
         //Verifying
@@ -428,7 +425,6 @@ class Order_Create_CheckingValidationTest extends Mage_Selenium_TestCase
         //Steps
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('savedcc_without_3Dsecure');
-        $this->assertTrue($this->successMessage('success_saved_config'), $this->messages);
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData, false);
         //Verifying
@@ -453,7 +449,6 @@ class Order_Create_CheckingValidationTest extends Mage_Selenium_TestCase
         //Steps
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('savedcc_without_3Dsecure');
-        $this->assertTrue($this->successMessage('success_saved_config'), $this->messages);
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData, false);
         //Verifying
@@ -478,7 +473,6 @@ class Order_Create_CheckingValidationTest extends Mage_Selenium_TestCase
         //Steps
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('savedcc_without_3Dsecure');
-        $this->assertTrue($this->successMessage('success_saved_config'), $this->messages);
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData, false);
         //Verifying
@@ -503,7 +497,6 @@ class Order_Create_CheckingValidationTest extends Mage_Selenium_TestCase
         //Steps
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('savedcc_without_3Dsecure');
-        $this->assertTrue($this->successMessage('success_saved_config'), $this->messages);
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData, false);
         //Verifying

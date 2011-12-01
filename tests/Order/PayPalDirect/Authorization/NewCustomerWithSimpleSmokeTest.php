@@ -46,7 +46,6 @@ class Order_PayPalDirect_Authorization_NewCustomerWithSimpleSmokeTest extends Ma
         $this->loginAdminUser();
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('paypaldirect_without_3Dsecure');
-        $this->assertTrue($this->successMessage('success_saved_config'), $this->messages);
     }
 
     protected function assertPreConditions()
@@ -250,9 +249,7 @@ class Order_PayPalDirect_Authorization_NewCustomerWithSimpleSmokeTest extends Ma
         $this->addParameter('invoice_id', 1);
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('paypal_enable');
-        $this->assertTrue($this->successMessage('success_saved_config'), $this->messages);
         $this->systemConfigurationHelper()->configure('paypaldirect_without_3Dsecure');
-        $this->assertTrue($this->successMessage('success_saved_config'), $this->messages);
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
         $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
@@ -470,7 +467,6 @@ class Order_PayPalDirect_Authorization_NewCustomerWithSimpleSmokeTest extends Ma
         if ($needSetUp) {
             $this->systemConfigurationHelper()->useHttps('admin', 'yes');
             $this->systemConfigurationHelper()->configure('paypaldirect_with_3Dsecure');
-            $this->assertTrue($this->successMessage('success_saved_config'), $this->messages);
         }
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);

@@ -153,7 +153,6 @@ class CheckoutOnePage_LoggedIn_WithProductsTest extends Mage_Selenium_TestCase
         $this->navigate('system_configuration');
         $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
         $this->systemConfigurationHelper()->configure('savedcc_without_3Dsecure');
-        $this->assertTrue($this->successMessage('success_saved_config'), $this->messages);
         //Data
         $performLogin = $this->loadData('perform_login',
                 array('email' => $customerData['email'], 'password' => $customerData['password']));
@@ -199,7 +198,6 @@ class CheckoutOnePage_LoggedIn_WithProductsTest extends Mage_Selenium_TestCase
         $this->navigate('system_configuration');
         $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
         $this->systemConfigurationHelper()->configure('savedcc_without_3Dsecure');
-        $this->assertTrue($this->successMessage('success_saved_config'), $this->messages);
         //Data
         $performLogin = $this->loadData('perform_login',
                 array('email' => $customerData['email'], 'password' => $customerData['password']));

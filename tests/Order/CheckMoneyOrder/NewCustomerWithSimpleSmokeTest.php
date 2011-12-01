@@ -46,7 +46,6 @@ class Order_CheckMoneyOrder_NewCustomerWithSimpleSmokeTest extends Mage_Selenium
         $this->loginAdminUser();
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('checkmoney');
-        $this->assertTrue($this->successMessage('success_saved_config'), $this->messages);
     }
 
     protected function assertPreConditions()

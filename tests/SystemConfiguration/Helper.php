@@ -69,6 +69,7 @@ class SystemConfiguration_Helper extends Mage_Selenium_TestCase
                     $this->clickAndWait($xpath);
                     $this->fillForm($settings, $tab);
                     $this->saveForm('save_config');
+                    $this->assertTrue($this->successMessage('success_saved_config'), $this->messages);
                 }
             }
         }

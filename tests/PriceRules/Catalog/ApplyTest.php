@@ -147,7 +147,6 @@ class PriceRules_Catalog_ApplyTest extends Mage_Selenium_TestCase
         //Steps
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('default_tax_config');
-        $this->assertTrue($this->successMessage('success_saved_config'), $this->messages);
         $this->navigate('manage_catalog_price_rules');
         $this->priceRulesHelper()->createRule($priceRuleData);
         $this->assertTrue($this->successMessage('success_saved_rule'), $this->messages);

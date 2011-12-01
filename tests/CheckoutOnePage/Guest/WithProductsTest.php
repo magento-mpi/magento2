@@ -136,7 +136,6 @@ class CheckoutOnePage_Guest_WithProductsTest extends Mage_Selenium_TestCase
         $this->navigate('system_configuration');
         $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
         $this->systemConfigurationHelper()->configure('savedcc_without_3Dsecure');
-        $this->assertTrue($this->successMessage('success_saved_config'), $this->messages);
         //Data
         $checkoutData = $this->loadData('checkout_data_saved_cc_3d',
                 array('general_name' => $productData), array('billing_email'));
@@ -173,7 +172,6 @@ class CheckoutOnePage_Guest_WithProductsTest extends Mage_Selenium_TestCase
         $this->navigate('system_configuration');
         $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
         $this->systemConfigurationHelper()->configure('savedcc_without_3Dsecure');
-        $this->assertTrue($this->successMessage('success_saved_config'), $this->messages);
         //Data
         $checkoutData = $this->loadData('checkout_data_saved_cc_req_guest_virtual_product',
                 array('general_name' => $productData), array('billing_email'));

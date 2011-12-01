@@ -99,7 +99,6 @@ class Tax_TaxAndPricesValidationBackendTest extends Mage_Selenium_TestCase
         //Preconditions
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure($dataProv);
-        $this->assertTrue($this->successMessage('success_saved_config'), $this->messages);
         //Data for order creation
         $crOrder = $this->loadData($dataProv . '_backend_create_order', array('email' => $customer));
         //Data for prices and total verification after order creation

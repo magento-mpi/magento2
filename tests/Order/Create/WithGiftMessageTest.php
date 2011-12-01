@@ -94,7 +94,6 @@ class Order_Create_WithGiftMessageTest extends Mage_Selenium_TestCase
         //Steps
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('gift_message_for_order_enable');
-        $this->assertTrue($this->successMessage('success_saved_config'), $this->messages);
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
         //Verifying
@@ -126,7 +125,6 @@ class Order_Create_WithGiftMessageTest extends Mage_Selenium_TestCase
         //Steps
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('gift_message_per_item_enable');
-        $this->assertTrue($this->successMessage('success_saved_config'), $this->messages);
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
         //Verifying
@@ -157,7 +155,6 @@ class Order_Create_WithGiftMessageTest extends Mage_Selenium_TestCase
         //Steps
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('gift_message_all_enable');
-        $this->assertTrue($this->successMessage('success_saved_config'), $this->messages);
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
         //Verifying

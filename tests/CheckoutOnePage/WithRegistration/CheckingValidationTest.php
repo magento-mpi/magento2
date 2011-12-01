@@ -537,7 +537,6 @@ class CheckoutOnePage_WithRegistration_CheckingValidationTest extends Mage_Selen
         $this->navigate('system_configuration');
         $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
         $this->systemConfigurationHelper()->configure('free_enable');
-        $this->assertTrue($this->successMessage('success_saved_config'), $this->messages);
         //Data
         $checkoutData = $this->loadData('checkout_data_shipping_method_undefined',
                                         array('general_name' => $productData));
@@ -584,7 +583,6 @@ class CheckoutOnePage_WithRegistration_CheckingValidationTest extends Mage_Selen
         $this->navigate('system_configuration');
         $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
         $this->systemConfigurationHelper()->configure('savedcc_without_3Dsecure');
-        $this->assertTrue($this->successMessage('success_saved_config'), $this->messages);
         //Data
         $checkoutData = $this->loadData('checkout_data_payment_method_undefined',
                                         array('general_name' => $productData));

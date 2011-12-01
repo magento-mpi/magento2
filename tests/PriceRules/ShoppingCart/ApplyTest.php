@@ -140,7 +140,6 @@ class PriceRules_ShoppingCart_ApplyTest extends Mage_Selenium_TestCase
     {
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('default_tax_config');
-        $this->assertTrue($this->successMessage('success_saved_config'), $this->messages);
         $cartProductsData = $this->loadData('prices_for_' . $ruleType);
         $checkoutData = $this->loadData('totals_for_' . $ruleType);
         $this->navigate('manage_shopping_cart_price_rules');
