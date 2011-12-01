@@ -68,9 +68,9 @@ class Mage_Catalog_Helper_ImageTest extends PHPUnit_Framework_TestCase
     public static function tearDownAfterClass()
     {
         Varien_Io_File::rmdirRecursive(self::$_fixtureMediaDir);
-
-        $images = new Mage_Catalog_Model_Product_Image;
-        $images->clearCache();
+        Varien_Io_File::rmdirRecursive(
+            Mage::getSingleton('Mage_Catalog_Model_Product_Media_Config')->getBaseTmpMediaPath()
+        );
     }
 
     /**

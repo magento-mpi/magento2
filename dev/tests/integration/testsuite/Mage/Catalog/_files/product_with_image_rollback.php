@@ -9,5 +9,4 @@
  * @license     {license_link}
  */
 
-$mediaDir = Mage::getSingleton('Mage_Catalog_Model_Product_Media_Config')->getBaseMediaPath();
-Varien_Io_File::rmdirRecursive($mediaDir);
+require __DIR__ . '/product_image_rollback.php';

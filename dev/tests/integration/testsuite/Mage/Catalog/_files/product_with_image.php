@@ -9,10 +9,7 @@
  * @license     {license_link}
  */
 
-$mediaDir = Mage::getSingleton('Mage_Catalog_Model_Product_Media_Config')->getBaseMediaPath();
-mkdir($mediaDir . '/m/a', 0777, true);
-copy(__DIR__ . '/magento_image.jpg', $mediaDir . '/m/a/magento_image.jpg');
-
+require __DIR__ . '/product_image.php';
 
 $product = new Mage_Catalog_Model_Product();
 $product->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_SIMPLE)
