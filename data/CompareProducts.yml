@@ -27,7 +27,8 @@
 ---
 #Test data for Compare Products 
 
-compare_default_root_category: Default Category
+compare_default_root_category:
+    name: Default Category
 
 compare_products_simple_product:
     product_attribute_set: Default

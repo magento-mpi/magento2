@@ -70,10 +70,10 @@ class CompareProducts_CompareProductsTest extends Mage_Selenium_TestCase
         $rootCat = $this->loadData('compare_default_root_category', null, null);
         $categoryData = $this->loadData('compare_sub_category_required', null, 'name');
         //Steps
-        $this->categoryHelper()->createSubCategory($rootCat, $categoryData);
+        $this->categoryHelper()->createSubCategory($rootCat['name'], $categoryData);
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_category'), $this->messages);
-        return array('name' => $categoryData['name'], 'path' => $rootCat . '/' . $categoryData['name']);
+        return array('name' => $categoryData['name'], 'path' => $rootCat['name'] . '/' . $categoryData['name']);
     }
 
     /**
