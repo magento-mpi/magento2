@@ -45,7 +45,7 @@
     <target name="unit-tests-magento-coverage" depends="prepare-xdebug">
         <exec dir="dev/tests/unit" executable="${file.phpunit_xdebug}" failonerror="true">
             <arg line="--stderr --log-junit ${basedir}/unit-tests-magento-xdebug.xml
-                --coverage-clover ${basedir}/coverage-clover.xml
+                --coverage-clover ${basedir}/unit-tests-magento-coverage.xml
                 "/>
         </exec>
     </target>
@@ -83,10 +83,9 @@
         <delete dir="${basedir}/coverage-html"/>
         <mkdir dir="${basedir}/coverage-html"/>
         <exec dir="dev/tests/integration" executable="${file.phpunit_xdebug}" failonerror="true">
-            <arg line="--stderr --log-junit ${basedir}/integration-tests-magento-xdebug.xml"/>
             <arg line="--stderr --log-junit ${basedir}/integration-tests-magento-xdebug.xml
-                --coverage-clover ${basedir}/coverage-clover.xml
-                --coverage-html ${basedir}/coverage-html
+                --coverage-clover ${basedir}/integration-tests-magento-coverage.xml
+                --coverage-html ${basedir}/integration-tests-magento-coverage
                 "/>
         </exec>
     </target>
