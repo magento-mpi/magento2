@@ -92,7 +92,7 @@ class Tax_Helper extends Mage_Selenium_TestCase
             $taxItemData = $this->loadData($taxItemData);
         }
         $taxItemData = $this->arrayEmptyClear($taxItemData);
-        $buttons = $this->getCurrentLocationUimapPage()->getAllButtons();
+        $buttons = $this->getCurrentUimapPage()->getAllButtons();
         //Open form
         foreach($buttons as $buttonName => $buttonXpath) {
             if (preg_match('/add_new(_tax_rule)?$/', $buttonName)) {
@@ -101,7 +101,7 @@ class Tax_Helper extends Mage_Selenium_TestCase
         }
         $this->fillForm($taxItemData);
         //Save form
-        $buttons = $this->getCurrentLocationUimapPage()->getAllButtons();
+        $buttons = $this->getCurrentUimapPage()->getAllButtons();
         foreach($buttons as $buttonName => $buttonXpath) {
             if (preg_match('/save_(rule|class)/', $buttonName)) {
                 $this->saveForm($buttonName);
@@ -140,7 +140,7 @@ class Tax_Helper extends Mage_Selenium_TestCase
     {
         if ($taxSearchData and $type) {
             $this->openTaxItem($taxSearchData,$type);
-            $buttons = $this->getCurrentLocationUimapPage()->getAllButtons();
+            $buttons = $this->getCurrentUimapPage()->getAllButtons();
             foreach($buttons as $buttonName => $buttonXpath) {
                 if (preg_match('/delete_(rate|class|rule)$/', $buttonName)) {
                     return $this->clickButtonAndConfirm($buttonName, 'confirmation_for_delete');
@@ -149,5 +149,5 @@ class Tax_Helper extends Mage_Selenium_TestCase
         }
         return false;
     }
-    
+
 }
