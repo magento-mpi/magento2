@@ -363,15 +363,15 @@
                 <use_form_key>1</use_form_key>
             </security>
             <captcha>
-                <enable>1</enable>
+                <enable>0</enable>
                 <font>dejavu</font>
                 <mode>after_fail</mode>
                 <forms>backend_forgotpassword</forms>
-                <failed_attempts>5</failed_attempts>
-                <timeout>600</timeout>
-                <length>5-8</length>
+                <failed_attempts>3</failed_attempts>
+                <timeout>7</timeout>
+                <length>4-5</length>
                 <symbols>abcdefghjkmnpqrstuvwxyz23456789</symbols>
-                <case_sensitive>1</case_sensitive>
+                <case_sensitive>0</case_sensitive>
                 <classpath>core/captcha_zend</classpath>
             </captcha>
         </admin>
@@ -420,10 +420,10 @@
         <captcha translate="label">
             <backend>
                 <backend_login>
-                    <label>Backend Login</label>
+                    <label>Admin Login</label>
                 </backend_login>
                 <backend_forgotpassword>
-                    <label>Backend forgot password</label>
+                    <label>Admin Forgot Password</label>
                 </backend_forgotpassword>
             </backend>
             <fonts>
