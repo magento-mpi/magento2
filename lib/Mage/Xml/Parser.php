@@ -1,4 +1,13 @@
 <?php
+/**
+ * {license_notice}
+ *
+ * @category    Mage
+ * @package     Mage_Xml
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
 class Mage_Xml_Parser
 {
     protected $_dom = null;

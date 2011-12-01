@@ -1,3 +1,15 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_Core
+ * @subpackage  integration_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
 <layout>
    <block type="Mage_Adminhtml_Block_Page" name="root" output="toHtml" template="page.phtml">
       <block type="Mage_Adminhtml_Block_Page_Head" name="head" as="head" template="page/head.phtml">
