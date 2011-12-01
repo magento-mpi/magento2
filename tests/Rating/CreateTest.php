@@ -56,7 +56,6 @@ class Rating_CreateTest extends Mage_Selenium_TestCase
      */
     public function createProduct()
     {
-        $this->loginAdminUser();
         $this->navigate('manage_products');
         $simpleProductData = $this->loadData('simple_product_visible', NULL, array('general_name', 'general_sku'));
         $this->productHelper()->createProduct($simpleProductData);
@@ -172,7 +171,6 @@ class Rating_CreateTest extends Mage_Selenium_TestCase
      */
     public function withVisibleIn($product, $storeView)
     {
-        $this->navigate('manage_ratings');
         $ratingData = $this->loadData('default_rating', array('visible_in' => $storeView), 'default_value');
         $this->ratingHelper()->createRating($ratingData);
         $this->assertTrue($this->successMessage('success_saved_rating'), $this->messages);
