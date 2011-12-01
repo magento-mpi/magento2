@@ -66,7 +66,7 @@ if (!is_dir($workingDir)) {
 
 $rmCommand = 'rm -rf';
 if (isset($options['g'])) {
-    $rmCommand = 'git rm -r --ignore-unmatch';
+    $rmCommand = 'git rm -r -f --ignore-unmatch';
     if (isset($options['d'])) {
         $rmCommand .= " --dry-run";
     }

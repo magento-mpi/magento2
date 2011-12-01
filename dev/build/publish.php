@@ -10,28 +10,64 @@
  */
 
 // get CLI options, define variables
-define('USAGE', 'php -f publish.php -- [--source="<path>"] [--target="<path>"]');
-$options = getopt('', array('source::', 'target::'));
-$source = (isset($options['source']) ? $options['source'] : 'http://git.magento.com/magento2');
-$target = (isset($options['target']) ? $options['target'] : 'http://git.magento.com/magento2_public');
-define('TARGET_DIR', __DIR__ . DIRECTORY_SEPARATOR . 'target');
+define('SYNOPSIS', <<<SYNOPSIS
+php -f publish.php --
+    --source="<repository>" [--source-branch="<branch>"]
+    --target="<repository>" [--target-branch="<branch>"] [--target-dir="<directory>"]
+    [--do-not-push]
+
+SYNOPSIS
+);
+$options = getopt('', array('source:', 'target:', 'source-branch::', 'target-branch::', 'target-dir::', 'do-not-push'));
+if (empty($options['source']) || empty($options['target'])) {
+    echo SYNOPSIS;
+    exit(1);
+}
+
+$sourceRepository = $options['source'];
+$targetRepository = $options['target'];
+$sourceBranch = isset($options['source-branch']) ? $options['source-branch'] : 'master';
+$targetBranch = isset($options['target-branch']) ? $options['target-branch'] : 'master';
+$targetDir = (isset($options['target-dir']) ? $options['target-dir'] : __DIR__ . '/target');
+$canPush = empty($options['do-not-push']);
+
+$gitCmd = sprintf('git --git-dir %s --work-tree %s', escapeshellarg("$targetDir/.git"), escapeshellarg($targetDir));
 
 // clone target and merge source into it
-execVerbose('git clone %s %s', $target, TARGET_DIR);
-execGit('git remote add source %s', $source);
-execGit('git fetch source');
-execGit('git merge --no-commit --squash source/master');
-execGit('git reset');
+execVerbose('git clone %s %s', $targetRepository, $targetDir);
+execVerbose("$gitCmd remote add source %s", $sourceRepository);
+execVerbose("$gitCmd fetch source");
+execVerbose("$gitCmd checkout $targetBranch");
+execVerbose("$gitCmd merge --squash --strategy-option=theirs source/$sourceBranch");
+// workaround for not tracking removed files when merging with '--no-commit' or '--squash', seems to be a Git bug
+execVerbose("$gitCmd diff --name-only -z source/$sourceBranch | xargs -0 -r $gitCmd rm -f");
 
-// extrude and validate
+// remove files that must not be published
+$extruderDir = __DIR__ . '/extruder';
+execVerbose(
+    'php -f %s -- -w %s -l %s -l %s -g -v',
+    "$extruderDir/extruder.php",
+    $targetDir,
+    "$extruderDir/common_tests.txt",
+    "$extruderDir/ce.txt"
+);
 
-// replace license notices and validate
+// replace license notices
+$licenseToolDir = __DIR__ . '/license';
+execVerbose(
+    'php -f %s -- -w %s -c %s -v -0',
+    "$licenseToolDir/license-tool.php",
+    $targetDir,
+    "$licenseToolDir/conf/ce.php"
+);
 
-// commit and publish
-execGit('git add .');
-execGit('git status');
-execGit('git commit --message=%s', 'Merged commits from the original repository.');
-execGit('git push origin master:master');
+// commit and push
+execVerbose("$gitCmd add --update");
+execVerbose("$gitCmd status");
+execVerbose("$gitCmd commit --message=%s", 'Merged commits from the original repository.');
+if ($canPush) {
+    execVerbose("$gitCmd push origin $targetBranch");
+}
 
 /**
  * Execute a command with automatic escaping of arguments
@@ -41,31 +77,13 @@ execGit('git push origin master:master');
 function execVerbose($command)
 {
     $args = func_get_args();
-    array_shift($args);
-    foreach ($args as $key => $value) {
-        $args[$key] = escapeshellarg($value);
-    }
-    $command = call_user_func_array('sprintf', array_merge(array($command), $args));
+    $args = array_map('escapeshellarg', $args);
+    $args[0] = $command;
+    $command = call_user_func_array('sprintf', $args);
     echo $command . "\n";
-    exec($command, $output, $return);
-    echo implode("\n", $output) . "\n";
-    if (0 !== $return) {
+    passthru($command, $exitCode);
+    echo "\n";
+    if (0 !== $exitCode) {
         exit(1);
     }
-}
-
-/**
- * Add TARGET_DIR as working copy to a git command
- *
- * @param string $command
- */
-function execGit($command)
-{
-    $args = func_get_args();
-    $command = str_replace('git ', 'git --git-dir %s --work-tree %s ', $command);
-    array_shift($args);
-    array_unshift($args, TARGET_DIR);
-    array_unshift($args, TARGET_DIR . DIRECTORY_SEPARATOR . '.git');
-    array_unshift($args, $command);
-    call_user_func_array('execVerbose', $args);
 }
