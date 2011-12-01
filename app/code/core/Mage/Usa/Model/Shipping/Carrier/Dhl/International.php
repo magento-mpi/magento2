@@ -103,6 +103,13 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
     protected $_code = self::CODE;
 
     /**
+     * Free Method config path
+     *
+     * @var string
+     */
+    protected $_freeMethod = 'free_method_nondoc';
+
+    /**
      * Request variables array
      *
      * @var array
@@ -186,6 +193,35 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
         $this->_updateFreeMethodQuote($request);
 
         return $this->_result;
+    }
+
+    /**
+     * @param Mage_Shipping_Model_Rate_Request $request
+     * @return null
+     */
+    protected function _updateFreeMethodQuote($request)
+    {
+        if ($this->getConfigData('content_type') == self::DHL_CONTENT_TYPE_DOC) {
+            $this->_freeMethod = 'free_method_doc';
+        }
+
+        parent::_updateFreeMethodQuote($request);
+    }
+
+    /**
+     * Set free method request
+     *
+     * @param  $freeMethod
+     * @return void
+     */
+    protected function _setFreeMethodRequest($freeMethod)
+    {
+        $rawRequest = $this->_rawRequest;
+
+        $rawRequest->setFreeMethodRequest(true);
+        $freeWeight = $this->getTotalNumOfBoxes($rawRequest->getFreeMethodWeight());
+        $rawRequest->setWeight($freeWeight);
+        $rawRequest->setService($freeMethod);
     }
 
     /**
@@ -574,6 +610,8 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
             $error->setCarrierTitle($this->getConfigData('title'));
             $error->setErrorMessage($this->getConfigData('specificerrmsg'));
             $result->append($error);
+            Mage::log($this->_errors);
+            return $error;
         }
         return $result;
     }
@@ -607,8 +645,12 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
                     // Convert to store display currency using store exchange rate
                     $totalEstimate = $totalEstimate * $rates[$baseCurrencyCode];
                 } else {
-                    $totalEstimate = false;
-                    Mage::log(Mage::helper('usa')->__("Exchange rate %s -> %s not found. DHL method %s skipped", $currencyCode, $baseCurrencyCode, $dhlProductDescription));
+                    $rates = $currency->getCurrencyRates($baseCurrencyCode, array($currencyCode));
+                    $totalEstimate = $totalEstimate/$rates[$currencyCode];
+                    if (!$totalEstimate) {
+                        $totalEstimate = false;
+                        $this->_errors[] = Mage::helper('usa')->__("Exchange rate %s (Base Currency) -> %s not found. DHL method %s skipped", $currencyCode, $baseCurrencyCode, $dhlProductDescription);
+                    }
                 }
             }
             if ($totalEstimate) {

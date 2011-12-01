@@ -27,9 +27,33 @@
 
 abstract class Mage_Shipping_Model_Carrier_Abstract extends Varien_Object
 {
+    /**
+     * Carrier's code
+     *
+     * @var string
+     */
     protected $_code;
+
+    /**
+     * Rates result
+     *
+     * @var array
+     */
     protected $_rates = null;
+
+    /**
+     * Number of boxes in package
+     *
+     * @var int
+     */
     protected $_numBoxes = 1;
+
+    /**
+     * Free Method config path
+     *
+     * @var string
+     */
+    protected $_freeMethod = 'free_method';
 
     /**
      * Whether this carrier has fixed rates calculation
@@ -316,7 +340,7 @@ abstract class Mage_Shipping_Model_Carrier_Abstract extends Varien_Object
             return;
         }
 
-        $freeMethod = $this->getConfigData('free_method');
+        $freeMethod = $this->getConfigData($this->_freeMethod);
         if (!$freeMethod) {
             return;
         }
@@ -378,7 +402,7 @@ abstract class Mage_Shipping_Model_Carrier_Abstract extends Varien_Object
      */
     public function getMethodPrice($cost, $method='')
     {
-        if ($method == $this->getConfigData('free_method') && $this->getConfigData('free_shipping_enable')
+        if ($method == $this->getConfigData($this->_freeMethod) && $this->getConfigData('free_shipping_enable')
             && $this->getConfigData('free_shipping_subtotal') <= $this->_rawRequest->getValueWithDiscount()
         ){
             $price = '0.00';
