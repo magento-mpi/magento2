@@ -22,9 +22,19 @@
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
-var Captcha = {
-    refresh: function(url, blockType, width, height, formId, isAdmin) {
-        new Ajax.Request(url, {
+var Captcha = Class.create();
+Captcha.prototype = {
+    initialize: function(url, blockType, width, height, formId, isAdmin){
+        this.url = url;
+        this.blockType = blockType;
+        this.width = width;
+        this.height = height;
+        this.formId = formId;
+        this.isAdmin = isAdmin;
+    },
+    refresh: function() {
+        formId = this.formId;
+        new Ajax.Request(this.url, {
             onSuccess: function (response) {
                 if (response.responseText.isJSON()) {
                     var json = response.responseText.evalJSON();
@@ -35,11 +45,11 @@ var Captcha = {
             },
             method: 'post',
             parameters: {
-                'blockType': blockType,
-                'width'    : width,
-                'height'   : height,
-                'formId'   : formId,
-                'isAdmin'  : isAdmin
+                'blockType': this.blockType,
+                'width'    : this.width,
+                'height'   : this.height,
+                'formId'   : this.formId,
+                'isAdmin'  : this.isAdmin
             }
         });
     }
