@@ -52,6 +52,15 @@ class Mage_Core_Model_Captcha_Zend extends Zend_Captcha_Image implements Mage_Co
     protected $_parentGcFreq = 10;
     protected $_word;
 
+
+    /**
+     * Override default value to prevent bug described in MAGE-5084
+     *
+     * @var int
+     * @see Zend_Captcha_Image::$_fsize
+     */
+    protected $_fsize = 22;
+
     /**
      * Zend captcha constructor
      *
@@ -86,6 +95,17 @@ class Mage_Core_Model_Captcha_Zend extends Zend_Captcha_Image implements Mage_Co
             $fontPath = $fonts[$font]['path'];
         }
         return $fontPath;
+    }
+
+    /**
+     * Override function to generate less curly captcha that will not have bug described in MAGE-5084
+     *
+     * @see Zend_Captcha_Image::_randomSize()
+     * @return int
+     */
+    protected function _randomSize()
+    {
+        return mt_rand(280, 300) / 100;
     }
 
     /**
