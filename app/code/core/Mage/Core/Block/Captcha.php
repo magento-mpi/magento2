@@ -33,17 +33,31 @@
  */
 class Mage_Core_Block_Captcha extends Mage_Core_Block_Template
 {
-    /* @var $_captchaBlock Mage_Core_Block_Template */
-    protected $_captchaBlock;
-
     /**
+     * Captcha Block
+     * @var Mage_Core_Block_Template
+     */
+    protected $_captchaBlock;
+    /**
+     * Generate Html
+     *
+     * @return string
+     */
+    public function _toHtml()
+    {
+        $captchaBlock = $this->_getCaptchaBlock();
+        $captchaBlock->setData($this->getData());
+        return $captchaBlock->toHtml();
+    }
+
+     /**
      * Factory method - returns block instance for current captcha variant
      *
      * @return Mage_Core_Block_Template
      */
-    protected function _getBlockInstance()
+    public function _getCaptchaBlock()
     {
-        if (!$this->_captchaBlock) {
+        if (!$this->_captchaBlock){
             $classpath = (string)Mage::helper('core/captcha')->getConfigNode('classpath');
             if (!$classpath) {
                 $classpath = 'core/captcha_zend';
@@ -53,15 +67,8 @@ class Mage_Core_Block_Captcha extends Mage_Core_Block_Template
         return $this->_captchaBlock;
     }
 
-    /**
-     * Proxy method calls to block instance
-     *
-     * @param string $name      Method name
-     * @param array  $arguments Method arguments
-     * @return mixed
-     */
-    public function __call($name, $arguments)
-    {
-        return call_user_func_array(array($this->_getBlockInstance(), $name), $arguments);
+
+    public function getImgSrc(){
+        return $this->_getCaptchaBlock()->getImgSrc();
     }
 }

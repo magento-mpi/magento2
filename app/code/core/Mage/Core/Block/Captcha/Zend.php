@@ -39,9 +39,6 @@ class Mage_Core_Block_Captcha_Zend extends Mage_Core_Block_Template
     const DEFAULT_TEMPLATE = 'captcha/zend.phtml';
     /* @var Mage_Core_Model_Captcha_Zend */
     protected $_captcha = null;
-    protected $_formId;
-    protected $_imgWidth;
-    protected $_imgHeight;
 
     /**
      * Sets instance of a model used to generate captcha
@@ -85,31 +82,8 @@ class Mage_Core_Block_Captcha_Zend extends Mage_Core_Block_Template
         return $this->_captcha;
     }
 
-    /**
-     * Sets form ID to which captcha is being embedded. Form ID used to get parameters exclusive for this particular
-     * form and tell form's session data from each other.
-     *
-     * @param string $formId
-     * @return Mage_Core_Block_Captcha_Zend
-     */
-    public function setFormId($formId)
-    {
-        $this->_formId = $formId;
-        return $this;
-    }
 
-    /**
-     * Returns current form ID assigned
-     *
-     * @return string
-     */
-    public function getFormId()
-    {
-        if (empty($this->_formId)) {
-            Mage::throwException(Mage::helper('core/captcha')->__('Use setFormId action to define FormId'));
-        }
-        return $this->_formId;
-    }
+
 
     /**
      * Renders captcha image HTML
@@ -122,30 +96,6 @@ class Mage_Core_Block_Captcha_Zend extends Mage_Core_Block_Template
         $html = '<img id="' . $this->getFormId() . '" width="' . $captcha->getWidth() . '" height="'
                 . $captcha->getHeight() . '" alt="' . $captcha->getImgAlt() . '" src="' . $this->getImgSrc() . '"/>';
         return $html;
-    }
-
-    /**
-     * Sets captcha image width
-     *
-     * @param int $width
-     * @return Mage_Core_Block_Captcha_Zend
-     */
-    public function setImgWidth($width)
-    {
-        $this->getCaptchaInstance()->setWidth($width);
-        return $this;
-    }
-
-    /**
-     * Sets captcha image height
-     *
-     * @param int $height
-     * @return Mage_Core_Block_Captcha_Zend
-     */
-    public function setImgHeight($height)
-    {
-        $this->getCaptchaInstance()->setHeight($height);
-        return $this;
     }
 
     /**
