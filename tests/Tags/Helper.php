@@ -211,7 +211,7 @@ class Tags_Helper extends Mage_Selenium_TestCase
         }
         $prod_tag_admin = (isset($tagData['products_tagged_by_admins'])) ? $tagData['products_tagged_by_admins'] : null;
         // Fill general options
-        $this->fillForm($tagData, 'general_info');
+        $this->fillForm($tagData);
         if ($prod_tag_admin) {
             // Add tag name to parameters
             $tagName = $this->getValue($this->_getControlXpath('field', 'tag_name'));

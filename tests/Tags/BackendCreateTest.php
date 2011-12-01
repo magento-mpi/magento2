@@ -37,20 +37,6 @@ class Tags_BackendCreateTest extends Mage_Selenium_TestCase
 {
 
     protected $tagToBeDeleted = array();
-
-    /**
-     * <p>Create a simple product for tests</p>
-     *
-     */
-    protected function createSimpleProduct()
-    {
-        $simpleProduct = $this->loadData('simple_product_visible', null, array('general_name', 'general_sku'));
-        $this->navigate('manage_products');
-        $this->productHelper()->createProduct($simpleProduct);
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        return $simpleProduct['general_name'];
-    }
-
     /**
      * <p>Log in to Backend.</p>
      */
@@ -68,6 +54,20 @@ class Tags_BackendCreateTest extends Mage_Selenium_TestCase
         $this->navigate('all_tags');
         $this->assertTrue($this->checkCurrentPage('all_tags'), $this->messages);
         $this->addParameter('storeId', '1');
+    }
+
+    /**
+     * <p>Create a simple product for tests</p>
+     *
+     * @test
+     */
+    public function createSimpleProduct()
+    {
+        $simpleProduct = $this->loadData('simple_product_visible', null, array('general_name', 'general_sku'));
+        $this->navigate('manage_products');
+        $this->productHelper()->createProduct($simpleProduct);
+        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        return $simpleProduct['general_name'];
     }
 
     /**
@@ -173,14 +173,14 @@ class Tags_BackendCreateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>The assigned tag is displayed.</p>
      *
+     * @depends createSimpleProduct
      * @test
      */
-    public function productTaggedByAdministrator()
+    public function productTaggedByAdministrator($product)
     {
         //Setup
-        $productName = $this->createSimpleProduct();
         $setData = $this->loadData('backend_new_tag_with_product',
-                array('prod_tag_admin_name' => $productName), 'tag_name');
+                array('prod_tag_admin_name' => $product), 'tag_name');
         //Steps
         $this->navigate('all_tags');
         $this->tagsHelper()->addTag($setData);
@@ -188,7 +188,7 @@ class Tags_BackendCreateTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->checkCurrentPage('all_tags'), $this->messages);
         $this->assertTrue($this->successMessage('success_saved_tag'), $this->messages);
         $tagSearchData = array('tag_name' => $setData['tag_name']);
-        $productSearchData = array('general_name' => $productName);
+        $productSearchData = array('general_name' => $product);
         $this->navigate('manage_products');
         $this->assertTrue($this->tagsHelper()->verifyTagProduct($tagSearchData, $productSearchData), $this->messages);
         //Cleanup
