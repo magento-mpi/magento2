@@ -60,6 +60,7 @@ class Product_Linking_GroupedLinkingTest extends Mage_Selenium_TestCase
         $this->navigate('manage_attribute_sets');
         $this->attributeSetHelper()->openAttributeSet();
         $this->attributeSetHelper()->addAttributeToSet($associatedAttributes);
+        $this->addParameter('attributeName', 'Default');
         $this->saveForm('save_attribute_set');
         $this->assertTrue($this->successMessage('success_attribute_set_saved'), $this->messages);
 
