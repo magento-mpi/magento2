@@ -3,21 +3,19 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Shell
+ * @package     Mage_Log
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-require_once 'abstract.php';
-
 /**
- * Magento Log Shell Script
+ * Shell model, used to work with logs via command line
  *
  * @category    Mage
- * @package     Mage_Shell
+ * @package     Mage_Log
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Shell_Log extends Mage_Shell_Abstract
+class Mage_Log_Model_Shell extends Mage_Core_Model_Shell_Abstract
 {
     /**
      * Log instance
@@ -27,7 +25,7 @@ class Mage_Shell_Log extends Mage_Shell_Abstract
     protected $_log;
 
     /**
-     * Retrieve Log instance
+     * Retrieves Log instance
      *
      * @return Mage_Log_Model_Log
      */
@@ -40,7 +38,7 @@ class Mage_Shell_Log extends Mage_Shell_Abstract
     }
 
     /**
-     * Convert count to human view
+     * Converts count to human view
      *
      * @param int $number
      * @return string
@@ -59,7 +57,7 @@ class Mage_Shell_Log extends Mage_Shell_Abstract
     }
 
     /**
-     * Convert size to human view
+     * Converts size to human view
      *
      * @param int $number
      * @return string
@@ -78,11 +76,16 @@ class Mage_Shell_Log extends Mage_Shell_Abstract
     }
 
     /**
-     * Run script
+     * Runs script
      *
+     * @return Mage_Log_Model_Shell
      */
     public function run()
     {
+        if ($this->_showHelp()) {
+            return $this;
+        }
+
         if ($this->getArg('clean')) {
             $days = $this->getArg('days');
             if ($days > 0) {
@@ -148,19 +151,20 @@ class Mage_Shell_Log extends Mage_Shell_Abstract
             echo "\n";
             echo $line;
         } else {
-            echo $this->usageHelp();
+            echo $this->getUsageHelp();
         }
     }
 
     /**
-     * Retrieve Usage Help Message
+     * Retrieves usage help message
      *
+     * @return string
      */
-    public function usageHelp()
+    public function getUsageHelp()
     {
         return <<<USAGE
-Usage:  php -f log.php -- [options]
-        php -f log.php -- clean --days 1
+Usage:  php -f {$this->_entryPoint} -- [options]
+        php -f {$this->_entryPoint} -- clean --days 1
 
   clean             Clean Logs
   --days <days>     Save log, days. (Minimum 1 day, if defined - ignoring system value)
@@ -170,6 +174,3 @@ Usage:  php -f log.php -- [options]
 USAGE;
     }
 }
-
-$shell = new Mage_Shell_Log();
-$shell->run();
