@@ -22,6 +22,7 @@ class Mage_Catalog_Block_Product_AbstractTestAbstract extends Mage_Catalog_Block
  *
  * @group module:Mage_Catalog
  * @magentoDataFixture Mage/Catalog/_files/product_simple.php
+ * @magentoDataFixture Mage/Catalog/_files/product_image.php
  */
 class Mage_Catalog_Block_Product_AbstractTest extends PHPUnit_Framework_TestCase
 {
@@ -39,18 +40,6 @@ class Mage_Catalog_Block_Product_AbstractTest extends PHPUnit_Framework_TestCase
      * @var string
      */
     protected static $_mediaDir;
-
-    public static function setUpBeforeClass()
-    {
-        self::$_mediaDir = Mage::getSingleton('Mage_Catalog_Model_Product_Media_Config')->getBaseMediaPath();
-        mkdir(self::$_mediaDir . '/m/a', 0777, true);
-        copy(realpath(__DIR__ . '/../../_files') . '/magento_image.jpg', self::$_mediaDir . '/m/a/magento_image.jpg');
-    }
-
-    public static function tearDownAfterClass()
-    {
-        Varien_Io_File::rmdirRecursive(self::$_mediaDir);
-    }
 
     protected function setUp()
     {
