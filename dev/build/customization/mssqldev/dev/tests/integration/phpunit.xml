@@ -61,6 +61,8 @@
         <!--<const name="TESTS_BAMBOO_PROFILER_FILE" value="profiler.csv"/>-->
         <!-- Metrics for Bamboo Profiler Output in PHP file that returns array -->
         <!--<const name="TESTS_BAMBOO_PROFILER_METRICS_FILE" value="../../build/profiler_metrics.php"/>-->
+        <!-- Magento Developer Mode status during tests execution. Disabled by default, possible value is "enabled", and anything else will disable this mode.-->
+        <const name="TESTS_MAGENTO_DEVELOPER_MODE" value="enabled"/>
     </php>
 
     <!-- Test listeners -->

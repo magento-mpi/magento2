@@ -21,11 +21,12 @@ $>./license-tool.php -c ce.php
     -w dir  use specified working dir instead of current
     -v      verbose output
     -d      dry run
+    -0      exit with a zero status even when not all replacements have succeeded
 
 USAGE
 );
 
-$shortOpts = 'c:w:vd';
+$shortOpts = 'c:w:vd0';
 $options = getopt($shortOpts);
 
 if (!isset($options['c'])) {
@@ -62,5 +63,5 @@ try {
     Routine::run($config, $workingDir);
 } catch(Exception $e) {
     Routine::printLog($e->getMessage());
-    exit(1);
+    exit(isset($options['0']) ? 0 : 1);
 }
