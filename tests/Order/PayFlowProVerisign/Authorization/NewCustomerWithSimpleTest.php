@@ -46,6 +46,7 @@ class Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest extends M
         $this->loginAdminUser();
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('payflowpro_without_3Dsecure');
+        $this->assertTrue($this->successMessage('success_saved_config'), $this->messages);
     }
 
     protected function assertPreConditions()
@@ -406,6 +407,7 @@ class Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest extends M
         if ($needSetUp) {
             $this->systemConfigurationHelper()->useHttps('admin', 'yes');
             $this->systemConfigurationHelper()->configure('payflowpro_with_3Dsecure');
+            $this->assertTrue($this->successMessage('success_saved_config'), $this->messages);
         }
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);

@@ -93,11 +93,13 @@ class CheckoutOnePage_Guest_PaymentMethodsTest extends Mage_Selenium_TestCase
         //Steps
         if ($payment == 'paypaldirect' || $payment == 'paypaldirectuk' || $payment == 'payflowpro') {
             $this->systemConfigurationHelper()->configure('paypal_enable');
+            $this->assertTrue($this->successMessage('success_saved_config'), $this->messages);
         }
         if ($payment != 'checkmoney') {
             $payment .= '_without_3Dsecure';
         }
         $this->systemConfigurationHelper()->configure($payment);
+        $this->assertTrue($this->successMessage('success_saved_config'), $this->messages);
         $this->logoutCustomer();
         $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
         //Verifying
@@ -144,8 +146,10 @@ class CheckoutOnePage_Guest_PaymentMethodsTest extends Mage_Selenium_TestCase
         //Steps
         if ($payment == 'paypaldirect' || $payment == 'paypaldirectuk' || $payment == 'payflowpro') {
             $this->systemConfigurationHelper()->configure('paypal_enable');
+            $this->assertTrue($this->successMessage('success_saved_config'), $this->messages);
         }
         $this->systemConfigurationHelper()->configure($payment . '_with_3Dsecure');
+        $this->assertTrue($this->successMessage('success_saved_config'), $this->messages);
         $this->logoutCustomer();
         $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
         //Verifying

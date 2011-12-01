@@ -94,6 +94,7 @@ class Order_Create_ShippingMethodsTest extends Mage_Selenium_TestCase
         //Steps And Verifying
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure($shipment . '_enable');
+        $this->assertTrue($this->successMessage('success_saved_config'), $this->messages);
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
         $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
@@ -124,5 +125,6 @@ class Order_Create_ShippingMethodsTest extends Mage_Selenium_TestCase
     {
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('shipping_disable');
+        $this->assertTrue($this->successMessage('success_saved_config'), $this->messages);
     }
 }

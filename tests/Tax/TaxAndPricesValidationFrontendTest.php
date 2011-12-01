@@ -118,6 +118,7 @@ class Tax_TaxAndPricesValidationFrontendTest extends Mage_Selenium_TestCase
         //Preconditions
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure($dataProv);
+        $this->assertTrue($this->successMessage('success_saved_config'), $this->messages);
         $this->customerHelper()->frontLoginCustomer($customer);
         $this->shoppingCartHelper()->frontClearShoppingCart();
         //Verify and add products to shopping cart
