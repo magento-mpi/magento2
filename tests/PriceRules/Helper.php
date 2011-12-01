@@ -119,10 +119,10 @@ class PriceRules_Helper extends Mage_Selenium_TestCase
             $storViewlabels = $labelsData['store_view_labels'];
             unset($labelsData['store_view_labels']);
         }
-        $this->fillForm($labelsData, 'labels');
+        $this->fillForm($labelsData, 'rule_labels');
         foreach ($storViewlabels as $key => $value) {
             $this->addParameter('storeViewName', $key);
-            $this->fillForm(array('store_view_rule_label' => $value), 'labels');
+            $this->fillForm(array('store_view_rule_label' => $value), 'rule_labels');
         }
     }
 
