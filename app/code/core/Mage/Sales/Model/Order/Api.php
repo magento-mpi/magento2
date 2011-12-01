@@ -254,13 +254,18 @@ class Mage_Sales_Model_Order_Api extends Mage_Sales_Model_Api_Resource
     {
         $order = $this->_initOrder($orderIncrementId);
 
+        if (Mage_Sales_Model_Order::STATE_CANCELED == $order->getState()) {
+            $this->_fault('status_not_changed');
+        }
         try {
             $order->cancel();
             $order->save();
         } catch (Mage_Core_Exception $e) {
             $this->_fault('status_not_changed', $e->getMessage());
         }
-
+        if (Mage_Sales_Model_Order::STATE_CANCELED != $order->getState()) {
+            $this->_fault('status_not_changed');
+        }
         return true;
     }
 
