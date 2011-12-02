@@ -130,6 +130,10 @@ $config = array(
         'php'   => 'OSL',
         'xml'   => 'AFL'
     ),
+    'lib/flex' => array(
+        'mxml'  => 'OSL',
+        'as'    => 'OSL'
+    ),
     'pub' => array(
         'php' => 'OSL',
         '_params' => array(
