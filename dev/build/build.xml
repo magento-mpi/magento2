@@ -106,4 +106,39 @@
             <arg value="${basedir}/dev/build/performance.php"/>
         </exec>
     </target>
+
+    <!-- Community Edition source code population to the public repository -->
+    <target name="publish_ce">
+        <property name="dir.publication_target" location="${basedir}/dev/build/publication/_tmp_target"/>
+        <fail unless="env.source_repository" message="Environment variable 'source_repository' must be defined."/>
+        <fail unless="env.target_repository" message="Environment variable 'target_repository' must be defined."/>
+        <delete dir="${dir.publication_target}" failonerror="true"/>
+        <exec executable="php" failonerror="true">
+            <arg line="-f ${basedir}/dev/build/publication/publish.php --
+                --source=${env.source_repository}
+                --target=${env.target_repository}
+                --target-dir=${dir.publication_target}
+                --do-not-push
+                "/>
+        </exec>
+        <exec executable="php" failonerror="true">
+            <arg line="-f ${basedir}/dev/build/publication/sanity/sanity.php --
+                -w ${dir.publication_target}
+                -c ${basedir}/dev/build/publication/sanity/ce.xml
+                -v
+                "/>
+        </exec>
+        <ant dir="${dir.publication_target}" antfile="../../build.xml" inheritAll="false">
+            <property name="env.build_customization_dir" value="../../customization/publicce"/>
+            <target name="unit-tests-magento"/>
+            <target name="unit-tests-static-framework"/>
+            <target name="unit-tests-integration-framework"/>
+            <target name="static-tests-all"/>
+            <target name="integration-tests-magento"/>
+        </ant>
+        <exec dir="${dir.publication_target}" executable="git" failonerror="true">
+            <arg line="push origin master"/>
+        </exec>
+    </target>
+
 </project>

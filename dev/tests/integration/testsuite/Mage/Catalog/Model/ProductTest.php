@@ -30,6 +30,13 @@ class Mage_Catalog_Model_ProductTest extends PHPUnit_Framework_TestCase
         $this->_model = new Mage_Catalog_Model_Product;
     }
 
+    public static function tearDownAfterClass()
+    {
+        $config = Mage::getSingleton('Mage_Catalog_Model_Product_Media_Config');
+        Varien_Io_File::rmdirRecursive($config->getBaseMediaPath());
+        Varien_Io_File::rmdirRecursive($config->getBaseTmpMediaPath());
+    }
+
     public function testCanAffectOptions()
     {
         $this->assertFalse($this->_model->canAffectOptions());
@@ -329,11 +336,5 @@ class Mage_Catalog_Model_ProductTest extends PHPUnit_Framework_TestCase
         $result = $this->_model->processBuyRequest($request);
         $this->assertInstanceOf('Varien_Object', $result);
         $this->assertArrayHasKey('errors', $result->getData());
-    }
-
-    public static function tearDownAfterClass()
-    {
-        $mediaDir = Mage::getSingleton('Mage_Catalog_Model_Product_Media_Config')->getBaseMediaPath();
-        Varien_Io_File::rmdirRecursive($mediaDir);
     }
 }
