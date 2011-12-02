@@ -112,13 +112,19 @@
         <property name="dir.publication_target" location="${basedir}/dev/build/publication/_tmp_target"/>
         <fail unless="env.source_repository" message="Environment variable 'source_repository' must be defined."/>
         <fail unless="env.target_repository" message="Environment variable 'target_repository' must be defined."/>
+        <condition property="env.source_branch" value="master">
+            <not><isset property="env.source_branch"/></not>
+        </condition>
+        <condition property="env.target_branch" value="master">
+            <not><isset property="env.target_branch"/></not>
+        </condition>
         <delete dir="${dir.publication_target}" failonerror="true"/>
         <exec executable="php" failonerror="true">
             <arg line="-f ${basedir}/dev/build/publication/publish.php --
-                --source=${env.source_repository}
-                --target=${env.target_repository}
+                --source=${env.source_repository} --source-branch=${env.source_branch}
+                --target=${env.target_repository} --target-branch=${env.target_branch}
                 --target-dir=${dir.publication_target}
-                --do-not-push
+                --no-push
                 "/>
         </exec>
         <exec executable="php" failonerror="true">
