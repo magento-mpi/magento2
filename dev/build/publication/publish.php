@@ -14,11 +14,14 @@ define('SYNOPSIS', <<<SYNOPSIS
 php -f publish.php --
     --source="<repository>" [--source-branch="<branch>"]
     --target="<repository>" [--target-branch="<branch>"] [--target-dir="<directory>"]
+    [--commit-message="<message>"]
     [--no-push]
 
 SYNOPSIS
 );
-$options = getopt('', array('source:', 'target:', 'source-branch::', 'target-branch::', 'target-dir::', 'no-push'));
+$options = getopt('', array(
+    'source:', 'target:', 'source-branch::', 'target-branch::', 'target-dir::', 'commit-message::', 'no-push'
+));
 if (empty($options['source']) || empty($options['target'])) {
     echo SYNOPSIS;
     exit(1);
@@ -29,6 +32,7 @@ $targetRepository = $options['target'];
 $sourceBranch = isset($options['source-branch']) ? $options['source-branch'] : 'master';
 $targetBranch = isset($options['target-branch']) ? $options['target-branch'] : 'master';
 $targetDir = (isset($options['target-dir']) ? $options['target-dir'] : __DIR__ . '/target');
+$commitMsg = (isset($options['commit-message']) ? $options['commit-message'] : 'Merged from the original repository.');
 $canPush = !isset($options['no-push']);
 
 $gitCmd = sprintf('git --git-dir %s --work-tree %s', escapeshellarg("$targetDir/.git"), escapeshellarg($targetDir));
@@ -64,7 +68,7 @@ execVerbose(
 // commit and push
 execVerbose("$gitCmd add --update");
 execVerbose("$gitCmd status");
-execVerbose("$gitCmd commit --message=%s", 'Merged commits from the original repository.');
+execVerbose("$gitCmd commit --message=%s", $commitMsg);
 if ($canPush) {
     execVerbose("$gitCmd push origin $targetBranch");
 }
