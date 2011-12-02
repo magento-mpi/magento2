@@ -87,8 +87,10 @@ class SalesOrder_StatusTest extends Magento_Test_Webservice
 
         try {
             $this->getWebService()->call('sales_order.cancel', $order->getIncrementId());
-        } catch (SoapFault $e) {
-            $this->assertEquals(103, $e->faultcode, 'Invalid fault code, must be \'status_not_changed\' (103)');
+        } catch (Exception $e) {
+            $this->assertEquals(
+                'Order status not changed. Details in error message.', $e->getMessage(), 'Invalid fault message'
+            );
         }
         // reload order to obtain new status
         $order->load($order->getId());
@@ -136,8 +138,8 @@ class SalesOrder_StatusTest extends Magento_Test_Webservice
 
         try {
             $this->getWebService()->call('sales_order.hold', $order->getIncrementId());
-        } catch (SoapFault $e) {
-            $this->assertEquals(103, $e->faultcode, 'Invalid fault code, must be \'status_not_changed\' (103)');
+        } catch (Exception $e) {
+            $this->assertEquals('Hold action is not available.', $e->getMessage(), 'Invalid fault message');
         }
         // reload order to obtain new status
         $order->load($order->getId());
