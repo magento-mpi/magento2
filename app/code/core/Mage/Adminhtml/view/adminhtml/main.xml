@@ -69,7 +69,7 @@ Default layout, loads most of the pages
                 <action method="addJs"><file>calendar/calendar-setup.js</file><!--<params/><if/><condition>can_load_calendar_js</condition>--></action>
 
                 <action method="addJs"><file>extjs/ext-tree.js</file><params/><if/><condition>can_load_ext_js</condition></action>
-                <action method="addJs"><file>extjs/fix-defer.js</file><params/><if/><condition>can_load_ext_js</condition></action>
+                <action method="addJs"><file>mage/adminhtml/fix-extjs-defer.js</file><params/><if/><condition>can_load_ext_js</condition></action>
                 <action method="addJs"><file>extjs/ext-tree-checkbox.js</file><params/><if/><condition>can_load_ext_js</condition></action>
                 <action method="addCss"><file>extjs/resources/css/ext-all.css</file><params/><if/><condition>can_load_ext_js</condition></action>
                 <action method="addCss"><file>extjs/resources/css/ytheme-magento.css</file><params/><if/><condition>can_load_ext_js</condition></action>
