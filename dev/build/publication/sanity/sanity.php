@@ -1,5 +1,13 @@
 #!/usr/bin/php
 <?php
+/**
+ * {license_notice}
+ *
+ * @category   build
+ * @package    sanity
+ * @copyright  {copyright}
+ * @license    {license_link}
+ */
 require dirname(__FILE__) . '/SanityRoutine.php';
 
 define('USAGE', <<<USAGE
