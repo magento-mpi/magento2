@@ -45,11 +45,14 @@ abstract class Mage_Core_Model_Shell_Abstract
      */
     public function __construct($entryPoint)
     {
+        if (isset($_SERVER['REQUEST_METHOD'])) {
+            throw new Exception('This script cannot be run from Browser. This is the shell script.');
+        }
+
         $this->_entryPoint = $entryPoint;
         $this->_rawArgs = $_SERVER['argv'];
         $this->_applyPhpVariables();
         $this->_parseArgs();
-        $this->_validate();
     }
 
     /**
@@ -124,19 +127,6 @@ abstract class Mage_Core_Model_Shell_Abstract
                     $this->_args[$match[1]] = true;
                 }
             }
-        }
-        return $this;
-    }
-
-    /**
-     * Validates arguments
-     *
-     * @return Mage_Core_Model_Shell_Abstract
-     */
-    protected function _validate()
-    {
-        if (isset($_SERVER['REQUEST_METHOD'])) {
-            throw new Exception('This script cannot be run from Browser. This is the shell script.');
         }
         return $this;
     }
