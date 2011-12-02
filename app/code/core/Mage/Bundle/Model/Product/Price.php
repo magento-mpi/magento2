@@ -169,7 +169,7 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
     }
 
     /**
-     * Retrieve Price with take into account tier price
+     * Retrieve Price taking into account tier price
      *
      * @param  Mage_Catalog_Model_Product $product
      * @param  string|null                $which
@@ -179,8 +179,10 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
      */
     public function getTotalPrices($product, $which = null, $includeTax = null, $takeTierPrice = true)
     {
+        // check if required price is stored in product data
+        $forceRecalculation = $includeTax xor Mage::helper('tax')->priceIncludesTax(Mage::app()->getStore());
         // check calculated price index
-        if ($product->getData('min_price') && $product->getData('max_price')) {
+        if ($product->getData('min_price') && $product->getData('max_price') && !$forceRecalculation) {
                 $minimalPrice = Mage::helper('tax')->getPrice($product, $product->getData('min_price'), $includeTax);
                 $maximalPrice = Mage::helper('tax')->getPrice($product, $product->getData('max_price'), $includeTax);
                 $this->_isPricesCalculatedByIndex = true;
@@ -303,7 +305,7 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
 
         if ($which == 'max') {
             return $maximalPrice;
-        } else if ($which == 'min') {
+        } elseif ($which == 'min') {
             return $minimalPrice;
         }
 
