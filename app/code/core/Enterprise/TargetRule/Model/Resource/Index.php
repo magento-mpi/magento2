@@ -346,7 +346,7 @@ class Enterprise_TargetRule_Model_Resource_Index extends Mage_Index_Model_Resour
                 $selectOperator = '=?';
                 break;
         }
-
+        $field = $this->_getReadAdapter()->quoteIdentifier($field);
         return $this->_getReadAdapter()->quoteInto("{$field}{$selectOperator}", $value);
     }
 
@@ -355,14 +355,15 @@ class Enterprise_TargetRule_Model_Resource_Index extends Mage_Index_Model_Resour
      * also modify bind array
      *
      * @param string $field
-     * @param unknown_type $attribute
+     * @param mixed $attribute
      * @param string $operator
      * @param array $bind
-     * @param unknown_type $callback
+     * @param array $callback
      * @return string
      */
     public function getOperatorBindCondition($field, $attribute, $operator, &$bind, $callback = array())
     {
+        $field = $this->_getReadAdapter()->quoteIdentifier($field);
         $bindName = ':targetrule_bind_' . $this->_bindIncrement ++;
         switch ($operator) {
             case '!=':
