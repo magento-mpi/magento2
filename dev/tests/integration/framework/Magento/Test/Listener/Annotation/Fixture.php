@@ -191,8 +191,15 @@ class Magento_Test_Listener_Annotation_Fixture
                     $this->_applyOneFixture($fixture);
                 }
             } else {
-                $rollbackFile = realpath(preg_replace('/^(.+)\.php$/', '\\1_rollback.php', $fixture));
-                if ($rollbackFile) {
+                $fileInfo = pathinfo($fixture);
+                $extension = '';
+                if (isset($fileInfo['extension'])) {
+                    $extension = '.' . $fileInfo['extension'];
+                }
+
+                $rollbackFile = $fileInfo['dirname'] . DIRECTORY_SEPARATOR
+                        . $fileInfo['filename'] . '_rollback' . $extension;
+                if (file_exists($rollbackFile)) {
                     $this->_applyOneFixture($rollbackFile);
                 }
             }
