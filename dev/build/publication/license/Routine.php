@@ -56,11 +56,14 @@ class Routine
      * @var array
      */
     public static $fileTypes = array(
-        'xml'   => array('*.xml', '*.xml.template', '*.xml.additional', '*.xml.dist', '*.xml.sample', '*.xsd'),
+        'xml'   => array(
+            '*.xml', '*.xml.template', '*.xml.additional', '*.xml.dist', '*.xml.sample', '*.xsd', '*.mxml'
+        ),
         'php'   => array('*.php', '*.php.sample'),
         'phtml' => array('*.phtml'),
         'css'   => array('*.css'),
-        'js'    => array('*.js')
+        'js'    => array('*.js'),
+        'flex'  => array('*.as'),
     );
 
     /**

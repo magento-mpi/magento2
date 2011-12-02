@@ -14,11 +14,11 @@ define('SYNOPSIS', <<<SYNOPSIS
 php -f publish.php --
     --source="<repository>" [--source-branch="<branch>"]
     --target="<repository>" [--target-branch="<branch>"] [--target-dir="<directory>"]
-    [--do-not-push]
+    [--no-push]
 
 SYNOPSIS
 );
-$options = getopt('', array('source:', 'target:', 'source-branch::', 'target-branch::', 'target-dir::', 'do-not-push'));
+$options = getopt('', array('source:', 'target:', 'source-branch::', 'target-branch::', 'target-dir::', 'no-push'));
 if (empty($options['source']) || empty($options['target'])) {
     echo SYNOPSIS;
     exit(1);
@@ -29,7 +29,7 @@ $targetRepository = $options['target'];
 $sourceBranch = isset($options['source-branch']) ? $options['source-branch'] : 'master';
 $targetBranch = isset($options['target-branch']) ? $options['target-branch'] : 'master';
 $targetDir = (isset($options['target-dir']) ? $options['target-dir'] : __DIR__ . '/target');
-$canPush = empty($options['do-not-push']);
+$canPush = !isset($options['no-push']);
 
 $gitCmd = sprintf('git --git-dir %s --work-tree %s', escapeshellarg("$targetDir/.git"), escapeshellarg($targetDir));
 
@@ -48,7 +48,7 @@ execVerbose(
     'php -f %s -- -w %s -l %s -l %s -g -v',
     "$extruderDir/extruder.php",
     $targetDir,
-    "$extruderDir/common_tests.txt",
+    "$extruderDir/common.txt",
     "$extruderDir/ce.txt"
 );
 

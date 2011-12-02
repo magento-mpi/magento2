@@ -3,6 +3,7 @@
 app/code/*/*/*/Model/Resource/Helper/{Oracle,Mssql}.php
 app/code/*/*/*/sql/*/{oracle,mssql}-*
 app/code/community/Find
+app/code/community/Social
 app/code/core/Mage/Install/Block/Db/Type/{Oracle,Mssql}.php
 app/code/core/Mage/Install/Model/Installer/Db/{Mssql,Oracle}.php
 app/code/core/Mage/Install/view/install/db/{mssql,oracle}.phtml
@@ -10,6 +11,7 @@ app/code/core/Mage/Install/view/install/layout_{oracle,mssql}.xml
 app/code/local/*
 app/etc/config.{oracle,mssql}.xml
 app/etc/modules/Find_Feed.xml
+app/etc/modules/Social_Facebook.xml
 app/etc/modules/XEnterprise_Enabler.xml.dist
 app/etc/modules/Zrdbms.xml
 dev/build
@@ -25,4 +27,5 @@ lib/Magento/Db
 lib/Magento/Payment
 lib/Varien/Db/Adapter/Oracle.php
 lib/Varien/Db/Adapter/Pdo/Mssql.php
-lib/Varien/Db/Statement/{Oracle,Mssql}.php
+lib/Varien/Db/Statement/Oracle.php
+lib/Varien/Db/Statement/Pdo/Mssql.php

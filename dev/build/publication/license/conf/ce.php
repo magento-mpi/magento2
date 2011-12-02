@@ -130,6 +130,10 @@ $config = array(
         'php'   => 'OSL',
         'xml'   => 'AFL'
     ),
+    'lib/flex' => array(
+        'xml'   => 'AFL',
+        'flex'  => 'AFL'
+    ),
     'pub' => array(
         'php' => 'OSL',
         '_params' => array(
@@ -170,5 +174,8 @@ $config = array(
         'xml'   => 'AFL',
         'css'   => 'AFL',
         'js'    => 'AFL'
-    )
+    ),
+    'shell' => array(
+        'php' => 'OSL',
+    ),
 );

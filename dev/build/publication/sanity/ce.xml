@@ -30,6 +30,10 @@
         </item>
         <item>
             <word>enterprise</word>
+            <path>app/code/core/Mage/XmlConnect/</path>
+        </item>
+        <item>
+            <word>enterprise</word>
             <path>dev/tests/integration/testsuite/integrity/modular/TemplateFilesTest.php</path>
         </item>
         <item>

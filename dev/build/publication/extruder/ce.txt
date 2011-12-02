@@ -14,6 +14,8 @@ app/design/install/default/pro/
 app/etc/enterprise.xml
 app/etc/modules/Enterprise_*.xml
 app/locale/*/Enterprise_*.csv
+dev/tests/integration/etc/modules/XEnterprise_Enabler.xml
+dev/tests/integration/phpunit.xml.dist
 dev/tests/integration/testsuite/Enterprise
 downloader/Maged/Model/Config/Enterprise.php
 downloader/Maged/Model/Config/Professional.php
