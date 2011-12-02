@@ -19,6 +19,8 @@ return array(
         "{$baseDir}/app/code/core/Mage/Core/Model/Shell/Abstract.php",
         "{$baseDir}/app/code/core/Mage/Index/Model/Shell.php",
         "{$baseDir}/app/code/core/Mage/Log/Model/Shell.php",
+        "{$baseDir}/app/code/core/Mage/Log/Model/Resource/Shell.php",
+        "{$baseDir}/app/code/core/Mage/Log/Model/Resource/Helper",
         "{$baseDir}/app/bootstrap.php",
         "{$baseDir}/dev/build/extruder",
         "{$baseDir}/dev/build/license",
