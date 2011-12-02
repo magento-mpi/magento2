@@ -82,6 +82,7 @@ class Mage_Backup_Model_Observer
         catch (Exception $e) {
             $this->_errors[] = $e->getMessage();
             $this->_errors[] = $e->getTrace();
+            Mage::log($e->getMessage(), Zend_Log::ERR);
             Mage::logException($e);
         }
 
