@@ -63,7 +63,6 @@ class Routine
         } else {
             $result[] = $path;
         }
-        unset($matches);
 
         return array_unique($result);
     }

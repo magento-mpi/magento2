@@ -112,7 +112,7 @@ class Routine
      * @param $directory
      * @param $fileMasks
      * @param $result
-     * @return void
+     * @return null
      */
     protected static function _filterFilesByMask($directory, $fileMasks, &$result)
     {
@@ -131,7 +131,7 @@ class Routine
      * @static
      * @param string $workingDir
      * @param array $paths
-     * @return array
+     * @return null
      */
     protected static function _setSkippedPaths($workingDir, $paths)
     {
@@ -188,7 +188,7 @@ class Routine
      * @param string|array $fileMasks
      * @param AbstractLicense $license
      * @param bool $recursive
-     * @return void
+     * @return null
      */
     public static function updateLicense($directories, $fileMasks, $license, $recursive = true)
     {
@@ -296,7 +296,7 @@ class Routine
      * @static
      * @param $config
      * @param $workingDir
-     * @return void
+     * @return null
      */
     public static function run($config, $workingDir)
     {
