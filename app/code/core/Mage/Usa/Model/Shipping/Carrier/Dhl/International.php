@@ -196,8 +196,10 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
     }
 
     /**
+     * Update Free Method Quote
+     *
      * @param Mage_Shipping_Model_Rate_Request $request
-     * @return null
+     * @return void
      */
     protected function _updateFreeMethodQuote($request)
     {
@@ -209,9 +211,9 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
     }
 
     /**
-     * Set free method request
+     * Set Free Method Request
      *
-     * @param  $freeMethod
+     * @param  string $freeMethod
      * @return void
      */
     protected function _setFreeMethodRequest($freeMethod)
@@ -610,7 +612,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
             $error->setCarrierTitle($this->getConfigData('title'));
             $error->setErrorMessage($this->getConfigData('specificerrmsg'));
             $result->append($error);
-            Mage::log($this->_errors);
+            $this->_debug($this->_errors);
             return $error;
         }
         return $result;
