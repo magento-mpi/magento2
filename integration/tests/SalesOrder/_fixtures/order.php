@@ -59,6 +59,7 @@ $quote->setStoreId(1)
 
 $quote->collectTotals();
 $quote->save();
+Magento_Test_Webservice::setFixture('creditmemo/quote', $quote);
 
 //Create order
 $quoteService = new Mage_Sales_Model_Service_Quote($quote);

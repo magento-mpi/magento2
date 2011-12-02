@@ -43,22 +43,24 @@ class SalesOrder_StatusTest extends Magento_Test_Webservice
     {
         Magento_Test_Webservice::deleteFixture('creditmemo/customer', true);
         Magento_Test_Webservice::deleteFixture('creditmemo/product_virtual', true);
+        Magento_Test_Webservice::deleteFixture('creditmemo/quote', true);
         Magento_Test_Webservice::deleteFixture('creditmemo/order', true);
 
         parent::tearDownAfterClass();
     }
 
     /**
-     * Test for sales_order.cancel
+     * Test for sales_order.cancel when order is in 'pending' status
      *
      * @return void
      */
     public function testCancelPendingOrder()
     {
-        // create new order in status 'pending'
-
         /** @var $order Mage_Sales_Model_Order */
         $order = Magento_Test_Webservice::getFixture('creditmemo/order');
+
+        $order->setStatus('pending')
+           ->save();
 
         $soapResult = $this->getWebService()->call('sales_order.cancel', $order->getIncrementId());
 
@@ -68,8 +70,80 @@ class SalesOrder_StatusTest extends Magento_Test_Webservice
         $order->load($order->getId());
 
         $this->assertEquals(Mage_Sales_Model_Order::STATE_CANCELED, $order->getStatus(), 'Status is not CANCELED');
+    }
 
-        // try to cancel order again
-        $this->getWebService()->call('sales_order.cancel', $order->getIncrementId());
+    /**
+     * Test for sales_order.cancel when order is in 'closed' status
+     *
+     * @return void
+     */
+    public function testCancelClosedOrder()
+    {
+        /** @var $order Mage_Sales_Model_Order */
+        $order = Magento_Test_Webservice::getFixture('creditmemo/order');
+
+        $order->setStatus(Mage_Sales_Model_Order::STATE_CLOSED) // closed order is not allowed to cancel
+            ->save();
+
+        try {
+            $this->getWebService()->call('sales_order.cancel', $order->getIncrementId());
+        } catch (SoapFault $e) {
+            $this->assertEquals(103, $e->faultcode, 'Invalid fault code, must be \'status_not_changed\' (103)');
+        }
+        // reload order to obtain new status
+        $order->load($order->getId());
+
+        $this->assertNotEquals(
+            Mage_Sales_Model_Order::STATE_CANCELED, $order->getStatus(), 'Status is changed to CANCELED'
+        );
+    }
+
+    /**
+     * Test for sales_order.hold when order is in 'processing' status
+     *
+     * @return void
+     */
+    public function testHoldProcessingOrder()
+    {
+        /** @var $order Mage_Sales_Model_Order */
+        $order = Magento_Test_Webservice::getFixture('creditmemo/order');
+
+        $order->setState(Mage_Sales_Model_Order::STATE_NEW, 'pending')
+           ->save();
+
+        $soapResult = $this->getWebService()->call('sales_order.hold', $order->getIncrementId());
+
+        $this->assertTrue($soapResult, 'API call result in not TRUE');
+
+        // reload order to obtain new status
+        $order->load($order->getId());
+
+        $this->assertEquals(Mage_Sales_Model_Order::STATE_HOLDED, $order->getStatus(), 'Status is not HOLDED');
+    }
+
+    /**
+     * Test for sales_order.hold for cancelled order
+     *
+     * @return void
+     */
+    public function testHoldCanceledOrder()
+    {
+        /** @var $order Mage_Sales_Model_Order */
+        $order = Magento_Test_Webservice::getFixture('creditmemo/order');
+
+        $order->setStatus(Mage_Sales_Model_Order::STATE_CANCELED)
+           ->save();
+
+        try {
+            $this->getWebService()->call('sales_order.hold', $order->getIncrementId());
+        } catch (SoapFault $e) {
+            $this->assertEquals(103, $e->faultcode, 'Invalid fault code, must be \'status_not_changed\' (103)');
+        }
+        // reload order to obtain new status
+        $order->load($order->getId());
+
+        $this->assertNotEquals(
+            Mage_Sales_Model_Order::STATE_HOLDED, $order->getStatus(), 'Status is changed to HOLDED'
+        );
     }
 }
