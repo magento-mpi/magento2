@@ -219,11 +219,11 @@ class Mage_Customer_Helper_Address extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * Retrieve auto group assign default value
+     * Retrieve disable auto group assign default value
      *
      * @return bool
      */
-    public function getAutoGroupAssignDefaultValue()
+    public function getDisableAutoGroupAssignDefaultValue()
     {
         return (bool)Mage::getStoreConfig(self::XML_PATH_VIV_DISABLE_AUTO_ASSIGN_DEFAULT);
     }
