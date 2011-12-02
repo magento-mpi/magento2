@@ -36,6 +36,7 @@ dev/tests/integration/phpunit.xml.dist
 dev/tests/integration/testsuite/Enterprise
 dev/tests/integration/testsuite/integrity/ClassesTest.php
 dev/tests/integration/testsuite/integrity/DeprecatesTest.php
+dev/tests/integration/testsuite/integrity/LicenseTest.php
 dev/tests/integration/testsuite/integrity/modular/SkinFilesTest.php
 dev/tests/integration/testsuite/integrity/theme/RenderersTest.php
 downloader/Maged/Model/Config/Enterprise.php
