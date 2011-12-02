@@ -48,7 +48,7 @@ execVerbose(
     'php -f %s -- -w %s -l %s -l %s -g -v',
     "$extruderDir/extruder.php",
     $targetDir,
-    "$extruderDir/common_tests.txt",
+    "$extruderDir/common.txt",
     "$extruderDir/ce.txt"
 );
 
