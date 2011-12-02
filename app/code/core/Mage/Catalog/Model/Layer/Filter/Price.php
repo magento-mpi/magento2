@@ -40,6 +40,7 @@ class Mage_Catalog_Model_Layer_Filter_Price extends Mage_Catalog_Model_Layer_Fil
 {
     const XML_PATH_RANGE_CALCULATION    = 'catalog/layered_navigation/price_range_calculation';
     const XML_PATH_RANGE_STEP           = 'catalog/layered_navigation/price_range_step';
+    const XML_PATH_RANGE_MAX_INTERVALS  = 'catalog/layered_navigation/price_range_max_intervals';
 
     const RANGE_CALCULATION_AUTO    = 'auto';
     const RANGE_CALCULATION_MANUAL  = 'manual';
@@ -107,10 +108,6 @@ class Mage_Catalog_Model_Layer_Filter_Price extends Mage_Catalog_Model_Layer_Fil
                 }
             }
 
-            while (ceil($maxPrice / $range) > 25) {
-                $range *= 10;
-            }
-
             $this->setData('price_range', $range);
         }
 
@@ -146,6 +143,19 @@ class Mage_Catalog_Model_Layer_Filter_Price extends Mage_Catalog_Model_Layer_Fil
         $items = $this->getData($rangeKey);
         if (is_null($items)) {
             $items = $this->_getResource()->getCount($this, $range);
+            // checking max number of intervals
+            $i = 0;
+            $lastIndex = null;
+            $maxIntervalsNumber = $this->getMaxIntervalsNumber();
+            foreach ($items as $k => $v) {
+                ++$i;
+                if ($i > 1 && $i > $maxIntervalsNumber) {
+                    $items[$lastIndex] += $v;
+                    unset($items[$k]);
+                } else {
+                    $lastIndex = $k;
+                }
+            }
             $this->setData($rangeKey, $items);
         }
 
@@ -393,5 +403,15 @@ class Mage_Catalog_Model_Layer_Filter_Price extends Mage_Catalog_Model_Layer_Fil
     public function setCurrencyRate($rate)
     {
         return $this->setData('currency_rate', $rate);
+    }
+
+    /**
+     * Get maximum number of intervals
+     *
+     * @return int
+     */
+    public function getMaxIntervalsNumber()
+    {
+        return (int)Mage::app()->getStore()->getConfig(self::XML_PATH_RANGE_MAX_INTERVALS);
     }
 }

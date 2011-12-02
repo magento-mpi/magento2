@@ -767,6 +767,7 @@
             <layered_navigation>
                 <price_range_calculation>auto</price_range_calculation>
                 <price_range_step>100</price_range_step>
+                <price_range_max_intervals>10</price_range_max_intervals>
             </layered_navigation>
         </catalog>
         <system>
