@@ -129,6 +129,7 @@ class Routine
      * Filters passed array on skip path items marked by "!" sign
      *
      * @static
+     * @param string $workingDir
      * @param array $paths
      * @return array
      */

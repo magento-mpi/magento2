@@ -57,12 +57,8 @@ class Routine
         $matches = $result = array();
         if (preg_match('/{([^}]+)}/U', $path, $matches) > 0) {
             foreach (explode(',', $matches[1]) as $match) {
-                $newPath = preg_replace('/{'.$matches[1].'}/U', trim($match), $path);
-                if (preg_match('/{([^}]+)}/U', $newPath) > 0) {
-                    $result = array_merge($result, self::parsePath($newPath));
-                } else {
-                    $result[] = $newPath;
-                }
+                $newPath = preg_replace('/{' . $matches[1] . '}/U', trim($match), $path);
+                $result = array_merge($result, self::parsePath($newPath));
             }
         } else {
             $result[] = $path;
