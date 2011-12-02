@@ -150,6 +150,9 @@ class Magento_Test_Webservice_SoapV2 extends Magento_Test_Webservice_Abstract
             $soap2method = $path;
         }
 
+        if (!is_array($params)) {
+            $params = array($params);
+        }
         //add session ID as first param but except for "login" method
         if ('login' != $soap2method) {
             array_unshift($params, $this->_session);
