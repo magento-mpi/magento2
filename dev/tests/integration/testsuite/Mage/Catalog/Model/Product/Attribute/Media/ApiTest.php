@@ -49,6 +49,8 @@ class Mage_Catalog_Model_Product_Attribute_Media_ApiTest extends PHPUnit_Framewo
     public static function tearDownAfterClass()
     {
         Varien_Io_File::rmdirRecursive(self::$_mediaTmpDir);
+        $config = Mage::getSingleton('Mage_Catalog_Model_Product_Media_Config');
+        Varien_Io_File::rmdirRecursive($config->getBaseMediaPath());
     }
 
     public static function productMediaFixture()
