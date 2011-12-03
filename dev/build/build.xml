@@ -134,6 +134,12 @@
                 -v
                 "/>
         </exec>
+        <copy todir="${dir.publication_target}/dev/tests/unit" failonerror="true">
+            <fileset dir="${basedir}/dev/tests/unit"/>
+        </copy>
+        <copy todir="${dir.publication_target}/dev/tests/static" failonerror="true">
+            <fileset dir="${basedir}/dev/tests/static"/>
+        </copy>
         <ant dir="${dir.publication_target}" antfile="../../build.xml" inheritAll="false">
             <property name="env.build_customization_dir" value="../../customization/publicce"/>
             <target name="unit-tests-magento"/>
