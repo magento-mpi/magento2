@@ -34,9 +34,27 @@ class Php_LiveCodeTest extends PHPUnit_Framework_TestCase
             if (!is_dir($this->_reportDir)) {
                 mkdir($this->_reportDir, 0777, true);
             }
-            $this->_whiteList = $config['white_list'];
-            $this->_blackList = $config['black_list'];
+            $this->_whiteList = $this->_excludeNonExistingFiles($config['white_list']);
+            $this->_blackList = $this->_excludeNonExistingFiles($config['black_list']);
         }
+    }
+
+    /**
+     * Exclude non-existing files/directories from the list
+     *
+     * @param array $list
+     * @return array
+     */
+    protected function _excludeNonExistingFiles(array $list)
+    {
+        $result = array();
+        foreach ($list as $fileOrDir) {
+            if (!file_exists($fileOrDir)) {
+                continue;
+            }
+            $result[] = $fileOrDir;
+        }
+        return $result;
     }
 
     public function testCodeStyle()
