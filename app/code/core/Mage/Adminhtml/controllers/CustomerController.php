@@ -238,6 +238,9 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
                     $requestScope = sprintf('address/%s', $index);
                     $formData = $addressForm->setEntity($address)
                         ->extractData($this->getRequest(), $requestScope);
+
+                    $address->setIsDefaultBilling($data['account']['default_billing'] == $index);
+
                     $errors = $addressForm->validateData($formData);
                     if ($errors !== true) {
                         foreach ($errors as $error) {

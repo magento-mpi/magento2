@@ -91,14 +91,20 @@ class Mage_Customer_Model_Observer
      */
     public function beforeAddressSave($observer)
     {
+        if (Mage::registry(self::VIV_CURRENTLY_SAVED_ADDRESS)) {
+            Mage::unregister(self::VIV_CURRENTLY_SAVED_ADDRESS);
+        }
+
         /** @var $customerAddress Mage_Customer_Model_Address */
         $customerAddress = $observer->getCustomerAddress();
         if ($customerAddress->getId()) {
-            Mage::register(self::VIV_CURRENTLY_SAVED_ADDRESS, $customerAddress->getId(), true);
+            Mage::register(self::VIV_CURRENTLY_SAVED_ADDRESS, $customerAddress->getId());
         } elseif ($customerAddress->getIsDefaultBilling()) {
             $customerAddress->setForceProcess(true);
         }
-        Mage::register(self::VIV_CURRENTLY_SAVED_ADDRESS, 'new_address', true);
+        else {
+            Mage::register(self::VIV_CURRENTLY_SAVED_ADDRESS, 'new_address');
+        }
     }
 
     /**
