@@ -36,149 +36,106 @@
  */
 class CheckoutOnePage_Guest_WithProductsTest extends Mage_Selenium_TestCase
 {
-    /**
-     *
-     * <p>Creating products for testing.</p>
-     *
-     * <p>Navigate to Sales-Orders page.</p>
-     *
-     */
+
     protected function assertPreConditions()
     {
-        $this->addParameter('tabName', '');
-        $this->addParameter('webSite', '');
-        $this->addParameter('storeName', '');
+        $this->addParameter('id', '');
     }
 
     /**
-     * <p>Creating Simple product with required fields only</p>
-     * <p>Steps:</p>
-     * <p>1. Click "Add product" button;</p>
-     * <p>2. Fill in "Attribute Set" and "Product Type" fields;</p>
-     * <p>3. Click "Continue" button;</p>
-     * <p>4. Fill in required fields;</p>
-     * <p>5. Click "Save" button;</p>
-     * <p>Expected result:</p>
-     * <p>Product is created, confirmation message appears;</p>
+     * <p>Creating Simple and Virtual products</p>
      *
      * @test
      */
-    public function createSimple()
+    public function preconditionsForTests()
     {
         //Data
-        $productData = $this->loadData('simple_product_for_order', NULL, array('general_name', 'general_sku'));
-        //Steps
+        $simple = $this->loadData('simple_product_for_order');
+        $virtual = $this->loadData('virtual_product_for_order');
+        //Steps and Verification
         $this->loginAdminUser();
         $this->navigate('manage_products');
-        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
-        $this->productHelper()->createProduct($productData);
-        //Verification
+        $this->productHelper()->createProduct($simple);
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
-        return $productData['general_name'];
+        $this->productHelper()->createProduct($virtual, 'virtual');
+        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+
+        return array(
+            'simple' => $simple['general_name'],
+            'virtual' => $virtual['general_name'],
+        );
     }
 
-
     /**
-     * <p>Creating Virtual product with required fields only</p>
+     * <p>Checkout with simple product.</p>
+     * <p>Preconditions:</p>
+     * <p>1.Product is created.</p>
      * <p>Steps:</p>
-     * <p>1. Click "Add product" button;</p>
-     * <p>2. Fill in "Attribute Set" and "Product Type" fields;</p>
-     * <p>3. Click "Continue" button;</p>
-     * <p>4. Fill in required fields;</p>
-     * <p>5. Click "Save" button;</p>
-     * <p>Expected result:</p>
-     * <p>Product is created, confirmation message appears;</p>
-     *
-     * @test
-     */
-    public function createVirtual()
-    {
-        //Data
-        $productData = $this->loadData('virtual_product_for_order', NULL, array('general_name', 'general_sku'));
-        //Steps
-        $this->loginAdminUser();
-        $this->navigate('manage_products');
-        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
-        $this->productHelper()->createProduct($productData, 'virtual');
-        //Verification
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
-        return $productData['general_name'];
-    }
-
-    /**
-     * <p>Checkout with required fields filling</p>
-     * <p>Preconditions</p>
-     * <p>1. Add product to Shopping Cart</p>
-     * <p>2. Click "Proceed to Checkout"</p>
-     * <p>Steps</p>
-     * <p>1. Fill in Checkout Method tab</p>
-     * <p>2. Click 'Continue' button.</p>
-     * <p>3. Fill in Billing Information tab</p>
-     * <p>4. Select "Ship to this address" option</p>
-     * <p>5. Click 'Continue' button.</p>
-     * <p>6. Select Shipping Method option</p>
-     * <p>7. Click 'Continue' button.</p>
-     * <p>8. Select Payment Method option</p>
-     * <p>9. Click 'Continue' button.</p>
-     * <p>Verify information into "Order Review" tab</p>
-     * <p>Expected result:</p>
-     * <p>Checkout is successful.</p>
-     *
-     * @depends createSimple
-     * @test
-     */
-    public function frontCheckoutRequiredFieldsWithSimpleProduct($productData)
-    {
-        //Preconditions
-        $this->loginAdminUser();
-        $this->navigate('system_configuration');
-        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
-        $this->systemConfigurationHelper()->configure('savedcc_without_3Dsecure');
-        //Data
-        $checkoutData = $this->loadData('checkout_data_saved_cc_3d',
-                array('general_name' => $productData), array('billing_email'));
-        //Steps
-        $this->logoutCustomer();
-        $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
-        //Verification
-        $this->assertTrue($this->successMessage('success_checkout'), $this->messages);
-    }
-
-    /**
-     * <p>Checkout with required fields filling</p>
-     * <p>Preconditions</p>
-     * <p>1. Add product to Shopping Cart</p>
-     * <p>2. Click "Proceed to Checkout"</p>
-     * <p>Steps</p>
-     * <p>1. Fill in Checkout Method tab</p>
-     * <p>2. Click 'Continue' button.</p>
-     * <p>3. Fill in Billing Information tab</p>
-     * <p>4. Click 'Continue' button.</p>
-     * <p>5. Select Payment Method option</p>
+     * <p>1. Open product page.</p>
+     * <p>2. Add product to Shopping Cart.</p>
+     * <p>3. Click "Proceed to Checkout".</p>
+     * <p>4. Select Checkout Method as Guest</p>
+     * <p>4. Fill in Billing Information tab.</p>
+     * <p>5. Select "Ship to this address" option.</p>
      * <p>6. Click 'Continue' button.</p>
-     * <p>Verify information into "Order Review" tab</p>
+     * <p>7. Select Shipping Method.</p>
+     * <p>8. Click 'Continue' button.</p>
+     * <p>9. Select Payment Method.</p>
+     * <p>10. Click 'Continue' button.</p>
+     * <p>11. Verify information into "Order Review" tab</p>
+     * <p>12. Place order.</p>
      * <p>Expected result:</p>
-     * <p>Checkout is successful.</p>
+     * <p>Checkout is successful./p>
      *
-     * @depends createVirtual
+     * @params array $data
+     *
+     * @depends preconditionsForTests
      * @test
      */
-    public function frontCheckoutRequiredFieldsWithVirtualProduct($productData)
+    public function withSimpleProduct($data)
     {
-        //Preconditions
-        $this->loginAdminUser();
-        $this->navigate('system_configuration');
-        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
-        $this->systemConfigurationHelper()->configure('savedcc_without_3Dsecure');
-        //Data
-        $checkoutData = $this->loadData('checkout_data_saved_cc_req_guest_virtual_product',
-                array('general_name' => $productData), array('billing_email'));
+        $checkoutData = $this->loadData('guest_flatrate_checkmoney', array('general_name' => $data['simple']));
         //Steps
         $this->logoutCustomer();
+        $this->shoppingCartHelper()->frontClearShoppingCart();
         $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
         //Verification
         $this->assertTrue($this->successMessage('success_checkout'), $this->messages);
     }
+
+    /**
+     * <p>Checkout with virtual product.</p>
+     * <p>Preconditions:</p>
+     * <p>1.Product is created.</p>
+     * <p>Steps:</p>
+     * <p>1. Open product page.</p>
+     * <p>2. Add product to Shopping Cart.</p>
+     * <p>3. Click "Proceed to Checkout".</p>
+     * <p>4. Select Checkout Method as Guest</p>
+     * <p>4. Fill in Billing Information tab.</p>
+     * <p>5. Click 'Continue' button.</p>
+     * <p>6. Select Payment Method.</p>
+     * <p>7. Click 'Continue' button.</p>
+     * <p>8. Verify information into "Order Review" tab</p>
+     * <p>9. Place order.</p>
+     * <p>Expected result:</p>
+     * <p>Checkout is successful.</p>
+     *
+     * @params array $data
+     *
+     * @depends preconditionsForTests
+     * @test
+     */
+    public function withVirtualProduct($data)
+    {
+        //Data
+        $checkoutData = $this->loadData('guest_flatrate_checkmoney_virtual', array('general_name' => $data['virtual']));
+        //Steps
+        $this->logoutCustomer();
+        $this->shoppingCartHelper()->frontClearShoppingCart();
+        $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
+        //Verification
+        $this->assertTrue($this->successMessage('success_checkout'), $this->messages);
+    }
+
 }
