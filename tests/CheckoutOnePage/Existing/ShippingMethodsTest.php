@@ -89,7 +89,7 @@ class CheckoutOnePage_Existing_ShippingMethodsTest extends Mage_Selenium_TestCas
     public function differentShippingMethods($shipping, $simpleSku)
     {
         $userData = $this->loadData('customer_account_register');
-        $checkoutData = $this->loadData('with_register_flatrate_checkmoney',
+        $checkoutData = $this->loadData('exist_flatrate_checkmoney',
                 array('general_name' => $simpleSku, 'email_address' => $userData['email'],
             'shipping_data' => $this->loadData('front_shipping_' . $shipping)));
         //Steps

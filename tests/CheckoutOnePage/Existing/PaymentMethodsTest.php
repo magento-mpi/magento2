@@ -91,7 +91,7 @@ class CheckoutOnePage_Existing_PaymentMethodsTest extends Mage_Selenium_TestCase
     public function differentPaymentMethodsWithout3D($payment, $simpleSku)
     {
         $userData = $this->loadData('customer_account_register');
-        $checkoutData = $this->loadData('guest_flatrate_checkmoney',
+        $checkoutData = $this->loadData('exist_flatrate_checkmoney',
                 array('general_name' => $simpleSku, 'email_address' => $userData['email'],
             'payment_data' => $this->loadData('front_payment_' . $payment)));
         if ($payment != 'checkmoney') {
@@ -124,73 +124,73 @@ class CheckoutOnePage_Existing_PaymentMethodsTest extends Mage_Selenium_TestCase
         );
     }
 
-    /**
-     * <p>Payment methods with 3D secure.</p>
-     * <p>Preconditions:</p>
-     * <p>1.Product is created.</p>
-     * <p>Steps:</p>
-     * <p>1. Open product page.</p>
-     * <p>2. Add product to Shopping Cart.</p>
-     * <p>3. Click "Proceed to Checkout".</p>
-     * <p>4. Select Checkout Method with log in</p>
-     * <p>4. Fill in Billing Information tab.</p>
-     * <p>5. Select "Ship to this address" option.</p>
-     * <p>6. Click 'Continue' button.</p>
-     * <p>7. Select Shipping Method.</p>
-     * <p>8. Click 'Continue' button.</p>
-     * <p>9. Select Payment Method(by data provider).</p>
-     * <p>10. Click 'Continue' button.</p>
-     * <p>11. Enter 3D security code.</p>
-     * <p>12. Verify information into "Order Review" tab</p>
-     * <p>13. Place order.</p>
-     * <p>Expected result:</p>
-     * <p>Checkout is successful.</p>
-     *
-     * @depends preconditionsForTests
-     * @dataProvider dataWith3DSecure
-     * @test
-     */
-    public function differentPaymentMethodsWith3D($payment, $simpleSku)
-    {
-        if ($payment == 'authorizenet') {
-            $this->useTearDown = TRUE;
-        }
-        $userData = $this->loadData('customer_account_register');
-        $checkoutData = $this->loadData('guest_flatrate_checkmoney',
-                array('general_name' => $simpleSku, 'email_address' => $userData['email'],
-            'payment_data' => $this->loadData('front_payment_' . $payment)));
-        //Steps
-        $this->systemConfigurationHelper()->useHttps('frontend', 'yes');
-        $this->systemConfigurationHelper()->configure($payment . '_with_3Dsecure');
-        $this->logoutCustomer();
-        $this->navigate('customer_login');
-        $this->customerHelper()->registerCustomer($userData);
-        //Verifying
-        $this->assertTrue($this->successMessage('success_registration'), $this->messages);
-        //Steps
-        $this->logoutCustomer();
-        $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
-        //Verification
-        $this->assertTrue($this->successMessage('success_checkout'), $this->messages);
-    }
-
-    public function dataWith3DSecure()
-    {
-        return array(
-            array('paypaldirect'),
-            array('savedcc'),
-            array('paypaldirectuk'),
-            array('payflowpro'),
-            array('authorizenet')
-        );
-    }
-
-    protected function tearDown()
-    {
-        if (!empty($this->useTearDown)) {
-            $this->loginAdminUser();
-            $this->systemConfigurationHelper()->useHttps('frontend', 'no');
-        }
-    }
+//    /**
+//     * <p>Payment methods with 3D secure.</p>
+//     * <p>Preconditions:</p>
+//     * <p>1.Product is created.</p>
+//     * <p>Steps:</p>
+//     * <p>1. Open product page.</p>
+//     * <p>2. Add product to Shopping Cart.</p>
+//     * <p>3. Click "Proceed to Checkout".</p>
+//     * <p>4. Select Checkout Method with log in</p>
+//     * <p>4. Fill in Billing Information tab.</p>
+//     * <p>5. Select "Ship to this address" option.</p>
+//     * <p>6. Click 'Continue' button.</p>
+//     * <p>7. Select Shipping Method.</p>
+//     * <p>8. Click 'Continue' button.</p>
+//     * <p>9. Select Payment Method(by data provider).</p>
+//     * <p>10. Click 'Continue' button.</p>
+//     * <p>11. Enter 3D security code.</p>
+//     * <p>12. Verify information into "Order Review" tab</p>
+//     * <p>13. Place order.</p>
+//     * <p>Expected result:</p>
+//     * <p>Checkout is successful.</p>
+//     *
+//     * @depends preconditionsForTests
+//     * @dataProvider dataWith3DSecure
+//     * @test
+//     */
+//    public function differentPaymentMethodsWith3D($payment, $simpleSku)
+//    {
+//        if ($payment == 'authorizenet') {
+//            $this->useTearDown = TRUE;
+//        }
+//        $userData = $this->loadData('customer_account_register');
+//        $checkoutData = $this->loadData('exist_flatrate_checkmoney',
+//                array('general_name' => $simpleSku, 'email_address' => $userData['email'],
+//            'payment_data' => $this->loadData('front_payment_' . $payment)));
+//        //Steps
+//        $this->systemConfigurationHelper()->useHttps('frontend', 'yes');
+//        $this->systemConfigurationHelper()->configure($payment . '_with_3Dsecure');
+//        $this->logoutCustomer();
+//        $this->navigate('customer_login');
+//        $this->customerHelper()->registerCustomer($userData);
+//        //Verifying
+//        $this->assertTrue($this->successMessage('success_registration'), $this->messages);
+//        //Steps
+//        $this->logoutCustomer();
+//        $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
+//        //Verification
+//        $this->assertTrue($this->successMessage('success_checkout'), $this->messages);
+//    }
+//
+//    public function dataWith3DSecure()
+//    {
+//        return array(
+//            array('paypaldirect'),
+//            array('savedcc'),
+//            array('paypaldirectuk'),
+//            array('payflowpro'),
+//            array('authorizenet')
+//        );
+//    }
+//
+//    protected function tearDown()
+//    {
+//        if (!empty($this->useTearDown)) {
+//            $this->loginAdminUser();
+//            $this->systemConfigurationHelper()->useHttps('frontend', 'no');
+//        }
+//    }
 
 }
