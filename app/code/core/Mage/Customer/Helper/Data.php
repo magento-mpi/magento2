@@ -533,11 +533,12 @@ class Mage_Customer_Helper_Data extends Mage_Core_Helper_Abstract
      * @param Mage_Customer_Model_Address $customerAddress
      * @param bool $customerGroupAutoAssignDisabled
      * @param Varien_Object $validationResult
-     * @return string
+     * @return Varien_Object
      */
     public function getVatValidationUserMessage($customerAddress, $customerGroupAutoAssignDisabled, $validationResult)
     {
         $message = '';
+        $isError = true;
         $customerVatClass = $this->getCustomerVatClass($customerAddress->getCountryId(), $validationResult);
         $groupAutoAssignDisabled = Mage::getStoreConfigFlag(self::XML_PATH_CUSTOMER_VIV_GROUP_AUTO_ASSIGN);
 
@@ -546,6 +547,7 @@ class Mage_Customer_Helper_Data extends Mage_Core_Helper_Abstract
 
         if ($validationResult->getIsValid()) {
             $message = $this->__('Your VAT ID was successfully validated.');
+            $isError = false;
 
             if (!$groupAutoAssignDisabled && !$customerGroupAutoAssignDisabled) {
                 $message .= ' ' . ($customerVatClass == self::VAT_CLASS_DOMESTIC
@@ -571,7 +573,11 @@ class Mage_Customer_Helper_Data extends Mage_Core_Helper_Abstract
                 . $contactUsMessage;
         }
 
-        return $message;
+        $validationMessageEnvelope = new Varien_Object();
+        $validationMessageEnvelope->setMessage($message);
+        $validationMessageEnvelope->setIsError($isError);
+
+        return $validationMessageEnvelope;
     }
 
     /**

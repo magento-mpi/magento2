@@ -147,10 +147,15 @@ class Mage_Customer_Model_Observer
             }
 
             if (!Mage::app()->getStore()->isAdmin()) {
-                Mage::getSingleton('customer/session')->addSuccess(
-                    Mage::helper('customer')->getVatValidationUserMessage($customerAddress,
-                        $customer->getDisableAutoGroupChange(), $result)
-                );
+                $validationMessage = Mage::helper('customer')->getVatValidationUserMessage($customerAddress,
+                    $customer->getDisableAutoGroupChange(), $result);
+
+                if (!$validationMessage->getIsError()) {
+                    Mage::getSingleton('customer/session')->addSuccess($validationMessage->getMessage());
+                }
+                else {
+                    Mage::getSingleton('customer/session')->addError($validationMessage->getMessage());
+                }
             }
         } catch (Exception $e) {
             Mage::register(self::VIV_PROCESSED_FLAG, false);
