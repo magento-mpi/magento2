@@ -52,7 +52,7 @@ onepage_checkout:
                     billing_information:
                         xpath: //ol[@id='checkoutSteps']//li[@id='opc-billing']
                         buttons:
-                            billing_continue: //li[@id='opc-billing']//button[span='Continue']
+                            billing_information_continue: //li[@id='opc-billing']//button[span='Continue']
                         dropdowns:
                             billing_address_choice: //select[@id='billing-address-select']
                             billing_state: //select[@id='billing:region_id']
@@ -81,7 +81,7 @@ onepage_checkout:
                     shipping_information:
                         xpath: //ol[@id='checkoutSteps']//li[@id='opc-shipping']
                         buttons:
-                            shipping_continue: //li[@id='opc-shipping']//button[span='Continue']
+                            shipping_information_continue: //li[@id='opc-shipping']//button[span='Continue']
                         dropdowns:
                             shipping_address_choice: //select[@id='shipping-address-select']
                             shipping_state: //select[@id='shipping:region_id']
@@ -107,7 +107,7 @@ onepage_checkout:
                     shipping_method:
                         xpath: //ol[@id='checkoutSteps']//li[@id='opc-shipping_method']
                         buttons:
-                            ship_method_continue: //li[@id='opc-shipping_method']//button[span='Continue']
+                            shipping_method_continue: //li[@id='opc-shipping_method']//button[span='Continue']
                         checkboxes:
                             add_gift_options: //*[label='Add gift options.']/input
                             gift_option_for_the_entire_order: //input[@id='allow_gift_messages_for_order']
@@ -160,7 +160,7 @@ onepage_checkout:
                             price_totals: //table[@id='checkout-review-table']/tfoot
                             product_line:  //table[@id='checkout-review-table']/tbody/tr
                         fields:
-                            product_name: //table[@id='checkout-review-table']/tbody/tr[./td/h3[contains(.,'%productName%')]]/td[h3[contains(.,'%productName%')]]
+                            product_name: //table[@id='checkout-review-table']/tbody//td[h3= '%productName%']
                             product_price: //table[@id='checkout-review-table']/tbody/tr[./td/h3[contains(.,'%productName%')]]/td[2]/span[contains(.,'%price%')]
                             product_qty: //table[@id='checkout-review-table']/tbody/tr[./td/h3[contains(.,'%productName%')]]/td[3][contains(.,'%qty%')]
                             product_subtotal: //table[@id='checkout-review-table']/tbody/tr[./td/h3[contains(.,'%productName%')]]/td[4][contains(.,'%subtotal%')]
@@ -175,13 +175,10 @@ onepage_checkout:
                     checkout_progress:
                         xpath: //div[@class='block block-progress opc-block-progress']
                         fields:
-                            billing_address_checkout: //dt[contains(.,'Billing Address')]/following-sibling::dd[1]/address[contains(.,'%billingParameter%')]
-                            shipping_address_checkout: //dt[contains(.,'Shipping Address')]/following-sibling::dd[1]/address[contains(.,'%shippingParameter%')]
-                            shipping_method_checkout: //dt[contains(.,'Shipping Method')]/following-sibling::dd[1][contains(.,'%shippingMethod%')]
-                            payment_method_checkout: //dt[contains(.,'Payment Method')]/following-sibling::dd[1][contains(.,'%paymentMethod%')]
-                            payment_info_card_type_checkout: //dt[contains(.,'Payment Method')]/following-sibling::dd[1]//table//tr[contains(.,'%paymentCardType%')]
-                            payment_info_card_number_checkout: //dt[contains(.,'Payment Method')]/following-sibling::dd[1]//table//tr[contains(.,'xxxx-%paymentCardNumber%')]
-                            payment_info_card_name_checkout: //dt[contains(.,'Payment Method')]/following-sibling::dd[1]//table//tr[contains(.,'%paymentCardName%')]
+                            billing_address_checkout: //dt[contains(.,'Billing Address')]/following-sibling::dd[1]/address
+                            shipping_address_checkout: //dt[contains(.,'Shipping Address')]/following-sibling::dd[1]/address
+                            shipping_method_checkout: //dt[contains(.,'Shipping Method')]/following-sibling::dd[1]
+                            payment_method_checkout: //dt[contains(.,'Payment Method')]/following-sibling::dd[1]
                         links:
                             billing_address_change_link: //dt[contains(.,'Billing Address')]/a[@href='#billing']
                             shipping_address_change_link: //dt[contains(.,'Shipping Address')]/a[@href='#payment']
@@ -190,11 +187,14 @@ onepage_checkout:
             links:
                 order_number: //a[contains(@href, '/sales/order/view/order_id/')]
             messages: &checkoutMessages
-                empty_required_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
-                please_select_option: "%fieldXpath%/following-sibling::*[text()='Please select an option.' and not(contains(@style,'display: none;'))]"
-                invalid_password_length: "//input[@id='billing:customer_password']/following-sibling::*[text()='Please enter 6 or more characters. Leading or trailing spaces will be ignored.' and not(contains(@style,'display: none;'))]"
-                invalid_email_address: "%fieldXpath%/following-sibling::*[text()='Please enter a valid email address. For example johndoe@domain.com.' and not(contains(@style,'display: none;'))]"
-                different_passwords: "%fieldXpath%/following-sibling::*[text()='Please make sure your passwords match.' and not(contains(@style,'display: none;'))]"
+                empty_required_field: "//*[@id='advice-required-entry-%fieldId%'][not(contains(@style,'display: none;'))]"
+                please_select_option: "//*[@id='advice-validate-select-%fieldId%'][not(contains(@style,'display: none;'))]"
+                different_passwords: "//*[@id='advice-validate-cpassword-%fieldId%'][not(contains(@style,'display: none;'))]"
+                invalid_password_length: "//*[@id='advice-validate-password-%fieldId%'][not(contains(@style,'display: none;'))]"
+                invalid_email_address: "//*[@id='advice-validate-email-%fieldId%'][not(contains(@style,'display: none;'))]"
+                exist_email_alert: There is already a customer registered using this email address. Please login using this email address or enter a different email address to register your account.
+                long_value_alert: '"%fieldName%" length must be equal or less than 255 characters.'
+                #nor verefied
                 invalid_credit_card_number: "//div[@id='advice-validate-cc-type-ccsave_cc_number' and not(contains(@style,'display: none;'))]"
                 invalid_credit_card_type: "//div[@id='advice-validate-cc-type-select-ccsave_cc_type' and not(contains(@style,'display: none;'))]"
                 incorrect_credit_card_exp_date: "//div[@id='advice-validate-cc-exp-ccsave_expiration' and not(contains(@style,'display: none;'))]"
@@ -207,7 +207,6 @@ onepage_checkout:
                 shipping_alert: Please specify shipping method.
                 payment_alert: Please specify payment method.
                 success_checkout: //h1[contains(.,'Your order has been received')]
-                billing_long_values_data_alert: '"First Name" length must be equal or less than 255 characters. "Last Name" length must be equal or less than 255 characters. "Street Address" length must be equal or less than 255 characters. "City" length must be equal or less than 255 characters. "Telephone" length must be equal or less than 255 characters.'
 
 onepage_checkout_success:
     mca: checkout/onepage/success/
