@@ -551,8 +551,8 @@ class Mage_Customer_Helper_Data extends Mage_Core_Helper_Abstract
 
             if (!$groupAutoAssignDisabled && !$customerGroupAutoAssignDisabled) {
                 $message .= ' ' . ($customerVatClass == self::VAT_CLASS_DOMESTIC
-                    ? $willNotChargeTaxMessage
-                    : $willChargeTaxMessage);
+                    ? $willChargeTaxMessage
+                    : $willNotChargeTaxMessage);
             }
         } else if ($validationResult->getRequestSuccess()) {
             $message = sprintf(
