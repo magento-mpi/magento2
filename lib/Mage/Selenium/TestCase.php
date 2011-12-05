@@ -2341,6 +2341,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                 case self::FIELD_TYPE_MULTISELECT:
                     if ($this->isElementPresent($formField['path'])) {
                         $selectedLabels = $this->getSelectedLabels($formField['path']);
+                        $selectedLabels = array_map('trim', $selectedLabels, array(chr(0xC2).chr(0xA0)));
                         $expectedLabels = explode(',', $formField['value']);
                         $expectedLabels = array_map('trim', $expectedLabels);
                         foreach ($expectedLabels as $value) {
