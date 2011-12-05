@@ -37,48 +37,29 @@
 class CheckoutOnePage_WithRegistration_CheckingValidationTest extends Mage_Selenium_TestCase
 {
 
-    /**
-     *
-     * <p>Creating products for testing.</p>
-     *
-     * <p>Navigate to Sales-Orders page.</p>
-     *
-     */
     protected function assertPreConditions()
     {
-        $this->frontend();
-        $this->assertTrue($this->checkCurrentPage('home'), $this->messages);
-        $this->addParameter('id', '0');
+        $this->addParameter('id', '');
     }
 
     /**
-     * <p>Creating Simple product with required fields only</p>
-     * <p>Steps:</p>
-     * <p>1. Click "Add product" button;</p>
-     * <p>2. Fill in "Attribute Set" and "Product Type" fields;</p>
-     * <p>3. Click "Continue" button;</p>
-     * <p>4. Fill in required fields;</p>
-     * <p>5. Click "Save" button;</p>
-     * <p>Expected result:</p>
-     * <p>Product is created, confirmation message appears;</p>
+     * <p>Creating Simple product</p>
      *
      * @test
      */
-    public function createSimple()
+    public function preconditionsForTests()
     {
-        //Preconditions
-        $this->loginAdminUser();
-        $this->navigate('manage_products');
-        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
         //Data
-        $productData = $this->loadData('simple_product_for_order', null, array('general_name', 'general_sku'));
-        //Steps
-        $this->productHelper()->createProduct($productData);
-        //Verifying
+        $simple = $this->loadData('simple_product_for_order');
+        //Steps and Verification
+        $this->loginAdminUser();
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('shipping_disable');
+        $this->navigate('manage_products');
+        $this->productHelper()->createProduct($simple);
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
 
-        return $productData['general_name'];
+        return $simple['general_name'];
     }
 
     /**
@@ -94,10 +75,12 @@ class CheckoutOnePage_WithRegistration_CheckingValidationTest extends Mage_Selen
     public function frontEmptyShoppingCart()
     {
         //Steps
+        $this->logoutCustomer();
         $this->clickControl('link', 'checkout');
+        $this->validatePage('shopping_cart');
         //Verifying
-        $xPath = $this->_getControlXpath('message', 'shopping_cart_is_empty');
-        $this->assertTrue($this->isElementPresent($xPath));
+        $this->assertElementPresent($this->_getControlXpath('message', 'shopping_cart_is_empty'),
+                'Shopping cart is not empty');
     }
 
     /**
@@ -111,26 +94,24 @@ class CheckoutOnePage_WithRegistration_CheckingValidationTest extends Mage_Selen
      * <p>Expected Result</p>
      * <p>Information window appears with message "Please choose to register or to checkout as a guest"</p>
      *
-     * @depends createSimple
+     * @depends preconditionsForTests
      * @test
      */
-    public function frontCheckoutMethodNotDefined($productData)
+    public function frontCheckoutMethodNotDefined($simpleSku)
     {
         //Data
-        $checkoutData = $this->loadData('checkout_data_undefined', array('general_name' => $productData));
+        $checkoutData = $this->loadData('empty_checkout_data', array('general_name' => $simpleSku));
         //Steps
-        $this->assertTrue($this->logoutCustomer());
-        $this->assertTrue($this->frontend('home'));
-        $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData, FALSE);
-        //Verification
-        $text = 'Please choose to register or to checkout as a guest.';
-        $alert = (!$this->isAlertPresent($text)) ? FALSE : TRUE;
-        if ($alert == TRUE) {
-            $this->getAlert();
-            $this->assertTrue($alert);
-        } else {
-            $this->fail('Alert is not appeared');
+        $this->logoutCustomer();
+        $this->checkoutOnePageHelper()->doOnePageCheckoutSteps($checkoutData);
+        $this->checkoutOnePageHelper()->assertOnePageCheckoutTabOpened('checkout_method');
+        $this->clickButton('checkout_method_continue', false);
+        $this->waitForAjax();
+        if ($this->isAlertPresent()) {
+            $text = $this->getAlert();
+            $this->assertEquals($text, 'Please choose to register or to checkout as a guest');
         }
+        $this->checkoutOnePageHelper()->assertOnePageCheckoutTabOpened('checkout_method');
     }
 
     /**
@@ -149,57 +130,48 @@ class CheckoutOnePage_WithRegistration_CheckingValidationTest extends Mage_Selen
      * <p>Error message appears</p>
      *
      * @dataProvider emptyFieldsBilling
-     * @depends createSimple
+     * @depends preconditionsForTests
      * @test
      */
-    public function frontEmptyRequiredFildsInBillingAddress($emptyFieldBilling, $productData)
+    public function frontEmptyRequiredFildsInBillingAddress($field, $fieldType, $simpleSku)
     {
         //Data
-        $checkoutData = $this->loadData('checkout_data_billing_empty_fields',
-                array('general_name' => $productData, $emptyFieldBilling => ''));
+        $checkoutData = $this->loadData('with_register_empty_billing_fields',
+                array('general_name' => $simpleSku, $field => ''));
         //Steps
-        $this->assertTrue($this->logoutCustomer());
-        $this->assertTrue($this->frontend('home'));
-        $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
+        $this->logoutCustomer();
+        $this->shoppingCartHelper()->frontClearShoppingCart();
+        $this->checkoutOnePageHelper()->doOnePageCheckoutSteps($checkoutData);
         //Verification
-        $page = $this->getUimapPage('frontend', 'onepage_checkout');
-        $fieldSet = $page->findFieldset('billing_information');
-        if ($emptyFieldBilling != 'billing_country' && $emptyFieldBilling != 'billing_state' &&
-                $emptyFieldBilling != 'billing_password') {
-            $fieldXpath = $fieldSet->findField($emptyFieldBilling);
-            $this->addParameter('fieldXpath', $fieldXpath);
-            $this->assertTrue($this->errorMessage('empty_required_field'), $this->messages);
-            $this->assertTrue($this->verifyMessagesCount(), $this->messages);
-        } elseif ($emptyFieldBilling == 'billing_password') {
-            $fieldXpath = $fieldSet->findField($emptyFieldBilling);
-            $this->addParameter('fieldXpath', $fieldXpath);
-            $this->assertTrue($this->errorMessage('empty_required_field'), $this->messages);
-            $fieldXpath = $fieldSet->findField('billing_confirm_password');
-            $this->addParameter('fieldXpath', $fieldXpath);
-            $this->assertTrue($this->errorMessage('different_passwords'), $this->messages);
-            $this->assertTrue($this->verifyMessagesCount(2), $this->messages);
+        $this->addFieldIdToMessage($fieldType, $field);
+        $messagesCount = 1;
+        if ($fieldType == 'dropdown') {
+            $this->assertTrue($this->validationMessage('please_select_option'), $this->messages);
+        } elseif ($field == 'billing_password') {
+            $this->assertTrue($this->validationMessage('empty_required_field'), $this->messages);
+            $this->addFieldIdToMessage($fieldType, 'billing_confirm_password');
+            $this->assertTrue($this->validationMessage('different_passwords'), $this->messages);
+            $messagesCount = 2;
         } else {
-            $fieldXpath = $fieldSet->findDropdown($emptyFieldBilling);
-            $this->addParameter('fieldXpath', $fieldXpath);
-            $this->assertTrue($this->errorMessage('please_select_option'), $this->messages);
-            $this->assertTrue($this->verifyMessagesCount(), $this->messages);
+            $this->assertTrue($this->validationMessage('empty_required_field'), $this->messages);
         }
+        $this->assertTrue($this->verifyMessagesCount($messagesCount), $this->messages);
     }
 
     public function emptyFieldsBilling()
     {
         return array(
-            array('billing_first_name'),
-            array('billing_last_name'),
-            array('billing_email'),
-            array('billing_street_address_1'),
-            array('billing_city'),
-            array('billing_state'),
-            array('billing_zip_code'),
-            array('billing_country'),
-            array('billing_telephone'),
-            array('billing_password'),
-            array('billing_confirm_password')
+            array('billing_first_name', 'field'),
+            array('billing_last_name', 'field'),
+            array('billing_email', 'field'),
+            array('billing_street_address_1', 'field'),
+            array('billing_city', 'field'),
+            array('billing_state', 'dropdown'),
+            array('billing_zip_code', 'field'),
+            array('billing_country', 'dropdown'),
+            array('billing_telephone', 'field'),
+            array('billing_password', 'field'),
+            array('billing_confirm_password', 'field')
         );
     }
 
@@ -217,187 +189,128 @@ class CheckoutOnePage_WithRegistration_CheckingValidationTest extends Mage_Selen
      * <p>Expected result:</p>
      * <p>Error message appears</p>
      *
-     * @depends createSimple
+     * @depends preconditionsForTests
      * @test
      */
-    public function frontBillingAddressInvalidEmail($productData)
+    public function incorrectPasswordLength($simpleSku)
     {
         //Data
         $billingPassword = $this->generate('string', 5, ':punct:');
-
-
-        $checkoutData = $this->loadData('checkout_data_billing_empty_fields',
-                array('general_name' => $productData, 'billing_password' => $billingPassword,
-                      'billing_confirm_password' => $billingPassword), array('billing_email'));
+        $checkoutData = $this->loadData('with_register_empty_billing_fields',
+                array('general_name' => $simpleSku, 'billing_password' => $billingPassword,
+            'billing_confirm_password' => $billingPassword));
         //Steps
-        $this->assertTrue($this->logoutCustomer());
-        $this->assertTrue($this->frontend('home'));
-        $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
+        $this->logoutCustomer();
+        $this->shoppingCartHelper()->frontClearShoppingCart();
+        $this->checkoutOnePageHelper()->doOnePageCheckoutSteps($checkoutData);
         //Verification
+        $this->addFieldIdToMessage('field', 'billing_password');
         $this->assertTrue($this->errorMessage('invalid_password_length'), $this->messages);
     }
 
     /**
-     * <p>Filling required fields by invalid values(Except Email)</p>
+     * <p>Incorrect Email</p>
      * <p>Preconditions</p>
      * <p>1. Add product to Shopping Cart</p>
      * <p>2. Click "Proceed to Checkout"</p>
      * <p>Steps</p>
      * <p>1. Fill in Checkout Method tab</p>
      * <p>2. Click 'Continue' button.</p>
-     * <p>3. Fill in 'Email' field by regular data.</p>
-     * <p>4. Fill other required fields by incorrect data.</p>
+     * <p>3. Fill in required fields by regular data. </p>
+     * <p>4. Fill in 'Email' field by incorrect values.</p>
      * <p>5. Click 'Continue' button.</p>
      * <p>Expected result:</p>
      * <p>Error message appears</p>
      *
-     * @depends createSimple
-     * @dataProvider billingInvalidValues
+     * @depends preconditionsForTests
+     * @dataProvider dataInvalidEmail
      * @test
      */
-    public function frontBillingAddressInvalidValuesRequiredFields($invalidValues, $productData)
+    public function incorrectEmail($wrongValue, $simpleSku)
     {
         //Data
-        $checkoutData = $this->loadData('checkout_data_register',
-                array('general_name' => $productData, $invalidValues => $this->generate('string', 32, ':punct:')),
-                array('billing_email'));
+        $checkoutData = $this->loadData('with_register_empty_billing_fields',
+                array('general_name' => $simpleSku, 'billing_email' => $wrongValue));
         //Steps
-        $this->assertTrue($this->logoutCustomer());
-        $this->assertTrue($this->frontend('home'));
+        $this->logoutCustomer();
+        $this->shoppingCartHelper()->frontClearShoppingCart();
+        $this->checkoutOnePageHelper()->doOnePageCheckoutSteps($checkoutData);
+        //Verification
+        $this->addFieldIdToMessage('field', 'billing_email');
+        $this->assertTrue($this->errorMessage('invalid_email_address'), $this->messages);
+    }
+
+    public function dataInvalidEmail()
+    {
+        return array(
+            array('invalid'),
+            array('test@invalidDomain'),
+            array('te@st@domain.com')
+        );
+    }
+
+    /**
+     * <p>Exist Email</p>
+     * <p>Preconditions</p>
+     * <p>1. Add product to Shopping Cart</p>
+     * <p>2. Click "Proceed to Checkout"</p>
+     * <p>Steps</p>
+     * <p>1. Fill in Checkout Method tab</p>
+     * <p>2. Click 'Continue' button.</p>
+     * <p>3. Fill in required fields by regular data. </p>
+     * <p>4. Fill in 'Email' field by incorrect values.</p>
+     * <p>5. Click 'Continue' button.</p>
+     * <p>Expected result:</p>
+     * <p>Error message appears</p>
+     *
+     * @depends preconditionsForTests
+     * @test
+     */
+    public function existEmail($simpleSku)
+    {
+        //Data
+        $userData = $this->loadData('customer_account_register');
+        $checkoutData = $this->loadData('with_register_empty_billing_fields',
+                array('general_name' => $simpleSku, 'billing_email' => $userData['email']));
+        //Steps
+        $this->logoutCustomer();
+        $this->navigate('customer_login');
+        $this->customerHelper()->registerCustomer($userData);
+        $this->logoutCustomer();
+        $error = 'no alert error';
+        try {
+            $this->checkoutOnePageHelper()->doOnePageCheckoutSteps($checkoutData);
+        } catch (PHPUnit_Framework_ExpectationFailedException $e) {
+            $error = $e->getMessage();
+            $error = trim(preg_replace('/Failed asserting that false is true./', '', $error));
+        }
+        //Verification
+        $this->assertEquals($this->_getControlXpath('message', 'exist_email_alert'), $error);
+    }
+
+    /**
+     * @depends preconditionsForTests
+     * @dataProvider specialData
+     * @test
+     */
+    public function specialValuesForAddressFields($dataName, $simpleSku)
+    {
+        //Data
+        $checkoutData = $this->loadData($dataName, array('general_name' => $simpleSku));
+        //Steps
+        $this->logoutCustomer();
+        $this->shoppingCartHelper()->frontClearShoppingCart();
         $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
         //Verification
         $this->assertTrue($this->successMessage('success_checkout'), $this->messages);
     }
 
-    public function billingInvalidValues()
+    public function specialData()
     {
         return array(
-            array('billing_first_name'),
-            array('billing_last_name'),
-            array('billing_street_address_1'),
-            array('billing_city'),
-            array('billing_zip_code'),
-            array('billing_telephone'));
-    }
-
-    /**
-     * <p>Incorrect Email format</p>
-     * <p>Preconditions</p>
-     * <p>1. Add product to Shopping Cart</p>
-     * <p>2. Click "Proceed to Checkout"</p>
-     * <p>Steps</p>
-     * <p>1. Fill in Checkout Method tab</p>
-     * <p>2. Click 'Continue' button.</p>
-     * <p>3. Fill in 'Email' field by incorrect value.</p>
-     * <p>4. Fill other required fields by regular data.</p>
-     * <p>5. Click 'Continue' button.</p>
-     * <p>Expected result:</p>
-     * <p>Error message appears</p>
-     *
-     * @depends createSimple
-     * @test
-     */
-    public function frontBillingAddressIncorrectEmailFormat($productData)
-    {
-        //Data
-        $checkoutData = $this->loadData('checkout_data_billing_empty_fields',
-                array('general_name' => $productData,
-            'billing_email' => $this->generate('string', 32, ':alnum:')));
-        //Steps
-        $this->assertTrue($this->logoutCustomer());
-        $this->assertTrue($this->frontend('home'));
-        $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
-        //Verification
-        $page = $this->getUimapPage('frontend', 'onepage_checkout');
-        $fieldSet = $page->findFieldset('billing_information');
-        $fieldXpath = $fieldSet->findField('billing_email');
-        $this->addParameter('fieldXpath', $fieldXpath);
-        $this->assertTrue($this->errorMessage('invalid_email_address'), $this->messages);
-    }
-
-    /**
-     * <p>Using existing Email Address for fill billing information form</p>
-     * <p>Preconditions</p>
-     * <p>1. Create customer</p>
-     * <p>2. Add product to Shopping Cart</p>
-     * <p>3. Click "Proceed to Checkout"</p>
-     * <p>Steps</p>
-     * <p>1. Fill in Checkout Method tab</p>
-     * <p>2. Click 'Continue' button.</p>
-     * <p>3. Fill in 'Email' field by existing email.</p>
-     * <p>4. Fill other required fields by regular data.</p>
-     * <p>5. Click 'Continue' button.</p>
-     * <p>Expected result:</p>
-     * <p>Error message appears</p>
-     *
-     * @depends createSimple
-     * @test
-     */
-    public function frontBillingAddressExistingEmail($productData)
-    {
-        //Preconditions
-        $userData = $this->loadData('generic_customer_account', null, 'email');
-        $this->loginAdminUser();
-        $this->navigate('manage_customers');
-        $this->assertTrue($this->checkCurrentPage('manage_customers'), $this->messages);
-        $this->CustomerHelper()->createCustomer($userData);
-        $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_customers'), $this->messages);
-        //Data
-        $checkoutData = $this->loadData('checkout_data_billing_empty_fields',
-                array('general_name' => $productData, 'billing_email' => $userData['email']));
-        //Steps
-        $this->assertTrue($this->logoutCustomer());
-        $this->assertTrue($this->frontend('home'));
-        $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData, FALSE);
-        //Verification
-        $this->waitForAjax();
-        $text = 'There is already a customer registered using this email address.
-            Please login using this email address or enter a different email address to register your account.';
-        $alert = (!$this->isAlertPresent($text)) ? FALSE : TRUE;
-        if ($alert == TRUE) {
-            $this->getAlert();
-            $this->assertTrue($alert);
-        } else {
-            $this->fail('Alert' . $text . 'has not appeared');
-        }
-    }
-
-    /**
-     * <p>Using incorrect confirmation password</p>
-     * <p>Preconditions</p>
-     * <p>1. Add product to Shopping Cart</p>
-     * <p>2. Click "Proceed to Checkout"</p>
-     * <p>Steps</p>
-     * <p>1. Fill in Checkout Method tab</p>
-     * <p>2. Click 'Continue' button.</p>
-     * <p>3. Fill required fields by regular data.</p>
-     * <p>4. Enter incorrect confirmation password</p>
-     * <p>4. Click 'Continue' button.</p>
-     * <p>Expected result:</p>
-     * <p>Error message appears - "Please make sure your passwords match."</p>
-     *
-     * @depends createSimple
-     * @test
-     */
-    public function frontBillingIncorrectConfirmationPassword($productData)
-    {
-        //Data
-        $checkoutData = $this->loadData('checkout_data_billing_empty_fields',
-                array('general_name' => $productData,
-            'billing_confirm_password' => $this->generate('string', 32, ':punct:')), array('billing_email'));
-        //Steps
-        $this->assertTrue($this->logoutCustomer());
-        $this->assertTrue($this->frontend('home'));
-        $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
-        //Verification
-        $page = $this->getUimapPage('frontend', 'onepage_checkout');
-        $fieldSet = $page->findFieldset('billing_information');
-        $fieldXpath = $fieldSet->findField('billing_confirm_password');
-        $this->addParameter('fieldXpath', $fieldXpath);
-        $this->assertTrue($this->errorMessage('different_passwords'), $this->messages);
-        //Postconditions
-        $this->logoutCustomer();
+            array('with_register_flatrate_checkmoney_long_address'),
+            array('with_register_flatrate_checkmoney_special_address')
+        );
     }
 
     /**
@@ -418,50 +331,44 @@ class CheckoutOnePage_WithRegistration_CheckingValidationTest extends Mage_Selen
      * <p>Error message appears</p>
      *
      * @dataProvider emptyFieldsShipping
-     * @depends createSimple
+     * @depends preconditionsForTests
      * @test
      */
-    public function frontEmptyRequiredFildsInShippingAddress($emptyFieldShipping, $productData)
+    public function frontEmptyRequiredFildsInShippingAddress($field, $fieldType, $simpleSku)
     {
         //Data
-        $checkoutData = $this->loadData('checkout_data_shipping_empty_fields',
-                array('general_name' => $productData, $emptyFieldShipping => ''));
+        $checkoutData = $this->loadData('with_register_empty_shipping_fields',
+                array('general_name' => $simpleSku, $field => ''));
         //Steps
-        $this->assertTrue($this->logoutCustomer());
-        $this->assertTrue($this->frontend('home'));
-        $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
+        $this->logoutCustomer();
+        $this->shoppingCartHelper()->frontClearShoppingCart();
+        $this->checkoutOnePageHelper()->doOnePageCheckoutSteps($checkoutData);
         //Verification
-        $page = $this->getUimapPage('frontend', 'onepage_checkout');
-        $fieldSet = $page->findFieldset('shipping_information');
-        if ($emptyFieldShipping != 'shipping_country' && $emptyFieldShipping != 'shipping_state') {
-            $fieldXpath = $fieldSet->findField($emptyFieldShipping);
-            $this->addParameter('fieldXpath', $fieldXpath);
-            $this->assertTrue($this->errorMessage('empty_required_field'), $this->messages);
-            $this->assertTrue($this->verifyMessagesCount(), $this->messages);
+        $this->addFieldIdToMessage($fieldType, $field);
+        if ($fieldType == 'dropdown') {
+            $this->assertTrue($this->validationMessage('please_select_option'), $this->messages);
         } else {
-            $fieldXpath = $fieldSet->findDropdown($emptyFieldShipping);
-            $this->addParameter('fieldXpath', $fieldXpath);
-            $this->assertTrue($this->errorMessage('please_select_option'), $this->messages);
-            $this->assertTrue($this->verifyMessagesCount(), $this->messages);
+            $this->assertTrue($this->validationMessage('empty_required_field'), $this->messages);
         }
+        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
     }
 
     public function emptyFieldsShipping()
     {
         return array(
-            array('shipping_first_name'),
-            array('shipping_last_name'),
-            array('shipping_street_address_1'),
-            array('shipping_city'),
-            array('shipping_state'),
-            array('shipping_zip_code'),
-            array('shipping_country'),
-            array('shipping_telephone')
+            array('shipping_first_name', 'field'),
+            array('shipping_last_name', 'field'),
+            array('shipping_street_address_1', 'field'),
+            array('shipping_city', 'field'),
+            array('shipping_state', 'dropdown'),
+            array('shipping_zip_code', 'field'),
+            array('shipping_country', 'dropdown'),
+            array('shipping_telephone', 'field')
         );
     }
 
     /**
-     * <p>Using long values for fill shipping information form</p>
+     * <p>Using long values for fill billing information form</p>
      * <p>Preconditions</p>
      * <p>1. Add product to Shopping Cart</p>
      * <p>2. Click "Proceed to Checkout"</p>
@@ -471,48 +378,44 @@ class CheckoutOnePage_WithRegistration_CheckingValidationTest extends Mage_Selen
      * <p>3. Fill in Billing Information tab</p>
      * <p>4. Select "Ship to different address" option</p>
      * <p>5. Click 'Continue' button.</p>
-     * <p>6. Fill in Shipping Information required fields by special characters.</p>
-     * <p>7. Click 'Continue' button.</p>
+     * <p>6. Fill in Shipping Information tab.</p>
+     * <p>7. Fill in one field by long value</p>
+     * <p>8. Click 'Continue' button.</p>
      * <p>Expected result:</p>
-     * <p>Customer successfully redirected to the next page, no error masseges appears</p>
+     * <p>Error masseges appears</p>
      *
-     * @depends createSimple
+     * @depends preconditionsForTests
+     * @dataProvider dataAddressLongValues
      * @test
      */
-    public function frontShippingAddressLongValues($productData)
+    public function frontBillingAddressLongValues($field, $simpleSku)
     {
-
         //Data
-        $checkoutData = $this->loadData('checkout_data_shipping_empty_fields',
-                array('general_name' => $productData,
-            'shipping_first_name' => $this->generate('string', 256, ':punct:'),
-            'shipping_last_name' => $this->generate('string', 256, ':punct:'),
-            'shipping_street_address_1' => $this->generate('string', 256, ':punct:'),
-            'shipping_city' => $this->generate('string', 256, ':punct:'),
-            'shipping_zip_code' => $this->generate('string', 256, ':punct:'),
-            'shipping_telephone' => $this->generate('string', 256, ':punct:')), array('billing_email'));
-        //Steps
-        $this->assertTrue($this->logoutCustomer());
-        $this->assertTrue($this->frontend('home'));
-        $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData, FALSE);
-        //Verification
-        $text = $this->_getControlXpath('message', 'billing_long_values_data_alert');
-        $this->waitForAjax();
-        $alert = (!$this->isAlertPresent($text)) ? FALSE : TRUE;
-        if ($alert == TRUE) {
-            $this->getAlert();
-            $this->assertTrue($alert);
-        } else {
-            $this->fail('Alert is not appeared');
-        }
-        //Postconditions
+        $checkoutData = $this->loadData('with_register_empty_billing_fields',
+                array('general_name' => $simpleSku, 'billing_' . $field => $this->generate('string', 256, ':alpha:')));
+        //Steps and Verification
         $this->logoutCustomer();
+        $this->shoppingCartHelper()->frontClearShoppingCart();
+        $error = 'no alert error';
+        try {
+            $this->checkoutOnePageHelper()->doOnePageCheckoutSteps($checkoutData);
+        } catch (PHPUnit_Framework_ExpectationFailedException $e) {
+            $error = $e->getMessage();
+            $error = trim(preg_replace('/Failed asserting that false is true./', '', $error));
+        }
+        //Verifications
+        if (!preg_match('/street_address/', $field)) {
+            $xpath = $this->_getControlXpath('field', 'billing_' . $field)
+                    . self::$xpathFieldNameWithValidationMessage;
+            $this->addParameter('fieldName', trim($this->getText($xpath), " *\t\n\r"));
+        } else {
+            $this->addParameter('fieldName', 'Street Address');
+        }
+        $this->assertEquals($this->_getControlXpath('message', 'long_value_alert'), $error);
     }
 
-
-
     /**
-     * <p>Shipping method not defined</p>
+     * <p>Using long values for fill billing information form</p>
      * <p>Preconditions</p>
      * <p>1. Add product to Shopping Cart</p>
      * <p>2. Click "Proceed to Checkout"</p>
@@ -520,93 +423,51 @@ class CheckoutOnePage_WithRegistration_CheckingValidationTest extends Mage_Selen
      * <p>1. Fill in Checkout Method tab</p>
      * <p>2. Click 'Continue' button.</p>
      * <p>3. Fill in Billing Information tab</p>
-     * <p>4. Select "Ship to this address" option</p>
+     * <p>4. Fill in one field by long value</p>
      * <p>5. Click 'Continue' button.</p>
-     * <p>6. Leave Shipping Method options empty</p>
-     * <p>7. Click 'Continue' button.</p>
-     * <p>Expected result:</p>
-     * <p>Information window appears "Please specify shipping method."</p>
+     * <p>Error masseges appears</p>
      *
-     * @depends createSimple
+     * @depends preconditionsForTests
+     * @dataProvider dataAddressLongValues
      * @test
      */
-    public function frontShippingMethodNotDefined($productData)
+    public function frontShippingAddressLongValues($field, $simpleSku)
     {
-        //Preconditions
-        $this->loginAdminUser();
-        $this->navigate('system_configuration');
-        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
-        $this->systemConfigurationHelper()->configure('free_enable');
         //Data
-        $checkoutData = $this->loadData('checkout_data_shipping_method_undefined',
-                                        array('general_name' => $productData));
-        //Steps
-        $this->assertTrue($this->logoutCustomer());
-        $this->assertTrue($this->frontend('home'));
-        $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData, FALSE);
-        //Verification
-        $text = 'Please specify shipping method.';
-        $alert = (!$this->isAlertPresent($text)) ? FALSE : TRUE;
-        if ($alert == TRUE) {
-            $this->getAlert();
-            $this->assertTrue($alert);
-        } else {
-            $this->fail('Alert has not appeared');
+        $checkoutData = $this->loadData('with_register_empty_shipping_fields',
+                array('general_name' => $simpleSku, 'shipping_' . $field => $this->generate('string', 256, ':alpha:')));
+        //Steps and Verification
+        $this->logoutCustomer();
+        $this->shoppingCartHelper()->frontClearShoppingCart();
+        $error = 'no alert error';
+        try {
+            $this->checkoutOnePageHelper()->doOnePageCheckoutSteps($checkoutData);
+        } catch (PHPUnit_Framework_ExpectationFailedException $e) {
+            $error = $e->getMessage();
+            $error = trim(preg_replace('/Failed asserting that false is true./', '', $error));
         }
+        if (!preg_match('/street_address/', $field)) {
+            $xpath = $this->_getControlXpath('field', 'shipping_' . $field)
+                    . self::$xpathFieldNameWithValidationMessage;
+            $this->addParameter('fieldName', trim($this->getText($xpath), " *\t\n\r"));
+        } else {
+            $this->addParameter('fieldName', 'Street Address');
+        }
+        $this->assertEquals($this->_getControlXpath('message', 'long_value_alert'), $error);
     }
 
-    /**
-     * <p>Payment method not defined</p>
-     * <p>Preconditions</p>
-     * <p>1. Add product to Shopping Cart</p>
-     * <p>2. Click "Proceed to Checkout"</p>
-     * <p>Steps</p>
-     * <p>1. Fill in Checkout Method tab</p>
-     * <p>2. Click 'Continue' button.</p>
-     * <p>3. Fill in Billing Information tab</p>
-     * <p>4. Select "Ship to this address" option</p>
-     * <p>5. Click 'Continue' button.</p>
-     * <p>6. Select Shipping Method option</p>
-     * <p>7. Click 'Continue' button.</p>
-     * <p>8. Leave Payment Method options empty</p>
-     * <p>9. Click 'Continue' button.</p>
-     * <p>Expected result:</p>
-     * <p>Information window appears "Please specify payment method."</p>
-     *
-     * @depends createSimple
-     * @test
-     */
-    public function frontPaymentMethodNotDefined($productData)
+    public function dataAddressLongValues()
     {
-        //Preconditions
-        $this->loginAdminUser();
-        $this->navigate('system_configuration');
-        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
-        $this->systemConfigurationHelper()->configure('savedcc_without_3Dsecure');
-        //Data
-        $checkoutData = $this->loadData('checkout_data_payment_method_undefined',
-                                        array('general_name' => $productData));
-        //Steps
-        $this->assertTrue($this->logoutCustomer());
-        $this->assertTrue($this->frontend('home'));
-        $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData, FALSE);
-        //Verification
-        $setXpath = $this->_getControlXpath('fieldset', 'payment_method') . "[contains(@class,'active')]";
-        $this->waitForElement($setXpath);
-        if ($this->isElementPresent($setXpath)) {
-            $this->clickButton('payment_method_continue', FALSE);
-        } else {
-            $this->fail('Seems here is only one payment method and we have nothing to choose');
-        }
-        //Verification
-        $text = $this->_getControlXpath('message', 'payment_alert');
-        $alert = (!$this->isAlertPresent($text)) ? FALSE : TRUE;
-        if ($alert == TRUE) {
-            $this->getAlert();
-        } else {
-            $this->fail('Alert ' . $text . ' has not appeared.');
-        }
+        return array(
+            array('first_name'),
+            array('last_name'),
+            array('company'),
+            array('street_address_1'),
+            array('street_address_2'),
+            array('city'),
+            array('telephone'),
+            array('fax')
+        );
     }
+
 }
-
-?>
