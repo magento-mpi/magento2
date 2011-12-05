@@ -1306,16 +1306,27 @@ class Mage_Catalog_Model_Resource_Url extends Mage_Core_Model_Resource_Db_Abstra
      *
      * @param string $requestPath
      * @param int $storeId
-     * @return void
      */
     public function deleteRewrite($requestPath, $storeId)
     {
-        $this->_getWriteAdapter()->delete(
-            $this->getMainTable(),
-            array(
-                'store_id = ?' => $storeId,
-                'request_path = ?' => $requestPath
-            )
+        $this->deleteRPRewrite($requestPath, $storeId);
+    }
+
+    /**
+     * Delete rewrite path record from the database with RP checking.
+     *
+     * @param string $requestPath
+     * @param int $storeId
+     */
+    public function deleteRPRewrite($requestPath, $storeId, $rp = false)
+    {
+        $conditions =  array(
+            'store_id = ?' => $storeId,
+            'request_path = ?' => $requestPath,
         );
+        if ($rp) {
+            $conditions['options = ?'] = 'RP';
+        }
+        $this->_getWriteAdapter()->delete($this->getMainTable(), $conditions);
     }
 }
