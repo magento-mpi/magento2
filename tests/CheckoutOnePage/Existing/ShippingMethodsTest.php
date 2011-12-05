@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Magento
  *
@@ -35,89 +36,78 @@
  */
 class CheckoutOnePage_Existing_ShippingMethodsTest extends Mage_Selenium_TestCase
 {
+
     protected function assertPreConditions()
     {
-        $this->addParameter('tabName', '');
-        $this->addParameter('webSite', '');
-        $this->addParameter('storeName', '');
         $this->loginAdminUser();
-        $this->navigate('system_configuration');
-        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
+        $this->addParameter('id', '');
     }
 
     /**
-     * <p>Preconditions</p>
-     * <p>Creating products</p>
+     * <p>Creating Simple product</p>
      *
      * @test
      */
-    public function createProducts()
+    public function preconditionsForTests()
     {
         //Data
-        $productData = $this->loadData('simple_product_for_order', NULL, array('general_name', 'general_sku'));
+        $simple = $this->loadData('simple_product_for_order');
         //Steps
-        $this->loginAdminUser();
         $this->navigate('manage_products');
-        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
-        $this->productHelper()->createProduct($productData);
+        $this->productHelper()->createProduct($simple);
         //Verification
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
-        return $productData['general_name'];
+
+        return $simple['general_name'];
     }
 
     /**
-     * Create customer
-     *
-     * @test
-     */
-    public function createCustomer()
-    {
-        //Preconditions
-        $userData = $this->loadData('generic_customer_account', null, 'email');
-        $this->navigate('manage_customers');
-        $this->assertTrue($this->checkCurrentPage('manage_customers'), $this->messages);
-        $this->CustomerHelper()->createCustomer($userData);
-        $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_customers'), $this->messages);
-        return $userData;
-    }
-    /**
-     * <p>Shipping Methods.</p>
+     * <p>Different Shipping Methods.</p>
+     * <p>Preconditions:</p>
+     * <p>1.Product is created.</p>
      * <p>Steps:</p>
-     * <p>1.Create product for adding to shopping cart.</p>
-     * <p>2.Add product to shopping cart and proceed to checkout.</p>
-     * <p>3.Checkout as logged in customer.</p>
-     * <p>4.Fill billing and shipping addresses with correct data.</p>
-     * <p>5.Choose shipping method (data provider).</p>
-     * <p>6.Choose Payment method 'Credit Card (saved)' .</p>
-     * <p>7.Fill credit card data with visa information.</p>
-     * <p>8.Place the order.</p>
+     * <p>1. Open product page.</p>
+     * <p>2. Add product to Shopping Cart.</p>
+     * <p>3. Click "Proceed to Checkout".</p>
+     * <p>4. Select Checkout Method with log in</p>
+     * <p>4. Fill in Billing Information tab.</p>
+     * <p>5. Select "Ship to this address" option.</p>
+     * <p>6. Click 'Continue' button.</p>
+     * <p>7. Select Shipping Method(by data provider).</p>
+     * <p>8. Click 'Continue' button.</p>
+     * <p>9. Select Payment Method.</p>
+     * <p>10. Click 'Continue' button.</p>
+     * <p>11. Verify information into "Order Review" tab</p>
+     * <p>12. Place order.</p>
      * <p>Expected result:</p>
-     * <p>Order is placed successfully</p>
+     * <p>Checkout is successful.</p>
      *
-     * @depends createProducts
-     * @depends createCustomer
-     * @dataProvider dataShippingMethods
+     * @depends preconditionsForTests
+     * @dataProvider dataShipment
      * @test
      */
-    public function shippingMethods($shipping, $productData, $customerData)
+    public function differentShippingMethods($shipping, $simpleSku)
     {
-
-        //Data
-        $checkoutData = $this->loadData('checkout_data_saved_cc_registered',
-                array('general_name' => $productData, 'email_address' => $customerData['email'],
-                    'password' => $customerData['password']));
-        $checkoutData['shipping_data'] = $this->loadData('front_shipping_' . $shipping);
+        $userData = $this->loadData('customer_account_register');
+        $checkoutData = $this->loadData('with_register_flatrate_checkmoney',
+                array('general_name' => $simpleSku, 'email_address' => $userData['email'],
+            'shipping_data' => $this->loadData('front_shipping_' . $shipping)));
         //Steps
+        $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure($shipping . '_enable');
         $this->logoutCustomer();
-        $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
+        $this->navigate('customer_login');
+        $this->customerHelper()->registerCustomer($userData);
         //Verifying
+        $this->assertTrue($this->successMessage('success_registration'), $this->messages);
+        //Steps
+        $this->logoutCustomer();
+        $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
+        //Verification
         $this->assertTrue($this->successMessage('success_checkout'), $this->messages);
     }
 
-    public function dataShippingMethods()
+    public function dataShipment()
     {
         return array(
             array('flatrate'),
@@ -126,7 +116,15 @@ class CheckoutOnePage_Existing_ShippingMethodsTest extends Mage_Selenium_TestCas
             array('upsxml'),
             array('usps'),
             array('fedex'),
-            array('dhl')
+//@TODO            array('dhl')
         );
     }
+
+    protected function tearDown()
+    {
+        $this->loginAdminUser();
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('shipping_disable');
+    }
+
 }

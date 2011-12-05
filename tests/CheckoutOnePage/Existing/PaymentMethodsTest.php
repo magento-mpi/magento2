@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Magento
  *
@@ -35,90 +36,79 @@
  */
 class CheckoutOnePage_Existing_PaymentMethodsTest extends Mage_Selenium_TestCase
 {
+
+    protected static $useTearDown = false;
+
     protected function assertPreConditions()
     {
-        $this->addParameter('tabName', '');
-        $this->addParameter('webSite', '');
-        $this->addParameter('storeName', '');
         $this->loginAdminUser();
-        $this->navigate('system_configuration');
-        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
+        $this->addParameter('id', '');
     }
 
     /**
-     * <p>Preconditions</p>
-     * <p>Creating products</p>
+     * <p>Creating Simple product</p>
      *
      * @test
      */
-    public function createProducts()
+    public function preconditionsForTests()
     {
         //Data
-        $productData = $this->loadData('simple_product_for_order', NULL, array('general_name', 'general_sku'));
+        $simple = $this->loadData('simple_product_for_order');
         //Steps
-        $this->loginAdminUser();
         $this->navigate('manage_products');
-        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
-        $this->productHelper()->createProduct($productData);
+        $this->productHelper()->createProduct($simple);
         //Verification
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
-        return $productData['general_name'];
+
+        return $simple['general_name'];
     }
 
     /**
-     * Create customer
-     *
-     * @test
-     */
-    public function createCustomer()
-    {
-        //Preconditions
-        $userData = $this->loadData('generic_customer_account', null, 'email');
-        $this->navigate('manage_customers');
-        $this->assertTrue($this->checkCurrentPage('manage_customers'), $this->messages);
-        $this->CustomerHelper()->createCustomer($userData);
-        $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_customers'), $this->messages);
-        return $userData;
-    }
-    /**
      * <p>Payment methods without 3D secure.</p>
+     * <p>Preconditions:</p>
+     * <p>1.Product is created.</p>
      * <p>Steps:</p>
-     * <p>1.Create product for adding to shopping cart.</p>
-     * <p>2.Add product to shopping cart and proceed to checkout.</p>
-     * <p>3.Checkout as logged in customer.</p>
-     * <p>4.Fill billing and shipping addresses with correct data.</p>
-     * <p>5.Choose Flat Rate / Fixed shipping method.</p>
-     * <p>6.Choose Payment method (data provider).</p>
-     * <p>7.Fill credit card data with visa information.</p>
-     * <p>8.Place the order.</p>
+     * <p>1. Open product page.</p>
+     * <p>2. Add product to Shopping Cart.</p>
+     * <p>3. Click "Proceed to Checkout".</p>
+     * <p>4. Select Checkout Method with log in</p>
+     * <p>4. Fill in Billing Information tab.</p>
+     * <p>5. Select "Ship to this address" option.</p>
+     * <p>6. Click 'Continue' button.</p>
+     * <p>7. Select Shipping Method.</p>
+     * <p>8. Click 'Continue' button.</p>
+     * <p>9. Select Payment Method(by data provider).</p>
+     * <p>10. Click 'Continue' button.</p>
+     * <p>11. Verify information into "Order Review" tab</p>
+     * <p>12. Place order.</p>
      * <p>Expected result:</p>
-     * <p>Order is placed successfully</p>
+     * <p>Checkout is successful.</p>
      *
-     * @depends createProducts
-     * @depends createCustomer
+     * @depends preconditionsForTests
      * @dataProvider dataWithout3DSecure
      * @test
      */
-    public function without3D($payment, $productData, $customerData)
+    public function differentPaymentMethodsWithout3D($payment, $simpleSku)
     {
-
-        //Data
-        $checkoutData = $this->loadData('checkout_data_registered_' . $payment . '_flatrate',
-                array('general_name' => $productData, 'email_address' => $customerData['email'],
-                    'password' => $customerData['password']));
-        //Steps
-        if ($payment == 'paypaldirect' || $payment == 'paypaldirectuk' || $payment == 'payflowpro') {
-            $this->systemConfigurationHelper()->configure('paypal_enable');
-        }
+        $userData = $this->loadData('customer_account_register');
+        $checkoutData = $this->loadData('guest_flatrate_checkmoney',
+                array('general_name' => $simpleSku, 'email_address' => $userData['email'],
+            'payment_data' => $this->loadData('front_payment_' . $payment)));
         if ($payment != 'checkmoney') {
             $payment .= '_without_3Dsecure';
         }
+        //Steps
+        $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure($payment);
         $this->logoutCustomer();
-        $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
+        $this->navigate('customer_login');
+        $this->customerHelper()->registerCustomer($userData);
         //Verifying
+        $this->assertTrue($this->successMessage('success_registration'), $this->messages);
+        //Steps
+        $this->logoutCustomer();
+        $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
+        //Verification
         $this->assertTrue($this->successMessage('success_checkout'), $this->messages);
     }
 
@@ -136,39 +126,51 @@ class CheckoutOnePage_Existing_PaymentMethodsTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Payment methods with 3D secure.</p>
+     * <p>Preconditions:</p>
+     * <p>1.Product is created.</p>
      * <p>Steps:</p>
-     * <p>1.Create product for adding to shopping cart.</p>
-     * <p>2.Add product to shopping cart and proceed to checkout.</p>
-     * <p>3.Checkout as logged in customer.</p>
-     * <p>4.Fill billing and shipping addresses with correct data.</p>
-     * <p>5.Choose Flat Rate / Fixed shipping method.</p>
-     * <p>6.Choose Payment method (data provider).</p>
-     * <p>7.Fill credit card data with visa information.</p>
-     * <p>8.Enter 3D security code.</p>
-     * <p>9.Place the order.</p>
+     * <p>1. Open product page.</p>
+     * <p>2. Add product to Shopping Cart.</p>
+     * <p>3. Click "Proceed to Checkout".</p>
+     * <p>4. Select Checkout Method with log in</p>
+     * <p>4. Fill in Billing Information tab.</p>
+     * <p>5. Select "Ship to this address" option.</p>
+     * <p>6. Click 'Continue' button.</p>
+     * <p>7. Select Shipping Method.</p>
+     * <p>8. Click 'Continue' button.</p>
+     * <p>9. Select Payment Method(by data provider).</p>
+     * <p>10. Click 'Continue' button.</p>
+     * <p>11. Enter 3D security code.</p>
+     * <p>12. Verify information into "Order Review" tab</p>
+     * <p>13. Place order.</p>
      * <p>Expected result:</p>
-     * <p>Order is placed successfully</p>
+     * <p>Checkout is successful.</p>
      *
-     * @depends createProducts
-     * @depends createCustomer
+     * @depends preconditionsForTests
      * @dataProvider dataWith3DSecure
      * @test
      */
-    public function with3D($payment, $productData, $customerData)
+    public function differentPaymentMethodsWith3D($payment, $simpleSku)
     {
-
-        //Data
-        $checkoutData = $this->loadData('checkout_data_registered_' . $payment . '_3d_flatrate',
-                array('general_name' => $productData, 'email_address' => $customerData['email'],
-                    'password' => $customerData['password']));
-        //Steps
-        if ($payment == 'paypaldirect' || $payment == 'paypaldirectuk' || $payment == 'payflowpro') {
-            $this->systemConfigurationHelper()->configure('paypal_enable');
+        if ($payment == 'authorizenet') {
+            $this->useTearDown = TRUE;
         }
+        $userData = $this->loadData('customer_account_register');
+        $checkoutData = $this->loadData('guest_flatrate_checkmoney',
+                array('general_name' => $simpleSku, 'email_address' => $userData['email'],
+            'payment_data' => $this->loadData('front_payment_' . $payment)));
+        //Steps
+        $this->systemConfigurationHelper()->useHttps('frontend', 'yes');
         $this->systemConfigurationHelper()->configure($payment . '_with_3Dsecure');
         $this->logoutCustomer();
-        $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
+        $this->navigate('customer_login');
+        $this->customerHelper()->registerCustomer($userData);
         //Verifying
+        $this->assertTrue($this->successMessage('success_registration'), $this->messages);
+        //Steps
+        $this->logoutCustomer();
+        $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
+        //Verification
         $this->assertTrue($this->successMessage('success_checkout'), $this->messages);
     }
 
@@ -182,17 +184,13 @@ class CheckoutOnePage_Existing_PaymentMethodsTest extends Mage_Selenium_TestCase
             array('authorizenet')
         );
     }
-    /*
-     * <p>Postconditions</p>
-     * <p>Disabling 3D secure for payment methods</p>
-     *
-     * @test
-     */
-    public function turnOff3D()
+
+    protected function tearDown()
     {
-        $this->loginAdminUser();
-        $this->navigate('system_configuration');
-        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
-        $this->systemConfigurationHelper()->configure('all_payment_methods_without_3d');
+        if (!empty($this->useTearDown)) {
+            $this->loginAdminUser();
+            $this->systemConfigurationHelper()->useHttps('frontend', 'no');
+        }
     }
+
 }
