@@ -51,7 +51,7 @@ class Order_Helper extends Mage_Selenium_TestCase
     {
         $type = array(':alnum:', ':alpha:', ':digit:', ':lower:', ':upper:', ':punct:');
         if (!in_array($charsType, $type) || ($addrType != 'billing' && $addrType != 'shipping')
-                || $symNum < 5 || !is_int($symNum)) {
+            || $symNum < 5 || !is_int($symNum)) {
             throw new Exception('Incorrect parameters');
         }
         $return = array();
@@ -206,7 +206,7 @@ class Order_Helper extends Mage_Selenium_TestCase
     {
         $inString = array();
         $needKeys = array('first_name', 'last_name', 'street_address_1', 'street_address_2', 'city', 'zip_code',
-            'country', 'state', 'region');
+                          'country', 'state', 'region');
         foreach ($needKeys as $value) {
             if (array_key_exists($addressType . '_' . $value, $addressData)) {
                 $inString[$addressType . '_' . $value] = $addressData[$addressType . '_' . $value];
@@ -312,7 +312,7 @@ class Order_Helper extends Mage_Selenium_TestCase
                 }
                 if ($result) {
                     $this->fail("Error(s) when configure product '$productSku':\n" .
-                            implode("\n", $result));
+                                implode("\n", $result));
                 }
             }
             $this->clickButton('add_selected_products_to_order', FALSE);
@@ -409,7 +409,7 @@ class Order_Helper extends Mage_Selenium_TestCase
                 $this->fail($text);
             }
             $this->waitForElement("//div//iframe[@id='centinel_authenticate_iframe'" .
-                    " and normalize-space(@style)='display: block;']");
+                                  " and normalize-space(@style)='display: block;']");
             $this->waitForElement("//body[@onbeforeunload and @onload]");
             if ($this->waitForElement("//input[@name='external.field.password']", 5)) {
                 $this->type("//input[@name='external.field.password']", $password);
@@ -453,7 +453,7 @@ class Order_Helper extends Mage_Selenium_TestCase
                     $this->pleaseWait();
                 } else {
                     $this->messages['error'][] = 'Shipping Method "' . $shipMethod . '" for "'
-                            . $shipService . '" is currently unavailable.';
+                                                 . $shipService . '" is currently unavailable.';
                 }
             } else {
                 $this->messages['error'][] = 'Shipping Service "' . $shipService . '" is currently unavailable.';
@@ -485,7 +485,7 @@ class Order_Helper extends Mage_Selenium_TestCase
         $storeSelectorXpath = $this->_getControlXpath('fieldset', 'order_store_selector');
         // Select a store if there is more then one default store
         if ($this->isElementPresent($storeSelectorXpath .
-                        "[not(contains(@style,'display: none'))][not(contains(@style,'display:none'))]")) {
+                                    "[not(contains(@style,'display: none'))][not(contains(@style,'display:none'))]")) {
             if ($storeView) {
                 $this->addParameter('storeName', $storeView);
                 $this->clickControl('radiobutton', 'choose_main_store', FALSE);
@@ -612,6 +612,85 @@ class Order_Helper extends Mage_Selenium_TestCase
         if (!empty($this->messages['error'])) {
             $this->fail(implode("\n", $this->messages['error']));
         }
+    }
+
+
+    /**
+     * Compare arrays
+     *
+     * @param $httpHelperPath
+     * @param $logFileName
+     * @param $inputArray
+     * @return bool|array
+     */
+    public function compareArrays($httpHelperPath,$logFileName,$inputArray)
+    {
+        $subject = $this->getLastRecord($httpHelperPath,$logFileName);
+        $responseParams = $this->getResponse($subject);
+        $resultArray = array_diff($inputArray,$responseParams);
+        return (empty($resultArray)) ? TRUE : $resultArray;
+    }
+
+    /**
+     * Define correct array for compare
+     *
+     * @param $subject
+     * @return array
+     */
+    protected function getParamsArray($subject)
+    {
+        preg_match_all('/\[(.*)\] => (.*)/',$subject,$arr);
+
+        $result = array();
+        foreach ($arr[1] as $key => $value) {
+            if (!empty($value)) {
+                $result[$value] = $arr[2][$key];
+            }
+        }
+        return   $result;
+    }
+
+    /**
+     * Define request array
+     *
+     * @param $subject
+     * @return array
+     */
+    protected function getRequest($subject)
+    {
+        $requestSubject = substr($subject,strpos($subject,'[request]'),strpos($subject,")\n")-strpos($subject,'[request]')+1);
+        $requestSubject = substr($requestSubject,strpos($requestSubject,"(\n"),strpos($requestSubject,")"));
+        return $this->getParamsArray($requestSubject);
+    }
+
+    /**
+     * Define response array
+     *
+     * @param $subject
+     * @return array
+     */
+    protected function getResponse($subject)
+    {
+        $responseSubject = substr($subject,strpos($subject,'[response]'),strpos($subject,")\n")-strpos($subject,'[request]')+1);
+        $responseSubject = substr($responseSubject,strpos($responseSubject,"(\n"),
+                                  strpos($responseSubject,")")-strpos($responseSubject,"(\n"));
+        return $this->getParamsArray($responseSubject);
+    }
+    /**
+     * Find last record into Log File
+     *
+     * @param $httpHelperPath
+     * @param $logFileName
+     * @return string
+     */
+    protected function getLastRecord($httpHelperPath,$logFileName)
+    {
+        $arrayResult =  file_get_contents($httpHelperPath . '?log_file_name=' . $logFileName);
+        $pathVerification = strcmp(trim($arrayResult),'Could not open File');
+        if ($pathVerification == 0){
+            $this->fail("Log file could not be opened");
+        }
+        return $arrayResult;
     }
 
 }

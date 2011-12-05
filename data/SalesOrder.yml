@@ -1193,3 +1193,17 @@ gift_messages_with_empty_fields_expected:
             to: shipping_Steven shipping_Stevenson
             from: billing_Steven billing_Stevenson
             message: How you doing?
+
+#*************************************************
+#         3D-Secure Log Verification Data        *
+#*************************************************
+
+verification_3d_secure:
+    response:
+        EciFlag: "05"
+        PAResStatus: Y
+        SignatureVerification: Y
+        Xid: xid_value
+        ErrorDesc: 
+        ErrorNo: 0
+        Cavv: cavv_value

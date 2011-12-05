@@ -411,6 +411,11 @@ class Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest extends M
         $this->orderHelper()->createOrder($orderData);
         //Verifying
         $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
+        //Log verification
+        $httpHelperUrl = 'http://kd.varien.com/dev/evgeniy.miskov/1_6/phptest.php';
+        $logFileName = 'card_validation_3d_secure.log';
+        $verificationData = $this->loadData('verification_3d_secure');
+        print_r($this->orderHelper()->compareArrays($httpHelperUrl,$logFileName,$verificationData['response']));
     }
 
     public function dataWith3DSecure()
