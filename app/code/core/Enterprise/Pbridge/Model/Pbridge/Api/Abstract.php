@@ -72,6 +72,10 @@ class Enterprise_Pbridge_Model_Pbridge_Api_Abstract extends Varien_Object
 
         $this->_debug($response);
 
+        $curlErrorNumber = $http->getErrno();
+        $curlError = $http->getError();
+        $http->close();
+
         if ($response) {
 
             $response = preg_split('/^\r?$/m', $response, 2);
@@ -80,12 +84,10 @@ class Enterprise_Pbridge_Model_Pbridge_Api_Abstract extends Varien_Object
             $debugData['result'] = $response;
             $this->_debug($debugData);
 
-            if ($http->getErrno()) {
+            if ($curlErrorNumber) {
                 Mage::logException(new Exception(
-                    sprintf('Payment Bridge CURL connection error #%s: %s', $http->getErrno(), $http->getError())
+                    sprintf('Payment Bridge CURL connection error #%s: %s', $curlErrorNumber, $curlError)
                 ));
-
-                $http->close();
 
                 Mage::throwException(
                     Mage::helper('enterprise_pbridge')->__('Unable to communicate with Payment Bridge service.')
@@ -101,9 +103,6 @@ class Enterprise_Pbridge_Model_Pbridge_Api_Abstract extends Varien_Object
                 'error' => Mage::helper('enterprise_pbridge')->__('Empty response received from Payment Bridge.')
             );
         }
-
-        // cUrl resource must be closed after checking it for errors
-        $http->close();
 
         $this->_handleError($response);
         $this->_response = $response;
