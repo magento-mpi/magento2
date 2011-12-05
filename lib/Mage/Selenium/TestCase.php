@@ -625,6 +625,14 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         if (preg_match('/%randomize%/', $value)) {
             $value = preg_replace('/%randomize%/', $this->generate('string', 5, ':lower:'), $value);
         }
+        if (preg_match('/^%longValue[0-9]+%$/', $value)) {
+            $length = preg_replace('/[^0-9]/', '', $value);
+            $value = preg_replace('/%longValue[0-9]+%/', $this->generate('string', $length, ':alpha:'), $value);
+        }
+        if (preg_match('/^%specialValue[0-9]+%$/', $value)) {
+            $length = preg_replace('/[^0-9]/', '', $value);
+            $value = preg_replace('/%specialValue[0-9]+%/', $this->generate('string', $length, ':punct:'), $value);
+        }
         if (preg_match('/%currentDate%/', $value)) {
             $value = preg_replace('/%currentDate%/', date("m/d/Y"), $value);
         }
@@ -1523,7 +1531,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      *
      * @param string $columnName
      * @param string $tableXpath
-     * @return number 
+     * @return number
      */
     public function getColumnIdByName($columnName, $tableXpath = '//table[@id]')
     {
@@ -1685,7 +1693,14 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     public function checkMessage($message)
     {
         $page = $this->getCurrentUimapPage();
-        $messageLocator = $page->findMessage($message);
+        try {
+            $messageLocator = $page->findMessage($message);
+        } catch (Exception $e) {
+            $errorMessage = 'Current location url: ' . $this->getLocation() . "\n"
+                    . 'Current page "' . $this->getCurrentPage() . '": '
+                    . $e->getMessage() . ' - "' . $message . '"';
+            $this->fail($errorMessage);
+        }
         return $this->checkMessageByXpath($messageLocator);
     }
 
@@ -2370,20 +2385,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         }
         $this->_parseMessages();
         return $this->getXpathCount($xpath) == $count;
-    }
-
-    /**
-     * Performs verify of element presention on a page
-     *
-     * @param string $xpath XPath of a element, what should be verified
-     */
-    public function verifyElementPresent($xpath)
-    {
-        try {
-            $this->assertTrue($this->isElementPresent($xpath));
-        } catch (PHPUnit_Framework_AssertionFailedError $e) {
-            $this->verificationErrors[] = $e->toString();
-        }
     }
 
     /**
