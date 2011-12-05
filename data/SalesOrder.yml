@@ -247,10 +247,10 @@ simple_max_allowed_qty:
 
 simple_product_for_order:
     product_attribute_set: Default
-    general_name: Simple Product For Order
+    general_name: Simple Product For Order(%randomize%)
     general_description: Description for Simple Product
     general_short_description: Short Description for Simple Product
-    general_sku: simple_sku_order
+    general_sku: simple_sku_order_%randomize%
     general_weight: 18.56
     general_status: Enabled
     prices_price: 54.95
@@ -265,10 +265,10 @@ simple_product_for_order:
 #<------------VIRTUAL------------>
 virtual_product_for_order:
     product_attribute_set: Default
-    general_name: Virtual Product For Order
+    general_name: Virtual Product For Order(%randomize%)
     general_description: Description for Virtual Product
     general_short_description: Short Description for Virtual Product
-    general_sku: virtual_sku_order
+    general_sku: virtual_sku_order_%randomize%
     general_status: Enabled
     prices_price: 14.95
     prices_tax_class: None
