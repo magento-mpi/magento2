@@ -232,7 +232,7 @@ class Order_Helper extends Mage_Selenium_TestCase
             }
         }
 
-        if (is_string($res)) {
+        if (isset ($res) && is_string($res)) {
             return $res;
         }
         $this->fail('Can not define address');
@@ -598,7 +598,7 @@ class Order_Helper extends Mage_Selenium_TestCase
 
         $needColumnNames = array('Product', 'Subtotal', 'Discount', 'Row Subtotal');
         $names = $this->getTableHeadRowNames("//*[@id='order-items_grid']/table");
-        $xpath = $this->_getControlXpath('pageelement', 'product_table_tfoot');        
+        $xpath = $this->_getControlXpath('pageelement', 'product_table_tfoot');
         foreach ($needColumnNames as $value) {
             $number = array_search($value, $names);
             if ($value == 'Product') {
