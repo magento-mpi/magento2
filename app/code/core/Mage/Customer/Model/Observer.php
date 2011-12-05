@@ -120,7 +120,6 @@ class Mage_Customer_Model_Observer
         if (!Mage::helper('customer/address')->isVatValidationEnabled()
             || Mage::registry(self::VIV_PROCESSED_FLAG)
             || !$this->_canProcessAddress($customerAddress)
-            || $customerAddress->getVatId() == ''
         ) {
             return;
         }
@@ -128,33 +127,44 @@ class Mage_Customer_Model_Observer
         try {
             Mage::register(self::VIV_PROCESSED_FLAG, true);
 
+            $customer = $customerAddress->getCustomer();
             /** @var $customerHelper Mage_Customer_Helper_Data */
             $customerHelper = Mage::helper('customer');
 
-            $result = $customerHelper->checkVatNumber(
-                $customerAddress->getCountryId(),
-                $customerAddress->getVatId()
-            );
+            if ($customerAddress->getVatId() == '') {
+                $defaultGroupId = $customerHelper->getDefaultCustomerGroupId();
 
-            $newGroupId = $customerHelper->getCustomerGroupIdBasedOnVatNumber(
-                $customerAddress->getCountryId(), $result
-            );
-
-            $customer = $customerAddress->getCustomer();
-            if (!$customer->getDisableAutoGroupChange() && $customer->getGroupId() != $newGroupId) {
-                $customer->setGroupId($newGroupId);
-                $customer->save();
-            }
-
-            if (!Mage::app()->getStore()->isAdmin()) {
-                $validationMessage = Mage::helper('customer')->getVatValidationUserMessage($customerAddress,
-                    $customer->getDisableAutoGroupChange(), $result);
-
-                if (!$validationMessage->getIsError()) {
-                    Mage::getSingleton('customer/session')->addSuccess($validationMessage->getMessage());
+                if (!$customer->getDisableAutoGroupChange() && $customer->getGroupId() != $defaultGroupId) {
+                    $customer->setGroupId($defaultGroupId);
+                    $customer->save();
                 }
-                else {
-                    Mage::getSingleton('customer/session')->addError($validationMessage->getMessage());
+            }
+            else {
+
+                $result = $customerHelper->checkVatNumber(
+                    $customerAddress->getCountryId(),
+                    $customerAddress->getVatId()
+                );
+
+                $newGroupId = $customerHelper->getCustomerGroupIdBasedOnVatNumber(
+                    $customerAddress->getCountryId(), $result
+                );
+
+                if (!$customer->getDisableAutoGroupChange() && $customer->getGroupId() != $newGroupId) {
+                    $customer->setGroupId($newGroupId);
+                    $customer->save();
+                }
+
+                if (!Mage::app()->getStore()->isAdmin()) {
+                    $validationMessage = Mage::helper('customer')->getVatValidationUserMessage($customerAddress,
+                        $customer->getDisableAutoGroupChange(), $result);
+
+                    if (!$validationMessage->getIsError()) {
+                        Mage::getSingleton('customer/session')->addSuccess($validationMessage->getMessage());
+                    }
+                    else {
+                        Mage::getSingleton('customer/session')->addError($validationMessage->getMessage());
+                    }
                 }
             }
         } catch (Exception $e) {
