@@ -37,11 +37,26 @@
     //<![CDATA[
         function submitCopy(obj)
         {
+            var seelctedScopes = 0;
+
+            for (var i = 0, len = $('scopes').length; i < len; i++) {
+                if ($('scopes').options[i].selected) {
+                    seelctedScopes++;
+                    break;
+                }
+            }
+
+            if (!seelctedScopes) {
+                alert("<?php echo $this->__("Please select website or store view.") ?>");
+                return;
+            }
+
             if (confirm("<?php echo $this->__("Please confirm pages hierarchy changes.\\nAll data that hasn't been saved will be lost.") ?>")) {
                 obj.form.action = '<?php echo $this->getCopyHierarchyUrl() ?>';
                 obj.form.submit();
             }
         }
+
         function submitDelete(obj)
         {
             if (confirm("<?php echo $this->__("Are you sure?") ?>")) {
