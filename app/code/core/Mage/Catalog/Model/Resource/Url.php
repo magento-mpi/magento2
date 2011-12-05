@@ -1306,10 +1306,11 @@ class Mage_Catalog_Model_Resource_Url extends Mage_Core_Model_Resource_Db_Abstra
      *
      * @param string $requestPath
      * @param int $storeId
+     * @return void
      */
     public function deleteRewrite($requestPath, $storeId)
     {
-        $this->deleteRPRewrite($requestPath, $storeId);
+        $this->deleteRewriteRecord($requestPath, $storeId);
     }
 
     /**
@@ -1317,8 +1318,10 @@ class Mage_Catalog_Model_Resource_Url extends Mage_Core_Model_Resource_Db_Abstra
      *
      * @param string $requestPath
      * @param int $storeId
+     * @param bool $rp whether check rewrite option to be "Redirect = Permanent"
+     * @return void
      */
-    public function deleteRPRewrite($requestPath, $storeId, $rp = false)
+    public function deleteRewriteRecord($requestPath, $storeId, $rp = false)
     {
         $conditions =  array(
             'store_id = ?' => $storeId,

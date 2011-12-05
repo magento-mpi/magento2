@@ -739,7 +739,7 @@ class Mage_Catalog_Model_Url
     {
         $finalOldTargetPath = $this->getResource()->findFinalTargetPath($requestPath, $storeId);
         if ($finalOldTargetPath && $finalOldTargetPath == $idPath) {
-            $this->getResource()->deleteRPRewrite($requestPath, $storeId, true);
+            $this->getResource()->deleteRewriteRecord($requestPath, $storeId, true);
             return true;
         }
 
