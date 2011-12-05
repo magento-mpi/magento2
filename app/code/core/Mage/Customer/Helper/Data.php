@@ -572,7 +572,7 @@ class Mage_Customer_Helper_Data extends Mage_Core_Helper_Abstract
         } else if ($validationResult->getRequestSuccess()) {
             $message = sprintf(
                 $this->__('The VAT ID entered (%s) is not a valid VAT ID.') . ' ',
-                $customerAddress->getVatId()
+                $this->escapeHtml($customerAddress->getVatId())
             );
             if (!$groupAutoAssignDisabled && !$customerGroupAutoAssignDisabled) {
                 $message .= $willNotChargeTaxMessage;
