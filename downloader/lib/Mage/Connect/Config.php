@@ -228,7 +228,7 @@ class Mage_Connect_Config implements Iterator
     /**
      * Retrieve Channel Cache Directory
      *
-     * @param $channel
+     * @param string $channel
      * @return string
      */
     public function getChannelCacheDir($channel)
@@ -369,8 +369,8 @@ class Mage_Connect_Config implements Iterator
     /**
      * Validate value for configuration key
      *
-     * @param $key
-     * @param $val
+     * @param string $key
+     * @param mixed $val
      * @return bool
      */
     public function validate($key, $val)
@@ -387,7 +387,7 @@ class Mage_Connect_Config implements Iterator
     /**
      * Get possible values for configuration key
      *
-     * @param $key
+     * @param string $key
      * @return null|string
      */
     public function possible($key)
@@ -408,8 +408,8 @@ class Mage_Connect_Config implements Iterator
     /**
      * Get type of key
      *
-     * @param $key
-     * @return null
+     * @param string $key
+     * @return mixed|null
      */
     public function type($key)
     {
@@ -419,8 +419,8 @@ class Mage_Connect_Config implements Iterator
     /**
      * Get documentation information
      *
-     * @param $key
-     * @return null
+     * @param string $key
+     * @return mixed|null
      */
     public function doc($key)
     {
@@ -445,7 +445,7 @@ class Mage_Connect_Config implements Iterator
     /**
      * Check Key exists in properties array
      *
-     * @param $fld
+     * @param string $fld
      * @return bool
      */
     public function hasKey($fld)
@@ -515,7 +515,7 @@ class Mage_Connect_Config implements Iterator
     /**
      * Retrieve value of property
      *
-     * @param $var
+     * @param string $var
      * @return null
      */
     public function __get($var)
@@ -529,8 +529,8 @@ class Mage_Connect_Config implements Iterator
     /**
      * Set value of property
      *
-     * @param $var
-     * @param $value
+     * @param string $var
+     * @param mixed $value
      * @return void
      */
     public function __set($var, $value)

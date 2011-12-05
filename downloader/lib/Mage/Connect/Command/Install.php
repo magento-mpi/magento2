@@ -446,7 +446,7 @@ final class Mage_Connect_Command_Install extends Mage_Connect_Command
      * @param string $command
      * @param array $options
      * @param array $params
-     * @return null
+     * @return array|null
      */
     public function doUninstall($command, $options, $params)
     {
