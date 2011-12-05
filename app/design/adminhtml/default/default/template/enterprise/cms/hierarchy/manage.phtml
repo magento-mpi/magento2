@@ -35,18 +35,22 @@
     </div>
     <script type="text/javascript">
     //<![CDATA[
-        function submitCopy(obj)
+        function countSelectedScopes()
         {
             var seelctedScopes = 0;
 
             for (var i = 0, len = $('scopes').length; i < len; i++) {
                 if ($('scopes').options[i].selected) {
                     seelctedScopes++;
-                    break;
                 }
             }
 
-            if (!seelctedScopes) {
+            return seelctedScopes;
+        }
+
+        function submitCopy(obj)
+        {
+            if (!countSelectedScopes()) {
                 alert("<?php echo $this->__("Please select website or store view.") ?>");
                 return;
             }
@@ -59,6 +63,11 @@
 
         function submitDelete(obj)
         {
+            if (!countSelectedScopes()) {
+                alert("<?php echo $this->__("Please select website or store view.") ?>");
+                return;
+            }
+
             if (confirm("<?php echo $this->__("Are you sure?") ?>")) {
                 obj.form.action = '<?php echo $this->getDeleteHierarchiesUrl() ?>';
                 obj.form.submit();
