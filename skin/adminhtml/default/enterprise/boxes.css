@@ -1493,7 +1493,7 @@ ul.super-product-attributes { padding-left:15px; }
 .cms-hierarchy .cms-tree { height:400px; }
 .cms-hierarchy .manage-label { display: block; float: left; margin: 5px 10px 0 0; }
 .cms-hierarchy .manage-select { width:280px; margin: 5px 10px 0 0; }
-.cms-hierarchy .copy-submit { margin: 0 0 5px 130px; float: left;}
+.cms-hierarchy .copy-submit { margin: 0 0 5px; float:left;}
 .cms-hierarchy .delete-submit { margin: 0 0 5px 10px; }
 
 /* CMS Widgets Instance */
