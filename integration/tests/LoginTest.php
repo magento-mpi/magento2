@@ -199,4 +199,73 @@ class LoginTest extends Magento_Test_Webservice
         );
         $this->assertNotEmpty($result['result'], 'Session hash is empty while SOAP v2 WS-I login');
     }
+
+    /**
+     * Check login with credentials created in specific order
+     *
+     * @see APIA-46
+     * @return void
+     */
+    public function testApiUserSortingBug()
+    {
+        $users = array(
+            array(
+                'username'  => 'test_user_01',
+                'api_key'   => '123123q',
+                'is_active' => 1,
+            ),
+            array(
+                'username'  => 'test_user_02',
+                'api_key'   => '123123q',
+                'is_active' => 1,
+            ),
+        );
+        $roles = array(
+            array(
+                'name' => 'test_role_01',
+                'pid'       => 0,
+                'role_type' => 'G',
+            ),
+            array(
+                'name' => 'test_role_02',
+                'pid'       => 0,
+                'role_type' => 'G',
+            ),
+        );
+        $resource = array("all");
+        
+        $user1 = new Mage_Api_Model_User;
+        $role1 = new Mage_Api_Model_Roles;
+        $relation1 = new Mage_Api_Model_Rules;
+        $role1->setData($roles[0])->save();
+        $user1->setData($users[0])
+            ->save();
+        $user1->setRoleIds(array($role1->getId()))
+            ->saveRelations();
+        $relation1->setRoleId($role1->getId())
+            ->setResources($resource)
+            ->saveRel();
+
+        $user2 = new Mage_Api_Model_User;
+        $role2 = new Mage_Api_Model_Roles;
+        $relation2 = new Mage_Api_Model_Rules;
+        $role2->setData($roles[1])->save();
+        $user2->setData($users[1])->save();
+        $user2->setRoleIds(array($role2->getId()))
+            ->saveRelations();
+
+        $relation2->setRoleId($role2->getId())
+            ->setResources($resource)
+            ->saveRel();
+
+        $client = $this->getWebService();
+        $client->setSession(null);
+        $client->login($users[0]['username'], $users[0]['api_key']);
+        $client->login($users[1]['username'], $users[1]['api_key']);
+
+        $user1->delete();
+        $role1->delete();
+        $user2->delete();
+        $role2->delete();
+    }
 }
