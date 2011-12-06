@@ -860,6 +860,7 @@ class Product_Helper extends Mage_Selenium_TestCase
      */
     public function frontOpenProduct($productName, $categoryPath = NULL)
     {
+        $this->addParameter('categoryUrl', NULL);
         if (is_array($productName)) {
             if (array_key_exists('general_name', $productName)) {
                 $productName = $productName['general_name'];

@@ -63,11 +63,11 @@ class PriceRules_Helper extends Mage_Selenium_TestCase
         if (is_string($ruleData)) {
             $ruleData = $this->loadData($ruleData);
         }
-        $ruleData = $this->arrayEmptyClear($ruleData);
-        $ruleInfo = (isset($ruleData['info'])) ? $ruleData['info'] : array();
+        $ruleData       = $this->arrayEmptyClear($ruleData);
+        $ruleInfo       = (isset($ruleData['info'])) ? $ruleData['info'] : array();
         $ruleConditions = (isset($ruleData['conditions'])) ? $ruleData['conditions'] : array();
-        $ruleActions = (isset($ruleData['actions'])) ? $ruleData['actions'] : array();
-        $ruleLabels = (isset($ruleData['labels'])) ? $ruleData['labels'] : null;
+        $ruleActions    = (isset($ruleData['actions'])) ? $ruleData['actions'] : array();
+        $ruleLabels     = (isset($ruleData['labels'])) ? $ruleData['labels'] : null;
         if (array_key_exists('websites', $ruleInfo) && !$this->controlIsPresent('multiselect', 'websites')) {
             unset($ruleInfo['websites']);
         }
@@ -273,11 +273,9 @@ class PriceRules_Helper extends Mage_Selenium_TestCase
      *
      * @param array $productSearch
      */
-    public function deleteRule(array $ruleSearch = array())
+    public function deleteRule(array $ruleSearch)
     {
-        if ($ruleSearch) {
-            $this->openRule($ruleSearch);
-        }
+        $this->openRule($ruleSearch);
         $this->clickButtonAndConfirm('delete_rule', 'confirmation_for_delete');
     }
 
@@ -315,21 +313,21 @@ class PriceRules_Helper extends Mage_Selenium_TestCase
     /**
      * Sets all created Rules as inactive (PreConditions for prices verification in frontend)
      */
-    public function setAllToInactive()
+    public function setAllRulesToInactive()
     {
-        $this->navigate('manage_catalog_price_rules');
-        $this->clickButton('reset_filter');
-        $ruleSearch = array('Status'=>'Active');
-        $xpathTR = $this->search($ruleSearch, 'rule_search_grid');
+        $xpathTR = $this->search(array('filter_status' => 'Active'), 'rule_search_grid');
+        if (!$xpathTR) {
+            return true;
+        }
         $names = $this->shoppingCartHelper()->getColumnNamesAndNumbers('grid_head', false);
         while ($this->isElementPresent($xpathTR)) {
             $ruleTitle = trim($this->getText($xpathTR . '//td[' . $names['Rule Name'] . ']'));
             $this->addParameter('elementTitle', $ruleTitle);
             $this->click($xpathTR);
             $this->waitForPageToLoad($this->_browserTimeoutPeriod);
-            $this->validatePage($this->_findCurrentPageFromUrl($this->getLocation()));
-            $this->fillForm(array('status'=>'Inactive'), 'rule_information');
-            $this->saveForm('save_and_apply');
+            $this->validatePage();
+            $this->fillForm(array('status' => 'Inactive'), 'rule_information');
+            $this->saveForm('save_rule');
         }
     }
 
