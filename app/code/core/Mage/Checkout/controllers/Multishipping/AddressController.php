@@ -89,7 +89,7 @@ class Mage_Checkout_Multishipping_AddressController extends Mage_Core_Controller
         if (count($this->_getCheckout()->getCustomer()->getAddresses()) == 1) {
             $this->_getCheckout()->reset();
         }
-        $this->_redirect('*/multishipping/');
+        $this->_redirect('*/multishipping/addresses');
     }
 
     public function editShippingAction()
