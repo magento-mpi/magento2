@@ -634,7 +634,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             $value = preg_replace('/%specialValue[0-9]+%/', $this->generate('string', $length, ':punct:'), $value);
         }
         if (preg_match('/%currentDate%/', $value)) {
-            $value = preg_replace('/%currentDate%/', date("m/d/Y"), $value);
+            $value = preg_replace('/%currentDate%/', date("n/j/y"), $value);
         }
     }
 
@@ -1951,7 +1951,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                     }
                     $this->validatePage($this->_firstPageAfterAdminLogin);
                 } else {
-                    throw new PHPUnit_Framework_Exception('Wrong page was opened');
+                    throw new PHPUnit_Framework_Exception('Wrong page was opened: ' . $this->getLocation());
                 }
             }
         } catch (PHPUnit_Framework_Exception $e) {
@@ -2188,6 +2188,35 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                 }
             } else {
                 if ($this->isElementPresent($locator)) {
+                    return true;
+                }
+            }
+            sleep(1);
+        }
+        return false;
+    }
+
+    /**
+     * Waiting for element(s) to be visible
+     *
+     * @param string|array $locator XPath locator or array of locators
+     * @param integer $timeout Timeout period in seconds (by default = 40)
+     *
+     * @return boolean
+     */
+    public function waitForElementVisible($locator, $timeout = 40)
+    {
+        $iStartTime = time();
+        while ($timeout > time() - $iStartTime) {
+
+            if (is_array($locator)) {
+                foreach ($locator as $loc) {
+                    if ($this->isVisible($loc)) {
+                        return true;
+                    }
+                }
+            } else {
+                if ($this->isVisible($locator)) {
                     return true;
                 }
             }
