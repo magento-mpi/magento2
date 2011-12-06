@@ -38,20 +38,7 @@
     strict="false">
     <testsuites>
         <testsuite name="All Tests">
-            <directory suffix="Test.php">tests/AdminUser</directory>
-            <directory suffix="CreateTest.php">tests/Store</directory>
-            <directory suffix="Test.php">tests/AttributeSet</directory>
-            <directory suffix="Test.php">tests/ProductAttribute</directory>
-            <directory suffix="Test.php">tests/Category</directory>
-            <directory suffix="Test.php">tests/Product</directory>
-            <directory suffix="Test.php">tests/Customer</directory>
-            <directory suffix="Test.php">tests/Order</directory>
-            <directory suffix="TaxAndPricesValidation">tests/Tax</directory>
-            <directory suffix="Test.php">tests/CmsPages</directory>
-            <directory suffix="Test.php">tests/CmsPolls</directory>
-            <directory suffix="Test.php">tests/CmsStaticBlocks</directory>
-            <directory suffix="Test.php">tests/CmsWidgets</directory>
-            <directory suffix="Test.php">tests/CheckoutOnePage</directory>
+            <directory suffix="Test.php">tests</directory>
         </testsuite>
     </testsuites>
     <logging>
