@@ -73,7 +73,7 @@ class CheckoutOnePage_Helper extends Mage_Selenium_TestCase
             return $this->getText($xpath);
         }
 
-        return preg_replace('/[^0-9]/', '', $this->getText("//*[contsins(text(),'Your order')]"));
+        return preg_replace('/[^0-9]/', '', $this->getText("//*[contains(text(),'Your order')]"));
     }
 
     /**
