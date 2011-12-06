@@ -93,9 +93,7 @@ class Review_FrontendCreateTest extends Mage_Selenium_TestCase
     public function frontendReviewEmptyFields($emptyFieldName, $emptyFieldType, $customer, $product)
     {
         $reviewData = $this->loadData('frontend_review', array($emptyFieldName => ''));
-        $performLogin = $this->loadData('perform_login',
-                                        array('email'    => $customer['email'],
-                                              'password' => $customer['password']));
+        $performLogin = array('email' => $customer['email'], 'password' => $customer['password']);
         $this->logoutCustomer();
         $this->clickControl('link', 'log_in');
         $this->fillForm($performLogin);
@@ -143,9 +141,7 @@ class Review_FrontendCreateTest extends Mage_Selenium_TestCase
                                             'filter_review'          => $reviewData['review'],
                                             'filter_type'            => 'Customer',
                                             'filter_status'          => 'Pending'));
-        $performLogin = $this->loadData('perform_login',
-                                        array('email'                => $customer['email'],
-                                              'password'             => $customer['password']));
+        $performLogin = array('email' => $customer['email'], 'password' => $customer['password']);
         $this->logoutCustomer();
         $this->clickControl('link', 'log_in');
         $this->fillForm($performLogin);
@@ -187,9 +183,7 @@ class Review_FrontendCreateTest extends Mage_Selenium_TestCase
                                             'filter_type'        => 'Customer',
                                             'filter_status'      => 'Pending'));
         $editReview = array('status' => 'Approved');
-        $performLogin = $this->loadData('perform_login',
-                                        array('email'            => $customer['email'],
-                                              'password'         => $customer['password']));
+        $performLogin = array('email' => $customer['email'], 'password' => $customer['password']);
         $this->logoutCustomer();
         $this->clickControl('link', 'log_in');
         $this->fillForm($performLogin);
