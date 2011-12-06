@@ -235,8 +235,16 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
     public function getSelectCountSql()
     {
         $this->_renderFilters();
-        $paginatorAdapter = new Zend_Paginator_Adapter_DbSelect($this->getSelect());
-        return $paginatorAdapter->getCountSelect();
+
+        $countSelect = clone $this->getSelect();
+        $countSelect->reset(Zend_Db_Select::ORDER);
+        $countSelect->reset(Zend_Db_Select::LIMIT_COUNT);
+        $countSelect->reset(Zend_Db_Select::LIMIT_OFFSET);
+        $countSelect->reset(Zend_Db_Select::COLUMNS);
+
+        $countSelect->columns('COUNT(*)');
+
+        return $countSelect;
     }
 
     /**
