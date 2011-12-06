@@ -101,8 +101,7 @@ class Mage_Customer_Model_Observer
             Mage::register(self::VIV_CURRENTLY_SAVED_ADDRESS, $customerAddress->getId());
         } elseif ($customerAddress->getIsDefaultBilling()) {
             $customerAddress->setForceProcess(true);
-        }
-        else {
+        } else {
             Mage::register(self::VIV_CURRENTLY_SAVED_ADDRESS, 'new_address');
         }
     }
@@ -138,8 +137,7 @@ class Mage_Customer_Model_Observer
                     $customer->setGroupId($defaultGroupId);
                     $customer->save();
                 }
-            }
-            else {
+            } else {
 
                 $result = $customerHelper->checkVatNumber(
                     $customerAddress->getCountryId(),
@@ -161,8 +159,7 @@ class Mage_Customer_Model_Observer
 
                     if (!$validationMessage->getIsError()) {
                         Mage::getSingleton('customer/session')->addSuccess($validationMessage->getMessage());
-                    }
-                    else {
+                    } else {
                         Mage::getSingleton('customer/session')->addError($validationMessage->getMessage());
                     }
                 }
