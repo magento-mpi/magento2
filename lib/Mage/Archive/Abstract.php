@@ -43,6 +43,7 @@ class Mage_Archive_Abstract
      */
     protected function _writeFile($destination, $data)
     {
+        $destination = trim($destination);
         if(false === file_put_contents($destination, $data)) {
             throw new Mage_Exception("Can't write to file: " . $destination);
         }
@@ -72,7 +73,8 @@ class Mage_Archive_Abstract
      * Get file name from source (URI) without last extension.
      *
      * @param string $source
-     * @return string
+     * @param bool $withExtension
+     * @return mixed|string
      */
     public function getFilename($source, $withExtension=false)
     {
