@@ -425,28 +425,15 @@ search_catalog_rule:
     filter_date_expire_to: %noValue%
     filter_status: %noValue%
 
-edit_rule_data:
-    info:
-        rule_name: test_shopping_cart_rule
-        status: Inactive
-        customer_groups: General
-    actions:
-        apply: By Percentage of the Original Price
-        discount_amount: 15
-        enable_discount_to_subproducts: Yes
-        sub_apply: To Fixed Amount
-        sub_discount_amount: 15
-        stop_further_rules_processing: Yes
-
 test_catalog_rule:
     info:
-        rule_name: test_shopping_cart_rule
-        description: description for test shopping cart rule
+        rule_name: test_catalog_rule_%randomize%
+        description: description for test catalog rule
         status: Active
         websites: Main Website
-        customer_groups: NOT LOGGED IN, General, Wholesale, Retailer
-        from_date: 11/9/11
-        to_date: 11/9/12
+        customer_groups: NOT LOGGED IN
+        from_date: %currentDate%
+        to_date: %currentDate%
         priority: 10
     conditions: %noValue%
     actions:
@@ -457,102 +444,34 @@ test_catalog_rule:
         sub_discount_amount: 15
         stop_further_rules_processing: Yes
 
-by_percentage_of_the_original_price_data:
-    info:
-        rule_name: test_shopping_cart_rule
-        description: description for test shopping cart rule
-        status: Active
-        websites: Main Website
-        customer_groups: NOT LOGGED IN
-        from_date: 11/9/11
-        to_date: 11/9/12
-        priority: 10
-    conditions:
-        select_conditions_aggregator: ALL
-        select_conditions_value: 'TRUE'
-        condition_1:
-            select_condition_new_child: Category
-            select_condition_operator: is
-            category: %noValue%
-    actions:
-        apply: By Percentage of the Original Price
-        discount_amount: 10
-        enable_discount_to_subproducts: No
-        sub_apply: %noValue%
-        sub_discount_amount: %noValue%
-        stop_further_rules_processing: Yes
+by_percentage_of_the_original_price:
+    apply: By Percentage of the Original Price
+    discount_amount: 10
+    enable_discount_to_subproducts: No
+    sub_apply: %noValue%
+    sub_discount_amount: %noValue%
+    stop_further_rules_processing: Yes
 
-to_percentage_of_the_original_price_data:
-    info:
-        rule_name: test_shopping_cart_rule
-        description: description for test shopping cart rule
-        status: Active
-        websites: Main Website
-        customer_groups: NOT LOGGED IN
-        from_date: 11/9/11
-        to_date: 11/9/12
-        priority: 10
-    conditions:
-        select_conditions_aggregator: ALL
-        select_conditions_value: 'TRUE'
-        condition_1:
-            select_condition_new_child: Category
-            select_condition_operator: is
-            category: %noValue%
-    actions:
-        apply: To Percentage of the Original Price
-        discount_amount: 10
-        enable_discount_to_subproducts: No
-        sub_apply: %noValue%
-        sub_discount_amount: %noValue%
-        stop_further_rules_processing: Yes
+to_percentage_of_the_original_price:
+    apply: To Percentage of the Original Price
+    discount_amount: 10
+    enable_discount_to_subproducts: No
+    sub_apply: %noValue%
+    sub_discount_amount: %noValue%
+    stop_further_rules_processing: Yes
 
-by_fixed_amount_data:
-    info:
-        rule_name: test_shopping_cart_rule
-        description: description for test shopping cart rule
-        status: Active
-        websites: Main Website
-        customer_groups: NOT LOGGED IN
-        from_date: 11/9/11
-        to_date: 11/9/12
-        priority: 10
-    conditions:
-        select_conditions_aggregator: ALL
-        select_conditions_value: 'TRUE'
-        condition_1:
-            select_condition_new_child: Category
-            select_condition_operator: is
-            category: %noValue%
-    actions:
-        apply: By Fixed Amount
-        discount_amount: 10
-        enable_discount_to_subproducts: No
-        sub_apply: %noValue%
-        sub_discount_amount: %noValue%
-        stop_further_rules_processing: Yes
+by_fixed_amount:
+    apply: By Fixed Amount
+    discount_amount: 10
+    enable_discount_to_subproducts: No
+    sub_apply: %noValue%
+    sub_discount_amount: %noValue%
+    stop_further_rules_processing: Yes
 
-to_fixed_amount_data:
-    info:
-        rule_name: test_shopping_cart_rule
-        description: description for test shopping cart rule
-        status: Active
-        websites: Main Website
-        customer_groups: NOT LOGGED IN
-        from_date: 11/9/11
-        to_date: 11/9/12
-        priority: 10
-    conditions:
-        select_conditions_aggregator: ALL
-        select_conditions_value: 'TRUE'
-        condition_1:
-            select_condition_new_child: Category
-            select_condition_operator: is
-            category: %noValue%
-    actions:
-        apply: To Fixed Amount
-        discount_amount: 10
-        enable_discount_to_subproducts: No
-        sub_apply: %noValue%
-        sub_discount_amount: %noValue%
-        stop_further_rules_processing: Yes
+to_fixed_amount:
+    apply: To Fixed Amount
+    discount_amount: 10
+    enable_discount_to_subproducts: No
+    sub_apply: %noValue%
+    sub_discount_amount: %noValue%
+    stop_further_rules_processing: Yes
