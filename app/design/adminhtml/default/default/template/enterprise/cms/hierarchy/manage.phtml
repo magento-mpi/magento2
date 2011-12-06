@@ -37,15 +37,15 @@
     //<![CDATA[
         function countSelectedScopes()
         {
-            var seelctedScopes = 0;
+            var selectedScopes = 0;
 
             for (var i = 0, len = $('scopes').length; i < len; i++) {
                 if ($('scopes').options[i].selected) {
-                    seelctedScopes++;
+                    selectedScopes++;
                 }
             }
 
-            return seelctedScopes;
+            return selectedScopes;
         }
 
         function submitCopy(obj)
