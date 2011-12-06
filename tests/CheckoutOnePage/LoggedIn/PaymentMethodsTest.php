@@ -153,7 +153,7 @@ class CheckoutOnePage_LoggedIn_PaymentMethodsTest extends Mage_Selenium_TestCase
     public function differentPaymentMethodsWith3D($payment, $simpleSku)
     {
         if ($payment == 'authorizenet') {
-            $this->$useTearDown = TRUE;
+            self::$useTearDown = TRUE;
         }
         $userData = $this->loadData('customer_account_register');
         $checkoutData = $this->loadData('signedin_flatrate_checkmoney',
@@ -185,7 +185,7 @@ class CheckoutOnePage_LoggedIn_PaymentMethodsTest extends Mage_Selenium_TestCase
 
     protected function tearDown()
     {
-        if (!empty($this->$useTearDown)) {
+        if (!empty(self::$useTearDown)) {
             $this->loginAdminUser();
             $this->systemConfigurationHelper()->useHttps('frontend', 'no');
         }

@@ -68,7 +68,12 @@ class CheckoutOnePage_Helper extends Mage_Selenium_TestCase
         $this->waitForPageToLoad();
         $this->validatePage('onepage_checkout_success');
 
-        return $this->getText($this->_getControlXpath('link', 'order_number'));
+        $xpath = $this->_getControlXpath('link', 'order_number');
+        if ($this->isElementPresent($xpath)) {
+            return $this->getText($xpath);
+        }
+
+        return preg_replace('/[^0-9]/', '', $this->getText("//*[contsins(text(),'Your order')]"));
     }
 
     /**
