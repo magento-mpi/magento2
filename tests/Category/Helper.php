@@ -251,14 +251,65 @@ class Category_Helper extends Mage_Selenium_TestCase
     /**
      * OpenCategory
      *
-     * @param string $categoryName
+     * @param string $categoryPath
+     * @return boolean
      */
-    public function frontOpenCategory($categoryName)
+    public function frontOpenCategory($categoryPath)
     {
-        $url = trim(strtolower(preg_replace('#[^0-9a-z]+#i', '-', $categoryName)), '-');
-        $this->addParameter('categoryTitle', $categoryName);
-        $this->addParameter('categoryUrl', $url);
-        $this->frontend('category_page');
+        $this->addParameter('productUrl', NULL);
+        //Determine category title
+        $nodes = explode('/', $categoryPath);
+        $nodesReverse = array_reverse($nodes);
+        $title = '';
+        foreach ($nodesReverse as $key => $value) {
+            $title .= $value;
+            if (isset($nodes[$key + 1])) {
+                $title .= ' - ';
+            }
+        }
+        $this->addParameter('categoryTitle', $title);
+        //Form category xpath
+        $link = '//ul[@id="nav"]';
+        foreach ($nodes as $node) {
+            $link = $link . '//li[contains(a/span,"' . $node . '")]';
+        }
+        $link = $link . '/a';
+        if ($this->isElementPresent($link)) {
+            //Determine category mca parameters
+            $mca = Mage_Selenium_TestCase::_getMcaFromCurrentUrl($this->_applicationHelper->getBaseUrl(),
+                            $this->getAttribute($link . '@href'));
+            if (preg_match('/\.html$/', $mca)) {
+                if (preg_match('|/|', $mca)) {
+                    $mcaNodes = explode('/', $mca);
+                    if (count($mcaNodes) > 2) {
+                        $this->fail('@TODO not work with nested categories, more then 2');
+                    }
+                    $this->addParameter('rotCategoryUrl', $mcaNodes[0]);
+                    $this->addParameter('categoryUrl', preg_replace('/\.html$/', '', $mcaNodes[1]));
+                } else {
+                    $this->addParameter('categoryUrl', preg_replace('/\.html$/', '', $mca));
+                }
+            } else {
+                $mcaNodes = explode('/', $mca);
+                foreach ($mcaNodes as $key => $value) {
+                    if ($value == 'id' && isset($mcaNodes[$key + 1])) {
+                        $this->addParameter('id', $mcaNodes[$key + 1]);
+                    }
+                    if ($value == 's' && isset($mcaNodes[$key + 1])) {
+                        $this->addParameter('categoryUrl', $mcaNodes[$key + 1]);
+                    }
+                }
+            }
+            $this->clickAndWait($link);
+            $this->validatePage();
+            return true;
+        }
+        $this->fail('"' . $categoryPath . '" category page could not be opened');
+        return false;
+//        $url = trim(strtolower(preg_replace('#[^0-9a-z]+#i', '-', $categoryPath)), '-');
+//        $this->addParameter('categoryTitle', $categoryPath);
+//        $this->addParameter('categoryUrl', $url);
+//        $this->frontend('category_page');
     }
 
     /**
