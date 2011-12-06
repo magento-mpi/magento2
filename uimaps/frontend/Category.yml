@@ -26,10 +26,10 @@
 #
 ---
 #
-category_page:
+category_page_before_reindex:
     mca: %categoryUrl%.html
     title: %categoryTitle%
-    uimap:
+    uimap: &categoryUIMap
         form: &categoryPage
             fieldsets:
                 -
@@ -82,7 +82,7 @@ category_page:
                         buttons:
                           compare: //button[@title='Compare']
                         pageelements:
-                          empty_comapre_block: //p[text()='You have no items to compare.']                          
+                          empty_comapre_block: //p[text()='You have no items to compare.']
                 -
                     my_cart:
                         xpath: //div[@class[contains(.,'block-cart')]]
@@ -121,6 +121,16 @@ category_page:
             confirmation_clear_all_from_compare: Are you sure you would like to remove all products from your comparison?
             compare_list_cleared: //li[normalize-space(@class)='success-msg' and contains(.//span,'The comparison list was cleared.')]
             product_removed_from_comparison: //li[normalize-space(@class)='success-msg' and contains(.//span,'The product %productName% has been removed from comparison list.')]
+
+category_page_after_reindex:
+    mca: catalog/category/view/s/%categoryUrl%/id/%id%/
+    title: %categoryTitle%
+    uimap: *categoryUIMap
+
+sub_category_page_before_reindex:
+    mca: %rotCategoryUrl%/%categoryUrl%.html
+    title: %categoryTitle%
+    uimap: *categoryUIMap
 
 category_page_index:
     mca: %categoryUrl%.html%param%
