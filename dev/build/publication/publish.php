@@ -37,40 +37,45 @@ $canPush = !isset($options['no-push']);
 
 $gitCmd = sprintf('git --git-dir %s --work-tree %s', escapeshellarg("$targetDir/.git"), escapeshellarg($targetDir));
 
-// clone target and merge source into it
-execVerbose('git clone %s %s', $targetRepository, $targetDir);
-execVerbose("$gitCmd remote add source %s", $sourceRepository);
-execVerbose("$gitCmd fetch source");
-execVerbose("$gitCmd checkout $targetBranch");
-execVerbose("$gitCmd merge --squash --strategy-option=theirs source/$sourceBranch");
-// workaround for not tracking removed files when merging with '--no-commit' or '--squash', seems to be a Git bug
-execVerbose("$gitCmd diff --name-only -z source/$sourceBranch | xargs -0 -r $gitCmd rm -f");
+try {
+    // clone target and merge source into it
+    execVerbose('git clone %s %s', $targetRepository, $targetDir);
+    execVerbose("$gitCmd remote add source %s", $sourceRepository);
+    execVerbose("$gitCmd fetch source");
+    execVerbose("$gitCmd checkout $targetBranch");
+    execVerbose("$gitCmd merge --squash --strategy-option=theirs source/$sourceBranch");
+    // workaround for not tracking removed files when merging with '--no-commit' or '--squash', seems to be a Git bug
+    execVerbose("$gitCmd diff --name-only -z source/$sourceBranch | xargs -0 -r $gitCmd rm -f");
 
-// remove files that must not be published
-$extruderDir = __DIR__ . '/extruder';
-execVerbose(
-    'php -f %s -- -w %s -l %s -l %s -g -v',
-    "$extruderDir/extruder.php",
-    $targetDir,
-    "$extruderDir/common.txt",
-    "$extruderDir/ce.txt"
-);
+    // remove files that must not be published
+    $extruderDir = __DIR__ . '/extruder';
+    execVerbose(
+        'php -f %s -- -w %s -l %s -l %s -g -v',
+        "$extruderDir/extruder.php",
+        $targetDir,
+        "$extruderDir/common.txt",
+        "$extruderDir/ce.txt"
+    );
 
-// replace license notices
-$licenseToolDir = __DIR__ . '/license';
-execVerbose(
-    'php -f %s -- -w %s -c %s -v -0',
-    "$licenseToolDir/license-tool.php",
-    $targetDir,
-    "$licenseToolDir/conf/ce.php"
-);
+    // replace license notices
+    $licenseToolDir = __DIR__ . '/license';
+    execVerbose(
+        'php -f %s -- -w %s -c %s -v -0',
+        "$licenseToolDir/license-tool.php",
+        $targetDir,
+        "$licenseToolDir/conf/ce.php"
+    );
 
-// commit and push
-execVerbose("$gitCmd add --update");
-execVerbose("$gitCmd status");
-execVerbose("$gitCmd commit --message=%s", $commitMsg);
-if ($canPush) {
-    execVerbose("$gitCmd push origin $targetBranch");
+    // commit and push
+    execVerbose("$gitCmd add --update");
+    execVerbose("$gitCmd status");
+    execVerbose("$gitCmd commit --message=%s", $commitMsg);
+    if ($canPush) {
+        execVerbose("$gitCmd push origin $targetBranch");
+    }
+} catch (Exception $exception) {
+    echo $exception->getMessage() . PHP_EOL;
+    exit(1);
 }
 
 /**
@@ -88,6 +93,6 @@ function execVerbose($command)
     passthru($command, $exitCode);
     echo "\n";
     if (0 !== $exitCode) {
-        exit(1);
+        throw new Exception("Command is passed with error code: ". $exitCode);
     }
 }
