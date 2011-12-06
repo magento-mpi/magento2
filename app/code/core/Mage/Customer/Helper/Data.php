@@ -53,11 +53,6 @@ class Mage_Customer_Helper_Data extends Mage_Core_Helper_Abstract
     const XML_PATH_CUSTOMER_VIV_ERROR_GROUP = 'customer/create_account/viv_error_group';
 
     /**
-     * Config path to option that specifies default user group
-     */
-    const XML_PATH_DEFAULT_CREATE_ACCOUNT_GROUP = 'customer/create_account/default_group';
-
-    /**
      * Config path to option that enables/disables automatic group assignment based on VAT
      */
     const XML_PATH_CUSTOMER_VIV_GROUP_AUTO_ASSIGN = 'customer/create_account/viv_disable_auto_group_assign_default';
@@ -387,11 +382,12 @@ class Mage_Customer_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Get default customer group id
      *
+     * @param Mage_Core_Model_Store|string|int $store
      * @return int
      */
-    public function getDefaultCustomerGroupId()
+    public function getDefaultCustomerGroupId($store = null)
     {
-        return (int)Mage::getStoreConfig(self::XML_PATH_DEFAULT_CREATE_ACCOUNT_GROUP);
+        return (int)Mage::getStoreConfig(Mage_Customer_Model_Group::XML_PATH_DEFAULT_ID, $store);
     }
 
     /**
