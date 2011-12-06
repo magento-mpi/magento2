@@ -145,7 +145,7 @@ class CheckoutOnePage_WithRegistration_PaymentMethodsTest extends Mage_Selenium_
     public function differentPaymentMethodsWith3D($payment, $simpleSku)
     {
         if ($payment == 'authorizenet') {
-            $this->useTearDown = TRUE;
+            $this->$useTearDown = TRUE;
         }
         $checkoutData = $this->loadData('with_register_flatrate_checkmoney',
                 array('general_name' => $simpleSku, 'payment_data' => $this->loadData('front_payment_' . $payment)));
@@ -171,7 +171,7 @@ class CheckoutOnePage_WithRegistration_PaymentMethodsTest extends Mage_Selenium_
 
     protected function tearDown()
     {
-        if (!empty($this->useTearDown)) {
+        if (!empty($this->$useTearDown)) {
             $this->loginAdminUser();
             $this->systemConfigurationHelper()->useHttps('frontend', 'no');
         }
