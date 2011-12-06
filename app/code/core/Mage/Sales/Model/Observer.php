@@ -356,16 +356,28 @@ class Mage_Sales_Model_Observer
         /** @var $customerInstance Mage_Customer_Model_Customer */
         $customerInstance = $observer->getQuote()->getCustomer();
 
+        /** @var $customerHelper Mage_Customer_Helper_Data */
+        $customerHelper = Mage::helper('customer');
+
         $customerAddressId = $quoteBillingAddress->getCustomerAddressId();
         $customerDefaultBillingAddressId = $customerInstance->getDefaultBilling();
 
         $customerCountryCode = $quoteBillingAddress->getCountryId();
         $customerVatNumber = $quoteBillingAddress->getVatId();
 
-        $isCustomerVatNumberValid = $quoteBillingAddress->getVatIsValid();
+        if (empty($customerVatNumber)) {
+            $groupId = $customerHelper->getDefaultCustomerGroupId();
 
-        if (!is_null($isCustomerVatNumberValid) && !$addressHelper->getValidateOnEachTransaction()
-            || empty($customerVatNumber) || !Mage::helper('core')->isCountryInEU($customerCountryCode)
+            if ($groupId && $customerInstance->getGroupId() != $groupId) {
+                $quoteInstance->setCustomer($customerInstance->setGroupId($groupId));
+                $quoteInstance->setCustomerGroupId($groupId);
+            }
+
+            return;
+        }
+
+        if (!$addressHelper->getValidateOnEachTransaction()
+            || !Mage::helper('core')->isCountryInEU($customerCountryCode)
         ) {
             return;
         }
@@ -374,9 +386,6 @@ class Mage_Sales_Model_Observer
         $coreHelper = Mage::helper('core');
         $merchantCountryCode = $coreHelper->getMerchantCountryCode();
         $merchantVatNumber = $coreHelper->getMerchantVatNumber();
-
-        /** @var $customerHelper Mage_Customer_Helper_Data */
-        $customerHelper = Mage::helper('customer');
 
         $gatewayResponse = $customerHelper->checkVatNumber(
             $customerCountryCode,
