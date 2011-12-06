@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Magento
  *
@@ -66,16 +67,16 @@ class PriceRules_Catalog_CreateTest extends Mage_Selenium_TestCase
      *
      * @test
      */
-    public function createCatalogPriceRuleRequiredFields()
+    public function requiredFields()
     {
         //Data
-        $priceRuleData = $this->loadData('test_catalog_rule', array('customer_groups' => 'General'), 'rule_name');
+        $priceRuleData = $this->loadData('test_catalog_rule', array('customer_groups' => 'General'));
         //Steps
         $this->priceRulesHelper()->createRule($priceRuleData);
         //Verification
         $this->assertTrue($this->successMessage('success_saved_rule'), $this->messages);
         $this->assertTrue($this->successMessage('notification_message'), $this->messages);
-        return $priceRuleData['info']['rule_name'];
+        return $priceRuleData;
     }
 
     /**
@@ -92,10 +93,10 @@ class PriceRules_Catalog_CreateTest extends Mage_Selenium_TestCase
      * @dataProvider dataEmptyField
      * @test
      */
-    public function createCatalogPriceRuleEmptyRequiredFields($emptyField, $fieldType)
+    public function emptyRequiredFields($emptyField, $fieldType)
     {
         //Data
-        $priceRuleData = $this->loadData('test_catalog_rule', array($emptyField => '%noValue%'), 'rule_name');
+        $priceRuleData = $this->loadData('test_catalog_rule', array($emptyField => '%noValue%'));
         //Steps
         $this->priceRulesHelper()->createRule($priceRuleData);
         //Verification
@@ -128,12 +129,11 @@ class PriceRules_Catalog_CreateTest extends Mage_Selenium_TestCase
      * @dataProvider dataInvalidDiscount
      * @test
      */
-    public function createCatalogPriceRuleInvalidDiscountAmount($invalidDiscountData)
+    public function invalidDiscountAmount($invalidDiscountData)
     {
         //Data
         $priceRuleData = $this->loadData('test_catalog_rule',
-            array('sub_discount_amount' => $invalidDiscountData,
-                  'discount_amount'     => $invalidDiscountData), 'rule_name');
+                array('sub_discount_amount' => $invalidDiscountData, 'discount_amount' => $invalidDiscountData));
         //Steps
         $this->priceRulesHelper()->createRule($priceRuleData);
         //Verification
@@ -164,16 +164,18 @@ class PriceRules_Catalog_CreateTest extends Mage_Selenium_TestCase
      *
      * @test
      */
-    public function createWithRequiredFieldsLongValues()
+    public function longValues()
     {
         $priceRuleData = $this->loadData('test_catalog_rule',
                 array(
-                    'rule_name'              => $this->generate('string', 255, ':alnum:'),
-                    'discount_amount'        => 99999999.9999,
-                    'sub_discount_amount'    => 99999999.9999
+                    'rule_name'           => $this->generate('string', 255, ':alnum:'),
+                    'description'         => $this->generate('string', 255, ':alnum:'),
+                    'discount_amount'     => '99999999.9999',
+                    'sub_discount_amount' => '99999999.9999',
+                    'priority'            => '4294967295'
                 ));
         $ruleSearch = $this->loadData('search_catalog_rule',
-                                      array('filter_rule_name' => $priceRuleData['info']['rule_name']));
+                array('filter_rule_name' => $priceRuleData['info']['rule_name']));
         $this->priceRulesHelper()->createRule($priceRuleData);
         $this->assertTrue($this->successMessage('success_saved_rule'), $this->messages);
         $this->priceRulesHelper()->openRule($ruleSearch);
@@ -192,48 +194,18 @@ class PriceRules_Catalog_CreateTest extends Mage_Selenium_TestCase
      *
      * @test
      */
-    public function createWithIncorrectLengthInDiscountAmount()
+    public function incorrectLengthInDiscountAmount()
     {
         $priceRuleData = $this->loadData('test_catalog_rule',
-                array(
-                    'discount_amount'        => 99999999.99991,
-                    'sub_discount_amount'    => 99999999.99991
-                ));
+                array('discount_amount' => '999999999', 'sub_discount_amount' => '999999999'));
         $ruleSearch = $this->loadData('search_catalog_rule',
-                                      array('filter_rule_name' => $priceRuleData['info']['rule_name']));
+                array('filter_rule_name' => $priceRuleData['info']['rule_name']));
         $this->priceRulesHelper()->createRule($priceRuleData);
         $this->assertTrue($this->successMessage('success_saved_rule'), $this->messages);
         $this->priceRulesHelper()->openRule($ruleSearch);
+        $priceRuleData['actions']['discount_amount'] = '99999999.9999';
+        $priceRuleData['actions']['sub_discount_amount'] = '99999999.9999';
         $this->priceRulesHelper()->verifyRuleData($priceRuleData);
-    }
-
-    /**
-     * <p>Create catalog price rule - editing created rule</p>
-     *
-     * <p>Steps</p>
-     * <p>1. Select an existing rule from the grid and open it</p>
-     * <p>2. Make some changes into the rule</p>
-     * <p>3. Click "Save Rule" button</p>
-     *
-     * <p>Expected result:</p>
-     * <p>New rule is created. Success message appears</p>
-     *
-     * @depends createCatalogPriceRuleRequiredFields
-     * @test
-     */
-    public function editRule($createdRuleData)
-    {
-        //Data
-        $editRuleData = $this->loadData('edit_rule_data', NULL, 'rule_name');
-        $ruleSearchCreated = $this->loadData('search_catalog_rule', array('filter_rule_name' => $createdRuleData));
-        $ruleSearchEdited = $this->loadData('search_catalog_rule',
-            array('filter_rule_name'   => $editRuleData['info']['rule_name'], 'status' => 'Inactive'));
-        //Steps
-        $this->priceRulesHelper()->editRule($editRuleData, $ruleSearchCreated);
-        //Verifying
-        $this->assertTrue($this->successMessage('success_saved_rule'), $this->messages);
-        $this->priceRulesHelper()->openRule($ruleSearchEdited);
-        $this->priceRulesHelper()->verifyRuleData($editRuleData);
     }
 
 }

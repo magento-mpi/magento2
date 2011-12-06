@@ -36,6 +36,7 @@
  */
 class PriceRules_Catalog_DeleteTest extends Mage_Selenium_TestCase
 {
+
     /**
      * <p>Login to backend</p>
      */
@@ -51,7 +52,6 @@ class PriceRules_Catalog_DeleteTest extends Mage_Selenium_TestCase
     protected function assertPreConditions()
     {
         $this->navigate('manage_catalog_price_rules');
-        $this->assertTrue($this->checkCurrentPage('manage_catalog_price_rules'), $this->messages);
     }
 
     /**
@@ -71,10 +71,9 @@ class PriceRules_Catalog_DeleteTest extends Mage_Selenium_TestCase
     public function deleteCatalogPriceRule()
     {
         //Data
-        $priceRuleData = $this->loadData('test_catalog_rule', array('customer_groups' => 'General'), 'rule_name');
-        $this->addParameter('elementTitle', $priceRuleData['info']['rule_name']);
+        $priceRuleData = $this->loadData('test_catalog_rule');
         $ruleSearch = $this->loadData('search_catalog_rule',
-                 array('filter_rule_name'   => $priceRuleData['info']['rule_name']));
+                array('filter_rule_name' => $priceRuleData['info']['rule_name']));
         //PreConditions
         $this->priceRulesHelper()->createRule($priceRuleData);
         //Verification
@@ -83,9 +82,8 @@ class PriceRules_Catalog_DeleteTest extends Mage_Selenium_TestCase
         //Steps
         $this->priceRulesHelper()->openRule($ruleSearch);
         $this->clickButtonAndConfirm('delete_rule', 'confirmation_for_delete');
-        $this->assertTrue($this->successMessage('success_deleted_rule', $this->messages));
         //Verification
-        $this->assertEquals(NULL, $this->search(array('rule_name' => $priceRuleData['info']['rule_name'])));
+        $this->assertTrue($this->successMessage('success_deleted_rule', $this->messages));
     }
 
 }
