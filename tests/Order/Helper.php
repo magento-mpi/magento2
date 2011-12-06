@@ -623,12 +623,12 @@ class Order_Helper extends Mage_Selenium_TestCase
      * @param $inputArray
      * @return bool|array
      */
-    public function compareArrays($httpHelperPath,$logFileName,$inputArray)
+    public function compareArraysFromLog($httpHelperPath,$logFileName,$inputArray)
     {
         $subject = $this->getLastRecord($httpHelperPath,$logFileName);
         $responseParams = $this->getResponse($subject);
         $resultArray = array_diff($inputArray,$responseParams);
-        return (empty($resultArray)) ? TRUE : $resultArray;
+        return (count($resultArray)) ? $resultArray : TRUE;
     }
 
     /**
@@ -691,6 +691,24 @@ class Order_Helper extends Mage_Selenium_TestCase
             $this->fail("Log file could not be opened");
         }
         return $arrayResult;
+    }
+
+    /**
+     * 3D Secure log verification
+     */
+    public function verify3DSecureLog()
+    {
+        $this->frontend();
+        $fileUrl = substr(($this->_applicationHelper->getBaseUrl()), 0, -10) . 'phptest.php';
+        $logFileName = 'card_validation_3d_secure.log';
+        $verificationData = $this->loadData('verification_3d_secure');
+        $result = $this->compareArraysFromLog($fileUrl,$logFileName,$verificationData['response']);
+        if(is_array($result))
+        {
+            $this->fail("Arrays are not identical:\n" . var_export($result, true));
+        } else {
+            return TRUE;
+        }
     }
 
 }
