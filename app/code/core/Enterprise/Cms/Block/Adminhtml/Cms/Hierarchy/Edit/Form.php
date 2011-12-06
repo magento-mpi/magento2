@@ -172,9 +172,10 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
                 'title'     => Mage::helper('enterprise_cms')->__('Enable Chapter/Section'),
                 'name'      => 'meta_cs_enabled',
                 'values'    => $yesNoOptions,
-                'onchange'   => 'hierarchyNodes.nodeChanged()',
+                'onchange'  => 'hierarchyNodes.nodeChanged()',
                 'container_id' => 'field_meta_cs_enabled',
-                'tabindex'   => '45'
+                'note'      => Mage::helper('enterprise_cms')->__('Enables Chapter/Section functionality for this node, its sub-nodes and pages'),
+                'tabindex'  => '45'
             ));
 
             $fieldset->addField('meta_chapter_section', 'select', array(
@@ -182,9 +183,10 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
                 'title'     => Mage::helper('enterprise_cms')->__('Chapter/Section'),
                 'name'      => 'meta_chapter_section',
                 'values'    => Mage::getSingleton('enterprise_cms/source_hierarchy_menu_chapter')->toOptionArray(),
-                'onchange'   => 'hierarchyNodes.nodeChanged()',
+                'onchange'  => 'hierarchyNodes.nodeChanged()',
                 'container_id' => 'field_meta_chapter_section',
-                'tabindex'   => '50'
+                'note'      => Mage::helper('enterprise_cms')->__('Defines this node as Chapter/Section'),
+                'tabindex'  => '50'
             ));
         }
 
