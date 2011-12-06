@@ -32,7 +32,6 @@ app/etc/enterprise.xml
 app/etc/modules/Enterprise_*.xml
 app/locale/*/Enterprise_*.csv
 dev/tests/integration/etc/modules/XEnterprise_Enabler.xml
-dev/tests/integration/phpunit.xml.dist
 dev/tests/integration/testsuite/Enterprise
 dev/tests/integration/testsuite/integrity/ClassesTest.php
 dev/tests/integration/testsuite/integrity/DeprecatesTest.php
