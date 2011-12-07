@@ -46,14 +46,14 @@ class Magento_Test_Webservice_SoapV2 extends Magento_Test_Webservice_Abstract
      *
      * @var array
      */
-    private $_configFunction;
+    protected $_configFunction;
 
     /**
      * Resources alias
      *
      * @var array
      */
-    private $_configAlias;
+    protected $_configAlias;
 
     /**
      * SOAP client adapter
