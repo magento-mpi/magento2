@@ -132,7 +132,7 @@ class Mage_Catalog_Helper_Image extends Mage_Core_Helper_Abstract
      * Initialize Helper to work with Image
      *
      * @param Mage_Catalog_Model_Product $product
-     * @param $attributeName
+     * @param string $attributeName
      * @param mixed $imageFile
      * @return Mage_Catalog_Helper_Image
      */
@@ -279,8 +279,9 @@ class Mage_Catalog_Helper_Image extends Mage_Core_Helper_Abstract
     }
 
     /**
+     * Rotate image into specified angle
      *
-     * @param $angle
+     * @param int $angle
      * @return Mage_Catalog_Helper_Image
      */
     public function rotate($angle)
@@ -342,8 +343,9 @@ class Mage_Catalog_Helper_Image extends Mage_Core_Helper_Abstract
      */
     public function __toString()
     {
-        $model = $this->_getModel();
         try {
+            $model = $this->_getModel();
+
             if ($this->getImageFile()) {
                 $model->setBaseFile($this->getImageFile());
             } else {
@@ -376,7 +378,7 @@ class Mage_Catalog_Helper_Image extends Mage_Core_Helper_Abstract
     /**
      * Set current Image model
      *
-     * @param $model
+     * @param Mage_Catalog_Model_Product_Image $model
      * @return Mage_Catalog_Helper_Image
      */
     protected function _setModel($model)
@@ -561,7 +563,7 @@ class Mage_Catalog_Helper_Image extends Mage_Core_Helper_Abstract
     /**
      * Retrieve size from string
      *
-     * @param $string
+     * @param string $string
      * @return array|bool
      */
     protected function parseSize($string)
@@ -626,7 +628,7 @@ class Mage_Catalog_Helper_Image extends Mage_Core_Helper_Abstract
      *
      * @param string $filePath
      * @return bool
-     * @throw Mage_Core_Exception
+     * @throws Mage_Core_Exception
      */
     public function validateUploadFile($filePath) {
         if (!getimagesize($filePath)) {
