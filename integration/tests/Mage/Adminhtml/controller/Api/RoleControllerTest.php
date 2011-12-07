@@ -43,7 +43,6 @@ class Mage_Adminhtml_Api_RoleControllerTest extends Magento_Test_ControllerTestC
         $model = Mage::getModel('api/roles');
         $input = 'testXss <script>alert(1)</script>';
         $model->setName($input)->save();
-
         try {
             //testing
             $this->getRequest()->setParam('rid', $model->getId());
@@ -58,12 +57,15 @@ class Mage_Adminhtml_Api_RoleControllerTest extends Magento_Test_ControllerTestC
         //remove added item
         $model->delete();
 
-
         /** @var $helper Mage_Core_Helper_Data */
         $helper = Mage::helper('core');
         $expected = $helper->escapeHtml($input);
 
         $html = $this->getResponse()->getBody();
+
+        if (false === strpos($html, 'testXss')) {
+            $this->fail('Edit role page is not rendered.');
+        }
 
         $this->assertTrue((bool) strpos($html, $expected), 'Role name has vulnerability.');
     }
