@@ -524,8 +524,12 @@ class Enterprise_PageCache_Model_Processor
                 $this->setMetadata('sid_cookie_name', Mage::getSingleton('core/session')->getSessionName());
 
                 $this->_saveMetadata();
-            } elseif (isset($_GET[Mage_Core_Model_Session_Abstract::SESSION_ID_QUERY_PARAM])) {
-                Mage::getSingleton('enterprise_pagecache/observer')->customerLogin();
+            }
+
+            if (isset($_GET[Mage_Core_Model_Session_Abstract::SESSION_ID_QUERY_PARAM])) {
+                Mage::getSingleton('enterprise_pagecache/cookie')
+                    ->updateCustomerCookies()
+                    ->updateCustomerProductIndex();
             }
         }
         return $this;

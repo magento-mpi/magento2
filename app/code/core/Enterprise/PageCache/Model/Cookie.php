@@ -69,7 +69,7 @@ class Enterprise_PageCache_Model_Cookie extends Mage_Core_Model_Cookie
     /**
      * Retrieve encryption salt
      *
-     * @var string
+     * @return null|sting
      */
     protected function _getSalt()
     {
@@ -94,6 +94,7 @@ class Enterprise_PageCache_Model_Cookie extends Mage_Core_Model_Cookie
      * @param string $path
      * @param string $domain
      * @param int|bool $secure
+     * @param mixed $httponly
      * @return Mage_Core_Model_Cookie
      */
     public function setObscure(
@@ -106,7 +107,7 @@ class Enterprise_PageCache_Model_Cookie extends Mage_Core_Model_Cookie
     /**
      * Keep customer cookies synchronized with customer session
      *
-     * @return Mage_Core_Model_Cookie
+     * @return Enterprise_PageCache_Model_Cookie
      */
     public function updateCustomerCookies()
     {
@@ -137,6 +138,38 @@ class Enterprise_PageCache_Model_Cookie extends Mage_Core_Model_Cookie
             $this->delete(self::COOKIE_CUSTOMER_GROUP);
             $this->delete(self::COOKIE_CUSTOMER_LOGGED_IN);
         }
+        return $this;
+    }
+
+    /**
+     * Update customer viewed products index and renew customer viewed product ids cookie
+     *
+     * @return Enterprise_PageCache_Model_Cookie
+     */
+    public function updateCustomerProductIndex()
+    {
+        try {
+            $productIds = $this->get(Enterprise_PageCache_Model_Container_Viewedproducts::COOKIE_NAME);
+            if ($productIds) {
+                $productIds = explode(',', $productIds);
+                Mage::getModel('reports/product_index_viewed')->registerIds($productIds);
+            }
+        } catch (Exception $e) {
+            Mage::logException($e);
+        }
+
+        // renew customer viewed product ids cookie
+        $countLimit = Mage::getStoreConfig(Mage_Reports_Block_Product_Viewed::XML_PATH_RECENTLY_VIEWED_COUNT);
+        $collection = Mage::getResourceModel('reports/product_index_viewed_collection')
+            ->addIndexFilter()
+            ->setAddedAtOrder()
+            ->setPageSize($countLimit)
+            ->setCurPage(1);
+        Mage::getSingleton('catalog/product_visibility')->addVisibleInSiteFilterToCollection($collection);
+        $productIds = $collection->load()->getLoadedIds();
+        $productIds = implode(',', $productIds);
+        $this->registerViewedProducts($productIds, $countLimit, false);
+        return $this;
     }
 
     /**
@@ -181,7 +214,8 @@ class Enterprise_PageCache_Model_Cookie extends Mage_Core_Model_Cookie
     /**
      * Get catalog cookie
      *
-     * @param string $value
+     * @static
+     * @return bool
      */
     public static function getCategoryCookieValue()
     {
