@@ -704,7 +704,7 @@ class Order_Helper extends Mage_Selenium_TestCase
     public function verify3DSecureLog($verificationData)
     {
         $baseUrl = explode("index.php", $this->_applicationHelper->getBaseUrl());
-        $fileUrl = $baseUrl[0] . 'phptest.php';
+        $fileUrl = $baseUrl[0] . '3DSecureLogVerification.php';
         $logFileName = 'card_validation_3d_secure.log';
         $result = $this->compareArraysFromLog($fileUrl, $logFileName, $verificationData['response']);
         if(is_array($result))

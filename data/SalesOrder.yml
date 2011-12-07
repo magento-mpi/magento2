@@ -1200,10 +1200,13 @@ gift_messages_with_empty_fields_expected:
 
 verification_3d_secure:
     response:
-        EciFlag: "05"
+        Enrolled: Y
+        ASCUrl: url
+        Payload: value
+        ErrorNo: 0
+        ErrorDesc:
         PAResStatus: Y
         SignatureVerification: Y
+        EciFlag: "05"
         Xid: xid_value
-        ErrorDesc: 
-        ErrorNo: 0
         Cavv: cavv_value
