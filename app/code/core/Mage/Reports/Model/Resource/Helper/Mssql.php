@@ -100,7 +100,7 @@ class Mage_Reports_Model_Resource_Helper_Mssql extends Mage_Core_Model_Resource_
      * @param string $column
      * @param string $mainTable
      * @param string $aggregationTable
-     * @return Mage_Sales_Model_Resource_Helper_Abstract
+     * @return Mage_Reports_Model_Resource_Helper_Mssql
      */
     public function updateReportRatingPos($type, $column, $mainTable, $aggregationTable)
     {

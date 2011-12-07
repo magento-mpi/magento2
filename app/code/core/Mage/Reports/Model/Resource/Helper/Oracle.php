@@ -102,7 +102,7 @@ class Mage_Reports_Model_Resource_Helper_Oracle extends Mage_Core_Model_Resource
      * @param string $column
      * @param string $mainTable
      * @param string $aggregationTable
-     * @return Mage_Sales_Model_Resource_Helper_Abstract
+     * @return Mage_Reports_Model_Resource_Helper_Oracle
      */
     public function updateReportRatingPos($type, $column, $mainTable, $aggregationTable) {
         $adapter         = $this->_getWriteAdapter();

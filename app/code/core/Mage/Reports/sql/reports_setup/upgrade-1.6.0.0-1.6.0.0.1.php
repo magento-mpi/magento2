@@ -31,222 +31,69 @@ $installer = $this;
  */
 $installer->startSetup();
 
-/**
- * Create viewed aggregated daily
- */
-$table = $installer->getConnection()
-    ->newTable($installer->getTable(Mage_Reports_Model_Resource_Report_Product_Viewed::AGGREGATION_DAILY))
-    ->addColumn('id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
-        'identity'  => true,
-        'unsigned'  => true,
-        'nullable'  => false,
-        'primary'   => true,
-        ), 'Id')
-    ->addColumn('period', Varien_Db_Ddl_Table::TYPE_DATE, null, array(
-        ), 'Period')
-    ->addColumn('store_id', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
-        'unsigned'  => true,
-        ), 'Store Id')
-    ->addColumn('product_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
-        'unsigned'  => true,
-        ), 'Product Id')
-    ->addColumn('product_name', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
-        'nullable'  => true,
-        ), 'Product Name')
-    ->addColumn('product_price', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
-        'nullable'  => false,
-        'default'   => '0.0000',
-        ), 'Product Price')
-    ->addColumn('views_num', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
-        'nullable'  => false,
-        'default'   => '0',
-        ), 'Number of Views')
-    ->addColumn('rating_pos', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'default'   => '0',
-        ), 'Rating Pos')
-    ->addIndex(
-        $installer->getIdxName(
-            Mage_Reports_Model_Resource_Report_Product_Viewed::AGGREGATION_DAILY,
-            array('period', 'store_id', 'product_id'),
-            Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
-        ),
-        array('period', 'store_id', 'product_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
-    ->addIndex(
-        $installer->getIdxName(
-            Mage_Reports_Model_Resource_Report_Product_Viewed::AGGREGATION_DAILY,
-            array('store_id')
-        ),
-        array('store_id'))
-    ->addIndex(
-        $installer->getIdxName(
-            Mage_Reports_Model_Resource_Report_Product_Viewed::AGGREGATION_DAILY,
-            array('product_id')
-        ),
-        array('product_id'))
-    ->addForeignKey(
-        $installer->getFkName(
-            Mage_Reports_Model_Resource_Report_Product_Viewed::AGGREGATION_DAILY,
-            'store_id', 'core/store', 'store_id'),
-        'store_id', $installer->getTable('core/store'), 'store_id',
-        Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addForeignKey(
-        $installer->getFkName(
-            Mage_Reports_Model_Resource_Report_Product_Viewed::AGGREGATION_DAILY,
-            'product_id',
-            'catalog/product',
-            'entity_id'
-        ),
-        'product_id', $installer->getTable('catalog/product'), 'entity_id',
-        Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->setComment('Most Viewed Products Aggregated Daily');
-$installer->getConnection()->createTable($table);
+$aggregationTables = array(
+    Mage_Reports_Model_Resource_Report_Product_Viewed::AGGREGATION_DAILY,
+    Mage_Reports_Model_Resource_Report_Product_Viewed::AGGREGATION_MONTHLY,
+    Mage_Reports_Model_Resource_Report_Product_Viewed::AGGREGATION_YEARLY,
+);
+$aggregationTableComments = array(
+    'Most Viewed Products Aggregated Daily',
+    'Most Viewed Products Aggregated Monthly',
+    'Most Viewed Products Aggregated Yearly',
+);
 
-/**
- * Create viewed aggregated monthly
- */
-$table = $installer->getConnection()
-    ->newTable($installer->getTable(Mage_Reports_Model_Resource_Report_Product_Viewed::AGGREGATION_MONTHLY))
-    ->addColumn('id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
-        'identity'  => true,
-        'unsigned'  => true,
-        'nullable'  => false,
-        'primary'   => true,
-        ), 'Id')
-    ->addColumn('period', Varien_Db_Ddl_Table::TYPE_DATE, null, array(
-        ), 'Period')
-    ->addColumn('store_id', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
-        'unsigned'  => true,
-        ), 'Store Id')
-    ->addColumn('product_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
-        'unsigned'  => true,
-        ), 'Product Id')
-    ->addColumn('product_name', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
-        'nullable'  => true,
-        ), 'Product Name')
-    ->addColumn('product_price', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
-        'nullable'  => false,
-        'default'   => '0.0000',
-        ), 'Product Price')
-    ->addColumn('views_num', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
-        'nullable'  => false,
-        'default'   => '0.0000',
-        ), 'Number of Views')
-    ->addColumn('rating_pos', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'default'   => '0',
-        ), 'Rating Pos')
-    ->addIndex(
-        $installer->getIdxName(
-            Mage_Reports_Model_Resource_Report_Product_Viewed::AGGREGATION_MONTHLY,
-            array('period', 'store_id', 'product_id'),
-            Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
-        ),
-        array('period', 'store_id', 'product_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
-    ->addIndex(
-        $installer->getIdxName(
-            Mage_Reports_Model_Resource_Report_Product_Viewed::AGGREGATION_MONTHLY,
-            array('store_id')),
-        array('store_id'))
-    ->addIndex(
-        $installer->getIdxName(
-            Mage_Reports_Model_Resource_Report_Product_Viewed::AGGREGATION_MONTHLY,
-            array('product_id')),
-        array('product_id'))
-    ->addForeignKey(
-        $installer->getFkName(
-            Mage_Reports_Model_Resource_Report_Product_Viewed::AGGREGATION_MONTHLY,
-            'store_id',
-            'core/store',
-            'store_id'
-        ),
-        'store_id', $installer->getTable('core/store'), 'store_id',
-        Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addForeignKey(
-        $installer->getFkName(
-            Mage_Reports_Model_Resource_Report_Product_Viewed::AGGREGATION_MONTHLY,
-            'product_id',
-            'catalog/product',
-            'entity_id'
-        ),
-        'product_id', $installer->getTable('catalog/product'), 'entity_id',
-        Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->setComment('Most Viewed Products Aggregated Monthly');
-$installer->getConnection()->createTable($table);
-
-/**
- * Create viewed aggregated yearly
- */
-$table = $installer->getConnection()
-    ->newTable($installer->getTable(Mage_Reports_Model_Resource_Report_Product_Viewed::AGGREGATION_YEARLY))
-    ->addColumn('id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
-        'identity'  => true,
-        'unsigned'  => true,
-        'nullable'  => false,
-        'primary'   => true,
-        ), 'Id')
-    ->addColumn('period', Varien_Db_Ddl_Table::TYPE_DATE, null, array(
-        ), 'Period')
-    ->addColumn('store_id', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
-        'unsigned'  => true,
-        ), 'Store Id')
-    ->addColumn('product_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
-        'unsigned'  => true,
-        ), 'Product Id')
-    ->addColumn('product_name', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
-        'nullable'  => true,
-        ), 'Product Name')
-    ->addColumn('product_price', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
-        'nullable'  => false,
-        'default'   => '0.0000',
-        ), 'Product Price')
-    ->addColumn('views_num', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
-        'nullable'  => false,
-        'default'   => '0.0000',
-        ), 'Number of Views')
-    ->addColumn('rating_pos', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'default'   => '0',
-        ), 'Rating Pos')
-    ->addIndex(
-        $installer->getIdxName(
-            Mage_Reports_Model_Resource_Report_Product_Viewed::AGGREGATION_YEARLY,
-            array('period', 'store_id', 'product_id'),
-            Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
-        ),
-        array('period', 'store_id', 'product_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
-    ->addIndex(
-        $installer->getIdxName(
-            Mage_Reports_Model_Resource_Report_Product_Viewed::AGGREGATION_YEARLY,
-            array('store_id')),
-        array('store_id'))
-    ->addIndex(
-        $installer->getIdxName(
-            Mage_Reports_Model_Resource_Report_Product_Viewed::AGGREGATION_YEARLY,
-            array('product_id')),
-        array('product_id'))
-    ->addForeignKey(
-        $installer->getFkName(
-            Mage_Reports_Model_Resource_Report_Product_Viewed::AGGREGATION_YEARLY,
-            'store_id',
-            'core/store',
-            'store_id'
-        ),
-        'store_id', $installer->getTable('core/store'), 'store_id',
-        Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addForeignKey(
-        $installer->getFkName(
-            Mage_Reports_Model_Resource_Report_Product_Viewed::AGGREGATION_YEARLY,
-            'product_id',
-            'catalog/product',
-            'entity_id'
-        ),
-        'product_id', $installer->getTable('catalog/product'), 'entity_id',
-        Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->setComment('Most Viewed Products Aggregated Yearly');
-$installer->getConnection()->createTable($table);
+for ($i = 0; $i < 3; ++$i) {
+    $table = $installer->getConnection()
+        ->newTable($installer->getTable($aggregationTables[$i]))
+        ->addColumn('id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
+            'identity'  => true,
+            'unsigned'  => true,
+            'nullable'  => false,
+            'primary'   => true,
+            ), 'Id')
+        ->addColumn('period', Varien_Db_Ddl_Table::TYPE_DATE, null, array(
+            ), 'Period')
+        ->addColumn('store_id', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
+            'unsigned'  => true,
+            ), 'Store Id')
+        ->addColumn('product_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
+            'unsigned'  => true,
+            ), 'Product Id')
+        ->addColumn('product_name', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
+            'nullable'  => true,
+            ), 'Product Name')
+        ->addColumn('product_price', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
+            'nullable'  => false,
+            'default'   => '0.0000',
+            ), 'Product Price')
+        ->addColumn('views_num', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
+            'nullable'  => false,
+            'default'   => '0',
+            ), 'Number of Views')
+        ->addColumn('rating_pos', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
+            'unsigned'  => true,
+            'nullable'  => false,
+            'default'   => '0',
+            ), 'Rating Pos')
+        ->addIndex(
+            $installer->getIdxName(
+                $aggregationTables[$i],
+                array('period', 'store_id', 'product_id'),
+                Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
+            ),
+            array('period', 'store_id', 'product_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
+        ->addIndex($installer->getIdxName($aggregationTables[$i], array('store_id')), array('store_id'))
+        ->addIndex($installer->getIdxName($aggregationTables[$i], array('product_id')), array('product_id'))
+        ->addForeignKey(
+            $installer->getFkName($aggregationTables[$i], 'store_id', 'core/store', 'store_id'),
+            'store_id', $installer->getTable('core/store'), 'store_id',
+            Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
+        ->addForeignKey(
+            $installer->getFkName($aggregationTables[$i], 'product_id', 'catalog/product', 'entity_id'),
+            'product_id', $installer->getTable('catalog/product'), 'entity_id',
+            Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
+        ->setComment($aggregationTableComments[$i]);
+    $installer->getConnection()->createTable($table);
+}
 
 $installer->endSetup();

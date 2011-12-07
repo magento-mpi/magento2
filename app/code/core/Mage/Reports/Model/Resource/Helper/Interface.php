@@ -19,7 +19,7 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_Catalog
+ * @package     Mage_Reports
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
@@ -27,10 +27,6 @@
 
 /**
  * Reports resource helper interface
- *
- * @category    Mage
- * @package     Mage_Reports
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 interface Mage_Reports_Model_Resource_Helper_Interface
 {
@@ -50,7 +46,7 @@ interface Mage_Reports_Model_Resource_Helper_Interface
      * @param string $column
      * @param string $mainTable
      * @param string $aggregationTable
-     * @return Mage_Sales_Model_Resource_Helper_Abstract
+     * @return Mage_Core_Model_Resource_Helper_Abstract
      */
     public function updateReportRatingPos($type, $column, $mainTable, $aggregationTable);
 }

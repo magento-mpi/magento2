@@ -41,7 +41,7 @@ class Mage_Adminhtml_Block_Report_Grid_Abstract extends Mage_Adminhtml_Block_Wid
         if (isset($this->_columnGroupBy)) {
             $this->isColumnGrouped($this->_columnGroupBy, true);
         }
-        $this->setEmptyCellLabel(Mage::helper('reports')->__('No records found for this period.'));
+        $this->setEmptyCellLabel(Mage::helper('adminhtml')->__('No records found for this period.'));
     }
 
     public function getResourceCollectionName()
@@ -169,7 +169,7 @@ class Mage_Adminhtml_Block_Report_Grid_Abstract extends Mage_Adminhtml_Block_Wid
         }
 
         if ($filterData->getData('show_empty_rows', false)) {
-            Mage::helper('reports')->prepareIntervalsCollection(
+            Mage::helper('adminhtml')->prepareIntervalsCollection(
                 $this->getCollection(),
                 $filterData->getData('from', null),
                 $filterData->getData('to', null),

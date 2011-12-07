@@ -64,7 +64,7 @@ class Mage_Adminhtml_Block_Report_Product_Viewed_Grid extends Mage_Adminhtml_Blo
     protected function _prepareColumns()
     {
         $this->addColumn('period', array(
-            'header'        => Mage::helper('sales')->__('Period'),
+            'header'        => Mage::helper('adminhtml')->__('Period'),
             'index'         => 'period',
             'width'         => 100,
             'sortable'      => false,
@@ -75,7 +75,7 @@ class Mage_Adminhtml_Block_Report_Product_Viewed_Grid extends Mage_Adminhtml_Blo
         ));
 
         $this->addColumn('product_name', array(
-            'header'    => Mage::helper('sales')->__('Product Name'),
+            'header'    => Mage::helper('adminhtml')->__('Product Name'),
             'index'     => 'product_name',
             'type'      => 'string',
             'sortable'  => false
@@ -87,7 +87,7 @@ class Mage_Adminhtml_Block_Report_Product_Viewed_Grid extends Mage_Adminhtml_Blo
         $currencyCode = $this->getCurrentCurrencyCode();
 
         $this->addColumn('product_price', array(
-            'header'        => Mage::helper('sales')->__('Price'),
+            'header'        => Mage::helper('adminhtml')->__('Price'),
             'type'          => 'currency',
             'currency_code' => $currencyCode,
             'index'         => 'product_price',
@@ -96,7 +96,7 @@ class Mage_Adminhtml_Block_Report_Product_Viewed_Grid extends Mage_Adminhtml_Blo
         ));
 
         $this->addColumn('views_num', array(
-            'header'    => Mage::helper('sales')->__('Number of Views'),
+            'header'    => Mage::helper('adminhtml')->__('Number of Views'),
             'index'     => 'views_num',
             'type'      => 'number',
             'total'     => 'sum',

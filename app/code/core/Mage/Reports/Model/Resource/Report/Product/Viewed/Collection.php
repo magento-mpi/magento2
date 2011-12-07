@@ -19,7 +19,7 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_Sales
+ * @package     Mage_Reports
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
@@ -27,10 +27,6 @@
 
 /**
  * Report most viewed collection
- *
- * @category    Mage
- * @package     Mage_Reports
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Reports_Model_Resource_Report_Product_Viewed_Collection
     extends Mage_Reports_Model_Resource_Report_Collection_Abstract
@@ -106,17 +102,17 @@ class Mage_Reports_Model_Resource_Report_Product_Viewed_Collection
         $adapter = $this->getConnection();
         $cols    = $this->_getSelectedColumns();
         $cols['views_num'] = 'SUM(views_num)';
-        $sel     = $adapter->select()
+        $select  = $adapter->select()
             ->from($this->getResource()->getMainTable(), $cols)
             ->where('period >= ?', $from)
             ->where('period <= ?', $to)
             ->group('product_id')
-            ->order('views_num')
+            ->order('views_num DESC')
             ->limit($this->_ratingLimit);
 
-        $this->_applyStoresFilterToSelect($sel);
+        $this->_applyStoresFilterToSelect($select);
 
-        return $sel;
+        return $select;
     }
 
     /**
@@ -219,10 +215,8 @@ class Mage_Reports_Model_Resource_Report_Product_Viewed_Collection
         parent::_beforeLoad();
 
         $this->_applyStoresFilter();
-        $this->_applyDateRangeFilter();
 
         if ($this->_period) {
-            //
             $selectUnions = array();
 
             // apply date boundaries (before calling $this->_applyDateRangeFilter())
@@ -342,6 +336,8 @@ class Mage_Reports_Model_Resource_Report_Product_Viewed_Collection
                 }
 
             }
+
+            $this->_applyDateRangeFilter();
 
             // add unions to select
             if ($selectUnions) {
