@@ -571,7 +571,7 @@ class Mage_Customer_Helper_Data extends Mage_Core_Helper_Abstract
                 $this->escapeHtml($customerAddress->getVatId())
             );
             if (!$groupAutoAssignDisabled && !$customerGroupAutoAssignDisabled) {
-                $message .= $willNotChargeTaxMessage;
+                $message .= $willChargeTaxMessage;
             }
         }
         else {
