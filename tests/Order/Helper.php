@@ -688,7 +688,7 @@ class Order_Helper extends Mage_Selenium_TestCase
      */
     protected function getLastRecord($httpHelperPath, $logFileName)
     {
-        $arrayResult =  file_get_contents($httpHelperPath . '?log_file_name=' . $logFileName);
+        $arrayResult = file_get_contents($httpHelperPath . '?log_file_name=' . $logFileName);
         $pathVerification = strcmp(trim($arrayResult), 'Could not open File');
         if ($pathVerification == 0){
             $this->fail("Log file could not be opened");
@@ -703,8 +703,9 @@ class Order_Helper extends Mage_Selenium_TestCase
      */
     public function verify3DSecureLog($verificationData)
     {
-        $baseUrl = explode("index.php", $this->_applicationHelper->getBaseUrl());
-        $fileUrl = $baseUrl[0] . '3DSecureLogVerification.php';
+        $this->setArea('frontend');
+        $fileUrl = preg_replace('|/index.php/?|', '/',
+                   $this->_applicationHelper->getBaseUrl()) . '3DSecureLogVerification.php';
         $logFileName = 'card_validation_3d_secure.log';
         $result = $this->compareArraysFromLog($fileUrl, $logFileName, $verificationData['response']);
         if(is_array($result))
