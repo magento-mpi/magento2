@@ -284,12 +284,17 @@
                 : '<?php echo $this->getNodeFieldsetLegend()?>';
 
             // prepare preview link
-            var nodeUrlInfo = this.getNodePreviewUrlInfo(node);
-            if (nodeUrlInfo != false) {
-                $('node_preview').up(1).show();
-                $('node_preview').writeAttribute('target', '_blank');
-                $('node_preview').writeAttribute('href', nodeUrlInfo.url);
-                $('node_preview').innerHTML = nodeUrlInfo.path;
+            var scopeStore = $('store');
+            if (scopeStore != undefined && scopeStore.value) {
+                var nodeUrlInfo = this.getNodePreviewUrlInfo(node);
+                if (nodeUrlInfo != false) {
+                    $('node_preview').up(1).show();
+                    $('node_preview').writeAttribute('target', '_blank');
+                    $('node_preview').writeAttribute('href', nodeUrlInfo.url);
+                    $('node_preview').innerHTML = nodeUrlInfo.path;
+                }
+            } else {
+                $('node_preview').up(1).hide();
             }
 
             if (!hasPageId) {
