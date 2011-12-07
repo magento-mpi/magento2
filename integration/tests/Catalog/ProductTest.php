@@ -28,21 +28,12 @@
 /**
  * Test Product CRUD operations
  */
-class Catalog_ProductCRUDTest extends Magento_Test_Webservice
+class Catalog_ProductTest extends Magento_Test_Webservice
 {
-    /**
-     * Sets up the fixture, for example, open a network connection.
-     * This method is called before a test is executed.
-     *
-     */
-    protected function setUp()
-    {
-        parent::setUp();
-    }
 
     /**
      * Tear down
-     * 
+     *
      * @return void
      */
     protected function tearDown()
@@ -50,16 +41,58 @@ class Catalog_ProductCRUDTest extends Magento_Test_Webservice
         if ($this->getFixture('attributes')) {
             $this->_removeAttributes();
         }
-        
+
         $product = new Mage_Catalog_Model_Product();
         $product->load($this->getFixture('productId'));
-        if ($product->getId()) {
-            Mage::register('isSecureArea', true);
-            $product->delete();
-            Mage::unregister('isSecureArea');
-        }
+        $this->modelCallDelete($product, true);
 
         parent::tearDown();
+    }
+
+    /**
+     * Test get product info by numeric SKU
+     *
+     * @return void
+     */
+    public function testProductInfoByNumericSku()
+    {
+        $data = require dirname(__FILE__) . '/_fixtures/ProductData.php';
+
+        //generate numeric sku
+        $data['create']['sku'] = rand(1000000, 99999999);
+
+        $id = $this->call('catalog_product.create', $data['create']);
+
+        $this->assertEquals($id, (int) $id,
+                'Result of a create method is not an integer.');
+
+        //test new product exists in DB
+        $product = new Mage_Catalog_Model_Product();
+        $product->load($id);
+        $this->assertNotNull($product->getId(), 'Tested product not found.');
+
+        try {
+            $result = $this->call('catalog_product.info',
+                array(
+                    'productId' => $data['create']['sku'],
+                    'store' => 0, //default 0
+                    'attributes' => '',
+                    'identifierType' => 'sku',
+                )
+            );
+        } catch (Exception $e) {
+            //delete tested entry
+            $this->modelCallDelete($product, true);
+            throw $e;
+        }
+
+        //delete tested entry
+        $this->modelCallDelete($product, true);
+
+        $this->assertTrue(
+            is_array($result) && $id == $result['product_id'],
+            'Product cannot be load by SKU which is numeric.'
+        );
     }
 
     /**
@@ -67,9 +100,9 @@ class Catalog_ProductCRUDTest extends Magento_Test_Webservice
      *
      * @return void
      */
-    public function testProductCRUD()
+    public function testProductCrud()
     {
-        $data = require dirname(__FILE__).'/_fixtures/ProductData.php';
+        $data = require dirname(__FILE__) . '/_fixtures/ProductData.php';
 
         // create product for test
         $productId = $this->call('catalog_product.create', $data['create']);
@@ -101,7 +134,7 @@ class Catalog_ProductCRUDTest extends Magento_Test_Webservice
 
         //test call response is true
         $this->assertTrue((bool)$isOk, 'Call returned false');  //in SOAP v2 it's integer:1
-        
+
         //test product not exists in DB after delete
         $product = new Mage_Catalog_Model_Product();
         $product->load($productId);
@@ -113,10 +146,10 @@ class Catalog_ProductCRUDTest extends Magento_Test_Webservice
      *
      * @return void
      */
-    public function testProductWithOptionsCRUD()
+    public function testProductWithOptionsCrud()
     {
         list($optionValueApi, $optionValueInstaller) = $this->_addAttributes();
-        $data = require dirname(__FILE__).'/_fixtures/ProductData.php';
+        $data = require dirname(__FILE__) . '/_fixtures/ProductData.php';
 
         switch (TESTS_WEBSERVICE_TYPE) {
             case self::TYPE_SOAPV1:
@@ -132,6 +165,8 @@ class Catalog_ProductCRUDTest extends Magento_Test_Webservice
 
     /**
      * Test for SOAPV1 and XMLRPC
+     *
+     * Help CRUD method
      *
      * @param int $optionValueApi
      * @param int $optionValueInstaller
@@ -164,6 +199,8 @@ class Catalog_ProductCRUDTest extends Magento_Test_Webservice
     /**
      * Test for SOAPV2
      *
+     * Help CRUD method
+     *
      * @param int $optionValueApi
      * @param int $optionValueInstaller
      * @param array $data
@@ -195,13 +232,15 @@ class Catalog_ProductCRUDTest extends Magento_Test_Webservice
     /**
      * Add attributes for tests
      *
+     * Help CRUD method
+     *
      * @return array
      */
     protected function _addAttributes()
     {
         $this->setFixture('attributes', true);
 
-        $data = require dirname(__FILE__).'/_fixtures/ProductAttributeData.php';
+        $data = require dirname(__FILE__) . '/_fixtures/ProductAttributeData.php';
 
 
         // add product attributes via installer
@@ -249,6 +288,8 @@ class Catalog_ProductCRUDTest extends Magento_Test_Webservice
     /**
      * Remove attributes created for tests
      *
+     * Help CRUD method
+     *
      * @return void
      */
     protected function _removeAttributes()
@@ -260,7 +301,7 @@ class Catalog_ProductCRUDTest extends Magento_Test_Webservice
             $response = $model->remove($attribute);
         }
 
-        $data = require dirname(__FILE__).'/_fixtures/ProductAttributeData.php';
+        $data = require dirname(__FILE__) . '/_fixtures/ProductAttributeData.php';
         $attributes = array(
             $data['create_text_installer']['code'],
             $data['create_select_installer']['code'],

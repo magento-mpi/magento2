@@ -33,15 +33,6 @@ return array(
         'sku'   => 'simple' . uniqid(),
         'productData'   => array(
             'status'        => Mage_Catalog_Model_Product_Status::STATUS_ENABLED,   //required to see product on backend
-            /*
-            'name'          => 'Simple Product',
-            'website_ids'   => array(Mage::app()->getStore()->getWebsiteId()),
-            'description'   => '...',
-            'short_description' => '...',
-            'price'         => 0.99,
-            'tax_class_id'  => 2,
-            'visibility'    => Mage_Catalog_Model_Product_Visibility::VISIBILITY_BOTH,
-            */
         )
     ),
     'update'   => array(
@@ -79,14 +70,6 @@ return array(
                 ),
                 'multi_data' => array()
             )
-            /*
-            'website_ids'   => array(Mage::app()->getStore()->getWebsiteId()),
-            'description'   => '...',
-            'short_description' => '...',
-            'price'         => 0.99,
-            'tax_class_id'  => 2,
-            'visibility'    => Mage_Catalog_Model_Product_Visibility::VISIBILITY_BOTH,
-            */
         )
     ),
     'create_with_attributes_soap'    => array(
@@ -107,6 +90,4 @@ return array(
             )
         )
     ),
-
-
 );
