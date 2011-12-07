@@ -130,7 +130,7 @@ class Mage_Catalog_Model_Product_Api extends Mage_Catalog_Model_Api_Resource
             'websites'   => $product->getWebsiteIds()
         );
 
-        foreach ($product->getTypeInstance(true)->getEditableAttributes($product) as $attribute) {
+        foreach ($product->getTypeInstance()->getEditableAttributes($product) as $attribute) {
             if ($this->_isAllowedAttribute($attribute, $attributes)) {
                 $result[$attribute->getAttributeCode()] = $product->getData(
                                                                 $attribute->getAttributeCode());
@@ -245,7 +245,7 @@ class Mage_Catalog_Model_Product_Api extends Mage_Catalog_Model_Api_Resource
             $product->setWebsiteIds($productData['website_ids']);
         }
 
-        foreach ($product->getTypeInstance(true)->getEditableAttributes($product) as $attribute) {
+        foreach ($product->getTypeInstance()->getEditableAttributes($product) as $attribute) {
             if ($this->_isAllowedAttribute($attribute)) {
                 if (isset($productData[$attribute->getAttributeCode()])) {
                     $product->setData(
@@ -361,11 +361,11 @@ class Mage_Catalog_Model_Product_Api extends Mage_Catalog_Model_Api_Resource
         $this->_checkProductAttributeSet($attributeSetId);
 
         /** @var $product Mage_Catalog_Model_Product */
-        $productAttributes = Mage::getModel('Mage_Catalog_Model_Product')
-            ->setAttributeSetId($attributeSetId)
+        $product = Mage::getModel('Mage_Catalog_Model_Product');
+        $productAttributes = $product->setAttributeSetId($attributeSetId)
             ->setTypeId($productType)
-            ->getTypeInstance(false)
-            ->getEditableAttributes();
+            ->getTypeInstance()
+            ->getEditableAttributes($product);
 
         $result = array();
         foreach ($productAttributes as $attribute) {

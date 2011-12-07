@@ -24,6 +24,9 @@ class Mage_Core_AjaxController extends Mage_Core_Controller_Front_Action
     public function translateAction ()
     {
         $translation = $this->getRequest()->getPost('translate');
+        if (!is_array($translation)) {
+            $translation = array($translation);
+        }
         $area = $this->getRequest()->getPost('area');
 
         //filtering

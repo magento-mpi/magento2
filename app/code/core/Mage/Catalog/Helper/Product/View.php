@@ -119,7 +119,7 @@ class Mage_Catalog_Helper_Product_View extends Mage_Core_Helper_Abstract
         Mage::dispatchEvent('catalog_controller_product_view', array('product' => $product));
 
         if ($params->getSpecifyOptions()) {
-            $notice = $product->getTypeInstance(true)->getSpecifyOptionMessage();
+            $notice = $product->getTypeInstance()->getSpecifyOptionMessage();
             Mage::getSingleton('Mage_Catalog_Model_Session')->addNotice($notice);
         }
 

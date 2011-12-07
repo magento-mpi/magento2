@@ -189,7 +189,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Group extends Mage_Adm
      */
     public function getSelectedGroupedProducts()
     {
-        $associatedProducts = Mage::registry('current_product')->getTypeInstance(true)
+        $associatedProducts = Mage::registry('current_product')->getTypeInstance()
             ->getAssociatedProducts(Mage::registry('current_product'));
         $products = array();
         foreach ($associatedProducts as $product) {

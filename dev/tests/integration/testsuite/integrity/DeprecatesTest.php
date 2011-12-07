@@ -54,6 +54,16 @@ class Integrity_DeprecatesTest extends Magento_Test_TestCase_VisitorAbstract
     );
 
     /**
+     * List of deprecated properties. Only unique names must be placed there, so we don't get wrong alerts.
+     */
+    protected $_deprecatedProps = array(
+        array('property' => 'decoratedIsFirst', 'suggestion' => 'use getDecoratedIsFirst()'),
+        array('property' => 'decoratedIsEven', 'suggestion' => 'use getDecoratedIsEven()'),
+        array('property' => 'decoratedIsOdd', 'suggestion' => 'use getDecoratedIsOdd()'),
+        array('property' => 'decoratedIsLast', 'suggestion' => 'use getDecoratedIsLast()')
+    );
+
+    /**
      * @return void
      */
     public function testFindDeprecatedStuff()
@@ -71,7 +81,7 @@ class Integrity_DeprecatesTest extends Magento_Test_TestCase_VisitorAbstract
     {
         $directory  = new RecursiveDirectoryIterator(Mage::getRoot());
         $iterator = new RecursiveIteratorIterator($directory);
-        $regexIterator = new RegexIterator($iterator, '/(\.php|\.phtml|\.xml|\.js)$/');
+        $regexIterator = new RegexIterator($iterator, '/(\.php|\.phtml|\.xml|\.js|\.html)$/');
 
         $result = array();
         foreach ($regexIterator as $fileInfo) {
@@ -131,6 +141,31 @@ class Integrity_DeprecatesTest extends Magento_Test_TestCase_VisitorAbstract
                 'description' => 'method',
                 'needle' => 'htmlEscape()',
                 'suggestion' => 'change to escapeHtml()'
+            );
+        }
+
+        return $result;
+    }
+
+    /**
+     * Finds usage of htmlescape directive
+     *
+     * @param SplFileInfo $fileInfo
+     * @param string $content
+     * @return array
+     */
+    protected function _visitHtmlescapeDirective($fileInfo, $content)
+    {
+        if (!$this->_fileHasExtensions($fileInfo, array('html'))) {
+            return array();
+        }
+
+        $result = array();
+        if (preg_match('{{htmlescape.*}}', $content)) {
+            $result[] = array(
+                'description' => 'directive',
+                'needle' => '{{htmlescape}}',
+                'suggestion' => 'change to {{escapehtml}}'
             );
         }
 
@@ -361,4 +396,93 @@ class Integrity_DeprecatesTest extends Magento_Test_TestCase_VisitorAbstract
         }
         return $result;
     }
+
+    /**
+     * Finds usage of deprecated parameters in product getTypeInstance, setTypeInstance
+     *
+     * @param SplFileInfo $fileInfo
+     * @param string $content
+     * @return array
+     */
+    protected function _visitGetTypeInstance($fileInfo, $content)
+    {
+        if (!$this->_fileHasExtensions($fileInfo, array('php', 'phtml'))) {
+            return array();
+        }
+
+        $num = preg_match('/getTypeInstance\([^)]+\)/', $content);
+        if (!$num) {
+            return array();
+        }
+
+        return array(
+            array(
+                'description' => "call to product's method",
+                'needle' => 'getTypeInstance() with parameter',
+                'suggestion' => 'remove parameter, refactor code to treat returned type instance as singleton'
+            )
+        );
+    }
+
+    /**
+     * @param  $fileName
+     * @dataProvider getSetProductInProductTypeDataProvider
+     */
+    public function testGetSetProductInProductType($fileName)
+    {
+        $content = file_get_contents(Mage::getRoot() . '/' . $fileName);
+        $this->assertFalse(
+            strpos($content, '$this->getProduct('),
+            'getProduct() in product type models is not used anymore, remove it from ' . $fileName
+        );
+        $this->assertFalse(
+            strpos($content, '$this->setProduct('),
+            'setProduct() in product type models is not used anymore, remove it from ' . $fileName
+        );
+    }
+
+    public function getSetProductInProductTypeDataProvider()
+    {
+        return array(
+            array('code/core/Enterprise/GiftCard/Model/Catalog/Product/Type/Giftcard.php'),
+            array('code/core/Mage/Bundle/Model/Product/Type.php'),
+            array('code/core/Mage/Catalog/Model/Product/Type/Abstract.php'),
+            array('code/core/Mage/Catalog/Model/Product/Type/Configurable.php'),
+            array('code/core/Mage/Catalog/Model/Product/Type/Grouped.php'),
+            array('code/core/Mage/Catalog/Model/Product/Type/Simple.php'),
+            array('code/core/Mage/Catalog/Model/Product/Type/Virtual.php'),
+            array('code/core/Mage/Downloadable/Model/Product/Type.php')
+        );
+    }
+
+    /**
+     * Finds usage of deprecated properties
+     *
+     * @param SplFileInfo $fileInfo
+     * @param string $content
+     * @return array
+     */
+    protected function _visitDeprecatedProperties($fileInfo, $content)
+    {
+        if (!$this->_fileHasExtensions($fileInfo, array('php', 'phtml'))) {
+            return array();
+        }
+
+        $result = array();
+        foreach ($this->_deprecatedProps as $searchInfo) {
+            $property = $searchInfo['property'];
+            $suggestion = $searchInfo['suggestion'];
+            $needle = '->' . $property;
+            if (strpos($content, $needle) === false) {
+                continue;
+            }
+            $result[] = array(
+                'description' => 'property',
+                'needle' => $property,
+                'suggestion' => $suggestion
+            );
+        }
+        return $result;
+    }
+
 }

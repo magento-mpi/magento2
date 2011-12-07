@@ -23,7 +23,7 @@ class Mage_Catalog_Model_Product_Type_Virtual extends Mage_Catalog_Model_Product
      * @param Mage_Catalog_Model_Product $product
      * @return bool
      */
-    public function isVirtual($product = null)
+    public function isVirtual($product)
     {
         return true;
     }

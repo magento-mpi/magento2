@@ -12,7 +12,7 @@
 class Mage_Core_Model_EncryptionTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Enterprise_Pci_Model_Encryption
+     * @var Mage_Core_Model_Encryption
      */
     protected $_model;
 

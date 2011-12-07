@@ -46,6 +46,11 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
         copy($fixtureDir . '/skin/script.js', self::$_pubJslib . '/script.js');
     }
 
+    public static function tearDownAfterClass()
+    {
+        Varien_Io_File::rmdirRecursive(self::$_pubJslib);
+    }
+
     protected function setUp()
     {
         $this->_model = new Mage_Core_Model_Design_Package();

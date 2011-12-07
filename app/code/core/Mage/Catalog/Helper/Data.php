@@ -369,11 +369,11 @@ class Mage_Catalog_Helper_Data extends Mage_Core_Helper_Abstract
             $result = ($productVisibility == $visibility);
         }
 
-        if ($product->getTypeInstance(true)->isComposite($product)
+        if ($product->getTypeInstance()->isComposite($product)
             && $checkAssociatedItems
             && (!$result || $visibility !== null)
         ) {
-            $resultInOptions = $product->getTypeInstance(true)->isMapEnabledInOptions($product, $visibility);
+            $resultInOptions = $product->getTypeInstance()->isMapEnabledInOptions($product, $visibility);
             if ($resultInOptions !== null) {
                 $result = $resultInOptions;
             }

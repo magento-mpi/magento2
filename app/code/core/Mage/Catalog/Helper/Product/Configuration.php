@@ -89,7 +89,7 @@ class Mage_Catalog_Helper_Product_Configuration extends Mage_Core_Helper_Abstrac
         if ($typeId != Mage_Catalog_Model_Product_Type_Configurable::TYPE_CODE) {
              Mage::throwException($this->__('Wrong product type to extract configurable options.'));
         }
-        $attributes = $product->getTypeInstance(true)
+        $attributes = $product->getTypeInstance()
             ->getSelectedAttributesInfo($product);
         return array_merge($attributes, $this->getCustomOptions($item));
     }
@@ -112,7 +112,7 @@ class Mage_Catalog_Helper_Product_Configuration extends Mage_Core_Helper_Abstrac
         /**
          * @var Mage_Catalog_Model_Product_Type_Grouped
          */
-        $typeInstance = $product->getTypeInstance(true);
+        $typeInstance = $product->getTypeInstance();
         $associatedProducts = $typeInstance->getAssociatedProducts($product);
 
         if ($associatedProducts) {

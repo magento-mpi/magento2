@@ -33,16 +33,11 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     protected $_canAffectOptions = false;
 
     /**
-     * Product type instance
+     * Product type singleton instance
      *
      * @var Mage_Catalog_Model_Product_Type_Abstract
      */
-    protected $_typeInstance            = null;
-
-    /**
-     * Product type instance as singleton
-     */
-    protected $_typeInstanceSingleton   = null;
+    protected $_typeInstance = null;
 
     /**
      * Product link instance
@@ -221,23 +216,13 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     }
 
     /**
-     * Retrieve type instance
+     * Retrieve type instance of the product.
+     * Type instance implements product type depended logic and is a singleton shared by all products of the same type.
      *
-     * Type instance implement type depended logic
-     *
-     * @param  bool $singleton
      * @return Mage_Catalog_Model_Product_Type_Abstract
      */
-    public function getTypeInstance($singleton = false)
+    public function getTypeInstance()
     {
-        if ($singleton === true) {
-            if (is_null($this->_typeInstanceSingleton)) {
-                $this->_typeInstanceSingleton = Mage::getSingleton('Mage_Catalog_Model_Product_Type')
-                    ->factory($this, true);
-            }
-            return $this->_typeInstanceSingleton;
-        }
-
         if ($this->_typeInstance === null) {
             $this->_typeInstance = Mage::getSingleton('Mage_Catalog_Model_Product_Type')
                 ->factory($this);
@@ -246,19 +231,14 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     }
 
     /**
-     * Set type instance for external
+     * Set type instance for the product
      *
      * @param Mage_Catalog_Model_Product_Type_Abstract $instance  Product type instance
-     * @param bool                                     $singleton Whether instance is singleton
      * @return Mage_Catalog_Model_Product
      */
-    public function setTypeInstance($instance, $singleton = false)
+    public function setTypeInstance($instance)
     {
-        if ($singleton === true) {
-            $this->_typeInstanceSingleton = $instance;
-        } else {
-            $this->_typeInstance = $instance;
-        }
+        $this->_typeInstance = $instance;
         return $this;
     }
 
@@ -414,7 +394,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
      */
     public function getAttributes($groupId = null, $skipSuper = false)
     {
-        $productAttributes = $this->getTypeInstance(true)->getEditableAttributes($this);
+        $productAttributes = $this->getTypeInstance()->getEditableAttributes($this);
         if ($groupId) {
             $attributes = array();
             foreach ($productAttributes as $attribute) {
@@ -438,7 +418,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         $this->setTypeHasOptions(false);
         $this->setTypeHasRequiredOptions(false);
 
-        $this->getTypeInstance(true)->beforeSave($this);
+        $this->getTypeInstance()->beforeSave($this);
 
         $hasOptions         = false;
         $hasRequiredOptions = false;
@@ -509,7 +489,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     protected function _afterSave()
     {
         $this->getLinkInstance()->saveProductRelations($this);
-        $this->getTypeInstance(true)->save($this);
+        $this->getTypeInstance()->save($this);
 
         /**
          * Product Options
@@ -973,7 +953,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         if(!$this->hasData('media_gallery_images') && is_array($this->getMediaGallery('images'))) {
             $images = new Varien_Data_Collection();
             foreach ($this->getMediaGallery('images') as $image) {
-                if ($image['disabled']) {
+                if (isset($image['disabled']) && $image['disabled']) {
                     continue;
                 }
                 $image['url'] = $this->getMediaConfig()->getMediaUrl($image['file']);
@@ -999,7 +979,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
      */
     public function addImageToMediaGallery($file, $mediaAttribute=null, $move=false, $exclude=true)
     {
-        $attributes = $this->getTypeInstance(true)->getSetAttributes($this);
+        $attributes = $this->getTypeInstance()->getSetAttributes($this);
         if (!isset($attributes['media_gallery'])) {
             return $this;
         }
@@ -1284,7 +1264,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
      */
     public function isAvailable()
     {
-        return $this->getTypeInstance(true)->isSalable($this);
+        return $this->getTypeInstance()->isSalable($this);
     }
 
     /**
@@ -1294,7 +1274,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
      */
     public function getIsSalable()
     {
-        $productType = $this->getTypeInstance(true);
+        $productType = $this->getTypeInstance();
         if (is_callable(array($productType, 'getIsSalable'))) {
             return $productType->getIsSalable($this);
         }
@@ -1525,7 +1505,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
      */
     public function isComposite()
     {
-        return $this->getTypeInstance(true)->isComposite($this);
+        return $this->getTypeInstance()->isComposite($this);
     }
 
     /**
@@ -1536,7 +1516,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     public function canConfigure()
     {
         $options = $this->getOptions();
-        return !empty($options) || $this->getTypeInstance(true)->canConfigure($this);
+        return !empty($options) || $this->getTypeInstance()->canConfigure($this);
     }
 
     /**
@@ -1546,7 +1526,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
      */
     public function getSku()
     {
-        return $this->getTypeInstance(true)->getSku($this);
+        return $this->getTypeInstance()->getSku($this);
     }
 
     /**
@@ -1556,7 +1536,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
      */
     public function getWeight()
     {
-        return $this->getTypeInstance(true)->getWeight($this);
+        return $this->getTypeInstance()->getWeight($this);
     }
 
     /**
@@ -1629,7 +1609,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
      */
     public function getIsVirtual()
     {
-        return $this->getTypeInstance(true)->isVirtual($this);
+        return $this->getTypeInstance()->isVirtual($this);
     }
 
     /**
@@ -1863,7 +1843,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         }
 
         /* add product type selected options data */
-        $type = $this->getTypeInstance(true);
+        $type = $this->getTypeInstance();
         $typeSpecificOptions = $type->processBuyRequest($this, $buyRequest);
         $options->addData($typeSpecificOptions);
 

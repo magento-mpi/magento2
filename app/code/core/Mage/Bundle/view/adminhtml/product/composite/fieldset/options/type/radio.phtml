@@ -21,7 +21,7 @@
     </span>
     <label<?php if ($_option->getRequired()) echo ' class="required"' ?>><?php if ($_option->getRequired()) echo '<em>*</em>' ?><?php echo $this->escapeHtml($_option->getTitle()) ?></label>
 </dt>
-<dd<?php if ($_option->decoratedIsLast){?> class="last"<?php }?>>
+<dd<?php if ($_option->getDecoratedIsLast()):?> class="last"<?php endif; ?>>
     <div class="input-box">
     <?php if ($this->_showSingle()): ?>
         <?php echo $this->getSelectionTitlePrice($_selections[0]) ?>

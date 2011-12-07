@@ -36,13 +36,12 @@ class Mage_Catalog_Model_Product_Type
     static protected $_typesPriority;
 
     /**
-     * Product type instance factory
+     * Factory to product singleton product type instances
      *
      * @param   Mage_Catalog_Model_Product $product
-     * @param   bool $singleton
      * @return  Mage_Catalog_Model_Product_Type_Abstract
      */
-    public static function factory($product, $singleton = false)
+    public static function factory($product)
     {
         $types = self::getTypes();
         $typeId = $product->getTypeId();
@@ -54,13 +53,8 @@ class Mage_Catalog_Model_Product_Type
             $typeId = self::DEFAULT_TYPE;
         }
 
-        if ($singleton === true) {
-            $typeModel = Mage::getSingleton($typeModelName);
-        }
-        else {
-            $typeModel = Mage::getModel($typeModelName);
-            $typeModel->setProduct($product);
-        }
+        /** @var $typeModel Mage_Catalog_Model_Product_Type_Abstract */
+        $typeModel = Mage::getSingleton($typeModelName);
         $typeModel->setConfig($types[$typeId]);
         return $typeModel;
     }

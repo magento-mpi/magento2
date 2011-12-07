@@ -585,6 +585,9 @@ class Integrity_ClassesTest extends Magento_Test_TestCase_VisitorAbstract
             "Enterprise" . DS . "Staging" . DS . "etc" . DS . "config.xml",
             "app" . DS . "code" . DS . "core" .
                 DS . "Enterprise" . DS . "CustomerBalance" . DS . "view" . DS . "adminhtml" . DS . "layout.xml",
+            "wsdl.xml",
+            "wsdl2.xml",
+            "wsi.xml"
         );
 
         foreach ($skippedFiles as $skippedFile) {

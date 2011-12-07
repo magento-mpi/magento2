@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category   build
+ * @package    sanity
+ * @copyright  {copyright}
+ * @license    {license_link}
+ */
+-->
+<config>
+    <words>
+        <word>oracle</word>
+        <word>mssql</word>
+        <word>enterprise</word>
+        <word>{license_notice}</word>
+        <word>{copyright}</word>
+        <word>{license_link}</word>
+    </words>
+    <whitelist>
+        <item>
+            <word>oracle</word>
+            <path>app/code/core/Mage/Reports/Model/Resource/Report/Abstract.php</path>
+        </item>
+        <item>
+            <word>oracle</word>
+            <word>mssql</word>
+            <path>app/code/core/Mage/Tax/Model/Resource/Report/Updatedat/Collection.php</path>
+        </item>
+        <item>
+            <word>oracle</word>
+            <word>mssql</word>
+            <path>dev/tests/integration/framework/Magento/Test/Bootstrap.php</path>
+        </item>
+        <item>
+            <word>mssql</word>
+            <path>dev/tests/integration/framework/tests/unit/testsuite/Magento/Test/Bootstrap/_files/local-custom.xml</path>
+        </item>
+        <item>
+            <word>mssql</word>
+            <path>dev/tests/integration/framework/tests/unit/testsuite/Magento/Test/BootstrapTest.php</path>
+        </item>
+        <item>
+            <word>enterprise</word>
+            <path>app/code/core/Mage/XmlConnect/</path>
+        </item>
+        <item>
+            <word>enterprise</word>
+            <path>dev/tests/integration/testsuite/integrity/modular/TemplateFilesTest.php</path>
+        </item>
+        <item>
+            <word>enterprise</word>
+            <path>lib/Varien/Db/Helper.php</path>
+        </item>
+        <item>
+            <path>lib/Zend</path>
+        </item>
+    </whitelist>
+</config>

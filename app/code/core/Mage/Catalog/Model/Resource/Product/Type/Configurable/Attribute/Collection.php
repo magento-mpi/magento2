@@ -129,7 +129,7 @@ class Mage_Catalog_Model_Resource_Product_Type_Configurable_Attribute_Collection
     protected function _addProductAttributes()
     {
         foreach ($this->_items as $item) {
-            $productAttribute = $this->getProduct()->getTypeInstance(true)
+            $productAttribute = $this->getProduct()->getTypeInstance()
                 ->getAttributeById($item->getAttributeId(), $this->getProduct());
             $item->setProductAttribute($productAttribute);
         }
@@ -143,8 +143,8 @@ class Mage_Catalog_Model_Resource_Product_Type_Configurable_Attribute_Collection
      */
     public function _addAssociatedProductFilters()
     {
-        $this->getProduct()->getTypeInstance(true)
-            ->getUsedProducts($this->getColumnValues('attribute_id'), $this->getProduct()); // Filter associated products
+        $this->getProduct()->getTypeInstance()
+            ->getUsedProducts($this->getProduct(), $this->getColumnValues('attribute_id')); // Filter associated products
         return $this;
     }
 
@@ -233,7 +233,10 @@ class Mage_Catalog_Model_Resource_Product_Type_Configurable_Attribute_Collection
                }
                $options = $productAttribute->getFrontend()->getSelectOptions();
                foreach ($options as $option) {
-                   foreach ($this->getProduct()->getTypeInstance(true)->getUsedProducts(null, $this->getProduct()) as $associatedProduct) {
+                   $usedProducts = $this->getProduct()
+                       ->getTypeInstance()
+                       ->getUsedProducts($this->getProduct());
+                   foreach ($usedProducts as $associatedProduct) {
                         if (!empty($option['value'])
                             && $option['value'] == $associatedProduct->getData(
                                                         $productAttribute->getAttributeCode())) {

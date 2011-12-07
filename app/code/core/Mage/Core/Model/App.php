@@ -731,7 +731,6 @@ class Mage_Core_Model_App
     protected function _initFrontController()
     {
         $this->_frontController = new Mage_Core_Controller_Varien_Front();
-        Mage::register('controller', $this->_frontController);
         Magento_Profiler::start('init_front_controller');
         $this->_frontController->init();
         Magento_Profiler::stop('init_front_controller');
@@ -1078,7 +1077,6 @@ class Mage_Core_Model_App
         if (!$this->_frontController) {
             $this->_initFrontController();
         }
-
         return $this->_frontController;
     }
 

@@ -1,0 +1,35 @@
+// Files that are not published with Magento PE
+// ---------------------------------------------------
+LICENSE_EE.html
+LICENSE_EE.txt
+app/code/core/Enterprise/AdminGws
+app/code/core/Enterprise/Banner
+app/code/core/Enterprise/CatalogEvent
+app/code/core/Enterprise/CatalogPermissions
+app/code/core/Enterprise/Checkout
+app/code/core/Enterprise/Cms
+app/code/core/Enterprise/Customer
+app/code/core/Enterprise/CustomerSegment
+app/code/core/Enterprise/Enterprise
+app/code/core/Enterprise/GiftRegistry
+app/code/core/Enterprise/Invitation
+app/code/core/Enterprise/License
+app/code/core/Enterprise/Logging
+app/code/core/Enterprise/PageCache
+app/code/core/Enterprise/Reminder
+app/code/core/Enterprise/SalesArchive
+app/code/core/Enterprise/Search
+app/code/core/Enterprise/Staging
+app/code/core/Enterprise/TargetRule
+app/code/core/Enterprise/WebsiteRestriction
+app/design/adminhtml/default/default/skin/enterprise
+app/design/frontend/enterprise
+app/design/install/default/enterprise
+app/etc/modules/Enterprise_{AdminGws,Banner,CatalogEvent,CatalogPermissions,Checkout,Cms,Customer,CustomerSegment,GiftRegistry,Invitation,License,Logging,PageCache,Reminder,SalesArchive,Search,Staging,TargetRule,WebsiteRestriction}.xml
+app/locale/*/Enterprise_{AdminGws,Banner,CatalogEvent,CatalogPermissions,Checkout,Cms,Customer,CustomerSegment,GiftRegistry,Invitation,License,Logging,PageCache,Reminder,SalesArchive,Search,Staging,TargetRule,WebsiteRestriction}.csv
+dev/tests/integration/testsuite/Enterprise
+downloader/Maged/Model/Config/Enterprise.php
+downloader/skin/install/images/enterprise.gif
+downloader/template/enterprise/
+lib/Apache
+pub/errors/enterprise

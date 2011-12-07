@@ -30,7 +30,7 @@ class Mage_Downloadable_Helper_Catalog_Product_Configuration extends Mage_Core_H
         $itemLinks = array();
         $linkIds = $item->getOptionByCode('downloadable_link_ids');
         if ($linkIds) {
-            $productLinks = $product->getTypeInstance(true)
+            $productLinks = $product->getTypeInstance()
                 ->getLinks($product);
             foreach (explode(',', $linkIds->getValue()) as $linkId) {
                 if (isset($productLinks[$linkId])) {

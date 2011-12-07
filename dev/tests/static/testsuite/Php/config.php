@@ -16,9 +16,14 @@ return array(
     'white_list' => array(
         "{$baseDir}/_classmap.php",
         "{$baseDir}/app/code/core/Mage/Core/Model/Design.php",
+        "{$baseDir}/app/code/core/Mage/Core/Model/Shell/Abstract.php",
+        "{$baseDir}/app/code/core/Mage/Index/Model/Shell.php",
+        "{$baseDir}/app/code/core/Mage/Log/Model/Shell.php",
+        "{$baseDir}/app/code/core/Mage/Log/Model/Resource/Shell.php",
+        "{$baseDir}/app/code/core/Mage/Log/Model/Resource/Helper",
         "{$baseDir}/app/bootstrap.php",
-        "{$baseDir}/dev/build/extruder",
-        "{$baseDir}/dev/build/license",
+        "{$baseDir}/dev/build/publication",
+        "{$baseDir}/dev/shell",
         "{$baseDir}/dev/tests/integration",
         "{$baseDir}/dev/tests/static",
         "{$baseDir}/dev/tests/unit",
@@ -38,9 +43,9 @@ return array(
         // various fixtures, exempt from static code analysis
         "{$baseDir}/dev/tests/integration/framework/tests/unit/testsuite/Magento/Test/TestSuite/_files",
         "{$baseDir}/dev/tests/integration/testsuite/Mage/Core/Block/_files",
-        "{$baseDir}/dev/tests/integration/testsuite/Integrity/modular/TemplateFilesTest.php",
-        "{$baseDir}/dev/tests/integration/testsuite/Integrity/theme/TemplateFilesTest.php",
-        "{$baseDir}/dev/tests/integration/testsuite/Integrity/ClassesTest.php",
+        "{$baseDir}/dev/tests/integration/testsuite/integrity/modular/TemplateFilesTest.php",
+        "{$baseDir}/dev/tests/integration/testsuite/integrity/theme/TemplateFilesTest.php",
+        "{$baseDir}/dev/tests/integration/testsuite/integrity/ClassesTest.php",
         "{$baseDir}/dev/tests/integration/tmp",
     )
 );

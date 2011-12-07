@@ -19,7 +19,7 @@
 <dt>
     <label<?php if ($_option->getRequired()) echo ' class="required"' ?>><?php echo $this->escapeHtml($_option->getTitle()) ?><?php if ($_option->getRequired()) echo '<em>*</em>' ?></label>
 </dt>
-<dd<?php if ($_option->decoratedIsLast){?> class="last"<?php }?>>
+<dd<?php if ($_option->getDecoratedIsLast()):?> class="last"<?php endif; ?>>
     <div class="input-box">
     <?php if ($this->_showSingle()): ?>
         <?php echo $this->getSelectionTitlePrice($_selections[0]) ?>

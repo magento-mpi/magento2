@@ -43,7 +43,7 @@ class Magento_Test_Listener_Annotation_Config
      *
      * @param Magento_Test_Listener $listener
      */
-    public function __construct(Magento_Test_Listener $listener = null)
+    public function __construct($listener = null)
     {
         if (!self::$_listenerDefault) {
             self::$_listenerDefault = $listener;

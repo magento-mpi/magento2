@@ -1387,7 +1387,7 @@
     <adminhtml_system_convert_gui translate="label">
         <label>Import/Export Profiles</label>
         <expected_models>
-            <Mage_DataFlow_Model_Profile/>
+            <Mage_Dataflow_Model_Profile/>
         </expected_models>
         <actions>
             <adminhtml_system_convert_gui_save translate="action">

@@ -160,7 +160,7 @@ class Mage_XmlConnect_CartController extends Mage_XmlConnect_Controller_Action
                  */
                 $qty = isset($params['qty']) ? $params['qty'] : 0;
                 $requestedQty = ($qty > 1) ? $qty : 1;
-                $subProduct = $product->getTypeInstance(true)
+                $subProduct = $product->getTypeInstance()
                     ->getProductByAttributes($request->getSuperAttribute(), $product);
 
                 if (!empty($subProduct)

@@ -33,7 +33,7 @@ class Mage_Catalog_Model_Product_Type_Grouped_Price extends Mage_Catalog_Model_P
         $finalPrice = parent::getFinalPrice($qty, $product);
         if ($product->hasCustomOptions()) {
             /* @var $typeInstance Mage_Catalog_Model_Product_Type_Grouped */
-            $typeInstance = $product->getTypeInstance(true);
+            $typeInstance = $product->getTypeInstance();
             $associatedProducts = $typeInstance->setStoreFilter($product->getStore(), $product)
                 ->getAssociatedProducts($product);
             foreach ($associatedProducts as $childProduct) {

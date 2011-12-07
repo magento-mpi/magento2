@@ -22,20 +22,40 @@ class Mage_Catalog_Model_Product_Attribute_Backend_MediaTest extends PHPUnit_Fra
      */
     protected $_model;
 
+    /**
+     * @var string
+     */
     protected static $_mediaTmpDir;
+
+    /**
+     * @var string
+     */
+    protected static $_mediaDir;
+
+    /**
+     * @var string
+     */
+    protected static $_fixtureDir;
+
 
     public static function setUpBeforeClass()
     {
-        self::$_mediaTmpDir = Mage::getSingleton('Mage_Catalog_Model_Product_Media_Config')->getTmpMediaPath();
-        $fixturesDir        = realpath(__DIR__.'/../../../../_files');
-        $mediaDir           = Mage::getSingleton('Mage_Catalog_Model_Product_Media_Config')->getMediaPath();
+        self::$_mediaTmpDir = Mage::getSingleton('Mage_Catalog_Model_Product_Media_Config')->getBaseTmpMediaPath();
+        self::$_fixtureDir        = realpath(__DIR__.'/../../../../_files');
+        self::$_mediaDir           = Mage::getSingleton('Mage_Catalog_Model_Product_Media_Config')->getBaseMediaPath();
 
-        mkdir($mediaDir, 0777, true);
         mkdir(self::$_mediaTmpDir, 0777, true);
+        mkdir(self::$_mediaDir, 0777, true);
 
-        copy("{$fixturesDir}/magento_image.jpg", self::$_mediaTmpDir . "/magento_image.jpg");
-        copy("{$fixturesDir}/magento_image.jpg", $mediaDir . "/magento_image.jpg");
-        copy("{$fixturesDir}/magento_small_image.jpg", self::$_mediaTmpDir . "/magento_small_image.jpg");
+        copy(self::$_fixtureDir . "/magento_image.jpg", self::$_mediaTmpDir . "/magento_image.jpg");
+        copy(self::$_fixtureDir . "/magento_image.jpg", self::$_mediaDir . "/magento_image.jpg");
+        copy(self::$_fixtureDir . "/magento_small_image.jpg", self::$_mediaTmpDir . "/magento_small_image.jpg");
+    }
+
+    public static function tearDownAfterClass()
+    {
+        Varien_Io_File::rmdirRecursive(self::$_mediaTmpDir);
+        Varien_Io_File::rmdirRecursive(self::$_mediaDir);
     }
 
     protected function setUp()
@@ -48,7 +68,7 @@ class Mage_Catalog_Model_Product_Attribute_Backend_MediaTest extends PHPUnit_Fra
 
     public function testAfterLoad()
     {
-        $product = new Varien_Object();
+        $product = new Mage_Catalog_Model_Product();
         $this->_model->afterLoad($product);
         $data = $product->getData();
         $this->assertArrayHasKey('media_gallery', $data);
@@ -58,7 +78,7 @@ class Mage_Catalog_Model_Product_Attribute_Backend_MediaTest extends PHPUnit_Fra
 
     public function testValidate()
     {
-        $product = new Varien_Object();
+        $product = new Mage_Catalog_Model_Product();
         $this->assertTrue($this->_model->validate($product));
         $this->_model->getAttribute()->setIsRequired(true);
         try {
@@ -76,10 +96,11 @@ class Mage_Catalog_Model_Product_Attribute_Backend_MediaTest extends PHPUnit_Fra
      */
     public function testBeforeSave()
     {
-        $product = new Varien_Object();
+        $product = new Mage_Catalog_Model_Product();
         $product->setData('media_gallery', array('images' => array(
             'image'   => array('file' => 'magento_image.jpg'),
         )));
+
         $this->_model->beforeSave($product);
         $this->assertStringStartsWith('./magento_image', $product->getData('media_gallery/images/image/new_file'));
 
@@ -122,7 +143,7 @@ class Mage_Catalog_Model_Product_Attribute_Backend_MediaTest extends PHPUnit_Fra
 
     public function testUpdateImage()
     {
-        $product = new Varien_Object();
+        $product = new Mage_Catalog_Model_Product();
         $product->setData('media_gallery', array('images' => array(
             'image'   => array('file' => 'magento_image.jpg'),
         )));
@@ -132,7 +153,7 @@ class Mage_Catalog_Model_Product_Attribute_Backend_MediaTest extends PHPUnit_Fra
 
     public function testRemoveImage()
     {
-        $product = new Varien_Object();
+        $product = new Mage_Catalog_Model_Product();
         $product->setData('media_gallery', array('images' => array(
             'image'   => array('file' => 'magento_image.jpg'),
         )));
@@ -142,7 +163,7 @@ class Mage_Catalog_Model_Product_Attribute_Backend_MediaTest extends PHPUnit_Fra
 
     public function testGetImage()
     {
-        $product = new Varien_Object();
+        $product = new Mage_Catalog_Model_Product();
         $product->setData('media_gallery', array('images' => array(
             'image'   => array('file' => 'magento_image.jpg'),
         )));
@@ -155,7 +176,7 @@ class Mage_Catalog_Model_Product_Attribute_Backend_MediaTest extends PHPUnit_Fra
 
     public function testClearMediaAttribute()
     {
-        $product = new Varien_Object();
+        $product = new Mage_Catalog_Model_Product();
         $product->setData(array(
             'test_media1' => 'test1',
             'test_media2' => 'test2',
@@ -176,7 +197,7 @@ class Mage_Catalog_Model_Product_Attribute_Backend_MediaTest extends PHPUnit_Fra
 
     public function testSetMediaAttribute()
     {
-        $product = new Varien_Object();
+        $product = new Mage_Catalog_Model_Product();
         $product->setMediaAttributes(array('test_media1', 'test_media2', 'test_media3'));
         $this->_model->setMediaAttribute($product, 'test_media1', 'test1');
         $this->assertEquals('test1', $product->getData('test_media1'));
