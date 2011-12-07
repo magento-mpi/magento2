@@ -588,7 +588,8 @@ Validation.addAllThese([
                     return false;
                 }
             }],
-    ['validate-not-negative-number', 'Please enter a valid number in this field.', function(v) {
+    ['validate-not-negative-number', 'Please enter a valid number in this field.', function(v, elm) {
+                if (elm.hasClassName('required-entry') && !Validation.get('required-entry').test(v)) return true;
                 v = parseNumber(v);
                 return (!isNaN(v) && v>=0);
             }],

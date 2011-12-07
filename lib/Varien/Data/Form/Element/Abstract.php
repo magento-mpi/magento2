@@ -126,7 +126,7 @@ abstract class Varien_Data_Form_Element_Abstract extends Varien_Data_Form_Abstra
     public function addClass($class)
     {
         $oldClass = $this->getClass();
-        $this->setClass($class.' '.$oldClass);
+        $this->setClass($oldClass.' '.$class);
         return $this;
     }
 
