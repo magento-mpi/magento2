@@ -429,7 +429,7 @@ test_catalog_rule:
     info:
         rule_name: test_catalog_rule_%randomize%
         description: description for test catalog rule
-        status: Active
+        status: Inactive
         websites: Main Website
         customer_groups: NOT LOGGED IN
         from_date: %currentDate%

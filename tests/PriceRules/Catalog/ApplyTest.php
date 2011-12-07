@@ -122,7 +122,8 @@ class PriceRules_Catalog_ApplyTest extends Mage_Selenium_TestCase
     {
         //Data
         $priceRuleData = $this->loadData('test_catalog_rule',
-                array('category' => $testData['categoryPath'], 'actions' => $this->loadData($ruleType)));
+                array('category' => $testData['categoryPath'], 'status' =>  'Active',
+                    'actions' => $this->loadData($ruleType)));
         $productPriceLogged = $this->loadData($ruleType . '_simple_product_logged');
         $productPriceNotLogged = $this->loadData($ruleType . '_simple_product_not_logged');
         $overrideData = array('product_name' => $testData['simpleName'], 'category' => $testData['categoryName']);
