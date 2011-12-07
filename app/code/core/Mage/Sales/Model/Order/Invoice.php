@@ -507,15 +507,16 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Sales_Model_Abstract
      *
      * @param float $price
      * @param string $type
+     * @param bool $negative Indicates if we perform addition (true) or subtraction (false) of rounded value
      * @return float
      */
-    public function roundPrice($price, $type = 'regular')
+    public function roundPrice($price, $type = 'regular', $negative = false)
     {
         if ($price) {
             if (!isset($this->_rounders[$type])) {
                 $this->_rounders[$type] = Mage::getModel('core/calculator', $this->getStore());
             }
-            $price = $this->_rounders[$type]->deltaRound($price);
+            $price = $this->_rounders[$type]->deltaRound($price, $negative);
         }
         return $price;
     }

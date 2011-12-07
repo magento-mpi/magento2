@@ -70,8 +70,8 @@ class Mage_Sales_Model_Order_Invoice_Total_Discount extends Mage_Sales_Model_Ord
                 $baseDiscount = $baseOrderItemDiscount - $orderItem->getBaseDiscountInvoiced();
                 if (!$item->isLast()) {
                     $activeQty = $orderItemQty - $orderItem->getQtyInvoiced();
-                    $discount = $invoice->roundPrice($discount / $activeQty * $item->getQty());
-                    $baseDiscount = $invoice->roundPrice($baseDiscount / $activeQty * $item->getQty(), 'base');
+                    $discount = $invoice->roundPrice($discount / $activeQty * $item->getQty(), 'regular', true);
+                    $baseDiscount = $invoice->roundPrice($baseDiscount / $activeQty * $item->getQty(), 'base', true);
                 }
 
                 $item->setDiscountAmount($discount);

@@ -66,8 +66,12 @@ class Mage_Sales_Model_Order_Creditmemo_Total_Discount extends Mage_Sales_Model_
                 $baseDiscount = $baseOrderItemDiscount - $orderItem->getBaseDiscountRefunded();
                 if (!$item->isLast()) {
                     $availableQty = $orderItemQty - $orderItem->getQtyRefunded();
-                    $discount = $creditmemo->roundPrice($discount / $availableQty * $item->getQty());
-                    $baseDiscount = $creditmemo->roundPrice($baseDiscount / $availableQty * $item->getQty(), 'base');
+                    $discount = $creditmemo->roundPrice(
+                        $discount / $availableQty * $item->getQty(), 'regular', true
+                    );
+                    $baseDiscount = $creditmemo->roundPrice(
+                        $baseDiscount / $availableQty * $item->getQty(), 'base', true
+                    );
                 }
 
                 $item->setDiscountAmount($discount);
