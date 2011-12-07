@@ -618,28 +618,28 @@ class Order_Helper extends Mage_Selenium_TestCase
     /**
      * Compare arrays
      *
-     * @param $httpHelperPath
-     * @param $logFileName
-     * @param $inputArray
+     * @param string $httpHelperPath
+     * @param string $logFileName
+     * @param array $inputArray
      * @return bool|array
      */
-    public function compareArraysFromLog($httpHelperPath,$logFileName,$inputArray)
+    public function compareArraysFromLog($httpHelperPath, $logFileName, $inputArray)
     {
-        $subject = $this->getLastRecord($httpHelperPath,$logFileName);
+        $subject = $this->getLastRecord($httpHelperPath, $logFileName);
         $responseParams = $this->getResponse($subject);
-        $resultArray = array_diff($inputArray,$responseParams);
+        $resultArray = array_diff($inputArray, $responseParams);
         return (count($resultArray)) ? $resultArray : TRUE;
     }
 
     /**
      * Define correct array for compare
      *
-     * @param $subject
+     * @param string $subject
      * @return array
      */
     protected function getParamsArray($subject)
     {
-        preg_match_all('/\[(.*)\] => (.*)/',$subject,$arr);
+        preg_match_all('/\[(.*)\] => (.*)/', $subject, $arr);
 
         $result = array();
         foreach ($arr[1] as $key => $value) {
@@ -647,46 +647,49 @@ class Order_Helper extends Mage_Selenium_TestCase
                 $result[$value] = $arr[2][$key];
             }
         }
-        return   $result;
+        return $result;
     }
 
     /**
      * Define request array
      *
-     * @param $subject
+     * @param string $subject
      * @return array
      */
     protected function getRequest($subject)
     {
-        $requestSubject = substr($subject,strpos($subject,'[request]'),strpos($subject,")\n")-strpos($subject,'[request]')+1);
-        $requestSubject = substr($requestSubject,strpos($requestSubject,"(\n"),strpos($requestSubject,")"));
+        $requestSubject = substr($subject, strpos($subject, '[request]'),
+                          strpos($subject, ")\n") - strpos($subject, '[request]') + 1);
+        $requestSubject = substr($requestSubject, strpos($requestSubject, "(\n"), strpos($requestSubject, ")"));
         return $this->getParamsArray($requestSubject);
     }
 
     /**
      * Define response array
      *
-     * @param $subject
+     * @param string $subject
      * @return array
      */
     protected function getResponse($subject)
     {
-        $responseSubject = substr($subject,strpos($subject,'[response]'),strpos($subject,")\n")-strpos($subject,'[request]')+1);
-        $responseSubject = substr($responseSubject,strpos($responseSubject,"(\n"),
-                                  strpos($responseSubject,")")-strpos($responseSubject,"(\n"));
+        $responseSubject = substr($subject, strpos($subject, '[response]'),
+                           strpos($subject, ")\n") - strpos($subject, '[request]') + 1);
+        $responseSubject = substr($responseSubject, strpos($responseSubject, "(\n"),
+                           strpos($responseSubject, ")") - strpos($responseSubject, "(\n"));
         return $this->getParamsArray($responseSubject);
     }
+
     /**
      * Find last record into Log File
      *
-     * @param $httpHelperPath
-     * @param $logFileName
+     * @param string $httpHelperPath
+     * @param string $logFileName
      * @return string
      */
-    protected function getLastRecord($httpHelperPath,$logFileName)
+    protected function getLastRecord($httpHelperPath, $logFileName)
     {
         $arrayResult =  file_get_contents($httpHelperPath . '?log_file_name=' . $logFileName);
-        $pathVerification = strcmp(trim($arrayResult),'Could not open File');
+        $pathVerification = strcmp(trim($arrayResult), 'Could not open File');
         if ($pathVerification == 0){
             $this->fail("Log file could not be opened");
         }
@@ -695,14 +698,15 @@ class Order_Helper extends Mage_Selenium_TestCase
 
     /**
      * 3D Secure log verification
+     *
+     * @param array $verificationData
      */
-    public function verify3DSecureLog()
+    public function verify3DSecureLog($verificationData)
     {
-        $this->frontend();
-        $fileUrl = substr(($this->_applicationHelper->getBaseUrl()), 0, -10) . 'phptest.php';
+        $baseUrl = explode("index.php", $this->_applicationHelper->getBaseUrl());
+        $fileUrl = $baseUrl[0] . 'phptest.php';
         $logFileName = 'card_validation_3d_secure.log';
-        $verificationData = $this->loadData('verification_3d_secure');
-        $result = $this->compareArraysFromLog($fileUrl,$logFileName,$verificationData['response']);
+        $result = $this->compareArraysFromLog($fileUrl, $logFileName, $verificationData['response']);
         if(is_array($result))
         {
             $this->fail("Arrays are not identical:\n" . var_export($result, true));
