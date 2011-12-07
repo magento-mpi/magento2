@@ -815,13 +815,14 @@
             hasChilds ? this.showFieldSet('pager_fieldset') : this.hideFieldSet('pager_fieldset');
 
             var currentParent = (node != undefined ? node.parentNode : this.tree.getSelectionModel().getSelectedNode());
-            var hideMenuParams = (currentParent.id != '_root');
-            this.toggleFieldset(null, 'menu_fieldset', hideMenuParams);
+            var isRootParent = (currentParent.id == '_root');
+            this.toggleFieldset(null, 'menu_fieldset', !isRootParent);
 
-            if (hideMenuParams) {
+            if (!isRootParent) {
                 $('field_menu_excluded').show();
             } else {
                 $('field_menu_excluded').hide();
+
 
                 // render List Type drop-dawn
                 if (node != undefined) {
@@ -837,11 +838,21 @@
                 this.assignNodeMetadataToValues(node);
             }
 
-            if(!hideMenuParams) {
+            if(isRootParent) {
                 this.toggleMetadataFieldset('menu_visibility', 'menu_fieldset');
             }
 
             this.toggleMetadataFieldset('pager_visibility', 'pager_fieldset');
+
+            var pagerVisibility = $('pager_visibility');
+            if (isRootParent) {
+                if (pagerVisibility.down().selected) {
+                    pagerVisibility.down(2).selected=true;
+                }
+                pagerVisibility.down().hide();
+            } else {
+                pagerVisibility.down().show();
+            }
         },
 
         addOptionToSelect: function(selectId, optionValue, optionText) {
