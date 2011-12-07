@@ -54,19 +54,41 @@ class Mage_Backup_Model_Resource_Helper_Mysql4 extends Mage_Core_Model_Resource_
      */
     public function getTableForeignKeysSql($tableName = null)
     {
+        $sql = false;
+
         if ($tableName === null) {
             $sql = '';
             foreach ($this->_foreignKeys as $table => $foreignKeys) {
-                $sql .= sprintf("ALTER TABLE %s\n  %s;\n",
-                    $this->_getReadAdapter()->quoteIdentifier($table),
-                    join(",\n  ", $foreignKeys)
-                );
+                $sql .= $this->_buildForeignKeysAlterTableSql($table, $foreignKeys);
             }
-            return $sql;
+        }
+        else if (isset($this->_foreignKeys[$tableName])) {
+            $foreignKeys = $this->_foreignKeys[$tableName];
+            $sql = $this->_buildForeignKeysAlterTableSql($tableName, $foreignKeys);
         }
 
-        return false;
+        return $sql;
     }
+
+    /**
+     * Build sql that will add foreign keys to it
+     *
+     * @param string $tableName
+     * @param array $foreignKeys
+     * @return string
+     */
+    protected function _buildForeignKeysAlterTableSql($tableName, $foreignKeys)
+    {
+        if (!is_array($foreignKeys) || empty($foreignKeys)) {
+            return '';
+        }
+
+        return sprintf("ALTER TABLE %s\n  %s;\n",
+            $this->_getReadAdapter()->quoteIdentifier($tableName),
+            join(",\n  ", $foreignKeys)
+        );
+    }
+
      /**
      * Get create script for table
      *

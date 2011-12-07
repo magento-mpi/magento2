@@ -123,7 +123,10 @@ class Mage_Backup_Model_Resource_Db
         if (!$tableName) {
             $tables = $this->getTables();
             foreach($tables as $table) {
-                $fkScript = $fkScript . Mage::getResourceHelper('backup')->getTableForeignKeysSql($table);
+                $tableFkScript = Mage::getResourceHelper('backup')->getTableForeignKeysSql($table);
+                if (!empty($tableFkScript)) {
+                    $fkScript .= "\n" . $tableFkScript;
+                }
             }
         } else {
             $fkScript = $this->getTableForeignKeysSql($tableName);
