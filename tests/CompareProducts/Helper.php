@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Magento
  *
@@ -51,8 +50,7 @@ class CompareProducts_Helper extends Mage_Selenium_TestCase
         $pageId = $this->categoryHelper()->frontSearchAndOpenPageWithProduct($productName, $categoryName);
         if (!$pageId)
             $this->fail('Could not find the product');
-        //@TODO Temporary workaround
-        $this->appendParamsDecorator($this->categoryHelper()->_paramsHelper);
+        $this->appendParamsDecorator($this->categoryHelper()->_paramsHelper); //@TODO Temporary workaround
         $this->clickControl('link', 'add_to_compare');
     }
 
@@ -66,8 +64,7 @@ class CompareProducts_Helper extends Mage_Selenium_TestCase
     public function frontAddProductToCompareFromProductPage($productName, $categoryName=null)
     {
         $this->productHelper()->frontOpenProduct($productName, $categoryName);
-        //@TODO Temporary workaround
-        $this->appendParamsDecorator($this->productHelper()->_paramsHelper);
+        $this->appendParamsDecorator($this->productHelper()->_paramsHelper); //@TODO Temporary workaround
         $this->clickControl('link', 'add_to_compare');
     }
 
@@ -79,7 +76,11 @@ class CompareProducts_Helper extends Mage_Selenium_TestCase
      */
     public function frontClearAll()
     {
-        return $this->clickControlAndConfirm('link', 'clear_all', 'confirmation_clear_all_from_compare');
+        if ($this->controlIsPresent('pageelement', 'compare_block_title')) {
+            return $this->clickControlAndConfirm('link', 'compare_clear_all', 'confirmation_clear_all_from_compare');
+        }
+        else
+            $this->fail('Compare static block is not available on this page');
     }
 
     /**
@@ -93,7 +94,7 @@ class CompareProducts_Helper extends Mage_Selenium_TestCase
     {
         $this->addParameter('productName', $productName);
         return $this->clickControlAndConfirm(
-                        'link', 'delete_product', 'confirmation_for_removing_product_from_compare');
+                        'link', 'compare_delete_product', 'confirmation_for_removing_product_from_compare');
     }
 
     /**
@@ -169,16 +170,16 @@ class CompareProducts_Helper extends Mage_Selenium_TestCase
     public function frontGetProductsListComparePopup()
     {
         $productsXPath = $this->_getControlXpath('pageelement', 'product_names');
-        $productsList = $this->getElementsText($productsXPath, "//h2[@class='product-name']");
+        $productsList = $this->getElementsText($productsXPath, "//*[@class='product-name']");
         return $productsList;
     }
 
     /**
      * Gets text for all element(s) by XPath
-     * 
+     *
      * @param string $elementsXpath General XPath of looking up element(s)
      * @param string $additionalXPath Additional XPath (by defauilt = '')
-     * 
+     *
      * @return array Array of elements text with id of element
      */
     public function getElementsText($elementsXpath, $additionalXPath = '')

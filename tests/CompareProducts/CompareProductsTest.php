@@ -81,7 +81,7 @@ class CompareProducts_CompareProductsTest extends Mage_Selenium_TestCase
      *
      * @depends setupTestDataCreateCategory
      * @param array $categoryData
-     * @return array $productsData 
+     * @return array $productsData
      *
      * @test
      */
@@ -92,8 +92,8 @@ class CompareProducts_CompareProductsTest extends Mage_Selenium_TestCase
         $this->addParameter('id', '0');
         for ($index = 0; $index < 2; $index++) {
             //Data
-            $productData = $this->loadData('compare_products_simple_product', null,
-                    array('general_name', 'general_sku'));
+            $productData = $this->loadData('compare_products_simple_product',
+                    null, array('general_name', 'general_sku'));
             $productData['categories'] = $categoryData['path'];
             //Steps
             $this->productHelper()->createProduct($productData);
@@ -123,7 +123,7 @@ class CompareProducts_CompareProductsTest extends Mage_Selenium_TestCase
         $this->compareProductsHelper()->frontAddProductToCompareFromProductPage(
                 $productsData[0]['general_name']);
         $this->assertTrue($this->successMessage('product_added_to_comparison'), $this->messages);
-        $this->assertTrue($this->controlIsPresent('link', 'product_link'),
+        $this->assertTrue($this->controlIsPresent('link', 'compare_product_link'),
                 'Product is not available in Compare widget');
         //Steps
         $this->compareProductsHelper()->frontOpenComparePopup();
@@ -155,7 +155,7 @@ class CompareProducts_CompareProductsTest extends Mage_Selenium_TestCase
             $this->compareProductsHelper()->frontAddProductToCompareFromProductPage(
                     $product['general_name']);
             $this->assertTrue($this->successMessage('product_added_to_comparison'), $this->messages);
-            $this->assertTrue($this->controlIsPresent('link', 'product_link'),
+            $this->assertTrue($this->controlIsPresent('link', 'compare_product_link'),
                     'Product is not available in Compare widget');
         }
         //Steps
@@ -163,7 +163,7 @@ class CompareProducts_CompareProductsTest extends Mage_Selenium_TestCase
         $this->addParameter('productName', $productsData[0]['general_name']);
         //Verify
         $this->assertTrue($this->successMessage('product_removed_from_comparison'), $this->messages);
-        $this->assertFalse($this->controlIsPresent('link', 'product_link'),
+        $this->assertFalse($this->controlIsPresent('link', 'compare_product_link'),
                 'There is unexpected product in Compare Products widget');
         $this->compareProductsHelper()->frontOpenComparePopup();
         $this->assertFalse($this->controlIsPresent('link', 'product_title'),
@@ -190,13 +190,13 @@ class CompareProducts_CompareProductsTest extends Mage_Selenium_TestCase
         $this->compareProductsHelper()->frontAddProductToCompareFromProductPage(
                 $productsData[0]['general_name']);
         $this->assertTrue($this->successMessage('product_added_to_comparison'), $this->messages);
-        $this->assertTrue($this->controlIsPresent('link', 'product_link'),
+        $this->assertTrue($this->controlIsPresent('link', 'compare_product_link'),
                 'Product is not available in Compare widget');
         //Steps
         $this->compareProductsHelper()->frontClearAll();
         $this->assertTrue($this->successMessage('compare_list_cleared'), $this->messages);
         //Verify
-        $this->assertTrue($this->controlIsPresent('pageelement', 'empty_comapre_block'),
+        $this->assertTrue($this->controlIsPresent('pageelement', 'compare_block_empty'),
                 'There is unexpected product(s) in Compare Products widget');
     }
 
@@ -218,12 +218,13 @@ class CompareProducts_CompareProductsTest extends Mage_Selenium_TestCase
      */
     public function addProductsToCompareListFromCatalogPage($productsData, $categoryData)
     {
+        $categoryName = $categoryData['name'];
         //Setup
         foreach ($productsData as $product) {
             $this->compareProductsHelper()->frontAddProductToCompareFromCatalogPage(
-                    $product['general_name'], $categoryData['name']);
+                    $product['general_name'], $categoryName);
             $this->assertTrue($this->successMessage('product_added_to_comparison'), $this->messages);
-            $this->assertTrue($this->controlIsPresent('link', 'product_link'),
+            $this->assertTrue($this->controlIsPresent('link', 'compare_product_link'),
                     'Product is not available in Compare widget');
         }
         //Steps

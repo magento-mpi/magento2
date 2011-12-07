@@ -161,13 +161,15 @@ product_page:
                     compare_products: &compareProducts
                         xpath: //div[@class[contains(.,'block-compare')] and */ol[@id='compare-items']]
                         links:
-                          clear_all: //a[text()='Clear All']
-                          delete_product: //li[p='%productName%']/a
-                          product_link: //ol[@id='compare-items']//a[text()='%productName%']
+                          compare_clear_all: //a[text()='Clear All']
+                          compare_delete_product: //li[p='%productName%']/a
+                          compare_product_link: //ol[@id='compare-items']//a[text()='%productName%']
                         buttons:
                           compare: //button[@title='Compare']
                         pageelements:
-                          empty_comapre_block: //p[text()='You have no items to compare.']
+                          compare_block_empty: //p[text()='You have no items to compare.']
+                          compare_block_title: //div[@class='block-title' and contains(. /strong/span, 'Compare Products')]
+
         messages: &productMessages
             tag_accepted_success: //li[normalize-space(@class)='success-msg' and contains(.,'%tagQty% tag(s) have been accepted for moderation.')]
             product_added_to_comparison: //li[normalize-space(@class)='success-msg' and contains(.,'The product %productName% has been added to comparison list.')]
