@@ -52,25 +52,6 @@
                 </observers>
             </admin_system_config_changed_section_feed>
         </events>
-        <acl>
-            <resources>
-                <admin>
-                    <children>
-                        <system>
-                            <children>
-                                <config>
-                                    <children>
-                                        <feed>
-                                            <title>Feed</title>
-                                        </feed>
-                                    </children>
-                                </config>
-                            </children>
-                        </system>
-                    </children>
-                </admin>
-            </resources>
-        </acl>
         <layout>
             <updates>
                 <find_feed module="Find_Feed">

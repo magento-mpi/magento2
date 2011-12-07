@@ -71,7 +71,7 @@ class Integrity_DeprecatesTest extends Magento_Test_TestCase_VisitorAbstract
     {
         $directory  = new RecursiveDirectoryIterator(Mage::getRoot());
         $iterator = new RecursiveIteratorIterator($directory);
-        $regexIterator = new RegexIterator($iterator, '/(\.php|\.phtml|\.xml|\.js)$/');
+        $regexIterator = new RegexIterator($iterator, '/(\.php|\.phtml|\.xml|\.js|\.xml)$/');
 
         $result = array();
         foreach ($regexIterator as $fileInfo) {
@@ -359,6 +359,41 @@ class Integrity_DeprecatesTest extends Magento_Test_TestCase_VisitorAbstract
                 )
             );
         }
+        return $result;
+    }
+
+    /**
+     * Finds usage of deprecated definition of acl and menu in module's config.xml
+     *
+     * @param SplFileInfo $fileInfo
+     * @param string $content
+     * @return array
+     */
+    protected function _visitMenuAndAcl($fileInfo, $content)
+    {
+        if ($fileInfo->getFilename() != 'config.xml') {
+            return array();
+        }
+
+        $config = new SimpleXMLElement($content);
+
+        if ($config->xpath('/config/adminhtml/menu')) {
+            $result[] = array(
+                'description' => 'deprecated menu definition',
+                'needle' => 'adminhtml/menu',
+                'suggestion' => 'move it to adminhtml.xml'
+            );
+        }
+
+        $result = array();
+        if ($config->xpath('/config/adminhtml/acl')) {
+            $result[] = array(
+                'description' => 'deprecated acl definition',
+                'needle' => 'adminhtml/acl',
+                'suggestion' => 'move it to adminhtml.xml'
+            );
+        }
+
         return $result;
     }
 }
