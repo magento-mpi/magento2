@@ -208,6 +208,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
         $pagerFieldset->addField('pager_frame', 'text', array(
             'name'      => 'pager_frame',
             'label'     => Mage::helper('enterprise_cms')->__('Frame'),
+            'class'     => 'validate-digits',
             'onchange'  => 'hierarchyNodes.nodeChanged()',
             'container_id' => 'field_pager_frame',
             'note'      => Mage::helper('enterprise_cms')->__('How many Links to display at once'),
@@ -216,6 +217,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
         $pagerFieldset->addField('pager_jump', 'text', array(
             'name'      => 'pager_jump',
             'label'     => Mage::helper('enterprise_cms')->__('Frame Skip'),
+            'class'     => 'validate-digits',
             'onchange'  => 'hierarchyNodes.nodeChanged()',
             'container_id' => 'field_pager_jump',
             'note'      => Mage::helper('enterprise_cms')->__('If the Current Frame Position does not cover Utmost Pages, will render Link to Current Position plus/minus this Value'),
@@ -271,6 +273,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
         $menuFieldset->addField('menu_levels_down', 'text', array(
             'name'      => 'menu_levels_down',
             'label'     => Mage::helper('enterprise_cms')->__('Maximal Depth'),
+            'class'     => 'validate-digits',
             'onchange'  => 'hierarchyNodes.nodeChanged()',
             'container_id' => 'field_menu_levels_down',
             'note'      => Mage::helper('enterprise_cms')->__('Node Levels to Include'),
