@@ -100,6 +100,7 @@
             this.createNodes();
             this.tree.getSelectionModel().addListener('selectionchange', this.onNodeSelect.bind(this));
             this.tree.addListener('beforeappend', this.onNodeAppend.bind(this));
+            this.tree.addListener('beforenodedrop', this.onNodeMove.bind(this));
             this.tree.render();
             this.treeRoot.select();
             this.dataModification = false;
@@ -317,6 +318,9 @@
         },
 
         onNodeAppend: function(tree,parent,node){
+            if (!parent || !node) {
+                return false;
+            }
             var identifier = node.attributes.identifier;
             for(var i=0, l = parent.childNodes.length; i < l; i++) {
                 if (identifier == parent.childNodes[i].attributes.identifier) {
@@ -325,6 +329,12 @@
                 }
             }
             return true;
+        },
+
+        onNodeMove: function(e){
+            if (e.point == "above" || e.point == "below") {
+                return this.onNodeAppend(e.tree, e.target.parentNode, e.dropNode)
+            }
         },
 
         pageGridRowClick: function(container, evt){
