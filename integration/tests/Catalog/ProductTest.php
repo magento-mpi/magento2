@@ -69,30 +69,21 @@ class Catalog_ProductTest extends Magento_Test_Webservice
         //test new product exists in DB
         $product = new Mage_Catalog_Model_Product();
         $product->load($id);
+        $this->setFixture('productId', $product->getId());
         $this->assertNotNull($product->getId(), 'Tested product not found.');
 
-        try {
-            $result = $this->call('catalog_product.info',
-                array(
-                    'productId' => $data['create']['sku'],
-                    'store' => 0, //default 0
-                    'attributes' => '',
-                    'identifierType' => 'sku',
-                )
-            );
-        } catch (Exception $e) {
-            //delete tested entry
-            $this->modelCallDelete($product, true);
-            throw $e;
-        }
-
-        //delete tested entry
-        $this->modelCallDelete($product, true);
-
-        $this->assertTrue(
-            is_array($result) && $id == $result['product_id'],
-            'Product cannot be load by SKU which is numeric.'
+        $result = $this->call('catalog_product.info',
+            array(
+                'productId' => $data['create']['sku'],
+                'store' => 0, //default 0
+                'attributes' => '',
+                'identifierType' => 'sku',
+            )
         );
+
+        $this->assertInternalType('array', $result, 'Response is not an array');
+        $this->assertArrayHasKey('product_id', $result, 'Response array does not have "product_id" key');
+        $this->assertEquals($id, $result['product_id'], 'Product cannot be load by SKU which is numeric');
     }
 
     /**
