@@ -124,7 +124,7 @@ class Rating_DeleteTest extends Mage_Selenium_TestCase
         $text = trim($this->getText($xpath));
         if (strcmp(trim($storeView), $text) != 0) {
             $this->fillForm(array('your_language' => $storeView));
-            $this->waitForPageToLoad();
+            $this->waitForPageToLoad($this->_browserTimeoutPeriod);
         }
         $this->productHelper()->frontOpenProduct($product['general_name']);
         $this->addParameter('productId', NULL);
@@ -145,7 +145,7 @@ class Rating_DeleteTest extends Mage_Selenium_TestCase
         $text = trim($this->getText($xpath));
         if (strcmp(trim($storeView), $text) != 0) {
             $this->fillForm(array('your_language' => $storeView));
-            $this->waitForPageToLoad();
+            $this->waitForPageToLoad($this->_browserTimeoutPeriod);
         }
         $this->productHelper()->frontOpenProduct($product['general_name']);
         $this->addParameter('productId', NULL);

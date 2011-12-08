@@ -187,7 +187,8 @@ class Tags_Helper extends Mage_Selenium_TestCase
             $storeId = $this->getAttribute($toSelect . '/@value');
             $this->addParameter('storeId', $storeId);
             $this->fillForm(array('switch_store' => $store_view_name));
-            $this->waitForPageToLoad();
+            $this->waitForPageToLoad($this->_browserTimeoutPeriod);
+            $this->validatePage();
         }
     }
 

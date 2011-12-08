@@ -56,7 +56,8 @@ class SystemConfiguration_Helper extends Mage_Selenium_TestCase
             if (!$this->isElementPresent($isSelected)) {
                 $this->defineParameters($toSelect, 'url');
                 $this->fillForm(array('current_configuration_scope' => $chooseScope));
-                $this->waitForPageToLoad();
+                $this->waitForPageToLoad($this->_browserTimeoutPeriod);
+                $this->validatePage();
             }
         }
         foreach ($parameters as $key => $value) {

@@ -65,7 +65,7 @@ class CheckoutOnePage_Helper extends Mage_Selenium_TestCase
         $this->clickButton('place_order', false);
         $this->waitForAjax();
         $this->assertTrue($this->verifyNotPresetAlert(), $this->getParsedMessages());
-        $this->waitForPageToLoad();
+        $this->waitForPageToLoad($this->_browserTimeoutPeriod);
         $this->validatePage('onepage_checkout_success');
 
         $xpath = $this->_getControlXpath('link', 'order_number');

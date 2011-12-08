@@ -90,7 +90,7 @@ class CmsWidgets_Helper extends Mage_Selenium_TestCase
         if ($this->isAlertPresent()) {
             $this->fail($this->getAlert());
         }
-        $this->waitForPageToLoad();
+        $this->waitForPageToLoad($this->_browserTimeoutPeriod);
         $this->validatePage('add_widget_options');
     }
 

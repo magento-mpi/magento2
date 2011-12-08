@@ -103,7 +103,7 @@ class Store_Helper extends Mage_Selenium_TestCase
             //Open element
             $this->openWindow($url, 'edit');
             $this->selectWindow('name=edit');
-            $this->waitForPageToLoad();
+            $this->waitForPageToLoad($this->_browserTimeoutPeriod);
             $this->validatePage('edit_' . $element);
             //Searching a necessary element
             if ($this->verifyForm($storeData)) {

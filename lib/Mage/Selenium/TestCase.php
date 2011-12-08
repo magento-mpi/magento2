@@ -1465,7 +1465,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         if ($waitAjax) {
             $this->pleaseWait();
         } else {
-            $this->waitForPageToLoad();
+            $this->waitForPageToLoad($this->_browserTimeoutPeriod);
             $this->validatePage();
         }
 
@@ -1989,7 +1989,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                 $text = $this->getAlert();
                 $this->fail($text);
             }
-            $this->waitForPageToLoad();
+            $this->waitForPageToLoad($this->_browserTimeoutPeriod);
             $this->validatePage('cache_storage_management');
         }
     }
@@ -2023,7 +2023,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                 $text = $this->getAlert();
                 $this->fail($text);
             }
-            $this->waitForPageToLoad();
+            $this->waitForPageToLoad($this->_browserTimeoutPeriod);
             $this->validatePage('index_management');
         }
     }
