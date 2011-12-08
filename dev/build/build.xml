@@ -19,10 +19,10 @@
 
     <!-- delete files, that don't belong to Community Edition, from working copy -->
     <target name="prepare-ce">
-        <property name="dir.extruder" location="${basedir}/dev/build/extruder"/>
+        <property name="dir.extruder" location="${basedir}/dev/build/publication/extruder"/>
         <exec executable="php" failonerror="true">
             <arg line="-f ${dir.extruder}/extruder.php -w ${basedir}
-                -l ${dir.extruder}/common_tests.txt -l ${dir.extruder}/ce.txt -v -s git
+                -l ${dir.extruder}/common.txt -l ${dir.extruder}/ce.txt -v
                 "/>
         </exec>
     </target>
