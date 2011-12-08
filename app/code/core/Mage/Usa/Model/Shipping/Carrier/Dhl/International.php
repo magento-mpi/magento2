@@ -683,4 +683,16 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
         }
         return isset($countryParams) ? $countryParams : new Varien_Object();
     }
+
+    /**
+     * Do shipment request to carrier web service, obtain Print Shipping Labels and process errors in response
+     *
+     * @param Varien_Object $request
+     * @return Varien_Object
+     */
+    protected function _doShipmentRequest(Varien_Object $request)
+    {
+        return $request;
+    }
+
 }
