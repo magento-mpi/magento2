@@ -88,9 +88,9 @@ edit_cms_static_block:
                     simple_editor:
                         xpath: //div[@id='buttonsblock_content']/parent::td
                         buttons:
-                            editor_insert_widget: "//button[@class='scalable add-widget plugin' and not(@style='display: none;')]"
-                            editor_insert_image: "//button[@class='scalable add-image plugin' and not(@style='display: none;')]"
-                            editor_insert_variable: "//button[@class='scalable add-variable plugin' and not(@style='display: none;')]"
+                            insert_widget: "//button[@class='scalable add-widget plugin' and not(@style='display: none;')]"
+                            insert_image: "//button[@class='scalable add-image plugin' and not(@style='display: none;')]"
+                            insert_variable: "//button[@class='scalable add-variable plugin' and not(@style='display: none;')]"
                         fields:
                             simple_editor_content: "//textarea[@name='content' and not(contains(@style,'display: none;'))]"
                             simple_editor_disabled: "//textarea[@name='content' and contains(@style,'display: none;')]"
@@ -100,8 +100,8 @@ edit_cms_static_block:
                     wysiwyg_editor_buttons:
                         xpath: //span[@id='block_content_parent']
                         links:
-                            wysiwyg_insert_widget: //a[@id='block_content_magentowidget']
-                            wysiwyg_insert_variable: //a[@id='block_content_magentovariable']
+                            wysiwyg_insert_widget: //a[@id='block_content_magentowidget']/img
+                            wysiwyg_insert_variable: //a[@id='block_content_magentovariable']/img
 
                 -
 #                   TODO: add elements if needed

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Magento
  *
@@ -40,131 +41,32 @@ class CmsStaticBlocks_Helper extends Mage_Selenium_TestCase
      * Create a new static block.
      * Uses a simple editor only.
      *
-     * @param array $blockData
+     * @param array|string $blockData
      */
     public function createStaticBlock(array $blockData)
     {
-        $blockData = $this->arrayEmptyClear($blockData);
-        $content = (isset($blockData['content'])) ? $blockData['content'] : NULL;
-        $this->clickButton('add_new_block');
-        if ($blockData) {
-            $this->fillGeneralInfo($blockData);
+        if (is_string($blockData)) {
+            $blockData = $this->loadData($blockData);
         }
+        $blockData = $this->arrayEmptyClear($blockData);
+        $content = (isset($blockData['content'])) ? $blockData['content'] : array();
+        $this->clickButton('add_new_block');
+        if (array_key_exists('store_view', $blockData) && !$this->controlIsPresent('multiselect', 'store_view')) {
+            unset($pageInfo['store_view']);
+        }
+        $this->fillForm($blockData);
         if ($content) {
-            $this->fillContent($content);
+            $widgetsData = (isset($content['widgets'])) ? $content['widgets'] : array();
+            $variableData = (isset($content['variables'])) ? $content['variables'] : array();
+
+            foreach ($widgetsData as $widget) {
+                $this->cmsPagesHelper()->insertWidget($widget);
+            }
+            foreach ($variableData as $variable) {
+                $this->cmsPagesHelper()->insertVariable($variable);
+            }
         }
         $this->saveForm('save_block');
-    }
-
-    /**
-     * Enables simple editor
-     *
-     * @return type
-     */
-    public function enableSimpleEditor()
-    {
-        if ($this->controlIsPresent('field', 'rich_editor')) {
-            $this->clickButton('show_hide_editor', FALSE);
-        } elseif ($this->controlIsPresent('field', 'simple_editor_content')
-                && !$this->controlIsPresent('field', 'rich_editor')) {
-            return;
-        } else {
-            $this->fail('Cannot turn on simple editor');
-        }
-    }
-
-    /**
-     * Fills General Information
-     *
-     * @param array $generalInfo
-     */
-    public function fillGeneralInfo(array $generalInfo)
-    {
-        if ($this->controlIsPresent('multiselect', 'store_view')) {
-            if (!array_key_exists('store_view', $generalInfo)) {
-                $generalInfo['store_view'] = 'All Store Views';
-            }
-        } elseif (!$this->controlIsPresent('multiselect', 'store_view')) {
-            if (array_key_exists('store_view', $generalInfo)) {
-                unset($generalInfo['store_view']);
-            }
-        }
-        $this->fillForm($generalInfo);
-    }
-
-    /**
-     * Fills Content tab
-     *
-     * @param string|array $content
-     */
-    public function fillContent($content)
-    {
-        if (is_string($content)) {
-            $content = $this->loadData($content);
-        }
-        $content = $this->arrayEmptyClear($content);
-        $this->fillForm($content);
-        if (array_key_exists('widgets', $content)) {
-            $this->addWidgets($content['widgets']);
-        }
-        if (array_key_exists('variables', $content)) {
-            $this->addVariables($content['variables']);
-        }
-    }
-
-    /**
-     * Adds a widget
-     *
-     * @param type $widgets
-     */
-    public function addWidgets($widgets)
-    {
-        $this->enableSimpleEditor();
-        foreach ($widgets as $key => $value) {
-            $options = (isset($value['chosen_option'])) ? $value['chosen_option'] : null;
-            $this->clickButton('editor_insert_widget', FALSE);
-            $this->waitForAjax();
-            $this->fillForm($value);
-            if ($options) {
-                $this->cmsWidgetsHelper()->fillSelectOption($options);
-            }
-            $this->clickButton('submit_widget_insert', FALSE);
-            // Check there are no validation errors on the page
-            $this->assertFalse($this->validationMessage('widget_validation_message'), $this->messages);
-            $this->waitForAjax();
-        }
-    }
-
-//    /**
-//     * Adds an image
-//     *
-//     * @param type $images
-//     */
-//    public function addImages($images)
-//    {
-//        if (!$this->buttonIsPresent('editor_insert_image') && $this->buttonIsPresent('show_hide_editor')) {
-//            $this->clickButton('show_hide_editor', false);
-//        }
-//        //@TODO. Flash buttons cannot be supported now.
-//    }
-
-    /**
-     * Adds a variable
-     *
-     * @param array $variables Array of variable names
-     */
-    public function addVariables(array $variables)
-    {
-        $this->enableSimpleEditor();
-        foreach ($variables as $variableName) {
-            $this->addParameter('variableName', $variableName);
-            if (!$this->buttonIsPresent('editor_insert_variable') && $this->buttonIsPresent('show_hide_editor')) {
-                $this->clickButton('show_hide_editor', false);
-            }
-            $this->clickButton('editor_insert_variable', false);
-            $this->waitForAjax();
-            $this->clickControl('link', 'variable', false);
-        }
     }
 
     /**
@@ -174,25 +76,17 @@ class CmsStaticBlocks_Helper extends Mage_Selenium_TestCase
      */
     public function openStaticBlock(array $searchData)
     {
-        $searchData = $this->arrayEmptyClear($searchData);
-        // Check if store views are available
-        $key = 'filter_store_view';
-        if (array_key_exists($key, $searchData)) {
-            if (!$this->controlIsPresent('dropdown', 'store_view')) {
-                unset($searchData[$key]);
-            }
+        $searchPage = $this->arrayEmptyClear($searchPage);
+        if (array_key_exists('filter_store_viev', $searchPage)
+                && !$this->controlIsPresent('dropdown', 'filter_store_viev')) {
+            unset($searchPage['filter_store_viev']);
         }
-        // Search and open
-        $this->navigate('manage_cms_static_blocks');
-        $xpathTR = $this->search($searchData, 'static_blocks_grid');
-        $this->assertNotEquals(null, $xpathTR, 'Static Block ' . implode(',', $searchData) . ' is not found');
-        $names = $this->shoppingCartHelper()->getColumnNamesAndNumbers('static_block_grid_head', false);
-        if (array_key_exists('Title', $names)) {
-            $text = $this->getText($xpathTR . '//td[' . $names['Title'] . ']');
-            $this->addParameter('blockName', $text);
-        }
+        $xpathTR = $this->search($searchPage, 'static_blocks_grid');
+        $this->assertNotEquals(NULL, $xpathTR, 'Static Block is not found');
+        $key = array_search('Title', $this->getTableHeadRowNames()) + 1;
+        $this->addParameter('blockName', $this->getText($xpathTR . '//td[' . $key . ']'));
         $this->addParameter('id', $this->defineIdFromTitle($xpathTR));
-        $this->click($xpathTR . '//td[' . $names['Title'] . ']');
+        $this->click($xpathTR);
         $this->waitForPageToLoad($this->_browserTimeoutPeriod);
         $this->validatePage();
     }

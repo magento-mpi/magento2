@@ -41,6 +41,7 @@ manage_cms_pages:
                         dropdowns:
                             view_per_page: //select[@name='limit']
                             filter_layout: //select[@name='root_template']
+                            filter_store_viev: //select[@name='store_id']
                             filter_status: //select[@name='is_active']
                         fields:
                             page: //input[@name='page']
@@ -54,11 +55,16 @@ manage_cms_pages:
                             preview: //a[contains(@href, '%url%')]
                         pageelements:
                             page_grid_head: //div[@id='cmsPageGrid']//thead/tr[@class='headings']
-            buttons:
-                add_new_page: //button[span='Add New Page']
-            messages:
-                successfully_saved_page: //li[normalize-space(@class)='success-msg' and contains(.,'The page URL key cannot consist only of numbers.')]
-                successfully_deleted_page: //li[normalize-space(@class)='success-msg' and contains(.,'The page has been deleted.')]
+        buttons:
+            add_new_page: //button[span='Add New Page']
+        messages: &pageMessages
+            success_saved_cms_page: //li[normalize-space(@class)='success-msg' and contains(.,'The page has been saved.')]
+            success_deleted_cms_page: //li[normalize-space(@class)='success-msg' and contains(.,'The page has been deleted.')]
+            invalid_url_key_with_numbers_only: //li[normalize-space(@class)='error-msg' and contains(.,'The page URL key cannot consist only of numbers.')]
+            existing_url_key: //li[normalize-space(@class)='error-msg' and contains(.,'A page URL key for specified store already exists.')]
+            invalid_urk_key_spec_sym: "//div[@id='advice-validate-identifier-%fieldId%' and not(contains(@style,'display: none;'))]"
+            empty_required_field: "//div[@id='advice-required-entry-%fieldId%' and not(contains(@style,'display: none;'))]"
+            confirmation_for_delete: Are you sure you want to do this?
 
 create_cms_page:
     mca: cms_page/new/
@@ -84,6 +90,13 @@ create_cms_page:
                     content:
                         xpath: //a[@title='Content']
                         fieldsets:
+                            -
+                                #TODO: add elements if needed
+                                wysiwyg_editor_buttons:
+                                    xpath: //span[@id='block_content_parent']
+                                    links:
+                                        wysiwyg_insert_widget: //a[@id='page_content_magentowidget']/img
+                                        wysiwyg_insert_variable: //a[@id='page_content_magentovariable']/img
                             -
                                 content_fieldset:
                                     xpath: //div[@id='page_tabs_content_section_content']
@@ -229,34 +242,36 @@ create_cms_page:
                                     fields:
                                         keywords: //textarea[@name='meta_keywords']
                                         description: //textarea[@name='meta_description']
-        buttons: &pageButtons
+        buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
             save_page: //button[span='Save Page']
             save_and_continue_edit: //button[span='Save and Continue Edit']
-            delete_page: //button[span='Delete Page']
-        messages: &pageMessages
-            invalid_url_key_with_numbers_only: //li[normalize-space(@class)='error-msg' and contains(.,'The page URL key cannot consist only of numbers.')]
-            existing_url_key: //li[normalize-space(@class)='error-msg' and contains(.,'A page URL key for specified store already exists.')]
-            invalid_urk_key_spec_sym: "//div[@id='advice-validate-identifier-%fieldId%' and not(contains(@style,'display: none;'))]"
-            empty_required_field: "//div[@id='advice-required-entry-%fieldId%' and not(contains(@style,'display: none;'))]"
-            confirmation_for_delete: Are you sure you want to do this?
+        messages: *pageMessages
 
 create_cms_page_with_sharp:
     mca: cms_page/new/#
     title: New Page / Manage Content / Pages / CMS / Magento Admin
     uimap:
         form: *createPage
-        buttons: *pageButtons
+        buttons:
+            back: //button[span='Back']
+            reset: //button[span='Reset']
+            save_page: //button[span='Save Page']
+            save_and_continue_edit: //button[span='Save and Continue Edit']
         messages: *pageMessages
-
 
 edit_cms_page:
     mca: cms_page/edit/page_id/%id%/
     title: %pageName% / Manage Content / Pages / CMS / Magento Admin
     uimap:
         form: *createPage
-        buttons: *pageButtons
+        buttons:
+            back: //button[span='Back']
+            reset: //button[span='Reset']
+            save_page: //button[span='Save Page']
+            save_and_continue_edit: //button[span='Save and Continue Edit']
+            delete_page: //button[span='Delete Page']
         messages: *pageMessages
 
 error_cms_page:
@@ -264,5 +279,10 @@ error_cms_page:
     title: New Page / Manage Content / Pages / CMS / Magento Admin
     uimap:
         form: *createPage
-        buttons: *pageButtons
+        buttons:
+            back: //button[span='Back']
+            reset: //button[span='Reset']
+            save_page: //button[span='Save Page']
+            save_and_continue_edit: //button[span='Save and Continue Edit']
+            delete_page: //button[span='Delete Page']
         messages: *pageMessages

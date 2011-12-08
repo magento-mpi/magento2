@@ -48,17 +48,19 @@ class CmsWidgets_Helper extends Mage_Selenium_TestCase
             $widgetData = $this->loadData($widgetData);
         }
         $widgetData = $this->arrayEmptyClear($widgetData);
-        $settings = (isset($widgetData['settings'])) ? $widgetData['settings'] : NULL;
-        $frontProperties = (isset($widgetData['frontend_properties'])) ? $widgetData['frontend_properties'] : NULL;
-        $layoutUpdates = (isset($widgetData['layout_updates'])) ? $widgetData['layout_updates'] : NULL;
-        $widgetOptions = (isset($widgetData['widget_options'])) ? $widgetData['widget_options'] : NULL;
-        if ($settings) {
-            $this->clickButton('add_new_widget_instance');
-            $this->fillSettings($settings);
+        $settings = (isset($widgetData['settings'])) ? $widgetData['settings'] : array();
+        $frontProperties = (isset($widgetData['frontend_properties'])) ? $widgetData['frontend_properties'] : array();
+        $layoutUpdates = (isset($widgetData['layout_updates'])) ? $widgetData['layout_updates'] : array();
+        $widgetOptions = (isset($widgetData['widget_options'])) ? $widgetData['widget_options'] : array();
+
+        $this->clickButton('add_new_widget_instance');
+        $this->fillWidgetSettings($settings);
+        if (array_key_exists('assign_to_store_views', $frontProperties)
+                && !$this->controlIsPresent('multiselect', 'assign_to_store_views')) {
+            unset($frontProperties['assign_to_store_views']);
         }
-        if ($frontProperties) {
-            $this->fillProperties($frontProperties);
-        }
+        $this->fillForm($frontProperties, 'frontend_properties');
+
         if ($layoutUpdates) {
             $this->fillLayoutUpdates($layoutUpdates);
         }
@@ -69,45 +71,27 @@ class CmsWidgets_Helper extends Mage_Selenium_TestCase
     }
 
     /**
-     * Fills frontend properties
-     *
-     * @param array $frontProperties
-     */
-    public function fillProperties(array $frontProperties, $validate = FALSE)
-    {
-        $xpath = $this->_getControlXpath('multiselect', 'assign_to_store_views');
-        if ($this->isElementPresent($xpath) && $validate == FALSE) {
-            if (!array_key_exists('assign_to_store_views', $frontProperties)) {
-                $frontProperties['assign_to_store_views'] = 'All Store Views';
-            }
-        } elseif (!$this->isElementPresent($xpath) && $validate == FALSE) {
-            if (array_key_exists('assign_to_store_views', $frontProperties)) {
-                unset($frontProperties['assign_to_store_views']);
-            }
-        }
-        $this->fillForm($frontProperties);
-    }
-
-    /**
      * Fills settings for creating widget
      *
-     * @param string|array $settings
+     * @param array $settings
      */
-    public function fillSettings($settings)
+    public function fillWidgetSettings(array $settings)
     {
-        if (is_string($settings)) {
-            $settings = $this->loadData($settings);
-            $settings = $this->arrayEmptyClear($settings);
+        if ($settings) {
+            $xpath = $this->_getControlXpath('dropdown', 'type');
+            $type = $this->getValue($xpath . '/option[text()="' . $settings['type'] . '"]');
+            $this->addParameter('type', str_replace('/', '-', $type));
+            $packageTheme = array_map('trim', (explode('/', $settings['design_package_theme'])));
+            $this->addParameter('package', $packageTheme[0]);
+            $this->addParameter('theme', $packageTheme[1]);
+            $this->fillForm($settings);
         }
-        $xpath = $this->_getControlXpath('dropdown', 'type');
-        $type = $this->getValue($xpath . '/option[text()="' . $settings['type'] . '"]');
-        $type = str_replace('/', '-', $type);
-        $this->addParameter('type', $type);
-        $packageTheme = array_map('trim', (explode('/', $settings['design_package_theme'])));
-        $this->addParameter('package', $packageTheme[0]);
-        $this->addParameter('theme', $packageTheme[1]);
-        $this->fillForm($settings);
-        $this->clickButton('continue');
+        $this->clickButton('continue', false);
+        if ($this->isAlertPresent()) {
+            $this->fail($this->getAlert());
+        }
+        $this->waitForPageToLoad();
+        $this->validatePage('add_widget_options');
     }
 
     /**
@@ -115,12 +99,8 @@ class CmsWidgets_Helper extends Mage_Selenium_TestCase
      *
      * @param string|array $layoutData
      */
-    public function fillLayoutUpdates($layoutData)
+    public function fillLayoutUpdates(array $layoutData)
     {
-        if (is_string($layoutData)) {
-            $layoutData = $this->loadData($layoutData);
-            $layoutData = $this->arrayEmptyClear($layoutData);
-        }
         $count = 0;
         foreach ($layoutData as $key => $value) {
             $this->clickButton('add_layout_update', FALSE);
@@ -173,71 +153,14 @@ class CmsWidgets_Helper extends Mage_Selenium_TestCase
     /**
      * Fills "Widget Options" tab
      *
-     * @param string|array $widgetOptions
+     * @param array $widgetOptions
      */
-    public function fillWidgetOptions($widgetOptions)
+    public function fillWidgetOptions(array $widgetOptions)
     {
-        if (is_string($widgetOptions)) {
-            $widgetOptions = $this->loadData($widgetOptions);
-        }
-        $widgetOptions = $this->arrayEmptyClear($widgetOptions);
         $options = (isset($widgetOptions['chosen_option'])) ? $widgetOptions['chosen_option'] : null;
         $this->fillForm($widgetOptions, 'widgets_options');
         if ($options) {
-            $this->fillSelectOption($options);
-        }
-
-    }
-
-    /**
-     * Fills selections for widgets
-     *
-     * @param array $options
-     */
-    public function fillSelectOption(array $options)
-    {
-        $rowNames = array('Title', 'Product Name');
-        $this->clickButton('select_option', FALSE);
-        $this->pleaseWait();
-        $title = 'Not Selected';
-        if (array_key_exists('category_path', $options)) {
-            $this->addParameter('param', "//div[@id='widget-chooser_content']");
-            $nodes = explode('/', $options['category_path']);
-            $title = end($nodes);
-            $this->categoryHelper()->selectCategory($options['category_path']);
-            $this->waitForAjax();
-            unset($options['category_path']);
-        }
-        if (count($options) > 0) {
-            $xpathTR = $this->search($options);
-            $this->assertNotEquals(null, $xpathTR, 'Element is not found');
-            $names = $this->shoppingCartHelper()->getColumnNamesAndNumbers('product_table_head', false);
-            foreach ($rowNames as $value) {
-                if (array_key_exists($value, $names)) {
-                    if ($title == 'Not Selected') {
-                        $title = $this->getText($xpathTR . '//td[' . $names[$value] . ']');
-                    } else {
-                        $title = $title . ' / ' . $this->getText($xpathTR . '//td[' . $names[$value] . ']');
-                    }
-                    break;
-                }
-            }
-            $this->click($xpathTR);
-        }
-        $this->checkChosenOption($title);
-    }
-
-    /**
-     * Checks if the inserted item is correct
-     *
-     * @param string $option
-     */
-    public function checkChosenOption($option)
-    {
-        $this->addParameter('elementName', $option);
-        $xpathOption = $this->_getControlXpath('pageelement', 'chosen_option');
-        if (!$this->isElementPresent($xpathOption)) {
-            $this->fail('The element ' . $option . ' was not selected');
+            $this->cmsPagesHelper()->selectOptionItem($options);
         }
     }
 
@@ -248,14 +171,11 @@ class CmsWidgets_Helper extends Mage_Selenium_TestCase
      */
     public function openWidget(array $searchWidget)
     {
-        $this->_prepareDataForSearch($searchWidget);
+        $searchWidget = $this->arrayEmptyClear($searchWidget);
         $xpathTR = $this->search($searchWidget, 'cms_widgets_grid');
         $this->assertNotEquals(NULL, $xpathTR, 'Widget is not found');
-        $names = $this->shoppingCartHelper()->getColumnNamesAndNumbers('widget_grid_head', FALSE);
-        if (array_key_exists('Widget Instance Title', $names)) {
-            $text = $this->getText($xpathTR . '//td[' . $names['Widget Instance Title'] . ']');
-            $this->addParameter('widgetName', $text);
-        }
+        $key = array_search('Widget Instance Title', $this->getTableHeadRowNames()) + 1;
+        $this->addParameter('widgetName', $this->getText($xpathTR . '//td[' . $key . ']'));
         $this->addParameter('id', $this->defineIdFromTitle($xpathTR));
         $this->click($xpathTR);
         $this->waitForPageToLoad($this->_browserTimeoutPeriod);
@@ -269,11 +189,8 @@ class CmsWidgets_Helper extends Mage_Selenium_TestCase
      */
     public function deleteWidget(array $searchWidget)
     {
-        $searchWidget = $this->arrayEmptyClear($searchWidget);
-        if (!empty($searchWidget)) {
-            $this->openWidget($searchWidget);
-            $this->clickButtonAndConfirm('delete', 'confirmation_for_delete');
-            $this->assertTrue($this->checkMessage('successfully_deleted_widget'), 'The widget has not been deleted');
-        }
+        $this->openWidget($searchWidget);
+        $this->clickButtonAndConfirm('delete', 'confirmation_for_delete');
     }
+
 }

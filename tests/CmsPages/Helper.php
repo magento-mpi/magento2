@@ -42,20 +42,25 @@ class CmsPages_Helper extends Mage_Selenium_TestCase
      *
      * @param string|array $pageData
      */
-    public function createPage($pageData)
+    public function createCmsPage($pageData)
     {
         if (is_string($pageData)) {
             $pageData = $this->loadData($pageData);
         }
         $pageData = $this->arrayEmptyClear($pageData);
-        $pageInfo = (isset($pageData['page_information'])) ? $pageData['page_information'] : NULL;
-        $content = (isset($pageData['content'])) ? $pageData['content'] : NULL;
-        $design = (isset($pageData['design'])) ? $pageData['design'] : NULL;
-        $metaData = (isset($pageData['meta_data'])) ? $pageData['meta_data'] : NULL;
+
+        $pageInfo = (isset($pageData['page_information'])) ? $pageData['page_information'] : array();
+        $content = (isset($pageData['content'])) ? $pageData['content'] : array();
+        $design = (isset($pageData['design'])) ? $pageData['design'] : array();
+        $metaData = (isset($pageData['meta_data'])) ? $pageData['meta_data'] : array();
+
         $this->clickButton('add_new_page');
+
         if ($pageInfo) {
-            $this->openTab('page_information');
-            $this->fillPageInfo($pageInfo);
+            if (array_key_exists('store_view', $pageInfo) && !$this->controlIsPresent('multiselect', 'store_view')) {
+                unset($pageInfo['store_view']);
+            }
+            $this->fillForm($pageInfo, 'page_information');
         }
         if ($content) {
             $this->fillContent($content);
@@ -70,67 +75,96 @@ class CmsPages_Helper extends Mage_Selenium_TestCase
     }
 
     /**
-     * Fills Page Information tab
-     *
-     * @param array $pageInfo
-     * @param bool $validate
-     */
-    public function fillPageInfo(array $pageInfo, $validate = FALSE)
-    {
-        if ($this->controlIsPresent('multiselect', 'store_view') && $validate == FALSE) {
-            if (!array_key_exists('store_view', $pageInfo)) {
-                $pageInfo['store_view'] = 'All Store Views';
-            }
-        } elseif (!$this->controlIsPresent('multiselect', 'store_view') && $validate == FALSE) {
-            if (array_key_exists('store_view', $pageInfo)) {
-                unset($pageInfo['store_view']);
-            }
-        }
-        $this->fillForm($pageInfo);
-    }
-
-    /**
      * Fills Content tab
      *
-     * @param string|array $content
+     * @param string $content
      */
-    public function fillContent($content)
+    public function fillContent(array $content)
     {
-        if (is_string($content)) {
-            $content = $this->loadData($content);
-        }
-        $content = $this->arrayEmptyClear($content);
+        $widgetsData = (isset($content['widgets'])) ? $content['widgets'] : array();
+        $variableData = (isset($content['variable_data'])) ? $content['variable_data'] : array();
+
         $this->fillForm($content, 'content');
-        if (array_key_exists('widgets', $content)) {
-            $this->insertWidget($content['widgets']);
+        foreach ($widgetsData as $widget) {
+            $this->insertWidget($widget);
         }
-        if (array_key_exists('variable_data', $content)) {
-            foreach ($content['variable_data'] as $key => $value) {
-                $this->insertVariable($value);
-            }
+        foreach ($variableData as $variable) {
+            $this->insertVariable($variable);
         }
     }
 
     /**
-     * Inserts widgets
+     * Insert widget
      *
      * @param array $widgets
      */
-    public function insertWidget(array $widgets)
+    public function insertWidget(array $widgetData)
     {
-        if (!$this->controlIsPresent('field', 'editor')) {
-            $this->clickButton('show_hide_editor', FALSE);
-        }
-        foreach ($widgets as $key => $value) {
-            $options = (isset($value['chosen_option'])) ? $value['chosen_option'] : null;
+        $chooseOption = (isset($widgetData['chosen_option'])) ? $widgetData['chosen_option'] : array();
+        if ($this->controlIsPresent('link', 'wysiwyg_insert_widget')) {
+            $this->clickControl('link', 'wysiwyg_insert_widget', FALSE);
+        } else {
             $this->clickButton('insert_widget', FALSE);
+        }
+        $this->waitForAjax();
+        $this->fillForm($widgetData);
+        if ($chooseOption) {
+            $this->selectOptionItem($chooseOption);
+        }
+        $this->clickButton('submit_widget_insert', FALSE);
+        $this->waitForAjax();
+    }
+
+    /**
+     * Fills selections for widget
+     *
+     * @param array $optionData
+     */
+    public function selectOptionItem($optionData)
+    {
+        $rowNames = array('Title', 'Product Name');
+        $this->clickButton('select_option', FALSE);
+        $this->waitForAjax();
+        $title = 'Not Selected';
+        if (array_key_exists('category_path', $optionData)) {
+            $this->addParameter('param', "//div[@id='widget-chooser_content']");
+            $nodes = explode('/', $optionData['category_path']);
+            $title = end($nodes);
+            $this->categoryHelper()->selectCategory($optionData['category_path']);
             $this->waitForAjax();
-            $this->fillForm($value);
-            if (!empty($options)) {
-                $this->cmsWidgetsHelper()->fillSelectOption($options);
+            unset($optionData['category_path']);
+        }
+        if (count($optionData) > 0) {
+            $xpathTR = $this->search($optionData);
+            $this->assertNotEquals(null, $xpathTR, 'Element is not found');
+            $names = $this->getTableHeadRowNames("//div[@id='widget-chooser_content']//table[@id]");
+            foreach ($rowNames as $value) {
+                if (in_array($value, $names)) {
+                    $nameXpath = $xpathTR . '//td[' . (array_search($value, $names) + 1) . ']';
+                    if ($title == 'Not Selected') {
+                        $title = $this->getText($nameXpath);
+                    } else {
+                        $title = $title . ' / ' . $this->getText($nameXpath);
+                    }
+                    break;
+                }
             }
-            $this->clickButton('submit_widget_insert', FALSE);
-            $this->waitForAjax();
+            $this->click($xpathTR);
+        }
+        $this->checkChosenOption($title);
+    }
+
+    /**
+     * Checks if the inserted item is correct
+     *
+     * @param string $option
+     */
+    public function checkChosenOption($option)
+    {
+        $this->addParameter('elementName', $option);
+        $xpathOption = $this->_getControlXpath('pageelement', 'chosen_option');
+        if (!$this->isElementPresent($xpathOption)) {
+            $this->fail('The element ' . $option . ' was not selected');
         }
     }
 
@@ -141,15 +175,50 @@ class CmsPages_Helper extends Mage_Selenium_TestCase
      */
     public function insertVariable($variable)
     {
-        if (!$this->controlIsPresent('field', 'editor')) {
-            $this->clickButton('show_hide_editor', FALSE);
+        if ($this->controlIsPresent('link', 'wysiwyg_insert_variable')) {
+            $this->clickControl('link', 'wysiwyg_insert_variable', FALSE);
+        } else {
+            $this->clickButton('insert_variable', FALSE);
         }
-        $this->clickButton('insert_variable', FALSE);
         $this->waitForAjax();
         $this->addParameter('variableName', $variable);
         $this->clickControl('link', 'variable', FALSE);
     }
 
+    /**
+     * Opens CMSpage
+     *
+     * @param array $searchPage
+     */
+    public function openCmsPage(array $searchPage)
+    {
+        $searchPage = $this->arrayEmptyClear($searchPage);
+        if (array_key_exists('filter_store_viev', $searchPage)
+                && !$this->controlIsPresent('dropdown', 'filter_store_viev')) {
+            unset($searchPage['filter_store_viev']);
+        }
+        $xpathTR = $this->search($searchPage, 'cms_pages_grid');
+        $this->assertNotEquals(NULL, $xpathTR, 'CMS Page is not found');
+        $key = array_search('Title', $this->getTableHeadRowNames()) + 1;
+        $this->addParameter('pageName', $this->getText($xpathTR . '//td[' . $key . ']'));
+        $this->addParameter('id', $this->defineIdFromTitle($xpathTR));
+        $this->click($xpathTR);
+        $this->waitForPageToLoad($this->_browserTimeoutPeriod);
+        $this->validatePage();
+    }
+
+    /**
+     * Deletes page
+     *
+     * @param array $searchPage
+     */
+    public function deleteCmsPage(array $searchPage)
+    {
+        $this->openCmsPage($searchPage);
+        $this->clickButtonAndConfirm('delete_page', 'confirmation_for_delete');
+    }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////@TODO
     /**
      * Validates page after creation
      *
@@ -200,74 +269,17 @@ class CmsPages_Helper extends Mage_Selenium_TestCase
      * @param string $key
      * @return array
      */
-    function searchArray($pageData, $key = NULL){
+    function searchArray($pageData, $key = NULL)
+    {
 
         $found = ($key !== NULL ? array_keys($pageData, $key) : array_keys($pageData));
-        foreach($pageData as $value){
-            if(is_array($value)){
-                $found = ($key !== NULL ? array_merge($found, $this->searchArray($value, $key))
-                        : array_merge($found, $this->searchArray($value)));
+        foreach ($pageData as $value) {
+            if (is_array($value)) {
+                $found = ($key !== NULL ? array_merge($found, $this->searchArray($value, $key)) : array_merge($found,
+                                        $this->searchArray($value)));
             }
         }
-        return $found ;
+        return $found;
     }
 
-    /**
-     * Opens page
-     *
-     * @param array $searchPage
-     */
-    public function openPage(array $searchPage)
-    {
-        $this->_modPrepareDataForSearch($searchPage);
-        $xpathTR = $this->search($searchPage, 'cms_pages_grid');
-        $this->assertNotEquals(NULL, $xpathTR, 'Page is not found');
-        $names = $this->shoppingCartHelper()->getColumnNamesAndNumbers('page_grid_head', FALSE);
-        if (array_key_exists('Title', $names)) {
-            $text = $this->getText($xpathTR . '//td[' . $names['Title'] . ']');
-            $this->addParameter('pageName', $text);
-        }
-        $this->addParameter('id', $this->defineIdFromTitle($xpathTR));
-        $this->click($xpathTR);
-        $this->waitForPageToLoad($this->_browserTimeoutPeriod);
-        $this->validatePage();
-    }
-
-    /**
-     * Prepare data array to search in grid
-     *
-     * @param array $data Array of looking up data
-     *
-     * @return @array
-     */
-    protected function _modPrepareDataForSearch(array &$data)
-    {
-        foreach ($data as $key => $val) {
-            if ($val == '%noValue%' or empty($val)) {
-                unset($data[$key]);
-            } elseif (preg_match('/store_view/', $key)) {
-                $xpathField = $this->_getControlXpath('dropdown', $key);
-                if (!$this->isElementPresent($xpathField)) {
-                    unset($data[$key]);
-                }
-            }
-        }
-
-        return $data;
-    }
-
-    /**
-     * Deletes page
-     *
-     * @param array $searchPage
-     */
-    public function deletePage(array $searchPage)
-    {
-        $searchPage = $this->arrayEmptyClear($searchPage);
-        if (!empty($searchPage)) {
-            $this->openPage($searchPage);
-            $this->clickButtonAndConfirm('delete_page', 'confirmation_for_delete');
-            $this->assertTrue($this->checkMessage('successfully_deleted_page'), 'The page has not been deleted');
-        }
-    }
 }
