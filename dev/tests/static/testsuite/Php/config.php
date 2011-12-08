@@ -17,8 +17,6 @@ return array(
         "{$baseDir}/_classmap.php",
         "{$baseDir}/app/code/core/Mage/Core/Model/Design.php",
         "{$baseDir}/app/bootstrap.php",
-        "{$baseDir}/dev/build/extruder",
-        "{$baseDir}/dev/build/license",
         "{$baseDir}/dev/tests/integration",
         "{$baseDir}/dev/tests/static",
         "{$baseDir}/dev/tests/unit",
