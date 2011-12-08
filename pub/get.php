@@ -24,10 +24,10 @@
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-require_once 'app/bootstrap.php';
+require_once '../app/bootstrap.php';
 
 $varDirectory = BP . DS . Mage_Core_Model_Config_Options::VAR_DIRECTORY;
-
+$publicDirectory = BP . DS . Mage_Core_Model_Config_Options::PUB_DIRECTORY;
 $configCacheFile = $varDirectory . DS . 'resource_config.json';
 
 $mediaDirectory = null;
@@ -38,7 +38,7 @@ if (file_exists($configCacheFile) && is_readable($configCacheFile)) {
 
     //checking update time
     if (filemtime($configCacheFile) + $config['update_time'] > time()) {
-        $mediaDirectory = trim(str_replace(BP . DS, '', $config['media_directory']), DS);
+        $mediaDirectory = trim(str_replace($publicDirectory, '', $config['media_directory']), DS);
         $allowedResources = array_merge($allowedResources, $config['allowed_resources']);
     }
 }
@@ -47,7 +47,7 @@ $request = new Zend_Controller_Request_Http();
 
 $pathInfo = str_replace('..', '', ltrim($request->getPathInfo(), '/'));
 
-$filePath = str_replace('/', DS, rtrim(BP, DS) . DS . $pathInfo);
+$filePath = str_replace('/', DS, $publicDirectory . DS . $pathInfo);
 
 if ($mediaDirectory) {
     if (0 !== stripos($pathInfo, $mediaDirectory . '/') || is_dir($filePath)) {
@@ -78,7 +78,7 @@ if (empty($mediaDirectory)) {
 
 if (!$mediaDirectory) {
     $config = Mage_Core_Model_File_Storage::getScriptConfig();
-    $mediaDirectory = str_replace(BP . DS, '', $config['media_directory']);
+    $mediaDirectory = str_replace($publicDirectory, '', $config['media_directory']);
     $allowedResources = array_merge($allowedResources, $config['allowed_resources']);
 
     $relativeFilename = str_replace($mediaDirectory . '/', '', $pathInfo);

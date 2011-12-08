@@ -34,7 +34,7 @@ class Error_Processor
     const MAGE_ERRORS_LOCAL_XML = 'local.xml';
     const MAGE_ERRORS_DESIGN_XML = 'design.xml';
     const DEFAULT_SKIN = 'default';
-    const ERROR_DIR = 'errors';
+    const ERROR_DIR = 'pub/errors';
 
     /**
      * Page title
@@ -137,7 +137,7 @@ class Error_Processor
     public function __construct()
     {
         $this->_errorDir  = dirname(__FILE__) . '/';
-        $this->_reportDir = dirname($this->_errorDir) . '/var/report/';
+        $this->_reportDir = dirname(dirname($this->_errorDir)) . '/var/report/';
 
         if (!empty($_SERVER['SCRIPT_NAME'])) {
             if (in_array(basename($_SERVER['SCRIPT_NAME'],'.php'), array('404','503','report'))) {

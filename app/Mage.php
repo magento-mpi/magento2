@@ -588,7 +588,7 @@ final class Mage
             header('Location: ' . self::getBaseUrl());
             die;
         } catch (Mage_Core_Model_Store_Exception $e) {
-            require_once(self::getBaseDir() . DS . 'errors' . DS . '404.php');
+            require_once(self::getBaseDir() . DS . 'pub' . DS . 'errors' . DS . '404.php');
             die;
         } catch (Exception $e) {
             self::printException($e);
@@ -627,7 +627,7 @@ final class Mage
             header('Location: ' . self::getBaseUrl());
             die();
         } catch (Mage_Core_Model_Store_Exception $e) {
-            require_once(self::getBaseDir() . DS . 'errors' . DS . '404.php');
+            require_once(self::getBaseDir() . DS . 'pub' . DS . 'errors' . DS . '404.php');
             die();
         } catch (Exception $e) {
             if (self::isInstalled() || self::$_isDownloader) {
@@ -828,7 +828,7 @@ final class Mage
             }
             catch (Exception $e) {}
 
-            require_once(self::getBaseDir() . DS . 'errors' . DS . 'report.php');
+            require_once(self::getBaseDir() . DS . 'pub' . DS . 'errors' . DS . 'report.php');
         }
 
         die();

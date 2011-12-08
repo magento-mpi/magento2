@@ -45,17 +45,26 @@ HTML;
 }
 
 /**
+ * Constants definition
+ */
+define('DS', DIRECTORY_SEPARATOR);
+define('BP', dirname(__DIR__));
+
+if (file_exists(BP . '/maintenance.flag')) {
+    if (PHP_SAPI == 'cli') {
+        echo 'Service temporarily unavailable due to maintenance downtime.';
+    } else {
+        include_once BP . '/pub/errors/503.php';
+    }
+    exit;
+}
+
+/**
  * Environment initialization
  */
 error_reporting(E_ALL | E_STRICT);
 #ini_set('display_errors', 1);
 umask(0);
-
-/**
- * Constants definition
- */
-define('DS', DIRECTORY_SEPARATOR);
-define('BP', dirname(dirname(__FILE__)));
 
 /**
  * Require necessary files
@@ -77,3 +86,7 @@ $paths[] = BP . DS . 'lib';
 Magento_Autoload::getInstance()->addIncludePath($paths)
     ->addFilesMap(BP . '/_classmap.php');
 
+#Magento_Profiler::enable();
+#Magento_Profiler::registerOutput(new Magento_Profiler_Output_Html());
+#Magento_Profiler::registerOutput(new Magento_Profiler_Output_Firebug());
+#Magento_Profiler::registerOutput(new Magento_Profiler_Output_Csvfile(__DIR__ . '/var/log/profiler.csv'));
