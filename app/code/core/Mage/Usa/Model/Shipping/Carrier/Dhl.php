@@ -381,6 +381,8 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl
             $r->setPackageId($request->getPackageId());
         }
 
+        $r->setBaseSubtotalInclTax($request->getBaseSubtotalInclTax());
+
         $this->_rawRequest = $r;
         return $this;
     }
@@ -1369,6 +1371,8 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl
         $request->setPackageCustomsValue($customsValue);
         $request->setFreeMethodWeight(0);
         $request->setDhlShipmentType($request->getPackagingType());
+
+        $request->setBaseSubtotalInclTax($request->getBaseSubtotalInclTax());
     }
 
     /**

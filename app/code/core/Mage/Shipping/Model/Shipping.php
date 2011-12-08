@@ -212,6 +212,8 @@ class Mage_Shipping_Model_Shipping
         $request->setPackageCurrency(Mage::app()->getStore()->getCurrentCurrency());
         $request->setLimitCarrier($limitCarrier);
 
+        $request->setBaseSubtotalInclTax($address->getBaseSubtotalInclTax());
+
         return $this->collectRates($request);
     }
 

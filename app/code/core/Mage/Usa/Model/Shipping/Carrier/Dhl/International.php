@@ -263,11 +263,6 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
 
         $requestObject = new Varien_Object();
 
-        if ($request->getAction() == 'GenerateLabel') {
-            $requestObject->setAction('GenerateLabel');
-        } else {
-            $requestObject->setAction('RateEstimate');
-        }
         $requestObject->setIsGenerateLabelReturn($request->getIsGenerateLabelReturn());
 
         $requestObject->setStoreId($request->getStoreId());
@@ -291,37 +286,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
                     $request->getOrigCountryId(), Mage_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID)
             );
 
-        if ($request->getAction() == 'GenerateLabel') {
-            $packageParams = $request->getPackageParams();
-            $shippingWeight = $request->getPackageWeight();
-            if ($packageParams->getWeightUnits() != Zend_Measure_Weight::POUND) {
-                $shippingWeight = round(Mage::helper('usa')->convertMeasureWeight(
-                    $request->getPackageWeight(),
-                    $packageParams->getWeightUnits(),
-                    Zend_Measure_Weight::POUND
-                ));
-            }
-            if ($packageParams->getDimensionUnits() != Zend_Measure_Length::INCH) {
-                $packageParams->setLength(round(Mage::helper('usa')->convertMeasureDimension(
-                    $packageParams->getLength(),
-                    $packageParams->getDimensionUnits(),
-                    Zend_Measure_Length::INCH
-                )));
-                $packageParams->setWidth(round(Mage::helper('usa')->convertMeasureDimension(
-                    $packageParams->getWidth(),
-                    $packageParams->getDimensionUnits(),
-                    Zend_Measure_Length::INCH
-                )));
-                $packageParams->setHeight(round(Mage::helper('usa')->convertMeasureDimension(
-                    $packageParams->getHeight(),
-                    $packageParams->getDimensionUnits(),
-                    Zend_Measure_Length::INCH
-                )));
-            }
-            $requestObject->setPackageParams($packageParams);
-        } else {
-            $shippingWeight = $request->getPackageWeight();
-        }
+        $shippingWeight = $request->getPackageWeight();
 
         $requestObject->setValue(round($request->getPackageValue(), 2))
             ->setValueWithDiscount($request->getPackageValueWithDiscount())
@@ -376,6 +341,8 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
         if ($request->getPackageId()) {
             $requestObject->setPackageId($request->getPackageId());
         }
+
+        $requestObject->setBaseSubtotalInclTax($request->getBaseSubtotalInclTax());
 
         $this->_rawRequest = $requestObject;
         return $this;
@@ -643,13 +610,15 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
                 /* @var $currency Mage_Directory_Model_Currency */
                 $currency = Mage::getModel('directory/currency');
                 $rates = $currency->getCurrencyRates($currencyCode, array($baseCurrencyCode));
-                if (!empty($rates)) {
+                if (!empty($rates) && isset($rates[$baseCurrencyCode])) {
                     // Convert to store display currency using store exchange rate
                     $totalEstimate = $totalEstimate * $rates[$baseCurrencyCode];
                 } else {
                     $rates = $currency->getCurrencyRates($baseCurrencyCode, array($currencyCode));
-                    $totalEstimate = $totalEstimate/$rates[$currencyCode];
-                    if (!$totalEstimate) {
+                    if (!empty($rates) && isset($rates[$currencyCode])) {
+                        $totalEstimate = $totalEstimate/$rates[$currencyCode];
+                    }
+                    if (!isset($rates[$currencyCode]) || !$totalEstimate) {
                         $totalEstimate = false;
                         $this->_errors[] = Mage::helper('usa')->__("Exchange rate %s (Base Currency) -> %s not found. DHL method %s skipped", $currencyCode, $baseCurrencyCode, $dhlProductDescription);
                     }
@@ -713,21 +682,5 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
             $countryParams = new Varien_Object($this->_countryParams->$countryCode->asArray());
         }
         return isset($countryParams) ? $countryParams : new Varien_Object();
-    }
-
-    /**
-     * Do shipment request to carrier web service, obtain Print Shipping Labels and process errors in response
-     *
-     * @param Varien_Object $request
-     * @return Varien_Object
-     */
-    protected function _doShipmentRequest(Varien_Object $request)
-    {
-        $this->_prepareShipmentRequest($request);
-        $request->setAction('GenerateLabel');
-        $this->_mapRequestToShipment($request);
-        $this->setRequest($request);
-
-        return $this->_doRequest();
     }
 }

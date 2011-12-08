@@ -403,8 +403,8 @@ abstract class Mage_Shipping_Model_Carrier_Abstract extends Varien_Object
     public function getMethodPrice($cost, $method='')
     {
         if ($method == $this->getConfigData($this->_freeMethod) && $this->getConfigData('free_shipping_enable')
-            && $this->getConfigData('free_shipping_subtotal') <= $this->_rawRequest->getValueWithDiscount()
-        ){
+            && $this->getConfigData('free_shipping_subtotal') <= $this->_rawRequest->getBaseSubtotalInclTax()
+        ) {
             $price = '0.00';
         } else {
             $price = $this->getFinalPriceWithHandlingFee($cost);

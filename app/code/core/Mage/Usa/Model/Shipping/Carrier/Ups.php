@@ -272,6 +272,8 @@ class Mage_Usa_Model_Shipping_Carrier_Ups
 
         $r->setIsReturn($request->getIsReturn());
 
+        $r->setBaseSubtotalInclTax($request->getBaseSubtotalInclTax());
+
         $this->_rawRequest = $r;
 
         return $this;
