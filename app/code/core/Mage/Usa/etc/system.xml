@@ -30,7 +30,7 @@
         <carriers>
             <groups>
                 <dhl translate="label" module="usa">
-                    <label>DHL USA</label>
+                    <label>DHL Deprecated</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>130</sort_order>
                     <show_in_default>1</show_in_default>
