@@ -1,3 +1,14 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Mage_Core
+ * @subpackage  integration_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
 <?php return array(
     'Original value for Mage_Core module' => 'Translated value for Mage_Core module',
     'Text with different translation on different modules' => 'Text translation by Mage_Core module',
