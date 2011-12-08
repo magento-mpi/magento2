@@ -17,24 +17,24 @@ class Enterprise_Logging_Block_Adminhtml_Grid_Filter_IpTest extends PHPUnit_Fram
     /**
      * @var Enterprise_Logging_Block_Adminhtml_Grid_Filter_Ip
      */
-    protected $_model;
+    protected $_block;
 
     protected function setUp()
     {
-        $this->_model= new Enterprise_Logging_Block_Adminhtml_Grid_Filter_Ip();
+        $this->_block= new Enterprise_Logging_Block_Adminhtml_Grid_Filter_Ip();
     }
 
     public function testGetCondition()
     {
-        $condition = $this->_model->getCondition();
+        $condition = $this->_block->getCondition();
         $this->assertArrayHasKey('field_expr', $condition);
         $this->assertArrayHasKey('like', $condition);
     }
 
     public function testGetConditionWithLike()
     {
-        $this->_model->setValue('127');
-        $condition = $this->_model->getCondition();
+        $this->_block->setValue('127');
+        $condition = $this->_block->getCondition();
         $this->assertContains('127', (string) $condition['like']);
         $this->assertNotEquals('127', (string) $condition['like']); // DB-depended placeholder symbols were added
     }
