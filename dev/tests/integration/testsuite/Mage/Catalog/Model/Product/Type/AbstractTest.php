@@ -31,19 +31,6 @@ class Mage_Catalog_Model_Product_Type_AbstractTest extends PHPUnit_Framework_Tes
         $this->_model = new Mage_Catalog_Model_Product_Type_AbstractTestAbstract;
     }
 
-    public function testSetGetProduct()
-    {
-        $this->assertNull($this->_model->getProduct());
-
-        $product = new StdClass;
-        $this->assertSame($product, $this->_model->getProduct($product));
-
-        $anotherProduct = new StdClass;
-        $this->_model->setProduct($anotherProduct);
-        $this->assertSame($anotherProduct, $this->_model->getProduct());
-        $this->assertSame($product, $this->_model->getProduct($product));
-    }
-
     public function testGetRelationInfo()
     {
         $info = $this->_model->getRelationInfo();
@@ -127,7 +114,8 @@ class Mage_Catalog_Model_Product_Type_AbstractTest extends PHPUnit_Framework_Tes
 
     public function testIsVirtual()
     {
-        $this->assertFalse($this->_model->isVirtual());
+        $product = new Mage_Catalog_Model_Product;
+        $this->assertFalse($this->_model->isVirtual($product));
     }
 
     /**
@@ -324,12 +312,12 @@ class Mage_Catalog_Model_Product_Type_AbstractTest extends PHPUnit_Framework_Tes
 
     public function testGetForceChildItemQtyChanges()
     {
-        $this->assertFalse($this->_model->getForceChildItemQtyChanges());
+        $this->assertFalse($this->_model->getForceChildItemQtyChanges(new Mage_Catalog_Model_Product));
     }
 
     public function testPrepareQuoteItemQty()
     {
-        $this->assertEquals(3.0, $this->_model->prepareQuoteItemQty(3));
+        $this->assertEquals(3.0, $this->_model->prepareQuoteItemQty(3, new Mage_Catalog_Model_Product));
     }
 
     public function testAssignProductToOption()
@@ -351,11 +339,11 @@ class Mage_Catalog_Model_Product_Type_AbstractTest extends PHPUnit_Framework_Tes
      */
     public function testSetConfig()
     {
-        $this->assertFalse($this->_model->isComposite());
+        $this->assertFalse($this->_model->isComposite(new Mage_Catalog_Model_Product));
         $this->assertTrue($this->_model->canUseQtyDecimals());
         $config = array('composite' => 1, 'can_use_qty_decimals' => 0);
         $this->_model->setConfig($config);
-        $this->assertTrue($this->_model->isComposite());
+        $this->assertTrue($this->_model->isComposite(new Mage_Catalog_Model_Product));
         $this->assertFalse($this->_model->canUseQtyDecimals());
     }
 
@@ -377,7 +365,6 @@ class Mage_Catalog_Model_Product_Type_AbstractTest extends PHPUnit_Framework_Tes
 
     public function testGetProductsToPurchaseByReqGroups()
     {
-        $this->assertEquals(array(array(null)), $this->_model->getProductsToPurchaseByReqGroups());
         $product = new StdClass;
         $this->assertSame(array(array($product)), $this->_model->getProductsToPurchaseByReqGroups($product));
         $this->_model->setConfig(array('composite' => 1));

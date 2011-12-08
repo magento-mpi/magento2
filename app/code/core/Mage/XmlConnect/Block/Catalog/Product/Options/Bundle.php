@@ -36,10 +36,10 @@ class Mage_XmlConnect_Block_Catalog_Product_Options_Bundle extends Mage_XmlConne
         /**
          * Bundle options
          */
-        $product->getTypeInstance(true)->setStoreFilter($product->getStoreId(), $product);
-        $optionCollection = $product->getTypeInstance(true)->getOptionsCollection($product);
-        $selectionCollection = $product->getTypeInstance(true)->getSelectionsCollection(
-            $product->getTypeInstance(true)->getOptionsIds($product), $product
+        $product->getTypeInstance()->setStoreFilter($product->getStoreId(), $product);
+        $optionCollection = $product->getTypeInstance()->getOptionsCollection($product);
+        $selectionCollection = $product->getTypeInstance()->getSelectionsCollection(
+            $product->getTypeInstance()->getOptionsIds($product), $product
         );
         $bundleOptions = $optionCollection->appendSelections($selectionCollection, false, false);
         if (!sizeof($bundleOptions)) {

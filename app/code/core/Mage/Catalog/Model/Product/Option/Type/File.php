@@ -249,7 +249,7 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
                 'overwrite' => true
             ));
 
-            $this->getProduct()->getTypeInstance(true)->addFileQueue(array(
+            $this->getProduct()->getTypeInstance()->addFileQueue(array(
                 'operation' => 'receive_uploaded_file',
                 'src_name'  => $file,
                 'dst_name'  => $fileFullPath,

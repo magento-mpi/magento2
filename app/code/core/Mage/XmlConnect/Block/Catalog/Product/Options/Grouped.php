@@ -39,7 +39,7 @@ class Mage_XmlConnect_Block_Catalog_Product_Options_Grouped extends Mage_XmlConn
         /**
          * Grouped (associated) products
          */
-        $_associatedProducts = $product->getTypeInstance(true)->getAssociatedProducts($product);
+        $_associatedProducts = $product->getTypeInstance()->getAssociatedProducts($product);
         if (!sizeof($_associatedProducts)) {
             return $isObject ? $xmlModel : $xmlModel->asNiceXml();
         }

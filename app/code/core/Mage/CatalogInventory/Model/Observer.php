@@ -266,7 +266,7 @@ class Mage_CatalogInventory_Model_Observer
          * Check item for options
          */
         if (($options = $quoteItem->getQtyOptions()) && $qty > 0) {
-            $qty = $quoteItem->getProduct()->getTypeInstance(true)->prepareQuoteItemQty($qty, $quoteItem->getProduct());
+            $qty = $quoteItem->getProduct()->getTypeInstance()->prepareQuoteItemQty($qty, $quoteItem->getProduct());
             $quoteItem->setData('qty', $qty);
 
             $stockItem = $quoteItem->getProduct()->getStockItem();
@@ -425,7 +425,7 @@ class Mage_CatalogInventory_Model_Observer
              */
             if ($result->getHasQtyOptionUpdate()
                 && (!$quoteItem->getParentItem()
-                    || $quoteItem->getParentItem()->getProduct()->getTypeInstance(true)
+                    || $quoteItem->getParentItem()->getProduct()->getTypeInstance()
                         ->getForceChildItemQtyChanges($quoteItem->getParentItem()->getProduct())
                 )
             ) {

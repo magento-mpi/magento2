@@ -12,11 +12,11 @@ class Mage_LoadTest_Model_Renderer_Sales_Item_Type_Configurable extends Mage_Loa
 
     public function prepareRequestForCart($_product)
     {
-	$this->_product = $_product;
-	$this->_typeInstance = $this->_product->getTypeInstance();
-	
+        $this->_product = $_product;
+        $typeInstance = $this->_product->getTypeInstance();
+
 	$request = array();
-	$allProducts = $this->_typeInstance->getUsedProducts();
+	$allProducts = $typeInstance->getUsedProducts($this->_product);
 	if(count($allProducts) == 0)
 	    return $request;
 
@@ -25,7 +25,7 @@ class Mage_LoadTest_Model_Renderer_Sales_Item_Type_Configurable extends Mage_Loa
 	foreach ($allProducts as $product) {
 	    if ($product->isSaleable()) {
 		$productId = $product->getId();
-		foreach ($this->_typeInstance->getConfigurableAttributes() as $attribute) {
+		foreach ($typeInstance->getConfigurableAttributes($this->_product) as $attribute) {
 		    $productAttribute = $attribute->getProductAttribute();
 		    $attributeValue = $product->getData($productAttribute->getAttributeCode());
 		    if (!isset($options[$productId])) {

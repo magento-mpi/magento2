@@ -16,7 +16,13 @@ return array(
     'white_list' => array(
         "{$baseDir}/_classmap.php",
         "{$baseDir}/app/code/core/Mage/Core/Model/Design.php",
+        "{$baseDir}/app/code/core/Mage/Core/Model/Shell/Abstract.php",
+        "{$baseDir}/app/code/core/Mage/Index/Model/Shell.php",
+        "{$baseDir}/app/code/core/Mage/Log/Model/Shell.php",
+        "{$baseDir}/app/code/core/Mage/Log/Model/Resource/Shell.php",
+        "{$baseDir}/app/code/core/Mage/Log/Model/Resource/Helper",
         "{$baseDir}/app/bootstrap.php",
+        "{$baseDir}/dev/shell",
         "{$baseDir}/dev/tests/integration",
         "{$baseDir}/dev/tests/static",
         "{$baseDir}/dev/tests/unit",

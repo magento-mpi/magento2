@@ -122,7 +122,7 @@ class Mage_Weee_Model_Tax extends Mage_Core_Model_Abstract
             $discountPercent = $this->_getDiscountPercentForProduct($product);
         }
 
-        $productAttributes = $product->getTypeInstance(true)->getSetAttributes($product);
+        $productAttributes = $product->getTypeInstance()->getSetAttributes($product);
         foreach ($productAttributes as $code => $attribute) {
             if (in_array($code, $allWeee)) {
 

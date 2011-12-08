@@ -31,9 +31,9 @@ class Mage_Catalog_Model_Product_Type_Configurable_Price extends Mage_Catalog_Mo
         }
 
         $finalPrice = parent::getFinalPrice($qty, $product);
-        $product->getTypeInstance(true)
+        $product->getTypeInstance()
             ->setStoreFilter($product->getStore(), $product);
-        $attributes = $product->getTypeInstance(true)
+        $attributes = $product->getTypeInstance()
             ->getConfigurableAttributes($product);
 
         $selectedAttributes = array();
