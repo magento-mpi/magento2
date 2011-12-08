@@ -99,6 +99,7 @@ class CheckoutOnePage_WithRegistration_PaymentMethodsTest extends Mage_Selenium_
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure($payment);
         $this->logoutCustomer();
+        $this->shoppingCartHelper()->frontClearShoppingCart();
         $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
         //Verification
         $this->assertTrue($this->successMessage('success_checkout'), $this->messages);
@@ -153,6 +154,7 @@ class CheckoutOnePage_WithRegistration_PaymentMethodsTest extends Mage_Selenium_
         $this->systemConfigurationHelper()->useHttps('frontend', 'yes');
         $this->systemConfigurationHelper()->configure($payment . '_with_3Dsecure');
         $this->logoutCustomer();
+        $this->shoppingCartHelper()->frontClearShoppingCart();
         $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
         //Verification
         $this->assertTrue($this->successMessage('success_checkout'), $this->messages);

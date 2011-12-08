@@ -220,10 +220,10 @@ class CheckoutOnePage_Helper extends Mage_Selenium_TestCase
             if ($this->isElementPresent($methodUnavailable) || $this->isElementPresent($noShipping)) {
                 $this->addMessage('error', 'No Shipping Method is available for this order');
             } elseif ($this->isElementPresent($this->_getControlXpath('field', 'ship_service_name'))) {
-                $method = $this->_getControlXpath('radiobutton', 'ship_method');
+                $methodXpath = $this->_getControlXpath('radiobutton', 'ship_method');
                 $selectedMethod = $this->_getControlXpath('radiobutton', 'one_method_selected');
-                if ($this->isElementPresent($method)) {
-                    $this->click($method);
+                if ($this->isElementPresent($methodXpath)) {
+                    $this->click($methodXpath);
                     $this->waitForAjax();
                 } elseif (!$this->isElementPresent($selectedMethod)) {
                     $this->addMessage('error',
@@ -467,6 +467,7 @@ class CheckoutOnePage_Helper extends Mage_Selenium_TestCase
             $text = $this->getText($xpathShipMethod);
             $price = $this->getText($xpathShipMethod . '/span');
             $text = trim(preg_replace('/' . preg_quote($price) . '/', '', $text));
+            $text = trim(preg_replace('/\(\w+\. Tax \$[0-9\.]+\)/', '', $text));
             $expectedMethod = $shipMethod['shipping_service'] . ' - ' . $shipMethod['shipping_method'];
             if (strcmp($expectedMethod, $text) != 0) {
                 $this->addMessage('error', 'Shipping method should be: ' . $expectedMethod . ' but now ' . $text);

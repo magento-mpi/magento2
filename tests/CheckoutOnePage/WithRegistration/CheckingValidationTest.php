@@ -282,7 +282,13 @@ class CheckoutOnePage_WithRegistration_CheckingValidationTest extends Mage_Selen
             $this->checkoutOnePageHelper()->doOnePageCheckoutSteps($checkoutData);
         } catch (PHPUnit_Framework_ExpectationFailedException $e) {
             $error = $e->getMessage();
-            $error = trim(preg_replace('/Failed asserting that false is true./', '', $error));
+            $errors = explode("\n", $error);
+            foreach ($errors as $key => $value) {
+                if (preg_match('/Failed asserting/', $value)) {
+                    unset($errors[$key]);
+                }
+            }
+            $error = trim(implode('\n', $errors), " \t\n\r\0\x0B");
         }
         //Verification
         $this->assertEquals($this->_getControlXpath('message', 'exist_email_alert'), $error);
@@ -401,7 +407,13 @@ class CheckoutOnePage_WithRegistration_CheckingValidationTest extends Mage_Selen
             $this->checkoutOnePageHelper()->doOnePageCheckoutSteps($checkoutData);
         } catch (PHPUnit_Framework_ExpectationFailedException $e) {
             $error = $e->getMessage();
-            $error = trim(preg_replace('/Failed asserting that false is true./', '', $error));
+            $errors = explode("\n", $error);
+            foreach ($errors as $key => $value) {
+                if (preg_match('/Failed asserting/', $value)) {
+                    unset($errors[$key]);
+                }
+            }
+            $error = trim(implode('\n', $errors), " \t\n\r\0\x0B");
         }
         //Verifications
         if (!preg_match('/street_address/', $field)) {
@@ -444,7 +456,13 @@ class CheckoutOnePage_WithRegistration_CheckingValidationTest extends Mage_Selen
             $this->checkoutOnePageHelper()->doOnePageCheckoutSteps($checkoutData);
         } catch (PHPUnit_Framework_ExpectationFailedException $e) {
             $error = $e->getMessage();
-            $error = trim(preg_replace('/Failed asserting that false is true./', '', $error));
+            $errors = explode("\n", $error);
+            foreach ($errors as $key => $value) {
+                if (preg_match('/Failed asserting/', $value)) {
+                    unset($errors[$key]);
+                }
+            }
+            $error = trim(implode('\n', $errors), " \t\n\r\0\x0B");
         }
         if (!preg_match('/street_address/', $field)) {
             $xpath = $this->_getControlXpath('field', 'shipping_' . $field)
