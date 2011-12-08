@@ -32,6 +32,17 @@
                             </feed>
                         </children>
                     </catalog>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <feed>
+                                        <title>Feed</title>
+                                    </feed>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
                 </children>
             </admin>
         </resources>
