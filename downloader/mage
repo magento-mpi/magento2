@@ -13,7 +13,7 @@ if test "x$1" = "xmage-setup"; then
     if test "x$2" != "x"; then
         MAGE_ROOT_DIR="$2"
     else
-        MAGE_ROOT_DIR="`pwd`"
+        MAGE_ROOT_DIR="`pwd`/../"
     fi
 
     $0 config-set magento_root "$MAGE_ROOT_DIR"

@@ -48,11 +48,11 @@ class Mage_Core_Helper_JsTest extends PHPUnit_Framework_TestCase
 
     public function testIncludeScript()
     {
-        $this->assertEquals('<script type="text/javascript" src="http://localhost/js/blank.html"></script>' . "\n",
+        $this->assertEquals('<script type="text/javascript" src="http://localhost/pub/js/blank.html"></script>' . "\n",
             $this->_helper->includeScript(self::FILE)
         );
         $script = '<script type="text/javascript" '
-            . 'src="http://localhost/media/skin/frontend/%s/%s/%s/%s/images/spacer.gif"></script>';
+            . 'src="http://localhost/pub/media/skin/frontend/%s/%s/%s/%s/images/spacer.gif"></script>';
         $this->assertStringMatchesFormat($script, $this->_helper->includeScript('images/spacer.gif'));
     }
 }

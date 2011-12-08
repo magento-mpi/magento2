@@ -118,7 +118,7 @@
  *
  */
 
-require_once 'app/bootstrap.php';
+require_once dirname(dirname(__FILE__)) . '/app/bootstrap.php';
 
 try {
     $app = Mage::app('default');

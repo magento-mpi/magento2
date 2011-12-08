@@ -2,7 +2,7 @@
  * Ext JS Library 1.1 Beta 1
  * Copyright(c) 2006-2007, Ext JS, LLC.
  * licensing@extjs.com
- * 
+ *
  * http://www.extjs.com/license
  */
 
@@ -50,7 +50,7 @@
 
 .x-mask-loading div {
     padding:5px 10px 5px 25px;
-    background: #eee url( '../images/default/grid/loading.gif' ) no-repeat 5px 5px;
+    background: #eee url('../images/default/grid/loading.gif') no-repeat 5px 5px;
     line-height: 16px;
 }
 
@@ -210,7 +210,7 @@
 .x-shadow .xsmc {
     float: left;
     height: 100%;
-    background: transparent url( ../images/default/shadow-c.png );
+    background: transparent url(../images/default/shadow-c.png);
 }
 
 .x-shadow .xst, .x-shadow .xsb {
@@ -220,40 +220,40 @@
 }
 
 .x-shadow .xsml {
-    background: transparent url( ../images/default/shadow-lr.png ) repeat-y 0 0;
+    background: transparent url(../images/default/shadow-lr.png) repeat-y 0 0;
 }
 
 .x-shadow .xsmr {
-    background: transparent url( ../images/default/shadow-lr.png ) repeat-y -6px 0;
+    background: transparent url(../images/default/shadow-lr.png) repeat-y -6px 0;
 }
 
 .x-shadow .xstl {
-    background: transparent url( ../images/default/shadow.png ) no-repeat 0 0;
+    background: transparent url(../images/default/shadow.png) no-repeat 0 0;
 }
 
 .x-shadow .xstc {
-    background: transparent url( ../images/default/shadow.png ) repeat-x 0 -30px;
+    background: transparent url(../images/default/shadow.png) repeat-x 0 -30px;
 }
 
 .x-shadow .xstr {
-    background: transparent url( ../images/default/shadow.png ) repeat-x 0 -18px;
+    background: transparent url(../images/default/shadow.png) repeat-x 0 -18px;
 }
 
 .x-shadow .xsbl {
-    background: transparent url( ../images/default/shadow.png ) no-repeat 0 -12px;
+    background: transparent url(../images/default/shadow.png) no-repeat 0 -12px;
 }
 
 .x-shadow .xsbc {
-    background: transparent url( ../images/default/shadow.png ) repeat-x 0 -36px;
+    background: transparent url(../images/default/shadow.png) repeat-x 0 -36px;
 }
 
 .x-shadow .xsbr {
-    background: transparent url( ../images/default/shadow.png ) repeat-x 0 -6px;
+    background: transparent url(../images/default/shadow.png) repeat-x 0 -6px;
 }
 
 .loading-indicator {
     font-size: 11px;
-    background-image: url( '../images/default/grid/loading.gif' );
+    background-image: url('../images/default/grid/loading.gif');
     background-repeat: no-repeat;
     background-position: left;
     padding-left: 20px;
@@ -295,7 +295,7 @@
 	padding-top:2px;
 }
 .x-tabs-strip-wrap{
-	width:100%;	
+	width:100%;
 }
 .x-tabs-wrap table{
 	position:relative;
@@ -331,7 +331,7 @@
 	color:#aaaaaa;
 }
 .x-tabs-strip .x-tabs-inner {
-	 padding:4px 10px;	
+	 padding:4px 10px;
 }
 
 .x-tabs-strip .on .x-tabs-right {
@@ -445,7 +445,7 @@
     padding-top:2px;
 }
 
- 
+
 .x-btn-icon .x-btn-center .x-btn-text{
 	background-position: center;
 	background-repeat: no-repeat;
@@ -716,7 +716,7 @@
 .x-resizable-handle {
     position:absolute;
     z-index:100;
-    
+
     font-size:1px;
     line-height:6px;
     overflow:hidden;
@@ -733,7 +733,7 @@
     height:100%;
 }
 .ext-ie .x-resizable-handle-east {
-      margin-right:-1px; 
+      margin-right:-1px;
 }
 .x-resizable-handle-south{
     width:100%;
@@ -743,7 +743,7 @@
     height:6px;
 }
 .ext-ie .x-resizable-handle-south {
-     margin-bottom:-1px; 
+     margin-bottom:-1px;
 }
 .x-resizable-handle-west{
     width:6px;
@@ -906,7 +906,7 @@
 }
 
 .x-grid-locked .x-grid-body td .x-grid-cell-inner {
-	
+
 }
 .x-grid-row {
 	cursor: default;
@@ -1402,7 +1402,7 @@
 	left:0;
 }
 .x-dlg-mask{
-	z-index:10000;   
+	z-index:10000;
    display:none;
    position:absolute;
    top:0;
@@ -1500,10 +1500,10 @@ body.x-body-masked .x-dlg select {
 	clear:none;
 }
 .x-dlg .x-dlg-ft .x-dlg-btns-center{
-	text-align:center; 
+	text-align:center;
 }
 .x-dlg .x-dlg-ft .x-dlg-btns-center table{
-	margin:0 auto; 
+	margin:0 auto;
 }
 
 
@@ -1566,7 +1566,7 @@ body.x-body-masked .x-dlg select {
     background-image:url(../images/default/basic-dialog/expand.gif);
 }
 .x-dlg .x-dlg-close-over, .x-dlg .x-dlg-collapse-over {
-    
+
 }
 .x-dlg div.x-resizable-handle-east{
 	background-image:url(../images/default/basic-dialog/e-handle.gif);
