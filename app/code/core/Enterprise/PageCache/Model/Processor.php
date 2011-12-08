@@ -527,9 +527,9 @@ class Enterprise_PageCache_Model_Processor
             }
 
             if (isset($_GET[Mage_Core_Model_Session_Abstract::SESSION_ID_QUERY_PARAM])) {
-                Mage::getSingleton('enterprise_pagecache/cookie')
-                    ->updateCustomerCookies()
-                    ->updateCustomerProductIndex();
+                Mage::getSingleton('enterprise_pagecache/cookie')->updateCustomerCookies();
+                Mage::getModel('enterprise_pagecache/observer')->updateCustomerProductIndex();
+
             }
         }
         return $this;
