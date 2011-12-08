@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Magento
  *
@@ -27,37 +28,26 @@
  */
 
 /**
- * @TODO
+ * Checkout Multiple Addresses tests with different product types
  *
  * @package     selenium
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Checkout_MultiShipping_RegistrationTest extends Mage_Selenium_TestCase
+class CCheckoutMultipleAddresses_LoggedIn_WithProductsTest extends Mage_Selenium_TestCase
 {
 
-    /**
-     * @TODO
-     */
     protected function assertPreConditions()
     {
-        // @TODO
-    }
 
-
-    /**
-     * @TODO
-     */
-    public function test_WithOneShippingAddress()
-    {
-        // @TODO
     }
 
     /**
-     * @TODO
+     * @test
      */
-    public function test_WithMultipleShippingAddresses()
+    public function preconditionsForTests()
     {
-        // @TODO
+
     }
+
 }

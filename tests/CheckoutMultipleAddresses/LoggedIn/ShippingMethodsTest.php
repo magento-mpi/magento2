@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Magento
  *
@@ -27,37 +28,56 @@
  */
 
 /**
- * @TODO
+ * Tests for shipping methods. Frontend
  *
  * @package     selenium
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Checkout_MultiShipping_ExistingTest extends Mage_Selenium_TestCase
+class CheckoutMultipleAddresses_LoggedIn_ShippingMethodsTest extends Mage_Selenium_TestCase
 {
 
-    /**
-     * @TODO
-     */
     protected function assertPreConditions()
     {
-        // @TODO
-    }
 
-
-    /**
-     * @TODO
-     */
-    public function test_WithOneShippingAddress()
-    {
-        // @TODO
     }
 
     /**
-     * @TODO
+     * @test
      */
-    public function test_WithMultipleShippingAddresses()
+    public function preconditionsForTests()
     {
-        // @TODO
+
     }
+
+    /**
+     * @depends preconditionsForTests
+     * @dataProvider dataShipment
+     * @test
+     */
+    public function differentShippingMethods($shipping, $simpleSku)
+    {
+
+    }
+
+    public function dataShipment()
+    {
+        return array(
+            array('flatrate'),
+            array('free'),
+            array('ups'),
+            array('upsxml'),
+            array('usps'),
+            array('fedex'),
+//@TODO            array('dhl')
+        );
+    }
+
+    protected function tearDown()
+    {
+        $this->loginAdminUser();
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('shipping_disable');
+    }
+
 }
