@@ -456,7 +456,7 @@ class Enterprise_PricePermissions_Model_Observer
 
             // Handle data received from Associated Products tab of configurable product
             if ($product->getTypeId() == Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE) {
-                $originalAttributes = $product->getTypeInstance(true)
+                $originalAttributes = $product->getTypeInstance()
                     ->getConfigurableAttributesAsArray($product);
                 // Organize main information about original product attributes in assoc array form
                 $originalAttributesMainInfo = array();
@@ -496,11 +496,13 @@ class Enterprise_PricePermissions_Model_Observer
                 $bundleSelectionsData = $product->getBundleSelectionsData();
                 if (is_array($bundleSelectionsData)) {
                     // Retrieve original selections data
-                    $product->getTypeInstance(true)->setStoreFilter($product->getStoreId(), $product);
+                    $product->getTypeInstance()->setStoreFilter($product->getStoreId(), $product);
 
-                    $optionCollection = $product->getTypeInstance(true)->getOptionsCollection($product);
-                    $selectionCollection = $product->getTypeInstance(true)->getSelectionsCollection(
-                        $product->getTypeInstance(true)->getOptionsIds($product), $product);
+                    $optionCollection = $product->getTypeInstance()->getOptionsCollection($product);
+                    $selectionCollection = $product->getTypeInstance()->getSelectionsCollection(
+                        $product->getTypeInstance()->getOptionsIds($product),
+                        $product
+                    );
 
                     $origBundleOptions = $optionCollection->appendSelections($selectionCollection);
                     $origBundleOptionsAssoc = array();
@@ -549,7 +551,7 @@ class Enterprise_PricePermissions_Model_Observer
 
                 $downloadableData = $product->getDownloadableData();
                 if (is_array($downloadableData) && isset($downloadableData['link'])) {
-                    $originalLinks = $product->getTypeInstance(true)->getLinks($product);
+                    $originalLinks = $product->getTypeInstance()->getLinks($product);
                     foreach ($downloadableData['link'] as $id => &$downloadableDataItem) {
                         $linkId = $downloadableDataItem['link_id'];
                         if (isset($originalLinks[$linkId]) && !$downloadableDataItem['is_delete']) {

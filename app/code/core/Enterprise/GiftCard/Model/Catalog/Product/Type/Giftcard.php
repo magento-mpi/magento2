@@ -32,7 +32,7 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard extends Mage_Catal
      * @param Mage_Catalog_Model_Product $product
      * @return bool
      */
-    public function isGiftCard($product = null)
+    public function isGiftCard($product)
     {
         return true;
     }
@@ -43,9 +43,9 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard extends Mage_Catal
      * @param Mage_Catalog_Model_Product $product
      * @return bool
      */
-    public function isTypeCombined($product = null)
+    public function isTypeCombined($product)
     {
-        if ($this->getProduct($product)->getGiftcardType() == Enterprise_GiftCard_Model_Giftcard::TYPE_COMBINED) {
+        if ($product->getGiftcardType() == Enterprise_GiftCard_Model_Giftcard::TYPE_COMBINED) {
             return true;
         }
         return false;
@@ -57,9 +57,9 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard extends Mage_Catal
      * @param Mage_Catalog_Model_Product $product
      * @return bool
      */
-    public function isTypePhysical($product = null)
+    public function isTypePhysical($product)
     {
-        if ($this->getProduct($product)->getGiftcardType() == Enterprise_GiftCard_Model_Giftcard::TYPE_PHYSICAL) {
+        if ($product->getGiftcardType() == Enterprise_GiftCard_Model_Giftcard::TYPE_PHYSICAL) {
             return true;
         }
         return false;
@@ -71,9 +71,9 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard extends Mage_Catal
      * @param Mage_Catalog_Model_Product $product
      * @return bool
      */
-    public function isTypeVirtual($product = null)
+    public function isTypeVirtual($product)
     {
-        if ($this->getProduct($product)->getGiftcardType() == Enterprise_GiftCard_Model_Giftcard::TYPE_VIRTUAL) {
+        if ($product->getGiftcardType() == Enterprise_GiftCard_Model_Giftcard::TYPE_VIRTUAL) {
             return true;
         }
         return false;
@@ -85,9 +85,9 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard extends Mage_Catal
      * @param Mage_Catalog_Model_Product $product
      * @return bool
      */
-    public function isVirtual($product = null)
+    public function isVirtual($product)
     {
-        if ($this->getProduct($product)->getGiftcardType() == Enterprise_GiftCard_Model_Giftcard::TYPE_VIRTUAL) {
+        if ($product->getGiftcardType() == Enterprise_GiftCard_Model_Giftcard::TYPE_VIRTUAL) {
             return true;
         }
         return false;
@@ -99,10 +99,10 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard extends Mage_Catal
      * @param Mage_Catalog_Model_Product $product
      * @return bool
      */
-    public function isSalable($product = null)
+    public function isSalable($product)
     {
-        $amounts = $this->getProduct($product)->getPriceModel()->getAmounts($product);
-        $open = $this->getProduct($product)->getAllowOpenAmount();
+        $amounts = $product->getPriceModel()->getAmounts($product);
+        $open = $product->getAllowOpenAmount();
 
         if (!$open && !$amounts) {
             return false;
@@ -169,7 +169,6 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard extends Mage_Catal
      */
     private function _validate(Varien_Object $buyRequest, $product, $processMode)
     {
-        $product = $this->getProduct($product);
         $isStrictProcessMode = $this->_isStrictProcessMode($processMode);
 
         $allowedAmounts = array();
@@ -301,10 +300,9 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard extends Mage_Catal
      * @return Mage_Catalog_Model_Product_Type_Abstract
      * @throws Mage_Core_Exception
      */
-    public function checkProductBuyState($product = null)
+    public function checkProductBuyState($product)
     {
         parent::checkProductBuyState($product);
-        $product = $this->getProduct($product);
         $option = $product->getCustomOption('info_buyRequest');
         if ($option instanceof Mage_Sales_Model_Quote_Item_Option) {
             $buyRequest = new Varien_Object(unserialize($option->getValue()));
@@ -321,11 +319,11 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard extends Mage_Catal
      * @param Mage_Catalog_Model_Product $product
      * @return Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard
      */
-    public function beforeSave($product = null)
+    public function beforeSave($product)
     {
         parent::beforeSave($product);
-        $this->getProduct($product)->setTypeHasOptions(true);
-        $this->getProduct($product)->setTypeHasRequiredOptions(true);
+        $product->setTypeHasOptions(true);
+        $product->setTypeHasRequiredOptions(true);
         return $this;
     }
 

@@ -182,10 +182,10 @@ class Mage_Bundle_Model_Observer
 
         $newProduct = $observer->getEvent()->getNewProduct();
 
-        $product->getTypeInstance(true)->setStoreFilter($product->getStoreId(), $product);
-        $optionCollection = $product->getTypeInstance(true)->getOptionsCollection($product);
-        $selectionCollection = $product->getTypeInstance(true)->getSelectionsCollection(
-            $product->getTypeInstance(true)->getOptionsIds($product),
+        $product->getTypeInstance()->setStoreFilter($product->getStoreId(), $product);
+        $optionCollection = $product->getTypeInstance()->getOptionsCollection($product);
+        $selectionCollection = $product->getTypeInstance()->getSelectionsCollection(
+            $product->getTypeInstance()->getOptionsIds($product),
             $product
         );
         $optionCollection->appendSelections($selectionCollection);

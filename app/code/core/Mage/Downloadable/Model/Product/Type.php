@@ -25,10 +25,8 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
      * @param Mage_Catalog_Model_Product $product
      * @return array
      */
-    public function getLinks($product = null)
+    public function getLinks($product)
     {
-        $product = $this->getProduct($product);
-        /* @var Mage_Catalog_Model_Product $product */
         if (is_null($product->getDownloadableLinks())) {
             $_linkCollection = Mage::getModel('Mage_Downloadable_Model_Link')->getCollection()
                 ->addProductToFilter($product->getId())
@@ -52,10 +50,10 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
      * @param Mage_Catalog_Model_Product $product
      * @return boolean
      */
-    public function hasLinks($product = null)
+    public function hasLinks($product)
     {
-        if ($this->getProduct($product)->hasData('links_exist')) {
-            return $this->getProduct($product)->getData('links_exist');
+        if ($product->hasData('links_exist')) {
+            return $product->getData('links_exist');
         }
         return count($this->getLinks($product)) > 0;
     }
@@ -66,10 +64,10 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
      * @param Mage_Catalog_Model_Product $product
      * @return boolean
      */
-    public function hasOptions($product = null)
+    public function hasOptions($product)
     {
         //return true;
-        return $this->getProduct($product)->getLinksPurchasedSeparately()
+        return $product->getLinksPurchasedSeparately()
             || parent::hasOptions($product);
     }
 
@@ -79,9 +77,9 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
      * @param Mage_Catalog_Model_Product $product
      * @return bool
      */
-    public function hasRequiredOptions($product = null)
+    public function hasRequiredOptions($product)
     {
-        if (parent::hasRequiredOptions($product) || $this->getProduct($product)->getLinksPurchasedSeparately()) {
+        if (parent::hasRequiredOptions($product) || $product->getLinksPurchasedSeparately()) {
             return true;
         }
         return false;
@@ -93,9 +91,9 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
      * @param Mage_Catalog_Model_Product $product
      * @return boolean
      */
-    public function getLinkSelectionRequired($product = null)
+    public function getLinkSelectionRequired($product)
     {
-        return $this->getProduct($product)->getLinksPurchasedSeparately();
+        return $product->getLinksPurchasedSeparately();
     }
 
     /**
@@ -104,10 +102,8 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
      * @param Mage_Catalog_Model_Product $product
      * @return Mage_Downloadable_Model_Resource_Sample_Collection
      */
-    public function getSamples($product = null)
+    public function getSamples($product)
     {
-        $product = $this->getProduct($product);
-        /* @var Mage_Catalog_Model_Product $product */
         if (is_null($product->getDownloadableSamples())) {
             $_sampleCollection = Mage::getModel('Mage_Downloadable_Model_Sample')->getCollection()
                 ->addProductToFilter($product->getId())
@@ -124,7 +120,7 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
      * @param Mage_Catalog_Model_Product $product
      * @return boolean
      */
-    public function hasSamples($product = null)
+    public function hasSamples($product)
     {
         return count($this->getSamples($product)) > 0;
     }
@@ -135,12 +131,9 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
      * @param Mage_Catalog_Model_Product $product
      * @return Mage_Downloadable_Model_Product_Type
      */
-    public function save($product = null)
+    public function save($product)
     {
         parent::save($product);
-
-        $product = $this->getProduct($product);
-        /* @var Mage_Catalog_Model_Product $product */
 
         if ($data = $product->getDownloadableData()) {
             if (isset($data['sample'])) {
@@ -247,8 +240,8 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
                 if ($_deleteItems) {
                     Mage::getResourceModel('Mage_Downloadable_Model_Resource_Link')->deleteItems($_deleteItems);
                 }
-                if ($this->getProduct($product)->getLinksPurchasedSeparately()) {
-                    $this->getProduct($product)->setIsCustomOptionChanged();
+                if ($product->getLinksPurchasedSeparately()) {
+                    $product->setIsCustomOptionChanged();
                 }
             }
         }
@@ -274,13 +267,12 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
         }
         // if adding product from admin area we add all links to product
         $originalLinksPurchasedSeparately = null;
-        if ($this->getProduct($product)->getSkipCheckRequiredOption()) {
-            $originalLinksPurchasedSeparately = $this->getProduct($product)
-                ->getLinksPurchasedSeparately();
-            $this->getProduct($product)->setLinksPurchasedSeparately(false);
+        if ($product->getSkipCheckRequiredOption()) {
+            $originalLinksPurchasedSeparately = $product->getLinksPurchasedSeparately();
+            $product->setLinksPurchasedSeparately(false);
         }
         $preparedLinks = array();
-        if ($this->getProduct($product)->getLinksPurchasedSeparately()) {
+        if ($product->getLinksPurchasedSeparately()) {
             if ($links = $buyRequest->getLinks()) {
                 foreach ($this->getLinks($product) as $link) {
                     if (in_array($link->getId(), $links)) {
@@ -294,11 +286,10 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
             }
         }
         if (null !== $originalLinksPurchasedSeparately) {
-            $this->getProduct($product)
-                ->setLinksPurchasedSeparately($originalLinksPurchasedSeparately);
+            $product->setLinksPurchasedSeparately($originalLinksPurchasedSeparately);
         }
         if ($preparedLinks) {
-            $this->getProduct($product)->addCustomOption('downloadable_link_ids', implode(',', $preparedLinks));
+            $product->addCustomOption('downloadable_link_ids', implode(',', $preparedLinks));
             return $result;
         }
         if ($this->getLinkSelectionRequired($product) && $this->_isStrictProcessMode($processMode)) {
@@ -314,10 +305,9 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
      * @return Mage_Bundle_Model_Product_Type
      * @throws Mage_Core_Exception
      */
-    public function checkProductBuyState($product = null)
+    public function checkProductBuyState($product)
     {
         parent::checkProductBuyState($product);
-        $product = $this->getProduct($product);
         $option = $product->getCustomOption('info_buyRequest');
         if ($option instanceof Mage_Sales_Model_Quote_Item_Option) {
             $buyRequest = new Varien_Object(unserialize($option->getValue()));
@@ -346,10 +336,10 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
      * @param Mage_Catalog_Model_Product $product
      * @return array
      */
-    public function getOrderOptions($product = null)
+    public function getOrderOptions($product)
     {
         $options = parent::getOrderOptions($product);
-        if ($linkIds = $this->getProduct($product)->getCustomOption('downloadable_link_ids')) {
+        if ($linkIds = $product->getCustomOption('downloadable_link_ids')) {
             $linkOptions = array();
             $links = $this->getLinks($product);
             foreach (explode(',', $linkIds->getValue()) as $linkId) {
@@ -374,13 +364,13 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
      *
      * @param Mage_Catalog_Model_Product $product
      */
-    public function beforeSave($product = null)
+    public function beforeSave($product)
     {
         parent::beforeSave($product);
         if ($this->getLinkSelectionRequired($product)) {
-            $this->getProduct($product)->setTypeHasRequiredOptions(true);
+            $product->setTypeHasRequiredOptions(true);
         } else {
-            $this->getProduct($product)->setTypeHasRequiredOptions(false);
+            $product->setTypeHasRequiredOptions(false);
         }
 
         // Update links_exist attribute value
@@ -400,9 +390,9 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
          * After "Downloadable Information" tab was made non-ajax we should
          * set this flag "true" to force saving of 'required_options' attribute
          */
-        $this->getProduct($product)->setCanSaveCustomOptions(true);
-        $this->getProduct($product)->setTypeHasOptions($linksExist);
-        $this->getProduct($product)->setLinksExist($linksExist);
+        $product->setCanSaveCustomOptions(true);
+        $product->setTypeHasOptions($linksExist);
+        $product->setLinksExist($linksExist);
     }
 
     /**
@@ -412,10 +402,9 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
      * @param Mage_Catalog_Model_Product $product
      * @return array
      */
-    public function getSearchableData($product = null)
+    public function getSearchableData($product)
     {
         $searchData = parent::getSearchableData($product);
-        $product = $this->getProduct($product);
 
         $linkSearchData = Mage::getSingleton('Mage_Downloadable_Model_Link')
             ->getSearchableData($product->getId(), $product->getStoreId());
@@ -438,7 +427,7 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
      * @param Mage_Catalog_Model_Product $product
      * @return bool
      */
-    public function isSalable($product = null)
+    public function isSalable($product)
     {
         return $this->hasLinks($product) && parent::isSalable($product);
     }
@@ -466,8 +455,8 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
      * @param Mage_Catalog_Model_Product $product
      * @return bool
      */
-    public function canConfigure($product = null)
+    public function canConfigure($product)
     {
-        return $this->hasLinks($product) && $this->getProduct($product)->getLinksPurchasedSeparately();
+        return $this->hasLinks($product) && $product->getLinksPurchasedSeparately();
     }
 }

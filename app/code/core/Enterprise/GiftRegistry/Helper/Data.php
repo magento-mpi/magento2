@@ -227,7 +227,7 @@ class Enterprise_GiftRegistry_Helper_Data extends Mage_Core_Helper_Abstract
             } else {
                 $product = $item;
             }
-            return $product->getTypeInstance()->isTypePhysical();
+            return $product->getTypeInstance()->isTypePhysical($product);
         }
         return true;
     }

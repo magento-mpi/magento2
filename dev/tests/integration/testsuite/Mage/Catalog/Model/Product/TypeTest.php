@@ -29,6 +29,9 @@ class Mage_Catalog_Model_Product_TypeTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf($expectedClass, $type);
     }
 
+    /**
+     * @return array
+     */
     public function factoryDataProvider()
     {
         return array(
@@ -39,6 +42,38 @@ class Mage_Catalog_Model_Product_TypeTest extends PHPUnit_Framework_TestCase
             array(Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE, 'Mage_Catalog_Model_Product_Type_Configurable'),
             array(Mage_Catalog_Model_Product_Type::TYPE_BUNDLE, 'Mage_Bundle_Model_Product_Type'),
             array(Mage_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE, 'Mage_Downloadable_Model_Product_Type'),
+        );
+    }
+
+    /**
+     * @param sring|null $typeId
+     * @dataProvider factoryReturnsSingletonDataProvider
+     */
+    public function testFactoryReturnsSingleton($typeId)
+    {
+        $product = new Varien_Object;
+        if ($typeId) {
+            $product->setTypeId($typeId);
+        }
+
+        $type = Mage_Catalog_Model_Product_Type::factory($product);
+        $otherType = Mage_Catalog_Model_Product_Type::factory($product);
+        $this->assertSame($otherType, $type);
+    }
+
+    /**
+     * @return array
+     */
+    public function factoryReturnsSingletonDataProvider()
+    {
+        return array(
+            array(null),
+            array(Mage_Catalog_Model_Product_Type::TYPE_SIMPLE),
+            array(Mage_Catalog_Model_Product_Type::TYPE_VIRTUAL),
+            array(Mage_Catalog_Model_Product_Type::TYPE_GROUPED),
+            array(Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE),
+            array(Mage_Catalog_Model_Product_Type::TYPE_BUNDLE),
+            array(Mage_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE)
         );
     }
 

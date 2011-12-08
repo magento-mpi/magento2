@@ -45,8 +45,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Composite_Fieldset_Grouped extends Ma
             $this->setData('product', Mage::registry('product'));
         }
         $product = $this->getData('product');
-        if (is_null($product->getTypeInstance(true)->getStoreFilter($product))) {
-            $product->getTypeInstance(true)->setStoreFilter(Mage::app()->getStore($product->getStoreId()), $product);
+        if (is_null($product->getTypeInstance()->getStoreFilter($product))) {
+            $product->getTypeInstance()->setStoreFilter(Mage::app()->getStore($product->getStoreId()), $product);
         }
 
         return $product;
@@ -60,7 +60,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Composite_Fieldset_Grouped extends Ma
     public function getAssociatedProducts()
     {
         $product = $this->getProduct();
-        $result = $product->getTypeInstance(true)
+        $result = $product->getTypeInstance()
             ->getAssociatedProducts($product);
 
         $storeId = $product->getStoreId();

@@ -846,7 +846,7 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
                 $stockQty = $this->getQty();
             } else {
                 $stockQty = null;
-                $productsByGroups = $product->getTypeInstance(true)->getProductsToPurchaseByReqGroups($product);
+                $productsByGroups = $product->getTypeInstance()->getProductsToPurchaseByReqGroups($product);
                 foreach ($productsByGroups as $productsInGroup) {
                     $qty = 0;
                     foreach ($productsInGroup as $childProduct) {

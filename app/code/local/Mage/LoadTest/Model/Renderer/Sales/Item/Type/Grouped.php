@@ -1,5 +1,5 @@
 <?php
-/* 
+/*
  * {license_notice}
  *
  * @category   Mage
@@ -13,15 +13,15 @@ class Mage_LoadTest_Model_Renderer_Sales_Item_Type_Grouped extends Mage_LoadTest
 
     public function prepareRequestForCart($_product)
     {
-	$this->_product = $_product;
-	$this->_typeInstance = $this->_product->getTypeInstance();
-	
+        $this->_product = $_product;
+        $typeInstance = $this->_product->getTypeInstance();
+
 	$request = array();
 	$request['product'] = $this->_product->getId();
 	$request['related_product'] = '';
 	$groupedQtySum = 0;
 	$lastAssociatedId = null;
-	foreach($this->_typeInstance->getAssociatedProducts($this->_product) as $product)
+	foreach($typeInstance->getAssociatedProducts($this->_product) as $product)
 	{
 	    if($product->isSaleable()) {
 		$groupedQty = 1;
@@ -35,10 +35,10 @@ class Mage_LoadTest_Model_Renderer_Sales_Item_Type_Grouped extends Mage_LoadTest
 	}
 	if($groupedQtySum == 0 && !is_null($lastAssociatedId))
 	    $request['super_group'][$lastAssociatedId]++;
-	
+
 	return new Varien_Object($request);
     }
-    
+
 }
 
 

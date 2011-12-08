@@ -142,13 +142,13 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option extends
     public function getOptions()
     {
         if (!$this->_options) {
-            $this->getProduct()->getTypeInstance(true)->setStoreFilter($this->getProduct()->getStoreId(),
+            $this->getProduct()->getTypeInstance()->setStoreFilter($this->getProduct()->getStoreId(),
                 $this->getProduct());
 
-            $optionCollection = $this->getProduct()->getTypeInstance(true)->getOptionsCollection($this->getProduct());
+            $optionCollection = $this->getProduct()->getTypeInstance()->getOptionsCollection($this->getProduct());
 
-            $selectionCollection = $this->getProduct()->getTypeInstance(true)->getSelectionsCollection(
-                $this->getProduct()->getTypeInstance(true)->getOptionsIds($this->getProduct()),
+            $selectionCollection = $this->getProduct()->getTypeInstance()->getSelectionsCollection(
+                $this->getProduct()->getTypeInstance()->getOptionsIds($this->getProduct()),
                 $this->getProduct()
             );
 

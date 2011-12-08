@@ -73,7 +73,7 @@ abstract class Mage_Catalog_Block_Product_Abstract extends Mage_Core_Block_Templ
      */
     public function getAddToCartUrl($product, $additional = array())
     {
-        if ($product->getTypeInstance(true)->hasRequiredOptions($product)) {
+        if ($product->getTypeInstance()->hasRequiredOptions($product)) {
             if (!isset($additional['_escape'])) {
                 $additional['_escape'] = true;
             }

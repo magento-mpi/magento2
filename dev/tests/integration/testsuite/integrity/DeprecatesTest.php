@@ -396,4 +396,62 @@ class Integrity_DeprecatesTest extends Magento_Test_TestCase_VisitorAbstract
 
         return $result;
     }
+
+    /**
+     * Finds usage of deprecated parameters in product getTypeInstance, setTypeInstance
+     *
+     * @param SplFileInfo $fileInfo
+     * @param string $content
+     * @return array
+     */
+    protected function _visitGetTypeInstance($fileInfo, $content)
+    {
+        if (!$this->_fileHasExtensions($fileInfo, array('php', 'phtml'))) {
+            return array();
+        }
+
+        $num = preg_match('/getTypeInstance\([^)]+\)/', $content);
+        if (!$num) {
+            return array();
+        }
+
+        return array(
+            array(
+                'description' => "call to product's method",
+                'needle' => 'getTypeInstance() with parameter',
+                'suggestion' => 'remove parameter, refactor code to treat returned type instance as singleton'
+            )
+        );
+    }
+
+    /**
+     * @param  $fileName
+     * @dataProvider getSetProductInProductTypeDataProvider
+     */
+    public function testGetSetProductInProductType($fileName)
+    {
+        $content = file_get_contents(Mage::getRoot() . '/' . $fileName);
+        $this->assertFalse(
+            strpos($content, '$this->getProduct('),
+            'getProduct() in product type models is not used anymore, remove it from ' . $fileName
+        );
+        $this->assertFalse(
+            strpos($content, '$this->setProduct('),
+            'setProduct() in product type models is not used anymore, remove it from ' . $fileName
+        );
+    }
+
+    public function getSetProductInProductTypeDataProvider()
+    {
+        return array(
+            array('code/core/Enterprise/GiftCard/Model/Catalog/Product/Type/Giftcard.php'),
+            array('code/core/Mage/Bundle/Model/Product/Type.php'),
+            array('code/core/Mage/Catalog/Model/Product/Type/Abstract.php'),
+            array('code/core/Mage/Catalog/Model/Product/Type/Configurable.php'),
+            array('code/core/Mage/Catalog/Model/Product/Type/Grouped.php'),
+            array('code/core/Mage/Catalog/Model/Product/Type/Simple.php'),
+            array('code/core/Mage/Catalog/Model/Product/Type/Virtual.php'),
+            array('code/core/Mage/Downloadable/Model/Product/Type.php')
+        );
+    }
 }

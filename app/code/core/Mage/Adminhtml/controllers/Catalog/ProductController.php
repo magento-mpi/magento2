@@ -71,9 +71,10 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
 
         $attributes = $this->getRequest()->getParam('attributes');
         if ($attributes && $product->isConfigurable() &&
-            (!$productId || !$product->getTypeInstance()->getUsedProductAttributeIds())) {
+            (!$productId || !$product->getTypeInstance()->getUsedProductAttributeIds($product))) {
             $product->getTypeInstance()->setUsedProductAttributeIds(
-                explode(",", base64_decode(urldecode($attributes)))
+                explode(",", base64_decode(urldecode($attributes))),
+                $product
             );
         }
 
@@ -100,7 +101,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
 
             /* @var $configProduct Mage_Catalog_Model_Product */
             $data = array();
-            foreach ($configProduct->getTypeInstance()->getEditableAttributes() as $attribute) {
+            foreach ($configProduct->getTypeInstance()->getEditableAttributes($configProduct) as $attribute) {
 
                 /* @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
                 if(!$attribute->getIsUnique()
@@ -180,7 +181,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         } else {
             $_additionalLayoutPart = '';
             if ($product->getTypeId() == Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE
-                && !($product->getTypeInstance()->getUsedProductAttributeIds()))
+                && !($product->getTypeInstance()->getUsedProductAttributeIds($product)))
             {
                 $_additionalLayoutPart = '_new';
             }
@@ -222,7 +223,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
 
         $_additionalLayoutPart = '';
         if ($product->getTypeId() == Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE
-            && !($product->getTypeInstance()->getUsedProductAttributeIds()))
+            && !($product->getTypeInstance()->getUsedProductAttributeIds($product)))
         {
             $_additionalLayoutPart = '_new';
         }
@@ -931,7 +932,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             ->setAttributeSetId($configurableProduct->getAttributeSetId());
 
 
-        foreach ($product->getTypeInstance()->getEditableAttributes() as $attribute) {
+        foreach ($product->getTypeInstance()->getEditableAttributes($product) as $attribute) {
             if ($attribute->getIsUnique()
                 || $attribute->getAttributeCode() == 'url_key'
                 || $attribute->getFrontend()->getInputType() == 'gallery'
@@ -952,7 +953,9 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         $autogenerateOptions = array();
         $result['attributes'] = array();
 
-        foreach ($configurableProduct->getTypeInstance()->getConfigurableAttributes() as $attribute) {
+        $configurableAttributes = $configurableProduct->getTypeInstance()
+            ->getConfigurableAttributes($configurableProduct);
+        foreach ($configurableAttributes as $attribute) {
             $value = $product->getAttributeText($attribute->getProductAttribute()->getAttributeCode());
             $autogenerateOptions[] = $value;
             $result['attributes'][] = array(

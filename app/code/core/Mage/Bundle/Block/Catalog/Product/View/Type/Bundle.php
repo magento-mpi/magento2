@@ -32,7 +32,7 @@ class Mage_Bundle_Block_Catalog_Product_View_Type_Bundle extends Mage_Catalog_Bl
     {
         if (!$this->_options) {
             $product = $this->getProduct();
-            $typeInstance = $product->getTypeInstance(true);
+            $typeInstance = $product->getTypeInstance();
             $typeInstance->setStoreFilter($product->getStoreId(), $product);
 
             $optionCollection = $typeInstance->getOptionsCollection($product);

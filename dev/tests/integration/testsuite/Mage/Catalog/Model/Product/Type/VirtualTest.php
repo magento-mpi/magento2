@@ -17,6 +17,7 @@ class Mage_Catalog_Model_Product_Type_VirtualTest extends PHPUnit_Framework_Test
     public function testIsVirtual()
     {
         $model = new Mage_Catalog_Model_Product_Type_Virtual;
-        $this->assertTrue($model->isVirtual());
+        $product = new Mage_Catalog_Model_Product;
+        $this->assertTrue($model->isVirtual($product));
     }
 }

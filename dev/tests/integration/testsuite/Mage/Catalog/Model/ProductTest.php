@@ -68,29 +68,18 @@ class Mage_Catalog_Model_ProductTest extends PHPUnit_Framework_TestCase
     public function testGetSetTypeInstance()
     {
         // model getter
-        $model = $this->_model->getTypeInstance();
-        $this->assertInstanceOf('Mage_Catalog_Model_Product_Type_Abstract', $model);
-        $this->assertSame($model, $this->_model->getTypeInstance());
+        $typeInstance = $this->_model->getTypeInstance();
+        $this->assertInstanceOf('Mage_Catalog_Model_Product_Type_Abstract', $typeInstance);
+        $this->assertSame($typeInstance, $this->_model->getTypeInstance());
 
-        // singleton getter
-        $singleton = $this->_model->getTypeInstance(true);
-        $this->assertInstanceOf('Mage_Catalog_Model_Product_Type_Abstract', $singleton);
-        $this->assertNotSame($model, $this->_model->getTypeInstance(true));
-        $this->assertSame($singleton, $this->_model->getTypeInstance(true));
+        // singleton
+        $otherProduct = new Mage_Catalog_Model_Product;
+        $this->assertSame($typeInstance, $otherProduct->getTypeInstance());
 
         // model setter
-        $simpleModel = new Mage_Catalog_Model_Product_Type_Simple;
-        $this->_model->setTypeInstance($simpleModel);
-        $this->assertSame($simpleModel, $this->_model->getTypeInstance());
-        $this->assertNotSame($model, $this->_model->getTypeInstance());
-
-        // singleton setter
-        $simpleSingleton = new Mage_Catalog_Model_Product_Type_Simple;
-        $this->_model->setTypeInstance($simpleSingleton, true);
-        $this->assertNotSame($model, $this->_model->getTypeInstance(true));
-        $this->assertNotSame($simpleModel, $this->_model->getTypeInstance(true));
-        $this->assertSame($simpleSingleton, $this->_model->getTypeInstance(true));
-        $this->assertSame($simpleSingleton, $this->_model->getTypeInstance(true));
+        $simpleTypeInstance = new Mage_Catalog_Model_Product_Type_Simple;
+        $this->_model->setTypeInstance($simpleTypeInstance);
+        $this->assertSame($simpleTypeInstance, $this->_model->getTypeInstance());
     }
 
     public function testGetIdBySku()
