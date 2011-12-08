@@ -21,8 +21,11 @@
     <target name="prepare-ce">
         <property name="dir.extruder" location="${basedir}/dev/build/publication/extruder"/>
         <exec executable="php" failonerror="true">
-            <arg line="-f ${dir.extruder}/extruder.php -w ${basedir}
-                -l ${dir.extruder}/common.txt -l ${dir.extruder}/ce.txt -v
+            <arg line="-f ${dir.extruder}/extruder.php --
+                -w ${basedir}
+                -l ${dir.extruder}/common.txt
+                -l ${dir.extruder}/ce.txt
+                -v
                 "/>
         </exec>
     </target>
