@@ -180,15 +180,6 @@ class Mage_Adminhtml_System_BackupController extends Mage_Adminhtml_Controller_A
         $helper = Mage::helper('backup');
         $response = new Varien_Object();
 
-        $passwordValid = Mage::getModel('backup/backup')->validateUserPassword(
-            $this->getRequest()->getParam('password')
-        );
-
-        if (!$passwordValid) {
-            $response->setError($helper->__('Invalid Password.'));
-            return $this->getResponse()->setBody($response->toJson());
-        }
-
         try {
             $type = $this->getRequest()->getParam('type');
 
@@ -199,6 +190,16 @@ class Mage_Adminhtml_System_BackupController extends Mage_Adminhtml_Controller_A
                 ->setResourceModel(Mage::getResourceModel('backup/db'));
 
             Mage::register('backup_manager', $backupManager);
+
+            $passwordValid = Mage::getModel('backup/backup')->validateUserPassword(
+                $this->getRequest()->getParam('password')
+            );
+
+            if (!$passwordValid) {
+                $response->setError($helper->__('Invalid Password.'));
+                $backupManager->setErrorMessage($helper->__('Invalid Password.'));
+                return $this->getResponse()->setBody($response->toJson());
+            }
 
             if ($this->getRequest()->getParam('maintenance_mode')) {
                 $turnedOn = $helper->turnOnMaintenanceMode();
