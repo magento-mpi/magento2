@@ -39,6 +39,7 @@ product_page:
                             add_to_cart: //button[span='Add to Cart']
                         fields:
                             product_qty: //input[@id='qty']
+                            grouped_subproduct_qty: //table[@id='super-product-table']//tr[./td[text()='%subproductName%']]//input[@title='Qty']
                         links:
                             downloadable_sample: //dl[@class='item-options']/dd/a[normalize-space(text())='%samplesTitle%']
                             add_to_wishlist: //div[@class='product-essential']//a[text()='Add to Wishlist']
@@ -77,7 +78,6 @@ product_page:
                             grouped_subproduct_price_special: //table[@id='super-product-table']//tr[./td[text()='%subproductName%']]//p[@class='special-price']/span[normalize-space(text())='%price%']
                             grouped_subproduct_price_special_excluding_tax: //table[@id='super-product-table']//tr[./td[text()='%subproductName%']]//span[@class='price-excluding-tax']/span[normalize-space(text())='%price%']
                             grouped_subproduct_price_special_inlcuding_tax: //table[@id='super-product-table']//tr[./td[text()='%subproductName%']]//span[@class='price-including-tax']/span[normalize-space(text())='%price%']
-                            grouped_subproduct_qty: //table[@id='super-product-table']//tr[./td[text()='%subproductName%']]//input[@title='Qty']
                             as_low_as: //div[@class='product-shop']//p[@class='minimal-price']/span[normalize-space(text())='%price%']
                             qty: //input[@class='input-text qty'][@value='%price%']
                             availability: //p[contains(text(), 'Availability:')]/span
@@ -130,7 +130,7 @@ product_page:
                             custom_option_check_wo_price: //dt[./label[contains(text(),'%title%')]]/following-sibling::dd[1]//label[contains(text(),'%optionTitle%')]
                             # elements relative to the control title
                             custom_option_max_chars: "/following-sibling::dd[1]//p[@class='note' and //strong='%maxChars%']"
-                            custom_option_file_ext: "/following-sibling::dd[1]//p[./strong='%fileExt%']"
+                            custom_option_file_ext: /following-sibling::dd[1]//p[contains(text(),'Allowed file extensions to upload') and ./strong='%fileExt%']
                             custom_option_file_max_width: /following-sibling::dd[1]//p[contains(text(),'Maximum image width') and ./strong='%fileWidth% px.']
                             custom_option_file_max_height: /following-sibling::dd[1]//p[contains(text(),'Maximum image height') and ./strong='%fileHeight% px.']
                 -
