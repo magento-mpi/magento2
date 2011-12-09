@@ -125,7 +125,7 @@ class Mage_PHPUnit_StaticDataPool_Model extends Mage_PHPUnit_StaticDataPool_Abst
         $realClass = Mage_PHPUnit_StaticDataPoolContainer::getStaticDataObject(Mage_PHPUnit_StaticDataPoolContainer::POOL_REAL_MODEL_CLASSES)
             ->getRealModelClass($model);
         if (!$realClass) {
-            throw new Exception('Cannot find real model class name in ModelClass static pool');
+            throw new Exception("Cannot find real model class name in ModelClass static pool for model '{$model}'");
         }
         return new $realClass($constructorArgs);
     }
