@@ -37,6 +37,18 @@ class Mage_Cybersource_Model_Soap extends Mage_Payment_Model_Method_Cc
     protected $_formBlockType = 'cybersource/form';
     protected $_infoBlockType = 'cybersource/info';
 
+    /**
+     * Url to live service
+     */
+    const WSDL_URL_LIVE =
+        'https://ics2ws.ic3.com/commerce/1.x/transactionProcessor/CyberSourceTransaction_1.26.wsdl';
+    /**
+     * Url to sandbox service
+     */
+    const WSDL_URL_TEST =
+        'https://ics2wstest.ic3.com/commerce/1.x/transactionProcessor/CyberSourceTransaction_1.26.wsdl';
+
+
     const RESPONSE_CODE_SUCCESS = 100;
 
     const CC_CARDTYPE_SS = 'SS';
@@ -60,16 +72,15 @@ class Mage_Cybersource_Model_Soap extends Mage_Payment_Model_Method_Cc
     /**
      * Returns CyberSource WSDL URL
      *
-     * @static
      * @param bool $isTest Whether to return sandbox or live URL
      * @return string
      */
-    public static function getWsdlUrl($isTest)
+    protected function _getWsdlUrl($isTest)
     {
         if ($isTest) {
-            return 'https://ics2wstest.ic3.com/commerce/1.x/transactionProcessor/CyberSourceTransaction_1.26.wsdl';
+            return self::WSDL_URL_TEST;
         } else {
-            return 'https://ics2ws.ic3.com/commerce/1.x/transactionProcessor/CyberSourceTransaction_1.26.wsdl';
+            return self::WSDL_URL_LIVE;
         }
     }
 
@@ -207,7 +218,7 @@ class Mage_Cybersource_Model_Soap extends Mage_Payment_Model_Method_Cc
      */
     protected function getSoapApi($options = array())
     {
-        $wsdl = self::getWsdlUrl($this->getConfigData('test'));
+        $wsdl = $this->_getWsdlUrl($this->getConfigData('test'));
         $_api = new Mage_Cybersource_Model_Api_ExtendedSoapClient($wsdl, $options);
         $_api->setStoreId($this->getStore());
         return $_api;
