@@ -573,7 +573,7 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
         $this->waitForPopUp(end($names), '30000');
         $this->selectWindow("name=" . end($names));
         $this->productHelper()->fillProductInfo($simpleEmpty);
-        $this->saveForm('save');
+        $this->saveForm('save', false);
         $this->selectWindow(null);
         $this->waitForAjax();
         $xpath = $this->search(array('associated_search_sku' => $simpleEmpty['general_sku']), 'associated');
@@ -613,7 +613,7 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
         $this->waitForPopUp(end($names), '30000');
         $this->selectWindow("name=" . end($names));
         $this->productHelper()->fillProductInfo($simple);
-        $this->saveForm('save');
+        $this->saveForm('save', false);
         $this->selectWindow(null);
         $this->waitForAjax();
         $xpath = $this->search(array('associated_search_sku' => $simple['general_sku']), 'associated');
