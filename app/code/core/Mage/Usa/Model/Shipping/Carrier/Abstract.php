@@ -144,7 +144,7 @@ abstract class Mage_Usa_Model_Shipping_Carrier_Abstract extends Mage_Shipping_Mo
      * @param Mage_Shipping_Model_Rate_Request $request
      * @return Mage_Shipping_Model_Carrier_Abstract|Mage_Shipping_Model_Rate_Result_Error|boolean
      */
-    public function processAdditionalValidation(Mage_Shipping_Model_Rate_Request $request)
+    public function proccessAdditionalValidation(Mage_Shipping_Model_Rate_Request $request)
     {
         //Skip by item validation if there is no items in request
         if(!count($this->getAllItems($request))) {

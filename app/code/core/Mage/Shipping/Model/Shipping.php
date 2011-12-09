@@ -161,7 +161,7 @@ class Mage_Shipping_Model_Shipping
         $carrier->setActiveFlag($this->_availabilityConfigField);
         $result = $carrier->checkAvailableShipCountries($request);
         if (false !== $result && !($result instanceof Mage_Shipping_Model_Rate_Result_Error)) {
-            $result = $carrier->processAdditionalValidation($request);
+            $result = $carrier->proccessAdditionalValidation($request);
         }
         /*
         * Result will be false if the admin set not to show the shipping module
