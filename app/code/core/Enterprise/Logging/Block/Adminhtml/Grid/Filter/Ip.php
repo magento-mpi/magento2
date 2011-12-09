@@ -24,7 +24,10 @@ class Enterprise_Logging_Block_Adminhtml_Grid_Filter_Ip extends Mage_Adminhtml_B
         if (preg_match('/^(\d+\.){3}\d+$/', $value)) {
             return ip2long($value);
         }
-        $expr = Mage::getResourceHelper('Enterprise_Logging')->getInetNtoaExpr();
-        return array('field_expr' => $expr, 'like' => $value);
+
+        $resHelper = Mage::getResourceHelper('Enterprise_Logging');
+        $fieldExpression = $resHelper->getInetNtoaExpr();
+        $likeExpression = $resHelper->addLikeEscape($value, array('position' => 'any'));
+        return array('field_expr' => $fieldExpression, 'like' => $likeExpression);
     }
 }
