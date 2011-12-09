@@ -98,6 +98,8 @@ shopping_cart:
                             ex_crosssell_price_as_low_as: //ul[@id='crosssell-products-list']/li[*//a[text()='%crosssellProductName%']]//a[@class='minimal-price-link']/span[@class='price']
         buttons:
             proceed_to_checkout: //button[span='Proceed to Checkout']
+        links:
+            checkout_with_multiple_addresses: //a[text()='Checkout with Multiple Addresses']
         messages:
             product_added_to_cart:  //li[normalize-space(@class)='success-msg' and contains(.,'%productName% was added to your shopping cart.')]
             shopping_cart_is_empty: //h1[contains(.,'Shopping Cart is Empty')]

@@ -85,7 +85,7 @@ checkout_multishipping_register:
                             password: //input[@id='password']
                             password_confirmation: //input[@id='confirmation']
                         required: [first_name, last_name, telephone, street_address_1, city, zip_code, region, country, password, password_confirmation]
-        messages:
+        messages: &checkoutMessages
             not_valid_length_first_name: //li[normalize-space(@class)='error-msg' and contains(.,'"First Name" length must be equal or less than 255 characters.')]
             not_valid_length_last_name: //li[normalize-space(@class)='error-msg' and contains(.,'"Last Name" length must be equal or less than 255 characters.')]
             not_valid_length_email: //li[normalize-space(@class)='error-msg' and contains(.,'"Email" exceeds the allowed length.')]
@@ -245,7 +245,7 @@ checkout_multishipping_edit_billing_address:
     mca: checkout/multishipping_address/editAddress/id/%id%/
     title: Edit Address
     uimap:
-        form: *createBillingAddress
+        form: *createNewAddress
         messages: *checkoutMessages
 
 checkout_multishipping_review_order:
