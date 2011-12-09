@@ -271,6 +271,7 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
             || strpos($path, 'app/code/core/Mage/XmlConnect/Block/Customer/Storecredit.php')
             || strpos($path, 'app/code/core/Mage/XmlConnect/controllers/PbridgeController.php')
             || strpos($path, 'app/code/core/Mage/XmlConnect/Block/Customer/Address/Form.php')
+            || strpos($path, 'app/code/core/Mage/XmlConnect/controllers/CustomerController.php')
         ) {
             self::markTestIncomplete('Bug MMOBAPP-1792');
         }
