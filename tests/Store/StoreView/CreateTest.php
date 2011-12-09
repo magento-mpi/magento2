@@ -70,7 +70,7 @@ class Store_StoreView_CreateTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->controlIsPresent('button', 'create_store_view'),
                 'There is no "Create Store View" button on the page');
         $this->clickButton('create_store_view');
-        $this->assertTrue($this->checkCurrentPage('new_store_view'), $this->messages);
+        $this->assertTrue($this->checkCurrentPage('new_store_view'), $this->getParsedMessages());
         $this->assertTrue($this->controlIsPresent('button', 'back'), 'There is no "Back" button on the page');
         $this->assertTrue($this->controlIsPresent('button', 'save_store_view'),
                 'There is no "Save" button on the page');
@@ -97,7 +97,7 @@ class Store_StoreView_CreateTest extends Mage_Selenium_TestCase
         //Steps
         $this->storeHelper()->createStore($storeViewData, 'store_view');
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_store_view'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_store_view');
 
         return $storeViewData;
     }
@@ -121,7 +121,7 @@ class Store_StoreView_CreateTest extends Mage_Selenium_TestCase
         //Steps
         $this->storeHelper()->createStore($storeViewData, 'store_view');
         //Verifying
-        $this->assertTrue($this->errorMessage('store_view_code_exist'), $this->messages);
+        $this->assertMessagePresent('error', 'store_view_code_exist');
     }
 
     /**
@@ -147,8 +147,8 @@ class Store_StoreView_CreateTest extends Mage_Selenium_TestCase
         //Verifying
         $xpath = $this->_getControlXpath('field', $emptyField);
         $this->addParameter('fieldXpath', $xpath);
-        $this->assertTrue($this->errorMessage('empty_required_field'), $this->messages);
-        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
+        $this->assertMessagePresent('error', 'empty_required_field');
+        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     public function dataEmptyField()
@@ -183,8 +183,7 @@ class Store_StoreView_CreateTest extends Mage_Selenium_TestCase
         //Steps
         $this->storeHelper()->createStore($storeViewData, 'store_view');
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_store_view'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_stores'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_store_view');
     }
 
     /**
@@ -209,8 +208,7 @@ class Store_StoreView_CreateTest extends Mage_Selenium_TestCase
         //Steps
         $this->storeHelper()->createStore($storeViewData, 'store_view');
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_store_view'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_stores'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_store_view');
     }
 
     /**
@@ -235,7 +233,7 @@ class Store_StoreView_CreateTest extends Mage_Selenium_TestCase
         //Steps
         $this->storeHelper()->createStore($storeViewData, 'store_view');
         //Verifying
-        $this->assertTrue($this->errorMessage('wrong_store_view_code'), $this->messages);
+        $this->assertMessagePresent('error', 'wrong_store_view_code');
     }
 
     /**
@@ -260,7 +258,7 @@ class Store_StoreView_CreateTest extends Mage_Selenium_TestCase
         //Steps
         $this->storeHelper()->createStore($storeViewData, 'store_view');
         //Verifying
-        $this->assertTrue($this->errorMessage('wrong_store_view_code'), $this->messages);
+        $this->assertMessagePresent('error', 'wrong_store_view_code');
     }
 
     public function dataInvalidCode()

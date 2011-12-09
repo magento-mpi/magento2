@@ -70,7 +70,7 @@ class SystemConfiguration_Helper extends Mage_Selenium_TestCase
                     $this->clickAndWait($xpath);
                     $this->fillForm($settings, $tab);
                     $this->saveForm('save_config');
-                    $this->assertTrue($this->successMessage('success_saved_config'), $this->messages);
+                    $this->assertMessagePresent('success', 'success_saved_config');
                 }
             }
         }
@@ -121,7 +121,7 @@ class SystemConfiguration_Helper extends Mage_Selenium_TestCase
             $this->admin('system_configuration');
             $this->clickAndWait($xpath);
         }
-        $this->assertTrue($this->verifyForm($data, 'general_web'), $this->messages);
+        $this->assertTrue($this->verifyForm($data, 'general_web'), $this->getParsedMessages());
     }
 
 }

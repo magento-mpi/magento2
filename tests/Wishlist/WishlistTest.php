@@ -65,7 +65,7 @@ class Wishlist_Wishlist extends Mage_Selenium_TestCase
         $userData = $this->loadData('customer_account_for_prices_validation', NULL, 'email');
         $this->navigate('manage_customers');
         $this->customerHelper()->createCustomer($userData);
-        $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_customer');
         return array('email' => $userData['email'], 'password' => $userData['password']);
     }
 
@@ -85,7 +85,7 @@ class Wishlist_Wishlist extends Mage_Selenium_TestCase
         $rootCat = $rootCat['name'];
         $categoryData = $this->loadData('sub_category_required', null, 'name');
         $this->categoryHelper()->createSubCategory($rootCat, $categoryData);
-        $this->assertTrue($this->successMessage('success_saved_category'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_category');
         $this->categoryHelper()->checkCategoriesPage();
         return array('name' => $categoryData['name'], 'path' => $rootCat . '/' . $categoryData['name']);
     }
@@ -107,14 +107,14 @@ class Wishlist_Wishlist extends Mage_Selenium_TestCase
         $this->navigate('manage_attributes');
         $this->productAttributeHelper()->createAttribute($attrData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_attribute'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_attribute');
         //Steps
         $this->navigate('manage_attribute_sets');
         $this->attributeSetHelper()->openAttributeSet();
         $this->attributeSetHelper()->addAttributeToSet($associatedAttributes);
         $this->saveForm('save_attribute_set');
         //Verifying
-        $this->assertTrue($this->successMessage('success_attribute_set_saved'), $this->messages);
+        $this->assertMessagePresent('success', 'success_attribute_set_saved');
         return $attrData;
     }
 
@@ -130,7 +130,7 @@ class Wishlist_Wishlist extends Mage_Selenium_TestCase
     {
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($productData, $productType);
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_product');
         return $productData;
     }
 
@@ -279,7 +279,7 @@ class Wishlist_Wishlist extends Mage_Selenium_TestCase
         //Steps
         foreach ($productNameSet as $productName) {
             $this->wishlistHelper()->frontAddProductToWishlistFromProductPage($productName);
-            $this->assertTrue($this->successMessage('successfully_added_product'), $this->messages);
+            $this->assertMessagePresent('success', 'successfully_added_product');
         }
         //Verify
         $this->navigate('my_wishlist');
@@ -318,7 +318,7 @@ class Wishlist_Wishlist extends Mage_Selenium_TestCase
         $this->wishlistHelper()->frontClearWishlist();
         foreach ($productNameSet as $productName) {
             $this->wishlistHelper()->frontAddProductToWishlistFromProductPage($productName);
-            $this->assertTrue($this->successMessage('successfully_added_product'), $this->messages);
+            $this->assertMessagePresent('success', 'successfully_added_product');
         }
         //Steps
         $lastProductName = end($productNameSet);
@@ -332,7 +332,7 @@ class Wishlist_Wishlist extends Mage_Selenium_TestCase
         //Steps
         $this->wishlistHelper()->frontRemoveProductsFromWishlist($lastProductName); //Remove the last one
         //Verify
-        $this->assertTrue($this->controlIsPresent('pageelement', 'no_items'), $this->messages);
+        $this->assertTrue($this->controlIsPresent('pageelement', 'no_items'), $this->getParsedMessages());
         //Cleanup
     }
 
@@ -363,7 +363,7 @@ class Wishlist_Wishlist extends Mage_Selenium_TestCase
         //Steps
         foreach ($productNameSet as $productName) {
             $this->wishlistHelper()->frontAddProductToWishlistFromProductPage($productName);
-            $this->assertTrue($this->successMessage('successfully_added_product'), $this->messages);
+            $this->assertMessagePresent('success', 'successfully_added_product');
         }
         //Verify
         $this->navigate('my_wishlist');
@@ -468,13 +468,13 @@ class Wishlist_Wishlist extends Mage_Selenium_TestCase
         $this->shoppingCartHelper()->frontClearShoppingCart();
         foreach ($productNameSet as $productName) {
             $this->wishlistHelper()->frontAddProductToWishlistFromProductPage($productName);
-            $this->assertTrue($this->successMessage('successfully_added_product'), $this->messages);
+            $this->assertMessagePresent('success', 'successfully_added_product');
         }
         //Steps
         $this->navigate('my_wishlist');
         $this->wishlistHelper()->frontAddToShoppingCart($productNameSet);
         //Verify
-        $this->assertTrue($this->checkCurrentPage('shopping_cart'), $this->messages);
+        $this->assertTrue($this->checkCurrentPage('shopping_cart'), $this->getParsedMessages());
         foreach ($productNameSet as $productName) {
             $this->assertTrue($this->shoppingCartHelper()->frontShoppingCartHasProducts($productName),
                     'Product ' . $productName . ' is not in the shopping cart.');
@@ -539,7 +539,7 @@ class Wishlist_Wishlist extends Mage_Selenium_TestCase
         $this->shoppingCartHelper()->frontClearShoppingCart();
         foreach ($productNameSet as $productName) {
             $this->wishlistHelper()->frontAddProductToWishlistFromProductPage($productName);
-            $this->assertTrue($this->successMessage('successfully_added_product'), $this->messages);
+            $this->assertMessagePresent('success', 'successfully_added_product');
         }
         //Steps
         $this->navigate('my_wishlist');
@@ -547,13 +547,13 @@ class Wishlist_Wishlist extends Mage_Selenium_TestCase
         //Verify
         //Check error message for downloadable product
         $this->addParameter('productName', $downloadableProductName);
-        $this->assertTrue($this->errorMessage('specify_product_links'), $this->messages);
+        $this->assertMessagePresent('error', 'specify_product_links');
         //Check error message for configurable product
         $this->addParameter('productName', $configurableProductName);
-        $this->assertTrue($this->errorMessage('specify_product_options'), $this->messages);
+        $this->assertMessagePresent('error', 'specify_product_options');
         //Check success message for other products
         $this->addParameter('productQty', '4');
-        $this->assertTrue($this->successMessage('successfully_added_products'), $this->messages);
+        $this->assertMessagePresent('success', 'successfully_added_products');
         //Check if the products are in the shopping cart
         $this->navigate('shopping_cart');
         foreach ($productNameSet as $productName) {
@@ -599,7 +599,7 @@ class Wishlist_Wishlist extends Mage_Selenium_TestCase
         //Steps
         $this->clickControl('link', 'my_wishlist');
         //Verify
-        $this->assertTrue($this->checkCurrentPage('my_wishlist'), $this->messages);
+        $this->assertTrue($this->checkCurrentPage('my_wishlist'), $this->getParsedMessages());
         //Cleanup
     }
 
@@ -629,12 +629,12 @@ class Wishlist_Wishlist extends Mage_Selenium_TestCase
         $shareData = $this->loadData('share_data', $shareData);
         $this->customerHelper()->frontLoginCustomer($customer);
         $this->wishlistHelper()->frontAddProductToWishlistFromProductPage($simpleProductName);
-        $this->assertTrue($this->successMessage('successfully_added_product'), $this->messages);
+        $this->assertMessagePresent('success', 'successfully_added_product');
         //Steps
         $this->navigate('my_wishlist');
         $this->wishlistHelper()->frontShareWishlist($shareData);
         //Verify
-        $this->assertTrue($this->successMessage('successfully_shared_wishlist'), $this->messages);
+        $this->assertMessagePresent('success', 'successfully_shared_wishlist');
         //Cleanup
     }
 
@@ -673,14 +673,14 @@ class Wishlist_Wishlist extends Mage_Selenium_TestCase
         $shareData = $this->loadData('share_data', array('emails' => $emails));
         $this->customerHelper()->frontLoginCustomer($customer);
         $this->wishlistHelper()->frontAddProductToWishlistFromProductPage($simpleProductName);
-        $this->assertTrue($this->successMessage('successfully_added_product'), $this->messages);
+        $this->assertMessagePresent('success', 'successfully_added_product');
         $this->navigate('my_wishlist');
         $this->wishlistHelper()->frontShareWishlist($shareData);
         //Verify
         if ($errorMessage == 'invalid_emails') {
-            $this->assertTrue($this->validationMessage($errorMessage), $this->messages);
+            $this->assertMessagePresent('validation', $errorMessage);
         } else {
-            $this->assertTrue($this->errorMessage($errorMessage), $this->messages);
+            $this->assertMessagePresent('error', $errorMessage);
         }
         //Cleanup
     }
@@ -718,12 +718,12 @@ class Wishlist_Wishlist extends Mage_Selenium_TestCase
         $shareData = $this->loadData('share_data', array('emails' => ''));
         $this->customerHelper()->frontLoginCustomer($customer);
         $this->wishlistHelper()->frontAddProductToWishlistFromProductPage($simpleProductName);
-        $this->assertTrue($this->successMessage('successfully_added_product'), $this->messages);
+        $this->assertMessagePresent('success', 'successfully_added_product');
         //Steps
         $this->navigate('my_wishlist');
         $this->wishlistHelper()->frontShareWishlist($shareData);
         //Verify
-        $this->assertTrue($this->validationMessage('required_emails'), $this->messages);
+        $this->assertMessagePresent('validation', 'required_emails');
         //Cleanup
     }
 
@@ -744,7 +744,7 @@ class Wishlist_Wishlist extends Mage_Selenium_TestCase
         //Steps
         $this->clickControl('link', 'my_wishlist');
         //Verify
-        $this->assertTrue($this->checkCurrentPage('customer_login'), $this->messages);
+        $this->assertTrue($this->checkCurrentPage('customer_login'), $this->getParsedMessages());
         //Cleanup
         $this->navigate('home'); // So that user is not redirected in further tests.
     }
@@ -770,7 +770,7 @@ class Wishlist_Wishlist extends Mage_Selenium_TestCase
         //Steps
         $this->wishlistHelper()->frontAddProductToWishlistFromProductPage($simpleProductName);
         //Verify
-        $this->assertTrue($this->checkCurrentPage('customer_login'), $this->messages);
+        $this->assertTrue($this->checkCurrentPage('customer_login'), $this->getParsedMessages());
         //Cleanup
         $this->navigate('home'); // So that user is not redirected in further tests.
     }

@@ -56,9 +56,9 @@ class CheckoutOnePage_Guest_WithProductsTest extends Mage_Selenium_TestCase
         $this->loginAdminUser();
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($simple);
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_product');
         $this->productHelper()->createProduct($virtual, 'virtual');
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_product');
 
         return array(
             'simple' => $simple['general_name'],
@@ -100,7 +100,7 @@ class CheckoutOnePage_Guest_WithProductsTest extends Mage_Selenium_TestCase
         $this->shoppingCartHelper()->frontClearShoppingCart();
         $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
         //Verification
-        $this->assertTrue($this->successMessage('success_checkout'), $this->messages);
+        $this->assertMessagePresent('success', 'success_checkout');
     }
 
     /**
@@ -135,7 +135,7 @@ class CheckoutOnePage_Guest_WithProductsTest extends Mage_Selenium_TestCase
         $this->shoppingCartHelper()->frontClearShoppingCart();
         $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
         //Verification
-        $this->assertTrue($this->successMessage('success_checkout'), $this->messages);
+        $this->assertMessagePresent('success', 'success_checkout');
     }
 
 }

@@ -51,7 +51,6 @@ class Order_Create_WithDifferentProductsTest extends Mage_Selenium_TestCase
     protected function assertPreConditions()
     {
         $this->navigate('manage_products');
-        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
         $this->addParameter('id', '0');
     }
     /**
@@ -79,17 +78,17 @@ class Order_Create_WithDifferentProductsTest extends Mage_Selenium_TestCase
             'configurable_options' => $this->loadData('config_option_custom_options')));
         //Steps and Verifying
         $this->productHelper()->createProduct($virtual, 'virtual');
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_product');
         $this->navigate('manage_sales_orders');
         $orderId = $this->orderHelper()->createOrder($orderData);
-        $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
+        $this->assertMessagePresent('success', 'success_created_order');
         $this->orderInvoiceHelper()->createInvoiceAndVerifyProductQty();
         $this->orderCreditMemoHelper()->createCreditMemoAndVerifyProductQty('refund_offline');
         $this->clickButton('reorder');
         $this->orderHelper()->submitOreder();
-        $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
+        $this->assertMessagePresent('success', 'success_created_order');
         $this->clickButtonAndConfirm('cancel', 'confirmation_for_cancel');
-        $this->assertTrue($this->successMessage('success_canceled_order'), $this->messages);
+        $this->assertMessagePresent('success', 'success_canceled_order');
 
         return $virtual;
     }
@@ -109,12 +108,12 @@ class Order_Create_WithDifferentProductsTest extends Mage_Selenium_TestCase
         //Steps and Verifying
         $this->navigate('manage_attributes');
         $this->productAttributeHelper()->createAttribute($attrData);
-        $this->assertTrue($this->successMessage('success_saved_attribute'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_attribute');
         $this->navigate('manage_attribute_sets');
         $this->attributeSetHelper()->openAttributeSet();
         $this->attributeSetHelper()->addAttributeToSet($associatedAttributes);
         $this->saveForm('save_attribute_set');
-        $this->assertTrue($this->successMessage('success_attribute_set_saved'), $this->messages);
+        $this->assertMessagePresent('success', 'success_attribute_set_saved');
 
         return $attrData;
     }
@@ -143,18 +142,18 @@ class Order_Create_WithDifferentProductsTest extends Mage_Selenium_TestCase
                 array('filter_sku' => $simple['general_sku']));
         //Steps and Verifying
         $this->productHelper()->createProduct($simple);
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_product');
         $this->navigate('manage_sales_orders');
         $orderId = $this->orderHelper()->createOrder($orderData);
-        $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
+        $this->assertMessagePresent('success', 'success_created_order');
         $this->orderInvoiceHelper()->createInvoiceAndVerifyProductQty();
         $this->orderShipmentHelper()->createShipmentAndVerifyProductQty();
         $this->orderCreditMemoHelper()->createCreditMemoAndVerifyProductQty('refund_offline');
         $this->clickButton('reorder');
         $this->orderHelper()->submitOreder();
-        $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
+        $this->assertMessagePresent('success', 'success_created_order');
         $this->clickButtonAndConfirm('cancel', 'confirmation_for_cancel');
-        $this->assertTrue($this->successMessage('success_canceled_order'), $this->messages);
+        $this->assertMessagePresent('success', 'success_canceled_order');
 
         return $simple;
     }
@@ -184,17 +183,17 @@ class Order_Create_WithDifferentProductsTest extends Mage_Selenium_TestCase
         $orderData = $this->loadData('order_virtual', array('filter_sku' => $virtual['general_sku']));
         //Steps and Verifying
         $this->productHelper()->createProduct($virtual, 'virtual');
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_product');
         $this->navigate('manage_sales_orders');
         $orderId = $this->orderHelper()->createOrder($orderData);
-        $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
+        $this->assertMessagePresent('success', 'success_created_order');
         $this->orderInvoiceHelper()->createInvoiceAndVerifyProductQty();
         $this->orderCreditMemoHelper()->createCreditMemoAndVerifyProductQty('refund_offline');
         $this->clickButton('reorder');
         $this->orderHelper()->submitOreder();
-        $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
+        $this->assertMessagePresent('success', 'success_created_order');
         $this->clickButtonAndConfirm('cancel', 'confirmation_for_cancel');
-        $this->assertTrue($this->successMessage('success_canceled_order'), $this->messages);
+        $this->assertMessagePresent('success', 'success_canceled_order');
 
         return $virtual;
     }
@@ -222,17 +221,17 @@ class Order_Create_WithDifferentProductsTest extends Mage_Selenium_TestCase
             'configurable_options' => $this->loadData('config_option_download')));
         //Steps and Verifying
         $this->productHelper()->createProduct($downloadable, 'downloadable');
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_product');
         $this->navigate('manage_sales_orders');
         $orderId = $this->orderHelper()->createOrder($orderData);
-        $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
+        $this->assertMessagePresent('success', 'success_created_order');
         $this->orderInvoiceHelper()->createInvoiceAndVerifyProductQty();
         $this->orderCreditMemoHelper()->createCreditMemoAndVerifyProductQty('refund_offline');
         $this->clickButton('reorder');
         $this->orderHelper()->submitOreder();
-        $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
+        $this->assertMessagePresent('success', 'success_created_order');
         $this->clickButtonAndConfirm('cancel', 'confirmation_for_cancel');
-        $this->assertTrue($this->successMessage('success_canceled_order'), $this->messages);
+        $this->assertMessagePresent('success', 'success_canceled_order');
     }
 
     /**
@@ -262,17 +261,17 @@ class Order_Create_WithDifferentProductsTest extends Mage_Selenium_TestCase
             'customer_email' => $this->generate('email', 32, 'valid')));
         //Steps and Verifying
         $this->productHelper()->createProduct($downloadable, 'downloadable');
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_product');
         $this->navigate('manage_sales_orders');
         $orderId = $this->orderHelper()->createOrder($orderData);
-        $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
+        $this->assertMessagePresent('success', 'success_created_order');
         $this->orderInvoiceHelper()->createInvoiceAndVerifyProductQty();
         $this->orderCreditMemoHelper()->createCreditMemoAndVerifyProductQty('refund_offline');
         $this->clickButton('reorder');
         $this->orderHelper()->submitOreder();
-        $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
+        $this->assertMessagePresent('success', 'success_created_order');
         $this->clickButtonAndConfirm('cancel', 'confirmation_for_cancel');
-        $this->assertTrue($this->successMessage('success_canceled_order'), $this->messages);
+        $this->assertMessagePresent('success', 'success_canceled_order');
 
         return $downloadable;
     }
@@ -313,18 +312,18 @@ class Order_Create_WithDifferentProductsTest extends Mage_Selenium_TestCase
                 array('filter_sku' => $bundle['general_sku'], 'configurable_options' => $configurable));
         //Steps and Verifying
         $this->productHelper()->createProduct($bundle, 'bundle');
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_product');
         $this->navigate('manage_sales_orders');
         $orderId = $this->orderHelper()->createOrder($orderData);
-        $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
+        $this->assertMessagePresent('success', 'success_created_order');
         $this->orderInvoiceHelper()->createInvoiceAndVerifyProductQty();
         $this->orderShipmentHelper()->createShipmentAndVerifyProductQty();
         $this->orderCreditMemoHelper()->createCreditMemoAndVerifyProductQty('refund_offline');
         $this->clickButton('reorder');
         $this->orderHelper()->submitOreder();
-        $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
+        $this->assertMessagePresent('success', 'success_created_order');
         $this->clickButtonAndConfirm('cancel', 'confirmation_for_cancel');
-        $this->assertTrue($this->successMessage('success_canceled_order'), $this->messages);
+        $this->assertMessagePresent('success', 'success_canceled_order');
 
         return array('bundle_sku' => $bundle['general_sku'], 'virtual_name' => $virtual['general_name']);
     }
@@ -359,14 +358,14 @@ class Order_Create_WithDifferentProductsTest extends Mage_Selenium_TestCase
         //Steps and Verifying
         $this->navigate('manage_sales_orders');
         $orderId = $this->orderHelper()->createOrder($orderData);
-        $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
+        $this->assertMessagePresent('success', 'success_created_order');
         $this->orderInvoiceHelper()->createInvoiceAndVerifyProductQty();
         $this->orderCreditMemoHelper()->createCreditMemoAndVerifyProductQty('refund_offline');
         $this->clickButton('reorder');
         $this->orderHelper()->submitOreder();
-        $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
+        $this->assertMessagePresent('success', 'success_created_order');
         $this->clickButtonAndConfirm('cancel', 'confirmation_for_cancel');
-        $this->assertTrue($this->successMessage('success_canceled_order'), $this->messages);
+        $this->assertMessagePresent('success', 'success_canceled_order');
     }
 
     /**
@@ -407,18 +406,18 @@ class Order_Create_WithDifferentProductsTest extends Mage_Selenium_TestCase
                                                         'fieldsValue' => $attrData['option_1']['admin_option_name']))));
         //Steps and Verifying
         $this->productHelper()->createProduct($configurable, 'configurable');
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_product');
         $this->navigate('manage_sales_orders');
         $orderId = $this->orderHelper()->createOrder($orderData);
-        $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
+        $this->assertMessagePresent('success', 'success_created_order');
         $this->orderInvoiceHelper()->createInvoiceAndVerifyProductQty();
         $this->orderShipmentHelper()->createShipmentAndVerifyProductQty();
         $this->orderCreditMemoHelper()->createCreditMemoAndVerifyProductQty('refund_offline');
         $this->clickButton('reorder');
         $this->orderHelper()->submitOreder();
-        $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
+        $this->assertMessagePresent('success', 'success_created_order');
         $this->clickButtonAndConfirm('cancel', 'confirmation_for_cancel');
-        $this->assertTrue($this->successMessage('success_canceled_order'), $this->messages);
+        $this->assertMessagePresent('success', 'success_canceled_order');
 
         return $configurable;
     }
@@ -450,14 +449,14 @@ class Order_Create_WithDifferentProductsTest extends Mage_Selenium_TestCase
         //Steps and Verifying
         $this->navigate('manage_sales_orders');
         $orderId = $this->orderHelper()->createOrder($orderData);
-        $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
+        $this->assertMessagePresent('success', 'success_created_order');
         $this->orderInvoiceHelper()->createInvoiceAndVerifyProductQty();
         $this->orderCreditMemoHelper()->createCreditMemoAndVerifyProductQty('refund_offline');
         $this->clickButton('reorder');
         $this->orderHelper()->submitOreder();
-        $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
+        $this->assertMessagePresent('success', 'success_created_order');
         $this->clickButtonAndConfirm('cancel', 'confirmation_for_cancel');
-        $this->assertTrue($this->successMessage('success_canceled_order'), $this->messages);
+        $this->assertMessagePresent('success', 'success_canceled_order');
     }
 
     /**
@@ -486,14 +485,14 @@ class Order_Create_WithDifferentProductsTest extends Mage_Selenium_TestCase
         //Steps and Verifying
         $this->navigate('manage_sales_orders');
         $orderId = $this->orderHelper()->createOrder($orderData);
-        $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
+        $this->assertMessagePresent('success', 'success_created_order');
         $this->orderInvoiceHelper()->createInvoiceAndVerifyProductQty();
         $this->orderCreditMemoHelper()->createCreditMemoAndVerifyProductQty('refund_offline');
         $this->clickButton('reorder');
         $this->orderHelper()->submitOreder();
-        $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
+        $this->assertMessagePresent('success', 'success_created_order');
         $this->clickButtonAndConfirm('cancel', 'confirmation_for_cancel');
-        $this->assertTrue($this->successMessage('success_canceled_order'), $this->messages);
+        $this->assertMessagePresent('success', 'success_canceled_order');
     }
 
     /**
@@ -529,18 +528,18 @@ class Order_Create_WithDifferentProductsTest extends Mage_Selenium_TestCase
                                                             'customer_email' => $this->generate('email', 32, 'valid')));
         //Steps and Verifying
         $this->productHelper()->createProduct($grouped, 'grouped');
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_product');
         $this->navigate('manage_sales_orders');
         $orderId = $this->orderHelper()->createOrder($orderData);
-        $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
+        $this->assertMessagePresent('success', 'success_created_order');
         $this->orderInvoiceHelper()->createInvoiceAndVerifyProductQty();
         $this->orderShipmentHelper()->createShipmentAndVerifyProductQty();
         $this->orderCreditMemoHelper()->createCreditMemoAndVerifyProductQty('refund_offline');
         $this->clickButton('reorder');
         $this->orderHelper()->submitOreder();
-        $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
+        $this->assertMessagePresent('success', 'success_created_order');
         $this->clickButtonAndConfirm('cancel', 'confirmation_for_cancel');
-        $this->assertTrue($this->successMessage('success_canceled_order'), $this->messages);
+        $this->assertMessagePresent('success', 'success_canceled_order');
 
         return $grouped['general_sku'];
     }
@@ -575,14 +574,14 @@ class Order_Create_WithDifferentProductsTest extends Mage_Selenium_TestCase
         //Steps and Verifying
         $this->navigate('manage_sales_orders');
         $orderId = $this->orderHelper()->createOrder($orderData);
-        $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
+        $this->assertMessagePresent('success', 'success_created_order');
         $this->orderInvoiceHelper()->createInvoiceAndVerifyProductQty();
         $this->orderCreditMemoHelper()->createCreditMemoAndVerifyProductQty('refund_offline');
         $this->clickButton('reorder');
         $this->orderHelper()->submitOreder();
-        $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
+        $this->assertMessagePresent('success', 'success_created_order');
         $this->clickButtonAndConfirm('cancel', 'confirmation_for_cancel');
-        $this->assertTrue($this->successMessage('success_canceled_order'), $this->messages);
+        $this->assertMessagePresent('success', 'success_canceled_order');
     }
 
 }

@@ -52,7 +52,6 @@ class ProductAttribute_Create_CreateFromProductPageTest extends Mage_Selenium_Te
     protected function assertPreConditions()
     {
         $this->navigate('manage_products');
-        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
         $this->addParameter('id', 0);
     }
 

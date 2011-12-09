@@ -170,7 +170,6 @@ class Customer_Helper extends Mage_Selenium_TestCase
         $this->clickControl('link', 'log_in');
         $this->fillForm($loginData);
         $this->clickButton('login');
-        $this->assertTrue($this->checkCurrentPage('customer_account'), $this->messages);
     }
 
 }

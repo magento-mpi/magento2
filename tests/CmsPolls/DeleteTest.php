@@ -34,7 +34,8 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class CmsPolls_DeleteTest extends Mage_Selenium_TestCase {
+class CmsPolls_DeleteTest extends Mage_Selenium_TestCase
+{
 
     /**
      * <p>Log in to Backend.</p>
@@ -51,7 +52,6 @@ class CmsPolls_DeleteTest extends Mage_Selenium_TestCase {
     protected function assertPreConditions()
     {
         $this->navigate('poll_manager');
-        $this->assertTrue($this->checkCurrentPage('poll_manager'), $this->messages);
         $this->addParameter('id', '0');
     }
 
@@ -72,15 +72,16 @@ class CmsPolls_DeleteTest extends Mage_Selenium_TestCase {
         $pollData = $this->loadData('poll_open', null, 'poll_question');
         $searchPollData = $this->loadData('search_poll',
                 array('filter_question' => $pollData['poll_question'],
-                      'filter_status' => $pollData['poll_status']));
+                       'filter_status'  => $pollData['poll_status']));
         //Steps
         $this->cmsPollsHelper()->createPoll($pollData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_poll'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('poll_manager'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_poll');
+        $this->assertTrue($this->checkCurrentPage('poll_manager'), $this->getParsedMessages());
         //Steps
         $this->cmsPollsHelper()->deletePoll($searchPollData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_deleted_poll'), $this->messages);
+        $this->assertMessagePresent('success', 'success_deleted_poll');
     }
+
 }

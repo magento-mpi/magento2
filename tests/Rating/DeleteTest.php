@@ -36,6 +36,7 @@
  */
 class Rating_DeleteTest extends Mage_Selenium_TestCase
 {
+
     /**
      * <p>Preconditions:</p>
      * <p>Login as admin to backend</p>
@@ -58,7 +59,7 @@ class Rating_DeleteTest extends Mage_Selenium_TestCase
         $this->navigate('manage_products');
         $simpleProductData = $this->loadData('simple_product_visible', NULL, array('general_name', 'general_sku'));
         $this->productHelper()->createProduct($simpleProductData);
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_product');
 
         return $simpleProductData;
     }
@@ -75,7 +76,7 @@ class Rating_DeleteTest extends Mage_Selenium_TestCase
         $this->navigate('manage_stores');
         $storeViewData = $this->loadData('generic_store_view');
         $this->storeHelper()->createStore($storeViewData, 'store_view');
-        $this->assertTrue($this->successMessage('success_saved_store_view'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_store_view');
 
         return $storeViewData['store_view_name'];
     }
@@ -104,19 +105,19 @@ class Rating_DeleteTest extends Mage_Selenium_TestCase
     {
         $ratingData = $this->loadData('default_rating', array('visible_in' => $storeView), 'default_value');
         $searchData = $this->loadData('search_rating',
-                                      array('filter_rating_name' =>$ratingData['rating_information']['default_value']));
+                array('filter_rating_name' => $ratingData['rating_information']['default_value']));
         $reviewData = $this->loadData('review_required',
-                                      array ('filter_sku' =>  $product['general_sku'],
-                                            'rating_name' => $ratingData['rating_information']['default_value'],
-                                            'visible_in' => $ratingData['rating_information']['visible_in']),
-                                      array ('nickname', 'summary_of_review', 'review'));
+                array('filter_sku' => $product['general_sku'],
+                    'rating_name' => $ratingData['rating_information']['default_value'],
+                    'visible_in' => $ratingData['rating_information']['visible_in']),
+                array('nickname', 'summary_of_review', 'review'));
         $this->navigate('manage_ratings');
         $this->ratingHelper()->createRating($ratingData);
-        $this->assertTrue($this->successMessage('success_saved_rating'), $this->messages);
-        
+        $this->assertMessagePresent('success', 'success_saved_rating');
+
         $this->navigate('all_reviews');
         $this->reviewHelper()->createReview($reviewData);
-        $this->assertTrue($this->successMessage('success_saved_review'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_review');
         $this->reindexInvalidedData();
 
         $this->frontend();
@@ -134,7 +135,7 @@ class Rating_DeleteTest extends Mage_Selenium_TestCase
         $this->clickControl('link', 'add_your_review');
         $this->addParameter('rateName', $ratingData['rating_information']['default_value']);
         $this->assertTrue($this->controlIsPresent('pageelement', 'review_table_rate_name'),
-                           'Rating is not on the page, but should be there');
+                'Rating is not on the page, but should be there');
 
         $this->loginAdminUser();
         $this->navigate('manage_ratings');
@@ -155,7 +156,7 @@ class Rating_DeleteTest extends Mage_Selenium_TestCase
         $this->clickControl('link', 'add_your_review');
         $this->addParameter('rateName', $ratingData['rating_information']['default_value']);
         $this->assertFalse($this->controlIsPresent('pageelement', 'review_table_rate_name'),
-                           'Rating is on the page, but should not be there');
+                'Rating is on the page, but should not be there');
     }
 
     /**
@@ -174,10 +175,10 @@ class Rating_DeleteTest extends Mage_Selenium_TestCase
     {
         $ratingData = $this->loadData('rating_required_fields', NULL, 'default_value');
         $searchData = $this->loadData('search_rating',
-                                      array('filter_rating_name' =>$ratingData['rating_information']['default_value']));
+                array('filter_rating_name' => $ratingData['rating_information']['default_value']));
         $this->navigate('manage_ratings');
         $this->ratingHelper()->createRating($ratingData);
-        $this->assertTrue($this->successMessage('success_saved_rating'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_rating');
         $this->ratingHelper()->deleteRating($searchData);
     }
 

@@ -56,10 +56,10 @@ class CheckoutOnePage_LoggedIn_CheckingValidationTest extends Mage_Selenium_Test
         $this->loginAdminUser();
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($simple);
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_product');
         $this->navigate('manage_customers');
         $this->customerHelper()->createCustomer($userData);
-        $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_customer');
 
         return array('sku' => $simple['general_name'],
             'customer' => array('email' => $userData['email'], 'password' => $userData['password']));
@@ -97,11 +97,11 @@ class CheckoutOnePage_LoggedIn_CheckingValidationTest extends Mage_Selenium_Test
         //Verification
         $this->addFieldIdToMessage($fieldType, 'billing_' . $field);
         if ($fieldType == 'dropdown') {
-            $this->assertTrue($this->validationMessage('please_select_option'), $this->messages);
+            $this->assertMessagePresent('validation', 'please_select_option');
         } else {
-            $this->assertTrue($this->validationMessage('empty_required_field'), $this->messages);
+            $this->assertMessagePresent('validation', 'empty_required_field');
         }
-        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
+        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());;
     }
 
     /**
@@ -136,11 +136,11 @@ class CheckoutOnePage_LoggedIn_CheckingValidationTest extends Mage_Selenium_Test
         //Verification
         $this->addFieldIdToMessage($fieldType, 'shipping_' . $field);
         if ($fieldType == 'dropdown') {
-            $this->assertTrue($this->validationMessage('please_select_option'), $this->messages);
+            $this->assertMessagePresent('validation', 'please_select_option');
         } else {
-            $this->assertTrue($this->validationMessage('empty_required_field'), $this->messages);
+            $this->assertMessagePresent('validation', 'empty_required_field');
         }
-        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
+        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());;
     }
 
     public function addressEmptyFields()
@@ -172,11 +172,11 @@ class CheckoutOnePage_LoggedIn_CheckingValidationTest extends Mage_Selenium_Test
         $this->navigate('customer_login');
         $this->customerHelper()->registerCustomer($userData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_registration'), $this->messages);
+        $this->assertMessagePresent('success', 'success_registration');
         //Steps
         $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
         //Verification
-        $this->assertTrue($this->successMessage('success_checkout'), $this->messages);
+        $this->assertMessagePresent('success', 'success_checkout');
     }
 
     public function specialData()
@@ -219,11 +219,11 @@ class CheckoutOnePage_LoggedIn_CheckingValidationTest extends Mage_Selenium_Test
         $this->navigate('customer_login');
         $this->customerHelper()->registerCustomer($userData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_registration'), $this->messages);
+        $this->assertMessagePresent('success', 'success_registration');
         //Steps
         $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
         //Verification
-        $this->assertTrue($this->successMessage('success_checkout'), $this->messages);
+        $this->assertMessagePresent('success', 'success_checkout');
     }
 
     /**
@@ -259,7 +259,7 @@ class CheckoutOnePage_LoggedIn_CheckingValidationTest extends Mage_Selenium_Test
         $this->navigate('customer_login');
         $this->customerHelper()->registerCustomer($userData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_registration'), $this->messages);
+        $this->assertMessagePresent('success', 'success_registration');
         //Steps
         $this->checkoutOnePageHelper()->doOnePageCheckoutSteps($checkoutData);
         $this->checkoutOnePageHelper()->assertOnePageCheckoutTabOpened('shipping_method');
@@ -307,7 +307,7 @@ class CheckoutOnePage_LoggedIn_CheckingValidationTest extends Mage_Selenium_Test
         $this->navigate('customer_login');
         $this->customerHelper()->registerCustomer($userData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_registration'), $this->messages);
+        $this->assertMessagePresent('success', 'success_registration');
         //Steps
         $this->checkoutOnePageHelper()->doOnePageCheckoutSteps($checkoutData);
         $this->checkoutOnePageHelper()->assertOnePageCheckoutTabOpened('payment_method');

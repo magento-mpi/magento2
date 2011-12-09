@@ -92,7 +92,7 @@ class Store_Store_CreateTest extends Mage_Selenium_TestCase
         //Steps
         $this->storeHelper()->createStore('generic_store', 'store');
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_store'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_store');
     }
 
     /**
@@ -118,8 +118,8 @@ class Store_Store_CreateTest extends Mage_Selenium_TestCase
         //Verifying
         $xpath = $this->_getControlXpath($fieldType, $emptyField);
         $this->addParameter('fieldXpath', $xpath);
-        $this->assertTrue($this->errorMessage('empty_required_field'), $this->messages);
-        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
+        $this->assertMessagePresent('error', 'empty_required_field');
+        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     /**
@@ -155,8 +155,7 @@ class Store_Store_CreateTest extends Mage_Selenium_TestCase
         //Steps
         $this->storeHelper()->createStore($storeData, 'store');
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_store'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_stores'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_store');
     }
 
     /**
@@ -181,8 +180,7 @@ class Store_Store_CreateTest extends Mage_Selenium_TestCase
         //Steps
         $this->storeHelper()->createStore($storeData, 'store');
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_store'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_stores'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_store');
     }
 
 }

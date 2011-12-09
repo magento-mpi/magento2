@@ -52,7 +52,6 @@ class Customer_DeleteTest extends Mage_Selenium_TestCase
     protected function assertPreConditions()
     {
         $this->navigate('manage_customers');
-        $this->assertTrue($this->checkCurrentPage('manage_customers'), $this->messages);
         $this->addParameter('id', '0');
     }
 
@@ -75,16 +74,14 @@ class Customer_DeleteTest extends Mage_Selenium_TestCase
         $searchData = $this->loadData('search_customer', array('email' => $userData['email']));
         //Preconditions
         $this->customerHelper()->createCustomer($userData);
-        $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_customers'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_customer');
         //Steps
         $param = $userData['first_name'] .' '.$userData['last_name'];
         $this->addParameter('customer_first_last_name', $param);
         $this->customerHelper()->openCustomer($searchData);
         $this->clickButtonAndConfirm('delete_customer', 'confirmation_for_delete');
         //Verifying
-        $this->assertTrue($this->successMessage('success_deleted_customer'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_customers'), $this->messages);
+        $this->assertMessagePresent('success', 'success_deleted_customer');
     }
 
     /**
@@ -109,8 +106,7 @@ class Customer_DeleteTest extends Mage_Selenium_TestCase
             ${'searchData' . $i} = $this->loadData('search_customer', array('email' => $userData['email']));
             //Steps
             $this->customerHelper()->createCustomer($userData);
-            $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
-            $this->assertTrue($this->checkCurrentPage('manage_customers'), $this->messages);
+            $this->assertMessagePresent('success', 'success_saved_customer');
         }
         for ($i = 1; $i <= $customerQty; $i++) {
             $this->searchAndChoose(${'searchData' . $i});
@@ -120,7 +116,7 @@ class Customer_DeleteTest extends Mage_Selenium_TestCase
         $this->select($xpath, 'Delete');
         $this->clickButtonAndConfirm('submit', 'confirmation_for_massaction_delete');
         //Verifying
-        $this->assertTrue($this->successMessage('success_deleted_customer_massaction'), $this->messages);
+        $this->assertMessagePresent('success', 'success_deleted_customer_massaction');
     }
 
 }

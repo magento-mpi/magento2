@@ -66,7 +66,7 @@ class Order_Create_CheckingValidationTest extends Mage_Selenium_TestCase
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($productData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_product');
 
         return $productData['general_sku'];
     }
@@ -123,8 +123,8 @@ class Order_Create_CheckingValidationTest extends Mage_Selenium_TestCase
         }
         $this->addParameter('fieldXpath', $fieldXpath);
 
-        $this->assertTrue($this->errorMessage('empty_required_field'), $this->messages);
-        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
+        $this->assertMessagePresent('error', 'empty_required_field');
+        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     public function dataEmptyFieldsBilling()
@@ -192,8 +192,8 @@ class Order_Create_CheckingValidationTest extends Mage_Selenium_TestCase
         }
         $this->addParameter('fieldXpath', $fieldXpath);
 
-        $this->assertTrue($this->errorMessage('empty_required_field'), $this->messages);
-        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
+        $this->assertMessagePresent('error', 'empty_required_field');
+        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     public function dataEmptyFieldsShipping()
@@ -236,8 +236,8 @@ class Order_Create_CheckingValidationTest extends Mage_Selenium_TestCase
         //Verifying
         $fieldXpath = $this->_getControlXpath('link', 'get_shipping_methods_and_rates');
         $this->addParameter('fieldXpath', $fieldXpath);
-        $this->assertTrue($this->errorMessage('empty_required_field'), $this->messages);
-        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
+        $this->assertMessagePresent('error', 'empty_required_field');
+        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     /**
@@ -274,7 +274,7 @@ class Order_Create_CheckingValidationTest extends Mage_Selenium_TestCase
         $this->pleaseWait();
         $this->orderHelper()->submitOreder();
         //Verifying
-        $this->assertTrue($this->errorMessage('shipping_must_be_specified'), $this->messages);
+        $this->assertMessagePresent('error', 'shipping_must_be_specified');
     }
 
     /**
@@ -300,8 +300,8 @@ class Order_Create_CheckingValidationTest extends Mage_Selenium_TestCase
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData, false);
         //Verifying
-        $this->assertTrue($this->errorMessage('error_specify_order_items'), $this->messages);
-        $this->assertTrue($this->errorMessage('shipping_must_be_specified'), $this->messages);
+        $this->assertMessagePresent('error', 'error_specify_order_items');
+        $this->assertMessagePresent('error', 'shipping_must_be_specified');
     }
 
     /**
@@ -328,7 +328,7 @@ class Order_Create_CheckingValidationTest extends Mage_Selenium_TestCase
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData, false);
         //Verifying
-        $this->assertTrue($this->errorMessage('empty_payment_method'), $this->messages);
+        $this->assertMessagePresent('error', 'empty_payment_method');
     }
 
     /**
@@ -354,9 +354,9 @@ class Order_Create_CheckingValidationTest extends Mage_Selenium_TestCase
         foreach ($emptyFields as $key => $value) {
             $xpath = $this->_getControlXpath($key, $value);
             $this->addParameter('fieldXpath', $xpath);
-            $this->assertTrue($this->validationMessage('empty_required_field'), $this->messages);
+            $this->assertMessagePresent('validation', 'empty_required_field');
         }
-        $this->assertTrue($this->verifyMessagesCount(4), $this->messages);
+        $this->assertTrue($this->verifyMessagesCount(4), $this->getParsedMessages());
     }
 
     /**
@@ -379,8 +379,8 @@ class Order_Create_CheckingValidationTest extends Mage_Selenium_TestCase
         //Verifying
         $xpath = $this->_getControlXpath('field', 'name_on_card');
         $this->addParameter('fieldXpath', $xpath);
-        $this->assertTrue($this->validationMessage('empty_required_field'), $this->messages);
-        $this->assertTrue($this->verifyMessagesCount(1), $this->messages);
+        $this->assertMessagePresent('validation', 'empty_required_field');
+        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     /**
@@ -403,11 +403,11 @@ class Order_Create_CheckingValidationTest extends Mage_Selenium_TestCase
         //Verifying
         $xpath = $this->_getControlXpath('dropdown', 'card_type');
         $this->addParameter('fieldXpath', $xpath);
-        $this->assertTrue($this->validationMessage('empty_required_field'), $this->messages);
+        $this->assertMessagePresent('validation', 'empty_required_field');
         $xpath = $this->_getControlXpath('field', 'card_verification_number');
         $this->addParameter('fieldXpath', $xpath);
-        $this->assertTrue($this->validationMessage('invalid_cvv'), $this->messages);
-        $this->assertTrue($this->verifyMessagesCount(2), $this->messages);
+        $this->assertMessagePresent('validation', 'invalid_cvv');
+        $this->assertTrue($this->verifyMessagesCount(2), $this->getParsedMessages());
     }
 
     /**
@@ -430,8 +430,8 @@ class Order_Create_CheckingValidationTest extends Mage_Selenium_TestCase
         //Verifying
         $xpath = $this->_getControlXpath('dropdown', 'card_type');
         $this->addParameter('fieldXpath', $xpath);
-        $this->assertTrue($this->validationMessage('card_type_doesnt_match'), $this->messages);
-        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
+        $this->assertMessagePresent('validation', 'card_type_doesnt_match');
+        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     /**
@@ -454,8 +454,8 @@ class Order_Create_CheckingValidationTest extends Mage_Selenium_TestCase
         //Verifying
         $xpath = $this->_getControlXpath('dropdown', 'expiration_year');
         $this->addParameter('fieldXpath', $xpath);
-        $this->assertTrue($this->validationMessage('empty_required_field'), $this->messages);
-        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
+        $this->assertMessagePresent('validation', 'empty_required_field');
+        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     /**
@@ -478,8 +478,8 @@ class Order_Create_CheckingValidationTest extends Mage_Selenium_TestCase
         //Verifying
         $xpath = $this->_getControlXpath('field', 'card_verification_number');
         $this->addParameter('fieldXpath', $xpath);
-        $this->assertTrue($this->validationMessage('empty_required_field'), $this->messages);
-        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
+        $this->assertMessagePresent('validation', 'empty_required_field');
+        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     /**
@@ -500,7 +500,7 @@ class Order_Create_CheckingValidationTest extends Mage_Selenium_TestCase
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData, false);
         //Verifying
-        $this->assertTrue($this->errorMessage('invalid_exp_date'), $this->messages);
+        $this->assertMessagePresent('error', 'invalid_exp_date');
     }
 
 }

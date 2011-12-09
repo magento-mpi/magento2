@@ -36,6 +36,7 @@
  */
 class Review_BackendDeleteTest extends Mage_Selenium_TestCase
 {
+
     /**
      * <p>Preconditions:</p>
      * <p>Login as admin to backend</p>
@@ -59,7 +60,7 @@ class Review_BackendDeleteTest extends Mage_Selenium_TestCase
         $this->navigate('manage_products');
         $simpleProductData = $this->loadData('simple_product_visible', NULL, array('general_name', 'general_sku'));
         $this->productHelper()->createProduct($simpleProductData);
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_product');
 
         return $simpleProductData;
     }
@@ -76,7 +77,7 @@ class Review_BackendDeleteTest extends Mage_Selenium_TestCase
         $this->navigate('manage_stores');
         $storeViewData = $this->loadData('generic_store_view');
         $this->storeHelper()->createStore($storeViewData, 'store_view');
-        $this->assertTrue($this->successMessage('success_saved_store_view'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_store_view');
 
         return $storeViewData['store_view_name'];
     }
@@ -94,7 +95,7 @@ class Review_BackendDeleteTest extends Mage_Selenium_TestCase
         $this->navigate('manage_ratings');
         $ratingData = $this->loadData('default_rating', array('visible_in' => $storeView), 'default_value');
         $this->ratingHelper()->createRating($ratingData);
-        $this->assertTrue($this->successMessage('success_saved_rating'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_rating');
 
         return $ratingData;
     }
@@ -120,17 +121,18 @@ class Review_BackendDeleteTest extends Mage_Selenium_TestCase
     {
         $this->navigate('all_reviews');
         $reviewData = $this->loadData('review_required',
-                                      array ('filter_sku' =>  $product['general_sku'],
-                                            'rating_name' => $ratingData['rating_information']['default_value'],
-                                            'visible_in' => $ratingData['rating_information']['visible_in']),
-                                      array('nickname', 'summary_of_review', 'review'));
-        $searchData = $this->loadData('search_review', array('filter_product_sku' => $product['general_sku'],
-                                                            'filter_nickname' => $reviewData['nickname'],
-                                                            'filter_title' => $reviewData['summary_of_review']));
+                array('filter_sku'  => $product['general_sku'],
+                      'rating_name' => $ratingData['rating_information']['default_value'],
+                      'visible_in'  => $ratingData['rating_information']['visible_in']),
+                array('nickname', 'summary_of_review', 'review'));
+        $searchData = $this->loadData('search_review',
+                array('filter_product_sku' => $product['general_sku'],
+                      'filter_nickname'    => $reviewData['nickname'],
+                      'filter_title'       => $reviewData['summary_of_review']));
         $this->reviewHelper()->createReview($reviewData);
-        $this->assertTrue($this->successMessage('success_saved_review'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_review');
         $this->reviewHelper()->deleteReview($searchData);
-        $this->assertTrue($this->successMessage('success_deleted_review'), $this->messages);
+        $this->assertMessagePresent('success', 'success_deleted_review');
     }
 
     /**
@@ -146,25 +148,27 @@ class Review_BackendDeleteTest extends Mage_Selenium_TestCase
      *
      * @depends createProduct
      * @depends createRating
-     * 
+     *
      * @test
      */
     public function deleteMassAction($product, $ratingData)
     {
         $this->navigate('all_reviews');
         $reviewData = $this->loadData('review_required',
-                                      array ('filter_sku' =>  $product['general_sku'],
-                                            'rating_name' => $ratingData['rating_information']['default_value'],
-                                            'visible_in' => $ratingData['rating_information']['visible_in']),
-                                      array('nickname', 'summary_of_review', 'review'));
-        $searchData = $this->loadData('search_review', array('filter_product_sku' => $product['general_sku'],
-                                                            'filter_nickname' => $reviewData['nickname'],
-                                                            'filter_title' => $reviewData['summary_of_review']));
+                array('filter_sku'  => $product['general_sku'],
+                      'rating_name' => $ratingData['rating_information']['default_value'],
+                      'visible_in'  => $ratingData['rating_information']['visible_in']),
+                array('nickname', 'summary_of_review', 'review'));
+        $searchData = $this->loadData('search_review',
+                array('filter_product_sku' => $product['general_sku'],
+                      'filter_nickname'    => $reviewData['nickname'],
+                      'filter_title'       => $reviewData['summary_of_review']));
         $this->reviewHelper()->createReview($reviewData);
-        $this->assertTrue($this->successMessage('success_saved_review'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_review');
         $this->searchAndChoose($searchData);
         $this->fillForm(array('actions' => 'Delete'));
         $this->clickButtonAndConfirm('submit', 'confirmation_for_delete_all');
-        $this->assertTrue($this->successMessage('success_deleted_review_massaction'), $this->messages);
+        $this->assertMessagePresent('success', 'success_deleted_review_massaction');
     }
+
 }

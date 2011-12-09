@@ -61,10 +61,9 @@ class Order_Create_ShippingMethodsTest extends Mage_Selenium_TestCase
         $productData = $this->loadData('simple_product_for_order', NULL, array('general_name', 'general_sku'));
         //Steps
         $this->navigate('manage_products');
-        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
         $this->productHelper()->createProduct($productData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_product');
 
         return $productData['general_sku'];
     }
@@ -96,15 +95,15 @@ class Order_Create_ShippingMethodsTest extends Mage_Selenium_TestCase
         $this->systemConfigurationHelper()->configure($shipment . '_enable');
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
-        $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
+        $this->assertMessagePresent('success', 'success_created_order');
         $this->orderInvoiceHelper()->createInvoiceAndVerifyProductQty();
         $this->orderShipmentHelper()->createShipmentAndVerifyProductQty();
         $this->orderCreditMemoHelper()->createCreditMemoAndVerifyProductQty('refund_offline');
         $this->clickButton('reorder');
         $this->orderHelper()->submitOreder();
-        $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
+        $this->assertMessagePresent('success', 'success_created_order');
         $this->clickButtonAndConfirm('cancel', 'confirmation_for_cancel');
-        $this->assertTrue($this->successMessage('success_canceled_order'), $this->messages);
+        $this->assertMessagePresent('success', 'success_canceled_order');
     }
 
     public function dataShipment()

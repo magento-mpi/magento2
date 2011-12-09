@@ -83,7 +83,7 @@ class ProductAttribute_Helper extends Mage_Selenium_TestCase
      */
     public function verifyAttribute($attrData)
     {
-        $this->assertTrue($this->verifyForm($attrData, 'properties'), $this->messages);
+        $this->assertTrue($this->verifyForm($attrData, 'properties'), $this->getParsedMessages());
         $this->openTab('manage_lables_options');
         $this->storeViewTitles($attrData, 'manage_titles', 'verify');
         $this->attributeOptions($attrData, 'verify');
@@ -204,7 +204,7 @@ class ProductAttribute_Helper extends Mage_Selenium_TestCase
                                         . "]//input[@class='input-radio']/@value");
                                 $this->addParameter('fieldOptionNumber', $fieldOptionNumber);
                                 $this->assertTrue($this->verifyForm($attrData[$f_key], 'manage_lables_options'),
-                                        $this->messages);
+                                        $this->getParsedMessages());
                                 $this->storeViewTitles($attrData[$f_key], 'manage_options', 'verify');
                                 $num++;
                                 $option--;

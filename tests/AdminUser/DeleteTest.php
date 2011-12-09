@@ -52,7 +52,6 @@ class AdminUser_DeleteTest extends Mage_Selenium_TestCase
     protected function assertPreConditions()
     {
         $this->navigate('manage_admin_users');
-        $this->assertTrue($this->checkCurrentPage('manage_admin_users'), $this->messages);
         $this->addParameter('id', '0');
     }
 
@@ -69,7 +68,7 @@ class AdminUser_DeleteTest extends Mage_Selenium_TestCase
      *
      * @test
      */
-    public function DeleteAdminUserDeletable()
+    public function deleteAdminUserDeletable()
     {
         //Data
         $userData = $this->loadData('generic_admin_user', null, array('email', 'user_name'));
@@ -78,12 +77,12 @@ class AdminUser_DeleteTest extends Mage_Selenium_TestCase
         //Steps
         $this->adminUserHelper()->createAdminUser($userData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_user'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('edit_admin_user'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_user');
+        $this->assertTrue($this->checkCurrentPage('edit_admin_user'), $this->getParsedMessages());
         //Steps
         $this->clickButtonAndConfirm('delete_user', 'confirmation_for_delete');
         //Verifying
-        $this->assertTrue($this->successMessage('success_deleted_user'), $this->messages);
+        $this->assertMessagePresent('success', 'success_deleted_user');
     }
 
     /**
@@ -91,14 +90,14 @@ class AdminUser_DeleteTest extends Mage_Selenium_TestCase
      *
      * @test
      */
-    public function DeleteAdminUserCurrent()
+    public function deleteAdminUserCurrent()
     {
         //Data
         $searchData = $this->loadData('search_admin_user');
         $searchDataCurrentUser = array();
         //Steps
         $this->navigate('my_account');
-        $this->assertTrue($this->checkCurrentPage('my_account'), $this->messages);
+        $this->assertTrue($this->checkCurrentPage('my_account'), $this->getParsedMessages());
         foreach ($searchData as $key => $value) {
             if ($value != '%noValue%') {
                 $xpath = $this->_getControlXpath('field', $key);
@@ -114,7 +113,7 @@ class AdminUser_DeleteTest extends Mage_Selenium_TestCase
         //Verifying
         $this->clickButtonAndConfirm('delete_user', 'confirmation_for_delete');
         //Verifying
-        $this->assertTrue($this->errorMessage('cannot_delete_account'), $this->messages);
+        $this->assertMessagePresent('error', 'cannot_delete_account');
     }
 
 }

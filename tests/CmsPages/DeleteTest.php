@@ -61,7 +61,7 @@ class CmsPages_DeleteTest extends Mage_Selenium_TestCase
         $rootCat = 'Default Category';
         $categoryData = $this->loadData('sub_category_required', null, 'name');
         $this->categoryHelper()->createSubCategory($rootCat, $categoryData);
-        $this->assertTrue($this->successMessage('success_saved_category'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_category');
         $this->categoryHelper()->checkCategoriesPage();
 
         return $rootCat . '/' . $categoryData['name'];
@@ -81,12 +81,12 @@ class CmsPages_DeleteTest extends Mage_Selenium_TestCase
                 array('General' => $attrData['attribute_code']));
         $this->navigate('manage_attributes');
         $this->productAttributeHelper()->createAttribute($attrData);
-        $this->assertTrue($this->successMessage('success_saved_attribute'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_attribute');
         $this->navigate('manage_attribute_sets');
         $this->attributeSetHelper()->openAttributeSet();
         $this->attributeSetHelper()->addAttributeToSet($associatedAttributes);
         $this->saveForm('save_attribute_set');
-        $this->assertTrue($this->successMessage('success_attribute_set_saved'), $this->messages);
+        $this->assertMessagePresent('success', 'success_attribute_set_saved');
 
         return $attrData;
     }
@@ -115,8 +115,8 @@ class CmsPages_DeleteTest extends Mage_Selenium_TestCase
         //Steps
         $this->productHelper()->createProduct($productData, $dataProductType);
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_product');
+
         self::$products['sku'][$dataProductType] = $productData['general_sku'];
         self::$products['name'][$dataProductType] = $productData['general_name'];
     }
@@ -148,10 +148,10 @@ class CmsPages_DeleteTest extends Mage_Selenium_TestCase
         $temp['filter_sku'] = self::$products['sku']['simple'];
         $temp['category_path'] = $category;
         $pageData = $this->loadData('new_page_req', $temp, array('page_title', 'url_key'));
-        $this->cmsPagesHelper()->createPage($pageData);
+        $this->cmsPagesHelper()->createCmsPage($pageData);
         $pageToDelete = array('filter_title' => $pageData['page_information']['page_title'],
             'filter_url_key' => $pageData['page_information']['url_key']);
-        $this->cmsPagesHelper()->deletePage($pageToDelete);
+        $this->cmsPagesHelper()->deleteCmsPage($pageToDelete);
     }
 
 }

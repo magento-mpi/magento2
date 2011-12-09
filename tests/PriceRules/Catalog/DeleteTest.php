@@ -77,13 +77,13 @@ class PriceRules_Catalog_DeleteTest extends Mage_Selenium_TestCase
         //PreConditions
         $this->priceRulesHelper()->createRule($priceRuleData);
         //Verification
-        $this->assertTrue($this->successMessage('success_saved_rule'), $this->messages);
-        $this->assertTrue($this->successMessage('notification_message'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_rule');
+        $this->assertMessagePresent('success', 'notification_message');
         //Steps
         $this->priceRulesHelper()->openRule($ruleSearch);
         $this->clickButtonAndConfirm('delete_rule', 'confirmation_for_delete');
         //Verification
-        $this->assertTrue($this->successMessage('success_deleted_rule', $this->messages));
+        $this->assertMessagePresent('success', 'success_deleted_rule');
     }
 
 }

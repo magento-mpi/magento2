@@ -52,7 +52,6 @@ class Product_DuplicateTest extends Mage_Selenium_TestCase
     protected function assertPreConditions()
     {
         $this->navigate('manage_products');
-        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
         $this->addParameter('id', '0');
     }
 
@@ -72,14 +71,14 @@ class Product_DuplicateTest extends Mage_Selenium_TestCase
         $this->navigate('manage_attributes');
         $this->productAttributeHelper()->createAttribute($attrData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_attribute'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_attribute');
         //Steps
         $this->navigate('manage_attribute_sets');
         $this->attributeSetHelper()->openAttributeSet();
         $this->attributeSetHelper()->addAttributeToSet($associatedAttributes);
         $this->saveForm('save_attribute_set');
         //Verifying
-        $this->assertTrue($this->successMessage('success_attribute_set_saved'), $this->messages);
+        $this->assertMessagePresent('success', 'success_attribute_set_saved');
 
         return $attrData;
     }
@@ -109,8 +108,7 @@ class Product_DuplicateTest extends Mage_Selenium_TestCase
         foreach ($productData as $key => $value) {
             $this->productHelper()->createProduct($value, $key);
             //Verifying
-            $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
-            $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+            $this->assertMessagePresent('success', 'success_saved_product');
         }
 
         return $productData;
@@ -147,12 +145,12 @@ class Product_DuplicateTest extends Mage_Selenium_TestCase
         //Steps
         $this->productHelper()->createProduct($simple);
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_product');
         //Steps
         $this->productHelper()->openProduct($productSearch);
         $this->clickButton('duplicate');
         //Verifying
-        $this->assertTrue($this->successMessage('success_duplicated_product'), $this->messages);
+        $this->assertMessagePresent('success', 'success_duplicated_product');
         $this->productHelper()->verifyProductInfo($simple, array('general_sku', 'general_status'));
     }
 
@@ -187,12 +185,12 @@ class Product_DuplicateTest extends Mage_Selenium_TestCase
         //Steps
         $this->productHelper()->createProduct($virtual, 'virtual');
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_product');
         //Steps
         $this->productHelper()->openProduct($productSearch);
         $this->clickButton('duplicate');
         //Verifying
-        $this->assertTrue($this->successMessage('success_duplicated_product'), $this->messages);
+        $this->assertMessagePresent('success', 'success_duplicated_product');
         $this->productHelper()->verifyProductInfo($virtual, array('general_sku', 'general_status'));
     }
 
@@ -227,12 +225,12 @@ class Product_DuplicateTest extends Mage_Selenium_TestCase
         //Steps
         $this->productHelper()->createProduct($downloadable, 'downloadable');
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_product');
         //Steps
         $this->productHelper()->openProduct($productSearch);
         $this->clickButton('duplicate');
         //Verifying
-        $this->assertTrue($this->successMessage('success_duplicated_product'), $this->messages);
+        $this->assertMessagePresent('success', 'success_duplicated_product');
         $this->productHelper()->verifyProductInfo($downloadable, array('general_sku', 'general_status'));
     }
 
@@ -277,13 +275,12 @@ class Product_DuplicateTest extends Mage_Selenium_TestCase
         //Steps
         $this->productHelper()->createProduct($grouped, 'grouped');
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_product');
         //Steps
         $this->productHelper()->openProduct($productSearch);
         $this->clickButton('duplicate');
         //Verifying
-        $this->assertTrue($this->successMessage('success_duplicated_product'), $this->messages);
+        $this->assertMessagePresent('success', 'success_duplicated_product');
         $this->productHelper()->verifyProductInfo($grouped, array('general_sku', 'general_status'));
     }
 
@@ -326,13 +323,12 @@ class Product_DuplicateTest extends Mage_Selenium_TestCase
         //Steps
         $this->productHelper()->createProduct($bundle, 'bundle');
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_product');
         //Steps
         $this->productHelper()->openProduct($productSearch);
         $this->clickButton('duplicate');
         //Verifying
-        $this->assertTrue($this->successMessage('success_duplicated_product'), $this->messages);
+        $this->assertMessagePresent('success', 'success_duplicated_product');
         $this->productHelper()->verifyProductInfo($bundle, array('general_sku', 'general_status'));
     }
 
@@ -385,13 +381,12 @@ class Product_DuplicateTest extends Mage_Selenium_TestCase
         //Steps
         $this->productHelper()->createProduct($configur, 'configurable');
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_product');
         //Steps
         $this->productHelper()->openProduct($productSearch);
         $this->clickButton('duplicate');
         //Verifying
-        $this->assertTrue($this->successMessage('success_duplicated_product'), $this->messages);
+        $this->assertMessagePresent('success', 'success_duplicated_product');
         //Steps
         $this->productHelper()->fillConfigurableSettings($configur);
         //Verifying

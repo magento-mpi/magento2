@@ -70,7 +70,7 @@ class Store_Website_CreateTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->controlIsPresent('button', 'create_website'),
                 'There is no "Create Website" button on the page');
         $this->clickButton('create_website');
-        $this->assertTrue($this->checkCurrentPage('new_website'), $this->messages);
+        $this->assertTrue($this->checkCurrentPage('new_website'), $this->getParsedMessages());
         $this->assertTrue($this->controlIsPresent('button', 'back'), 'There is no "Back" button on the page');
         $this->assertTrue($this->controlIsPresent('button', 'save_website'), 'There is no "Save" button on the page');
         $this->assertTrue($this->controlIsPresent('button', 'reset'), 'There is no "Reset" button on the page');
@@ -96,8 +96,7 @@ class Store_Website_CreateTest extends Mage_Selenium_TestCase
         //Steps
         $this->storeHelper()->createStore($websiteData, 'website');
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_website'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_stores'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_website');
 
         return $websiteData;
     }
@@ -121,7 +120,7 @@ class Store_Website_CreateTest extends Mage_Selenium_TestCase
         //Steps
         $this->storeHelper()->createStore($websiteData, 'website');
         //Verifying
-        $this->assertTrue($this->errorMessage('website_code_exist'), $this->messages);
+        $this->assertMessagePresent('error', 'website_code_exist');
     }
 
     /**
@@ -147,8 +146,8 @@ class Store_Website_CreateTest extends Mage_Selenium_TestCase
         //Verifying
         $xpath = $this->_getControlXpath('field', $emptyField);
         $this->addParameter('fieldXpath', $xpath);
-        $this->assertTrue($this->errorMessage('empty_required_field'), $this->messages);
-        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
+        $this->assertMessagePresent('error', 'empty_required_field');
+        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     public function dataEmptyField()
@@ -183,8 +182,7 @@ class Store_Website_CreateTest extends Mage_Selenium_TestCase
         //Steps
         $this->storeHelper()->createStore($websiteData, 'website');
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_website'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_stores'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_website');
     }
 
     /**
@@ -209,8 +207,7 @@ class Store_Website_CreateTest extends Mage_Selenium_TestCase
         //Steps
         $this->storeHelper()->createStore($websiteData, 'website');
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_website'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_stores'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_website');
     }
 
     /**
@@ -235,7 +232,7 @@ class Store_Website_CreateTest extends Mage_Selenium_TestCase
         //Steps
         $this->storeHelper()->createStore($websiteData, 'website');
         //Verifying
-        $this->assertTrue($this->errorMessage('wrong_website_code'), $this->messages);
+        $this->assertMessagePresent('error', 'wrong_website_code');
     }
 
     public function dataInvalidCode()
@@ -266,8 +263,8 @@ class Store_Website_CreateTest extends Mage_Selenium_TestCase
         //Steps
         $this->storeHelper()->createStore($websiteData, 'website');
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_website'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_stores'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_website');
+        $this->assertTrue($this->checkCurrentPage('manage_stores'), $this->getParsedMessages());
         //1.2.Create two stores
         for ($i = 1; $i <= 2; $i++) {
             //Data
@@ -275,8 +272,8 @@ class Store_Website_CreateTest extends Mage_Selenium_TestCase
             //Steps
             $this->storeHelper()->createStore($storeData, 'store');
             //Verifying
-            $this->assertTrue($this->successMessage('success_saved_store'), $this->messages);
-            $this->assertTrue($this->checkCurrentPage('manage_stores'), $this->messages);
+            $this->assertMessagePresent('success', 'success_saved_store');
+            $this->assertTrue($this->checkCurrentPage('manage_stores'), $this->getParsedMessages());
         }
     }
 
@@ -299,16 +296,15 @@ class Store_Website_CreateTest extends Mage_Selenium_TestCase
         //Steps
         $this->storeHelper()->createStore($websiteData, 'website');
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_website'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_stores'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_website');
         //1.2.Create store
         //Data
         $storeData = $this->loadData('generic_store', array('website' => $websiteData['website_name']));
         //Steps
         $this->storeHelper()->createStore($storeData, 'store');
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_store'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_stores'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_store');
+        $this->assertTrue($this->checkCurrentPage('manage_stores'), $this->getParsedMessages());
         //1.3.Create two store view
         for ($i = 1; $i <= 2; $i++) {
             //Data
@@ -316,8 +312,8 @@ class Store_Website_CreateTest extends Mage_Selenium_TestCase
             //Steps
             $this->storeHelper()->createStore($storeViewData, 'store_view');
             //Verifying
-            $this->assertTrue($this->successMessage('success_saved_store_view'), $this->messages);
-            $this->assertTrue($this->checkCurrentPage('manage_stores'), $this->messages);
+            $this->assertMessagePresent('success', 'success_saved_store_view');
+            $this->assertTrue($this->checkCurrentPage('manage_stores'), $this->getParsedMessages());
         }
     }
 

@@ -56,13 +56,13 @@ class Product_Linking_DownloadableLinkingTest extends Mage_Selenium_TestCase
         $this->loginAdminUser();
         $this->navigate('manage_attributes');
         $this->productAttributeHelper()->createAttribute($attrData);
-        $this->assertTrue($this->successMessage('success_saved_attribute'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_attribute');
         $this->navigate('manage_attribute_sets');
         $this->attributeSetHelper()->openAttributeSet();
         $this->attributeSetHelper()->addAttributeToSet($associatedAttributes);
         $this->addParameter('attributeName', 'Default');
         $this->saveForm('save_attribute_set');
-        $this->assertTrue($this->successMessage('success_attribute_set_saved'), $this->messages);
+        $this->assertMessagePresent('success', 'success_attribute_set_saved');
 
         return $attrData;
     }
@@ -83,7 +83,7 @@ class Product_Linking_DownloadableLinkingTest extends Mage_Selenium_TestCase
         $this->loginAdminUser();
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($productData);
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_product');
 
         return $productData['general_sku'];
     }
@@ -106,7 +106,7 @@ class Product_Linking_DownloadableLinkingTest extends Mage_Selenium_TestCase
         $this->loginAdminUser();
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($productData, $productType);
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_product');
 
         self::$productsInStock[$productType]['general_name'] = $productData['general_name'];
         self::$productsInStock[$productType]['general_sku'] = $productData['general_sku'];
@@ -132,7 +132,7 @@ class Product_Linking_DownloadableLinkingTest extends Mage_Selenium_TestCase
         $this->loginAdminUser();
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($productData, $productType);
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_product');
 
         self::$productsOutOfStock[$productType]['general_name'] = $productData['general_name'];
         self::$productsOutOfStock[$productType]['general_sku'] = $productData['general_sku'];
@@ -181,9 +181,9 @@ class Product_Linking_DownloadableLinkingTest extends Mage_Selenium_TestCase
         $this->loginAdminUser();
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($productData1, 'downloadable');
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_product');
         $this->productHelper()->createProduct($productData2, 'downloadable');
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_product');
 
         $this->reindexInvalidedData();
         $this->clearInvalidedCache();
@@ -232,7 +232,7 @@ class Product_Linking_DownloadableLinkingTest extends Mage_Selenium_TestCase
         $this->loginAdminUser();
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($productData, 'downloadable');
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_product');
 
         $this->reindexInvalidedData();
         $this->clearInvalidedCache();
@@ -282,9 +282,9 @@ class Product_Linking_DownloadableLinkingTest extends Mage_Selenium_TestCase
         $this->loginAdminUser();
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($productData1, 'downloadable');
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_product');
         $this->productHelper()->createProduct($productData2, 'downloadable');
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_product');
 
         $this->reindexInvalidedData();
         $this->clearInvalidedCache();
@@ -343,7 +343,7 @@ class Product_Linking_DownloadableLinkingTest extends Mage_Selenium_TestCase
         $this->loginAdminUser();
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($productData, 'downloadable');
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_product');
 
         $this->reindexInvalidedData();
         $this->clearInvalidedCache();
@@ -396,9 +396,9 @@ class Product_Linking_DownloadableLinkingTest extends Mage_Selenium_TestCase
         $this->loginAdminUser();
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($productData1, 'downloadable');
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_product');
         $this->productHelper()->createProduct($productData2, 'downloadable');
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_product');
 
         $this->reindexInvalidedData();
         $this->clearInvalidedCache();
@@ -447,7 +447,7 @@ class Product_Linking_DownloadableLinkingTest extends Mage_Selenium_TestCase
         $this->loginAdminUser();
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($productData, 'downloadable');
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_product');
 
         $this->reindexInvalidedData();
         $this->clearInvalidedCache();

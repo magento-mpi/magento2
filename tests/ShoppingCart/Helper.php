@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Magento
  *
@@ -195,8 +196,8 @@ class ShoppingCart_Helper extends Mage_Selenium_TestCase
         $actualProductQty = count($actualProductData);
         $expectedProductQty = count($productData);
         if ($actualProductQty != $expectedProductQty) {
-            $this->messages['error'][] = "'" . $actualProductQty . "' product(s) added to Shopping cart but must be '"
-                    . $expectedProductQty . "'";
+            $this->addVerificationMessage("'" . $actualProductQty . "' product(s) added to Shopping cart but must be '"
+                    . $expectedProductQty . "'");
         } else {
             for ($i = 1; $i <= $actualProductQty; $i++) {
                 $productName = '';
@@ -211,8 +212,8 @@ class ShoppingCart_Helper extends Mage_Selenium_TestCase
         }
         //Verify order prices data
         $this->compareArrays($actualOrderPriceData, $orderPriceData);
-        if (!empty($this->messages['error'])) {
-            $this->fail(implode("\n", $this->messages['error']));
+        if ($this->getParsedMessages('verificationErrors')) {
+            $this->fail(implode("\n", call_user_func_array('array_merge', $this->getParsedMessages())));
         }
     }
 
@@ -248,12 +249,11 @@ class ShoppingCart_Helper extends Mage_Selenium_TestCase
             }
         }
         if (isset($actualErrors)) {
-            $this->messages['error'][] = trim($actualErrors, "\x00..\x1F");
+            $this->addVerificationMessage(trim($actualErrors, "\x00..\x1F"));
         }
         if (isset($expectedErrors)) {
-            $this->messages['error'][] = trim($expectedErrors, "\x00..\x1F");
+            $this->addVerificationMessage(trim($expectedErrors, "\x00..\x1F"));
         }
-        return $this->messages;
     }
 
     /**
@@ -268,7 +268,6 @@ class ShoppingCart_Helper extends Mage_Selenium_TestCase
             $shippingAddress = $this->loadData($shippingAddress);
         }
         $shippingAddress = $this->arrayEmptyClear($shippingAddress);
-        $this->messages['error'] = array();
         $this->fillForm($shippingAddress);
         $this->clickButton('get_quote');
         $this->chooseShipping($shippingMethod, $validate);
@@ -288,7 +287,7 @@ class ShoppingCart_Helper extends Mage_Selenium_TestCase
         $shipService = (isset($shippingMethod['shipping_service'])) ? $shippingMethod['shipping_service'] : NULL;
         $shipMethod = (isset($shippingMethod['shipping_method'])) ? $shippingMethod['shipping_method'] : NULL;
         if (!$shipService or !$shipMethod) {
-            $this->messages['error'][] = 'Shipping Service(or Shipping Method) is not set';
+            $this->addVerificationMessage('Shipping Service(or Shipping Method) is not set');
         } else {
             $this->addParameter('shipService', $shipService);
             $this->addParameter('shipMethod', $shipMethod);
@@ -298,15 +297,15 @@ class ShoppingCart_Helper extends Mage_Selenium_TestCase
                     $this->click($method);
                     $this->waitForAjax();
                 } else {
-                    $this->messages['error'][] = 'Shipping Method "' . $shipMethod . '" for "'
-                            . $shipService . '" is currently unavailable.';
+                    $this->addVerificationMessage('Shipping Method "' . $shipMethod . '" for "'
+                            . $shipService . '" is currently unavailable.');
                 }
             } else {
-                $this->messages['error'][] = 'Shipping Service "' . $shipService . '" is currently unavailable.';
+                $this->addVerificationMessage('Shipping Service "' . $shipService . '" is currently unavailable.');
             }
         }
-        if ($this->messages['error'] && $validate) {
-            $this->fail(implode("\n", $this->messages['error']));
+        if ($this->getParsedMessages('verificationErrors') && $validate) {
+            $this->fail(implode("\n", call_user_func_array('array_merge', $this->getParsedMessages())));
         }
     }
 

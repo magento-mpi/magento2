@@ -52,7 +52,6 @@ class ProductAttribute_DeleteTest extends Mage_Selenium_TestCase
     protected function assertPreConditions()
     {
         $this->navigate('manage_attributes');
-        $this->assertTrue($this->checkCurrentPage('manage_attributes'), $this->messages);
         $this->addParameter('id', 0);
     }
 
@@ -80,13 +79,12 @@ class ProductAttribute_DeleteTest extends Mage_Selenium_TestCase
         //Steps
         $this->productAttributeHelper()->createAttribute($attrData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_attribute'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_attributes'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_attribute');
         //Steps
         $this->productAttributeHelper()->openAttribute($searchData);
         $this->clickButtonAndConfirm('delete_attribute', 'delete_confirm_message');
         //Verifying
-        $this->assertTrue($this->successMessage('success_deleted_attribute'), $this->messages);
+        $this->assertMessagePresent('success', 'success_deleted_attribute');
     }
 
     public function dataDataName()
@@ -150,25 +148,25 @@ class ProductAttribute_DeleteTest extends Mage_Selenium_TestCase
         //Steps
         $this->productAttributeHelper()->createAttribute($attrData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_attribute'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_attribute');
         //Steps
         $this->navigate('manage_attribute_sets');
         $this->attributeSetHelper()->openAttributeSet();
         $this->attributeSetHelper()->addAttributeToSet($associatedAttributes);
         $this->saveForm('save_attribute_set');
         //Verifying
-        $this->assertTrue($this->successMessage('success_attribute_set_saved'), $this->messages);
+        $this->assertMessagePresent('success', 'success_attribute_set_saved');
         //Steps
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($productData, 'configurable');
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_product');
         //Steps
         $this->navigate('manage_attributes');
         $this->productAttributeHelper()->openAttribute($searchData);
         $this->clickButtonAndConfirm('delete_attribute', 'delete_confirm_message');
         //Verifying
-        $this->assertTrue($this->errorMessage('attribute_used_in_configurable'), $this->messages);
+        $this->assertMessagePresent('error', 'attribute_used_in_configurable');
     }
 
 }

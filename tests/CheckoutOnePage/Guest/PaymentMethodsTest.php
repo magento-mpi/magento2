@@ -58,7 +58,7 @@ class CheckoutOnePage_Guest_PaymentMethodsTest extends Mage_Selenium_TestCase
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($simple);
         //Verification
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_product');
 
         return $simple['general_name'];
     }
@@ -102,7 +102,7 @@ class CheckoutOnePage_Guest_PaymentMethodsTest extends Mage_Selenium_TestCase
         $this->shoppingCartHelper()->frontClearShoppingCart();
         $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
         //Verification
-        $this->assertTrue($this->successMessage('success_checkout'), $this->messages);
+        $this->assertMessagePresent('success', 'success_checkout');
     }
 
     public function dataWithout3DSecure()
@@ -157,7 +157,7 @@ class CheckoutOnePage_Guest_PaymentMethodsTest extends Mage_Selenium_TestCase
         $this->shoppingCartHelper()->frontClearShoppingCart();
         $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
         //Verification
-        $this->assertTrue($this->successMessage('success_checkout'), $this->messages);
+        $this->assertMessagePresent('success', 'success_checkout');
     }
 
     public function dataWith3DSecure()

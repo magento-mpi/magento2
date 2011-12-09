@@ -111,7 +111,7 @@ class Store_Helper extends Mage_Selenium_TestCase
                     $this->clickButton('delete_' . $element);
                     $this->fillForm(array('create_backup' => 'No'));
                     $this->clickButton('delete_' . $element);
-                    $this->assertTrue($this->successMessage('success_deleted_' . $element, $this->messages));
+                    $this->assertMessagePresent('success', 'success_deleted_' . $element);
                     $this->close();
                     $this->selectWindow(null);
 

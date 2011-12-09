@@ -76,11 +76,11 @@ class CmsPolls_CreateTest extends Mage_Selenium_TestCase
         $pollData = $this->loadData('poll_open', null, 'poll_question');
         $searchPollData = $this->loadData('search_poll',
                 array('filter_question' => $pollData['poll_question'],
-                        'filter_status' => $pollData['poll_status']));
+            'filter_status' => $pollData['poll_status']));
         //Steps
         $this->cmsPollsHelper()->createPoll($pollData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_poll'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_poll');
         $this->cmsPollsHelper()->openPoll($searchPollData);
         $this->cmsPollsHelper()->checkPollData($pollData);
         $this->frontend();
@@ -108,12 +108,12 @@ class CmsPolls_CreateTest extends Mage_Selenium_TestCase
         $this->cmsPollsHelper()->createPoll($pollData);
         //Verifying
         if (!$this->cmsPollsHelper()->isVisibleIn and $emptyField == 'visible_in') {
-            $this->assertTrue($this->successMessage(), $this->messages);
+            $this->assertMessagePresent('success');
         } else {
             $this->appendParamsDecorator($this->cmsPollsHelper()->_paramsHelper);
             $this->addFieldIdToMessage($fieldType, $emptyField);
-            $this->assertTrue($this->validationMessage(), $this->messages);
-            $this->assertTrue($this->verifyMessagesCount(), $this->messages);
+            $this->assertMessagePresent('validation');
+            $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
         }
     }
 
@@ -127,7 +127,7 @@ class CmsPolls_CreateTest extends Mage_Selenium_TestCase
         );
     }
 
-       /**
+    /**
      * <p>Creating a new poll without answers</p>
      * <p>Steps:</p>
      * <p>1. Click button "Add New Poll"</p>
@@ -148,7 +148,7 @@ class CmsPolls_CreateTest extends Mage_Selenium_TestCase
         //Steps
         $this->cmsPollsHelper()->createPoll($pollData);
         //Verifying
-        $this->assertTrue($this->validationMessage('add_answers'), $this->messages);
+        $this->assertMessagePresent('validation', 'add_answers');
     }
 
     /**
@@ -174,7 +174,7 @@ class CmsPolls_CreateTest extends Mage_Selenium_TestCase
         //Steps
         $this->cmsPollsHelper()->createPoll($pollData);
         //Verifying
-        $this->assertTrue($this->validationMessage('dublicate_poll_answer'), $this->messages);
+        $this->assertMessagePresent('validation', 'dublicate_poll_answer');
     }
 
     /**
@@ -196,12 +196,11 @@ class CmsPolls_CreateTest extends Mage_Selenium_TestCase
         $pollData = $this->loadData('poll_open', null, 'poll_question');
         $searchPollData = $this->loadData('search_poll',
                 array('filter_question' => $pollData['poll_question'],
-                        'filter_status' => $pollData['poll_status']));
+            'filter_status' => $pollData['poll_status']));
         //Steps
         $this->cmsPollsHelper()->createPoll($pollData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_poll'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('poll_manager'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_poll');
         $this->frontend();
         $this->assertTrue($this->cmsPollsHelper()->frontCheckPoll($pollData['poll_question']),
                 "There is no " . $pollData['poll_question'] . " poll on home page");
@@ -236,8 +235,7 @@ class CmsPolls_CreateTest extends Mage_Selenium_TestCase
         //Steps
         $this->cmsPollsHelper()->createPoll($pollData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_poll'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('poll_manager'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_poll');
         $this->frontend();
         $this->assertTrue($this->cmsPollsHelper()->frontCheckPoll($pollData['poll_question']),
                 "There is no " . $pollData['poll_question'] . " poll on home page");

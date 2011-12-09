@@ -80,7 +80,7 @@ class OrderCreditMemo_Helper extends Mage_Selenium_TestCase
             $this->pleaseWait();
         }
         $this->clickButton($refundButton);
-        $this->assertTrue($this->successMessage('success_creating_creditmemo'), $this->messages);
+        $this->assertMessagePresent('success', 'success_creating_creditmemo');
         foreach ($verify as $productSku => $qty) {
             if ($qty == '%noValue%') {
                 continue;

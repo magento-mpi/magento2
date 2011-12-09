@@ -66,7 +66,7 @@ class Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest extends Ma
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($productData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_product');
 
         return $productData['general_sku'];
     }
@@ -83,7 +83,7 @@ class Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest extends Ma
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
+        $this->assertMessagePresent('success', 'success_created_order');
 
         return $orderData;
     }
@@ -105,7 +105,7 @@ class Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest extends Ma
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
+        $this->assertMessagePresent('success', 'success_created_order');
     }
 
     public function dataCardAuthorizeNet()
@@ -147,7 +147,7 @@ class Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest extends Ma
         //Steps and Verifying
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
-        $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
+        $this->assertMessagePresent('success', 'success_created_order');
         $this->orderInvoiceHelper()->createInvoiceAndVerifyProductQty($captureType);
     }
 
@@ -190,7 +190,7 @@ class Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest extends Ma
         $this->addParameter('invoice_id', 1);
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
-        $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
+        $this->assertMessagePresent('success', 'success_created_order');
         $orderId = $this->orderHelper()->defineOrderId();
         $this->orderInvoiceHelper()->createInvoiceAndVerifyProductQty($captureType);
         $this->navigate('manage_sales_invoices');
@@ -199,9 +199,9 @@ class Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest extends Ma
         $this->clickButton($refundType);
         //Verifying
         if ($refundType != 'refund') {
-            $this->assertTrue($this->successMessage('success_creating_creditmemo'), $this->messages);
+            $this->assertMessagePresent('success', 'success_creating_creditmemo');
         } else {
-            $this->assertTrue($this->errorMessage('failed_authorize_online_refund'), $this->messages);
+            $this->assertMessagePresent('error', 'failed_authorize_online_refund');
         }
     }
 
@@ -220,7 +220,7 @@ class Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest extends Ma
         $this->addParameter('invoice_id', 1);
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
-        $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
+        $this->assertMessagePresent('success', 'success_created_order');
         $orderId = $this->orderHelper()->defineOrderId();
         $this->orderInvoiceHelper()->createInvoiceAndVerifyProductQty($captureType);
         $this->navigate('manage_sales_invoices');
@@ -237,7 +237,7 @@ class Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest extends Ma
             $this->clickButton('update_qty', false);
             $this->pleaseWait();
             $this->clickButton($refundType);
-            $this->assertTrue($this->errorMessage('failed_authorize_online_refund'), $this->messages);
+            $this->assertMessagePresent('error', 'failed_authorize_online_refund');
         }
     }
 
@@ -279,7 +279,7 @@ class Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest extends Ma
         //Steps and Verifying
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
-        $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
+        $this->assertMessagePresent('success', 'success_created_order');
         $this->orderShipmentHelper()->createShipmentAndVerifyProductQty();
     }
 
@@ -303,11 +303,11 @@ class Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest extends Ma
         //Steps and Verifying
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
-        $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
+        $this->assertMessagePresent('success', 'success_created_order');
         $this->clickButton('hold');
-        $this->assertTrue($this->successMessage('success_hold_order'), $this->messages);
+        $this->assertMessagePresent('success', 'success_hold_order');
         $this->clickButton('unhold');
-        $this->assertTrue($this->successMessage('success_unhold_order'), $this->messages);
+        $this->assertMessagePresent('success', 'success_unhold_order');
     }
 
     /**
@@ -321,9 +321,9 @@ class Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest extends Ma
         //Steps and Verifying
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
-        $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
+        $this->assertMessagePresent('success', 'success_created_order');
         $this->clickButtonAndConfirm('cancel', 'confirmation_for_cancel');
-        $this->assertTrue($this->successMessage('success_canceled_order'), $this->messages);
+        $this->assertMessagePresent('success', 'success_canceled_order');
     }
 
     /**
@@ -359,7 +359,7 @@ class Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest extends Ma
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
+        $this->assertMessagePresent('success', 'success_created_order');
         //Steps
         $this->clickButton('reorder');
         $data = $orderData['payment_data']['payment_info'];
@@ -377,7 +377,7 @@ class Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest extends Ma
         $this->orderHelper()->defineOrderId();
         $this->validatePage();
         //Verifying
-        $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
+        $this->assertMessagePresent('success', 'success_created_order');
         if ($errors) {
             $this->fail(implode("\n", $errors));
         }
@@ -411,11 +411,11 @@ class Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest extends Ma
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
+        $this->assertMessagePresent('success', 'success_created_order');
         //Steps
         $this->clickButtonAndConfirm('void', 'confirmation_to_void');
         //Verifying
-        $this->assertTrue($this->successMessage('success_voided_order'), $this->messages);
+        $this->assertMessagePresent('success', 'success_voided_order');
     }
 
     /**
@@ -452,7 +452,7 @@ class Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest extends Ma
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
+        $this->assertMessagePresent('success', 'success_created_order');
     }
 
     public function dataWith3DSecure()

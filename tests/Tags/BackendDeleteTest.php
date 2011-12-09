@@ -51,7 +51,7 @@ class Tags_BackendDeleteTest extends Mage_Selenium_TestCase
     protected function assertPreConditions()
     {
         $this->navigate('all_tags');
-        $this->assertTrue($this->checkCurrentPage('all_tags'), $this->messages);
+        $this->assertTrue($this->checkCurrentPage('all_tags'), $this->getParsedMessages());
         $this->addParameter('storeId', '1');
     }
 
@@ -72,10 +72,10 @@ class Tags_BackendDeleteTest extends Mage_Selenium_TestCase
         $setData = $this->loadData('backend_new_tag', null, 'tag_name');
         //Steps
         $this->tagsHelper()->addTag($setData);
-        $this->assertTrue($this->checkCurrentPage('all_tags'), $this->messages);
+        $this->assertTrue($this->checkCurrentPage('all_tags'), $this->getParsedMessages());
         $this->tagsHelper()->deleteTag(array('tag_name' => $setData['tag_name']));
         //Verify
-        $this->assertTrue($this->checkCurrentPage('all_tags'), $this->messages);
-        $this->assertTrue($this->successMessage('success_deleted_tag'), $this->messages);
+        $this->assertTrue($this->checkCurrentPage('all_tags'), $this->getParsedMessages());
+        $this->assertMessagePresent('success', 'success_deleted_tag');
     }
 }

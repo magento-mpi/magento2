@@ -79,7 +79,7 @@ class Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
         //Steps
         $this->productHelper()->createProduct($productData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_product');
         //Steps
         $this->productHelper()->openProduct($productSearch);
         //Verifying
@@ -114,11 +114,11 @@ class Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
         //Verifying
         if ($emptyCustomField == 'custom_options_general_title') {
             $this->addFieldIdToMessage('field', $emptyCustomField);
-            $this->assertTrue($this->validationMessage('empty_required_field'), $this->messages);
+            $this->assertMessagePresent('validation', 'empty_required_field');
         } else {
-            $this->assertTrue($this->validationMessage('select_type_of_option'), $this->messages);
+            $this->assertMessagePresent('validation', 'select_type_of_option');
         }
-        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
+        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     public function dataEmptyGeneralFields()
@@ -158,8 +158,8 @@ class Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
         $this->productHelper()->createProduct($productData);
         //Verifying
         $this->addFieldIdToMessage('field', 'custom_options_title');
-        $this->assertTrue($this->validationMessage('empty_required_field'), $this->messages);
-        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
+        $this->assertMessagePresent('validation', 'empty_required_field');
+        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     public function optionDataName()
@@ -204,9 +204,9 @@ class Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
         //Verifying
         foreach ($invalidSortOrder as $key => $value) {
             $this->addFieldIdToMessage('field', $key);
-            $this->assertTrue($this->validationMessage('enter_zero_or_greater'), $this->messages);
+            $this->assertMessagePresent('validation', 'enter_zero_or_greater');
         }
-        $this->assertTrue($this->verifyMessagesCount(2), $this->messages);
+        $this->assertTrue($this->verifyMessagesCount(2), $this->getParsedMessages());
     }
 
     /**
@@ -237,8 +237,8 @@ class Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
         $this->productHelper()->createProduct($productData);
         //Verifying
         $this->addFieldIdToMessage('field', 'custom_options_max_characters');
-        $this->assertTrue($this->validationMessage('enter_zero_or_greater'), $this->messages);
-        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
+        $this->assertMessagePresent('validation', 'enter_zero_or_greater');
+        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     public function dataInvalidNumericValue()
@@ -279,8 +279,8 @@ class Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
         $this->productHelper()->createProduct($productData);
         //Verifying
         $this->addFieldIdToMessage('field', 'custom_options_price');
-        $this->assertTrue($this->validationMessage($message), $this->messages);
-        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
+        $this->assertMessagePresent('validation', $message);
+        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     /**
@@ -311,8 +311,8 @@ class Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
         $this->productHelper()->createProduct($productData);
         //Verifying
         $this->addFieldIdToMessage('field', 'custom_options_price');
-        $this->assertTrue($this->validationMessage($message), $this->messages);
-        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
+        $this->assertMessagePresent('validation', $message);
+        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     public function customOptionTypes()
@@ -358,8 +358,8 @@ class Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
         $this->productHelper()->createProduct($productData);
         //Verifying
         $this->addFieldIdToMessage('field', 'custom_options_price');
-        $this->assertTrue($this->validationMessage('enter_zero_or_greater'), $this->messages);
-        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
+        $this->assertMessagePresent('validation', 'enter_zero_or_greater');
+        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     public function negativeNumberNegative()
@@ -399,7 +399,7 @@ class Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
         //Steps
         $this->productHelper()->createProduct($productData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_product');
         //Steps
         $this->productHelper()->openProduct($productSearch);
         //Verifying

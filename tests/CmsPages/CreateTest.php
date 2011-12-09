@@ -61,7 +61,7 @@ class CmsPages_CreateTest extends Mage_Selenium_TestCase
         $rootCat = 'Default Category';
         $categoryData = $this->loadData('sub_category_required', null, 'name');
         $this->categoryHelper()->createSubCategory($rootCat, $categoryData);
-        $this->assertTrue($this->successMessage('success_saved_category'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_category');
         $this->categoryHelper()->checkCategoriesPage();
 
         return $rootCat . '/' . $categoryData['name'];
@@ -81,12 +81,12 @@ class CmsPages_CreateTest extends Mage_Selenium_TestCase
                 array('General' => $attrData['attribute_code']));
         $this->navigate('manage_attributes');
         $this->productAttributeHelper()->createAttribute($attrData);
-        $this->assertTrue($this->successMessage('success_saved_attribute'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_attribute');
         $this->navigate('manage_attribute_sets');
         $this->attributeSetHelper()->openAttributeSet();
         $this->attributeSetHelper()->addAttributeToSet($associatedAttributes);
         $this->saveForm('save_attribute_set');
-        $this->assertTrue($this->successMessage('success_attribute_set_saved'), $this->messages);
+        $this->assertMessagePresent('success', 'success_attribute_set_saved');
 
         return $attrData;
     }
@@ -115,8 +115,8 @@ class CmsPages_CreateTest extends Mage_Selenium_TestCase
         //Steps
         $this->productHelper()->createProduct($productData, $dataProductType);
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_product');
+
         self::$products['sku'][$dataProductType] = $productData['general_sku'];
         self::$products['name'][$dataProductType] = $productData['general_name'];
     }
@@ -147,7 +147,7 @@ class CmsPages_CreateTest extends Mage_Selenium_TestCase
         $temp['filter_sku'] = self::$products['sku']['simple'];
         $temp['category_path'] = $category;
         $pageData = $this->loadData('new_page_req', $temp, array('page_title', 'url_key'));
-        $this->cmsPagesHelper()->createPage($pageData);
+        $this->cmsPagesHelper()->createCmsPage($pageData);
         $this->cmsPagesHelper()->frontValidatePage($pageData);
     }
 
@@ -170,7 +170,7 @@ class CmsPages_CreateTest extends Mage_Selenium_TestCase
         $temp['filter_sku'] = self::$products['sku']['simple'];
         $temp['category_path'] = $category;
         $pageData = $this->loadData('new_page_all_fields', $temp, array('page_title', 'url_key'));
-        $this->cmsPagesHelper()->createPage($pageData);
+        $this->cmsPagesHelper()->createCmsPage($pageData);
         $this->cmsPagesHelper()->frontValidatePage($pageData);
     }
 
@@ -207,9 +207,9 @@ class CmsPages_CreateTest extends Mage_Selenium_TestCase
             }
         }
         $pageData = $this->loadData('new_page_req', $temp, array('page_title', 'url_key'));
-        $this->cmsPagesHelper()->createPage($pageData);
+        $this->cmsPagesHelper()->createCmsPage($pageData);
         $this->addFieldIdToMessage($emptyFielsType, $emptyFieldName);
-        $this->assertTrue($this->validationMessage('empty_required_field'), $this->messages);
+        $this->assertMessagePresent('validation', 'empty_required_field');
     }
 
     public function dataEmptyAllFields()
@@ -241,9 +241,9 @@ class CmsPages_CreateTest extends Mage_Selenium_TestCase
         $temp['filter_sku'] = self::$products['sku']['simple'];
         $temp['category_path'] = $category;
         $pageData = $this->loadData('new_page_req', $temp, array('page_title', 'url_key'));
-        $this->cmsPagesHelper()->createPage($pageData);
-        $this->cmsPagesHelper()->createPage($pageData);
-        $this->assertTrue($this->checkMessage('existing_url_key'), $this->messages);
+        $this->cmsPagesHelper()->createCmsPage($pageData);
+        $this->cmsPagesHelper()->createCmsPage($pageData);
+        $this->assertMessagePresent('error', 'existing_url_key');
     }
 
     /**
@@ -265,8 +265,8 @@ class CmsPages_CreateTest extends Mage_Selenium_TestCase
         $temp['category_path'] = $category;
         $temp['url_key'] = $this->generate('string', 10, ':digit:');
         $pageData = $this->loadData('new_page_req', $temp, array('page_title'));
-        $this->cmsPagesHelper()->createPage($pageData);
-        $this->assertTrue($this->checkMessage('invalid_url_key_with_numbers_only'), $this->messages);
+        $this->cmsPagesHelper()->createCmsPage($pageData);
+        $this->assertMessagePresent('error', 'invalid_url_key_with_numbers_only');
     }
 
    /**
@@ -289,10 +289,10 @@ class CmsPages_CreateTest extends Mage_Selenium_TestCase
         $temp['category_path'] = $category;
         $temp[$specSymField] = $this->generate('string', 10, ':punct:');
         $pageData = $this->loadData('new_page_req', $temp, array('page_title', 'url_key'));
-        $this->cmsPagesHelper()->createPage($pageData);
+        $this->cmsPagesHelper()->createCmsPage($pageData);
         if ($specSymField == 'url_key') {
             $this->addFieldIdToMessage('field', $specSymField);
-            $this->assertTrue($this->validationMessage('invalid_urk_key_spec_sym'), $this->messages);
+            $this->assertMessagePresent('validation', 'invalid_urk_key_spec_sym');
         }
     }
 

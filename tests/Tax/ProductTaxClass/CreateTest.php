@@ -73,9 +73,9 @@ class Tax_ProductTaxClass_CreateTest extends Mage_Selenium_TestCase
         //Steps
         $this->taxHelper()->createTaxItem($productTaxClassData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_tax_class'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_tax_class');
         $this->taxHelper()->openTaxItem($productTaxClassData ,'product_tax_class');
-        $this->assertTrue($this->verifyForm($productTaxClassData), $this->messages);
+        $this->assertTrue($this->verifyForm($productTaxClassData), $this->getParsedMessages());
         return $productTaxClassData;
     }
 
@@ -97,7 +97,7 @@ class Tax_ProductTaxClass_CreateTest extends Mage_Selenium_TestCase
         //Steps
         $this->taxHelper()->createTaxItem($productTaxClassData);
         //Verifying
-        $this->assertTrue($this->errorMessage('tax_class_exists'), $this->messages);
+        $this->assertMessagePresent('error', 'tax_class_exists');
     }
 
     /**
@@ -119,7 +119,7 @@ class Tax_ProductTaxClass_CreateTest extends Mage_Selenium_TestCase
         //Steps
         $this->taxHelper()->createTaxItem($productTaxClassData);
         //Verifying
-        $this->assertTrue($this->errorMessage('empty_class_name'), $this->messages);
+        $this->assertMessagePresent('error', 'empty_class_name');
     }
 
     /**
@@ -144,10 +144,10 @@ class Tax_ProductTaxClass_CreateTest extends Mage_Selenium_TestCase
                                                array('product_class_name' => $specialValue));
         //Steps
         $this->taxHelper()->createTaxItem($productTaxClassData);
-        $this->assertTrue($this->successMessage('success_saved_tax_class'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_tax_class');
         //Verifying
         $this->taxHelper()->openTaxItem($productTaxClassData ,'product_tax_class');
-        $this->assertTrue($this->verifyForm($productTaxClassData), $this->messages);
+        $this->assertTrue($this->verifyForm($productTaxClassData), $this->getParsedMessages());
     }
 
     public function dataSpecialValues()

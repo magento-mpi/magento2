@@ -52,7 +52,7 @@ class Tags_BackendCreateTest extends Mage_Selenium_TestCase
     protected function assertPreConditions()
     {
         $this->navigate('all_tags');
-        $this->assertTrue($this->checkCurrentPage('all_tags'), $this->messages);
+        $this->assertTrue($this->checkCurrentPage('all_tags'), $this->getParsedMessages());
         $this->addParameter('storeId', '1');
     }
 
@@ -66,7 +66,7 @@ class Tags_BackendCreateTest extends Mage_Selenium_TestCase
         $simpleProduct = $this->loadData('simple_product_visible', null, array('general_name', 'general_sku'));
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($simpleProduct);
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_product');
         return $simpleProduct['general_name'];
     }
 
@@ -88,8 +88,8 @@ class Tags_BackendCreateTest extends Mage_Selenium_TestCase
         //Steps
         $this->tagsHelper()->addTag($setData);
         //Verify
-        $this->assertTrue($this->checkCurrentPage('all_tags'), $this->messages);
-        $this->assertTrue($this->successMessage('success_saved_tag'), $this->messages);
+        $this->assertTrue($this->checkCurrentPage('all_tags'), $this->getParsedMessages());
+        $this->assertMessagePresent('success', 'success_saved_tag');
         //Cleanup
         $this->tagToBeDeleted = array('tag_name' => $setData['tag_name']);
     }
@@ -112,8 +112,8 @@ class Tags_BackendCreateTest extends Mage_Selenium_TestCase
         //Steps
         $this->tagsHelper()->addTag($setData);
         //Verify
-        $this->assertTrue($this->validationMessage('required_name'), $this->messages);
-        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
+        $this->assertMessagePresent('validation', 'required_name');
+        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     /**
@@ -139,8 +139,8 @@ class Tags_BackendCreateTest extends Mage_Selenium_TestCase
         //Steps
         $this->tagsHelper()->addTag($setData);
         //Verify
-        $this->assertTrue($this->checkCurrentPage('all_tags'), $this->messages);
-        $this->assertTrue($this->successMessage('success_saved_tag'), $this->messages);
+        $this->assertTrue($this->checkCurrentPage('all_tags'), $this->getParsedMessages());
+        $this->assertMessagePresent('success', 'success_saved_tag');
         $tagToOpen = $this->loadData('backend_search_tag', array('tag_name' => $setData['tag_name']));
         $this->tagsHelper()->openTag($tagToOpen);
         $this->verifyForm($setData);
@@ -185,12 +185,13 @@ class Tags_BackendCreateTest extends Mage_Selenium_TestCase
         $this->navigate('all_tags');
         $this->tagsHelper()->addTag($setData);
         //Verify
-        $this->assertTrue($this->checkCurrentPage('all_tags'), $this->messages);
-        $this->assertTrue($this->successMessage('success_saved_tag'), $this->messages);
+        $this->assertTrue($this->checkCurrentPage('all_tags'), $this->getParsedMessages());
+        $this->assertMessagePresent('success', 'success_saved_tag');
         $tagSearchData = array('tag_name' => $setData['tag_name']);
         $productSearchData = array('general_name' => $product);
         $this->navigate('manage_products');
-        $this->assertTrue($this->tagsHelper()->verifyTagProduct($tagSearchData, $productSearchData), $this->messages);
+        $this->assertTrue($this->tagsHelper()->verifyTagProduct($tagSearchData, $productSearchData),
+                $this->getParsedMessages());
         //Cleanup
         $this->tagToBeDeleted = array('tag_name' => $setData['tag_name']);
     }

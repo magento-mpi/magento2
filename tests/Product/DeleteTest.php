@@ -52,7 +52,6 @@ class Product_DeleteTest extends Mage_Selenium_TestCase
     protected function assertPreConditions()
     {
         $this->navigate('manage_products');
-        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
         $this->addParameter('id', '0');
     }
 
@@ -84,13 +83,12 @@ class Product_DeleteTest extends Mage_Selenium_TestCase
         //Steps
         $this->productHelper()->createProduct($productData, $type);
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_product');
         //Steps
         $this->productHelper()->openProduct($productSearch);
         $this->clickButtonAndConfirm('delete', 'confirmation_for_delete');
         //Verifying
-        $this->assertTrue($this->successMessage('success_deleted_product'), $this->messages);
+        $this->assertMessagePresent('success', 'success_deleted_product');
     }
 
     public function dataProductTypes()
@@ -135,25 +133,24 @@ class Product_DeleteTest extends Mage_Selenium_TestCase
         $this->navigate('manage_attributes');
         $this->productAttributeHelper()->createAttribute($attrData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_attribute'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_attribute');
         //Steps
         $this->navigate('manage_attribute_sets');
         $this->attributeSetHelper()->openAttributeSet();
         $this->attributeSetHelper()->addAttributeToSet($associatedAttributes);
         $this->saveForm('save_attribute_set');
         //Verifying
-        $this->assertTrue($this->successMessage('success_attribute_set_saved'), $this->messages);
+        $this->assertMessagePresent('success', 'success_attribute_set_saved');
         //Steps
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($productData, 'configurable');
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_product');
         //Steps
         $this->productHelper()->openProduct($productSearch);
         $this->clickButtonAndConfirm('delete', 'confirmation_for_delete');
         //Verifying
-        $this->assertTrue($this->successMessage('success_deleted_product'), $this->messages);
+        $this->assertMessagePresent('success', 'success_deleted_product');
 
         return $attrData;
     }
@@ -183,18 +180,16 @@ class Product_DeleteTest extends Mage_Selenium_TestCase
         //Steps
         $this->productHelper()->createProduct($associated, $type);
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_product');
         //Steps
         $this->productHelper()->createProduct($configPr, 'configurable');
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_product');
         //Steps
         $this->productHelper()->openProduct($productSearch);
         $this->clickButtonAndConfirm('delete', 'confirmation_for_delete');
         //Verifying
-        $this->assertTrue($this->successMessage('success_deleted_product'), $this->messages);
+        $this->assertMessagePresent('success', 'success_deleted_product');
     }
 
     public function dataAssociatedType()
@@ -232,18 +227,16 @@ class Product_DeleteTest extends Mage_Selenium_TestCase
         //Steps
         $this->productHelper()->createProduct($associatedData, $associatedType);
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_product');
         //Steps
         $this->productHelper()->createProduct($productData, $type);
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_product');
         //Steps
         $this->productHelper()->openProduct($productSearch);
         $this->clickButtonAndConfirm('delete', 'confirmation_for_delete');
         //Verifying
-        $this->assertTrue($this->successMessage('success_deleted_product'), $this->messages);
+        $this->assertMessagePresent('success', 'success_deleted_product');
     }
 
     public function dataProducts()
@@ -278,8 +271,7 @@ class Product_DeleteTest extends Mage_Selenium_TestCase
             //Steps
             $this->productHelper()->createProduct($productData);
             //Verifying
-            $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-            $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
+            $this->assertMessagePresent('success', 'success_saved_product');
         }
         for ($i = 1; $i <= $productQty; $i++) {
             $this->searchAndChoose(${'searchData' . $i});
@@ -289,7 +281,7 @@ class Product_DeleteTest extends Mage_Selenium_TestCase
         $this->select($xpath, 'Delete');
         $this->clickButtonAndConfirm('submit', 'confirmation_for_delete');
         //Verifying
-        $this->assertTrue($this->successMessage('success_deleted_products_massaction'), $this->messages);
+        $this->assertMessagePresent('success', 'success_deleted_products_massaction');
     }
 
 }

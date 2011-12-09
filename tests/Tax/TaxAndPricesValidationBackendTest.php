@@ -60,7 +60,7 @@ class Tax_TaxAndPricesValidationBackendTest extends Mage_Selenium_TestCase
         $this->navigate('manage_customers');
         $this->customerHelper()->createCustomer($userData, $addressData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_customer');
 
         return $userData['email'];
     }
@@ -80,7 +80,7 @@ class Tax_TaxAndPricesValidationBackendTest extends Mage_Selenium_TestCase
             $products['sku'][$i] = $simpleProductData['general_sku'];
             $products['name'][$i] = $simpleProductData['general_name'];
             $this->productHelper()->createProduct($simpleProductData);
-            $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+            $this->assertMessagePresent('success', 'success_saved_product');
         }
         return $products;
     }

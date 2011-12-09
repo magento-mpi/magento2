@@ -73,7 +73,7 @@ class Store_StoreView_DeleteTest extends Mage_Selenium_TestCase
         //Steps
         $this->storeHelper()->createStore($storeViewData, 'store_view');
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_store_view'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_store_view');
 
         return $storeViewData;
     }

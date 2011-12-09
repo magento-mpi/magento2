@@ -52,7 +52,6 @@ class Product_Create_GroupedTest extends Mage_Selenium_TestCase
     protected function assertPreConditions()
     {
         $this->navigate('manage_products');
-        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
         $this->addParameter('id', '0');
     }
 
@@ -76,8 +75,7 @@ class Product_Create_GroupedTest extends Mage_Selenium_TestCase
         //Steps
         $this->productHelper()->createProduct($productData, 'grouped');
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_product');
 
         return $productData;
     }
@@ -129,8 +127,8 @@ class Product_Create_GroupedTest extends Mage_Selenium_TestCase
         //Steps
         $this->productHelper()->createProduct($productData, 'grouped');
         //Verifying
-        $this->assertTrue($this->validationMessage('existing_sku'), $this->messages);
-        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
+        $this->assertMessagePresent('validation', 'existing_sku');
+        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     /**
@@ -163,8 +161,8 @@ class Product_Create_GroupedTest extends Mage_Selenium_TestCase
         $this->productHelper()->createProduct($productData, 'grouped');
         //Verifying
         $this->addFieldIdToMessage($fieldType, $emptyField);
-        $this->assertTrue($this->validationMessage('empty_required_field'), $this->messages);
-        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
+        $this->assertMessagePresent('validation', 'empty_required_field');
+        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     public function dataEmptyField()
@@ -207,8 +205,7 @@ class Product_Create_GroupedTest extends Mage_Selenium_TestCase
         //Steps
         $this->productHelper()->createProduct($productData, 'grouped');
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_product');
         //Steps
         $this->productHelper()->openProduct($productSearch);
         //Verifying
@@ -243,8 +240,7 @@ class Product_Create_GroupedTest extends Mage_Selenium_TestCase
         //Steps
         $this->productHelper()->createProduct($productData, 'grouped');
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_product');
         //Steps
         $this->productHelper()->openProduct($productSearch);
         //Verifying
@@ -273,8 +269,8 @@ class Product_Create_GroupedTest extends Mage_Selenium_TestCase
         //Steps
         $this->productHelper()->createProduct($productData, 'grouped');
         //Verifying
-        $this->assertTrue($this->validationMessage('incorrect_sku_length'), $this->messages);
-        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
+        $this->assertMessagePresent('validation', 'incorrect_sku_length');
+        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     /**
@@ -305,13 +301,11 @@ class Product_Create_GroupedTest extends Mage_Selenium_TestCase
         //Steps
         $this->productHelper()->createProduct($simpleData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_product');
         //Steps
         $this->productHelper()->createProduct($groupedData, 'grouped');
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_product');
         //Steps
         $this->productHelper()->openProduct($productSearch);
         //Verifying
@@ -348,13 +342,11 @@ class Product_Create_GroupedTest extends Mage_Selenium_TestCase
         //Steps
         $this->productHelper()->createProduct($virtualData, 'virtual');
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_product');
         //Steps
         $this->productHelper()->createProduct($groupedData, 'grouped');
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_product');
         //Steps
         $this->productHelper()->openProduct($productSearch);
         //Verifying
@@ -393,13 +385,11 @@ class Product_Create_GroupedTest extends Mage_Selenium_TestCase
         //Steps
         $this->productHelper()->createProduct($downloadableData, 'downloadable');
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_product');
         //Steps
         $this->productHelper()->createProduct($groupedData, 'grouped');
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_product');
         //Steps
         $this->productHelper()->openProduct($productSearch);
         //Verifying
@@ -441,8 +431,7 @@ class Product_Create_GroupedTest extends Mage_Selenium_TestCase
         //Steps
         $this->productHelper()->createProduct($groupedData, 'grouped');
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_product');
         //Steps
         $this->productHelper()->openProduct($productSearch);
         //Verifying

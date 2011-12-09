@@ -34,7 +34,8 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Installation extends Mage_Selenium_TestCase {
+class Installation extends Mage_Selenium_TestCase
+{
 
     /**
      * Make sure that customer is not logged in, and navigate to homepage
@@ -59,14 +60,14 @@ class Installation extends Mage_Selenium_TestCase {
         $this->open($this->_applicationHelper->getBaseUrl());
 
         // 'License Agreement' page
-        $this->assertTrue($this->checkCurrentPage('license_agreement'), 'Wrong page is opened');
+        $this->assertTrue($this->checkCurrentPage('license_agreement'), $this->getParsedMessages());
         $this->fillForm($this->loadData('license_agreement_data'));
         $this->clickButton('continue');
 
         // 'Localization' page
         $localeData = $this->loadData('localization_data');
-        $this->assertTrue($this->checkCurrentPage('localization'), 'Wrong page is opened');
-        $this->assertTrue($this->fillForm($localeData), $this->messages);
+        $this->assertTrue($this->checkCurrentPage('localization'), $this->getParsedMessages());
+        $this->fillForm($localeData);
 
         // Add 'config' parameter to UImap
         $page = $this->getCurrentLocationUimapPage();
@@ -83,29 +84,28 @@ class Installation extends Mage_Selenium_TestCase {
             $i++;
         }
         $this->addParameter('config', urlencode($config));
-        $page->assignParams($this->_paramsHelper);
 
         $this->clickButton('continue');
 
         // 'Configuration' page
-        $this->assertFalse($this->errorMessage(), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('configuration'), 'Wrong page is opened');
-        $this->assertTrue($this->fillForm('configuration_data'), $this->messages);
+        $this->assertMessagePresent('error');
+        $this->assertTrue($this->checkCurrentPage('configuration'), $this->getParsedMessages());
+        $this->fillForm('configuration_data');
         $this->clickButton('continue');
 
         // 'Create Admin Account' page
-        $this->assertFalse($this->errorMessage(), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('create_admin_account'), 'Wrong page is opened');
-        $this->assertTrue($this->fillForm('admin_account_data'), $this->messages);
+        $this->assertMessagePresent('error');
+        $this->assertTrue($this->checkCurrentPage('create_admin_account'), $this->getParsedMessages());
+        $this->fillForm('admin_account_data');
         $this->clickButton('continue');
 
         // 'You're All Set!' page
-        $this->assertFalse($this->errorMessage(), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('end_installation'), 'Wrong page is opened');
+        $this->assertMessagePresent('error');
+        $this->assertTrue($this->checkCurrentPage('end_installation'), $this->getParsedMessages());
 
         // Log in to Admin
         $this->loginAdminUser();
-        $this->assertTrue($this->checkCurrentPage('dashboard'), 'Wrong page is opened');
+        $this->assertTrue($this->checkCurrentPage('dashboard'), $this->getParsedMessages());
         //Go to Frontend
         $this->assertTrue($this->frontend());
     }

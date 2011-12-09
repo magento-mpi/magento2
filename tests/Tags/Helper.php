@@ -164,7 +164,7 @@ class Tags_Helper extends Mage_Selenium_TestCase
                 $this->clickControl('link', 'tag_name');
                 $this->clickButtonAndConfirm('delete_tag', 'confirmation_for_delete');
                 $this->addParameter('id', $this->defineIdFromUrl());
-                $this->assertTrue($this->successMessage('success_deleted_tag'), $this->messages);
+                $this->assertMessagePresent('success', 'success_deleted_tag');
             }
         } else {
             $this->fail('Verification Data is not correct');

@@ -52,7 +52,7 @@ class AttributeSet_CreateTest extends Mage_Selenium_TestCase
     protected function assertPreConditions()
     {
         $this->navigate('manage_attribute_sets');
-        $this->assertTrue($this->checkCurrentPage('manage_attribute_sets'), $this->messages);
+        $this->assertTrue($this->checkCurrentPage('manage_attribute_sets'), $this->getParsedMessages());
         $this->addParameter('id', '0');
     }
 
@@ -74,8 +74,8 @@ class AttributeSet_CreateTest extends Mage_Selenium_TestCase
         //Steps
         $this->attributeSetHelper()->createAttributeSet($setData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_attribute_set_saved'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_attribute_sets'), $this->messages);
+        $this->assertMessagePresent('success', 'success_attribute_set_saved');
+        $this->assertTrue($this->checkCurrentPage('manage_attribute_sets'), $this->getParsedMessages());
         return $setData['set_name'];
     }
 
@@ -101,7 +101,7 @@ class AttributeSet_CreateTest extends Mage_Selenium_TestCase
         $this->attributeSetHelper()->createAttributeSet($setData);
         //Verifying
         $this->addParameter('attributeSetName', $setData['set_name']);
-        $this->assertTrue($this->errorMessage('error_attribute_set_exist'), $this->messages);
+        $this->assertMessagePresent('error', 'error_attribute_set_exist');
     }
 
     /**
@@ -123,8 +123,8 @@ class AttributeSet_CreateTest extends Mage_Selenium_TestCase
         $this->attributeSetHelper()->createAttributeSet($setData);
         //Verifying
         $this->addFieldIdToMessage('field', 'set_name');
-        $this->assertTrue($this->validationMessage('empty_required_field'), $this->messages);
-        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
+        $this->assertMessagePresent('validation', 'empty_required_field');
+        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     /**
@@ -147,11 +147,11 @@ class AttributeSet_CreateTest extends Mage_Selenium_TestCase
         //Steps
         $this->attributeSetHelper()->createAttributeSet($setData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_attribute_set_saved'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_attribute_sets'), $this->messages);
+        $this->assertMessagePresent('success', 'success_attribute_set_saved');
+        $this->assertTrue($this->checkCurrentPage('manage_attribute_sets'), $this->getParsedMessages());
         //Steps
         $this->attributeSetHelper()->openAttributeSet($attributeSetSearch);
-        $this->assertTrue($this->verifyForm($attributeSetSearch), $this->messages);
+        $this->assertTrue($this->verifyForm($attributeSetSearch), $this->getParsedMessages());
     }
 
     /**
@@ -175,11 +175,11 @@ class AttributeSet_CreateTest extends Mage_Selenium_TestCase
         //Steps
         $this->attributeSetHelper()->createAttributeSet($setData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_attribute_set_saved'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_attribute_sets'), $this->messages);
+        $this->assertMessagePresent('success', 'success_attribute_set_saved');
+        $this->assertTrue($this->checkCurrentPage('manage_attribute_sets'), $this->getParsedMessages());
         //Steps
         $this->attributeSetHelper()->openAttributeSet($attributeSetSearch);
-        $this->assertTrue($this->verifyForm($attributeSetSearch), $this->messages);
+        $this->assertTrue($this->verifyForm($attributeSetSearch), $this->getParsedMessages());
     }
 
     /**
@@ -214,19 +214,19 @@ class AttributeSet_CreateTest extends Mage_Selenium_TestCase
         $setData['associated_attributes'][$groupName] = $attrCodes;
         //Steps
         $this->navigate('manage_attributes');
-        $this->assertTrue($this->checkCurrentPage('manage_attributes'), $this->messages);
+        $this->assertTrue($this->checkCurrentPage('manage_attributes'), $this->getParsedMessages());
         foreach ($attrData as $value) {
             $this->productAttributeHelper()->createAttribute($value);
             //Verifying
-            $this->assertTrue($this->successMessage('success_saved_attribute'), $this->messages);
-            $this->assertTrue($this->checkCurrentPage('manage_attributes'), $this->messages);
+            $this->assertMessagePresent('success', 'success_saved_attribute');
+            $this->assertTrue($this->checkCurrentPage('manage_attributes'), $this->getParsedMessages());
         }
         //Steps
         $this->assertPreConditions();
         $this->attributeSetHelper()->createAttributeSet($setData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_attribute_set_saved'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_attribute_sets'), $this->messages);
+        $this->assertMessagePresent('success', 'success_attribute_set_saved');
+        $this->assertTrue($this->checkCurrentPage('manage_attribute_sets'), $this->getParsedMessages());
 
         return $setData;
     }
@@ -252,8 +252,8 @@ class AttributeSet_CreateTest extends Mage_Selenium_TestCase
         //Steps
         $this->attributeSetHelper()->createAttributeSet($setDataCustom);
         //Verifying
-        $this->assertTrue($this->successMessage('success_attribute_set_saved'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_attribute_sets'), $this->messages);
+        $this->assertMessagePresent('success', 'success_attribute_set_saved');
+        $this->assertTrue($this->checkCurrentPage('manage_attribute_sets'), $this->getParsedMessages());
     }
 
 }

@@ -168,8 +168,8 @@ class CmsPolls_Helper extends Mage_Selenium_TestCase
     {
         if (array_key_exists('visible_in', $pollData) && !$this->isVisibleIn)
             unset($pollData['visible_in']);
-        $this->assertTrue($this->verifyForm($pollData, 'poll_information', array('assigned_answers_set'),
-                        $this->messages));
+        $this->assertTrue($this->verifyForm($pollData, 'poll_information', array('assigned_answers_set')),
+                $this->getParsedMessages());
         $this->openTab('poll_answers');
         $answersXpath = $this->_getControlXpath('fieldset', 'assigned_answers_set');
         $answersCount = $this->getXpathCount($answersXpath);
@@ -179,7 +179,7 @@ class CmsPolls_Helper extends Mage_Selenium_TestCase
                 $attId = $this->getAttribute($answersXpath . "[$i]@id");
                 $answerId = explode("_", $attId);
                 $this->addParameter('answerId', end($answerId));
-                $this->assertTrue($this->verifyForm($value, 'poll_answers'), $this->messages);
+                $this->assertTrue($this->verifyForm($value, 'poll_answers'), $this->getParsedMessages());
                 $i++;
             }
         } else {

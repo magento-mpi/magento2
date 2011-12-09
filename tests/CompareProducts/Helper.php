@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Magento
  *
@@ -204,17 +205,18 @@ class CompareProducts_Helper extends Mage_Selenium_TestCase
      */
     public function frontVerifyProductDataInComparePopup($productsData)
     {
-        //reset error messages
-        $this->messages['error'] = array();
         //get list of products
         $compareProducts = $this->frontGetProductsListComparePopup();
         //get details for each product
         foreach ($compareProducts as $key => $value) {
             $compareProductsData[$key] = $this->frontGetProductDetailsFromComparePopup($key, $value);
         }
-        if (count($productsData) != count($compareProductsData))
-            $this->messages['error'][] = "Unxepected number of products on Compare popup:"
-                    . "expected " . count($productsData) . "; actual " . count($compareProductsData);
+        $actualCount = count($compareProductsData);
+        $expectedCount = count($productsData);
+        if ($expectedCount != $actualCount) {
+            $this->addVerificationMessage('Unxepected number of products on Compare popup: expected '
+                    . $expectedCount . '; actual ' . $actualCount);
+        }
         //compare aarays
         foreach ($compareProductsData as $compareProductName => $compareProductData) {
             //product exists on compare popup
@@ -224,21 +226,17 @@ class CompareProducts_Helper extends Mage_Selenium_TestCase
                 foreach ($compareProductData as $key => $value) {
                     if (key_exists($key, $productToVerify)) {
                         if (strcmp($value, $productToVerify[$key]) != 0) {
-                            $this->messages['error'][] =
-                                    "Values are not identical: $value and $productToVerify[$key]";
+                            $this->addVerificationMessage("Values are not identical: $value and $productToVerify[$key]");
                         }
                         unset($compareProductData[$key]);
                     } else {
-                        $this->messages['error'][] =
-                                "There is no such property $key for " . $compareProductName;
+                        $this->addVerificationMessage("There is no such property $key for " . $compareProductName);
                     }
                 }
             } else {
-                $this->messages['error'][] =
-                        'There is unexpected product ' . $compareProductName . ' on Compare page';
+                $this->addVerificationMessage('There is unexpected product ' . $compareProductName . ' on Compare page');
             }
         }
-        return $this->messages;
     }
 
     /**

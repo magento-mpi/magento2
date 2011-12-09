@@ -207,17 +207,17 @@ class Category_Helper extends Mage_Selenium_TestCase
 
                     return true;
                 } else {
-                    $this->messages['error'][] = "The confirmation text incorrect: {$text}\n";
+                    $this->addVerificationMessage("The confirmation text incorrect: {$text}");
                 }
             } else {
-                $this->messages['error'][] = "The confirmation does not appear\n";
+                $this->addVerificationMessage("The confirmation does not appear");
                 $this->pleaseWait();
-                $this->_currentPage = $this->_findCurrentPageFromUrl($this->getLocation());
+                $this->validatePage();
 
                 return true;
             }
         } else {
-            $this->messages['error'][] = "There is no way to remove an item(There is no 'Delete' button)\n";
+            $this->addVerificationMessage("There is no way to remove an item(There is no 'Delete' button)");
         }
 
         return false;
@@ -348,29 +348,24 @@ class Category_Helper extends Mage_Selenium_TestCase
      */
     public function frontVerifyProductPrices(array $verificationData, $productName = '')
     {
-        if ($productName) {
-            $this->_currentPage = 'category_page';
-            $this->addParameter('productName', $productName);
-        } else {
-            $this->_currentPage = 'product_page';
-        }
         $pageelements = $this->getCurrentUimapPage()->getAllPageelements();
         $verificationData = $this->arrayEmptyClear($verificationData);
         foreach ($verificationData as $key => $value) {
             $this->addParameter('price', $value);
             $xpathPrice = $this->getCurrentUimapPage()->findPageelement($key);
             if (!$this->isElementPresent($xpathPrice)) {
-                $this->messages['error'][] = 'Could not find element ' . $key . ' with price ' . $value;
+                $this->addVerificationMessage('Could not find element ' . $key . ' with price ' . $value);
             }
             unset($pageelements['ex_' . $key]);
         }
         foreach ($pageelements as $key => $value) {
             if (preg_match('/^ex_/', $key) && $this->isElementPresent($value)) {
-                $this->messages['error'][] = 'Element ' . $key . ' is on the page';
+                $this->addVerificationMessage('Element ' . $key . ' is on the page');
             }
         }
-        if (!empty($this->messages['error'])) {
-            $this->fail(implode("\n", $this->messages['error']));
+        
+        if ($this->getParsedMessages('verificationErrors')) {
+            $this->fail(implode("\n", call_user_func_array('array_merge', $this->getParsedMessages())));
         }
     }
 

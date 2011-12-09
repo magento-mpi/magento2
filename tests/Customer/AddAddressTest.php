@@ -54,7 +54,6 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase
     protected function assertPreConditions()
     {
         $this->navigate('manage_customers');
-        $this->assertTrue($this->checkCurrentPage('manage_customers'), $this->messages);
         $this->addParameter('id', '0');
         $this->addParameter('customer_first_last_name', self::$_customerTitleParameter);
     }
@@ -73,8 +72,7 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase
         //Steps
         $this->customerHelper()->createCustomer($userData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_customers'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_customer');
 
         return $userData;
     }
@@ -106,8 +104,7 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase
         $this->customerHelper()->addAddress($addressData);
         $this->saveForm('save_customer');
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_customers'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_customer');
 
         return $searchData;
     }
@@ -155,8 +152,8 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase
         }
         $this->addParameter('fieldXpath', $fieldXpath);
 
-        $this->assertTrue($this->errorMessage('empty_required_field'), $this->messages);
-        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
+        $this->assertMessagePresent('validation', 'empty_required_field');
+        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     public function dataEmptyFields()
@@ -214,8 +211,7 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase
         $this->customerHelper()->addAddress($addressData);
         $this->saveForm('save_customer');
         //Verifying #–1
-        $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_customers'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_customer');
         //Steps
         $this->customerHelper()->openCustomer($searchData);
         $this->openTab('addresses');
@@ -265,8 +261,7 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase
         $this->customerHelper()->addAddress($addressData);
         $this->saveForm('save_customer');
         //Verifying #–1
-        $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_customers'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_customer');
         //Steps
         $this->customerHelper()->openCustomer($searchData);
         $this->openTab('addresses');
@@ -300,8 +295,7 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase
         $this->customerHelper()->addAddress($addressData);
         $this->saveForm('save_customer');
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_customers'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_customer');
         //Steps
         $this->customerHelper()->openCustomer($searchData);
         $this->openTab('addresses');
@@ -333,8 +327,7 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase
         $this->customerHelper()->addAddress($addressData);
         $this->saveForm('save_customer');
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_customers'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_customer');
         //Steps
         $this->customerHelper()->openCustomer($searchData);
         $this->openTab('addresses');

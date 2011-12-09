@@ -56,7 +56,7 @@ class CheckoutOnePage_LoggedIn_ShippingMethodsTest extends Mage_Selenium_TestCas
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($simple);
         //Verification
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_product');
 
         return $simple['general_name'];
     }
@@ -99,11 +99,11 @@ class CheckoutOnePage_LoggedIn_ShippingMethodsTest extends Mage_Selenium_TestCas
         $this->navigate('customer_login');
         $this->customerHelper()->registerCustomer($userData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_registration'), $this->messages);
+        $this->assertMessagePresent('success', 'success_registration');
         //Steps
         $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
         //Verification
-        $this->assertTrue($this->successMessage('success_checkout'), $this->messages);
+        $this->assertMessagePresent('success', 'success_checkout');
     }
 
     public function dataShipment()

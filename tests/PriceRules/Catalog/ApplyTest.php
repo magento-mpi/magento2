@@ -76,17 +76,17 @@ class PriceRules_Catalog_ApplyTest extends Mage_Selenium_TestCase
         $this->navigate('manage_customers');
         $this->customerHelper()->createCustomer($userData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_customer');
         //Steps
         $this->navigate('manage_categories');
         $this->categoryHelper()->createSubCategory($rootCat, $categoryData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_category'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_category');
         //Steps
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($simple);
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_product');
         return array(
             'customer'     => array('email' => $userData['email'], 'password' => $userData['password']),
             'categoryPath' => $rootCat . '/' . $categoryData['name'],
@@ -135,7 +135,7 @@ class PriceRules_Catalog_ApplyTest extends Mage_Selenium_TestCase
         $this->priceRulesHelper()->setAllRulesToInactive();
         $this->priceRulesHelper()->createRule($priceRuleData);
         //Verification
-        $this->assertTrue($this->successMessage('success_saved_rule'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_rule');
         $this->ruleToBeDeleted = $this->loadData('search_catalog_rule',
                 array('filter_rule_name' => $priceRuleData['info']['rule_name']));
         //Steps

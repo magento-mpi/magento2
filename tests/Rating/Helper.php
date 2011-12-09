@@ -156,7 +156,7 @@ class Rating_Helper extends Mage_Selenium_TestCase
                 }
             }
         }
-        $this->assertTrue($this->verifyForm($simpleVerify), $this->messages);
+        $this->assertTrue($this->verifyForm($simpleVerify), $this->getParsedMessages());
     }
 
 }

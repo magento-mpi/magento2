@@ -61,7 +61,7 @@ class PriceRules_ShoppingCart_ApplyTest extends Mage_Selenium_TestCase
         $this->navigate('manage_customers');
         $this->customerHelper()->createCustomer($userData, $addressData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_customer');
         $customer = array('email' => $userData['email'], 'password' => $userData['password']);
         return $customer;
     }
@@ -81,7 +81,7 @@ class PriceRules_ShoppingCart_ApplyTest extends Mage_Selenium_TestCase
         //Steps
         $this->categoryHelper()->createSubCategory($rootCat, $categoryData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_category'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_category');
 
         return $rootCat . '/' . $categoryData['name'];
     }
@@ -105,7 +105,7 @@ class PriceRules_ShoppingCart_ApplyTest extends Mage_Selenium_TestCase
             $products['sku'][$i] = $simpleProductData['general_sku'];
             $products['name'][$i] = $simpleProductData['general_name'];
             $this->productHelper()->createProduct($simpleProductData);
-            $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+            $this->assertMessagePresent('success', 'success_saved_product');
         }
         $this->reindexInvalidedData();
         $this->clearInvalidedCache();
@@ -147,8 +147,7 @@ class PriceRules_ShoppingCart_ApplyTest extends Mage_Selenium_TestCase
                                     array('category' => $category),
                                     array('rule_name', 'coupon_code'));
         $this->PriceRulesHelper()->createRule($ruleData);
-        $this->assertTrue($this->successMessage('success_saved_rule'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_shopping_cart_price_rules'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_rule');
         $this->customerHelper()->frontLoginCustomer($customer);
         $this->shoppingCartHelper()->frontClearShoppingCart();
         foreach ($products['name'] as $key => $productName) {
@@ -160,7 +159,7 @@ class PriceRules_ShoppingCart_ApplyTest extends Mage_Selenium_TestCase
         $this->addParameter('couponCode', $ruleData['info']['coupon_code']);
         $this->fillForm(array('coupon_code' => $ruleData['info']['coupon_code']));
         $this->clickButton('apply_coupon');
-        $this->assertTrue($this->successMessage('success_applied_coupon'), $this->messages);
+        $this->assertMessagePresent('success', 'success_applied_coupon');
         $this->shoppingCartHelper()->verifyPricesDataOnPage($cartProductsData, $checkoutData);
     }
 

@@ -74,12 +74,12 @@ class Category_DeleteTest extends Mage_Selenium_TestCase
         //Steps
         $this->categoryHelper()->createRootCategory($rootCategoryData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_category'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_category');
         $this->categoryHelper()->checkCategoriesPage();
         //Steps
         $this->categoryHelper()->selectCategory($rootCategoryData['name']);
         $this->categoryHelper()->deleteCategory('delete_category', 'confirm_delete');
-        $this->assertTrue($this->successMessage('success_deleted_category'), $this->messages);
+        $this->assertMessagePresent('success', 'success_deleted_category');
     }
 
     /**
@@ -102,12 +102,12 @@ class Category_DeleteTest extends Mage_Selenium_TestCase
         //Steps
         $this->categoryHelper()->createSubCategory($rootCat, $subCategoryData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_category'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_category');
         $this->categoryHelper()->checkCategoriesPage();
         //Steps
         $this->categoryHelper()->selectCategory($rootCat . '/' . $subCategoryData['name']);
         $this->categoryHelper()->deleteCategory('delete_category', 'confirm_delete');
-        $this->assertTrue($this->successMessage('success_deleted_category'), $this->messages);
+        $this->assertMessagePresent('success', 'success_deleted_category');
     }
 
     /**
@@ -129,17 +129,17 @@ class Category_DeleteTest extends Mage_Selenium_TestCase
         //Steps
         $this->categoryHelper()->createRootCategory($rootCategoryData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_category'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_category');
         $this->categoryHelper()->checkCategoriesPage();
         //Steps
         $this->navigate('manage_stores');
         //Verifying
-        $this->assertTrue($this->checkCurrentPage('manage_stores'), $this->messages);
+        $this->assertTrue($this->checkCurrentPage('manage_stores'), $this->getParsedMessages());
         //Steps
         $this->storeHelper()->createStore($storeData, 'store');
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_store'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_stores'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_store');
+        $this->assertTrue($this->checkCurrentPage('manage_stores'), $this->getParsedMessages());
         //Steps
         $this->navigate('manage_categories');
         $this->categoryHelper()->selectCategory($rootCategoryData['name']);
@@ -168,17 +168,17 @@ class Category_DeleteTest extends Mage_Selenium_TestCase
         //Steps
         $this->categoryHelper()->createRootCategory($rootCategoryData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_category'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_category');
         //Steps
         $this->categoryHelper()->createSubCategory($rootCategoryData['name'], $subCategoryData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_category'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_category');
         //Steps
         $this->pleaseWait();
         $this->categoryHelper()->selectCategory($rootCategoryData['name']);
         $this->categoryHelper()->deleteCategory('delete_category', 'confirm_delete');
         //Verifying
-        $this->assertTrue($this->successMessage('success_deleted_category'), $this->messages);
+        $this->assertMessagePresent('success', 'success_deleted_category');
     }
 
     /**
@@ -207,22 +207,22 @@ class Category_DeleteTest extends Mage_Selenium_TestCase
         $this->addParameter('id', '0');
         $this->productHelper()->createProduct($productData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_product');
         //Steps
         $this->assertPreConditions();
         $this->categoryHelper()->createRootCategory($rootCategoryData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_category'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_category');
         //Steps
         $this->categoryHelper()->createSubCategory($rootCategoryData['name'], $subCategoryData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_category'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_category');
         //Steps
         $this->pleaseWait();
         $this->categoryHelper()->selectCategory($rootCategoryData['name']);
         $this->categoryHelper()->deleteCategory('delete_category', 'confirm_delete');
         //Verifying
-        $this->assertTrue($this->successMessage('success_deleted_category'), $this->messages);
+        $this->assertMessagePresent('success', 'success_deleted_category');
     }
 
 }

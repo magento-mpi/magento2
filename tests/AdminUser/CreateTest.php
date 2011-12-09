@@ -46,7 +46,6 @@ class AdminUser_CreateTest extends Mage_Selenium_TestCase
     {
         $this->loginAdminUser();
         $this->navigate('manage_admin_users');
-        $this->assertTrue($this->checkCurrentPage('manage_admin_users'), $this->messages);
         $this->addParameter('id', '0');
     }
 
@@ -64,7 +63,7 @@ class AdminUser_CreateTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->buttonIsPresent('add_new_admin_user'),
                 'There is no "Add New Customer" button on the page');
         $this->clickButton('add_new_admin_user');
-        $this->assertTrue($this->checkCurrentPage('new_admin_user'), $this->messages);
+        $this->assertTrue($this->checkCurrentPage('new_admin_user'), $this->getParsedMessages());
         $this->assertTrue($this->buttonIsPresent('back'), 'There is no "Back" button on the page');
         $this->assertTrue($this->buttonIsPresent('save_admin_user'), 'There is no "Save User" button on the page');
         $this->assertTrue($this->buttonIsPresent('reset'), 'There is no "Reset" button on the page');
@@ -90,8 +89,8 @@ class AdminUser_CreateTest extends Mage_Selenium_TestCase
         //Steps
         $this->adminUserHelper()->createAdminUser($userData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_user'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('edit_admin_user'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_user');
+        $this->assertTrue($this->checkCurrentPage('edit_admin_user'), $this->getParsedMessages());
 
         return $userData;
     }
@@ -116,7 +115,7 @@ class AdminUser_CreateTest extends Mage_Selenium_TestCase
         //Steps
         $this->adminUserHelper()->createAdminUser($userData);
         //Verifying
-        $this->assertTrue($this->errorMessage('exist_name_or_email'), $this->messages);
+        $this->assertMessagePresent('error', 'exist_name_or_email');
     }
 
     /**
@@ -139,7 +138,7 @@ class AdminUser_CreateTest extends Mage_Selenium_TestCase
         //Steps
         $this->adminUserHelper()->createAdminUser($userData);
         //Verifying
-        $this->assertTrue($this->errorMessage('exist_name_or_email'), $this->messages);
+        $this->assertMessagePresent('error', 'exist_name_or_email');
     }
 
     /**
@@ -158,7 +157,6 @@ class AdminUser_CreateTest extends Mage_Selenium_TestCase
      */
     public function test_WithRequiredFieldsEmpty($emptyField, $messageCount)
     {
-
         $userData = $this->loadData('generic_admin_user', array($emptyField => '%noValue%'),
                 array('email', 'user_name'));
         //Steps
@@ -166,8 +164,8 @@ class AdminUser_CreateTest extends Mage_Selenium_TestCase
         //Verifying
         $xpath = $this->_getControlXpath('field', $emptyField);
         $this->addParameter('fieldXpath', $xpath);
-        $this->assertTrue($this->errorMessage('empty_required_field'), $this->messages);
-        $this->assertTrue($this->verifyMessagesCount($messageCount), $this->messages);
+        $this->assertMessagePresent('error', 'empty_required_field');
+        $this->assertTrue($this->verifyMessagesCount($messageCount), $this->getParsedMessages());
     }
 
     public function data_emptyFields()
@@ -208,12 +206,12 @@ class AdminUser_CreateTest extends Mage_Selenium_TestCase
         //Steps
         $this->adminUserHelper()->createAdminUser($userData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_user'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('edit_admin_user'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_user');
+        $this->assertTrue($this->checkCurrentPage('edit_admin_user'), $this->getParsedMessages());
         $this->assertTrue(
                 $this->verifyForm(
                         $userData, 'user_info', array('password', 'password_confirmation')
-                ), $this->messages);
+                ), $this->getParsedMessages());
     }
 
     /**
@@ -245,12 +243,12 @@ class AdminUser_CreateTest extends Mage_Selenium_TestCase
         //Steps
         $this->adminUserHelper()->createAdminUser($userData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_user'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('edit_admin_user'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_user');
+        $this->assertTrue($this->checkCurrentPage('edit_admin_user'), $this->getParsedMessages());
         $this->assertTrue(
                 $this->verifyForm(
                         $userData, 'user_info', array('password', 'password_confirmation')
-                ), $this->messages);
+                ), $this->getParsedMessages());
     }
 
     /**
@@ -275,8 +273,8 @@ class AdminUser_CreateTest extends Mage_Selenium_TestCase
         //Steps
         $this->adminUserHelper()->createAdminUser($userData);
         //Verifying
-        $this->assertTrue($this->errorMessage($errorMessage), $this->messages);
-        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
+        $this->assertMessagePresent('error', $errorMessage);
+        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     public function data_invalidPassword()
@@ -324,7 +322,7 @@ class AdminUser_CreateTest extends Mage_Selenium_TestCase
         //Steps
         $this->adminUserHelper()->createAdminUser($userData);
         //Verifying
-        $this->assertTrue($this->errorMessage('invalid_email'), $this->messages);
+        $this->assertMessagePresent('error', 'invalid_email');
     }
 
     public function data_InvalidEmail()
@@ -357,17 +355,16 @@ class AdminUser_CreateTest extends Mage_Selenium_TestCase
     {
         //Data
         $userData = $this->loadData('generic_admin_user',
-                array('this_acount_is' => 'Inactive', 'role_name' => 'Administrators'), array('email', 'user_name')
-        );
+                array('this_acount_is' => 'Inactive', 'role_name' => 'Administrators'), array('email', 'user_name'));
         //Steps
         $this->adminUserHelper()->createAdminUser($userData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_user'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_user');
         //Steps
         $this->logoutAdminUser();
         $this->adminUserHelper()->loginAdmin($userData);
         //Verifying
-        $this->assertTrue($this->errorMessage('inactive_account'), $this->messages);
+        $this->assertMessagePresent('error', 'inactive_account');
     }
 
     /**
@@ -395,12 +392,12 @@ class AdminUser_CreateTest extends Mage_Selenium_TestCase
         //Steps
         $this->adminUserHelper()->createAdminUser($userData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_user'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_user');
         //Steps
         $this->logoutAdminUser();
         $this->adminUserHelper()->loginAdmin($userData);
         //Verifying
-        $this->assertTrue($this->checkCurrentPage('dashboard'), $this->messages);
+        $this->assertTrue($this->checkCurrentPage('dashboard'), $this->getParsedMessages());
     }
 
     /**
@@ -426,12 +423,12 @@ class AdminUser_CreateTest extends Mage_Selenium_TestCase
         //Steps
         $this->adminUserHelper()->createAdminUser($userData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_user'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_user');
         //Steps
         $this->logoutAdminUser();
         $this->adminUserHelper()->loginAdmin($userData);
         //Verifying
-        $this->assertTrue($this->errorMessage('access_denied'), $this->messages);
+        $this->assertMessagePresent('error', 'access_denied');
     }
 
 }

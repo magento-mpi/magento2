@@ -54,7 +54,7 @@ class Review_FrontendCreateTest extends Mage_Selenium_TestCase
         $this->loginAdminUser();
         $this->navigate('manage_customers');
         $this->customerHelper()->createCustomer($userData);
-        $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_customer');
 
         return array('email' => $userData['email'], 'password' => $userData['password']);
     }
@@ -70,7 +70,7 @@ class Review_FrontendCreateTest extends Mage_Selenium_TestCase
         $this->navigate('manage_products');
         $simpleProductData = $this->loadData('simple_product_visible', NULL, array('general_name', 'general_sku'));
         $this->productHelper()->createProduct($simpleProductData);
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_product');
 
         return $simpleProductData;
     }
@@ -101,8 +101,8 @@ class Review_FrontendCreateTest extends Mage_Selenium_TestCase
         $this->productHelper()->frontOpenProduct($product['general_name']);
         $this->reviewHelper()->frontendAddReview($reviewData);
         $this->addFieldIdToMessage($emptyFieldType, $emptyFieldName);
-        $this->assertTrue($this->validationMessage('empty_required_field'), $this->messages);
-        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
+        $this->assertMessagePresent('validation', 'empty_required_field');
+        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     public function emptyFields()
@@ -131,16 +131,16 @@ class Review_FrontendCreateTest extends Mage_Selenium_TestCase
     public function frontendReviewSpecialCharacters($customer, $product)
     {
         $reviewData = $this->loadData('frontend_review',
-                                      array('nickname'               => $this->generate('string', 32, ':punct:'),
-                                            'summary_of_your_review' => $this->generate('string', 32, ':punct:'),
-                                            'review'                 => $this->generate('string', 32, ':punct:')));
+                array('nickname'               => $this->generate('string', 32, ':punct:'),
+                      'summary_of_your_review' => $this->generate('string', 32, ':punct:'),
+                      'review'                 => $this->generate('string', 32, ':punct:')));
         $searchData = $this->loadData('search_review',
-                                      array('filter_nickname'        => $reviewData['nickname'],
-                                            'filter_product_sku'     => $product['general_sku'],
-                                            'filter_title'           => $reviewData['summary_of_your_review'],
-                                            'filter_review'          => $reviewData['review'],
-                                            'filter_type'            => 'Customer',
-                                            'filter_status'          => 'Pending'));
+                array('filter_nickname'        => $reviewData['nickname'],
+                      'filter_product_sku'     => $product['general_sku'],
+                      'filter_title'           => $reviewData['summary_of_your_review'],
+                      'filter_review'          => $reviewData['review'],
+                      'filter_type'            => 'Customer',
+                      'filter_status'          => 'Pending'));
         $performLogin = array('email' => $customer['email'], 'password' => $customer['password']);
         $this->logoutCustomer();
         $this->clickControl('link', 'log_in');
@@ -148,7 +148,7 @@ class Review_FrontendCreateTest extends Mage_Selenium_TestCase
         $this->clickButton('login');
         $this->productHelper()->frontOpenProduct($product['general_name']);
         $this->reviewHelper()->frontendAddReview($reviewData);
-        $this->assertTrue($this->successMessage('accepted_review'), $this->messages);
+        $this->assertMessagePresent('success', 'accepted_review');
         $this->loginAdminUser();
         $this->navigate('all_reviews');
         $this->reviewHelper()->openReview($searchData);
@@ -178,10 +178,10 @@ class Review_FrontendCreateTest extends Mage_Selenium_TestCase
     {
         $reviewData = $this->loadData('frontend_review', NULL, array('nickname'));
         $searchData = $this->loadData('search_review',
-                                      array('filter_nickname'    => $reviewData['nickname'],
-                                            'filter_product_sku' => $product['general_sku'],
-                                            'filter_type'        => 'Customer',
-                                            'filter_status'      => 'Pending'));
+                array('filter_nickname'    => $reviewData['nickname'],
+                      'filter_product_sku' => $product['general_sku'],
+                      'filter_type'        => 'Customer',
+                      'filter_status'      => 'Pending'));
         $editReview = array('status' => 'Approved');
         $performLogin = array('email' => $customer['email'], 'password' => $customer['password']);
         $this->logoutCustomer();
@@ -190,11 +190,11 @@ class Review_FrontendCreateTest extends Mage_Selenium_TestCase
         $this->clickButton('login');
         $this->productHelper()->frontOpenProduct($product['general_name']);
         $this->reviewHelper()->frontendAddReview($reviewData);
-        $this->assertTrue($this->successMessage('accepted_review'), $this->messages);
+        $this->assertMessagePresent('success', 'accepted_review');
         $this->loginAdminUser();
         $this->navigate('all_reviews');
         $this->reviewHelper()->editReview($editReview, $searchData);
-        $this->assertTrue($this->successMessage('success_saved_review'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_review');
         $this->logoutCustomer();
         $this->clickControl('link', 'log_in');
         $this->fillForm($performLogin);
@@ -202,7 +202,7 @@ class Review_FrontendCreateTest extends Mage_Selenium_TestCase
         $this->productHelper()->frontOpenProduct($product['general_name']);
         $this->reviewHelper()->frontendReviewVerificationInCategory($reviewData, $product['general_name']);
         $this->reviewHelper()->frontendReviewVerificationMyAccount($reviewData['review'],
-                                                                   $product['general_name'],TRUE);
+                $product['general_name'], TRUE);
     }
 
     /**
@@ -228,19 +228,19 @@ class Review_FrontendCreateTest extends Mage_Selenium_TestCase
     {
         $reviewData = $this->loadData('frontend_review', NULL, array('nickname'));
         $searchData = $this->loadData('search_review',
-                                      array('filter_nickname'    => $reviewData['nickname'],
-                                            'filter_product_sku' => $product['general_sku'],
-                                            'filter_type'        => 'Guest',
-                                            'filter_status'      => 'Pending'));
+                array('filter_nickname'    => $reviewData['nickname'],
+                      'filter_product_sku' => $product['general_sku'],
+                      'filter_type'        => 'Guest',
+                      'filter_status'      => 'Pending'));
         $editReview = array('status' => 'Approved');
         $this->logoutCustomer();
         $this->productHelper()->frontOpenProduct($product['general_name']);
         $this->reviewHelper()->frontendAddReview($reviewData);
-        $this->assertTrue($this->successMessage('accepted_review'), $this->messages);
+        $this->assertMessagePresent('success', 'accepted_review');
         $this->loginAdminUser();
         $this->navigate('all_reviews');
         $this->reviewHelper()->editReview($editReview, $searchData);
-        $this->assertTrue($this->successMessage('success_saved_review'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_review');
         $this->logoutCustomer();
         $this->productHelper()->frontOpenProduct($product['general_name']);
         $this->reviewHelper()->frontendReviewVerificationInCategory($reviewData, $product['general_name']);
@@ -270,16 +270,17 @@ class Review_FrontendCreateTest extends Mage_Selenium_TestCase
     {
         $reviewData = $this->loadData('frontend_review', NULL, array('nickname'));
         $searchData = $this->loadData('search_review',
-                                      array('filter_nickname'    => $reviewData['nickname'],
-                                            'filter_product_sku' => $product['general_sku'],
-                                            'filter_type'        => 'Guest',
-                                            'filter_status'      => 'Pending'));
+                array('filter_nickname'    => $reviewData['nickname'],
+                      'filter_product_sku' => $product['general_sku'],
+                      'filter_type'        => 'Guest',
+                      'filter_status'      => 'Pending'));
         $this->logoutCustomer();
         $this->productHelper()->frontOpenProduct($product['general_name']);
         $this->reviewHelper()->frontendAddReview($reviewData);
-        $this->assertTrue($this->successMessage('accepted_review'), $this->messages);
+        $this->assertMessagePresent('success', 'accepted_review');
         $this->loginAdminUser();
         $this->navigate('all_reviews');
         $this->reviewHelper()->openReview($searchData);
     }
+
 }

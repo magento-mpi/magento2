@@ -52,7 +52,6 @@ class Product_Create_DownloadableTest extends Mage_Selenium_TestCase
     protected function assertPreConditions()
     {
         $this->navigate('manage_products');
-        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
         $this->addParameter('id', '0');
     }
 
@@ -76,8 +75,7 @@ class Product_Create_DownloadableTest extends Mage_Selenium_TestCase
         //Steps
         $this->productHelper()->createProduct($productData, 'downloadable');
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_product');
 
         return $productData;
     }
@@ -104,8 +102,7 @@ class Product_Create_DownloadableTest extends Mage_Selenium_TestCase
         //Steps
         $this->productHelper()->createProduct($productData, 'downloadable');
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_product');
         //Steps
         $this->productHelper()->openProduct($productSearch);
         //Verifying
@@ -132,8 +129,8 @@ class Product_Create_DownloadableTest extends Mage_Selenium_TestCase
         //Steps
         $this->productHelper()->createProduct($productData, 'downloadable');
         //Verifying
-        $this->assertTrue($this->validationMessage('existing_sku'), $this->messages);
-        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
+        $this->assertMessagePresent('validation', 'existing_sku');
+        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     /**
@@ -168,8 +165,8 @@ class Product_Create_DownloadableTest extends Mage_Selenium_TestCase
         $this->productHelper()->createProduct($productData, 'downloadable');
         //Verifying
         $this->addFieldIdToMessage($fieldType, $emptyField);
-        $this->assertTrue($this->validationMessage('empty_required_field'), $this->messages);
-        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
+        $this->assertMessagePresent('validation', 'empty_required_field');
+        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     public function dataEmptyField()
@@ -215,8 +212,7 @@ class Product_Create_DownloadableTest extends Mage_Selenium_TestCase
         //Steps
         $this->productHelper()->createProduct($productData, 'downloadable');
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_product');
         //Steps
         $this->productHelper()->openProduct($productSearch);
         //Verifying
@@ -251,8 +247,7 @@ class Product_Create_DownloadableTest extends Mage_Selenium_TestCase
         //Steps
         $this->productHelper()->createProduct($productData, 'downloadable');
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_product');
         //Steps
         $this->productHelper()->openProduct($productSearch);
         //Verifying
@@ -281,8 +276,8 @@ class Product_Create_DownloadableTest extends Mage_Selenium_TestCase
         //Steps
         $this->productHelper()->createProduct($productData, 'downloadable');
         //Verifying
-        $this->assertTrue($this->validationMessage('incorrect_sku_length'), $this->messages);
-        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
+        $this->assertMessagePresent('validation', 'incorrect_sku_length');
+        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     /**
@@ -309,8 +304,8 @@ class Product_Create_DownloadableTest extends Mage_Selenium_TestCase
         $this->productHelper()->createProduct($productData, 'downloadable');
         //Verifying
         $this->addFieldIdToMessage('field', 'prices_price');
-        $this->assertTrue($this->validationMessage('enter_zero_or_greater'), $this->messages);
-        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
+        $this->assertMessagePresent('validation', 'enter_zero_or_greater');
+        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     /**
@@ -337,8 +332,8 @@ class Product_Create_DownloadableTest extends Mage_Selenium_TestCase
         $this->productHelper()->createProduct($productData, 'downloadable');
         //Verifying
         $this->addFieldIdToMessage('field', 'prices_special_price');
-        $this->assertTrue($this->validationMessage('enter_zero_or_greater'), $this->messages);
-        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
+        $this->assertMessagePresent('validation', 'enter_zero_or_greater');
+        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     /**
@@ -367,8 +362,8 @@ class Product_Create_DownloadableTest extends Mage_Selenium_TestCase
         $this->productHelper()->createProduct($productData, 'downloadable');
         //Verifying
         $this->addFieldIdToMessage('field', $emptyTierPrice);
-        $this->assertTrue($this->validationMessage('empty_required_field'), $this->messages);
-        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
+        $this->assertMessagePresent('validation', 'empty_required_field');
+        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     public function tierPriceFields()
@@ -409,9 +404,9 @@ class Product_Create_DownloadableTest extends Mage_Selenium_TestCase
         //Verifying
         foreach ($tierData as $key => $value) {
             $this->addFieldIdToMessage('field', $key);
-            $this->assertTrue($this->validationMessage('enter_greater_than_zero'), $this->messages);
+            $this->assertMessagePresent('validation', 'enter_greater_than_zero');
         }
-        $this->assertTrue($this->verifyMessagesCount(2), $this->messages);
+        $this->assertTrue($this->verifyMessagesCount(2), $this->getParsedMessages());
     }
 
     /**
@@ -438,8 +433,8 @@ class Product_Create_DownloadableTest extends Mage_Selenium_TestCase
         $this->productHelper()->createProduct($productData, 'downloadable');
         //Verifying
         $this->addFieldIdToMessage('field', 'inventory_qty');
-        $this->assertTrue($this->validationMessage('enter_valid_number'), $this->messages);
-        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
+        $this->assertMessagePresent('validation', 'enter_valid_number');
+        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     public function dataInvalidQty()
@@ -479,11 +474,11 @@ class Product_Create_DownloadableTest extends Mage_Selenium_TestCase
         //Verifying
         $this->addFieldIdToMessage('field', $emptyField);
         if ($emptyField == 'downloadable_sample_row_title') {
-            $this->assertTrue($this->validationMessage('empty_required_field'), $this->messages);
+            $this->assertMessagePresent('validation', 'empty_required_field');
         } else {
-            $this->assertTrue($this->validationMessage('specify_url'), $this->messages);
+            $this->assertMessagePresent('validation', 'specify_url');
         }
-        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
+        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     public function dataEmptyFieldforSample()
@@ -521,11 +516,11 @@ class Product_Create_DownloadableTest extends Mage_Selenium_TestCase
         //Verifying
         $this->addFieldIdToMessage('field', $emptyField);
         if ($emptyField == 'downloadable_link_row_title') {
-            $this->assertTrue($this->validationMessage('empty_required_field'), $this->messages);
+            $this->assertMessagePresent('validation', 'empty_required_field');
         } else {
-            $this->assertTrue($this->validationMessage('specify_url'), $this->messages);
+            $this->assertMessagePresent('validation', 'specify_url');
         }
-        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
+        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     public function dataEmptyFieldforLinks()
@@ -561,8 +556,8 @@ class Product_Create_DownloadableTest extends Mage_Selenium_TestCase
         $this->productHelper()->createProduct($productData, 'downloadable');
         //Verifying
         $this->addFieldIdToMessage('field', 'downloadable_link_row_price');
-        $this->assertTrue($this->validationMessage('enter_valid_number'), $this->messages);
-        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
+        $this->assertMessagePresent('validation', 'enter_valid_number');
+        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     public function dataInvalidNumericField()

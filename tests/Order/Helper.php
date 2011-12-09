@@ -295,12 +295,12 @@ class Order_Helper extends Mage_Selenium_TestCase
             $this->click($xpathProduct . "//input[@type='checkbox']");
             if ($configurable && $configur) {
                 $this->_parseMessages();
-                $before = $this->messages;
+                $before = $this->getParsedMessages();
                 $this->pleaseWait();
                 $this->configureProduct($configur);
                 $this->clickButton('ok', FALSE);
                 $this->_parseMessages();
-                $after = $this->messages;
+                $after = $this->getParsedMessages();
                 $result = array();
                 foreach ($after as $key => $value) {
                     if ($key == 'success') {
@@ -434,33 +434,32 @@ class Order_Helper extends Mage_Selenium_TestCase
         if (is_string($shippingMethod)) {
             $shippingMethod = $this->loadData($shippingMethod);
         }
-        $this->messages['error'] = array();
         $shipService = (isset($shippingMethod['shipping_service'])) ? $shippingMethod['shipping_service'] : NULL;
         $shipMethod = (isset($shippingMethod['shipping_method'])) ? $shippingMethod['shipping_method'] : NULL;
         if (!$shipService or !$shipMethod) {
-            $this->messages['error'][] = 'Shipping Service(or Shipping Method) is not set';
+            $this->addVerificationMessage('Shipping Service(or Shipping Method) is not set');
         } else {
             $this->addParameter('shipService', $shipService);
             $this->addParameter('shipMethod', $shipMethod);
             $methodUnavailable = $this->_getControlXpath('message', 'ship_method_unavailable');
             $noShipping = $this->_getControlXpath('message', 'no_shipping');
             if ($this->isElementPresent($methodUnavailable) || $this->isElementPresent($noShipping)) {
-                $this->messages['error'][] = 'No Shipping Method is available for this order';
+                $this->addVerificationMessage('No Shipping Method is available for this order');
             } elseif ($this->isElementPresent($this->_getControlXpath('field', 'ship_service_name'))) {
                 $method = $this->_getControlXpath('radiobutton', 'ship_method');
                 if ($this->isElementPresent($method)) {
                     $this->click($method);
                     $this->pleaseWait();
                 } else {
-                    $this->messages['error'][] = 'Shipping Method "' . $shipMethod . '" for "'
-                                                 . $shipService . '" is currently unavailable.';
+                    $this->addVerificationMessage('Shipping Method "' . $shipMethod . '" for "'
+                                                 . $shipService . '" is currently unavailable.');
                 }
             } else {
-                $this->messages['error'][] = 'Shipping Service "' . $shipService . '" is currently unavailable.';
+                $this->addVerificationMessage('Shipping Service "' . $shipService . '" is currently unavailable.');
             }
         }
-        if ($this->messages['error'] && $validate) {
-            $this->fail(implode("\n", $this->messages['error']));
+        if ($this->getParsedMessages('verificationErrors')) {
+            $this->fail(implode("\n", call_user_func_array('array_merge', $this->getParsedMessages())));
         }
     }
 
@@ -554,8 +553,8 @@ class Order_Helper extends Mage_Selenium_TestCase
                 }
             }
         }
-        if (!empty($this->messages['error'])) {
-            $this->fail(implode("\n", $this->messages['error']));
+        if ($this->getParsedMessages('verificationErrors') != null) {
+            $this->fail(implode("\n", call_user_func_array('array_merge', $this->getParsedMessages())));
         }
     }
 
@@ -581,8 +580,8 @@ class Order_Helper extends Mage_Selenium_TestCase
             $this->pleaseWait();
             if ($validate) {
                 $this->addParameter('couponCode', $code);
-                $this->assertTrue($this->successMessage('success_applying_coupon'), $this->messages);
-                $this->assertFalse($this->errorMessage('invalid_coupon_code'), $this->messages);
+                $this->assertMessagePresent('success', 'success_applying_coupon');
+                $this->assertMessagePresent('error', 'invalid_coupon_code');
             }
         }
     }
@@ -607,10 +606,10 @@ class Order_Helper extends Mage_Selenium_TestCase
             $key = trim(strtolower(preg_replace('#[^0-9a-z]+#i', '_', $value)), '_');
             $actualData[$key] = $this->getText($xpath . "//td[$number]");
         }
-        $this->messages = $this->shoppingCartHelper()->compareArrays($actualData, $verificationData, 'Total');
+        $this->shoppingCartHelper()->compareArrays($actualData, $verificationData, 'Total');
 
-        if (!empty($this->messages['error'])) {
-            $this->fail(implode("\n", $this->messages['error']));
+        if ($this->getParsedMessages('verificationErrors')) {
+            $this->fail(implode("\n", call_user_func_array('array_merge', $this->getParsedMessages())));
         }
     }
 

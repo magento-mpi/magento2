@@ -66,7 +66,7 @@ class Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Selenium_TestCas
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($productData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_product');
 
         return $productData['general_sku'];
     }
@@ -83,7 +83,7 @@ class Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Selenium_TestCas
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
+        $this->assertMessagePresent('success', 'success_created_order');
 
         return $orderData;
     }
@@ -105,7 +105,7 @@ class Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Selenium_TestCas
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
+        $this->assertMessagePresent('success', 'success_created_order');
     }
 
     public function dataCardSavedCC()
@@ -155,7 +155,7 @@ class Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Selenium_TestCas
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
+        $this->assertMessagePresent('success', 'success_created_order');
         //Steps
         $this->orderInvoiceHelper()->createInvoiceAndVerifyProductQty();
     }
@@ -193,7 +193,7 @@ class Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Selenium_TestCas
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
+        $this->assertMessagePresent('success', 'success_created_order');
         //Steps
         $this->orderInvoiceHelper()->createInvoiceAndVerifyProductQty(null, $invoice);
     }
@@ -227,7 +227,7 @@ class Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Selenium_TestCas
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
-        $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
+        $this->assertMessagePresent('success', 'success_created_order');
         $this->orderInvoiceHelper()->createInvoiceAndVerifyProductQty();
         $this->orderCreditMemoHelper()->createCreditMemoAndVerifyProductQty('refund_offline');
     }
@@ -265,7 +265,7 @@ class Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Selenium_TestCas
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
-        $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
+        $this->assertMessagePresent('success', 'success_created_order');
         $this->orderInvoiceHelper()->createInvoiceAndVerifyProductQty();
         $this->orderCreditMemoHelper()->createCreditMemoAndVerifyProductQty('refund_offline', $creditMemo);
     }
@@ -300,7 +300,7 @@ class Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Selenium_TestCas
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
+        $this->assertMessagePresent('success', 'success_created_order');
         //Steps
         $this->orderShipmentHelper()->createShipmentAndVerifyProductQty();
     }
@@ -339,7 +339,7 @@ class Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Selenium_TestCas
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
+        $this->assertMessagePresent('success', 'success_created_order');
         //Steps
         $this->orderShipmentHelper()->createShipmentAndVerifyProductQty($shipment);
     }
@@ -364,11 +364,11 @@ class Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Selenium_TestCas
         //Steps and Verifying
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
-        $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
+        $this->assertMessagePresent('success', 'success_created_order');
         $this->clickButton('hold');
-        $this->assertTrue($this->successMessage('success_hold_order'), $this->messages);
+        $this->assertMessagePresent('success', 'success_hold_order');
         $this->clickButton('unhold');
-        $this->assertTrue($this->successMessage('success_unhold_order'), $this->messages);
+        $this->assertMessagePresent('success', 'success_unhold_order');
     }
 
     /**
@@ -382,9 +382,9 @@ class Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Selenium_TestCas
         //Steps and Verifying
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
-        $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
+        $this->assertMessagePresent('success', 'success_created_order');
         $this->clickButtonAndConfirm('cancel', 'confirmation_for_cancel');
-        $this->assertTrue($this->successMessage('success_canceled_order'), $this->messages);
+        $this->assertMessagePresent('success', 'success_canceled_order');
     }
 
     /**
@@ -418,12 +418,12 @@ class Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Selenium_TestCas
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
+        $this->assertMessagePresent('success', 'success_created_order');
         //Steps
         $this->clickButton('reorder');
         $this->orderHelper()->submitOreder();
         //Verifying
-        $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
+        $this->assertMessagePresent('success', 'success_created_order');
     }
 
     /**
@@ -460,7 +460,7 @@ class Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Selenium_TestCas
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
+        $this->assertMessagePresent('success', 'success_created_order');
     }
 
     public function dataWith3DSecure()

@@ -52,7 +52,6 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
     protected function assertPreConditions()
     {
         $this->navigate('manage_customers');
-        $this->assertTrue($this->checkCurrentPage('manage_customers'), $this->messages);
         $this->addParameter('id', '0');
     }
 
@@ -72,7 +71,7 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->buttonIsPresent('add_new_customer'),
                 'There is no "Add New Customer" button on the page');
         $this->clickButton('add_new_customer');
-        $this->assertTrue($this->checkCurrentPage('create_customer'), $this->messages);
+        $this->assertTrue($this->checkCurrentPage('create_customer'), $this->getParsedMessages());
         $this->assertTrue($this->buttonIsPresent('back'), 'There is no "Back" button on the page');
         $this->assertTrue($this->buttonIsPresent('save_customer'), 'There is no "Save" button on the page');
         $this->assertTrue($this->buttonIsPresent('save_and_continue_edit'),
@@ -100,8 +99,7 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
         //Steps
         $this->customerHelper()->createCustomer($userData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_customers'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_customer');
 
         return $userData;
     }
@@ -125,7 +123,7 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
         //Steps
         $this->customerHelper()->createCustomer($userData);
         //Verifying
-        $this->assertTrue($this->errorMessage('customer_email_exist'), $this->messages);
+        $this->assertMessagePresent('error', 'customer_email_exist');
     }
 
     /**
@@ -152,8 +150,8 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
         $tab = $this->getCurrentUimapPage()->findTab('account_information');
         $xpath = $tab->findField($emptyField);
         $this->addParameter('fieldXpath', $xpath);
-        $this->assertTrue($this->errorMessage('empty_required_field'), $this->messages);
-        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
+        $this->assertMessagePresent('error', 'empty_required_field');
+        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     public function dataEmptyField()
@@ -197,15 +195,14 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
         //Steps
         $this->customerHelper()->createCustomer($userData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_customers'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_customer');
         //Steps
         $param = $userData['first_name'] .' '.$userData['last_name'];
         $this->addParameter('customer_first_last_name', $param);
         $this->customerHelper()->openCustomer($searchData);
         $this->openTab('account_information');
         //Verifying
-        $this->assertTrue($this->verifyForm($userData, 'account_information'), $this->messages);
+        $this->assertTrue($this->verifyForm($userData, 'account_information'), $this->getParsedMessages());
     }
 
     /**
@@ -239,15 +236,14 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
         //Steps
         $this->customerHelper()->createCustomer($userData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_customers'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_customer');
         //Steps
         $param = $userData['first_name'] .' '.$userData['last_name'];
         $this->addParameter('customer_first_last_name', $param);
         $this->customerHelper()->openCustomer($searchData);
         $this->openTab('account_information');
         //Verifying
-        $this->assertTrue($this->verifyForm($userData, 'account_information'), $this->messages);
+        $this->assertTrue($this->verifyForm($userData, 'account_information'), $this->getParsedMessages());
     }
 
     /**
@@ -272,8 +268,8 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
         //Steps
         $this->customerHelper()->createCustomer($userData);
         //Verifying
-//        $this->assertTrue($this->errorMessage('customer_invalid_email'), $this->messages);
-        $this->assertTrue($this->errorMessage('invalid_email'), $this->messages);
+//        $this->assertMessagePresent('error', 'customer_invalid_email');
+        $this->assertMessagePresent('error', 'invalid_email');
     }
 
     public function dataInvalidEmail()
@@ -307,7 +303,7 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
         //Steps
         $this->customerHelper()->createCustomer($userData);
         //Verifying
-        $this->assertTrue($this->errorMessage('password_too_short'), $this->messages);
+        $this->assertMessagePresent('error', 'password_too_short');
     }
 
     /**
@@ -331,8 +327,7 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
         //Steps
         $this->customerHelper()->createCustomer($userData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_customers'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_customer');
     }
 
     /**
@@ -359,8 +354,7 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
         //Steps
         $this->customerHelper()->createCustomer($userData, $addressData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_customers'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_customer');
     }
 
 }

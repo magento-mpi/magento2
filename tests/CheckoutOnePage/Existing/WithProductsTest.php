@@ -56,9 +56,9 @@ class CheckoutOnePage_Existing_WithProductsTest extends Mage_Selenium_TestCase
         $this->loginAdminUser();
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($simple);
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_product');
         $this->productHelper()->createProduct($virtual, 'virtual');
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_product');
 
         return array(
             'simple' => $simple['general_name'],
@@ -102,12 +102,12 @@ class CheckoutOnePage_Existing_WithProductsTest extends Mage_Selenium_TestCase
         $this->navigate('customer_login');
         $this->customerHelper()->registerCustomer($userData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_registration'), $this->messages);
+        $this->assertMessagePresent('success', 'success_registration');
         //Steps
         $this->logoutCustomer();
         $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
         //Verification
-        $this->assertTrue($this->successMessage('success_checkout'), $this->messages);
+        $this->assertMessagePresent('success', 'success_checkout');
     }
 
     /**
@@ -144,12 +144,12 @@ class CheckoutOnePage_Existing_WithProductsTest extends Mage_Selenium_TestCase
         $this->navigate('customer_login');
         $this->customerHelper()->registerCustomer($userData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_registration'), $this->messages);
+        $this->assertMessagePresent('success', 'success_registration');
         //Steps
         $this->logoutCustomer();
         $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
         //Verification
-        $this->assertTrue($this->successMessage('success_checkout'), $this->messages);
+        $this->assertMessagePresent('success', 'success_checkout');
     }
 
 }

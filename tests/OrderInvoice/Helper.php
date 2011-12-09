@@ -83,7 +83,7 @@ class OrderInvoice_Helper extends Mage_Selenium_TestCase
             $this->pleaseWait();
         }
         $this->clickButton('submit_invoice');
-        $this->assertTrue($this->successMessage('success_creating_invoice'), $this->messages);
+        $this->assertMessagePresent('success', 'success_creating_invoice');
         foreach ($verify as $productSku => $qty) {
             if ($qty == '%noValue%') {
                 continue;

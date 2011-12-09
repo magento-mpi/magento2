@@ -78,10 +78,10 @@ class Tax_TaxRate_DeleteTest extends Mage_Selenium_TestCase
                                              array('filter_tax_id' => $taxRateData['tax_identifier']));
         //Steps
         $this->taxHelper()->createTaxRate($taxRateData);
-        $this->assertTrue($this->successMessage('success_saved_tax_rate'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_tax_rate');
         $this->taxHelper()->deleteTaxItem($searchTaxRateData ,'tax_rates');
         //Verifying
-        $this->assertTrue($this->successMessage('success_deleted_tax_rate'), $this->messages);
+        $this->assertMessagePresent('success', 'success_deleted_tax_rate');
     }
 
     /**
@@ -108,15 +108,15 @@ class Tax_TaxRate_DeleteTest extends Mage_Selenium_TestCase
                                              array('filter_name' => $taxRuleData['name']));
         //Steps
         $this->taxHelper()->createTaxRate($taxRateData);
-        $this->assertTrue($this->successMessage('success_saved_tax_rate'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_tax_rate');
         $this->navigate('manage_tax_rule');
         $this->taxHelper()->createTaxItem($taxRuleData);
-        $this->assertTrue($this->successMessage('success_saved_tax_rule'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_tax_rule');
         $this->ruleToBeDeleted = $searchTaxRuleData;
         $this->navigate('manage_tax_zones_and_rates');
         $this->taxHelper()->deleteTaxItem($searchTaxRateData ,'tax_rates');
         //Verifying
-        $this->assertTrue($this->errorMessage('error_delete_tax_rate'), $this->messages);
+        $this->assertMessagePresent('error', 'error_delete_tax_rate');
     }
 
     protected function tearDown()

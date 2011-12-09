@@ -74,7 +74,7 @@ class Category_Create_SubCategoryTest extends Mage_Selenium_TestCase
         //Steps
         $this->categoryHelper()->createSubCategory($rooCat, $categoryData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_category'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_category');
         $this->categoryHelper()->checkCategoriesPage();
 
         return $rooCat . '/' . $categoryData['name'];
@@ -99,7 +99,7 @@ class Category_Create_SubCategoryTest extends Mage_Selenium_TestCase
         //Steps
         $this->categoryHelper()->createSubCategory($rooCat, $categoryData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_category'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_category');
         $this->categoryHelper()->checkCategoriesPage();
     }
 
@@ -125,8 +125,8 @@ class Category_Create_SubCategoryTest extends Mage_Selenium_TestCase
         $this->categoryHelper()->createSubCategory($rooCat, $categoryData);
         //Verifying
         $this->addFieldIdToMessage($fieldType, $emptyField);
-        $this->assertTrue($this->validationMessage('empty_required_field'), $this->messages);
-        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
+        $this->assertMessagePresent('validation', 'empty_required_field');
+        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     public function dataEmptyFields()
@@ -158,7 +158,7 @@ class Category_Create_SubCategoryTest extends Mage_Selenium_TestCase
         //Steps
         $this->categoryHelper()->createSubCategory($rooCat, $categoryData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_category'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_category');
         $this->categoryHelper()->checkCategoriesPage();
     }
 
@@ -183,7 +183,7 @@ class Category_Create_SubCategoryTest extends Mage_Selenium_TestCase
         //Steps
         $this->categoryHelper()->createSubCategory($rooCat, $categoryData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_category'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_category');
         $this->categoryHelper()->checkCategoriesPage();
     }
 
@@ -209,7 +209,7 @@ class Category_Create_SubCategoryTest extends Mage_Selenium_TestCase
             //Steps
             $this->categoryHelper()->createSubCategory($rooCat, $categoryData);
             //Verifying
-            $this->assertTrue($this->successMessage('success_saved_category'), $this->messages);
+            $this->assertMessagePresent('success', 'success_saved_category');
             $this->categoryHelper()->checkCategoriesPage();
             //Steps
             $rooCat.='/' . $categoryData['name'];

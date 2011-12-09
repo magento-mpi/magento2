@@ -73,9 +73,9 @@ class Tax_CustomerTaxClass_CreateTest extends Mage_Selenium_TestCase
         //Steps
         $this->taxHelper()->createTaxItem($customerTaxClassData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_tax_class'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_tax_class');
         $this->taxHelper()->openTaxItem($customerTaxClassData ,'customer_tax_class');
-        $this->assertTrue($this->verifyForm($customerTaxClassData), $this->messages);
+        $this->assertTrue($this->verifyForm($customerTaxClassData), $this->getParsedMessages());
         return $customerTaxClassData;
     }
 
@@ -97,7 +97,7 @@ class Tax_CustomerTaxClass_CreateTest extends Mage_Selenium_TestCase
         //Steps
         $this->taxHelper()->createTaxItem($customerTaxClassData);
         //Verifying
-        $this->assertTrue($this->errorMessage('tax_class_exists'), $this->messages);
+        $this->assertMessagePresent('error', 'tax_class_exists');
     }
 
     /**
@@ -119,7 +119,7 @@ class Tax_CustomerTaxClass_CreateTest extends Mage_Selenium_TestCase
         //Steps
         $this->taxHelper()->createTaxItem($customerTaxClassData);
         //Verifying
-        $this->assertTrue($this->errorMessage('empty_class_name'), $this->messages);
+        $this->assertMessagePresent('error', 'empty_class_name');
     }
 
     /**
@@ -145,10 +145,10 @@ class Tax_CustomerTaxClass_CreateTest extends Mage_Selenium_TestCase
                                                 array('customer_class_name' => $specialValue));
         //Steps
         $this->taxHelper()->createTaxItem($customerTaxClassData);
-        $this->assertTrue($this->successMessage('success_saved_tax_class'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_tax_class');
         //Verifying
         $this->taxHelper()->openTaxItem($customerTaxClassData ,'customer_tax_class');
-        $this->assertTrue($this->verifyForm($customerTaxClassData), $this->messages);
+        $this->assertTrue($this->verifyForm($customerTaxClassData), $this->getParsedMessages());
     }
 
     /**

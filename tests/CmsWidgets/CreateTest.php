@@ -36,6 +36,7 @@
  */
 class CmsWidgets_CreateTest extends Mage_Selenium_TestCase
 {
+
     protected static $products = array();
 
     public function setUpBeforeTests()
@@ -61,7 +62,7 @@ class CmsWidgets_CreateTest extends Mage_Selenium_TestCase
         $rootCat = 'Default Category';
         $categoryData = $this->loadData('sub_category_required', null, 'name');
         $this->categoryHelper()->createSubCategory($rootCat, $categoryData);
-        $this->assertTrue($this->successMessage('success_saved_category'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_category');
         $this->categoryHelper()->checkCategoriesPage();
 
         return $rootCat . '/' . $categoryData['name'];
@@ -81,12 +82,12 @@ class CmsWidgets_CreateTest extends Mage_Selenium_TestCase
                 array('General' => $attrData['attribute_code']));
         $this->navigate('manage_attributes');
         $this->productAttributeHelper()->createAttribute($attrData);
-        $this->assertTrue($this->successMessage('success_saved_attribute'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_attribute');
         $this->navigate('manage_attribute_sets');
         $this->attributeSetHelper()->openAttributeSet();
         $this->attributeSetHelper()->addAttributeToSet($associatedAttributes);
         $this->saveForm('save_attribute_set');
-        $this->assertTrue($this->successMessage('success_attribute_set_saved'), $this->messages);
+        $this->assertMessagePresent('success', 'success_attribute_set_saved');
 
         return $attrData;
     }
@@ -106,17 +107,16 @@ class CmsWidgets_CreateTest extends Mage_Selenium_TestCase
         //Data
         if ($dataProductType == 'configurable') {
             $productData = $this->loadData($dataProductType . '_product_required',
-                array('configurable_attribute_title' => $attrData['admin_title'],
-                    'categories' => $category), array('general_sku', 'general_name'));
+                    array('configurable_attribute_title' => $attrData['admin_title'],
+                'categories' => $category), array('general_sku', 'general_name'));
         } else {
-            $productData = $this->loadData($dataProductType . '_product_required',
-                array('categories' => $category), array('general_name', 'general_sku'));
+            $productData = $this->loadData($dataProductType . '_product_required', array('categories' => $category),
+                    array('general_name', 'general_sku'));
         }
         //Steps
         $this->productHelper()->createProduct($productData, $dataProductType);
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_product');
         self::$products['sku'][$dataProductType] = $productData['general_sku'];
         self::$products['name'][$dataProductType] = $productData['general_name'];
     }
@@ -198,8 +198,6 @@ class CmsWidgets_CreateTest extends Mage_Selenium_TestCase
         $temp['category_path'] = $category;
         $widgetData = $this->loadData($dataWidgetType . '_widget_req', $temp, 'widget_instance_title');
         $this->cmsWidgetsHelper()->createWidget($widgetData);
-
-
     }
 
     public function dataWidgetTypesReq()
@@ -237,7 +235,7 @@ class CmsWidgets_CreateTest extends Mage_Selenium_TestCase
         if ($fieldType == 'field') {
             $temp[$emptyField] = ' ';
         } elseif ($fieldType == 'dropdown') {
-            if($emptyField == 'select_display_on') {
+            if ($emptyField == 'select_display_on') {
                 $temp['select_block_reference'] = '%noValue%';
                 $temp['select_template'] = '%noValue%';
             }
@@ -249,8 +247,8 @@ class CmsWidgets_CreateTest extends Mage_Selenium_TestCase
         $widgetData = $this->loadData($dataWidgetType . '_widget_req', $temp);
         $this->cmsWidgetsHelper()->createWidget($widgetData);
         $this->addFieldIdToMessage($fieldType, $emptyField);
-        $this->assertTrue($this->validationMessage('empty_required_field'), $this->messages);
-        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
+        $this->assertMessagePresent('validation', 'empty_required_field');
+        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     public function dataWidgetEmptyFields()

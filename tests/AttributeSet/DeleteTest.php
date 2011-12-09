@@ -52,7 +52,6 @@ class AttributeSet_DeleteTest extends Mage_Selenium_TestCase
     protected function assertPreConditions()
     {
         $this->navigate('manage_attribute_sets');
-        $this->assertTrue($this->checkCurrentPage('manage_attribute_sets'), $this->messages);
         $this->addParameter('id', '0');
     }
 
@@ -66,13 +65,13 @@ class AttributeSet_DeleteTest extends Mage_Selenium_TestCase
         //Steps
         $this->attributeSetHelper()->createAttributeSet($setData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_attribute_set_saved'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_attribute_sets'), $this->messages);
+        $this->assertMessagePresent('success', 'success_attribute_set_saved');
+        $this->assertTrue($this->checkCurrentPage('manage_attribute_sets'), $this->getParsedMessages());
         //Steps
         $this->attributeSetHelper()->openAttributeSet($setData['set_name']);
         $this->clickButtonAndConfirm('delete_attribute_set', 'confirmation_for_delete');
         //Verifying
-        $this->assertTrue($this->successMessage('success_attribute_set_deleted'), $this->messages);
+        $this->assertMessagePresent('success', 'success_attribute_set_deleted');
     }
 
     /**
@@ -88,18 +87,18 @@ class AttributeSet_DeleteTest extends Mage_Selenium_TestCase
         //Steps
         $this->attributeSetHelper()->createAttributeSet($setData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_attribute_set_saved'), $this->messages);
+        $this->assertMessagePresent('success', 'success_attribute_set_saved');
         //Steps
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($productData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_product');
         //Steps
         $this->assertPreConditions();
         $this->attributeSetHelper()->openAttributeSet($setData['set_name']);
         $this->clickButtonAndConfirm('delete_attribute_set', 'confirmation_for_delete');
         //Verifying
-        $this->assertTrue($this->successMessage('success_attribute_set_deleted'), $this->messages);
+        $this->assertMessagePresent('success', 'success_attribute_set_deleted');
         $this->navigate('manage_products');
         $xpath = $this->search($searchProduct);
         $this->assertEquals(null, $xpath, 'Product is not deleted');

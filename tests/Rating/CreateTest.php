@@ -36,6 +36,7 @@
  */
 class Rating_CreateTest extends Mage_Selenium_TestCase
 {
+
     /**
      * <p>Preconditions:</p>
      * <p>Log in to Backend.</p>
@@ -59,7 +60,7 @@ class Rating_CreateTest extends Mage_Selenium_TestCase
         $this->navigate('manage_products');
         $simpleProductData = $this->loadData('simple_product_visible', NULL, array('general_name', 'general_sku'));
         $this->productHelper()->createProduct($simpleProductData);
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_product');
 
         return $simpleProductData;
     }
@@ -76,7 +77,7 @@ class Rating_CreateTest extends Mage_Selenium_TestCase
         $this->navigate('manage_stores');
         $storeViewData = $this->loadData('generic_store_view');
         $this->storeHelper()->createStore($storeViewData, 'store_view');
-        $this->assertTrue($this->successMessage('success_saved_store_view'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_store_view');
 
         return $storeViewData['store_view_name'];
     }
@@ -97,7 +98,7 @@ class Rating_CreateTest extends Mage_Selenium_TestCase
     {
         $ratingData = $this->loadData('rating_required_fields', NULL, 'default_value');
         $this->ratingHelper()->createRating($ratingData);
-        $this->assertTrue($this->successMessage('success_saved_rating'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_rating');
 
         return $ratingData['rating_information']['default_value'];
     }
@@ -119,10 +120,9 @@ class Rating_CreateTest extends Mage_Selenium_TestCase
         $ratingData = $this->loadData('rating_required_fields', array('default_value' => '%noValue%'));
         $this->ratingHelper()->createRating($ratingData);
         $this->addFieldIdToMessage('field', 'default_value');
-        $this->assertTrue($this->validationMessage('empty_required_field'), $this->messages);
-        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
+        $this->assertMessagePresent('validation', 'empty_required_field');
+        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
-
 
     /**
      * <p>Creating Rating with existing name(default value)</p>
@@ -141,7 +141,7 @@ class Rating_CreateTest extends Mage_Selenium_TestCase
     {
         $ratingData = $this->loadData('rating_required_fields', array('default_value' => $ratingName));
         $this->ratingHelper()->createRating($ratingData);
-        $this->assertTrue($this->errorMessage('existing_name'), $this->messages);
+        $this->assertMessagePresent('error', 'existing_name');
     }
 
     /**
@@ -173,7 +173,7 @@ class Rating_CreateTest extends Mage_Selenium_TestCase
     {
         $ratingData = $this->loadData('default_rating', array('visible_in' => $storeView), 'default_value');
         $this->ratingHelper()->createRating($ratingData);
-        $this->assertTrue($this->successMessage('success_saved_rating'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_rating');
         $this->reindexInvalidedData();
         $this->frontend();
         $xpath = $this->_getControlXpath('dropdown', 'your_language') . '/option[@selected]';
@@ -190,7 +190,7 @@ class Rating_CreateTest extends Mage_Selenium_TestCase
         $this->clickControl('link', 'first_review');
         $this->addParameter('rateName', $ratingData['rating_information']['default_value']);
         $this->assertFalse($this->controlIsPresent('pageelement', 'review_table_rate_name'),
-                           'Rating is on the page, but should not be there');
+                'Rating is on the page, but should not be there');
         $this->frontend();
         $xpath = $this->_getControlXpath('dropdown', 'your_language') . '/option[@selected]';
         $text = trim($this->getText($xpath));
@@ -206,7 +206,7 @@ class Rating_CreateTest extends Mage_Selenium_TestCase
         $this->clickControl('link', 'first_review');
         $this->addParameter('rateName', $ratingData['rating_information']['default_value']);
         $this->assertTrue($this->controlIsPresent('pageelement', 'review_table_rate_name'),
-                           'Rating is not on the page, but should be there');
+                'Rating is not on the page, but should be there');
     }
 
     /**
@@ -223,11 +223,11 @@ class Rating_CreateTest extends Mage_Selenium_TestCase
     public function withLongValues()
     {
         $ratingData = $this->loadData('rating_required_fields',
-                                      array('default_value' => $this->generate('string', 64, ':alnum:')));
+                array('default_value' => $this->generate('string', 64, ':alnum:')));
         $searchData = $this->loadData('search_rating',
-                                      array('filter_rating_name' =>$ratingData['rating_information']['default_value']));
+                array('filter_rating_name' => $ratingData['rating_information']['default_value']));
         $this->ratingHelper()->createRating($ratingData);
-        $this->assertTrue($this->successMessage('success_saved_rating'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_rating');
         $this->ratingHelper()->openRating($searchData);
     }
 
@@ -245,12 +245,12 @@ class Rating_CreateTest extends Mage_Selenium_TestCase
     public function withIncorrectLengthInRequiredFields()
     {
         $ratingData = $this->loadData('rating_required_fields',
-                                      array('default_value' => $this->generate('string', 65, ':alnum:')));
+                array('default_value' => $this->generate('string', 65, ':alnum:')));
         $searchData = $this->loadData('search_rating',
-                                      array('filter_rating_name' =>
-                                      substr($ratingData['rating_information']['default_value'],0,-1)));
+                array('filter_rating_name' =>
+            substr($ratingData['rating_information']['default_value'], 0, -1)));
         $this->ratingHelper()->createRating($ratingData);
-        $this->assertTrue($this->successMessage('success_saved_rating'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_rating');
         $this->ratingHelper()->openRating($searchData);
     }
 
@@ -268,11 +268,12 @@ class Rating_CreateTest extends Mage_Selenium_TestCase
     public function withSpecialCharacters()
     {
         $ratingData = $this->loadData('rating_required_fields',
-                                      array('default_value' => $this->generate('string', 32, ':punct:')));
+                array('default_value' => $this->generate('string', 32, ':punct:')));
         $searchData = $this->loadData('search_rating',
-                                      array('filter_rating_name' =>$ratingData['rating_information']['default_value']));
+                array('filter_rating_name' => $ratingData['rating_information']['default_value']));
         $this->ratingHelper()->createRating($ratingData);
-        $this->assertTrue($this->successMessage('success_saved_rating'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_rating');
         $this->ratingHelper()->openRating($searchData);
     }
+
 }

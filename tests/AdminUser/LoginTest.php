@@ -74,7 +74,7 @@ class AdminUser_LoginTest extends Mage_Selenium_TestCase
         //Steps
         $this->adminUserHelper()->loginAdmin($loginData);
         //Verifying
-        $this->assertTrue($this->checkCurrentPage('dashboard'), $this->messages);
+        $this->assertTrue($this->checkCurrentPage('dashboard'), $this->getParsedMessages());
         $this->logoutAdminUser();
 
         return $loginData;
@@ -99,8 +99,8 @@ class AdminUser_LoginTest extends Mage_Selenium_TestCase
         //Steps
         $this->adminUserHelper()->loginAdmin($loginData);
         //Verifying
-        $this->assertTrue($this->validationMessage('empty_' . $emptyField), $this->messages);
-        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
+        $this->assertMessagePresent('validation', 'empty_' . $emptyField);
+        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     public function dataEmptyLoginUser()
@@ -129,7 +129,7 @@ class AdminUser_LoginTest extends Mage_Selenium_TestCase
         //Steps
         $this->adminUserHelper()->loginAdmin($loginData);
         //Verifying
-        $this->assertTrue($this->errorMessage('wrong_credentials'), $this->messages);
+        $this->assertMessagePresent('error', 'wrong_credentials');
     }
 
     /**
@@ -150,7 +150,7 @@ class AdminUser_LoginTest extends Mage_Selenium_TestCase
         //Steps
         $this->adminUserHelper()->loginAdmin($loginData);
         //Verifying
-        $this->assertTrue($this->errorMessage('wrong_credentials'), $this->messages);
+        $this->assertMessagePresent('error', 'wrong_credentials');
     }
 
     /**
@@ -177,12 +177,12 @@ class AdminUser_LoginTest extends Mage_Selenium_TestCase
         $this->navigate('manage_admin_users');
         $this->adminUserHelper()->createAdminUser($userData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_user'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_user');
         //Steps
         $this->logoutAdminUser();
         $this->adminUserHelper()->loginAdmin($loginData);
         //Verifying
-        $this->assertTrue($this->errorMessage('inactive_account'), $this->messages);
+        $this->assertMessagePresent('error', 'inactive_account');
     }
 
     /**
@@ -208,12 +208,12 @@ class AdminUser_LoginTest extends Mage_Selenium_TestCase
         $this->navigate('manage_admin_users');
         $this->adminUserHelper()->createAdminUser($userData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_user'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_user');
         //Steps
         $this->logoutAdminUser();
         $this->adminUserHelper()->loginAdmin($loginData);
         //Verifying
-        $this->assertTrue($this->errorMessage('access_denied'));
+        $this->assertMessagePresent('error', 'access_denied');
     }
 
     /**
@@ -235,8 +235,8 @@ class AdminUser_LoginTest extends Mage_Selenium_TestCase
         //Steps
         $this->adminUserHelper()->forgotPassword($emailData);
         //Verifying
-        $this->assertTrue($this->errorMessage('empty_email'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('forgot_password'), $this->messages);
+        $this->assertMessagePresent('error', 'empty_email');
+        $this->assertTrue($this->checkCurrentPage('forgot_password'), $this->getParsedMessages());
     }
 
     /**
@@ -259,7 +259,7 @@ class AdminUser_LoginTest extends Mage_Selenium_TestCase
         $this->adminUserHelper()->forgotPassword($emailData);
         //Verifying
         $this->addParameter('adminEmail', $emailData['email']);
-        $this->assertTrue($this->successMessage('retrieve_password'), $this->messages);
+        $this->assertMessagePresent('success', 'retrieve_password');
     }
 
     /**
@@ -285,13 +285,13 @@ class AdminUser_LoginTest extends Mage_Selenium_TestCase
         $this->navigate('manage_admin_users');
         $this->adminUserHelper()->createAdminUser($userData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_user'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_user');
         //Steps
         $this->logoutAdminUser();
         $this->adminUserHelper()->forgotPassword($emailData);
         //Verifying
         $this->addParameter('adminEmail', $emailData['email']);
-        $this->assertTrue($this->successMessage('retrieve_password'), $this->messages);
+        $this->assertMessagePresent('success', 'retrieve_password');
     }
 
     /**
@@ -324,17 +324,17 @@ class AdminUser_LoginTest extends Mage_Selenium_TestCase
         $this->navigate('manage_admin_users');
         $this->adminUserHelper()->createAdminUser($userData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_user'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_user');
         //Steps
         $this->logoutAdminUser();
         $this->adminUserHelper()->forgotPassword($emailData);
         //Verifying
         $this->addParameter('adminEmail', $emailData['email']);
-        $this->assertTrue($this->successMessage('retrieve_password'), $this->messages);
+        $this->assertMessagePresent('success', 'retrieve_password');
         //Steps
         $this->adminUserHelper()->loginAdmin($loginData);
         //Verifying
-        $this->assertTrue($this->checkCurrentPage('dashboard'), $this->messages);
+        $this->assertTrue($this->checkCurrentPage('dashboard'), $this->getParsedMessages());
     }
 
 }

@@ -64,10 +64,9 @@ class Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest extends M
         $productData = $this->loadData('simple_product_for_order', NULL, array('general_name', 'general_sku'));
         //Steps
         $this->navigate('manage_products');
-        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
         $this->productHelper()->createProduct($productData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_product');
 
         return $productData['general_sku'];
     }
@@ -84,7 +83,7 @@ class Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest extends M
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
+        $this->assertMessagePresent('success', 'success_created_order');
 
         return $orderData;
     }
@@ -106,7 +105,7 @@ class Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest extends M
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
+        $this->assertMessagePresent('success', 'success_created_order');
     }
 
     public function dataCardPayFlowProVerisign()
@@ -148,7 +147,7 @@ class Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest extends M
         //Steps and Verifying
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
-        $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
+        $this->assertMessagePresent('success', 'success_created_order');
         $this->orderInvoiceHelper()->createInvoiceAndVerifyProductQty($captureType);
     }
 
@@ -191,7 +190,7 @@ class Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest extends M
         $this->addParameter('invoice_id', 1);
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
-        $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
+        $this->assertMessagePresent('success', 'success_created_order');
         $orderId = $this->orderHelper()->defineOrderId();
         $this->orderInvoiceHelper()->createInvoiceAndVerifyProductQty($captureType);
         $this->navigate('manage_sales_invoices');
@@ -237,7 +236,7 @@ class Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest extends M
         //Steps and Verifying
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
-        $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
+        $this->assertMessagePresent('success', 'success_created_order');
         $this->orderShipmentHelper()->createShipmentAndVerifyProductQty();
     }
 
@@ -261,11 +260,11 @@ class Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest extends M
         //Steps and Verifying
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
-        $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
+        $this->assertMessagePresent('success', 'success_created_order');
         $this->clickButton('hold');
-        $this->assertTrue($this->successMessage('success_hold_order'), $this->messages);
+        $this->assertMessagePresent('success', 'success_hold_order');
         $this->clickButton('unhold');
-        $this->assertTrue($this->successMessage('success_unhold_order'), $this->messages);
+        $this->assertMessagePresent('success', 'success_unhold_order');
     }
 
     /**
@@ -279,9 +278,9 @@ class Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest extends M
         //Steps and Verifying
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
-        $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
+        $this->assertMessagePresent('success', 'success_created_order');
         $this->clickButtonAndConfirm('cancel', 'confirmation_for_cancel');
-        $this->assertTrue($this->successMessage('success_canceled_order'), $this->messages);
+        $this->assertMessagePresent('success', 'success_canceled_order');
     }
 
     /**
@@ -317,7 +316,7 @@ class Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest extends M
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
+        $this->assertMessagePresent('success', 'success_created_order');
         //Steps
         $this->clickButton('reorder');
         $data = $orderData['payment_data']['payment_info'];
@@ -335,7 +334,7 @@ class Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest extends M
         $this->orderHelper()->defineOrderId();
         $this->validatePage();
         //Verifying
-        $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
+        $this->assertMessagePresent('success', 'success_created_order');
         if ($errors) {
             $this->fail(implode("\n", $errors));
         }
@@ -369,11 +368,11 @@ class Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest extends M
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
+        $this->assertMessagePresent('success', 'success_created_order');
         //Steps
         $this->clickButtonAndConfirm('void', 'confirmation_to_void');
         //Verifying
-        $this->assertTrue($this->successMessage('success_voided_order'), $this->messages);
+        $this->assertMessagePresent('success', 'success_voided_order');
     }
 
     /**
@@ -410,7 +409,7 @@ class Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest extends M
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
+        $this->assertMessagePresent('success', 'success_created_order');
     }
 
     public function dataWith3DSecure()

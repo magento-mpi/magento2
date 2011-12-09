@@ -57,7 +57,7 @@ class Tags_FrontendCreateTest extends Mage_Selenium_TestCase
         $this->navigate('manage_customers');
         $this->customerHelper()->createCustomer($userData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_customer');
 
         return array('email' => $userData['email'], 'password' => $userData['password']);
     }
@@ -76,7 +76,7 @@ class Tags_FrontendCreateTest extends Mage_Selenium_TestCase
         $rootCat = 'Default Category';
         $categoryData = $this->loadData('sub_category_required', null, 'name');
         $this->categoryHelper()->createSubCategory($rootCat, $categoryData);
-        $this->assertTrue($this->successMessage('success_saved_category'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_category');
         $this->categoryHelper()->checkCategoriesPage();
 
         return $rootCat . '/' . $categoryData['name'];
@@ -96,7 +96,7 @@ class Tags_FrontendCreateTest extends Mage_Selenium_TestCase
         $simpleProductData = $this->loadData('simple_product_for_prices_validation_front_1',
                 array('categories' => $category), array('general_name', 'general_sku'));
         $this->productHelper()->createProduct($simpleProductData);
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_product');
         return $simpleProductData['general_name'];
     }
 
@@ -132,7 +132,7 @@ class Tags_FrontendCreateTest extends Mage_Selenium_TestCase
         //Steps
         $this->tagsHelper()->frontendAddTag($verificationData);
         //Verification
-        $this->assertTrue($this->successMessage('tag_accepted_success'), $this->messages);
+        $this->assertMessagePresent('success', 'tag_accepted_success');
         $this->tagsHelper()->frontendTagVerification($verificationData);
         $this->navigate('my_account_my_tags');
         $this->tagsHelper()->frontendDeleteTag($verificationData);
@@ -169,7 +169,7 @@ class Tags_FrontendCreateTest extends Mage_Selenium_TestCase
         //Steps
         $this->tagsHelper()->frontendAddTag($verificationData);
         //Verification
-        $this->assertTrue($this->successMessage('tag_accepted_success'), $this->messages);
+        $this->assertMessagePresent('success', 'tag_accepted_success');
         $this->logoutCustomer();
         $this->loginAdminUser();
         $this->navigate('pending_tags');

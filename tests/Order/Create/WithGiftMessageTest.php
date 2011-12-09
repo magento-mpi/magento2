@@ -63,10 +63,9 @@ class Order_Create_WithGiftMessageTest extends Mage_Selenium_TestCase
         $productData = $this->loadData('simple_product_for_order', NULL, array('general_name', 'general_sku'));
         //Steps
         $this->navigate('manage_products');
-        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
         $this->productHelper()->createProduct($productData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_product');
 
         return $productData['general_sku'];
     }
@@ -97,7 +96,7 @@ class Order_Create_WithGiftMessageTest extends Mage_Selenium_TestCase
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
+        $this->assertMessagePresent('success', 'success_created_order');
         $this->orderHelper()->verifyGiftMessage($orderData['gift_messages']);
     }
 
@@ -128,7 +127,7 @@ class Order_Create_WithGiftMessageTest extends Mage_Selenium_TestCase
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
+        $this->assertMessagePresent('success', 'success_created_order');
         $this->orderHelper()->verifyGiftMessage($orderData['gift_messages']);
     }
 
@@ -158,7 +157,7 @@ class Order_Create_WithGiftMessageTest extends Mage_Selenium_TestCase
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
+        $this->assertMessagePresent('success', 'success_created_order');
         $this->orderHelper()->verifyGiftMessage($this->loadData('gift_messages_with_empty_fields_expected',
                         array('sku_product' => $simpleSku)));
     }

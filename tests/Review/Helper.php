@@ -123,9 +123,9 @@ class Review_Helper extends Mage_Selenium_TestCase
     public function fillRatings(array $detailedRatings)
     {
         foreach ($detailedRatings as $value) {
-            if (isset($value['rating_name']) &&  isset($value['stars'])) {
-                $this->addParameter('ratingName' , $value['rating_name']);
-                $this->addParameter('stars' , $value['stars']);
+            if (isset($value['rating_name']) && isset($value['stars'])) {
+                $this->addParameter('ratingName', $value['rating_name']);
+                $this->addParameter('stars', $value['stars']);
                 $this->fillForm(array('detailed_rating' => 'yes'));
             } else {
                 $this->fail('Incorrect data to fill');
@@ -163,7 +163,7 @@ class Review_Helper extends Mage_Selenium_TestCase
                 $simpleVerify[$fieldKey] = $fieldValue;
             }
         }
-        $this->assertTrue($this->verifyForm($simpleVerify), $this->messages);
+        $this->assertTrue($this->verifyForm($simpleVerify), $this->getParsedMessages());
     }
 
     #********************************************
@@ -184,9 +184,9 @@ class Review_Helper extends Mage_Selenium_TestCase
         $reviewData = $this->arrayEmptyClear($reviewData);
         $linkName = ($this->controlIsPresent('link', 'add_your_review')) ? 'add_your_review' : 'first_review';
         $this->defineCorrectParam($linkName, 'productId');
-        $this->clickControl('link',$linkName);
+        $this->clickControl('link', $linkName);
         $this->fillForm($reviewData);
-        if(isset($reviewData['ratings'])){
+        if (isset($reviewData['ratings'])) {
             $this->frontendAddRating($reviewData['ratings'], $validateRating);
         }
         $this->saveForm('submit_review');
@@ -226,17 +226,19 @@ class Review_Helper extends Mage_Selenium_TestCase
         $this->addParameter('productName', $productName);
         $this->navigate('customer_account');
         $this->assertTrue($this->controlIsPresent('link', 'product_name'),
-                            "Cannot find product with name: $productName");
+                "Cannot find product with name: $productName");
         $this->defineCorrectParam('product_name', 'reviewId');
         $this->clickControl('link', 'product_name');
         $xPath = $this->_getControlXpath('pageelement', 'review_details');
         $text = trim($this->getText($xPath));
-        $this->assertEquals('0', strcmp($text, trim($reviewText)), "Text on the page {$text} is not equal {$reviewText}");
+        $this->assertEquals('0', strcmp($text, trim($reviewText)),
+                "Text on the page {$text} is not equal {$reviewText}");
         $this->clickControl('link', 'back_to_my_reviews');
         //Verification in "My Account -> My Product Reviews"
         $xPath = $this->_getControlXpath('pageelement', 'review_details');
         $text = trim($this->getText($xPath));
-        $this->assertEquals('0', strcmp($text, trim($reviewText)), "Text on the page {$text} is not equal {$reviewText}");
+        $this->assertEquals('0', strcmp($text, trim($reviewText)),
+                "Text on the page {$text} is not equal {$reviewText}");
     }
 
     /**
@@ -249,7 +251,7 @@ class Review_Helper extends Mage_Selenium_TestCase
     {
         $linkXpath = $this->_getControlXpath('link', $linkName);
         $url = $this->getAttribute($linkXpath . "/@href");
-        $id = $this->defineIdFromControl($url,'id');
+        $id = $this->defineIdFromControl($url, 'id');
         $this->addParameter($paramName, $id);
         $categoryId = $this->defineIdFromControl($url, 'category');
         $this->addParameter('categoryId', $categoryId);
@@ -266,21 +268,25 @@ class Review_Helper extends Mage_Selenium_TestCase
         $this->addParameter('productName', $productName);
         $reviewText = (isset($verificationData['review'])) ? $verificationData['review'] : NULL;
         $reviewNickname = (isset($verificationData['nickname'])) ? $verificationData['nickname'] : NULL;
-        $reviewSummary = (isset($verificationData['summary_of_your_review'])) ? $verificationData['summary_of_your_review'] : NULL;
+        $reviewSummary = (isset($verificationData['summary_of_your_review']))
+                            ? $verificationData['summary_of_your_review']
+                            : NULL;
         //Verification on product page
-        if($this->controlIsPresent('link', 'reviews')){
+        if ($this->controlIsPresent('link', 'reviews')) {
             $this->defineCorrectParam('reviews', 'productId');
             $this->clickControl('link', 'reviews');
             $this->addParameter('reviewerName', $reviewNickname);
             $xPath = $this->_getControlXpath('link', 'review_summary');
             $text = trim($this->getText($xPath));
-            $this->assertEquals('0', strcmp($text, trim($reviewSummary)), "Text on the page {$text} is not equal {$reviewSummary}");
+            $this->assertEquals('0', strcmp($text, trim($reviewSummary)),
+                    "Text on the page {$text} is not equal {$reviewSummary}");
             $this->defineCorrectParam('review_summary', 'reviewId');
             $this->clickControl('link', 'review_summary');
             //Verification on Review Details page
             $xPath = $this->_getControlXpath('pageelement', 'review_details');
             $text = trim($this->getText($xPath));
-            $this->assertEquals('0', strcmp($text, trim($reviewText)), "Text on the page {$text} is not equal {$reviewText}");
+            $this->assertEquals('0', strcmp($text, trim($reviewText)),
+                    "Text on the page {$text} is not equal {$reviewText}");
         } else {
             $this->fail('Review is not approved');
         }
@@ -289,26 +295,25 @@ class Review_Helper extends Mage_Selenium_TestCase
     /**
      * Filling In Rating
      *
-     *@param array|string $ratingData
+     * @param array|string $ratingData
      */
     public function frontendAddRating($ratingData, $validateRating = FALSE)
     {
-        $this->messages['error'] = array();
         if (is_string($ratingData)) {
             $ratingData = $this->loadData($ratingData);
         }
-        foreach($ratingData as $value){
+        foreach ($ratingData as $value) {
             $this->addParameter('rateName', $value['rating_name']);
             $this->addParameter('rateId', $value['stars']);
-            if($this->controlIsPresent('radiobutton', 'select_rate')){
+            if ($this->controlIsPresent('radiobutton', 'select_rate')) {
                 $this->fillForm(array('select_rate' => 'Yes'));
             } else {
                 $xpath = $this->_getControlXpath('radiobutton', 'select_rate');
-                $this->messages['error'][] = 'Control with Xpath ' . $xpath . ' is not on the page';
+                $this->addVerificationMessage('Control with Xpath ' . $xpath . ' is not on the page');
             }
         }
-        if ($validateRating && !empty($this->messages['error'])) {
-            $this->fail($this->messages['error']);
+        if ($this->getParsedMessages('verificationErrors') && $validateRating) {
+            $this->fail(implode("\n", call_user_func_array('array_merge', $this->getParsedMessages())));
         }
     }
 

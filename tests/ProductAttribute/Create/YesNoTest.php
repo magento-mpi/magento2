@@ -52,7 +52,6 @@ class ProductAttribute_Create_YesNoTest extends Mage_Selenium_TestCase
     protected function assertPreConditions()
     {
         $this->navigate('manage_attributes');
-        $this->assertTrue($this->checkCurrentPage('manage_attributes'), $this->messages);
         $this->addParameter('id', 0);
     }
 
@@ -64,7 +63,7 @@ class ProductAttribute_Create_YesNoTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->buttonIsPresent('add_new_attribute'),
                 'There is no "Add New Attribute" button on the page');
         $this->clickButton('add_new_attribute');
-        $this->assertTrue($this->checkCurrentPage('new_product_attribute'), $this->messages);
+        $this->assertTrue($this->checkCurrentPage('new_product_attribute'), $this->getParsedMessages());
         $this->assertTrue($this->buttonIsPresent('back'), 'There is no "Back" button on the page');
         $this->assertTrue($this->buttonIsPresent('reset'), 'There is no "Reset" button on the page');
         $this->assertTrue($this->buttonIsPresent('save_attribute'), 'There is no "Save" button on the page');
@@ -93,8 +92,7 @@ class ProductAttribute_Create_YesNoTest extends Mage_Selenium_TestCase
         //Steps
         $this->productAttributeHelper()->createAttribute($attrData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_attribute'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_attributes'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_attribute');
 
         return $attrData;
     }
@@ -120,7 +118,7 @@ class ProductAttribute_Create_YesNoTest extends Mage_Selenium_TestCase
         //Steps
         $this->productAttributeHelper()->createAttribute($attrData);
         //Verifying
-        $this->assertTrue($this->errorMessage('exists_attribute_code'), $this->messages);
+        $this->assertMessagePresent('error', 'exists_attribute_code');
     }
 
     /**
@@ -156,8 +154,8 @@ class ProductAttribute_Create_YesNoTest extends Mage_Selenium_TestCase
             $fieldXpath = $this->_getControlXpath('multiselect', 'apply_product_types');
         }
         $this->addParameter('fieldXpath', $fieldXpath);
-        $this->assertTrue($this->validationMessage('empty_required_field'), $this->messages);
-        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
+        $this->assertMessagePresent('validation', 'empty_required_field');
+        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     public function dataEmptyField()
@@ -193,8 +191,8 @@ class ProductAttribute_Create_YesNoTest extends Mage_Selenium_TestCase
         //Steps
         $this->productAttributeHelper()->createAttribute($attrData);
         //Verifying
-        $this->assertTrue($this->validationMessage($validationMessage), $this->messages);
-        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
+        $this->assertMessagePresent('validation', $validationMessage);
+        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     public function dataWrongCode()
@@ -234,8 +232,7 @@ class ProductAttribute_Create_YesNoTest extends Mage_Selenium_TestCase
         //Steps
         $this->productAttributeHelper()->createAttribute($attrData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_attribute'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_attributes'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_attribute');
         //Steps
         $this->productAttributeHelper()->openAttribute($searchData);
         //Verifying
@@ -274,8 +271,7 @@ class ProductAttribute_Create_YesNoTest extends Mage_Selenium_TestCase
         //Steps
         $this->productAttributeHelper()->createAttribute($attrData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_attribute'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_attributes'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_attribute');
         //Steps
         $this->productAttributeHelper()->openAttribute($searchData);
         //Verifying

@@ -306,7 +306,7 @@ class PriceRules_Helper extends Mage_Selenium_TestCase
         if (array_key_exists('websites', $simpleVerify) && !$this->controlIsPresent('multiselect', 'websites')) {
             unset($simpleVerify['websites']);
         }
-        $this->assertTrue($this->verifyForm($simpleVerify), $this->messages);
+        $this->assertTrue($this->verifyForm($simpleVerify), $this->getParsedMessages());
         //@TODO verify Conditions and storeView titles
     }
 

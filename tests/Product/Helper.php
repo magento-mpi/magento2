@@ -288,7 +288,7 @@ class Product_Helper extends Mage_Selenium_TestCase
                         $this->click($websiteXpath);
                         break;
                     case 'verify':
-                        $this->messages['error'][] = 'Website with name "' . $websiteName . '" is not selected';
+                        $this->addVerificationMessage('Website with name "' . $websiteName . '" is not selected');
                         break;
                 }
             }
@@ -516,7 +516,6 @@ class Product_Helper extends Mage_Selenium_TestCase
      */
     public function verifyProductInfo(array $productData, $skipElements = array())
     {
-        $this->messages['error'] = array();
         $productData = $this->arrayEmptyClear($productData);
         $nestedArrays = array();
         foreach ($productData as $key => $value) {
@@ -622,8 +621,8 @@ class Product_Helper extends Mage_Selenium_TestCase
             $this->verifyForm($nestedArrays['downloadable_information_data'], 'downloadable_information');
         }
         // Error Output
-        if (!empty($this->messages['error'])) {
-            $this->fail(implode("\n", $this->messages['error']));
+        if ($this->getParsedMessages('verificationErrors')) {
+            $this->fail(implode("\n", call_user_func_array('array_merge', $this->getParsedMessages())));
         }
     }
 
@@ -637,8 +636,8 @@ class Product_Helper extends Mage_Selenium_TestCase
         $rowQty = $this->getXpathCount($this->_getControlXpath('fieldset', 'tier_price_row'));
         $needCount = count($tierPriceData);
         if ($needCount != $rowQty) {
-            $this->messages['error'][] = 'Product must be contains ' . $needCount
-                    . 'Tier Price(s), but contains ' . $rowQty;
+            $this->addVerificationMessage('Product must be contains ' . $needCount
+                    . 'Tier Price(s), but contains ' . $rowQty);
             return false;
         }
         $i = 0;
@@ -675,7 +674,7 @@ class Product_Helper extends Mage_Selenium_TestCase
         if ($correctRoot) {
             $catXpath = '//*[@id=\'' . array_shift($correctRoot) . '\']/parent::*/input';
             if ($this->getValue($catXpath) == 'off') {
-                $this->messages['error'][] = 'Category with path: "' . $categotyPath . '" is not selected';
+                $this->addVerificationMessage('Category with path: "' . $categotyPath . '" is not selected');
             }
         } else {
             $this->fail("Category with path='$categotyPath' not found");
@@ -709,8 +708,8 @@ class Product_Helper extends Mage_Selenium_TestCase
         $fieldSetXpath = $this->_getControlXpath('fieldset', $fieldSetName);
 
         if (!$this->isElementPresent($fieldSetXpath . $xpathTR)) {
-            $this->messages['error'][] = $fieldSetName . " tab: Product is not assigned with data: \n"
-                    . print_r($data, true);
+            $this->addVerificationMessage($fieldSetName . " tab: Product is not assigned with data: \n"
+                    . print_r($data, true));
         } else {
             if ($fillingData) {
                 if ($attributeTitle) {
@@ -738,8 +737,8 @@ class Product_Helper extends Mage_Selenium_TestCase
         $optionsQty = $this->getXpathCount($fieldSetXpath);
         $needCount = count($customOptionData);
         if ($needCount != $optionsQty) {
-            $this->messages['error'][] = 'Product must be contains ' . $needCount
-                    . ' Custom Option(s), but contains ' . $optionsQty;
+            $this->addVerificationMessage('Product must be contains ' . $needCount
+                    . ' Custom Option(s), but contains ' . $optionsQty);
             return false;
         }
         $id = $this->getAttribute($fieldSetXpath . "[1]/@id");
@@ -776,8 +775,8 @@ class Product_Helper extends Mage_Selenium_TestCase
             $needCount = $needCount - 1;
         }
         if ($needCount != $optionsCount) {
-            $this->messages['error'][] = 'Product must be contains ' . $needCount
-                    . 'Bundle Item(s), but contains ' . $optionsCount;
+            $this->addVerificationMessage('Product must be contains ' . $needCount
+                    . 'Bundle Item(s), but contains ' . $optionsCount);
             return false;
         }
 
@@ -807,8 +806,8 @@ class Product_Helper extends Mage_Selenium_TestCase
                         $k = $i + 1;
                         if (!$this->isElementPresent($optionSet . "[$k]"
                                         . "//tr[@class='selection' and contains(.,'$productSku')]")) {
-                            $this->messages['error'][] = "Product with sku(name)'" . $productSku
-                                    . "' is not assigned to bundle item $i";
+                            $this->addVerificationMessage("Product with sku(name)'" . $productSku
+                                    . "' is not assigned to bundle item $i");
                         } else {
                             if ($selectionSettings) {
                                 $this->addParameter('productSku', $productSku);
@@ -836,8 +835,8 @@ class Product_Helper extends Mage_Selenium_TestCase
         $rowQty = $this->getXpathCount($fieldSetXpath . "//*[@id='" . $type . "_items_body']/tr");
         $needCount = count($optionsData);
         if ($needCount != $rowQty) {
-            $this->messages['error'][] = 'Product must be contains ' . $needCount
-                    . ' Downloadable ' . $type . '(s), but contains ' . $rowQty;
+            $this->addVerificationMessage('Product must be contains ' . $needCount
+                    . ' Downloadable ' . $type . '(s), but contains ' . $rowQty);
             return false;
         }
         $i = 0;
@@ -935,30 +934,29 @@ class Product_Helper extends Mage_Selenium_TestCase
      */
     public function frontVerifyProductInfo(array $productData)
     {
-        $this->messages['error'] = array();
         $productData = $this->arrayEmptyClear($productData);
         $this->frontOpenProduct($productData['general_name']);
         $xpathArray = $this->getCustomOptionsXpathes($productData);
         foreach ($xpathArray as $key => $value) {
             if (!preg_match('/custom_options/', $key)) {
                 if (!$this->isElementPresent($value)) {
-                    $this->messages['error'][] = 'Could not find element ' . $key;
+                    $this->addVerificationMessage('Could not find element ' . $key);
                 }
             } else {
                 foreach ($value as $k => $v) {
                     foreach ($v as $x => $y) {
                         if (preg_match('/xpath/', $x)) {
                             if (!$this->isElementPresent($y)) {
-                                $this->messages['error'][] = 'Could not find element type "' . $v['type'] .
-                                        '" and title "' . $v['title'] . '"';
+                                $this->addVerificationMessage('Could not find element type "' . $v['type'] .
+                                        '" and title "' . $v['title'] . '"');
                             }
                         }
                     }
                 }
             }
         }
-        if (!empty($this->messages['error'])) {
-            $this->fail(implode("\n", $this->messages['error']));
+        if ($this->getParsedMessages('verificationErrors')) {
+            $this->fail(implode("\n", call_user_func_array('array_merge', $this->getParsedMessages())));
         }
     }
 

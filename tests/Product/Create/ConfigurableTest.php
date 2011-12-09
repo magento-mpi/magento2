@@ -49,7 +49,6 @@ class Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
     protected function assertPreConditions()
     {
         $this->navigate('manage_products');
-        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
         $this->addParameter('id', '0');
     }
 
@@ -69,14 +68,14 @@ class Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
         $this->navigate('manage_attributes');
         $this->productAttributeHelper()->createAttribute($attrData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_attribute'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_attribute');
         //Steps
         $this->navigate('manage_attribute_sets');
         $this->attributeSetHelper()->openAttributeSet();
         $this->attributeSetHelper()->addAttributeToSet($associatedAttributes);
         $this->saveForm('save_attribute_set');
         //Verifying
-        $this->assertTrue($this->successMessage('success_attribute_set_saved'), $this->messages);
+        $this->assertMessagePresent('success', 'success_attribute_set_saved');
 
         return $attrData;
     }
@@ -104,8 +103,7 @@ class Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
         //Steps
         $this->productHelper()->createProduct($productData, 'configurable');
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_product');
 
         return $productData;
     }
@@ -134,8 +132,7 @@ class Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
         //Steps
         $this->productHelper()->createProduct($productData, 'configurable');
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_product');
         //Steps
         $this->productHelper()->openProduct($productSearch);
         //Verifying
@@ -162,8 +159,8 @@ class Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
         //Steps
         $this->productHelper()->createProduct($productData, 'configurable');
         //Verifying
-        $this->assertTrue($this->validationMessage('existing_sku'), $this->messages);
-        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
+        $this->assertMessagePresent('validation', 'existing_sku');
+        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     /**
@@ -200,8 +197,8 @@ class Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
         $this->productHelper()->createProduct($productData, 'configurable');
         //Verifying
         $this->addFieldIdToMessage($fieldType, $emptyField);
-        $this->assertTrue($this->validationMessage('empty_required_field'), $this->messages);
-        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
+        $this->assertMessagePresent('validation', 'empty_required_field');
+        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     public function dataEmptyField()
@@ -247,8 +244,7 @@ class Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
         //Steps
         $this->productHelper()->createProduct($productData, 'configurable');
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_product');
         //Steps
         $this->productHelper()->openProduct($productSearch);
         //Verifying
@@ -284,8 +280,7 @@ class Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
         //Steps
         $this->productHelper()->createProduct($productData, 'configurable');
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_product');
         //Steps
         $this->productHelper()->openProduct($productSearch);
         //Verifying
@@ -315,8 +310,8 @@ class Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
         //Steps
         $this->productHelper()->createProduct($productData, 'configurable');
         //Verifying
-        $this->assertTrue($this->validationMessage('incorrect_sku_length'), $this->messages);
-        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
+        $this->assertMessagePresent('validation', 'incorrect_sku_length');
+        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     /**
@@ -344,8 +339,8 @@ class Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
         $this->productHelper()->createProduct($productData, 'configurable');
         //Verifying
         $this->addFieldIdToMessage('field', 'prices_price');
-        $this->assertTrue($this->validationMessage('enter_zero_or_greater'), $this->messages);
-        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
+        $this->assertMessagePresent('validation', 'enter_zero_or_greater');
+        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     /**
@@ -374,8 +369,8 @@ class Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
         $this->productHelper()->createProduct($productData, 'configurable');
         //Verifying
         $this->addFieldIdToMessage('field', 'prices_special_price');
-        $this->assertTrue($this->validationMessage('enter_zero_or_greater'), $this->messages);
-        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
+        $this->assertMessagePresent('validation', 'enter_zero_or_greater');
+        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     /**
@@ -405,8 +400,8 @@ class Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
         $this->productHelper()->createProduct($productData, 'configurable');
         //Verifying
         $this->addFieldIdToMessage('field', $emptyTierPrice);
-        $this->assertTrue($this->validationMessage('empty_required_field'), $this->messages);
-        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
+        $this->assertMessagePresent('validation', 'empty_required_field');
+        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     public function tierPriceFields()
@@ -448,9 +443,9 @@ class Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
         //Verifying
         foreach ($tierData as $key => $value) {
             $this->addFieldIdToMessage('field', $key);
-            $this->assertTrue($this->validationMessage('enter_greater_than_zero'), $this->messages);
+            $this->assertMessagePresent('validation', 'enter_greater_than_zero');
         }
-        $this->assertTrue($this->verifyMessagesCount(2), $this->messages);
+        $this->assertTrue($this->verifyMessagesCount(2), $this->getParsedMessages());
     }
 
     public function dataInvalidNumericField()
@@ -496,13 +491,11 @@ class Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
         //Steps
         $this->productHelper()->createProduct($simple);
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_product');
         //Steps
         $this->productHelper()->createProduct($configurable, 'configurable');
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_product');
         //Steps
         $this->productHelper()->openProduct($productSearch);
         //Verifying
@@ -542,13 +535,11 @@ class Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
         //Steps
         $this->productHelper()->createProduct($virtual, 'virtual');
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_product');
         //Steps
         $this->productHelper()->createProduct($configurable, 'configurable');
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_product');
         //Steps
         $this->productHelper()->openProduct($productSearch);
         //Verifying
@@ -588,13 +579,11 @@ class Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
         //Steps
         $this->productHelper()->createProduct($download, 'downloadable');
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_product');
         //Steps
         $this->productHelper()->createProduct($configurable, 'configurable');
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_product');
         //Steps
         $this->productHelper()->openProduct($productSearch);
         //Verifying

@@ -70,9 +70,9 @@ class Category_MoveTest extends Mage_Selenium_TestCase
         $categoryDataFrom = $this->loadData('root_category_required', null, 'name');
         $categoryDataTo = $this->loadData('root_category_required', null, 'name');
         $this->categoryHelper()->createRootCategory($categoryDataFrom);
-        $this->assertTrue($this->successMessage('success_saved_category'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_category');
         $this->categoryHelper()->createRootCategory($categoryDataTo);
-        $this->assertTrue($this->successMessage('success_saved_category'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_category');
         $this->categoryHelper()->moveCategory($categoryDataFrom['name'], $categoryDataTo['name']);
         //Verification
         $this->categoryHelper()->selectCategory($categoryDataTo['name'] . '/' . $categoryDataFrom['name']);
@@ -95,11 +95,11 @@ class Category_MoveTest extends Mage_Selenium_TestCase
         $categoryDataSub = $this->loadData('sub_category_required', null, 'name');
         $categoryDataTo = $this->loadData('root_category_required', null, 'name');
         $this->categoryHelper()->createRootCategory($categoryDataFrom);
-        $this->assertTrue($this->successMessage('success_saved_category'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_category');
         $this->categoryHelper()->createSubCategory($categoryDataFrom['name'], $categoryDataSub);
-        $this->assertTrue($this->successMessage('success_saved_category'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_category');
         $this->categoryHelper()->createRootCategory($categoryDataTo);
-        $this->assertTrue($this->successMessage('success_saved_category'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_category');
         $this->categoryHelper()->moveCategory($categoryDataFrom['name'], $categoryDataTo['name']);
         //Verification
         $this->categoryHelper()->selectCategory($categoryDataTo['name'] .
@@ -124,11 +124,11 @@ class Category_MoveTest extends Mage_Selenium_TestCase
         $categoryDataTo = $this->loadData('root_category_required', null, 'name');
         $categoryDataSubTo = $this->loadData('sub_category_required', null, 'name');
         $this->categoryHelper()->createRootCategory($categoryDataFrom);
-        $this->assertTrue($this->successMessage('success_saved_category'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_category');
         $this->categoryHelper()->createSubCategory($categoryDataFrom['name'], $categoryDataSubFrom);
-        $this->assertTrue($this->successMessage('success_saved_category'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_category');
         $this->categoryHelper()->createRootCategory($categoryDataTo);
-        $this->assertTrue($this->successMessage('success_saved_category'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_category');
         $this->categoryHelper()->createSubCategory($categoryDataTo['name'], $categoryDataSubTo);
         $this->categoryHelper()->moveCategory($categoryDataSubFrom['name'], $categoryDataSubTo['name']);
         //Verification
@@ -161,17 +161,17 @@ class Category_MoveTest extends Mage_Selenium_TestCase
         //Create category to assign to store
         $this->navigate('manage_categories');
         $this->categoryHelper()->createRootCategory($categoryDataFrom);
-        $this->assertTrue($this->successMessage('success_saved_category'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_category');
         //Create Website and Store. Assign root category to store
         $this->navigate('manage_stores');
         $this->storeHelper()->createStore($websiteData, 'website');
-        $this->assertTrue($this->successMessage('success_saved_website'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_website');
         $this->storeHelper()->createStore($storeData, 'store');
-        $this->assertTrue($this->successMessage('success_saved_store'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_store');
         //Try to move assigned to store root category
         $this->navigate('manage_categories');
         $this->categoryHelper()->createRootCategory($categoryDataTo);
-        $this->assertTrue($this->successMessage('success_saved_category'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_category');
         $this->categoryHelper()->moveCategory($categoryDataFrom['name'], $categoryDataTo['name']);
         //Verification
         $this->categoryHelper()->selectCategory($categoryDataFrom['name']);

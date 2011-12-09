@@ -62,10 +62,9 @@ class Order_Create_NewCustomerTest extends Mage_Selenium_TestCase
         $simpleSku = $this->loadData('simple_product_for_order', NULL, array('general_name', 'general_sku'));
         //Steps
         $this->navigate('manage_products');
-        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
         $this->productHelper()->createProduct($simpleSku);
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_product');
 
         return $simpleSku['general_sku'];
     }
@@ -107,7 +106,7 @@ class Order_Create_NewCustomerTest extends Mage_Selenium_TestCase
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
+        $this->assertMessagePresent('success', 'success_created_order');
         //Steps
         $this->navigate('manage_customers');
         $this->customerHelper()->openCustomer($searchCustomer);
@@ -156,7 +155,7 @@ class Order_Create_NewCustomerTest extends Mage_Selenium_TestCase
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
+        $this->assertMessagePresent('success', 'success_created_order');
         //Steps
         $this->navigate('manage_customers');
         $this->customerHelper()->openCustomer($searchCustomer);
@@ -198,12 +197,12 @@ class Order_Create_NewCustomerTest extends Mage_Selenium_TestCase
         $this->navigate('manage_customers');
         $this->customerHelper()->createCustomer($userData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_customer');
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
         //Verifying
-        $this->assertTrue($this->errorMessage('customer_email_already_exists'), $this->messages);
+        $this->assertMessagePresent('error', 'customer_email_already_exists');
     }
 
     /**
@@ -237,7 +236,7 @@ class Order_Create_NewCustomerTest extends Mage_Selenium_TestCase
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
         //Verifying
-        $this->assertTrue($this->errorMessage('email_exceeds_allowed_length'), $this->messages);
+        $this->assertMessagePresent('error', 'email_exceeds_allowed_length');
     }
 
     /**
@@ -271,9 +270,9 @@ class Order_Create_NewCustomerTest extends Mage_Selenium_TestCase
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
         //Verifying
-        $this->assertTrue($this->errorMessage('email_is_not_valid_hostname'), $this->messages);
-        $this->assertTrue($this->errorMessage('not_valid_hostname'), $this->messages);
-        $this->assertTrue($this->errorMessage('hostname_not_valid'), $this->messages);
+        $this->assertMessagePresent('error', 'email_is_not_valid_hostname');
+        $this->assertMessagePresent('error', 'not_valid_hostname');
+        $this->assertMessagePresent('error', 'hostname_not_valid');
     }
 
     /**
@@ -306,8 +305,8 @@ class Order_Create_NewCustomerTest extends Mage_Selenium_TestCase
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
         //Verifying
-        $this->assertTrue($this->validationMessage('not_valid_email'), $this->messages);
-        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
+        $this->assertMessagePresent('validation', 'not_valid_email');
+        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     /**
@@ -342,7 +341,7 @@ class Order_Create_NewCustomerTest extends Mage_Selenium_TestCase
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
+        $this->assertMessagePresent('success', 'success_created_order');
     }
 
 }

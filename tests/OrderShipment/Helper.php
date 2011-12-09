@@ -72,7 +72,7 @@ class OrderShipment_Helper extends Mage_Selenium_TestCase
             }
         }
         $this->clickButton('submit_shipment');
-        $this->assertTrue($this->successMessage('success_creating_shipment'), $this->messages);
+        $this->assertMessagePresent('success', 'success_creating_shipment');
         foreach ($verify as $productSku => $qty) {
             if ($qty == '%noValue%') {
                 continue;

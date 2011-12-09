@@ -57,7 +57,7 @@ class CheckoutOnePage_WithRegistration_CheckingValidationTest extends Mage_Selen
         $this->systemConfigurationHelper()->configure('shipping_disable');
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($simple);
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_product');
 
         return $simple['general_name'];
     }
@@ -146,16 +146,16 @@ class CheckoutOnePage_WithRegistration_CheckingValidationTest extends Mage_Selen
         $this->addFieldIdToMessage($fieldType, $field);
         $messagesCount = 1;
         if ($fieldType == 'dropdown') {
-            $this->assertTrue($this->validationMessage('please_select_option'), $this->messages);
+           $this->assertMessagePresent('validation', 'please_select_option');
         } elseif ($field == 'billing_password') {
-            $this->assertTrue($this->validationMessage('empty_required_field'), $this->messages);
+           $this->assertMessagePresent('validation', 'empty_required_field');
             $this->addFieldIdToMessage($fieldType, 'billing_confirm_password');
-            $this->assertTrue($this->validationMessage('different_passwords'), $this->messages);
+           $this->assertMessagePresent('validation', 'different_passwords');
             $messagesCount = 2;
         } else {
-            $this->assertTrue($this->validationMessage('empty_required_field'), $this->messages);
+           $this->assertMessagePresent('validation', 'empty_required_field');
         }
-        $this->assertTrue($this->verifyMessagesCount($messagesCount), $this->messages);
+        $this->assertTrue($this->verifyMessagesCount($messagesCount), $this->getParsedMessages());
     }
 
     public function emptyFieldsBilling()
@@ -205,7 +205,7 @@ class CheckoutOnePage_WithRegistration_CheckingValidationTest extends Mage_Selen
         $this->checkoutOnePageHelper()->doOnePageCheckoutSteps($checkoutData);
         //Verification
         $this->addFieldIdToMessage('field', 'billing_password');
-        $this->assertTrue($this->errorMessage('invalid_password_length'), $this->messages);
+        $this->assertMessagePresent('error', 'invalid_password_length');
     }
 
     /**
@@ -237,7 +237,7 @@ class CheckoutOnePage_WithRegistration_CheckingValidationTest extends Mage_Selen
         $this->checkoutOnePageHelper()->doOnePageCheckoutSteps($checkoutData);
         //Verification
         $this->addFieldIdToMessage('field', 'billing_email');
-        $this->assertTrue($this->errorMessage('invalid_email_address'), $this->messages);
+        $this->assertMessagePresent('error', 'invalid_email_address');
     }
 
     public function dataInvalidEmail()
@@ -308,7 +308,7 @@ class CheckoutOnePage_WithRegistration_CheckingValidationTest extends Mage_Selen
         $this->shoppingCartHelper()->frontClearShoppingCart();
         $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
         //Verification
-        $this->assertTrue($this->successMessage('success_checkout'), $this->messages);
+        $this->assertMessagePresent('success', 'success_checkout');
     }
 
     public function specialData()
@@ -352,11 +352,11 @@ class CheckoutOnePage_WithRegistration_CheckingValidationTest extends Mage_Selen
         //Verification
         $this->addFieldIdToMessage($fieldType, $field);
         if ($fieldType == 'dropdown') {
-            $this->assertTrue($this->validationMessage('please_select_option'), $this->messages);
+           $this->assertMessagePresent('validation', 'please_select_option');
         } else {
-            $this->assertTrue($this->validationMessage('empty_required_field'), $this->messages);
+           $this->assertMessagePresent('validation', 'empty_required_field');
         }
-        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
+        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     public function emptyFieldsShipping()

@@ -74,7 +74,7 @@ class Tax_TaxRule_CreateTest extends Mage_Selenium_TestCase
         //Steps
         $this->navigate('manage_tax_zones_and_rates');
         $this->taxHelper()->createTaxRate($taxRateData);
-        $this->assertTrue($this->successMessage('success_saved_tax_rate'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_tax_rate');
         return $taxRateData;
     }
     /**
@@ -101,9 +101,9 @@ class Tax_TaxRule_CreateTest extends Mage_Selenium_TestCase
         //Steps
         $this->taxHelper()->createTaxItem($taxRuleData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_tax_rule'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_tax_rule');
         $this->taxHelper()->openTaxItem($searchTaxRuleData ,'tax_rules');
-        $this->assertTrue($this->verifyForm($taxRuleData), $this->messages);
+        $this->assertTrue($this->verifyForm($taxRuleData), $this->getParsedMessages());
         return $taxRuleData;
     }
 
@@ -129,7 +129,7 @@ class Tax_TaxRule_CreateTest extends Mage_Selenium_TestCase
         //Steps
         $this->taxHelper()->createTaxItem($taxRuleData);
         //Verifying
-        $this->assertTrue($this->errorMessage('code_already_exists'), $this->messages);
+        $this->assertMessagePresent('error', 'code_already_exists');
     }
 
     /**
@@ -156,7 +156,7 @@ class Tax_TaxRule_CreateTest extends Mage_Selenium_TestCase
         $this->taxHelper()->createTaxItem($taxRateData);
         //Verifying
         $this->addFieldIdToMessage($fieldType, $emptyFieldName);
-        $this->assertTrue($this->errorMessage($validationMessage), $this->messages);
+        $this->assertMessagePresent('error', $validationMessage);
     }
 
     public function dataEmptyRequiredFields()
@@ -199,10 +199,10 @@ class Tax_TaxRule_CreateTest extends Mage_Selenium_TestCase
         //Steps
         $this->taxHelper()->createTaxItem($taxRuleData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_tax_rule'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_tax_rule');
         $this->ruleToBeDeleted = $searchTaxRuleData;
         $this->taxHelper()->openTaxItem($searchTaxRuleData ,'tax_rules');
-        $this->assertTrue($this->verifyForm($taxRuleData), $this->messages);
+        $this->assertTrue($this->verifyForm($taxRuleData), $this->getParsedMessages());
     }
 
     public function dataSpecialValues()
@@ -241,7 +241,7 @@ class Tax_TaxRule_CreateTest extends Mage_Selenium_TestCase
         $this->taxHelper()->createTaxItem($taxRuleData);
         //Verifying
         $this->addFieldIdToMessage('field', 'priority');
-        $this->assertTrue($this->errorMessage('enter_not_negative_number'), $this->messages);
+        $this->assertMessagePresent('error', 'enter_not_negative_number');
     }
 
 
@@ -272,7 +272,7 @@ class Tax_TaxRule_CreateTest extends Mage_Selenium_TestCase
         $this->taxHelper()->createTaxItem($taxRuleData);
         //Verifying
         $this->addFieldIdToMessage('field', 'sort_order');
-        $this->assertTrue($this->errorMessage('enter_not_negative_number'), $this->messages);
+        $this->assertMessagePresent('error', 'enter_not_negative_number');
     }
 
     public function dataSpecialValuesFields()

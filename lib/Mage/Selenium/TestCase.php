@@ -84,7 +84,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      *
      * @var array
      */
-    public $messages = null;
+    protected static $messages = null;
 
     /**
      * Current application area
@@ -369,14 +369,13 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         if (!isset($this->_testHelpers[$helperClassName])) {
             if (class_exists($helperClassName)) {
                 $this->_testHelpers[$helperClassName] = new $helperClassName;
-
-                if ($this->_testHelpers[$helperClassName] instanceof Mage_Selenium_TestCase) {
-                    $this->_testHelpers[$helperClassName]->appendParamsDecorator($this->_paramsHelper);
-                    $this->_testHelpers[$helperClassName]->appendMessages($this->messages);
-                }
             } else {
                 return false;
             }
+        }
+
+        if ($this->_testHelpers[$helperClassName] instanceof Mage_Selenium_TestCase) {
+            $this->_testHelpers[$helperClassName]->appendParamsDecorator($this->_paramsHelper);
         }
 
         return $this->_testHelpers[$helperClassName];
@@ -463,16 +462,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     public function appendParamsDecorator($paramsHelperObject)
     {
         $this->_paramsHelper = $paramsHelperObject;
-    }
-
-    /**
-     * Append messages
-     *
-     * @param type $messagesObject
-     */
-    public function appendMessages($messagesObject)
-    {
-        $this->messages = $messagesObject;
     }
 
     /**
@@ -804,13 +793,11 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     public function validatePage($page = '')
     {
         if ($page) {
-            $this->assertTrue($this->checkCurrentPage($page), $this->messages);
+            $this->assertTrue($this->checkCurrentPage($page), $this->getParsedMessages());
         }
         if (!$page) {
             $page = $this->_findCurrentPageFromUrl($this->getLocation());
         }
-        $this->assertEquals($this->getUimapPage(self::$_area, $page)->getTitle($this->_paramsHelper), $this->getTitle(),
-                'Page title is unexpected');
         $this->assertTextNotPresent('Fatal error', 'Fatal error on page');
         $this->assertTextNotPresent('There has been an error processing your request',
                 'Fatal error on page: \'There has been an error processing your request\'');
@@ -822,6 +809,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $this->assertTextNotPresent('was not found', 'Something was not found:)');
         $this->assertTextNotPresent('Service Temporarily Unavailable', 'Service Temporarily Unavailable');
         $this->assertTextNotPresent('The page isn\'t redirecting properly', 'The page isn\'t redirecting properly');
+        $this->assertEquals($this->getUimapPage(self::$_area, $page)->getTitle($this->_paramsHelper),
+                $this->getTitle(), 'Page title is unexpected');
         $this->_pageHelper->setCurrentPage($page);
     }
 
@@ -839,7 +828,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         $currentPage = $this->_findCurrentPageFromUrl($this->getLocation());
         if ($currentPage != $page) {
-            $this->messages['error'][] = "Opened the wrong page: '" . $currentPage . "' (should be: '" . $page . "')";
+            $this->addVerificationMessage("Opened the wrong page: '" . $currentPage . "'(should be: '" . $page . "')");
             return false;
         }
         return true;
@@ -1535,7 +1524,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function getColumnIdByName($columnName, $tableXpath = '//table[@id]')
     {
-        return array_search($columnName, $this->getTableHeadRowNames($tableXpath)) + 1;;
+        return array_search($columnName, $this->getTableHeadRowNames($tableXpath)) + 1;
     }
 
     /**
@@ -1750,6 +1739,17 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     }
 
     /**
+     *
+     * @param string $type      success|validation|error
+     * @param string $message
+     */
+    public function assertMessagePresent($type, $message = null)
+    {
+        $method = strtolower($type) . 'Message';
+        $this->assertTrue($this->$method($message), Mage_Selenium_TestCase::$messages);
+    }
+
+    /**
      * Checks if any 'validation' message exists on page
      *
      * @param string $message Validation message's ID from UIMap OR XPath of validation message (by default = NULL)
@@ -1774,25 +1774,27 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $this->_parseMessages();
 
         if ($type) {
-            return $this->messages[$type];
+            return Mage_Selenium_TestCase::$messages[$type];
         }
 
-        return $this->messages;
+        return Mage_Selenium_TestCase::$messages;
     }
 
     /**
      * Returns all parsed messages(or specific type of messages)
      *
      * @param null|string $type
-     * @return array
+     * @return array|null
      */
     public function getParsedMessages($type = null)
     {
         if ($type) {
-            return (isset($this->messages[$type])) ? $this->messages[$type] : array();
+            return (isset(Mage_Selenium_TestCase::$messages[$type]))
+                    ? Mage_Selenium_TestCase::$messages[$type]
+                    : null;
         }
 
-        return $this->messages;
+        return Mage_Selenium_TestCase::$messages;
     }
 
     /**
@@ -1805,11 +1807,21 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         if (is_array($message)) {
             foreach ($message as $value) {
-                $this->messages[$type][] = $value;
+                Mage_Selenium_TestCase::$messages[$type][] = $value;
             }
         } else {
-            $this->messages[$type][] = $message;
+            Mage_Selenium_TestCase::$messages[$type][] = $message;
         }
+    }
+
+    /**
+     * Add Verification Message
+     *
+     * @param string|array $message
+     */
+    public function addVerificationMessage($message)
+    {
+        $this->addMessage('verificationErrors', $message);
     }
 
     /**
@@ -1819,10 +1831,10 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     protected function _parseMessages()
     {
-        $this->messages['success']    = $this->getElementsByXpath(self::$xpathSuccessMessage);
-        $this->messages['error']      = $this->getElementsByXpath(self::$xpathErrorMessage);
-        $this->messages['validation'] = $this->getElementsByXpath(self::$xpathValidationMessage, 'text',
-                self::$xpathFieldNameWithValidationMessage);
+        Mage_Selenium_TestCase::$messages['success']    = $this->getElementsByXpath(self::$xpathSuccessMessage);
+        Mage_Selenium_TestCase::$messages['error']      = $this->getElementsByXpath(self::$xpathErrorMessage);
+        Mage_Selenium_TestCase::$messages['validation'] = $this->getElementsByXpath(self::$xpathValidationMessage,
+                'text', self::$xpathFieldNameWithValidationMessage);
     }
 
     /**
@@ -1939,8 +1951,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                     $this->fillForm($loginData);
                     $this->clickButton('login', false);
                     $this->waitForElement(array(self::$xpathAdminLogo,
-                        self::$xpathErrorMessage,
-                        self::$xpathValidationMessage));
+                                                self::$xpathErrorMessage,
+                                                self::$xpathValidationMessage));
                     if (!$this->checkCurrentPage($this->_firstPageAfterAdminLogin)) {
                         throw new PHPUnit_Framework_Exception('Admin was not logged in');
                     }
@@ -2139,16 +2151,16 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                     $this->validatePage();
                     return true;
                 } else {
-                    $this->messages['error'][] = "The confirmation text incorrect: {$text}\n";
+                    $this->addVerificationMessage("The confirmation text incorrect: {$text}");
                 }
             } else {
-                $this->messages['error'][] = "The confirmation does not appear\n";
+                $this->addVerificationMessage('The confirmation does not appear');
                 $this->waitForPageToLoad($this->_browserTimeoutPeriod);
                 $this->validatePage();
                 return true;
             }
         } else {
-            $this->messages['error'][] = "There is no way to click on control(There is no '$controlName' control)\n";
+            $this->addVerificationMessage("There is no way to click on control(There is no '$controlName' control)");
         }
 
         return false;
@@ -2251,19 +2263,19 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function saveForm($buttonName, $validate = true)
     {
-        $this->messages = array();
+        Mage_Selenium_TestCase::$messages = null;
         $this->_parseMessages();
-        foreach ($this->messages as $key => $value) {
-            $this->messages[$key] = array_unique($value);
+        foreach (Mage_Selenium_TestCase::$messages as $key => $value) {
+            Mage_Selenium_TestCase::$messages[$key] = array_unique($value);
         }
-        $success = self::$xpathSuccessMessage;
-        $error = self::$xpathErrorMessage;
+        $success    = self::$xpathSuccessMessage;
+        $error      = self::$xpathErrorMessage;
         $validation = self::$xpathValidationMessage;
-        $types = array('success', 'error', 'validation');
+        $types      = array('success', 'error', 'validation');
         foreach ($types as $message) {
-            if (array_key_exists($message, $this->messages)) {
+            if (array_key_exists($message, Mage_Selenium_TestCase::$messages)) {
                 $exclude = '';
-                foreach ($this->messages[$message] as $messageText) {
+                foreach (Mage_Selenium_TestCase::$messages as $messageText) {
                     $exclude .="[not(..//.='$messageText')]";
                 }
                 ${$message} .= $exclude;
@@ -2328,12 +2340,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                     if ($this->isElementPresent($formField['path'])) {
                         $val = $this->getValue($formField['path']);
                         if ($val != $formField['value']) {
-                            $this->messages['error'][] = 'The stored value is not equal to specified: (\''
-                                    . $formField['value'] . '\' != \'' . $val . '\')';
+                            $this->addVerificationMessage('The stored value is not equal to specified: (\''
+                                    . $formField['value'] . '\' != \'' . $val . '\')');
                             $resultFlag = false;
                         }
                     } else {
-                        $this->messages['error'][] = 'Can not find field (xpath:' . $formField['path'] . ')';
+                        $this->addVerificationMessage('Can not find field (xpath:' . $formField['path'] . ')');
                         $resultFlag = false;
                     }
                     break;
@@ -2345,12 +2357,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                         if (($isChecked && $expectedVal != 'yes') ||
                                 (!$isChecked && !($expectedVal == 'no' || $expectedVal == ''))) {
                             $printVal = ($isChecked) ? 'yes' : 'no';
-                            $this->messages['error'][] = 'The stored value is not equal to specified: (\''
-                                    . $expectedVal . '\' != \'' . $printVal . '\')';
+                            $this->addVerificationMessage('The stored value is not equal to specified: (\''
+                                    . $expectedVal . '\' != \'' . $printVal . '\')');
                             $resultFlag = false;
                         }
                     } else {
-                        $this->messages['error'][] = 'Can not find field (xpath:' . $formField['path'] . ')';
+                        $this->addVerificationMessage('Can not find field (xpath:' . $formField['path'] . ')');
                         $resultFlag = false;
                     }
                     break;
@@ -2358,41 +2370,41 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                     if ($this->isElementPresent($formField['path'])) {
                         $label = $this->getSelectedLabel($formField['path']);
                         if ($formField['value'] != $label) {
-                            $this->messages['error'][] = 'The stored value is not equal to specified: (\''
-                                    . $formField['value'] . '\' != \'' . $label . '\')';
+                            $this->addVerificationMessage('The stored value is not equal to specified: (\''
+                                    . $formField['value'] . '\' != \'' . $label . '\')');
                             $resultFlag = false;
                         }
                     } else {
-                        $this->messages['error'][] = 'Can not find field (xpath:' . $formField['path'] . ')';
+                        $this->addVerificationMessage('Can not find field (xpath:' . $formField['path'] . ')');
                         $resultFlag = false;
                     }
                     break;
                 case self::FIELD_TYPE_MULTISELECT:
                     if ($this->isElementPresent($formField['path'])) {
                         $selectedLabels = $this->getSelectedLabels($formField['path']);
-                        $selectedLabels = array_map('trim', $selectedLabels, array(chr(0xC2).chr(0xA0)));
+                        $selectedLabels = array_map('trim', $selectedLabels, array(chr(0xC2) . chr(0xA0)));
                         $expectedLabels = explode(',', $formField['value']);
                         $expectedLabels = array_map('trim', $expectedLabels);
                         foreach ($expectedLabels as $value) {
                             if (!in_array($value, $selectedLabels)) {
-                                $this->messages['error'][] = 'The value \'' . $value
+                                $this->addVerificationMessage('The value \'' . $value
                                         . '\' is not selected. (Selected values are: \''
-                                        . implode(', ', $selectedLabels) . "')";
+                                        . implode(', ', $selectedLabels) . "')");
                                 $resultFlag = false;
                             }
                         }
                         if (count($selectedLabels) != count($expectedLabels)) {
-                            $this->messages['error'][] = 'Amounts of the expected options are not equal to selected: (\''
-                                    . $formField['value'] . '\' != \'' . implode(', ', $selectedLabels) . '\')';
+                            $this->addVerificationMessage('Amounts of the expected options are not equal to selected: (\''
+                                    . $formField['value'] . '\' != \'' . implode(', ', $selectedLabels) . '\')');
                             $resultFlag = false;
                         }
                     } else {
-                        $this->messages['error'][] = 'Can not find field (xpath:' . $formField['path'] . ')';
+                        $this->addVerificationMessage('Can not find field (xpath:' . $formField['path'] . ')');
                         $resultFlag = false;
                     }
                     break;
                 default:
-                    $this->messages['error'][] = 'Unsupported field type';
+                    $this->addVerificationMessage('Unsupported field type');
                     $resultFlag = false;
             }
         }
@@ -2655,7 +2667,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 
             //backward compatibility with our old-styled tests and old PHPUnit
             $backwardCompatible = array();
-            foreach ($passed as $depName => $depArray){
+            foreach ($passed as $depName => $depArray) {
                 if (is_array($depArray) && array_key_exists('result', $depArray)) {
                     $backwardCompatible[$depName] = $depArray['result'];
                 }
@@ -2684,8 +2696,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 
                 if (!isset($passedKeys[$dependency])) {
                     $this->result->addError(
-                            $this,
-                            new PHPUnit_Framework_SkippedTestError(
+                            $this, new PHPUnit_Framework_SkippedTestError(
                                     sprintf('This test depends on "%s" to pass.', $dependency)
                             ), 0
                     );

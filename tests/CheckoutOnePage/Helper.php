@@ -122,7 +122,7 @@ class CheckoutOnePage_Helper extends Mage_Selenium_TestCase
         if ($this->isAlertPresent()) {
             $text = $this->getAlert();
             $this->_parseMessages();
-            $this->addMessage('error', $text);
+            $this->addVerificationMessage($text);
             return false;
         }
         return true;
@@ -206,19 +206,18 @@ class CheckoutOnePage_Helper extends Mage_Selenium_TestCase
     {
         $this->assertOnePageCheckoutTabOpened('shipping_method');
 
-        $this->messages['error'] = array();
         $service = (isset($shipMethod['shipping_service'])) ? $shipMethod['shipping_service'] : NULL;
         $method = (isset($shipMethod['shipping_method'])) ? $shipMethod['shipping_method'] : NULL;
 
         if (!$service or !$method) {
-            $this->addMessage('error', 'Shipping Service(or Shipping Method) is not set');
+            $this->addVerificationMessage('Shipping Service(or Shipping Method) is not set');
         } else {
             $this->addParameter('shipService', $service);
             $this->addParameter('shipMethod', $method);
             $methodUnavailable = $this->_getControlXpath('message', 'ship_method_unavailable');
             $noShipping = $this->_getControlXpath('message', 'no_shipping');
             if ($this->isElementPresent($methodUnavailable) || $this->isElementPresent($noShipping)) {
-                $this->addMessage('error', 'No Shipping Method is available for this order');
+                $this->addVerificationMessage('No Shipping Method is available for this order');
             } elseif ($this->isElementPresent($this->_getControlXpath('field', 'ship_service_name'))) {
                 $methodXpath = $this->_getControlXpath('radiobutton', 'ship_method');
                 $selectedMethod = $this->_getControlXpath('radiobutton', 'one_method_selected');
@@ -226,11 +225,11 @@ class CheckoutOnePage_Helper extends Mage_Selenium_TestCase
                     $this->click($methodXpath);
                     $this->waitForAjax();
                 } elseif (!$this->isElementPresent($selectedMethod)) {
-                    $this->addMessage('error',
-                            'Shipping Method "' . $method . '" for "' . $service . '" is currently unavailable');
+                    $this->addVerificationMessage('Shipping Method "' . $method . '" for "'
+                            . $service . '" is currently unavailable');
                 }
             } else {
-                $this->addMessage('error', 'Shipping Service "' . $service . '" is currently unavailable.');
+                $this->addVerificationMessage('Shipping Service "' . $service . '" is currently unavailable.');
             }
         }
 
@@ -238,7 +237,7 @@ class CheckoutOnePage_Helper extends Mage_Selenium_TestCase
             $this->frontAddGiftMessage($shipMethod['add_gift_options']);
         }
 
-        $messages = $this->getParsedMessages('error');
+        $messages = $this->getParsedMessages('verificationErrors');
         if ($messages) {
             $message = implode("\n", $messages);
             $this->fail($message);
@@ -419,7 +418,6 @@ class CheckoutOnePage_Helper extends Mage_Selenium_TestCase
         $this->assertOnePageCheckoutTabOpened('order_review');
         $this->frontValidate3dSecure();
 
-        $this->messages['error'] = array();
         $checkoutData = $this->arrayEmptyClear($checkoutData);
         $products   = (isset($checkoutData['products_to_add'])) ? $checkoutData['products_to_add'] : array();
         $billing    = (isset($checkoutData['billing_address_data'])) ? $checkoutData['billing_address_data'] : NULL;
@@ -435,7 +433,7 @@ class CheckoutOnePage_Helper extends Mage_Selenium_TestCase
                 $this->addParameter('productName', $name);
                 $xpathProduct = $this->_getControlXpath('field', 'product_name');
                 if (!$this->isElementPresent($xpathProduct)) {
-                    $this->addMessage('error', $name . ' product is not in order.');
+                    $this->addVerificationMessage($name . ' product is not in order.');
                 }
             }
         }
@@ -470,7 +468,7 @@ class CheckoutOnePage_Helper extends Mage_Selenium_TestCase
             $text = trim(preg_replace('/\(\w+\. Tax \$[0-9\.]+\)/', '', $text));
             $expectedMethod = $shipMethod['shipping_service'] . ' - ' . $shipMethod['shipping_method'];
             if (strcmp($expectedMethod, $text) != 0) {
-                $this->addMessage('error', 'Shipping method should be: ' . $expectedMethod . ' but now ' . $text);
+                $this->addVerificationMessage('Shipping method should be: ' . $expectedMethod . ' but now ' . $text);
             }
         }
 
@@ -481,26 +479,15 @@ class CheckoutOnePage_Helper extends Mage_Selenium_TestCase
             }
             $text = $this->getText($xpathPayMethod);
             if (strcmp($text, $payMethod['payment_method']) != 0) {
-                $this->addMessage('error',
-                        'Payment method should be: ' . $payMethod['payment_method'] . ' but now ' . $text);
+                $this->addVerificationMessage('Payment method should be: ' . $payMethod['payment_method']
+                        . ' but now ' . $text);
             }
         }
 
-        $errors = '';
-        if ($checkProd && $checkTotal) {
-            try {
-                $this->shoppingCartHelper()->verifyPricesDataOnPage($checkProd, $checkTotal);
-            } catch (PHPUnit_Framework_AssertionFailedError $e) {
-                $errors = $e->getMessage();
-            }
-        }
+        $this->shoppingCartHelper()->verifyPricesDataOnPage($checkProd, $checkTotal);
 
-        $message = $this->getParsedMessages('error');
-        if ($message || $errors) {
-            if (is_array($message)) {
-                $message = implode("\n", $message);
-            }
-            $this->fail($message . "\n" . $errors);
+        if ($this->getParsedMessages('verificationErrors')) {
+            $this->fail(implode("\n", call_user_func_array('array_merge', $this->getParsedMessages())));
         }
     }
 
@@ -529,8 +516,8 @@ class CheckoutOnePage_Helper extends Mage_Selenium_TestCase
                 continue;
             }
             if (!in_array($value, $text)) {
-                $this->addMessage('error',
-                        $field . ' with value ' . $value . ' is not shown on the checkout progress bar');
+                $this->addVerificationMessage($field . ' with value ' . $value
+                        . ' is not shown on the checkout progress bar');
             }
         }
     }

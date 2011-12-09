@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Magento
  *
@@ -56,7 +57,7 @@ class Newsletter_FrontendCreateTest extends Mage_Selenium_TestCase
         $rootCat = $rootCat['name'];
         $categoryData = $this->loadData('sub_category_required', null, 'name');
         $this->categoryHelper()->createSubCategory($rootCat, $categoryData);
-        $this->assertTrue($this->successMessage('success_saved_category'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_category');
         $this->categoryHelper()->checkCategoriesPage();
 
         return $categoryData['name'];
@@ -86,11 +87,12 @@ class Newsletter_FrontendCreateTest extends Mage_Selenium_TestCase
         $this->categoryHelper()->frontOpenCategory($category);
         $this->newsletterHelper()->frontSubscribe($newSubscriberEmail);
         //Verify
-        $this->assertTrue($this->validationMessage('invalid_email'), $this->messages);
+        $this->assertMessagePresent('validation', 'invalid_email');
         $this->loginAdminUser();
         $this->navigate('newsletter_subscribers');
         $searchData = $this->loadData('search_nl_subscribers', array('filter_email' => $newSubscriberEmail));
-        $this->assertFalse($this->newsletterHelper()->checkStatus('subscribed', $searchData), $this->messages);
+        $this->assertFalse($this->newsletterHelper()->checkStatus('subscribed', $searchData),
+                $this->getParsedMessages());
     }
 
     /**
@@ -117,11 +119,12 @@ class Newsletter_FrontendCreateTest extends Mage_Selenium_TestCase
         $this->categoryHelper()->frontOpenCategory($category);
         $this->newsletterHelper()->frontSubscribe($newSubscriberEmail);
         //Verify
-        $this->assertTrue($this->successMessage('success_subscription'), $this->messages);
+        $this->assertMessagePresent('success', 'success_subscription');
         $this->loginAdminUser();
         $this->navigate('newsletter_subscribers');
         $searchData = $this->loadData('search_nl_subscribers', array('filter_email' => $newSubscriberEmail));
-        $this->assertTrue($this->newsletterHelper()->checkStatus('subscribed', $searchData), $this->messages);
+        $this->assertTrue($this->newsletterHelper()->checkStatus('subscribed', $searchData),
+                $this->getParsedMessages());
     }
 
     public function newsletterData()
@@ -156,11 +159,12 @@ class Newsletter_FrontendCreateTest extends Mage_Selenium_TestCase
         $this->categoryHelper()->frontOpenCategory($category);
         $this->newsletterHelper()->frontSubscribe($newSubscriberEmail);
         //Verify
-        $this->assertTrue($this->errorMessage('long_email'), $this->messages);
+        $this->assertMessagePresent('error', 'long_email');
         $this->loginAdminUser();
         $this->navigate('newsletter_subscribers');
         $searchData = $this->loadData('search_nl_subscribers', array('filter_email' => $newSubscriberEmail));
-        $this->assertFalse($this->newsletterHelper()->checkStatus('subscribed', $searchData), $this->messages);
+        $this->assertFalse($this->newsletterHelper()->checkStatus('subscribed', $searchData),
+                $this->getParsedMessages());
     }
 
     /**
@@ -187,7 +191,7 @@ class Newsletter_FrontendCreateTest extends Mage_Selenium_TestCase
         $this->categoryHelper()->frontOpenCategory($category);
         $this->newsletterHelper()->frontSubscribe($newSubscriberEmail);
         //Verify
-        $this->assertTrue($this->validationMessage('reqired_field'), $this->messages);
+        $this->assertMessagePresent('validation', 'reqired_field');
     }
 
     /**
@@ -219,12 +223,12 @@ class Newsletter_FrontendCreateTest extends Mage_Selenium_TestCase
         $this->categoryHelper()->frontOpenCategory($category);
         $this->newsletterHelper()->frontSubscribe($newSubscriberEmail);
         //Verify
-        $this->assertTrue($this->successMessage('success_subscription'), $this->messages);
+        $this->assertMessagePresent('success', 'success_subscription');
         $this->loginAdminUser();
         $this->navigate('newsletter_subscribers');
         $searchData = $this->loadData('search_nl_subscribers', array('filter_email' => $newSubscriberEmail));
         $this->newsletterHelper()->massAction('delete', array($searchData));
-        $this->assertTrue($this->successMessage('success_delete'), $this->messages);
+        $this->assertMessagePresent('success', 'success_delete');
         $this->assertEquals(NULL, $this->search($searchData));
     }
 
@@ -257,13 +261,14 @@ class Newsletter_FrontendCreateTest extends Mage_Selenium_TestCase
         $this->categoryHelper()->frontOpenCategory($category);
         $this->newsletterHelper()->frontSubscribe($newSubscriberEmail);
         //Verify
-        $this->assertTrue($this->successMessage('success_subscription'), $this->messages);
+        $this->assertMessagePresent('success', 'success_subscription');
         $this->loginAdminUser();
         $this->navigate('newsletter_subscribers');
         $searchData = $this->loadData('search_nl_subscribers', array('filter_email' => $newSubscriberEmail));
         $this->newsletterHelper()->massAction('unsubscribe', array($searchData));
-        $this->assertTrue($this->successMessage('success_update'), $this->messages);
-        $this->assertTrue($this->newsletterHelper()->checkStatus('unsubscribed', $searchData), $this->messages);
+        $this->assertMessagePresent('success', 'success_update');
+        $this->assertTrue($this->newsletterHelper()->checkStatus('unsubscribed', $searchData),
+                $this->getParsedMessages());
     }
 
 }

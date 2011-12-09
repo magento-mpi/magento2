@@ -74,7 +74,7 @@ class Store_Store_DeleteTest extends Mage_Selenium_TestCase
         //Preconditions
         $storeData = $this->loadData('generic_store');
         $this->storeHelper()->createStore($storeData, 'store');
-        $this->assertTrue($this->successMessage('success_saved_store'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_store');
         //Data
         $deleteStoreData = array('store_name' =>$storeData['store_name']);
         //Steps
@@ -102,9 +102,9 @@ class Store_Store_DeleteTest extends Mage_Selenium_TestCase
         $storeData = $this->loadData('generic_store');
         $storeViewData = $this->loadData('generic_store_view', array('store_name' => $storeData['store_name']));
         $this->storeHelper()->createStore($storeData, 'store');
-        $this->assertTrue($this->successMessage('success_saved_store'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_store');
         $this->storeHelper()->createStore($storeViewData, 'store_view');
-        $this->assertTrue($this->successMessage('success_saved_store_view'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_store_view');
         //Data
         $deleteStoreData = array('store_name' =>$storeData['store_name']);
         //Steps

@@ -58,8 +58,8 @@ class Review_BackendCreateTest extends Mage_Selenium_TestCase
         $this->navigate('manage_products');
         $simpleProductData = $this->loadData('simple_product_visible', NULL, array('general_name', 'general_sku'));
         $this->productHelper()->createProduct($simpleProductData);
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        
+        $this->assertMessagePresent('success', 'success_saved_product');
+
         return $simpleProductData;
     }
 
@@ -75,7 +75,7 @@ class Review_BackendCreateTest extends Mage_Selenium_TestCase
         $this->navigate('manage_stores');
         $storeViewData = $this->loadData('generic_store_view');
         $this->storeHelper()->createStore($storeViewData, 'store_view');
-        $this->assertTrue($this->successMessage('success_saved_store_view'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_store_view');
 
         return $storeViewData['store_view_name'];
     }
@@ -93,7 +93,7 @@ class Review_BackendCreateTest extends Mage_Selenium_TestCase
         $this->navigate('manage_ratings');
         $ratingData = $this->loadData('default_rating', array('visible_in' => $storeView), 'default_value');
         $this->ratingHelper()->createRating($ratingData);
-        $this->assertTrue($this->successMessage('success_saved_rating'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_rating');
 
         return $ratingData;
     }
@@ -116,12 +116,12 @@ class Review_BackendCreateTest extends Mage_Selenium_TestCase
     {
         $this->navigate('all_reviews');
         $reviewData = $this->loadData('review_required',
-                                      array ('filter_sku' =>  $product['general_sku'],
-                                            'rating_name' => $ratingData['rating_information']['default_value'],
-                                            'visible_in' => $ratingData['rating_information']['visible_in']),
-                                      array('nickname', 'summary_of_review', 'review'));
+                array('filter_sku' => $product['general_sku'],
+                    'rating_name' => $ratingData['rating_information']['default_value'],
+                    'visible_in' => $ratingData['rating_information']['visible_in']),
+                array('nickname', 'summary_of_review', 'review'));
         $this->reviewHelper()->createReview($reviewData);
-        $this->assertTrue($this->successMessage('success_saved_review'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_review');
     }
 
     /**
@@ -153,12 +153,12 @@ class Review_BackendCreateTest extends Mage_Selenium_TestCase
     {
         $this->navigate('all_reviews');
         $reviewData = $this->loadData('review_required',
-                                      array ('filter_sku' =>  $product['general_sku'],
-                                            'rating_name' => $ratingData['rating_information']['default_value'],
-                                            'visible_in' => $ratingData['rating_information']['visible_in']),
-                                      array('nickname', 'summary_of_review', 'review'));
+                array('filter_sku' => $product['general_sku'],
+                    'rating_name' => $ratingData['rating_information']['default_value'],
+                    'visible_in' => $ratingData['rating_information']['visible_in']),
+                array('nickname', 'summary_of_review', 'review'));
         $this->reviewHelper()->createReview($reviewData);
-        $this->assertTrue($this->successMessage('success_saved_review'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_review');
         $this->reindexInvalidedData();
 
 
@@ -177,7 +177,7 @@ class Review_BackendCreateTest extends Mage_Selenium_TestCase
         $this->clickControl('link', 'first_review');
         $this->addParameter('reviewerName', $reviewData['nickname']);
         $this->assertFalse($this->controlIsPresent('pageelement', 'review_details'),
-                           'Review is on the page, but should not be there');
+                'Review is on the page, but should not be there');
 
         $this->frontend();
         $text = trim($this->getText($xpath));
@@ -193,7 +193,7 @@ class Review_BackendCreateTest extends Mage_Selenium_TestCase
         $this->clickControl('link', 'add_your_review');
         $this->addParameter('reviewerName', $reviewData['nickname']);
         $this->assertTrue($this->controlIsPresent('pageelement', 'review_details'),
-                           'Review is not on the page, but should be there');
+                'Review is not on the page, but should be there');
     }
 
     /**
@@ -215,20 +215,20 @@ class Review_BackendCreateTest extends Mage_Selenium_TestCase
     {
         $this->navigate('all_reviews');
         $reviewData = $this->loadData('review_required',
-                                      array ('filter_sku' =>  $product['general_sku'],
-                                            'rating_name' => $ratingData['rating_information']['default_value'],
-                                            'visible_in' => $ratingData['rating_information']['visible_in']),
-                                      array('nickname', 'summary_of_review', 'review'));
+                array('filter_sku' => $product['general_sku'],
+                    'rating_name' => $ratingData['rating_information']['default_value'],
+                    'visible_in' => $ratingData['rating_information']['visible_in']),
+                array('nickname', 'summary_of_review', 'review'));
         $reviewData[$emptyFieldName] = '%noValue%';
         if ($emptyFieldName == 'visible_in' || $emptyFieldName == 'product_rating') {
             $reviewData['detailed_rating_select'] = '%noValue%';
         }
         $this->reviewHelper()->createReview($reviewData);
         if ($emptyFieldName == 'product_rating') {
-            $this->assertTrue($this->validationMessage('empty_validate_rating'), $this->messages);
+            $this->assertMessagePresent('validation', 'empty_validate_rating');
         } else {
             $this->addFieldIdToMessage($emptyFieldType, $emptyFieldName);
-            $this->assertTrue($this->validationMessage('empty_required_field'), $this->messages);
+            $this->assertMessagePresent('validation', 'empty_required_field');
         }
     }
 
@@ -261,14 +261,14 @@ class Review_BackendCreateTest extends Mage_Selenium_TestCase
     {
         $this->navigate('all_reviews');
         $reviewData = $this->loadData('review_required',
-                                      array ('filter_sku' =>  $product['general_sku'],
-                                            'rating_name' => $ratingData['rating_information']['default_value'],
-                                            'visible_in' => $ratingData['rating_information']['visible_in'],
-                                            'nickname' => $this->generate('string', 255, ':alnum:'),
-                                            'summary_of_review' => $this->generate('string', 255, ':alnum:'),
-                                            'review' => $this->generate('string', 255, ':alnum:')));
+                array('filter_sku' => $product['general_sku'],
+                    'rating_name' => $ratingData['rating_information']['default_value'],
+                    'visible_in' => $ratingData['rating_information']['visible_in'],
+                    'nickname' => $this->generate('string', 255, ':alnum:'),
+                    'summary_of_review' => $this->generate('string', 255, ':alnum:'),
+                    'review' => $this->generate('string', 255, ':alnum:')));
         $this->reviewHelper()->createReview($reviewData);
-        $this->assertTrue($this->successMessage('success_saved_review'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_review');
     }
 
     /**
@@ -289,14 +289,14 @@ class Review_BackendCreateTest extends Mage_Selenium_TestCase
     {
         $this->navigate('all_reviews');
         $reviewData = $this->loadData('review_required',
-                                      array ('filter_sku' =>  $product['general_sku'],
-                                            'rating_name' => $ratingData['rating_information']['default_value'],
-                                            'visible_in' => $ratingData['rating_information']['visible_in'],
-                                            'nickname' => $this->generate('string', 256, ':alnum:'),
-                                            'summary_of_review' => $this->generate('string', 256, ':alnum:'),
-                                            'review' => $this->generate('string', 255, ':alnum:')));
+                array('filter_sku' => $product['general_sku'],
+                    'rating_name' => $ratingData['rating_information']['default_value'],
+                    'visible_in' => $ratingData['rating_information']['visible_in'],
+                    'nickname' => $this->generate('string', 256, ':alnum:'),
+                    'summary_of_review' => $this->generate('string', 256, ':alnum:'),
+                    'review' => $this->generate('string', 255, ':alnum:')));
         $this->reviewHelper()->createReview($reviewData);
-        $this->assertTrue($this->successMessage('success_saved_review'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_review');
     }
 
     /**
@@ -317,17 +317,18 @@ class Review_BackendCreateTest extends Mage_Selenium_TestCase
     {
         $this->navigate('all_reviews');
         $reviewData = $this->loadData('review_required',
-                                      array ('filter_sku' =>  $product['general_sku'],
-                                            'rating_name' => $ratingData['rating_information']['default_value'],
-                                            'visible_in' => $ratingData['rating_information']['visible_in'],
-                                            'nickname' => $this->generate('string', 32, ':punct:'),
-                                            'summary_of_review' => $this->generate('string', 32, ':punct:'),
-                                            'review' => $this->generate('string', 32, ':punct:')));
-        $searchData = $this->loadData('search_review', array('filter_product_sku' => $product['general_sku'],
-                                                            'filter_nickname' => $reviewData['nickname'],
-                                                            'filter_title' => $reviewData['summary_of_review']));
+                array('filter_sku' => $product['general_sku'],
+                        'rating_name' => $ratingData['rating_information']['default_value'],
+                        'visible_in' => $ratingData['rating_information']['visible_in'],
+                        'nickname' => $this->generate('string', 32, ':punct:'),
+                        'summary_of_review' => $this->generate('string', 32, ':punct:'),
+                        'review' => $this->generate('string', 32, ':punct:')));
+        $searchData = $this->loadData('search_review',
+                array('filter_product_sku' => $product['general_sku'],
+                        'filter_nickname' => $reviewData['nickname'],
+                        'filter_title' => $reviewData['summary_of_review']));
         $this->reviewHelper()->createReview($reviewData);
-        $this->assertTrue($this->successMessage('success_saved_review'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_review');
         $this->reviewHelper()->openReview($searchData);
     }
 
@@ -353,21 +354,22 @@ class Review_BackendCreateTest extends Mage_Selenium_TestCase
     {
         $this->navigate('all_reviews');
         $reviewData = $this->loadData('review_required',
-                                      array ('filter_sku' =>  $product['general_sku'],
-                                            'rating_name' => $ratingData['rating_information']['default_value'],
-                                            'visible_in' => $ratingData['rating_information']['visible_in'],
-                                            'nickname' => $this->generate('string', 32, ':alnum:'),
-                                            'summary_of_review' => $this->generate('string', 32, ':alnum:'),
-                                            'review' => $this->generate('string', 32, ':alnum:'),
-                                            'status' => 'Pending'));
-        $searchData = $this->loadData('search_review', array('filter_product_sku' => $product['general_sku'],
-                                                            'filter_nickname' => $reviewData['nickname'],
-                                                            'filter_title' => $reviewData['summary_of_review'],
-                                                            'filter_status' => 'Pending'));
+                array('filter_sku' => $product['general_sku'],
+                        'rating_name' => $ratingData['rating_information']['default_value'],
+                        'visible_in' => $ratingData['rating_information']['visible_in'],
+                        'nickname' => $this->generate('string', 32, ':alnum:'),
+                        'summary_of_review' => $this->generate('string', 32, ':alnum:'),
+                        'review' => $this->generate('string', 32, ':alnum:'),
+                        'status' => 'Pending'));
+        $searchData = $this->loadData('search_review',
+                array('filter_product_sku' => $product['general_sku'],
+                        'filter_nickname' => $reviewData['nickname'],
+                        'filter_title' => $reviewData['summary_of_review'],
+                        'filter_status' => 'Pending'));
         $this->reviewHelper()->createReview($reviewData);
-        $this->assertTrue($this->successMessage('success_saved_review'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_review');
         $this->reviewHelper()->editReview(array('status' => 'Approved'), $searchData);
-        $this->assertTrue($this->successMessage('success_saved_review'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_review');
         $searchData['filter_status'] = 'Approved';
         $this->reviewHelper()->openReview($searchData);
     }

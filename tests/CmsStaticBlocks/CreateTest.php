@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Magento
  *
@@ -53,7 +54,6 @@ class CmsStaticBlocks_CreateTest extends Mage_Selenium_TestCase
     protected function assertPreConditions()
     {
         $this->navigate('manage_cms_static_blocks');
-        $this->assertTrue($this->checkCurrentPage('manage_cms_static_blocks'), $this->messages);
         $this->addParameter('id', '0');
     }
 
@@ -76,12 +76,12 @@ class CmsStaticBlocks_CreateTest extends Mage_Selenium_TestCase
         //Steps
         $this->cmsStaticBlocksHelper()->createStaticBlock($setData);
         //Verifying
-        $this->assertTrue($this->checkCurrentPage('manage_cms_static_blocks'), $this->messages);
-        $this->assertTrue($this->successMessage('success_saved_block'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_block');
         //Cleanup
         $this->blockToBeDeleted = $this->loadData('search_static_block',
-                                        array('filter_block_identifier' => $setData['block_identifier']));
+                array('filter_block_identifier' => $setData['block_identifier']));
     }
+
     /**
      * <p>Creating a new static block</p>
      * <p>Steps:</p>
@@ -101,11 +101,10 @@ class CmsStaticBlocks_CreateTest extends Mage_Selenium_TestCase
         //Steps
         $this->cmsStaticBlocksHelper()->createStaticBlock($setData);
         //Verifying
-        $this->assertTrue($this->checkCurrentPage('manage_cms_static_blocks'), $this->messages);
-        $this->assertTrue($this->successMessage('success_saved_block'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_block');
         //Cleanup
         $this->blockToBeDeleted = $this->loadData('search_static_block',
-                                        array('filter_block_identifier' => $setData['block_identifier']));
+                array('filter_block_identifier' => $setData['block_identifier']));
     }
 
     /**
@@ -133,10 +132,9 @@ class CmsStaticBlocks_CreateTest extends Mage_Selenium_TestCase
         //Steps
         $this->cmsStaticBlocksHelper()->createStaticBlock($setData);
         //Verifying
-        $this->assertTrue($this->checkCurrentPage('manage_cms_static_blocks'), $this->messages);
-        $this->assertTrue($this->successMessage('success_saved_block'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_block');
         $blockToOpen = $this->loadData('search_static_block',
-                                        array('filter_block_identifier' => $setData['block_identifier']));
+                array('filter_block_identifier' => $setData['block_identifier']));
         $this->cmsStaticBlocksHelper()->openStaticBlock($blockToOpen);
         $this->verifyForm($setData, null, array('text_editor'));
         //Cleanup
@@ -174,8 +172,8 @@ class CmsStaticBlocks_CreateTest extends Mage_Selenium_TestCase
         //Steps
         $this->cmsStaticBlocksHelper()->createStaticBlock($setData);
         //Verifying
-        $this->assertTrue($this->validationMessage($validationMessage), $this->messages);
-        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
+        $this->assertMessagePresent('validation', $validationMessage);
+        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     public function dataEmptyRequiredFields()
@@ -206,8 +204,8 @@ class CmsStaticBlocks_CreateTest extends Mage_Selenium_TestCase
         //Steps
         $this->cmsStaticBlocksHelper()->createStaticBlock($setData);
         //Verifying
-        $this->assertTrue($this->validationMessage('specify_valid_xml_identifier'), $this->messages);
-        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
+        $this->assertMessagePresent('validation', 'specify_valid_xml_identifier');
+        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     public function dataInvalidXmlIdentifier()

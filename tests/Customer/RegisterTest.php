@@ -68,8 +68,7 @@ class Customer_RegisterTest extends Mage_Selenium_TestCase
         //Steps
         $this->customerHelper()->registerCustomer($userData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_registration'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('customer_account'), $this->messages);
+        $this->assertMessagePresent('success', 'success_registration');
 
         return $userData;
     }
@@ -94,7 +93,7 @@ class Customer_RegisterTest extends Mage_Selenium_TestCase
         //Steps
         $this->customerHelper()->registerCustomer($userData);
         //Verifying
-        $this->assertTrue($this->errorMessage('email_exists'), $this->messages);
+        $this->assertMessagePresent('error', 'email_exists');
     }
 
     /**
@@ -128,13 +127,12 @@ class Customer_RegisterTest extends Mage_Selenium_TestCase
         //Steps
         $this->customerHelper()->registerCustomer($userData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_registration'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('customer_account'), $this->messages);
+        $this->assertMessagePresent('success', 'success_registration');
         //Steps
         $this->navigate('edit_account_info');
         //Verifying
         $this->assertTrue($this->verifyForm($userData, null, array('password', 'password_confirmation')),
-                $this->messages);
+                $this->getParsedMessages());
     }
 
     /**
@@ -164,8 +162,8 @@ class Customer_RegisterTest extends Mage_Selenium_TestCase
             $xpath = $fieldset->findField($key);
             $this->addParameter('fieldXpath', $xpath);
         }
-        $this->assertTrue($this->errorMessage('empty_required_field'), $this->messages);
-        $this->assertTrue($this->verifyMessagesCount($messageCount), $this->messages);
+        $this->assertMessagePresent('error', 'empty_required_field');
+        $this->assertTrue($this->verifyMessagesCount($messageCount), $this->getParsedMessages());
     }
 
     public function emptyField()
@@ -210,8 +208,7 @@ class Customer_RegisterTest extends Mage_Selenium_TestCase
         //Steps
         $this->customerHelper()->registerCustomer($userData);
         //Verifying
-        $this->assertTrue($this->successMessage('success_registration'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('customer_account'), $this->messages);
+        $this->assertMessagePresent('success', 'success_registration');
     }
 
     /**
@@ -240,7 +237,7 @@ class Customer_RegisterTest extends Mage_Selenium_TestCase
         foreach ($longValue as $key => $value) {
             $fieldName = $key;
         }
-        $this->assertTrue($this->errorMessage("not_valid_length_$fieldName"), $this->messages);
+        $this->assertMessagePresent('error', "not_valid_length_$fieldName");
     }
 
     public function dataLongValuesNotValid()
@@ -275,7 +272,7 @@ class Customer_RegisterTest extends Mage_Selenium_TestCase
         //Steps
         $this->customerHelper()->registerCustomer($userData);
         //Verifying
-        $this->assertTrue($this->errorMessage('invalid_mail'), $this->messages);
+        $this->assertMessagePresent('error', 'invalid_mail');
     }
 
     public function dataInvalidEmail()
@@ -310,7 +307,7 @@ class Customer_RegisterTest extends Mage_Selenium_TestCase
         //Steps
         $this->customerHelper()->registerCustomer($userData);
         //Verifying
-        $this->assertTrue($this->errorMessage($errorMessage), $this->messages);
+        $this->assertMessagePresent('error', $errorMessage);
     }
 
     public function dataInvalidPassword()

@@ -83,14 +83,14 @@ class Order_Create_WithProductWithWarningTest extends Mage_Selenium_TestCase
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($simple);
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_product');
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->navigateToCreateOrderPage(null, $orderData['store_view']);
         $this->orderHelper()->addProductToOrder($orderData['products_to_add']['product_1']);
         $this->addParameter('sku', $simple['general_name']);
         $this->addParameter('qty', 10);
-        $this->assertTrue($this->validationMessage($message), 'No Validation Message for Product');
+        $this->assertMessagePresent('validation', $message);
         $this->orderHelper()->fillOrderAddress($billingAddr, $billingAddr['address_choice'], 'billing');
         $this->orderHelper()->fillOrderAddress($shippingAddr, $shippingAddr['address_choice'], 'shipping');
         $this->clickControl('link', 'get_shipping_methods_and_rates', FALSE);
@@ -99,7 +99,7 @@ class Order_Create_WithProductWithWarningTest extends Mage_Selenium_TestCase
         $this->orderHelper()->selectPaymentMethod($orderData['payment_data']);
         $this->orderHelper()->submitOreder();
         //Verifying
-        $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
+        $this->assertMessagePresent('success', 'success_created_order');
         $this->orderInvoiceHelper()->createInvoiceAndVerifyProductQty();
         $this->orderShipmentHelper()->createShipmentAndVerifyProductQty();
         $this->orderCreditMemoHelper()->createCreditMemoAndVerifyProductQty('refund_offline');

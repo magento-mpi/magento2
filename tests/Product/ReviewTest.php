@@ -68,8 +68,7 @@ class Product_ReviewTest extends Mage_Selenium_TestCase
         $productData = $this->loadData('frontend_' . $productType . '_product_details_validation',
                 array('inventory_stock_availability' => $availability), array('general_name', 'general_sku'));
         $this->productHelper()->createProduct($productData, $productType);
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
+        $this->assertMessagePresent('success', 'success_saved_product');
         $this->reindexInvalidedData();
         $this->clearInvalidedCache();
         $this->productHelper()->frontVerifyProductInfo($productData);
