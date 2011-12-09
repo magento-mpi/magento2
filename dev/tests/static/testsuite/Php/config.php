@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-$baseDir = realpath(__DIR__ . '/../../../../../');
+$baseDir = PATH_TO_SOURCE_CODE;
 
 return array(
     'report_dir' => "{$baseDir}/dev/tests/static/report",

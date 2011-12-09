@@ -214,7 +214,7 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
     public static function getMagentoRoot()
     {
         if (!self::$_magentoRoot) {
-            self::$_magentoRoot = realpath(__DIR__ . '/../../../../..');
+            self::$_magentoRoot = PATH_TO_SOURCE_CODE;
         }
         return self::$_magentoRoot;
     }
