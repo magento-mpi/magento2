@@ -2781,7 +2781,10 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
                 $value = (int)$value;
                 break;
             case 'bigint':
-                // Can't cast to int on 32 bit systems here: BIGINT is larger than such systems' MAX_INT
+                if (!is_integer($value)) {
+                    // Can't cast to int on 32 bit systems here: BIGINT is larger than such systems' MAX_INT
+                    $value = preg_replace('/\D/', '', $value);
+                }
                 break;
 
             case 'decimal':
