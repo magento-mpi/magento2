@@ -40,6 +40,7 @@ product_page:
                         fields:
                             product_qty: //input[@id='qty']
                         links:
+                            downloadable_sample: //dl[@class='item-options']/dd/a[normalize-space(text())='%samplesTitle%']
                             add_to_wishlist: //div[@class='product-essential']//a[text()='Add to Wishlist']
                             add_to_compare: //a[text()='Add to Compare']
                             email_to_friend: //a[text()='Email to a Friend']
@@ -49,6 +50,7 @@ product_page:
                         pageelements:
                             product_name: //div[@class='product-name']/h1
                             product_name_header: //div[@class='product-name']/h1[text()='%productName%']
+                            samples_title: //dl[@class='item-options']/dt[normalize-space(text())='%samplesTitle%']
                             price_regular: //div[@class='product-shop']//span[@class='regular-price']/span[normalize-space(text())='%price%']
                             price_excluding_tax: //div[@class='product-shop' and not(*/p[@class='special-price'])]//span[@class='price-excluding-tax']/span[normalize-space(text())='%price%']
                             price_including_tax: //div[@class='product-shop' and not(*/p[@class='special-price'])]//span[@class='price-including-tax']/span[normalize-space(text())='%price%']
@@ -56,6 +58,26 @@ product_page:
                             price_special: //div[@class='product-shop']//p[@class='special-price']/span[normalize-space(text())='%price%']
                             price_special_excluding_tax: //div[@class='product-shop']//p[@class='special-price']/span[@class='price-excluding-tax']/span[normalize-space(text())='%price%']
                             price_special_inlcuding_tax: //div[@class='product-shop']//p[@class='special-price']/span[@class='price-including-tax']/span[normalize-space(text())='%price%']
+                            # Bundle product prices
+                            price_from: //div[@class='price-box-bundle']//p[@class='price-from']//span[@class='price' and normalize-space(text())='%price%']
+                            price_from_excluding_tax: //div[@class='price-box-bundle']//p[@class='price-from']//span[@class='price-including-tax']/span[@class='price' and normalize-space(text())='%price%']
+                            price_from_inlcuding_tax: //div[@class='price-box-bundle']//p[@class='price-from']//span[@class='price-including-tax']/span[@class='price' and normalize-space(text())='%price%']
+                            price_to: //div[@class='price-box-bundle']//p[@class='price-to']//span[@class='price' and normalize-space(text())='%price%']
+                            price_to_excluding_tax: //div[@class='price-box-bundle']//p[@class='price-to']//span[@class='price-excluding-tax']/span[@class='price' and normalize-space(text())='%price%']
+                            price_to_inlcuding_tax: //div[@class='price-box-bundle']//p[@class='price-to']//span[@class='price-including-tax']/span[@class='price' and normalize-space(text())='%price%']
+                            price_as_configured: //div[@class='product-shop']//p[@class='price-as-configured']//span[@class='price' and normalize-space(text())='%price%']
+                            price_as_configured_excluding_tax: //div[@class='product-shop']//p[@class='price-as-configured']//span[@class='price-excluding-tax']/span[@class='price' and normalize-space(text())='%price%']
+                            price_as_configured_inlcuding_tax: //div[@class='product-shop']//p[@class='price-as-configured']//span[@class='price-including-tax']/span[@class='price' and normalize-space(text())='%price%']
+                            # Grouped product prices
+                            grouped_subproduct_name: //table[@id='super-product-table']//td[text()='%subproductName%']
+                            grouped_subproduct_price_regular: //table[@id='super-product-table']//tr[./td[text()='%subproductName%']]//span[@class='regular-price']/span[normalize-space(text())='%price%']
+                            grouped_subproduct_price_excluding_tax: //table[@id='super-product-table']//tr[./td[text()='%subproductName%'] and not(.//p[@class='special-price'])]//span[@class='price-excluding-tax']/span[normalize-space(text())='%price%']
+                            grouped_subproduct_price_inlcuding_tax: //table[@id='super-product-table']//tr[./td[text()='%subproductName%'] and not(.//p[@class='special-price'])]//span[@class='price-including-tax']/span[normalize-space(text())='%price%']
+                            grouped_subproduct_price_old: //table[@id='super-product-table']//tr[./td[text()='%subproductName%']]//p[@class='old-price']/span[normalize-space(text())='%price%']
+                            grouped_subproduct_price_special: //table[@id='super-product-table']//tr[./td[text()='%subproductName%']]//p[@class='special-price']/span[normalize-space(text())='%price%']
+                            grouped_subproduct_price_special_excluding_tax: //table[@id='super-product-table']//tr[./td[text()='%subproductName%']]//span[@class='price-excluding-tax']/span[normalize-space(text())='%price%']
+                            grouped_subproduct_price_special_inlcuding_tax: //table[@id='super-product-table']//tr[./td[text()='%subproductName%']]//span[@class='price-including-tax']/span[normalize-space(text())='%price%']
+                            grouped_subproduct_qty: //table[@id='super-product-table']//tr[./td[text()='%subproductName%']]//input[@title='Qty']
                             as_low_as: //div[@class='product-shop']//p[@class='minimal-price']/span[normalize-space(text())='%price%']
                             qty: //input[@class='input-text qty'][@value='%price%']
                             availability: //p[contains(text(), 'Availability:')]/span
@@ -73,19 +95,44 @@ product_page:
                 -
                     product_custom_options: &productCustomOptions
                         xpath: //div[@id='product-options-wrapper']
-                        dropdowns:
-                            custom_option_select_attribute:  //dt[./label[contains(normalize-space(text()),'%title%')]]/following-sibling::dd[1]//select
+                        buttons:
+                            custom_option_file: //dt[./label[contains(text(),'%title%')]]/following-sibling::dd[1]//input[@type='file']
                         checkboxes:
-                            custom_option_check_attribute: //dt[./label[contains(normalize-space(text()),'%title%')]]/following-sibling::dd[1]//input
+                            custom_option_check_attribute: //dt[./label[contains(text(),'%title%')]]/following-sibling::dd[1]//input
+                            custom_option_checkbox: //dt[./label[contains(text(),'%title%')]]/following-sibling::dd[1]//li[.//label[contains(text(),'%optionTitle%')]]//input[@type='checkbox']
+                        dropdowns:
+                            custom_option_select_attribute:  //dt[./label[contains(text(),'%title%')]]/following-sibling::dd[1]//select
+                            custom_option_day:  //dt[./label[contains(text(),'%title%')]]/following-sibling::dd[1]//select[contains(@name,'[day]')]
+                            custom_option_month:  //dt[./label[contains(text(),'%title%')]]/following-sibling::dd[1]//select[contains(@id,'month')]
+                            custom_option_year:  //dt[./label[contains(text(),'%title%')]]/following-sibling::dd[1]//select[contains(@id,'year')]
+                            custom_option_hour:  //dt[./label[contains(text(),'%title%')]]/following-sibling::dd[1]//select[contains(@id,'hour')]
+                            custom_option_minute:  //dt[./label[contains(text(),'%title%')]]/following-sibling::dd[1]//select[contains(@id,'minute')]
+                            custom_option_day_part:  //dt[./label[contains(text(),'%title%')]]/following-sibling::dd[1]//select[contains(@id,'day_part')]
+                            custom_option_dropdown:  //dt[./label[contains(text(),'%title%')]]/following-sibling::dd[1]//select
+                        fields:
+                            custom_option_field: //dt[./label[contains(text(),'%title%')]]/following-sibling::dd[1]//input[@type='text']
+                            custom_option_area: //dt[./label[contains(text(),'%title%')]]/following-sibling::dd[1]//textarea
+                            bundle_item_qty: //dt[./label[contains(text(),'%title%')]]/following-sibling::dd[1]/span[@class='qty-holder']/input
+                        links:
+                            downloadable_link: //dt[./label[contains(text(),'%title%')]]/following-sibling::dd[1]//li[.//label[contains(text(),'%optionTitle%')]]//a[text()='%linkTitle%']
+                        multiselects:
+                            custom_option_multiselect:  //dt[./label[contains(text(),'%title%')]]/following-sibling::dd[1]//select[@multiple='multiple']
+                        radiobuttons:
+                            custom_option_radiobutton: //dt[./label[contains(text(),'%title%')]]/following-sibling::dd[1]//li[.//label[contains(text(),'%optionTitle%')]]//input[@type='radio']
                         pageelements:
-                            custom_option_non_select: //dt[./label[contains(normalize-space(text()),'%title%') and //span[normalize-space(text())='%price%']]]
+                            custom_option_price: //dt[./label[contains(text(),'%title%')]]//span[@class='price' and normalize-space(text())='%price%']
+                            custom_option_select_price: //dt[./label[contains(text(),'%title%')]]/following-sibling::dd[1]//li[.//label[normalize-space(text())='%optionTitle%']]//span[@class='price' and normalize-space(text())='%price%']
+                            custom_option_non_select: //dt[./label[contains(text(),'%title%') and //span[normalize-space(text())='%price%']]]
+                            custom_option_non_select_wo_price: //dt[./label[contains(text(),'%title%')]]
+                            custom_option_select: //dt[./label[contains(text(),'%title%')]]/following-sibling::dd[1]//option[contains(text(),'%optionTitle% +%optionPrice%')]
+                            custom_option_select_wo_price: //dt[./label[contains(text(),'%title%')]]/following-sibling::dd[1]//option[contains(text(),'%optionTitle%')]
+                            custom_option_check: //dt[./label[contains(text(),'%title%')]]/following-sibling::dd[1]//label[contains(text(),'%optionTitle%')]//span[contains(text(),'+')]/span[@class='price' and contains(text(),'%optionPrice%')]
+                            custom_option_check_wo_price: //dt[./label[contains(text(),'%title%')]]/following-sibling::dd[1]//label[contains(text(),'%optionTitle%')]
+                            # elements relative to the control title
                             custom_option_max_chars: "/following-sibling::dd[1]//p[@class='note' and //strong='%maxChars%']"
                             custom_option_file_ext: "/following-sibling::dd[1]//p[./strong='%fileExt%']"
-                            custom_option_non_select_wo_price: //dt[./label[contains(normalize-space(text()),'%title%')]]
-                            custom_option_select: //dt[./label[contains(normalize-space(text()),'%title%')]]/following-sibling::dd[1]//option[contains(normalize-space(text()),'%optionTitle% +%optionPrice%')]
-                            custom_option_select_wo_price: //dt[./label[contains(normalize-space(text()),'%title%')]]/following-sibling::dd[1]//option[contains(normalize-space(text()),'%optionTitle%')]
-                            custom_option_check: //dt[./label[contains(normalize-space(text()),'%title%')]]/following-sibling::dd[1]//label[contains(normalize-space(text()),'%optionTitle%')]//span[contains(normalize-space(text()),'+')]/span[@class='price' and contains(normalize-space(text()),'%optionPrice%')]
-                            custom_option_check_wo_price: //dt[./label[contains(normalize-space(text()),'%title%')]]/following-sibling::dd[1]//label[contains(normalize-space(text()),'%optionTitle%')]
+                            custom_option_file_max_width: /following-sibling::dd[1]//p[contains(text(),'Maximum image width') and ./strong='%fileWidth% px.']
+                            custom_option_file_max_height: /following-sibling::dd[1]//p[contains(text(),'Maximum image height') and ./strong='%fileHeight% px.']
                 -
                     details: &details
                         xpath: //div[h2[text()='Details']]
