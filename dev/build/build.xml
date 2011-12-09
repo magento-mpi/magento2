@@ -37,13 +37,6 @@
         </exec>
     </target>
 
-    <!-- product unit tests with xdebug -->
-    <target name="unit-tests-magento-xdebug" depends="prepare-xdebug">
-        <exec dir="dev/tests/unit" executable="${file.phpunit_xdebug}" failonerror="true">
-            <arg line="--stderr --log-junit ${basedir}/unit-tests-magento-xdebug.xml"/>
-        </exec>
-    </target>
-
     <!-- product unit tests with code coverage -->
     <target name="unit-tests-magento-coverage" depends="prepare-xdebug">
         <exec dir="dev/tests/unit" executable="${file.phpunit_xdebug}" failonerror="true">
