@@ -53,12 +53,13 @@ checkout_multishipping_login:
             please_select_option: "//*[@id='advice-validate-select-%fieldId%'][not(contains(@style,'display: none;'))]"
             different_passwords: "//*[@id='advice-validate-cpassword-%fieldId%'][not(contains(@style,'display: none;'))]"
             invalid_password_length: "//*[@id='advice-validate-password-%fieldId%'][not(contains(@style,'display: none;'))]"
-            nvalid_email_address: "//*[@id='advice-validate-email-%fieldId%'][not(contains(@style,'display: none;'))]"
+            invalid_email_address: "//*[@id='advice-validate-email-%fieldId%'][not(contains(@style,'display: none;'))]"
             exist_email_alert: There is already a customer registered using this email address. Please login using this email address or enter a different email address to register your account.
             long_value_alert: '"%fieldName%" length must be equal or less than 255 characters.'
             invalid_credit_card_number: "//div[@id='advice-validate-cc-type-ccsave_cc_number' and not(contains(@style,'display: none;'))]"
             invalid_credit_card_type: "//div[@id='advice-validate-cc-type-select-ccsave_cc_type' and not(contains(@style,'display: none;'))]"
             incorrect_credit_card_exp_date: "//div[@id='advice-validate-cc-exp-ccsave_expiration' and not(contains(@style,'display: none;'))]"
+            invalid_login_or_password: //li[normalize-space(@class)='error-msg' and contains(.,'Invalid login or password.')]
             empty_shipping_methods_for_all_addresses: //li[normalize-space(@class)='error-msg' and contains(.,'Please select shipping methods for all addresses')]
             success_saved_address: //li[normalize-space(@class)='success-msg' and contains(.,'The address has been saved.')]
             payment_method_not_defined: //li[normalize-space(@class)='error-msg' and contains(.,'Payment method is not defined')]
