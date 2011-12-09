@@ -901,9 +901,8 @@ class Product_Helper extends Mage_Selenium_TestCase
      */
     public function frontAddProductToCart($dataForBuy = null)
     {
-        $productType = $this->frontDetectProductType();
         if ($dataForBuy) {
-            $this->frontFillBuyInfo($dataForBuy, $productType);
+            $this->frontFillBuyInfo($dataForBuy);
         }
         $xpathName = $this->getCurrentUimapPage()->getMainForm()->findPageelement('product_name');
         $openedProductName = $this->getText($xpathName);
@@ -912,19 +911,34 @@ class Product_Helper extends Mage_Selenium_TestCase
     }
 
     /**
-     * @TODO
+     * Choose custom options and additional products
+     *
+     * @param array $dataForBuy
      */
-    public function frontDetectProductType()
+    public function frontFillBuyInfo($dataForBuy)
     {
-
-    }
-
-    /**
-     * @TODO
-     */
-    public function frontFillBuyInfo()
-    {
-
+//        For EE edition
+//        $customize = $this->controlIsPresent('button', 'customize_and_add_to_cart');
+//        if ($customize) {
+//            $this->clickButton('customize_and_add_to_cart', FALSE);
+//            $this->pleaseWait();
+//        }
+        foreach ($dataForBuy as $value) {
+            if (isset($value['parameters'])) {
+                if (isset($value['parameters']['title'])) {
+                    $this->addParameter('title', $value['parameters']['title']);
+                }
+                if (isset($value['parameters']['optionTitle'])) {
+                    $this->addParameter('optionTitle', $value['parameters']['optionTitle']);
+                }
+                if (isset($value['parameters']['subproductName'])) {
+                    $this->addParameter('subproductName', $value['parameters']['subproductName']);
+                }
+            }
+            if (isset($value['options_to_choose'])) {
+                $this->fillForm($value['options_to_choose']);
+            }
+        }
     }
 
     /**

@@ -1953,3 +1953,136 @@ grouped_product_for_linking_products:
             cross_sells_search_sku: %noValue%
         cross_sells_6:
             cross_sells_search_sku: %noValue%
+
+#<-------------------------------------------------Add to cart Helper Verification------------------------------------->
+
+custom_options_to_add_to_shopping_cart:
+    option_1:
+        parameters:
+            title: Custom Option Field
+        options_to_choose:
+            custom_option_field: Custom Option Field text
+    option_2:
+        parameters:
+            title: Custom Option Area
+        options_to_choose:
+            custom_option_area: Custom Option Area text
+    option_3:
+        parameters:
+            title: Custom Option Date
+        options_to_choose:
+            custom_option_day: 15
+            custom_option_month: 10
+            custom_option_year: 2011
+    option_4:
+        parameters:
+            title: Custom Options Date & Time
+        options_to_choose:
+            custom_option_day: 15
+            custom_option_month: 10
+            custom_option_year: 2011
+            custom_option_hour: 10
+            custom_option_minute: 10
+            custom_option_day_part: PM
+    option_5:
+        parameters:
+            title: Custom Option Time
+        options_to_choose:
+            custom_option_hour: 10
+            custom_option_minute: 10
+            custom_option_day_part: PM
+    option_6:
+        parameters:
+            title: Custom Option Drop-down
+        options_to_choose:
+            custom_option_dropdown: Title 1
+    option_7:
+        parameters:
+            title: Custom Option Radio Buttons
+            optionTitle: Title 1
+        options_to_choose:
+            custom_option_radiobutton: Yes
+    option_8:
+        parameters:
+            title: Custom Option Checkbox
+            optionTitle: Title 1
+        options_to_choose:
+            custom_option_checkbox: Yes
+    option_9:
+        parameters:
+            title: Custom Option Multiple Select
+        options_to_choose:
+            custom_option_multiselect: Title 1
+
+downloadable_options_to_add_to_shopping_cart:
+    option_1:
+        parameters:
+            title: Links Title
+            optionTitle: Link Row Title
+        options_to_choose:
+            custom_option_checkbox: Yes
+
+bundle_options_to_add_to_shopping_cart:
+    option_1:
+        parameters:
+            title: Multiple Select
+        options_to_choose:
+            custom_option_multiselect: hucfu_Simple Product Visible, xtiju_Simple Product Visible, oykwp_Simple Product For Order
+    option_2:
+        parameters:
+            title: Checkbox
+            optionTitle: hucfu_Simple Product Visible
+        options_to_choose:
+            custom_option_checkbox: Yes
+    option_3:
+        parameters:
+            title: Checkbox
+            optionTitle: tiju_Simple Product Visible
+        options_to_choose:
+            custom_option_checkbox: Yes
+    option_4:
+        parameters:
+            title: Radio Buttons
+            optionTitle: hucfu_Simple Product Visible
+        options_to_choose:
+            custom_option_radiobutton: Yes
+            bundle_item_qty: 3
+    option_5:
+        parameters:
+            title: Drop-down
+        options_to_choose:
+            custom_option_dropdown: hucfu_Simple Product Visible
+            bundle_item_qty: 3
+
+configurable_options_to_add_to_shopping_cart:
+    option_1:
+        parameters:
+            title: test
+        options_to_choose:
+            custom_option_dropdown: Dropdown_StoreView_1
+
+grouped_options_to_add_to_shopping_cart:
+    option_1:
+        parameters:
+            subproductName: xtiju_Simple Product Visible
+        options_to_choose:
+            grouped_subproduct_qty: 10
+    option_2:
+        parameters:
+            subproductName: hucfu_Simple Product Visible
+        options_to_choose:
+            grouped_subproduct_qty: 5
+
+product_to_add_to_shop:
+    simple:
+        general_name: opdzs_Simple Product Visible
+    virtual:
+        general_name: qjlfk_Virtual Product Visible
+    downloadable:
+        general_name: ncngs_Downloadable Product Visible
+    bundle:
+        general_name: ziexj_Bundle(Fixed) Product
+    configurable:
+        general_name: difoe_Configurable Product
+    grouped:
+        general_name: rpjpz_Grouped Product
