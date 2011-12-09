@@ -484,7 +484,7 @@ class Mage_Catalog_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
                     'weight'             => array(
                         'type'                       => 'decimal',
                         'label'                      => 'Weight',
-                        'input'                      => 'text',
+                        'input'                      => 'weight',
                         'sort_order'                 => 5,
                         'apply_to'                   => Mage_Catalog_Model_Product_Type::TYPE_SIMPLE,
                     ),
