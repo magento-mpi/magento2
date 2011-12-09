@@ -165,7 +165,7 @@ class Mage_Customer_Model_Observer
                 }
             }
         } catch (Exception $e) {
-            Mage::register(self::VIV_PROCESSED_FLAG, false);
+            Mage::register(self::VIV_PROCESSED_FLAG, false, true);
         }
     }
 
@@ -195,6 +195,11 @@ class Mage_Customer_Model_Observer
         }
         /** @var $customer Mage_Customer_Model_Customer */
         $customer = $observer->getQuote()->getCustomer();
+
+        if (!$customer->getId()) {
+            return;
+        }
+
         $customer->setGroupId(
             $customer->getOrigData('group_id')
         );
