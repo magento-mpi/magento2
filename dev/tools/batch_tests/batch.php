@@ -22,6 +22,7 @@ if (isset($arguments['legacy']) || isset($arguments['all'])) {
 }
 if (isset($arguments['all'])) {
     $tests[] = array('../../tests/static', 'testsuite/Php/CodeMessTest.php');
+    $tests[] = array('../../tests/static', 'testsuite/Php/Exemplar');
 }
 
 $failures = array();
