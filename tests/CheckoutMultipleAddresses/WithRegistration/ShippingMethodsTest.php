@@ -36,6 +36,22 @@
  */
 class CheckoutMultipleAddresses_WithRegistration_ShippingMethodsTest extends Mage_Selenium_TestCase
 {
+    /**
+     * <p>Some description</p>
+     */
+    public function setUpBeforeTests()
+    {
+        //Login as admin
+        //Configure shipping methods:
+        //Flat Rate
+        //Free shipping
+        //UPS - UPS
+        //UPS - UPS XML
+        //USPS
+        //Fedex
+        //DHL USA
+        //DHL International
+    }
 
     protected function assertPreConditions()
     {
@@ -45,19 +61,43 @@ class CheckoutMultipleAddresses_WithRegistration_ShippingMethodsTest extends Mag
     /**
      * @test
      */
-    public function preconditionsForTests()
+    public function createSimpleProduct()
     {
-
+        return 'simple product name';
     }
 
     /**
-     * @depends preconditionsForTests
-     * @dataProvider dataShipment
      * @test
      */
-    public function differentShippingMethods($shipping, $simpleSku)
+    public function createVirtualProduct()
     {
+        return 'virtual product name';
+    }
 
+    /**
+     * @dataProvider dataShipment
+     * @depends createSimpleProduct
+     * @test
+     */
+    public function differentShippingMethods($shipping, $simpleProduct)
+    {
+        //Open the simple product
+        //Add 2 items to shopping cart
+        //Checkout with multiple addresses
+        //
+        //Register as a new customer
+        //Fill all required fields. Submit
+        //Add a new shipping address
+        //
+        //Set products to different shipping addresses
+        //Select shipping method
+        //Select 'Check / Money order' payment method
+            //Verify shipping addresses for both products
+            //Verify shipping methods for both products
+            //Verify products quantity
+        //Place order
+            //Verify that Order Success page is displayed
+            //Verify that 2 order links are displayed
     }
 
     public function dataShipment()
@@ -71,6 +111,37 @@ class CheckoutMultipleAddresses_WithRegistration_ShippingMethodsTest extends Mag
             array('fedex'),
 //@TODO            array('dhl')
         );
+    }
+
+    /**
+     * @dataProvider dataShipment
+     * @depends createSimpleProduct
+     * @depends createVirtualProduct
+     * @test
+     */
+    public function differentShippingMethods($shipping, $simpleProduct, $virtualProduct)
+    {
+        //Open the simple product
+        //Add to cart
+        //Open the virtual product
+        //Add to cart
+        //Checkout with multiple addresses
+        //
+        //Register as a new customer
+        //Fill all required fields. Submit
+        //Add a new shipping address
+        //
+            //Verify that shipping address is not available for virtual product
+        //Set shipping address for simple product
+        //Select shipping method
+            //Verify that virtual product is under 'Other Items in Your Order' section
+        //Select 'Check / Money order' payment method
+            //Verify shipping addresses for both products
+            //Verify shipping methods for both products
+            //Verify products quantity
+        //Place order
+            //Verify that Order Success page is displayed
+            //Verify that 2 order links are displayed
     }
 
     protected function tearDown()

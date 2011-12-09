@@ -37,27 +37,69 @@
 class CheckoutMultipleAddresses_LoggedIn_ShippingMethodsTest extends Mage_Selenium_TestCase
 {
 
+    /**
+     * <p>Some description</p>
+     */
+    public function setUpBeforeTests()
+    {
+        //Login as admin
+        //Configure shipping methods:
+        //Flat Rate
+        //Free shipping
+        //UPS - UPS
+        //UPS - UPS XML
+        //USPS
+        //Fedex
+        //DHL USA
+        //DHL International
+        //
+        //Register as a customer
+        //Login as the customer
+        //Create 2 shipping addresses
+    //
+
+    }
+
     protected function assertPreConditions()
     {
-
+        //Clear shopping cart
     }
 
     /**
      * @test
      */
-    public function preconditionsForTests()
+    public function createSimpleProduct()
     {
-
+        return 'simple product name';
     }
 
     /**
-     * @depends preconditionsForTests
+     * @test
+     */
+    public function createVirtualProduct()
+    {
+        return 'virtual product name';
+    }
+
+    /**
      * @dataProvider dataShipment
+     * @depends createSimpleProduct
      * @test
      */
-    public function differentShippingMethods($shipping, $simpleSku)
+    public function differentShippingMethods($shipping, $simpleProduct)
     {
-
+        //Open the simple product
+        //Add 2 items to shopping cart
+        //Checkout with multiple addresses
+        //Set products to different shipping addresses
+        //Select shipping method
+        //Select 'Check / Money order' payment method
+            //Verify shipping addresses for both products
+            //Verify shipping methods for both products
+            //Verify products quantity
+        //Place order
+            //Verify that Order Success page is displayed
+            //Verify that 2 order links are displayed
     }
 
     public function dataShipment()
@@ -73,11 +115,38 @@ class CheckoutMultipleAddresses_LoggedIn_ShippingMethodsTest extends Mage_Seleni
         );
     }
 
+    /**
+     * @dataProvider dataShipment
+     * @depends createSimpleProduct
+     * @depends createVirtualProduct
+     * @test
+     */
+    public function differentShippingMethods($shipping, $simpleProduct, $virtualProduct)
+    {
+        //Open the simple product
+        //Add to cart
+        //Open the virtual product
+        //Add to cart
+        //Checkout with multiple addresses
+            //Verify that shipping address is not available for virtual product
+        //Set shipping address for simple product
+        //Select shipping method
+            //Verify that virtual product is under 'Other Items in Your Order' section
+        //Select 'Check / Money order' payment method
+            //Verify shipping addresses for both products
+            //Verify shipping methods for both products
+            //Verify products quantity
+        //Place order
+            //Verify that Order Success page is displayed
+            //Verify that 2 order links are displayed
+    }
+
     protected function tearDown()
     {
         $this->loginAdminUser();
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('shipping_disable');
     }
+
 
 }
