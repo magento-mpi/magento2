@@ -290,7 +290,7 @@ class Enterprise_SalesArchive_Model_Resource_Archive extends Mage_Core_Model_Res
         $updatedAtIndex = array_search('updated_at', $selectFields);
         if ($updatedAtIndex !== false) {
             unset($selectFields[$updatedAtIndex]);
-            $selectFields['updated_at'] = new Zend_Db_Expr("'".$this->formatDate(true)."'");
+            $selectFields['updated_at'] = new Zend_Db_Expr($adapter->quoteInto('?', $this->formatDate(true)));
         }
 
         $select = $adapter->select()
