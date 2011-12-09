@@ -323,8 +323,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
 
             $appConnectorUrl = Mage::getStoreConfig('xmlconnect/mobile_application/magentocommerce_url');
 
-            /** @var $curl Varien_Http_Adapter_Curl */
-            $curl = Mage::getModel('varien/http_adapter_curl');
+            $curl = new Varien_Http_Adapter_Curl();
             $verifyPeerValue = Mage::getStoreConfig('xmlconnect/mobile_application/curl_ssl_verifypeer');
             $curl->setConfig(array(
                 'timeout' => Mage_XmlConnect_Helper_Data::CURLOPT_DEFAULT_TIMEOUT,

@@ -654,8 +654,7 @@ EOT;
                     break;
             }
 
-            /** @var $curl Varien_Http_Adapter_Curl */
-            $curl = Mage::getModel('varien/http_adapter_curl');
+            $curl = new Varien_Http_Adapter_Curl();
             $curl->setConfig($this->_getCurlConfig($app->getUserpwd()));
 
             $urbanUrl = Mage::getStoreConfig($configPath);
