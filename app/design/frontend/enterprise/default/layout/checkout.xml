@@ -351,14 +351,6 @@ One page checkout main layout
                         <label>Login/Registration Before</label>
                         <action method="setMayBeInvisible"><value>1</value></action>
                     </block>
-                    <block type="core/captcha" name="captcha">
-                        <reference name="head">
-                            <action method="addJs"><file>mage/captcha.js</file></action>
-                        </reference>
-                        <action method="setFormId"><formId>user_login</formId></action>
-                        <action method="setImgWidth"><width>230</width></action>
-                        <action method="setImgHeight"><width>50</width></action>
-                    </block>
                 </block>
                 <block type="checkout/onepage_billing" name="checkout.onepage.billing" as="billing" template="checkout/onepage/billing.phtml">
                     <block type="enterprise_customer/form" template="customer/form/userattributes.phtml" name="customer_form_customer_user_defined_attributes">

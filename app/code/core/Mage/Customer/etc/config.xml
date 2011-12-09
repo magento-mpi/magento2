@@ -582,35 +582,6 @@ T: {{var telephone}}
 {{depend vat_id}}&lt;br/&gt;VAT: {{var vat_id}}{{/depend}}|</pdf>
                 <js_template>#{prefix} #{firstname} #{middlename} #{lastname} #{suffix}&lt;br/&gt;#{company}&lt;br/&gt;#{street0}&lt;br/&gt;#{street1}&lt;br/&gt;#{street2}&lt;br/&gt;#{street3}&lt;br/&gt;#{city}, #{region}, #{postcode}&lt;br/&gt;#{country_id}&lt;br/&gt;T: #{telephone}&lt;br/&gt;F: #{fax}&lt;br/&gt;VAT: #{vat_id}</js_template>
             </address_templates>
-            <captcha>
-                <enable>0</enable>
-                <font>dejavu</font>
-                <mode>after_fail</mode>
-                <forms>user_forgotpassword</forms>
-                <failed_attempts>3</failed_attempts>
-                <timeout>7</timeout>
-                <length>4-5</length>
-                <symbols>ABCDEFGHJKMnpqrstuvwxyz23456789</symbols>
-                <case_sensitive>0</case_sensitive>
-                <classpath>core/captcha_zend</classpath>
-            </captcha>
         </customer>
-        <captcha>
-            <frontend>
-                <user_create>
-                    <label>Create user</label>
-                </user_create>
-                <user_login>
-                    <label>Login</label>
-                </user_login>
-                <user_forgotpassword>
-                    <label>Forgot password</label>
-                </user_forgotpassword>
-            </frontend>
-            <always_for>
-                <user_create>1</user_create>
-                <user_forgotpassword>1</user_forgotpassword>
-            </always_for>
-        </captcha>
     </default>
 </config>

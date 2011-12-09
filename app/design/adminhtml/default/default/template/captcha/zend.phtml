@@ -24,21 +24,24 @@
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 ?>
+<?php $captcha = $this->getCaptchaInstance() ?>
 <?php /* @var $this Mage_Core_Block_Captcha_Zend */ ?>
 <div class="input-box" style="padding:8px 0 0; overflow:hidden; width:463px;">
-    <label for="captcha"><?php echo Mage::helper('core/captcha')->__('Please type the letters from the image:') ?></label><br />
+    <label for="captcha"><?php echo Mage::helper('captcha')->__('Please type the letters from the image:') ?></label><br />
     <div class="captcha-input" style="float:left;">
-        <input type="text" name="<?php echo Mage_Core_Helper_Captcha::INPUT_NAME_FIELD_VALUE ?>" id="captcha" style="margin-right:5px; width:226px;"/>
+        <input type="text" name="<?php echo Mage_Captcha_Helper_Data::INPUT_NAME_FIELD_VALUE ?>" id="captcha" style="margin-right:5px; width:226px;"/>
     </div>
     <div class="captcha-image" style="padding:0; float:left; border: 1px solid #ccc;">
-        <?php echo $this->render() ?>
+        <img id="<?php echo $this->getFormId() ?>" width="<?php echo $captcha->getWidth() ?>" height="<?php echo $captcha->getHeight() ?>" alt="<?php echo $captcha->getImgAlt() ?>" src="<?php echo $captcha->getImgSrc() ?>" />
     </div>
-    <img
-        class="captcha-reload"
+    <script type="text/javascript">
+    //<![CDATA[
+    var captcha = new Captcha('<?php echo Mage::helper('captcha')->getRefreshUrl() ?>', '<?php echo $this->getType() ?>', '<?php echo $captcha->getWidth() ?>', '<?php echo $captcha->getHeight() ?>', '<?php echo $this->getFormId() ?>', '1');
+    //]]>
+    </script>
+    <img class="captcha-reload"
         src="<?php echo $this->getSkinUrl('images/reload.png') ?>"
-        style="float: right; position: relative; bottom: 57px;"
-        onmouseover="this.style.cursor='pointer'"
         alt="<?php echo $this->__('Reload captcha') ?>"
-        onclick="Captcha.refresh('<?php echo Mage_Core_Helper_Captcha::getRefreshUrl() ?>', '<?php echo $this->getType() ?>', '<?php echo $this->getCaptchaInstance()->getWidth() ?>', '<?php echo $this->getCaptchaInstance()->getHeight() ?>', '<?php echo $this->getFormId() ?>', 'true')">
+        onclick="captcha.refresh()">
 </div>
 <div class="clear"></div>

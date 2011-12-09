@@ -33,7 +33,7 @@
  */
 class Mage_Admin_Model_Observer
 {
-    const CAPTCHA_FORM_ID = 'backend_login';
+    const FLAG_NO_LOGIN = 'no-login';
     /**
      * Handler for controller_action_predispatch event
      *
@@ -63,19 +63,13 @@ class Mage_Admin_Model_Observer
             }
             if (!$user || !$user->getId()) {
                 if ($request->getPost('login')) {
-                    $postLogin  = $request->getPost('login');
-                    /* @var $captchaHelper Mage_Core_Helper_Captcha */
-                    $captchaHelper = Mage::helper('core/captcha');
-                    $captcha = $captchaHelper->getCaptcha(self::CAPTCHA_FORM_ID);
-                    if ($captcha->isCorrect($request->getPost(Mage_Core_Helper_Captcha::INPUT_NAME_FIELD_VALUE))) {
+                    $params = array('controller_action' => $observer->getControllerAction());
+                    Mage::dispatchEvent('additional_admin_login_check', $params);
+                    if (!$observer->getControllerAction()->getFlag('', self::FLAG_NO_LOGIN)){
+                        $postLogin  = $request->getPost('login');
                         $username   = isset($postLogin['username']) ? $postLogin['username'] : '';
                         $password   = isset($postLogin['password']) ? $postLogin['password'] : '';
-                        /* @var $user Mage_Admin_Model_User */
                         $user = $session->login($username, $password, $request);
-                        $captchaHelper->checkAttempt($user->getId(), self::CAPTCHA_FORM_ID);
-                    } else {
-                        $msg = Mage::helper('core/captcha')->__('Incorrect captcha.');
-                        Mage::getSingleton('adminhtml/session')->addError($msg);
                     }
                     $request->setPost('login', null);
                 }

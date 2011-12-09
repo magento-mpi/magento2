@@ -362,18 +362,6 @@
             <security>
                 <use_form_key>1</use_form_key>
             </security>
-            <captcha>
-                <enable>0</enable>
-                <font>dejavu</font>
-                <mode>after_fail</mode>
-                <forms>backend_forgotpassword</forms>
-                <failed_attempts>3</failed_attempts>
-                <timeout>7</timeout>
-                <length>4-5</length>
-                <symbols>ABCDEFGHJKMnpqrstuvwxyz23456789</symbols>
-                <case_sensitive>0</case_sensitive>
-                <classpath>core/captcha_zend</classpath>
-            </captcha>
         </admin>
         <general>
             <country>
@@ -417,33 +405,6 @@
                 </public_files_valid_paths>
             </file>
         </general>
-        <captcha translate="label">
-            <backend>
-                <backend_login>
-                    <label>Admin Login</label>
-                </backend_login>
-                <backend_forgotpassword>
-                    <label>Admin Forgot Password</label>
-                </backend_forgotpassword>
-            </backend>
-            <fonts>
-                <belligerent>
-                    <label>Belligerent Madness</label>
-                    <path>fonts/Belligerent-Madness/belligerent.ttf</path>
-                </belligerent>
-                <bitstream>
-                    <label>Bitstream</label>
-                    <path>fonts/Bitstream-Vera-Sans-Mono/VeraMono.ttf</path>
-                </bitstream>
-                <dejavu>
-                    <label>DejaVu</label>
-                    <path>fonts/DejaVu-Serif/DejaVuSerif.ttf</path>
-                </dejavu>
-            </fonts>
-            <always_for>
-                <backend_forgotpassword>1</backend_forgotpassword>
-            </always_for>
-        </captcha>
     </default>
     <stores>
         <default>
