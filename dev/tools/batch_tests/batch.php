@@ -10,31 +10,41 @@
  */
 
 $tests = array(
-    '../../tests/unit' => '',
-    '../../tests/static/framework/tests/unit' => '',
-    '../../tests/static' => 'testsuite/Php/LiveCodeTest.php',
-    '../../tests/integration/framework/tests/unit' => '',
-    '../../tests/integration' => ''
+    array('../../tests/unit', ''),
+    array('../../tests/static/framework/tests/unit', ''),
+    array('../../tests/static', ''),
+    array('../../tests/integration/framework/tests/unit', ''),
+    array('../../tests/integration', '')
 );
+$arguments = getopt('', array('legacy::', 'all::'));
+if (isset($arguments['legacy']) || isset($arguments['all'])) {
+    $tests[] = array('../../tests/static', 'testsuite/Legacy');
+}
+if (isset($arguments['all'])) {
+    $tests[] = array('../../tests/static', 'testsuite/Php/CodeMessTest.php');
+}
 
 $failures = array();
-foreach ($tests as $dir => $options) {
-    $dirName = __DIR__ . '/' . $dir;
+foreach ($tests as $line) {
+    list($dir, $options) = $line;
+    $dirName = realpath(__DIR__ . '/' . $dir);
     chdir($dirName);
+    $command = 'phpunit ' . $options;
+    $message = $dirName . '> ' . $command;
     echo "\n\n";
-    echo str_pad("----" . realpath($dirName), 70, '-');
+    echo str_pad("---- {$message} ", 70, '-');
     echo "\n\n";
-    passthru('phpunit ' . $options, $returnVal);
+    passthru($command, $returnVal);
     if ($returnVal) {
-        $failures[] = $dirName;
+        $failures[] = $message;
     }
 }
 
 echo "\n" , str_repeat('-', 70), "\n";
 if ($failures) {
     echo "\nFAILED - " . count($failures) . ' of ' . count($tests) . ":\n";
-    foreach ($failures as $dir) {
-        echo ' - ' . realpath($dir) . "\n";
+    foreach ($failures as $message) {
+        echo ' - ' . $message . "\n";
     }
 } else {
     echo "\nPASSED (" . count($tests) . ")\n";
