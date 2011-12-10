@@ -166,9 +166,8 @@ class Enterprise_AdminGws_Model_Observer extends Enterprise_AdminGws_Model_Obser
                 // prevent granting disallowed websites
                 if (!$this->_role->getIsAll()) {
                     if (!$this->_role->hasWebsiteAccess($websiteId, true)) {
-                        Mage::throwException(Mage::helper('enterprise_admingws')->__(
-                             'Website "%s" is not allowed in your current permission scope.',
-                             Mage::app()->getWebsite($websiteId)->getName())
+                        Mage::throwException(
+                            Mage::helper('enterprise_admingws')->__('Website "%s" is not allowed in your current permission scope.', Mage::app()->getWebsite($websiteId)->getName())
                         );
                     }
                 }
@@ -192,8 +191,7 @@ class Enterprise_AdminGws_Model_Observer extends Enterprise_AdminGws_Model_Obser
                 // prevent granting disallowed store group
                 if (count(array_diff($storeGroupIds, $this->_role->getStoreGroupIds()))) {
                     Mage::throwException(
-                        Mage::helper('enterprise_admingws')
-                            ->__('Not enough permissions to save specified Combination of Store Scopes.')
+                        Mage::helper('enterprise_admingws')->__('Not enough permissions to save specified Combination of Store Scopes.')
                     );
                 }
             }

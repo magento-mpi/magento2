@@ -75,8 +75,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Amount
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . Mage::helper('enterprise_reminder')->__('Shopping cart %s amount %s %s:',
-                $this->getAttributeElementHtml(), $this->getOperatorElementHtml(), $this->getValueElementHtml())
+            . Mage::helper('enterprise_reminder')->__('Shopping cart %s amount %s %s:', $this->getAttributeElementHtml(), $this->getOperatorElementHtml(), $this->getValueElementHtml())
             . $this->getRemoveLinkHtml();
     }
 

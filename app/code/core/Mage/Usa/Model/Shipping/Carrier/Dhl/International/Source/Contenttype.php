@@ -40,11 +40,10 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International_Source_Contenttype
      */
     public function toOptionArray()
     {
-        $helper = Mage::helper('usa');
         return array(
-            array('label' => $helper->__('Documents'),
+            array('label' => Mage::helper('usa')->__('Documents'),
                 'value' => Mage_Usa_Model_Shipping_Carrier_Dhl_International::DHL_CONTENT_TYPE_DOC),
-            array('label' => $helper->__('Non documents'),
+            array('label' => Mage::helper('usa')->__('Non documents'),
                 'value' => Mage_Usa_Model_Shipping_Carrier_Dhl_International::DHL_CONTENT_TYPE_NON_DOC),
         );
     }

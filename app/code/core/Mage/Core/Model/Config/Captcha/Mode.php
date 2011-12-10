@@ -40,11 +40,9 @@ class Mage_Core_Model_Config_Captcha_Mode
      */
     public function toOptionArray()
     {
-        /* @var $helper Mage_Core_Helper_Captcha */
-        $helper = Mage::helper('core/captcha');
         return array(
-            array('label' => $helper->__('Always'), 'value' => Mage_Core_Helper_Captcha::MODE_ALWAYS),
-            array( 'label' => $helper->__('After number of attempts to login'),
+            array('label' => Mage::helper('core')->__('Always'), 'value' => Mage_Core_Helper_Captcha::MODE_ALWAYS),
+            array( 'label' => Mage::helper('core')->__('After number of attempts to login'),
                 'value' => Mage_Core_Helper_Captcha::MODE_AFTER_FAIL),
         );
     }

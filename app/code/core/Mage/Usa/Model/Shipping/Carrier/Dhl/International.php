@@ -383,48 +383,46 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
      */
     public function getDhlProducts($doc)
     {
-        $helper = Mage::helper('usa');
-
         if ($doc == self::DHL_CONTENT_TYPE_DOC) {
             // Documents shipping
             return array(
-                '2' => $helper->__('Easy shop'),
-                '5' => $helper->__('Sprintline'),
-                '6' => $helper->__('Secureline'),
-                '7' => $helper->__('Express easy'),
-                '9' => $helper->__('Europack'),
-                'B' => $helper->__('Break bulk express'),
-                'C' => $helper->__('Medical express'),
-                'D' => $helper->__('Express worldwide'), // product content code: DOX
-                'U' => $helper->__('Express worldwide'), // product content code: ECX
-                'K' => $helper->__('Express 9:00'),
-                'L' => $helper->__('Express 10:30'),
-                'G' => $helper->__('Domestic economy select'),
-                'W' => $helper->__('Economy select'),
-                'I' => $helper->__('Break bulk economy'),
-                'N' => $helper->__('Domestic express'),
-                'O' => $helper->__('Others'),
-                'R' => $helper->__('Globalmail business'),
-                'S' => $helper->__('Same day'),
-                'T' => $helper->__('Express 12:00'),
-                'X' => $helper->__('Express envelope'),
+                '2' => Mage::helper('usa')->__('Easy shop'),
+                '5' => Mage::helper('usa')->__('Sprintline'),
+                '6' => Mage::helper('usa')->__('Secureline'),
+                '7' => Mage::helper('usa')->__('Express easy'),
+                '9' => Mage::helper('usa')->__('Europack'),
+                'B' => Mage::helper('usa')->__('Break bulk express'),
+                'C' => Mage::helper('usa')->__('Medical express'),
+                'D' => Mage::helper('usa')->__('Express worldwide'), // product content code: DOX
+                'U' => Mage::helper('usa')->__('Express worldwide'), // product content code: ECX
+                'K' => Mage::helper('usa')->__('Express 9:00'),
+                'L' => Mage::helper('usa')->__('Express 10:30'),
+                'G' => Mage::helper('usa')->__('Domestic economy select'),
+                'W' => Mage::helper('usa')->__('Economy select'),
+                'I' => Mage::helper('usa')->__('Break bulk economy'),
+                'N' => Mage::helper('usa')->__('Domestic express'),
+                'O' => Mage::helper('usa')->__('Others'),
+                'R' => Mage::helper('usa')->__('Globalmail business'),
+                'S' => Mage::helper('usa')->__('Same day'),
+                'T' => Mage::helper('usa')->__('Express 12:00'),
+                'X' => Mage::helper('usa')->__('Express envelope'),
             );
         } else {
             // Services for shipping non-documents cargo
             return array(
-                '1' => $helper->__('Customer services'),
-                '3' => $helper->__('Easy shop'),
-                '4' => $helper->__('Jetline'),
-                '8' => $helper->__('Express easy'),
-                'P' => $helper->__('Express worldwide'),
-                'Q' => $helper->__('Medical express'),
-                'E' => $helper->__('Express 9:00'),
-                'F' => $helper->__('Freight worldwide'),
-                'H' => $helper->__('Economy select'),
-                'J' => $helper->__('Jumbo box'),
-                'M' => $helper->__('Express 10:30'),
-                'V' => $helper->__('Europack'),
-                'Y' => $helper->__('Express 12:00'),
+                '1' => Mage::helper('usa')->__('Customer services'),
+                '3' => Mage::helper('usa')->__('Easy shop'),
+                '4' => Mage::helper('usa')->__('Jetline'),
+                '8' => Mage::helper('usa')->__('Express easy'),
+                'P' => Mage::helper('usa')->__('Express worldwide'),
+                'Q' => Mage::helper('usa')->__('Medical express'),
+                'E' => Mage::helper('usa')->__('Express 9:00'),
+                'F' => Mage::helper('usa')->__('Freight worldwide'),
+                'H' => Mage::helper('usa')->__('Economy select'),
+                'J' => Mage::helper('usa')->__('Jumbo box'),
+                'M' => Mage::helper('usa')->__('Express 10:30'),
+                'V' => Mage::helper('usa')->__('Europack'),
+                'Y' => Mage::helper('usa')->__('Express 12:00'),
             );
         }
     }

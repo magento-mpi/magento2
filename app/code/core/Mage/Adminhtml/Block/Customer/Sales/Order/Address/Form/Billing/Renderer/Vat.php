@@ -60,8 +60,6 @@ class Mage_Adminhtml_Block_Customer_Sales_Order_Address_Form_Billing_Renderer_Va
             /** @var $form Varien_Data_Form */
             $form = $this->_element->getForm();
 
-            /** @var $helper Mage_Core_Helper_Abstract */
-            $helper = Mage::helper('customer');
             $vatElementId = $this->_element->getHtmlId();
 
             /** @var $formAccountBlock Mage_Adminhtml_Block_Sales_Order_Create_Form_Account */
@@ -77,19 +75,19 @@ class Mage_Adminhtml_Block_Customer_Sales_Order_Address_Form_Billing_Renderer_Va
                 'countryElementId'              => $countryElementId,
                 'groupIdHtmlId'                 => $groupIdHtmlId,
                 'validateUrl'                   => $validateUrl,
-                'vatValidMessage'               => $helper->__('The VAT ID is valid. The current Customer Group will be used.'),
+                'vatValidMessage'               => Mage::helper('customer')->__('The VAT ID is valid. The current Customer Group will be used.'),
                 'vatValidAndGroupChangeMessage' =>
-                    $helper->__('Based on the VAT ID, the customer would belong to Customer Group %s.') . "\n"
-                    . $helper->__('The customer is currently assigned to Customer Group %s.') . ' '
-                    . $helper->__('Would you like to change the Customer Group for this order?'),
-                'vatInvalidMessage' => $helper->__('The VAT ID entered (%s) is not valid VAT ID.'),
-                'vatValidationFailedMessage'    => $helper->__('There was an error validating the VAT ID. Please try again later.'),
+                    Mage::helper('customer')->__('Based on the VAT ID, the customer would belong to Customer Group %s.') . "\n"
+                    . Mage::helper('customer')->__('The customer is currently assigned to Customer Group %s.') . ' '
+                    . Mage::helper('customer')->__('Would you like to change the Customer Group for this order?'),
+                'vatInvalidMessage' => Mage::helper('customer')->__('The VAT ID entered (%s) is not valid VAT ID.'),
+                'vatValidationFailedMessage'    => Mage::helper('customer')->__('There was an error validating the VAT ID. Please try again later.'),
             ));
 
             $beforeHtml = '<script type="text/javascript">var vatValidateOptions = '
                 . $vatValidateOptions . ';</script>';
             $this->_validateButton = $this->getLayout()->createBlock('adminhtml/widget_button')->setData(array(
-                'label'       => $helper->__('Validate VAT Number'),
+                'label'       => Mage::helper('customer')->__('Validate VAT Number'),
                 'before_html' => $beforeHtml,
                 'onclick'     => "order.validateVat(vatValidateOptions)"
             ));

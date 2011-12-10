@@ -184,7 +184,7 @@ class Mage_Protx_Model_Standard extends Mage_Payment_Model_Method_Abstract
     {
         $order = $this->getOrder();
         if (!($order instanceof Mage_Sales_Model_Order)) {
-            Mage::throwException($this->_getHelper()->__('Cannot retrieve order object'));
+            Mage::throwException(Mage::helper('protx')->__('Cannot retrieve order object'));
         }
 
         $shipping = $order->getShippingAddress();

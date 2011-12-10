@@ -205,7 +205,7 @@ class Mage_Catalog_Model_Product_Indexer_Flat extends Mage_Index_Model_Indexer_A
      * Register data required by catalog product process in event object
      *
      * @param Mage_Index_Model_Event $event
-     * @return Mage_CatalogSearch_Model_Indexer_Search
+     * @return Mage_Catalog_Model_Product_Indexer_Flat
      */
     protected function _registerCatalogProductEvent(Mage_Index_Model_Event $event)
     {

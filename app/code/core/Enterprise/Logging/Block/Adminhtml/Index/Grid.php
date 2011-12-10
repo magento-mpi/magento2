@@ -77,20 +77,15 @@ class Enterprise_Logging_Block_Adminhtml_Index_Grid extends Mage_Adminhtml_Block
      */
     protected function _prepareColumns()
     {
-        /**
-         * @var Enterprise_Logging_Helper_Data $helper
-         */
-        $helper = Mage::helper('enterprise_logging');
-
         $this->addColumn('time', array(
-            'header'    => $helper->__('Time'),
+            'header'    => Mage::helper('enterprise_logging')->__('Time'),
             'index'     => 'time',
             'type'      => 'datetime',
             'width'     => 160,
         ));
 
         $this->addColumn('event', array(
-            'header'    => $helper->__('Action Group'),
+            'header'    => Mage::helper('enterprise_logging')->__('Action Group'),
             'index'     => 'event_code',
             'type'      => 'options',
             'sortable'  => false,
@@ -99,10 +94,10 @@ class Enterprise_Logging_Block_Adminhtml_Index_Grid extends Mage_Adminhtml_Block
 
         $actions = array();
         foreach (Mage::getResourceSingleton('enterprise_logging/event')->getAllFieldValues('action') as $action) {
-            $actions[$action] = $helper->getLoggingActionTranslatedLabel($action);
+            $actions[$action] = Mage::helper('enterprise_logging')->getLoggingActionTranslatedLabel($action);
         }
         $this->addColumn('action', array(
-            'header'    => $helper->__('Action'),
+            'header'    => Mage::helper('enterprise_logging')->__('Action'),
             'index'     => 'action',
             'type'      => 'options',
             'options'   => $actions,
@@ -111,7 +106,7 @@ class Enterprise_Logging_Block_Adminhtml_Index_Grid extends Mage_Adminhtml_Block
         ));
 
         $this->addColumn('ip', array(
-            'header'    => $helper->__('IP Address'),
+            'header'    => Mage::helper('enterprise_logging')->__('IP Address'),
             'index'     => 'ip',
             'type'      => 'text',
             'filter'    => 'enterprise_logging/adminhtml_grid_filter_ip',
@@ -121,7 +116,7 @@ class Enterprise_Logging_Block_Adminhtml_Index_Grid extends Mage_Adminhtml_Block
         ));
 
         $this->addColumn('user', array(
-            'header'    => $helper->__('Username'),
+            'header'    => Mage::helper('enterprise_logging')->__('Username'),
             'index'     => 'user',
             'type'      => 'text',
             'escape'    => true,
@@ -131,26 +126,26 @@ class Enterprise_Logging_Block_Adminhtml_Index_Grid extends Mage_Adminhtml_Block
         ));
 
         $this->addColumn('status', array(
-            'header'    => $helper->__('Result'),
+            'header'    => Mage::helper('enterprise_logging')->__('Result'),
             'index'     => 'status',
             'sortable'  => false,
             'type'      => 'options',
             'options'   => array(
-                Enterprise_Logging_Model_Event::RESULT_SUCCESS => $helper->__('Success'),
-                Enterprise_Logging_Model_Event::RESULT_FAILURE => $helper->__('Failure'),
+                Enterprise_Logging_Model_Event::RESULT_SUCCESS => Mage::helper('enterprise_logging')->__('Success'),
+                Enterprise_Logging_Model_Event::RESULT_FAILURE => Mage::helper('enterprise_logging')->__('Failure'),
             ),
             'width'     => 100,
         ));
 
         $this->addColumn('fullaction', array(
-            'header'   => $helper->__('Full Action Name'),
+            'header'   => Mage::helper('enterprise_logging')->__('Full Action Name'),
             'index'    => 'fullaction',
             'sortable' => false,
             'type'     => 'text'
         ));
 
         $this->addColumn('info', array(
-            'header'    => $helper->__('Short Details'),
+            'header'    => Mage::helper('enterprise_logging')->__('Short Details'),
             'index'     => 'info',
             'type'      => 'text',
             'sortable'  => false,
@@ -160,12 +155,12 @@ class Enterprise_Logging_Block_Adminhtml_Index_Grid extends Mage_Adminhtml_Block
         ));
 
         $this->addColumn('view', array(
-            'header'  => $helper->__('Full Details'),
+            'header'  => Mage::helper('enterprise_logging')->__('Full Details'),
             'width'   => 50,
             'type'    => 'action',
             'getter'  => 'getId',
             'actions' => array(array(
-                'caption' => $helper->__('View'),
+                'caption' => Mage::helper('enterprise_logging')->__('View'),
                 'url'     => array(
                     'base'   => '*/*/details',
                 ),

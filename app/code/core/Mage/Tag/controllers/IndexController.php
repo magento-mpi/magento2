@@ -134,8 +134,8 @@ class Mage_Tag_IndexController extends Mage_Core_Controller_Front_Action
         $helper = Mage::helper('core');
 
         if (count($counter[Mage_Tag_Model_Tag::ADD_STATUS_NEW])) {
-            $session->addSuccess($this->__('%s tag(s) have been accepted for moderation.',
-                count($counter[Mage_Tag_Model_Tag::ADD_STATUS_NEW]))
+            $session->addSuccess(
+                $this->__('%s tag(s) have been accepted for moderation.', count($counter[Mage_Tag_Model_Tag::ADD_STATUS_NEW]))
             );
         }
 

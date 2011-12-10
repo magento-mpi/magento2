@@ -199,9 +199,7 @@ class Mage_Paybox_Model_Direct extends Mage_Payment_Model_Method_Cc
                 $message = Mage::helper('paybox')->__('There has been an error processing your payment. ');
                 $message .= $e['message'];
             } else {
-                $message = Mage::helper('paybox')->__(
-                    'There has been an error processing your payment. Please try later or contact us for help.'
-                );
+                $message = Mage::helper('paybox')->__('There has been an error processing your payment. Please try later or contact us for help.');
             }
             Mage::throwException($message);
         }
@@ -232,9 +230,7 @@ class Mage_Paybox_Model_Direct extends Mage_Payment_Model_Method_Cc
                 $message = Mage::helper('paybox')->__('There has been an error processing your payment. ');
                 $message .= $e['message'];
             } else {
-                $message = Mage::helper('paybox')->__(
-                    'There has been an error processing your payment. Please try later or contact us for help.'
-                );
+                $message = Mage::helper('paybox')->__('There has been an error processing your payment. Please try later or contact us for help.');
             }
             Mage::throwException($message);
         }

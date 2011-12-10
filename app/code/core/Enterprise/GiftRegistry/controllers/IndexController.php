@@ -319,13 +319,13 @@ class Enterprise_GiftRegistry_IndexController extends Mage_Core_Controller_Front
                     foreach ($recipients as $recipient) {
                         $recipientEmail = trim($recipient['email']);
                         if (!Zend_Validate::is($recipientEmail, 'EmailAddress')) {
-                            $error = Mage::helper('enterprise_giftregistry/data')->__('Please input a valid recipient email address.');
+                            $error = Mage::helper('enterprise_giftregistry')->__('Please input a valid recipient email address.');
                             break;
                         }
 
                         $recipient['name'] = htmlspecialchars($recipient['name']);
                         if (empty($recipient['name'])) {
-                            $error = Mage::helper('enterprise_giftregistry/data')->__('Please input a recipient name.');
+                            $error = Mage::helper('enterprise_giftregistry')->__('Please input a recipient name.');
                             break;
                         }
                         $emails[] = $recipient;
@@ -351,10 +351,10 @@ class Enterprise_GiftRegistry_IndexController extends Mage_Core_Controller_Front
                         }
                     }
                 } else {
-                    $error = Mage::helper('enterprise_giftregistry/data')->__('Please input a valid sender email address.');
+                    $error = Mage::helper('enterprise_giftregistry')->__('Please input a valid sender email address.');
                 }
             } else {
-                $error = Mage::helper('enterprise_giftregistry/data')->__('Sender data can\'t be empty.');
+                $error = Mage::helper('enterprise_giftregistry')->__('Sender data can\'t be empty.');
             }
 
             if ($error) {
@@ -618,7 +618,7 @@ class Enterprise_GiftRegistry_IndexController extends Mage_Core_Controller_Front
                             ->deleteOrphan($entityId, $personLeft);
                     }
                     $this->_getSession()->addSuccess(
-                        Mage::helper('enterprise_giftregistry/data')->__('Gift registry has been successfully saved.')
+                        Mage::helper('enterprise_giftregistry')->__('Gift registry has been successfully saved.')
                     );
                     if ($isAddAction) {
                         $model->sendNewRegistryEmail();
@@ -628,7 +628,9 @@ class Enterprise_GiftRegistry_IndexController extends Mage_Core_Controller_Front
                 $this->_getSession()->addError($e->getMessage());
                 $isError = true;
             } catch (Exception $e) {
-                $this->_getSession()->addError($this->__('Failed to save gift registry.'));
+                $this->_getSession()->addError(
+                    Mage::helper('enterprise_giftregistry')->__('Failed to save gift registry.')
+                );
                 Mage::logException($e);
                 $isError = true;
             }

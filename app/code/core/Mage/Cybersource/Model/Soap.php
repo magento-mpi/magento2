@@ -140,7 +140,7 @@ class Mage_Cybersource_Model_Soap extends Mage_Payment_Model_Method_Cc
             $billingCountry = $paymentInfo->getQuote()->getBillingAddress()->getCountryId();
         }
         if (!$this->canUseForCountry($billingCountry)) {
-            Mage::throwException($this->_getHelper()->__('Selected payment type is not allowed for billing country.'));
+            Mage::throwException(Mage::helper('cybersource')->__('Selected payment type is not allowed for billing country.'));
         }
 
         $info = $this->getInfoInstance();
@@ -154,7 +154,7 @@ class Mage_Cybersource_Model_Soap extends Mage_Payment_Model_Method_Cc
         $info->setCcNumber($ccNumber);
 
         if (!$this->_validateExpDate($info->getCcExpYear(), $info->getCcExpMonth())) {
-            $errorMsg = $this->_getHelper()->__('Incorrect credit card expiration date.');
+            $errorMsg = Mage::helper('cybersource')->__('Incorrect credit card expiration date.');
         }
 
         if (in_array($info->getCcType(), $availableTypes)){
@@ -186,13 +186,13 @@ class Mage_Cybersource_Model_Soap extends Mage_Payment_Model_Method_Cc
                 }
 
                 if (!$this->OtherCcType($info->getCcType()) && $ccType != $info->getCcType()) {
-                    $errorMsg = $this->_getHelper()->__('Credit card number mismatch with credit card type.');
+                    $errorMsg = Mage::helper('cybersource')->__('Credit card number mismatch with credit card type.');
                 }
             } else {
-                $errorMsg = $this->_getHelper()->__('Invalid Credit Card Number');
+                $errorMsg = Mage::helper('cybersource')->__('Invalid Credit Card Number');
             }
         } else {
-            $errorMsg = $this->_getHelper()->__('Credit card type is not allowed for this payment method.');
+            $errorMsg = Mage::helper('cybersource')->__('Credit card type is not allowed for this payment method.');
         }
 
                                 //validate credit card verification number
@@ -200,7 +200,7 @@ class Mage_Cybersource_Model_Soap extends Mage_Payment_Model_Method_Cc
             $verificationRegEx = $this->getVerificationRegEx();
             $regExp = isset($verificationRegEx[$info->getCcType()]) ? $verificationRegEx[$info->getCcType()] : '';
             if (!$info->getCcCid() || !$regExp || !preg_match($regExp, $info->getCcCid())){
-                $errorMsg = $this->_getHelper()->__('Please enter a valid credit card verification number.');
+                $errorMsg = Mage::helper('cybersource')->__('Please enter a valid credit card verification number.');
             }
         }
 

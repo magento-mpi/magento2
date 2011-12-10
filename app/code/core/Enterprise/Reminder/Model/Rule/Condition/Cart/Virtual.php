@@ -56,8 +56,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Virtual
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . Mage::helper('enterprise_reminder')->__('Shopping cart %s only virtual items',
-                $this->getValueElementHtml())
+            . Mage::helper('enterprise_reminder')->__('Shopping cart %s only virtual items', $this->getValueElementHtml())
             . $this->getRemoveLinkHtml();
     }
 

@@ -93,10 +93,10 @@ class Mage_Adminhtml_System_BackupController extends Mage_Adminhtml_Controller_A
 
                 if (!$turnedOn) {
                     $response->setError(
-                        $helper->__("Warning! System couldn't put store on the maintenance mode.") . ' '
-                        . $helper->__("Please deselect the sufficient check-box, if you want to continue backup's creation")
+                        Mage::helper('backup')->__("Warning! System couldn't put store on the maintenance mode.") . ' '
+                        . Mage::helper('backup')->__("Please deselect the sufficient check-box, if you want to continue backup's creation")
                     );
-                    $backupManager->setErrorMessage($helper->__("System couldn't put store on the maintenance mode"));
+                    $backupManager->setErrorMessage(Mage::helper('backup')->__("System couldn't put store on the maintenance mode"));
                     return $this->getResponse()->setBody($response->toJson());
                 }
             }
@@ -118,13 +118,13 @@ class Mage_Adminhtml_System_BackupController extends Mage_Adminhtml_Controller_A
 
             $response->setRedirectUrl($this->getUrl('*/*/index'));
         } catch (Mage_Backup_Exception_NotEnoughFreeSpace $e) {
-            $errorMessage = $helper->__('Not enough free space to create backup.');
+            $errorMessage = Mage::helper('backup')->__('Not enough free space to create backup.');
         } catch (Mage_Backup_Exception_NotEnoughPermissions $e) {
             Mage::log($e->getMessage());
-            $errorMessage = $helper->__('Not enough permissions to create backup.');
+            $errorMessage = Mage::helper('backup')->__('Not enough permissions to create backup.');
         } catch (Exception  $e) {
             Mage::log($e->getMessage());
-            $errorMessage = $helper->__('An error occurred while creating the backup.');
+            $errorMessage = Mage::helper('backup')->__('An error occurred while creating the backup.');
         }
 
         if (!empty($errorMessage)) {
@@ -196,8 +196,8 @@ class Mage_Adminhtml_System_BackupController extends Mage_Adminhtml_Controller_A
             );
 
             if (!$passwordValid) {
-                $response->setError($helper->__('Invalid Password.'));
-                $backupManager->setErrorMessage($helper->__('Invalid Password.'));
+                $response->setError(Mage::helper('backup')->__('Invalid Password.'));
+                $backupManager->setErrorMessage(Mage::helper('backup')->__('Invalid Password.'));
                 return $this->getResponse()->setBody($response->toJson());
             }
 
@@ -206,10 +206,10 @@ class Mage_Adminhtml_System_BackupController extends Mage_Adminhtml_Controller_A
 
                 if (!$turnedOn) {
                     $response->setError(
-                        $helper->__("Warning! System couldn't put store on the maintenance mode.") . ' '
-                        . $helper->__("Please deselect the sufficient check-box, if you want to continue rollback processing")
+                        Mage::helper('backup')->__("Warning! System couldn't put store on the maintenance mode.") . ' '
+                        . Mage::helper('backup')->__("Please deselect the sufficient check-box, if you want to continue rollback processing")
                     );
-                    $backupManager->setErrorMessage($helper->__("System couldn't put store on the maintenance mode"));
+                    $backupManager->setErrorMessage(Mage::helper('backup')->__("System couldn't put store on the maintenance mode"));
                     return $this->getResponse()->setBody($response->toJson());
                 }
             }
@@ -244,17 +244,17 @@ class Mage_Adminhtml_System_BackupController extends Mage_Adminhtml_Controller_A
             $response->setRedirectUrl($this->getUrl('*'));
 
         } catch (Mage_Backup_Exception_CantLoadSnapshot $e) {
-            $errorMsg = $helper->__('Backup file not found');
+            $errorMsg = Mage::helper('backup')->__('Backup file not found');
         } catch (Mage_Backup_Exception_FtpConnectionFailed $e) {
-            $errorMsg = $helper->__('Failed to connect to FTP');
+            $errorMsg = Mage::helper('backup')->__('Failed to connect to FTP');
         } catch (Mage_Backup_Exception_FtpValidationFailed $e) {
-            $errorMsg = $helper->__('Failed to validate FTP');
+            $errorMsg = Mage::helper('backup')->__('Failed to validate FTP');
         } catch (Mage_Backup_Exception_NotEnoughPermissions $e) {
             Mage::log($e->getMessage());
-            $errorMsg = $helper->__('Not enough permissions to perform rollback');
+            $errorMsg = Mage::helper('backup')->__('Not enough permissions to perform rollback');
         } catch (Exception $e) {
             Mage::log($e->getMessage());
-            $errorMsg = $helper->__('Failed to rollback');
+            $errorMsg = Mage::helper('backup')->__('Failed to rollback');
         }
 
         if (!empty($errorMsg)) {
