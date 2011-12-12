@@ -443,7 +443,9 @@ class Enterprise_Reward_Model_Observer
      */
     protected function _paymentDataImport($quote, $payment, $useRewardPoints)
     {
-        if (!$quote || !$quote->getCustomerId()) {
+        if (!$quote || !$quote->getCustomerId()
+            || $quote->getBaseGrandTotal() + $quote->getBaseRewardCurrencyAmount() <= 0
+        ) {
             return $this;
         }
         $quote->setUseRewardPoints((bool)$useRewardPoints);

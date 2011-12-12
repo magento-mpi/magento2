@@ -71,7 +71,8 @@ class Enterprise_Reward_Block_Adminhtml_Sales_Order_Create_Payment extends Mage_
             && Mage::helper('enterprise_reward')->isEnabledOnFront($websiteId)
             && Mage::getSingleton('admin/session')
                 ->isAllowed(Enterprise_Reward_Helper_Data::XML_PATH_PERMISSION_AFFECT)
-            && (float)$this->getCurrencyAmount();
+            && (float)$this->getCurrencyAmount()
+            && $this->getQuote()->getBaseGrandTotal() + $this->getQuote()->getBaseRewardCurrencyAmount() > 0;
     }
 
     /**
