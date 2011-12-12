@@ -1,0 +1,212 @@
+#
+# Magento
+#
+# NOTICE OF LICENSE
+#
+# This source file is subject to the Academic Free License (AFL 3.0)
+# that is bundled with this package in the file LICENSE_AFL.txt.
+# It is also available through the world-wide-web at this URL:
+# http://opensource.org/licenses/afl-3.0.php
+# If you did not receive a copy of the license and are unable to
+# obtain it through the world-wide-web, please send an email
+# to license@magentocommerce.com so we can send you a copy immediately.
+#
+# DISCLAIMER
+#
+# Do not edit or add to this file if you wish to upgrade Magento to newer
+# versions in the future. If you wish to customize Magento for your
+# needs please refer to http://www.magentocommerce.com for more information.
+#
+# @category    tests
+# @package     selenium
+# @subpackage  test-data
+# @author      Magento Core Team <core@magentocommerce.com>
+# @copyright   Copyright (c) 2011 Magento Inc. (http://www.magentocommerce.com)
+# @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+#
+---
+#Test data for Multiple Addresses Checkout(Frontend)
+################################################################################
+#                                                                              #
+#                                 Checkout Method                              #
+#                                                                              #
+################################################################################
+multiple_register: &register
+    checkout_method: register
+
+multiple_login: &login
+    checkout_method: login
+    additional_data:
+        email_address: %noValue%
+        password: 123123q
+################################################################################
+#                                                                              #
+#                                 Billing Address                              #
+#                                                                              #
+################################################################################
+#<--------------SignedIn---------------->
+multiple_billing_new_signedin_req_physical: &newBillingSignedInReqPhysical
+    billing_first_name: Steven(billing.req)
+    billing_last_name: Stevenson(billing.req)
+    billing_company: %noValue%
+    billing_street_address_1: street address 1(billing.req)
+    billing_street_address_2: %noValue%
+    billing_city: Los Angeles
+    billing_country: United States
+    billing_state: California
+    billing_region: %noValue%
+    billing_zip_code: 90064
+    billing_telephone: (091)019-019(billing.req)
+    billing_fax: %noValue%
+
+
+################################################################################
+#                                                                              #
+#                                Shipping Address                              #
+#                                                                              #
+################################################################################
+#<--------------SignedIn---------------->
+multiple_shipping_new_signedin_req: &newShippingSignedInReq
+    shipping_first_name: Steven(shipping.req)
+    shipping_last_name: Stevenson(shipping.req)
+    shipping_company: %noValue%
+    shipping_street_address_1: street address 1(shipping.req)
+    shipping_street_address_2: %noValue%
+    shipping_city: Los Angeles
+    shipping_country: United States
+    shipping_state: California
+    shipping_region: %noValue%
+    shipping_zip_code: 90064
+    shipping_telephone: (091)019-019(shipping.req)
+    shipping_fax: %noValue%
+
+################################################################################
+#                                                                              #
+#                                 Payment Method                               #
+#                                                                              #
+################################################################################
+multiple_front_payment_checkmoney: &checkMoney
+    payment_method: Check / Money order
+
+################################################################################
+#                                                                              #
+#                                 Shipping Method                              #
+#                                                                              #
+################################################################################
+multiple_front_shipping_flatrate: &flatRate
+    shipping_service: Flat Rate
+    shipping_method: Fixed
+
+################################################################################
+#                                                                              #
+#               Order Data for Signed In Customer                              #
+#                                                                              #
+################################################################################
+multiple_signedin_flatrate_checkmoney_different_address:
+    products_to_add:
+        product_1:
+            general_name: %noValue%
+    billing_address_data: *newBillingSignedInReqPhysical
+    shipping_address_data: *newShippingSignedInReq
+    shipping_data: *flatRate
+    payment_data: *checkMoney
+
+
+################################################################################
+#                                                                              #
+#               Order Data for With Registration                               #
+#                                                                              #
+################################################################################
+
+multiple_with_register_flatrate_checkmoney:
+    products_to_add:
+        product_1:
+            general_name: %noValue%
+    checkout_as_customer: *register
+    shipping_addresses:
+        new_addresses:
+            address_1: *newShippingSignedInReq
+            address_2: *newShippingSignedInReq
+        existing_addresses:
+            address_1: *newShippingSignedInReq
+    shipping_address_data: *newShippingSignedInReq
+    billing_address_data: %noValue%
+    shipping_data: *flatRate
+    payment_data: *checkMoney
+
+
+################################################################################
+#                                                                              #
+#                           Order Data for Exist Customer                      #
+#                                                                              #
+################################################################################
+
+multiple_exist_flatrate_checkmoney:
+    products_to_add:
+        product_1:
+            general_name: %noValue%
+    checkout_as_customer: *login
+    billing_address_data: %noValue%
+    shipping_address_data: *newShippingSignedInReq
+    shipping_data: *flatRate
+    payment_data: *checkMoney
+
+
+
+multiple_test_data:
+    products_to_add:
+        product_1:
+            general_name: %noValue%
+    checkout_as_customer: *register
+
+    general_shipping_address:
+        first_name: First Name (%randomize%)
+        last_name: Last Name (%randomize%)
+        email: %randomize%@exmaple.com
+        password: 123123q
+        password_confirmation: 123123q
+        company: Company (%randomize%)
+        telephone: 10100010010
+        fax: 230482347
+        street_address_1: Some address 1 (%randomize%)
+        street_address_2: Some address 2 (%randomize%)
+        city: Some City (%randomize%)
+        zip_code: 94036
+        state: California
+        country: United States
+    shipping_address_data:
+        address_to_add_1:
+            shipping_address: *newShippingSignedInReq
+        address_to_add_2:
+            shipping_address: %noValue%
+        address_to_ship_1:
+            general_name: opdzs_Simple Product Visible
+            qty: 2
+            shipping_address: *newShippingSignedInReq
+        address_to_ship_2:
+            general_name: %noValue%
+            qty: %noValue%
+            shipping_address: %noValue%
+    shipping_data:
+        Address 1:
+            change_shipping_address: *newShippingSignedInReq
+            shipping_method: &flatRate
+        Address 2: %noValue%
+    billing_address_data:
+        existing_address:
+            billing_first_name: Steven(shipping.req)
+            billing_last_name: Stevenson(shipping.req)
+            billing_company: %noValue%
+            billing_street_address_1: street address 1(shipping.req)
+            billing_street_address_2: %noValue%
+            billing_city: Los Angeles
+            billing_country: United States
+            billing_state: California
+            billing_region: %noValue%
+            billing_zip_code: 90064
+            billing_telephone: (091)019-019(shipping.req)
+            billing_fax: %noValue%
+            edit_existing_address: *newBillingSignedInReqPhysical
+        new_address: *newBillingSignedInReqPhysical
+        select_address: *newBillingSignedInReqPhysical
+    payment_data: *checkMoney

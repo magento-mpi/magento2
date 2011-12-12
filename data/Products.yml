@@ -2076,13 +2076,13 @@ grouped_options_to_add_to_shopping_cart:
 product_to_add_to_shop:
     simple:
         general_name: opdzs_Simple Product Visible
-    virtual:
-        general_name: qjlfk_Virtual Product Visible
-    downloadable:
-        general_name: ncngs_Downloadable Product Visible
-    bundle:
-        general_name: ziexj_Bundle(Fixed) Product
-    configurable:
-        general_name: difoe_Configurable Product
-    grouped:
-        general_name: rpjpz_Grouped Product
+#    virtual:
+#        general_name: qjlfk_Virtual Product Visible
+#    downloadable:
+#        general_name: ncngs_Downloadable Product Visible
+#    bundle:
+#        general_name: ziexj_Bundle(Fixed) Product
+#    configurable:
+#        general_name: difoe_Configurable Product
+#    grouped:
+#        general_name: rpjpz_Grouped Product

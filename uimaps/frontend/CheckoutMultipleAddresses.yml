@@ -84,7 +84,7 @@ checkout_multishipping_register:
                         checkboxes:
                             sign_up_newsletter: //input[@id='is_subscribed']
                         dropdowns:
-                            region: //select[@id='region_id']
+                            state: //select[@id='region_id']
                             country: //select[@id='country']
                         links:
                             back: //p[@class='back-link']/a
@@ -101,7 +101,6 @@ checkout_multishipping_register:
                             reqion: //input[@id='region']
                             password: //input[@id='password']
                             password_confirmation: //input[@id='confirmation']
-                        required: [first_name, last_name, telephone, street_address_1, city, zip_code, region, country, password, password_confirmation]
         messages: &checkoutMessages
             not_valid_length_first_name: //li[normalize-space(@class)='error-msg' and contains(.,'"First Name" length must be equal or less than 255 characters.')]
             not_valid_length_last_name: //li[normalize-space(@class)='error-msg' and contains(.,'"Last Name" length must be equal or less than 255 characters.')]
@@ -114,7 +113,7 @@ checkout_multishipping_register:
 
 checkout_multishipping_addresses:
     mca: checkout/multishipping/addresses/
-    title: Ship to Multiple Addresses
+    title: Ship to Multiple Addresses - Magento Commerce
     uimap:
         form: &checkoutMultishipping
             fieldsets:
@@ -130,14 +129,14 @@ checkout_multishipping_addresses:
                             back_to_shopping_cart: //a[contains(.,'Back to Shopping Cart')]
                             remove_address: //table[@id='multiship-addresses-table']/tbody/tr[./td/h3[contains(.,'%productName%')]]//td[4]//a[contains(@href, 'removeItem')]
                         dropdowns:
-                            send_to: //table[@id='multiship-addresses-table']/tbody/tr[./td/h3[contains(.,'%productName%')]]//td[3]//select[contains(.,'%shippingAddress%')]
+                            shipping_address_choice: //table[@id='multiship-addresses-table']/tbody/tr[./td/h3[contains(.,'%productName%')]]//td[3]//select
                         fields:
-                            qty: //table[@id='multiship-addresses-table']/tbody/tr[./td/h3[contains(.,'%productName%')]]//td[2]//input[@value='%Qty%']
+                            qty: //table[@id='multiship-addresses-table']/tbody/tr[./td/h3[contains(.,'%productName%')]]//td[2]//input[@type='text']
 
 
 checkout_multishipping_add_new_address:
     mca: checkout/multishipping_address/newShipping/
-    title: Create Shipping Address
+    title: Create Shipping Address - Magento Commerce
     uimap:
         form: &createNewAddress
             fieldsets:
@@ -147,30 +146,29 @@ checkout_multishipping_add_new_address:
                         buttons:
                             save_address: //button[span='Save Address']
                         fields:
-                            first_name: //input[@id='firstname']
-                            last_name: //input[@id='lastname']
-                            company: //input[@id='company']
-                            telephone: //input[@id='telephone']
-                            fax: //input[@id='fax']
-                            street_address_1: //input[@id='street_1']
-                            street_address_2: //input[@id='street_2']
-                            city: //input[@id='city']
-                            zip_code: //input[@id='zip']
-                            reqion: //input[@id='region']
+                            shipping_first_name: //input[@id='firstname']
+                            shipping_last_name: //input[@id='lastname']
+                            shipping_company: //input[@id='company']
+                            shipping_telephone: //input[@id='telephone']
+                            shipping_fax: //input[@id='fax']
+                            shipping_street_address_1: //input[@id='street_1']
+                            shipping_street_address_2: //input[@id='street_2']
+                            shipping_city: //input[@id='city']
+                            shipping_zip_code: //input[@id='zip']
+                            shipping_reqion: //input[@id='region']
                         dropdowns:
-                            region: //select[@id='region_id']
-                            country: //select[@id='country']
+                            shipping_state: //select[@id='region_id']
+                            shipping_country: //select[@id='country']
                         checkboxes:
                             set_default_billing_address: //input[@id='primary_billing']
                             set_default_shipping_address: //input[@id='primary_shipping']
                         links:
                             back: //p[@class='back-link']/a[@href]
-                        required: [first_name, last_name, telephone, street_address_1, city, zip_code, region, country]
         messages: *checkoutMessages
 
 checkout_multishipping_shipping_methods:
     mca: checkout/multishipping/shipping/
-    title: Create Shipping Address
+    title: Shipping Methods - Magento Commerce
     uimap:
         form: &createNewShipping
             fieldsets:
@@ -178,15 +176,15 @@ checkout_multishipping_shipping_methods:
                     shipping_method:
                         xpath: //div[div/h1[contains(text(),'Select Shipping Method')]]/form/div[h2[contains(.,'%addressHeader%')]]
                         links:
-                            change_shipping_address: //a[contains(@href,'editShipping/id/%id%')]
+                            change_shipping_address: //div[div/h1[contains(text(),'Select Shipping Method')]]/form/div[h2[contains(.,'%addressHeader%')]]//a[contains(@href,'editShipping/id/')]
                             edit_items: //a[contains(@href, 'backToAddresses/')]
-                            product: //a[contains(.,'%product%')]
+                            product: //a[contains(.,'%productName%')]
                         checkboxes:
                             add_gift_options: //input[@type='checkbox' and following-sibling::*[text()= 'Add gift options']]
                             gift_option_for_the_entire_order: //input[@type='checkbox' and following-sibling::*[text()= 'Add gift options for the Entire Order']]
                             gift_option_for_individual_items: //input[@type='checkbox' and following-sibling::*[text()= 'Add gift options for Individual Items']]
                         radiobuttons:
-                            shipping_method: //dt[text()='%shipService%']/following-sibling::*//input[@type='radio' and following-sibling::*[contains(text(),'%shipMethod%')]]
+                            shipping_method: //div[div/h1[contains(text(),'Select Shipping Method')]]/form/div[h2[contains(.,'%addressHeader%')]]//dt[text()='%shipService%']/following-sibling::*//input[@type='radio' and following-sibling::*[contains(text(),'%shipMethod%')]]
                         fields:
                             gift_option_entire_order_from: //input[@type='checkbox' and following-sibling::*[text()= 'Add gift options for the Entire Order']]/../following-sibling::div[contains(p, 'You can leave this box blank if you do not wish to add a gift message for this address.')]//input[@title='From']
                             gift_option_entire_order_to: //input[@type='checkbox' and following-sibling::*[text()= 'Add gift options for the Entire Order']]/../following-sibling::div[contains(p, 'You can leave this box blank if you do not wish to add a gift message for this address.')]//input[@title='To']
@@ -202,42 +200,67 @@ checkout_multishipping_shipping_methods:
 
 checkout_multishipping_edit_shipment_address:
     mca: checkout/multishipping_address/editShipping/id/%id%/
-    title: Edit Shipping Address
+    title: Edit Shipping Address - Magento Commerce
     uimap:
-        form: *createNewAddress
+        form:
+            fieldsets:
+                -
+                    edit_shipping_address:
+                        xpath: //div[div/h1[contains(text(),'Edit Shipping Address')]]
+                        buttons:
+                            save_address: //button[span='Save Address']
+                        fields:
+                            shipping_first_name: //input[@id='firstname']
+                            shipping_last_name: //input[@id='lastname']
+                            shipping_company: //input[@id='company']
+                            shipping_telephone: //input[@id='telephone']
+                            shipping_fax: //input[@id='fax']
+                            shipping_street_address_1: //input[@id='street_1']
+                            shipping_street_address_2: //input[@id='street_2']
+                            shipping_city: //input[@id='city']
+                            shipping_zip_code: //input[@id='zip']
+                            shipping_reqion: //input[@id='region']
+                        dropdowns:
+                            shipping_state: //select[@id='region_id']
+                            shipping_country: //select[@id='country']
+                        checkboxes:
+                            set_default_billing_address: //input[@id='primary_billing']
+                            set_default_shipping_address: //input[@id='primary_shipping']
+                        links:
+                            back: //p[@class='back-link']/a[@href]
         messages: *checkoutMessages
 
 checkout_multishipping_payment_methods:
     mca: checkout/multishipping/billing/
-    title: Billing Information
+    title: Billing Information - Magento Commerce
     uimap:
         form: &paymentForOrder
             fieldsets:
                 -
                     payment_method:
                         xpath: //div[div/h1[contains(text(),'Billing Information')]]/form[@id='multishipping-billing-form']/div[@class='col2-set']
+                        radiobuttons:
+                            check_payment_method: //input[@title='%paymentTitle%']
+                            selected_one_payment: //label[normalize-space(text())='%paymentTitle%']
+                        fields:
+                            name_on_card: //input[@id='%paymentId%_cc_owner']
+                            card_number: //input[@id='%paymentId%_cc_number']
+                            card_verification_number: //input[@id='%paymentId%_cc_cid']
+                        dropdowns:
+                            card_type: //select[@id='%paymentId%_cc_type']
+                            expiration_month: //select[@id='%paymentId%_expiration']
+                            expiration_year: //select[@id='%paymentId%_expiration_yr']
                         links:
                             change_billing_address: //a[contains(@href,'selectBilling/')]
-                        radiobuttons:
-                            pay_method: //input[@type='radio' and following-sibling::*[contains(text(), '%payMethod%')]]
-                        dropdowns:
-                            credit_card_type: //dt[label[contains(text(), '%payMethod%')]]/following-sibling::dd[1]//label[text()='Credit Card Type']/following-sibling::div/select
-                            expiration_date_month: //dt[label[contains(text(), '%payMethod%')]]/following-sibling::dd[1]//label[text()='Expiration Date']/following-sibling::div/div/select[contains(.,'Month')]
-                            expiration_date_year: //dt[label[contains(text(), '%payMethod%')]]/following-sibling::dd[1]//label[text()='Expiration Date']/following-sibling::div/div/select[contains(.,'Year')]
-                            paypal_billing_agreement: //select[@name='payment[ba_agreement_id]']
-                        fields:
-                            name_on_card: //dt[label[contains(text(), '%payMethod%')]]/following-sibling::dd[1]//label[text()='Name on Card']/following-sibling::div/input
-                            credit_card_number: //dt[label[contains(text(), '%payMethod%')]]/following-sibling::dd[1]//label[text()='Credit Card Number']/following-sibling::div/input
-                            cvv: //dt[label[contains(text(), '%payMethod%')]]/following-sibling::dd[1]//label[text()='Card Verification Number']/following-sibling::div/div/input
         buttons:
             continue_to_review_order: //button[span='Continue to Review Your Order']
         links:
             back_to_shipping_information: //a[text()='Back to Shipping Information']
         messages: *checkoutMessages
 
-checkout_multishipping_edit_billing_address:
+checkout_multishipping_select_billing_address:
     mca: checkout/multishipping_address/selectBilling/
-    title: Change Billing Address
+    title: Change Billing Address - Magento Commerce
     uimap:
         form: &selectBillingAddress
             fieldsets:
@@ -247,27 +270,52 @@ checkout_multishipping_edit_billing_address:
                         buttons:
                             add_new_address: //button[span='Add New Address']
                         links:
-                            edit_address: //a[contains(@href, 'multishipping_address/editAddress/id/%addressId%/')]
-                            select_address: //a[contains(@href, 'multishipping_address/setBilling/id/%addressId%/')]
+                            edit_address: //div[./address[%param%]]//a[contains(@href, 'multishipping_address/editAddress/id/')]
+                            select_address: //div[./address[%param%]]//a[contains(@href, 'multishipping_address/setBilling/id/')]
         messages: *checkoutMessages
 
 checkout_multishipping_create_billing_address:
     mca: checkout/multishipping_address/newBilling/
-    title: Create Billing Address
+    title: Create Billing Address - Magento Commerce
     uimap:
-        form: *createNewShipping
+        form: 
+            fieldsets:
+                -
+                    create_billing_address:
+                        xpath: //div[div/h1[contains(text(),'Create Billing Address')]]
+                        buttons:
+                            save_address: //button[span='Save Address']
+                        fields:
+                            billing_first_name: //input[@id='firstname']
+                            billing_last_name: //input[@id='lastname']
+                            billing_company: //input[@id='company']
+                            billing_telephone: //input[@id='telephone']
+                            billing_fax: //input[@id='fax']
+                            billing_street_address_1: //input[@id='street_1']
+                            billing_street_address_2: //input[@id='street_2']
+                            billing_city: //input[@id='city']
+                            billing_zip_code: //input[@id='zip']
+                            billing_reqion: //input[@id='region']
+                        dropdowns:
+                            billing_state: //select[@id='region_id']
+                            billing_country: //select[@id='country']
+                        checkboxes:
+                            set_default_billing_address: //input[@id='primary_billing']
+                            set_default_shipping_address: //input[@id='primary_shipping']
+                        links:
+                            back: //p[@class='back-link']/a[@href]
         messages: *checkoutMessages
 
 checkout_multishipping_edit_billing_address:
     mca: checkout/multishipping_address/editAddress/id/%id%/
-    title: Edit Address
+    title: Edit Address - Magento Commerce
     uimap:
         form: *createNewAddress
         messages: *checkoutMessages
 
 checkout_multishipping_review_order:
     mca: checkout/multishipping/overview/
-    title: Review Order
+    title: Review Order - Magento Commerce
     uimap:
         form: &reviewOrder
             fieldsets:
@@ -285,9 +333,9 @@ checkout_multishipping_review_order:
 
 checkout_multishipping_success_order:
     mca: checkout/multishipping/success/
-    title: Success Order
+    title: Magento Commerce
     uimap:
-        form: &successOrder
+        form: 
             fieldsets:
                 -
                     success_order:
