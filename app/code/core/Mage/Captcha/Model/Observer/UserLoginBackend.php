@@ -46,7 +46,7 @@ class Mage_Captcha_Model_Observer_UserLoginBackend
      */
     public function checkCaptcha($observer)
     {
-        Mage::helper('captcha')->logAttempt($this->_formId);
+        Mage::helper('captcha')->getCaptcha($this->_formId)->logAttempt();
         $captchaModel = Mage::helper('captcha')->getCaptcha($this->_formId);
         if ($captchaModel->isRequired()){
             if (!$captchaModel->isCorrect($this->_getCaptchaString())) {

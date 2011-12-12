@@ -33,7 +33,7 @@
  */
 class Mage_Captcha_Block_Captcha_Zend extends Mage_Core_Block_Template
 {
-    const DEFAULT_TEMPLATE = 'captcha/zend.phtml';
+    protected $_template = 'captcha/zend.phtml';
 
     /**
      * @var string
@@ -47,14 +47,7 @@ class Mage_Captcha_Block_Captcha_Zend extends Mage_Core_Block_Template
      */
     public function getTemplate()
     {
-
-        $this->_template = $this->_template ? $this->_template : self::DEFAULT_TEMPLATE;
-
-        if ($this->getIsAjax()) {
-            $this->_template = '';
-        }
-
-        return $this->_template;
+        return $this->getIsAjax() ? '' : $this->_template;
     }
 
     /**
@@ -81,7 +74,6 @@ class Mage_Captcha_Block_Captcha_Zend extends Mage_Core_Block_Template
         return '';
     }
 
-
     /**
      * Returns captcha model
      *
@@ -91,5 +83,4 @@ class Mage_Captcha_Block_Captcha_Zend extends Mage_Core_Block_Template
     {
         return Mage::helper('captcha')->getCaptcha($this->getFormId());
     }
-
 }

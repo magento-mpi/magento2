@@ -90,7 +90,7 @@
                             </depends>
                             <frontend_class>required-entry validate-digits</frontend_class>
                         </failed_attempts>
-                        <timeout translate="label comment">
+                        <timeout translate="label">
                             <label>CAPTCHA Timeout (minutes)</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>6</sort_order>
@@ -199,7 +199,7 @@
                             </depends>
                             <frontend_class>required-entry validate-digits</frontend_class>
                         </failed_attempts>
-                        <timeout translate="label comment">
+                        <timeout translate="label">
                             <label>CAPTCHA timeout (minutes)</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>6</sort_order>

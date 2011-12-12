@@ -34,12 +34,9 @@
 abstract class Mage_Captcha_Model_Config_Form_Abstract extends Mage_Core_Model_Config_Data
 {
     /**
-     * Get Config Path
-     *
-     * @abstract
-     * @return string
+     * @var string
      */
-    abstract protected function _getConfigPath();
+    protected $_configPath;
 
     /**
      * Returns options for form multiselect
@@ -50,7 +47,7 @@ abstract class Mage_Captcha_Model_Config_Form_Abstract extends Mage_Core_Model_C
     {
         $optionArray = array();
         /* @var $backendNode Mage_Core_Model_Config_Element */
-        $backendNode = Mage::getConfig()->getNode($this->_getConfigPath());
+        $backendNode = Mage::getConfig()->getNode($this->_configPath);
         if ($backendNode) {
             foreach ($backendNode->children() as $formNode) {
                 /* @var $formNode Mage_Core_Model_Config_Element */

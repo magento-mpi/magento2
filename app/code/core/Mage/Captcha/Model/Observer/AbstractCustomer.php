@@ -46,7 +46,7 @@ abstract class Mage_Captcha_Model_Observer_AbstractCustomer
      */
     public function checkCaptcha($observer)
     {
-        Mage::helper('captcha')->logAttempt($this->_formId);
+        Mage::helper('captcha')->getCaptcha($this->_formId)->logAttempt();
         $captchaModel = Mage::helper('captcha')->getCaptcha($this->_formId);
         if ($captchaModel->isRequired()){
             if (!$captchaModel->isCorrect($this->_getCaptchaString($observer))) {
@@ -63,7 +63,6 @@ abstract class Mage_Captcha_Model_Observer_AbstractCustomer
      */
     abstract protected function _setupRedirect($controller);
 
-
     /**
      * Get Captcha String
      *
@@ -75,8 +74,6 @@ abstract class Mage_Captcha_Model_Observer_AbstractCustomer
         $request = $observer->getControllerAction()->getRequest();
         return $request->getPost(Mage_Captcha_Helper_Data::INPUT_NAME_FIELD_VALUE);
     }
-
-
 
     /**
      * Get Session

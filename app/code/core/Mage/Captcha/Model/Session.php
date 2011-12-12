@@ -33,11 +33,18 @@
  */
 class Mage_Captcha_Model_Session extends Mage_Core_Model_Session
 {
+    /**
+     * Form id
+     *
+     * @var string
+     */
     protected $_formId;
-    // 0 = don't limit
+    /**
+     * Life time
+     *
+     * @var int
+     */
     protected $_lifetime = 0;
-    protected $_ignoreTtl = false;
-
     /**
      * Captcha session constructor
      *

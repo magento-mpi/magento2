@@ -68,7 +68,8 @@ class Mage_Captcha_Model_Zend extends Zend_Captcha_Image implements Mage_Captcha
      *
      * @return string
      */
-    public function getBlockName(){
+    public function getBlockName()
+    {
         return 'captcha/captcha_zend';
     }
 
@@ -80,8 +81,7 @@ class Mage_Captcha_Model_Zend extends Zend_Captcha_Image implements Mage_Captcha
      */
     public function isRequired()
     {
-        $targetForms = $this->_getTargetForms();
-        if (!$this->_isEnabled() || !in_array($this->_formId, $targetForms)) {
+        if (!$this->_isEnabled() || !in_array($this->_formId, $this->_getTargetForms())) {
             return false;
         }
 
@@ -92,8 +92,7 @@ class Mage_Captcha_Model_Zend extends Zend_Captcha_Image implements Mage_Captcha
         $sessionFailedAttempts = Mage_Captcha_Helper_Data::SESSION_FAILED_ATTEMPTS;
         $loggedFailedAttempts = (int)$this->getSession()->getDataIgnoreTtl($sessionFailedAttempts);
         $showAfterFailedAttempts = (int)$this->_getHelper()->getConfigNode('failed_attempts');
-        $isRequired = ($loggedFailedAttempts >= $showAfterFailedAttempts);
-        return $isRequired;
+        return $loggedFailedAttempts >= $showAfterFailedAttempts;
     }
 
     /**
@@ -103,8 +102,7 @@ class Mage_Captcha_Model_Zend extends Zend_Captcha_Image implements Mage_Captcha
      */
     public function isCaseSensitive()
     {
-        $isCaseSensitive = (bool)(string)$this->_getHelper()->getConfigNode('case_sensitive');
-        return $isCaseSensitive;
+        return (string)$this->_getHelper()->getConfigNode('case_sensitive');
     }
 
     /**
@@ -188,7 +186,7 @@ class Mage_Captcha_Model_Zend extends Zend_Captcha_Image implements Mage_Captcha
             $storedWord = strtolower($storedWord);
             $word = strtolower($word);
         }
-        return ($word == $storedWord);
+        return $word == $storedWord;
     }
 
     /**
@@ -209,6 +207,19 @@ class Mage_Captcha_Model_Zend extends Zend_Captcha_Image implements Mage_Captcha
     public function getImgSrc()
     {
         return $this->getImgUrl() . $this->getId() . $this->getSuffix();
+    }
+
+    /**
+     * log Attempt
+     *
+     * @return Captcha_Zend_Model_DB
+     */
+    public function logAttempt()
+    {
+        $attemptCount = (int)$this->getSession()->getData(Mage_Captcha_Helper_Data::SESSION_FAILED_ATTEMPTS);
+        $attemptCount++;
+        $this->getSession()->setData(Mage_Captcha_Helper_Data::SESSION_FAILED_ATTEMPTS, $attemptCount);
+        return $this;
     }
 
     /**
@@ -267,9 +278,7 @@ class Mage_Captcha_Model_Zend extends Zend_Captcha_Image implements Mage_Captcha
      */
     protected function _getSymbols()
     {
-        $symbolsStr = (string)$this->_getHelper()->getConfigNode('symbols');
-        $symbols = str_split($symbolsStr);
-        return $symbols;
+        return str_split((string)$this->_getHelper()->getConfigNode('symbols'));
     }
 
     /**
@@ -297,8 +306,7 @@ class Mage_Captcha_Model_Zend extends Zend_Captcha_Image implements Mage_Captcha
             $to = self::DEFAULT_WORD_LENGTH_TO;
         }
 
-        $lengthForThisWord = mt_rand($from, $to);
-        return $lengthForThisWord;
+        return mt_rand($from, $to);
     }
 
     /**

@@ -70,21 +70,6 @@ class Mage_Captcha_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * log Attempt
-     *
-     * @param string $formId
-     *
-     * @return Mage_Captcha_Helper_Interface
-     */
-    public function logAttempt($formId)
-    {
-        $attemptCount = (int)$this->getSession($formId)->getData(Mage_Captcha_Helper_Data::SESSION_FAILED_ATTEMPTS);
-        $attemptCount++;
-        $this->getSession($formId)->setData(Mage_Captcha_Helper_Data::SESSION_FAILED_ATTEMPTS, $attemptCount);
-        return $this;
-    }
-
-    /**
      * Returns session where to save data between page refreshes
      *
      * @param string $formId

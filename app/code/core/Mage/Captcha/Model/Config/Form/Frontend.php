@@ -34,12 +34,7 @@
 class Mage_Captcha_Model_Config_Form_Frontend extends Mage_Captcha_Model_Config_Form_Abstract
 {
     /**
-     * Get Config Path
-     *
-     * @abstract
-     * @return string
+     * @var string
      */
-    protected function _getConfigPath(){
-        return 'default/captcha/frontend/areas';
-    }
+    protected $_configPath = 'default/captcha/frontend/areas';
 }
