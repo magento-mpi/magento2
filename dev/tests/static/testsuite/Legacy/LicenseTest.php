@@ -26,7 +26,7 @@ class Legacy_LicenseTest extends PHPUnit_Framework_TestCase
                 $this->assertNotContains(
                     $legacyText,
                     $commentText,
-                    'The license of file contains legacy text.'
+                    "The license of file {$filename} contains legacy text."
                 );
             }
         }
