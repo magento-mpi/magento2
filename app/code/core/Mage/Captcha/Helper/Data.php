@@ -33,20 +33,25 @@
  */
 class Mage_Captcha_Helper_Data extends Mage_Core_Helper_Abstract
 {
-    // Used for "name" attribute of captcha's input field
+    /**
+     * Used for "name" attribute of captcha's input field
+     */
     const INPUT_NAME_FIELD_VALUE = 'captcha';
 
-    // Always show captcha
+    /**
+     * Always show captcha
+     */
     const MODE_ALWAYS     = 'always';
 
-    // Show captcha only after certain number of unsuccessful attempts
+    /**
+     * Show captcha only after certain number of unsuccessful attempts
+     */
     const MODE_AFTER_FAIL = 'after_fail';
-
-    const SESSION_FAILED_ATTEMPTS = 'failed_attempts';
-
     const XML_PATH_CAPTCHA_FONTS = 'default/captcha/fonts';
 
-    /* @var $_captcha Mage_Captcha_Model_Interface */
+    /**
+     * @var Mage_Captcha_Model_Interface
+     */
     protected $_captcha;
 
     /**
@@ -112,16 +117,7 @@ class Mage_Captcha_Helper_Data extends Mage_Core_Helper_Abstract
         $fonts = array();
         if ($node) {
             foreach ($node->children() as $fontName => $fontNode) {
-                if (!empty($fontNode->label) && !empty($fontNode->path)) {
-                    $path = (string)$fontNode->path;
-                    if (!realpath($path)) {
-                        // Seems it is not full path - adding base dir
-                        $path = realpath(Mage::getBaseDir() . DS . $path);
-                    }
-                    if ($path && file_exists($path) && (is_file($path) || is_link($path))) {
-                        $fonts[$fontName] = array('label' => (string)$fontNode->label, 'path' => $path);
-                    }
-                }
+               $fonts[$fontName] = array('label' => (string)$fontNode->label, 'path' => (string) $fontNode->path);
             }
         }
         return $fonts;

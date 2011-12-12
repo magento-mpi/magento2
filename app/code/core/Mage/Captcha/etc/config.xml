@@ -33,7 +33,7 @@
     </modules>
     <default>
         <admin>
-            <captcha translate="label">
+            <captcha>
                 <type>zend</type>
                 <enable>0</enable>
                 <font>dejavu</font>
@@ -69,7 +69,7 @@
                 </always_for>
             </captcha>
         </customer>
-        <captcha>
+        <captcha  translate="label">
             <fonts>
                 <belligerent>
                     <label>Belligerent Madness</label>
@@ -95,12 +95,12 @@
                     <user_forgotpassword>
                         <label>Forgot password</label>
                     </user_forgotpassword>
-                    <guest_checkout>
+                    <!--guest_checkout>
                         <label>Checkout as Guest</label>
                     </guest_checkout>
                     <register_during_checkout>
                         <label>Register during Checkout</label>
-                    </register_during_checkout>
+                    </register_during_checkout-->
                 </areas>
             </frontend>
             <backend>

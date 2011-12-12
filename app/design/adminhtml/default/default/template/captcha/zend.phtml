@@ -27,7 +27,7 @@
 <?php $captcha = $this->getCaptchaModel() ?>
 <?php /* @var $this Mage_Core_Block_Captcha_Zend */ ?>
 <div class="input-box" style="padding:8px 0 0; overflow:hidden; width:463px;">
-    <label for="captcha"><?php echo Mage::helper('captcha')->__('Please type the letters from the image:') ?></label><br />
+    <label for="captcha"><?php echo $this->__('Please type the letters from the image:') ?></label><br />
     <div class="captcha-input" style="float:left;">
         <input type="text" name="<?php echo Mage_Captcha_Helper_Data::INPUT_NAME_FIELD_VALUE ?>" id="captcha" style="margin-right:5px; width:226px;"/>
     </div>

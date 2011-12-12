@@ -29,7 +29,7 @@
 <?php /* @var $captcha Mage_Core_Model_Captcha_Zend */ ?>
 <?php $captcha = $this->getCaptchaModel() ?>
 <li>
-    <label for="captcha" class="required"><em>*</em><?php echo Mage::helper('captcha')->__('Please type the letters below')?></label>
+    <label for="captcha" class="required"><em>*</em><?php echo $this->__('Please type the letters below')?></label>
     <div class="input-box captcha">
         <input name="<?php echo Mage_Captcha_Helper_Data::INPUT_NAME_FIELD_VALUE ?>" type="text" class="input-text required-entry" id="captcha" title="captcha" />
     </div>
@@ -49,7 +49,7 @@
     </div>
     <?php if ($captcha->isCaseSensitive()) :?>
     <div class="captcha-note">
-        <p><?php echo Mage::helper('captcha')->__('<strong>Attention</strong>: Captcha is case sensitive.') ?></p>
+        <p><?php echo $this->__('<strong>Attention</strong>: Captcha is case sensitive.') ?></p>
     </div>
     <?php endif; ?>
 </li>

@@ -37,6 +37,7 @@ class Mage_Captcha_Model_Zend extends Zend_Captcha_Image implements Mage_Captcha
     const SESSION_WORD = 'word';
     const DEFAULT_WORD_LENGTH_FROM = 3;
     const DEFAULT_WORD_LENGTH_TO   = 5;
+    const SESSION_FAILED_ATTEMPTS = 'failed_attempts';
 
     /* @var Mage_Captcha_Helper_Interface */
     protected $_helper = null;
@@ -89,8 +90,7 @@ class Mage_Captcha_Model_Zend extends Zend_Captcha_Image implements Mage_Captcha
             return true;
         }
 
-        $sessionFailedAttempts = Mage_Captcha_Helper_Data::SESSION_FAILED_ATTEMPTS;
-        $loggedFailedAttempts = (int)$this->getSession()->getDataIgnoreTtl($sessionFailedAttempts);
+        $loggedFailedAttempts = (int)$this->getSession()->getDataIgnoreTtl(self::SESSION_FAILED_ATTEMPTS);
         $showAfterFailedAttempts = (int)$this->_getHelper()->getConfigNode('failed_attempts');
         return $loggedFailedAttempts >= $showAfterFailedAttempts;
     }
@@ -216,9 +216,9 @@ class Mage_Captcha_Model_Zend extends Zend_Captcha_Image implements Mage_Captcha
      */
     public function logAttempt()
     {
-        $attemptCount = (int)$this->getSession()->getData(Mage_Captcha_Helper_Data::SESSION_FAILED_ATTEMPTS);
+        $attemptCount = (int)$this->getSession()->getData(self::SESSION_FAILED_ATTEMPTS);
         $attemptCount++;
-        $this->getSession()->setData(Mage_Captcha_Helper_Data::SESSION_FAILED_ATTEMPTS, $attemptCount);
+        $this->getSession()->setData(self::SESSION_FAILED_ATTEMPTS, $attemptCount);
         return $this;
     }
 
