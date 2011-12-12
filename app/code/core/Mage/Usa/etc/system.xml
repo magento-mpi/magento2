@@ -1240,15 +1240,62 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </handling_fee>
-                        <max_package_weight translate="label comment">
-                            <label>Maximum Package Weight</label>
-                            <comment>Please consult your shipping carrier for maximum supported shipping weight</comment>
-                            <frontend_type>text</frontend_type>
+                        <divide_order_weight translate="label">
+                            <label>Divide Order Weight</label>
+                            <comment>Allows breaking total order weight into smaller pieces if it exeeds 70 kg to ensure accurate calculation of shipping charges.</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
                             <sort_order>130</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
-                            <show_in_store>0</show_in_store>
-                        </max_package_weight>
+                            <show_in_store>1</show_in_store>
+                        </divide_order_weight>
+                        <unit_of_measure translate="label comment">
+                            <label>Weight Unit</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>usa/shipping_carrier_dhl_international_source_method_unitofmeasure</source_model>
+                            <frontend_model>usa/adminhtml_dhl_unitofmeasure</frontend_model>
+                            <sort_order>140</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </unit_of_measure>
+                        <size translate="label">
+                            <label>Size</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>usa/shipping_carrier_dhl_international_source_method_size</source_model>
+                            <sort_order>150</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </size>
+                        <width translate="label">
+                            <label>Width</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>151</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends><size>S</size></depends>
+                        </width>
+                        <length translate="label">
+                            <label>Length</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>152</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends><size>S</size></depends>
+                        </length>
+                        <height translate="label">
+                            <label>Height</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>153</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends><size>S</size></depends>
+                        </height>
                         <doc_methods translate="label">
                             <label>Allowed Methods</label>
                             <frontend_type>multiselect</frontend_type>

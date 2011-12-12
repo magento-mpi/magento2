@@ -20,33 +20,19 @@
  *
  * @category    Mage
  * @package     Mage_Core
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @copyright   Copyright (c) 2011 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * Source model for DHL shipping methods
+ * Source model for DHL shipping methods for documentation
  *
  * @category   Mage
  * @package    Mage_Usa
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-abstract class Mage_Usa_Model_Shipping_Carrier_Dhl_International_Source_Method_Abstract
+class Mage_Usa_Model_Shipping_Carrier_Dhl_International_Source_Method_Unitofmeasure
 {
-    /**
-     * Carrier Product Type Indicator
-     *
-     * @var string $_contentType
-     */
-    protected $_contentType;
-
-    /**
-     * Show 'none' in methods list or not;
-     *
-     * @var bool
-     */
-    protected $_noneMethod = false;
-
     /**
      * Returns array to be used in multiselect on back-end
      *
@@ -54,19 +40,12 @@ abstract class Mage_Usa_Model_Shipping_Carrier_Dhl_International_Source_Method_A
      */
     public function toOptionArray()
     {
-        /* @var $carrierModel Mage_Usa_Model_Shipping_Carrier_Dhl_International */
-        $carrierModel   = Mage::getSingleton('usa/shipping_carrier_dhl_international');
-        $dhlProducts    = $carrierModel->getDhlProducts($this->_contentType);
+        $unitArr = Mage::getSingleton('usa/shipping_carrier_dhl_international')->getCode('unit_of_measure');
 
-        $options = array();
-        foreach ($dhlProducts as $code => $title) {
-            $options[] = array('value' => $code, 'label' => $title);
+        $returnArr = array();
+        foreach ($unitArr as $key => $val){
+            $returnArr[] = array('value' => $key, 'label' => $val);
         }
-
-        if ($this->_noneMethod) {
-            array_unshift($options, array('value' => '', 'label' => Mage::helper('usa')->__('None')));
-        }
-
-        return $options;
+        return $returnArr;
     }
 }

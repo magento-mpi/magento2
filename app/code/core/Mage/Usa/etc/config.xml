@@ -207,7 +207,9 @@
                 <password backend_model="adminhtml/system_config_backend_encrypted"/>
                 <shipment_type>N</shipment_type>
                 <specificerrmsg>This shipping method is currently unavailable. If you would like to ship using this shipping method, please contact us.</specificerrmsg>
-                <max_package_weight>150</max_package_weight>
+                <divide_order_weight>1</divide_order_weight>
+                <unit_of_measure>K</unit_of_measure>
+                <size>R</size>
                 <handling_type>F</handling_type>
                 <handling_action>O</handling_action>
             </dhlint>

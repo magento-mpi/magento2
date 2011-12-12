@@ -110,6 +110,13 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
     protected $_freeMethod = 'free_method_nondoc';
 
     /**
+     * Max weight without fee
+     *
+     * @var int
+     */
+    protected $_maxWeight = 70;
+
+    /**
      * Request variables array
      *
      * @var array
@@ -376,6 +383,60 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
     }
 
     /**
+     * Get configuration data of carrier
+     *
+     * @param strin $type
+     * @param string $code
+     * @return array|bool
+     */
+    public function getCode($type, $code='')
+    {
+        $codes = array(
+            'unit_of_measure'   => array(
+                'L' => Mage::helper('usa')->__('Pounds'),
+                'K' => Mage::helper('usa')->__('Kilograms'),
+            ),
+            'unit_of_dimension' => array(
+                'I' => Mage::helper('usa')->__('Inches'),
+                'C' => Mage::helper('usa')->__('Centimeters'),
+            ),
+            'unit_of_dimension_cut' => array(
+                'I' => Mage::helper('usa')->__('inch'),
+                'C' => Mage::helper('usa')->__('cm'),
+            ),
+            'dimensions' => array(
+                'width' => Mage::helper('usa')->__('Width'),
+                'length' => Mage::helper('usa')->__('Length'),
+                'height' => Mage::helper('usa')->__('Height'),
+            ),
+            'size'              => array(
+                'R' => Mage::helper('usa')->__('Regular'),
+                'S' => Mage::helper('usa')->__('Specific'),
+            ),
+            'dimensions_variables'  => array(
+                'L'         => Zend_Measure_Weight::POUND,
+                'LB'        => Zend_Measure_Weight::POUND,
+                'POUND'     => Zend_Measure_Weight::POUND,
+                'K'         => Zend_Measure_Weight::KILOGRAM,
+                'KG'        => Zend_Measure_Weight::KILOGRAM,
+                'KILOGRAM'  => Zend_Measure_Weight::KILOGRAM,
+            )
+        );
+
+        if (!isset($codes[$type])) {
+            return false;
+        } elseif ('' === $code) {
+            return $codes[$type];
+        }
+
+        if (!isset($codes[$type][$code])) {
+            return false;
+        } else {
+            return $codes[$type][$code];
+        }
+    }
+
+    /**
      * Returns DHL shipment methods (depending on package content type, if necessary)
      *
      * @param string $doc Package content type (doc/non-doc) see DHL_CONTENT_TYPE_* constants
@@ -441,6 +502,115 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
     }
 
     /**
+     * Convert item weight to needed weight based on config weight unit dimensions
+     *
+     * @param float $weight
+     * @param bool $maxWeight
+     * @return float
+     */
+    protected function _getWeight($weight, $maxWeight = false)
+    {
+        if ($maxWeight) {
+            $configWeightUnit = Zend_Measure_Weight::KILOGRAM;
+        } else {
+            $configWeightUnit = $this->getCode(
+                'dimensions_variables',
+                strtoupper((string)$this->getConfigData('unit_of_measure'))
+            );
+        }
+
+        $countryWeightUnit = $this->getCode(
+            'dimensions_variables',
+            strtoupper($this->_getWeightUnit())
+        );
+
+        if ($configWeightUnit != $countryWeightUnit) {
+            $weight = round(Mage::helper('usa')->convertMeasureWeight(
+                $weight,
+                $configWeightUnit,
+                $countryWeightUnit
+            ), 3);
+        }
+
+        return round($weight, 3);
+    }
+
+    /**
+     * Prepare items to pieces
+     *
+     * @return array|bool
+     */
+    protected function _getAllItems()
+    {
+        $allItems   = $this->_request->getAllItems();
+        $fullItems  = array();
+        foreach ($allItems as $item) {
+            if ($this->_getWeight($item->getWeight()) > $this->_getWeight($this->_maxWeight, true)) {
+                return false;
+            }
+            if ($item->getQty() > 1 && !$item->getIsQtyDecimal()) {
+                for ($i = 1; $i <= $item->getQty(); $i++) {
+                    $fullItems[] = $this->_getWeight($item->getWeight());
+                }
+            } else {
+                $fullItems[] = $this->_getWeight($item->getWeight());
+            }
+        }
+
+        return $fullItems;
+    }
+
+    /**
+     * Make pieces
+     *
+     * @param SimpleXMLElement $nodeBkgDetails
+     * @return void
+     */
+    protected function _makePieces(SimpleXMLElement $nodeBkgDetails)
+    {
+        $divideOrderWeight = (string)$this->getConfigData('divide_order_weight');
+        if ($divideOrderWeight) {
+            if ($this->_getAllItems()) {
+                $maxWeight = $this->_getWeight($this->_maxWeight, true);
+                $nodePieces = $nodeBkgDetails->addChild('Pieces', '', '');
+                $sumWeight  = 0;
+                $numberOfPieces = 0;
+                foreach ($this->_getAllItems() as $weight) {
+                    if (($sumWeight + $weight) < $maxWeight) {
+                        $sumWeight += $weight;
+                    } elseif (($sumWeight + $weight) > $maxWeight) {
+                        $numberOfPieces++;
+                        $nodePiece = $nodePieces->addChild('Piece', '', '');
+                        $nodePiece->addChild('PieceID', $numberOfPieces);
+                        $nodePiece->addChild('Weight', $sumWeight);
+
+                        $sumWeight = $weight;
+                    } else {
+                        $numberOfPieces++;
+                        $sumWeight += $weight;
+                        $nodePiece = $nodePieces->addChild('Piece', '', '');
+                        $nodePiece->addChild('PieceID', $numberOfPieces);
+                        $nodePiece->addChild('Weight', $sumWeight);
+                        $sumWeight = 0;
+                    }
+                }
+                if ($sumWeight > 0) {
+                    $numberOfPieces++;
+                    $nodePiece = $nodePieces->addChild('Piece', '', '');
+                    $nodePiece->addChild('PieceID', $numberOfPieces);
+                    $nodePiece->addChild('Weight', $sumWeight);
+                }
+            } else {
+                $nodeBkgDetails->addChild('NumberOfPieces', '1');
+                $nodeBkgDetails->addChild('ShipmentWeight', $this->_rawRequest->getWeight());
+            }
+        } else {
+            $nodeBkgDetails->addChild('NumberOfPieces', '1');
+            $nodeBkgDetails->addChild('ShipmentWeight', $this->_rawRequest->getWeight());
+        }
+    }
+
+    /**
      * Get shipping quotes
      *
      * @return Mage_Core_Model_Abstract|Mage_Shipping_Model_Rate_Result
@@ -473,8 +643,8 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
 
         $nodeBkgDetails->addChild('DimensionUnit', $this->_getDimensionUnit());
         $nodeBkgDetails->addChild('WeightUnit', $this->_getWeightUnit());
-        $nodeBkgDetails->addChild('NumberOfPieces', '1');
-        $nodeBkgDetails->addChild('ShipmentWeight', $rawRequest->getWeight());
+
+        $this->_makePieces($nodeBkgDetails);
 
         $nodeTo = $nodeGetQuote->addChild('To');
         $nodeTo->addChild('CountryCode', $rawRequest->getDestCountryId());
@@ -693,4 +863,38 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
         return $request;
     }
 
+    /**
+     * Processing additional validation to check is carrier applicable.
+     *
+     * @param Mage_Shipping_Model_Rate_Request $request
+     * @return Mage_Shipping_Model_Carrier_Abstract|Mage_Shipping_Model_Rate_Result_Error|boolean
+     */
+    public function processAdditionalValidation(Mage_Shipping_Model_Rate_Request $request)
+    {
+        //Skip by item validation if there is no items in request
+        if(!count($this->getAllItems($request))) {
+            return $this;
+        }
+
+        $maxAllowedWeight = (float) $this->getConfigData('max_package_weight');
+        $errorMsg = '';
+        $configErrorMsg = $this->getConfigData('specificerrmsg');
+        $defaultErrorMsg = Mage::helper('shipping')->__('The shipping module is not available.');
+        $showMethod = $this->getConfigData('showmethod');
+
+        if (!$errorMsg && !$request->getDestPostcode() && $this->isZipCodeRequired()) {
+            $errorMsg = Mage::helper('shipping')->__('This shipping method is not available, please specify ZIP-code');
+        }
+
+        if ($errorMsg && $showMethod) {
+            $error = Mage::getModel('shipping/rate_result_error');
+            $error->setCarrier($this->_code);
+            $error->setCarrierTitle($this->getConfigData('title'));
+            $error->setErrorMessage($errorMsg);
+            return $error;
+        } elseif ($errorMsg) {
+            return false;
+        }
+        return $this;
+    }
 }
