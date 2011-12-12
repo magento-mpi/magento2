@@ -830,10 +830,11 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
     /**
      * Check whether VAT ID validation is enabled
      *
+     * @param Mage_Core_Model_Store|string|int $store
      * @return bool
      */
-    protected function _isVatValidationEnabled()
+    protected function _isVatValidationEnabled($store = null)
     {
-        return Mage::helper('customer/address')->isVatValidationEnabled();
+        return Mage::helper('customer/address')->isVatValidationEnabled($store);
     }
 }

@@ -395,10 +395,11 @@ class Mage_Customer_Helper_Data extends Mage_Core_Helper_Abstract
      *
      * @param string $customerCountryCode
      * @param Varien_Object $vatValidationResult
+     * @param Mage_Core_Model_Store|string|int $store
      *
      * @return null|int
      */
-    public function getCustomerGroupIdBasedOnVatNumber($customerCountryCode, $vatValidationResult)
+    public function getCustomerGroupIdBasedOnVatNumber($customerCountryCode, $vatValidationResult, $store = null)
     {
         $groupId = null;
 
@@ -412,7 +413,7 @@ class Mage_Customer_Helper_Data extends Mage_Core_Helper_Abstract
         );
 
         if (isset($vatClassToGroupXmlPathMap[$vatClass])) {
-            $groupId = (int)Mage::getStoreConfig($vatClassToGroupXmlPathMap[$vatClass]);
+            $groupId = (int)Mage::getStoreConfig($vatClassToGroupXmlPathMap[$vatClass], $store);
         }
 
         return $groupId;

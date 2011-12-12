@@ -115,8 +115,9 @@ class Mage_Customer_Model_Observer
     {
         /** @var $customerAddress Mage_Customer_Model_Address */
         $customerAddress = $observer->getCustomerAddress();
+        $customer = $customerAddress->getCustomer();
 
-        if (!Mage::helper('customer/address')->isVatValidationEnabled()
+        if (!Mage::helper('customer/address')->isVatValidationEnabled($customer->getStore())
             || Mage::registry(self::VIV_PROCESSED_FLAG)
             || !$this->_canProcessAddress($customerAddress)
         ) {
@@ -126,12 +127,11 @@ class Mage_Customer_Model_Observer
         try {
             Mage::register(self::VIV_PROCESSED_FLAG, true);
 
-            $customer = $customerAddress->getCustomer();
             /** @var $customerHelper Mage_Customer_Helper_Data */
             $customerHelper = Mage::helper('customer');
 
             if ($customerAddress->getVatId() == '') {
-                $defaultGroupId = $customerHelper->getDefaultCustomerGroupId();
+                $defaultGroupId = $customerHelper->getDefaultCustomerGroupId($customer->getStore());
 
                 if (!$customer->getDisableAutoGroupChange() && $customer->getGroupId() != $defaultGroupId) {
                     $customer->setGroupId($defaultGroupId);
@@ -145,7 +145,7 @@ class Mage_Customer_Model_Observer
                 );
 
                 $newGroupId = $customerHelper->getCustomerGroupIdBasedOnVatNumber(
-                    $customerAddress->getCountryId(), $result
+                    $customerAddress->getCountryId(), $result, $customer->getStore()
                 );
 
                 if (!$customer->getDisableAutoGroupChange() && $customer->getGroupId() != $newGroupId) {
@@ -190,11 +190,12 @@ class Mage_Customer_Model_Observer
      */
     public function quoteSubmitAfter($observer)
     {
-        if (!Mage::helper('customer/address')->isVatValidationEnabled()) {
-            return;
-        }
         /** @var $customer Mage_Customer_Model_Customer */
         $customer = $observer->getQuote()->getCustomer();
+
+        if (!Mage::helper('customer/address')->isVatValidationEnabled($customer->getStore())) {
+            return;
+        }
 
         if (!$customer->getId()) {
             return;

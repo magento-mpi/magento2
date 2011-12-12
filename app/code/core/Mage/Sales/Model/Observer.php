@@ -345,16 +345,16 @@ class Mage_Sales_Model_Observer
         /** @var $addressHelper Mage_Customer_Helper_Address */
         $addressHelper = Mage::helper('customer/address');
 
-        if (!$addressHelper->isVatValidationEnabled()) {
+        /** @var $customerInstance Mage_Customer_Model_Customer */
+        $customerInstance = $observer->getQuote()->getCustomer();
+
+        if (!$addressHelper->isVatValidationEnabled($customerInstance->getStore())) {
             return;
         }
 
         /** @var $quoteInstance Mage_Sales_Model_Quote */
         $quoteInstance = $observer->getQuote();
         $quoteBillingAddress = $quoteInstance->getBillingAddress();
-
-        /** @var $customerInstance Mage_Customer_Model_Customer */
-        $customerInstance = $observer->getQuote()->getCustomer();
 
         /** @var $customerHelper Mage_Customer_Helper_Data */
         $customerHelper = Mage::helper('customer');
@@ -366,7 +366,7 @@ class Mage_Sales_Model_Observer
         $customerVatNumber = $quoteBillingAddress->getVatId();
 
         if (empty($customerVatNumber) || !Mage::helper('core')->isCountryInEU($customerCountryCode)) {
-            $groupId = $customerHelper->getDefaultCustomerGroupId();
+            $groupId = $customerHelper->getDefaultCustomerGroupId($customerInstance->getStore());
 
             if ($groupId && $customerInstance->getGroupId() != $groupId) {
                 $quoteInstance->setCustomer($customerInstance->setGroupId($groupId));
@@ -376,7 +376,7 @@ class Mage_Sales_Model_Observer
             return;
         }
 
-        $mustValidateVat = $addressHelper->getValidateOnEachTransaction()
+        $mustValidateVat = $addressHelper->getValidateOnEachTransaction($customerInstance->getStore())
             || $customerCountryCode != $quoteBillingAddress->getValidatedCountryCode()
             || $customerVatNumber != $quoteBillingAddress->getValidatedVatNumber();
 
@@ -406,7 +406,8 @@ class Mage_Sales_Model_Observer
             ->save();
 
         if ($customerAddressId != $customerDefaultBillingAddressId) {
-            $groupId = $customerHelper->getCustomerGroupIdBasedOnVatNumber($customerCountryCode, $gatewayResponse);
+            $groupId = $customerHelper->getCustomerGroupIdBasedOnVatNumber(
+                $customerCountryCode, $gatewayResponse, $customerInstance->getStore());
 
             if ($groupId) {
                 $quoteInstance->setCustomer($customerInstance->setGroupId($groupId));

@@ -211,11 +211,12 @@ class Mage_Customer_Helper_Address extends Mage_Core_Helper_Abstract
     /**
      * Check whether VAT ID validation is enabled
      *
+     * @param Mage_Core_Model_Store|string|int $store
      * @return bool
      */
-    public function isVatValidationEnabled()
+    public function isVatValidationEnabled($store = null)
     {
-        return (bool)Mage::getStoreConfig(self::XML_PATH_VAT_VALIDATION_ENABLED);
+        return (bool)Mage::getStoreConfig(self::XML_PATH_VAT_VALIDATION_ENABLED, $store);
     }
 
     /**
@@ -231,10 +232,11 @@ class Mage_Customer_Helper_Address extends Mage_Core_Helper_Abstract
     /**
      * Retrieve 'validate on each transaction' value
      *
+     * @param Mage_Core_Model_Store|string|int $store
      * @return bool
      */
-    public function getValidateOnEachTransaction()
+    public function getValidateOnEachTransaction($store = null)
     {
-        return (bool)Mage::getStoreConfig(self::XML_PATH_VIV_ON_EACH_TRANSACTION);
+        return (bool)Mage::getStoreConfig(self::XML_PATH_VIV_ON_EACH_TRANSACTION, $store);
     }
 }
