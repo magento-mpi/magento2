@@ -35,7 +35,7 @@ class Legacy_LicenseTest extends PHPUnit_Framework_TestCase
     public function legacyCommentDataProvider()
     {
         $recursiveIterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator(
-            Integrity_ClassesTest::getMagentoRoot(), FilesystemIterator::SKIP_DOTS | FilesystemIterator::UNIX_PATHS
+            PATH_TO_SOURCE_CODE, FilesystemIterator::SKIP_DOTS | FilesystemIterator::UNIX_PATHS
         ));
 
         $rootFolderName = substr(strrchr(Integrity_ClassesTest::getMagentoRoot(), DIRECTORY_SEPARATOR), 1);
