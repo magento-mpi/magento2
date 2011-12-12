@@ -38,7 +38,7 @@ class Legacy_LicenseTest extends PHPUnit_Framework_TestCase
             PATH_TO_SOURCE_CODE, FilesystemIterator::SKIP_DOTS | FilesystemIterator::UNIX_PATHS
         ));
 
-        $rootFolderName = substr(strrchr(Integrity_ClassesTest::getMagentoRoot(), DIRECTORY_SEPARATOR), 1);
+        $rootFolderName = substr(strrchr(PATH_TO_SOURCE_CODE, DIRECTORY_SEPARATOR), 1);
         $extensions = '(xml|css|php|phtml|js|dist|sample|additional)';
         $paths =  array(
             $rootFolderName . '/[^/]+\.' . $extensions,
