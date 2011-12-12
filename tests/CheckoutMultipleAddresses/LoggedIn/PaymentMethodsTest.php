@@ -45,19 +45,58 @@ class CheckoutMultipleAddresses_LoggedIn_PaymentMethodsTest extends Mage_Seleniu
     }
 
     /**
+     * <p>Creating Simple product</p>
+     *
      * @test
+     * @return $simpleSku
      */
-    public function preconditionsForTests()
+    public function preconditionsCreateProduct()
     {
 
     }
 
     /**
-     * @depends preconditionsForTests
+     * <p>Register Customer</p>
+     *
+     * @test
+     * @return $userData
+     */
+    public function preconditionsRegisterCustomer()
+    {
+
+    }
+
+
+    /**
+     * <p>Payment methods without 3D secure.</p>
+     * <p>Preconditions:</p>
+     * <p>1.Product is created.</p>
+     * <p>2.Customer without address is registered.</p>
+     * <p>3.Customer signed in at the frontend.</p>
+     * <p>Steps:</p>
+     * <p>1. Open product page.</p>
+     * <p>2. Add product to Shopping Cart.</p>
+     * <p>3. Click "Checkout with Multiple Addresses".</p>
+     * <p>4. Fill in Select Addresses page.</p>
+     * <p>5. Click 'Continue to Shipping Information' button.</p>
+     * <p>6. Fill in Shipping Information page</p>
+     * <p>7. Click 'Continue to Billing Information' button.</p>
+     * <p>8. Select Payment Method(by data provider).</p>
+     * <p>9. Click 'Continue to Review Your Order' button.</p>
+     * <p>10. Verify information into "Place Order" page</p>
+     * <p>11. Place order.</p>
+     * <p>Expected result:</p>
+     * <p>Checkout is successful.</p>
+     *
+     * @depends preconditionsCreateProduct
+     * @depends preconditionsRegisterCustomer
      * @dataProvider dataWithout3DSecure
+     * @param $payment
+     * @param $simpleSku
+     * @param $userData
      * @test
      */
-    public function differentPaymentMethodsWithout3D($payment, $simpleSku)
+    public function differentPaymentMethodsWithout3D($payment, $simpleSku,$userData)
     {
 
     }
@@ -75,12 +114,36 @@ class CheckoutMultipleAddresses_LoggedIn_PaymentMethodsTest extends Mage_Seleniu
     }
 
     /**
+     * <p>Payment methods with 3D secure.</p>
+     * <p>Preconditions:</p>
+     * <p>1.Product is created.</p>
+     * <p>2.Customer without address is registered.</p>
+     * <p>3.Customer signed in at the frontend.</p>
+     * <p>Steps:</p>
+     * <p>1. Open product page.</p>
+     * <p>2. Add product to Shopping Cart.</p>
+     * <p>3. Click "Checkout with Multiple Addresses".</p>
+     * <p>4. Fill in Select Addresses page.</p>
+     * <p>5. Click 'Continue to Shipping Information' button.</p>
+     * <p>6. Fill in Shipping Information page</p>
+     * <p>7. Click 'Continue to Billing Information' button.</p>
+     * <p>8. Select Payment Method(by data provider).</p>
+     * <p>9. Click 'Continue to Review Your Order' button.</p>
+     * <p>10. Enter 3D security code.</p>
+     * <p>11. Verify information into "Place Order" page</p>
+     * <p>12. Place order.</p>
+     * <p>Expected result:</p>
+     * <p>Checkout is successful.</p>
      *
-     * @depends preconditionsForTests
-     * @dataProvider dataWith3DSecure
+     * @depends preconditionsCreateProduct
+     * @depends preconditionsRegisterCustomer
+     * @dataProvider dataWithout3DSecure
+     * @param $payment
+     * @param $simpleSku
+     * @param $userData
      * @test
      */
-    public function differentPaymentMethodsWith3D($payment, $simpleSku)
+    public function differentPaymentMethodsWith3D($payment, $simpleSku,$userData)
     {
         if ($payment == 'authorizenet') {
             self::$useTearDown = TRUE;

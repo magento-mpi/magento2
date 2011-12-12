@@ -45,15 +45,39 @@ class CheckoutMultipleAddresses_Existing_PaymentMethodsTest extends Mage_Seleniu
     }
 
     /**
+     * <p>Creating Simple product</p>
+     *
      * @test
+     * @return $simpleSku
      */
-    public function preconditionsForTests()
+    public function preconditionsCreateProduct()
     {
 
     }
 
     /**
-     * @depends preconditionsForTests
+     * <p>Payment methods without 3D secure.</p>
+     * <p>Preconditions:</p>
+     * <p>1.Product is created.</p>
+     * <p>Steps:</p>
+     * <p>1. Open product page.</p>
+     * <p>2. Add product to Shopping Cart.</p>
+     * <p>3. Click "Checkout with Multiple Addresses".</p>
+     * <p>4. Select Checkout Method with log in</p>
+     * <p>5. Fill in Select Addresses page.</p>
+     * <p>6. Click 'Continue to Shipping Information' button.</p>
+     * <p>7. Fill in Shipping Information page</p>
+     * <p>8. Click 'Continue to Billing Information' button.</p>
+     * <p>9. Select Payment Method(by data provider).</p>
+     * <p>10. Click 'Continue to Review Your Order' button.</p>
+     * <p>11. Verify information into "Place Order" page</p>
+     * <p>12. Place order.</p>
+     * <p>Expected result:</p>
+     * <p>Checkout is successful.</p>
+     *
+     * @param $payment
+     * @param $simpleSku
+     * @depends preconditionsCreateProduct
      * @dataProvider dataWithout3DSecure
      * @test
      */
@@ -75,8 +99,29 @@ class CheckoutMultipleAddresses_Existing_PaymentMethodsTest extends Mage_Seleniu
     }
 
     /**
+     * <p>Payment methods with 3D secure.</p>
+     * <p>Preconditions:</p>
+     * <p>1.Product is created.</p>
+     * <p>Steps:</p>
+     * <p>1. Open product page.</p>
+     * <p>2. Add product to Shopping Cart.</p>
+     * <p>3. Click "Checkout with Multiple Addresses".</p>
+     * <p>4. Select Checkout Method with log in</p>
+     * <p>5. Fill in Select Addresses page.</p>
+     * <p>6. Click 'Continue to Shipping Information' button.</p>
+     * <p>7. Fill in Shipping Information page</p>
+     * <p>8. Click 'Continue to Billing Information' button.</p>
+     * <p>9. Select Payment Method(by data provider).</p>
+     * <p>10. Click 'Continue to Review Your Order' button.</p>
+     * <p>11. Enter 3D security code.</p>
+     * <p>12. Verify information into "Place Order" page</p>
+     * <p>13. Place order.</p>
+     * <p>Expected result:</p>
+     * <p>Checkout is successful.</p>
      *
-     * @depends preconditionsForTests
+     * @param $payment
+     * @param $simpleSku
+     * @depends preconditionsCreateProduct
      * @dataProvider dataWith3DSecure
      * @test
      */
@@ -85,6 +130,7 @@ class CheckoutMultipleAddresses_Existing_PaymentMethodsTest extends Mage_Seleniu
         if ($payment == 'authorizenet') {
             self::$useTearDown = TRUE;
         }
+        //Test here
     }
 
     public function dataWith3DSecure()
@@ -105,5 +151,5 @@ class CheckoutMultipleAddresses_Existing_PaymentMethodsTest extends Mage_Seleniu
             $this->systemConfigurationHelper()->useHttps('frontend', 'no');
         }
     }
-
+    
 }
