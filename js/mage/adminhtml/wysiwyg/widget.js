@@ -88,7 +88,7 @@ WysiwygWidget.Widget.prototype = {
         this.optionsUrl = optionsSourceUrl;
         this.optionValues = new Hash({});
         this.widgetTargetId = widgetTargetId;
-        if (tinyMCE.activeEditor) {
+        if (typeof(tinyMCE) != "undefined" && tinyMCE.activeEditor) {
             this.bMark = tinyMCE.activeEditor.selection.getBookmark();
         }
 
@@ -235,7 +235,7 @@ WysiwygWidget.Widget.prototype = {
                         widgetTools.onAjaxSuccess(transport);
                         Windows.close("widget_window");
 
-                        if (tinyMCE.activeEditor) {
+                        if (typeof(tinyMCE) != "undefined" && tinyMCE.activeEditor) {
                             tinyMCE.activeEditor.focus();
                             if (this.bMark) {
                                 tinyMCE.activeEditor.selection.moveToBookmark(this.bMark);
