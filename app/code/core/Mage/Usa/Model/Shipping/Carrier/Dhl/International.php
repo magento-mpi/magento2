@@ -19,7 +19,7 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_Core
+ * @package     Mage_Usa
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
@@ -389,7 +389,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
      * @param string $code
      * @return array|bool
      */
-    public function getCode($type, $code='')
+    public function getCode($type, $code = '')
     {
         $codes = array(
             'unit_of_measure'   => array(
@@ -569,40 +569,35 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
     protected function _makePieces(SimpleXMLElement $nodeBkgDetails)
     {
         $divideOrderWeight = (string)$this->getConfigData('divide_order_weight');
-        if ($divideOrderWeight) {
-            if ($this->_getAllItems()) {
-                $maxWeight = $this->_getWeight($this->_maxWeight, true);
-                $nodePieces = $nodeBkgDetails->addChild('Pieces', '', '');
-                $sumWeight  = 0;
-                $numberOfPieces = 0;
-                foreach ($this->_getAllItems() as $weight) {
-                    if (($sumWeight + $weight) < $maxWeight) {
-                        $sumWeight += $weight;
-                    } elseif (($sumWeight + $weight) > $maxWeight) {
-                        $numberOfPieces++;
-                        $nodePiece = $nodePieces->addChild('Piece', '', '');
-                        $nodePiece->addChild('PieceID', $numberOfPieces);
-                        $nodePiece->addChild('Weight', $sumWeight);
-
-                        $sumWeight = $weight;
-                    } else {
-                        $numberOfPieces++;
-                        $sumWeight += $weight;
-                        $nodePiece = $nodePieces->addChild('Piece', '', '');
-                        $nodePiece->addChild('PieceID', $numberOfPieces);
-                        $nodePiece->addChild('Weight', $sumWeight);
-                        $sumWeight = 0;
-                    }
-                }
-                if ($sumWeight > 0) {
+        if ($divideOrderWeight && $this->_getAllItems()) {
+            $maxWeight = $this->_getWeight($this->_maxWeight, true);
+            $nodePieces = $nodeBkgDetails->addChild('Pieces', '', '');
+            $sumWeight  = 0;
+            $numberOfPieces = 0;
+            foreach ($this->_getAllItems() as $weight) {
+                if (($sumWeight + $weight) < $maxWeight) {
+                    $sumWeight += $weight;
+                } elseif (($sumWeight + $weight) > $maxWeight) {
                     $numberOfPieces++;
                     $nodePiece = $nodePieces->addChild('Piece', '', '');
                     $nodePiece->addChild('PieceID', $numberOfPieces);
                     $nodePiece->addChild('Weight', $sumWeight);
+
+                    $sumWeight = $weight;
+                } else {
+                    $numberOfPieces++;
+                    $sumWeight += $weight;
+                    $nodePiece = $nodePieces->addChild('Piece', '', '');
+                    $nodePiece->addChild('PieceID', $numberOfPieces);
+                    $nodePiece->addChild('Weight', $sumWeight);
+                    $sumWeight = 0;
                 }
-            } else {
-                $nodeBkgDetails->addChild('NumberOfPieces', '1');
-                $nodeBkgDetails->addChild('ShipmentWeight', $this->_rawRequest->getWeight());
+            }
+            if ($sumWeight > 0) {
+                $numberOfPieces++;
+                $nodePiece = $nodePieces->addChild('Piece', '', '');
+                $nodePiece->addChild('PieceID', $numberOfPieces);
+                $nodePiece->addChild('Weight', $sumWeight);
             }
         } else {
             $nodeBkgDetails->addChild('NumberOfPieces', '1');
@@ -879,11 +874,11 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
         $maxAllowedWeight = (float) $this->getConfigData('max_package_weight');
         $errorMsg = '';
         $configErrorMsg = $this->getConfigData('specificerrmsg');
-        $defaultErrorMsg = Mage::helper('shipping')->__('The shipping module is not available.');
+        $defaultErrorMsg = Mage::helper('usa')->__('The shipping module is not available.');
         $showMethod = $this->getConfigData('showmethod');
 
         if (!$errorMsg && !$request->getDestPostcode() && $this->isZipCodeRequired()) {
-            $errorMsg = Mage::helper('shipping')->__('This shipping method is not available, please specify ZIP-code');
+            $errorMsg = Mage::helper('usa')->__('This shipping method is not available, please specify ZIP-code');
         }
 
         if ($errorMsg && $showMethod) {

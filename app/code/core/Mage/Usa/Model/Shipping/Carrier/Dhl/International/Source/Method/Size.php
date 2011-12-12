@@ -19,8 +19,8 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_Core
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @package     Mage_Usa
+ * @copyright   Copyright (c) 2011 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
@@ -43,7 +43,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International_Source_Method_Size
         $unitArr = Mage::getSingleton('usa/shipping_carrier_dhl_international')->getCode('size');
 
         $returnArr = array();
-        foreach ($unitArr as $key => $val){
+        foreach ($unitArr as $key => $val) {
             $returnArr[] = array('value' => $key, 'label' => $val);
         }
         return $returnArr;
