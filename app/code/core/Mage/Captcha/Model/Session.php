@@ -46,7 +46,7 @@ class Mage_Captcha_Model_Session extends Mage_Core_Model_Session
     public function __construct(array $params)
     {
         if (!isset($params['formId'])) {
-            Mage::throwException('formId is mandatory');
+            throw new Exception('formId is mandatory');
         }
         $this->_formId = $params['formId'];
         $this->init('captcha');
@@ -73,30 +73,26 @@ class Mage_Captcha_Model_Session extends Mage_Core_Model_Session
     public function setData($key, $value = null)
     {
         $data = array('data' => $value, 'expires' => time() + $this->_lifetime);
-        return parent::setData($this->_getFullKey($key), serialize($data));
+        return parent::setData($this->_getFullKey($key), $data);
     }
 
     /**
      * Reads from session
      *
      * @param string $key
-     * @param bool   $clear
+     * @param bool $clear
+     * @param bool $ignoreTtl
      * @return mixed
      */
-    public function getData($key = '', $clear = false)
+    public function getData($key = '', $clear = false, $ignoreTtl = false)
     {
         $data = parent::getData($this->_getFullKey($key), $clear);
-        if (!is_string($data) || !preg_match('/^a:\d+:\{/', $data)) {
-            // Data has not been set via self::setData(), not serialized
-            return $data;
-        }
-        $data = unserialize($data);
+
         if (!isset($data['expires']) || !isset($data['data'])) {
             return null;
         }
-        $lifetimeExceeded = (time() >= $data['expires']);
-        if (!$this->_ignoreTtl && $lifetimeExceeded) {
-            // Timed out
+
+        if (!$ignoreTtl && (time() >= $data['expires'])) {
             $this->unsetData($key);
             return null;
         }
@@ -112,10 +108,7 @@ class Mage_Captcha_Model_Session extends Mage_Core_Model_Session
      */
     public function getDataIgnoreTtl($key, $clear = false)
     {
-        $this->_ignoreTtl = true;
-        $data = $this->getData($key, $clear);
-        $this->_ignoreTtl = false;
-        return $data;
+        return $this->getData($key, $clear, true);
     }
 
     /**

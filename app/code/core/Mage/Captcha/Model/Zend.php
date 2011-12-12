@@ -58,7 +58,7 @@ class Mage_Captcha_Model_Zend extends Zend_Captcha_Image implements Mage_Captcha
     public function __construct($params)
     {
         if (!isset($params['formId'])) {
-            Mage::throwException('formId is mandatory');
+            throw new Exception('formId is mandatory');
         }
         $this->_formId = $params['formId'];
     }
