@@ -328,7 +328,7 @@
                             <depends><price_range_calculation>manual</price_range_calculation></depends>
                         </price_range_step>
                         <price_range_max_intervals translate="label comment">
-                            <label>Maximum number of price intervals</label>
+                            <label>Maximum Number of Price Intervals</label>
                             <comment>Maximum number of price intervals is 100</comment>
                             <frontend_type>text</frontend_type>
                             <validate>validate-digits validate-digits-range digits-range-2-100</validate>
