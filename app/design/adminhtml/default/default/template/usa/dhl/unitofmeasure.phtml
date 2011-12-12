@@ -39,9 +39,9 @@
             dimensionUnit = '(<?php echo $this->getCm(); ?>)';
             dhlintUnitOfMeasureNote = '<?php echo $this->getDivideOrderWeightNoteKg(); ?>';
         }
-        $$('[for="carriers_dhlint_width"]')[0].innerHTML = '<?php echo $this->getWidth(); ?> ' + dimensionUnit;
-        $$('[for="carriers_dhlint_length"]')[0].innerHTML = '<?php echo $this->getLength(); ?> ' + dimensionUnit;
         $$('[for="carriers_dhlint_height"]')[0].innerHTML = '<?php echo $this->getHeight(); ?> ' + dimensionUnit;
+        $$('[for="carriers_dhlint_depth"]')[0].innerHTML = '<?php echo $this->getDepth(); ?> ' + dimensionUnit;
+        $$('[for="carriers_dhlint_width"]')[0].innerHTML = '<?php echo $this->getWidth(); ?> ' + dimensionUnit;
 
         $('carriers_dhlint_divide_order_weight').next().down().innerHTML = dhlintUnitOfMeasureNote;
     }

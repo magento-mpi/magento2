@@ -48,9 +48,9 @@ class Mage_Usa_Block_Adminhtml_Dhl_Unitofmeasure extends Mage_Adminhtml_Block_Sy
         $this->setInch($this->jsQuoteEscape($carrierModel->getCode('unit_of_dimension_cut', 'I')));
         $this->setCm($this->jsQuoteEscape($carrierModel->getCode('unit_of_dimension_cut', 'C')));
 
-        $this->setWidth($this->jsQuoteEscape($carrierModel->getCode('dimensions', 'width')));
-        $this->setLength($this->jsQuoteEscape($carrierModel->getCode('dimensions', 'length')));
         $this->setHeight($this->jsQuoteEscape($carrierModel->getCode('dimensions', 'height')));
+        $this->setDepth($this->jsQuoteEscape($carrierModel->getCode('dimensions', 'depth')));
+        $this->setWidth($this->jsQuoteEscape($carrierModel->getCode('dimensions', 'width')));
 
         $kgWeight = 70;
 

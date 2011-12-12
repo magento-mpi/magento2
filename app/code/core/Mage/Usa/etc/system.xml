@@ -215,7 +215,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
-                        0</sort_order>
+                        </sort_order>
                         <title translate="label">
                             <label>Title</label>
                             <frontend_type>text</frontend_type>
@@ -1269,33 +1269,33 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </size>
-                        <width translate="label">
-                            <label>Width</label>
+                        <height translate="label">
+                            <label>Height</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>151</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <depends><size>S</size></depends>
-                        </width>
-                        <length translate="label">
-                            <label>Length</label>
+                            <depends><size>1</size></depends>
+                        </height>
+                        <depth translate="label">
+                            <label>Depth</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>152</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <depends><size>S</size></depends>
-                        </length>
-                        <height translate="label">
-                            <label>Height</label>
+                            <depends><size>1</size></depends>
+                        </depth>
+                        <width translate="label">
+                            <label>Width</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>153</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <depends><size>S</size></depends>
-                        </height>
+                            <depends><size>1</size></depends>
+                        </width>
                         <doc_methods translate="label">
                             <label>Allowed Methods</label>
                             <frontend_type>multiselect</frontend_type>

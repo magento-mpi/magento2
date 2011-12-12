@@ -405,13 +405,13 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
                 'C' => Mage::helper('usa')->__('cm'),
             ),
             'dimensions' => array(
-                'width' => Mage::helper('usa')->__('Width'),
-                'length' => Mage::helper('usa')->__('Length'),
-                'height' => Mage::helper('usa')->__('Height'),
+                'height'    => Mage::helper('usa')->__('Height'),
+                'depth'     => Mage::helper('usa')->__('Depth'),
+                'width'     => Mage::helper('usa')->__('Width'),
             ),
             'size'              => array(
-                'R' => Mage::helper('usa')->__('Regular'),
-                'S' => Mage::helper('usa')->__('Specific'),
+                '0' => Mage::helper('usa')->__('Regular'),
+                '1' => Mage::helper('usa')->__('Specific'),
             ),
             'dimensions_variables'  => array(
                 'L'         => Zend_Measure_Weight::POUND,
@@ -420,6 +420,13 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
                 'K'         => Zend_Measure_Weight::KILOGRAM,
                 'KG'        => Zend_Measure_Weight::KILOGRAM,
                 'KILOGRAM'  => Zend_Measure_Weight::KILOGRAM,
+                'I'         => Zend_Measure_Length::INCH,
+                'IN'        => Zend_Measure_Length::INCH,
+                'INCH'      => Zend_Measure_Length::INCH,
+                'C'         => Zend_Measure_Length::CENTIMETER,
+                'CM'        => Zend_Measure_Length::CENTIMETER,
+                'CENTIMETER'=> Zend_Measure_Length::CENTIMETER,
+
             )
         );
 
@@ -555,6 +562,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
             } else {
                 $fullItems[] = $this->_getWeight($item->getWeight());
             }
+            sort($fullItems);
         }
 
         return $fullItems;
@@ -569,9 +577,9 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
     protected function _makePieces(SimpleXMLElement $nodeBkgDetails)
     {
         $divideOrderWeight = (string)$this->getConfigData('divide_order_weight');
+        $nodePieces = $nodeBkgDetails->addChild('Pieces', '', '');
         if ($divideOrderWeight && $this->_getAllItems()) {
             $maxWeight = $this->_getWeight($this->_maxWeight, true);
-            $nodePieces = $nodeBkgDetails->addChild('Pieces', '', '');
             $sumWeight  = 0;
             $numberOfPieces = 0;
             foreach ($this->_getAllItems() as $weight) {
@@ -581,6 +589,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
                     $numberOfPieces++;
                     $nodePiece = $nodePieces->addChild('Piece', '', '');
                     $nodePiece->addChild('PieceID', $numberOfPieces);
+                    $this->_addDimension($nodePiece);
                     $nodePiece->addChild('Weight', $sumWeight);
 
                     $sumWeight = $weight;
@@ -589,7 +598,9 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
                     $sumWeight += $weight;
                     $nodePiece = $nodePieces->addChild('Piece', '', '');
                     $nodePiece->addChild('PieceID', $numberOfPieces);
+                    $this->_addDimension($nodePiece);
                     $nodePiece->addChild('Weight', $sumWeight);
+
                     $sumWeight = 0;
                 }
             }
@@ -597,11 +608,71 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
                 $numberOfPieces++;
                 $nodePiece = $nodePieces->addChild('Piece', '', '');
                 $nodePiece->addChild('PieceID', $numberOfPieces);
+                $this->_addDimension($nodePiece);
                 $nodePiece->addChild('Weight', $sumWeight);
             }
         } else {
-            $nodeBkgDetails->addChild('NumberOfPieces', '1');
-            $nodeBkgDetails->addChild('ShipmentWeight', $this->_rawRequest->getWeight());
+            $nodePiece = $nodePieces->addChild('Piece', '', '');
+            $nodePiece->addChild('PieceID', 1);
+            $this->_addDimension($nodePiece);
+            $nodePiece->addChild('Weight', $this->_rawRequest->getWeight());
+        }
+    }
+
+    /**
+     * Convert item dimension to needed dimension based on config dimension unit of measure
+     *
+     * @param float $dimension
+     * @return float
+     */
+    protected function _getDimension($dimension)
+    {
+        $configWeightUnit = $this->getCode(
+            'dimensions_variables',
+            strtoupper((string)$this->getConfigData('unit_of_measure'))
+        );
+
+        if ($configWeightUnit == Zend_Measure_Weight::POUND) {
+            $configWeightUnit = Zend_Measure_Length::INCH;
+        } else {
+            $configWeightUnit = Zend_Measure_Length::CENTIMETER;
+        }
+
+
+        $countryDimensionUnit = $this->getCode(
+            'dimensions_variables',
+            strtoupper($this->_getDimensionUnit())
+        );
+
+        if ($configWeightUnit != $countryDimensionUnit) {
+            $dimension = round(Mage::helper('usa')->convertMeasureDimension(
+                $dimension,
+                $configWeightUnit,
+                $countryDimensionUnit
+            ), 3);
+        }
+
+        return round($dimension, 3);
+    }
+
+    /**
+     * Add dimension to piece
+     *
+     * @param SimpleXMLElement $nodePiece
+     * @return void
+     */
+    protected function _addDimension($nodePiece)
+    {
+        $sizeChecker = (string)$this->getConfigData('size');
+
+        $height = $this->_getDimension((string)$this->getConfigData('height'));
+        $depth = $this->_getDimension((string)$this->getConfigData('depth'));
+        $width = $this->_getDimension((string)$this->getConfigData('width'));
+
+        if ($sizeChecker && $height && $depth && $width) {
+            $nodePiece->addChild('Height', $height);
+            $nodePiece->addChild('Depth', $depth);
+            $nodePiece->addChild('Width', $width);
         }
     }
 
@@ -864,7 +935,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
      * @param Mage_Shipping_Model_Rate_Request $request
      * @return Mage_Shipping_Model_Carrier_Abstract|Mage_Shipping_Model_Rate_Result_Error|boolean
      */
-    public function processAdditionalValidation(Mage_Shipping_Model_Rate_Request $request)
+    public function proccessAdditionalValidation(Mage_Shipping_Model_Rate_Request $request)
     {
         //Skip by item validation if there is no items in request
         if(!count($this->getAllItems($request))) {
