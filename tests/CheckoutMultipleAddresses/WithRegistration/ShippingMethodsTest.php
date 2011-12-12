@@ -119,7 +119,7 @@ class CheckoutMultipleAddresses_WithRegistration_ShippingMethodsTest extends Mag
      * @depends createVirtualProduct
      * @test
      */
-    public function differentShippingMethods($shipping, $simpleProduct, $virtualProduct)
+    public function differentShippingMethodsWithVirtualProduct($shipping, $simpleProduct, $virtualProduct)
     {
         //Open the simple product
         //Add to cart
