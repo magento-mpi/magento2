@@ -124,7 +124,14 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
             $cart->save();
 
             if (!$this->_getQuote()->validateMinimumAmount()) {
-                $warning = Mage::getStoreConfig('sales/minimum_order/description');
+                $warning = Mage::getStoreConfig('sales/minimum_order/description') ?
+                    Mage::getStoreConfig('sales/minimum_order/description') :
+                    Mage::helper('checkout')->__('Minimum order amount is %s',
+                        Mage::app()->getLocale()->currency(
+                            Mage::app()->getStore($this->_getQuote()->getStoreId())->getCurrentCurrencyCode())
+                            ->toCurrency(Mage::getStoreConfig('sales/minimum_order/amount',
+                                $this->_getQuote()->getStoreId())));
+
                 $cart->getCheckoutSession()->addNotice($warning);
             }
         }
