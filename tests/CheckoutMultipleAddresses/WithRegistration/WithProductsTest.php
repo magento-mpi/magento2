@@ -34,20 +34,65 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class CCheckoutMultipleAddresses_WithRegistration_WithProductsTest extends Mage_Selenium_TestCase
+class CheckoutMultipleAddresses_WithRegistration_WithProductsTest extends Mage_Selenium_TestCase
 {
-
-    protected function assertPreConditions()
+    /**
+     * <p>Login to backend</p>
+     */
+    public function setUpBeforeTests()
     {
-
+        $this->loginAdminUser();
     }
 
     /**
+     * <p>Preconditions:</p>
+     * <p>Navigate to Catalog -> Manage Products</p>
+     */
+    protected function assertPreConditions()
+    {
+        $this->navigate('manage_products');
+        $this->addParameter('id', '0');
+    }
+
+    /**
+     * <p>Checkout with multiple addresses with each product types with all options</p>
+     * <p>Preconditions:</p>
+     * <p>1.Product is created;</p>
+     * <p>Steps:</p>
+     * <p>1. Open product page;</p>
+     * <p>2. Add product to Shopping Cart;</p>
+     * <p>3. Click "Checkout with Multiple Addresses";</p>
+     * <p>4. Select Checkout Method with Registering;</p>
+     * <p>5. Fill in Personal/Address/Login info;</p>
+     * <p>6. Check success registration message;</p>
+     * <p>7. Select Shipping Addresses and click "Continue to Shipping Information";</p>
+     * <p>8. Fill in Shipping Information tab and click "Continue to Billing Information";</p>
+     * <p>9. Fill in Billing Information tab and click "Continue to Review Your Order";</p>
+     * <p>10. Verify information into "Order Review" tab;</p>
+     * <p>11. Place order;</p>
+     * <p>Expected result:</p>
+     * <p>Checkout is successful;</p>
+     *
+     * @dataProvider productData
      * @test
      */
-    public function preconditionsForTests()
+    public function multiCheckoutEachTypeProductAllOptionsRegistration()
     {
 
     }
 
+    public function productData()
+    {
+        return array(
+//            array('dynamic_bundle_visible', 'bundle'),
+//            array('fixed_bundle_visible', 'bundle'),
+//            array('simple_product_visible'),
+//            array('simple_product'),
+//            array('virtual_product_visible', 'virtual'),
+//            array('virtual_product', 'virtual'),
+//            array('downloadable_product_visible', 'downloadable'),
+//            array('configurable_product_visible', 'configurable'),
+//            array('grouped_product_visible', 'grouped')
+        );
+    }
 }
