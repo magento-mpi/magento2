@@ -34,15 +34,9 @@
 class Mage_Captcha_Model_Observer_ForgotPassword extends Mage_Captcha_Model_Observer_AbstractCustomer
 {
     /**
-     * Get FormId
-     *
-     * @abstract
-     * @return string
+     * @var string
      */
-    protected function _getFormId()
-    {
-        return Mage_Captcha_Helper_Data::CAPTCHA_USER_FORGOTPASSWORD_FORM_ID;
-    }
+    protected $_formId = 'user_forgotpassword';
 
     /**
      * Setup Redirect if Captcha Wrong

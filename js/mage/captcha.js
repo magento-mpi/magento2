@@ -24,13 +24,9 @@
  */
 var Captcha = Class.create();
 Captcha.prototype = {
-    initialize: function(url, blockType, width, height, formId, isAdmin){
+    initialize: function(url, formId){
         this.url = url;
-        this.blockType = blockType;
-        this.width = width;
-        this.height = height;
         this.formId = formId;
-        this.isAdmin = isAdmin;
     },
     refresh: function() {
         formId = this.formId;
@@ -45,11 +41,7 @@ Captcha.prototype = {
             },
             method: 'post',
             parameters: {
-                'blockType': this.blockType,
-                'width'    : this.width,
-                'height'   : this.height,
-                'formId'   : this.formId,
-                'isAdmin'  : this.isAdmin
+                'formId'   : this.formId
             }
         });
     }

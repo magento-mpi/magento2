@@ -34,6 +34,11 @@
 abstract class Mage_Captcha_Model_Observer_AbstractCustomer
 {
     /**
+     * @var string
+     */
+    protected $_formId;
+
+    /**
      * Check Captcha
      *
      * @param Varien_Object $observer
@@ -41,25 +46,15 @@ abstract class Mage_Captcha_Model_Observer_AbstractCustomer
      */
     public function checkCaptcha($observer)
     {
-        Mage::helper('captcha')->logAttempt($this->_getFormId());
-
-        if (Mage::helper('captcha')->isRequired($this->_getFormId())){
-            $captchaModel = Mage::helper('captcha')->getCaptcha($this->_getFormId());
+        Mage::helper('captcha')->logAttempt($this->_formId);
+        $captchaModel = Mage::helper('captcha')->getCaptcha($this->_formId);
+        if ($captchaModel->isRequired()){
             if (!$captchaModel->isCorrect($this->_getCaptchaString($observer))) {
                 $this->_setupRedirect($observer->getControllerAction());
             }
         }
         return $this;
     }
-
-    /**
-     * Get FormId
-     *
-     * @abstract
-     * @return string
-     */
-    abstract protected function _getFormId();
-
 
     /**
      * Setup Redirect if Captcha Wrong

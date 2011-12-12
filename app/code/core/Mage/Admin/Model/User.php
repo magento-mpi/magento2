@@ -328,6 +328,10 @@ class Mage_Admin_Model_User extends Mage_Core_Model_Abstract
         $result = false;
 
         try {
+            Mage::dispatchEvent('admin_user_authenticate_before', array(
+                'username' => $username,
+                'user'     => $this
+            ));
             $this->loadByUsername($username);
             $sensitive = ($config) ? $username == $this->getUsername() : true;
 

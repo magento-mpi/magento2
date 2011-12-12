@@ -149,4 +149,25 @@ class Mage_Captcha_Model_Session extends Mage_Core_Model_Session
     {
         return $this->_lifetime;
     }
+
+    /**
+     * Set Form Id
+     *
+     * @param $formId
+     * @return void
+     */
+    public function setFormId($formId)
+    {
+        $this->_formId = $formId;
+    }
+
+    /**
+     * Get Form Id
+     *
+     * @return
+     */
+    public function getFormId()
+    {
+        return $this->_formId;
+    }
 }

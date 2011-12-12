@@ -25,32 +25,32 @@
  */
 ?>
 <?php /* @var $this Mage_Core_Block_Captcha_Zend */ ?>
-<?php if(Mage::helper('captcha')->isRequired($this->getFormId())): ?>
-    <?php /* @var $captcha Mage_Core_Model_Captcha_Zend */ ?>
-    <?php $captcha = $this->getCaptchaInstance() ?>
-    <li>
-        <label for="captcha" class="required"><em>*</em><?php echo Mage::helper('captcha')->__('Please type the letters below')?></label>
-        <div class="input-box captcha">
-            <input name="<?php echo Mage_Captcha_Helper_Data::INPUT_NAME_FIELD_VALUE ?>" type="text" class="input-text required-entry" id="captcha" title="captcha" />
-        </div>
-    </li>
-    <li>
-        <div class="captcha-image" style="width:<?php echo $captcha->getWidth() - 2 ?>px">
-            <img id="<?php echo $this->getFormId() ?>" width="100%" height="<?php echo $captcha->getHeight() ?>" alt="<?php echo $captcha->getImgAlt() ?>" src="<?php echo $captcha->getImgSrc() ?>"/>
-            <script type="text/javascript">
-            //<![CDATA[
-            var captcha = new Captcha('<?php echo Mage::helper('captcha')->getRefreshUrl() ?>', '<?php echo $this->getType() ?>', '<?php echo $captcha->getWidth() ?>', '<?php echo $captcha->getHeight() ?>', '<?php echo $this->getFormId() ?>', '');
-            //]]>
-            </script>
-            <img class="captcha-reload"
-                src="<?php echo $this->getSkinUrl('images/reload.png') ?>"
-                alt="<?php echo $this->__('Reload captcha') ?>"
-                onclick="captcha.refresh()">
-        </div>
-        <?php if ($captcha->isCaseSensitive()) :?>
-        <div class="captcha-note">
-            <p><?php echo Mage::helper('captcha')->__('<strong>Attention</strong>: Captcha is case sensitive.') ?></p>
-        </div>
-        <?php endif; ?>
-    </li>
-<?php endif; ?>
+
+<?php /* @var $captcha Mage_Core_Model_Captcha_Zend */ ?>
+<?php $captcha = $this->getCaptchaModel() ?>
+<li>
+    <label for="captcha" class="required"><em>*</em><?php echo Mage::helper('captcha')->__('Please type the letters below')?></label>
+    <div class="input-box captcha">
+        <input name="<?php echo Mage_Captcha_Helper_Data::INPUT_NAME_FIELD_VALUE ?>" type="text" class="input-text required-entry" id="captcha" title="captcha" />
+    </div>
+</li>
+<li>
+    <div class="captcha-image" style="width:<?php echo $this->getImgWidth() - 2 ?>px">
+        <img id="<?php echo $this->getFormId() ?>" width="100%" height="<?php echo $this->getImgHeight() ?>" src="<?php echo $captcha->getImgSrc() ?>"/>
+        <script type="text/javascript">
+        //<![CDATA[
+        var captcha = new Captcha('<?php echo $this->getRefreshUrl() ?>', '<?php echo $this->getFormId() ?>');
+        //]]>
+        </script>
+        <img class="captcha-reload"
+            src="<?php echo $this->getSkinUrl('images/reload.png') ?>"
+            alt="<?php echo $this->__('Reload captcha') ?>"
+            onclick="captcha.refresh()">
+    </div>
+    <?php if ($captcha->isCaseSensitive()) :?>
+    <div class="captcha-note">
+        <p><?php echo Mage::helper('captcha')->__('<strong>Attention</strong>: Captcha is case sensitive.') ?></p>
+    </div>
+    <?php endif; ?>
+</li>
+

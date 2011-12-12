@@ -34,6 +34,11 @@
 class Mage_Captcha_Model_Observer_ForgotPasswordBackend extends Mage_Captcha_Model_Observer_AbstractCustomer
 {
     /**
+     * @var string
+     */
+    protected $_formId = 'backend_forgotpassword';
+
+    /**
      * Check Captcha
      *
      * @param Varien_Object $observer
@@ -49,16 +54,6 @@ class Mage_Captcha_Model_Observer_ForgotPasswordBackend extends Mage_Captcha_Mod
         }
 
         return $this;
-    }
-
-    /**
-     * Get FormId
-     *
-     * @return string
-     */
-    protected function _getFormId()
-    {
-        return Mage_Captcha_Helper_Data::CAPTCHA_BACKEND_FORGOTPASSWORD_FORM_ID;
     }
 
     /**

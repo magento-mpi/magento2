@@ -31,8 +31,42 @@
  * @package    Mage_Captcha
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Captcha_Block_Captcha extends Mage_Core_Block_Template
+class Mage_Captcha_Block_Captcha_Zend extends Mage_Core_Block_Template
 {
+    const DEFAULT_TEMPLATE = 'captcha/zend.phtml';
+
+    /**
+     * @var string
+     */
+    protected $_captcha;
+
+    /**
+     * Returns template path
+     *
+     * @return string
+     */
+    public function getTemplate()
+    {
+
+        $this->_template = $this->_template ? $this->_template : self::DEFAULT_TEMPLATE;
+
+        if ($this->getIsAjax()) {
+            $this->_template = '';
+        }
+
+        return $this->_template;
+    }
+
+    /**
+     * Returns URL to controller action which returns new captcha image
+     *
+     * @return string
+     */
+    public function getRefreshUrl()
+    {
+        return  Mage::getUrl(Mage::app()->getStore()->isAdmin() ? "adminhtml/refresh/refresh" : "captcha/refresh");
+    }
+
     /**
      * Renders captcha HTML (if required)
      *
@@ -40,9 +74,22 @@ class Mage_Captcha_Block_Captcha extends Mage_Core_Block_Template
      */
     protected function _toHtml()
     {
-        $blockPath = Mage::helper('captcha')->getCaptcha($this->getFormId())->getBlockName();
-        $block = $this->getLayout()->createBlock($blockPath);
-        $block->setData($this->getData());
-        return $block->toHtml();
+        if ($this->getCaptchaModel()->isRequired()) {
+            $this->getCaptchaModel()->generate();
+            return parent::_toHtml();
+        }
+        return '';
     }
+
+
+    /**
+     * Returns captcha model
+     *
+     * @return Mage_Captcha_Model_Abstract
+     */
+    public function getCaptchaModel()
+    {
+        return Mage::helper('captcha')->getCaptcha($this->getFormId());
+    }
+
 }

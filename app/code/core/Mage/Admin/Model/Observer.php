@@ -63,14 +63,10 @@ class Mage_Admin_Model_Observer
             }
             if (!$user || !$user->getId()) {
                 if ($request->getPost('login')) {
-                    $params = array('controller_action' => $observer->getControllerAction());
-                    Mage::dispatchEvent('additional_admin_login_check', $params);
-                    if (!$observer->getControllerAction()->getFlag('', self::FLAG_NO_LOGIN)){
-                        $postLogin  = $request->getPost('login');
-                        $username   = isset($postLogin['username']) ? $postLogin['username'] : '';
-                        $password   = isset($postLogin['password']) ? $postLogin['password'] : '';
-                        $user = $session->login($username, $password, $request);
-                    }
+                    $postLogin  = $request->getPost('login');
+                    $username   = isset($postLogin['username']) ? $postLogin['username'] : '';
+                    $password   = isset($postLogin['password']) ? $postLogin['password'] : '';
+                    $session->login($username, $password, $request);
                     $request->setPost('login', null);
                 }
                 if (!$request->getParam('forwarded')) {

@@ -52,61 +52,9 @@ interface Mage_Captcha_Model_Interface
 
 
  /**
-     * Whether to respect case while checking the answer
-     *
-     * @return bool
-     */
-    public function isCaseSensitive();
-
-
-    /**
-     * Get captcha image base URL
+     * Get Block Name
      *
      * @return string
      */
-    public function getImgUrl();
-
-
-     /**
-     * Return full URL to captcha image
-     *
-     * @return string
-     */
-    public function getImgSrc();
-
-    /**
-     * Returns session instance
-     *
-     * @return Captcha_Zend_Model_Session
-     */
-    public function getSession();
-
-    /**
-     * Returns Captcha Width
-     *
-     * @return string
-     */
-    public function getWidth();
-
-    /**
-     * Returns Captcha Height
-     *
-     * @return string
-     */
-    public function getHeight();
-
-
-    /**
-     * Returns Captcha Height
-     *
-     * @return string
-     */
-    public function getImgAlt();
-
-    /**
-     * Returns Template Path
-     *
-     * @return string
-     */
-    public function getTemplatePath();
+    public function getBlockName();
 }

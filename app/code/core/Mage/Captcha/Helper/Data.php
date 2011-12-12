@@ -46,22 +46,28 @@ class Mage_Captcha_Helper_Data extends Mage_Core_Helper_Abstract
 
     const XML_PATH_CAPTCHA_FONTS = 'default/captcha/fonts';
 
-    const CAPTCHA_USER_CREATE_FORM_ID = 'user_create';
-
-    const CAPTCHA_USER_LOGIN_FORM_ID = 'user_login';
-
-    const CAPTCHA_USER_FORGOTPASSWORD_FORM_ID = 'user_forgotpassword';
-
-    const CAPTCHA_GUEST_CHECKOUT_FORM_ID = 'guest_checkout';
-
-    const CAPTCHA_REGISTER_DURING_CHECKOUT_FORM_ID = 'register_during_checkout';
-
-    const CAPTCHA_BACKEND_FORGOTPASSWORD_FORM_ID = 'backend_forgotpassword';
-
-    const CAPTCHA_BACKEND_LOGIN_FORM_ID = 'backend_login';
-
     /* @var $_captcha Mage_Captcha_Model_Interface */
     protected $_captcha;
+
+    /**
+     * @var Mage_Captcha_Model_Session
+     */
+    protected $_session;
+
+    /**
+     * Get Captcha
+     *
+     * @param string $formId
+     * @return Mage_Captcha_Model_Interface
+     */
+    public function getCaptcha($formId)
+    {
+        if (!$this->_captcha) {
+            $type = Mage::helper('captcha')->getConfigNode('type');
+            $this->_captcha = Mage::getModel('captcha/' . $type, array('formId' => $formId));
+        }
+        return $this->_captcha;
+    }
 
     /**
      * log Attempt
@@ -79,29 +85,6 @@ class Mage_Captcha_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * Resets counter for previously logged incorrect attempts
-     *
-     * @param string $formId
-     * @return Mage_Captcha_Helper_Interface
-     */
-    protected function _resetFailedAttempts($formId)
-    {
-        $this->getSession($formId)->unsetData(Mage_Captcha_Helper_Data::SESSION_FAILED_ATTEMPTS);
-        return $this;
-    }
-
-    /**
-     * Returns number of unsuccessful attempts after which captcha is shown
-     *
-     * @return int
-     */
-    protected function _getShowAfterFailedAttemptsNum()
-    {
-        $showAfterFailedAttemptsNum = (int)$this->getConfigNode('failed_attempts');
-        return $showAfterFailedAttemptsNum;
-    }
-
-    /**
      * Returns session where to save data between page refreshes
      *
      * @param string $formId
@@ -109,41 +92,13 @@ class Mage_Captcha_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getSession($formId)
     {
+        $this->getCaptcha($formId);
         // Own session implementation used to avoid data substitution in case several captchas used on same page
-        return Mage::getSingleton('captcha/session', array('formId' => $formId));
-    }
-
-    /**
-     * Whether to show captcha for this form every time
-     *
-     * @param string $formId
-     * @return bool
-     */
-    protected function _isShowAlways($formId = '')
-    {
-        $node = $this->getConfigNode('mode');
-        $isShowAlways = ((string)$node == Mage_Captcha_Helper_Data::MODE_ALWAYS);
-        if (!$isShowAlways && $formId) {
-            if ($node = $this->getConfigNode('always_for')) {
-                foreach ($node->children() as $nodeFormId => $isAlwaysFor) {
-                    if ((bool)(string)$isAlwaysFor && ($formId == $nodeFormId)) {
-                        $isShowAlways = true;
-                        break;
-                    }
-                }
-            }
+        if (!$this->_session){
+            $this->_session = Mage::getSingleton('captcha/session', array('formId' => $formId));
         }
-        return $isShowAlways;
-    }
-
-    /**
-     * Whether captcha is enabled at this area
-     *
-     * @return bool
-     */
-    protected function _isEnabled()
-    {
-        return (bool)(string)$this->getConfigNode('enable');
+        $this->_session->setFormId($formId);
+        return $this->_session;
     }
 
     /**
@@ -157,28 +112,6 @@ class Mage_Captcha_Helper_Data extends Mage_Core_Helper_Abstract
     {
         $area = Mage::app()->getStore()->isAdmin() ? 'admin' : 'customer';
         return Mage::getConfig()->getNode('default/' . $area . '/captcha/' . $id);
-    }
-
-    /**
-     * Whether captcha is required to be inserted to this form
-     *
-     * @param string $formId
-     * @return bool
-     */
-    public function isRequired($formId)
-    {
-        $targetForms = $this->_getTargetForms();
-        if (empty($formId) || !$this->_isEnabled() || !in_array($formId, $targetForms)) {
-            return false;
-        }
-        if ($this->_isShowAlways($formId)) {
-            return true;
-        }
-        $sessionFailedAttempts = Mage_Captcha_Helper_Data::SESSION_FAILED_ATTEMPTS;
-        $loggedFailedAttempts = (int)$this->getSession($formId)->getDataIgnoreTtl($sessionFailedAttempts);
-        $showAfterFailedAttempts = $this->_getShowAfterFailedAttemptsNum();
-        $isRequired = ($loggedFailedAttempts >= $showAfterFailedAttempts);
-        return $isRequired;
     }
 
     /**
@@ -207,43 +140,5 @@ class Mage_Captcha_Helper_Data extends Mage_Core_Helper_Abstract
             }
         }
         return $fonts;
-    }
-
-    /**
-     * Retrieve list of forms where captcha must be shown
-     *
-     * For frontend this list is based on current website
-     *
-     * @return array
-     */
-    protected function _getTargetForms()
-    {
-        $formsString = (string) $this->getConfigNode('forms');
-        return explode(',', $formsString);
-    }
-
-    /**
-     * Returns URL to controller action which returns new captcha image
-     *
-     * @return string
-     */
-    public function getRefreshUrl()
-    {
-        return Mage::getUrl("captcha/refresh");
-    }
-
-
-    /**
-     * Get Captcha
-     *
-     * @param string $formId
-     * @return Mage_Captcha_Model_Interface
-     */
-    public function getCaptcha($formId)
-    {
-        if (!$this->_captcha) {
-            $this->_captcha = Mage::getModel('captcha/captcha', array('formId' => $formId));
-        }
-        return $this->_captcha;
     }
 }

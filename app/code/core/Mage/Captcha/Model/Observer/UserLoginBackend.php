@@ -31,36 +31,39 @@
  * @package     Mage_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Captcha_Model_Observer_UserLoginBackend extends Mage_Captcha_Model_Observer_AbstractCustomer
+class Mage_Captcha_Model_Observer_UserLoginBackend
 {
     /**
-     * Get FormId
+     * @var string
+     */
+    protected $_formId = 'backend_login';
+
+    /**
+     * Check Captcha
+     *
+     * @param Varien_Object $observer
+     * @return Mage_Bundle_Model_Observer
+     */
+    public function checkCaptcha($observer)
+    {
+        Mage::helper('captcha')->logAttempt($this->_formId);
+        $captchaModel = Mage::helper('captcha')->getCaptcha($this->_formId);
+        if ($captchaModel->isRequired()){
+            if (!$captchaModel->isCorrect($this->_getCaptchaString())) {
+                Mage::throwException(Mage::helper('captcha')->__('Incorrect CAPTCHA.'));
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * Get Captcha String
      *
      * @return string
      */
-    protected function _getFormId()
+    protected function _getCaptchaString()
     {
-        return Mage_Captcha_Helper_Data::CAPTCHA_BACKEND_LOGIN_FORM_ID;
-    }
-
-    /**
-     * Setup Redirect if Captcha Wrong
-     *
-     * @param Mage_Core_Controller_Varien_Action $controller
-     */
-    protected function _setupRedirect($controller)
-    {
-        $controller->setFlag('', Mage_Admin_Model_Observer::FLAG_NO_LOGIN, true);
-        $this->_getSession()->addError(Mage::helper('captcha')->__('Incorrect CAPTCHA.'));
-    }
-
-    /**
-     * Get Session
-     *
-     * @return Mage_Customer_Model_Session
-     */
-    protected function _getSession()
-    {
-        return Mage::getSingleton('adminhtml/session');
+         $string = Mage::app()->getRequest()->getPost(Mage_Captcha_Helper_Data::INPUT_NAME_FIELD_VALUE);
+        return $string;
     }
 }

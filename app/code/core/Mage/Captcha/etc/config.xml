@@ -133,6 +133,17 @@
             </updates>
         </layout>
     </frontend>
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <captcha>Mage_Captcha_Adminhtml</captcha>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
     <global>
         <events>
             <controller_action_predispatch_customer_account_loginPost>
@@ -167,14 +178,14 @@
                     </captcha>
                 </observers>
             </controller_action_predispatch_adminhtml_index_forgotpassword>
-            <additional_admin_login_check>
+            <admin_user_authenticate_before>
                 <observers>
                     <captcha>
                         <class>captcha/observer_userLoginBackend</class>
                         <method>checkCaptcha</method>
                     </captcha>
                 </observers>
-            </additional_admin_login_check>
+            </admin_user_authenticate_before>
         </events>
     </global>
 </config>

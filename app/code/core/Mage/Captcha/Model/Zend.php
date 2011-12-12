@@ -37,10 +37,7 @@ class Mage_Captcha_Model_Zend extends Zend_Captcha_Image implements Mage_Captcha
     const SESSION_WORD = 'word';
     const DEFAULT_WORD_LENGTH_FROM = 3;
     const DEFAULT_WORD_LENGTH_TO   = 5;
-    const DEFAULT_TEMPLATE = 'captcha/zend.phtml';
 
-    /* @var Mage_Captcha_Model_Captcha_Session */
-    protected $_session = null;
     /* @var Mage_Captcha_Helper_Interface */
     protected $_helper = null;
     // "alt" parameter of captcha's <img> tag
@@ -67,67 +64,36 @@ class Mage_Captcha_Model_Zend extends Zend_Captcha_Image implements Mage_Captcha
     }
 
     /**
-     * Returns path for the font file, chosen to generate captcha
+     * Get Block Name
      *
      * @return string
      */
-    protected function _getFontPath()
-    {
-        $helper = $this->_getHelper();
-        $font = (string)$helper->getConfigNode('font');
-        $fonts = $helper->getFonts();
-        $fontPath = '';
-        if (!isset($fonts[$font])) {
-            // Font specified in <font> section is not defined in <fonts> section, using first font from defined list
-            foreach ($fonts as $fontData) {
-                $fontPath = $fontData['path'];
-                break;
-            }
-        } else {
-            $fontPath = $fonts[$font]['path'];
-        }
-        return $fontPath;
+    public function getBlockName(){
+        return 'captcha/captcha_zend';
     }
 
-    /**
-     * Returns captcha helper
-     *
-     * @return Mage_Captcha_Helper_Interface
-     */
-    protected function _getHelper()
-    {
-        if (empty($this->_helper)) {
-            $this->_helper = Mage::helper('captcha');
-        }
-        return $this->_helper;
-    }
 
     /**
-     * Generate word used for captcha render
+     * Whether captcha is required to be inserted to this form
      *
-     * @return string
+     * @return bool
      */
-    protected function _generateWord()
+    public function isRequired()
     {
-        $word = '';
-        $wordLen = $this->_getWordLen();
-        $symbols = $this->_getSymbols();
-        for ($i = 0; $i < $wordLen; $i++) {
-            $word .= $symbols[array_rand($symbols)];
+        $targetForms = $this->_getTargetForms();
+        if (!$this->_isEnabled() || !in_array($this->_formId, $targetForms)) {
+            return false;
         }
-        return $word;
-    }
 
-    /**
-     * Get symbols array to use for word generation
-     *
-     * @return array
-     */
-    protected function _getSymbols()
-    {
-        $symbolsStr = (string)$this->_getHelper()->getConfigNode('symbols');
-        $symbols = str_split($symbolsStr);
-        return $symbols;
+        if ($this->_isShowAlways()) {
+            return true;
+        }
+
+        $sessionFailedAttempts = Mage_Captcha_Helper_Data::SESSION_FAILED_ATTEMPTS;
+        $loggedFailedAttempts = (int)$this->getSession()->getDataIgnoreTtl($sessionFailedAttempts);
+        $showAfterFailedAttempts = (int)$this->_getHelper()->getConfigNode('failed_attempts');
+        $isRequired = ($loggedFailedAttempts >= $showAfterFailedAttempts);
+        return $isRequired;
     }
 
     /**
@@ -193,6 +159,120 @@ class Mage_Captcha_Model_Zend extends Zend_Captcha_Image implements Mage_Captcha
     }
 
     /**
+     * Generate captcha
+     *
+     * @return string
+     */
+    public function generate()
+    {
+        $id = parent::generate();
+        $this->getSession()->setLifetime($this->getTimeout());
+        $this->getSession()->setData(self::SESSION_CAPTCHA_ID, $id);
+        return $id;
+    }
+
+    /**
+     * Checks whether captcha was guessed correctly by user
+     *
+     * @param string $word
+     * @return bool
+     */
+    public function isCorrect($word)
+    {
+        if (!$this->getSession()->getDataIgnoreTtl(self::SESSION_CAPTCHA_ID, true)) {
+            // Captcha has not been generated
+            return true;
+        }
+        $storedWord = $this->getSession()->getDataIgnoreTtl(self::SESSION_WORD, true);
+        if (!$this->isCaseSensitive()) {
+            $storedWord = strtolower($storedWord);
+            $word = strtolower($word);
+        }
+        return ($word == $storedWord);
+    }
+
+    /**
+     * Returns session instance
+     *
+     * @return Captcha_Zend_Model_Session
+     */
+    public function getSession()
+    {
+        return $this->_getHelper()->getSession($this->_formId);
+    }
+
+     /**
+     * Return full URL to captcha image
+     *
+     * @return string
+     */
+    public function getImgSrc()
+    {
+        return $this->getImgUrl() . $this->getId() . $this->getSuffix();
+    }
+
+    /**
+     * Returns path for the font file, chosen to generate captcha
+     *
+     * @return string
+     */
+    protected function _getFontPath()
+    {
+        $font = (string)$this->_getHelper()->getConfigNode('font');
+        $fonts = $this->_getHelper()->getFonts();
+
+        if (isset($fonts[$font])) {
+            $fontPath = $fonts[$font]['path'];
+        } else {
+            $fontData = array_shift($fonts);
+            $fontPath = $fontData['path'];
+        }
+
+        return $fontPath;
+    }
+
+    /**
+     * Returns captcha helper
+     *
+     * @return Mage_Captcha_Helper_Interface
+     */
+    protected function _getHelper()
+    {
+        if (empty($this->_helper)) {
+            $this->_helper = Mage::helper('captcha');
+        }
+        return $this->_helper;
+    }
+
+    /**
+     * Generate word used for captcha render
+     *
+     * @return string
+     */
+    protected function _generateWord()
+    {
+        $word = '';
+        $wordLen = $this->_getWordLen();
+        $symbols = $this->_getSymbols();
+        for ($i = 0; $i < $wordLen; $i++) {
+            $word .= $symbols[array_rand($symbols)];
+        }
+        return $word;
+    }
+
+    /**
+     * Get symbols array to use for word generation
+     *
+     * @return array
+     */
+    protected function _getSymbols()
+    {
+        $symbolsStr = (string)$this->_getHelper()->getConfigNode('symbols');
+        $symbols = str_split($symbolsStr);
+        return $symbols;
+    }
+
+    /**
      * Returns length for generating captcha word. This value may be dynamic.
      *
      * @return int
@@ -222,18 +302,6 @@ class Mage_Captcha_Model_Zend extends Zend_Captcha_Image implements Mage_Captcha
     }
 
     /**
-     * Generate captcha
-     *
-     * @return string
-     */
-    public function generate()
-    {
-        $id = parent::generate();
-        $this->getSession()->setData(self::SESSION_CAPTCHA_ID, $id);
-        return $id;
-    }
-
-    /**
      * Garbage collector. Removes old captcha image file in case user clicked "refresh".
      *
      * @return Mage_Captcha_Model_Interface
@@ -255,56 +323,46 @@ class Mage_Captcha_Model_Zend extends Zend_Captcha_Image implements Mage_Captcha
     }
 
     /**
-     * Checks whether captcha was guessed correctly by user
+     * Whether to show captcha for this form every time
      *
-     * @param string $word
      * @return bool
      */
-    public function isCorrect($word)
+    protected function _isShowAlways()
     {
-        if (!$this->getSession()->getDataIgnoreTtl(self::SESSION_CAPTCHA_ID, true)) {
-            // Captcha has not been generated
+        if ((string)$this->_getHelper()->getConfigNode('mode') == Mage_Captcha_Helper_Data::MODE_ALWAYS){
             return true;
         }
-        $storedWord = $this->getSession()->getData(self::SESSION_WORD, true);
-        if (!$this->isCaseSensitive()) {
-            $storedWord = strtolower($storedWord);
-            $word = strtolower($word);
+
+        $alwaysFor = $this->_getHelper()->getConfigNode('always_for');
+        foreach ($alwaysFor->children() as $nodeFormId => $isAlwaysFor) {
+            if ((string)$isAlwaysFor && $this->_formId == $nodeFormId) {
+                return true;
+            }
         }
-        return ($word == $storedWord);
+
+        return false;
     }
 
     /**
-     * Returns session instance
+     * Whether captcha is enabled at this area
      *
-     * @return Captcha_Zend_Model_Session
+     * @return bool
      */
-    public function getSession()
+    protected function _isEnabled()
     {
-        if (!$this->_session) {
-            $this->_session = $this->_getHelper()->getSession($this->_formId);
-            $this->_session->setLifetime($this->getTimeout());
-        }
-        return $this->_session;
-    }
-
-     /**
-     * Return full URL to captcha image
-     *
-     * @return string
-     */
-    public function getImgSrc()
-    {
-        return $this->getImgUrl() . $this->getId() . $this->getSuffix();
+        return (string)$this->_getHelper()->getConfigNode('enable');
     }
 
     /**
-     * Returns Template Path
+     * Retrieve list of forms where captcha must be shown
      *
-     * @return string
+     * For frontend this list is based on current website
+     *
+     * @return array
      */
-    public function getTemplatePath()
+    protected function _getTargetForms()
     {
-        return self::DEFAULT_TEMPLATE;
+        $formsString = (string) $this->_getHelper()->getConfigNode('forms');
+        return explode(',', $formsString);
     }
 }

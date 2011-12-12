@@ -25,21 +25,26 @@
  */
 
 /**
- * Data source to fill "Forms" field (for backend)
+ * Captcha controller
  *
  * @category   Mage
  * @package    Mage_Core
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Core_Model_Config_Captcha_Form_Backend extends Mage_Core_Model_Config_Captcha_Form_Abstract
+class Mage_Captcha_Adminhtml_RefreshController extends Mage_Adminhtml_Controller_Action
 {
     /**
-     * Returns config node path where available forms are stored
+     * Refreshes captcha and returns JSON encoded URL to image (AJAX action)
+     * Example: {'imgSrc': 'http://example.com/media/captcha/67842gh187612ngf8s.png'}
      *
-     * @return string
+     * @return null
      */
-    protected function _getConfigNodePath()
+    public function refreshAction()
     {
-        return 'default/captcha/backend';
+        $formId = $this->getRequest()->getPost('formId');
+        $captchaModel = Mage::helper('captcha')->getCaptcha($formId);
+        $this->getLayout()->createBlock($captchaModel->getBlockName())->setFormId($formId)->setIsAjax(true)->toHtml();
+        $this->getResponse()->setBody(json_encode(array('imgSrc' => $captchaModel->getImgSrc())));
+        $this->setFlag('', self::FLAG_NO_POST_DISPATCH, true);
     }
 }
