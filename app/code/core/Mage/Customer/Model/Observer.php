@@ -130,7 +130,9 @@ class Mage_Customer_Model_Observer
             /** @var $customerHelper Mage_Customer_Helper_Data */
             $customerHelper = Mage::helper('customer');
 
-            if ($customerAddress->getVatId() == '') {
+            if ($customerAddress->getVatId() == ''
+                || !Mage::helper('core')->isCountryInEU($customerAddress->getCountry()))
+            {
                 $defaultGroupId = $customerHelper->getDefaultCustomerGroupId($customer->getStore());
 
                 if (!$customer->getDisableAutoGroupChange() && $customer->getGroupId() != $defaultGroupId) {
