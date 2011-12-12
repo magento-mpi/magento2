@@ -123,6 +123,16 @@
     #RewriteBase /magento/
 
 ############################################
+## workaround for old api calls, skip to rewrite them
+#    RewriteCond %{REQUEST_URI} ^/api/([a-z][0-9a-z_]+)/?$
+#    RewriteCond %{HTTP:Version} .+
+
+############################################
+## rewrite api calls to api.php
+
+#    RewriteRule .* api.php?type=%1 [QSA,L]
+
+############################################
 ## workaround for HTTP authorization
 ## in CGI environment
 

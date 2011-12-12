@@ -27,6 +27,12 @@
 -->
 <config>
     <api>
+        <adapter_aliases>
+            <v2_soap>
+                <suggest_class>Mage_Api_Helper_Data</suggest_class>
+                <suggest_method>getV2AdapterCode</suggest_method>
+            </v2_soap>
+        </adapter_aliases>
         <adapters>
             <soap>
                 <model>api/server_adapter_soap</model>
