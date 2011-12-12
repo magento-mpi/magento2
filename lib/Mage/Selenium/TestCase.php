@@ -1437,7 +1437,14 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 
         $waitAjax = true;
         if ($fieldSetName) {
-            $xpathContainer = $this->getCurrentUimapPage()->findFieldset($fieldSetName);
+            try {
+                $xpathContainer = $this->getCurrentUimapPage()->findFieldset($fieldSetName);
+            } catch (Exception $e) {
+                $errorMessage = 'Current location url: ' . $this->getLocation() . "\n"
+                        . 'Current page "' . $this->getCurrentPage() . '": '
+                        . $e->getMessage() . ' - "' . $fieldSetName . '"';
+                $this->fail($errorMessage);
+            }
             $xpath = $xpathContainer->getXpath();
         } else {
             $xpathContainer = $this->getCurrentUimapPage();
@@ -1821,7 +1828,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function addVerificationMessage($message)
     {
-        $this->addMessage('verificationErrors', $message);
+//        $this->addMessage('verificationErrors', $message);
+        $this->verificationErrors[] = $message;
     }
 
     /**
@@ -2263,7 +2271,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function saveForm($buttonName, $validate = true)
     {
-        Mage_Selenium_TestCase::$messages = null;
+//        Mage_Selenium_TestCase::$messages = null;
         $this->_parseMessages();
         foreach (Mage_Selenium_TestCase::$messages as $key => $value) {
             Mage_Selenium_TestCase::$messages[$key] = array_unique($value);
@@ -2275,7 +2283,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         foreach ($types as $message) {
             if (array_key_exists($message, Mage_Selenium_TestCase::$messages)) {
                 $exclude = '';
-                foreach (Mage_Selenium_TestCase::$messages as $messageText) {
+                foreach (Mage_Selenium_TestCase::$messages[$message] as $messageText) {
                     $exclude .="[not(..//.='$messageText')]";
                 }
                 ${$message} .= $exclude;
@@ -2730,6 +2738,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             );
         }
 
+        // Clear messages before running test
+        Mage_Selenium_TestCase::$messages = null;
+
         try {
             $class = new ReflectionClass($this);
             $method = $class->getMethod($this->name);
@@ -2742,6 +2753,10 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             $testResult = $method->invokeArgs(
                     $this, array_merge($this->data, $this->dependencyInput)
             );
+            // Fail test if have verification errors
+            if (!empty($this->verificationErrors)) {
+                $this->fail(implode("\n", $this->verificationErrors));
+            }
         } catch (Exception $e) {
             if (!$e instanceof PHPUnit_Framework_IncompleteTest &&
                     !$e instanceof PHPUnit_Framework_SkippedTest &&
