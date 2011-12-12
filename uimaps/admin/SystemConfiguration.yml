@@ -80,6 +80,8 @@ system_configuration:
                                     xpath: //div/fieldset[legend='Store Information']
                                     links:
                                         store_information_link: //a[text()='Store Information']
+                                    dropdowns:
+                                        store_country: //select[@id='general_store_information_merchant_country']
                                     fields:
                                         store_name: //input[@name='groups[store_information][fields][name][value]']
                                         store_contact_telephone: //input[@name='groups[store_information][fields][phone][value]']
@@ -1929,9 +1931,9 @@ system_configuration:
                                         fedex_ship_to_specific_countries_use_default: //input[@name='groups[fedex][fields][specificcountry][inherit]']
                             -
                                 dhl_usa:
-                                    xpath: //div/fieldset[legend='DHL USA']
+                                    xpath: //div/fieldset[legend='DHL (Deprecated)']
                                     links:
-                                        dhl_link: //a[text()='DHL USA']
+                                        dhl_link: //a[@id='carriers_dhl-head']
                                     fields:
                                         dhl_usa_gateway_url: //input[@id='carriers_dhl_gateway_url']
                                         dhl_usa_title: //input[@id='carriers_dhl_title']
@@ -1973,9 +1975,9 @@ system_configuration:
                                         dhl_usa_ship_to_specific_countries: //select[@id='carriers_dhl_specificcountry']
                             -
                                 dhl_international:
-                                    xpath: //div/fieldset[legend='DHL International']
+                                    xpath: //div/fieldset[legend='DHL']
                                     links:
-                                        dhl_link: //a[text()='DHL International']
+                                        dhl_link: //a[@id='carriers_dhlint-head']
                                     fields:
                                         dhl_int_title: //input[@id='carriers_dhlint_title']
                                         dhl_int_gateway_url: //input[@id='carriers_dhlint_gateway_url']

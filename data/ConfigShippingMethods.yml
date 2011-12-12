@@ -156,26 +156,65 @@ fedex_enable:
             fedex_allowed_methods: all
             fedex_ship_to_applicable_countries: All Allowed Countries
 
-dhl_enable:
+dhl_usa_enable:
     configuration_scope: Default Config
-    tab_1: &dhl
+    tab_1: &dhl_usa
         tab_name: sales_shipping_methods
         configuration:
-            dhl_enabled_for_checkout: Yes
-            dhl_access_id: VENDR_7626
-            dhl_password: 5Q479265S0
-            dhl_account_number: 799909537
-            dhl_shipping_key_international: 54233F2B2C4E5C4B4C5E5A595655305A46485447445C5658
-            dhl_shipping_key: 54233F2B2C4E5C4B4C5E5A595655304F424B5D44415D5A5A5C5A
-            dhl_ship_to_applicable_countries: All Allowed Countries
+            dhl_usa_enabled: Yes
+            dhl_usa_gateway_url: HTTPS://eCommerce.airborne.com/ApiLandingTest.asp
+            dhl_usa_access_id: VENDR_7626
+            dhl_usa_password: 5Q479265S0
+            dhl_usa_account_number: 799909537
+            dhl_usa_shipping_key_int: 54233F2B2C4E5C4B4C5E5A595655305A46485447445C5658
+            dhl_usa_shipping_key: 54233F2B2C4E5C4B4C5E5A595655304F424B5D44415D5A5A5C5A
+            dhl_usa_ship_to_applicable_countries: All Allowed Countries
+
+dhl_int_common_configuration: &dhl_int_common_config
+    dhl_int_enabled: Yes
+    dhl_int_account_number: 799909537
+    dhl_int_displayed_error_message: This shipping method is currently unavailable. If you would like to ship using this shipping method, please contact us.
+    dhl_int_ship_to_applicable_countries: All Allowed Countries
+
+dhl_int_ap_enable:
+    configuration_scope: Default Config
+    tab_1: &dhl_int_ap
+        tab_name: sales_shipping_methods
+        configuration:
+            <<: *dhl_int_common_config
+            dhl_int_access_id: EvgeniyUK
+            dhl_int_password: aDfc45Dfo9
+
+dhl_int_am_enable:
+    configuration_scope: Default Config
+    tab_1: &dhl_int_am
+        tab_name: sales_shipping_methods
+        configuration:
+            <<: *dhl_int_common_config
+            dhl_int_access_id: EvgeniyUSA
+            dhl_int_password: okG43dHy7
+
+dhl_int_ea_enable:
+    configuration_scope: Default Config
+    tab_1: &dhl_int_ea
+        tab_name: sales_shipping_methods
+        configuration:
+            <<: *dhl_int_common_config
+            dhl_int_access_id: EvgeniyDE
+            dhl_int_password: aplNb6Rop
+
+dhl_int_enable:
+    configuration_scope: Default Config
+    tab_1: *dhl_int_ea
 
 shipping_disable:
     configuration_scope: Default Config
     tab_1:
         tab_name: sales_shipping_methods
         configuration:
-#            dhl_enabled_for_checkout: No
             fedex_enabled_for_checkout: No
             usps_enabled_for_checkout: No
             ups_enabled: No
             free_shipping_enabled: No
+            dhl_usa_enabled: No
+            dhl_int_enabled: No

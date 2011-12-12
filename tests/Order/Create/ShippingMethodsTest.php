@@ -43,6 +43,8 @@ class Order_Create_ShippingMethodsTest extends Mage_Selenium_TestCase
     public function setUpBeforeTests()
     {
         $this->loginAdminUser();
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('store_information');
     }
 
     protected function assertPreConditions()
@@ -115,7 +117,8 @@ class Order_Create_ShippingMethodsTest extends Mage_Selenium_TestCase
             array('upsxml'),
             array('usps'),
             array('fedex'),
-            array('dhl')
+            array('dhl_usa'),
+//@TODO:            array('dhl_int'),
         );
     }
 
