@@ -42,6 +42,13 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
     const DHL_CONTENT_TYPE_NON_DOC    = 'N';
 
     /**
+     * Container types that could be customized
+     *
+     * @var array
+     */
+    protected $_customizableContainerTypes = array(self::DHL_CONTENT_TYPE_NON_DOC);
+
+    /**
      * Code of the carrier
      */
     const CODE = 'dhlint';
@@ -782,6 +789,13 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
                             foreach ($xml->GetQuoteResponse->BkgDetails->QtdShp as $quotedShipment) {
                                 $this->_addRate($quotedShipment);
                             }
+                        } elseif (isset($xml->AirwayBillNumber)) {
+                            $result = new Varien_Object();
+                            $result->setTrackingNumber((string)$xml->AirwayBillNumber);
+                            $result->setShippingLabelContent(base64_decode((string)$xml->Barcodes->OriginDestnBarcode));
+                            return $result;
+                        } else {
+
                         }
                     }
                 }
@@ -919,7 +933,11 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
      */
     protected function _doShipmentRequest(Varien_Object $request)
     {
-        return $request;
+        $this->_prepareShipmentRequest($request);
+        $this->_mapRequestToShipment($request);
+        $this->setRequest($request);
+
+        return $this->_doRequest();
     }
 
     /**
@@ -962,5 +980,447 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
         } else {
             return false;
         }
+    }
+
+    /**
+     * Return container types of carrier
+     *
+     * @param Varien_Object|null $params
+     * @return array|bool
+     */
+    public function getContainerTypes(Varien_Object $params = null)
+    {
+        return array(
+            self::DHL_CONTENT_TYPE_DOC      => Mage::helper('usa')->__('Documents'),
+            self::DHL_CONTENT_TYPE_NON_DOC  => Mage::helper('usa')->__('Non Documents')
+        );
+    }
+
+    /**
+     * Map request to shipment
+     *
+     * @param Varien_Object $request
+     * @return null
+     */
+    protected function _mapRequestToShipment(Varien_Object $request)
+    {
+        $customsValue = $request->getPackageParams()->getCustomsValue();
+
+
+        $request->getLimitMethod($request->getShippingMethod());
+        $request->getPackageValue($customsValue);
+        $request->getValueWithDiscount($customsValue);
+        $request->getPackageCustomsValue($customsValue);
+        $request->getFreeMethodWeight(0);
+        $request->getDhlShipmentType($request->getPackagingType());
+    }
+
+    /**
+     * Do rate request and handle errors
+     *
+     * @return Mage_Shipping_Model_Rate_Result|Varien_Object
+     */
+    protected function _doRequest()
+    {
+        $rawRequest = $this->_request;
+
+        $origCountryPath = 'shipping/origin/country_id';
+        $originRegion = (string)$this->getCountryParams(
+            Mage::getStoreConfig($origCountryPath, $this->getStore())
+        )->region;
+
+        if (!$originRegion) {
+            Mage::throwException(Mage::helper('usa')->__('Wrong Region.'));
+        }
+
+        if ($originRegion == 'AM') {
+            $originRegion = '';
+        }
+
+        $xmlStr = '<?xml version="1.0" encoding="UTF-8"?>'
+            . '<req:ShipmentValidateRequest' . $originRegion
+            . ' xmlns:req="http://www.dhl.com"'
+            . ' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"'
+            . ' xsi:schemaLocation="http://www.dhl.com ship-val-req'
+            . ($originRegion ? '_' . $originRegion : '') . '.xsd" />';
+        $xml = new SimpleXMLElement($xmlStr);
+
+        $nodeRequest = $xml->addChild('Request', '', '');
+        $nodeServiceHeader = $nodeRequest->addChild('ServiceHeader');
+        $nodeServiceHeader->addChild('SiteID', (string)$this->getConfigData('id'));
+        $nodeServiceHeader->addChild('Password', (string)$this->getConfigData('password'));
+
+        $xml->addChild('LanguageCode', 'EN', '');
+        $xml->addChild('PiecesEnabled', 'Y', '');
+
+        /* Billing */
+        $nodeBilling = $xml->addChild('Billing', '', '');
+        $nodeBilling->addChild('ShipperAccountNumber', (string)$this->getConfigData('account'));
+        /*
+         * Method of Payment:
+         * S (Shipper)
+         * R (Receiver)
+         * T (Third Party)
+         */
+        $nodeBilling->addChild('ShippingPaymentType', 'S');
+
+        /*
+         * Shipment bill to account – required if Shipping PaymentType is other than 'S'
+         */
+        //$nodeBilling->addChild('BillingAccountNumber', (string)$this->getConfigData('password'));
+        //$nodeBilling->addChild('DutyPaymentType', '');
+        //$nodeBilling->addChild('DutyAccountNumber', '');
+
+        /* Receiver */
+        $nodeConsignee = $xml->addChild('Consignee', '', '');
+
+        $companyName = ($rawRequest->getRecipientContactCompanyName())
+                ? $rawRequest->getRecipientContactCompanyName()
+                : $rawRequest->getRecipientContactPersonName();
+
+        $nodeConsignee->addChild('CompanyName', substr($companyName, 0, 35));
+
+        $address = $rawRequest->getRecipientAddressStreet1(). ' ' . $rawRequest->getRecipientAddressStreet2();
+        if (strlen($address) > 35) {
+            for ($i = 0; $i < strlen($address); $i += 35) {
+                $nodeConsignee->addChild('AddressLine', substr($address, $i, 35));
+            }
+        } else {
+            $nodeConsignee->addChild('AddressLine', $address);
+        }
+
+        $nodeConsignee->addChild('City', $rawRequest->getRecipientAddressCity());
+        $nodeConsignee->addChild('Division', $rawRequest->getRecipientAddressStateOrProvinceCode());
+        $nodeConsignee->addChild('PostalCode', $rawRequest->getRecipientAddressPostalCode());
+        $nodeConsignee->addChild('CountryCode', $rawRequest->getRecipientAddressCountryCode());
+        $nodeConsignee->addChild('CountryName',
+            (string)$this->getCountryParams($rawRequest->getRecipientAddressCountryCode())->name);
+        $nodeContact = $nodeConsignee->addChild('Contact');
+        $nodeContact->addChild('PersonName', substr($rawRequest->getRecipientContactPersonName(), 0, 34));
+        $nodeContact->addChild('PhoneNumber', substr($rawRequest->getRecipientContactPhoneNumber(), 0, 24));
+
+        /* Commodity */
+        /*
+         * The CommodityCode element contains commodity code for shipment contents. Its
+         * value should lie in between 1 to 9999.This field is mandatory.
+         */
+        $nodeCommodity = $xml->addChild('Commodity', '', '');
+        $nodeCommodity->addChild('CommodityCode', '1');
+
+        /* Dutiable */
+        if ($this->getConfigData('content_type') == self::DHL_CONTENT_TYPE_NON_DOC) {
+            $nodeDutiable = $xml->addChild('Dutiable', '', '');
+            $nodeDutiable->addChild('DeclaredValue',
+                round($rawRequest->getOrderShipment()->getOrder()->getSubtotal(),2));
+            $baseCurrencyCode = Mage::app()->getWebsite($rawRequest->getWebsiteId())->getBaseCurrencyCode();
+            $nodeDutiable->addChild('DeclaredCurrency', $baseCurrencyCode);
+        }
+
+        /* Reference */
+        /*
+         * This element identifies the reference information. It is an optional field in the
+         * shipment validation request. Only the first reference will be taken currently.
+         */
+        $nodeReference = $xml->addChild('Reference', '', '');
+        $nodeReference->addChild('ReferenceID', 'shipment reference');
+        $nodeReference->addChild('ReferenceType', 'St');
+
+        /* Shipment Details */
+        $nodeShipmentDetails = $xml->addChild('ShipmentDetails', '', '');
+        $nodeShipmentDetails->addChild('NumberOfPieces', count($rawRequest->getPackages()));
+        $nodeShipmentDetails->addChild('CurrencyCode',
+            Mage::app()->getWebsite($this->_request->getWebsiteId())->getBaseCurrencyCode());
+        $nodePieces = $nodeShipmentDetails->addChild('Pieces', '', '');
+
+        /*
+         * Package type
+         * EE (DHL Express Envelope), OD (Other DHL Packaging), CP (Custom Packaging)
+         * DC (Document), DM (Domestic), ED (Express Document), FR (Freight)
+         * BD (Jumbo Document), BP (Jumbo Parcel), JD (Jumbo Junior Document)
+         * JP (Jumbo Junior Parcel), PA (Parcel), DF (DHL Flyer)
+         */
+        foreach ($rawRequest->getPackages() as $package) {
+            $nodePiece = $nodePieces->addChild('Piece', '', '');
+            $packageType = 'DC';
+            if ($package['params']['container'] == self::DHL_CONTENT_TYPE_NON_DOC) {
+                $packageType = 'CP';
+            }
+            //$niodePiece->addChild('PieceID', '');
+            $nodePiece->addChild('PackageType', $packageType);
+            $nodePiece->addChild('Weight', $package['params']['weight']);
+            $nodePiece->addChild('Depth', $package['params']['length']);
+            $nodePiece->addChild('Width', $package['params']['width']);
+            $nodePiece->addChild('Height', $package['params']['height']);
+        }
+
+        if ($package['params']['container'] == self::DHL_CONTENT_TYPE_NON_DOC) {
+            $packageType = 'CP';
+        }
+        $nodeShipmentDetails->addChild('PackageType', $packageType);
+        $nodeShipmentDetails->addChild('Weight', $rawRequest->getPackageWeight());
+
+        $dimensionUnit  = $rawRequest->getPackageParams()->getDimensionUnits();
+        $weightUnits    = $rawRequest->getPackageParams()->getWeightUnits();
+
+        $nodeShipmentDetails->addChild('DimensionUnit', $dimensionUnit[0]);
+        $nodeShipmentDetails->addChild('WeightUnit',  $weightUnits[0]);
+
+        $nodeShipmentDetails->addChild('GlobalProductCode', $rawRequest->getShippingMethod());
+        $nodeShipmentDetails->addChild('LocalProductCode', $rawRequest->getShippingMethod());
+
+        /*
+         * The DoorTo Element defines the type of delivery service that applies to the shipment.
+         * The valid values are DD (Door to Door), DA (Door to Airport) , AA and DC (Door to
+         * Door non-compliant)
+         */
+        $nodeShipmentDetails->addChild('DoorTo', 'DD');
+        $nodeShipmentDetails->addChild('Date', Mage::getModel('core/date')->date('Y-m-d'));
+        $nodeShipmentDetails->addChild('Contents', 'DHL Parcel TEST');
+        if ($this->getConfigData('content_type') == self::DHL_CONTENT_TYPE_NON_DOC) {
+            $nodeShipmentDetails->addChild('IsDutiable', 'Y');
+        }
+
+        /* Shipper */
+        $nodeShipper = $xml->addChild('Shipper', '', '');
+        $nodeShipper->addChild('ShipperID', (string)$this->getConfigData('account'));
+        $nodeShipper->addChild('CompanyName', $rawRequest->getShipperContactCompanyName());
+        //$nodeShipper->addChild('RegisteredAccount', '');
+
+        $address = $rawRequest->getShipperAddressStreet1(). ' ' . $rawRequest->getShipperAddressStreet2();
+        if (strlen($address) > 35) {
+            for ($i = 0; $i < strlen($address); $i += 35) {
+                $nodeShipper->addChild('AddressLine', substr($address, $i, 35));
+            }
+        } else {
+            $nodeShipper->addChild('AddressLine', $address);
+        }
+
+        $nodeShipper->addChild('City', $rawRequest->getShipperAddressCity());
+        $nodeShipper->addChild('Division', $rawRequest->getShipperAddressStateOrProvinceCode());
+        $nodeShipper->addChild('PostalCode', $rawRequest->getShipperAddressPostalCode());
+        $nodeShipper->addChild('CountryCode', $rawRequest->getShipperAddressCountryCode());
+        $nodeShipper->addChild('CountryName',
+            (string)$this->getCountryParams($rawRequest->getShipperAddressCountryCode())->name);
+        $nodeContact = $nodeShipper->addChild('Contact', '', '');
+        $nodeContact->addChild('PersonName', substr($rawRequest->getShipperContactPersonName(), 0, 34));
+        $nodeContact->addChild('PhoneNumber', substr($rawRequest->getShipperContactPhoneNumber(), 0, 24));
+
+        $request = $xml->asXML();
+        $request = utf8_encode($request);
+        $responseBody = $this->_getCachedQuotes($request);
+        if ($responseBody === null) {
+            $debugData = array('request' => $request);
+            try {
+                $client = new Varien_Http_Client();
+                $client->setUri((string)$this->getConfigData('gateway_url'));
+                $client->setConfig(array('maxredirects' => 0, 'timeout' => 30));
+                $client->setRawData($request);
+                $responseBody = $client->request(Varien_Http_Client::POST)->getBody();
+                $debugData['result'] = $responseBody;
+                $this->_setCachedQuotes($request, $responseBody);
+            } catch (Exception $e) {
+                $this->_errors[$e->getCode()] = $e->getMessage();
+                $responseBody = '';
+            }
+            $this->_debug($debugData);
+        }
+
+        return $this->_parseResponse($responseBody);
+    }
+
+    /**
+     * Get tracking
+     *
+     * @param mixed $trackings
+     * @return mixed
+     */
+    public function getTracking($trackings)
+    {
+        if (!is_array($trackings)) {
+            $trackings = array($trackings);
+        }
+        $this->_getXMLTracking($trackings);
+
+        return $this->_result;
+    }
+
+    /**
+     * Send request for tracking
+     *
+     * @param array $trackings
+     * @return void
+     */
+    protected function _getXMLTracking($trackings)
+    {
+        $xmlStr = '<?xml version="1.0" encoding="UTF-8"?>'
+            . '<req:KnownTrackingRequest'
+            . ' xmlns:req="http://www.dhl.com"'
+            . ' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"'
+            . ' xsi:schemaLocation="http://www.dhl.com TrackingRequestKnown.xsd" />';
+
+        $xml = new SimpleXMLElement($xmlStr);
+
+        $requestNode = $xml->addChild('Request', '', '');
+        $serviceHeaderNode = $requestNode->addChild('ServiceHeader', '', '');
+        $serviceHeaderNode->addChild('SiteID', (string)$this->getConfigData('id'));
+        $serviceHeaderNode->addChild('Password', (string)$this->getConfigData('password'));
+
+        $xml->addChild('LanguageCode', 'EN', '');
+        foreach ($trackings as $tracking) {
+            $xml->addChild('AWBNumber', $tracking, '');
+        }
+        /*
+         * Checkpoint details selection flag
+         * LAST_CHECK_POINT_ONLY
+         * ALL_CHECK_POINTS
+         */
+        $xml->addChild('LevelOfDetails', 'ALL_CHECK_POINTS', '');
+
+        /*
+         * Value that indicates for getting the tracking details with the additional
+         * piece details and its respective Piece Details, Piece checkpoints along with
+         * Shipment Details if queried.
+         *
+         * S-Only Shipment Details
+         * B-Both Shipment & Piece Details
+         * P-Only Piece Details
+         * Default is ‘S’
+         */
+        //$xml->addChild('PiecesEnabled', 'ALL_CHECK_POINTS');
+
+        $request = $xml->asXML();
+        $request = utf8_encode($request);
+
+        $responseBody = $this->_getCachedQuotes($request);
+        if ($responseBody === null) {
+            $debugData = array('request' => $request);
+            try {
+                $client = new Varien_Http_Client();
+                $client->setUri((string)$this->getConfigData('gateway_url'));
+                $client->setConfig(array('maxredirects' => 0, 'timeout' => 30));
+                $client->setRawData($request);
+                $responseBody = $client->request(Varien_Http_Client::POST)->getBody();
+                $debugData['result'] = $responseBody;
+                $this->_setCachedQuotes($request, $responseBody);
+            } catch (Exception $e) {
+                $this->_errors[$e->getCode()] = $e->getMessage();
+                $responseBody = '';
+            }
+            $this->_debug($debugData);
+        }
+
+
+        $this->_parseXmlTrackingResponse($trackings, $responseBody);
+    }
+
+    /**
+     * Parse xml tracking response
+     *
+     * @param array $trackings
+     * @param string $response
+     * @return void
+     */
+    protected function _parseXmlTrackingResponse($trackings, $response)
+    {
+        $errorTitle = Mage::helper('usa')->__('Unable to retrieve tracking');
+        $resultArr = array();
+        $errorArr = array();
+        $trackNum = '';
+
+        $htmlTranslationTable = get_html_translation_table(HTML_ENTITIES);
+        unset($htmlTranslationTable['<'], $htmlTranslationTable['>'], $htmlTranslationTable['"']);
+        $response = str_replace(array_keys($htmlTranslationTable), array_values($htmlTranslationTable), $response);
+
+        if (strlen(trim($response)) > 0) {
+            if (strpos(trim($response), '<?xml') === 0) {
+                $xml = simplexml_load_string($response);
+                if (is_object($xml)) {
+                    if ((isset($xml->Response->Status->ActionStatus)
+                        && $xml->Response->Status->ActionStatus == 'Failure')
+                        || (isset($xml->GetQuoteResponse->Note->Condition))
+                    ) {
+                        if (isset($xml->Response->Status->Condition)) {
+                            $nodeCondition = $xml->Response->Status->Condition;
+                        }
+
+                        $code = isset($nodeCondition->ConditionCode) ? (string)$nodeCondition->ConditionCode : 0;
+                        $data = isset($nodeCondition->ConditionData) ? (string)$nodeCondition->ConditionData : '';
+                        $this->_errors[$code] = Mage::helper('usa')->__('Error #%s : %s', $code, $data);
+                    } elseif (is_object($xml) && is_object($xml->AWBInfo)) {
+                        foreach ($xml->AWBInfo as $awbinfo) {
+                            $awbinfoData = array();
+                            $trackNum = isset($awbinfo->AWBNumber) ? (string)$awbinfo->AWBNumber : '';
+                            if (is_object($awbinfo) && $awbinfo->ShipmentInfo) {
+                                $shipmentInfo = $awbinfo->ShipmentInfo;
+
+                                if ($shipmentInfo->ShipmentDesc) {
+                                    $awbinfoData['service'] = (string)$shipmentInfo->ShipmentDesc;
+                                }
+
+                                $awbinfoData['weight'] = (string)$shipmentInfo->Weight
+                                    . ' ' . (string)$shipmentInfo->WeightUnit;
+
+                                $packageProgress = array();
+                                if (isset($shipmentInfo->ShipmentEvent)) {
+                                    foreach ($shipmentInfo->ShipmentEvent as $shipmentEvent) {
+                                        $shipmentEventArray = array();
+                                        $shipmentEventArray['activity']         =
+                                            (string)$shipmentEvent->ServiceEvent->EventCode
+                                            . ' '
+                                            . (string)$shipmentEvent->ServiceEvent->Description;
+                                        $shipmentEventArray['deliverydate']     = (string)$shipmentEvent->Date;
+                                        $shipmentEventArray['deliverytime']     = (string)$shipmentEvent->Time;
+
+                                        $shipmentEventArray['deliverylocation'] =
+                                            (string)$shipmentEvent->ServiceArea->Description
+                                            . ' '
+                                            . '[' . (string)$shipmentEvent->ServiceArea->ServiceAreaCode . ']';
+                                        $packageProgress[] = $shipmentEventArray;
+                                    }
+                                    $awbinfoData['progressdetail'] = $packageProgress;
+                                }
+                                $resultArr[$trackNum] = $awbinfoData;
+                            } else {
+                                $errorArr[$trackNum] = Mage::helper('usa')->__('Unable to retrieve tracking');
+                            }
+                        }
+                    }
+                }
+            } else {
+                $errorTitle = Mage::helper('usa')->__('Response is in the wrong format');
+            }
+        }
+
+        $result = Mage::getModel('shipping/tracking_result');
+        if ($errorArr || $resultArr) {
+            foreach ($errorArr as $trackNum => $err) {
+                $error = Mage::getModel('shipping/tracking_result_error');
+                $error->setCarrier($this->_code);
+                $error->setCarrierTitle($this->getConfigData('title'));
+                $error->setTracking($trackNum);
+                $error->setErrorMessage($err);
+                $result->append($error);
+            }
+
+            foreach ($resultArr as $trackNum => $data) {
+                $tracking = Mage::getModel('shipping/tracking_result_status');
+                $tracking->setCarrier($this->_code);
+                $tracking->setCarrierTitle($this->getConfigData('title'));
+                $tracking->setTracking($trackNum);
+                $tracking->addData($data);
+
+                $result->append($tracking);
+            }
+        } else {
+            foreach ($trackings as $trackNum) {
+                $error = Mage::getModel('shipping/tracking_result_error');
+                $error->setCarrier($this->_code);
+                $error->setCarrierTitle($this->getConfigData('title'));
+                $error->setTracking($trackNum);
+                $error->setErrorMessage($errorTitle);
+                $result->append($error);
+            }
+        }
+        $this->_result = $result;
     }
 }
