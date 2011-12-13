@@ -116,7 +116,8 @@ class ProductAttribute_Helper extends Mage_Selenium_TestCase
         $this->fillForm($attrData, 'manage_lables_options');
         $this->storeViewTitles($attrData);
         $this->attributeOptions($attrData);
-        $this->saveForm('save_attribute', false);
+        $this->clickButton('save_attribute');
+//        $this->saveForm('save_attribute', false);
     }
 
     /**
