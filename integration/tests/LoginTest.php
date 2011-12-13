@@ -232,40 +232,45 @@ class LoginTest extends Magento_Test_Webservice
                 'role_type' => 'G',
             ),
         );
-        $resource = array("all");
-        
+        $resource = array('all');
+
         $user1 = new Mage_Api_Model_User;
         $role1 = new Mage_Api_Model_Roles;
+        $this->_addModelToDelete($user1, true)
+            ->_addModelToDelete($role1, true);
         $relation1 = new Mage_Api_Model_Rules;
         $role1->setData($roles[0])->save();
         $user1->setData($users[0])
-            ->save();
+                ->save();
         $user1->setRoleIds(array($role1->getId()))
-            ->saveRelations();
+                ->saveRelations();
         $relation1->setRoleId($role1->getId())
-            ->setResources($resource)
-            ->saveRel();
+                ->setResources($resource)
+                ->saveRel();
 
         $user2 = new Mage_Api_Model_User;
         $role2 = new Mage_Api_Model_Roles;
+        $this->_addModelToDelete($user2, true)
+            ->_addModelToDelete($role2, true);
         $relation2 = new Mage_Api_Model_Rules;
         $role2->setData($roles[1])->save();
         $user2->setData($users[1])->save();
         $user2->setRoleIds(array($role2->getId()))
-            ->saveRelations();
+                ->saveRelations();
 
         $relation2->setRoleId($role2->getId())
-            ->setResources($resource)
-            ->saveRel();
+                ->setResources($resource)
+                ->saveRel();
 
         $client = $this->getWebService();
         $client->setSession(null);
-        $client->login($users[0]['username'], $users[0]['api_key']);
-        $client->login($users[1]['username'], $users[1]['api_key']);
-
-        $user1->delete();
-        $role1->delete();
-        $user2->delete();
-        $role2->delete();
+        $this->assertNotEmpty(
+            $client->login($users[0]['username'], $users[0]['api_key']),
+            sprintf('Could not login with user "%s"', $users[0]['username'])
+        );
+        $this->assertNotEmpty(
+            $client->login($users[1]['username'], $users[1]['api_key']),
+            sprintf('Could not login with user "%s"', $users[1]['username'])
+        );
     }
 }
