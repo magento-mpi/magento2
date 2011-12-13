@@ -36,6 +36,13 @@ if (!Mage::isInstalled()) {
     exit;
 }
 
+if (isset($_SERVER['MAGE_IS_DEVELOPER_MODE'])) {
+    Mage::setIsDeveloperMode(true);
+}
+
+//enable show errors
+#ini_set('display_errors', 1);
+
 Mage::$headersSentThrowsException = false;
 Mage::init('admin');
 
