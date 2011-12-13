@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 /**
- * Default test suites declaration: run verification of coding standards and code integrity test suites
+ * Run all available test suites
  *
  * {license_notice}
  *
@@ -13,11 +13,8 @@
 -->
 <phpunit bootstrap="./framework/bootstrap.php">
     <testsuites>
-        <testsuite name="PHP Coding Standard Verification">
-            <file>testsuite/Php/LiveCodeTest.php</file>
-        </testsuite>
-        <testsuite name="Code Integrity Tests">
-            <directory>testsuite/Integrity</directory>
+        <testsuite name="All Static Code Analysis Tests">
+            <directory>testsuite</directory>
         </testsuite>
     </testsuites>
     <php>

@@ -29,7 +29,7 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
         $contents = file_get_contents($file);
         $classes = $this->_collectMatches($contents, '/
             # ::getResourceModel ::getBlockSingleton ::getModel ::getSingleton
-            \:\:get(?:Resource | Block)?(?:Model | Singleton)\(\s*[\'"]([a-z\d_]+)[\'"]\s*[\),]
+            \:\:get(?:ResourceModel | BlockSingleton | Model | Singleton)?\(\s*[\'"]([a-z\d_]+)[\'"]\s*[\),]
 
             # various methods, first argument
             | \->(?:initReport | addBlock | createBlock | setDataHelperName | getBlockClassName _?initLayoutMessages
@@ -46,11 +46,13 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
             | function\s_getCollectionClass\(\)\s+{\s+return\s+[\'"]([a-z\d_]+)[\'"]
             | \'resource_model\'\s*=>\s*[\'"]([a-z\d_]+)[\'"]
             | _parentResourceModelName\s*=\s*\'([a-z\d_]+)\'
-            /imx'
+            /ix'
         );
 
         // without modifier "i". Starting from capital letter is a significant characteristic of a class name
-        $this->_collectMatches($contents, '/\->(?:_init|setType)\(\s*(?:,?\'([A-Z][a-z\d][A-Za-z\d_]+)\'){1,2}\s*\)/m',
+        $this->_collectMatches($contents, '/(?:\-> | parent\:\:)(?:_init | setType)\(\s*
+                \'([A-Z][a-z\d][A-Za-z\d_]+)\'(?:,\s*\'([A-Z][a-z\d][A-Za-z\d_]+)\')
+            \s*\)/x',
             $classes
         );
 
@@ -67,7 +69,7 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
      */
     protected function _collectResourceHelpersPhp($contents, &$classes)
     {
-        $matches = $this->_collectMatches($contents, '/(?:\:\:|\->)getResourceHelper\(\s*\'([a-z\d_]+)\'\s*\)/imx');
+        $matches = $this->_collectMatches($contents, '/(?:\:\:|\->)getResourceHelper\(\s*\'([a-z\d_]+)\'\s*\)/ix');
         foreach ($matches as $moduleName) {
             $classes[] = "{$moduleName}_Model_Resource_Helper_Mysql4";
         }
@@ -86,7 +88,7 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
         );
         $result = array();
         foreach ($regexIterator as $fileInfo) {
-            $result[] = array((string)$fileInfo);
+            $result[(string)$fileInfo] = array((string)$fileInfo);
         }
         return $result;
     }
@@ -102,9 +104,9 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
         $classes = array();
 
         // various nodes
-        $nodes = $xml->xpath('/config//resource_adapter'
-            . ' | //class | //model | //backend_model | //source_model | //price_model | //model_token'
-            . ' | //attribute_model | //writer_model | //clone_model | //frontend_model'
+        $nodes = $xml->xpath('/config//resource_adapter | //class | //model | //backend_model | //source_model
+            | //price_model | //model_token | //writer_model | //clone_model | //frontend_model | //admin_renderer
+            | //renderer'
         ) ?: array();
         foreach ($nodes as $node) {
             if (preg_match('/^([A-Z][a-z\d_][A-Za-z\d_]+)\:?/', (string)$node, $matches)) {
@@ -150,7 +152,7 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
             if (in_array(basename($path), $excludedFiles)) {
                 continue;
             }
-            $result[] = array($path);
+            $result[$path] = array($path);
         }
         return $result;
     }
@@ -165,41 +167,32 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
         $xml = simplexml_load_file($path);
         $classes = array();
 
-        // any text nodes that contain conventional block/model/helper names
-        $nodes = $xml->xpath('/layout//*[contains(text(),"_Block_")] | /layout//*[contains(text(),"_Model_")]
-            | /layout//*[contains(text(),"_Helper_")]'
-        ) ?: array();
-        foreach ($nodes as $class) {
+        // block@type
+        $nodes = $xml->xpath('/layout//block[@type]') ?: array();
+        foreach ($nodes as $node) {
+            $node = (array)$node;
+            $class = $node['@attributes']['type'];
             $classes[(string)$class] = 1;
         }
 
-        $this->_collectLayoutAttributeClasses($xml, $classes);
+        // any text nodes that contain conventional block/model/helper names
+        $nodes = $xml->xpath('/layout//action/attributeType | /layout//renderer_block | /layout//renderer
+            | /layout//action[@method="addTab"]/content
+            | /layout//action[@method="addRenderer" or @method="addItemRender" or @method="addColumnRender"
+                or @method="addPriceBlockType" or @method="addMergeSettingsBlockType"
+                or @method="addInformationRenderer" or @method="addOptionRenderer" or @method="addRowItemRender"
+                or @method="addDatabaseBlock"]/block
+            | /layout//action[@method="setMassactionBlockName" or @method="addProductConfigurationHelper"]/name
+            | /layout//action[@method="setEntityModelClass"]/code
+            | /layout//*[contains(text(), "_Block_") or contains(text(), "_Model_") or contains(text(), "_Helper_")]'
+        ) ?: array();
+        foreach ($nodes as $node) {
+            $classes[(string)$node] = 1;
+        }
 
         $this->_collectLayoutHelpersAndModules($xml, $classes);
 
         $this->_assertClassesExist(array_keys($classes));
-    }
-
-    /**
-     * Collect declaration of block classes from various attributes in layout XML nodes
-     *
-     * @param SimpleXmlElement $xml
-     * @param array &$classes
-     */
-    protected function _collectLayoutAttributeClasses($xml, &$classes)
-    {
-        $nodes = $xml->xpath('/layout//@type | /layout//@attributeType | /layout//@name | /layout//@content'
-            . ' | /layout//@render | /layout//@admin_renderer | /layout//@block | /layout//@renderer_block'
-            . ' | /layout//@renderer'
-        ) ?: array();
-        foreach ($nodes as $node) {
-            $node = (array)$node;
-            foreach ($node['@attributes'] as $class) {
-                if (false !== strpos($class, '_Block_')) {
-                    $classes[(string)$class] = 1;
-                }
-            }
-        }
     }
 
     /**
@@ -233,17 +226,19 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
     {
         $result = array();
         $root = PATH_TO_SOURCE_CODE;
+        $pool = '{community,core,local}';
+        $namespace = $module = $area = $package = $theme = '*';
         $globPatterns = array(
-            "{$root}/app/code/{community,core,local}/*/*/view/*.xml",
-            "{$root}/app/design/*/*/*/*.xml",
+            "{$root}/app/code/{$pool}/{$namespace}/{$module}/view/{$area}/*.xml",
+            "{$root}/app/design/{$area}/{$package}/$theme/*.xml",
             // diving 2-3 levels should be enough and that's faster than recursive iterator and filter by regex
-            "{$root}/app/code/{community,core,local}/*/*/view/*/*.xml",
-            "{$root}/app/design/*/*/*/*/*.xml",
-            "{$root}/app/design/*/*/*/*/*/*.xml",
+            "{$root}/app/code/{$pool}/{$namespace}/{$module}/view/{$area}/*/*.xml",
+            "{$root}/app/design/{$area}/{$package}/$theme/*/*.xml",
+            "{$root}/app/design/{$area}/{$package}/$theme/*/*/*.xml",
         );
         foreach ($globPatterns as $globPattern) {
             foreach (glob($globPattern, GLOB_BRACE) as $path) {
-                $result[] = array($path);
+                $result[$path] = array($path);
             }
         }
         return $result;
@@ -314,8 +309,13 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
             return;
         }
         $badClasses = array();
+        $isBug = false;
         foreach ($classes as $class) {
             try {
+                if ('Mage_Catalog_Model_Resource_Convert' == $class) {
+                    $isBug = true;
+                    continue;
+                }
                 $path = str_replace('_', DIRECTORY_SEPARATOR, $class) . '.php';
                 $this->assertTrue(isset(self::$_existingClasses[$class])
                     || file_exists(PATH_TO_SOURCE_CODE . "/app/code/core/{$path}")
@@ -325,14 +325,14 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
                 );
                 self::$_existingClasses[$class] = 1;
             } catch (PHPUnit_Framework_AssertionFailedError $e) {
-                if ('Mage_Catalog_Model_Resource_Convert' == $class) {
-                    $this->markTestIncomplete('Bug MAGE-4763');
-                }
                 $badClasses[] = $class;
             }
         }
         if ($badClasses) {
             $this->fail("Missing files with declaration of classes:\n" . implode("\n", $badClasses));
+        }
+        if ($isBug) {
+            $this->markTestIncomplete('Bug MAGE-4763');
         }
     }
 }

@@ -19,69 +19,72 @@
  */
 class Php_Exemplar_CodeStyleTest extends PHPUnit_Framework_TestCase
 {
-    protected $_actualReportFile;
+    /**
+     * @var Inspection_CodeSniffer_Command
+     */
+    protected static $_cmd = null;
+
+    public static function setUpBeforeClass()
+    {
+        $reportFile = __DIR__ . '/../../../tmp/phpcs_report.xml';
+        self::$_cmd = new Inspection_CodeSniffer_Command(realpath(__DIR__ . '/../_files/phpcs'), $reportFile);
+    }
 
     protected function setUp()
     {
-        if (!$this->_actualReportFile) {
-            $this->_actualReportFile = __DIR__ . '/../../../tmp/phpcs_report.xml';
-            $dirname = dirname($this->_actualReportFile);
-            if (!is_dir($dirname)) {
-                mkdir($dirname, 0777, true);
-            }
+        $reportFile = self::$_cmd->getReportFile();
+        if (!is_dir(dirname($reportFile))) {
+            mkdir(dirname($reportFile), 0777);
         }
     }
 
     protected function tearDown()
     {
-        if (file_exists($this->_actualReportFile)) {
-            unlink($this->_actualReportFile);
+        $reportFile = self::$_cmd->getReportFile();
+        if (file_exists($reportFile)) {
+            unlink($reportFile);
         }
+        rmdir(dirname($reportFile));
+    }
+
+    public function testPhpCsAvailability()
+    {
+        $this->assertTrue(self::$_cmd->canRun(), 'PHP Code Sniffer command is not available.');
     }
 
     /**
+     * @param string $inputFile
+     * @param string $expectedResultFile
      * @dataProvider ruleDataProvider
+     * @depends testPhpCsAvailability
      */
-    public function testRule($inputFile, $expectedConfigFile)
+    public function testRule($inputFile, $expectedResultFile)
     {
-        // Load expectation
-        if (!file_exists($expectedConfigFile)) {
-            $this->fail('Expectation config file "' . $expectedConfigFile . '" does not exist.');
-        }
-        $expected = new SimpleXMLElement(file_get_contents($expectedConfigFile));
+        $expectedXml = simplexml_load_file($expectedResultFile);
 
-        // Test should be skipped (rule is not implemented)
-        $elements = $expected->xpath('/config/skipped');
+        // rule is not implemented
+        $elements = $expectedXml->xpath('/config/incomplete');
         if ($elements) {
-            $message = (string) $elements[0];
-            $this->markTestSkipped('Skipped testing ' . $inputFile . ' - ' . $message);
+            $message = (string)$elements[0];
+            $this->markTestIncomplete("Rule for the fixture '{$inputFile}' is not implemented. {$message}");
         }
 
-        // Check to run additional methods before making test
-        $elements = $expected->xpath('/config/run');
+        // run additional methods before making test
+        $elements = $expectedXml->xpath('/config/run');
         foreach ($elements as $element) {
-            $method = (string) $element->attributes()->method;
+            $method = (string)$element->attributes()->method;
             $this->$method();
         }
 
-        // Process input file
-        $cmd = new Inspection_CodeSniffer_Command(
-            realpath(__DIR__ . '/../_files/phpcs'),
-            $this->_actualReportFile,
-            array($inputFile)
-        );
-        if (!$cmd->canRun()) {
-            $this->markTestSkipped('PHP Code Sniffer command line is not available.');
-        }
-        $cmd->run();
-        $this->assertFileExists($this->_actualReportFile);
+        self::$_cmd->run(array($inputFile));
+        $resultXml = simplexml_load_file(self::$_cmd->getReportFile());
+        $this->_assertTotalErrorsAndWarnings($resultXml, $expectedXml);
+        $this->_assertErrors($resultXml, $expectedXml);
+        $this->_assertWarnings($resultXml, $expectedXml);
 
-        $report = new SimpleXMLElement(file_get_contents($this->_actualReportFile));
-        $this->_checkReportAgainstExpectations($report, $expected);
-
-        // Check maybe we did nothing, just checked report existance.
-        if ($this->getCount() == 1) {
-            $this->fail('Wrong test config, nothing is tested in ' . $inputFile);
+        // verify that there has been at least one assertion performed
+        if ($this->getCount() == 0) {
+            $this->fail("Broken test: there has no assertions been performed for the fixture '{$inputFile}'.");
         }
     }
 
@@ -105,7 +108,7 @@ class Php_Exemplar_CodeStyleTest extends PHPUnit_Framework_TestCase
     protected function _getTestsAndExpectations($inputDir, $expectationDir)
     {
         $result = array();
-        $skipFiles = array('.', '..', '.svn');
+        $skipFiles = array('.', '..');
         $dir = dir($inputDir);
         do {
             $file = $dir->read();
@@ -132,42 +135,49 @@ class Php_Exemplar_CodeStyleTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Checks report against expectations, by issuing several 'assert' statements
+     * Assert total expected quantity of errors and warnings
      *
      * @param SimpleXMLElement $report
      * @param SimpleXMLElement $expected
-     * @return Php_Etalon_CodeStyleTest
      */
-    protected function _checkReportAgainstExpectations($report, $expected)
+    protected function _assertTotalErrorsAndWarnings($report, $expected)
     {
-        // a) Total errors and warnings
-        $elements = $expected->xpath('/config/total');
-        if ($elements) {
-            $numErrorsActual = count($report->xpath('/checkstyle/file/error[@severity="error"]'));
-            $numWarningsActual = count($report->xpath('/checkstyle/file/error[@severity="warning"]'));
-
-            $element = $elements[0];
-            $attributes = $element->attributes();
-            if (isset($attributes->errors)) {
-                $numErrorsExpected = (string) $attributes->errors;
-                $this->assertEquals(
-                    $numErrorsExpected,
-                    $numErrorsActual,
-                    'Expecting ' . $numErrorsExpected . ' errors, got ' . $numErrorsActual
-                );
-            }
-            if (isset($attributes->warnings)) {
-                $numWarningsExpected = (string) $attributes->warnings;
-                $this->assertEquals(
-                    $numWarningsExpected,
-                    $numWarningsActual,
-                    'Expecting ' . $numWarningsExpected . ' warnings, got ' . $numWarningsActual
-                );
-            }
+        $elements = $expected->xpath('/config/total') ?: array();
+        if (!$elements) {
+            return;
         }
+        $numErrorsActual = count($report->xpath('/checkstyle/file/error[@severity="error"]'));
+        $numWarningsActual = count($report->xpath('/checkstyle/file/error[@severity="warning"]'));
 
-        // b) Errors
-        $elements = $expected->xpath('/config/error');
+        $element = $elements[0];
+        $attributes = $element->attributes();
+        if (isset($attributes->errors)) {
+            $numErrorsExpected = (string) $attributes->errors;
+            $this->assertEquals(
+                $numErrorsExpected,
+                $numErrorsActual,
+                'Expecting ' . $numErrorsExpected . ' errors, got ' . $numErrorsActual
+            );
+        }
+        if (isset($attributes->warnings)) {
+            $numWarningsExpected = (string) $attributes->warnings;
+            $this->assertEquals(
+                $numWarningsExpected,
+                $numWarningsActual,
+                'Expecting ' . $numWarningsExpected . ' warnings, got ' . $numWarningsActual
+            );
+        }
+    }
+
+    /**
+     * Assert that errors correspond to expected errors
+     *
+     * @param SimpleXMLElement $report
+     * @param SimpleXMLElement $expected
+     */
+    protected function _assertErrors($report, $expected)
+    {
+        $elements = $expected->xpath('/config/error') ?: array();
         foreach ($elements as $element) {
             $lineExpected = (string) $element->attributes()->line;
             $errorElement = $report->xpath('/checkstyle/file/error[@severity="error"][@line=' . $lineExpected . ']');
@@ -176,9 +186,17 @@ class Php_Exemplar_CodeStyleTest extends PHPUnit_Framework_TestCase
                 'Expected error at line ' . $lineExpected . ' is not detected by PHPCS.'
             );
         }
+    }
 
-        // c) Warnings
-        $elements = $expected->xpath('/config/warning');
+    /**
+     * Assert that warnings correspond to expected warnings
+     *
+     * @param SimpleXMLElement $report
+     * @param SimpleXMLElement $expected
+     */
+    protected function _assertWarnings($report, $expected)
+    {
+        $elements = $expected->xpath('/config/warning') ?: array();
         foreach ($elements as $element) {
             $lineExpected = (string) $element->attributes()->line;
             $errorElement = $report->xpath('/checkstyle/file/error[@severity="warning"][@line=' . $lineExpected . ']');
@@ -187,8 +205,6 @@ class Php_Exemplar_CodeStyleTest extends PHPUnit_Framework_TestCase
                 'Expected warning at line ' . $lineExpected . ' is not detected by PHPCS.'
             );
         }
-
-        return $this;
     }
 
     /**

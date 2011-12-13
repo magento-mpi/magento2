@@ -10,27 +10,22 @@
  */
 
 $tests = array(
-    array('../../tests/unit', ''),
-    array('../../tests/static/framework/tests/unit', ''),
-    array('../../tests/static', ''),
-    array('../../tests/integration/framework/tests/unit', ''),
-    array('../../tests/integration', '')
+    '../../tests/unit' => '',
+    '../../tests/static/framework/tests/unit' => '',
+    '../../tests/integration/framework/tests/unit' => '',
+    '../../tests/integration' => '',
+    '../../tests/static' => '',
 );
-$arguments = getopt('', array('legacy::', 'all::'));
-if (isset($arguments['legacy']) || isset($arguments['all'])) {
-    $tests[] = array('../../tests/static', 'testsuite/Legacy');
-}
+$arguments = getopt('', array('all'));
 if (isset($arguments['all'])) {
-    $tests[] = array('../../tests/static', 'testsuite/Php/CodeMessTest.php');
-    $tests[] = array('../../tests/static', 'testsuite/Php/Exemplar');
+    $tests['../../tests/static'] = ' -c phpunit-all.xml.dist';
 }
 
 $failures = array();
-foreach ($tests as $line) {
-    list($dir, $options) = $line;
+foreach ($tests as $dir => $options) {
     $dirName = realpath(__DIR__ . '/' . $dir);
     chdir($dirName);
-    $command = 'phpunit ' . $options;
+    $command = 'phpunit' . $options;
     $message = $dirName . '> ' . $command;
     echo "\n\n";
     echo str_pad("---- {$message} ", 70, '-');

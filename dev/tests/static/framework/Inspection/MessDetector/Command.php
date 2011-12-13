@@ -24,13 +24,21 @@ class Inspection_MessDetector_Command extends Inspection_CommandAbstract
      *
      * @param string $rulesetFile File that declares the inspection rules
      * @param string $reportFile Destination file to write inspection report to
-     * @param array $whiteList Files/folders to be inspected
-     * @param array $blackList Files/folders to be excluded from the inspection
      */
-    public function __construct($rulesetFile, $reportFile, array $whiteList, array $blackList = array())
+    public function __construct($rulesetFile, $reportFile)
     {
-        parent::__construct($reportFile, $whiteList, $blackList);
+        parent::__construct($reportFile);
         $this->_rulesetFile = $rulesetFile;
+    }
+
+    /**
+     * Get path to the ruleset file
+     *
+     * @return string
+     */
+    public function getRulesetFile()
+    {
+        return $this->_rulesetFile;
     }
 
     /**
@@ -42,28 +50,29 @@ class Inspection_MessDetector_Command extends Inspection_CommandAbstract
     }
 
     /**
+     * @param array $whiteList
+     * @param array $blackList
      * @return string
      */
-    protected function _buildShellCmd()
+    protected function _buildShellCmd($whiteList, $blackList)
     {
-        $whiteList = $this->_whiteList;
         $whiteList = implode(',', $whiteList);
         $whiteList = escapeshellarg($whiteList);
 
-        $blackList = '';
-        if ($this->_blackList) {
-            foreach ($this->_blackList as $fileOrDir) {
+        $blackListStr = '';
+        if ($blackList) {
+            foreach ($blackList as $fileOrDir) {
                 $fileOrDir = str_replace('/', DIRECTORY_SEPARATOR, $fileOrDir);
-                $blackList .= ($blackList ? ',' : '') . $fileOrDir;
+                $blackListStr .= ($blackListStr ? ',' : '') . $fileOrDir;
             }
-            $blackList = '--exclude ' . escapeshellarg($blackList);
+            $blackListStr = '--exclude ' . escapeshellarg($blackListStr);
         }
 
         return 'phpmd'
             . ' ' . $whiteList
             . ' xml'
             . ' ' . escapeshellarg($this->_rulesetFile)
-            . ($blackList ? ' ' . $blackList : '')
+            . ($blackListStr ? ' ' . $blackListStr : '')
             . ' --reportfile ' . escapeshellarg($this->_reportFile)
         ;
     }

@@ -21,11 +21,7 @@ class Inspection_CodeSniffer_CommandTest extends PHPUnit_Framework_TestCase
         $this->_cmd = $this->getMock(
             'Inspection_CodeSniffer_Command',
             array('_execShellCmd'),
-            array(
-                'some/ruleset/dir',
-                'some/report/file.xml',
-                array('some/test/dir with space', 'some/test/file with space.php')
-            )
+            array('some/ruleset/dir', 'some/report/file.xml')
         );
     }
 
@@ -95,7 +91,7 @@ class Inspection_CodeSniffer_CommandTest extends PHPUnit_Framework_TestCase
             ->method('_execShellCmd')
             ->with($expectedCmd)
         ;
-        $this->_cmd->run();
+        $this->_cmd->run(array('some/test/dir with space', 'some/test/file with space.php'));
     }
 
     /**
@@ -109,6 +105,6 @@ class Inspection_CodeSniffer_CommandTest extends PHPUnit_Framework_TestCase
             ->method('_execShellCmd')
             ->with($this->stringContains(' --extensions=txt,xml '))
         ;
-        $this->_cmd->run();
+        $this->_cmd->run(array());
     }
 }

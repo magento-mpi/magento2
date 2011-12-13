@@ -28,15 +28,12 @@ class Inspection_CopyPasteDetector_Command extends Inspection_CommandAbstract
      * Constructor
      *
      * @param string $reportFile Destination file to write inspection report to
-     * @param array $whiteList Files/folders to be inspected
-     * @param array $blackList Files/folders to be excluded from the inspection
      * @param int|null $minLines Minimum number of identical lines
      * @param int|null $minTokens Minimum number of identical tokens
      */
-    public function __construct(
-        $reportFile, array $whiteList, array $blackList = array(), $minLines = null, $minTokens = null
-    ) {
-        parent::__construct($reportFile, $whiteList, $blackList);
+    public function __construct($reportFile, $minLines = null, $minTokens = null)
+    {
+        parent::__construct($reportFile);
         $this->_minLines = $minLines;
         $this->_minTokens = $minTokens;
     }
@@ -50,15 +47,15 @@ class Inspection_CopyPasteDetector_Command extends Inspection_CommandAbstract
     }
 
     /**
+     * @param array $whiteList
+     * @param array $blackList
      * @return string
      */
-    protected function _buildShellCmd()
+    protected function _buildShellCmd($whiteList, $blackList)
     {
-        $whiteList = $this->_whiteList;
         $whiteList = array_map('escapeshellarg', $whiteList);
         $whiteList = implode(' ', $whiteList);
 
-        $blackList = $this->_blackList;
         if ($blackList) {
             $blackList = array_map('escapeshellarg', $blackList);
             $blackList = '--exclude ' . implode(' --exclude ', $blackList);
@@ -78,11 +75,13 @@ class Inspection_CopyPasteDetector_Command extends Inspection_CommandAbstract
     /**
      * Runs command and produces report in html format
      *
+     * @param array $whiteList
+     * @param array $blackList
      * @return bool
      */
-    public function run()
+    public function run(array $whiteList, array $blackList = array())
     {
-        $result = parent::run();
+        $result = parent::run($whiteList, $blackList);
         if ($result) {
             $generateHtmlResult = $this->_generateHtmlReport();
             if ($generateHtmlResult === false) {
