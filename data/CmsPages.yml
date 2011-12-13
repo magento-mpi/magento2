@@ -29,19 +29,20 @@
 #<-------------------------------All Fields------------------------------------>
 new_page_all_fields:
     page_information:
-        page_title: new page
-        url_key: new_page
+        page_title: new cms page all(%randomize%)
+        url_key: cms_page_url_%randomize%
+        store_view: Default Store View
         status: Enabled
     content:
-        content_heading: new content
+        content_heading: Content Heading Text
         widgets:
             widget_1:
                 widget_type: CMS Page Link
-                anchor_custom_text: test
-                anchor_custom_title: test
+                anchor_custom_text: CMS Page Link anchor_text_(%randomize%)
+                anchor_custom_title: CMS Page Link anchor_titlte_(%randomize%)
                 template: CMS Page Link Block Template
                 chosen_option:
-                    filter_url_key: no-route
+                    filter_url_key: about-magento-demo-store
             widget_2:
                 widget_type: CMS Static Block
                 template: CMS Static Block Default Template
@@ -49,20 +50,20 @@ new_page_all_fields:
                     filter_identifier: footer_links
             widget_3:
                 widget_type: Catalog Category Link
-                anchor_custom_text: test
-                anchor_custom_title: test
+                anchor_custom_text: Catalog Category Link anchor_text_(%randomize%)
+                anchor_custom_title: Catalog Category Link anchor_titlte_(%randomize%)
                 template: Category Link Block Template
                 chosen_option:
-                    category_path: %noValue%
+                    category_path: Default Category
             widget_4:
                 widget_type: Catalog New Products List
                 number_of_products_to_display: 10
                 template: New Products Grid Template
-                cache_lifetime: 10
+                cache_lifetime: 86400
             widget_5:
                 widget_type: Catalog Product Link
-                anchor_custom_text: test
-                anchor_custom_title: test
+                anchor_custom_text: Catalog Product Link anchor_text_(%randomize%)
+                anchor_custom_title: Catalog Product Link anchor_titlte_(%randomize%)
                 template: Product Link Block Template
                 chosen_option:
                     category_path: %noValue%
@@ -79,31 +80,45 @@ new_page_all_fields:
                 template: Viewed Products Grid Template
         variable_data:
             variable_1: Base Unsecure URL
+#            variable_2: Base Secure URL
+#            variable_3: General Contact Name
+#            variable_4: General Contact Email
+#            variable_5: Sales Representative Contact Name
+#            variable_6: Sales Representative Contact Email
+#            variable_7: Custom1 Contact Name
+#            variable_8: Custom1 Contact Email
+#            variable_9: Custom2 Contact Name
+#            variable_10: Custom2 Contact Email
+#            variable_11: Store Name
+#            variable_12: Store Contact Telephone
+#            variable_13: Store Contact Telephone
     design:
-        layout: 1 column
+        layout: 3 columns
         layout_update_xml: %noValue%
-        custom_design_from: %noValue%
-        custom_design_to: %noValue%
+        custom_design_from: %currentDate%
+        custom_design_to: %currentDate%
         custom_theme: default
         custom_layout: 3 columns
         custom_layout_update_xml: %noValue%
     meta_data:
-        keywords: %noValue%
-        description: %noValue%
+        keywords: Meta Data Keywords
+        description: Meta Data Description
 
 
 #<-----------------------------Required Fields--------------------------------->
-new_page_req:
+new_cms_page_req:
     page_information:
-        page_title: new page
-        url_key: new_page
+        page_title: new cms page(%randomize%)
+        url_key: cms_page_url_%randomize%
         status: Enabled
+        store_view: Default Store View
     content:
         content_heading: %noValue%
         widgets:
             widget_1:
                 widget_type: CMS Page Link
+                anchor_custom_text: CMS Page Link anchor_text_(%randomize%)
+                anchor_custom_title: CMS Page Link anchor_titlte_(%randomize%)
+                template: CMS Page Link Block Template
                 chosen_option:
-                    filter_url_key: no-route
-    design:
-        layout: 1 column
+                    filter_url_key: about-magento-demo-store

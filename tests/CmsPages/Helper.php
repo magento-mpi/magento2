@@ -162,7 +162,7 @@ class CmsPages_Helper extends Mage_Selenium_TestCase
     public function checkChosenOption($option)
     {
         $this->addParameter('elementName', $option);
-        $xpathOption = $this->_getControlXpath('pageelement', 'chosen_option');
+        $xpathOption = $this->_getControlXpath('pageelement', 'chosen_option_verify');
         if (!$this->isElementPresent($xpathOption)) {
             $this->fail('The element ' . $option . ' was not selected');
         }

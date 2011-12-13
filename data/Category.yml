@@ -37,7 +37,8 @@ product_1: &product1
 
 category_all:
     #General Information
-    name: Category
+    parent_category: Default Category
+    name: Category(%randomize%)
     is_active: Yes
     url_key: %noValue%
     thumbnail_image: %noValue%
@@ -70,13 +71,14 @@ category_all:
         product_1: *product1
 
 sub_category_required:
-    name: Sub Category Required
+    parent_category: Default Category
+    name: Sub Category Required(%randomize%)
     is_active: Yes
     available_product_listing_config: No
     available_product_listing: Best Value, Name, Price
 
 root_category_required:
-    name: Root Category Required
+    name: Root Category Required(%randomize%)
     is_active: Yes
     available_product_listing_config: No
     available_product_listing: Best Value, Name, Price

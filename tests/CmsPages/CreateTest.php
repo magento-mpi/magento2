@@ -28,7 +28,7 @@
  */
 
 /**
- * Create Page Test
+ * Create Cms Page Test
  *
  * @package     selenium
  * @subpackage  tests
@@ -36,15 +36,18 @@
  */
 class CmsPages_CreateTest extends Mage_Selenium_TestCase
 {
-    protected static $products = array();
 
     public function setUpBeforeTests()
     {
         $this->loginAdminUser();
+        $this->navigate('manage_stores');
+        $this->storeHelper()->createStore('generic_store_view', 'store_view');
+        $this->assertMessagePresent('success', 'success_saved_store_view');
     }
 
     protected function assertPreconditions()
     {
+        $this->loginAdminUser();
         $this->addParameter('id', '0');
     }
 
@@ -54,77 +57,26 @@ class CmsPages_CreateTest extends Mage_Selenium_TestCase
      *
      * @test
      */
-    public function createCategory()
+    public function preconditionsForTests()
     {
-        $this->navigate('manage_categories');
-        $this->categoryHelper()->checkCategoriesPage();
-        $rootCat = 'Default Category';
-        $categoryData = $this->loadData('sub_category_required', null, 'name');
-        $this->categoryHelper()->createSubCategory($rootCat, $categoryData);
-        $this->assertMessagePresent('success', 'success_saved_category');
-        $this->categoryHelper()->checkCategoriesPage();
-
-        return $rootCat . '/' . $categoryData['name'];
-    }
-
-    /**
-     * <p>Preconditions</p>
-     * <p>Creates Attribute (dropdown) to use during tests</p>
-     *
-     * @test
-     */
-    public function createAttribute()
-    {
-        $attrData = $this->loadData('product_attribute_dropdown_with_options', NULL,
-                array('admin_title', 'attribute_code'));
-        $associatedAttributes = $this->loadData('associated_attributes',
-                array('General' => $attrData['attribute_code']));
-        $this->navigate('manage_attributes');
-        $this->productAttributeHelper()->createAttribute($attrData);
-        $this->assertMessagePresent('success', 'success_saved_attribute');
-        $this->navigate('manage_attribute_sets');
-        $this->attributeSetHelper()->openAttributeSet();
-        $this->attributeSetHelper()->addAttributeToSet($associatedAttributes);
-        $this->saveForm('save_attribute_set');
-        $this->assertMessagePresent('success', 'success_attribute_set_saved');
-
-        return $attrData;
-    }
-
-    /**
-     * Create required products for testing
-     *
-     * @dataProvider dataProductTypes
-     * @depends createCategory
-     * @depends createAttribute
-     *
-     * @test
-     */
-    public function createProducts($dataProductType, $category, $attrData)
-    {
-        $this->navigate('manage_products');
         //Data
-        if ($dataProductType == 'configurable') {
-            $productData = $this->loadData($dataProductType . '_product_required',
-                array('configurable_attribute_title' => $attrData['admin_title'],
-                    'categories' => $category), array('general_sku', 'general_name'));
-        } else {
-            $productData = $this->loadData($dataProductType . '_product_required',
-                array('categories' => $category), array('general_name', 'general_sku'));
-        }
+        $category = $this->loadData('sub_category_required');
+        $product = $this->loadData('simple_product_for_order',
+                array('categories' => $category['parent_category'] . '/' . $category['name']));
         //Steps
-        $this->productHelper()->createProduct($productData, $dataProductType);
+        $this->navigate('manage_categories');
+        $this->categoryHelper()->createCategory($category);
+        //Verifying
+        $this->assertMessagePresent('success', 'success_saved_category');
+        //Steps
+        $this->navigate('manage_products');
+        $this->productHelper()->createProduct($product);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
 
-        self::$products['sku'][$dataProductType] = $productData['general_sku'];
-        self::$products['name'][$dataProductType] = $productData['general_name'];
-    }
-
-    public function dataProductTypes()
-    {
         return array(
-            array('simple')
+            'category_path' => $product['categories'],
+            'filter_sku' => $product['general_sku'],
         );
     }
 
@@ -136,19 +88,20 @@ class CmsPages_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected result</p>
      * <p>Page is created successfully</p>
      *
-     * @depends createCategory
      * @test
      */
-    public function createPageWithRequiredFields($category)
+    public function withRequiredFields()
     {
-        $this->loginAdminUser();
+        //Data
+        $pageData = $this->loadData('new_cms_page_req');
+        //Steps
         $this->navigate('manage_cms_pages');
-        $temp = array();
-        $temp['filter_sku'] = self::$products['sku']['simple'];
-        $temp['category_path'] = $category;
-        $pageData = $this->loadData('new_page_req', $temp, array('page_title', 'url_key'));
         $this->cmsPagesHelper()->createCmsPage($pageData);
+        //Verification
+        $this->assertMessagePresent('success', 'success_saved_cms_page');
         $this->cmsPagesHelper()->frontValidatePage($pageData);
+
+        return $pageData;
     }
 
     /**
@@ -159,18 +112,18 @@ class CmsPages_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected result</p>
      * <p>Page is created successfully</p>
      *
-     * @depends createCategory
+     * @depends preconditionsForTests
      * @test
      */
-    public function createPageWithAllFields($category)
+    public function withAllFields($data)
     {
-        $this->loginAdminUser();
+        //Data
+        $pageData = $this->loadData('new_page_all_fields', $data);
+        //Steps
         $this->navigate('manage_cms_pages');
-        $temp = array();
-        $temp['filter_sku'] = self::$products['sku']['simple'];
-        $temp['category_path'] = $category;
-        $pageData = $this->loadData('new_page_all_fields', $temp, array('page_title', 'url_key'));
         $this->cmsPagesHelper()->createCmsPage($pageData);
+        //Verification
+        $this->assertMessagePresent('success', 'success_saved_cms_page');
         $this->cmsPagesHelper()->frontValidatePage($pageData);
     }
 
@@ -183,42 +136,40 @@ class CmsPages_CreateTest extends Mage_Selenium_TestCase
      * <p>Page is not created successfully</p>
      *
      * @dataProvider dataEmptyAllFields
-     * @depends createCategory
+     * @depends withRequiredFields
      * @test
      */
-    public function createPageWithAllFieldsEmpty($emptyFieldName, $emptyFielsType, $category)
+    public function withEmptyRequiredFields($fieldName, $fielsType, $messCount)
     {
-        $this->loginAdminUser();
-        $this->navigate('manage_cms_pages');
-        $temp = array();
-        $temp['filter_sku'] = self::$products['sku']['simple'];
-        $temp['category_path'] = $category;
-        if ($emptyFieldName == 'editor_disabled') {
-            $temp['content'] = '%noValue%';
-        } else {
-            if ($emptyFielsType == 'field') {
-                $temp[$emptyFieldName] = ' ';
-            } elseif ($emptyFielsType == 'dropdown') {
-                $temp[$emptyFieldName] = '-- Please Select --';
-                $temp['filter_url_key'] = '%noValue%';
-            } else {
-                $temp['filter_url_key'] = '%noValue%';
-                $this->addParameter('elementName', 'Not Selected');
-            }
+        //Data
+        $pageData = $this->loadData('new_cms_page_req', array($fieldName => '%noValue%'));
+        if ($fieldName == 'widget_type') {
+            $this->overrideData('widget_1', array($fieldName => '-- Please Select --'), $pageData);
         }
-        $pageData = $this->loadData('new_page_req', $temp, array('page_title', 'url_key'));
+
+        //Steps
+        $this->navigate('manage_cms_pages');
         $this->cmsPagesHelper()->createCmsPage($pageData);
-        $this->addFieldIdToMessage($emptyFielsType, $emptyFieldName);
+        //Verification
+        if ($fieldName == 'content') {
+            $fieldName = 'editor_disabled';
+        }
+        if ($fieldName == 'filter_url_key') {
+            $fieldName = 'chosen_option';
+        }
+        $this->addFieldIdToMessage($fielsType, $fieldName);
+        $this->assertTrue($this->verifyMessagesCount($messCount), $this->getParsedMessages());
         $this->assertMessagePresent('validation', 'empty_required_field');
     }
 
     public function dataEmptyAllFields()
     {
         return array(
-            array('page_title', 'field'),
-            array('url_key', 'field'),
-            array('editor_disabled', 'field'),
-            array('widget_type', 'dropdown')
+            array('page_title', 'field', 1),
+            array('url_key', 'field', 1),
+            array('content', 'field', 1),
+            array('store_view', 'multiselect', 1),
+            array('widget_type', 'dropdown', 2)
         );
     }
 
@@ -231,18 +182,15 @@ class CmsPages_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected result</p>
      * <p>Page with the same URL Key is not created</p>
      *
-     * @depends createCategory
+     * @depends withRequiredFields
      * @test
      */
-    public function createPageWithSameUrl($category)
+    public function withExistUrlkey($pageData)
     {
+        //Steps
         $this->navigate('manage_cms_pages');
-        $temp = array();
-        $temp['filter_sku'] = self::$products['sku']['simple'];
-        $temp['category_path'] = $category;
-        $pageData = $this->loadData('new_page_req', $temp, array('page_title', 'url_key'));
         $this->cmsPagesHelper()->createCmsPage($pageData);
-        $this->cmsPagesHelper()->createCmsPage($pageData);
+        //Verification
         $this->assertMessagePresent('error', 'existing_url_key');
     }
 
@@ -254,54 +202,32 @@ class CmsPages_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected result</p>
      * <p>Page with the numbers in URL Key is not created</p>
      *
-     * @depends createCategory
+     * @dataProvider dataWrongUrlKey
+     * @depends withRequiredFields
      * @test
      */
-    public function createPageWithNumInUrl($category)
+    public function withWrongUrlKey($urlValue, $messageType)
     {
+        //Data
+        $pageData = $this->loadData('new_cms_page_req', array('url_key' => $urlValue));
+        //Steps
         $this->navigate('manage_cms_pages');
-        $temp = array();
-        $temp['filter_sku'] = self::$products['sku']['simple'];
-        $temp['category_path'] = $category;
-        $temp['url_key'] = $this->generate('string', 10, ':digit:');
-        $pageData = $this->loadData('new_page_req', $temp, array('page_title'));
         $this->cmsPagesHelper()->createCmsPage($pageData);
-        $this->assertMessagePresent('error', 'invalid_url_key_with_numbers_only');
-    }
-
-   /**
-     * <p>Creates Pages with special characters in URL Key</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to Manage Pages page</p>
-     * <p>2. Create page with required fields</p>
-     * <p>Expected result</p>
-     * <p>Page with the special characters in URL Key is not created</p>
-     *
-     * @dataProvider dataSpecSymFields
-     * @depends createCategory
-     * @test
-     */
-    public function createPageWithSpecSymInUrl($specSymField, $category)
-    {
-        $this->navigate('manage_cms_pages');
-        $temp = array();
-        $temp['filter_sku'] = self::$products['sku']['simple'];
-        $temp['category_path'] = $category;
-        $temp[$specSymField] = $this->generate('string', 10, ':punct:');
-        $pageData = $this->loadData('new_page_req', $temp, array('page_title', 'url_key'));
-        $this->cmsPagesHelper()->createCmsPage($pageData);
-        if ($specSymField == 'url_key') {
-            $this->addFieldIdToMessage('field', $specSymField);
+        //Verification
+        if ($messageType == 'error') {
+            $this->assertMessagePresent('error', 'invalid_url_key_with_numbers_only');
+        } else {
+            $this->addFieldIdToMessage('field', 'url_key');
             $this->assertMessagePresent('validation', 'invalid_urk_key_spec_sym');
         }
     }
 
-    public function dataSpecSymFields()
+    public function dataWrongUrlKey()
     {
         return array(
-            array('page_title'),
-            array('url_key'),
-            array('content_heading'),
+            array($this->generate('string', 10, ':digit:'), 'error'),
+            array($this->generate('string', 10, ':punct:'), 'validation')
         );
     }
+
 }

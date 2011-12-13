@@ -148,13 +148,13 @@ class Category_Helper extends Mage_Selenium_TestCase
     /**
      * Create Root category
      *
-     * @param array $categotyData
+     * @param array $categoryData
      */
-    public function createRootCategory(array $categotyData)
+    public function createRootCategory(array $categoryData)
     {
         $this->clickButton('add_root_category', false);
         $this->pleaseWait();
-        $this->fillCategoryInfo($categotyData);
+        $this->fillCategoryInfo($categoryData);
         $this->saveForm('save_category');
     }
 
@@ -168,6 +168,27 @@ class Category_Helper extends Mage_Selenium_TestCase
     {
         $this->selectCategory($categoryPath);
         $this->clickButton('add_sub_category', false);
+        $this->pleaseWait();
+        $this->fillCategoryInfo($categoryData);
+        $this->saveForm('save_category');
+    }
+
+    /**
+     *
+     * @param array $categoryData
+     */
+    public function createCategory($categoryData)
+    {
+        if (is_string($categoryData)) {
+            $categoryData = $this->loadData($categoryData);
+        }
+        $categoryData = $this->arrayEmptyClear($categoryData);
+        if (array_key_exists('parent_category', $categoryData)) {
+            $this->selectCategory($categoryData['parent_category']);
+            $this->clickButton('add_sub_category', false);
+        } else {
+            $this->clickButton('add_root_category', false);
+        }
         $this->pleaseWait();
         $this->fillCategoryInfo($categoryData);
         $this->saveForm('save_category');
@@ -363,7 +384,7 @@ class Category_Helper extends Mage_Selenium_TestCase
                 $this->addVerificationMessage('Element ' . $key . ' is on the page');
             }
         }
-        
+
 //        if ($this->getParsedMessages('verificationErrors')) {
 //            $this->fail(implode("\n", call_user_func_array('array_merge', $this->getParsedMessages())));
 //        }

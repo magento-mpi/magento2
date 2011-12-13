@@ -36,96 +36,11 @@
  */
 class CmsPages_DeleteTest extends Mage_Selenium_TestCase
 {
-    protected static $products = array();
-
-    public function setUpBeforeTests()
-    {
-        $this->loginAdminUser();
-    }
 
     protected function assertPreconditions()
     {
+        $this->loginAdminUser();
         $this->addParameter('id', '0');
-    }
-
-    /**
-     * <p>Preconditions</p>
-     * <p>Creates Category to use during tests</p>
-     *
-     * @test
-     */
-    public function createCategory()
-    {
-        $this->navigate('manage_categories');
-        $this->categoryHelper()->checkCategoriesPage();
-        $rootCat = 'Default Category';
-        $categoryData = $this->loadData('sub_category_required', null, 'name');
-        $this->categoryHelper()->createSubCategory($rootCat, $categoryData);
-        $this->assertMessagePresent('success', 'success_saved_category');
-        $this->categoryHelper()->checkCategoriesPage();
-
-        return $rootCat . '/' . $categoryData['name'];
-    }
-
-    /**
-     * <p>Preconditions</p>
-     * <p>Creates Attribute (dropdown) to use during tests</p>
-     *
-     * @test
-     */
-    public function createAttribute()
-    {
-        $attrData = $this->loadData('product_attribute_dropdown_with_options', NULL,
-                array('admin_title', 'attribute_code'));
-        $associatedAttributes = $this->loadData('associated_attributes',
-                array('General' => $attrData['attribute_code']));
-        $this->navigate('manage_attributes');
-        $this->productAttributeHelper()->createAttribute($attrData);
-        $this->assertMessagePresent('success', 'success_saved_attribute');
-        $this->navigate('manage_attribute_sets');
-        $this->attributeSetHelper()->openAttributeSet();
-        $this->attributeSetHelper()->addAttributeToSet($associatedAttributes);
-        $this->saveForm('save_attribute_set');
-        $this->assertMessagePresent('success', 'success_attribute_set_saved');
-
-        return $attrData;
-    }
-
-    /**
-     * Create required products for testing
-     *
-     * @dataProvider dataProductTypes
-     * @depends createCategory
-     * @depends createAttribute
-     *
-     * @test
-     */
-    public function createProducts($dataProductType, $category, $attrData)
-    {
-        $this->navigate('manage_products');
-        //Data
-        if ($dataProductType == 'configurable') {
-            $productData = $this->loadData($dataProductType . '_product_required',
-                array('configurable_attribute_title' => $attrData['admin_title'],
-                    'categories' => $category), array('general_sku', 'general_name'));
-        } else {
-            $productData = $this->loadData($dataProductType . '_product_required',
-                array('categories' => $category), array('general_name', 'general_sku'));
-        }
-        //Steps
-        $this->productHelper()->createProduct($productData, $dataProductType);
-        //Verifying
-        $this->assertMessagePresent('success', 'success_saved_product');
-
-        self::$products['sku'][$dataProductType] = $productData['general_sku'];
-        self::$products['name'][$dataProductType] = $productData['general_name'];
-    }
-
-    public function dataProductTypes()
-    {
-        return array(
-            array('simple')
-        );
     }
 
     /**
@@ -138,20 +53,23 @@ class CmsPages_DeleteTest extends Mage_Selenium_TestCase
      * <p>Expected result</p>
      * <p>Page is created and deleted successfully</p>
      *
-     * @depends createCategory
      * @test
      */
-    public function deletePage($category)
+    public function deleteCmsPage()
     {
+        //Data
+        $pageData = $this->loadData('new_cms_page_req');
+        $search = array('filter_title'   => $pageData['page_information']['page_title'],
+                        'filter_url_key' => $pageData['page_information']['url_key']);
+        //Steps
         $this->navigate('manage_cms_pages');
-        $temp = array();
-        $temp['filter_sku'] = self::$products['sku']['simple'];
-        $temp['category_path'] = $category;
-        $pageData = $this->loadData('new_page_req', $temp, array('page_title', 'url_key'));
         $this->cmsPagesHelper()->createCmsPage($pageData);
-        $pageToDelete = array('filter_title' => $pageData['page_information']['page_title'],
-            'filter_url_key' => $pageData['page_information']['url_key']);
-        $this->cmsPagesHelper()->deleteCmsPage($pageToDelete);
+        //Verification
+        $this->assertMessagePresent('success', 'success_saved_cms_page');
+        //Steps
+        $this->cmsPagesHelper()->deleteCmsPage($search);
+        //Verification
+        $this->assertMessagePresent('success', 'success_deleted_cms_page');
     }
 
 }
