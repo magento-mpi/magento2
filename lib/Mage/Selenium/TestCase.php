@@ -1808,7 +1808,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                     ? Mage_Selenium_TestCase::$messages[$type]
                     : null;
         }
-
+        if (!empty($this->verificationErrors)) {
+            Mage_Selenium_TestCase::$messages['verification'] = $this->verificationErrors;
+        }
         return Mage_Selenium_TestCase::$messages;
     }
 
