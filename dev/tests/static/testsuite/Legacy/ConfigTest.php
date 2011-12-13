@@ -1,49 +1,58 @@
 <?php
 /**
- * Integrity test for configuration (config.xml)
- *
  * {license_notice}
  *
  * @category    tests
- * @package     integration
- * @subpackage  integrity
+ * @package     static
+ * @subpackage  Legacy
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 class Legacy_ConfigTest extends PHPUnit_Framework_TestCase
 {
-    public function testConfigFiles()
+    /**
+     * @param string $file
+     * @dataProvider configFileDataProvider
+     */
+    public function testConfigFile($file)
     {
-        $filePatterns = array(
+        $deprecations = array(
+            '/config/global/fieldsets'                 => 'remove them',
+            '/config/admin/fieldsets'                  => 'remove them',
+            '/config/global/models/*/deprecatedNode'   => 'remove them',
+            '/config/global/models/*/entities/*/table' => 'remove them',
+            '/config/global/models/*/class'            => 'remove them',
+            '/config/global/helpers/*/class'           => 'remove them',
+            '/config/global/blocks/*/class'            => 'remove them',
+            '/config/global/models/*/resourceModel'    => 'remove them',
+            '/config/adminhtml/menu'                   => 'move them to adminhtml.xml',
+            '/config/adminhtml/acl'                    => 'move them to adminhtml.xml',
+        );
+        $xml = simplexml_load_file($file);
+        foreach ($deprecations as $xpath => $suggestion) {
+            $this->assertEmpty(
+                $xml->xpath($xpath),
+                "Deprecated nodes have been found by XPath '$xpath', $suggestion."
+            );
+        }
+    }
+
+    public function configFileDataProvider()
+    {
+        $globPatterns = array(
             PATH_TO_SOURCE_CODE . '/app/etc/*.*',
             PATH_TO_SOURCE_CODE . '/app/etc/modules/*.*',
-            PATH_TO_SOURCE_CODE . '/app/*/*/*/*/etc/config.xml',
+            PATH_TO_SOURCE_CODE . '/app/code/*/*/*/etc/config.xml',
         );
-
-        $nodes = array(
-            '/config/global/fieldsets',
-            '/config/admin/fieldsets',
-            '/config/global/models/*/deprecatedNode',
-            '/config/global/models/*/entities/*/table',
-            '/config/global/models/*/class',
-            '/config/global/helpers/*/class',
-            '/config/global/blocks/*/class',
-            '/config/global/models/*/resourceModel'
-        );
-
-        $errors = array();
-        foreach ($filePatterns as $pattern) {
-            $files = glob($pattern);
+        $result = array();
+        foreach ($globPatterns as $oneGlobPattern) {
+            $files = glob($oneGlobPattern);
             foreach ($files as $file) {
-                $xml = simplexml_load_file($file);
-                foreach ($nodes as $node) {
-                    if ($xml->xpath($node)) {
-                        $errors[] = 'Invalid xml file:' . $file . '(XPath: ' . $node . ')';
-                    }
-                }
+                /* Use filename as a data set name to not include it to every assertion message */
+                $result[$file] = array($file);
             }
         }
-        $this->assertEmpty($errors, implode("\n", $errors));
+        return $result;
     }
 }
