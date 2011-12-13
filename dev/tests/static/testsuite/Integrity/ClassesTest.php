@@ -32,7 +32,7 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
             \:\:get(?:ResourceModel | BlockSingleton | Model | Singleton)?\(\s*[\'"]([a-z\d_]+)[\'"]\s*[\),]
 
             # various methods, first argument
-            | \->(?:initReport | addBlock | createBlock | setDataHelperName | getBlockClassName _?initLayoutMessages
+            | \->(?:initReport | addBlock | createBlock | setDataHelperName | getBlockClassName | _?initLayoutMessages
                 | setAttributeModel | setBackendModel | setFrontendModel | setSourceModel | setModel
             )\(\s*\'([a-z\d_]+)\'\s*[\),]
 
