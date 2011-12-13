@@ -28,8 +28,36 @@ class Legacy_PhpTest extends PHPUnit_Framework_TestCase
 
     public function phpFileDataProvider()
     {
+        //return array(array('E:\mag2git\app\Mage.php'));
+
+        $folders = array(
+            'app',
+            'dev',
+            'downloader',
+            'lib/Mage',
+            'lib/Magento',
+            'lib/Varien',
+            'pub/errors'
+        );
+
+        $result = array();
+        foreach ($folders as $folder) {
+            $iterationFiles = $this->_getFiles($folder);
+            $result = array_merge($result, $iterationFiles);
+        }
+        return $result;
+    }
+
+    /**
+     * Returns all PHP-files in folder and its subfolders
+     *
+     * @param  $folder
+     * @return array
+     */
+    protected function _getFiles($folder)
+    {
         $iterator = new RecursiveIteratorIterator(
-            new RecursiveDirectoryIterator(PATH_TO_SOURCE_CODE)
+            new RecursiveDirectoryIterator(PATH_TO_SOURCE_CODE . '/' . $folder)
         );
         $regexIterator = new RegexIterator($iterator, '/\.(?:php|phtml)$/');
         $result = array();
@@ -38,7 +66,6 @@ class Legacy_PhpTest extends PHPUnit_Framework_TestCase
             if (realpath($file) == __FILE__) {
                 continue;
             }
-            /* Use filename as a data set name to not include it to every assertion message */
             $result[$file] = array($file);
         }
         return $result;
@@ -49,41 +76,12 @@ class Legacy_PhpTest extends PHPUnit_Framework_TestCase
      */
     protected function _testDeprecatedClasses($content)
     {
-        // todo: check xml files also
-        $deprecations = array(
-            'Mage_XmlConnect_Helper_Payment'                                => 'remove it',
-            'Mage_Catalog_Model_Entity_Product_Attribute_Frontend_Image'    => 'remove it',
-            'Mage_Catalog_Model_Resource_Product_Attribute_Frontend_Image'  => 'remove it',
-            'Mage_Bundle_SelectionController'
-                => 'use Mage_Bundle_Adminhtml_Bundle_SelectionController instead',
-            'Mage_Bundle_Product_EditController'
-                => 'use Mage_Bundle_Adminhtml_Bundle_SelectionController instead',
-            'Mage_Downloadable_FileController'
-                => 'use Mage_Downloadable_Adminhtml_Downloadable_FileController instead',
-            'Mage_Downloadable_Product_EditController'
-                => 'use Mage_Adminhtml_Catalog_ProductController instead',
-            'Mage_GiftMessage_IndexController'
-                => 'remove it, gift message is set during checkout process',
-            'Mage_GoogleOptimizer_IndexController'
-                => 'use Mage_GoogleOptimizer_Adminhtml_Googleoptimizer_IndexController instead',
-            'Mage_Shipping_ShippingController'                              => 'remove it',
-            'Mage_Page_Block_Html_Toplinks'                                 => 'remove it',
-            'Mage_ProductAlert_Block_Price'                                 => 'remove it',
-            'Mage_ProductAlert_Block_Stock'                                 => 'remove it',
-            'Mage_Sales_Block_Order_Details'                                => 'remove it',
-            'Mage_Sales_Block_Order_Tax'                                    => 'remove it',
-            'Mage_Tag_Block_Customer_Edit'                                  => 'remove it',
-            'Mage_Sales_Model_Entity_Setup'                                 => 'remove it',
-            'Enterprise_Search_Model_Resource_Suggestions'                  => 'remove it',
-            'Mage_Core_Model_Language'                                      => 'remove it',
-            'Mage_Core_Model_Resource_Language'                             => 'remove it',
-            'Mage_Core_Model_Resource_Language_Collection'                  => 'remove it'
-        );
-        foreach ($deprecations as $class => $suggestion) {
+        $declarations = $this->_loadDeprecatedEntities('deprecated_classes.txt');
+        foreach ($declarations as $declaration) {
             $this->assertNotRegExp(
-                '/[^a-z\d_]' . preg_quote($class, '/') . '[^a-z\d_]/i',
+                '/[^a-z\d_]' . preg_quote($declaration['entity'], '/') . '[^a-z\d_]/i',
                 $content,
-                "Deprecated class '$class' is used, $suggestion."
+                "Deprecated class '{$declaration['entity']}' is used, {$declaration['suggestion']}."
             );
         }
     }
@@ -93,34 +91,33 @@ class Legacy_PhpTest extends PHPUnit_Framework_TestCase
      */
     protected function _testDeprecatedMethods($content)
     {
-        $deprecations = array(
-            'htmlEscape'                        => 'use escapeHtml() instead',
-            'urlEscape'                         => 'use urlEscape() instead',
-            'getTrackingPopUpUrlByOrderId'      => 'use getTrackingPopupUrlBySalesModel() instead',
-            'getTrackingPopUpUrlByShipId'       => 'use getTrackingPopupUrlBySalesModel() instead',
-            'getTrackingPopUpUrlByTrackId'      => 'use getTrackingPopupUrlBySalesModel() instead',
-            'isReadablePopupObject'             => 'remove it',
-            'getOriginalHeigh'                  => 'use getOriginalHeight() instead',
-            'shaCrypt'                          => 'use Mage_Ogone_Model_Api::getHash() instead',
-            'shaCryptValidation'                => 'use Mage_Ogone_Model_Api::getHash() instead',
-            'getTaxRatesByProductClass'         => 'use _getAllRatesByProductClass() instead',
-            'getAddToCartUrlBase64'             => 'use _getAddToCartUrl() instead',
-            'isTemplateAllowedForApplication'   => 'remove it',
-            '_inludeControllerClass'            => 'use _includeControllerClass() instead',
-            '_getSHAInSet'                      => 'use Mage_Ogone_Model_Api::getHash() or $_inShortMap instead',
-            '_getAttributeFilterBlockName'      => 'remove it',
-            'getIsActiveAanalytics'             => 'use getOnsubmitJs() instead',
-            'setTaxGroupFilter'                 => 'remove it',
-            'fetchRuleRatesForCustomerTaxClass' => 'remove it',
-            'getValueTable'                     => 'remove it, use direct table names'
-        );
-        foreach ($deprecations as $method => $suggestion) {
+        $declarations = $this->_loadDeprecatedEntities('deprecated_methods.txt');
+        foreach ($declarations as $declaration) {
+            if (!$this->_isClassContextPermitted($declaration['class'], $content)) {
+                continue;
+            }
             $this->assertNotRegExp(
-                '/[^a-z\d_]' . preg_quote($method, '/') . '\s*\(/i',
+                '/[^a-z\d_]' . preg_quote($declaration['entity'], '/') . '\s*\(/i',
                 $content,
-                "Deprecated method '$method' is used, $suggestion."
+                "Deprecated method '{$declaration['entity']}' is used, {$declaration['suggestion']}."
             );
         }
+    }
+
+    /**
+     * Returns whether the content in required class context (i.e. $class or child of $class is defined there)
+     *
+     * @param string $class
+     * @param string $content
+     * @return bool
+     */
+    protected function _isClassContextPermitted($class, $content)
+    {
+        if (!$class) {
+            return true;
+        }
+        $regexp = '/(class|extends)\s+' . preg_quote($class, '/') . '(\s|;)/';
+        return preg_match($regexp, $content) > 0;
     }
 
     /**
@@ -145,18 +142,15 @@ class Legacy_PhpTest extends PHPUnit_Framework_TestCase
      */
     protected function _testDeprecatedProperties($content)
     {
-        $deprecations = array(
-            'decoratedIsFirst'   => 'use getDecoratedIsFirst() instead',
-            'decoratedIsEven'    => 'use getDecoratedIsEven() instead',
-            'decoratedIsOdd'     => 'use getDecoratedIsOdd() instead',
-            'decoratedIsLast'    => 'use getDecoratedIsLast() instead',
-            '_currencyNameTable' => 'remove it'
-        );
-        foreach ($deprecations as $property => $suggestion) {
+        $declarations = $this->_loadDeprecatedEntities('deprecated_properties.txt');
+        foreach ($declarations as $declaration) {
+            if (!$this->_isClassContextPermitted($declaration['class'], $content)) {
+                continue;
+            }
             $this->assertNotRegExp(
-                '/[^a-z\d_]' . preg_quote($property, '/') . '[^a-z\d_]/i',
+                '/[^a-z\d_]' . preg_quote($declaration['entity'], '/') . '[^a-z\d_]/i',
                 $content,
-                "Deprecated property '$property' is used, $suggestion."
+                "Deprecated property '{$declaration['entity']}' is used, {$declaration['suggestion']}."
             );
         }
     }
@@ -184,24 +178,64 @@ class Legacy_PhpTest extends PHPUnit_Framework_TestCase
      */
     protected function _testDeprecatedConstants($content)
     {
-        $deprecations = array(
-            'Mage_Catalog_Model_Resource_Product_Attribute_Backend_Media::GALLERY_IMAGE_TABLE'
-                => 'remove it',
-            'Mage_Eav_Model_Entity::DEFAULT_VALUE_TABLE_PREFIX' => 'remove it'
-        );
-
-        foreach ($deprecations as $constantDeclaration => $suggestion) {
-            list($class, $constant) = explode('::', $constantDeclaration);
-            // Whether a required class is declared in content
-            if (!preg_match('/class\s*' . $class . '(\s*|;)/', $content)) {
+        $declarations = $this->_loadDeprecatedEntities('deprecated_constants.txt');
+        foreach ($declarations as $declaration) {
+            if (!$this->_isClassContextPermitted($declaration['class'], $content)) {
                 continue;
             }
+
             // Test that no constant is present
             $this->assertNotRegExp(
-                '/const\s*' . $constant . '\s*=/',
+                '/[^a-z\d_]' . preg_quote($declaration['entity'], '/') . '[^a-z\d_]/i',
                 $content,
-                "Deprecated constant '$constant' is used, $suggestion."
+                "Deprecated constant '{$declaration['entity']}' is used, {$declaration['suggestion']}."
             );
         }
+    }
+
+    /**
+     * Loads deprecated entities from file, parses and returns them as array
+     * Possible keys:
+     * - 'entity' - actual entity loaded (method name, property name, etc.)
+     * - 'suggestion' - suggestion for a user, when entity is found
+     * - 'class' - may be set, when entity is allowed to be searched only in specific class context
+     *
+     * @param string $fileName
+     * @return array
+     */
+    protected function _loadDeprecatedEntities($fileName)
+    {
+        $filePath = dirname(__FILE__) . '/_files/' . $fileName;
+        $arr = file($filePath);
+        $result = array();
+        foreach ($arr as $line) {
+            $line = trim($line);
+            if ($line === '') {
+                continue;
+            }
+
+            $values = explode(' | ', $line);
+
+            $entityValues = explode('::', $values[0]);
+            if (count($entityValues) > 1) {
+                $class = $entityValues[0];
+                $entity = $entityValues[1];
+            } else {
+                $class = null;
+                $entity = $entityValues[0];
+            }
+
+            $suggestion = isset($values[1]) ? $values[1] : null;
+            if (!$suggestion) {
+                $suggestion = 'remove it';
+            }
+
+            $result[] = array(
+                'entity' => $entity,
+                'suggestion' => $suggestion,
+                'class' => $class
+            );
+        }
+        return $result;
     }
 }
