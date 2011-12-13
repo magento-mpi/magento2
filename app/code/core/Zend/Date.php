@@ -5003,6 +5003,6 @@ class Zend_Date extends Zend_Date_DateObject
                 . self::YEAR_MAX_VALUE);
         }
 
-        return parent::mktime($hour, $minute, $second, $month, $day, $year, $gmt = false);
+        return parent::mktime($hour, $minute, $second, $month, $day, $year, $gmt);
     }
 }
