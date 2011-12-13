@@ -1338,7 +1338,11 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             }
             foreach ($valuesArray as $value) {
                 if ($value != null) {
-                    $this->addSelection($fieldData['path'], 'regexp:' . preg_quote($value));
+                    if ($this->isElementPresent($fieldData['path'] . "//option[text()='" . $value . "']")) {
+                        $this->addSelection($fieldData['path'], 'label=' . $value);
+                    } else {
+                        $this->addSelection($fieldData['path'], 'regexp:' . preg_quote($value));
+                    }
                 }
             }
         } else {
