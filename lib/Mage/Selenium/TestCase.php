@@ -667,6 +667,10 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         $data = $this->_getData($dataSource);
 
+        if (!is_array($data)) {
+            $this->fail('Data \'' . $dataSource . '\' is not loaded');
+        }
+
         array_walk_recursive($data, array($this, 'setDataParams'));
 
         if (!empty($randomize)) {
