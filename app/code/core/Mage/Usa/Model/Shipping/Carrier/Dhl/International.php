@@ -740,7 +740,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
                 $debugData['result'] = $responseBody;
                 $this->_setCachedQuotes($request, $responseBody);
             } catch (Exception $e) {
-                $debugData['result'] = array('error' => $e->getMessage(), 'code' => $e->getCode());
+                $this->_errors[$e->getCode()] = $e->getMessage();
                 $responseBody = '';
             }
             $this->_debug($debugData);
@@ -807,14 +807,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
                 $result->append($rate);
             }
         } else if (!empty($this->_errors)) {
-            /* @var $error Mage_Shipping_Model_Rate_Result_Error */
-            $error = Mage::getModel('shipping/rate_result_error');
-            $error->setCarrier(self::CODE);
-            $error->setCarrierTitle($this->getConfigData('title'));
-            $error->setErrorMessage($this->getConfigData('specificerrmsg'));
-            $result->append($error);
-            $this->_debug($this->_errors);
-            return $error;
+           return $this->_showError();
         }
         return $result;
     }
@@ -868,7 +861,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
     }
 
     /**
-     * Returns dimension unit (inch or cm)
+     * Returns dimension unit (cm or inch)
      *
      * @return string
      */
@@ -883,7 +876,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
     }
 
     /**
-     * Returns weight unit (Kg or pound)
+     * Returns weight unit (kg or pound)
      *
      * @return string
      */
@@ -939,28 +932,35 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
     {
         //Skip by item validation if there is no items in request
         if(!count($this->getAllItems($request))) {
-            return $this;
+            $this->_errors[] = Mage::helper('usa')->__('There is no items in this order');
         }
 
-        $maxAllowedWeight = (float) $this->getConfigData('max_package_weight');
-        $errorMsg = '';
-        $configErrorMsg = $this->getConfigData('specificerrmsg');
-        $defaultErrorMsg = Mage::helper('usa')->__('The shipping module is not available.');
+        if (!empty($this->_errors)) {
+            return $this->_showError();
+        }
+
+        return $this;
+    }
+
+    /**
+     * Show default error
+     *
+     * @return bool|Mage_Shipping_Model_Rate_Result_Error
+     */
+    protected function _showError()
+    {
         $showMethod = $this->getConfigData('showmethod');
 
-        if (!$errorMsg && !$request->getDestPostcode() && $this->isZipCodeRequired()) {
-            $errorMsg = Mage::helper('usa')->__('This shipping method is not available, please specify ZIP-code');
-        }
-
-        if ($errorMsg && $showMethod) {
+        if ($showMethod) {
+            /* @var $error Mage_Shipping_Model_Rate_Result_Error */
             $error = Mage::getModel('shipping/rate_result_error');
-            $error->setCarrier($this->_code);
+            $error->setCarrier(self::CODE);
             $error->setCarrierTitle($this->getConfigData('title'));
-            $error->setErrorMessage($errorMsg);
+            $error->setErrorMessage($this->getConfigData('specificerrmsg'));
+            $this->_debug($this->_errors);
             return $error;
-        } elseif ($errorMsg) {
+        } else {
             return false;
         }
-        return $this;
     }
 }
