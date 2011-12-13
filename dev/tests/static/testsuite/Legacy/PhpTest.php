@@ -23,6 +23,7 @@ class Legacy_PhpTest extends PHPUnit_Framework_TestCase
         $this->_testDeprecatedMethodArguments($content);
         $this->_testDeprecatedProperties($content);
         $this->_testDeprecatedActions($content);
+        $this->_testDeprecatedConstants($content);
     }
 
     public function phpFileDataProvider()
@@ -72,6 +73,11 @@ class Legacy_PhpTest extends PHPUnit_Framework_TestCase
             'Mage_Sales_Block_Order_Details'                                => 'remove it',
             'Mage_Sales_Block_Order_Tax'                                    => 'remove it',
             'Mage_Tag_Block_Customer_Edit'                                  => 'remove it',
+            'Mage_Sales_Model_Entity_Setup'                                 => 'remove it',
+            'Enterprise_Search_Model_Resource_Suggestions'                  => 'remove it',
+            'Mage_Core_Model_Language'                                      => 'remove it',
+            'Mage_Core_Model_Resource_Language'                             => 'remove it',
+            'Mage_Core_Model_Resource_Language_Collection'                  => 'remove it'
         );
         foreach ($deprecations as $class => $suggestion) {
             $this->assertNotRegExp(
@@ -88,22 +94,25 @@ class Legacy_PhpTest extends PHPUnit_Framework_TestCase
     protected function _testDeprecatedMethods($content)
     {
         $deprecations = array(
-            'htmlEscape'                      => 'use escapeHtml() instead',
-            'urlEscape'                       => 'use urlEscape() instead',
-            'getTrackingPopUpUrlByOrderId'    => 'use getTrackingPopupUrlBySalesModel() instead',
-            'getTrackingPopUpUrlByShipId'     => 'use getTrackingPopupUrlBySalesModel() instead',
-            'getTrackingPopUpUrlByTrackId'    => 'use getTrackingPopupUrlBySalesModel() instead',
-            'isReadablePopupObject'           => 'remove it',
-            'getOriginalHeigh'                => 'use getOriginalHeight() instead',
-            'shaCrypt'                        => 'use Mage_Ogone_Model_Api::getHash() instead',
-            'shaCryptValidation'              => 'use Mage_Ogone_Model_Api::getHash() instead',
-            'getTaxRatesByProductClass'       => 'use _getAllRatesByProductClass() instead',
-            'getAddToCartUrlBase64'           => 'use _getAddToCartUrl() instead',
-            'isTemplateAllowedForApplication' => 'remove it',
-            '_inludeControllerClass'          => 'use _includeControllerClass() instead',
-            '_getSHAInSet'                    => 'use Mage_Ogone_Model_Api::getHash() or $_inShortMap instead',
-            '_getAttributeFilterBlockName'    => 'remove it',
-            'getIsActiveAanalytics'           => 'use getOnsubmitJs() instead',
+            'htmlEscape'                        => 'use escapeHtml() instead',
+            'urlEscape'                         => 'use urlEscape() instead',
+            'getTrackingPopUpUrlByOrderId'      => 'use getTrackingPopupUrlBySalesModel() instead',
+            'getTrackingPopUpUrlByShipId'       => 'use getTrackingPopupUrlBySalesModel() instead',
+            'getTrackingPopUpUrlByTrackId'      => 'use getTrackingPopupUrlBySalesModel() instead',
+            'isReadablePopupObject'             => 'remove it',
+            'getOriginalHeigh'                  => 'use getOriginalHeight() instead',
+            'shaCrypt'                          => 'use Mage_Ogone_Model_Api::getHash() instead',
+            'shaCryptValidation'                => 'use Mage_Ogone_Model_Api::getHash() instead',
+            'getTaxRatesByProductClass'         => 'use _getAllRatesByProductClass() instead',
+            'getAddToCartUrlBase64'             => 'use _getAddToCartUrl() instead',
+            'isTemplateAllowedForApplication'   => 'remove it',
+            '_inludeControllerClass'            => 'use _includeControllerClass() instead',
+            '_getSHAInSet'                      => 'use Mage_Ogone_Model_Api::getHash() or $_inShortMap instead',
+            '_getAttributeFilterBlockName'      => 'remove it',
+            'getIsActiveAanalytics'             => 'use getOnsubmitJs() instead',
+            'setTaxGroupFilter'                 => 'remove it',
+            'fetchRuleRatesForCustomerTaxClass' => 'remove it',
+            'getValueTable'                     => 'remove it, use direct table names'
         );
         foreach ($deprecations as $method => $suggestion) {
             $this->assertNotRegExp(
@@ -137,10 +146,11 @@ class Legacy_PhpTest extends PHPUnit_Framework_TestCase
     protected function _testDeprecatedProperties($content)
     {
         $deprecations = array(
-            'decoratedIsFirst' => 'use getDecoratedIsFirst() instead',
-            'decoratedIsEven'  => 'use getDecoratedIsEven() instead',
-            'decoratedIsOdd'   => 'use getDecoratedIsOdd() instead',
-            'decoratedIsLast'  => 'use getDecoratedIsLast() instead',
+            'decoratedIsFirst'   => 'use getDecoratedIsFirst() instead',
+            'decoratedIsEven'    => 'use getDecoratedIsEven() instead',
+            'decoratedIsOdd'     => 'use getDecoratedIsOdd() instead',
+            'decoratedIsLast'    => 'use getDecoratedIsLast() instead',
+            '_currencyNameTable' => 'remove it'
         );
         foreach ($deprecations as $property => $suggestion) {
             $this->assertNotRegExp(
@@ -165,6 +175,32 @@ class Legacy_PhpTest extends PHPUnit_Framework_TestCase
                 '/[^a-z\d_\/]' . preg_quote($action, '/') . '[^a-z\d_\/]/i',
                 $content,
                 "Deprecated action '$action' is used, $suggestion."
+            );
+        }
+    }
+
+    /**
+     * @param string $content
+     */
+    protected function _testDeprecatedConstants($content)
+    {
+        $deprecations = array(
+            'Mage_Catalog_Model_Resource_Product_Attribute_Backend_Media::GALLERY_IMAGE_TABLE'
+                => 'remove it',
+            'Mage_Eav_Model_Entity::DEFAULT_VALUE_TABLE_PREFIX' => 'remove it'
+        );
+
+        foreach ($deprecations as $constantDeclaration => $suggestion) {
+            list($class, $constant) = explode('::', $constantDeclaration);
+            // Whether a required class is declared in content
+            if (!preg_match('/class\s*' . $class . '(\s*|;)/', $content)) {
+                continue;
+            }
+            // Test that no constant is present
+            $this->assertNotRegExp(
+                '/const\s*' . $constant . '\s*=/',
+                $content,
+                "Deprecated constant '$constant' is used, $suggestion."
             );
         }
     }
