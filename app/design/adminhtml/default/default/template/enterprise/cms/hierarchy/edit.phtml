@@ -119,8 +119,12 @@
                 }
             } else {
                 if( node.id.indexOf('_') == -1 && <?php echo $this->getData('use_default_scope') ? '1' : '0' ?>) {
+                    var newNodeId = '_' + hierarchyNodes.increment;
+                    if ($('node_id').value && $('node_id').value == node.id) {
+                        $('node_id').value = newNodeId;
+                    }
                     hierarchyNodes.tree.unregisterNode(node);
-                    node.id = '_' + hierarchyNodes.increment;
+                    node.id = newNodeId;
                     hierarchyNodes.tree.registerNode(node);
                     hierarchyNodes.increment++;
                 }
