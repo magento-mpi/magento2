@@ -45,16 +45,6 @@ class CheckoutMultipleAddresses_WithRegistration_WithProductsTest extends Mage_S
     }
 
     /**
-     * <p>Preconditions:</p>
-     * <p>Navigate to Catalog -> Manage Products</p>
-     */
-    protected function assertPreConditions()
-    {
-        $this->navigate('manage_products');
-        $this->addParameter('id', '0');
-    }
-
-    /**
      * <p>Checkout with multiple addresses with each product types with all options</p>
      * <p>Preconditions:</p>
      * <p>1.Product is created;</p>
@@ -76,7 +66,7 @@ class CheckoutMultipleAddresses_WithRegistration_WithProductsTest extends Mage_S
      * @dataProvider productData
      * @test
      */
-    public function multiCheckoutEachTypeProductAllOptionsRegistration()
+    public function multiCheckoutAllOptionsRegister($productDataSet, $productType)
     {
 
     }

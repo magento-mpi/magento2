@@ -45,16 +45,6 @@ class CheckoutMultipleAddresses_LoggedIn_WithProductsTest extends Mage_Selenium_
     }
 
     /**
-     * <p>Preconditions:</p>
-     * <p>Navigate to Catalog -> Manage Products</p>
-     */
-    protected function assertPreConditions()
-    {
-        $this->navigate('manage_products');
-        $this->addParameter('id', '0');
-    }
-
-    /**
      * <p>Preconditions</p>
      * <p>Create Customer for tests</p>
      *
@@ -94,11 +84,12 @@ class CheckoutMultipleAddresses_LoggedIn_WithProductsTest extends Mage_Selenium_
      * <p>Expected result:</p>
      * <p>Checkout is successful;</p>
      *
+     * @param array $customerData
      * @depends createCustomer
      * @dataProvider productData
      * @test
      */
-    public function multiCheckoutEachTypeProductAllOptionsLoggedIn()
+    public function multiCheckoutAllOptionsLogged($productDataSet, $productType, $customerData)
     {
 
     }
