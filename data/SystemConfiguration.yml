@@ -31,4 +31,25 @@ store_information:
         tab_name: general_general
         configuration:
             store_name: Test Store Name
-            store_country: United States
+
+shipping_settings_usa:
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: sales_shipping_settings
+        configuration:
+            country: United States
+            region_state: North Carolina
+            zip_postal_code: 27560
+            city: Morrisville
+            street_address: 1009 Think Place
+
+shipping_settings_france:
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: sales_shipping_settings
+        configuration:
+            country: France
+            region_state: Dordogne
+            zip_postal_code: 24100
+            city: Bergerac
+            street_address: 10, rue Jean Vilar

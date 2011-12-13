@@ -700,7 +700,7 @@ shipping_dhl_usa: &dhl_usa
 
 shipping_dhl_int: &dhl_int
     shipping_service: DHL
-    shipping_method: Express
+    shipping_method: Express easy
 
 #*********************************************
 #*      ConfigurableOptions For Products     *

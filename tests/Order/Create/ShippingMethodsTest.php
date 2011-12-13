@@ -87,13 +87,14 @@ class Order_Create_ShippingMethodsTest extends Mage_Selenium_TestCase
      * @dataProvider dataShipment
      * @test
      */
-    public function differentShipmentMethods($shipment, $simpleSku)
+    public function differentShipmentMethods($shipment, $shippingOrigin, $simpleSku)
     {
         //Data
         $orderData = $this->loadData('order_newcustmoer_checkmoney_flatrate', array('filter_sku' => $simpleSku));
         $orderData['shipping_data'] = $this->loadData('shipping_' . $shipment);
         //Steps And Verifying
         $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('shipping_settings_' . strtolower($shippingOrigin));
         $this->systemConfigurationHelper()->configure($shipment . '_enable');
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -111,14 +112,14 @@ class Order_Create_ShippingMethodsTest extends Mage_Selenium_TestCase
     public function dataShipment()
     {
         return array(
-            array('flatrate'),
-            array('free'),
-            array('ups'),
-            array('upsxml'),
-            array('usps'),
-            array('fedex'),
-            array('dhl_usa'),
-//@TODO:            array('dhl_int'),
+            array('flatrate', 'usa'),
+            array('free', 'usa'),
+            array('ups', 'usa'),
+            array('upsxml', 'usa'),
+            array('usps', 'usa'),
+            array('fedex', 'usa'),
+            array('dhl_usa', 'usa'),
+            array('dhl_int', 'france'),
         );
     }
 
