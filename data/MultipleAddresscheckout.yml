@@ -188,10 +188,11 @@ multiple_test_data:
             qty: %noValue%
             shipping_address: %noValue%
     shipping_data:
-        Address 1:
+        address_1:
+            search_shipping_address: *newShippingSignedInReq
             change_shipping_address: *newShippingSignedInReq
-            shipping_method: &flatRate
-        Address 2: %noValue%
+            shipping_method: *flatRate
+        address_2: %noValue%
     billing_address_data:
         existing_address:
             billing_first_name: Steven(shipping.req)

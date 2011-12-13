@@ -37,6 +37,12 @@
 class CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
 {
     /**
+     *
+     * @var string
+     */
+    protected static $activeTab = "[contains(@class,'active')]";
+
+    /**
      * Create order using multiple addresses checkout
      *
      * @param array|string  $checkoutData
@@ -48,12 +54,14 @@ class CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
             $checkoutData = $this->loadData($checkoutData);
         }
         $checkoutData = $this->arrayEmptyClear($checkoutData);
-        $this->doMultipleCheckoutSteps($checkoutData);
+        $this->frontDoMultipleCheckoutSteps($checkoutData);
+        $this->frontOrderReview($checkoutData);
         $this->clickButton('place_order', false);
         $this->waitForAjax();
-        $this->assertTrue($this->verifyNotPresetAlert(), $this->getParsedMessages());
+        $this->assertTrue($this->checkoutOnePageHelper()->verifyNotPresetAlert(), $this->getParsedMessages());
         $this->waitForPageToLoad($this->_browserTimeoutPeriod);
         $this->validatePage();
+        $this->assertMultipleAddrCheckoutPageOpened('order_success');
         $xpath = $this->_getControlXpath('link', 'order_number');
         if ($this->isElementPresent($xpath)) {
             return $this->getText($xpath);
@@ -61,20 +69,22 @@ class CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
         return preg_replace('/[^0-9]/', '', $this->getText("//*[contains(text(),'Your order')]"));
     }
 
+
     /**
-     * Verifies the alert on the page
+     * Checks the page opened
      *
-     * @return bool
+     * @param string $pageElName
      */
-    public function verifyNotPresetAlert()
+    public function assertMultipleAddrCheckoutPageOpened($pageElName)
     {
-        if ($this->isAlertPresent()) {
-            $text = $this->getAlert();
-            $this->getParsedMessages();
-            $this->addMessage('error', $text);
-            return false;
+        $setXpath = $this->_getControlXpath('pageelement', $pageElName);
+        if (!$this->isElementPresent($setXpath . self::$activeTab)) {
+            $messages = $this->getMessagesOnPage();
+            if ($messages && is_array($messages)) {
+                $messages = implode("\n", call_user_func_array('array_merge', $messages));
+            }
+            $this->fail("'" . $pageElName . "' step is not selected:\n" . $messages);
         }
-        return true;
     }
 
     /**
@@ -82,12 +92,13 @@ class CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
      *
      * @param array  $checkoutData
      */
-    public function doMultipleCheckoutSteps($checkoutData)
+    public function frontDoMultipleCheckoutSteps(array $checkoutData)
     {
         $checkoutData = $this->arrayEmptyClear($checkoutData);
         $products   = (isset($checkoutData['products_to_add'])) ? $checkoutData['products_to_add'] : array();
         $customer   = (isset($checkoutData['checkout_as_customer'])) ? $checkoutData['checkout_as_customer'] : NULL;
-        $generalShippingAddress = (isset($checkoutData['general_shipping_address'])) ? $checkoutData['general_shipping_address'] : NULL;
+        $generalShippingAddress = (isset($checkoutData['general_shipping_address']))
+                                   ? $checkoutData['general_shipping_address'] : NULL;
         $shipping   = (isset($checkoutData['shipping_address_data'])) ? $checkoutData['shipping_address_data'] : NULL;
         $giftOptions = (isset($checkoutData['gift_options'])) ? $checkoutData['gift_options'] : NULL;
         $shipMethod = (isset($checkoutData['shipping_data'])) ? $checkoutData['shipping_data'] : NULL;
@@ -103,8 +114,8 @@ class CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
                 }
             }
         }
+        $this->clickControl('link', 'checkout_with_multiple_addresses');
         if ($customer) {
-            $this->clickControl('link', 'checkout_with_multiple_addresses');
             $this->frontSelectMultipleCheckoutMethod($customer);
         }
         if ($generalShippingAddress) {
@@ -116,6 +127,7 @@ class CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
             }
         }
         if ($shipping) {
+            $this->assertMultipleAddrCheckoutPageOpened('select_addresses');
             foreach ($shipping as $value) {
                 if (isset($value['general_name'])) {
                     $this->addParameter('productName', $value['general_name']);
@@ -131,25 +143,41 @@ class CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
             $this->clickButton('continue_to_shipping_information');
         }
         if ($giftOptions) {
+            $this->assertMultipleAddrCheckoutPageOpened('shipping_information');
             $this->frontAddGiftMessage($giftOptions);
         }
         if ($shipMethod) {
-            foreach ($shipMethod as $key => $value) {
-                $this->addParameter('addressHeader', $key);
-                if (isset($value['change_shipping_address'])) {
-                    $this->clickControl('link', 'change_shipping_address');
-                    $this->addParameter('id', $this->defineIdFromUrl());
-                    $this->fillForm($value['change_shipping_address']);
-                    $this->clickButton('save_address');
-                }
-                if (isset($value['shipping_method'])) {
-                    $this->frontSelectShippingMethod($value['shipping_method']);
+            $this->assertMultipleAddrCheckoutPageOpened('shipping_information');
+            foreach ($shipMethod as $data) {
+                foreach ($data as $key => $value){
+                    if (preg_match('/^search/', $key)) {
+                        $formXpathString = '';
+                        foreach ($value as $v) {
+                            if ($formXpathString == '') {
+                                $formXpathString = 'contains(.,"' . $v . '")';
+                            } elseif ($formXpathString) {
+                                $formXpathString = $formXpathString . ' and contains(.,"' . $v . '")';
+                            }
+                        }
+                        $this->addParameter('param', $formXpathString);
+                        $xpath = $this->_getControlXpath('pageelement', 'address_box');
+                        $this->addParameter('addressHeader', $this->getText($xpath));
+                    }
+                    if (preg_match('/^change/', $key)) {
+                        $this->clickControl('link', 'change_shipping_address');
+                        $this->addParameter('id', $this->defineIdFromUrl());
+                        $this->fillForm($value);
+                        $this->clickButton('save_address');
+                    }
+                    if (preg_match('/^shipping_method/', $key)) {
+                        $this->frontSelectShippingMethod($value);
+                    }
                 }
             }
             $this->clickButton('continue_to_billing_information');
         }
         if ($billing) {
-            $this->selectBillingAddress($billing);
+            $this->frontSelectBillingAddress($billing);
         }
         if ($payMethod) {
             $this->frontSelectPaymentMethod($payMethod);
@@ -162,8 +190,9 @@ class CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
      * @param array $billing
      * @return void
      */
-    public function selectBillingAddress(array $billing)
+    public function frontSelectBillingAddress(array $billing)
     {
+        $this->assertMultipleAddrCheckoutPageOpened('billing_information');
         $this->clickControl('link', 'change_billing_address');
         foreach ($billing as $key => $value) {
             if (preg_match('/^exist/', $key)) {
@@ -258,18 +287,20 @@ class CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
      */
     public function frontSelectShippingMethod(array $shipMethod)
     {
-        $this->messages['error'] = array();
+        $this->assertMultipleAddrCheckoutPageOpened('shipping_information');
+
         $service = (isset($shipMethod['shipping_service'])) ? $shipMethod['shipping_service'] : NULL;
         $method = (isset($shipMethod['shipping_method'])) ? $shipMethod['shipping_method'] : NULL;
+
         if (!$service or !$method) {
-            $this->addMessage('error', 'Shipping Service(or Shipping Method) is not set');
+            $this->addVerificationMessage('Shipping Service(or Shipping Method) is not set');
         } else {
             $this->addParameter('shipService', $service);
             $this->addParameter('shipMethod', $method);
             $methodUnavailable = $this->_getControlXpath('message', 'ship_method_unavailable');
             $noShipping = $this->_getControlXpath('message', 'no_shipping');
             if ($this->isElementPresent($methodUnavailable) || $this->isElementPresent($noShipping)) {
-                $this->addMessage('error', 'No Shipping Method is available for this order');
+                $this->addVerificationMessage('No Shipping Method is available for this order');
             } elseif ($this->isElementPresent($this->_getControlXpath('field', 'ship_service_name'))) {
                 $methodXpath = $this->_getControlXpath('radiobutton', 'ship_method');
                 $selectedMethod = $this->_getControlXpath('radiobutton', 'one_method_selected');
@@ -277,44 +308,19 @@ class CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
                     $this->click($methodXpath);
                     $this->waitForAjax();
                 } elseif (!$this->isElementPresent($selectedMethod)) {
-                    $this->addMessage('error',
-                            'Shipping Method "' . $method . '" for "' . $service . '" is currently unavailable');
+                    $this->addVerificationMessage('Shipping Method "' . $method . '" for "'
+                            . $service . '" is currently unavailable');
                 }
             } else {
-                $this->addMessage('error', 'Shipping Service "' . $service . '" is currently unavailable.');
+                $this->addVerificationMessage('Shipping Service "' . $service . '" is currently unavailable.');
             }
         }
-        if (array_key_exists('add_gift_options', $shipMethod)) {
-            $this->frontAddGiftMessage($shipMethod['add_gift_options']);
-        }
-        $messages = $this->getParsedMessages('error');
+        $messages = $this->getParsedMessages('verificationErrors');
         if ($messages) {
             $message = implode("\n", $messages);
             $this->fail($message);
         }
 
-    }
-
-    /**
-     * Adding gift message for entire order of each item
-     *
-     * @param array|string $giftOptions
-     *
-     */
-    public function frontAddGiftMessage(array $giftOptions)
-    {
-        foreach ($giftOptions as $key => $value) {
-            $this->addParameter('addressHeader', $key);
-            $this->fillForm(array('add_gift_options' => 'Yes', 'gift_option_for_individual_items' => 'Yes'));
-            if (array_key_exists('individual_items', $giftOptions)) {
-                foreach ($giftOptions['individual_items'] as $data) {
-                    if (isset($data['product_name'])) {
-                        $this->addParameter('productName', $data['product_name']);
-                        $this->fillForm($data);
-                    }
-                }
-            }
-        }
     }
 
     /**
@@ -325,6 +331,8 @@ class CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
      */
     public function frontSelectPaymentMethod(array $paymentMethod)
     {
+        $this->assertMultipleAddrCheckoutPageOpened('billing_information');
+
         $payment = (isset($paymentMethod['payment_method'])) ? $paymentMethod['payment_method'] : Null;
         $card = (isset($paymentMethod['payment_info'])) ? $paymentMethod['payment_info'] : Null;
         if ($payment) {
@@ -346,30 +354,62 @@ class CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
     }
 
     /**
-     * Enters code to centinel iframe in case it appears.
-     * 
-     * @param string $password
-     * @return void
+     * Adding gift message for each item
+     *
+     * @param array $giftOptions
+     *
      */
-    public function frontValidate3dSecure($password = '1234')
+    public function frontAddGiftMessage(array $giftOptions)
     {
-        $xpathFrame = $this->_getControlXpath('fieldset', '3d_secure_card_validation');
-        if ($this->waitForElement($xpathFrame, 5)) {
-            $xpath = $this->_getControlXpath('field', '3d_password');
-            $xpathContinue = $this->_getControlXpath('button', '3d_continue');
-            $xpathSubmit = $this->_getControlXpath('button', '3d_submit');
-            $this->waitForElement($xpath);
-            if ($this->isElementPresent($xpath)) {
-                $this->type($xpath, $password);
-                $this->click($xpathSubmit);
-                $this->waitForElementNotPresent($xpathSubmit);
-                if ($this->waitForElement($xpathContinue, 3)) {
-                    $this->click($xpathContinue);
-                    $this->waitForElementNotPresent($xpathContinue);
+        foreach ($giftOptions as $key => $value) {
+            $this->addParameter('addressHeader', $key);
+            $this->fillForm(array('add_gift_options' => 'Yes', 'gift_option_for_individual_items' => 'Yes'));
+            if (array_key_exists('individual_items', $giftOptions)) {
+                foreach ($giftOptions['individual_items'] as $data) {
+                    if (isset($data['product_name'])) {
+                        $this->addParameter('productName', $data['product_name']);
+                        $this->fillForm($data);
+                    }
                 }
-            } else {
-                $this->fail('3D Secure frame is not loaded(maybe wrong card)');
             }
         }
     }
+
+    /**
+     * Order review
+     *
+     * @param array  $checkoutData
+     *
+     */
+    public function frontOrderReview(array $checkoutData)
+    {
+        $this->assertMultipleAddrCheckoutPageOpened('place_order');
+        $this->checkoutOnePageHelper()->frontValidate3dSecure();
+
+        $checkoutData = $this->arrayEmptyClear($checkoutData);
+        if (isset($checkoutData['verify_products_data'])) {
+            foreach ($checkoutData['verify_products_data'] as $data) {
+                $addressToSearch = (isset($data['search_shipping_address'])) ? $data['search_shipping_address'] : NULL;
+                $checkProd  = (isset($data['validate_prod_data'])) ? $data['validate_prod_data'] : NULL;
+                $checkTotal = (isset($data['validate_total_data'])) ? $data['validate_total_data'] : NULL;
+                if ($addressToSearch) {
+                    $formXpathString = '';
+                    foreach ($addressToSearch as $v) {
+                        if ($formXpathString == '') {
+                            $formXpathString = 'contains(.,"' . $v . '")';
+                        } elseif ($formXpathString != '') {
+                            $formXpathString = $formXpathString . ' and contains(.,"' . $v . '")';
+                        }
+                        $this->addParameter('param', $formXpathString);
+                        $xpath = $this->_getControlXpath('pageelement', 'address_box');
+                        $this->addParameter('addressHeader', $this->getText($xpath));
+                    }
+                }
+                if ($checkProd && $checkTotal) {
+                    $this->shoppingCartHelper()->verifyPricesDataOnPage($checkProd, $checkTotal);
+                }
+            }
+        }
+    }
+
 }
