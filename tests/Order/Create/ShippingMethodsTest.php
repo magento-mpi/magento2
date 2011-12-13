@@ -118,8 +118,8 @@ class Order_Create_ShippingMethodsTest extends Mage_Selenium_TestCase
             array('upsxml', 'usa'),
             array('usps', 'usa'),
             array('fedex', 'usa'),
-            array('dhl_usa', 'usa'),
             array('dhl_int', 'france'),
+            array('dhl_usa', 'usa'),
         );
     }
 

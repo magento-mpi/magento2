@@ -37,9 +37,19 @@
 class CheckoutOnePage_LoggedIn_ShippingMethodsTest extends Mage_Selenium_TestCase
 {
 
-    protected function assertPreConditions()
+    /**
+     * <p>Log in to Backend.</p>
+     */
+    public function setUpBeforeTests()
     {
         $this->loginAdminUser();
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('store_information');
+    }
+
+
+    protected function assertPreConditions()
+    {
         $this->addParameter('id', '');
     }
 
@@ -87,13 +97,14 @@ class CheckoutOnePage_LoggedIn_ShippingMethodsTest extends Mage_Selenium_TestCas
      * @dataProvider dataShipment
      * @test
      */
-    public function differentShippingMethods($shipping, $simpleSku)
+    public function differentShippingMethods($shipping, $shippingOrigin, $simpleSku)
     {
         $userData = $this->loadData('customer_account_register');
         $checkoutData = $this->loadData('signedin_flatrate_checkmoney',
                 array('general_name' => $simpleSku, 'shipping_data' => $this->loadData('front_shipping_' . $shipping)));
         //Steps
         $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('shipping_settings_' . strtolower($shippingOrigin));
         $this->systemConfigurationHelper()->configure($shipping . '_enable');
         $this->logoutCustomer();
         $this->navigate('customer_login');
@@ -109,13 +120,14 @@ class CheckoutOnePage_LoggedIn_ShippingMethodsTest extends Mage_Selenium_TestCas
     public function dataShipment()
     {
         return array(
-            array('flatrate'),
-            array('free'),
-            array('ups'),
-            array('upsxml'),
-            array('usps'),
-            array('fedex'),
-//@TODO            array('dhl')
+            array('flatrate', 'usa'),
+            array('free', 'usa'),
+            array('ups', 'usa'),
+            array('upsxml', 'usa'),
+            array('usps', 'usa'),
+            array('fedex', 'usa'),
+            array('dhl_int', 'france'),
+            array('dhl_usa', 'usa'),
         );
     }
 

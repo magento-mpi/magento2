@@ -461,9 +461,13 @@ front_shipping_fedex: &fedex
     shipping_service: Federal Express
     shipping_method: Home Delivery
 
-front_shipping_dhl: &dhl
+front_shipping_dhl_usa: &dhl_usa
+    shipping_service: DHL USA
+    shipping_method: Express
+
+front_shipping_dhl_int: &dhl_int
     shipping_service: DHL
-    shipping_method: Ground
+    shipping_method: Express easy
 
 ################################################################################
 #                                                                              #
