@@ -44,7 +44,7 @@ class Catalog_ProductTest extends Magento_Test_Webservice
 
         $product = new Mage_Catalog_Model_Product();
         $product->load($this->getFixture('productId'));
-        $this->modelCallDelete($product, true);
+        $this->callModelDelete($product, true);
 
         parent::tearDown();
     }
