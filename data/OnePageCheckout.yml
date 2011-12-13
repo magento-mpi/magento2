@@ -392,7 +392,7 @@ front_saved_visa: &visaSavedCC
 
 front_else_visa: &visaElse
     card_type: 'Visa'
-    card_number: '4000000000000002'
+    card_number: '4832011527418035'
     expiration_month: '07 - July'
     expiration_year: '2020'
     card_verification_number: '111'
