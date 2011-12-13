@@ -187,7 +187,7 @@ class Magento_Test_Webservice extends Magento_TestCase
     public static function deleteFixture($key, $secure = false)
     {
         if (array_key_exists($key, self::$_fixtures)) {
-            self::modelCallDelete(self::$_fixtures[$key], $secure);
+            self::callModelDelete(self::$_fixtures[$key], $secure);
             unset(self::$_fixtures[$key]);
         }
     }

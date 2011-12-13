@@ -44,6 +44,13 @@ class Magento_TestCase extends PHPUnit_Framework_TestCase
     protected $_appCache;
 
     /**
+     * Delete models list
+     *
+     * @var array
+     */
+    protected $_modelsToDelete = array();
+
+    /**
      * Run garbage collector for cleaning memory
      *
      * @return void
@@ -184,7 +191,7 @@ class Magento_TestCase extends PHPUnit_Framework_TestCase
      * @param bool $secure
      * @return Magento_TestCase
      */
-    static public function modelCallDelete($model, $secure = false)
+    static public function callModelDelete($model, $secure = false)
     {
         if ($model instanceof Mage_Core_Model_Abstract && $model->getId()) {
             if ($secure) {
@@ -195,6 +202,51 @@ class Magento_TestCase extends PHPUnit_Framework_TestCase
                 self::enableSecureArea(false);
             }
         }
+    }
+
+    /**
+     * Call safe delete for model
+     *
+     * @param Mage_Core_Model_Abstract $model
+     * @param bool $secure
+     * @return Magento_TestCase
+     */
+    protected function _addModelToDelete($model, $secure = false)
+    {
+        $this->_modelsToDelete[] = array(
+            'model' => $model,
+            'secure' => $secure
+        );
+        return $this;
+    }
+
+    /**
+     * Call delete models from list
+     *
+     * @return Magento_TestCase
+     */
+    protected function _callModelsDelete()
+    {
+        if ($this->_modelsToDelete) {
+            foreach ($this->_modelsToDelete as $key => $modelData) {
+                /** @var $model Mage_Core_Model_Abstract */
+                $model = $modelData['model'];
+                $this->callModelDelete($model, $modelData['secure']);
+                unset($this->_modelsToDelete[$key]);
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * Call safe delete for models which added to delete list
+     *
+     * @return void
+     */
+    protected function tearDown()
+    {
+        $this->_callModelsDelete();
+        parent::tearDown();
     }
 
     /**
