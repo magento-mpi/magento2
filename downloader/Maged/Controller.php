@@ -885,7 +885,15 @@ final class Maged_Controller
         }
 
         if (!empty($_GET['archive_type'])) {
-            $this->_createBackup($_GET['archive_type']);
+            $isSuccess = $this->_createBackup($_GET['archive_type']);
+
+            if (!$isSuccess) {
+                $this->endInstall();
+                $this->cleanCache();
+                throw new Mage_Exception(
+                    'The installation process has been canceled because of the backup creation error'
+                );
+            }
         }
     }
 
@@ -982,12 +990,14 @@ final class Maged_Controller
      * Create Backup
      *
      * @param string $archiveType
-     * @return void
+     * @return bool
      */
     protected function _createBackup($archiveType){
         /** @var $connect Maged_Connect */
         $connect = $this->model('connect', true)->connect();
         $connect->runHtmlConsole('Creating data backup...');
+
+        $isSuccess = false;
 
         try {
             $type = $this->_getBackupTypeByCode($archiveType);
@@ -1007,6 +1017,7 @@ final class Maged_Controller
             $connect->runHtmlConsole(
                 $this->_getCreateBackupSuccessMessageByType($type)
             );
+            $isSuccess = true;
         } catch (Mage_Backup_Exception_NotEnoughFreeSpace $e) {
             $connect->runHtmlConsole('Not enough free space to create backup.');
             Mage::logException($e);
@@ -1017,6 +1028,8 @@ final class Maged_Controller
             $connect->runHtmlConsole('An error occurred while creating the backup.');
             Mage::logException($e);
         }
+
+        return $isSuccess;
     }
 
     /**
