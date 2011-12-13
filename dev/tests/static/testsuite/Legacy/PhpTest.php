@@ -26,10 +26,11 @@ class Legacy_PhpTest extends PHPUnit_Framework_TestCase
         $this->_testDeprecatedConstants($content);
     }
 
+    /**
+     * @return array
+     */
     public function phpFileDataProvider()
     {
-        //return array(array('E:\mag2git\app\Mage.php'));
-
         $folders = array(
             'app',
             'dev',
@@ -66,7 +67,7 @@ class Legacy_PhpTest extends PHPUnit_Framework_TestCase
             if (realpath($file) == __FILE__) {
                 continue;
             }
-            $result[$file] = array($file);
+            $result[] = array($file);
         }
         return $result;
     }
