@@ -1726,7 +1726,7 @@
                 </payflow_link>
 
                 <payflow_advanced translate="label">
-                    <label>PayPal Paymets Advanced</label>
+                    <label>PayPal Payments Advanced</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>90</sort_order>
                     <show_in_default>1</show_in_default>
