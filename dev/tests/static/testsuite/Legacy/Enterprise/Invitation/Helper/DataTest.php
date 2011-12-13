@@ -38,7 +38,7 @@ class Legacy_Enterprise_Invitation_Helper_DataTest extends PHPUnit_Framework_Tes
     public function deprecatedMethodsDataProvider()
     {
         $iterator = new RecursiveIteratorIterator(
-            new RecursiveDirectoryIterator(PATH_TO_SOURCE_CODE)
+            new RecursiveDirectoryIterator(PATH_TO_SOURCE_CODE . '/app/code/core/Enterprise/Invitation')
         );
         $regexIterator = new RegexIterator($iterator, '/\.(?:php|phtml)$/');
         $result = array();

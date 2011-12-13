@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Legacy_PhpTest extends PHPUnit_Framework_TestCase
+class Legacy_DeprecatesTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @param string $file
@@ -24,6 +24,7 @@ class Legacy_PhpTest extends PHPUnit_Framework_TestCase
         $this->_testDeprecatedProperties($content);
         $this->_testDeprecatedActions($content);
         $this->_testDeprecatedConstants($content);
+        $this->_testDeprecatedPropertySkipCalculate($content);
     }
 
     /**
@@ -40,27 +41,84 @@ class Legacy_PhpTest extends PHPUnit_Framework_TestCase
             'lib/Varien',
             'pub/errors'
         );
-
         $result = array();
         foreach ($folders as $folder) {
-            $iterationFiles = $this->_getFiles($folder);
+            $iterationFiles = $this->_getFiles($folder, array('php', 'phtml'));
             $result = array_merge($result, $iterationFiles);
         }
         return $result;
     }
 
     /**
-     * Returns all PHP-files in folder and its subfolders
-     *
-     * @param  $folder
+     * @param string $file
+     * @dataProvider xmlFileDataProvider
+     */
+    public function testXmlFile($file)
+    {
+        $content = file_get_contents($file);
+        $this->_testDeprecatedClasses($content);
+    }
+
+    /**
      * @return array
      */
-    protected function _getFiles($folder)
+    public function xmlFileDataProvider()
     {
+        $folders = array(
+            'app/code',
+            'app/design',
+            'app/etc',
+        );
+        $result = array();
+        foreach ($folders as $folder) {
+            $iterationFiles = $this->_getFiles($folder, array('xml'));
+            $result = array_merge($result, $iterationFiles);
+        }
+        return $result;
+    }
+
+    /**
+     * @param string $file
+     * @dataProvider jsFileDataProvider
+     */
+    public function testJsFile($file)
+    {
+        $content = file_get_contents($file);
+        $this->_testDeprecatedPropertySkipCalculate($content);
+    }
+
+    /**
+     * @return array
+     */
+    public function jsFileDataProvider()
+    {
+        $folders = array(
+            'app/code',
+            'app/design',
+            'pub/js',
+        );
+        $result = array();
+        foreach ($folders as $folder) {
+            $iterationFiles = $this->_getFiles($folder, array('js'));
+            $result = array_merge($result, $iterationFiles);
+        }
+        return $result;
+    }
+
+    /**
+     * Returns all files in folder and its sub-folders that match allowed extensions
+     *
+     * @param string $folder
+     * @param array $extensions
+     * @return array
+     */
+    protected function _getFiles($folder, array $extensions)
+    {
+        array_map('preg_quote', $extensions);
         $iterator = new RecursiveIteratorIterator(
             new RecursiveDirectoryIterator(PATH_TO_SOURCE_CODE . '/' . $folder)
         );
-        $regexIterator = new RegexIterator($iterator, '/\.(?:php|phtml)$/');
+        $regexIterator = new RegexIterator($iterator, '/\.(?:' . implode('|', $extensions) . ')$/');
         $result = array();
         foreach ($regexIterator as $fileInfo) {
             $file = (string)$fileInfo;
@@ -80,7 +138,7 @@ class Legacy_PhpTest extends PHPUnit_Framework_TestCase
         $declarations = $this->_loadDeprecatedEntities('deprecated_classes.txt');
         foreach ($declarations as $declaration) {
             $this->assertNotRegExp(
-                '/[^a-z\d_]' . preg_quote($declaration['entity'], '/') . '[^a-z\d_]/i',
+                '/[^a-z\d_]' . preg_quote($declaration['entity'], '/') . '[^a-z\d_]/iS',
                 $content,
                 "Deprecated class '{$declaration['entity']}' is used, {$declaration['suggestion']}."
             );
@@ -98,7 +156,7 @@ class Legacy_PhpTest extends PHPUnit_Framework_TestCase
                 continue;
             }
             $this->assertNotRegExp(
-                '/[^a-z\d_]' . preg_quote($declaration['entity'], '/') . '\s*\(/i',
+                '/[^a-z\d_]' . preg_quote($declaration['entity'], '/') . '\s*\(/iS',
                 $content,
                 "Deprecated method '{$declaration['entity']}' is used, {$declaration['suggestion']}."
             );
@@ -117,7 +175,7 @@ class Legacy_PhpTest extends PHPUnit_Framework_TestCase
         if (!$class) {
             return true;
         }
-        $regexp = '/(class|extends)\s+' . preg_quote($class, '/') . '(\s|;)/';
+        $regexp = '/(class|extends)\s+' . preg_quote($class, '/') . '(\s|;)/S';
         return preg_match($regexp, $content) > 0;
     }
 
@@ -131,7 +189,7 @@ class Legacy_PhpTest extends PHPUnit_Framework_TestCase
         );
         foreach ($deprecations as $method => $suggestion) {
             $this->assertNotRegExp(
-                '/[^a-z\d_]' . preg_quote($method, '/') . '\s*\(\s*[^\)]+/i',
+                '/[^a-z\d_]' . preg_quote($method, '/') . '\s*\(\s*[^\)]+/iS',
                 $content,
                 "Method '$method' is called with deprecated arguments, $suggestion."
             );
@@ -149,7 +207,7 @@ class Legacy_PhpTest extends PHPUnit_Framework_TestCase
                 continue;
             }
             $this->assertNotRegExp(
-                '/[^a-z\d_]' . preg_quote($declaration['entity'], '/') . '[^a-z\d_]/i',
+                '/[^a-z\d_]' . preg_quote($declaration['entity'], '/') . '[^a-z\d_]/iS',
                 $content,
                 "Deprecated property '{$declaration['entity']}' is used, {$declaration['suggestion']}."
             );
@@ -167,7 +225,7 @@ class Legacy_PhpTest extends PHPUnit_Framework_TestCase
         );
         foreach ($deprecations as $action => $suggestion) {
             $this->assertNotRegExp(
-                '/[^a-z\d_\/]' . preg_quote($action, '/') . '[^a-z\d_\/]/i',
+                '/[^a-z\d_\/]' . preg_quote($action, '/') . '[^a-z\d_\/]/iS',
                 $content,
                 "Deprecated action '$action' is used, $suggestion."
             );
@@ -184,12 +242,27 @@ class Legacy_PhpTest extends PHPUnit_Framework_TestCase
             if (!$this->_isClassContextPermitted($declaration['class'], $content)) {
                 continue;
             }
-
-            // Test that no constant is present
             $this->assertNotRegExp(
-                '/[^a-z\d_]' . preg_quote($declaration['entity'], '/') . '[^a-z\d_]/i',
+                '/[^a-z\d_]' . preg_quote($declaration['entity'], '/') . '[^a-z\d_]/iS',
                 $content,
                 "Deprecated constant '{$declaration['entity']}' is used, {$declaration['suggestion']}."
+            );
+        }
+    }
+
+    /**
+     * @param string $content
+     */
+    protected function _testDeprecatedPropertySkipCalculate($content)
+    {
+        $deprecations = array(
+            'skipCalculate' => 'remove it',
+        );
+        foreach ($deprecations as $property => $suggestion) {
+            $this->assertNotRegExp(
+                '/[^a-z\d_]' . preg_quote($property, '/') . '[^a-z\d_]/iS',
+                $content,
+                "Deprecated configuration property '$property' is used, $suggestion."
             );
         }
     }
