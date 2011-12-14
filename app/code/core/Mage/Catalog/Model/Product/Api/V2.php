@@ -281,9 +281,10 @@ class Mage_Catalog_Model_Product_Api_V2 extends Mage_Catalog_Model_Product_Api
             $_attrCode = $attribute->getAttributeCode();
 
             //Unset data if object attribute has no value in current store
-            if(Mage_Catalog_Model_Abstract::DEFAULT_STORE_ID !== (int) $product->getStoreId()
+            if (Mage_Catalog_Model_Abstract::DEFAULT_STORE_ID !== (int) $product->getStoreId()
                 && !$product->getExistsStoreValueFlag($_attrCode)
-                && !$attribute->isScopeGlobal()) {
+                && !$attribute->isScopeGlobal()
+            ) {
                 $product->setData($_attrCode, false);
             }
 

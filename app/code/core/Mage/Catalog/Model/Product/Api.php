@@ -268,9 +268,10 @@ class Mage_Catalog_Model_Product_Api extends Mage_Catalog_Model_Api_Resource
 
         foreach ($product->getTypeInstance(true)->getEditableAttributes($product) as $attribute) {
             //Unset data if object attribute has no value in current store
-            if(Mage_Catalog_Model_Abstract::DEFAULT_STORE_ID !== $product->getStoreId()
+            if (Mage_Catalog_Model_Abstract::DEFAULT_STORE_ID !== $product->getStoreId()
                 && !$product->getExistsStoreValueFlag($attribute->getAttributeCode())
-                && !$attribute->isScopeGlobal()) {
+                && !$attribute->isScopeGlobal()
+            ) {
                 $product->setData($attribute->getAttributeCode(), false);
             }
 
