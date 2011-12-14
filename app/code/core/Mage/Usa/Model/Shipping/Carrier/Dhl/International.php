@@ -622,7 +622,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
             $nodePiece = $nodePieces->addChild('Piece', '', '');
             $nodePiece->addChild('PieceID', 1);
             $this->_addDimension($nodePiece);
-            $nodePiece->addChild('Weight', $this->_rawRequest->getWeight());
+            $nodePiece->addChild('Weight', $this->_getWeight($this->_rawRequest->getWeight()));
         }
     }
 
