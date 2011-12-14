@@ -37,16 +37,6 @@ class Inspection_CodeSniffer_Command extends Inspection_CommandAbstract
     }
 
     /**
-     * Getter for path to ruleset directory
-     *
-     * @return string
-     */
-    public function getRulesetDir()
-    {
-        return $this->_rulesetDir;
-    }
-
-    /**
      * Limit scanning folders by file extensions
      *
      * Array of alphanumeric strings, for example: 'php', 'xml', 'phtml', 'css'...

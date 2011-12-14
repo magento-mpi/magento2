@@ -176,12 +176,11 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
         }
 
         // any text nodes that contain conventional block/model/helper names
-        $nodes = $xml->xpath('/layout//action/attributeType | /layout//renderer_block | /layout//renderer
-            | /layout//action[@method="addTab"]/content
+        $nodes = $xml->xpath('/layout//action/attributeType | /layout//action[@method="addTab"]/content
             | /layout//action[@method="addRenderer" or @method="addItemRender" or @method="addColumnRender"
                 or @method="addPriceBlockType" or @method="addMergeSettingsBlockType"
                 or @method="addInformationRenderer" or @method="addOptionRenderer" or @method="addRowItemRender"
-                or @method="addDatabaseBlock"]/block
+                or @method="addDatabaseBlock"]/*[2]
             | /layout//action[@method="setMassactionBlockName" or @method="addProductConfigurationHelper"]/name
             | /layout//action[@method="setEntityModelClass"]/code
             | /layout//*[contains(text(), "_Block_") or contains(text(), "_Model_") or contains(text(), "_Helper_")]'
