@@ -342,4 +342,3 @@ Mage_Core_Model_Design_Package::validateFile
 getFallbackTheme
 getMergedJsUrl
 getMergedCssUrl
-
