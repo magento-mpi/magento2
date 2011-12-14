@@ -38,19 +38,12 @@ class CmsPolls_DeleteTest extends Mage_Selenium_TestCase
 {
 
     /**
-     * <p>Log in to Backend.</p>
-     */
-    public function setUpBeforeTests()
-    {
-        $this->loginAdminUser();
-    }
-
-    /**
      * <p>Preconditions:</p>
      * <p>Navigate to CMS -> Polls</p>
      */
     protected function assertPreConditions()
     {
+        $this->loginAdminUser();
         $this->navigate('poll_manager');
         $this->addParameter('id', '0');
     }
@@ -69,15 +62,13 @@ class CmsPolls_DeleteTest extends Mage_Selenium_TestCase
     public function deleteNewPoll()
     {
         //Data
-        $pollData = $this->loadData('poll_open', null, 'poll_question');
+        $pollData = $this->loadData('poll_open');
         $searchPollData = $this->loadData('search_poll',
-                array('filter_question' => $pollData['poll_question'],
-                       'filter_status'  => $pollData['poll_status']));
+                array('filter_question' => $pollData['poll_question']));
         //Steps
         $this->cmsPollsHelper()->createPoll($pollData);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_poll');
-        $this->assertTrue($this->checkCurrentPage('poll_manager'), $this->getParsedMessages());
         //Steps
         $this->cmsPollsHelper()->deletePoll($searchPollData);
         //Verifying
