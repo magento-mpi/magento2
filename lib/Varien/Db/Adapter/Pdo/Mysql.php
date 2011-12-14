@@ -2757,8 +2757,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
                 break;
             case 'bigint':
                 if (!is_integer($value)) {
-                    // Can't cast to int on 32 bit systems here: BIGINT is larger than such systems' MAX_INT
-                    $value = preg_replace('/\D/', '', $value);
+                    $value = sprintf('%.0f', (float)$value);
                 }
                 break;
 
