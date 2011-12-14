@@ -46,13 +46,13 @@ class Mage_Captcha_Model_Observer_UserLoginBackend extends Mage_Captcha_Model_Ob
      */
     public function checkCaptcha($observer)
     {
-        Mage::helper('captcha')->getCaptcha($this->_formId)->logAttempt();
         $captchaModel = Mage::helper('captcha')->getCaptcha($this->_formId);
         if ($captchaModel->isRequired()){
             if (!$captchaModel->isCorrect($this->_getCaptchaString(Mage::app()->getRequest()))) {
                 $this->_setupRedirect($observer->getControllerAction());
             }
         }
+        Mage::helper('captcha')->getCaptcha($this->_formId)->logAttempt();
         return $this;
     }
 
@@ -63,6 +63,7 @@ class Mage_Captcha_Model_Observer_UserLoginBackend extends Mage_Captcha_Model_Ob
      */
     protected function _setupRedirect($controller)
     {
+        Mage::helper('captcha')->getCaptcha($this->_formId)->logAttempt();
         Mage::throwException(Mage::helper('captcha')->__('Incorrect CAPTCHA.'));
     }
 }

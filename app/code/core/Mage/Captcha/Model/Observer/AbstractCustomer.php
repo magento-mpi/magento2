@@ -46,13 +46,13 @@ abstract class Mage_Captcha_Model_Observer_AbstractCustomer
      */
     public function checkCaptcha($observer)
     {
-        Mage::helper('captcha')->getCaptcha($this->_formId)->logAttempt();
         $captchaModel = Mage::helper('captcha')->getCaptcha($this->_formId);
         if ($captchaModel->isRequired()){
             if (!$captchaModel->isCorrect($this->_getCaptchaString($observer->getControllerAction()->getRequest()))) {
                 $this->_setupRedirect($observer->getControllerAction());
             }
         }
+        Mage::helper('captcha')->getCaptcha($this->_formId)->logAttempt();
         return $this;
     }
 
