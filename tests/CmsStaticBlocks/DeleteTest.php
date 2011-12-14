@@ -69,17 +69,16 @@ class CmsStaticBlocks_DeleteTest extends Mage_Selenium_TestCase
     public function deleteNew()
     {
         //Data
-        $setData = $this->loadData('basic_static_block', null, array('block_title', 'block_identifier'));
-        $this->addParameter('blockName', $setData['block_title']);
-        //Steps
-        $this->cmsStaticBlocksHelper()->createStaticBlock($setData);
-        //Verify
-        $this->assertMessagePresent('success', 'success_saved_block');
-        //Steps
+        $setData = $this->loadData('new_static_block');
         $blockToDelete = $this->loadData('search_static_block',
                 array('filter_block_identifier' => $setData['block_identifier']));
+        //Steps
+        $this->cmsStaticBlocksHelper()->createStaticBlock($setData);
+        //Verifying
+        $this->assertMessagePresent('success', 'success_saved_block');
+        //Steps
         $this->cmsStaticBlocksHelper()->deleteStaticBlock($blockToDelete);
-        //Verify
+        //Verifying
         $this->assertMessagePresent('success', 'success_deleted_block');
     }
 

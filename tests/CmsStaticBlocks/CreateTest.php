@@ -45,6 +45,9 @@ class CmsStaticBlocks_CreateTest extends Mage_Selenium_TestCase
     public function setUpBeforeTests()
     {
         $this->loginAdminUser();
+        $this->navigate('manage_stores');
+        $this->storeHelper()->createStore('generic_store_view', 'store_view');
+        $this->assertMessagePresent('success', 'success_saved_store_view');
     }
 
     /**
@@ -68,18 +71,38 @@ class CmsStaticBlocks_CreateTest extends Mage_Selenium_TestCase
      *
      * @test
      */
-    public function createNewWithVariables()
+    public function createNewWithReqField()
     {
         //Data
-        $setData = $this->loadData('new_static_block', null, array('block_title', 'block_identifier'));
-        $this->addParameter('blockName', $setData['block_title']);
+        $setData = $this->loadData('new_static_block');
         //Steps
         $this->cmsStaticBlocksHelper()->createStaticBlock($setData);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_block');
-        //Cleanup
+
+        return $setData;
+    }
+
+    /**
+     * <p>Creating a new static block with existing XML identifier.</p>
+     * <p>Steps:</p>
+     * <p>1. Click button "Add New Block"</p>
+     * <p>2. Fill in the fields, enter already existing identifier</p>
+     * <p>3. Click button "Save Block"</p>
+     * <p>Expected result:</p>
+     * <p>Received an error message about already existing identifier.</p>
+     *
+     * @depends createNewWithReqField
+     * @test
+     */
+    public function withExistingIdentifier($setData)
+    {
         $this->blockToBeDeleted = $this->loadData('search_static_block',
                 array('filter_block_identifier' => $setData['block_identifier']));
+        //Steps
+        $this->cmsStaticBlocksHelper()->createStaticBlock($setData);
+        //Verifying
+        $this->assertMessagePresent('error', 'already_existing_identifier');
     }
 
     /**
@@ -93,16 +116,14 @@ class CmsStaticBlocks_CreateTest extends Mage_Selenium_TestCase
      *
      * @test
      */
-    public function createNewWithWidgets()
+    public function createNewWithAllWidgets()
     {
         //Data
-        $setData = $this->loadData('static_block_with_all_widgets', null, array('block_title', 'block_identifier'));
-        $this->addParameter('blockName', $setData['block_title']);
+        $setData = $this->loadData('static_block_with_all_widgets');
         //Steps
         $this->cmsStaticBlocksHelper()->createStaticBlock($setData);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_block');
-        //Cleanup
         $this->blockToBeDeleted = $this->loadData('search_static_block',
                 array('filter_block_identifier' => $setData['block_identifier']));
     }
@@ -118,35 +139,35 @@ class CmsStaticBlocks_CreateTest extends Mage_Selenium_TestCase
      * <p>All fields has the same values.</p>
      *
      * @dataProvider dataSpecialValues
-     * @depends createNewWithVariables
+     * @depends createNewWithReqField
      * @test
      *
      * @param array $specialValue
-     * @param string|array $randomValue
      */
-    public function withSpecialValues(array $specialValue, $randomValue = null)
+    public function withSpecialValues(array $specialValue)
     {
         //Data
-        $setData = $this->loadData('basic_static_block', $specialValue, $randomValue);
-        $this->addParameter('blockName', $setData['block_title']);
+        $setData = $this->loadData('new_static_block', $specialValue);
+        $blockToOpen = $this->loadData('search_static_block',
+                array('filter_block_identifier' => $setData['block_identifier']));
         //Steps
         $this->cmsStaticBlocksHelper()->createStaticBlock($setData);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_block');
-        $blockToOpen = $this->loadData('search_static_block',
+        $this->blockToBeDeleted = $this->loadData('search_static_block',
                 array('filter_block_identifier' => $setData['block_identifier']));
+        //Steps
         $this->cmsStaticBlocksHelper()->openStaticBlock($blockToOpen);
-        $this->verifyForm($setData, null, array('text_editor'));
-        //Cleanup
-        $this->blockToBeDeleted = $blockToOpen;
+        //Verifying
+        $this->assertTrue($this->verifyForm($setData), $this->getParsedMessages());
     }
 
     public function dataSpecialValues()
     {
         return array(
-            array(array('block_title' => $this->generate('string', 255)), 'block_identifier'),
+            array(array('block_title' => $this->generate('string', 255, ':alpha:'))),
             array(array('block_identifier' => $this->generate('string', 255, ':alpha:'))),
-            array(array('block_title' => $this->generate('string', 50, ':punct:')), 'block_identifier'),
+            array(array('block_title' => $this->generate('string', 50, ':punct:'))),
         );
     }
 
@@ -165,23 +186,28 @@ class CmsStaticBlocks_CreateTest extends Mage_Selenium_TestCase
      * @param string $emptyField Name of the field to leave empty
      * @param string $validationMessage Validation message to be verified
      */
-    public function withEmptyRequiredFields($emptyField, $validationMessage)
+    public function withEmptyRequiredFields($emptyField, $fieldType)
     {
         //Data
-        $setData = $this->loadData('basic_static_block', array($emptyField => ''), 'block_identifier');
+        $setData = $this->loadData('new_static_block', array($emptyField => '%noValue%'));
         //Steps
         $this->cmsStaticBlocksHelper()->createStaticBlock($setData);
         //Verifying
-        $this->assertMessagePresent('validation', $validationMessage);
+        if ($emptyField == 'content') {
+            $emptyField = 'simple_editor_disabled';
+        }
+        $this->addFieldIdToMessage($fieldType, $emptyField);
+        $this->assertMessagePresent('validation', 'empty_required_field');
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     public function dataEmptyRequiredFields()
     {
         return array(
-            array('block_title', 'specify_title'),
-            array('block_identifier', 'specify_identifier'),
-            array('content', 'specify_content')
+            array('block_title', 'field'),
+            array('block_identifier', 'field'),
+            array('store_view', 'multiselect'),
+            array('content', 'field')
         );
     }
 
@@ -200,7 +226,7 @@ class CmsStaticBlocks_CreateTest extends Mage_Selenium_TestCase
     public function withInvalidXmlIdentifier($invalidValue)
     {
         //Data
-        $setData = $this->loadData('basic_static_block', array('block_identifier' => $invalidValue));
+        $setData = $this->loadData('new_static_block', array('block_identifier' => $invalidValue));
         //Steps
         $this->cmsStaticBlocksHelper()->createStaticBlock($setData);
         //Verifying
@@ -217,29 +243,11 @@ class CmsStaticBlocks_CreateTest extends Mage_Selenium_TestCase
         );
     }
 
-//    /**
-//     * <p>Creating a new static block with existing XML identifier.</p>
-//     * <p>Steps:</p>
-//     * <p>1. Click button "Add New Block"</p>
-//     * <p>2. Fill in the fields, enter already existing identifier</p>
-//     * <p>3. Click button "Save Block"</p>
-//     * <p>Expected result:</p>
-//     * <p>Received an error message about already existing identifier.</p>
-//     *
-//     * @depends createNewWithVariables
-//     * @test
-//     */
-//    public function withExistingIdentifier()
-//    {
-//        $this->markTestIncomplete(
-//                'This test is skipped because behaves differently with different Magento configuration. '
-//                . 'Depends on the number of store views.'
-//        );
-//    }
-
     protected function tearDown()
     {
-        if (!empty($this->blockToBeDeleted)) {
+        if ($this->blockToBeDeleted) {
+            $this->loginAdminUser();
+            $this->navigate('manage_cms_static_blocks');
             $this->cmsStaticBlocksHelper()->deleteStaticBlock($this->blockToBeDeleted);
             $this->blockToBeDeleted = array();
         }
