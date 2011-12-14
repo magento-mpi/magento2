@@ -194,7 +194,7 @@ class Mage_Captcha_Model_Zend extends Zend_Captcha_Image implements Mage_Captcha
     /**
      * Returns session instance
      *
-     * @return Captcha_Zend_Model_Session
+     * @return Mage_Captcha_Model_Session
      */
     public function getSession()
     {
@@ -218,7 +218,7 @@ class Mage_Captcha_Model_Zend extends Zend_Captcha_Image implements Mage_Captcha
      */
     public function logAttempt()
     {
-        $attemptCount = (int)$this->getSession()->getData(self::SESSION_FAILED_ATTEMPTS);
+        $attemptCount = (int)$this->getSession()->getDataIgnoreTtl(self::SESSION_FAILED_ATTEMPTS);
         $attemptCount++;
         $this->getSession()->setData(self::SESSION_FAILED_ATTEMPTS, $attemptCount);
         return $this;
