@@ -113,7 +113,7 @@
                 <shipment_type>P</shipment_type>
                 <shipping_key backend_model="adminhtml/system_config_backend_encrypted"/>
                 <shipping_intlkey backend_model="adminhtml/system_config_backend_encrypted"/>
-                <title>DHL USA</title>
+                <title>DHL (Deprecated)</title>
                 <specificerrmsg>This shipping method is currently unavailable. If you would like to ship using this shipping method, please contact us.</specificerrmsg>
                 <max_package_weight>150</max_package_weight>
                 <handling_type>F</handling_type>
