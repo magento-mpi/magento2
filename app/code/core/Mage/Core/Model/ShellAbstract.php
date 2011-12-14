@@ -15,7 +15,7 @@
  * @package     Mage_Shell
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class Mage_Core_Model_Shell_Abstract
+abstract class Mage_Core_Model_ShellAbstract
 {
     /**
      * Raw arguments, that should be parsed
@@ -59,7 +59,7 @@ abstract class Mage_Core_Model_Shell_Abstract
      * Sets raw arguments to be parsed
      *
      * @param array $args
-     * @return Mage_Core_Model_Shell_Abstract
+     * @return Mage_Core_Model_ShellAbstract
      */
     public function setRawArgs($args)
     {
@@ -82,7 +82,7 @@ abstract class Mage_Core_Model_Shell_Abstract
     /**
      * Parses .htaccess file and apply php settings to shell script
      *
-     * @return Mage_Core_Model_Shell_Abstract
+     * @return Mage_Core_Model_ShellAbstract
      */
     protected function _applyPhpVariables()
     {
@@ -110,7 +110,7 @@ abstract class Mage_Core_Model_Shell_Abstract
     /**
      * Parses input arguments
      *
-     * @return Mage_Core_Model_Shell_Abstract
+     * @return Mage_Core_Model_ShellAbstract
      */
     protected function _parseArgs()
     {
@@ -134,7 +134,7 @@ abstract class Mage_Core_Model_Shell_Abstract
     /**
      * Runs script
      *
-     * @return Mage_Core_Model_Shell_Abstract
+     * @return Mage_Core_Model_ShellAbstract
      */
     abstract public function run();
 

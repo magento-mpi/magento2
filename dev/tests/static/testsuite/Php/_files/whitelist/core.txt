@@ -1,7 +1,7 @@
 _classmap.php
 app/bootstrap.php
 app/code/core/Mage/Core/Model/Design.php
-app/code/core/Mage/Core/Model/Shell/Abstract.php
+app/code/core/Mage/Core/Model/ShellAbstract.php
 app/code/core/Mage/Index/Model/Indexer/Abstract.php
 app/code/core/Mage/Index/Model/Shell.php
 app/code/core/Mage/Log/Model/Resource/Helper
