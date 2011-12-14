@@ -44,4 +44,10 @@
         alt="<?php echo $this->__('Reload captcha') ?>"
         onclick="captcha.refresh()">
 </div>
+<?php if ($captcha->isCaseSensitive()) :?>
+<div class="captcha-note">
+    <p><?php echo $this->__('<strong>Attention</strong>: Captcha is case sensitive.') ?></p>
+</div>
+<?php endif; ?>
+
 <div class="clear"></div>
