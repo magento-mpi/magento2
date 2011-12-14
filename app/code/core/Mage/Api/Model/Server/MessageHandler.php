@@ -31,9 +31,8 @@
  * @package    Mage_Api
  * @author     Magento API Team <apia-team@ebay.com>
  */
-class Mage_Api_Model_Server_MessageHandler extends Varien_Object
+class Mage_Api_Model_Server_MessageHandler
 {
-
     /**#@+
      * Message types
      *
@@ -58,6 +57,13 @@ class Mage_Api_Model_Server_MessageHandler extends Varien_Object
      * @var array
      */
     protected $_messages = array();
+
+    /**
+     * Message domains list
+     *
+     * @var array
+     */
+    protected $_domains = array();
 
     /**
      * Messages to response
@@ -97,22 +103,38 @@ class Mage_Api_Model_Server_MessageHandler extends Varien_Object
     protected $_unknownCodeError = 'unknown_error';
 
     /**
+     * Flag of using text messages in the output
+     *
+     * @var bool
+     */
+    protected $_useTextMessages = true;
+
+    /**
      * Prepare configuration
      *
-     * @param string $moduleName
+     * @param array $options
      */
-    public function __construct($moduleName)
+    public function __construct($options)
     {
-        $this->_moduleName = $moduleName;
+        if (empty($options)) {
+            throw new Exception('Options is empty.', 1);
+        }
+        if (empty($options['module'])) {
+            throw new Exception('Module name is empty.', 1);
+        }
+        if (empty($options['domains'])) {
+            throw new Exception('Message domains is empty.', 1);
+        }
+        if (empty($options['messages'])) {
+            throw new Exception('Messages is empty.', 1);
+        }
 
-        /** @var $configModel Mage_Api_Model_Config */
-        $configModel = Mage::getSingleton('api/config');
-        $config = $configModel->getNode('domain_messages')->asArray();
+        $this->_moduleName = $options['module'];
 
-        $this->_domains = $configModel->getNode('domain_codes')->asArray();
+        $this->_domains = $options['domains'];
 
         $this->_messages = array();
-        foreach ($config as $module => $list) {
+        foreach ($options['messages'] as $module => $list) {
             foreach ($list as $domain => $messages) {
                 if (!isset($this->_domains[$domain])) {
                     continue;
@@ -125,6 +147,10 @@ class Mage_Api_Model_Server_MessageHandler extends Varien_Object
                     );
                 }
             }
+        }
+
+        if (isset($options['useTextMessages'])) {
+            $this->_useTextMessages = (bool) $options['useTextMessages'];
         }
     }
 
@@ -144,14 +170,21 @@ class Mage_Api_Model_Server_MessageHandler extends Varien_Object
      */
     protected function _addMessage($code, $module, $customMessage, $type, $exception = false)
     {
-        $message =  ($customMessage ? !$customMessage : $this->_messages[$type][$code]['message']);
-        $domain = $module . ':' . $this->_messages[$type][$code]['domain'];
-        $this->_responseMessages[] = array(
-            'type'    => $type,
-            'code'    => $code,
-            'message' => $message,
-            'domain'  => $domain,
-        );
+        $path = $module . '/' . $code;
+        if (!isset($this->_messages[$type][$path])) {
+            throw new Exception(sprintf('API message path "%s" not found.', $path), 3);
+        }
+        $message = ($customMessage ? $customMessage : $this->_messages[$type][$path]['message']);
+        $domain = $this->_messages[$type][$path]['domain'];
+        $arr = array(
+            'type' => $type,
+            'code' => $code,
+            'domain' => $module . ':' . $domain,
+    );
+        if ($this->_useTextMessages) {
+            $arr['message'] = $message;
+        }
+        $this->_responseMessages[] = $arr;
 
         $this->setHttpCode($this->_domains[$domain]['http_code']);
 
@@ -177,13 +210,13 @@ class Mage_Api_Model_Server_MessageHandler extends Varien_Object
             if (!isset($this->_messages[self::TYPE_ERROR][$module . '/' . $code])) {
                 $module = $this->_defaultModuleName;
             }
-            $codePath = $module . '/' . $code;
+            $path = $module . '/' . $code;
         } else {
-            $codePath = $code;
+            $path = $code;
             list($module, $code) = explode('/', $code);
         }
 
-        if (!isset($this->_messages[self::TYPE_ERROR][$codePath])) {
+        if (!isset($this->_messages[self::TYPE_ERROR][$path])) {
             $module = $this->_defaultModuleName;
             $code = $this->_unknownCodeError;
             $customMessage = '';
@@ -209,12 +242,13 @@ class Mage_Api_Model_Server_MessageHandler extends Varien_Object
             if (!isset($this->_messages[self::TYPE_NOTIFICATION][$module . '/' . $code])) {
                 $module = $this->_defaultModuleName;
             }
-            $codePath = $module . '/' . $code;
+            $path = $module . '/' . $code;
         } else {
-            $codePath = $code;
+            $path = $code;
+            list($module, $code) = explode('/', $code);
         }
 
-        if (!isset($this->_messages[self::TYPE_NOTIFICATION][$codePath])) {
+        if (!isset($this->_messages[self::TYPE_NOTIFICATION][$path])) {
             //notification not found, add unknown error with exception
             $this->_addMessage(
                 $this->_unknownCodeError,
@@ -222,7 +256,7 @@ class Mage_Api_Model_Server_MessageHandler extends Varien_Object
                 '', self::TYPE_ERROR, true);
         }
 
-        $this->_addMessage($codePath, $customMessage, self::TYPE_NOTIFICATION, false);
+        $this->_addMessage($code, $module, $customMessage, self::TYPE_NOTIFICATION, false);
 
         return $this;
     }
@@ -267,12 +301,12 @@ class Mage_Api_Model_Server_MessageHandler extends Varien_Object
 
             case self::OUTPUT_XML:
                 $result = new SimpleXMLElement('<messages/>');
-                ${self::TYPE_ERROR} = 0;
-                ${self::TYPE_NOTIFICATION} = 0;
+                ${self::TYPE_ERROR} = -1;
+                ${self::TYPE_NOTIFICATION} = -1;
                 foreach ($this->_responseMessages as $message) {
                     $i = ++${$message['type']};
-                    $result->{$message['type']}[$i]->domain = $message['domain'];
-                    $result->{$message['type']}[$i]->code = $message['code'];
+                    $result->{$message['type']}[$i]->domain  = $message['domain'];
+                    $result->{$message['type']}[$i]->code    = $message['code'];
                     $result->{$message['type']}[$i]->message = $message['message'];
                 }
                 break;
@@ -285,14 +319,32 @@ class Mage_Api_Model_Server_MessageHandler extends Varien_Object
     }
 
     /**
-     * Get response as SimpleXml object
+     * Set flag of using text messages in the output
+     *
+     * @param boolean $flag
+     */
+    public function setUseTextMessages($flag)
+    {
+        $this->_useTextMessages = $flag;
+    }
+
+    /**
+     * Get flag of using text messages in the output
+     *
+     * @return boolean
+     */
+    public function isUseTextMessages()
+    {
+        return $this->_useTextMessages;
+    }
+
+    /**
+     * Get config preset messages list
      *
      * @return array
      */
-    public function getResponseMessagesXml()
+    public function getMessages()
     {
-
-        return $this->_responseMessages;
-
+        return $this->_messages;
     }
 }
