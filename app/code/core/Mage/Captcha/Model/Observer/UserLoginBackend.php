@@ -31,7 +31,7 @@
  * @package     Mage_Captcha
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Captcha_Model_Observer_UserLoginBackend
+class Mage_Captcha_Model_Observer_UserLoginBackend extends Mage_Captcha_Model_Observer_AbstractCustomer
 {
     /**
      * @var string
@@ -50,9 +50,19 @@ class Mage_Captcha_Model_Observer_UserLoginBackend
         $captchaModel = Mage::helper('captcha')->getCaptcha($this->_formId);
         if ($captchaModel->isRequired()){
             if (!$captchaModel->isCorrect($this->_getCaptchaString(Mage::app()->getRequest()))) {
-                Mage::throwException(Mage::helper('captcha')->__('Incorrect CAPTCHA.'));
+                $this->_setupRedirect($observer->getControllerAction());
             }
         }
         return $this;
+    }
+
+    /**
+     * Setup Redirect if Captcha Wrong
+     *
+     * @param Mage_Core_Controller_Varien_Action $controller
+     */
+    protected function _setupRedirect($controller)
+    {
+        Mage::throwException(Mage::helper('captcha')->__('Incorrect CAPTCHA.'));
     }
 }
