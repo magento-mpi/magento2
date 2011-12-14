@@ -46,3 +46,32 @@ Captcha.prototype = {
         });
     }
 };
+
+document.observe('billing-request:completed', function(event){
+    if (window.checkout !== undefined){
+        if (window.checkout.method == 'guest' && $('guest_checkout')){
+            window.captcha_guest_checkout.refresh()
+        }
+        if (window.checkout !== undefined && window.checkout.method== 'register' && $('register_during_checkout')){
+            window.captcha_register_during_checkout.refresh()
+        }
+    }
+});
+
+
+document.observe('login:setMethod', function(event){
+    switch(event.memo.method){
+        case 'guest':
+            if ($('register_during_checkout')) {
+                $('captcha-input-box-register_during_checkout').hide();
+                $('captcha-image-box-register_during_checkout').hide();
+            }
+            break;
+        case 'register':
+            if ($('guest_checkout')) {
+                $('captcha-input-box-guest_checkout').hide();
+                $('captcha-image-box-guest_checkout').hide();
+            }
+            break;
+    }
+});

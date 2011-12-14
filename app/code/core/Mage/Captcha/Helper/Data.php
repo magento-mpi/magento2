@@ -50,9 +50,9 @@ class Mage_Captcha_Helper_Data extends Mage_Core_Helper_Abstract
     const XML_PATH_CAPTCHA_FONTS = 'default/captcha/fonts';
 
     /**
-     * @var Mage_Captcha_Model_Interface
+     * @var array
      */
-    protected $_captcha;
+    protected $_captcha = array();
 
     /**
      * @var Mage_Captcha_Model_Session
@@ -67,11 +67,11 @@ class Mage_Captcha_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getCaptcha($formId)
     {
-        if (!$this->_captcha) {
+        if (!array_key_exists($formId, $this->_captcha)) {
             $type = Mage::helper('captcha')->getConfigNode('type');
-            $this->_captcha = Mage::getModel('captcha/' . $type, array('formId' => $formId));
+            $this->_captcha[$formId] = Mage::getModel('captcha/' . $type, array('formId' => $formId));
         }
-        return $this->_captcha;
+        return $this->_captcha[$formId];
     }
 
     /**
@@ -82,9 +82,7 @@ class Mage_Captcha_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getSession($formId)
     {
-        $this->getCaptcha($formId);
-        // Own session implementation used to avoid data substitution in case several captchas used on same page
-        if (!$this->_session){
+        if (!$this->_session) {
             $this->_session = Mage::getSingleton('captcha/session', array('formId' => $formId));
         }
         $this->_session->setFormId($formId);

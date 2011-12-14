@@ -153,18 +153,19 @@ class Mage_Captcha_Model_Session extends Mage_Core_Model_Session
     /**
      * Set Form Id
      *
-     * @param $formId
-     * @return void
+     * @param string $formId
+     * @return Mage_Captcha_Model_Session
      */
     public function setFormId($formId)
     {
         $this->_formId = $formId;
+        return $this;
     }
 
     /**
      * Get Form Id
      *
-     * @return
+     * @return string
      */
     public function getFormId()
     {

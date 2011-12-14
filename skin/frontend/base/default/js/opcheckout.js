@@ -139,6 +139,7 @@ Checkout.prototype = {
             alert(Translator.translate('Please choose to register or to checkout as a guest'));
             return false;
         }
+        document.body.fire('login:setMethod', {method : this.method});
     },
 
     setBilling: function() {
@@ -324,6 +325,7 @@ Billing.prototype = {
 
     resetLoadWaiting: function(transport){
         checkout.setLoadWaiting(false);
+        document.body.fire('billing-request:completed', {transport: transport});
     },
 
     /**

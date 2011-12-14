@@ -25,10 +25,10 @@
  */
 
 /**
- * Bundle Products Observer
+ * Captcha User Login Backend Observer
  *
  * @category    Mage
- * @package     Mage_Bundle
+ * @package     Mage_Captcha
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Captcha_Model_Observer_UserLoginBackend
@@ -49,21 +49,10 @@ class Mage_Captcha_Model_Observer_UserLoginBackend
         Mage::helper('captcha')->getCaptcha($this->_formId)->logAttempt();
         $captchaModel = Mage::helper('captcha')->getCaptcha($this->_formId);
         if ($captchaModel->isRequired()){
-            if (!$captchaModel->isCorrect($this->_getCaptchaString())) {
+            if (!$captchaModel->isCorrect($this->_getCaptchaString(Mage::app()->getRequest()))) {
                 Mage::throwException(Mage::helper('captcha')->__('Incorrect CAPTCHA.'));
             }
         }
         return $this;
-    }
-
-    /**
-     * Get Captcha String
-     *
-     * @return string
-     */
-    protected function _getCaptchaString()
-    {
-         $string = Mage::app()->getRequest()->getPost(Mage_Captcha_Helper_Data::INPUT_NAME_FIELD_VALUE);
-        return $string;
     }
 }

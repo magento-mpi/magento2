@@ -50,6 +50,7 @@ class Mage_Captcha_Model_Zend extends Zend_Captcha_Image implements Mage_Captcha
     // Chance of parent garbage collection (which removes old files)
     protected $_parentGcFreq = 10;
     protected $_word;
+    protected  $_formId;
 
     /**
      * Zend captcha constructor
@@ -62,6 +63,7 @@ class Mage_Captcha_Model_Zend extends Zend_Captcha_Image implements Mage_Captcha
             throw new Exception('formId is mandatory');
         }
         $this->_formId = $params['formId'];
+        $this->setExpiration($this->getTimeout());
     }
 
     /**
@@ -179,7 +181,7 @@ class Mage_Captcha_Model_Zend extends Zend_Captcha_Image implements Mage_Captcha
     {
         if (!$this->getSession()->getDataIgnoreTtl(self::SESSION_CAPTCHA_ID, true)) {
             // Captcha has not been generated
-            return true;
+            return false;
         }
         $storedWord = $this->getSession()->getDataIgnoreTtl(self::SESSION_WORD, true);
         if (!$this->isCaseSensitive()) {
@@ -307,27 +309,6 @@ class Mage_Captcha_Model_Zend extends Zend_Captcha_Image implements Mage_Captcha
         }
 
         return mt_rand($from, $to);
-    }
-
-    /**
-     * Garbage collector. Removes old captcha image file in case user clicked "refresh".
-     *
-     * @return Mage_Captcha_Model_Interface
-     */
-    protected function _gc()
-    {
-        $oldId = $this->getSession()->getData(self::SESSION_CAPTCHA_ID);
-        if ($oldId) {
-            // An image for same form already exists - it won't be used after new captcha is generated, we can remove it
-            $filename = $this->getImgDir() . $oldId . $this->getSuffix();
-            if (file_exists($filename)) {
-                @unlink($filename);
-            }
-        }
-        if (mt_rand(1, $this->_parentGcFreq) == 1) {
-            parent::_gc();
-        }
-        return $this;
     }
 
     /**

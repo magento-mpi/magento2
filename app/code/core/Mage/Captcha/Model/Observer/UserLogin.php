@@ -25,10 +25,10 @@
  */
 
 /**
- * Bundle Products Observer
+ * Captcha User Login Observer
  *
  * @category    Mage
- * @package     Mage_Bundle
+ * @package     Mage_Captcha
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Captcha_Model_Observer_UserLogin extends Mage_Captcha_Model_Observer_AbstractCustomer
@@ -45,7 +45,6 @@ class Mage_Captcha_Model_Observer_UserLogin extends Mage_Captcha_Model_Observer_
      */
     protected function _setupRedirect($controller)
     {
-
         $this->_getSession()->addError(Mage::helper('captcha')->__('Incorrect CAPTCHA.'));
         $controller->setFlag('', Mage_Core_Controller_Varien_Action::FLAG_NO_DISPATCH, true);
         $login = $controller->getRequest()->getPost('login');

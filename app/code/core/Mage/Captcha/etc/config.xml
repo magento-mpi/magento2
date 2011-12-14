@@ -95,12 +95,12 @@
                     <user_forgotpassword>
                         <label>Forgot password</label>
                     </user_forgotpassword>
-                    <!--guest_checkout>
+                    <guest_checkout>
                         <label>Checkout as Guest</label>
                     </guest_checkout>
                     <register_during_checkout>
                         <label>Register during Checkout</label>
-                    </register_during_checkout-->
+                    </register_during_checkout>
                 </areas>
             </frontend>
             <backend>
@@ -186,6 +186,18 @@
                     </captcha>
                 </observers>
             </admin_user_authenticate_before>
+            <controller_action_predispatch_checkout_onepage_saveBilling>
+                <observers>
+                    <captcha_guest>
+                        <class>captcha/observer_guestCheckout</class>
+                        <method>checkCaptcha</method>
+                    </captcha_guest>
+                    <captcha_register>
+                        <class>captcha/observer_registerCheckout</class>
+                        <method>checkCaptcha</method>
+                    </captcha_register>
+                </observers>
+            </controller_action_predispatch_checkout_onepage_saveBilling>
         </events>
     </global>
 </config>

@@ -25,10 +25,10 @@
  */
 
 /**
- * Bundle Products Observer
+ * Captcha Create User Observer
  *
  * @category    Mage
- * @package     Mage_Bundle
+ * @package     Mage_Captcha
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Captcha_Model_Observer_CreateUser extends Mage_Captcha_Model_Observer_AbstractCustomer

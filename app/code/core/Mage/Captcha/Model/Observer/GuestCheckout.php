@@ -19,24 +19,24 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_Bundle
+ * @package     Mage_Captcha
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * Captcha Abstract Observer
+ * Captcha Guest Checkout Observer
  *
  * @category    Mage
  * @package     Mage_Captcha
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class Mage_Captcha_Model_Observer_AbstractCustomer
+class Mage_Captcha_Model_Observer_GuestCheckout extends Mage_Captcha_Model_Observer_AbstractCustomer
 {
     /**
      * @var string
      */
-    protected $_formId;
+    protected $_formId = 'guest_checkout';
 
     /**
      * Check Captcha
@@ -46,12 +46,9 @@ abstract class Mage_Captcha_Model_Observer_AbstractCustomer
      */
     public function checkCaptcha($observer)
     {
-        Mage::helper('captcha')->getCaptcha($this->_formId)->logAttempt();
-        $captchaModel = Mage::helper('captcha')->getCaptcha($this->_formId);
-        if ($captchaModel->isRequired()){
-            if (!$captchaModel->isCorrect($this->_getCaptchaString($observer->getControllerAction()->getRequest()))) {
-                $this->_setupRedirect($observer->getControllerAction());
-            }
+        $quote = Mage::getSingleton('checkout/type_onepage')->getQuote();
+        if ($quote->getCheckoutMethod() == Mage_Checkout_Model_Type_Onepage::METHOD_GUEST){
+            parent::checkCaptcha($observer);
         }
         return $this;
     }
@@ -61,27 +58,10 @@ abstract class Mage_Captcha_Model_Observer_AbstractCustomer
      *
      * @param Mage_Core_Controller_Varien_Action $controller
      */
-    abstract protected function _setupRedirect($controller);
-
-    /**
-     * Get Captcha String
-     *
-     * @param Varien_Object $request
-     * @return string
-     */
-    protected function _getCaptchaString($request)
+    protected function _setupRedirect($controller)
     {
-        $captchaParams = $request->getPost(Mage_Captcha_Helper_Data::INPUT_NAME_FIELD_VALUE);
-        return $captchaParams[$this->_formId];
-    }
-
-    /**
-     * Get Session
-     *
-     * @return Mage_Customer_Model_Session
-     */
-    protected function _getSession()
-    {
-        return Mage::getSingleton('customer/session');
+        $controller->setFlag('', Mage_Core_Controller_Varien_Action::FLAG_NO_DISPATCH, true);
+        $result = array('error' => 1, 'message' => Mage::helper('captcha')->__('Incorrect CAPTCHA.'));
+        $controller->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
     }
 }
