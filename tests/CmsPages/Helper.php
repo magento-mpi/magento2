@@ -122,9 +122,19 @@ class CmsPages_Helper extends Mage_Selenium_TestCase
      */
     public function selectOptionItem($optionData)
     {
+        $buttonXpath = $this->_getControlXpath('button', 'select_option');
+        if ($this->isElementPresent($buttonXpath)) {
+            $name = trim(strtolower(preg_replace('#[^a-z]+#i', '_', $this->getText($buttonXpath))), '_');
+            $this->click($buttonXpath);
+            $this->waitForAjax();
+            if (!$this->isElementPresent($this->_getControlXpath('fieldset', $name))) {
+                $this->fail($name . ' fieldset is not loaded');
+            }
+        } else {
+            $this->fail('Button \'select_option\' is not present on the page ' . $this->getCurrentPage());
+        }
+
         $rowNames = array('Title', 'Product Name');
-        $this->clickButton('select_option', FALSE);
-        $this->waitForAjax();
         $title = 'Not Selected';
         if (array_key_exists('category_path', $optionData)) {
             $this->addParameter('param', "//div[@id='widget-chooser_content']");
