@@ -67,8 +67,11 @@ $paths[] = BP . DS . 'app' . DS . 'code' . DS . 'community';
 $paths[] = BP . DS . 'app' . DS . 'code' . DS . 'core';
 $paths[] = BP . DS . 'lib';
 
-Magento_Autoload::getInstance()->addIncludePath($paths)
-    ->addFilesMap(BP . '/_classmap.php');
+$classMapPath = BP . DS . 'var/classmap.txt';
+if (file_exists($classMapPath)) {
+    Magento_Autoload::getInstance()->addIncludePath($paths)
+        ->addFilesMap($classMapPath);
+}
 
 #Magento_Profiler::enable();
 #Magento_Profiler::registerOutput(new Magento_Profiler_Output_Html());
