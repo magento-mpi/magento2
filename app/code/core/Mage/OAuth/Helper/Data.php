@@ -25,21 +25,12 @@
  */
 
 /**
- * OAuth Application resource collection model
+ * OAuth Helper
  *
  * @category    Mage
  * @package     Mage_OAuth
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_OAuth_Model_Resource_Consumer_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
+class Mage_OAuth_Helper_Data extends Mage_Core_Helper_Abstract
 {
-    /**
-     * Initialize collection model
-     *
-     * @return void
-     */
-    protected function _construct()
-    {
-        $this->_init('oauth/consumer');
-    }
 }

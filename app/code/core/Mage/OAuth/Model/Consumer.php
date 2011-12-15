@@ -19,7 +19,7 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_Newsletter
+ * @package     Mage_OAuth
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
@@ -29,7 +29,7 @@
  *
  * @category    Mage
  * @package     Mage_OAuth
- * @author      Magento Api Team <apia-team@magento.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  * @method Mage_OAuth_Model_Resource_Consumer _getResource()
  * @method Mage_OAuth_Model_Resource_Consumer getResource()
  * @method Mage_OAuth_Model_Resource_Consumer_Collection getCollection()
