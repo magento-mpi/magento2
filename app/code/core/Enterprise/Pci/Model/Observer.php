@@ -170,13 +170,15 @@ class Enterprise_Pci_Model_Observer
 
         if ($user->getNewPassword()) {
             $password = $user->getNewPassword();
-            if (Mage::helper('core')->validateHash($password, $user->getOrigData('password'))) {
-                Mage::throwException(Mage::helper('enterprise_pci')->__('This password was used earlier, try another one.'));
-            }
         } else {
             $password = $user->getPassword();
         }
+
         if ($password && !$user->getForceNewPassword() && $user->getId()) {
+            if (Mage::helper('core')->validateHash($password, $user->getOrigData('password'))) {
+                Mage::throwException(Mage::helper('enterprise_pci')->__('This password was used earlier, try another one.'));
+            }
+
             // check whether password was used before
             $resource     = Mage::getResourceSingleton('enterprise_pci/admin_user');
             $passwordHash = Mage::helper('core')->getHash($password, false);
