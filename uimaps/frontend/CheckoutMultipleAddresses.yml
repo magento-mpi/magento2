@@ -132,8 +132,13 @@ checkout_multishipping_addresses:
                             shipping_address_choice: //table[@id='multiship-addresses-table']/tbody/tr[./td/h3[contains(.,'%productName%')]]//td[3]//select
                         fields:
                             qty: //table[@id='multiship-addresses-table']/tbody/tr[./td/h3[contains(.,'%productName%')]]//td[2]//input[@type='text']
-        pageelements:
+        pageelements: &validationSteps
             select_addresses: //li[@title='Select Addresses']
+            shipping_information: //li[@title='Shipping Information']
+            billing_information: //li[@title='Billing Information']
+            place_order: //li[@title='Place Order']
+            address_box: //div[./h2[text()='Shipping Information'] and //div[./address[%param%]]]/h3
+            order_success: //li[@title='Order Success']
 
 
 checkout_multishipping_add_new_address:
@@ -197,13 +202,12 @@ checkout_multishipping_shipping_methods:
                             gift_option_for_individual_items_message: //div[h5[contains(.,'%productName%')]]//textarea[@title='From']
                             ship_service_name: //div[div/h1[contains(text(),'Select Shipping Method')]]/form/div[h2[contains(.,'%addressHeader%')]]//dt[text()='%shipService%']
                         pageelements:
-                            address_box: //div/h2[following-sibling::*//div[./address[%param%]]]
+                            address_box_ship: //div/h2[following-sibling::*//div[./address[%param%]]]
         buttons:
             continue_to_billing_information: //button[span='Continue to Billing Information']
         links:
             back_to_select_addresses: //a[text()='Back to Select Addresses']
-        pageelements:
-            shipping_information: //li[@title='Shipping Information']
+        pageelements: *validationSteps
         messages: *checkoutMessages
 
 checkout_multishipping_edit_shipment_address:
@@ -264,8 +268,7 @@ checkout_multishipping_payment_methods:
             continue_to_review_order: //button[span='Continue to Review Your Order']
         links:
             back_to_shipping_information: //a[text()='Back to Shipping Information']
-        pageelements:
-            billing_information: //li[@title='Billing Information']
+        pageelements: *validationSteps
         messages: *checkoutMessages
 
 checkout_multishipping_select_billing_address:
@@ -352,9 +355,7 @@ checkout_multishipping_review_order:
                         buttons:
                             3d_submit: //input[@value='Submit']
                             3d_continue: //input[@value='Continue']
-        pageelements:
-            place_order: //li[@title='Place Order']
-            address_box: //div[./h2[text()='Shipping Information'] and //div[./address[%param%]]]/h3
+        pageelements: *validationSteps
 
 checkout_multishipping_success_order:
     mca: checkout/multishipping/success/
@@ -369,5 +370,4 @@ checkout_multishipping_success_order:
                             order_number: //a[text()='%orderId%']
                         buttons:
                             continue_shopping: //button[span='Continue Shopping']
-        pageelements:
-            order_success: //li[@title='Order Success']
+        pageelements: *validationSteps

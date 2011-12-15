@@ -176,7 +176,7 @@ class CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
                             }
                         }
                         $this->addParameter('param', $formXpathString);
-                        $xpath = $this->_getControlXpath('pageelement', 'address_box');
+                        $xpath = $this->_getControlXpath('pageelement', 'address_box_ship');
                         $this->addParameter('addressHeader', $this->getText($xpath));
                     }
                     if (preg_match('/^change/', $key)) {
