@@ -18,6 +18,7 @@ return array(
     'BACKORDERS_BELOW',
     'BACKORDERS_YES',
     'XML_PATH_DEFAULT_COUNTRY' => array('class_scope' => 'Mage_Core_Model_Locale'),
+    'XML_PATH_SENDING_SET_RETURN_PATH' => array('class_scope' => 'Mage_Newsletter_Model_Subscriber'),
     'CHECKSUM_KEY_NAME',
     'XML_PATH_COUNTRY_DEFAULT' => array('class_scope' => 'Mage_Paypal_Model_System_Config_Backend_MerchantCountry'),
     'ENTITY_PRODUCT' => array('class_scope' => 'Mage_Review_Model_Review'),

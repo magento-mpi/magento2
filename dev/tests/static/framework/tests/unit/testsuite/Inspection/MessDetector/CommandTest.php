@@ -25,12 +25,9 @@ class Inspection_MessDetector_CommandTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function canTestDataProvider()
+    public function testGetRulesetFile()
     {
-        return array(
-            'success' => array(true),
-            'failure' => array(false),
-        );
+        $this->assertEquals('some/ruleset/file.xml', $this->_cmd->getRulesetFile());
     }
 
     /**
@@ -45,6 +42,14 @@ class Inspection_MessDetector_CommandTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue($expectedResult))
         ;
         $this->assertEquals($expectedResult, $this->_cmd->canRun());
+    }
+
+    public function canTestDataProvider()
+    {
+        return array(
+            'success' => array(true),
+            'failure' => array(false),
+        );
     }
 
     public function getVersionDataProvider()
