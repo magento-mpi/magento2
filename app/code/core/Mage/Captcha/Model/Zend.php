@@ -265,9 +265,8 @@ class Mage_Captcha_Model_Zend extends Zend_Captcha_Image implements Mage_Captcha
     protected function _generateWord()
     {
         $word = '';
-        $wordLen = $this->_getWordLen();
         $symbols = $this->_getSymbols();
-        for ($i = 0; $i < $wordLen; $i++) {
+        for ($i = 0; $i < $this->_getWordLen(); $i++) {
             $word .= $symbols[array_rand($symbols)];
         }
         return $word;
@@ -292,7 +291,7 @@ class Mage_Captcha_Model_Zend extends Zend_Captcha_Image implements Mage_Captcha
     {
         $from = 0;
         $to = 0;
-        $length = (string)$this->_getHelper()->getConfigNode('word_length');
+        $length = (string)$this->_getHelper()->getConfigNode('length');
         if (!is_numeric($length)) {
             if (preg_match('/(\d+)-(\d+)/', $length, $matches)) {
                 $from = (int)$matches[1];
