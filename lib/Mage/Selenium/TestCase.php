@@ -575,12 +575,18 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                             $overrideResult = true;
                         }
                         if (is_array($v)) {
-                            $overrideResult = $this->overrideDataInSubArray($subArray, $overrideKey, $overrideValue,
-                                    $value);
+                            $overrideResult = $this->overrideDataInSubArray($subArray, $overrideKey,
+                                    $overrideValue, $value);
+                            if ($result || $overrideResult) {
+                                $overrideResult = true;
+                            }
                         }
                     }
                 } else {
-                    $overrideResult = $this->overrideDataInSubArray($subArray, $overrideKey, $overrideValue, $value);
+                    $result = $this->overrideDataInSubArray($subArray, $overrideKey, $overrideValue, $value);
+                    if ($result || $overrideResult) {
+                        $overrideResult = true;
+                    }
                 }
             }
         }
