@@ -218,16 +218,16 @@ function parseFile($fileName, $basicModuleName)
             }
         }
         /** Mage::helper('helper_name')->__ or $this->helper('helper_name')->__ */
-        if (preg_match_all('/helper\(\\\'([a-z_]+)\\\'\)-\>__\([\s]*([\'|\\\"])(.*?[^\\\\])\\2.*?\)/', $fileString, $matches, PREG_SET_ORDER)) {
+        if (preg_match_all('/helper\(([\'|\\\"])([a-z0-9_]+)(?:\/[a-z0-9_]+)?\\1\)-\>__\([\s]*([\'|\\\"])(.*?[^\\\\])\\3.*?\)/', $fileString, $matches, PREG_SET_ORDER)) {
             foreach ($matches as $k => $match) {
                 $CONFIG['generate']['match_helper'] ++;
 
-                if (!isset($CONFIG['helpers'][$match[1]])) {
-                    print '    ignore unknown helper ' . $match[1] . "\n";
+                if (!isset($CONFIG['helpers'][$match[2]])) {
+                    print '    ignore unknown helper ' . $match[2] . "\n";
                     continue;
                 }
-                $moduleName     = $CONFIG['helpers'][$match[1]];
-                $translationKey = $match[3];
+                $moduleName     = $CONFIG['helpers'][$match[2]];
+                $translationKey = $match[4];
 
                 writeToCsv($moduleName, $translationKey, $fileName, $fileLine);
             }
