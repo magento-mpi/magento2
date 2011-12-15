@@ -181,6 +181,17 @@ class Legacy_ObsoleteCodeTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * Retrieve configuration items, whose 'class_scope' match to the content, in the following format:
+     *   array(
+     *     '<entity>' => '<suggestion>',
+     *     ...
+     *   )
+     *
+     * @param string $fileNamePattern
+     * @param string $content
+     * @return array
+     */
     protected function _getRelevantConfigEntities($fileNamePattern, $content)
     {
         $result = array();
@@ -197,11 +208,7 @@ class Legacy_ObsoleteCodeTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Loads obsolete entities from file, parses and returns them as array
-     * Possible keys:
-     * - 'entity' - actual entity loaded (method name, property name, etc.)
-     * - 'suggestion' - suggestion for a user, when entity is found
-     * - 'class_scope' - may be set, when entity is allowed to be searched only in specific class context
+     * Load configuration data from the files that match a glob-pattern
      *
      * @param string $fileNamePattern
      * @return array
@@ -215,6 +222,26 @@ class Legacy_ObsoleteCodeTest extends PHPUnit_Framework_TestCase
         foreach (glob(dirname(__FILE__) . '/_files/' . $fileNamePattern, GLOB_BRACE) as $configFile) {
             $config = array_merge($config, include($configFile));
         }
+        $result = $this->_normalizeConfigData($config);
+        self::$_configFilesCache[$fileNamePattern] = $result;
+        return $result;
+    }
+
+    /**
+     * Convert config data to the uniform format:
+     *   array(
+     *     '<entity>' => array(
+     *       'suggestion' => '<suggestion>',
+     *       'class_scope' => '<class_scope>',
+     *     ),
+     *     ...
+     *   )
+     *
+     * @param array $config
+     * @return array
+     */
+    protected function _normalizeConfigData(array $config)
+    {
         $result = array();
         foreach ($config as $key => $value) {
             $entity = is_string($key) ? $key : $value;
@@ -225,7 +252,6 @@ class Legacy_ObsoleteCodeTest extends PHPUnit_Framework_TestCase
                 'class_scope' => $class
             );
         }
-        self::$_configFilesCache[$fileNamePattern] = $result;
         return $result;
     }
 }
