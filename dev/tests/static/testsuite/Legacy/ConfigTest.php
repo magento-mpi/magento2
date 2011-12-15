@@ -9,6 +9,9 @@
  * @license     {license_link}
  */
 
+/**
+* Tests for obsolete and removed config nodes
+*/
 class Legacy_ConfigTest extends PHPUnit_Framework_TestCase
 {
     /**
@@ -38,6 +41,9 @@ class Legacy_ConfigTest extends PHPUnit_Framework_TestCase
         }
     }
 
+    /**
+     * @return array
+     */
     public function configFileDataProvider()
     {
         return FileDataProvider::getConfigFiles('config.xml');

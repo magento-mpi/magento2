@@ -9,6 +9,9 @@
  * @license     {license_link}
  */
 
+/**
+* Tests for obsolete methods in Product Type instances
+*/
 class Legacy_ProductTypeModelTest extends PHPUnit_Framework_TestCase
 {
     /**

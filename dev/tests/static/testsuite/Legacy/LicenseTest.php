@@ -9,6 +9,9 @@
  * @license     {license_link}
  */
 
+/**
+* Tests to ensure that all license blocks are represented by placeholders
+*/
 class Legacy_LicenseTest extends PHPUnit_Framework_TestCase
 {
     /**

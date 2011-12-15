@@ -9,6 +9,9 @@
  * @license     {license_link}
  */
 
+/**
+ * One time iterator to gather fiels in our system
+ */
 final class FileDataProvider
 {
     /**
@@ -34,6 +37,11 @@ final class FileDataProvider
         return $result;
     }
 
+    /**
+     * Returns array of PHP-files, that use or declare Magento application classes and Magento libs
+     *
+     * @return array
+     */
     public static function getPhpFiles()
     {
         if (isset(self::$_cache[__METHOD__])) {
@@ -45,6 +53,7 @@ final class FileDataProvider
             glob($root . '/{app,pub}/*.php', GLOB_NOSORT | GLOB_BRACE),
             self::_getFiles(array("{$root}/app/code/{$pool}/{$namespace}/{$module}"), '*.{php,phtml}'),
             self::_getFiles(array("{$root}/app/design/{$area}/{$package}/{$theme}/{$namespace}_{$module}"), '*.phtml'),
+            self::_getFiles(array("{$root}/downloader"), '*.php'),
             self::_getFiles(array("{$root}/lib/{Mage,Magento,Varien}"), '*.php')
         );
         $result = self::composeDataSets($files);
@@ -52,6 +61,11 @@ final class FileDataProvider
         return $result;
     }
 
+    /**
+     * Returns list of xml files, used by Magento application
+     *
+     * @return array
+     */
     public static function getXmlFiles()
     {
         return array_merge(
@@ -60,6 +74,13 @@ final class FileDataProvider
         );
     }
 
+    /**
+     * Returns list of configuration files, used by Magento application
+     *
+     * @param string $fileNamePattern
+     * @param array $excludedFileNames
+     * @return array|bool
+     */
     public static function getConfigFiles(
         $fileNamePattern = '*.xml', $excludedFileNames = array('wsdl.xml', 'wsdl2.xml', 'wsi.xml')
     ) {
@@ -76,6 +97,11 @@ final class FileDataProvider
         return $result;
     }
 
+    /**
+     * Returns list of layout files, used by Magento application modules
+     *
+     * @return array
+     */
     public static function getLayoutFiles()
     {
         if (isset(self::$_cache[__METHOD__])) {
@@ -98,6 +124,11 @@ final class FileDataProvider
         return $result;
     }
 
+    /**
+     * Returns list of Javascript files in Magento
+     *
+     * @return array
+     */
     public static function getJsFiles()
     {
         if (isset(self::$_cache[__METHOD__])) {
@@ -109,6 +140,7 @@ final class FileDataProvider
             array(
                 "{$root}/app/code/{$pool}/{$namespace}/{$module}/view/{$area}",
                 "{$root}/app/design/{$area}/{$package}/{$theme}/skin/{$skin}",
+                "{$root}/pub/js/{mage,varien}"
             ),
             '*.js'
         );
@@ -117,6 +149,11 @@ final class FileDataProvider
         return $result;
     }
 
+    /**
+     * Returns list of email template files
+     *
+     * @return array
+     */
     public static function getEmailTemplates()
     {
         if (isset(self::$_cache[__METHOD__])) {

@@ -1,7 +1,5 @@
 <?php
 /**
- * Coverage of obsolete nodes in layout
- *
  * {license_notice}
  *
  * @category    tests
@@ -10,6 +8,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
+/**
+* Coverage of obsolete nodes in layout
+*/
 class Legacy_LayoutTest extends PHPUnit_Framework_TestCase
 {
     /**

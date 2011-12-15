@@ -1,7 +1,5 @@
 <?php
 /**
- * Coverage of obsolete table names usage
- *
  * {license_notice}
  *
  * @category    tests
@@ -10,6 +8,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
+/**
+* Coverage of obsolete table names usage
+*/
 class Legacy_TableTest extends PHPUnit_Framework_TestCase
 {
     /**

@@ -1,7 +1,5 @@
 <?php
 /**
- * Scan source code for references to classes and see if they indeed exist
- *
  * {license_notice}
  *
  * @category    tests
@@ -10,6 +8,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
+/**
+* Scans source code for references to classes and see if they indeed exist
+*/
 class Legacy_ClassesTest extends PHPUnit_Framework_TestCase
 {
     /**
