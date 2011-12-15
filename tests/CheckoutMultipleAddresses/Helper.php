@@ -46,7 +46,7 @@ class CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
      * Create order using multiple addresses checkout
      *
      * @param array|string  $checkoutData
-     * @return string       $orderNumbers
+     * @return array       $orderIds
      */
     public function frontCreateMultipleCheckout($checkoutData)
     {
@@ -64,9 +64,25 @@ class CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
         $this->assertMultipleAddrCheckoutPageOpened('order_success');
         $xpath = $this->_getControlXpath('link', 'order_number');
         if ($this->isElementPresent($xpath)) {
-            return $this->getText($xpath);
+            return $this->formOrderIdsArray($this->getText($xpath));
         }
-        return preg_replace('/[^0-9]/', '', $this->getText("//*[contains(text(),'Your order')]"));
+        return $this->formOrderIdsArray($this->getText("//*[contains(text(),'Your order')]"));
+    }
+
+    /**
+     * Returns order Ids in Array
+     * 
+     * @param string $text
+     * @return array
+     */
+    public function formOrderIdsArray($text)
+    {
+        $nodes = explode(',', $text);
+        $orderIds = array();
+        foreach ($nodes as $value) {
+            $orderIds[] = preg_replace('/[^0-9]/', '', $value);
+        }
+        return $orderIds;
     }
 
 
