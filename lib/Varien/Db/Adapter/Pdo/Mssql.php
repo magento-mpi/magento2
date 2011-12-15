@@ -2638,29 +2638,6 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
             }
         }
 
-        if (strpos($sql, ':') !== false || strpos($sql, '?') !== false) {
-            $before = count($bind);
-            $this->_bindParams = $bind; // Used by callback
-            $sql = preg_replace_callback('#((N?)([\'"])((\\3)|((.*?[^\\\\])\\3)))#',
-                array($this, '_processBindCallback'),
-                $sql);
-            Varien_Exception::processPcreError();
-            $bind = $this->_bindParams;
-            // If _processBindCallbacks() has added named entries - convert bind to positional
-            if (count($bind) != $before) {
-                if ($before) {
-                    if (!$isNamedBind) {
-                        // We have mixed bind with positional and named params
-                        $this->_convertMixedBind($sql, $bind);
-                        $isNamedBind = false;
-                    }
-                } else {
-                    // Callback has added params and we have normal named bind
-                    $isNamedBind = true;
-                }
-            }
-        }
-
         // Always convert named bind to positional, because underlying library has problems with named binds
         if (!empty($bind) && $isNamedBind) {
             $this->_convertNamedBind($sql, $bind);
