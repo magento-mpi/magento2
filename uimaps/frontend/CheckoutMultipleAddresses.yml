@@ -197,7 +197,7 @@ checkout_multishipping_shipping_methods:
                             gift_option_for_individual_items_message: //div[h5[contains(.,'%productName%')]]//textarea[@title='From']
                             ship_service_name: //div[div/h1[contains(text(),'Select Shipping Method')]]/form/div[h2[contains(.,'%addressHeader%')]]//dt[text()='%shipService%']
                         pageelements:
-                            address_box: //div/h2[//div[./address[%param%]]]
+                            address_box: //div/h2[following-sibling::*//div[./address[%param%]]]
         buttons:
             continue_to_billing_information: //button[span='Continue to Billing Information']
         links:
