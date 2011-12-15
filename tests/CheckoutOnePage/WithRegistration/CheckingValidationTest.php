@@ -288,7 +288,7 @@ class CheckoutOnePage_WithRegistration_CheckingValidationTest extends Mage_Selen
                     unset($errors[$key]);
                 }
             }
-            $error = trim(implode('\n', $errors), " \t\n\r\0\x0B");
+            $error = trim(implode("\n", $errors), " \t\n\r\0\x0B");
         }
         //Verification
         $this->assertEquals($this->_getControlXpath('message', 'exist_email_alert'), $error);
@@ -413,7 +413,7 @@ class CheckoutOnePage_WithRegistration_CheckingValidationTest extends Mage_Selen
                     unset($errors[$key]);
                 }
             }
-            $error = trim(implode('\n', $errors), " \t\n\r\0\x0B");
+            $error = trim(implode("\n", $errors), " \t\n\r\0\x0B");
         }
         //Verifications
         if (!preg_match('/street_address/', $field)) {
@@ -462,7 +462,7 @@ class CheckoutOnePage_WithRegistration_CheckingValidationTest extends Mage_Selen
                     unset($errors[$key]);
                 }
             }
-            $error = trim(implode('\n', $errors), " \t\n\r\0\x0B");
+            $error = trim(implode("\n", $errors), " \t\n\r\0\x0B");
         }
         if (!preg_match('/street_address/', $field)) {
             $xpath = $this->_getControlXpath('field', 'shipping_' . $field)

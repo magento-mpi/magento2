@@ -25,16 +25,13 @@
 # @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 #
 ---
-search_nl_subscribers:
+search_newsletter_subscribers:
     filter_id: %noValue%
     filter_email: %noValue%
+    filter_type: %noValue%
     filter_customer_first_name: %noValue%
     filter_customer_last_name: %noValue%
-
-mass_action_nl_subscribers:
-    delete: Delete
-    unsubscribe: Unsubscribe
-
-subscriber_status:
-    subscribed: Subscribed
-    unsubscribed: Unsubscribed
+    filter_status: %noValue%
+    filter_website: %noValue%
+    filter_store: %noValue%
+    filter_store_view: %noValue%

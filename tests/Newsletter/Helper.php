@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Magento
  *
@@ -39,31 +40,27 @@ class Newsletter_Helper extends Mage_Selenium_TestCase
     /**
      * Subscribe to newsletter
      *
-     * @param array $subscribeData
-     * @param boolean $willChangePage
+     * @param string $email
      */
     public function frontSubscribe($email)
     {
-        $subscribeData = array('sign_up_newsletter' => $email);
-        $this->fillForm($subscribeData);
+        $this->fillForm(array('sign_up_newsletter' => $email));
         $this->saveForm('subscribe');
     }
 
     /**
      * Perform a mass action with newsletter subscribers
      *
-     * @param string $action Mass action from data set to perform, e.g. 'unsubscribe'|'delete'
+     * @param string $action Mass action value: 'unsubscribe'|'delete'
      * @param array $searchData
      */
     public function massAction($action, $searchDataSet)
     {
-        $actions = $this->loadData('mass_action_nl_subscribers');
-        $actionName = $actions[strtolower($action)];
         foreach ($searchDataSet as $searchData) {
             $this->searchAndChoose($searchData);
         }
         $this->addParameter('qtyOfRecords', count($searchDataSet));
-        $this->fillForm(array('subscribers_massaction' => $actionName));
+        $this->fillForm(array('subscribers_massaction' => ucfirst(strtolower($action))));
         $this->clickButton('submit');
     }
 
@@ -76,10 +73,9 @@ class Newsletter_Helper extends Mage_Selenium_TestCase
      */
     public function checkStatus($status, $searchData)
     {
-        $statuses = $this->loadData('subscriber_status');
-        $statusName = $statuses[strtolower($status)];
-        $searchData['filter_status'] = $statusName;
-        return is_null($this->search($searchData)) ? false : true;
+        $searchData['filter_status'] = ucfirst(strtolower($status));
+
+        return!is_null($this->search($searchData));
     }
 
 }

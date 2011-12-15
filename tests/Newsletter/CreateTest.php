@@ -34,12 +34,12 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Newsletter_FrontendCreateTest extends Mage_Selenium_TestCase
+class Newsletter_CreateTest extends Mage_Selenium_TestCase
 {
 
     protected function assertPreConditions()
     {
-        $this->addParameter('productUrl', '');
+        $this->addParameter('categoryUrl', '');
     }
 
     /**
@@ -48,51 +48,18 @@ class Newsletter_FrontendCreateTest extends Mage_Selenium_TestCase
      *
      * @test
      */
-    public function createCategory()
+    public function preconditionsForTests()
     {
+        //Data
+        $category = $this->loadData('sub_category_required');
+        //Steps
         $this->loginAdminUser();
         $this->navigate('manage_categories');
-        $this->categoryHelper()->checkCategoriesPage();
-        $rootCat = $this->loadData('default_category');
-        $rootCat = $rootCat['name'];
-        $categoryData = $this->loadData('sub_category_required', null, 'name');
-        $this->categoryHelper()->createSubCategory($rootCat, $categoryData);
+        $this->categoryHelper()->createCategory($category);
+        //Verifyinging
         $this->assertMessagePresent('success', 'success_saved_category');
-        $this->categoryHelper()->checkCategoriesPage();
 
-        return $categoryData['name'];
-    }
-
-    /**
-     * <p>With invalid email</p>
-     *
-     * <p> Steps:</p>
-     * <p>1. Navigate to Frontend</p>
-     * <p>2. Open created category</p>
-     * <p>3. Enter valid email to subscribe</p>
-     * <p>4. Check message</p>
-     * <p>5. Login to backend</p>
-     * <p>6. Go to Newsletter -> Newsletter Subscribers</p>
-     * <p>7. Verify email in subscribers list</p>
-     * <p>Expected result: email is present in the subscribers list</p>
-     *
-     * @depends createCategory
-     *
-     * @test
-     */
-    public function subscriberEmailVerificationInvalidAddress($category)
-    {
-        //Steps
-        $newSubscriberEmail = $this->generate('email', 15, 'invalid');
-        $this->categoryHelper()->frontOpenCategory($category);
-        $this->newsletterHelper()->frontSubscribe($newSubscriberEmail);
-        //Verify
-        $this->assertMessagePresent('validation', 'invalid_email');
-        $this->loginAdminUser();
-        $this->navigate('newsletter_subscribers');
-        $searchData = $this->loadData('search_nl_subscribers', array('filter_email' => $newSubscriberEmail));
-        $this->assertFalse($this->newsletterHelper()->checkStatus('subscribed', $searchData),
-                $this->getParsedMessages());
+        return $category['name'];
     }
 
     /**
@@ -108,35 +75,51 @@ class Newsletter_FrontendCreateTest extends Mage_Selenium_TestCase
      * <p>7. Verify the email in subscribers list</p>
      * <p>Expected result: The email is present in the subscribers list</p>
      *
-     * @dataProvider newsletterData
-     * @depends createCategory
+     * @depends preconditionsForTests
      *
      * @test
      */
-    public function subscriberEmailVerificationValidAddress($newSubscriberEmail, $category)
+    public function guestUseValidNotExistCustomerEmail($category)
     {
+        $search = $this->loadData('search_newsletter_subscribers',
+                array('filter_email' => $this->generate('email', 15, 'valid')));
         //Steps
+        $this->logoutCustomer();
         $this->categoryHelper()->frontOpenCategory($category);
-        $this->newsletterHelper()->frontSubscribe($newSubscriberEmail);
-        //Verify
-        $this->assertMessagePresent('success', 'success_subscription');
+        $this->newsletterHelper()->frontSubscribe($search['filter_email']);
+        //Verifying
+        $this->assertMessagePresent('success', 'newsletter_success_subscription');
+        //Steps
         $this->loginAdminUser();
         $this->navigate('newsletter_subscribers');
-        $searchData = $this->loadData('search_nl_subscribers', array('filter_email' => $newSubscriberEmail));
-        $this->assertTrue($this->newsletterHelper()->checkStatus('subscribed', $searchData),
-                $this->getParsedMessages());
-    }
-
-    public function newsletterData()
-    {
-        return array(
-//            array($this->generate('email', 15, 'valid')),
-            array($this->generate('email', 70, 'valid'))
-        );
+        //Verifying
+        $this->assertTrue($this->newsletterHelper()->checkStatus('subscribed', $search),
+                'Incorrect status for ' . $search['filter_email'] . ' email');
     }
 
     /**
-     * <p>With long valid email (> 70 characters)</p>
+     *
+     * @depends preconditionsForTests
+     * @test
+     */
+    public function guestUseValidExistCustomerEmail($category)
+    {
+        $customer = $this->loadData('customer_account_register');
+        $search = $this->loadData('search_newsletter_subscribers',
+                array('filter_email' => $customer['email']));
+        //Steps
+        $this->logoutCustomer();
+        $this->frontend('customer_login');
+        $this->customerHelper()->registerCustomer($customer);
+        $this->logoutCustomer();
+        $this->categoryHelper()->frontOpenCategory($category);
+        $this->newsletterHelper()->frontSubscribe($search['filter_email']);
+        //Verifying
+        $this->assertMessagePresent('error', 'newsletter_email_used');
+    }
+
+    /**
+     * <p>With invalid email</p>
      *
      * <p> Steps:</p>
      * <p>1. Navigate to Frontend</p>
@@ -145,26 +128,23 @@ class Newsletter_FrontendCreateTest extends Mage_Selenium_TestCase
      * <p>4. Check message</p>
      * <p>5. Login to backend</p>
      * <p>6. Go to Newsletter -> Newsletter Subscribers</p>
-     * <p>7. Verify the email in subscribers list</p>
-     * <p>Expected result: The email is absent in the subscribers list</p>
+     * <p>7. Verify email in subscribers list</p>
+     * <p>Expected result: email is present in the subscribers list</p>
      *
-     * @depends createCategory
+     * @depends preconditionsForTests
      *
      * @test
      */
-    public function subscriberEmailVerificationValidLong($category)
+    public function guestInvalidEmail($category)
     {
+        $search = $this->loadData('search_newsletter_subscribers',
+                array('filter_email' => $this->generate('email', 15, 'invalid')));
         //Steps
-        $newSubscriberEmail = $this->generate('email', 300, 'valid');
+        $this->logoutCustomer();
         $this->categoryHelper()->frontOpenCategory($category);
-        $this->newsletterHelper()->frontSubscribe($newSubscriberEmail);
-        //Verify
-        $this->assertMessagePresent('error', 'long_email');
-        $this->loginAdminUser();
-        $this->navigate('newsletter_subscribers');
-        $searchData = $this->loadData('search_nl_subscribers', array('filter_email' => $newSubscriberEmail));
-        $this->assertFalse($this->newsletterHelper()->checkStatus('subscribed', $searchData),
-                $this->getParsedMessages());
+        $this->newsletterHelper()->frontSubscribe($search['filter_email']);
+        //Verifying
+        $this->assertMessagePresent('error', 'newsletter_invalid_email');
     }
 
     /**
@@ -180,18 +160,71 @@ class Newsletter_FrontendCreateTest extends Mage_Selenium_TestCase
      * <p>7. Verify the email in subscribers list</p>
      * <p>Expected result: The email is absent into the subscribers list</p>
      *
-     * @depends createCategory
+     * @depends preconditionsForTests
      *
      * @test
      */
-    public function subscriberEmailVerificationEmptyField($category)
+    public function guestEmptyEmail($category)
     {
         //Steps
-        $newSubscriberEmail = '';
+        $this->logoutCustomer();
+        $this->categoryHelper()->frontOpenCategory($category);
+        $this->newsletterHelper()->frontSubscribe('');
+        //Verifying
+        $this->assertMessagePresent('validation', 'newsletter_reqired_field');
+        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
+    }
+
+    /**
+     * <p>With long valid email (> 70 characters)</p>
+     *
+     * <p> Steps:</p>
+     * <p>1. Navigate to Frontend</p>
+     * <p>2. Open created category</p>
+     * <p>3. Enter valid email to subscribe</p>
+     * <p>4. Check message</p>
+     * <p>5. Login to backend</p>
+     * <p>6. Go to Newsletter -> Newsletter Subscribers</p>
+     * <p>7. Verify the email in subscribers list</p>
+     * <p>Expected result: The email is absent in the subscribers list</p>
+     *
+     * @depends preconditionsForTests
+     *
+     * @test
+     */
+    public function guestLongValidEmail($category)
+    {
+        //Steps
+        $newSubscriberEmail = $this->generate('email', 250, 'valid');
         $this->categoryHelper()->frontOpenCategory($category);
         $this->newsletterHelper()->frontSubscribe($newSubscriberEmail);
         //Verify
-        $this->assertMessagePresent('validation', 'reqired_field');
+        $this->assertMessagePresent('error', 'newsletter_long_email');
+    }
+
+    /**
+     *
+     * @depends preconditionsForTests
+     * @test
+     */
+    public function customerUseOwnEmail($category)
+    {
+        $customer = $this->loadData('customer_account_register');
+        $search = $this->loadData('search_newsletter_subscribers', array('filter_email' => $customer['email']));
+        //Steps
+        $this->logoutCustomer();
+        $this->frontend('customer_login');
+        $this->customerHelper()->registerCustomer($customer);
+        $this->categoryHelper()->frontOpenCategory($category);
+        $this->newsletterHelper()->frontSubscribe($search['filter_email']);
+        //Verifying
+        $this->assertMessagePresent('success', 'newsletter_success_subscription');
+        //Steps
+        $this->loginAdminUser();
+        $this->navigate('newsletter_subscribers');
+        //Verifying
+        $this->assertTrue($this->newsletterHelper()->checkStatus('subscribed', $search),
+                'Incorrect status for ' . $search['filter_email'] . ' email');
     }
 
     /**
@@ -211,25 +244,31 @@ class Newsletter_FrontendCreateTest extends Mage_Selenium_TestCase
      * <p>11. Check confirmation message</p>
      * <p>Expected result: Subscriber`s has been removed from the list</p>
      *
-     * @depends createCategory
+     * @depends preconditionsForTests
      *
      * @test
      */
-    public function subscriberDelete($category)
+    public function deleteSubscriber($category)
     {
-        //Data
-        $newSubscriberEmail = $this->generate('email', 15, 'valid');
+        $search = $this->loadData('search_newsletter_subscribers',
+                array('filter_email' => $this->generate('email', 15, 'valid')));
         //Steps
+        $this->logoutCustomer();
         $this->categoryHelper()->frontOpenCategory($category);
-        $this->newsletterHelper()->frontSubscribe($newSubscriberEmail);
-        //Verify
-        $this->assertMessagePresent('success', 'success_subscription');
+        $this->newsletterHelper()->frontSubscribe($search['filter_email']);
+        //Verifying
+        $this->assertMessagePresent('success', 'newsletter_success_subscription');
+        //Steps
         $this->loginAdminUser();
         $this->navigate('newsletter_subscribers');
-        $searchData = $this->loadData('search_nl_subscribers', array('filter_email' => $newSubscriberEmail));
-        $this->newsletterHelper()->massAction('delete', array($searchData));
+        //Verifying
+        $this->assertTrue($this->newsletterHelper()->checkStatus('subscribed', $search),
+                'Incorrect status for ' . $search['filter_email'] . ' email');
+        //Steps
+        $this->newsletterHelper()->massAction('delete', array($search));
+        //Verifying
         $this->assertMessagePresent('success', 'success_delete');
-        $this->assertEquals(NULL, $this->search($searchData));
+        $this->assertNull($this->search($search), 'Subscriber is not deleted');
     }
 
     /**
@@ -249,25 +288,31 @@ class Newsletter_FrontendCreateTest extends Mage_Selenium_TestCase
      * <p>11. Check confirmation message</p>
      * <p>Expected result: Subscriber`s email status has changed</p>
      *
-     * @depends createCategory
+     * @depends preconditionsForTests
      *
      * @test
      */
     public function subscriberUnsubscribe($category)
     {
-        //Setup
-        $newSubscriberEmail = $this->generate('email', 15, 'valid');
+        $search = $this->loadData('search_newsletter_subscribers',
+                array('filter_email' => $this->generate('email', 15, 'valid')));
         //Steps
+        $this->logoutCustomer();
         $this->categoryHelper()->frontOpenCategory($category);
-        $this->newsletterHelper()->frontSubscribe($newSubscriberEmail);
-        //Verify
-        $this->assertMessagePresent('success', 'success_subscription');
+        $this->newsletterHelper()->frontSubscribe($search['filter_email']);
+        //Verifying
+        $this->assertMessagePresent('success', 'newsletter_success_subscription');
+        //Steps
         $this->loginAdminUser();
         $this->navigate('newsletter_subscribers');
-        $searchData = $this->loadData('search_nl_subscribers', array('filter_email' => $newSubscriberEmail));
-        $this->newsletterHelper()->massAction('unsubscribe', array($searchData));
+        //Verifying
+        $this->assertTrue($this->newsletterHelper()->checkStatus('subscribed', $search),
+                'Incorrect status for ' . $search['filter_email'] . ' email');
+        //Steps
+        $this->newsletterHelper()->massAction('unsubscribe', array($search));
+        //Verifying
         $this->assertMessagePresent('success', 'success_update');
-        $this->assertTrue($this->newsletterHelper()->checkStatus('unsubscribed', $searchData),
+        $this->assertTrue($this->newsletterHelper()->checkStatus('unsubscribed', $search),
                 $this->getParsedMessages());
     }
 
