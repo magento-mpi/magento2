@@ -138,6 +138,17 @@
 
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
 
+
+##############################################
+## workaround for old api calls, skip to rewrite them
+
+    RewriteCond %{HTTP:Version} .+
+
+############################################
+## rewrite api calls to api.php
+
+    RewriteRule ^api/ api.php [L]
+
 ############################################
 ## always send 404 on missing files in these folders
 

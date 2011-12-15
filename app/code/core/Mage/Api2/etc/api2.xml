@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<config>
+    <api2>
+       <resources>
+            <products><!-- this not used but must be unique -->
+                <type>products</type><!-- used in ACL -->
+                <model>Mage_Catalog_Model_Products_Apia</model><!-- used in dispatching -->
+                <title>Catalog Products</title><!-- not used now, probably useful in frontend -->
+                <routes>
+                    <route_1>
+                        <mask>/products</mask>
+                    </route_1>
+                </routes>
+            </products>
+            <product><!-- this not used but must be unique -->
+                <type>product</type><!-- used in ACL -->
+                <model>Mage_Catalog_Model_Product_Api2</model><!-- used in dispatching -->
+                <title>Catalog Product</title><!-- not used now, probably useful in frontend -->
+                <routes>
+                    <route_1>
+                        <mask>/products/:id</mask>
+                    </route_1>
+                </routes>
+            </product>
+           <!--
+            <api_login>
+                <routes>
+                    <route1>
+                        <mask>login</mask>
+                    </route1>
+                    <route>
+                        <mask>login2</mask>
+                    </route>
+                </routes>
+            </api_login>
+            -->
+        </resources>
+    </api2>
+</config>
