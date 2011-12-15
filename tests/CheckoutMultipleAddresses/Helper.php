@@ -170,9 +170,9 @@ class CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
                         $formXpathString = '';
                         foreach ($value as $v) {
                             if ($formXpathString == '') {
-                                $formXpathString = 'contains(.,"' . $v . '")';
+                                $formXpathString = "contains(.,'" . $v . "')";
                             } elseif ($formXpathString) {
-                                $formXpathString = $formXpathString . ' and contains(.,"' . $v . '")';
+                                $formXpathString = $formXpathString . " and contains(.,'" . $v . "')";
                             }
                         }
                         $this->addParameter('param', $formXpathString);
@@ -215,9 +215,9 @@ class CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
                 $formXpathString = '';
                 foreach ($value as $v) {
                     if ($formXpathString == '' && !is_array($v)) {
-                        $formXpathString = 'contains(.,"' . $v . '")';
+                        $formXpathString = "contains(.,'" . $v . "')";
                     } elseif ($formXpathString != '' && !is_array($v)) {
-                        $formXpathString = $formXpathString . ' and contains(.,"' . $v . '")';
+                        $formXpathString = $formXpathString . " and contains(.,'" . $v . "')";
                     }
                     $this->addParameter('param', $formXpathString);
                     if (is_array($v)) {
@@ -237,9 +237,9 @@ class CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
                 $formXpathString = '';
                 foreach ($value as $v) {
                     if ($formXpathString == '') {
-                        $formXpathString = 'contains(.,"' . $v . '")';
+                        $formXpathString = "contains(.,'" . $v . "')";
                     } else {
-                        $formXpathString = $formXpathString . ' and contains(.,"' . $v . '")';
+                        $formXpathString = $formXpathString . " and contains(.,'" . $v . "')";
                     }
                 }
                 $this->addParameter('param', $formXpathString);
@@ -412,9 +412,9 @@ class CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
                     $formXpathString = '';
                     foreach ($addressToSearch as $v) {
                         if ($formXpathString == '') {
-                            $formXpathString = 'contains(.,"' . $v . '")';
+                            $formXpathString = "contains(.,'" . $v . "')";
                         } elseif ($formXpathString != '') {
-                            $formXpathString = $formXpathString . ' and contains(.,"' . $v . '")';
+                            $formXpathString = $formXpathString . " and contains(.,'" . $v . "')";
                         }
                         $this->addParameter('param', $formXpathString);
                         $xpath = $this->_getControlXpath('pageelement', 'address_box');
