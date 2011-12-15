@@ -13,37 +13,20 @@ class Legacy_EmailTemplateTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @param string $file
-     * @dataProvider deprecatedDirectivesDataProvider
+     * @dataProvider obsoleteDirectivesDataProvider
      */
-    public function testDeprecatedDirectives($file)
+    public function testObsoleteDirectives($file)
     {
-        $deprecations = array(
-            'htmlescape' => 'use {{escapehtml}} instead',
+        $suggestion = sprintf(Legacy_ObsoleteCodeTest::SUGGESTION_MESSAGE, '{{escapehtml}}');
+        $this->assertNotRegExp(
+            '/\{\{htmlescape.*?\}\}/i',
+            file_get_contents($file),
+            'Directive {{htmlescape}} is obsolete. ' . $suggestion
         );
-        $content = file_get_contents($file);
-        foreach ($deprecations as $directive => $suggestion) {
-            $this->assertNotRegExp(
-                '/\{\{' . preg_quote($directive, '/') . '.*?\}\}/i',
-                $content,
-                "Deprecated directive '$directive' is used, $suggestion."
-            );
-        }
     }
 
-    public function deprecatedDirectivesDataProvider()
+    public function obsoleteDirectivesDataProvider()
     {
-        $globPatterns = array(
-            PATH_TO_SOURCE_CODE . '/app/code/*/*/*/view/email/*.html',
-            PATH_TO_SOURCE_CODE . '/app/code/*/*/*/view/email/*/*.html',
-        );
-        $result = array();
-        foreach ($globPatterns as $oneGlobPattern) {
-            $files = glob($oneGlobPattern);
-            foreach ($files as $file) {
-                /* Use filename as a data set name to not include it to every assertion message */
-                $result[$file] = array($file);
-            }
-        }
-        return $result;
+        return FileDataProvider::getEmailTemplates();
     }
 }

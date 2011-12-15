@@ -1,6 +1,6 @@
 <?php
 /**
- * Coverage of deprecated nodes in layout
+ * Coverage of obsolete nodes in layout
  *
  * {license_notice}
  *
@@ -17,24 +17,25 @@ class Legacy_LayoutTest extends PHPUnit_Framework_TestCase
      */
     public function testLayoutFile($layoutFile)
     {
+        $suggestion = sprintf(Legacy_ObsoleteCodeTest::SUGGESTION_MESSAGE, 'addCss/addJss');
         $layoutXml = simplexml_load_file($layoutFile);
         $selectorHeadBlock = '(name()="block" or name()="reference") and (@name="head" or @name="convert_root_head")';
         $this->assertEmpty(
             $layoutXml->xpath(
                 '//*[' . $selectorHeadBlock . ']/action[@method="addItem"]'
             ),
-            "Expected absence of the legacy call(s) to Mage_Page_Block_Html_Head::addItem."
+            "Mage_Page_Block_Html_Head::addItem is obsolete. $suggestion"
         );
         $this->assertEmpty(
             $layoutXml->xpath(
                 '//action[@method="addJs" or @method="addCss"]/parent::*[not(' . $selectorHeadBlock . ')]'
             ),
-            "Expected addCss/addJs call(s) within the 'head' block only."
+            "Calls addCss/addJs are allowed within the 'head' block only. Verify integrity of the nodes nesting."
         );
     }
 
     public function layoutFileDataProvider()
     {
-        return Integrity_ClassesTest::viewXmlDataProvider();
+        return FileDataProvider::getLayoutFiles();
     }
 }

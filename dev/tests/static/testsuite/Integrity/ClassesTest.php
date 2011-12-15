@@ -21,9 +21,9 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
 
     /**
      * @param SplFileInfo $file
-     * @dataProvider phpCodeDataProvider
+     * @dataProvider phpFileDataProvider
      */
-    public function testPhpCode($file)
+    public function testPhpFile($file)
     {
         self::skipBuggyFile($file);
         $contents = file_get_contents($file);
@@ -78,26 +78,16 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
     /**
      * @return array
      */
-    public function phpCodeDataProvider()
+    public function phpFileDataProvider()
     {
-        $recursiveIterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator(
-            PATH_TO_SOURCE_CODE, FilesystemIterator::SKIP_DOTS | FilesystemIterator::UNIX_PATHS
-        ));
-        $regexIterator = new RegexIterator($recursiveIterator,
-            '#(app/(bootstrap|Mage)\.php | app/code/.+\.(php|phtml) | app/design/.+\.phtml | pub/[a-z]+\.php)$#x'
-        );
-        $result = array();
-        foreach ($regexIterator as $fileInfo) {
-            $result[(string)$fileInfo] = array((string)$fileInfo);
-        }
-        return $result;
+        return FileDataProvider::getPhpFiles();
     }
 
     /**
      * @param string $path
-     * @dataProvider configurationDataProvider
+     * @dataProvider configFileDataProvider
      */
-    public function testConfiguration($path)
+    public function testConfigFile($path)
     {
         self::skipBuggyFile($path);
         $xml = simplexml_load_file($path);
@@ -143,25 +133,16 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
     /**
      * @return array
      */
-    public function configurationDataProvider()
+    public function configFileDataProvider()
     {
-        $result = array();
-        $excludedFiles = array('wsdl.xml', 'wsdl2.xml', 'wsi.xml');
-        $globPattern = PATH_TO_SOURCE_CODE . '/app/code/{community,core,local}/*/*/etc/*.xml';
-        foreach (glob($globPattern, GLOB_BRACE) as $path) {
-            if (in_array(basename($path), $excludedFiles)) {
-                continue;
-            }
-            $result[$path] = array($path);
-        }
-        return $result;
+        return FileDataProvider::getConfigFiles();
     }
 
     /**
      * @param string $path
-     * @dataProvider viewXmlDataProvider
+     * @dataProvider layoutFileDataProvider
      */
-    public function testLayouts($path)
+    public function testLayoutFile($path)
     {
         self::skipBuggyFile($path);
         $xml = simplexml_load_file($path);
@@ -217,43 +198,21 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
         }
     }
 
-    /**
-     * Find XML-files of view layer
-     *
-     * @return array
-     */
-    public static function viewXmlDataProvider()
+    public function layoutFileDataProvider()
     {
-        $result = array();
-        $root = PATH_TO_SOURCE_CODE;
-        $pool = '{community,core,local}';
-        $namespace = $module = $area = $package = $theme = '*';
-        $globPatterns = array(
-            "{$root}/app/code/{$pool}/{$namespace}/{$module}/view/{$area}/*.xml",
-            "{$root}/app/design/{$area}/{$package}/$theme/*.xml",
-            // diving 2-3 levels should be enough and that's faster than recursive iterator and filter by regex
-            "{$root}/app/code/{$pool}/{$namespace}/{$module}/view/{$area}/*/*.xml",
-            "{$root}/app/design/{$area}/{$package}/$theme/*/*.xml",
-            "{$root}/app/design/{$area}/{$package}/$theme/*/*/*.xml",
-        );
-        foreach ($globPatterns as $globPattern) {
-            foreach (glob($globPattern, GLOB_BRACE) as $path) {
-                $result[$path] = array($path);
-            }
-        }
-        return $result;
+        return FileDataProvider::getLayoutFiles();
     }
 
     /**
      * Determine that some files must be skipped because implementation, broken by some bug
      *
-     * @param string|SplFileInfo $path
+     * @param string $path
      * @return true
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     public static function skipBuggyFile($path)
     {
-        $path = (string)$path;
+        $path = str_replace(DIRECTORY_SEPARATOR, '/', $path);
         if (strpos($path, 'app/code/core/Mage/XmlConnect/view/frontend/layout.xml')
             || strpos($path, 'app/code/core/Mage/XmlConnect/Block/Checkout/Pbridge/Result.php')
             || strpos($path, 'app/code/core/Mage/XmlConnect/Block/Catalog/Product/Price/Giftcard.php')

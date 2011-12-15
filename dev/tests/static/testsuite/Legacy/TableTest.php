@@ -1,6 +1,6 @@
 <?php
 /**
- * Coverage of deprecated table names usage
+ * Coverage of obsolete table names usage
  *
  * {license_notice}
  *
@@ -13,9 +13,9 @@
 class Legacy_TableTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @dataProvider magentoPhpFilesDataProvider
+     * @dataProvider tableNameDataProvider
      */
-    public function testLegacyTable($filePath)
+    public function testTableName($filePath)
     {
         $tables = $this->_extractTables($filePath);
         $legacyTables = array();
@@ -223,19 +223,8 @@ class Legacy_TableTest extends PHPUnit_Framework_TestCase
     /**
      * @return array
      */
-    public static function magentoPhpFilesDataProvider()
+    public function tableNameDataProvider()
     {
-        $recursiveIterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator(
-            PATH_TO_SOURCE_CODE, FilesystemIterator::SKIP_DOTS | FilesystemIterator::UNIX_PATHS
-        ));
-        $regexIterator = new RegexIterator($recursiveIterator,
-            '#(app/(bootstrap|Mage)\.php | app/code/.+\.php | pub/[a-z]+\.php)$#x'
-        );
-        $result = array();
-        foreach ($regexIterator as $fileInfo) {
-            $filePath = (string)$fileInfo;
-            $result[] = array($filePath);
-        }
-        return $result;
+        return FileDataProvider::getPhpFiles();
     }
 }
