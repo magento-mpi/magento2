@@ -868,6 +868,15 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
             if ($totalEstimate) {
                 $data = array('term' => $dhlProductDescription,
                     'price_total' => $this->getMethodPrice($totalEstimate, $dhlProduct));
+                if (!empty($this->_rates)) {
+                    foreach ($this->_rates as $product) {
+                        if ($product['data']['term'] == $data['term']
+                            && $product['data']['price_total'] == $data['price_total']
+                        ) {
+                            return $this;
+                        }
+                    }
+                }
                 $this->_rates[] = array('service' => $dhlProduct, 'data' => $data);
             }
         }
