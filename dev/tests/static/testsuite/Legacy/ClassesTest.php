@@ -20,7 +20,9 @@ class Legacy_ClassesTest extends PHPUnit_Framework_TestCase
     protected static $_existingClasses = array();
 
     /**
-     * @param SplFileInfo $file
+     * Collect class names by patterns
+     *
+     * @param string $file
      * @dataProvider FileDataProvider::getPhpFiles
      */
     public function testPhpCode($file)
@@ -73,10 +75,12 @@ class Legacy_ClassesTest extends PHPUnit_Framework_TestCase
             $classes
         );
 
-        $this->_assertClassesExist($classes, $file);
+        $this->_assertClassesNamedCorrect($classes, $file);
     }
 
     /**
+     * Return list of php and phtml files
+     *
      * @return array
      */
     public function phpFileDataProvider()
@@ -85,6 +89,8 @@ class Legacy_ClassesTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Collect class names by xpath in configurable files
+     *
      * @param string $path
      * @dataProvider configFileDataProvider
      */
@@ -115,10 +121,12 @@ class Legacy_ClassesTest extends PHPUnit_Framework_TestCase
 
         $this->_collectLoggingExpectedModels($xml, $classes);
 
-        $this->_assertClassesExist(array_keys($classes), $path);
+        $this->_assertClassesNamedCorrect(array_keys($classes), $path);
     }
 
     /**
+     * Return list of configurable files
+     *
      * @return array
      */
     public function configFileDataProvider()
@@ -141,6 +149,8 @@ class Legacy_ClassesTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Collect class names from layout files
+     *
      * @param string $path
      * @dataProvider layoutFileDataProvider
      */
@@ -173,9 +183,14 @@ class Legacy_ClassesTest extends PHPUnit_Framework_TestCase
 
         $this->_collectLayoutHelpersAndModules($xml, $classes);
 
-        $this->_assertClassesExist(array_keys($classes), $path);
+        $this->_assertClassesNamedCorrect(array_keys($classes), $path);
     }
 
+    /**
+     * Return list of layout files
+     *
+     * @return array
+     */
     public function layoutFileDataProvider()
     {
         return FileDataProvider::getLayoutFiles();
@@ -236,7 +251,7 @@ class Legacy_ClassesTest extends PHPUnit_Framework_TestCase
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
-    protected function _assertClassesExist($classes, $fileName)
+    protected function _assertClassesNamedCorrect($classes, $fileName)
     {
         if (!$classes) {
             return;
