@@ -419,7 +419,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         static $_isFirst = true;
 
         if ($_isFirst) {
-            //$this->browserRestart();
+            $this->useXpathLibrary('javascript-xpath');
             $this->setUpBeforeTests();
             $_isFirst = false;
         }
