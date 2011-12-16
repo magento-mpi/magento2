@@ -46,12 +46,11 @@ class CompareProducts_Helper extends Mage_Selenium_TestCase
      * @param array $productName  Name of product to be added
      * @param array $categoryName  Products Category
      */
-    public function frontAddProductToCompareFromCatalogPage($productName, $categoryName)
+    public function frontAddToCompareFromCatalogPage($productName, $categoryName)
     {
-        $pageId = $this->categoryHelper()->frontSearchAndOpenPageWithProduct($productName, $categoryName);
-        if (!$pageId)
+        if (!$this->categoryHelper()->frontSearchAndOpenPageWithProduct($productName, $categoryName)) {
             $this->fail('Could not find the product');
-        $this->appendParamsDecorator($this->categoryHelper()->_paramsHelper); //@TODO Temporary workaround
+        }
         $this->clickControl('link', 'add_to_compare');
     }
 
@@ -62,10 +61,9 @@ class CompareProducts_Helper extends Mage_Selenium_TestCase
      * @param array $productName  Name of product to be added
      * @param array $categoryName  Product Category
      */
-    public function frontAddProductToCompareFromProductPage($productName, $categoryName=null)
+    public function frontAddToCompareFromProductPage($productName, $categoryName=null)
     {
         $this->productHelper()->frontOpenProduct($productName, $categoryName);
-        $this->appendParamsDecorator($this->productHelper()->_paramsHelper); //@TODO Temporary workaround
         $this->clickControl('link', 'add_to_compare');
     }
 
@@ -78,10 +76,10 @@ class CompareProducts_Helper extends Mage_Selenium_TestCase
     public function frontClearAll()
     {
         if ($this->controlIsPresent('pageelement', 'compare_block_title')) {
-            return $this->clickControlAndConfirm('link', 'compare_clear_all', 'confirmation_clear_all_from_compare');
+            return $this->clickControlAndConfirm('link', 'compare_clear_all',
+                            'confirmation_clear_all_from_compare');
         }
-        else
-            $this->fail('Compare static block is not available on this page');
+        $this->fail('Compare static block is not available on this page');
     }
 
     /**
@@ -94,8 +92,8 @@ class CompareProducts_Helper extends Mage_Selenium_TestCase
     public function frontRemoveProductFromCompareBlock($productName)
     {
         $this->addParameter('productName', $productName);
-        return $this->clickControlAndConfirm(
-                        'link', 'compare_delete_product', 'confirmation_for_removing_product_from_compare');
+        return $this->clickControlAndConfirm('link', 'compare_delete_product',
+                        'confirmation_for_removing_product_from_compare');
     }
 
     /**
@@ -121,30 +119,98 @@ class CompareProducts_Helper extends Mage_Selenium_TestCase
      *
      * Preconditions: Compare Products pop-up is opened
      *
-     * @param string $productName Name of product to be grabbed
-     * @param string $productIndex Index of product to be grabbed
-     *
      * @return array $productData Product details from Compare Products pop-up
      */
-    public function frontGetProductDetailsFromComparePopup($productName, $productIndex)
+    public function getProductDetailsOnComparePage()
     {
-        $productData = array();
-        $this->addParameter('productName', $productName);
-        $this->addParameter('columnIndex', $productIndex);
-        $pageelements = $this->getCurrentUimapPage()->getAllElements('pageelements', $this->_paramsHelper);
-        foreach ($pageelements as $key => $value) {
-            if ($this->isElementPresent($value) and strpos($key, 'verify') !== FALSE)
-                $productData[$key] = trim($this->getText($value), " $\n\t\r\0");
+        $xpath = $this->_getControlXpath('fieldset', 'compare_products');
+
+        $rowCount = $this->getXpathCount($xpath . '/*/tr');
+        $columnCount = $this->getXpathCount($xpath . '/tbody[1]/tr/*');
+
+        $data = array();
+        for ($column = 0; $column < $columnCount; $column++) {
+            for ($row = 0; $row < $rowCount; $row++) {
+                $data[$column][$row] = $this->getTable($xpath . '.' . $row . '.' . $column);
+            }
         }
-        //GetAttributes
-        $attributesList = $this->frontGetAttributesListComparePopup();
-        foreach ($attributesList as $key => $value) {
-            $this->addParameter('attrName', $key);
-            $attrValueXpath = $this->_getControlXpath('pageelement', 'product_attribute_value');
-            $key = trim(strtolower(preg_replace('#[^0-9a-z]+#i', '_', $key)), '_');
-            $productData[$key] = $this->getText($attrValueXpath);
+
+        //Get Field Names
+        $names = array_shift($data);
+        $arrayNames = array();
+        foreach ($names as $key => $value) {
+            if ($value == null) {
+                if ($key == 0) {
+                    if ($names[$key + 1] != null) {
+                        $arrayNames[$key] = 'product_name';
+                    } else {
+                        $arrayNames[$key] = 'remove';
+                        $arrayNames[$key + 1] = 'product_name';
+                    }
+                } elseif ($key == count($names) - 1) {
+                    $arrayNames[$key] = 'product_prices';
+                }
+            } else {
+                $arrayNames[$key] = $value;
+            }
         }
-        return $productData;
+
+        //Generate correct array
+        $returnArray = array();
+        foreach ($data as $number => $productData) {
+            foreach ($productData as $key => $value) {
+                $returnArray['product_' . ($number + 1)][$arrayNames[$key]] = $value;
+            }
+            unset($data[$number]);
+        }
+        foreach ($returnArray as $key => &$value) {
+            if (isset($value['remove'])) {
+                unset($value['remove']);
+            }
+            $value['product_name'] = trim(preg_replace('/' . preg_quote($value['product_prices']) . '/', '',
+                            $value['product_name']));
+            $value['product_prices'] = trim(preg_replace('#(add to wishlist)|(add to cart)|(\n)#i', ' ',
+                            $value['product_prices']), " \t\n\r\0\x0B");
+            preg_match_all('#([a-z (\.)?]+: ([a-z \.]+: )?)?\$([\d]+(\.|,)[\d]+(\.[\d]+)?)|([\d]+)#i',
+                    $value['product_prices'], $prices);
+            $value['product_prices'] = array_map('trim', $prices[0]);
+
+            foreach ($value['product_prices'] as $key_price => $price) {
+                $prices = array_map('trim', explode('$', $price));
+                $priceType = trim(strtolower(preg_replace('#[^0-9a-z]+#i', '_', $prices[0])), '_');
+                if (!$priceType) {
+                    $priceType = 'price';
+                }
+                $value['product_prices'][$priceType] = $prices[1];
+                unset($value['product_prices'][$key_price]);
+            }
+            $include = '';
+            foreach ($value['product_prices'] as $price_type => $price_value) {
+                if (preg_match('/_excl_tax/', $price_type)) {
+                    $include = preg_replace('/_excl_tax/', '', $price_type);
+                }
+                if ($price_type == 'incl_tax' && $include) {
+                    $value['product_prices'][$include . '_' . $price_type] = $price_value;
+                    unset($value['product_prices'][$price_type]);
+                }
+            }
+        }
+
+        return $returnArray;
+    }
+
+    /**
+     * Compare provided products data with actual info in Compare Products pop-up
+     *
+     * Preconditions: Compare Products pop-up is opened and selected
+     *
+     * @param array $verifyData Array of products info to be checked
+     * @return array Array of  error messages if any
+     */
+    public function frontVerifyProductDataInComparePopup($verifyData)
+    {
+        $actualData = $this->getProductDetailsOnComparePage();
+        $this->assertEquals($verifyData, $actualData);
     }
 
     /**
@@ -196,50 +262,6 @@ class CompareProducts_Helper extends Mage_Selenium_TestCase
     }
 
     /**
-     * Compare provided products data with actual info in Compare Products pop-up
-     *
-     * Preconditions: Compare Products pop-up is opened
-     *
-     * @param array $productsData Array of products info to be checked
-     * @return array Array of  error messages if any
-     */
-    public function frontVerifyProductDataInComparePopup($productsData)
-    {
-        //get list of products
-        $compareProducts = $this->frontGetProductsListComparePopup();
-        //get details for each product
-        foreach ($compareProducts as $key => $value) {
-            $compareProductsData[$key] = $this->frontGetProductDetailsFromComparePopup($key, $value);
-        }
-        $actualCount = count($compareProductsData);
-        $expectedCount = count($productsData);
-        if ($expectedCount != $actualCount) {
-            $this->addVerificationMessage('Unxepected number of products on Compare popup: expected '
-                    . $expectedCount . '; actual ' . $actualCount);
-        }
-        //compare aarays
-        foreach ($compareProductsData as $compareProductName => $compareProductData) {
-            //product exists on compare popup
-            if (key_exists($compareProductName, $productsData)) {
-                $productToVerify = $productsData[$compareProductName];
-                //check product properties
-                foreach ($compareProductData as $key => $value) {
-                    if (key_exists($key, $productToVerify)) {
-                        if (strcmp($value, $productToVerify[$key]) != 0) {
-                            $this->addVerificationMessage("Values are not identical: $value and $productToVerify[$key]");
-                        }
-                        unset($compareProductData[$key]);
-                    } else {
-                        $this->addVerificationMessage("There is no such property $key for " . $compareProductName);
-                    }
-                }
-            } else {
-                $this->addVerificationMessage('There is unexpected product ' . $compareProductName . ' on Compare page');
-            }
-        }
-    }
-
-    /**
      * Open ComparePopup And set focus
      *
      * Preconditions: Page with Compare block is opened
@@ -268,27 +290,6 @@ class CompareProducts_Helper extends Mage_Selenium_TestCase
             $this->selectWindow(null);
             $this->popupId = null;
         }
-    }
-
-    /**
-     * Will load additional product information to verify
-     *
-     * @return array Product information
-     */
-    public function prepareProductForVerify($productsData)
-    {
-        $dataForVerify = array();
-        foreach ($productsData as $productData) {
-            $key = $productData['general_name'];
-            foreach ($productData as $attribute => $value) {
-                //remove 'general_'
-                $newAttributeName = preg_replace('/^[0-9a-z]+_/', '', $attribute);
-                $dataForVerify[$key][$newAttributeName] = $value;
-            }
-            $additionalProductData = $this->loadData('additional_product_data');
-            $dataForVerify[$key] = array_merge($dataForVerify[$key], $additionalProductData);
-        }
-        return $dataForVerify;
     }
 
 }
