@@ -10,8 +10,8 @@
  */
 
 /**
-* Tests for obsolete directives in email templates
-*/
+ * Tests for obsolete directives in email templates
+ */
 class Legacy_EmailTemplateTest extends PHPUnit_Framework_TestCase
 {
     /**

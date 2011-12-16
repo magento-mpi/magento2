@@ -10,8 +10,8 @@
  */
 
 /**
-* Coverage of obsolete nodes in layout
-*/
+ * Coverage of obsolete nodes in layout
+ */
 class Legacy_LayoutTest extends PHPUnit_Framework_TestCase
 {
     /**

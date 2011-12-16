@@ -10,8 +10,8 @@
  */
 
 /**
-* Scans source code for references to classes and see if they indeed exist
-*/
+ * Scans source code for references to classes and see if they indeed exist
+ */
 class Legacy_ClassesTest extends PHPUnit_Framework_TestCase
 {
     /**

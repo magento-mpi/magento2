@@ -10,8 +10,8 @@
  */
 
 /**
-* Tests to find various obsolete code usage (deprecated and removed Magento 1 legacy methods, properties, classes, etc.)
-*/
+ * Tests to find various obsolete code usage (deprecated and removed Magento 1 legacy methods, properties, classes, etc.)
+ */
 class Legacy_ObsoleteCodeTest extends PHPUnit_Framework_TestCase
 {
     /**

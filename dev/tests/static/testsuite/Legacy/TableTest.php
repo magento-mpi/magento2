@@ -10,8 +10,8 @@
  */
 
 /**
-* Coverage of obsolete table names usage
-*/
+ * Coverage of obsolete table names usage
+ */
 class Legacy_TableTest extends PHPUnit_Framework_TestCase
 {
     /**

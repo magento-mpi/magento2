@@ -10,8 +10,8 @@
  */
 
 /**
-* Tests to find Enterprise Invitation Helper obsolete methods still used
-*/
+ * Tests to find Enterprise Invitation Helper obsolete methods still used
+ */
 class Legacy_Enterprise_Invitation_Helper_DataTest extends PHPUnit_Framework_TestCase
 {
     /**

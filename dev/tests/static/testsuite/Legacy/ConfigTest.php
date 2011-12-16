@@ -10,8 +10,8 @@
  */
 
 /**
-* Tests for obsolete and removed config nodes
-*/
+ * Tests for obsolete and removed config nodes
+ */
 class Legacy_ConfigTest extends PHPUnit_Framework_TestCase
 {
     /**
