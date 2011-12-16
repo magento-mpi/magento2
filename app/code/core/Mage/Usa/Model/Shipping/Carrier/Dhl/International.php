@@ -585,30 +585,43 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
     {
         $divideOrderWeight = (string)$this->getConfigData('divide_order_weight');
         $nodePieces = $nodeBkgDetails->addChild('Pieces', '', '');
-        if ($divideOrderWeight && $this->_getAllItems()) {
+        $aItemsArray = $this->_getAllItems();
+
+        if ($divideOrderWeight && $aItemsArray) {
             $maxWeight = $this->_getWeight($this->_maxWeight, true);
             $sumWeight  = 0;
             $numberOfPieces = 0;
-            foreach ($this->_getAllItems() as $weight) {
-                if (($sumWeight + $weight) < $maxWeight) {
-                    $sumWeight += $weight;
-                } elseif (($sumWeight + $weight) > $maxWeight) {
-                    $numberOfPieces++;
-                    $nodePiece = $nodePieces->addChild('Piece', '', '');
-                    $nodePiece->addChild('PieceID', $numberOfPieces);
-                    $this->_addDimension($nodePiece);
-                    $nodePiece->addChild('Weight', $sumWeight);
 
+            $arItemsArray = $aItemsArray;
+            arsort($arItemsArray);
+
+            foreach ($arItemsArray as $key => $weight) {
+                if (isset($aItemsArray[$key])) {
+                    unset($aItemsArray[$key]);
                     $sumWeight = $weight;
-                } else {
-                    $numberOfPieces++;
-                    $sumWeight += $weight;
-                    $nodePiece = $nodePieces->addChild('Piece', '', '');
-                    $nodePiece->addChild('PieceID', $numberOfPieces);
-                    $this->_addDimension($nodePiece);
-                    $nodePiece->addChild('Weight', $sumWeight);
-
-                    $sumWeight = 0;
+                    foreach ($aItemsArray as $aKey => $aWeight) {
+                        if (($sumWeight + $aWeight) < $maxWeight) {
+                            unset($aItemsArray[$aKey]);
+                            $sumWeight += $aWeight;
+                        } elseif (($sumWeight + $aWeight) > $maxWeight) {
+                            $numberOfPieces++;
+                            $nodePiece = $nodePieces->addChild('Piece', '', '');
+                            $nodePiece->addChild('PieceID', $numberOfPieces);
+                            $this->_addDimension($nodePiece);
+                            $nodePiece->addChild('Weight', $sumWeight);
+                            break;
+                        } else {
+                            unset($aItemsArray[$aKey]);
+                            $numberOfPieces++;
+                            $sumWeight += $aWeight;
+                            $nodePiece = $nodePieces->addChild('Piece', '', '');
+                            $nodePiece->addChild('PieceID', $numberOfPieces);
+                            $this->_addDimension($nodePiece);
+                            $nodePiece->addChild('Weight', $sumWeight);
+                            $sumWeight = 0;
+                            break;
+                        }
+                    }
                 }
             }
             if ($sumWeight > 0) {
