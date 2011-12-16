@@ -2042,25 +2042,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             $invalided = array('reindex_required', 'update_reqiured');
             foreach ($invalided as $value) {
                 $xpath = $this->_getControlXpath('pageelement', $value);
-                $qty = $this->getXpathCount($xpath);
-                for ($i = 1; $i < $qty + 1; $i++) {
-                    $fillData = array('path' => $xpath . '[' . $i . ']//input', 'value' => 'Yes');
-                    $this->_fillFormCheckbox($fillData);
+                while ($this->isElementPresent($xpath)) {
+                    $this->click($xpath . "//a[text()='Reindex Data']");
+                    $this->waitForPageToLoad($this->_browserTimeoutPeriod);
+                    $this->validatePage('index_management');
                 }
             }
-            $this->fillForm(array('reindex_action' => 'Reindex Data'));
-
-            $selectedItems = $this->getText($this->_getControlXpath('pageelement', 'selected_items'));
-            $this->addParameter('qtySelected', $selectedItems);
-
-            $this->clickButton('submit', false);
-            $alert = $this->isAlertPresent();
-            if ($alert) {
-                $text = $this->getAlert();
-                $this->fail($text);
-            }
-            $this->waitForPageToLoad($this->_browserTimeoutPeriod);
-            $this->validatePage('index_management');
         }
     }
 
