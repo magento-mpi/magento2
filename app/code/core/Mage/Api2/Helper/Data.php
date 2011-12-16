@@ -8,7 +8,7 @@ class Mage_Api2_Helper_Data
         $types = array(
             'text'                  => 'query',
             'text/plain'            => 'query',
-            'text/html'             => 'query',
+            'text/html'             => 'html',
             'json'                  => 'json',
             'application/json'      => 'json',
             'xml'                   => 'xml',
@@ -21,6 +21,15 @@ class Mage_Api2_Helper_Data
         return $types;
     }
 
+    /**
+     * Format XML data to array form
+     *
+     * @deprecated
+     * @static
+     * @param SimpleXMLElement $xml
+     * @param string $keyTrimmer
+     * @return array|string
+     */
     public static function simpleXmlToArray($xml, $keyTrimmer = null)
     {
         $result = array();
