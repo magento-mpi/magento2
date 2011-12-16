@@ -855,24 +855,18 @@ class Product_Helper extends Mage_Selenium_TestCase
     /**
      * Open product on FrontEnd
      *
-     * @param array $productName
+     * @param string $productName
      */
     public function frontOpenProduct($productName, $categoryPath = NULL)
     {
         $this->addParameter('categoryUrl', NULL);
-        if (is_array($productName)) {
-            if (array_key_exists('general_name', $productName)) {
-                $productName = $productName['general_name'];
-            } else {
-                $this->fail('Insufficient data to open a product');
-            }
+        if (!is_string($productName)) {
+                $this->fail('Wrong data to open a product');
         }
-        $productUrl = preg_replace('#[^0-9a-z]+#i', '-', $productName);
-        $productUrl = strtolower($productUrl);
-        $productUrl = trim($productUrl, '-');
-        $this->addParameter('productName', $productName);
+        $productUrl = trim(strtolower(preg_replace('#[^0-9a-z]+#i', '-', $productName)), '-');
         $this->addParameter('productUrl', $productUrl);
-        if ($categoryPath != NULL) {
+        
+        if ($categoryPath) {
             $nodes = explode('/', $categoryPath);
             if (count($nodes) > 1) {
                 array_shift($nodes);
@@ -886,10 +880,9 @@ class Product_Helper extends Mage_Selenium_TestCase
         } else {
             $this->addParameter('productTitle', $productName);
         }
-        $this->getUimapPage('frontend', 'product_page')->assignParams($this->_paramsHelper);
         $this->frontend('product_page');
-        $xpathName = $this->getCurrentUimapPage()->getMainForm()->findPageelement('product_name');
-        $openedProductName = $this->getText($xpathName);
+        $this->addParameter('productName', $productName);
+        $openedProductName = $this->getText($this->_getControlXpath('pageelement', 'product_name'));
         $this->assertEquals($productName, $openedProductName,
                 "Product with name '$openedProductName' is opened, but should be '$productName'");
     }
