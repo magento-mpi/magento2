@@ -59,7 +59,6 @@ class Tax_TaxRule_CreateTest extends Mage_Selenium_TestCase
         $this->navigate('manage_tax_rule');
     }
 
-
     /**
      * <p>Create Tax Rate for tests<p>
      *
@@ -77,6 +76,7 @@ class Tax_TaxRule_CreateTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('success', 'success_saved_tax_rate');
         return $taxRateData;
     }
+
     /**
      * <p>Creating Tax Rule with required fields</p>
      * <p>Steps</p>
@@ -95,14 +95,13 @@ class Tax_TaxRule_CreateTest extends Mage_Selenium_TestCase
     {
         //Data
         $taxRuleData = $this->loadData('new_tax_rule_required',
-                                       array('tax_rate'=>$taxRateData['tax_identifier']),'name');
-        $searchTaxRuleData = $this->loadData('search_tax_rule',
-                                             array('filter_name' => $taxRuleData['name']));
+                array('tax_rate' => $taxRateData['tax_identifier']), 'name');
+        $searchTaxRuleData = $this->loadData('search_tax_rule', array('filter_name' => $taxRuleData['name']));
         //Steps
         $this->taxHelper()->createTaxItem($taxRuleData);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_tax_rule');
-        $this->taxHelper()->openTaxItem($searchTaxRuleData ,'tax_rules');
+        $this->taxHelper()->openTaxItem($searchTaxRuleData, 'tax_rules');
         $this->assertTrue($this->verifyForm($taxRuleData), $this->getParsedMessages());
         return $taxRuleData;
     }
@@ -123,8 +122,7 @@ class Tax_TaxRule_CreateTest extends Mage_Selenium_TestCase
     public function withNameThatAlreadyExists($taxRuleData)
     {
         //Data
-        $searchTaxRuleData = $this->loadData('search_tax_rule',
-                                             array('filter_name' => $taxRuleData['name']));
+        $searchTaxRuleData = $this->loadData('search_tax_rule', array('filter_name' => $taxRuleData['name']));
         $this->ruleToBeDeleted = $searchTaxRuleData;
         //Steps
         $this->taxHelper()->createTaxItem($taxRuleData);
@@ -148,26 +146,27 @@ class Tax_TaxRule_CreateTest extends Mage_Selenium_TestCase
      *
      * @test
      */
-    public function withEmptyRequiredFields($emptyFieldName,$fieldType,$validationMessage)
+    public function withEmptyRequiredFields($emptyFieldName, $fieldType)
     {
         //Data
-        $taxRateData = $this->loadData('new_tax_rule_required', array($emptyFieldName => ''),'name');
+        $taxRateData = $this->loadData('new_tax_rule_required', array($emptyFieldName => ''), 'name');
         //Steps
         $this->taxHelper()->createTaxItem($taxRateData);
         //Verifying
         $this->addFieldIdToMessage($fieldType, $emptyFieldName);
-        $this->assertMessagePresent('error', $validationMessage);
+        $this->assertMessagePresent('validation', 'empty_required_field');
+        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     public function dataEmptyRequiredFields()
     {
         return array(
-            array('name','field','empty_required_field'),
-            array('customer_tax_class','multiselect','empty_required_field'),
-            array('product_tax_class','multiselect','empty_required_field'),
-            array('tax_rate','multiselect','empty_required_field'),
-            array('priority','field','enter_not_negative_number'),
-            array('sort_order','field','enter_not_negative_number')
+            array('name', 'field'),
+            array('customer_tax_class', 'multiselect'),
+            array('product_tax_class', 'multiselect'),
+            array('tax_rate', 'multiselect'),
+            array('priority', 'field'),
+            array('sort_order', 'field')
         );
     }
 
@@ -188,20 +187,18 @@ class Tax_TaxRule_CreateTest extends Mage_Selenium_TestCase
      *
      * @test
      */
-    public function withSpecialValues($specialValue,$taxRateData)
+    public function withSpecialValues($specialValue, $taxRateData)
     {
         //Data
         $taxRuleData = $this->loadData('new_tax_rule_required',
-                                       array('tax_rate' => $taxRateData['tax_identifier'],
-                                            'name' => $specialValue));
-        $searchTaxRuleData = $this->loadData('search_tax_rule',
-                                             array('filter_name' => $taxRuleData['name']));
+                array('tax_rate' => $taxRateData['tax_identifier'], 'name' => $specialValue));
+        $searchTaxRuleData = $this->loadData('search_tax_rule', array('filter_name' => $taxRuleData['name']));
         //Steps
         $this->taxHelper()->createTaxItem($taxRuleData);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_tax_rule');
         $this->ruleToBeDeleted = $searchTaxRuleData;
-        $this->taxHelper()->openTaxItem($searchTaxRuleData ,'tax_rules');
+        $this->taxHelper()->openTaxItem($searchTaxRuleData, 'tax_rules');
         $this->assertTrue($this->verifyForm($taxRuleData), $this->getParsedMessages());
     }
 
@@ -212,8 +209,6 @@ class Tax_TaxRule_CreateTest extends Mage_Selenium_TestCase
             array($this->generate('string', 50, ':punct:'))
         );
     }
-
-
 
     /**
      * <p>Creating a new Tax Rule with invalid values for Priority.</p>
@@ -231,20 +226,17 @@ class Tax_TaxRule_CreateTest extends Mage_Selenium_TestCase
      * @param array $taxRateData
      * @param array $specialValue
      */
-    public function withInvalidValuesForPriority($specialValue,$taxRateData)
+    public function withInvalidValuesForPriority($specialValue, $taxRateData)
     {
         //Data
         $taxRuleData = $this->loadData('new_tax_rule_required',
-                                       array('tax_rate' => $taxRateData['tax_identifier'],
-                                            'priority' => $specialValue),'name');
+                array('tax_rate' => $taxRateData['tax_identifier'], 'priority' => $specialValue), 'name');
         //Steps
         $this->taxHelper()->createTaxItem($taxRuleData);
         //Verifying
         $this->addFieldIdToMessage('field', 'priority');
         $this->assertMessagePresent('error', 'enter_not_negative_number');
     }
-
-
 
     /**
      * <p>Creating a new Tax Rule with invalid values for Sort Order.</p>
@@ -262,12 +254,11 @@ class Tax_TaxRule_CreateTest extends Mage_Selenium_TestCase
      * @param array $taxRateData
      * @param array $specialValue
      */
-    public function withInvalidValuesForSortOrder($specialValue,$taxRateData)
+    public function withInvalidValuesForSortOrder($specialValue, $taxRateData)
     {
         //Data
         $taxRuleData = $this->loadData('new_tax_rule_required',
-                                       array('tax_rate' => $taxRateData['tax_identifier'],
-                                            'sort_order' => $specialValue),'name');
+                array('tax_rate' => $taxRateData['tax_identifier'], 'sort_order' => $specialValue), 'name');
         //Steps
         $this->taxHelper()->createTaxItem($taxRuleData);
         //Verifying
@@ -278,7 +269,7 @@ class Tax_TaxRule_CreateTest extends Mage_Selenium_TestCase
     public function dataSpecialValuesFields()
     {
         return array(
-            array($this->generate('string', 50,':alpha:')),
+            array($this->generate('string', 50, ':alpha:')),
             array($this->generate('string', 50, ':punct:'))
         );
     }
@@ -291,7 +282,7 @@ class Tax_TaxRule_CreateTest extends Mage_Selenium_TestCase
         //Remove Tax rule after test
         if (!is_null($this->ruleToBeDeleted)) {
             $this->navigate('manage_tax_rule');
-            $this->taxHelper()->deleteTaxItem($this->ruleToBeDeleted ,'tax_rules');
+            $this->taxHelper()->deleteTaxItem($this->ruleToBeDeleted, 'tax_rules');
             $this->ruleToBeDeleted = null;
         }
     }
