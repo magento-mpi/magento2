@@ -203,6 +203,9 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
             $model->lockAttribute('website_ids');
             $model->setOptionsReadonly(true);
             $model->setCompositeReadonly(true);
+            if (!in_array($model->getStore()->getId(), $this->_role->getStoreIds())) {
+                $model->setAttributesConfigurationReadonly(true);
+            }
             $model->setDownloadableReadonly(true);
             $model->setGiftCardReadonly(true);
             $model->setIsDeleteable(false);
