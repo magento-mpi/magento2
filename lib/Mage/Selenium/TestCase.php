@@ -575,7 +575,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                             $overrideResult = true;
                         }
                         if (is_array($v)) {
-                            $overrideResult = $this->overrideDataInSubArray($subArray, $overrideKey,
+                            $result = $this->overrideDataInSubArray($subArray, $overrideKey,
                                     $overrideValue, $value);
                             if ($result || $overrideResult) {
                                 $overrideResult = true;
@@ -689,8 +689,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             $withOutSubArray = array();
             foreach ($override as $key => $value) {
                 if (preg_match('|/|', $key)) {
-                    $withSubArray[$key]['subArray'] = preg_replace('|/[a-z0-9_]+$|', '', $key);
-                    $withSubArray[$key]['name'] = preg_replace('|^[a-z0-9_]+/|', '', $key);
+                    $withSubArray[$key]['subArray'] = preg_replace('#/[a-z0-9_]+$#i', '', $key);
+                    $withSubArray[$key]['name'] = preg_replace('#^[a-z0-9_]+/#i', '', $key);
                     $withSubArray[$key]['value'] = $value;
                 } else {
                     $withOutSubArray[$key] = $value;
