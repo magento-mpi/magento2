@@ -51,7 +51,7 @@ var widgetTools = {
             closable:true,
             className:'magento',
             windowClassName:"popup-window",
-            title:'Insert Widget',
+            title:Translator.translate('Insert Widget...'),
             top:50,
             width:950,
             //height:450,
