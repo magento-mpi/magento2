@@ -162,7 +162,7 @@ class Tax_TaxAndPricesValidationBackendTest extends Mage_Selenium_TestCase
         $this->shoppingCartHelper()->verifyPricesDataOnPage($priceAftRefCr, $totAftRefCr);
         //Verify prices after creating invoice on invoice page
         $this->navigate('manage_sales_invoices');
-        $this->searchAndOpen(array('filter_order_id' => $orderId));
+        $this->orderInvoiceHelper()->openInvoice(array('filter_order_id' => $orderId));
         $this->shoppingCartHelper()->verifyPricesDataOnPage($priceAftInvCrOnInv, $totAftInvCrOnInv);
         //Verify prices after creating Refund on Refund page
         $this->navigate('manage_sales_creditmemos');
