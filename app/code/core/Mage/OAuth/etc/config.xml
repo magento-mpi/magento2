@@ -84,6 +84,15 @@
         </layout>
     </adminhtml>
     <frontend>
+        <routers>
+            <oauth>
+                <use>standard</use>
+                <args>
+                    <module>Mage_OAuth</module>
+                    <frontName>oauth</frontName>
+                </args>
+            </oauth>
+        </routers>
         <layout>
             <updates>
                 <oauth>

@@ -33,4 +33,25 @@
  */
 class Mage_OAuth_Helper_Data extends Mage_Core_Helper_Abstract
 {
+    /**#@+
+     * Endpoint types
+     */
+    const ENDPOINT_AUTHORIZE = 'authorize';
+    const ENDPOINT_INITIATE  = 'initiate';
+    const ENDPOINT_TOKEN     = 'token';
+    /**#@-*/
+
+    /**
+     * Retrieve URL of specified endpoint.
+     *
+     * @param string $type Endpoint type (one of ENDPOINT_ constants)
+     * @return string
+     */
+    public function getProtocolEndpointUrl($type)
+    {
+        if (self::ENDPOINT_INITIATE != $type && self::ENDPOINT_AUTHORIZE != $type && self::ENDPOINT_TOKEN != $type) {
+            Mage::throwException('Invalid endpoint type passed');
+        }
+        return Mage::getUrl('oauth/' . $type);
+    }
 }
