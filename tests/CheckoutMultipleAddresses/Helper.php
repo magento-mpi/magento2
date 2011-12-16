@@ -71,7 +71,7 @@ class CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
 
     /**
      * Returns order Ids in Array
-     * 
+     *
      * @param string $text
      * @return array
      */
@@ -139,11 +139,15 @@ class CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
             $this->frontSelectMultipleCheckoutMethod($customer);
         }
         if ($generalShippingAddress) {
-            $this->fillForm($generalShippingAddress);
-            if ($customer['checkout_method'] == 'register') {
-                $this->clickButton('submit');
-            } else {
-                $this->clickButton('save_address');
+            $currentPage = $this->getCurrentPage();
+            if ($currentPage == 'checkout_multishipping_add_new_address' ||
+                    $currentPage == 'checkout_multishipping_register') {
+                $this->fillForm($generalShippingAddress);
+                if ($customer['checkout_method'] == 'register') {
+                    $this->clickButton('submit');
+                } else {
+                    $this->clickButton('save_address');
+                }
             }
         }
         if ($shipping) {
