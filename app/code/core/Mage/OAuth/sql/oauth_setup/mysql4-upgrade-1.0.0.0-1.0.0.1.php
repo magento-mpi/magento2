@@ -52,11 +52,13 @@ $table = $adapter->newTable($installer->getTable('oauth/consumer'))
             'nullable'  => true
         ), 'Updated At')
     ->addColumn('name', Varien_Db_Ddl_Table::TYPE_VARCHAR,
-        Mage_OAuth_Model_Consumer::KEY_LENGTH, array('nullable'  => false), 'Name of consumer')
+        255, array('nullable'  => false), 'Name of consumer')
     ->addColumn('key', Varien_Db_Ddl_Table::TYPE_VARCHAR,
-        Mage_OAuth_Model_Consumer::KEY_LENGTH, array('nullable'  => false), 'Key code')
+        Mage_OAuth_Model_Consumer::KEY_LENGTH,
+        array('nullable'  => false), 'Key code')
     ->addColumn('secret', Varien_Db_Ddl_Table::TYPE_VARCHAR,
-        64, array('nullable'  => false), 'Secret code')
+        Mage_OAuth_Model_Consumer::SECRET_LENGTH,
+        array('nullable'  => false), 'Secret code')
     ->addColumn('call_back_url', Varien_Db_Ddl_Table::TYPE_VARCHAR,
         255, array(), 'Call back URL')
     ->addIndex(

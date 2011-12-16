@@ -82,4 +82,22 @@ class Mage_OAuth_Model_Consumer extends Mage_Core_Model_Abstract
         parent::_beforeSave();
         return $this;
     }
+
+    /**
+     * Validate data
+     *
+     * @return array|bool
+     */
+    public function validate()
+    {
+        $errors = array();
+        if ($this->getCallBackUrl()) {
+            /** @var $validator Mage_OAuth_Model_Consumer_Validator_Url */
+            $validator = Mage::getSingleton('oauth/consumer_validator_url');
+            if ($validator->isValid($this->getCallBackUrl())) {
+                $errors = array_merge($errors, $validator->getMessages());
+            }
+        }
+        return $errors ? $errors : true;
+    }
 }
