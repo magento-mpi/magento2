@@ -113,8 +113,12 @@ class CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
         $checkoutData = $this->arrayEmptyClear($checkoutData);
         $products   = (isset($checkoutData['products_to_add'])) ? $checkoutData['products_to_add'] : array();
         $customer   = (isset($checkoutData['checkout_as_customer'])) ? $checkoutData['checkout_as_customer'] : NULL;
-        $generalShippingAddress = (isset($checkoutData['general_shipping_address']))
-                                   ? $checkoutData['general_shipping_address'] : NULL;
+        $generalShippingAddress = NULL;
+        foreach ($checkoutData as $key => $value) {
+            if (preg_match('/^general/', $key)) {
+                $generalShippingAddress = $value;
+            }
+        }
         $shipping   = (isset($checkoutData['shipping_address_data'])) ? $checkoutData['shipping_address_data'] : NULL;
         $giftOptions = (isset($checkoutData['gift_options'])) ? $checkoutData['gift_options'] : NULL;
         $shipMethod = (isset($checkoutData['shipping_data'])) ? $checkoutData['shipping_data'] : NULL;
