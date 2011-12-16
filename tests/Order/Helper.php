@@ -581,7 +581,6 @@ class Order_Helper extends Mage_Selenium_TestCase
             if ($validate) {
                 $this->addParameter('couponCode', $code);
                 $this->assertMessagePresent('success', 'success_applying_coupon');
-                $this->assertMessagePresent('error', 'invalid_coupon_code');
             }
         }
     }
