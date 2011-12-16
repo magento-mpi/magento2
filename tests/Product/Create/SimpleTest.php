@@ -71,7 +71,7 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
     public function onlyRequiredFieldsInSimple()
     {
         //Data
-        $productData = $this->loadData('simple_product_required', null, array('general_name', 'general_sku'));
+        $productData = $this->loadData('simple_product_required');
         //Steps
         $this->productHelper()->createProduct($productData);
         //Verifying
@@ -97,7 +97,7 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
     public function allFieldsInSimple()
     {
         //Data
-        $productData = $this->loadData('simple_product', null, array('general_name', 'general_sku'));
+        $productData = $this->loadData('simple_product');
         $productSearch = $this->loadData('product_search', array('product_sku' => $productData['general_sku']));
         //Steps
         $this->productHelper()->createProduct($productData);
@@ -160,7 +160,7 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
         } else {
             $overrideData = array($emptyField => '%noValue%');
         }
-        $productData = $this->loadData('simple_product_required', $overrideData, 'general_sku');
+        $productData = $this->loadData('simple_product_required', $overrideData);
         //Steps
         $this->productHelper()->createProduct($productData);
         //Verifying
@@ -300,23 +300,12 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
     {
         //Data
         $productData = $this->loadData('simple_product_required',
-                array('general_weight' => $this->generate('string', 9, ':punct:')),
-                array('general_name', 'general_sku'));
-        $productSearch = $this->loadData('product_search',
-                array(
-                    'product_sku'  => $productData['general_sku'],
-                    'product_name' => $productData['general_name']
-                ));
+                array('general_weight' => $this->generate('string', 9, ':punct:')));
         //Steps
         $this->productHelper()->createProduct($productData);
         //Verifying
-        $this->assertMessagePresent('success', 'success_saved_product');
-        //Steps
-        $this->productHelper()->openProduct($productSearch);
-        //Verifying
-        $xpath = $this->_getControlXpath('field', 'general_weight');
-        $weightValue = $this->getValue($xpath);
-        $this->assertEquals(0.0000, $weightValue, 'The product weight should be 0.0000');
+        $this->addFieldIdToMessage('field', 'general_weight');
+        $this->assertMessagePresent('validation', 'enter_zero_or_greater');
     }
 
     /**
@@ -337,8 +326,7 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
     public function invalidPriceInSimple($invalidPrice)
     {
         //Data
-        $productData = $this->loadData('simple_product_required',
-                array('prices_price' => $invalidPrice), 'general_sku');
+        $productData = $this->loadData('simple_product_required', array('prices_price' => $invalidPrice));
         //Steps
         $this->productHelper()->createProduct($productData);
         //Verifying
@@ -365,8 +353,7 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
     public function invalidSpecialPriceInSimple($invalidValue)
     {
         //Data
-        $productData = $this->loadData('simple_product_required', array('prices_special_price' => $invalidValue),
-                'general_sku');
+        $productData = $this->loadData('simple_product_required', array('prices_special_price' => $invalidValue));
         //Steps
         $this->productHelper()->createProduct($productData);
         //Verifying
@@ -394,7 +381,7 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
     public function emptyTierPriceFieldsInSimple($emptyTierPrice)
     {
         //Data
-        $productData = $this->loadData('simple_product_required', null, 'general_sku');
+        $productData = $this->loadData('simple_product_required');
         $productData['prices_tier_price_data'][] = $this->loadData('prices_tier_price_1',
                 array($emptyTierPrice => '%noValue%'));
         //Steps
@@ -436,7 +423,7 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
             'prices_tier_price_qty' => $invalidTierData,
             'prices_tier_price_price' => $invalidTierData
         );
-        $productData = $this->loadData('simple_product_required', null, 'general_sku');
+        $productData = $this->loadData('simple_product_required');
         $productData['prices_tier_price_data'][] = $this->loadData('prices_tier_price_1', $tierData);
         //Steps
         $this->productHelper()->createProduct($productData);
@@ -466,7 +453,7 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
     public function invalidQtyInSimple($invalidQty)
     {
         //Data
-        $productData = $this->loadData('simple_product_required', array('inventory_qty' => $invalidQty), 'general_sku');
+        $productData = $this->loadData('simple_product_required', array('inventory_qty' => $invalidQty));
         //Steps
         $this->productHelper()->createProduct($productData);
         //Verifying
@@ -501,17 +488,14 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
     public function onConfigurableProductPageQuickCreate()
     {
         //Data
-        $attrData = $this->loadData('product_attribute_dropdown_with_options', null,
-                array('admin_title', 'attribute_code'));
+        $attrData = $this->loadData('product_attribute_dropdown_with_options');
         $associatedAttributes = $this->loadData('associated_attributes',
                 array('General' => $attrData['attribute_code']));
         $configurable = $this->loadData('configurable_product_required',
-                array('configurable_attribute_title' => $attrData['admin_title']),
-                array('general_sku', 'general_name'));
+                array('configurable_attribute_title' => $attrData['admin_title']));
         $productSearch = $this->loadData('product_search', array('product_sku' => $configurable['general_sku']));
         $quickSimple = $this->loadData('quick_simple_product',
-                array('quick_simple_product_attribute_value' => $attrData['option_1']['admin_option_name']),
-                array('quick_simple_product_sku', 'quick_simple_product_name'));
+                array('quick_simple_product_attribute_value' => $attrData['option_1']['admin_option_name']));
         //Steps
         $this->navigate('manage_attributes');
         $this->productAttributeHelper()->createAttribute($attrData);
@@ -550,7 +534,7 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
         //Data
         $searchAttr = $this->loadData('attribute_search_data',
                 array('attribute_code' => $data['attr']['attribute_code']));
-        $simpleEmpty = $this->loadData('simple_product_required', null, array('general_name', 'general_sku'));
+        $simpleEmpty = $this->loadData('simple_product_required');
         $simpleEmpty['general_user_attr']['dropdown'][$data['attr']['attribute_code']] =
                 $data['attr']['option_2']['admin_option_name'];
         //Steps
