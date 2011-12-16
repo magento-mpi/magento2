@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Mage_OAuth>
-            <version>1.0.0.0</version>
+            <version>1.0.0.1</version>
         </Mage_OAuth>
     </modules>
     <global>
@@ -39,6 +39,11 @@
             </oauth>
             <oauth_resource>
                 <class>Mage_OAuth_Model_Resource</class>
+                <entities>
+                    <consumer>
+                        <table>oauth_consumer</table>
+                    </consumer>
+                </entities>
             </oauth_resource>
         </models>
         <blocks>

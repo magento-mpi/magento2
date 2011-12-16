@@ -34,6 +34,12 @@
  * @method Mage_OAuth_Model_Resource_Consumer getResource()
  * @method Mage_OAuth_Model_Resource_Consumer_Collection getCollection()
  * @method Mage_OAuth_Model_Resource_Consumer_Collection getResourceCollection()
+ * @method string getKey()
+ * @method Mage_OAuth_Model_Consumer setKey() setKey(string $key)
+ * @method string getSecret()
+ * @method Mage_OAuth_Model_Consumer setSecret() setSecret(string $secret)
+ * @method string getCallBackUrl()
+ * @method Mage_OAuth_Model_Consumer setCallBackUrl() setCallBackUrl(string $url)
  */
 class Mage_OAuth_Model_Consumer extends Mage_Core_Model_Abstract
 {
