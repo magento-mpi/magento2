@@ -29,6 +29,7 @@
 
 /** @var $installer Mage_OAuth_Model_Resource_Setup */
 $installer = $this;
+/** @var $adapter Varien_Db_Adapter_Pdo_Mysql */
 $adapter = $installer->getConnection();
 
 /**
@@ -41,6 +42,8 @@ $table = $adapter->newTable($installer->getTable('oauth/consumer'))
             'nullable'  => false,
             'primary'   => true,
         ), 'Entity Id')
+    ->addColumn('created_at', Varien_Db_Ddl_Table::TYPE_TIMESTAMP, null, array(), 'Created At')
+    ->addColumn('updated_at', Varien_Db_Ddl_Table::TYPE_TIMESTAMP, null, array(), 'Updated At')
     ->addColumn('key', Varien_Db_Ddl_Table::TYPE_VARCHAR,
         32, array('nullable'  => false), 'Key code')
     ->addColumn('secret', Varien_Db_Ddl_Table::TYPE_VARCHAR,
@@ -61,5 +64,8 @@ $table = $adapter->newTable($installer->getTable('oauth/consumer'))
             Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
         ),
         array('secret'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
+    ->addIndex($installer->getIdxName('oauth/consumer', array('created_at')), array('created_at'))
+    ->addIndex($installer->getIdxName('oauth/consumer', array('updated_at')), array('updated_at'))
     ->setComment('OAuth Consumers');
+
 $adapter->createTable($table);
