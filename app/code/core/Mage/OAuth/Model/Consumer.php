@@ -34,6 +34,8 @@
  * @method Mage_OAuth_Model_Resource_Consumer getResource()
  * @method Mage_OAuth_Model_Resource_Consumer_Collection getCollection()
  * @method Mage_OAuth_Model_Resource_Consumer_Collection getResourceCollection()
+ * @method string getName()
+ * @method Mage_OAuth_Model_Consumer setName() setName(string $name)
  * @method string getKey()
  * @method Mage_OAuth_Model_Consumer setKey() setKey(string $key)
  * @method string getSecret()
@@ -65,5 +67,19 @@ class Mage_OAuth_Model_Consumer extends Mage_Core_Model_Abstract
     protected function _construct()
     {
         $this->_init('oauth/consumer');
+    }
+
+    /**
+     * Update "updated at" date
+     *
+     * @return Mage_OAuth_Model_Consumer
+     */
+    protected function _beforeSave()
+    {
+        if ($this->isObjectNew()) {
+            $this->setCreatedAt(time());
+        }
+        parent::_beforeSave();
+        return $this;
     }
 }
