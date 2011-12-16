@@ -45,7 +45,7 @@
  * @method string getCreatedAt()
  * @method Mage_OAuth_Model_Consumer setCreatedAt() setCreatedAt(string $date)
  * @method string getUpdatedAt()
- * @method Mage_OAuth_Model_Consumer setUpdatedAt() setUpdated(string $date)
+ * @method Mage_OAuth_Model_Consumer setUpdatedAt() setUpdatedAt(string $date)
  */
 class Mage_OAuth_Model_Consumer extends Mage_Core_Model_Abstract
 {
@@ -77,7 +77,7 @@ class Mage_OAuth_Model_Consumer extends Mage_Core_Model_Abstract
     protected function _beforeSave()
     {
         if ($this->isObjectNew()) {
-            $this->setCreatedAt(time());
+            $this->setUpdatedAt(time());
         }
         parent::_beforeSave();
         return $this;
