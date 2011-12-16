@@ -6,15 +6,30 @@ Some functions are not implemented (see TODO marks)
 ********************************/
 
 // TODO: Consumer key representation
-class OAuthKey {}
+class OAuthKey {
+    public static function fetchKey()
+    {
+        return new OAuthConsumer();
+    }
+}
 // TODO: Token representation
-class OAuthToken {}
+class OAuthToken {
+    // TODO: cleanup old tokens and nonces
+    public static function cleanup()
+    {
+    }
+}
+
+class OAuthConsumer {
+    public $key;
+    public $secret;
+}
 
 /**
  *
  * OAuth provider implementation
  */
-class ExampleOAuthServer
+class Mage_OAuth_ExampleServer
 {
     /**
      * OAuth token
@@ -23,7 +38,42 @@ class ExampleOAuthServer
     protected $token;
 
     /**
+     * OAuth provider
+     * @var Zend_Oauth_Provider
+     */
+    protected $provider;
+
+    /**
+     * OAuth consumer
+     * @var OAuthConsumer
+     */
+    protected $consumer;
+
+    /**
+     * Create OAuth provider
+     * Checks current request for OAuth validity
+     *
+     * @param string $req_path add REST endpoint as request path
+     */
+    public function __construct($req_path = '')
+    {
+        $this->check();
+        $this->provider = new Zend_Oauth_Provider();
+        $this->provider->setConsumerHandler(array($this, 'lookupConsumer'));
+        $this->provider->setTimestampNonceHandler(array($this, 'timestampNonceChecker'));
+        $this->provider->setTokenHandler(array($this, 'tokenHandler'));
+        if(!empty($req_path)) {
+            $this->provider->setRequestTokenPath($req_path);  // No token needed for this end point
+        }
+        $this->provider->checkOAuthRequest(null, $this->assembleData());
+        if(mt_rand() % 10 == 0) {
+            OAuthToken::cleanup();
+        }
+    }
+
+    /**
      * Check if everything is OK
+     *
      * @throws OAuthException
      */
     protected function check()
@@ -36,6 +86,7 @@ class ExampleOAuthServer
 
     /**
      * Is this functionality enabled?
+     * @return bool
      */
     public static function enabled()
     {
@@ -45,6 +96,7 @@ class ExampleOAuthServer
     /**
      * Find consumer by key
      * @param $provider
+     * @return int
      */
     public function lookupConsumer($provider)
     {
@@ -59,12 +111,15 @@ class ExampleOAuthServer
         }
         $provider->consumer_secret = $consumer->secret;
         $this->consumer = $consumer;
+
         return Zend_Oauth_Provider::OK;
     }
 
     /**
      * Check timestamps & nonces
+     *
      * @param OAuthProvider $provider
+     * @return
      */
     public function timestampNonceChecker($provider)
     {
@@ -83,7 +138,9 @@ class ExampleOAuthServer
 
     /**
      * Vefiry incoming token
+     *
      * @param OAuthProvider $provider
+     * @return int
      */
     public function tokenHandler($provider)
     {
@@ -116,35 +173,14 @@ class ExampleOAuthServer
 
     /**
     * Assemble parameters from POST and GET
+     *
+     * @return array
     */
     protected function assembleData()
     {
         $data = $_GET;
         $data = array_merge($data, $_POST);
         return $data;
-    }
-
-    /**
-     * Create OAuth provider
-     *
-     * Checks current request for OAuth valitidy
-     * @param bool $add_rest add REST endpoint as request path
-     */
-    public function __construct($req_path = '')
-    {
-        $this->check();
-        $this->provider = new Zend_Oauth_Provider();
-        $this->provider->setConsumerHandler(array($this,'lookupConsumer'));
-        $this->provider->setTimestampNonceHandler(array($this,'timestampNonceChecker'));
-        $this->provider->setTokenHandler(array($this,'tokenHandler'));
-        if(!empty($req_path)) {
-            $this->provider->setRequestTokenPath($req_path);  // No token needed for this end point
-        }
-        $this->provider->checkOAuthRequest(null, $this->assembleData());
-        if(mt_rand() % 10 == 0) {
-            // TODO: cleanup old tokens and nonces
-            OAuthToken::cleanup();
-        }
     }
 
     /**
@@ -227,6 +263,9 @@ class ExampleOAuthServer
 
     /**
      * Report OAuth problem as string
+     *
+     * @param Exception $e
+     * @return string
      */
     public function reportProblem(Exception $e)
     {
