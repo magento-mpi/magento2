@@ -16,7 +16,7 @@ if (isset($argv[1]) && realpath($argv[1])) {
 }
 
 if (is_dir($path)) {
-    $files = glob($path . '/*.txt');
+    $files = glob($path . '/*.ser');
 } else {
     $files = array($path);
 }

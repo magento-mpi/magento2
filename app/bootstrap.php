@@ -68,7 +68,7 @@ $paths[] = BP . DS . 'app' . DS . 'code' . DS . 'core';
 $paths[] = BP . DS . 'lib';
 Magento_Autoload::getInstance()->addIncludePath($paths);
 
-$classMapPath = BP . DS . 'var/classmap.txt';
+$classMapPath = BP . DS . 'var/classmap.ser';
 if (file_exists($classMapPath)) {
     Magento_Autoload::getInstance()->addFilesMap($classMapPath);
 }

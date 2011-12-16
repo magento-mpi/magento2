@@ -15,5 +15,5 @@ foreach ($classes as $index => $class) {
     }
 }
 sort($classes);
-$file = __DIR__ . '/log/magento' . trim(str_replace('/', '_', $_SERVER['REQUEST_URI']), '_') . '.txt';
+$file = __DIR__ . '/log/magento' . trim(str_replace('/', '_', $_SERVER['REQUEST_URI']), '_') . '.ser';
 file_put_contents($file, serialize($classes));

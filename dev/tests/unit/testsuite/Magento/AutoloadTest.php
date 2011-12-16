@@ -84,7 +84,7 @@ class Magento_AutoloadTest extends PHPUnit_Framework_TestCase
         $this->assertStringEndsWith('TestMap.php', $reflection->getFilename());
 
         $this->assertFalse(class_exists('Unit_TestClassMapClass', false));
-        $this->_loader->addFilesMap(__DIR__ . '/Autoload/classmap.txt');
+        $this->_loader->addFilesMap(__DIR__ . '/Autoload/classmap.ser');
         $reflection = new ReflectionObject(new Unit_TestClassMapClass());
         $this->assertStringEndsWith('TestClassMapInFile.php', $reflection->getFilename());
     }
