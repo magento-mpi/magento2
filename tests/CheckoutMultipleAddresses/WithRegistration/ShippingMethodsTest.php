@@ -36,119 +36,145 @@
  */
 class CheckoutMultipleAddresses_WithRegistration_ShippingMethodsTest extends Mage_Selenium_TestCase
 {
-    /**
-     * <p>Some description</p>
+     /**
+     * <p>Add Store Name for DHL tests</p>
      */
     public function setUpBeforeTests()
     {
-        //Login as admin
-        //Configure shipping methods:
-        //Flat Rate
-        //Free shipping
-        //UPS - UPS
-        //UPS - UPS XML
-        //USPS
-        //Fedex
-        //DHL USA
-        //DHL International
+        $this->loginAdminUser();
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('store_information');
     }
 
+    /**
+     */
     protected function assertPreConditions()
     {
-
+        $this->logoutCustomer();
+        $this->loginAdminUser();
     }
 
     /**
+     * <p>Create a Simple Product for tests</p>
+     *
      * @test
      */
-    public function createSimpleProduct()
+    public function createSimpleProducts()
     {
-        return 'simple product name';
+        $this->navigate('manage_products');
+        $productData1 = $this->loadData('simple_product_for_order', NULL, array('general_name', 'general_sku'));
+        $this->productHelper()->createProduct($productData1);
+        $this->assertMessagePresent('success', 'success_saved_product');
+        $productData2 = $this->loadData('simple_product_for_order', NULL, array('general_name', 'general_sku'));
+        $this->productHelper()->createProduct($productData2);
+        $this->assertMessagePresent('success', 'success_saved_product');
+
+        return array($productData1['general_name'], $productData2['general_name']);
     }
 
     /**
+     * <p>Create a Virtual Product for tests</p>
+     *
      * @test
      */
     public function createVirtualProduct()
     {
-        return 'virtual product name';
+        $productData = $this->loadData('virtual_product_for_order', NULL, array('general_name', 'general_sku'));
+        $this->navigate('manage_products');
+        $this->productHelper()->createProduct($productData, 'virtual');
+        $this->assertMessagePresent('success', 'success_saved_product');
+
+        return $productData['general_name'];
     }
 
     /**
+     * <p>Steps:</p>
+     * <p>1. Configure settings in System->Configuration</p>
+     * <p>2. Add 2 simple products to the shopping cart</p>
+     * <p>3. Checkout with multiple addresses</p>
+     * <p>4. Add default shipping address when needed. Add new shipping address</p>
+     * <p>5. Set each product to be delivered to a separate address</p>
+     * <p>6. Continue with default billing address, Check/Money payment method and appropriate shipping method</p>
+     * <p>7. Place the order</p>
+     * <p>Expected result:</p>
+     * <p>Two new orders are successfully created.</p>
+     * @TODO change to create shipping addresses once for all tests
+     *
      * @dataProvider dataShipment
-     * @depends createSimpleProduct
+     * @depends createSimpleProducts
+     *
      * @test
      */
-    public function differentShippingMethods($shipping, $simpleProduct)
+    public function differentShippingMethods($shipment, $shippingOrigin, $simpleProductNames)
     {
-        //Open the simple product
-        //Add 2 items to shopping cart
-        //Checkout with multiple addresses
-        //
-        //Register as a new customer
-        //Fill all required fields. Submit
-        //Add a new shipping address
-        //
-        //Set products to different shipping addresses
-        //Select shipping method
-        //Select 'Check / Money order' payment method
-            //Verify shipping addresses for both products
-            //Verify shipping methods for both products
-            //Verify products quantity
-        //Place order
-            //Verify that Order Success page is displayed
-            //Verify that 2 order links are displayed
+        //Data
+        $shippingMethod = $this->loadData('multiple_front_shipping_' . $shipment);
+        $checkoutData = $this->loadData('multiple_shipping_methods_register',
+                array('shipping_method' => $shippingMethod));
+        $checkoutData['products_to_add']['product_1']['general_name'] = $simpleProductNames[0];
+        $checkoutData['products_to_add']['product_2']['general_name'] = $simpleProductNames[1];
+        $checkoutData['shipping_address_data']['address_1']['general_name'] = $simpleProductNames[0];
+        $checkoutData['shipping_address_data']['address_2']['general_name'] = $simpleProductNames[1];
+        //Setup
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('shipping_settings_' . strtolower($shippingOrigin));
+        $this->systemConfigurationHelper()->configure('shipping_disable');
+        $this->systemConfigurationHelper()->configure($shipment . '_enable');
+        //Steps and Verify
+        $orderNumbers = $this->checkoutMultipleAddressesHelper()->frontCreateMultipleCheckout($checkoutData);
+        $this->assertTrue(count($orderNumbers) == 2, $this->getMessagesOnPage());
+    }
+
+    /**
+     * <p>Steps:</p>
+     * <p>1. Configure settings in System->Configuration</p>
+     * <p>2. Add 1 simple product and 1 virtual to the shopping cart</p>
+     * <p>3. Checkout with multiple addresses</p>
+     * <p>4. Add default shipping address when needed. Add new shipping address</p>
+     * <p>5. Set each product to be delivered to a separate address</p>
+     * <p>6. Continue with default billing address, Check/Money payment method and appropriate shipping method</p>
+     * <p>7. Place the order</p>
+     * <p>Expected result:</p>
+     * <p>Two new orders are successfully created.</p>
+     *
+     * @dataProvider dataShipment
+     * @depends createSimpleProducts
+     * @depends createVirtualProduct
+     *
+     * @test
+     */
+    public function differentShippingMethodsWithVirtualProduct($shipment, $shippingOrigin,
+            $simpleProductNames, $virtualProductName)
+    {
+        //Data
+        $shippingMethod = $this->loadData('multiple_front_shipping_' . $shipment);
+        $checkoutData = $this->loadData('multiple_shipping_methods_register',
+                array('shipping_method' => $shippingMethod,
+                            'address_2' => '%noValue%', 'address_to_add_2' => '%noValue%'));
+        $checkoutData['products_to_add']['product_1']['general_name'] = $simpleProductNames[0];
+        $checkoutData['products_to_add']['product_2']['general_name'] = $virtualProductName;
+        $checkoutData['shipping_address_data']['address_1']['general_name'] = $simpleProductNames[0];
+        //Setup
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('shipping_settings_' . strtolower($shippingOrigin));
+        $this->systemConfigurationHelper()->configure('shipping_disable');
+        $this->systemConfigurationHelper()->configure($shipment . '_enable');
+        //Steps and Verify
+        $orderNumbers = $this->checkoutMultipleAddressesHelper()->frontCreateMultipleCheckout($checkoutData);
+        $this->assertTrue(count($orderNumbers) == 2, $this->getMessagesOnPage());
     }
 
     public function dataShipment()
     {
         return array(
-            array('flatrate'),
-            array('free'),
-            array('ups'),
-            array('upsxml'),
-            array('usps'),
-            array('fedex'),
-//@TODO            array('dhl')
+            array('flatrate', 'usa'),
+            array('free', 'usa'),
+            array('ups', 'usa'),
+            array('upsxml', 'usa'),
+            array('usps', 'usa'),
+            array('fedex', 'usa'),
+            array('dhl_int', 'france'),
+            array('dhl_usa', 'usa'),
         );
     }
-
-    /**
-     * @dataProvider dataShipment
-     * @depends createSimpleProduct
-     * @depends createVirtualProduct
-     * @test
-     */
-    public function differentShippingMethodsWithVirtualProduct($shipping, $simpleProduct, $virtualProduct)
-    {
-        //Open the simple product
-        //Add to cart
-        //Open the virtual product
-        //Add to cart
-        //Checkout with multiple addresses
-        //
-        //Register as a new customer
-        //Fill all required fields. Submit
-        //Add a new shipping address
-        //
-            //Verify that shipping address is not available for virtual product
-        //Set shipping address for simple product
-        //Select shipping method
-            //Verify that virtual product is under 'Other Items in Your Order' section
-        //Select 'Check / Money order' payment method
-            //Verify shipping addresses for both products
-            //Verify shipping methods for both products
-            //Verify products quantity
-        //Place order
-            //Verify that Order Success page is displayed
-            //Verify that 2 order links are displayed
-    }
-
-    protected function tearDown()
-    {
-        $this->loginAdminUser();
-        $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('shipping_disable');
-    }
-
 }
