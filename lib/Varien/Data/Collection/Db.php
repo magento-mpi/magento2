@@ -373,15 +373,39 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
      * Add field filter to collection
      *
      * @see self::_getConditionSql for $condition
-     * @param string $field
+     * @param string|array $field
      * @param null|string|array $condition
      * @return Mage_Eav_Model_Entity_Collection_Abstract
      */
     public function addFieldToFilter($field, $condition=null)
     {
-        $field = $this->_getMappedField($field);
-        $this->_select->where($this->_getConditionSql($field, $condition), null, Varien_Db_Select::TYPE_CONDITION);
+        $resultCondition = '';
+        if (!is_array($field)) {
+            $resultCondition = $this->_translateCondition($field, $condition);
+        } else {
+            $conditions = array();
+            foreach ($field as $key => $currField) {
+                $conditions[] = $this->_translateCondition(
+                    $currField,
+                    isset($condition[$key]) ? $condition[$key] : null
+                );
+            }
+            $resultCondition = '(' . join(') or (', $conditions) . ')';
+        }
+        $this->_select->where($resultCondition);
         return $this;
+    }
+
+    /**
+     * Build sql where condition part
+     *
+     * @param $field
+     * @param $condition
+     */
+    protected function _translateCondition($field, $condition)
+    {
+        $field = $this->_getMappedField($field);
+        return $this->_getConditionSql($field, $condition);
     }
 
     /**
