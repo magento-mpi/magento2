@@ -155,9 +155,13 @@ class CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
             foreach ($shipping as $value) {
                 if (isset($value['general_name'])) {
                     $this->addParameter('productName', $value['general_name']);
-                    $this->frontFillAddress($value['shipping_address'], 'exist');
+                    if (isset($value['shipping_address'])) {
+                        $this->frontFillAddress($value['shipping_address'], 'exist');
+                    }
                 } else {
-                    $this->frontFillAddress($value['shipping_address'], 'new');
+                    if (isset($value['shipping_address'])) {
+                        $this->frontFillAddress($value['shipping_address'], 'new');
+                    }
                 }
                 if (isset($value['qty'])) {
                     $this->fillForm(array('qty' => $value['qty']));
