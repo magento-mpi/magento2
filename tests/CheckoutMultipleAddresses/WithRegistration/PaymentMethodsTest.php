@@ -39,8 +39,6 @@ class CheckoutMultipleAddresses_WithRegistration_PaymentMethodsTest extends Mage
 
     protected static $useTearDown = false;
 
-    protected function assertPreConditions() {}
-
     /**
      * <p>Creating Simple product</p>
      *

@@ -39,8 +39,6 @@ class CheckoutMultipleAddresses_Existing_PaymentMethodsTest extends Mage_Seleniu
 
     protected static $useTearDown = false;
 
-    protected function assertPreConditions() {}
-
     /**
      * <p>Creating Simple product</p>
      *
@@ -68,10 +66,13 @@ class CheckoutMultipleAddresses_Existing_PaymentMethodsTest extends Mage_Seleniu
      */
     public function preconditionsCreateCustomer()
     {
+        //Data
         $userData = $this->loadData('customer_account_register');
+        //Steps
         $this->logoutCustomer();
         $this->frontend('customer_login');
         $this->customerHelper()->registerCustomer($userData);
+        //Verification
         $this->assertMessagePresent('success', 'success_registration');
         return array('email' => $userData['email'], 'password' => $userData['password']);
     }
