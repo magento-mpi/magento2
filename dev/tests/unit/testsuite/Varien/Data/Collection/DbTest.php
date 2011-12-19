@@ -91,7 +91,7 @@ class Varien_Data_Collection_DbTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @group vasia
+     * Test that adding field to filter builds proper sql WHERE condition
      */
     public function testAddFieldToFilter()
     {
@@ -115,7 +115,8 @@ class Varien_Data_Collection_DbTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     *
+     * Test that adding multiple fields to filter at once
+     * builds proper sql WHERE condition and created conditions are joined with OR
      */
     public function testAddFieldToFilterWithMultipleParams()
     {
@@ -147,7 +148,7 @@ class Varien_Data_Collection_DbTest extends PHPUnit_Framework_TestCase
         );
 
         $this->assertEquals(
-            "SELECT `test`.* FROM `test` WHERE ((weight in (1, 3)) or (name like 'M%'))",
+            "SELECT `test`.* FROM `test` WHERE ((weight in (1, 3)) OR (name like 'M%'))",
             $select->assemble()
         );
 
@@ -161,7 +162,7 @@ class Varien_Data_Collection_DbTest extends PHPUnit_Framework_TestCase
 
         $this->_collection->addFieldToFilter('is_imported', array('eq' => '1'));
         $this->assertEquals(
-            "SELECT `test`.* FROM `test` WHERE ((weight in (1, 3)) or (name like 'M%')) AND (is_imported = 1)",
+            "SELECT `test`.* FROM `test` WHERE ((weight in (1, 3)) OR (name like 'M%')) AND (is_imported = 1)",
             $select->assemble()
         );
     }
