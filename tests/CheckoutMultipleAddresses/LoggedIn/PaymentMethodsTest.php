@@ -113,11 +113,10 @@ class CheckoutMultipleAddresses_LoggedIn_PaymentMethodsTest extends Mage_Seleniu
     {
         //Data
         $paymentData = $this->loadData('front_payment_' . $payment);
-        $checkoutData = $this->loadData('multiple_exist_flatrate_payment',
+        $checkoutData = $this->loadData('multiple_payment_methods_loggedin',
                                         array ('payment_data' => $paymentData,
                                               'products_to_add/product_1' => $productData));
         $checkoutData['shipping_address_data']['address_to_ship_1']['general_name'] = $productData['general_name'];
-        unset($checkoutData['checkout_as_customer']);
         if ($payment != 'checkmoney') {
             $payment .= '_without_3Dsecure';
         }
@@ -180,11 +179,10 @@ class CheckoutMultipleAddresses_LoggedIn_PaymentMethodsTest extends Mage_Seleniu
         }
                 //Data
         $paymentData = $this->loadData('front_payment_' . $payment);
-        $checkoutData = $this->loadData('multiple_exist_flatrate_payment',
+        $checkoutData = $this->loadData('multiple_payment_methods_loggedin',
                                         array ('payment_data' => $paymentData,
                                               'products_to_add/product_1' => $productData));
         $checkoutData['shipping_address_data']['address_to_ship_1']['general_name'] = $productData['general_name'];
-        unset($checkoutData['checkout_as_customer']);
         //Steps
         $this->loginAdminUser();
         $this->systemConfigurationHelper()->useHttps('frontend', 'yes');

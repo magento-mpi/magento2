@@ -68,16 +68,12 @@ class CheckoutMultipleAddresses_Existing_PaymentMethodsTest extends Mage_Seleniu
      */
     public function preconditionsCreateCustomer()
     {
-        //Data
-        $userData = $this->loadData('generic_customer_account', NULL, 'email');
-        $addressData = $this->loadData('all_fields_address');
-        //Steps
-        $this->loginAdminUser();
-        $this->navigate('manage_customers');
-        $this->customerHelper()->createCustomer($userData, $addressData);
-        //Verifying
-        $this->assertMessagePresent('success', 'success_saved_customer');
-        return $userData;
+        $userData = $this->loadData('customer_account_register');
+        $this->logoutCustomer();
+        $this->frontend('customer_login');
+        $this->customerHelper()->registerCustomer($userData);
+        $this->assertMessagePresent('success', 'success_registration');
+        return array('email' => $userData['email'], 'password' => $userData['password']);
     }
 
 
@@ -113,7 +109,7 @@ class CheckoutMultipleAddresses_Existing_PaymentMethodsTest extends Mage_Seleniu
     {
         //Data
         $paymentData = $this->loadData('front_payment_' . $payment);
-        $checkoutData = $this->loadData('multiple_exist_flatrate_payment',
+        $checkoutData = $this->loadData('multiple_payment_methods_existing',
                                         array ('payment_data' => $paymentData,
                                               'products_to_add/product_1' => $productData,
                                               'checkout_as_customer/additional_data' => $userData));
@@ -179,7 +175,7 @@ class CheckoutMultipleAddresses_Existing_PaymentMethodsTest extends Mage_Seleniu
         }
         //Data
         $paymentData = $this->loadData('front_payment_' . $payment);
-        $checkoutData = $this->loadData('multiple_exist_flatrate_payment',
+        $checkoutData = $this->loadData('multiple_payment_methods_existing',
                                         array ('payment_data' => $paymentData,
                                               'products_to_add/product_1' => $productData,
                                               'checkout_as_customer/additional_data' => $userData));

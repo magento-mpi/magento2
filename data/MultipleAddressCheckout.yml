@@ -210,26 +210,6 @@ multiple_with_register_flatrate_checkmoney:
     shipping_data: *flatRate
     payment_data: *checkMoney
 
-multiple_with_register_flatrate_payment:
-    products_to_add:
-        product_1:
-            general_name: %noValue%
-    checkout_as_customer: *register
-    general_shipping_address: *generalAccountInfo
-    billing_address_data: %noValue%
-    shipping_address_data:
-        address_to_add_1:
-            shipping_address: *newShippingSignedInReq
-        address_to_ship_1:
-            general_name: %noValue%
-            qty: 1
-            shipping_address: *newShippingSignedInReq
-    shipping_data:
-        address_1:
-            search_shipping_address: *newShippingSignedInReq
-            shipping_method: *flatRate
-    payment_data: %noValue%
-
 ################################################################################
 #                                                                              #
 #                           Order Data for Exist Customer                      #
@@ -245,26 +225,6 @@ multiple_exist_flatrate_checkmoney:
     shipping_address_data: *newShippingSignedInReq
     shipping_data: *flatRate
     payment_data: *checkMoney
-
-
-multiple_exist_flatrate_payment:
-    products_to_add:
-        product_1:
-            general_name: %noValue%
-    checkout_as_customer: *login
-    billing_address_data: %noValue%
-    shipping_address_data:
-        address_to_add_1:
-            shipping_address: *newShippingSignedInReq
-        address_to_ship_1:
-            general_name: %noValue%
-            qty: 1
-            shipping_address: *newShippingSignedInReq
-    shipping_data:
-        address_1:
-            search_shipping_address: *newShippingSignedInReq
-            shipping_method: *flatRate
-    payment_data: %noValue%
 
 multiple_test_data:
     products_to_add:
@@ -371,5 +331,49 @@ multiple_shipping_methods_loggedin:
 
 multiple_shipping_methods_register:
     <<: *multipleShippingCommon
+    general_account_info: *generalAccountInfo
+    checkout_as_customer: *register
+
+################################################################################
+#                                                                              #
+#                     Order Data for PaymentMethodsTests                      #
+#                                                                              #
+################################################################################
+
+#Auxiliary dataset
+multiple_payment_methods_common: &multiplePaymentCommon
+    products_to_add:
+        product_1:
+            general_name: %noValue%
+    billing_address_data: %noValue%
+    shipping_address_data:
+        address_to_add_1:
+            shipping_address: *newShippingSignedInReq
+        address_to_ship_1:
+            general_name: %noValue%
+            qty: 1
+            shipping_address: *newShippingSignedInReq
+    shipping_data:
+        address_1:
+            search_shipping_address: *newShippingSignedInReq
+            shipping_method: *flatRate
+    payment_data: %noValue%
+
+multiple_payment_methods_existing:
+    <<: *multiplePaymentCommon
+    general_shipping_address: *generalShippingAddress
+    checkout_as_customer: *login
+
+multiple_payment_methods_loggedin:
+    <<: *multiplePaymentCommon
+    general_shipping_address: *generalShippingAddress
+    checkout_as_customer:
+        checkout_method: %noValue%
+        additional_data:
+            email_address: %noValue%
+            password: %noValue%
+
+multiple_payment_methods_register:
+    <<: *multiplePaymentCommon
     general_account_info: *generalAccountInfo
     checkout_as_customer: *register

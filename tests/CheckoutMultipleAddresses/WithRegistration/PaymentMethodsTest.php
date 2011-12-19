@@ -90,7 +90,7 @@ class CheckoutMultipleAddresses_WithRegistration_PaymentMethodsTest extends Mage
     {
         //Data
         $paymentData = $this->loadData('front_payment_' . $payment);
-        $checkoutData = $this->loadData('multiple_with_register_flatrate_payment',
+        $checkoutData = $this->loadData('multiple_payment_methods_register',
                                         array ('payment_data' => $paymentData,
                                               'products_to_add/product_1' => $productData));
         $checkoutData['shipping_address_data']['address_to_ship_1']['general_name'] = $productData['general_name'];
@@ -153,7 +153,7 @@ class CheckoutMultipleAddresses_WithRegistration_PaymentMethodsTest extends Mage
         }
         //Data
         $paymentData = $this->loadData('front_payment_' . $payment);
-        $checkoutData = $this->loadData('multiple_with_register_flatrate_payment',
+        $checkoutData = $this->loadData('multiple_payment_methods_register',
                                         array ('payment_data' => $paymentData,
                                               'products_to_add/product_1' => $productData));
         $checkoutData['shipping_address_data']['address_to_ship_1']['general_name'] = $productData['general_name'];
