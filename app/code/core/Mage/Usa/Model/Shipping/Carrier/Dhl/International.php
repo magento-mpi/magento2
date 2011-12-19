@@ -579,10 +579,10 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
             $itemWeight = $item->getIsQtyDecimal() ? $item->getWeight() * $item->getQty() : $item->getWeight();
 
             if ($this->_getWeight($itemWeight) > $this->_getWeight($this->_maxWeight, true)) {
-                return false;
+                return array();
             }
 
-            if (is_float($qty)) {
+            if (!$item->getParentItem() && $item->getIsQtyDecimal()) {
                 $qty = 1;
             }
             $fullItems = array_merge($fullItems, array_fill(0, $qty, $itemWeight));
