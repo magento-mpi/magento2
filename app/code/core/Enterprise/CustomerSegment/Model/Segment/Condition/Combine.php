@@ -148,6 +148,9 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Combine
     {
         $conditionResult = $conditionsList;
         foreach ($conditionResult as $key => $condition) {
+            if ($key == 0 && isset($condition['value']) && $condition['value'] == '') {
+                continue;
+            }
             if (array_key_exists('available_in_guest_mode', $condition) && $condition['available_in_guest_mode']) {
                 if (is_array($conditionResult[$key]['value'])) {
                     $conditionResult[$key]['value'] = $this->_removeUnnecessaryConditions($condition['value']);
