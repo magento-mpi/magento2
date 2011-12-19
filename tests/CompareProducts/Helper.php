@@ -37,7 +37,7 @@
 class CompareProducts_Helper extends Mage_Selenium_TestCase
 {
 
-    protected $popupId = null;
+    protected $_popupId = null;
 
     /**
      * Add product from Catalog page
@@ -270,9 +270,9 @@ class CompareProducts_Helper extends Mage_Selenium_TestCase
     {
         $this->clickButton('compare', false);
         $names = $this->getAllWindowNames();
-        $this->popupId = end($names);
-        $this->waitForPopUp($this->popupId, $this->_browserTimeoutPeriod);
-        $this->selectWindow("name=" . $this->popupId);
+        $this->_popupId = end($names);
+        $this->waitForPopUp($this->_popupId, $this->_browserTimeoutPeriod);
+        $this->selectWindow("name=" . $this->_popupId);
         $this->validatePage('compare_products');
     }
 
@@ -283,12 +283,12 @@ class CompareProducts_Helper extends Mage_Selenium_TestCase
      */
     public function frontCloseComparePopup()
     {
-        if ($this->popupId) {
-            $this->selectWindow("name=" . $this->popupId);
+        if ($this->_popupId) {
+            $this->selectWindow("name=" . $this->_popupId);
             $this->clickButton('close_window', false);
             //select parent window
             $this->selectWindow(null);
-            $this->popupId = null;
+            $this->_popupId = null;
         }
     }
 

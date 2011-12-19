@@ -40,7 +40,7 @@ class Tax_TaxRule_CreateTest extends Mage_Selenium_TestCase
     /**
      * <p>Save rule name for clean up</p>
      */
-    protected $ruleToBeDeleted = null;
+    protected $_ruleToBeDeleted = null;
 
     /**
      * <p>Login to backend</p>
@@ -123,7 +123,7 @@ class Tax_TaxRule_CreateTest extends Mage_Selenium_TestCase
     {
         //Data
         $searchTaxRuleData = $this->loadData('search_tax_rule', array('filter_name' => $taxRuleData['name']));
-        $this->ruleToBeDeleted = $searchTaxRuleData;
+        $this->_ruleToBeDeleted = $searchTaxRuleData;
         //Steps
         $this->taxHelper()->createTaxItem($taxRuleData);
         //Verifying
@@ -197,7 +197,7 @@ class Tax_TaxRule_CreateTest extends Mage_Selenium_TestCase
         $this->taxHelper()->createTaxItem($taxRuleData);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_tax_rule');
-        $this->ruleToBeDeleted = $searchTaxRuleData;
+        $this->_ruleToBeDeleted = $searchTaxRuleData;
         $this->taxHelper()->openTaxItem($searchTaxRuleData, 'tax_rules');
         $this->assertTrue($this->verifyForm($taxRuleData), $this->getParsedMessages());
     }
@@ -280,10 +280,10 @@ class Tax_TaxRule_CreateTest extends Mage_Selenium_TestCase
     protected function tearDown()
     {
         //Remove Tax rule after test
-        if (!is_null($this->ruleToBeDeleted)) {
+        if (!is_null($this->_ruleToBeDeleted)) {
             $this->navigate('manage_tax_rule');
-            $this->taxHelper()->deleteTaxItem($this->ruleToBeDeleted, 'tax_rules');
-            $this->ruleToBeDeleted = null;
+            $this->taxHelper()->deleteTaxItem($this->_ruleToBeDeleted, 'tax_rules');
+            $this->_ruleToBeDeleted = null;
         }
     }
 

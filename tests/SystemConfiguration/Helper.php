@@ -54,7 +54,7 @@ class SystemConfiguration_Helper extends Mage_Selenium_TestCase
             $toSelect = $xpath . '//option[normalize-space(text())="' . $chooseScope . '"]';
             $isSelected = $toSelect . '[@selected]';
             if (!$this->isElementPresent($isSelected)) {
-                $this->defineParameters($toSelect, 'url');
+                $this->_defineParameters($toSelect, 'url');
                 $this->fillForm(array('current_configuration_scope' => $chooseScope));
                 $this->waitForPageToLoad($this->_browserTimeoutPeriod);
                 $this->validatePage();
@@ -66,7 +66,7 @@ class SystemConfiguration_Helper extends Mage_Selenium_TestCase
                 $settings = (isset($value['configuration'])) ? $value['configuration'] : NULL;
                 if ($tab) {
                     $xpath = $this->_getControlXpath('tab', $tab);
-                    $this->defineParameters($xpath, 'href');
+                    $this->_defineParameters($xpath, 'href');
                     $this->clickAndWait($xpath);
                     $this->fillForm($settings, $tab);
                     $this->saveForm('save_config');
@@ -82,7 +82,7 @@ class SystemConfiguration_Helper extends Mage_Selenium_TestCase
      * @param string $xpath
      * @param type $attribute
      */
-    private function defineParameters($xpath, $attribute)
+    private function _defineParameters($xpath, $attribute)
     {
         $params = $this->getAttribute($xpath . '/@' . $attribute);
         $params = explode('/', $params);

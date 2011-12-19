@@ -37,7 +37,7 @@
 class CompareProducts_CompareProductsTest extends Mage_Selenium_TestCase
 {
 
-    protected $useTearDown = false;
+    protected $_useTearDown = false;
 
     /**
      *
@@ -54,7 +54,7 @@ class CompareProducts_CompareProductsTest extends Mage_Selenium_TestCase
      */
     protected function assertPreConditions()
     {
-        $this->useTearDown = true;
+        $this->_useTearDown = true;
         $this->addParameter('id', '0');
     }
 
@@ -63,7 +63,7 @@ class CompareProducts_CompareProductsTest extends Mage_Selenium_TestCase
      */
     public function preconditionsForTests()
     {
-        $this->useTearDown = false;
+        $this->_useTearDown = false;
         //Data
         $category = $this->loadData('sub_category_required');
         $path = $category['parent_category'] . '/' . $category['name'];
@@ -218,7 +218,7 @@ class CompareProducts_CompareProductsTest extends Mage_Selenium_TestCase
     public function tearDown()
     {
         $this->compareProductsHelper()->frontCloseComparePopup();
-        if ($this->useTearDown) {
+        if ($this->_useTearDown) {
             $this->frontend();
             $this->compareProductsHelper()->frontClearAll();
         }

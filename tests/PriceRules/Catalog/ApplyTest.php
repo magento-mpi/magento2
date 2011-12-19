@@ -37,7 +37,7 @@
 class PriceRules_Catalog_ApplyTest extends Mage_Selenium_TestCase
 {
 
-    protected $ruleToBeDeleted = array();
+    protected $_ruleToBeDeleted = array();
 
     public function setUpBeforeTests()
     {
@@ -136,7 +136,7 @@ class PriceRules_Catalog_ApplyTest extends Mage_Selenium_TestCase
         $this->priceRulesHelper()->createRule($priceRuleData);
         //Verification
         $this->assertMessagePresent('success', 'success_saved_rule');
-        $this->ruleToBeDeleted = $this->loadData('search_catalog_rule',
+        $this->_ruleToBeDeleted = $this->loadData('search_catalog_rule',
                 array('filter_rule_name' => $priceRuleData['info']['rule_name']));
         //Steps
         $this->clickButton('apply_rules', false);
@@ -165,11 +165,11 @@ class PriceRules_Catalog_ApplyTest extends Mage_Selenium_TestCase
 
     protected function tearDown()
     {
-        if ($this->ruleToBeDeleted) {
+        if ($this->_ruleToBeDeleted) {
             $this->loginAdminUser();
             $this->navigate('manage_catalog_price_rules');
-            $this->priceRulesHelper()->deleteRule($this->ruleToBeDeleted);
-            $this->ruleToBeDeleted = array();
+            $this->priceRulesHelper()->deleteRule($this->_ruleToBeDeleted);
+            $this->_ruleToBeDeleted = array();
         }
     }
 

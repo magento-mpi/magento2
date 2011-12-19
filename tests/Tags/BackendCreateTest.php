@@ -36,7 +36,7 @@
 class Tags_BackendCreateTest extends Mage_Selenium_TestCase
 {
 
-    protected $tagToBeDeleted = array();
+    protected $_tagToBeDeleted = array();
     /**
      * <p>Log in to Backend.</p>
      */
@@ -91,7 +91,7 @@ class Tags_BackendCreateTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->checkCurrentPage('all_tags'), $this->getParsedMessages());
         $this->assertMessagePresent('success', 'success_saved_tag');
         //Cleanup
-        $this->tagToBeDeleted = array('tag_name' => $setData['tag_name']);
+        $this->_tagToBeDeleted = array('tag_name' => $setData['tag_name']);
     }
 
     /**
@@ -145,7 +145,7 @@ class Tags_BackendCreateTest extends Mage_Selenium_TestCase
         $this->tagsHelper()->openTag($tagToOpen);
         $this->verifyForm($setData);
         //Cleanup
-        $this->tagToBeDeleted = $tagToOpen;
+        $this->_tagToBeDeleted = $tagToOpen;
     }
 
     public function dataSpecialValues()
@@ -193,15 +193,15 @@ class Tags_BackendCreateTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->tagsHelper()->verifyTagProduct($tagSearchData, $productSearchData),
                 $this->getParsedMessages());
         //Cleanup
-        $this->tagToBeDeleted = array('tag_name' => $setData['tag_name']);
+        $this->_tagToBeDeleted = array('tag_name' => $setData['tag_name']);
     }
 
     protected function tearDown()
     {
-        if (!empty($this->tagToBeDeleted)) {
+        if (!empty($this->_tagToBeDeleted)) {
             $this->navigate('all_tags');
-            $this->tagsHelper()->deleteTag($this->tagToBeDeleted);
-            $this->tagToBeDeleted = array();
+            $this->tagsHelper()->deleteTag($this->_tagToBeDeleted);
+            $this->_tagToBeDeleted = array();
         }
     }
 
