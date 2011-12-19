@@ -552,25 +552,42 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
     /**
      * Prepare items to pieces
      *
-     * @return array|bool
+     * @return array
      */
     protected function _getAllItems()
     {
         $allItems   = $this->_request->getAllItems();
         $fullItems  = array();
         foreach ($allItems as $item) {
-            if ($this->_getWeight($item->getWeight()) > $this->_getWeight($this->_maxWeight, true)) {
+            if ($item->getProductType() == Mage_Catalog_Model_Product_Type::TYPE_BUNDLE
+                && $item->getProduct()->getShipmentType()
+            ) {
+                continue;
+            }
+
+            $qty = $item->getQty();
+
+            if ($item->getParentItem()) {
+                if (!$item->getParentItem()->getProduct()->getShipmentType()) {
+                    continue;
+                }
+                $qty = $item->getIsQtyDecimal()
+                    ? $item->getParentItem()->getQty()
+                    : $item->getParentItem()->getQty() * $item->getQty();
+            }
+
+            $itemWeight = $item->getIsQtyDecimal() ? $item->getWeight() * $item->getQty() : $item->getWeight();
+
+            if ($this->_getWeight($itemWeight) > $this->_getWeight($this->_maxWeight, true)) {
                 return false;
             }
-            if ($item->getQty() > 1 && !$item->getIsQtyDecimal()) {
-                for ($i = 1; $i <= $item->getQty(); $i++) {
-                    $fullItems[] = $this->_getWeight($item->getWeight());
-                }
-            } else {
-                $fullItems[] = $this->_getWeight($item->getWeight());
+
+            if (is_float($qty)) {
+                $qty = 1;
             }
-            sort($fullItems);
+            $fullItems = array_merge($fullItems, array_fill(0, $qty, $itemWeight));
         }
+        sort($fullItems);
 
         return $fullItems;
     }
@@ -587,7 +604,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
         $nodePieces = $nodeBkgDetails->addChild('Pieces', '', '');
         $items = $this->_getAllItems();
 
-        if ($divideOrderWeight && $items) {
+        if ($divideOrderWeight && !empty($items)) {
             $maxWeight = $this->_getWeight($this->_maxWeight, true);
             $sumWeight = 0;
             $numberOfPieces = 0;
