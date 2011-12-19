@@ -1591,7 +1591,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         $xpathTR = $this->search($data, $fieldSetName);
         if ($xpathTR) {
-            $xpathTR .="//input[contains(@class,'checkbox') or contains(@class,'radio')][not(@disabled)]";
+            $xpathTR .= "//input[contains(@class,'checkbox') or contains(@class,'radio')][not(@disabled)]";
             if ($this->getValue($xpathTR) == 'off') {
                 $this->click($xpathTR);
             }
@@ -1624,49 +1624,53 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     }
 
     /**
-     * Define parameter %Id% from XPath Title
+     * Define parameter %id% from XPath Title
      *
      * @param string $xpathTR XPath of control with 'title' attribute to retrieve an ID
      *
-     * @return integer
+     * @return integer|null
      */
     public function defineIdFromTitle($xpathTR)
     {
-        // ID definition
-        $itemId = 0;
         $title = $this->getValue($xpathTR . '/@title');
         if (is_numeric($title)) {
-            $itemId = $title;
-        } else {
-            $titleArr = explode('/', $title);
-            foreach ($titleArr as $key => $value) {
-                if (preg_match('/id$/', $value) and isset($titleArr[$key + 1])) {
-                    $itemId = $titleArr[$key + 1];
-                    break;
-                }
-            }
+            return $title;
         }
-        return $itemId;
+
+        return $this->defineIdFromUrl($title);
     }
 
     /**
-     * Define parameter %Id% from URL
+     * Define parameter %id% from URL
      *
-     * @return integer
+     * @param string|null $url
+     * @return integer|null
      */
-    public function defineIdFromUrl()
+    public function defineIdFromUrl($url = null)
     {
-        // ID definition
-        $itemId = 0;
-        $titleArr = explode('/', $this->getLocation());
-        $titleArr = array_reverse($titleArr);
-        foreach ($titleArr as $key => $value) {
-            if (preg_match('/id$/', $value) && isset($titleArr[$key - 1])) {
-                $itemId = $titleArr[$key - 1];
-                break;
+        return $this->defineParameterFromUrl('id', $url);
+    }
+
+    /**
+     * Define parameter %$paramName% from URL
+     *
+     * @param string $paramName
+     *
+     * @return integer|null
+     */
+    public function defineParameterFromUrl($paramName, $url = null)
+    {
+        if (!$url) {
+            $url = $this->getLocation();
+        }
+        $title_arr = explode('/', $url);
+        $title_arr = array_reverse($title_arr);
+        foreach ($title_arr as $key => $value) {
+            if (preg_match("/$paramName$/", $value) && isset($title_arr[$key - 1])) {
+                return $title_arr[$key - 1];
             }
         }
-        return $itemId;
+        return NULL;
     }
 
     /**
@@ -1859,6 +1863,16 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         Mage_Selenium_TestCase::$messages['error']      = $this->getElementsByXpath(self::$xpathErrorMessage);
         Mage_Selenium_TestCase::$messages['validation'] = $this->getElementsByXpath(self::$xpathValidationMessage,
                 'text', self::$xpathFieldNameWithValidationMessage);
+    }
+
+    /**
+     * Assert $this->verificationErrors is empty
+     */
+    public function assertEmptyVerificationErrors()
+    {
+        if (!empty($this->verificationErrors)) {
+            $this->fail(implode("\n", $this->verificationErrors));
+        }
     }
 
     /**
