@@ -100,7 +100,6 @@ class Category_Create_RootCategoryTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Tests are failed due to MAGE-4385.</p>
      * <p>Creating Root Category with required fields empty</p>
      * <p>Steps</p>
      * <p>1. Click "Add Root Category" button </p>

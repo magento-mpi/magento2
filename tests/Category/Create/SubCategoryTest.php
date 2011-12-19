@@ -104,7 +104,6 @@ class Category_Create_SubCategoryTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Tests are failed due to MAGE-4385.</p>
      * <p>Creating Subcategory with required fields empty</p>
      * <p>Steps</p>
      * <p>1. Click "Add Subcategory" button </p>
@@ -138,7 +137,6 @@ class Category_Create_SubCategoryTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Tests are failed due to MAGE-4385.</p>
      * <p>Creating Subcategory with special characters</p>
      * <p>Steps</p>
      * <p>1. Click "Add Subcategory" button </p>
@@ -163,7 +161,6 @@ class Category_Create_SubCategoryTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Tests are failed due to MAGE-4385.</p>
      * <p>Creating Subcategory with long values in required fields</p>
      * <p>Steps</p>
      * <p>1. Click "Add Subcategory" button </p>
@@ -188,7 +185,6 @@ class Category_Create_SubCategoryTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Tests are failed due to MAGE-4385.</p>
      * <p>Creating nested Subcategory with required fields</p>
      * <p>Steps</p>
      * <p>1. Click "Add Subcategory" button </p>

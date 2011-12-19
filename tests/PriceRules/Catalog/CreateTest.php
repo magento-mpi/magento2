@@ -88,7 +88,6 @@ class PriceRules_Catalog_CreateTest extends Mage_Selenium_TestCase
      * <p>3. Click "Save Rule" button</p>
      *
      * <p>Expected result: Validation message appears</p>
-     * <p>https://jira.magento.com/browse/MAGE-4870</p>
      *
      * @dataProvider dataEmptyField
      * @test
