@@ -44,114 +44,67 @@ class Review_FrontendCreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Preconditions</p>
-     * <p>Create Customer for tests</p>
-     *
      * @test
      */
-    public function createCustomer()
+    public function preconditionsForTests()
     {
-        $userData = $this->loadData('customer_account_for_prices_validation', NULL, 'email');
+        //Data
+        $userData = $this->loadData('generic_customer_account');
+        $simple = $this->loadData('simple_product_visible');
+        //Steps
         $this->loginAdminUser();
         $this->navigate('manage_customers');
         $this->customerHelper()->createCustomer($userData);
+        //Verification
         $this->assertMessagePresent('success', 'success_saved_customer');
-
-        return array('email' => $userData['email'], 'password' => $userData['password']);
-    }
-
-    /**
-     * <p>Preconditions</p>
-     * <p>Create Simple Products for tests</p>
-     *
-     * @test
-     */
-    public function createProduct()
-    {
+        //Steps
         $this->navigate('manage_products');
-        $simpleProductData = $this->loadData('simple_product_visible', NULL, array('general_name', 'general_sku'));
-        $this->productHelper()->createProduct($simpleProductData);
+        $this->productHelper()->createProduct($simple);
+        //Verification
         $this->assertMessagePresent('success', 'success_saved_product');
 
-        return $simpleProductData;
-    }
-
-    /**
-     * <p>Review creating with Logged Customer with empty fields</p>
-     *
-     * <p>1. Login to Frontend</p>
-     * <p>2. Open created product</p>
-     * <p>3. Add Information to the Review of the product, but with one empty field (via data provider)</p>
-     * <p>Expected result:</p>
-     * <p>Review is not created. Empty Required Field message appears.</p>
-     *
-     * @dataProvider emptyFields
-     * @depends createCustomer
-     * @depends createProduct
-     *
-     * @test
-     */
-    public function frontendReviewEmptyFields($emptyFieldName, $emptyFieldType, $customer, $product)
-    {
-        $reviewData = $this->loadData('frontend_review', array($emptyFieldName => ''));
-        $performLogin = array('email' => $customer['email'], 'password' => $customer['password']);
-        $this->logoutCustomer();
-        $this->clickControl('link', 'log_in');
-        $this->fillForm($performLogin);
-        $this->clickButton('login');
-        $this->productHelper()->frontOpenProduct($product['general_name']);
-        $this->reviewHelper()->frontendAddReview($reviewData);
-        $this->addFieldIdToMessage($emptyFieldType, $emptyFieldName);
-        $this->assertMessagePresent('validation', 'empty_required_field');
-        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
-    }
-
-    public function emptyFields()
-    {
         return array(
-            array('nickname', 'field'),
-            array('summary_of_your_review', 'field'),
-            array('review', 'field')
-        );
+            'login' => array('email' => $userData['email'], 'password' => $userData['password']),
+            'product_name' => $simple['general_name']);
     }
 
     /**
-     * <p>Review creating with Logged Customer with special characters in fields</p>
+     * <p>Adding Review to product with Not Logged Customer<p>
      *
-     * <p>1. Login to Frontend</p>
+     * <p>1. Goto Frontend</p>
      * <p>2. Open created product</p>
-     * <p>3. Add Information to the Review of the product, but empty fields</p>
+     * <p>3. Add Review to product</p>
+     * <p>4. Customer is able to create and submit review</p>
      * <p>Expected result:</p>
-     * <p>Review is created. Review can be opened on the backend.</p>
+     * <p>Success message appears - "Your review has been accepted for moderation."</p>
      *
-     * @depends createCustomer
-     * @depends createProduct
+     * <p>Verification:</p>
+     * <p>1. Login to backend;</p>
+     * <p>2. Navigate to Catalog -> Reviews and Ratings -> Customer Reviews -> Pending Reviews;</p>
+     * <p>Expected result:</p>
+     * <p>Review is present into the list and has type - "Guest";</p>
      *
+     * @depends preconditionsForTests
      * @test
      */
-    public function frontendReviewSpecialCharacters($customer, $product)
+    public function addReviewByGuest($data)
     {
-        $reviewData = $this->loadData('frontend_review',
-                array('nickname'               => $this->generate('string', 32, ':punct:'),
-                      'summary_of_your_review' => $this->generate('string', 32, ':punct:'),
-                      'review'                 => $this->generate('string', 32, ':punct:')));
-        $searchData = $this->loadData('search_review',
-                array('filter_nickname'        => $reviewData['nickname'],
-                      'filter_product_sku'     => $product['general_sku'],
-                      'filter_title'           => $reviewData['summary_of_your_review'],
-                      'filter_review'          => $reviewData['review'],
-                      'filter_type'            => 'Customer',
-                      'filter_status'          => 'Pending'));
-        $performLogin = array('email' => $customer['email'], 'password' => $customer['password']);
+        //Data
+        $reviewData = $this->loadData('frontend_review');
+        $searchData = $this->loadData('search_review_guest',
+                array('filter_nickname' => $reviewData['nickname'], 'filter_product_sku' => $data['product_name']));
+        //Steps
         $this->logoutCustomer();
-        $this->clickControl('link', 'log_in');
-        $this->fillForm($performLogin);
-        $this->clickButton('login');
-        $this->productHelper()->frontOpenProduct($product['general_name']);
+        $this->productHelper()->frontOpenProduct($data['product_name']);
         $this->reviewHelper()->frontendAddReview($reviewData);
+        //Verification
         $this->assertMessagePresent('success', 'accepted_review');
+        //Steps
         $this->loginAdminUser();
         $this->navigate('all_reviews');
         $this->reviewHelper()->openReview($searchData);
+        //Verification
+        $this->reviewHelper()->verifyReviewData($reviewData);
     }
 
     /**
@@ -169,118 +122,111 @@ class Review_FrontendCreateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Review is assigned to correct product</p>
      *
-     * @depends createCustomer
-     * @depends createProduct
+     * @depends preconditionsForTests
      *
      * @test
      */
-    public function frontendReviewVerificationLoggedCustomer($customer, $product)
+    public function addReviewByLoggedCustomer($data)
     {
-        $reviewData = $this->loadData('frontend_review', NULL, array('nickname'));
-        $searchData = $this->loadData('search_review',
-                array('filter_nickname'    => $reviewData['nickname'],
-                      'filter_product_sku' => $product['general_sku'],
-                      'filter_type'        => 'Customer',
-                      'filter_status'      => 'Pending'));
-        $editReview = array('status' => 'Approved');
-        $performLogin = array('email' => $customer['email'], 'password' => $customer['password']);
-        $this->logoutCustomer();
-        $this->clickControl('link', 'log_in');
-        $this->fillForm($performLogin);
-        $this->clickButton('login');
-        $this->productHelper()->frontOpenProduct($product['general_name']);
+        //Data
+        $simple = $data['product_name'];
+        $reviewData = $this->loadData('frontend_review');
+        $searchData = $this->loadData('search_review_customer',
+                array('filter_nickname' => $reviewData['nickname'], 'filter_product_sku' => $simple));
+        //Steps
+        $this->customerHelper()->frontLoginCustomer($data['login']);
+        $this->productHelper()->frontOpenProduct($simple);
         $this->reviewHelper()->frontendAddReview($reviewData);
+        //Verification
         $this->assertMessagePresent('success', 'accepted_review');
+        //Steps
         $this->loginAdminUser();
         $this->navigate('all_reviews');
-        $this->reviewHelper()->editReview($editReview, $searchData);
+        $this->reviewHelper()->editReview(array('status' => 'Approved'), $searchData);
+        //Verification
         $this->assertMessagePresent('success', 'success_saved_review');
-        $this->logoutCustomer();
-        $this->clickControl('link', 'log_in');
-        $this->fillForm($performLogin);
-        $this->clickButton('login');
-        $this->productHelper()->frontOpenProduct($product['general_name']);
-        $this->reviewHelper()->frontendReviewVerificationInCategory($reviewData, $product['general_name']);
-        $this->reviewHelper()->frontendReviewVerificationMyAccount($reviewData['review'],
-                $product['general_name'], TRUE);
+        //Steps
+        $this->productHelper()->frontOpenProduct($simple);
+        //Verification
+        $this->reviewHelper()->frontVerifyReviewDisplaying($reviewData, $simple);
+        $this->reviewHelper()->frontVerifyReviewDisplayingInMyAccount($reviewData, $simple);
     }
 
     /**
-     * <p>Review Verification in Category</p>
+     * <p>Review creating empty fields</p>
+     *
+     * <p>1. Open Frontend</p>
+     * <p>2. Open created product</p>
+     * <p>3. Add Information to the Review of the product, but with one empty field (via data provider)</p>
+     * <p>Expected result:</p>
+     * <p>Review is not created. Empty Required Field message appears.</p>
+     *
+     * @dataProvider emptyFields
+     * @depends preconditionsForTests
+     * @test
+     */
+    public function frontendReviewEmptyFields($emptyFieldName, $data)
+    {
+        //Data
+        $reviewData = $this->loadData('frontend_review', array($emptyFieldName => ''));
+        //Steps
+        $this->customerHelper()->logoutCustomer();
+        $this->productHelper()->frontOpenProduct($data['product_name']);
+        $this->reviewHelper()->frontendAddReview($reviewData);
+        //Verification
+        $this->addFieldIdToMessage('field', $emptyFieldName);
+        $this->assertMessagePresent('validation', 'empty_required_field');
+        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
+    }
+
+    public function emptyFields()
+    {
+        return array(
+            array('nickname'),
+            array('summary_of_your_review'),
+            array('review')
+        );
+    }
+
+    /**
+     * <p>Review creating with Logged Customer with special characters in fields</p>
      *
      * <p>1. Login to Frontend</p>
      * <p>2. Open created product</p>
-     * <p>3. Add Review to product</p>
-     * <p>4. Check confirmation message</p>
-     * <p>5. Goto "My Account"</p>
-     * <p>6. Check review displaying in "My Recent Reviews"</p>
-     * <p>7. Goto "My Product Reviews" tab</p>
-     * <p>8. Check review displaying on the page</p>
-     * <p>9. Open current review - page with assigned product opens</p>
+     * <p>3. Add Information to the Review of the product use special(long) values</p>
      * <p>Expected result:</p>
-     * <p>Review is assigned to correct product</p>
+     * <p>Review is created. Review can be opened on the backend.</p>
      *
-     * @depends createProduct
-     *
+     * @dataProvider specialCharactersData
+     * @depends preconditionsForTests
      * @test
      */
-    public function frontendReviewVerificationInCategory($product)
+    public function frontendReviewSpecialCharacters($reviewData, $data)
     {
-        $reviewData = $this->loadData('frontend_review', NULL, array('nickname'));
-        $searchData = $this->loadData('search_review',
-                array('filter_nickname'    => $reviewData['nickname'],
-                      'filter_product_sku' => $product['general_sku'],
-                      'filter_type'        => 'Guest',
-                      'filter_status'      => 'Pending'));
-        $editReview = array('status' => 'Approved');
+        //Data
+        $reviewData = $this->loadData($reviewData);
+        $searchData = $this->loadData('search_review_guest',
+                array('filter_nickname' => $reviewData['nickname'], 'filter_product_sku' => $data['product_name']));
+        //Steps
         $this->logoutCustomer();
-        $this->productHelper()->frontOpenProduct($product['general_name']);
+        $this->productHelper()->frontOpenProduct($data['product_name']);
         $this->reviewHelper()->frontendAddReview($reviewData);
+        //Verification
         $this->assertMessagePresent('success', 'accepted_review');
-        $this->loginAdminUser();
-        $this->navigate('all_reviews');
-        $this->reviewHelper()->editReview($editReview, $searchData);
-        $this->assertMessagePresent('success', 'success_saved_review');
-        $this->logoutCustomer();
-        $this->productHelper()->frontOpenProduct($product['general_name']);
-        $this->reviewHelper()->frontendReviewVerificationInCategory($reviewData, $product['general_name']);
-    }
-
-    /**
-     * Review creating with Not Logged Customer
-     *
-     * <p>1. Goto Frontend</p>
-     * <p>2. Open created product</p>
-     * <p>3. Add Review to product</p>
-     * <p>4. Customer is able to create and submit review</p>
-     * <p>Expected result:</p>
-     * <p>Success message appears - "Your review has been accepted for moderation."</p>
-     *
-     * <p>Verification:</p>
-     * <p>1. Login to backend;</p>
-     * <p>2. Navigate to Catalog -> Reviews and Ratings -> Customer Reviews -> Pending Reviews;</p>
-     * <p>Expected result:</p>
-     * <p>Review is present into the list and has type - "Guest";</p>
-     *
-     * @depends createProduct
-     *
-     * @test
-     */
-    public function frontendReviewVerificationNotLoggedCustomer($product)
-    {
-        $reviewData = $this->loadData('frontend_review', NULL, array('nickname'));
-        $searchData = $this->loadData('search_review',
-                array('filter_nickname'    => $reviewData['nickname'],
-                      'filter_product_sku' => $product['general_sku'],
-                      'filter_type'        => 'Guest',
-                      'filter_status'      => 'Pending'));
-        $this->logoutCustomer();
-        $this->productHelper()->frontOpenProduct($product['general_name']);
-        $this->reviewHelper()->frontendAddReview($reviewData);
-        $this->assertMessagePresent('success', 'accepted_review');
+        //Steps
         $this->loginAdminUser();
         $this->navigate('all_reviews');
         $this->reviewHelper()->openReview($searchData);
+        //Verification
+        $this->reviewHelper()->verifyReviewData($reviewData);
+    }
+
+    public function specialCharactersData()
+    {
+        return array(
+            array('review_long_values'),
+            array('review_special_symbols'),
+        );
     }
 
 }

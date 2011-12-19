@@ -50,17 +50,31 @@ rating_required_fields:
         default_value: test_rating
 
 #<----------------------------------------------------Reviews---------------------------------------------------------->
-search_review:
+search_review_guest:
     filter_massaction: %noValue%
     filter_id: %noValue%
     filter_created_on_from: %noValue%
     filter_created_on_to: %noValue%
-    filter_status: %noValue%
+    filter_status: Pending
     filter_title: %noValue%
-    filter_nickname: test_nickname
+    filter_nickname: %noValue%
     filter_review: %noValue%
     filter_visible_in: %noValue%
-    filter_type: %noValue%
+    filter_type: Guest
+    filter_product_name: %noValue%
+    filter_product_sku: %noValue%
+
+search_review_customer:
+    filter_massaction: %noValue%
+    filter_id: %noValue%
+    filter_created_on_from: %noValue%
+    filter_created_on_to: %noValue%
+    filter_status: Pending
+    filter_title: %noValue%
+    filter_nickname: %noValue%
+    filter_review: %noValue%
+    filter_visible_in: %noValue%
+    filter_type: Customer
     filter_product_name: %noValue%
     filter_product_sku: %noValue%
 
@@ -103,20 +117,32 @@ review_required:
 #                                                  Frontend                                                            #
 ########################################################################################################################
 
-default_review:
-    nickname: Nickname
-    summary_of_your_review: Review Summary
-    review: Review Text
+review_with_rating:
+    nickname: %randomize% Nickname
+    summary_of_your_review: %randomize% Review Summary
+    review: %randomize% Review Text
     ratings:
         rating_1:
-            rating_name: my rating
+            rating_name: %noValue%
             stars: 3
         rating_2:
-            rating_name: 1111111
+            rating_name: %noValue%
             stars: 5
 
 frontend_review:
-    nickname: Test Nickname
-    summary_of_your_review: Test Review Summary
-    review: Test Review Text
+    nickname: %randomize% Test Nickname
+    summary_of_your_review: %randomize% Test Review Summary
+    review: %randomize% Test Review Text
+    ratings: %noValue%
+
+review_long_values:
+    nickname: %longValue255%
+    summary_of_your_review: %longValue255%
+    review: %longValue255%
+    ratings: %noValue%
+
+review_special_symbols:
+    nickname: %specialValue32%
+    summary_of_your_review: %specialValue32%
+    review: %specialValue32%
     ratings: %noValue%

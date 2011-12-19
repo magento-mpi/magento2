@@ -228,7 +228,7 @@ product_page:
             empty_required_field: "//div[@id='advice-required-entry-%fieldId%' and not(contains(@style,'display: none;'))]"
 
 product_review:
-    mca: review/product/list/id/%productId%/
+    mca: review/product/list/id/%id%/
     title: %productTitle%
     uimap: &productReview
         form:
@@ -274,11 +274,11 @@ product_review:
         messages: *productMessages
 
 product_review_index:
-    mca: review/product/list/id/%productId%/#review-form
+    mca: review/product/list/id/%id%/#review-form/
     title: %productTitle%
     uimap: *productReview
 
 product_review_category:
-    mca: review/product/list/id/%productId%/category/%categoryId%/#review-form
+    mca: review/product/list/id/%id%/category/%categoryId%/#review-form/
     title: %productTitle%
     uimap: *productReview
