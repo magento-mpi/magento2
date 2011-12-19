@@ -1,295 +1,439 @@
 <?php
-require_once 'Zend/Oauth/Provider.php';
-/*********************************
-This is an example implementation of OAuth provider. IT WOULD NOT RUN AS-IS!
-Some functions are not implemented (see TODO marks)
-********************************/
-
-// TODO: Consumer key representation
-class OAuthKey {
-    public static function fetchKey()
-    {
-        return new OAuthConsumer();
-    }
-}
-// TODO: Token representation
-class OAuthToken {
-    // TODO: cleanup old tokens and nonces
-    public static function cleanup()
-    {
-    }
-}
-
-class OAuthConsumer {
-    public $key;
-    public $secret;
-}
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    Mage
+ * @package     Mage_OAuth
+ * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
 
 /**
+ * oAuth Server
  *
- * OAuth provider implementation
+ * @category    Mage
+ * @package     Mage_OAuth
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_OAuth_ExampleServer
+class Mage_OAuth_Model_Server extends Mage_Catalog_Model_Abstract
 {
-    /**
-     * OAuth token
-     * @var OAuthToken
+    /**#@+
+     * OAuth result statuses
      */
-    protected $token;
+    const OK = 0;
+    const VERSION_REJECTED = 1;
+    const PARAMETER_ABSENT = 2;
+    const PARAMETER_REJECTED = 3;
+    const TIMESTAMP_REFUSED = 4;
+    const NONCE_USED = 5;
+    const SIGNATURE_METHOD_REJECTED = 6;
+    const SIGNATURE_INVALID = 7;
+    const CONSUMER_KEY_UNKNOWN = 8;
+    const CONSUMER_KEY_REJECTED = 9;
+    const CONSUMER_KEY_REFUSED = 10;
+    const TOKEN_USED = 11;
+    const TOKEN_EXPIRED = 12;
+    const TOKEN_REVOKED = 13;
+    const TOKEN_REJECTED = 14;
+    const VERIFIER_INVALID = 15;
+    const ADDITIONAL_AUTHORIZATION_REQUIRED = 16;
+    const PERMISSION_UNKNOWN = 17;
+    const PERMISSION_DENIED = 18;
+    const USER_REFUSED = 19;
+    /**#@- */
 
     /**
-     * OAuth provider
-     * @var Zend_Oauth_Provider
-     */
-    protected $provider;
-
-    /**
-     * OAuth consumer
-     * @var OAuthConsumer
-     */
-    protected $consumer;
-
-    /**
-     * Create OAuth provider
-     * Checks current request for OAuth validity
+     * Consumer object
      *
-     * @param string $req_path add REST endpoint as request path
+     * @var Mage_OAuth_Model_Consumer
      */
-    public function __construct($req_path = '')
-    {
-        $this->check();
-        $this->provider = new Zend_Oauth_Provider();
-        $this->provider->setConsumerHandler(array($this, 'lookupConsumer'));
-        $this->provider->setTimestampNonceHandler(array($this, 'timestampNonceChecker'));
-        $this->provider->setTokenHandler(array($this, 'tokenHandler'));
-        if(!empty($req_path)) {
-            $this->provider->setRequestTokenPath($req_path);  // No token needed for this end point
-        }
-        $this->provider->checkOAuthRequest(null, $this->assembleData());
-        if(mt_rand() % 10 == 0) {
-            OAuthToken::cleanup();
-        }
-    }
+    protected $_consumer;
 
     /**
-     * Check if everything is OK
+     * Error code to error messsages pairs
      *
-     * @throws OAuthException
+     * @var array
      */
-    protected function check()
-    {
-        if(!function_exists('mhash') && !function_exists('hash_hmac')) {
-            // define exception class
-            throw new Zend_OAuth_Exception("MHash extension required for OAuth support");
-        }
-    }
+    protected $_errors = array(
+        self::VERSION_REJECTED => 'version_rejected',
+        self::PARAMETER_ABSENT => 'parameter_absent',
+        self::PARAMETER_REJECTED => 'parameter_rejected',
+        self::TIMESTAMP_REFUSED => 'timestamp_refused',
+        self::NONCE_USED => 'nonce_used',
+        self::SIGNATURE_METHOD_REJECTED => 'signature_method_rejected',
+        self::SIGNATURE_INVALID => 'signature_invalid',
+        self::CONSUMER_KEY_UNKNOWN => 'consumer_key_unknown',
+        self::CONSUMER_KEY_REJECTED => 'consumer_key_rejected',
+        self::CONSUMER_KEY_REFUSED => 'consumer_key_refused',
+        self::TOKEN_USED => 'token_used',
+        self::TOKEN_EXPIRED => 'token_expired',
+        self::TOKEN_REVOKED => 'token_revoked',
+        self::TOKEN_REJECTED => 'token_rejected',
+        self::VERIFIER_INVALID => 'verifier_invalid',
+        self::ADDITIONAL_AUTHORIZATION_REQUIRED => 'additional_authorization_required',
+        self::PERMISSION_UNKNOWN => 'permission_unknown',
+        self::PERMISSION_DENIED => 'permission_denied',
+        self::USER_REFUSED => 'user_refused'
+    );
 
     /**
-     * Is this functionality enabled?
-     * @return bool
-     */
-    public static function enabled()
-    {
-        return function_exists('mhash') || function_exists('hash_hmac');
-    }
-
-    /**
-     * Find consumer by key
-     * @param $provider
-     * @return int
-     */
-    public function lookupConsumer($provider)
-    {
-        // check $provider->consumer_key
-        // on unknown: Zend_Oauth_Provider::CONSUMER_KEY_UNKNOWN
-        // on bad key: Zend_Oauth_Provider::CONSUMER_KEY_REFUSED
-        // TODO: OAuthKey::fetchKey gets consumer object that has
-        // secret and key properties
-        $consumer = OAuthKey::fetchKey($provider->consumer_key);
-        if(!$consumer) {
-            return Zend_Oauth_Provider::CONSUMER_KEY_UNKNOWN;
-        }
-        $provider->consumer_secret = $consumer->secret;
-        $this->consumer = $consumer;
-
-        return Zend_Oauth_Provider::OK;
-    }
-
-    /**
-     * Check timestamps & nonces
+     * Request parameters
      *
-     * @param OAuthProvider $provider
-     * @return
+     * @var array
      */
-    public function timestampNonceChecker($provider)
-    {
-        if(empty($provider->nonce)) {
-            return Zend_Oauth_Provider::BAD_NONCE;
-        }
-        if(empty($provider->timestamp)) {
-            return Zend_Oauth_Provider::BAD_TIMESTAMP;
-        }
-        // TODO: checkNonce verisifes that:
-        // 1. No nonce with time after given nonce exists
-        // 2. Current nonce is not listed in the database
-        // 3. If it's ok, returns Zend_Oauth_Provider::OK
-        return OAuthToken::checkNonce($provider->consumer_key, $provider->nonce, $provider->timestamp);
-    }
+    protected $_params = null;
 
     /**
-     * Vefiry incoming token
+     * Request object
      *
-     * @param OAuthProvider $provider
-     * @return int
+     * @var Mage_Core_Controller_Request_Http
      */
-    public function tokenHandler($provider)
+    protected $_request = null;
+
+    /**
+     * Response object
+     *
+     * @var Mage_Core_Controller_Response_Http
+     */
+    protected $_response = null;
+
+    /**
+     * Token object
+     *
+     * @var Mage_OAuth_Model_Token
+     */
+    protected $_token;
+
+    /**
+     * Extract parameters from sources and decode them
+     *
+     * @return Mage_OAuth_Model_Server
+     */
+    protected function _extractParameters()
     {
-        // TODO: returns token object by token ID, with properties:
-        // consumer, id, secret, verify, tstate
-        // tstate is one of REQUEST, ACCESS, INVALID
-        $token = OAuthToken::load($provider->token);
-        if(empty($token)) {
-            return Zend_Oauth_Provider::TOKEN_REJECTED;
-        }
-        if($token->consumer != $this->consumer->id) {
-            return Zend_Oauth_Provider::TOKEN_REJECTED;
-        }
-        if($token->tstate == OAuthToken::REQUEST) {
-            if(!empty($token->verify) && $provider->verifier == $token->verify) {
-                $provider->token_secret = $token->secret;
-                $this->token = $token;
-                return Zend_Oauth_Provider::OK;
-            } else {
-                return Zend_Oauth_Provider::TOKEN_USED;
+        $request = $this->_getRequest();
+        $this->_params = $request->getQuery();
+
+        if ($request->getHeader(Zend_Http_Client::CONTENT_TYPE) == Zend_Http_Client::ENC_URLENCODED) {
+            $bodyParams = array();
+
+            parse_str($request->getRawBody(), $bodyParams);
+
+            if (count($bodyParams)) {
+                $this->_params = array_merge($this->_params, $bodyParams);
             }
         }
-        if($token->tstate == OAuthToken::ACCESS) {
-            $provider->token_secret = $token->secret;
-            $this->token = $token;
-            return Zend_Oauth_Provider::OK;
+        $headerValue = $request->getHeader('Authorization');
+
+        if ($headerValue) {
+            $headerValue = substr($request->getHeader('Authorization'), 6); // ignore 'OAuth ' at the beginning
+
+            foreach (explode(',', $headerValue) as $paramStr) {
+                $nameAndValue = explode('=', $paramStr, 2);
+
+                if (preg_match('/oauth_[a-z_-]/', $nameAndValue[0])) {
+                    $this->_params[rawurldecode($nameAndValue[0])] = rawurldecode(trim($nameAndValue[1], '"'));
+                }
+            }
         }
-        return Zend_Oauth_Provider::TOKEN_REJECTED;
+        return $this;
     }
 
     /**
-    * Assemble parameters from POST and GET
+     * Retrieve token parameters for initite request
      *
-     * @return array
-    */
-    protected function assembleData()
-    {
-        $data = $_GET;
-        $data = array_merge($data, $_POST);
-        return $data;
-    }
-
-    /**
-     * Generate request token string
      * @return string
      */
-    public function requestToken()
+    protected function _getInitiateToken()
     {
-        // TODO: create a new token string with token/secret pair
-        $token = new OAuthToken(self::generateToken(), self::generateToken());
-        // TODO: set consumer key
-        $token->setConsumer($this->consumer);
-        // TODO: save token
-        $token->save();
-        return "oauth_token={$token->token}&oauth_token_secret={$token->secret}";
-    }
+        $tokenParams = array(
+            'oauth_token'              => $this->_token->getTmpToken(),
+            'oauth_token_secret'       => $this->_token->getTmpTokenSecret(),
+            'oauth_callback_confirmed' => 'true'
+        );
 
-    public static function generateToken()
-    {
-        return Zend_Oauth_Provider::generateToken(10);
+        return http_build_query($tokenParams);
     }
 
     /**
-     * Generate access token string - must have validated request token
-     * @return string
-     */
-    public function accessToken()
-    {
-        if(empty($this->token) || $this->token->tstate != OAuthToken::REQUEST) {
-            return null;
-        }
-        // TODO: invalidate request token
-        $this->token->invalidate();
-        // TODO: create a new token string with token/secret pair
-        $token = new OAuthToken(self::generateToken(), self::generateToken());
-        // TODO: set token state
-        $token->setState(OAuthToken::ACCESS);
-        // TODO: set consumer key
-        $token->setConsumer($this->consumer);
-        // TODO: transfer authorization data from request token
-        $token->copyAuthData($this->token);
-        // TODO: save token
-        $token->save();
-        return "oauth_token={$token->token}&oauth_token_secret={$token->secret}";
-    }
-
-    /**
-     * Return authorization URL
-     * @return string
-     */
-    public function authUrl()
-    {
-        // TODO: here goes the authorization URL
-        return "http://mysite.com/OAuthAuthorize";
-    }
-
-    /**
-     * Fetch current token if it is authorized
-     * @return OAuthToken|null
-     */
-    public function authorizedToken()
-    {
-        if($this->token->tstate == OAuthToken::ACCESS) {
-            return $this->token;
-        }
-        return null;
-    }
-
-    /**
-     * Fetch authorization data from current token
-     * @return mixed Authorization data or null if none
-     */
-    public function authorization()
-    {
-        if($this->token->tstate == OAuthToken::ACCESS) {
-            return $this->token->authdata;
-        }
-        return null;
-    }
-
-    /**
-     * Report OAuth problem as string
+     * Retrieve request object
      *
-     * @param Exception $e
-     * @return string
+     * @return Mage_Core_Controller_Request_Http
      */
-    public function reportProblem(Exception $e)
+    protected function _getRequest()
     {
-        return $this->provider->reportProblem($e);
+        if (null === $this->_request) {
+            $this->_request = Mage::app()->getRequest();
+        }
+        return $this->_request;
     }
 
     /**
-     * Authorize token for access
-     * Note that this request is not OAuth-authenticated - this should be called
-     * from regularly authenticated session
-     * @param string $token_str Token string
-     * @param mixed $authdata Authorization data to be attached to the token, such as user ID and permissions
-     * @return string|false verifier value on success (should be sent to the client), false on failure
+     * Retrieve response object
+     *
+     * @return Mage_Core_Controller_Response_Http
      */
-    static public function authorizeToken($token_str, $authdata)
+    protected function _getResponse()
     {
-        // TODO: load token object
-        $token = OAuthToken::load($token_str);
-        if(empty($token) || empty($token->consumer) || $token->tstate != OAuthToken::REQUEST) {
-            return false;
+        if (null === $this->_response) {
+            $this->_response = Mage::app()->getResponse();
         }
-        $token->authdata = $authdata;
-        $token->verify = self::generateToken();
-        $token->save();
-        return $token->verify;
+        return $this->_response;
+    }
+
+    /**
+     * Initialize and try to load consumer object
+     *
+     * @return Mage_OAuth_Model_Server
+     */
+    protected function _initConsumer()
+    {
+        $this->_consumer = Mage::getModel('oauth/consumer');
+
+        if (empty($this->_params['oauth_consumer_key'])) {
+            Mage::exception('Mage_OAuth', self::CONSUMER_KEY_UNKNOWN);
+        } else {
+            $this->_consumer->load($this->_params['oauth_consumer_key'], 'key');
+        }
+        if (!$this->_consumer->getId()) {
+            Mage::exception('Mage_OAuth', '', self::CONSUMER_KEY_REJECTED);
+        }
+        return $this;
+    }
+
+    /**
+     * Initialize server components
+     *
+     * @return Mage_OAuth_Model_Server
+     */
+    protected function _initialize()
+    {
+        $this->_extractParameters();
+        $this->_validateRequestParams();
+        $this->_initConsumer();
+        $this->_validateSignature();
+        $this->_initToken();
+
+        return $this;
+    }
+
+    /**
+     * Initialize token object and save it
+     *
+     * @return Mage_OAuth_Model_Server
+     */
+    protected function _initToken()
+    {
+        if (!$this->_consumer) {
+            Mage::throwException('Initialize consumer first');
+        }
+        $this->_token = Mage::getModel('oauth/token');
+
+        if (!empty($this->_params['oauth_callback']) && 'oob' != $this->_params['oauth_callback']) {
+            $callbackUrl = $this->_params['oauth_callback'];
+        } else {
+            $callbackUrl = $this->_consumer->getCallBackUrl();
+        }
+        if (!$callbackUrl) {
+            //TODO: is additional check for callback URL validity required?
+        }
+        /** @var $helper Mage_OAuth_Helper_Data */
+        $helper = Mage::helper('oauth');
+
+        $this->_token->setConsumerId($this->_consumer->getId());
+        $this->_token->setTmpCallbackUrl($callbackUrl);
+        $this->_token->setTmpToken($helper->generateToken(32));
+        $this->_token->setTmpTokenSecret($helper->generateToken(32));
+
+        $this->_token->save();
+
+        return $this;
+    }
+
+    /**
+     * Report problem during request
+     *
+     * @param Mage_Oauth_Exception $e
+     * @return string
+     */
+    protected function _reportProblem(Mage_Oauth_Exception $e)
+    {
+        $exceptionCode = $e->getCode();
+
+        if (self::PARAMETER_ABSENT == $exceptionCode) {
+            $msgAdd = '&oauth_parameters_absent=' . $e->getMessage();
+        } elseif (self::SIGNATURE_INVALID == $exceptionCode) {
+            $msgAdd =  '&debug_sbs=' . $e->getMessage();
+        } else {
+            $msgAdd = '';
+        }
+        if (isset($this->_errors[$exceptionCode])) {
+            $msg = $this->_errors[$exceptionCode];
+        } else {
+            $msg = 'unknown_problem';
+            $msgAdd = '&code=' . $exceptionCode;
+        }
+        $this->_getResponse()->setBody('oauth_problem=' . $msg . $msgAdd);
+        $this->_getResponse()->setHttpResponseCode(400);
+    }
+
+    /**
+     * Check nonce data validity
+     *
+     * @param string $consumerKey Consumer key
+     * @param string $nonce Nonce string
+     * @param int $timestamp UNIX timestamp of request
+     * @return void
+     */
+    protected function _validateNonce($consumerKey, $nonce, $timestamp)
+    {
+        //TODO: try to get row from nonce table and return false if row exists
+        if (false) {
+            Mage::exception('Mage_OAuth', '', self::NONCE_USED);
+        }
+    }
+
+    /**
+     * Validate signature
+     *
+     * @return void
+     */
+    protected function _validateSignature()
+    {
+        // validate method calls order
+        if (null === $this->_params || !$this->_consumer) {
+            Mage::throwException('Extract parameters and initialize consumer first');
+        }
+
+        $util = new Zend_Oauth_Http_Utility();
+        $params = $this->_params;
+
+        $requestedSign = $params['oauth_signature'];
+        unset($params['oauth_signature']);
+
+        /** @var $helper Mage_OAuth_Helper_Data */
+        $helper = Mage::helper('oauth');
+
+        $calculatedSign = $util->sign(
+            $params,
+            $this->_params['oauth_signature_method'],
+            $this->_consumer->getSecret(),
+            null,
+            Zend_Oauth::POST,
+            $helper->getProtocolEndpointUrl(Mage_OAuth_Helper_Data::ENDPOINT_INITIATE)
+        );
+
+        if ($calculatedSign != $requestedSign) {
+            Mage::exception('Mage_OAuth', $calculatedSign, self::SIGNATURE_INVALID);
+        }
+    }
+
+    /**
+     * Check signature method validity
+     *
+     * @param string $sigMethod Signature method
+     * @return void
+     */
+    protected function _validateSignatureMethod($sigMethod)
+    {
+        if (!in_array($sigMethod, array('HMAC-SHA1', 'RSA-SHA1', 'PLAINTEXT'))) {
+            Mage::exception('Mage_OAuth', '', self::SIGNATURE_METHOD_REJECTED);
+        }
+    }
+
+    /**
+     * Validate request parameters
+     *
+     * @param bool $checkToken OPTIONAL Should we check 'oauth_token' parameter?
+     * @return void
+     */
+    protected function _validateRequestParams($checkToken = false)
+    {
+        $reqFields = array(
+            //'realm',
+            //'oauth_callback',
+            'oauth_consumer_key',
+            'oauth_signature_method',
+            'oauth_timestamp',
+            'oauth_nonce',
+            'oauth_signature'
+        );
+
+        // validate required parameters
+        $params = $this->_params;
+
+        foreach ($reqFields as $reqField) {
+            if (!isset($this->_params[$reqField])) {
+                Mage::exception('Mage_OAuth', $reqField, self::PARAMETER_ABSENT);
+            }
+        }
+        // validate optional 'oauth_token'
+        if ($checkToken && !isset($this->_params['oauth_token'])) {
+            Mage::exception('Mage_OAuth', 'oauth_token', self::PARAMETER_ABSENT);
+        }
+        $this->_validateSignatureMethod($this->_params['oauth_signature_method']);
+
+        // validate nonce data if specific signature method selected
+        if ('HMAC-SHA1' == $this->_params['oauth_signature_method']
+            || 'RSA-SHA1' == $this->_params['oauth_signature_method']) {
+            $this->_validateNonce(
+                $params['oauth_consumer_key'], $params['oauth_nonce'], $params['oauth_timestamp']
+            );
+        }
+    }
+
+    /**
+     * Process request for temporary (initiative) token
+     */
+    public function initiateToken()
+    {
+        $this->_initialize();
+
+        $response = $this->_getResponse();
+
+        $response->setHeader(Zend_Http_Client::CONTENT_TYPE, Zend_Http_Client::ENC_URLENCODED, true);
+        $response->setBody($this->_getInitiateToken());
+    }
+
+    /**
+     * Set request object
+     *
+     * @param Mage_Core_Controller_Request_Http $request
+     * @return Mage_OAuth_Model_Server
+     */
+    public function setRequest(Mage_Core_Controller_Request_Http $request)
+    {
+        $this->_request = $request;
+
+        return $this;
+    }
+
+    /**
+     * Set response object
+     *
+     * @param Mage_Core_Controller_Response_Http $response
+     * @return Mage_OAuth_Model_Server
+     */
+    public function setResponse(Mage_Core_Controller_Response_Http $response)
+    {
+        $this->_response = $response;
+
+        return $this;
     }
 }

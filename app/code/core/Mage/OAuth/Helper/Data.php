@@ -42,6 +42,22 @@ class Mage_OAuth_Helper_Data extends Mage_Core_Helper_Abstract
     /**#@-*/
 
     /**
+     * Generate random string for token or secret
+     *
+     * @param int $length String length
+     * @return string
+     */
+    public function generateToken($length)
+    {
+        /** @var $helper Mage_Core_Helper_Data */
+        $helper = Mage::helper('core');
+
+        return $helper->getRandomString(
+            $length, Mage_Core_Helper_Data::CHARS_DIGITS . Mage_Core_Helper_Data::CHARS_LOWERS
+        );
+    }
+
+    /**
      * Retrieve URL of specified endpoint.
      *
      * @param string $type Endpoint type (one of ENDPOINT_ constants)
@@ -52,6 +68,6 @@ class Mage_OAuth_Helper_Data extends Mage_Core_Helper_Abstract
         if (self::ENDPOINT_INITIATE != $type && self::ENDPOINT_AUTHORIZE != $type && self::ENDPOINT_TOKEN != $type) {
             Mage::throwException('Invalid endpoint type passed');
         }
-        return Mage::getUrl('oauth/' . $type);
+        return rtrim(Mage::getUrl('oauth/' . $type), '/');
     }
 }

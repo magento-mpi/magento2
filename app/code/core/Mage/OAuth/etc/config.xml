@@ -43,6 +43,9 @@
                     <consumer>
                         <table>oauth_consumer</table>
                     </consumer>
+                    <token>
+                        <table>oauth_token</table>
+                    </token>
                 </entities>
             </oauth_resource>
         </models>
