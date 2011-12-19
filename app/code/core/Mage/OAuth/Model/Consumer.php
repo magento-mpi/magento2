@@ -76,7 +76,7 @@ class Mage_OAuth_Model_Consumer extends Mage_Core_Model_Abstract
      */
     protected function _beforeSave()
     {
-        if ($this->isObjectNew()) {
+        if (!$this->getId()) {
             $this->setUpdatedAt(time());
         }
         parent::_beforeSave();
@@ -92,11 +92,24 @@ class Mage_OAuth_Model_Consumer extends Mage_Core_Model_Abstract
     {
         $errors = array();
         if ($this->getCallBackUrl()) {
-            /** @var $validator Mage_OAuth_Model_Consumer_Validator_Url */
-            $validator = Mage::getSingleton('oauth/consumer_validator_url');
-            if ($validator->isValid($this->getCallBackUrl())) {
-                $errors = array_merge($errors, $validator->getMessages());
+            /** @var $validatorUrl Mage_OAuth_Model_Consumer_Validator_Url */
+            $validatorUrl = Mage::getSingleton('oauth/consumer_validator_url');
+            if ($validatorUrl->isValid($this->getCallBackUrl())) {
+                $errors = array_merge($errors, $validatorUrl->getMessages());
             }
+        }
+        $validatorLength = new Zend_Validate_StringLength();
+        $validatorLength->setMin(self::KEY_LENGTH);
+        $validatorLength->setMax(self::KEY_LENGTH);
+        if ($validatorLength->isValid($this->getKey())) {
+            $errors = $errors[] = sprintf(
+                'Consumer key must has length %s symbols.', self::KEY_LENGTH);
+        }
+        $validatorLength->setMin(self::SECRET_LENGTH);
+        $validatorLength->setMax(self::SECRET_LENGTH);
+        if ($validatorLength->isValid($this->getSecret())) {
+            $errors = $errors[] = sprintf(
+                'Consumer key must has length %s symbols.', self::SECRET_LENGTH);
         }
         return $errors ? $errors : true;
     }
