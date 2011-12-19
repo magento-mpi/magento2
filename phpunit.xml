@@ -38,10 +38,7 @@
     strict="false">
     <testsuites>
         <testsuite name="All Tests">
-          <directory suffix="PaymentMethodsTest.php">tests\CheckoutMultipleAddresses\Existing</directory>
-          <directory suffix="PaymentMethodsTest.php">tests\CheckoutMultipleAddresses\LoggedIn</directory>
-          <directory suffix="PaymentMethodsTest.php">tests\CheckoutMultipleAddresses\WithRegistration</directory>
-            <!--<directory suffix="Test.php">tests\</directory>-->
+            <directory suffix="Test.php">tests</directory>
         </testsuite>
     </testsuites>
     <logging>
