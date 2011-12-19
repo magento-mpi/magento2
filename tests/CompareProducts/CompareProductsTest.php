@@ -40,6 +40,16 @@ class CompareProducts_CompareProductsTest extends Mage_Selenium_TestCase
     protected $useTearDown = false;
 
     /**
+     *
+     */
+    public function setUpBeforeTests()
+    {
+        $this->loginAdminUser();
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('default_tax_config');
+    }
+
+    /**
      * <p>Preconditions:</p>
      */
     protected function assertPreConditions()
