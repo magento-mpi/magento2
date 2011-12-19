@@ -39,20 +39,25 @@ class CheckoutMultipleAddresses_WithRegistration_PaymentMethodsTest extends Mage
 
     protected static $useTearDown = false;
 
-    protected function assertPreConditions()
-    {
-
-    }
+    protected function assertPreConditions() {}
 
     /**
      * <p>Creating Simple product</p>
      *
      * @test
-     * @return $simpleSku
+     * @return array $productData
      */
     public function preconditionsCreateProduct()
     {
-
+        //Data
+        $productData = $this->loadData('simple_product_for_order');
+        //Steps
+        $this->loginAdminUser();
+        $this->navigate('manage_products');
+        $this->productHelper()->createProduct($productData);
+        //Verification
+        $this->assertMessagePresent('success', 'success_saved_product');
+        return $productData;
     }
 
     /**
@@ -76,14 +81,29 @@ class CheckoutMultipleAddresses_WithRegistration_PaymentMethodsTest extends Mage
      * <p>Checkout is successful.</p>
      *
      * @param $payment
-     * @param $simpleSku
+     * @param $productData
      * @depends preconditionsCreateProduct
      * @dataProvider dataWithout3DSecure
      * @test
      */
-    public function differentPaymentMethodsWithout3D($payment, $simpleSku)
+    public function differentPaymentMethodsWithout3D($payment, $productData)
     {
-
+        //Data
+        $paymentData = $this->loadData('front_payment_' . $payment);
+        $checkoutData = $this->loadData('multiple_with_register_flatrate_payment',
+                                        array ('payment_data' => $paymentData,
+                                              'products_to_add/product_1' => $productData));
+        $checkoutData['shipping_address_data']['address_to_ship_1']['general_name'] = $productData['general_name'];
+        if ($payment != 'checkmoney') {
+            $payment .= '_without_3Dsecure';
+        }
+        //Steps
+        $this->loginAdminUser();
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure($payment);
+        $this->checkoutMultipleAddressesHelper()->frontCreateMultipleCheckout($checkoutData);
+        //Verification
+        $this->assertMessagePresent('success', 'success_checkout');
     }
 
     public function dataWithout3DSecure()
@@ -120,16 +140,30 @@ class CheckoutMultipleAddresses_WithRegistration_PaymentMethodsTest extends Mage
      * <p>Checkout is successful.</p>
      *
      * @param $payment
-     * @param $simpleSku
+     * @param $productData
      * @depends preconditionsCreateProduct
      * @dataProvider dataWith3DSecure
      * @test
      */
-    public function differentPaymentMethodsWith3D($payment, $simpleSku)
+    public function differentPaymentMethodsWith3D($payment, $productData)
     {
+        //For Clean Up
         if ($payment == 'authorizenet') {
             self::$useTearDown = TRUE;
         }
+        //Data
+        $paymentData = $this->loadData('front_payment_' . $payment);
+        $checkoutData = $this->loadData('multiple_with_register_flatrate_payment',
+                                        array ('payment_data' => $paymentData,
+                                              'products_to_add/product_1' => $productData));
+        $checkoutData['shipping_address_data']['address_to_ship_1']['general_name'] = $productData['general_name'];
+        //Steps
+        $this->loginAdminUser();
+        $this->systemConfigurationHelper()->useHttps('frontend', 'yes');
+        $this->systemConfigurationHelper()->configure($payment . '_with_3Dsecure');
+        $this->checkoutMultipleAddressesHelper()->frontCreateMultipleCheckout($checkoutData);
+        //Verification
+        $this->assertMessagePresent('success', 'success_checkout');
     }
 
     public function dataWith3DSecure()
@@ -145,6 +179,8 @@ class CheckoutMultipleAddresses_WithRegistration_PaymentMethodsTest extends Mage
 
     protected function tearDown()
     {
+        $this->shoppingCartHelper()->frontClearShoppingCart();
+        $this->logoutCustomer();
         if (!empty(self::$useTearDown)) {
             $this->loginAdminUser();
             $this->systemConfigurationHelper()->useHttps('frontend', 'no');

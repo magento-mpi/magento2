@@ -39,33 +39,46 @@ class CheckoutMultipleAddresses_LoggedIn_PaymentMethodsTest extends Mage_Seleniu
 
     protected static $useTearDown = false;
 
-    protected function assertPreConditions()
-    {
-
-    }
+    protected function assertPreConditions() {}
 
     /**
      * <p>Creating Simple product</p>
      *
      * @test
-     * @return $simpleSku
+     * @return array $productData
      */
     public function preconditionsCreateProduct()
     {
-
+       //Data
+        $productData = $this->loadData('simple_product_for_order');
+        //Steps
+        $this->loginAdminUser();
+        $this->navigate('manage_products');
+        $this->productHelper()->createProduct($productData);
+        //Verification
+        $this->assertMessagePresent('success', 'success_saved_product');
+        return $productData;
     }
 
     /**
-     * <p>Register Customer</p>
+     * <p>Create Customer</p>
      *
      * @test
-     * @return $userData
+     * @return array $userData
      */
-    public function preconditionsRegisterCustomer()
+    public function preconditionsCreateCustomer()
     {
-
+        //Data
+        $userData = $this->loadData('generic_customer_account', NULL, 'email');
+        $addressData = $this->loadData('all_fields_address');
+        //Steps
+        $this->loginAdminUser();
+        $this->navigate('manage_customers');
+        $this->customerHelper()->createCustomer($userData, $addressData);
+        //Verifying
+        $this->assertMessagePresent('success', 'success_saved_customer');
+        return $userData;
     }
-
 
     /**
      * <p>Payment methods without 3D secure.</p>
@@ -88,17 +101,34 @@ class CheckoutMultipleAddresses_LoggedIn_PaymentMethodsTest extends Mage_Seleniu
      * <p>Expected result:</p>
      * <p>Checkout is successful.</p>
      *
-     * @depends preconditionsCreateProduct
-     * @depends preconditionsRegisterCustomer
-     * @dataProvider dataWithout3DSecure
      * @param $payment
-     * @param $simpleSku
+     * @param $productData
      * @param $userData
+     * @depends preconditionsCreateProduct
+     * @depends preconditionsCreateCustomer
+     * @dataProvider dataWithout3DSecure
      * @test
      */
-    public function differentPaymentMethodsWithout3D($payment, $simpleSku,$userData)
+    public function differentPaymentMethodsWithout3D($payment, $productData,$userData)
     {
-
+        //Data
+        $paymentData = $this->loadData('front_payment_' . $payment);
+        $checkoutData = $this->loadData('multiple_exist_flatrate_payment',
+                                        array ('payment_data' => $paymentData,
+                                              'products_to_add/product_1' => $productData));
+        $checkoutData['shipping_address_data']['address_to_ship_1']['general_name'] = $productData['general_name'];
+        unset($checkoutData['checkout_as_customer']);
+        if ($payment != 'checkmoney') {
+            $payment .= '_without_3Dsecure';
+        }
+        //Steps
+        $this->loginAdminUser();
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure($payment);
+        $this->customerHelper()->frontLoginCustomer($userData);
+        $this->checkoutMultipleAddressesHelper()->frontCreateMultipleCheckout($checkoutData);
+        //Verification
+        $this->assertMessagePresent('success', 'success_checkout');
     }
 
     public function dataWithout3DSecure()
@@ -135,19 +165,34 @@ class CheckoutMultipleAddresses_LoggedIn_PaymentMethodsTest extends Mage_Seleniu
      * <p>Expected result:</p>
      * <p>Checkout is successful.</p>
      *
-     * @depends preconditionsCreateProduct
-     * @depends preconditionsRegisterCustomer
-     * @dataProvider dataWithout3DSecure
      * @param $payment
-     * @param $simpleSku
+     * @param $productData
      * @param $userData
+     * @depends preconditionsCreateProduct
+     * @depends preconditionsCreateCustomer
+     * @dataProvider dataWith3DSecure
      * @test
      */
-    public function differentPaymentMethodsWith3D($payment, $simpleSku,$userData)
+    public function differentPaymentMethodsWith3D($payment, $productData,$userData)
     {
         if ($payment == 'authorizenet') {
             self::$useTearDown = TRUE;
         }
+                //Data
+        $paymentData = $this->loadData('front_payment_' . $payment);
+        $checkoutData = $this->loadData('multiple_exist_flatrate_payment',
+                                        array ('payment_data' => $paymentData,
+                                              'products_to_add/product_1' => $productData));
+        $checkoutData['shipping_address_data']['address_to_ship_1']['general_name'] = $productData['general_name'];
+        unset($checkoutData['checkout_as_customer']);
+        //Steps
+        $this->loginAdminUser();
+        $this->systemConfigurationHelper()->useHttps('frontend', 'yes');
+        $this->systemConfigurationHelper()->configure($payment . '_with_3Dsecure');
+        $this->customerHelper()->frontLoginCustomer($userData);
+        $this->checkoutMultipleAddressesHelper()->frontCreateMultipleCheckout($checkoutData);
+        //Verification
+        $this->assertMessagePresent('success', 'success_checkout');
     }
 
     public function dataWith3DSecure()
@@ -163,7 +208,8 @@ class CheckoutMultipleAddresses_LoggedIn_PaymentMethodsTest extends Mage_Seleniu
 
     protected function tearDown()
     {
-        if (!empty(self::$useTearDown)) {
+        $this->shoppingCartHelper()->frontClearShoppingCart();
+        if (self::$useTearDown) {
             $this->loginAdminUser();
             $this->systemConfigurationHelper()->useHttps('frontend', 'no');
         }

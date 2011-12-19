@@ -68,7 +68,7 @@ checkout_multishipping_login:
             paypal_alert: There was an error processing your order. Please contact us or try again later.
             shipping_alert: Please specify shipping method.
             payment_alert: Please specify payment method.
-            success_checkout: //h1[contains(.,'Your order has been received')]
+            success_checkout: //h2[contains(.,'Thank you for your purchase!')]
 
 checkout_multishipping_register:
     mca: checkout/multishipping/register/
@@ -371,3 +371,4 @@ checkout_multishipping_success_order:
                         buttons:
                             continue_shopping: //button[span='Continue Shopping']
         pageelements: *validationSteps
+        messages: *checkoutMessages
