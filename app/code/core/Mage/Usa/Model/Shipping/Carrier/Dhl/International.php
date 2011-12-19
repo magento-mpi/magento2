@@ -585,42 +585,43 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
     {
         $divideOrderWeight = (string)$this->getConfigData('divide_order_weight');
         $nodePieces = $nodeBkgDetails->addChild('Pieces', '', '');
-        $aItemsArray = $this->_getAllItems();
+        $items = $this->_getAllItems();
 
-        if ($divideOrderWeight && $aItemsArray) {
+        if ($divideOrderWeight && $items) {
             $maxWeight = $this->_getWeight($this->_maxWeight, true);
-            $sumWeight  = 0;
+            $sumWeight = 0;
             $numberOfPieces = 0;
 
-            $arItemsArray = $aItemsArray;
-            arsort($arItemsArray);
+            $reverseOrderItems = $items;
+            arsort($reverseOrderItems);
 
-            foreach ($arItemsArray as $key => $weight) {
-                if (isset($aItemsArray[$key])) {
-                    unset($aItemsArray[$key]);
-                    $sumWeight = $weight;
-                    foreach ($aItemsArray as $aKey => $aWeight) {
-                        if (($sumWeight + $aWeight) < $maxWeight) {
-                            unset($aItemsArray[$aKey]);
-                            $sumWeight += $aWeight;
-                        } elseif (($sumWeight + $aWeight) > $maxWeight) {
-                            $numberOfPieces++;
-                            $nodePiece = $nodePieces->addChild('Piece', '', '');
-                            $nodePiece->addChild('PieceID', $numberOfPieces);
-                            $this->_addDimension($nodePiece);
-                            $nodePiece->addChild('Weight', $sumWeight);
-                            break;
-                        } else {
-                            unset($aItemsArray[$aKey]);
-                            $numberOfPieces++;
-                            $sumWeight += $aWeight;
-                            $nodePiece = $nodePieces->addChild('Piece', '', '');
-                            $nodePiece->addChild('PieceID', $numberOfPieces);
-                            $this->_addDimension($nodePiece);
-                            $nodePiece->addChild('Weight', $sumWeight);
-                            $sumWeight = 0;
-                            break;
-                        }
+            foreach ($reverseOrderItems as $key => $weight) {
+                if (!isset($items[$key])) {
+                    continue;
+                }
+                unset($items[$key]);
+                $sumWeight = $weight;
+                foreach ($items as $key => $weight) {
+                    if (($sumWeight + $weight) < $maxWeight) {
+                        unset($items[$key]);
+                        $sumWeight += $weight;
+                    } elseif (($sumWeight + $weight) > $maxWeight) {
+                        $numberOfPieces++;
+                        $nodePiece = $nodePieces->addChild('Piece', '', '');
+                        $nodePiece->addChild('PieceID', $numberOfPieces);
+                        $this->_addDimension($nodePiece);
+                        $nodePiece->addChild('Weight', $sumWeight);
+                        break;
+                    } else {
+                        unset($items[$key]);
+                        $numberOfPieces++;
+                        $sumWeight += $weight;
+                        $nodePiece = $nodePieces->addChild('Piece', '', '');
+                        $nodePiece->addChild('PieceID', $numberOfPieces);
+                        $this->_addDimension($nodePiece);
+                        $nodePiece->addChild('Weight', $sumWeight);
+                        $sumWeight = 0;
+                        break;
                     }
                 }
             }
