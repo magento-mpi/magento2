@@ -144,6 +144,15 @@
             </adminhtml>
         </routers>
     </admin>
+    <adminhtml>
+        <layout>
+            <updates>
+                <captcha>
+                    <file>captcha.xml</file>
+                </captcha>
+            </updates>
+        </layout>
+    </adminhtml>
     <global>
         <events>
             <controller_action_predispatch_customer_account_loginPost>

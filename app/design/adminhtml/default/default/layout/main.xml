@@ -264,11 +264,25 @@ Base preview layout
             <block type="adminhtml/dashboard_tab_products_viewed" name="adminhtml.dashboard.tab.products.viewed"/>
         </block>
     </adminhtml_dashboard_productsviewed>
-    
+
+    <adminhtml_index_login>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="adminhtml/template" name="content" template="login.phtml">
+                <block type="core/text_list" name="form.additional.info" />
+            </block>
+        </block>
+    </adminhtml_index_login>
+
+    <adminhtml_index_forgotpassword>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="adminhtml/template" name="content" template="forgotpassword.phtml">
+                <block type="core/text_list" name="form.additional.info" />
+            </block>
+        </block>
+    </adminhtml_index_forgotpassword>
 <!--
 Empty hanle for ajax response etc.
 -->
     <empty>
     </empty>
-
 </layout>

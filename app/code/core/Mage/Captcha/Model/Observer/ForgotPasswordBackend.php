@@ -63,6 +63,7 @@ class Mage_Captcha_Model_Observer_ForgotPasswordBackend extends Mage_Captcha_Mod
      */
     protected function _setupRedirect($controller)
     {
+        $this->_getSession()->setEmail((string) $controller->getRequest()->getPost('email'));
         $controller->setFlag('', Mage_Core_Controller_Varien_Action::FLAG_NO_DISPATCH, true);
         $this->_getSession()->addError(Mage::helper('captcha')->__('Incorrect CAPTCHA.'));
         $controller->getResponse()->setRedirect(Mage::getUrl('*/*/forgotpassword'));
