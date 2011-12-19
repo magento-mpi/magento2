@@ -55,11 +55,6 @@ class Mage_Captcha_Helper_Data extends Mage_Core_Helper_Abstract
     protected $_captcha = array();
 
     /**
-     * @var Mage_Captcha_Model_Session
-     */
-    protected $_session;
-
-    /**
      * Get Captcha
      *
      * @param string $formId
@@ -68,25 +63,10 @@ class Mage_Captcha_Helper_Data extends Mage_Core_Helper_Abstract
     public function getCaptcha($formId)
     {
         if (!array_key_exists($formId, $this->_captcha)) {
-            $type = Mage::helper('captcha')->getConfigNode('type');
+            $type = $this->getConfigNode('type');
             $this->_captcha[$formId] = Mage::getModel('captcha/' . $type, array('formId' => $formId));
         }
         return $this->_captcha[$formId];
-    }
-
-    /**
-     * Returns session where to save data between page refreshes
-     *
-     * @param string $formId
-     * @return Mage_Captcha_Model_Session
-     */
-    public function getSession($formId)
-    {
-        if (!$this->_session) {
-            $this->_session = Mage::getSingleton('captcha/session', array('formId' => $formId));
-        }
-        $this->_session->setFormId($formId);
-        return $this->_session;
     }
 
     /**

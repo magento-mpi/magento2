@@ -55,6 +55,7 @@ class Mage_Captcha_Model_Session extends Mage_Core_Model_Session
         if (!isset($params['formId'])) {
             throw new Exception('formId is mandatory');
         }
+        $this->_lifetime = $params['lifetime'];
         $this->_formId = $params['formId'];
         $this->init('captcha');
     }
@@ -103,6 +104,11 @@ class Mage_Captcha_Model_Session extends Mage_Core_Model_Session
             $this->unsetData($key);
             return null;
         }
+
+        if($clear){
+            $this->unsetData($key);
+        }
+
         return $data['data'];
     }
 
@@ -127,27 +133,6 @@ class Mage_Captcha_Model_Session extends Mage_Core_Model_Session
     public function unsetData($key = '')
     {
         return parent::unsetData($this->_getFullKey($key));
-    }
-
-    /**
-     * Data TTL
-     *
-     * @param int $seconds
-     * @return void
-     */
-    public function setLifetime($seconds)
-    {
-        $this->_lifetime = $seconds;
-    }
-
-    /**
-     * Returns data TTL
-     *
-     * @return int
-     */
-    public function getLifeTime()
-    {
-        return $this->_lifetime;
     }
 
     /**

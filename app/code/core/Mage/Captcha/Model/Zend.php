@@ -51,6 +51,10 @@ class Mage_Captcha_Model_Zend extends Zend_Captcha_Image implements Mage_Captcha
     protected $_parentGcFreq = 10;
     protected $_word;
     protected  $_formId;
+    /**
+     * @var Mage_Captcha_Model_Session
+     */
+    protected $_session;
 
     /**
      * Zend captcha constructor
@@ -166,7 +170,6 @@ class Mage_Captcha_Model_Zend extends Zend_Captcha_Image implements Mage_Captcha
     public function generate()
     {
         $id = parent::generate();
-        $this->getSession()->setLifetime($this->getTimeout());
         $this->getSession()->setData(self::SESSION_CAPTCHA_ID, $id);
         return $id;
     }
@@ -179,11 +182,12 @@ class Mage_Captcha_Model_Zend extends Zend_Captcha_Image implements Mage_Captcha
      */
     public function isCorrect($word)
     {
-        if (!$this->getSession()->getDataIgnoreTtl(self::SESSION_CAPTCHA_ID, true)) {
-            // Captcha has not been generated
+        $storedWord = $this->getSession()->getData(self::SESSION_WORD, true);
+
+        if (!$word || !$storedWord){
             return false;
         }
-        $storedWord = $this->getSession()->getDataIgnoreTtl(self::SESSION_WORD, true);
+
         if (!$this->isCaseSensitive()) {
             $storedWord = strtolower($storedWord);
             $word = strtolower($word);
@@ -198,7 +202,11 @@ class Mage_Captcha_Model_Zend extends Zend_Captcha_Image implements Mage_Captcha
      */
     public function getSession()
     {
-        return $this->_getHelper()->getSession($this->_formId);
+        if (!$this->_session) {
+            $params = array('formId' => $this->_formId, 'lifetime' => $this->getTimeout());
+            $this->_session = Mage::getSingleton('captcha/session', $params);
+        }
+        return $this->_session;
     }
 
      /**
