@@ -750,6 +750,8 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
 
         $this->_makePieces($nodeBkgDetails);
 
+        $nodeBkgDetails->addChild('PaymentAccountNumber', (string)$this->getConfigData('account'));
+
         $nodeTo = $nodeGetQuote->addChild('To');
         $nodeTo->addChild('CountryCode', $rawRequest->getDestCountryId());
         $nodeTo->addChild('Postalcode', $rawRequest->getDestPostal());
