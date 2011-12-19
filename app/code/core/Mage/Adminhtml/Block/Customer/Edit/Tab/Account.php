@@ -70,7 +70,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Account extends Mage_Adminhtml_Bloc
         }
 
         $disableAutoGroupChangeAttributeName = 'disable_auto_group_change';
-        $this->_setFieldset($attributes, $fieldset, array($disableAutoGroupChangeAttributeName));
+        $this->_setFieldset($attributes, $fieldset, array($disableAutoGroupChangeAttributeName), 'customer');
 
         $form->getElement('group_id')->setRenderer($this->getLayout()
             ->createBlock('adminhtml/customer_edit_renderer_attribute_group')
