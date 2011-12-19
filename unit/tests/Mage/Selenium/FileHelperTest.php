@@ -47,7 +47,7 @@ class Mage_Selenium_Helper_FileTest extends Mage_PHPUnit_TestCase
     /**
      * Testing Mage_Selenium_Helper_File::loadYamlFile()
      */
-    public function test_loadYamlFile()
+    public function testLoadYamlFile()
     {
         $customers = $this->_fileHelper->loadYamlFile(SELENIUM_TESTS_BASEDIR.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR.'Customers.yml');
 
@@ -67,10 +67,10 @@ class Mage_Selenium_Helper_FileTest extends Mage_PHPUnit_TestCase
 
     /**
      * Test Mage_Selenium_Helper_File::loadYamlFile() wrong file's type loading
-     * 
+     *
      * @expectedException InvalidArgumentException
      */
-    public function test_loadYamlFileException()
+    public function testLoadYamlFileException()
     {
         $this->assertFalse($this->_fileHelper->loadYamlFile(SELENIUM_TESTS_BASEDIR.DIRECTORY_SEPARATOR.'phpunit.xml'));
     }
@@ -78,13 +78,13 @@ class Mage_Selenium_Helper_FileTest extends Mage_PHPUnit_TestCase
     /**
      * Testing Mage_Selenium_Helper_File::loadYamlFiles()
      */
-    public function test_loadYamlFiles()
+    public function testLoadYamlFiles()
     {
-        $all_yml_data = $this->_fileHelper->loadYamlFiles(SELENIUM_TESTS_BASEDIR.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR.'*.yml');
+        $allYmlData = $this->_fileHelper->loadYamlFiles(SELENIUM_TESTS_BASEDIR.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR.'*.yml');
 
-        $this->assertInternalType('array', $all_yml_data);
-        $this->assertNotEmpty($all_yml_data);
-        $this->assertGreaterThanOrEqual(25, count($all_yml_data));
+        $this->assertInternalType('array', $allYmlData);
+        $this->assertNotEmpty($allYmlData);
+        $this->assertGreaterThanOrEqual(25, count($allYmlData));
 
         $this->assertEmpty($this->_fileHelper->loadYamlFiles(''));
         $this->assertEmpty($this->_fileHelper->loadYamlFiles('*.yml'));

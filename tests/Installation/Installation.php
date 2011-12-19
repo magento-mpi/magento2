@@ -54,7 +54,10 @@ class Installation extends Mage_Selenium_TestCase
         //$this->installationHelper()->removeInstallData();
     }
 
-    public function test_install()
+    /**
+     * @test
+     */
+    public function installTest()
     {
         $this->setArea('frontend');
         $this->open($this->_applicationHelper->getBaseUrl());

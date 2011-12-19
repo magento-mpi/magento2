@@ -51,7 +51,7 @@ class Installation_Helper extends Mage_Selenium_TestCase
             unlink($localXml);
         }
 
-        $this->_rm_recursive($cacheDir);
+        $this->_rmRecursive($cacheDir);
     }
 
     /**
@@ -60,12 +60,12 @@ class Installation_Helper extends Mage_Selenium_TestCase
      * @param string $dir
      * @return NULL
      */
-    protected function _rm_recursive($dir)
+    protected function _rmRecursive($dir)
     {
         if (is_dir($dir)) {
             foreach (glob($dir . DIRECTORY_SEPARATOR . '*') as $object) {
                 if (is_dir($dir . DIRECTORY_SEPARATOR . $object)) {
-                    $this->_rm_recursive($dir . DIRECTORY_SEPARATOR . $object);
+                    $this->_rmRecursive($dir . DIRECTORY_SEPARATOR . $object);
                 } else {
                     unlink($dir . DIRECTORY_SEPARATOR . $object);
                 }

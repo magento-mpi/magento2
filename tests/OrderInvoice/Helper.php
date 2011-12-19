@@ -67,14 +67,14 @@ class OrderInvoice_Helper extends Mage_Selenium_TestCase
             $qtyXpath = $this->_getControlXpath('field', 'product_qty');
             $productCount = $this->getXpathCount($setXpath);
             for ($i = 1; $i <= $productCount; $i++) {
-                $prod_sku = $this->getText($setXpath . "[$i]" . $skuXpath);
-                $prod_sku = trim(preg_replace('/SKU:|\\n/', '', $prod_sku));
+                $prodSku = $this->getText($setXpath . "[$i]" . $skuXpath);
+                $prodSku = trim(preg_replace('/SKU:|\\n/', '', $prodSku));
                 if ($this->isElementPresent($qtyXpath . "/input")) {
-                    $prod_qty = $this->getAttribute($setXpath . "[$i]" . $qtyXpath . '/input/@value');
+                    $prodQty = $this->getAttribute($setXpath . "[$i]" . $qtyXpath . '/input/@value');
                 } else {
-                    $prod_qty = $this->getText($setXpath . "[$i]" . $qtyXpath);
+                    $prodQty = $this->getText($setXpath . "[$i]" . $qtyXpath);
                 }
-                $verify[$prod_sku] = $prod_qty;
+                $verify[$prodSku] = $prodQty;
             }
         }
         $buttonXpath = $this->_getControlXpath('button', 'update_qty');

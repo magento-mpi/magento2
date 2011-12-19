@@ -389,15 +389,15 @@ class Order_Create_WithDifferentProductsTest extends Mage_Selenium_TestCase
     public function configurableProductWithSimple($attrData, $simple, $virtual, $download)
     {
         //Data
-        $pr_1 = $this->loadData('associated', array('associated_search_sku' => $simple['general_sku']));
-        $pr_2 = $this->loadData('associated', array('associated_search_sku' => $virtual['general_sku']));
-        $pr_3 = $this->loadData('associated', array('associated_search_sku' => $download['general_sku']));
+        $pr1 = $this->loadData('associated', array('associated_search_sku' => $simple['general_sku']));
+        $pr2 = $this->loadData('associated', array('associated_search_sku' => $virtual['general_sku']));
+        $pr3 = $this->loadData('associated', array('associated_search_sku' => $download['general_sku']));
         $configurable = $this->loadData('configurable_product_for_order',
                 array(
                     'configurable_attribute_title' => $attrData['admin_title'],
-                    'associated_configurable_1'    => $pr_1,
-                    'associated_configurable_2'    => $pr_2,
-                    'associated_configurable_3'    => $pr_3,
+                    'associated_configurable_1'    => $pr1,
+                    'associated_configurable_2'    => $pr2,
+                    'associated_configurable_3'    => $pr3,
                 ), array('general_name', 'general_sku'));
         $orderData = $this->loadData('order_newcustmoer_checkmoney_flatrate',
                 array('filter_sku'           => $configurable['general_sku'],

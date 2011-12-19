@@ -141,12 +141,12 @@ class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
         if (isset($this->_uimapData[$area])) {
             foreach ($this->_uimapData[$area] as &$page) {
                 // get mca without any modifications
-                $page_mca = trim($page->getMca(new Mage_Selenium_Helper_Params()), ' /\\');
-                if ($page_mca !== false && $page_mca !== null) {
+                $pageMca = trim($page->getMca(new Mage_Selenium_Helper_Params()), ' /\\');
+                if ($pageMca !== false && $pageMca !== null) {
                     if ($paramsDecorator) {
-                        $page_mca = $paramsDecorator->replaceParametersWithRegexp($page_mca);
+                        $pageMca = $paramsDecorator->replaceParametersWithRegexp($pageMca);
                     }
-                    if (preg_match(';^' . $page_mca . '$;', $mca)) {
+                    if (preg_match(';^' . $pageMca . '$;', $mca)) {
                         $page->assignParams($paramsDecorator);
                         return $page;
                     }

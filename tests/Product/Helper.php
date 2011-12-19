@@ -261,12 +261,12 @@ class Product_Helper extends Mage_Selenium_TestCase
         $this->addParameter('optionId', $optionId);
         $this->clickButton('add_option', FALSE);
         $this->fillForm($customOptionData, 'custom_options');
-        foreach ($customOptionData as $row_key => $row_value) {
-            if (preg_match('/^custom_option_row/', $row_key) && is_array($row_value)) {
+        foreach ($customOptionData as $rowKey => $rowValue) {
+            if (preg_match('/^custom_option_row/', $rowKey) && is_array($rowValue)) {
                 $rowId = $this->getXpathCount($fieldSetXpath . "//tr[contains(@id,'product_option_')][not(@style)]");
                 $this->addParameter('rowId', $rowId);
                 $this->clickButton('add_row', FALSE);
-                $this->fillForm($row_value, 'custom_options');
+                $this->fillForm($rowValue, 'custom_options');
             }
         }
     }
@@ -865,7 +865,7 @@ class Product_Helper extends Mage_Selenium_TestCase
         }
         $productUrl = trim(strtolower(preg_replace('#[^0-9a-z]+#i', '-', $productName)), '-');
         $this->addParameter('productUrl', $productUrl);
-        
+
         if ($categoryPath) {
             $nodes = explode('/', $categoryPath);
             if (count($nodes) > 1) {

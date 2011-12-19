@@ -175,23 +175,23 @@ class CompareProducts_Helper extends Mage_Selenium_TestCase
                     $value['product_prices'], $prices);
             $value['product_prices'] = array_map('trim', $prices[0]);
 
-            foreach ($value['product_prices'] as $key_price => $price) {
+            foreach ($value['product_prices'] as $keyPrice => $price) {
                 $prices = array_map('trim', explode('$', $price));
                 $priceType = trim(strtolower(preg_replace('#[^0-9a-z]+#i', '_', $prices[0])), '_');
                 if (!$priceType) {
                     $priceType = 'price';
                 }
                 $value['product_prices'][$priceType] = $prices[1];
-                unset($value['product_prices'][$key_price]);
+                unset($value['product_prices'][$keyPrice]);
             }
             $include = '';
-            foreach ($value['product_prices'] as $price_type => $price_value) {
-                if (preg_match('/_excl_tax/', $price_type)) {
-                    $include = preg_replace('/_excl_tax/', '', $price_type);
+            foreach ($value['product_prices'] as $priceType => $priceValue) {
+                if (preg_match('/_excl_tax/', $priceType)) {
+                    $include = preg_replace('/_excl_tax/', '', $priceType);
                 }
-                if ($price_type == 'incl_tax' && $include) {
-                    $value['product_prices'][$include . '_' . $price_type] = $price_value;
-                    unset($value['product_prices'][$price_type]);
+                if ($priceType == 'incl_tax' && $include) {
+                    $value['product_prices'][$include . '_' . $priceType] = $priceValue;
+                    unset($value['product_prices'][$priceType]);
                 }
             }
         }

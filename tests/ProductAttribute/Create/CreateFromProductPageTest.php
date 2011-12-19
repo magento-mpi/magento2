@@ -75,7 +75,7 @@ class ProductAttribute_Create_CreateFromProductPageTest extends Mage_Selenium_Te
      * @dataProvider dataAttributeTypes
      * @test
      */
-    public function onProductPage_WithRequiredFieldsOnly($attributeType)
+    public function onProductPageWithRequiredFieldsOnly($attributeType)
     {
         //Data
         $productData = $this->loadData('simple_product_required');

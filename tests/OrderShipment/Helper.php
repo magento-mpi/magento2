@@ -65,10 +65,10 @@ class OrderShipment_Helper extends Mage_Selenium_TestCase
             $qtyXpath = $this->_getControlXpath('field', 'product_qty');
             $productCount = $this->getXpathCount($setXpath);
             for ($i = 1; $i <= $productCount; $i++) {
-                $prod_sku = $this->getText($setXpath . "[$i]" . $skuXpath);
-                $prod_sku = trim(preg_replace('/SKU:|\\n/', '', $prod_sku));
-                $prod_qty = $this->getAttribute($setXpath . "[$i]" . $qtyXpath . '/@value');
-                $verify[$prod_sku] = $prod_qty;
+                $prodSku = $this->getText($setXpath . "[$i]" . $skuXpath);
+                $prodSku = trim(preg_replace('/SKU:|\\n/', '', $prodSku));
+                $prodQty = $this->getAttribute($setXpath . "[$i]" . $qtyXpath . '/@value');
+                $verify[$prodSku] = $prodQty;
             }
         }
         $this->clickButton('submit_shipment');

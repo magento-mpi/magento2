@@ -199,7 +199,7 @@ class Store_Website_CreateTest extends Mage_Selenium_TestCase
      * @depends withRequiredFieldsOnly
      * @test
      */
-    public function withSpecialCharacters_InName()
+    public function withSpecialCharactersInName()
     {
         //Data
         $websiteData = $this->loadData('generic_website',

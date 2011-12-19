@@ -129,9 +129,9 @@ class Mage_Selenium_Uimap_Abstract
             ) {
                 $elem->assignParams($params);
             } else if ($elem instanceof ArrayObject) {
-                foreach ($elem as $arr_elem) {
-                    if ($arr_elem instanceof Mage_Selenium_Uimap_Abstract) {
-                        $arr_elem->assignParams($params);
+                foreach ($elem as $arrElem) {
+                    if ($arrElem instanceof Mage_Selenium_Uimap_Abstract) {
+                        $arrElem->assignParams($params);
                     }
                 }
             }

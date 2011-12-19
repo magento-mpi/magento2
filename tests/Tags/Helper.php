@@ -176,17 +176,17 @@ class Tags_Helper extends Mage_Selenium_TestCase
     /**
      * Select store view on Create/Edit tag page
      *
-     * @param string $store_view_name Name of the store
+     * @param string $storeViewName Name of the store
      */
-    protected function selectStoreView($store_view_name)
+    protected function selectStoreView($storeViewName)
     {
         $xpath = $this->_getControlXpath('dropdown', 'switch_store');
-        $toSelect = $xpath . "//option[contains(.,'" . $store_view_name . "')]";
+        $toSelect = $xpath . "//option[contains(.,'" . $storeViewName . "')]";
         $isSelected = $toSelect . '[@selected]';
         if (!$this->isElementPresent($isSelected)) {
             $storeId = $this->getAttribute($toSelect . '/@value');
             $this->addParameter('storeId', $storeId);
-            $this->fillForm(array('switch_store' => $store_view_name));
+            $this->fillForm(array('switch_store' => $storeViewName));
             $this->waitForPageToLoad($this->_browserTimeoutPeriod);
             $this->validatePage();
         }
@@ -210,10 +210,10 @@ class Tags_Helper extends Mage_Selenium_TestCase
                 unset($tagData['switch_store']);
             }
         }
-        $prod_tag_admin = (isset($tagData['products_tagged_by_admins'])) ? $tagData['products_tagged_by_admins'] : null;
+        $prodTagAdmin = (isset($tagData['products_tagged_by_admins'])) ? $tagData['products_tagged_by_admins'] : null;
         // Fill general options
         $this->fillForm($tagData);
-        if ($prod_tag_admin) {
+        if ($prodTagAdmin) {
             // Add tag name to parameters
             $tagName = $this->getValue($this->_getControlXpath('field', 'tag_name'));
             $this->addParameter('tagName', $tagName);
@@ -223,7 +223,7 @@ class Tags_Helper extends Mage_Selenium_TestCase
                 $this->clickControl('link', 'prod_tag_admin_expand', false);
                 $this->waitForAjax();
             }
-            $this->searchAndChoose($prod_tag_admin, 'products_tagged_by_admins');
+            $this->searchAndChoose($prodTagAdmin, 'products_tagged_by_admins');
         }
     }
 

@@ -1657,16 +1657,16 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     public function defineIdFromUrl()
     {
         // ID definition
-        $item_id = 0;
-        $title_arr = explode('/', $this->getLocation());
-        $title_arr = array_reverse($title_arr);
-        foreach ($title_arr as $key => $value) {
-            if (preg_match('/id$/', $value) && isset($title_arr[$key - 1])) {
-                $item_id = $title_arr[$key - 1];
+        $itemId = 0;
+        $titleArr = explode('/', $this->getLocation());
+        $titleArr = array_reverse($titleArr);
+        foreach ($titleArr as $key => $value) {
+            if (preg_match('/id$/', $value) && isset($titleArr[$key - 1])) {
+                $itemId = $titleArr[$key - 1];
                 break;
             }
         }
-        return $item_id;
+        return $itemId;
     }
 
     /**

@@ -340,7 +340,7 @@ class Order_Helper extends Mage_Selenium_TestCase
                     if (is_array($v)) {
                         $type = (isset($v['fieldType'])) ? $v['fieldType'] : '';
                         $parameter = (isset($v['fieldParameter'])) ? $v['fieldParameter'] : '';
-                        $field_value = (isset($v['fieldsValue'])) ? $v['fieldsValue'] : '';
+                        $fieldValue = (isset($v['fieldsValue'])) ? $v['fieldsValue'] : '';
                         $this->addParameter('optionParameter', $parameter);
                         $method = 'getAll' . ucfirst(strtolower($type));
                         if ($method == 'getAllCheckbox') {
@@ -351,7 +351,7 @@ class Order_Helper extends Mage_Selenium_TestCase
                         $a = $set->$method();
                         foreach ($a as $field => $fieldValue) {
                             if ($this->isElementPresent($fieldValue)) {
-                                $this->fillForm(array($field => $field_value));
+                                $this->fillForm(array($field => $fieldValue));
                                 break;
                             }
                         }

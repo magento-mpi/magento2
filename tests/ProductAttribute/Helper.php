@@ -186,8 +186,8 @@ class ProductAttribute_Helper extends Mage_Selenium_TestCase
             $num = 1;
         }
 
-        foreach ($attrData as $f_key => $d_value) {
-            if (preg_match('/^option_/', $f_key) and is_array($attrData[$f_key])) {
+        foreach ($attrData as $fKey => $dValue) {
+            if (preg_match('/^option_/', $fKey) and is_array($attrData[$fKey])) {
                 if ($this->isElementPresent($fieldSetXpath)) {
                     $optionCount = $this->getXpathCount($fieldSetXpath . "//tr[contains(@class,'option-row')]");
 
@@ -195,8 +195,8 @@ class ProductAttribute_Helper extends Mage_Selenium_TestCase
                         case 'fill':
                             $this->addParameter('fieldOptionNumber', $optionCount);
                             $this->clickButton('add_option', FALSE);
-                            $this->storeViewTitles($attrData[$f_key], 'manage_options');
-                            $this->fillForm($attrData[$f_key], 'manage_lables_options');
+                            $this->storeViewTitles($attrData[$fKey], 'manage_options');
+                            $this->fillForm($attrData[$fKey], 'manage_lables_options');
                             break;
                         case 'verify':
                             if ($option > 0) {
@@ -204,9 +204,9 @@ class ProductAttribute_Helper extends Mage_Selenium_TestCase
                                         . "//tr[contains(@class,'option-row')][" . $num
                                         . "]//input[@class='input-radio']/@value");
                                 $this->addParameter('fieldOptionNumber', $fieldOptionNumber);
-                                $this->assertTrue($this->verifyForm($attrData[$f_key], 'manage_lables_options'),
+                                $this->assertTrue($this->verifyForm($attrData[$fKey], 'manage_lables_options'),
                                         $this->getParsedMessages());
-                                $this->storeViewTitles($attrData[$f_key], 'manage_options', 'verify');
+                                $this->storeViewTitles($attrData[$fKey], 'manage_options', 'verify');
                                 $num++;
                                 $option--;
                             }

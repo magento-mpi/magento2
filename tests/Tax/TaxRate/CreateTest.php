@@ -304,7 +304,7 @@ class Tax_TaxRate_CreateTest extends Mage_Selenium_TestCase
      * @depends withRequiredFieldsOnly
      * @test
      */
-    public function test_WithSelectedState()
+    public function withSelectedState()
     {
         //Data
         $taxRateData = $this->loadData('tax_rate_create_test', null, 'tax_identifier');

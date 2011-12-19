@@ -34,7 +34,7 @@ class Mage_Selenium_Helper_PageTest extends Mage_PHPUnit_TestCase
     /**
      * Testing Mage_Selenium_Helper_Page::validateCurrentPage()
      */
-    public function test_validateCurrentPage()
+    public function testValidateCurrentPage()
     {
         $_pageHelper = new Mage_Selenium_Helper_Page($this->_config);
         $this->assertInstanceOf('Mage_Selenium_Helper_Page', $_pageHelper->validateCurrentPage());
@@ -43,7 +43,7 @@ class Mage_Selenium_Helper_PageTest extends Mage_PHPUnit_TestCase
     /**
      * Testing Mage_Selenium_Helper_Page::validationFailed()
      */
-    public function test_validationFailed()
+    public function testValidationFailed()
     {
         $_pageHelper = new Mage_Selenium_Helper_Page($this->_config);
         $_pageHelper->validateCurrentPage();
@@ -53,7 +53,7 @@ class Mage_Selenium_Helper_PageTest extends Mage_PHPUnit_TestCase
     /**
      * Testing Mage_Selenium_Helper_Page::setApplicationHelper()
      */
-    public function test_setApplicationHelper()
+    public function testSetApplicationHelper()
     {
         $_pageHelper = new Mage_Selenium_Helper_Page($this->_config);
         $_suitHelper = new Mage_Selenium_Helper_Application($this->_config);
@@ -63,7 +63,7 @@ class Mage_Selenium_Helper_PageTest extends Mage_PHPUnit_TestCase
     /**
      * Testing Mage_Selenium_Helper_Page::getPageUrl()
      */
-    public function test_getPageUrl()
+    public function testGetPageUrl()
     {
         $_pageHelper = new Mage_Selenium_Helper_Page($this->_config);
         $_suitHelper = new Mage_Selenium_Helper_Application($this->_config);
@@ -79,7 +79,7 @@ class Mage_Selenium_Helper_PageTest extends Mage_PHPUnit_TestCase
      *
      * @expectedException Mage_Selenium_Exception
      */
-    public function test_getPageUrlUninitializedException()
+    public function testGetPageUrlUninitializedException()
     {
         $_pageHelper = new Mage_Selenium_Helper_Page($this->_config);
         $this->assertStringEndsWith('/control/permissions_user/', $_pageHelper->getPageUrl('manage_admin_users'));
@@ -90,7 +90,7 @@ class Mage_Selenium_Helper_PageTest extends Mage_PHPUnit_TestCase
      *
      * @expectedException OutOfRangeException
      */
-    public function test_getPageUrlWrongAreaException()
+    public function testGetPageUrlWrongAreaException()
     {
         $_pageHelper = new Mage_Selenium_Helper_Page($this->_config);
         $_suitHelper = new Mage_Selenium_Helper_Application($this->_config);
@@ -105,7 +105,7 @@ class Mage_Selenium_Helper_PageTest extends Mage_PHPUnit_TestCase
      *
      * @expectedException Mage_Selenium_Exception
      */
-    public function test_getPageUrlWrongUrlException()
+    public function testGetPageUrlWrongUrlException()
     {
         $_pageHelper = new Mage_Selenium_Helper_Page($this->_config);
         $_suitHelper = new Mage_Selenium_Helper_Application($this->_config);
