@@ -43,11 +43,31 @@ class Mage_OAuth_AuthorizeController extends Mage_Core_Controller_Front_Action
         $oauthToken = $this->getRequest()->getQuery('oauth_token', null);
 
         if (null === $oauthToken) {
-            $this->norouteAction();
-
-            return;
+            die('Invalid token');
         }
+        /** @var $token Mage_OAuth_Model_Token */
+        $token = Mage::getModel('oauth/token');
+
+        if (!$token->load($oauthToken, 'tmp_token')->getId()) {
+            die('Invalid token');
+        }
+        /** @var $consumer Mage_OAuth_Model_Consumer */
+        $consumer = Mage::getModel('oauth/consumer');
+
+        if (!$consumer->load($token->getConsumerId())->getId()) {
+            die('Invalid token');
+        }
+        /** @var $helper Mage_OAuth_Helper_Data */
+        $helper = Mage::helper('oauth');
+
+        $token->setTmpVerifier($helper->generateToken(32));
+        $token->save();
+
+        $callbackUrl = $token->getTmpCallbackUrl() . '?oauth_token=' . $token->getTmpToken()
+                       . '&amp;oauth_verifier=' . $token->getTmpVerifier();
+
         // Authentication form HTML
-        echo 'Here will be user auth form<br/><a href="/?' . $oauthToken . '">Yes, I grant rights for Application</a>';
+        echo 'Here will be user auth form<br/><a href="' . $callbackUrl
+             . '">Yes, I grant rights for ' . $consumer->getName() . '</a><br>' . htmlspecialchars($callbackUrl);
     }
 }

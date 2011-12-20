@@ -34,27 +34,6 @@
 class Mage_OAuth_InitiateController extends Mage_Core_Controller_Front_Action
 {
     /**
-     * Test action to generate initiative request to oAuth server
-     */
-    public function clientInitAction()
-    {
-        /** @var $helper Mage_OAuth_Helper_Data */
-        $helper = Mage::app()->getHelper('oauth');
-
-        $config = array(
-            'callbackUrl'     => $helper->getProtocolEndpointUrl(Mage_OAuth_Helper_Data::ENDPOINT_AUTHORIZE),
-            'requestTokenUrl' => $helper->getProtocolEndpointUrl(Mage_OAuth_Helper_Data::ENDPOINT_INITIATE),
-            'consumerKey'     => 'dpf43f3p2l4k3l03',
-            'consumerSecret'  => 'kd94hf93k423kf44',
-            'signatureMethod' => 'HMAC-SHA1',
-            'version'         => '1.0'
-        );
-        $consumer = new Zend_Oauth_Consumer($config);
-
-        echo $consumer->getRequestToken();
-    }
-
-    /**
      * Index action.  Receive initiate request and response OAuth token
      */
     public function indexAction()
