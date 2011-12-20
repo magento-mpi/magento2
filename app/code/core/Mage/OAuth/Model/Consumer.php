@@ -52,12 +52,12 @@ class Mage_OAuth_Model_Consumer extends Mage_Core_Model_Abstract
     /**
      * Key hash length
      */
-    const KEY_LENGTH = 16;
+    const KEY_LENGTH = 32;
 
     /**
      * Secret hash length
      */
-    const SECRET_LENGTH = 16;
+    const SECRET_LENGTH = 32;
 
     /**
      * Initialize resource model
