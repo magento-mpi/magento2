@@ -194,12 +194,12 @@ class Product_Linking_BundleLinkingTest extends Mage_Selenium_TestCase
         $i = 1;
         $errors = array();
         foreach (self::$productsInStock as $prod) {
-            $this->addParameter('productName', $prod['general_name']);
             if ($i % 2) {
                 $this->productHelper()->frontOpenProduct($productData1['general_name']);
             } else {
                 $this->productHelper()->frontOpenProduct($productData2['general_name']);
             }
+            $this->addParameter('productName', $prod['general_name']);
             if (!$this->controlIsPresent('link', 'related_product')) {
                 $errors[] = 'Related Product ' . $prod['general_name'] . ' is not on the page';
             }
@@ -300,7 +300,6 @@ class Product_Linking_BundleLinkingTest extends Mage_Selenium_TestCase
         $i = 1;
         $errors = array();
         foreach (self::$productsInStock as $prod) {
-            $this->addParameter('crosssellProductName', $prod['general_name']);
             if ($i % 2) {
                 $this->productHelper()->frontOpenProduct($productData1['general_name']);
                 $this->productHelper()->frontAddProductToCart();
@@ -308,6 +307,7 @@ class Product_Linking_BundleLinkingTest extends Mage_Selenium_TestCase
                 $this->productHelper()->frontOpenProduct($productData2['general_name']);
                 $this->productHelper()->frontAddProductToCart();
             }
+            $this->addParameter('crosssellProductName', $prod['general_name']);
             if (!$this->controlIsPresent('link', 'crosssell_product')) {
                 $errors[] = 'Cross-sell Product ' . $prod['general_name'] . ' is not on the page';
             }
@@ -410,12 +410,12 @@ class Product_Linking_BundleLinkingTest extends Mage_Selenium_TestCase
         $i = 1;
         $errors = array();
         foreach (self::$productsInStock as $prod) {
-            $this->addParameter('productName', $prod['general_name']);
             if ($i % 2) {
                 $this->productHelper()->frontOpenProduct($productData1['general_name']);
             } else {
                 $this->productHelper()->frontOpenProduct($productData2['general_name']);
             }
+            $this->addParameter('productName', $prod['general_name']);
             if (!$this->controlIsPresent('link', 'upsell_product')) {
                 $errors[] = 'Up-sell Product ' . $prod['general_name'] . ' is not on the page';
             }
