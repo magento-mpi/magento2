@@ -78,7 +78,7 @@ class Mage_Captcha_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getConfigNode($id)
     {
-        return Mage::getStoreConfig(Mage::app()->getStore()->isAdmin() ? 'admin' : 'customer' . '/captcha/' . $id);
+        return Mage::getStoreConfig((Mage::app()->getStore()->isAdmin() ? 'admin' : 'customer') . '/captcha/' . $id);
     }
 
     /**
