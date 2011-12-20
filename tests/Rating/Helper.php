@@ -94,11 +94,9 @@ class Rating_Helper extends Mage_Selenium_TestCase
             $ratingData = $this->loadData($ratingData);
         }
         $ratingData = $this->arrayEmptyClear($ratingData);
-        foreach ($ratingData as $key => $value) {
-            $this->fillForm($value, $key);
-            if (isset($value['store_view_titles'])) {
-                $this->fillRatingTitles($value['store_view_titles']);
-            }
+        $this->fillForm($ratingData);
+        if (isset($ratingData['store_view_titles'])) {
+            $this->fillRatingTitles($ratingData['store_view_titles']);
         }
     }
 

@@ -34,49 +34,42 @@ search_rating:
     filter_id: %noValue%
     filter_rating_name: %noValue%
 
-
 default_rating:
-    rating_information:
-        default_value: test_rating
-        store_view_titles:
-            store_view_1:
-                store_view_name: %noValue%
-                store_view_title: %noValue%
-            store_view_2: %noValue%
-        visible_in: %noValue%
+    default_value: test_rating_title_%randomize%
+    store_view_titles:
+        store_view_1:
+            store_view_name: Default Store View
+            store_view_title: Default Store View Title
+        store_view_2: %noValue%
+    visible_in: %noValue%
 
 rating_required_fields:
-    rating_information:
-        default_value: test_rating
+    default_value: test_rating_title_%randomize%
 
 #<----------------------------------------------------Reviews---------------------------------------------------------->
-search_review_guest:
-    filter_massaction: %noValue%
+search_fields: &searchReview
     filter_id: %noValue%
     filter_created_on_from: %noValue%
     filter_created_on_to: %noValue%
-    filter_status: Pending
+    filter_status: %noValue%
     filter_title: %noValue%
     filter_nickname: %noValue%
     filter_review: %noValue%
     filter_visible_in: %noValue%
-    filter_type: Guest
     filter_product_name: %noValue%
     filter_product_sku: %noValue%
 
+search_review_guest:
+    <<: *searchReview
+    filter_type: Guest
+
 search_review_customer:
-    filter_massaction: %noValue%
-    filter_id: %noValue%
-    filter_created_on_from: %noValue%
-    filter_created_on_to: %noValue%
-    filter_status: Pending
-    filter_title: %noValue%
-    filter_nickname: %noValue%
-    filter_review: %noValue%
-    filter_visible_in: %noValue%
+    <<: *searchReview
     filter_type: Customer
-    filter_product_name: %noValue%
-    filter_product_sku: %noValue%
+
+search_review_admin:
+    <<: *searchReview
+    filter_type: Administrator
 
 product_to_search: &productToSearch
     filter_id: %noValue%
@@ -89,37 +82,50 @@ product_to_search: &productToSearch
     filter_status: %noValue%
     filter_websites: %noValue%
 
-default_review:
+review_required_without_rating:
     product_to_review: *productToSearch
+    product_rating: %noValue%
     status: Approved
-    visible_in: Default Store View, new_store_view, test_store_view
-    detailed_rating_select:
+    visible_in: Default Store View
+    nickname: test_nickname_%randomize%
+    summary_of_review: %randomize% test summary for review
+    review: %randomize% some test review
+
+review_required_with_rating:
+    product_to_review: *productToSearch
+    product_rating:
         rating_1:
             rating_name:  %noValue%
             stars: 3
-    nickname: test_nickname
-    summary_of_review: test summary for review
-    review: some_test review
-
-review_required:
-    product_to_review: *productToSearch
     status: Approved
-    visible_in: Default Store View, new_store_view, test_store_view
-    detailed_rating_select:
-        rating_1:
-            rating_name:  %noValue%
-            stars: 3
-    nickname: test_nickname
-    summary_of_review: test summary for review
-    review: some_test review
+    visible_in: Default Store View
+    nickname: test_nickname_%randomize%
+    summary_of_review: %randomize% test summary for review
+    review: %randomize% some test review
 
+admin_review_long_values:
+    product_to_review: *productToSearch
+    product_rating: %noValue%
+    status: Approved
+    visible_in: Default Store View
+    nickname: %longValue255%
+    summary_of_review: %longValue255%
+    review: %longValue255%
+
+admin_review_special_symbols:
+    product_to_review: *productToSearch
+    product_rating: %noValue%
+    status: Approved
+    visible_in: Default Store View
+    nickname: %specialValue32%
+    summary_of_review: %specialValue32%
+    review: %specialValue32%
 ########################################################################################################################
 #                                                  Frontend                                                            #
 ########################################################################################################################
-
 review_with_rating:
     nickname: %randomize% Nickname
-    summary_of_your_review: %randomize% Review Summary
+    summary_of_review: %randomize% Review Summary
     review: %randomize% Review Text
     ratings:
         rating_1:
@@ -131,18 +137,18 @@ review_with_rating:
 
 frontend_review:
     nickname: %randomize% Test Nickname
-    summary_of_your_review: %randomize% Test Review Summary
+    summary_of_review: %randomize% Test Review Summary
     review: %randomize% Test Review Text
     ratings: %noValue%
 
 review_long_values:
-    nickname: %longValue255%
-    summary_of_your_review: %longValue255%
+    nickname: %longValue50%
+    summary_of_review: %longValue255%
     review: %longValue255%
     ratings: %noValue%
 
 review_special_symbols:
     nickname: %specialValue32%
-    summary_of_your_review: %specialValue32%
+    summary_of_review: %specialValue32%
     review: %specialValue32%
     ratings: %noValue%

@@ -48,58 +48,42 @@ class Review_BackendCreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Preconditions:</p>
-     * <p>Create Simple product</p>
      *
      * @test
      * @return array
      */
-    public function createProduct()
+    public function preconditionsForTests()
     {
+        //Data
+        $simpleData = $this->loadData('simple_product_visible');
+        $storeView = $this->loadData('generic_store_view');
+        $ratingData = $this->loadData('default_rating', array('visible_in' => $storeView['store_view_name']));
+        //Steps
         $this->navigate('manage_products');
-        $simpleProductData = $this->loadData('simple_product_visible', NULL, array('general_name', 'general_sku'));
-        $this->productHelper()->createProduct($simpleProductData);
+        $this->productHelper()->createProduct($simpleData);
+        //Verification
         $this->assertMessagePresent('success', 'success_saved_product');
-
-        return $simpleProductData;
-    }
-
-    /**
-     * <p>Preconditions:</p>
-     * <p>Create Store View</p>
-     *
-     * @test
-     * @return string
-     */
-    public function createStoreView()
-    {
+        //Steps
         $this->navigate('manage_stores');
-        $storeViewData = $this->loadData('generic_store_view');
-        $this->storeHelper()->createStore($storeViewData, 'store_view');
+        $this->storeHelper()->createStore($storeView, 'store_view');
+        //Verification
         $this->assertMessagePresent('success', 'success_saved_store_view');
-
-        return $storeViewData['store_view_name'];
-    }
-
-    /**
-     * <p>Preconditions:</p>
-     * <p>Create Rating</p>
-     *
-     * @depends createStoreView
-     * @test
-     * @return string
-     */
-    public function createRating($storeView)
-    {
+        //Steps
         $this->navigate('manage_ratings');
-        $ratingData = $this->loadData('default_rating', array('visible_in' => $storeView), 'default_value');
         $this->ratingHelper()->createRating($ratingData);
+        //Verification
         $this->assertMessagePresent('success', 'success_saved_rating');
-
-        return $ratingData;
+        return array(
+                'sku'        => $simpleData['general_sku'],
+                'name'       => $simpleData['general_name'],
+                'store'      => $storeView['store_view_name'],
+                'withRating' => array('filter_sku'  => $simpleData['general_sku'],
+                                      'rating_name' => $ratingData['default_value'],
+                                      'visible_in'  => $storeView['store_view_name']));
     }
 
     /**
-     * <p>Creating a new review</p>
+     * <p>Creating a new review without rating</p>
      * <p>Steps:</p>
      * <p>1. Click button "Add New Review"</p>
      * <p>2. Select product from the grid</p>
@@ -107,21 +91,27 @@ class Review_BackendCreateTest extends Mage_Selenium_TestCase
      * <p>4. Click button "Save Review"</p>
      * <p>Expected result:</p>
      * <p>Received the message that the review has been saved.</p>
+     * <p>5. Go to Frontend</p>
+     * <p>6. Verify review on product page;</p>
      *
-     * @depends createProduct
-     * @depends createRating
+     * @depends preconditionsForTests
      * @test
      */
-    public function withRequiredFieldsOnly($product, $ratingData)
+    public function requiredFieldsWithoutRating($data)
     {
+        //Data
+        $reviewData = $this->loadData('review_required_without_rating', array('filter_sku' => $data['sku']));
+        //Steps
         $this->navigate('all_reviews');
-        $reviewData = $this->loadData('review_required',
-                array('filter_sku' => $product['general_sku'],
-                    'rating_name' => $ratingData['rating_information']['default_value'],
-                    'visible_in' => $ratingData['rating_information']['visible_in']),
-                array('nickname', 'summary_of_review', 'review'));
         $this->reviewHelper()->createReview($reviewData);
+        //Verification
         $this->assertMessagePresent('success', 'success_saved_review');
+        //Steps
+        $this->reindexInvalidedData();
+        $this->frontend();
+        $this->productHelper()->frontOpenProduct($data['name']);
+        //Verification
+        $this->reviewHelper()->frontVerifyReviewDisplaying($reviewData, $data['name']);
     }
 
     /**
@@ -144,56 +134,33 @@ class Review_BackendCreateTest extends Mage_Selenium_TestCase
      * <p>4. Verify review in category;</p>
      * <p>5. Verify review on product page;</p>
      *
-     * @depends createProduct
-     * @depends createStoreView
-     * @depends createRating
+     * @depends preconditionsForTests
      * @test
      */
-    public function withRequiredFieldsRatingAndVisibleIn($product, $storeView, $ratingData)
+    public function requiredFieldsWithRating($data)
     {
+        //Data
+        $reviewData = $this->loadData('review_required_with_rating', $data['withRating']);
+        //Steps
         $this->navigate('all_reviews');
-        $reviewData = $this->loadData('review_required',
-                array('filter_sku' => $product['general_sku'],
-                    'rating_name' => $ratingData['rating_information']['default_value'],
-                    'visible_in' => $ratingData['rating_information']['visible_in']),
-                array('nickname', 'summary_of_review', 'review'));
         $this->reviewHelper()->createReview($reviewData);
+        //Verification
         $this->assertMessagePresent('success', 'success_saved_review');
+        //Steps
         $this->reindexInvalidedData();
-
-
         $this->frontend();
-        $xpath = $this->_getControlXpath('dropdown', 'your_language') . '/option[@selected]';
-        $text = trim($this->getText($xpath));
-        if (strcmp(trim('Default Store View'), $text) != 0) {
-            $this->fillForm(array('your_language' => 'Default Store View'));
-            $this->waitForPageToLoad($this->_browserTimeoutPeriod);
-        }
-        $this->productHelper()->frontOpenProduct($product['general_name']);
-        $this->addParameter('productId', NULL);
-        $this->addParameter('productId', '');
-        $this->addParameter('productTitle', $product['general_name']);
-        $this->reviewHelper()->defineCorrectParam('first_review', 'productId');
-        $this->clickControl('link', 'first_review');
+        $this->selectFrontStoreView($data['store']);
+        $this->productHelper()->frontOpenProduct($data['name']);
+        //Verification
+        $this->reviewHelper()->frontVerifyReviewDisplaying($reviewData, $data['name']);
+        //Steps
+        $this->selectFrontStoreView();
+        $this->productHelper()->frontOpenProduct($data['name']);
+        //Verification
+        $this->clickControl('link', 'reviews');
         $this->addParameter('reviewerName', $reviewData['nickname']);
-        $this->assertFalse($this->controlIsPresent('pageelement', 'review_details'),
-                'Review is on the page, but should not be there');
-
-        $this->frontend();
-        $text = trim($this->getText($xpath));
-        if (strcmp(trim($storeView), $text) != 0) {
-            $this->fillForm(array('your_language' => $storeView));
-            $this->waitForPageToLoad($this->_browserTimeoutPeriod);
-        }
-        $this->productHelper()->frontOpenProduct($product['general_name']);
-        $this->addParameter('productId', NULL);
-        $this->addParameter('productId', '');
-        $this->addParameter('productTitle', $product['general_name']);
-        $this->reviewHelper()->defineCorrectParam('add_your_review', 'productId');
-        $this->clickControl('link', 'add_your_review');
-        $this->addParameter('reviewerName', $reviewData['nickname']);
-        $this->assertTrue($this->controlIsPresent('pageelement', 'review_details'),
-                'Review is not on the page, but should be there');
+        $this->assertFalse($this->controlIsPresent('pageelement', 'review_reviwer_name'),
+                'Review for product displayed for \'Default Store View\' store view');
     }
 
     /**
@@ -207,29 +174,28 @@ class Review_BackendCreateTest extends Mage_Selenium_TestCase
      * <p>Error message appears</p>
      *
      * @dataProvider emptyFields
-     * @depends createProduct
-     * @depends createRating
+     * @depends preconditionsForTests
      * @test
      */
-    public function withRequiredFieldsEmpty($emptyFieldName, $emptyFieldType, $product, $ratingData)
+    public function withEmptyRequiredFields($emptyField, $fieldType, $data)
     {
-        $this->navigate('all_reviews');
-        $reviewData = $this->loadData('review_required',
-                array('filter_sku' => $product['general_sku'],
-                    'rating_name' => $ratingData['rating_information']['default_value'],
-                    'visible_in' => $ratingData['rating_information']['visible_in']),
-                array('nickname', 'summary_of_review', 'review'));
-        $reviewData[$emptyFieldName] = '%noValue%';
-        if ($emptyFieldName == 'visible_in' || $emptyFieldName == 'product_rating') {
-            $reviewData['detailed_rating_select'] = '%noValue%';
+        //Data
+        $reviewData = $this->loadData('review_required_with_rating',
+                array_merge($data['withRating'], array($emptyField => '%noValue%')));
+        if ($emptyField == 'visible_in') {
+            $reviewData['product_rating'] = '%noValue%';
         }
+        //Steps
+        $this->navigate('all_reviews');
         $this->reviewHelper()->createReview($reviewData);
-        if ($emptyFieldName == 'product_rating') {
+        //Verification
+        if ($emptyField == 'product_rating') {
             $this->assertMessagePresent('validation', 'empty_validate_rating');
         } else {
-            $this->addFieldIdToMessage($emptyFieldType, $emptyFieldName);
+            $this->addFieldIdToMessage($fieldType, $emptyField);
             $this->assertMessagePresent('validation', 'empty_required_field');
         }
+        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     public function emptyFields()
@@ -253,50 +219,24 @@ class Review_BackendCreateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Received the message that the review has been saved.</p>
      *
-     * @depends createProduct
-     * @depends createRating
+     * @depends preconditionsForTests
      * @test
      */
-    public function withLongValues($product, $ratingData)
+    public function withLongValues($data)
     {
+        //Data
+        $reviewData = $this->loadData('admin_review_long_values', array('filter_sku' => $data['sku']));
+        $search = $this->loadData('search_review_admin',
+                array('filter_nickname' => $reviewData['nickname'], 'filter_product_sku' => $data['sku']));
+        //Steps
         $this->navigate('all_reviews');
-        $reviewData = $this->loadData('review_required',
-                array('filter_sku' => $product['general_sku'],
-                    'rating_name' => $ratingData['rating_information']['default_value'],
-                    'visible_in' => $ratingData['rating_information']['visible_in'],
-                    'nickname' => $this->generate('string', 255, ':alnum:'),
-                    'summary_of_review' => $this->generate('string', 255, ':alnum:'),
-                    'review' => $this->generate('string', 255, ':alnum:')));
         $this->reviewHelper()->createReview($reviewData);
+        //Verification
         $this->assertMessagePresent('success', 'success_saved_review');
-    }
-
-    /**
-     * <p>Creating a new review with incorrect length into required fields</p>
-     * <p>Steps:</p>
-     * <p>1. Click button "Add New Review"</p>
-     * <p>2. Select product from the grid</p>
-     * <p>3. Fill in fields in Review Details area by long values</p>
-     * <p>4. Click button "Save Review"</p>
-     * <p>Expected result:</p>
-     * <p>Received the message that the review has been saved.</p>
-     *
-     * @depends createProduct
-     * @depends createRating
-     * @test
-     */
-    public function withIncorrectLengthInRequiredFields($product, $ratingData)
-    {
-        $this->navigate('all_reviews');
-        $reviewData = $this->loadData('review_required',
-                array('filter_sku' => $product['general_sku'],
-                    'rating_name' => $ratingData['rating_information']['default_value'],
-                    'visible_in' => $ratingData['rating_information']['visible_in'],
-                    'nickname' => $this->generate('string', 256, ':alnum:'),
-                    'summary_of_review' => $this->generate('string', 256, ':alnum:'),
-                    'review' => $this->generate('string', 255, ':alnum:')));
-        $this->reviewHelper()->createReview($reviewData);
-        $this->assertMessagePresent('success', 'success_saved_review');
+        //Steps
+        $this->reviewHelper()->openReview($search);
+        //Verification
+        $this->reviewHelper()->verifyReviewData($reviewData);
     }
 
     /**
@@ -309,27 +249,24 @@ class Review_BackendCreateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Received the message that the review has been saved.</p>
      *
-     * @depends createProduct
-     * @depends createRating
+     * @depends preconditionsForTests
      * @test
      */
-    public function withSpecialCharacters($product, $ratingData)
+    public function withSpecialCharacters($data)
     {
+        //Data
+        $reviewData = $this->loadData('admin_review_special_symbols', array('filter_sku' => $data['sku']));
+        $search = $this->loadData('search_review_admin',
+                array('filter_nickname' => $reviewData['nickname'], 'filter_product_sku' => $data['sku']));
+        //Steps
         $this->navigate('all_reviews');
-        $reviewData = $this->loadData('review_required',
-                array('filter_sku' => $product['general_sku'],
-                        'rating_name' => $ratingData['rating_information']['default_value'],
-                        'visible_in' => $ratingData['rating_information']['visible_in'],
-                        'nickname' => $this->generate('string', 32, ':punct:'),
-                        'summary_of_review' => $this->generate('string', 32, ':punct:'),
-                        'review' => $this->generate('string', 32, ':punct:')));
-        $searchData = $this->loadData('search_review',
-                array('filter_product_sku' => $product['general_sku'],
-                        'filter_nickname' => $reviewData['nickname'],
-                        'filter_title' => $reviewData['summary_of_review']));
         $this->reviewHelper()->createReview($reviewData);
+        //Verification
         $this->assertMessagePresent('success', 'success_saved_review');
-        $this->reviewHelper()->openReview($searchData);
+        //Steps
+        $this->reviewHelper()->openReview($search);
+        //Verification
+        $this->reviewHelper()->verifyReviewData($reviewData);
     }
 
     /**
@@ -346,32 +283,24 @@ class Review_BackendCreateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Success message appears - status updated</p>
      *
-     * @depends createProduct
-     * @depends createRating
+     * @depends preconditionsForTests
      * @test
      */
-    public function changeStatusOfReview($product, $ratingData)
+    public function changeStatusOfReview($data)
     {
+        //Data
+        $reviewData = $this->loadData('review_required_without_rating', array('filter_sku' => $data['sku']));
+        $search = $this->loadData('search_review_admin',
+                array('filter_nickname' => $reviewData['nickname'], 'filter_product_sku' => $data['sku']));
+        //Steps
         $this->navigate('all_reviews');
-        $reviewData = $this->loadData('review_required',
-                array('filter_sku' => $product['general_sku'],
-                        'rating_name' => $ratingData['rating_information']['default_value'],
-                        'visible_in' => $ratingData['rating_information']['visible_in'],
-                        'nickname' => $this->generate('string', 32, ':alnum:'),
-                        'summary_of_review' => $this->generate('string', 32, ':alnum:'),
-                        'review' => $this->generate('string', 32, ':alnum:'),
-                        'status' => 'Pending'));
-        $searchData = $this->loadData('search_review',
-                array('filter_product_sku' => $product['general_sku'],
-                        'filter_nickname' => $reviewData['nickname'],
-                        'filter_title' => $reviewData['summary_of_review'],
-                        'filter_status' => 'Pending'));
         $this->reviewHelper()->createReview($reviewData);
+        //Verification
         $this->assertMessagePresent('success', 'success_saved_review');
-        $this->reviewHelper()->editReview(array('status' => 'Approved'), $searchData);
+        //Steps
+        $this->reviewHelper()->editReview(array('status' => 'Not Approved'), $search);
+        //Verification
         $this->assertMessagePresent('success', 'success_saved_review');
-        $searchData['filter_status'] = 'Approved';
-        $this->reviewHelper()->openReview($searchData);
     }
 
 }

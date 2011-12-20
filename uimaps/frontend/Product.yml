@@ -257,7 +257,7 @@ product_review:
                             show_per_page: //div[@class='limiter']/select
                         fields:
                             nickname: //input[@id='nickname_field']
-                            summary_of_your_review: //input[@id='summary_field']
+                            summary_of_review: //input[@id='summary_field']
                             review: //textarea[@id='review_field']
                         links:
                             review_summary: //dt[span='%reviewerName%']/a

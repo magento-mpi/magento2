@@ -49,89 +49,100 @@ class Review_BackendDeleteTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Preconditions:</p>
-     * <p>Create Simple product</p>
      *
      * @test
      * @return array
      */
-    public function createProduct()
+    public function preconditionsForTests()
     {
-        $this->loginAdminUser();
+        //Data
+        $simpleData = $this->loadData('simple_product_visible');
+        $storeView = $this->loadData('generic_store_view');
+        $ratingData = $this->loadData('default_rating', array('visible_in' => $storeView['store_view_name']));
+        //Steps
         $this->navigate('manage_products');
-        $simpleProductData = $this->loadData('simple_product_visible', NULL, array('general_name', 'general_sku'));
-        $this->productHelper()->createProduct($simpleProductData);
+        $this->productHelper()->createProduct($simpleData);
+        //Verification
         $this->assertMessagePresent('success', 'success_saved_product');
-
-        return $simpleProductData;
-    }
-
-    /**
-     * <p>Preconditions:</p>
-     * <p>Create Store View</p>
-     *
-     * @test
-     * @return string
-     */
-    public function createStoreView()
-    {
+        //Steps
         $this->navigate('manage_stores');
-        $storeViewData = $this->loadData('generic_store_view');
-        $this->storeHelper()->createStore($storeViewData, 'store_view');
+        $this->storeHelper()->createStore($storeView, 'store_view');
+        //Verification
         $this->assertMessagePresent('success', 'success_saved_store_view');
-
-        return $storeViewData['store_view_name'];
-    }
-
-    /**
-     * <p>Preconditions:</p>
-     * <p>Create Rating</p>
-     *
-     * @depends createStoreView
-     * @test
-     * @return string
-     */
-    public function createRating($storeView)
-    {
+        //Steps
         $this->navigate('manage_ratings');
-        $ratingData = $this->loadData('default_rating', array('visible_in' => $storeView), 'default_value');
         $this->ratingHelper()->createRating($ratingData);
+        //Verification
         $this->assertMessagePresent('success', 'success_saved_rating');
-
-        return $ratingData;
+        return array(
+                'sku'        => $simpleData['general_sku'],
+                'name'       => $simpleData['general_name'],
+                'store'      => $storeView['store_view_name'],
+                'withRating' => array('filter_sku'  => $simpleData['general_sku'],
+                                      'rating_name' => $ratingData['default_value'],
+                                      'visible_in'  => $storeView['store_view_name']));
     }
 
     /**
-     * <p>Delete review with Rating created</p>
+     * <p>Delete review with Rating</p>
      *
      * <p>Preconditions:</p>
-     * <p>Review with rating created;</p>
      * <p>Rating created</p>
+     * <p>Review with rating created;</p>
      * <p>Steps:</p>
      * <p>1. Select created review from the list and open it;</p>
      * <p>2. Click "Delete Review" button;</p>
      * <p>Expected result:</p>
      * <p>Success message appears - review removed from the list</p>
      *
-     * @depends createProduct
-     * @depends createRating
-     *
+     * @depends preconditionsForTests
      * @test
      */
-    public function deleteWithRating($product, $ratingData)
+    public function deleteWithRating($data)
     {
+        //Data
+        $reviewData = $this->loadData('review_required_with_rating', $data['withRating']);
+        $search = $this->loadData('search_review_admin',
+                array('filter_nickname' => $reviewData['nickname'], 'filter_product_sku' => $data['sku']));
+        //Steps
         $this->navigate('all_reviews');
-        $reviewData = $this->loadData('review_required',
-                array('filter_sku'  => $product['general_sku'],
-                      'rating_name' => $ratingData['rating_information']['default_value'],
-                      'visible_in'  => $ratingData['rating_information']['visible_in']),
-                array('nickname', 'summary_of_review', 'review'));
-        $searchData = $this->loadData('search_review',
-                array('filter_product_sku' => $product['general_sku'],
-                      'filter_nickname'    => $reviewData['nickname'],
-                      'filter_title'       => $reviewData['summary_of_review']));
         $this->reviewHelper()->createReview($reviewData);
+        //Verification
         $this->assertMessagePresent('success', 'success_saved_review');
-        $this->reviewHelper()->deleteReview($searchData);
+        //Steps
+        $this->reviewHelper()->deleteReview($search);
+        //Verification
+        $this->assertMessagePresent('success', 'success_deleted_review');
+    }
+
+    /**
+     * <p>Delete review without Rating</p>
+     *
+     * <p>Preconditions:</p>
+     * <p>Review without rating created;</p>
+     * <p>Steps:</p>
+     * <p>1. Select created review from the list and open it;</p>
+     * <p>2. Click "Delete Review" button;</p>
+     * <p>Expected result:</p>
+     * <p>Success message appears - review removed from the list</p>
+     *
+     * @depends preconditionsForTests
+     * @test
+     */
+    public function deleteWithoutRating($data)
+    {
+        //Data
+        $reviewData = $this->loadData('review_required_without_rating', array('filter_sku' => $data['sku']));
+        $search = $this->loadData('search_review_admin',
+                array('filter_nickname' => $reviewData['nickname'], 'filter_product_sku' => $data['sku']));
+        //Steps
+        $this->navigate('all_reviews');
+        $this->reviewHelper()->createReview($reviewData);
+        //Verification
+        $this->assertMessagePresent('success', 'success_saved_review');
+        //Steps
+        $this->reviewHelper()->deleteReview($search);
+        //Verification
         $this->assertMessagePresent('success', 'success_deleted_review');
     }
 
@@ -146,28 +157,26 @@ class Review_BackendDeleteTest extends Mage_Selenium_TestCase
      * <p>3. Click "Submit" button;</p>
      * <p>Success message appears - review removed from the list</p>
      *
-     * @depends createProduct
-     * @depends createRating
+     * @depends preconditionsForTests
      *
      * @test
      */
-    public function deleteMassAction($product, $ratingData)
+    public function deleteMassAction($data)
     {
+        //Data
+        $reviewData = $this->loadData('review_required_without_rating', array('filter_sku' => $data['sku']));
+        $search = $this->loadData('search_review_admin',
+                array('filter_nickname' => $reviewData['nickname'], 'filter_product_sku' => $data['sku']));
+        //Steps
         $this->navigate('all_reviews');
-        $reviewData = $this->loadData('review_required',
-                array('filter_sku'  => $product['general_sku'],
-                      'rating_name' => $ratingData['rating_information']['default_value'],
-                      'visible_in'  => $ratingData['rating_information']['visible_in']),
-                array('nickname', 'summary_of_review', 'review'));
-        $searchData = $this->loadData('search_review',
-                array('filter_product_sku' => $product['general_sku'],
-                      'filter_nickname'    => $reviewData['nickname'],
-                      'filter_title'       => $reviewData['summary_of_review']));
         $this->reviewHelper()->createReview($reviewData);
+        //Verification
         $this->assertMessagePresent('success', 'success_saved_review');
-        $this->searchAndChoose($searchData);
+        //Steps
+        $this->searchAndChoose($search);
         $this->fillForm(array('actions' => 'Delete'));
         $this->clickButtonAndConfirm('submit', 'confirmation_for_delete_all');
+        //Verification
         $this->assertMessagePresent('success', 'success_deleted_review_massaction');
     }
 

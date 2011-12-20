@@ -183,7 +183,7 @@ class Review_FrontendCreateTest extends Mage_Selenium_TestCase
     {
         return array(
             array('nickname'),
-            array('summary_of_your_review'),
+            array('summary_of_review'),
             array('review')
         );
     }

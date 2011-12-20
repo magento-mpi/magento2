@@ -198,6 +198,7 @@ add_new_review:
         messages:
             empty_required_field: "//div[@id='advice-required-entry-%fieldId%' and not(contains(@style,'display: none;'))]"
             empty_validate_rating: "//div[@id='advice-validate-rating-validate_rating' and not(contains(@style,'display: none;'))]"
+            not_available_rating: //*[@id='rating_detail'][normalize-space(text())="Rating isn't Available"]
 
 edit_review:
     mca: catalog_product_review/edit/id/%id%/

@@ -40,11 +40,21 @@ class Review_Helper extends Mage_Selenium_TestCase
     /**
      * Creates review
      *
-     * @param $reviewData
+     * @param array|string $reviewData
      */
     public function createReview($reviewData)
     {
+        if (is_string($reviewData)) {
+            $reviewData = $this->loadData($reviewData);
+        }
+        $reviewData = $this->arrayEmptyClear($reviewData);
         $this->clickButton('add_new_review');
+        $product = (isset($reviewData['product_to_review'])) ? $reviewData['product_to_review'] : array();
+        if (!$product) {
+            $this->fail('Data for selecting product for review is not set');
+        }
+        $this->assertTrue($this->searchAndOpen($product, false, 'select_product_grid'), 'Product is not found');
+        $this->validatePage();
         $this->fillInfo($reviewData);
         $this->saveForm('save_review');
     }
@@ -52,11 +62,12 @@ class Review_Helper extends Mage_Selenium_TestCase
     /**
      * Edit existing review
      *
-     * @param $reviewData
-     * @param $searchData
+     * @param array $reviewData
+     * @param array $searchData
      */
-    public function editReview($reviewData, $searchData)
+    public function editReview(array $reviewData, array $searchData)
     {
+        $reviewData = $this->arrayEmptyClear($reviewData);
         $this->openReview($searchData);
         $this->fillInfo($reviewData);
         $this->saveForm('save_review');
@@ -69,7 +80,11 @@ class Review_Helper extends Mage_Selenium_TestCase
      */
     public function openReview(array $reviewSearch)
     {
-        $this->searchAndOpen($reviewSearch);
+        if (isset($reviewSearch['filter_websites'])
+                && !$this->controlIsPresent('dropdown', 'filter_websites')) {
+            unset($reviewSearch['filter_websites']);
+        }
+        $this->assertTrue($this->searchAndOpen($reviewSearch), 'Review is not opened');
     }
 
     /**
@@ -79,17 +94,13 @@ class Review_Helper extends Mage_Selenium_TestCase
      */
     public function fillInfo($reviewData)
     {
-        if (is_string($reviewData)) {
-            $reviewData = $this->loadData($reviewData);
-        }
-        $reviewData = $this->arrayEmptyClear($reviewData);
-
-        if (isset($reviewData['product_to_review'])) {
-            $this->openProduct($reviewData['product_to_review']);
+        if (isset($reviewData['visible_in'])
+                && !$this->controlIsPresent('multiselect', 'visible_in')) {
+            unset($reviewData['visible_in']);
         }
         $this->fillForm($reviewData);
-        if (isset($reviewData['detailed_rating_select'])) {
-            $this->fillRatings($reviewData['detailed_rating_select']);
+        if (isset($reviewData['product_rating'])) {
+            $this->fillRatings($reviewData['product_rating']);
         }
     }
 
@@ -100,6 +111,9 @@ class Review_Helper extends Mage_Selenium_TestCase
      */
     public function fillRatings(array $detailedRatings)
     {
+        if ($this->waitForElement($this->_getControlXpath('message', 'not_available_rating'), 5)) {
+            $this->fail('Rating is not available for this store view');
+        }
         foreach ($detailedRatings as $value) {
             if (isset($value['rating_name']) && isset($value['stars'])) {
                 $this->addParameter('ratingName', $value['rating_name']);
@@ -204,24 +218,45 @@ class Review_Helper extends Mage_Selenium_TestCase
     {
         $this->addParameter('productName', $productName);
 
+        $verifyData = $this->arrayEmptyClear($verifyData);
         $review = (isset($verifyData['review'])) ? $verifyData['review'] : '';
         $nickname = (isset($verifyData['nickname'])) ? $verifyData['nickname'] : '';
-        $summary = (isset($verifyData['summary_of_your_review'])) ? $verifyData['summary_of_your_review'] : '';
+        $summary = (isset($verifyData['summary_of_review'])) ? $verifyData['summary_of_review'] : '';
+        $rating = (isset($verifyData['product_rating'])) ? $verifyData['product_rating'] : array();
+        $ratinNames = array();
+        $actualRatings = array();
+        foreach ($rating as $key => $value) {
+            $ratinNames[] = $value['rating_name'];
+        }
         if ($this->controlIsPresent('link', 'reviews')) {
-            //Verification on product page
+            //Open reviews
             $this->defineCorrectParam('reviews');
             $this->clickControl('link', 'reviews');
             $this->addParameter('reviewerName', $nickname);
             if (!$this->controlIsPresent('pageelement', 'review_reviwer_name')) {
                 $this->fail('Customer with nickname \'' . $nickname . '\' does not added approved review');
             }
+            //Define actual review summary
             $actualSummary = $this->getText($this->_getControlXpath('link', 'review_summary'));
-            $xpathReview = $this->_getControlXpath('pageelement', 'review_details') . '/text()[1]';
-            $actualReview = trim($this->getText($xpathReview));
+            //Define actual review text and rating names
+            $xpathReview = $this->_getControlXpath('pageelement', 'review_details');
+            $xpathReviewRatings = $xpathReview . '/table';
+            $text = preg_quote($this->getText($xpathReview . '/small'));
+            $actualReview = trim(preg_replace('#' . $text . '#', '', $this->getText($xpathReview)));
+            if ($this->isElementPresent($xpathReviewRatings)) {
+                $text = preg_quote($this->getText($xpathReviewRatings));
+                $actualReview = trim(preg_replace('#' . $text . '#', '', $actualReview), " \t\n\r\0\x0B");
+                $ratingsCount = $this->getXpathCount($xpathReviewRatings . '//th');
+                for ($i = 0; $i < $ratingsCount; $i++) {
+                    $actualRatings[] = $this->getTable($xpathReviewRatings . '.' . $i . '.0');
+                }
+            }
+            //Verification on product page
             $this->assertEquals($summary, $actualSummary,
-                    'Review Summary is not equal to specified: (' . $summary . '!=' . $actualSummary . ')');
+                    'Review Summary is not equal to specified: (' . $summary . ' != ' . $actualSummary . ')');
             $this->assertEquals($review, $actualReview,
-                    'Review Text is not equal to specified: (' . $review . '!=' . $actualReview . ')');
+                    'Review Text is not equal to specified: (' . $review . ' != ' . $actualReview . ')');
+            $this->assertEquals($ratinNames, $actualRatings, 'Review Rating names is not equal to specified');
             //Verification on Review Details page
             $this->clickControl('link', 'review_summary');
             $this->verifyTextPresent($productName,
