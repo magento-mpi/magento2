@@ -68,6 +68,17 @@
             </oauth_setup>
         </resources>
     </global>
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <oauth before="Mage_Adminhtml">Mage_OAuth_Adminhtml</oauth>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
     <adminhtml>
         <translate>
             <modules>

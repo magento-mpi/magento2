@@ -26,4 +26,15 @@
  */
 -->
 <layout>
+    <!-- Consumers -->
+    <adminhtml_oauth_consumer_index>
+        <reference name="content">
+            <block type="oauth/adminhtml_oAuth_consumer" name="oauth_consumer"/>
+        </reference>
+    </adminhtml_oauth_consumer_index>
+    <adminhtml_oauth_consumer_grid>
+        <remove name="root"/>
+        <block type="oauth/adminhtml_oAuth_consumer_grid" name="oauth_consumer.grid" output="toHtml"/>
+    </adminhtml_oauth_consumer_grid>
+    <!-- EOF Consumers -->
 </layout>
