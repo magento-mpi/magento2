@@ -50,6 +50,16 @@ class Tax_ProductTaxClass_DeleteTest extends Mage_Selenium_TestCase
         $this->loginAdminUser();
     }
 
+    protected function tearDown()
+    {
+        //Remove Tax rule after test
+        if (!is_null($this->_ruleToBeDeleted)) {
+            $this->navigate('manage_tax_rule');
+            $this->taxHelper()->deleteTaxItem($this->_ruleToBeDeleted ,'tax_rules');
+            $this->_ruleToBeDeleted = null;
+        }
+    }
+
     /**
      * <p>Create Tax Rate for tests<p>
      *
@@ -165,19 +175,6 @@ class Tax_ProductTaxClass_DeleteTest extends Mage_Selenium_TestCase
         $this->taxHelper()->deleteTaxItem($productTaxClassData ,'product_tax_class');
         //Verifying
         $this->assertMessagePresent('error', 'error_delete_tax_class_product');
-    }
-
-    /**
-     * Clean up
-     */
-    protected function tearDown()
-    {
-        //Remove Tax rule after test
-        if (!is_null($this->_ruleToBeDeleted)) {
-            $this->navigate('manage_tax_rule');
-            $this->taxHelper()->deleteTaxItem($this->_ruleToBeDeleted ,'tax_rules');
-            $this->_ruleToBeDeleted = null;
-        }
     }
 
 }

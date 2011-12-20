@@ -53,6 +53,13 @@ class CheckoutOnePage_Guest_ShippingMethodsTest extends Mage_Selenium_TestCase
         $this->addParameter('id', '');
     }
 
+    protected function tearDown()
+    {
+        $this->loginAdminUser();
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('shipping_disable');
+    }
+
     /**
      * <p>Creating Simple product</p>
      *
@@ -122,13 +129,6 @@ class CheckoutOnePage_Guest_ShippingMethodsTest extends Mage_Selenium_TestCase
             array('dhl_int', 'france'),
             array('dhl_usa', 'usa'),
         );
-    }
-
-    protected function tearDown()
-    {
-        $this->loginAdminUser();
-        $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('shipping_disable');
     }
 
 }

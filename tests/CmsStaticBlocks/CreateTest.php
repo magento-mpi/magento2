@@ -60,6 +60,16 @@ class CmsStaticBlocks_CreateTest extends Mage_Selenium_TestCase
         $this->addParameter('id', '0');
     }
 
+    protected function tearDown()
+    {
+        if ($this->_blockToBeDeleted) {
+            $this->loginAdminUser();
+            $this->navigate('manage_cms_static_blocks');
+            $this->cmsStaticBlocksHelper()->deleteStaticBlock($this->_blockToBeDeleted);
+            $this->_blockToBeDeleted = array();
+        }
+    }
+
     /**
      * <p>Creating a new static block</p>
      * <p>Steps:</p>
@@ -241,16 +251,6 @@ class CmsStaticBlocks_CreateTest extends Mage_Selenium_TestCase
             array($this->generate('string', 12, ':punct:')),
             array("with_a_space " . $this->generate('string', 12, ':alpha:'))
         );
-    }
-
-    protected function tearDown()
-    {
-        if ($this->_blockToBeDeleted) {
-            $this->loginAdminUser();
-            $this->navigate('manage_cms_static_blocks');
-            $this->cmsStaticBlocksHelper()->deleteStaticBlock($this->_blockToBeDeleted);
-            $this->_blockToBeDeleted = array();
-        }
     }
 
 }

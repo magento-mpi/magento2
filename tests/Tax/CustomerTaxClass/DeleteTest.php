@@ -59,6 +59,16 @@ class Tax_CustomerTaxClass_DeleteTest extends Mage_Selenium_TestCase
         $this->navigate('manage_customer_tax_class');
     }
 
+    protected function tearDown()
+    {
+        //Remove Tax rule after test
+        if (!is_null($this->_ruleToBeDeleted)) {
+            $this->navigate('manage_tax_rule');
+            $this->taxHelper()->deleteTaxItem($this->_ruleToBeDeleted, 'tax_rules');
+            $this->_ruleToBeDeleted = null;
+        }
+    }
+
     /**
      * <p>Create Tax Rate for tests<p>
      *
@@ -167,16 +177,4 @@ class Tax_CustomerTaxClass_DeleteTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('error', 'error_delete_tax_class_group');
     }
 
-    /**
-     * Clean up
-     */
-    protected function tearDown()
-    {
-        //Remove Tax rule after test
-        if (!is_null($this->_ruleToBeDeleted)) {
-            $this->navigate('manage_tax_rule');
-            $this->taxHelper()->deleteTaxItem($this->_ruleToBeDeleted ,'tax_rules');
-            $this->_ruleToBeDeleted = null;
-        }
-    }
 }

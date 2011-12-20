@@ -55,6 +55,16 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
         $this->addParameter('id', '0');
     }
 
+    protected function tearDown()
+    {
+        $windowQty = $this->getAllWindowNames();
+        if (count($windowQty) > 1 && end($windowQty) != 'null') {
+            $this->selectWindow("name=" . end($windowQty));
+            $this->close();
+            $this->selectWindow(null);
+        }
+    }
+
     /**
      * <p>Creating product with required fields only</p>
      * <p>Steps:</p>
@@ -602,16 +612,6 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
         $this->waitForAjax();
         $xpath = $this->search(array('associated_search_sku' => $simple['general_sku']), 'associated');
         $this->assertNotEquals(null, $xpath, 'Product is not found');
-    }
-
-    protected function tearDown()
-    {
-        $windowQty = $this->getAllWindowNames();
-        if (count($windowQty) > 1 && end($windowQty) != 'null') {
-            $this->selectWindow("name=" . end($windowQty));
-            $this->close();
-            $this->selectWindow(null);
-        }
     }
 
 }

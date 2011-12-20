@@ -59,6 +59,16 @@ class Tax_TaxRate_DeleteTest extends Mage_Selenium_TestCase
         $this->navigate('manage_tax_zones_and_rates');
     }
 
+    protected function tearDown()
+    {
+        //Remove Tax rule after test
+        if (!is_null($this->_ruleToBeDeleted)) {
+            $this->navigate('manage_tax_rule');
+            $this->taxHelper()->deleteTaxItem($this->_ruleToBeDeleted ,'tax_rules');
+            $this->_ruleToBeDeleted = null;
+        }
+    }
+
     /**
      * <p>Delete a Tax Rate</p>
      * <p>Steps:</p>
@@ -119,13 +129,4 @@ class Tax_TaxRate_DeleteTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('error', 'error_delete_tax_rate');
     }
 
-    protected function tearDown()
-    {
-        //Remove Tax rule after test
-        if (!is_null($this->_ruleToBeDeleted)) {
-            $this->navigate('manage_tax_rule');
-            $this->taxHelper()->deleteTaxItem($this->_ruleToBeDeleted ,'tax_rules');
-            $this->_ruleToBeDeleted = null;
-        }
-    }
 }

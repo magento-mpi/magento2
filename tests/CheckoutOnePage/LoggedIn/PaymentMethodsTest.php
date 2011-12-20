@@ -45,6 +45,14 @@ class CheckoutOnePage_LoggedIn_PaymentMethodsTest extends Mage_Selenium_TestCase
         $this->addParameter('id', '');
     }
 
+    protected function tearDown()
+    {
+        if (!empty(self::$useTearDown)) {
+            $this->loginAdminUser();
+            $this->systemConfigurationHelper()->useHttps('frontend', 'no');
+        }
+    }
+
     /**
      * <p>Creating Simple product</p>
      *
@@ -181,14 +189,6 @@ class CheckoutOnePage_LoggedIn_PaymentMethodsTest extends Mage_Selenium_TestCase
             array('payflowpro'),
             array('authorizenet')
         );
-    }
-
-    protected function tearDown()
-    {
-        if (!empty(self::$useTearDown)) {
-            $this->loginAdminUser();
-            $this->systemConfigurationHelper()->useHttps('frontend', 'no');
-        }
     }
 
 }

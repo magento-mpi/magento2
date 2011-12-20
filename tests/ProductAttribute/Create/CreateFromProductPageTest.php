@@ -55,6 +55,16 @@ class ProductAttribute_Create_CreateFromProductPageTest extends Mage_Selenium_Te
         $this->addParameter('id', 0);
     }
 
+    protected function tearDown()
+    {
+        $windowQty = $this->getAllWindowNames();
+        if (count($windowQty) > 1 && end($windowQty) != 'null') {
+            $this->selectWindow("name=" . end($windowQty));
+            $this->close();
+            $this->selectWindow(null);
+        }
+    }
+
     /**
      * <p>Checking of attributes creation functionality during product createion process</p>
      * <p>Steps:</p>
@@ -101,16 +111,6 @@ class ProductAttribute_Create_CreateFromProductPageTest extends Mage_Selenium_Te
             array('product_attribute_price'),
             array('product_attribute_fpt')
         );
-    }
-
-    protected function tearDown()
-    {
-        $windowQty = $this->getAllWindowNames();
-        if (count($windowQty) > 1 && end($windowQty) != 'null') {
-            $this->selectWindow("name=" . end($windowQty));
-            $this->close();
-            $this->selectWindow(null);
-        }
     }
 
 }

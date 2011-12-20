@@ -58,6 +58,15 @@ class CompareProducts_CompareProductsTest extends Mage_Selenium_TestCase
         $this->addParameter('id', '0');
     }
 
+    protected function tearDown()
+    {
+        $this->compareProductsHelper()->frontCloseComparePopup();
+        if ($this->_useTearDown) {
+            $this->frontend();
+            $this->compareProductsHelper()->frontClearAll();
+        }
+    }
+
     /**
      * @test
      */
@@ -213,15 +222,6 @@ class CompareProducts_CompareProductsTest extends Mage_Selenium_TestCase
         //Verifying
         $this->assertTrue($this->controlIsPresent('pageelement', 'compare_block_empty'),
                 'There is unexpected product(s) in Compare Products widget');
-    }
-
-    public function tearDown()
-    {
-        $this->compareProductsHelper()->frontCloseComparePopup();
-        if ($this->_useTearDown) {
-            $this->frontend();
-            $this->compareProductsHelper()->frontClearAll();
-        }
     }
 
 }

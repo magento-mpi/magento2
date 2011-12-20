@@ -56,6 +56,15 @@ class Tags_BackendCreateTest extends Mage_Selenium_TestCase
         $this->addParameter('storeId', '1');
     }
 
+    protected function tearDown()
+    {
+        if (!empty($this->_tagToBeDeleted)) {
+            $this->navigate('all_tags');
+            $this->tagsHelper()->deleteTag($this->_tagToBeDeleted);
+            $this->_tagToBeDeleted = array();
+        }
+    }
+
     /**
      * <p>Create a simple product for tests</p>
      *
@@ -194,15 +203,6 @@ class Tags_BackendCreateTest extends Mage_Selenium_TestCase
                 $this->getParsedMessages());
         //Cleanup
         $this->_tagToBeDeleted = array('tag_name' => $setData['tag_name']);
-    }
-
-    protected function tearDown()
-    {
-        if (!empty($this->_tagToBeDeleted)) {
-            $this->navigate('all_tags');
-            $this->tagsHelper()->deleteTag($this->_tagToBeDeleted);
-            $this->_tagToBeDeleted = array();
-        }
     }
 
 }

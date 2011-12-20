@@ -56,6 +56,16 @@ class PriceRules_Catalog_ApplyTest extends Mage_Selenium_TestCase
         $this->loginAdminUser();
     }
 
+    protected function tearDown()
+    {
+        if ($this->_ruleToBeDeleted) {
+            $this->loginAdminUser();
+            $this->navigate('manage_catalog_price_rules');
+            $this->priceRulesHelper()->deleteRule($this->_ruleToBeDeleted);
+            $this->_ruleToBeDeleted = array();
+        }
+    }
+
     /**
      * <p>Preconditions</p>
      * <p>Create Customer for tests</p>
@@ -161,16 +171,6 @@ class PriceRules_Catalog_ApplyTest extends Mage_Selenium_TestCase
             array('to_percentage_of_the_original_price'),
             array('to_fixed_amount')
         );
-    }
-
-    protected function tearDown()
-    {
-        if ($this->_ruleToBeDeleted) {
-            $this->loginAdminUser();
-            $this->navigate('manage_catalog_price_rules');
-            $this->priceRulesHelper()->deleteRule($this->_ruleToBeDeleted);
-            $this->_ruleToBeDeleted = array();
-        }
     }
 
 }

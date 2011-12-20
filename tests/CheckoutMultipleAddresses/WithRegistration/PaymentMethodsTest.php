@@ -39,6 +39,15 @@ class CheckoutMultipleAddresses_WithRegistration_PaymentMethodsTest extends Mage
 
     protected static $useTearDown = false;
 
+    protected function tearDown()
+    {
+        $this->shoppingCartHelper()->frontClearShoppingCart();
+        $this->logoutCustomer();
+        if (!empty(self::$useTearDown)) {
+            $this->loginAdminUser();
+            $this->systemConfigurationHelper()->useHttps('frontend', 'no');
+        }
+    }
     /**
      * <p>Creating Simple product</p>
      *
@@ -173,16 +182,6 @@ class CheckoutMultipleAddresses_WithRegistration_PaymentMethodsTest extends Mage
             array('payflowpro'),
             array('authorizenet')
         );
-    }
-
-    protected function tearDown()
-    {
-        $this->shoppingCartHelper()->frontClearShoppingCart();
-        $this->logoutCustomer();
-        if (!empty(self::$useTearDown)) {
-            $this->loginAdminUser();
-            $this->systemConfigurationHelper()->useHttps('frontend', 'no');
-        }
     }
 
 }
