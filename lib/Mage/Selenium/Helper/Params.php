@@ -63,6 +63,7 @@ class Mage_Selenium_Helper_Params
      *
      * @param string $name Parameter name
      * @param string $value Parameter value (null to unset)
+     * @return
      */
     public function setParameter($name, $value)
     {
@@ -72,6 +73,8 @@ class Mage_Selenium_Helper_Params
         } else {
             $this->_paramsArray[$key] = $value;
         }
+
+        return $this;
     }
 
     /**

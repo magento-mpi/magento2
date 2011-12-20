@@ -316,8 +316,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 
         $path = 'browsers/default/browserTimeoutPeriod';
         $this->_browserTimeoutPeriod = (!is_bool($this->_testConfig->getConfigValue($path)))
-                            ? $this->_testConfig->getConfigValue($path)
-                            : $this->_browserTimeoutPeriod;
+                                            ? $this->_testConfig->getConfigValue($path)
+                                            : $this->_browserTimeoutPeriod;
         parent::__construct($name, $data, $dataName, $browser);
     }
 
@@ -375,7 +375,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         }
 
         if ($this->_testHelpers[$helperClassName] instanceof Mage_Selenium_TestCase) {
-            $this->_testHelpers[$helperClassName]->appendParamsDecorator($this->_paramsHelper);
+            $this->_testHelpers[$helperClassName]->appendParamsDecorator($this->getParamsDecorator());
         }
 
         return $this->_testHelpers[$helperClassName];
@@ -456,12 +456,26 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * Append parameters decorator object
      *
      * @param Mage_Selenium_Helper_Params $paramsHelperObject Parameters decorator object
-     *
-     * @return null
+     * @return Mage_Selenium_TestCase
      */
     public function appendParamsDecorator($paramsHelperObject)
     {
         $this->_paramsHelper = $paramsHelperObject;
+
+        return $this;
+    }
+
+    /**
+     * Retrieve instance of params helper
+     *
+     * @return Mage_Selenium_Helper_Params
+     */
+    public function getParamsDecorator()
+    {
+        if (null === $this->_paramsHelper) {
+            $this->_paramsHelper = new Mage_Selenium_Helper_Params();
+        }
+        return $this->_paramsHelper;
     }
 
     /**
@@ -473,12 +487,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function addParameter($name, $value)
     {
-        if (!$this->_paramsHelper) {
-            $this->_paramsHelper = new Mage_Selenium_Helper_Params();
-        }
-        $this->_paramsHelper->setParameter($name, $value);
-
-        return $this->_paramsHelper;
+        return $this->getParamsDecorator()->setParameter($name, $value);
     }
 
     /**
@@ -818,8 +827,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         }
         $this->assertTextNotPresent('was not found', 'Something was not found:)');
         $this->assertTextNotPresent('Service Temporarily Unavailable', 'Service Temporarily Unavailable');
-        $this->assertTextNotPresent('The page isn\'t redirecting properly', 'The page isn\'t redirecting properly');
-        $this->assertEquals($this->getUimapPage(self::$_area, $page)->getTitle($this->_paramsHelper),
+        $this->assertTextNotPresent('The page isn\'t redirecting properly',
+                'The page isn\'t redirecting properly');
+        $this->assertEquals($this->getUimapPage(self::$_area, $page)->getTitle($this->getParamsDecorator()),
                 $this->getTitle(), 'Page title is unexpected');
         $this->_pageHelper->setCurrentPage($page);
     }
@@ -893,7 +903,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $baseUrl = $this->_applicationHelper->getBaseUrl();
 
         $mca = Mage_Selenium_TestCase::_getMcaFromCurrentUrl($baseUrl, $url);
-        $page = $this->_pageHelper->getPageByMca($mca, $this->_paramsHelper);
+        $page = $this->_pageHelper->getPageByMca($mca, $this->getParamsDecorator());
         if ($page) {
             return $page->getPageId();
         } else {
@@ -977,7 +987,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function getUimapPage($area, $pageKey)
     {
-        $page = $this->_uimapHelper->getUimapPage($area, $pageKey, $this->_paramsHelper);
+        $page = $this->_uimapHelper->getUimapPage($area, $pageKey, $this->getParamsDecorator());
 
         if (!$page) {
             $this->fail('Can\'t find page in area "' . $area . '" for key "' . $pageKey . '"');
@@ -1005,7 +1015,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         $mca = Mage_Selenium_TestCase::_getMcaFromCurrentUrl($this->_applicationHelper->getBaseUrl(),
                         $this->getLocation());
-        $page = $this->_uimapHelper->getUimapPageByMca($this->getArea(), $mca, $this->_paramsHelper);
+        $page = $this->_uimapHelper->getUimapPageByMca($this->getArea(), $mca, $this->getParamsDecorator());
 
         if (!$page) {
             $this->fail('Can\'t find page in area "' . $this->getArea() . '" for mca "' . $mca . '"');
@@ -1220,7 +1230,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         } else {
             $fieldsets = $formData->getAllFieldsets();
         }
-        $fieldsets->assignParams($this->_paramsHelper);
+        $fieldsets->assignParams($this->getParamsDecorator());
         // if we have got empty uimap but not empty dataset
         if (empty($fieldsets) && !empty($data)) {
             return false;
@@ -1256,8 +1266,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             }
         } catch (PHPUnit_Framework_Exception $e) {
             $errorMessage = isset($formFieldName)
-                    ? 'Problem with field \'' . $formFieldName . '\': ' . $e->getMessage()
-                    : $e->getMessage();
+                                ? 'Problem with field \'' . $formFieldName . '\': ' . $e->getMessage()
+                                : $e->getMessage();
             $this->fail($errorMessage);
         }
 
@@ -1848,7 +1858,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function addVerificationMessage($message)
     {
-//        $this->addMessage('verificationErrors', $message);
         $this->verificationErrors[] = $message;
     }
 
@@ -2288,7 +2297,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function saveForm($buttonName, $validate = true)
     {
-//        Mage_Selenium_TestCase::$messages = null;
         $this->_parseMessages();
         foreach (Mage_Selenium_TestCase::$messages as $key => $value) {
             Mage_Selenium_TestCase::$messages[$key] = array_unique($value);
@@ -2346,7 +2354,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         } else {
             $fieldsets = $formData->getAllFieldsets();
         }
-        $fieldsets->assignParams($this->_paramsHelper);
+        $fieldsets->assignParams($this->getParamsDecorator());
         // if we have got empty uimap but not empty dataset
         if (empty($fieldsets) && !empty($data)) {
             return false;

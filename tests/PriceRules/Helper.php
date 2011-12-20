@@ -201,7 +201,7 @@ class PriceRules_Helper extends Mage_Selenium_TestCase
             $uimapData = $uimapData->getTab($tabId);
         }
         $fieldsets = $uimapData->getAllFieldsets();
-        $fieldsets->assignParams($this->_paramsHelper);
+        $fieldsets->assignParams($this->getParamsDecorator());
         $formDataMap = $this->_getFormDataMap($fieldsets, $data);
 
         try {
