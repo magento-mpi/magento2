@@ -88,7 +88,7 @@ class Mage_Captcha_Model_Zend extends Zend_Captcha_Image implements Mage_Captcha
      */
     public function isRequired()
     {
-        if (!$this->_isEnabled() || !in_array($this->_formId, $this->_getTargetForms())) {
+        if ($this->_isUserAuth() || !$this->_isEnabled() || !in_array($this->_formId, $this->_getTargetForms())) {
             return false;
         }
 
@@ -99,6 +99,17 @@ class Mage_Captcha_Model_Zend extends Zend_Captcha_Image implements Mage_Captcha
         $loggedFailedAttempts = (int)$this->getSession()->getDataIgnoreTtl(self::SESSION_FAILED_ATTEMPTS);
         $showAfterFailedAttempts = (int)$this->_getHelper()->getConfigNode('failed_attempts');
         return $loggedFailedAttempts >= $showAfterFailedAttempts;
+    }
+
+    /**
+     * Check is user auth
+     *
+     * @return bool
+     */
+    protected function _isUserAuth()
+    {
+        return (Mage::app()->getStore()->isAdmin() && Mage::getSingleton('admin/session')->isLoggedIn()) ||
+               (!Mage::app()->getStore()->isAdmin() && Mage::getSingleton('customer/session')->isLoggedIn());
     }
 
     /**
