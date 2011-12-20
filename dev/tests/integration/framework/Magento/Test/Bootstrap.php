@@ -181,6 +181,17 @@ class Magento_Test_Bootstrap
         $this->_installDir = "{$tmpDir}/sandbox-{$this->_dbVendorName}-{$sandboxUniqueId}";
         $this->_installEtcDir = $this->_installDir . '/etc';
 
+        $this->_options = array(
+            'etc_dir'     => $this->_installEtcDir,
+            'var_dir'     => $this->_installDir,
+            'tmp_dir'     => $this->_installDir . DIRECTORY_SEPARATOR . 'tmp',
+            'cache_dir'   => $this->_installDir . DIRECTORY_SEPARATOR . 'cache',
+            'log_dir'     => $this->_installDir . DIRECTORY_SEPARATOR . 'log',
+            'session_dir' => $this->_installDir . DIRECTORY_SEPARATOR . 'session',
+            'media_dir'   => $this->_installDir . DIRECTORY_SEPARATOR . 'media',
+            'upload_dir'  => $this->_installDir . DIRECTORY_SEPARATOR . 'media' . DIRECTORY_SEPARATOR . 'upload',
+        );
+
         $this->_db = $this->_instantiateDb();
 
         $this->_cleanupAction = $cleanupAction;
@@ -211,11 +222,8 @@ class Magento_Test_Bootstrap
 
     /**
      * Initialize an already installed Magento application
-     *
-     * @param string $scopeCode
-     * @param string $scopeType
      */
-    public function initialize($scopeCode = '', $scopeType = 'store')
+    public function initialize()
     {
         if (!class_exists('Mage', false)) {
             require_once $this->_magentoDir . '/app/bootstrap.php';
@@ -226,19 +234,8 @@ class Magento_Test_Bootstrap
                 Mage::register('_singleton/Mage_Core_Model_Resource', $resource);
             }
         }
-        $this->_options = array(
-            'etc_dir'     => $this->_installEtcDir,
-            'var_dir'     => $this->_installDir,
-            'tmp_dir'     => $this->_installDir . DIRECTORY_SEPARATOR . 'tmp',
-            'cache_dir'   => $this->_installDir . DIRECTORY_SEPARATOR . 'cache',
-            'log_dir'     => $this->_installDir . DIRECTORY_SEPARATOR . 'log',
-            'session_dir' => $this->_installDir . DIRECTORY_SEPARATOR . 'session',
-            'media_dir'   => $this->_installDir . DIRECTORY_SEPARATOR . 'media',
-            'upload_dir'  => $this->_installDir . DIRECTORY_SEPARATOR . 'media' . DIRECTORY_SEPARATOR . 'upload',
-        );
-
         Mage::setIsDeveloperMode($this->_developerMode);
-        Mage::app($scopeCode, $scopeType, $this->_options);
+        Mage::app('', 'store', $this->_options);
     }
 
     /**
@@ -246,7 +243,7 @@ class Magento_Test_Bootstrap
      */
     public function refreshConfiguration()
     {
-        Mage::app()->cleanCache(array(Mage_Core_Model_Config::CACHE_TAG));
+        $this->_getInitializedApp()->cleanCache(array(Mage_Core_Model_Config::CACHE_TAG));
         $this->initialize();
     }
 
@@ -281,6 +278,20 @@ class Magento_Test_Bootstrap
     public function __destruct()
     {
         $this->_cleanup();
+    }
+
+    /**
+     * Retrieve the properly initialized application instance
+     *
+     * @return Mage_Core_Model_App
+     */
+    protected function _getInitializedApp()
+    {
+        $actualOptions = Mage::getConfig() ? Mage::getConfig()->getOptions()->getData() : array();
+        if (array_intersect_assoc($this->_options, $actualOptions) !== $this->_options) {
+            $this->initialize();
+        }
+        return Mage::app();
     }
 
     /**
@@ -518,7 +529,7 @@ class Magento_Test_Bootstrap
      */
     public function cleanupCache()
     {
-        Mage::app()->getCache()->clean(
+        $this->_getInitializedApp()->getCache()->clean(
             Zend_Cache::CLEANING_MODE_NOT_MATCHING_TAG,
             array(Mage_Core_Model_Config::CACHE_TAG,
                 Varien_Db_Adapter_Pdo_Mysql::DDL_CACHE_TAG,
