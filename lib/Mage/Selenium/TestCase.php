@@ -1958,6 +1958,23 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
 
     /**
+     * Select StoreView on Frontend
+     *
+     * @param string $storeViewName
+     */
+    public function selectFrontStoreView($storeViewName = 'Default Store View')
+    {
+        $xpath = "//select[@id='select-language']";
+        $toSelect = $xpath . '//option[normalize-space(text())="' . $storeViewName . '"]';
+        $isSelected = $toSelect . '[@selected]';
+        if (!$this->isElementPresent($isSelected)) {
+            $this->select($xpath, $storeViewName);
+            $this->waitForPageToLoad($this->_browserTimeoutPeriod);
+        }
+        $this->assertElementPresent($isSelected, '\'' . $storeViewName . '\' store view not selected');
+    }
+
+    /**
      * Performs LogOut customer on front-end
      *
      * @return Mage_Selenium_TestCase
