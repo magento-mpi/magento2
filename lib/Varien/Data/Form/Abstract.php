@@ -160,11 +160,11 @@ class Varien_Data_Form_Abstract extends Varien_Object
     }
 
     /**
-     * Enter description here...
+     * Add fieldset
      *
      * @param string $elementId
-     * @param unknown_type $config
-     * @param unknown_type $after
+     * @param array $config
+     * @param bool $after
      * @return Varien_Data_Form_Element_Fieldset
      */
     public function addFieldset($elementId, $config, $after=false)

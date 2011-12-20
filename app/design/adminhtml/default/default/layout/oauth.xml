@@ -36,5 +36,19 @@
         <remove name="root"/>
         <block type="oauth/adminhtml_oAuth_consumer_grid" name="oauth_consumer.grid" output="toHtml"/>
     </adminhtml_oauth_consumer_grid>
+    <adminhtml_oauth_consumer_new>
+        <reference name="content">
+            <block type="oauth/adminhtml_oAuth_consumer_edit" name="oauth_consumer.edit">
+                <block type="oauth/adminhtml_oAuth_consumer_edit_form" name="form"/>
+            </block>
+        </reference>
+    </adminhtml_oauth_consumer_new>
+    <adminhtml_oauth_consumer_edit>
+        <reference name="content">
+            <block type="oauth/adminhtml_oAuth_consumer_edit" name="oauth_consumer.edit">
+                <block type="oauth/adminhtml_oAuth_consumer_edit_form" name="form"/>
+            </block>
+        </reference>
+    </adminhtml_oauth_consumer_edit>
     <!-- EOF Consumers -->
 </layout>

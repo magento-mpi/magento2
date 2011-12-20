@@ -66,14 +66,155 @@ class Mage_OAuth_Adminhtml_OAuth_ConsumerController extends Mage_Adminhtml_Contr
     }
 
     /**
+     * Create page action
+     */
+    public function newAction()
+    {
+        /** @var $model Mage_OAuth_Model_Consumer */
+        $model = Mage::getModel('oauth/consumer');
+
+        $formData = $this->_getSession()->getData('form_data');
+        if ($formData) {
+            $model->addData($formData);
+        }
+
+        Mage::register('current_consumer', $model);
+
+        $this->loadLayout();
+        $this->renderLayout();
+    }
+
+    /**
+     * Edit page action
+     */
+    public function editAction()
+    {
+        $id = (int) $this->getRequest()->getParam('id');
+
+        /** @var $helper Mage_OAuth_Helper_Data */
+        $helper = Mage::helper('oauth');
+
+        if (!$id) {
+            $this->_getSession()->addError(
+                $helper->__('Invalid ID parameter.'));
+            $this->_redirect('*/*/index');
+            return;
+        }
+
+        /** @var $model Mage_OAuth_Model_Consumer */
+        $model = Mage::getModel('oauth/consumer');
+        $model->load($id);
+
+        if (!$model->getId()) {
+            $this->_getSession()->addError(
+                $helper->__('Entry with ID #%s not found.', $id));
+            $this->_redirect('*/*/index');
+            return;
+        }
+
+        $formData = $this->_getSession()->getData('form_data');
+        if ($formData) {
+            $model->addData($formData);
+        }
+
+        Mage::register('current_consumer', $model);
+
+
+        $this->loadLayout();
+        $this->renderLayout();
+    }
+
+    /**
+     * Render edit page
+     */
+    public function saveAction()
+    {
+        $id = $this->getRequest()->getParam('id');
+        if (!$this->_validateFormKey()) {
+            if ($id) {
+                $this->_redirect('*/*/edit', array('id' => $id));
+            } else {
+                $this->_redirect('*/*/new', array('id' => $id));
+            }
+            return;
+        }
+
+        $data = $this->getRequest()->getParams();
+
+        unset($data['id']);
+        unset($data['back']);
+        unset($data['form_key']);
+
+        /** @var $helper Mage_OAuth_Helper_Data */
+        $helper = Mage::helper('oauth');
+
+        /** @var $model Mage_OAuth_Model_Consumer */
+        $model = Mage::getModel('oauth/consumer');
+
+        if ($id) {
+            if (!(int) $id) {
+                $this->_getSession()->addError(
+                    $helper->__('Invalid ID parameter.'));
+                $this->_redirect('*/*/index');
+                return;
+            }
+            $model->load($id);
+
+            if (!$model->getId()) {
+                $this->_getSession()->addError(
+                    $helper->__('Entry with ID #%s not found.', $id));
+                $this->_redirect('*/*/index');
+                return;
+            }
+        }
+
+        try {
+            $this->_getSession()->setData('form_data', $data);
+            $model->addData($data);
+            $validate = $model->validate();
+            if (true === $validate) {
+                $model->save();
+            } else {
+                foreach ($validate as $error) {
+                    $this->_getSession()->addError($error);
+                }
+            }
+        } catch (Mage_Core_Exception $e) {
+            $this->_getSession()->addError($e->getMessage());
+            $this->getRequest()->setParam('back', 'edit');
+        } catch (Exception $e) {
+            Mage::logException($e);
+            $this->_getSession()->addError('An error occurred on saving consumer data.');
+        }
+
+        if ($this->getRequest()->getParam('back')) {
+            if ($id || $model->getId()) {
+                $this->_redirect('*/*/edit', array('id' => $model->getId()));
+            } else {
+                $this->_redirect('*/*/new');
+            }
+        } else {
+            $this->_redirect('*/*/index');
+        }
+    }
+
+    /**
      * Check admin permissions for this controller
      *
      * @return boolean
      */
     protected function _isAllowed()
     {
-        /** @var $session Mage_Admin_Model_Session */
-        $session = Mage::getSingleton('admin/session');
-        return $session->isAllowed('oauth/consumer');
+        return $this->_getSession()->isAllowed('oauth/consumer');
+    }
+
+    /**
+     * Get admin session
+     *
+     * @return Mage_Admin_Model_Session
+     */
+    protected function _getSession()
+    {
+        return Mage::getSingleton('admin/session');
     }
 }
