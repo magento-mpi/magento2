@@ -69,7 +69,8 @@ class Newsletter_CreateTest extends Mage_Selenium_TestCase
      * <p>1. Navigate to Frontend</p>
      * <p>2. Open created category</p>
      * <p>3. Enter a valid email to subscribe</p>
-     * <p>4. Check message</p>
+     * <p>4. Click 'Subscribe' button</p>
+     * <p>Expected result: Success message is displayed</p>
      * <p>5. Login to backend</p>
      * <p>6. Go to Newsletter -> Newsletter Subscribers</p>
      * <p>7. Verify the email in subscribers list</p>
@@ -98,6 +99,15 @@ class Newsletter_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
+     * <p>With valid email that used for registered customer</p>
+     *
+     * <p> Steps:</p>
+     * <p>1. Navigate to Frontend</p>
+     * <p>2. Open created category</p>
+     * <p>3. Enter an email to subscribe</p>
+     * <p>4. Click 'Subscribe' button</p>
+     * <p>Expected result:</p>
+     * <p>Error message is displayed</p>
      *
      * @depends preconditionsForTests
      * @test
@@ -124,12 +134,10 @@ class Newsletter_CreateTest extends Mage_Selenium_TestCase
      * <p> Steps:</p>
      * <p>1. Navigate to Frontend</p>
      * <p>2. Open created category</p>
-     * <p>3. Enter valid email to subscribe</p>
-     * <p>4. Check message</p>
-     * <p>5. Login to backend</p>
-     * <p>6. Go to Newsletter -> Newsletter Subscribers</p>
-     * <p>7. Verify email in subscribers list</p>
-     * <p>Expected result: email is present in the subscribers list</p>
+     * <p>3. Enter invalid email to subscribe</p>
+     * <p>4. Click 'Subscribe' button</p>
+     * <p>Expected result:</p>
+     * <p>Error message is displayed</p>
      *
      * @depends preconditionsForTests
      *
@@ -154,11 +162,9 @@ class Newsletter_CreateTest extends Mage_Selenium_TestCase
      * <p>1. Navigate to Frontend</p>
      * <p>2. Open created category</p>
      * <p>3. Leave email field empty</p>
-     * <p>4. Check validation message</p>
-     * <p>5. Login to backend</p>
-     * <p>6. Go to Newsletter -> Newsletter Subscribers</p>
-     * <p>7. Verify the email in subscribers list</p>
-     * <p>Expected result: The email is absent into the subscribers list</p>
+     * <p>4. Click 'Subscribe' button</p>
+     * <p>Expected result:</p>
+     * <p>Validation message is displayed</p>
      *
      * @depends preconditionsForTests
      *
@@ -176,17 +182,15 @@ class Newsletter_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>With long valid email (> 70 characters)</p>
+     * <p>With long valid email</p>
      *
      * <p> Steps:</p>
      * <p>1. Navigate to Frontend</p>
      * <p>2. Open created category</p>
-     * <p>3. Enter valid email to subscribe</p>
-     * <p>4. Check message</p>
-     * <p>5. Login to backend</p>
-     * <p>6. Go to Newsletter -> Newsletter Subscribers</p>
-     * <p>7. Verify the email in subscribers list</p>
-     * <p>Expected result: The email is absent in the subscribers list</p>
+     * <p>3. Enter long valid email to subscribe</p>
+     * <p>4. Click 'Subscribe' button</p>
+     * <p>Expected result:</p>
+     * <p>Error message is displayed</p>
      *
      * @depends preconditionsForTests
      *
@@ -203,6 +207,19 @@ class Newsletter_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
+     * subscribe registered customer email.
+     *
+     * <p> Steps:</p>
+     * <p>1. Navigate to Frontend</p>
+     * <p>2. Register customer</p>
+     * <p>3. Open created category</p>
+     * <p>4. Enter customer email to subscribe</p>
+     * <p>5. Click 'Subscribe' button</p>
+     * <p>Expected result: Success message is displayed</p>
+     * <p>6. Login to backend</p>
+     * <p>7. Go to Newsletter -> Newsletter Subscribers</p>
+     * <p>8. Verify the email in subscribers list</p>
+     * <p>Expected result: The email is present in the subscribers list</p>
      *
      * @depends preconditionsForTests
      * @test
