@@ -101,15 +101,15 @@ class Mage_OAuth_Model_Consumer extends Mage_Core_Model_Abstract
         $validatorLength = new Zend_Validate_StringLength();
         $validatorLength->setMin(self::KEY_LENGTH);
         $validatorLength->setMax(self::KEY_LENGTH);
-        if ($validatorLength->isValid($this->getKey())) {
-            $errors = $errors[] = sprintf(
+        if (!$validatorLength->isValid($this->getKey())) {
+            $errors[] = sprintf(
                 'Consumer key must has length %s symbols.', self::KEY_LENGTH);
         }
         $validatorLength->setMin(self::SECRET_LENGTH);
         $validatorLength->setMax(self::SECRET_LENGTH);
-        if ($validatorLength->isValid($this->getSecret())) {
-            $errors = $errors[] = sprintf(
-                'Consumer key must has length %s symbols.', self::SECRET_LENGTH);
+        if (!$validatorLength->isValid($this->getSecret())) {
+            $errors[] = sprintf(
+                'Consumer secret must has length %s symbols.', self::SECRET_LENGTH);
         }
         return $errors ? $errors : true;
     }
