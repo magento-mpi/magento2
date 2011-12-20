@@ -59,8 +59,8 @@ $table = $adapter->newTable($installer->getTable('oauth/consumer'))
     ->addColumn('secret', Varien_Db_Ddl_Table::TYPE_VARCHAR,
         Mage_OAuth_Model_Consumer::SECRET_LENGTH,
         array('nullable'  => false), 'Secret code')
-    ->addColumn('call_back_url', Varien_Db_Ddl_Table::TYPE_VARCHAR,
-        255, array(), 'Call back URL')
+    ->addColumn('callback_url', Varien_Db_Ddl_Table::TYPE_VARCHAR,
+        255, array(), 'Callback URL')
     ->addIndex(
         $installer->getIdxName(
             'oauth/consumer',
