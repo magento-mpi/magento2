@@ -834,7 +834,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
                             $result->setShippingLabelContent(base64_decode((string)$xml->Barcodes->OriginDestnBarcode));
                             return $result;
                         } else {
-
+                            $this->_errors[] = Mage::helper('usa')->__('The response is in wrong format.');
                         }
                     }
                 }
@@ -1034,7 +1034,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
      * Return container types of carrier
      *
      * @param Varien_Object|null $params
-     * @return array|bool
+     * @return array
      */
     public function getContainerTypes(Varien_Object $params = null)
     {
@@ -1054,7 +1054,6 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
     {
         $customsValue = $request->getPackageParams()->getCustomsValue();
 
-
         $request->getLimitMethod($request->getShippingMethod());
         $request->getPackageValue($customsValue);
         $request->getValueWithDiscount($customsValue);
@@ -1072,9 +1071,8 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
     {
         $rawRequest = $this->_request;
 
-        $origCountryPath = 'shipping/origin/country_id';
         $originRegion = (string)$this->getCountryParams(
-            Mage::getStoreConfig($origCountryPath, $this->getStore())
+            Mage::getStoreConfig(Mage_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID, $this->getStore())
         )->region;
 
         if (!$originRegion) {
@@ -1123,14 +1121,15 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
         $nodeConsignee = $xml->addChild('Consignee', '', '');
 
         $companyName = ($rawRequest->getRecipientContactCompanyName())
-                ? $rawRequest->getRecipientContactCompanyName()
-                : $rawRequest->getRecipientContactPersonName();
+            ? $rawRequest->getRecipientContactCompanyName()
+            : $rawRequest->getRecipientContactPersonName();
 
         $nodeConsignee->addChild('CompanyName', substr($companyName, 0, 35));
 
         $address = $rawRequest->getRecipientAddressStreet1(). ' ' . $rawRequest->getRecipientAddressStreet2();
-        if (strlen($address) > 35) {
-            for ($i = 0; $i < strlen($address); $i += 35) {
+        $addressLength = strlen($address);
+        if ($addressLength > 35) {
+            for ($i = 0; $i < $addressLength; $i += 35) {
                 $nodeConsignee->addChild('AddressLine', substr($address, $i, 35));
             }
         } else {
@@ -1142,7 +1141,8 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
         $nodeConsignee->addChild('PostalCode', $rawRequest->getRecipientAddressPostalCode());
         $nodeConsignee->addChild('CountryCode', $rawRequest->getRecipientAddressCountryCode());
         $nodeConsignee->addChild('CountryName',
-            (string)$this->getCountryParams($rawRequest->getRecipientAddressCountryCode())->name);
+            (string)$this->getCountryParams($rawRequest->getRecipientAddressCountryCode())->name
+        );
         $nodeContact = $nodeConsignee->addChild('Contact');
         $nodeContact->addChild('PersonName', substr($rawRequest->getRecipientContactPersonName(), 0, 34));
         $nodeContact->addChild('PhoneNumber', substr($rawRequest->getRecipientContactPhoneNumber(), 0, 24));
@@ -1159,7 +1159,8 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
         if ($this->getConfigData('content_type') == self::DHL_CONTENT_TYPE_NON_DOC) {
             $nodeDutiable = $xml->addChild('Dutiable', '', '');
             $nodeDutiable->addChild('DeclaredValue',
-                round($rawRequest->getOrderShipment()->getOrder()->getSubtotal(),2));
+                round($rawRequest->getOrderShipment()->getOrder()->getSubtotal(), 2)
+            );
             $baseCurrencyCode = Mage::app()->getWebsite($rawRequest->getWebsiteId())->getBaseCurrencyCode();
             $nodeDutiable->addChild('DeclaredCurrency', $baseCurrencyCode);
         }
@@ -1177,7 +1178,8 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
         $nodeShipmentDetails = $xml->addChild('ShipmentDetails', '', '');
         $nodeShipmentDetails->addChild('NumberOfPieces', count($rawRequest->getPackages()));
         $nodeShipmentDetails->addChild('CurrencyCode',
-            Mage::app()->getWebsite($this->_request->getWebsiteId())->getBaseCurrencyCode());
+            Mage::app()->getWebsite($this->_request->getWebsiteId())->getBaseCurrencyCode()
+        );
         $nodePieces = $nodeShipmentDetails->addChild('Pieces', '', '');
 
         /*
@@ -1207,8 +1209,8 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
         $nodeShipmentDetails->addChild('PackageType', $packageType);
         $nodeShipmentDetails->addChild('Weight', $rawRequest->getPackageWeight());
 
-        $dimensionUnit  = $rawRequest->getPackageParams()->getDimensionUnits();
-        $weightUnits    = $rawRequest->getPackageParams()->getWeightUnits();
+        $dimensionUnit = $rawRequest->getPackageParams()->getDimensionUnits();
+        $weightUnits = $rawRequest->getPackageParams()->getWeightUnits();
 
         $nodeShipmentDetails->addChild('DimensionUnit', $dimensionUnit[0]);
         $nodeShipmentDetails->addChild('WeightUnit',  $weightUnits[0]);
@@ -1235,8 +1237,9 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
         //$nodeShipper->addChild('RegisteredAccount', '');
 
         $address = $rawRequest->getShipperAddressStreet1(). ' ' . $rawRequest->getShipperAddressStreet2();
-        if (strlen($address) > 35) {
-            for ($i = 0; $i < strlen($address); $i += 35) {
+        $addressLength = strlen($address);
+        if ($addressLength > 35) {
+            for ($i = 0; $i < $addressLength; $i += 35) {
                 $nodeShipper->addChild('AddressLine', substr($address, $i, 35));
             }
         } else {
@@ -1248,7 +1251,8 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
         $nodeShipper->addChild('PostalCode', $rawRequest->getShipperAddressPostalCode());
         $nodeShipper->addChild('CountryCode', $rawRequest->getShipperAddressCountryCode());
         $nodeShipper->addChild('CountryName',
-            (string)$this->getCountryParams($rawRequest->getShipperAddressCountryCode())->name);
+            (string)$this->getCountryParams($rawRequest->getShipperAddressCountryCode())->name
+        );
         $nodeContact = $nodeShipper->addChild('Contact', '', '');
         $nodeContact->addChild('PersonName', substr($rawRequest->getShipperContactPersonName(), 0, 34));
         $nodeContact->addChild('PhoneNumber', substr($rawRequest->getShipperContactPhoneNumber(), 0, 24));
@@ -1357,7 +1361,6 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
             $this->_debug($debugData);
         }
 
-
         $this->_parseXmlTrackingResponse($trackings, $responseBody);
     }
 
@@ -1372,103 +1375,87 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
     {
         $errorTitle = Mage::helper('usa')->__('Unable to retrieve tracking');
         $resultArr = array();
-        $errorArr = array();
-        $trackNum = '';
 
         $htmlTranslationTable = get_html_translation_table(HTML_ENTITIES);
         unset($htmlTranslationTable['<'], $htmlTranslationTable['>'], $htmlTranslationTable['"']);
         $response = str_replace(array_keys($htmlTranslationTable), array_values($htmlTranslationTable), $response);
 
         if (strlen(trim($response)) > 0) {
-            if (strpos(trim($response), '<?xml') === 0) {
-                $xml = simplexml_load_string($response);
-                if (is_object($xml)) {
-                    if ((isset($xml->Response->Status->ActionStatus)
-                        && $xml->Response->Status->ActionStatus == 'Failure')
-                        || (isset($xml->GetQuoteResponse->Note->Condition))
-                    ) {
-                        if (isset($xml->Response->Status->Condition)) {
-                            $nodeCondition = $xml->Response->Status->Condition;
-                        }
-
-                        $code = isset($nodeCondition->ConditionCode) ? (string)$nodeCondition->ConditionCode : 0;
-                        $data = isset($nodeCondition->ConditionData) ? (string)$nodeCondition->ConditionData : '';
-                        $this->_errors[$code] = Mage::helper('usa')->__('Error #%s : %s', $code, $data);
-                    } elseif (is_object($xml) && is_object($xml->AWBInfo)) {
-                        foreach ($xml->AWBInfo as $awbinfo) {
-                            $awbinfoData = array();
-                            $trackNum = isset($awbinfo->AWBNumber) ? (string)$awbinfo->AWBNumber : '';
-                            if (is_object($awbinfo) && $awbinfo->ShipmentInfo) {
-                                $shipmentInfo = $awbinfo->ShipmentInfo;
-
-                                if ($shipmentInfo->ShipmentDesc) {
-                                    $awbinfoData['service'] = (string)$shipmentInfo->ShipmentDesc;
-                                }
-
-                                $awbinfoData['weight'] = (string)$shipmentInfo->Weight
-                                    . ' ' . (string)$shipmentInfo->WeightUnit;
-
-                                $packageProgress = array();
-                                if (isset($shipmentInfo->ShipmentEvent)) {
-                                    foreach ($shipmentInfo->ShipmentEvent as $shipmentEvent) {
-                                        $shipmentEventArray = array();
-                                        $shipmentEventArray['activity']         =
-                                            (string)$shipmentEvent->ServiceEvent->EventCode
-                                            . ' '
-                                            . (string)$shipmentEvent->ServiceEvent->Description;
-                                        $shipmentEventArray['deliverydate']     = (string)$shipmentEvent->Date;
-                                        $shipmentEventArray['deliverytime']     = (string)$shipmentEvent->Time;
-
-                                        $shipmentEventArray['deliverylocation'] =
-                                            (string)$shipmentEvent->ServiceArea->Description
-                                            . ' '
-                                            . '[' . (string)$shipmentEvent->ServiceArea->ServiceAreaCode . ']';
-                                        $packageProgress[] = $shipmentEventArray;
-                                    }
-                                    $awbinfoData['progressdetail'] = $packageProgress;
-                                }
-                                $resultArr[$trackNum] = $awbinfoData;
-                            } else {
-                                $errorArr[$trackNum] = Mage::helper('usa')->__('Unable to retrieve tracking');
-                            }
-                        }
-                    }
-                }
-            } else {
+            $xml = simplexml_load_string($response);
+            if (!is_object($xml)) {
                 $errorTitle = Mage::helper('usa')->__('Response is in the wrong format');
+            }
+            if (is_object($xml) && ((isset($xml->Response->Status->ActionStatus)
+                && $xml->Response->Status->ActionStatus == 'Failure')
+                || isset($xml->GetQuoteResponse->Note->Condition))
+            ) {
+                if (isset($xml->Response->Status->Condition)) {
+                    $nodeCondition = $xml->Response->Status->Condition;
+                }
+
+                $code = isset($nodeCondition->ConditionCode) ? (string)$nodeCondition->ConditionCode : 0;
+                $data = isset($nodeCondition->ConditionData) ? (string)$nodeCondition->ConditionData : '';
+                $this->_errors[$code] = Mage::helper('usa')->__('Error #%s : %s', $code, $data);
+            } elseif (is_object($xml) && is_object($xml->AWBInfo)) {
+                foreach ($xml->AWBInfo as $awbinfo) {
+                    $awbinfoData = array();
+                    $trackNum = isset($awbinfo->AWBNumber) ? (string)$awbinfo->AWBNumber : '';
+                    if (!is_object($awbinfo) || !$awbinfo->ShipmentInfo) {
+                        $this->_errors[$trackNum] = Mage::helper('usa')->__('Unable to retrieve tracking');
+                        continue;
+                    }
+                    $shipmentInfo = $awbinfo->ShipmentInfo;
+
+                    if ($shipmentInfo->ShipmentDesc) {
+                        $awbinfoData['service'] = (string)$shipmentInfo->ShipmentDesc;
+                    }
+
+                    $awbinfoData['weight'] = (string)$shipmentInfo->Weight . ' ' . (string)$shipmentInfo->WeightUnit;
+
+                    $packageProgress = array();
+                    if (isset($shipmentInfo->ShipmentEvent)) {
+                        foreach ($shipmentInfo->ShipmentEvent as $shipmentEvent) {
+                            $shipmentEventArray = array();
+                            $shipmentEventArray['activity'] = (string)$shipmentEvent->ServiceEvent->EventCode
+                                . ' ' . (string)$shipmentEvent->ServiceEvent->Description;
+                            $shipmentEventArray['deliverydate'] = (string)$shipmentEvent->Date;
+                            $shipmentEventArray['deliverytime'] = (string)$shipmentEvent->Time;
+                            $shipmentEventArray['deliverylocation'] = (string)$shipmentEvent->ServiceArea->Description
+                                . ' [' . (string)$shipmentEvent->ServiceArea->ServiceAreaCode . ']';
+                            $packageProgress[] = $shipmentEventArray;
+                        }
+                        $awbinfoData['progressdetail'] = $packageProgress;
+                    }
+                    $resultArr[$trackNum] = $awbinfoData;
+                }
             }
         }
 
         $result = Mage::getModel('shipping/tracking_result');
-        if ($errorArr || $resultArr) {
-            foreach ($errorArr as $trackNum => $err) {
-                $error = Mage::getModel('shipping/tracking_result_error');
-                $error->setCarrier($this->_code);
-                $error->setCarrierTitle($this->getConfigData('title'));
-                $error->setTracking($trackNum);
-                $error->setErrorMessage($err);
-                $result->append($error);
-            }
 
+        if (!empty($resultArr)) {
             foreach ($resultArr as $trackNum => $data) {
                 $tracking = Mage::getModel('shipping/tracking_result_status');
                 $tracking->setCarrier($this->_code);
                 $tracking->setCarrierTitle($this->getConfigData('title'));
                 $tracking->setTracking($trackNum);
                 $tracking->addData($data);
-
                 $result->append($tracking);
             }
-        } else {
-            foreach ($trackings as $trackNum) {
+        }
+
+        if (!empty($this->_errors) || empty($resultArr)) {
+            $resultArr = !empty($this->_errors) ? $this->_errors : $trackings;
+            foreach ($resultArr as $trackNum => $err) {
                 $error = Mage::getModel('shipping/tracking_result_error');
                 $error->setCarrier($this->_code);
                 $error->setCarrierTitle($this->getConfigData('title'));
-                $error->setTracking($trackNum);
-                $error->setErrorMessage($errorTitle);
+                $error->setTracking(!empty($this->_errors) ? $trackNum : $err);
+                $error->setErrorMessage(!empty($this->_errors) ? $err : $errorTitle);
                 $result->append($error);
             }
         }
+
         $this->_result = $result;
     }
 }
