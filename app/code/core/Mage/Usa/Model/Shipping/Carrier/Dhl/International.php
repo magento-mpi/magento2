@@ -558,6 +558,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
     {
         $allItems   = $this->_request->getAllItems();
         $fullItems  = array();
+
         foreach ($allItems as $item) {
             if ($item->getProductType() == Mage_Catalog_Model_Product_Type::TYPE_BUNDLE
                 && $item->getProduct()->getShipmentType()
@@ -576,16 +577,21 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
                     : $item->getParentItem()->getQty() * $item->getQty();
             }
 
-            $itemWeight = $item->getIsQtyDecimal() ? $item->getWeight() * $item->getQty() : $item->getWeight();
+            $itemWeight = $item->getWeight();
+            if ($item->getIsQtyDecimal() && $item->getProductType() != Mage_Catalog_Model_Product_Type::TYPE_BUNDLE) {
+                $itemWeight = $itemWeight * $item->getQty();
+            }
 
             if ($this->_getWeight($itemWeight) > $this->_getWeight($this->_maxWeight, true)) {
                 return array();
             }
 
-            if (!$item->getParentItem() && $item->getIsQtyDecimal()) {
+            if (!$item->getParentItem() && $item->getIsQtyDecimal()
+                && $item->getProductType() != Mage_Catalog_Model_Product_Type::TYPE_BUNDLE
+            ) {
                 $qty = 1;
             }
-            $fullItems = array_merge($fullItems, array_fill(0, $qty, $itemWeight));
+            $fullItems = array_merge($fullItems, array_fill(0, $qty, $this->_getWeight($itemWeight)));
         }
         sort($fullItems);
 
