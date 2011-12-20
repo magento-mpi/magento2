@@ -169,7 +169,7 @@ class Mage_Adminhtml_Block_Report_Grid_Abstract extends Mage_Adminhtml_Block_Wid
         }
 
         if ($filterData->getData('show_empty_rows', false)) {
-            Mage::helper('adminhtml')->prepareIntervalsCollection(
+            Mage::helper('reports')->prepareIntervalsCollection(
                 $this->getCollection(),
                 $filterData->getData('from', null),
                 $filterData->getData('to', null),
