@@ -1723,7 +1723,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         } catch (Exception $e) {
             $errorMessage = 'Current location url: ' . $this->getLocation() . "\n"
                     . 'Current page "' . $this->getCurrentPage() . '": '
-                    . $e->getMessage() . ' - "' . $message . '"';
+                    . $e->getMessage() . ' - "' . $message . '"' . "\n"
+                    . implode("\n", call_user_func_array('array_merge', $this->getMessagesOnPage()));
             $this->fail($errorMessage);
         }
         return $this->checkMessageByXpath($messageLocator);
