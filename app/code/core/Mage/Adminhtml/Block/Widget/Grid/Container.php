@@ -59,26 +59,11 @@ class Mage_Adminhtml_Block_Widget_Grid_Container extends Mage_Adminhtml_Block_Wi
         ));
     }
 
-    /**
-     * Layout prepare. Initialize grid block.
-     *
-     * @return Mage_Core_Block_Abstract
-     * @throws Exception    Throw new exception when grid block not found
-     */
     protected function _prepareLayout()
     {
-        $path = $this->_blockGroup . '/' . $this->_controller . '_grid';
-        $alias = $this->_controller . '.grid';
-        /** @var $block Mage_Adminhtml_Block_Widget_Grid */
-        $block = $this->getLayout()->createBlock($path, $alias);
-        if (!($block instanceof Mage_Adminhtml_Block_Widget_Grid)) {
-            throw new Exception(sprintf(
-                'Grid container cannot find grid block "%s" or it is not instance of Mage_Adminhtml_Block_Widget_Grid',
-                $path
-            ));
-        }
-        $block->setSaveParametersInSession(true);
-        $this->setChild('grid', $block);
+        $this->setChild( 'grid',
+            $this->getLayout()->createBlock( $this->_blockGroup.'/' . $this->_controller . '_grid',
+            $this->_controller . '.grid')->setSaveParametersInSession(true) );
         return parent::_prepareLayout();
     }
 
