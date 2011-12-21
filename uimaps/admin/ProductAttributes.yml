@@ -213,7 +213,7 @@ new_product_attribute_from_product_page:
         messages: *productAttributeMessages
 
 saved_product_attribute_from_product_page:
-    mca: catalog_product/addAttribute/attribute/%id%/group/%tabId%/tab/group_%tabId%/store/0/set/%setId%/type/%productType%/popup/1/
+    mca: catalog_product/addAttribute/attribute/%attributeId%/group/%tabId%/tab/group_%tabId%/store/0/set/%setId%/type/%productType%/popup/1/
     title: Manage Products / Catalog / Magento Admin
     uimap:
         form: &savedProductAttributeFromProductPageForm
