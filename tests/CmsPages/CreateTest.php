@@ -230,4 +230,41 @@ class CmsPages_CreateTest extends Mage_Selenium_TestCase
         );
     }
 
+    /**
+     * <p>Create CMS Page with special values in required fields</p>
+     * <p>Steps:</p>
+     * <p>1. Navigate to Manage Pages page</p>
+     * <p>2. Create page with all fields filled</p>
+     * <p>Expected result</p>
+     * <p>Page is created successfully</p>
+     *
+     * @dataProvider dataFields
+     * @depends withRequiredFields
+     * @test
+     */
+    public function withSpecialValueInFields($fieldData)
+    {
+        //Data
+        $pageData = $this->loadData('new_cms_page_req', $fieldData);
+        $search = $this->loadData('search_cms_page',
+                array('filter_url_key' => $pageData['page_information']['url_key']));
+        //Steps
+        $this->navigate('manage_cms_pages');
+        $this->cmsPagesHelper()->createCmsPage($pageData);
+        //Verification
+        $this->assertMessagePresent('success', 'success_saved_cms_page');
+        //Steps
+        $this->cmsPagesHelper()->openCmsPage($search);
+        //Verification
+        $this->assertTrue($this->verifyForm($pageData), $this->getParsedMessages());
+    }
+
+    public function dataFields()
+    {
+        return array(
+            array(array('page_title' => $this->generate('string', 255, ':lower:'))),
+            array(array('url_key' => $this->generate('string', 100, ':lower:'))),
+            array(array('page_title' => $this->generate('string', 64, ':punct:')))
+        );
+    }
 }
