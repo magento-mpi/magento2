@@ -124,7 +124,8 @@ class Mage_Core_Model_Translate_Inline
         'h6'            => 'Heading level 6',
         'p'             => 'Paragraph',
         'pre'           => 'Preformatted text',
-        'center'        => 'Centered text'
+        'center'        => 'Centered text',
+        'select'        => 'List options',
     );
 
     /**
