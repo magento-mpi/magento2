@@ -286,7 +286,8 @@ class Mage_Captcha_Model_Zend extends Zend_Captcha_Image implements Mage_Captcha
     {
         $word = '';
         $symbols = $this->_getSymbols();
-        for ($i = 0; $i < $this->_getWordLen(); $i++) {
+        $worldLen = $this->_getWordLen();
+        for ($i = 0; $i < $worldLen; $i++) {
             $word .= $symbols[array_rand($symbols)];
         }
         return $word;
