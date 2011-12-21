@@ -29,12 +29,10 @@ class Inspection_CodeSniffer_Command extends Inspection_CommandAbstract
      *
      * @param string $rulesetDir Directory that locates the inspection rules
      * @param string $reportFile Destination file to write inspection report to
-     * @param array $whiteList Files/folders to be inspected
-     * @param array $blackList Files/folders to be excluded from the inspection
      */
-    public function __construct($rulesetDir, $reportFile, array $whiteList, array $blackList = array())
+    public function __construct($rulesetDir, $reportFile)
     {
-        parent::__construct($reportFile, $whiteList, $blackList);
+        parent::__construct($reportFile);
         $this->_rulesetDir = $rulesetDir;
     }
 
@@ -61,26 +59,27 @@ class Inspection_CodeSniffer_Command extends Inspection_CommandAbstract
     }
 
     /**
+     * @param array $whiteList
+     * @param array $blackList
      * @return string
      */
-    protected function _buildShellCmd()
+    protected function _buildShellCmd($whiteList, $blackList)
     {
-        $whiteList = $this->_whiteList;
         $whiteList = array_map('escapeshellarg', $whiteList);
         $whiteList = implode(' ', $whiteList);
 
         /* Note: phpcs allows regular expressions for the ignore list */
-        $blackList = '';
-        if ($this->_blackList) {
-            foreach ($this->_blackList as $fileOrDir) {
+        $blackListStr = '';
+        if ($blackList) {
+            foreach ($blackList as $fileOrDir) {
                 $fileOrDir = str_replace('/', DIRECTORY_SEPARATOR, $fileOrDir);
-                $blackList .= ($blackList ? ',' : '') . preg_quote($fileOrDir);
+                $blackListStr .= ($blackListStr ? ',' : '') . preg_quote($fileOrDir);
             }
-            $blackList = '--ignore=' . escapeshellarg($blackList);
+            $blackListStr = '--ignore=' . escapeshellarg($blackListStr);
         }
 
         return 'phpcs'
-            . ($blackList ? ' ' . $blackList : '')
+            . ($blackListStr ? ' ' . $blackListStr : '')
             . ' --standard=' . escapeshellarg($this->_rulesetDir)
             . ' --report=checkstyle'
             . ($this->_extensions ? ' --extensions=' . implode(',', $this->_extensions) : '')

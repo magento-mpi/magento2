@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Run all available test suites
+ *
+ * {license_notice}
+ *
+ * @category    tests
+ * @package     static
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<phpunit bootstrap="./framework/bootstrap.php">
+    <testsuites>
+        <testsuite name="All Static Code Analysis Tests">
+            <directory>testsuite</directory>
+        </testsuite>
+    </testsuites>
+    <php>
+        <ini name="date.timezone" value="America/Los_Angeles"/>
+    </php>
+</phpunit>

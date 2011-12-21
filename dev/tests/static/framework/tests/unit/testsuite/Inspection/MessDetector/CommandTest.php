@@ -21,20 +21,13 @@ class Inspection_MessDetector_CommandTest extends PHPUnit_Framework_TestCase
         $this->_cmd = $this->getMock(
             'Inspection_MessDetector_Command',
             array('_execShellCmd'),
-            array(
-                'some/ruleset/file.xml',
-                'some/report/file.xml',
-                array('some/test/dir with space', 'some/test/file with space.php')
-            )
+            array('some/ruleset/file.xml', 'some/report/file.xml')
         );
     }
 
-    public function canTestDataProvider()
+    public function testGetRulesetFile()
     {
-        return array(
-            'success' => array(true),
-            'failure' => array(false),
-        );
+        $this->assertEquals('some/ruleset/file.xml', $this->_cmd->getRulesetFile());
     }
 
     /**
@@ -49,6 +42,14 @@ class Inspection_MessDetector_CommandTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue($expectedResult))
         ;
         $this->assertEquals($expectedResult, $this->_cmd->canRun());
+    }
+
+    public function canTestDataProvider()
+    {
+        return array(
+            'success' => array(true),
+            'failure' => array(false),
+        );
     }
 
     public function getVersionDataProvider()
@@ -93,6 +94,6 @@ class Inspection_MessDetector_CommandTest extends PHPUnit_Framework_TestCase
             ->method('_execShellCmd')
             ->with($expectedCmd)
         ;
-        $this->_cmd->run();
+        $this->_cmd->run(array('some/test/dir with space', 'some/test/file with space.php'));
     }
 }

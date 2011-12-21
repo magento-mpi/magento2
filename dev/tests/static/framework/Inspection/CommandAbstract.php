@@ -20,37 +20,25 @@ abstract class Inspection_CommandAbstract
     protected $_reportFile;
 
     /**
-     * @var array
-     */
-    protected $_whiteList;
-
-    /**
-     * @var array
-     */
-    protected $_blackList;
-
-    /**
      * Constructor
      *
      * @param string $reportFile Destination file to write inspection report to
-     * @param array $whiteList Files/folders to be inspected
-     * @param array $blackList Files/folders to be excluded from the inspection
      */
-    public function __construct($reportFile, array $whiteList, array $blackList = array())
+    public function __construct($reportFile)
     {
         $this->_reportFile = $reportFile;
-        $this->_whiteList = $whiteList;
-        $this->_blackList = $blackList;
     }
 
     /**
      * Build and execute the shell command
      *
+     * @param array $whiteList Files/directories to be inspected
+     * @param array $blackList Files/directories to be excluded from the inspection
      * @return bool
      */
-    public function run()
+    public function run(array $whiteList, array $blackList = array())
     {
-        $shellCmd = $this->_buildShellCmd();
+        $shellCmd = $this->_buildShellCmd($whiteList, $blackList);
         return $this->_execShellCmd($shellCmd);
     }
 
@@ -79,6 +67,16 @@ abstract class Inspection_CommandAbstract
     }
 
     /**
+     * Get path to the report file
+     *
+     * @return string
+     */
+    public function getReportFile()
+    {
+        return $this->_reportFile;
+    }
+
+    /**
      * Build the shell command that outputs the version
      *
      * @return string
@@ -88,9 +86,11 @@ abstract class Inspection_CommandAbstract
     /**
      * Build the valid shell command
      *
+     * @param array $whiteList
+     * @param array $blackList
      * @return string
      */
-    abstract protected function _buildShellCmd();
+    abstract protected function _buildShellCmd($whiteList, $blackList);
 
     /**
      * Execute the shell command on the current environment

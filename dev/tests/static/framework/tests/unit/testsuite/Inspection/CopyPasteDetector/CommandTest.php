@@ -21,13 +21,7 @@ class Inspection_CopyPasteDetector_CommandTest extends PHPUnit_Framework_TestCas
         $this->_cmd = $this->getMock(
             'Inspection_CopyPasteDetector_Command',
             array('_execShellCmd'),
-            array(
-                'some/report/file.xml',
-                array('some/test/dir with space', 'some/test/file with space.php'),
-                array(),
-                5,
-                50
-            )
+            array('some/report/file.xml', 5, 50)
         );
     }
 
@@ -94,6 +88,6 @@ class Inspection_CopyPasteDetector_CommandTest extends PHPUnit_Framework_TestCas
             ->method('_execShellCmd')
             ->with($expectedCmd)
         ;
-        $this->_cmd->run();
+        $this->_cmd->run(array('some/test/dir with space', 'some/test/file with space.php'));
     }
 }
