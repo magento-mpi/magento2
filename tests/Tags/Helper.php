@@ -38,40 +38,14 @@ class Tags_Helper extends Mage_Selenium_TestCase
 {
 
     /**
-     * <p>Create Tag</p>
-     *
-     * @param string|array $tagName
-     */
-    public function frontendAddTag($tagName, $loggedIn = TRUE)
-    {
-        if (is_array($tagName) && array_key_exists('new_tag_names', $tagName)) {
-            $tagName = $tagName['new_tag_names'];
-        } else {
-            $this->fail('Array key is absent in array');
-        }
-        $tagNameArray = $this->convertStringToArray($tagName);
-        $tagQty = count($tagNameArray);
-        $this->addParameter('tagQty', $tagQty);
-        if (!$this->controlIsPresent('field', 'input_new_tags')) {
-            $this->fail('Element is absent on the page');
-        }
-        $this->fillForm(array('input_new_tags' => $tagName));
-        $this->clickButton('add_tags');
-        if ($loggedIn) {
-            $this->assertFalse($this->checkCurrentPage('customer_login'), 'Got on Login Page');
-        } else {
-            $this->assertTrue($this->checkCurrentPage('customer_login'), 'Did not get on Login Page');
-        }
-    }
-
-    /**
-     * Correct string with tags for verification
+     * Converts string with tags to an array for verification
      *
      * @param string $tagName
      * @return array
      */
-    public function convertStringToArray($tagName)
+    protected function _convertTagsStringToArray($tagName)
     {
+        $tags = array();
         $tagNameArray = array_filter(explode("\n", preg_replace("/(\'(.*?)\')|(\s+)/i", "$1\n", $tagName)), 'strlen');
         foreach ($tagNameArray as $key => $value) {
             $tags[$key] = trim($value, " \x22\x27");
@@ -79,95 +53,92 @@ class Tags_Helper extends Mage_Selenium_TestCase
         }
         return $tags;
     }
+
+    /**
+     * <p>Create Tag</p>
+     *
+     * @param string $tagsString Tags to add
+     */
+    public function frontendAddTag($tagsString)
+    {
+        $tagNameArray = $this->_convertTagsStringToArray($tagsString);
+        $tagQty = count($tagNameArray);
+        $this->addParameter('tagQty', $tagQty);
+        $this->fillForm(array('input_new_tags' => $tagsString));
+        $this->clickButton('add_tags');
+    }
+
+    /**
+     * Delete tag
+     *
+     * @param string|array $tags
+     */
+    public function frontendDeleteTags($tags)
+    {
+        if (is_string($tags))
+            $tags = $this->_convertTagsStringToArray($tags);
+        foreach ($tags as $tag) {
+            $this->addParameter('tagName', $tag);
+            $this->clickControl('link', 'tag_name');
+            $this->clickButtonAndConfirm('delete_tag', 'confirmation_for_delete');
+             //@todo remove from here
+        }
+    }
+
     /**
      * Verification tags on frontend
      *
-     * @param array $verificationData
+     * @param string|array $tags
+     * @param string $product
      */
-    public function frontendTagVerification(array $verificationData)
+    public function frontendTagVerification($tags, $product)
     {
-        $tagName = (isset($verificationData['new_tag_names'])) ? $verificationData['new_tag_names'] : NULL;
-        $productName = (isset($verificationData['product_name'])) ? $verificationData['product_name'] : NULL;
-        if ($tagName && $productName) {
-            //Verification in "My Recent tags" area
+        if (is_string($tags))
+            $tags = $this->_convertTagsStringToArray($tags);
+        //Verification in "My Recent tags" area
+        $this->addParameter('productName', $product);
+        foreach ($tags as $tag) {
             $this->navigate('customer_account');
-            $this->addParameter('productName', $productName);
-            $tagNameArray = $this->convertStringToArray($tagName);
-            foreach ($tagNameArray as $value) {
-                $this->addParameter('tagName', $value);
-                $this->assertTrue($this->controlIsPresent('link', 'product_info'), "Cannot find tag with name: $value");
-                $this->clickControl('link', 'product_info');
-                $this->assertTrue($this->controlIsPresent('link', 'product_name'), "Cannot find tag with name: $value");
-                $this->assertTrue($this->controlIsPresent('pageelement', 'tag_name_box'),
-                        "Cannot find tag with name: $value");
-                $this->navigate('customer_account');
-            }
-            //Verification in "My Account -> My Tags"
+            $this->addParameter('tagName', $tag);
+            $this->assertTrue($this->controlIsPresent('link', 'tag'), "Cannot find tag with name: $tag");
+            $this->clickControl('link', 'tag');
+            $this->assertTrue($this->controlIsPresent('pageelement', 'tag_name_box'), "Cannot find tag $tag in My Tags");
+            $this->assertTrue($this->controlIsPresent('link', 'product_name'),"Cannot find product $product tagged with $tag");
+        }
+        //Verification in "My Account -> My Tags"
+        foreach ($tags as $tag) {
             $this->navigate('my_account_my_tags');
-            foreach ($tagNameArray as $value) {
-                $this->addParameter('tagName', trim($value, " \x22\x27"));
-                $this->assertTrue($this->controlIsPresent('link', 'tag_name'), "Cannot find tag with name: $value");
-                $this->clickControl('link', 'tag_name');
-                $this->assertTrue($this->controlIsPresent('link', 'product_name'), "Cannot find tag with name: $value");
-                $this->assertTrue($this->controlIsPresent('pageelement', 'tag_name_box'),
-                        "Cannot find tag with name: $value");
-                $this->clickControl('link', 'back_to_tags_list');
-            }
-        } else {
-            $this->fail('Verification Data is not correct');
+            $this->addParameter('tagName', $tag);
+            $this->assertTrue($this->controlIsPresent('link', 'tag_name'), "Cannot find tag with name: $tag");
+            $this->clickControl('link', 'tag_name');
+            $this->assertTrue($this->controlIsPresent('pageelement', 'tag_name_box'), "Cannot find tag $tag in My Tags");
+            $this->assertTrue($this->controlIsPresent('link', 'product_name'),"Cannot find product $product tagged with $tag");
         }
     }
 
     /**
      * Verification tags in category
      *
-     * @param array $verificationData
+     * @param string|array $tags
+     * @param string $product
+     * @param string $category
      */
-    public function frontendTagVerificationInCategory(array $verificationData)
+    public function frontendTagVerificationInCategory($tags, $product, $category)
     {
-        $category = (isset($verificationData['category'])) ? $verificationData['category'] : NULL;
-        $productName = (isset($verificationData['product_name'])) ? $verificationData['product_name'] : NULL;
-        $tagName = (isset($verificationData['new_tag_names'])) ? $verificationData['new_tag_names'] : NULL;
-        if ($category && $productName && $tagName) {
-            $this->addParameter('productName', $verificationData['product_name']);
-            $tagNameArray = $this->convertStringToArray($tagName);
-            $category = substr($category, strpos($category, '/') + 1);
-            $url = trim(strtolower(preg_replace('#[^0-9a-z]+#i', '-', $category)), '-');
-            $this->addParameter('categoryTitle', $category);
-            $this->addParameter('categoryUrl', $url);
-            foreach ($tagNameArray as $value) {
-                $this->frontend('category_page');
-                $this->addParameter('tagName', $value);
-                $this->assertTrue($this->controlIsPresent('link', 'tag_name'), "Cannot find tag with name: $value");
-                $this->clickControl('link', 'tag_name');
-                $this->addParameter('id', $this->defineIdFromUrl());
-                $this->assertTrue($this->controlIsPresent('link', 'product_name'));
-            }
-        } else {
-            $this->fail('Verification Data is not correct');
-        }
-    }
-
-    /**
-     * Delete tag
-     *
-     * @param array $verificationData
-     */
-    public function frontendDeleteTag(array $verificationData)
-    {
-        $tagName = (isset($verificationData['new_tag_names'])) ? $verificationData['new_tag_names'] : NULL;
-        if ($tagName) {
-            $tagNameArray = $this->convertStringToArray($tagName);
-            foreach ($tagNameArray as $value) {
-                $this->addParameter('tagName', $value);
-                $this->assertTrue($this->controlIsPresent('link', 'tag_name'), "Cannot find tag with name: $value");
-                $this->clickControl('link', 'tag_name');
-                $this->clickButtonAndConfirm('delete_tag', 'confirmation_for_delete');
-                $this->addParameter('id', $this->defineIdFromUrl());
-                $this->assertMessagePresent('success', 'success_deleted_tag');
-            }
-        } else {
-            $this->fail('Verification Data is not correct');
+        if (is_string($tags))
+            $tags = $this->_convertTagsStringToArray($tags);
+        $category = substr($category, strpos($category, '/') + 1);
+        $url = trim(strtolower(preg_replace('#[^0-9a-z]+#i', '-', $category)), '-');
+        $this->addParameter('productName', $product);
+        $this->addParameter('categoryTitle', $category);
+        $this->addParameter('categoryUrl', $url);
+        foreach ($tags as $tag) {
+            $this->frontend('category_page_before_reindex');
+            $this->addParameter('tagName', $tag);
+            $this->assertTrue($this->controlIsPresent('link', 'tag_name'), "Cannot find tag with name: $tag");
+            $this->clickControl('link', 'tag_name');
+            $this->assertTrue($this->checkCurrentPage('tags_products'), $this->getParsedMessages());
+            $this->assertTrue($this->controlIsPresent('link', 'product_name'));
         }
     }
 
@@ -269,7 +240,7 @@ class Tags_Helper extends Mage_Selenium_TestCase
     }
 
     /**
-     * Mass action: approves a set of tags in backend
+     * Mass action: changes tags status in backend
      *
      * @param array $tagsSearchData Array of tags to change status
      * @param string $newStatus New status, e.g. 'Approved'

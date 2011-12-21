@@ -79,7 +79,7 @@ customer_account:
                     my_recent_tags:
                         xpath: //div[@class='box-account box-tags']
                         links:
-                            product_info: //div[*/a[text()='%productName%']]//a[text()='%tagName%']
+                            tag: //div[*/a[text()='%productName%']]//a[text()='%tagName%']
                             view_all_tags: //a[text()='View All Tags']
                 -
                     my_recent_reviews:

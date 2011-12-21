@@ -116,26 +116,41 @@ class Tags_FrontendCreateTest extends Mage_Selenium_TestCase
      *
      * @dataProvider dataTagName
      * @depends createCustomer
-     * @depends createCategory
      * @depends createProduct
      *
      * @test
      */
-    public function frontendTagVerificationLoggedCustomer($dataTagName, $customer, $category, $products)
+    public function frontendTagVerificationLoggedCustomer($tags, $customer, $product)
     {
-        //Data
-        $verificationData = $this->loadData('new_tag_double',
-                array('product_name' => $products, 'new_tag_names' => $dataTagName));
-        //Preconditions
+        //Setup
         $this->customerHelper()->frontLoginCustomer($customer);
-        $this->productHelper()->frontOpenProduct($products);
+        $this->productHelper()->frontOpenProduct($product);
         //Steps
-        $this->tagsHelper()->frontendAddTag($verificationData);
+        $this->tagsHelper()->frontendAddTag($tags);
         //Verification
         $this->assertMessagePresent('success', 'tag_accepted_success');
-        $this->tagsHelper()->frontendTagVerification($verificationData);
+        $this->tagsHelper()->frontendTagVerification($tags, $product);
+        //Cleanup
         $this->navigate('my_account_my_tags');
-        $this->tagsHelper()->frontendDeleteTag($verificationData);
+        $this->tagsHelper()->frontendDeleteTags($tags);
+    }
+
+    public function dataTagName()
+    {
+        return array(
+            //1 simple word
+            array($this->generate('string', 4, ':alpha:')),
+            //1 tag enclosed within quotes
+            array("'" . $this->generate('string', 4, ':alpha:') . "'"),
+            //2 tags separated with a space
+            array($this->generate('string', 4, ':alpha:') . ' ' . $this->generate('string', 7, ':alpha:')),
+            //1 tag with a space; enclosed within quotes
+            array("'" . $this->generate('string', 4, ':alpha:') . ' ' . $this->generate('string', 7, ':alpha:') . "'"),
+            //3 tags = 1 word + 1 phrase with a space + 1 word; enclosed within quotes
+            array($this->generate('string', 4, ':alpha:') . ' '
+                    . "'" . $this->generate('string', 4, ':alpha:') . ' ' . $this->generate('string', 7, ':alpha:'). "'"
+                    . ' ' . $this->generate('string', 4, ':alpha:')),
+        );
     }
 
     /**
@@ -158,43 +173,29 @@ class Tags_FrontendCreateTest extends Mage_Selenium_TestCase
      *
      * @test
      */
-    public function frontendTagVerificationInCategory($customer, $category, $products){
+    public function frontendTagVerificationInCategory($customer, $category, $product)
+    {
         //Data
-        $verificationData = $this->loadData('new_tag_double',
-                array('product_name' => $products, 'category' => $category));
-        $subCategory = explode('/', $category);
-        //Preconditions
+        $tag = $this->generate('string', 10, ':alpha:');
+        //Setup
         $this->customerHelper()->frontLoginCustomer($customer);
-        $this->productHelper()->frontOpenProduct($products);
+        $this->productHelper()->frontOpenProduct($product);
         //Steps
-        $this->tagsHelper()->frontendAddTag($verificationData);
+        $this->tagsHelper()->frontendAddTag($tag);
         //Verification
         $this->assertMessagePresent('success', 'tag_accepted_success');
-        $this->logoutCustomer();
+        //Steps
         $this->loginAdminUser();
         $this->navigate('pending_tags');
-        $tags = explode(' ', $verificationData['new_tag_names']);
-        $searchData = array();
-        foreach($tags as $tagName) {
-            $tagToApprove = array('tag_name' => $tagName);
-            $searchData[] = $tagToApprove;
-        }
-        $this->tagsHelper()->changeTagsStatus($searchData, 'Approved');
+        $tagToApprove = $this->loadData('backend_search_tag', array('tag_name' => $tag));
+        $this->tagsHelper()->changeTagsStatus(array($tagToApprove), 'Approved');
+        //Verification
         $this->frontend();
-        $this->tagsHelper()->frontendTagVerificationInCategory($verificationData);
-    }
-
-    public function dataTagName()
-    {
-        return array(
-            array("'aaaaaa'"),
-            array("aaaaaa"),
-            array('aaaaaa'),
-            array("aaaaqwe aaaaaadddddd"),
-            array("'aaaaqwe aaaaaadddddd'"),
-            array('aaaaqwe aaaaaadddddd'),
-            array("'ddddd''dddddddd sdfd ''2'")
-        );
+        $this->tagsHelper()->frontendTagVerificationInCategory($tag, $product, $category);
+        //Cleanup
+        $this->navigate('my_account_my_tags');
+        $this->tagsHelper()->frontendDeleteTags($tag);
+        $this->assertMessagePresent('success', 'success_deleted_tag');
     }
 
     /**
@@ -204,20 +205,30 @@ class Tags_FrontendCreateTest extends Mage_Selenium_TestCase
      * <p>2. Open created product</p>
      * <p>3. Add Tag to product</p>
      * <p>4. Login page opened</p>
+     * <p>Expected result:</p>
+     * <p>Customer is redirected to the login page.</p>
+     * <p>The tag hasn't been added for moderation in backend.</p>
      *
-     * @depends createCategory
      * @depends createProduct
      *
      * @test
      */
-    public function frontendTagVerificationNotLoggedCustomer($category, $products)
+    public function frontendTagVerificationNotLoggedCustomer($product)
     {
         //Data
-        $verificationData = $this->loadData('new_tag_single', array('product_name' => $products));
-        //Preconditions
+        $tag = $this->generate('string', 8, ':alpha:');
+        //Setup
         $this->logoutCustomer();
-        $this->productHelper()->frontOpenProduct($products, $category); #Need to reindex data for correct usage
+        $this->productHelper()->frontOpenProduct($product);
         //Steps
-        $this->tagsHelper()->frontendAddTag($verificationData, FALSE);
+        $this->tagsHelper()->frontendAddTag($tag);
+        //Verification
+        $this->assertTrue($this->checkCurrentPage('customer_login'), $this->getParsedMessages());
+        $this->loginAdminUser();
+        $this->navigate('all_tags');
+        $searchTag = $this->loadData('backend_search_tag', array('tag_name' => $tag));
+        $xpathTR = $this->search($searchTag, 'tags_grid');
+        $this->assertTrue(is_null($xpathTR), $this->getMessagesOnPage());
     }
+
 }

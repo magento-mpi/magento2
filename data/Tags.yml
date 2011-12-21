@@ -28,22 +28,6 @@
 #Test data for Tags creating
 
 #*********************************************
-#*         Frontend                          *
-#*********************************************
-
-new_tag_single:
-    product_name: %noValue%
-    new_tag_names: "serty"
-
-new_tag_double:
-    product_name: %noValue%
-    new_tag_names: "qerty werty"
-
-new_tag_complex:
-    product_name: %noValue%
-    new_tag_names: "'dddddd''ddddddddd ssdfd ''3'"
-
-#*********************************************
 #*         Backend                           *
 #*********************************************
 
