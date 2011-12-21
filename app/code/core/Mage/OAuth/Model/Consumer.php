@@ -92,12 +92,13 @@ class Mage_OAuth_Model_Consumer extends Mage_Core_Model_Abstract
     {
         $errors = array();
         if ($this->getCallBackUrl()) {
-            /** @var $validatorUrl Mage_OAuth_Model_Consumer_Validator_Url */
-            $validatorUrl = Mage::getSingleton('oauth/consumer_validator_url');
+            /** @var $validatorUrl Mage_OAuth_Model_Consumer_Validator_CallbackUrl */
+            $validatorUrl = Mage::getSingleton('oauth/consumer_validator_callbackUrl');
             if ($validatorUrl->isValid($this->getCallBackUrl())) {
                 $errors = array_merge($errors, $validatorUrl->getMessages());
             }
         }
+
         $validatorLength = new Zend_Validate_StringLength();
         $validatorLength->setMin(self::KEY_LENGTH);
         $validatorLength->setMax(self::KEY_LENGTH);
@@ -107,6 +108,7 @@ class Mage_OAuth_Model_Consumer extends Mage_Core_Model_Abstract
                 $this->getKey(),
                 self::KEY_LENGTH);
         }
+
         $validatorLength->setMin(self::SECRET_LENGTH);
         $validatorLength->setMax(self::SECRET_LENGTH);
         if (!$validatorLength->isValid($this->getSecret())) {

@@ -19,24 +19,25 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_Core
+ * @package     Mage_OAuth
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * Validate consumer URL
+ * Validate consumer callback URL
  *
  * @category   Mage
  * @package    Mage_OAuth
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_OAuth_Model_Consumer_Validator_Url extends Zend_Validate_Abstract
+class Mage_OAuth_Model_Consumer_Validator_CallbackUrl extends Zend_Validate_Abstract
 {
     /**#@+
      * Error keys
      */
     const NO_OAUTH_PREFIX = 'noOAuthPrefix';
+    const INVALID_URL     = 'invalidUrl';
     /**#@-*/
 
     /**
@@ -46,16 +47,33 @@ class Mage_OAuth_Model_Consumer_Validator_Url extends Zend_Validate_Abstract
      */
     protected $_messageTemplates = array(
         self::NO_OAUTH_PREFIX   => "Parameters in URL '%value%' must not contain 'oauth_' prefix. See RFC-5849.",
+        self::INVALID_URL       => "Invalid URL '%value%'.",
     );
 
     /**
      * Validate value
      *
-     * @param string|array $value
+     * @param string $value
      * @return bool
      */
     public function isValid($value)
     {
-        return !preg_match('/[&?]oauth_/i', $value);
+        $this->_setValue($value);
+
+        //check valid URL
+        /** @var $url Mage_Core_Model_Url_Validator */
+        $url = Mage::getModel('core/url_validator');
+        if (!$url->isValid($value)) {
+            $this->_error(self::INVALID_URL);
+            return false;
+        }
+
+        //check prefix "oauth_" in parameters
+        if (preg_match('/[&?]oauth_/i', $value)) {
+            $this->_error(self::NO_OAUTH_PREFIX);
+            return false;
+        }
+
+        return true;
     }
 }
