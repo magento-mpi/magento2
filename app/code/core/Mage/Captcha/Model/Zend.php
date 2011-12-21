@@ -108,8 +108,9 @@ class Mage_Captcha_Model_Zend extends Zend_Captcha_Image implements Mage_Captcha
      */
     protected function _isUserAuth()
     {
-        return (Mage::app()->getStore()->isAdmin() && Mage::getSingleton('admin/session')->isLoggedIn()) ||
-               (!Mage::app()->getStore()->isAdmin() && Mage::getSingleton('customer/session')->isLoggedIn());
+        return Mage::app()->getStore()->isAdmin()
+            ? Mage::getSingleton('admin/session')->isLoggedIn()
+            : Mage::getSingleton('customer/session')->isLoggedIn();
     }
 
     /**
