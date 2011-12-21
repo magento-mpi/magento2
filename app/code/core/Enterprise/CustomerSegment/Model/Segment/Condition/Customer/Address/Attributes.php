@@ -118,9 +118,21 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Attrib
 
                 default:
                     $options = array();
+                    if (!$this->getData('value_select_options') && is_object($this->getAttributeObject())) {
+                        if ($this->getAttributeObject()->usesSource()) {
+                            if ($this->getAttributeObject()->getFrontendInput() == 'multiselect') {
+                                $addEmptyOption = false;
+                            } else {
+                                $addEmptyOption = true;
+                            }
+                            $options = $this->getAttributeObject()->getSource()->getAllOptions($addEmptyOption);
+                        }
+                    }
             }
+
             $this->setData('value_select_options', $options);
         }
+
         return $this->getData('value_select_options');
     }
 
