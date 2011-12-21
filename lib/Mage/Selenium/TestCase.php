@@ -420,6 +420,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 
         if ($_isFirst) {
             $this->useXpathLibrary('javascript-xpath');
+            $this->allowNativeXpath (true);
             $this->setUpBeforeTests();
             $_isFirst = false;
         }
