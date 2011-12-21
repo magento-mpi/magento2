@@ -68,12 +68,11 @@ class Order_Create_WithDifferentProductsTest extends Mage_Selenium_TestCase
      *
      * @test
      */
-    public function witCustomOptions()
+    public function withCustomOptions()
     {
         //Data
         $virtual = $this->loadData('virtual_product_for_order',
-                array('custom_options_data' => $this->loadData('custom_options_data')),
-                array('general_name', 'general_sku'));
+                array('custom_options_data' => $this->loadData('custom_options_data')));
         $orderData = $this->loadData('order_virtual', array('filter_sku' => $virtual['general_sku'],
             'configurable_options' => $this->loadData('config_option_custom_options')));
         //Steps and Verifying
@@ -90,7 +89,6 @@ class Order_Create_WithDifferentProductsTest extends Mage_Selenium_TestCase
         $this->clickButtonAndConfirm('cancel', 'confirmation_for_cancel');
         $this->assertMessagePresent('success', 'success_canceled_order');
 
-        return $virtual;
     }
 
     /**
@@ -101,8 +99,7 @@ class Order_Create_WithDifferentProductsTest extends Mage_Selenium_TestCase
     public function createConfigurableAttribute()
     {
         //Data
-        $attrData = $this->loadData('product_attribute_dropdown_with_options', null,
-                array('admin_title', 'attribute_code'));
+        $attrData = $this->loadData('product_attribute_dropdown_with_options');
         $associatedAttributes = $this->loadData('associated_attributes',
                 array('General' => $attrData['attribute_code']));
         //Steps and Verifying
@@ -135,7 +132,7 @@ class Order_Create_WithDifferentProductsTest extends Mage_Selenium_TestCase
     public function withSimpleProduct($attrData)
     {
         //Data
-        $simple = $this->loadData('simple_product_for_order', null, array('general_name', 'general_sku'));
+        $simple = $this->loadData('simple_product_for_order');
         $attrCode = $attrData['attribute_code'];
         $simple['general_user_attr']['dropdown'][$attrCode] = $attrData['option_1']['admin_option_name'];
         $orderData = $this->loadData('order_newcustmoer_checkmoney_flatrate',
@@ -177,7 +174,7 @@ class Order_Create_WithDifferentProductsTest extends Mage_Selenium_TestCase
     public function withVirtualProduct($attrData)
     {
         //Data
-        $virtual = $this->loadData('virtual_product_for_order', null, array('general_name', 'general_sku'));
+        $virtual = $this->loadData('virtual_product_for_order');
         $attrCode = $attrData['attribute_code'];
         $virtual['general_user_attr']['dropdown'][$attrCode] = $attrData['option_2']['admin_option_name'];
         $orderData = $this->loadData('order_virtual', array('filter_sku' => $virtual['general_sku']));
@@ -215,10 +212,10 @@ class Order_Create_WithDifferentProductsTest extends Mage_Selenium_TestCase
     public function withDownloadableConfigProduct()
     {
         //Data
-        $downloadable = $this->loadData('downloadable_product_for_order', null, array('general_name', 'general_sku'));
+        $downloadable = $this->loadData('downloadable_product_for_order');
         $orderData = $this->loadData('order_virtual',
                 array('filter_sku' => $downloadable['general_sku'],
-            'configurable_options' => $this->loadData('config_option_download')));
+                      'configurable_options' => $this->loadData('config_option_download')));
         //Steps and Verifying
         $this->productHelper()->createProduct($downloadable, 'downloadable');
         $this->assertMessagePresent('success', 'success_saved_product');
@@ -253,12 +250,10 @@ class Order_Create_WithDifferentProductsTest extends Mage_Selenium_TestCase
     {
         //Data
         $downloadable = $this->loadData('downloadable_product_for_order',
-                array('downloadable_links_purchased_separately' => 'No'), array('general_name', 'general_sku'));
+                array('downloadable_links_purchased_separately' => 'No'));
         $attrCode = $attrData['attribute_code'];
         $downloadable['general_user_attr']['dropdown'][$attrCode] = $attrData['option_3']['admin_option_name'];
-        $orderData = $this->loadData('order_virtual',
-                array('filter_sku' => $downloadable['general_sku'],
-            'customer_email' => $this->generate('email', 32, 'valid')));
+        $orderData = $this->loadData('order_virtual', array('filter_sku' => $downloadable['general_sku']));
         //Steps and Verifying
         $this->productHelper()->createProduct($downloadable, 'downloadable');
         $this->assertMessagePresent('success', 'success_saved_product');
@@ -299,7 +294,7 @@ class Order_Create_WithDifferentProductsTest extends Mage_Selenium_TestCase
         $product1 = $this->loadData('product_to_bundle', array('bundle_items_search_sku' => $simple['general_sku']));
         $product2 = $this->loadData('product_to_bundle', array('bundle_items_search_sku' => $virtual['general_sku']));
         $bundle = $this->loadData('fixed_bundle_for_order',
-                array('add_product_1' => $product1,'add_product_2' => $product2), array('general_name','general_sku'));
+                array('add_product_1' => $product1, 'add_product_2' => $product2));
         //Order Data
         $multiSelect = $this->loadData('configure_field_multiselect', array('fieldsValue' => $simple['general_name']));
         $dropDown = $this->loadData('configure_field_dropdown', array('fieldsValue' => $simple['general_name']));
@@ -393,12 +388,10 @@ class Order_Create_WithDifferentProductsTest extends Mage_Selenium_TestCase
         $pr2 = $this->loadData('associated', array('associated_search_sku' => $virtual['general_sku']));
         $pr3 = $this->loadData('associated', array('associated_search_sku' => $download['general_sku']));
         $configurable = $this->loadData('configurable_product_for_order',
-                array(
-                    'configurable_attribute_title' => $attrData['admin_title'],
-                    'associated_configurable_1'    => $pr1,
-                    'associated_configurable_2'    => $pr2,
-                    'associated_configurable_3'    => $pr3,
-                ), array('general_name', 'general_sku'));
+                array('configurable_attribute_title' => $attrData['admin_title'],
+                      'associated_configurable_1'    => $pr1,
+                      'associated_configurable_2'    => $pr2,
+                      'associated_configurable_3'    => $pr3));
         $orderData = $this->loadData('order_newcustmoer_checkmoney_flatrate',
                 array('filter_sku'           => $configurable['general_sku'],
                       'configurable_options' => $this->loadData('config_option_configurable',
@@ -519,13 +512,11 @@ class Order_Create_WithDifferentProductsTest extends Mage_Selenium_TestCase
         $prod3 = $this->loadData('associated_grouped', array('associated_search_sku' => $download['general_sku']));
         $grouped = $this->loadData('grouped_product_for_order',
                 array('associated_grouped_1' => $prod1, 'associated_grouped_2' => $prod2,
-                      'associated_grouped_3' => $prod3), array('general_name', 'general_sku'));
+                      'associated_grouped_3' => $prod3));
         $orderData = $this->loadData('order_newcustmoer_checkmoney_flatrate',
-                array(
-                    'filter_sku'           => $grouped['general_sku'],
-                    'configurable_options' => $this->loadData('config_option_grouped',
-                                                        array('fieldParameter' => $simple['general_sku'])),
-                                                            'customer_email' => $this->generate('email', 32, 'valid')));
+                array('filter_sku'           => $grouped['general_sku'],
+                      'configurable_options' => $this->loadData('config_option_grouped',
+                                                                array('fieldParameter' => $simple['general_sku']))));
         //Steps and Verifying
         $this->productHelper()->createProduct($grouped, 'grouped');
         $this->assertMessagePresent('success', 'success_saved_product');

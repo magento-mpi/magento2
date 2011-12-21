@@ -294,13 +294,11 @@ class Order_Helper extends Mage_Selenium_TestCase
             }
             $this->click($xpathProduct . "//input[@type='checkbox']");
             if ($configurable && $configur) {
-                $this->_parseMessages();
-                $before = $this->getParsedMessages();
                 $this->pleaseWait();
+                $before = $this->getMessagesOnPage();
                 $this->configureProduct($configur);
                 $this->clickButton('ok', FALSE);
-                $this->_parseMessages();
-                $after = $this->getParsedMessages();
+                $after = $this->getMessagesOnPage();
                 $result = array();
                 foreach ($after as $key => $value) {
                     if ($key == 'success') {
@@ -349,8 +347,8 @@ class Order_Helper extends Mage_Selenium_TestCase
                             $method .= 's';
                         }
                         $a = $set->$method();
-                        foreach ($a as $field => $fieldValue) {
-                            if ($this->isElementPresent($fieldValue)) {
+                        foreach ($a as $field => $fieldXpath) {
+                            if ($this->isElementPresent($fieldXpath)) {
                                 $this->fillForm(array($field => $fieldValue));
                                 break;
                             }
