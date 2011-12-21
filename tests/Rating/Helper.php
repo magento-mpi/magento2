@@ -72,15 +72,12 @@ class Rating_Helper extends Mage_Selenium_TestCase
         $ratingSearch = $this->arrayEmptyClear($ratingSearch);
         $xpathTR = $this->search($ratingSearch, 'manage_ratings_grid');
         $this->assertNotEquals(null, $xpathTR, 'Rating is not found');
-        $names = $this->shoppingCartHelper()->getColumnNamesAndNumbers('grid_head', false);
-        if (array_key_exists('Rating Name', $names)) {
-            $text = trim($this->getText($xpathTR . '//td[' . $names['Rating Name'] . ']'));
-            $this->addParameter('elementTitle', $text);
-        }
+        $param = $this->getText($xpathTR . '/td[' . $this->getColumnIdByName('Rating Name') . ']');
+        $this->addParameter('elementTitle', $param);
         $this->addParameter('id', $this->defineIdFromTitle($xpathTR));
         $this->click($xpathTR);
         $this->waitForPageToLoad($this->_browserTimeoutPeriod);
-        $this->validatePage($this->_findCurrentPageFromUrl($this->getLocation()));
+        $this->validatePage();
     }
 
     /**
@@ -108,11 +105,11 @@ class Rating_Helper extends Mage_Selenium_TestCase
     public function fillRatingTitles(array $storeViewTitles)
     {
         foreach ($storeViewTitles as $value) {
-            if (isset($value['store_view_name'])) {
+            if (isset($value['store_view_name']) && isset($value['store_view_title'])) {
                 $this->addParameter('storeViewName', $value['store_view_name']);
-            }
-            if (isset($value['store_view_title'])) {
                 $this->fillForm(array('store_view_title' => $value['store_view_title']));
+            } else {
+                $this->fail('Incorrect data to fill');
             }
         }
     }
@@ -122,11 +119,9 @@ class Rating_Helper extends Mage_Selenium_TestCase
      *
      * @param array $searchData
      */
-    public function deleteRating(array $searchData = array())
+    public function deleteRating(array $searchData)
     {
-        if ($searchData) {
-            $this->openRating($searchData);
-        }
+        $this->openRating($searchData);
         $this->clickButtonAndConfirm('delete_rating', 'confirmation_for_delete');
     }
 
@@ -141,20 +136,14 @@ class Rating_Helper extends Mage_Selenium_TestCase
             $ratingData = $this->loadData($ratingData);
         }
         $ratingData = $this->arrayEmptyClear($ratingData);
-        $simpleVerify = array();
-        $specialVerify = array();
-        foreach ($ratingData as $tabData) {
-            if (is_array($tabData)) {
-                foreach ($tabData as $fieldKey => $fieldValue) {
-                    if (is_array($fieldValue)) {
-                        $specialVerify[$fieldKey] = $fieldValue;
-                    } else {
-                        $simpleVerify[$fieldKey] = $fieldValue;
-                    }
-                }
-            }
+        $titles = (isset($ratingData['store_view_titles'])) ? $ratingData['store_view_titles'] : array();
+        $this->verifyForm($ratingData);
+
+        foreach ($titles as $value) {
+            $this->addParameter('storeViewName', $value['store_view_name']);
+            $this->verifyForm(array('store_view_title' => $value['store_view_title']));
         }
-        $this->assertTrue($this->verifyForm($simpleVerify), $this->getParsedMessages());
+        $this->assertEmptyVerificationErrors();
     }
 
 }

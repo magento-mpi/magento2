@@ -141,19 +141,25 @@ class Review_Helper extends Mage_Selenium_TestCase
      *
      * @param array|string $reviewData
      */
-    public function verifyReviewData($reviewData)
+    public function verifyReviewData($reviewData, $skipFields = array())
     {
         if (is_string($reviewData)) {
             $reviewData = $this->loadData($reviewData);
         }
         $reviewData = $this->arrayEmptyClear($reviewData);
-        $simpleVerify = array();
-        foreach ($reviewData as $fieldKey => $fieldValue) {
-            if (!is_array($fieldValue)) {
-                $simpleVerify[$fieldKey] = $fieldValue;
-            }
+        if (isset($reviewData['visible_in'])
+                && !$this->controlIsPresent('multiselect', 'visible_in')) {
+            $skipFields = array_merge($skipFields, array('visible_in'));
         }
-        $this->assertTrue($this->verifyForm($simpleVerify), $this->getParsedMessages());
+        $ratings = (isset($reviewData['product_rating'])) ? $reviewData['product_rating'] : array();
+
+        $this->verifyForm($reviewData, $skipFields);
+        foreach ($ratings as $rating => $ratingData) {
+            $this->addParameter('ratingName', $ratingData['rating_name']);
+            $this->addParameter('stars', $ratingData['stars']);
+            $this->verifyChecked($this->_getControlXpath('radiobutton', 'detailed_rating'));
+        }
+        $this->assertEmptyVerificationErrors();
     }
 
     #********************************************

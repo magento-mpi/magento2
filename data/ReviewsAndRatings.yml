@@ -34,12 +34,28 @@ search_rating:
     filter_id: %noValue%
     filter_rating_name: %noValue%
 
+rating_long_values:
+    default_value: %longValue64%
+    store_view_titles:
+        store_view_1:
+            store_view_name: Default Store View
+            store_view_title: %longValue255%
+    visible_in: %noValue%
+
+rating_special_symbols:
+    default_value: %specialValue32%
+    store_view_titles:
+        store_view_1:
+            store_view_name: Default Store View
+            store_view_title: %specialValue32%
+    visible_in: %noValue%
+
 default_rating:
     default_value: test_rating_title_%randomize%
     store_view_titles:
         store_view_1:
             store_view_name: Default Store View
-            store_view_title: Default Store View Title
+            store_view_title: Default Store View Title(%randomize%)
         store_view_2: %noValue%
     visible_in: %noValue%
 
@@ -108,7 +124,7 @@ admin_review_long_values:
     product_rating: %noValue%
     status: Approved
     visible_in: Default Store View
-    nickname: %longValue255%
+    nickname: %longValue50%
     summary_of_review: %longValue255%
     review: %longValue255%
 
@@ -131,9 +147,6 @@ review_with_rating:
         rating_1:
             rating_name: %noValue%
             stars: 3
-        rating_2:
-            rating_name: %noValue%
-            stars: 5
 
 frontend_review:
     nickname: %randomize% Test Nickname

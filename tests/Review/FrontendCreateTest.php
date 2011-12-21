@@ -36,12 +36,21 @@
  */
 class Review_FrontendCreateTest extends Mage_Selenium_TestCase
 {
+    protected $_usertearDown = false;
 
     protected function assertPreConditions()
     {
         $this->addParameter('productUrl', '');
     }
 
+    protected function tearDown()
+    {
+        if ($this->_usertearDown) {
+            $this->frontend();
+            $this->selectFrontStoreView();
+        }
+    }
+    
     /**
      * <p>Preconditions</p>
      * @test
@@ -51,6 +60,8 @@ class Review_FrontendCreateTest extends Mage_Selenium_TestCase
         //Data
         $userData = $this->loadData('generic_customer_account');
         $simple = $this->loadData('simple_product_visible');
+        $storeView = $this->loadData('generic_store_view');
+        $rating = $this->loadData('default_rating', array('visible_in' => $storeView['store_view_name']));
         //Steps
         $this->loginAdminUser();
         $this->navigate('manage_customers');
@@ -62,10 +73,24 @@ class Review_FrontendCreateTest extends Mage_Selenium_TestCase
         $this->productHelper()->createProduct($simple);
         //Verification
         $this->assertMessagePresent('success', 'success_saved_product');
-
+        //Steps
+        $this->navigate('manage_stores');
+        $this->storeHelper()->createStore($storeView, 'store_view');
+        //Verification
+        $this->assertMessagePresent('success', 'success_saved_store_view');
+        //Steps
+        $this->navigate('manage_ratings');
+        $this->ratingHelper()->createRating($rating);
+        //Verification
+        $this->assertMessagePresent('success', 'success_saved_rating');
+        $this->reindexInvalidedData();
         return array(
-            'login' => array('email' => $userData['email'], 'password' => $userData['password']),
-            'product_name' => $simple['general_name']);
+                'login'      => array('email' => $userData['email'], 'password' => $userData['password']),
+                'sku'        => $simple['general_sku'],
+                'name'       => $simple['general_name'],
+                'store'      => $storeView['store_view_name'],
+                'withRating' => array('filter_sku'  => $simple['general_sku'],
+                                      'rating_name' => $rating['default_value']));
     }
 
     /**
@@ -74,7 +99,7 @@ class Review_FrontendCreateTest extends Mage_Selenium_TestCase
      * <p>1. Goto Frontend</p>
      * <p>2. Open created product</p>
      * <p>3. Add Review to product</p>
-     * <p>4. Customer is able to create and submit review</p>
+     * <p>4. Submit review</p>
      * <p>Expected result:</p>
      * <p>Success message appears - "Your review has been accepted for moderation."</p>
      *
@@ -92,21 +117,63 @@ class Review_FrontendCreateTest extends Mage_Selenium_TestCase
         //Data
         $reviewData = $this->loadData('frontend_review');
         $searchData = $this->loadData('search_review_guest',
-                array('filter_nickname' => $reviewData['nickname'], 'filter_product_sku' => $data['product_name']));
+                array('filter_nickname' => $reviewData['nickname'], 'filter_product_sku' => $data['name']));
         //Steps
         $this->logoutCustomer();
-        $this->productHelper()->frontOpenProduct($data['product_name']);
+        $this->productHelper()->frontOpenProduct($data['name']);
         $this->reviewHelper()->frontendAddReview($reviewData);
         //Verification
         $this->assertMessagePresent('success', 'accepted_review');
         //Steps
         $this->loginAdminUser();
-        $this->navigate('all_reviews');
+        $this->navigate('manage_all_reviews');
         $this->reviewHelper()->openReview($searchData);
         //Verification
         $this->reviewHelper()->verifyReviewData($reviewData);
     }
 
+    /**
+     * <p>Adding Review with raring to product with Not Logged Customer<p>
+     *
+     * <p>1. Goto Frontend</p>
+     * <p>2. Select Store View</p>
+     * <p>2. Open created product</p>
+     * <p>3. Add Review with rating to product</p>
+     * <p>4. Submit review</p>
+     * <p>Expected result:</p>
+     * <p>Success message appears - "Your review has been accepted for moderation."</p>
+     *
+     * <p>Verification:</p>
+     * <p>1. Login to backend;</p>
+     * <p>2. Navigate to Catalog -> Reviews and Ratings -> Customer Reviews -> Pending Reviews;</p>
+     * <p>Expected result:</p>
+     * <p>Review is present into the list and has type - "Guest";</p>
+     *
+     * @depends preconditionsForTests
+     * @test
+     */
+    public function addReviewByGuestWithRating($data)
+    {
+        //Data
+        $this->_usertearDown = true;
+        $reviewData = $this->loadData('review_with_rating', $data['withRating']);
+        $searchData = $this->loadData('search_review_guest',
+                array('filter_nickname' => $reviewData['nickname'], 'filter_product_sku' => $data['name']));
+        //Steps
+        $this->logoutCustomer();
+        $this->selectFrontStoreView($data['store']);
+        $this->productHelper()->frontOpenProduct($data['name']);
+        $this->reviewHelper()->frontendAddReview($reviewData);
+        //Verification
+        $this->assertMessagePresent('success', 'accepted_review');
+        //Steps
+        $this->loginAdminUser();
+        $this->navigate('manage_all_reviews');
+        $this->reviewHelper()->openReview($searchData);
+        //Verification
+        $this->reviewHelper()->verifyReviewData($reviewData);
+    }    
+    
     /**
      * <p>Review creating with Logged Customer</p>
      *
@@ -129,7 +196,7 @@ class Review_FrontendCreateTest extends Mage_Selenium_TestCase
     public function addReviewByLoggedCustomer($data)
     {
         //Data
-        $simple = $data['product_name'];
+        $simple = $data['name'];
         $reviewData = $this->loadData('frontend_review');
         $searchData = $this->loadData('search_review_customer',
                 array('filter_nickname' => $reviewData['nickname'], 'filter_product_sku' => $simple));
@@ -141,7 +208,7 @@ class Review_FrontendCreateTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('success', 'accepted_review');
         //Steps
         $this->loginAdminUser();
-        $this->navigate('all_reviews');
+        $this->navigate('manage_all_reviews');
         $this->reviewHelper()->editReview(array('status' => 'Approved'), $searchData);
         //Verification
         $this->assertMessagePresent('success', 'success_saved_review');
@@ -171,7 +238,7 @@ class Review_FrontendCreateTest extends Mage_Selenium_TestCase
         $reviewData = $this->loadData('frontend_review', array($emptyFieldName => ''));
         //Steps
         $this->customerHelper()->logoutCustomer();
-        $this->productHelper()->frontOpenProduct($data['product_name']);
+        $this->productHelper()->frontOpenProduct($data['name']);
         $this->reviewHelper()->frontendAddReview($reviewData);
         //Verification
         $this->addFieldIdToMessage('field', $emptyFieldName);
@@ -206,16 +273,16 @@ class Review_FrontendCreateTest extends Mage_Selenium_TestCase
         //Data
         $reviewData = $this->loadData($reviewData);
         $searchData = $this->loadData('search_review_guest',
-                array('filter_nickname' => $reviewData['nickname'], 'filter_product_sku' => $data['product_name']));
+                array('filter_nickname' => $reviewData['nickname'], 'filter_product_sku' => $data['name']));
         //Steps
         $this->logoutCustomer();
-        $this->productHelper()->frontOpenProduct($data['product_name']);
+        $this->productHelper()->frontOpenProduct($data['name']);
         $this->reviewHelper()->frontendAddReview($reviewData);
         //Verification
         $this->assertMessagePresent('success', 'accepted_review');
         //Steps
         $this->loginAdminUser();
-        $this->navigate('all_reviews');
+        $this->navigate('manage_all_reviews');
         $this->reviewHelper()->openReview($searchData);
         //Verification
         $this->reviewHelper()->verifyReviewData($reviewData);

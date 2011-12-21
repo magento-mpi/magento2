@@ -38,47 +38,36 @@ class Rating_DeleteTest extends Mage_Selenium_TestCase
 {
 
     /**
-     * <p>Preconditions:</p>
-     * <p>Login as admin to backend</p>
-     * <p>Navigate to Catalog -> Reviews and Ratings -> Manage Ratings</p>
+     * <p>Log in to Backend.</p>
      */
-    protected function assertPreConditions()
+    public function setUpBeforeTests()
     {
         $this->loginAdminUser();
     }
 
     /**
      * <p>Preconditions:</p>
-     * <p>Create Simple product</p>
      *
      * @test
-     * @return array
+     * @return atring
      */
-    public function createProduct()
+    public function preconditionsForTests()
     {
+        //Data
+        $simpleData = $this->loadData('simple_product_visible');
+        $storeView = $this->loadData('generic_store_view');
+        //Steps
+        $this->navigate('manage_stores');
+        $this->storeHelper()->createStore($storeView, 'store_view');
+        //Verification
+        $this->assertMessagePresent('success', 'success_saved_store_view');
+        //Steps
         $this->navigate('manage_products');
-        $simpleProductData = $this->loadData('simple_product_visible', NULL, array('general_name', 'general_sku'));
-        $this->productHelper()->createProduct($simpleProductData);
+        $this->productHelper()->createProduct($simpleData);
+        //Verification
         $this->assertMessagePresent('success', 'success_saved_product');
 
-        return $simpleProductData;
-    }
-
-    /**
-     * <p>Preconditions:</p>
-     * <p>Create Store View</p>
-     *
-     * @test
-     * @return string
-     */
-    public function createStoreView()
-    {
-        $this->navigate('manage_stores');
-        $storeViewData = $this->loadData('generic_store_view');
-        $this->storeHelper()->createStore($storeViewData, 'store_view');
-        $this->assertMessagePresent('success', 'success_saved_store_view');
-
-        return $storeViewData['store_view_name'];
+        return array('store' => $storeView['store_view_name'], 'sku' => $simpleData['general_sku']);
     }
 
     /**
@@ -92,71 +81,40 @@ class Rating_DeleteTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Success message appears - Rating removed from the list</p>
      *
-     * <p>Verification:</p>
-     * <p>1. Navigate to Catalog -> Reviews and Ratings -> Customer Reviews -> All Reviews;</p>
-     * <p>2. Select created Review from the list and open it;</p>
-     * <p>3. Verify that Rating is absent in review;</p>
-     *
-     * @depends createProduct
-     * @depends createStoreView
+     * @depends preconditionsForTests
      * @test
      */
-    public function deleteRatingUsedInReview($product, $storeView)
+    public function deleteRatingUsedInReview($data)
     {
-        $ratingData = $this->loadData('default_rating', array('visible_in' => $storeView), 'default_value');
-        $searchData = $this->loadData('search_rating',
-                array('filter_rating_name' => $ratingData['rating_information']['default_value']));
-        $reviewData = $this->loadData('review_required',
-                array('filter_sku' => $product['general_sku'],
-                    'rating_name' => $ratingData['rating_information']['default_value'],
-                    'visible_in' => $ratingData['rating_information']['visible_in']),
-                array('nickname', 'summary_of_review', 'review'));
+        $rating = $this->loadData('default_rating', array('visible_in' => $data['store']));
+        $review = $this->loadData('review_required_with_rating',
+                array('rating_name' => $rating['default_value'],
+                      'visible_in'  => $data['store'],
+                      'filter_sku'  => $data['sku']));
+        $searchRating = $this->loadData('search_rating',
+                array('filter_rating_name' => $rating['default_value']));
+        $searchReview = $this->loadData('search_review_admin',
+                array('filter_nickname' => $review['nickname'], 'filter_product_sku' => $data['sku']));
+        //Steps
         $this->navigate('manage_ratings');
-        $this->ratingHelper()->createRating($ratingData);
+        $this->ratingHelper()->createRating($rating);
+        //Verification
         $this->assertMessagePresent('success', 'success_saved_rating');
-
-        $this->navigate('all_reviews');
-        $this->reviewHelper()->createReview($reviewData);
+        //Steps
+        $this->navigate('manage_all_reviews');
+        $this->reviewHelper()->createReview($review);
+        //Verification
         $this->assertMessagePresent('success', 'success_saved_review');
-        $this->reindexInvalidedData();
-
-        $this->frontend();
-        $xpath = $this->_getControlXpath('dropdown', 'your_language') . '/option[@selected]';
-        $text = trim($this->getText($xpath));
-        if (strcmp(trim($storeView), $text) != 0) {
-            $this->fillForm(array('your_language' => $storeView));
-            $this->waitForPageToLoad($this->_browserTimeoutPeriod);
-        }
-        $this->productHelper()->frontOpenProduct($product['general_name']);
-        $this->addParameter('productId', NULL);
-        $this->addParameter('productId', '');
-        $this->addParameter('productTitle', $product['general_name']);
-        $this->reviewHelper()->defineCorrectParam('add_your_review', 'productId');
-        $this->clickControl('link', 'add_your_review');
-        $this->addParameter('rateName', $ratingData['rating_information']['default_value']);
-        $this->assertTrue($this->controlIsPresent('pageelement', 'review_table_rate_name'),
-                'Rating is not on the page, but should be there');
-
-        $this->loginAdminUser();
+        //Steps
         $this->navigate('manage_ratings');
-        $this->ratingHelper()->deleteRating($searchData);
-        $this->reindexInvalidedData();
-
-        $this->frontend();
-        $text = trim($this->getText($xpath));
-        if (strcmp(trim($storeView), $text) != 0) {
-            $this->fillForm(array('your_language' => $storeView));
-            $this->waitForPageToLoad($this->_browserTimeoutPeriod);
-        }
-        $this->productHelper()->frontOpenProduct($product['general_name']);
-        $this->addParameter('productId', NULL);
-        $this->addParameter('productId', '');
-        $this->addParameter('productTitle', $product['general_name']);
-        $this->reviewHelper()->defineCorrectParam('add_your_review', 'productId');
-        $this->clickControl('link', 'add_your_review');
-        $this->addParameter('rateName', $ratingData['rating_information']['default_value']);
-        $this->assertFalse($this->controlIsPresent('pageelement', 'review_table_rate_name'),
-                'Rating is on the page, but should not be there');
+        $this->ratingHelper()->deleteRating($searchRating);
+        //Verification
+        $this->assertMessagePresent('success', 'success_deleted_rating');
+        //Steps
+        $this->navigate('manage_all_reviews');
+        $this->reviewHelper()->openReview($searchReview);
+        //Verification
+        $this->assertMessagePresent('success', 'not_available_rating');
     }
 
     /**
@@ -173,13 +131,17 @@ class Rating_DeleteTest extends Mage_Selenium_TestCase
      */
     public function deleteRatingNotUsedInReview()
     {
-        $ratingData = $this->loadData('rating_required_fields', NULL, 'default_value');
-        $searchData = $this->loadData('search_rating',
-                array('filter_rating_name' => $ratingData['rating_information']['default_value']));
+        $rating = $this->loadData('rating_required_fields');
+        $search = $this->loadData('search_rating', array('filter_rating_name' => $rating['default_value']));
+        //Steps
         $this->navigate('manage_ratings');
-        $this->ratingHelper()->createRating($ratingData);
+        $this->ratingHelper()->createRating($rating);
+        //Verification
         $this->assertMessagePresent('success', 'success_saved_rating');
-        $this->ratingHelper()->deleteRating($searchData);
+        //Steps
+        $this->ratingHelper()->deleteRating($search);
+        //Verification
+        $this->assertMessagePresent('success', 'success_deleted_rating');
     }
 
 }

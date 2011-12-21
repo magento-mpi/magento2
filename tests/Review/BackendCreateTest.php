@@ -102,7 +102,7 @@ class Review_BackendCreateTest extends Mage_Selenium_TestCase
         //Data
         $reviewData = $this->loadData('review_required_without_rating', array('filter_sku' => $data['sku']));
         //Steps
-        $this->navigate('all_reviews');
+        $this->navigate('manage_all_reviews');
         $this->reviewHelper()->createReview($reviewData);
         //Verification
         $this->assertMessagePresent('success', 'success_saved_review');
@@ -142,7 +142,7 @@ class Review_BackendCreateTest extends Mage_Selenium_TestCase
         //Data
         $reviewData = $this->loadData('review_required_with_rating', $data['withRating']);
         //Steps
-        $this->navigate('all_reviews');
+        $this->navigate('manage_all_reviews');
         $this->reviewHelper()->createReview($reviewData);
         //Verification
         $this->assertMessagePresent('success', 'success_saved_review');
@@ -186,7 +186,7 @@ class Review_BackendCreateTest extends Mage_Selenium_TestCase
             $reviewData['product_rating'] = '%noValue%';
         }
         //Steps
-        $this->navigate('all_reviews');
+        $this->navigate('manage_all_reviews');
         $this->reviewHelper()->createReview($reviewData);
         //Verification
         if ($emptyField == 'product_rating') {
@@ -229,7 +229,7 @@ class Review_BackendCreateTest extends Mage_Selenium_TestCase
         $search = $this->loadData('search_review_admin',
                 array('filter_nickname' => $reviewData['nickname'], 'filter_product_sku' => $data['sku']));
         //Steps
-        $this->navigate('all_reviews');
+        $this->navigate('manage_all_reviews');
         $this->reviewHelper()->createReview($reviewData);
         //Verification
         $this->assertMessagePresent('success', 'success_saved_review');
@@ -259,7 +259,7 @@ class Review_BackendCreateTest extends Mage_Selenium_TestCase
         $search = $this->loadData('search_review_admin',
                 array('filter_nickname' => $reviewData['nickname'], 'filter_product_sku' => $data['sku']));
         //Steps
-        $this->navigate('all_reviews');
+        $this->navigate('manage_all_reviews');
         $this->reviewHelper()->createReview($reviewData);
         //Verification
         $this->assertMessagePresent('success', 'success_saved_review');
@@ -293,7 +293,7 @@ class Review_BackendCreateTest extends Mage_Selenium_TestCase
         $search = $this->loadData('search_review_admin',
                 array('filter_nickname' => $reviewData['nickname'], 'filter_product_sku' => $data['sku']));
         //Steps
-        $this->navigate('all_reviews');
+        $this->navigate('manage_all_reviews');
         $this->reviewHelper()->createReview($reviewData);
         //Verification
         $this->assertMessagePresent('success', 'success_saved_review');

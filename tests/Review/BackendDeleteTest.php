@@ -105,7 +105,7 @@ class Review_BackendDeleteTest extends Mage_Selenium_TestCase
         $search = $this->loadData('search_review_admin',
                 array('filter_nickname' => $reviewData['nickname'], 'filter_product_sku' => $data['sku']));
         //Steps
-        $this->navigate('all_reviews');
+        $this->navigate('manage_all_reviews');
         $this->reviewHelper()->createReview($reviewData);
         //Verification
         $this->assertMessagePresent('success', 'success_saved_review');
@@ -136,7 +136,7 @@ class Review_BackendDeleteTest extends Mage_Selenium_TestCase
         $search = $this->loadData('search_review_admin',
                 array('filter_nickname' => $reviewData['nickname'], 'filter_product_sku' => $data['sku']));
         //Steps
-        $this->navigate('all_reviews');
+        $this->navigate('manage_all_reviews');
         $this->reviewHelper()->createReview($reviewData);
         //Verification
         $this->assertMessagePresent('success', 'success_saved_review');
@@ -168,7 +168,7 @@ class Review_BackendDeleteTest extends Mage_Selenium_TestCase
         $search = $this->loadData('search_review_admin',
                 array('filter_nickname' => $reviewData['nickname'], 'filter_product_sku' => $data['sku']));
         //Steps
-        $this->navigate('all_reviews');
+        $this->navigate('manage_all_reviews');
         $this->reviewHelper()->createReview($reviewData);
         //Verification
         $this->assertMessagePresent('success', 'success_saved_review');
