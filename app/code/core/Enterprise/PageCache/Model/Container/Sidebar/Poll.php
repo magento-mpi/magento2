@@ -129,15 +129,10 @@ class Enterprise_PageCache_Model_Container_Sidebar_Poll extends Enterprise_PageC
             ) {
                 return null;
             }
+
             $activeIds = array_diff($renderedParams['active_ids'], $renderedParams['voted_ids']);
-            $randActiveId = array_rand($activeIds);
-            if (!$activeIds && $renderedParams['active_ids']
-                && !isset($renderedParams['active_ids'][$randActiveId]))
-            {
-                $this->_activePollId = false;
-            } else {
-                $this->_activePollId = $renderedParams['active_ids'][$randActiveId];
-            }
+            $randomKey = array_rand($activeIds);
+            $this->_activePollId = $randomKey ? $activeIds[$randomKey] : false;
         }
         return $this->_activePollId;
     }
