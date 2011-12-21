@@ -79,6 +79,7 @@ class Mage_OAuth_Model_Consumer extends Mage_Core_Model_Abstract
         if (!$this->getId()) {
             $this->setUpdatedAt(time());
         }
+        $this->validate();
         parent::_beforeSave();
         return $this;
     }
@@ -94,29 +95,23 @@ class Mage_OAuth_Model_Consumer extends Mage_Core_Model_Abstract
         if ($this->getCallBackUrl()) {
             /** @var $validatorUrl Mage_OAuth_Model_Consumer_Validator_CallbackUrl */
             $validatorUrl = Mage::getSingleton('oauth/consumer_validator_callbackUrl');
-            if ($validatorUrl->isValid($this->getCallBackUrl())) {
-                $errors = array_merge($errors, $validatorUrl->getMessages());
+            if (!$validatorUrl->isValid($this->getCallBackUrl())) {
+                Mage::throwException(array_shift($validatorUrl->getMessages()));
             }
         }
 
-        $validatorLength = new Zend_Validate_StringLength();
-        $validatorLength->setMin(self::KEY_LENGTH);
-        $validatorLength->setMax(self::KEY_LENGTH);
+        /** @var $validatorLength Mage_OAuth_Model_Consumer_Validator_KeyLength */
+        $validatorLength = Mage::getSingleton('oauth/consumer_validator_keyLength', self::KEY_LENGTH);
+        $validatorLength->setName('Consumer Key');
         if (!$validatorLength->isValid($this->getKey())) {
-            $errors[] = sprintf(
-                'Consumer key "%s" must has length %s symbols.',
-                $this->getKey(),
-                self::KEY_LENGTH);
+            Mage::throwException(array_shift($validatorLength->getMessages()));
         }
 
-        $validatorLength->setMin(self::SECRET_LENGTH);
-        $validatorLength->setMax(self::SECRET_LENGTH);
+        $validatorLength->setLength(self::SECRET_LENGTH);
+        $validatorLength->setName('Consumer Secret');
         if (!$validatorLength->isValid($this->getSecret())) {
-            $errors[] = sprintf(
-                'Consumer secret "%s" must has length %s symbols.',
-                $this->getSecret(),
-                self::KEY_LENGTH);
+            Mage::throwException(array_shift($validatorLength->getMessages()));
         }
-        return $errors ? $errors : true;
+        return true;
     }
 }

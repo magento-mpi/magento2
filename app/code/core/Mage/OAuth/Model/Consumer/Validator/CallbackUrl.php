@@ -41,14 +41,18 @@ class Mage_OAuth_Model_Consumer_Validator_CallbackUrl extends Zend_Validate_Abst
     /**#@-*/
 
     /**
-     * Validation failure message template definitions
-     *
-     * @var array
+     * Init validation failure message template definitions
      */
-    protected $_messageTemplates = array(
-        self::NO_OAUTH_PREFIX   => "Parameters in URL '%value%' must not contain 'oauth_' prefix. See RFC-5849.",
-        self::INVALID_URL       => "Invalid URL '%value%'.",
-    );
+    protected function _initMessageTemplates()
+    {
+        /** @var $helper Mage_OAuth_Helper_Data */
+        $helper = Mage::helper('oauth');
+        //init messages
+        $this->_messageTemplates = array(
+            self::NO_OAUTH_PREFIX =>
+                $helper->__("Parameters in URL '%value%' must not contain 'oauth_' prefix. See RFC-5849."),
+            self::INVALID_URL     => $helper->__("Invalid URL '%value%'."));
+    }
 
     /**
      * Validate value

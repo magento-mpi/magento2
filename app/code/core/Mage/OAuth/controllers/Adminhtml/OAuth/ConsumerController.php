@@ -149,12 +149,9 @@ class Mage_OAuth_Adminhtml_OAuth_ConsumerController extends Mage_Adminhtml_Contr
 
         $data = $this->getRequest()->getParams();
 
-        unset($data['id']);
-        unset($data['back']);
-        unset($data['form_key']);
+        //unset unused data
         //skip getting "key" and "secret" because its generated from server side only
-        unset($data['key']);
-        unset($data['secret']);
+        unset($data['id'], $data['back'], $data['form_key'], $data['key'], $data['secret']);
 
         /** @var $helper Mage_OAuth_Helper_Data */
         $helper = Mage::helper('oauth');
@@ -186,21 +183,16 @@ class Mage_OAuth_Adminhtml_OAuth_ConsumerController extends Mage_Adminhtml_Contr
         }
 
         try {
-            $this->_setFormData($data);
             $model->addData($data);
-            $validate = $model->validate();
-            if (true === $validate) {
-                $model->save();
-                $this->_setFormData(null);
-            } else {
-                foreach ($validate as $error) {
-                    $this->_getSession()->addError($error);
-                }
-            }
+            $model->save();
+            $this->_getSession()->addSuccess($this->__('The consumer has been saved.'));
+            $this->_setFormData(null);
         } catch (Mage_Core_Exception $e) {
+            $this->_setFormData($data);
             $this->_getSession()->addError($e->getMessage());
             $this->getRequest()->setParam('back', 'edit');
         } catch (Exception $e) {
+            $this->_setFormData(null);
             Mage::logException($e);
             $this->_getSession()->addError('An error occurred on saving consumer data.');
         }
@@ -235,10 +227,7 @@ class Mage_OAuth_Adminhtml_OAuth_ConsumerController extends Mage_Adminhtml_Contr
      */
     protected function _getFormData()
     {
-        /** @var $core Mage_Core_Model_Session */
-        $core = Mage::getSingleton('core/session');
-        $formKey = $core->getFormKey();
-        return $this->_getSession()->getData('_form_data_' . $formKey);
+        return $this->_getSession()->getData('consumer_data', true);
     }
 
     /**
@@ -249,9 +238,7 @@ class Mage_OAuth_Adminhtml_OAuth_ConsumerController extends Mage_Adminhtml_Contr
      */
     protected function _setFormData($data)
     {
-        /** @var $core Mage_Core_Model_Session */
-        $core = Mage::getSingleton('core/session');
-        $this->_getSession()->setData('_form_data_' . $core->getFormKey(), $data);
+        $this->_getSession()->setData('consumer_data', $data);
         return $this;
     }
 }
