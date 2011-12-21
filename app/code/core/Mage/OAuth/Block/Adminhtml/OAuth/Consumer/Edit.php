@@ -35,6 +35,26 @@
 class Mage_OAuth_Block_Adminhtml_OAuth_Consumer_Edit extends Mage_Adminhtml_Block_Widget_Form_Container
 {
     /**
+     * Consumer model
+     *
+     * @var Mage_OAuth_Model_Consumer
+     */
+    protected $_model;
+
+    /**
+     * Get consumer model
+     *
+     * @return Mage_OAuth_Model_Consumer
+     */
+    public function getModel()
+    {
+        if (null === $this->_model) {
+            $this->_model = Mage::registry('current_consumer');
+        }
+        return $this->_model;
+    }
+
+    /**
      * Construct edit page
      */
     public function __construct()
@@ -49,7 +69,8 @@ class Mage_OAuth_Block_Adminhtml_OAuth_Consumer_Edit extends Mage_Adminhtml_Bloc
             'onclick'   => 'saveAndContinueEdit()',
             'class' => 'save'
         ), 100);
-        $this->_formScripts[] = " function saveAndContinueEdit() { editForm.submit($('edit_form').action + 'back/edit/') } ";
+        $this->_formScripts[] = "function saveAndContinueEdit()" .
+                "{editForm.submit($('edit_form').action + 'back/edit/')}";
 
         $this->_updateButton('save', 'label', $this->__('Save'));
         $this->_updateButton('save', 'id', 'save_button');
@@ -60,40 +81,16 @@ class Mage_OAuth_Block_Adminhtml_OAuth_Consumer_Edit extends Mage_Adminhtml_Bloc
     }
 
     /**
-     * Get consumer model
-     *
-     * @return Mage_OAuth_Model_Consumer
-     */
-    public function getModel()
-    {
-        /** @var $model Mage_OAuth_Model_Consumer */
-        $model = Mage::registry('current_consumer');
-        return $model;
-    }
-
-    /**
-     * Get init JavaScript for form
-     *
-     * @return string
-     */
-    public function getFormInitScripts()
-    {
-//        return $this->getLayout()->createBlock('core/template')
-//            ->setTemplate('googleshopping/types/edit.phtml')
-//            ->toHtml();
-    }
-
-    /**
      * Get header text
      *
      * @return string
      */
     public function getHeaderText()
     {
-        if(!is_null($this->getModel()->getId())) {
-            return $this->__('Edit attribute set mapping');
+        if ($this->getModel()->getId()) {
+            return $this->__('Edit consumer');
         } else {
-            return $this->__('New attribute set mapping');
+            return $this->__('New consumer');
         }
     }
 }

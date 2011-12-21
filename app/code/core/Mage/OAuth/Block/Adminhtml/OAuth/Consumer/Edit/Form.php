@@ -35,13 +35,23 @@
 class Mage_OAuth_Block_Adminhtml_OAuth_Consumer_Edit_Form extends Mage_Adminhtml_Block_Widget_Form
 {
     /**
+     * Consumer model
+     *
+     * @var Mage_OAuth_Model_Consumer
+     */
+    protected $_model;
+
+    /**
      * Get consumer model
      *
      * @return Mage_OAuth_Model_Consumer
      */
     public function getModel()
     {
-        return Mage::registry('current_consumer');
+        if (null === $this->_model) {
+            $this->_model = Mage::registry('current_consumer');
+        }
+        return $this->_model;
     }
 
     /**
@@ -58,8 +68,11 @@ class Mage_OAuth_Block_Adminhtml_OAuth_Consumer_Edit_Form extends Mage_Adminhtml
             'method'    => 'post'
         ));
 
+        /** @var $helper Mage_OAuth_Helper_Data */
+        $helper = Mage::helper('oauth');
+
         $fieldset   = $form->addFieldset('base_fieldset', array(
-            'legend'    => Mage::helper('oauth')->__('Consumer Information'),
+            'legend'    => $helper->__('Consumer Information'),
             'class'     => 'fieldset-wide'
         ));
 
@@ -72,36 +85,34 @@ class Mage_OAuth_Block_Adminhtml_OAuth_Consumer_Edit_Form extends Mage_Adminhtml
 
         $fieldset->addField('name', 'text', array(
             'name'      => 'name',
-            'label'     => Mage::helper('oauth')->__('Name'),
-            'title'     => Mage::helper('oauth')->__('Name'),
-            'length'    => 255,
+            'label'     => $helper->__('Name'),
+            'title'     => $helper->__('Name'),
             'required'  => true,
             'value'     => $model->getName(),
         ));
 
         $fieldset->addField('key', 'text', array(
             'name'      => 'key',
-            'label'     => Mage::helper('oauth')->__('Key'),
-            'title'     => Mage::helper('oauth')->__('Key'),
-            'length'    => Mage_OAuth_Model_Consumer::KEY_LENGTH,
+            'label'     => $helper->__('Key'),
+            'title'     => $helper->__('Key'),
+            'disabled'  => true,
             'required'  => true,
             'value'     => $model->getKey(),
         ));
 
         $fieldset->addField('secret', 'text', array(
             'name'      => 'secret',
-            'label'     => Mage::helper('oauth')->__('Secret'),
-            'title'     => Mage::helper('oauth')->__('Secret'),
-            'length'    => Mage_OAuth_Model_Consumer::SECRET_LENGTH,
+            'label'     => $helper->__('Secret'),
+            'title'     => $helper->__('Secret'),
+            'disabled'  => true,
             'required'  => true,
             'value'     => $model->getSecret(),
         ));
 
         $fieldset->addField('callback_url', 'text', array(
             'name'      => 'callback_url',
-            'label'     => Mage::helper('oauth')->__('Callback URL'),
-            'title'     => Mage::helper('oauth')->__('Callback URL'),
-            'length'    => 255,
+            'label'     => $helper->__('Callback URL'),
+            'title'     => $helper->__('Callback URL'),
             'required'  => false,
             'value'     => $model->getCallbackUrl(),
         ));

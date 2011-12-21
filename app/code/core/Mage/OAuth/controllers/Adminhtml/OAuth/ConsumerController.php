@@ -73,9 +73,17 @@ class Mage_OAuth_Adminhtml_OAuth_ConsumerController extends Mage_Adminhtml_Contr
         /** @var $model Mage_OAuth_Model_Consumer */
         $model = Mage::getModel('oauth/consumer');
 
-        $formData = $this->_getSession()->getData('form_data');
+        $formData = $this->_getFormData();
         if ($formData) {
             $model->addData($formData);
+        } else {
+            /** @var $helper Mage_OAuth_Helper_Data */
+            $helper = Mage::helper('oauth');
+            $model->setKey(
+                $helper->generateToken(Mage_OAuth_Model_Consumer::KEY_LENGTH));
+            $model->setSecret(
+                $helper->generateToken(Mage_OAuth_Model_Consumer::SECRET_LENGTH));
+            $this->_setFormData($model->getData());
         }
 
         Mage::register('current_consumer', $model);
@@ -112,7 +120,7 @@ class Mage_OAuth_Adminhtml_OAuth_ConsumerController extends Mage_Adminhtml_Contr
             return;
         }
 
-        $formData = $this->_getSession()->getData('form_data');
+        $formData = $this->_getFormData();
         if ($formData) {
             $model->addData($formData);
         }
@@ -144,6 +152,9 @@ class Mage_OAuth_Adminhtml_OAuth_ConsumerController extends Mage_Adminhtml_Contr
         unset($data['id']);
         unset($data['back']);
         unset($data['form_key']);
+        //skip getting "key" and "secret" because its generated from server side only
+        unset($data['key']);
+        unset($data['secret']);
 
         /** @var $helper Mage_OAuth_Helper_Data */
         $helper = Mage::helper('oauth');
@@ -166,14 +177,21 @@ class Mage_OAuth_Adminhtml_OAuth_ConsumerController extends Mage_Adminhtml_Contr
                 $this->_redirect('*/*/index');
                 return;
             }
+        } else {
+            $dataForm = $this->_getFormData();
+            if ($dataForm) {
+                $data['key']    = $dataForm['key'];
+                $data['secret'] = $dataForm['secret'];
+            }
         }
 
         try {
-            $this->_getSession()->setData('form_data', $data);
+            $this->_setFormData($data);
             $model->addData($data);
             $validate = $model->validate();
             if (true === $validate) {
                 $model->save();
+                $this->_setFormData(null);
             } else {
                 foreach ($validate as $error) {
                     $this->_getSession()->addError($error);
@@ -205,6 +223,35 @@ class Mage_OAuth_Adminhtml_OAuth_ConsumerController extends Mage_Adminhtml_Contr
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('oauth/consumer');
+        /** @var $session Mage_Admin_Model_Session */
+        $session = Mage::getSingleton('admin/session');
+        return $session->isAllowed('oauth/consumer');
+    }
+
+    /**
+     * Get form data
+     *
+     * @return array
+     */
+    protected function _getFormData()
+    {
+        /** @var $core Mage_Core_Model_Session */
+        $core = Mage::getSingleton('core/session');
+        $formKey = $core->getFormKey();
+        return $this->_getSession()->getData('_form_data_' . $formKey);
+    }
+
+    /**
+     * Set form data
+     *
+     * @param $data
+     * @return Mage_OAuth_Adminhtml_OAuth_ConsumerController
+     */
+    protected function _setFormData($data)
+    {
+        /** @var $core Mage_Core_Model_Session */
+        $core = Mage::getSingleton('core/session');
+        $this->_getSession()->setData('_form_data_' . $core->getFormKey(), $data);
+        return $this;
     }
 }
