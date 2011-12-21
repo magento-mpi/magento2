@@ -101,6 +101,7 @@ class Store_Helper extends Mage_Selenium_TestCase
             $xpath = $fieldsetXpath . '//table[@id]/tbody' . '/tr[' . $i . ']/td[' . $number . ']/a';
             $url = $this->getAttribute($xpath . '@href');
             //Open element
+            $this->addParameter('id', $this->defineIdFromUrl($url));
             $this->openWindow($url, 'edit');
             $this->selectWindow('name=edit');
             $this->waitForPageToLoad($this->_browserTimeoutPeriod);
