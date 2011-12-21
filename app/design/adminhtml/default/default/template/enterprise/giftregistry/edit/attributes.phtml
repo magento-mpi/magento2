@@ -257,7 +257,8 @@ var customAttribute = {
         var hiddenGroupInput = $(element.id.sub('_type','_hidden_group'));
 
         $$('.attribute-type').each(function(el){
-            if (el.id != element.id && el.value == element.value && code) {
+            var optionBox = $(el).up('.option-box');
+            if (el.id != element.id && el.value == element.value && code && !optionBox.hasClassName('no-display')) {
                 alreadyUsed = true;
             }
         });
