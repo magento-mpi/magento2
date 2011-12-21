@@ -150,8 +150,10 @@ class Enterprise_CustomerSegment_Adminhtml_CustomersegmentController extends Mag
     {
         $this->loadLayout()
             ->_setActiveMenu('customer/customersegment')
-            ->_addBreadcrumb(Mage::helper('enterprise_customersegment')->__('Segments'), Mage::helper('enterprise_customersegment')->__('Segments'))
-        ;
+            ->_addBreadcrumb(
+                Mage::helper('enterprise_customersegment')->__('Segments'),
+                Mage::helper('enterprise_customersegment')->__('Segments')
+            );
         return $this;
     }
 
