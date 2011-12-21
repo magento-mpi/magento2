@@ -606,11 +606,11 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
         $divideOrderWeight = (string)$this->getConfigData('divide_order_weight');
         $nodePieces = $nodeBkgDetails->addChild('Pieces', '', '');
         $items = $this->_getAllItems();
+        $numberOfPieces = 0;
 
         if ($divideOrderWeight && !empty($items)) {
             $maxWeight = $this->_getWeight($this->_maxWeight, true);
             $sumWeight = 0;
-            $numberOfPieces = 0;
 
             $reverseOrderItems = $items;
             arsort($reverseOrderItems);
@@ -652,13 +652,18 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
                 $this->_addDimension($nodePiece);
                 $nodePiece->addChild('Weight', $sumWeight);
             }
-            $this->_numBoxes = $numberOfPieces;
         } else {
             $nodePiece = $nodePieces->addChild('Piece', '', '');
             $nodePiece->addChild('PieceID', 1);
             $this->_addDimension($nodePiece);
             $nodePiece->addChild('Weight', $this->_getWeight($this->_rawRequest->getWeight()));
         }
+
+        $handlingAction = $this->getConfigData('handling_action');
+        if ($handlingAction == Mage_Shipping_Model_Carrier_Abstract::HANDLING_ACTION_PERORDER || !$numberOfPieces) {
+            $numberOfPieces = 1;
+        }
+        $this->_numBoxes = $numberOfPieces;
     }
 
     /**
