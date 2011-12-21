@@ -1677,7 +1677,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $title_arr = explode('/', $url);
         $title_arr = array_reverse($title_arr);
         foreach ($title_arr as $key => $value) {
-            if (preg_match("/$paramName$/", $value) && isset($title_arr[$key - 1])) {
+            if (preg_match("#$paramName$#i", $value) && isset($title_arr[$key - 1])) {
                 return $title_arr[$key - 1];
             }
         }
@@ -2085,7 +2085,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                 $xpath = $this->_getControlXpath('pageelement', $value);
                 while ($this->isElementPresent($xpath)) {
                     $this->click($xpath . "//a[text()='Reindex Data']");
-                    $this->waitForPageToLoad($this->_browserTimeoutPeriod);
+                    $this->waitForPageToLoad(90000);
                     $this->validatePage('index_management');
                 }
             }
