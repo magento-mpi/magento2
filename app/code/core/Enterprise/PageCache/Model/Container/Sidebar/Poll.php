@@ -111,7 +111,7 @@ class Enterprise_PageCache_Model_Container_Sidebar_Poll extends Enterprise_PageC
     /**
      * Get poll id to show
      *
-     * @return int|null
+     * @return int|null|bool
      */
     protected function _getPollToShow()
     {
@@ -132,8 +132,9 @@ class Enterprise_PageCache_Model_Container_Sidebar_Poll extends Enterprise_PageC
 
             $activeIds = array_diff($renderedParams['active_ids'], $renderedParams['voted_ids']);
             $randomKey = array_rand($activeIds);
-            $this->_activePollId = $randomKey ? $activeIds[$randomKey] : false;
+            $this->_activePollId = isset($activeIds[$randomKey]) ? $activeIds[$randomKey] : false;
         }
+
         return $this->_activePollId;
     }
 
