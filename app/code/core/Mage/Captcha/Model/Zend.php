@@ -341,8 +341,8 @@ class Mage_Captcha_Model_Zend extends Zend_Captcha_Image implements Mage_Captcha
         }
 
         $alwaysFor = $this->_getHelper()->getConfigNode('always_for');
-        foreach ($alwaysFor->children() as $nodeFormId => $isAlwaysFor) {
-            if ((string)$isAlwaysFor && $this->_formId == $nodeFormId) {
+        foreach ($alwaysFor as $nodeFormId => $isAlwaysFor) {
+            if ($isAlwaysFor && $this->_formId == $nodeFormId) {
                 return true;
             }
         }
