@@ -6,7 +6,7 @@
  * @package    Mage_OAuth
  * @author     Magento Api Team <api-team@magento.com>
  */
-class Mage_OAuth_Model_Consumer_Validator_UrlTest extends Mage_PHPUnit_TestCase
+class Mage_OAuth_Model_Consumer_Validator_CallbackUrlTest extends Mage_PHPUnit_TestCase
 {
     /**
      * Validation data provider
@@ -16,8 +16,10 @@ class Mage_OAuth_Model_Consumer_Validator_UrlTest extends Mage_PHPUnit_TestCase
     public function validationFailureProvider()
     {
         return array(
-            array('http://example.com?oauth_key=key'),
-            array('http://example.com?key=key&oauth_secret=secret'),
+            array('invalid://domain?params'),
+            array('some://domain.some?params'),
+            array('http://example.com?param^=1'),
+            array('http://example.com/some space/1/?param=1'),
         );
     }
 
@@ -30,7 +32,7 @@ class Mage_OAuth_Model_Consumer_Validator_UrlTest extends Mage_PHPUnit_TestCase
      */
     public function testValidationFailure($url)
     {
-        $validator = new Mage_OAuth_Model_Consumer_Validator_Url();
+        $validator = new Mage_Core_Model_Url_Validator();
         $this->assertFalse(
             $validator->isValid($url),
             'Expected fail validation.');
@@ -44,8 +46,10 @@ class Mage_OAuth_Model_Consumer_Validator_UrlTest extends Mage_PHPUnit_TestCase
     public function validationSuccessProvider()
     {
         return array(
-            array('http://example.com/oauth_model/?oauthKey=key'),
-            array('http://example.com/oauth_model/?key=key&oauthSecret=secret'),
+            array('http://example.com/model/?param1=param11&?param2=param22'),
+            array('http://example.com/model/param/param1'),
+            array('http://example.com/some%20space/1/?param=1'),
+            array('http://example.com/some+space/1/?param=1'),
         );
     }
 
@@ -58,10 +62,11 @@ class Mage_OAuth_Model_Consumer_Validator_UrlTest extends Mage_PHPUnit_TestCase
      */
     public function testValidationSuccess($url)
     {
-        $validator = new Mage_OAuth_Model_Consumer_Validator_Url();
+        $validator = new Mage_Core_Model_Url_Validator();
         $this->assertTrue(
             $validator->isValid($url),
-            'Expected success validation.');
+            'Expected success validation but got following errors:' . PHP_EOL .
+                implode(PHP_EOL, $validator->getMessages()));
     }
 
 }
