@@ -36,27 +36,35 @@ class Mage_OAuth_Model_Server extends Mage_Catalog_Model_Abstract
     /**#@+
      * OAuth result statuses
      */
-    const OK = 0;
-    const VERSION_REJECTED = 1;
-    const PARAMETER_ABSENT = 2;
-    const PARAMETER_REJECTED = 3;
-    const TIMESTAMP_REFUSED = 4;
-    const NONCE_USED = 5;
-    const SIGNATURE_METHOD_REJECTED = 6;
-    const SIGNATURE_INVALID = 7;
-    const CONSUMER_KEY_UNKNOWN = 8;
-    const CONSUMER_KEY_REJECTED = 9;
-    const CONSUMER_KEY_REFUSED = 10;
-    const TOKEN_USED = 11;
-    const TOKEN_EXPIRED = 12;
-    const TOKEN_REVOKED = 13;
-    const TOKEN_REJECTED = 14;
-    const VERIFIER_INVALID = 15;
+    const OK                                = 0;
+    const VERSION_REJECTED                  = 1;
+    const PARAMETER_ABSENT                  = 2;
+    const PARAMETER_REJECTED                = 3;
+    const TIMESTAMP_REFUSED                 = 4;
+    const NONCE_USED                        = 5;
+    const SIGNATURE_METHOD_REJECTED         = 6;
+    const SIGNATURE_INVALID                 = 7;
+    const CONSUMER_KEY_UNKNOWN              = 8;
+    const CONSUMER_KEY_REJECTED             = 9;
+    const CONSUMER_KEY_REFUSED              = 10;
+    const TOKEN_USED                        = 11;
+    const TOKEN_EXPIRED                     = 12;
+    const TOKEN_REVOKED                     = 13;
+    const TOKEN_REJECTED                    = 14;
+    const VERIFIER_INVALID                  = 15;
     const ADDITIONAL_AUTHORIZATION_REQUIRED = 16;
-    const PERMISSION_UNKNOWN = 17;
-    const PERMISSION_DENIED = 18;
-    const USER_REFUSED = 19;
+    const PERMISSION_UNKNOWN                = 17;
+    const PERMISSION_DENIED                 = 18;
+    const USER_REFUSED                      = 19;
     /**#@- */
+
+
+    /**
+     * Value of callback URL when it is established
+     *
+     * @link http://tools.ietf.org/html/rfc5849#section-2.1     Requirement in RFC-5849
+     */
+    const CALLBACK_ESTABLISHED              = 'oob';
 
     /**
      * Consumer object
@@ -71,25 +79,25 @@ class Mage_OAuth_Model_Server extends Mage_Catalog_Model_Abstract
      * @var array
      */
     protected $_errors = array(
-        self::VERSION_REJECTED => 'version_rejected',
-        self::PARAMETER_ABSENT => 'parameter_absent',
-        self::PARAMETER_REJECTED => 'parameter_rejected',
-        self::TIMESTAMP_REFUSED => 'timestamp_refused',
-        self::NONCE_USED => 'nonce_used',
-        self::SIGNATURE_METHOD_REJECTED => 'signature_method_rejected',
-        self::SIGNATURE_INVALID => 'signature_invalid',
-        self::CONSUMER_KEY_UNKNOWN => 'consumer_key_unknown',
-        self::CONSUMER_KEY_REJECTED => 'consumer_key_rejected',
-        self::CONSUMER_KEY_REFUSED => 'consumer_key_refused',
-        self::TOKEN_USED => 'token_used',
-        self::TOKEN_EXPIRED => 'token_expired',
-        self::TOKEN_REVOKED => 'token_revoked',
-        self::TOKEN_REJECTED => 'token_rejected',
-        self::VERIFIER_INVALID => 'verifier_invalid',
+        self::VERSION_REJECTED                  => 'version_rejected',
+        self::PARAMETER_ABSENT                  => 'parameter_absent',
+        self::PARAMETER_REJECTED                => 'parameter_rejected',
+        self::TIMESTAMP_REFUSED                 => 'timestamp_refused',
+        self::NONCE_USED                        => 'nonce_used',
+        self::SIGNATURE_METHOD_REJECTED         => 'signature_method_rejected',
+        self::SIGNATURE_INVALID                 => 'signature_invalid',
+        self::CONSUMER_KEY_UNKNOWN              => 'consumer_key_unknown',
+        self::CONSUMER_KEY_REJECTED             => 'consumer_key_rejected',
+        self::CONSUMER_KEY_REFUSED              => 'consumer_key_refused',
+        self::TOKEN_USED                        => 'token_used',
+        self::TOKEN_EXPIRED                     => 'token_expired',
+        self::TOKEN_REVOKED                     => 'token_revoked',
+        self::TOKEN_REJECTED                    => 'token_rejected',
+        self::VERIFIER_INVALID                  => 'verifier_invalid',
         self::ADDITIONAL_AUTHORIZATION_REQUIRED => 'additional_authorization_required',
-        self::PERMISSION_UNKNOWN => 'permission_unknown',
-        self::PERMISSION_DENIED => 'permission_denied',
-        self::USER_REFUSED => 'user_refused'
+        self::PERMISSION_UNKNOWN                => 'permission_unknown',
+        self::PERMISSION_DENIED                 => 'permission_denied',
+        self::USER_REFUSED                      => 'user_refused'
     );
 
     /**
@@ -147,7 +155,9 @@ class Mage_OAuth_Model_Server extends Mage_Catalog_Model_Abstract
         }
         $this->_token = Mage::getModel('oauth/token');
 
-        if (!empty($this->_params['oauth_callback']) && 'oob' != $this->_params['oauth_callback']) {
+        if (!empty($this->_params['oauth_callback'])
+            && self::CALLBACK_ESTABLISHED != $this->_params['oauth_callback']
+        ) {
             $callbackUrl = $this->_params['oauth_callback'];
         } else {
             $callbackUrl = $this->_consumer->getCallBackUrl();
@@ -240,7 +250,7 @@ class Mage_OAuth_Model_Server extends Mage_Catalog_Model_Abstract
     }
 
     /**
-     * Retrieve token parameters for initite request
+     * Retrieve token parameters for initiate request
      *
      * @return string
      */
@@ -341,6 +351,7 @@ class Mage_OAuth_Model_Server extends Mage_Catalog_Model_Abstract
      *
      * @param Mage_Oauth_Exception $e
      * @return string
+     * @todo Move this method to try...catch without "exit"
      */
     protected function _reportProblem(Mage_Oauth_Exception $e)
     {
@@ -363,6 +374,8 @@ class Mage_OAuth_Model_Server extends Mage_Catalog_Model_Abstract
             $msgAdd .= '&message=' . $e->getMessage();
         }
         $this->_getResponse()->setBody('oauth_problem=' . $msg . $msgAdd);
+
+        //TODO Move HTTP code to constant
         $this->_getResponse()->setHttpResponseCode(400);
         $this->_getResponse()->sendResponse();
         exit;
@@ -425,6 +438,7 @@ class Mage_OAuth_Model_Server extends Mage_Catalog_Model_Abstract
      */
     protected function _validateSignatureMethod($sigMethod)
     {
+        //TODO Move signatures to constants
         if (!in_array($sigMethod, array('HMAC-SHA1', 'RSA-SHA1', 'PLAINTEXT'))) {
             $this->_reportProblem(Mage::exception('Mage_OAuth', '', self::SIGNATURE_METHOD_REJECTED));
         }

@@ -31,6 +31,6 @@
  * @package     Mage_OAuth
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Oauth_Exception extends Zend_Exception
+class Mage_OAuth_Exception extends Zend_Exception
 {
 }
