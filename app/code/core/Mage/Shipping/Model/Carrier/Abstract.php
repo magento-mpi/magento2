@@ -415,12 +415,12 @@ abstract class Mage_Shipping_Model_Carrier_Abstract extends Varien_Object
     /**
      * get the handling fee for the shipping + cost
      *
-     * @return final price for shipping emthod
+     * @param float $cost
+     * @return float final price for shipping method
      */
     public function getFinalPriceWithHandlingFee($cost)
     {
         $handlingFee = $this->getConfigData('handling_fee');
-        $finalMethodPrice = 0;
         $handlingType = $this->getConfigData('handling_type');
         if (!$handlingType) {
             $handlingType = self::HANDLING_TYPE_FIXED;
@@ -430,22 +430,43 @@ abstract class Mage_Shipping_Model_Carrier_Abstract extends Varien_Object
             $handlingAction = self::HANDLING_ACTION_PERORDER;
         }
 
-        if($handlingAction == self::HANDLING_ACTION_PERPACKAGE)
-        {
-            if ($handlingType == self::HANDLING_TYPE_PERCENT) {
-                $finalMethodPrice = ($cost + ($cost * $handlingFee/100)) * $this->_numBoxes;
-            } else {
-                $finalMethodPrice = ($cost + $handlingFee) * $this->_numBoxes;
-            }
-        } else {
-            if ($handlingType == self::HANDLING_TYPE_PERCENT) {
-                $finalMethodPrice = ($cost * $this->_numBoxes) + ($cost * $this->_numBoxes * $handlingFee / 100);
-            } else {
-                $finalMethodPrice = ($cost * $this->_numBoxes) + $handlingFee;
-            }
+        return ($handlingAction == self::HANDLING_ACTION_PERPACKAGE)
+            ? $this->_getPerpackagePrice($cost, $handlingType, $handlingFee)
+            : $this->_getPerorderPrice($cost, $handlingType, $handlingFee);
+    }
 
+    /**
+     * Get final price for shipping method with handling fee per package
+     *
+     * @param float $cost
+     * @param string $handlingType
+     * @param float $handlingFee
+     * @return float
+     */
+    protected function _getPerpackagePrice($cost, $handlingType, $handlingFee)
+    {
+        if ($handlingType == self::HANDLING_TYPE_PERCENT) {
+            return ($cost + ($cost * $handlingFee/100)) * $this->_numBoxes;
         }
-        return $finalMethodPrice;
+
+        return ($cost + $handlingFee) * $this->_numBoxes;
+    }
+
+    /**
+     * Get final price for shipping method with handling fee per order
+     *
+     * @param float $cost
+     * @param string $handlingType
+     * @param float $handlingFee
+     * @return float
+     */
+    protected function _getPerorderPrice($cost, $handlingType, $handlingFee)
+    {
+        if ($handlingType == self::HANDLING_TYPE_PERCENT) {
+            return ($cost * $this->_numBoxes) + ($cost * $this->_numBoxes * $handlingFee / 100);
+        }
+
+        return ($cost * $this->_numBoxes) + $handlingFee;
     }
 
     /**

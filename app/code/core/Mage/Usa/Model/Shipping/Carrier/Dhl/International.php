@@ -655,6 +655,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
                 $this->_addDimension($nodePiece);
                 $nodePiece->addChild('Weight', $sumWeight);
             }
+            $this->_numBoxes = $numberOfPieces;
         } else {
             $nodePiece = $nodePieces->addChild('Piece', '', '');
             $nodePiece->addChild('PieceID', 1);
@@ -1457,5 +1458,22 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
         }
 
         $this->_result = $result;
+    }
+
+    /**
+     * Get final price for shipping method with handling fee per package
+     *
+     * @param float $cost
+     * @param string $handlingType
+     * @param float $handlingFee
+     * @return float
+     */
+    protected function _getPerpackagePrice($cost, $handlingType, $handlingFee)
+    {
+        if ($handlingType == Mage_Shipping_Model_Carrier_Abstract::HANDLING_TYPE_PERCENT) {
+            return $cost + $this->_numBoxes * $handlingFee / 100;
+        }
+
+        return $cost + $this->_numBoxes * $handlingFee;
     }
 }
