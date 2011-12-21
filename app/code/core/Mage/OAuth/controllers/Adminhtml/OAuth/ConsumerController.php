@@ -205,16 +205,6 @@ class Mage_OAuth_Adminhtml_OAuth_ConsumerController extends Mage_Adminhtml_Contr
      */
     protected function _isAllowed()
     {
-        return $this->_getSession()->isAllowed('oauth/consumer');
-    }
-
-    /**
-     * Get admin session
-     *
-     * @return Mage_Admin_Model_Session
-     */
-    protected function _getSession()
-    {
-        return Mage::getSingleton('admin/session');
+        return Mage::getSingleton('admin/session')->isAllowed('oauth/consumer');
     }
 }
