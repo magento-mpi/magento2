@@ -18,20 +18,20 @@ return array(
         'name'          => 'Consumer Name Update Test',
         'key'           => $keyUpdate,
         'secret'        => $secretUpdate,
-        'call_back_url' => 'http://example.com/oauth_model/?oauthKey=key&oauthSecret=secret',
+        'callback_url'  => 'http://example.com/oauth_model/?oauthKey=key&oauthSecret=secret',
     ),
     'expected_create' => array(
         'entity_id'     => '',
         'name'          => 'Consumer Name Create Test',
         'key'           => $keyCreate,
         'secret'        => $secretCreate,
-        'call_back_url' => null,
+        'callback_url'  => null,
     ),
-    'expected_update' => array(
+    'expected_update'  => array(
         'entity_id'     => '',
         'name'          => 'Consumer Name Update Test',
         'key'           => $keyUpdate,
         'secret'        => $secretUpdate,
-        'call_back_url' => 'http://example.com/oauth_model/?oauthKey=key&oauthSecret=secret',
+        'callback_url'  => 'http://example.com/oauth_model/?oauthKey=key&oauthSecret=secret',
     )
 );

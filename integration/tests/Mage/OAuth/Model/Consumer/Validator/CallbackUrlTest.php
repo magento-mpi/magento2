@@ -5,8 +5,9 @@
  * @category   Mage
  * @package    Mage_OAuth
  * @author     Magento Api Team <api-team@magento.com>
+ * @todo Move to Unit tests
  */
-class Mage_OAuth_Model_Consumer_Validator_CallbackUrlTest extends Mage_PHPUnit_TestCase
+class Mage_OAuth_Model_Consumer_Validator_CallbackUrlTest extends Magento_TestCase
 {
     /**
      * Validation data provider

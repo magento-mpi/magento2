@@ -1,12 +1,12 @@
 <?php
 /**
- * Test Mage Api Session model
+ * Test Url validator model
  *
  * @category   Mage
- * @package    Mage_OAuth
+ * @package    Mage_Core
  * @author     Magento Api Team <api-team@magento.com>
  */
-class Mage_OAuth_Model_Consumer_Validator_CallbackUrlTest extends Mage_PHPUnit_TestCase
+class Mage_Core_Model_Url_ValidatorTest extends Mage_PHPUnit_TestCase
 {
     /**
      * Validation data provider
