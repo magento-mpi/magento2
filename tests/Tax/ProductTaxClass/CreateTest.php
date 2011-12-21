@@ -69,13 +69,14 @@ class Tax_ProductTaxClass_CreateTest extends Mage_Selenium_TestCase
     public function withRequiredFieldsOnly()
     {
         //Data
-        $productTaxClassData = $this->loadData('new_product_tax_class', null, 'product_class_name');
+        $productTaxClassData = $this->loadData('new_product_tax_class');
         //Steps
-        $this->taxHelper()->createTaxItem($productTaxClassData);
+        $this->taxHelper()->createTaxItem($productTaxClassData, 'product_class');
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_tax_class');
-        $this->taxHelper()->openTaxItem($productTaxClassData ,'product_tax_class');
+        $this->taxHelper()->openTaxItem($productTaxClassData, 'product_class');
         $this->assertTrue($this->verifyForm($productTaxClassData), $this->getParsedMessages());
+
         return $productTaxClassData;
     }
 
@@ -95,7 +96,7 @@ class Tax_ProductTaxClass_CreateTest extends Mage_Selenium_TestCase
     public function withNameThatAlreadyExists($productTaxClassData)
     {
         //Steps
-        $this->taxHelper()->createTaxItem($productTaxClassData);
+        $this->taxHelper()->createTaxItem($productTaxClassData, 'product_class');
         //Verifying
         $this->assertMessagePresent('error', 'tax_class_exists');
     }
@@ -117,7 +118,7 @@ class Tax_ProductTaxClass_CreateTest extends Mage_Selenium_TestCase
         //Data
         $productTaxClassData = $this->loadData('new_product_tax_class', array('product_class_name' => ''));
         //Steps
-        $this->taxHelper()->createTaxItem($productTaxClassData);
+        $this->taxHelper()->createTaxItem($productTaxClassData, 'product_class');
         //Verifying
         $this->assertMessagePresent('error', 'empty_class_name');
     }
@@ -140,13 +141,14 @@ class Tax_ProductTaxClass_CreateTest extends Mage_Selenium_TestCase
     public function withSpecialValues($specialValue)
     {
         //Data
-        $productTaxClassData = $this->loadData('new_product_tax_class',
-                                               array('product_class_name' => $specialValue));
+        $productTaxClassData = $this->loadData('new_product_tax_class', array('product_class_name' => $specialValue));
         //Steps
-        $this->taxHelper()->createTaxItem($productTaxClassData);
-        $this->assertMessagePresent('success', 'success_saved_tax_class');
+        $this->taxHelper()->createTaxItem($productTaxClassData, 'product_class');
         //Verifying
-        $this->taxHelper()->openTaxItem($productTaxClassData ,'product_tax_class');
+        $this->assertMessagePresent('success', 'success_saved_tax_class');
+        //Steps
+        $this->taxHelper()->openTaxItem($productTaxClassData, 'product_class');
+        //Verifying
         $this->assertTrue($this->verifyForm($productTaxClassData), $this->getParsedMessages());
     }
 
@@ -157,4 +159,5 @@ class Tax_ProductTaxClass_CreateTest extends Mage_Selenium_TestCase
             array($this->generate('string', 50, ':punct:'))
         );
     }
+
 }

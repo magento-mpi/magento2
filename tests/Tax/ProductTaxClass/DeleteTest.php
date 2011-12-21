@@ -50,12 +50,21 @@ class Tax_ProductTaxClass_DeleteTest extends Mage_Selenium_TestCase
         $this->loginAdminUser();
     }
 
+    /**
+     * <p>Preconditions:</p>
+     * <p>Navigate to Sales-Tax-Product Tax Classes</p>
+     */
+    protected function assertPreConditions()
+    {
+        $this->navigate('manage_product_tax_class');
+    }
+
     protected function tearDown()
     {
         //Remove Tax rule after test
         if (!is_null($this->_ruleToBeDeleted)) {
             $this->navigate('manage_tax_rule');
-            $this->taxHelper()->deleteTaxItem($this->_ruleToBeDeleted ,'tax_rules');
+            $this->taxHelper()->deleteTaxItem($this->_ruleToBeDeleted, 'rule');
             $this->_ruleToBeDeleted = null;
         }
     }
@@ -69,21 +78,14 @@ class Tax_ProductTaxClass_DeleteTest extends Mage_Selenium_TestCase
     public function setupTestDataCreateTaxRate()
     {
         //Data
-        $taxRateData = $this->loadData('tax_rate_create_test', null, 'tax_identifier');
+        $taxRateData = $this->loadData('tax_rate_create_test');
         //Steps
         $this->navigate('manage_tax_zones_and_rates');
-        $this->taxHelper()->createTaxRate($taxRateData);
+        $this->taxHelper()->createTaxItem($taxRateData, 'rate');
+        //Verifying
         $this->assertMessagePresent('success', 'success_saved_tax_rate');
-        return $taxRateData;
-    }
 
-    /**
-     * <p>Preconditions:</p>
-     * <p>Navigate to Sales-Tax-Product Tax Classes</p>
-     */
-    protected function assertPreConditions()
-    {
-        $this->navigate('manage_product_tax_class');
+        return $taxRateData;
     }
 
     /**
@@ -100,11 +102,13 @@ class Tax_ProductTaxClass_DeleteTest extends Mage_Selenium_TestCase
     public function notUsedInRule()
     {
         //Data
-        $productTaxClassData = $this->loadData('new_product_tax_class', null, 'product_class_name');
+        $productTaxClassData = $this->loadData('new_product_tax_class');
         //Steps
-        $this->taxHelper()->createTaxItem($productTaxClassData);
+        $this->taxHelper()->createTaxItem($productTaxClassData, 'product_class');
+        //Verifying
         $this->assertMessagePresent('success', 'success_saved_tax_class');
-        $this->taxHelper()->deleteTaxItem($productTaxClassData ,'product_tax_class');
+        //Steps
+        $this->taxHelper()->deleteTaxItem($productTaxClassData, 'product_class');
         //Verifying
         $this->assertMessagePresent('success', 'success_deleted_tax_class');
     }
@@ -126,21 +130,24 @@ class Tax_ProductTaxClass_DeleteTest extends Mage_Selenium_TestCase
     public function usedInRule($taxRateData)
     {
         //Data
-        $productTaxClassData = $this->loadData('new_product_tax_class', null, 'product_class_name');
+        $productTaxClassData = $this->loadData('new_product_tax_class');
         $taxRuleData = $this->loadData('new_tax_rule_required',
-                                       array('tax_rate' => $taxRateData['tax_identifier'],
-                                            'product_tax_class' => $productTaxClassData['product_class_name']),'name');
-        $searchTaxRuleData = $this->loadData('search_tax_rule',
-                                             array('filter_name' => $taxRuleData['name']));
+                array('product_tax_class' => $productTaxClassData['product_class_name'],
+                      'tax_rate'          => $taxRateData['tax_identifier']));
+        $searchTaxRuleData = $this->loadData('search_tax_rule', array('filter_name' => $taxRuleData['name']));
         //Steps
-        $this->taxHelper()->createTaxItem($productTaxClassData);
+        $this->taxHelper()->createTaxItem($productTaxClassData, 'product_class');
+        //Verifying
         $this->assertMessagePresent('success', 'success_saved_tax_class');
+        //Steps
         $this->navigate('manage_tax_rule');
-        $this->taxHelper()->createTaxItem($taxRuleData);
+        $this->taxHelper()->createTaxItem($taxRuleData, 'rule');
+        //Verifying
         $this->assertMessagePresent('success', 'success_saved_tax_rule');
         $this->_ruleToBeDeleted = $searchTaxRuleData;      //For Clean Up
+        //Steps
         $this->navigate('manage_product_tax_class');
-        $this->taxHelper()->deleteTaxItem($productTaxClassData ,'product_tax_class');
+        $this->taxHelper()->deleteTaxItem($productTaxClassData, 'product_class');
         //Verifying
         $this->assertMessagePresent('error', 'error_delete_tax_class');
     }
@@ -161,18 +168,21 @@ class Tax_ProductTaxClass_DeleteTest extends Mage_Selenium_TestCase
     public function usedInProduct()
     {
         //Data
-        $productTaxClassData = $this->loadData('new_product_tax_class', null, 'product_class_name');
+        $productTaxClassData = $this->loadData('new_product_tax_class');
         $productData = $this->loadData('simple_product_required',
-                                       array('prices_tax_class' => $productTaxClassData['product_class_name']),
-                                       array('general_name', 'general_sku'));
+                array('prices_tax_class' => $productTaxClassData['product_class_name']));
         //Steps
-        $this->taxHelper()->createTaxItem($productTaxClassData);
+        $this->taxHelper()->createTaxItem($productTaxClassData, 'product_class');
+        //Verifying
         $this->assertMessagePresent('success', 'success_saved_tax_class');
+        //Steps
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($productData);
+        //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
+        //Steps
         $this->navigate('manage_product_tax_class');
-        $this->taxHelper()->deleteTaxItem($productTaxClassData ,'product_tax_class');
+        $this->taxHelper()->deleteTaxItem($productTaxClassData, 'product_class');
         //Verifying
         $this->assertMessagePresent('error', 'error_delete_tax_class_product');
     }

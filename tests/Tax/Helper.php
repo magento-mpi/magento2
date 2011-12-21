@@ -38,43 +38,18 @@ class Tax_Helper extends Mage_Selenium_TestCase
 {
 
     /**
-     * Create new Tax rate
+     * Define Store View id in Table by name
      *
-     * @param array|string $taxRateData
+     * @param string $storeView
+     * @return integer
      */
-    public function createTaxRate(array $taxRateData)
-    {
-        if (is_string($taxRateData)) {
-            $taxRateData = $this->loadData($taxRateData);
-        }
-        $taxRateData = $this->arrayEmptyClear($taxRateData);
-        $taxTitles = (isset($taxRateData['tax_titles'])) ? $taxRateData['tax_titles'] : NULL;
-        $this->clickButton('add_new_tax_rate');
-        //$this->fillForm($taxRateData, 'tax_rate_info');
-        $this->fillForm($taxRateData);
-        $xpath = $this->_getControlXpath('fieldset', 'tax_titles');
-        if ($taxTitles && $this->isElementPresent($xpath)) {
-            foreach ($taxTitles as $key => $value) {
-                $this->addParameter('storeNumber', $this->findTaxTitleByName($key));
-                $this->fillForm(array('tax_title' => $value));
-            }
-        }
-        $this->saveForm('save_rate');
-    }
-
-    /**
-     * Search
-     *
-     * @param string $taxTitleData
-     * @return int
-     */
-    public function findTaxTitleByName($taxTitleData)
+    public function findTaxTitleByName($storeView)
     {
         $taxTitleXpath = $this->_getControlXpath('pageelement', 'tax_title_header');
         $taxTitleQty = $this->getXpathCount($taxTitleXpath);
         for ($i = 1; $i <= $taxTitleQty; $i++) {
             $text = $this->getText($taxTitleXpath . "[$i]");
-            if ($text == $taxTitleData) {
+            if ($text == $storeView) {
                 return $i;
             }
         }
@@ -82,72 +57,80 @@ class Tax_Helper extends Mage_Selenium_TestCase
     }
 
     /**
-     * Create (Product\Customer)Tax Class\Rule
+     * Create Product Tax Class|Customer Tax Class|Tax Rate|Tax Rule
      *
      * @param array|string $taxItemData
+     * @param string $type search type rate|rule|customer_class|product_class
      */
-    public function createTaxItem($taxItemData)
+    public function createTaxItem($taxItemData, $type)
     {
         if (is_string($taxItemData)) {
             $taxItemData = $this->loadData($taxItemData);
         }
         $taxItemData = $this->arrayEmptyClear($taxItemData);
-        $buttons = $this->getCurrentUimapPage()->getAllButtons();
-        //Open form
-        foreach($buttons as $buttonName => $buttonXpath) {
-            if (preg_match('/add_new(_tax_rule)?$/', $buttonName)) {
-                $this->clickButton($buttonName);
-            }
-        }
+
+        $this->clickButton('add_' . $type);
+
         $this->fillForm($taxItemData);
-        //Save form
-        $buttons = $this->getCurrentUimapPage()->getAllButtons();
-        foreach($buttons as $buttonName => $buttonXpath) {
-            if (preg_match('/save_(rule|class)/', $buttonName)) {
-                $this->saveForm($buttonName);
+
+        $rateTitles = (isset($taxItemData['tax_titles'])) ? $taxItemData['tax_titles'] : array();
+        if ($rateTitles && $type == 'rate') {
+            if ($this->controlIsPresent('fieldset', 'tax_titles')) {
+                foreach ($rateTitles as $key => $value) {
+                    $this->addParameter('storeNumber', $this->findTaxTitleByName($key));
+                    $this->fillForm(array('tax_title' => $value));
+                }
+            } else {
+                $this->fail('Can not add Tax Titles for store views');
             }
         }
+        $this->saveForm('save_' . $type);
     }
 
     /**
-     * Opens (Product\Customer)Tax Class\Rate\Rule
+     * Open Product Tax Class|Customer Tax Class|Tax Rate|Tax Rule
      *
      * @param array $taxSearchData Data for search
-     * @param string $type search type (customer_tax_class|product_tax_class|tax_rates|tax_rules)
+     * @param string $type search type rate|rule|customer_class|product_class
      */
-    public function openTaxItem(array $taxSearchData,$type)
+    public function openTaxItem(array $taxSearchData, $type)
     {
         $taxSearchData = $this->arrayEmptyClear($taxSearchData);
-        $gridName = 'manage_' . $type;
-        $xpathTR = $this->search($taxSearchData,$gridName);
-        $this->assertNotEquals(null, $xpathTR, 'Search item is not found');
-        $elementTitle = $this->getText($xpathTR . '//td[1]');
-        $this->addParameter('elementTitle', $elementTitle);
-        $this->addParameter('id', $this->defineIdFromTitle($xpathTR));
+        $xpathTR = $this->search($taxSearchData, 'manage_tax_' . $type);
+        $this->assertNotNull($xpathTR, 'Search item is not found');
+        $url = $this->getValue($xpathTR . '/@title');
+        switch ($type) {
+            case 'rate':
+                $cellId = $this->getColumnIdByName('Name');
+                $this->addParameter($type, $this->defineParameterFromUrl($type, $url));
+                break;
+            case 'rule':
+                $cellId = $this->getColumnIdByName('Tax Identifier');
+                $this->addParameter($type, $this->defineParameterFromUrl($type, $url));
+                break;
+            case 'customer_class':
+            case 'product_class':
+                $cellId = $this->getColumnIdByName('Class Name');
+                $this->addParameter('id', $this->defineIdFromTitle($xpathTR));
+                break;
+        }
+        $this->addParameter('elementTitle', $this->getText($xpathTR . '//td[' . $cellId . ']'));
         $this->click($xpathTR);
         $this->waitForPageToLoad($this->_browserTimeoutPeriod);
         $this->validatePage();
     }
 
     /**
-     * Open (Product\Customer)Tax Class\Rate\Rule and delete
+     * Delete Product Tax Class|Customer Tax Class|Tax Rate|Tax Rule
      *
      * @param array $taxSearchData Data for search
-     * @param string $type search type (customer_tax_class|product_tax_class|tax_rates|tax_rules)
+     * @param string $type search type rate|rule|customer_class|product_class
      * @return boolean
      */
-    public function deleteTaxItem(array $taxSearchData,$type)
+    public function deleteTaxItem(array $taxSearchData, $type)
     {
-        if ($taxSearchData and $type) {
-            $this->openTaxItem($taxSearchData,$type);
-            $buttons = $this->getCurrentUimapPage()->getAllButtons();
-            foreach($buttons as $buttonName => $buttonXpath) {
-                if (preg_match('/delete_(rate|class|rule)$/', $buttonName)) {
-                    return $this->clickButtonAndConfirm($buttonName, 'confirmation_for_delete');
-                }
-            }
-        }
-        return false;
+        $this->openTaxItem($taxSearchData, $type);
+        return $this->clickButtonAndConfirm('delete_' . $type, 'confirmation_for_delete');
     }
 
 }

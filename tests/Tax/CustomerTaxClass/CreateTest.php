@@ -69,13 +69,16 @@ class Tax_CustomerTaxClass_CreateTest extends Mage_Selenium_TestCase
     public function withRequiredFieldsOnly()
     {
         //Data
-        $customerTaxClassData = $this->loadData('new_customer_tax_class', null, 'customer_class_name');
+        $customerTaxClassData = $this->loadData('new_customer_tax_class');
         //Steps
-        $this->taxHelper()->createTaxItem($customerTaxClassData);
+        $this->taxHelper()->createTaxItem($customerTaxClassData, 'customer_class');
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_tax_class');
-        $this->taxHelper()->openTaxItem($customerTaxClassData ,'customer_tax_class');
+        //Steps
+        $this->taxHelper()->openTaxItem($customerTaxClassData, 'customer_class');
+        //Verifying
         $this->assertTrue($this->verifyForm($customerTaxClassData), $this->getParsedMessages());
+
         return $customerTaxClassData;
     }
 
@@ -95,7 +98,7 @@ class Tax_CustomerTaxClass_CreateTest extends Mage_Selenium_TestCase
     public function withNameThatAlreadyExists($customerTaxClassData)
     {
         //Steps
-        $this->taxHelper()->createTaxItem($customerTaxClassData);
+        $this->taxHelper()->createTaxItem($customerTaxClassData, 'customer_class');
         //Verifying
         $this->assertMessagePresent('error', 'tax_class_exists');
     }
@@ -117,7 +120,7 @@ class Tax_CustomerTaxClass_CreateTest extends Mage_Selenium_TestCase
         //Data
         $customerTaxClassData = $this->loadData('new_customer_tax_class', array('customer_class_name' => ''));
         //Steps
-        $this->taxHelper()->createTaxItem($customerTaxClassData);
+        $this->taxHelper()->createTaxItem($customerTaxClassData, 'customer_class');
         //Verifying
         $this->assertMessagePresent('error', 'empty_class_name');
     }
@@ -141,13 +144,12 @@ class Tax_CustomerTaxClass_CreateTest extends Mage_Selenium_TestCase
     public function withSpecialValues($specialValue)
     {
         //Data
-        $customerTaxClassData = $this->loadData('new_customer_tax_class',
-                                                array('customer_class_name' => $specialValue));
+        $customerTaxClassData = $this->loadData('new_customer_tax_class', array('customer_class_name' => $specialValue));
         //Steps
-        $this->taxHelper()->createTaxItem($customerTaxClassData);
+        $this->taxHelper()->createTaxItem($customerTaxClassData, 'customer_class');
         $this->assertMessagePresent('success', 'success_saved_tax_class');
         //Verifying
-        $this->taxHelper()->openTaxItem($customerTaxClassData ,'customer_tax_class');
+        $this->taxHelper()->openTaxItem($customerTaxClassData, 'customer_class');
         $this->assertTrue($this->verifyForm($customerTaxClassData), $this->getParsedMessages());
     }
 

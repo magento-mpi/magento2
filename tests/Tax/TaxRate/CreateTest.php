@@ -41,7 +41,7 @@ class Tax_TaxRate_CreateTest extends Mage_Selenium_TestCase
      * Transfer data between tests.
      * Note: "@depends" does not help in this case
      */
-    protected static $storedTaxRateData = null;
+    protected static $_storedTaxRateData = null;
 
     /**
      * <p>Login to backend</p>
@@ -77,19 +77,18 @@ class Tax_TaxRate_CreateTest extends Mage_Selenium_TestCase
     public function withRequiredFieldsOnly($taxRateDataSetName)
     {
         //Data
-        $taxRateData = $this->loadData($taxRateDataSetName, null, 'tax_identifier');
+        $taxRateData = $this->loadData($taxRateDataSetName);
         $searchTaxRateData = $this->loadData('search_tax_rate',
                 array('filter_tax_id' => $taxRateData['tax_identifier']));
         //Steps
-        $this->taxHelper()->createTaxRate($taxRateData);
+        $this->taxHelper()->createTaxItem($taxRateData, 'rate');
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_tax_rate');
+        //Steps
+        $this->taxHelper()->openTaxItem($searchTaxRateData, 'rate');
         //Verifying
-        $this->taxHelper()->openTaxItem($searchTaxRateData, 'tax_rates');
         $this->assertTrue($this->verifyForm($taxRateData), $this->getParsedMessages());
-        //To be used in the next TestCase
-        //Note: "@depends" does not work
-        self::$storedTaxRateData = $taxRateData;
+        self::$_storedTaxRateData = $taxRateData;
     }
 
     /**
@@ -119,10 +118,8 @@ class Tax_TaxRate_CreateTest extends Mage_Selenium_TestCase
      */
     public function withTaxIdentifierThatAlreadyExists()
     {
-        //Data
-        $taxRateData = self::$storedTaxRateData;
         //Steps
-        $this->taxHelper()->createTaxRate($taxRateData);
+        $this->taxHelper()->createTaxItem(self::$_storedTaxRateData, 'rate');
         //Verifying
         $this->assertMessagePresent('error', 'code_already_exists');
     }
@@ -146,7 +143,7 @@ class Tax_TaxRate_CreateTest extends Mage_Selenium_TestCase
         //Data
         $taxRateData = $this->loadData('tax_rate_create_test_zip_yes', array($emptyFieldName => ''));
         //Steps
-        $this->taxHelper()->createTaxRate($taxRateData);
+        $this->taxHelper()->createTaxItem($taxRateData, 'rate');
         //Verifying
         $this->addFieldIdToMessage('field', $emptyFieldName);
         $this->assertMessagePresent('error', 'empty_required_field');
@@ -189,10 +186,12 @@ class Tax_TaxRate_CreateTest extends Mage_Selenium_TestCase
         $searchTaxRateData = $this->loadData('search_tax_rate',
                 array('filter_tax_id' => $taxRateData['tax_identifier']));
         //Steps
-        $this->taxHelper()->createTaxRate($taxRateData);
-        $this->assertMessagePresent('success', 'success_saved_tax_rate');
+        $this->taxHelper()->createTaxItem($taxRateData, 'rate');
         //Verifying
-        $this->taxHelper()->openTaxItem($searchTaxRateData, 'tax_rates');
+        $this->assertMessagePresent('success', 'success_saved_tax_rate');
+        //Steps
+        $this->taxHelper()->openTaxItem($searchTaxRateData, 'rate');
+        //Verifying
         $this->assertTrue($this->verifyForm($taxRateData), $this->getParsedMessages());
     }
 
@@ -227,9 +226,9 @@ class Tax_TaxRate_CreateTest extends Mage_Selenium_TestCase
     {
         //Data
         $taxRateData = $this->loadData('tax_rate_create_test_zip_yes',
-                array('zip_range_from' => $specialValue, 'zip_range_to' => $specialValue), 'tax_identifier');
+                array('zip_range_from' => $specialValue, 'zip_range_to' => $specialValue));
         //Steps
-        $this->taxHelper()->createTaxRate($taxRateData);
+        $this->taxHelper()->createTaxItem($taxRateData, 'rate');
         //Verifying
         $this->addFieldIdToMessage('field', 'zip_range_from');
         $this->assertMessagePresent('error', 'enter_valid_digits');
@@ -269,10 +268,9 @@ class Tax_TaxRate_CreateTest extends Mage_Selenium_TestCase
     public function withInvalidValueForRatePercent($specialValue)
     {
         //Data
-        $taxRateData = $this->loadData('tax_rate_create_test_zip_yes', array('rate_percent' => $specialValue),
-                'tax_identifier');
+        $taxRateData = $this->loadData('tax_rate_create_test_zip_yes', array('rate_percent' => $specialValue));
         //Steps
-        $this->taxHelper()->createTaxRate($taxRateData);
+        $this->taxHelper()->createTaxItem($taxRateData, 'rate');
         //Verifying
         $this->addFieldIdToMessage('field', 'rate_percent');
         $this->assertMessagePresent('error', 'enter_not_negative_number');
@@ -307,14 +305,16 @@ class Tax_TaxRate_CreateTest extends Mage_Selenium_TestCase
     public function withSelectedState()
     {
         //Data
-        $taxRateData = $this->loadData('tax_rate_create_test', null, 'tax_identifier');
+        $taxRateData = $this->loadData('tax_rate_create_test');
         $searchTaxRateData = $this->loadData('search_tax_rate',
                 array('filter_tax_id' => $taxRateData['tax_identifier']));
         //Steps
-        $this->taxHelper()->createTaxRate($taxRateData);
-        $this->assertMessagePresent('success', 'success_saved_tax_rate');
+        $this->taxHelper()->createTaxItem($taxRateData, 'rate');
         //Verifying
-        $this->taxHelper()->openTaxItem($searchTaxRateData, 'tax_rates');
+        $this->assertMessagePresent('success', 'success_saved_tax_rate');
+        //Steps
+        $this->taxHelper()->openTaxItem($searchTaxRateData, 'rate');
+        //Verifying
         $this->assertTrue($this->verifyForm($taxRateData), $this->getParsedMessages());
     }
 

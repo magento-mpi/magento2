@@ -37,7 +37,6 @@
 class Tax_TaxRule_DeleteTest extends Mage_Selenium_TestCase
 {
 
-
     /**
      * <p>Log in to Backend.</p>
      */
@@ -65,10 +64,11 @@ class Tax_TaxRule_DeleteTest extends Mage_Selenium_TestCase
     public function setupTestDataCreateTaxRate()
     {
         //Data
-        $taxRateData = $this->loadData('tax_rate_create_test', null, 'tax_identifier');
+        $taxRateData = $this->loadData('tax_rate_create_test');
         //Steps
         $this->navigate('manage_tax_zones_and_rates');
-        $this->taxHelper()->createTaxRate($taxRateData);
+        $this->taxHelper()->createTaxItem($taxRateData, 'rate');
+        //Verifying
         $this->assertMessagePresent('success', 'success_saved_tax_rate');
         return $taxRateData;
     }
@@ -89,14 +89,14 @@ class Tax_TaxRule_DeleteTest extends Mage_Selenium_TestCase
     public function deleteTaxRule($taxRateData)
     {
         //Data
-        $taxRuleData = $this->loadData('new_tax_rule_required',
-                                       array('tax_rate'=>$taxRateData['tax_identifier']),'name');
-        $searchTaxRuleData = $this->loadData('search_tax_rule',
-                                             array('filter_name' => $taxRuleData['name']));
+        $taxRuleData = $this->loadData('new_tax_rule_required', array('tax_rate' => $taxRateData['tax_identifier']));
+        $searchTaxRuleData = $this->loadData('search_tax_rule', array('filter_name' => $taxRuleData['name']));
         //Steps
-        $this->taxHelper()->createTaxItem($taxRuleData);
+        $this->taxHelper()->createTaxItem($taxRuleData, 'rule');
+        //Verifying
         $this->assertMessagePresent('success', 'success_saved_tax_rule');
-        $this->taxHelper()->deleteTaxItem($searchTaxRuleData ,'tax_rules');
+        //Steps
+        $this->taxHelper()->deleteTaxItem($searchTaxRuleData, 'rule');
         //Verifying
         $this->assertMessagePresent('success', 'success_deleted_tax_rule');
     }

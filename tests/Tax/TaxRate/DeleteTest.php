@@ -64,7 +64,7 @@ class Tax_TaxRate_DeleteTest extends Mage_Selenium_TestCase
         //Remove Tax rule after test
         if (!is_null($this->_ruleToBeDeleted)) {
             $this->navigate('manage_tax_rule');
-            $this->taxHelper()->deleteTaxItem($this->_ruleToBeDeleted ,'tax_rules');
+            $this->taxHelper()->deleteTaxItem($this->_ruleToBeDeleted, 'rule');
             $this->_ruleToBeDeleted = null;
         }
     }
@@ -83,13 +83,15 @@ class Tax_TaxRate_DeleteTest extends Mage_Selenium_TestCase
     public function notUsedInRule()
     {
         //Data
-        $taxRateData = $this->loadData('tax_rate_create_test_zip_no', null, 'tax_identifier');
+        $taxRateData = $this->loadData('tax_rate_create_test_zip_no');
         $searchTaxRateData = $this->loadData('search_tax_rate',
-                                             array('filter_tax_id' => $taxRateData['tax_identifier']));
+                array('filter_tax_id' => $taxRateData['tax_identifier']));
         //Steps
-        $this->taxHelper()->createTaxRate($taxRateData);
+        $this->taxHelper()->createTaxItem($taxRateData, 'rate');
+        //Verifying
         $this->assertMessagePresent('success', 'success_saved_tax_rate');
-        $this->taxHelper()->deleteTaxItem($searchTaxRateData ,'tax_rates');
+        //Steps
+        $this->taxHelper()->deleteTaxItem($searchTaxRateData, 'rate');
         //Verifying
         $this->assertMessagePresent('success', 'success_deleted_tax_rate');
     }
@@ -109,22 +111,24 @@ class Tax_TaxRate_DeleteTest extends Mage_Selenium_TestCase
     public function usedInRule()
     {
         //Data
-        $taxRateData = $this->loadData('tax_rate_create_test_zip_no', null, 'tax_identifier');
+        $taxRateData = $this->loadData('tax_rate_create_test_zip_no');
         $searchTaxRateData = $this->loadData('search_tax_rate',
-                                             array('filter_tax_id' => $taxRateData['tax_identifier']));
-        $taxRuleData = $this->loadData('new_tax_rule_required',
-                                       array('tax_rate' => $taxRateData['tax_identifier']),'name');
-        $searchTaxRuleData = $this->loadData('search_tax_rule',
-                                             array('filter_name' => $taxRuleData['name']));
+                array('filter_tax_id' => $taxRateData['tax_identifier']));
+        $taxRuleData = $this->loadData('new_tax_rule_required', array('tax_rate' => $taxRateData['tax_identifier']));
+        $searchTaxRuleData = $this->loadData('search_tax_rule', array('filter_name' => $taxRuleData['name']));
         //Steps
-        $this->taxHelper()->createTaxRate($taxRateData);
+        $this->taxHelper()->createTaxItem($taxRateData, 'rate');
+        //Verifying
         $this->assertMessagePresent('success', 'success_saved_tax_rate');
+        //Steps
         $this->navigate('manage_tax_rule');
-        $this->taxHelper()->createTaxItem($taxRuleData);
+        $this->taxHelper()->createTaxItem($taxRuleData, 'rule');
+        //Verifying
         $this->assertMessagePresent('success', 'success_saved_tax_rule');
         $this->_ruleToBeDeleted = $searchTaxRuleData;
+        //Steps
         $this->navigate('manage_tax_zones_and_rates');
-        $this->taxHelper()->deleteTaxItem($searchTaxRateData ,'tax_rates');
+        $this->taxHelper()->deleteTaxItem($searchTaxRateData, 'rate');
         //Verifying
         $this->assertMessagePresent('error', 'error_delete_tax_rate');
     }

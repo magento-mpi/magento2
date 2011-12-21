@@ -28,7 +28,7 @@
 #Test data for Store
 
 new_customer_group:
-    group_name: Test Customer Group
+    group_name: Test Customer Group %randomize%
     tax_class: %noValue%
 
 search_customer_group:
