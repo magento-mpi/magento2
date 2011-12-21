@@ -141,6 +141,18 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
     );
 
     /**
+     * Dhl International Class constructor
+     *
+     * Sets necessary data
+     */
+    protected function _construct()
+    {
+        if ($this->getConfigData('content_type') == self::DHL_CONTENT_TYPE_DOC) {
+            $this->_freeMethod = 'free_method_doc';
+        }
+    }
+
+    /**
      * Returns value of given variable
      *
      * @param mixed $origValue
@@ -207,21 +219,6 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
         $this->_updateFreeMethodQuote($request);
 
         return $this->_result;
-    }
-
-    /**
-     * Update Free Method Quote
-     *
-     * @param Mage_Shipping_Model_Rate_Request $request
-     * @return void
-     */
-    protected function _updateFreeMethodQuote($request)
-    {
-        if ($this->getConfigData('content_type') == self::DHL_CONTENT_TYPE_DOC) {
-            $this->_freeMethod = 'free_method_doc';
-        }
-
-        parent::_updateFreeMethodQuote($request);
     }
 
     /**
