@@ -184,6 +184,24 @@ class Magento_Test_Listener_Annotation_Fixture
             return;
         }
         $this->_rollbackTransaction();
+        foreach ($this->_appliedFixtures as $fixture) {
+            if (is_callable($fixture)) {
+                $fixture[1] .= 'Rollback';
+                if (is_callable($fixture)) {
+                    $this->_applyOneFixture($fixture);
+                }
+            } else {
+                $fileInfo = pathinfo($fixture);
+                $extension = '';
+                if (isset($fileInfo['extension'])) {
+                    $extension = '.' . $fileInfo['extension'];
+                }
+                $rollbackFile = $fileInfo['dirname'] . '/' . $fileInfo['filename'] . '_rollback' . $extension;
+                if (file_exists($rollbackFile)) {
+                    $this->_applyOneFixture($rollbackFile);
+                }
+            }
+        }
         $this->_appliedFixtures = array();
     }
 }

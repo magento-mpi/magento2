@@ -205,7 +205,7 @@ class Mage_Catalog_Model_Product_Type_AbstractTest extends PHPUnit_Framework_Tes
             if ('field' == $option->getType()) {
                 $product->addCustomOption('option_ids', $id);
                 $quoteOption = clone $option;
-                $product->addCustomOption("option_{$id}", $quoteOption);
+                $product->addCustomOption("option_{$id}", $quoteOption->getValue());
 
                 $optionArr = $this->_model->getOrderOptions($product);
                 $this->assertArrayHasKey('info_buyRequest', $optionArr);

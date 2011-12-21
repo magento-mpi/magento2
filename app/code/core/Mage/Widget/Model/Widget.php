@@ -241,7 +241,11 @@ class Mage_Widget_Model_Widget extends Varien_Object
      */
     public function getPlaceholderImageUrl($type)
     {
-        $placeholder = (string)$this->getConfigAsXml($type)->placeholder_image;
+        $placeholder = false;
+        $widgetXml = $this->getConfigAsXml($type);
+        if (is_object($widgetXml)) {
+            $placeholder = (string)$widgetXml->placeholder_image;
+        }
         if (!$placeholder || !Mage::getDesign()->getFilename($placeholder, array('_type' => 'skin'))) {
             $placeholder = 'Mage_Widget::placeholder.gif';
         }

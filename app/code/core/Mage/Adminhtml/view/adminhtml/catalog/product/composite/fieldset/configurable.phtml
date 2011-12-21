@@ -19,7 +19,7 @@
         <dl>
         <?php foreach($_attributes as $_attribute): ?>
             <dt><label class="required"><em>*</em><?php echo $_attribute->getLabel() ?></label></dt>
-            <dd<?php if ($_attribute->decoratedIsLast){?> class="last"<?php }?>>
+            <dd<?php if ($_attribute->getDecoratedIsLast()):?> class="last"<?php endif; ?>>
                 <div class="input-box">
                     <select name="super_attribute[<?php echo $_attribute->getAttributeId() ?>]" id="attribute<?php echo $_attribute->getAttributeId() ?>" class="required-entry super-attribute-select">
                         <option><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Choose an Option...') ?></option>

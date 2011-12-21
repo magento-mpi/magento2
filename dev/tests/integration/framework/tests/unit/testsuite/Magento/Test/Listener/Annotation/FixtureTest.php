@@ -54,6 +54,10 @@ class Magento_Test_Listener_Annotation_FixtureTest extends PHPUnit_Framework_Tes
     {
     }
 
+    public static function sampleFixtureTwoRollback()
+    {
+    }
+
     public function testClassAnnotation()
     {
         $this->_annotation
@@ -123,5 +127,42 @@ class Magento_Test_Listener_Annotation_FixtureTest extends PHPUnit_Framework_Tes
             ->method('_rollbackTransaction')
         ;
         $annotation->endTestSuite();
+    }
+
+
+    /**
+     * @magentoDataFixture sampleFixtureOne
+     * @magentoDataFixture sampleFixtureTwo
+     * @covers Magento_Test_Listener_Annotation_Fixture::_revertFixture
+     */
+    public function testRevertFixtureMethod()
+    {
+        $this->_annotation->startTest();
+
+        $this->_annotation
+            ->expects($this->at(1))
+            ->method('_applyOneFixture')
+            ->with(array(__CLASS__, 'sampleFixtureTwoRollback'))
+        ;
+
+        $this->_annotation->endTest();
+    }
+
+
+    /**
+     * @magentoDataFixture path/to/fixture/script.php
+     * @magentoDataFixture ../framework/tests/unit/testsuite/Magento/Test/Listener/_files/sample_fixture_two.php
+     * @covers Magento_Test_Listener_Annotation_Fixture::_revertFixture
+     */
+    public function testRevertFixtureFile()
+    {
+        $this->_annotation->startTest();
+
+        $this->_annotation
+            ->expects($this->at(1))
+            ->method('_applyOneFixture')
+            ->with($this->stringEndsWith('Magento/Test/Listener/_files/sample_fixture_two_rollback.php'));
+
+        $this->_annotation->endTest();
     }
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config>
-    <skipped/>
+    <incomplete/>
     <error line="2"/>
     <error line="6"/>
     <error line="10"/>

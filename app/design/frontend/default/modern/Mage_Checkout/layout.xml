@@ -171,7 +171,7 @@ Multi address shipping checkout selection of address per item page
     <checkout_multishipping_customer_address translate="label">
         <label>Multishipping Checkout Customer Address Edit Form</label>
         <reference name="content">
-            <block type="Mage_Customer_Block_Address_Edit" name="customer_address_edit" template="customer/address/edit.phtml"/>
+            <block type="Mage_Customer_Block_Address_Edit" name="customer_address_edit" template="address/edit.phtml"/>
         </reference>
     </checkout_multishipping_customer_address>
 

@@ -14,10 +14,21 @@
  */
 class Mage_Core_AjaxControllerTest extends Magento_Test_TestCase_ControllerAbstract
 {
-    public function testTranslateAction()
+    /**
+     * @dataProvider translateActionDataProvider
+     */
+    public function testTranslateAction($postData)
     {
-        $this->getRequest()->setPost('translate', 'test');
+        $this->getRequest()->setPost('translate', $postData);
         $this->dispatch('core/ajax/translate');
         $this->assertEquals('{success:true}', $this->getResponse()->getBody());
+    }
+
+    public function translateActionDataProvider()
+    {
+        return array(
+            array('test'),
+            array(array('test'))
+        );
     }
 }

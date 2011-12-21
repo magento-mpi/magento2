@@ -8,7 +8,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
- 
+
 -->
 <layout version="0.1.0">
 
@@ -22,7 +22,7 @@
     <catalog_category_layered>
         <reference name="left">
             <remove name="catalog.leftnav"/>
-            <block type="Enterprise_Search_Block_Catalog_Layer_View" name="enterprisecatalog.leftnav" before="-" template="Enterprise_Rma::layer/view.phtml"/>
+            <block type="Enterprise_Search_Block_Catalog_Layer_View" name="enterprisecatalog.leftnav" before="-" template="Mage_Catalog::layer/view.phtml"/>
         </reference>
     </catalog_category_layered>
 

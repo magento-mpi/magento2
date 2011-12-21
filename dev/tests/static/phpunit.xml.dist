@@ -1,19 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 /**
+ * Default test suites declaration: run verification of coding standards and code integrity test suites
+ *
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento
- * @subpackage  static_tests
+ * @category    tests
+ * @package     static
  * @copyright   {copyright}
  * @license     {license_link}
  */
 -->
 <phpunit bootstrap="./framework/bootstrap.php">
     <testsuites>
-        <testsuite name="Static Code Analysis Tests">
-            <directory suffix="Test.php">testsuite</directory>
+        <testsuite name="PHP Coding Standard Verification">
+            <file>testsuite/Php/LiveCodeTest.php</file>
+        </testsuite>
+        <testsuite name="Code Integrity Tests">
+            <directory>testsuite/Integrity</directory>
         </testsuite>
     </testsuites>
     <php>

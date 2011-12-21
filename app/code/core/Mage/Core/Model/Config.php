@@ -987,7 +987,8 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         if (!$this->_distroServerVars) {
 
             if (isset($_SERVER['SCRIPT_NAME']) && isset($_SERVER['HTTP_HOST'])) {
-                $secure = (!empty($_SERVER['HTTPS']) && ($_SERVER['HTTPS']!='off')) || $_SERVER['SERVER_PORT']=='443';
+                $secure = (!empty($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] != 'off'))
+                        || (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == '443');
                 $scheme = ($secure ? 'https' : 'http') . '://' ;
 
                 $hostArr = explode(':', $_SERVER['HTTP_HOST']);
@@ -1224,7 +1225,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      * Retrieve resource helper instance
      *
      * Example:
-     * $config->getResourceHelper('Mage_Cms')
+     * $config->getResourceHelper('Mage_Core')
      * will instantiate Mage_Cms_Model_Resource_Helper_<db_adapter_name>
      *
      * @param string $moduleName

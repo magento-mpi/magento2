@@ -16,7 +16,7 @@ if (isset($argv[1]) && realpath($argv[1])) {
 }
 
 if (is_dir($path)) {
-    $files = glob($path . '/*.php');
+    $files = glob($path . '/*.ser');
 } else {
     $files = array($path);
 }
@@ -24,7 +24,7 @@ if (is_dir($path)) {
 /* Load class names array */
 $classes = array();
 foreach ($files as $file) {
-    $fileClasses = include $file;
+    $fileClasses = unserialize(file_get_contents($file));
     $classes = array_merge($classes, $fileClasses);
 }
 
@@ -43,7 +43,4 @@ foreach ($classes as $class) {
     }
 }
 
-$classesMap = '<?php
-return ' . var_export($map, true) . ';';
-
-echo $classesMap;
+echo serialize($map);

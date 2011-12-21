@@ -33,7 +33,7 @@ class Mage_Core_Model_Resource_Iterator extends Varien_Object
             foreach ($callbacks as $callback) {
                 $result = call_user_func($callback, $args);
                 if (!empty($result)) {
-                    $args = array_merge($args, $result);
+                    $args = array_merge($args, (array)$result);
                 }
             }
             $args['idx']++;

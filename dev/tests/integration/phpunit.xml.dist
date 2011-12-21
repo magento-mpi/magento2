@@ -17,7 +17,6 @@
             <directory suffix="Test.php">testsuite</directory>
         </testsuite>
     </testsuites>
-
      <!-- Code coverage filters -->
     <filter>
         <whitelist>
@@ -31,7 +30,6 @@
             </exclude>
         </whitelist>
     </filter>
-
     <!-- Code coverage report, optional -->
 <!--
     <logging>
@@ -42,7 +40,6 @@
         <log type="coverage-clover" target="../../build/report/integration/clover.xml"/>
     </logging>
 -->
-
     <!-- PHP INI settings and constants definition -->
     <php>
         <includePath>.</includePath>
@@ -52,7 +49,7 @@
         <!-- Semicolon-separated 'glob' patterns, that match global XML configuration files -->
         <const name="TESTS_GLOBAL_CONFIG_FILES" value="../../../app/etc/*.xml"/>
         <!-- Semicolon-separated 'glob' patterns, that match module declaration XML configuration files -->
-        <const name="TESTS_MODULE_CONFIG_FILES" value="{../../../app/etc/modules/*.xml,etc/modules/XEnterprise_Enabler.xml}"/>
+        <const name="TESTS_MODULE_CONFIG_FILES" value="../../../app/etc/modules/*.xml;etc/modules/*.xml"/>
         <!-- Environment cleanup, optional. Possible values: uninstall, restoreDatabase -->
         <const name="TESTS_CLEANUP_ACTION" value="uninstall"/>
         <!-- CSV Profiler Output file -->
@@ -61,8 +58,9 @@
         <!--<const name="TESTS_BAMBOO_PROFILER_FILE" value="profiler.csv"/>-->
         <!-- Metrics for Bamboo Profiler Output in PHP file that returns array -->
         <!--<const name="TESTS_BAMBOO_PROFILER_METRICS_FILE" value="../../build/profiler_metrics.php"/>-->
+        <!-- Magento Developer Mode status during tests execution. Disabled by default, possible value is "enabled", and anything else will disable this mode.-->
+        <!--<const name="TESTS_MAGENTO_DEVELOPER_MODE" value="enabled"/>-->
     </php>
-
     <!-- Test listeners -->
     <listeners>
         <listener class="Magento_Test_Listener"/>

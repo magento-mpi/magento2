@@ -85,41 +85,16 @@ class Integrity_Theme_SkinFilesTest extends Magento_Test_TestCase_IntegrityAbstr
         $files = array();
         foreach ($skins as $view) {
             list($area, $package, $theme) = explode('/', $view);
-
-            // Collect getSkinUrl() from theme templates
-            $searchDir = Mage::getBaseDir('design') . DIRECTORY_SEPARATOR . $area . DIRECTORY_SEPARATOR . $package
-                . DIRECTORY_SEPARATOR . $theme;
-            $dirLength = strlen($searchDir);
-            foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($searchDir)) as $fileInfo) {
-                // Check that file path is valid
-                $relativePath = substr($fileInfo->getPath(), $dirLength);
-                if (!$this->_validateTemplatePath($relativePath)) {
-                    continue;
-                }
-
-                // Scan file for references to other files
-                foreach ($this->_findReferencesToSkinFile($fileInfo) as $file) {
-                    $files[$area][$package][$theme][] = $file;
-                }
-            }
-
-            // Collect "addCss" and "addJs" from theme layout
-            $layout = Mage::app()->getLayout()->getUpdate()->getFileLayoutUpdatesXml(
-                $area, $package, $theme
-            );
-            foreach ($layout->xpath('//action[@method="addCss" or @method="addJs"]/*[1]') as $filenameNode) {
-                $skinFile = (string) $filenameNode;
-                if ($this->_isFileForDisabledModule($skinFile)) {
-                    continue;
-                }
-                $files[$area][$package][$theme][] = $skinFile;
-            }
+            $this->_collectGetSkinUrlInvokes($area, $package, $theme, $files);
         }
 
         // Populate data provider in correspondence of skins to views
         $result = array();
         foreach ($skins as $view) {
             list($area, $package, $theme, $skin) = explode('/', $view);
+            if (!isset($files[$area][$package][$theme])) {
+                continue;
+            }
             foreach (array_unique($files[$area][$package][$theme]) as $file) {
                 $result["{$area}/{$package}/{$theme}/{$skin}/{$file}"] =
                     array($area, $package, $theme, $skin, $file);
@@ -127,6 +102,45 @@ class Integrity_Theme_SkinFilesTest extends Magento_Test_TestCase_IntegrityAbstr
         }
 
         return array_values($result);
+    }
+
+    /**
+     * Collect getSkinUrl() from theme templates
+     *
+     * @param string    $area
+     * @param string    $package
+     * @param string    $theme
+     * @param array     &$files
+     */
+    protected function _collectGetSkinUrlInvokes($area, $package, $theme, &$files)
+    {
+        $searchDir = Mage::getBaseDir('design') . DIRECTORY_SEPARATOR . $area . DIRECTORY_SEPARATOR . $package
+                . DIRECTORY_SEPARATOR . $theme;
+        $dirLength = strlen($searchDir);
+        foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($searchDir)) as $fileInfo) {
+            // Check that file path is valid
+            $relativePath = substr($fileInfo->getPath(), $dirLength);
+            if (!$this->_validateTemplatePath($relativePath)) {
+                continue;
+            }
+
+            // Scan file for references to other files
+            foreach ($this->_findReferencesToSkinFile($fileInfo) as $file) {
+                $files[$area][$package][$theme][] = $file;
+            }
+        }
+
+        // Collect "addCss" and "addJs" from theme layout
+        $layout = Mage::app()->getLayout()->getUpdate()->getFileLayoutUpdatesXml(
+            $area, $package, $theme
+        );
+        foreach ($layout->xpath('//action[@method="addCss" or @method="addJs"]/*[1]') as $filenameNode) {
+            $skinFile = (string)$filenameNode;
+            if ($this->_isFileForDisabledModule($skinFile)) {
+                continue;
+            }
+            $files[$area][$package][$theme][] = $skinFile;
+        }
     }
 
     /**

@@ -8,6 +8,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+if (!defined('PATH_TO_SOURCE_CODE')) {
+    define('PATH_TO_SOURCE_CODE', realpath(dirname(__FILE__) . '/../../../..'));
+}
 
 $includePath = array(
     __DIR__,

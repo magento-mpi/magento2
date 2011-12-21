@@ -201,18 +201,6 @@ class Mage_Core_Helper_DataTest extends PHPUnit_Framework_TestCase
         // arrays
         $this->assertEquals($decorated, $this->_helper->decorateArray($original, ''));
 
-        // StdClass
-        $sample = array(
-            (object)$original[0],
-            (object)$original[1],
-            (object)$original[2],
-        );
-        $this->assertEquals(array(
-            (object)$decorated[0],
-            (object)$decorated[1],
-            (object)$decorated[2],
-        ), $this->_helper->decorateArray($sample, ''));
-
         // Varien_Object
         $sample = array(
             new Varien_Object($original[0]),

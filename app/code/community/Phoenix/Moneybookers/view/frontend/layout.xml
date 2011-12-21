@@ -22,7 +22,7 @@
 
     <moneybookers_processing_placeform>
         <reference name="root">
-            <action method="setTemplate"><template>moneybookers/blank.phtml</template></action>
+            <action method="setTemplate"><template>Phoenix_Moneybookers::blank.phtml</template></action>
         </reference>
         <reference name="content">
             <block type="Phoenix_Moneybookers_Block_Placeform" name="moneybookers_placeform" template="placeform.phtml" />

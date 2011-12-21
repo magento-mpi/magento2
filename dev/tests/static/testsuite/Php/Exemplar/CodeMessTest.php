@@ -9,50 +9,89 @@
  * @license     {license_link}
  */
 
+/**
+ * Self-assessment for PHP Mess Detector tool and its configuration (rule set)
+ */
 class Php_Exemplar_CodeMessTest extends PHPUnit_Framework_TestCase
 {
-    protected $_actualReportFile;
+    const PHPMD_REQUIRED_VERSION = '1.1.0';
+
+    /**
+     * @var Inspection_MessDetector_Command
+     */
+    protected static $_cmd = null;
+
+    public static function setUpBeforeClass()
+    {
+        $rulesetFile = realpath(__DIR__ . '/../_files/phpmd/ruleset.xml');
+        $reportFile = __DIR__ . '/../../../tmp/phpmd_report.xml';
+        self::$_cmd = new Inspection_MessDetector_Command($rulesetFile, $reportFile);
+    }
 
     protected function setUp()
     {
-        if (!$this->_actualReportFile) {
-            $this->_actualReportFile = __DIR__ . '/../../../tmp/phpmd_report.xml';
-            $dirname = dirname($this->_actualReportFile);
-            if (!is_dir($dirname)) {
-                mkdir($dirname, 0777, true);
-            }
+        $reportFile = self::$_cmd->getReportFile();
+        if (!is_dir(dirname($reportFile))) {
+            mkdir(dirname($reportFile), 0777);
         }
     }
 
     protected function tearDown()
     {
-        if (file_exists($this->_actualReportFile)) {
-            unlink($this->_actualReportFile);
+        $reportFile = self::$_cmd->getReportFile();
+        if (file_exists($reportFile)) {
+            unlink($reportFile);
         }
+        rmdir(dirname($reportFile));
+    }
+
+    public function testRulesetFormat()
+    {
+        $rulesetFile = self::$_cmd->getRulesetFile();
+        $this->assertFileExists($rulesetFile);
+        $schemaFile = dirname($rulesetFile) . '/ruleset.xsd';
+
+        $doc = new DOMDocument();
+        $doc->load($rulesetFile);
+
+        libxml_use_internal_errors(true);
+        $isValid = $doc->schemaValidate($schemaFile);
+        $errors = "XML-file is invalid.\n";
+        if ($isValid === false) {
+            foreach (libxml_get_errors() as $error) {
+                /* @var libXMLError $error */
+                $errors .= "{$error->message} File: {$error->file} Line: {$error->line}\n";
+            }
+        }
+        libxml_use_internal_errors(false);
+        $this->assertTrue($isValid, $errors);
+    }
+
+    public function testPhpMdAvailability()
+    {
+        $this->assertTrue(self::$_cmd->canRun(), 'PHP Mess Detector command is not available.');
+        $minVersion = self::PHPMD_REQUIRED_VERSION;
+        $version = self::$_cmd->getVersion();
+        $this->assertTrue(version_compare($version, $minVersion, '>='),
+            "PHP Mess Detector minimal required version is '{$minVersion}'. The current version is '{$version}'."
+        );
     }
 
     /**
+     * @param string $inputFile
+     * @param string $expectedReportFile
+     * @depends testRulesetFormat
+     * @depends testPhpMdAvailability
      * @dataProvider ruleViolationDataProvider
      */
-    public function testRuleViolation($inputFile, $expectedReportFile, $minRequiredVersion = null)
+    public function testRuleViolation($inputFile, $expectedReportFile)
     {
-        $cmd = new Inspection_MessDetector_Command(
-            realpath(__DIR__ . '/../_files/phpmd/ruleset.xml'),
-            $this->_actualReportFile,
-            array($inputFile)
+        $this->assertFalse(self::$_cmd->run(
+            array($inputFile)), "PHP Mess Detector has failed to identify problem at the erroneous file {$inputFile}"
         );
-        if (!$cmd->canRun()) {
-            $this->markTestSkipped('PHP Mess Detector command line is not available.');
-        }
-        if ($minRequiredVersion && version_compare($cmd->getVersion(), $minRequiredVersion, '<')) {
-            $this->markTestSkipped("PHP Mess Detector minimal required version is {$minRequiredVersion}.");
-        }
-        $this->assertFileNotExists($this->_actualReportFile);
-        $this->assertFalse($cmd->run(), 'Command should end up with an error.');
-        $this->assertFileExists($this->_actualReportFile);
 
         /* Cleanup report from the variable information */
-        $actualReportXml = file_get_contents($this->_actualReportFile);
+        $actualReportXml = file_get_contents(self::$_cmd->getReportFile());
         $actualReportXml = preg_replace('/(?<!\?xml)\s+version=".+?"/', '', $actualReportXml, 1);
         $actualReportXml = preg_replace('/\s+(?:timestamp|externalInfoUrl)=".+?"/', '', $actualReportXml);
         $actualReportXml = str_replace(realpath($inputFile), basename($inputFile), $actualReportXml);
@@ -60,6 +99,9 @@ class Php_Exemplar_CodeMessTest extends PHPUnit_Framework_TestCase
         $this->assertXmlStringEqualsXmlFile($expectedReportFile, $actualReportXml);
     }
 
+    /**
+     * @return array
+     */
     public function ruleViolationDataProvider()
     {
         return array(
@@ -94,7 +136,6 @@ class Php_Exemplar_CodeMessTest extends PHPUnit_Framework_TestCase
             'prohibited statement goto' => array(
                 __DIR__ . '/_files/phpmd/input/prohibited_statement_goto.php',
                 __DIR__ . '/_files/phpmd/output/prohibited_statement_goto.xml',
-                '1.1.0',
             ),
             'inheritance depth' => array(
                 __DIR__ . '/_files/phpmd/input/inheritance_depth.php',
@@ -107,7 +148,6 @@ class Php_Exemplar_CodeMessTest extends PHPUnit_Framework_TestCase
             'coupling' => array(
                 __DIR__ . '/_files/phpmd/input/coupling.php',
                 __DIR__ . '/_files/phpmd/output/coupling.xml',
-                '1.1.0',
             ),
             'naming' => array(
                 __DIR__ . '/_files/phpmd/input/naming.php',

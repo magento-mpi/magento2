@@ -123,7 +123,7 @@ class Integrity_Theme_TemplateFilesTest extends Magento_Test_TestCase_IntegrityA
     {
         $attributes = $xmlNode->attributes();
         if (isset($attributes['type'])) {
-            $class = Mage::getConfig()->getBlockClassName($attributes['type']);
+            $class = Mage::getConfig()->getBlockClassName((string) $attributes['type']);
         } else {
             $class = Mage::getConfig()->getBlockClassName((string) $xmlNode);
         }

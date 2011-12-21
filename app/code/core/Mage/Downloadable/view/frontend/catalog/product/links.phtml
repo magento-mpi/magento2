@@ -15,7 +15,7 @@
         <?php $_links = $this->getLinks(); ?>
         <?php $_isRequired = $this->getLinkSelectionRequired(); ?>
         <dt><label<?php if ($_isRequired) echo ' class="required"' ?>><?php if ($_isRequired) echo '<em>*</em>' ?><?php echo $this->getLinksTitle() ?></label></dt>
-        <dd<?php /* if ($_option->decoratedIsLast){?> class="last"<?php } */ ?>>
+        <dd>
             <ul id="downloadable-links-list" class="options-list">
             <?php foreach ($_links as $_link): ?>
                 <li>
