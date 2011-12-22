@@ -1473,7 +1473,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
     protected function _getPerpackagePrice($cost, $handlingType, $handlingFee)
     {
         if ($handlingType == Mage_Shipping_Model_Carrier_Abstract::HANDLING_TYPE_PERCENT) {
-            return $cost + $this->_numBoxes * $handlingFee / 100;
+            return $cost + ($cost * $this->_numBoxes * $handlingFee / 100);
         }
 
         return $cost + $this->_numBoxes * $handlingFee;

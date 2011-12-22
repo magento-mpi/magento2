@@ -1223,8 +1223,9 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </handling_type>
-                        <handling_action translate="label">
+                        <handling_action translate="label comment">
                             <label>Handling Applied</label>
+                            <comment>"Per Order" allows single hadling fee for entire order. "Per Package" allows individual  handling fee for each package.</comment>
                             <frontend_type>select</frontend_type>
                             <source_model>shipping/source_handlingAction</source_model>
                             <sort_order>110</sort_order>
