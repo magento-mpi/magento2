@@ -245,6 +245,8 @@ class Magento_Test_Bootstrap
             'upload_dir'  => $this->_installDir . DIRECTORY_SEPARATOR . 'media' . DIRECTORY_SEPARATOR . 'upload',
         );
 
+        //TODO investigate /dev/tests/ code (Core trunk)
+        Mage::setIsDeveloperMode((int)$this->_localXml->global->development_mode);
         Mage::app($scopeCode, $scopeType, $this->_options);
     }
 
