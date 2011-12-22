@@ -178,7 +178,8 @@ dhl_int_common_configuration: &dhl_int_common_config
     dhl_int_account_number: 799909537
     dhl_int_displayed_error_message: This shipping method is currently unavailable. If you would like to ship using this shipping method, please contact us.
     dhl_int_ship_to_applicable_countries: All Allowed Countries
-    dhl_int_allowed_methods: all
+    dhl_int_content_type: Non documents
+    dhl_int_allowed_methods_nondoc: all
 
 dhl_int_ap_enable:
     configuration_scope: Default Config

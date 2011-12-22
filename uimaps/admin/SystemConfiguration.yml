@@ -2001,7 +2001,8 @@ system_configuration:
                                         dhl_int_show_method_if_not_applicable: //select[@id='carriers_dhlint_showmethod']
                                         dhl_int_debug: //select[@id='carriers_dhlint_debug']
                                     multiselects:
-                                        dhl_int_allowed_methods: //select[@id='carriers_dhlint_doc_methods']
+                                        dhl_int_allowed_methods_doc: //select[@id='carriers_dhlint_doc_methods' and not(@disabled)]
+                                        dhl_int_allowed_methods_nondoc: //select[@id='carriers_dhlint_nondoc_methods' and not(@disabled)]
                                         dhl_int_ship_to_specific_countries: //select[@id='carriers_dhlint_specificcountry']
                 -
                     sales_google_api:
