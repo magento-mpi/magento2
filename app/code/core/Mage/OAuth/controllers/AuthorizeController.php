@@ -63,11 +63,14 @@ class Mage_OAuth_AuthorizeController extends Mage_Core_Controller_Front_Action
         $token->setTmpVerifier($helper->generateToken(32));
         $token->save();
 
-        $callbackUrl = $token->getTmpCallbackUrl() . '?oauth_token=' . $token->getTmpToken()
-                       . '&amp;oauth_verifier=' . $token->getTmpVerifier();
+//        $callbackUrl = $token->getTmpCallbackUrl() . '?oauth_token=' . $token->getTmpToken()
+//                       . '&amp;oauth_verifier=' . $token->getTmpVerifier();
 
-        // Authentication form HTML
-        echo 'Here will be user auth form<br/><a href="' . $callbackUrl
-             . '">Yes, I grant rights for ' . $consumer->getName() . '</a><br>' . htmlspecialchars($callbackUrl);
+//        // Authentication form HTML
+//        echo 'Here will be user auth form<br/><a href="' . $callbackUrl
+//             . '">Yes, I grant rights for ' . $consumer->getName() . '</a><br>' . htmlspecialchars($callbackUrl);
+
+        $this->loadLayout();
+        $this->renderLayout();
     }
 }
