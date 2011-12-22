@@ -89,14 +89,15 @@ class Enterprise_Reward_Model_Observer
         $customer = $observer->getEvent()->getCustomer();
 
         $data = $request->getPost('reward');
-        $subscribeByDefault = Mage::helper('enterprise_reward')->getNotificationConfig('subscribe_by_default');
+        $subscribeByDefault = (int)Mage::helper('enterprise_reward')
+            ->getNotificationConfig('subscribe_by_default', (int)$customer->getWebsiteId());
         if ($customer->isObjectNew()) {
-            $data['reward_update_notification']  = (int)$subscribeByDefault;
-            $data['reward_warning_notification'] = (int)$subscribeByDefault;
+            $data['reward_update_notification']  = $subscribeByDefault;
+            $data['reward_warning_notification'] = $subscribeByDefault;
         }
 
-        $customer->setRewardUpdateNotification((isset($data['reward_update_notification']) ? 1 : 0));
-        $customer->setRewardWarningNotification((isset($data['reward_warning_notification']) ? 1 : 0));
+        $customer->setRewardUpdateNotification(!empty($data['reward_update_notification']) ? 1 : 0);
+        $customer->setRewardWarningNotification(!empty($data['reward_warning_notification']) ? 1 : 0);
 
         return $this;
     }
