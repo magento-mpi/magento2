@@ -225,12 +225,14 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
             $productEntityTypeId = Mage::getSingleton('eav/config')
                 ->getEntityType('catalog_product')
                 ->getEntityTypeId();
+
             $attributeCollection = Mage::getResourceSingleton('catalog/product_attribute_collection')
                 ->setEntityTypeFilter($productEntityTypeId)
-                ->addToIndexFilter();
+                ->addToIndexFilter()
+                ->getItems();
 
             $this->_indexableAttributeParams = array();
-            while ($item = $attributeCollection->fetchItem()) {
+            foreach ($attributeCollection as $item) {
                 $this->_indexableAttributeParams[$item->getAttributeCode()] = array(
                     'backendType'   => $item->getBackendType(),
                     'frontendInput' => $item->getFrontendInput(),
@@ -257,10 +259,10 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
         }
 
         $docs = array();
-        $attributeParams = $this->_getIndexableAttributeParams();
-        $this->_separator = Mage::getResourceSingleton('catalogsearch/fulltext')->getSeparator();
-        $fieldPrefix = Mage::getResourceSingleton('enterprise_search/engine')->getFieldsPrefix();
-        $fieldPrefixLength = strlen($fieldPrefix);
+        $attributeParams    = $this->_getIndexableAttributeParams();
+        $this->_separator   = Mage::getResourceSingleton('catalogsearch/fulltext')->getSeparator();
+        $fieldPrefix        = Mage::getResourceSingleton('enterprise_search/engine')->getFieldsPrefix();
+        $fieldPrefixLength  = strlen($fieldPrefix);
 
         foreach ($docData as $entityId => $index) {
             $doc = new $this->_clientDocObjectName;
@@ -348,7 +350,7 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
      *
      * @param array $data
      * @param array $attributesParams
-     * @param string|null $localCode
+     * @param string|null $localeCode
      *
      * @return array
      */

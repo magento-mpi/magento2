@@ -133,15 +133,13 @@ abstract class Enterprise_Search_Model_Adapter_Solr_Abstract extends Enterprise_
     }
 
     /**
-     * Prepare index data for using in Solr metadata
-     * Add language code suffix to text fields
-     * and type suffix for not text dynamic fields
-     *
-     * @see $this->_usedFields, $this->_searchTextFields
+     * Prepare index data for using in Solr metadata.
+     * Add language code suffix to text fields and type suffix for not text dynamic fields.
+     * Prepare sorting fields.
      *
      * @param array $data
      * @param array $attributesParams
-     * @param string|null $localCode
+     * @param string|null $localeCode
      *
      * @return array
      */

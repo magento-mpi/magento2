@@ -74,7 +74,7 @@ class Mage_CatalogSearch_Model_Resource_Fulltext_Engine extends Mage_Core_Model_
     {
         $data    = array();
         $storeId = (int)$storeId;
-        foreach ($entityIndexes as $entityId => &$index) {
+        foreach ($entityIndexes as $entityId => $index) {
             $data[] = array(
                 'product_id'    => (int)$entityId,
                 'store_id'      => $storeId,

@@ -84,12 +84,9 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Price extends Mage_Catalog_Mo
 
             if (!$isAuto && !empty($facets)) {
                 $range  = $this->getPriceRange();
-                $lastIndex = array_keys($facets);
-                $lastIndex = $lastIndex[count($lastIndex) - 1];
             }
 
             $i = 0;
-            $lastIndex = null;
             $maxIntervalsNumber = $this->getMaxIntervalsNumber();
             foreach ($facets as $key => $count) {
                 ++$i;
@@ -109,7 +106,7 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Price extends Mage_Catalog_Mo
 
                     $rangeKey = round($rangeKey, 2);
                     $separator[1] = ($rangeKey == 1) ? '' : (($rangeKey - 1) * $range);
-                    $separator[2] = ($key == $lastIndex) ? '' : ($rangeKey * $range);
+                    $separator[2] = ($key == null) ? '' : ($rangeKey * $range);
                     // checking max number of intervals
                     if ($i > 1 && $i > $maxIntervalsNumber) {
                         --$i;
@@ -126,7 +123,8 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Price extends Mage_Catalog_Mo
                     'to'    => $separator[2],
                 );
             }
-            if ($data[$i - 1]['from'] != $data[$i - 1]['to']) {
+
+            if (isset($data[$i - 1]) && $data[$i - 1]['from'] != $data[$i - 1]['to']) {
                 $data[$i - 1]['value'] = $data[$i - 1]['from'] . '-';
                 $data[$i - 1]['label'] = $this->_renderRangeLabel(empty($separator[1]) ? 0 : $separator[1], '');
             }
