@@ -33,28 +33,42 @@
  */
 class Mage_Captcha_Model_Zend extends Zend_Captcha_Image implements Mage_Captcha_Model_Interface
 {
-    const SESSION_CAPTCHA_ID = 'id';
-    const SESSION_WORD = 'word';
-    const DEFAULT_WORD_LENGTH_FROM = 3;
-    const DEFAULT_WORD_LENGTH_TO   = 5;
-    const SESSION_FAILED_ATTEMPTS = 'failed_attempts';
-
-    /* @var Mage_Captcha_Helper_Interface */
-    protected $_helper = null;
-    // "alt" parameter of captcha's <img> tag
-    protected $_imgAlt = "CAPTCHA";
-    protected $_expiration;
-    // Chance of garbage collection per captcha generation (1 = each time). Removes captcha image files for same formId
-    // in case user clicked "refresh"
-    protected $_gcFreq = 1;
-    // Chance of parent garbage collection (which removes old files)
-    protected $_parentGcFreq = 10;
-    protected $_word;
-    protected  $_formId;
     /**
-     * @var Mage_Captcha_Model_Session
+     * key in session for captcha code
      */
-    protected $_session;
+    const SESSION_WORD = 'word';
+    /**
+     * Min captcha lengths default value
+     */
+    const DEFAULT_WORD_LENGTH_FROM = 3;
+    /**
+     * Max captcha lengths default value
+     */
+    const DEFAULT_WORD_LENGTH_TO   = 5;
+    /**
+     * key in session for keeping captcha attempts
+     */
+    const SESSION_FAILED_ATTEMPTS = 'failed_attempts';
+    /**
+     * Helper Instance
+     * @var Mage_Captcha_Helper_Interface
+     */
+    protected $_helper = null;
+    /**
+     * captcha expire time
+     * @var int
+     */
+    protected $_expiration;
+    /**
+     * Change how often script should clear expired captcha image
+     * @var int
+     */
+    protected $_gcFreq = 1;
+    /**
+     * Captcha form id
+     * @var string
+     */
+    protected  $_formId;
 
     /**
      * Zend captcha constructor
@@ -96,7 +110,7 @@ class Mage_Captcha_Model_Zend extends Zend_Captcha_Image implements Mage_Captcha
             return true;
         }
 
-        $loggedFailedAttempts = (int)$this->getSession()->getDataIgnoreTtl(self::SESSION_FAILED_ATTEMPTS);
+        $loggedFailedAttempts = (int)$this->getSession()->getData($this->_formId . '_' . self::SESSION_FAILED_ATTEMPTS);
         $showAfterFailedAttempts = (int)$this->_getHelper()->getConfigNode('failed_attempts');
         return $loggedFailedAttempts >= $showAfterFailedAttempts;
     }
@@ -175,18 +189,6 @@ class Mage_Captcha_Model_Zend extends Zend_Captcha_Image implements Mage_Captcha
     }
 
     /**
-     * Generate captcha
-     *
-     * @return string
-     */
-    public function generate()
-    {
-        $id = parent::generate();
-        $this->getSession()->setData(self::SESSION_CAPTCHA_ID, $id);
-        return $id;
-    }
-
-    /**
      * Checks whether captcha was guessed correctly by user
      *
      * @param string $word
@@ -194,7 +196,8 @@ class Mage_Captcha_Model_Zend extends Zend_Captcha_Image implements Mage_Captcha
      */
     public function isCorrect($word)
     {
-        $storedWord = $this->getSession()->getData(self::SESSION_WORD, true);
+        $storedWord = $this->getWord();
+        $this->_clearWord();
 
         if (!$word || !$storedWord){
             return false;
@@ -214,11 +217,7 @@ class Mage_Captcha_Model_Zend extends Zend_Captcha_Image implements Mage_Captcha
      */
     public function getSession()
     {
-        if (!$this->_session) {
-            $params = array('formId' => $this->_formId, 'lifetime' => $this->getTimeout());
-            $this->_session = Mage::getSingleton('captcha/session', $params);
-        }
-        return $this->_session;
+        return Mage::getSingleton('customer/session');
     }
 
      /**
@@ -234,13 +233,13 @@ class Mage_Captcha_Model_Zend extends Zend_Captcha_Image implements Mage_Captcha
     /**
      * log Attempt
      *
-     * @return Captcha_Zend_Model_DB
+     * @return Mage_Captcha_Model_Zend
      */
     public function logAttempt()
     {
-        $attemptCount = (int)$this->getSession()->getDataIgnoreTtl(self::SESSION_FAILED_ATTEMPTS);
+        $attemptCount = (int)$this->getSession()->getData($this->_formId . '_' . self::SESSION_FAILED_ATTEMPTS);
         $attemptCount++;
-        $this->getSession()->setData(self::SESSION_FAILED_ATTEMPTS, $attemptCount);
+        $this->getSession()->setData($this->_formId . '_' . self::SESSION_FAILED_ATTEMPTS, $attemptCount);
         return $this;
     }
 
@@ -286,8 +285,8 @@ class Mage_Captcha_Model_Zend extends Zend_Captcha_Image implements Mage_Captcha
     {
         $word = '';
         $symbols = $this->_getSymbols();
-        $worldLen = $this->_getWordLen();
-        for ($i = 0; $i < $worldLen; $i++) {
+        $wordLen = $this->_getWordLen();
+        for ($i = 0; $i < $wordLen; $i++) {
             $word .= $symbols[array_rand($symbols)];
         }
         return $word;
@@ -373,5 +372,43 @@ class Mage_Captcha_Model_Zend extends Zend_Captcha_Image implements Mage_Captcha
     {
         $formsString = (string) $this->_getHelper()->getConfigNode('forms');
         return explode(',', $formsString);
+    }
+
+    /**
+     * Get captcha word
+     *
+     * @return string
+     */
+    public function getWord()
+    {
+        $sessionData = $this->getSession()->getData($this->_formId . '_' . self::SESSION_WORD);
+        return time() < $sessionData['expires'] ? $sessionData['data'] : null;
+    }
+
+    /**
+     * Set captcha word
+     *
+     * @param  string $word
+     * @return Zend_Captcha_Word
+     */
+    protected function _setWord($word)
+    {
+        $this->getSession()->setData($this->_formId . '_' . self::SESSION_WORD,
+            array('data' => $word, 'expires' => time() + $this->getTimeout())
+        );
+        $this->_word = $word;
+        return $this;
+    }
+
+    /**
+     * Set captcha word
+     *
+     * @return Mage_Captcha_Model_Zend
+     */
+    protected function _clearWord()
+    {
+        $this->getSession()->unsetData($this->_formId . '_' . self::SESSION_WORD);
+        $this->_word = null;
+        return $this;
     }
 }

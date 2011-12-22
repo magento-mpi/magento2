@@ -50,6 +50,7 @@ class Mage_Captcha_Helper_Data extends Mage_Core_Helper_Abstract
     const XML_PATH_CAPTCHA_FONTS = 'default/captcha/fonts';
 
     /**
+     * List uses Models of Captcha
      * @var array
      */
     protected $_captcha = array();

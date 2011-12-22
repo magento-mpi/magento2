@@ -158,52 +158,52 @@
             <controller_action_predispatch_customer_account_loginPost>
                 <observers>
                     <captcha>
-                        <class>captcha/observer_userLogin</class>
-                        <method>checkCaptcha</method>
+                        <class>captcha/observer</class>
+                        <method>checkUserLogin</method>
                     </captcha>
                 </observers>
             </controller_action_predispatch_customer_account_loginPost>
             <controller_action_predispatch_customer_account_forgotpasswordpost>
                 <observers>
                     <captcha>
-                        <class>captcha/observer_forgotPassword</class>
-                        <method>checkCaptcha</method>
+                        <class>captcha/observer</class>
+                        <method>checkForgotPassword</method>
                     </captcha>
                 </observers>
             </controller_action_predispatch_customer_account_forgotpasswordpost>
             <controller_action_predispatch_customer_account_createpost>
                 <observers>
                     <captcha>
-                        <class>captcha/observer_createUser</class>
-                        <method>checkCaptcha</method>
+                        <class>captcha/observer</class>
+                        <method>createUser</method>
                     </captcha>
                 </observers>
             </controller_action_predispatch_customer_account_createpost>
             <controller_action_predispatch_adminhtml_index_forgotpassword>
                 <observers>
                     <captcha>
-                        <class>captcha/observer_forgotPasswordBackend</class>
-                        <method>checkCaptcha</method>
+                        <class>captcha/observer</class>
+                        <method>checkUserForgotPasswordBackend</method>
                     </captcha>
                 </observers>
             </controller_action_predispatch_adminhtml_index_forgotpassword>
             <admin_user_authenticate_before>
                 <observers>
                     <captcha>
-                        <class>captcha/observer_userLoginBackend</class>
-                        <method>checkCaptcha</method>
+                        <class>captcha/observer</class>
+                        <method>checkUserLoginBackend</method>
                     </captcha>
                 </observers>
             </admin_user_authenticate_before>
             <controller_action_predispatch_checkout_onepage_saveBilling>
                 <observers>
                     <captcha_guest>
-                        <class>captcha/observer_guestCheckout</class>
-                        <method>checkCaptcha</method>
+                        <class>captcha/observer</class>
+                        <method>checkGuestCheckout</method>
                     </captcha_guest>
                     <captcha_register>
-                        <class>captcha/observer_registerCheckout</class>
-                        <method>checkCaptcha</method>
+                        <class>captcha/observer</class>
+                        <method>checkRegisterCheckout</method>
                     </captcha_register>
                 </observers>
             </controller_action_predispatch_checkout_onepage_saveBilling>
