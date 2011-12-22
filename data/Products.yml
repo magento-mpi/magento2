@@ -1730,23 +1730,23 @@ bundle_options_to_add_to_shopping_cart:
         parameters:
             title: Multiple Select
         options_to_choose:
-            custom_option_multiselect: hucfu_Simple Product Visible, xtiju_Simple Product Visible, oykwp_Simple Product For Order
+            custom_option_multiselect: %noValue%
     option_2:
         parameters:
             title: Checkbox
-            optionTitle: hucfu_Simple Product Visible
+            optionTitle: %noValue%
         options_to_choose:
             custom_option_checkbox: Yes
     option_3:
         parameters:
             title: Checkbox
-            optionTitle: tiju_Simple Product Visible
+            optionTitle: %noValue%
         options_to_choose:
             custom_option_checkbox: Yes
     option_4:
         parameters:
             title: Radio Buttons
-            optionTitle: hucfu_Simple Product Visible
+            optionTitle: %noValue%
         options_to_choose:
             custom_option_radiobutton: Yes
             bundle_item_qty: 3
@@ -1754,7 +1754,7 @@ bundle_options_to_add_to_shopping_cart:
         parameters:
             title: Drop-down
         options_to_choose:
-            custom_option_dropdown: hucfu_Simple Product Visible
+            custom_option_dropdown: %noValue%
             bundle_item_qty: 3
 
 configurable_options_to_add_to_shopping_cart:
@@ -1762,30 +1762,12 @@ configurable_options_to_add_to_shopping_cart:
         parameters:
             title: test
         options_to_choose:
-            custom_option_dropdown: Dropdown_StoreView_1
+            custom_option_dropdown: %noValue%
 
 grouped_options_to_add_to_shopping_cart:
-    option_1:
+    option_1: &productGroup
         parameters:
-            subproductName: xtiju_Simple Product Visible
-        options_to_choose:
-            grouped_subproduct_qty: 10
-    option_2:
-        parameters:
-            subproductName: hucfu_Simple Product Visible
+            subproductName: %noValue%
         options_to_choose:
             grouped_subproduct_qty: 5
-
-product_to_add_to_shop:
-    simple:
-        general_name: opdzs_Simple Product Visible
-#    virtual:
-#        general_name: qjlfk_Virtual Product Visible
-#    downloadable:
-#        general_name: ncngs_Downloadable Product Visible
-#    bundle:
-#        general_name: ziexj_Bundle(Fixed) Product
-#    configurable:
-#        general_name: difoe_Configurable Product
-#    grouped:
-#        general_name: rpjpz_Grouped Product
+    option_2: *productGroup

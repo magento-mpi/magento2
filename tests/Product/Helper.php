@@ -917,20 +917,12 @@ class Product_Helper extends Mage_Selenium_TestCase
 //            $this->pleaseWait();
 //        }
         foreach ($dataForBuy as $value) {
-            if (isset($value['parameters'])) {
-                if (isset($value['parameters']['title'])) {
-                    $this->addParameter('title', $value['parameters']['title']);
-                }
-                if (isset($value['parameters']['optionTitle'])) {
-                    $this->addParameter('optionTitle', $value['parameters']['optionTitle']);
-                }
-                if (isset($value['parameters']['subproductName'])) {
-                    $this->addParameter('subproductName', $value['parameters']['subproductName']);
-                }
+            $fill = (isset($value['options_to_choose'])) ? $value['options_to_choose'] : array();
+            $params = (isset($value['parameters'])) ? $value['parameters'] : array();
+            foreach ($params as $key => $value) {
+                $this->addParameter($key, $value);
             }
-            if (isset($value['options_to_choose'])) {
-                $this->fillForm($value['options_to_choose']);
-            }
+            $this->fillForm($fill);
         }
     }
 
