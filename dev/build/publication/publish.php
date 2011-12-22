@@ -49,8 +49,8 @@ try {
     exec("$gitCmd log -1", $output);
     if ($commitMsg == getOriginalCommitMessage($output)) {
         throw new Exception('The last commit message in the target repository is the same as the last entry'
-    	    . " in changelog.txt file. Most likely you forgot to update the changelog.txt):\n\n{$commitMsg}"
-    	);
+            . " in changelog.txt file. Most likely you forgot to update the changelog.txt):\n\n{$commitMsg}"
+        );
     }
     execVerbose("$gitCmd remote add source %s", $sourceRepository);
     execVerbose("$gitCmd fetch source");
@@ -122,10 +122,10 @@ function getOriginalCommitMessage($output)
 {
     $message = '';
     do {
-	$fragment = array_shift($output);
+        $fragment = array_shift($output);
     } while ($fragment != ''); // the fragment with empty string is a divider between meta info and commit message
     foreach ($output as $fragment) {
-	$message .= substr($fragment, 4); // each line of the message is crippled with 4 spaces in the beginning
+        $message .= substr($fragment, 4); // each line of the message is crippled with 4 spaces in the beginning
     }
     return trim($message);
 }
