@@ -25,10 +25,10 @@
  */
 
 /**
- * Downloadable File upload controller
+ * Manage consumers controller
  *
  * @category    Mage
- * @package     Mage_Downloadable
+ * @package     Mage_OAuth
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_OAuth_Adminhtml_OAuth_ConsumerController extends Mage_Adminhtml_Controller_Action

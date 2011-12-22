@@ -44,7 +44,6 @@ class Mage_OAuth_Model_Consumer_Validator_KeyLength extends Zend_Validate_String
      * Sets validator options
      *
      * @param  integer|array|Zend_Config $options
-     * @return void
      */
     public function __construct($options = array())
     {
@@ -68,7 +67,9 @@ class Mage_OAuth_Model_Consumer_Validator_KeyLength extends Zend_Validate_String
     }
 
     /**
-     * Init message templates
+     * Init validation failure message template definitions
+     *
+     * @return Mage_OAuth_Model_Consumer_Validator_KeyLength
      */
     protected function _initMessageTemplates()
     {
@@ -79,6 +80,7 @@ class Mage_OAuth_Model_Consumer_Validator_KeyLength extends Zend_Validate_String
                 $helper->__("%name% '%value%' is too long. It must has length %min% symbols.");
         $_messageTemplates[self::TOO_SHORT] =
                 $helper->__("%name% '%value%' is too short. It must has length %min% symbols.");
+        return $this;
     }
 
     /**

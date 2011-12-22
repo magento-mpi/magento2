@@ -92,11 +92,12 @@ class Mage_OAuth_Model_Consumer extends Mage_Core_Model_Abstract
      */
     public function validate()
     {
-        if ($this->getCallBackUrl()) {
+        if ($this->getCallbackUrl()) {
             /** @var $validatorUrl Mage_OAuth_Model_Consumer_Validator_CallbackUrl */
             $validatorUrl = Mage::getSingleton('oauth/consumer_validator_callbackUrl');
-            if (!$validatorUrl->isValid($this->getCallBackUrl())) {
-                Mage::throwException(array_shift($validatorUrl->getMessages()));
+            if (!$validatorUrl->isValid($this->getCallbackUrl())) {
+                $messages = $validatorUrl->getMessages();
+                Mage::throwException(array_shift($messages));
             }
         }
 
@@ -107,13 +108,15 @@ class Mage_OAuth_Model_Consumer extends Mage_Core_Model_Abstract
 
         $validatorLength->setName('Consumer Key');
         if (!$validatorLength->isValid($this->getKey())) {
-            Mage::throwException(array_shift($validatorLength->getMessages()));
+            $messages = $validatorLength->getMessages();
+            Mage::throwException(array_shift($messages));
         }
 
         $validatorLength->setLength(self::SECRET_LENGTH);
         $validatorLength->setName('Consumer Secret');
         if (!$validatorLength->isValid($this->getSecret())) {
-            Mage::throwException(array_shift($validatorLength->getMessages()));
+            $messages = $validatorLength->getMessages();
+            Mage::throwException(array_shift($messages));
         }
         return true;
     }
