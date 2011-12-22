@@ -88,10 +88,10 @@ class Mage_OAuth_Model_Consumer extends Mage_Core_Model_Abstract
      * Validate data
      *
      * @return array|bool
+     * @throw Mage_Core_Exception|Exception   Throw exception on fail validation
      */
     public function validate()
     {
-        $errors = array();
         if ($this->getCallBackUrl()) {
             /** @var $validatorUrl Mage_OAuth_Model_Consumer_Validator_CallbackUrl */
             $validatorUrl = Mage::getSingleton('oauth/consumer_validator_callbackUrl');
@@ -101,7 +101,10 @@ class Mage_OAuth_Model_Consumer extends Mage_Core_Model_Abstract
         }
 
         /** @var $validatorLength Mage_OAuth_Model_Consumer_Validator_KeyLength */
-        $validatorLength = Mage::getSingleton('oauth/consumer_validator_keyLength', self::KEY_LENGTH);
+        $validatorLength = Mage::getModel(
+            'oauth/consumer_validator_keyLength',
+            array('length' => self::KEY_LENGTH));
+
         $validatorLength->setName('Consumer Key');
         if (!$validatorLength->isValid($this->getKey())) {
             Mage::throwException(array_shift($validatorLength->getMessages()));
