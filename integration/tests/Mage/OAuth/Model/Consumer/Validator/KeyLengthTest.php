@@ -41,8 +41,7 @@ class Mage_OAuth_Model_Consumer_Validator_KeyLengthTest extends Magento_TestCase
      */
     public function testValidationFailure($url)
     {
-        $validator = new Mage_OAuth_Model_Consumer_Validator_KeyLength();
-        $validator->setLength(self::KEY_LENGTH);
+        $validator = new Mage_OAuth_Model_Consumer_Validator_KeyLength(self::KEY_LENGTH);
         $this->assertFalse(
             $validator->isValid($url),
             'Expected failing validation.');
