@@ -36,16 +36,48 @@
  */
 class CheckoutMultipleAddresses_WithRegistration_WithProductsTest extends Mage_Selenium_TestCase
 {
+    protected static $productsPreConditions = array();
+
     /**
      * <p>Login to backend</p>
      */
-    public function setUpBeforeTests()
+    public function assertPreConditions()
     {
         $this->loginAdminUser();
     }
 
     /**
-     * <p>Checkout with multiple addresses with each product types with all options</p>
+     * <p>Preconditions</p>
+     * <p>Create attribute</p>
+     *
+     * @test
+     */
+    public function createAttribute()
+    {
+        //Data
+        $attrData = $this->loadData('product_attribute_dropdown_with_options', NULL,
+                array('admin_title', 'attribute_code'));
+        $associatedAttributes = $this->loadData('associated_attributes',
+                array('General' => $attrData['attribute_code']));
+        //Steps
+        $this->loginAdminUser();
+        $this->navigate('manage_attributes');
+        $this->productAttributeHelper()->createAttribute($attrData);
+        $this->assertMessagePresent('success', 'success_saved_attribute');
+        $this->navigate('manage_attribute_sets');
+        $this->attributeSetHelper()->openAttributeSet();
+        $this->attributeSetHelper()->addAttributeToSet($associatedAttributes);
+        $this->addParameter('attributeName', 'Default');
+        $this->saveForm('save_attribute_set');
+        //Verification
+        $this->assertMessagePresent('success', 'success_attribute_set_saved');
+
+        return $attrData;
+    }
+
+    /**
+     * <p>Checkout with multiple addresses simple/virtual/downloadable products and adding it to bundle and</p>
+     * <p>associated product</p>
      * <p>Preconditions:</p>
      * <p>1.Product is created;</p>
      * <p>Steps:</p>
@@ -63,26 +95,445 @@ class CheckoutMultipleAddresses_WithRegistration_WithProductsTest extends Mage_S
      * <p>Expected result:</p>
      * <p>Checkout is successful;</p>
      *
-     * @dataProvider productData
+     * @depends createAttribute
+     * @param string $productType
+     * @param string $productDataSet
+     * @dataProvider productDataSimple
      * @test
      */
-    public function multiCheckoutAllOptionsRegister($productDataSet, $productType)
+    public function createProductForAssociated($productDataSet, $productType, $attrData)
     {
+        //Data
+        $productData = $this->loadData($productDataSet, NULL, array('general_name', 'general_sku'));
+        $productData['general_user_attr']['dropdown'][$attrData['attribute_code']] =
+                $attrData['option_1']['admin_option_name'];
+        $checkoutData = $this->loadData('multiple_with_register_flatrate_checkmoney');
+        $checkoutData['shipping_address_data']['address_to_ship_1']['general_name'] = $productData['general_name'];
+        $checkoutData['products_to_add']['product_1']['general_name'] = $productData['general_name'];
+        if(preg_match('/virtual_product_visible/', $productDataSet) ||
+           preg_match('/downloadable_product_visible_multi_checkout/', $productDataSet)) {
+                $checkoutData['products_to_add']['product_2'] = self::$productsPreConditions['simple_product_visible'];
+                $checkoutData['shipping_address_data']['address_to_ship_1']['general_name'] =
+                        self::$productsPreConditions['simple_product_visible']['general_name'];
+            }
+        //Steps
+        $this->navigate('manage_products');
+        $this->productHelper()->createProduct($productData, $productType);
+        //Verification
+        $this->assertMessagePresent('success', 'success_saved_product');
 
-    }
+        self::$productsPreConditions[$productDataSet]['general_name'] = $productData['general_name'];
+        self::$productsPreConditions[$productDataSet]['general_sku'] = $productData['general_sku'];
+        //Steps
+        $this->frontend();
+        $this->checkoutMultipleAddressesHelper()->frontCreateMultipleCheckout($checkoutData);
+        //Verification
+        $this->assertMessagePresent('success', 'success_checkout');
+        }
 
-    public function productData()
+    public function productDataSimple()
     {
         return array(
-//            array('dynamic_bundle_visible', 'bundle'),
-//            array('fixed_bundle_visible', 'bundle'),
-//            array('simple_product_visible'),
-//            array('simple_product'),
-//            array('virtual_product_visible', 'virtual'),
-//            array('virtual_product', 'virtual'),
-//            array('downloadable_product_visible', 'downloadable'),
-//            array('configurable_product_visible', 'configurable'),
-//            array('grouped_product_visible', 'grouped')
+            array('simple_product_visible', 'simple'),
+            array('virtual_product_visible', 'virtual'),
+            array('downloadable_product_visible_multi_checkout', 'downloadable')
+        );
+    }
+    /**
+     * <p>Checkout with multiple addresses simple/virtual/downloadable products with custom options</p>
+     * <p>Preconditions:</p>
+     * <p>1.Product is created;</p>
+     * <p>Steps:</p>
+     * <p>1. Open product page;</p>
+     * <p>2. Add product to Shopping Cart;</p>
+     * <p>3. Click "Checkout with Multiple Addresses";</p>
+     * <p>4. Select Checkout Method with Registering;</p>
+     * <p>5. Fill in Personal/Address/Login info;</p>
+     * <p>6. Check success registration message;</p>
+     * <p>7. Select Shipping Addresses and click "Continue to Shipping Information";</p>
+     * <p>8. Fill in Shipping Information tab and click "Continue to Billing Information";</p>
+     * <p>9. Fill in Billing Information tab and click "Continue to Review Your Order";</p>
+     * <p>10. Verify information into "Order Review" tab;</p>
+     * <p>11. Place order;</p>
+     * <p>Expected result:</p>
+     * <p>Checkout is successful;</p>
+     *
+     * @depends createCustomer
+     * @param string $productType
+     * @param string $productDataSet
+     * @dataProvider productDataSetSimple
+     * @test
+     * @return string
+     */
+    public function createSimpleTypesProducts($productDataSet, $productType, $customerData)
+    {
+        //Data
+        $productData = $this->loadData($productDataSet);
+        $customOptions = $this->loadData('custom_options_to_add_to_shopping_cart');
+        $customOptionsDownloadableLinks = $this->loadData('downloadable_options_to_add_to_shopping_cart');
+        $checkoutData = $this->loadData('multiple_with_register_flatrate_checkmoney');
+        $checkoutData['shipping_address_data']['address_to_ship_1']['general_name'] = $productData['general_name'];
+        $checkoutData['products_to_add']['product_1']['general_name'] = $productData['general_name'];
+        if(preg_match('/virtual_/', $productDataSet) || preg_match('/downloadable_/', $productDataSet)) {
+            $checkoutData['products_to_add']['product_2'] = self::$productsPreConditions['simple_product_visible'];
+            $checkoutData['shipping_address_data']['address_to_ship_1']['general_name'] =
+                self::$productsPreConditions['simple_product_visible']['general_name'];
+        }
+        if(preg_match('/_options/', $productDataSet)) {
+            $checkoutData['products_to_add']['product_1']['options'] = $customOptions;
+        }
+        if(preg_match('/_options_links/', $productDataSet)) {
+            $checkoutData['products_to_add']['product_1']['options'] = $customOptions;
+            $checkoutData['products_to_add']['product_1']['options']['option_10'] =
+                $customOptionsDownloadableLinks['option_1'];
+        }
+        //Steps
+        $this->navigate('manage_products');
+        $this->productHelper()->createProduct($productData, $productType);
+        //Verification
+        $this->assertMessagePresent('success', 'success_saved_product');
+        //Steps
+        $this->frontend();
+        $this->customerHelper()->frontLoginCustomer($customerData);
+        $this->shoppingCartHelper()->frontClearShoppingCart();
+        $this->checkoutMultipleAddressesHelper()->frontCreateMultipleCheckout($checkoutData);
+        //Verification
+        $this->assertMessagePresent('success', 'success_checkout');
+    }
+
+    public function productDataSetSimple()
+    {
+        return array(
+            array('simple_multi_checkout_options', 'simple'),
+            array('virtual_multi_checkout_options', 'virtual'),
+            array('downloadable_multi_checkout_options_no_links', 'downloadable'),
+            array('downloadable_multi_checkout_no_links', 'downloadable'),
+            array('downloadable_multi_checkout_options_links', 'downloadable'),
+            array('downloadable_multi_checkout', 'downloadable')
+        );
+    }
+
+    /**
+     * <p>Checkout with multiple addresses grouped product</p>
+     * <p>Preconditions:</p>
+     * <p>1.Product is created;</p>
+     * <p>Steps:</p>
+     * <p>1. Open product page;</p>
+     * <p>2. Add product to Shopping Cart;</p>
+     * <p>3. Click "Checkout with Multiple Addresses";</p>
+     * <p>4. Select Checkout Method with Registering;</p>
+     * <p>5. Fill in Personal/Address/Login info;</p>
+     * <p>6. Check success registration message;</p>
+     * <p>7. Select Shipping Addresses and click "Continue to Shipping Information";</p>
+     * <p>8. Fill in Shipping Information tab and click "Continue to Billing Information";</p>
+     * <p>9. Fill in Billing Information tab and click "Continue to Review Your Order";</p>
+     * <p>10. Verify information into "Order Review" tab;</p>
+     * <p>11. Place order;</p>
+     * <p>Expected result:</p>
+     * <p>Checkout is successful;</p>
+     *
+     * @depends createCustomer
+     * @depends createProductForAssociated
+     * @test
+     */
+
+    public function createGroupedProduct($customerData)
+    {
+        //Data
+        $productData = $this->loadData('grouped_product_visible',
+            array('associated_search_sku' => self::$productsPreConditions['simple_product_visible']['general_sku']),
+            array('general_name', 'general_sku'));
+        $productData['associated_grouped_data']['associated_grouped_2'] = $this->loadData('associated_grouped',
+            array('associated_search_sku' => self::$productsPreConditions['virtual_product_visible']['general_sku']));
+        $productData['associated_grouped_data']['associated_grouped_3'] = $this->loadData('associated_grouped',
+            array('associated_search_sku' =>
+                self::$productsPreConditions['downloadable_product_visible_multi_checkout']['general_sku']));
+        $checkoutData = $this->loadData('multiple_with_register_flatrate_checkmoney');
+        $checkoutData['shipping_address_data']['address_to_ship_1']['general_name'] =
+                self::$productsPreConditions['simple_product_visible']['general_name'];
+        $checkoutData['products_to_add']['product_1']['general_name'] = $productData['general_name'];
+        $checkoutDataGrouped = $this->loadData('grouped_options_to_add_to_shopping_cart');
+        $checkoutDataGrouped['option_1']['parameters']['subproductName'] =
+                self::$productsPreConditions['simple_product_visible']['general_name'];
+        $checkoutDataGrouped['option_2']['parameters']['subproductName'] =
+                self::$productsPreConditions['virtual_product_visible']['general_name'];
+        $checkoutDataGrouped['option_3']['parameters']['subproductName'] =
+                self::$productsPreConditions['downloadable_product_visible_multi_checkout']['general_name'];
+        $checkoutData['products_to_add']['product_1']['options'] = $checkoutDataGrouped;
+        //Steps
+        $this->navigate('manage_products');
+        $this->productHelper()->createProduct($productData, 'grouped');
+        //Verification
+        $this->assertMessagePresent('success', 'success_saved_product');
+        //Steps
+        $this->frontend();
+        $this->customerHelper()->frontLoginCustomer($customerData);
+        $this->shoppingCartHelper()->frontClearShoppingCart();
+        $this->checkoutMultipleAddressesHelper()->frontCreateMultipleCheckout($checkoutData);
+        //Verification
+        $this->assertMessagePresent('success', 'success_checkout');
+    }
+
+    /**
+     * <p>Checkout with multiple addresses bundle products</p>
+     * <p>Preconditions:</p>
+     * <p>1.Product is created;</p>
+     * <p>Steps:</p>
+     * <p>1. Open product page;</p>
+     * <p>2. Add product to Shopping Cart;</p>
+     * <p>3. Click "Checkout with Multiple Addresses";</p>
+     * <p>4. Select Checkout Method with Registering;</p>
+     * <p>5. Fill in Personal/Address/Login info;</p>
+     * <p>6. Check success registration message;</p>
+     * <p>7. Select Shipping Addresses and click "Continue to Shipping Information";</p>
+     * <p>8. Fill in Shipping Information tab and click "Continue to Billing Information";</p>
+     * <p>9. Fill in Billing Information tab and click "Continue to Review Your Order";</p>
+     * <p>10. Verify information into "Order Review" tab;</p>
+     * <p>11. Place order;</p>
+     * <p>Expected result:</p>
+     * <p>Checkout is successful;</p>
+     *
+     * @depends createCustomer
+     * @dataProvider productDataSetBundle
+     * @test
+     */
+
+    public function createBundleProducts($productDataSet, $customerData)
+    {
+        //Data
+        $productData = $this->loadData($productDataSet, array('add_product_1/bundle_items_search_sku' =>
+            self::$productsPreConditions['simple_product_visible']['general_sku'],
+            'add_product_2/bundle_items_search_sku' =>
+            self::$productsPreConditions['virtual_product_visible']['general_sku']));
+        $customOptions = $this->loadData('custom_options_to_add_to_shopping_cart');
+        $customOptionsBundle = $this->loadData('bundle_options_to_add_to_shopping_cart',
+            array('custom_option_multiselect' => self::$productsPreConditions['simple_product_visible']['general_name'],
+            'optionTitle' => self::$productsPreConditions['simple_product_visible']['general_name'],
+            'custom_option_dropdown' => self::$productsPreConditions['simple_product_visible']['general_name']));
+        $checkoutData = $this->loadData('multiple_with_register_flatrate_checkmoney');
+        $checkoutData['shipping_address_data']['address_to_ship_1']['general_name'] = $productData['general_name'];
+        $checkoutData['products_to_add']['product_1']['general_name'] = $productData['general_name'];
+        $checkoutData['products_to_add']['product_1']['options'] = $customOptionsBundle;
+        if(preg_match('/fixed_bundle_multi_checkout_options/', $productDataSet)) {
+            $checkoutData['products_to_add']['product_1']['options'] = $customOptions;
+            $checkoutData['products_to_add']['product_1']['options']['option_10'] = $customOptionsBundle['option_1'];
+            $checkoutData['products_to_add']['product_1']['options']['option_11'] = $customOptionsBundle['option_2'];
+            $checkoutData['products_to_add']['product_1']['options']['option_12'] = $customOptionsBundle['option_3'];
+            $checkoutData['products_to_add']['product_1']['options']['option_13'] = $customOptionsBundle['option_4'];
+            }
+        if(preg_match('/dynamic_bundle_multi_checkout_options/', $productDataSet)) {
+            unset($checkoutData['products_to_add']['product_1']['options']);
+            $checkoutData['products_to_add']['product_1']['options'] = $customOptionsBundle;
+            }
+        //Steps
+        $this->navigate('manage_products');
+        $this->productHelper()->createProduct($productData, 'bundle');
+        //Verification
+        $this->assertMessagePresent('success', 'success_saved_product');
+        //Steps
+        $this->frontend();
+        $this->customerHelper()->frontLoginCustomer($customerData);
+        $this->shoppingCartHelper()->frontClearShoppingCart();
+        $this->checkoutMultipleAddressesHelper()->frontCreateMultipleCheckout($checkoutData);
+        //Verification
+        $this->assertMessagePresent('success', 'success_checkout');
+    }
+
+    public function productDataSetBundle()
+    {
+        return array(
+            array('fixed_bundle_multi_checkout'),
+            array('dynamic_bundle_multi_checkout'),
+            array('fixed_bundle_multi_checkout_options'),
+            array('dynamic_bundle_multi_checkout_options')
+        );
+    }
+
+    /**
+     * <p>Checkout with multiple addresses configurable product with associated simple</p>
+     * <p>Preconditions:</p>
+     * <p>1.Product is created;</p>
+     * <p>Steps:</p>
+     * <p>1. Open product page;</p>
+     * <p>2. Add product to Shopping Cart;</p>
+     * <p>3. Click "Checkout with Multiple Addresses";</p>
+     * <p>4. Select Checkout Method with Registering;</p>
+     * <p>5. Fill in Personal/Address/Login info;</p>
+     * <p>6. Check success registration message;</p>
+     * <p>7. Select Shipping Addresses and click "Continue to Shipping Information";</p>
+     * <p>8. Fill in Shipping Information tab and click "Continue to Billing Information";</p>
+     * <p>9. Fill in Billing Information tab and click "Continue to Review Your Order";</p>
+     * <p>10. Verify information into "Order Review" tab;</p>
+     * <p>11. Place order;</p>
+     * <p>Expected result:</p>
+     * <p>Checkout is successful;</p>
+     *
+     * @depends createCustomer
+     * @depends createAttribute
+     * @depends createProductForAssociated
+     * @dataProvider productDataSetConfig
+     * @test
+     */
+
+    public function createConfigurableWithSimple($productDataSet, $customerData, $attrData)
+    {
+        //Data
+        $productData = $this->loadData($productDataSet, array(
+            'configurable_attribute_title' => $attrData['admin_title'],
+            'associated_configurable_1/associated_search_sku' =>
+            self::$productsPreConditions['simple_product_visible']['general_sku']));
+        $customOptionsConfig = $this->loadData('configurable_options_to_add_to_shopping_cart');
+        $customOptions = $this->loadData('custom_options_to_add_to_shopping_cart');
+        $checkoutData = $this->loadData('multiple_with_register_flatrate_checkmoney');
+        $checkoutData['shipping_address_data']['address_to_ship_1']['general_name'] = $productData['general_name'];
+        $checkoutData['products_to_add']['product_1']['general_name'] = $productData['general_name'];
+        $customOptionsConfig['option_1']['parameters']['title'] = $attrData['admin_title'];
+        $checkoutData['products_to_add']['product_1']['options'] = $customOptionsConfig;
+        if(preg_match('/_options/', $productDataSet)) {
+            $checkoutData['products_to_add']['product_1']['options'] = $customOptions;
+            $checkoutData['products_to_add']['product_1']['options']['option_10'] = $customOptionsConfig['option_1'];
+        }
+        //Steps
+        $this->navigate('manage_products');
+        $this->productHelper()->createProduct($productData, 'configurable');
+        //Verification
+        $this->assertMessagePresent('success', 'success_saved_product');
+        //Steps
+        $this->frontend();
+        $this->customerHelper()->frontLoginCustomer($customerData);
+        $this->shoppingCartHelper()->frontClearShoppingCart();
+        $this->checkoutMultipleAddressesHelper()->frontCreateMultipleCheckout($checkoutData);
+        //Verification
+        $this->assertMessagePresent('success', 'success_checkout');
+    }
+
+    /**
+     * <p>Checkout with multiple addresses configurable product with associated virtual</p>
+     * <p>Preconditions:</p>
+     * <p>1.Product is created;</p>
+     * <p>Steps:</p>
+     * <p>1. Open product page;</p>
+     * <p>2. Add product to Shopping Cart;</p>
+     * <p>3. Click "Checkout with Multiple Addresses";</p>
+     * <p>4. Select Checkout Method with Registering;</p>
+     * <p>5. Fill in Personal/Address/Login info;</p>
+     * <p>6. Check success registration message;</p>
+     * <p>7. Select Shipping Addresses and click "Continue to Shipping Information";</p>
+     * <p>8. Fill in Shipping Information tab and click "Continue to Billing Information";</p>
+     * <p>9. Fill in Billing Information tab and click "Continue to Review Your Order";</p>
+     * <p>10. Verify information into "Order Review" tab;</p>
+     * <p>11. Place order;</p>
+     * <p>Expected result:</p>
+     * <p>Checkout is successful;</p>
+     *
+     * @depends createCustomer
+     * @depends createAttribute
+     * @depends createProductForAssociated
+     * @dataProvider productDataSetConfig
+     * @test
+     */
+
+    public function createConfigurableWithVirtual($productDataSet, $customerData, $attrData)
+    {
+        //Data
+        $productData = $this->loadData($productDataSet, array(
+            'configurable_attribute_title' => $attrData['admin_title'],
+            'associated_configurable_1/associated_search_sku' =>
+            self::$productsPreConditions['virtual_product_visible']['general_sku']));
+        $customOptionsConfig = $this->loadData('configurable_options_to_add_to_shopping_cart');
+        $customOptions = $this->loadData('custom_options_to_add_to_shopping_cart');
+        $checkoutData = $this->loadData('multiple_with_register_flatrate_checkmoney');
+        $checkoutData['shipping_address_data']['address_to_ship_1']['general_name'] =
+            self::$productsPreConditions['simple_product_visible']['general_name'];
+        $checkoutData['products_to_add']['product_1']['general_name'] = $productData['general_name'];
+        $checkoutData['products_to_add']['product_2']['general_name'] =
+            self::$productsPreConditions['simple_product_visible']['general_name'];
+        $customOptionsConfig['option_1']['parameters']['title'] = $attrData['admin_title'];
+        $checkoutData['products_to_add']['product_1']['options'] = $customOptionsConfig;
+        if(preg_match('/_options/', $productDataSet)) {
+            $checkoutData['products_to_add']['product_1']['options'] = $customOptions;
+            $checkoutData['products_to_add']['product_1']['options']['option_10'] = $customOptionsConfig['option_1'];
+        }
+        //Steps
+        $this->navigate('manage_products');
+        $this->productHelper()->createProduct($productData, 'configurable');
+        //Verification
+        $this->assertMessagePresent('success', 'success_saved_product');
+        //Steps
+        $this->frontend();
+        $this->customerHelper()->frontLoginCustomer($customerData);
+        $this->shoppingCartHelper()->frontClearShoppingCart();
+        $this->checkoutMultipleAddressesHelper()->frontCreateMultipleCheckout($checkoutData);
+        //Verification
+        $this->assertMessagePresent('success', 'success_checkout');
+    }
+
+    /**
+     * <p>Checkout with multiple addresses configurable product with associated downloadable</p>
+     * <p>Preconditions:</p>
+     * <p>1.Product is created;</p>
+     * <p>Steps:</p>
+     * <p>1. Open product page;</p>
+     * <p>2. Add product to Shopping Cart;</p>
+     * <p>3. Click "Checkout with Multiple Addresses";</p>
+     * <p>4. Select Checkout Method with Registering;</p>
+     * <p>5. Fill in Personal/Address/Login info;</p>
+     * <p>6. Check success registration message;</p>
+     * <p>7. Select Shipping Addresses and click "Continue to Shipping Information";</p>
+     * <p>8. Fill in Shipping Information tab and click "Continue to Billing Information";</p>
+     * <p>9. Fill in Billing Information tab and click "Continue to Review Your Order";</p>
+     * <p>10. Verify information into "Order Review" tab;</p>
+     * <p>11. Place order;</p>
+     * <p>Expected result:</p>
+     * <p>Checkout is successful;</p>
+     *
+     * @depends createCustomer
+     * @depends createAttribute
+     * @depends createProductForAssociated
+     * @dataProvider productDataSetConfig
+     * @test
+     */
+
+    public function createConfigurableWithDownloadable($productDataSet, $customerData, $attrData)
+    {
+        //Data
+        $productData = $this->loadData($productDataSet, array(
+            'configurable_attribute_title' => $attrData['admin_title'],
+            'associated_configurable_1/associated_search_sku' =>
+            self::$productsPreConditions['downloadable_product_visible_multi_checkout']['general_sku']));
+        $customOptionsConfig = $this->loadData('configurable_options_to_add_to_shopping_cart');
+        $customOptions = $this->loadData('custom_options_to_add_to_shopping_cart');
+        $checkoutData = $this->loadData('multiple_with_register_flatrate_checkmoney');
+        $checkoutData['shipping_address_data']['address_to_ship_1']['general_name'] =
+            self::$productsPreConditions['simple_product_visible']['general_name'];
+        $checkoutData['products_to_add']['product_1']['general_name'] = $productData['general_name'];
+        $checkoutData['products_to_add']['product_2']['general_name'] =
+            self::$productsPreConditions['simple_product_visible']['general_name'];
+        $customOptionsConfig['option_1']['parameters']['title'] = $attrData['admin_title'];
+        $checkoutData['products_to_add']['product_1']['options'] = $customOptionsConfig;
+        if(preg_match('/_options/', $productDataSet)) {
+            $checkoutData['products_to_add']['product_1']['options'] = $customOptions;
+            $checkoutData['products_to_add']['product_1']['options']['option_10'] = $customOptionsConfig['option_1'];
+        }
+        //Steps
+        $this->navigate('manage_products');
+        $this->productHelper()->createProduct($productData, 'configurable');
+        //Verification
+        $this->assertMessagePresent('success', 'success_saved_product');
+        //Steps
+        $this->frontend();
+        $this->customerHelper()->frontLoginCustomer($customerData);
+        $this->shoppingCartHelper()->frontClearShoppingCart();
+        $this->checkoutMultipleAddressesHelper()->frontCreateMultipleCheckout($checkoutData);
+        //Verification
+        $this->assertMessagePresent('success', 'success_checkout');
+    }
+
+    public function productDataSetConfig()
+    {
+        return array(
+            array('configurable_multi_checkout'),
+            array('configurable_multi_checkout_options')
         );
     }
 }

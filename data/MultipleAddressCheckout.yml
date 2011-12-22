@@ -199,15 +199,25 @@ multiple_with_register_flatrate_checkmoney:
         product_1:
             general_name: %noValue%
     checkout_as_customer: *register
+    general_shipping_address: *generalAccountInfo
     shipping_addresses:
         new_addresses:
             address_1: *newShippingSignedInReq
             address_2: *newShippingSignedInReq
         existing_addresses:
             address_1: *newShippingSignedInReq
-    shipping_address_data: *newShippingSignedInReq
+    shipping_address_data:
+        address_to_add_1:
+            shipping_address: *newShippingSignedInReq
+        address_to_ship_1:
+            general_name: %noValue%
+            qty: 1
+            shipping_address: *newShippingSignedInReq
     billing_address_data: %noValue%
-    shipping_data: *flatRate
+    shipping_data:
+        address_1:
+            search_shipping_address: *newShippingSignedInReq
+            shipping_method: *flatRate
     payment_data: *checkMoney
 
 ################################################################################
@@ -222,8 +232,18 @@ multiple_exist_flatrate_checkmoney:
             general_name: %noValue%
     checkout_as_customer: *login
     billing_address_data: %noValue%
-    shipping_address_data: *newShippingSignedInReq
-    shipping_data: *flatRate
+    general_shipping_address: *generalShippingAddress
+    shipping_address_data:
+        address_to_add_1:
+            shipping_address: *newShippingSignedInReq
+        address_to_ship_1:
+            general_name: %noValue%
+            qty: 1
+            shipping_address: *newShippingSignedInReq
+    shipping_data:
+        address_1:
+            search_shipping_address: *newShippingSignedInReq
+            shipping_method: *flatRate
     payment_data: *checkMoney
 
 multiple_test_data:
