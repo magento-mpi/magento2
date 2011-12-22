@@ -115,6 +115,7 @@ class Wishlist_Helper extends Mage_Selenium_TestCase
     {
         while ($this->controlIsPresent('link', 'remove_item_generic')) {
             $this->clickControlAndConfirm('link', 'remove_item_generic', 'confirmation_for_delete');
+            $this->assertTrue($this->checkCurrentPage('my_wishlist'), $this->getParsedMessages());
         }
     }
 
