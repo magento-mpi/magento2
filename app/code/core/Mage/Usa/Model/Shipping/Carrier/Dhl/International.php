@@ -920,7 +920,16 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
                     }
                 }
                 $this->_rates[] = array('service' => $dhlProduct, 'data' => $data);
+            } else {
+                $this->_errors[] = Mage::helper('usa')->__("Zero shipping charge for '%s'", $dhlProductDescription);
             }
+        } else {
+            $dhlProductDescription = false;
+            if (isset($shipmentDetails->GlobalProductCode)) {
+                $dhlProductDescription  = $this->getDhlProductTitle((string)$shipmentDetails->GlobalProductCode);
+            }
+            $dhlProductDescription = $dhlProductDescription ? $dhlProductDescription : Mage::helper('usa')->__("DHL");
+            $this->_errors[] = Mage::helper('usa')->__("Zero shipping charge for '%s'", $dhlProductDescription);
         }
         return $this;
     }
