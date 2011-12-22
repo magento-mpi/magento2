@@ -74,8 +74,8 @@ abstract class Mage_Eav_Model_Entity_Attribute_Source_Abstract
     /**
      * Get a text for option value
      *
-     * @param string|integer $value
-     * @return string
+     * @param  string|integer $value
+     * @return string|bool
      */
     public function getOptionText($value)
     {

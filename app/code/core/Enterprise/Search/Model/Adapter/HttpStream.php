@@ -133,9 +133,11 @@ class Enterprise_Search_Model_Adapter_HttpStream extends Enterprise_Search_Model
         /**
          * Add sort fields
          */
-        $sortFields = $this->_prepareSortFields($_params['sort_by']);
-        foreach ($sortFields as $sortField) {
-            $searchParams['sort'][] = $sortField['sortField'] . ' ' . $sortField['sortType'];
+        if ($limit > 1) {
+            $sortFields = $this->_prepareSortFields($_params['sort_by']);
+            foreach ($sortFields as $sortField) {
+                $searchParams['sort'][] = $sortField['sortField'] . ' ' . $sortField['sortType'];
+            }
         }
 
         /**

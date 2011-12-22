@@ -324,7 +324,47 @@ class Enterprise_Search_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * Retrieve attribute field's name for sorting
+     * Retrieve attribute field's name
+     *
+     * @param  Mage_Catalog_Model_Resource_Eav_Attribute $attribute
+     * @param  bool $sortField
+     * @return string
+     *
+     */
+    public function getSolrFieldName($attribute, $sortField = false)
+    {
+        $attributeCode = $attribute->getAttributeCode();
+        if (in_array($attributeCode, array('sku', 'score'))) {
+            return $attributeCode;
+        }
+
+        $backendType    = $attribute->getBackendType();
+        $frontendInput  = $attribute->getFrontendInput();
+
+        if ($frontendInput == 'multiselect') {
+            $fieldType = 'multi';
+        } elseif ($frontendInput == 'select' || $frontendInput == 'boolean') {
+            $fieldType = 'select';
+        } elseif ($backendType == 'decimal' || $backendType == 'datetime') {
+            $fieldType = $backendType;
+        } else {
+            $fieldType = 'text';
+        }
+
+        $fieldPrefix = ($sortField) ? 'attr_sort_' : 'attr_';
+        if ($fieldType == 'text') {
+            $localeCode     = Mage::app()->getStore()->getConfig(Mage_Core_Model_Locale::XML_PATH_DEFAULT_LOCALE);
+            $languageSuffix = $this->getLanguageSuffix($localeCode);
+            $fieldName      = $fieldPrefix . $attributeCode . $languageSuffix;
+        } else {
+            $fieldName      = $fieldPrefix . $fieldType . '_' . $attributeCode;
+        }
+
+        return $fieldName;
+    }
+
+    /**
+     * Retrieve attribute field's name
      *
      * @param Mage_Catalog_Model_Resource_Eav_Attribute $attribute
      *
@@ -332,29 +372,7 @@ class Enterprise_Search_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getAttributeSolrFieldName($attribute)
     {
-        $attributeCode = $attribute->getAttributeCode();
-        if ($attributeCode == 'score') {
-            return $attributeCode;
-        }
-        $field          = $attributeCode;
-        $backendType    = $attribute->getBackendType();
-        $frontendInput  = $attribute->getFrontendInput();
-
-        if ($frontendInput == 'multiselect') {
-            $field = 'attr_multi_'. $field;
-        } elseif ($frontendInput == 'select' || $frontendInput == 'boolean') {
-            $field = 'attr_select_'. $field;
-        } elseif ($backendType == 'decimal') {
-            $field = 'attr_decimal_'. $field;
-        } elseif ($backendType == 'datetime') {
-            $field = 'attr_datetime_'. $field;
-        } elseif (in_array($backendType, $this->_textFieldTypes)) {
-            $locale = Mage::app()->getStore()->getConfig(Mage_Core_Model_Locale::XML_PATH_DEFAULT_LOCALE);
-            $languageSuffix = $this->getLanguageSuffix($locale);
-            $field .= $languageSuffix;
-        }
-
-        return $field;
+        return $this->getSolrFieldName($attribute);
     }
 
     /**

@@ -1599,27 +1599,27 @@
         <field name="sku" type="textTight_en" indexed="true" omitNorms="true"/>
 
         <!-- A field designed for sorting by name, its value will be pasted from name field. -->
-        <field name="alphaNameSort" type="alphaOnlySort" indexed="true"/>
-        <field name="alphaNameSort_en" type="alphaOnlySort_en" indexed="true"/>
-        <field name="alphaNameSort_fr" type="alphaOnlySort_fr" indexed="true"/>
-        <field name="alphaNameSort_de" type="alphaOnlySort_de" indexed="true"/>
-        <field name="alphaNameSort_da" type="alphaOnlySort_da" indexed="true"/>
-        <field name="alphaNameSort_nl" type="alphaOnlySort_nl" indexed="true"/>
-        <field name="alphaNameSort_fi" type="alphaOnlySort_fi" indexed="true"/>
-        <field name="alphaNameSort_it" type="alphaOnlySort_it" indexed="true"/>
-        <field name="alphaNameSort_nb" type="alphaOnlySort_nb" indexed="true"/>
-        <field name="alphaNameSort_pt" type="alphaOnlySort_pt" indexed="true"/>
-        <field name="alphaNameSort_ro" type="alphaOnlySort_ro" indexed="true"/>
-        <field name="alphaNameSort_ru" type="alphaOnlySort_ru" indexed="true"/>
-        <field name="alphaNameSort_es" type="alphaOnlySort_es" indexed="true"/>
-        <field name="alphaNameSort_sv" type="alphaOnlySort_sv" indexed="true"/>
-        <field name="alphaNameSort_tr" type="alphaOnlySort_tr" indexed="true"/>
-        <field name="alphaNameSort_cs" type="alphaOnlySort_cs" indexed="true"/>
-        <field name="alphaNameSort_el" type="alphaOnlySort_el" indexed="true"/>
-        <field name="alphaNameSort_th" type="alphaOnlySort_th" indexed="true"/>
-        <field name="alphaNameSort_zh" type="alphaOnlySort_zh" indexed="true"/>
-        <field name="alphaNameSort_ja" type="alphaOnlySort_ja" indexed="true"/>
-        <field name="alphaNameSort_ko" type="alphaOnlySort_ko" indexed="true"/>
+        <field name="alphaNameSort" type="alphaOnlySort"       indexed="true" stored="false"/>
+        <field name="alphaNameSort_en" type="alphaOnlySort_en" indexed="true" stored="false"/>
+        <field name="alphaNameSort_fr" type="alphaOnlySort_fr" indexed="true" stored="false"/>
+        <field name="alphaNameSort_de" type="alphaOnlySort_de" indexed="true" stored="false"/>
+        <field name="alphaNameSort_da" type="alphaOnlySort_da" indexed="true" stored="false"/>
+        <field name="alphaNameSort_nl" type="alphaOnlySort_nl" indexed="true" stored="false"/>
+        <field name="alphaNameSort_fi" type="alphaOnlySort_fi" indexed="true" stored="false"/>
+        <field name="alphaNameSort_it" type="alphaOnlySort_it" indexed="true" stored="false"/>
+        <field name="alphaNameSort_nb" type="alphaOnlySort_nb" indexed="true" stored="false"/>
+        <field name="alphaNameSort_pt" type="alphaOnlySort_pt" indexed="true" stored="false"/>
+        <field name="alphaNameSort_ro" type="alphaOnlySort_ro" indexed="true" stored="false"/>
+        <field name="alphaNameSort_ru" type="alphaOnlySort_ru" indexed="true" stored="false"/>
+        <field name="alphaNameSort_es" type="alphaOnlySort_es" indexed="true" stored="false"/>
+        <field name="alphaNameSort_sv" type="alphaOnlySort_sv" indexed="true" stored="false"/>
+        <field name="alphaNameSort_tr" type="alphaOnlySort_tr" indexed="true" stored="false"/>
+        <field name="alphaNameSort_cs" type="alphaOnlySort_cs" indexed="true" stored="false"/>
+        <field name="alphaNameSort_el" type="alphaOnlySort_el" indexed="true" stored="false"/>
+        <field name="alphaNameSort_th" type="alphaOnlySort_th" indexed="true" stored="false"/>
+        <field name="alphaNameSort_zh" type="alphaOnlySort_zh" indexed="true" stored="false"/>
+        <field name="alphaNameSort_ja" type="alphaOnlySort_ja" indexed="true" stored="false"/>
+        <field name="alphaNameSort_ko" type="alphaOnlySort_ko" indexed="true" stored="false"/>
 
         <!--
             The following will create a "timestamp" field using a default value of "NOW" to indicate when each document
@@ -1638,10 +1638,14 @@
         <dynamicField name="ignored_*" type="ignored" multiValued="true"/>
         <dynamicField name="random_*" type="random"/>
 
-        <dynamicField name="attr_decimal_*" type="float" indexed="true"/>
-        <dynamicField name="attr_datetime_*" type="date" indexed="true"/>
-        <dynamicField name="attr_select_*" type="string" indexed="true"/>
-        <dynamicField name="attr_multi_*" type="string" indexed="true" multiValued="true"/>
+        <dynamicField name="attr_decimal_*"  type="float"  indexed="true" multiValued="true"/>
+        <dynamicField name="attr_datetime_*" type="date"   indexed="true" multiValued="true"/>
+        <dynamicField name="attr_select_*"   type="string" indexed="true" multiValued="true"/>
+        <dynamicField name="attr_multi_*"    type="string" indexed="true" multiValued="true"/>
+
+        <dynamicField name="attr_sort_decimal_*"  type="float"  indexed="true" stored="false"/>
+        <dynamicField name="attr_sort_datetime_*" type="date"   indexed="true" stored="false"/>
+        <dynamicField name="attr_sort_select_*"   type="string" indexed="true" stored="false"/>
 
         <dynamicField name="price_*" type="tfloat" indexed="true"/>
         <dynamicField name="position_category_*" type="int" indexed="true"/>

@@ -151,6 +151,10 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
      */
     protected $_indexNeedsOptimization      = false;
 
+
+
+
+
     /**
      * Text fields which can store data differ in different languages
      *
@@ -234,10 +238,14 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
             $this->_indexableAttributeParams = array();
             foreach ($attributeCollection as $item) {
                 $this->_indexableAttributeParams[$item->getAttributeCode()] = array(
-                    'backendType'   => $item->getBackendType(),
-                    'frontendInput' => $item->getFrontendInput(),
-                    'searchWeight'  => $item->getSearchWeight(),
-                    'isSearchable'  => $item->getIsSearchable()
+                    'backendType'       => $item->getBackendType(),
+                    'frontendInput'     => $item->getFrontendInput(),
+                    'searchWeight'      => $item->getSearchWeight(),
+                    'isSearchable'      => (bool) $item->getIsSearchable(),
+                    'usedForSortBy'     => (bool) $item->getUsedForSortBy(),
+                    'usedForSortOnly'   => !($item->getIsVisibleInAdvancedSearch()
+                                             || $item->getIsFilterable()
+                                             || $item->getIsFilterableInSearch())
                 );
             }
         }
@@ -301,17 +309,6 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
 
                     $attributesWeights['fulltext' . $weight][] = $value;
                     $spellData[] = $value;
-                }
-
-                /*
-                 * Remove child products data from fields index. It would be present just at fulltext index.
-                 */
-                if (is_array($value) && !empty($attributeParams[$code])) {
-                    if (!array_key_exists($entityId, $value)) {
-                        unset($index[$code]);
-                    } else {
-                        $index[$code] = $value[$entityId];
-                    }
                 }
             }
             $index['fulltext_spell'] = $this->_implodeIndexData($spellData);
