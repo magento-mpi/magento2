@@ -58,20 +58,19 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tabs exten
             'active'  => true
         ));
 
-        $conditionsSectionContent = $this->getLayout()
-            ->createBlock('enterprise_customersegment/adminhtml_customersegment_edit_tab_conditions')
-            ->toHtml();
-
-        $this->addTab('conditions_section', array(
-            'label'   => Mage::helper('enterprise_customersegment')->__('Conditions'),
-            'title'   => Mage::helper('enterprise_customersegment')->__('Conditions'),
-            'content' => $conditionsSectionContent,
-        ));
-
-
         $segment = Mage::registry('current_customer_segment');
 
         if ($segment && $segment->getId()) {
+            $conditionsSectionContent = $this->getLayout()
+                ->createBlock('enterprise_customersegment/adminhtml_customersegment_edit_tab_conditions')
+                ->toHtml();
+
+            $this->addTab('conditions_section', array(
+                'label'   => Mage::helper('enterprise_customersegment')->__('Conditions'),
+                'title'   => Mage::helper('enterprise_customersegment')->__('Conditions'),
+                'content' => $conditionsSectionContent,
+            ));
+
             if ($segment->getApplyTo() != Enterprise_CustomerSegment_Model_Segment::APPLY_TO_VISITORS) {
                 $customersQty = Mage::getModel('enterprise_customersegment/segment')->getResource()
                     ->getSegmentCustomersQty($segment->getId());
