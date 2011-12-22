@@ -65,6 +65,12 @@ class Mage_Captcha_Model_Zend extends Zend_Captcha_Image implements Mage_Captcha
      */
     protected $_gcFreq = 1;
     /**
+    * Override default value to prevent a captcha cut off
+    * @var int
+    * @see Zend_Captcha_Image::$_fsize
+    */
+    protected $_fsize = 22;
+    /**
      * Captcha form id
      * @var string
      */
@@ -410,5 +416,16 @@ class Mage_Captcha_Model_Zend extends Zend_Captcha_Image implements Mage_Captcha
         $this->getSession()->unsetData($this->_formId . '_' . self::SESSION_WORD);
         $this->_word = null;
         return $this;
+    }
+
+    /**
+    * Override function to generate less curly captcha that will not cut off
+    *
+    * @see Zend_Captcha_Image::_randomSize()
+    * @return int
+    */
+    protected function _randomSize()
+    {
+        return mt_rand(280, 300) / 100;
     }
 }
