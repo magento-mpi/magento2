@@ -1,0 +1,18 @@
+
+- Various code integrity fixes in different places:
+-- Fixed obsolete references to classes
+-- Fixed broken references to template and static view files
+-- Fixed some minor occurrences of deprecated code
+-- Code style minor fixes
+- Various minor bugfixes
+- Implemented "developer mode" in integration tests
+- Added "rollback" scripts capability for data fixtures
+- Removed deprecated methods and attributes from product type class
+- Restructured code integrity tests:
+-- Moved out part of the tests from integration into static tests
+-- Introduced "Legacy" test suite in static tests. This test suite is not executed by default when running either phpunit directly or using the "batch tool"
+-- Simplified and reorganized the "Exemplar" and self-assessment tests for static code analysis
+- Covered previously made backwards-incompatible changes with legacy tests
+- Changed storage of class map from a PHP-file with array into a better-performing text file with serialized array.
+
+------
