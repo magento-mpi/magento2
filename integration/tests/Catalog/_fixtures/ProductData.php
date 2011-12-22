@@ -90,4 +90,17 @@ return array(
             )
         )
     ),
+    'create_full_fledged' => array(
+        'sku'               => 'simple' . uniqid(),
+        'attribute_set_id'  => 4,
+        'type_id'           => Mage_Catalog_Model_Product_Type::TYPE_SIMPLE,
+        'name'              => 'Simple Product',
+        'website_ids'       => array(Mage::app()->getStore()->getWebsiteId()),
+        'description'       => '...',
+        'short_description' => '...',
+        'price'             => 0.99,
+        'tax_class_id'      => 2,
+        'visibility'        => Mage_Catalog_Model_Product_Visibility::VISIBILITY_BOTH,
+        'status'            => Mage_Catalog_Model_Product_Status::STATUS_ENABLED
+    )
 );

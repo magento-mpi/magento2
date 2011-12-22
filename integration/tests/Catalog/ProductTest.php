@@ -50,6 +50,43 @@ class Catalog_ProductTest extends Magento_Test_Webservice
     }
 
     /**
+     * Test for set special price for product
+     */
+    public function testSetSpecialPrice()
+    {
+        $productData  = require dirname(__FILE__) . '/_fixtures/ProductData.php';
+        $product      = new Mage_Catalog_Model_Product;
+        $specialPrice = 1.99;
+        $specialFrom  = '2011-12-22 00:00:00';
+        $specialTo    = '2011-12-25 00:00:00';
+
+        $product->setData($productData['create_full_fledged']);
+        $product->save();
+
+        $result = $this->getWebService()->call(
+            'catalog_product.setSpecialPrice',
+            array(
+                $product->getSku(),
+                $specialPrice,
+                $specialFrom,
+                $specialTo,
+                Mage_Catalog_Model_Abstract::DEFAULT_STORE_ID
+            )
+        );
+
+        $this->assertEquals(true, $result, 'Response is not true casted value');
+
+        // reload product to reflect changes done by API request
+        $product->load($product->getId());
+
+        $this->assertEquals($specialPrice, $product->getData('special_price'), 'Special price not changed');
+        $this->assertEquals($specialFrom, $product->getData('special_from_date'), 'Special price from not changed');
+        $this->assertEquals($specialTo, $product->getData('special_to_date'), 'Special price to not changed');
+
+        $this->setFixture('productId', $product->getId());
+    }
+
+    /**
      * Test get product info by numeric SKU
      *
      * @return void
