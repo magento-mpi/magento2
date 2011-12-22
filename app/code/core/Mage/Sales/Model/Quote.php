@@ -818,6 +818,19 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
     }
 
     /**
+     * Mark all quote items as deleted (empty quote)
+     *
+     * @return Mage_Sales_Model_Quote
+     */
+    public function removeAllItems()
+    {
+        foreach ($this->getItemsCollection() as $item) {
+            $item->isDeleted(true);
+        }
+        return $this;
+    }
+
+    /**
      * Adding new item to quote
      *
      * @param   Mage_Sales_Model_Quote_Item $item

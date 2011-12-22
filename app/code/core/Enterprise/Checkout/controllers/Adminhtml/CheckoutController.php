@@ -271,8 +271,11 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
                     }
                     foreach ($source['source_wishlist'] as $productId => $qty) {
                         if (in_array($productId, $quoteProductIds)) {
-                            $wishlistItem = Mage::getModel('wishlist/item')
-                                ->loadByProductWishlist($wishlist->getId(), $productId, $wishlist->getSharedStoreIds());
+                            $wishlistItem = Mage::getModel('wishlist/item')->loadByProductWishlist(
+                                $wishlist->getId(),
+                                $productId,
+                                $wishlist->getSharedStoreIds()
+                            );
                             if ($wishlistItem->getId()) {
                                 $wishlistItem->delete();
                             }
@@ -775,9 +778,14 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
          * Update quote items
          */
         if ($this->getRequest()->getPost('update_items')) {
-            $items = $this->getRequest()->getPost('item', array());
-            $items = $this->_processFiles($items);
-            $this->getCartModel()->updateQuoteItems($items);
+            if ((int)$this->getRequest()->getPost('empty_customer_cart') == 1) {
+                // Empty customer's shopping cart
+                $this->getCartModel()->getQuote()->removeAllItems()->collectTotals()->save();
+            } else {
+                $items = $this->getRequest()->getPost('item', array());
+                $items = $this->_processFiles($items);
+                $this->getCartModel()->updateQuoteItems($items);
+            }
         }
 
         /**
@@ -793,7 +801,8 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
                 if (!isset($listItems[$listType])
                     || !is_array($listItems[$listType])
                     || !isset($listItems[$listType]['item'])
-                    || !is_array($listItems[$listType]['item'])) {
+                    || !is_array($listItems[$listType]['item'])
+                ) {
                     continue;
                 }
 
@@ -811,7 +820,8 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
 
                     $currentConfig = $itemInfo->getBuyRequest();
                     if (isset($info['_config_absent'])) {
-                        // User added items without configuration (used multiple checkbox control) - try to use configs from list
+                        // User has added items without configuration (using multiple checkbox control)
+                        // Try to use configs from list
                         if (isset($info['qty'])) {
                             $currentConfig->setQty($info['qty']);
                         }

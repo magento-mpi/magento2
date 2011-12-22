@@ -62,7 +62,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage extends Mage_Adminhtml_Block_Wi
         $this->setChild('add_products_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label' => Mage::helper('enterprise_checkout')->__("Add Products"),
+                    'label' => Mage::helper('enterprise_checkout')->__('Add Products'),
                     'onclick' => 'checkoutObj.searchProducts()',
                     'class' => 'add',
                     'id' => 'add_products_btn'
@@ -72,8 +72,17 @@ class Enterprise_Checkout_Block_Adminhtml_Manage extends Mage_Adminhtml_Block_Wi
         $this->setChild('update_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label' => Mage::helper('enterprise_checkout')->__("Update Items and Qty's"),
+                    'label' => Mage::helper('enterprise_checkout')->__('Update Items and Qty\'s'),
                     'onclick' => 'checkoutObj.updateItems()',
+                    'style' => 'float:right; margin-left: 5px;'
+                ))
+        );
+
+        $this->setChild('empty_customer_cart_button',
+            $this->getLayout()->createBlock('adminhtml/widget_button')
+                ->setData(array(
+                    'label' => Mage::helper('enterprise_checkout')->__('Clear Shopping Cart'),
+                    'onclick' => 'checkoutObj.updateItems({\'empty_customer_cart\': 1})',
                     'style' => 'float:right;'
                 ))
         );
@@ -81,7 +90,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage extends Mage_Adminhtml_Block_Wi
         $this->setChild('addto_cart_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label' => Mage::helper('enterprise_checkout')->__("Add Selected Product(s) to Shopping Cart"),
+                    'label' => Mage::helper('enterprise_checkout')->__('Add Selected Product(s) to Shopping Cart'),
                     'onclick' => 'checkoutObj.addToCart()',
                     'class' => 'add'
                 ))
@@ -90,7 +99,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage extends Mage_Adminhtml_Block_Wi
         $this->setChild('cancel_add_products_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label' => Mage::helper('enterprise_checkout')->__("Cancel"),
+                    'label' => Mage::helper('enterprise_checkout')->__('Cancel'),
                     'onclick' => 'checkoutObj.cancelSearch()',
                     'class' => 'cancel'
                 ))

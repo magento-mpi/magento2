@@ -598,13 +598,18 @@ AdminOrder.prototype = {
         this.showArea('data');
     },
 
-    sidebarApplyChanges : function(){
-        if($(this.getAreaId('sidebar'))){
-            var data  = {};
+    sidebarApplyChanges : function(auxiliaryParams) {
+        if ($(this.getAreaId('sidebar'))) {
+            var data = {};
             var elems = $(this.getAreaId('sidebar')).select('input');
-            for(var i=0; i<elems.length; i++){
-                if(elems[i].getValue()){
+            for (var i=0; i < elems.length; i++) {
+                if (elems[i].getValue()) {
                     data[elems[i].name] = elems[i].getValue();
+                }
+            }
+            if (auxiliaryParams instanceof Object) {
+                for (var paramName in auxiliaryParams) {
+                    data[paramName] = String(auxiliaryParams[paramName]);
                 }
             }
             data.reset_shipping = true;

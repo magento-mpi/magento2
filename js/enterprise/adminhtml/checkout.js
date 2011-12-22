@@ -115,9 +115,9 @@ AdminCheckout.prototype = {
         this.productGridAddSelected();
     },
 
-    updateItems: function()
+    updateItems: function(auxiliaryParams)
     {
-        this.itemsUpdate();
+        this.itemsUpdate(auxiliaryParams);
     },
 
     applyCoupon: function(ccode)
@@ -610,7 +610,7 @@ AdminCheckout.prototype = {
         return 'checkout_' + area;
     },
 
-    itemsUpdate : function(){
+    itemsUpdate : function(auxiliaryParams) {
         var area = ['items'];
         // prepare additional fields
         var fieldsPrepare = {update_items: 1};
@@ -618,6 +618,11 @@ AdminCheckout.prototype = {
         for (var i = 0; i < info.length; i++) {
             if(!info[i].disabled && (info[i].type != 'checkbox' || info[i].checked)) {
                 fieldsPrepare[info[i].name] = info[i].getValue();
+            }
+        }
+        if (auxiliaryParams instanceof Object) {
+            for (var paramName in auxiliaryParams) {
+                fieldsPrepare[paramName] = String(auxiliaryParams[paramName]);
             }
         }
         fieldsPrepare = Object.extend(fieldsPrepare, this.quoteAddFields);
