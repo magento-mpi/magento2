@@ -98,7 +98,7 @@ class CheckoutMultipleAddresses_WithRegistration_WithProductsTest extends Mage_S
      * @depends createAttribute
      * @param string $productType
      * @param string $productDataSet
-     * @dataProvider productDataSimpleDataProvider
+     * @dataProvider createProductForAssociatedDataProvider
      * @test
      */
     public function createProductForAssociated($productDataSet, $productType, $attrData)
@@ -131,7 +131,7 @@ class CheckoutMultipleAddresses_WithRegistration_WithProductsTest extends Mage_S
         $this->assertMessagePresent('success', 'success_checkout');
         }
 
-    public function productDataSimpleDataProvider()
+    public function createProductForAssociatedDataProvider()
     {
         return array(
             array('simple_product_visible', 'simple'),
@@ -160,7 +160,7 @@ class CheckoutMultipleAddresses_WithRegistration_WithProductsTest extends Mage_S
      *
      * @param string $productType
      * @param string $productDataSet
-     * @dataProvider productDataSetSimpleDataProvider
+     * @dataProvider createSimpleTypesProductsDataProvider
      * @test
      * @return string
      */
@@ -198,7 +198,7 @@ class CheckoutMultipleAddresses_WithRegistration_WithProductsTest extends Mage_S
         $this->assertMessagePresent('success', 'success_checkout');
     }
 
-    public function productDataSetSimpleDataProvider()
+    public function createSimpleTypesProductsDataProvider()
     {
         return array(
             array('simple_multi_checkout_options', 'simple'),
@@ -287,7 +287,7 @@ class CheckoutMultipleAddresses_WithRegistration_WithProductsTest extends Mage_S
      * <p>Expected result:</p>
      * <p>Checkout is successful;</p>
      *
-     * @dataProvider productDataSetBundleDataProvider
+     * @dataProvider createBundleProductsDataProvider
      * @test
      */
 
@@ -330,7 +330,7 @@ class CheckoutMultipleAddresses_WithRegistration_WithProductsTest extends Mage_S
         $this->assertMessagePresent('success', 'success_checkout');
     }
 
-    public function productDataSetBundleDataProvider()
+    public function createBundleProductsDataProvider()
     {
         return array(
             array('fixed_bundle_multi_checkout'),
@@ -361,7 +361,7 @@ class CheckoutMultipleAddresses_WithRegistration_WithProductsTest extends Mage_S
      *
      * @depends createAttribute
      * @depends createProductForAssociated
-     * @dataProvider productDataSetConfigDataProvider
+     * @dataProvider createConfigurableWithSimpleDataProvider
      * @test
      */
 
@@ -418,7 +418,7 @@ class CheckoutMultipleAddresses_WithRegistration_WithProductsTest extends Mage_S
      *
      * @depends createAttribute
      * @depends createProductForAssociated
-     * @dataProvider productDataSetConfigDataProvider
+     * @dataProvider createConfigurableWithSimpleDataProvider
      * @test
      */
 
@@ -478,7 +478,7 @@ class CheckoutMultipleAddresses_WithRegistration_WithProductsTest extends Mage_S
      *
      * @depends createAttribute
      * @depends createProductForAssociated
-     * @dataProvider productDataSetConfigDataProvider
+     * @dataProvider createConfigurableWithSimpleDataProvider
      * @test
      */
 
@@ -517,7 +517,7 @@ class CheckoutMultipleAddresses_WithRegistration_WithProductsTest extends Mage_S
         $this->assertMessagePresent('success', 'success_checkout');
     }
 
-    public function productDataSetConfigDataProvider()
+    public function createConfigurableWithSimpleDataProvider()
     {
         return array(
             array('configurable_multi_checkout'),
