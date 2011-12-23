@@ -1356,6 +1356,11 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         return $this;
     }
 
+    /**
+     * Retrieve current quote messages
+     *
+     * @return array
+     */
     public function getMessages()
     {
         $messages = $this->getData('messages');
@@ -1364,6 +1369,23 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
             $this->setData('messages', $messages);
         }
         return $messages;
+    }
+
+    /**
+     * Retrieve current quote errors
+     *
+     * @return array
+     */
+    public function getErrors()
+    {
+        $errors = array();
+        foreach ($this->getMessages() as $message) {
+            /* @var $error Mage_Core_Model_Message_Abstract */
+            if ($message->getType() == Mage_Core_Model_Message::ERROR) {
+                array_push($errors, $message);
+            }
+        }
+        return $errors;
     }
 
     /**

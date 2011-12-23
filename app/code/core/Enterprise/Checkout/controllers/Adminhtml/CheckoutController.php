@@ -785,6 +785,12 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
                 $items = $this->getRequest()->getPost('item', array());
                 $items = $this->_processFiles($items);
                 $this->getCartModel()->updateQuoteItems($items);
+                if ($this->getCartModel()->getQuote()->getHasError()){
+                    foreach ($this->getCartModel()->getQuote()->getErrors() as $error) {
+                        /* @var $error Mage_Core_Model_Message_Error */
+                        Mage::getSingleton('adminhtml/session')->addError($error->getCode());
+                    }
+                }
             }
         }
 
