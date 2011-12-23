@@ -375,8 +375,7 @@ class Mage_OAuth_Model_Server extends Mage_Catalog_Model_Abstract
         }
         $this->_getResponse()->setBody('oauth_problem=' . $msg . $msgAdd);
 
-        //TODO Move HTTP code to constant
-        $this->_getResponse()->setHttpResponseCode(400);
+        $this->_getResponse()->setHttpResponseCode(400); // BAD REQUEST
         $this->_getResponse()->sendResponse();
         exit;
     }
@@ -521,6 +520,7 @@ class Mage_OAuth_Model_Server extends Mage_Catalog_Model_Abstract
         $this->_response = $response;
 
         $this->_response->setHeader(Zend_Http_Client::CONTENT_TYPE, Zend_Http_Client::ENC_URLENCODED, true);
+        $this->_response->setHttpResponseCode(200); // OK
 
         return $this;
     }
