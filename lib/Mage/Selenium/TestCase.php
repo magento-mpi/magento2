@@ -2294,12 +2294,15 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * Waiting for AJAX request to continue<br>
      * Method works only if AJAX request was perform with Prototype or JQuery framework
      *
-     * @param integer $timeout Timeout period in milliseconds (by default = 30000)
+     * @param integer $timeout Timeout period in milliseconds
      *
      * @return void
      */
-    public function waitForAjax($timeout = 30000)
+    public function waitForAjax($timeout = null)
     {
+        if (is_null($timeout)) {
+           $timeout = $this->_browserTimeoutPeriod;
+        }
         $jsCondition = 'var c = function(){if(typeof selenium.browserbot.getCurrentWindow().Ajax != "undefined"){'
                 . 'if(selenium.browserbot.getCurrentWindow().Ajax.activeRequestCount){return false;};};'
                 . 'if(typeof selenium.browserbot.getCurrentWindow().jQuery != "undefined"){'
