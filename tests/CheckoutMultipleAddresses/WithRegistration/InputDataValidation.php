@@ -28,13 +28,13 @@
  */
 
 /**
- * Tests for payment methods. Frontend
+ * Tests for Checkout with Multiple Addresses. Frontend
  *
  * @package     selenium
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class CheckoutMultipleAddresses_WithRegistration_InvalidDataTest extends Mage_Selenium_TestCase
+class CheckoutMultipleAddresses_WithRegistration_InputDataValidation extends Mage_Selenium_TestCase
 {
 
     /**
@@ -80,7 +80,7 @@ class CheckoutMultipleAddresses_WithRegistration_InvalidDataTest extends Mage_Se
      */
     public function withRequiredFieldsOnly()
     {
-
+        return array();
     }
 
     /**

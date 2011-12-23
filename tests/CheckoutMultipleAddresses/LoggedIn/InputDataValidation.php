@@ -28,13 +28,13 @@
  */
 
 /**
- * Tests for payment methods. Frontend
+ * Tests for Checkout with Multiple Addresses. Frontend
  *
  * @package     selenium
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class CheckoutMultipleAddresses_LoggedIn_InvalidDataTest extends Mage_Selenium_TestCase
+class CheckoutMultipleAddresses_LoggedIn_InputDataValidation extends Mage_Selenium_TestCase
 {
 
     /**
@@ -159,6 +159,32 @@ class CheckoutMultipleAddresses_LoggedIn_InvalidDataTest extends Mage_Selenium_T
     {
     }
 
+    /**
+     * <p>Fill in only required fields. Use max long values for fields.</p>
+     * <p>Steps:</p>
+     * <p>1. Open product page.</p>
+     * <p>2. Add product to Shopping Cart.</p>
+     * <p>3. Click "Checkout with Multiple Addresses".</p>
+     * <p>4. Fill in Qty with invalid value(negative, non-integer)</p>
+     * <p>6. Click 'Submit' button.</p>
+     * <p>Expected result:</p>
+     * <p>Product removed from Shoping cart</p>
+     * <p>TODO MAGE-5312</p>
+     *
+     * @test
+     */
+    public function selectAddressesPageInvalidQty() //Enter New Address
+    {
+    }
+
+    public function dataSelectAddressesInvalidQty()
+    {
+        return array(
+            array(),//negative
+            array()//non-integer
+        );
+    }
+
 ################################################################################
 #                                                                              #
 #                     Shipping Information Page                                #
@@ -189,6 +215,87 @@ class CheckoutMultipleAddresses_LoggedIn_InvalidDataTest extends Mage_Selenium_T
 #                     Billing Information Page                                 #
 #                                                                              #
 ################################################################################
+
+    /**
+     * <p>Empty required fields(Select Addresses page)</p>
+     * <p>Preconditions:</p>
+     * <p>1.Product is created.</p>
+     * <p>3.Customer signed in at the frontend.</p>
+     * <p>Steps:</p>
+     * <p>1. Open product page.</p>
+     * <p>2. Add product to Shopping Cart.</p>
+     * <p>3. Click "Checkout with Multiple Addresses".</p>
+     * <p>4. Move To " Billing Information Page".</p>
+     * <p>5. Click "Add Address"</p>
+     * <p>6. Fill in fields except one required.</p>
+     * <p>7. Click 'Submit' button</p>
+     * <p>Expected result:</p>
+     * <p>New address is not added.</p>
+     * <p>Error Message is displayed.</p>
+     *
+     * @dataProvider dataBillingInfPageEmptyFields
+     * @test
+     */
+    public function billingInfPageEmptyRequiredFields()
+    {
+    }
+
+    public function dataBillingInfPageEmptyFields()
+    {
+        return array(
+            array(),//First Name
+            array(),//Last Name
+            array(),//Telephone
+            array(),//Street Address
+            array(),//City
+            array(),//State/Province
+            array(),//Zip/Postal Code
+            array()//Country
+        );
+    }
+
+    /**
+     * <p>Fill in all required fields by using special characters</p>
+     * <p>Preconditions:</p>
+     * <p>1.Product is created.</p>
+     * <p>3.Customer signed in at the frontend.</p>
+     * <p>Steps:</p>
+     * <p>1. Open product page.</p>
+     * <p>2. Add product to Shopping Cart.</p>
+     * <p>3. Click "Checkout with Multiple Addresses".</p>
+     * <p>4. Move To " Billing Information Page".</p>
+     * <p>5. Click "Add Address"</p>
+     * <p>6. Fill in all required fields by using special characters(except the field "email")</p>
+     * <p>7. Click 'Submit' button</p>
+     * <p>Expected result:</p>
+     * <p>New address is added.</p>
+     * <p>Success Message is displayed.(The address has been saved.)</p>
+     *
+     * @test
+     */
+    public function billingInfPageSpecialChars() //Enter New Address page
+    {
+    }
+
+    /**
+     * <p>Fill in only required fields. Use max long values for fields.</p>
+     * <p>Steps:</p>
+     * <p>1. Open product page.</p>
+     * <p>2. Add product to Shopping Cart.</p>
+     * <p>3. Click "Checkout with Multiple Addresses".</p>
+     * <p>4. Move To " Billing Information Page".</p>
+     * <p>5. Click "Add Address"</p>
+     * <p>6. Fill in required fields by long value alpha-numeric data.</p>
+     * <p>7. Click 'Submit' button.</p>
+     * <p>Expected result:</p>
+     * <p>New address is added.</p>
+     * <p>Success Message is displayed.(The address has been saved.)</p>
+     *
+     * @test
+     */
+    public function billingInfPageLongValues() //Enter New Address
+    {
+    }
 
     /**
      * <p>Payment Method is not selected</p>
@@ -240,4 +347,5 @@ class CheckoutMultipleAddresses_LoggedIn_InvalidDataTest extends Mage_Selenium_T
             array()//Card Verification Number
         );
     }
+
 }
