@@ -36,7 +36,7 @@
  */
 class CheckoutMultipleAddresses_WithRegistration_WithProductsTest extends Mage_Selenium_TestCase
 {
-    protected static $productsPreConditions = array();
+    protected static $_productsPreConditions = array();
 
     /**
      * <p>Login to backend</p>
@@ -112,9 +112,9 @@ class CheckoutMultipleAddresses_WithRegistration_WithProductsTest extends Mage_S
         $checkoutData['products_to_add']['product_1']['general_name'] = $productData['general_name'];
         if(preg_match('/virtual_product_visible/', $productDataSet) ||
            preg_match('/downloadable_product_visible_multi_checkout/', $productDataSet)) {
-                $checkoutData['products_to_add']['product_2'] = self::$productsPreConditions['simple_product_visible'];
+                $checkoutData['products_to_add']['product_2'] = self::$_productsPreConditions['simple_product_visible'];
                 $checkoutData['shipping_address_data']['address_to_ship_1']['general_name'] =
-                        self::$productsPreConditions['simple_product_visible']['general_name'];
+                        self::$_productsPreConditions['simple_product_visible']['general_name'];
             }
         //Steps
         $this->navigate('manage_products');
@@ -122,10 +122,10 @@ class CheckoutMultipleAddresses_WithRegistration_WithProductsTest extends Mage_S
         //Verification
         $this->assertMessagePresent('success', 'success_saved_product');
 
-        self::$productsPreConditions[$productDataSet]['general_name'] = $productData['general_name'];
-        self::$productsPreConditions[$productDataSet]['general_sku'] = $productData['general_sku'];
+        self::$_productsPreConditions[$productDataSet]['general_name'] = $productData['general_name'];
+        self::$_productsPreConditions[$productDataSet]['general_sku'] = $productData['general_sku'];
         //Steps
-        $this->frontend();
+        $this->logoutCustomer();
         $this->checkoutMultipleAddressesHelper()->frontCreateMultipleCheckout($checkoutData);
         //Verification
         $this->assertMessagePresent('success', 'success_checkout');
@@ -158,14 +158,13 @@ class CheckoutMultipleAddresses_WithRegistration_WithProductsTest extends Mage_S
      * <p>Expected result:</p>
      * <p>Checkout is successful;</p>
      *
-     * @depends createCustomer
      * @param string $productType
      * @param string $productDataSet
-     * @dataProvider createSimpleTypesProductsDataProvider
+     * @dataProvider productDataSetSimpleDataProvider
      * @test
      * @return string
      */
-    public function createSimpleTypesProducts($productDataSet, $productType, $customerData)
+    public function createSimpleTypesProducts($productDataSet, $productType)
     {
         //Data
         $productData = $this->loadData($productDataSet);
@@ -175,9 +174,9 @@ class CheckoutMultipleAddresses_WithRegistration_WithProductsTest extends Mage_S
         $checkoutData['shipping_address_data']['address_to_ship_1']['general_name'] = $productData['general_name'];
         $checkoutData['products_to_add']['product_1']['general_name'] = $productData['general_name'];
         if(preg_match('/virtual_/', $productDataSet) || preg_match('/downloadable_/', $productDataSet)) {
-            $checkoutData['products_to_add']['product_2'] = self::$productsPreConditions['simple_product_visible'];
+            $checkoutData['products_to_add']['product_2'] = self::$_productsPreConditions['simple_product_visible'];
             $checkoutData['shipping_address_data']['address_to_ship_1']['general_name'] =
-                self::$productsPreConditions['simple_product_visible']['general_name'];
+                self::$_productsPreConditions['simple_product_visible']['general_name'];
         }
         if(preg_match('/_options/', $productDataSet)) {
             $checkoutData['products_to_add']['product_1']['options'] = $customOptions;
@@ -193,15 +192,13 @@ class CheckoutMultipleAddresses_WithRegistration_WithProductsTest extends Mage_S
         //Verification
         $this->assertMessagePresent('success', 'success_saved_product');
         //Steps
-        $this->frontend();
-        $this->customerHelper()->frontLoginCustomer($customerData);
-        $this->shoppingCartHelper()->frontClearShoppingCart();
+        $this->logoutCustomer();
         $this->checkoutMultipleAddressesHelper()->frontCreateMultipleCheckout($checkoutData);
         //Verification
         $this->assertMessagePresent('success', 'success_checkout');
     }
 
-    public function createSimpleTypesProductsDataProvider()
+    public function productDataSetSimpleDataProvider()
     {
         return array(
             array('simple_multi_checkout_options', 'simple'),
@@ -232,33 +229,32 @@ class CheckoutMultipleAddresses_WithRegistration_WithProductsTest extends Mage_S
      * <p>Expected result:</p>
      * <p>Checkout is successful;</p>
      *
-     * @depends createCustomer
      * @depends createProductForAssociated
      * @test
      */
 
-    public function createGroupedProduct($customerData)
+    public function createGroupedProduct()
     {
         //Data
         $productData = $this->loadData('grouped_product_visible',
-            array('associated_search_sku' => self::$productsPreConditions['simple_product_visible']['general_sku']),
+            array('associated_search_sku' => self::$_productsPreConditions['simple_product_visible']['general_sku']),
             array('general_name', 'general_sku'));
         $productData['associated_grouped_data']['associated_grouped_2'] = $this->loadData('associated_grouped',
-            array('associated_search_sku' => self::$productsPreConditions['virtual_product_visible']['general_sku']));
+            array('associated_search_sku' => self::$_productsPreConditions['virtual_product_visible']['general_sku']));
         $productData['associated_grouped_data']['associated_grouped_3'] = $this->loadData('associated_grouped',
             array('associated_search_sku' =>
-                self::$productsPreConditions['downloadable_product_visible_multi_checkout']['general_sku']));
+                self::$_productsPreConditions['downloadable_product_visible_multi_checkout']['general_sku']));
         $checkoutData = $this->loadData('multiple_with_register_flatrate_checkmoney');
         $checkoutData['shipping_address_data']['address_to_ship_1']['general_name'] =
-                self::$productsPreConditions['simple_product_visible']['general_name'];
+                self::$_productsPreConditions['simple_product_visible']['general_name'];
         $checkoutData['products_to_add']['product_1']['general_name'] = $productData['general_name'];
         $checkoutDataGrouped = $this->loadData('grouped_options_to_add_to_shopping_cart');
         $checkoutDataGrouped['option_1']['parameters']['subproductName'] =
-                self::$productsPreConditions['simple_product_visible']['general_name'];
+                self::$_productsPreConditions['simple_product_visible']['general_name'];
         $checkoutDataGrouped['option_2']['parameters']['subproductName'] =
-                self::$productsPreConditions['virtual_product_visible']['general_name'];
+                self::$_productsPreConditions['virtual_product_visible']['general_name'];
         $checkoutDataGrouped['option_3']['parameters']['subproductName'] =
-                self::$productsPreConditions['downloadable_product_visible_multi_checkout']['general_name'];
+                self::$_productsPreConditions['downloadable_product_visible_multi_checkout']['general_name'];
         $checkoutData['products_to_add']['product_1']['options'] = $checkoutDataGrouped;
         //Steps
         $this->navigate('manage_products');
@@ -266,9 +262,7 @@ class CheckoutMultipleAddresses_WithRegistration_WithProductsTest extends Mage_S
         //Verification
         $this->assertMessagePresent('success', 'success_saved_product');
         //Steps
-        $this->frontend();
-        $this->customerHelper()->frontLoginCustomer($customerData);
-        $this->shoppingCartHelper()->frontClearShoppingCart();
+        $this->logoutCustomer();
         $this->checkoutMultipleAddressesHelper()->frontCreateMultipleCheckout($checkoutData);
         //Verification
         $this->assertMessagePresent('success', 'success_checkout');
@@ -293,23 +287,22 @@ class CheckoutMultipleAddresses_WithRegistration_WithProductsTest extends Mage_S
      * <p>Expected result:</p>
      * <p>Checkout is successful;</p>
      *
-     * @depends createCustomer
      * @dataProvider productDataSetBundleDataProvider
      * @test
      */
 
-    public function createBundleProducts($productDataSet, $customerData)
+    public function createBundleProducts($productDataSet)
     {
         //Data
         $productData = $this->loadData($productDataSet, array('add_product_1/bundle_items_search_sku' =>
-            self::$productsPreConditions['simple_product_visible']['general_sku'],
+            self::$_productsPreConditions['simple_product_visible']['general_sku'],
             'add_product_2/bundle_items_search_sku' =>
-            self::$productsPreConditions['virtual_product_visible']['general_sku']));
+            self::$_productsPreConditions['virtual_product_visible']['general_sku']));
         $customOptions = $this->loadData('custom_options_to_add_to_shopping_cart');
         $customOptionsBundle = $this->loadData('bundle_options_to_add_to_shopping_cart',
-            array('custom_option_multiselect' => self::$productsPreConditions['simple_product_visible']['general_name'],
-            'optionTitle' => self::$productsPreConditions['simple_product_visible']['general_name'],
-            'custom_option_dropdown' => self::$productsPreConditions['simple_product_visible']['general_name']));
+            array('custom_option_multiselect' => self::$_productsPreConditions['simple_product_visible']['general_name'],
+            'optionTitle' => self::$_productsPreConditions['simple_product_visible']['general_name'],
+            'custom_option_dropdown' => self::$_productsPreConditions['simple_product_visible']['general_name']));
         $checkoutData = $this->loadData('multiple_with_register_flatrate_checkmoney');
         $checkoutData['shipping_address_data']['address_to_ship_1']['general_name'] = $productData['general_name'];
         $checkoutData['products_to_add']['product_1']['general_name'] = $productData['general_name'];
@@ -331,9 +324,7 @@ class CheckoutMultipleAddresses_WithRegistration_WithProductsTest extends Mage_S
         //Verification
         $this->assertMessagePresent('success', 'success_saved_product');
         //Steps
-        $this->frontend();
-        $this->customerHelper()->frontLoginCustomer($customerData);
-        $this->shoppingCartHelper()->frontClearShoppingCart();
+        $this->logoutCustomer();
         $this->checkoutMultipleAddressesHelper()->frontCreateMultipleCheckout($checkoutData);
         //Verification
         $this->assertMessagePresent('success', 'success_checkout');
@@ -368,20 +359,19 @@ class CheckoutMultipleAddresses_WithRegistration_WithProductsTest extends Mage_S
      * <p>Expected result:</p>
      * <p>Checkout is successful;</p>
      *
-     * @depends createCustomer
      * @depends createAttribute
      * @depends createProductForAssociated
      * @dataProvider productDataSetConfigDataProvider
      * @test
      */
 
-    public function createConfigurableWithSimple($productDataSet, $customerData, $attrData)
+    public function createConfigurableWithSimple($productDataSet, $attrData)
     {
         //Data
         $productData = $this->loadData($productDataSet, array(
             'configurable_attribute_title' => $attrData['admin_title'],
             'associated_configurable_1/associated_search_sku' =>
-            self::$productsPreConditions['simple_product_visible']['general_sku']));
+            self::$_productsPreConditions['simple_product_visible']['general_sku']));
         $customOptionsConfig = $this->loadData('configurable_options_to_add_to_shopping_cart');
         $customOptions = $this->loadData('custom_options_to_add_to_shopping_cart');
         $checkoutData = $this->loadData('multiple_with_register_flatrate_checkmoney');
@@ -401,9 +391,7 @@ class CheckoutMultipleAddresses_WithRegistration_WithProductsTest extends Mage_S
         //Verification
         $this->assertMessagePresent('success', 'success_saved_product');
         //Steps
-        $this->frontend();
-        $this->customerHelper()->frontLoginCustomer($customerData);
-        $this->shoppingCartHelper()->frontClearShoppingCart();
+        $this->logoutCustomer();
         $this->checkoutMultipleAddressesHelper()->frontCreateMultipleCheckout($checkoutData);
         //Verification
         $this->assertMessagePresent('success', 'success_checkout');
@@ -428,28 +416,27 @@ class CheckoutMultipleAddresses_WithRegistration_WithProductsTest extends Mage_S
      * <p>Expected result:</p>
      * <p>Checkout is successful;</p>
      *
-     * @depends createCustomer
      * @depends createAttribute
      * @depends createProductForAssociated
      * @dataProvider productDataSetConfigDataProvider
      * @test
      */
 
-    public function createConfigurableWithVirtual($productDataSet, $customerData, $attrData)
+    public function createConfigurableWithVirtual($productDataSet, $attrData)
     {
         //Data
         $productData = $this->loadData($productDataSet, array(
             'configurable_attribute_title' => $attrData['admin_title'],
             'associated_configurable_1/associated_search_sku' =>
-            self::$productsPreConditions['virtual_product_visible']['general_sku']));
+            self::$_productsPreConditions['virtual_product_visible']['general_sku']));
         $customOptionsConfig = $this->loadData('configurable_options_to_add_to_shopping_cart');
         $customOptions = $this->loadData('custom_options_to_add_to_shopping_cart');
         $checkoutData = $this->loadData('multiple_with_register_flatrate_checkmoney');
         $checkoutData['shipping_address_data']['address_to_ship_1']['general_name'] =
-            self::$productsPreConditions['simple_product_visible']['general_name'];
+            self::$_productsPreConditions['simple_product_visible']['general_name'];
         $checkoutData['products_to_add']['product_1']['general_name'] = $productData['general_name'];
         $checkoutData['products_to_add']['product_2']['general_name'] =
-            self::$productsPreConditions['simple_product_visible']['general_name'];
+            self::$_productsPreConditions['simple_product_visible']['general_name'];
         $customOptionsConfig['option_1']['parameters']['title'] = $attrData['admin_title'];
         $customOptionsConfig['option_1']['options_to_choose']['custom_option_dropdown'] =
             $attrData['option_1']['store_view_titles']['Default Store View'];
@@ -464,9 +451,7 @@ class CheckoutMultipleAddresses_WithRegistration_WithProductsTest extends Mage_S
         //Verification
         $this->assertMessagePresent('success', 'success_saved_product');
         //Steps
-        $this->frontend();
-        $this->customerHelper()->frontLoginCustomer($customerData);
-        $this->shoppingCartHelper()->frontClearShoppingCart();
+        $this->logoutCustomer();
         $this->checkoutMultipleAddressesHelper()->frontCreateMultipleCheckout($checkoutData);
         //Verification
         $this->assertMessagePresent('success', 'success_checkout');
@@ -491,28 +476,27 @@ class CheckoutMultipleAddresses_WithRegistration_WithProductsTest extends Mage_S
      * <p>Expected result:</p>
      * <p>Checkout is successful;</p>
      *
-     * @depends createCustomer
      * @depends createAttribute
      * @depends createProductForAssociated
      * @dataProvider productDataSetConfigDataProvider
      * @test
      */
 
-    public function createConfigurableWithDownloadable($productDataSet, $customerData, $attrData)
+    public function createConfigurableWithDownloadable($productDataSet, $attrData)
     {
         //Data
         $productData = $this->loadData($productDataSet, array(
             'configurable_attribute_title' => $attrData['admin_title'],
             'associated_configurable_1/associated_search_sku' =>
-            self::$productsPreConditions['downloadable_product_visible_multi_checkout']['general_sku']));
+            self::$_productsPreConditions['downloadable_product_visible_multi_checkout']['general_sku']));
         $customOptionsConfig = $this->loadData('configurable_options_to_add_to_shopping_cart');
         $customOptions = $this->loadData('custom_options_to_add_to_shopping_cart');
         $checkoutData = $this->loadData('multiple_with_register_flatrate_checkmoney');
         $checkoutData['shipping_address_data']['address_to_ship_1']['general_name'] =
-            self::$productsPreConditions['simple_product_visible']['general_name'];
+            self::$_productsPreConditions['simple_product_visible']['general_name'];
         $checkoutData['products_to_add']['product_1']['general_name'] = $productData['general_name'];
         $checkoutData['products_to_add']['product_2']['general_name'] =
-            self::$productsPreConditions['simple_product_visible']['general_name'];
+            self::$_productsPreConditions['simple_product_visible']['general_name'];
         $customOptionsConfig['option_1']['parameters']['title'] = $attrData['admin_title'];
         $customOptionsConfig['option_1']['options_to_choose']['custom_option_dropdown'] =
             $attrData['option_1']['store_view_titles']['Default Store View'];
@@ -527,9 +511,7 @@ class CheckoutMultipleAddresses_WithRegistration_WithProductsTest extends Mage_S
         //Verification
         $this->assertMessagePresent('success', 'success_saved_product');
         //Steps
-        $this->frontend();
-        $this->customerHelper()->frontLoginCustomer($customerData);
-        $this->shoppingCartHelper()->frontClearShoppingCart();
+        $this->logoutCustomer();
         $this->checkoutMultipleAddressesHelper()->frontCreateMultipleCheckout($checkoutData);
         //Verification
         $this->assertMessagePresent('success', 'success_checkout');
