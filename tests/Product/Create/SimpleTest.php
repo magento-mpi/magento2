@@ -156,11 +156,11 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is not created, error message appears;</p>
      *
-     * @dataProvider dataEmptyField
+     * @dataProvider withRequiredFieldsEmptyDataProvider
      * @depends onlyRequiredFieldsInSimple
      * @test
      */
-    public function emptyRequiredFieldInSimple($emptyField, $fieldType)
+    public function withRequiredFieldsEmpty($emptyField, $fieldType)
     {
         //Data
         if ($emptyField == 'general_visibility') {
@@ -179,7 +179,7 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
-    public function dataEmptyField()
+    public function withRequiredFieldsEmptyDataProvider()
     {
         return array(
             array('general_name', 'field'),
@@ -329,7 +329,7 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is not created, error message appears;</p>
      *
-     * @dataProvider dataInvalidNumericField
+     * @dataProvider invalidNumericFieldDataProvider
      * @depends onlyRequiredFieldsInSimple
      * @test
      */
@@ -356,7 +356,7 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
      * <p>Expected result:<p>
      * <p>Product is not created, error message appears;</p>
      *
-     * @dataProvider dataInvalidNumericField
+     * @dataProvider invalidNumericFieldDataProvider
      * @depends onlyRequiredFieldsInSimple
      * @test
      */
@@ -384,11 +384,11 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is not created, error message appears;</p>
      *
-     * @dataProvider tierPriceFields
+     * @dataProvider emptyTierPriceFieldsDataProvider
      * @depends onlyRequiredFieldsInSimple
      * @test
      */
-    public function emptyTierPriceFieldsInSimple($emptyTierPrice)
+    public function emptyTierPriceFields($emptyTierPrice)
     {
         //Data
         $productData = $this->loadData('simple_product_required');
@@ -402,7 +402,7 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
-    public function tierPriceFields()
+    public function emptyTierPriceFieldsDataProvider()
     {
         return array(
             array('prices_tier_price_qty'),
@@ -422,7 +422,7 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is not created, error message appears;</p>
      *
-     * @dataProvider dataInvalidNumericField
+     * @dataProvider invalidNumericFieldDataProvider
      * @depends onlyRequiredFieldsInSimple
      * @test
      */
@@ -456,7 +456,7 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is not created, error message appears;</p>
      *
-     * @dataProvider dataInvalidQty
+     * @dataProvider invalidQtyDataProvider
      * @depends onlyRequiredFieldsInSimple
      * @test
      */
@@ -472,7 +472,7 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
-    public function dataInvalidQty()
+    public function invalidQtyDataProvider()
     {
         return array(
             array($this->generate('string', 9, ':punct:')),
@@ -481,7 +481,7 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
         );
     }
 
-    public function dataInvalidNumericField()
+    public function invalidNumericFieldDataProvider()
     {
         return array(
             array($this->generate('string', 9, ':punct:')),

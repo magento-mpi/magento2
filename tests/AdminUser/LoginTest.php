@@ -89,7 +89,7 @@ class AdminUser_LoginTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Error message appears - "This is a required field"</p>
      *
-     * @dataProvider dataEmptyLoginUser
+     * @dataProvider loginEmptyOneFieldDataProvider
      * @depends loginValidUser
      * @test
      */
@@ -104,7 +104,7 @@ class AdminUser_LoginTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
-    public function dataEmptyLoginUser()
+    public function loginEmptyOneFieldDataProvider()
     {
         return array(
             array('user_name'),

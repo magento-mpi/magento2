@@ -94,7 +94,7 @@ class Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Selenium_TestCas
      * @param type $simpleSku
      *
      * @depends orderWithout3DSecureSmoke
-     * @dataProvider dataCardSavedCC
+     * @dataProvider cardSavedCCDataProvider
      * @test
      */
     public function differentCardInSavedCC($card, $orderData)
@@ -108,7 +108,7 @@ class Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Selenium_TestCas
         $this->assertMessagePresent('success', 'success_created_order');
     }
 
-    public function dataCardSavedCC()
+    public function cardSavedCCDataProvider()
     {
         return array(
             array('saved_american_express'),
@@ -445,7 +445,7 @@ class Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Selenium_TestCas
      * <p>New customer is created. Order is created for the new customer.</p>
      *
      * @depends orderWithout3DSecureSmoke
-     * @dataProvider dataWith3DSecure
+     * @dataProvider createOrderWith3DSecureDataProvider
      * @test
      */
     public function createOrderWith3DSecure($card, $needSetUp, $orderData)
@@ -463,7 +463,7 @@ class Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Selenium_TestCas
         $this->assertMessagePresent('success', 'success_created_order');
     }
 
-    public function dataWith3DSecure()
+    public function createOrderWith3DSecureDataProvider()
     {
         return array(
             array('saved_jcb', true),

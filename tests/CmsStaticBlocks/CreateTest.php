@@ -148,7 +148,7 @@ class CmsStaticBlocks_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>All fields has the same values.</p>
      *
-     * @dataProvider dataSpecialValues
+     * @dataProvider withSpecialValuesDataProvider
      * @depends createNewWithReqField
      * @test
      *
@@ -172,7 +172,7 @@ class CmsStaticBlocks_CreateTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->verifyForm($setData), $this->getParsedMessages());
     }
 
-    public function dataSpecialValues()
+    public function withSpecialValuesDataProvider()
     {
         return array(
             array(array('block_title' => $this->generate('string', 255, ':alpha:'))),
@@ -190,7 +190,7 @@ class CmsStaticBlocks_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Received error message "This is a required field."</p>
      *
-     * @dataProvider dataEmptyRequiredFields
+     * @dataProvider withEmptyRequiredFieldsDataProvider
      * @test
      *
      * @param string $emptyField Name of the field to leave empty
@@ -211,7 +211,7 @@ class CmsStaticBlocks_CreateTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
-    public function dataEmptyRequiredFields()
+    public function withEmptyRequiredFieldsDataProvider()
     {
         return array(
             array('block_title', 'field'),
@@ -230,7 +230,7 @@ class CmsStaticBlocks_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Received an error message about invalid XML identifier.</p>
      *
-     * @dataProvider dataInvalidXmlIdentifier
+     * @dataProvider withInvalidXmlIdentifierDataProvider
      * @test
      */
     public function withInvalidXmlIdentifier($invalidValue)
@@ -244,7 +244,7 @@ class CmsStaticBlocks_CreateTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
-    public function dataInvalidXmlIdentifier()
+    public function withInvalidXmlIdentifierDataProvider()
     {
         return array(
             array($this->generate('string', 12, ':digit:')),

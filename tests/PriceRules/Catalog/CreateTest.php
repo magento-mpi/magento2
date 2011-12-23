@@ -89,10 +89,10 @@ class PriceRules_Catalog_CreateTest extends Mage_Selenium_TestCase
      *
      * <p>Expected result: Validation message appears</p>
      *
-     * @dataProvider dataEmptyField
+     * @dataProvider withRequiredFieldsEmptyDataProvider
      * @test
      */
-    public function emptyRequiredFields($emptyField, $fieldType)
+    public function withRequiredFieldsEmpty($emptyField, $fieldType)
     {
         //Data
         $priceRuleData = $this->loadData('test_catalog_rule', array($emptyField => '%noValue%'));
@@ -104,7 +104,7 @@ class PriceRules_Catalog_CreateTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
-    public function dataEmptyField()
+    public function withRequiredFieldsEmptyDataProvider()
     {
         return array(
             array('rule_name', 'field'),
@@ -125,7 +125,7 @@ class PriceRules_Catalog_CreateTest extends Mage_Selenium_TestCase
      *
      * <p>Expected result: Validation messages appears</p>
      *
-     * @dataProvider dataInvalidDiscount
+     * @dataProvider invalidDiscountAmountDataProvider
      * @test
      */
     public function invalidDiscountAmount($invalidDiscountData)
@@ -141,7 +141,7 @@ class PriceRules_Catalog_CreateTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->verifyMessagesCount(2), $this->getParsedMessages());
     }
 
-    public function dataInvalidDiscount()
+    public function invalidDiscountAmountDataProvider()
     {
         return array(
             array($this->generate('string', 9, ':punct:')),

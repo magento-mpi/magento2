@@ -90,7 +90,7 @@ class Order_Create_ShippingMethodsTest extends Mage_Selenium_TestCase
      * <p>Order is created;</p>
      *
      * @depends createSimpleProduct
-     * @dataProvider dataShipment
+     * @dataProvider shipmentDataProvider
      * @test
      */
     public function differentShipmentMethods($shipment, $shippingOrigin, $simpleSku)
@@ -115,7 +115,7 @@ class Order_Create_ShippingMethodsTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('success', 'success_canceled_order');
     }
 
-    public function dataShipment()
+    public function shipmentDataProvider()
     {
         return array(
             array('flatrate', 'usa'),

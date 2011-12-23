@@ -152,7 +152,7 @@ class Tax_TaxRule_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Received error message</p>
      *
-     * @dataProvider dataEmptyRequiredFields
+     * @dataProvider withEmptyRequiredFieldsDataProvider
      * @param string $emptyFieldName Name of the field to leave empty
      * @param string $fieldType Type of the field to leave empty
      * @param string $validationMessage Validation message to be verified
@@ -171,7 +171,7 @@ class Tax_TaxRule_CreateTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
-    public function dataEmptyRequiredFields()
+    public function withEmptyRequiredFieldsDataProvider()
     {
         return array(
             array('name', 'field'),
@@ -194,7 +194,7 @@ class Tax_TaxRule_CreateTest extends Mage_Selenium_TestCase
      * <p>All fields has the same values.</p>
      *
      * @depends setupTestDataCreateTaxRate
-     * @dataProvider dataSpecialValues
+     * @dataProvider withSpecialValuesDataProvider
      * @param array $taxRateData
      * @param array $specialValue
      *
@@ -217,7 +217,7 @@ class Tax_TaxRule_CreateTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->verifyForm($taxRuleData), $this->getParsedMessages());
     }
 
-    public function dataSpecialValues()
+    public function withSpecialValuesDataProvider()
     {
         return array(
             array($this->generate('string', 255)),
@@ -235,7 +235,7 @@ class Tax_TaxRule_CreateTest extends Mage_Selenium_TestCase
      * <p>Error message: Please enter a valid number in this field.</p>
      *
      * @depends setupTestDataCreateTaxRate
-     * @dataProvider dataSpecialValuesFields
+     * @dataProvider invalidValuesDataProvider
      * @test
      *
      * @param array $taxRateData
@@ -263,7 +263,7 @@ class Tax_TaxRule_CreateTest extends Mage_Selenium_TestCase
      * <p>Error message: Please enter a valid number in this field.</p>
      *
      * @depends setupTestDataCreateTaxRate
-     * @dataProvider dataSpecialValuesFields
+     * @dataProvider invalidValuesDataProvider
      * @test
      *
      * @param array $taxRateData
@@ -281,7 +281,7 @@ class Tax_TaxRule_CreateTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('error', 'enter_not_negative_number');
     }
 
-    public function dataSpecialValuesFields()
+    public function invalidValuesDataProvider()
     {
         return array(
             array($this->generate('string', 50, ':alpha:')),

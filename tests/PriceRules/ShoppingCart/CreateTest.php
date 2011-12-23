@@ -56,10 +56,10 @@ class PriceRules_ShoppingCart_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected results:</p>
      * <p>Rule is not created; Message "This is required field" is shown under each empty required field;</p>
      *
-     * @dataProvider dataEmptyFields
+     * @dataProvider withRequiredFieldsEmptyDataProvider
      * @test
      */
-    public function createWithEmptyRequiredFields($fieldName, $fieldType)
+    public function withRequiredFieldsEmpty($fieldName, $fieldType)
     {
         $this->navigate('manage_shopping_cart_price_rules');
         $dataToOverride = array();
@@ -75,7 +75,7 @@ class PriceRules_ShoppingCart_CreateTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
-    public function dataEmptyFields()
+    public function withRequiredFieldsEmptyDataProvider()
     {
         return array(
             array('rule_name', 'field'),

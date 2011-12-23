@@ -60,7 +60,7 @@ class Product_ReviewTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Products are created, Custom options are available for in stock product and disabled for out of stock;</p>
      *
-     * @dataProvider dataProv
+     * @dataProvider reviewInfoInProductDetailsDataProvider
      * @test
      */
     public function reviewInfoInProductDetails($productType, $availability)
@@ -74,7 +74,7 @@ class Product_ReviewTest extends Mage_Selenium_TestCase
         $this->productHelper()->frontVerifyProductInfo($productData);
     }
 
-    public function dataProv()
+    public function reviewInfoInProductDetailsDataProvider()
     {
         return array(
             array('simple', 'In Stock'),

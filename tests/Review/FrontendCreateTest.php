@@ -50,7 +50,7 @@ class Review_FrontendCreateTest extends Mage_Selenium_TestCase
             $this->selectFrontStoreView();
         }
     }
-    
+
     /**
      * <p>Preconditions</p>
      * @test
@@ -172,8 +172,8 @@ class Review_FrontendCreateTest extends Mage_Selenium_TestCase
         $this->reviewHelper()->openReview($searchData);
         //Verification
         $this->reviewHelper()->verifyReviewData($reviewData);
-    }    
-    
+    }
+
     /**
      * <p>Review creating with Logged Customer</p>
      *
@@ -228,11 +228,11 @@ class Review_FrontendCreateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Review is not created. Empty Required Field message appears.</p>
      *
-     * @dataProvider emptyFields
+     * @dataProvider withEmptyRequiredFieldsDataProvider
      * @depends preconditionsForTests
      * @test
      */
-    public function frontendReviewEmptyFields($emptyFieldName, $data)
+    public function withEmptyRequiredFields($emptyFieldName, $data)
     {
         //Data
         $reviewData = $this->loadData('frontend_review', array($emptyFieldName => ''));
@@ -246,7 +246,7 @@ class Review_FrontendCreateTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
-    public function emptyFields()
+    public function withEmptyRequiredFieldsDataProvider()
     {
         return array(
             array('nickname'),
@@ -264,7 +264,7 @@ class Review_FrontendCreateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Review is created. Review can be opened on the backend.</p>
      *
-     * @dataProvider specialCharactersData
+     * @dataProvider frontendReviewSpecialCharactersDataProvider
      * @depends preconditionsForTests
      * @test
      */
@@ -288,7 +288,7 @@ class Review_FrontendCreateTest extends Mage_Selenium_TestCase
         $this->reviewHelper()->verifyReviewData($reviewData);
     }
 
-    public function specialCharactersData()
+    public function frontendReviewSpecialCharactersDataProvider()
     {
         return array(
             array('review_long_values'),

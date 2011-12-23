@@ -66,7 +66,7 @@ class Order_Create_WithProductWithWarningTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Warning message appears before submitting order. Order is created</p>
      *
-     * @dataProvider dataProductWithValidationMessage
+     * @dataProvider orderWithProductWithValidationMessageDataProvider
      * @test
      */
     public function orderWithProductWithValidationMessage($productData, $message, $productQty)
@@ -105,7 +105,7 @@ class Order_Create_WithProductWithWarningTest extends Mage_Selenium_TestCase
         $this->orderCreditMemoHelper()->createCreditMemoAndVerifyProductQty('refund_offline');
     }
 
-    public function dataProductWithValidationMessage()
+    public function orderWithProductWithValidationMessageDataProvider()
     {
         return array(
             array('simple_low_qty', 'requested_quantity_not_available', 5),

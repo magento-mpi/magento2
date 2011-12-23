@@ -299,7 +299,7 @@ class Product_DuplicateTest extends Mage_Selenium_TestCase
      * <p>Product is created, confirmation message appears;</p>
      *
      * @depends createProducts
-     * @dataProvider dataBundle
+     * @dataProvider duplicateBundleDataProvider
      * @test
      */
     public function duplicateBundle($data, $productData)
@@ -332,7 +332,7 @@ class Product_DuplicateTest extends Mage_Selenium_TestCase
         $this->productHelper()->verifyProductInfo($bundle, array('general_sku', 'general_status'));
     }
 
-    public function dataBundle()
+    public function duplicateBundleDataProvider()
     {
         return array(
             array('duplicate_fixed_bundle'),

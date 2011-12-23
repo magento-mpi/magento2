@@ -122,7 +122,7 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase
      * <p>Error Message is displayed</p>
      *
      * @depends withRequiredFieldsOnly
-     * @dataProvider dataEmptyFields
+     * @dataProvider withRequiredFieldsEmptyDataProvider
      * @param array $emptyField
      * @param array $searchData
      * @test
@@ -156,7 +156,7 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
-    public function dataEmptyFields()
+    public function withRequiredFieldsEmptyDataProvider()
     {
         return array(
             array('first_name'),

@@ -134,7 +134,7 @@ class Store_Website_CreateTest extends Mage_Selenium_TestCase
      * <p>Error Message is displayed.</p>
      *
      * @depends withRequiredFieldsOnly
-     * @dataProvider dataEmptyField
+     * @dataProvider withRequiredFieldsEmptyDataProvider
      * @test
      */
     public function withRequiredFieldsEmpty($emptyField)
@@ -150,7 +150,7 @@ class Store_Website_CreateTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
-    public function dataEmptyField()
+    public function withRequiredFieldsEmptyDataProvider()
     {
         return array(
             array('website_name'),
@@ -221,7 +221,7 @@ class Store_Website_CreateTest extends Mage_Selenium_TestCase
      * <p>Website is not created.</p>
      * <p>Error Message is displayed.</p>
      *
-     * @dataProvider dataInvalidCode
+     * @dataProvider withInvalidCodeDataProvider
      * @depends withRequiredFieldsOnly
      * @test
      */
@@ -235,7 +235,7 @@ class Store_Website_CreateTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('error', 'wrong_website_code');
     }
 
-    public function dataInvalidCode()
+    public function withInvalidCodeDataProvider()
     {
         return array(
             array('invalid code'),

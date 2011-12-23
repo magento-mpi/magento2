@@ -129,7 +129,7 @@ class PriceRules_ShoppingCart_ApplyTest extends Mage_Selenium_TestCase
      * @param string $category  String with the category path for creating rules
      * @param array  $products  Array with the products' names and sku for validating prices on the frontend
      *
-     * @dataProvider ruleTypes
+     * @dataProvider ruleTypesDataProvider
      * @depends createCustomer
      * @depends createCategory
      * @depends createProducts
@@ -168,7 +168,7 @@ class PriceRules_ShoppingCart_ApplyTest extends Mage_Selenium_TestCase
      *
      * @return array
      */
-    public function ruleTypes()
+    public function ruleTypesDataProvider()
     {
         return array(
             array('percent_of_product_price_discount'),

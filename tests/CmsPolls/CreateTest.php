@@ -100,7 +100,7 @@ class CmsPolls_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Received error message "This is a required field."</p>
      *
-     * @dataProvider dataEmptyRequiredFields
+     * @dataProvider withEmptyRequiredFieldsDataProvider
      * @test
      */
     public function withEmptyRequiredFields($emptyField, $fieldType)
@@ -115,7 +115,7 @@ class CmsPolls_CreateTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
-    public function dataEmptyRequiredFields()
+    public function withEmptyRequiredFieldsDataProvider()
     {
         return array(
             array('poll_question', 'field'),

@@ -90,7 +90,7 @@ class Order_Create_CheckingValidationTest extends Mage_Selenium_TestCase
      *    Message with "Empty required field" appears.</p>
      *
      * @depends createSimple
-     * @dataProvider dataEmptyFieldsBilling
+     * @dataProvider emptyRequiredFildsInBillingAddressDataProvider
      *
      * @param string $emptyField
      * @param string $simpleSku
@@ -127,7 +127,7 @@ class Order_Create_CheckingValidationTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
-    public function dataEmptyFieldsBilling()
+    public function emptyRequiredFildsInBillingAddressDataProvider()
     {
         return array(
             array('billing_first_name'),
@@ -160,7 +160,7 @@ class Order_Create_CheckingValidationTest extends Mage_Selenium_TestCase
      *    Message with "Empty required field" appears.</p>
      *
      * @depends createSimple
-     * @dataProvider dataEmptyFieldsShipping
+     * @dataProvider emptyRequiredFildsInShippingAddressDataProvider
      *
      * @param string $emptyField
      * @param string $simpleSku
@@ -196,7 +196,7 @@ class Order_Create_CheckingValidationTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
-    public function dataEmptyFieldsShipping()
+    public function emptyRequiredFildsInShippingAddressDataProvider()
     {
         return array(
             array('shipping_first_name'),

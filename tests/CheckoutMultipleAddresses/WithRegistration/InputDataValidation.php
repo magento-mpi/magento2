@@ -144,7 +144,7 @@ class CheckoutMultipleAddresses_WithRegistration_InputDataValidation extends Mag
      * <p>Error Message is displayed.</p>
      *
      * @param $field
-     * @dataProvider emptyField
+     * @dataProvider withRequiredFieldsEmptyDataProvider
      * @depends withRequiredFieldsOnly
      * @test
      */
@@ -152,12 +152,8 @@ class CheckoutMultipleAddresses_WithRegistration_InputDataValidation extends Mag
     {
 
     }
-    /**
-     * DataProvider for withRequiredFieldsEmpty
-     *
-     * @return array
-     */
-    public function emptyField()
+
+    public function withRequiredFieldsEmptyDataProvider()
     {
         return array(
             array(),//First Name
@@ -211,7 +207,7 @@ class CheckoutMultipleAddresses_WithRegistration_InputDataValidation extends Mag
      * <p>Error Message is displayed.</p>
      *
      * @param $longValue
-     * @dataProvider dataLongValuesNotValid
+     * @dataProvider withLongValuesNotValidDataProvider
      * @depends withRequiredFieldsOnly
      * @test
      */
@@ -220,12 +216,7 @@ class CheckoutMultipleAddresses_WithRegistration_InputDataValidation extends Mag
 
     }
 
-    /**
-     * DataProvider for withLongValuesNotValid
-     *
-     * @return array
-     */
-    public function dataLongValuesNotValid()
+    public function withLongValuesNotValidDataProvider()
     {
         return array(
 
@@ -258,7 +249,7 @@ class CheckoutMultipleAddresses_WithRegistration_InputDataValidation extends Mag
      * <p>Error Message is displayed.</p>
      *
      * @param $invalidEmail
-     * @dataProvider dataInvalidEmail
+     * @dataProvider withInvalidEmailDataProvider
      * @depends withRequiredFieldsOnly
      * @test
      */
@@ -268,12 +259,7 @@ class CheckoutMultipleAddresses_WithRegistration_InputDataValidation extends Mag
 
     }
 
-    /**
-     * DataProvider for withInvalidEmail
-     *
-     * @return array
-     */
-    public function dataInvalidEmail()
+    public function withInvalidEmailDataProvider()
     {
         return array(
             array(array('email' => 'invalid')),
@@ -297,7 +283,7 @@ class CheckoutMultipleAddresses_WithRegistration_InputDataValidation extends Mag
      * <p>Customer is not registered.</p>
      * <p>Error Message is displayed.</p>
      *
-     * @dataProvider dataInvalidPassword
+     * @dataProvider withInvalidPasswordDataProvider
      * @depends withRequiredFieldsOnly
      * @test
      */
@@ -311,7 +297,7 @@ class CheckoutMultipleAddresses_WithRegistration_InputDataValidation extends Mag
      *
      * @return array
      */
-    public function dataInvalidPassword()
+    public function withInvalidPasswordDataProvider()
     {
         return array(
             array(array('password' => 12345, 'password_confirmation' => 12345), 'short_passwords'),

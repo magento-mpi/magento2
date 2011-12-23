@@ -119,7 +119,7 @@ class CheckoutMultipleAddresses_LoggedIn_ShippingMethodsTest extends Mage_Seleni
      * <p>Two new orders are successfully created.</p>
      * @TODO change to create shipping addresses once for all tests
      *
-     * @dataProvider dataShipment
+     * @dataProvider shipmentDataProvider
      * @depends createSimpleProducts
      * @depends createCustomer
      *
@@ -162,7 +162,7 @@ class CheckoutMultipleAddresses_LoggedIn_ShippingMethodsTest extends Mage_Seleni
      * <p>Expected result:</p>
      * <p>Two new orders are successfully created.</p>
      *
-     * @dataProvider dataShipment
+     * @dataProvider shipmentDataProvider
      * @depends createSimpleProducts
      * @depends createVirtualProduct
      * @depends createCustomer
@@ -193,7 +193,7 @@ class CheckoutMultipleAddresses_LoggedIn_ShippingMethodsTest extends Mage_Seleni
         $this->assertTrue(count($orderNumbers) == 2, $this->getMessagesOnPage());
     }
 
-    public function dataShipment()
+    public function shipmentDataProvider()
     {
         return array(
             array('flatrate', 'usa'),

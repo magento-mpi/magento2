@@ -161,7 +161,7 @@ class AdminUser_CreateTest extends Mage_Selenium_TestCase
      * <p>Message "This is a required field." is displayed.</p>
      *
      * @depends withRequiredFieldsOnly
-     * @dataProvider emptyFields
+     * @dataProvider withRequiredFieldsEmptyDataProvider
      *
      * @test
      */
@@ -178,7 +178,7 @@ class AdminUser_CreateTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->verifyMessagesCount($messageCount), $this->getParsedMessages());
     }
 
-    public function emptyFields()
+    public function withRequiredFieldsEmptyDataProvider()
     {
         return array(
             array('user_name', 1),
@@ -278,7 +278,7 @@ class AdminUser_CreateTest extends Mage_Selenium_TestCase
      * <p>Error Message is displayed.</p>
      *
      * @depends withRequiredFieldsOnly
-     * @dataProvider invalidPassword
+     * @dataProvider withInvalidPasswordDataProvider
      *
      * @test
      */
@@ -293,7 +293,7 @@ class AdminUser_CreateTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
-    public function invalidPassword()
+    public function withInvalidPasswordDataProvider()
     {
         return array(
             array(array(
@@ -329,7 +329,7 @@ class AdminUser_CreateTest extends Mage_Selenium_TestCase
      * For example johndoe@domain.com." is displayed.</p>
      *
      * @depends withRequiredFieldsOnly
-     * @dataProvider invalidEmail
+     * @dataProvider withInvalidEmailDataProvider
      *
      * @test
      */
@@ -343,7 +343,7 @@ class AdminUser_CreateTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('error', 'invalid_email');
     }
 
-    public function invalidEmail()
+    public function withInvalidEmailDataProvider()
     {
         return array(
             array('invalid'),

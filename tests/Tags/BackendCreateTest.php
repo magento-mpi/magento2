@@ -135,7 +135,7 @@ class Tags_BackendCreateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>All fields has the same values.</p>
      *
-     * @dataProvider dataSpecialValues
+     * @dataProvider withSpecialValuesDataProvider
      * @depends createNew
      * @test
      *
@@ -157,7 +157,7 @@ class Tags_BackendCreateTest extends Mage_Selenium_TestCase
         $this->_tagToBeDeleted = $tagToOpen;
     }
 
-    public function dataSpecialValues()
+    public function withSpecialValuesDataProvider()
     {
         return array(
             array(array('tag_name' => $this->generate('string', 255))), //long

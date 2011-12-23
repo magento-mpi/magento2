@@ -112,7 +112,7 @@ class CheckoutMultipleAddresses_LoggedIn_PaymentMethodsTest extends Mage_Seleniu
      * @param $userData
      * @depends preconditionsCreateProduct
      * @depends preconditionsCreateCustomer
-     * @dataProvider dataWithout3DSecure
+     * @dataProvider differentPaymentMethodsWithout3DDataProvider
      * @test
      */
     public function differentPaymentMethodsWithout3D($payment, $productData,$userData)
@@ -136,7 +136,7 @@ class CheckoutMultipleAddresses_LoggedIn_PaymentMethodsTest extends Mage_Seleniu
         $this->assertMessagePresent('success', 'success_checkout');
     }
 
-    public function dataWithout3DSecure()
+    public function differentPaymentMethodsWithout3DDataProvider()
     {
         return array(
             array('paypaldirect'),
@@ -175,7 +175,7 @@ class CheckoutMultipleAddresses_LoggedIn_PaymentMethodsTest extends Mage_Seleniu
      * @param $userData
      * @depends preconditionsCreateProduct
      * @depends preconditionsCreateCustomer
-     * @dataProvider dataWith3DSecure
+     * @dataProvider differentPaymentMethodsWith3DDataProvider
      * @test
      */
     public function differentPaymentMethodsWith3D($payment, $productData,$userData)
@@ -199,7 +199,7 @@ class CheckoutMultipleAddresses_LoggedIn_PaymentMethodsTest extends Mage_Seleniu
         $this->assertMessagePresent('success', 'success_checkout');
     }
 
-    public function dataWith3DSecure()
+    public function differentPaymentMethodsWith3DDataProvider()
     {
         return array(
             array('paypaldirect'),

@@ -614,7 +614,7 @@ class Wishlist_Wishlist extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>The success message is displayed</p>
      *
-     * @dataProvider dataToShare
+     * @dataProvider shareWishlistDataProvider
      * @depends createCustomer
      * @depends createProductSimple
      * @param array $shareData
@@ -638,7 +638,7 @@ class Wishlist_Wishlist extends Mage_Selenium_TestCase
         //Cleanup
     }
 
-    public function dataToShare()
+    public function shareWishlistDataProvider()
     {
         return array(
             array(array('emails' => 'autotest@test.com', 'message' => 'autotest message')),
@@ -657,7 +657,7 @@ class Wishlist_Wishlist extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>An error message is displayed</p>
      *
-     * @dataProvider dataInvalidEmail
+     * @dataProvider withInvalidEmailDataProvider
      * @depends createCustomer
      * @depends createProductSimple
      * @param string $emails
@@ -667,7 +667,7 @@ class Wishlist_Wishlist extends Mage_Selenium_TestCase
      *
      * @test
      */
-    public function shareWishlistWithInvalidEmail($emails, $errorMessage, $customer, $simpleProductName)
+    public function withInvalidEmail($emails, $errorMessage, $customer, $simpleProductName)
     {
         //Setup
         $shareData = $this->loadData('share_data', array('emails' => $emails));
@@ -685,7 +685,7 @@ class Wishlist_Wishlist extends Mage_Selenium_TestCase
         //Cleanup
     }
 
-    public function dataInvalidEmail()
+    public function withInvalidEmailDataProvider()
     {
         return array(
             array('email@@domain.com', 'invalid_emails_js'),

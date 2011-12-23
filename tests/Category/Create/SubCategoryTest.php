@@ -66,7 +66,7 @@ class Category_Create_SubCategoryTest extends Mage_Selenium_TestCase
      *
      * @test
      */
-    public function subCategoryWithRequiredFieldsOnly()
+    public function withRequiredFieldsOnly()
     {
         //Data
         $rooCat = 'Default Category';
@@ -90,7 +90,7 @@ class Category_Create_SubCategoryTest extends Mage_Selenium_TestCase
      * <p>Root Category created, success message appears</p>
      *
      * @test
-     * @depends subCategoryWithRequiredFieldsOnly
+     * @depends withRequiredFieldsOnly
      */
     public function rootCategoryWithAllFields($rooCat)
     {
@@ -112,11 +112,11 @@ class Category_Create_SubCategoryTest extends Mage_Selenium_TestCase
      * <p>Expected Result:</p>
      * <p>Subcategory not created, error message appears</p>
      *
-     * @dataProvider dataEmptyFields
-     * @depends subCategoryWithRequiredFieldsOnly
+     * @dataProvider withRequiredFieldsEmptyDataProvider
+     * @depends withRequiredFieldsOnly
      * @test
      */
-    public function subCategoryWithRequiredFieldsEmpty($emptyField, $fieldType, $rooCat)
+    public function withRequiredFieldsEmpty($emptyField, $fieldType, $rooCat)
     {
         //Data
         $categoryData = $this->loadData('sub_category_required', array($emptyField => '%noValue%'));
@@ -128,7 +128,7 @@ class Category_Create_SubCategoryTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
-    public function dataEmptyFields()
+    public function withRequiredFieldsEmptyDataProvider()
     {
         return array(
             array('name', 'field'),
@@ -145,10 +145,10 @@ class Category_Create_SubCategoryTest extends Mage_Selenium_TestCase
      * <p>Expected Result:</p>
      * <p>Subcategory created, success message appears</p>
      *
-     * @depends subCategoryWithRequiredFieldsOnly
+     * @depends withRequiredFieldsOnly
      * @test
      */
-    public function subCategoryWithSpecialCharacters($rooCat)
+    public function withSpecialCharacters($rooCat)
     {
         //Data
         $categoryData = $this->loadData('sub_category_required',
@@ -169,10 +169,10 @@ class Category_Create_SubCategoryTest extends Mage_Selenium_TestCase
      * <p>Expected Result:</p>
      * <p>Subcategory created, success message appears</p>
      *
-     * @depends subCategoryWithRequiredFieldsOnly
+     * @depends withRequiredFieldsOnly
      * @test
      */
-    public function subCategoryWithLongValues($rooCat)
+    public function withLongValues($rooCat)
     {
         //Data
         $categoryData = $this->loadData('sub_category_required',
@@ -194,7 +194,7 @@ class Category_Create_SubCategoryTest extends Mage_Selenium_TestCase
      * <p>Expected Result:</p>
      * <p>Subcategory created, success message appears</p>
      *
-     * @depends subCategoryWithRequiredFieldsOnly
+     * @depends withRequiredFieldsOnly
      * @test
      */
     public function nestedSubCategory($rooCat)

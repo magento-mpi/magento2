@@ -176,7 +176,7 @@ class Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is not created, error message appears;</p>
      *
-     * @dataProvider dataEmptyField
+     * @dataProvider emptyRequiredFieldInConfigurableDataProvider
      * @depends createConfigurableAttribute
      * @test
      */
@@ -201,7 +201,7 @@ class Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
-    public function dataEmptyField()
+    public function emptyRequiredFieldInConfigurableDataProvider()
     {
         return array(
             array('general_name', 'field'),
@@ -325,7 +325,7 @@ class Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is not created, error message appears;</p>
      *
-     * @dataProvider dataInvalidNumericField
+     * @dataProvider invalidNumericFieldDataProvider
      * @depends createConfigurableAttribute
      * @test
      */
@@ -354,7 +354,7 @@ class Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
      * <p>Expected result:<p>
      * <p>Product is not created, error message appears;</p>
      *
-     * @dataProvider dataInvalidNumericField
+     * @dataProvider invalidNumericFieldDataProvider
      * @depends createConfigurableAttribute
      * @test
      */
@@ -385,7 +385,7 @@ class Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is not created, error message appears;</p>
      *
-     * @dataProvider tierPriceFields
+     * @dataProvider emptyTierPriceFieldsInConfigurableDataProvider
      * @depends createConfigurableAttribute
      * @test
      */
@@ -404,7 +404,7 @@ class Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
-    public function tierPriceFields()
+    public function emptyTierPriceFieldsInConfigurableDataProvider()
     {
         return array(
             array('prices_tier_price_qty'),
@@ -424,7 +424,7 @@ class Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is not created, error message appears;</p>
      *
-     * @dataProvider dataInvalidNumericField
+     * @dataProvider invalidNumericFieldDataProvider
      * @depends createConfigurableAttribute
      * @test
      */
@@ -448,7 +448,7 @@ class Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->verifyMessagesCount(2), $this->getParsedMessages());
     }
 
-    public function dataInvalidNumericField()
+    public function invalidNumericFieldDataProvider()
     {
         return array(
             array($this->generate('string', 9, ':punct:')),

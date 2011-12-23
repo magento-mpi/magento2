@@ -198,7 +198,7 @@ class Product_Create_BundleTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is not created, error message appears;</p>
      *
-     * @dataProvider dataEmptyField
+     * @dataProvider emptyRequiredFieldInBundleDataProvider
      * @depends requiredFieldsForDynamicSmoke
      * @test
      */
@@ -215,7 +215,7 @@ class Product_Create_BundleTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
-    public function dataEmptyField()
+    public function emptyRequiredFieldInBundleDataProvider()
     {
         return array(
             array(array('general_name' => '%noValue%'), 'field'),
@@ -367,7 +367,7 @@ class Product_Create_BundleTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is not created, error message appears;</p>
      *
-     * @dataProvider dataInvalidNumericField
+     * @dataProvider invalidNumericFieldDataProvider
      * @depends requiredFieldsForDynamicSmoke
      * @test
      */
@@ -394,7 +394,7 @@ class Product_Create_BundleTest extends Mage_Selenium_TestCase
      * <p>Expected result:<p>
      * <p>Product is not created, error message appears;</p>
      *
-     * @dataProvider dataInvalidNumericField
+     * @dataProvider invalidNumericFieldDataProvider
      * @depends requiredFieldsForDynamicSmoke
      * @test
      */
@@ -422,7 +422,7 @@ class Product_Create_BundleTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is not created, error message appears;</p>
      *
-     * @dataProvider tierPriceFields
+     * @dataProvider emptyTierPriceFieldsInBundleDataProvider
      * @depends requiredFieldsForDynamicSmoke
      * @test
      */
@@ -440,7 +440,7 @@ class Product_Create_BundleTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
-    public function tierPriceFields()
+    public function emptyTierPriceFieldsInBundleDataProvider()
     {
         return array(
             array('prices_tier_price_qty'),
@@ -460,7 +460,7 @@ class Product_Create_BundleTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is not created, error message appears;</p>
      *
-     * @dataProvider dataInvalidNumericField
+     * @dataProvider invalidNumericFieldDataProvider
      * @depends requiredFieldsForDynamicSmoke
      * @test
      */
@@ -527,7 +527,7 @@ class Product_Create_BundleTest extends Mage_Selenium_TestCase
      * <p>Product is not created, error message appears;</p>
      *
      * @test
-     * @dataProvider dataInvalidNumericField
+     * @dataProvider invalidNumericFieldDataProvider
      * @depends requiredFieldsForDynamicSmoke
      */
     public function invalidPositionForBundleItems($invalidPosition)
@@ -560,7 +560,7 @@ class Product_Create_BundleTest extends Mage_Selenium_TestCase
      * <p>Product is created, confirmation message appears;</p>
      *
      * @test
-     * @dataProvider dataBundleType
+     * @dataProvider bundleTypeDataProvider
      * @depends requiredFieldsForDynamicSmoke
      */
     public function bundleWithSimpleProduct($dataBundleType)
@@ -601,7 +601,7 @@ class Product_Create_BundleTest extends Mage_Selenium_TestCase
      * <p>Product is created, confirmation message appears;</p>
      *
      * @test
-     * @dataProvider dataBundleType
+     * @dataProvider bundleTypeDataProvider
      * @depends requiredFieldsForDynamicSmoke
      */
     public function bundleWithVirtualProduct($dataBundleType)
@@ -626,7 +626,7 @@ class Product_Create_BundleTest extends Mage_Selenium_TestCase
         $this->productHelper()->verifyProductInfo($bundleData);
     }
 
-    public function dataBundleType()
+    public function bundleTypeDataProvider()
     {
         return array(
             array('fixed_bundle_required'),
@@ -634,7 +634,7 @@ class Product_Create_BundleTest extends Mage_Selenium_TestCase
         );
     }
 
-    public function dataInvalidNumericField()
+    public function invalidNumericFieldDataProvider()
     {
         return array(
             array($this->generate('string', 9, ':punct:')),

@@ -136,7 +136,7 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
      * <p>Customer is not created.</p>
      * <p>Error Message is displayed.</p>
      *
-     * @dataProvider dataEmptyField
+     * @dataProvider withRequiredFieldsEmptyDataProvider
      * @depends withRequiredFieldsOnly
      * @test
      */
@@ -154,7 +154,7 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
-    public function dataEmptyField()
+    public function withRequiredFieldsEmptyDataProvider()
     {
         return array(
             array('first_name'),
@@ -257,7 +257,7 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
      * <p>Customer is not created.</p>
      * <p>Error Message is displayed.</p>
      *
-     * @dataProvider dataInvalidEmail
+     * @dataProvider withInvalidEmailDataProvider
      * @depends withRequiredFieldsOnly
      * @test
      */
@@ -272,7 +272,7 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('error', 'invalid_email');
     }
 
-    public function dataInvalidEmail()
+    public function withInvalidEmailDataProvider()
     {
         return array(
             array('invalid'),

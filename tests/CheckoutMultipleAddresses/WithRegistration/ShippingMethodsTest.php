@@ -100,7 +100,7 @@ class CheckoutMultipleAddresses_WithRegistration_ShippingMethodsTest extends Mag
      * <p>Two new orders are successfully created.</p>
      * @TODO change to create shipping addresses once for all tests
      *
-     * @dataProvider dataShipment
+     * @dataProvider shipmentDataProvider
      * @depends createSimpleProducts
      *
      * @test
@@ -137,7 +137,7 @@ class CheckoutMultipleAddresses_WithRegistration_ShippingMethodsTest extends Mag
      * <p>Expected result:</p>
      * <p>Two new orders are successfully created.</p>
      *
-     * @dataProvider dataShipment
+     * @dataProvider shipmentDataProvider
      * @depends createSimpleProducts
      * @depends createVirtualProduct
      *
@@ -164,7 +164,7 @@ class CheckoutMultipleAddresses_WithRegistration_ShippingMethodsTest extends Mag
         $this->assertTrue(count($orderNumbers) == 2, $this->getMessagesOnPage());
     }
 
-    public function dataShipment()
+    public function shipmentDataProvider()
     {
         return array(
             array('flatrate', 'usa'),

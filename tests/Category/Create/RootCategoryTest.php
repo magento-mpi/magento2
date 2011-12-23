@@ -109,10 +109,10 @@ class Category_Create_RootCategoryTest extends Mage_Selenium_TestCase
      * <p>Root Category not created, error message appears</p>
 
      *
-     * @dataProvider dataEmptyFields
+     * @dataProvider withRequiredFieldsEmptyDataProvider
      * @test
      */
-    public function rootCategoryWithRequiredFieldsEmpty($emptyField, $fieldType)
+    public function withRequiredFieldsEmpty($emptyField, $fieldType)
     {
         //Data
         $categoryData = $this->loadData('root_category_required', array($emptyField => '%noValue%'));
@@ -124,7 +124,7 @@ class Category_Create_RootCategoryTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
-    public function dataEmptyFields()
+    public function withRequiredFieldsEmptyDataProvider()
     {
         return array(
             array('name', 'field'),

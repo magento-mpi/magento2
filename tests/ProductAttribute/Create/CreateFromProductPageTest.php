@@ -82,7 +82,7 @@ class ProductAttribute_Create_CreateFromProductPageTest extends Mage_Selenium_Te
      * <p>New attribute successfully created.
      * Success message: 'The product attribute has been saved.' is displayed.</p>
      *
-     * @dataProvider dataAttributeTypes
+     * @dataProvider onProductPageWithRequiredFieldsOnlyDataProvider
      * @test
      */
     public function onProductPageWithRequiredFieldsOnly($attributeType)
@@ -99,7 +99,7 @@ class ProductAttribute_Create_CreateFromProductPageTest extends Mage_Selenium_Te
         $this->assertElementPresent("//*[contains(@id,'" . $attrData['attribute_code'] . "')]");
     }
 
-    public function dataAttributeTypes()
+    public function onProductPageWithRequiredFieldsOnlyDataProvider()
     {
         return array(
             array('product_attribute_textfield'),

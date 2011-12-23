@@ -88,43 +88,43 @@ class Tax_TaxAndPricesValidationBackendTest extends Mage_Selenium_TestCase
     /**
      * Create Order on the backend and validate prices with taxes
      *
-     * @dataProvider dataSystemConfiguration
+     * @dataProvider createOrderBackendDataProvider
      * @depends createCustomer
      * @depends createProducts
      *
      * @test
      */
-    public function createOrderBackend($dataProv, $customer, $products)
+    public function createOrderBackend($sysConfigData, $customer, $products)
     {
         //Preconditions
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($dataProv);
+        $this->systemConfigurationHelper()->configure($sysConfigData);
         //Data for order creation
-        $crOrder = $this->loadData($dataProv . '_backend_create_order', array('email' => $customer));
+        $crOrder = $this->loadData($sysConfigData . '_backend_create_order', array('email' => $customer));
         //Data for prices and total verification after order creation
-        $priceAftOrdCr = $this->loadData($dataProv . '_backend_product_prices_after_order');
-        $totAftOrdCr = $this->loadData($dataProv . '_backend_total_after_order');
+        $priceAftOrdCr = $this->loadData($sysConfigData . '_backend_product_prices_after_order');
+        $totAftOrdCr = $this->loadData($sysConfigData . '_backend_total_after_order');
         //Data for prices and total verification before invoice creation
-        $priceBefInvCr = $this->loadData($dataProv . '_backend_product_prices_before_invoice');
-        $totBefInvCr = $this->loadData($dataProv . '_backend_total_before_invoice');
+        $priceBefInvCr = $this->loadData($sysConfigData . '_backend_product_prices_before_invoice');
+        $totBefInvCr = $this->loadData($sysConfigData . '_backend_total_before_invoice');
         //Data for prices and total verification after invoice creation on order page
-        $priceAftInvCr = $this->loadData($dataProv . '_backend_product_prices_after_invoice');
-        $totAftInvCr = $this->loadData($dataProv . '_backend_total_after_invoice');
+        $priceAftInvCr = $this->loadData($sysConfigData . '_backend_product_prices_after_invoice');
+        $totAftInvCr = $this->loadData($sysConfigData . '_backend_total_after_invoice');
         //Data for prices and total verification after invoice creation on invoice page
-        $priceAftInvCrOnInv = $this->loadData($dataProv . '_backend_product_prices_after_invoice_on_invoice');
-        $totAftInvCrOnInv = $this->loadData($dataProv . '_backend_total_after_invoice_on_invoice');
+        $priceAftInvCrOnInv = $this->loadData($sysConfigData . '_backend_product_prices_after_invoice_on_invoice');
+        $totAftInvCrOnInv = $this->loadData($sysConfigData . '_backend_total_after_invoice_on_invoice');
         //Data for prices and total verification after invoice creation on invoice page
-        $priceAftShipCr = $this->loadData($dataProv . '_backend_product_prices_after_shipment');
-        $totAftShipCr = $this->loadData($dataProv . '_backend_total_after_shipment');
+        $priceAftShipCr = $this->loadData($sysConfigData . '_backend_product_prices_after_shipment');
+        $totAftShipCr = $this->loadData($sysConfigData . '_backend_total_after_shipment');
         //Data for prices and total verification before refund creation on refund page
-        $priceBefRefCr = $this->loadData($dataProv . '_backend_product_prices_before_refund');
-        $totBefRefCr = $this->loadData($dataProv . '_backend_total_before_refund');
+        $priceBefRefCr = $this->loadData($sysConfigData . '_backend_product_prices_before_refund');
+        $totBefRefCr = $this->loadData($sysConfigData . '_backend_total_before_refund');
         //Data for prices and total verification after refund creation on order page
-        $priceAftRefCr = $this->loadData($dataProv . '_backend_product_prices_after_refund');
-        $totAftRefCr = $this->loadData($dataProv . '_backend_total_after_refund');
+        $priceAftRefCr = $this->loadData($sysConfigData . '_backend_product_prices_after_refund');
+        $totAftRefCr = $this->loadData($sysConfigData . '_backend_total_after_refund');
         //Data for prices and total verification after refund creation on refund page
-        $priceAftRefCrOnRef = $this->loadData($dataProv . '_backend_product_prices_after_refund_on_refund');
-        $totAftRefCrOnRef = $this->loadData($dataProv . '_backend_total_after_refund_on_refund');
+        $priceAftRefCrOnRef = $this->loadData($sysConfigData . '_backend_product_prices_after_refund_on_refund');
+        $totAftRefCrOnRef = $this->loadData($sysConfigData . '_backend_total_after_refund_on_refund');
         for ($i=1; $i <= 3; $i++) {
             $crOrder['products_to_add']['product_' . $i]['filter_sku'] = $products['sku'][$i];
             $crOrder['prod_verification']['product_' . $i]['product'] = $products['name'][$i];
@@ -170,7 +170,7 @@ class Tax_TaxAndPricesValidationBackendTest extends Mage_Selenium_TestCase
         $this->shoppingCartHelper()->verifyPricesDataOnPage($priceAftRefCrOnRef, $totAftRefCrOnRef);
     }
 
-    public function dataSystemConfiguration()
+    public function createOrderBackendDataProvider()
     {
         return array(
             array('unit_cat_ex_ship_ex'),

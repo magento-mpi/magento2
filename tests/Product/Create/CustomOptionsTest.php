@@ -100,7 +100,7 @@ class Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is not created, error message appears;</p>
      *
-     * @dataProvider dataEmptyGeneralFields
+     * @dataProvider emptyFieldInCustomOptionDataProvider
      * @test
      */
     public function emptyFieldInCustomOption($emptyCustomField)
@@ -121,7 +121,7 @@ class Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
-    public function dataEmptyGeneralFields()
+    public function emptyFieldInCustomOptionDataProvider()
     {
         return array(
             array('custom_options_general_title'),
@@ -145,7 +145,7 @@ class Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
      * <p>Product is not created, error message appears;</p>
      *
      * @param string $emptyField
-     * @dataProvider optionDataName
+     * @dataProvider emptyOptionRowTitleInCustomOptionDataProvider
      * @test
      */
     public function emptyOptionRowTitleInCustomOption($optionDataName)
@@ -162,7 +162,7 @@ class Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
-    public function optionDataName()
+    public function emptyOptionRowTitleInCustomOptionDataProvider()
     {
         return array(
             array('custom_options_dropdown'),
@@ -187,7 +187,7 @@ class Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is not created, error message appears;</p>
      *
-     * @dataProvider dataInvalidNumericValue
+     * @dataProvider invalidNumericValueDataProvider
      * @test
      */
     public function invalidSortOrderInCustomOption($invalidData)
@@ -224,7 +224,7 @@ class Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is not created, error message appears;</p>
      *
-     * @dataProvider dataInvalidNumericValue
+     * @dataProvider invalidNumericValueDataProvider
      * @test
      */
     public function invalidMaxCharInCustomOption($invalidData)
@@ -241,7 +241,7 @@ class Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
-    public function dataInvalidNumericValue()
+    public function invalidNumericValueDataProvider()
     {
         return array(
             array($this->generate('string', 9, ':punct:')),
@@ -266,7 +266,7 @@ class Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is not created, error message appears;</p>
      *
-     * @dataProvider customOptionTypes
+     * @dataProvider invalidCustomOptionDataProvider
      * @test
      */
     public function specialSymbolsInCustomOptionsPrice($optionDataName, $message)
@@ -298,7 +298,7 @@ class Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is not created, error message appears;</p>
      *
-     * @dataProvider customOptionTypes
+     * @dataProvider invalidCustomOptionDataProvider
      * @test
      */
     public function textValueInCustomOptionsPrice($optionDataName, $message)
@@ -315,7 +315,7 @@ class Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
-    public function customOptionTypes()
+    public function invalidCustomOptionDataProvider()
     {
         return array(
             array('custom_options_field', 'enter_valid_number'),
@@ -346,7 +346,7 @@ class Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is not created, error message appears;;</p>
      *
-     * @dataProvider negativeNumberNegative
+     * @dataProvider negativeNumberInCustomOptionsPriceNegDataProvider
      * @test
      */
     public function negativeNumberInCustomOptionsPriceNeg($optionName)
@@ -362,7 +362,7 @@ class Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
-    public function negativeNumberNegative()
+    public function negativeNumberInCustomOptionsPriceNegDataProvider()
     {
         return array(
             array('custom_options_file'),
@@ -387,7 +387,7 @@ class Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is not created, error message appears;</p>
      *
-     * @dataProvider negativeNumberPositive
+     * @dataProvider negativeNumberInCustomOptionsPricePosDataProvider
      * @test
      */
     public function negativeNumberInCustomOptionsPricePos($optionName)
@@ -406,7 +406,7 @@ class Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
         $this->productHelper()->verifyProductInfo($productData);
     }
 
-    public function negativeNumberPositive()
+    public function negativeNumberInCustomOptionsPricePosDataProvider()
     {
         return array(
             array('custom_options_field'),

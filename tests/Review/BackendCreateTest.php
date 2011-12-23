@@ -173,7 +173,7 @@ class Review_BackendCreateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Error message appears</p>
      *
-     * @dataProvider emptyFields
+     * @dataProvider withEmptyRequiredFieldsDataProvider
      * @depends preconditionsForTests
      * @test
      */
@@ -198,7 +198,7 @@ class Review_BackendCreateTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
-    public function emptyFields()
+    public function withEmptyRequiredFieldsDataProvider()
     {
         return array(
             array('visible_in', 'multiselect'),

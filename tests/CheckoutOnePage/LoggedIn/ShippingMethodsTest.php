@@ -101,7 +101,7 @@ class CheckoutOnePage_LoggedIn_ShippingMethodsTest extends Mage_Selenium_TestCas
      * <p>Checkout is successful.</p>
      *
      * @depends preconditionsForTests
-     * @dataProvider dataShipment
+     * @dataProvider shipmentDataProvider
      * @test
      */
     public function differentShippingMethods($shipping, $shippingOrigin, $simpleSku)
@@ -124,7 +124,7 @@ class CheckoutOnePage_LoggedIn_ShippingMethodsTest extends Mage_Selenium_TestCas
         $this->assertMessagePresent('success', 'success_checkout');
     }
 
-    public function dataShipment()
+    public function shipmentDataProvider()
     {
         return array(
             array('flatrate', 'usa'),

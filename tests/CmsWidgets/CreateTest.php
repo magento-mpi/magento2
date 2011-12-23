@@ -95,7 +95,7 @@ class CmsWidgets_CreateTest extends Mage_Selenium_TestCase
     /**
      * Create required products for testing
      *
-     * @dataProvider dataProductTypes
+     * @dataProvider createProductsDataProvider
      * @depends createCategory
      * @depends createAttribute
      *
@@ -121,7 +121,7 @@ class CmsWidgets_CreateTest extends Mage_Selenium_TestCase
         self::$products['name'][$dataProductType] = $productData['general_name'];
     }
 
-    public function dataProductTypes()
+    public function createProductsDataProvider()
     {
         return array(
             array('simple'),
@@ -141,7 +141,7 @@ class CmsWidgets_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected result</p>
      * <p>Widgets are created successfully</p>
      *
-     * @dataProvider dataWidgetTypes
+     * @dataProvider widgetTypesDataProvider
      * @depends createCategory
      * @test
      */
@@ -164,7 +164,7 @@ class CmsWidgets_CreateTest extends Mage_Selenium_TestCase
         $this->cmsWidgetsHelper()->createWidget($widgetData);
     }
 
-    public function dataWidgetTypes()
+    public function widgetTypesDataProvider()
     {
         return array(
             array('cms_page_link'),
@@ -186,7 +186,7 @@ class CmsWidgets_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected result</p>
      * <p>Widgets are created successfully</p>
      *
-     * @dataProvider dataWidgetTypesReq
+     * @dataProvider widgetTypesReqDataProvider
      * @depends createCategory
      * @test
      */
@@ -200,7 +200,7 @@ class CmsWidgets_CreateTest extends Mage_Selenium_TestCase
         $this->cmsWidgetsHelper()->createWidget($widgetData);
     }
 
-    public function dataWidgetTypesReq()
+    public function widgetTypesReqDataProvider()
     {
         return array(
             array('cms_page_link'),
@@ -222,11 +222,11 @@ class CmsWidgets_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected result</p>
      * <p>Widgets are not created. Message about required field empty appears.</p>
      *
-     * @dataProvider dataWidgetEmptyFields
+     * @dataProvider withEmptyFieldsDataProvider
      * @depends createCategory
      * @test
      */
-    public function createWithEmptyFields($dataWidgetType, $emptyField, $fieldType, $category)
+    public function withEmptyFields($dataWidgetType, $emptyField, $fieldType, $category)
     {
         $this->navigate('manage_cms_widgets');
         $temp = array();
@@ -251,7 +251,7 @@ class CmsWidgets_CreateTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
-    public function dataWidgetEmptyFields()
+    public function withEmptyFieldsDataProvider()
     {
         return array(
             array('cms_page_link', 'widget_instance_title', 'field'),

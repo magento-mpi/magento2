@@ -81,7 +81,7 @@ class CheckoutOnePage_LoggedIn_CheckingValidationTest extends Mage_Selenium_Test
      * <p>Error message for field appears</p>
      *
      * @depends preconditionsForTests
-     * @dataProvider addressEmptyFields
+     * @dataProvider addressEmptyFieldsDataProvider
      * @test
      */
     public function emptyRequiredFildsInBillingAddress($field, $fieldType, $data)
@@ -120,7 +120,7 @@ class CheckoutOnePage_LoggedIn_CheckingValidationTest extends Mage_Selenium_Test
      * <p>Error message for field appears</p>
      *
      * @depends preconditionsForTests
-     * @dataProvider addressEmptyFields
+     * @dataProvider addressEmptyFieldsDataProvider
      * @test
      */
     public function emptyRequiredFildsInShippingAddress($field, $fieldType, $data)
@@ -143,7 +143,7 @@ class CheckoutOnePage_LoggedIn_CheckingValidationTest extends Mage_Selenium_Test
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());;
     }
 
-    public function addressEmptyFields()
+    public function addressEmptyFieldsDataProvider()
     {
         return array(
             array('first_name', 'field'),
@@ -159,7 +159,7 @@ class CheckoutOnePage_LoggedIn_CheckingValidationTest extends Mage_Selenium_Test
 
     /**
      * @depends preconditionsForTests
-     * @dataProvider specialData
+     * @dataProvider specialDataDataProvider
      * @test
      */
     public function specialValuesForAddressFields($dataName, $data)
@@ -179,7 +179,7 @@ class CheckoutOnePage_LoggedIn_CheckingValidationTest extends Mage_Selenium_Test
         $this->assertMessagePresent('success', 'success_checkout');
     }
 
-    public function specialData()
+    public function specialDataDataProvider()
     {
         return array(
             array('signedin_flatrate_checkmoney_long_address'),

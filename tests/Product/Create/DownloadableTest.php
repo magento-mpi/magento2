@@ -147,10 +147,10 @@ class Product_Create_DownloadableTest extends Mage_Selenium_TestCase
      * <p>Product is not created, error message appears;</p>
      *
      * @depends requiredFieldsInDownloadable
-     * @dataProvider dataEmptyField
+     * @dataProvider withRequiredFieldsEmptyDataProvider
      * @test
      */
-    public function emptyRequiredFieldInDownloadable($emptyField, $fieldType)
+    public function withRequiredFieldsEmpty($emptyField, $fieldType)
     {
         //Data
         if ($emptyField == 'general_visibility') {
@@ -169,7 +169,7 @@ class Product_Create_DownloadableTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
-    public function dataEmptyField()
+    public function withRequiredFieldsEmptyDataProvider()
     {
         return array(
             array('general_name', 'field'),
@@ -291,7 +291,7 @@ class Product_Create_DownloadableTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is not created, error message appears;</p>
      *
-     * @dataProvider dataInvalidNumericField
+     * @dataProvider invalidNumericFieldDataProvider
      * @depends requiredFieldsInDownloadable
      * @test
      */
@@ -319,7 +319,7 @@ class Product_Create_DownloadableTest extends Mage_Selenium_TestCase
      * <p>Expected result:<p>
      * <p>Product is not created, error message appears;</p>
      *
-     * @dataProvider dataInvalidNumericField
+     * @dataProvider invalidNumericFieldDataProvider
      * @depends requiredFieldsInDownloadable
      * @test
      */
@@ -348,11 +348,11 @@ class Product_Create_DownloadableTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is not created, error message appears;</p>
      *
-     * @dataProvider tierPriceFields
+     * @dataProvider emptyTierPriceFieldsDataProvider
      * @depends requiredFieldsInDownloadable
      * @test
      */
-    public function emptyTierPriceFieldsInDownloadable($emptyTierPrice)
+    public function emptyTierPriceFields($emptyTierPrice)
     {
         //Data
         $productData = $this->loadData('downloadable_product_required', null, 'general_sku');
@@ -366,7 +366,7 @@ class Product_Create_DownloadableTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
-    public function tierPriceFields()
+    public function emptyTierPriceFieldsDataProvider()
     {
         return array(
             array('prices_tier_price_qty'),
@@ -386,7 +386,7 @@ class Product_Create_DownloadableTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is not created, error message appears;</p>
      *
-     * @dataProvider dataInvalidNumericField
+     * @dataProvider invalidNumericFieldDataProvider
      * @depends requiredFieldsInDownloadable
      * @test
      */
@@ -420,7 +420,7 @@ class Product_Create_DownloadableTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is not created, error message appears;</p>
      *
-     * @dataProvider dataInvalidQty
+     * @dataProvider invalidQtyDataProvider
      * @depends requiredFieldsInDownloadable
      * @test
      */
@@ -437,7 +437,7 @@ class Product_Create_DownloadableTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
-    public function dataInvalidQty()
+    public function invalidQtyDataProvider()
     {
         return array(
             array($this->generate('string', 9, ':punct:')),
@@ -460,7 +460,7 @@ class Product_Create_DownloadableTest extends Mage_Selenium_TestCase
 
      * @test
      * @depends requiredFieldsInDownloadable
-     * @dataProvider dataEmptyFieldforSample
+     * @dataProvider emptyFieldForSamplesDataProvider
      */
     public function emptyFieldForSamples($emptyField)
     {
@@ -481,7 +481,7 @@ class Product_Create_DownloadableTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
-    public function dataEmptyFieldforSample()
+    public function emptyFieldForSamplesDataProvider()
     {
         return array(
             array('downloadable_sample_row_title'),
@@ -503,7 +503,7 @@ class Product_Create_DownloadableTest extends Mage_Selenium_TestCase
      *
      * @test
      * @depends requiredFieldsInDownloadable
-     * @dataProvider dataEmptyFieldforLinks
+     * @dataProvider emptyFieldForLinksDataProvider
      */
     public function emptyFieldForLinks($emptyField)
     {
@@ -523,7 +523,7 @@ class Product_Create_DownloadableTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
-    public function dataEmptyFieldforLinks()
+    public function emptyFieldForLinksDataProvider()
     {
         return array(
             array('downloadable_link_row_title'),
@@ -542,7 +542,7 @@ class Product_Create_DownloadableTest extends Mage_Selenium_TestCase
      * <p>Expected result:<p>
      * <p>Product is not created, error message appears;</p>
      *
-     * @dataProvider dataInvalidQty
+     * @dataProvider invalidQtyDataProvider
      * @depends requiredFieldsInDownloadable
      * @test
      */
@@ -560,7 +560,7 @@ class Product_Create_DownloadableTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
-    public function dataInvalidNumericField()
+    public function invalidNumericFieldDataProvider()
     {
         return array(
             array($this->generate('string', 9, ':punct:')),

@@ -93,7 +93,7 @@ class CheckoutOnePage_Existing_PaymentMethodsTest extends Mage_Selenium_TestCase
      * <p>Checkout is successful.</p>
      *
      * @depends preconditionsForTests
-     * @dataProvider dataWithout3DSecure
+     * @dataProvider differentPaymentMethodsWithout3DDataProvider
      * @test
      */
     public function differentPaymentMethodsWithout3D($payment, $simpleSku)
@@ -120,7 +120,7 @@ class CheckoutOnePage_Existing_PaymentMethodsTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('success', 'success_checkout');
     }
 
-    public function dataWithout3DSecure()
+    public function differentPaymentMethodsWithout3DDataProvider()
     {
         return array(
             array('paypaldirect'),
@@ -155,7 +155,7 @@ class CheckoutOnePage_Existing_PaymentMethodsTest extends Mage_Selenium_TestCase
      * <p>Checkout is successful.</p>
      *
      * @depends preconditionsForTests
-     * @dataProvider dataWith3DSecure
+     * @dataProvider differentPaymentMethodsWith3DDataProvider
      * @test
      */
     public function differentPaymentMethodsWith3D($payment, $simpleSku)
@@ -182,7 +182,7 @@ class CheckoutOnePage_Existing_PaymentMethodsTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('success', 'success_checkout');
     }
 
-    public function dataWith3DSecure()
+    public function differentPaymentMethodsWith3DDataProvider()
     {
         return array(
             array('paypaldirect'),

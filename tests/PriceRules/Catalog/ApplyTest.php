@@ -124,7 +124,7 @@ class PriceRules_Catalog_ApplyTest extends Mage_Selenium_TestCase
      * <p>8. Login to Frontend</p>
      * <p>9. Verify product REGULAR PRICE = $120.00</p>
      *
-     * @dataProvider ruleTypes
+     * @dataProvider ruleTypesDataProvider
      * @depends preconditionsForTests
      * @test
      */
@@ -163,7 +163,7 @@ class PriceRules_Catalog_ApplyTest extends Mage_Selenium_TestCase
         $this->categoryHelper()->frontVerifyProductPrices($productPriceLogged);
     }
 
-    public function ruleTypes()
+    public function ruleTypesDataProvider()
     {
         return array(
             array('by_percentage_of_the_original_price'),

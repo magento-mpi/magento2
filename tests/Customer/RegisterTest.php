@@ -146,7 +146,7 @@ class Customer_RegisterTest extends Mage_Selenium_TestCase
      * <p>Customer is not registered.</p>
      * <p>Error Message is displayed.</p>
      *
-     * @dataProvider emptyField
+     * @dataProvider withRequiredFieldsEmptyDataProvider
      * @depends withRequiredFieldsOnly
      * @test
      */
@@ -166,7 +166,7 @@ class Customer_RegisterTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->verifyMessagesCount($messageCount), $this->getParsedMessages());
     }
 
-    public function emptyField()
+    public function withRequiredFieldsEmptyDataProvider()
     {
         return array(
             array(array('first_name' => '%noValue%'), 1),
@@ -223,7 +223,7 @@ class Customer_RegisterTest extends Mage_Selenium_TestCase
      * <p>Customer is not registered.</p>
      * <p>Error Message is displayed.</p>
      *
-     * @dataProvider dataLongValuesNotValid
+     * @dataProvider withLongValuesNotValidDataProvider
      * @depends withRequiredFieldsOnly
      * @test
      */
@@ -240,7 +240,7 @@ class Customer_RegisterTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('error', "not_valid_length_$fieldName");
     }
 
-    public function dataLongValuesNotValid()
+    public function withLongValuesNotValidDataProvider()
     {
         return array(
             array(array('first_name' => $this->generate('string', 256, ':alnum:'))),
@@ -261,7 +261,7 @@ class Customer_RegisterTest extends Mage_Selenium_TestCase
      * <p>Customer is not registered.</p>
      * <p>Error Message is displayed.</p>
      *
-     * @dataProvider dataInvalidEmail
+     * @dataProvider withInvalidEmailDataProvider
      * @depends withRequiredFieldsOnly
      * @test
      */
@@ -275,7 +275,7 @@ class Customer_RegisterTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('error', 'invalid_mail');
     }
 
-    public function dataInvalidEmail()
+    public function withInvalidEmailDataProvider()
     {
         return array(
             array(array('email' => 'invalid')),
@@ -296,7 +296,7 @@ class Customer_RegisterTest extends Mage_Selenium_TestCase
      * <p>Customer is not registered.</p>
      * <p>Error Message is displayed.</p>
      *
-     * @dataProvider dataInvalidPassword
+     * @dataProvider withInvalidPasswordDataProvider
      * @depends withRequiredFieldsOnly
      * @test
      */
@@ -310,7 +310,7 @@ class Customer_RegisterTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('error', $errorMessage);
     }
 
-    public function dataInvalidPassword()
+    public function withInvalidPasswordDataProvider()
     {
         return array(
             array(array('password' => 12345, 'password_confirmation' => 12345), 'short_passwords'),

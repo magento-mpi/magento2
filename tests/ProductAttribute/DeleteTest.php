@@ -67,7 +67,7 @@ class ProductAttribute_DeleteTest extends Mage_Selenium_TestCase
      * <p>Attribute successfully deleted.</p>
      * <p>Success message: 'The product attribute has been deleted.' is displayed.</p>
      *
-     * @dataProvider dataDataName
+     * @dataProvider deleteProductAttributeDeletableDataProvider
      * @test
      */
     public function deleteProductAttributeDeletable($dataName)
@@ -87,7 +87,7 @@ class ProductAttribute_DeleteTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('success', 'success_deleted_attribute');
     }
 
-    public function dataDataName()
+    public function deleteProductAttributeDeletableDataProvider()
     {
         return array(
             array('product_attribute_textfield'),

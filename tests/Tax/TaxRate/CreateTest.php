@@ -69,7 +69,7 @@ class Tax_TaxRate_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected Result:</p>
      * <p>Tax Rate created, success message appears</p>
      *
-     * @dataProvider dataTaxRateRequired
+     * @dataProvider withRequiredFieldsOnlyDataProvider
      * @param string $taxRateDataSetName
      * @return array $taxRateData
      * @test
@@ -91,12 +91,7 @@ class Tax_TaxRate_CreateTest extends Mage_Selenium_TestCase
         self::$_storedTaxRateData = $taxRateData;
     }
 
-    /**
-     * dataProvider for withRequiredFieldsOnly test
-     *
-     * @return array
-     */
-    public function dataTaxRateRequired()
+    public function withRequiredFieldsOnlyDataProvider()
     {
         return array(
             array('tax_rate_create_test_zip_no'), // Zip/Post is Range => No
@@ -134,7 +129,7 @@ class Tax_TaxRate_CreateTest extends Mage_Selenium_TestCase
      * <p>Received error message "This is a required field."</p>
      *
      * @depends withRequiredFieldsOnly
-     * @dataProvider dataEmptyRequiredFields
+     * @dataProvider withEmptyRequiredFieldsDataProvider
      * @param string $emptyFieldName Name of the field to leave empty
      * @test
      */
@@ -149,12 +144,7 @@ class Tax_TaxRate_CreateTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('error', 'empty_required_field');
     }
 
-    /**
-     * dataProvider for withEmptyRequiredFields test
-     *
-     * @return array
-     */
-    public function dataEmptyRequiredFields()
+    public function withEmptyRequiredFieldsDataProvider()
     {
         return array(
             array('tax_identifier'),
@@ -175,7 +165,7 @@ class Tax_TaxRate_CreateTest extends Mage_Selenium_TestCase
      * <p>All fields has the same values.</p>
      *
      * @depends withRequiredFieldsOnly
-     * @dataProvider dataSpecialValues
+     * @dataProvider withSpecialValuesDataProvider
      * @param array $specialValue
      * @test
      */
@@ -195,12 +185,7 @@ class Tax_TaxRate_CreateTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->verifyForm($taxRateData), $this->getParsedMessages());
     }
 
-    /**
-     * dataProvider for withSpecialValues test
-     *
-     * @return array
-     */
-    public function dataSpecialValues()
+    public function withSpecialValuesDataProvider()
     {
         return array(
             array($this->generate('string', 255)),
@@ -218,7 +203,7 @@ class Tax_TaxRate_CreateTest extends Mage_Selenium_TestCase
      * <p>Please use numbers only in this field. Please avoid spaces or other characters such as dots or commas.</p>
      *
      * @depends withRequiredFieldsOnly
-     * @dataProvider dataSpecialValuesRange
+     * @dataProvider withInvalidValuesForRangeDataProvider
      * @param array $specialValue
      * @test
      */
@@ -236,12 +221,7 @@ class Tax_TaxRate_CreateTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('error', 'enter_valid_digits');
     }
 
-    /**
-     * dataProvider for withInvalidValuesForRange test
-     *
-     * @return array
-     */
-    public function dataSpecialValuesRange()
+    public function withInvalidValuesForRangeDataProvider()
     {
         return array(
             array($this->generate('string', 50)), // string
@@ -261,7 +241,7 @@ class Tax_TaxRate_CreateTest extends Mage_Selenium_TestCase
      * <p>Error message: Please enter a valid number in this field.</p>
      *
      * @depends withRequiredFieldsOnly
-     * @dataProvider dataSpecialValuesRatePercent
+     * @dataProvider withInvalidValueForRatePercentDataProvider
      * @param array $specialValue
      * @test
      */
@@ -276,12 +256,7 @@ class Tax_TaxRate_CreateTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('error', 'enter_not_negative_number');
     }
 
-    /**
-     * dataProvider for withInvalidValueForRatePercent test
-     *
-     * @return array
-     */
-    public function dataSpecialValuesRatePercent()
+    public function withInvalidValueForRatePercentDataProvider()
     {
         return array(
             array($this->generate('string', 50, ':alpha:')),

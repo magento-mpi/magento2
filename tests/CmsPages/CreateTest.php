@@ -135,7 +135,7 @@ class CmsPages_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected result</p>
      * <p>Page is not created successfully</p>
      *
-     * @dataProvider dataEmptyAllFields
+     * @dataProvider withEmptyRequiredFieldsDataProvider
      * @depends withRequiredFields
      * @test
      */
@@ -162,7 +162,7 @@ class CmsPages_CreateTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('validation', 'empty_required_field');
     }
 
-    public function dataEmptyAllFields()
+    public function withEmptyRequiredFieldsDataProvider()
     {
         return array(
             array('page_title', 'field', 1),
@@ -202,7 +202,7 @@ class CmsPages_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected result</p>
      * <p>Page with the numbers in URL Key is not created</p>
      *
-     * @dataProvider dataWrongUrlKey
+     * @dataProvider withWrongUrlKeyDataProvider
      * @depends withRequiredFields
      * @test
      */
@@ -222,7 +222,7 @@ class CmsPages_CreateTest extends Mage_Selenium_TestCase
         }
     }
 
-    public function dataWrongUrlKey()
+    public function withWrongUrlKeyDataProvider()
     {
         return array(
             array($this->generate('string', 10, ':digit:'), 'error'),
@@ -238,7 +238,7 @@ class CmsPages_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected result</p>
      * <p>Page is created successfully</p>
      *
-     * @dataProvider dataFields
+     * @dataProvider withSpecialValueInFieldsDataProvider
      * @depends withRequiredFields
      * @test
      */
@@ -259,7 +259,7 @@ class CmsPages_CreateTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->verifyForm($pageData), $this->getParsedMessages());
     }
 
-    public function dataFields()
+    public function withSpecialValueInFieldsDataProvider()
     {
         return array(
             array(array('page_title' => $this->generate('string', 255, ':lower:'))),

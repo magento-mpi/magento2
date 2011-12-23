@@ -94,7 +94,7 @@ class Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest extends M
      * @param type $simpleSku
      *
      * @depends orderWithout3DSecureSmoke
-     * @dataProvider dataCardPayFlowProVerisign
+     * @dataProvider cardPayFlowProVerisignDataProvider
      * @test
      */
     public function orderWithDifferentCreditCard($card, $orderData)
@@ -108,7 +108,7 @@ class Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest extends M
         $this->assertMessagePresent('success', 'success_created_order');
     }
 
-    public function dataCardPayFlowProVerisign()
+    public function cardPayFlowProVerisignDataProvider()
     {
         return array(
             array('else_american_express'),
@@ -139,7 +139,7 @@ class Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest extends M
      * <p>New customer is created. Order is created for the new customer. Invoice is created.</p>
      *
      * @depends orderWithout3DSecureSmoke
-     * @dataProvider dataCaptureType
+     * @dataProvider captureTypeDataProvider
      * @test
      */
     public function fullInvoiceWithDifferentTypesOfCapture($captureType, $orderData)
@@ -151,7 +151,7 @@ class Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest extends M
         $this->orderInvoiceHelper()->createInvoiceAndVerifyProductQty($captureType);
     }
 
-    public function dataCaptureType()
+    public function captureTypeDataProvider()
     {
         return array(
             array('Capture Online'),
@@ -181,7 +181,7 @@ class Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest extends M
      * <p>New customer is created. Order is created for the new customer. Refund Online is successful</p>
      *
      * @depends orderWithout3DSecureSmoke
-     * @dataProvider dataCreditMemo
+     * @dataProvider creditMemoDataProvider
      * @test
      */
     public function fullCrediMemo($captureType, $refundType, $orderData)
@@ -198,7 +198,7 @@ class Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest extends M
         $this->orderCreditMemoHelper()->createCreditMemoAndVerifyProductQty($refundType);
     }
 
-    public function dataCreditMemo()
+    public function creditMemoDataProvider()
     {
         return array(
             array('Capture Online', 'refund'),
@@ -394,7 +394,7 @@ class Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest extends M
      * <p>New customer is created. Order is created for the new customer.</p>
      *
      * @depends orderWithout3DSecureSmoke
-     * @dataProvider dataWith3DSecure
+     * @dataProvider createOrderWith3DSecureDataProvider
      * @test
      */
     public function createOrderWith3DSecure($card, $needSetUp, $orderData)
@@ -412,7 +412,7 @@ class Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest extends M
         $this->assertMessagePresent('success', 'success_created_order');
     }
 
-    public function dataWith3DSecure()
+    public function createOrderWith3DSecureDataProvider()
     {
         return array(
             array('else_jcb_3d', true),

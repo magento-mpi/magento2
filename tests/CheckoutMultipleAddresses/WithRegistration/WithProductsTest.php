@@ -98,7 +98,7 @@ class CheckoutMultipleAddresses_WithRegistration_WithProductsTest extends Mage_S
      * @depends createAttribute
      * @param string $productType
      * @param string $productDataSet
-     * @dataProvider productDataSimple
+     * @dataProvider productDataSimpleDataProvider
      * @test
      */
     public function createProductForAssociated($productDataSet, $productType, $attrData)
@@ -131,7 +131,7 @@ class CheckoutMultipleAddresses_WithRegistration_WithProductsTest extends Mage_S
         $this->assertMessagePresent('success', 'success_checkout');
         }
 
-    public function productDataSimple()
+    public function productDataSimpleDataProvider()
     {
         return array(
             array('simple_product_visible', 'simple'),
@@ -161,7 +161,7 @@ class CheckoutMultipleAddresses_WithRegistration_WithProductsTest extends Mage_S
      * @depends createCustomer
      * @param string $productType
      * @param string $productDataSet
-     * @dataProvider productDataSetSimple
+     * @dataProvider createSimpleTypesProductsDataProvider
      * @test
      * @return string
      */
@@ -201,7 +201,7 @@ class CheckoutMultipleAddresses_WithRegistration_WithProductsTest extends Mage_S
         $this->assertMessagePresent('success', 'success_checkout');
     }
 
-    public function productDataSetSimple()
+    public function createSimpleTypesProductsDataProvider()
     {
         return array(
             array('simple_multi_checkout_options', 'simple'),
@@ -294,7 +294,7 @@ class CheckoutMultipleAddresses_WithRegistration_WithProductsTest extends Mage_S
      * <p>Checkout is successful;</p>
      *
      * @depends createCustomer
-     * @dataProvider productDataSetBundle
+     * @dataProvider productDataSetBundleDataProvider
      * @test
      */
 
@@ -339,7 +339,7 @@ class CheckoutMultipleAddresses_WithRegistration_WithProductsTest extends Mage_S
         $this->assertMessagePresent('success', 'success_checkout');
     }
 
-    public function productDataSetBundle()
+    public function productDataSetBundleDataProvider()
     {
         return array(
             array('fixed_bundle_multi_checkout'),
@@ -371,7 +371,7 @@ class CheckoutMultipleAddresses_WithRegistration_WithProductsTest extends Mage_S
      * @depends createCustomer
      * @depends createAttribute
      * @depends createProductForAssociated
-     * @dataProvider productDataSetConfig
+     * @dataProvider productDataSetConfigDataProvider
      * @test
      */
 
@@ -431,7 +431,7 @@ class CheckoutMultipleAddresses_WithRegistration_WithProductsTest extends Mage_S
      * @depends createCustomer
      * @depends createAttribute
      * @depends createProductForAssociated
-     * @dataProvider productDataSetConfig
+     * @dataProvider productDataSetConfigDataProvider
      * @test
      */
 
@@ -494,7 +494,7 @@ class CheckoutMultipleAddresses_WithRegistration_WithProductsTest extends Mage_S
      * @depends createCustomer
      * @depends createAttribute
      * @depends createProductForAssociated
-     * @dataProvider productDataSetConfig
+     * @dataProvider productDataSetConfigDataProvider
      * @test
      */
 
@@ -535,7 +535,7 @@ class CheckoutMultipleAddresses_WithRegistration_WithProductsTest extends Mage_S
         $this->assertMessagePresent('success', 'success_checkout');
     }
 
-    public function productDataSetConfig()
+    public function productDataSetConfigDataProvider()
     {
         return array(
             array('configurable_multi_checkout'),

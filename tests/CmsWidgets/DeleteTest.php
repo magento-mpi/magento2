@@ -94,7 +94,7 @@ class CmsWidgets_DeleteTest extends Mage_Selenium_TestCase
     /**
      * Create required products for testing
      *
-     * @dataProvider dataProductTypes
+     * @dataProvider createProductsDataProvider
      * @depends createCategory
      * @depends createAttribute
      *
@@ -120,7 +120,7 @@ class CmsWidgets_DeleteTest extends Mage_Selenium_TestCase
         self::$products['name'][$dataProductType] = $productData['general_name'];
     }
 
-    public function dataProductTypes()
+    public function createProductsDataProvider()
     {
         return array(
             array('simple')
@@ -137,7 +137,7 @@ class CmsWidgets_DeleteTest extends Mage_Selenium_TestCase
      * <p>Expected result</p>
      * <p>Widgets are created and deleted successfully</p>
      *
-     * @dataProvider dataWidgetTypesReq
+     * @dataProvider widgetTypesReqDataProvider
      * @depends createCategory
      * @test
      */
@@ -154,7 +154,7 @@ class CmsWidgets_DeleteTest extends Mage_Selenium_TestCase
         $this->cmsWidgetsHelper()->deleteWidget($widgetToDelete);
     }
 
-    public function dataWidgetTypesReq()
+    public function widgetTypesReqDataProvider()
     {
         return array(
             array('cms_page_link'),

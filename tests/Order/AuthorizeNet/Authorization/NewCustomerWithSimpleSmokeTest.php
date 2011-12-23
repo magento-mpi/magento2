@@ -94,7 +94,7 @@ class Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest extends Ma
      * @param type $orderData
      *
      * @depends orderWithout3DSecureSmoke
-     * @dataProvider dataCardAuthorizeNet
+     * @dataProvider cardAuthorizeNetDataProvider
      * @test
      */
     public function differentCardInAuthorizeNet($card, $orderData)
@@ -108,7 +108,7 @@ class Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest extends Ma
         $this->assertMessagePresent('success', 'success_created_order');
     }
 
-    public function dataCardAuthorizeNet()
+    public function cardAuthorizeNetDataProvider()
     {
         return array(
             array('else_american_express'),
@@ -139,7 +139,7 @@ class Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest extends Ma
      * <p>New customer is created. Order is created for the new customer. Invoice is created.</p>
      *
      * @depends orderWithout3DSecureSmoke
-     * @dataProvider dataCaptureType
+     * @dataProvider captureTypeDataProvider
      * @test
      */
     public function fullInvoiceWithDifferentTypesOfCapture($captureType, $orderData)
@@ -151,7 +151,7 @@ class Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest extends Ma
         $this->orderInvoiceHelper()->createInvoiceAndVerifyProductQty($captureType);
     }
 
-    public function dataCaptureType()
+    public function captureTypeDataProvider()
     {
         return array(
             array('Capture Online'),
@@ -181,7 +181,7 @@ class Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest extends Ma
      * <p>New customer is created. Order is created for the new customer. Credit memo is(isn't) created</p>
      *
      * @depends orderWithout3DSecureSmoke
-     * @dataProvider dataRefund
+     * @dataProvider refundDataProvider
      * @test
      */
     public function fullRefund($captureType, $refundType, $orderData)
@@ -207,7 +207,7 @@ class Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest extends Ma
 
     /**
      * @depends orderWithout3DSecureSmoke
-     * @dataProvider dataRefund
+     * @dataProvider refundDataProvider
      * @test
      */
     public function partialRefund($captureType, $refundType, $orderData)
@@ -241,7 +241,7 @@ class Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest extends Ma
         }
     }
 
-    public function dataRefund()
+    public function refundDataProvider()
     {
         return array(
             array('Capture Online', 'refund'),
@@ -437,7 +437,7 @@ class Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest extends Ma
      * <p>New customer is created. Order is created for the new customer.</p>
      *
      * @depends orderWithout3DSecureSmoke
-     * @dataProvider dataWith3DSecure
+     * @dataProvider createOrderWith3DSecureDataProvider
      * @test
      */
     public function createOrderWith3DSecure($card, $needSetUp, $orderData)
@@ -455,7 +455,7 @@ class Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest extends Ma
         $this->assertMessagePresent('success', 'success_created_order');
     }
 
-    public function dataWith3DSecure()
+    public function createOrderWith3DSecureDataProvider()
     {
         return array(
             array('else_visa', true),

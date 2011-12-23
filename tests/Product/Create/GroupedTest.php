@@ -144,11 +144,11 @@ class Product_Create_GroupedTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is not created, error message appears;</p>
      *
-     * @dataProvider dataEmptyField
+     * @dataProvider withRequiredFieldsEmptyDataProvider
      * @depends onlyRequiredFieldsInGrouped
      * @test
      */
-    public function emptyRequiredFieldInGrouped($emptyField, $fieldType)
+    public function withRequiredFieldsEmpty($emptyField, $fieldType)
     {
         //Data
         if ($emptyField == 'general_visibility') {
@@ -165,7 +165,7 @@ class Product_Create_GroupedTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
-    public function dataEmptyField()
+    public function withRequiredFieldsEmptyDataProvider()
     {
         return array(
             array('general_name', 'field'),

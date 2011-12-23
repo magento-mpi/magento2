@@ -129,7 +129,7 @@ class CheckoutOnePage_WithRegistration_CheckingValidationTest extends Mage_Selen
      * <p>Expected result:</p>
      * <p>Error message appears</p>
      *
-     * @dataProvider emptyFieldsBilling
+     * @dataProvider frontEmptyRequiredFildsInBillingAddressDataProvider
      * @depends preconditionsForTests
      * @test
      */
@@ -158,7 +158,7 @@ class CheckoutOnePage_WithRegistration_CheckingValidationTest extends Mage_Selen
         $this->assertTrue($this->verifyMessagesCount($messagesCount), $this->getParsedMessages());
     }
 
-    public function emptyFieldsBilling()
+    public function frontEmptyRequiredFildsInBillingAddressDataProvider()
     {
         return array(
             array('billing_first_name', 'field'),
@@ -223,7 +223,7 @@ class CheckoutOnePage_WithRegistration_CheckingValidationTest extends Mage_Selen
      * <p>Error message appears</p>
      *
      * @depends preconditionsForTests
-     * @dataProvider dataInvalidEmail
+     * @dataProvider incorrectEmailDataProvider
      * @test
      */
     public function incorrectEmail($wrongValue, $simpleSku)
@@ -240,7 +240,7 @@ class CheckoutOnePage_WithRegistration_CheckingValidationTest extends Mage_Selen
         $this->assertMessagePresent('error', 'invalid_email_address');
     }
 
-    public function dataInvalidEmail()
+    public function incorrectEmailDataProvider()
     {
         return array(
             array('invalid'),
@@ -296,7 +296,7 @@ class CheckoutOnePage_WithRegistration_CheckingValidationTest extends Mage_Selen
 
     /**
      * @depends preconditionsForTests
-     * @dataProvider specialData
+     * @dataProvider specialValuesForAddressFieldsDataProvider
      * @test
      */
     public function specialValuesForAddressFields($dataName, $simpleSku)
@@ -311,7 +311,7 @@ class CheckoutOnePage_WithRegistration_CheckingValidationTest extends Mage_Selen
         $this->assertMessagePresent('success', 'success_checkout');
     }
 
-    public function specialData()
+    public function specialValuesForAddressFieldsDataProvider()
     {
         return array(
             array('with_register_flatrate_checkmoney_long_address'),
@@ -336,7 +336,7 @@ class CheckoutOnePage_WithRegistration_CheckingValidationTest extends Mage_Selen
      * <p>Expected result:</p>
      * <p>Error message appears</p>
      *
-     * @dataProvider emptyFieldsShipping
+     * @dataProvider frontEmptyRequiredFildsInShippingAddressDataProvider
      * @depends preconditionsForTests
      * @test
      */
@@ -359,7 +359,7 @@ class CheckoutOnePage_WithRegistration_CheckingValidationTest extends Mage_Selen
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
-    public function emptyFieldsShipping()
+    public function frontEmptyRequiredFildsInShippingAddressDataProvider()
     {
         return array(
             array('shipping_first_name', 'field'),
@@ -391,7 +391,7 @@ class CheckoutOnePage_WithRegistration_CheckingValidationTest extends Mage_Selen
      * <p>Error masseges appears</p>
      *
      * @depends preconditionsForTests
-     * @dataProvider dataAddressLongValues
+     * @dataProvider addressLongValuesDataProvider
      * @test
      */
     public function frontBillingAddressLongValues($field, $simpleSku)
@@ -440,7 +440,7 @@ class CheckoutOnePage_WithRegistration_CheckingValidationTest extends Mage_Selen
      * <p>Error masseges appears</p>
      *
      * @depends preconditionsForTests
-     * @dataProvider dataAddressLongValues
+     * @dataProvider addressLongValuesDataProvider
      * @test
      */
     public function frontShippingAddressLongValues($field, $simpleSku)
@@ -474,7 +474,7 @@ class CheckoutOnePage_WithRegistration_CheckingValidationTest extends Mage_Selen
         $this->assertEquals($this->_getControlXpath('message', 'long_value_alert'), $error);
     }
 
-    public function dataAddressLongValues()
+    public function addressLongValuesDataProvider()
     {
         return array(
             array('first_name'),

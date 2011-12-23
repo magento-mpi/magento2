@@ -91,7 +91,7 @@ class Product_Linking_BundleLinkingTest extends Mage_Selenium_TestCase
      * <p>Preconditions</p>
      * <p>Create products for linking in stock</p>
      *
-     * @dataProvider productTypes
+     * @dataProvider productTypesDataProvider
      * @depends createAttribute
      * @depends createSimpleProductForBundle
      *
@@ -116,7 +116,7 @@ class Product_Linking_BundleLinkingTest extends Mage_Selenium_TestCase
      * <p>Preconditions</p>
      * <p>Create products for linking out of stock</p>
      *
-     * @dataProvider productTypes
+     * @dataProvider productTypesDataProvider
      * @depends createAttribute
      * @depends createSimpleProductForBundle
      *
@@ -138,7 +138,7 @@ class Product_Linking_BundleLinkingTest extends Mage_Selenium_TestCase
         self::$productsOutOfStock[$productType]['general_sku'] = $productData['general_sku'];
     }
 
-    public function productTypes()
+    public function productTypesDataProvider()
     {
         return array(
             array('simple'),

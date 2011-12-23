@@ -94,7 +94,7 @@ class Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTest extends 
      * @param type $simpleSku
      *
      * @depends orderWithout3DSecureSmoke
-     * @dataProvider dataCardPayPalDirectUk
+     * @dataProvider cardPayPalDirectUkDataProvider
      * @test
      */
     public function differentCardInPayPalDirectUk($card, $orderData)
@@ -108,7 +108,7 @@ class Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTest extends 
         $this->assertMessagePresent('success', 'success_created_order');
     }
 
-    public function dataCardPayPalDirectUk()
+    public function cardPayPalDirectUkDataProvider()
     {
         return array(
             array('else_american_express'),
@@ -140,7 +140,7 @@ class Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTest extends 
      * <p>New customer is created. Order is created for the new customer. Invoice is created</p>
      *
      * @depends orderWithout3DSecureSmoke
-     * @dataProvider dataCaptureType
+     * @dataProvider captureTypeDataProvider
      * @test
      */
     public function fullInvoiceWithDifferentTypesOfCapture($captureType, $orderData)
@@ -152,7 +152,7 @@ class Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTest extends 
         $this->orderInvoiceHelper()->createInvoiceAndVerifyProductQty($captureType);
     }
 
-    public function dataCaptureType()
+    public function captureTypeDataProvider()
     {
         return array(
             array('Capture Online'),
@@ -167,7 +167,7 @@ class Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTest extends 
      * @param type $simpleSku
      *
      * @depends orderWithout3DSecureSmoke
-     * @dataProvider dataCapture
+     * @dataProvider captureTypeDataProvider
      * @test
      */
     public function partialInvoiceWithDifferentTypesOfCapture($captureType, $orderData)
@@ -183,7 +183,7 @@ class Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTest extends 
         $this->orderInvoiceHelper()->createInvoiceAndVerifyProductQty($captureType, $invoice);
     }
 
-    public function dataCapture()
+    public function captureTypeDataProvider()
     {
         return array(
             array('Capture Online'),
@@ -212,7 +212,7 @@ class Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTest extends 
      * <p>New customer is created. Order is created for the new customer. Refund Online is successful</p>
      *
      * @depends orderWithout3DSecureSmoke
-     * @dataProvider dataCreditMemo
+     * @dataProvider creditMemoDataProvider
      * @test
      */
     public function fullCreditMemo($captureType, $refundType, $orderData)
@@ -231,7 +231,7 @@ class Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTest extends 
 
     /**
      * @depends orderWithout3DSecureSmoke
-     * @dataProvider dataCreditMemo
+     * @dataProvider creditMemoDataProvider
      * @test
      */
     public function partialCreditMemo($captureType, $refundType, $orderData)
@@ -252,7 +252,7 @@ class Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTest extends 
         $this->orderCreditMemoHelper()->createCreditMemoAndVerifyProductQty($refundType, $creditMemo);
     }
 
-    public function dataCreditMemo()
+    public function creditMemoDataProvider()
     {
         return array(
             array('Capture Online', 'refund'),
@@ -448,7 +448,7 @@ class Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTest extends 
      * <p>New customer is created. Order is created for the new customer.</p>
      *
      * @depends orderWithout3DSecureSmoke
-     * @dataProvider dataWith3DSecure
+     * @dataProvider createOrderWith3DSecureDataProvider
      * @test
      */
     public function createOrderWith3DSecure($card, $needSetUp, $orderData)
@@ -466,7 +466,7 @@ class Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTest extends 
         $this->assertMessagePresent('success', 'success_created_order');
     }
 
-    public function dataWith3DSecure()
+    public function createOrderWith3DSecureDataProvider()
     {
         return array(
             array('else_visa', true),

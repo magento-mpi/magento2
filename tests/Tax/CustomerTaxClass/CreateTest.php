@@ -136,7 +136,7 @@ class Tax_CustomerTaxClass_CreateTest extends Mage_Selenium_TestCase
      * <p>All fields has the same values.</p>
      *
      * @depends withRequiredFieldsOnly
-     * @dataProvider dataSpecialValues
+     * @dataProvider withSpecialValuesDataProvider
      * @test
      *
      * @param array $specialValue
@@ -153,12 +153,7 @@ class Tax_CustomerTaxClass_CreateTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->verifyForm($customerTaxClassData), $this->getParsedMessages());
     }
 
-    /**
-     * dataProvider for withSpecialValues test
-     *
-     * @return array
-     */
-    public function dataSpecialValues()
+    public function withSpecialValuesDataProvider()
     {
         return array(
             array($this->generate('string', 255)),

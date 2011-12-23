@@ -104,30 +104,30 @@ class Tax_TaxAndPricesValidationFrontendTest extends Mage_Selenium_TestCase
     /**
      * Create Order on the backend and validate prices with taxes
      *
-     * @dataProvider dataSystemConfiguration
+     * @dataProvider validateTaxFrontendDataProvider
      * @depends createCustomer
      * @depends createProducts
      * @depends createCategory
      *
      * @test
      */
-    public function validateTaxFrontend($dataProv, $customer, $products, $category)
+    public function validateTaxFrontend($sysConfigData, $customer, $products, $category)
     {
         //Data
         $category = substr($category, strpos($category, '/') + 1);
         //Preconditions
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($dataProv);
+        $this->systemConfigurationHelper()->configure($sysConfigData);
         $this->customerHelper()->frontLoginCustomer($customer);
         $this->shoppingCartHelper()->frontClearShoppingCart();
         //Verify and add products to shopping cart
-        $cartProductsData = $this->loadData($dataProv . '_front_prices_in_cart_simple');
-        $checkoutData = $this->loadData($dataProv . '_front_prices_checkout_data');
-        $orderDetailsData = $this->loadData($dataProv . '_front_prices_on_order_details');
+        $cartProductsData = $this->loadData($sysConfigData . '_front_prices_in_cart_simple');
+        $checkoutData = $this->loadData($sysConfigData . '_front_prices_checkout_data');
+        $orderDetailsData = $this->loadData($sysConfigData . '_front_prices_on_order_details');
         foreach ($products['name'] as $key => $productName) {
-            $priceInCategory = $this->loadData($dataProv . '_front_prices_in_category_simple_' . $key,
+            $priceInCategory = $this->loadData($sysConfigData . '_front_prices_in_category_simple_' . $key,
                     array('product_name' => $productName, 'category' => $category));
-            $priceInProdDetails = $this->loadData($dataProv . '_front_prices_in_product_simple_' . $key);
+            $priceInProdDetails = $this->loadData($sysConfigData . '_front_prices_in_product_simple_' . $key);
             $this->categoryHelper()->frontOpenCategoryAndValidateProduct($priceInCategory);
             $this->addParameter('categoryUrl', NULL);
             $this->productHelper()->frontOpenProduct($productName, $category);
@@ -152,7 +152,7 @@ class Tax_TaxAndPricesValidationFrontendTest extends Mage_Selenium_TestCase
                 $orderDetailsData['validate_total_data']);
     }
 
-    public function dataSystemConfiguration()
+    public function validateTaxFrontendDataProvider()
     {
         return array(
             array('unit_cat_ex_ship_in'),

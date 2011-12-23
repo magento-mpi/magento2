@@ -114,7 +114,7 @@ class Tags_FrontendCreateTest extends Mage_Selenium_TestCase
      * <p>9. Open current tag - page with assigned product opens</p>
      * <p>10. Tag is assigned to correct product</p>
      *
-     * @dataProvider dataTagName
+     * @dataProvider tagNameDataProvider
      * @depends createCustomer
      * @depends createProduct
      *
@@ -135,7 +135,7 @@ class Tags_FrontendCreateTest extends Mage_Selenium_TestCase
         $this->tagsHelper()->frontendDeleteTags($tags);
     }
 
-    public function dataTagName()
+    public function tagNameDataProvider()
     {
         return array(
             //1 simple word

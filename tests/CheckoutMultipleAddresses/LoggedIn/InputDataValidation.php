@@ -97,14 +97,14 @@ class CheckoutMultipleAddresses_LoggedIn_InputDataValidation extends Mage_Seleni
      * <p>New address is not added.</p>
      * <p>Error Message is displayed.</p>
      *
-     * @dataProvider dataSelectAddressesEmptyFields
+     * @dataProvider selectAddressesPageEmptyRequiredFieldsDataProvider
      * @test
      */
     public function selectAddressesPageEmptyRequiredFields()
     {
     }
 
-    public function dataSelectAddressesEmptyFields()
+    public function selectAddressesPageEmptyRequiredFieldsDataProvider()
     {
         return array(
             array(),//First Name
@@ -114,7 +114,7 @@ class CheckoutMultipleAddresses_LoggedIn_InputDataValidation extends Mage_Seleni
             array(),//City
             array(),//State/Province
             array(),//Zip/Postal Code
-            array()//Country 
+            array()//Country
         );
     }
 
@@ -233,14 +233,14 @@ class CheckoutMultipleAddresses_LoggedIn_InputDataValidation extends Mage_Seleni
      * <p>New address is not added.</p>
      * <p>Error Message is displayed.</p>
      *
-     * @dataProvider dataBillingInfPageEmptyFields
+     * @dataProvider billingInfPageEmptyRequiredFieldsDataProvider
      * @test
      */
     public function billingInfPageEmptyRequiredFields()
     {
     }
 
-    public function dataBillingInfPageEmptyFields()
+    public function billingInfPageEmptyRequiredFieldsDataProvider()
     {
         return array(
             array(),//First Name
