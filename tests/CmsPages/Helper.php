@@ -209,8 +209,8 @@ class CmsPages_Helper extends Mage_Selenium_TestCase
         }
         $xpathTR = $this->search($searchPage, 'cms_pages_grid');
         $this->assertNotEquals(NULL, $xpathTR, 'CMS Page is not found');
-        $key = array_search('Title', $this->getTableHeadRowNames()) + 1;
-        $this->addParameter('pageName', $this->getText($xpathTR . '//td[' . $key . ']'));
+        $cellId = $this->getColumnIdByName('Title');
+        $this->addParameter('pageName', $this->getText($xpathTR . '//td[' . $cellId . ']'));
         $this->addParameter('id', $this->defineIdFromTitle($xpathTR));
         $this->click($xpathTR);
         $this->waitForPageToLoad($this->_browserTimeoutPeriod);

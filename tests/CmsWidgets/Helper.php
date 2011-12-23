@@ -174,8 +174,8 @@ class CmsWidgets_Helper extends Mage_Selenium_TestCase
         $searchWidget = $this->arrayEmptyClear($searchWidget);
         $xpathTR = $this->search($searchWidget, 'cms_widgets_grid');
         $this->assertNotEquals(NULL, $xpathTR, 'Widget is not found');
-        $key = array_search('Widget Instance Title', $this->getTableHeadRowNames()) + 1;
-        $this->addParameter('widgetName', $this->getText($xpathTR . '//td[' . $key . ']'));
+        $cellId = $this->getColumnIdByName('Widget Instance Title');
+        $this->addParameter('widgetName', $this->getText($xpathTR . '//td[' . $cellId . ']'));
         $this->addParameter('id', $this->defineIdFromTitle($xpathTR));
         $this->click($xpathTR);
         $this->waitForPageToLoad($this->_browserTimeoutPeriod);

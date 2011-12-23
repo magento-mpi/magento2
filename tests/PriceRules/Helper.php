@@ -256,12 +256,9 @@ class PriceRules_Helper extends Mage_Selenium_TestCase
     {
         $ruleSearch = $this->arrayEmptyClear($ruleSearch);
         $xpathTR = $this->search($ruleSearch, 'rule_search_grid');
-        $this->assertNotEquals(null, $xpathTR, 'Rule is not found');
-        $names = $this->shoppingCartHelper()->getColumnNamesAndNumbers('grid_head', false);
-        if (array_key_exists('Rule Name', $names)) {
-            $text = trim($this->getText($xpathTR . '//td[' . $names['Rule Name'] . ']'));
-            $this->addParameter('elementTitle', $text);
-        }
+        $this->assertNotNull($xpathTR, 'Rule is not found');
+        $cellId = $this->getColumnIdByName('Rule Name');
+        $this->addParameter('elementTitle', $this->getText($xpathTR . '//td[' . $cellId . ']'));
         $this->addParameter('id', $this->defineIdFromTitle($xpathTR));
         $this->click($xpathTR);
         $this->waitForPageToLoad($this->_browserTimeoutPeriod);
@@ -319,10 +316,10 @@ class PriceRules_Helper extends Mage_Selenium_TestCase
         if (!$xpathTR) {
             return true;
         }
-        $names = $this->shoppingCartHelper()->getColumnNamesAndNumbers('grid_head', false);
+        $cellId = $this->getColumnIdByName('Rule Name');
         while ($this->isElementPresent($xpathTR)) {
-            $ruleTitle = trim($this->getText($xpathTR . '//td[' . $names['Rule Name'] . ']'));
-            $this->addParameter('elementTitle', $ruleTitle);
+            $this->addParameter('elementTitle', $this->getText($xpathTR . '//td[' . $cellId . ']'));
+            $this->addParameter('id', $this->defineIdFromTitle($xpathTR));
             $this->click($xpathTR);
             $this->waitForPageToLoad($this->_browserTimeoutPeriod);
             $this->validatePage();

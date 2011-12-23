@@ -63,14 +63,11 @@ class ProductAttribute_Helper extends Mage_Selenium_TestCase
     {
         $this->_prepareDataForSearch($searchData);
         $xpathTR = $this->search($searchData, 'attributes_grid');
-        $this->assertNotEquals(null, $xpathTR, 'Attribute is not found');
-        $names = $this->shoppingCartHelper()->getColumnNamesAndNumbers('attributes_grid_head', false);
-        if (array_key_exists('Attribute Code', $names)) {
-            $text = $this->getText($xpathTR . '//td[' . $names['Attribute Code'] . ']');
-            $this->addParameter('attribute_code', $text);
-        }
+        $this->assertNotNull($xpathTR, 'Attribute is not found');
+        $cellId = $this->getColumnIdByName('Attribute Code');
+        $this->addParameter('attribute_code', $this->getText($xpathTR . '//td[' . $cellId . ']'));
         $this->addParameter('id', $this->defineIdFromTitle($xpathTR));
-        $this->click($xpathTR . '//td[' . $names['Attribute Code'] . ']');
+        $this->click($xpathTR . '//td[' . $cellId . ']');
         $this->waitForPageToLoad($this->_browserTimeoutPeriod);
         $this->validatePage($this->_findCurrentPageFromUrl($this->getLocation()));
     }
@@ -119,7 +116,7 @@ class ProductAttribute_Helper extends Mage_Selenium_TestCase
         $this->addParameter('attributeId', 0);
         $this->saveForm('save_attribute', false);
 //        $this->clickButton('save_attribute', FALSE);
-//        $this->waitForPageToLoad($this->_browserTimeoutPeriod);        
+//        $this->waitForPageToLoad($this->_browserTimeoutPeriod);
     }
 
     /**

@@ -497,12 +497,9 @@ class Product_Helper extends Mage_Selenium_TestCase
     {
         $this->_prepareDataForSearch($productSearch);
         $xpathTR = $this->search($productSearch, 'product_grid');
-        $this->assertNotEquals(null, $xpathTR, 'Product is not found');
-        $names = $this->shoppingCartHelper()->getColumnNamesAndNumbers('product_grid_head', false);
-        if (array_key_exists('Name', $names)) {
-            $text = $this->getText($xpathTR . '//td[' . $names['Name'] . ']');
-            $this->addParameter('productName', $text);
-        }
+        $this->assertNotNull($xpathTR, 'Product is not found');
+        $cellId = $this->getColumnIdByName('Name');
+        $this->addParameter('productName', $this->getText($xpathTR . '//td[' . $cellId . ']'));
         $this->addParameter('id', $this->defineIdFromTitle($xpathTR));
         $this->click($xpathTR . "//a[text()='Edit']");
         $this->waitForPageToLoad($this->_browserTimeoutPeriod);

@@ -81,7 +81,7 @@ class Tags_Helper extends Mage_Selenium_TestCase
             $this->addParameter('tagName', $tag);
             $this->clickControl('link', 'tag_name');
             $this->clickButtonAndConfirm('delete_tag', 'confirmation_for_delete');
-             //@todo remove from here
+            //@todo remove from here
         }
     }
 
@@ -227,14 +227,11 @@ class Tags_Helper extends Mage_Selenium_TestCase
         }
         // Search and open
         $xpathTR = $this->search($searchData, 'tags_grid');
-        $this->assertNotEquals(null, $xpathTR, 'Tag ' . implode(',', $searchData) . ' is not found');
-        $names = $this->shoppingCartHelper()->getColumnNamesAndNumbers('tags_grid_head', false);
-        if (array_key_exists('Tag', $names)) {
-            $text = $this->getText($xpathTR . '//td[' . $names['Tag'] . ']');
-            $this->addParameter('tagName', $text);
-        }
+        $this->assertNotNull($xpathTR, 'Tag is not found');
+        $cellId = $this->getColumnIdByName('Tag');
+        $this->addParameter('tagName', $this->getText($xpathTR . '//td[' . $cellId . ']'));
         $this->addParameter('id', $this->defineIdFromTitle($xpathTR));
-        $this->click($xpathTR . '//td[' . $names['Tag'] . ']');
+        $this->click($xpathTR . '//td[' . $cellId . ']');
         $this->waitForPageToLoad($this->_browserTimeoutPeriod);
         $this->validatePage();
     }
