@@ -343,12 +343,7 @@ class CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
                 $this->addVerificationMessage('Shipping Service "' . $service . '" is currently unavailable.');
             }
         }
-        $messages = $this->verificationErrors;
-        if ($messages) {
-            $message = implode("\n", $messages);
-            $this->fail($message);
-        }
-
+        $this->assertEmptyVerificationErrors();
     }
 
     /**

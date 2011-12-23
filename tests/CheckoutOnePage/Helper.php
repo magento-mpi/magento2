@@ -239,11 +239,7 @@ class CheckoutOnePage_Helper extends Mage_Selenium_TestCase
             $this->frontAddGiftMessage($shipMethod['add_gift_options']);
         }
 
-//        $messages = $this->getParsedMessages('verificationErrors');
-//        if ($messages) {
-//            $message = implode("\n", $messages);
-//            $this->fail($message);
-//        }
+        $this->assertEmptyVerificationErrors();
 
         $this->goToNextOnePageCheckoutStep('shipping_method');
     }
@@ -490,9 +486,7 @@ class CheckoutOnePage_Helper extends Mage_Selenium_TestCase
             $this->shoppingCartHelper()->verifyPricesDataOnPage($checkProd, $checkTotal);
         }
 
-//        if ($this->getParsedMessages('verificationErrors')) {
-//            $this->fail(implode("\n", call_user_func_array('array_merge', $this->getParsedMessages())));
-//        }
+        $this->assertEmptyVerificationErrors();
     }
 
     /**
