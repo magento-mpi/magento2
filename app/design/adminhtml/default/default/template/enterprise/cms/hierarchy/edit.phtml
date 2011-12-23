@@ -39,11 +39,10 @@
                 <?php if ($this->getData('current_scope') != Enterprise_Cms_Model_Hierarchy_Node::NODE_SCOPE_DEFAULT): ?>
                 <span class="cms-scope">
                     <input type="checkbox" name="use_default_scope" id="use_default_scope" <?php echo $this->getData('use_default_scope') ? 'checked="checked"' : '' ?> onchange="hierarchyNodes.useDefaultScope()" />
-                    <label for="use_default_scope"><?php echo Mage::helper('enterprise_cms')->__('Use Default Value') ?></label>
+                    <label for="use_default_scope"><?php echo Mage::helper('enterprise_cms')->__('Use Parent node\'s hierarchy') ?></label>
                 </span>
                 <?php endif; ?>
                 <div id="tree-container" class="cms-tree tree x-tree"></div>
-                <?php echo $this->getButtonHtml($this->__('Delete Hierarchy'), "deleteCurrentHierarchy()") ?>
             </td>
             <td class="col-right">
                 <div class="buttons-set">
