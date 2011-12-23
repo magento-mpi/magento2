@@ -140,7 +140,7 @@ class Order_PayPalDirect_Authorization_NewCustomerWithSimpleSmokeTest extends Ma
      * <p>New customer is created. Order is created for the new customer. Invoice is created</p>
      *
      * @depends orderWithout3DSecureSmoke
-     * @dataProvider captureTypeDataProvider
+     * @dataProvider fullInvoiceWithDifferentTypesOfCaptureDataProvider
      * @test
      */
     public function fullInvoiceWithDifferentTypesOfCapture($captureType, $orderData)
@@ -154,7 +154,7 @@ class Order_PayPalDirect_Authorization_NewCustomerWithSimpleSmokeTest extends Ma
         $this->orderInvoiceHelper()->createInvoiceAndVerifyProductQty($captureType);
     }
 
-    public function captureTypeDataProvider()
+    public function fullInvoiceWithDifferentTypesOfCaptureDataProvider()
     {
         return array(
             array('Capture Online'),
@@ -169,7 +169,7 @@ class Order_PayPalDirect_Authorization_NewCustomerWithSimpleSmokeTest extends Ma
      * @param type $simpleSku
      *
      * @depends orderWithout3DSecureSmoke
-     * @dataProvider captureTypeDataProvider
+     * @dataProvider partialInvoiceWithDifferentTypesOfCaptureDataProvider
      * @test
      */
     public function partialInvoiceWithDifferentTypesOfCapture($captureType, $orderData)
@@ -187,7 +187,7 @@ class Order_PayPalDirect_Authorization_NewCustomerWithSimpleSmokeTest extends Ma
         $this->orderInvoiceHelper()->createInvoiceAndVerifyProductQty($captureType, $invoice);
     }
 
-    public function captureTypeDataProvider()
+    public function partialInvoiceWithDifferentTypesOfCaptureDataProvider()
     {
         return array(
             array('Capture Online'),
