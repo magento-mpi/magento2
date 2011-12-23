@@ -15,7 +15,7 @@
 class Mage_Core_Model_Translate_InlineTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_Core_Model_Translate_String
+     * @var Mage_Core_Model_Translate_Inline
      */
     protected $_model;
 
@@ -44,6 +44,10 @@ class Mage_Core_Model_Translate_InlineTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expectedResult, $body);
     }
 
+    /**
+     * Data provider StripInlineTest
+     * @return array
+     */
     public function dataStripInline()
     {
         return array(
@@ -63,9 +67,15 @@ class Mage_Core_Model_Translate_InlineTest extends PHPUnit_Framework_TestCase
     public function testProcessResponseBody($body, $expectedResult)
     {
         $this->_model->processResponseBody($body);
-        $this->assertXmlStringEqualsXmlString($expectedResult, $body);
+        $this->assertEquals($expectedResult, $body);
     }
 
+    /**
+     * Get translate data string
+     *
+     * @param $location
+     * @return string
+     */
     private function getTranslate($location)
     {
         return htmlspecialchars(json_encode(array(
@@ -77,17 +87,48 @@ class Mage_Core_Model_Translate_InlineTest extends PHPUnit_Framework_TestCase
         )));
     }
 
+    /**
+     * Get translate data string
+     * @param $text
+     * @param $location
+     * @return string
+     */
+    private function getTranslateText($text, $location)
+    {
+        return htmlspecialchars(json_encode(array(
+            'shown' => $text,
+            'translated' => $text,
+            'original' => $text,
+            'location' => $location,
+            'scope' => $text,
+        )));
+    }
+
     public function dataForProcessResponseBody()
     {
         return array(
+            array(
+            '<button id="reset_order_top_button" type="button" class="scalable cancel"'
+                . ' onclick="deleteConfirm(\'{{{1}}'
+                . '{{2}}{{3}}'
+                . '{{4}}}\', \'\')"'
+                . ' style="display:none"><span>{{{a}}{{a}}{{a}}{{a}}}</span></button>',
+            '<button translate="[' . $this->getTranslate('Push button') . ','
+                . $this->getTranslateText('a', 'Push button')
+                . ']" id="reset_order_top_button" type="button" class="scalable cancel"'
+                . ' onclick="deleteConfirm(\'1'
+                . '\', \'\')"'
+                . ' style="display:none"><span>a</span></button>'),
             array(
                 '{{{1}}{{2}}{{3}}{{4}}}',
                 '<span translate="['.$this->getTranslate('Text').']">1</span>'
             ),
             array(
-                '<legend>legend</legend>{{{1}}{{2}}{{3}}{{4}}}</b><i><script>{{{1}}{{2}}{{3}}{{4}}}'
+                '<legend>legend</legend>{{{1}}{{2}}{{3}}{{4}}}<i><script>{{{1}}{{2}}{{3}}{{4}}}'
                     . '<b title="{{{1}}{{2}}{{3}}{{4}}}">{{{1}}{{2}}{{3}}{{4}}}</b></script></i>',
-                '<legend>legend</legend><i><script>1<b title="1">1</b></script>'
+                '<legend>legend</legend>'
+                    . '<span translate="['.$this->getTranslate('Text').']">1</span>'
+                    . '<i><script>1<b title="1">1</b></script>'
                     . '<span class="translate-inline-script" translate="['
                     . $this->getTranslate('String in Javascript').']">SCRIPT</span></i>'
             ),
@@ -95,12 +136,12 @@ class Mage_Core_Model_Translate_InlineTest extends PHPUnit_Framework_TestCase
             // translate in attributes
             array(
                 '<a title="{{{1}}{{2}}{{3}}{{4}}}">a</a>',
-                '<a translate="['.$this->getTranslate('Tag attribute (ALT, TITLE, etc.)').']" title="1">a</a>'
+                '<a translate="['.$this->getTranslate('Link label').']" title="1">a</a>'
             ),
             array(
-                '<a alt="{{{1}}{{2}}{{3}}{{4}}}" title="{{{1}}{{2}}{{3}}{{4}}}">a</a>',
-                '<a translate="['.$this->getTranslate('Tag attribute (ALT, TITLE, etc.)') . ','
-                    . $this->getTranslate('Tag attribute (ALT, TITLE, etc.)').']" title="1" alt="1">a</a>'
+                '<a alt="{{{1}}{{2}}{{3}}{{4}}}" title="{{{a}}{{a}}{{a}}{{a}}}">a</a>',
+                '<a translate="[' . $this->getTranslate('Link label') . ','
+                    .  $this->getTranslateText('a', 'Link label') .']" alt="1" title="a">a</a>'
             ),
 
             array('<b>{{{1}}{{2}}{{3}}{{4}}}</b>', '<b translate="[' . $this->getTranslate('Bold text') . ']">1</b>'),
@@ -123,7 +164,7 @@ class Mage_Core_Model_Translate_InlineTest extends PHPUnit_Framework_TestCase
             array(
                 '<script>{{{1}}{{2}}{{3}}{{4}}}'
                     . 'a = "<b title=\"{{{1}}{{2}}{{3}}{{4}}}\">{{{1}}{{2}}{{3}}{{4}}}</b>";</script>',
-                '<script>1a = "<b title="1">1</b>";</script><span class="translate-inline-script" translate="['
+                '<script>1a = "<b title=\"1\">1</b>";</script><span class="translate-inline-script" translate="['
                     . $this->getTranslate('String in Javascript') . ']">SCRIPT</span>'
             ),
         );
