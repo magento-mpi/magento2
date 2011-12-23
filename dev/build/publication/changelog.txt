@@ -1,4 +1,6 @@
 
+Published additional tests and fixes
+
 - Various code integrity fixes in different places:
 -- Fixed obsolete references to classes
 -- Fixed broken references to template and static view files
@@ -14,5 +16,6 @@
 -- Simplified and reorganized the "Exemplar" and self-assessment tests for static code analysis
 - Covered previously made backwards-incompatible changes with legacy tests
 - Changed storage of class map from a PHP-file with array into a better-performing text file with serialized array.
+- Published dev/tests/static and dev/tests/unit
 
 ------
