@@ -39,10 +39,19 @@ class AdminUser_LoginTest extends Mage_Selenium_TestCase
 
     public function setUpBeforeTests()
     {
-        $this->loginAdminUser();
-        $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('disable_admin_captcha');
-        $this->logoutAdminUser();
+        $this->admin('log_in_to_admin', false);
+        if ($this->_findCurrentPageFromUrl($this->getLocation()) != 'log_in_to_admin'
+                && $this->isElementPresent(self::$xpathLogOutAdmin)) {
+            $this->logoutAdminUser();
+        }
+        $this->validatePage('log_in_to_admin');
+        $this->clickControl('link', 'forgot_password');
+        if ($this->controlIsPresent('pageelement', 'captcha')) {
+            $this->loginAdminUser();
+            $this->navigate('system_configuration');
+            $this->systemConfigurationHelper()->configure('disable_admin_captcha');
+            $this->logoutAdminUser();
+        }
     }
 
     /**
@@ -51,9 +60,9 @@ class AdminUser_LoginTest extends Mage_Selenium_TestCase
      */
     protected function assertPreConditions()
     {
-        $this->setArea('admin');
-        $this->navigate('log_in_to_admin', false);
-        if (!$this->checkCurrentPage('log_in_to_admin') && $this->isElementPresent(self::$xpathLogOutAdmin)) {
+        $this->admin('log_in_to_admin', false);
+        if ($this->_findCurrentPageFromUrl($this->getLocation()) != 'log_in_to_admin'
+                && $this->isElementPresent(self::$xpathLogOutAdmin)) {
             $this->logoutAdminUser();
         }
         $this->validatePage('log_in_to_admin');

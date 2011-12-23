@@ -2019,7 +2019,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                     $this->waitForElement(array(self::$xpathAdminLogo,
                                                 self::$xpathErrorMessage,
                                                 self::$xpathValidationMessage));
-                    if (!$this->checkCurrentPage($this->_firstPageAfterAdminLogin)) {
+                    if ($this->_findCurrentPageFromUrl($this->getLocation()) != $this->_firstPageAfterAdminLogin) {
                         throw new PHPUnit_Framework_Exception('Admin was not logged in');
                     }
                     if ($this->isElementPresent(self::$xpathGoToNotifications)) {
