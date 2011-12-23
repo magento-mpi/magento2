@@ -97,14 +97,14 @@ class CheckoutMultipleAddresses_LoggedIn_InputDataValidation extends Mage_Seleni
      * <p>New address is not added.</p>
      * <p>Error Message is displayed.</p>
      *
-     * @dataProvider selectAddressesPageEmptyRequiredFieldsDataProvider
+     * @dataProvider createShippingAddressEmptyRequiredFieldsDataProvider
      * @test
      */
-    public function selectAddressesPageEmptyRequiredFields()
+    public function createShippingAddressEmptyRequiredFields()
     {
     }
 
-    public function selectAddressesPageEmptyRequiredFieldsDataProvider()
+    public function createShippingAddressEmptyRequiredFieldsDataProvider()
     {
         return array(
             array(),//First Name
@@ -136,7 +136,7 @@ class CheckoutMultipleAddresses_LoggedIn_InputDataValidation extends Mage_Seleni
      *
      * @test
      */
-    public function selectAddressesPageSpecialChars() //Enter New Address page
+    public function createShippingAddressSpecialChars() //Enter New Address page
     {
     }
 
@@ -155,7 +155,7 @@ class CheckoutMultipleAddresses_LoggedIn_InputDataValidation extends Mage_Seleni
      *
      * @test
      */
-    public function selectAddressesPageLongValues() //Enter New Address
+    public function createShippingAddressLongValues() //Enter New Address
     {
     }
 
@@ -206,7 +206,7 @@ class CheckoutMultipleAddresses_LoggedIn_InputDataValidation extends Mage_Seleni
      *
      * @test
      */
-    public function shippingInfPageShippingMethod()
+    public function shippingMethodNotSelected()
     {
     }
 
@@ -233,14 +233,14 @@ class CheckoutMultipleAddresses_LoggedIn_InputDataValidation extends Mage_Seleni
      * <p>New address is not added.</p>
      * <p>Error Message is displayed.</p>
      *
-     * @dataProvider billingInfPageEmptyRequiredFieldsDataProvider
+     * @dataProvider createBillingAddressEmptyRequiredFieldsDataProvider
      * @test
      */
-    public function billingInfPageEmptyRequiredFields()
+    public function createBillingAddressEmptyRequiredFields()
     {
     }
 
-    public function billingInfPageEmptyRequiredFieldsDataProvider()
+    public function createBillingAddressEmptyRequiredFieldsDataProvider()
     {
         return array(
             array(),//First Name
@@ -273,7 +273,7 @@ class CheckoutMultipleAddresses_LoggedIn_InputDataValidation extends Mage_Seleni
      *
      * @test
      */
-    public function billingInfPageSpecialChars() //Enter New Address page
+    public function createBillingAddressSpecialChars() //Enter New Address page
     {
     }
 
@@ -293,7 +293,7 @@ class CheckoutMultipleAddresses_LoggedIn_InputDataValidation extends Mage_Seleni
      *
      * @test
      */
-    public function billingInfPageLongValues() //Enter New Address
+    public function createBillingAddressLongValues() //Enter New Address
     {
     }
 

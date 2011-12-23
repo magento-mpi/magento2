@@ -264,7 +264,8 @@ class CheckoutMultipleAddresses_WithRegistration_InputDataValidation extends Mag
         return array(
             array(array('email' => 'invalid')),
             array(array('email' => 'test@invalidDomain')),
-            array(array('email' => 'te@st@magento.com'))
+            array(array('email' => 'te@st@magento.com')),
+            array(array('email' => '.test@magento.com')),
         );
     }
 
