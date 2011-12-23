@@ -321,7 +321,7 @@ class Category_Helper extends Mage_Selenium_TestCase
                     }
                 }
             }
-            $this->clickAndWait($link);
+            $this->clickAndWait($link, $this->_browserTimeoutPeriod);
             $this->validatePage();
             return true;
         }

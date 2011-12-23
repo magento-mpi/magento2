@@ -67,10 +67,11 @@ class SystemConfiguration_Helper extends Mage_Selenium_TestCase
                 if ($tab) {
                     $xpath = $this->_getControlXpath('tab', $tab);
                     $this->_defineParameters($xpath, 'href');
-                    $this->clickAndWait($xpath);
+                    $this->clickAndWait($xpath, $this->_browserTimeoutPeriod);
                     $this->fillForm($settings, $tab);
                     $this->saveForm('save_config');
-                    $this->assertMessagePresent('success', 'success_saved_config');
+                    $this->assertTrue($this->successMessage('success_saved_config'), 'Configuration are not saved');
+//                    $this->assertMessagePresent('success', 'success_saved_config');
                 }
             }
         }
@@ -110,7 +111,7 @@ class SystemConfiguration_Helper extends Mage_Selenium_TestCase
         $this->admin('system_configuration');
         $xpath = $this->_getControlXpath('tab', 'general_web');
         $this->addParameter('tabName', 'web');
-        $this->clickAndWait($xpath);
+        $this->clickAndWait($xpath, $this->_browserTimeoutPeriod);
         $secureBaseUrlXpath = $this->_getControlXpath('field', 'secure_base_url');
         $url = preg_replace('/http(s)?/', 'https', $this->getValue($secureBaseUrlXpath));
         $data = array('secure_base_url' => $url, 'use_secure_urls_in_' . $path => ucwords(strtolower($useSecure)));
@@ -119,7 +120,7 @@ class SystemConfiguration_Helper extends Mage_Selenium_TestCase
         if ($this->getTitle() == 'Log into Magento Admin Page') {
             $this->loginAdminUser();
             $this->admin('system_configuration');
-            $this->clickAndWait($xpath);
+            $this->clickAndWait($xpath, $this->_browserTimeoutPeriod);
         }
         $this->assertTrue($this->verifyForm($data, 'general_web'), $this->getParsedMessages());
     }
