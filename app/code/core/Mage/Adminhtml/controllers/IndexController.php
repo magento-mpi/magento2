@@ -79,7 +79,6 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
         $username = (is_array($loginData) && array_key_exists('username', $loginData)) ? $loginData['username'] : null;
 
         $this->loadLayout();
-        $this->getLayout()->getBlock('content')->assign('username', $username);
         $this->renderLayout();
     }
 
@@ -232,7 +231,7 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
             // Validate received data to be an email address
             if (Zend_Validate::is($email, 'EmailAddress')) {
                 $collection = Mage::getResourceModel('admin/user_collection');
-                /** @var $collection Mage_Admin_Model_Mysql4_User_Collection */
+                /** @var $collection Mage_Admin_Model_Resource_User_Collection */
                 $collection->addFieldToFilter('email', $email);
                 $collection->load(false);
 
@@ -249,7 +248,7 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
                     }
                 }
                 $this->_getSession()
-                    ->addSuccess(Mage::helper('adminhtml')->__('If there is an account associated with %s you will receive an email with a link to reset your password.', Mage::helper('adminhtml')->htmlEscape($email)));
+                    ->addSuccess(Mage::helper('adminhtml')->__('If there is an account associated with %s you will receive an email with a link to reset your password.', Mage::helper('adminhtml')->escapeHtml($email)));
                 $this->_redirect('*/*/login');
                 return;
             } else {
@@ -259,7 +258,6 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
             $this->_getSession()->addError(Mage::helper('adminhtml')->__('The email address is empty.'));
         }
         $this->loadLayout();
-        $this->getLayout()->getBlock('content')->assign('email', $email);
         $this->renderLayout();
     }
 
