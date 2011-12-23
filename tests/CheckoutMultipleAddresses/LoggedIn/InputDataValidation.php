@@ -177,7 +177,7 @@ class CheckoutMultipleAddresses_LoggedIn_InputDataValidation extends Mage_Seleni
     {
     }
 
-    public function dataSelectAddressesInvalidQty()
+    public function selectAddressesPageInvalidQtyDataProvider()
     {
         return array(
             array(),//negative
@@ -312,7 +312,7 @@ class CheckoutMultipleAddresses_LoggedIn_InputDataValidation extends Mage_Seleni
      *
      * @test
      */
-    public function billingInfPagePaymentMethod() //Not selected Payment Method
+    public function paymentMethodNotSelected() //Not selected Payment Method
     {
     }
 
@@ -331,11 +331,11 @@ class CheckoutMultipleAddresses_LoggedIn_InputDataValidation extends Mage_Seleni
      *
      * @test
      */
-    public function billingInfPageEmptyCardInfo() //For Credit Card (saved) only
+    public function emptyCardInfo() //For Credit Card (saved) only
     {
     }
 
-    public function dataEmptyCardField()
+    public function emptyCardInfoDataProvider()
     {
         return array(
             array(),//Name on Card
