@@ -1765,12 +1765,21 @@ configurable_options_to_add_to_shopping_cart:
             custom_option_dropdown: %noValue%
 
 grouped_options_to_add_to_shopping_cart:
-    option_1: &productGroup
+    option_1:
         parameters:
             subproductName: %noValue%
         options_to_choose:
-            grouped_subproduct_qty: 5
-    option_2: *productGroup
+            grouped_subproduct_qty: 1
+    option_2:
+        parameters:
+            subproductName: hucfu_Simple Product Visible
+        options_to_choose:
+            grouped_subproduct_qty: 1
+    option_3:
+        parameters:
+            subproductName: hucfu_Simple Product Visible
+        options_to_choose:
+            grouped_subproduct_qty: 1
 
 ########################################################################################################################
 #                                                                                                                      #

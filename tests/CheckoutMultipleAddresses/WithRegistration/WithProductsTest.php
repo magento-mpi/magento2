@@ -388,6 +388,8 @@ class CheckoutMultipleAddresses_WithRegistration_WithProductsTest extends Mage_S
         $checkoutData['shipping_address_data']['address_to_ship_1']['general_name'] = $productData['general_name'];
         $checkoutData['products_to_add']['product_1']['general_name'] = $productData['general_name'];
         $customOptionsConfig['option_1']['parameters']['title'] = $attrData['admin_title'];
+        $customOptionsConfig['option_1']['options_to_choose']['custom_option_dropdown'] =
+            $attrData['option_1']['store_view_titles']['Default Store View'];
         $checkoutData['products_to_add']['product_1']['options'] = $customOptionsConfig;
         if(preg_match('/_options/', $productDataSet)) {
             $checkoutData['products_to_add']['product_1']['options'] = $customOptions;
@@ -449,6 +451,8 @@ class CheckoutMultipleAddresses_WithRegistration_WithProductsTest extends Mage_S
         $checkoutData['products_to_add']['product_2']['general_name'] =
             self::$productsPreConditions['simple_product_visible']['general_name'];
         $customOptionsConfig['option_1']['parameters']['title'] = $attrData['admin_title'];
+        $customOptionsConfig['option_1']['options_to_choose']['custom_option_dropdown'] =
+            $attrData['option_1']['store_view_titles']['Default Store View'];
         $checkoutData['products_to_add']['product_1']['options'] = $customOptionsConfig;
         if(preg_match('/_options/', $productDataSet)) {
             $checkoutData['products_to_add']['product_1']['options'] = $customOptions;
@@ -510,6 +514,8 @@ class CheckoutMultipleAddresses_WithRegistration_WithProductsTest extends Mage_S
         $checkoutData['products_to_add']['product_2']['general_name'] =
             self::$productsPreConditions['simple_product_visible']['general_name'];
         $customOptionsConfig['option_1']['parameters']['title'] = $attrData['admin_title'];
+        $customOptionsConfig['option_1']['options_to_choose']['custom_option_dropdown'] =
+            $attrData['option_1']['store_view_titles']['Default Store View'];
         $checkoutData['products_to_add']['product_1']['options'] = $customOptionsConfig;
         if(preg_match('/_options/', $productDataSet)) {
             $checkoutData['products_to_add']['product_1']['options'] = $customOptions;
