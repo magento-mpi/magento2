@@ -187,13 +187,6 @@ class Order_PayPalDirect_Authorization_NewCustomerWithSimpleSmokeTest extends Ma
         $this->orderInvoiceHelper()->createInvoiceAndVerifyProductQty($captureType, $invoice);
     }
 
-    public function captureTypeDataProvider()
-    {
-        return array(
-            array('Capture Online'),
-            array('Capture Offline')
-        );
-    }
 
     /**
      * <p>PayPal Direct. Full Refund</p>

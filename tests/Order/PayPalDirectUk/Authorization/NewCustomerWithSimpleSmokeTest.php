@@ -183,14 +183,6 @@ class Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTest extends 
         $this->orderInvoiceHelper()->createInvoiceAndVerifyProductQty($captureType, $invoice);
     }
 
-    public function captureTypeDataProvider()
-    {
-        return array(
-            array('Capture Online'),
-            array('Capture Offline')
-        );
-    }
-
     /**
      * <p>PayPalUK Direct. Full Refund</p>
      * <p>Steps:</p>
