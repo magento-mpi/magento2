@@ -67,6 +67,24 @@
                 </setup>
             </oauth_setup>
         </resources>
+        <events>
+            <customer_customer_authenticated>
+                <observers>
+                    <oauth>
+                        <class>oauth/observer</class>
+                        <method>afterCustomerLogin</method>
+                    </oauth>
+                </observers>
+            </customer_customer_authenticated>
+            <admin_session_user_login_success>
+                <observers>
+                    <oauth>
+                        <class>oauth/observer</class>
+                        <method>afterAdminLogin</method>
+                    </oauth>
+                </observers>
+            </admin_session_user_login_success>
+        </events>
     </global>
     <admin>
         <routers>

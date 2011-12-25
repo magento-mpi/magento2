@@ -20,48 +20,40 @@
  *
  * @category    Mage
  * @package     Mage_OAuth
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @copyright   Copyright (c) 2011 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * OAuth token resource model
+ * OAuth observer
  *
  * @category    Mage
  * @package     Mage_OAuth
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_OAuth_Model_Resource_Token extends Mage_Core_Model_Resource_Db_Abstract
+class Mage_OAuth_Model_Observer
 {
     /**
-     * Initialize resource model
+     * Redirect customer to authorize controller after login success
      *
+     * @param Varien_Event_Observer $observer
      * @return void
      */
-    protected function _construct()
+    public function afterCustomerLogin(Varien_Event_Observer $observer)
     {
-        $this->_init('oauth/token', 'entity_id');
+        /** @var $token Mage_OAuth_Model_Token */
+        $token = Mage::getModel('oauth/token');
+        $token->loadByTmpToken(Mage::app()->getRequest()->getParam('oauth_token', null));
     }
 
     /**
-     * Load token by temporary token
+     * Redirect admin to authorize controller after login success
      *
-     * @param Mage_OAuth_Model_Token $token
-     * @param string $tmpToken
-     * @return Mage_OAuth_Model_Resource_Token
+     * @param Varien_Event_Observer $observer
+     * @return void
      */
-    public function loadByTmpToken(Mage_OAuth_Model_Token $token, $tmpToken)
+    public function afterAdminLogin(Varien_Event_Observer $observer)
     {
-        $select = $this->_getReadAdapter()->select()
-            ->from($this->getTable('oauth/token'), 'entity_id')
-            ->where('tmp_token = ?', $tmpToken);
 
-        $id = $this->_getReadAdapter()->fetchOne($select);
-        if ($id) {
-            $this->load($token, $id);
-        } else {
-            $token->setData(array());
-        }
-        return $this;
     }
 }

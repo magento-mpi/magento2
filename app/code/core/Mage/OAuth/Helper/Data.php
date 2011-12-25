@@ -86,6 +86,6 @@ class Mage_OAuth_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function isValidDisplayType($displayType)
     {
-        return self::DISPLAY_TYPE_ADMIN == $displayType || self::DISPLAY_TYPE_CUSTOMER == $displayType;
+        return self::DISPLAY_TYPE_ADMIN === $displayType || self::DISPLAY_TYPE_CUSTOMER === $displayType;
     }
 }

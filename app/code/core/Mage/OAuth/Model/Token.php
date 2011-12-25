@@ -61,4 +61,16 @@ class Mage_OAuth_Model_Token extends Mage_Core_Model_Abstract
     {
         $this->_init('oauth/token');
     }
+
+    /**
+     * Load token by temporary token
+     *
+     * @param string $tmpToken
+     * @return Mage_OAuth_Model_Token
+     */
+    public function loadByTmpToken($tmpToken)
+    {
+        $this->_getResource()->loadByTmpToken($this, $tmpToken);
+        return $this;
+    }
 }

@@ -42,7 +42,10 @@ class Mage_OAuth_Block_Authorize extends Mage_Core_Block_Template
 
         /** @var $session Mage_Customer_Model_Session */
         $session = Mage::getModel('customer/session');
-        if ($session->isLoggedIn()) {
+
+        /** @var $adminSession Mage_Admin_Model_Session */
+        $adminSession = Mage::getSingleton('admin/session');
+        if ($session->isLoggedIn() || $adminSession->isLoggedIn()) {
             $template = 'oauth/authorize/form/button.phtml';
         } else {
             $displayType = $this->getRequest()->getParam('display');
@@ -64,6 +67,50 @@ class Mage_OAuth_Block_Authorize extends Mage_Core_Block_Template
      */
     public function getOauthToken()
     {
-        return $this->getRequest()->getParam('oauth_token');
+        return $this->getRequest()->getQuery('oauth_token', null);
+    }
+
+    /**
+     * Retrieve customer form posting url
+     *
+     * @return string
+     */
+    public function getCustomerPostActionUrl()
+    {
+        /** @var $helper Mage_Customer_Helper_Data */
+        $helper = $this->helper('customer');
+        return $helper->getLoginPostUrl();
+    }
+
+    /**
+     * Retrieve admin form posting url
+     *
+     * @return string
+     */
+    public function getAdminPostActionUrl()
+    {
+        return $this->getUrl('adminhtml/index/login');
+    }
+
+    /**
+     * Retrieve authorize url
+     *
+     * @return string
+     */
+    public function getAuthorizeUrl()
+    {
+        return $this->getUrl('*/authorize/index', array('oauth_token' => $this->escapeHtml($this->getOauthToken())));
+    }
+
+    /**
+     * Retrieve Session Form Key
+     *
+     * @return string
+     */
+    public function getFormKey()
+    {
+        /** @var $session Mage_Core_Model_Session */
+        $session = Mage::getSingleton('core/session');
+        return $session->getFormKey();
     }
 }
