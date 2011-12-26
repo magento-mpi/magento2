@@ -293,43 +293,40 @@ class Mage_Tax_Model_Resource_Calculation extends Mage_Core_Model_Resource_Db_Ab
                     array('title' => $ifnullTitleValue))
                 ->where('rate.tax_country_id = ?', $countryId)
                 ->where("rate.tax_region_id IN(?)", array(0, (int)$regionId));
-            $postcodeIsNumeric = is_numeric($postcode);
+
             $postcodeIsRange = is_string($postcode) && preg_match('/^(.+)-(.+)$/', $postcode, $matches);
             if ($postcodeIsRange) {
                 $zipFrom = $matches[1];
                 $zipTo = $matches[2];
             }
 
-            if ($postcodeIsNumeric || $postcodeIsRange) {
-                $selectClone = clone $select;
-                $selectClone->where('rate.zip_is_range IS NOT NULL');
-            }
+            $selectClone = clone $select;
+            $selectClone->where('rate.zip_is_range IS NOT NULL');
+
             $select->where('rate.zip_is_range IS NULL');
 
-            if ($postcode != '*' || $postcodeIsRange) {
+            if ($postcode != '*') {
                 $select
                     ->where("rate.tax_postcode IS NULL OR rate.tax_postcode IN('*', '', ?)",
                         $postcodeIsRange ? $postcode : $this->_createSearchPostCodeTemplates($postcode));
-                if ($postcodeIsNumeric) {
-                    $selectClone
-                        ->where('? BETWEEN rate.zip_from AND rate.zip_to', $postcode);
-                } else if ($postcodeIsRange) {
+                if ($postcodeIsRange) {
                     $selectClone->where('rate.zip_from >= ?', $zipFrom)
                         ->where('rate.zip_to <= ?', $zipTo);
+                } else {
+                    $selectClone->where('rate.zip_from <= ?', $postcode)
+                        ->where('rate.zip_to >= ?', $postcode);
                 }
             }
 
             /**
              * @see ZF-7592 issue http://framework.zend.com/issues/browse/ZF-7592
              */
-            if ($postcodeIsNumeric || $postcodeIsRange) {
-                $select = $this->_getReadAdapter()->select()->union(
-                    array(
-                        '(' . $select . ')',
-                        '(' . $selectClone . ')'
-                    )
-                );
-            }
+            $select = $this->_getReadAdapter()->select()->union(
+                array(
+                    '(' . $select . ')',
+                    '(' . $selectClone . ')'
+                )
+            );
 
             $select->order('priority ' . Varien_Db_Select::SQL_ASC)
                    ->order('tax_calculation_rule_id ' . Varien_Db_Select::SQL_ASC)
