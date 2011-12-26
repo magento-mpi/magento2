@@ -1830,9 +1830,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                     ? Mage_Selenium_TestCase::$messages[$type]
                     : null;
         }
-        if (!empty($this->verificationErrors)) {
-            Mage_Selenium_TestCase::$messages['verification'] = $this->verificationErrors;
-        }
+
         return Mage_Selenium_TestCase::$messages;
     }
 
@@ -1860,7 +1858,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function addVerificationMessage($message)
     {
-        $this->verificationErrors[] = $message;
+        Mage_Selenium_TestCase::$messages['verification'][] = $message;
     }
 
     /**
@@ -1881,8 +1879,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function assertEmptyVerificationErrors()
     {
-        if (!empty($this->verificationErrors)) {
-            $this->fail(implode("\n", $this->verificationErrors));
+        if (isset(Mage_Selenium_TestCase::$messages['verification'])) {
+            $this->fail(implode("\n", Mage_Selenium_TestCase::$messages['verification']));
         }
     }
 
@@ -2801,6 +2799,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                     $this, array_merge($this->data, $this->dependencyInput)
             );
             // Fail test if have verification errors
+            $this->assertEmptyVerificationErrors();
             if (!empty($this->verificationErrors)) {
                 $this->fail(implode("\n", $this->verificationErrors));
             }
