@@ -50,6 +50,21 @@ class Magento_TestCase extends PHPUnit_Framework_TestCase
      */
     protected $_modelsToDelete = array();
 
+
+    /**
+     * Fixtures registry
+     *
+     * @var array
+     */
+    protected static $_fixtures = array();
+
+    /**
+     * Default admin user model
+     *
+     * @var Mage_Admin_Model_User
+     */
+    static protected $_admin;
+
     /**
      * Run garbage collector for cleaning memory
      *
@@ -211,7 +226,7 @@ class Magento_TestCase extends PHPUnit_Framework_TestCase
      * @param bool $secure
      * @return Magento_TestCase
      */
-    protected function _addModelToDelete($model, $secure = false)
+    public function addModelToDelete($model, $secure = false)
     {
         $this->_modelsToDelete[] = array(
             'model' => $model,
@@ -328,5 +343,65 @@ class Magento_TestCase extends PHPUnit_Framework_TestCase
         }
 
         return $this;
+    }
+
+    /**
+     * Get admin user model
+     *
+     * @return Mage_Admin_Model_User
+     */
+    static public function getDefaultAdminUser()
+    {
+        if (null === self::$_admin) {
+            /** @var $user Mage_Admin_Model_User */
+            $user = Mage::getModel('admin/user');
+            $user->login(TESTS_ADMIN_USERNAME, TESTS_ADMIN_PASSWORD);
+            if (!$user->getId()) {
+                throw new Magento_Test_Exception('Admin user not found. Check credentials from config file.');
+            }
+            self::$_admin = $user;
+        }
+        return self::$_admin;
+    }
+
+    /**
+     * Set fixture to registry
+     *
+     * @param string $key
+     * @param mixed $fixture
+     * @return void
+     */
+    public static function setFixture($key, $fixture)
+    {
+        self::$_fixtures[$key] = $fixture;
+    }
+
+    /**
+     * Get fixture by key
+     *
+     * @param string $key
+     * @return mixed
+     */
+    public static function getFixture($key)
+    {
+        if (array_key_exists($key, self::$_fixtures)) {
+            return self::$_fixtures[$key];
+        }
+        return null;
+    }
+
+    /**
+     * Delete fixture by key
+     *
+     * @param string $key
+     * @param bool $secure
+     * @return void
+     */
+    public static function deleteFixture($key, $secure = false)
+    {
+        if (array_key_exists($key, self::$_fixtures)) {
+            self::callModelDelete(self::$_fixtures[$key], $secure);
+            unset(self::$_fixtures[$key]);
+        }
     }
 }

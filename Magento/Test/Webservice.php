@@ -44,13 +44,6 @@ class Magento_Test_Webservice extends Magento_TestCase
     protected static $_ws;
 
     /**
-     * fixtures registry
-     *
-     * @var array
-     */
-    protected static $_fixtures = array();
-
-    /**
      * Clients class name list
      *
      * @var array
@@ -149,46 +142,5 @@ class Magento_Test_Webservice extends Magento_TestCase
             $result = (string) $xml;
         }
         return $result;
-    }
-
-    /**
-     * Set fixture to registry
-     *
-     * @param string $key
-     * @param mixed $fixture
-     * @return void
-     */
-    public static function setFixture($key, $fixture)
-    {
-        self::$_fixtures[$key] = $fixture;
-    }
-
-    /**
-     * Get fixture by key
-     *
-     * @param string $key
-     * @return mixed
-     */
-    public static function getFixture($key)
-    {
-        if (array_key_exists($key, self::$_fixtures)) {
-            return self::$_fixtures[$key];
-        }
-        return null;
-    }
-
-    /**
-     * Delete fixture by key
-     *
-     * @param string $key
-     * @param bool $secure
-     * @return void
-     */
-    public static function deleteFixture($key, $secure = false)
-    {
-        if (array_key_exists($key, self::$_fixtures)) {
-            self::callModelDelete(self::$_fixtures[$key], $secure);
-            unset(self::$_fixtures[$key]);
-        }
     }
 }
