@@ -36,7 +36,7 @@ class Mage_OAuth_Model_ConsumerTest extends Magento_TestCase
     public function testCrud()
     {
         $model = new Mage_OAuth_Model_Consumer();
-        $this->_addModelToDelete($model);
+        $this->addModelToDelete($model);
         $data = $this->_getFixtureData();
 
         /**
@@ -93,6 +93,6 @@ class Mage_OAuth_Model_ConsumerTest extends Magento_TestCase
          */
         $model->delete();
         $this->assertNull($model->setId(null)->load($id)->getId(), 'ID must be null after deleting.');
-        $this->_addModelToDelete($model);
+        $this->addModelToDelete($model);
     }
 }

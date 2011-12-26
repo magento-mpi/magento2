@@ -236,8 +236,8 @@ class LoginTest extends Magento_Test_Webservice
 
         $user1 = new Mage_Api_Model_User;
         $role1 = new Mage_Api_Model_Roles;
-        $this->_addModelToDelete($user1, true)
-            ->_addModelToDelete($role1, true);
+        $this->addModelToDelete($user1, true)
+            ->addModelToDelete($role1, true);
         $relation1 = new Mage_Api_Model_Rules;
         $role1->setData($roles[0])->save();
         $user1->setData($users[0])
@@ -250,8 +250,8 @@ class LoginTest extends Magento_Test_Webservice
 
         $user2 = new Mage_Api_Model_User;
         $role2 = new Mage_Api_Model_Roles;
-        $this->_addModelToDelete($user2, true)
-            ->_addModelToDelete($role2, true);
+        $this->addModelToDelete($user2, true)
+            ->addModelToDelete($role2, true);
         $relation2 = new Mage_Api_Model_Rules;
         $role2->setData($roles[1])->save();
         $user2->setData($users[1])->save();
