@@ -36,6 +36,9 @@
  */
 class CheckoutMultipleAddresses_Existing_WithProductsTest extends Mage_Selenium_TestCase
 {
+    /**
+     * @var array
+     */
     protected static $_productsPreConditions = array();
 
     /**
@@ -49,6 +52,8 @@ class CheckoutMultipleAddresses_Existing_WithProductsTest extends Mage_Selenium_
     /**
      * <p>Preconditions</p>
      * <p>Create attribute</p>
+     *
+     * @return array $attrData
      *
      * @test
      */
@@ -78,6 +83,8 @@ class CheckoutMultipleAddresses_Existing_WithProductsTest extends Mage_Selenium_
     /**
      * <p>Preconditions</p>
      * <p>Create Customer for tests</p>
+     *
+     * @return array
      *
      * @test
      */
@@ -114,11 +121,14 @@ class CheckoutMultipleAddresses_Existing_WithProductsTest extends Mage_Selenium_
      * <p>Expected result:</p>
      * <p>Checkout is successful;</p>
      *
+     * @dataProvider createProductForAssociatedDataProvider
      * @depends createAttribute
      * @depends createCustomer
-     * @param string $productType
      * @param string $productDataSet
-     * @dataProvider createProductForAssociatedDataProvider
+     * @param string $productType
+     * @param array $attrData
+     * @param array $customerData
+     *
      * @test
      */
     public function createProductForAssociated($productDataSet, $productType, $attrData, $customerData)
@@ -155,6 +165,11 @@ class CheckoutMultipleAddresses_Existing_WithProductsTest extends Mage_Selenium_
         $this->assertMessagePresent('success', 'success_checkout');
         }
 
+    /**
+     * <p>Data provider for createProductForAssociated test</p>
+     *
+     * @return array
+     */
     public function createProductForAssociatedDataProvider()
     {
         return array(
@@ -182,12 +197,13 @@ class CheckoutMultipleAddresses_Existing_WithProductsTest extends Mage_Selenium_
      * <p>Expected result:</p>
      * <p>Checkout is successful;</p>
      *
-     * @depends createCustomer
-     * @param string $productType
-     * @param string $productDataSet
      * @dataProvider createSimpleTypesProductsDataProvider
+     * @depends createCustomer
+     * @param string $productDataSet
+     * @param string $productType
+     * @param array $customerData
+     *
      * @test
-     * @return string
      */
     public function createSimpleTypesProducts($productDataSet, $productType, $customerData)
     {
@@ -227,6 +243,11 @@ class CheckoutMultipleAddresses_Existing_WithProductsTest extends Mage_Selenium_
         $this->assertMessagePresent('success', 'success_checkout');
     }
 
+    /**
+     * <p>Data provider for createSimpleTypesProducts test</p>
+     *
+     * @return array
+     */
     public function createSimpleTypesProductsDataProvider()
     {
         return array(
@@ -258,10 +279,10 @@ class CheckoutMultipleAddresses_Existing_WithProductsTest extends Mage_Selenium_
      * <p>Checkout is successful;</p>
      *
      * @depends createCustomer
-     * @depends createProductForAssociated
+     * @param array $customerData
+     *
      * @test
      */
-
     public function createGroupedProduct($customerData)
     {
         //Data
@@ -319,11 +340,13 @@ class CheckoutMultipleAddresses_Existing_WithProductsTest extends Mage_Selenium_
      * <p>Expected result:</p>
      * <p>Checkout is successful;</p>
      *
-     * @depends createCustomer
      * @dataProvider createBundleProductsDataProvider
+     * @depends createCustomer
+     * @param string $productDataSet
+     * @param array $customerData
+     *
      * @test
      */
-
     public function createBundleProducts($productDataSet, $customerData)
     {
         //Data
@@ -367,6 +390,11 @@ class CheckoutMultipleAddresses_Existing_WithProductsTest extends Mage_Selenium_
         $this->assertMessagePresent('success', 'success_checkout');
     }
 
+    /**
+     * <p>Data provider for createBundleProducts</p>
+     *
+     * @return array
+     */
     public function createBundleProductsDataProvider()
     {
         return array(
@@ -395,13 +423,15 @@ class CheckoutMultipleAddresses_Existing_WithProductsTest extends Mage_Selenium_
      * <p>Expected result:</p>
      * <p>Checkout is successful;</p>
      *
+     * @dataProvider createConfigurableDataProvider
      * @depends createCustomer
      * @depends createAttribute
-     * @depends createProductForAssociated
-     * @dataProvider createConfigurableWithSimpleDataProvider
+     * @param string $productDataSet
+     * @param array $customerData
+     * @param array $attrData
+     *
      * @test
      */
-
     public function createConfigurableWithSimple($productDataSet, $customerData, $attrData)
     {
         //Data
@@ -456,13 +486,15 @@ class CheckoutMultipleAddresses_Existing_WithProductsTest extends Mage_Selenium_
      * <p>Expected result:</p>
      * <p>Checkout is successful;</p>
      *
+     * @dataProvider createConfigurableDataProvider
      * @depends createCustomer
      * @depends createAttribute
-     * @depends createProductForAssociated
-     * @dataProvider createConfigurableWithSimpleDataProvider
+     * @param string $productDataSet
+     * @param array $customerData
+     * @param array $attrData
+     *
      * @test
      */
-
     public function createConfigurableWithVirtual($productDataSet, $customerData, $attrData)
     {
         //Data
@@ -520,13 +552,15 @@ class CheckoutMultipleAddresses_Existing_WithProductsTest extends Mage_Selenium_
      * <p>Expected result:</p>
      * <p>Checkout is successful;</p>
      *
+     * @dataProvider createConfigurableDataProvider
      * @depends createCustomer
      * @depends createAttribute
-     * @depends createProductForAssociated
-     * @dataProvider createConfigurableWithSimpleDataProvider
+     * @param string $productDataSet
+     * @param array $customerData
+     * @param array $attrData
+     *
      * @test
      */
-
     public function createConfigurableWithDownloadable($productDataSet, $customerData, $attrData)
     {
         //Data
@@ -566,7 +600,12 @@ class CheckoutMultipleAddresses_Existing_WithProductsTest extends Mage_Selenium_
         $this->assertMessagePresent('success', 'success_checkout');
     }
 
-    public function createConfigurableWithSimpleDataProvider()
+    /**
+     * <p>Data provider for createConfigurableWithSimple, createConfigurableWithVirtual, createConfigurableWithDownloadable tests</p>
+     *
+     * @return array
+     */
+    public function createConfigurableDataProvider()
     {
         return array(
             array('configurable_multi_checkout'),

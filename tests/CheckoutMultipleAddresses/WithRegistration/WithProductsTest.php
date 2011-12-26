@@ -36,6 +36,9 @@
  */
 class CheckoutMultipleAddresses_WithRegistration_WithProductsTest extends Mage_Selenium_TestCase
 {
+    /**
+     * @var array
+     */
     protected static $_productsPreConditions = array();
 
     /**
@@ -49,6 +52,8 @@ class CheckoutMultipleAddresses_WithRegistration_WithProductsTest extends Mage_S
     /**
      * <p>Preconditions</p>
      * <p>Create attribute</p>
+     *
+     * @return array $attrData
      *
      * @test
      */
@@ -95,10 +100,12 @@ class CheckoutMultipleAddresses_WithRegistration_WithProductsTest extends Mage_S
      * <p>Expected result:</p>
      * <p>Checkout is successful;</p>
      *
-     * @depends createAttribute
-     * @param string $productType
-     * @param string $productDataSet
      * @dataProvider createProductForAssociatedDataProvider
+     * @depends createAttribute
+     * @param string $productDataSet
+     * @param string $productType
+     * @param array $attrData
+     *
      * @test
      */
     public function createProductForAssociated($productDataSet, $productType, $attrData)
@@ -131,6 +138,11 @@ class CheckoutMultipleAddresses_WithRegistration_WithProductsTest extends Mage_S
         $this->assertMessagePresent('success', 'success_checkout');
         }
 
+    /**
+     * <p>Data provider for createProductForAssociated test</p>
+     *
+     * @return array
+     */
     public function createProductForAssociatedDataProvider()
     {
         return array(
@@ -139,6 +151,7 @@ class CheckoutMultipleAddresses_WithRegistration_WithProductsTest extends Mage_S
             array('downloadable_product_visible_multi_checkout', 'downloadable')
         );
     }
+
     /**
      * <p>Checkout with multiple addresses simple/virtual/downloadable products with custom options</p>
      * <p>Preconditions:</p>
@@ -158,11 +171,11 @@ class CheckoutMultipleAddresses_WithRegistration_WithProductsTest extends Mage_S
      * <p>Expected result:</p>
      * <p>Checkout is successful;</p>
      *
+     * @dataProvider createSimpleTypesProductsDataProvider
      * @param string $productType
      * @param string $productDataSet
-     * @dataProvider createSimpleTypesProductsDataProvider
+     *
      * @test
-     * @return string
      */
     public function createSimpleTypesProducts($productDataSet, $productType)
     {
@@ -198,6 +211,11 @@ class CheckoutMultipleAddresses_WithRegistration_WithProductsTest extends Mage_S
         $this->assertMessagePresent('success', 'success_checkout');
     }
 
+    /**
+     * <p>Data provider for createSimpleTypesProducts test</p>
+     *
+     * @return array
+     */
     public function createSimpleTypesProductsDataProvider()
     {
         return array(
@@ -229,10 +247,8 @@ class CheckoutMultipleAddresses_WithRegistration_WithProductsTest extends Mage_S
      * <p>Expected result:</p>
      * <p>Checkout is successful;</p>
      *
-     * @depends createProductForAssociated
      * @test
      */
-
     public function createGroupedProduct()
     {
         //Data
@@ -288,9 +304,10 @@ class CheckoutMultipleAddresses_WithRegistration_WithProductsTest extends Mage_S
      * <p>Checkout is successful;</p>
      *
      * @dataProvider createBundleProductsDataProvider
+     * @param string $productDataSet
+     *
      * @test
      */
-
     public function createBundleProducts($productDataSet)
     {
         //Data
@@ -330,6 +347,11 @@ class CheckoutMultipleAddresses_WithRegistration_WithProductsTest extends Mage_S
         $this->assertMessagePresent('success', 'success_checkout');
     }
 
+    /**
+     * <p>Data provider for createBundleProducts test</p>
+     *
+     * @return array
+     */
     public function createBundleProductsDataProvider()
     {
         return array(
@@ -359,12 +381,13 @@ class CheckoutMultipleAddresses_WithRegistration_WithProductsTest extends Mage_S
      * <p>Expected result:</p>
      * <p>Checkout is successful;</p>
      *
+     * @dataProvider createConfigurableDataProvider
      * @depends createAttribute
-     * @depends createProductForAssociated
-     * @dataProvider createConfigurableWithSimpleDataProvider
+     * @param string $productDataSet
+     * @param array $attrData
+     *
      * @test
      */
-
     public function createConfigurableWithSimple($productDataSet, $attrData)
     {
         //Data
@@ -416,12 +439,13 @@ class CheckoutMultipleAddresses_WithRegistration_WithProductsTest extends Mage_S
      * <p>Expected result:</p>
      * <p>Checkout is successful;</p>
      *
+     * @dataProvider createConfigurableDataProvider
      * @depends createAttribute
-     * @depends createProductForAssociated
-     * @dataProvider createConfigurableWithSimpleDataProvider
+     * @param string $productDataSet
+     * @param array $attrData
+     *
      * @test
      */
-
     public function createConfigurableWithVirtual($productDataSet, $attrData)
     {
         //Data
@@ -476,12 +500,13 @@ class CheckoutMultipleAddresses_WithRegistration_WithProductsTest extends Mage_S
      * <p>Expected result:</p>
      * <p>Checkout is successful;</p>
      *
+     * @dataProvider createConfigurableDataProvider
      * @depends createAttribute
-     * @depends createProductForAssociated
-     * @dataProvider createConfigurableWithSimpleDataProvider
+     * @param string $productDataSet
+     * @param array $attrData
+     *
      * @test
      */
-
     public function createConfigurableWithDownloadable($productDataSet, $attrData)
     {
         //Data
@@ -517,7 +542,12 @@ class CheckoutMultipleAddresses_WithRegistration_WithProductsTest extends Mage_S
         $this->assertMessagePresent('success', 'success_checkout');
     }
 
-    public function createConfigurableWithSimpleDataProvider()
+    /**
+     * <p>Data provider for createConfigurableWithSimple, createConfigurableWithVirtual, createConfigurableWithDownloadable tests</p>
+     *
+     * @return array
+     */
+    public function createConfigurableDataProvider()
     {
         return array(
             array('configurable_multi_checkout'),
