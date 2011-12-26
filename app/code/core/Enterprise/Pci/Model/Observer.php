@@ -97,18 +97,12 @@ class Enterprise_Pci_Model_Observer
          */
         $latestPassword = Mage::getResourceSingleton('enterprise_pci/admin_user')->getLatestPassword($user->getId());
         if ($latestPassword) {
-            if (isset($latestPassword['expires'])
-                && (
-                    (int)$latestPassword['expires'] < time()
-                    && Mage::getStoreConfig('admin/security/password_lifetime') !== ''
-                )
-            ) {
+            if ($this->latestPasswordExpired($latestPassword)) {
                 if ($this->isPasswordChangeForced()) {
                     $message = Mage::helper('enterprise_pci')->__('Your password has expired, you must change it now.');
                 } else {
                     $myAccountUrl = Mage::getSingleton('adminhtml/url')->getUrl('adminhtml/system_account/');
-                    $message = Mage::helper('enterprise_pci')
-                        ->__('Your password has expired, please <a href="%s">change it</a>.', $myAccountUrl);
+                    $message = Mage::helper('enterprise_pci')->__('Your password has expired, please <a href="%s">change it</a>.', $myAccountUrl);
                 }
                 Mage::getSingleton('adminhtml/session')->addNotice($message);
                 if ($message = Mage::getSingleton('adminhtml/session')->getMessages()->getLastAddedMessage()) {
@@ -124,6 +118,25 @@ class Enterprise_Pci_Model_Observer
                 ->setNewPassword($password)->setForceNewPassword(true)
                 ->save();
         }
+    }
+
+    /**
+     * Get latest password is expired
+     *
+     * @param array $latestPassword
+     * @return bool
+     */
+    private function latestPasswordExpired($latestPassword)
+    {
+        if (!isset($latestPassword['expires'])) {
+            return false;
+        }
+
+        if (Mage::getStoreConfig('admin/security/password_lifetime') === '') {
+            return false;
+        }
+
+        return (int)$latestPassword['expires'] < time();
     }
 
     /**
@@ -248,12 +261,11 @@ class Enterprise_Pci_Model_Observer
         if (!$session->isLoggedIn()) {
             return;
         }
+        $actionList = array('adminhtml_system_account_index', 'adminhtml_system_account_save',
+            'adminhtml_index_logout');
         $controller = $observer->getEvent()->getControllerAction();
         if (Mage::getSingleton('admin/session')->getPciAdminUserIsPasswordExpired()) {
-            if (!in_array(
-                    $controller->getFullActionName(),
-                    array('adminhtml_system_account_index', 'adminhtml_system_account_save', 'adminhtml_index_logout')
-            )) {
+            if (!in_array($controller->getFullActionName(), $actionList)) {
                 if (Mage::getSingleton('admin/session')->isAllowed('admin/system/myaccount')) {
                     $controller->getResponse()->setRedirect(Mage::getSingleton('adminhtml/url')
                             ->getUrl('adminhtml/system_account/'));
