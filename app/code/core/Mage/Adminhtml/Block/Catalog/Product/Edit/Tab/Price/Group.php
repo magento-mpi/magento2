@@ -20,37 +20,26 @@
  *
  * @category    Mage
  * @package     Mage_Adminhtml
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @copyright   Copyright (c) 2011 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * Adminhtml tier price item renderer
+ * Adminhtml group price item renderer
  *
  * @category   Mage
  * @package    Mage_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Tier
+class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Group
     extends Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Group_Abstract
 {
-
     /**
      * Initialize block
      */
     public function __construct()
     {
-        $this->setTemplate('catalog/product/edit/price/tier.phtml');
-    }
-
-    /**
-     * Retrieve list of initial customer groups
-     *
-     * @return array
-     */
-    protected function _getInitialCustomerGroups()
-    {
-        return array(Mage_Customer_Model_Group::CUST_GROUP_ALL => Mage::helper('catalog')->__('ALL GROUPS'));
+        $this->setTemplate('catalog/product/edit/price/group.phtml');
     }
 
     /**
@@ -61,18 +50,18 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Tier
      */
     protected function _sortValues($data)
     {
-        usort($data, array($this, '_sortTierPrices'));
+        usort($data, array($this, '_sortGroupPrices'));
         return $data;
     }
 
     /**
-     * Sort tier price values callback method
+     * Sort group price values callback method
      *
      * @param array $a
      * @param array $b
      * @return int
      */
-    protected function _sortTierPrices($a, $b)
+    protected function _sortGroupPrices($a, $b)
     {
         if ($a['website_id'] != $b['website_id']) {
             return $a['website_id'] < $b['website_id'] ? -1 : 1;
@@ -80,28 +69,25 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Tier
         if ($a['cust_group'] != $b['cust_group']) {
             return $this->getCustomerGroups($a['cust_group']) < $this->getCustomerGroups($b['cust_group']) ? -1 : 1;
         }
-        if ($a['price_qty'] != $b['price_qty']) {
-            return $a['price_qty'] < $b['price_qty'] ? -1 : 1;
-        }
-
         return 0;
     }
 
     /**
      * Prepare global layout
-     * Add "Add tier" button to layout
      *
-     * @return Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Tier
+     * Add "Add Group Price" button to layout
+     *
+     * @return Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Group
      */
     protected function _prepareLayout()
     {
         $button = $this->getLayout()->createBlock('adminhtml/widget_button')
             ->setData(array(
-                'label' => Mage::helper('catalog')->__('Add Tier'),
-                'onclick' => 'return tierPriceControl.addItem()',
+                'label' => Mage::helper('catalog')->__('Add Group Price'),
+                'onclick' => 'return groupPriceControl.addItem()',
                 'class' => 'add'
             ));
-        $button->setName('add_tier_price_item_button');
+        $button->setName('add_group_price_item_button');
 
         $this->setChild('add_button', $button);
         return parent::_prepareLayout();

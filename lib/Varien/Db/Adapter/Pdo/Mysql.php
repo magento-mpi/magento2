@@ -49,6 +49,11 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
     const LENGTH_FOREIGN_NAME   = 64;
 
     /**
+     * MEMORY engine type for MySQL tables
+     */
+    const ENGINE_MEMORY = 'MEMORY';
+
+    /**
      * Default class name for a DB statement.
      *
      * @var string

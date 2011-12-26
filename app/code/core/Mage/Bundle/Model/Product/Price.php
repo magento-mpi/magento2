@@ -87,12 +87,13 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
          * Just product with fixed price calculation has price
          */
         if ($finalPrice) {
-            $tierPrice      = $this->_applyTierPrice($product, $qty, $finalPrice);
-            $specialPrice   = $this->_applySpecialPrice($product, $finalPrice);
-            $finalPrice     = min(array($tierPrice, $specialPrice));
+            $groupPrice = $this->_applyGroupPrice($product, $finalPrice);
+            $tierPrice = $this->_applyTierPrice($product, $qty, $finalPrice);
+            $specialPrice = $this->_applySpecialPrice($product, $finalPrice);
+            $finalPrice = min(array($groupPrice, $tierPrice, $specialPrice));
 
             $product->setFinalPrice($finalPrice);
-            Mage::dispatchEvent('catalog_product_get_final_price', array('product'=>$product));
+            Mage::dispatchEvent('catalog_product_get_final_price', array('product' => $product));
             $finalPrice = $product->getData('final_price');
         }
         $basePrice = $finalPrice;
@@ -399,10 +400,10 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
      */
     public function getSelectionPreFinalPrice($bundleProduct, $selectionProduct, $qty = null)
     {
-        return $this->_applySpecialPrice(
-            $bundleProduct,
-            $this->getSelectionPrice($bundleProduct, $selectionProduct, $qty)
-        );
+        $selectionPrice = $this->getSelectionPrice($bundleProduct, $selectionProduct, $qty);
+        $specialPrice = $this->_applySpecialPrice($bundleProduct, $selectionPrice);
+        $groupPrice = $this->_applyGroupPrice($bundleProduct, $selectionPrice);
+        return min($specialPrice, $groupPrice);
     }
 
     /**
@@ -444,14 +445,72 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
 
         // apply bundle special price
         $specialPrice = $this->_applySpecialPrice($bundleProduct, $selectionPrice);
+        // apply bundle group price
+        $groupPrice = $this->_applyGroupPrice($bundleProduct, $selectionPrice);
 
         if ($takeTierPrice) {
             // apply bundle tier price
             $tierPrice = $this->_applyTierPrice($bundleProduct, $bundleQty, $selectionPrice);
-            return min(array($tierPrice, $specialPrice));
+            return min(array($groupPrice, $tierPrice, $specialPrice));
         } else {
-            return $specialPrice;
+            return min(array($groupPrice, $specialPrice));
         }
+    }
+
+    /**
+     * Apply group price for bundle product
+     *
+     * @param Mage_Catalog_Model_Product $product
+     * @param float $finalPrice
+     * @return float
+     */
+    protected function _applyGroupPrice($product, $finalPrice)
+    {
+        $result = $finalPrice;
+        $groupPrice = $product->getGroupPrice();
+
+        if (is_numeric($groupPrice)) {
+            $groupPrice = $finalPrice - ($finalPrice * ($groupPrice / 100));
+            $result = min($finalPrice, $groupPrice);
+        }
+
+        return $result;
+    }
+
+    /**
+     * Get product group price
+     *
+     * @param Mage_Catalog_Model_Product $product
+     * @return float|null
+     */
+    public function getGroupPrice($product)
+    {
+        $groupPrices = $product->getData('group_price');
+
+        if (is_null($groupPrices)) {
+            $attribute = $product->getResource()->getAttribute('group_price');
+            if ($attribute) {
+                $attribute->getBackend()->afterLoad($product);
+                $groupPrices = $product->getData('group_price');
+            }
+        }
+
+        if (is_null($groupPrices) || !is_array($groupPrices)) {
+            return null;
+        }
+
+        $customerGroup = $this->_getCustomerGroupId($product);
+
+        $matchedPrice = 0;
+
+        foreach ($groupPrices as $groupPrice) {
+            if ($groupPrice['cust_group'] == $customerGroup && $groupPrice['website_price'] > $matchedPrice) {
+                $matchedPrice = $groupPrice['website_price'];
+                break;
+            }
+        }
+
+        return $matchedPrice;
     }
 
     /**
@@ -731,11 +790,11 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
     }
 
     /**
-     * Check is tier price value fixed or percent of original price
+     * Check is group price value fixed or percent of original price
      *
      * @return bool
      */
-    public function isTierPriceFixed()
+    public function isGroupPriceFixed()
     {
         return false;
     }

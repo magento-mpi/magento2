@@ -634,6 +634,16 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     }
 
     /**
+     * Get product group price
+     *
+     * @return float
+     */
+    public function getGroupPrice()
+    {
+        return $this->getPriceModel()->getGroupPrice($this);
+    }
+
+    /**
      * Get product tier price by qty
      *
      * @param   double $qty

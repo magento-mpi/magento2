@@ -276,6 +276,9 @@
                     <product_attribute_tier_price>
                         <table>catalog_product_entity_tier_price</table>
                     </product_attribute_tier_price>
+                    <product_attribute_group_price>
+                        <table>catalog_product_entity_group_price</table>
+                    </product_attribute_group_price>
                     <product_attribute_media_gallery>
                         <table>catalog_product_entity_media_gallery</table>
                     </product_attribute_media_gallery>
@@ -324,6 +327,9 @@
                     <product_index_tier_price>
                         <table>catalog_product_index_tier_price</table>
                     </product_index_tier_price>
+                    <product_index_group_price>
+                        <table>catalog_product_index_group_price</table>
+                    </product_index_group_price>
                     <product_index_website>
                         <table>catalog_product_index_website</table>
                     </product_index_website>

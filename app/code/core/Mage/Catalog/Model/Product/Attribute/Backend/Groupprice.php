@@ -26,13 +26,13 @@
 
 
 /**
- * Catalog product tier price backend attribute model
+ * Catalog product group price backend attribute model
  *
  * @category   Mage
  * @package    Mage_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Catalog_Model_Product_Attribute_Backend_Tierprice
+class Mage_Catalog_Model_Product_Attribute_Backend_Groupprice
     extends Mage_Catalog_Model_Product_Attribute_Backend_Groupprice_Abstract
 {
     /**
@@ -42,31 +42,7 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Tierprice
      */
     protected function _getResource()
     {
-        return Mage::getResourceSingleton('catalog/product_attribute_backend_tierprice');
-    }
-
-    /**
-     * Retrieve websites rates and base currency codes
-     *
-     * @deprecated since 1.12.0.0
-     * @return array
-     */
-    public function _getWebsiteRates()
-    {
-        return $this->_getWebsiteCurrencyRates();
-    }
-
-    /**
-     * Add price qty to unique fields
-     *
-     * @param array $objectArray
-     * @return array
-     */
-    protected function _getAdditionalUniqueFields($objectArray)
-    {
-        $uniqueFields = parent::_getAdditionalUniqueFields($objectArray);
-        $uniqueFields['qty'] = $objectArray['price_qty'] * 1;
-        return $uniqueFields;
+        return Mage::getResourceSingleton('catalog/product_attribute_backend_groupprice');
     }
 
     /**
@@ -76,17 +52,6 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Tierprice
      */
     protected function _getDuplicateErrorMessage()
     {
-        return Mage::helper('catalog')->__('Duplicate website tier price customer group and quantity.');
-    }
-
-    /**
-     * Whether tier price value fixed or percent of original price
-     *
-     * @param Mage_Catalog_Model_Product_Type_Price $priceObject
-     * @return bool
-     */
-    protected function _isPriceFixed($priceObject)
-    {
-        return $priceObject->isTierPriceFixed();
+        return Mage::helper('catalog')->__('Duplicate website group price customer group.');
     }
 }
