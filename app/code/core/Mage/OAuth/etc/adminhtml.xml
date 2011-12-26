@@ -48,6 +48,10 @@
                                         <title>Remove</title>
                                         <sort_order>40</sort_order>
                                     </remove>
+                                    <myapplication translate="title">
+                                        <title>My Applications</title>
+                                        <sort_order>20</sort_order>
+                                    </myapplication>
                                 </children>
                             </oauth>
                         </children>
@@ -70,6 +74,15 @@
                         </consumer>
                     </children>
                 </oauth>
+                <acl>
+                    <children>
+                        <oauth_myapplication translate="title">
+                            <title>My Applications</title>
+                            <sort_order>50</sort_order>
+                            <action>adminhtml/oAuth_myApplication</action>
+                        </oauth_myapplication>
+                    </children>
+                </acl>
             </children>
         </system>
     </menu>

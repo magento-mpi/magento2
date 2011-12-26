@@ -31,7 +31,7 @@
  * @package    Mage_OAuth
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_OAuth_Block_Adminhtml_OAuth_Consumer extends Mage_Adminhtml_Block_Widget_Grid_Container
+class Mage_OAuth_Block_Adminhtml_OAuth_MyApplication extends Mage_Adminhtml_Block_Widget_Grid_Container
 {
     /**
      * Construct grid container
@@ -41,7 +41,8 @@ class Mage_OAuth_Block_Adminhtml_OAuth_Consumer extends Mage_Adminhtml_Block_Wid
         parent::__construct();
 
         $this->_blockGroup = 'oauth';
-        $this->_controller = 'adminhtml_oAuth_consumer';
-        $this->_headerText = Mage::helper('adminhtml')->__('OAuth Consumers');
+        $this->_controller = 'adminhtml_oAuth_myApplication';
+        $this->_headerText = Mage::helper('adminhtml')->__('My Applications');
+        $this->_removeButton('add');
     }
 }

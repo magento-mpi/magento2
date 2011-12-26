@@ -30,25 +30,30 @@
  * @category    Mage
  * @package     Mage_OAuth
  * @author      Magento Core Team <core@magentocommerce.com>
- * @method Mage_OAuth_Model_Resource_Token _getResource()
- * @method Mage_OAuth_Model_Resource_Token getResource()
  * @method Mage_OAuth_Model_Resource_Token_Collection getCollection()
  * @method Mage_OAuth_Model_Resource_Token_Collection getResourceCollection()
- * @method string getConsumerId()
- * @method Mage_OAuth_Model_Token setConsumerId() setConsumerId(string $consumerId)
- * @method string getCustomerId()
+ * @method Mage_OAuth_Model_Resource_Token getResource()
+ * @method Mage_OAuth_Model_Resource_Token _getResource()
+ * @method int getConsumerId()
+ * @method Mage_OAuth_Model_Token setConsumerId() setConsumerId(int $consumerId)
+ * @method int getAdminId()
+ * @method Mage_OAuth_Model_Token setAdminId() setAdminId(int $adminId)
  * @method string getTmpToken()
- * @method Mage_OAuth_Model_Token setTmpToken() setTmpToken(string $token)
+ * @method Mage_OAuth_Model_Token setTmpToken() setTmpToken(string $tmpToken)
  * @method string getTmpTokenSecret()
- * @method Mage_OAuth_Model_Token setTmpTokenSecret() setTmpTokenSecret(string $tokenSecret)
+ * @method Mage_OAuth_Model_Token setTmpTokenSecret() setTmpTokenSecret(string $tmpTokenSecret)
  * @method string getTmpVerifier()
+ * @method Mage_OAuth_Model_Token setTmpVerifier() setTmpVerifier(string $tmpVerifier)
  * @method string getTmpCallbackUrl()
- * @method Mage_OAuth_Model_Token setTmpCallbackUrl() setTmpCallbackUrl(string $callbackUrl)
+ * @method Mage_OAuth_Model_Token setTmpCallbackUrl() setTmpCallbackUrl(string $tmpCallbackUrl)
  * @method string getTmpCreatedAt()
+ * @method Mage_OAuth_Model_Token setTmpCreatedAt() setTmpCreatedAt(string $tmpCreatedAt)
  * @method string getToken()
  * @method Mage_OAuth_Model_Token setToken() setToken(string $token)
  * @method string getTokenSecret()
  * @method Mage_OAuth_Model_Token setTokenSecret() setTokenSecret(string $tokenSecret)
+ * @method int getIsRevoked()
+ * @method Mage_OAuth_Model_Token setIsRevoked() setIsRevoked(int $isRevoked)
  */
 class Mage_OAuth_Model_Token extends Mage_Core_Model_Abstract
 {

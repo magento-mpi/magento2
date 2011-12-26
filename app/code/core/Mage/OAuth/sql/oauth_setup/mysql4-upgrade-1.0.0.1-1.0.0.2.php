@@ -38,22 +38,30 @@ $adapter = $installer->getConnection();
 $table = $adapter->newTable($installer->getTable('oauth/token'))
     ->addColumn('entity_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity' => true, 'unsigned' => true, 'nullable' => false, 'primary'  => true,
-    ))
-    ->addColumn('consumer_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array('unsigned' => true, 'nullable' => false))
+    ), 'Entity ID')
+    ->addColumn('consumer_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null,
+        array('unsigned' => true, 'nullable' => false),
+        'Consumer ID')
     ->addColumn(
         'tmp_token', Varien_Db_Ddl_Table::TYPE_VARCHAR, 64, array('nullable' => false), 'Temporary Token'
     )
     ->addColumn(
-        'tmp_token_secret', Varien_Db_Ddl_Table::TYPE_VARCHAR, 64, array('nullable' => false), 'Temporary token secret'
+        'tmp_token_secret', Varien_Db_Ddl_Table::TYPE_VARCHAR, 64,
+        array('nullable' => false), 'Temporary token secret'
     )
-    ->addColumn('tmp_verifier', Varien_Db_Ddl_Table::TYPE_VARCHAR, 64, array('nullable' => false), 'Verifier')
-    ->addColumn('tmp_callback_url', Varien_Db_Ddl_Table::TYPE_VARCHAR, 255, array('nullable' => true))
+    ->addColumn('tmp_verifier', Varien_Db_Ddl_Table::TYPE_VARCHAR, 64,
+        array('nullable' => false), 'Verifier')
+    ->addColumn('tmp_callback_url', Varien_Db_Ddl_Table::TYPE_VARCHAR, 255,
+        array('nullable' => true), 'Temporary callback URL')
     ->addColumn('tmp_created_at', Varien_Db_Ddl_Table::TYPE_TIMESTAMP, null, array(
         'nullable' => false, 'default' => Varien_Db_Ddl_Table::TIMESTAMP_INIT
     ), 'Temporary token created at')
-    ->addColumn('token', Varien_Db_Ddl_Table::TYPE_VARCHAR, 64, array('nullable' => false), 'Permanent Token')
-    ->addColumn('token_secret', Varien_Db_Ddl_Table::TYPE_VARCHAR, 64, array('nullable' => false), 'Permanent Secret')
-    ->addColumn('is_revoked', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array('unsigned' => true, 'nullable' => false))
+    ->addColumn('token', Varien_Db_Ddl_Table::TYPE_VARCHAR, 64,
+        array('nullable' => false), 'Permanent Token')
+    ->addColumn('token_secret', Varien_Db_Ddl_Table::TYPE_VARCHAR, 64,
+        array('nullable' => false), 'Permanent Secret')
+    ->addColumn('is_revoked', Varien_Db_Ddl_Table::TYPE_SMALLINT, null,
+        array('unsigned' => true, 'nullable' => false), 'Revoke status')
     ->addIndex(
         $installer->getIdxName('oauth/token', array('consumer_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
         array('consumer_id'),

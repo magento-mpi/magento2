@@ -44,4 +44,19 @@ class Mage_Adminhtml_Model_System_Config_Source_Yesno
         );
     }
 
+    /**
+     * Options getter with "key-value" format
+     *
+     * @return array
+     */
+    public function toArray()
+    {
+        $options = $this->toOptionArray();
+        $data = array();
+        foreach ($options as $item) {
+            $data[$item['value']] = $item['label'];
+        }
+        return $data;
+    }
+
 }

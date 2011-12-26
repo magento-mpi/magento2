@@ -42,4 +42,61 @@ class Mage_OAuth_Model_Resource_Token_Collection extends Mage_Core_Model_Resourc
     {
         $this->_init('oauth/token');
     }
+
+    /**
+     * Load collection with consumer data
+     *
+     * Method use for show applications list (token-consumer)
+     *
+     * @return Mage_OAuth_Model_Resource_Token_Collection
+     */
+    public function joinConsumerAsApplication()
+    {
+        $select = $this->getSelect();
+        $select->reset(Zend_Db_Select::COLUMNS)
+                ->columns(array('entity_id', 'consumer_id', 'is_revoked'), 'main_table')
+                ->joinLeft(
+                    array('c' => $this->getTable('oauth/consumer')),
+                    'c.entity_id = main_table.consumer_id',
+                    'name'
+                );
+
+        return $this;
+    }
+
+    /**
+     * Add filter by admin ID
+     *
+     * @param int $adminId
+     * @return Mage_OAuth_Model_Resource_Token_Collection
+     */
+    public function addFilterByAdminId($adminId)
+    {
+        $this->addFilter('main_table.admin_id', $adminId);
+        return $this;
+    }
+
+    /**
+     * Add filter by ID
+     *
+     * @param array|int $id
+     * @return Mage_OAuth_Model_Resource_Token_Collection
+     */
+    public function addFilterById($id)
+    {
+        $this->addFilter('main_table.entity_id', array('in' => $id), 'public');
+        return $this;
+    }
+
+    /**
+     * Add filter by "Is Revoked" status
+     *
+     * @param bool|int $flag
+     * @return Mage_OAuth_Model_Resource_Token_Collection
+     */
+    public function addFilterByIsRevoked($flag)
+    {
+        $this->addFilter('main_table.is_revoked', (int) $flag, 'public');
+        return $this;
+    }
 }

@@ -19,29 +19,29 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_OAuth
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-
 /**
- * OAuth consumers grid container block
- *
- * @category   Mage
- * @package    Mage_OAuth
- * @author     Magento Core Team <core@magentocommerce.com>
+ * Upgrade of OAuth module tables
  */
-class Mage_OAuth_Block_Adminhtml_OAuth_Consumer extends Mage_Adminhtml_Block_Widget_Grid_Container
-{
-    /**
-     * Construct grid container
-     */
-    public function __construct()
-    {
-        parent::__construct();
+/** @var $installer Mage_OAuth_Model_Resource_Setup */
+$installer = $this;
+/** @var $adapter Varien_Db_Adapter_Interface */
+$adapter = $installer->getConnection();
 
-        $this->_blockGroup = 'oauth';
-        $this->_controller = 'adminhtml_oAuth_consumer';
-        $this->_headerText = Mage::helper('adminhtml')->__('OAuth Consumers');
-    }
-}
+$table = $installer->getTable('oauth/token');
+$adapter->addColumn($table, 'admin_id', array(
+    'comment'     => 'Admin user ID',
+    'unsigned'    => true,
+    'nullable'    => true,
+    'column_type' => Varien_Db_Ddl_Table::TYPE_INTEGER,
+    'after'       => 'consumer_id',
+));
+$adapter->addForeignKey(
+    $installer->getFkName('oauth/token', 'admin_id', $installer->getTable('admin/user'), 'user_id'),
+    $table,
+    'admin_id',
+    $installer->getTable('admin/user'),
+    'user_id');
