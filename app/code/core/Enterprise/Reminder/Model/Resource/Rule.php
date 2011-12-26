@@ -521,4 +521,21 @@ class Enterprise_Reminder_Model_Resource_Rule extends Mage_Core_Model_Resource_D
         $select->where('r.salesrule_id = :salesrule_id');
         return $this->_getReadAdapter()->fetchOne($select, array('salesrule_id' => $salesRuleId));
     }
+
+    /**
+     * Detaches sales rule from all Email Remainder Rules that uses it
+     *
+     * @param int $salesRuleId
+     * @return Enterprise_Reminder_Model_Resource_Rule
+     */
+    public function detachSalesRule($salesRuleId)
+    {
+        $this->_getWriteAdapter()->update(
+            $this->getTable('enterprise_reminder/rule'),
+            array('salesrule_id' => new Zend_Db_Expr('NULL')),
+            array('salesrule_id = ?' => $salesRuleId)
+        );
+
+        return $this;
+    }
 }

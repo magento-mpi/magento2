@@ -144,4 +144,19 @@ class Mage_SalesRule_Model_Resource_Rule_Collection extends Mage_Core_Model_Reso
 
         return $this;
     }
+
+    /**
+     * Excludes price rules with generated specific coupon codes from collection
+     *
+     * @return Mage_SalesRule_Model_Resource_Rule_Collection
+     */
+    public function addAllowedSalesRulesFilter()
+    {
+        $this->addFieldToFilter(
+            'main_table.use_auto_generation',
+            array('neq' => 1)
+        );
+
+        return $this;
+    }
 }

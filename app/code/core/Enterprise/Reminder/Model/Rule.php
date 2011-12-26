@@ -274,4 +274,16 @@ class Enterprise_Reminder_Model_Rule extends Mage_Rule_Model_Rule
         }
         return $this->_storeData[$ruleId][$storeId];
     }
+
+    /**
+     * Detaches Sales Rule from all Email Remainder Rules that uses it
+     *
+     * @param int $salesRuleId
+     * @return Enterprise_Reminder_Model_Rule
+     */
+    public function detachSalesRule($salesRuleId)
+    {
+        $this->getResource()->detachSalesRule($salesRuleId);
+        return $this;
+    }
 }

@@ -175,6 +175,7 @@ class Enterprise_Reminder_Adminhtml_ReminderController extends Mage_Adminhtml_Co
                 }
 
                 $data = $this->_filterDates($data, array('active_from', 'active_to'));
+
                 $model->loadPost($data);
                 Mage::getSingleton('adminhtml/session')->setPageData($model->getData());
                 $model->save();
