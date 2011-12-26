@@ -1203,20 +1203,23 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     }
 
     /**
-     * Fills any form by source data. Specific Tab can be filled only (if it defined)
+     * Fills any form by source data. Specific Tab can be filled only (if it defined).
+     * Throws exceptions if filling form was not successful (except for the case, when element presence was not
+     * required)
      *
      * @param array|string $data Array of data to filling or datasource name
      * @param string $tabId Defines a specific Tab on a page to fill (by default = '')
+     * @param bool $isRequired Whether a form element presence is required on a page
      *
-     * @return Mage_Selenium_TestCase|boolean
+     * @return boolean
      */
-    public function fillForm($data, $tabId = '')
+    public function fillForm($data, $tabId = '', $isRequired = true)
     {
         if (is_string($data)) {
             $data = $this->loadData($data);
         }
         if (!is_array($data)) {
-            throw new InvalidArgumentException('FillForm argument "data" must be an array!!!');
+            throw new InvalidArgumentException('FillForm argument "data" must be an array!');
         }
 
         $formData = $this->getCurrentUimapPage()->getMainForm();
@@ -1262,10 +1265,20 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                         $this->_fillFormMultiselect($formField);
                         break;
                     default:
-                        throw new PHPUnit_Framework_Exception('Unsupported field type');
+                        throw new Mage_Selenium_Exception(
+                            'Unsupported field type',
+                            Mage_Selenium_Exception::ERR_WRONG_ELEMENT_TYPE
+                        );
                 }
             }
         } catch (PHPUnit_Framework_Exception $e) {
+            if (!$isRequired
+                && ($e instanceof Mage_Selenium_Exception)
+                && ($e->getCode() == Mage_Selenium_Exception::ERR_NO_ELEMENT)
+            ) {
+                return false;
+            }
+
             $errorMessage = isset($formFieldName)
                                 ? 'Problem with field \'' . $formFieldName . '\': ' . $e->getMessage()
                                 : $e->getMessage();
@@ -1324,17 +1337,16 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * Fills (typing a value) of 'text field' ('field' | 'input') type control
      *
      * @param array $fieldData Array with PATH to control and VALUE to typing
-     *
-     * @return null
+     * @return Mage_Selenium_TestCase
      */
     protected function _fillFormField($fieldData)
     {
-        if ($this->isElementPresent($fieldData['path']) && $this->isEditable($fieldData['path'])) {
-            $this->type($fieldData['path'], $fieldData['value']);
-            $this->waitForAjax();
-        } else {
-            throw new PHPUnit_Framework_Exception("Can't fill in the field: {$fieldData['path']}");
-        }
+        $this->_verifyElementConfigurable($fieldData['path']);
+
+        $this->type($fieldData['path'], $fieldData['value']);
+        $this->waitForAjax();
+
+        return $this;
     }
 
     /**
@@ -1342,33 +1354,33 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      *
      * @param array $fieldData  Array with PATH to control and VALUE(S) to selecting
      *
-     * @return null
+     * @return Mage_Selenium_TestCase
      */
     protected function _fillFormMultiselect($fieldData)
     {
-        if ($this->waitForElement($fieldData['path'], 5) && $this->isEditable($fieldData['path'])) {
-            $this->removeAllSelections($fieldData['path']);
-            if (strtolower($fieldData['value']) == 'all') {
-                $count = $this->getXpathCount($fieldData['path'] . '//option');
-                for ($i = 1; $i <= $count; $i++) {
-                    $valuesArray[] = $this->getText($fieldData['path'] . "//option[$i]");
-                }
-            } else {
-                $valuesArray = explode(',', $fieldData['value']);
-                $valuesArray = array_map('trim', $valuesArray);
-            }
-            foreach ($valuesArray as $value) {
-                if ($value != null) {
-                    if ($this->isElementPresent($fieldData['path'] . "//option[text()='" . $value . "']")) {
-                        $this->addSelection($fieldData['path'], 'label=' . $value);
-                    } else {
-                        $this->addSelection($fieldData['path'], 'regexp:' . preg_quote($value));
-                    }
-                }
+        $this->_verifyElementConfigurable($fieldData['path'], 5);
+
+        $this->removeAllSelections($fieldData['path']);
+        if (strtolower($fieldData['value']) == 'all') {
+            $count = $this->getXpathCount($fieldData['path'] . '//option');
+            for ($i = 1; $i <= $count; $i++) {
+                $valuesArray[] = $this->getText($fieldData['path'] . "//option[$i]");
             }
         } else {
-            throw new PHPUnit_Framework_Exception("Can't fill in the multiselect field: {$fieldData['path']}");
+            $valuesArray = explode(',', $fieldData['value']);
+            $valuesArray = array_map('trim', $valuesArray);
         }
+        foreach ($valuesArray as $value) {
+            if ($value != null) {
+                if ($this->isElementPresent($fieldData['path'] . "//option[text()='" . $value . "']")) {
+                    $this->addSelection($fieldData['path'], 'label=' . $value);
+                } else {
+                    $this->addSelection($fieldData['path'], 'regexp:' . preg_quote($value));
+                }
+            }
+        }
+
+        return $this;
     }
 
     /**
@@ -1381,18 +1393,18 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     protected function _fillFormDropdown($fieldData)
     {
         $fieldXpath = $fieldData['path'];
-        if ($this->isElementPresent($fieldXpath) && $this->isEditable($fieldXpath)) {
-            if ($this->getSelectedValue($fieldXpath) != $fieldData['value']) {
-                if ($this->isElementPresent($fieldXpath . "//option[text()='" . $fieldData['value'] . "']")) {
-                    $this->select($fieldXpath, 'label=' . $fieldData['value']);
-                } else {
-                    $this->select($fieldXpath, 'regexp:' . preg_quote($fieldData['value']));
-                }
-                $this->waitForAjax();
+        $this->_verifyElementConfigurable($fieldXpath);
+
+        if ($this->getSelectedValue($fieldXpath) != $fieldData['value']) {
+            if ($this->isElementPresent($fieldXpath . "//option[text()='" . $fieldData['value'] . "']")) {
+                $this->select($fieldXpath, 'label=' . $fieldData['value']);
+            } else {
+                $this->select($fieldXpath, 'regexp:' . preg_quote($fieldData['value']));
             }
-        } else {
-            throw new PHPUnit_Framework_Exception("Can't fill in the dropdown field: {$fieldData['path']}");
+            $this->waitForAjax();
         }
+
+        return $this;
     }
 
     /**
@@ -1406,21 +1418,21 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     protected function _fillFormCheckbox($fieldData)
     {
-        if ($this->waitForElement($fieldData['path'], 5) && $this->isEditable($fieldData['path'])) {
-            if (strtolower($fieldData['value']) == 'yes') {
-                if (($this->getValue($fieldData['path']) == 'off') || ($this->getValue($fieldData['path']) == '0')) {
-                    $this->click($fieldData['path']);
-                    $this->waitForAjax();
-                }
-            } elseif (strtolower($fieldData['value']) == 'no') {
-                if (($this->getValue($fieldData['path']) == 'on') || ($this->getValue($fieldData['path']) == '1')) {
-                    $this->click($fieldData['path']);
-                    $this->waitForAjax();
-                }
+        $this->_verifyElementConfigurable($fieldData['path'], 5);
+
+        if (strtolower($fieldData['value']) == 'yes') {
+            if (($this->getValue($fieldData['path']) == 'off') || ($this->getValue($fieldData['path']) == '0')) {
+                $this->click($fieldData['path']);
+                $this->waitForAjax();
             }
-        } else {
-            throw new PHPUnit_Framework_Exception("Can't fill in the checkbox field: {$fieldData['path']}");
+        } elseif (strtolower($fieldData['value']) == 'no') {
+            if (($this->getValue($fieldData['path']) == 'on') || ($this->getValue($fieldData['path']) == '1')) {
+                $this->click($fieldData['path']);
+                $this->waitForAjax();
+            }
         }
+
+        return $this;
     }
 
     /**
@@ -1428,21 +1440,50 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      *
      * @param array $fieldData Array with PATH to control and VALUE(S) to selecting
      *
-     * @return null
+     * @return Mage_Selenium_TestCase
      */
     protected function _fillFormRadiobutton($fieldData)
     {
-        if ($this->waitForElement($fieldData['path'], 5) && $this->isEditable($fieldData['path'])) {
-            if (strtolower($fieldData['value']) == 'yes') {
-                $this->click($fieldData['path']);
-                $this->waitForAjax();
-            } else {
-                $this->uncheck($fieldData['path']);
-                $this->waitForAjax();
-            }
+        $this->_verifyElementConfigurable($fieldData['path'], 5);
+
+        if (strtolower($fieldData['value']) == 'yes') {
+            $this->click($fieldData['path']);
+            $this->waitForAjax();
         } else {
-            throw new PHPUnit_Framework_Exception("Can't fill in the radiobutton field: {$fieldData['path']}");
+            $this->uncheck($fieldData['path']);
+            $this->waitForAjax();
         }
+
+        return $this;
+    }
+
+    /**
+     * Verifies the element to be configurable - i.e. present on page and editable
+     * $timeout can be set to positive integer to wait for element to appear
+     *
+     * @param string $xPath
+     * @param int $timeout Seconds
+     * @throws Mage_Selenium_Exception
+     * @return Mage_Selenium_TestCase
+     */
+    protected function _verifyElementConfigurable($xPath, $timeout = null)
+    {
+        $isElementPresent = $timeout ? $this->waitForElement($xPath, $timeout) : $this->isElementPresent($xPath);
+        if (!$isElementPresent) {
+            throw new Mage_Selenium_Exception(
+                'Element is not present at the page: ' . $xPath,
+                Mage_Selenium_Exception::ERR_NO_ELEMENT
+            );
+        }
+
+        if (!$this->isEditable($xPath)) {
+            throw new Mage_Selenium_Exception(
+                'Element is not editable: ' . $xPath,
+                Mage_Selenium_Exception::ERR_NOT_EDITABLE
+            );
+        }
+
+        return $this;
     }
 
     /**
