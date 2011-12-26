@@ -75,11 +75,13 @@ function generateCouponCodes(idPrefix, generateUrl, grid) {
         return;
     }
     var elements = $(idPrefix + 'information_fieldset').select('input', 'select', 'textarea');
-    elements = Array.concat(elements,
-            $$('#rule_uses_per_coupon'),
-            $$('#rule_uses_per_customer'),
-            $$('#rule_to_date')
+
+    elements = elements.concat(
+        $$('#rule_uses_per_coupon'),
+        $$('#rule_uses_per_customer'),
+        $$('#rule_to_date')
     );
+
     var params = Form.serializeElements(elements, true);
     params.form_key = FORM_KEY;
     $('messages').update();
