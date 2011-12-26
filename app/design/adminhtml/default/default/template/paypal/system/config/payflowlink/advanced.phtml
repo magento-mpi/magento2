@@ -45,6 +45,12 @@
                         Under Display <span style="text-decoration: underline">Options on Payment Page</span>, enter the following:
                         <ul style="list-style:lower-roman;padding:0 2em;">
                             <li>
+                                <span style="text-decoration: underline">Cancel URL</span>:<br />
+                                <a href="<?php echo $this->getFrontendUrl('paypal/payflowadvanced/cancelPayment') ?>" onclick="return false;">
+                                    <?php echo $this->getFrontendUrl('paypal/payflowadvanced/cancelPayment') ?>
+                                </a>
+                            </li>
+                            <li>
                                 <span style="text-decoration: underline">Error URL</span>:<br />
                                 <a href="<?php echo $this->getFrontendUrl('paypal/payflowadvanced/returnUrl') ?>" onclick="return false;">
                                     <?php echo $this->getFrontendUrl('paypal/payflowadvanced/returnUrl') ?>

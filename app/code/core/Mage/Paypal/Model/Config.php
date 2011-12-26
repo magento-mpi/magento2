@@ -98,6 +98,8 @@ class Mage_Paypal_Model_Config
 
     /**
      * Authorization amounts for Account Verification
+     *
+     * @deprecated since 1.6.2.0
      * @var int
      */
     const AUTHORIZATION_AMOUNT_ZERO = 0;
@@ -873,15 +875,12 @@ class Mage_Paypal_Model_Config
     /**
      * Returns array of possible Authorization Amounts for Account Verification
      *
+     * @deprecated since 1.6.2.0
      * @return array
      */
     public function getAuthorizationAmounts()
     {
-        $authorizationAmount = array(
-            self::AUTHORIZATION_AMOUNT_ZERO => Mage::helper('paypal')->__('$0 Auth'),
-            self::AUTHORIZATION_AMOUNT_FULL => Mage::helper('paypal')->__('Full Auth'),
-        );
-        return $authorizationAmount;
+        return array();
     }
 
     /**
