@@ -49,12 +49,12 @@ class Mage_OAuth_Helper_Data extends Mage_Core_Helper_Abstract
     /**#@-*/
 
     /**
-     * Generate random string for token or secret
+     * Generate random string for token or secret or verifier
      *
      * @param int $length String length
      * @return string
      */
-    public function generateToken($length)
+    protected function _generateRandomString($length)
     {
         /** @var $helper Mage_Core_Helper_Data */
         $helper = Mage::helper('core');
@@ -62,6 +62,36 @@ class Mage_OAuth_Helper_Data extends Mage_Core_Helper_Abstract
         return $helper->getRandomString(
             $length, Mage_Core_Helper_Data::CHARS_DIGITS . Mage_Core_Helper_Data::CHARS_LOWERS
         );
+    }
+
+    /**
+     * Generate random string for token
+     *
+     * @return string
+     */
+    public function generateToken()
+    {
+        return $this->_generateRandomString(Mage_OAuth_Model_Token::LENGTH_TOKEN);
+    }
+
+    /**
+     * Generate random string for token secret
+     *
+     * @return string
+     */
+    public function generateTokenSecret()
+    {
+        return $this->_generateRandomString(Mage_OAuth_Model_Token::LENGTH_SECRET);
+    }
+
+    /**
+     * Generate random string for verifier
+     *
+     * @return string
+     */
+    public function generateVerifier()
+    {
+        return $this->_generateRandomString(Mage_OAuth_Model_Token::LENGTH_VERIFIER);
     }
 
     /**

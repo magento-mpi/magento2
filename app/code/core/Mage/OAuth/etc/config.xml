@@ -46,6 +46,9 @@
                     <token>
                         <table>oauth_token</table>
                     </token>
+                    <nonce>
+                        <table>oauth_nonce</table>
+                    </nonce>
                 </entities>
             </oauth_resource>
         </models>

@@ -25,33 +25,21 @@
  */
 
 /**
- * oAuth authorize controller
+ * oAuth nonce resource model
  *
  * @category    Mage
  * @package     Mage_OAuth
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_OAuth_AuthorizeController extends Mage_Core_Controller_Front_Action
+class Mage_OAuth_Model_Resource_Nonce extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Index action.
+     * Initialize resource model
      *
      * @return void
      */
-    public function indexAction()
+    protected function _construct()
     {
-        /** @var $server Mage_OAuth_Model_Server */
-        $server = Mage::getModel('oauth/server');
-
-//        $server->checkAuthorizeRequest();
-//        $callbackUrl = $token->getTmpCallbackUrl() . '?oauth_token=' . $token->getTmpToken()
-//                       . '&amp;oauth_verifier=' . $token->getTmpVerifier();
-//
-//        // Authentication form HTML
-//        echo 'Here will be user auth form<br/><a href="' . $callbackUrl
-//             . '">Yes, I grant rights for ' . $consumer->getName() . '</a><br>' . htmlspecialchars($callbackUrl);
-
-        $this->loadLayout();
-        $this->renderLayout();
+        $this->_init('oauth/nonce', null);
     }
 }

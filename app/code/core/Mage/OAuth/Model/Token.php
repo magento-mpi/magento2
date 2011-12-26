@@ -50,13 +50,28 @@
  * @method Mage_OAuth_Model_Token setTmpCreatedAt() setTmpCreatedAt(string $tmpCreatedAt)
  * @method string getToken()
  * @method Mage_OAuth_Model_Token setToken() setToken(string $token)
- * @method string getTokenSecret()
- * @method Mage_OAuth_Model_Token setTokenSecret() setTokenSecret(string $tokenSecret)
+ * @method string getSecret()
+ * @method Mage_OAuth_Model_Token setSecret() setSecret(string $tokenSecret)
  * @method int getIsRevoked()
  * @method Mage_OAuth_Model_Token setIsRevoked() setIsRevoked(int $isRevoked)
  */
 class Mage_OAuth_Model_Token extends Mage_Core_Model_Abstract
 {
+    /**#@+
+     * Token types
+     */
+    const TYPE_REQUEST = 'request';
+    const TYPE_ACCESS  = 'access';
+    /**#@- */
+
+    /**#@+
+     * Lengths of token fields
+     */
+    const LENGTH_TOKEN    = 32;
+    const LENGTH_SECRET   = 32;
+    const LENGTH_VERIFIER = 32;
+    /**#@- */
+
     /**
      * Initialize resource model
      *
@@ -77,5 +92,16 @@ class Mage_OAuth_Model_Token extends Mage_Core_Model_Abstract
     {
         $this->_getResource()->loadByTmpToken($this, $tmpToken);
         return $this;
+    }
+
+    /**
+     * Get string representation of token
+     *
+     * @param string $format
+     * @return string
+     */
+    public function toString($format = '')
+    {
+        return http_build_query(array('oauth_token' => $this->getToken(), 'oauth_token_secret' => $this->getSecret()));
     }
 }
