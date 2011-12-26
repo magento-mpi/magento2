@@ -38,11 +38,13 @@ class SystemConfiguration_Helper extends Mage_Selenium_TestCase
 {
 
     /**
-     * System Configuration
+     * Sets a system configuration field to required value
      *
      * @param array|string $parameters
+     * @param bool $isRequired Whether element must be present on page
+     * @return SystemConfiguration_Helper
      */
-    public function configure($parameters)
+    public function configure($parameters, $isRequired = true)
     {
         if (is_string($parameters)) {
             $parameters = $this->loadData($parameters);
@@ -60,20 +62,31 @@ class SystemConfiguration_Helper extends Mage_Selenium_TestCase
                 $this->validatePage();
             }
         }
-        foreach ($parameters as $key => $value) {
-            if (is_array($value)) {
-                $tab = (isset($value['tab_name'])) ? $value['tab_name'] : NULL;
-                $settings = (isset($value['configuration'])) ? $value['configuration'] : NULL;
-                if ($tab) {
-                    $xpath = $this->_getControlXpath('tab', $tab);
-                    $this->_defineParameters($xpath, 'href');
-                    $this->clickAndWait($xpath);
-                    $this->fillForm($settings, $tab);
-                    $this->saveForm('save_config');
-                    $this->assertMessagePresent('success', 'success_saved_config');
-                }
+
+        foreach ($parameters as $value) {
+            // Skip non-tab data in parameters
+            if (!is_array($value)) {
+                continue;
             }
+
+            $tab = (isset($value['tab_name'])) ? $value['tab_name'] : NULL;
+            $settings = (isset($value['configuration'])) ? $value['configuration'] : NULL;
+            // Skip non-tab data in parameters
+            if (!$tab) {
+                continue;
+            }
+
+            $xpath = $this->_getControlXpath('tab', $tab);
+            $this->_defineParameters($xpath, 'href');
+            $this->clickAndWait($xpath);
+            if (!$this->fillForm($settings, $tab, $isRequired)) {
+                continue;
+            }
+            $this->saveForm('save_config');
+            $this->assertMessagePresent('success', 'success_saved_config');
         }
+
+        return $this;
     }
 
     /**

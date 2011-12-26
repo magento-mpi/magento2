@@ -36,12 +36,11 @@
  */
 class AdminUser_LoginTest extends Mage_Selenium_TestCase
 {
-
     public function setUpBeforeTests()
     {
         $this->loginAdminUser();
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('disable_admin_captcha');
+        $this->systemConfigurationHelper()->configure('disable_admin_captcha', false);
         $this->logoutAdminUser();
     }
 
