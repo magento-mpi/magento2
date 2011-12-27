@@ -70,6 +70,7 @@ class Enterprise_CustomerSegment_Model_Resource_Segment_Collection
      */
     protected function _beforeLoad()
     {
+        parent::_beforeLoad();
         $isFilteredByWebsite = $this->getFlag('is_filtered_by_website');
         $isOrderedByWebsite = array_key_exists('website_ids', $this->_orders);
         if (($isFilteredByWebsite || $isOrderedByWebsite) && !$this->getFlag('is_website_table_joined')) {
@@ -82,7 +83,7 @@ class Enterprise_CustomerSegment_Model_Resource_Segment_Collection
                 $cols
             );
         }
-        return parent::_beforeLoad();
+        return $this;
     }
 
     /**
