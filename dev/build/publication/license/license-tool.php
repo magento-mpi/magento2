@@ -48,7 +48,7 @@ if (isset($options['w'])) {
     $workingDir = rtrim($options['w'], DIRECTORY_SEPARATOR);
 }
 if (!is_dir($workingDir)) {
-    Routine::printLog('Working dir "' . $workingDir . '" does not exist');
+    Routine::printLog("Directory '{$workingDir}' does not exist.\n");
     exit(1);
 }
 

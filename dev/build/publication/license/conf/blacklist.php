@@ -15,10 +15,8 @@ return array(
     'app/code/core/*/*/etc/wsdl.xml',
     'app/code/core/Zend/Mime.php',
     'app/design/frontend/default/iphone/skin/default/js/dnd.js',
-    'app/design/frontend/enterprise/default/skin/default/js/jqzoom/jquery.jqzoom1.0.1.js',
-    'app/design/frontend/enterprise/default/skin/default/js/jqzoom/jquery-1.3.1.min.js',
+    'app/design/frontend/enterprise/default/skin/default/js/jqzoom/*.js',
     'app/etc/local.xml',
-    'dev/build',
     'dev/tests/integration/tmp',
     'dev/tests/static/report',
     'dev/tests/static/testsuite/Php/Exemplar/_files',
@@ -37,4 +35,5 @@ return array(
     'pub/js/scriptaculous',
     'pub/js/tiny_mce',
     'pub/media',
+    'var',
 );
