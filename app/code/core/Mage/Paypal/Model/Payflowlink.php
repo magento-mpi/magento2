@@ -466,4 +466,90 @@ class Mage_Paypal_Model_Payflowlink extends Mage_Paypal_Model_Payflowpro
         $payment->setAdditionalInformation($this->_secureSilentPostHashKey, $secureHash);
         return $secureHash;
     }
+
+    /**
+     * Add transaction with correct transaction Id
+     *
+     * @deprecated since 1.6.2.0
+     * @param Varien_Object $payment
+     * @param string $txnId
+     * @return void
+     */
+    protected function _addTransaction($payment, $txnId)
+    {
+    }
+
+    /**
+     * Initialize request
+     *
+     * @deprecated since 1.6.2.0
+     * @param Varien_Object $payment
+     * @param  $amount
+     * @return Mage_Paypal_Model_Payflowlink
+     */
+    protected function _initialize(Varien_Object $payment, $amount)
+    {
+        return $this;
+    }
+
+    /**
+     * Check whether order review has enough data to initialize
+     *
+     * @deprecated since 1.6.2.0
+     * @param $token
+     * @throws Mage_Core_Exception
+     */
+    public function prepareOrderReview($token = null)
+    {
+    }
+
+    /**
+     * Additional authorization logic for Account Verification
+     *
+     * @deprecated since 1.6.2.0
+     * @param Varien_Object $payment
+     * @param mixed $amount
+     * @param Mage_Paypal_Model_Payment_Transaction $transaction
+     * @param string $txnId
+     * @return Mage_Paypal_Model_Payflowlink
+     */
+    protected function _authorize(Varien_Object $payment, $amount, $transaction, $txnId)
+    {
+        return $this;
+    }
+
+    /**
+     * Operate with order or quote using information from silent post
+     *
+     * @deprecated since 1.6.2.0
+     * @param Varien_Object $document
+     */
+    protected function _process(Varien_Object $document)
+    {
+    }
+
+    /**
+     * Check Transaction
+     *
+     * @deprecated since 1.6.2.0
+     * @param Mage_Paypal_Model_Payment_Transaction $transaction
+     * @param mixed $amount
+     * @return Mage_Paypal_Model_Payflowlink
+     */
+    protected function _checkTransaction($transaction, $amount)
+    {
+        return $this;
+    }
+
+    /**
+     * Check response from Payflow gateway.
+     *
+     * @deprecated since 1.6.2.0
+     * @return Mage_Sales_Model_Abstract in case of validation passed
+     * @throws Mage_Core_Exception in other cases
+     */
+    protected function _getDocumentFromResponse()
+    {
+        return null;
+    }
 }
