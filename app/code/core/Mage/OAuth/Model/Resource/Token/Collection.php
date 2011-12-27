@@ -77,6 +77,18 @@ class Mage_OAuth_Model_Resource_Token_Collection extends Mage_Core_Model_Resourc
     }
 
     /**
+     * Add filter by customer ID
+     *
+     * @param int $customerId
+     * @return Mage_OAuth_Model_Resource_Token_Collection
+     */
+    public function addFilterByCustomerId($customerId)
+    {
+        $this->addFilter('main_table.customer_id', $customerId);
+        return $this;
+    }
+
+    /**
      * Add filter by ID
      *
      * @param array|int $id

@@ -56,6 +56,15 @@
  * @method Mage_OAuth_Model_Token setIsRevoked() setIsRevoked(int $isRevoked)
  * @method int getAuthorized()
  * @method Mage_OAuth_Model_Token setAuthorized() setAuthorized(int $authorized)
+ * @method int getCustomerId()
+ * @method Mage_Core_CodeController setCustomerId() setCustomerId(int $customerId)
+ * @method string getTmpVerifier()
+ * @method Mage_Core_CodeController setTmpVerifier() setTmpVerifier(string $tmpVerifier)
+ * @method string getTmpCallbackUrl()
+ * @method Mage_Core_CodeController setTmpCallbackUrl() setTmpCallbackUrl(string $tmpCallbackUrl)
+ * @method string getTokenSecret()
+ * @method Mage_Core_CodeController setTokenSecret() setTokenSecret(string $tokenSecret)
+ * @method string getName()
  */
 class Mage_OAuth_Model_Token extends Mage_Core_Model_Abstract
 {

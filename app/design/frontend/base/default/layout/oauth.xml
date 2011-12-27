@@ -43,4 +43,23 @@
             <remove name="footer_links"/>
         </reference>
     </oauth_authorize_index>
+
+    <!-- My Applications-->
+    <customer_account>
+        <reference name="customer_account_navigation">
+            <action method="addLink" translate="label" module="oauth">
+                <name>myApplication</name>
+                <path>oauth/myApplication</path>
+                <label>My Applications</label>
+            </action>
+        </reference>
+    </customer_account>
+    <oauth_myapplication_index translate="label">
+        <label>Customer My Account My OAuth Applications</label>
+        <update handle="customer_account"/>
+        <reference name="my.account.wrapper">
+            <block type="oauth/customer_myApplication_list" name="oauth_customer_myApplication_list" template="oauth/customer/my-application/list.phtml"/>
+        </reference>
+    </oauth_myapplication_index>
+    <!-- EOF My Applications-->
 </layout>
