@@ -33,7 +33,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Wishlist_Wishlist extends Mage_Selenium_TestCase
+class Wishlist_WishlistTest extends Mage_Selenium_TestCase
 {
 
     /**
