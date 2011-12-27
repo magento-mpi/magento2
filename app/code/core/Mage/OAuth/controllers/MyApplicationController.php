@@ -27,6 +27,8 @@
 /**
  * oAuth My Applications controller
  *
+ * Tab "My Applications" in the Customer Account
+ *
  * @category    Mage
  * @package     Mage_OAuth
  * @author      Magento Core Team <core@magentocommerce.com>
@@ -114,12 +116,14 @@ class Mage_OAuth_MyApplicationController extends Mage_Core_Controller_Front_Acti
                     ->addFilterByCustomerId($this->_session->getCustomerId())
                     ->addFilterById($id)
                     ->addFilterByIsRevoked(!$status);
+            //here is can be load from model, but used from collection for get consumer name
 
             /** @var $model Mage_OAuth_Model_Token */
             $model = $collection->getFirstItem();
             if ($model->getId()) {
-                $model->setIsRevoked($status)->save();
                 $name = $model->getName();
+                $model->load($model->getId());
+                $model->setIsRevoked($status)->save();
                 if ($status) {
                     $message = $this->__('Application "%s" revoked.', $name);
                 } else {
