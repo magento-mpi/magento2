@@ -830,8 +830,18 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $this->assertTextNotPresent('Service Temporarily Unavailable', 'Service Temporarily Unavailable');
         $this->assertTextNotPresent('The page isn\'t redirecting properly',
                 'The page isn\'t redirecting properly');
-        $this->assertEquals($this->getUimapPage(self::$_area, $page)->getTitle($this->getParamsDecorator()),
+
+        $uimap = $this->getUimapPage(self::$_area, $page);
+        $this->assertEquals($uimap->getTitle($this->getParamsDecorator()),
                 $this->getTitle(), 'Page title is unexpected');
+
+        $elements = $uimap->getElements();
+        if (isset($elements['page_specific_errors'])) {
+            foreach ($elements['page_specific_errors'] as $errorText) {
+                $this->assertTextNotPresent($errorText, $errorText);
+            }
+        }
+
         $this->_pageHelper->setCurrentPage($page);
     }
 
@@ -2122,12 +2132,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             $this->clickAtAndWait(self::xpathIndexesInvalidated);
             $this->validatePage('index_management');
 
-            $invalided = array('reindex_required', 'update_reqiured');
-            foreach ($invalided as $value) {
-                $xpath = $this->_getControlXpath('pageelement', $value);
+            $links = array('reindex_required', 'update_required');
+            foreach ($links as $link) {
+                $xpath = $this->_getControlXpath('pageelement', $link);
                 while ($this->isElementPresent($xpath)) {
                     $this->click($xpath . "//a[text()='Reindex Data']");
-                    $this->waitForPageToLoad(90000);
+                    $this->waitForPageToLoad(120000);
                     $this->validatePage('index_management');
                 }
             }
