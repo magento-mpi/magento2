@@ -24,9 +24,13 @@
  */
 
 /*@cc_on
+// code only for IE when ExtJs overwrite "defer" function in PrototypeJs
 (function(){
     var eDefer = Function.prototype.defer;
     Function.prototype.defer = function(a1, a2, a3, a4) {
+        // do not use "call" or "apply", only direct function call !!!
+        // for some reason in this case setTimeout with time < ~50ms run directly in function scope
+        // and throw stack overflow exception
         eDefer(this, a1 || 50, a2, a3, a4);
     };
 })();
