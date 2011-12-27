@@ -65,12 +65,18 @@ document.observe('login:setMethod', function(event){
             if ($('register_during_checkout')) {
                 $('captcha-input-box-register_during_checkout').hide();
                 $('captcha-image-box-register_during_checkout').hide();
+                $('captcha-input-box-guest_checkout').show();
+                $('captcha-image-box-guest_checkout').show();
+
             }
             break;
         case 'register':
             if ($('guest_checkout')) {
                 $('captcha-input-box-guest_checkout').hide();
                 $('captcha-image-box-guest_checkout').hide();
+                $('captcha-input-box-register_during_checkout').show();
+                $('captcha-image-box-register_during_checkout').show();
+
             }
             break;
     }
