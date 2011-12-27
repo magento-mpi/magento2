@@ -38,32 +38,26 @@
  * @method Mage_OAuth_Model_Token setConsumerId() setConsumerId(int $consumerId)
  * @method int getAdminId()
  * @method Mage_OAuth_Model_Token setAdminId() setAdminId(int $adminId)
- * @method string getTmpToken()
- * @method Mage_OAuth_Model_Token setTmpToken() setTmpToken(string $tmpToken)
+ * @method string getType()
+ * @method Mage_OAuth_Model_Token setType() setType(string $type)
  * @method string getTmpTokenSecret()
  * @method Mage_OAuth_Model_Token setTmpTokenSecret() setTmpTokenSecret(string $tmpTokenSecret)
  * @method string getVerifier()
  * @method Mage_OAuth_Model_Token setVerifier() setVerifier(string $verifier)
  * @method string getCallbackUrl()
  * @method Mage_OAuth_Model_Token setCallbackUrl() setCallbackUrl(string $callbackUrl)
- * @method string getTmpCreatedAt()
- * @method Mage_OAuth_Model_Token setTmpCreatedAt() setTmpCreatedAt(string $tmpCreatedAt)
+ * @method string getCreatedAt()
+ * @method Mage_OAuth_Model_Token setCreatedAt() setCreatedAt(string $createdAt)
  * @method string getToken()
  * @method Mage_OAuth_Model_Token setToken() setToken(string $token)
  * @method string getSecret()
  * @method Mage_OAuth_Model_Token setSecret() setSecret(string $tokenSecret)
- * @method int getIsRevoked()
- * @method Mage_OAuth_Model_Token setIsRevoked() setIsRevoked(int $isRevoked)
+ * @method int getRevoked()
+ * @method Mage_OAuth_Model_Token setRevoked() setRevoked(int $revoked)
  * @method int getAuthorized()
  * @method Mage_OAuth_Model_Token setAuthorized() setAuthorized(int $authorized)
  * @method int getCustomerId()
- * @method Mage_Core_CodeController setCustomerId() setCustomerId(int $customerId)
- * @method string getTmpVerifier()
- * @method Mage_Core_CodeController setTmpVerifier() setTmpVerifier(string $tmpVerifier)
- * @method string getTmpCallbackUrl()
- * @method Mage_Core_CodeController setTmpCallbackUrl() setTmpCallbackUrl(string $tmpCallbackUrl)
- * @method string getTokenSecret()
- * @method Mage_Core_CodeController setTokenSecret() setTokenSecret(string $tokenSecret)
+ * @method Mage_OAuth_Model_Token setCustomerId() setCustomerId(int $customerId)
  * @method string getName()
  */
 class Mage_OAuth_Model_Token extends Mage_Core_Model_Abstract
@@ -110,18 +104,6 @@ class Mage_OAuth_Model_Token extends Mage_Core_Model_Abstract
         $this->setAuthorized(1);
         $this->save();
 
-        return $this;
-    }
-
-    /**
-     * Load token by temporary token
-     *
-     * @param string $tmpToken
-     * @return Mage_OAuth_Model_Token
-     */
-    public function loadByTmpToken($tmpToken)
-    {
-        $this->_getResource()->loadByTmpToken($this, $tmpToken);
         return $this;
     }
 

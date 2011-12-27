@@ -56,9 +56,6 @@ class Mage_OAuth_TokenController extends Mage_Core_Controller_Front_Action
         /** @var $server Mage_OAuth_Model_Server */
         $server = Mage::getModel('oauth/server');
 
-        $server->setRequest($this->getRequest());
-        $server->setResponse($this->getResponse());
-
         $server->accessToken();
     }
 }

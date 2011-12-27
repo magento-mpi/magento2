@@ -94,7 +94,7 @@ class Mage_OAuth_ClientController extends Mage_Core_Controller_Front_Action
 
             $session->setAccessToken($accessToken);
         } else {
-            echo 'Invalid access token received: ' . $accessToken;
+            echo 'Invalid access token received: ' . $this->_consumer->getHttpClient()->getLastResponse();
         }
     }
 
@@ -146,14 +146,32 @@ class Mage_OAuth_ClientController extends Mage_Core_Controller_Front_Action
         }
         $this->_initConsumer();
 
-        $callUrl = Mage::getUrl('*/initiate/photo');
+        $callUrl = Mage::getUrl('*/client/photo');
 
-        $client = new Zend_Oauth_Client(array('consumerKey' => $this->_consumer->getConsumerKey()), $callUrl);
+        $client = new Zend_Oauth_Client(
+            array(
+                'consumerKey'    => $this->_consumer->getConsumerKey(),
+                'consumerSecret' => $this->_consumer->getConsumerSecret()
+            ),
+            $callUrl
+        );
 
         $client->setToken($accessToken);
-        $client->prepareOauth();
+        $client->request();
 
         echo '<strong>Call</strong> ' . $callUrl . ' with header<br><strong>Authorization:</strong>'
             . str_replace(',', ',<br>', $client->getHeader('Authorization'));
+        echo '<br><br><strong>Response:</strong><br>' . $client->getLastResponse();
+    }
+
+    /**
+     * Test action for resource request with access token validation
+     */
+    public function photoAction()
+    {
+        /** @var $server Mage_OAuth_Model_Server */
+        $server = Mage::getModel('oauth/server');
+
+        $server->checkAccessRequest(null, Mage::getUrl('*/*/*'));
     }
 }

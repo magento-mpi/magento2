@@ -42,26 +42,4 @@ class Mage_OAuth_Model_Resource_Token extends Mage_Core_Model_Resource_Db_Abstra
     {
         $this->_init('oauth/token', 'entity_id');
     }
-
-    /**
-     * Load token by temporary token
-     *
-     * @param Mage_OAuth_Model_Token $token
-     * @param string $tmpToken
-     * @return Mage_OAuth_Model_Resource_Token
-     */
-    public function loadByTmpToken(Mage_OAuth_Model_Token $token, $tmpToken)
-    {
-        $select = $this->_getReadAdapter()->select()
-            ->from($this->getTable('oauth/token'), 'entity_id')
-            ->where('tmp_token = ?', $tmpToken);
-
-        $id = $this->_getReadAdapter()->fetchOne($select);
-        if ($id) {
-            $this->load($token, $id);
-        } else {
-            $token->setData(array());
-        }
-        return $this;
-    }
 }
