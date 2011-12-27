@@ -213,7 +213,7 @@ class Mage_OAuth_Model_Server
     protected function _getResponse()
     {
         if (null === $this->_response) {
-            $this->_response = Mage::app()->getResponse();
+            $this->setResponse(Mage::app()->getResponse());
         }
         return $this->_response;
     }
@@ -248,7 +248,7 @@ class Mage_OAuth_Model_Server
             $this->_token->load($this->_params['oauth_token'], 'token');
 
             if (!$this->_token->getId()) {
-                $this->_throwException($this->_params['oauth_token'], self::ERR_TOKEN_REJECTED);
+                $this->_throwException('', self::ERR_TOKEN_REJECTED);
             }
             if (self::REQUEST_TOKEN == $this->_requestType) {
                 $this->_validateVerifierParam();
@@ -321,37 +321,33 @@ class Mage_OAuth_Model_Server
     }
 
     /**
-     * Report problem during request
+     * Create response string for problem during request and set HTTP error code
      *
-     * @param Mage_Oauth_Exception $e
+     * @param Exception $e
      * @return string
-     * @todo Move this method to try...catch without "exit"
      */
-    protected function _reportProblem(Mage_Oauth_Exception $e)
+    protected function _reportProblem(Exception $e)
     {
-        $exceptionCode = $e->getCode();
+        $msgAdd = '';
 
-        if (self::PARAMETER_ABSENT == $exceptionCode) {
-            $msgAdd = '&oauth_parameters_absent=' . $e->getMessage();
-        } elseif (self::SIGNATURE_INVALID == $exceptionCode) {
-            $msgAdd =  '&debug_sbs=' . $e->getMessage();
-        } else {
-            $msgAdd = '';
-        }
-        if (isset($this->_errors[$exceptionCode])) {
-            $msg = $this->_errors[$exceptionCode];
-        } else {
-            $msg = 'unknown_problem';
-            $msgAdd = '&code=' . $exceptionCode;
-        }
-        if ($e->getMessage()) {
-            $msgAdd .= '&message=' . $e->getMessage();
-        }
-        $this->_getResponse()->setBody('oauth_problem=' . $msg . $msgAdd);
+        if ($e instanceof Mage_Oauth_Exception) {
+            $code = $e->getCode();
 
-        $this->_getResponse()->setHttpResponseCode(400); // BAD REQUEST
-        $this->_getResponse()->sendResponse();
-        exit;
+            if (self::ERR_PARAMETER_ABSENT == $code) {
+                $msgAdd = '&oauth_parameters_absent=' . $e->getMessage();
+            } elseif (self::ERR_SIGNATURE_INVALID == $code) {
+                $msgAdd = '&debug_sbs=' . $e->getMessage();
+            } elseif ($e->getMessage()) {
+                $msgAdd = '&message=' . $e->getMessage();
+            }
+            $msg = isset($this->_errors[$code]) ? $this->_errors[$code] : 'unknown_problem&code=' . $code;
+        } else {
+            $msg = 'internal_error';
+            $msgAdd = '&message=' . $e->getMessage();
+        }
+        //$this->_getResponse()->setHttpResponseCode(self::HTTP_BAD_REQUEST);
+
+        return 'oauth_problem=' . $msg . $msgAdd;
     }
 
     /**
@@ -516,9 +512,14 @@ class Mage_OAuth_Model_Server
      */
     public function accessToken(Mage_Core_Controller_Request_Http $request = null)
     {
-        $this->_processRequest(null === $request ? Mage::app()->getRequest() : $request, self::REQUEST_TOKEN);
+        try {
+            $this->_processRequest(null === $request ? Mage::app()->getRequest() : $request, self::REQUEST_TOKEN);
 
-        $this->_getResponse()->setBody($this->_token->toString());
+            $response = $this->_token->toString();
+        } catch (Exception $e) {
+            $response = $this->_reportProblem($e);
+        }
+        $this->_getResponse()->setBody($response);
     }
 
     /**
@@ -544,10 +545,21 @@ class Mage_OAuth_Model_Server
      *
      * @param Mage_Core_Controller_Request_Http|null $request
      * @param string $url OPTIONAL Request URL
+     * @return boolean
      */
     public function checkAccessRequest(Mage_Core_Controller_Request_Http $request = null, $url = null)
     {
-        $this->_processRequest(null === $request ? Mage::app()->getRequest() : $request, self::REQUEST_RESOURCE, $url);
+        try {
+            if (null === $request) {
+                $request = Mage::app()->getRequest();
+            }
+            $this->_processRequest($request, self::REQUEST_RESOURCE, $url);
+        } catch (Exception $e) {
+            $this->_getResponse()->setBody($this->_reportProblem($e));
+
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -606,9 +618,14 @@ class Mage_OAuth_Model_Server
      */
     public function initiateToken(Mage_Core_Controller_Request_Http $request = null)
     {
-        $this->_processRequest(null === $request ? Mage::app()->getRequest() : $request, self::REQUEST_INITIATE);
+        try {
+            $this->_processRequest(null === $request ? Mage::app()->getRequest() : $request, self::REQUEST_INITIATE);
 
-        $this->_getResponse()->setBody($this->_token->toString() . '&oauth_callback_confirmed=true');
+            $response = $this->_token->toString() . '&oauth_callback_confirmed=true';
+        } catch (Exception $e) {
+            $response = $this->_reportProblem($e);
+        }
+        $this->_getResponse()->setBody($response);
     }
 
     /**
