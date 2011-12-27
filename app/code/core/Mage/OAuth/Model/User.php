@@ -16,7 +16,7 @@ class Mage_OAuth_Model_User
         return $userId;
     }
 
-    public function getType($temp = Mage_Apia_Model_Auth::USER_TYPE_GUEST)
+    public function getType($temp = Mage_Api2_Model_Auth::USER_TYPE_GUEST)
     {
         $userType = $temp;
 

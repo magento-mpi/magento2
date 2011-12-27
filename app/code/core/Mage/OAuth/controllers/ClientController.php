@@ -72,6 +72,9 @@ class Mage_OAuth_ClientController extends Mage_Core_Controller_Front_Action
      */
     public function callbackAction()
     {
+        if ($this->getRequest()->getQuery('denied', false)) {
+            die('Token not authorized by user.');
+        }
         $this->_initConsumer();
 
         echo '<pre>';

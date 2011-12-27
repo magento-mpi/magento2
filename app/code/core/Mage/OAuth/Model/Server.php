@@ -98,7 +98,7 @@ class Mage_OAuth_Model_Server
     protected $_consumer;
 
     /**
-     * Error code to error messsages pairs
+     * Error code to error messages pairs
      *
      * @var array
      */
