@@ -19,19 +19,19 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_OAuth
+ * @package     Mage_Adminhtml
  * @copyright   Copyright (c) 2011 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * OAuth authorization block
+ * OAuth consumers grid container block
  *
  * @category   Mage
  * @package    Mage_OAuth
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_OAuth_Block_Authorize extends Mage_Core_Block_Template
+class Mage_OAuth_Block_Adminhtml_OAuth_Authorize extends Mage_Adminhtml_Block_Template
 {
     /**
      * Get the temporary credentials identifier received from the client.
@@ -44,14 +44,12 @@ class Mage_OAuth_Block_Authorize extends Mage_Core_Block_Template
     }
 
     /**
-     * Retrieve customer form posting url
+     * Retrieve admin form posting url
      *
      * @return string
      */
     public function getPostActionUrl()
     {
-        /** @var $helper Mage_Customer_Helper_Data */
-        $helper = $this->helper('customer');
-        return $helper->getLoginPostUrl();
+        return $this->getUrl('adminhtml/index/login');
     }
 }

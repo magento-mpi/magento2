@@ -34,16 +34,27 @@
 class Mage_OAuth_Model_Observer
 {
     /**
-     * Redirect customer to authorize controller after login success
+     * Redirect customer to callback page after login success
      *
      * @param Varien_Event_Observer $observer
      * @return void
      */
     public function afterCustomerLogin(Varien_Event_Observer $observer)
     {
-        /** @var $token Mage_OAuth_Model_Token */
-        $token = Mage::getModel('oauth/token');
-        $token->loadByTmpToken(Mage::app()->getRequest()->getParam('oauth_token', null));
+        $tokenParam = Mage::app()->getRequest()->getParam('oauth_token', null);
+        if (null !== $tokenParam) {
+            /** @var $server Mage_OAuth_Model_Server */
+            $server = Mage::getModel('oauth/server');
+            /** @var $token Mage_OAuth_Model_Token */
+            $token = $server->authorizeToken();
+
+            $afterAuthUrl = $token->getCallbackUrl() . '?oauth_token=' . $token->getToken() . '&oauth_verifier=' .
+                $token->getVerifier();
+
+            /** @var $session Mage_Customer_Model_Session */
+            $session = Mage::getSingleton('customer/session');
+            $session->setAfterAuthUrl($afterAuthUrl);
+        }
     }
 
     /**
@@ -54,6 +65,17 @@ class Mage_OAuth_Model_Observer
      */
     public function afterAdminLogin(Varien_Event_Observer $observer)
     {
+        $tokenParam = Mage::app()->getRequest()->getParam('oauth_token', null);
+        if (null !== $tokenParam) {
+            /** @var $server Mage_OAuth_Model_Server */
+            $server = Mage::getModel('oauth/server');
+            /** @var $token Mage_OAuth_Model_Token */
+            $token = $server->authorizeToken();
 
+            $afterAuthUrl = $token->getCallbackUrl() . '?oauth_token=' . $token->getToken() . '&oauth_verifier=' .
+                $token->getVerifier();
+
+            Mage::app()->getResponse()->setRedirect($afterAuthUrl)->sendHeaders()->sendResponse();
+        }
     }
 }

@@ -27,7 +27,7 @@
 -->
 <layout version="1.0.0.0">
     <oauth_authorize_index translate="label">
-        <label>OAuth login form for customer</label>
+        <label>OAuth authorization for customer</label>
         <reference name="root">
             <action method="setTemplate">
                 <template>page/1column.phtml</template>
@@ -37,7 +37,8 @@
             <remove name="top.links"/>
         </reference>
         <reference name="content">
-            <block type="oauth/authorize" name="oauth.authorize"/>
+            <block type="oauth/authorize" name="oauth.authorize.form" template="oauth/authorize/form/customer/login.phtml"/>
+            <block type="core/template" name="oauth.authorize.button" template="oauth/authorize/form/button.phtml"/>
         </reference>
         <reference name="footer">
             <remove name="footer_links"/>

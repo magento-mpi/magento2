@@ -28,15 +28,15 @@
 /**
  * Customer login form template
  *
+ * @var $this Mage_OAuth_Block_Authorize
  * @see Mage_OAuth_Block_Authorize
  */
 ?>
-<?php /** @var $this Mage_OAuth_Block_Authorize */ ?>
 <div class="account-login">
     <div class="page-title">
         <h1><?php echo $this->__('Login') ?></h1>
     </div>
-    <form action="<?php echo $this->getCustomerPostActionUrl() ?>" method="post" id="login-form">
+    <form action="<?php echo $this->getPostActionUrl() ?>" method="post" id="login-form">
         <div class="col1-set">
             <div class="col-1 registered-users">
                 <div class="content">
@@ -67,7 +67,6 @@
             </div>
         </div>
         <input type="hidden" name="oauth_token" value="<?php echo $this->escapeHtml($this->getOauthToken()) ?>"/>
-        <input type="hidden" name="login[back_url]" value="<?php echo $this->getAuthorizeUrl() ?>"/>
     </form>
     <script type="text/javascript">
     //<![CDATA[
