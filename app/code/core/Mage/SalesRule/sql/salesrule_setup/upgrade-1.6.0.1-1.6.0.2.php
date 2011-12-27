@@ -34,10 +34,10 @@ $installer->getConnection()
         $installer->getTable('salesrule/coupon'),
         'created_at',
         array(
-            'TYPE'     => Varien_Db_Ddl_Table::TYPE_TIMESTAMP,
-            'COMMENT'  => 'Coupon code creation date',
-            'NULLABLE' => false,
-            'DEFAULT'  => Varien_Db_Ddl_Table::TIMESTAMP_INIT
+            'type'     => Varien_Db_Ddl_Table::TYPE_TIMESTAMP,
+            'comment'  => 'Coupon Code Creation Date',
+            'nullable' => false,
+            'default'  => Varien_Db_Ddl_Table::TIMESTAMP_INIT
         )
     );
 
@@ -45,10 +45,9 @@ $installer->getConnection()->addColumn(
         $installer->getTable('salesrule/coupon'),
         'type',
         array(
-            'TYPE'     => Varien_Db_Ddl_Table::TYPE_SMALLINT,
-            'COMMENT'  => 'Coupon code type',
-            'NULLABLE' => true,
-            'DEFAULT'  => 0
+            'type'     => Varien_Db_Ddl_Table::TYPE_SMALLINT,
+            'comment'  => 'Coupon Code Type',
+            'default'  => 0
         )
     );
 
@@ -57,10 +56,10 @@ $installer->getConnection()
         $installer->getTable('salesrule/rule'),
         'use_auto_generation',
         array(
-            'TYPE'     => Varien_Db_Ddl_Table::TYPE_SMALLINT,
-            'COMMENT'  => 'Flag that controls, whether specific coupon codes generation enabled',
-            'NULLABLE' => false,
-            'DEFAULT'  => 0
+            'type'     => Varien_Db_Ddl_Table::TYPE_SMALLINT,
+            'comment'  => 'Use Auto Generation',
+            'nullable' => false,
+            'default'  => 0
         )
     );
 
@@ -69,10 +68,10 @@ $installer->getConnection()
         $installer->getTable('salesrule/rule'),
         'uses_per_coupon',
         array(
-            'TYPE'     => Varien_Db_Ddl_Table::TYPE_INTEGER,
-            'COMMENT'  => 'Uses Per Coupon',
-            'NULLABLE' => false,
-            'DEFAULT'  => 0
+            'type'     => Varien_Db_Ddl_Table::TYPE_INTEGER,
+            'comment'  => 'Uses Per Coupon',
+            'nullable' => false,
+            'default'  => 0
         )
     );
 
@@ -81,10 +80,9 @@ $installer->getConnection()
         $installer->getTable('salesrule/coupon_aggregated'),
         'rule_name',
         array(
-            'TYPE'     => Varien_Db_Ddl_Table::TYPE_TEXT,
-            'LENGTH'   => 255,
-            'COMMENT'  => 'Rule\'s name to which belongs used coupon',
-            'NULLABLE' => true,
+            'type'     => Varien_Db_Ddl_Table::TYPE_TEXT,
+            'length'   => 255,
+            'comment'  => 'Rule Name',
         )
     );
 
@@ -93,10 +91,9 @@ $installer->getConnection()
         $installer->getTable('salesrule/coupon_aggregated_order'),
         'rule_name',
         array(
-            'TYPE'     => Varien_Db_Ddl_Table::TYPE_TEXT,
-            'LENGTH'   => 255,
-            'COMMENT'  => 'Rule\'s name to which belongs used coupon',
-            'NULLABLE' => true,
+            'type'     => Varien_Db_Ddl_Table::TYPE_TEXT,
+            'length'   => 255,
+            'comment'  => 'Rule Name',
         )
     );
 
@@ -105,10 +102,9 @@ $installer->getConnection()
         $installer->getTable('salesrule/coupon_aggregated_updated'),
         'rule_name',
         array(
-            'TYPE'     => Varien_Db_Ddl_Table::TYPE_TEXT,
-            'LENGTH'   => 255,
-            'COMMENT'  => 'Rule\'s name to which belongs used coupon',
-            'NULLABLE' => true,
+            'type'     => Varien_Db_Ddl_Table::TYPE_TEXT,
+            'length'   => 255,
+            'comment'  => 'Rule Name',
         )
     );
 
