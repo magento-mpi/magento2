@@ -71,9 +71,9 @@ For checkout/onepage/shipping.phtml:
     </div>
 <?php if ($this->showMiddlename()): ?>
     <div class="field name-middlename">
-        <label for="<?php echo $this->getFieldId('middlename')?>"><?php echo $this->getStoreLabel('middlename') ?></label>
+        <label for="<?php echo $this->getFieldId('middlename')?>"<?php if ($this->isMiddlenameRequired()) echo ' class="required"' ?>><?php if ($this->isMiddlenameRequired()) echo '<em>*</em>' ?><?php echo $this->getStoreLabel('middlename') ?></label>
         <div class="input-box">
-            <input type="text" id="<?php echo $this->getFieldId('middlename')?>" name="<?php echo $this->getFieldName('middlename')?>" value="<?php echo $this->htmlEscape($this->getObject()->getMiddlename()) ?>" title="<?php echo $this->getStoreLabel('middlename') ?>" class="input-text" <?php echo $this->getFieldParams() ?> />
+            <input type="text" id="<?php echo $this->getFieldId('middlename')?>" name="<?php echo $this->getFieldName('middlename')?>" value="<?php echo $this->htmlEscape($this->getObject()->getMiddlename()) ?>" title="<?php echo $this->getStoreLabel('middlename') ?>" class="input-text<?php if ($this->isMiddlenameRequired()):?> required-entry<?php endif; ?>" <?php echo $this->getFieldParams() ?> />
         </div>
     </div>
 <?php endif; ?>
