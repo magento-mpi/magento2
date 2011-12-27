@@ -289,7 +289,16 @@
 
             // prepare preview link
             var scopeStore = $('store');
-            if (scopeStore != undefined && scopeStore.value) {
+
+            Validation.add('IsEmpty', '', function(v) {
+                return  (v == '' || (v == null) || (v.length == 0) || /^\s+$/.test(v));
+            });
+
+            var nodeValue = $('node_id').value;
+            var isNodeSaved = Validation.get('IsEmpty').test(nodeValue)
+                    || (!isNaN(parseNumber(nodeValue)) && !/^\s+$/.test(parseNumber(nodeValue)));
+
+            if (scopeStore != undefined && scopeStore.value && isNodeSaved) {
                 var nodeUrlInfo = this.getNodePreviewUrlInfo(node);
                 if (nodeUrlInfo != false) {
                     $('node_preview').up(1).show();
