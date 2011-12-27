@@ -35,13 +35,13 @@
         <img id="<?php echo $this->getFormId() ?>" width="<?php echo $this->getImgWidth() ?>" height="<?php echo $this->getImgHeight() ?>" src="<?php echo $captcha->getImgSrc() ?>" />
         <script type="text/javascript">
         //<![CDATA[
-        var captcha = new Captcha('<?php echo $this->getRefreshUrl() ?>', '<?php echo $this->getFormId() ?>');
+        var captchaObj = new Captcha('<?php echo $this->getRefreshUrl() ?>', '<?php echo $this->getFormId() ?>');
         //]]>
         </script>
         <img class="captcha-reload"
             src="<?php echo $this->getSkinUrl('images/reload.png') ?>"
             alt="<?php echo $this->__('Reload captcha') ?>"
-            onclick="captcha.refresh()"
+            onclick="captchaObj.refresh()"
             style="position: absolute; top: 2px; right: 2px;">
     </div>
 </div>
