@@ -232,11 +232,14 @@ class Mage_Core_Model_Translate_Inline
                 $this->processResponseBody($part);
             }
         } else if (is_string($body)) {
-            $this->_translateTags($body, $this->_allowedTagsGlobal, '_applySpecialTagsFormat', false);
-            $this->_translateTags($body, $this->_allowedTagsSimple, '_applySimpleTagsFormat', true);
-            $this->_tagAttributes($body);
-            $this->_otherText($body);
-            $this->_insertInlineScriptsHtml($body);
+            $this->_content = $body;
+
+            $this->_specialTags();
+            $this->_tagAttributes();
+            $this->_otherText();
+            $this->_insertInlineScriptsHtml();
+
+            $body = $this->_content;
         }
 
         return $this;
@@ -244,12 +247,10 @@ class Mage_Core_Model_Translate_Inline
 
     /**
      * Add translate js to body
-     *
-     * @param string $body
      */
-    protected function _insertInlineScriptsHtml(&$body)
+    protected function _insertInlineScriptsHtml()
     {
-        if ($this->_isScriptInserted || stripos($body, '</body>')===false) {
+        if ($this->_isScriptInserted || stripos($this->_content, '</body>')===false) {
             return;
         }
 
@@ -277,9 +278,20 @@ class Mage_Core_Model_Translate_Inline
 <?php
         $html = ob_get_clean();
 
-        $body = str_ireplace('</body>', $html . '</body>', $body);
+        $this->_content = str_ireplace('</body>', $html . '</body>', $this->_content);
 
         $this->_isScriptInserted = true;
+    }
+
+    /**
+     * Escape Translate data
+     *
+     * @param string $string
+     * @return string
+     */
+    protected function _escape($string)
+    {
+        return str_replace("'", "\\'", htmlspecialchars($string));
     }
 
     /**
@@ -343,9 +355,8 @@ class Mage_Core_Model_Translate_Inline
     /**
      * Prepare tags inline translates
      *
-     * @param string $body
      */
-    protected function _tagAttributes(&$body)
+    protected function _tagAttributes()
     {
         if ($this->getIsJson()) {
             $quoteHtml   = '\"';
@@ -356,7 +367,7 @@ class Mage_Core_Model_Translate_Inline
         $tagMatch   = array();
         $nextTag    = 0;
         $tagRegExp  = '#<([a-z]+)\s*?[^>]+?((' . $this->_tokenRegex . ')[^>]*?)+/?>#i';
-        while (preg_match($tagRegExp, $body, $tagMatch, PREG_OFFSET_CAPTURE, $nextTag)) {
+        while (preg_match($tagRegExp, $this->_content, $tagMatch, PREG_OFFSET_CAPTURE, $nextTag)) {
             $next       = 0;
             $tagHtml    = $tagMatch[0][0];
             $m          = array();
@@ -372,7 +383,7 @@ class Mage_Core_Model_Translate_Inline
                     $trAttr  = ' translate=' . $quoteHtml
                         . htmlspecialchars('[' . join(',', $trArr) . ']') . $quoteHtml;
                 }
-                $body = substr_replace($body, $tagHtml, $tagMatch[0][1], strlen($tagMatch[0][0]));
+                $this->_content = substr_replace($this->_content, $tagHtml, $tagMatch[0][1], strlen($tagMatch[0][0]));
             }
             $nextTag = $tagMatch[0][1] + strlen($tagHtml);
         }
@@ -390,6 +401,14 @@ class Mage_Core_Model_Translate_Inline
         } else {
             return '"';
         }
+    }
+
+    /**
+     * Prepare special tags
+     */
+    protected function _specialTags() {
+        $this->_translateTags($this->_content, $this->_allowedTagsGlobal, '_applySpecialTagsFormat', false);
+        $this->_translateTags($this->_content, $this->_allowedTagsSimple, '_applySimpleTagsFormat', true);
     }
 
     /**
@@ -502,8 +521,7 @@ class Mage_Core_Model_Translate_Inline
      * @param $body
      * @param $tagName
      * @param $from
-     * @return bool|int
-     *      return false if end of tag is not found
+     * @return bool|int return false if end of tag is not found
      */
     private function findEndOfTag($body, $tagName, $from)
     {
@@ -511,9 +529,7 @@ class Mage_Core_Model_Translate_Inline
         $closeTag = '</' . $tagName;
         $end = $from + strlen($openTag);
         $length = $end - $from;
-        while (
-            substr_count($body, $openTag, $from, $length) != substr_count($body, $closeTag, $from, $length)
-        ) {
+        while (substr_count($body, $openTag, $from, $length) != substr_count($body, $closeTag, $from, $length)) {
             $end = strpos($body, $closeTag, $end + strlen($closeTag) - 1);
             if ($end === false) {
                 return false;
@@ -529,10 +545,8 @@ class Mage_Core_Model_Translate_Inline
 
     /**
      * Prepare other text inline translates
-     *
-     * @param string $body
      */
-    protected function _otherText(&$body)
+    protected function _otherText()
     {
         if ($this->getIsJson()) {
             $quoteHtml = '\"';
@@ -542,22 +556,18 @@ class Mage_Core_Model_Translate_Inline
 
         $next = 0;
         $m    = array();
-        while (preg_match('#' . $this->_tokenRegex . '#', $body, $m, PREG_OFFSET_CAPTURE, $next)) {
-
+        while (preg_match('#' . $this->_tokenRegex . '#', $this->_content, $m, PREG_OFFSET_CAPTURE, $next)) {
             $tr = json_encode(array(
-               'shown' => $m[1][0],
-               'translated' => $m[2][0],
-               'original' => $m[3][0],
-               'location' => 'Text',
-               'scope' => $m[4][0],
+                'shown' => $m[1][0],
+                'translated' => $m[2][0],
+                'original' => $m[3][0],
+                'location' => 'Text',
+                'scope' => $m[4][0],
             ));
 
-            $spanHtml = '<span translate='
-                . $quoteHtml
-                . htmlspecialchars('[' . $tr . ']')
-                . $quoteHtml
+            $spanHtml = '<span translate=' . $quoteHtml . htmlspecialchars('[' . $tr . ']') . $quoteHtml
                 . '>' . $m[1][0] . '</span>';
-            $body = substr_replace($body, $spanHtml, $m[0][1], strlen($m[0][0]));
+            $this->_content = substr_replace($this->_content, $spanHtml, $m[0][1], strlen($m[0][0]));
             $next = $m[0][1] + strlen($spanHtml) - 1;
         }
 

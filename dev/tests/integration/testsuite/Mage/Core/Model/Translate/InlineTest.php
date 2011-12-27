@@ -21,19 +21,19 @@ class Mage_Core_Model_Translate_InlineTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_model = new Mage_Core_Model_Translate_InlineTest_Mock();
+        $this->_model = new Mage_Core_Model_Translate_Inline();
     }
 
+    /**
+     * @magentoConfigFixture current_store dev/translate_inline/active 1
+     */
     public function testDisbaledByDefault()
     {
-        $model = new Mage_Core_Model_Translate_Inline();
-        $this->assertFalse($model->isAllowed());
         $this->assertTrue($this->_model->isAllowed());
     }
 
     /**
-     * Test for Mage_Core_Model_Translate_Inline::stripInlineTranslations
-     *
+     * @magentoConfigFixture current_store dev/translate_inline/active 1
      * @dataProvider dataStripInline
      * @param $body
      * @param $expectedResult
@@ -45,7 +45,6 @@ class Mage_Core_Model_Translate_InlineTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Data provider StripInlineTest
      * @return array
      */
     public function dataStripInline()
@@ -58,8 +57,7 @@ class Mage_Core_Model_Translate_InlineTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test for Mage_Core_Model_Translate_Inline::processResponseBody
-     *
+     * @magentoConfigFixture current_store dev/translate_inline/active 1
      * @dataProvider dataForProcessResponseBody
      * @param $body
      * @param $expectedResult
@@ -89,6 +87,7 @@ class Mage_Core_Model_Translate_InlineTest extends PHPUnit_Framework_TestCase
 
     /**
      * Get translate data string
+     *
      * @param $text
      * @param $location
      * @return string
@@ -104,6 +103,9 @@ class Mage_Core_Model_Translate_InlineTest extends PHPUnit_Framework_TestCase
         )));
     }
 
+    /**
+     * @return array
+     */
     public function dataForProcessResponseBody()
     {
         return array(
@@ -168,22 +170,5 @@ class Mage_Core_Model_Translate_InlineTest extends PHPUnit_Framework_TestCase
                     . $this->getTranslate('String in Javascript') . ']">SCRIPT</span>'
             ),
         );
-    }
-}
-
-/**
- * Mock class
- */
-class Mage_Core_Model_Translate_InlineTest_Mock extends Mage_Core_Model_Translate_Inline
-{
-    /**
-     * Is allowed
-     *
-     * @param string $store
-     * @return bool
-     */
-    public function isAllowed($store = null)
-    {
-        return true;
     }
 }
