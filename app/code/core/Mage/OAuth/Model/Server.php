@@ -368,17 +368,9 @@ class Mage_OAuth_Model_Server
             if (self::CALLBACK_ESTABLISHED != $callbackUrl && !Zend_Uri::check($callbackUrl)) {
                 $this->_throwException('oauth_callback', self::ERR_PARAMETER_REJECTED);
             }
-            $this->_token->setData(array(
-                'consumer_id'  => $this->_consumer->getId(),
-                'type'         => Mage_OAuth_Model_Token::TYPE_REQUEST,
-                'token'        => $this->_helper->generateToken(),
-                'secret'       => $this->_helper->generateTokenSecret(),
-                'callback_url' => $callbackUrl
-            ));
-            $this->_token->save();
+            $this->_token->createRequestToken($this->_consumer->getId(), $callbackUrl);
         } elseif (self::REQUEST_TOKEN == $this->_requestType) {
-            $this->_token->setType(Mage_OAuth_Model_Token::TYPE_ACCESS);
-            $this->_token->save();
+            $this->_token->convertToAccess();
         }
     }
 

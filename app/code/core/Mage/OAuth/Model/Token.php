@@ -108,6 +108,51 @@ class Mage_OAuth_Model_Token extends Mage_Core_Model_Abstract
     }
 
     /**
+     * Convert token to access type
+     *
+     * @return Mage_OAuth_Model_Token
+     */
+    public function convertToAccess()
+    {
+        if (Mage_OAuth_Model_Token::TYPE_REQUEST != $this->getType()) {
+            Mage::throwException('Can not convert due to token is not request type');
+        }
+        /** @var $helper Mage_OAuth_Helper_Data */
+        $helper = Mage::helper('oauth');
+
+        $this->setType(self::TYPE_ACCESS);
+        $this->setToken($helper->generateToken());
+        $this->setSecret($helper->generateTokenSecret());
+        $this->save();
+
+        return $this;
+    }
+
+    /**
+     * Generate and save request token
+     *
+     * @param int $consumerId Consumer identifier
+     * @param string $callbackUrl Callback URL
+     * @return Mage_OAuth_Model_Token
+     */
+    public function createRequestToken($consumerId, $callbackUrl)
+    {
+        /** @var $helper Mage_OAuth_Helper_Data */
+        $helper = Mage::helper('oauth');
+
+        $this->setData(array(
+            'consumer_id'  => $consumerId,
+            'type'         => self::TYPE_REQUEST,
+            'token'        => $helper->generateToken(),
+            'secret'       => $helper->generateTokenSecret(),
+            'callback_url' => $callbackUrl
+        ));
+        $this->save();
+
+        return $this;
+    }
+
+    /**
      * Get string representation of token
      *
      * @param string $format
