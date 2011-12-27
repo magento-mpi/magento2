@@ -89,10 +89,14 @@ class PriceRules_Catalog_CreateTest extends Mage_Selenium_TestCase
      *
      * <p>Expected result: Validation message appears</p>
      *
+     * @param string $emptyField
+     * @param string $fieldType
+     * @param string $message Uimap id of validation message xpath
+     *
      * @dataProvider dataEmptyField
      * @test
      */
-    public function emptyRequiredFields($emptyField, $fieldType)
+    public function emptyRequiredFields($emptyField, $fieldType, $message)
     {
         //Data
         $priceRuleData = $this->loadData('test_catalog_rule', array($emptyField => '%noValue%'));
@@ -100,17 +104,17 @@ class PriceRules_Catalog_CreateTest extends Mage_Selenium_TestCase
         $this->priceRulesHelper()->createRule($priceRuleData);
         //Verification
         $this->addFieldIdToMessage($fieldType, $emptyField);
-        $this->assertMessagePresent('validation', 'empty_required_field');
+        $this->assertMessagePresent('validation', $message);
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     public function dataEmptyField()
     {
         return array(
-            array('rule_name', 'field'),
-            array('customer_groups', 'multiselect'),
-            array('discount_amount', 'field'),
-            array('sub_discount_amount', 'field')
+            array('rule_name', 'field', 'empty_required_field'),
+            array('customer_groups', 'multiselect', 'empty_required_field'),
+            array('discount_amount', 'field', 'generic_validation_error'),
+            array('sub_discount_amount', 'field', 'empty_required_field')
         );
     }
 

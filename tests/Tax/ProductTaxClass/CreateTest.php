@@ -140,6 +140,10 @@ class Tax_ProductTaxClass_CreateTest extends Mage_Selenium_TestCase
      */
     public function withSpecialValues($specialValue)
     {
+        if (strpos($specialValue, '<') !== false) {
+            $this->markTestSkipped('MAGE-5237');
+        }
+
         //Data
         $productTaxClassData = $this->loadData('new_product_tax_class', array('product_class_name' => $specialValue));
         //Steps

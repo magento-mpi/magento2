@@ -155,11 +155,11 @@ class Tax_TaxRule_CreateTest extends Mage_Selenium_TestCase
      * @dataProvider dataEmptyRequiredFields
      * @param string $emptyFieldName Name of the field to leave empty
      * @param string $fieldType Type of the field to leave empty
-     * @param string $validationMessage Validation message to be verified
+     * @param string $message Uimap id of validation message xpath
      *
      * @test
      */
-    public function withEmptyRequiredFields($emptyFieldName, $fieldType)
+    public function withEmptyRequiredFields($emptyFieldName, $fieldType, $message)
     {
         //Data
         $taxRateData = $this->loadData('new_tax_rule_required', array($emptyFieldName => ''));
@@ -167,19 +167,19 @@ class Tax_TaxRule_CreateTest extends Mage_Selenium_TestCase
         $this->taxHelper()->createTaxItem($taxRateData, 'rule');
         //Verifying
         $this->addFieldIdToMessage($fieldType, $emptyFieldName);
-        $this->assertMessagePresent('validation', 'empty_required_field');
+        $this->assertMessagePresent('validation', $message);
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     public function dataEmptyRequiredFields()
     {
         return array(
-            array('name', 'field'),
-            array('customer_tax_class', 'multiselect'),
-            array('product_tax_class', 'multiselect'),
-            array('tax_rate', 'multiselect'),
-            array('priority', 'field'),
-            array('sort_order', 'field')
+            array('name', 'field', 'empty_required_field'),
+            array('customer_tax_class', 'multiselect', 'empty_required_field'),
+            array('product_tax_class', 'multiselect', 'empty_required_field'),
+            array('tax_rate', 'multiselect', 'empty_required_field'),
+            array('priority', 'field', 'generic_validation_error'),
+            array('sort_order', 'field', 'generic_validation_error')
         );
     }
 
@@ -202,6 +202,10 @@ class Tax_TaxRule_CreateTest extends Mage_Selenium_TestCase
      */
     public function withSpecialValues($specialValue, $taxRateData)
     {
+        if (strpos($specialValue, '<') !== false) {
+            $this->markTestSkipped('MAGE-5237');
+        }
+
         //Data
         $taxRuleData = $this->loadData('new_tax_rule_required',
                 array('tax_rate' => $taxRateData['tax_identifier'], 'name' => $specialValue));

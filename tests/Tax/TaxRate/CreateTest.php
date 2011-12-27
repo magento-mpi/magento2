@@ -136,9 +136,11 @@ class Tax_TaxRate_CreateTest extends Mage_Selenium_TestCase
      * @depends withRequiredFieldsOnly
      * @dataProvider dataEmptyRequiredFields
      * @param string $emptyFieldName Name of the field to leave empty
+     * @param string $message Uimap id of validation message xpath
+     *
      * @test
      */
-    public function withEmptyRequiredFields($emptyFieldName)
+    public function withEmptyRequiredFields($emptyFieldName, $message)
     {
         //Data
         $taxRateData = $this->loadData('tax_rate_create_test_zip_yes', array($emptyFieldName => ''));
@@ -146,7 +148,7 @@ class Tax_TaxRate_CreateTest extends Mage_Selenium_TestCase
         $this->taxHelper()->createTaxItem($taxRateData, 'rate');
         //Verifying
         $this->addFieldIdToMessage('field', $emptyFieldName);
-        $this->assertMessagePresent('error', 'empty_required_field');
+        $this->assertMessagePresent('error', $message);
     }
 
     /**
@@ -157,10 +159,10 @@ class Tax_TaxRate_CreateTest extends Mage_Selenium_TestCase
     public function dataEmptyRequiredFields()
     {
         return array(
-            array('tax_identifier'),
-            array('rate_percent'),
-            array('zip_range_from'),
-            array('zip_range_to')
+            array('tax_identifier', 'empty_required_field'),
+            array('rate_percent', 'generic_validation_error'),
+            array('zip_range_from', 'generic_validation_error'),
+            array('zip_range_to', 'generic_validation_error')
         );
     }
 
@@ -181,6 +183,10 @@ class Tax_TaxRate_CreateTest extends Mage_Selenium_TestCase
      */
     public function withSpecialValues($specialValue)
     {
+        if (strpos($specialValue, '<') !== false) {
+            $this->markTestSkipped('MAGE-5237');
+        }
+
         //Data
         $taxRateData = $this->loadData('tax_rate_create_test_zip_no', array('tax_identifier' => $specialValue));
         $searchTaxRateData = $this->loadData('search_tax_rate',

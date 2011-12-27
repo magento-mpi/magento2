@@ -143,6 +143,10 @@ class Tax_CustomerTaxClass_CreateTest extends Mage_Selenium_TestCase
      */
     public function withSpecialValues($specialValue)
     {
+        if (strpos($specialValue, '<') !== false) {
+            $this->markTestSkipped('MAGE-5237');
+        }
+
         //Data
         $customerTaxClassData = $this->loadData('new_customer_tax_class', array('customer_class_name' => $specialValue));
         //Steps
