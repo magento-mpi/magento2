@@ -1448,6 +1448,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
         $quote = $this->getQuote();
         $this->_prepareQuoteItems();
 
+        /** @var $service Mage_Sales_Model_Service_Quote */
         $service = Mage::getModel('Mage_Sales_Model_Service_Quote', $quote);
         if ($this->getSession()->getOrder()->getId()) {
             $oldOrder = $this->getSession()->getOrder();
@@ -1466,7 +1467,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
             $service->setOrderData($orderData);
         }
 
-        $order = $service->submit();
+        $order = $service->submitOrder();
         if ((!$quote->getCustomer()->getId() || !$quote->getCustomer()->isInStore($this->getSession()->getStore()))
             && !$quote->getCustomerIsGuest()
         ) {
