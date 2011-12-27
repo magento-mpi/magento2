@@ -350,8 +350,6 @@ class Wishlist_WishlistTest extends Mage_Selenium_TestCase
      * @param array $productDataSet
      *
      * @test
-     *
-     * <p>Note: Currently fails because of MAGE-4889</p>
      */
     public function addProductsWithoutCustomOptionsToWishlistFromProductPage($customer, $productDataSet)
     {
@@ -365,6 +363,10 @@ class Wishlist_WishlistTest extends Mage_Selenium_TestCase
             $this->wishlistHelper()->frontAddProductToWishlistFromProductPage($productName);
             $this->assertMessagePresent('success', 'successfully_added_product');
         }
+
+        $this->markTestIncomplete('MAGE-4889 - Downloadable is not shown at Wishlist');
+        $this->markTestIncomplete('MAGE-5360 - Grouped, Configurable, Bundle overwrite each other in Wishlist');
+
         //Verify
         $this->navigate('my_wishlist');
         foreach ($productNameSet as $productName) {
