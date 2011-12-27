@@ -66,7 +66,7 @@ class Mage_Captcha_Model_Observer
         $captchaModel = Mage::helper('captcha')->getCaptcha($formId);
         $controller = $observer->getControllerAction();
         $login = $controller->getRequest()->getPost('login');
-        if ($captchaModel->isRequired() || $captchaModel->isOverLimitLoginAttempts($login['username'])) {
+        if ($captchaModel->isRequired($login['username'])) {
             $word = $this->_getCaptchaString($controller->getRequest(), $formId);
             if (!$captchaModel->isCorrect($word)) {
                 Mage::getSingleton('customer/session')->addError(Mage::helper('captcha')->__('Incorrect CAPTCHA.'));
@@ -162,7 +162,7 @@ class Mage_Captcha_Model_Observer
         $formId = 'backend_login';
         $captchaModel = Mage::helper('captcha')->getCaptcha($formId);
         $login = Mage::app()->getRequest()->getPost('login');
-        if ($captchaModel->isRequired() || $captchaModel->isOverLimitLoginAttempts($login['username'])) {
+        if ($captchaModel->isRequired($login['username'])) {
             if (!$captchaModel->isCorrect($this->_getCaptchaString(Mage::app()->getRequest(), $formId))) {
                 $captchaModel->logAttempt($login['username']);
                 Mage::throwException(Mage::helper('captcha')->__('Incorrect CAPTCHA.'));
@@ -171,7 +171,6 @@ class Mage_Captcha_Model_Observer
         $captchaModel->logAttempt($login['username']);
         return $this;
     }
-
 
     /**
      * Check Captcha On User Login Backend Page

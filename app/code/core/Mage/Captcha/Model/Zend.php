@@ -112,19 +112,28 @@ class Mage_Captcha_Model_Zend extends Zend_Captcha_Image implements Mage_Captcha
     /**
      * Whether captcha is required to be inserted to this form
      *
+     * @param null|string $login
      * @return bool
      */
-    public function isRequired()
+    public function isRequired($login = null)
     {
         if ($this->_isUserAuth() || !$this->_isEnabled() || !in_array($this->_formId, $this->_getTargetForms())) {
             return false;
         }
 
-        if ($this->_isShowAlways() || ($this->_isOverLimitSessionAttempt() || $this->_isOverLimitIpAttempt())) {
-            return true;
-        }
+        return ($this->_isShowAlways() || $this->_isOverLimitAttempts($login));
+    }
 
-        return false;
+    /**
+     * Check is overlimit attempts
+     *
+     * @param $login
+     * @return bool
+     */
+    protected function _isOverLimitAttempts($login)
+    {
+        return ($this->_isOverLimitSessionAttempt() || $this->_isOverLimitIpAttempt()
+                || $this->_isOverLimitLoginAttempts($login));
     }
 
     /**
@@ -160,7 +169,7 @@ class Mage_Captcha_Model_Zend extends Zend_Captcha_Image implements Mage_Captcha
      * @param string $login
      * @return bool
      */
-    public function isOverLimitLoginAttempts($login){
+    protected function _isOverLimitLoginAttempts($login){
         if ($login != false) {
             $countAttemptsByLogin = Mage::getResourceModel('captcha/loginAttempt')->countAttemptsByUserLogin($login);
             if ($countAttemptsByLogin >= $this->_getHelper()->getConfigNode('failed_attempts')) {
@@ -297,11 +306,13 @@ class Mage_Captcha_Model_Zend extends Zend_Captcha_Image implements Mage_Captcha
      */
     public function logAttempt($login)
     {
-        $attemptCount = (int)$this->getSession()->getData($this->_formId . '_' . self::SESSION_FAILED_ATTEMPTS);
-        $attemptCount++;
-        $this->getSession()->setData($this->_formId . '_' . self::SESSION_FAILED_ATTEMPTS, $attemptCount);
-        Mage::getResourceModel('captcha/loginAttempt')->logUserLogin($login)
-            ->logRemoteAddress(Mage::helper('core/http')->getRemoteAddr());
+        if ($this->_isEnabled() && in_array($this->_formId, $this->_getTargetForms())) {
+            $attemptCount = (int)$this->getSession()->getData($this->_formId . '_' . self::SESSION_FAILED_ATTEMPTS);
+            $attemptCount++;
+            $this->getSession()->setData($this->_formId . '_' . self::SESSION_FAILED_ATTEMPTS, $attemptCount);
+            Mage::getResourceModel('captcha/loginAttempt')->logUserLogin($login)
+                ->logRemoteAddress(Mage::helper('core/http')->getRemoteAddr());
+        }
         return $this;
     }
 
