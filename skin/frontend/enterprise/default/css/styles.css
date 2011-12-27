@@ -1988,9 +1988,26 @@ ul.cms-menu.type-square ul { list-style-type:square; }
 /* My Account ============================================================================= */
 
 /* Captcha */
-.captcha {}
-.captcha-image {float:left;}
-.captcha-note {clear:left; padding-top:5px;}
+.captcha-note  { clear:left; padding-top:5px;}
+.captcha-image { float:left; border:1px solid #c7c7c7; margin:0 0 0 240px; position:relative; width:228px; }
+.captcha-image .captcha-img { vertical-align:bottom; width:100%; }
+.registered-users .captcha-image    { margin:-12px 0 0 113px; }
+#checkout-step-login .captcha-image { margin:-24px 0 0 105px; width:214px; }
+.captcha-reload { cursor:pointer; position:absolute; top:2px; right:2px;}
+.captcha-reload.refreshing  { animation:rotate 1.5s infinite linear; -webkit-animation:rotate 1.5s infinite linear; -moz-animation:rotate 1.5s infinite linear; }
+
+@-webkit-keyframes rotate {
+    0% { -webkit-transform:rotate(0); }
+    0% { -webkit-transform:rotate(-360deg); }
+}
+@-moz-keyframes rotate {
+    0% { -moz-transform:rotate(0); }
+    0% { -moz-transform:rotate(-360deg); }
+}
+@keyframes rotate {
+    0% { transform:rotate(0); }
+    0% { transform:rotate(-360deg); }
+}
 
 /********** < Dashboard */
 .dashboard {}
@@ -2321,9 +2338,3 @@ address.copyright { margin-top:6px; }
 /* ======================================================================================= */
 
 .guest-select {width:305px !important;}
-
-/* Captcha ================================================================================ */
-div.captcha-image {margin:0 0 0 240px; border:1px solid #ccc; position: relative;}
-form#login-form div.captcha-image {margin:0 0 0 100px; border:1px solid #ccc;}
-div.registered-users ul li div.captcha-image {border:solid 1px #ccc; margin:-12px 0 0 113px;}
-img.captcha-reload {position: absolute; top: 2px; right: 2px;}
