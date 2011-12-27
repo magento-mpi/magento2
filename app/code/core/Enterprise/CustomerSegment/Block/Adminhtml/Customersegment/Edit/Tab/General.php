@@ -107,7 +107,7 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tab_Genera
             )
         );
         if (!$model->getId()) {
-            $applyToFieldConfig['note'] = Mage::helper('enterprise_customersegment')->__('Please save this information in order to specify the conditions for segementation');
+            $applyToFieldConfig['note'] = Mage::helper('enterprise_customersegment')->__('Please save this information in order to specify the conditions for segmentation');
         }
 
         $fieldset->addField('apply_to', 'select', $applyToFieldConfig);
