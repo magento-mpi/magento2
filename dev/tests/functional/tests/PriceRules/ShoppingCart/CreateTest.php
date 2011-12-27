@@ -56,10 +56,14 @@ class PriceRules_ShoppingCart_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected results:</p>
      * <p>Rule is not created; Message "This is required field" is shown under each empty required field;</p>
      *
+     * @param string $fieldName
+     * @param string $fieldType
+     * @param string $message Uimap id of validation message xpath
+     *
      * @dataProvider dataEmptyFields
      * @test
      */
-    public function createWithEmptyRequiredFields($fieldName, $fieldType)
+    public function createWithEmptyRequiredFields($fieldName, $fieldType, $message)
     {
         $this->navigate('manage_shopping_cart_price_rules');
         $dataToOverride = array();
@@ -71,17 +75,17 @@ class PriceRules_ShoppingCart_CreateTest extends Mage_Selenium_TestCase
         $ruleData = $this->loadData('scpr_required_fields', $dataToOverride, array('rule_name', 'coupon_code'));
         $this->priceRulesHelper()->createRule($ruleData);
         $this->addFieldIdToMessage($fieldType, $fieldName);
-        $this->assertMessagePresent('validation', 'empty_required_field');
+        $this->assertMessagePresent('validation', $message);
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     public function dataEmptyFields()
     {
         return array(
-            array('rule_name', 'field'),
-            array('customer_groups', 'multiselect'),
-            array('coupon_code', 'field'),
-            array('discount_amount', 'field')
+            array('rule_name', 'field', 'empty_required_field'),
+            array('customer_groups', 'multiselect', 'empty_required_field'),
+            array('coupon_code', 'field', 'empty_required_field'),
+            array('discount_amount', 'field', 'generic_validation_error')
         );
     }
 
@@ -98,6 +102,8 @@ class PriceRules_ShoppingCart_CreateTest extends Mage_Selenium_TestCase
      */
     public function createWithRequiredFieldsWithSpecialSymbols()
     {
+        $this->markTestSkipped('MAGE-5237');
+
         $this->navigate('manage_shopping_cart_price_rules');
         $ruleData = $this->loadData('scpr_required_fields',
                 array(
