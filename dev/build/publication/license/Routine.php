@@ -133,16 +133,21 @@ class Routine
      *
      * @static
      * @param string $workingDir
-     * @param array $paths
-     * @return null
+     * @param array $list
      */
-    protected static function _setSkippedPaths($workingDir, $paths)
+    protected static function _setSkippedPaths($workingDir, $list)
     {
-        if (!is_array($paths)) {
-            $paths = array($paths);
+        $paths = array();
+        foreach ($list as $globPattern) {
+            $subPaths = glob($globPattern, GLOB_BRACE);
+            if (false !== $subPaths) {
+                $paths = array_merge($paths, $subPaths);
+            }
         }
+        $paths = array_unique($paths);
+
         foreach ($paths as $path) {
-            $real = realpath($workingDir . DIRECTORY_SEPARATOR . $path);
+            $real = $workingDir . DIRECTORY_SEPARATOR . $path;
             if (is_dir($real)) {
                 self::$skipDirectories[] = $real;
             } elseif (is_file($real)) {
@@ -297,31 +302,25 @@ class Routine
      * Entry point of routine work
      *
      * @static
-     * @param $config
-     * @param $workingDir
+     * @param string $workingDir
+     * @param array $config
+     * @param array $blackList
      * @return null
      */
-    public static function run($config, $workingDir)
+    public static function run($workingDir, $config, $blackList)
     {
+        $workingDir = realpath($workingDir);
+
+        // set black list
+        self::$skipFiles = array();
+        self::$skipDirectories = array();
+        self::_setSkippedPaths($workingDir, $blackList);
+
         $licenseInstances = array();
-
         foreach ($config as $path => $types) {
-            $paths = array($workingDir . DIRECTORY_SEPARATOR . $path);
             // Extract params for directory
-            $recursive = true;
-            self::$skipFiles = array();
-            self::$skipDirectories = array();
-
-            if (isset($types['_params'])) {
-                if (isset($types['_params']['recursive'])) {
-                    $recursive = $types['_params']['recursive'];
-                }
-
-                if (isset($types['_params']['skipped'])) {
-                    self::_setSkippedPaths($workingDir, $types['_params']['skipped']);
-                }
-                unset($types['_params']);
-            }
+            $recursive = (isset($types['_params']['recursive']) ? $types['_params']['recursive'] : true);
+            unset($types['_params']);
 
             // Process types
             foreach ($types as $fileType => $licenseType) {
@@ -329,7 +328,7 @@ class Routine
                     $licenseInstances[$licenseType] = Routine::createLicenseInstance($licenseType);
                 }
                 Routine::updateLicense(
-                    $paths,
+                    array($workingDir . DIRECTORY_SEPARATOR . $path),
                     Routine::$fileTypes[$fileType],
                     $licenseInstances[$licenseType],
                     $recursive

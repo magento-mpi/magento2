@@ -73,10 +73,9 @@ try {
     // replace license notices
     $licenseToolDir = __DIR__ . '/license';
     execVerbose(
-        'php -f %s -- -w %s -c %s -v -0',
+        'php -f %s -- -w %s -e ce -v -0',
         "$licenseToolDir/license-tool.php",
-        $targetDir,
-        "$licenseToolDir/conf/ce.php"
+        $targetDir
     );
 
     // commit and push
