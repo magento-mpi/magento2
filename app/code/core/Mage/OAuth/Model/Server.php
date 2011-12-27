@@ -532,6 +532,24 @@ class Mage_OAuth_Model_Server
     }
 
     /**
+     * Validate request, authorize token and return it
+     *
+     * @param Mage_Core_Controller_Request_Http|null $request
+     * @return Mage_OAuth_Model_Token
+     */
+    public function authorizeToken(Mage_Core_Controller_Request_Http $request = null)
+    {
+        $this->_requestType = self::REQUEST_AUTHORIZE;
+
+        $this->_fetchParams(null === $request ? Mage::app()->getRequest() : $request);
+        $this->_initToken();
+
+        $this->_token->authorize();
+
+        return $this->_token;
+    }
+
+    /**
      * Process authorize request
      *
      * @param Mage_Core_Controller_Request_Http $request OPTIONAL Request object

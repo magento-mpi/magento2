@@ -42,10 +42,10 @@
  * @method Mage_OAuth_Model_Token setTmpToken() setTmpToken(string $tmpToken)
  * @method string getTmpTokenSecret()
  * @method Mage_OAuth_Model_Token setTmpTokenSecret() setTmpTokenSecret(string $tmpTokenSecret)
- * @method string getTmpVerifier()
- * @method Mage_OAuth_Model_Token setTmpVerifier() setTmpVerifier(string $tmpVerifier)
- * @method string getTmpCallbackUrl()
- * @method Mage_OAuth_Model_Token setTmpCallbackUrl() setTmpCallbackUrl(string $tmpCallbackUrl)
+ * @method string getVerifier()
+ * @method Mage_OAuth_Model_Token setVerifier() setVerifier(string $verifier)
+ * @method string getCallbackUrl()
+ * @method Mage_OAuth_Model_Token setCallbackUrl() setCallbackUrl(string $callbackUrl)
  * @method string getTmpCreatedAt()
  * @method Mage_OAuth_Model_Token setTmpCreatedAt() setTmpCreatedAt(string $tmpCreatedAt)
  * @method string getToken()
@@ -54,6 +54,8 @@
  * @method Mage_OAuth_Model_Token setSecret() setSecret(string $tokenSecret)
  * @method int getIsRevoked()
  * @method Mage_OAuth_Model_Token setIsRevoked() setIsRevoked(int $isRevoked)
+ * @method int getAuthorized()
+ * @method Mage_OAuth_Model_Token setAuthorized() setAuthorized(int $authorized)
  */
 class Mage_OAuth_Model_Token extends Mage_Core_Model_Abstract
 {
@@ -80,6 +82,26 @@ class Mage_OAuth_Model_Token extends Mage_Core_Model_Abstract
     protected function _construct()
     {
         $this->_init('oauth/token');
+    }
+
+    /**
+     * Authorize token
+     *
+     * @return Mage_OAuth_Model_Token
+     */
+    public function authorize()
+    {
+        if ($this->getAuthorized()) {
+            Mage::throwException('Token is already authorized');
+        }
+        /** @var $helper Mage_OAuth_Helper_Data */
+        $helper = Mage::helper('oauth');
+
+        $this->setVerifier($helper->generateVerifier());
+        $this->setAuthorized(1);
+        $this->save();
+
+        return $this;
     }
 
     /**

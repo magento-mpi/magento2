@@ -43,13 +43,25 @@ class Mage_OAuth_AuthorizeController extends Mage_Core_Controller_Front_Action
         /** @var $server Mage_OAuth_Model_Server */
         $server = Mage::getModel('oauth/server');
 
-//        $server->checkAuthorizeRequest();
-//        $callbackUrl = $token->getTmpCallbackUrl() . '?oauth_token=' . $token->getTmpToken()
-//                       . '&amp;oauth_verifier=' . $token->getTmpVerifier();
-//
-//        // Authentication form HTML
-//        echo 'Here will be user auth form<br/><a href="' . $callbackUrl
-//             . '">Yes, I grant rights for ' . $consumer->getName() . '</a><br>' . htmlspecialchars($callbackUrl);
+        $server->checkAuthorizeRequest();
+
+        $token = $server->authorizeToken();
+
+        $callbackUrl = $token->getCallbackUrl() . '?oauth_token=' . $token->getToken()
+                       . '&amp;oauth_verifier=' . $token->getVerifier();
+
+        /** @var $consumer Mage_OAuth_Model_Consumer */
+        $consumer = Mage::getModel('oauth/consumer');
+
+        $consumer->load($token->getConsumerId());
+
+        if (!$consumer->getId()) {
+            Mage::throwException('Invalid consumer');
+        }
+
+        // Authentication form HTML
+//        echo 'Here will be user auth form<br/><a href="' . $callbackUrl . '">Yes, I grant rights for '
+//            . $consumer->getName() . '</a><br>' . htmlspecialchars($callbackUrl);
 
         $this->loadLayout();
         $this->renderLayout();
