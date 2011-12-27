@@ -34,42 +34,50 @@
 class Mage_Captcha_Model_Zend extends Zend_Captcha_Image implements Mage_Captcha_Model_Interface
 {
     /**
-     * key in session for captcha code
+     * Key in session for captcha code
      */
     const SESSION_WORD = 'word';
+
     /**
      * Min captcha lengths default value
      */
     const DEFAULT_WORD_LENGTH_FROM = 3;
+
     /**
      * Max captcha lengths default value
      */
     const DEFAULT_WORD_LENGTH_TO   = 5;
+
     /**
-     * key in session for keeping captcha attempts
+     * Key in session for keeping captcha attempts
      */
     const SESSION_FAILED_ATTEMPTS = 'failed_attempts';
+
     /**
      * Helper Instance
-     * @var Mage_Captcha_Helper_Interface
+     * @var Mage_Captcha_Helper_Data
      */
     protected $_helper = null;
+
     /**
-     * captcha expire time
+     * Captcha expire time
      * @var int
      */
     protected $_expiration;
+
     /**
      * Change how often script should clear expired captcha image
      * @var int
      */
     protected $_gcFreq = 1;
+
     /**
     * Override default value to prevent a captcha cut off
     * @var int
     * @see Zend_Captcha_Image::$_fsize
     */
     protected $_fsize = 22;
+
     /**
      * Captcha form id
      * @var string
@@ -112,13 +120,57 @@ class Mage_Captcha_Model_Zend extends Zend_Captcha_Image implements Mage_Captcha
             return false;
         }
 
-        if ($this->_isShowAlways()) {
+        if ($this->_isShowAlways() || ($this->_isOverLimitSessionAttempt() || $this->_isOverLimitIpAttempt())) {
             return true;
         }
 
-        $loggedFailedAttempts = (int)$this->getSession()->getData($this->_formId . '_' . self::SESSION_FAILED_ATTEMPTS);
-        $showAfterFailedAttempts = (int)$this->_getHelper()->getConfigNode('failed_attempts');
-        return $loggedFailedAttempts >= $showAfterFailedAttempts;
+        return false;
+    }
+
+    /**
+     * Check is overlimit saved in session attempts
+     *
+     * @return bool
+     */
+    protected function _isOverLimitSessionAttempt()
+    {
+        return ($this->getSession()->getData($this->_formId . '_' . self::SESSION_FAILED_ATTEMPTS)
+               >= $this->_getHelper()->getConfigNode('failed_attempts'));
+    }
+
+    /**
+     * Check is overlimit saved attempts from one ip
+     *
+     * @return bool
+     */
+    protected function _isOverLimitIpAttempt(){
+        $ip = Mage::helper('core/http')->getRemoteAddr();
+        if ($ip != false) {
+            $countAttemptsByIp = Mage::getResourceModel('captcha/loginAttempt')->countAttemptsByRemoteAddress($ip);
+            if ($countAttemptsByIp >= $this->_getHelper()->getConfigNode('failed_attempts')) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Is Over Limit Login Attempts
+     *
+     * @param string $login
+     * @return bool
+     */
+    public function isOverLimitLoginAttempts($login){
+        if ($login != false) {
+            $countAttemptsByLogin = Mage::getResourceModel('captcha/loginAttempt')->countAttemptsByUserLogin($login);
+            if ($countAttemptsByLogin >= $this->_getHelper()->getConfigNode('failed_attempts')) {
+                $this->getSession()->setData(
+                    $this->_formId . '_' . self::SESSION_FAILED_ATTEMPTS, $countAttemptsByLogin
+                );
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -192,7 +244,7 @@ class Mage_Captcha_Model_Zend extends Zend_Captcha_Image implements Mage_Captcha
      */
     public function getImgUrl()
     {
-        return Mage::getBaseUrl('media') . 'captcha' . DS . Mage::app()->getWebsite()->getCode() . DS;
+        return Mage::getBaseUrl('media') . 'captcha' . '/' . Mage::app()->getWebsite()->getCode() . '/';
     }
 
     /**
@@ -240,13 +292,16 @@ class Mage_Captcha_Model_Zend extends Zend_Captcha_Image implements Mage_Captcha
     /**
      * log Attempt
      *
+     * @param string $login
      * @return Mage_Captcha_Model_Zend
      */
-    public function logAttempt()
+    public function logAttempt($login)
     {
         $attemptCount = (int)$this->getSession()->getData($this->_formId . '_' . self::SESSION_FAILED_ATTEMPTS);
         $attemptCount++;
         $this->getSession()->setData($this->_formId . '_' . self::SESSION_FAILED_ATTEMPTS, $attemptCount);
+        Mage::getResourceModel('captcha/loginAttempt')->logUserLogin($login)
+            ->logRemoteAddress(Mage::helper('core/http')->getRemoteAddr());
         return $this;
     }
 

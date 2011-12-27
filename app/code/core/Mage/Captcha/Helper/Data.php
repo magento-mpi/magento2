@@ -47,6 +47,10 @@ class Mage_Captcha_Helper_Data extends Mage_Core_Helper_Abstract
      * Show captcha only after certain number of unsuccessful attempts
      */
     const MODE_AFTER_FAIL = 'after_fail';
+
+    /**
+     * Captcha fonts path
+     */
     const XML_PATH_CAPTCHA_FONTS = 'default/captcha/fonts';
 
     /**

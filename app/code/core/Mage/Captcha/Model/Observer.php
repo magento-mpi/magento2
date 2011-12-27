@@ -51,7 +51,6 @@ class Mage_Captcha_Model_Observer
                 $controller->getResponse()->setRedirect(Mage::getUrl('*/*/forgotpassword'));
             }
         }
-        Mage::helper('captcha')->getCaptcha($formId)->logAttempt();
         return $this;
     }
 
@@ -65,19 +64,20 @@ class Mage_Captcha_Model_Observer
     {
         $formId = 'user_login';
         $captchaModel = Mage::helper('captcha')->getCaptcha($formId);
-        if ($captchaModel->isRequired()) {
-            $controller = $observer->getControllerAction();
-            if (!$captchaModel->isCorrect($this->_getCaptchaString($controller->getRequest(), $formId))) {
+        $controller = $observer->getControllerAction();
+        $login = $controller->getRequest()->getPost('login');
+        if ($captchaModel->isRequired() || $captchaModel->isOverLimitLoginAttempts($login['username'])) {
+            $word = $this->_getCaptchaString($controller->getRequest(), $formId);
+            if (!$captchaModel->isCorrect($word)) {
                 Mage::getSingleton('customer/session')->addError(Mage::helper('captcha')->__('Incorrect CAPTCHA.'));
                 $controller->setFlag('', Mage_Core_Controller_Varien_Action::FLAG_NO_DISPATCH, true);
-                $login = $controller->getRequest()->getPost('login');
                 Mage::getSingleton('customer/session')->setUsername($login['username']);
                 $beforeUrl = Mage::getSingleton('customer/session')->getBeforeAuthUrl();
                 $url =  $beforeUrl ? $beforeUrl : Mage::helper('customer')->getLoginUrl();
                 $controller->getResponse()->setRedirect($url);
             }
         }
-        Mage::helper('captcha')->getCaptcha($formId)->logAttempt();
+        $captchaModel->logAttempt($login['username']);
         return $this;
     }
 
@@ -100,7 +100,6 @@ class Mage_Captcha_Model_Observer
                 $controller->getResponse()->setRedirect(Mage::getUrl('*/*/create'));
             }
         }
-        Mage::helper('captcha')->getCaptcha($formId)->logAttempt();
         return $this;
     }
 
@@ -124,7 +123,6 @@ class Mage_Captcha_Model_Observer
                     $controller->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
                 }
             }
-            Mage::helper('captcha')->getCaptcha($formId)->logAttempt();
         }
         return $this;
     }
@@ -149,7 +147,6 @@ class Mage_Captcha_Model_Observer
                     $controller->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
                 }
             }
-            Mage::helper('captcha')->getCaptcha($formId)->logAttempt();
         }
         return $this;
     }
@@ -164,13 +161,14 @@ class Mage_Captcha_Model_Observer
     {
         $formId = 'backend_login';
         $captchaModel = Mage::helper('captcha')->getCaptcha($formId);
-        if ($captchaModel->isRequired()){
+        $login = Mage::app()->getRequest()->getPost('login');
+        if ($captchaModel->isRequired() || $captchaModel->isOverLimitLoginAttempts($login['username'])) {
             if (!$captchaModel->isCorrect($this->_getCaptchaString(Mage::app()->getRequest(), $formId))) {
-                Mage::helper('captcha')->getCaptcha($formId)->logAttempt();
+                $captchaModel->logAttempt($login['username']);
                 Mage::throwException(Mage::helper('captcha')->__('Incorrect CAPTCHA.'));
             }
         }
-        Mage::helper('captcha')->getCaptcha($formId)->logAttempt();
+        $captchaModel->logAttempt($login['username']);
         return $this;
     }
 
@@ -198,8 +196,50 @@ class Mage_Captcha_Model_Observer
                     $controller->getResponse()->setRedirect(Mage::getUrl('*/*/forgotpassword'));
                 }
             }
-            Mage::helper('captcha')->getCaptcha($formId)->logAttempt();
         }
+        return $this;
+    }
+
+    /**
+     * Reset Attempts For Frontend
+     *
+     * @param Varien_Object $observer
+     * @return Mage_Captcha_Model_Observer
+     */
+    public function resetAttemptForFronted($observer){
+        return $this->_resetAttempt($observer->getModel()->getEmail());
+    }
+
+    /**
+     * Reset Attempts For Backend
+     *
+     * @param Varien_Object $observer
+     * @return Mage_Captcha_Model_Observer
+     */
+    public function  resetAttemptForBackend($observer){
+        return $this->_resetAttempt($observer->getUser()->getUsername());
+    }
+
+    /**
+     * Delete Unnecessary logged attempts
+     *
+     * @return Mage_Captcha_Model_Observer
+     */
+    public function deleteOldAttempts(){
+        Mage::getResourceModel('captcha/loginAttempt')->deleteOldAttempts();
+        return $this;
+    }
+
+    /**
+     * Reset Attempts
+     *
+     * @param string $login
+     * @return Mage_Captcha_Model_Observer
+     */
+    protected function _resetAttempt($login){
+        Mage::getResourceModel('captcha/loginAttempt')
+            ->deleteByRemoteAddress(Mage::helper('core/http')->getRemoteAddr());
+        Mage::getResourceModel('captcha/loginAttempt')->deleteByUserName($login);
         return $this;
     }
 
