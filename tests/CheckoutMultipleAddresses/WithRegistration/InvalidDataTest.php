@@ -98,11 +98,10 @@ class CheckoutMultipleAddresses_WithRegistration_InvalidDataTest extends Mage_Se
      * <p>Customer is not registered.</p>
      * <p>Error Message is displayed.</p>
      *
-     * @param array $userData
      * @depends withRequiredFieldsOnly
      * @test
      */
-    public function withEmailThatAlreadyExists(array $userData)
+    public function withEmailThatAlreadyExists()
     {
 
     }
