@@ -54,4 +54,22 @@ class Mage_OAuth_Block_Authorize extends Mage_Core_Block_Template
         $helper = $this->helper('customer');
         return $helper->getLoginPostUrl();
     }
+
+    /**
+     * Get consumer instance by token value
+     *
+     * @return Mage_OAuth_Model_Consumer
+     */
+    public function getConsumer()
+    {
+        /** @var $token Mage_OAuth_Model_Token */
+        $token = Mage::getModel('oauth/token');
+        $token->load($this->getOauthToken(), 'token');
+
+        /** @var $consumer Mage_OAuth_Model_Consumer */
+        $consumer = Mage::getModel('oauth/consumer');
+        $consumer->load($token->getConsumerId());
+
+        return $consumer;
+    }
 }

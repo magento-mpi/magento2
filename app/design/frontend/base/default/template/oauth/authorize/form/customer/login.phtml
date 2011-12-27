@@ -34,7 +34,7 @@
 ?>
 <div class="account-login">
     <div class="page-title">
-        <h1><?php echo $this->__('Login') ?></h1>
+        <h1><?php echo $this->__('Authorize %s to use your account?', $this->escapeHtml($this->getConsumer()->getName())) ?></h1>
     </div>
     <form action="<?php echo $this->getPostActionUrl() ?>" method="post" id="login-form">
         <div class="col1-set">

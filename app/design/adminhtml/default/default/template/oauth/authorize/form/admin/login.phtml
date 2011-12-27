@@ -37,16 +37,16 @@
         <form method="post" action="<?php echo $this->getPostActionUrl() ?>" id="loginForm">
             <div class="login-form">
                 <input name="form_key" type="hidden" value="<?php echo $this->getFormKey() ?>" />
-                <h2><?php echo Mage::helper('adminhtml')->__('Log in with admin rights') ?></h2>
-                <div class="input-box input-left"><label for="username"><?php echo Mage::helper('adminhtml')->__('User Name:') ?></label><br/>
+                <h2><?php echo $this->__('Authorize %s to use your account? <br/>Log in as admin', $this->escapeHtml($this->getConsumer()->getName())) ?></h2>
+                <div class="input-box input-left"><label for="username"><?php echo $this->__('User Name:') ?></label><br/>
                     <input type="text" id="username" name="login[username]" value="" class="required-entry input-text" /></div>
-                <div class="input-box input-right"><label for="login"><?php echo Mage::helper('adminhtml')->__('Password:') ?></label><br />
+                <div class="input-box input-right"><label for="login"><?php echo $this->__('Password:') ?></label><br />
                     <input type="password" id="login" name="login[password]" class="required-entry input-text" value="" /></div>
                 <div class="clear"></div>
                 <div class="form-buttons">
-                    <input type="submit" class="form-button" value="<?php echo Mage::helper('adminhtml')->__('Login') ?>" title="<?php echo Mage::helper('adminhtml')->__('Login') ?>" /></div>
+                    <input type="submit" class="form-button" value="<?php echo $this->__('Login') ?>" title="<?php echo $this->__('Login') ?>" /></div>
             </div>
-            <p class="legal"><?php echo Mage::helper('adminhtml')->__('Magento is a trademark of Magento Inc. Copyright &copy; %s Magento Inc.', date('Y')) ?></p>
+            <p class="legal"><?php echo $this->__('Magento is a trademark of Magento Inc. Copyright &copy; %s Magento Inc.', date('Y')) ?></p>
             <input type="hidden" name="oauth_token" value="<?php echo $this->escapeHtml($this->getOauthToken()) ?>"/>
         </form>
         <div class="bottom"></div>

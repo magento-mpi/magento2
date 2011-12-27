@@ -46,7 +46,7 @@ class Mage_OAuth_AuthorizeController extends Mage_Core_Controller_Front_Action
 
         /** @var $session Mage_Customer_Model_Session */
         $session = Mage::getSingleton('customer/session');
-        
+
         $this->loadLayout();
         $contentBlock = $this->getLayout()->getBlock('content');
         if ($session->isLoggedIn()) {

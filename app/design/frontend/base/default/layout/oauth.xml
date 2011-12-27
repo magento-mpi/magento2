@@ -26,6 +26,7 @@
  */
 -->
 <layout version="1.0.0.0">
+    <!-- Authorization -->
     <oauth_authorize_index translate="label">
         <label>OAuth authorization for customer</label>
         <reference name="root">
@@ -44,6 +45,7 @@
             <remove name="footer_links"/>
         </reference>
     </oauth_authorize_index>
+    <!-- EOF Authorization -->
 
     <!-- My Applications-->
     <customer_account>

@@ -34,6 +34,32 @@
 class Mage_OAuth_Model_Observer
 {
     /**
+     * Get callback url
+     *
+     * @return string
+     */
+    protected function _getAfterAuthUrl()
+    {
+        /** @var $server Mage_OAuth_Model_Server */
+        $server = Mage::getModel('oauth/server');
+        /** @var $token Mage_OAuth_Model_Token */
+        $token = $server->authorizeToken();
+
+        return $token->getCallbackUrl() . '?oauth_token=' . $token->getToken() . '&oauth_verifier=' .
+            $token->getVerifier();
+    }
+
+    /**
+     * Retrieve oauth_token param from request
+     *
+     * @return string|null
+     */
+    protected function _getOauthToken()
+    {
+        return Mage::app()->getRequest()->getParam('oauth_token', null);
+    }
+
+    /**
      * Redirect customer to callback page after login success
      *
      * @param Varien_Event_Observer $observer
@@ -41,19 +67,10 @@ class Mage_OAuth_Model_Observer
      */
     public function afterCustomerLogin(Varien_Event_Observer $observer)
     {
-        $tokenParam = Mage::app()->getRequest()->getParam('oauth_token', null);
-        if (null !== $tokenParam) {
-            /** @var $server Mage_OAuth_Model_Server */
-            $server = Mage::getModel('oauth/server');
-            /** @var $token Mage_OAuth_Model_Token */
-            $token = $server->authorizeToken();
-
-            $afterAuthUrl = $token->getCallbackUrl() . '?oauth_token=' . $token->getToken() . '&oauth_verifier=' .
-                $token->getVerifier();
-
+        if (null !== $this->_getOauthToken()) {
             /** @var $session Mage_Customer_Model_Session */
             $session = Mage::getSingleton('customer/session');
-            $session->setAfterAuthUrl($afterAuthUrl);
+            $session->setAfterAuthUrl($this->_getAfterAuthUrl());
         }
     }
 
@@ -65,17 +82,8 @@ class Mage_OAuth_Model_Observer
      */
     public function afterAdminLogin(Varien_Event_Observer $observer)
     {
-        $tokenParam = Mage::app()->getRequest()->getParam('oauth_token', null);
-        if (null !== $tokenParam) {
-            /** @var $server Mage_OAuth_Model_Server */
-            $server = Mage::getModel('oauth/server');
-            /** @var $token Mage_OAuth_Model_Token */
-            $token = $server->authorizeToken();
-
-            $afterAuthUrl = $token->getCallbackUrl() . '?oauth_token=' . $token->getToken() . '&oauth_verifier=' .
-                $token->getVerifier();
-
-            Mage::app()->getResponse()->setRedirect($afterAuthUrl)->sendHeaders()->sendResponse();
+        if (null !== $this->_getOauthToken()) {
+            Mage::app()->getResponse()->setRedirect($this->_getAfterAuthUrl())->sendHeaders()->sendResponse();
         }
     }
 }
