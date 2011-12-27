@@ -63,17 +63,85 @@ class Mage_OAuth_Adminhtml_OAuth_AuthorizeController extends Mage_Adminhtml_Cont
         $server = Mage::getModel('oauth/server');
         $server->checkAuthorizeRequest();
 
-        $this->loadLayout();
-        $contentBlock = $this->getLayout()->getBlock('content');
-
         /** @var $session Mage_Admin_Model_Session */
         $session = Mage::getSingleton('admin/session');
+
+        $this->loadLayout();
+        $contentBlock = $this->getLayout()->getBlock('content');
         if ($session->isLoggedIn()) {
             $contentBlock->unsetChild('oauth.authorize.form');
+            /** @var $block Mage_OAuth_Block_Authorize_Button */
+            $block = $contentBlock->getChild('oauth.authorize.button');
+            $block->setUserType(Mage_Api2_Model_Auth::USER_TYPE_ADMIN)
+                  ->setToken($this->_getTokenString());
         } else {
             $contentBlock->unsetChild('oauth.authorize.button');
         }
 
         $this->renderLayout();
+    }
+
+    public function confirmAction()
+    {
+        /** @var $server Mage_OAuth_Model_Server */
+        $server = Mage::getModel('oauth/server');
+        $server->checkAuthorizeRequest();
+
+        $token = $server->authorizeToken();
+
+        $callback = $server->getFullCallbackUrl($token);  //false in case of OOB
+        $response = $this->getResponse();
+        if ($callback) {
+            $response->setRedirect($callback);
+        } else {
+            $response->setBody($token->getVerifier());
+        }
+        $response->sendResponse();
+    }
+
+    public function rejectAction()
+    {
+        /** @var $server Mage_OAuth_Model_Server */
+        $server = Mage::getModel('oauth/server');
+        $server->checkAuthorizeRequest();
+
+        $token = $this->_loadToken();
+        //$token = $server->rejectToken();
+
+        $tokenString = $this->_getTokenString();
+        $delimiter = (strpos($tokenString, '?')===false)   ?'?'  :'&';
+
+        $url = $token->getCallbackUrl();
+        $url.= $delimiter.'oauth_token='.$tokenString.'&denied=1';
+
+        $this->getResponse()->setRedirect($url)->sendResponse();
+    }
+
+    protected function _getTokenString()
+    {
+        return $this->getRequest()->getQuery('oauth_token', null);
+    }
+
+    /**
+     * Load token data by token from request
+     *
+     * @return Mage_OAuth_Model_Token
+     * @throws Exception
+     */
+    protected function _loadToken()
+    {
+        $tokenString = $this->_getTokenString();
+
+        if ($tokenString === null) {
+            throw new Exception('Missing token');
+        }
+        /** @var $token Mage_OAuth_Model_Token */
+        $token = Mage::getModel('oauth/token');
+
+        if (!$token->load($tokenString, 'token')->getId()) {
+            throw new Exception('Invalid token.');
+        }
+
+        return $token;
     }
 }

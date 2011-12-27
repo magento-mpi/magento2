@@ -41,12 +41,11 @@ class Mage_OAuth_Block_Authorize_Button extends Mage_Core_Block_Template
     public function getConfirmUrl()
     {
         if ($this->_getUserType()==Mage_Api2_Model_Auth::USER_TYPE_ADMIN) {
-            $controller = 'adminhtml_authorize';
+            $url = $this->getUrl('adminhtml/oAuth_authorize/confirm', array('oauth_token'=>$this->getToken()));
         } else {
-            $controller = 'authorize';
+            $url = $this->getUrl('oauth/authorize/confirm', array('oauth_token'=>$this->getToken()));
         }
-
-        return  $this->getUrl('oauth/' . $controller . '/confirm', array('oauth_token'=>$this->getToken()));
+        return $url;
     }
 
     /**
@@ -57,11 +56,11 @@ class Mage_OAuth_Block_Authorize_Button extends Mage_Core_Block_Template
     public function getRejectUrl()
     {
         if ($this->_getUserType()==Mage_Api2_Model_Auth::USER_TYPE_ADMIN) {
-            $controller = 'adminhtml_authorize';
+            $url = $this->getUrl('adminhtml/oAuth_authorize/reject', array('oauth_token'=>$this->getToken()));
         } else {
-            $controller = 'authorize';
+            $url = $this->getUrl('oauth/authorize/reject', array('oauth_token'=>$this->getToken()));
         }
-        return  $this->getUrl('oauth/' . $controller . '/reject', array('oauth_token'=>$this->getToken()));
+        return $url;
     }
 
     /**
@@ -98,32 +97,5 @@ class Mage_OAuth_Block_Authorize_Button extends Mage_Core_Block_Template
         }
 
         return $userType;
-    }
-
-
-
-
-
-
-    /**
-     * Retrieve authorize url
-     *
-     * @return string
-     */
-    public function getAuthorizeUrl()
-    {
-        return $this->getUrl('*/authorize/index', array('oauth_token' => $this->escapeHtml($this->getToken())));
-    }
-
-    /**
-     * Retrieve Session Form Key
-     *
-     * @return string
-     */
-    public function getFormKey()
-    {
-        /** @var $session Mage_Core_Model_Session */
-        $session = Mage::getSingleton('core/session');
-        return $session->getFormKey();
     }
 }

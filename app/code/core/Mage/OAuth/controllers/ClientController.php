@@ -58,6 +58,7 @@ class Mage_OAuth_ClientController extends Mage_Core_Controller_Front_Action
             'requestTokenUrl' => $helper->getProtocolEndpointUrl(Mage_OAuth_Helper_Data::ENDPOINT_INITIATE),
             'accessTokenUrl'  => $helper->getProtocolEndpointUrl(Mage_OAuth_Helper_Data::ENDPOINT_TOKEN),
             'authorizeUrl'    => $helper->getProtocolEndpointUrl(Mage_OAuth_Helper_Data::ENDPOINT_AUTHORIZE),
+                                    //'http://apia.com/admin/oAuth_authorize',
             'requestMethod'   => Zend_Oauth::POST,
             'consumerKey'     => $consumer->getKey(),
             'consumerSecret'  => $consumer->getSecret(),
