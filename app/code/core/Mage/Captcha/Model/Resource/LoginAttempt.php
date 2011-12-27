@@ -58,10 +58,7 @@ class Mage_Captcha_Model_Resource_LoginAttempt extends Mage_Core_Model_Resource_
                      'type' => Mage_Captcha_Model_LoginAttempt::TYPE_LOGIN,
                      'value' => md5($login), 'count' => 1, 'updated_at' => Mage::getSingleton('core/date')->gmtDate()
                 ),
-                array(
-                     'count' => new Zend_Db_Expr('count+1'),
-                     'updated_at'
-                )
+                array('count' => new Zend_Db_Expr('count+1'), 'updated_at')
             );
         }
         return $this;
@@ -81,10 +78,7 @@ class Mage_Captcha_Model_Resource_LoginAttempt extends Mage_Core_Model_Resource_
                      'type' => Mage_Captcha_Model_LoginAttempt::TYPE_REMOTE_ADDRESS,
                      'value' => md5($ip), 'count' => 1, 'updated_at' => Mage::getSingleton('core/date')->gmtDate()
                 ),
-                array(
-                     'count' => new Zend_Db_Expr('count+1'),
-                     'updated_at'
-                )
+                array('count' => new Zend_Db_Expr('count+1'), 'updated_at')
             );
         }
         return $this;
