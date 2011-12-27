@@ -36,7 +36,7 @@
             <captcha>
                 <type>zend</type>
                 <enable>0</enable>
-                <font>dejavu</font>
+                <font>linlibertine</font>
                 <mode>after_fail</mode>
                 <forms>backend_forgotpassword</forms>
                 <failed_attempts>3</failed_attempts>
@@ -53,7 +53,7 @@
             <captcha>
                 <type>zend</type>
                 <enable>0</enable>
-                <font>dejavu</font>
+                <font>linlibertine</font>
                 <mode>after_fail</mode>
                 <forms>user_forgotpassword</forms>
                 <failed_attempts>3</failed_attempts>
@@ -71,18 +71,10 @@
         </customer>
         <captcha  translate="label">
             <fonts>
-                <belligerent>
-                    <label>Belligerent Madness</label>
-                    <path>fonts/Belligerent-Madness/belligerent.ttf</path>
-                </belligerent>
-                <bitstream>
-                    <label>Bitstream</label>
-                    <path>fonts/Bitstream-Vera-Sans-Mono/VeraMono.ttf</path>
-                </bitstream>
-                <dejavu>
-                    <label>DejaVu</label>
-                    <path>fonts/DejaVu-Serif/DejaVuSerif.ttf</path>
-                </dejavu>
+                <linlibertine>
+                    <label>LinLibertine</label>
+                    <path>lib/LinLibertineFont/LinLibertine_Bd-2.8.1.ttf</path>
+                </linlibertine>
             </fonts>
             <frontend>
                 <areas>
