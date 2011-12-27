@@ -95,17 +95,22 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tab_Genera
             )
         ));
 
-        $fieldset->addField('apply_to', 'select', array(
+        $applyToFieldConfig = array(
             'label' => Mage::helper('enterprise_customersegment')->__('Apply To'),
             'name' => 'apply_to',
             'required' => false,
-            'disabled' => (boolean) $model->getId(),
+            'disabled' => (boolean)$model->getId(),
             'options' => array(
                 Enterprise_CustomerSegment_Model_Segment::APPLY_TO_VISITORS_AND_REGISTERED => Mage::helper('enterprise_customersegment')->__('Visitors and Registered Customers'),
                 Enterprise_CustomerSegment_Model_Segment::APPLY_TO_REGISTERED => Mage::helper('enterprise_customersegment')->__('Registered Customers'),
                 Enterprise_CustomerSegment_Model_Segment::APPLY_TO_VISITORS => Mage::helper('enterprise_customersegment')->__('Visitors')
             )
-        ));
+        );
+        if (!$model->getId()) {
+            $applyToFieldConfig['note'] = Mage::helper('enterprise_customersegment')->__('Please save this information in order to specify the conditions for segementation');
+        }
+
+        $fieldset->addField('apply_to', 'select', $applyToFieldConfig);
 
         if (!$model->getId()) {
             $model->setData('is_active', '1');
