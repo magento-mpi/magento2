@@ -53,9 +53,7 @@ class Mage_OAuth_Model_Resource_Token_Collection extends Mage_Core_Model_Resourc
     public function joinConsumerAsApplication()
     {
         $select = $this->getSelect();
-        $select->reset(Zend_Db_Select::COLUMNS)
-                ->columns(array('entity_id', 'consumer_id', 'is_revoked'), 'main_table')
-                ->joinLeft(
+        $select->joinLeft(
                     array('c' => $this->getTable('oauth/consumer')),
                     'c.entity_id = main_table.consumer_id',
                     'name'

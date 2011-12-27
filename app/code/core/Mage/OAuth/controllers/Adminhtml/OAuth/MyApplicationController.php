@@ -103,6 +103,7 @@ class Mage_OAuth_Adminhtml_OAuth_MyApplicationController extends Mage_Adminhtml_
 
             /** @var $item Mage_OAuth_Model_Token */
             foreach ($collection as $item) {
+                $item->load($item->getId());
                 $item->setIsRevoked($status)->save();
             }
             if ($status) {
