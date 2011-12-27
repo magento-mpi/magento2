@@ -52,6 +52,18 @@
     </adminhtml_oauth_consumer_edit>
     <!-- EOF Consumers -->
 
+    <!-- My Applications -->
+    <adminhtml_oauth_myapplication_index>
+        <reference name="content">
+            <block type="oauth/adminhtml_oAuth_myApplication" name="oauth_application"/>
+        </reference>
+    </adminhtml_oauth_myapplication_index>
+    <adminhtml_oauth_myapplication_grid>
+        <remove name="root"/>
+        <block type="oauth/adminhtml_oAuth_myApplication_grid" name="oauth_application.grid" output="toHtml"/>
+    </adminhtml_oauth_myapplication_grid>
+    <!-- EOF My Applications -->
+
     <!-- Authorize -->
     <adminhtml_oauth_authorize_index translate="label">
         <label>OAuth authorization for admin</label>
