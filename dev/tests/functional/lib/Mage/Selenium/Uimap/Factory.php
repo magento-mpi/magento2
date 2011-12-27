@@ -43,7 +43,7 @@ class Mage_Selenium_Uimap_Factory
      * @var array
      */
     protected static $allowedElementNames = array('buttons', 'messages', 'links', 'fields', 'dropdowns', 'multiselects',
-                                                  'checkboxes', 'radiobuttons', 'required', 'pageelements');
+        'checkboxes', 'radiobuttons', 'required', 'pageelements', 'page_specific_errors');
 
     /**
      * Construct an Uimap_Factory

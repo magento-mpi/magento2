@@ -47,6 +47,13 @@ class Mage_CatalogSearch_Model_Resource_Fulltext extends Mage_Core_Model_Resourc
     protected $_productTypes             = array();
 
     /**
+     * Product Emulators cache
+     *
+     * @var array
+     */
+    protected $_productEmulators         = array();
+
+    /**
      * Store search engine instance
      *
      * @var object
@@ -524,8 +531,7 @@ class Mage_CatalogSearch_Model_Resource_Fulltext extends Mage_Core_Model_Resourc
     protected function _getProductTypeInstance($typeId)
     {
         if (!isset($this->_productTypes[$typeId])) {
-            $productEmulator = $this->_getProductEmulator();
-            $productEmulator->setTypeId($typeId);
+            $productEmulator = $this->_getProductEmulator($typeId);
 
             $this->_productTypes[$typeId] = Mage::getSingleton('Mage_Catalog_Model_Product_Type')
                 ->factory($productEmulator);
@@ -543,7 +549,7 @@ class Mage_CatalogSearch_Model_Resource_Fulltext extends Mage_Core_Model_Resourc
     protected function _getProductChildIds($productId, $typeId)
     {
         $typeInstance = $this->_getProductTypeInstance($typeId);
-        $relation = $typeInstance->isComposite()
+        $relation = $typeInstance->isComposite($this->_getProductEmulator($typeId))
             ? $typeInstance->getRelationInfo()
             : false;
 
@@ -565,13 +571,18 @@ class Mage_CatalogSearch_Model_Resource_Fulltext extends Mage_Core_Model_Resourc
     /**
      * Retrieve Product Emulator (Varien Object)
      *
+     * @param string $typeId
      * @return Varien_Object
      */
-    protected function _getProductEmulator()
+    protected function _getProductEmulator($typeId)
     {
-        $productEmulator = new Varien_Object();
-        $productEmulator->setIdFieldName('entity_id');
-        return $productEmulator;
+        if (!isset($this->_productEmulators[$typeId])) {
+            $productEmulator = new Varien_Object();
+            $productEmulator->setIdFieldName('entity_id')
+                ->setTypeId($typeId);
+            $this->_productEmulators[$typeId] = $productEmulator;
+        }
+        return $this->_productEmulators[$typeId];
     }
 
     /**
@@ -627,9 +638,8 @@ class Mage_CatalogSearch_Model_Resource_Fulltext extends Mage_Core_Model_Resourc
             }
         }
 
-        $product = $this->_getProductEmulator()
+        $product = $this->_getProductEmulator($productData['type_id'])
             ->setId($productData['entity_id'])
-            ->setTypeId($productData['type_id'])
             ->setStoreId($storeId);
         $typeInstance = $this->_getProductTypeInstance($productData['type_id']);
         if ($data = $typeInstance->getSearchableData($product)) {
