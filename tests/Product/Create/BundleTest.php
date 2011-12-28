@@ -346,6 +346,7 @@ class Product_Create_BundleTest extends Mage_Selenium_TestCase
      */
     public function invalidWeightInBundle()
     {
+        $this->markTestSkipped('Waiting for revision 135737 Magento 1.x coming to Magento 2');
         //Data
         $productData = $this->loadData('fixed_bundle_required',
                 array('general_weight' => $this->generate('string', 9, ':punct:')));
