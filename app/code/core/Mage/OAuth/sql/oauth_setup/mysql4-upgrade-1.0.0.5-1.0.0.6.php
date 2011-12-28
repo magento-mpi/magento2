@@ -66,7 +66,7 @@ $adapter->addColumn($table, 'verifier', array(
 ));
 $adapter->addColumn($table, 'callback_url', array(
     'comment'  => 'Token Callback URL',
-    'nullable' => true,
+    'nullable' => false,
     'type'     => Varien_Db_Ddl_Table::TYPE_TEXT,
     'length'   => 255
 ));
