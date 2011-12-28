@@ -13,10 +13,12 @@
 return array(
     'app/code/core/*/*/etc/wsi.xml',
     'app/code/core/*/*/etc/wsdl.xml',
+    'app/code/core/*/*/etc/wsdl2.xml',
     'app/code/core/Zend/Mime.php',
     'app/design/frontend/default/iphone/skin/default/js/dnd.js',
     'app/design/frontend/enterprise/default/skin/default/js/jqzoom/*.js',
     'app/etc/local.xml',
+    'dev/build/customization/performance/dev/build/database_dump.sql',
     'dev/tests/integration/tmp',
     'dev/tests/static/report',
     'dev/tests/static/testsuite/Php/Exemplar/_files',

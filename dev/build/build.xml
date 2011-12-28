@@ -1,4 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category   dev
+ * @package    build
+ * @copyright  {copyright}
+ * @license    {license_link}
+ */
+-->
 <project name="Magento2" basedir="../../" default="init">
     <property environment="env"/>
     <property name="file.phpunit_xdebug" location="dev/build/bin/phpunit-with-xdebug.sh"/>

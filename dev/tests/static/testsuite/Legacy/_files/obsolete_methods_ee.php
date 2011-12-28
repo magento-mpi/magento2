@@ -57,4 +57,5 @@ return array(
     '_getAmounts' => array('class_scope' => 'Enterprise_GiftCard_Block_Catalog_Product_Price'),
     'searchSuggestions' => array('class_scope' => 'Enterprise_Search_Model_Client_Solr'),
     '_registerProductsView' => array('class_scope' => 'Enterprise_PageCache_Model_Container_Viewedproducts'),
+    '_getForeignKeyName' => array('class_scope' => 'Varien_Db_Adapter_Oracle'),
 );

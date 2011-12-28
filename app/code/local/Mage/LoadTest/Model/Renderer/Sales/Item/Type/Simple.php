@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * {license_notice}
  *
  * @category   Mage
@@ -8,16 +8,13 @@
  * @license    {license_link}
  */
 
-
-class Mage_LoadTest_Model_Renderer_Sales_Item_Type_Simple extends Mage_LoadTest_Model_Renderer_Sales_Item_Type_Abstract {
-
+class Mage_LoadTest_Model_Renderer_Sales_Item_Type_Simple extends Mage_LoadTest_Model_Renderer_Sales_Item_Type_Abstract
+{
     public function prepareRequestForCart($_product)
     {
-	$this->_product = $_product;
-	$request = array();
-	$request['qty'] = $this->_getAllowedQty();
-	return new Varien_Object($request);
+        $this->_product = $_product;
+        $request = array();
+        $request['qty'] = $this->_getAllowedQty();
+        return new Varien_Object($request);
     }
 }
-
-

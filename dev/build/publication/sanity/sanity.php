@@ -55,8 +55,7 @@ if (!is_dir($workingDir)) {
 $verbose = isset($options['v']) ? true : false;
 SanityRoutine::$verbose = $verbose;
 
-// ---Process--------------------------
-SanityRoutine::printVerbose('Searching for ' . count($config['words']) . ' words');
+SanityRoutine::printVerbose(sprintf('Searching for banned words: "%s"...', implode('", "', $config['words'])));
 
 $found = SanityRoutine::findWords(realpath($workingDir), realpath($workingDir), $config);
 if ($found) {
@@ -66,5 +65,5 @@ if ($found) {
     }
     exit(1);
 }
-
+SanityRoutine::printVerbose('No banned words found in the source code.' . "\n");
 exit(0);

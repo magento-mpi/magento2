@@ -242,7 +242,6 @@ return array(
     'getProductCollection' => array('class_scope' => 'Mage_Wishlist_Model_Wishlist'),
     'isAutomaticCleaningAvailable' => array('class_scope' => 'Varien_Cache_Backend_Eaccelerator'),
     'getSuggestedZeroDate',
-    '_getForeignKeyName' => array('class_scope' => 'Varien_Db_Adapter_Oracle'),
     'dropKey' => array('class_scope' => 'Varien_Db_Adapter_Pdo_Mysql'),
     'addConstraint' => array('class_scope' => 'Varien_Db_Adapter_Pdo_Mysql'),
     'getKeyList' => array('class_scope' => 'Varien_Db_Adapter_Pdo_Mysql'),

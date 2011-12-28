@@ -1,24 +1,18 @@
 <?php
 /**
- * {license_notice}
+ * Short description...
+ *
+ * License notice...
  *
  * @category    Mage
  * @package     Mage_Something
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-/**
- * Some short description block model
- *
- * @category    Mage
- * @package     Mage_Something
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @copyright   ...
+ * @license     ...
  */
 class Mage_Something_Model_Block
 {
     /**
-     * Function, that does something
+     * Function that does something
      *
      * @param string $someParam
      *

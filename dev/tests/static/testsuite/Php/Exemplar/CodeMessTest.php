@@ -49,13 +49,11 @@ class Php_Exemplar_CodeMessTest extends PHPUnit_Framework_TestCase
     {
         $rulesetFile = self::$_cmd->getRulesetFile();
         $this->assertFileExists($rulesetFile);
-        $schemaFile = dirname($rulesetFile) . '/ruleset.xsd';
-
         $doc = new DOMDocument();
         $doc->load($rulesetFile);
 
         libxml_use_internal_errors(true);
-        $isValid = $doc->schemaValidate($schemaFile);
+        $isValid = $doc->schemaValidate('http://pmd.sourceforge.net/ruleset_xml_schema.xsd');
         $errors = "XML-file is invalid.\n";
         if ($isValid === false) {
             foreach (libxml_get_errors() as $error) {
