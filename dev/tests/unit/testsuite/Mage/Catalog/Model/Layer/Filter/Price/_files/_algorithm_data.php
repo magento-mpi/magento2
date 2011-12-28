@@ -81,6 +81,54 @@ $testCases = array(
             ),
         )
     ),
+    // test preventing low count in interval and rounding factor to have lower priority
+    array(
+        array(
+            0.01, 0.01, 0.01, 0.02, 0.02, 0.03, 0.03, 0.04, 0.04, 0.04,
+            0.05, 0.05, 0.05, 0.06, 0.06, 0.06, 0.06, 0.07, 0.07, 0.08, 0.08,
+            2.99, 5.99, 5.99, 5.99, 5.99, 5.99, 5.99, 5.99, 5.99, 5.99, 13.50,
+            15.99, 41.95, 69.99, 89.99, 99.99, 99.99, 160.99, 161.94,
+            199.99, 199.99, 199.99, 239.99, 329.99, 447.98, 550.00, 599.99,
+            699.99, 750.00, 847.97, 1599.99, 2699.99, 4999.95
+        ), 7, array(
+            array(
+                'from'  => 0,
+                'to'    => 0.05,
+                'count' => 10,
+            ),
+            // this is important, that not 0.06 is used to prevent low count in interval
+            array(
+                'from'  => 0.05,
+                'to'    => 0.07,
+                'count' => 7,
+            ),
+            array(
+                'from'  => 0.07,
+                'to'    => 5,
+                'count' => 5,
+            ),
+            array(
+                'from'  => 5.99,
+                'to'    => 5.99,
+                'count' => 9,
+            ),
+            array(
+                'from'  => 10,
+                'to'    => 100,
+                'count' => 7,
+            ),
+            array(
+                'from'  => 100,
+                'to'    => 500,
+                'count' => 8,
+            ),
+            array(
+                'from'  => 500,
+                'to'    => '',
+                'count' => 8,
+            ),
+        )
+    ),
     // test with large values (variance is near to zero)
     array(
         array_merge(array(9659.57, 9659.59), array_fill(0, 231, 9659.58)),

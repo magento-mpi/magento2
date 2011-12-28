@@ -300,4 +300,14 @@ abstract class Mage_Catalog_Model_Layer_Filter_Abstract extends Varien_Object
     {
         return $this->setData('website_id', $websiteId);
     }
+
+    /**
+     * Clear current element link text, for example 'Clear Price'
+     *
+     * @return false|string
+     */
+    public function getClearLink()
+    {
+        return false;
+    }
 }

@@ -36,6 +36,13 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Price extends Mage_Catalog_Mo
     const CACHE_TAG = 'MAXPRICE';
 
     /**
+     * Whether current price interval is divisible
+     *
+     * @var bool
+     */
+    protected $_divisible = true;
+
+    /**
      * Return cache tag for layered price filter
      *
      * @return string
@@ -66,13 +73,16 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Price extends Mage_Catalog_Mo
      */
     protected function _getItemsData()
     {
-        $appliedInterval = $this->getInterval();
-        if ($appliedInterval) {
+        if (!$this->_divisible) {
             return array();
         }
 
         $isAuto = (Mage::app()->getStore()
                       ->getConfig(self::XML_PATH_RANGE_CALCULATION) == self::RANGE_CALCULATION_AUTO);
+        if (!$isAuto && $this->getInterval()) {
+            return array();
+        }
+
         $facets = $this->getLayer()->getProductCollection()->getFacetedData($this->_getFilterField());
         $data = array();
         if (!empty($facets)) {
@@ -117,7 +127,7 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Price extends Mage_Catalog_Mo
 
                 $data[$i - 1] = array(
                     'label' => $this->_renderRangeLabel(empty($separator[1]) ? 0 : $separator[1], $separator[2]),
-                    'value' => $separator[1] . '-' . $separator[2],
+                    'value' => $separator[1] . '-' . $separator[2] . $this->_getAdditionalRequestData(),
                     'count' => $count,
                     'from'  => $separator[1],
                     'to'    => $separator[2],
@@ -125,8 +135,17 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Price extends Mage_Catalog_Mo
             }
 
             if (isset($data[$i - 1]) && $data[$i - 1]['from'] != $data[$i - 1]['to']) {
-                $data[$i - 1]['value'] = $data[$i - 1]['from'] . '-';
-                $data[$i - 1]['label'] = $this->_renderRangeLabel(empty($separator[1]) ? 0 : $separator[1], '');
+                $upperIntervalLimit = '';
+                $appliedInterval = $this->getInterval();
+                if ($appliedInterval) {
+                    $upperIntervalLimit = $appliedInterval[1];
+                }
+                $data[$i - 1]['value'] = $data[$i - 1]['from'] . '-' . $upperIntervalLimit
+                    . $this->_getAdditionalRequestData();
+                $data[$i - 1]['label'] = $this->_renderRangeLabel(
+                    empty($separator[1]) ? 0 : $separator[1],
+                    $upperIntervalLimit
+                );
             }
         }
 
@@ -178,7 +197,18 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Price extends Mage_Catalog_Mo
             $prices = $this->getLayer()->getProductCollection()->getFieldData($this->_getFilterField());
             /** @var $algorithmModel Mage_Catalog_Model_Layer_Filter_Price_Algorithm */
             $algorithmModel = Mage::getSingleton('catalog/layer_filter_price_algorithm');
-            $algorithmModel->setPrices($prices);
+            $appliedInterval = $this->getInterval();
+            if ($appliedInterval
+                && (count($prices) <= $this->getIntervalDivisionLimit() || $appliedInterval[0] == $appliedInterval[1])
+            ) {
+                $algorithmModel->setPrices(array());
+                $this->_divisible = false;
+            } else {
+                if ($appliedInterval) {
+                    $algorithmModel->setLimits($appliedInterval[0], $appliedInterval[1]);
+                }
+                $algorithmModel->setPrices($prices);
+            }
 
             $cachedData = array();
             foreach ($algorithmModel->calculateSeparators() as $separator) {

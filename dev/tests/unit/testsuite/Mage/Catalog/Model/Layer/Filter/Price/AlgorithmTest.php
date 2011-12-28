@@ -32,7 +32,7 @@ class Mage_Catalog_Model_Layer_Filter_Price_AlgorithmTest extends PHPUnit_Framew
      */
     public function testPricesSegmentation($prices, $intervalsNumber, $intervalItems)
     {
-        $this->_model->setPrices($prices);
+        $this->_model->setLimits()->setPrices($prices);
         if (!is_null($intervalsNumber)) {
             $this->assertEquals($intervalsNumber, $this->_model->getIntervalsNumber());
         }
@@ -51,5 +51,20 @@ class Mage_Catalog_Model_Layer_Filter_Price_AlgorithmTest extends PHPUnit_Framew
     public function pricesSegmentationDataProvider()
     {
         return include(__DIR__ . '/_files/_algorithm_data.php');
+    }
+
+    public function testPriceLimits()
+    {
+        $this->_model->setLimits()->setPrices(array(5, 10, 15, 20, 50, 100, 150));
+        $this->assertEquals(array(
+            0 => array('from' => 0, 'to' => 20, 'count' => 3),
+            1 => array('from' => 20, 'to' => '', 'count' => 4)
+        ), $this->_model->calculateSeparators());
+
+        $this->_model->setLimits(10, 100);
+        $this->assertEquals(array(
+            0 => array('from' => 10, 'to' => 20, 'count' => 2),
+            1 => array('from' => 20, 'to' => 100, 'count' => 2)
+        ), $this->_model->calculateSeparators());
     }
 }

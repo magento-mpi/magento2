@@ -232,7 +232,11 @@ class Mage_Catalog_Model_Resource_Layer_Filter_Price extends Mage_Core_Model_Res
         $select->columns(array($maxPriceExpr));
 
         $prices = $connection->fetchCol($select);
-        $algorithm->setPrices($prices);
+        if ($filter->getInterval() && count($prices) <= $filter->getIntervalDivisionLimit()) {
+            $algorithm->setPrices(array());
+        } else {
+            $algorithm->setPrices($prices);
+        }
 
         return $prices;
     }
