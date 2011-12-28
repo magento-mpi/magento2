@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Mage_OAuth>
-            <version>1.0.0.5</version>
+            <version>1.0.0.6</version>
         </Mage_OAuth>
     </modules>
     <global>
