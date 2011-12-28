@@ -124,7 +124,7 @@ class ProductAttribute_Helper extends Mage_Selenium_TestCase
      * @param string $fieldsetName
      * @param string $action
      */
-    public function storeViewTitles($attrData, $fieldsetName='manage_titles', $action ='fill')
+    public function storeViewTitles($attrData, $fieldsetName = 'manage_titles', $action = 'fill')
     {
         $name = 'store_view_titles';
         if (isset($attrData['admin_title'])) {
@@ -174,7 +174,7 @@ class ProductAttribute_Helper extends Mage_Selenium_TestCase
      * @param array $attrData
      * @param string $action
      */
-    public function attributeOptions($attrData, $action='fill')
+    public function attributeOptions($attrData, $action = 'fill')
     {
         $fieldSetXpath = $this->_getControlXpath('fieldset', 'manage_options');
 

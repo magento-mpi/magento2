@@ -43,7 +43,7 @@ class Product_Helper extends Mage_Selenium_TestCase
      * @param array $productData
      * @param string $productType Value - simple|virtual|bundle|configurable|downloadable|grouped
      */
-    public function fillProductSettings($productData, $productType='simple')
+    public function fillProductSettings($productData, $productType = 'simple')
     {
         $attributeSet = (isset($productData['product_attribute_set']))
                             ? $productData['product_attribute_set']
@@ -274,7 +274,7 @@ class Product_Helper extends Mage_Selenium_TestCase
      *
      * @param type $websiteName
      */
-    public function selectWebsite($websiteName, $action='select')
+    public function selectWebsite($websiteName, $action = 'select')
     {
         $fieldsetXpath = $this->_getControlXpath('fieldset', 'product_websites');
         $this->addParameter('websiteName', $websiteName);
@@ -439,7 +439,7 @@ class Product_Helper extends Mage_Selenium_TestCase
      * @param array $productData
      * @param string $productType
      */
-    public function createProduct(array $productData, $productType='simple')
+    public function createProduct(array $productData, $productType = 'simple')
     {
         $productData = $this->arrayEmptyClear($productData);
         $this->clickButton('add_new_product');
@@ -457,7 +457,7 @@ class Product_Helper extends Mage_Selenium_TestCase
      * @param array $productData
      * @param string $productType
      */
-    public function fillProductInfo(array $productData, $productType='simple')
+    public function fillProductInfo(array $productData, $productType = 'simple')
     {
         $this->fillTab($productData);
         $this->fillTab($productData, 'prices');
@@ -681,7 +681,7 @@ class Product_Helper extends Mage_Selenium_TestCase
      * @param string $fieldSetName
      * @param string $attributeTitle
      */
-    public function isAssignedProduct(array $data, $fieldSetName, $attributeTitle=null)
+    public function isAssignedProduct(array $data, $fieldSetName, $attributeTitle = null)
     {
         $fillingData = array();
 
