@@ -76,7 +76,13 @@ class Mage_SalesRule_Model_Resource_Rule_Collection extends Mage_Core_Model_Reso
             $this->getSelect()->where(
                 '(main_table.coupon_type = ? ',  Mage_SalesRule_Model_Rule::COUPON_TYPE_NO_COUPON
             );
-            $this->getSelect()->orWhere('rule_coupons.code = ?)', $couponCode);
+            $this->getSelect()->orWhere('(main_table.coupon_type = ? AND rule_coupons.type = 0',
+                Mage_SalesRule_Model_Rule::COUPON_TYPE_AUTO);
+            $this->getSelect()->orWhere('main_table.coupon_type = ? AND main_table.use_auto_generation = 1 ' .
+                'AND rule_coupons.type = 1', Mage_SalesRule_Model_Rule::COUPON_TYPE_SPECIFIC);
+            $this->getSelect()->orWhere('main_table.coupon_type = ? AND main_table.use_auto_generation = 0 ' .
+                'AND rule_coupons.type = 0)', Mage_SalesRule_Model_Rule::COUPON_TYPE_SPECIFIC);
+            $this->getSelect()->where('rule_coupons.code = ?)', $couponCode);
         } else {
             $this->addFieldToFilter('main_table.coupon_type', Mage_SalesRule_Model_Rule::COUPON_TYPE_NO_COUPON);
         }
