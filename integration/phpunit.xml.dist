@@ -68,6 +68,10 @@
         <const name="TESTS_ADMIN_USERNAME" value="admin"/>
         <!-- Admin Password -->
         <const name="TESTS_ADMIN_PASSWORD" value="123123q"/>
+        <!-- Customer Email -->
+        <const name="TESTS_CUSTOMER_EMAIL" value="customer@example.com"/>
+        <!-- Customer password -->
+        <const name="TESTS_CUSTOMER_PASSWORD" value="123123q"/>
 
         <!-- Enable show content on get invalid response -->
         <!--<const name="TESTS_WEBSERVICE_SHOW_INVALID_RESPONSE" value="1"/>-->
