@@ -308,6 +308,7 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
      */
     public function invalidWeightInSimple()
     {
+        $this->markTestSkipped('Waiting for revision 135737 Magento 1.x coming to Magento 2');
         //Data
         $productData = $this->loadData('simple_product_required',
                 array('general_weight' => $this->generate('string', 9, ':punct:')));
