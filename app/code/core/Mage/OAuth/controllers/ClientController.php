@@ -120,15 +120,17 @@ class Mage_OAuth_ClientController extends Mage_Core_Controller_Front_Action
 
         $requestToken = $this->_consumer->getRequestToken();
 
-        $session->setInitToken($requestToken);
+        if ($requestToken->isValid()) {
+            $session->setInitToken($requestToken);
 
-        $this->_consumer->redirect(null, $requestToken);
-
-        // for debug purposes
-        //echo '<pre><strong>Last request:</strong><br>';
-        //echo str_replace(',', ',<br>', $this->_consumer->getHttpClient()->getLastRequest());
-        //echo '<strong>Last response:</strong><br>';
-        //echo $this->_consumer->getHttpClient()->getLastResponse();
+            $this->_consumer->redirect(null, $requestToken);
+        } else {
+            // for debug purposes
+            echo '<pre><strong>Last request:</strong><br>';
+            echo str_replace(',', ',<br>', $this->_consumer->getHttpClient()->getLastRequest());
+            echo '<strong>Last response:</strong><br>';
+            echo $this->_consumer->getHttpClient()->getLastResponse();
+        }
     }
 
     /**
