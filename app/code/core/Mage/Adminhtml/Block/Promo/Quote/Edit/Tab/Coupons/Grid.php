@@ -121,6 +121,7 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Coupons_Grid extends Mage_Adminh
         $this->setMassactionIdField('coupon_id');
         $this->getMassactionBlock()->setFormFieldName('ids');
         $this->getMassactionBlock()->setUseAjax(true);
+        $this->getMassactionBlock()->setHideFormElement(true);
 
         $this->getMassactionBlock()->addItem('delete', array(
              'label'=> Mage::helper('adminhtml')->__('Delete'),
