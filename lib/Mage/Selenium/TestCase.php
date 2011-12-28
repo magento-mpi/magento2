@@ -676,7 +676,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      *
      * @return array
      */
-    public function loadData($dataSource, $override=null, $randomize=null)
+    public function loadData($dataSource, $override = null, $randomize = null)
     {
         $data = $this->_getData($dataSource);
 
@@ -732,7 +732,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      *
      * @return mixed
      */
-    public function generate($type='string', $length=100, $modifier=null, $prefix=null)
+    public function generate($type = 'string', $length = 100, $modifier = null, $prefix = null)
     {
         $result = $this->_dataGenerator->generate($type, $length, $modifier, $prefix);
         return $result;
@@ -751,7 +751,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      *
      * @return Mage_Selenium_TestCase
      */
-    public function frontend($page='home', $validatePage = true)
+    public function frontend($page = 'home', $validatePage = true)
     {
         $this->setArea('frontend');
         $this->navigate($page, $validatePage);
@@ -767,7 +767,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      *
      * @return Mage_Selenium_TestCase
      */
-    public function admin($page='dashboard', $validatePage = true)
+    public function admin($page = 'dashboard', $validatePage = true)
     {
         $this->setArea('admin');
         $this->navigate($page, $validatePage);
@@ -2170,7 +2170,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      *
      * @return array|string
      */
-    protected function _getData($path='')
+    protected function _getData($path = '')
     {
         return $this->_testConfig->getDataValue($path);
     }

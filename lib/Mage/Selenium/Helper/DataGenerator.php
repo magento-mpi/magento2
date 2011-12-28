@@ -75,7 +75,7 @@ class Mage_Selenium_Helper_DataGenerator extends Mage_Selenium_Helper_Abstract
      *
      * @return mixed
      */
-    public function generate($type='string', $length=100, $modifier=null, $prefix=null)
+    public function generate($type = 'string', $length = 100, $modifier = null, $prefix = null)
     {
         $result = null;
         switch ($type) {
@@ -105,7 +105,7 @@ class Mage_Selenium_Helper_DataGenerator extends Mage_Selenium_Helper_Abstract
      *
      * @return string
      */
-    public function generateEmailAddress($length=20, $validity='valid', $prefix='')
+    public function generateEmailAddress($length = 20, $validity = 'valid', $prefix = '')
     {
         if ($length < 6) {
             $length = 6;
@@ -181,7 +181,7 @@ class Mage_Selenium_Helper_DataGenerator extends Mage_Selenium_Helper_Abstract
      *
      * @return string
      */
-    public function generateRandomString($length=100, $class=':alnum:', $prefix='')
+    public function generateRandomString($length = 100, $class = ':alnum:', $prefix = '')
     {
         if (!$class) {
             $class = ':alnum:';
@@ -227,7 +227,7 @@ class Mage_Selenium_Helper_DataGenerator extends Mage_Selenium_Helper_Abstract
      *
      * @return string
      */
-    public function generateRandomText($length=100, $modifier=null, $prefix='')
+    public function generateRandomText($length = 100, $modifier = null, $prefix = '')
     {
         $class = (isset($modifier['class'])) ? $modifier['class'] : ':alnum:';
         $paraCount = (isset($modifier['para']) && $modifier['para'] > 1)

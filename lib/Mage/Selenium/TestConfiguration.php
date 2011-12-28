@@ -188,7 +188,7 @@ class Mage_Selenium_TestConfiguration
      *
      * @return Mage_Selenium_Helper_Page
      */
-    public function getPageHelper($testCase=null, $applicationHelper=null)
+    public function getPageHelper($testCase = null, $applicationHelper = null)
     {
         if (is_null($this->_pageHelper)) {
             $this->_pageHelper = new Mage_Selenium_Helper_Page($this);
