@@ -567,7 +567,9 @@ class Mage_OAuth_Model_Server
     }
 
     /**
-     * Process authorize request
+     * Check authorize request for validity and return token
+     *
+     * @return Mage_OAuth_Model_Token
      */
     public function checkAuthorizeRequest()
     {
@@ -578,6 +580,8 @@ class Mage_OAuth_Model_Server
         }
         $this->_fetchParams();
         $this->_initToken();
+
+        return $this->_token;
     }
 
     /**
