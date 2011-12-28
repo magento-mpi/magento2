@@ -36,14 +36,16 @@ class Mage_OAuth_Model_Observer
     /**
      * Get callback url
      *
+     * @param int $userId
+     * @param string $userType
      * @return string
      */
-    protected function _getAfterAuthUrl()
+    protected function _getAfterAuthUrl($userId, $userType)
     {
         /** @var $server Mage_OAuth_Model_Server */
         $server = Mage::getModel('oauth/server');
         /** @var $token Mage_OAuth_Model_Token */
-        $token = $server->authorizeToken();
+        $token = $server->authorizeToken($userId, $userType);
 
         return $token->getCallbackUrl() . '?oauth_token=' . $token->getToken() . '&oauth_verifier=' .
             $token->getVerifier();
@@ -70,7 +72,8 @@ class Mage_OAuth_Model_Observer
         if (null !== $this->_getOauthToken()) {
             /** @var $session Mage_Customer_Model_Session */
             $session = Mage::getSingleton('customer/session');
-            $session->setAfterAuthUrl($this->_getAfterAuthUrl());
+            $session->setAfterAuthUrl($this->_getAfterAuthUrl($observer->getEvent()->getModel()->getId(),
+                Mage_OAuth_Model_Token::USER_TYPE_CUSTOMER));
         }
     }
 
@@ -83,7 +86,14 @@ class Mage_OAuth_Model_Observer
     public function afterAdminLogin(Varien_Event_Observer $observer)
     {
         if (null !== $this->_getOauthToken()) {
-            Mage::app()->getResponse()->setRedirect($this->_getAfterAuthUrl())->sendHeaders()->sendResponse();
+            $userType = Mage_OAuth_Model_Token::USER_TYPE_ADMIN;
+
+            /** @var $session Mage_Admin_Model_Session */
+            $session = Mage::getSingleton('admin/session');
+            Mage::app()->getResponse()
+                ->setRedirect($this->_getAfterAuthUrl($session->getUser()->getId(), $userType))
+                ->sendHeaders()
+                ->sendResponse();
         }
     }
 }

@@ -41,13 +41,6 @@ class Mage_OAuth_Helper_Data extends Mage_Core_Helper_Abstract
     const ENDPOINT_TOKEN     = 'token';
     /**#@-*/
 
-    /**#@+
-     * Display types
-     */
-    const DISPLAY_TYPE_CUSTOMER = 'customer';
-    const DISPLAY_TYPE_ADMIN    = 'admin';
-    /**#@-*/
-
     /**
      * Generate random string for token or secret or verifier
      *
@@ -106,16 +99,5 @@ class Mage_OAuth_Helper_Data extends Mage_Core_Helper_Abstract
             Mage::throwException('Invalid endpoint type passed');
         }
         return rtrim(Mage::getUrl('oauth/' . $type), '/');
-    }
-
-    /**
-     * Check display type validation
-     *
-     * @param  string $displayType
-     * @return bool
-     */
-    public function isValidDisplayType($displayType)
-    {
-        return self::DISPLAY_TYPE_ADMIN === $displayType || self::DISPLAY_TYPE_CUSTOMER === $displayType;
     }
 }
