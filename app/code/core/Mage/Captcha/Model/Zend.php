@@ -127,7 +127,7 @@ class Mage_Captcha_Model_Zend extends Zend_Captcha_Image implements Mage_Captcha
     /**
      * Check is overlimit attempts
      *
-     * @param $login
+     * @param string $login
      * @return bool
      */
     protected function _isOverLimitAttempts($login)
