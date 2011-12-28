@@ -35,7 +35,6 @@
  */
 class Product_DuplicateTest extends Mage_Selenium_TestCase
 {
-
     /**
      * <p>Login to backend</p>
      */
@@ -392,5 +391,4 @@ class Product_DuplicateTest extends Mage_Selenium_TestCase
         $this->productHelper()->verifyProductInfo($configur,
                 array('general_sku', 'general_status', 'configurable_attribute_title'));
     }
-
 }

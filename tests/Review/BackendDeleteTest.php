@@ -35,7 +35,6 @@
  */
 class Review_BackendDeleteTest extends Mage_Selenium_TestCase
 {
-
     /**
      * <p>Preconditions:</p>
      * <p>Login as admin to backend</p>
@@ -178,5 +177,4 @@ class Review_BackendDeleteTest extends Mage_Selenium_TestCase
         //Verification
         $this->assertMessagePresent('success', 'success_deleted_review_massaction');
     }
-
 }

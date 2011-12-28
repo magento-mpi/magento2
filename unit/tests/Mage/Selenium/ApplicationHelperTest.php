@@ -31,7 +31,6 @@
  */
 class Mage_Selenium_Helper_ApplicationTest extends Mage_PHPUnit_TestCase
 {
-
     /**
      * Selenium ApplicationHelper instance
      *

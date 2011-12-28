@@ -35,7 +35,6 @@
  */
 class Mage_Selenium_Helper_Params
 {
-
     /**
      * Parameters array
      *
@@ -122,5 +121,4 @@ class Mage_Selenium_Helper_Params
         }
 //       return preg_replace('/%([^\/]+?)%/', $regexp, $source);
     }
-
 }

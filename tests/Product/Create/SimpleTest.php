@@ -35,7 +35,6 @@
  */
 class Product_Create_SimpleTest extends Mage_Selenium_TestCase
 {
-
     /**
      * <p>Log in to Backend.</p>
      */
@@ -612,5 +611,4 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
         $xpath = $this->search(array('associated_search_sku' => $simple['general_sku']), 'associated');
         $this->assertNotEquals(null, $xpath, 'Product is not found');
     }
-
 }

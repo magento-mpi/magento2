@@ -36,7 +36,6 @@
  */
 class Mage_Selenium_Driver extends PHPUnit_Extensions_SeleniumTestCase_Driver
 {
-
     /**
      * If the flag is set true browser connection is not restarted after each test
      * @var boolean
@@ -148,5 +147,4 @@ class Mage_Selenium_Driver extends PHPUnit_Extensions_SeleniumTestCase_Driver
 
         return date(preg_replace('`(?<!\\\\)u`', $milliseconds, $format), $timestamp);
     }
-
 }

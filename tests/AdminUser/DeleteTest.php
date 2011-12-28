@@ -35,7 +35,6 @@
  */
 class AdminUser_DeleteTest extends Mage_Selenium_TestCase
 {
-
     /**
      * Log in to Backend.
      */
@@ -114,5 +113,4 @@ class AdminUser_DeleteTest extends Mage_Selenium_TestCase
         //Verifying
         $this->assertMessagePresent('error', 'cannot_delete_account');
     }
-
 }

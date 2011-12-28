@@ -48,5 +48,4 @@ class Mage_Selenium_Uimap_TabsCollection extends ArrayObject
                 ? $this[$name]
                 : null;
     }
-
 }

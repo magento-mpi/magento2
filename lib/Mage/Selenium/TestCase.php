@@ -35,7 +35,6 @@
  */
 class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 {
-
     /**
      * Testcase error
      *
@@ -432,7 +431,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function setUpBeforeTests()
     {
-
     }
 
     /**
@@ -2243,7 +2241,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         $iStartTime = time();
         while ($timeout > time() - $iStartTime) {
-
             if (is_array($locator)) {
                 foreach ($locator as $loc) {
                     if ($this->isElementPresent($loc)) {
@@ -2272,7 +2269,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         $iStartTime = time();
         while ($timeout > time() - $iStartTime) {
-
             if (is_array($locator)) {
                 foreach ($locator as $loc) {
                     if ($this->isVisible($loc)) {
@@ -2492,7 +2488,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public static function suite($className)
     {
-
         $suite = new PHPUnit_Framework_TestSuite;
         $suite->setName($className);
 
@@ -2795,7 +2790,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         }
 
         try {
-
             $testResult = $method->invokeArgs(
                     $this, array_merge($this->data, $this->dependencyInput)
             );
@@ -2917,5 +2911,4 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $this->mouseUpAt($blockTo, '1,1');
         $this->clickAt($specElemantXpath, '1,1');
     }
-
 }

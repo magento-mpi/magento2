@@ -35,7 +35,6 @@
  */
 class SystemConfiguration_Helper extends Mage_Selenium_TestCase
 {
-
     /**
      * System Configuration
      *
@@ -123,5 +122,4 @@ class SystemConfiguration_Helper extends Mage_Selenium_TestCase
         }
         $this->assertTrue($this->verifyForm($data, 'general_web'), $this->getParsedMessages());
     }
-
 }

@@ -35,7 +35,6 @@
  */
 class Mage_Selenium_Helper_Page extends Mage_Selenium_Helper_Abstract
 {
-
     /**
      * Current page
      *
@@ -147,5 +146,4 @@ class Mage_Selenium_Helper_Page extends Mage_Selenium_Helper_Abstract
     {
         $this->_currentPage = $page;
     }
-
 }

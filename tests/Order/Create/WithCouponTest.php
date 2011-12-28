@@ -35,7 +35,6 @@
  */
 class Order_Create_WithCouponTest extends Mage_Selenium_TestCase
 {
-
     /**
      * <p>Preconditions:</p>
      *
@@ -172,5 +171,4 @@ class Order_Create_WithCouponTest extends Mage_Selenium_TestCase
         $this->addParameter('code', 'wrong_code');
         $this->assertMessagePresent('error', 'invalid_coupon_code');
     }
-
 }

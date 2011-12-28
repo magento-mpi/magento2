@@ -35,7 +35,6 @@
  */
 class CheckoutOnePage_LoggedIn_CheckingValidationTest extends Mage_Selenium_TestCase
 {
-
     protected function assertPreConditions()
     {
         $this->addParameter('id', '');
@@ -318,5 +317,4 @@ class CheckoutOnePage_LoggedIn_CheckingValidationTest extends Mage_Selenium_Test
         }
         $this->checkoutOnePageHelper()->assertOnePageCheckoutTabOpened('payment_method');
     }
-
 }

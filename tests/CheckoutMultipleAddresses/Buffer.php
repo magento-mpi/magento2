@@ -34,8 +34,6 @@
  */
 class CheckoutMultipleAddresses_Buffer extends Mage_Selenium_TestCase
 {
-
-
     protected function assertPreConditions()
     {
     }
@@ -61,5 +59,4 @@ class CheckoutMultipleAddresses_Buffer extends Mage_Selenium_TestCase
         }
         $this->checkoutMultipleAddressesHelper()->frontCreateMultipleCheckout('multiple_test_data');
     }
-
 }

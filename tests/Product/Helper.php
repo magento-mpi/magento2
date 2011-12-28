@@ -35,7 +35,6 @@
  */
 class Product_Helper extends Mage_Selenium_TestCase
 {
-
     public static $arrayToReturn = array();
 
     /**
@@ -1130,5 +1129,4 @@ class Product_Helper extends Mage_Selenium_TestCase
         }
         return $xpathArray;
     }
-
 }

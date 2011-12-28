@@ -335,5 +335,4 @@ class Mage_Selenium_TestCaseTest extends Mage_PHPUnit_TestCase
 
         $this->assertNotNull($_testCaseInst->searchAndOpen($data));
     }
-
 }

@@ -35,7 +35,6 @@
  */
 class CheckoutMultipleAddresses_WithRegistration_InputDataValidation extends Mage_Selenium_TestCase
 {
-
     /**
      * <p>Creating Simple product</p>
      *
@@ -103,7 +102,6 @@ class CheckoutMultipleAddresses_WithRegistration_InputDataValidation extends Mag
      */
     public function withEmailThatAlreadyExists(array $userData)
     {
-
     }
 
     /**
@@ -125,7 +123,6 @@ class CheckoutMultipleAddresses_WithRegistration_InputDataValidation extends Mag
      */
     public function withLongValues()
     {
-
     }
 
     /**
@@ -149,7 +146,6 @@ class CheckoutMultipleAddresses_WithRegistration_InputDataValidation extends Mag
      */
     public function withRequiredFieldsEmpty($field)
     {
-
     }
 
     public function withRequiredFieldsEmptyDataProvider()
@@ -187,7 +183,6 @@ class CheckoutMultipleAddresses_WithRegistration_InputDataValidation extends Mag
      */
     public function withSpecialCharacters()
     {
-
     }
 
     /**
@@ -212,7 +207,6 @@ class CheckoutMultipleAddresses_WithRegistration_InputDataValidation extends Mag
      */
     public function withLongValuesNotValid($longValue)
     {
-
     }
 
     public function withLongValuesNotValidDataProvider()
@@ -255,7 +249,6 @@ class CheckoutMultipleAddresses_WithRegistration_InputDataValidation extends Mag
 
     public function withInvalidEmail($invalidEmail)
     {
-
     }
 
     public function withInvalidEmailDataProvider()
@@ -289,7 +282,6 @@ class CheckoutMultipleAddresses_WithRegistration_InputDataValidation extends Mag
      */
     public function withInvalidPassword($invalidPassword, $errorMessage)
     {
-
     }
 
     /**
@@ -304,5 +296,4 @@ class CheckoutMultipleAddresses_WithRegistration_InputDataValidation extends Mag
             array(array('password' => 1234567, 'password_confirmation' => 12345678), 'passwords_not_match'),
         );
     }
-
 }

@@ -35,7 +35,6 @@
  */
 class CmsPolls_Helper extends Mage_Selenium_TestCase
 {
-
     /**
      * Add answers to Poll
      *
@@ -199,5 +198,4 @@ class CmsPolls_Helper extends Mage_Selenium_TestCase
             $this->fail("Could not vote");
         }
     }
-
 }

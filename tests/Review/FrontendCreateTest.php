@@ -294,5 +294,4 @@ class Review_FrontendCreateTest extends Mage_Selenium_TestCase
             array('review_special_symbols'),
         );
     }
-
 }

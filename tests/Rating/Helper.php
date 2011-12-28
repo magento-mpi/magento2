@@ -35,7 +35,6 @@
  */
 class Rating_Helper extends Mage_Selenium_TestCase
 {
-
     /**
      * Creates rating
      *
@@ -144,5 +143,4 @@ class Rating_Helper extends Mage_Selenium_TestCase
         }
         $this->assertEmptyVerificationErrors();
     }
-
 }

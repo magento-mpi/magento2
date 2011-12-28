@@ -28,7 +28,6 @@
 
 class Installation_Helper extends Mage_Selenium_TestCase
 {
-
     /**
      * Delete installation files
      *

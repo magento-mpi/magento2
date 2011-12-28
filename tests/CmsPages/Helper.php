@@ -35,7 +35,6 @@
  */
 class CmsPages_Helper extends Mage_Selenium_TestCase
 {
-
     /**
      * Creates page
      *
@@ -280,7 +279,6 @@ class CmsPages_Helper extends Mage_Selenium_TestCase
      */
     function searchArray($pageData, $key = NULL)
     {
-
         $found = ($key !== NULL ? array_keys($pageData, $key) : array_keys($pageData));
         foreach ($pageData as $value) {
             if (is_array($value)) {
@@ -290,5 +288,4 @@ class CmsPages_Helper extends Mage_Selenium_TestCase
         }
         return $found;
     }
-
 }

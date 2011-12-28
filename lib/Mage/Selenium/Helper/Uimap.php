@@ -35,7 +35,6 @@
  */
 class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
 {
-
     /**
      * File helper instance
      *
@@ -153,5 +152,4 @@ class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
             }
         }
     }
-
 }

@@ -162,5 +162,4 @@ class Mage_Selenium_UimapTest extends Mage_PHPUnit_TestCase
         $messages = $uipage->getMessages();
         $this->assertEquals(self::ERROR_REQUIRED_FIELD_MESSAGE, $messages['error_required_field']);
     }
-
 }

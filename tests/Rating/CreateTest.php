@@ -35,7 +35,6 @@
  */
 class Rating_CreateTest extends Mage_Selenium_TestCase
 {
-
     /**
      * <p>Log in to Backend.</p>
      */
@@ -216,5 +215,4 @@ class Rating_CreateTest extends Mage_Selenium_TestCase
         $this->ratingHelper()->openRating($search);
         $this->ratingHelper()->verifyRatingData($rating);
     }
-
 }

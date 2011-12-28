@@ -35,7 +35,6 @@
  */
 class PriceRules_Helper extends Mage_Selenium_TestCase
 {
-
     protected static $optionsNesting = 1;
     protected static $qtyOptionsNesting = 0;
     protected static $optionsQty = 0;
@@ -339,5 +338,4 @@ class PriceRules_Helper extends Mage_Selenium_TestCase
         $this->fillTabs($editRuleData);
         $this->saveForm('save_rule');
     }
-
 }

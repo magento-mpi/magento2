@@ -35,7 +35,6 @@
  */
 class PriceRules_Catalog_ApplyTest extends Mage_Selenium_TestCase
 {
-
     protected $_ruleToBeDeleted = array();
 
     public function setUpBeforeTests()
@@ -171,5 +170,4 @@ class PriceRules_Catalog_ApplyTest extends Mage_Selenium_TestCase
             array('to_fixed_amount')
         );
     }
-
 }

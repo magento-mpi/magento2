@@ -35,7 +35,6 @@
  */
 class CmsWidgets_DeleteTest extends Mage_Selenium_TestCase
 {
-
     protected static $products = array();
 
     public function setUpBeforeTests()
@@ -166,5 +165,4 @@ class CmsWidgets_DeleteTest extends Mage_Selenium_TestCase
             array('recently_viewed_products')
         );
     }
-
 }

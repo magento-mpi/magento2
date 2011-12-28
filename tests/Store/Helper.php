@@ -35,7 +35,6 @@
  */
 class Store_Helper extends Mage_Selenium_TestCase
 {
-
     /**
      * Create Website|Store|Store View
      *
@@ -133,5 +132,4 @@ class Store_Helper extends Mage_Selenium_TestCase
 
         return false;
     }
-
 }

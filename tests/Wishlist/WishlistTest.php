@@ -35,7 +35,6 @@
  */
 class Wishlist_Wishlist extends Mage_Selenium_TestCase
 {
-
     /**
      * <p>Login as a registered user</p>
      */
@@ -774,5 +773,4 @@ class Wishlist_Wishlist extends Mage_Selenium_TestCase
         //Cleanup
         $this->navigate('home'); // So that user is not redirected in further tests.
     }
-
 }

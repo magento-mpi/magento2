@@ -35,7 +35,6 @@
  */
 class Mage_Selenium_Helper_DataGenerator extends Mage_Selenium_Helper_Abstract
 {
-
     /**
      * PCRE classes used for data generation
      *
@@ -259,5 +258,4 @@ class Mage_Selenium_Helper_DataGenerator extends Mage_Selenium_Helper_Abstract
         $text .= implode($this->_paraDelim, $textArr);
         return $text;
     }
-
 }

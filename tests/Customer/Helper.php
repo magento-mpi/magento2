@@ -42,7 +42,6 @@
  */
 class Customer_Helper extends Mage_Selenium_TestCase
 {
-
     /**
      * Verify that address is present.
      *
@@ -171,5 +170,4 @@ class Customer_Helper extends Mage_Selenium_TestCase
         $this->fillForm($loginData);
         $this->clickButton('login');
     }
-
 }

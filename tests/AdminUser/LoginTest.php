@@ -35,7 +35,6 @@
  */
 class AdminUser_LoginTest extends Mage_Selenium_TestCase
 {
-
     public function setUpBeforeTests()
     {
         $this->admin('log_in_to_admin', false);
@@ -345,5 +344,4 @@ class AdminUser_LoginTest extends Mage_Selenium_TestCase
         //Verifying
         $this->assertTrue($this->checkCurrentPage('dashboard'), $this->getParsedMessages());
     }
-
 }

@@ -114,5 +114,4 @@ class Mage_Selenium_Helper_PageTest extends Mage_PHPUnit_TestCase
 
         $this->assertFalse($_pageHelper->getPageUrl('some_page'));
     }
-
 }

@@ -35,7 +35,6 @@
  */
 class AdminUser_CreateTest extends Mage_Selenium_TestCase
 {
-
     /**
      * <p>Preconditions:</p>
      * <p>Log in to Backend.</p>
@@ -453,5 +452,4 @@ class AdminUser_CreateTest extends Mage_Selenium_TestCase
         //Verifying
         $this->assertMessagePresent('error', 'access_denied');
     }
-
 }

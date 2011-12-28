@@ -35,7 +35,6 @@
  */
 class CheckoutMultipleAddresses_LoggedIn_ShippingMethodsTest extends Mage_Selenium_TestCase
 {
-
      /**
      * <p>Add Store Name for DHL tests</p>
      */
@@ -205,5 +204,4 @@ class CheckoutMultipleAddresses_LoggedIn_ShippingMethodsTest extends Mage_Seleni
             array('dhl_usa', 'usa'),
         );
     }
-
 }

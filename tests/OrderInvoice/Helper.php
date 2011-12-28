@@ -35,7 +35,6 @@
  */
 class OrderInvoice_Helper extends Mage_Selenium_TestCase
 {
-
     /**
      * Provides partial or full invoice
      *
@@ -114,5 +113,4 @@ class OrderInvoice_Helper extends Mage_Selenium_TestCase
         $this->waitForPageToLoad($this->_browserTimeoutPeriod);
         $this->validatePage($this->_findCurrentPageFromUrl($this->getLocation()));
     }
-
 }

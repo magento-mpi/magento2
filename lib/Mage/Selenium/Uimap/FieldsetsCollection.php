@@ -46,5 +46,4 @@ class Mage_Selenium_Uimap_FieldsetsCollection extends ArrayObject
     {
         return isset($this[$name]) ? $this[$name] : null;
     }
-
 }

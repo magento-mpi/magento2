@@ -35,7 +35,6 @@
  */
 class ProductAttribute_Create_MultiSelectTest extends Mage_Selenium_TestCase
 {
-
     /**
      * Log in to Backend.
      */
@@ -320,5 +319,4 @@ class ProductAttribute_Create_MultiSelectTest extends Mage_Selenium_TestCase
         //Verifying
         $this->productAttributeHelper()->verifyAttribute($attrData);
     }
-
 }

@@ -35,7 +35,6 @@
  */
 class CheckoutMultipleAddresses_LoggedIn_InputDataValidation extends Mage_Selenium_TestCase
 {
-
     /**
      * <p>Creating Simple product</p>
      *
@@ -346,5 +345,4 @@ class CheckoutMultipleAddresses_LoggedIn_InputDataValidation extends Mage_Seleni
             array()//Card Verification Number
         );
     }
-
 }

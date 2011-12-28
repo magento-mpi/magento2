@@ -35,7 +35,6 @@
  */
 class CmsPolls_DeleteTest extends Mage_Selenium_TestCase
 {
-
     /**
      * <p>Preconditions:</p>
      * <p>Navigate to CMS -> Polls</p>
@@ -73,5 +72,4 @@ class CmsPolls_DeleteTest extends Mage_Selenium_TestCase
         //Verifying
         $this->assertMessagePresent('success', 'success_deleted_poll');
     }
-
 }

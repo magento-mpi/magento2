@@ -35,7 +35,6 @@
  */
 class Order_Create_ExistCustomerTest extends Mage_Selenium_TestCase
 {
-
     /**
      * <p>Log in to Backend.</p>
      */
@@ -120,5 +119,4 @@ class Order_Create_ExistCustomerTest extends Mage_Selenium_TestCase
         $this->clickButtonAndConfirm('cancel', 'confirmation_for_cancel');
         $this->assertMessagePresent('success', 'success_canceled_order');
     }
-
 }

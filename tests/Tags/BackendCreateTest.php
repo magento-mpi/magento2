@@ -35,7 +35,6 @@
  */
 class Tags_BackendCreateTest extends Mage_Selenium_TestCase
 {
-
     protected $_tagToBeDeleted = array();
     /**
      * <p>Log in to Backend.</p>
@@ -204,5 +203,4 @@ class Tags_BackendCreateTest extends Mage_Selenium_TestCase
         //Cleanup
         $this->_tagToBeDeleted = array('tag_name' => $setData['tag_name']);
     }
-
 }

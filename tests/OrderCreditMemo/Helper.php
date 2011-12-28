@@ -35,7 +35,6 @@
  */
 class OrderCreditMemo_Helper extends Mage_Selenium_TestCase
 {
-
     /**
      * Provides partial or full refund
      *
@@ -91,5 +90,4 @@ class OrderCreditMemo_Helper extends Mage_Selenium_TestCase
                     'Qty of refunded products is incorrect at the orders form');
         }
     }
-
 }

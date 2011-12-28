@@ -35,7 +35,6 @@
  */
 class ProductAttribute_Helper extends Mage_Selenium_TestCase
 {
-
     /**
      * Action_helper method for Create Attribute
      *
@@ -229,5 +228,4 @@ class ProductAttribute_Helper extends Mage_Selenium_TestCase
 
         return $this->defineIdFromTitle($attrXpath);
     }
-
 }

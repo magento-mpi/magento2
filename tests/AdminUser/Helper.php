@@ -35,7 +35,6 @@
  */
 class AdminUser_Helper extends Mage_Selenium_TestCase
 {
-
     /**
      * Create Admin User.
      * @param Array $userData
@@ -85,5 +84,4 @@ class AdminUser_Helper extends Mage_Selenium_TestCase
                                     self::$xpathValidationMessage));
          $this->validatePage();
     }
-
 }

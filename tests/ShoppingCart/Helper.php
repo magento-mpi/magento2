@@ -364,5 +364,4 @@ class ShoppingCart_Helper extends Mage_Selenium_TestCase
         }
         return (empty($absentProducts)) ? true : $absentProducts;
     }
-
 }

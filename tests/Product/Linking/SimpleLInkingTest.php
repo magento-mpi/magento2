@@ -35,7 +35,6 @@
  */
 class Product_Linking_SimpleLinkingTest extends Mage_Selenium_TestCase
 {
-
     protected static $productsInStock = array();
     protected static $productsOutOfStock = array();
     protected function assertPreConditions()

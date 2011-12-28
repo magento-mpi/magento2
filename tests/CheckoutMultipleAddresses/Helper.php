@@ -433,5 +433,4 @@ class CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
             }
         }
     }
-
 }

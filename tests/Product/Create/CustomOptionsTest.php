@@ -35,7 +35,6 @@
  */
 class Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
 {
-
     /**
      * <p>Login to backend</p>
      */
@@ -416,5 +415,4 @@ class Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
             array('custom_options_multipleselect')
         );
     }
-
 }

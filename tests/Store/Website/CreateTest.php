@@ -35,7 +35,6 @@
  */
 class Store_Website_CreateTest extends Mage_Selenium_TestCase
 {
-
     /**
      * <p>Log in to Backend.</p>
      */
@@ -315,5 +314,4 @@ class Store_Website_CreateTest extends Mage_Selenium_TestCase
             $this->assertTrue($this->checkCurrentPage('manage_stores'), $this->getParsedMessages());
         }
     }
-
 }

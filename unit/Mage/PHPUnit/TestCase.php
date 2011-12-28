@@ -30,7 +30,6 @@
  */
 abstract class Mage_PHPUnit_TestCase extends PHPUnit_Framework_TestCase
 {
-
     /**
      * Selenium Test Configuration instance
      *
@@ -61,5 +60,4 @@ abstract class Mage_PHPUnit_TestCase extends PHPUnit_Framework_TestCase
 
         return null;
     }
-
 }

@@ -35,7 +35,6 @@
  */
 class Order_Create_WithDifferentProductsTest extends Mage_Selenium_TestCase
 {
-
     /**
      * <p>Preconditions:</p>
      *
@@ -573,5 +572,4 @@ class Order_Create_WithDifferentProductsTest extends Mage_Selenium_TestCase
         $this->clickButtonAndConfirm('cancel', 'confirmation_for_cancel');
         $this->assertMessagePresent('success', 'success_canceled_order');
     }
-
 }

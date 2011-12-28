@@ -35,7 +35,6 @@
  */
 class Product_Create_GroupedTest extends Mage_Selenium_TestCase
 {
-
     /**
      * <p>Log in to Backend.</p>
      */
@@ -436,5 +435,4 @@ class Product_Create_GroupedTest extends Mage_Selenium_TestCase
         //Verifying
         $this->productHelper()->verifyProductInfo($groupedData);
     }
-
 }

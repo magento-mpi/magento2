@@ -35,7 +35,6 @@
  */
 class Newsletter_Helper extends Mage_Selenium_TestCase
 {
-
     /**
      * Subscribe to newsletter
      *
@@ -76,5 +75,4 @@ class Newsletter_Helper extends Mage_Selenium_TestCase
 
         return!is_null($this->search($searchData));
     }
-
 }

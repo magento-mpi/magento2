@@ -35,7 +35,6 @@
  */
 class OrderShipment_Helper extends Mage_Selenium_TestCase
 {
-
     /**
      * Provides partial or fill shipment
      *
@@ -83,5 +82,4 @@ class OrderShipment_Helper extends Mage_Selenium_TestCase
                     'Qty of shipped products is incorrect at the orders form');
         }
     }
-
 }

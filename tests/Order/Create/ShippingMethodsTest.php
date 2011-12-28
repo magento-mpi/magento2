@@ -35,7 +35,6 @@
  */
 class Order_Create_ShippingMethodsTest extends Mage_Selenium_TestCase
 {
-
     /**
      * <p>Log in to Backend.</p>
      */
@@ -127,5 +126,4 @@ class Order_Create_ShippingMethodsTest extends Mage_Selenium_TestCase
             array('dhl_usa', 'usa'),
         );
     }
-
 }

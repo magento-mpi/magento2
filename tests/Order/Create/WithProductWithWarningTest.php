@@ -35,7 +35,6 @@
  */
 class Order_Create_WithProductWithWarningTest extends Mage_Selenium_TestCase
 {
-
     /**
      * <p>Log in to Backend.</p>
      */
@@ -114,5 +113,4 @@ class Order_Create_WithProductWithWarningTest extends Mage_Selenium_TestCase
             array('simple_with_increments', 'wrong_increments_qty', 5)
         );
     }
-
 }

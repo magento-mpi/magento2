@@ -35,7 +35,6 @@
  */
 class Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest extends Mage_Selenium_TestCase
 {
-
     /**
      * <p>Preconditions:</p>
      * <p>Log in to Backend.</p>
@@ -419,5 +418,4 @@ class Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest extends M
             array('else_mastercard', false)
         );
     }
-
 }

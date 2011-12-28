@@ -37,7 +37,6 @@ require_once('SymfonyComponents/YAML/sfYaml.php');
  */
 class Mage_Selenium_Helper_File extends Mage_Selenium_Helper_Abstract
 {
-
     /**
      * Loads YAML file and returns parsed data
      *
@@ -75,5 +74,4 @@ class Mage_Selenium_Helper_File extends Mage_Selenium_Helper_Abstract
         }
         return $data;
     }
-
 }

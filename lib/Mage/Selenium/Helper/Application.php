@@ -35,7 +35,6 @@
  */
 class Mage_Selenium_Helper_Application extends Mage_Selenium_Helper_Abstract
 {
-
     /**
      * Current application area
      *
@@ -161,5 +160,4 @@ class Mage_Selenium_Helper_Application extends Mage_Selenium_Helper_Abstract
     {
         return $this->_appInfo['adminPassword'];
     }
-
 }

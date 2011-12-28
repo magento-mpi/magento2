@@ -35,7 +35,6 @@
  */
 class ProductAttribute_DeleteTest extends Mage_Selenium_TestCase
 {
-
     /**
      * <p>Log in to Backend.</p>
      */
@@ -167,5 +166,4 @@ class ProductAttribute_DeleteTest extends Mage_Selenium_TestCase
         //Verifying
         $this->assertMessagePresent('error', 'attribute_used_in_configurable');
     }
-
 }

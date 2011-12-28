@@ -35,7 +35,6 @@
  */
 class Tags_Helper extends Mage_Selenium_TestCase
 {
-
     /**
      * Converts string with tags to an array for verification
      *
@@ -303,5 +302,4 @@ class Tags_Helper extends Mage_Selenium_TestCase
 
         return false;
     }
-
 }

@@ -35,7 +35,6 @@
  */
 class Order_Create_NewCustomerTest extends Mage_Selenium_TestCase
 {
-
     /**
      * <p>Preconditions:</p>
      * <p>Log in to Backend.</p>
@@ -342,5 +341,4 @@ class Order_Create_NewCustomerTest extends Mage_Selenium_TestCase
         //Verifying
         $this->assertMessagePresent('success', 'success_created_order');
     }
-
 }

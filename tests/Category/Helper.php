@@ -35,7 +35,6 @@
  */
 class Category_Helper extends Mage_Selenium_TestCase
 {
-
     /**
      * Find category with valid name
      *
@@ -408,5 +407,4 @@ class Category_Helper extends Mage_Selenium_TestCase
             $this->fail('Cannot find elements to move');
         }
     }
-
 }

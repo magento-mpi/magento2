@@ -35,7 +35,6 @@
  */
 class PriceRules_ShoppingCart_CreateTest extends Mage_Selenium_TestCase
 {
-
     /**
      * <p>Preconditions:</p>
      * <p>Login Admin user to backend</p>

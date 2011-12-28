@@ -35,7 +35,6 @@
  */
 class AttributeSet_DeleteTest extends Mage_Selenium_TestCase
 {
-
     /**
      * <p>Log in to Backend.</p>
      */
@@ -110,5 +109,4 @@ class AttributeSet_DeleteTest extends Mage_Selenium_TestCase
         $this->attributeSetHelper()->openAttributeSet('Default');
         $this->assertFalse($this->buttonIsPresent('delete_attribute_set'), 'There is "Delete" button on the page');
     }
-
 }

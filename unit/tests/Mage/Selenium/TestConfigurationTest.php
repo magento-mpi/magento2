@@ -31,7 +31,6 @@
  */
 class Mage_Selenium_TestConfigurationTest extends Mage_PHPUnit_TestCase
 {
-
     /**
      * Testing Mage_Selenium_TestConfiguration::init()
      */
@@ -144,5 +143,4 @@ class Mage_Selenium_TestConfigurationTest extends Mage_PHPUnit_TestCase
         $this->setExpectedException('OutOfRangeException');
         $this->_config->getUimapHelper()->getUimap('invalid-area');
     }
-
 }

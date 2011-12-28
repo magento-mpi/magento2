@@ -35,7 +35,6 @@
  */
 class Mage_Selenium_Uimap_Abstract
 {
-
     /**
      * XPath string
      * @var string
@@ -281,5 +280,4 @@ class Mage_Selenium_Uimap_Abstract
 
         return $returnValue;
     }
-
 }

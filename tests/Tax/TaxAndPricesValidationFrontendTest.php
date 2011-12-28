@@ -35,7 +35,6 @@
  */
 class Tax_TaxAndPricesValidationFrontendTest extends Mage_Selenium_TestCase
 {
-
     protected function assertPreConditions()
     {
         $this->loginAdminUser();
@@ -168,5 +167,4 @@ class Tax_TaxAndPricesValidationFrontendTest extends Mage_Selenium_TestCase
             array('total_cat_in_ship_in')
         );
     }
-
 }

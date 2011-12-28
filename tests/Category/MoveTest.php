@@ -35,7 +35,6 @@
  */
 class Category_MoveTest extends Mage_Selenium_TestCase
 {
-
     /**
      * <p>Login to backend</p>
      */

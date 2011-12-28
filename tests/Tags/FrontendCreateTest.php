@@ -35,7 +35,6 @@
  */
 class Tags_FrontendCreateTest extends Mage_Selenium_TestCase
 {
-
     protected function assertPreConditions()
     {
         $this->addParameter('productUrl', '');
@@ -229,5 +228,4 @@ class Tags_FrontendCreateTest extends Mage_Selenium_TestCase
         $xpathTR = $this->search($searchTag, 'tags_grid');
         $this->assertTrue(is_null($xpathTR), $this->getMessagesOnPage());
     }
-
 }

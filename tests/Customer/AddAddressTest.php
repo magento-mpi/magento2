@@ -35,7 +35,6 @@
  */
 class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase
 {
-
     protected static $_customerTitleParameter = '';
 
     /**
@@ -334,5 +333,4 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase
         $addressNumber = $this->customerHelper()->isAddressPresent($addressData);
         $this->assertNotEquals(0, $addressNumber, 'The specified address is not present.');
     }
-
 }

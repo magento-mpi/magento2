@@ -89,5 +89,4 @@ class Mage_Selenium_Helper_FileTest extends Mage_PHPUnit_TestCase
         $this->assertEmpty($this->_fileHelper->loadYamlFiles(''));
         $this->assertEmpty($this->_fileHelper->loadYamlFiles('*.yml'));
     }
-
 }

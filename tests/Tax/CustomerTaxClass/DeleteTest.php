@@ -35,7 +35,6 @@
  */
 class Tax_CustomerTaxClass_DeleteTest extends Mage_Selenium_TestCase
 {
-
     /**
      * <p>Save rule name for clean up</p>
      */
@@ -184,5 +183,4 @@ class Tax_CustomerTaxClass_DeleteTest extends Mage_Selenium_TestCase
         //Verifying
         $this->assertMessagePresent('error', 'error_delete_tax_class_group');
     }
-
 }

@@ -35,7 +35,6 @@
  */
 class Product_ReviewTest extends Mage_Selenium_TestCase
 {
-
     public function setUpBeforeTests()
     {}
 
@@ -82,5 +81,4 @@ class Product_ReviewTest extends Mage_Selenium_TestCase
             array('virtual', 'Out of Stock'),
         );
     }
-
 }

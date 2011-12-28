@@ -391,5 +391,4 @@ class Mage_Selenium_TestConfiguration
         }
         return $this;
     }
-
 }

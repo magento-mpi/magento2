@@ -35,7 +35,6 @@
  */
 class CompareProducts_Helper extends Mage_Selenium_TestCase
 {
-
     protected $_popupId = null;
 
     /**
@@ -290,5 +289,4 @@ class CompareProducts_Helper extends Mage_Selenium_TestCase
             $this->_popupId = null;
         }
     }
-
 }

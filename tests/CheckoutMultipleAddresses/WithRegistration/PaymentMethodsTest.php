@@ -35,7 +35,6 @@
  */
 class CheckoutMultipleAddresses_WithRegistration_PaymentMethodsTest extends Mage_Selenium_TestCase
 {
-
     protected static $useTearDown = false;
 
     protected function tearDown()
@@ -182,5 +181,4 @@ class CheckoutMultipleAddresses_WithRegistration_PaymentMethodsTest extends Mage
             array('authorizenet')
         );
     }
-
 }

@@ -35,7 +35,6 @@
  */
 class CompareProducts_CompareProductsTest extends Mage_Selenium_TestCase
 {
-
     protected $_useTearDown = false;
 
     /**
@@ -222,5 +221,4 @@ class CompareProducts_CompareProductsTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->controlIsPresent('pageelement', 'compare_block_empty'),
                 'There is unexpected product(s) in Compare Products widget');
     }
-
 }

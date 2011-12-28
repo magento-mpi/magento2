@@ -35,7 +35,6 @@
  */
 class Order_Create_WithGiftMessageTest extends Mage_Selenium_TestCase
 {
-
     /**
      * <p>Preconditions:</p>
      *
@@ -160,5 +159,4 @@ class Order_Create_WithGiftMessageTest extends Mage_Selenium_TestCase
         $this->orderHelper()->verifyGiftMessage($this->loadData('gift_messages_with_empty_fields_expected',
                         array('sku_product' => $simpleSku)));
     }
-
 }

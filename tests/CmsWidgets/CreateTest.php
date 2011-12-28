@@ -35,7 +35,6 @@
  */
 class CmsWidgets_CreateTest extends Mage_Selenium_TestCase
 {
-
     protected static $products = array();
 
     public function setUpBeforeTests()
@@ -286,5 +285,4 @@ class CmsWidgets_CreateTest extends Mage_Selenium_TestCase
             array('recently_viewed_products', 'select_block_reference', 'dropdown')
         );
     }
-
 }

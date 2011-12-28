@@ -35,7 +35,6 @@
  */
 class CmsStaticBlocks_Helper extends Mage_Selenium_TestCase
 {
-
     /**
      * Create a new static block.
      * Uses a simple editor only.
@@ -100,5 +99,4 @@ class CmsStaticBlocks_Helper extends Mage_Selenium_TestCase
         $this->openStaticBlock($searchData);
         $this->clickButtonAndConfirm('delete_block', 'confirmation_for_delete');
     }
-
 }

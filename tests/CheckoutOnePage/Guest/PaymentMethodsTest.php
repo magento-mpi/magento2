@@ -35,7 +35,6 @@
  */
 class CheckoutOnePage_Guest_PaymentMethodsTest extends Mage_Selenium_TestCase
 {
-
     protected static $useTearDown = false;
 
     protected function assertPreConditions()
@@ -177,5 +176,4 @@ class CheckoutOnePage_Guest_PaymentMethodsTest extends Mage_Selenium_TestCase
             array('authorizenet')
         );
     }
-
 }

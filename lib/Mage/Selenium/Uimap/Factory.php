@@ -35,7 +35,6 @@
  */
 class Mage_Selenium_Uimap_Factory
 {
-
     /**
      * Array with allowed element names
      *

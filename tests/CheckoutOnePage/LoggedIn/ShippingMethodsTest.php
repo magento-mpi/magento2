@@ -35,7 +35,6 @@
  */
 class CheckoutOnePage_LoggedIn_ShippingMethodsTest extends Mage_Selenium_TestCase
 {
-
     /**
      * <p>Log in to Backend.</p>
      */
@@ -136,5 +135,4 @@ class CheckoutOnePage_LoggedIn_ShippingMethodsTest extends Mage_Selenium_TestCas
             array('dhl_usa', 'usa'),
         );
     }
-
 }

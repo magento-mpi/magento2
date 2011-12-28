@@ -35,7 +35,6 @@
  */
 class Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTest extends Mage_Selenium_TestCase
 {
-
     /**
      * <p>Preconditions:</p>
      * <p>Log in to Backend.</p>
@@ -464,5 +463,4 @@ class Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTest extends 
             array('else_mastercard', false)
         );
     }
-
 }

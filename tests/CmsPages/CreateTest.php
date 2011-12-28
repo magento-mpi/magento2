@@ -35,7 +35,6 @@
  */
 class CmsPages_CreateTest extends Mage_Selenium_TestCase
 {
-
     public function setUpBeforeTests()
     {
         $this->loginAdminUser();

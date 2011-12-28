@@ -35,7 +35,6 @@
  */
 class PriceRules_Catalog_DeleteTest extends Mage_Selenium_TestCase
 {
-
     /**
      * <p>Login to backend</p>
      */
@@ -84,5 +83,4 @@ class PriceRules_Catalog_DeleteTest extends Mage_Selenium_TestCase
         //Verification
         $this->assertMessagePresent('success', 'success_deleted_rule');
     }
-
 }

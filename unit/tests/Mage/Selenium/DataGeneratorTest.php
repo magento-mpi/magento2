@@ -180,5 +180,4 @@ class Mage_Selenium_Helper_DataGeneratorTest extends Mage_PHPUnit_TestCase
     {
         $this->assertNull($this->_dataGenerator->generate('some_string'));
     }
-
 }

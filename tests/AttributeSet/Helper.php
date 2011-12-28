@@ -35,7 +35,6 @@
  */
 class AttributeSet_Helper extends Mage_Selenium_TestCase
 {
-
     /**
      * Create Attribute Set
      *
@@ -137,5 +136,4 @@ class AttributeSet_Helper extends Mage_Selenium_TestCase
         }
         $this->assertTrue($this->searchAndOpen($searchData), "Attribute Set with name '$setName' is not found");
     }
-
 }

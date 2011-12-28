@@ -35,7 +35,6 @@
  */
 class ProductAttribute_Create_PriceTest extends Mage_Selenium_TestCase
 {
-
     /**
      * <p>Log in to Backend.</p>
      */
@@ -317,5 +316,4 @@ class ProductAttribute_Create_PriceTest extends Mage_Selenium_TestCase
         //Verifying
         $this->productAttributeHelper()->verifyAttribute($attrData);
     }
-
 }

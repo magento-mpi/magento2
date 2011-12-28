@@ -82,5 +82,4 @@ class Mage_Selenium_Helper_Abstract
         $this->_testCase = $testCase;
         return $this;
     }
-
 }

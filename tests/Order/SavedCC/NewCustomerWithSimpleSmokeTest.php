@@ -35,7 +35,6 @@
  */
 class Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Selenium_TestCase
 {
-
     /**
      * <p>Preconditions:</p>
      * <p>Log in to Backend.</p>
@@ -470,5 +469,4 @@ class Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Selenium_TestCas
             array('saved_mastercard', false)
         );
     }
-
 }

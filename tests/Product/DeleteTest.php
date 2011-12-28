@@ -35,7 +35,6 @@
  */
 class Product_DeleteTest extends Mage_Selenium_TestCase
 {
-
     /**
      * <p>Log in to Backend.</p>
      */
@@ -282,5 +281,4 @@ class Product_DeleteTest extends Mage_Selenium_TestCase
         //Verifying
         $this->assertMessagePresent('success', 'success_deleted_products_massaction');
     }
-
 }

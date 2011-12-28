@@ -35,7 +35,6 @@
  */
 class PriceRules_Catalog_CreateTest extends Mage_Selenium_TestCase
 {
-
     /**
      * <p>Login to backend</p>
      */
@@ -205,5 +204,4 @@ class PriceRules_Catalog_CreateTest extends Mage_Selenium_TestCase
         $priceRuleData['actions']['sub_discount_amount'] = '99999999.9999';
         $this->priceRulesHelper()->verifyRuleData($priceRuleData);
     }
-
 }

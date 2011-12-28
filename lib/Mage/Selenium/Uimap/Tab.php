@@ -81,5 +81,4 @@ class Mage_Selenium_Uimap_Tab extends Mage_Selenium_Uimap_Abstract
                 ? $this->_elements['fieldsets']->getFieldset($id)
                 : null;
     }
-
 }

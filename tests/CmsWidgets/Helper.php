@@ -35,7 +35,6 @@
  */
 class CmsWidgets_Helper extends Mage_Selenium_TestCase
 {
-
     /**
      * Creates widget
      *
@@ -191,5 +190,4 @@ class CmsWidgets_Helper extends Mage_Selenium_TestCase
         $this->openWidget($searchWidget);
         $this->clickButtonAndConfirm('delete', 'confirmation_for_delete');
     }
-
 }

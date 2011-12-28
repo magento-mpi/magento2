@@ -35,7 +35,6 @@
  */
 class Customer_CreateTest extends Mage_Selenium_TestCase
 {
-
     /**
      * <p>Log in to Backend.</p>
      */
@@ -355,5 +354,4 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_customer');
     }
-
 }

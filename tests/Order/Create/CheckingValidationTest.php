@@ -35,7 +35,6 @@
  */
 class Order_Create_CheckingValidationTest extends Mage_Selenium_TestCase
 {
-
     /**
      * <p>Preconditions:</p>
      *
@@ -501,5 +500,4 @@ class Order_Create_CheckingValidationTest extends Mage_Selenium_TestCase
         //Verifying
         $this->assertMessagePresent('error', 'invalid_exp_date');
     }
-
 }

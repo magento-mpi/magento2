@@ -35,7 +35,6 @@
  */
 class Wishlist_Helper extends Mage_Selenium_TestCase
 {
-
     /**
      * Adds product to wishlist from a specific catalog page.
      *
@@ -154,5 +153,4 @@ class Wishlist_Helper extends Mage_Selenium_TestCase
             }
         }
     }
-
 }

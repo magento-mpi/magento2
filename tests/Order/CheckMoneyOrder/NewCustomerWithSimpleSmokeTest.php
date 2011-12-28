@@ -35,7 +35,6 @@
  */
 class Order_CheckMoneyOrder_NewCustomerWithSimpleSmokeTest extends Mage_Selenium_TestCase
 {
-
     /**
      * <p>Preconditions:</p>
      * <p>Log in to Backend.</p>
@@ -394,5 +393,4 @@ class Order_CheckMoneyOrder_NewCustomerWithSimpleSmokeTest extends Mage_Selenium
         //Verifying
         $this->assertMessagePresent('success', 'success_created_order');
     }
-
 }

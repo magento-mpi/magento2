@@ -35,7 +35,6 @@
  */
 class Order_Helper extends Mage_Selenium_TestCase
 {
-
     /**
      * Generates array of strings for filling customer's billing/shipping form
      * @param string $charsType :alnum:, :alpha:, :digit:, :lower:, :upper:, :punct:
@@ -704,5 +703,4 @@ class Order_Helper extends Mage_Selenium_TestCase
             return TRUE;
         }
     }
-
 }
