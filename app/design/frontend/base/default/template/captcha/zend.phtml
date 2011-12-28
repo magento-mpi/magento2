@@ -45,7 +45,7 @@
         <img id="<?php echo $this->getFormId() ?>" class="captcha-img" height="<?php echo $this->getImgHeight() ?>" src="<?php echo $captcha->getImgSrc() ?>"/>
         <?php if ($captcha->isCaseSensitive()) :?>
         <div class="captcha-note">
-            <p><?php echo $this->__('<strong>Attention</strong>: Captcha is case sensitive.') ?></p>
+            <?php echo $this->__('<strong>Attention</strong>: Captcha is case sensitive.') ?>
         </div>
         <?php endif; ?>
     </div>

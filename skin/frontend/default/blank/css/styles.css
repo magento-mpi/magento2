@@ -1064,6 +1064,7 @@ tr.summary-details-excluded { font-style:italic; }
 /* Captcha */
 .captcha-note  {}
 .captcha-image { float:left; position:relative; }
+.captcha-img { border:1px solid #ccc; }
 .registered-users .captcha-image    {}
 #checkout-step-login .captcha-image {}
 .captcha-reload { position:absolute; top:2px; right:2px;}

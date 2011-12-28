@@ -1989,8 +1989,8 @@ ul.cms-menu.type-square ul { list-style-type:square; }
 
 /* Captcha */
 .captcha-note  { clear:left; padding-top:5px;}
-.captcha-image { float:left; border:1px solid #c7c7c7; margin:0 0 0 240px; position:relative; width:228px; }
-.captcha-image .captcha-img { vertical-align:bottom; width:100%; }
+.captcha-image { float:left; margin:0 0 0 240px; position:relative; width:228px; }
+.captcha-image .captcha-img { border:1px solid #c7c7c7; vertical-align:bottom; width:100%; }
 .registered-users .captcha-image    { margin:-12px 0 0 113px; }
 #checkout-step-login .captcha-image { margin:-24px 0 0 105px; width:214px; }
 .captcha-reload { cursor:pointer; position:absolute; top:2px; right:2px;}

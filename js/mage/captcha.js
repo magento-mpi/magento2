@@ -28,14 +28,18 @@ Captcha.prototype = {
         this.url = url;
         this.formId = formId;
     },
-    refresh: function() {
+    refresh: function(elem) {
         formId = this.formId;
+        if (elem) Element.addClassName(elem, 'refreshing');
         new Ajax.Request(this.url, {
             onSuccess: function (response) {
                 if (response.responseText.isJSON()) {
                     var json = response.responseText.evalJSON();
                     if (!json.error && json.imgSrc) {
                         $(formId).writeAttribute('src', json.imgSrc);
+                        if (elem) Element.removeClassName(elem, 'refreshing');
+                    } else {
+                        if (elem) Element.removeClassName(elem, 'refreshing');
                     }
                 }
             },

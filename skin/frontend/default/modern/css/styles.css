@@ -1401,9 +1401,9 @@ f/********** Product Prices > */
 
 /* Captcha */
 .captcha-note   { clear:left; padding-top:5px; }
-.captcha-image  { float:left; display:inline; border:1px solid #b6b6b6; margin:0; position:relative; width:258px; }
-.captcha-image .captcha-img { vertical-align:bottom; width:100%; }
-.registered-users .captcha-image { border:solid 1px #b6b6b6; margin:0; }
+.captcha-image  { float:left; display:inline; margin:0; position:relative; width:258px; }
+.captcha-image .captcha-img { border:1px solid #b6b6b6; vertical-align:bottom; width:100%; }
+.registered-users .captcha-image { margin:0; }
 .captcha-reload { cursor:pointer; position:absolute; top:2px; right:2px; }
 .captcha-reload.refreshing  { animation:rotate 1.5s infinite linear; -webkit-animation:rotate 1.5s infinite linear; -moz-animation:rotate 1.5s infinite linear; }
 
