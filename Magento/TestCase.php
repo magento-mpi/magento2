@@ -66,6 +66,13 @@ class Magento_TestCase extends PHPUnit_Framework_TestCase
     static protected $_admin;
 
     /**
+     * Default admin user model
+     *
+     * @var Mage_Customer_Model_Customer
+     */
+    static protected $_customer;
+
+    /**
      * Run garbage collector for cleaning memory
      *
      * @return void
@@ -362,6 +369,25 @@ class Magento_TestCase extends PHPUnit_Framework_TestCase
             self::$_admin = $user;
         }
         return self::$_admin;
+    }
+
+    /**
+     * Get customer model
+     *
+     * @return Mage_Customer_Model_Customer
+     */
+    static public function getDefaultCustomer()
+    {
+        if (null === self::$_customer) {
+            /** @var $user Mage_Customer_Model_Customer */
+            $user = Mage::getModel('customer/customer');
+            $user->authenticate(TESTS_CUSTOMER_EMAIL, TESTS_CUSTOMER_PASSWORD);
+            if (!$user->getId()) {
+                throw new Magento_Test_Exception('Admin user not found. Check credentials from config file.');
+            }
+            self::$_customer = $user;
+        }
+        return self::$_customer;
     }
 
     /**

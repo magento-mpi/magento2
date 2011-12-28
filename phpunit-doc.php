@@ -48,6 +48,16 @@ define('TESTS_ADMIN_USERNAME', '');
 define('TESTS_ADMIN_PASSWORD', '');
 
 /**
+ * Define customer email
+ */
+define('TESTS_CUSTOMER_EMAIL', '');
+
+/**
+ * Define customer password
+ */
+define('TESTS_CUSTOMER_PASSWORD', '');
+
+/**
  * Define webservice type
  *
  * SOAPV2, SOAPV1, XMLRPC
