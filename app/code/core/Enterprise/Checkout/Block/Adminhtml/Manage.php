@@ -77,12 +77,15 @@ class Enterprise_Checkout_Block_Adminhtml_Manage extends Mage_Adminhtml_Block_Wi
                     'style' => 'float:right; margin-left: 5px;'
                 ))
         );
-
+        $deleteAllConfirmString = Mage::helper('core')->jsonEncode(
+            Mage::helper('enterprise_checkout')->__('Are you sure you want to delete all items from shopping cart?')
+        );
         $this->setChild('empty_customer_cart_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'label' => Mage::helper('enterprise_checkout')->__('Clear Shopping Cart'),
-                    'onclick' => 'checkoutObj.updateItems({\'empty_customer_cart\': 1})',
+                    'onclick' => Mage::helper('core')->escapeHtml('confirm(' . $deleteAllConfirmString . ') '
+                        . ' && checkoutObj.updateItems({"empty_customer_cart": 1})'),
                     'style' => 'float:right;'
                 ))
         );
