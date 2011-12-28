@@ -81,13 +81,17 @@ class Mage_OAuth_Adminhtml_OAuth_AuthorizeController extends Mage_Adminhtml_Cont
         $this->renderLayout();
     }
 
+    /**
+     * Confirm token authorization action
+     */
     public function confirmAction()
     {
+        /** @var $session Mage_Admin_Model_Session */
+        $session = Mage::getSingleton('admin/session');
+
         /** @var $server Mage_OAuth_Model_Server */
         $server = Mage::getModel('oauth/server');
-        $server->checkAuthorizeRequest();
-
-        $token = $server->authorizeToken();
+        $token = $server->authorizeToken($session->getUser()->getId(), Mage_OAuth_Model_Token::USER_TYPE_ADMIN);
 
         $callback = $server->getFullCallbackUrl($token);  //false in case of OOB
         $response = $this->getResponse();
@@ -99,6 +103,9 @@ class Mage_OAuth_Adminhtml_OAuth_AuthorizeController extends Mage_Adminhtml_Cont
         $response->sendResponse();
     }
 
+    /**
+     * Reject token authorization action
+     */
     public function rejectAction()
     {
         /** @var $server Mage_OAuth_Model_Server */
@@ -117,6 +124,11 @@ class Mage_OAuth_Adminhtml_OAuth_AuthorizeController extends Mage_Adminhtml_Cont
         $this->getResponse()->setRedirect($url)->sendResponse();
     }
 
+    /**
+     * Retrieve token out of request
+     *
+     * @return mixed
+     */
     protected function _getTokenString()
     {
         return $this->getRequest()->getQuery('oauth_token', null);

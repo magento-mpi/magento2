@@ -61,13 +61,17 @@ class Mage_OAuth_AuthorizeController extends Mage_Core_Controller_Front_Action
         $this->renderLayout();
     }
 
+    /**
+     * Confirm token authorization action
+     */
     public function confirmAction()
     {
+        /** @var $session Mage_Customer_Model_Session */
+        $session = Mage::getSingleton('customer/session');
+
         /** @var $server Mage_OAuth_Model_Server */
         $server = Mage::getModel('oauth/server');
-        $server->checkAuthorizeRequest();
-
-        $token = $server->authorizeToken();
+        $token = $server->authorizeToken($session->getCustomerId(), Mage_OAuth_Model_Token::USER_TYPE_CUSTOMER);
 
         $callback = $server->getFullCallbackUrl($token);  //false in case of OOB
         $response = $this->getResponse();
@@ -79,6 +83,9 @@ class Mage_OAuth_AuthorizeController extends Mage_Core_Controller_Front_Action
         $response->sendResponse();
     }
 
+    /**
+     * Reject token authorization action
+     */
     public function rejectAction()
     {
         /** @var $server Mage_OAuth_Model_Server */
@@ -97,6 +104,11 @@ class Mage_OAuth_AuthorizeController extends Mage_Core_Controller_Front_Action
         $this->getResponse()->setRedirect($url)->sendResponse();
     }
 
+    /**
+     * Retrieve token out of request
+     *
+     * @return mixed
+     */
     protected function _getTokenString()
     {
         return $this->getRequest()->getQuery('oauth_token', null);
