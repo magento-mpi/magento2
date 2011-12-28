@@ -191,6 +191,7 @@ class Mage_Adminhtml_Block_Report_Grid_Abstract extends Mage_Adminhtml_Block_Wid
                 ->isTotals(true);
 
             $this->_addOrderStatusFilter($totalsCollection, $filterData);
+            $this->_addCustomFilter($totalsCollection, $filterData);
 
             foreach ($totalsCollection as $item) {
                 $this->setTotals($item);
