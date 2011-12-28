@@ -36,7 +36,7 @@ class Mage_Paypal_PayflowController extends Mage_Paypal_Controller_Express_Abstr
      *
      * @var string
      */
-    protected $_checkoutType = 'paypal/payflowlink';
+    protected $_checkoutType = 'Mage_Paypal_Model_Payflowlink';
 
     /**
      * When a customer cancel payment from payflow gateway.
