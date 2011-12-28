@@ -248,6 +248,15 @@
                     <model>captcha/observer::deleteOldAttempts</model>
                 </run>
             </captcha_delete_old_attempts>
+            <captcha_delete_expired_images>
+                <schedule>
+                    <cron_expr>*/10 * * * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>captcha/observer::deleteExpiredImages</model>
+                </run>
+            </captcha_delete_expired_images>
+
         </jobs>
     </crontab>
 </config>

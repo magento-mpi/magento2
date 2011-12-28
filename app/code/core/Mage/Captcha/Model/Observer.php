@@ -235,6 +235,19 @@ class Mage_Captcha_Model_Observer
     }
 
     /**
+     * Delete Expired Captcha Images
+     *
+     * @return Mage_Captcha_Model_Observer
+     */
+    public function deleteExpiredImages()
+    {
+        foreach (Mage::app()->getWebsites(true) as $website){
+            Mage::helper('captcha')->deleteCaptchaImagesForWebsite($website);
+        }
+        return $this;
+    }
+
+    /**
      * Reset Attempts
      *
      * @param string $login

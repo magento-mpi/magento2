@@ -78,12 +78,14 @@ class Mage_Captcha_Helper_Data extends Mage_Core_Helper_Abstract
      * Returns value of the node with respect to current area (frontend or backend)
      *
      * @param string $id The last part of XML_PATH_$area_CAPTCHA_ constant (case insensitive)
+     * @param Mage_Core_Model_Store $store
      * @throws Mage_Core_Exception
      * @return Mage_Core_Model_Config_Element
      */
-    public function getConfigNode($id)
+    public function getConfigNode($id, $store = null)
     {
-        return Mage::getStoreConfig((Mage::app()->getStore()->isAdmin() ? 'admin' : 'customer') . '/captcha/' . $id);
+        $areaCode = Mage::app()->getStore($store)->isAdmin() ? 'admin' : 'customer';
+        return Mage::getStoreConfig( $areaCode . '/captcha/' . $id, $store);
     }
 
     /**
@@ -106,5 +108,25 @@ class Mage_Captcha_Helper_Data extends Mage_Core_Helper_Abstract
             }
         }
         return $fonts;
+    }
+
+    /**
+     * Delete Expired Images For Website
+     *
+     * @param Mage_Core_Model_Website $website
+     * @return Mage_Captcha_Helper_Data
+     */
+    public function deleteCaptchaImagesForWebsite(Mage_Core_Model_Website $website)
+    {
+        $expire = time() - Mage::helper('captcha')->getConfigNode('timeout', $website->getDefaultStore())*60;
+        $imageDirectory = Mage::getBaseDir('media') . DS . 'captcha' . DS . $website->getCode() . DS;
+        foreach (new DirectoryIterator($imageDirectory) as $file) {
+            if (!$file->isDot() && !$file->isDir() && substr($file->getFilename(), -(strlen(".png"))) == ".png") {
+                if ($file->getMTime() < $expire) {
+                    unlink($file->getPathname());
+                }
+            }
+        }
+        return $this;
     }
 }

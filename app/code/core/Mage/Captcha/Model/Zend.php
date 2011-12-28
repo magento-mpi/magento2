@@ -66,12 +66,6 @@ class Mage_Captcha_Model_Zend extends Zend_Captcha_Image implements Mage_Captcha
     protected $_expiration;
 
     /**
-     * Change how often script should clear expired captcha image
-     * @var int
-     */
-    protected $_gcFreq = 1;
-
-    /**
     * Override default value to prevent a captcha cut off
     * @var int
     * @see Zend_Captcha_Image::$_fsize
@@ -492,5 +486,16 @@ class Mage_Captcha_Model_Zend extends Zend_Captcha_Image implements Mage_Captcha
     protected function _randomSize()
     {
         return mt_rand(280, 300) / 100;
+    }
+
+    /**
+     * Overlap of the parent method
+     *
+     * Now deleting old captcha images make crontab script
+     * @see Mage_Captcha_Model_Observer::deleteExpiredImages
+     */
+    protected function _gc()
+    {
+        //do nothing
     }
 }
