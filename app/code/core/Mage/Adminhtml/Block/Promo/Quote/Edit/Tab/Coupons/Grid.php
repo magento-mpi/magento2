@@ -79,7 +79,9 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Coupons_Grid extends Mage_Adminh
         $this->addColumn('created_at', array(
             'header' => Mage::helper('salesrule')->__('Created On'),
             'index'  => 'created_at',
-            'width'  => '250'
+            'type'   => 'datetime',
+            'align'  => 'center',
+            'width'  => '160'
         ));
 
         $this->addColumn('used', array(
@@ -95,6 +97,13 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Coupons_Grid extends Mage_Adminh
             'filter_condition_callback' => array(
                 Mage::getResourceModel('salesrule/coupon_collection'), 'addIsUsedFilterCallback'
             )
+        ));
+
+        $this->addColumn('times_used', array(
+            'header' => Mage::helper('salesrule')->__('Times Used'),
+            'index'  => 'times_used',
+            'width'  => '50',
+            'type'   => 'number',
         ));
 
         $this->addExportType('*/*/exportCouponsCsv', Mage::helper('customer')->__('CSV'));

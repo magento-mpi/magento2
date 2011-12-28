@@ -25,7 +25,7 @@
  */
 
 /**
- * "Generated Specific Coupons" Tab
+ * "Manage Coupons Codes" Tab
  *
  * @category    Mage
  * @package     Mage_Adminhtml
@@ -42,7 +42,7 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Coupons
      */
     public function getTabLabel()
     {
-        return Mage::helper('salesrule')->__('Generated Specific Coupons');
+        return Mage::helper('salesrule')->__('Manage Coupons Codes');
     }
 
     /**
@@ -52,7 +52,7 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Coupons
      */
     public function getTabTitle()
     {
-        return Mage::helper('salesrule')->__('Generated Specific Coupons');
+        return Mage::helper('salesrule')->__('Manage Coupons Codes');
     }
 
     /**
