@@ -161,9 +161,9 @@
             <captcha_resource>
                 <class>Mage_Captcha_Model_Resource</class>
                 <entities>
-                    <login_attempt>
-                        <table>captcha_login_attempt</table>
-                    </login_attempt>
+                    <log>
+                        <table>captcha_log</table>
+                    </log>
                 </entities>
             </captcha_resource>
         </models>

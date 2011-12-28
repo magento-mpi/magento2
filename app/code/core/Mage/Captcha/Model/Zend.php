@@ -133,7 +133,7 @@ class Mage_Captcha_Model_Zend extends Zend_Captcha_Image implements Mage_Captcha
     protected function _isOverLimitAttempts($login)
     {
         return ($this->_isOverLimitSessionAttempt() || $this->_isOverLimitIpAttempt()
-                || $this->_isOverLimitLoginAttempts($login));
+            || $this->_isOverLimitLoginAttempts($login));
     }
 
     /**
@@ -143,8 +143,8 @@ class Mage_Captcha_Model_Zend extends Zend_Captcha_Image implements Mage_Captcha
      */
     protected function _isOverLimitSessionAttempt()
     {
-        return ($this->getSession()->getData($this->_formId . '_' . self::SESSION_FAILED_ATTEMPTS)
-               >= $this->_getHelper()->getConfigNode('failed_attempts'));
+        $key = $this->_formId . '_' . self::SESSION_FAILED_ATTEMPTS;
+        return $this->getSession()->getData($key) >= $this->_getHelper()->getConfigNode('failed_attempts');
     }
 
     /**
@@ -152,13 +152,11 @@ class Mage_Captcha_Model_Zend extends Zend_Captcha_Image implements Mage_Captcha
      *
      * @return bool
      */
-    protected function _isOverLimitIpAttempt(){
-        $ip = Mage::helper('core/http')->getRemoteAddr();
-        if ($ip != false) {
-            $countAttemptsByIp = Mage::getResourceModel('captcha/loginAttempt')->countAttemptsByRemoteAddress($ip);
-            if ($countAttemptsByIp >= $this->_getHelper()->getConfigNode('failed_attempts')) {
-                return true;
-            }
+    protected function _isOverLimitIpAttempt()
+    {
+        $countAttemptsByIp = Mage::getResourceModel('captcha/log')->countAttemptsByRemoteAddress();
+        if ($countAttemptsByIp >= $this->_getHelper()->getConfigNode('failed_attempts')) {
+            return true;
         }
         return false;
     }
@@ -169,9 +167,10 @@ class Mage_Captcha_Model_Zend extends Zend_Captcha_Image implements Mage_Captcha
      * @param string $login
      * @return bool
      */
-    protected function _isOverLimitLoginAttempts($login){
+    protected function _isOverLimitLoginAttempts($login)
+    {
         if ($login != false) {
-            $countAttemptsByLogin = Mage::getResourceModel('captcha/loginAttempt')->countAttemptsByUserLogin($login);
+            $countAttemptsByLogin = Mage::getResourceModel('captcha/log')->countAttemptsByUserLogin($login);
             if ($countAttemptsByLogin >= $this->_getHelper()->getConfigNode('failed_attempts')) {
                 $this->getSession()->setData(
                     $this->_formId . '_' . self::SESSION_FAILED_ATTEMPTS, $countAttemptsByLogin
@@ -310,8 +309,7 @@ class Mage_Captcha_Model_Zend extends Zend_Captcha_Image implements Mage_Captcha
             $attemptCount = (int)$this->getSession()->getData($this->_formId . '_' . self::SESSION_FAILED_ATTEMPTS);
             $attemptCount++;
             $this->getSession()->setData($this->_formId . '_' . self::SESSION_FAILED_ATTEMPTS, $attemptCount);
-            Mage::getResourceModel('captcha/loginAttempt')->logUserLogin($login)
-                ->logRemoteAddress(Mage::helper('core/http')->getRemoteAddr());
+            Mage::getResourceModel('captcha/log')->logAttempt($login);
         }
         return $this;
     }

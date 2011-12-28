@@ -19,44 +19,64 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_Log
+ * @package     Mage_Captcha
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 
 /**
- * Login Attempt resource
+ * Log Attempts resource
  *
  * @category    Mage
  * @package     Mage_Captcha
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Captcha_Model_Resource_LoginAttempt extends Mage_Core_Model_Resource_Db_Abstract
+class Mage_Captcha_Model_Resource_Log extends Mage_Core_Model_Resource_Db_Abstract
 {
+    /**
+     * Type Remote Address
+     */
+    const TYPE_REMOTE_ADDRESS = 1;
+    /**
+     * Type User Login Name
+     */
+    const TYPE_LOGIN = 2;
+
     /**
      * Define main table
      *
      */
     protected function _construct()
     {
-        $this->_init('captcha/login_attempt', array('type','value'));
+        $this->_init('captcha/log', array('type','value'));
     }
 
     /**
-     * Log Login
+     * Save or Update count Attempts
      *
      * @param string|null $login
-     * @return Mage_Captcha_Model_Resource_LoginAttempt
+     * @return Mage_Captcha_Model_Resource_Log
      */
-    public function logUserLogin($login){
+    public function logAttempt($login)
+    {
         if ($login != null){
-
             $this->_getWriteAdapter()->insertOnDuplicate(
                 $this->getMainTable(),
                 array(
-                     'type' => Mage_Captcha_Model_LoginAttempt::TYPE_LOGIN,
-                     'value' => md5($login), 'count' => 1, 'updated_at' => Mage::getSingleton('core/date')->gmtDate()
+                     'type' => self::TYPE_LOGIN, 'value' => $login, 'count' => 1,
+                     'updated_at' => Mage::getSingleton('core/date')->gmtDate()
+                ),
+                array('count' => new Zend_Db_Expr('count+1'), 'updated_at')
+            );
+        }
+        $ip = Mage::helper('core/http')->getRemoteAddr();
+        if ($ip != null) {
+            $this->_getWriteAdapter()->insertOnDuplicate(
+                $this->getMainTable(),
+                array(
+                     'type' => self::TYPE_REMOTE_ADDRESS, 'value' => $ip, 'count' => 1,
+                     'updated_at' => Mage::getSingleton('core/date')->gmtDate()
                 ),
                 array('count' => new Zend_Db_Expr('count+1'), 'updated_at')
             );
@@ -65,71 +85,43 @@ class Mage_Captcha_Model_Resource_LoginAttempt extends Mage_Core_Model_Resource_
     }
 
     /**
-     * Log Ip
+     * Delete User attempts by login
      *
-     * @param string|null $ip
-     * @return Mage_Captcha_Model_Resource_LoginAttempt
+     * @param string $login
+     * @return Mage_Captcha_Model_Resource_Log
      */
-    public function logRemoteAddress($ip){
-        if ($ip != null) {
-            $this->_getWriteAdapter()->insertOnDuplicate(
-                $this->getMainTable(),
-                array(
-                     'type' => Mage_Captcha_Model_LoginAttempt::TYPE_REMOTE_ADDRESS,
-                     'value' => md5($ip), 'count' => 1, 'updated_at' => Mage::getSingleton('core/date')->gmtDate()
-                ),
-                array('count' => new Zend_Db_Expr('count+1'), 'updated_at')
-            );
-        }
-        return $this;
-    }
-
-    /**
-     * Delete attempts by remote address
-     * @param $ip
-     * @return Mage_Captcha_Model_Resource_LoginAttempt
-     */
-    public function deleteByRemoteAddress($ip){
-        if ($ip != null) {
-            $this->_getWriteAdapter()->delete(
-                $this->getMainTable(),
-                array('type = ?' => Mage_Captcha_Model_LoginAttempt::TYPE_REMOTE_ADDRESS, 'value = ?' => md5($ip))
-            );
-        }
-        return $this;
-    }
-
-    /**
-     * Delete attempts by login
-     *
-     * @param $login
-     * @return Mage_Captcha_Model_Resource_LoginAttempt
-     */
-    public function deleteByUserName($login){
+    public function deleteUserAttempts($login)
+    {
         if ($login != null) {
             $this->_getWriteAdapter()->delete(
                 $this->getMainTable(),
-                array('type = ?' => Mage_Captcha_Model_LoginAttempt::TYPE_LOGIN, 'value = ?' => md5($login))
+                array('type = ?' => self::TYPE_LOGIN, 'value = ?' => $login)
             );
         }
+        $ip = Mage::helper('core/http')->getRemoteAddr();
+        if ($ip != null) {
+            $this->_getWriteAdapter()->delete(
+                $this->getMainTable(), array('type = ?' => self::TYPE_REMOTE_ADDRESS, 'value = ?' => $ip)
+            );
+        }
+
         return $this;
     }
 
     /**
      * Get count attempts by ip
      *
-     * @param string $ip
-     * @return null|Mage_Captcha_Model_LoginAttempt
+     * @return null|int
      */
-    public function countAttemptsByRemoteAddress($ip){
+    public function countAttemptsByRemoteAddress()
+    {
+        $ip = Mage::helper('core/http')->getRemoteAddr();
         if (!$ip) {
             return 0;
         }
         $read = $this->_getReadAdapter();
-        $select = $read->select()
-            ->from($this->getMainTable(), 'count')
-            ->where('type = ?', Mage_Captcha_Model_LoginAttempt::TYPE_REMOTE_ADDRESS)
-            ->where('value = ?', md5($ip));
+        $select = $read->select()->from($this->getMainTable(), 'count')->where('type = ?', self::TYPE_REMOTE_ADDRESS)
+            ->where('value = ?', $ip);
         return $read->fetchOne($select);
     }
 
@@ -137,21 +129,26 @@ class Mage_Captcha_Model_Resource_LoginAttempt extends Mage_Core_Model_Resource_
      * Get count attempts by user login
      *
      * @param string $login
-     * @return null|Mage_Captcha_Model_LoginAttempt
+     * @return null|int
      */
-    public function countAttemptsByUserLogin($login){
+    public function countAttemptsByUserLogin($login)
+    {
         if (!$login) {
             return 0;
         }
         $read = $this->_getReadAdapter();
-        $select = $read->select()
-            ->from($this->getMainTable(), 'count')
-            ->where('type = ?', Mage_Captcha_Model_LoginAttempt::TYPE_LOGIN)
-            ->where('value = ?', md5($login));
+        $select = $read->select()->from($this->getMainTable(), 'count')->where('type = ?', self::TYPE_LOGIN)
+            ->where('value = ?', $login);
         return $read->fetchOne($select);
     }
 
-    public function deleteOldAttempts(){
+    /**
+     * Delete attempts with expired in update_at time
+     *
+     * @return void
+     */
+    public function deleteOldAttempts()
+    {
         $this->_getWriteAdapter()->delete(
             $this->getMainTable(),
             array('updated_at < ?' => Mage::getSingleton('core/date')->gmtDate(null, time() - 60*30))

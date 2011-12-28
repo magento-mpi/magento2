@@ -205,7 +205,8 @@ class Mage_Captcha_Model_Observer
      * @param Varien_Object $observer
      * @return Mage_Captcha_Model_Observer
      */
-    public function resetAttemptForFronted($observer){
+    public function resetAttemptForFronted($observer)
+    {
         return $this->_resetAttempt($observer->getModel()->getEmail());
     }
 
@@ -215,7 +216,8 @@ class Mage_Captcha_Model_Observer
      * @param Varien_Object $observer
      * @return Mage_Captcha_Model_Observer
      */
-    public function  resetAttemptForBackend($observer){
+    public function  resetAttemptForBackend($observer)
+    {
         return $this->_resetAttempt($observer->getUser()->getUsername());
     }
 
@@ -224,8 +226,9 @@ class Mage_Captcha_Model_Observer
      *
      * @return Mage_Captcha_Model_Observer
      */
-    public function deleteOldAttempts(){
-        Mage::getResourceModel('captcha/loginAttempt')->deleteOldAttempts();
+    public function deleteOldAttempts()
+    {
+        Mage::getResourceModel('captcha/log')->deleteOldAttempts();
         return $this;
     }
 
@@ -235,10 +238,9 @@ class Mage_Captcha_Model_Observer
      * @param string $login
      * @return Mage_Captcha_Model_Observer
      */
-    protected function _resetAttempt($login){
-        Mage::getResourceModel('captcha/loginAttempt')
-            ->deleteByRemoteAddress(Mage::helper('core/http')->getRemoteAddr());
-        Mage::getResourceModel('captcha/loginAttempt')->deleteByUserName($login);
+    protected function _resetAttempt($login)
+    {
+        Mage::getResourceModel('captcha/log')->deleteUserAttempts($login);
         return $this;
     }
 
