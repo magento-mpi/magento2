@@ -178,4 +178,35 @@ class Mage_OAuth_Model_Token extends Mage_Core_Model_Abstract
     {
         return http_build_query(array('oauth_token' => $this->getToken(), 'oauth_token_secret' => $this->getSecret()));
     }
+
+    /**
+     * Update "updated at" date
+     *
+     * @return Mage_OAuth_Model_Consumer
+     */
+    protected function _beforeSave()
+    {
+        $this->validate();
+        parent::_beforeSave();
+        return $this;
+    }
+
+    /**
+     * Validate data
+     *
+     * @return array|bool
+     * @throw Mage_Core_Exception|Exception   Throw exception on fail validation
+     */
+    public function validate()
+    {
+        if (!$this->getCustomerId() && !$this->getAdminId()) {
+            throw new Exception('Customer ID or admin ID must not empty.');
+        }
+
+        if ($this->getCustomerId() && $this->getAdminId()) {
+            throw new Exception('Both customer ID and admin ID cannot be not null.');
+        }
+
+        return true;
+    }
 }
