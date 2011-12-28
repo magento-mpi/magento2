@@ -77,6 +77,13 @@ class Mage_OAuth_Model_Token extends Mage_Core_Model_Abstract
     const LENGTH_VERIFIER = 32;
     /**#@- */
 
+    /**#@+
+     * Customer types
+     */
+    const USER_TYPE_ADMIN    = 'admin';
+    const USER_TYPE_CUSTOMER = 'customer';
+    /**#@- */
+
     /**
      * Initialize resource model
      *
@@ -90,12 +97,21 @@ class Mage_OAuth_Model_Token extends Mage_Core_Model_Abstract
     /**
      * Authorize token
      *
+     * @param int $userId Authorization user identifier
+     * @param string $userType Authorization user type
      * @return Mage_OAuth_Model_Token
      */
-    public function authorize()
+    public function authorize($userId, $userType)
     {
         if ($this->getAuthorized()) {
             Mage::throwException('Token is already authorized');
+        }
+        if (self::USER_TYPE_ADMIN == $userType) {
+            $this->setAdminId($userId);
+        } elseif (self::USER_TYPE_CUSTOMER == $userType) {
+            $this->setCustomerId($userId);
+        } else {
+            Mage::throwException('User type is unknown');
         }
         /** @var $helper Mage_OAuth_Helper_Data */
         $helper = Mage::helper('oauth');

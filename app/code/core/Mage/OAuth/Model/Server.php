@@ -525,17 +525,18 @@ class Mage_OAuth_Model_Server
     /**
      * Validate request, authorize token and return it
      *
-     * @param Mage_Core_Controller_Request_Http|null $request
+     * @param int $userId Authorization user identifier
+     * @param string $userType Authorization user type
      * @return Mage_OAuth_Model_Token
      */
-    public function authorizeToken(Mage_Core_Controller_Request_Http $request = null)
+    public function authorizeToken($userId, $userType)
     {
         $this->_requestType = self::REQUEST_AUTHORIZE;
 
-        $this->_fetchParams(null === $request ? Mage::app()->getRequest() : $request);
+        $this->_fetchParams(Mage::app()->getRequest());
         $this->_initToken();
 
-        $this->_token->authorize();
+        $this->_token->authorize($userId, $userType);
 
         return $this->_token;
     }
