@@ -139,6 +139,13 @@ class Mage_OAuth_Model_Server
     protected $_params = null;
 
     /**
+     * Request object
+     *
+     * @var Mage_Core_Controller_Request_Http
+     */
+    protected $_request;
+
+    /**
      * Request type: initiate, permanent token request or authorized one
      *
      * @var string
@@ -161,32 +168,34 @@ class Mage_OAuth_Model_Server
 
     /**
      * Internal constructor not depended on params
+     *
+     * @param Mage_Core_Controller_Request_Http $request OPTIONAL Request object (If not specified - use singlton)
      */
-    public function __construct()
+    public function __construct($request = null)
     {
-        $this->_helper = Mage::helper('oauth');
+        $this->_helper  = Mage::helper('oauth');
+        $this->_request = $request instanceof Mage_Core_Controller_Request_Http ? $request : Mage::app()->getRequest();
     }
 
     /**
      * Retrieve parameters from request object
      *
-     * @param Mage_Core_Controller_Request_Http $request
      * @return Mage_OAuth_Model_Server
      */
-    protected function _fetchParams(Mage_Core_Controller_Request_Http $request)
+    protected function _fetchParams()
     {
-        $this->_params = $request->getQuery();
+        $this->_params = $this->_request->getQuery();
 
-        if ($request->getHeader(Zend_Http_Client::CONTENT_TYPE) == Zend_Http_Client::ENC_URLENCODED) {
+        if ($this->_request->getHeader(Zend_Http_Client::CONTENT_TYPE) == Zend_Http_Client::ENC_URLENCODED) {
             $bodyParams = array();
 
-            parse_str($request->getRawBody(), $bodyParams);
+            parse_str($this->_request->getRawBody(), $bodyParams);
 
             if (count($bodyParams)) {
                 $this->_params = array_merge($this->_params, $bodyParams);
             }
         }
-        $headerValue = $request->getHeader('Authorization');
+        $headerValue = $this->_request->getHeader('Authorization');
 
         if ($headerValue) {
             $headerValue = substr($headerValue, 6); // ignore 'OAuth ' at the beginning
@@ -282,25 +291,25 @@ class Mage_OAuth_Model_Server
     /**
      * Extract parameters from sources (GET, FormBody, Authorization header), decode them and validate
      *
-     * @param Mage_Core_Controller_Request_Http $request Request object
      * @param string $requestType Request type - one of REQUEST_... class constant
      * @param string|null $url OPTIONAL Requested URL (used in signature verification)
      *                                  It will try to define it automatically if possible
      * @return Mage_OAuth_Model_Server
      */
-    protected function _processRequest(Mage_Core_Controller_Request_Http $request, $requestType, $url = null)
+    protected function _processRequest($requestType, $url = null)
     {
         // validate request type
         if (self::REQUEST_AUTHORIZE != $requestType
             && self::REQUEST_INITIATE != $requestType
             && self::REQUEST_RESOURCE != $requestType
-            && self::REQUEST_TOKEN != $requestType) {
+            && self::REQUEST_TOKEN != $requestType
+        ) {
             Mage::throwException('Invalid request type');
         }
         $this->_requestType = $requestType;
 
         // get parameters from request
-        $this->_fetchParams($request);
+        $this->_fetchParams();
 
         // make generic validation of request parameters
         $this->_validateParams();
@@ -432,7 +441,7 @@ class Mage_OAuth_Model_Server
             }
         }
         // validate signature method
-        if (!in_array($this->_params['oauth_signature_method'], $this->getValidSignatureMethods())) {
+        if (!in_array($this->_params['oauth_signature_method'], self::getValidSignatureMethods())) {
             $this->_throwException('', self::ERR_SIGNATURE_METHOD_REJECTED);
         }
         // validate nonce data if signature method is not PLAINTEXT
@@ -507,13 +516,11 @@ class Mage_OAuth_Model_Server
 
     /**
      * Process request for permanent access token
-     *
-     * @param Mage_Core_Controller_Request_Http $request OPTIONAL Request object
      */
-    public function accessToken(Mage_Core_Controller_Request_Http $request = null)
+    public function accessToken()
     {
         try {
-            $this->_processRequest(null === $request ? Mage::app()->getRequest() : $request, self::REQUEST_TOKEN);
+            $this->_processRequest(self::REQUEST_TOKEN);
 
             $response = $this->_token->toString();
         } catch (Exception $e) {
@@ -533,7 +540,7 @@ class Mage_OAuth_Model_Server
     {
         $this->_requestType = self::REQUEST_AUTHORIZE;
 
-        $this->_fetchParams(Mage::app()->getRequest());
+        $this->_fetchParams();
         $this->_initToken();
 
         $this->_token->authorize($userId, $userType);
@@ -544,17 +551,13 @@ class Mage_OAuth_Model_Server
     /**
      * Validate request with access token
      *
-     * @param Mage_Core_Controller_Request_Http|null $request
      * @param string $url OPTIONAL Request URL
      * @return boolean
      */
-    public function checkAccessRequest(Mage_Core_Controller_Request_Http $request = null, $url = null)
+    public function checkAccessRequest($url = null)
     {
         try {
-            if (null === $request) {
-                $request = Mage::app()->getRequest();
-            }
-            $this->_processRequest($request, self::REQUEST_RESOURCE, $url);
+            $this->_processRequest(self::REQUEST_RESOURCE, $url);
         } catch (Exception $e) {
             $this->_getResponse()->setBody($this->_reportProblem($e));
 
@@ -565,19 +568,15 @@ class Mage_OAuth_Model_Server
 
     /**
      * Process authorize request
-     *
-     * @param Mage_Core_Controller_Request_Http $request OPTIONAL Request object
      */
-    public function checkAuthorizeRequest(Mage_Core_Controller_Request_Http $request = null)
+    public function checkAuthorizeRequest()
     {
         $this->_requestType = self::REQUEST_AUTHORIZE;
 
-        $request = null === $request ? Mage::app()->getRequest() : $request;
-
-        if (!$request->isGet()) {
+        if (!$this->_request->isGet()) {
             Mage::throwException('Request is not GET');
         }
-        $this->_fetchParams($request);
+        $this->_fetchParams();
         $this->_initToken();
     }
 
@@ -607,20 +606,18 @@ class Mage_OAuth_Model_Server
      *
      * @return array
      */
-    public function getValidSignatureMethods()
+    public static function getValidSignatureMethods()
     {
         return array(self::SIGNATURE_RSA, self::SIGNATURE_HMAC, self::SIGNATURE_PLAIN);
     }
 
     /**
      * Process request for temporary (initiative) token
-     *
-     * @param Mage_Core_Controller_Request_Http $request OPTIONAL Request object
      */
-    public function initiateToken(Mage_Core_Controller_Request_Http $request = null)
+    public function initiateToken()
     {
         try {
-            $this->_processRequest(null === $request ? Mage::app()->getRequest() : $request, self::REQUEST_INITIATE);
+            $this->_processRequest(self::REQUEST_INITIATE);
 
             $response = $this->_token->toString() . '&oauth_callback_confirmed=true';
         } catch (Exception $e) {

@@ -173,6 +173,6 @@ class Mage_OAuth_ClientController extends Mage_Core_Controller_Front_Action
         /** @var $server Mage_OAuth_Model_Server */
         $server = Mage::getModel('oauth/server');
 
-        echo $server->checkAccessRequest(null, Mage::getUrl('*/*/*')) ? 'Access Granted<br>' : 'Access Denied<br>';
+        echo $server->checkAccessRequest(Mage::getUrl('*/*/*')) ? 'Access Granted<br>' : 'Access Denied<br>';
     }
 }
