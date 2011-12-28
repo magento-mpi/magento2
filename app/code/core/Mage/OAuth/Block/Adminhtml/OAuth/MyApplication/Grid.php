@@ -89,9 +89,9 @@ class Mage_OAuth_Block_Adminhtml_OAuth_MyApplication_Grid extends Mage_Adminhtml
 
         /** @var $sourceYesNo Mage_Adminhtml_Model_System_Config_Source_Yesno */
         $sourceYesNo = Mage::getSingleton('adminhtml/system_config_source_yesno');
-        $this->addColumn('is_revoked', array(
+        $this->addColumn('revoked', array(
             'header'    => $this->__('Revoked'),
-            'index'     => 'is_revoked',
+            'index'     => 'revoked',
             'width'     => '100px',
             'type'      => 'options',
             'options'   => $sourceYesNo->toArray(),

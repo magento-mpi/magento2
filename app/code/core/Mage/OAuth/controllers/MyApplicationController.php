@@ -82,7 +82,11 @@ class Mage_OAuth_MyApplicationController extends Mage_Core_Controller_Front_Acti
      */
     protected function _redirectBack()
     {
-        $this->_redirectReferer(Mage::getUrl('*/*/index'));
+        $url = $this->_getRefererUrl();
+        if (Mage::app()->getStore()->getBaseUrl() == $url) {
+            $url = Mage::getUrl('*/*/index');
+        }
+        $this->_redirectUrl($url);
         return $this;
     }
 
@@ -108,14 +112,13 @@ class Mage_OAuth_MyApplicationController extends Mage_Core_Controller_Front_Acti
             return;
         }
 
-
         try {
             /** @var $collection Mage_OAuth_Model_Resource_Token_Collection */
             $collection = Mage::getModel('oauth/token')->getCollection();
             $collection->joinConsumerAsApplication()
                     ->addFilterByCustomerId($this->_session->getCustomerId())
                     ->addFilterById($id)
-                    ->addFilterByIsRevoked(!$status);
+                    ->addFilterByRevoked(!$status);
             //here is can be load from model, but used from collection for get consumer name
 
             /** @var $model Mage_OAuth_Model_Token */
@@ -123,7 +126,7 @@ class Mage_OAuth_MyApplicationController extends Mage_Core_Controller_Front_Acti
             if ($model->getId()) {
                 $name = $model->getName();
                 $model->load($model->getId());
-                $model->setIsRevoked($status)->save();
+                $model->setRevoked($status)->save();
                 if ($status) {
                     $message = $this->__('Application "%s" revoked.', $name);
                 } else {

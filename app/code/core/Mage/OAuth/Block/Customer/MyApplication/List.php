@@ -121,7 +121,7 @@ class Mage_OAuth_Block_Customer_MyApplication_List extends Mage_Customer_Block_A
     public function getUpdateRevokeLink(Mage_OAuth_Model_Token $model)
     {
         return Mage::getUrl('oauth/myApplication/revoke/',
-            array('id' => $model->getId(), 'status' => (int) !$model->getIsRevoked()));
+            array('id' => $model->getId(), 'status' => (int) !$model->getRevoked()));
     }
 
     /**

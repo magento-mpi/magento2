@@ -34,6 +34,8 @@
  * @method Mage_OAuth_Model_Nonce setNonce() setNonce(string $nonce)
  * @method string getTimestamp()
  * @method Mage_OAuth_Model_Nonce setTimestamp() setTimestamp(string $timestamp)
+ * @method Mage_OAuth_Model_Resource_Nonce getResource()
+ * @method Mage_OAuth_Model_Resource_Nonce _getResource()
  */
 class Mage_OAuth_Model_Nonce extends Mage_Core_Model_Abstract
 {

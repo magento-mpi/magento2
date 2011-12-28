@@ -46,8 +46,8 @@ $deleteLabel = $this->getDeleteLabel();
                         <?php echo $this->escapeHtml($item->getName()); ?></span></td>
                     <td><a href="<?php echo $this->getUpdateRevokeLink($item)?>" class="nobr"
                             onclick="return confirm('<?php
-                                echo $this->__('Are you sure want to update revoke status to \\\'%s\\\'?', $this->getRevokeLabel(!$item->getIsRevoked()))?>')">
-                        <?php echo $this->getRevokeLabel($item->getIsRevoked()) ?></a></td>
+                                echo $this->__('Are you sure want to update revoke status to \\\'%s\\\'?', $this->getRevokeLabel(!$item->getRevoked()))?>')">
+                        <?php echo $this->getRevokeLabel($item->getRevoked()) ?></a></td>
                     <td align="right"><a href="<?php echo $this->getDeleteLink($item)?>" class="nobr"
                             onclick="return confirm('<?php
                                 echo $this->__('Are you sure want to delete this application?')?>')">

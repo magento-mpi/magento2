@@ -70,7 +70,7 @@ class Mage_OAuth_Model_Consumer extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Update "updated at" date
+     * BeforeSave actions
      *
      * @return Mage_OAuth_Model_Consumer
      */

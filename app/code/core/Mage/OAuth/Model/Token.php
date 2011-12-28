@@ -30,6 +30,7 @@
  * @category    Mage
  * @package     Mage_OAuth
  * @author      Magento Core Team <core@magentocommerce.com>
+ * @method string getName() Consumer name (joined from consumer table)
  * @method Mage_OAuth_Model_Resource_Token_Collection getCollection()
  * @method Mage_OAuth_Model_Resource_Token_Collection getResourceCollection()
  * @method Mage_OAuth_Model_Resource_Token getResource()
@@ -38,6 +39,8 @@
  * @method Mage_OAuth_Model_Token setConsumerId() setConsumerId(int $consumerId)
  * @method int getAdminId()
  * @method Mage_OAuth_Model_Token setAdminId() setAdminId(int $adminId)
+ * @method int getCustomerId()
+ * @method Mage_OAuth_Model_Token setCustomerId() setCustomerId(int $customerId)
  * @method string getType()
  * @method Mage_OAuth_Model_Token setType() setType(string $type)
  * @method string getTmpTokenSecret()
@@ -56,9 +59,6 @@
  * @method Mage_OAuth_Model_Token setRevoked() setRevoked(int $revoked)
  * @method int getAuthorized()
  * @method Mage_OAuth_Model_Token setAuthorized() setAuthorized(int $authorized)
- * @method int getCustomerId()
- * @method Mage_OAuth_Model_Token setCustomerId() setCustomerId(int $customerId)
- * @method string getName()
  */
 class Mage_OAuth_Model_Token extends Mage_Core_Model_Abstract
 {

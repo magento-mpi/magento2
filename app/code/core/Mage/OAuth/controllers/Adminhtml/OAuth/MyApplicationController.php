@@ -99,12 +99,12 @@ class Mage_OAuth_Adminhtml_OAuth_MyApplicationController extends Mage_Adminhtml_
             $collection->joinConsumerAsApplication()
                     ->addFilterByAdminId($user->getId())
                     ->addFilterById($ids)
-                    ->addFilterByIsRevoked(!$status);
+                    ->addFilterByRevoked(!$status);
 
             /** @var $item Mage_OAuth_Model_Token */
             foreach ($collection as $item) {
                 $item->load($item->getId());
-                $item->setIsRevoked($status)->save();
+                $item->setRevoked($status)->save();
             }
             if ($status) {
                 $message = $this->__('Selected entries revoked.');

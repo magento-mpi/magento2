@@ -104,9 +104,9 @@ class Mage_OAuth_Model_Resource_Token_Collection extends Mage_Core_Model_Resourc
      * @param bool|int $flag
      * @return Mage_OAuth_Model_Resource_Token_Collection
      */
-    public function addFilterByIsRevoked($flag)
+    public function addFilterByRevoked($flag)
     {
-        $this->addFilter('main_table.is_revoked', (int) $flag, 'public');
+        $this->addFilter('main_table.revoked', (int) $flag, 'public');
         return $this;
     }
 }
