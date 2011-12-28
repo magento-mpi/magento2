@@ -90,16 +90,9 @@ class Mage_OAuth_AuthorizeController extends Mage_Core_Controller_Front_Action
     {
         /** @var $server Mage_OAuth_Model_Server */
         $server = Mage::getModel('oauth/server');
-        $server->checkAuthorizeRequest();
-
-        $token = $this->_loadToken();
-        //$token = $server->rejectToken();
-
-        $tokenString = $this->_getTokenString();
-        $delimiter = (strpos($tokenString, '?')===false)   ?'?'  :'&';
-
-        $url = $token->getCallbackUrl();
-        $url.= $delimiter.'oauth_token='.$tokenString.'&denied=1';
+        $token  = $server->checkAuthorizeRequest();
+        $url    = $token->getCallbackUrl();
+        $url    .= ((strpos($url, '?') === false) ? '?' : '&') . 'oauth_token=' . $token->getToken() . '&denied=1';
 
         $this->getResponse()->setRedirect($url)->sendResponse();
     }
