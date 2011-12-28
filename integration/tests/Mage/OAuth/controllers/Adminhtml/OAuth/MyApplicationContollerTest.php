@@ -38,38 +38,52 @@ class Mage_OAuth_Adminhtml_OAuth_MyApplicationControllerTest extends Magento_Tes
      */
     public function testRevokeStatusUpdate()
     {
+
         //generate test item
-        $this->loginToAdmin();
         $models = require realpath(dirname(__FILE__) . '/../../..')
-                            . '/Model/_fixtures/tokenConsumerCreate.php';
+                . '/Model/_fixtures/tokenConsumerCreate.php';
 
-        /** @var $token1 Mage_OAuth_Model_Token */
-        $token1 = $models['token'][0];
         /** @var $token2 Mage_OAuth_Model_Token */
-        $token2 = $models['token'][1];
+        $token1 = $models['token']['customer'][0]; //token which not related to admin, revoke = 0
+        /** @var $token1 Mage_OAuth_Model_Token */
+        $token2 = $models['token']['customer'][1]; //token which not related to admin, revoke = 1
         /** @var $token3 Mage_OAuth_Model_Token */
-        $token3 = $models['token'][2];
+        $token3 = $models['token']['admin'][0]; //revoke = 0
+        /** @var $token4 Mage_OAuth_Model_Token */
+        $token4 = $models['token']['admin'][1]; //revoke = 1
 
-        $tokenIds = array($token1->getId(), $token2->getId(), $token3->getId());
+        $revoked = 0;
+        $tokenIds = array(
+            $token1->getId(),
+            $token2->getId(),
+            $token3->getId(),
+            $token4->getId());
         $this->getRequest()->setParam('items', $tokenIds);
-        $this->getRequest()->setParam('status', 0);
-        $this->dispatch('admin/oAuth_myApplication/revoke');
+        $this->getRequest()->setParam('status', $revoked);
 
-        $token1->load($token1->getId());
-        $token2->load($token2->getId());
-
-        $message = 'Token has wrong is_revoked value.';
-        $this->assertEquals(1, $token1->getIsRevoked(), 'Token is updated but it must be not.');
-        $this->assertEquals(0, $token2->getIsRevoked(), $message);
-
-        Mage::unregister('application_params');
-        $this->getRequest()->setParam('status', 1);
+        $this->loginToAdmin();
         $this->dispatch('admin/oAuth_myApplication/revoke');
 
         $token2->load($token2->getId());
         $token3->load($token3->getId());
+        $token4->load($token4->getId());
 
-        $this->assertEquals(1, $token2->getIsRevoked(), $message);
-        $this->assertEquals(1, $token3->getIsRevoked(), $message);
+        $message = 'Token has wrong revoked value.';
+        $this->assertEquals(1, $token2->getRevoked(), 'Token is updated but it must be not.');
+        $this->assertEquals($revoked, $token3->getRevoked(), $message);
+        $this->assertEquals($revoked, $token4->getRevoked(), $message);
+
+        $revoked = 1;
+        Mage::unregister('application_params');
+        $this->getRequest()->setParam('status', $revoked);
+        $this->dispatch('admin/oAuth_myApplication/revoke');
+
+        $token1->load($token1->getId());
+        $token3->load($token3->getId());
+        $token4->load($token4->getId());
+
+        $this->assertEquals(0, $token1->getRevoked(), 'Token is updated but it must be not.');
+        $this->assertEquals($revoked, $token3->getRevoked(), $message);
+        $this->assertEquals($revoked, $token4->getRevoked(), $message);
     }
 }
