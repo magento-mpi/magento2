@@ -42,8 +42,10 @@ class Mage_OAuth_ClientController extends Mage_Core_Controller_Front_Action
 
     /**
      * Initialize test consumer
+     *
+     * @param boolean $asAdmin Administrator or customer
      */
-    protected function _initConsumer()
+    protected function _initConsumer($asAdmin = true)
     {
         /** @var $consumer Mage_OAuth_Model_Consumer */
         $consumer = Mage::getModel('oauth/consumer');
@@ -54,11 +56,15 @@ class Mage_OAuth_ClientController extends Mage_Core_Controller_Front_Action
         /** @var $helper Mage_OAuth_Helper_Data */
         $helper = Mage::helper('oauth');
 
+        if ($asAdmin) {
+            $authorizeUrl = $helper->getProtocolEndpointUrl(Mage_OAuth_Helper_Data::ENDPOINT_AUTHORIZE_ADMIN);
+        } else {
+            $authorizeUrl = $helper->getProtocolEndpointUrl(Mage_OAuth_Helper_Data::ENDPOINT_AUTHORIZE_CUSTOMER);
+        }
         $config = array(
             'requestTokenUrl' => $helper->getProtocolEndpointUrl(Mage_OAuth_Helper_Data::ENDPOINT_INITIATE),
             'accessTokenUrl'  => $helper->getProtocolEndpointUrl(Mage_OAuth_Helper_Data::ENDPOINT_TOKEN),
-            'authorizeUrl'    => $helper->getProtocolEndpointUrl(Mage_OAuth_Helper_Data::ENDPOINT_AUTHORIZE),
-                                    //'http://apia.com/admin/oAuth_authorize',
+            'authorizeUrl'    => $authorizeUrl,
             'requestMethod'   => Zend_Oauth::POST,
             'consumerKey'     => $consumer->getKey(),
             'consumerSecret'  => $consumer->getSecret(),
@@ -107,31 +113,22 @@ class Mage_OAuth_ClientController extends Mage_Core_Controller_Front_Action
      */
     public function clientInitAction()
     {
-        $this->_initConsumer();
-
-        echo '<pre>';
+        $this->_initConsumer($this->getRequest()->getParam('admin'));
 
         /** @var $session Mage_Core_Model_Session */
         $session = Mage::getSingleton('core/session');
 
-        $initToken = $session->getInitToken();
+        $requestToken = $this->_consumer->getRequestToken();
 
-        if ($initToken) {
-            // Zend_Oauth_Token_Request does not set RevisionA compatibility after wakeup from serialization
-            // let's do it by ourselves
-            if ($initToken->getParam(Zend_Oauth_Token::TOKEN_PARAM_CALLBACK_CONFIRMED)) {
-                Zend_Oauth_Client::$supportsRevisionA = true;
-            }
-            $this->_consumer->redirect(null, $initToken);
-        } else {
-            $initToken = $this->_consumer->getRequestToken();
-            echo '<strong>Last request:</strong><br>';
-            echo str_replace(',', ',<br>', $this->_consumer->getHttpClient()->getLastRequest());
-            echo '<strong>Last response:</strong><br>';
-            echo $this->_consumer->getHttpClient()->getLastResponse();
+        $session->setInitToken($requestToken);
 
-            $session->setInitToken($initToken);
-        }
+        $this->_consumer->redirect(null, $requestToken);
+
+        // for debug purposes
+        //echo '<pre><strong>Last request:</strong><br>';
+        //echo str_replace(',', ',<br>', $this->_consumer->getHttpClient()->getLastRequest());
+        //echo '<strong>Last response:</strong><br>';
+        //echo $this->_consumer->getHttpClient()->getLastResponse();
     }
 
     /**
@@ -176,6 +173,6 @@ class Mage_OAuth_ClientController extends Mage_Core_Controller_Front_Action
         /** @var $server Mage_OAuth_Model_Server */
         $server = Mage::getModel('oauth/server');
 
-        $server->checkAccessRequest(null, Mage::getUrl('*/*/*'));
+        echo $server->checkAccessRequest(null, Mage::getUrl('*/*/*')) ? 'Access Granted<br>' : 'Access Denied<br>';
     }
 }

@@ -34,11 +34,12 @@
 class Mage_OAuth_Helper_Data extends Mage_Core_Helper_Abstract
 {
     /**#@+
-     * Endpoint types
+     * Endpoint types with appropriate routes
      */
-    const ENDPOINT_AUTHORIZE = 'authorize';
-    const ENDPOINT_INITIATE  = 'initiate';
-    const ENDPOINT_TOKEN     = 'token';
+    const ENDPOINT_AUTHORIZE_CUSTOMER = 'oauth/authorize';
+    const ENDPOINT_AUTHORIZE_ADMIN    = 'adminhtml/oAuth_authorize';
+    const ENDPOINT_INITIATE           = 'oauth/initiate';
+    const ENDPOINT_TOKEN              = 'oauth/token';
     /**#@-*/
 
     /**
@@ -95,9 +96,13 @@ class Mage_OAuth_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getProtocolEndpointUrl($type)
     {
-        if (self::ENDPOINT_INITIATE != $type && self::ENDPOINT_AUTHORIZE != $type && self::ENDPOINT_TOKEN != $type) {
+        if (self::ENDPOINT_INITIATE != $type
+            && self::ENDPOINT_AUTHORIZE_CUSTOMER != $type
+            && self::ENDPOINT_AUTHORIZE_ADMIN != $type
+            && self::ENDPOINT_TOKEN != $type
+        ) {
             Mage::throwException('Invalid endpoint type passed');
         }
-        return rtrim(Mage::getUrl('oauth/' . $type), '/');
+        return rtrim(Mage::getUrl($type), '/');
     }
 }
