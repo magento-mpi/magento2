@@ -51,12 +51,10 @@ class Mage_Adminhtml_Model_System_Config_Source_Yesno
      */
     public function toArray()
     {
-        $options = $this->toOptionArray();
-        $data = array();
-        foreach ($options as $item) {
-            $data[$item['value']] = $item['label'];
-        }
-        return $data;
+        return array(
+            0 => Mage::helper('adminhtml')->__('No'),
+            1 => Mage::helper('adminhtml')->__('Yes'),
+        );
     }
 
 }
