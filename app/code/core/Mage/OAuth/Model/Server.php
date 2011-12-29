@@ -237,7 +237,7 @@ class Mage_OAuth_Model_Server
         $this->_consumer->load($this->_params['oauth_consumer_key'], 'key');
 
         if (!$this->_consumer->getId()) {
-            $this->_throwException('', self::ERR_CONSUMER_KEY_UNKNOWN);
+            $this->_throwException('', self::ERR_CONSUMER_KEY_REJECTED);
         }
     }
 
@@ -452,6 +452,10 @@ class Mage_OAuth_Model_Server
             if (!is_string($paramValue)) {
                 $this->_throwException($paramName, self::ERR_PARAMETER_REJECTED);
             }
+        }
+        // validate consumer key length
+        if (strlen($this->_params['oauth_consumer_key']) != Mage_OAuth_Model_Consumer::KEY_LENGTH) {
+            $this->_throwException('', self::ERR_CONSUMER_KEY_REJECTED);
         }
         // validate signature method
         if (!in_array($this->_params['oauth_signature_method'], self::getSupportedSignatureMethods())) {
