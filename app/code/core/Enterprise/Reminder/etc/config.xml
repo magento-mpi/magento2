@@ -119,6 +119,14 @@
                     </enterprise_reminder>
                 </observers>
             </adminhtml_block_promo_widget_chooser_prepare_collection>
+            <adminhtml_promo_quote_edit_tab_main_prepare_form>
+                <observers>
+                    <enterprise_reminder>
+                        <class>enterprise_reminder/observer</class>
+                        <method>addUseAutoGenerationNotice</method>
+                    </enterprise_reminder>
+                </observers>
+            </adminhtml_promo_quote_edit_tab_main_prepare_form>
         </events>
     </global>
     <admin>

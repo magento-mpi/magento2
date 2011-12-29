@@ -140,4 +140,19 @@ class Enterprise_Reminder_Model_Observer
         $collection = $observer->getCollection();
         $collection->addAllowedSalesRulesFilter();
     }
+
+    /**
+     * Adds notice to "Use Auto Generation" checkbox
+     *
+     * @param Varien_Event_Observer $observer
+     */
+    public function addUseAutoGenerationNotice($observer)
+    {
+        $form = $observer->getForm();
+        $checkbox = $form->getElement('use_auto_generation');
+        $checkbox->setNote($checkbox->getNote()
+            . '<br />'
+            . Mage::helper('enterprise_reminder')->__('<b>Important</b>: If this shopping cart price rule has been used in an automated email reminder rule it will be automatically unnasigned after shopping cart price rule saving.')
+        );
+    }
 }

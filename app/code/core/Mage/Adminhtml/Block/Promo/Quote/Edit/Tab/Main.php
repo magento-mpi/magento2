@@ -183,9 +183,7 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Main
         $autoGenerationCheckbox = $fieldset->addField('use_auto_generation', 'checkbox', array(
             'name'  => 'use_auto_generation',
             'label' => Mage::helper('salesrule')->__('Use Auto Generation'),
-            'note'  => Mage::helper('salesrule')->__('If you select and save the rule you will be able to generate multiple coupon codes')
-                       . '<br />'
-                       . Mage::helper('salesrule')->__('<b>Important</b>: If this shopping cart price rule has been used in an automated email reminder rule it will be automatically unnasigned after shopping cart price rule saving.'),
+            'note'  => Mage::helper('salesrule')->__('If you select and save the rule you will be able to generate multiple coupon codes'),
             'onclick' => 'handleCouponsTabContentActivity()',
             'checked' => (int)$model->getUseAutoGeneration() > 0 ? 'checked' : ''
         ));
