@@ -33,16 +33,15 @@
             <action method="setTemplate">
                 <template>page/1column.phtml</template>
             </action>
+            <remove name="footer"/>
         </reference>
         <reference name="header">
             <remove name="top.links"/>
+            <remove name="top.search"/>
         </reference>
         <reference name="content">
             <block type="oauth/authorize" name="oauth.authorize.form" template="oauth/authorize/form/customer/login.phtml"/>
             <block type="oauth/authorize_button" name="oauth.authorize.button" template="oauth/authorize/button.phtml" />
-        </reference>
-        <reference name="footer">
-            <remove name="footer_links"/>
         </reference>
     </oauth_authorize_index>
     <!-- EOF Authorization -->

@@ -33,45 +33,49 @@
  */
 ?>
 <div class="account-login">
-    <div class="page-title">
-        <h1><?php echo $this->__('Authorize %s to use your account?', $this->escapeHtml($this->getConsumer()->getName())) ?></h1>
-    </div>
-    <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
-    <form action="<?php echo $this->getPostActionUrl() ?>" method="post" id="login-form">
-        <div class="col1-set">
-            <div class="col-1 registered-users">
-                <div class="content">
-                    <h2><?php echo $this->__('Registered Customers') ?></h2>
-                    <p><?php echo $this->__('If you have an account with us, please log in.') ?></p>
-                    <ul class="form-list">
-                        <li>
-                            <label for="email"><?php echo $this->__('Email Address') ?></label>
-                            <div class="input-box">
-                                <input type="text" name="login[username]" value="<?php echo $this->escapeHtml($this->getUsername()) ?>" id="email" class="input-text required-entry validate-email" title="<?php echo $this->__('Email Address') ?>" />
-                            </div>
-                        </li>
-                        <li>
-                            <label for="pass"><?php echo $this->__('Password') ?></label>
-                            <div class="input-box">
-                                <input type="password" name="login[password]" class="input-text required-entry validate-password" id="pass" title="<?php echo $this->__('Password') ?>" />
-                            </div>
-                        </li>
-                    </ul>
+    <?php if ($this->isException()): ?>
+            <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+    <?php else: ?>
+        <div class="page-title">
+            <h1><?php echo $this->__('Authorize %s to use your account?', $this->escapeHtml($this->getConsumer()->getName())) ?></h1>
+        </div>
+        <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+        <form action="<?php echo $this->getPostActionUrl() ?>" method="post" id="login-form">
+            <div class="col1-set">
+                <div class="col-1 registered-users">
+                    <div class="content">
+                        <h2><?php echo $this->__('Registered Customers') ?></h2>
+                        <p><?php echo $this->__('If you have an account with us, please log in.') ?></p>
+                        <ul class="form-list">
+                            <li>
+                                <label for="email"><?php echo $this->__('Email Address') ?></label>
+                                <div class="input-box">
+                                    <input type="text" name="login[username]" value="<?php echo $this->escapeHtml($this->getUsername()) ?>" id="email" class="input-text required-entry validate-email" title="<?php echo $this->__('Email Address') ?>" />
+                                </div>
+                            </li>
+                            <li>
+                                <label for="pass"><?php echo $this->__('Password') ?></label>
+                                <div class="input-box">
+                                    <input type="password" name="login[password]" class="input-text required-entry validate-password" id="pass" title="<?php echo $this->__('Password') ?>" />
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col1-set">
-            <div class="col-1 registered-users">
-                <div class="buttons-set">
-                    <button type="submit" class="button" title="<?php echo $this->__('Login') ?>" name="send" id="send2"><span><span><?php echo $this->__('Login') ?></span></span></button>
+            <div class="col1-set">
+                <div class="col-1 registered-users">
+                    <div class="buttons-set">
+                        <button type="submit" class="button" title="<?php echo $this->__('Login') ?>" name="send" id="send2"><span><span><?php echo $this->__('Login') ?></span></span></button>
+                    </div>
                 </div>
             </div>
-        </div>
-        <input type="hidden" name="oauth_token" value="<?php echo $this->escapeHtml($this->getToken()) ?>"/>
-    </form>
-    <script type="text/javascript">
-    //<![CDATA[
-        var dataForm = new VarienForm('login-form', true);
-    //]]>
-    </script>
+            <input type="hidden" name="oauth_token" value="<?php echo $this->escapeHtml($this->getToken()) ?>"/>
+        </form>
+        <script type="text/javascript">
+        //<![CDATA[
+            var dataForm = new VarienForm('login-form', true);
+        //]]>
+        </script>
+    <?php endif; ?>
 </div>

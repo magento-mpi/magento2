@@ -81,11 +81,11 @@ class Mage_OAuth_Adminhtml_OAuth_AuthorizeController extends Mage_Adminhtml_Cont
         $contentBlock = $this->getLayout()->getBlock('content');
         if ($session->isLoggedIn()) {
             $contentBlock->unsetChild('oauth.authorize.form');
-            /** @var $block Mage_OAuth_Block_Authorize_Button */
+            /** @var $block Mage_OAuth_Block_Adminhtml_OAuth_Authorize_Button */
             $block = $contentBlock->getChild('oauth.authorize.button');
         } else {
             $contentBlock->unsetChild('oauth.authorize.button');
-            /** @var $block Mage_OAuth_Block_Authorize */
+            /** @var $block Mage_OAuth_Block_Adminhtml_OAuth_Authorize */
             $block = $contentBlock->getChild('oauth.authorize.form');
         }
 

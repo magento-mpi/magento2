@@ -33,13 +33,13 @@
  */
 ?>
 <div class="account-login  login-only">
-    <?php if (!$this->isException()): ?>
+    <?php if ($this->isException()): ?>
+        <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+    <?php else: ?>
         <div class="page-title">
             <h1><?php echo $this->__('Authorize %s to use your account?', $this->escapeHtml($this->getConsumer()->getName())) ?></h1>
         </div>
-    <?php endif; ?>
     <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
-    <?php if (!$this->isException()): ?>
         <form action="<?php echo $this->getPostActionUrl() ?>" method="post" id="login-form">
             <div class="fieldset">
                 <div class="col2-set">
