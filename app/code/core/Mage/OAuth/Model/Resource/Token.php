@@ -51,7 +51,7 @@ class Mage_OAuth_Model_Resource_Token extends Mage_Core_Model_Resource_Db_Abstra
      */
     public function cleanOldAuthorizedTokensExcept(Mage_OAuth_Model_Token $exceptToken)
     {
-        if (!$exceptToken->getId()) {
+        if (!$exceptToken->getId() || !$exceptToken->getAuthorized()) {
             Mage::throwException('Invalid token to except');
         }
         $adapter = $this->_getWriteAdapter();
