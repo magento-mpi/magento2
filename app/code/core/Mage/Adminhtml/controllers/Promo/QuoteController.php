@@ -181,12 +181,20 @@ class Mage_Adminhtml_Promo_QuoteController extends Mage_Adminhtml_Controller_Act
                 return;
             } catch (Mage_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
+                $id = (int)$this->getRequest()->getParam('rule_id');
+                if (!empty($id)) {
+                    $this->_redirect('*/*/edit', array('id' => $id));
+                } else {
+                    $this->_redirect('*/*/new');
+                }
+                return;
+
             } catch (Exception $e) {
                 $this->_getSession()->addError(
                     Mage::helper('catalogrule')->__('An error occurred while saving the rule data. Please review the log and try again.'));
                 Mage::logException($e);
                 Mage::getSingleton('adminhtml/session')->setPageData($data);
-                 $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('rule_id')));
+                $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('rule_id')));
                 return;
             }
         }
