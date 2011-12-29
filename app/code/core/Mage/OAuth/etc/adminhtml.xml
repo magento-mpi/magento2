@@ -50,12 +50,16 @@
                                             </delete>
                                         </children>
                                     </consumer>
-                                    <admin_token translate="title">
-                                        <title>Admin My Applications</title>
-                                        <sort_order>20</sort_order>
-                                    </admin_token>
                                 </children>
                             </oauth>
+                            <acl>
+                                <children>
+                                    <oauth_admin_token translate="title">
+                                        <title>OAuth Admin My Applications</title>
+                                        <sort_order>20</sort_order>
+                                    </oauth_admin_token>
+                                </children>
+                            </acl>
                         </children>
                     </system>
                 </children>
