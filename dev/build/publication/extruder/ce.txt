@@ -38,6 +38,13 @@ dev/tests/integration/testsuite/integrity/DeprecatesTest.php
 dev/tests/integration/testsuite/integrity/LicenseTest.php
 dev/tests/integration/testsuite/integrity/modular/SkinFilesTest.php
 dev/tests/integration/testsuite/integrity/theme/RenderersTest.php
+dev/tests/static/testsuite/Legacy/ProductTypeModelTest.php
+dev/tests/static/testsuite/Legacy/_files/obsolete_classes_ee.php
+dev/tests/static/testsuite/Legacy/_files/obsolete_constants_ee.php
+dev/tests/static/testsuite/Legacy/_files/obsolete_methods_ee.php
+dev/tests/static/testsuite/Legacy/_files/obsolete_properties_ee.php
+dev/tests/static/testsuite/Legacy/Enterprise/Invitation/Helper/DataTest.php
+dev/tests/static/testsuite/Php/Exemplar/_files/phpmd_ruleset.xsd
 downloader/Maged/Model/Config/Enterprise.php
 downloader/Maged/Model/Config/Professional.php
 downloader/skin/install/images/enterprise.gif

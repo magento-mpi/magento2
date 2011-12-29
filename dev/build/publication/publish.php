@@ -14,7 +14,6 @@ define('SYNOPSIS', <<<SYNOPSIS
 php -f publish.php --
     --source="<repository>" [--source-branch="<branch>"]
     --target="<repository>" [--target-branch="<branch>"] [--target-dir="<directory>"]
-    [--commit-message="<message>"]
     [--no-push]
 
 SYNOPSIS
@@ -32,14 +31,27 @@ $targetRepository = $options['target'];
 $sourceBranch = isset($options['source-branch']) ? $options['source-branch'] : 'master';
 $targetBranch = isset($options['target-branch']) ? $options['target-branch'] : 'master';
 $targetDir = (isset($options['target-dir']) ? $options['target-dir'] : __DIR__ . '/target');
-$commitMsg = (isset($options['commit-message']) ? $options['commit-message'] : 'Merged from the original repository.');
 $canPush = !isset($options['no-push']);
 
 $gitCmd = sprintf('git --git-dir %s --work-tree %s', escapeshellarg("$targetDir/.git"), escapeshellarg($targetDir));
 
 try {
+    // determine commit message from changelog
+    $commitMsg = file_get_contents(__DIR__ . '/changelog.txt');
+    $commitMsg = explode('------', $commitMsg);
+    $commitMsg = trim($commitMsg[0]);
+    if (empty($commitMsg)) {
+        throw new Exception('No commit message found in changelog.');
+    }
+
     // clone target and merge source into it
     execVerbose('git clone %s %s', $targetRepository, $targetDir);
+    exec("$gitCmd log -1", $output);
+    if ($commitMsg == getOriginalCommitMessage($output)) {
+        throw new Exception('The last commit message in the target repository is the same as the last entry'
+            . " in changelog.txt file. Most likely you forgot to update the changelog.txt):\n\n{$commitMsg}"
+        );
+    }
     execVerbose("$gitCmd remote add source %s", $sourceRepository);
     execVerbose("$gitCmd fetch source");
     execVerbose("$gitCmd checkout $targetBranch");
@@ -61,10 +73,9 @@ try {
     // replace license notices
     $licenseToolDir = __DIR__ . '/license';
     execVerbose(
-        'php -f %s -- -w %s -c %s -v -0',
+        'php -f %s -- -w %s -e ce -v -0',
         "$licenseToolDir/license-tool.php",
-        $targetDir,
-        "$licenseToolDir/conf/ce.php"
+        $targetDir
     );
 
     // commit and push
@@ -96,4 +107,24 @@ function execVerbose($command)
     if (0 !== $exitCode) {
         throw new Exception("Command is passed with error code: ". $exitCode);
     }
+}
+
+/**
+ * Parse a git log entry and find the commit message from it
+ *
+ * The returned message is trimmed.
+ *
+ * @param array $output Output returned in second argument of exec()
+ * @return string
+ */
+function getOriginalCommitMessage($output)
+{
+    $message = '';
+    do {
+        $fragment = array_shift($output);
+    } while ($fragment != ''); // the fragment with empty string is a divider between meta info and commit message
+    foreach ($output as $fragment) {
+        $message .= substr($fragment, 4); // each line of the message is crippled with 4 spaces in the beginning
+    }
+    return trim($message);
 }

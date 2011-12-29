@@ -2,6 +2,4 @@
 // ---------------------------------------------------
 dev/build
 dev/tests/performance
-dev/tests/static
-dev/tests/unit
-dev/tools/batch_tests
+dev/tests/static/testsuite/Php/_files/whitelist/magento2.txt

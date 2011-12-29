@@ -2352,7 +2352,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
      * Executes a SQL statement(s)
      *
      * @param string $sql
-     * @return Varien_Db_Adapter_Pdo_Mssql
+     * @return array
      * @throws Exception
      */
     public function multiQuery($sql)

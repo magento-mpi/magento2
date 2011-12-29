@@ -8,12 +8,12 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-require dirname(__FILE__) . '/SanityRoutine.php';
+require __DIR__ . '/SanityRoutine.php';
 
 define('USAGE', <<<USAGE
-$>./sanity.php -c ce.xml
-    additional parameters:
-    -w dir   use specified working dir instead of current
+php -f sanity.php -c <config_file> [-w <dir>]
+    -c <config_file> path to configuration file with rules and white list
+    [-w <dir>]       use specified working dir instead of current
 
 USAGE
 );
@@ -55,15 +55,15 @@ if (!is_dir($workingDir)) {
 $verbose = isset($options['v']) ? true : false;
 SanityRoutine::$verbose = $verbose;
 
-// ---Process--------------------------
-SanityRoutine::printVerbose('Searching for ' . count($config['words']) . ' words');
+SanityRoutine::printVerbose(sprintf('Searching for banned words: "%s"...', implode('", "', $config['words'])));
 
-$found = SanityRoutine::findWords($workingDir, $workingDir, $config);
+$found = SanityRoutine::findWords(realpath($workingDir), realpath($workingDir), $config);
 if ($found) {
+    echo "Found banned words in the following files:\n";
     foreach ($found as $info) {
-        echo 'Found [' . implode(', ', $info['words']) . '] in ' . $info['file'] . "\n";
+        echo $info['file'] . ' - "' . implode('", "', $info['words']) . "\"\n";
     }
     exit(1);
 }
-
+SanityRoutine::printVerbose('No banned words found in the source code.' . "\n");
 exit(0);

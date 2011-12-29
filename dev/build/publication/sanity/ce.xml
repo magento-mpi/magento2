@@ -26,11 +26,6 @@
         <item>
             <word>oracle</word>
             <word>mssql</word>
-            <path>app/code/core/Mage/Tax/Model/Resource/Report/Updatedat/Collection.php</path>
-        </item>
-        <item>
-            <word>oracle</word>
-            <word>mssql</word>
             <path>dev/tests/integration/framework/Magento/Test/Bootstrap.php</path>
         </item>
         <item>

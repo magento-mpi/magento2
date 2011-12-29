@@ -16,13 +16,6 @@
 class Routine
 {
     /**
-     * Flag signalized that some files are not updated
-     *
-     * @var bool
-     */
-    protected static $_isFailedUpdate = false;
-
-    /**
      * List skipped directories
      *
      * @var null|array
@@ -64,7 +57,31 @@ class Routine
         'css'   => array('*.css'),
         'js'    => array('*.js'),
         'flex'  => array('*.as'),
+        'sql'   => array('*.sql'),
     );
+
+    /**
+     * Length of working directory
+     *
+     * @var int
+     */
+    protected static $_workingDirLen = 0;
+
+    /**
+     * @var int
+     */
+    protected static $_errorsCount = 0;
+
+    /**
+     * @var int
+     */
+    protected static $_updatedCount = 0;
+
+    /**
+     * @var int
+     */
+    protected static $_skippedCount = 0;
+
 
     /**
      * Walk through all file inside folder and sub folder. Filter found files by pattern.
@@ -121,7 +138,7 @@ class Routine
     {
         foreach ($fileMasks as $filesMask) {
             foreach (glob($directory . '/' . $filesMask) as $filename) {
-                if (!self::_isFileSkipped($filename)) {
+                if (is_file($filename) && !self::_isFileSkipped($filename)) {
                     $result[] = $filename;
                 }
             }
@@ -133,14 +150,19 @@ class Routine
      *
      * @static
      * @param string $workingDir
-     * @param array $paths
-     * @return null
+     * @param array $list
      */
-    protected static function _setSkippedPaths($workingDir, $paths)
+    protected static function _setSkippedPaths($workingDir, $list)
     {
-        if (!is_array($paths)) {
-            $paths = array($paths);
+        $paths = array();
+        foreach ($list as $globPattern) {
+            $subPaths = glob($globPattern, GLOB_BRACE);
+            if (false !== $subPaths) {
+                $paths = array_merge($paths, $subPaths);
+            }
         }
+        $paths = array_unique($paths);
+
         foreach ($paths as $path) {
             $real = realpath($workingDir . DIRECTORY_SEPARATOR . $path);
             if (is_dir($real)) {
@@ -195,42 +217,32 @@ class Routine
      */
     public static function updateLicense($directories, $fileMasks, $license, $recursive = true)
     {
-        if (!is_array($directories)) {
-            $directories = rtrim($directories, '/');
-        } else {
-            foreach ($directories as $key => $dir) {
-                $directories[$key] = rtrim($dir, '/');
-            }
-        }
-
         $foundFiles = array();
         self::globSearch($directories, $fileMasks, $foundFiles, $recursive);
 
         foreach ($foundFiles as $filename) {
-            self::printLog($filename . '...');
+            $path = substr($filename, self::$_workingDirLen + 1);
             $contents = file_get_contents($filename);
-
             preg_match('#/\*\*(.*)\*/.*#Us', $contents, $matches);
-
-            if (!isset($matches[1])) {
-                self::printLog("Failed!\n");
-                self::$_isFailedUpdate = true;
+            if (empty($contents) || !isset($matches[1])) {
+                self::printLog("E {$path}\n");
+                self::$_errorsCount += 1;
                 continue;
             }
 
-            $placeHolders = array(
+            $placeholders = array(
                 ' * {license_notice}',
                 '{copyright}',
                 '{license_link}'
             );
 
-            $changeSet = array(
+            $changeset = array(
                 $license->getNotice(),
                 $license->getCopyright(),
                 $license->getLink()
             );
 
-            $docBlock = str_replace($placeHolders, $changeSet, $matches[1]);
+            $docBlock = str_replace($placeholders, $changeset, $matches[1]);
 
             $newContents = preg_replace('#(/\*\*).*(\*/.*)#Us', '$1'. $docBlock . '$2', $contents, 1);
 
@@ -238,10 +250,11 @@ class Routine
                 if (!self::$dryRun) {
                     file_put_contents($filename, $newContents);
                 }
-                self::printLog("Ok\n");
+                self::printLog(". {$path}\n");
+                self::$_updatedCount += 1;
             } else {
-                self::printLog("Failed!\n");
-                self::$_isFailedUpdate = true;
+                self::printLog("S {$path}\n");
+                self::$_skippedCount += 1;
             }
         }
     }
@@ -297,39 +310,38 @@ class Routine
      * Entry point of routine work
      *
      * @static
-     * @param $config
-     * @param $workingDir
+     * @param string $workingDir
+     * @param array $config
+     * @param array $blackList
      * @return null
      */
-    public static function run($config, $workingDir)
+    public static function run($workingDir, $config, $blackList)
     {
+        // various display parameters
+        $workingDir = realpath($workingDir);
+        self::$_workingDirLen = strlen($workingDir);
+        self::$_errorsCount  = 0;
+        self::$_updatedCount = 0;
+        self::$_skippedCount = 0;
+
+        // set black list
+        self::$skipFiles = array();
+        self::$skipDirectories = array();
+        self::_setSkippedPaths($workingDir, $blackList);
+
         $licenseInstances = array();
-
         foreach ($config as $path => $types) {
-            $paths = array($workingDir . DIRECTORY_SEPARATOR . $path);
-            // Extract params for directory
-            $recursive = true;
-            self::$skipFiles = array();
-            self::$skipDirectories = array();
+            // whether to scan directory recursively
+            $recursive = (isset($types['_recursive']) ? $types['_recursive'] : true);
+            unset($types['_recursive']);
 
-            if (isset($types['_params'])) {
-                if (isset($types['_params']['recursive'])) {
-                    $recursive = $types['_params']['recursive'];
-                }
-
-                if (isset($types['_params']['skipped'])) {
-                    self::_setSkippedPaths($workingDir, $types['_params']['skipped']);
-                }
-                unset($types['_params']);
-            }
-
-            // Process types
+            // update licenses
             foreach ($types as $fileType => $licenseType) {
                 if (!isset($licenseInstances[$licenseType])) {
                     $licenseInstances[$licenseType] = Routine::createLicenseInstance($licenseType);
                 }
                 Routine::updateLicense(
-                    $paths,
+                    array($workingDir . ($path ? DIRECTORY_SEPARATOR . $path : '')),
                     Routine::$fileTypes[$fileType],
                     $licenseInstances[$licenseType],
                     $recursive
@@ -337,8 +349,12 @@ class Routine
             }
         }
 
-        if (self::$_isFailedUpdate) {
-            throw new Exception("Failed during updating files.\n");
+        Routine::printLog(sprintf("\n" . 'Updated: %d; Skipped: %d; Errors: %d.' . "\n",
+            self::$_updatedCount, self::$_skippedCount, self::$_errorsCount
+        ));
+        if (self::$_errorsCount || self::$_skippedCount) {
+            throw new Exception('Failed: check skipped files or errors.' . "\n");
         }
+        Routine::printLog('Success.' . "\n");
     }
 }
