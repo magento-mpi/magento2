@@ -213,9 +213,18 @@ class Mage_OAuth_Adminhtml_OAuth_ConsumerController extends Mage_Adminhtml_Contr
      */
     protected function _isAllowed()
     {
+        $action = $this->getRequest()->getActionName();
+        if ('index' == $action) {
+            $action = null;
+        } else {
+            if ('new' == $action || 'save' == $action) {
+                $action = 'edit';
+            }
+            $action = '/' . $action;
+        }
         /** @var $session Mage_Admin_Model_Session */
         $session = Mage::getSingleton('admin/session');
-        return $session->isAllowed('oauth/consumer');
+        return $session->isAllowed('system/oauth/consumer' . $action);
     }
 
     /**

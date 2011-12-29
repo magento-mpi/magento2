@@ -43,5 +43,12 @@ class Mage_OAuth_Block_Adminhtml_OAuth_Consumer extends Mage_Adminhtml_Block_Wid
         $this->_blockGroup = 'oauth';
         $this->_controller = 'adminhtml_oAuth_consumer';
         $this->_headerText = Mage::helper('adminhtml')->__('OAuth Consumers');
+
+        //check allow edit
+        /** @var $session Mage_Admin_Model_Session */
+        $session = Mage::getSingleton('admin/session');
+        if (!$session->isAllowed('system/oauth/consumer/edit')) {
+            $this->_removeButton('add');
+        }
     }
 }

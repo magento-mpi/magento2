@@ -69,13 +69,17 @@ class Mage_OAuth_Block_Adminhtml_OAuth_Consumer_Edit extends Mage_Adminhtml_Bloc
             'onclick'   => 'saveAndContinueEdit()',
             'class' => 'save'
         ), 100);
+
         $this->_formScripts[] = "function saveAndContinueEdit()" .
-                "{editForm.submit($('edit_form').action + 'back/edit/')}";
+        "{editForm.submit($('edit_form').action + 'back/edit/')}";
 
         $this->_updateButton('save', 'label', $this->__('Save'));
         $this->_updateButton('save', 'id', 'save_button');
         $this->_updateButton('delete', 'label', $this->__('Delete'));
-        if(!$this->getModel()->getId()) {
+
+        /** @var $session Mage_Admin_Model_Session */
+        $session = Mage::getSingleton('admin/session');
+        if (!$this->getModel()->getId() || !$session->isAllowed('system/oauth/consumer/delete')) {
             $this->_removeButton('delete');
         }
     }

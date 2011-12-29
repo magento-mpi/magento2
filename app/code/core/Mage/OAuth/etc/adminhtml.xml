@@ -37,17 +37,17 @@
                                 <sort_order>10</sort_order>
                                 <children>
                                     <consumer translate="title">
-                                        <title>Show List</title>
+                                        <title>Consumers</title>
                                         <sort_order>20</sort_order>
                                         <children>
                                             <edit translate="title">
                                                 <title>Edit</title>
                                                 <sort_order>30</sort_order>
                                             </edit>
-                                            <remove translate="title">
-                                                <title>Remove</title>
+                                            <delete translate="title">
+                                                <title>Delete</title>
                                                 <sort_order>40</sort_order>
-                                            </remove>
+                                            </delete>
                                         </children>
                                     </consumer>
                                     <admin_token translate="title">

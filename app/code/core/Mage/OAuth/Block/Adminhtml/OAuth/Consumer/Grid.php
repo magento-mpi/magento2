@@ -34,6 +34,13 @@
 class Mage_OAuth_Block_Adminhtml_OAuth_Consumer_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
     /**
+     * Allow edit status
+     *
+     * @var bool
+     */
+    protected $_editAllow = false;
+
+    /**
      * Construct grid block
      */
     public function __construct()
@@ -44,6 +51,10 @@ class Mage_OAuth_Block_Adminhtml_OAuth_Consumer_Grid extends Mage_Adminhtml_Bloc
         $this->setSaveParametersInSession(true);
         $this->setDefaultSort('entity_id')
             ->setDefaultDir(Varien_Db_Select::SQL_DESC);
+
+        /** @var $session Mage_Admin_Model_Session */
+        $session = Mage::getSingleton('admin/session');
+        $this->_editAllow = $session->isAllowed('system/oauth/consumer/edit');
     }
 
     /**
@@ -105,10 +116,13 @@ class Mage_OAuth_Block_Adminhtml_OAuth_Consumer_Grid extends Mage_Adminhtml_Bloc
      * Get row URL
      *
      * @param Mage_OAuth_Model_Consumer $row
-     * @return string
+     * @return string|null
      */
     public function getRowUrl($row)
     {
-        return $this->getUrl('*/*/edit', array('id' => $row->getId()));
+        if ($this->_editAllow) {
+            return $this->getUrl('*/*/edit', array('id' => $row->getId()));
+        }
+        return null;
     }
 }
