@@ -44,31 +44,33 @@ class Mage_OAuth_AuthorizeController extends Mage_Core_Controller_Front_Action
         $server = Mage::getModel('oauth/server');
         /** @var $session Mage_Customer_Model_Session */
         $session = Mage::getSingleton('customer/session');
-        /** @var $response Mage_Core_Controller_Response_Http */
-        $response = $this->getResponse();
 
+        $isException = false;
         try {
             $server->checkAuthorizeRequest();
         } catch (Mage_Core_Exception $e) {
             $session->addError($e->getMessage());
+        } catch (Mage_OAuth_Exception $e) {
+            $isException = true;
+            $session->addException($e, $this->__('An error occurred. Your authorization request is invalid.'));
         } catch (Exception $e) {
-            $response->setException($e);
-            $session->addException($e, $this->__('An error occured. Token is not valid.'));
+            $isException = true;
+            $session->addException($e, $this->__('An error occurred.'));
         }
-//        $session->setBeforeAuthUrl('http://apia.com/oauth/authorize?oauth_token=' . $this->getRequest()->getQuery('oauth_token'));
 
         $this->loadLayout();
         $contentBlock = $this->getLayout()->getBlock('content');
         if ($session->isLoggedIn()) {
             $contentBlock->unsetChild('oauth.authorize.form');
+            /** @var $block Mage_OAuth_Block_Authorize_Button */
+            $block = $contentBlock->getChild('oauth.authorize.button');
         } else {
             $contentBlock->unsetChild('oauth.authorize.button');
             /** @var $block Mage_OAuth_Block_Authorize */
             $block = $contentBlock->getChild('oauth.authorize.form');
         }
 
-        $block->setToken($this->_getTokenString())
-            ->setIsException($response->isException() && $response->hasExceptionOfType('Exception'));
+        $block->setToken($this->_getTokenString())->setIsException($isException);
         $this->_initLayoutMessages('customer/session');
         $this->renderLayout();
     }
