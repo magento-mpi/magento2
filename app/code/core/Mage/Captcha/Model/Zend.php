@@ -224,7 +224,6 @@ class Mage_Captcha_Model_Zend extends Zend_Captcha_Image implements Mage_Captcha
         return $this->_expiration;
     }
 
-
     /**
      * Get captcha image directory
      *
@@ -232,11 +231,7 @@ class Mage_Captcha_Model_Zend extends Zend_Captcha_Image implements Mage_Captcha
      */
     public function getImgDir()
     {
-
-        $captchaDir = Mage::getBaseDir('media') . DS . 'captcha' . DS . Mage::app()->getWebsite()->getCode() . DS;
-        $io = new Varien_Io_File();
-        $io->checkAndCreateFolder($captchaDir, 0755);
-        return $captchaDir;
+        return $this->_helper->getImgDir();
     }
 
     /**
@@ -246,7 +241,7 @@ class Mage_Captcha_Model_Zend extends Zend_Captcha_Image implements Mage_Captcha
      */
     public function getImgUrl()
     {
-        return Mage::getBaseUrl('media') . 'captcha' . '/' . Mage::app()->getWebsite()->getCode() . '/';
+        return $this->_helper->getImgUrl();
     }
 
     /**

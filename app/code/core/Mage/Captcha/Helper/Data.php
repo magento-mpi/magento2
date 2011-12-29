@@ -111,22 +111,29 @@ class Mage_Captcha_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * Delete Expired Images For Website
+     * Get captcha image directory
      *
-     * @param Mage_Core_Model_Website $website
-     * @return Mage_Captcha_Helper_Data
+     * @param mixed $website
+     * @return string
      */
-    public function deleteCaptchaImagesForWebsite(Mage_Core_Model_Website $website)
+    public function getImgDir($website = null)
     {
-        $expire = time() - Mage::helper('captcha')->getConfigNode('timeout', $website->getDefaultStore())*60;
-        $imageDirectory = Mage::getBaseDir('media') . DS . 'captcha' . DS . $website->getCode() . DS;
-        foreach (new DirectoryIterator($imageDirectory) as $file) {
-            if (!$file->isDot() && !$file->isDir() && substr($file->getFilename(), -(strlen(".png"))) == ".png") {
-                if ($file->getMTime() < $expire) {
-                    unlink($file->getPathname());
-                }
-            }
-        }
-        return $this;
+        $websiteCode = Mage::app()->getWebsite($website)->getCode();
+        $captchaDir = Mage::getBaseDir('media') . DS . 'captcha' . DS . $websiteCode . DS;
+        $io = new Varien_Io_File();
+        $io->checkAndCreateFolder($captchaDir, 0755);
+        return $captchaDir;
+    }
+
+    /**
+     * Get captcha image base URL
+     *
+     * @param mixed $website
+     * @return string
+     */
+    public function getImgUrl($website = null)
+    {
+        $websiteCode = Mage::app()->getWebsite($website)->getCode();
+        return Mage::getBaseUrl('media') . 'captcha' . '/' . $websiteCode . '/';
     }
 }

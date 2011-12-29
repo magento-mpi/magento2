@@ -67,7 +67,7 @@ class Mage_Captcha_Model_Observer
         $controller = $observer->getControllerAction();
         $loginParams = $controller->getRequest()->getPost('login');
         $login = array_key_exists('username', $loginParams) ? $loginParams['username'] : null;
-        if ($captchaModel->isRequired($login['username'])) {
+        if ($captchaModel->isRequired($login)) {
             $word = $this->_getCaptchaString($controller->getRequest(), $formId);
             if (!$captchaModel->isCorrect($word)) {
                 Mage::getSingleton('customer/session')->addError(Mage::helper('captcha')->__('Incorrect CAPTCHA.'));
@@ -164,7 +164,7 @@ class Mage_Captcha_Model_Observer
         $captchaModel = Mage::helper('captcha')->getCaptcha($formId);
         $loginParams = Mage::app()->getRequest()->getPost('login');
         $login = array_key_exists('username', $loginParams) ? $loginParams['username'] : null;
-        if ($captchaModel->isRequired($login['username'])) {
+        if ($captchaModel->isRequired($login)) {
             if (!$captchaModel->isCorrect($this->_getCaptchaString(Mage::app()->getRequest(), $formId))) {
                 $captchaModel->logAttempt($login);
                 Mage::throwException(Mage::helper('captcha')->__('Incorrect CAPTCHA.'));
@@ -242,7 +242,15 @@ class Mage_Captcha_Model_Observer
     public function deleteExpiredImages()
     {
         foreach (Mage::app()->getWebsites(true) as $website){
-            Mage::helper('captcha')->deleteCaptchaImagesForWebsite($website);
+            $expire = time() - Mage::helper('captcha')->getConfigNode('timeout', $website->getDefaultStore())*60;
+            $imageDirectory = Mage::helper('captcha')->getImgDir($website);
+            foreach (new DirectoryIterator($imageDirectory) as $file) {
+                if ($file->isFile() && pathinfo($file->getFilename(), PATHINFO_EXTENSION) == 'png') {
+                    if ($file->getMTime() < $expire) {
+                        unlink($file->getPathname());
+                    }
+                }
+            }
         }
         return $this;
     }
