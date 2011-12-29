@@ -70,10 +70,6 @@ class Mage_OAuth_Adminhtml_OAuth_AuthorizeController extends Mage_Adminhtml_Cont
         $contentBlock = $this->getLayout()->getBlock('content');
         if ($session->isLoggedIn()) {
             $contentBlock->unsetChild('oauth.authorize.form');
-            /** @var $block Mage_OAuth_Block_Authorize_Button */
-            $block = $contentBlock->getChild('oauth.authorize.button');
-            $block->setUserType(Mage_Api2_Model_Auth::USER_TYPE_ADMIN)
-                  ->setToken($this->_getTokenString());
         } else {
             $contentBlock->unsetChild('oauth.authorize.button');
         }

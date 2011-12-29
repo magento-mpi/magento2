@@ -74,7 +74,7 @@
         </reference>
         <reference name="content">
             <block type="oauth/adminhtml_oAuth_authorize" name="oauth.authorize.form" template="oauth/authorize/form/admin/login.phtml"/>
-            <block type="oauth/authorize_button" name="oauth.authorize.button" template="oauth/authorize/button.phtml" />
+            <block type="oauth/adminhtml_oAuth_authorize_button" name="oauth.authorize.button" template="oauth/authorize/button.phtml" />
         </reference>
     </adminhtml_oauth_authorize_index>
     <!-- EOF Authorize -->

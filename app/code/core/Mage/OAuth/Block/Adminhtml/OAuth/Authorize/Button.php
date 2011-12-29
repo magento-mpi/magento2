@@ -31,7 +31,7 @@
  * @package    Mage_OAuth
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_OAuth_Block_Authorize_Button extends Mage_Core_Block_Template
+class Mage_OAuth_Block_Adminhtml_OAuth_Authorize_Button extends Mage_Core_Block_Template
 {
     /**
      * Retrieve confirm authorization url
@@ -40,7 +40,7 @@ class Mage_OAuth_Block_Authorize_Button extends Mage_Core_Block_Template
      */
     public function getConfirmUrl()
     {
-        return $this->getUrl('oauth/authorize/confirm', array('oauth_token' => $this->getToken()));
+        return $this->getUrl('adminhtml/oAuth_authorize/confirm', array('oauth_token' => $this->getToken()));
     }
 
     /**
@@ -50,6 +50,6 @@ class Mage_OAuth_Block_Authorize_Button extends Mage_Core_Block_Template
      */
     public function getRejectUrl()
     {
-        return $this->getUrl('oauth/authorize/reject', array('oauth_token' => $this->getToken()));
+        return $this->getUrl('adminhtml/oAuth_authorize/reject', array('oauth_token' => $this->getToken()));
     }
 }
