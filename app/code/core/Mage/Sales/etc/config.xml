@@ -1465,14 +1465,6 @@
             </totals>
         </pdf>
         <events>
-            <sales_quote_collect_totals_before>
-                <observers>
-                    <sales_customer_validate_vat_number>
-                        <class>sales/observer</class>
-                        <method>handleCustomerVatNumber</method>
-                    </sales_customer_validate_vat_number>
-                </observers>
-            </sales_quote_collect_totals_before>
             <sales_order_place_after>
                 <observers>
                     <sales_vat_request_params_order_comment>
@@ -1519,6 +1511,22 @@
             </updates>
         </layout>
         <events>
+            <sales_quote_address_collect_totals_before>
+                <observers>
+                    <sales_customer_validate_vat_number>
+                        <class>sales/observer</class>
+                        <method>changeQuoteCustomerGroupId</method>
+                    </sales_customer_validate_vat_number>
+                </observers>
+            </sales_quote_address_collect_totals_before>
+            <sales_quote_address_collect_totals_after>
+                <observers>
+                    <sales_customer_validate_vat_number>
+                        <class>sales/observer</class>
+                        <method>restoreQuoteCustomerGroupId</method>
+                    </sales_customer_validate_vat_number>
+                </observers>
+            </sales_quote_address_collect_totals_after>
             <sales_quote_collect_totals_after>
                 <observers>
                     <catalog_msrp>

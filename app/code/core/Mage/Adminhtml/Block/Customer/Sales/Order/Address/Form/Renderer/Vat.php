@@ -20,7 +20,7 @@
  *
  * @category    Mage
  * @package     Mage_Adminhtml
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @copyright   Copyright (c) 2011 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
@@ -31,7 +31,7 @@
  * @package    Mage_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_Customer_Sales_Order_Address_Form_Billing_Renderer_Vat
+class Mage_Adminhtml_Block_Customer_Sales_Order_Address_Form_Renderer_Vat
     extends Mage_Adminhtml_Block_Widget_Form_Renderer_Fieldset_Element
 {
     /**
@@ -46,7 +46,7 @@ class Mage_Adminhtml_Block_Customer_Sales_Order_Address_Form_Billing_Renderer_Va
      */
     protected function _construct()
     {
-        $this->setTemplate('customer/sales/order/create/billing/form/renderer/vat.phtml');
+        $this->setTemplate('customer/sales/order/create/address/form/renderer/vat.phtml');
     }
 
     /**
@@ -71,25 +71,25 @@ class Mage_Adminhtml_Block_Customer_Sales_Order_Address_Form_Billing_Renderer_Va
                 ->getUrl('*/customer_system_config_validatevat/validateAdvanced');
 
             $vatValidateOptions = Mage::helper('core')->jsonEncode(array(
-                'vatElementId'                  => $vatElementId,
-                'countryElementId'              => $countryElementId,
-                'groupIdHtmlId'                 => $groupIdHtmlId,
-                'validateUrl'                   => $validateUrl,
-                'vatValidMessage'               => Mage::helper('customer')->__('The VAT ID is valid. The current Customer Group will be used.'),
-                'vatValidAndGroupChangeMessage' =>
-                    Mage::helper('customer')->__('Based on the VAT ID, the customer would belong to Customer Group %s.') . "\n"
+                'vatElementId' => $vatElementId,
+                'countryElementId' => $countryElementId,
+                'groupIdHtmlId' => $groupIdHtmlId,
+                'validateUrl' => $validateUrl,
+                'vatValidMessage' => Mage::helper('customer')->__('The VAT ID is valid. The current Customer Group will be used.'),
+                'vatValidAndGroupChangeMessage' => Mage::helper('customer')->__('Based on the VAT ID, the customer would belong to Customer Group %s.') . "\n"
                     . Mage::helper('customer')->__('The customer is currently assigned to Customer Group %s.') . ' '
                     . Mage::helper('customer')->__('Would you like to change the Customer Group for this order?'),
                 'vatInvalidMessage' => Mage::helper('customer')->__('The VAT ID entered (%s) is not valid VAT ID.'),
                 'vatValidationFailedMessage'    => Mage::helper('customer')->__('There was an error validating the VAT ID. Please try again later.'),
             ));
 
-            $beforeHtml = '<script type="text/javascript">var vatValidateOptions = '
-                . $vatValidateOptions . ';</script>';
+            $optionsVarName = $this->getJsVariablePrefix() . 'VatParameters';
+            $beforeHtml = '<script type="text/javascript">var ' . $optionsVarName . ' = ' . $vatValidateOptions
+                . ';</script>';
             $this->_validateButton = $this->getLayout()->createBlock('adminhtml/widget_button')->setData(array(
                 'label'       => Mage::helper('customer')->__('Validate VAT Number'),
                 'before_html' => $beforeHtml,
-                'onclick'     => "order.validateVat(vatValidateOptions)"
+                'onclick'     => 'order.validateVat(' . $optionsVarName . ')'
             ));
         }
         return $this->_validateButton;

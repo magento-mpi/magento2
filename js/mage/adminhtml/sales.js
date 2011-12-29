@@ -220,14 +220,26 @@ AdminOrder.prototype = {
         }
     },
 
-    disableShippingAddress : function(flag){
+    disableShippingAddress : function(flag) {
         this.shippingAsBilling = flag;
-        if($('order-shipping_address_customer_address_id')) {
-            $('order-shipping_address_customer_address_id').disabled=flag;
+        if ($('order-shipping_address_customer_address_id')) {
+            $('order-shipping_address_customer_address_id').disabled = flag;
         }
-        if($(this.shippingAddressContainer)){
+        if ($(this.shippingAddressContainer)) {
             var dataFields = $(this.shippingAddressContainer).select('input', 'select', 'textarea');
-            for(var i=0;i<dataFields.length;i++) dataFields[i].disabled = flag;
+            for (var i = 0; i < dataFields.length; i++) {
+                dataFields[i].disabled = flag;
+            }
+            var buttons = $(this.shippingAddressContainer).select('button');
+            // Add corresponding class to buttons while disabling them
+            for (i = 0; i < buttons.length; i++) {
+                buttons[i].disabled = flag;
+                if (flag) {
+                    buttons[i].addClassName('disabled');
+                } else {
+                    buttons[i].removeClassName('disabled');
+                }
+            }
         }
     },
 
