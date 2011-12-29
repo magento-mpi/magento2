@@ -347,19 +347,19 @@ class Mage_Sales_Model_Observer
         $orderInstance = $observer->getOrder();
         /** @var $orderAddress Mage_Sales_Model_Order_Address */
         $orderAddress = $this->_getVatRequiredSalesAddress($orderInstance);
-        if ($orderAddress instanceof Mage_Sales_Model_Order_Address) {
-            $vatRequestId = $orderAddress->getVatRequestId();
-            $vatRequestDate = $orderAddress->getVatRequestDate();
-            if (is_string($vatRequestId)
-                && !empty($vatRequestId)
-                && is_string($vatRequestDate)
-                && !empty($vatRequestDate)
-            ) {
-                $orderHistoryComment = Mage::helper('customer')->__('VAT Request Identifier')
-                    . ': ' . $vatRequestId . '<br />' . Mage::helper('customer')->__('VAT Request Date')
-                    . ': ' . $vatRequestDate;
-                $orderInstance->addStatusHistoryComment($orderHistoryComment, false);
-            }
+        if (!($orderAddress instanceof Mage_Sales_Model_Order_Address)) {
+            return;
+        }
+
+        $vatRequestId = $orderAddress->getVatRequestId();
+        $vatRequestDate = $orderAddress->getVatRequestDate();
+        if (is_string($vatRequestId) && !empty($vatRequestId) && is_string($vatRequestDate)
+            && !empty($vatRequestDate)
+        ) {
+            $orderHistoryComment = Mage::helper('customer')->__('VAT Request Identifier')
+                . ': ' . $vatRequestId . '<br />' . Mage::helper('customer')->__('VAT Request Date')
+                . ': ' . $vatRequestDate;
+            $orderInstance->addStatusHistoryComment($orderHistoryComment, false);
         }
     }
 
@@ -368,7 +368,7 @@ class Mage_Sales_Model_Observer
      *
      * @param Mage_Core_Model_Abstract $salesModel
      * @param Mage_Core_Model_Store|string|int|null $store
-     * @return Mage_Customer_Model_Address_Abstract
+     * @return Mage_Customer_Model_Address_Abstract|null
      */
     protected function _getVatRequiredSalesAddress($salesModel, $store = null)
     {
@@ -427,9 +427,7 @@ class Mage_Sales_Model_Observer
         $additionalBillingAddressCondition = ($configAddressType == Mage_Customer_Model_Address_Abstract::TYPE_BILLING)
             ? $configAddressType != $quoteAddress->getAddressType() : false;
         // Handle only addresses that corresponds to VAT configuration
-        if (!$addressHelper->isVatValidationEnabled($storeId)
-            || $additionalBillingAddressCondition
-        ) {
+        if (!$addressHelper->isVatValidationEnabled($storeId) || $additionalBillingAddressCondition) {
             return;
         }
 
@@ -459,12 +457,11 @@ class Mage_Sales_Model_Observer
         $merchantCountryCode = $coreHelper->getMerchantCountryCode();
         $merchantVatNumber = $coreHelper->getMerchantVatNumber();
 
-        $mustRevalidateVat = $addressHelper->getValidateOnEachTransaction($storeId)
-            || $customerCountryCode != $quoteAddress->getValidatedCountryCode()
-            || $customerVatNumber != $quoteAddress->getValidatedVatNumber();
-
         $gatewayResponse = null;
-        if ($mustRevalidateVat) {
+        if ($addressHelper->getValidateOnEachTransaction($storeId)
+            || $customerCountryCode != $quoteAddress->getValidatedCountryCode()
+            || $customerVatNumber != $quoteAddress->getValidatedVatNumber()
+        ) {
             // Send request to gateway
             $gatewayResponse = $customerHelper->checkVatNumber(
                 $customerCountryCode,
