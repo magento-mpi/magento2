@@ -71,7 +71,8 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Coupons_Form
             'name'     => 'qty',
             'label'    => Mage::helper('salesrule')->__('Coupon Qty'),
             'title'    => Mage::helper('salesrule')->__('Coupon Qty'),
-            'required' => true
+            'required' => true,
+            'class'    => 'validate-digits'
         ));
 
         $fieldset->addField('length', 'text', array(
@@ -80,7 +81,8 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Coupons_Form
             'title'    => Mage::helper('salesrule')->__('Code Length'),
             'required' => true,
             'note'     => Mage::helper('salesrule')->__('Excluding prefix, suffix and separators.'),
-            'value'    => $couponHelper->getDefaultLength()
+            'value'    => $couponHelper->getDefaultLength(),
+            'class'    => 'validate-digits'
         ));
 
         $fieldset->addField('format', 'select', array(
@@ -110,7 +112,8 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Coupons_Form
             'label' => Mage::helper('salesrule')->__('Dash Every X Characters'),
             'title' => Mage::helper('salesrule')->__('Dash Every X Characters'),
             'note'  => Mage::helper('salesrule')->__('If empty no separation.'),
-            'value' => $couponHelper->getDefaultDashInterval()
+            'value' => $couponHelper->getDefaultDashInterval(),
+            'class' => 'validate-digits'
         ));
 
         $idPrefix = $form->getHtmlIdPrefix();
