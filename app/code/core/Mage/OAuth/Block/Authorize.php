@@ -34,16 +34,6 @@
 class Mage_OAuth_Block_Authorize extends Mage_Core_Block_Template
 {
     /**
-     * Get the temporary credentials identifier received from the client.
-     *
-     * @return string
-     */
-    public function getOauthToken()
-    {
-        return $this->getRequest()->getQuery('oauth_token', null);
-    }
-
-    /**
      * Retrieve customer form posting url
      *
      * @return string
@@ -71,5 +61,15 @@ class Mage_OAuth_Block_Authorize extends Mage_Core_Block_Template
         $consumer->load($token->getConsumerId());
 
         return $consumer;
+    }
+
+    /**
+     * Has an exception been registered with the response?
+     *
+     * @return bool
+     */
+    public function isException()
+    {
+        return $this->getIsException();
     }
 }

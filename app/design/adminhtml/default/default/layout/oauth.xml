@@ -68,9 +68,7 @@
     <adminhtml_oauth_authorize_index translate="label">
         <label>OAuth authorization for admin</label>
         <reference name="root">
-            <action method="setTemplate">
-                <template>popup.phtml</template>
-            </action>
+            <action method="setTemplate"><template>empty.phtml</template></action>
         </reference>
         <reference name="content">
             <block type="oauth/adminhtml_oAuth_authorize" name="oauth.authorize.form" template="oauth/authorize/form/admin/login.phtml"/>

@@ -61,10 +61,19 @@ class Mage_OAuth_Adminhtml_OAuth_AuthorizeController extends Mage_Adminhtml_Cont
     {
         /** @var $server Mage_OAuth_Model_Server */
         $server = Mage::getModel('oauth/server');
-        $server->checkAuthorizeRequest();
-
         /** @var $session Mage_Admin_Model_Session */
         $session = Mage::getSingleton('admin/session');
+        /** @var $response Mage_Core_Controller_Response_Http */
+        $response = $this->getResponse();
+
+        try {
+            $server->checkAuthorizeRequest();
+        } catch (Mage_Core_Exception $e) {
+            $session->addError($e->getMessage());
+        } catch (Exception $e) {
+            $response->setException($e);
+            $session->addException($e, $this->__('An error occured. Token is not valid.'));
+        }
 
         $this->loadLayout();
         $contentBlock = $this->getLayout()->getBlock('content');
@@ -72,8 +81,13 @@ class Mage_OAuth_Adminhtml_OAuth_AuthorizeController extends Mage_Adminhtml_Cont
             $contentBlock->unsetChild('oauth.authorize.form');
         } else {
             $contentBlock->unsetChild('oauth.authorize.button');
+            /** @var $block Mage_OAuth_Block_Authorize */
+            $block = $contentBlock->getChild('oauth.authorize.form');
         }
 
+        $block->setToken($this->_getTokenString())
+            ->setIsException($response->isException() && $response->hasExceptionOfType('Exception'));
+        $this->_initLayoutMessages('admin/session');
         $this->renderLayout();
     }
 

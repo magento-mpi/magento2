@@ -34,16 +34,6 @@
 class Mage_OAuth_Block_Adminhtml_OAuth_Authorize extends Mage_Adminhtml_Block_Template
 {
     /**
-     * Get the temporary credentials identifier received from the client.
-     *
-     * @return string
-     */
-    public function getOauthToken()
-    {
-        return $this->getRequest()->getQuery('oauth_token', null);
-    }
-
-    /**
      * Retrieve admin form posting url
      *
      * @return string
@@ -69,5 +59,15 @@ class Mage_OAuth_Block_Adminhtml_OAuth_Authorize extends Mage_Adminhtml_Block_Te
         $consumer->load($token->getConsumerId());
 
         return $consumer;
+    }
+
+    /**
+     * Has an exception been registered with the response?
+     *
+     * @return bool
+     */
+    public function isException()
+    {
+        return $this->getIsException();
     }
 }

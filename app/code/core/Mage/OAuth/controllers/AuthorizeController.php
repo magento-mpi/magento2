@@ -42,10 +42,20 @@ class Mage_OAuth_AuthorizeController extends Mage_Core_Controller_Front_Action
     {
         /** @var $server Mage_OAuth_Model_Server */
         $server = Mage::getModel('oauth/server');
-        $server->checkAuthorizeRequest();
-
         /** @var $session Mage_Customer_Model_Session */
         $session = Mage::getSingleton('customer/session');
+        /** @var $response Mage_Core_Controller_Response_Http */
+        $response = $this->getResponse();
+
+        try {
+            $server->checkAuthorizeRequest();
+        } catch (Mage_Core_Exception $e) {
+            $session->addError($e->getMessage());
+        } catch (Exception $e) {
+            $response->setException($e);
+            $session->addException($e, $this->__('An error occured. Token is not valid.'));
+        }
+//        $session->setBeforeAuthUrl('http://apia.com/oauth/authorize?oauth_token=' . $this->getRequest()->getQuery('oauth_token'));
 
         $this->loadLayout();
         $contentBlock = $this->getLayout()->getBlock('content');
@@ -53,7 +63,13 @@ class Mage_OAuth_AuthorizeController extends Mage_Core_Controller_Front_Action
             $contentBlock->unsetChild('oauth.authorize.form');
         } else {
             $contentBlock->unsetChild('oauth.authorize.button');
+            /** @var $block Mage_OAuth_Block_Authorize */
+            $block = $contentBlock->getChild('oauth.authorize.form');
         }
+
+        $block->setToken($this->_getTokenString())
+            ->setIsException($response->isException() && $response->hasExceptionOfType('Exception'));
+        $this->_initLayoutMessages('customer/session');
         $this->renderLayout();
     }
 

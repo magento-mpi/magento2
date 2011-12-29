@@ -36,6 +36,7 @@
     <div class="page-title">
         <h1><?php echo $this->__('Authorize %s to use your account?', $this->escapeHtml($this->getConsumer()->getName())) ?></h1>
     </div>
+    <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
     <form action="<?php echo $this->getPostActionUrl() ?>" method="post" id="login-form">
         <div class="col1-set">
             <div class="col-1 registered-users">
@@ -66,7 +67,7 @@
                 </div>
             </div>
         </div>
-        <input type="hidden" name="oauth_token" value="<?php echo $this->escapeHtml($this->getOauthToken()) ?>"/>
+        <input type="hidden" name="oauth_token" value="<?php echo $this->escapeHtml($this->getToken()) ?>"/>
     </form>
     <script type="text/javascript">
     //<![CDATA[
