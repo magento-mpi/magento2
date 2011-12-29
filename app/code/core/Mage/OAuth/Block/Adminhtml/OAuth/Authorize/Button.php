@@ -52,4 +52,14 @@ class Mage_OAuth_Block_Adminhtml_OAuth_Authorize_Button extends Mage_Core_Block_
     {
         return $this->getUrl('adminhtml/oAuth_authorize/reject', array('oauth_token' => $this->getToken()));
     }
+
+    /**
+     * Has an exception been registered with the response?
+     *
+     * @return bool
+     */
+    public function isException()
+    {
+        return $this->getIsException();
+    }
 }

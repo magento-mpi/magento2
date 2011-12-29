@@ -36,17 +36,11 @@ class Mage_OAuth_Model_Observer
     /**
      * Get callback url
      *
-     * @param int $userId
      * @param string $userType
      * @return string
      */
-    protected function _getAfterAuthUrl($userId, $userType)
+    protected function _getAfterAuthUrl($userType)
     {
-        /** @var $server Mage_OAuth_Model_Server */
-        $server = Mage::getModel('oauth/server');
-        /** @var $token Mage_OAuth_Model_Token */
-        $token = $server->authorizeToken($userId, $userType);
-
         if (Mage_OAuth_Model_Token::USER_TYPE_CUSTOMER == $userType) {
             $route = 'oauth/authorize';
         } elseif (Mage_OAuth_Model_Token::USER_TYPE_ADMIN == $userType) {
@@ -55,7 +49,7 @@ class Mage_OAuth_Model_Observer
             throw new Exception('Invalid user type.');
         }
 
-        return Mage::getUrl($route, array('_query' => array('oauth_token' => $token->getToken())));
+        return Mage::getUrl($route, array('_query' => array('oauth_token' => $this->_getOauthToken())));
     }
 
     /**
@@ -79,8 +73,7 @@ class Mage_OAuth_Model_Observer
         if (null !== $this->_getOauthToken()) {
             /** @var $session Mage_Customer_Model_Session */
             $session = Mage::getSingleton('customer/session');
-            $session->setAfterAuthUrl($this->_getAfterAuthUrl($observer->getEvent()->getModel()->getId(),
-                Mage_OAuth_Model_Token::USER_TYPE_CUSTOMER));
+            $session->setAfterAuthUrl($this->_getAfterAuthUrl(Mage_OAuth_Model_Token::USER_TYPE_CUSTOMER));
         }
     }
 
@@ -94,11 +87,10 @@ class Mage_OAuth_Model_Observer
     {
         if (null !== $this->_getOauthToken()) {
             $userType = Mage_OAuth_Model_Token::USER_TYPE_ADMIN;
-
-            /** @var $session Mage_Admin_Model_Session */
-            $session = Mage::getSingleton('admin/session');
+            
+            $url = $this->_getAfterAuthUrl($userType);
             Mage::app()->getResponse()
-                ->setRedirect($this->_getAfterAuthUrl($session->getUser()->getId(), $userType))
+                ->setRedirect($url)
                 ->sendHeaders()
                 ->sendResponse();
         }

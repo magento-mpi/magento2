@@ -76,4 +76,24 @@
         </reference>
     </adminhtml_oauth_authorize_index>
     <!-- EOF Authorize -->
+
+    <adminhtml_oauth_authorize_confirm translate="label">
+        <label>Confirm token authorization for admin</label>
+        <reference name="root">
+            <action method="setTemplate"><template>empty.phtml</template></action>
+        </reference>
+        <reference name="content">
+            <block type="core/template" name="oauth.authorize.confirm" template="oauth/authorize/confirm.phtml" />
+        </reference>
+    </adminhtml_oauth_authorize_confirm>
+
+    <adminhtml_oauth_authorize_reject translate="label">
+        <label>Reject token authorization for admin</label>
+        <reference name="root">
+            <action method="setTemplate"><template>empty.phtml</template></action>
+        </reference>
+        <reference name="content">
+            <block type="core/template" name="oauth.authorize.reject" template="oauth/authorize/reject.phtml" />
+        </reference>
+    </adminhtml_oauth_authorize_reject>
 </layout>

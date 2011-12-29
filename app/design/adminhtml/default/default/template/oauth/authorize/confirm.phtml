@@ -31,35 +31,18 @@
  * @see Mage_OAuth_Block_Authorize
  */
 ?>
-<?php /** @var $this Mage_OAuth_Block_Adminhtml_OAuth_Authorize_Button */ ?>
+<?php /** @var $this Mage_Core_Block_Template */ ?>
 <div class="login-container">
     <div class="login-box">
         <div class="login-form">
-            <div class="page-title">
-                <h2><?php echo $this->__('Authorize application') ?></h2>
-            </div>
-
-            <?php if ($this->isException()): ?>
-                <div id="messages">
-                    <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
-                </div>
+            <?php if ($this->getIsException()): ?>
+                <h2><?php echo $this->__('Confirm authorization') ?></h2>
+                <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
             <?php else: ?>
                 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+                <h2><?php echo $this->__('Authorization confirmed.') ?></h2>
                 <p><?php echo $this->__('Lorem ipsum dolor sit amet, propriae lobortis has in, dico omnium doctus sit id, vim mucius oblique at. Paulo legimus mei ei. Pro quot vivendo ea, ex sit mollis oblique. Mei ad natum mentitum suavitate, no populo maiorum reprimique nam. Eu ius saperet meliore.') ?></p>
-                <h2><?php echo $this->__('Application is requesting following privileges:') ?></h2>
-                <ul>
-                    <li> - Aaaaaaa aaa</li>
-                    <li> - Bbbbbbb bbb</li>
-                    <li> - Ccccccc ccc</li>
-                </ul>
-                <form action="<?php echo $this->getConfirmUrl() ?>" method="get">
-                    <input type="hidden" name="oauth_token" value="<?php echo $this->escapeHtml($this->getToken()) ?>">
-                    <button type="submit" class="button" title="<?php echo $this->__('Authorize') ?>" name="authorize"><span><span><?php echo $this->__('Authorize') ?></span></span></button>
-                </form>
-                <form action="<?php echo $this->getRejectUrl() ?>" method="get">
-                    <input type="hidden" name="oauth_token" value="<?php echo $this->escapeHtml($this->getToken()) ?>">
-                    <button type="submit" class="button" title="<?php echo $this->__('Reject') ?>" name="reject"><span><span><?php echo $this->__('Reject') ?></span></span></button>
-                </form>
+                <h2><?php echo $this->getVerifier() ?></h2>
             <?php endif; ?>
         </div>
         <p class="legal"><?php echo $this->__('Magento is a trademark of Magento Inc. Copyright &copy; %s Magento Inc.', date('Y')) ?></p>

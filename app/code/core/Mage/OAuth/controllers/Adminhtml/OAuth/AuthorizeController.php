@@ -104,16 +104,31 @@ class Mage_OAuth_Adminhtml_OAuth_AuthorizeController extends Mage_Adminhtml_Cont
 
         /** @var $server Mage_OAuth_Model_Server */
         $server = Mage::getModel('oauth/server');
-        $token = $server->authorizeToken($session->getUser()->getId(), Mage_OAuth_Model_Token::USER_TYPE_ADMIN);
 
-        $callback = $server->getFullCallbackUrl($token);  //false in case of OOB
-        $response = $this->getResponse();
-        if ($callback) {
-            $response->setRedirect($callback);
-        } else {
-            $response->setBody($token->getVerifier());
+        $this->loadLayout();
+        /** @var $block Mage_Core_Block_Template */
+        $block = $this->getLayout()->getBlock('content')->getChild('oauth.authorize.confirm');
+
+        try {
+            //throw new Mage_Core_Exception('test test test');
+            $token = $server->authorizeToken($session->getUser()->getId(), Mage_OAuth_Model_Token::USER_TYPE_ADMIN);
+            $callback = $server->getFullCallbackUrl($token);  //false in case of OOB
+            if ($callback) {
+                $this->getResponse()->setRedirect($callback);
+                return;
+            } else {
+                $block->setVerifier($token->getVerifier());
+            }
+        } catch (Mage_Core_Exception $e) {
+            $block->setIsException(true);
+            $session->addError($e->getMessage());
+        } catch (Exception $e) {
+            $block->setIsException(true);
+            $session->addException($e, $this->__('Error authorizing token.'));
         }
-        $response->sendResponse();
+
+        $this->_initLayoutMessages('admin/session');
+        $this->renderLayout();
     }
 
     /**
@@ -123,18 +138,35 @@ class Mage_OAuth_Adminhtml_OAuth_AuthorizeController extends Mage_Adminhtml_Cont
     {
         /** @var $server Mage_OAuth_Model_Server */
         $server = Mage::getModel('oauth/server');
-        $server->checkAuthorizeRequest();
 
-        $token = $this->_loadToken();
-        //$token = $server->rejectToken();
+        /** @var $session Mage_Admin_Model_Session */
+        $session = Mage::getSingleton('admin/session');
 
-        $tokenString = $this->_getTokenString();
-        $delimiter = (strpos($tokenString, '?')===false)   ?'?'  :'&';
+        try {
+            $token = $server->checkAuthorizeRequest();
+            //$server->rejectToken($token);
 
-        $url = $token->getCallbackUrl();
-        $url.= $delimiter.'oauth_token='.$tokenString.'&denied=1';
+            $callback = $token->getCallbackUrl();
+            //$callback = $server->getFullCallbackUrl($token);  //false in case of OOB
+            if ($callback) {
+                $callback.= ((strpos($callback, '?') === false) ? '?' : '&') . 'oauth_token=' . $token->getToken() . '&denied=1';
+                //$callback.= '&denied=1';
 
-        $this->getResponse()->setRedirect($url)->sendResponse();
+                $this->getResponse()->setRedirect($callback);
+                return;
+            } else {
+                exit('Token rejected. What we are going to do if callback URL was not set?');
+            }
+        } catch (Mage_Core_Exception $e) {
+            $session->addError($e->getMessage());
+        } catch (Exception $e) {
+            $session->addException($e, $this->__('Error rejecting token.'));
+        }
+
+        //display exception
+        $this->loadLayout();
+        $this->_initLayoutMessages('admin/session');
+        $this->renderLayout();
     }
 
     /**

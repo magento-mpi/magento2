@@ -37,7 +37,7 @@
         <h1><?php echo $this->__('Authorize application') ?></h1>
     </div>
 
-    <?php if ($this->isException()): ?>
+    <?php if ($this->getIsException()): ?>
         <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
     <?php else: ?>
         <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
