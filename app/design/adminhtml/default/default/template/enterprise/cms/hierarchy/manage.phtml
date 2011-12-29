@@ -66,7 +66,7 @@
         return selectedScopes;
     }
 
-    function submitCopy(obj)
+    function submitCopy(containerObj)
     {
         if (!countSelectedScopes()) {
             alert(<?php echo json_encode(Mage::helper('enterprise_cms')->__("Please select website or store view.")); ?>);
@@ -77,10 +77,11 @@
             var form = $$('#cms-hierarchy-manage-container form')[0];
             form.action = <?php echo json_encode($this->getCopyHierarchyUrl()); ?>;
             form.submit();
+            containerObj.hide();
         }
     }
 
-    function submitDelete(obj)
+    function submitDelete(containerObj)
     {
         if (!countSelectedScopes()) {
             alert(<?php echo json_encode(Mage::helper('enterprise_cms')->__("Please select website or store view.")); ?>);
@@ -91,6 +92,7 @@
             var form = $$('#cms-hierarchy-manage-container form')[0];
             form.action = <?php echo json_encode($this->getDeleteHierarchiesUrl()); ?>;
             form.submit();
+            containerObj.hide();
         }
     }
 
@@ -124,7 +126,9 @@
         var popupOkButton = $('cms_popup_ok');
         popupOkButton.select('span')[0].innerHTML = buttonText;
         popupOkButton.setAttribute('class', buttonClass);
-        popupOkButton.onclick = buttonAction;
+        popupOkButton.onclick = function () {
+            buttonAction(popupContainer);
+        };
 
         popupContainer.show().setStyle({
             'marginTop': -popupContainer.getDimensions().height / 2 + 'px'
