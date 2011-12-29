@@ -10,95 +10,66 @@ $_this = $this;
 $adminId = $_this->getDefaultAdminUser()->getId();
 $customerId = $_this->getDefaultCustomer()->getId();
 
-$addedToAdmin    = 0;
-$addedToCustomer = 0;
+//data sets
+$data = array(
+    array(
+        'token' => array(
+            'authorized'  => 0,
+            'revoked'     => 0,
+            'type'        => Mage_OAuth_Model_Token::TYPE_REQUEST,
+        )
+    ),
+    array(
+        'token' => array(
+            'authorized'  => 1,
+            'revoked'     => 0,
+            'type'        => Mage_OAuth_Model_Token::TYPE_ACCESS,
+        )
+    ),
+    array(
+        'token' => array(
+            'authorized'  => 1,
+            'revoked'     => 1,
+            'type'        => Mage_OAuth_Model_Token::TYPE_ACCESS,
+        )
+    ),
+);
 
-//1) crate consumer-token for customer
-$consumer = new Mage_OAuth_Model_Consumer();
-$data = require 'consumerData.php';
-$consumer->setData($data['create']);
-$consumer->save();
-$_this->addModelToDelete($consumer);
-$models['consumer'][] = $consumer;
+$models = array();
+/** @var $helper Mage_OAuth_Helper_Data */
+$helper = Mage::helper('oauth');
 
-$token = new Mage_OAuth_Model_Token();
-$data = require 'tokenData.php';
-$tokenData = $data['create'];
-$tokenData['revoked']  = 0;
-$tokenData['consumer_id'] = $consumer->getId();
-$tokenData['customer_id'] = $customerId;
-$addedToCustomer++;
-$token->setData($tokenData);
-$token->save();
-$_this->addModelToDelete($token);
-$models['token']['customer'][] = $token;
+foreach ($data as $item) {
+    $consumer = new Mage_OAuth_Model_Consumer();
+    $data = require 'consumerData.php';
+    $consumer->setData($data['create']);
+    $consumer->save();
+    $_this->addModelToDelete($consumer);
+    $models['consumer'][] = $consumer;
 
-//2) crate consumer-token for customer
-$consumer = new Mage_OAuth_Model_Consumer();
-$data = require 'consumerData.php';
-$consumer->setData($data['create']);
-$consumer->save();
-$_this->addModelToDelete($consumer);
-$models['consumer'][] = $consumer;
+    //customer
+    $token = new Mage_OAuth_Model_Token();
+    $data = require 'tokenData.php';
+    $tokenData = $data['create'];
+    $tokenData['consumer_id'] = $consumer->getId();
+    $tokenData['customer_id'] = $customerId;
+    $tokenData = array_merge($tokenData, $item['token']);
+    $token->setData($tokenData);
+    $token->save();
+    $_this->addModelToDelete($token);
+    $models['token']['customer'][] = $token;
 
-$token = new Mage_OAuth_Model_Token();
-$data = require 'tokenData.php';
-$tokenData = $data['create'];
-$tokenData['revoked']  = 1;
-$tokenData['consumer_id'] = $consumer->getId();
-$tokenData['customer_id'] = $customerId;
-$addedToCustomer++;
-$token->setData($tokenData);
-$token->save();
-$_this->addModelToDelete($token);
-$models['token']['customer'][] = $token;
-
-//3) crate consumer-token for admin
-$consumerData = null;
-$consumer = new Mage_OAuth_Model_Consumer();
-$data = require 'consumerData.php';
-$consumer->setData($data['create']);
-$consumer->save();
-$_this->addModelToDelete($consumer);
-$models['consumer'][] = $consumer;
-
-$tokenData = null;
-$token = new Mage_OAuth_Model_Token();
-$data = require 'tokenData.php';
-$tokenData = $data['create'];
-$tokenData['revoked']  = 0;
-$tokenData['consumer_id'] = $consumer->getId();
-$tokenData['admin_id'] = $adminId;
-$addedToAdmin++;
-$token->setData($tokenData);
-$token->save();
-$_this->addModelToDelete($token);
-$models['token']['admin'][] = $token;
-
-//4) crate consumer-token for admin
-$consumerData = null;
-$consumer = new Mage_OAuth_Model_Consumer();
-$data = require 'consumerData.php';
-$consumer->setData($data['create']);
-$consumer->save();
-$_this->addModelToDelete($consumer);
-$models['consumer'][] = $consumer;
-
-$tokenData = null;
-$token = new Mage_OAuth_Model_Token();
-$data = require 'tokenData.php';
-$tokenData = $data['create'];
-$tokenData['revoked']  = 1;
-$tokenData['consumer_id'] = $consumer->getId();
-$tokenData['admin_id']    = $adminId;
-$addedToAdmin++;
-$token->setData($tokenData);
-$token->save();
-$_this->addModelToDelete($token);
-$models['token']['admin'][] = $token;
-
-$models['added_to_customer'] = $addedToCustomer;
-$models['added_to_admin']    = $addedToAdmin;
+    //admin
+    unset($tokenData['customer_id']);
+    $token = new Mage_OAuth_Model_Token();
+    $tokenData['admin_id'] = $adminId;
+    $tokenData['token']    = $helper->generateToken(); //must be unique
+    $tokenData = array_merge($tokenData, $item['token']);
+    $token->setData($tokenData);
+    $token->save();
+    $_this->addModelToDelete($token);
+    $models['token']['admin'][] = $token;
+}
 
 return $models;
 

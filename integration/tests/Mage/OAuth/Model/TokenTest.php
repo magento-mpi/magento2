@@ -59,7 +59,7 @@ class Mage_OAuth_Model_TokenTest extends Magento_TestCase
     }
 
     /**
-     * Test validation URL failure
+     * Test CRUD
      *
      * @return void
      */
@@ -69,12 +69,15 @@ class Mage_OAuth_Model_TokenTest extends Magento_TestCase
         $consumer->setData($this->_getFixtureConsumerData('create'));
         $consumer->save();
         $this->addModelToDelete($consumer);
+        $consumerId = $consumer->getId();
 
+        $customerId = $this->getDefaultCustomer()->getId();
 
         $model = new Mage_OAuth_Model_Token();
         $this->addModelToDelete($model);
         $data = $this->_getFixtureTokenData();
-        $data['create']['consumer_id'] = $consumer->getId();
+        $data['create']['consumer_id'] = $consumerId;
+        $data['create']['customer_id'] = $customerId;
 
         /**
          * Test create
@@ -93,8 +96,8 @@ class Mage_OAuth_Model_TokenTest extends Magento_TestCase
         $model->load($id);
         $dataLoaded = $model->getData();
 
-        unset($dataCreated['tmp_created_at'],
-            $dataLoaded['tmp_created_at']);
+        unset($dataCreated['created_at'],
+            $dataLoaded['created_at']);
 
         $this->assertEquals($dataCreated, $dataLoaded,
             'Expected data with actual loaded data is not equals.');
@@ -106,13 +109,15 @@ class Mage_OAuth_Model_TokenTest extends Magento_TestCase
         $model->save();
 
         $dataUpdated = $data['update'];
-        $dataUpdated['entity_id'] = $model->getId();
-        $dataUpdated['consumer_id'] = $model->getConsumerId();
+        $dataUpdated['entity_id']   = $model->getId();
+        $dataUpdated['admin_id']    = null;
+        $dataUpdated['consumer_id'] = $consumerId;
+        $dataUpdated['customer_id'] = $customerId;
         $model->load($model->getId());
         $dataLoaded = $model->getData();
 
-        unset($dataUpdated['tmp_created_at'],
-            $dataLoaded['tmp_created_at']);
+        unset($dataUpdated['created_at'],
+            $dataLoaded['created_at']);
 
         $this->assertEquals($dataUpdated, $dataLoaded,
             'Expected data with actual loaded data is not equals.');
