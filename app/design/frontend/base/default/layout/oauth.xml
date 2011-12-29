@@ -38,6 +38,7 @@
         <reference name="header">
             <remove name="top.links"/>
             <remove name="top.search"/>
+            <remove name="top.menu"/>
         </reference>
         <reference name="content">
             <block type="oauth/authorize" name="oauth.authorize.form" template="oauth/authorize/form/customer/login.phtml"/>

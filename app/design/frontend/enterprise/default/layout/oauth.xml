@@ -40,6 +40,7 @@
             <remove name="checkout.links"/>
             <remove name="welcome"/>
             <remove name="top.search"/>
+            <remove name="top.menu"/>
             <remove name="cart_sidebar"/>
         </reference>
         <reference name="content">
