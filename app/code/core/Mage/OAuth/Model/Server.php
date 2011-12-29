@@ -242,7 +242,7 @@ class Mage_OAuth_Model_Server
     }
 
     /**
-     * Load token object, validate it, set access data and save
+     * Load token object, validate it depending on request type, set access data and save
      *
      * @return Mage_OAuth_Model_Server
      */
@@ -250,7 +250,6 @@ class Mage_OAuth_Model_Server
     {
         $this->_token = Mage::getModel('oauth/token');
 
-        // no additional actions required for initiate request
         if (self::REQUEST_INITIATE != $this->_requestType) {
             $this->_validateTokenParam();
 
@@ -284,6 +283,8 @@ class Mage_OAuth_Model_Server
                 }
                 //TODO: Implement check for expiration (after it implemented in token model)
             }
+        } else {
+            $this->_validateCallbackUrlParam();
         }
         return $this;
     }
@@ -337,26 +338,25 @@ class Mage_OAuth_Model_Server
      */
     protected function _reportProblem(Exception $e)
     {
-        $msgAdd = '';
+        $eMsg = $e->getMessage();
 
         if ($e instanceof Mage_Oauth_Exception) {
-            $code = $e->getCode();
+            $eCode = $e->getCode();
+            $msg   = isset($this->_errors[$eCode]) ? $this->_errors[$eCode] : 'unknown_problem&code=' . $eCode;
 
-            if (self::ERR_PARAMETER_ABSENT == $code) {
-                $msgAdd = '&oauth_parameters_absent=' . $e->getMessage();
-            } elseif (self::ERR_SIGNATURE_INVALID == $code) {
-                $msgAdd = '&debug_sbs=' . $e->getMessage();
-            } elseif ($e->getMessage()) {
-                $msgAdd = '&message=' . $e->getMessage();
+            if (self::ERR_PARAMETER_ABSENT == $eCode) {
+                $msg .= '&oauth_parameters_absent=' . $eMsg;
+            } elseif (self::ERR_SIGNATURE_INVALID == $eCode) {
+                $msg .= '&debug_sbs=' . $eMsg;
+            } elseif ($eMsg) {
+                $msg .= '&message=' . $eMsg;
             }
-            $msg = isset($this->_errors[$code]) ? $this->_errors[$code] : 'unknown_problem&code=' . $code;
         } else {
-            $msg = 'internal_error';
-            $msgAdd = '&message=' . $e->getMessage();
+            $msg = 'internal_error&message=' . ($eMsg ? $eMsg : 'empty_message');
         }
         //$this->_getResponse()->setHttpResponseCode(self::HTTP_BAD_REQUEST);
 
-        return 'oauth_problem=' . $msg . $msgAdd;
+        return 'oauth_problem=' . $msg;
     }
 
     /**
@@ -365,13 +365,10 @@ class Mage_OAuth_Model_Server
     protected function _saveToken()
     {
         if (self::REQUEST_INITIATE == $this->_requestType) {
-            if (empty($this->_params['oauth_callback'])) {
+            if (self::CALLBACK_ESTABLISHED == $this->_params['oauth_callback'] && $this->_consumer->getCallBackUrl()) {
                 $callbackUrl = $this->_consumer->getCallBackUrl();
             } else {
                 $callbackUrl = $this->_params['oauth_callback'];
-            }
-            if (self::CALLBACK_ESTABLISHED != $callbackUrl && !Zend_Uri::check($callbackUrl)) {
-                $this->_throwException('oauth_callback', self::ERR_PARAMETER_REJECTED);
             }
             $this->_token->createRequestToken($this->_consumer->getId(), $callbackUrl);
         } elseif (self::REQUEST_TOKEN == $this->_requestType) {
@@ -389,6 +386,24 @@ class Mage_OAuth_Model_Server
     protected function _throwException($message = '', $code = 0)
     {
         throw Mage::exception('Mage_OAuth', $message, $code);
+    }
+
+    /**
+     * Chack for 'oauth_callback' parameter
+     */
+    protected function _validateCallbackUrlParam()
+    {
+        if (!isset($this->_params['oauth_callback'])) {
+            $this->_throwException('oauth_callback', self::ERR_PARAMETER_ABSENT);
+        }
+        if (!is_string($this->_params['oauth_callback'])) {
+            $this->_throwException('oauth_callback', self::ERR_PARAMETER_REJECTED);
+        }
+        if (self::CALLBACK_ESTABLISHED != $this->_params['oauth_callback']
+            && !Zend_Uri::check($this->_params['oauth_callback'])
+        ) {
+            $this->_throwException('oauth_callback', self::ERR_PARAMETER_REJECTED);
+        }
     }
 
     /**
@@ -427,9 +442,7 @@ class Mage_OAuth_Model_Server
             $this->_throwException('', self::ERR_VERSION_REJECTED);
         }
         // required parameters validation
-        $reqFields = array('oauth_consumer_key', 'oauth_signature_method', 'oauth_signature');
-
-        foreach ($reqFields as $reqField) {
+        foreach (array('oauth_consumer_key', 'oauth_signature_method', 'oauth_signature') as $reqField) {
             if (empty($this->_params[$reqField])) {
                 $this->_throwException($reqField, self::ERR_PARAMETER_ABSENT);
             }
@@ -441,7 +454,7 @@ class Mage_OAuth_Model_Server
             }
         }
         // validate signature method
-        if (!in_array($this->_params['oauth_signature_method'], self::getValidSignatureMethods())) {
+        if (!in_array($this->_params['oauth_signature_method'], self::getSupportedSignatureMethods())) {
             $this->_throwException('', self::ERR_SIGNATURE_METHOD_REJECTED);
         }
         // validate nonce data if signature method is not PLAINTEXT
@@ -499,6 +512,9 @@ class Mage_OAuth_Model_Server
         if (!is_string($this->_params['oauth_token'])) {
             $this->_throwException('', self::ERR_TOKEN_REJECTED);
         }
+        if (strlen($this->_params['oauth_token']) != Mage_OAuth_Model_Token::LENGTH_TOKEN) {
+            $this->_throwException('', self::ERR_TOKEN_REJECTED);
+        }
     }
 
     /**
@@ -510,6 +526,9 @@ class Mage_OAuth_Model_Server
             $this->_throwException('oauth_verifier', self::ERR_PARAMETER_ABSENT);
         }
         if (!is_string($this->_params['oauth_verifier'])) {
+            $this->_throwException('', self::ERR_VERIFIER_INVALID);
+        }
+        if (strlen($this->_params['oauth_verifier']) != Mage_OAuth_Model_Token::LENGTH_VERIFIER) {
             $this->_throwException('', self::ERR_VERIFIER_INVALID);
         }
     }
@@ -606,11 +625,11 @@ class Mage_OAuth_Model_Server
     }
 
     /**
-     * Retrieve array of valid signature methods
+     * Retrieve array of supported signature methods
      *
      * @return array
      */
-    public static function getValidSignatureMethods()
+    public static function getSupportedSignatureMethods()
     {
         return array(self::SIGNATURE_RSA, self::SIGNATURE_HMAC, self::SIGNATURE_PLAIN);
     }

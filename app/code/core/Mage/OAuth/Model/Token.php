@@ -199,7 +199,9 @@ class Mage_OAuth_Model_Token extends Mage_Core_Model_Abstract
     {
         /** @var $validatorUrl Mage_Core_Model_Url_Validator */
         $validatorUrl = Mage::getSingleton('core/url_validator');
-        if (!$validatorUrl->isValid($this->getCallbackUrl())) {
+        if (Mage_OAuth_Model_Server::CALLBACK_ESTABLISHED != $this->getCallbackUrl()
+            && !$validatorUrl->isValid($this->getCallbackUrl())
+        ) {
             $messages = $validatorUrl->getMessages();
             Mage::throwException(array_shift($messages));
         }
