@@ -47,8 +47,15 @@ class Mage_OAuth_Model_Observer
         /** @var $token Mage_OAuth_Model_Token */
         $token = $server->authorizeToken($userId, $userType);
 
-        return $token->getCallbackUrl() . '?oauth_token=' . $token->getToken() . '&oauth_verifier=' .
-            $token->getVerifier();
+        if (Mage_OAuth_Model_Token::USER_TYPE_CUSTOMER == $userType) {
+            $route = 'oauth/authorize';
+        } elseif (Mage_OAuth_Model_Token::USER_TYPE_ADMIN == $userType) {
+            $route = 'adminhtml/oAuth_authorize';
+        } else {
+            throw new Exception('Invalid user type.');
+        }
+
+        return Mage::getUrl($route, array('_query' => array('oauth_token' => $token->getToken())));
     }
 
     /**
