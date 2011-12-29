@@ -175,7 +175,7 @@ class PriceRules_Catalog_CreateTest extends Mage_Selenium_TestCase
                     'description'         => $this->generate('string', 255, ':alnum:'),
                     'discount_amount'     => '99999999.9999',
                     'sub_discount_amount' => '99999999.9999',
-                    'priority'            => '4294967295'
+                    'priority'            => '2147483647'
                 ));
         $ruleSearch = $this->loadData('search_catalog_rule',
                 array('filter_rule_name' => $priceRuleData['info']['rule_name']));
