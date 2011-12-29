@@ -388,7 +388,6 @@ SelectUpdater.prototype = {
 /**
  * Observer that watches for dependent form elements
  * If an element depends on 1 or more of other elements, it should show up only when all of them gain specified values
- * TODO: implement multiple values per "master" elements
  */
 FormElementDependenceController = Class.create();
 FormElementDependenceController.prototype = {
@@ -397,6 +396,7 @@ FormElementDependenceController.prototype = {
      *     'id_of_dependent_element' : {
      *         'id_of_master_element_1' : 'reference_value',
      *         'id_of_master_element_2' : 'reference_value'
+     *         'id_of_master_element_3' : ['reference_value1', 'reference_value2']
      *         ...
      *     }
      * }
@@ -442,8 +442,14 @@ FormElementDependenceController.prototype = {
         var shouldShowUp = true;
         for (var idFrom in valuesFrom) {
             var from = $(idFrom);
-            if (!from || from.value != valuesFrom[idFrom]) {
-                shouldShowUp = false;
+            if (valuesFrom[idFrom] instanceof Array) {
+                if (!from || valuesFrom[idFrom].indexOf(from.value) == -1) {
+                    shouldShowUp = false;
+                }
+            } else {
+                if (!from || from.value != valuesFrom[idFrom]) {
+                    shouldShowUp = false;
+                }
             }
         }
 
