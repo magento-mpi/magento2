@@ -79,7 +79,6 @@ class Mage_Captcha_Helper_Data extends Mage_Core_Helper_Abstract
      *
      * @param string $id The last part of XML_PATH_$area_CAPTCHA_ constant (case insensitive)
      * @param Mage_Core_Model_Store $store
-     * @throws Mage_Core_Exception
      * @return Mage_Core_Model_Config_Element
      */
     public function getConfigNode($id, $store = null)
