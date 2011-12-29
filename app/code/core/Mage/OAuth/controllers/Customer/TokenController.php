@@ -33,7 +33,7 @@
  * @package     Mage_OAuth
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_OAuth_MyApplicationController extends Mage_Core_Controller_Front_Action
+class Mage_OAuth_Customer_TokenController extends Mage_Core_Controller_Front_Action
 {
     /**
      * Customer session model
@@ -58,7 +58,6 @@ class Mage_OAuth_MyApplicationController extends Mage_Core_Controller_Front_Acti
     {
         parent::preDispatch();
         $this->_session = Mage::getSingleton($this->_sessionName);
-        $this->_sessionNamespace;
         if (!$this->_session->authenticate($this)) {
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
         }
@@ -78,7 +77,7 @@ class Mage_OAuth_MyApplicationController extends Mage_Core_Controller_Front_Acti
     /**
      * Redirect to referrer URL or otherwise to index page without params
      *
-     * @return Mage_OAuth_MyApplicationController
+     * @return Mage_OAuth_Customer_TokenController
      */
     protected function _redirectBack()
     {
@@ -118,6 +117,7 @@ class Mage_OAuth_MyApplicationController extends Mage_Core_Controller_Front_Acti
             $collection->joinConsumerAsApplication()
                     ->addFilterByCustomerId($this->_session->getCustomerId())
                     ->addFilterById($id)
+                    ->addFilterByType(Mage_OAuth_Model_Token::TYPE_ACCESS)
                     ->addFilterByRevoked(!$status);
             //here is can be load from model, but used from collection for get consumer name
 
@@ -128,9 +128,9 @@ class Mage_OAuth_MyApplicationController extends Mage_Core_Controller_Front_Acti
                 $model->load($model->getId());
                 $model->setRevoked($status)->save();
                 if ($status) {
-                    $message = $this->__('Application "%s" revoked.', $name);
+                    $message = $this->__('Application "%s" has been revoked.', $name);
                 } else {
-                    $message = $this->__('Application "%s" enabled.', $name);
+                    $message = $this->__('Application "%s" has been enabled.', $name);
                 }
                 $this->_session->addSuccess($message);
             } else {
@@ -164,6 +164,7 @@ class Mage_OAuth_MyApplicationController extends Mage_Core_Controller_Front_Acti
             $collection = Mage::getModel('oauth/token')->getCollection();
             $collection->joinConsumerAsApplication()
                     ->addFilterByCustomerId($this->_session->getCustomerId())
+                    ->addFilterByType(Mage_OAuth_Model_Token::TYPE_ACCESS)
                     ->addFilterById($id);
 
             /** @var $model Mage_OAuth_Model_Token */

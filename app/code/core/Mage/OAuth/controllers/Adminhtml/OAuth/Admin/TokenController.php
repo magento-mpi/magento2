@@ -33,12 +33,12 @@
  * @package     Mage_OAuth
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_OAuth_Adminhtml_OAuth_MyApplicationController extends Mage_Adminhtml_Controller_Action
+class Mage_OAuth_Adminhtml_OAuth_Admin_TokenController extends Mage_Adminhtml_Controller_Action
 {
     /**
      * Init titles
      *
-     * @return Mage_OAuth_Adminhtml_OAuth_MyApplicationController
+     * @return Mage_OAuth_Adminhtml_OAuth_Admin_TokenController
      */
     public function preDispatch()
     {
@@ -89,7 +89,6 @@ class Mage_OAuth_Adminhtml_OAuth_MyApplicationController extends Mage_Adminhtml_
             return;
         }
 
-
         try {
             /** @var $user Mage_Admin_Model_User */
             $user = Mage::getSingleton('admin/session')->getData('user');
@@ -98,6 +97,7 @@ class Mage_OAuth_Adminhtml_OAuth_MyApplicationController extends Mage_Adminhtml_
             $collection = Mage::getModel('oauth/token')->getCollection();
             $collection->joinConsumerAsApplication()
                     ->addFilterByAdminId($user->getId())
+                    ->addFilterByType(Mage_OAuth_Model_Token::TYPE_ACCESS)
                     ->addFilterById($ids)
                     ->addFilterByRevoked(!$status);
 
@@ -122,6 +122,45 @@ class Mage_OAuth_Adminhtml_OAuth_MyApplicationController extends Mage_Adminhtml_
     }
 
     /**
+     * Delete action
+     */
+    public function deleteAction()
+    {
+        $ids = $this->getRequest()->getParam('items');
+
+        if (!is_array($ids) || !$ids) {
+            // No rows selected
+            $this->_getSession()->addError($this->__('Please select needed row(s).'));
+            $this->_redirect('*/*/index');
+            return;
+        }
+
+        try {
+            /** @var $user Mage_Admin_Model_User */
+            $user = Mage::getSingleton('admin/session')->getData('user');
+
+            /** @var $collection Mage_OAuth_Model_Resource_Token_Collection */
+            $collection = Mage::getModel('oauth/token')->getCollection();
+            $collection->joinConsumerAsApplication()
+                    ->addFilterByAdminId($user->getId())
+                    ->addFilterByType(Mage_OAuth_Model_Token::TYPE_ACCESS)
+                    ->addFilterById($ids);
+
+            /** @var $item Mage_OAuth_Model_Token */
+            foreach ($collection as $item) {
+                $item->delete();
+            }
+            $this->_getSession()->addSuccess($this->__('Selected entries has been deleted.'));
+        } catch (Mage_Core_Exception $e) {
+            $this->_getSession()->addError($e->getMessage());
+        } catch (Exception $e) {
+            $this->_getSession()->addError($this->__('An error occurred on delete action.'));
+            Mage::logException($e);
+        }
+        $this->_redirect('*/*/index');
+    }
+
+    /**
      * Check admin permissions for this controller
      *
      * @return boolean
@@ -130,6 +169,6 @@ class Mage_OAuth_Adminhtml_OAuth_MyApplicationController extends Mage_Adminhtml_
     {
         /** @var $session Mage_Admin_Model_Session */
         $session = Mage::getSingleton('admin/session');
-        return $session->isAllowed('oauth/myapplication');
+        return $session->isAllowed('acl/oauth_admin_token');
     }
 }

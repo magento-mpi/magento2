@@ -93,8 +93,8 @@ class Mage_OAuth_Model_Consumer extends Mage_Core_Model_Abstract
     public function validate()
     {
         if ($this->getCallbackUrl()) {
-            /** @var $validatorUrl Mage_OAuth_Model_Consumer_Validator_CallbackUrl */
-            $validatorUrl = Mage::getSingleton('oauth/consumer_validator_callbackUrl');
+            /** @var $validatorUrl Mage_Core_Model_Url_Validator */
+            $validatorUrl = Mage::getSingleton('core/url_validator');
             if (!$validatorUrl->isValid($this->getCallbackUrl())) {
                 $messages = $validatorUrl->getMessages();
                 Mage::throwException(array_shift($messages));

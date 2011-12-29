@@ -31,7 +31,7 @@
  * @package    Mage_OAuth
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_OAuth_Block_Adminhtml_OAuth_MyApplication_Grid extends Mage_Adminhtml_Block_Widget_Grid
+class Mage_OAuth_Block_Adminhtml_OAuth_Admin_Token_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
     /**
      * Construct grid block
@@ -49,7 +49,7 @@ class Mage_OAuth_Block_Adminhtml_OAuth_MyApplication_Grid extends Mage_Adminhtml
     /**
      * Prepare collection
      *
-     * @return Mage_OAuth_Block_Adminhtml_OAuth_MyApplication_Grid
+     * @return Mage_OAuth_Block_Adminhtml_OAuth_Admin_Token_Grid
      */
     protected function _prepareCollection()
     {
@@ -58,7 +58,9 @@ class Mage_OAuth_Block_Adminhtml_OAuth_MyApplication_Grid extends Mage_Adminhtml
 
         /** @var $collection Mage_OAuth_Model_Resource_Token_Collection */
         $collection = Mage::getModel('oauth/token')->getCollection();
-        $collection->joinConsumerAsApplication()->addFilterByAdminId($user->getId());
+        $collection->joinConsumerAsApplication()
+                ->addFilterByType(Mage_OAuth_Model_Token::TYPE_ACCESS)
+                ->addFilterByAdminId($user->getId());
         $this->setCollection($collection);
 
         parent::_prepareCollection();
@@ -68,7 +70,7 @@ class Mage_OAuth_Block_Adminhtml_OAuth_MyApplication_Grid extends Mage_Adminhtml
     /**
      * Prepare columns
      *
-     * @return Mage_OAuth_Block_Adminhtml_OAuth_MyApplication_Grid
+     * @return Mage_OAuth_Block_Adminhtml_OAuth_Admin_Token_Grid
      */
     protected function _prepareColumns()
     {
@@ -105,7 +107,7 @@ class Mage_OAuth_Block_Adminhtml_OAuth_MyApplication_Grid extends Mage_Adminhtml
     /**
      * Add mass-actions to grid
      *
-     * @return Mage_OAuth_Block_Adminhtml_OAuth_MyApplication_Grid
+     * @return Mage_OAuth_Block_Adminhtml_OAuth_Admin_Token_Grid
      */
     protected function _prepareMassaction()
     {
@@ -113,14 +115,17 @@ class Mage_OAuth_Block_Adminhtml_OAuth_MyApplication_Grid extends Mage_Adminhtml
         $block = $this->getMassactionBlock();
 
         $block->setFormFieldName('items');
-        $block->addItem('Revoke', array(
-            'label'         => Mage::helper('index')->__('Revoke'),
-            'url'           => $this->getUrl('*/*/revoke', array('status' => 1)),
+        $block->addItem('enable', array(
+            'label' => Mage::helper('index')->__('Enable'),
+            'url'   => $this->getUrl('*/*/revoke', array('status' => 0)),
         ));
-
-        $block->addItem('Enable', array(
-            'label'         => Mage::helper('index')->__('Enable'),
-            'url'           => $this->getUrl('*/*/revoke', array('status' => 0)),
+        $block->addItem('revoke', array(
+            'label' => Mage::helper('index')->__('Revoke'),
+            'url'   => $this->getUrl('*/*/revoke', array('status' => 1)),
+        ));
+        $block->addItem('delete', array(
+            'label' => Mage::helper('index')->__('Delete'),
+            'url'   => $this->getUrl('*/*/delete'),
         ));
 
         return $this;

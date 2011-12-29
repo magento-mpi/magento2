@@ -43,8 +43,6 @@
  * @method Mage_OAuth_Model_Token setCustomerId() setCustomerId(int $customerId)
  * @method string getType()
  * @method Mage_OAuth_Model_Token setType() setType(string $type)
- * @method string getTmpTokenSecret()
- * @method Mage_OAuth_Model_Token setTmpTokenSecret() setTmpTokenSecret(string $tmpTokenSecret)
  * @method string getVerifier()
  * @method Mage_OAuth_Model_Token setVerifier() setVerifier(string $verifier)
  * @method string getCallbackUrl()
@@ -180,7 +178,7 @@ class Mage_OAuth_Model_Token extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Update "updated at" date
+     * Before save actions
      *
      * @return Mage_OAuth_Model_Consumer
      */
@@ -199,14 +197,38 @@ class Mage_OAuth_Model_Token extends Mage_Core_Model_Abstract
      */
     public function validate()
     {
-        if (!$this->getCustomerId() && !$this->getAdminId()) {
-            throw new Exception('Customer ID or admin ID must not empty.');
+        /** @var $validatorUrl Mage_Core_Model_Url_Validator */
+        $validatorUrl = Mage::getSingleton('core/url_validator');
+        if (!$validatorUrl->isValid($this->getCallbackUrl())) {
+            $messages = $validatorUrl->getMessages();
+            Mage::throwException(array_shift($messages));
         }
 
-        if ($this->getCustomerId() && $this->getAdminId()) {
-            throw new Exception('Both customer ID and admin ID cannot be not null.');
+        /** @var $validatorLength Mage_OAuth_Model_Consumer_Validator_KeyLength */
+        $validatorLength = Mage::getModel(
+            'oauth/consumer_validator_keyLength');
+        $validatorLength->setLength(self::LENGTH_SECRET);
+        $validatorLength->setName('Token Secret Key');
+        if (!$validatorLength->isValid($this->getSecret())) {
+            $messages = $validatorLength->getMessages();
+            Mage::throwException(array_shift($messages));
         }
 
+        $validatorLength->setLength(self::LENGTH_TOKEN);
+        $validatorLength->setName('Token Key');
+        if (!$validatorLength->isValid($this->getToken())) {
+            $messages = $validatorLength->getMessages();
+            Mage::throwException(array_shift($messages));
+        }
+
+        if (null !== ($verifier = $this->getVerifier())) {
+            $validatorLength->setLength(self::LENGTH_VERIFIER);
+            $validatorLength->setName('Verifier Key');
+            if (!$validatorLength->isValid($verifier)) {
+                $messages = $validatorLength->getMessages();
+                Mage::throwException(array_shift($messages));
+            }
+        }
         return true;
     }
 }

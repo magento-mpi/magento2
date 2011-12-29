@@ -87,6 +87,18 @@ class Mage_OAuth_Model_Resource_Token_Collection extends Mage_Core_Model_Resourc
     }
 
     /**
+     * Add filter by type
+     *
+     * @param string $type
+     * @return Mage_OAuth_Model_Resource_Token_Collection
+     */
+    public function addFilterByType($type)
+    {
+        $this->addFilter('main_table.type', $type);
+        return $this;
+    }
+
+    /**
      * Add filter by ID
      *
      * @param array|int $id

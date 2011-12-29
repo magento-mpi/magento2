@@ -36,22 +36,24 @@
                                 <title>OAuth</title>
                                 <sort_order>10</sort_order>
                                 <children>
-                                    <show_list translate="title">
+                                    <consumer translate="title">
                                         <title>Show List</title>
                                         <sort_order>20</sort_order>
-                                    </show_list>
-                                    <edit translate="title">
-                                        <title>Edit</title>
-                                        <sort_order>30</sort_order>
-                                    </edit>
-                                    <remove translate="title">
-                                        <title>Remove</title>
-                                        <sort_order>40</sort_order>
-                                    </remove>
-                                    <myapplication translate="title">
-                                        <title>My Applications</title>
+                                        <children>
+                                            <edit translate="title">
+                                                <title>Edit</title>
+                                                <sort_order>30</sort_order>
+                                            </edit>
+                                            <remove translate="title">
+                                                <title>Remove</title>
+                                                <sort_order>40</sort_order>
+                                            </remove>
+                                        </children>
+                                    </consumer>
+                                    <admin_token translate="title">
+                                        <title>Admin My Applications</title>
                                         <sort_order>20</sort_order>
-                                    </myapplication>
+                                    </admin_token>
                                 </children>
                             </oauth>
                         </children>
@@ -76,11 +78,11 @@
                 </oauth>
                 <acl>
                     <children>
-                        <oauth_myapplication translate="title">
+                        <oauth_admin_token translate="title">
                             <title>My Applications</title>
                             <sort_order>50</sort_order>
-                            <action>adminhtml/oAuth_myApplication</action>
-                        </oauth_myapplication>
+                            <action>adminhtml/oAuth_admin_token</action>
+                        </oauth_admin_token>
                     </children>
                 </acl>
             </children>

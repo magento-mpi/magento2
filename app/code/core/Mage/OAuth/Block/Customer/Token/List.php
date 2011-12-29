@@ -32,7 +32,7 @@
  * @package    Mage_OAuth
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_OAuth_Block_Customer_MyApplication_List extends Mage_Customer_Block_Account_Dashboard
+class Mage_OAuth_Block_Customer_Token_List extends Mage_Customer_Block_Account_Dashboard
 {
     /**
      * Collection model
@@ -40,13 +40,6 @@ class Mage_OAuth_Block_Customer_MyApplication_List extends Mage_Customer_Block_A
      * @var Mage_OAuth_Model_Resource_Token_Collection
      */
     protected $_collection;
-
-    /**
-     * Revoke labels
-     *
-     * @var array
-     */
-    protected $_revokeLabels;
 
     /**
      * Prepare collection
@@ -59,12 +52,9 @@ class Mage_OAuth_Block_Customer_MyApplication_List extends Mage_Customer_Block_A
         /** @var $collection Mage_OAuth_Model_Resource_Token_Collection */
         $collection = Mage::getModel('oauth/token')->getCollection();
         $collection->joinConsumerAsApplication()
+                ->addFilterByType(Mage_OAuth_Model_Token::TYPE_ACCESS)
                 ->addFilterByCustomerId($session->getCustomerId());
         $this->_collection = $collection;
-
-        $this->_revokeLabels = array(
-            $this->__('Enabled'),
-            $this->__('Revoked'));
     }
 
     /**
@@ -90,12 +80,12 @@ class Mage_OAuth_Block_Customer_MyApplication_List extends Mage_Customer_Block_A
     /**
      * Prepare layout
      *
-     * @return Mage_OAuth_Block_Customer_MyApplication_List
+     * @return Mage_OAuth_Block_Customer_Token_List
      */
     protected function _prepareLayout()
     {
         /** @var $toolbar Mage_Page_Block_Html_Pager */
-        $toolbar = $this->getLayout()->createBlock('page/html_pager', 'customer_myApplications.toolbar');
+        $toolbar = $this->getLayout()->createBlock('page/html_pager', 'customer_token.toolbar');
         $toolbar->setCollection($this->_collection);
         $this->setChild('toolbar', $toolbar);
         parent::_prepareLayout();
@@ -120,7 +110,7 @@ class Mage_OAuth_Block_Customer_MyApplication_List extends Mage_Customer_Block_A
      */
     public function getUpdateRevokeLink(Mage_OAuth_Model_Token $model)
     {
-        return Mage::getUrl('oauth/myApplication/revoke/',
+        return Mage::getUrl('oauth/customer_token/revoke/',
             array('id' => $model->getId(), 'status' => (int) !$model->getRevoked()));
     }
 
@@ -132,27 +122,6 @@ class Mage_OAuth_Block_Customer_MyApplication_List extends Mage_Customer_Block_A
      */
     public function getDeleteLink(Mage_OAuth_Model_Token $model)
     {
-        return Mage::getUrl('oauth/myApplication/delete/', array('id' => $model->getId()));
-    }
-
-    /**
-     * Get revoke Label by status
-     *
-     * @param integer $status
-     * @return string
-     */
-    public function getRevokeLabel($status)
-    {
-        return $this->_revokeLabels[(int) $status];
-    }
-
-    /**
-     * Get revoke Label by status
-     *
-     * @return string
-     */
-    public function getDeleteLabel()
-    {
-        return $this->__('Delete');
+        return Mage::getUrl('oauth/customer_token/delete/', array('id' => $model->getId()));
     }
 }

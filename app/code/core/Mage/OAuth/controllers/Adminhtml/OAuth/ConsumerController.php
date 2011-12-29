@@ -79,10 +79,8 @@ class Mage_OAuth_Adminhtml_OAuth_ConsumerController extends Mage_Adminhtml_Contr
         } else {
             /** @var $helper Mage_OAuth_Helper_Data */
             $helper = Mage::helper('oauth');
-            $model->setKey(
-                $helper->generateToken(Mage_OAuth_Model_Consumer::KEY_LENGTH));
-            $model->setSecret(
-                $helper->generateToken(Mage_OAuth_Model_Consumer::SECRET_LENGTH));
+            $model->setKey($helper->generateConsumerKey());
+            $model->setSecret($helper->generateConsumerSecret());
             $this->_setFormData($model->getData());
         }
 

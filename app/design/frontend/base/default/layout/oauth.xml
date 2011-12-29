@@ -51,18 +51,18 @@
     <customer_account>
         <reference name="customer_account_navigation">
             <action method="addLink" translate="label" module="oauth">
-                <name>myApplication</name>
-                <path>oauth/myApplication</path>
+                <name>OAuth Customer Tokens</name>
+                <path>oauth/customer_token</path>
                 <label>My Applications</label>
             </action>
         </reference>
     </customer_account>
-    <oauth_myapplication_index translate="label">
+    <oauth_customer_token_index translate="label">
         <label>Customer My Account My OAuth Applications</label>
         <update handle="customer_account"/>
         <reference name="my.account.wrapper">
-            <block type="oauth/customer_myApplication_list" name="oauth_customer_myApplication_list" template="oauth/customer/my-application/list.phtml"/>
+            <block type="oauth/customer_token_list" name="oauth_customer_token_list" template="oauth/customer/token/list.phtml"/>
         </reference>
-    </oauth_myapplication_index>
+    </oauth_customer_token_index>
     <!-- EOF My Applications-->
 </layout>

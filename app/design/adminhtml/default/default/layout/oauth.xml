@@ -53,15 +53,15 @@
     <!-- EOF Consumers -->
 
     <!-- My Applications -->
-    <adminhtml_oauth_myapplication_index>
+    <adminhtml_oauth_admin_token_index>
         <reference name="content">
-            <block type="oauth/adminhtml_oAuth_myApplication" name="oauth_application"/>
+            <block type="oauth/adminhtml_oAuth_admin_token" name="oauth_admin_token"/>
         </reference>
-    </adminhtml_oauth_myapplication_index>
-    <adminhtml_oauth_myapplication_grid>
+    </adminhtml_oauth_admin_token_index>
+    <adminhtml_oauth_admin_token_grid>
         <remove name="root"/>
-        <block type="oauth/adminhtml_oAuth_myApplication_grid" name="oauth_application.grid" output="toHtml"/>
-    </adminhtml_oauth_myapplication_grid>
+        <block type="oauth/adminhtml_oAuth_admin_token_grid" name="oauth_admin_token.grid" output="toHtml"/>
+    </adminhtml_oauth_admin_token_grid>
     <!-- EOF My Applications -->
 
     <!-- Authorize -->

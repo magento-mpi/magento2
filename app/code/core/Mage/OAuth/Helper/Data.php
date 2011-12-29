@@ -89,6 +89,26 @@ class Mage_OAuth_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
+     * Generate random string for consumer key
+     *
+     * @return string
+     */
+    public function generateConsumerKey()
+    {
+        return $this->_generateRandomString(Mage_OAuth_Model_Consumer::KEY_LENGTH);
+    }
+
+    /**
+     * Generate random string for consumer secret
+     *
+     * @return string
+     */
+    public function generateConsumerSecret()
+    {
+        return $this->_generateRandomString(Mage_OAuth_Model_Consumer::SECRET_LENGTH);
+    }
+
+    /**
      * Retrieve URL of specified endpoint.
      *
      * @param string $type Endpoint type (one of ENDPOINT_ constants)
