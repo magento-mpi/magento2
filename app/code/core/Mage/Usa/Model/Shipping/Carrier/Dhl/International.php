@@ -124,6 +124,13 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
     protected $_maxWeight = 70;
 
     /**
+     * Check if response is for shipping label creating
+     *
+     * @var bool
+     */
+    protected $_shippingLabelChecker = false;
+
+    /**
      * Request variables array
      *
      * @var array
@@ -409,9 +416,9 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
                 'C' => Mage::helper('usa')->__('cm'),
             ),
             'dimensions' => array(
-                'height'    => Mage::helper('usa')->__('Height'),
-                'depth'     => Mage::helper('usa')->__('Depth'),
-                'width'     => Mage::helper('usa')->__('Width'),
+                'HEIGHT'    => Mage::helper('usa')->__('Height'),
+                'DEPTH'     => Mage::helper('usa')->__('Depth'),
+                'WIDTH'     => Mage::helper('usa')->__('Width'),
             ),
             'size'              => array(
                 '0' => Mage::helper('usa')->__('Regular'),
@@ -440,6 +447,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
             return $codes[$type];
         }
 
+        $code = strtoupper($code);
         if (!isset($codes[$type][$code])) {
             return false;
         } else {
@@ -517,23 +525,20 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
      *
      * @param float $weight
      * @param bool $maxWeight
+     * @param string|bool $configWeightUnit
      * @return float
      */
-    protected function _getWeight($weight, $maxWeight = false)
+    protected function _getWeight($weight, $maxWeight = false, $configWeightUnit = false)
     {
         if ($maxWeight) {
             $configWeightUnit = Zend_Measure_Weight::KILOGRAM;
+        } elseif ($configWeightUnit) {
+            $configWeightUnit = $this->getCode('dimensions_variables', $configWeightUnit);
         } else {
-            $configWeightUnit = $this->getCode(
-                'dimensions_variables',
-                strtoupper((string)$this->getConfigData('unit_of_measure'))
-            );
+            $configWeightUnit = $this->getCode('dimensions_variables', (string)$this->getConfigData('unit_of_measure'));
         }
 
-        $countryWeightUnit = $this->getCode(
-            'dimensions_variables',
-            strtoupper($this->_getWeightUnit())
-        );
+        $countryWeightUnit = $this->getCode('dimensions_variables', $this->_getWeightUnit());
 
         if ($configWeightUnit != $countryWeightUnit) {
             $weight = round(Mage::helper('usa')->convertMeasureWeight(
@@ -670,31 +675,30 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
      * Convert item dimension to needed dimension based on config dimension unit of measure
      *
      * @param float $dimension
+     * @param string|bool $configWeightUnit
      * @return float
      */
-    protected function _getDimension($dimension)
+    protected function _getDimension($dimension, $configWeightUnit = false)
     {
-        $configWeightUnit = $this->getCode(
-            'dimensions_variables',
-            strtoupper((string)$this->getConfigData('unit_of_measure'))
-        );
+        if (!$configWeightUnit) {
+            $configWeightUnit = $this->getCode('dimensions_variables', (string)$this->getConfigData('unit_of_measure'));
+        } else {
+            $configWeightUnit = $this->getCode('dimensions_variables', $configWeightUnit);
+        }
 
         if ($configWeightUnit == Zend_Measure_Weight::POUND) {
-            $configWeightUnit = Zend_Measure_Length::INCH;
+            $configDimensionUnit = Zend_Measure_Length::INCH;
         } else {
-            $configWeightUnit = Zend_Measure_Length::CENTIMETER;
+            $configDimensionUnit = Zend_Measure_Length::CENTIMETER;
         }
 
 
-        $countryDimensionUnit = $this->getCode(
-            'dimensions_variables',
-            strtoupper($this->_getDimensionUnit())
-        );
+        $countryDimensionUnit = $this->getCode('dimensions_variables', $this->_getDimensionUnit());
 
-        if ($configWeightUnit != $countryDimensionUnit) {
+        if ($configDimensionUnit != $countryDimensionUnit) {
             $dimension = round(Mage::helper('usa')->convertMeasureDimension(
                 $dimension,
-                $configWeightUnit,
+                $configDimensionUnit,
                 $countryDimensionUnit
             ), 3);
         }
@@ -772,7 +776,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
             $nodeDutiable = $nodeGetQuote->addChild('Dutiable');
             $baseCurrencyCode = Mage::app()->getWebsite($this->_request->getWebsiteId())->getBaseCurrencyCode();
             $nodeDutiable->addChild('DeclaredCurrency', $baseCurrencyCode);
-            $nodeDutiable->addChild('DeclaredValue', $rawRequest->getValue());
+            $nodeDutiable->addChild('DeclaredValue', sprintf("%.2F", $rawRequest->getValue()));
         }
 
         $request = $xml->asXML();
@@ -826,6 +830,9 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
                         $code = isset($nodeCondition->ConditionCode) ? (string)$nodeCondition->ConditionCode : 0;
                         $data = isset($nodeCondition->ConditionData) ? (string)$nodeCondition->ConditionData : '';
                         $this->_errors[$code] = Mage::helper('usa')->__('Error #%s : %s', $code, $data);
+                        if ($this->_shippingLabelChecker) {
+                            Mage::throwException( Mage::helper('usa')->__('Error #%s : %s', $code, $data));
+                        }
                     } else {
                         if (isset($xml->GetQuoteResponse->BkgDetails->QtdShp)) {
                             foreach ($xml->GetQuoteResponse->BkgDetails->QtdShp as $quotedShipment) {
@@ -834,7 +841,14 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
                         } elseif (isset($xml->AirwayBillNumber)) {
                             $result = new Varien_Object();
                             $result->setTrackingNumber((string)$xml->AirwayBillNumber);
-                            $result->setShippingLabelContent(base64_decode((string)$xml->Barcodes->OriginDestnBarcode));
+                            try {
+                                /* @var $pdf Mage_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf */
+                                $pdf = Mage::getModel('usa/shipping_carrier_dhl_label_pdf', array('info' => $xml));
+                                $result->setShippingLabelContent($pdf->render());
+                            } catch (Exception $e) {
+                                $this->_errors[] = $e->getMessage();
+                                Mage::throwException(Mage::helper('usa')->__($e->getMessage()));
+                            }
                             return $result;
                         } else {
                             $this->_errors[] = Mage::helper('usa')->__('The response is in wrong format.');
@@ -1064,14 +1078,31 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
      */
     protected function _mapRequestToShipment(Varien_Object $request)
     {
-        $customsValue = $request->getPackageParams()->getCustomsValue();
 
-        $request->getLimitMethod($request->getShippingMethod());
-        $request->getPackageValue($customsValue);
-        $request->getValueWithDiscount($customsValue);
-        $request->getPackageCustomsValue($customsValue);
-        $request->getFreeMethodWeight(0);
-        $request->getDhlShipmentType($request->getPackagingType());
+        $request->setOrigCountryId($request->getShipperAddressCountryCode());
+        $this->_rawRequest = $request;
+        $customsValue = 0;
+        $packageWeight = 0;
+        $packages = $request->getPackages();
+        foreach ($packages as &$piece) {
+            $weightUnits = $piece['params']['weight_units'];
+            $piece['params']['height']          =  $this->_getDimension($piece['params']['height'], $weightUnits);
+            $piece['params']['length']          =  $this->_getDimension($piece['params']['length'], $weightUnits);
+            $piece['params']['width']           =  $this->_getDimension($piece['params']['width'], $weightUnits);
+            $piece['params']['dimension_units'] =  $this->_getDimensionUnit();
+            $piece['params']['weight']          =  $this->_getWeight($piece['params']['weight'], false, $weightUnits);
+            $piece['params']['weight_units']    =  $this->_getWeightUnit();
+
+            $customsValue += $piece['params']['customs_value'];
+            $packageWeight += $piece['params']['weight'];
+        }
+
+        $request->setPackages($packages)
+            ->setPackageWeight($packageWeight)
+            ->setPackageValue($customsValue)
+            ->setValueWithDiscount($customsValue)
+            ->setPackageCustomsValue($customsValue)
+            ->setFreeMethodWeight(0);
     }
 
     /**
@@ -1108,6 +1139,10 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
         $nodeServiceHeader->addChild('SiteID', (string)$this->getConfigData('id'));
         $nodeServiceHeader->addChild('Password', (string)$this->getConfigData('password'));
 
+        if (!$originRegion) {
+            $xml->addChild('RequestedPickupTime', 'N', '');
+        }
+        $xml->addChild('NewShipper', 'N', '');
         $xml->addChild('LanguageCode', 'EN', '');
         $xml->addChild('PiecesEnabled', 'Y', '');
 
@@ -1125,9 +1160,9 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
         /*
          * Shipment bill to account – required if Shipping PaymentType is other than 'S'
          */
-        //$nodeBilling->addChild('BillingAccountNumber', (string)$this->getConfigData('password'));
-        //$nodeBilling->addChild('DutyPaymentType', '');
-        //$nodeBilling->addChild('DutyAccountNumber', '');
+        $nodeBilling->addChild('BillingAccountNumber', (string)$this->getConfigData('account'));
+        $nodeBilling->addChild('DutyPaymentType', 'S');
+        $nodeBilling->addChild('DutyAccountNumber', (string)$this->getConfigData('account'));
 
         /* Receiver */
         $nodeConsignee = $xml->addChild('Consignee', '', '');
@@ -1139,10 +1174,10 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
         $nodeConsignee->addChild('CompanyName', substr($companyName, 0, 35));
 
         $address = $rawRequest->getRecipientAddressStreet1(). ' ' . $rawRequest->getRecipientAddressStreet2();
-        $addressLength = strlen($address);
-        if ($addressLength > 35) {
-            for ($i = 0; $i < $addressLength; $i += 35) {
-                $nodeConsignee->addChild('AddressLine', substr($address, $i, 35));
+        $address = Mage::helper('core/string')->str_split($address, 35, false, true);
+        if (is_array($address)) {
+            foreach ($address as $addressLine) {
+                $nodeConsignee->addChild('AddressLine', $addressLine);
             }
         } else {
             $nodeConsignee->addChild('AddressLine', $address);
@@ -1159,8 +1194,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
         $nodeContact->addChild('PersonName', substr($rawRequest->getRecipientContactPersonName(), 0, 34));
         $nodeContact->addChild('PhoneNumber', substr($rawRequest->getRecipientContactPhoneNumber(), 0, 24));
 
-        /* Commodity */
-        /*
+        /* Commodity
          * The CommodityCode element contains commodity code for shipment contents. Its
          * value should lie in between 1 to 9999.This field is mandatory.
          */
@@ -1171,14 +1205,13 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
         if ($this->getConfigData('content_type') == self::DHL_CONTENT_TYPE_NON_DOC) {
             $nodeDutiable = $xml->addChild('Dutiable', '', '');
             $nodeDutiable->addChild('DeclaredValue',
-                round($rawRequest->getOrderShipment()->getOrder()->getSubtotal(), 2)
+                sprintf("%.2F", $rawRequest->getOrderShipment()->getOrder()->getSubtotal())
             );
             $baseCurrencyCode = Mage::app()->getWebsite($rawRequest->getWebsiteId())->getBaseCurrencyCode();
             $nodeDutiable->addChild('DeclaredCurrency', $baseCurrencyCode);
         }
 
-        /* Reference */
-        /*
+        /* Reference
          * This element identifies the reference information. It is an optional field in the
          * shipment validation request. Only the first reference will be taken currently.
          */
@@ -1187,72 +1220,19 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
         $nodeReference->addChild('ReferenceType', 'St');
 
         /* Shipment Details */
-        $nodeShipmentDetails = $xml->addChild('ShipmentDetails', '', '');
-        $nodeShipmentDetails->addChild('NumberOfPieces', count($rawRequest->getPackages()));
-        $nodeShipmentDetails->addChild('CurrencyCode',
-            Mage::app()->getWebsite($this->_request->getWebsiteId())->getBaseCurrencyCode()
-        );
-        $nodePieces = $nodeShipmentDetails->addChild('Pieces', '', '');
-
-        /*
-         * Package type
-         * EE (DHL Express Envelope), OD (Other DHL Packaging), CP (Custom Packaging)
-         * DC (Document), DM (Domestic), ED (Express Document), FR (Freight)
-         * BD (Jumbo Document), BP (Jumbo Parcel), JD (Jumbo Junior Document)
-         * JP (Jumbo Junior Parcel), PA (Parcel), DF (DHL Flyer)
-         */
-        foreach ($rawRequest->getPackages() as $package) {
-            $nodePiece = $nodePieces->addChild('Piece', '', '');
-            $packageType = 'DC';
-            if ($package['params']['container'] == self::DHL_CONTENT_TYPE_NON_DOC) {
-                $packageType = 'CP';
-            }
-            //$niodePiece->addChild('PieceID', '');
-            $nodePiece->addChild('PackageType', $packageType);
-            $nodePiece->addChild('Weight', $package['params']['weight']);
-            $nodePiece->addChild('Depth', $package['params']['length']);
-            $nodePiece->addChild('Width', $package['params']['width']);
-            $nodePiece->addChild('Height', $package['params']['height']);
-        }
-
-        if ($package['params']['container'] == self::DHL_CONTENT_TYPE_NON_DOC) {
-            $packageType = 'CP';
-        }
-        $nodeShipmentDetails->addChild('PackageType', $packageType);
-        $nodeShipmentDetails->addChild('Weight', $rawRequest->getPackageWeight());
-
-        $dimensionUnit = $rawRequest->getPackageParams()->getDimensionUnits();
-        $weightUnits = $rawRequest->getPackageParams()->getWeightUnits();
-
-        $nodeShipmentDetails->addChild('DimensionUnit', $dimensionUnit[0]);
-        $nodeShipmentDetails->addChild('WeightUnit',  $weightUnits[0]);
-
-        $nodeShipmentDetails->addChild('GlobalProductCode', $rawRequest->getShippingMethod());
-        $nodeShipmentDetails->addChild('LocalProductCode', $rawRequest->getShippingMethod());
-
-        /*
-         * The DoorTo Element defines the type of delivery service that applies to the shipment.
-         * The valid values are DD (Door to Door), DA (Door to Airport) , AA and DC (Door to
-         * Door non-compliant)
-         */
-        $nodeShipmentDetails->addChild('DoorTo', 'DD');
-        $nodeShipmentDetails->addChild('Date', Mage::getModel('core/date')->date('Y-m-d'));
-        $nodeShipmentDetails->addChild('Contents', 'DHL Parcel TEST');
-        if ($this->getConfigData('content_type') == self::DHL_CONTENT_TYPE_NON_DOC) {
-            $nodeShipmentDetails->addChild('IsDutiable', 'Y');
-        }
+        $this->_shipmentDetails($xml, $rawRequest, $originRegion);
 
         /* Shipper */
         $nodeShipper = $xml->addChild('Shipper', '', '');
         $nodeShipper->addChild('ShipperID', (string)$this->getConfigData('account'));
         $nodeShipper->addChild('CompanyName', $rawRequest->getShipperContactCompanyName());
-        //$nodeShipper->addChild('RegisteredAccount', '');
+        $nodeShipper->addChild('RegisteredAccount', (string)$this->getConfigData('account'));
 
         $address = $rawRequest->getShipperAddressStreet1(). ' ' . $rawRequest->getShipperAddressStreet2();
-        $addressLength = strlen($address);
-        if ($addressLength > 35) {
-            for ($i = 0; $i < $addressLength; $i += 35) {
-                $nodeShipper->addChild('AddressLine', substr($address, $i, 35));
+        $address = Mage::helper('core/string')->str_split($address, 35, false, true);
+        if (is_array($address)) {
+            foreach ($address as $addressLine) {
+                $nodeShipper->addChild('AddressLine', $addressLine);
             }
         } else {
             $nodeShipper->addChild('AddressLine', $address);
@@ -1271,6 +1251,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
 
         $request = $xml->asXML();
         $request = utf8_encode($request);
+
         $responseBody = $this->_getCachedQuotes($request);
         if ($responseBody === null) {
             $debugData = array('request' => $request);
@@ -1288,8 +1269,113 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
             }
             $this->_debug($debugData);
         }
-
+        $this->_shippingLabelChecker = true;
         return $this->_parseResponse($responseBody);
+    }
+
+    /**
+     * Generation Shipment Details Node according to origin region
+     *
+     * @param SimpleXMLElement $xml
+     * @param Mage_Shipping_Model_Rate_Request $rawRequest
+     * @param string $originRegion
+     * @return void
+     */
+    protected function _shipmentDetails($xml, $rawRequest, $originRegion = '')
+    {
+        $nodeShipmentDetails = $xml->addChild('ShipmentDetails', '', '');
+        $nodeShipmentDetails->addChild('NumberOfPieces', count($rawRequest->getPackages()));
+
+        if ($originRegion) {
+            $nodeShipmentDetails->addChild('CurrencyCode',
+                Mage::app()->getWebsite($this->_request->getWebsiteId())->getBaseCurrencyCode()
+            );
+        }
+
+        $nodePieces = $nodeShipmentDetails->addChild('Pieces', '', '');
+
+        /*
+         * Package type
+         * EE (DHL Express Envelope), OD (Other DHL Packaging), CP (Custom Packaging)
+         * DC (Document), DM (Domestic), ED (Express Document), FR (Freight)
+         * BD (Jumbo Document), BP (Jumbo Parcel), JD (Jumbo Junior Document)
+         * JP (Jumbo Junior Parcel), PA (Parcel), DF (DHL Flyer)
+         */
+        $i = 0;
+        foreach ($rawRequest->getPackages() as $package) {
+            $nodePiece = $nodePieces->addChild('Piece', '', '');
+            $packageType = 'DC';
+            if ($package['params']['container'] == self::DHL_CONTENT_TYPE_NON_DOC) {
+                $packageType = 'CP';
+            }
+            $nodePiece->addChild('PieceID', ++$i);
+            $nodePiece->addChild('PackageType', $packageType);
+            $nodePiece->addChild('Weight', round($package['params']['weight'],1));
+            if (!$originRegion) {
+                $nodePiece->addChild('Width', round($package['params']['width']));
+                $nodePiece->addChild('Height', round($package['params']['height']));
+                $nodePiece->addChild('Depth', round($package['params']['length']));
+            } else {
+                $nodePiece->addChild('Depth', round($package['params']['length']));
+                $nodePiece->addChild('Width', round($package['params']['width']));
+                $nodePiece->addChild('Height', round($package['params']['height']));
+            }
+            $content = array();
+            foreach ($package['items'] as $item) {
+                $content[] = $item['name'];
+            }
+            $nodePiece->addChild('PieceContents', substr(implode(',', $content), 0, 34));
+        }
+
+        if (!$originRegion) {
+            $nodeShipmentDetails->addChild('Weight', round($rawRequest->getPackageWeight(),1));
+
+            $nodeShipmentDetails->addChild('WeightUnit', substr($this->_getWeightUnit(),0,1));
+
+            $nodeShipmentDetails->addChild('GlobalProductCode', $rawRequest->getShippingMethod());
+            $nodeShipmentDetails->addChild('LocalProductCode', $rawRequest->getShippingMethod());
+
+            $nodeShipmentDetails->addChild('Date', Mage::getModel('core/date')->date('Y-m-d'));
+            $nodeShipmentDetails->addChild('Contents', 'DHL Parcel TEST');
+            /*
+             * The DoorTo Element defines the type of delivery service that applies to the shipment.
+             * The valid values are DD (Door to Door), DA (Door to Airport) , AA and DC (Door to
+             * Door non-compliant)
+             */
+            $nodeShipmentDetails->addChild('DoorTo', 'DD');
+            $nodeShipmentDetails->addChild('DimensionUnit', substr($this->_getDimensionUnit(),0,1));
+            if ($package['params']['container'] == self::DHL_CONTENT_TYPE_NON_DOC) {
+                $packageType = 'CP';
+            }
+            $nodeShipmentDetails->addChild('PackageType', $packageType);
+            if ($this->getConfigData('content_type') == self::DHL_CONTENT_TYPE_NON_DOC) {
+                $nodeShipmentDetails->addChild('IsDutiable', 'Y');
+            }
+            $nodeShipmentDetails->addChild('CurrencyCode',
+                Mage::app()->getWebsite($this->_request->getWebsiteId())->getBaseCurrencyCode()
+            );
+        } else {
+            if ($package['params']['container'] == self::DHL_CONTENT_TYPE_NON_DOC) {
+                $packageType = 'CP';
+            }
+            $nodeShipmentDetails->addChild('PackageType', $packageType);
+            $nodeShipmentDetails->addChild('Weight', $rawRequest->getPackageWeight());
+
+            $nodeShipmentDetails->addChild('DimensionUnit', substr($this->_getDimensionUnit(),0,1));
+            $nodeShipmentDetails->addChild('WeightUnit',  substr($this->_getWeightUnit(),0,1));
+
+            $nodeShipmentDetails->addChild('GlobalProductCode', $rawRequest->getShippingMethod());
+            $nodeShipmentDetails->addChild('LocalProductCode', $rawRequest->getShippingMethod());
+
+            /*
+             * The DoorTo Element defines the type of delivery service that applies to the shipment.
+             * The valid values are DD (Door to Door), DA (Door to Airport) , AA and DC (Door to
+             * Door non-compliant)
+             */
+            $nodeShipmentDetails->addChild('DoorTo', 'DD');
+            $nodeShipmentDetails->addChild('Date', Mage::getModel('core/date')->date('Y-m-d'));
+            $nodeShipmentDetails->addChild('Contents', 'DHL Parcel TEST');
+        }
     }
 
     /**
@@ -1486,5 +1572,45 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
         }
 
         return $cost + $this->_numBoxes * $handlingFee;
+    }
+
+    /**
+     * Do request to shipment
+     *
+     * @param Mage_Shipping_Model_Shipment_Request $request
+     * @return array
+     */
+    public function requestToShipment(Mage_Shipping_Model_Shipment_Request $request)
+    {
+        $packages = $request->getPackages();
+        if (!is_array($packages) || !$packages) {
+            Mage::throwException(Mage::helper('usa')->__('No packages for request'));
+        }
+        if ($request->getStoreId() != null) {
+            $this->setStore($request->getStoreId());
+        }
+        $data = array();
+        $result = $this->_doShipmentRequest($request);
+
+        if ($result->hasErrors()) {
+            $this->rollBack($data);
+        } else {
+            $data[] = array(
+                'tracking_number' => $result->getTrackingNumber(),
+                'label_content'   => $result->getShippingLabelContent()
+            );
+        }
+        if (!isset($isFirstRequest)) {
+            $request->setMasterTrackingId($result->getTrackingNumber());
+            $isFirstRequest = false;
+        }
+
+        $response = new Varien_Object(array(
+            'info'   => $data
+        ));
+        if ($result->getErrors()) {
+            $response->setErrors($result->getErrors());
+        }
+        return $response;
     }
 }
