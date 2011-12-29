@@ -36,18 +36,24 @@
     <div class="page-title">
         <h1><?php echo $this->__('Authorize application') ?></h1>
     </div>
-    <h2><?php echo $this->__('Application is requesting following privileges:') ?></h2>
-    <p><?php echo $this->__('Lorem ipsum dolor sit amet, propriae lobortis has in, dico omnium doctus sit id, vim mucius oblique at. Paulo legimus mei ei. Pro quot vivendo ea, ex sit mollis oblique. Mei ad natum mentitum suavitate, no populo maiorum reprimique nam. Eu ius saperet meliore.') ?></p>
-    <ul>
-        <li>Aaaaaaa aaa</li>
-        <li>Bbbbbbb bbb</li>
-    </ul>
-    <form action="<?php echo $this->getConfirmUrl() ?>" method="get">
-        <input type="hidden" name="oauth_token" value="<?php echo $this->escapeHtml($this->getToken()) ?>">
-        <button type="submit" class="button" title="<?php echo $this->__('Authorize') ?>" name="authorize"><span><span><?php echo $this->__('Authorize') ?></span></span></button>
-    </form>
-    <form action="<?php echo $this->getRejectUrl() ?>" method="get">
-        <input type="hidden" name="oauth_token" value="<?php echo $this->escapeHtml($this->getToken()) ?>">
-        <button type="submit" class="button" title="<?php echo $this->__('Reject') ?>" name="reject"><span><span><?php echo $this->__('Reject') ?></span></span></button>
-    </form>
+
+    <?php if ($this->isException()): ?>
+        <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+    <?php else: ?>
+        <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+        <h2><?php echo $this->__('Application is requesting following privileges:') ?></h2>
+        <p><?php echo $this->__('Lorem ipsum dolor sit amet, propriae lobortis has in, dico omnium doctus sit id, vim mucius oblique at. Paulo legimus mei ei. Pro quot vivendo ea, ex sit mollis oblique. Mei ad natum mentitum suavitate, no populo maiorum reprimique nam. Eu ius saperet meliore.') ?></p>
+        <ul>
+            <li>Aaaaaaa aaa</li>
+            <li>Bbbbbbb bbb</li>
+        </ul>
+        <form action="<?php echo $this->getConfirmUrl() ?>" method="get">
+            <input type="hidden" name="oauth_token" value="<?php echo $this->escapeHtml($this->getToken()) ?>">
+            <button type="submit" class="button" title="<?php echo $this->__('Authorize') ?>" name="authorize"><span><span><?php echo $this->__('Authorize') ?></span></span></button>
+        </form>
+        <form action="<?php echo $this->getRejectUrl() ?>" method="get">
+            <input type="hidden" name="oauth_token" value="<?php echo $this->escapeHtml($this->getToken()) ?>">
+            <button type="submit" class="button" title="<?php echo $this->__('Reject') ?>" name="reject"><span><span><?php echo $this->__('Reject') ?></span></span></button>
+        </form>
+    <?php endif; ?>
 </div>

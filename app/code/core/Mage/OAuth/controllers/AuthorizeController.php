@@ -80,21 +80,32 @@ class Mage_OAuth_AuthorizeController extends Mage_Core_Controller_Front_Action
      */
     public function confirmAction()
     {
+        $response = $this->getResponse();
+
         /** @var $session Mage_Customer_Model_Session */
         $session = Mage::getSingleton('customer/session');
 
         /** @var $server Mage_OAuth_Model_Server */
         $server = Mage::getModel('oauth/server');
-        $token = $server->authorizeToken($session->getCustomerId(), Mage_OAuth_Model_Token::USER_TYPE_CUSTOMER);
 
-        $callback = $server->getFullCallbackUrl($token);  //false in case of OOB
-        $response = $this->getResponse();
-        if ($callback) {
-            $response->setRedirect($callback);
-        } else {
-            $response->setBody($token->getVerifier());
+        try {
+            $token = $server->authorizeToken($session->getCustomerId(), Mage_OAuth_Model_Token::USER_TYPE_CUSTOMER);
+            $callback = $server->getFullCallbackUrl($token);  //false in case of OOB
+            if ($callback) {
+                $response->setRedirect($callback);
+            } else {
+                $response->setBody($token->getVerifier());
+            }
+        } catch (Mage_Core_Exception $e) {
+            $session->addError($e->getMessage());
+        } catch (Exception $e) {
+            $response->setException($e);
+            $session->addException($e, $this->__('Error authorizing token.'));
         }
-        $response->sendResponse();
+
+        $this->loadLayout();
+        $this->_initLayoutMessages('customer/session');
+        $this->renderLayout();
     }
 
     /**
