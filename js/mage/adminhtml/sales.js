@@ -42,6 +42,7 @@ AdminOrder.prototype = {
         this.giftMessageDataChanged = false;
         this.productConfigureAddFields = {};
         this.productPriceBase = {};
+        this.collectElementsValue = true;
     },
 
     setLoadBaseUrl : function(url){
@@ -598,13 +599,22 @@ AdminOrder.prototype = {
         this.showArea('data');
     },
 
+    clearShoppingCart : function(confirmMessage){
+        if (confirm(confirmMessage)) {
+            this.collectElementsValue = false;
+            order.sidebarApplyChanges({'sidebar[empty_customer_cart]': 1});
+        }
+    },
+
     sidebarApplyChanges : function(auxiliaryParams) {
         if ($(this.getAreaId('sidebar'))) {
             var data = {};
-            var elems = $(this.getAreaId('sidebar')).select('input');
-            for (var i=0; i < elems.length; i++) {
-                if (elems[i].getValue()) {
-                    data[elems[i].name] = elems[i].getValue();
+            if (this.collectElementsValue) {
+                var elems = $(this.getAreaId('sidebar')).select('input');
+                for (var i=0; i < elems.length; i++) {
+                    if (elems[i].getValue()) {
+                        data[elems[i].name] = elems[i].getValue();
+                    }
                 }
             }
             if (auxiliaryParams instanceof Object) {
