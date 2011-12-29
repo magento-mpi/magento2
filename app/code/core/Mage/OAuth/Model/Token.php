@@ -101,6 +101,9 @@ class Mage_OAuth_Model_Token extends Mage_Core_Model_Abstract
      */
     public function authorize($userId, $userType)
     {
+        if (!$this->getId() || !$this->getConsumerId()) {
+            Mage::throwException('Token is not ready to be authorized');
+        }
         if ($this->getAuthorized()) {
             Mage::throwException('Token is already authorized');
         }
@@ -117,6 +120,8 @@ class Mage_OAuth_Model_Token extends Mage_Core_Model_Abstract
         $this->setVerifier($helper->generateVerifier());
         $this->setAuthorized(1);
         $this->save();
+
+        $this->getResource()->cleanOldAuthorizedTokensExcept($this);
 
         return $this;
     }
