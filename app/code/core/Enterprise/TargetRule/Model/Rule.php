@@ -223,13 +223,18 @@ class Enterprise_TargetRule_Model_Rule extends Mage_Rule_Model_Rule
     /**
      * Retrieve array of product objects which are matched by rule
      *
-     * @return array
+     * @param $onlyId bool
+     *
+     * @return Enterprise_TargetRule_Model_Rule
      */
-    public function getMatchingProducts()
+    public function prepareMatchingProducts($onlyId = false)
     {
-        if (is_null($this->_products)) {
-            $productCollection = Mage::getResourceModel('catalog/product_collection');
+        $productCollection = Mage::getResourceModel('catalog/product_collection');
 
+        if (!$onlyId && !is_null($this->_productIds)) {
+            $productCollection->addIdFilter($this->_productIds);
+            $this->_products = $productCollection->getItems();
+        } else {
             $this->setCollectedAttributes(array());
             $this->getConditions()->collectValidatedAttributes($productCollection);
 
@@ -241,10 +246,27 @@ class Enterprise_TargetRule_Model_Rule extends Mage_Rule_Model_Rule
                     array($this, 'callbackValidateProduct')
                 ),
                 array(
-                    'attributes' => $this->getCollectedAttributes(),
-                    'product'    => Mage::getModel('catalog/product'),
+                    'attributes'    => $this->getCollectedAttributes(),
+                    'product'       => Mage::getModel('catalog/product'),
+                    'onlyId'        => (bool) $onlyId
                 )
             );
+        }
+
+        return $this;
+    }
+
+    /**
+     * Retrieve array of product objects which are matched by rule
+     *
+     * @deprecated
+     *
+     * @return array
+     */
+    public function getMatchingProducts()
+    {
+        if (is_null($this->_products)) {
+            $this->prepareMatchingProducts();
         }
 
         return $this->_products;
@@ -258,7 +280,7 @@ class Enterprise_TargetRule_Model_Rule extends Mage_Rule_Model_Rule
     public function getMatchingProductIds()
     {
         if (is_null($this->_productIds)) {
-            $this->getMatchingProducts();
+            $this->prepareMatchingProducts(true);
         }
 
         return $this->_productIds;
@@ -276,7 +298,9 @@ class Enterprise_TargetRule_Model_Rule extends Mage_Rule_Model_Rule
 
         if ($this->getConditions()->validate($product)) {
             $this->_productIds[] = $product->getId();
-            $this->_products[]   = $product;
+            if (!key_exists('onlyId', $args) || !$args['onlyId']) {
+                $this->_products[] = $product;
+            }
         }
     }
 
