@@ -150,6 +150,7 @@ class CheckoutOnePage_Guest_PaymentMethodsTest extends Mage_Selenium_TestCase
      * @depends preconditionsForTests
      * @dataProvider dataWith3DSecure
      * @test
+     * @group ssl_required
      */
     public function differentPaymentMethodsWith3D($payment, $simpleSku)
     {

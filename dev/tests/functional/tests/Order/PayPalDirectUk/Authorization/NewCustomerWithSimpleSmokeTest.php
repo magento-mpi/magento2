@@ -450,6 +450,7 @@ class Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTest extends 
      * @depends orderWithout3DSecureSmoke
      * @dataProvider dataWith3DSecure
      * @test
+     * @group ssl_required
      */
     public function createOrderWith3DSecure($card, $needSetUp, $orderData)
     {

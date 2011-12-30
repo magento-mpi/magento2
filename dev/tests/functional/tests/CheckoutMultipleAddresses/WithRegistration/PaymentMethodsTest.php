@@ -148,9 +148,11 @@ class CheckoutMultipleAddresses_WithRegistration_PaymentMethodsTest extends Mage
      *
      * @param $payment
      * @param $productData
+     *
      * @depends preconditionsCreateProduct
      * @dataProvider dataWith3DSecure
      * @test
+     * @group ssl_required
      */
     public function differentPaymentMethodsWith3D($payment, $productData)
     {

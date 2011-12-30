@@ -439,6 +439,7 @@ class Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest extends Ma
      * @depends orderWithout3DSecureSmoke
      * @dataProvider dataWith3DSecure
      * @test
+     * @group ssl_required
      */
     public function createOrderWith3DSecure($card, $needSetUp, $orderData)
     {

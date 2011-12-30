@@ -447,6 +447,7 @@ class Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Selenium_TestCas
      * @depends orderWithout3DSecureSmoke
      * @dataProvider dataWith3DSecure
      * @test
+     * @group ssl_required
      */
     public function createOrderWith3DSecure($card, $needSetUp, $orderData)
     {

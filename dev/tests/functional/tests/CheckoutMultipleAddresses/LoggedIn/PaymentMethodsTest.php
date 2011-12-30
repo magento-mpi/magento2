@@ -173,10 +173,12 @@ class CheckoutMultipleAddresses_LoggedIn_PaymentMethodsTest extends Mage_Seleniu
      * @param $payment
      * @param $productData
      * @param $userData
+     *
      * @depends preconditionsCreateProduct
      * @depends preconditionsCreateCustomer
      * @dataProvider dataWith3DSecure
      * @test
+     * @group ssl_required
      */
     public function differentPaymentMethodsWith3D($payment, $productData,$userData)
     {
