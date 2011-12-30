@@ -62,10 +62,6 @@ class Mage_Adminhtml_Block_Customer_Sales_Order_Address_Form_Renderer_Vat
 
             $vatElementId = $this->_element->getHtmlId();
 
-            /** @var $formAccountBlock Mage_Adminhtml_Block_Sales_Order_Create_Form_Account */
-            $formAccountBlock = $this->getLayout()->getBlock('form_account');
-            $groupIdHtmlId = $formAccountBlock->getForm()->getElement('group_id')->getHtmlId();
-
             $countryElementId = $form->getElement('country_id')->getHtmlId();
             $validateUrl = Mage::getSingleton('adminhtml/url')
                 ->getUrl('*/customer_system_config_validatevat/validateAdvanced');
@@ -73,7 +69,7 @@ class Mage_Adminhtml_Block_Customer_Sales_Order_Address_Form_Renderer_Vat
             $vatValidateOptions = Mage::helper('core')->jsonEncode(array(
                 'vatElementId' => $vatElementId,
                 'countryElementId' => $countryElementId,
-                'groupIdHtmlId' => $groupIdHtmlId,
+                'groupIdHtmlId' => 'group_id',
                 'validateUrl' => $validateUrl,
                 'vatValidMessage' => Mage::helper('customer')->__('The VAT ID is valid. The current Customer Group will be used.'),
                 'vatValidAndGroupChangeMessage' => Mage::helper('customer')->__('Based on the VAT ID, the customer would belong to Customer Group %s.') . "\n"
