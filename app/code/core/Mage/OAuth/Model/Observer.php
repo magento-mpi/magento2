@@ -95,4 +95,20 @@ class Mage_OAuth_Model_Observer
                 ->sendResponse();
         }
     }
+
+    public function afterAdminLoginFailed(Varien_Event_Observer $observer)
+    {
+        if (null !== $this->_getOauthToken()) {
+            /** @var $session Mage_Admin_Model_Session */
+            $session = Mage::getSingleton('admin/session');
+            $session->addError($observer->getException()->getMessage());
+
+
+            $url = Mage::getUrl('adminhtml/oAuth_authorize', array('_query' => array('oauth_token' => $this->_getOauthToken())));
+            Mage::app()->getResponse()
+                ->setRedirect($url)
+                ->sendHeaders()
+                ->sendResponse();
+        }
+    }
 }

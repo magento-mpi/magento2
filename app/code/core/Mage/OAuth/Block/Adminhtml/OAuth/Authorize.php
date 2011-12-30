@@ -44,6 +44,16 @@ class Mage_OAuth_Block_Adminhtml_OAuth_Authorize extends Mage_Adminhtml_Block_Te
     }
 
     /**
+     * Retrieve reject application authorization URL
+     *
+     * @return string
+     */
+    public function getRejectUrl()
+    {
+        return $this->getUrl('adminhtml/oAuth_authorize/reject', array('_query' => array('oauth_token' => $this->getToken())));
+    }
+
+    /**
      * Get consumer instance by token value
      *
      * @return Mage_OAuth_Model_Consumer
@@ -52,7 +62,7 @@ class Mage_OAuth_Block_Adminhtml_OAuth_Authorize extends Mage_Adminhtml_Block_Te
     {
         /** @var $token Mage_OAuth_Model_Token */
         $token = Mage::getModel('oauth/token');
-        $token->load($this->getOauthToken(), 'token');
+        $token->load($this->getToken(), 'token');
 
         /** @var $consumer Mage_OAuth_Model_Consumer */
         $consumer = Mage::getModel('oauth/consumer');

@@ -87,6 +87,14 @@
                     </oauth>
                 </observers>
             </admin_session_user_login_success>
+            <admin_session_user_login_failed>
+                <observers>
+                    <oauth>
+                        <class>oauth/observer</class>
+                        <method>afterAdminLoginFailed</method>
+                    </oauth>
+                </observers>
+            </admin_session_user_login_failed>
         </events>
     </global>
     <admin>
