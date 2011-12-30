@@ -38,7 +38,7 @@ class Mage_OAuth_Adminhtml_OAuth_AuthorizeController extends Mage_Adminhtml_Cont
      *
      * @var array
      */
-    public $_publicActions = array('index');
+    public $_publicActions = array('index', 'confirm', 'reject');
 
     /**
      * Disable showing of login form
