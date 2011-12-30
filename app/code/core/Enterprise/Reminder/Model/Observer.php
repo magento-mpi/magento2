@@ -152,7 +152,7 @@ class Enterprise_Reminder_Model_Observer
         $checkbox = $form->getElement('use_auto_generation');
         $checkbox->setNote($checkbox->getNote()
             . '<br />'
-            . Mage::helper('enterprise_reminder')->__('<b>Important</b>: If this shopping cart price rule has been used in an automated email reminder rule it will be automatically unnasigned after shopping cart price rule saving.')
+            . Mage::helper('enterprise_reminder')->__('<b>Important</b>: If this shopping cart price rule has been used in an automated email reminder rule it will be automatically unassigned after shopping cart price rule is saved.')
         );
     }
 }

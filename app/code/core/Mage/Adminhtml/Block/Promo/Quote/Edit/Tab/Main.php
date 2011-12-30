@@ -183,7 +183,7 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Main
         $autoGenerationCheckbox = $fieldset->addField('use_auto_generation', 'checkbox', array(
             'name'  => 'use_auto_generation',
             'label' => Mage::helper('salesrule')->__('Use Auto Generation'),
-            'note'  => Mage::helper('salesrule')->__('If you select and save the rule you will be able to generate multiple coupon codes'),
+            'note'  => Mage::helper('salesrule')->__('If you select and save the rule you will be able to generate multiple coupon codes.'),
             'onclick' => 'handleCouponsTabContentActivity()',
             'checked' => (int)$model->getUseAutoGeneration() > 0 ? 'checked' : ''
         ));
