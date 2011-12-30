@@ -85,7 +85,7 @@ class Mage_Catalog_Model_Layer_Filter_Item extends Varien_Object
      */
     public function getClearLinkUrl()
     {
-        $clearLinkText = $this->getFilter()->getClearLink();
+        $clearLinkText = $this->getFilter()->getClearLinkText();
         if (!$clearLinkText) {
             return false;
         }

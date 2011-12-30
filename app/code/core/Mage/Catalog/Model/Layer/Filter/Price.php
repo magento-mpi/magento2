@@ -498,11 +498,11 @@ class Mage_Catalog_Model_Layer_Filter_Price extends Mage_Catalog_Model_Layer_Fil
     }
 
     /**
-     * Clear price link should be shown
+     * Get 'clear price' link text
      *
      * @return string
      */
-    public function getClearLink()
+    public function getClearLinkText()
     {
         return Mage::helper('catalog')->__('Clear Price');
     }
