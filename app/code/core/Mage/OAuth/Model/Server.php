@@ -74,9 +74,10 @@ class Mage_OAuth_Model_Server
     /**#@+
      * HTTP Response Codes
      */
-    const HTTP_OK           = 200;
-    const HTTP_BAD_REQUEST  = 400;
-    const HTTP_UNAUTHORIZED = 401;
+    const HTTP_OK             = 200;
+    const HTTP_BAD_REQUEST    = 400;
+    const HTTP_UNAUTHORIZED   = 401;
+    const HTTP_INTERNAL_ERROR = 500;
     /**#@- */
 
     /**
@@ -114,6 +115,29 @@ class Mage_OAuth_Model_Server
         self::ERR_VERIFIER_INVALID          => 'verifier_invalid',
         self::ERR_PERMISSION_UNKNOWN        => 'permission_unknown',
         self::ERR_PERMISSION_DENIED         => 'permission_denied'
+    );
+
+    /**
+     * Error code to HTTP error code
+     *
+     * @var array
+     */
+    protected $_errorsToHttpCode = array(
+        self::ERR_VERSION_REJECTED          => self::HTTP_BAD_REQUEST,
+        self::ERR_PARAMETER_ABSENT          => self::HTTP_BAD_REQUEST,
+        self::ERR_PARAMETER_REJECTED        => self::HTTP_BAD_REQUEST,
+        self::ERR_TIMESTAMP_REFUSED         => self::HTTP_BAD_REQUEST,
+        self::ERR_NONCE_USED                => self::HTTP_UNAUTHORIZED,
+        self::ERR_SIGNATURE_METHOD_REJECTED => self::HTTP_BAD_REQUEST,
+        self::ERR_SIGNATURE_INVALID         => self::HTTP_UNAUTHORIZED,
+        self::ERR_CONSUMER_KEY_REJECTED     => self::HTTP_UNAUTHORIZED,
+        self::ERR_TOKEN_USED                => self::HTTP_UNAUTHORIZED,
+        self::ERR_TOKEN_EXPIRED             => self::HTTP_UNAUTHORIZED,
+        self::ERR_TOKEN_REVOKED             => self::HTTP_UNAUTHORIZED,
+        self::ERR_TOKEN_REJECTED            => self::HTTP_UNAUTHORIZED,
+        self::ERR_VERIFIER_INVALID          => self::HTTP_UNAUTHORIZED,
+        self::ERR_PERMISSION_UNKNOWN        => self::HTTP_UNAUTHORIZED,
+        self::ERR_PERMISSION_DENIED         => self::HTTP_UNAUTHORIZED
     );
 
     /**
@@ -329,21 +353,28 @@ class Mage_OAuth_Model_Server
 
         if ($e instanceof Mage_Oauth_Exception) {
             $eCode = $e->getCode();
-            $msg   = isset($this->_errors[$eCode]) ? $this->_errors[$eCode] : 'unknown_problem&code=' . $eCode;
 
+            if (isset($this->_errors[$eCode])) {
+                $errorMsg = $this->_errors[$eCode];
+                $responseCode = $this->_errorsToHttpCode[$eCode];
+            } else {
+                $errorMsg = 'unknown_problem&code=' . $eCode;
+                $responseCode = self::HTTP_INTERNAL_ERROR;
+            }
             if (self::ERR_PARAMETER_ABSENT == $eCode) {
-                $msg .= '&oauth_parameters_absent=' . $eMsg;
+                $errorMsg .= '&oauth_parameters_absent=' . $eMsg;
             } elseif (self::ERR_SIGNATURE_INVALID == $eCode) {
-                $msg .= '&debug_sbs=' . $eMsg;
+                $errorMsg .= '&debug_sbs=' . $eMsg;
             } elseif ($eMsg) {
-                $msg .= '&message=' . $eMsg;
+                $errorMsg .= '&message=' . $eMsg;
             }
         } else {
-            $msg = 'internal_error&message=' . ($eMsg ? $eMsg : 'empty_message');
+            $errorMsg = 'internal_error&message=' . ($eMsg ? $eMsg : 'empty_message');
+            $responseCode = self::HTTP_INTERNAL_ERROR;
         }
-        //$this->_getResponse()->setHttpResponseCode(self::HTTP_BAD_REQUEST);
+        //$this->_getResponse()->setHttpResponseCode($responseCode);
 
-        return 'oauth_problem=' . $msg;
+        return 'oauth_problem=' . $errorMsg;
     }
 
     /**
@@ -590,7 +621,7 @@ class Mage_OAuth_Model_Server
     /**
      * Return complete callback URL or boolean FALSE if no callback provided
      *
-     * @param Mage_OAuth_Model_Token $token Ещлут щиоусе
+     * @param Mage_OAuth_Model_Token $token Token object
      * @return bool|string
      */
     public function getFullCallbackUrl(Mage_OAuth_Model_Token $token)
