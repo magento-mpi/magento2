@@ -84,7 +84,7 @@ class Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Grid_Description extends Ma
             'class'    => $canConfigure ? '' : 'disabled',
             'onclick'  => $canConfigure ? "addBySku.configure({$this->getProduct()->getId()})" : '',
             'disabled' => !$canConfigure,
-            'label'    => Mage::helper('sales')->__('Configure'),
+            'label'    => Mage::helper('enterprise_checkout')->__('Configure'),
         ));
 
         return $button->toHtml();

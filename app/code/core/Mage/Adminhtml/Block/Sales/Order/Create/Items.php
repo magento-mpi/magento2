@@ -29,12 +29,15 @@
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
 
 class Mage_Adminhtml_Block_Sales_Order_Create_Items extends Mage_Adminhtml_Block_Sales_Order_Create_Abstract
 {
-    /* @var array Contains button descriptions to be shown at the top of accordion */
+    /**
+     * Contains button descriptions to be shown at the top of accordion
+     * @var array
+     */
     protected $_buttons = array();
 
     /**

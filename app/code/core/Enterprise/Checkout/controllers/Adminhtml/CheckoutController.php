@@ -735,11 +735,10 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
      *
      * @param string $listType
      * @param int    $itemId
-     * @param array  $info
      *
      * @return Varien_Object|false
      */
-    protected function _getListItemInfo($listType, $itemId, $info)
+    protected function _getListItemInfo($listType, $itemId)
     {
         $productId = null;
         $buyRequest = new Varien_Object();
@@ -760,6 +759,30 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
                     $buyRequest = $item->getBuyRequest();
                 }
                 break;
+            default:
+                $productId = (int) $itemId;
+                break;
+        }
+
+        return new Varien_Object(array('product_id' => $productId, 'buy_request' => $buyRequest));
+    }
+
+    /**
+     * Returns add by SKU item info by list and list item id.
+     * Returns object on success or false on error. Returned object has following keys:
+     *  - product_id - null if no item found
+     *  - buy_request - Varien_Object, empty if not buy request stored for this item
+     *
+     * @param string $listType
+     * @param int    $itemId
+     * @param array  $info
+     * @return Varien_Object|false
+     */
+    protected function _getSkuListItemInfo($listType, $itemId, $info)
+    {
+        $productId = null;
+        $buyRequest = new Varien_Object();
+        switch ($listType) {
             case 'add_by_sku':
                 $info['sku'] = $itemId;
             case Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Abstract::LIST_TYPE:
@@ -772,11 +795,7 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
                 }
                 $productId = $item['item']['id'];
                 break;
-            default:
-                $productId = (int) $itemId;
-                break;
         }
-
         return new Varien_Object(array('product_id' => $productId, 'buy_request' => $buyRequest));
     }
 
@@ -841,7 +860,11 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
                         $info = array(); // For sure to filter incoming data
                     }
 
-                    $itemInfo = $this->_getListItemInfo($listType, $itemId, $info);
+                    $itemInfo = $this->_getListItemInfo($listType, $itemId);
+                    $skuItemInfo = $this->_getSkuListItemInfo($listType, $itemId, $info);
+                    if ($skuItemInfo) {
+                        $itemInfo = $skuItemInfo;
+                    }
                     if (!$itemInfo) {
                         continue;
                     }
