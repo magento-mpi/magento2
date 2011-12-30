@@ -32,5 +32,5 @@ class Mage_PaypalUk_Block_Express_Shortcut extends Mage_Paypal_Block_Express_Sho
      *
      * @var string
      */
-    protected $_checkoutType = 'Mage_Paypaluk_Model_Express_Checkout';
+    protected $_checkoutType = 'Mage_PaypalUk_Model_Express_Checkout';
 }
