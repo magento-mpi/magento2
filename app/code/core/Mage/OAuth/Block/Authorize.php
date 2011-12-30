@@ -54,7 +54,7 @@ class Mage_OAuth_Block_Authorize extends Mage_Core_Block_Template
     {
         /** @var $token Mage_OAuth_Model_Token */
         $token = Mage::getModel('oauth/token');
-        $token->load($this->getOauthToken(), 'token');
+        $token->load($this->getToken(), 'token');
 
         /** @var $consumer Mage_OAuth_Model_Consumer */
         $consumer = Mage::getModel('oauth/consumer');
@@ -71,5 +71,15 @@ class Mage_OAuth_Block_Authorize extends Mage_Core_Block_Template
     public function isException()
     {
         return $this->getIsException();
+    }
+
+    /**
+     * Retrieve reject authorization url
+     *
+     * @return string
+     */
+    public function getRejectUrl()
+    {
+        return $this->getUrl('oauth/authorize/reject', array('_query' => array('oauth_token' => $this->getToken())));
     }
 }

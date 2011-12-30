@@ -66,6 +66,7 @@
             <div class="col1-set">
                 <div class="col-1 registered-users">
                     <div class="buttons-set">
+                        <button type="button" class="button" title="<?php echo $this->__('Cancel') ?>" onclick="rejectToken(); return false;"><span><span><?php echo $this->__('Cancel') ?></span></span></button>
                         <button type="submit" class="button" title="<?php echo $this->__('Login') ?>" name="send" id="send2"><span><span><?php echo $this->__('Login') ?></span></span></button>
                     </div>
                 </div>
@@ -76,6 +77,10 @@
         //<![CDATA[
             var dataForm = new VarienForm('login-form', true);
         //]]>
+            /* Go to token reject action */
+            function rejectToken() {
+                document.location.href = '<?php echo $this->getRejectUrl() ?>';
+            }
         </script>
     <?php endif; ?>
 </div>

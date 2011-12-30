@@ -70,6 +70,12 @@ class Mage_OAuth_AuthorizeController extends Mage_Core_Controller_Front_Action
             $block = $contentBlock->getChild('oauth.authorize.form');
         }
 
+        /** @var $helper Mage_Core_Helper_Data */
+        $helper = Mage::helper('core/url');;
+        $session->setAfterAuthUrl(Mage::getUrl('customer/account/login'))
+            ->setBeforeAuthUrl($helper->getCurrentUrl());
+
+
         $block->setToken($this->_getTokenString())->setIsException($isException);
         $this->_initLayoutMessages('customer/session');
         $this->renderLayout();
@@ -80,33 +86,31 @@ class Mage_OAuth_AuthorizeController extends Mage_Core_Controller_Front_Action
      */
     public function confirmAction()
     {
-        $response = $this->getResponse();
-
-        /** @var $session Mage_Customer_Model_Session */
-        $session = Mage::getSingleton('customer/session');
-
-        /** @var $server Mage_OAuth_Model_Server */
-        $server = Mage::getModel('oauth/server');
-
         $this->loadLayout();
-        /** @var $block Mage_Core_Block_Template */
-        $block = $this->getLayout()->getBlock('content')->getChild('oauth.authorize.confirm');
-
         try {
+            /** @var $session Mage_Customer_Model_Session */
+            $session = Mage::getSingleton('customer/session');
+            /** @var $server Mage_OAuth_Model_Server */
+            $server = Mage::getModel('oauth/server');
+
+            /** @var $token Mage_OAuth_Model_Token */
             $token = $server->authorizeToken($session->getCustomerId(), Mage_OAuth_Model_Token::USER_TYPE_CUSTOMER);
             $callback = $server->getFullCallbackUrl($token);  //false in case of OOB
             if ($callback) {
+                /** @var $response Mage_Core_Controller_Response_Http */
+                $response = $this->getResponse();
                 $response->setRedirect($callback);
-                return;
             } else {
+                /** @var $block Mage_Core_Block_Template */
+                $block = $this->getLayout()->getBlock('oauth.authorize.confirm');
                 $block->setVerifier($token->getVerifier());
             }
         } catch (Mage_Core_Exception $e) {
-            $block->setIsException(true);
             $session->addError($e->getMessage());
+        } catch (Mage_OAuth_Exception $e) {
+            $session->addException($e, $this->__('An error occurred. Error authorizing token.'));
         } catch (Exception $e) {
-            $block->setIsException(true);
-            $session->addException($e, $this->__('Error authorizing token.'));
+            $session->addException($e, $this->__('An error occurred.'));
         }
 
         $this->_initLayoutMessages('customer/session');
@@ -118,13 +122,32 @@ class Mage_OAuth_AuthorizeController extends Mage_Core_Controller_Front_Action
      */
     public function rejectAction()
     {
-        /** @var $server Mage_OAuth_Model_Server */
-        $server = Mage::getModel('oauth/server');
-        $token  = $server->checkAuthorizeRequest();
-        $url    = $token->getCallbackUrl();
-        $url    .= ((strpos($url, '?') === false) ? '?' : '&') . 'oauth_token=' . $token->getToken() . '&denied=1';
+        try {
+            /** @var $server Mage_OAuth_Model_Server */
+            $server = Mage::getModel('oauth/server');
+            /** @var $session Mage_Admin_Model_Session */
+            $session = Mage::getSingleton('admin/session');
+            /** @var $token Mage_OAuth_Model_Token */
+            $token = $server->checkAuthorizeRequest();
 
-        $this->getResponse()->setRedirect($url)->sendResponse();
+            $callback = $token->getCallbackUrl();
+            if ($callback && Mage_OAuth_Model_Server::CALLBACK_ESTABLISHED != $callback) {
+                $callback .= (false === strpos($callback, '?') ? '?' : '&') . 'oauth_token=' . $token->getToken()
+                    . '&denied=1';
+
+                $this->getResponse()->setRedirect($callback);
+            } else {
+                $session->addSuccess($this->__('Token rejected.'));
+            }
+        } catch (Mage_Core_Exception $e) {
+            $session->addError($e->getMessage());
+        } catch (Exception $e) {
+            $session->addException($e, $this->__('Error rejecting token.'));
+        }
+
+        $this->loadLayout();
+        $this->_initLayoutMessages('admin/session');
+        $this->renderLayout();
     }
 
     /**

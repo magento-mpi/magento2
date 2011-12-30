@@ -28,7 +28,7 @@
 /**
  * "Grant Access" button
  *
- * @see Mage_OAuth_Block_Authorize
+ * @see Mage_OAuth_Block_Authorize_Button
  */
 ?>
 <?php /** @var $this Mage_OAuth_Block_Authorize_Button */ ?>
@@ -53,7 +53,7 @@
         </form>
         <form action="<?php echo $this->getRejectUrl() ?>" method="get">
             <input type="hidden" name="oauth_token" value="<?php echo $this->escapeHtml($this->getToken()) ?>">
-            <button type="submit" class="button" title="<?php echo $this->__('Reject') ?>" name="reject"><span><span><?php echo $this->__('Reject') ?></span></span></button>
+            <button type="submit" class="button" title="<?php echo $this->__('Reject') ?>"><span><span><?php echo $this->__('Reject') ?></span></span></button>
         </form>
     <?php endif; ?>
 
