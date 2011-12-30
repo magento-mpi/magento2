@@ -283,10 +283,8 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
      */
     public function getMinQty()
     {
-        if ($this->getUseConfigMinQty()) {
-            return (float) Mage::getStoreConfig(self::XML_PATH_MIN_QTY);
-        }
-        return (float) $this->getData('min_qty');
+        return (float)($this->getUseConfigMinQty() ? Mage::getStoreConfig(self::XML_PATH_MIN_QTY)
+            : $this->getData('min_qty'));
     }
 
     /**
@@ -318,40 +316,36 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
      */
     public function getMinSaleQty()
     {
-        if ($this->getCustomerGroupId()) {
-            $customerGroupId = $this->getCustomerGroupId();
-        } else if (Mage::app()->getStore()->isAdmin()) {
-            $customerGroupId = Mage_Customer_Model_Group::CUST_GROUP_ALL;
-        } else {
-            $customerGroupId = Mage::getSingleton('customer/session')->getCustomerGroupId();
+        if (!($customerGroupId = $this->getCustomerGroupId())) {
+            $customerGroupId = Mage::app()->getStore()->isAdmin()
+                ? Mage_Customer_Model_Group::CUST_GROUP_ALL
+                : Mage::getSingleton('customer/session')->getCustomerGroupId();
         }
-        if (!array_key_exists($customerGroupId, $this->_minSaleQtyCache)) {
-            if ($this->getUseConfigMinSaleQty()) {
-                $minSaleQty = Mage::helper('cataloginventory/minsaleqty')->getConfigValue($customerGroupId);
-            } else {
-                $minSaleQty = $this->getData('min_sale_qty');
-            }
-            $minSaleQty = (!empty($minSaleQty) ? (float)$minSaleQty : null);
-            $this->_minSaleQtyCache[$customerGroupId] = $minSaleQty;
+
+        if (!isset($this->_minSaleQtyCache[$customerGroupId])) {
+            $minSaleQty = $this->getUseConfigMinSaleQty()
+                ? Mage::helper('cataloginventory/minsaleqty')->getConfigValue($customerGroupId)
+                : $this->getData('min_sale_qty');
+
+            $this->_minSaleQtyCache[$customerGroupId] = empty($minSaleQty) ? 0 : (float)$minSaleQty;
         }
-        return $this->_minSaleQtyCache[$customerGroupId];
+
+        return $this->_minSaleQtyCache[$customerGroupId] ? $this->_minSaleQtyCache[$customerGroupId] : null;
     }
 
     /**
-     * Retrieve Maximum Qty Allowed in Shopping Cart data wraper
+     * Retrieve Maximum Qty Allowed in Shopping Cart data wrapper
      *
      * @return float
      */
     public function getMaxSaleQty()
     {
-        if ($this->getUseConfigMaxSaleQty()) {
-            return (float) Mage::getStoreConfig(self::XML_PATH_MAX_SALE_QTY);
-        }
-        return (float) $this->getData('max_sale_qty');
+        return (float)($this->getUseConfigMaxSaleQty() ? Mage::getStoreConfig(self::XML_PATH_MAX_SALE_QTY)
+            : $this->getData('max_sale_qty'));
     }
 
     /**
-     * Retrieve Notify for Quantity Below data wraper
+     * Retrieve Notify for Quantity Below data wrapper
      *
      * @return float
      */
@@ -476,49 +470,37 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Returns suggested qty increments for the item based on requested qty
+     * Returns suggested qty that satisfies qty increments and minQty/maxQty/minSaleQty/maxSaleQty conditions
+     * or original qty if such value does not exist
      *
      * @param int|float $qty
      * @return int|float
      */
     public function suggestQty($qty)
     {
-        $origQty = $qty;
-        $qty = (float) $qty;
-
-        // Maybe some wrong value
-        if ($qty <= 0) {
-            return $origQty;
-        }
-
         // We do not manage stock
-        if (!$this->getManageStock()) {
-            return $origQty;
-        }
-
-        // No qty increments enabled
-        $qtyIncrements = $this->getQtyIncrements();
-        $qtyIncrements = (int) $qtyIncrements; // Currently only integer increments supported
-        if (!$qtyIncrements || ($qtyIncrements == 1)) {
-            return $origQty;
-        }
-
-        // Fix qty to be integer if needed
-        if (!$this->getIsQtyDecimal()) {
-            $qty = (int) $qty;
-        }
-
-        // Maybe qty is evenly divided - no fixture needed
-        if ($qty % $qtyIncrements == 0) {
+        if ($qty <= 0 || !$this->getManageStock()) {
             return $qty;
         }
 
-        $qty = round($qty / $qtyIncrements) * $qtyIncrements;
-        if (!$qty) {
-            // Value was closer to zero, so suggest first lowest minimal increment
-            $qty = $qtyIncrements;
+        $qtyIncrements = (int)$this->getQtyIncrements(); // Currently only integer increments supported
+        if ($qtyIncrements < 2) {
+            return $qty;
         }
-        return $qty;
+
+        $minQty = max($this->getMinSaleQty(), $qtyIncrements);
+        $divisibleMin = ceil($minQty / $qtyIncrements) * $qtyIncrements;
+
+        $maxQty = min($this->getQty() - $this->getMinQty(), $this->getMaxSaleQty());
+        $divisibleMax = floor($maxQty / $qtyIncrements) * $qtyIncrements;
+
+        if ($qty < $minQty || $qty > $maxQty || $divisibleMin > $divisibleMax) {
+            // Do not perform rounding for qty that does not satisfy min/max conditions to not confuse customer
+            return $qty;
+        }
+
+        // Suggest value closest to given qty
+        return abs($divisibleMin - $qty) < abs($divisibleMax - $qty) ? $divisibleMin : $divisibleMax;
     }
 
     /**
