@@ -36,26 +36,22 @@ class Mage_OAuth_Model_Server
     /**#@+
      * OAuth result statuses
      */
-    const ERR_OK                                = 0;
-    const ERR_VERSION_REJECTED                  = 1;
-    const ERR_PARAMETER_ABSENT                  = 2;
-    const ERR_PARAMETER_REJECTED                = 3;
-    const ERR_TIMESTAMP_REFUSED                 = 4;
-    const ERR_NONCE_USED                        = 5;
-    const ERR_SIGNATURE_METHOD_REJECTED         = 6;
-    const ERR_SIGNATURE_INVALID                 = 7;
-    const ERR_CONSUMER_KEY_UNKNOWN              = 8;
-    const ERR_CONSUMER_KEY_REJECTED             = 9;
-    const ERR_CONSUMER_KEY_REFUSED              = 10;
-    const ERR_TOKEN_USED                        = 11;
-    const ERR_TOKEN_EXPIRED                     = 12;
-    const ERR_TOKEN_REVOKED                     = 13;
-    const ERR_TOKEN_REJECTED                    = 14;
-    const ERR_VERIFIER_INVALID                  = 15;
-    const ERR_ADDITIONAL_AUTHORIZATION_REQUIRED = 16;
-    const ERR_PERMISSION_UNKNOWN                = 17;
-    const ERR_PERMISSION_DENIED                 = 18;
-    const ERR_USER_REFUSED                      = 19;
+    const ERR_OK                        = 0;
+    const ERR_VERSION_REJECTED          = 1;
+    const ERR_PARAMETER_ABSENT          = 2;
+    const ERR_PARAMETER_REJECTED        = 3;
+    const ERR_TIMESTAMP_REFUSED         = 4;
+    const ERR_NONCE_USED                = 5;
+    const ERR_SIGNATURE_METHOD_REJECTED = 6;
+    const ERR_SIGNATURE_INVALID         = 7;
+    const ERR_CONSUMER_KEY_REJECTED     = 8;
+    const ERR_TOKEN_USED                = 9;
+    const ERR_TOKEN_EXPIRED             = 10;
+    const ERR_TOKEN_REVOKED             = 11;
+    const ERR_TOKEN_REJECTED            = 12;
+    const ERR_VERIFIER_INVALID          = 13;
+    const ERR_PERMISSION_UNKNOWN        = 14;
+    const ERR_PERMISSION_DENIED         = 15;
     /**#@- */
 
     /**#@+
@@ -103,33 +99,22 @@ class Mage_OAuth_Model_Server
      * @var array
      */
     protected $_errors = array(
-        self::ERR_VERSION_REJECTED                  => 'version_rejected',
-        self::ERR_PARAMETER_ABSENT                  => 'parameter_absent',
-        self::ERR_PARAMETER_REJECTED                => 'parameter_rejected',
-        self::ERR_TIMESTAMP_REFUSED                 => 'timestamp_refused',
-        self::ERR_NONCE_USED                        => 'nonce_used',
-        self::ERR_SIGNATURE_METHOD_REJECTED         => 'signature_method_rejected',
-        self::ERR_SIGNATURE_INVALID                 => 'signature_invalid',
-        self::ERR_CONSUMER_KEY_UNKNOWN              => 'consumer_key_unknown',
-        self::ERR_CONSUMER_KEY_REJECTED             => 'consumer_key_rejected',
-        self::ERR_CONSUMER_KEY_REFUSED              => 'consumer_key_refused',
-        self::ERR_TOKEN_USED                        => 'token_used',
-        self::ERR_TOKEN_EXPIRED                     => 'token_expired',
-        self::ERR_TOKEN_REVOKED                     => 'token_revoked',
-        self::ERR_TOKEN_REJECTED                    => 'token_rejected',
-        self::ERR_VERIFIER_INVALID                  => 'verifier_invalid',
-        self::ERR_ADDITIONAL_AUTHORIZATION_REQUIRED => 'additional_authorization_required',
-        self::ERR_PERMISSION_UNKNOWN                => 'permission_unknown',
-        self::ERR_PERMISSION_DENIED                 => 'permission_denied',
-        self::ERR_USER_REFUSED                      => 'user_refused'
+        self::ERR_VERSION_REJECTED          => 'version_rejected',
+        self::ERR_PARAMETER_ABSENT          => 'parameter_absent',
+        self::ERR_PARAMETER_REJECTED        => 'parameter_rejected',
+        self::ERR_TIMESTAMP_REFUSED         => 'timestamp_refused',
+        self::ERR_NONCE_USED                => 'nonce_used',
+        self::ERR_SIGNATURE_METHOD_REJECTED => 'signature_method_rejected',
+        self::ERR_SIGNATURE_INVALID         => 'signature_invalid',
+        self::ERR_CONSUMER_KEY_REJECTED     => 'consumer_key_rejected',
+        self::ERR_TOKEN_USED                => 'token_used',
+        self::ERR_TOKEN_EXPIRED             => 'token_expired',
+        self::ERR_TOKEN_REVOKED             => 'token_revoked',
+        self::ERR_TOKEN_REJECTED            => 'token_rejected',
+        self::ERR_VERIFIER_INVALID          => 'verifier_invalid',
+        self::ERR_PERMISSION_UNKNOWN        => 'permission_unknown',
+        self::ERR_PERMISSION_DENIED         => 'permission_denied'
     );
-
-    /**
-     * oAuth helper object
-     *
-     * @var Mage_OAuth_Helper_Data
-     */
-    protected $_helper;
 
     /**
      * Request parameters
@@ -173,19 +158,22 @@ class Mage_OAuth_Model_Server
      */
     public function __construct($request = null)
     {
-        $this->_helper  = Mage::helper('oauth');
         $this->_request = $request instanceof Mage_Core_Controller_Request_Http ? $request : Mage::app()->getRequest();
     }
 
     /**
      * Retrieve parameters from request object
      *
+     * @param bool $queryOnly OPTIONAL Retrieve parameters from query string only. Use all sources by default
      * @return Mage_OAuth_Model_Server
      */
-    protected function _fetchParams()
+    protected function _fetchParams($queryOnly = false)
     {
         $this->_params = $this->_request->getQuery();
 
+        if ($queryOnly) {
+            return $this;
+        }
         if ($this->_request->getHeader(Zend_Http_Client::CONTENT_TYPE) == Zend_Http_Client::ENC_URLENCODED) {
             $bodyParams = array();
 
@@ -299,9 +287,8 @@ class Mage_OAuth_Model_Server
      */
     protected function _processRequest($requestType, $url = null)
     {
-        // validate request type
-        if (self::REQUEST_AUTHORIZE != $requestType
-            && self::REQUEST_INITIATE != $requestType
+        // validate request type to process (AUTHORIZE request is not allowed for method)
+        if (self::REQUEST_INITIATE != $requestType
             && self::REQUEST_RESOURCE != $requestType
             && self::REQUEST_TOKEN != $requestType
         ) {
@@ -476,19 +463,10 @@ class Mage_OAuth_Model_Server
     /**
      * Validate signature
      *
-     * @param string $url OPTIONAL Request URL to be a part of data to sign (if not specified - find by request type)
+     * @param string $url Request URL to be a part of data to sign
      */
-    protected function _validateSignature($url = null)
+    protected function _validateSignature($url)
     {
-        if (null === $url) {
-            if (self::REQUEST_INITIATE == $this->_requestType) {
-                $url = $this->_helper->getProtocolEndpointUrl(Mage_OAuth_Helper_Data::ENDPOINT_INITIATE);
-            } elseif (self::REQUEST_TOKEN == $this->_requestType) {
-                $url = $this->_helper->getProtocolEndpointUrl(Mage_OAuth_Helper_Data::ENDPOINT_TOKEN);
-            } else {
-                Mage::throwException('Can not automatically find URL for current type of request');
-            }
-        }
         $util = new Zend_Oauth_Http_Utility();
 
         $calculatedSign = $util->sign(
@@ -543,7 +521,12 @@ class Mage_OAuth_Model_Server
     public function accessToken()
     {
         try {
-            $this->_processRequest(self::REQUEST_TOKEN);
+            /** @var $helper Mage_OAuth_Helper_Data */
+            $helper = Mage::helper('oauth');
+
+            $this->_processRequest(
+                self::REQUEST_TOKEN, $helper->getProtocolEndpointUrl(Mage_OAuth_Helper_Data::ENDPOINT_TOKEN)
+            );
 
             $response = $this->_token->toString();
         } catch (Exception $e) {
@@ -561,23 +544,20 @@ class Mage_OAuth_Model_Server
      */
     public function authorizeToken($userId, $userType)
     {
-        $this->_requestType = self::REQUEST_AUTHORIZE;
+        $token = $this->checkAuthorizeRequest();
 
-        $this->_fetchParams();
-        $this->_initToken();
+        $token->authorize($userId, $userType);
 
-        $this->_token->authorize($userId, $userType);
-
-        return $this->_token;
+        return $token;
     }
 
     /**
      * Validate request with access token
      *
-     * @param string $url OPTIONAL Request URL
+     * @param string $url Request URL
      * @return boolean
      */
-    public function checkAccessRequest($url = null)
+    public function checkAccessRequest($url)
     {
         try {
             $this->_processRequest(self::REQUEST_RESOURCE, $url);
@@ -596,12 +576,12 @@ class Mage_OAuth_Model_Server
      */
     public function checkAuthorizeRequest()
     {
-        $this->_requestType = self::REQUEST_AUTHORIZE;
-
         if (!$this->_request->isGet()) {
             Mage::throwException('Request is not GET');
         }
-        $this->_fetchParams();
+        $this->_requestType = self::REQUEST_AUTHORIZE;
+
+        $this->_fetchParams(true);
         $this->_initToken();
 
         return $this->_token;
@@ -644,7 +624,12 @@ class Mage_OAuth_Model_Server
     public function initiateToken()
     {
         try {
-            $this->_processRequest(self::REQUEST_INITIATE);
+            /** @var $helper Mage_OAuth_Helper_Data */
+            $helper = Mage::helper('oauth');
+
+            $this->_processRequest(
+                self::REQUEST_INITIATE, $helper->getProtocolEndpointUrl(Mage_OAuth_Helper_Data::ENDPOINT_INITIATE)
+            );
 
             $response = $this->_token->toString() . '&oauth_callback_confirmed=true';
         } catch (Exception $e) {
