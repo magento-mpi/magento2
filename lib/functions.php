@@ -27,23 +27,25 @@
  */
 
 if (!function_exists('array_replace_recursive')) {
-    function array_replace_recursive() {
-        $result = null;
+    function array_replace_recursive()
+    {
         $args = func_get_args();
-        if (isset($args[0]) && is_array($args[0])) {
-            $result = $args[0];
-            for ($i = 1; $i < func_num_args(); $i++) {
-                if (is_array($args[$i])) {
-                    foreach ($args[$i] as $key => $value) {
-                        if (!isset($args[$i][$key]) || (isset($args[$i][$key]) && !is_array($args[$i][$key]))) {
-                            $args[$i][$key] = array();
-                        }
-                        if (is_array($value)) {
-                            $value = array_replace_recursive($args[$i][$key], $value);
-                        }
-                        $result[$key] = $value;
-                    }
+        if (!isset($args[0]) || !is_array($args[0])) {
+            return null;
+        }
+        $result = $args[0];
+        for ($i = 1; $i < func_num_args(); $i++) {
+            if (!is_array($args[$i])) {
+                continue;
+            }
+            foreach ($args[$i] as $key => $value) {
+                if (!isset($args[$i][$key]) || (isset($args[$i][$key]) && !is_array($args[$i][$key]))) {
+                    $args[$i][$key] = array();
                 }
+                if (is_array($value)) {
+                    $value = array_replace_recursive($args[$i][$key], $value);
+                }
+                $result[$key] = $value;
             }
         }
         return $result;

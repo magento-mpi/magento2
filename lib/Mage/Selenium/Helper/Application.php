@@ -61,6 +61,8 @@ class Mage_Selenium_Helper_Application extends Mage_Selenium_Helper_Abstract
      *
      * @param string $area Possible values are 'frontend' and 'admin'
      *
+     * @throws OutOfRangeException
+     *
      * @return Mage_Selenium_Helper_Application
      */
     public function setArea($area)
@@ -106,7 +108,7 @@ class Mage_Selenium_Helper_Application extends Mage_Selenium_Helper_Abstract
     }
 
     /**
-     * Change Application information
+     * Change application information
      *
      * @param string $configName
      */
@@ -114,10 +116,11 @@ class Mage_Selenium_Helper_Application extends Mage_Selenium_Helper_Abstract
     {
         $applications = $this->_config->getConfigValue('applications');
         $this->_appInfo = $applications[$configName];
+        return $this;
     }
 
     /**
-     * Initializes Application information
+     * Initializes application information
      *
      * @return Mage_Selenium_Helper_Application
      */
@@ -135,14 +138,11 @@ class Mage_Selenium_Helper_Application extends Mage_Selenium_Helper_Abstract
      */
     public function isAdmin()
     {
-        if ('admin' == $this->_area) {
-            return true;
-        }
-        return false;
+        return 'admin' == $this->_area;
     }
 
     /**
-     * Retrieve default admin user username
+     * Retrieve default admin user name
      *
      * @return string
      */

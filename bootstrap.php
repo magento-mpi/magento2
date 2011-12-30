@@ -40,4 +40,4 @@ Mage_Selenium_Autoloader::register();
 
 require_once 'functions.php';
 
-Mage_Selenium_TestConfiguration::initInstance();
+Mage_Selenium_TestConfiguration::getInstance();

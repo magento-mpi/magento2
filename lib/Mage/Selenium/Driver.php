@@ -37,7 +37,7 @@
 class Mage_Selenium_Driver extends PHPUnit_Extensions_SeleniumTestCase_Driver
 {
     /**
-     * If the flag is set true browser connection is not restarted after each test
+     * If the flag is set to True, browser connection is not restarted after each test
      * @var boolean
      */
     protected $_contiguousSession = false;
@@ -56,15 +56,13 @@ class Mage_Selenium_Driver extends PHPUnit_Extensions_SeleniumTestCase_Driver
     {
         parent::__construct();
 
-        $this->_logHandle = fopen('tmp'.DIRECTORY_SEPARATOR.'selenium-rc-'.date('d-m-Y-H-i-s').'.log', 'a+');
+        $this->_logHandle = fopen('tmp' . DIRECTORY_SEPARATOR . 'selenium-rc-' . date('d-m-Y-H-i-s') . '.log', 'a+');
     }
 
     /**
-     * Sets the flag to RESTART/DON'T RESTART of a browser connection after each
-     * test (TRUE - do not restart, FALSE - do restart)
+     * Sets the flag to restart browser connection or not after each test
      *
-     * @param boolean $flag Flag of restarting browser after each test (TRUE - do not restart, FALSE - do restart)
-     *
+     * @param boolean $flag Flag to restart browser after each test or not (TRUE - do not restart, FALSE - restart)
      * @return Mage_Selenium_Driver
      */
     public function setContiguousSession($flag)
@@ -84,19 +82,14 @@ class Mage_Selenium_Driver extends PHPUnit_Extensions_SeleniumTestCase_Driver
     }
 
     /**
-     * Stops browser connection
-     * Extension: checking of $_contiguousSession flag (RESTART/NOT RESTART of browser)
+     * Stops browser connection if the session is not marked as contiguous
      */
     public function stop()
     {
-        if (!isset($this->sessionId)) {
-            return;
-        }
         if ($this->_contiguousSession) {
             return;
         }
-        $this->doCommand('testComplete');
-        $this->sessionId = NULL;
+        parent::stop();
     }
 
     /**
@@ -105,6 +98,9 @@ class Mage_Selenium_Driver extends PHPUnit_Extensions_SeleniumTestCase_Driver
      *
      * @param  string $command Command for send to Selenium RC server
      * @param  array $arguments Array of arguments to command
+     *
+     * @throws PHPUnit_Framework_Exception
+     *
      * @return string
      */
     protected function doCommand($command, array $arguments = array())
@@ -131,16 +127,17 @@ class Mage_Selenium_Driver extends PHPUnit_Extensions_SeleniumTestCase_Driver
     }
 
     /**
-     * Performs to return time to logging (e.g. 15:18:43.244768)
+     * Returns time for logging (e.g. 15:18:43.244768)
      *
      * @param  string $format A composite format string
      * @param  mixed  $utimestamp Timestamp (by default = null)
-     * @return string String a formatted date string.
+     * @return string A formatted date string.
      */
     public static function udate($format, $utimestamp = null)
     {
-        if (is_null($utimestamp))
+        if (is_null($utimestamp)) {
             $utimestamp = microtime(true);
+        }
 
         $timestamp = floor($utimestamp);
         $milliseconds = round(($utimestamp - $timestamp) * 1000000);

@@ -54,7 +54,7 @@ class Mage_Selenium_Helper_Page extends Mage_Selenium_Helper_Abstract
      *
      * @param Mage_Selenium_Helper_Application $applicationHelper Application helper instance
      *
-     * @return Mage_Selenium_AbstractHelper
+     * @return Mage_Selenium_Helper_Abstract
      */
     public function setApplicationHelper(Mage_Selenium_Helper_Application $applicationHelper)
     {
@@ -67,12 +67,14 @@ class Mage_Selenium_Helper_Page extends Mage_Selenium_Helper_Abstract
      *
      * @param string $page Page identifier
      *
+     * @throws Mage_Selenium_Exception
+     *
      * @return string
      */
     public function getPageUrl($page)
     {
         if (!$this->_applicationHelper) {
-            throw new Mage_Selenium_Exception("ApplicationHelper hasn't inited yet");
+            throw new Mage_Selenium_Exception("ApplicationHelper hasn't been initialized yet");
         }
 
         $pageData = $this->_config->getUimapHelper()->getUimapPage($this->_applicationHelper->getArea(), $page);
@@ -89,12 +91,14 @@ class Mage_Selenium_Helper_Page extends Mage_Selenium_Helper_Abstract
      *
      * @param string $page Page identifier
      *
+     * @throws Mage_Selenium_Exception
+     *
      * @return string
      */
     public function getPageClickXpath($page)
     {
         if (!$this->_applicationHelper) {
-            throw new Mage_Selenium_Exception('ApplicationHelper hasn\'t inited yet');
+            throw new Mage_Selenium_Exception("ApplicationHelper hasn't been initialized yet");
         }
 
         $pageData = $this->_config
@@ -114,12 +118,14 @@ class Mage_Selenium_Helper_Page extends Mage_Selenium_Helper_Abstract
      * @param string Page's mca
      * @param Mage_Selenium_Helper_Params $paramsDecorator Params decorator instance
      *
+     * @throws Mage_Selenium_Exception
+     *
      * @return string Page identifier
      */
     public function getPageByMca($mca, $paramsDecorator = null)
     {
         if (!$this->_applicationHelper) {
-            throw new Mage_Selenium_Exception("ApplicationHelper hasn't inited yet");
+            throw new Mage_Selenium_Exception("ApplicationHelper hasn't been initialized yet");
         }
 
         return $this->_config

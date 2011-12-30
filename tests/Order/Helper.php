@@ -41,7 +41,11 @@ class Order_Helper extends Mage_Selenium_TestCase
      * @param string $addrType Gets two values: 'billing' and 'shipping'.
      *                         Default is 'billing'
      * @param int $symNum min = 5, default value = 32
+     *
+     * @throws Exception
+     *
      * @return array
+     * 
      * @uses DataGenerator::generate()
      * @see DataGenerator::generate()
      */

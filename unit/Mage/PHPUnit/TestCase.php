@@ -43,7 +43,7 @@ abstract class Mage_PHPUnit_TestCase extends PHPUnit_Framework_TestCase
     public function __construct($name = NULL, array $data = array(), $dataName = '')
     {
         parent::__construct($name, $data, $dataName);
-        $this->_config = Mage_Selenium_TestConfiguration::initInstance();
+        $this->_config = Mage_Selenium_TestConfiguration::getInstance();
     }
 
     /**

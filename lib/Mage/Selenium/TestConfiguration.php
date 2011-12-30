@@ -71,7 +71,7 @@ class Mage_Selenium_TestConfiguration
     protected $_applicationHelper = null;
 
     /**
-     * Uimap helper instance
+     * UIMap helper instance
      *
      * @var Mage_Selenium_Helper_Uimap
      */
@@ -92,7 +92,7 @@ class Mage_Selenium_TestConfiguration
     public $driver = null;
 
     /**
-     * Confiration object instance
+     * Configuration object instance
      *
      * @var Mage_Selenium_TestConfiguration
      */
@@ -113,44 +113,8 @@ class Mage_Selenium_TestConfiguration
     protected $_configData = array();
 
     /**
-     * Constructor (defined as private to implement singleton)
-     */
-    private function __construct()
-    {
-    }
-
-    /**
-     * Destructor<br>
-     * Extension: defines, browser need to be restarted or not.
-     */
-    public function  __destruct()
-    {
-        if ($this->getConfigValue('browsers/default/doNotKillBrowsers')
-            != 'true' && $this->_drivers
-        ) {
-            foreach ($this->_drivers as $driver) {
-                $driver->setContiguousSession(false);
-                $driver->stop();
-            }
-        }
-    }
-
-    /**
-     * Initializes test configuration
-     *
-     * @return Mage_Selenium_TestConfiguration
-     */
-    public static function initInstance()
-    {
-        if (is_null(self::$instance)) {
-            self::$instance = new self();
-            self::$instance->init();
-        }
-        return self::$instance;
-    }
-
-    /**
-     * Initializes test configuration instance which includes:
+     * Constructor<br>
+     * Initializes test configuration instance that includes:
      * <li>Initialize configuration
      * <li>Initialize DataSets
      * <li>Initialize UIMap instance
@@ -158,7 +122,7 @@ class Mage_Selenium_TestConfiguration
      *
      * @return Mage_Selenium_TestConfiguration
      */
-    public function init()
+    private function __construct()
     {
         $this->_initConfig();
         $this->_initTestData();
@@ -168,7 +132,34 @@ class Mage_Selenium_TestConfiguration
     }
 
     /**
-     * Performs retrieving of file helper instance
+     * Destructor<br>
+     * Extension: defines if the browser needs to be restarted.
+     */
+    public function __destruct()
+    {
+        if ($this->getConfigValue('browsers/default/doNotKillBrowsers') != 'true' && $this->_drivers) {
+            foreach ($this->_drivers as $driver) {
+                $driver->setContiguousSession(false);
+                $driver->stop();
+            }
+        }
+    }
+
+    /**
+     * Get test configuration instance
+     *
+     * @return Mage_Selenium_TestConfiguration
+     */
+    public static function getInstance()
+    {
+        if (is_null(self::$instance)) {
+            self::$instance = new self();
+        }
+        return self::$instance;
+    }
+
+    /**
+     * Get file helper instance
      *
      * @return Mage_Selenium_Helper_File
      */
@@ -181,10 +172,10 @@ class Mage_Selenium_TestConfiguration
     }
 
     /**
-     * Performs retrieving of file helper instance
+     * Get page helper instance
      *
-     * @param Mage_Selenium_TestCase $testCase Current test case as object (by default = NULL)
-     * @param Mage_Selenium_Helper_Application $applicationHelper Current tested application as object (by default = NULL)
+     * @param Mage_Selenium_TestCase $testCase Current test case as object (by default = null)
+     * @param Mage_Selenium_Helper_Application $applicationHelper Current tested application as object (by default = null)
      *
      * @return Mage_Selenium_Helper_Page
      */
@@ -203,7 +194,7 @@ class Mage_Selenium_TestConfiguration
     }
 
     /**
-     * Performs retrieving of Data Generator helper instance
+     * Get Data Generator helper instance
      *
      * @return Mage_Selenium_Helper_DataGenerator
      */
@@ -216,7 +207,7 @@ class Mage_Selenium_TestConfiguration
     }
 
     /**
-     * Performs retrieving of Data helper instance
+     * Get Data helper instance
      *
      * @return Mage_Selenium_Helper_Data
      */
@@ -229,7 +220,7 @@ class Mage_Selenium_TestConfiguration
     }
 
     /**
-     * Performs retrieving of Application helper instance
+     * Get Application helper instance
      *
      * @return Mage_Selenium_Helper_File
      */
@@ -242,7 +233,7 @@ class Mage_Selenium_TestConfiguration
     }
 
     /**
-     * Performs retrieving of UIMap helper instance
+     * Get UIMap helper instance
      *
      * @return Mage_Selenium_Helper_Uimap
      */
@@ -311,11 +302,11 @@ class Mage_Selenium_TestConfiguration
     }
 
     /**
-     * Performs retrieving of value from Configuration
+     * Get value from Configuration
      *
      * @param string $path - XPath-like path to config value (by default = '')
      *
-     * @return array
+     * @return array|string|false
      */
     public function getConfigValue($path = '')
     {
@@ -323,11 +314,11 @@ class Mage_Selenium_TestConfiguration
     }
 
     /**
-     * Performs retrieving of value from DataSet by path
+     * Get value from DataSet by path
      *
      * @param string $path XPath-like path to DataSet value (by default = '')
      *
-     * @return array|string
+     * @return array|string|false
      */
     public function getDataValue($path = '')
     {
@@ -340,7 +331,7 @@ class Mage_Selenium_TestConfiguration
      * @param array  $data Array of Configuration|DataSet data
      * @param string $path XPath-like path to Configuration|DataSet value
      *
-     * @return array|string
+     * @return array|string|false
      */
     protected function _descend($data, $path)
     {

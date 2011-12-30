@@ -80,7 +80,7 @@ class Mage_Selenium_Helper_Params
      *
      * @param string $name Parameter name
      *
-     * @return string
+     * @return string|boolean Returns the parameter value or False
      */
     public function getParameter($name)
     {
@@ -105,7 +105,7 @@ class Mage_Selenium_Helper_Params
     }
 
     /**
-     * Populate string with Regexp for next matching
+     * Populate string with Regexp for future matching
      *
      * @param string $source Source string
      * @param string $regexp Regular expression (by default = '(.*?)')
@@ -114,10 +114,10 @@ class Mage_Selenium_Helper_Params
      */
     public function replaceParametersWithRegexp($source, $regexp = '([^\/]+?)'/* '(.*?)' */)
     {
-        if (empty($this->_paramsArray)) {
-            return $source;
-        } else {
+        if ($this->_paramsArray) {
             return str_replace(array_keys($this->_paramsArray), $regexp, $source);
+        } else {
+            return $source;
         }
 //       return preg_replace('/%([^\/]+?)%/', $regexp, $source);
     }

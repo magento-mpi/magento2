@@ -27,7 +27,7 @@
  */
 
 /**
- * Uimap helper class
+ * UIMap helper class
  *
  * @package     selenium
  * @subpackage  Mage_Selenium
@@ -43,7 +43,7 @@ class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
     protected $_fileHelper = null;
 
     /**
-     * Uimap data
+     * UIMap data
      *
      * @var array
      */
@@ -91,13 +91,15 @@ class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
     }
 
     /**
-     * Retrieve array with uimap data
+     * Retrieve array with UIMap data
      *
      * @param string $area Application area ('frontend'|'admin')
      *
+     * @throws OutOfRangeException
+     *
      * @return array
      */
-    public function &getUimap($area)
+    public function getUimap($area)
     {
         if (!array_key_exists($area, $this->_uimapData)) {
             throw new OutOfRangeException();
@@ -107,13 +109,13 @@ class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
     }
 
     /**
-     * Retrieve Page from uimap data configuration by path
+     * Retrieve Page from UIMap data configuration by path
      *
      * @param string $area Application area ('frontend'|'admin')
      * @param string $pageKey UIMap page key
      * @param Mage_Selenium_Helper_Params $paramsDecorator Params decorator instance
      *
-     * @return Mage_Selenium_Uimap_Page
+     * @return Mage_Selenium_Uimap_Page|null
      */
     public function getUimapPage($area, $pageKey, $paramsDecorator = null)
     {
@@ -125,29 +127,32 @@ class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
     }
 
     /**
-     * Retrieve Page from uimap data configuration by MCA
+     * Retrieve Page from UIMap data configuration by MCA
      *
      * @param string $area Application area ('frontend'|'admin')
      * @param string $pageKey UIMap page key
      * @param Mage_Selenium_Helper_Params $paramsDecorator Params decorator instance
      *
-     * @return Mage_Selenium_Uimap_Page|Null
+     * @throws Mage_Selenium_Exception
+     *
+     * @return Mage_Selenium_Uimap_Page|null
      */
     public function getUimapPageByMca($area, $mca, $paramsDecorator = null)
     {
         $mca = trim($mca, ' /\\');
-        if (isset($this->_uimapData[$area])) {
-            foreach ($this->_uimapData[$area] as &$page) {
-                // get mca without any modifications
-                $pageMca = trim($page->getMca(new Mage_Selenium_Helper_Params()), ' /\\');
-                if ($pageMca !== false && $pageMca !== null) {
-                    if ($paramsDecorator) {
-                        $pageMca = $paramsDecorator->replaceParametersWithRegexp($pageMca);
-                    }
-                    if (preg_match(';^' . $pageMca . '$;', $mca)) {
-                        $page->assignParams($paramsDecorator);
-                        return $page;
-                    }
+        if (!isset($this->_uimapData[$area])) {
+            return null;
+        }
+        foreach ($this->_uimapData[$area] as &$page) {
+            //Get mca without any modifications
+            $pageMca = trim($page->getMca(new Mage_Selenium_Helper_Params()), ' /\\');
+            if ($pageMca !== false && $pageMca !== null) {
+                if ($paramsDecorator) {
+                    $pageMca = $paramsDecorator->replaceParametersWithRegexp($pageMca);
+                }
+                if (preg_match(';^' . $pageMca . '$;', $mca)) {
+                    $page->assignParams($paramsDecorator);
+                    return $page;
                 }
             }
         }
