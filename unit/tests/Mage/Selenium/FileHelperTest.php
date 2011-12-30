@@ -38,7 +38,7 @@ class Mage_Selenium_Helper_FileTest extends Mage_PHPUnit_TestCase
      */
     protected $_fileHelper = null;
 
-    public function  __construct($name = NULL, array $data = array(), $dataName = '')
+    public function  __construct($name = null, array $data = array(), $dataName = '')
     {
         parent::__construct($name, $data, $dataName);
         $this->_fileHelper = new Mage_Selenium_Helper_File($this->_config);

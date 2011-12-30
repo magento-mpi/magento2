@@ -127,7 +127,7 @@ class PriceRules_ShoppingCart_CreateTest extends Mage_Selenium_TestCase
     public function createWithRequiredFields()
     {
         $this->navigate('manage_shopping_cart_price_rules');
-        $ruleData = $this->loadData('scpr_required_fields', NULL, array('rule_name', 'coupon_code'));
+        $ruleData = $this->loadData('scpr_required_fields', null, array('rule_name', 'coupon_code'));
         $this->priceRulesHelper()->createRule($ruleData);
         $this->assertMessagePresent('success', 'success_saved_rule');
 
@@ -148,7 +148,7 @@ class PriceRules_ShoppingCart_CreateTest extends Mage_Selenium_TestCase
     public function createWithAllFields()
     {
         $this->navigate('manage_shopping_cart_price_rules');
-        $ruleData = $this->loadData('scpr_all_fields', NULL, array('rule_name', 'coupon_code'));
+        $ruleData = $this->loadData('scpr_all_fields', null, array('rule_name', 'coupon_code'));
         $this->priceRulesHelper()->createRule($ruleData);
         $this->assertMessagePresent('success', 'success_saved_rule');
     }

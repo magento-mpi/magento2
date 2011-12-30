@@ -80,7 +80,7 @@ class CmsStaticBlocks_Helper extends Mage_Selenium_TestCase
             unset($searchData['filter_store_viev']);
         }
         $xpathTR = $this->search($searchData, 'static_blocks_grid');
-        $this->assertNotEquals(NULL, $xpathTR, 'Static Block is not found');
+        $this->assertNotEquals(null, $xpathTR, 'Static Block is not found');
         $cellId = $this->getColumnIdByName('Title');
         $this->addParameter('blockName', $this->getText($xpathTR . '//td[' . $cellId . ']'));
         $this->addParameter('id', $this->defineIdFromTitle($xpathTR));

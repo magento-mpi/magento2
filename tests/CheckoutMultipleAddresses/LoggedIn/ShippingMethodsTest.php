@@ -60,10 +60,10 @@ class CheckoutMultipleAddresses_LoggedIn_ShippingMethodsTest extends Mage_Seleni
     public function createSimpleProducts()
     {
         $this->navigate('manage_products');
-        $productData1 = $this->loadData('simple_product_for_order', NULL, array('general_name', 'general_sku'));
+        $productData1 = $this->loadData('simple_product_for_order', null, array('general_name', 'general_sku'));
         $this->productHelper()->createProduct($productData1);
         $this->assertMessagePresent('success', 'success_saved_product');
-        $productData2 = $this->loadData('simple_product_for_order', NULL, array('general_name', 'general_sku'));
+        $productData2 = $this->loadData('simple_product_for_order', null, array('general_name', 'general_sku'));
         $this->productHelper()->createProduct($productData2);
         $this->assertMessagePresent('success', 'success_saved_product');
 
@@ -77,7 +77,7 @@ class CheckoutMultipleAddresses_LoggedIn_ShippingMethodsTest extends Mage_Seleni
      */
     public function createVirtualProduct()
     {
-        $productData = $this->loadData('virtual_product_for_order', NULL, array('general_name', 'general_sku'));
+        $productData = $this->loadData('virtual_product_for_order', null, array('general_name', 'general_sku'));
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($productData, 'virtual');
         $this->assertMessagePresent('success', 'success_saved_product');

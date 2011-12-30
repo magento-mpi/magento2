@@ -59,7 +59,7 @@ class Order_Create_CheckingValidationTest extends Mage_Selenium_TestCase
     public function createSimple()
     {
         //Data
-        $productData = $this->loadData('simple_product_for_order', NULL, array('general_name', 'general_sku'));
+        $productData = $this->loadData('simple_product_for_order', null, array('general_name', 'general_sku'));
         //Steps
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($productData);
@@ -268,7 +268,7 @@ class Order_Create_CheckingValidationTest extends Mage_Selenium_TestCase
         $this->orderHelper()->fillOrderAddress($billingAddr, $billingAddr['address_choice'], 'billing');
         $this->orderHelper()->fillOrderAddress($shippingAddr, $shippingAddr['address_choice'], 'shipping');
         $this->orderHelper()->selectPaymentMethod($orderData['payment_data']);
-        $this->clickControl('link', 'get_shipping_methods_and_rates', FALSE);
+        $this->clickControl('link', 'get_shipping_methods_and_rates', false);
         $this->pleaseWait();
         $this->orderHelper()->submitOreder();
         //Verifying

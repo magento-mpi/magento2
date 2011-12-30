@@ -49,7 +49,7 @@ class Order_Helper extends Mage_Selenium_TestCase
      * @uses DataGenerator::generate()
      * @see DataGenerator::generate()
      */
-    public function customerAddressGenerator($charsType, $addrType = 'billing', $symNum = 32, $required = FALSE)
+    public function customerAddressGenerator($charsType, $addrType = 'billing', $symNum = 32, $required = false)
     {
         $type = array(':alnum:', ':alpha:', ':digit:', ':lower:', ':upper:', ':punct:');
         if (!in_array($charsType, $type) || ($addrType != 'billing' && $addrType != 'shipping')
@@ -93,19 +93,19 @@ class Order_Helper extends Mage_Selenium_TestCase
     public function createOrder($orderData, $validate = TRUE)
     {
         $orderData = $this->arrayEmptyClear($orderData);
-        $storeView = (isset($orderData['store_view'])) ? $orderData['store_view'] : NULL;
-        $customer = (isset($orderData['customer_data'])) ? $orderData['customer_data'] : NULL;
+        $storeView = (isset($orderData['store_view'])) ? $orderData['store_view'] : null;
+        $customer = (isset($orderData['customer_data'])) ? $orderData['customer_data'] : null;
         $account = (isset($orderData['account_data'])) ? $orderData['account_data'] : array();
         $products = (isset($orderData['products_to_add'])) ? $orderData['products_to_add'] : array();
-        $coupons = (isset($orderData['coupons'])) ? $orderData['coupons'] : NULL;
-        $billingAddr = (isset($orderData['billing_addr_data'])) ? $orderData['billing_addr_data'] : NULL;
-        $shippingAddr = (isset($orderData['shipping_addr_data'])) ? $orderData['shipping_addr_data'] : NULL;
-        $paymentMethod = (isset($orderData['payment_data'])) ? $orderData['payment_data'] : NULL;
-        $shippingMethod = (isset($orderData['shipping_data'])) ? $orderData['shipping_data'] : NULL;
+        $coupons = (isset($orderData['coupons'])) ? $orderData['coupons'] : null;
+        $billingAddr = (isset($orderData['billing_addr_data'])) ? $orderData['billing_addr_data'] : null;
+        $shippingAddr = (isset($orderData['shipping_addr_data'])) ? $orderData['shipping_addr_data'] : null;
+        $paymentMethod = (isset($orderData['payment_data'])) ? $orderData['payment_data'] : null;
+        $shippingMethod = (isset($orderData['shipping_data'])) ? $orderData['shipping_data'] : null;
         $giftMessages = (isset($orderData['gift_messages'])) ? $orderData['gift_messages'] : array();
-        $verProduct = (isset($orderData['prod_verification'])) ? $orderData['prod_verification'] : NULL;
-        $verPrTotal = (isset($orderData['prod_total_verification'])) ? $orderData['prod_total_verification'] : NULL;
-        $verTotal = (isset($orderData['total_verification'])) ? $orderData['total_verification'] : NULL;
+        $verProduct = (isset($orderData['prod_verification'])) ? $orderData['prod_verification'] : null;
+        $verPrTotal = (isset($orderData['prod_total_verification'])) ? $orderData['prod_total_verification'] : null;
+        $verTotal = (isset($orderData['total_verification'])) ? $orderData['total_verification'] : null;
 
         $this->navigateToCreateOrderPage($customer, $storeView);
         $this->fillForm($account);
@@ -124,7 +124,7 @@ class Order_Helper extends Mage_Selenium_TestCase
             $this->fillOrderAddress($shippingAddr, $shippingChoise, 'shipping');
         }
         if ($shippingMethod) {
-            $this->clickControl('link', 'get_shipping_methods_and_rates', FALSE);
+            $this->clickControl('link', 'get_shipping_methods_and_rates', false);
             $this->pleaseWait();
             $this->selectShippingMethod($shippingMethod, $validate);
         }
@@ -285,11 +285,11 @@ class Order_Helper extends Mage_Selenium_TestCase
         }
 
         if ($productData) {
-            $this->clickButton('add_products', FALSE);
+            $this->clickButton('add_products', false);
             $xpathProduct = $this->search($productData);
-            $this->assertNotEquals(NULL, $xpathProduct, 'Product is not found');
+            $this->assertNotEquals(null, $xpathProduct, 'Product is not found');
             $this->addParameter('productXpath', $xpathProduct);
-            $configurable = FALSE;
+            $configurable = false;
             $configureLink = $this->_getControlXpath('link', 'configure');
             if (!$this->isElementPresent($configureLink . '[@disabled]')) {
                 $configurable = TRUE;
@@ -299,7 +299,7 @@ class Order_Helper extends Mage_Selenium_TestCase
                 $this->pleaseWait();
                 $before = $this->getMessagesOnPage();
                 $this->configureProduct($configur);
-                $this->clickButton('ok', FALSE);
+                $this->clickButton('ok', false);
                 $after = $this->getMessagesOnPage();
                 $result = array();
                 foreach ($after as $key => $value) {
@@ -315,7 +315,7 @@ class Order_Helper extends Mage_Selenium_TestCase
                                 implode("\n", $result));
                 }
             }
-            $this->clickButton('add_selected_products_to_order', FALSE);
+            $this->clickButton('add_selected_products_to_order', false);
             $this->pleaseWait();
             if ($aditionalData) {
                 $this->reconfigProduct($productSku, $aditionalData);
@@ -371,8 +371,8 @@ class Order_Helper extends Mage_Selenium_TestCase
         if (is_string($paymentMethod)) {
             $paymentMethod = $this->loadData($paymentMethod);
         }
-        $payment = (isset($paymentMethod['payment_method'])) ? $paymentMethod['payment_method'] : NULL;
-        $card = (isset($paymentMethod['payment_info'])) ? $paymentMethod['payment_info'] : NULL;
+        $payment = (isset($paymentMethod['payment_method'])) ? $paymentMethod['payment_method'] : null;
+        $card = (isset($paymentMethod['payment_info'])) ? $paymentMethod['payment_info'] : null;
 
         if ($payment) {
             if ($this->errorMessage('no_payment')) {
@@ -401,7 +401,7 @@ class Order_Helper extends Mage_Selenium_TestCase
     {
         $xpath = $this->_getControlXpath('fieldset', '3d_secure_card_validation');
         if ($this->isElementPresent($xpath)) {
-            $this->clickButton('start_reset_validation', FALSE);
+            $this->clickButton('start_reset_validation', false);
             $this->pleaseWait();
             $alert = $this->isAlertPresent();
             if ($alert) {
@@ -434,8 +434,8 @@ class Order_Helper extends Mage_Selenium_TestCase
         if (is_string($shippingMethod)) {
             $shippingMethod = $this->loadData($shippingMethod);
         }
-        $shipService = (isset($shippingMethod['shipping_service'])) ? $shippingMethod['shipping_service'] : NULL;
-        $shipMethod = (isset($shippingMethod['shipping_method'])) ? $shippingMethod['shipping_method'] : NULL;
+        $shipService = (isset($shippingMethod['shipping_service'])) ? $shippingMethod['shipping_service'] : null;
+        $shipMethod = (isset($shippingMethod['shipping_method'])) ? $shippingMethod['shipping_method'] : null;
         if (!$shipService or !$shipMethod) {
             $this->addVerificationMessage('Shipping Service(or Shipping Method) is not set');
         } else {
@@ -469,14 +469,14 @@ class Order_Helper extends Mage_Selenium_TestCase
     public function navigateToCreateOrderPage($customerData, $storeView)
     {
         $this->clickButton('create_new_order');
-        if ($customerData == NULL) {
-            $this->clickButton('create_new_customer', FALSE);
+        if ($customerData == null) {
+            $this->clickButton('create_new_customer', false);
             $this->pleaseWait();
         } else {
             if (is_string($customerData)) {
                 $customerData = $this->loadData($customerData);
             }
-            $this->assertTrue($this->searchAndOpen($customerData, FALSE, 'order_customer_grid'),"Customer isn't found");
+            $this->assertTrue($this->searchAndOpen($customerData, false, 'order_customer_grid'),"Customer isn't found");
         }
 
         $storeSelectorXpath = $this->_getControlXpath('fieldset', 'order_store_selector');
@@ -485,7 +485,7 @@ class Order_Helper extends Mage_Selenium_TestCase
                                     "[not(contains(@style,'display: none'))][not(contains(@style,'display:none'))]")) {
             if ($storeView) {
                 $this->addParameter('storeName', $storeView);
-                $this->clickControl('radiobutton', 'choose_main_store', FALSE);
+                $this->clickControl('radiobutton', 'choose_main_store', false);
                 $this->pleaseWait();
             } else {
                 $this->fail('Store View is not set');
@@ -502,7 +502,7 @@ class Order_Helper extends Mage_Selenium_TestCase
     {
         $this->addParameter('sku', $productSku);
         $this->fillForm($productData);
-        $this->clickButton('update_items_and_quantity', FALSE);
+        $this->clickButton('update_items_and_quantity', false);
         $this->pleaseWait();
     }
 
@@ -520,10 +520,10 @@ class Order_Helper extends Mage_Selenium_TestCase
             foreach ($giftMessages['individual'] as $product => $options) {
                 if (is_array($options) && isset($options['sku_product'])) {
                     $this->addParameter('sku', $options['sku_product']);
-                    $this->clickControl('link', 'gift_options', FALSE);
+                    $this->clickControl('link', 'gift_options', false);
                     $this->waitForAjax();
                     $this->fillForm($options);
-                    $this->clickButton('ok', FALSE);
+                    $this->clickButton('ok', false);
                     $this->pleaseWait();
                 }
             }
@@ -543,10 +543,10 @@ class Order_Helper extends Mage_Selenium_TestCase
             foreach ($giftMessages['individual'] as $product => $options) {
                 if (is_array($options) && isset($options['sku_product'])) {
                     $this->addParameter('sku', $options['sku_product']);
-                    $this->clickControl('link', 'gift_options', FALSE);
+                    $this->clickControl('link', 'gift_options', false);
                     $this->waitForAjax();
                     $this->verifyForm($options);
-                    $this->clickButton('ok', FALSE);
+                    $this->clickButton('ok', false);
                     $this->pleaseWait();
                 }
             }
@@ -572,7 +572,7 @@ class Order_Helper extends Mage_Selenium_TestCase
 
         foreach ($coupons as $code) {
             $this->fillForm(array('coupon_code' => $code));
-            $this->clickButton('apply', FALSE);
+            $this->clickButton('apply', false);
             $this->pleaseWait();
             if ($validate) {
                 $this->addParameter('couponCode', $code);

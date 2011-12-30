@@ -54,7 +54,7 @@ class PriceRules_ShoppingCart_ApplyTest extends Mage_Selenium_TestCase
     public function createCustomer()
     {
         //Data
-        $userData = $this->loadData('customer_account_for_prices_validation', NULL, 'email');
+        $userData = $this->loadData('customer_account_for_prices_validation', null, 'email');
         $addressData = $this->loadData('customer_account_address_for_prices_validation');
         //Steps
         $this->navigate('manage_customers');

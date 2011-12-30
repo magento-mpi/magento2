@@ -61,7 +61,7 @@ class Wishlist_Wishlist extends Mage_Selenium_TestCase
     public function createCustomer()
     {
         $this->loginAdminUser();
-        $userData = $this->loadData('customer_account_for_prices_validation', NULL, 'email');
+        $userData = $this->loadData('customer_account_for_prices_validation', null, 'email');
         $this->navigate('manage_customers');
         $this->customerHelper()->createCustomer($userData);
         $this->assertMessagePresent('success', 'success_saved_customer');

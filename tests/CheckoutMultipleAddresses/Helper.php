@@ -111,18 +111,18 @@ class CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
     {
         $checkoutData = $this->arrayEmptyClear($checkoutData);
         $products   = (isset($checkoutData['products_to_add'])) ? $checkoutData['products_to_add'] : array();
-        $customer   = (isset($checkoutData['checkout_as_customer'])) ? $checkoutData['checkout_as_customer'] : NULL;
-        $generalShippingAddress = NULL;
+        $customer   = (isset($checkoutData['checkout_as_customer'])) ? $checkoutData['checkout_as_customer'] : null;
+        $generalShippingAddress = null;
         foreach ($checkoutData as $key => $value) {
             if (preg_match('/^general/', $key)) {
                 $generalShippingAddress = $value;
             }
         }
-        $shipping   = (isset($checkoutData['shipping_address_data'])) ? $checkoutData['shipping_address_data'] : NULL;
-        $giftOptions = (isset($checkoutData['gift_options'])) ? $checkoutData['gift_options'] : NULL;
-        $shipMethod = (isset($checkoutData['shipping_data'])) ? $checkoutData['shipping_data'] : NULL;
-        $billing    = (isset($checkoutData['billing_address_data'])) ? $checkoutData['billing_address_data'] : NULL;
-        $payMethod  = (isset($checkoutData['payment_data'])) ? $checkoutData['payment_data'] : NULL;
+        $shipping   = (isset($checkoutData['shipping_address_data'])) ? $checkoutData['shipping_address_data'] : null;
+        $giftOptions = (isset($checkoutData['gift_options'])) ? $checkoutData['gift_options'] : null;
+        $shipMethod = (isset($checkoutData['shipping_data'])) ? $checkoutData['shipping_data'] : null;
+        $billing    = (isset($checkoutData['billing_address_data'])) ? $checkoutData['billing_address_data'] : null;
+        $payMethod  = (isset($checkoutData['payment_data'])) ? $checkoutData['payment_data'] : null;
         if ($products) {
             foreach ($products as $data) {
                 $this->productHelper()->frontOpenProduct($data['general_name']);
@@ -316,8 +316,8 @@ class CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
     {
         $this->assertMultipleAddrCheckoutPageOpened('shipping_information');
 
-        $service = (isset($shipMethod['shipping_service'])) ? $shipMethod['shipping_service'] : NULL;
-        $method = (isset($shipMethod['shipping_method'])) ? $shipMethod['shipping_method'] : NULL;
+        $service = (isset($shipMethod['shipping_service'])) ? $shipMethod['shipping_service'] : null;
+        $method = (isset($shipMethod['shipping_method'])) ? $shipMethod['shipping_method'] : null;
 
         if (!$service or !$method) {
             $this->addVerificationMessage('Shipping Service(or Shipping Method) is not set');
@@ -355,8 +355,8 @@ class CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
     {
         $this->assertMultipleAddrCheckoutPageOpened('billing_information');
 
-        $payment = (isset($paymentMethod['payment_method'])) ? $paymentMethod['payment_method'] : Null;
-        $card = (isset($paymentMethod['payment_info'])) ? $paymentMethod['payment_info'] : Null;
+        $payment = (isset($paymentMethod['payment_method'])) ? $paymentMethod['payment_method'] : null;
+        $card = (isset($paymentMethod['payment_info'])) ? $paymentMethod['payment_info'] : null;
         if ($payment) {
             $this->addParameter('paymentTitle', $payment);
             $xpath = $this->_getControlXpath('radiobutton', 'check_payment_method');
@@ -411,9 +411,9 @@ class CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
         $checkoutData = $this->arrayEmptyClear($checkoutData);
         if (isset($checkoutData['verify_products_data'])) {
             foreach ($checkoutData['verify_products_data'] as $data) {
-                $addressToSearch = (isset($data['search_shipping_address'])) ? $data['search_shipping_address'] : NULL;
-                $checkProd  = (isset($data['validate_prod_data'])) ? $data['validate_prod_data'] : NULL;
-                $checkTotal = (isset($data['validate_total_data'])) ? $data['validate_total_data'] : NULL;
+                $addressToSearch = (isset($data['search_shipping_address'])) ? $data['search_shipping_address'] : null;
+                $checkProd  = (isset($data['validate_prod_data'])) ? $data['validate_prod_data'] : null;
+                $checkTotal = (isset($data['validate_total_data'])) ? $data['validate_total_data'] : null;
                 if ($addressToSearch) {
                     $formXpathString = '';
                     foreach ($addressToSearch as $v) {

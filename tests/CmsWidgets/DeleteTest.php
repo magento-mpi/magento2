@@ -74,7 +74,7 @@ class CmsWidgets_DeleteTest extends Mage_Selenium_TestCase
      */
     public function createAttribute()
     {
-        $attrData = $this->loadData('product_attribute_dropdown_with_options', NULL,
+        $attrData = $this->loadData('product_attribute_dropdown_with_options', null,
                 array('admin_title', 'attribute_code'));
         $associatedAttributes = $this->loadData('associated_attributes', array('General' => $attrData['attribute_code']));
         $this->navigate('manage_attributes');

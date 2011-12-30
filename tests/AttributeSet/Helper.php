@@ -75,7 +75,7 @@ class AttributeSet_Helper extends Mage_Selenium_TestCase
             $groupXpath = $this->_getControlXpath('link', 'group_folder');
             if (!$this->isElementPresent($groupXpath)) {
                 $this->answerOnNextPrompt($value);
-                $this->clickButton('add_group', FALSE);
+                $this->clickButton('add_group', false);
                 $this->getPrompt();
             }
         }

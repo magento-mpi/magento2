@@ -48,7 +48,7 @@ class OrderShipment_Helper extends Mage_Selenium_TestCase
         $this->clickButton('ship');
         foreach ($shipmentData as $product => $options) {
             if (is_array($options)) {
-                $sku = (isset($options['ship_product_sku'])) ? $options['ship_product_sku'] : NULL;
+                $sku = (isset($options['ship_product_sku'])) ? $options['ship_product_sku'] : null;
                 $productQty = (isset($options['ship_product_qty'])) ? $options['ship_product_qty'] : '%noValue%';
                 if ($sku) {
                     $verify[$sku] = $productQty;

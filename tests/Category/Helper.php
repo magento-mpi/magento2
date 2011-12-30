@@ -254,8 +254,8 @@ class Category_Helper extends Mage_Selenium_TestCase
             $productsInfo = $this->loadData($productsInfo);
         }
         $productsInfo = $this->arrayEmptyClear($productsInfo);
-        $category = (isset($productsInfo['category'])) ? $productsInfo['category'] : NULL;
-        $productName = (isset($productsInfo['product_name'])) ? $productsInfo['product_name'] : NULL;
+        $category = (isset($productsInfo['category'])) ? $productsInfo['category'] : null;
+        $productName = (isset($productsInfo['product_name'])) ? $productsInfo['product_name'] : null;
         $verificationData = (isset($productsInfo['verification'])) ? $productsInfo['verification'] : array();
 
         if ($category && $productName) {
@@ -275,7 +275,7 @@ class Category_Helper extends Mage_Selenium_TestCase
      */
     public function frontOpenCategory($categoryPath)
     {
-        $this->addParameter('productUrl', NULL);
+        $this->addParameter('productUrl', null);
         //Determine category title
         $nodes = explode('/', $categoryPath);
         $nodesReverse = array_reverse($nodes);
@@ -354,7 +354,7 @@ class Category_Helper extends Mage_Selenium_TestCase
                 $this->addParameter('param', '?p=' . $i);
                 $this->navigate('category_page_index');
             } else {
-                return FALSE;
+                return false;
             }
         }
     }

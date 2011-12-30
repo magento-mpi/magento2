@@ -87,7 +87,7 @@ class AdminUser_CreateTest extends Mage_Selenium_TestCase
     public function withRequiredFieldsOnly()
     {
         //Data
-        $userData = $this->loadData('generic_admin_user', Null, array('email', 'user_name'));
+        $userData = $this->loadData('generic_admin_user', null, array('email', 'user_name'));
         //Steps
         $this->adminUserHelper()->createAdminUser($userData);
         //Verifying
@@ -441,7 +441,7 @@ class AdminUser_CreateTest extends Mage_Selenium_TestCase
     public function withoutRole()
     {
         //Data
-        $userData = $this->loadData('generic_admin_user', NULL, array('email', 'user_name'));
+        $userData = $this->loadData('generic_admin_user', null, array('email', 'user_name'));
         //Steps
         $this->adminUserHelper()->createAdminUser($userData);
         //Verifying

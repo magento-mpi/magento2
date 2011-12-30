@@ -38,7 +38,7 @@ class Mage_Selenium_Helper_ApplicationTest extends Mage_PHPUnit_TestCase
      */
     protected $_applicationHelper = null;
 
-    public function  __construct($name = NULL, array $data = array(), $dataName = '')
+    public function  __construct($name = null, array $data = array(), $dataName = '')
     {
         parent::__construct($name, $data, $dataName);
         $this->_applicationHelper = new Mage_Selenium_Helper_Application($this->_config);

@@ -53,7 +53,7 @@ class Tax_TaxAndPricesValidationBackendTest extends Mage_Selenium_TestCase
     public function createCustomer()
     {
         //Data
-        $userData = $this->loadData('customer_account_for_prices_validation', NULL, 'email');
+        $userData = $this->loadData('customer_account_for_prices_validation', null, 'email');
         $addressData = $this->loadData('customer_account_address_for_prices_validation');
         //Steps
         $this->navigate('manage_customers');
@@ -75,7 +75,7 @@ class Tax_TaxAndPricesValidationBackendTest extends Mage_Selenium_TestCase
         $this->navigate('manage_products');
         for ($i = 1; $i <= 3; $i++) {
             $simpleProductData = $this->loadData("simple_product_for_prices_validation_$i",
-                NULL, array('general_name', 'general_sku'));
+                null, array('general_name', 'general_sku'));
             $products['sku'][$i] = $simpleProductData['general_sku'];
             $products['name'][$i] = $simpleProductData['general_name'];
             $this->productHelper()->createProduct($simpleProductData);

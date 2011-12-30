@@ -281,8 +281,8 @@ class ShoppingCart_Helper extends Mage_Selenium_TestCase
         if (is_string($shippingMethod)) {
             $shippingMethod = $this->loadData($shippingMethod);
         }
-        $shipService = (isset($shippingMethod['shipping_service'])) ? $shippingMethod['shipping_service'] : NULL;
-        $shipMethod = (isset($shippingMethod['shipping_method'])) ? $shippingMethod['shipping_method'] : NULL;
+        $shipService = (isset($shippingMethod['shipping_service'])) ? $shippingMethod['shipping_service'] : null;
+        $shipMethod = (isset($shippingMethod['shipping_method'])) ? $shippingMethod['shipping_method'] : null;
         if (!$shipService or !$shipMethod) {
             $this->addVerificationMessage('Shipping Service(or Shipping Method) is not set');
         } else {
@@ -348,7 +348,7 @@ class ShoppingCart_Helper extends Mage_Selenium_TestCase
      * Verifies if the product(s) are in the Shopping Cart
      *
      * @param string|array $productNameSet Product name (string) or array of product names to check
-     * @return True|Array True if the products are all present.
+     * @return true|array True if the products are all present.
      *                    Otherwise returns an array of product names that are absent.
      */
     public function frontShoppingCartHasProducts($productNameSet)

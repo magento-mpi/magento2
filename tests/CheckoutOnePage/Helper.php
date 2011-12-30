@@ -84,11 +84,11 @@ class CheckoutOnePage_Helper extends Mage_Selenium_TestCase
     {
         $checkoutData = $this->arrayEmptyClear($checkoutData);
         $products   = (isset($checkoutData['products_to_add'])) ? $checkoutData['products_to_add'] : array();
-        $customer   = (isset($checkoutData['checkout_as_customer'])) ? $checkoutData['checkout_as_customer'] : NULL;
-        $billing    = (isset($checkoutData['billing_address_data'])) ? $checkoutData['billing_address_data'] : NULL;
-        $shipping   = (isset($checkoutData['shipping_address_data'])) ? $checkoutData['shipping_address_data'] : NULL;
-        $shipMethod = (isset($checkoutData['shipping_data'])) ? $checkoutData['shipping_data'] : NULL;
-        $payMethod  = (isset($checkoutData['payment_data'])) ? $checkoutData['payment_data'] : NULL;
+        $customer   = (isset($checkoutData['checkout_as_customer'])) ? $checkoutData['checkout_as_customer'] : null;
+        $billing    = (isset($checkoutData['billing_address_data'])) ? $checkoutData['billing_address_data'] : null;
+        $shipping   = (isset($checkoutData['shipping_address_data'])) ? $checkoutData['shipping_address_data'] : null;
+        $shipMethod = (isset($checkoutData['shipping_data'])) ? $checkoutData['shipping_data'] : null;
+        $payMethod  = (isset($checkoutData['payment_data'])) ? $checkoutData['payment_data'] : null;
 
         if ($products) {
             foreach ($products as $product => $data) {
@@ -206,8 +206,8 @@ class CheckoutOnePage_Helper extends Mage_Selenium_TestCase
     {
         $this->assertOnePageCheckoutTabOpened('shipping_method');
 
-        $service = (isset($shipMethod['shipping_service'])) ? $shipMethod['shipping_service'] : NULL;
-        $method = (isset($shipMethod['shipping_method'])) ? $shipMethod['shipping_method'] : NULL;
+        $service = (isset($shipMethod['shipping_service'])) ? $shipMethod['shipping_service'] : null;
+        $method = (isset($shipMethod['shipping_method'])) ? $shipMethod['shipping_method'] : null;
 
         if (!$service or !$method) {
             $this->addVerificationMessage('Shipping Service(or Shipping Method) is not set');
@@ -274,8 +274,8 @@ class CheckoutOnePage_Helper extends Mage_Selenium_TestCase
     {
         $this->assertOnePageCheckoutTabOpened('payment_method');
 
-        $payment = (isset($paymentMethod['payment_method'])) ? $paymentMethod['payment_method'] : Null;
-        $card = (isset($paymentMethod['payment_info'])) ? $paymentMethod['payment_info'] : Null;
+        $payment = (isset($paymentMethod['payment_method'])) ? $paymentMethod['payment_method'] : null;
+        $card = (isset($paymentMethod['payment_info'])) ? $paymentMethod['payment_info'] : null;
         if ($payment) {
             $this->addParameter('paymentTitle', $payment);
             $xpath = $this->_getControlXpath('radiobutton', 'check_payment_method');
@@ -383,7 +383,7 @@ class CheckoutOnePage_Helper extends Mage_Selenium_TestCase
         if ($this->isElementPresent($xpath) && !$this->isChecked($xpath)) {
             $fillShipping = TRUE;
         } else {
-            $fillShipping = FALSE;
+            $fillShipping = false;
         }
         $this->goToNextOnePageCheckoutStep('billing_information');
 
@@ -416,12 +416,12 @@ class CheckoutOnePage_Helper extends Mage_Selenium_TestCase
 
         $checkoutData = $this->arrayEmptyClear($checkoutData);
         $products   = (isset($checkoutData['products_to_add'])) ? $checkoutData['products_to_add'] : array();
-        $billing    = (isset($checkoutData['billing_address_data'])) ? $checkoutData['billing_address_data'] : NULL;
-        $shipping   = (isset($checkoutData['shipping_address_data'])) ? $checkoutData['shipping_address_data'] : NULL;
-        $shipMethod = (isset($checkoutData['shipping_data'])) ? $checkoutData['shipping_data'] : NULL;
-        $payMethod  = (isset($checkoutData['payment_data'])) ? $checkoutData['payment_data'] : NULL;
-        $checkProd  = (isset($checkoutData['validate_prod_data'])) ? $checkoutData['validate_prod_data'] : NULL;
-        $checkTotal = (isset($checkoutData['validate_total_data'])) ? $checkoutData['validate_total_data'] : NULL;
+        $billing    = (isset($checkoutData['billing_address_data'])) ? $checkoutData['billing_address_data'] : null;
+        $shipping   = (isset($checkoutData['shipping_address_data'])) ? $checkoutData['shipping_address_data'] : null;
+        $shipMethod = (isset($checkoutData['shipping_data'])) ? $checkoutData['shipping_data'] : null;
+        $payMethod  = (isset($checkoutData['payment_data'])) ? $checkoutData['payment_data'] : null;
+        $checkProd  = (isset($checkoutData['validate_prod_data'])) ? $checkoutData['validate_prod_data'] : null;
+        $checkTotal = (isset($checkoutData['validate_total_data'])) ? $checkoutData['validate_total_data'] : null;
 
         if ($products) {
             foreach ($products as $product => $data) {

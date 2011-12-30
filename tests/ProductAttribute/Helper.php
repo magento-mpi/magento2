@@ -102,7 +102,7 @@ class ProductAttribute_Helper extends Mage_Selenium_TestCase
             }
         }
         //Steps. Сlick 'Create New Attribute' button, select opened window.
-        $this->clickButton('create_new_attribute', FALSE);
+        $this->clickButton('create_new_attribute', false);
         $names = $this->getAllWindowNames();
         $this->waitForPopUp(end($names), '30000');
         $this->selectWindow("name=" . end($names));
@@ -113,7 +113,7 @@ class ProductAttribute_Helper extends Mage_Selenium_TestCase
         $this->attributeOptions($attrData);
         $this->addParameter('attributeId', 0);
         $this->saveForm('save_attribute', false);
-//        $this->clickButton('save_attribute', FALSE);
+//        $this->clickButton('save_attribute', false);
 //        $this->waitForPageToLoad($this->_browserTimeoutPeriod);
     }
 
@@ -191,7 +191,7 @@ class ProductAttribute_Helper extends Mage_Selenium_TestCase
                     switch ($action) {
                         case 'fill':
                             $this->addParameter('fieldOptionNumber', $optionCount);
-                            $this->clickButton('add_option', FALSE);
+                            $this->clickButton('add_option', false);
                             $this->storeViewTitles($attrData[$fKey], 'manage_options');
                             $this->fillForm($attrData[$fKey], 'manage_lables_options');
                             break;

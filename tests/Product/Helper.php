@@ -243,7 +243,7 @@ class Product_Helper extends Mage_Selenium_TestCase
     {
         $rowNumber = $this->getXpathCount($this->_getControlXpath('fieldset', 'tier_price_row'));
         $this->addParameter('tierPriceId', $rowNumber);
-        $this->clickButton('add_tier_price', FALSE);
+        $this->clickButton('add_tier_price', false);
         $this->fillForm($tierPriceData, 'prices');
     }
 
@@ -257,13 +257,13 @@ class Product_Helper extends Mage_Selenium_TestCase
         $fieldSetXpath = $this->_getControlXpath('fieldset', 'custom_option_set');
         $optionId = $this->getXpathCount($fieldSetXpath) + 1;
         $this->addParameter('optionId', $optionId);
-        $this->clickButton('add_option', FALSE);
+        $this->clickButton('add_option', false);
         $this->fillForm($customOptionData, 'custom_options');
         foreach ($customOptionData as $rowKey => $rowValue) {
             if (preg_match('/^custom_option_row/', $rowKey) && is_array($rowValue)) {
                 $rowId = $this->getXpathCount($fieldSetXpath . "//tr[contains(@id,'product_option_')][not(@style)]");
                 $this->addParameter('rowId', $rowId);
-                $this->clickButton('add_row', FALSE);
+                $this->clickButton('add_row', false);
                 $this->fillForm($rowValue, 'custom_options');
             }
         }
@@ -345,7 +345,7 @@ class Product_Helper extends Mage_Selenium_TestCase
         $fieldSetXpath = $this->_getControlXpath('fieldset', 'bundle_items');
         $optionsCount = $this->getXpathCount($fieldSetXpath . "//div[@class='option-box']");
         $this->addParameter('optionId', $optionsCount);
-        $this->clickButton('add_new_option', FALSE);
+        $this->clickButton('add_new_option', false);
         $this->fillForm($bundleOptionData, 'bundle_items');
         foreach ($bundleOptionData as $key => $value) {
             $productSearch = array();
@@ -364,10 +364,10 @@ class Product_Helper extends Mage_Selenium_TestCase
                     }
                 }
                 if ($productSearch) {
-                    $this->clickButton('add_selection', FALSE);
+                    $this->clickButton('add_selection', false);
                     $this->pleaseWait();
                     $this->searchAndChoose($productSearch, 'select_product_to_bundle_option');
-                    $this->clickButton('add_selected_products', FALSE);
+                    $this->clickButton('add_selected_products', false);
                     if ($selectionSettings) {
                         $this->fillForm($selectionSettings);
                     }
@@ -386,13 +386,13 @@ class Product_Helper extends Mage_Selenium_TestCase
     {
         $fieldSet = $this->_getControlXpath('link', 'downloadable_' . $type);
         if (!$this->isElementPresent($fieldSet . "/parent::*[normalize-space(@class)='open']")) {
-            $this->clickControl('link', 'downloadable_' . $type, FALSE);
+            $this->clickControl('link', 'downloadable_' . $type, false);
         }
 
         $fieldSetXpath = $this->_getControlXpath('fieldset', 'downloadable_' . $type);
         $rowNumber = $this->getXpathCount($fieldSetXpath . "//*[@id='" . $type . "_items_body']/tr");
         $this->addParameter('rowId', $rowNumber);
-        $this->clickButton('downloadable_' . $type . '_add_new_row', FALSE);
+        $this->clickButton('downloadable_' . $type . '_add_new_row', false);
         $this->fillForm($optionData, 'downloadable_information');
     }
 
@@ -850,9 +850,9 @@ class Product_Helper extends Mage_Selenium_TestCase
      *
      * @param string $productName
      */
-    public function frontOpenProduct($productName, $categoryPath = NULL)
+    public function frontOpenProduct($productName, $categoryPath = null)
     {
-        $this->addParameter('categoryUrl', NULL);
+        $this->addParameter('categoryUrl', null);
         if (!is_string($productName)) {
                 $this->fail('Wrong data to open a product');
         }
@@ -906,7 +906,7 @@ class Product_Helper extends Mage_Selenium_TestCase
 //        For EE edition
 //        $customize = $this->controlIsPresent('button', 'customize_and_add_to_cart');
 //        if ($customize) {
-//            $this->clickButton('customize_and_add_to_cart', FALSE);
+//            $this->clickButton('customize_and_add_to_cart', false);
 //            $this->pleaseWait();
 //        }
         foreach ($dataForBuy as $value) {
@@ -972,12 +972,12 @@ class Product_Helper extends Mage_Selenium_TestCase
             $priceToCalc = $productData['prices_price'];
         }
         $avail = (isset($productData['inventory_stock_availability'])) ?
-                $productData['inventory_stock_availability'] : NULL;
+                $productData['inventory_stock_availability'] : null;
         $allowedQty = (isset($productData['inventory_min_allowed_qty'])) ?
-                $productData['inventory_min_allowed_qty'] : NULL;
+                $productData['inventory_min_allowed_qty'] : null;
         $shortDescription = (isset($productData['general_short_description'])) ?
-                $productData['general_short_description'] : NULL;
-        $longDescription = (isset($productData['general_description'])) ? $productData['general_description'] : NULL;
+                $productData['general_short_description'] : null;
+        $longDescription = (isset($productData['general_description'])) ? $productData['general_description'] : null;
         if ($shortDescription) {
             $this->addParameter('shortDescription', $shortDescription);
             $xpathArray['Short Description'] = $this->_getControlXpath('pageelement', 'short_description');
@@ -992,7 +992,7 @@ class Product_Helper extends Mage_Selenium_TestCase
             $xpathArray['Availability'] = $this->_getControlXpath('pageelement', 'availability_param');
             return $xpathArray;
         }
-        $allowedQty = ($allowedQty == NULL) ? '1' : $allowedQty;
+        $allowedQty = ($allowedQty == null) ? '1' : $allowedQty;
         $this->addParameter('price', $allowedQty);
         $xpathArray['Quantity'] = $this->_getControlXpath('pageelement', 'qty');
         $i = 0;

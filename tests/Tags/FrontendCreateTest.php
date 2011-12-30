@@ -49,7 +49,7 @@ class Tags_FrontendCreateTest extends Mage_Selenium_TestCase
     public function createCustomer()
     {
         //Data
-        $userData = $this->loadData('customer_account_for_prices_validation', NULL, 'email');
+        $userData = $this->loadData('customer_account_for_prices_validation', null, 'email');
         //Steps
         $this->loginAdminUser();
         $this->navigate('manage_customers');
