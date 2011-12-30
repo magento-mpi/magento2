@@ -510,21 +510,6 @@ class Mage_Checkout_OnepageController extends Mage_Checkout_Controller_Action
             }
             $this->getOnepage()->saveOrder();
 
-            $storeId = Mage::app()->getStore()->getId();
-            $paymentHelper = Mage::helper("payment");
-            $zeroSubTotalPaymentAction = $paymentHelper->getZeroSubTotalPaymentAutomaticInvoice($storeId);
-            if ($paymentHelper->isZeroSubTotal($storeId)
-                    && $this->_getOrder()->getGrandTotal() == 0
-                    && $zeroSubTotalPaymentAction == Mage_Payment_Model_Method_Abstract::ACTION_AUTHORIZE_CAPTURE
-                    && $paymentHelper->getZeroSubTotalOrderStatus($storeId) == 'pending') {
-                $invoice = $this->_initInvoice();
-                $invoice->getOrder()->setIsInProcess(true);
-                $transactionSave = Mage::getModel('core/resource_transaction')
-                    ->addObject($invoice)
-                    ->addObject($invoice->getOrder());
-                $transactionSave->save();
-            }
-
             $redirectUrl = $this->getOnepage()->getCheckout()->getRedirectUrl();
             $result['success'] = true;
             $result['error']   = false;
