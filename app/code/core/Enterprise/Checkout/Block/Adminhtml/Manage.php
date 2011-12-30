@@ -93,7 +93,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage extends Mage_Adminhtml_Block_Wi
                 ->setData(array(
                     'label' => Mage::helper('enterprise_checkout')->__('Add Selected Product(s) to Shopping Cart'),
                     'onclick' => 'checkoutObj.addToCart()',
-                    'class' => 'add'
+                    'class' => 'add button-to-cart'
                 ))
         );
 

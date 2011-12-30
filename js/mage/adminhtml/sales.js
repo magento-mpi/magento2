@@ -377,6 +377,13 @@ AdminOrder.prototype = {
         this.showArea('search');
     },
 
+    additionalAreaShow: function (buttonElement)
+    {
+        this.additionalAreaButton = buttonElement;
+        Element.hide(buttonElement);
+        this.showArea('additional_area');
+    },
+
     productGridRowInit : function(grid, row){
         var checkbox = $(row).select('.checkbox')[0];
         var inputs = $(row).select('.input-text');

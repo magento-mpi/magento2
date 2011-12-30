@@ -1646,6 +1646,11 @@ ul.cms-menu.type-square ul { list-style-type:square; }
 .cart .deals p,
 .cart .deals label { margin:0 0 7px; display:block; }
 .cart .deals .input-text { width:140px; margin:0 5px 3px 0; float:left; }
+.cart .deals .widget-sku { display:block; margin:0 0 20px; width:264px; }
+.cart .deals .widget-sku .block-title { background:inherit; border:inherit; color:#000; font-size:16px; margin:0 0 5px; padding:0; }
+.cart .deals .widget-sku .block-title strong { font-weight:normal; }
+.cart .deals .widget-sku .block-content { padding:0; }
+.cart .deals .widget-sku .sku-table td input { width:98%; }
 .cart .giftcard { position:relative; z-index:1; }
 .cart .giftcard button.check-gc-status { clear:both; }
 .cart .giftcard button.check-gc-status span { padding:0 !important; background:none !important; line-height:1.3 !important; color:#444 !important; height:auto !important; font-weight:normal !important; text-transform:none !important; }
@@ -1686,6 +1691,13 @@ ul.cms-menu.type-square ul { list-style-type:square; }
 .cart .totals .btn-remove img { vertical-align:baseline; }
 .cart .totals .checkout-types li { margin:0 0 15px; }
 .cart .totals .checkout-types .paypal-or { clear:both; display:block; padding-top:8px; line-height:1.0; font-size:11px; }
+
+/* Empty Cart Add by SKU */
+.cart-empty .widget-sku { display:block; float:right; border-left:1px solid #ddd; padding-left:100px; padding-right:100px; margin:0 0 30px; width:260px; }
+.cart-empty .widget-sku .block .block-title { background:none; border:none; padding:0; margin:0 0 15px; }
+.cart-empty .widget-sku .block .block-title strong { font-size:16px; font-weight:normal; }
+.cart-empty .widget-sku .block .block-content { padding:0; }
+.cart-empty .failed-products { clear:both; border-top:1px solid #cfcfcf; position:relative; margin:40px -20px -21px; }
 
 /* Options Tool Tip */
 .item-options p { font-size:11px; font-weight:bold; text-transform:uppercase; padding:10px 12px 0 12px; }
@@ -2156,6 +2168,11 @@ ul.cms-menu.type-square ul { list-style-type:square; }
 .sidebar .block-gr-search .form-alt input.input-text { width:142px; }
 .sidebar .block-gr-search .form-alt select { width:148px; }
 .block-gr-search p.note { margin:0 0 3px; text-align:right; color:#f15c22; }
+
+/* Order By SKU */
+.order-by-sku .widget-sku .block .block-content { padding:0; }
+.order-by-sku .widget-sku .block .block-content table { margin-left:164px; width:462px; }
+.order-by-sku .widget-sku .block .block-content .actions { width:620px; }
 /* ======================================================================================= */
 
 

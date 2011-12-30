@@ -806,6 +806,22 @@ ul.item-options li { padding-left:.7em; }
 .order-search-items .entry-edit .grid table { width:99.9%; }
 /* .create-order-totals                 { background:url(images/bg_create_order_totals.gif) repeat-y 50% 0 !important; } */
 
+/* SKU */
+.add-by-sku { background:#fafafa; border:1px solid #d6d6d6; padding:6px 14px; margin-bottom:.5em; }
+.add-by-sku th,
+.add-by-sku td { padding:5px 0 5px 5px; }
+.add-by-sku td button { vertical-align:middle; }
+.add-by-sku td button span { padding-left:15px; }
+.add-by-sku .add-sku { margin-bottom:1em; }
+.add-by-sku  .form-list td.value input[name="qty"] { width:50px; }
+.add-sku-csv .form-list td.label { width:115px; }
+.add-sku-csv .form-list td.label label { width:100px; }
+tr.qty-not-available td input[name="qty"] { background-color: #faebe7; color: #df280a; }
+.entry-edit .entry-edit-head.sku-errors { background-color: #faebe7; }
+.entry-edit .entry-edit-head.sku-errors h4 { color: #df280a; }
+.sku-failed-item { position:relative; }
+.sku-failed-item .sku-configure-button { position:absolute; margin:-9px 0 0; top:50%; right:5px; }
+
 /* Product Configuration Popup */
 #popup-window-mask,
 .popup-window-mask { background:url(images/bg_window_mask.png) repeat 0 0; background:rgba(239, 239, 239, 0.5); position:absolute; top:0; right:0; bottom:0; left:0; width:100%; height:100%; z-index:399; }

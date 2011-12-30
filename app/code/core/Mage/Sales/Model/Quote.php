@@ -175,6 +175,13 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
     protected $_errorInfoGroups = array();
 
     /**
+     * Whether quote should not be saved
+     *
+     * @var bool
+     */
+    protected $_preventSaving = false;
+
+    /**
      * Init resource model
      */
     protected function _construct()
@@ -690,6 +697,9 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
      */
     public function getItemsCollection($useCache = true)
     {
+        if ($this->hasItemsCollection()) {
+            return $this->getData('items_collection');
+        }
         if (is_null($this->_items)) {
             $this->_items = Mage::getModel('sales/quote_item')->getCollection();
             $this->_items->setQuote($this);
@@ -1853,5 +1863,29 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
     public function isAllowedGuestCheckout()
     {
         return Mage::helper('checkout')->isAllowedGuestCheckout($this, $this->getStoreId());
+    }
+
+    /**
+     * Prevent quote from saving
+     *
+     * @return Mage_Sales_Model_Quote
+     */
+    public function preventSaving()
+    {
+        $this->_preventSaving = true;
+        return $this;
+    }
+
+    /**
+     * Save quote with prevention checking
+     *
+     * @return Mage_Sales_Model_Quote
+     */
+    public function save()
+    {
+        if ($this->_preventSaving) {
+            return $this;
+        }
+        return parent::save();
     }
 }

@@ -729,16 +729,17 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
 
     /**
      * Returns item info by list and list item id
-     * Returned object has following keys:
+     * Returns object on success or false on error. Returned object has following keys:
      *  - product_id - null if no item found
      *  - buy_request - Varien_Object, empty if not buy request stored for this item
      *
      * @param string $listType
-     * @param int $itemId
+     * @param int    $itemId
+     * @param array  $info
      *
-     * @return Varien_Object
+     * @return Varien_Object|false
      */
-    protected function _getListItemInfo($listType, $itemId)
+    protected function _getListItemInfo($listType, $itemId, $info)
     {
         $productId = null;
         $buyRequest = new Varien_Object();
@@ -758,6 +759,18 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
                     $productId = $item->getProductId();
                     $buyRequest = $item->getBuyRequest();
                 }
+                break;
+            case 'add_by_sku':
+                $info['sku'] = $itemId;
+            case Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Abstract::LIST_TYPE:
+                if (empty($info['qty']) || empty($info['sku'])) {
+                    return false;
+                }
+                $item = $this->getCartModel()->prepareAddProductBySku($info['sku'], $info['qty'], $info);
+                if ($item['code'] != Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_SUCCESS) {
+                    return false;
+                }
+                $productId = $item['item']['id'];
                 break;
             default:
                 $productId = (int) $itemId;
@@ -794,6 +807,11 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
             }
         }
 
+        if ($this->getRequest()->getPost('sku_remove_failed')) {
+            // "Remove all" button on error grid has been pressed: remove items from "add-by-SKU" queue
+            $this->getCartModel()->removeAllAffectedItems();
+        }
+
         /**
          * Add products from different lists
          */
@@ -802,6 +820,10 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
             /* @var $productHelper Mage_Catalog_Helper_Product */
             $productHelper = Mage::helper('catalog/product');
             $listTypes = array_filter(explode(',', $listTypes));
+            if (in_array(Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Abstract::LIST_TYPE, $listTypes)) {
+                // If results came from SKU error grid - clean them (submitted results are going to be re-checked)
+                $this->getCartModel()->removeAllAffectedItems();
+            }
             $listItems = $this->getRequest()->getPost('list');
             foreach ($listTypes as $listType) {
                 if (!isset($listItems[$listType])
@@ -819,7 +841,7 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
                         $info = array(); // For sure to filter incoming data
                     }
 
-                    $itemInfo = $this->_getListItemInfo($listType, $itemId);
+                    $itemInfo = $this->_getListItemInfo($listType, $itemId, $info);
                     if (!$itemInfo) {
                         continue;
                     }
@@ -911,5 +933,34 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
             $session->unsUpdateResult();
             return false;
         }
+    }
+
+    /**
+     * Upload and parse CSV file with SKUs and quantity
+     *
+     * @return mixed
+     */
+    public function uploadSkuCsvAction()
+    {
+        $this->_initData();
+        if ($this->_redirectFlag) {
+            return;
+        }
+        /* @var $importModel Enterprise_Checkout_Model_Import */
+        $importModel = Mage::getModel('enterprise_checkout/import');
+        if ($importModel->uploadFile()) {
+            try {
+                $cart = $this->getCartModel();
+                $cart->prepareAddProductsBySku($importModel->getDataFromCsv());
+                foreach ($cart->getSuccessfulAffectedItems() as $item) {
+                    $cart->addProduct($item['item']['id'], $item['item']['qty']);
+                }
+                $cart->saveQuote();
+            }
+            catch (Mage_Core_Exception $e) {
+                $this->_getSession()->addError($e->getMessage());
+            }
+        }
+        $this->_redirectReferer();
     }
 }

@@ -48,6 +48,13 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object
     protected $_resultErrors = array();
 
     /**
+     * List of currently affected items skus
+     *
+     * @var array
+     */
+    protected $_currentlyAffectedItems = array();
+
+    /**
      * Setter for $_customer
      *
      * @param Mage_Customer_Model_Customer $customer
@@ -102,6 +109,20 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object
         }
 
         return $this->_quote;
+    }
+
+    /**
+     * Return quote instance depending on current area
+     *
+     * @return Mage_Adminhtml_Model_Session_Quote|Mage_Sales_Model_Quote
+     */
+    public function getActualQuote()
+    {
+        if ($this->getStore()->isAdmin()) {
+            return Mage::getSingleton('adminhtml/session_quote')->getQuote();
+        } else {
+            return $this->getQuote();
+        }
     }
 
     /**
@@ -535,5 +556,523 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object
             return $this->getQuote()->getItemById($item);
         }
         return false;
+    }
+
+    /**
+     * Add single item to stack and return extended pushed item. For return format see _addAffectedItem()
+     *
+     * @param string $sku
+     * @param float  $qty
+     * @param array  $config Configuration data of the product (if has been configured)
+     * @return array
+     */
+    public function prepareAddProductBySku($sku, $qty, $config = array())
+    {
+        $checkedItem = $this->checkItem($sku, $qty, $config);
+        $code = $checkedItem['code'];
+        unset($checkedItem['code']);
+        return $this->_addAffectedItem($checkedItem, $code);
+    }
+
+    /**
+     * Check submitted SKUs
+     *
+     * @see saveAffectedProducts()
+     * @param array $items Example: [['sku' => 'simple1', 'qty' => 2], ['sku' => 'simple2', 'qty' => 3], ...]
+     * @return Enterprise_Checkout_Model_Cart
+     */
+    public function prepareAddProductsBySku($items)
+    {
+        foreach ($items as $item) {
+            $this->prepareAddProductBySku($item['sku'], $item['qty']);
+        }
+        return $this;
+    }
+
+    /**
+     * Checks whether requested quantity is allowed taking into account that some amount already added to quote.
+     * Returns TRUE if everything is okay
+     * Returns array in below format on error:
+     * [
+     *  'status' => string (see Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_* constants),
+     *  'qty_max_allowed' => int (optional, if 'status'==ADD_ITEM_STATUS_FAILED_QTY_ALLOWED)
+     * ]
+     *
+     * @param Mage_CatalogInventory_Model_Stock_Item $stockItem
+     * @param Mage_Catalog_Model_Product             $product
+     * @param float                                  $requestedQty
+     * @return array|true
+     */
+    public function getQtyStatus(
+        Mage_CatalogInventory_Model_Stock_Item $stockItem,
+        Mage_Catalog_Model_Product $product,
+        $requestedQty
+    ) {
+        if (!$stockItem->getIsInStock()) {
+            return array('status' => Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_OUT_OF_STOCK);
+        }
+        if (!$stockItem->getManageStock()) {
+            return true;
+        }
+        if ($stockItem->getBackorders() != Mage_CatalogInventory_Model_Stock::BACKORDERS_NO) {
+            return true;
+        }
+        $quoteItem = $this->getActualQuote()->getItemByProduct($product);
+        if (!$quoteItem) {
+            // This product is not added to quote
+            $stockQty = $stockItem->getStockQty();
+            if ($stockQty && $requestedQty > $stockQty) {
+                return array(
+                    'status' => Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED,
+                    'qty_max_allowed' => $stockQty
+                );
+            } else {
+                return true;
+            }
+        }
+        $allowedQty = $stockItem->getStockQty() - $quoteItem->getQty();
+        if ($allowedQty <= 0) {
+            // All available quantity already added to quote
+            return array('status' => Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_OUT_OF_STOCK);
+        } else if ($requestedQty > $allowedQty) {
+            // Quantity added to quote and requested quantity exceeds available in stock
+            return array(
+                'status' => Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED,
+                'qty_max_allowed' => $allowedQty
+            );
+        } else {
+            return true;
+        }
+    }
+
+    /**
+     * Decide whether product has been configured or not
+     *
+     * @param Mage_Catalog_Model_Product $product
+     * @param array                      $config
+     * @return bool
+     */
+    protected function _isConfigured(Mage_Catalog_Model_Product $product, $config)
+    {
+        // If below POST fields were submitted - this is product's options, it has been already configured
+        switch ($product->getTypeId()) {
+            case Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE:
+                return isset($config['super_attribute']);
+            case Mage_Catalog_Model_Product_Type::TYPE_BUNDLE:
+                return isset($config['bundle_option']);
+            case Mage_Catalog_Model_Product_Type::TYPE_GROUPED:
+                return isset($config['super_group']);
+            case Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard::TYPE_GIFTCARD:
+                return isset($config['giftcard_amount']);
+            case Mage_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE:
+                return isset($config['links']);
+        }
+        return false;
+    }
+
+    /**
+     * Check item before adding by SKU
+     *
+     * @param string $sku
+     * @param float  $qty
+     * @param array  $config Configuration data of the product (if has been configured)
+     * @return array
+     */
+    public function checkItem($sku, $qty, $config = array())
+    {
+        $item = array('sku' => $sku, 'qty' => is_array($qty) ? $qty['qty'] : ($qty ? $qty : 1));
+
+        /** @var $product Mage_Catalog_Model_Product */
+        $product = Mage::getModel('catalog/product')->loadByAttribute('sku', $item['sku']);
+        if ($product && $product->getId()) {
+            $item['id'] = $product->getId();
+
+            if (true === $product->getDisableAddToCart()) {
+                $item['code'] = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_PERMISSIONS;
+                return $item;
+            }
+
+            /** @var $stockItem Mage_CatalogInventory_Model_Stock_Item */
+            $stockItem = Mage::getModel('cataloginventory/stock_item');
+            $stockItem->loadByProduct($product);
+            $stockItem->setProduct($product);
+            if ($this->_shouldBeConfigured($product)) {
+                if ($this->_isConfigured($product, $config)) {
+                    $status = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_SUCCESS;
+                } else {
+                    $status = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_CONFIGURE;
+                }
+            }
+
+            if (empty($status)) {
+                $qtyStatus = $this->getQtyStatus($stockItem, $product, $item['qty']);
+                if ($qtyStatus === true) {
+                    $status = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_SUCCESS;
+                } else {
+                    $status = $qtyStatus['status'];
+                    if (isset($qtyStatus['qty_max_allowed'])) {
+                        $item['qty_max_allowed'] = $qtyStatus['qty_max_allowed'];
+                    }
+                }
+            }
+        } else {
+            $status = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_SKU;
+        }
+        $item['code'] = $status;
+        return $item;
+    }
+
+    /**
+     * Check whether specified product should be configured
+     *
+     * @param Mage_Catalog_Model_Product $product
+     * @return bool
+     */
+    protected function _shouldBeConfigured($product)
+    {
+        if ($product->isComposite() || $product->getRequiredOptions()) {
+            return true;
+        }
+
+        switch ($product->getTypeId()) {
+            case Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard::TYPE_GIFTCARD:
+            case Mage_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE:
+                return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Add products previously successfully processed by prepareAddProductsBySku() to cart
+     *
+     * @return Enterprise_Checkout_Model_Cart
+     */
+    public function saveAffectedProducts()
+    {
+        $affectedItems = $this->getAffectedItems();
+        foreach ($affectedItems as &$item) {
+            if ($item['code'] == Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_SUCCESS) {
+                $this->_safeAddProduct($item);
+            }
+        }
+        $this->setAffectedItems($affectedItems);
+        $this->_getCart()->save();
+        return $this;
+    }
+
+    /**
+     * Safely add product to cart, revert cart in error case
+     *
+     * @param array $item
+     * @return Enterprise_Checkout_Model_Cart
+     */
+    protected function _safeAddProduct(&$item)
+    {
+        $cart = $this->_getCart();
+        $quote = $cart->getQuote();
+
+        // copy data to temporary quote
+        /** @var $temporaryQuote Mage_Sales_Model_Quote */
+        $temporaryQuote = Mage::getModel('sales/quote');
+        foreach ($quote->getAllItems() as $quoteItem) {
+            $temporaryItem = clone $quoteItem;
+            $temporaryItem->setQuote($temporaryQuote);
+            $temporaryQuote->addItem($temporaryItem);
+        }
+        $cart->setData('quote', $temporaryQuote);
+        $success = true;
+
+        try {
+            $cart->addProduct($item['item']['id'], $item['item']['qty']);
+        } catch (Mage_Core_Exception $e) {
+            $success = false;
+            $item['code'] = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_UNKNOWN;
+            $item['error'] = $e->getMessage();
+        } catch (Exception $e) {
+            $success = false;
+            $item['code'] = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_UNKNOWN;
+            $item['error'] = Mage::helper('enterprise_checkout')->__('The product cannot be added to cart.');
+        }
+
+        if ($success) {
+            // copy temporary data to real quote
+            foreach ($quote->getAllItems() as $quoteItem) {
+                $quote->removeItem($quoteItem->getId());
+            }
+            foreach ($temporaryQuote->getAllItems() as $quoteItem) {
+                $quoteItem->setQuote($quote);
+                $quote->addItem($quoteItem);
+            }
+        }
+        $cart->setData('quote', $quote);
+
+        return $this;
+    }
+
+    /**
+     * Returns affected items
+     * Return format:
+     * sku(string) => [
+     *  'item' => [
+     *      'sku'             => string,
+     *      'qty'             => int,
+     *      'id'              => int (optional, if product does exist),
+     *      'qty_max_allowed' => int (optional, if 'code'==ADD_ITEM_STATUS_FAILED_QTY_ALLOWED)
+     *  ],
+     *  'code' => string (see Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_*)
+     * ]
+     *
+     * @see prepareAddProductsBySku()
+     * @param null|int $storeId
+     * @return array
+     */
+    public function getAffectedItems($storeId = null)
+    {
+        $storeId = (is_null($storeId)) ? Mage::app()->getStore()->getId() : (int)$storeId;
+        $affectedItems = $this->_getHelper()->getSession()->getAffectedItems();
+
+        return (isset($affectedItems[$storeId]) && is_array($affectedItems[$storeId]))
+                ? $affectedItems[$storeId]
+                : array();
+    }
+
+    /**
+     * Returns only items with 'success' status
+     *
+     * @return array
+     */
+    public function getSuccessfulAffectedItems()
+    {
+        $items = array();
+        foreach ($this->getAffectedItems() as $item) {
+            if ($item['code'] == Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_SUCCESS) {
+                $items[] = $item;
+            }
+        }
+        return $items;
+    }
+
+    /**
+     * Set affected items
+     *
+     * @param array $items
+     * @param null|int $storeId
+     * @return Enterprise_Checkout_Model_Cart
+     */
+    public function setAffectedItems($items, $storeId = null)
+    {
+        $storeId = (is_null($storeId)) ? Mage::app()->getStore()->getId() : (int)$storeId;
+        $affectedItems = $this->_getHelper()->getSession()->getAffectedItems();
+        if (!is_array($affectedItems)) {
+            $affectedItems = array();
+        }
+
+        $affectedItems[$storeId] = $items;
+        $this->_getHelper()->getSession()->setAffectedItems($affectedItems);
+        return $this;
+    }
+
+    /**
+     * Retrieve info message
+     *
+     * @return Varien_Object
+     */
+    public function getInfoMessage()
+    {
+        $affectedItems = $this->getAffectedItems();
+        $currentlyAffectedItemsCount  = count($this->_currentlyAffectedItems);
+        $currentlyFailedItemsCount = 0;
+
+        foreach ($this->_currentlyAffectedItems as $sku) {
+            if (!isset($affectedItems[$sku])
+                || $affectedItems[$sku]['code'] != Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_SUCCESS
+            ) {
+                $currentlyFailedItemsCount++;
+            }
+        }
+
+        $addedItemsCount = $currentlyAffectedItemsCount - $currentlyFailedItemsCount;
+
+        $failedItemsCount = count($this->getFailedItems());
+        $messages = array();
+
+        if ($addedItemsCount) {
+            $messages[] = ($addedItemsCount == 1)
+                    ? Mage::helper('enterprise_checkout')->__('%s product was added to your shopping cart.', $addedItemsCount)
+                    : Mage::helper('enterprise_checkout')->__('%s products were added to your shopping cart.', $addedItemsCount);
+        }
+        if ($failedItemsCount) {
+            $messages[] = ($failedItemsCount == 1)
+                    ? Mage::helper('enterprise_checkout')->__('%s product requires your attention.', $failedItemsCount)
+                    : Mage::helper('enterprise_checkout')->__('%s products require your attention.', $failedItemsCount);
+        }
+
+        $result = new Varien_Object();
+        $result
+            ->setMessage(implode('<br>', $messages))
+            ->setAddedItemsCount($addedItemsCount)
+            ->setFailedItemsCount($failedItemsCount);
+
+        return $result;
+    }
+
+    /**
+     * Retrieve list of failed items. For return format see getAffectedItems().
+     *
+     * @return array
+     */
+    public function getFailedItems()
+    {
+        $failedItems = array();
+        foreach ($this->getAffectedItems() as $item) {
+            if ($item['code'] != Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_SUCCESS) {
+                $failedItems[] = $item;
+            }
+        }
+        return $failedItems;
+    }
+
+    /**
+     * Add processed item to stack.
+     * Return format:
+     * [
+     *  'item' => [
+     *      'sku'             => string,
+     *      'qty'             => int,
+     *      'id'              => int (optional, if product does exist),
+     *      'qty_max_allowed' => int (optional, if 'code'==ADD_ITEM_STATUS_FAILED_QTY_ALLOWED)
+     *  ],
+     *  'code' => string (see Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_*)
+     * ]
+     *
+     * @param array $item
+     * @param string $code
+     * @return array
+     */
+    protected function _addAffectedItem($item, $code)
+    {
+        if (empty($item['sku'])) {
+            return $this;
+        }
+        $sku = $item['sku'];
+        $affectedItems = $this->getAffectedItems();
+
+        if (isset($affectedItems[$item['sku']])) {
+            $affectedItems[$sku]['item']['qty'] += $item['qty'];
+            $affectedItems[$sku]['code'] = $code;
+            unset($item['qty']);
+            $affectedItems[$sku]['item'] = array_merge($affectedItems[$sku]['item'], $item);
+        } else {
+            $affectedItems[$sku] = array('item' => $item, 'code' => $code);
+        }
+
+        $this->_currentlyAffectedItems[] = $sku;
+        $this->setAffectedItems($affectedItems);
+        return $affectedItems[$sku];
+    }
+
+    /**
+     * Update qty of specified item
+     *
+     * @param string $sku
+     * @param int $qty
+     * @return Enterprise_Checkout_Model_Cart
+     */
+    public function updateItemQty($sku, $qty)
+    {
+        $affectedItems = $this->getAffectedItems();
+        if (isset($affectedItems[$sku])) {
+            $affectedItems[$sku]['item']['qty'] = $qty;
+        }
+        $this->setAffectedItems($affectedItems);
+        return $this;
+    }
+
+    /**
+     * Remove item from storage by specified key(sku)
+     *
+     * @param string $sku
+     * @return bool
+     */
+    public function removeAffectedItem($sku)
+    {
+        $affectedItems = $this->getAffectedItems();
+        if (isset($affectedItems[$sku])) {
+            unset($affectedItems[$sku]);
+            $this->setAffectedItems($affectedItems);
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Remove all affected items from storage
+     *
+     * @return Enterprise_Checkout_Model_Cart
+     */
+    public function removeAllAffectedItems()
+    {
+        $this->setAffectedItems(array());
+        return $this;
+    }
+
+    /**
+     * Remove all affected items with code=success
+     *
+     * @return Enterprise_Checkout_Model_Cart
+     */
+    public function removeSuccessItems()
+    {
+        $affectedItems = $this->getAffectedItems();
+        foreach ($affectedItems as $key => $item) {
+            if ($item['code'] == Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_SUCCESS) {
+                unset($affectedItems[$key]);
+            }
+        }
+        $this->setAffectedItems($affectedItems);
+        return $this;
+    }
+
+    /**
+     * Retrieve shopping cart model object
+     *
+     * @return Mage_Checkout_Model_Cart
+     */
+    protected function _getCart()
+    {
+        return Mage::getSingleton('checkout/cart');
+    }
+
+    /**
+     * Retrieve helper instance
+     *
+     * @return Enterprise_Checkout_Helper_Data
+     */
+    protected function _getHelper()
+    {
+        return Mage::helper('enterprise_checkout');
+    }
+
+    /**
+     * Sets session where data is going to be stored
+     *
+     * @param Mage_Core_Model_Session_Abstract $session
+     * @return Enterprise_Checkout_Model_Cart
+     */
+    public function setSession(Mage_Core_Model_Session_Abstract $session)
+    {
+        $this->_getHelper()->setSession($session);
+        return $this;
+    }
+
+    /**
+     * Returns current session used to store data about affected items
+     *
+     * @return Mage_Core_Model_Session_Abstract
+     */
+    public function getSession()
+    {
+        return $this->_getHelper()->getSession();
     }
 }

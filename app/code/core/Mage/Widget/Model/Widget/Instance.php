@@ -342,11 +342,11 @@ class Mage_Widget_Model_Widget_Instance extends Mage_Core_Model_Abstract
         if (is_string($this->getData('widget_parameters'))) {
             return unserialize($this->getData('widget_parameters'));
         }
-        return $this->getData('widget_parameters');
+        return (is_array($this->getData('widget_parameters'))) ? $this->getData('widget_parameters') : array();
     }
 
     /**
-     * Retrieve option arra of widget types
+     * Retrieve option array of widget types
      *
      * @return array
      */
