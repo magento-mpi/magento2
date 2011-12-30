@@ -237,12 +237,7 @@ class Mage_Adminhtml_System_BackupController extends Mage_Adminhtml_Controller_A
             $adminSession->unsetAll();
             $adminSession->getCookie()->delete($adminSession->getSessionName());
 
-            if ($this->getRequest()->getParam('maintenance_mode')) {
-                $helper->turnOffMaintenanceMode();
-            }
-
             $response->setRedirectUrl($this->getUrl('*'));
-
         } catch (Mage_Backup_Exception_CantLoadSnapshot $e) {
             $errorMsg = Mage::helper('backup')->__('Backup file not found');
         } catch (Mage_Backup_Exception_FtpConnectionFailed $e) {
@@ -260,6 +255,10 @@ class Mage_Adminhtml_System_BackupController extends Mage_Adminhtml_Controller_A
         if (!empty($errorMsg)) {
             $response->setError($errorMsg);
             $backupManager->setErrorMessage($errorMsg);
+
+            if ($this->getRequest()->getParam('maintenance_mode')) {
+                $helper->turnOffMaintenanceMode();
+            }
         }
 
         $this->getResponse()->setBody($response->toJson());
