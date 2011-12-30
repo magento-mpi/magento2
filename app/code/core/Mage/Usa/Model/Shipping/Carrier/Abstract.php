@@ -159,7 +159,7 @@ abstract class Mage_Usa_Model_Shipping_Carrier_Abstract extends Mage_Shipping_Mo
 
         foreach ($this->getAllItems($request) as $item) {
             if ($item->getProduct() && $item->getProduct()->getId()) {
-                if ($item->getProduct()->getWeight() * $item->getProduct()->getQty() > $maxAllowedWeight) {
+                if ($item->getProduct()->getWeight() * $item->getQty() > $maxAllowedWeight) {
                     $errorMsg = ($configErrorMsg) ? $configErrorMsg : $defaultErrorMsg;
                     break;
                 }
