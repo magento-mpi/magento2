@@ -42,10 +42,12 @@
     <?php else: ?>
         <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
         <h2><?php echo $this->__('Application is requesting following privileges:') ?></h2>
-        <p><?php echo $this->__('Lorem ipsum dolor sit amet, propriae lobortis has in, dico omnium doctus sit id, vim mucius oblique at. Paulo legimus mei ei. Pro quot vivendo ea, ex sit mollis oblique. Mei ad natum mentitum suavitate, no populo maiorum reprimique nam. Eu ius saperet meliore.') ?></p>
+        <p><?php echo $this->__('Authorizing application you allow it to act on behalf of your name and allow him to use yor personal data on its own. Be careful.') ?></p>
+        <br />
         <ul>
-            <li>Aaaaaaa aaa</li>
-            <li>Bbbbbbb bbb</li>
+            <li> <b>Access my basic information</b> <br /> <span style="padding-left:20px; font-size:9px;">Includes name, profile picture, gender, networks, user ID, l...ist of friends, and any other information I've made public</span></li>
+            <li> <b>Send me email</b>  <br /> <span style="padding-left:20px; font-size:9px;">Causes may email me directly at unnamed011@gmail.com</span></li>
+            <li> <b>Access my profile information</b>  <br /> <span style="padding-left:20px; font-size:9px;">Birthday</span></li>
         </ul>
         <form action="<?php echo $this->getConfirmUrl() ?>" method="get">
             <input type="hidden" name="oauth_token" value="<?php echo $this->escapeHtml($this->getToken()) ?>">

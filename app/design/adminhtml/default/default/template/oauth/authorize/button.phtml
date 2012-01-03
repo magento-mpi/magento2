@@ -48,9 +48,9 @@
                 <p><?php echo $this->__('Authorizing application you allow it to act on behalf of your name and allow him to use yor personal data on its own. Be careful.') ?></p>
                 <h2><?php echo $this->__('Application is requesting following privileges:') ?></h2>
                 <ul>
-                    <li> <b>user_about_me</b> <br /> <span style="padding-left:20px; font-size:9px;">Provides access to the "About Me" section of the profile in the about property</span></li>
-                    <li> <b>user_activities</b>  <br /> <span style="padding-left:20px; font-size:9px;"> Provides access to the user's list of activities as the activities connection</span></li>
-                    <li> <b>user_birthday</b>  <br /> <span style="padding-left:20px; font-size:9px;"> Provides access to the birthday with year as the birthday_date property</span></li>
+                    <li> <b>Access my basic information</b> <br /> <span style="padding-left:20px; font-size:9px;">Includes name, profile picture, gender, networks, user ID, l...ist of friends, and any other information I've made public</span></li>
+                    <li> <b>Send me email</b>  <br /> <span style="padding-left:20px; font-size:9px;">Causes may email me directly at unnamed011@gmail.com</span></li>
+                    <li> <b>Access my profile information</b>  <br /> <span style="padding-left:20px; font-size:9px;">Birthday</span></li>
                 </ul>
                 <form action="<?php echo $this->getConfirmUrl() ?>" method="get">
                     <input type="hidden" name="oauth_token" value="<?php echo $this->escapeHtml($this->getToken()) ?>">
