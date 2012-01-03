@@ -49,7 +49,7 @@ $testCases = array(
     ),
     // test if best rounding factor is used
     array(
-        array(10.19, 10.21, 10.2, 10.2, 10.2),
+        array(10.19, 10.2, 10.2, 10.2, 10.21),
         2,
         array(
             array(
@@ -66,7 +66,7 @@ $testCases = array(
     ),
     // test if best rounding factor is used
     array(
-        array(10.18, 10.2, 10.19, 10.19, 10.19),
+        array(10.18, 10.19, 10.19, 10.19, 10.2),
         2,
         array(
             array(
@@ -131,7 +131,7 @@ $testCases = array(
     ),
     // test with large values (variance is near to zero)
     array(
-        array_merge(array(9659.57, 9659.59), array_fill(0, 231, 9659.58)),
+        array_merge(array(9659.57), array_fill(0, 231, 9659.58), array(9659.59)),
         10,
         array(
             array(
@@ -153,7 +153,7 @@ $testCases = array(
     ),
     // another test with large values (variance is near to zero)
     array(
-        array_merge(array(8997.71, 8997.73), array_fill(0, 291, 8997.72)),
+        array_merge(array(8997.71), array_fill(0, 291, 8997.72), array(8997.73)),
         10,
         array(
             array(
@@ -244,8 +244,8 @@ $testCases = array(
     // simple test
     array(
         array(
-            199.99, 99.99, 550, 329.99, 199.99, 99.99, 599.99, 41.95, 69.99, 89.99, 239.99,
-            161.94, 160.99, 699.99, 199.99, 750, 1599.99, 2699.99, 13.5, 4999.95, 447.98, 847.97
+            13.5, 41.95, 69.99, 89.99, 99.99, 99.99, 160.99, 161.94, 199.99, 199.99, 199.99,
+            239.99, 329.99, 447.98, 550, 599.99, 699.99, 750, 847.97, 1599.99, 2699.99, 4999.95
         ), 4, array(
             array(
                 'from'  => 0,
@@ -343,11 +343,11 @@ for ($i = 0; $i < 50; ++$i) {
         ),
         // one price is bigger than others
         array(
-            array_merge(array($randomPrice1), array_fill(
+            array_merge(array_fill(
                 0,
                 $randomCount,
                 $randomPrice
-            )),
+            ), array($randomPrice1)),
             null,
             array(
                 array(
@@ -364,14 +364,13 @@ for ($i = 0; $i < 50; ++$i) {
         ),
         // one price is less and one is bigger than others
         array(
-            array_merge(array(
-                $randomPrice,
-                $randomPrice2
-            ), array_fill(
-                0,
-                $randomCount1,
-                $randomPrice1
-            )),
+            array_merge(
+                array($randomPrice), array_fill(
+                    0,
+                    $randomCount1,
+                    $randomPrice1
+                ), array($randomPrice2)
+            ),
             null,
             array(
                 array(
