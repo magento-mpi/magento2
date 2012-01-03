@@ -274,7 +274,7 @@
             <?php endif; ?>
 
             $('node_id').value = node.id;
-            $('node_page_id').value = node.attributes.page_id;
+            $('node_page_id').value = node.attributes.page_id || '';
 
             // Assign node attributes to form elements, change some of them based on node properties
             this.renderMetadata(node);
@@ -425,7 +425,11 @@
                 $('use_default_scope').checked = false;
                 this.useDefaultScope();
             }
-            this.saveNodePage();
+
+            if (this.saveNodePage() == false) {
+                return;
+            }
+
             //if (this.dataModification) {
             //    if (!confirm('<?php echo Mage::helper('enterprise_cms')->__('There are unsaved node data. Are you sure you want to proceed?') ?>')) {
             //        return;
