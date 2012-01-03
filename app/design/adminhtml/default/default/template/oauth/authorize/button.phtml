@@ -45,12 +45,12 @@
                 </div>
             <?php else: ?>
                 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
-                <p><?php echo $this->__('Lorem ipsum dolor sit amet, propriae lobortis has in, dico omnium doctus sit id, vim mucius oblique at. Paulo legimus mei ei. Pro quot vivendo ea, ex sit mollis oblique. Mei ad natum mentitum suavitate, no populo maiorum reprimique nam. Eu ius saperet meliore.') ?></p>
+                <p><?php echo $this->__('Authorizing application you allow it to act on behalf of your name and allow him to use yor personal data on its own. Be careful.') ?></p>
                 <h2><?php echo $this->__('Application is requesting following privileges:') ?></h2>
                 <ul>
-                    <li> - Aaaaaaa aaa</li>
-                    <li> - Bbbbbbb bbb</li>
-                    <li> - Ccccccc ccc</li>
+                    <li> <b>user_about_me</b> <br /> <span style="padding-left:20px; font-size:9px;">Provides access to the "About Me" section of the profile in the about property</span></li>
+                    <li> <b>user_activities</b>  <br /> <span style="padding-left:20px; font-size:9px;"> Provides access to the user's list of activities as the activities connection</span></li>
+                    <li> <b>user_birthday</b>  <br /> <span style="padding-left:20px; font-size:9px;"> Provides access to the birthday with year as the birthday_date property</span></li>
                 </ul>
                 <form action="<?php echo $this->getConfirmUrl() ?>" method="get">
                     <input type="hidden" name="oauth_token" value="<?php echo $this->escapeHtml($this->getToken()) ?>">

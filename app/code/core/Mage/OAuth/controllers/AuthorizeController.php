@@ -152,7 +152,7 @@ class Mage_OAuth_AuthorizeController extends Mage_Core_Controller_Front_Action
      */
     public function rejectAction()
     {
-        /** @var $session Mage_Admin_Model_Session */
+        /** @var $session Mage_Customer_Model_Session */
         $session = Mage::getSingleton($this->_sessionName);
         try {
             /** @var $server Mage_OAuth_Model_Server */
