@@ -32,6 +32,20 @@
  * @see Mage_OAuth_Block_Authorize
  */
 ?>
+<?php if ($this->getIsPopUp()) { ?>
+<style type="text/css">
+    .header-panel {display: none};
+    .account-login .new-users, .account-login .registered-users {padding: inherit; width: inherit;}
+    .login-only .registered-users {float: inherit;}
+    .account-login .new-users, .account-login .registered-users {padding: 10px}
+    .header {width: inherit; padding: 0;}
+    .page {width: inherit;}
+    .page-title {margin: 0; padding: 10px 10px 11px;}
+    .header-container {margin: 10px 0px 10px 10px}
+    .account-login {min-height: 200px;}
+    .main {min-height: 200px;}
+</style>
+<?php } ?>
 <div class="account-login  login-only">
     <?php if ($this->isException()): ?>
         <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
@@ -44,7 +58,7 @@
             <div class="fieldset">
                 <div class="col2-set">
                     <div class="col-1 registered-users">
-                        <h2 class="legend"><?php echo $this->__('Registered Customers') ?></h2>
+                        <h2 class="legend"><?php echo $this->__('Sign In As a Customer') ?></h2>
                         <p><?php echo $this->__('If you have an account with us, log in using your email address.') ?></p>
                         <ul class="form-list">
                             <li>

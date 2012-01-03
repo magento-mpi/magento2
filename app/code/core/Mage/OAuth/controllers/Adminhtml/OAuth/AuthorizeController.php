@@ -25,7 +25,7 @@
  */
 
 /**
- * Manage consumers controller
+ * oAuth authorize controller
  *
  * @category    Mage
  * @package     Mage_OAuth
@@ -33,6 +33,13 @@
  */
 class Mage_OAuth_Adminhtml_OAuth_AuthorizeController extends Mage_Adminhtml_Controller_Action
 {
+    /**
+     * Session name
+     *
+     * @var string
+     */
+    protected $_sessionName = 'admin/session';
+
     /**
      * Array of actions which can be processed without secret key validation
      *
@@ -59,10 +66,36 @@ class Mage_OAuth_Adminhtml_OAuth_AuthorizeController extends Mage_Adminhtml_Cont
      */
     public function indexAction()
     {
+        $this->_initForm();
+
+        $this->_initLayoutMessages($this->_sessionName);
+        $this->renderLayout();
+    }
+
+    /**
+     * Index action.
+     *
+     * @return void
+     */
+    public function popUpAction()
+    {
+        $this->_initForm();
+
+        $this->_initLayoutMessages($this->_sessionName);
+        $this->renderLayout();
+    }
+
+    /**
+     * Init login page
+     *
+     * @param bool $popUp
+     */
+    protected function _initForm()
+    {
         /** @var $server Mage_OAuth_Model_Server */
         $server = Mage::getModel('oauth/server');
         /** @var $session Mage_Admin_Model_Session */
-        $session = Mage::getSingleton('admin/session');
+        $session = Mage::getSingleton($this->_sessionName);
 
         $isException = false;
         try {
@@ -90,8 +123,6 @@ class Mage_OAuth_Adminhtml_OAuth_AuthorizeController extends Mage_Adminhtml_Cont
         }
 
         $block->setToken($this->_getTokenString())->setIsException($isException);
-        $this->_initLayoutMessages('admin/session');
-        $this->renderLayout();
     }
 
     /**
@@ -100,7 +131,7 @@ class Mage_OAuth_Adminhtml_OAuth_AuthorizeController extends Mage_Adminhtml_Cont
     public function confirmAction()
     {
         /** @var $session Mage_Admin_Model_Session */
-        $session = Mage::getSingleton('admin/session');
+        $session = Mage::getSingleton($this->_sessionName);
 
         /** @var $server Mage_OAuth_Model_Server */
         $server = Mage::getModel('oauth/server');
@@ -110,8 +141,9 @@ class Mage_OAuth_Adminhtml_OAuth_AuthorizeController extends Mage_Adminhtml_Cont
         $block = $this->getLayout()->getBlock('content')->getChild('oauth.authorize.confirm');
 
         try {
-            //throw new Mage_Core_Exception('test test test');
-            $token = $server->authorizeToken($session->getUser()->getId(), Mage_OAuth_Model_Token::USER_TYPE_ADMIN);
+            /** @var $user Mage_Admin_Model_User */
+            $user = $session->getData('user');
+            $token = $server->authorizeToken($user->getId(), Mage_OAuth_Model_Token::USER_TYPE_ADMIN);
             $callback = $server->getFullCallbackUrl($token);  //false in case of OOB
             if ($callback) {
                 $this->getResponse()->setRedirect($callback);
@@ -127,7 +159,7 @@ class Mage_OAuth_Adminhtml_OAuth_AuthorizeController extends Mage_Adminhtml_Cont
             $session->addException($e, $this->__('Error authorizing token.'));
         }
 
-        $this->_initLayoutMessages('admin/session');
+        $this->_initLayoutMessages($this->_sessionName);
         $this->renderLayout();
     }
 
@@ -140,7 +172,7 @@ class Mage_OAuth_Adminhtml_OAuth_AuthorizeController extends Mage_Adminhtml_Cont
         $server = Mage::getModel('oauth/server');
 
         /** @var $session Mage_Admin_Model_Session */
-        $session = Mage::getSingleton('admin/session');
+        $session = Mage::getSingleton($this->_sessionName);
 
         try {
             $token = $server->checkAuthorizeRequest();
@@ -149,7 +181,7 @@ class Mage_OAuth_Adminhtml_OAuth_AuthorizeController extends Mage_Adminhtml_Cont
             $callback = $token->getCallbackUrl();
             //$callback = $server->getFullCallbackUrl($token);  //false in case of OOB
             if ($callback) {
-                $callback.= ((strpos($callback, '?') === false) ? '?' : '&') . 'oauth_token=' . $token->getToken() . '&denied=1';
+                $callback.= (strpos($callback, '?') === false ? '?' : '&') . 'oauth_token=' . $token->getToken() . '&denied=1';
                 //$callback.= '&denied=1';
 
                 $this->getResponse()->setRedirect($callback);
@@ -165,7 +197,7 @@ class Mage_OAuth_Adminhtml_OAuth_AuthorizeController extends Mage_Adminhtml_Cont
 
         //display exception
         $this->loadLayout();
-        $this->_initLayoutMessages('admin/session');
+        $this->_initLayoutMessages($this->_sessionName);
         $this->renderLayout();
     }
 

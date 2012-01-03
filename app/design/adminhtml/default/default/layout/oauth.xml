@@ -75,6 +75,15 @@
             <block type="oauth/adminhtml_oAuth_authorize_button" name="oauth.authorize.button" template="oauth/authorize/button.phtml" />
         </reference>
     </adminhtml_oauth_authorize_index>
+    <adminhtml_oauth_authorize_popup translate="label">
+        <update handle="adminhtml_oauth_authorize_index"/>
+        <label>OAuth authorization popup for admin</label>
+        <reference name="oauth.authorize.form">
+            <action method="setTemplate">
+                <template>oauth/authorize/form/admin/pop-up.phtml</template>
+            </action>
+        </reference>
+    </adminhtml_oauth_authorize_popup>
     <!-- EOF Authorize -->
 
     <adminhtml_oauth_authorize_confirm translate="label">

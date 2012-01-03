@@ -1,0 +1,74 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2011 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php
+/**
+ * Admin login form template
+ *
+ * @var $this Mage_OAuth_Block_Adminhtml_OAuth_Authorize
+ * @see Mage_OAuth_Block_Adminhtml_OAuth_Authorize
+ */
+?>
+<?php /** @var $this Mage_OAuth_Block_Adminhtml_OAuth_Authorize */ ?>
+<style type="text/css">
+    .login-container {margin: 0; background-image: none; padding-left: 0}
+</style>
+<div class="login-container">
+    <div class="login-box">
+        <?php if ($this->isException()): ?>
+            <div class="login-form">
+                <div id="messages">
+                    <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+                </div>
+            </div>
+        <?php else: ?>
+            <form method="post" action="<?php echo $this->getPostActionUrl() ?>" id="loginForm">
+                <div class="login-form">
+                    <input name="form_key" type="hidden" value="<?php echo $this->getFormKey() ?>" />
+                    <h2><?php echo $this->__('Authorize %s to use your account? <br/>Log in as admin', $this->escapeHtml($this->getConsumer()->getName())) ?></h2>
+                    <div id="messages">
+                        <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+                    </div>
+                    <div class="input-box input-left"><label for="username"><?php echo $this->__('User Name:') ?></label><br/>
+                        <input type="text" id="username" name="login[username]" value="" class="required-entry input-text" /></div>
+                    <div class="input-box input-right"><label for="login"><?php echo $this->__('Password:') ?></label><br />
+                        <input type="password" id="login" name="login[password]" class="required-entry input-text" value="" /></div>
+                    <div class="clear"></div>
+                    <div class="form-buttons">
+                        <input type="submit" class="form-button" value="<?php echo $this->__('Login') ?>" title="<?php echo $this->__('Login') ?>" />
+                        <button onclick="document.location.href='<?php echo $this->getRejectUrl() ?>'; return false;" title="<?php echo $this->__('Reject') ?>"><?php echo $this->__('Reject') ?></button>
+                    </div>
+                    <input type="hidden" name="oauth_token" value="<?php echo $this->escapeHtml($this->getToken()) ?>"/>
+                </div>
+            </form>
+            <script type="text/javascript">
+                 var loginForm = new varienForm('loginForm');
+            </script>
+        <?php endif; ?>
+        <p class="legal"><?php echo $this->__('Magento is a trademark of Magento Inc. Copyright &copy; %s Magento Inc.', date('Y')) ?></p>
+        <div class="bottom"></div>
+    </div>
+</div>

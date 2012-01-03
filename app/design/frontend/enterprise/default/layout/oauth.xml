@@ -47,6 +47,10 @@
         <remove name="cart_sidebar"/>
         <remove name="footer"/>
     </oauth_authorize_index>
+    <oauth_authorize_popup translate="label">
+        <update handle="oauth_authorize_index"/>
+        <label>OAuth authorization Pop Up for customer</label>
+    </oauth_authorize_popup>
     <!-- EOF Authorization -->
 
     <!-- Confirm Authorization -->

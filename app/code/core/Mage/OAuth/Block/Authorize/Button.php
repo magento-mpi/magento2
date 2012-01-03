@@ -30,6 +30,12 @@
  * @category   Mage
  * @package    Mage_OAuth
  * @author     Magento Core Team <core@magentocommerce.com>
+ * @method string getToken()
+ * @method Mage_OAuth_Block_Authorize setToken() setToken(string $token)
+ * @method boolean getIsException()
+ * @method Mage_OAuth_Block_Authorize setIsException() setIsException(boolean $flag)
+ * @method boolean getIsPopUp()
+ * @method Mage_OAuth_Block_Authorize setIsPopUp() setIsPopUp(boolean $flag)
  */
 class Mage_OAuth_Block_Authorize_Button extends Mage_Core_Block_Template
 {

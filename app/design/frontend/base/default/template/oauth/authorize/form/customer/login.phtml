@@ -32,6 +32,15 @@
  * @see Mage_OAuth_Block_Authorize
  */
 ?>
+<?php if ($this->getIsPopUp()) { ?>
+<style type="text/css">
+    .main {width:auto;}
+    .header {width:auto;}
+    .header .quick-access {width:auto;}
+    .wrapper {min-width:inherit;}
+    .header-container {background-image: none;}
+</style>
+<?php } ?>
 <div class="account-login">
     <?php if ($this->isException()): ?>
             <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
@@ -44,8 +53,7 @@
             <div class="col1-set">
                 <div class="col-1 registered-users">
                     <div class="content">
-                        <h2><?php echo $this->__('Registered Customers') ?></h2>
-                        <p><?php echo $this->__('If you have an account with us, please log in.') ?></p>
+                        <h2><?php echo $this->__('Log In As a Customer') ?></h2>
                         <ul class="form-list">
                             <li>
                                 <label for="email"><?php echo $this->__('Email Address') ?></label>
@@ -66,7 +74,6 @@
             <div class="col1-set">
                 <div class="col-1 registered-users">
                     <div class="buttons-set">
-                        <button type="button" class="button" title="<?php echo $this->__('Cancel') ?>" onclick="rejectToken(); return false;"><span><span><?php echo $this->__('Cancel') ?></span></span></button>
                         <button type="submit" class="button" title="<?php echo $this->__('Login') ?>" name="send" id="send2"><span><span><?php echo $this->__('Login') ?></span></span></button>
                     </div>
                 </div>
@@ -77,10 +84,6 @@
         //<![CDATA[
             var dataForm = new VarienForm('login-form', true);
         //]]>
-            /* Go to token reject action */
-            function rejectToken() {
-                document.location.href = '<?php echo $this->getRejectUrl() ?>';
-            }
         </script>
     <?php endif; ?>
 </div>

@@ -34,16 +34,23 @@
 class Mage_OAuth_AuthorizeController extends Mage_Core_Controller_Front_Action
 {
     /**
-     * Index action.
+     * Init login page
      *
-     * @return void
+     * @var string
      */
-    public function indexAction()
+    protected $_sessionName = 'customer/session';
+
+    /**
+     * Init login page
+     *
+     * @param bool $popUp
+     */
+    protected function _initForm($popUp = false)
     {
         /** @var $server Mage_OAuth_Model_Server */
         $server = Mage::getModel('oauth/server');
         /** @var $session Mage_Customer_Model_Session */
-        $session = Mage::getSingleton('customer/session');
+        $session = Mage::getSingleton($this->_sessionName);
 
         $isException = false;
         try {
@@ -70,14 +77,37 @@ class Mage_OAuth_AuthorizeController extends Mage_Core_Controller_Front_Action
             $block = $contentBlock->getChild('oauth.authorize.form');
         }
 
-        /** @var $helper Mage_Core_Helper_Data */
-        $helper = Mage::helper('core/url');;
-        $session->setAfterAuthUrl(Mage::getUrl('customer/account/login'))
-            ->setBeforeAuthUrl($helper->getCurrentUrl());
+        $block->setIsPopUp($popUp);
 
+        /** @var $helper Mage_Core_Helper_Url */
+        $helper = Mage::helper('core/url');
+        $session->setAfterAuthUrl(Mage::getUrl('customer/account/login'))
+                ->setBeforeAuthUrl($helper->getCurrentUrl());
 
         $block->setToken($this->_getTokenString())->setIsException($isException);
-        $this->_initLayoutMessages('customer/session');
+    }
+
+    /**
+     * Index action.
+     *
+     * @return void
+     */
+    public function indexAction()
+    {
+        $this->_initForm();
+        $this->_initLayoutMessages($this->_sessionName);
+        $this->renderLayout();
+    }
+
+    /**
+     * OAuth authorize or allow decline access pop up page
+     *
+     * @return void
+     */
+    public function popUpAction()
+    {
+        $this->_initForm(true);
+        $this->_initLayoutMessages($this->_sessionName);
         $this->renderLayout();
     }
 
@@ -89,7 +119,7 @@ class Mage_OAuth_AuthorizeController extends Mage_Core_Controller_Front_Action
         $this->loadLayout();
         try {
             /** @var $session Mage_Customer_Model_Session */
-            $session = Mage::getSingleton('customer/session');
+            $session = Mage::getSingleton($this->_sessionName);
             /** @var $server Mage_OAuth_Model_Server */
             $server = Mage::getModel('oauth/server');
 
@@ -113,7 +143,7 @@ class Mage_OAuth_AuthorizeController extends Mage_Core_Controller_Front_Action
             $session->addException($e, $this->__('An error occurred.'));
         }
 
-        $this->_initLayoutMessages('customer/session');
+        $this->_initLayoutMessages($this->_sessionName);
         $this->renderLayout();
     }
 
@@ -122,11 +152,11 @@ class Mage_OAuth_AuthorizeController extends Mage_Core_Controller_Front_Action
      */
     public function rejectAction()
     {
+        /** @var $session Mage_Admin_Model_Session */
+        $session = Mage::getSingleton($this->_sessionName);
         try {
             /** @var $server Mage_OAuth_Model_Server */
             $server = Mage::getModel('oauth/server');
-            /** @var $session Mage_Admin_Model_Session */
-            $session = Mage::getSingleton('admin/session');
             /** @var $token Mage_OAuth_Model_Token */
             $token = $server->checkAuthorizeRequest();
 
@@ -142,11 +172,11 @@ class Mage_OAuth_AuthorizeController extends Mage_Core_Controller_Front_Action
         } catch (Mage_Core_Exception $e) {
             $session->addError($e->getMessage());
         } catch (Exception $e) {
-            $session->addException($e, $this->__('Error rejecting token.'));
+            $session->addException($e, $this->__('An error occurred on rejecting token.'));
         }
 
         $this->loadLayout();
-        $this->_initLayoutMessages('admin/session');
+        $this->_initLayoutMessages($this->_sessionName);
         $this->renderLayout();
     }
 
