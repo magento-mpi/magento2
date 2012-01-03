@@ -44,6 +44,13 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
     const Y_INDENT = 15;
 
     /**
+     * Pdf Page Instance
+     *
+     * @var Zend_Pdf_Page
+     */
+    protected $_page;
+
+    /**
      * Create font instances
      */
     public function __construct()
@@ -53,11 +60,8 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
     }
 
     /**
-     * @var \Zend_Pdf_Page
-     */
-    protected $_page;
-
-    /**
+     * Get Page
+     *
      * @return Zend_Pdf_Page
      */
     public function getPage()
@@ -66,6 +70,8 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
     }
 
     /**
+     * Set Page
+     *
      * @param Zend_Pdf_Page $page
      * @return Mage_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
      */
@@ -98,6 +104,8 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
     }
 
     /**
+     * Add Border
+     *
      * @return Mage_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_Page
      * @throws Zend_Pdf_Exception
      */
@@ -150,6 +158,8 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
     }
 
     /**
+     * Add Product Name
+     *
      * @param string $name
      * @return Mage_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
      * @throws InvalidArgumentException
@@ -168,6 +178,8 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
     }
 
     /**
+     * Add Product Content Code
+     *
      * @param string $code
      * @return Mage_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
      * @throws Zend_Pdf_Exception
@@ -204,6 +216,8 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
     }
 
     /**
+     * Add Unit Id
+     *
      * @param int $id
      * @return Mage_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_Page
      * @throws Zend_Pdf_Exception
@@ -219,6 +233,8 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
     }
 
     /**
+     * Add Reference Data
+     *
      * @param $data
      * @return Mage_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_Page
      * @throws Zend_Pdf_Exception
@@ -234,6 +250,8 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
     }
 
     /**
+     * Add Sender Info
+     *
      * @param SimpleXMLElement $sender
      * @return Mage_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
      * @throws InvalidArgumentException
@@ -244,18 +262,16 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
         $this->_page->saveGS();
         $this->_page->setFont($this->_fontNormal, 6);
         $this->_page->drawText('From:', $this->_x(8), $this->_y(36));
-        $contactName = $this->_buildContactName(
-            (string)$sender->CompanyName,
-            (string)$sender->Contact->PersonName
+        $contactName = implode(' ', array_filter(array((string)$sender->CompanyName,
+            (string)$sender->Contact->PersonName))
         );
         if (!$contactName) {
             throw new InvalidArgumentException(Mage::helper('usa')->__('Sender contact name is missing'));
         }
         $this->_page->drawText($contactName, $this->_x(25), $this->_y(36));
 
-        $phoneNumber = $this->_buildPhoneNumber(
-            (string)$sender->Contact->PhoneNumber,
-            (string)$sender->Contact->PhoneExtension
+        $phoneNumber = implode(' ', array_filter(array((string)$sender->Contact->PhoneNumber,
+            (string)$sender->Contact->PhoneExtension))
         );
         $phoneNumber = $phoneNumber ? "Phone: " . $phoneNumber : null;
         $pageY = $this->_drawSenderAddress($sender->AddressLine, $phoneNumber);
@@ -279,6 +295,8 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
     }
 
     /**
+     * Draw Sender Address
+     *
      * @param SimpleXMLElement $addressLines
      * @param string $phoneNumber
      * @return float
@@ -308,6 +326,8 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
     }
 
     /**
+     * Add Origin Info
+     *
      * @param string $serviceAreaCode
      * @return Mage_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
      * @throws InvalidArgumentException
@@ -329,6 +349,8 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
     }
 
     /**
+     * Add Receive Info
+     *
      * @param SimpleXMLElement $consignee
      * @return Mage_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
      * @throws Zend_Pdf_Exception
@@ -343,7 +365,9 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
         $y = $this->_page->drawLines($consignee->AddressLine, $this->_x(19), $this->_y(100), 50);
 
         $this->_page->setFont($this->_fontBold, 11);
-        $cityInfo = $this->_implodeNonEmpty(array($consignee->PostalCode, $consignee->City, $consignee->DivisionCode));
+        $cityInfo = implode(' ', array_filter(array($consignee->PostalCode, $consignee->City,
+            $consignee->DivisionCode))
+        );
         $y = min($y - 3, 460);
         $this->_page->drawLines(array($cityInfo, $consignee->CountryName), $this->_x(20), $y, 44);
 
@@ -353,7 +377,9 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
         $y = $this->_page->drawLines(array($consignee->Contact->PersonName), $this->_x(283), $this->_y(98), 25,
             Mage_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_Page::ALIGN_RIGHT
         );
-        $phoneNumber = $this->_buildPhoneNumber($consignee->Contact->PhoneNumber, $consignee->Contact->PhoneExtension);
+        $phoneNumber = implode(' ', array_filter(array($consignee->Contact->PhoneNumber,
+            $consignee->Contact->PhoneExtension))
+        );
         $this->_page->drawText($phoneNumber, $this->_x(283), $y, null,
             Mage_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_Page::ALIGN_RIGHT
         );
@@ -363,6 +389,8 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
     }
 
     /**
+     * Add Destination Facility Code
+     *
      * @param string $countryCode
      * @param string $serviceAreaCode
      * @param string $facilityCode
@@ -374,7 +402,8 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
     {
         $this->_page->saveGS();
         $this->_page->setFont($this->_fontNormal, 20);
-        $code = $this->_implodeNonEmpty(array($countryCode, $serviceAreaCode, $facilityCode), '-');
+        $code = implode('-', array_filter(array($countryCode, $serviceAreaCode, $facilityCode)));
+
         if (!strlen($code)) {
             throw new InvalidArgumentException(Mage::helper('usa')->__('Destination facility code is empty'));
         }
@@ -387,6 +416,8 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
     }
 
     /**
+     * Add Service Features Codes
+     *
      * @return Mage_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
      * @throws Zend_Pdf_Exception
      */
@@ -401,6 +432,8 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
     }
 
     /**
+     * Add Delivery Date Code
+     *
      * @return Mage_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
      * @throws Zend_Pdf_Exception
      */
@@ -419,6 +452,8 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
     }
 
     /**
+     * Add Shipment Information
+     *
      * @return Mage_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
      */
     public function addShipmentInformation()
@@ -430,6 +465,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
     }
 
     /**
+     * Add Date Info
      * @param string $date
      * @return Mage_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
      * @throws Zend_Pdf_Exception
@@ -447,6 +483,8 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
     }
 
     /**
+     * Add Weight Info
+     *
      * @param string $weight
      * @param string $unit
      * @return Mage_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
@@ -473,6 +511,8 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
     }
 
     /**
+     * Add Waybill Barcode
+     *
      * @param string $number
      * @param string $barCode
      * @return Mage_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
@@ -498,6 +538,8 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
     }
 
     /**
+     * Add Routing Barcode
+     *
      * @param string $routingCode
      * @param string $id
      * @param string $barCode
@@ -525,6 +567,8 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
     }
 
     /**
+     * Add Piece Id Barcode
+     *
      * @param string $dataIdentifier
      * @param string $licensePlate
      * @param string $barCode
@@ -554,6 +598,8 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
     }
 
     /**
+     * Add Piece Number
+     *
      * @param int $pieceNumber
      * @param int $piecesTotal
      * @return Mage_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
@@ -575,35 +621,5 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
 
         $this->_page->restoreGS();
         return $this;
-    }
-
-    /**
-     * @param string $companyName
-     * @param string $personName
-     * @return string
-     */
-    protected function _buildContactName($companyName, $personName)
-    {
-        return $this->_implodeNonEmpty(array($companyName, $personName), ' / ');
-    }
-
-    /**
-     * @param string $phoneNumber
-     * @param string $phoneExtension
-     * @return mixed
-     */
-    protected function _buildPhoneNumber($phoneNumber, $phoneExtension)
-    {
-        return $this->_implodeNonEmpty(array($phoneExtension, $phoneNumber));
-    }
-
-    /**
-     * @param array $strings
-     * @param string $glue
-     * @return string
-     */
-    protected function _implodeNonEmpty(array $strings, $glue = ' ')
-    {
-        return implode($glue, array_filter($strings));
     }
 }

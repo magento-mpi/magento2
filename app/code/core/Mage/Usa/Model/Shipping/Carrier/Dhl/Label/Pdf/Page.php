@@ -33,13 +33,18 @@
  */
 class Mage_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_Page extends Zend_Pdf_Page
 {
-    const ALIGN_RIGHT = 'right';
-
-    const ALIGN_LEFT = 'left';
-
-    const ALIGN_CENTER = 'center';
     /**
-     * @param $param1
+     * Text align constants
+     */
+    const ALIGN_RIGHT = 'right';
+    const ALIGN_LEFT = 'left';
+    const ALIGN_CENTER = 'center';
+
+    /**
+     * Dhl International Label Creation Class Pdf Page constructor
+     * Create/Make a copy of pdf page
+     *
+     * @param Mage_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_Page|string $param1
      * @param null $param2
      * @param null $param3
      */
@@ -54,6 +59,8 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_Page extends Zend_Pdf_Page
     }
 
     /**
+     * Get PDF Page contents
+     *
      * @return string
      */
     public function getContents()

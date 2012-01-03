@@ -124,11 +124,11 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
     protected $_maxWeight = 70;
 
     /**
-     * Check if response is for shipping label creating
+     * Flag if response is for shipping label creating
      *
      * @var bool
      */
-    protected $_shippingLabelChecker = false;
+    protected $_isShippingLabelFlag = false;
 
     /**
      * Request variables array
@@ -830,8 +830,8 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
                         $code = isset($nodeCondition->ConditionCode) ? (string)$nodeCondition->ConditionCode : 0;
                         $data = isset($nodeCondition->ConditionData) ? (string)$nodeCondition->ConditionData : '';
                         $this->_errors[$code] = Mage::helper('usa')->__('Error #%s : %s', $code, $data);
-                        if ($this->_shippingLabelChecker) {
-                            Mage::throwException( Mage::helper('usa')->__('Error #%s : %s', $code, $data));
+                        if ($this->_isShippingLabelFlag) {
+                            Mage::throwException(Mage::helper('usa')->__('Error #%s : %s', $code, $data));
                         }
                     } else {
                         if (isset($xml->GetQuoteResponse->BkgDetails->QtdShp)) {
@@ -846,7 +846,6 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
                                 $pdf = Mage::getModel('usa/shipping_carrier_dhl_label_pdf', array('info' => $xml));
                                 $result->setShippingLabelContent($pdf->render());
                             } catch (Exception $e) {
-                                $this->_errors[] = $e->getMessage();
                                 Mage::throwException(Mage::helper('usa')->__($e->getMessage()));
                             }
                             return $result;
@@ -1269,7 +1268,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
             }
             $this->_debug($debugData);
         }
-        $this->_shippingLabelChecker = true;
+        $this->_isShippingLabelFlag = true;
         return $this->_parseResponse($responseBody);
     }
 
@@ -1578,7 +1577,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
      * Do request to shipment
      *
      * @param Mage_Shipping_Model_Shipment_Request $request
-     * @return array
+     * @return Varien_Object
      */
     public function requestToShipment(Mage_Shipping_Model_Shipment_Request $request)
     {
@@ -1586,31 +1585,18 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
         if (!is_array($packages) || !$packages) {
             Mage::throwException(Mage::helper('usa')->__('No packages for request'));
         }
-        if ($request->getStoreId() != null) {
-            $this->setStore($request->getStoreId());
-        }
-        $data = array();
+
         $result = $this->_doShipmentRequest($request);
 
-        if ($result->hasErrors()) {
-            $this->rollBack($data);
-        } else {
-            $data[] = array(
+        $response = new Varien_Object(array(
+            'info' => array(
                 'tracking_number' => $result->getTrackingNumber(),
                 'label_content'   => $result->getShippingLabelContent()
-            );
-        }
-        if (!isset($isFirstRequest)) {
-            $request->setMasterTrackingId($result->getTrackingNumber());
-            $isFirstRequest = false;
-        }
-
-        $response = new Varien_Object(array(
-            'info'   => $data
+            )
         ));
-        if ($result->getErrors()) {
-            $response->setErrors($result->getErrors());
-        }
+
+        $request->setMasterTrackingId($result->getTrackingNumber());
+
         return $response;
     }
 }
