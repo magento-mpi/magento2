@@ -74,7 +74,7 @@
                 <observers>
                     <captcha>
                         <class>captcha/observer</class>
-                        <method>createUser</method>
+                        <method>checkUserCreate</method>
                     </captcha>
                 </observers>
             </controller_action_predispatch_customer_account_createpost>
