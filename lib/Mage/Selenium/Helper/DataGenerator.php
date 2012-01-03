@@ -218,14 +218,15 @@ class Mage_Selenium_Helper_DataGenerator extends Mage_Selenium_Helper_Abstract
     }
 
     /**
-     * Generates random string
+     * Generates random string. Inserts spaces to the generated text randomly.
+     * Note that spaces will be added to the text in addition to the specified class.
      *
      * @param int $length Generated string length (number of characters)
      * @param array $modifier Allows to specify multiple properties of the generated text, e.g.:<br>
      * <li>'class' => string - PCRE class(es) to use for generation, see<br>
      * {@link Mage_Selenium_Helper_DataGenerator::generateRandomString()}
      * <li>if no class is specified, only alphanumeric characters are used by default
-     * <li>'para'  => int - number of paragraphs
+     * <li>'para'  => int - number of paragraphs (default = 1)
      * @param string $prefix Prefix to prepend the generated value
      *
      * @return string
@@ -240,9 +241,7 @@ class Mage_Selenium_Helper_DataGenerator extends Mage_Selenium_Helper_Abstract
         if (!is_array($class)) {
             $class = explode(',', $class);
         }
-
         $class[] = 'text';
-        $text    = $prefix;
 
         //Reserve place for paragraph delimiters
         $length -= ($paraCount - 1) * strlen($this->_paraDelim);
@@ -258,7 +257,6 @@ class Mage_Selenium_Helper_DataGenerator extends Mage_Selenium_Helper_Abstract
             $textArr[$paraCount - 1] .= $this->generateRandomString($missed, $class);
         }
 
-        $text .= implode($this->_paraDelim, $textArr);
-        return $text;
+        return $prefix . implode($this->_paraDelim, $textArr);
     }
 }

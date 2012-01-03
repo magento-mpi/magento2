@@ -108,17 +108,15 @@ class Mage_Selenium_Helper_Params
      * Populate string with Regexp for future matching
      *
      * @param string $source Source string
-     * @param string $regexp Regular expression (by default = '(.*?)')
+     * @param string $regexp Regular expression (by default = '([^\/]+?)')
      *
      * @return string
      */
-    public function replaceParametersWithRegexp($source, $regexp = '([^\/]+?)'/* '(.*?)' */)
+    public function replaceParametersWithRegexp($source, $regexp = '([^\/]+?)')
     {
         if ($this->_paramsArray) {
             return str_replace(array_keys($this->_paramsArray), $regexp, $source);
-        } else {
-            return $source;
         }
-//       return preg_replace('/%([^\/]+?)%/', $regexp, $source);
+        return $source;
     }
 }

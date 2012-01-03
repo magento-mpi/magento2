@@ -115,40 +115,40 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     /**
      * @var PHPUnit_Framework_TestResult
      */
-    protected $result;
+    protected $_result;
 
     /**
      * @var array
      */
-    protected $dependencies = array();
+    protected $_dependencies = array();
 
     /**
      * Whether or not this test is running in a separate PHP process.
      *
      * @var boolean
      */
-    protected $inIsolation = false;
+    protected $_inIsolation = false;
 
     /**
      * The name of the test case.
      *
      * @var string
      */
-    protected $name = null;
+    protected $_name = null;
 
     /**
      * The name of the expected Exception.
      *
      * @var mixed
      */
-    protected $expectedException = null;
+    protected $_expectedException = null;
 
     /**
      * The message of the expected Exception.
      *
      * @var string
      */
-    protected $expectedExceptionMessage = '';
+    protected $_expectedExceptionMessage = '';
 
     /**
      * @var array
@@ -158,7 +158,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     /**
      * @var array
      */
-    protected $dependencyInput = array();
+    protected $_dependencyInput = array();
 
     /**
      * @var array
@@ -184,7 +184,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     /**
      * Error message Xpath
      *
-     * @v@staticvarar string
+     * @staticvarar string
      */
     protected static $xpathErrorMessage = "//*/descendant::*[normalize-space(@class)='error-msg'][string-length(.)>1]";
 
@@ -205,7 +205,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     /**
      * Field Name xpath with ValidationMessage
      *
-     *  @staticvar string
+     * @staticvar string
      */
     protected static $xpathFieldNameWithValidationMessage = "/ancestor::*[2]//label/descendant-or-self::*[string-length(text())>1]";
 
@@ -307,7 +307,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $this->_uimapHelper = $this->_testConfig->getUimapHelper();
 
         if ($name !== null) {
-            $this->name = $name;
+            $this->_name = $name;
         }
         $this->_data = $data;
         $this->dataName = $dataName;
@@ -329,17 +329,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function __call($command, $arguments)
     {
-        if (version_compare(phpversion(), '5.3.0', '<') === true) {
-            $helper = false;
-            $pos = strpos($command, 'Helper');
-            if ($pos !== false) {
-                $helper = substr($command, 0, $pos);
-            }
-        } else {
-            $helper = strstr($command, 'Helper', true);
-        }
-
-        if ($helper !== false) {
+        $helper = substr($command, 0, strpos($command, 'Helper'));
+        if ($helper) {
             $helper = $this->_loadHelper($helper);
             if ($helper) {
                 return $helper;
@@ -347,6 +338,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         }
         return parent::__call($command, $arguments);
     }
+
 
     /**
      * Access/load helpers from the tests. Helper class name should be like "TestScope_HelperName"
@@ -515,7 +507,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function setDependencies(array $dependencies)
     {
-        $this->dependencies = $dependencies;
+        $this->_dependencies = $dependencies;
     }
 
     /**
@@ -1672,11 +1664,11 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         if (!$url) {
             $url = $this->getLocation();
         }
-        $title_arr = explode('/', $url);
-        $title_arr = array_reverse($title_arr);
-        foreach ($title_arr as $key => $value) {
-            if (preg_match("#$paramName$#i", $value) && isset($title_arr[$key - 1])) {
-                return $title_arr[$key - 1];
+        $titleArr = explode('/', $url);
+        $titleArr = array_reverse($titleArr);
+        foreach ($titleArr as $key => $value) {
+            if (preg_match("#$paramName$#i", $value) && isset($titleArr[$key - 1])) {
+                return $titleArr[$key - 1];
             }
         }
         return null;
@@ -2111,7 +2103,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * @param boolean $condition Condition to assert
      * @param string $message Message to report if the condition is FALSE (by default = '')
      *
-     * @return PHPUnit_Framework_AssertionFailedError
+     * @throws PHPUnit_Framework_AssertionFailedError
      */
     public static function assertTrue($condition, $message = '')
     {
@@ -2124,10 +2116,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         }
 
         self::assertThat($condition, self::isTrue(), $message);
-
-        if (isset($this)) {
-            return $this;
-        }
     }
 
     /**
@@ -2136,7 +2124,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * @param boolean $condition Condition to assert
      * @param string $message Message to report if the condition is TRUE (by default = '')
      *
-     * @return PHPUnit_Framework_AssertionFailedError
+     * @throws PHPUnit_Framework_AssertionFailedError
      */
     public static function assertFalse($condition, $message = '')
     {
@@ -2149,10 +2137,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         }
 
         self::assertThat($condition, self::isFalse(), $message);
-
-        if (isset($this)) {
-            return $this;
-        }
     }
 
     /**
@@ -2667,7 +2651,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         }
 
         //$this->setResult($result);
-        $this->result = $result;
+        $this->_result = $result;
         $this->setExpectedExceptionFromAnnotation();
         $this->setUseErrorHandlerFromAnnotation();
         $this->setUseOutputBufferingFromAnnotation();
@@ -2705,12 +2689,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     protected function handleDependencies()
     {
-        if (empty($this->dependencies) || $this->inIsolation) {
+        if (empty($this->_dependencies) || $this->_inIsolation) {
             return true;
         }
 
         $className = get_class($this);
-        $passed = $this->result->passed();
+        $passed = $this->_result->passed();
 
         //Backward compatibility with our old-styled tests and old PHPUnit
         $backwardCompatible = array();
@@ -2736,13 +2720,13 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 
         $passedKeys = array_flip(array_unique($passedKeys));
 
-        foreach ($this->dependencies as $dependency) {
+        foreach ($this->_dependencies as $dependency) {
             if (strpos($dependency, '::') === false) {
                 $dependency = $className . '::' . $dependency;
             }
 
             if (!isset($passedKeys[$dependency])) {
-                $this->result->addError(
+                $this->_result->addError(
                         $this, new PHPUnit_Framework_SkippedTestError(
                                 sprintf('This test depends on "%s" to pass.', $dependency)
                         ), 0
@@ -2751,9 +2735,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                 return false;
             } else {
                 if (isset($passed[$dependency])) {
-                    $this->dependencyInput[] = $passed[$dependency];
+                    $this->_dependencyInput[] = $passed[$dependency];
                 } else {
-                    $this->dependencyInput[] = null;
+                    $this->_dependencyInput[] = null;
                 }
             }
         }
@@ -2770,7 +2754,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     protected function runTest()
     {
-        if ($this->name === null) {
+        if ($this->_name === null) {
             throw new PHPUnit_Framework_Exception(
                     'PHPUnit_Framework_TestCase::$name must not be null.'
             );
@@ -2781,14 +2765,14 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 
         try {
             $class = new ReflectionClass($this);
-            $method = $class->getMethod($this->name);
+            $method = $class->getMethod($this->_name);
         } catch (ReflectionException $e) {
             $this->fail($e->getMessage());
         }
 
         try {
             $testResult = $method->invokeArgs(
-                    $this, array_merge($this->_data, $this->dependencyInput)
+                    $this, array_merge($this->_data, $this->_dependencyInput)
             );
             // Fail test if have verification errors
             if (!empty($this->verificationErrors)) {
@@ -2797,12 +2781,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         } catch (Exception $e) {
             if (!$e instanceof PHPUnit_Framework_IncompleteTest &&
                     !$e instanceof PHPUnit_Framework_SkippedTest &&
-                    is_string($this->expectedException) &&
+                    is_string($this->_expectedException) &&
                     $e instanceof $this->expectedException) {
-                if (is_string($this->expectedExceptionMessage) &&
-                        !empty($this->expectedExceptionMessage)) {
+                if (is_string($this->_expectedExceptionMessage) &&
+                        !empty($this->_expectedExceptionMessage)) {
                     $this->assertContains(
-                            $this->expectedExceptionMessage, $e->getMessage()
+                            $this->_expectedExceptionMessage, $e->getMessage()
                     );
                 }
 
@@ -2821,11 +2805,11 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             }
         }
 
-        if ($this->expectedException !== null) {
+        if ($this->_expectedException !== null) {
             $this->numAssertions++;
 
             $this->syntheticFail(
-                    'Expected exception ' . $this->expectedException, '', 0, $this->expectedExceptionTrace
+                    'Expected exception ' . $this->_expectedException, '', 0, $this->expectedExceptionTrace
             );
         }
 
