@@ -84,8 +84,8 @@ class Magento_Test_TestCase_ControllerAbstractTest extends Magento_Test_TestCase
     public function testAssertRedirect()
     {
         /*
-         * Prevent calling Mage_Core_Controller_Response_Http::setRedirect,
-         * which requires fully initialized application environment
+         * Prevent calling Mage_Core_Controller_Response_Http::setRedirect() because it executes Mage::dispatchEvent(),
+         * which requires fully initialized application environment intentionally not available for unit tests
          */
         $setRedirectMethod = new ReflectionMethod('Zend_Controller_Response_Http', 'setRedirect');
         $setRedirectMethod->invoke($this->getResponse(), 'http://magentocommerce.com');

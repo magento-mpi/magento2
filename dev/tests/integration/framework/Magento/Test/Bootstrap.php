@@ -239,15 +239,6 @@ class Magento_Test_Bootstrap
     }
 
     /**
-     * Remove cached configuration and reinitialize the application
-     */
-    public function refreshConfiguration()
-    {
-        $this->_getInitializedApp()->cleanCache(array(Mage_Core_Model_Config::CACHE_TAG));
-        $this->initialize();
-    }
-
-    /**
      * Re-create empty temporary dir by specified
      *
      * @param string $optionCode
@@ -278,20 +269,6 @@ class Magento_Test_Bootstrap
     public function __destruct()
     {
         $this->_cleanup();
-    }
-
-    /**
-     * Retrieve the properly initialized application instance
-     *
-     * @return Mage_Core_Model_App
-     */
-    protected function _getInitializedApp()
-    {
-        $actualOptions = Mage::getConfig() ? Mage::getConfig()->getOptions()->getData() : array();
-        if (array_intersect_assoc($this->_options, $actualOptions) !== $this->_options) {
-            $this->initialize();
-        }
-        return Mage::app();
     }
 
     /**
@@ -520,22 +497,5 @@ class Magento_Test_Bootstrap
             $result = array_merge($result, $files);
         }
         return $result;
-    }
-
-    /**
-     * Removes cache polluted by other tests. Leaves performance critical cache (configuration, ddl) untouched.
-     *
-     * @return null
-     */
-    public function cleanupCache()
-    {
-        $this->_getInitializedApp()->getCache()->clean(
-            Zend_Cache::CLEANING_MODE_NOT_MATCHING_TAG,
-            array(Mage_Core_Model_Config::CACHE_TAG,
-                Varien_Db_Adapter_Pdo_Mysql::DDL_CACHE_TAG,
-                'DB_PDO_MSSQL_DDL', // Varien_Db_Adapter_Pdo_Mssql::DDL_CACHE_TAG
-                'DB_ORACLE_DDL', // Varien_Db_Adapter_Oracle::DDL_CACHE_TAG
-            )
-        );
     }
 }
