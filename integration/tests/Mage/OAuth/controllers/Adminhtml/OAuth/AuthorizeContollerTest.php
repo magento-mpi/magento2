@@ -60,7 +60,7 @@ class Mage_OAuth_Adminhtml_OAuth_Admin_TokenControllerTest extends Magento_Test_
     }
 
     /**
-     * Test update confirm action
+     * Test confirm action
      */
     public function testConfirmAction()
     {
@@ -78,7 +78,7 @@ class Mage_OAuth_Adminhtml_OAuth_Admin_TokenControllerTest extends Magento_Test_
     }
 
     /**
-     * Test update confirm action if no callback specified
+     * Test confirm action if no callback specified
      */
     public function testOobConfirmAction()
     {
@@ -98,5 +98,23 @@ class Mage_OAuth_Adminhtml_OAuth_Admin_TokenControllerTest extends Magento_Test_
         $this->_token->load($this->_token->getId());
 
         $this->assertContains($this->_token->getVerifier(), $this->getResponse()->getBody());
+    }
+
+    /**
+     * Test reject action
+     */
+    public function testRejectAction()
+    {
+        //generate test items
+        $this->_getFixture();
+
+        $this->loginToAdmin();
+        $_SERVER['REQUEST_METHOD'] = 'GET';
+        $_GET['oauth_token'] = $this->_token->getToken();
+
+        Mage::unregister('application_params');
+        $dispatchPath = 'admin/oAuth_authorize/reject';
+        $this->dispatch($dispatchPath);
+        $this->assertRedirect();
     }
 }

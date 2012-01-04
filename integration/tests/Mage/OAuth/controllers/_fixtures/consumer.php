@@ -10,10 +10,11 @@ $secretCreate = substr(str_repeat(uniqid(), 6), 0, Mage_OAuth_Model_Consumer::SE
  * @return array
  */
 $consumerData = array(
-    'name'   => $date . ' Consumer Name Create Test',
-    'key'    => $keyCreate,
-    'secret' => $secretCreate,
-    'callback_url'  => 'http://example.com/oauth_model/?oauthKey=key&oauthSecret=secret',
+    'name'                  => $date . ' Consumer Name Create Test',
+    'key'                   => $keyCreate,
+    'secret'                => $secretCreate,
+    'callback_url'          => 'http://example.com/oauth_model/?oauthKey=key&oauthSecret=secret',
+    'rejected_callback_url' => 'http://example.com/oauth_model/?rejected=1',
 );
 
 $consumer = new Mage_OAuth_Model_Consumer();
