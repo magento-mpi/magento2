@@ -52,21 +52,8 @@ if (!is_dir($workingDir)) {
     exit(1);
 }
 
-$config = include __DIR__ . "/conf/{$options['e']}.php";
-if (defined('EDITION_LICENSE')) {
-    foreach ($config as $path => $settings) {
-        foreach ($settings as $type => $license) {
-            if ('_params' == $type) {
-                continue;
-            }
-            if ('OSL' == $license || 'AFL' == $license) {
-                $config[$path][$type] = EDITION_LICENSE;
-            }
-        }
-    }
-}
-
-$blackList = include __DIR__ . '/conf/blacklist.php';
+$config = require __DIR__ . "/conf/{$options['e']}.php";
+$blackList = require __DIR__ . '/conf/blacklist.php';
 
 try {
     Routine::run($workingDir, $config, $blackList);

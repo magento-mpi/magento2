@@ -28,7 +28,7 @@ $phoenixOsl = array(
     'js'    => 'Phoenix'
 );
 
-return array(
+$config = array(
     ''    => array('php' => 'OSL', '_recursive' => false),
     'app' => array('php' => 'OSL', '_recursive' => false),
     'app/code/community/Find'    => $magentoOslAfl,
@@ -46,3 +46,18 @@ return array(
     'lib/Varien'     => $magentoOslAfl,
     'pub'            => $magentoOslAfl,
 );
+
+if (defined('EDITION_LICENSE')) {
+    foreach ($config as $path => $settings) {
+        foreach ($settings as $type => $license) {
+            if ('_params' == $type) {
+                continue;
+            }
+            if ('OSL' == $license || 'AFL' == $license) {
+                $config[$path][$type] = EDITION_LICENSE;
+            }
+        }
+    }
+}
+
+return $config;

@@ -3,10 +3,10 @@
 /**
  * {license_notice}
  *
- * @category   tests
- * @package    static
- * @copyright  {copyright}
- * @license    {license_link}
+ * @category    tests
+ * @package     static
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 -->
 <ruleset name="Magento PHPMD rule set" xmlns="http://pmd.sf.net/ruleset/1.0.0"
