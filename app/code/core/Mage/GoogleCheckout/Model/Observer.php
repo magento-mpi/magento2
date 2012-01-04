@@ -39,7 +39,8 @@ class Mage_GoogleCheckout_Model_Observer
 
         $order = $track->getShipment()->getOrder();
 
-        if ($order->getShippingMethod()!='googlecheckout_carrier') {
+        $shippingMethod = $order->getShippingMethod(); // String in format of 'carrier_method'
+        if (!$shippingMethod) {
             return;
         }
 
