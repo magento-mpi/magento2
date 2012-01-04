@@ -62,7 +62,7 @@ class Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Grid extends Mage_Adminhtml
         foreach ($parentBlock->getFailedItems() as $affectedItem) {
             // Escape user-submitted input
             if (isset($affectedItem['item']['qty'])) {
-                $affectedItem['item']['qty'] = $this->escapeHtml($affectedItem['item']['qty']);
+                $affectedItem['item']['qty'] = (int)$affectedItem['item']['qty'];
             }
             $item = new Varien_Object();
             $item->setCode($affectedItem['code']);
