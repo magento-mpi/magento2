@@ -89,10 +89,7 @@ class Mage_Admin_Model_Roles extends Mage_Core_Model_Abstract
      */
     public function getResourcesTree()
     {
-        $this->setRemoveDisabledResources(true);
-        $result = $this->_buildResourcesArray(null, null, null, null, true);
-        $this->unsRemoveDisabledResources();
-        return $result;
+        return $this->_buildResourcesArray(null, null, null, null, true);
     }
 
     /**
@@ -171,7 +168,7 @@ class Mage_Admin_Model_Roles extends Mage_Core_Model_Abstract
         //check children and run recursion if they exists
         $children = $resource->children();
         foreach ($children as $key => $child) {
-            if ($this->getRemoveDisabledResources() && 1 == $child->disabled) {
+            if (1 == $child->disabled) {
                 $resource->{$key} = null;
                 continue;
             }
