@@ -288,17 +288,16 @@
                 : '<?php echo $this->getNodeFieldsetLegend()?>';
 
             // prepare preview link
-            var scopeStore = $('store');
-
             Validation.add('IsEmpty', '', function(v) {
                 return  (v == '' || (v == null) || (v.length == 0) || /^\s+$/.test(v));
             });
 
-            var nodeValue = $('node_id').value;
-            var isNodeSaved = Validation.get('IsEmpty').test(nodeValue)
-                    || (!isNaN(parseNumber(nodeValue)) && !/^\s+$/.test(parseNumber(nodeValue)));
+            var nodeValue = $('node_id').value,
+                isNodeSaved = Validation.get('IsEmpty').test(nodeValue)
+                    || (!isNaN(parseNumber(nodeValue)) && !/^\s+$/.test(parseNumber(nodeValue))),
+                isStoreViewLevel = !$('store_switcher') || ($('store') && $('store').value);
 
-            if (scopeStore != undefined && scopeStore.value && isNodeSaved) {
+            if (isStoreViewLevel && isNodeSaved) {
                 var nodeUrlInfo = this.getNodePreviewUrlInfo(node);
                 if (nodeUrlInfo != false) {
                     $('node_preview').up(1).show();
