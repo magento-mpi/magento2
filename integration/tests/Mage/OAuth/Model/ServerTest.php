@@ -51,7 +51,7 @@ class Mage_OAuth_Model_ServerTest extends Magento_TestCase
         $this->setFixture('consumer', $consumer);
 
         /** @var $helper Mage_OAuth_Helper_Data */
-        /*$helper = Mage::helper('oauth');
+        $helper = Mage::helper('oauth');
 
         $config = array(
             'requestTokenUrl' => $helper->getProtocolEndpointUrl(Mage_OAuth_Helper_Data::ENDPOINT_INITIATE),
@@ -64,7 +64,7 @@ class Mage_OAuth_Model_ServerTest extends Magento_TestCase
             'signatureMethod' => 'HMAC-SHA1'
         );
 
-        $this->setFixture('client', new Zend_Oauth_Consumer($config));*/
+        $this->setFixture('client', new Zend_Oauth_Consumer($config));
 
         parent::setUp();
     }
@@ -81,11 +81,32 @@ class Mage_OAuth_Model_ServerTest extends Magento_TestCase
     }
 
     /**
-     * Test for product add to shopping cart
+     * Test initiative request to oAuth server
      *
      * @return void
      */
     public function testGetRequestToken()
     {
+        /** @var $client Zend_Oauth_Consumer */
+        $client = $this->getFixture('client');
+        /** @var $requestToken Zend_Oauth_Token_Request */
+        $requestToken = $client->getRequestToken();
+
+        /** @var $token Mage_OAuth_Model_Token */
+        $token = Mage::getModel('oauth/token');
+        $token->load($requestToken->getParam('oauth_token'), 'token');
+
+        $this->assertGreaterThan(0, $token->getId());
+        $this->assertNull($token->getCustomerId());
+        $this->assertNull($token->getAdminId());
+        $this->assertEquals($requestToken->getParam('oauth_token_secret'), $token->getSecret());
+        $this->assertEquals(Mage_OAuth_Model_Token::TYPE_REQUEST, $token->getType());
+        $this->assertEquals(0, $token->getAuthorized());
+        $this->assertEquals(0, $token->getRevoked());
+
+        /** @var $consumer Mage_OAuth_Model_Consumer */
+        $consumer = $this->getFixture('consumer');
+        $this->assertEquals($consumer->getCallbackUrl(), $token->getCallbackUrl());
+        $this->assertEquals($consumer->getId(), $token->getConsumerId());
     }
 }
