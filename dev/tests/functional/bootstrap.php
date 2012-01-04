@@ -30,6 +30,10 @@ define('SELENIUM_TESTS_BASEDIR', realpath(dirname(__FILE__)));
 define('SELENIUM_TESTS_SCREENSHOTDIR',
         realpath(SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'tmp' . DIRECTORY_SEPARATOR . 'screenshots'));
 
+if (defined('SELENIUM_TESTS_INSTALLATION') && SELENIUM_TESTS_INSTALLATION === 'enabled') {
+    require_once __DIR__ . '/install.php';
+}
+
 set_include_path(implode(PATH_SEPARATOR, array(
             realpath(SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'lib'),
             realpath(SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'tests'), //To allow load tests helper files
