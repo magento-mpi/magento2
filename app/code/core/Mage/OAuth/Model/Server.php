@@ -372,7 +372,7 @@ class Mage_OAuth_Model_Server
             $errorMsg = 'internal_error&message=' . ($eMsg ? $eMsg : 'empty_message');
             $responseCode = self::HTTP_INTERNAL_ERROR;
         }
-        //$this->_getResponse()->setHttpResponseCode($responseCode);
+        $this->_getResponse()->setHttpResponseCode($responseCode);
 
         return 'oauth_problem=' . $errorMsg;
     }
