@@ -300,7 +300,7 @@ class Mage_Checkout_Model_Type_Onepage
              */
             $usingCase = isset($data['use_for_shipping']) ? (int)$data['use_for_shipping'] : 0;
 
-            switch($usingCase) {
+            switch ($usingCase) {
                 case 0:
                     $shipping = $this->getQuote()->getShippingAddress();
                     $shipping->setSameAsBilling(0);
@@ -311,11 +311,14 @@ class Mage_Checkout_Model_Type_Onepage
                     $shipping = $this->getQuote()->getShippingAddress();
                     $shippingMethod = $shipping->getShippingMethod();
 
+                    // Billing address properties that must be always copied to shipping address
+                    $requiredBillingAttributes = array('customer_address_id');
+
                     // don't reset original shipping data, if it was not changed by customer
                     foreach ($shipping->getData() as $shippingKey => $shippingValue) {
-                        if (!is_null($shippingValue)
-                            && !is_null($billing->getData($shippingKey))
-                            && !isset($data[$shippingKey])) {
+                        if (!is_null($shippingValue) && !is_null($billing->getData($shippingKey))
+                            && !isset($data[$shippingKey]) && !in_array($shippingKey, $requiredBillingAttributes)
+                        ) {
                             $billing->unsetData($shippingKey);
                         }
                     }
