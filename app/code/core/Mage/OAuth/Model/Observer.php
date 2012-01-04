@@ -49,6 +49,10 @@ class Mage_OAuth_Model_Observer
             throw new Exception('Invalid user type.');
         }
 
+        if (Mage::app()->getRequest()->getParam('popUp')) {
+            $route .= '/popUp';
+        }
+
         return Mage::getUrl($route, array('_query' => array('oauth_token' => $this->_getOauthToken())));
     }
 
@@ -87,7 +91,7 @@ class Mage_OAuth_Model_Observer
     {
         if (null !== $this->_getOauthToken()) {
             $userType = Mage_OAuth_Model_Token::USER_TYPE_ADMIN;
-            
+
             $url = $this->_getAfterAuthUrl($userType);
             Mage::app()->getResponse()
                 ->setRedirect($url)
@@ -103,8 +107,12 @@ class Mage_OAuth_Model_Observer
             $session = Mage::getSingleton('admin/session');
             $session->addError($observer->getException()->getMessage());
 
-
-            $url = Mage::getUrl('adminhtml/oAuth_authorize', array('_query' => array('oauth_token' => $this->_getOauthToken())));
+            $params = array('oauth_token' => $this->_getOauthToken());
+            $route = 'adminhtml/oAuth_authorize';
+            if (Mage::app()->getRequest()->getParam('popUp')) {
+                $route .= '/popUp';
+            }
+            $url = Mage::getUrl($route, array('_query' => $params));
             Mage::app()->getResponse()
                 ->setRedirect($url)
                 ->sendHeaders()

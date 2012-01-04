@@ -622,21 +622,37 @@ class Mage_OAuth_Model_Server
      * Return complete callback URL or boolean FALSE if no callback provided
      *
      * @param Mage_OAuth_Model_Token $token Token object
+     * @param bool $denied                  Add denied flag
+     * @param bool $popUp                   Add pop up showing flag
      * @return bool|string
      */
-    public function getFullCallbackUrl(Mage_OAuth_Model_Token $token)
+    public function getFullCallbackUrl(Mage_OAuth_Model_Token $token, $denied = false, $popUp = false)
     {
-        if (!$token->getAuthorized()) {
+        //check authorized when URL has no denied flag
+        if (!$token->getAuthorized() && !$denied) {
             Mage::throwException('Token is not authorized');
         }
+
         $callbackUrl = $token->getCallbackUrl();
 
-        if (self::CALLBACK_ESTABLISHED == $callbackUrl) {
+        if (!$callbackUrl || self::CALLBACK_ESTABLISHED == $callbackUrl) {
             return false;
         }
+
         $callbackUrl .= (false === strpos($callbackUrl, '?') ? '?' : '&');
 
-        return $callbackUrl . 'oauth_token=' . $token->getToken() . '&oauth_verifier=' . $token->getVerifier();
+        $callbackUrl .= 'oauth_token=' . $token->getToken();
+        if ($denied) {
+            $callbackUrl . '&denied=1';
+        } else {
+            $callbackUrl . '&oauth_verifier=' . $token->getVerifier();
+        }
+
+        if ($popUp) {
+            $callbackUrl .= '&pop_up=1';
+        }
+
+        return $callbackUrl;
     }
 
     /**

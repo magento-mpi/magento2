@@ -48,7 +48,11 @@ class Mage_OAuth_Block_Authorize extends Mage_Core_Block_Template
     {
         /** @var $helper Mage_Customer_Helper_Data */
         $helper = $this->helper('customer');
-        return $helper->getLoginPostUrl();
+        $url = $helper->getLoginPostUrl();
+        if ($this->getIsPopUp()) {
+            $url = rtrim($url, '/') . '/popUp/1';
+        }
+        return $url;
     }
 
     /**

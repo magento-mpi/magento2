@@ -23,15 +23,24 @@
  * @copyright   Copyright (c) 2011 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
-?>
-<?php
+
 /**
  * "Grant Access" button
  *
  * @see Mage_OAuth_Block_Authorize_Button
  */
+
+ /** @var $this Mage_OAuth_Block_Authorize_Button */
 ?>
-<?php /** @var $this Mage_OAuth_Block_Authorize_Button */ ?>
+
+<?php if ($this->getIsPopUp()) : ?>
+<style type="text/css">
+    .page {width: auto;}
+    .header-container {margin: 0 8px;}
+    .main {min-height: inherit;}
+</style>
+<?php endif; ?>
+
 <div>
     <div class="page-title">
         <h1><?php echo $this->__('Authorize application') ?></h1>
@@ -45,18 +54,26 @@
         <p><?php echo $this->__('Authorizing application you allow it to act on behalf of your name and allow him to use yor personal data on its own. Be careful.') ?></p>
         <br />
         <ul>
-            <li> <b>Access my basic information</b> <br /> <span style="padding-left:20px; font-size:9px;">Includes name, profile picture, gender, networks, user ID, l...ist of friends, and any other information I've made public</span></li>
-            <li> <b>Send me email</b>  <br /> <span style="padding-left:20px; font-size:9px;">Causes may email me directly at unnamed011@gmail.com</span></li>
-            <li> <b>Access my profile information</b>  <br /> <span style="padding-left:20px; font-size:9px;">Birthday</span></li>
+            <li> <strong>Access my basic information</strong> <br /> <span style="padding-left:20px; font-size:9px;">Includes name, profile picture, gender, networks, user ID, l...ist of friends, and any other information I've made public</span></li>
+            <li> <strong>Send me email</strong>  <br /> <span style="padding-left:20px; font-size:9px;">Causes may email me directly at unnamed011@gmail.com</span></li>
+            <li> <strong>Access my profile information</strong>  <br /> <span style="padding-left:20px; font-size:9px;">Birthday</span></li>
         </ul>
-        <form action="<?php echo $this->getConfirmUrl() ?>" method="get">
+        <form id="oauth_authorize_confirm" action="<?php echo $this->getConfirmUrl() ?>" method="get">
             <input type="hidden" name="oauth_token" value="<?php echo $this->escapeHtml($this->getToken()) ?>">
             <button type="submit" class="button" title="<?php echo $this->__('Authorize') ?>" name="authorize"><span><span><?php echo $this->__('Authorize') ?></span></span></button>
         </form>
-        <form action="<?php echo $this->getRejectUrl() ?>" method="get">
+        <form id="oauth_authorize_reject" action="<?php echo $this->getRejectUrl() ?>" method="get">
             <input type="hidden" name="oauth_token" value="<?php echo $this->escapeHtml($this->getToken()) ?>">
             <button type="submit" class="button" title="<?php echo $this->__('Reject') ?>"><span><span><?php echo $this->__('Reject') ?></span></span></button>
         </form>
+        <?php if ($this->getIsPopUp()) : ?>
+            <script type="text/javascript">
+                $('oauth_authorize_reject').onsubmit = function() {
+                    window.close();
+                    return false;
+                }
+            </script>
+        <?php endif; ?>
     <?php endif; ?>
 
 </div>

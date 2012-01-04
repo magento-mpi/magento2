@@ -46,7 +46,11 @@ class Mage_OAuth_Block_Adminhtml_OAuth_Authorize extends Mage_Adminhtml_Block_Te
      */
     public function getPostActionUrl()
     {
-        return $this->getUrl('adminhtml/index/login');
+        $params = array();
+        if ($this->getIsPopUp()) {
+            $params['popUp'] = 1;
+        }
+        return $this->getUrl('adminhtml/index/login', $params);
     }
 
     /**

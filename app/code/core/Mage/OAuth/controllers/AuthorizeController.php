@@ -41,9 +41,10 @@ class Mage_OAuth_AuthorizeController extends Mage_Core_Controller_Front_Action
     protected $_sessionName = 'customer/session';
 
     /**
-     * Init login page
+     * Init authorize page
      *
      * @param bool $popUp
+     * @return Mage_OAuth_AuthorizeController
      */
     protected function _initForm($popUp = false)
     {
@@ -85,6 +86,8 @@ class Mage_OAuth_AuthorizeController extends Mage_Core_Controller_Front_Action
                 ->setBeforeAuthUrl($helper->getCurrentUrl());
 
         $block->setToken($this->_getTokenString())->setIsException($isException);
+
+        return $this;
     }
 
     /**
@@ -125,11 +128,11 @@ class Mage_OAuth_AuthorizeController extends Mage_Core_Controller_Front_Action
 
             /** @var $token Mage_OAuth_Model_Token */
             $token = $server->authorizeToken($session->getCustomerId(), Mage_OAuth_Model_Token::USER_TYPE_CUSTOMER);
-            $callback = $server->getFullCallbackUrl($token);  //false in case of OOB
+            //false in case of OOB
+            $callback = $server->getFullCallbackUrl($token, false, $this->getRequest()->getParam('popUp'));
             if ($callback) {
-                /** @var $response Mage_Core_Controller_Response_Http */
-                $response = $this->getResponse();
-                $response->setRedirect($callback);
+                $this->_redirectUrl($callback);
+                return;
             } else {
                 /** @var $block Mage_Core_Block_Template */
                 $block = $this->getLayout()->getBlock('oauth.authorize.confirm');
@@ -138,7 +141,7 @@ class Mage_OAuth_AuthorizeController extends Mage_Core_Controller_Front_Action
         } catch (Mage_Core_Exception $e) {
             $session->addError($e->getMessage());
         } catch (Mage_OAuth_Exception $e) {
-            $session->addException($e, $this->__('An error occurred. Error authorizing token.'));
+            $session->addException($e, $this->__('An error occurred. Your authorization request is invalid.'));
         } catch (Exception $e) {
             $session->addException($e, $this->__('An error occurred.'));
         }
@@ -160,14 +163,12 @@ class Mage_OAuth_AuthorizeController extends Mage_Core_Controller_Front_Action
             /** @var $token Mage_OAuth_Model_Token */
             $token = $server->checkAuthorizeRequest();
 
-            $callback = $token->getCallbackUrl();
-            if ($callback && Mage_OAuth_Model_Server::CALLBACK_ESTABLISHED != $callback) {
-                $callback .= (false === strpos($callback, '?') ? '?' : '&') . 'oauth_token=' . $token->getToken()
-                    . '&denied=1';
-
-                $this->getResponse()->setRedirect($callback);
+            $callback = $server->getFullCallbackUrl($token, true);
+            if ($callback) {
+                $this->_redirectUrl($callback);
+                return;
             } else {
-                $session->addSuccess($this->__('Token rejected.'));
+                $session->addSuccess($this->__('App authorization declined.'));
             }
         } catch (Mage_Core_Exception $e) {
             $session->addError($e->getMessage());
@@ -187,7 +188,7 @@ class Mage_OAuth_AuthorizeController extends Mage_Core_Controller_Front_Action
      */
     protected function _getTokenString()
     {
-        return $this->getRequest()->getQuery('oauth_token', null);
+        return $this->getRequest()->getQuery('oauth_token');
     }
 
     /**

@@ -79,18 +79,18 @@ class Mage_OAuth_Adminhtml_OAuth_AuthorizeController extends Mage_Adminhtml_Cont
      */
     public function popUpAction()
     {
-        $this->_initForm();
-
+        $this->_initForm(true);
         $this->_initLayoutMessages($this->_sessionName);
         $this->renderLayout();
     }
 
     /**
-     * Init login page
+     * Init authorize page
      *
      * @param bool $popUp
+     * @return Mage_OAuth_Adminhtml_OAuth_AuthorizeController
      */
-    protected function _initForm()
+    protected function _initForm($popUp = false)
     {
         /** @var $server Mage_OAuth_Model_Server */
         $server = Mage::getModel('oauth/server');
@@ -122,7 +122,11 @@ class Mage_OAuth_Adminhtml_OAuth_AuthorizeController extends Mage_Adminhtml_Cont
             $block = $contentBlock->getChild('oauth.authorize.form');
         }
 
+        $block->setIsPopUp($popUp);
+
         $block->setToken($this->_getTokenString())->setIsException($isException);
+
+        return $this;
     }
 
     /**
@@ -176,18 +180,13 @@ class Mage_OAuth_Adminhtml_OAuth_AuthorizeController extends Mage_Adminhtml_Cont
 
         try {
             $token = $server->checkAuthorizeRequest();
-            //$server->rejectToken($token);
 
-            $callback = $token->getCallbackUrl();
-            //$callback = $server->getFullCallbackUrl($token);  //false in case of OOB
+            $callback = $server->getFullCallbackUrl($token, true);
             if ($callback) {
-                $callback.= (strpos($callback, '?') === false ? '?' : '&') . 'oauth_token=' . $token->getToken() . '&denied=1';
-                //$callback.= '&denied=1';
-
-                $this->getResponse()->setRedirect($callback);
+                $this->_redirectUrl($callback);
                 return;
             } else {
-                exit('Token rejected. What we are going to do if callback URL was not set?');
+                $session->addSuccess($this->__('App authorization declined.'));
             }
         } catch (Mage_Core_Exception $e) {
             $session->addError($e->getMessage());

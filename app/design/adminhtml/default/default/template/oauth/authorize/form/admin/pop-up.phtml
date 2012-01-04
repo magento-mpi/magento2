@@ -23,52 +23,103 @@
  * @copyright   Copyright (c) 2011 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
-?>
-<?php
+
 /**
  * Admin login form template
  *
  * @var $this Mage_OAuth_Block_Adminhtml_OAuth_Authorize
  * @see Mage_OAuth_Block_Adminhtml_OAuth_Authorize
  */
+
+/** @var $header Mage_Page_Block_Html_Header */
+$header = $this->getLayout()->getBlock('header_frontend');
+
+if ($this->getIsException()) {
+    $title = $this->__('Authorize');
+} else {
+    $title = $this->__('Authorize &laquo;%s&raquo; to use your account?', $this->escapeHtml($this->getConsumer()->getName()));
+}
+
+if ($this->getIsPopUp()) {
+    $rejectJs = "window.close();";
+} else {
+    $rejectJs = "document.location.href='{$this->getRejectUrl()}';";
+}
 ?>
-<?php /** @var $this Mage_OAuth_Block_Adminhtml_OAuth_Authorize */ ?>
 <style type="text/css">
-    .login-container {margin: 0; background-image: none; padding-left: 0}
+    .main {border: 1px solid #CFCFCF;}
+    .login-container.pop-up {margin: 0px; background-image: none; padding: 0px; width: auto;}
+    .login-container.pop-up .page-title {background-image: none; padding: 10px; border: 1px solid #CFCFCF;}
+    .login-container.pop-up .bottom {display: none;}
+    .login-form.pop-up {padding: 0; background: none;}
+    .login-container.pop-up h1 {text-align: left; color: #D12C01; font-size: 22px; font-weight: normal; margin: 0;}
+    .login-container.pop-up h1 .consumer {font-weight: bold;}
+    .login-container.pop-up h2 {font: 16px Arial,Helvetica,sans-serif; color: #444; text-align: left;}
+    .login-container.pop-up .form-box {border: 1px solid #CFCFCF; border-top: none; padding: 8px 20px;}
+    .login-container.pop-up fieldset {width: 319px; float: none; margin: 0 auto;}
+    .login-container.pop-up .input-box label {width: 72px; text-align: right; float: left; margin-right: 15px;}
+    .login-container.pop-up .input-box input {width: 224px; text-align: left; float: left;}
+    .login-form.pop-up .input-box.input-left,
+    .login-form.pop-up .input-box.input-right {float: none; margin-bottom: 5px;}
+    .login-form.pop-up .input-box.input-left {padding-bottom: 25px;}
+    .login-form.pop-up .form-buttons {float: none;}
+    .login-form.pop-up p.required{text-align: right; font-size: 11px; font-weight: normal!important;}
+    .logo {height: 70px; margin: 7px 0 0 10px;}
 </style>
-<div class="login-container">
+
+<div class="header_">
+    <div class="header-top">
+         <a href="<?php echo $this->getHomeLink() ?>">
+             <img src="<?php echo $this->getSkinUrl('images/logo-large.gif') ?>" alt="<?php echo $this->__('Magento Logo') ?>" class="logo"/>
+         </a>
+    </div>
+</div>
+<div class="login-container pop-up">
     <div class="login-box">
-        <?php if ($this->isException()): ?>
-            <div class="login-form">
-                <div id="messages">
-                    <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
-                </div>
+        <div class="page-title">
+            <h1><?php echo $title ?></h1>
+        </div>
+        <div class="form-box">
+            <div id="messages">
+                <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
             </div>
-        <?php else: ?>
-            <form method="post" action="<?php echo $this->getPostActionUrl() ?>" id="loginForm">
-                <div class="login-form">
-                    <input name="form_key" type="hidden" value="<?php echo $this->getFormKey() ?>" />
-                    <h2><?php echo $this->__('Authorize %s to use your account? <br/>Log in as admin', $this->escapeHtml($this->getConsumer()->getName())) ?></h2>
-                    <div id="messages">
-                        <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
-                    </div>
-                    <div class="input-box input-left"><label for="username"><?php echo $this->__('User Name:') ?></label><br/>
-                        <input type="text" id="username" name="login[username]" value="" class="required-entry input-text" /></div>
-                    <div class="input-box input-right"><label for="login"><?php echo $this->__('Password:') ?></label><br />
-                        <input type="password" id="login" name="login[password]" class="required-entry input-text" value="" /></div>
-                    <div class="clear"></div>
-                    <div class="form-buttons">
-                        <input type="submit" class="form-button" value="<?php echo $this->__('Login') ?>" title="<?php echo $this->__('Login') ?>" />
-                        <button onclick="document.location.href='<?php echo $this->getRejectUrl() ?>'; return false;" title="<?php echo $this->__('Reject') ?>"><?php echo $this->__('Reject') ?></button>
-                    </div>
-                    <input type="hidden" name="oauth_token" value="<?php echo $this->escapeHtml($this->getToken()) ?>"/>
-                </div>
-            </form>
+            <?php if (!$this->getIsException()) : ?>
+                <form method="post" action="<?php echo $this->getPostActionUrl() ?>" id="loginForm">
+                    <fieldset>
+                        <h2 class="legend"><?php echo $this->__('Log in as admin') ?></h2>
+                        <div class="login-form pop-up">
+                            <input name="form_key" type="hidden" value="<?php echo $this->getFormKey() ?>"/>
+                            <input type="hidden" name="oauth_token" value="<?php echo $this->escapeHtml($this->getToken()) ?>"/>
+
+                            <div class="input-box input-left">
+                                <label for="username">
+                                    <em class="required">*</em>&nbsp;<?php echo $this->__('User Name') ?>
+                                </label>
+                                <input type="text" id="username" name="login[username]" value="" class="required-entry input-text"/>
+                            </div>
+                            <div class="clear"></div>
+                            <div class="input-box input-right">
+                                <label for="login">
+                                    <em class="required">*</em>&nbsp;<?php echo $this->__('Password') ?>
+                                </label>
+                                <input type="password" id="login" name="login[password]" class="required-entry input-text"
+                                       value=""/></div>
+                            <div class="clear"></div>
+                            <div class="form-buttons">
+                                <input type="submit" class="form-button" value="<?php echo $this->__('Login') ?>"
+                                       title="<?php echo $this->__('Login') ?>"/>
+                                <button onclick="<?php echo $rejectJs; ?>"
+                                        title="<?php echo $this->__('Reject') ?>"><?php echo $this->__('Reject') ?></button>
+                                <p class="required"><?php echo $this->__('* Required Fields') ?></p>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
             <script type="text/javascript">
-                 var loginForm = new varienForm('loginForm');
+                var loginForm = new varienForm('loginForm');
             </script>
-        <?php endif; ?>
-        <p class="legal"><?php echo $this->__('Magento is a trademark of Magento Inc. Copyright &copy; %s Magento Inc.', date('Y')) ?></p>
+            <?php endif; ?>
+        </div>
         <div class="bottom"></div>
     </div>
 </div>
