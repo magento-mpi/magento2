@@ -622,29 +622,32 @@ class Mage_OAuth_Model_Server
      * Return complete callback URL or boolean FALSE if no callback provided
      *
      * @param Mage_OAuth_Model_Token $token Token object
-     * @param bool $denied                  Add denied flag
+     * @param bool $rejected                  Add denied flag
      * @param bool $popUp                   Add pop up showing flag
      * @return bool|string
      */
-    public function getFullCallbackUrl(Mage_OAuth_Model_Token $token, $denied = false, $popUp = false)
+    public function getFullCallbackUrl(Mage_OAuth_Model_Token $token, $rejected = false, $popUp = false)
     {
         //check authorized when URL has no denied flag
-        if (!$token->getAuthorized() && !$denied) {
+        if (!$token->getAuthorized() && !$rejected) {
             Mage::throwException('Token is not authorized');
         }
-
-        $callbackUrl = $token->getCallbackUrl();
-
-        if (!$callbackUrl || self::CALLBACK_ESTABLISHED == $callbackUrl) {
-            return false;
-        }
-
-        $callbackUrl .= (false === strpos($callbackUrl, '?') ? '?' : '&');
-
-        $callbackUrl .= 'oauth_token=' . $token->getToken();
-        if ($denied) {
-            $callbackUrl .= '&denied=1';
+        if ($rejected) {
+            /** @var $consumer Mage_OAuth_Model_Consumer */
+            $consumer = Mage::getModel('oauth/consumer')->load($token->getConsumerId());
+            $callbackUrl = $consumer->getRejectedCallbackUrl();
+            $callbackUrl .= (false === strpos($callbackUrl, '?') ? '?' : '&');
+            $callbackUrl .= 'oauth_token=' . $token->getToken();
         } else {
+            $callbackUrl = $token->getCallbackUrl();
+
+            if (!$callbackUrl || self::CALLBACK_ESTABLISHED == $callbackUrl) {
+                return false;
+            }
+
+            $callbackUrl .= (false === strpos($callbackUrl, '?') ? '?' : '&');
+
+            $callbackUrl .= 'oauth_token=' . $token->getToken();
             $callbackUrl .= '&oauth_verifier=' . $token->getVerifier();
         }
 

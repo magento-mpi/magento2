@@ -168,7 +168,7 @@ class Mage_OAuth_AuthorizeController extends Mage_Core_Controller_Front_Action
                 $this->_redirectUrl($callback);
                 return;
             } else {
-                $session->addSuccess($this->__('App authorization declined.'));
+                $session->addSuccess($this->__('App authorization rejected.'));
             }
         } catch (Mage_Core_Exception $e) {
             $session->addError($e->getMessage());

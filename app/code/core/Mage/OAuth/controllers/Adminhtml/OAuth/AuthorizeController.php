@@ -186,7 +186,7 @@ class Mage_OAuth_Adminhtml_OAuth_AuthorizeController extends Mage_Adminhtml_Cont
                 $this->_redirectUrl($callback);
                 return;
             } else {
-                $session->addSuccess($this->__('App authorization declined.'));
+                $session->addSuccess($this->__('App authorization rejected.'));
             }
         } catch (Mage_Core_Exception $e) {
             $session->addError($e->getMessage());

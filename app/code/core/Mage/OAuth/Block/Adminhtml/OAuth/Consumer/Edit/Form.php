@@ -117,6 +117,14 @@ class Mage_OAuth_Block_Adminhtml_OAuth_Consumer_Edit_Form extends Mage_Adminhtml
             'value'     => $model->getCallbackUrl(),
         ));
 
+        $fieldset->addField('rejected_callback_url', 'text', array(
+            'name'      => 'rejected_callback_url',
+            'label'     => $helper->__('Rejected callback URL'),
+            'title'     => $helper->__('Rejected callback URL'),
+            'required'  => false,
+            'value'     => $model->getRejectedCallbackUrl(),
+        ));
+
         $form->setAction($this->getUrl('*/*/save'));
         $form->setUseContainer(true);
         $this->setForm($form);
