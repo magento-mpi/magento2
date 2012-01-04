@@ -41,16 +41,16 @@ $helper = Mage::helper('oauth');
 
 foreach ($data as $item) {
     $consumer = new Mage_OAuth_Model_Consumer();
-    $data = require 'consumerData.php';
-    $consumer->setData($data['create']);
+    $consumerData = require 'consumerData.php';
+    $consumer->setData($consumerData['create']);
     $consumer->save();
     $_this->addModelToDelete($consumer);
     $models['consumer'][] = $consumer;
 
     //customer
     $token = new Mage_OAuth_Model_Token();
-    $data = require 'tokenData.php';
-    $tokenData = $data['create'];
+    $tokenData = require 'tokenData.php';
+    $tokenData = $tokenData['create'];
     $tokenData['consumer_id'] = $consumer->getId();
     $tokenData['customer_id'] = $customerId;
     $tokenData = array_merge($tokenData, $item['token']);
