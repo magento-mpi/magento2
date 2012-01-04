@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Magento
  *
@@ -25,25 +26,41 @@
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-
-/**
- * Unit test for functions
- */
 class Mage_FunctionsTest extends Mage_PHPUnit_TestCase
 {
-    public function testArrayRecursiveMerge()
+    public function test_array_replace_recursiveExists()
     {
-        if (!function_exists('array_replace_recursive')) {
-            fail('Function array_replace_recursive() doesn\'t exist');
-        }
+        $this->assertTrue(function_exists('array_replace_recursive'));
+    }
 
-        $array = array('browser' => array('default'=> array('browser' => 'chrome')), 'applications' => array('magento-ce'));
-        $array2 = array('browser' => array('default'=> array('browser' => 'firefox'), 'firefox'));
-        $result = array('browser' => array('default'=> array('browser' => 'firefox'), 'firefox'), 'applications' => array('magento-ce'));
+    /**
+     * @dataProvider test_array_replace_recursiveDataProvider
+     */
+    public function test_array_replace_recursive($arraySource, $arrayToMerge, $expected)
+    {
+        $result = @array_replace_recursive($arraySource, $arrayToMerge);
+        $this->assertEquals($result, $expected);
+    }
 
-        $this->assertEquals($result, @array_replace_recursive($array, $array2));
+    public function test_array_replace_recursiveDataProvider()
+    {
+        return array(
+            array(array('browser' => array('default' => array('browser' => 'chrome')), 'applications' => array('magento-ce')),
+                array('browser' => array('default' => array('browser' => 'firefox'), 'firefox')),
+                array('browser' => array('default' => array('browser' => 'firefox'), 'firefox'), 'applications' => array('magento-ce'))),
+            array(array('a1' => array('b1' => array('c1' => 'c1Value')), 'a2' => array('b2')),
+                'string',
+                array('a1' => array('b1' => array('c1' => 'c1Value')), 'a2' => array('b2'))),
+        );
+    }
+
+    /**
+     * @depends test_array_replace_recursiveExists
+     */
+    public function test_array_replace_recursiveNull()
+    {
+        $array = array('a1' => array('b1' => array('c1' => 'c1Value')), 'a2' => array('b2'));
         $this->assertNull(@array_replace_recursive('string'));
         $this->assertNull(@array_replace_recursive('string', $array));
-        $this->assertNull(@array_replace_recursive($array, 'string'));
     }
 }

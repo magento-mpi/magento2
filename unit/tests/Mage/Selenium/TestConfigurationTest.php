@@ -25,31 +25,19 @@
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-
-/**
- * Unit test for TestConfiguration
- */
 class Mage_Selenium_TestConfigurationTest extends Mage_PHPUnit_TestCase
 {
-    /**
-     * Testing Mage_Selenium_TestConfiguration::init()
-     */
-    public function testInit()
+    public function test__construct()
     {
-        $this->assertInstanceOf('Mage_Selenium_TestConfiguration', $this->_config->init());
+        $testConfig = $this->_config;
+        $this->assertInstanceOf('Mage_Selenium_TestConfiguration', $testConfig);
     }
 
-    /**
-     * Testing Mage_Selenium_TestConfiguration::getFileHelper()
-     */
     public function testGetFileHelper()
     {
         $this->assertInstanceOf('Mage_Selenium_Helper_File', $this->_config->getFileHelper());
     }
 
-    /**
-     * Testing Mage_Selenium_TestConfiguration::getPageHelper()
-     */
     public function testGetPageHelper()
     {
         $this->assertInstanceOf('Mage_Selenium_Helper_Page', $this->_config->getPageHelper());
@@ -58,33 +46,21 @@ class Mage_Selenium_TestConfigurationTest extends Mage_PHPUnit_TestCase
         $this->assertInstanceOf('Mage_Selenium_Helper_Page', $this->_config->getPageHelper(new Mage_Selenium_TestCase(), new Mage_Selenium_Helper_Application($this->_config)));
     }
 
-    /**
-     * Testing Mage_Selenium_TestConfiguration::getDataGenerator()
-     */
     public function testGetDataGenerator()
     {
         $this->assertInstanceOf('Mage_Selenium_Helper_DataGenerator', $this->_config->getDataGenerator());
     }
 
-    /**
-     * Testing Mage_Selenium_TestConfiguration::getDataHelper()
-     */
     public function testGetDataHelper()
     {
         $this->assertInstanceOf('Mage_Selenium_Helper_Data', $this->_config->getDataHelper());
     }
 
-    /**
-     * Testing Mage_Selenium_TestConfiguration::getApplicationHelper()
-     */
     public function testGetApplicationHelper()
     {
         $this->assertInstanceOf('Mage_Selenium_Helper_Application', $this->_config->getApplicationHelper());
     }
 
-    /**
-     * Testing Mage_Selenium_TestConfiguration::getConfigValue()
-     */
     public function testGetConfigValue()
     {
         $this->assertInternalType('array', $this->_config->getConfigValue());
@@ -102,9 +78,6 @@ class Mage_Selenium_TestConfigurationTest extends Mage_PHPUnit_TestCase
         $this->assertInternalType('int', $this->_config->getConfigValue('browsers/default/port'));
     }
 
-    /**
-     * Testing Mage_Selenium_TestConfiguration::getDataValue()
-     */
     public function testGetDataValue()
     {
         $this->assertInternalType('array', $this->_config->getDataValue());
@@ -117,9 +90,6 @@ class Mage_Selenium_TestConfigurationTest extends Mage_PHPUnit_TestCase
         $this->assertInternalType('string', $this->_config->getDataValue('generic_admin_user/user_name'));
     }
 
-    /**
-     * Testing Mage_Selenium_TestConfiguration::getUimapValue()
-     */
     public function testGetUimapValue()
     {
         $this->assertInternalType('array', $this->_config->getUimapHelper()->getUimap('frontend'));
@@ -135,9 +105,6 @@ class Mage_Selenium_TestConfigurationTest extends Mage_PHPUnit_TestCase
         $this->assertInternalType('string', $this->getUimapPage('frontend', 'customer_account')->getMca());
     }
 
-    /**
-     * Testing exception throwing in Mage_Selenium_TestConfiguration::getUimapValue()
-     */
     public function testGetUimapValueOutOfRangeException()
     {
         $this->setExpectedException('OutOfRangeException');

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Magento
  *
@@ -21,45 +22,14 @@
  * @category    tests
  * @package     selenium unit tests
  * @subpackage  Mage_PHPUnit
+ * @author      Magento Core Team <core@magentocommerce.com>
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-
-/**
- * Base Test Case
- */
-abstract class Mage_PHPUnit_TestCase extends PHPUnit_Framework_TestCase
+class Mage_Selenium_Uimap_TabsCollectionTest extends Mage_PHPUnit_TestCase
 {
-    /**
-     * Selenium Test Configuration instance
-     *
-     * @var Mage_Selenium_TestConfiguration
-     */
-    protected $_config = null;
-
-    /**
-     * Class constructor
-     */
-    public function __construct($name = null, array $data = array(), $dataName = '')
+    public function test__construct()
     {
-        parent::__construct($name, $data, $dataName);
-        $this->_config = Mage_Selenium_TestConfiguration::getInstance();
-    }
-
-    /**
-     * Retrieve Page from uimap data configuration by path
-     *
-     * @param string $area Application area ('frontend'|'admin')
-     * @param string $pageKey UIMap page key
-     * @return Mage_Selenium_Uimap_Page|null
-     */
-    public function getUimapPage($area, $pageKey)
-    {
-        $uimapHelper = $this->_config->getUimapHelper();
-        if ($uimapHelper) {
-            return $uimapHelper->getUimapPage($area, $pageKey);
-        }
-
-        return null;
+        $this->markTestIncomplete('Coverage to be improved');
     }
 }

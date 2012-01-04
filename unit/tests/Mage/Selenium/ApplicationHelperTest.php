@@ -25,98 +25,94 @@
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-
-/**
- * Unit test for ApplicationHelper
- */
 class Mage_Selenium_Helper_ApplicationTest extends Mage_PHPUnit_TestCase
 {
-    /**
-     * Selenium ApplicationHelper instance
-     *
-     * @var Mage_Selenium_Helper_Application
-     */
-    protected $_applicationHelper = null;
-
-    public function  __construct($name = null, array $data = array(), $dataName = '')
+    public function test__construct()
     {
-        parent::__construct($name, $data, $dataName);
-        $this->_applicationHelper = new Mage_Selenium_Helper_Application($this->_config);
+        $applicationHelper = new Mage_Selenium_Helper_Application($this->_config);
+        $this->assertInstanceOf('Mage_Selenium_Helper_Application', $applicationHelper);
     }
 
     /**
-     * Testing Mage_Selenium_Helper_Application::setArea()
+     * @depends test__construct
      */
     public function testSetArea()
     {
-        $this->assertInstanceOf('Mage_Selenium_Helper_Application', $this->_applicationHelper->setArea('frontend'));
-        $this->assertInstanceOf('Mage_Selenium_Helper_Application', $this->_applicationHelper->setArea('admin'));
+        $applicationHelper = new Mage_Selenium_Helper_Application($this->_config);
+        $this->assertInstanceOf('Mage_Selenium_Helper_Application', $applicationHelper->setArea('frontend'));
+        $this->assertInstanceOf('Mage_Selenium_Helper_Application', $applicationHelper->setArea('admin'));
     }
 
     /**
-     * Testing OutOfRangeException throwing in Mage_Selenium_Helper_Application::setArea()
+     * @depends test__construct
      */
     public function testSetAreaOutOfRangeException()
     {
+        $applicationHelper = new Mage_Selenium_Helper_Application($this->_config);
         $this->setExpectedException('OutOfRangeException');
-        $this->_applicationHelper->setArea('invalid-area');
+        $applicationHelper->setArea('invalid-area');
     }
 
     /**
-     * Testing Mage_Selenium_Helper_Application::getArea()
+     * @depends test__construct
      */
     public function testGetArea()
     {
-        $this->_applicationHelper->setArea('frontend');
-
-        $this->assertInternalType('string', $this->_applicationHelper->getArea());
-        $this->assertNotEmpty($this->_applicationHelper->getArea());
-        $this->assertEquals('frontend', $this->_applicationHelper->getArea());
+        $applicationHelper = new Mage_Selenium_Helper_Application($this->_config);
+        $applicationHelper->setArea('frontend');
+        $this->assertInternalType('string', $applicationHelper->getArea());
+        $this->assertNotEmpty($applicationHelper->getArea());
+        $this->assertEquals('frontend', $applicationHelper->getArea());
     }
 
     /**
-     * Testing Mage_Selenium_Helper_Application::getBaseUrl()
+     * @depends test__construct
      */
     public function testGetBaseUrl()
     {
-        $this->assertInternalType('string', $this->_applicationHelper->getBaseUrl());
-        $this->assertNotEmpty($this->_applicationHelper->getBaseUrl());
+        $applicationHelper = new Mage_Selenium_Helper_Application($this->_config);
+        $this->assertInternalType('string', $applicationHelper->getBaseUrl());
+        $this->assertNotEmpty($applicationHelper->getBaseUrl());
 
-        $this->_applicationHelper->setArea('admin');
-        $this->assertRegExp('/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \?=.-]*)*\/?$/', $this->_applicationHelper->getBaseUrl());
+        $applicationHelper->setArea('admin');
+        $this->assertRegExp('/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \?=.-]*)*\/?$/', $applicationHelper->getBaseUrl());
 
-        $this->_applicationHelper->setArea('frontend');
-        $this->assertRegExp('/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \?=.-]*)*\/?$/', $this->_applicationHelper->getBaseUrl());
+        $applicationHelper->setArea('frontend');
+        $this->assertRegExp('/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \?=.-]*)*\/?$/', $applicationHelper->getBaseUrl());
     }
 
     /**
-     * Testing Mage_Selenium_Helper_Application::isAdmin()
+     * @depends test__construct
      */
     public function testIsAdmin()
     {
-        $this->_applicationHelper->setArea('frontend');
-        $this->assertFalse($this->_applicationHelper->isAdmin());
+        $applicationHelper = new Mage_Selenium_Helper_Application($this->_config);
 
-        $this->_applicationHelper->setArea('admin');
-        $this->assertTrue($this->_applicationHelper->isAdmin());
+        $applicationHelper->setArea('frontend');
+        $this->assertFalse($applicationHelper->isAdmin());
+
+        $applicationHelper->setArea('admin');
+        $this->assertTrue($applicationHelper->isAdmin());
     }
 
     /**
-     * Testing Mage_Selenium_Helper_Application::getDefaultAdminUsername()
+     * @depends test__construct
      */
     public function testGetDefaultAdminUsername()
     {
-        $this->assertInternalType('string', $this->_applicationHelper->getDefaultAdminUsername());
-        $this->assertNotEmpty($this->_applicationHelper->getDefaultAdminUsername());
+        $applicationHelper = new Mage_Selenium_Helper_Application($this->_config);
+        $this->assertInternalType('string', $applicationHelper->getDefaultAdminUsername());
+        $this->assertNotEmpty($applicationHelper->getDefaultAdminUsername());
     }
 
     /**
-     * Testing Mage_Selenium_Helper_Application::getDefaultAdminPassword()
+     * @depends test__construct
      */
     public function testGetDefaultAdminPassword()
     {
-        $this->assertInternalType('string', $this->_applicationHelper->getDefaultAdminPassword());
-        $this->assertNotEmpty($this->_applicationHelper->getDefaultAdminPassword());
+        $applicationHelper = new Mage_Selenium_Helper_Application($this->_config);
+        $this->assertInternalType('string', $applicationHelper->getDefaultAdminPassword());
+        $this->assertNotEmpty($applicationHelper->getDefaultAdminPassword());
     }
 }
 ?>
