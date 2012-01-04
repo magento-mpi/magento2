@@ -500,7 +500,15 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
         }
 
         // Suggest value closest to given qty
-        return abs($divisibleMin - $qty) < abs($divisibleMax - $qty) ? $divisibleMin : $divisibleMax;
+        $divisibleLess = floor($qty / $qtyIncrements) * $qtyIncrements;
+        $divisibleMore = $divisibleLess + $qtyIncrements;
+        $isLessCloserToQty = abs($divisibleLess - $qty) < abs($divisibleMore - $qty);
+
+        if ($isLessCloserToQty && $divisibleLess >= $divisibleMin) {
+            return $divisibleLess;
+        }
+
+        return $divisibleMore <= $divisibleMax ? $divisibleMore : $qty;
     }
 
     /**
@@ -544,7 +552,7 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
             $result->setOrigQty($origQty);
         }
 
-        if ($this->getMinSaleQty() && ($qty) < $this->getMinSaleQty()) {
+        if ($this->getMinSaleQty() && $qty < $this->getMinSaleQty()) {
             $result->setHasError(true)
                 ->setMessage(
                     Mage::helper('cataloginventory')->__('The minimum quantity allowed for purchase is %s.', $this->getMinSaleQty() * 1)
@@ -554,7 +562,7 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
             return $result;
         }
 
-        if ($this->getMaxSaleQty() && ($qty) > $this->getMaxSaleQty()) {
+        if ($this->getMaxSaleQty() && $qty > $this->getMaxSaleQty()) {
             $result->setHasError(true)
                 ->setMessage(
                     Mage::helper('cataloginventory')->__('The maximum quantity allowed for purchase is %s.', $this->getMaxSaleQty() * 1)
