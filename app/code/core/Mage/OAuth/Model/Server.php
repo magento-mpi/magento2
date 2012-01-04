@@ -643,9 +643,9 @@ class Mage_OAuth_Model_Server
 
         $callbackUrl .= 'oauth_token=' . $token->getToken();
         if ($denied) {
-            $callbackUrl . '&denied=1';
+            $callbackUrl .= '&denied=1';
         } else {
-            $callbackUrl . '&oauth_verifier=' . $token->getVerifier();
+            $callbackUrl .= '&oauth_verifier=' . $token->getVerifier();
         }
 
         if ($popUp) {
