@@ -49,11 +49,6 @@ class Mage_Captcha_Model_Zend extends Zend_Captcha_Image implements Mage_Captcha
     const DEFAULT_WORD_LENGTH_TO   = 5;
 
     /**
-     * Key in session for keeping captcha attempts
-     */
-    const SESSION_FAILED_ATTEMPTS = 'failed_attempts';
-
-    /**
      * Helper Instance
      * @var Mage_Captcha_Helper_Data
      */
@@ -137,8 +132,7 @@ class Mage_Captcha_Model_Zend extends Zend_Captcha_Image implements Mage_Captcha
      */
     protected function _isOverLimitAttempts($login)
     {
-        return ($this->_isOverLimitSessionAttempt() || $this->_isOverLimitIpAttempt()
-            || $this->_isOverLimitLoginAttempts($login));
+        return ($this->_isOverLimitIpAttempt() || $this->_isOverLimitLoginAttempts($login));
     }
 
     /**
@@ -162,18 +156,6 @@ class Mage_Captcha_Model_Zend extends Zend_Captcha_Image implements Mage_Captcha
     }
 
     /**
-     * Check is overlimit saved in session attempts. Used to reduce number of db requests.
-     *
-     * @return bool
-     */
-    protected function _isOverLimitSessionAttempt()
-    {
-        $attemptsMade = $this->getSession()->getData($this->_getFormIdKey(self::SESSION_FAILED_ATTEMPTS));
-        return ($attemptsMade >= $this->_getAllowedAttemptsForSameLogin()
-            || $attemptsMade >= $this->_getAllowedAttemptsFromSameIp());
-    }
-
-    /**
      * Check is overlimit saved attempts from one ip
      *
      * @return bool
@@ -194,11 +176,7 @@ class Mage_Captcha_Model_Zend extends Zend_Captcha_Image implements Mage_Captcha
     {
         if ($login != false) {
             $countAttemptsByLogin = Mage::getResourceModel('captcha/log')->countAttemptsByUserLogin($login);
-            if ($countAttemptsByLogin >= $this->_getAllowedAttemptsForSameLogin()) {
-                $this->getSession()->setData(
-                    $this->_getFormIdKey(self::SESSION_FAILED_ATTEMPTS), $countAttemptsByLogin);
-                return true;
-            }
+            return ($countAttemptsByLogin >= $this->_getAllowedAttemptsForSameLogin());
         }
         return false;
     }
@@ -323,9 +301,6 @@ class Mage_Captcha_Model_Zend extends Zend_Captcha_Image implements Mage_Captcha
     public function logAttempt($login)
     {
         if ($this->_isEnabled() && in_array($this->_formId, $this->_getTargetForms())) {
-            $formIdKey = $this->_getFormIdKey(self::SESSION_FAILED_ATTEMPTS);
-            $attemptCount = (int)$this->getSession()->getData($formIdKey);
-            $this->getSession()->setData($formIdKey, ++$attemptCount);
             Mage::getResourceModel('captcha/log')->logAttempt($login);
         }
         return $this;
