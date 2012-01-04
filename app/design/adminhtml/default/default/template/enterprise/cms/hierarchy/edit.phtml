@@ -537,14 +537,12 @@
         },
 
         saveNodePage: function(){
-            if ($('save_node_button').hasClassName('disabled')) {
-                return false;
-            }
-            if (!this.dataModification) {
+            if (!this.dataModification || $('save_node_button').hasClassName('disabled')) {
                 return;
             }
-            var hasNodeId = $('node_id').value != '';
-            var hasPageId = $('node_page_id').value != '';
+
+            var hasNodeId = $('node_id').value != '',
+                hasPageId = $('node_page_id').value != '';
 
             if (!hasPageId) {
                 var isValid = this.nodePropValidate();
