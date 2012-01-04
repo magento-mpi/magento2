@@ -203,8 +203,8 @@ AddBySku.prototype = {
     getTemplate : function()
     {
         var id = ++this.lastId;
-        return '<td class="value"><input id="sku_' + id + '" type="text" name="' + this.skuFieldName + '" value="" class="input-text required-entry"></td>'
-               + '<td class="value"><input id="sku_qty_' + id  +'" type="text" name="qty" value="1" class="input-text required-entry validate-not-negative-number"></td>'
+        return '<td class="value"><input id="sku_' + id + '" type="text" name="' + this.skuFieldName + '" value="" class="input-text"></td>'
+               + '<td class="value"><input id="sku_qty_' + id  +'" type="text" name="qty" value="1" class="input-text"></td>'
                + '<td>' + this.deleteButtonHtml + '</td>';
     },
 
