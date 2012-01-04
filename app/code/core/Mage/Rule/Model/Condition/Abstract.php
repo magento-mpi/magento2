@@ -26,8 +26,11 @@
 
 
 /**
- * Abstract class for quote rule condition
+ * Abstract Rule condition data model
  *
+ * @category Mage
+ * @package Mage_Rule
+ * @author Magento Core Team <core@magentocommerce.com>
  */
 abstract class Mage_Rule_Model_Condition_Abstract
     extends Varien_Object
@@ -333,6 +336,11 @@ abstract class Mage_Rule_Model_Condition_Abstract
         return $value;
     }
 
+    /**
+     * Get inherited conditions selectors
+     *
+     * @return array
+     */
     public function getNewChildSelectOptions()
     {
         return array(

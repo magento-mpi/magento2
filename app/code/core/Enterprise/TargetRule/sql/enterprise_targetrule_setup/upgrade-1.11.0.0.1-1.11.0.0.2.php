@@ -1,5 +1,4 @@
-<?xml version="1.0"?>
-<!--
+<?php
 /**
  * Magento Enterprise Edition
  *
@@ -20,24 +19,22 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Enterprise
- * @package     Enterprise_Reminder
+ * @package     Enterprise_TargetRule
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
--->
-<config>
-    <modules>
-        <Enterprise_Reminder>
-            <active>false</active>
-            <codePool>core</codePool>
-            <depends>
-                <Mage_Customer/>
-                <Mage_Adminhtml/>
-                <Mage_Checkout/>
-                <Mage_Wishlist/>
-                <Mage_SalesRule/>
-                <Mage_Rule/>
-            </depends>
-        </Enterprise_Reminder>
-    </modules>
-</config>
+
+/* @var $installer Enterprise_TargetRule_Model_Resource_Setup */
+$installer = $this;
+$connection = $installer->getConnection();
+
+$installer->startSetup();
+
+$targetRuleCustomerSegmentTable = $this->getTable('enterprise_targetrule/customersegment');
+if ($connection->isTableExists($targetRuleCustomerSegmentTable)) {
+    $connection->dropTable($targetRuleCustomerSegmentTable);
+}
+$connection->dropColumn($installer->getTable('enterprise_targetrule/rule'), 'use_customer_segment');
+$connection->dropColumn($installer->getTable('enterprise_targetrule/product'), 'store_id');
+
+$installer->endSetup();

@@ -55,7 +55,7 @@ class Mage_SalesRule_Model_Resource_Coupon extends Mage_Core_Model_Resource_Db_A
     public function _beforeSave(Mage_Core_Model_Abstract $object)
     {
         if (!$object->getExpirationDate()) {
-            $object->setExpirationDate(new Zend_Db_Expr('NULL'));
+            $object->setExpirationDate(null);
         } else if ($object->getExpirationDate() instanceof Zend_Date) {
             $object->setExpirationDate($object->getExpirationDate()->toString(Varien_Date::DATETIME_INTERNAL_FORMAT));
         }

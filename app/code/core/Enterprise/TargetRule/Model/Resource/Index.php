@@ -518,43 +518,32 @@ class Enterprise_TargetRule_Model_Resource_Index extends Mage_Index_Model_Resour
      *
      * @param int $productId
      * @param int $ruleId
+     *
      * @return Enterprise_TargetRule_Model_Resource_Index
      */
     public function removeProductIndex($productId = null, $ruleId = null)
     {
-        $adapter = $this->_getWriteAdapter();
-        $where   = array();
-        if (!is_null($productId)) {
-            $where['product_id=?'] = $productId;
-        }
-        if (!is_null($ruleId)) {
-            $where['rule_id=?'] = $ruleId;
-        }
-
-        $adapter->delete($this->getTable('enterprise_targetrule/product'), $where);
+        /** @var $targetRule Enterprise_TargetRule_Model_Resource_Rule */
+        $targetRule = Mage::getResourceSingleton('enterprise_targetrule/rule');
+        $targetRule->unbindRuleFromEntity($ruleId, $productId, 'product');
 
         return $this;
     }
 
     /**
-     * Save target rule matched product index data
+     * Bind target rule to specified product
      *
      * @param int $ruleId
      * @param int $productId
+     * @param int $storeId
+     *
      * @return Enterprise_TargetRule_Model_Resource_Index
      */
     public function saveProductIndex($ruleId, $productId, $storeId)
     {
-        $this->removeProductIndex($productId, $ruleId);
-
-        $adapter = $this->_getWriteAdapter();
-        $bind    = array(
-            'rule_id'       => $ruleId,
-            'product_id'    => $productId,
-            'store_id'      => $storeId
-        );
-
-        $adapter->insert($this->getTable('enterprise_targetrule/product'), $bind);
+        /** @var $targetRule Enterprise_TargetRule_Model_Resource_Rule */
+        $targetRule = Mage::getResourceSingleton('enterprise_targetrule/rule');
+        $targetRule->bindRuleToEntity($ruleId, $productId, 'product');
 
         return $this;
     }

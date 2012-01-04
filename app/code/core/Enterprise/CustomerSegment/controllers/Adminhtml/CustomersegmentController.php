@@ -132,6 +132,7 @@ class Enterprise_CustomerSegment_Adminhtml_CustomersegmentController extends Mag
             $this->_redirect('*/*/');
             return;
         } catch (Exception $e) {
+            Mage::logException($e);
             $this->_getSession()->addException($e,
                 Mage::helper('enterprise_customersegment')->__('Segment Customers matching error.')
             );
@@ -197,13 +198,26 @@ class Enterprise_CustomerSegment_Adminhtml_CustomersegmentController extends Mag
                 $redirectBack = $this->getRequest()->getParam('back', false);
 
                 $model = $this->_initSegment('segment_id');
+
+                // Sanitize apply_to property
+                if (array_key_exists('apply_to', $data)) {
+                    $data['apply_to'] = (int)$data['apply_to'];
+                }
+
+                $validateResult = $model->validateData(new Varien_Object($data));
+                if ($validateResult !== true) {
+                    foreach ($validateResult as $errorMessage) {
+                        $this->_getSession()->addError($errorMessage);
+                    }
+                    $this->_getSession()->setFormData($data);
+
+                    $this->_redirect('*/*/edit', array('id'=>$model->getId()));
+                    return;
+                }
+
                 if (array_key_exists('rule', $data)){
                     $data['conditions'] = $data['rule']['conditions'];
                     unset($data['rule']);
-                }
-                // Sanitize apply_to property
-                if (array_key_exists('apply_to', $data)) {
-                    $data['apply_to'] = (int) $data['apply_to'];
                 }
 
                 $model->loadPost($data);

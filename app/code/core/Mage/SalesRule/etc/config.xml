@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Mage_SalesRule>
-            <version>1.6.0.2</version>
+            <version>1.6.0.3</version>
         </Mage_SalesRule>
     </modules>
     <global>
@@ -73,6 +73,12 @@
                     <product_attribute>
                         <table>salesrule_product_attribute</table>
                     </product_attribute>
+                    <website>
+                        <table>salesrule_website</table>
+                    </website>
+                    <customer_group>
+                        <table>salesrule_customer_group</table>
+                    </customer_group>
                 </entities>
             </salesrule_resource>
         </models>

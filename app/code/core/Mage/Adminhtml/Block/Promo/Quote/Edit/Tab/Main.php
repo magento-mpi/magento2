@@ -25,12 +25,11 @@
  */
 
 /**
- * description
+ * Shopping Cart Price Rule General Information Tab
  *
- * @category    Mage
- * @category   Mage
- * @package    Mage_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @category Mage
+ * @package Mage_Adminhtml
+ * @author Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Main
     extends Mage_Adminhtml_Block_Widget_Form
@@ -57,7 +56,7 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Main
     }
 
     /**
-     * Returns status flag about this tab can be showen or not
+     * Returns status flag about this tab can be showed or not
      *
      * @return true
      */
@@ -121,32 +120,31 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Main
                 '0' => Mage::helper('salesrule')->__('Inactive'),
             ),
         ));
+
         if (!$model->getId()) {
             $model->setData('is_active', '1');
         }
 
-
-        if (!Mage::app()->isSingleStoreMode()) {
-            $fieldset->addField('website_ids', 'multiselect', array(
-                'name'      => 'website_ids[]',
-                'label'     => Mage::helper('catalogrule')->__('Websites'),
-                'title'     => Mage::helper('catalogrule')->__('Websites'),
-                'required'  => true,
-                'values'    => Mage::getSingleton('adminhtml/system_config_source_website')->toOptionArray(),
-            ));
-        }
-        else {
+        if (Mage::app()->isSingleStoreMode()) {
+            $websiteId = Mage::app()->getStore(true)->getWebsiteId();
             $fieldset->addField('website_ids', 'hidden', array(
-                'name'      => 'website_ids[]',
-                'value'     => Mage::app()->getStore(true)->getWebsiteId()
+                'name'     => 'website_ids[]',
+                'value'    => $websiteId
             ));
-            $model->setWebsiteIds(Mage::app()->getStore(true)->getWebsiteId());
+            $model->setWebsiteIds($websiteId);
+        } else {
+            $fieldset->addField('website_ids', 'multiselect', array(
+                'name'     => 'website_ids[]',
+                'label'     => Mage::helper('salesrule')->__('Websites'),
+                'title'     => Mage::helper('salesrule')->__('Websites'),
+                'required' => true,
+                'values'   => Mage::getSingleton('adminhtml/system_store')->getWebsiteValuesForForm()
+            ));
         }
 
-        $customerGroups = Mage::getResourceModel('customer/group_collection')
-            ->load()->toOptionArray();
-
+        $customerGroups = Mage::getResourceModel('customer/group_collection')->load()->toOptionArray();
         $found = false;
+
         foreach ($customerGroups as $group) {
             if ($group['value']==0) {
                 $found = true;
@@ -164,7 +162,7 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Main
             'label'     => Mage::helper('salesrule')->__('Customer Groups'),
             'title'     => Mage::helper('salesrule')->__('Customer Groups'),
             'required'  => true,
-            'values'    => $customerGroups,
+            'values'    => Mage::getResourceModel('customer/group_collection')->toOptionArray(),
         ));
 
         $couponTypeFiled = $fieldset->addField('coupon_type', 'select', array(

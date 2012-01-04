@@ -72,16 +72,18 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tab_Genera
         if (Mage::app()->isSingleStoreMode()) {
             $websiteId = Mage::app()->getStore(true)->getWebsiteId();
             $fieldset->addField('website_ids', 'hidden', array(
-                'name' => 'website_ids[]',
-                'value' => $websiteId
+                'name'     => 'website_ids[]',
+                'value'    => $websiteId
             ));
             $model->setWebsiteIds($websiteId);
         } else {
             $fieldset->addField('website_ids', 'multiselect', array(
-                'name' => 'website_ids',
-                'label' => Mage::helper('enterprise_customersegment')->__('Assigned to Website'),
+                'name'     => 'website_ids[]',
+                'label'    => Mage::helper('enterprise_customersegment')->__('Assigned to Website'),
+                'title'    => Mage::helper('enterprise_customersegment')->__('Assigned to Website'),
                 'required' => true,
-                'values' => Mage::getSingleton('adminhtml/system_store')->getWebsiteValuesForForm()
+                'values'   => Mage::getSingleton('adminhtml/system_store')->getWebsiteValuesForForm(),
+                'value'    => $model->getWebsiteIds()
             ));
         }
 
@@ -114,9 +116,6 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tab_Genera
 
         if (!$model->getId()) {
             $model->setData('is_active', '1');
-        } else {
-            // Init model website IDs
-            $model->getWebsiteIds();
         }
 
         $form->setValues($model->getData());

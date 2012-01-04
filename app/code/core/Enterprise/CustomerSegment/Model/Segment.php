@@ -45,9 +45,11 @@
  * @package     Enterprise_CustomerSegment
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_CustomerSegment_Model_Segment extends Mage_Rule_Model_Rule
+class Enterprise_CustomerSegment_Model_Segment extends Mage_Rule_Model_Abstract
 {
-
+    /**
+     * Customer segment view modes
+     */
     const VIEW_MODE_UNION_CODE      = 'union';
     const VIEW_MODE_INTERSECT_CODE  = 'intersect';
 
@@ -59,7 +61,7 @@ class Enterprise_CustomerSegment_Model_Segment extends Mage_Rule_Model_Rule
     const APPLY_TO_VISITORS_AND_REGISTERED = 0;
 
     /**
-     * Intialize model
+     * Set resource model
      *
      * @return void
      */
@@ -70,44 +72,7 @@ class Enterprise_CustomerSegment_Model_Segment extends Mage_Rule_Model_Rule
     }
 
     /**
-     * Return conditions instance
-     *
-     * @return Enterprise_CustomerSegment_Model_Segment_Condition_Combine
-     */
-    public function getConditionsInstance()
-    {
-        return Mage::getModel('enterprise_customersegment/segment_condition_combine_root');
-    }
-
-    /**
-     * Get segment associated website ids
-     *
-     * @return array
-     */
-    public function getWebsiteIds()
-    {
-        if (!$this->hasData('website_ids')) {
-            $this->setData('website_ids', $this->_getResource()->getWebsiteIds($this->getId()));
-        }
-        return $this->_getData('website_ids');
-    }
-
-    /**
-     * Perform actions after object load
-     */
-    protected function _afterLoad()
-    {
-        Mage_Core_Model_Abstract::_afterLoad();
-        $conditionsArr = unserialize($this->getConditionsSerialized());
-        if (!empty($conditionsArr) && is_array($conditionsArr)) {
-            $this->getConditions()->loadArray($conditionsArr);
-        }
-        return $this;
-    }
-
-    /**
-     * Perform actions before object save
-     *
+     * Set aggregated conditions SQL.
      * Collect and save list of events which are applicable to segment.
      *
      * @return Enterprise_CustomerSegment_Model_Segment
@@ -119,7 +84,7 @@ class Enterprise_CustomerSegment_Model_Segment extends Mage_Rule_Model_Rule
         }
 
         if (!$this->isObjectNew()) {
-            // Keep 'apply_to' property without changes for existing customer segnments
+            // Keep 'apply_to' property without changes for existing customer segments
             $this->setData('apply_to', $this->getOrigData('apply_to'));
         }
 
@@ -133,23 +98,36 @@ class Enterprise_CustomerSegment_Model_Segment extends Mage_Rule_Model_Rule
             $this->getConditions()->getConditionsSql($customer, $website)
         );
         $this->setMatchedEvents(array_unique($events));
-        return parent::_beforeSave();
-    }
 
-    /**
-     * Live website ids data as is
-     *
-     * @return Enterprise_CustomerSegment_Model_Segment
-     */
-    protected function _prepareWebsiteIds()
-    {
+        parent::_beforeSave();
         return $this;
     }
 
     /**
-     * Collect all matched event names for segment
+     * Getter for rule combine conditions instance
      *
-     * @param null | Enterprise_CustomerSegment_Model_Condition_Combine_Abstract $conditionsCombine
+     * @return Enterprise_CustomerSegment_Model_Segment_Condition_Combine
+     */
+    public function getConditionsInstance()
+    {
+        return Mage::getModel('enterprise_customersegment/segment_condition_combine_root');
+    }
+
+    /**
+     * Getter for rule actions collection instance
+     *
+     * @return Mage_Rule_Model_Action_Collection
+     */
+    public function getActionsInstance()
+    {
+        return Mage::getModel('rule/action_collection');
+    }
+
+    /**
+     * Collect all matched event names for current segment
+     *
+     * @param null|Enterprise_CustomerSegment_Model_Condition_Combine_Abstract $conditionsCombine
+     *
      * @return array
      */
     public function collectMatchedEvents($conditionsCombine = null)
@@ -172,13 +150,15 @@ class Enterprise_CustomerSegment_Model_Segment extends Mage_Rule_Model_Rule
             }
         }
         $events = array_unique($events);
+
         return $events;
     }
 
     /**
      * Get list of all models which are used in segment conditions
      *
-     * @param  null | Mage_Rule_Model_Condition_Combine $conditions
+     * @param  null|Mage_Rule_Model_Condition_Combine $conditions
+     *
      * @return array
      */
     public function getConditionModels($conditions = null)
@@ -208,6 +188,7 @@ class Enterprise_CustomerSegment_Model_Segment extends Mage_Rule_Model_Rule
      * Validate customer by segment conditions for current website
      *
      * @param Varien_Object $object
+     *
      * @return bool
      */
     public function validate(Varien_Object $object)
@@ -225,8 +206,9 @@ class Enterprise_CustomerSegment_Model_Segment extends Mage_Rule_Model_Rule
     /**
      * Check if customer is matched by segment
      *
-     * @param int | Mage_Customer_Model_Customer $customer
-     * @param $website
+     * @param int|Mage_Customer_Model_Customer|Varien_Object $customer
+     * @param null|Mage_Core_Model_Website|bool|int|string $website
+     *
      * @return bool
      */
     public function validateCustomer($customer, $website)
@@ -243,6 +225,7 @@ class Enterprise_CustomerSegment_Model_Segment extends Mage_Rule_Model_Rule
         } else {
             $customerId = $customer;
         }
+
         $website = Mage::app()->getWebsite($website);
         $params = array();
         if (strpos($sql, ':customer_id')) {
@@ -276,21 +259,7 @@ class Enterprise_CustomerSegment_Model_Segment extends Mage_Rule_Model_Rule
      */
     public function matchCustomers()
     {
-        $websiteIds = $this->getWebsiteIds();
-        $queries = array();
-        foreach ($websiteIds as $websiteId) {
-            $queries[$websiteId] = $this->getConditions()->getConditionsSql(null, $websiteId);
-        }
-        $this->_getResource()->beginTransaction();
-        $this->_getResource()->deleteSegmentCustomers($this);
-        try {
-            foreach ($queries as $websiteId => $query) {
-                $this->_getResource()->saveCustomersFromSelect($this, $websiteId, $query);
-            }
-            $this->_getResource()->commit();
-        } catch (Exception $e) {
-            $this->_getResource()->rollBack();
-        }
+        $this->_getResource()->aggregateMatchedCustomers($this);
         return $this;
     }
 }

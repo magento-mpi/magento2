@@ -73,7 +73,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Attrib
     /**
      * Load attribute options
      *
-     * @return Mage_CatalogRule_Model_Rule_Condition_Product
+     * @return Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Attributes
      */
     public function loadAttributeOptions()
     {
