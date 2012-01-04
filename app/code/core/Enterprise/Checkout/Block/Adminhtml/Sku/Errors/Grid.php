@@ -105,7 +105,7 @@ class Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Grid extends Mage_Adminhtml
             'header'   => $this->__('Product Name'),
             'index'    => 'description',
             'class'    => 'no-link',
-            'sortable' => 'false',
+            'sortable' => false,
             'renderer' => 'enterprise_checkout/adminhtml_sku_errors_grid_renderer_html',
         ));
 
@@ -114,7 +114,7 @@ class Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Grid extends Mage_Adminhtml
             'class'    => 'no-link',
             'width'    => 100,
             'index'    => 'price',
-            'sortable' => 'false',
+            'sortable' => false,
             'type'     => 'text',
         ));
 
@@ -123,7 +123,7 @@ class Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Grid extends Mage_Adminhtml
             'class'    => 'no-link sku-error-qty',
             'width'    => 40,
             'type'     => 'input',
-            'sortable' => 'false',
+            'sortable' => false,
             'index'    => 'qty',
         ));
 
@@ -132,7 +132,7 @@ class Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Grid extends Mage_Adminhtml
             'class'    => 'no-link',
             'width'    => 100,
             'index'    => 'subtotal',
-            'sortable' => 'false',
+            'sortable' => false,
             'type'     => 'text',
         ));
 
@@ -141,7 +141,7 @@ class Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Grid extends Mage_Adminhtml
             'class'    => 'no-link',
             'width'    => 80,
             'index'    => 'remove_button',
-            'sortable' => 'false',
+            'sortable' => false,
             'renderer' => 'enterprise_checkout/adminhtml_sku_errors_grid_renderer_html',
         ));
 
