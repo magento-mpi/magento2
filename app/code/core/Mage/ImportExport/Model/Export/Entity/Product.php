@@ -267,14 +267,15 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
             ->where('entity_id IN(?)', $productIds);
 
         $rowGroupPrices = array();
-        $stmt = $this->_connection->query($select);
-        while ($groupRow = $stmt->fetch()) {
+        $statement = $this->_connection->query($select);
+        while ($groupRow = $statement->fetch()) {
             $rowGroupPrices[$groupRow['entity_id']][] = array(
                 '_group_price_customer_group' => $groupRow['all_groups']
-                                                ? self::VALUE_ALL : $groupRow['customer_group_id'],
-                '_group_price_website'        => 0 == $groupRow['website_id']
-                                                ? self::VALUE_ALL
-                                                : $this->_websiteIdToCode[$groupRow['website_id']],
+                    ? self::VALUE_ALL
+                    : $groupRow['customer_group_id'],
+                '_group_price_website'        => (0 == $groupRow['website_id'])
+                    ? self::VALUE_ALL
+                    : $this->_websiteIdToCode[$groupRow['website_id']],
                 '_group_price_price'          => $groupRow['value']
             );
         }

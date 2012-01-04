@@ -589,21 +589,23 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
     protected function _isGroupPriceValid(array $rowData, $rowNum)
     {
         if ((isset($rowData['_group_price_website']) && strlen($rowData['_group_price_website']))
-                || (isset($rowData['_group_price_customer_group']) && strlen($rowData['_group_price_customer_group']))
-                || (isset($rowData['_group_price_price']) && strlen($rowData['_group_price_price']))
+            || (isset($rowData['_group_price_customer_group']) && strlen($rowData['_group_price_customer_group']))
+            || (isset($rowData['_group_price_price']) && strlen($rowData['_group_price_price']))
         ) {
             if (!isset($rowData['_group_price_website']) || !isset($rowData['_group_price_customer_group'])
-                    || !strlen($rowData['_group_price_website']) || !strlen($rowData['_group_price_customer_group'])
-                    || !strlen($rowData['_group_price_price'])
+                || !strlen($rowData['_group_price_website']) || !strlen($rowData['_group_price_customer_group'])
+                || !strlen($rowData['_group_price_price'])
             ) {
                 $this->addRowError(self::ERROR_GROUP_PRICE_DATA_INCOMPLETE, $rowNum);
                 return false;
             } elseif ($rowData['_group_price_website'] != self::VALUE_ALL
-                    && !isset($this->_websiteCodeToId[$rowData['_group_price_website']])) {
+                && !isset($this->_websiteCodeToId[$rowData['_group_price_website']])
+            ) {
                 $this->addRowError(self::ERROR_INVALID_GROUP_PRICE_SITE, $rowNum);
                 return false;
             } elseif ($rowData['_group_price_customer_group'] != self::VALUE_ALL
-                    && !isset($this->_customerGroups[$rowData['_group_price_customer_group']])) {
+                && !isset($this->_customerGroups[$rowData['_group_price_customer_group']])
+            ) {
                 $this->addRowError(self::ERROR_INVALID_GROUP_PRICE_GROUP, $rowNum);
                 return false;
             }
@@ -1165,22 +1167,22 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
                 if (!empty($rowData['_tier_price_website'])) { // 4. Tier prices phase
                     $tierPrices[$rowSku][] = array(
                         'all_groups'        => $rowData['_tier_price_customer_group'] == self::VALUE_ALL,
-                        'customer_group_id' => $rowData['_tier_price_customer_group'] == self::VALUE_ALL ?
-                                               0 : $rowData['_tier_price_customer_group'],
+                        'customer_group_id' => ($rowData['_tier_price_customer_group'] == self::VALUE_ALL)
+                            ? 0 : $rowData['_tier_price_customer_group'],
                         'qty'               => $rowData['_tier_price_qty'],
                         'value'             => $rowData['_tier_price_price'],
-                        'website_id'        => self::VALUE_ALL == $rowData['_tier_price_website'] || $priceIsGlobal ?
-                                               0 : $this->_websiteCodeToId[$rowData['_tier_price_website']]
+                        'website_id'        => (self::VALUE_ALL == $rowData['_tier_price_website'] || $priceIsGlobal)
+                            ? 0 : $this->_websiteCodeToId[$rowData['_tier_price_website']]
                     );
                 }
                 if (!empty($rowData['_group_price_website'])) { // 5. Group prices phase
                     $groupPrices[$rowSku][] = array(
                         'all_groups'        => $rowData['_group_price_customer_group'] == self::VALUE_ALL,
-                        'customer_group_id' => $rowData['_group_price_customer_group'] == self::VALUE_ALL ?
-                                               0 : $rowData['_group_price_customer_group'],
+                        'customer_group_id' => ($rowData['_group_price_customer_group'] == self::VALUE_ALL)
+                            ? 0 : $rowData['_group_price_customer_group'],
                         'value'             => $rowData['_group_price_price'],
-                        'website_id'        => self::VALUE_ALL == $rowData['_group_price_website'] || $priceIsGlobal ?
-                                               0 : $this->_websiteCodeToId[$rowData['_group_price_website']]
+                        'website_id'        => (self::VALUE_ALL == $rowData['_group_price_website'] || $priceIsGlobal)
+                            ? 0 : $this->_websiteCodeToId[$rowData['_group_price_website']]
                     );
                 }
                 foreach ($this->_imagesArrayKeys as $imageCol) {
@@ -1329,7 +1331,7 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
 
         if (!$tableName) {
             $tableName = Mage::getModel('importexport/import_proxy_product_resource')
-                    ->getTable('catalog/product_attribute_group_price');
+                ->getTable('catalog/product_attribute_group_price');
         }
         if ($groupPriceData) {
             $groupPriceIn = array();
