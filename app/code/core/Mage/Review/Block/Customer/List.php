@@ -58,9 +58,8 @@ class Mage_Review_Block_Customer_List extends Mage_Customer_Block_Account_Dashbo
 
     protected function _prepareLayout()
     {
-        $reviewsCollection = Mage::getModel('review/review')->getCollection();
         $toolbar = $this->getLayout()->createBlock('page/html_pager', 'customer_review_list.toolbar')
-            ->setCollection($reviewsCollection);
+            ->setCollection($this->getCollection());
 
         $this->setChild('toolbar', $toolbar);
         return parent::_prepareLayout();
