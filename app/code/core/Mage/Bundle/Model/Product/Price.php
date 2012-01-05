@@ -379,7 +379,7 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
             }
         } else {
             if ($selectionProduct->getSelectionPriceType()) { // percent
-                $price = $bundleProduct->getPrice() * ($selectionProduct->getSelectionPriceValue() / 100);
+                $price = $bundleProduct->getFinalPrice() * ($selectionProduct->getSelectionPriceValue() / 100);
             } else { // fixed
                 $price = $selectionProduct->getSelectionPriceValue();
             }
@@ -401,9 +401,8 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
     public function getSelectionPreFinalPrice($bundleProduct, $selectionProduct, $qty = null)
     {
         $selectionPrice = $this->getSelectionPrice($bundleProduct, $selectionProduct, $qty);
-        $specialPrice = $this->_applySpecialPrice($bundleProduct, $selectionPrice);
         $groupPrice = $this->_applyGroupPrice($bundleProduct, $selectionPrice);
-        return min($specialPrice, $groupPrice);
+        return min($selectionPrice, $groupPrice);
     }
 
     /**
@@ -442,18 +441,14 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
         $multiplyQty = true, $takeTierPrice = true)
     {
         $selectionPrice = $this->getSelectionPrice($bundleProduct, $selectionProduct, $selectionQty, $multiplyQty);
-
-        // apply bundle special price
-        $specialPrice = $this->_applySpecialPrice($bundleProduct, $selectionPrice);
         // apply bundle group price
         $groupPrice = $this->_applyGroupPrice($bundleProduct, $selectionPrice);
-
         if ($takeTierPrice) {
             // apply bundle tier price
             $tierPrice = $this->_applyTierPrice($bundleProduct, $bundleQty, $selectionPrice);
-            return min(array($groupPrice, $tierPrice, $specialPrice));
+            return min(array($selectionPrice, $groupPrice, $tierPrice));
         } else {
-            return min(array($groupPrice, $specialPrice));
+            return min(array($selectionPrice, $groupPrice));
         }
     }
 
@@ -700,7 +695,7 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
                 if (!$result['product_id']) {
                     continue;
                 }
-                if ($result['selection_price_type']) {
+                if ($result['selection_price_type'] == 'percent') {
                     $selectionPrice = $basePrice*$result['selection_price_value']/100;
                 } else {
                     $selectionPrice = $result['selection_price_value'];
