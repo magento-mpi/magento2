@@ -1572,14 +1572,22 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
                     continue;
                 }
 
-                $row = array_merge(
-                    $defaultStockData,
-                    array_intersect_key($rowData, $defaultStockData)
-                );
                 $row['product_id'] = $this->_newSku[$rowData[self::COL_SKU]]['entity_id'];
                 $row['stock_id'] = 1;
+
                 /** @var $stockItem Mage_CatalogInventory_Model_Stock_Item */
-                $stockItem = Mage::getModel('cataloginventory/stock_item', $row);
+                $stockItem = Mage::getModel('cataloginventory/stock_item');
+                $stockItem->loadByProduct($row['product_id']);
+                $existStockData = $stockItem->getData();
+
+                $row = array_merge(
+                    $defaultStockData,
+                    array_intersect_key($existStockData, $defaultStockData),
+                    array_intersect_key($rowData, $defaultStockData),
+                    $row
+                );
+
+                $stockItem->setData($row);
 
                 if ($helper->isQty($this->_newSku[$rowData[self::COL_SKU]]['type_id'])) {
                     if ($stockItem->verifyNotification()) {
