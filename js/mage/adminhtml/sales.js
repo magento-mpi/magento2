@@ -1099,6 +1099,10 @@ AdminOrder.prototype = {
             vat: $(parameters.vatElementId).value
         };
 
+        if (this.storeId !== false) {
+            params.store_id = this.storeId;
+        }
+
         var currentCustomerGroupId = $(parameters.groupIdHtmlId).value;
 
         new Ajax.Request(parameters.validateUrl, {
