@@ -31,6 +31,7 @@ $_items = $_helper->getItemCount() > 0 ? $_helper->getItemCollection() : null;
 ?>
 <?php if($_helper->getItemCount() > 0): ?>
     <li>
+        <a class="compare-clear" href="<?php echo $_helper->getClearListUrl() ?>" onclick="return confirm('<?php echo $this->__('Are you sure you would like to remove all products from your comparison?') ?>');"><?php echo $this->__('Clear All') ?></a>
         <a href="<?php echo $_helper->getListUrl() ?>"><?php echo $this->__('Compare Products') ?>&nbsp;<?php echo $this->__('(%d)', $_helper->getItemCount()) ?></a>
     </li>
 <?php endif; ?>

@@ -51,8 +51,11 @@ document.observe("dom:loaded", function() {
             
         });
     }
+    
+    var supportsOrientationChange = "onorientationchange" in window,
+    orientationEvent = supportsOrientationChange ? "orientationchange" : "resize";
 
-    Event.observe(window, 'orientationchange', function() {
+    Event.observe(window, orientationEvent, function() {
         var orientation,
             page;
             
@@ -72,23 +75,25 @@ document.observe("dom:loaded", function() {
         
         if ( $('nav-container') ) {
         
-            $$("#nav-container ul").each(function(ul) {
-                ul.setStyle({'width' : document.body.offsetWidth + "px"});
-            });
-                    
-            page = Math.floor(Math.abs(sliderPosition/viewportWidth));
-            sliderPosition = (sliderPosition + viewportWidth*page) - document.body.offsetWidth*page;
-            viewportWidth = document.body.offsetWidth;
-            
-            $("nav-container").setStyle({"-webkit-transform" : "translate3d(" + sliderPosition + "px, 0, 0)"});
+            setTimeout(function () {
+                $$("#nav-container ul").each(function(ul) {
+                    ul.setStyle({'width' : document.body.offsetWidth + "px"});
+                });
+                        
+                page = Math.floor(Math.abs(sliderPosition/viewportWidth));
+                sliderPosition = (sliderPosition + viewportWidth*page) - document.body.offsetWidth*page;
+                viewportWidth = document.body.offsetWidth;
+                
+                $("nav-container").setStyle({"-webkit-transform" : "translate3d(" + sliderPosition + "px, 0, 0)"});
 
-            if ( upSellCarousel ) {
-                if (orientation === 'landscape') {
-                    upSellCarousel.resize(3);
-                } else {
-                    upSellCarousel.resize(2);
+                if ( upSellCarousel ) {
+                    if (orientation === 'landscape') {
+                        upSellCarousel.resize(3);
+                    } else {
+                        upSellCarousel.resize(2);
+                    }
                 }
-            }
+            }, 400);
         
         }
 
@@ -336,6 +341,21 @@ document.observe("dom:loaded", function() {
                 }
             });
         });
+        
+        $$('.menu-box')[0].select('a').each(function(elem) {
+            elem.innerHTML = elem.innerHTML.replace(/\((\d+)\)/, '<span class="badge" data-value="$1">$1</span>')
+        })
+        
+        $$('.top-link-cart')[0].up().remove();
+        
+        var sum = 0;
+        $$('.menu-box .badge').each(function (badge) {
+            sum += parseInt(badge.readAttribute('data-value'));
+        });
+        if (sum) {
+            $$('dt.menu')[0].insert({ bottom : new Element('span', { 'class' : 'badge' }).update(sum) });
+        }
+        
     }
 
     //iPhone header menu switchers

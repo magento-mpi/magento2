@@ -692,7 +692,7 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
         Rule is a part of rules collection, which includes only rules with 'No Coupon' type or with validated coupon.
         As a result, if rule uses coupon code(s) ('Specific' or 'Auto' Coupon Type), it always contains validated coupon
         */
-        if ($rule->getCoponType() != Mage_SalesRule_Model_Rule::COUPON_TYPE_NO_COUPON) {
+        if ($rule->getCouponType() != Mage_SalesRule_Model_Rule::COUPON_TYPE_NO_COUPON) {
             $address->setCouponCode($this->getCouponCode());
         }
 
@@ -713,11 +713,11 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
         $label = '';
         if ($ruleLabel) {
             $label = $ruleLabel;
-        } else if ($address->getCouponCode()) {
+        } else if (strlen($address->getCouponCode())) {
             $label = $address->getCouponCode();
         }
 
-        if (!empty($label)) {
+        if (strlen($label)) {
             $description[$rule->getId()] = $label;
         }
 

@@ -36,6 +36,7 @@
                 <Mage_Checkout/>
                 <Mage_Wishlist/>
                 <Mage_SalesRule/>
+                <Mage_Rule/>
             </depends>
         </Enterprise_Reminder>
     </modules>

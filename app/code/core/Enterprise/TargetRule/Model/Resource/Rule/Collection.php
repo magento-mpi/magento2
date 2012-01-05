@@ -26,16 +26,16 @@
 
 
 /**
- * TargetRule Rule Resource Collection
+ * Target rules resource collection model
  *
  * @category    Enterprise
  * @package     Enterprise_TargetRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_TargetRule_Model_Resource_Rule_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
+class Enterprise_TargetRule_Model_Resource_Rule_Collection extends Mage_Rule_Model_Resource_Rule_Collection_Abstract
 {
     /**
-     * Initialize resource collection
+     * Set resource model
      */
     protected function _construct()
     {
@@ -43,9 +43,28 @@ class Enterprise_TargetRule_Model_Resource_Rule_Collection extends Mage_Core_Mod
     }
 
     /**
+     * Run "afterLoad" callback on items if it is applicable
+     *
+     * @return Enterprise_TargetRule_Model_Resource_Rule_Collection
+     */
+    protected function _afterLoad()
+    {
+        foreach ($this->_items as $rule) {
+            /* @var $rule Enterprise_TargetRule_Model_Rule */
+            if (!$this->getFlag('do_not_run_after_load')) {
+                $rule->afterLoad();
+            }
+        }
+
+        parent::_afterLoad();
+        return $this;
+    }
+
+    /**
      * Add Apply To Product List Filter to Collection
      *
      * @param int|array $applyTo
+     *
      * @return Enterprise_TargetRule_Model_Resource_Rule_Collection
      */
     public function addApplyToFilter($applyTo)
@@ -55,21 +74,10 @@ class Enterprise_TargetRule_Model_Resource_Rule_Collection extends Mage_Core_Mod
     }
 
     /**
-     * Add Is active rule filter to collection
-     *
-     * @param int $isActive
-     * @return Enterprise_TargetRule_Model_Resource_Rule_Collection
-     */
-    public function addIsActiveFilter($isActive = 1)
-    {
-        $this->addFieldToFilter('is_active', $isActive);
-        return $this;
-    }
-
-    /**
      * Set Priority Sort order
      *
      * @param string $direction
+     *
      * @return Enterprise_TargetRule_Model_Resource_Rule_Collection
      */
     public function setPriorityOrder($direction = self::SORT_ORDER_ASC)
@@ -79,30 +87,10 @@ class Enterprise_TargetRule_Model_Resource_Rule_Collection extends Mage_Core_Mod
     }
 
     /**
-     * After load collection load customer segment relation
-     *
-     * @return Enterprise_TargetRule_Model_Resource_Rule_Collection
-     */
-    protected function _afterLoad()
-    {
-        if ($this->getFlag('add_customersegment_relations')) {
-            $this->getResource()->addCustomerSegmentRelationsToCollection($this);
-        }
-
-        foreach ($this->_items as $rule) {
-            /* @var $rule Enterprise_TargetRule_Model_Rule */
-            if (!$this->getFlag('do_not_run_after_load')) {
-                $rule->afterLoad();
-            }
-        }
-
-        return parent::_afterLoad();
-    }
-
-    /**
      * Add filter by product id to collection
      *
      * @param int $productId
+     *
      * @return Enterprise_TargetRule_Model_Resource_Rule_Collection
      */
     public function addProductFilter($productId)
@@ -111,8 +99,8 @@ class Enterprise_TargetRule_Model_Resource_Rule_Collection extends Mage_Core_Mod
             array('product_idx' => $this->getTable('enterprise_targetrule/product')),
             'product_idx.rule_id = main_table.rule_id',
             array()
-        );
-        $this->getSelect()->where('product_idx.product_id=?', $productId);
+        )
+        ->where('product_idx.product_id = ?', $productId);
 
         return $this;
     }

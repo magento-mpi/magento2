@@ -98,7 +98,7 @@ class Mage_Chronopay_Model_Standard extends Mage_Payment_Model_Method_Abstract
     /**
      *  Returns Target URL
      *
-     *  @return	  string Target URL
+     *  @return  string Target URL
      */
     public function getChronopayUrl ()
     {
@@ -108,7 +108,7 @@ class Mage_Chronopay_Model_Standard extends Mage_Payment_Model_Method_Abstract
     /**
      *  Return URL for Chronopay success response
      *
-     *  @return	  string URL
+     *  @return string URL
      */
     protected function getSuccessURL ()
     {
@@ -118,7 +118,7 @@ class Mage_Chronopay_Model_Standard extends Mage_Payment_Model_Method_Abstract
     /**
      *  Return URL for Chronopay notification
      *
-     *  @return	  string Notification URL
+     *  @return  string Notification URL
      */
     protected function getNotificationURL ()
     {
@@ -128,7 +128,7 @@ class Mage_Chronopay_Model_Standard extends Mage_Payment_Model_Method_Abstract
     /**
      *  Return URL for Chronopay failure response
      *
-     *  @return	  string URL
+     *  @return  string URL
      */
     protected function getFailureURL ()
     {
@@ -138,7 +138,7 @@ class Mage_Chronopay_Model_Standard extends Mage_Payment_Model_Method_Abstract
     /**
      *  Form block description
      *
-     *  @return	 object
+     *  @return object
      */
     public function createFormBlock($name)
     {
@@ -152,7 +152,7 @@ class Mage_Chronopay_Model_Standard extends Mage_Payment_Model_Method_Abstract
     /**
      *  Return Order Place Redirect URL
      *
-     *  @return	  string Order Redirect URL
+     *  @return string Order Redirect URL
      */
     public function getOrderPlaceRedirectUrl()
     {
@@ -162,13 +162,13 @@ class Mage_Chronopay_Model_Standard extends Mage_Payment_Model_Method_Abstract
     /**
      *  Return Standard Checkout Form Fields for request to Chronopay
      *
-     *  @return	  array Array of hidden form fields
+     *  @return  array Array of hidden form fields
      */
     public function getStandardCheckoutFormFields ()
     {
         $order = $this->getOrder();
         if (!($order instanceof Mage_Sales_Model_Order)) {
-            Mage::throwException($this->_getHelper()->__('Cannot retrieve the order object.'));
+            Mage::throwException(Mage::helper('chronopay')->__('Cannot retrieve the order object.'));
         }
 
         $billingAddress = $order->getBillingAddress();
@@ -219,15 +219,16 @@ class Mage_Chronopay_Model_Standard extends Mage_Payment_Model_Method_Abstract
     /**
      *  Validate Response from ChronoPay
      *
-     *  @param    array Post data returned from ChronoPay
-     *  @return	  mixed
+     *  @param array $data Post data returned from ChronoPay
+     *
+     *  @return mixed
      */
     public function validateResponse ($data)
     {
         $order = $this->getOrder();
 
         if (!($order instanceof Mage_Sales_Model_Order)) {
-            Mage::throwException($this->_getHelper()->__('Cannot retrieve the order object.'));
+            Mage::throwException(Mage::helper('chronopay')->__('Cannot retrieve the order object.'));
         }
 
         try {

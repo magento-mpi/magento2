@@ -69,7 +69,7 @@ class Enterprise_PageCache_Model_Cookie extends Mage_Core_Model_Cookie
     /**
      * Retrieve encryption salt
      *
-     * @var string
+     * @return null|sting
      */
     protected function _getSalt()
     {
@@ -94,6 +94,7 @@ class Enterprise_PageCache_Model_Cookie extends Mage_Core_Model_Cookie
      * @param string $path
      * @param string $domain
      * @param int|bool $secure
+     * @param bool $httponly
      * @return Mage_Core_Model_Cookie
      */
     public function setObscure(
@@ -106,7 +107,7 @@ class Enterprise_PageCache_Model_Cookie extends Mage_Core_Model_Cookie
     /**
      * Keep customer cookies synchronized with customer session
      *
-     * @return Mage_Core_Model_Cookie
+     * @return Enterprise_PageCache_Model_Cookie
      */
     public function updateCustomerCookies()
     {
@@ -137,6 +138,7 @@ class Enterprise_PageCache_Model_Cookie extends Mage_Core_Model_Cookie
             $this->delete(self::COOKIE_CUSTOMER_GROUP);
             $this->delete(self::COOKIE_CUSTOMER_LOGGED_IN);
         }
+        return $this;
     }
 
     /**
@@ -181,7 +183,8 @@ class Enterprise_PageCache_Model_Cookie extends Mage_Core_Model_Cookie
     /**
      * Get catalog cookie
      *
-     * @param string $value
+     * @static
+     * @return bool
      */
     public static function getCategoryCookieValue()
     {

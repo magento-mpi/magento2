@@ -286,14 +286,6 @@
                     <model>paypal/observer::fetchReports</model>
                 </run>
             </paypal_fetch_settlement_reports>
-            <paypal_payment_transaction_clean>
-                <schedule>
-                    <cron_expr>*/15 * * * *</cron_expr>
-                </schedule>
-                <run>
-                    <model>paypal/observer::cleanTransactions</model>
-                </run>
-            </paypal_payment_transaction_clean>
         </jobs>
     </crontab>
     <admin>

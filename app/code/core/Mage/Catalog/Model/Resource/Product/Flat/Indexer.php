@@ -1380,35 +1380,26 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Index_Model_
     }
 
     /**
-     * Prepare flat tables for all stores
-     *
-     * @return Mage_Catalog_Model_Resource_Product_Flat_Indexer
-     */
-    public function prepareFlatTables()
-    {
-        foreach (Mage::app()->getStores() as $store) {
-            $storeId = (int)Mage::app()->getStore($store)->getId();
-            $this->prepareFlatTable($storeId);
-        }
-        return $this;
-    }
-
-    /**
      * Transactional rebuild Catalog Product Flat Data
      *
      * @return Mage_Catalog_Model_Resource_Product_Flat_Indexer
      */
     public function reindexAll()
     {
-        $this->prepareFlatTables();
-        $this->beginTransaction();
-        try {
-            $this->rebuild();
-            $this->commit();
-        } catch (Exception $e) {
-            $this->rollBack();
-            throw $e;
+        foreach (Mage::app()->getStores() as $storeId => $store) {
+            $this->prepareFlatTable($storeId);
+            $this->beginTransaction();
+            try {
+                $this->rebuild($store);
+                $this->commit();
+           } catch (Exception $e) {
+                $this->rollBack();
+                throw $e;
+           }
         }
+        $flag = $this->getFlatHelper()->getFlag();
+        $flag->setIsBuild(true)->save();
+
         return $this;
     }
 }

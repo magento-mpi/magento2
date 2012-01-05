@@ -303,6 +303,8 @@ class Enterprise_GiftWrapping_Adminhtml_GiftwrappingController extends Mage_Admi
     /**
      * Ajax action for GiftWrapping content in backend order creation
      *
+     * @deprecated since 1.12.0.0
+     *
      * @return void
      */
     public function orderOptionsAction() {

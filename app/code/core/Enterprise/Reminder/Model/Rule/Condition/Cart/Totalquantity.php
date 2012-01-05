@@ -58,8 +58,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Totalquantity
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . Mage::helper('enterprise_reminder')->__('Total shopping cart items quantity %s %s:',
-                $this->getOperatorElementHtml(), $this->getValueElementHtml())
+            . Mage::helper('enterprise_reminder')->__('Total shopping cart items quantity %s %s:', $this->getOperatorElementHtml(), $this->getValueElementHtml())
             . $this->getRemoveLinkHtml();
     }
 

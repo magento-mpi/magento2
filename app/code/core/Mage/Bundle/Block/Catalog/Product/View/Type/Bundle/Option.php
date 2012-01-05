@@ -163,6 +163,11 @@ class Mage_Bundle_Block_Catalog_Product_View_Type_Bundle_Option extends Mage_Bun
         return $selectedQty;
     }
 
+    /**
+     * Get product model
+     *
+     * @return Mage_Catalog_Model_Product
+     */
     public function getProduct()
     {
         if (!$this->hasData('product')) {

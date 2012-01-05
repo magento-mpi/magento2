@@ -28,6 +28,7 @@
 /**
  * Media library js helper
  *
+ * @deprecated from 1.7.0.0
  * @category   Mage
  * @package    Mage_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>

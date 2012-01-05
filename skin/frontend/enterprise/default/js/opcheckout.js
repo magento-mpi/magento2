@@ -38,17 +38,37 @@ Checkout.prototype = {
         this.loadWaiting = false;
         this.steps = ['login', 'billing', 'shipping', 'shipping_method', 'payment', 'review'];
 
-        //this.onSetMethod = this.nextStep.bindAsEventListener(this);
+        this.accordion.sections.each(function(section) {
+            Event.observe($(section).down('.step-title'), 'click', this._onSectionClick.bindAsEventListener(this));
+        }.bind(this));
 
         this.accordion.disallowAccessToNextSections = true;
+    },
+
+    /**
+     * Section header click handler
+     *
+     * @param event
+     */
+    _onSectionClick: function(event) {
+        var section = $(Event.element(event).up().up());
+        if (section.hasClassName('allow')) {
+            Event.stop(event);
+            this.gotoSection(section.readAttribute('id').replace('opc-', ''));
+            return false;
+        }
     },
 
     ajaxFailure: function(){
         location.href = this.failureUrl;
     },
 
-    reloadProgressBlock: function(){
-        var updater = new Ajax.Updater('col-right-opcheckout', this.progressUrl, {method: 'get', onFailure: this.ajaxFailure.bind(this)});
+    reloadProgressBlock: function(toStep) {
+        var updater = new Ajax.Updater('col-right-opcheckout', this.progressUrl, {
+            method: 'get',
+            onFailure: this.ajaxFailure.bind(this),
+            parameters: toStep ? {toStep: toStep} : null
+        });
     },
 
     reloadReviewBlock: function(){
@@ -88,9 +108,10 @@ Checkout.prototype = {
 
     gotoSection: function(section)
     {
-        section = $('opc-'+section);
-        section.addClassName('allow');
-        this.accordion.openSection(section);
+        var sectionElement = $('opc-'+section);
+        sectionElement.addClassName('allow');
+        this.accordion.openSection('opc-'+section);
+        this.reloadProgressBlock(section);
     },
 
     setMethod: function(){
@@ -116,6 +137,7 @@ Checkout.prototype = {
             alert(Translator.translate('Please choose to register or to checkout as a guest'));
             return false;
         }
+        document.body.fire('login:setMethod', {method : this.method});
     },
 
     setBilling: function() {
@@ -132,7 +154,6 @@ Checkout.prototype = {
         }
 
         // this refreshes the checkout progress column
-        this.reloadProgressBlock();
 
 //        if ($('billing:use_for_shipping') && $('billing:use_for_shipping').checked){
 //            shipping.syncWithBilling();
@@ -149,21 +170,18 @@ Checkout.prototype = {
     },
 
     setShipping: function() {
-        this.reloadProgressBlock();
         //this.nextStep();
         this.gotoSection('shipping_method');
         //this.accordion.openNextSection(true);
     },
 
     setShippingMethod: function() {
-        this.reloadProgressBlock();
         //this.nextStep();
         this.gotoSection('payment');
         //this.accordion.openNextSection(true);
     },
 
     setPayment: function() {
-        this.reloadProgressBlock();
         //this.nextStep();
         this.gotoSection('review');
         //this.accordion.openNextSection(true);
@@ -196,7 +214,6 @@ Checkout.prototype = {
         }
 
         if (response.goto_section) {
-            this.reloadProgressBlock();
             this.gotoSection(response.goto_section);
             return true;
         }
@@ -306,6 +323,7 @@ Billing.prototype = {
 
     resetLoadWaiting: function(transport){
         checkout.setLoadWaiting(false);
+        document.body.fire('billing-request:completed', {transport: transport});
     },
 
     /**
@@ -589,7 +607,6 @@ ShippingMethod.prototype = {
 
         if (response.goto_section) {
             checkout.gotoSection(response.goto_section);
-            checkout.reloadProgressBlock();
             return;
         }
 
@@ -881,7 +898,6 @@ Review.prototype = {
 
             if (response.goto_section) {
                 checkout.gotoSection(response.goto_section);
-                checkout.reloadProgressBlock();
             }
         }
     },

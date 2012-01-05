@@ -130,7 +130,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Mage_Adminhtml_Bl
         foreach ($attributes as $attribute) {
             $attribute->unsIsVisible();
         }
-        $this->_setFieldset($attributes, $fieldset);
+        $this->_setFieldset($attributes, $fieldset, array(), 'customer');
 
         $regionElement = $form->getElement('region');
         if ($regionElement) {

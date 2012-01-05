@@ -133,15 +133,13 @@ abstract class Enterprise_Search_Model_Adapter_Solr_Abstract extends Enterprise_
     }
 
     /**
-     * Prepare index data for using in Solr metadata
-     * Add language code suffix to text fields
-     * and type suffix for not text dynamic fields
-     *
-     * @see $this->_usedFields, $this->_searchTextFields
+     * Prepare index data for using in Solr metadata.
+     * Add language code suffix to text fields and type suffix for not text dynamic fields.
+     * Prepare sorting fields.
      *
      * @param array $data
      * @param array $attributesParams
-     * @param string|null $localCode
+     * @param string|null $localeCode
      *
      * @return array
      */
@@ -151,80 +149,112 @@ abstract class Enterprise_Search_Model_Adapter_Solr_Abstract extends Enterprise_
             return array();
         }
 
-        $fieldPrefix = $this->_advancedIndexFieldsPrefix;
+        $fieldPrefix    = $this->_advancedIndexFieldsPrefix;
+        $fieldPrefixLen = strlen($fieldPrefix);
         $languageSuffix = $this->_getLanguageSuffix($localeCode);
 
         foreach ($data as $key => $value) {
-            if (in_array($key, $this->_usedFields)) {
-                continue;
-            } elseif ($key == 'options') {
-                unset($data[$key]);
-                continue;
+            if (array_key_exists($key, $attributesParams)) {
+                $backendType    = $attributesParams[$key]['backendType'];
+                $frontendInput  = $attributesParams[$key]['frontendInput'];
+                $usedForSortBy  = $attributesParams[$key]['usedForSortBy'];
+            } else {
+                $backendType    = null;
+                $frontendInput  = null;
+                $usedForSortBy  = false;
             }
 
-            if (!array_key_exists($key, $attributesParams)) {
-                $backendType = (substr($key, 0, 8) == 'fulltext') ? 'text' : null;
-                $frontendInput = null;
-            } else {
-                $backendType = $attributesParams[$key]['backendType'];
-                $frontendInput = $attributesParams[$key]['frontendInput'];
+            if (!$usedForSortBy && in_array($key, $this->_usedFields)) {
+                continue;
             }
 
             if ($frontendInput == 'multiselect') {
-                if (!is_array($value)) {
-                    $value = explode($this->_separator, $value);
-                    $value = array_unique($value);
-                } else {
-                    $result = array();
-                    foreach ($value as $val) {
-                        if (is_array($val)) {
-                            $result = array_merge($result, explode($this->_separator, $val));
-                        }
-                    }
-                    $value = array_unique($result);
+                $preparedValue = array();
+                foreach ($value as $val) {
+                    $preparedValue = array_merge($preparedValue, explode($this->_separator, $val));
                 }
-                $data['attr_multi_'. $key] = $value;
-                unset($data[$key]);
+                $preparedValue = array_unique($preparedValue);
+
+                $fieldType = 'multi';
             } elseif ($frontendInput == 'select' || $frontendInput == 'boolean') {
                 if (is_array($value)) {
-                    $value = array_unique($value);
-                }
-                $data['attr_select_'. $key] = $value;
-                unset($data[$key]);
-            } elseif (in_array($backendType, $this->_textFieldTypes)) {
-                /*
-                 * for grouped products imploding all possible unique values
-                 */
-                if (is_array($value)) {
-                    $value = implode(' ', array_unique($value));
+                    $preparedValue = array_unique($value);
                 }
 
-                $data[$key . $languageSuffix] = $value;
-                unset($data[$key]);
+                $fieldType = 'select';
+            } elseif (in_array($backendType, $this->_textFieldTypes) || substr($key, 0, 8) == 'fulltext') {
+                if (is_array($value)) {
+                    $preparedValue = implode(' ', array_unique($value));
+                } else {
+                    $preparedValue = $value;
+                }
+
+                $fieldType = 'text';
             } elseif ($backendType != 'static') {
-                if (substr($key, 0, strlen($fieldPrefix)) == $fieldPrefix) {
-                    $data[substr($key, strlen($fieldPrefix))] = $value;
+                if ($backendType == 'datetime') {
+                    if (is_array($value)) {
+                        $preparedValue = array();
+                        foreach ($value as &$val) {
+                            $val = $this->_getSolrDate($data['store_id'], $val);
+                            if (!empty($val)) {
+                                $preparedValue[] = $val;
+                            }
+                        }
+
+                        $preparedValue = array_unique($preparedValue);
+                    } else {
+                        $preparedValue = $this->_getSolrDate($data['store_id'], $value);
+                    }
+                } else {
+                    $preparedValue = $value;
+                }
+
+                $fieldType = $backendType;
+            }
+
+            if ($usedForSortBy) {
+                if (is_array($value)) {
+                    if (array_key_exists($data['id'], $value)) {
+                        $sortValue = $value[$data['id']];
+                    } else {
+                        $sortValue = null;
+                    }
+                } else {
+                    $sortValue = $value;
+                }
+
+                if (strlen($sortValue)) {
+                    if ($fieldType == 'text') {
+                        $sorFieldName = 'attr_sort_' . $key . $languageSuffix;
+                    } else {
+                        $sorFieldName = 'attr_sort_' . $fieldType . '_' . $key;
+                    }
+
+                    $data[$sorFieldName] = $sortValue;
+                }
+
+                if ($attributesParams[$key]['usedForSortOnly']) {
                     unset($data[$key]);
                     continue;
                 }
-
-                if ($backendType == 'datetime') {
-                    if (is_array($value)) {
-                        foreach ($value as $k => &$val) {
-                            $val = $this->_getSolrDate($data['store_id'], $val);
-                            if (empty($val)) {
-                                unset($value[$k]);
-                            }
-                        }
-                    } else {
-                        $value = $this->_getSolrDate($data['store_id'], $value);
-                    }
-                }
-                if (!empty($value)) {
-                    $data['attr_'. $backendType .'_'. $key] = $value;
-                }
-                unset($data[$key]);
             }
+
+            if (!in_array($key, $this->_usedFields)
+                && (!empty($preparedValue)
+                    || (!is_array($preparedValue) && strlen($preparedValue))
+                )
+            ) {
+                if (substr($key, 0, $fieldPrefixLen) == $fieldPrefix) {
+                    $fieldName = substr($key, $fieldPrefixLen);
+                } elseif ($fieldType == 'text') {
+                    $fieldName = $key . $languageSuffix;
+                } else {
+                    $fieldName = 'attr_' . $fieldType . '_' . $key;
+                }
+
+                $data[$fieldName] = $preparedValue;
+            }
+            unset($data[$key]);
         }
 
         return $data;
@@ -431,6 +461,7 @@ abstract class Enterprise_Search_Model_Adapter_Solr_Abstract extends Enterprise_
                 $this->_ping = false;
             }
         }
+
         return $this->_ping;
     }
 
@@ -445,9 +476,10 @@ abstract class Enterprise_Search_Model_Adapter_Solr_Abstract extends Enterprise_
         if ($attributeCode == 'score') {
             return $attributeCode;
         }
-        $entityType     = Mage::getSingleton('eav/config')->getEntityType('catalog_product');
-        $attribute      = Mage::getSingleton('eav/config')->getAttribute($entityType, $attributeCode);
 
-        return Mage::helper('enterprise_search')->getAttributeSolrFieldName($attribute);
+        $entityType = Mage::getSingleton('eav/config')->getEntityType('catalog_product');
+        $attribute  = Mage::getSingleton('eav/config')->getAttribute($entityType, $attributeCode);
+
+        return Mage::helper('enterprise_search')->getSolrFieldName($attribute, true);
     }
 }

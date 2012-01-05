@@ -56,8 +56,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Sku
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . Mage::helper('enterprise_reminder')->__('Item SKU %s %s ',
-                $this->getOperatorElementHtml(), $this->getValueElementHtml())
+            . Mage::helper('enterprise_reminder')->__('Item SKU %s %s ', $this->getOperatorElementHtml(), $this->getValueElementHtml())
             . $this->getRemoveLinkHtml();
     }
 

@@ -42,9 +42,24 @@
  */
 class Enterprise_TargetRule_Model_Index extends Mage_Index_Model_Indexer_Abstract
 {
+    /**
+     * Reindex products target-rules event type
+     */
     const EVENT_TYPE_REINDEX_PRODUCTS = 'reindex_targetrules';
+
+    /**
+     * Clean target-rules event type
+     */
     const EVENT_TYPE_CLEAN_TARGETRULES = 'clean_targetrule_index';
+
+    /**
+     * Product entity for indexers
+     */
     const ENTITY_PRODUCT = 'targetrule_product';
+
+    /**
+     * Target-rule entity for indexers
+     */
     const ENTITY_TARGETRULE = 'targetrule_entity';
 
     /**
@@ -355,7 +370,7 @@ class Enterprise_TargetRule_Model_Index extends Mage_Index_Model_Indexer_Abstrac
                 switch ($event->getEntity()) {
                     case self::ENTITY_PRODUCT:
                         $data = $event->getNewData();
-                        if ($data['product']) {
+                        if (!empty($data['product'])) {
                             $this->_reindex($data['product']);
                         }
                         break;
@@ -365,7 +380,7 @@ class Enterprise_TargetRule_Model_Index extends Mage_Index_Model_Indexer_Abstrac
                 switch ($event->getEntity()) {
                     case self::ENTITY_TARGETRULE:
                         $data = $event->getNewData();
-                        if ($data['params']) {
+                        if (!empty($data['params'])) {
                             $params = $data['params'];
                             $this->_cleanIndex($params->getTypeId(), $params->getStore());
                         }

@@ -427,7 +427,7 @@ final class Mage
      *
      * @link    Mage_Core_Model_Config::getModelInstance
      * @param   string $modelClass
-     * @param   array $arguments
+     * @param   array|object $arguments
      * @return  Mage_Core_Model_Abstract
      */
     public static function getModel($modelClass = '', $arguments = array())

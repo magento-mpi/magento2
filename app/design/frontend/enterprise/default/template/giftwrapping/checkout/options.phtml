@@ -128,7 +128,7 @@ var giftWrapping = {
             $$('.extra-options-container').each(function(element){
                 var id = element.id.sub('extra-options-container-','');
                 data.id = id;
-                if (this.cardInfo.length > 0) {
+                if (this.cardInfo[id]) {
                     this.cardInfo[id].id = id;
                 } else {
                     this.cardInfo[id] = {"id":id};

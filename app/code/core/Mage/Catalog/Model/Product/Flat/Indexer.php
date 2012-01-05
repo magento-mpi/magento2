@@ -53,7 +53,14 @@
  */
 class Mage_Catalog_Model_Product_Flat_Indexer extends Mage_Core_Model_Abstract
 {
+    /**
+     * Catalog product flat entity for indexers
+     */
     const ENTITY = 'catalog_product_flat';
+
+    /**
+     * Indexers rebuild event type
+     */
     const EVENT_TYPE_REBUILD = 'catalog_product_flat_rebuild';
 
     /**
@@ -288,5 +295,15 @@ class Mage_Catalog_Model_Product_Flat_Indexer extends Mage_Core_Model_Abstract
     {
         $this->_getResource()->reindexAll();
         return $this;
+    }
+
+    /**
+     * Retrieve list of attribute codes for flat
+     *
+     * @return array
+     */
+    public function getAttributeCodes()
+    {
+        return $this->_getResource()->getAttributeCodes();
     }
 }

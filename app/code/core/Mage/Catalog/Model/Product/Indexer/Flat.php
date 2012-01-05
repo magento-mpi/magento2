@@ -25,6 +25,9 @@
  */
 class Mage_Catalog_Model_Product_Indexer_Flat extends Mage_Index_Model_Indexer_Abstract
 {
+    /**
+     * Data key for matching result to be saved in
+     */
     const EVENT_MATCH_RESULT_KEY = 'catalog_product_flat_match_result';
 
     /**
@@ -100,7 +103,7 @@ class Mage_Catalog_Model_Product_Indexer_Flat extends Mage_Index_Model_Indexer_A
             return false;
         }
 
-        $data       = $event->getNewData();
+        $data = $event->getNewData();
         if (isset($data[self::EVENT_MATCH_RESULT_KEY])) {
             return $data[self::EVENT_MATCH_RESULT_KEY];
         }
@@ -202,7 +205,7 @@ class Mage_Catalog_Model_Product_Indexer_Flat extends Mage_Index_Model_Indexer_A
      * Register data required by catalog product process in event object
      *
      * @param Mage_Index_Model_Event $event
-     * @return Mage_CatalogSearch_Model_Indexer_Search
+     * @return Mage_Catalog_Model_Product_Indexer_Flat
      */
     protected function _registerCatalogProductEvent(Mage_Index_Model_Event $event)
     {
@@ -234,7 +237,12 @@ class Mage_Catalog_Model_Product_Indexer_Flat extends Mage_Index_Model_Indexer_A
                     $reindexData['catalog_product_flat_action_type'] = $actionObject->getActionType();
                 }
 
-                if (isset($attrData['price']) || isset($attrData['name'])) {
+                $flatAttributes = array();
+                if (is_array($attrData)) {
+                    $flatAttributes = array_intersect($this->_getFlatAttributes(), array_keys($attrData));
+                }
+
+                if (count($flatAttributes) > 0) {
                     $reindexFlat = true;
                     $reindexData['catalog_product_flat_force_update'] = true;
                 }
@@ -326,5 +334,15 @@ class Mage_Catalog_Model_Product_Indexer_Flat extends Mage_Index_Model_Indexer_A
     public function reindexAll()
     {
         $this->_getIndexer()->reindexAll();
+    }
+
+    /**
+     * Retrieve list of attribute codes, that are used in flat
+     *
+     * @return array
+     */
+    protected function _getFlatAttributes()
+    {
+        return Mage::getModel('catalog/product_flat_indexer')->getAttributeCodes();
     }
 }

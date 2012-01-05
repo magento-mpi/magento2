@@ -145,6 +145,13 @@
                 <payment_action>authorize</payment_action>
                 <useccv>1</useccv>
             </pbridge_ogone_direct>
+            <cybersource_soap>
+                <payment_action>authorize</payment_action>
+                <title>Credit Card (Cybersource)</title>
+            </cybersource_soap>
+            <pbridge_cybersource_soap>
+                <model>enterprise_pbridge/payment_method_cybersource_soap</model>
+            </pbridge_cybersource_soap>
         </payment>
     </default>
 </config>

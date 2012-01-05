@@ -60,14 +60,20 @@
                                 <input name="login[password]" type="password" class="input-text required-entry validate-password" id="pass" title="<?php echo $this->__('Password') ?>" />
                             </div>
                         </li>
+                        <?php echo $this->getChildHtml('form.additional.info'); ?>
+                        <li>
+                            <label></label>
+                            <div class="input-box">
+                                <a href="<?php echo $this->getForgotPasswordUrl() ?>"><?php echo $this->__('Forgot Your Password?') ?></a>
+                            </div>
+                        </li>
                         <?php echo $this->getChildHtml('persistent.remember.me'); ?>
                     </ul>
                     <?php echo $this->getChildHtml('persistent.remember.me.tooltip'); ?>
                     <div class="buttons-set form-buttons btn-only">
-                        <button type="submit" class="button" name="send" id="send2"><span><span><?php echo $this->__('Login') ?></span></span></button>
-                        <a href="<?php echo $this->getForgotPasswordUrl() ?>"><?php echo $this->__('Forgot Your Password?') ?></a>
+                        <button type="submit" class="button shift-up" name="send" id="send2"><span><span><?php echo $this->__('Login') ?></span></span></button>
                     </div>
-                    <p class="required"><?php echo $this->__('* Required Fields') ?></p>
+                    <p class="required shift-up"><?php echo $this->__('* Required Fields') ?></p>
                 </div>
                 <?php if ($this->helper('customer')->isRegistrationAllowed()): ?>
                 <div class="col-2 new-users">

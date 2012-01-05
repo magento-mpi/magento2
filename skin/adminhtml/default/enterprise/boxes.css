@@ -368,7 +368,10 @@ select.multiselect option       { padding:3px 4px; border-bottom:1px solid #ddd;
 .field-100 { background-color:#fff; border-width:1px; border-style:solid; border-color:#aaa #c8c8c8 #c8c8c8 #aaa; padding:2px; }
 .field-100 textarea,
 .field-100 input.input-text { float:left; width:100% !important; border:0 !important; padding:0 !important; }
-
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+    select option:disabled,
+    select:disabled option { color:#c9c9c9!important;color:#cacaca!important; text-shadow:2px 2px 2px #000; }
+}
 
 /* Form List */ /* Table for default form data */
 .form-list                      { width:auto; border:0 !important; }
@@ -714,6 +717,24 @@ div.autocomplete ul li { padding:.5em .7em; min-height:32px; cursor:pointer; tex
 .login-container .legal                 { margin:0; background:url(images/login_box_legal_bg.gif) no-repeat; padding:8px 8px 5px 8px; font-size:.95em; }
 .login-form .validation-advice          { margin:3px 0 0 0; }
 .login-form .forgot-link                { margin:0 17px 0 0; text-align:right; }
+.login-form .captcha                    { padding:10px 0 0; }
+.login-form .captcha-image              { border:1px solid #aaa; margin:1.5em 0 0; position:relative; }
+.login-form .captcha-image img          { vertical-align:bottom; }
+.login-form .captcha-reload             { cursor:pointer; position: absolute; top:2px; right:2px; }
+.login-form .captcha-reload.refreshing  { animation:rotate 1.5s infinite linear; -webkit-animation:rotate 1.5s infinite linear; -moz-animation:rotate 1.5s infinite linear; }
+
+@-webkit-keyframes rotate {
+    0% { -webkit-transform:rotate(0); }
+    0% { -webkit-transform:rotate(360deg); }
+}
+@-moz-keyframes rotate {
+    0% { -moz-transform:rotate(0); }
+    0% { -moz-transform:rotate(360deg); }
+}
+@keyframes rotate {
+    0% { transform:rotate(0); }
+    0% { transform:rotate(360deg); }
+}
 
 
 
@@ -784,6 +805,22 @@ ul.item-options li { padding-left:.7em; }
 .order-search-items .entry-edit .grid   { height:610px; overflow:auto; }
 .order-search-items .entry-edit .grid table { width:99.9%; }
 /* .create-order-totals                 { background:url(images/bg_create_order_totals.gif) repeat-y 50% 0 !important; } */
+
+/* SKU */
+.add-by-sku { background:#fafafa; border:1px solid #d6d6d6; padding:6px 14px; margin-bottom:.5em; }
+.add-by-sku th,
+.add-by-sku td { padding:5px 0 5px 5px; }
+.add-by-sku td button { vertical-align:middle; }
+.add-by-sku td button span { padding-left:15px; }
+.add-by-sku .add-sku { margin-bottom:1em; }
+.add-by-sku  .form-list td.value input[name="qty"] { width:50px; }
+.add-sku-csv .form-list td.label { width:115px; }
+.add-sku-csv .form-list td.label label { width:100px; }
+tr.qty-not-available td input[name="qty"] { background-color: #faebe7; color: #df280a; }
+.entry-edit .entry-edit-head.sku-errors { background-color: #faebe7; }
+.entry-edit .entry-edit-head.sku-errors h4 { color: #df280a; }
+.sku-failed-item { position:relative; }
+.sku-failed-item .sku-configure-button { position:absolute; margin:-9px 0 0; top:50%; right:5px; }
 
 /* Product Configuration Popup */
 #popup-window-mask,
@@ -856,23 +893,41 @@ ul.item-options li { padding-left:.7em; }
 
 /* Popup Configuration Popup */
 #product_composite_configure_messages { margin-left:0 !important; padding:10px 15px; }
-.rma-popup { background-color:#6f8992; background:rgba(111, 137, 146, 0.5); cursor:default; left:50%; margin:0 0 0 -271px; position:fixed; top:50%; width:540px; padding:8px; z-index:400; -moz-box-shadow:0 0 100px #ccc; -webkit-box-shadow:0 0 100px #ccc; box-shadow:0 0 100px #ccc; }
-.rma-popup .entry-edit { border:1px solid #6f8992; }
-.rma-popup .entry-edit .fieldset { border:none; }
+.rma-popup, .cms-popup { background-color:#6f8992; background:rgba(111, 137, 146, 0.5); cursor:default; left:50%; position:fixed; top:50%; padding:8px; z-index:400; -moz-box-shadow:0 0 100px #ccc; -webkit-box-shadow:0 0 100px #ccc; box-shadow:0 0 100px #ccc; }
+.rma-popup { width:540px; margin:0 0 0 -271px; }
+.cms-popup { width:311px; margin:0 0 0 -156px; }
+.rma-popup .entry-edit, .cms-popup .entry-edit { border:1px solid #6f8992; }
+.rma-popup .entry-edit .fieldset, .cms-popup .entry-edit .fieldset { border:none; }
 .rma-popup .validation-advice { margin-left:0; }
-.rma-popup .content { background:#fff; border-bottom:1px solid #ccc; max-height:400px; overflow:auto; }
+.rma-popup .content, .cms-popup .content { background:#fff; border-bottom:1px solid #ccc; max-height:400px; overflow:auto; }
 .rma-popup .content .grid { padding:0; }
 .rma-popup .content .grid table { border-bottom:1px solid #CBD3D4; }
-.rma-popup .content .fieldset { background:#fff; margin-bottom:0 !important; padding:0; }
+.rma-popup .content .fieldset, .cms-popup .content .fieldset { background:#fff; margin-bottom:0 !important; padding:0; }
 .rma-popup .product-options { border-bottom:1px solid #e7e7e7; margin:0 0 15px; padding:0 0 12px; }
 .rma-popup .product-options .required { color:#333 !important; font-weight:normal !important; }
 .rma-popup .product-options .required em { color:#d40707; }
 .rma-popup .last-fieldset .product-options { border:0 none; margin-bottom:0; padding-bottom:0; }
-.rma-popup .buttons-set { border-top:1px solid #ddd; background:#eee; margin:0; overflow:hidden; padding:7px 10px 8px; width:518px; }
-.rma-popup .buttons-set button { margin:0 0 0 5px; }
+.rma-popup .buttons-set, .cms-popup .buttons-set { border-top:1px solid #ddd; background:#eee; margin:0; overflow:hidden; padding:7px 10px 8px; }
+.rma-popup .buttons-set { width:518px; }
+.cms-popup .buttons-set { width:289px; }
+.rma-popup .buttons-set button, .cms-popup .buttons-set button { margin:0 0 0 5px; }
 .grid .rma-popup .form-list tr,
 .grid tr.even .rma-popup .form-list tr,
 .grid tr.on-mouse .rma-popup .form-list tr { background:#fff !important; }
+
+/* Backups */
+.backup-dialog { background-color:#6f8992; background:rgba(111, 137, 146, 0.5); cursor:default; left:50%; margin:0 0 0 -271px; position:fixed; top:50%; width:470px; padding:8px; z-index:400; -moz-box-shadow:0 0 100px #ccc; -webkit-box-shadow:0 0 100px #ccc; box-shadow:0 0 100px #ccc; }
+.backup-dialog .entry-edit { border:1px solid #6f8992; }
+.backup-dialog .content { background:#fff; border-bottom:1px solid #ccc; max-height:400px; overflow:auto; }
+.backup-dialog .question {margin-top: 15px;}
+.backup-dialog .buttons-set { border-top:1px solid #ddd; background:#eee; margin:0; overflow:hidden; padding:7px 10px 8px; width:448px; }
+.backup-dialog .buttons-set button { margin:0 0 0 5px; }
+.backup-dialog #ftp-credentials-container {margin-top: 25px;}
+.backup-dialog .password-box-container {margin-top: 15px;}
+.backup-dialog #ftp-credentials-container fieldset {margin-bottom: 0;}
+.backup-dialog input[type=text], .backup-dialog input[type=password] {width: 180px}
+.backup-dialog .maintenance-checkbox-container {margin-top: 15px;}
+.backup-dialog td.maintenance-checkbox-container {margin-top: 0; padding-top: 4px;}
 
 /* Order Totals */
 .order-totals                           { margin-left:auto; border:1px solid #d7c699 !important; padding:12px 0; background:#fcfac9; text-align:right; }
@@ -1470,6 +1525,8 @@ ul.super-product-attributes { padding-left:15px; }
 .cms-tree .cms-current a span { background-color:#f5d6c7; color:#000; }
 .cms-tree .modified a { background-image:url(images/fam_bullet_disk.gif); background-position:100% 50%; background-repeat:no-repeat; padding-right:20px; }
 
+.cms-scope { float:right; line-height:18px; margin:0 25px -18px 0; position:relative; }
+
 .cms-hierarchy .switcher { margin-bottom:20px; }
 .cms-hierarchy .switcher select { width:auto !important; }
 .cms-hierarchy .col-left { padding:0 10px 0; border-right:1px solid #d6d6d6; }
@@ -1477,6 +1534,8 @@ ul.super-product-attributes { padding-left:15px; }
 .cms-hierarchy .col-right .form-list td.label { width:120px; }
 .cms-hierarchy .col-right .form-list td.label label { width:105px; }
 .cms-hierarchy .cms-tree { height:400px; }
+.cms-hierarchy .manage-label { display: block; float: left; margin: 5px 10px 0 0; }
+.cms-hierarchy .manage-select { width:280px; margin: 5px 10px 0 0; }
 
 /* CMS Widgets Instance */
 .options-box .option-box { border:1px solid #cddddd; padding:1em; background:#e7efef; margin:1.5em 0; }

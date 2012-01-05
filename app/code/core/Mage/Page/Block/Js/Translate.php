@@ -23,15 +23,16 @@
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
- 
+
 /**
  * Js translation block
  *
+ * @deprecated from 1.7.0.0
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Page_Block_Js_Translate extends Mage_Core_Block_Template
 {
-    public function __construct() 
+    public function __construct()
     {
         parent::__construct();
     }

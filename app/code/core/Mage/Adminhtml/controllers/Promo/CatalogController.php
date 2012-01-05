@@ -137,11 +137,10 @@ class Mage_Adminhtml_Promo_CatalogController extends Mage_Adminhtml_Controller_A
                 $data['conditions'] = $data['rule']['conditions'];
                 unset($data['rule']);
 
+                $autoApply = false;
                 if (!empty($data['auto_apply'])) {
                     $autoApply = true;
                     unset($data['auto_apply']);
-                } else {
-                    $autoApply = false;
                 }
 
                 $model->loadPost($data);
@@ -283,17 +282,15 @@ class Mage_Adminhtml_Promo_CatalogController extends Mage_Adminhtml_Controller_A
      */
     public function applyRulesAction()
     {
+        $errorMessage = Mage::helper('catalogrule')->__('Unable to apply rules.');
         try {
             Mage::getModel('catalogrule/rule')->applyAll();
             Mage::app()->removeCache('catalog_rules_dirty');
-            Mage::getSingleton('adminhtml/session')->addSuccess(
-                Mage::helper('catalogrule')->__('The rules have been applied.')
-            );
+            $this->_getSession()->addSuccess(Mage::helper('catalogrule')->__('The rules have been applied.'));
+        } catch (Mage_Core_Exception $e) {
+            $this->_getSession()->addError($errorMessage . ' ' . $e->getMessage());
         } catch (Exception $e) {
-            Mage::getSingleton('adminhtml/session')->addError(
-                Mage::helper('catalogrule')->__('Unable to apply rules.')
-            );
-            throw $e;
+            $this->_getSession()->addError($errorMessage);
         }
         $this->_redirect('*/*');
     }

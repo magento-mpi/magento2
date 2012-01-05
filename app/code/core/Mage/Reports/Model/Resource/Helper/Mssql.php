@@ -33,6 +33,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Reports_Model_Resource_Helper_Mssql extends Mage_Core_Model_Resource_Helper_Mssql
+    implements Mage_Reports_Model_Resource_Helper_Interface
 {
 
     /**
@@ -90,5 +91,77 @@ class Mage_Reports_Model_Resource_Helper_Mssql extends Mage_Core_Model_Resource_
         $result = $stmt->rowCount();
 
         return $result;
+    }
+
+    /**
+     * Update rating position
+     *
+     * @param string $type day|month|year
+     * @param string $column
+     * @param string $mainTable
+     * @param string $aggregationTable
+     * @return Mage_Reports_Model_Resource_Helper_Mssql
+     */
+    public function updateReportRatingPos($type, $column, $mainTable, $aggregationTable)
+    {
+        $adapter         = $this->_getWriteAdapter();
+        $periodSubSelect = $adapter->select();
+        $ratingSubSelect = $adapter->select();
+        $ratingSelect    = $adapter->select();
+
+        switch ($type) {
+            case 'year':
+                $periodCol = $adapter->getDateFormatSql('t.period', '%Y-01-01');
+                break;
+            case 'month':
+                $periodCol = $adapter->getDateFormatSql('t.period', '%Y-%m-01');
+                break;
+            default:
+                $periodCol = 't.period';
+                break;
+        }
+
+        $cols = array(
+            'period'            => 't.period',
+            'store_id'          => 't.store_id',
+            'product_id'        => 't.product_id',
+            'product_name'      => new Zend_Db_expr('MAX(t.product_name)'),
+            'product_price'     => new Zend_Db_expr('MAX(t.product_price)'),
+            'total_qty'         => new Zend_Db_expr('SUM(t.' . $column . ')')
+        );
+
+        $periodSubSelect->from(array('t' => $mainTable), $cols)
+            ->group(array('t.store_id', $periodCol, 't.product_id'));
+
+        $periodSubSelect = $this->getQueryUsingAnalyticFunction($periodSubSelect);
+
+        $columns = array(
+            'period'        => 't.period',
+            'store_id'      => 't.store_id',
+            'product_id'    => 't.product_id',
+            'product_name'  => 't.product_name',
+            'product_price' => 't.product_price',
+        );
+
+        $cols = $columns;
+        $cols[$column] = 't.total_qty';
+        $orderByColumns      = array(
+            't.store_id ' . Varien_Db_Select::SQL_ASC,
+            't.period ' . Varien_Db_Select::SQL_ASC,
+            'total_qty ' . Varien_Db_Select::SQL_DESC
+        );
+        $cols['rating_pos']  = $this->prepareColumn('RANK()', 't.store_id, t.period', $orderByColumns);
+        $ratingSubSelect->from(new Zend_Db_Expr(sprintf('(%s)', $periodSubSelect)), $cols);
+
+        $cols = $columns;
+        $cols['period']      = $periodCol;  // important!
+        $cols[$column] = 't.' . $column;
+        $cols['rating_pos']  = 't.rating_pos';
+        $ratingSelect->from($ratingSubSelect, $cols);
+        $sql = $ratingSelect->insertFromSelect($aggregationTable, array_keys($cols));
+
+        $adapter->query($sql);
+
+        return $this;
     }
 }

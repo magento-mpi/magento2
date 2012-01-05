@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Enterprise_CustomerSegment>
-            <version>1.11.0.0.2</version>
+            <version>1.11.0.0.3</version>
         </Enterprise_CustomerSegment>
     </modules>
     <global>
@@ -108,6 +108,11 @@
                 </observers>
             </customer_balance_save_commit_after>
         </events>
+        <logging_actions>
+            <refresh_data translate="label" module="enterprise_customersegment">
+                <label>Refresh Data</label>
+            </refresh_data>
+        </logging_actions>
     </global>
     <admin>
         <routers>

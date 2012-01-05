@@ -72,6 +72,8 @@ class Enterprise_Logging_Block_Adminhtml_Index_Grid extends Mage_Adminhtml_Block
 
     /**
      * Configuration of grid
+     *
+     * @return Enterprise_Logging_Block_Adminhtml_Index_Grid
      */
     protected function _prepareColumns()
     {
@@ -92,7 +94,7 @@ class Enterprise_Logging_Block_Adminhtml_Index_Grid extends Mage_Adminhtml_Block
 
         $actions = array();
         foreach (Mage::getResourceSingleton('enterprise_logging/event')->getAllFieldValues('action') as $action) {
-            $actions[$action] = $action;
+            $actions[$action] = Mage::helper('enterprise_logging')->getLoggingActionTranslatedLabel($action);
         }
         $this->addColumn('action', array(
             'header'    => Mage::helper('enterprise_logging')->__('Action'),

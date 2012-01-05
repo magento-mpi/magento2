@@ -634,6 +634,16 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     }
 
     /**
+     * Get product group price
+     *
+     * @return float
+     */
+    public function getGroupPrice()
+    {
+        return $this->getPriceModel()->getGroupPrice($this);
+    }
+
+    /**
      * Get product tier price by qty
      *
      * @param   double $qty
@@ -1057,6 +1067,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         $this->getWebsiteIds();
         $this->getCategoryIds();
 
+        /* @var $newProduct Mage_Catalog_Model_Product */
         $newProduct = Mage::getModel('catalog/product')->setData($this->getData())
             ->setIsDuplicate(true)
             ->setOriginalId($this->getId())
@@ -1071,16 +1082,6 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
             'catalog_model_product_duplicate',
             array('current_product' => $this, 'new_product' => $newProduct)
         );
-
-        /* @var $newProduct Mage_Catalog_Model_Product */
-
-        $newOptionsArray = array();
-        $newProduct->setCanSaveCustomOptions(true);
-        foreach ($this->getOptions() as $_option) {
-            /* @var $_option Mage_Catalog_Model_Product_Option */
-            $newOptionsArray[] = $_option->prepareOptionForDuplicate();
-        }
-        $newProduct->setProductOptions($newOptionsArray);
 
         /* Prepare Related*/
         $data = array();

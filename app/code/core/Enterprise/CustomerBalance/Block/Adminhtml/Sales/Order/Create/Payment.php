@@ -124,4 +124,15 @@ extends Mage_Core_Block_Template
         }
         return $this->_balanceInstance;
     }
+
+    /**
+     * Whether customer store credit balance could be used
+     *
+     * @return bool
+     */
+    public function canUseCustomerBalance()
+    {
+        $quote = $this->_getOrderCreateModel()->getQuote();
+        return $this->getBalance() && ($quote->getBaseGrandTotal() + $quote->getBaseCustomerBalanceAmountUsed() > 0);
+    }
 }

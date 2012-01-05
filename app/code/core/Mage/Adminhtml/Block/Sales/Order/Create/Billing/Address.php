@@ -62,6 +62,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Billing_Address
      */
     protected function _prepareForm()
     {
+        $this->setJsVariablePrefix('billingAddress');
         parent::_prepareForm();
 
         $this->_form->addFieldNameSuffix('order[billing_address]');

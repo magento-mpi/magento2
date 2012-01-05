@@ -79,7 +79,9 @@ class Mage_AmazonPayments_Model_Api_Cba extends Mage_AmazonPayments_Model_Api_Ab
         if (is_null($this->_configShippingRates)) {
             $this->_configShippingRates = array();
             foreach ($this->_shippingRates as $_rate) {
-                $_carrier = unserialize(Mage::getStoreConfig('payment/amazonpayments_cba/' . strtolower($_rate) . '_rate'));
+                $_carrier = unserialize(
+                    Mage::getStoreConfig('payment/amazonpayments_cba/' . strtolower($_rate) . '_rate')
+                );
                 if ($_carrier['method'] && $_carrier['method'] != 'None') {
                     $_carrierInfo = explode('/', $_carrier['method']);
                     $this->_configShippingRates[$_rate] = array(
@@ -179,7 +181,8 @@ class Mage_AmazonPayments_Model_Api_Cba extends Mage_AmazonPayments_Model_Api_Ab
                 ."   <CalculateTaxRates>true</CalculateTaxRates>\n"
                 ."   <CalculatePromotions>true</CalculatePromotions>\n"
                 ."   <CalculateShippingRates>true</CalculateShippingRates>\n"
-                ."   <OrderCallbackEndpoint>".Mage::getUrl('amazonpayments/cba/callback', array('_secure' => true))."</OrderCallbackEndpoint>\n"
+                ."   <OrderCallbackEndpoint>" .
+                    Mage::getUrl('amazonpayments/cba/callback', array('_secure' => true)) . "</OrderCallbackEndpoint>\n"
                 ."   <ProcessOrderOnCallbackFailure>true</ProcessOrderOnCallbackFailure>\n"
                 ." </OrderCalculationCallbacks>\n";
 
@@ -385,7 +388,9 @@ class Mage_AmazonPayments_Model_Api_Cba extends Mage_AmazonPayments_Model_Api_Ab
         $customerTaxClass = $this->_getCustomerTaxClass($quote);
         if (Mage::helper('tax')->getTaxBasedOn() == 'origin') {
             $request = Mage::getSingleton('tax/calculation')->getRateRequest();
-            return Mage::getSingleton('tax/calculation')->getRatesForAllProductTaxClasses($request->setCustomerClassId($customerTaxClass));
+            return Mage::getSingleton('tax/calculation')->getRatesForAllProductTaxClasses(
+                $request->setCustomerClassId($customerTaxClass)
+            );
         } else {
             $customerRules = Mage::getSingleton('tax/calculation')->getRatesByCustomerTaxClass($customerTaxClass);
             $rules = array();
@@ -414,7 +419,8 @@ class Mage_AmazonPayments_Model_Api_Cba extends Mage_AmazonPayments_Model_Api_Ab
 
                 return Mage::getSingleton('tax/calculation')->getRate($request);
             }
-            $customerRules = Mage::getSingleton('tax/calculation')->getRatesByCustomerAndProductTaxClasses($customerTaxClass, $shippingTaxClass);
+            $customerRules = Mage::getSingleton('tax/calculation')
+                ->getRatesByCustomerAndProductTaxClasses($customerTaxClass, $shippingTaxClass);
             $rules = array();
             foreach ($customerRules as $rule) {
                 $rules[$rule['product_class']][] = $rule;
@@ -446,7 +452,7 @@ class Mage_AmazonPayments_Model_Api_Cba extends Mage_AmazonPayments_Model_Api_Ab
     {
         $customerGroup = $quote->getCustomerGroupId();
         if (!$customerGroup) {
-            $customerGroup = Mage::getStoreConfig(Mage_Customer_Model_Group::XML_PATH_DEFAULT_ID, $quote->getStoreId());
+            $customerGroup = Mage::helper('customer')->getDefaultCustomerGroupId($quote->getStoreId());
         }
         return Mage::getModel('customer/group')->load($customerGroup)->getTaxClassId();
     }
@@ -471,7 +477,8 @@ class Mage_AmazonPayments_Model_Api_Cba extends Mage_AmazonPayments_Model_Api_Ab
 
         $this->_address = $_address;
 
-        $regionModel = Mage::getModel('directory/region')->loadByCode($_address['regionCode'], $_address['countryCode']);
+        $regionModel = Mage::getModel('directory/region')
+            ->loadByCode($_address['regionCode'], $_address['countryCode']);
         $_regionId = $regionModel->getId();
 
         $address->setCountryId($_address['countryCode'])
@@ -510,7 +517,9 @@ class Mage_AmazonPayments_Model_Api_Cba extends Mage_AmazonPayments_Model_Api_Ab
         foreach ($this->getConfigShippingRates() as $_cfgRateLevel => $_cfgRate) {
             if ($rates = $result->getRatesByCarrier($_cfgRate['carrier'])) {
                 foreach ($rates as $rate) {
-                    if (!$rate instanceof Mage_Shipping_Model_Rate_Result_Error && $rate->getMethod() == $_cfgRate['method']) {
+                    if (!$rate instanceof Mage_Shipping_Model_Rate_Result_Error
+                        && $rate->getMethod() == $_cfgRate['method']
+                    ) {
                         if ($address->getFreeShipping()) {
                             $price = 0;
                         } else {
@@ -524,7 +533,8 @@ class Mage_AmazonPayments_Model_Api_Cba extends Mage_AmazonPayments_Model_Api_Ab
                             'code'          => $rate->getCarrier() . '_' . $rate->getMethod(),
                             'price'         => $price,
                             'currency'      => $currency['currency_code'],
-                            'description'   => $rate->getCarrierTitle() . ' - ' . $rate->getMethodTitle() . ' (Amazon ' . $_cfgRateLevel . ' Service Level)'
+                            'description'   => $rate->getCarrierTitle() . ' - ' . $rate->getMethodTitle()
+                                               . ' (Amazon ' . $_cfgRateLevel . ' Service Level)'
                         );
                     }
                 }
@@ -650,7 +660,8 @@ class Mage_AmazonPayments_Model_Api_Cba extends Mage_AmazonPayments_Model_Api_Ab
             $parsedOrder['discount'] = $_subtotalPromo + $_shippingPromo;
             $parsedOrder['discountShipping'] = $_shippingPromo;
 
-            $parsedOrder['total'] = $_subtotal + $_shipping + $_tax + $_shippingTax - abs($_subtotalPromo) - abs($_shippingPromo);
+            $parsedOrder['total'] = $_subtotal + $_shipping + $_tax + $_shippingTax - abs($_subtotalPromo)
+                - abs($_shippingPromo);
         }
         return $parsedOrder;
     }
@@ -826,7 +837,8 @@ XML;
 
     protected function _appendDiscounts($xml, $quote)
     {
-        $totalDiscount = $quote->getShippingAddress()->getBaseDiscountAmount() + $quote->getBillingAddress()->getBaseDiscountAmount();
+        $totalDiscount = $quote->getShippingAddress()->getBaseDiscountAmount()
+            + $quote->getBillingAddress()->getBaseDiscountAmount();
         $discountAmount = ($totalDiscount ? $totalDiscount : 0);
 
         $_promotions = $xml->addChild('Promotions');

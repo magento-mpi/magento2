@@ -180,13 +180,26 @@ class Mage_Widget_Block_Adminhtml_Widget_Chooser extends Mage_Adminhtml_Block_Te
             <label class="widget-option-label" id="' . $chooserId . 'label">'
             . ($this->getLabel() ? $this->getLabel() : Mage::helper('widget')->__('Not Selected')) . '</label>
             <div id="' . $chooserId . 'advice-container" class="hidden"></div>
-            <script type="text/javascript">
-                ' . $chooserId . ' = new WysiwygWidget.chooser("' . $chooserId . '", "' . $this->getSourceUrl() . '", '
-            . $configJson . ');
-                if ($("'.$chooserId.'value")) {
-                    $("'.$chooserId.'value").advaiceContainer = "'.$chooserId.'advice-container";
-                }
-            </script>
+            <script type="text/javascript">//<![CDATA[
+                (function() {
+                    var fun_'. $chooserId .' = function() {
+                        window.' . $chooserId . ' = new WysiwygWidget.chooser(
+                            "' . $chooserId . '",
+                            "' . $this->getSourceUrl() . '",
+                            ' . $configJson . '
+                        );
+                    };
+                    if (document.loaded) { //allow load over ajax
+                        $("'.$chooserId.'value").advaiceContainer = "'.$chooserId.'advice-container";
+                        fun_'. $chooserId .'.call();
+                    } else {
+                        document.observe("dom:loaded", function () {
+                            $("'.$chooserId.'value").advaiceContainer = "'.$chooserId.'advice-container";
+                            fun_'. $chooserId .'.call();
+                        });
+                    }
+                })();
+            //]]></script>
         ';
     }
 }

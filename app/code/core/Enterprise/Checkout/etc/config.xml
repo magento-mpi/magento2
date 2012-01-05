@@ -47,6 +47,14 @@
                 <class>Enterprise_Checkout_Helper</class>
             </enterprise_checkout>
         </helpers>
+        <logging_actions>
+            <apply_coupon translate="label" module="enterprise_checkout">
+                <label>Apply Coupon</label>
+            </apply_coupon>
+            <add_to_cart translate="label" module="enterprise_checkout">
+                <label>Add To Cart</label>
+            </add_to_cart>
+        </logging_actions>
     </global>
     <admin>
         <routers>
@@ -76,5 +84,55 @@
                 </Enterprise_Checkout>
             </modules>
         </translate>
+        <events>
+            <adminhtml_sales_order_create_process_data_before>
+                <observers>
+                    <addBySku>
+                        <class>enterprise_checkout/observer</class>
+                        <method>addBySku</method>
+                    </addBySku>
+                    <uploadSkuCsv>
+                        <class>enterprise_checkout/observer</class>
+                        <method>uploadSkuCsv</method>
+                    </uploadSkuCsv>
+                </observers>
+            </adminhtml_sales_order_create_process_data_before>
+        </events>
     </adminhtml>
+    <frontend>
+        <routers>
+            <checkout>
+                <args>
+                    <modules>
+                        <enterprise_checkout before="Mage_Checkout">Enterprise_Checkout</enterprise_checkout>
+                    </modules>
+                </args>
+            </checkout>
+            <enterprise_checkout>
+                <use>standard</use>
+                <args>
+                    <module>Enterprise_Checkout</module>
+                    <frontName>customer_order</frontName>
+                </args>
+            </enterprise_checkout>
+        </routers>
+        <events>
+            <controller_action_layout_load_before>
+                <observers>
+                    <enterprise_checkout>
+                        <class>enterprise_checkout/observer</class>
+                        <method>createSkuErrorHandleLayout</method>
+                    </enterprise_checkout>
+                </observers>
+            </controller_action_layout_load_before>
+            <sales_quote_save_after>
+                <observers>
+                    <enterprise_checkout>
+                        <class>enterprise_checkout/observer</class>
+                        <method>salesQuoteSaveAfter</method>
+                    </enterprise_checkout>
+                </observers>
+            </sales_quote_save_after>
+        </events>
+    </frontend>
 </config>

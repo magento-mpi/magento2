@@ -136,6 +136,9 @@ class Mage_Index_Model_Process extends Mage_Core_Model_Abstract
             $this->getIndexer()->register($event);
             $event->addProcessId($this->getId());
             $this->_resetEventNamespace($event);
+            if ($this->getMode() == self::MODE_MANUAL) {
+                $this->_getResource()->updateStatus($this, self::STATUS_REQUIRE_REINDEX);
+            }
         }
         return $this;
 
@@ -183,7 +186,13 @@ class Mage_Index_Model_Process extends Mage_Core_Model_Abstract
         $this->lock();
         try {
             $eventsCollection = $this->getUnprocessedEventsCollection();
-            if ($eventsCollection->count() > 0 && $processStatus == self::STATUS_PENDING) {
+
+            /** @var $eventResource Mage_Index_Model_Resource_Event */
+            $eventResource = Mage::getResourceSingleton('index/event');
+
+            if ($eventsCollection->count() > 0 && $processStatus == self::STATUS_PENDING
+                || $this->getForcePartialReindex()
+            ) {
                 $this->_getResource()->beginTransaction();
                 try {
                     $this->_processEventsCollection($eventsCollection, false);
@@ -194,11 +203,17 @@ class Mage_Index_Model_Process extends Mage_Core_Model_Abstract
                 }
             } else {
                 //Update existing events since we'll do reindexAll
-                Mage::getResourceSingleton('index/event')->updateProcessEvents($this);
+                $eventResource->updateProcessEvents($this);
                 $this->getIndexer()->reindexAll();
             }
             $this->unlock();
-            $this->_getResource()->endProcess($this);
+
+            $unprocessedEvents = $eventResource->getUnprocessedEvents($this);
+            if ($this->getMode() == self::MODE_MANUAL && (count($unprocessedEvents) > 0)) {
+                $this->_getResource()->updateStatus($this, self::STATUS_REQUIRE_REINDEX);
+            } else {
+                $this->_getResource()->endProcess($this);
+            }
         } catch (Exception $e) {
             $this->unlock();
             $this->_getResource()->failProcess($this);
@@ -218,6 +233,11 @@ class Mage_Index_Model_Process extends Mage_Core_Model_Abstract
         if ($this->getData('runed_reindexall')) {
             return $this;
         }
+
+        /** @var $eventResource Mage_Index_Model_Resource_Event */
+        $eventResource = Mage::getResourceSingleton('index/event');
+        $unprocessedEvents = $eventResource->getUnprocessedEvents($this);
+        $this->setForcePartialReindex(count($unprocessedEvents) > 0 && $this->getStatus() == self::STATUS_PENDING);
 
         if ($this->getDepends()) {
             $indexer = Mage::getSingleton('index/indexer');

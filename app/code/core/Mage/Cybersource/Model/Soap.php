@@ -24,15 +24,30 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-
+/**
+ * SOAP model of CyberSource payment method
+ *
+ * @category Mage
+ * @package  Mage_Cybersource
+ * @author   Magento Core Team <core@magentocommerce.com>
+ */
 class Mage_Cybersource_Model_Soap extends Mage_Payment_Model_Method_Cc
 {
     protected $_code  = 'cybersource_soap';
     protected $_formBlockType = 'cybersource/form';
     protected $_infoBlockType = 'cybersource/info';
 
-    const WSDL_URL_TEST = 'https://ics2wstest.ic3.com/commerce/1.x/transactionProcessor/CyberSourceTransaction_1.26.wsdl';
-    const WSDL_URL_LIVE = 'https://ics2ws.ic3.com/commerce/1.x/transactionProcessor/CyberSourceTransaction_1.26.wsdl';
+    /**
+     * Url to live service
+     */
+    const WSDL_URL_LIVE =
+        'https://ics2ws.ic3.com/commerce/1.x/transactionProcessor/CyberSourceTransaction_1.26.wsdl';
+    /**
+     * Url to sandbox service
+     */
+    const WSDL_URL_TEST =
+        'https://ics2wstest.ic3.com/commerce/1.x/transactionProcessor/CyberSourceTransaction_1.26.wsdl';
+
 
     const RESPONSE_CODE_SUCCESS = 100;
 
@@ -50,17 +65,32 @@ class Mage_Cybersource_Model_Soap extends Mage_Payment_Model_Method_Cc
     protected $_canUseInternal          = true;
     protected $_canUseCheckout          = true;
     protected $_canUseForMultishipping  = true;
-    protected $_canSaveCc = false;
+    protected $_canSaveCc               = false;
 
     protected $_request;
 
-        /*
+    /**
+     * Returns CyberSource WSDL URL
+     *
+     * @param bool $isTest Whether to return sandbox or live URL
+     * @return string
+     */
+    protected function _getWsdlUrl($isTest)
+    {
+        if ($isTest) {
+            return self::WSDL_URL_TEST;
+        } else {
+            return self::WSDL_URL_LIVE;
+        }
+    }
+
+    /*
     * overwrites the method of Mage_Payment_Model_Method_Cc
     * for switch or solo card
     */
     public function OtherCcType($type)
     {
-        return (parent::OtherCcType($type) || $type==self::CC_CARDTYPE_SS || $type=='JCB' || $type=='UATP');
+        return (parent::OtherCcType($type) || $type == self::CC_CARDTYPE_SS || $type == 'JCB' || $type == 'UATP');
     }
 
     /**
@@ -79,11 +109,10 @@ class Mage_Cybersource_Model_Soap extends Mage_Payment_Model_Method_Cc
         parent::assignData($data);
         $info = $this->getInfoInstance();
 
-        if ($data->getCcType()==self::CC_CARDTYPE_SS) {
+        if ($data->getCcType() == self::CC_CARDTYPE_SS) {
             $info->setCcSsIssue($data->getCcSsIssue())
                 ->setCcSsStartMonth($data->getCcSsStartMonth())
-                ->setCcSsStartYear($data->getCcSsStartYear())
-            ;
+                ->setCcSsStartYear($data->getCcSsStartYear());
         }
         return $this;
     }
@@ -91,7 +120,6 @@ class Mage_Cybersource_Model_Soap extends Mage_Payment_Model_Method_Cc
     /**
      * Validate payment method information object
      *
-     * @param   Mage_Payment_Model_Info $info
      * @return  Mage_Payment_Model_Abstract
      */
     public function validate()
@@ -99,8 +127,11 @@ class Mage_Cybersource_Model_Soap extends Mage_Payment_Model_Method_Cc
         if (!extension_loaded('soap')) {
             Mage::throwException(Mage::helper('cybersource')->__('SOAP extension is not enabled. Please contact us.'));
         }
+        if (!extension_loaded('openssl')) {
+            Mage::throwException(Mage::helper('cybersource')->__('OpenSSL extension is not enabled. Please contact us.'));
+        }
         /**
-        * to validate paymene method is allowed for billing country or not
+        * to validate payment method is allowed for billing country or not
         */
         $paymentInfo = $this->getInfoInstance();
         if ($paymentInfo instanceof Mage_Sales_Model_Order_Payment) {
@@ -109,12 +140,12 @@ class Mage_Cybersource_Model_Soap extends Mage_Payment_Model_Method_Cc
             $billingCountry = $paymentInfo->getQuote()->getBillingAddress()->getCountryId();
         }
         if (!$this->canUseForCountry($billingCountry)) {
-            Mage::throwException($this->_getHelper()->__('Selected payment type is not allowed for billing country.'));
+            Mage::throwException(Mage::helper('cybersource')->__('Selected payment type is not allowed for billing country.'));
         }
 
         $info = $this->getInfoInstance();
         $errorMsg = false;
-        $availableTypes = explode(',',$this->getConfigData('cctypes'));
+        $availableTypes = explode(',', $this->getConfigData('cctypes'));
 
         $ccNumber = $info->getCcNumber();
 
@@ -122,59 +153,54 @@ class Mage_Cybersource_Model_Soap extends Mage_Payment_Model_Method_Cc
         $ccNumber = preg_replace('/[\-\s]+/', '', $ccNumber);
         $info->setCcNumber($ccNumber);
 
-        $ccType = '';
-
         if (!$this->_validateExpDate($info->getCcExpYear(), $info->getCcExpMonth())) {
-            $errorCode = 'ccsave_expiration,ccsave_expiration_yr';
-            $errorMsg = $this->_getHelper()->__('Incorrect credit card expiration date.');
+            $errorMsg = Mage::helper('cybersource')->__('Incorrect credit card expiration date.');
         }
 
         if (in_array($info->getCcType(), $availableTypes)){
             if ($this->validateCcNum($ccNumber)
                 // Other credit card type number validation
-                || ($this->OtherCcType($info->getCcType()) && $this->validateCcNumOther($ccNumber))) {
-
+                || ($this->OtherCcType($info->getCcType()) && $this->validateCcNumOther($ccNumber))
+            ) {
                 $ccType = 'OT';
                 $ccTypeRegExpList = array(
-                    'SO' => '/(^(6334)[5-9](\d{11}$|\d{13,14}$))|(^(6767)(\d{12}$|\d{14,15}$))/', // Solo only
-                    'SM' => '/(^(5[0678])\d{11,18}$)|(^(6[^05])\d{11,18}$)|(^(601)[^1]\d{9,16}$)|(^(6011)\d{9,11}$)|(^(6011)\d{13,16}$)|(^(65)\d{11,13}$)|(^(65)\d{15,18}$)|(^(49030)[2-9](\d{10}$|\d{12,13}$))|(^(49033)[5-9](\d{10}$|\d{12,13}$))|(^(49110)[1-2](\d{10}$|\d{12,13}$))|(^(49117)[4-9](\d{10}$|\d{12,13}$))|(^(49118)[0-2](\d{10}$|\d{12,13}$))|(^(4936)(\d{12}$|\d{14,15}$))/',//Maestro/Switch
-                    'VI' => '/^4[0-9]{12}([0-9]{3})?$/', // Visa
-                    'MC' => '/^5[1-5][0-9]{14}$/',       // Master Card
-                    'AE' => '/^3[47][0-9]{13}$/',        // American Express
-                    'DI' => '/^6011[0-9]{12}$/',          // Discovery
-                    'JCB' => '/^(3[0-9]{15}|(2131|1800)[0-9]{12})$/', // JCB
+                    'SO'    => '/(^(6334)[5-9](\d{11}$|\d{13,14}$))|(^(6767)(\d{12}$|\d{14,15}$))/', // Solo only
+                    'SM'    => '/(^(5[0678])\d{11,18}$)|(^(6[^05])\d{11,18}$)|(^(601)[^1]\d{9,16}$)|(^(6011)\d{9,11}$)|'
+                             . '(^(6011)\d{13,16}$)|(^(65)\d{11,13}$)|(^(65)\d{15,18}$)|(^(49030)[2-9](\d{10}$|'
+                             . '\d{12,13}$))|(^(49033)[5-9](\d{10}$|\d{12,13}$))|(^(49110)[1-2](\d{10}$|\d{12,13}$))|'
+                             . '(^(49117)[4-9](\d{10}$|\d{12,13}$))|(^(49118)[0-2](\d{10}$|\d{12,13}$))|(^(4936)'
+                             . '(\d{12}$|\d{14,15}$))/', //Maestro/Switch
+                    'VI'    => '/^4[0-9]{12}([0-9]{3})?$/', // Visa
+                    'MC'    => '/^5[1-5][0-9]{14}$/',       // Master Card
+                    'AE'    => '/^3[47][0-9]{13}$/',        // American Express
+                    'DI'    => '/^6011[0-9]{12}$/',          // Discovery
+                    'JCB'   => '/^(3[0-9]{15}|(2131|1800)[0-9]{12})$/', // JCB
                     'LASER' => '/^(6304|6706|6771|6709)[0-9]{12}([0-9]{3})?$/' // LASER
                 );
 
-                foreach ($ccTypeRegExpList as $ccTypeMatch=>$ccTypeRegExp) {
+                foreach ($ccTypeRegExpList as $ccTypeMatch => $ccTypeRegExp) {
                     if (preg_match($ccTypeRegExp, $ccNumber)) {
                         $ccType = $ccTypeMatch;
                         break;
                     }
                 }
 
-                if (!$this->OtherCcType($info->getCcType()) && $ccType!=$info->getCcType()) {
-                    $errorCode = 'ccsave_cc_type,ccsave_cc_number';
-                    $errorMsg = $this->_getHelper()->__('Credit card number mismatch with credit card type.');
+                if (!$this->OtherCcType($info->getCcType()) && $ccType != $info->getCcType()) {
+                    $errorMsg = Mage::helper('cybersource')->__('Credit card number mismatch with credit card type.');
                 }
+            } else {
+                $errorMsg = Mage::helper('cybersource')->__('Invalid Credit Card Number');
             }
-            else {
-                $errorCode = 'ccsave_cc_number';
-                $errorMsg = $this->_getHelper()->__('Invalid Credit Card Number');
-            }
-
-        }
-        else {
-            $errorCode = 'ccsave_cc_type';
-            $errorMsg = $this->_getHelper()->__('Credit card type is not allowed for this payment method.');
+        } else {
+            $errorMsg = Mage::helper('cybersource')->__('Credit card type is not allowed for this payment method.');
         }
 
                                 //validate credit card verification number
         if ($errorMsg === false && $this->hasVerification()) {
-            $verifcationRegEx = $this->getVerificationRegEx();
-            $regExp = isset($verifcationRegEx[$info->getCcType()]) ? $verifcationRegEx[$info->getCcType()] : '';
-            if (!$info->getCcCid() || !$regExp || !preg_match($regExp ,$info->getCcCid())){
-                $errorMsg = $this->_getHelper()->__('Please enter a valid credit card verification number.');
+            $verificationRegEx = $this->getVerificationRegEx();
+            $regExp = isset($verificationRegEx[$info->getCcType()]) ? $verificationRegEx[$info->getCcType()] : '';
+            if (!$info->getCcCid() || !$regExp || !preg_match($regExp, $info->getCcCid())){
+                $errorMsg = Mage::helper('cybersource')->__('Please enter a valid credit card verification number.');
             }
         }
 
@@ -192,7 +218,7 @@ class Mage_Cybersource_Model_Soap extends Mage_Payment_Model_Method_Cc
      */
     protected function getSoapApi($options = array())
     {
-        $wsdl = $this->getConfigData('test') ? self::WSDL_URL_TEST  : self::WSDL_URL_LIVE;
+        $wsdl = $this->_getWsdlUrl($this->getConfigData('test'));
         $_api = new Mage_Cybersource_Model_Api_ExtendedSoapClient($wsdl, $options);
         $_api->setStoreId($this->getStore());
         return $_api;
@@ -213,7 +239,7 @@ class Mage_Cybersource_Model_Soap extends Mage_Payment_Model_Method_Cc
     }
 
     /**
-     * Random generator for merchant referenc code
+     * Random generator for merchant reference code
      *
      * @return random number
      */
@@ -298,12 +324,12 @@ class Mage_Cybersource_Model_Soap extends Mage_Payment_Model_Method_Cc
         if ($payment->hasCcCid()) {
             $card->cvNumber =  $payment->getCcCid();
         }
-        if ($payment->getCcType()==self::CC_CARDTYPE_SS && $payment->hasCcSsIssue()) {
-            $card->issueNumber =  $payment->getCcSsIssue();
+        if ($payment->getCcType() == self::CC_CARDTYPE_SS && $payment->hasCcSsIssue()) {
+            $card->issueNumber = $payment->getCcSsIssue();
         }
-        if ($payment->getCcType()==self::CC_CARDTYPE_SS && $payment->hasCcSsStartYear()) {
-            $card->startMonth =  $payment->getCcSsStartMonth();
-            $card->startYear =  $payment->getCcSsStartYear();
+        if ($payment->getCcType() == self::CC_CARDTYPE_SS && $payment->hasCcSsStartYear()) {
+            $card->startMonth = $payment->getCcSsStartMonth();
+            $card->startYear = $payment->getCcSsStartYear();
         }
         $this->_request->card = $card;
     }
@@ -337,7 +363,7 @@ class Mage_Cybersource_Model_Soap extends Mage_Payment_Model_Method_Cc
 
         try {
             $result = $soapClient->runTransaction($this->_request);
-            if ($result->reasonCode==self::RESPONSE_CODE_SUCCESS) {
+            if ($result->reasonCode == self::RESPONSE_CODE_SUCCESS) {
                 $payment->setLastTransId($result->requestID)
                     ->setCcTransId($result->requestID)
                     ->setTransactionId($result->requestID)
@@ -355,9 +381,7 @@ class Mage_Cybersource_Model_Soap extends Mage_Payment_Model_Method_Cc
                  $error = Mage::helper('cybersource')->__('There is an error in processing the payment. Please try again or contact us.');
             }
         } catch (Exception $e) {
-           Mage::throwException(
-                Mage::helper('cybersource')->__('Gateway request error: %s', $e->getMessage())
-            );
+           Mage::throwException(Mage::helper('cybersource')->__('Gateway request error: %s', $e->getMessage()));
         }
 
         if ($error !== false) {
@@ -399,7 +423,8 @@ class Mage_Cybersource_Model_Soap extends Mage_Payment_Model_Method_Cc
             $ccCaptureService->run = "true";
             $this->_request->ccCaptureService = $ccCaptureService;
 
-            $this->addBillingAddress($payment->getOrder()->getBillingAddress(), $payment->getOrder()->getCustomerEmail());
+            $this->addBillingAddress($payment->getOrder()->getBillingAddress(),
+                 $payment->getOrder()->getCustomerEmail());
             $this->addShippingAddress($payment->getOrder()->getShippingAddress());
             $this->addCcInfo($payment);
 
@@ -410,7 +435,7 @@ class Mage_Cybersource_Model_Soap extends Mage_Payment_Model_Method_Cc
         }
         try {
             $result = $soapClient->runTransaction($this->_request);
-            if ($result->reasonCode==self::RESPONSE_CODE_SUCCESS) {
+            if ($result->reasonCode == self::RESPONSE_CODE_SUCCESS) {
                 /*
                 for multiple capture we need to use the latest capture transaction id
                 */
@@ -419,15 +444,12 @@ class Mage_Cybersource_Model_Soap extends Mage_Payment_Model_Method_Cc
                     ->setCcTransId($result->requestID)
                     ->setTransactionId($result->requestID)
                     ->setIsTransactionClosed(0)
-                    ->setCybersourceToken($result->requestToken)
-                ;
+                    ->setCybersourceToken($result->requestToken);
             } else {
                  $error = Mage::helper('cybersource')->__('There is an error in processing the payment. Please try again or contact us.');
             }
         } catch (Exception $e) {
-           Mage::throwException(
-                Mage::helper('cybersource')->__('Gateway request error: %s', $e->getMessage())
-            );
+           Mage::throwException(Mage::helper('cybersource')->__('Gateway request error: %s', $e->getMessage()));
         }
         if ($error !== false) {
             Mage::throwException($error);
@@ -468,7 +490,7 @@ class Mage_Cybersource_Model_Soap extends Mage_Payment_Model_Method_Cc
    /**
      * Void the payment transaction
      *
-     * @param Mage_Sale_Model_Order_Payment $payment
+     * @param Varien_Object $payment
      * @return Mage_Cybersource_Model_Soap
      */
     public function void(Varien_Object $payment)
@@ -490,7 +512,7 @@ class Mage_Cybersource_Model_Soap extends Mage_Payment_Model_Method_Cc
 
             try {
                 $result = $soapClient->runTransaction($this->_request);
-                if ($result->reasonCode==self::RESPONSE_CODE_SUCCESS) {
+                if ($result->reasonCode == self::RESPONSE_CODE_SUCCESS) {
                     $payment->setTransactionId($result->requestID)
                         ->setCybersourceToken($result->requestToken)
                         ->setIsTransactionClosed(1);
@@ -529,14 +551,14 @@ class Mage_Cybersource_Model_Soap extends Mage_Payment_Model_Method_Cc
    /**
      * Refund the payment transaction
      *
-     * @param Mage_Sale_Model_Order_Payment $payment
-     * @param flaot $amount
+     * @param Varien_Object $payment
+     * @param float         $amount
      * @return Mage_Cybersource_Model_Soap
      */
     public function refund(Varien_Object $payment, $amount)
     {
         $error = false;
-        if ($payment->getParentTransactionId() && $payment->getRefundCybersourceToken() && $amount>0) {
+        if ($payment->getParentTransactionId() && $payment->getRefundCybersourceToken() && $amount > 0) {
             $soapClient = $this->getSoapApi();
             $this->iniRequest();
             $ccCreditService = new stdClass();
@@ -551,18 +573,15 @@ class Mage_Cybersource_Model_Soap extends Mage_Payment_Model_Method_Cc
 
             try {
                 $result = $soapClient->runTransaction($this->_request);
-                if ($result->reasonCode==self::RESPONSE_CODE_SUCCESS) {
+                if ($result->reasonCode == self::RESPONSE_CODE_SUCCESS) {
                     $payment->setTransactionId($result->requestID)
                         ->setIsTransactionClosed(1)
-                        ->setLastCybersourceToken($result->requestToken)
-                        ;
+                        ->setLastCybersourceToken($result->requestToken);
                 } else {
                      $error = Mage::helper('cybersource')->__('There is an error in processing the payment. Please try again or contact us.');
                 }
             } catch (Exception $e) {
-               Mage::throwException(
-                    Mage::helper('cybersource')->__('Gateway request error: %s', $e->getMessage())
-                );
+               Mage::throwException(Mage::helper('cybersource')->__('Gateway request error: %s', $e->getMessage()));
             }
         } else {
             $error = Mage::helper('cybersource')->__('Error in refunding the payment.');
@@ -578,7 +597,7 @@ class Mage_Cybersource_Model_Soap extends Mage_Payment_Model_Method_Cc
      * To assign correct transaction id and token after refund
      *
      * @param Mage_Sale_Model_Order_Creditmemo $creditmemo
-     * @param Mage_Sale_Model_Order_Payment $payment
+     * @param Mage_Sale_Model_Order_Payment    $payment
      * @return Mage_Cybersource_Model_Soap
      */
     public function processCreditmemo($creditmemo, $payment)

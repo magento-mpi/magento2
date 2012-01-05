@@ -170,7 +170,12 @@ class Mage_Paypal_Model_Ipn
             $id = $this->_request['invoice'];
             $this->_order = Mage::getModel('sales/order')->loadByIncrementId($id);
             if (!$this->_order->getId()) {
-                throw new Exception(sprintf('Wrong order ID: "%s".', $id));
+                $this->_debugData['exception'] = sprintf('Wrong order ID: "%s".', $id);
+                $this->_debug();
+                Mage::app()->getResponse()
+                    ->setHeader('HTTP/1.1','503 Service Unavailable')
+                    ->sendResponse();
+                exit;
             }
             // re-initialize config with the method code and store id
             $methodCode = $this->_order->getPayment()->getMethod();

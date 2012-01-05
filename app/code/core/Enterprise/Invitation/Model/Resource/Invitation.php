@@ -41,6 +41,10 @@ class Enterprise_Invitation_Model_Resource_Invitation extends Mage_Core_Model_Re
     protected function _construct()
     {
         $this->_init('enterprise_invitation/invitation', 'invitation_id');
+        $this->addUniqueField(array(
+            'field' => array('customer_id', 'email'),
+            'title' => 'Invitation for same email address'
+        ));
     }
 
     /**

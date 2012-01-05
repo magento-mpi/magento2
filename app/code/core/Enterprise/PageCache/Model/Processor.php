@@ -244,6 +244,9 @@ class Enterprise_PageCache_Model_Processor
         if (isset($_GET['no_cache'])) {
             return false;
         }
+        if (isset($_GET[Mage_Core_Model_Session_Abstract::SESSION_ID_QUERY_PARAM])) {
+            return false;
+        }
         if (!Mage::app()->useCache('full_page')) {
             return false;
         }
@@ -521,6 +524,12 @@ class Enterprise_PageCache_Model_Processor
                 $this->setMetadata('sid_cookie_name', Mage::getSingleton('core/session')->getSessionName());
 
                 $this->_saveMetadata();
+            }
+
+            if (isset($_GET[Mage_Core_Model_Session_Abstract::SESSION_ID_QUERY_PARAM])) {
+                Mage::getSingleton('enterprise_pagecache/cookie')->updateCustomerCookies();
+                Mage::getModel('enterprise_pagecache/observer')->updateCustomerProductIndex();
+
             }
         }
         return $this;

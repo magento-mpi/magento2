@@ -151,6 +151,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
+                            <frontend_class>validate-number</frontend_class>
                         </sort_order>
                     </fields>
                 </eway_direct>
@@ -248,6 +249,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
+                            <frontend_class>validate-number</frontend_class>
                         </sort_order>
                    </fields>
                 </eway_shared>
@@ -345,6 +347,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
+                            <frontend_class>validate-number</frontend_class>
                         </sort_order>
                    </fields>
                 </eway_secure>

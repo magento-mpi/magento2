@@ -30,7 +30,7 @@
  * @category   Mage
  * @package    Mage_Cybermut
  * @name       Mage_Cybermut_Model_Payment
- * @author	   Magento Core Team <core@magentocommerce.com>
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
 
 class Mage_Cybermut_Model_Payment extends Mage_Payment_Model_Method_Abstract
@@ -60,7 +60,7 @@ class Mage_Cybermut_Model_Payment extends Mage_Payment_Model_Method_Abstract
     /**
      *  Return CyberMut protocol version
      *
-     *  @return	  string Protocol version
+     *  @return string Protocol version
      */
     protected function getVersion()
     {
@@ -70,7 +70,7 @@ class Mage_Cybermut_Model_Payment extends Mage_Payment_Model_Method_Abstract
     /**
      *  Returns Target URL
      *
-     *  @return	  string Target URL
+     *  @return  string Target URL
      */
     public function getCybermutUrl()
     {
@@ -100,7 +100,7 @@ class Mage_Cybermut_Model_Payment extends Mage_Payment_Model_Method_Abstract
     /**
      *  Return back URL
      *
-     *  @return	  string URL
+     *  @return  string URL
      */
     protected function getReturnURL()
     {
@@ -110,7 +110,7 @@ class Mage_Cybermut_Model_Payment extends Mage_Payment_Model_Method_Abstract
     /**
      *  Return URL for Cybermut success response
      *
-     *  @return	  string URL
+     *  @return  string URL
      */
     protected function getSuccessURL()
     {
@@ -120,7 +120,7 @@ class Mage_Cybermut_Model_Payment extends Mage_Payment_Model_Method_Abstract
     /**
      *  Return URL for Cybermut failure response
      *
-     *  @return	  string URL
+     *  @return  string URL
      */
     protected function getErrorURL()
     {
@@ -144,7 +144,7 @@ class Mage_Cybermut_Model_Payment extends Mage_Payment_Model_Method_Abstract
     /**
      *  Form block description
      *
-     *  @return	 object
+     *  @return object
      */
     public function createFormBlock($name)
     {
@@ -158,7 +158,7 @@ class Mage_Cybermut_Model_Payment extends Mage_Payment_Model_Method_Abstract
     /**
      *  Return Order Place Redirect URL
      *
-     *  @return	  string Order Redirect URL
+     *  @return  string Order Redirect URL
      */
     public function getOrderPlaceRedirectUrl()
     {
@@ -168,13 +168,13 @@ class Mage_Cybermut_Model_Payment extends Mage_Payment_Model_Method_Abstract
     /**
      *  Return Standard Checkout Form Fields for request to Cybermut
      *
-     *  @return	  array Array of hidden form fields
+     *  @return  array Array of hidden form fields
      */
     public function getStandardCheckoutFormFields()
     {
         $order = $this->getOrder();
         if (!($order instanceof Mage_Sales_Model_Order)) {
-            Mage::throwException($this->_getHelper()->__('Cannot retrieve order object'));
+            Mage::throwException(Mage::helper('cybermut')->__('Cannot retrieve order object'));
         }
 
         $description = $this->getConfigData('description')
@@ -185,7 +185,7 @@ class Mage_Cybermut_Model_Payment extends Mage_Payment_Model_Method_Abstract
                         'version'        => $this->getVersion(),
                         'TPE'            => $this->getConfigData('tpe_no'),
                         'date'           => date('d/m/Y:H:i:s'),
-                        'montant'        => sprintf('%.2f', $order->getBaseGrandTotal()) . $order->getBaseCurrencyCode(),
+                        'montant'        => sprintf('%.2f', $order->getBaseGrandTotal()) .$order->getBaseCurrencyCode(),
                         'reference'      => $order->getRealOrderId(),
                         'texte-libre'    => $description,
                         'lgue'           => $this->getConfigData('language'),
@@ -205,7 +205,7 @@ class Mage_Cybermut_Model_Payment extends Mage_Payment_Model_Method_Abstract
      *  Prepare string for MAC generation
      *
      *  @param    array $data
-     *  @return	  string MAC string
+     *  @return  string MAC string
      */
     protected function _getMAC($data)
     {
@@ -226,7 +226,7 @@ class Mage_Cybermut_Model_Payment extends Mage_Payment_Model_Method_Abstract
     /**
      *  Return SHA key
      *
-     *  @return	  string SHA key
+     *  @return  string SHA key
      */
     protected function _getSHAKey()
     {
@@ -236,7 +236,7 @@ class Mage_Cybermut_Model_Payment extends Mage_Payment_Model_Method_Abstract
     /**
      *  Return merchant key
      *
-     *  @return	  string Merchant key
+     *  @return  string Merchant key
      */
     protected function _getKey()
     {
@@ -247,7 +247,7 @@ class Mage_Cybermut_Model_Payment extends Mage_Payment_Model_Method_Abstract
      *  Return MAC string for payment authentification
      *
      *  @param    string    $string
-     *  @return	  string MAC
+     *  @return  string MAC
      */
     protected function _CMCIC_hmac($string)
     {
@@ -269,7 +269,7 @@ class Mage_Cybermut_Model_Payment extends Mage_Payment_Model_Method_Abstract
      *
      *  @param    string    $key
      *  @param    string    $string
-     *  @return	  string MAC
+     *  @return  string MAC
      */
     protected function _hmacSHA1($key, $string)
     {
@@ -290,7 +290,7 @@ class Mage_Cybermut_Model_Payment extends Mage_Payment_Model_Method_Abstract
      *  Return MAC string on basis of Cybermut response data
      *
      *  @param    array $data
-     *  @return	  string MAC
+     *  @return  string MAC
      */
     public function getResponseMAC($data)
     {
@@ -311,7 +311,7 @@ class Mage_Cybermut_Model_Payment extends Mage_Payment_Model_Method_Abstract
      *  Transaction successful or not
      *
      *  @param    string    $returnCode
-     *  @return	  boolean
+     *  @return  boolean
      */
     public function isSuccessfulPayment($returnCode)
     {
@@ -337,7 +337,7 @@ class Mage_Cybermut_Model_Payment extends Mage_Payment_Model_Method_Abstract
     /**
      *  Return response for Cybermut success payment
      *
-     *  @return	  string Success response string
+     *  @return  string Success response string
      */
     public function getSuccessResponse()
     {
@@ -353,7 +353,7 @@ class Mage_Cybermut_Model_Payment extends Mage_Payment_Model_Method_Abstract
     /**
      *  Return response for Cybermut failure payment
      *
-     *  @return	  string Failure response string
+     *  @return  string Failure response string
      */
     public function getErrorResponse()
     {

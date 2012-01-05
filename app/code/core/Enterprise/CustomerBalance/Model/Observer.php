@@ -63,7 +63,9 @@ class Enterprise_CustomerBalance_Model_Observer
             if (!empty($data['amount_delta'])) {
                 $balance = Mage::getModel('enterprise_customerbalance/balance')
                     ->setCustomer($observer->getCustomer())
-                    ->setWebsiteId(isset($data['website_id']) ? $data['website_id'] : $observer->getCustomer()->getWebsiteId())
+                    ->setWebsiteId(
+                        isset($data['website_id']) ? $data['website_id'] : $observer->getCustomer()->getWebsiteId()
+                    )
                     ->setAmountDelta($data['amount_delta'])
                     ->setComment($data['comment'])
                 ;
@@ -263,7 +265,9 @@ class Enterprise_CustomerBalance_Model_Observer
     protected function _importPaymentData($quote, $payment, $shouldUseBalance)
     {
         $store = Mage::app()->getStore($quote->getStoreId());
-        if (!$quote || !$quote->getCustomerId()) {
+        if (!$quote || !$quote->getCustomerId()
+            || $quote->getBaseGrandTotal() + $quote->getBaseCustomerBalanceAmountUsed() <= 0
+        ) {
             return;
         }
         $quote->setUseCustomerBalance($shouldUseBalance);
@@ -359,8 +363,12 @@ class Enterprise_CustomerBalance_Model_Observer
          * Update customer balance only if invoice is just created
          */
         if ($invoice->getOrigData() === null && $invoice->getBaseCustomerBalanceAmount()) {
-            $order->setBaseCustomerBalanceInvoiced($order->getBaseCustomerBalanceInvoiced() + $invoice->getBaseCustomerBalanceAmount());
-            $order->setCustomerBalanceInvoiced($order->getCustomerBalanceInvoiced() + $invoice->getCustomerBalanceAmount());
+            $order->setBaseCustomerBalanceInvoiced(
+                $order->getBaseCustomerBalanceInvoiced() + $invoice->getBaseCustomerBalanceAmount()
+            );
+            $order->setCustomerBalanceInvoiced(
+                $order->getCustomerBalanceInvoiced() + $invoice->getCustomerBalanceAmount()
+            );
         }
         /**
          * Because of order doesn't save second time, added forced saving below attributes
@@ -400,8 +408,12 @@ class Enterprise_CustomerBalance_Model_Observer
         }
         //doing actual refund to customer balance if user have submitted refund form
         if ($creditmemo->getCustomerBalanceRefundFlag() && $creditmemo->getBsCustomerBalTotalRefunded()) {
-            $order->setBsCustomerBalTotalRefunded($order->getBsCustomerBalTotalRefunded() + $creditmemo->getBsCustomerBalTotalRefunded());
-            $order->setCustomerBalTotalRefunded($order->getCustomerBalTotalRefunded() + $creditmemo->getCustomerBalTotalRefunded());
+            $order->setBsCustomerBalTotalRefunded(
+                $order->getBsCustomerBalTotalRefunded() + $creditmemo->getBsCustomerBalTotalRefunded()
+            );
+            $order->setCustomerBalTotalRefunded(
+                $order->getCustomerBalTotalRefunded() + $creditmemo->getCustomerBalTotalRefunded()
+            );
 
             $websiteId = Mage::app()->getStore($order->getStoreId())->getWebsiteId();
 
@@ -522,11 +534,17 @@ class Enterprise_CustomerBalance_Model_Observer
                 $creditmemo->setCustomerBalTotalRefunded($creditmemo->getCustomerBalTotalRefunded() + $amount);
             }
 
-            $order->setBaseCustomerBalanceRefunded($order->getBaseCustomerBalanceRefunded() + $creditmemo->getBaseCustomerBalanceAmount());
-            $order->setCustomerBalanceRefunded($order->getCustomerBalanceRefunded() + $creditmemo->getCustomerBalanceAmount());
+            $order->setBaseCustomerBalanceRefunded(
+                $order->getBaseCustomerBalanceRefunded() + $creditmemo->getBaseCustomerBalanceAmount()
+            );
+            $order->setCustomerBalanceRefunded(
+                $order->getCustomerBalanceRefunded() + $creditmemo->getCustomerBalanceAmount()
+            );
 
             // we need to update flag after credit memo was refunded and order's properties changed
-            if ($order->getCustomerBalanceInvoiced() > 0 && $order->getCustomerBalanceInvoiced() == $order->getCustomerBalanceRefunded()) {
+            if ($order->getCustomerBalanceInvoiced() > 0
+                && $order->getCustomerBalanceInvoiced() == $order->getCustomerBalanceRefunded()
+            ) {
                 $order->setForcedCanCreditmemo(false);
             }
         }

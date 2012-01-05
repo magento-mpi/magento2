@@ -128,9 +128,12 @@ class Enterprise_Search_Model_Resource_Collection
      */
     protected $_storedPageSize = false;
 
-
-
-
+    /**
+     * Loaded data by fields
+     *
+     * @var array
+     */
+    protected $_fieldsData = array();
 
     /**
      * Load faceted data if not loaded
@@ -379,6 +382,7 @@ class Enterprise_Search_Model_Resource_Collection
 
             if ($needToLoadFacetedData) {
                 $this->_facetedData = $result['faceted_data'];
+                $this->_facetedDataIsLoaded = true;
             }
         }
 
@@ -588,5 +592,27 @@ class Enterprise_Search_Model_Resource_Collection
         }
 
         return $this;
+    }
+
+    /**
+     * Get field data from search results
+     *
+     * @param string $field
+     * @return array
+     */
+    public function getFieldData($field)
+    {
+        if (!array_key_exists($field, $this->_fieldsData)) {
+            list($query, $params) = $this->_prepareBaseParams();
+            $params['fields'] = $field;
+
+            $data = $this->_engine->getResultForRequest($query, $params);
+            $this->_fieldsData[$field] = array();
+            foreach ($data['ids'] as $value) {
+                $this->_fieldsData[$field][] = $value[$field];
+            }
+        }
+
+        return $this->_fieldsData[$field];
     }
 }

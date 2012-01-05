@@ -66,8 +66,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . Mage::helper('enterprise_customersegment')->__('If Customer Addresses match %s of these Conditions:',
-                $this->getAggregatorElement()->getHtml())
+            . Mage::helper('enterprise_customersegment')->__('If Customer Addresses match %s of these Conditions:', $this->getAggregatorElement()->getHtml())
             . $this->getRemoveLinkHtml();
     }
 

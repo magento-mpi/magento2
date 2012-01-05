@@ -111,8 +111,8 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
         }
 
         if ($staging->isStatusProcessing()) {
-            $this->_getSession()->addNotice(Mage::helper('enterprise_staging')
-                ->__('Merge cannot be done now because a merge or rollback is in progress.')
+            $this->_getSession()->addNotice(
+                Mage::helper('enterprise_staging')->__('Merge cannot be done now because a merge or rollback is in progress.')
             );
         }
 
