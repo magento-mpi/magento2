@@ -113,10 +113,7 @@
             var config = this.config;
             var skipIds = [];
             $$('body .product-custom-option').each(function(element){
-                var price = 0;
-                var oldPrice = 0;
                 var optionId = 0;
-                var priceType = '';
                 element.name.sub(/[0-9]+/, function(match){
                     optionId = parseInt(match[0], 10);
                 });
