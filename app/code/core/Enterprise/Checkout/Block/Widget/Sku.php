@@ -52,12 +52,17 @@ class Enterprise_Checkout_Block_Widget_Sku
     public function getLink()
     {
         $data = $this->getData();
-        if (isset($data['link_display']) && $data['link_display']
-            && isset($data['link_text']) && !empty($data['link_text'])
-        ) {
-            return '<a href="' . $this->escapeHtml($this->getUrl('enterprise_checkout')) . '">'
-                . $this->escapeHtml($data['link_text']) . '</a>';
+        if (empty($data['link_display']) || empty($data['link_text'])) {
+            return '';
         }
-        return '';
+
+        /** @var $helper Enterprise_Checkout_Helper_Data */
+        $helper = Mage::helper('enterprise_checkout');
+        if (!$helper->isSkuEnabled() || !$helper->isSkuApplied()) {
+            return '';
+        }
+
+        return '<a href="' . $this->escapeHtml($this->getUrl('enterprise_checkout')) . '">'
+            . $this->escapeHtml($data['link_text']) . '</a>';
     }
 }
