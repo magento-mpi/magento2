@@ -41,11 +41,22 @@ class Enterprise_Checkout_IndexController extends Mage_Core_Controller_Front_Act
      */
     public function preDispatch()
     {
-        if (!Mage::helper('enterprise_checkout')->isSkuEnabled()
-            && !Mage::helper('enterprise_checkout')->isSkuApplied()) {
+        parent::preDispatch();
+
+        // guest redirected to "Login or Create an Account" page
+        /** @var $customerSession Mage_Customer_Model_Session */
+        $customerSession = Mage::getSingleton('customer/session');
+        if (!$customerSession->authenticate($this)) {
+            $this->setFlag('', 'no-dispatch', true);
+            return $this;
+        }
+
+        /** @var $helper Enterprise_Checkout_Helper_Data */
+        $helper = Mage::helper('enterprise_checkout');
+        if (!$helper->isSkuEnabled() || !$helper->isSkuApplied()) {
             $this->_redirect('customer/account');
         }
-        parent::preDispatch();
+
         return $this;
     }
 
