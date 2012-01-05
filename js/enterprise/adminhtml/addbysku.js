@@ -214,6 +214,7 @@ AddBySku.prototype = {
     submitCsvFile : function ()
     {
         var $file = Element.select('body', 'input[name="' + this.fileFieldName + '"]')[0];
+        var $inputFileContainer = $file.up();
         if (!$file.value) {
             return false;
         }
@@ -224,10 +225,14 @@ AddBySku.prototype = {
             'method': 'post',
             'enctype': 'multipart/form-data'
         });
+        // We need to insert same file input element into the form. Simple copy of name/value doesn't work.
         $form.insert($file);
+        // Inserting element to other place removes it from the old one. Creating new file input element on same place
+        // to avoid confusing effect that it has disappeared.
+        $inputFileContainer.insert(new Element('input', {'type': 'file', 'name': this.fileFieldName}));
         $form.insert(new Element('input', {'type': 'hidden', 'name': this.controllerParamFieldNames['customerId'], 'value': this.order.customerId}));
-        $form.insert(new Element('input', {'type': 'hidden', 'name': this.controllerParamFieldNames['storeId'],    'value': this.order.storeId}));
-        $form.insert(new Element('input', {'type': 'hidden', 'name': 'form_key',                    'value': FORM_KEY}));
+        $form.insert(new Element('input', {'type': 'hidden', 'name': this.controllerParamFieldNames['storeId'], 'value': this.order.storeId}));
+        $form.insert(new Element('input', {'type': 'hidden', 'name': 'form_key', 'value': FORM_KEY}));
         $form.submit();
         return true;
     },

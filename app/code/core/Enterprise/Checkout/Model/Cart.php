@@ -584,6 +584,10 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object
     public function prepareAddProductsBySku($items)
     {
         foreach ($items as $item) {
+            if (!isset($item['sku']) || !isset($item['qty'])) {
+                Mage::log('Undefined SKU or quantity, skipped');
+                continue;
+            }
             $this->prepareAddProductBySku($item['sku'], $item['qty']);
         }
         return $this;
