@@ -768,23 +768,23 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
     }
 
     /**
-     * Returns add by SKU item info by list and list item id.
-     * Returns object on success or false on error. Returned object has following keys:
-     *  - product_id - null if no item found
-     *  - buy_request - Varien_Object, empty if not buy request stored for this item
+     * Wrapper for _getListItemInfo() - extends with additional list types. New method create to leave original
+     * method definition unchanged (add_by_sku list type utilizes additional parameter - $info).
+     * For return format see _getListItemInfo().
      *
      * @param string $listType
      * @param int    $itemId
      * @param array  $info
      * @return Varien_Object|false
      */
-    protected function _getSkuListItemInfo($listType, $itemId, $info)
+    protected function _getInfoForListItem($listType, $itemId, $info)
     {
         $productId = null;
         $buyRequest = new Varien_Object();
         switch ($listType) {
             case 'add_by_sku':
                 $info['sku'] = $itemId;
+
             case Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Abstract::LIST_TYPE:
                 if (empty($info['qty']) || empty($info['sku'])) {
                     return false;
@@ -795,6 +795,9 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
                 }
                 $productId = $item['item']['id'];
                 break;
+
+            default:
+                return $this->_getListItemInfo($listType, $itemId);
         }
         return new Varien_Object(array('product_id' => $productId, 'buy_request' => $buyRequest));
     }
@@ -860,11 +863,7 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
                         $info = array(); // For sure to filter incoming data
                     }
 
-                    $itemInfo = $this->_getListItemInfo($listType, $itemId);
-                    $skuItemInfo = $this->_getSkuListItemInfo($listType, $itemId, $info);
-                    if ($skuItemInfo) {
-                        $itemInfo = $skuItemInfo;
-                    }
+                    $itemInfo = $this->_getInfoForListItem($listType, $itemId, $info);
                     if (!$itemInfo) {
                         continue;
                     }

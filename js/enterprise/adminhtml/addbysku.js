@@ -78,6 +78,10 @@ AddBySku.prototype = {
                     onSuccess: function(transport)
                     {
                         var response = transport.responseText.evalJSON();
+                        if (!response.errors) {
+                            // If response is empty loadAreaResponseHandler() won't update the area
+                            response.errors = '<span></span>';
+                        }
                         this.loadAreaResponseHandler(response);
                     }.bind(that.order),
                     onComplete: function ()
