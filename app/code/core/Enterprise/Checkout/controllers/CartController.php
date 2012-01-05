@@ -106,6 +106,9 @@ class Enterprise_Checkout_CartController extends Mage_Core_Controller_Front_Acti
         $failedItemsCart = Mage::getModel('enterprise_checkout/cart');
 
         foreach ($failedItems as $productId => $data) {
+            if (!isset($data['qty']) || !isset($data['sku'])) {
+                continue;
+            }
             $checkedItem = $failedItemsCart->checkItem($data['sku'], $data['qty']);
             if ($checkedItem['code'] == Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_SUCCESS) {
                 $cart->addProduct($productId, $data['qty']);
