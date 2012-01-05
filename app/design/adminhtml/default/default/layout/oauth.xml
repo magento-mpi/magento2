@@ -71,7 +71,7 @@
             <action method="setTemplate"><template>empty.phtml</template></action>
         </reference>
         <reference name="content">
-            <block type="oauth/adminhtml_oAuth_authorize" name="oauth.authorize.form" template="oauth/authorize/form/admin/login.phtml"/>
+            <block type="oauth/adminhtml_oAuth_authorize" name="oauth.authorize.form" template="oauth/authorize/form/login.phtml"/>
             <block type="oauth/adminhtml_oAuth_authorize_button" name="oauth.authorize.button" template="oauth/authorize/button.phtml" />
         </reference>
     </adminhtml_oauth_authorize_index>
@@ -80,7 +80,12 @@
         <label>OAuth authorization popup for admin</label>
         <reference name="oauth.authorize.form">
             <action method="setTemplate">
-                <template>oauth/authorize/form/admin/pop-up.phtml</template>
+                <template>oauth/authorize/form/login-simple.phtml</template>
+            </action>
+        </reference>
+        <reference name="oauth.authorize.button">
+            <action method="setTemplate">
+                <template>oauth/authorize/button-simple.phtml</template>
             </action>
         </reference>
     </adminhtml_oauth_authorize_popup>

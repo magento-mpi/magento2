@@ -50,6 +50,16 @@
     <oauth_authorize_popup translate="label">
         <update handle="oauth_authorize_index"/>
         <label>OAuth authorization Pop Up for customer</label>
+        <reference name="oauth.authorize.form">
+            <action method="setTemplate">
+                <template>oauth/authorize/form/admin/pop-up.phtml</template>
+            </action>
+        </reference>
+        <reference name="oauth.authorize.button">
+            <action method="setTemplate">
+                <template>oauth/authorize/button-pop-up.phtml</template>
+            </action>
+        </reference>
     </oauth_authorize_popup>
     <!-- EOF Authorization -->
 

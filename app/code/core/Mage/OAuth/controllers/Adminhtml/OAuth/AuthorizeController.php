@@ -122,9 +122,9 @@ class Mage_OAuth_Adminhtml_OAuth_AuthorizeController extends Mage_Adminhtml_Cont
             $block = $contentBlock->getChild('oauth.authorize.form');
         }
 
-        $block->setIsPopUp($popUp);
-
-        $block->setToken($this->_getTokenString())->setIsException($isException);
+        $block->setIsSimple($popUp)
+                ->setToken($this->_getTokenString())
+                ->setIsException($isException);
 
         return $this;
     }

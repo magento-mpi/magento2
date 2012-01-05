@@ -32,7 +32,7 @@
  * @see Mage_OAuth_Block_Authorize
  */
 ?>
-<?php if ($this->getIsPopUp()) { ?>
+<?php if ($this->getIsSimple()) { ?>
 <style type="text/css">
     .header-panel {display: none};
     .account-login .new-users, .account-login .registered-users {padding: inherit; width: inherit;}
@@ -41,7 +41,7 @@
     .header {width: inherit; padding: 0;}
     .page {width: inherit;}
     .page-title {margin: 0; padding: 10px 10px 11px;}
-    .header-container {margin: 10px 0px 10px 10px}
+    .header-container {margin: 10px 0px 10px 10px;}
     .account-login {min-height: 200px;}
     .main {min-height: 200px;}
 </style>

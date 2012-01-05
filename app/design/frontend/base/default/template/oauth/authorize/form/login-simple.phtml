@@ -1,0 +1,58 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2011 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php
+/**
+ * Customer login form template
+ *
+ * @var $this Mage_OAuth_Block_Authorize
+ * @see Mage_OAuth_Block_Authorize
+ */
+?>
+<style type="text/css">
+    .main {width:auto; background: none; border: none; padding: 0; margin: 0; min-height: inherit;}
+    .header {width:auto;}
+    .wrapper {min-width:inherit;}
+    body,
+    .main-container,
+    .header-container {background: none;}
+    .input-box label {font-weight: bold;}
+    .required {font-weight: bold; color: #D40707 !important;}
+    .login-form.simple .form-buttons {
+        float: none;
+    }
+    .login-form .form-buttons {
+        clear: both;
+        margin: 38px 0 0;
+        text-align: right;
+    }
+    .page-title {margin-bottom: 0}
+</style>
+<?php
+$params['_area'] = 'adminhtml';
+$templateName = Mage::getDesign()->getTemplateFilename($this->getTemplate(), $params);
+require_once $templateName;
+?>

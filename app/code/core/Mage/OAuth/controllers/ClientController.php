@@ -51,7 +51,7 @@ class Mage_OAuth_ClientController extends Mage_Core_Controller_Front_Action
         $consumer = Mage::getModel('oauth/consumer');
 
         if (!$consumer->load(1)->getId()) {
-            die('Consumer not found');
+            die('Consumer with ID "1" not found');
         }
         /** @var $helper Mage_OAuth_Helper_Data */
         $helper = Mage::helper('oauth');
@@ -68,9 +68,11 @@ class Mage_OAuth_ClientController extends Mage_Core_Controller_Front_Action
             'requestMethod'   => Zend_Oauth::POST,
             'consumerKey'     => $consumer->getKey(),
             'consumerSecret'  => $consumer->getSecret(),
-            'callbackUrl'     => $consumer->getCallbackUrl(),
             'signatureMethod' => 'HMAC-SHA1'
         );
+        if ($callbackUrl = $consumer->getCallbackUrl()) {
+            $config['callbackUrl'] = $callbackUrl;
+        }
         $this->_consumer = new Zend_Oauth_Consumer($config);
     }
 
@@ -121,9 +123,30 @@ class Mage_OAuth_ClientController extends Mage_Core_Controller_Front_Action
         $requestToken = $this->_consumer->getRequestToken();
 
         if ($requestToken->isValid()) {
+
+            if ($this->_request->getParam('token')) {
+                echo $requestToken->getToken();
+                exit;
+            }
+
             $session->setInitToken($requestToken);
 
-            $this->_consumer->redirect(null, $requestToken);
+            if ($this->_request->getParam('popUp')) {
+                $request = null;
+                if ($requestToken instanceof Zend_Oauth_Http_UserAuthorization) {
+                    $request = $requestToken;
+                    $token = null;
+                }
+                $redirectUrl = $this->_consumer->getRedirectUrl(null, $requestToken, $request);
+                $redirectUrl = str_replace('/authorize', '/authorize/popUp', $redirectUrl);
+                $this->_redirectUrl($redirectUrl);
+                return;
+            } else {
+                $this->_consumer->redirect(null, $requestToken);
+            }
+
+
+
         } else {
             // for debug purposes
             echo '<pre><strong>Last request:</strong><br>';
@@ -176,5 +199,89 @@ class Mage_OAuth_ClientController extends Mage_Core_Controller_Front_Action
         $server = Mage::getModel('oauth/server');
 
         echo $server->checkAccessRequest(Mage::getUrl('*/*/*')) ? 'Access Granted<br>' : 'Access Denied<br>';
+    }
+
+    /**
+     * Test action for resource request with access token validation
+     */
+    public function testPopUpAction()
+    {
+        /** @var $tokenC Mage_OAuth_Model_Token */
+        $tokenC = Mage::getModel('oauth/token')->load(1);
+        /** @var $tokenA Mage_OAuth_Model_Token */
+        $tokenA = Mage::getModel('oauth/token')->load(2);
+
+        $baseUrl = Mage::app()->getStore()->getBaseUrl();
+
+        $urlCustomer = $baseUrl . 'oauth/authorize/popUp'
+                . '?oauth_token=_token_'
+                . '&oauth_callback=' . $baseUrl . 'oauth/client/popUpBack';
+        $urlAdmin = $baseUrl . 'admin/oAuth_authorize/popUp'
+                . '?oauth_token=_token_'
+                . '&oauth_callback=' . $baseUrl . 'oauth/client/popUpBack';
+        ?>
+        <html>
+        <head>
+            <script type="text/javascript">
+                var callbackOAuth = {
+                    'admin': '<?php echo $urlAdmin ?>',
+                    'customer': '<?php echo $urlCustomer ?>'
+                };
+                function windowOpen(el) {
+                    var id = el.id;
+                    var url = callbackOAuth[id].replace('_token_', document.getElementById(id + '_token').value)
+                    window.open(url,'new','width=650,height=350,toolbar=1');
+                    return false;
+                }
+            </script>
+        </head>
+        <body>
+            <h1>Magento authorize</h1>
+            <input id="customer_token" type="text" maxlength="32" style="width: 230px"
+                   value="<?php echo $tokenC->getToken() ?>" />
+            <br />
+            <a href="#" id="customer" onclick="windowOpen(this); return false;">Window Customer</a></div>
+            <br />
+            <br />
+            <input id="admin_token" type="text" maxlength="32" style="width: 230px"
+                   value="<?php echo $tokenA->getToken() ?>" />
+            <br />
+            <a href="#" id="admin" onclick="windowOpen(this);">Window Admin</a></div>
+        </body>
+        </html>
+        <?php
+    }
+
+    /**
+     * Test action for resource request with access token validation
+     */
+    public function popUpBackAction()
+    {
+        ?>
+        <html>
+        <body>
+        <p>Request is done.</p>
+        <p>Window will be closed in <span id="second">10</span> second.</p>
+        <p><strong>Params:</strong></p>
+        <ul>
+            <?php foreach ($this->getRequest()->getParams() as $param) : ?>
+                <li><?php echo $param; ?></li>
+            <?php endforeach; ?>
+        </ul>
+        <script type="text/javascript">
+            var func = function() {
+                var el = document.getElementById('second');
+                var s = el.innerHTML;
+                if (s <= 1) {
+                    window.close();
+                }
+                el.innerHTML = --s;
+                setTimeout(func, 1000);
+            };
+            setTimeout(func, 1000);
+        </script>
+        </body>
+        </html>
+        <?php
     }
 }

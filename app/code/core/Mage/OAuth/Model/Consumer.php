@@ -46,6 +46,8 @@
  * @method Mage_OAuth_Model_Consumer setCreatedAt() setCreatedAt(string $date)
  * @method string getUpdatedAt()
  * @method Mage_OAuth_Model_Consumer setUpdatedAt() setUpdatedAt(string $date)
+ * @method string getRejectedCallbackUrl()
+ * @method Mage_OAuth_Model_Consumer setRejectedCallbackUrl() setRejectedCallbackUrl(string $rejectedCallbackUrl)
  */
 class Mage_OAuth_Model_Consumer extends Mage_Core_Model_Abstract
 {

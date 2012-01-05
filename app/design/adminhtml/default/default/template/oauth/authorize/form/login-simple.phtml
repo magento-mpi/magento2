@@ -40,54 +40,51 @@ if ($this->getIsException()) {
     $title = $this->__('Authorize &laquo;%s&raquo; to use your account?', $this->escapeHtml($this->getConsumer()->getName()));
 }
 
-if ($this->getIsPopUp()) {
-    $rejectJs = "window.close();";
-} else {
-    $rejectJs = "document.location.href='{$this->getRejectUrl()}';";
-}
+$rejectJs = "document.location.href='{$this->getRejectUrl()}';";
 ?>
 <style type="text/css">
-    .main {border: 1px solid #CFCFCF;}
-    .login-container.pop-up {margin: 0px; background-image: none; padding: 0px; width: auto;}
-    .login-container.pop-up .page-title {background-image: none; padding: 10px; border: 1px solid #CFCFCF;}
-    .login-container.pop-up .bottom {display: none;}
-    .login-form.pop-up {padding: 0; background: none;}
-    .login-container.pop-up h1 {text-align: left; color: #D12C01; font-size: 22px; font-weight: normal; margin: 0;}
-    .login-container.pop-up h1 .consumer {font-weight: bold;}
-    .login-container.pop-up h2 {font: 16px Arial,Helvetica,sans-serif; color: #444; text-align: left;}
-    .login-container.pop-up .form-box {border: 1px solid #CFCFCF; border-top: none; padding: 8px 20px;}
-    .login-container.pop-up fieldset {width: 319px; float: none; margin: 0 auto;}
-    .login-container.pop-up .input-box label {width: 72px; text-align: right; float: left; margin-right: 15px;}
-    .login-container.pop-up .input-box input {width: 224px; text-align: left; float: left;}
-    .login-form.pop-up .input-box.input-left,
-    .login-form.pop-up .input-box.input-right {float: none; margin-bottom: 5px;}
-    .login-form.pop-up .input-box.input-left {padding-bottom: 25px;}
-    .login-form.pop-up .form-buttons {float: none;}
-    .login-form.pop-up p.required{text-align: right; font-size: 11px; font-weight: normal!important;}
+    .header-simple {display: block; clear: both;}
+    .main {border: none;}
+    .header-top {border: none;}
+    .login-container.simple {margin: 0px; background-image: none; padding: 0px; width: auto;}
+    .login-container.simple .page-title {background-image: none; padding: 10px; border-top: 1px solid #CFCFCF; border-bottom: 1px solid #CFCFCF;}
+    .login-container.simple .bottom {display: none;}
+    .login-form.simple {padding: 0; background: none;}
+    .login-container.simple h1 {text-align: left; color: #D12C01; font-size: 22px; font-weight: normal; margin: 0;}
+    .login-container.simple h1 .consumer {font-weight: bold;}
+    .login-container.simple h2 {font: 16px Arial,Helvetica,sans-serif; color: #444; text-align: left;}
+    .login-container.simple .form-box {border: 1px solid #CFCFCF; border-top: none; padding: 8px 20px;}
+    .login-container.simple fieldset {width: 319px; float: none; margin: 0 auto;}
+    .login-container.simple .input-box label {width: 72px; text-align: right; float: left; margin-right: 15px;}
+    .login-container.simple .input-box input {width: 224px; text-align: left; float: left;}
+    .login-form.simple .input-box.input-left,
+    .login-form.simple .input-box.input-right {float: none; margin-bottom: 5px;}
+    .login-form.simple .input-box.input-left {padding-bottom: 25px;}
+    .login-form.simple .form-buttons {float: none;}
+    .login-form.simple p.required{text-align: right; font-size: 11px; font-weight: normal!important;}
     .logo {height: 70px; margin: 7px 0 0 10px;}
 </style>
 
-<div class="header_">
+<div class="header-simple">
     <div class="header-top">
-         <a href="<?php echo $this->getHomeLink() ?>">
-             <img src="<?php echo $this->getSkinUrl('images/logo-large.gif') ?>" alt="<?php echo $this->__('Magento Logo') ?>" class="logo"/>
-         </a>
+         <span>
+             <img src="<?php echo $this->getSkinUrl('images/logo-large.gif', array('_area' => 'adminhtml')) ?>" alt="<?php echo $this->__('Magento Logo') ?>" class="logo"/>
+         </span>
     </div>
 </div>
-<div class="login-container pop-up">
+
+<div class="login-container simple">
     <div class="login-box">
         <div class="page-title">
             <h1><?php echo $title ?></h1>
         </div>
         <div class="form-box">
-            <div id="messages">
-                <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
-            </div>
+            <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
             <?php if (!$this->getIsException()) : ?>
                 <form method="post" action="<?php echo $this->getPostActionUrl() ?>" id="loginForm">
                     <fieldset>
-                        <h2 class="legend"><?php echo $this->__('Log in as admin') ?></h2>
-                        <div class="login-form pop-up">
+                        <h2 class="legend"><?php echo $this->getFormTitle() ?></h2>
+                        <div class="login-form simple">
                             <input name="form_key" type="hidden" value="<?php echo $this->getFormKey() ?>"/>
                             <input type="hidden" name="oauth_token" value="<?php echo $this->escapeHtml($this->getToken()) ?>"/>
 

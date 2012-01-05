@@ -34,8 +34,8 @@
  * @method Mage_OAuth_Block_Authorize setToken() setToken(string $token)
  * @method boolean getIsException()
  * @method Mage_OAuth_Block_Authorize setIsException() setIsException(boolean $flag)
- * @method boolean getIsPopUp()
- * @method Mage_OAuth_Block_Authorize setIsPopUp() setIsPopUp(boolean $flag)
+ * @method boolean getIsSimple()
+ * @method Mage_OAuth_Block_Authorize setIsPopUp() setIsSimple(boolean $flag)
  */
 class Mage_OAuth_Block_Adminhtml_OAuth_Authorize extends Mage_Adminhtml_Block_Template
 {
@@ -47,7 +47,7 @@ class Mage_OAuth_Block_Adminhtml_OAuth_Authorize extends Mage_Adminhtml_Block_Te
     public function getPostActionUrl()
     {
         $params = array();
-        if ($this->getIsPopUp()) {
+        if ($this->getIsSimple()) {
             $params['popUp'] = 1;
         }
         return $this->getUrl('adminhtml/index/login', $params);
@@ -89,5 +89,25 @@ class Mage_OAuth_Block_Adminhtml_OAuth_Authorize extends Mage_Adminhtml_Block_Te
     public function isException()
     {
         return $this->getIsException();
+    }
+
+    /**
+     * Get form identity label
+     *
+     * @return string
+     */
+    public function getIdentityLabel()
+    {
+        return $this->__('User Name');
+    }
+
+    /**
+     * Get form identity label
+     *
+     * @return string
+     */
+    public function getFormTitle()
+    {
+        return $this->__('Log in as admin');
     }
 }

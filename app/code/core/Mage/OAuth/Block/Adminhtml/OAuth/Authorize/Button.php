@@ -34,8 +34,8 @@
  * @method Mage_OAuth_Block_Authorize setToken() setToken(string $token)
  * @method boolean getIsException()
  * @method Mage_OAuth_Block_Authorize setIsException() setIsException(boolean $flag)
- * @method boolean getIsPopUp()
- * @method Mage_OAuth_Block_Authorize setIsPopUp() setIsPopUp(boolean $flag)
+ * @method boolean getIsSimple()
+ * @method Mage_OAuth_Block_Authorize setIsSimple() setIsSimple(boolean $flag)
  */
 class Mage_OAuth_Block_Adminhtml_OAuth_Authorize_Button extends Mage_Core_Block_Template
 {

@@ -32,7 +32,7 @@
  * @see Mage_OAuth_Block_Authorize
  */
 ?>
-<?php if ($this->getIsPopUp()) { ?>
+<?php if ($this->getIsSimple()) { ?>
 <style type="text/css">
     .main {width:auto;}
     .header {width:auto;}
@@ -74,7 +74,8 @@
             <div class="col1-set">
                 <div class="col-1 registered-users">
                     <div class="buttons-set">
-                        <button type="submit" class="button" title="<?php echo $this->__('Login') ?>" name="send" id="send2"><span><span><?php echo $this->__('Login') ?></span></span></button>
+                        <button type="submit" class="button" title="<?php echo $this->__('Login') ?>" name="send" id="send2">
+                            <span><span><?php echo $this->__('Login') ?></span></span></button>
                     </div>
                 </div>
             </div>

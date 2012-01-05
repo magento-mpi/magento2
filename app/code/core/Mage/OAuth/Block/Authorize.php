@@ -34,8 +34,8 @@
  * @method Mage_OAuth_Block_Authorize setToken() setToken(string $token)
  * @method boolean getIsException()
  * @method Mage_OAuth_Block_Authorize setIsException() setIsException(boolean $flag)
- * @method boolean getIsPopUp()
- * @method Mage_OAuth_Block_Authorize setIsPopUp() setIsPopUp(boolean $flag)
+ * @method boolean getIsSimple()
+ * @method Mage_OAuth_Block_Authorize setIsSimple() setIsSimple(boolean $flag)
  */
 class Mage_OAuth_Block_Authorize extends Mage_Core_Block_Template
 {
@@ -49,7 +49,7 @@ class Mage_OAuth_Block_Authorize extends Mage_Core_Block_Template
         /** @var $helper Mage_Customer_Helper_Data */
         $helper = $this->helper('customer');
         $url = $helper->getLoginPostUrl();
-        if ($this->getIsPopUp()) {
+        if ($this->getIsSimple()) {
             $url = rtrim($url, '/') . '/popUp/1';
         }
         return $url;
@@ -91,5 +91,25 @@ class Mage_OAuth_Block_Authorize extends Mage_Core_Block_Template
     public function getRejectUrl()
     {
         return $this->getUrl('oauth/authorize/reject', array('_query' => array('oauth_token' => $this->getToken())));
+    }
+
+    /**
+     * Get form identity label
+     *
+     * @return string
+     */
+    public function getIdentityLabel()
+    {
+        return $this->__('Email Address');
+    }
+
+    /**
+     * Get form identity label
+     *
+     * @return string
+     */
+    public function getFormTitle()
+    {
+        return $this->__('Log in as customer');
     }
 }

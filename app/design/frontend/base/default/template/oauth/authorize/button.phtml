@@ -23,24 +23,13 @@
  * @copyright   Copyright (c) 2011 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
-
 /**
  * "Grant Access" button
  *
  * @see Mage_OAuth_Block_Authorize_Button
  */
-
  /** @var $this Mage_OAuth_Block_Authorize_Button */
 ?>
-
-<?php if ($this->getIsPopUp()) : ?>
-<style type="text/css">
-    .page {width: auto;}
-    .header-container {margin: 0 8px;}
-    .main {min-height: inherit;}
-</style>
-<?php endif; ?>
-
 <div>
     <div class="page-title">
         <h1><?php echo $this->__('Authorize application') ?></h1>
@@ -60,20 +49,14 @@
         </ul>
         <form id="oauth_authorize_confirm" action="<?php echo $this->getConfirmUrl() ?>" method="get">
             <input type="hidden" name="oauth_token" value="<?php echo $this->escapeHtml($this->getToken()) ?>">
-            <button type="submit" class="button" title="<?php echo $this->__('Authorize') ?>" name="authorize"><span><span><?php echo $this->__('Authorize') ?></span></span></button>
+            <button type="submit" class="button" title="<?php echo $this->__('Authorize') ?>" name="authorize">
+                <span><span><?php echo $this->__('Authorize') ?></span></span></button>
         </form>
         <form id="oauth_authorize_reject" action="<?php echo $this->getRejectUrl() ?>" method="get">
             <input type="hidden" name="oauth_token" value="<?php echo $this->escapeHtml($this->getToken()) ?>">
-            <button type="submit" class="button" title="<?php echo $this->__('Reject') ?>"><span><span><?php echo $this->__('Reject') ?></span></span></button>
+            <button type="submit" class="button" title="<?php echo $this->__('Reject') ?>">
+                <span><span><?php echo $this->__('Reject') ?></span></span></button>
         </form>
-        <?php if ($this->getIsPopUp()) : ?>
-            <script type="text/javascript">
-                $('oauth_authorize_reject').onsubmit = function() {
-                    window.close();
-                    return false;
-                }
-            </script>
-        <?php endif; ?>
     <?php endif; ?>
 
 </div>
