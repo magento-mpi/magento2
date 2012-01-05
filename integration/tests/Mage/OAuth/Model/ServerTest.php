@@ -86,6 +86,79 @@ class Mage_OAuth_Model_ServerTest extends Magento_TestCase
     }
 
     /**
+     * Retrieve array from body string
+     *
+     * @param string $body response body string
+     * @return array
+     */
+    public function _getArrayFromBody($body)
+    {
+        $getParamLines = explode('&', $body);
+        $getParams = array();
+        foreach ($getParamLines as $getParamLine) {
+            $tmp = explode('=', $getParamLine);
+            $getParams[$tmp[0]] = $tmp[1];
+        }
+        return $getParams;
+    }
+
+    /**
+     * Get varien http client
+     *
+     * @param array|null $options
+     * @param string $method
+     * @return Varien_Http_Client
+     */
+    protected function _getHttpClient($options = null, $method = Varien_Http_Client::POST)
+    {
+        /** @var $httpUtility Zend_Oauth_Http_Utility */
+        $httpUtility = new Zend_Oauth_Http_Utility;
+
+        /** @var $helper Mage_OAuth_Helper_Data */
+        $helper = Mage::helper('oauth');
+
+        /** @var $client Varien_Http_Client */
+        $client = new Varien_Http_Client($helper->getProtocolEndpointUrl(Mage_OAuth_Helper_Data::ENDPOINT_INITIATE));
+
+        /** @var $consumer Mage_OAuth_Model_Consumer */
+        $consumer = $this->getFixture('consumer');
+
+        $data = array(
+            'oauth_consumer_key'     => $consumer->getKey(),
+            'oauth_nonce'            => $httpUtility->generateNonce(),
+            'oauth_timestamp'        => $httpUtility->generateTimestamp(),
+            'oauth_signature_method' => 'HMAC-SHA1',
+            'oauth_version'          => '1.0',
+            'oauth_callback'         => $consumer->getCallbackUrl()
+        );
+
+        if (is_array($options)) {
+            foreach ($options as $key => $value) {
+                $data[$key] = $value;
+            }
+        }
+
+        $data['oauth_signature'] = $httpUtility->sign(
+            $data,
+            $data['oauth_signature_method'],
+            $consumer->getSecret(),
+            null,
+            Varien_Http_Client::POST,
+            $helper->getProtocolEndpointUrl(Mage_OAuth_Helper_Data::ENDPOINT_INITIATE)
+        );
+
+        $client->setMethod($method);
+        if (Varien_Http_Client::POST == $method) {
+            $client->setParameterPost($data);
+        } elseif (Varien_Http_Client::GET == $method) {
+            $client->setParameterGet($data);
+        } else {
+            $this->fail('Wrong HTTP method.');
+        }
+        return $client;
+    }
+
+    /**
      * Test initiative request to oAuth server
      *
      * @return void
@@ -103,8 +176,6 @@ class Mage_OAuth_Model_ServerTest extends Magento_TestCase
         $token = Mage::getModel('oauth/token');
         $token->load($requestToken->getParam('oauth_token'), 'token');
 
-        $this->setFixture('token', $token);
-
         $this->assertGreaterThan(0, $token->getId());
         $this->assertNull($token->getCustomerId());
         $this->assertNull($token->getAdminId());
@@ -121,7 +192,7 @@ class Mage_OAuth_Model_ServerTest extends Magento_TestCase
     }
 
     /**
-     * Test response code
+     * Test success response code
      *
      * @return void
      */
@@ -183,26 +254,23 @@ class Mage_OAuth_Model_ServerTest extends Magento_TestCase
     }
 
     /**
-     * Test request with a wrong request method
+     * Test request with invalid signature
      *
      * @return void
      */
-    public function testWrongRequestMethod()
+    public function testInvalidSignature()
     {
-        /** @var $client Zend_Oauth_Consumer */
-        $client = $this->getFixture('client');
+        /** @var $client Varien_Http_Client */
+        $client = $this->_getHttpClient();
+        $client->setParameterPost('oauth_signature', 'qwerty');
 
-        try {
-            $client->getRequestToken(null, Zend_Oauth::GET);
-        } catch (Zend_Oauth_Exception $e) {
-            /** @var $lastResponse Zend_Http_Response */
-            $lastResponse = $client->getHttpClient()->getLastResponse();
-            $this->assertEquals(Mage_OAuth_Model_Server::HTTP_UNAUTHORIZED, $lastResponse->getStatus());
-            $this->assertEquals('oauth_problem=nonce_used', $lastResponse->getBody());
-            return;
-        }
+        /** @var $response Zend_Http_Response */
+        $response = $client->request();
 
-        $this->fail(self::RAISED_EXCEPTION_FAIL_MESSAGE);
+        $this->assertEquals(Mage_OAuth_Model_Server::HTTP_UNAUTHORIZED, $response->getStatus());
+        $params = $this->_getArrayFromBody($response->getBody());
+
+        $this->assertEquals('signature_invalid', $params['oauth_problem']);
     }
 
     /**
@@ -250,5 +318,81 @@ class Mage_OAuth_Model_ServerTest extends Magento_TestCase
         }
 
         $this->fail(self::RAISED_EXCEPTION_FAIL_MESSAGE);
+    }
+
+    /**
+     * Test request with "oob" callback url
+     *
+     * @return void
+     */
+    public function testOobCallbackUrl()
+    {
+        /** @var $client Varien_Http_Client */
+        $client = $this->_getHttpClient(array('oauth_callback' => Mage_OAuth_Model_Server::CALLBACK_ESTABLISHED));
+
+        /** @var $response Zend_Http_Response */
+        $response = $client->request();
+
+        $this->assertEquals(Mage_OAuth_Model_Server::HTTP_OK, $response->getStatus());
+        $params = $this->_getArrayFromBody($response->getBody());
+
+        /** @var $token Mage_OAuth_Model_Token */
+        $token = Mage::getModel('oauth/token');
+        $token->load($params['oauth_token'], 'token');
+
+        $this->assertGreaterThan(0, $token->getId());
+        $this->assertEquals(Mage_OAuth_Model_Server::CALLBACK_ESTABLISHED, $token->getCallbackUrl());
+    }
+
+    /**
+     * Test request with invalid callback url
+     *
+     * @return void
+     */
+    public function testInvalidCallbackUrl()
+    {
+        /** @var $client Varien_Http_Client */
+        $client = $this->_getHttpClient(array('oauth_callback' => 'qwerty'));
+
+        /** @var $response Zend_Http_Response */
+        $response = $client->request();
+
+        $this->assertEquals(Mage_OAuth_Model_Server::HTTP_BAD_REQUEST, $response->getStatus());
+        $this->assertEquals('oauth_problem=parameter_rejected&message=oauth_callback', $response->getBody());
+    }
+
+    /**
+     * Test request with invalid timestamp
+     *
+     * @return void
+     */
+    public function testRefusedTimestamp()
+    {
+        /** @var $client Varien_Http_Client */
+        $client = $this->_getHttpClient();
+        $client->setParameterPost('oauth_timestamp', 'qwerty');
+
+        /** @var $response Zend_Http_Response */
+        $response = $client->request();
+
+        $this->assertEquals(Mage_OAuth_Model_Server::HTTP_BAD_REQUEST, $response->getStatus());
+        $this->assertEquals('oauth_problem=timestamp_refused', $response->getBody());
+    }
+
+    /**
+     * Test request with invalid consumer key
+     *
+     * @return void
+     */
+    public function testRejectedConsumerKey()
+    {
+        /** @var $client Varien_Http_Client */
+        $client = $this->_getHttpClient(array('oauth_consumer_key' => 'qwerty'));
+
+        /** @var $response Zend_Http_Response */
+        $response = $client->request();
+
+        $this->assertEquals(Mage_OAuth_Model_Server::HTTP_UNAUTHORIZED, $response->getStatus());
+        $this->assertEquals('oauth_problem=consumer_key_rejected', $response->getBody());
     }
 }
