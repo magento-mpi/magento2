@@ -248,6 +248,17 @@ Packaging.prototype = {
     },
 
     validate: function() {
+        var dimensionElements = $("packaging_window").select(
+            'input[name=container_length],input[name=container_width],input[name=container_height]'
+        );
+        var callback = null;
+        if ( dimensionElements.any(function(element) { return !!element.value; })) {
+            callback = function(element) { $(element).addClassName('required-entry'); };
+        } else {
+            callback = function(element) { $(element).removeClassName('required-entry'); };
+        }
+        dimensionElements.each(callback);
+
         return result = $$('[id^="package_block_"] input').collect(function (element) {
             return this.validateElement(element)
         }, this).all();

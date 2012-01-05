@@ -1318,14 +1318,20 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
             $nodePiece->addChild('PieceID', ++$i);
             $nodePiece->addChild('PackageType', $packageType);
             $nodePiece->addChild('Weight', round($package['params']['weight'],1));
-            if (!$originRegion) {
-                $nodePiece->addChild('Width', round($package['params']['width']));
-                $nodePiece->addChild('Height', round($package['params']['height']));
-                $nodePiece->addChild('Depth', round($package['params']['length']));
-            } else {
-                $nodePiece->addChild('Depth', round($package['params']['length']));
-                $nodePiece->addChild('Width', round($package['params']['width']));
-                $nodePiece->addChild('Height', round($package['params']['height']));
+            $params = $package['params'];
+            if ($params['width'] || $params['length'] || $params['height']) {
+                if($params['width'] < 1 || $params['length'] < 1 || $params['height'] < 1) {
+                    Mage::throwException(Mage::helper('usa')->__('Height, width and length should be equal or greater than 1.'));
+                }
+                if (!$originRegion) {
+                    $nodePiece->addChild('Width', round($params['width']));
+                    $nodePiece->addChild('Height', round($params['height']));
+                    $nodePiece->addChild('Depth', round($params['length']));
+                } else {
+                    $nodePiece->addChild('Depth', round($params['length']));
+                    $nodePiece->addChild('Width', round($params['width']));
+                    $nodePiece->addChild('Height', round($params['height']));
+                }
             }
             $content = array();
             foreach ($package['items'] as $item) {
@@ -1593,7 +1599,6 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
         if (!is_array($packages) || !$packages) {
             Mage::throwException(Mage::helper('usa')->__('No packages for request'));
         }
-
         $result = $this->_doShipmentRequest($request);
 
         $response = new Varien_Object(array(
