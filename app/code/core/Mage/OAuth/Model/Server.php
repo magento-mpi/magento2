@@ -636,8 +636,19 @@ class Mage_OAuth_Model_Server
             /** @var $consumer Mage_OAuth_Model_Consumer */
             $consumer = Mage::getModel('oauth/consumer')->load($token->getConsumerId());
             $callbackUrl = $consumer->getRejectedCallbackUrl();
-            $callbackUrl .= (false === strpos($callbackUrl, '?') ? '?' : '&');
-            $callbackUrl .= 'oauth_token=' . $token->getToken();
+            if ($callbackUrl) {
+                $callbackUrl .= (false === strpos($callbackUrl, '?') ? '?' : '&');
+                $callbackUrl .= 'oauth_token=' . $token->getToken();
+            } else {
+                $callbackUrl = $token->getCallbackUrl();
+                if (!$callbackUrl || $callbackUrl==self::CALLBACK_ESTABLISHED) {
+                    return false;
+                }
+                $callbackUrl .= (false === strpos($callbackUrl, '?') ? '?' : '&');
+                $callbackUrl .= 'oauth_token=' . $token->getToken();
+                $callbackUrl .= '&denied=1';
+            }
+
         } else {
             $callbackUrl = $token->getCallbackUrl();
 
