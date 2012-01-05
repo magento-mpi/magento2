@@ -541,11 +541,11 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
         $countryWeightUnit = $this->getCode('dimensions_variables', $this->_getWeightUnit());
 
         if ($configWeightUnit != $countryWeightUnit) {
-            $weight = round(Mage::helper('usa')->convertMeasureWeight(
-                $weight,
+            $weight = Mage::helper('usa')->convertMeasureWeight(
+                round($weight,3),
                 $configWeightUnit,
                 $countryWeightUnit
-            ), 3);
+            );
         }
 
         return round($weight, 3);
@@ -692,15 +692,14 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
             $configDimensionUnit = Zend_Measure_Length::CENTIMETER;
         }
 
-
         $countryDimensionUnit = $this->getCode('dimensions_variables', $this->_getDimensionUnit());
 
         if ($configDimensionUnit != $countryDimensionUnit) {
-            $dimension = round(Mage::helper('usa')->convertMeasureDimension(
-                $dimension,
+            $dimension = Mage::helper('usa')->convertMeasureDimension(
+                round($dimension, 3),
                 $configDimensionUnit,
                 $countryDimensionUnit
-            ), 3);
+            );
         }
 
         return round($dimension, 3);
@@ -818,7 +817,9 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
             if (strpos(trim($response), '<?xml') === 0) {
                 $xml = simplexml_load_string($response);
                 if (is_object($xml)) {
-                    if (in_array($xml->getName(), array('ErrorResponse', 'ShipmentValidateErrorResponse'))) {
+                    if (in_array($xml->getName(), array('ErrorResponse', 'ShipmentValidateErrorResponse'))
+                        || $xml->GetQuoteResponse->Note->Condition)
+                    {
                         $code = null;
                         $data = null;
                         if (isset($xml->Response->Status->Condition)) {
