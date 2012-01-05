@@ -208,7 +208,7 @@ table.actions td                { vertical-align:top; }
 .grid tr.filter .range select    { float:right; width:56px !important; margin-top:0; }
 .grid tr.filter .range .label    { display:block; width:36px; float:left; padding-left:2px; }
 .grid tr.filter .date img        { width:15px; height:15px; cursor:pointer; vertical-align:middle; }
-.grid .head-massaction select    { width:50px !important; }
+.grid .head-massaction select    { width:auto !important; max-width:90px; }
 .grid select.select-export-filter,
 .grid select.multiselect-export-filter { width:278px; }
 
