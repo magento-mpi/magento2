@@ -695,7 +695,7 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
                 if (!$result['product_id']) {
                     continue;
                 }
-                if ($result['selection_price_type'] == 'percent') {
+                if ($result['selection_price_type']) {
                     $selectionPrice = $basePrice*$result['selection_price_value']/100;
                 } else {
                     $selectionPrice = $result['selection_price_value'];
