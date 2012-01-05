@@ -38,10 +38,6 @@ class Catalog_ProductTest extends Magento_Test_Webservice
      */
     protected function tearDown()
     {
-        if ($this->getFixture('attributes')) {
-            $this->_removeAttributes();
-        }
-
         $product = new Mage_Catalog_Model_Product();
         $product->load($this->getFixture('productId'));
         $this->callModelDelete($product, true);
@@ -189,6 +185,7 @@ class Catalog_ProductTest extends Magento_Test_Webservice
                 $this->_testSoapV2($optionValueApi, $optionValueInstaller, $data);
                 break;
         }
+        $this->_removeAttributes();
     }
 
     /**
@@ -338,6 +335,49 @@ class Catalog_ProductTest extends Magento_Test_Webservice
         foreach ($attributes as $attribute) {
             //remove by code
             $installer->removeAttribute('catalog_product', $attribute);
+        }
+    }
+
+    /**
+     * Test create product with invalid attribute set
+     *
+     * @return void
+     */
+    public function testProductCreateWithInvalidAttributeSet()
+    {
+        $productData = require dirname(__FILE__) . '/_fixtures/ProductData.php';
+        $productData = $productData['create_full']['soap'];
+        $productData['set'] = 'invalid';
+
+        try {
+            $this->call('catalog_product.create', $productData);
+        } catch (Exception $e) {
+            $this->assertEquals('Product attribute set is not existed', $e->getMessage(), 'Invalid exception message');
+        }
+
+        // find not product (category) attribute set identifier to try other error message
+        /** @var $entity Mage_Eav_Model_Entity_Type */
+        $entity = Mage::getModel('eav/entity_type');
+        $entityTypeId = $entity->loadByCode('catalog_category')->getId();
+
+        /** @var $attrSet Mage_Eav_Model_Entity_Attribute_Set */
+        $attrSet = Mage::getModel('eav/entity_attribute_set');
+
+        /** @var $attrSetCollection Mage_Eav_Model_Resource_Entity_Attribute_Set_Collection */
+        $attrSetCollection = $attrSet->getCollection();
+        $categoryAtrrSets  = $attrSetCollection->setEntityTypeFilter($entityTypeId)->toOptionHash();
+        $categoryAttrSetId = key($categoryAtrrSets);
+
+        $productData['set'] = $categoryAttrSetId;
+
+        try {
+            $this->call('catalog_product.create', $productData);
+        } catch (Exception $e) {
+            $this->assertEquals(
+                'Product attribute set is not belong catalog product entity type',
+                $e->getMessage(),
+                'Invalid exception message'
+            );
         }
     }
 }
