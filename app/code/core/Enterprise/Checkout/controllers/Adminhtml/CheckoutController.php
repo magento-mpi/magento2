@@ -965,7 +965,13 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
      */
     public function uploadSkuCsvAction()
     {
-        $this->_initData();
+        try {
+            $this->_initData();
+        } catch (Mage_Core_Exception $e) {
+            Mage::logException($e);
+            $this->_redirect('*/customer');
+            $this->_redirectFlag = true;
+        }
         if ($this->_redirectFlag) {
             return;
         }
