@@ -27,7 +27,7 @@
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 -->
-<phpunit bootstrap="bootstrap.php"
+<phpunit bootstrap="./framework/bootstrap.php"
     colors="false"
     convertErrorsToExceptions="true"
     convertNoticesToExceptions="true"
@@ -38,7 +38,7 @@
     strict="false">
     <testsuites>
         <testsuite name="All Tests">
-            <directory suffix="Test.php">tests</directory>
+            <directory suffix="Test.php">testsuite</directory>
         </testsuite>
     </testsuites>
     <!-- Specific configuration depending on testing environment -->
@@ -51,7 +51,7 @@
     -->
     <php>
         <!-- Whether to install the application before tests execution. Value 'enabled' turns installation on. -->
-        <const name="SELENIUM_TESTS_INSTALLATION" value="disabled"/>
+        <const name="SELENIUM_TESTS_INSTALLATION" value="enabled"/>
     </php>
     <logging>
         <log type="coverage-html" target="./tmp/report" charset="UTF-8"
