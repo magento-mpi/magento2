@@ -122,7 +122,7 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Eav_Source
             ->where('s.store_id != 0');
 
         if (!is_null($entityIds)) {
-                $subSelect->where('d.entity_id IN(?)', $entityIds);
+            $subSelect->where('d.entity_id IN(?)', $entityIds);
         }
 
         /**@var $select Varien_Db_Select*/
