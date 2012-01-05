@@ -356,6 +356,7 @@ table.form-edit                         { width:100%; }
 label.inline                            { float:none !important; width:auto !important; }
 .nested-content .entry-edit             { margin-left:2em; }
 .nested-content .entry-edit .entry-edit { margin-left:0; }
+#coupon_container .entry-edit { min-width:310px; }
 
 /* Form Elements */
 input.input-text,textarea,select { border-width:1px; border-style:solid; border-color:#aaa #c8c8c8 #c8c8c8 #aaa; background:#fff; font:12px arial, helvetica, sans-serif; }
