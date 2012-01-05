@@ -628,39 +628,29 @@ class Mage_OAuth_Model_Server
      */
     public function getFullCallbackUrl(Mage_OAuth_Model_Token $token, $rejected = false, $popUp = false)
     {
-        //check authorized when URL has no denied flag
+        //check authorized when URL has no rejected flag
         if (!$token->getAuthorized() && !$rejected) {
             Mage::throwException('Token is not authorized');
         }
+
         if ($rejected) {
             /** @var $consumer Mage_OAuth_Model_Consumer */
             $consumer = Mage::getModel('oauth/consumer')->load($token->getConsumerId());
             $callbackUrl = $consumer->getRejectedCallbackUrl();
-            if ($callbackUrl) {
-                $callbackUrl .= (false === strpos($callbackUrl, '?') ? '?' : '&');
-                $callbackUrl .= 'oauth_token=' . $token->getToken();
-            } else {
+            if (!$callbackUrl) {
                 $callbackUrl = $token->getCallbackUrl();
-                if (!$callbackUrl || $callbackUrl==self::CALLBACK_ESTABLISHED) {
-                    return false;
-                }
-                $callbackUrl .= (false === strpos($callbackUrl, '?') ? '?' : '&');
-                $callbackUrl .= 'oauth_token=' . $token->getToken();
-                $callbackUrl .= '&denied=1';
             }
-
         } else {
             $callbackUrl = $token->getCallbackUrl();
-
-            if (self::CALLBACK_ESTABLISHED == $callbackUrl) {
-                return false;
-            }
-
-            $callbackUrl .= (false === strpos($callbackUrl, '?') ? '?' : '&');
-
-            $callbackUrl .= 'oauth_token=' . $token->getToken();
-            $callbackUrl .= '&oauth_verifier=' . $token->getVerifier();
         }
+
+        if (!$callbackUrl || self::CALLBACK_ESTABLISHED == $callbackUrl) {
+            return false;
+        }
+
+        $callbackUrl .= (false === strpos($callbackUrl, '?') ? '?' : '&');
+        $callbackUrl .= 'oauth_token=' . $token->getToken();
+        $callbackUrl .= $rejected ? '&denied=1' : '&oauth_verifier=' . $token->getVerifier();
 
         if ($popUp) {
             $callbackUrl .= '&pop_up=1';
