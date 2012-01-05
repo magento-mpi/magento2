@@ -822,21 +822,23 @@ XML;
     /**
      * Retrieve merchant country code
      *
+     * @param Mage_Core_Model_Store|string|int|null $store
      * @return string
      */
-    public function getMerchantCountryCode()
+    public function getMerchantCountryCode($store = null)
     {
-        return (string) Mage::getStoreConfig(self::XML_PATH_MERCHANT_COUNTRY_CODE);
+        return (string) Mage::getStoreConfig(self::XML_PATH_MERCHANT_COUNTRY_CODE, $store);
     }
 
     /**
      * Retrieve merchant VAT number
      *
+     * @param Mage_Core_Model_Store|string|int|null $store
      * @return string
      */
-    public function getMerchantVatNumber()
+    public function getMerchantVatNumber($store = null)
     {
-        return (string) Mage::getStoreConfig(self::XML_PATH_MERCHANT_VAT_NUMBER);
+        return (string) Mage::getStoreConfig(self::XML_PATH_MERCHANT_VAT_NUMBER, $store);
     }
 
     /**

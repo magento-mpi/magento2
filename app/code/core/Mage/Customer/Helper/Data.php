@@ -396,14 +396,13 @@ class Mage_Customer_Helper_Data extends Mage_Core_Helper_Abstract
      * @param string $customerCountryCode
      * @param Varien_Object $vatValidationResult
      * @param Mage_Core_Model_Store|string|int $store
-     *
      * @return null|int
      */
     public function getCustomerGroupIdBasedOnVatNumber($customerCountryCode, $vatValidationResult, $store = null)
     {
         $groupId = null;
 
-        $vatClass = $this->getCustomerVatClass($customerCountryCode, $vatValidationResult);
+        $vatClass = $this->getCustomerVatClass($customerCountryCode, $vatValidationResult, $store);
 
         $vatClassToGroupXmlPathMap = array(
             self::VAT_CLASS_DOMESTIC => self::XML_PATH_CUSTOMER_VIV_DOMESTIC_GROUP,
@@ -512,9 +511,10 @@ class Mage_Customer_Helper_Data extends Mage_Core_Helper_Abstract
      *
      * @param string $customerCountryCode
      * @param Varien_Object $vatValidationResult
+     * @param Mage_Core_Model_Store|string|int|null $store
      * @return null|string
      */
-    public function getCustomerVatClass($customerCountryCode, $vatValidationResult)
+    public function getCustomerVatClass($customerCountryCode, $vatValidationResult, $store = null)
     {
         $vatClass = null;
 
@@ -522,7 +522,7 @@ class Mage_Customer_Helper_Data extends Mage_Core_Helper_Abstract
 
         if (is_string($customerCountryCode)
             && !empty($customerCountryCode)
-            && $customerCountryCode === Mage::helper('core')->getMerchantCountryCode()
+            && $customerCountryCode === Mage::helper('core')->getMerchantCountryCode($store)
             && $isVatNumberValid
         ) {
             $vatClass = self::VAT_CLASS_DOMESTIC;
