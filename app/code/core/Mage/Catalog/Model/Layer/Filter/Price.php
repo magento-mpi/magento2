@@ -500,10 +500,14 @@ class Mage_Catalog_Model_Layer_Filter_Price extends Mage_Catalog_Model_Layer_Fil
     /**
      * Get 'clear price' link text
      *
-     * @return string
+     * @return false|string
      */
     public function getClearLinkText()
     {
-        return Mage::helper('catalog')->__('Clear Price');
+        if (Mage::app()->getStore()->getConfig(self::XML_PATH_RANGE_CALCULATION) == self::RANGE_CALCULATION_AUTO) {
+            return Mage::helper('catalog')->__('Clear Price');
+        }
+
+        return parent::getClearLinkText();
     }
 }
