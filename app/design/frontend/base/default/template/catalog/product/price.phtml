@@ -41,6 +41,7 @@
     /* @var $_taxHelper Mage_Tax_Helper_Data */
 
     $_product = $this->getProduct();
+    $_storeId = $_product->getStoreId();
     $_id = $_product->getId();
     $_weeeSeparator = '';
     $_simplePricesTax = ($_taxHelper->displayPriceIncludingTax() || $_taxHelper->displayBothPrices());
@@ -55,7 +56,7 @@
         <?php $_weeeTaxAttributes = $_weeeHelper->getProductWeeeAttributesForDisplay($_product); ?>
     <?php endif; ?>
     <?php $_weeeTaxAmountInclTaxes = $_weeeTaxAmount; ?>
-    <?php if ($_weeeHelper->isTaxable()): ?>
+    <?php if ($_weeeHelper->isTaxable() && !$_taxHelper->priceIncludesTax($_storeId)): ?>
         <?php $_attributes = $_weeeHelper->getProductWeeeAttributesForRenderer($_product, null, null, null, true); ?>
         <?php $_weeeTaxAmountInclTaxes = $_weeeHelper->getAmountInclTaxes($_attributes); ?>
     <?php endif; ?>
