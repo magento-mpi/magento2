@@ -818,21 +818,29 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
             if (strpos(trim($response), '<?xml') === 0) {
                 $xml = simplexml_load_string($response);
                 if (is_object($xml)) {
-                    if ((isset($xml->Response->Status->ActionStatus) && $xml->Response->Status->ActionStatus == 'Error')
-                        || (isset($xml->GetQuoteResponse->Note->Condition))
-                    ) {
+                    if (in_array($xml->getName(), array('ErrorResponse', 'ShipmentValidateErrorResponse'))) {
+                        $code = null;
+                        $data = null;
                         if (isset($xml->Response->Status->Condition)) {
                             $nodeCondition = $xml->Response->Status->Condition;
                         } else {
                             $nodeCondition = $xml->GetQuoteResponse->Note->Condition;
                         }
 
+                        if ($this->_isShippingLabelFlag) {
+                            foreach ($nodeCondition as $condition) {
+                                $code = isset($condition->ConditionCode) ? (string)$condition->ConditionCode : 0;
+                                $data = isset($condition->ConditionData) ? (string)$condition->ConditionData : '';
+                                if (!empty($code) && !empty($data)) {
+                                    break;
+                                }
+                            }
+                            Mage::throwException(Mage::helper('usa')->__('Error #%s : %s', trim($code), trim($data)));
+                        }
+
                         $code = isset($nodeCondition->ConditionCode) ? (string)$nodeCondition->ConditionCode : 0;
                         $data = isset($nodeCondition->ConditionData) ? (string)$nodeCondition->ConditionData : '';
-                        $this->_errors[$code] = Mage::helper('usa')->__('Error #%s : %s', $code, $data);
-                        if ($this->_isShippingLabelFlag) {
-                            Mage::throwException(Mage::helper('usa')->__('Error #%s : %s', $code, $data));
-                        }
+                        $this->_errors[$code] = Mage::helper('usa')->__('Error #%s : %s', trim($code), trim($data));
                     } else {
                         if (isset($xml->GetQuoteResponse->BkgDetails->QtdShp)) {
                             foreach ($xml->GetQuoteResponse->BkgDetails->QtdShp as $quotedShipment) {
