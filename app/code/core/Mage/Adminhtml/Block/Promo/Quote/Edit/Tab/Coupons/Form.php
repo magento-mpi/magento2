@@ -72,7 +72,7 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Coupons_Form
             'label'    => Mage::helper('salesrule')->__('Coupon Qty'),
             'title'    => Mage::helper('salesrule')->__('Coupon Qty'),
             'required' => true,
-            'class'    => 'validate-digits'
+            'class'    => 'validate-digits validate-greater-than-zero'
         ));
 
         $fieldset->addField('length', 'text', array(
@@ -82,7 +82,7 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Coupons_Form
             'required' => true,
             'note'     => Mage::helper('salesrule')->__('Excluding prefix, suffix and separators.'),
             'value'    => $couponHelper->getDefaultLength(),
-            'class'    => 'validate-digits'
+            'class'    => 'validate-digits validate-greater-than-zero'
         ));
 
         $fieldset->addField('format', 'select', array(
