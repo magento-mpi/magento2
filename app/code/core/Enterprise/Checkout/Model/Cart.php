@@ -684,7 +684,7 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object
      */
     public function checkItem($sku, $qty, $config = array())
     {
-        $item = array('sku' => $sku, 'qty' => is_array($qty) ? (int)$qty['qty'] : ($qty ? (int)$qty : 1));
+        $item = array('sku' => $sku, 'qty' => is_array($qty) ? (float)$qty['qty'] : ($qty ? (float)$qty : 1));
 
         /** @var $product Mage_Catalog_Model_Product */
         $product = Mage::getModel('catalog/product')->loadByAttribute('sku', $item['sku']);
