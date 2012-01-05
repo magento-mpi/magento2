@@ -134,6 +134,9 @@
 .grid th                        { white-space:nowrap; }
 .grid td.editable input.input-text { width:50px !important; margin-left:4px !important; }
 .grid td input.input-text       { width:86%; }
+.grid td input.input-text-export-filter { width:274px; }
+.grid td input.input-text-range { width:104px; }
+.grid td input.input-text-range-date { width:87px; }
 .grid td input.input-inactive   { background:#eee; }
 .grid table td                  { border-width:0 1px 1px 0; border-color:#dadfe0; border-style:solid; }
 .grid table.border td           { background:#fff !important; }
@@ -206,6 +209,8 @@ table.actions td                { vertical-align:top; }
 .grid tr.filter .range .label    { display:block; width:36px; float:left; padding-left:2px; }
 .grid tr.filter .date img        { width:15px; height:15px; cursor:pointer; vertical-align:middle; }
 .grid .head-massaction select    { width:50px !important; }
+.grid select.select-export-filter,
+.grid select.multiselect-export-filter { width:278px; }
 
 /* Grid Footer */
 .grid table tfoot tr            { background:#D7E5EF; }
