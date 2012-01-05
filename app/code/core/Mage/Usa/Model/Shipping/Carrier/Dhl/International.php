@@ -1092,6 +1092,15 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
         $packageWeight = 0;
         $packages = $request->getPackages();
         foreach ($packages as &$piece) {
+            $params = $piece['params'];
+            if ($params['width'] || $params['length'] || $params['height']) {
+                $minValue = $this->_getMinDimension($params['dimension_units']);
+                if ($params['width'] < $minValue || $params['length'] < $minValue || $params['height'] < $minValue) {
+                    $message = Mage::helper('usa')->__('Height, width and length should be equal or greater than %s', $minValue);
+                    Mage::throwException($message);
+                }
+            }
+
             $weightUnits = $piece['params']['weight_units'];
             $piece['params']['height']          =  $this->_getDimension($piece['params']['height'], $weightUnits);
             $piece['params']['length']          =  $this->_getDimension($piece['params']['length'], $weightUnits);
@@ -1111,6 +1120,15 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
             ->setPackageCustomsValue($customsValue)
             ->setFreeMethodWeight(0);
     }
+
+        /**
+         * @param string $dimensionUnit
+         * @return int
+         */
+        protected function _getMinDimension($dimensionUnit)
+        {
+            return $dimensionUnit == "CENTIMETER" ? 3 : 1;
+        }
 
     /**
      * Do rate request and handle errors
@@ -1319,10 +1337,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
             $nodePiece->addChild('PackageType', $packageType);
             $nodePiece->addChild('Weight', round($package['params']['weight'],1));
             $params = $package['params'];
-            if ($params['width'] || $params['length'] || $params['height']) {
-                if($params['width'] < 1 || $params['length'] < 1 || $params['height'] < 1) {
-                    Mage::throwException(Mage::helper('usa')->__('Height, width and length should be equal or greater than 1.'));
-                }
+            if ($params['width'] && $params['length'] && $params['height']) {
                 if (!$originRegion) {
                     $nodePiece->addChild('Width', round($params['width']));
                     $nodePiece->addChild('Height', round($params['height']));
