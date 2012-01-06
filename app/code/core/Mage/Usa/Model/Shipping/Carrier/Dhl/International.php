@@ -42,6 +42,12 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
     const DHL_CONTENT_TYPE_NON_DOC    = 'N';
 
     /**
+     * Minimum allowed values for shipping package dimensions
+     */
+    const DIMENSION_MIN_CM = 3;
+    const DIMENSION_MIN_IN = 1;
+
+    /**
      * Container types that could be customized
      *
      * @var array
@@ -1123,12 +1129,14 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
     }
 
         /**
+         * Retrieve minimum allowed value for dimensions in given dimension unit
+         *
          * @param string $dimensionUnit
          * @return int
          */
         protected function _getMinDimension($dimensionUnit)
         {
-            return $dimensionUnit == "CENTIMETER" ? 3 : 1;
+            return $dimensionUnit == "CENTIMETER" ? self::DIMENSION_MIN_CM : self::DIMENSION_MIN_IN;
         }
 
     /**
