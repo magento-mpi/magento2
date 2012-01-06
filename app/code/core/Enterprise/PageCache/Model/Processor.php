@@ -523,6 +523,8 @@ class Enterprise_PageCache_Model_Processor
 
                 $this->setMetadata('sid_cookie_name', Mage::getSingleton('core/session')->getSessionName());
 
+                Mage::dispatchEvent('pagecache_processor_metadata_before_save', array('processor' => $this));
+
                 $this->_saveMetadata();
             }
 
