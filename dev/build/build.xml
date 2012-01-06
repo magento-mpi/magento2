@@ -103,7 +103,7 @@
         </exec>
     </target>
 
-    <target name="functional-tests">
+    <target name="functional-tests" description="Functional Tests" depends="init">
         <exec dir="dev/tests/functional" executable="phpunit" failonerror="true"/>
     </target>
 
