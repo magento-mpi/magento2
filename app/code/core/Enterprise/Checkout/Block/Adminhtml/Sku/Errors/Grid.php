@@ -77,7 +77,9 @@ class Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Grid extends Mage_Adminhtml
                 /* @var $stockStatus Mage_CatalogInventory_Model_Stock_Status */
                 $stockStatus = Mage::getModel('cataloginventory/stock_status');
                 $status = $stockStatus->getProductStatus($productId, $this->getWebsiteId());
-                $product->setIsSalable($status[$productId]);
+                if (!empty($status[$productId])) {
+                    $product->setIsSalable($status[$productId]);
+                }
                 $item->setPrice(Mage::helper('core')->formatPrice($product->getPrice()));
                 $item->setSubtotal(Mage::helper('core')->formatPrice($product->getPrice() * $item->getQty()));
             }
