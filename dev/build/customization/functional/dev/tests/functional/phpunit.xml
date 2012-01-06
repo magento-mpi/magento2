@@ -10,7 +10,7 @@
  * @license     {license_link}
  */
 -->
-<phpunit bootstrap="bootstrap.php">
+<phpunit bootstrap="framework/bootstrap.php">
     <testsuites>
         <testsuite name="All Tests">
             <directory suffix="Test.php">tests</directory>
