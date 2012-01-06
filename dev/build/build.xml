@@ -103,6 +103,10 @@
         </exec>
     </target>
 
+    <target name="functional-tests">
+        <exec dir="dev/tests/functional" executable="phpunit" failonerror="true"/>
+    </target>
+
     <!-- benchmark tests -->
     <target name="performance_tests" description="Performance Tests" depends="init">
         <exec executable="chmod" failonerror="true">

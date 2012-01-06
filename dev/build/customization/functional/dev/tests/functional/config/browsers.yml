@@ -1,0 +1,26 @@
+#
+# {license_notice}
+#
+# @category    tests
+# @package     selenium
+# @subpackage  configuration
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+browsers:
+    firefox: &firefox
+        browser: '*firefox'
+        host: 10.0.5.203
+        port: 4444
+        doNotKillBrowsers: false
+        browserTimeoutPeriod: 40000
+    default: *firefox
+applications:
+    magento: &magento
+        frontendUrl: http://mage-dev.varien.com/dev/bamboo-functional-tests/
+        adminUrl: http://mage-dev.varien.com/dev/bamboo-functional-tests/admin/
+        adminLogin: admin
+        adminPassword: 123123q
+        basePath: ../../../ # relative to the tests base dir
+    default: *magento
