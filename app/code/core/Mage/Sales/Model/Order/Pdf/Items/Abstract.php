@@ -252,7 +252,8 @@ abstract class Mage_Sales_Model_Order_Pdf_Items_Abstract extends Mage_Core_Model
      * )
      * @return array
      */
-    public function getItemPricesForDisplay() {
+    public function getItemPricesForDisplay()
+    {
         $order = $this->getOrder();
         $item  = $this->getItem();
         if (Mage::helper('tax')->displaySalesBothPrices()) {
