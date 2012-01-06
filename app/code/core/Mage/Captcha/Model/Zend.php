@@ -121,7 +121,9 @@ class Mage_Captcha_Model_Zend extends Zend_Captcha_Image implements Mage_Captcha
             return false;
         }
 
-        return ($this->_isShowAlways() || $this->_isOverLimitAttempts($login));
+        return ($this->_isShowAlways() || $this->_isOverLimitAttempts($login)
+            || $this->getSession()->getData($this->_getFormIdKey('show_captcha'))
+        );
     }
 
     /**
@@ -302,6 +304,9 @@ class Mage_Captcha_Model_Zend extends Zend_Captcha_Image implements Mage_Captcha
     {
         if ($this->_isEnabled() && in_array($this->_formId, $this->_getTargetForms())) {
             Mage::getResourceModel('captcha/log')->logAttempt($login);
+            if ($this->_isOverLimitLoginAttempts($login)){
+                $this->getSession()->setData($this->_getFormIdKey('show_captcha'), 1);
+            }
         }
         return $this;
     }
