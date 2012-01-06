@@ -48,6 +48,23 @@ class Mage_Catalog_Model_Product_Type_Price
     }
 
     /**
+     * Get base price with apply Group, Tier, Special prises
+     *
+     * @param Mage_Catalog_Model_Product $product
+     * @param null $qty
+     */
+    public function getBasePrice($product, $qty = null)
+    {
+        $finalPrice = $product->getPrice();
+
+        $finalPrice = $this->_applyGroupPrice($product, $finalPrice);
+        $finalPrice = $this->_applyTierPrice($product, $qty, $finalPrice);
+        $finalPrice = $this->_applySpecialPrice($product, $finalPrice);
+        return $finalPrice;
+    }
+
+
+    /**
      * Retrieve product final price
      *
      * @param float|null $qty
@@ -60,11 +77,7 @@ class Mage_Catalog_Model_Product_Type_Price
             return $product->getCalculatedFinalPrice();
         }
 
-        $finalPrice = $product->getPrice();
-
-        $finalPrice = $this->_applyGroupPrice($product, $finalPrice);
-        $finalPrice = $this->_applyTierPrice($product, $qty, $finalPrice);
-        $finalPrice = $this->_applySpecialPrice($product, $finalPrice);
+        $finalPrice = $this->getBasePrice($product, $qty);
         $product->setFinalPrice($finalPrice);
 
         Mage::dispatchEvent('catalog_product_get_final_price', array('product' => $product, 'qty' => $qty));
@@ -322,12 +335,11 @@ class Mage_Catalog_Model_Product_Type_Price
             $basePrice = $finalPrice;
             foreach (explode(',', $optionIds->getValue()) as $optionId) {
                 if ($option = $product->getOptionById($optionId)) {
-
                     $confItemOption = $product->getCustomOption('option_'.$option->getId());
+
                     $group = $option->groupFactory($option->getType())
                         ->setOption($option)
                         ->setConfigurationItemOption($confItemOption);
-
                     $finalPrice += $group->getOptionPrice($confItemOption->getValue(), $basePrice);
                 }
             }
