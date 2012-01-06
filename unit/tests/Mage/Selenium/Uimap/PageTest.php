@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Magento
  *
@@ -28,7 +27,6 @@
  */
 class Mage_Selenium_Uimap_PageTest extends Mage_PHPUnit_TestCase
 {
-
     public function test__construct()
     {
         $pageContainer = array();
@@ -36,6 +34,9 @@ class Mage_Selenium_Uimap_PageTest extends Mage_PHPUnit_TestCase
         $this->assertInstanceOf('Mage_Selenium_Uimap_Page', $uipage);
     }
 
+    /**
+     * @covers Mage_Selenium_Uimap_Page::getId
+     */
     public function testGetId()
     {
         $pageId = 'testId';

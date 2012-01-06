@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Magento
  *
@@ -35,6 +34,9 @@ class Mage_Selenium_Uimap_FormTest extends Mage_PHPUnit_TestCase
         $this->assertInstanceOf('Mage_Selenium_Uimap_Form', $instance);
     }
 
+    /**
+     * @covers Mage_Selenium_Uimap_Form::getTab
+     */
     public function testGetTab()
     {
         $uipage = $this->getUimapPage('admin', 'create_customer');

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Magento
  *
@@ -28,6 +27,9 @@
  */
 class Mage_Selenium_Uimap_AbstractTest extends Mage_PHPUnit_TestCase
 {
+    /**
+     * @covers Mage_Selenium_Uimap_Abstract::__call
+     */
     public function test__call()
     {
         $uipage = $this->getUimapPage('admin', 'create_customer');

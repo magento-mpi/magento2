@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Magento
  *
@@ -28,6 +27,10 @@
  */
 class Mage_Selenium_Helper_ParamsTest extends Mage_PHPUnit_TestCase
 {
+
+    /**
+     * @covers Mage_Selenium_Helper_Params::__construct
+     */
     public function test__construct()
     {
         $params = new Mage_Selenium_Helper_Params();
@@ -35,6 +38,7 @@ class Mage_Selenium_Helper_ParamsTest extends Mage_PHPUnit_TestCase
     }
 
     /**
+     * @covers Mage_Selenium_Helper_Params::__construct
      * @dataProvider test__constructWithParamsDataProvider
      */
     public function test__constructWithParams($paramName, $paramvalue)
@@ -53,6 +57,8 @@ class Mage_Selenium_Helper_ParamsTest extends Mage_PHPUnit_TestCase
     }
 
     /**
+     * @covers Mage_Selenium_Helper_Params::getParameter
+     * @covers Mage_Selenium_Helper_Params::setParameter
      * @dataProvider testGetSetParameterDataProvider
      */
     public function testGetSetParameter($name, $value)
@@ -72,6 +78,10 @@ class Mage_Selenium_Helper_ParamsTest extends Mage_PHPUnit_TestCase
         );
     }
 
+    /**
+     * @covers Mage_Selenium_Helper_Params::getParameter
+     * @covers Mage_Selenium_Helper_Params::setParameter
+     */
     public function testGetSetParameterExistingName()
     {
         $name = 'some name';
@@ -85,6 +95,7 @@ class Mage_Selenium_Helper_ParamsTest extends Mage_PHPUnit_TestCase
     }
 
     /**
+     * @covers Mage_Selenium_Helper_Params::replaceParameter
      * @dataProvider testReplaceParametersDataProvider
      */
     public function testReplaceParameters($paramsArray, $sourceToReplace, $expected)
@@ -107,6 +118,7 @@ class Mage_Selenium_Helper_ParamsTest extends Mage_PHPUnit_TestCase
     }
 
     /**
+     * @covers Mage_Selenium_Helper_Params::replaceParametersWithRegexp
      * @dataProvider testReplaceParametersWithRegexpDataProvider
      */
     public function testReplaceParametersWithRegexp($paramsArray, $sourceToReplace, $regexp, $expected)

@@ -34,6 +34,7 @@ class Mage_Selenium_Helper_ApplicationTest extends Mage_PHPUnit_TestCase
     }
 
     /**
+     * @covers Mage_Selenium_Helper_Application::setArea
      * @depends test__construct
      */
     public function testSetArea()
@@ -44,6 +45,7 @@ class Mage_Selenium_Helper_ApplicationTest extends Mage_PHPUnit_TestCase
     }
 
     /**
+     * @covers Mage_Selenium_Helper_Application::setArea
      * @depends test__construct
      */
     public function testSetAreaOutOfRangeException()
@@ -54,6 +56,7 @@ class Mage_Selenium_Helper_ApplicationTest extends Mage_PHPUnit_TestCase
     }
 
     /**
+     * @covers Mage_Selenium_Helper_Application::getArea
      * @depends test__construct
      */
     public function testGetArea()
@@ -66,6 +69,7 @@ class Mage_Selenium_Helper_ApplicationTest extends Mage_PHPUnit_TestCase
     }
 
     /**
+     * @covers Mage_Selenium_Helper_Application::getBaseUrl
      * @depends test__construct
      */
     public function testGetBaseUrl()
@@ -82,6 +86,7 @@ class Mage_Selenium_Helper_ApplicationTest extends Mage_PHPUnit_TestCase
     }
 
     /**
+     * @covers Mage_Selenium_Helper_Application::isAdmin
      * @depends test__construct
      */
     public function testIsAdmin()
@@ -96,6 +101,7 @@ class Mage_Selenium_Helper_ApplicationTest extends Mage_PHPUnit_TestCase
     }
 
     /**
+     * @covers Mage_Selenium_Helper_Application::getDefaultAdminUsername
      * @depends test__construct
      */
     public function testGetDefaultAdminUsername()
@@ -106,6 +112,7 @@ class Mage_Selenium_Helper_ApplicationTest extends Mage_PHPUnit_TestCase
     }
 
     /**
+     * @covers Mage_Selenium_Helper_Application::getDefaultAdminPassword
      * @depends test__construct
      */
     public function testGetDefaultAdminPassword()

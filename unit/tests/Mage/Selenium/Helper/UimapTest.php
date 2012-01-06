@@ -27,12 +27,18 @@
  */
 class Mage_Selenium_Helper_UimapTest extends Mage_PHPUnit_TestCase
 {
+    /**
+     * @covers Mage_Selenium_Helper_Uimap::__construct
+     */
     public function test__construct()
     {
         $uimapHelper = new Mage_Selenium_Helper_Uimap($this->_config);
         $this->assertInstanceOf('Mage_Selenium_Helper_Uimap', $uimapHelper);
     }
 
+    /**
+     * @covers Mage_Selenium_Helper_Uimap::getUimap
+     */
     public function testGetUimap()
     {
         $uimapHelper = new Mage_Selenium_Helper_Uimap($this->_config);
@@ -42,6 +48,8 @@ class Mage_Selenium_Helper_UimapTest extends Mage_PHPUnit_TestCase
     }
 
     /**
+     * @covers Mage_Selenium_Helper_Uimap::getUimap
+     *
      * @expectedException OutOfRangeException
      */
     public function testGetUimapException()
@@ -50,6 +58,9 @@ class Mage_Selenium_Helper_UimapTest extends Mage_PHPUnit_TestCase
         $uimap = $uimapHelper->getUimap('invalid_area');
     }
 
+    /**
+     * @covers Mage_Selenium_Helper_Uimap::getUimapPage
+     */
     public function testGetUimapPage()
     {
         $uimapHelper = new Mage_Selenium_Helper_Uimap($this->_config);
@@ -61,6 +72,9 @@ class Mage_Selenium_Helper_UimapTest extends Mage_PHPUnit_TestCase
         $this->assertNull($uipage);
     }
 
+    /**
+     * @covers Mage_Selenium_Helper_Uimap::getUimapPageByMca
+     */
     public function testGetUimapPageByMca()
     {
         $uimapHelper = new Mage_Selenium_Helper_Uimap($this->_config);
@@ -75,6 +89,9 @@ class Mage_Selenium_Helper_UimapTest extends Mage_PHPUnit_TestCase
         $this->assertNull($uipage);
     }
 
+    /**
+     * @covers Mage_Selenium_Helper_Uimap::getMainForm
+     */
     public function testGetMainForm()
     {
         $uipage = $this->getUimapPage('admin', 'create_customer');

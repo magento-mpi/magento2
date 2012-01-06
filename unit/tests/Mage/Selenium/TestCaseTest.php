@@ -33,6 +33,9 @@ class Mage_Selenium_TestCaseTest extends Mage_PHPUnit_TestCase
         $this->assertInstanceOf('Mage_Selenium_TestCase', $instance);
     }
 
+    /**
+     * @covers Mage_Selenium_TestCase::loadData
+     */
     public function testLoadData()
     {
         $instance = new Mage_Selenium_TestCase();
@@ -43,6 +46,9 @@ class Mage_Selenium_TestCaseTest extends Mage_PHPUnit_TestCase
         $this->assertEquals($formData, $instance->loadData('unit_test_load_data', null, null));
     }
 
+    /**
+     * @covers Mage_Selenium_TestCase::loadData
+     */
     public function testLoadDataOverriden()
     {
         $instance = new Mage_Selenium_TestCase();
@@ -57,6 +63,9 @@ class Mage_Selenium_TestCaseTest extends Mage_PHPUnit_TestCase
         $this->assertEquals(array_diff($formDataWithNewKey, $formData), array('new key' => 'new Value'));
     }
 
+    /**
+     * @covers Mage_Selenium_TestCase::loadData
+     */
     public function testLoadDataRandomized()
     {
         $instance = new Mage_Selenium_TestCase();

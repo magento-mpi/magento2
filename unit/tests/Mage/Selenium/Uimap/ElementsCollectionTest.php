@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Magento
  *
@@ -35,6 +34,9 @@ class Mage_Selenium_Uimap_ElementsCollectionTest extends Mage_PHPUnit_TestCase
         $this->assertInstanceOf('Mage_Selenium_Uimap_ElementsCollection', $instance);
     }
 
+    /**
+     * @covers Mage_Selenium_Uimap_ElementsCollection::__get
+     */
     public function test__get()
     {
         $uipage = $this->getUimapPage('admin', 'create_customer');
@@ -46,6 +48,9 @@ class Mage_Selenium_Uimap_ElementsCollectionTest extends Mage_PHPUnit_TestCase
         }
     }
 
+    /**
+     * @covers Mage_Selenium_Uimap_ElementsCollection::get
+     */
     public function testGet()
     {
         $uipage = $this->getUimapPage('admin', 'create_customer');
@@ -53,6 +58,9 @@ class Mage_Selenium_Uimap_ElementsCollectionTest extends Mage_PHPUnit_TestCase
         $this->assertInternalType('string', $button);
     }
 
+    /**
+     * @covers Mage_Selenium_Uimap_ElementsCollection::getType
+     */
     public function testGetType()
     {
         $instance = new Mage_Selenium_Uimap_ElementsCollection('elementType', array());

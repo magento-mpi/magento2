@@ -35,6 +35,7 @@ class Mage_Selenium_Helper_FileTest extends Mage_PHPUnit_TestCase
     }
 
     /**
+     * @covers Mage_Selenium_Helper_File::loadYamlFile
      * @depends test__construct
      */
     public function testLoadYamlFile()
@@ -57,6 +58,7 @@ class Mage_Selenium_Helper_FileTest extends Mage_PHPUnit_TestCase
     }
 
     /**
+     * @covers Mage_Selenium_Helper_File::loadYamlFile
      * @depends test__construct
      *
      * @expectedException InvalidArgumentException
@@ -68,6 +70,7 @@ class Mage_Selenium_Helper_FileTest extends Mage_PHPUnit_TestCase
     }
 
     /**
+     * @covers Mage_Selenium_Helper_File::loadYamlFiles
      * @depends test__construct
      */
     public function testLoadYamlFiles()

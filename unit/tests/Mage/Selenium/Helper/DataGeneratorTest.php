@@ -34,6 +34,7 @@ class Mage_Selenium_Helper_DataGeneratorTest extends Mage_PHPUnit_TestCase
     }
 
     /**
+     * @covers Mage_Selenium_Helper_DataGenerator::generate
      * @depends test__construct
      */
     public function testGenerate()
@@ -87,6 +88,7 @@ class Mage_Selenium_Helper_DataGeneratorTest extends Mage_PHPUnit_TestCase
     }
 
     /**
+     * @covers Mage_Selenium_Helper_DataGenerator::generateEmailAddress
      * @depends test__construct
      */
     public function testGenerateEmailAddress()
@@ -109,6 +111,7 @@ class Mage_Selenium_Helper_DataGeneratorTest extends Mage_PHPUnit_TestCase
     }
 
     /**
+     * @covers Mage_Selenium_Helper_DataGenerator::generateRandomString
      * @depends test__construct
      */
     public function testGenerateRandomString()
@@ -131,6 +134,7 @@ class Mage_Selenium_Helper_DataGeneratorTest extends Mage_PHPUnit_TestCase
     }
 
     /**
+     * @covers Mage_Selenium_Helper_DataGenerator::generateRandomText
      * @depends test__construct
      */
     public function testGenerateRandomText()
@@ -158,6 +162,7 @@ class Mage_Selenium_Helper_DataGeneratorTest extends Mage_PHPUnit_TestCase
     }
 
     /**
+     * @covers Mage_Selenium_Helper_DataGenerator::generateException
      * @depends test__construct
      *
      * @expectedException Mage_Selenium_Exception
