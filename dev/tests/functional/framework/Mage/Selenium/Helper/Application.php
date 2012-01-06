@@ -117,7 +117,7 @@ class Mage_Selenium_Helper_Application extends Mage_Selenium_Helper_Abstract
         $applications = $this->_config->getConfigValue('applications');
         $this->_appInfo = $applications[$configName];
         /* Prepend a relative base path with the tests base dir */
-        if (!preg_match('#^(?:/|[a-zA-Z]\:\\)#', $this->_appInfo['basePath'])) {
+        if (!preg_match('#^(?:/|[a-zA-Z]\:\\\\)#', $this->_appInfo['basePath'])) {
             $this->_appInfo['basePath'] = SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . $this->_appInfo['basePath'];
         }
     }

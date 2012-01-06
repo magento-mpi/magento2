@@ -9,8 +9,26 @@
 #
 ---
 browsers:
+    chrome: &chrome
+        browser: '*chrome'
+        host: 10.0.5.203
+        port: 4444
+        doNotKillBrowsers: false
+        browserTimeoutPeriod: 40000
     firefox: &firefox
         browser: '*firefox'
+        host: 10.0.5.203
+        port: 4444
+        doNotKillBrowsers: false
+        browserTimeoutPeriod: 40000
+    iexplore: &iexplore
+        browser: '*iexplore'
+        host: 10.0.5.203
+        port: 4444
+        doNotKillBrowsers: false
+        browserTimeoutPeriod: 40000
+    googlechrome: &googlechrome
+        browser: '*googlechrome'
         host: 10.0.5.203
         port: 4444
         doNotKillBrowsers: false
