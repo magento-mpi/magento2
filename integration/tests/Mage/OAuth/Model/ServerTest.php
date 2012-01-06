@@ -46,17 +46,17 @@ class Mage_OAuth_Model_ServerTest extends Magento_TestCase
         /** @var $consumer Mage_OAuth_Model_Consumer */
         $consumer = Mage::getModel('oauth/consumer');
 
-        $consumer->setName('Unit Test Consumer')
+        /** @var $helper Mage_OAuth_Helper_Data */
+        $helper = Mage::helper('oauth');
+
+        $consumer->setName('Unit Test Consumer ' . uniqid())
             ->setCallbackUrl('http://' . TESTS_HTTP_HOST . '/oauth/client/callback')
-            ->setKey('12345678901234567890123456789012')
-            ->setSecret('12345678901234567890123456789012');
+            ->setKey($helper->generateConsumerKey())
+            ->setSecret($helper->generateConsumerSecret());
 
         $consumer->save();
 
         $this->setFixture('consumer', $consumer);
-
-        /** @var $helper Mage_OAuth_Helper_Data */
-        $helper = Mage::helper('oauth');
 
         $config = array(
             'requestTokenUrl' => $helper->getProtocolEndpointUrl(Mage_OAuth_Helper_Data::ENDPOINT_INITIATE),
