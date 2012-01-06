@@ -91,7 +91,7 @@ class Mage_SalesRule_Helper_Coupon extends Mage_Core_Helper_Abstract
      */
     public function getDefaultFormat()
     {
-        return (int)Mage::getStoreConfig(self::XML_PATH_SALES_RULE_COUPON_FORMAT);
+        return Mage::getStoreConfig(self::XML_PATH_SALES_RULE_COUPON_FORMAT);
     }
 
     /**
