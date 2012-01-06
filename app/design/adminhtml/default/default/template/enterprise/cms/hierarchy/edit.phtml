@@ -239,7 +239,6 @@
         },
 
         onNodeSelect: function(model, node){
-
             if ($('node_id').value) {
                 this.saveNodePage();
             }
@@ -328,13 +327,17 @@
             this.pageGridLoad();
         },
 
-        onNodeAppend: function(tree,parent,node){
+        onNodeAppend: function(tree, parent, node){
             if (!parent || !node) {
                 return false;
             }
-            var identifier = node.attributes.identifier;
-            for(var i=0, l = parent.childNodes.length; i < l; i++) {
-                if (identifier == parent.childNodes[i].attributes.identifier) {
+
+            var currentId = node.id,
+                currentUrlKey = node.attributes.identifier;
+
+            for (var i=0, l = parent.childNodes.length; i < l; i++) {
+                var comparedNode = parent.childNodes[i];
+                if (comparedNode.id != currentId && comparedNode.attributes.identifier == currentUrlKey) {
                     alert('<?php echo $this->jsQuoteEscape($this->__('This page cannot be added, because a node or page with the same URL Key already exists in this tree part.'))?>');
                     return false;
                 }
@@ -552,13 +555,13 @@
             }
 
             if (hasNodeId) {
-                var node_id = $('node_id').value;
-                var node = this.tree.getNodeById(node_id);
+                var node_id = $('node_id').value,
+                    node = this.tree.getNodeById(node_id),
+                    identifier = $('node_identifier').value;
 
-                var identifier = $('node_identifier').value;
                 for(var i=0, l = node.parentNode.childNodes.length; i < l; i++) {
-                    checkNode = node.parentNode.childNodes[i];
-                    if (checkNode.id != node_id && identifier == checkNode.attributes.identifier) {
+                    var comparedNode = node.parentNode.childNodes[i];
+                    if (comparedNode.id != node_id && identifier == comparedNode.attributes.identifier) {
                         alert('<?php echo $this->jsQuoteEscape($this->__('Node with same URL Key already exists.'))?>');
                         return false;
                     }
