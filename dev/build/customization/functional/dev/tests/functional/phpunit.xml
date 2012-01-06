@@ -13,7 +13,7 @@
 <phpunit bootstrap="framework/bootstrap.php">
     <testsuites>
         <testsuite name="All Tests">
-            <directory suffix="Test.php">tests</directory>
+            <directory suffix="Test.php">testsuite</directory>
         </testsuite>
     </testsuites>
     <php>
