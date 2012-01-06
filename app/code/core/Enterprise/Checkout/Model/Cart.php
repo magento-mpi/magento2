@@ -622,28 +622,36 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object
             return true;
         }
         $quoteItem = $this->getActualQuote()->getItemByProduct($product);
-        if (!$quoteItem) {
-            // This product is not added to quote
-            $stockQty = $stockItem->getStockQty();
-            if ($stockQty && $requestedQty > $stockQty) {
-                return array(
-                    'status' => Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED,
-                    'qty_max_allowed' => $stockQty
-                );
-            } else {
-                return true;
-            }
+        $isAdmin = $this->getStore()->isAdmin();
+
+        if ($stockItem->getMaxSaleQty() && !$isAdmin) {
+            $maxAllowedQty = $stockItem->getMaxSaleQty();
+            $status = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED_IN_CART;
+        } else {
+            $maxAllowedQty = $stockItem->getStockQty();
         }
-        $allowedQty = $stockItem->getStockQty() - $quoteItem->getQty();
-        if ($allowedQty <= 0) {
+
+        if ($stockItem->getMinSaleQty() && !$isAdmin) {
+            $minAllowedQty = $stockItem->getMinSaleQty();
+            $status = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED_IN_CART;
+        } else {
+            $minAllowedQty = 1;
+        }
+
+        $allowedQty = $quoteItem ? ($maxAllowedQty - $quoteItem->getQty()) : $maxAllowedQty;
+
+        if ($requestedQty < $minAllowedQty) {
+            $status = empty($status) ? Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED : $status;
+            return array('status' => $status, 'qty_min_allowed' => $minAllowedQty);
+        }
+
+        if ($allowedQty <= 0 || $allowedQty < $minAllowedQty) {
             // All available quantity already added to quote
             return array('status' => Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_OUT_OF_STOCK);
         } else if ($requestedQty > $allowedQty) {
-            // Quantity added to quote and requested quantity exceeds available in stock
-            return array(
-                'status' => Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED,
-                'qty_max_allowed' => $allowedQty
-            );
+            $status = empty($status) ? Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED : $status;
+            // Quantity added to quote and requested quantity exceeds available in stock or maximum salable quantity
+            return array('status' => $status, 'qty_max_allowed' => $allowedQty);
         } else {
             return true;
         }
@@ -714,9 +722,9 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object
                     $status = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_SUCCESS;
                 } else {
                     $status = $qtyStatus['status'];
-                    if (isset($qtyStatus['qty_max_allowed'])) {
-                        $item['qty_max_allowed'] = $qtyStatus['qty_max_allowed'];
-                    }
+                    unset($qtyStatus['status']);
+                    // Add qty_max_allowed and qty_min_allowed, if present
+                    $item = array_merge($item, $qtyStatus);
                 }
             }
         } else {
