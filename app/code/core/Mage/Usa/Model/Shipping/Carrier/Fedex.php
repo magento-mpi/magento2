@@ -341,6 +341,12 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
                         'CountryCode'   => $r->getOrigCountry()
                     )
                 ),
+                'CustomsClearanceDetail' => array(
+                    'CustomsValue' => array(
+                        'Amount' => $r->getValue(),
+                        'Currency' => $this->getCurrencyCode()
+                    )
+                ),
                 'RateRequestTypes' => 'LIST',
                 'PackageCount'     => '1',
                 'PackageDetail'    => 'INDIVIDUAL_PACKAGES',
