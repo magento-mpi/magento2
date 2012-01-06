@@ -51,7 +51,7 @@
     -->
     <php>
         <!-- Whether to install the application before tests execution. Value 'enabled' turns installation on. -->
-        <const name="SELENIUM_TESTS_INSTALLATION" value="enabled"/>
+        <const name="SELENIUM_TESTS_INSTALLATION" value="disabled"/>
     </php>
     <logging>
         <log type="coverage-html" target="./tmp/report" charset="UTF-8"
