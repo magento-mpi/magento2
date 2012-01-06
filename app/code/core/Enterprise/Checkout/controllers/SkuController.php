@@ -31,7 +31,7 @@
  * @package    Enterprise_Checkout
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Checkout_IndexController extends Mage_Core_Controller_Front_Action
+class Enterprise_Checkout_SkuController extends Mage_Core_Controller_Front_Action
 {
 
     /**
