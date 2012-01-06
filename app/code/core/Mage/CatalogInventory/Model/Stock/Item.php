@@ -316,7 +316,8 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
      */
     public function getMinSaleQty()
     {
-        if (!($customerGroupId = $this->getCustomerGroupId())) {
+        $customerGroupId = $this->getCustomerGroupId();
+        if (!$customerGroupId) {
             $customerGroupId = Mage::app()->getStore()->isAdmin()
                 ? Mage_Customer_Model_Group::CUST_GROUP_ALL
                 : Mage::getSingleton('customer/session')->getCustomerGroupId();
