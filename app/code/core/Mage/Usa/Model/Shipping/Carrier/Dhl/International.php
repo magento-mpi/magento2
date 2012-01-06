@@ -818,8 +818,8 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
                 $xml = simplexml_load_string($response);
                 if (is_object($xml)) {
                     if (in_array($xml->getName(), array('ErrorResponse', 'ShipmentValidateErrorResponse'))
-                        || isset($xml->GetQuoteResponse->Note->Condition))
-                    {
+                        || isset($xml->GetQuoteResponse->Note->Condition)
+                    ) {
                         $code = null;
                         $data = null;
                         if (isset($xml->Response->Status->Condition)) {
