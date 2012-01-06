@@ -500,15 +500,11 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
         }
 
         // Suggest value closest to given qty
-        $divisibleLess = floor($qty / $qtyIncrements) * $qtyIncrements;
-        $divisibleMore = $divisibleLess + $qtyIncrements;
-        $isLessCloserToQty = abs($divisibleLess - $qty) < abs($divisibleMore - $qty);
-
-        if ($isLessCloserToQty && $divisibleLess >= $divisibleMin) {
-            return $divisibleLess;
-        }
-
-        return $divisibleMore <= $divisibleMax ? $divisibleMore : $qty;
+        $closestDivisibleLeft = floor($qty / $qtyIncrements) * $qtyIncrements;
+        $closestDivisibleRight = $closestDivisibleLeft + $qtyIncrements;
+        $acceptableLeft = min(max($divisibleMin, $closestDivisibleLeft), $divisibleMax);
+        $acceptableRight = max(min($divisibleMax, $closestDivisibleRight), $divisibleMin);
+        return abs($acceptableLeft - $qty) < abs($acceptableRight - $qty) ? $acceptableLeft : $acceptableRight;
     }
 
     /**
