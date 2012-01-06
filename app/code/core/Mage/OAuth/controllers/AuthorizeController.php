@@ -34,7 +34,7 @@
 class Mage_OAuth_AuthorizeController extends Mage_Core_Controller_Front_Action
 {
     /**
-     * Init login page
+     * Session name
      *
      * @var string
      */
@@ -92,33 +92,11 @@ class Mage_OAuth_AuthorizeController extends Mage_Core_Controller_Front_Action
     }
 
     /**
-     * Index action.
+     * Init confirm page
      *
-     * @return void
+     * @return Mage_OAuth_AuthorizeController
      */
-    public function indexAction()
-    {
-        $this->_initForm();
-        $this->_initLayoutMessages($this->_sessionName);
-        $this->renderLayout();
-    }
-
-    /**
-     * OAuth authorize or allow decline access pop up page
-     *
-     * @return void
-     */
-    public function popUpAction()
-    {
-        $this->_initForm(true);
-        $this->_initLayoutMessages($this->_sessionName);
-        $this->renderLayout();
-    }
-
-    /**
-     * Confirm token authorization action
-     */
-    public function confirmAction()
+    protected function _initConfirmPage()
     {
         $this->loadLayout();
         try {
@@ -149,12 +127,16 @@ class Mage_OAuth_AuthorizeController extends Mage_Core_Controller_Front_Action
 
         $this->_initLayoutMessages($this->_sessionName);
         $this->renderLayout();
+
+        return $this;
     }
 
     /**
-     * Reject token authorization action
+     * Init reject page
+     *
+     * @return Mage_OAuth_AuthorizeController
      */
-    public function rejectAction()
+    protected function _initRejectPage()
     {
         /** @var $session Mage_Customer_Model_Session */
         $session = Mage::getSingleton($this->_sessionName);
@@ -180,6 +162,64 @@ class Mage_OAuth_AuthorizeController extends Mage_Core_Controller_Front_Action
         $this->loadLayout();
         $this->_initLayoutMessages($this->_sessionName);
         $this->renderLayout();
+
+        return $this;
+    }
+
+    /**
+     * Index action.
+     *
+     * @return void
+     */
+    public function indexAction()
+    {
+        $this->_initForm();
+        $this->_initLayoutMessages($this->_sessionName);
+        $this->renderLayout();
+    }
+
+    /**
+     * OAuth authorize or allow decline access pop up page
+     *
+     * @return void
+     */
+    public function popUpAction()
+    {
+        $this->_initForm(true);
+        $this->_initLayoutMessages($this->_sessionName);
+        $this->renderLayout();
+    }
+
+    /**
+     * Confirm token authorization action
+     */
+    public function confirmAction()
+    {
+        $this->_initConfirmPage();
+    }
+
+    /**
+     * Confirm token authorization pop up page
+     */
+    public function confirmPopUpAction()
+    {
+        $this->_initConfirmPage();
+    }
+
+    /**
+     * Reject token authorization action
+     */
+    public function rejectAction()
+    {
+        $this->_initRejectPage();
+    }
+
+    /**
+     * Reject token authorization pop up page
+     */
+    public function rejectPopUpAction()
+    {
+        $this->_initRejectPage();
     }
 
     /**

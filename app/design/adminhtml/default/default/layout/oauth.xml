@@ -91,6 +91,7 @@
     </adminhtml_oauth_authorize_popup>
     <!-- EOF Authorize -->
 
+    <!-- Confirm Authorization -->
     <adminhtml_oauth_authorize_confirm translate="label">
         <label>Confirm token authorization for admin</label>
         <reference name="root">
@@ -100,7 +101,18 @@
             <block type="core/template" name="oauth.authorize.confirm" template="oauth/authorize/confirm.phtml" />
         </reference>
     </adminhtml_oauth_authorize_confirm>
+    <adminhtml_oauth_authorize_confirmpopup translate="label">
+        <update handle="adminhtml_oauth_authorize_confirm"/>
+        <label>Confirm token authorization Pop Up for admin</label>
+        <reference name="oauth.authorize.confirm">
+            <action method="setTemplate">
+                <template>oauth/authorize/confirm-simple.phtml</template>
+            </action>
+        </reference>
+    </adminhtml_oauth_authorize_confirmpopup>
+    <!-- EOF Confirm Authorization -->
 
+    <!-- Reject Authorization -->
     <adminhtml_oauth_authorize_reject translate="label">
         <label>Reject token authorization for admin</label>
         <reference name="root">
@@ -110,4 +122,14 @@
             <block type="core/template" name="oauth.authorize.reject" template="oauth/authorize/reject.phtml" />
         </reference>
     </adminhtml_oauth_authorize_reject>
+    <adminhtml_oauth_authorize_rejectpopup translate="label">
+        <update handle="adminhtml_oauth_authorize_reject"/>
+        <label>Reject token authorization Pop Up for admin</label>
+        <reference name="oauth.authorize.reject">
+            <action method="setTemplate">
+                <template>oauth/authorize/reject-simple.phtml</template>
+            </action>
+        </reference>
+    </adminhtml_oauth_authorize_rejectpopup>
+    <!-- EOF Reject Authorization -->
 </layout>

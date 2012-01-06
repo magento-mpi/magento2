@@ -35,7 +35,7 @@
             </action>
         </reference>
         <reference name="content">
-            <block type="oauth/authorize" name="oauth.authorize.form" template="oauth/authorize/form/customer/login.phtml"/>
+            <block type="oauth/authorize" name="oauth.authorize.form" template="oauth/authorize/form/login.phtml"/>
             <block type="oauth/authorize_button" name="oauth.authorize.button" template="oauth/authorize/button.phtml" />
         </reference>
         <remove name="account.links"/>
@@ -49,15 +49,16 @@
     </oauth_authorize_index>
     <oauth_authorize_popup translate="label">
         <update handle="oauth_authorize_index"/>
+        <remove name="header"/>
         <label>OAuth authorization Pop Up for customer</label>
         <reference name="oauth.authorize.form">
             <action method="setTemplate">
-                <template>oauth/authorize/form/admin/pop-up.phtml</template>
+                <template>oauth/authorize/form/login-simple.phtml</template>
             </action>
         </reference>
         <reference name="oauth.authorize.button">
             <action method="setTemplate">
-                <template>oauth/authorize/button-pop-up.phtml</template>
+                <template>oauth/authorize/button-simple.phtml</template>
             </action>
         </reference>
     </oauth_authorize_popup>

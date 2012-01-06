@@ -90,7 +90,8 @@ class Mage_OAuth_Block_Authorize extends Mage_Core_Block_Template
      */
     public function getRejectUrl()
     {
-        return $this->getUrl('oauth/authorize/reject', array('_query' => array('oauth_token' => $this->getToken())));
+        return $this->getUrl('oauth/authorize/reject' . ($this->getIsSimple() ? 'PopUp' : ''),
+            array('_query' => array('oauth_token' => $this->getToken())));
     }
 
     /**

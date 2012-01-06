@@ -35,7 +35,7 @@
             </action>
         </reference>
         <reference name="content">
-            <block type="oauth/authorize" name="oauth.authorize.form" template="oauth/authorize/form/customer/login.phtml"/>
+            <block type="oauth/authorize" name="oauth.authorize.form" template="oauth/authorize/form/login.phtml"/>
             <block type="oauth/authorize_button" name="oauth.authorize.button" template="oauth/authorize/button.phtml" />
         </reference>
         <remove name="top.links"/>
@@ -76,6 +76,16 @@
         <remove name="top.search"/>
         <remove name="top.menu"/>
     </oauth_authorize_confirm>
+    <oauth_authorize_confirmpopup translate="label">
+        <label>Confirm OAuth token authorization Pop Up</label>
+        <update handle="oauth_authorize_confirm"/>
+        <remove name="header"/>
+        <reference name="oauth.authorize.confirm">
+            <action method="setTemplate">
+                <template>oauth/authorize/confirm-simple.phtml</template>
+            </action>
+        </reference>
+    </oauth_authorize_confirmpopup>
     <!-- EOF Confirm Authorization -->
 
     <!-- Reject Authorization -->
@@ -94,6 +104,16 @@
         <remove name="top.search"/>
         <remove name="top.menu"/>
     </oauth_authorize_reject>
+    <oauth_authorize_rejectpopup translate="label">
+        <label>Reject OAuth token authorization Pop Up</label>
+        <update handle="oauth_authorize_reject"/>
+        <remove name="header"/>
+        <reference name="oauth.authorize.reject">
+            <action method="setTemplate">
+                <template>oauth/authorize/reject-simple.phtml</template>
+            </action>
+        </reference>
+    </oauth_authorize_rejectpopup>
     <!-- EOF Reject Authorization -->
 
     <!-- My Applications-->

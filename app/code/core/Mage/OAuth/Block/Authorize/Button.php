@@ -31,11 +31,11 @@
  * @package    Mage_OAuth
  * @author     Magento Core Team <core@magentocommerce.com>
  * @method string getToken()
- * @method Mage_OAuth_Block_Authorize setToken() setToken(string $token)
+ * @method Mage_OAuth_Block_Authorize_Button setToken() setToken(string $token)
  * @method boolean getIsException()
- * @method Mage_OAuth_Block_Authorize setIsException() setIsException(boolean $flag)
+ * @method Mage_OAuth_Block_Authorize_Button setIsException() setIsException(boolean $flag)
  * @method boolean getIsSimple()
- * @method Mage_OAuth_Block_Authorize setIsSimple() setIsSimple(boolean $flag)
+ * @method Mage_OAuth_Block_Authorize_Button setIsSimple() setIsSimple(boolean $flag)
  */
 class Mage_OAuth_Block_Authorize_Button extends Mage_Core_Block_Template
 {
@@ -46,7 +46,7 @@ class Mage_OAuth_Block_Authorize_Button extends Mage_Core_Block_Template
      */
     public function getConfirmUrl()
     {
-        return $this->getUrl('oauth/authorize/confirm');
+        return $this->getUrl('oauth/authorize/confirm' . ($this->getIsSimple() ? 'PopUp' : ''));
     }
 
     /**
@@ -56,6 +56,6 @@ class Mage_OAuth_Block_Authorize_Button extends Mage_Core_Block_Template
      */
     public function getRejectUrl()
     {
-        return $this->getUrl('oauth/authorize/reject');
+        return $this->getUrl('oauth/authorize/reject' . ($this->getIsSimple() ? 'PopUp' : ''));
     }
 }

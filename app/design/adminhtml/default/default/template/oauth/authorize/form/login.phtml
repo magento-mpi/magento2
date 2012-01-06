@@ -37,7 +37,7 @@
     <div class="login-box">
         <div class="login-form">
             <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
-            <?php if ($this->isException()): ?>
+            <?php if (!$this->isException()): ?>
                 <form method="post" action="<?php echo $this->getPostActionUrl() ?>" id="loginForm">
                     <fieldset>
                         <input name="form_key" type="hidden" value="<?php echo $this->getFormKey() ?>" />

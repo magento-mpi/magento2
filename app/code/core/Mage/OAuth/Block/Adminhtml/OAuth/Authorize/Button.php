@@ -46,7 +46,7 @@ class Mage_OAuth_Block_Adminhtml_OAuth_Authorize_Button extends Mage_Core_Block_
      */
     public function getConfirmUrl()
     {
-        return $this->getUrl('adminhtml/oAuth_authorize/confirm');
+        return $this->getUrl('adminhtml/oAuth_authorize/confirm' . ($this->getIsSimple() ? 'PopUp' : ''));
     }
 
     /**
@@ -56,7 +56,7 @@ class Mage_OAuth_Block_Adminhtml_OAuth_Authorize_Button extends Mage_Core_Block_
      */
     public function getRejectUrl()
     {
-        return $this->getUrl('adminhtml/oAuth_authorize/reject');
+        return $this->getUrl('adminhtml/oAuth_authorize/reject' . ($this->getIsSimple() ? 'PopUp' : ''));
     }
 
     /**

@@ -105,7 +105,7 @@ $rejectJs = "document.location.href='{$this->getRejectUrl()}';";
                             <div class="form-buttons">
                                 <input type="submit" class="form-button" value="<?php echo $this->__('Login') ?>"
                                        title="<?php echo $this->__('Login') ?>"/>
-                                <button onclick="<?php echo $rejectJs; ?>"
+                                <button type="button" onclick="<?php echo $rejectJs; ?>"
                                         title="<?php echo $this->__('Reject') ?>"><?php echo $this->__('Reject') ?></button>
                                 <p class="required"><?php echo $this->__('* Required Fields') ?></p>
                             </div>

@@ -45,7 +45,7 @@ class Mage_OAuth_Adminhtml_OAuth_AuthorizeController extends Mage_Adminhtml_Cont
      *
      * @var array
      */
-    public $_publicActions = array('index', 'confirm', 'reject');
+    public $_publicActions = array('index', 'popUp', 'confirm', 'confirmPopUp','reject', 'rejectPopUp');
 
     /**
      * Disable showing of login form
@@ -130,9 +130,11 @@ class Mage_OAuth_Adminhtml_OAuth_AuthorizeController extends Mage_Adminhtml_Cont
     }
 
     /**
-     * Confirm token authorization action
+     * Init confirm page
+     *
+     * @return Mage_OAuth_Adminhtml_OAuth_AuthorizeController
      */
-    public function confirmAction()
+    protected function _initConfirmPage()
     {
         /** @var $session Mage_Admin_Model_Session */
         $session = Mage::getSingleton($this->_sessionName);
@@ -165,12 +167,16 @@ class Mage_OAuth_Adminhtml_OAuth_AuthorizeController extends Mage_Adminhtml_Cont
 
         $this->_initLayoutMessages($this->_sessionName);
         $this->renderLayout();
+
+        return $this;
     }
 
     /**
-     * Reject token authorization action
+     * Init reject page
+     *
+     * @return Mage_OAuth_AuthorizeController
      */
-    public function rejectAction()
+    protected function _initRejectPage()
     {
         /** @var $server Mage_OAuth_Model_Server */
         $server = Mage::getModel('oauth/server');
@@ -198,6 +204,40 @@ class Mage_OAuth_Adminhtml_OAuth_AuthorizeController extends Mage_Adminhtml_Cont
         $this->loadLayout();
         $this->_initLayoutMessages($this->_sessionName);
         $this->renderLayout();
+
+        return $this;
+    }
+
+    /**
+     * Confirm token authorization action
+     */
+    public function confirmAction()
+    {
+        $this->_initConfirmPage();
+    }
+
+    /**
+     * Confirm token authorization pop up page
+     */
+    public function confirmPopUpAction()
+    {
+        $this->_initConfirmPage();
+    }
+
+    /**
+     * Reject token authorization action
+     */
+    public function rejectAction()
+    {
+        $this->_initRejectPage();
+    }
+
+    /**
+     * Reject token authorization pop up page
+     */
+    public function rejectPopUpAction()
+    {
+        $this->_initRejectPage();
     }
 
     /**

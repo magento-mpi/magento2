@@ -60,7 +60,8 @@ class Mage_OAuth_Block_Adminhtml_OAuth_Authorize extends Mage_Adminhtml_Block_Te
      */
     public function getRejectUrl()
     {
-        return $this->getUrl('adminhtml/oAuth_authorize/reject', array('_query' => array('oauth_token' => $this->getToken())));
+        return $this->getUrl('adminhtml/oAuth_authorize/reject' . ($this->getIsSimple() ? 'PopUp' : ''),
+            array('_query' => array('oauth_token' => $this->getToken())));
     }
 
     /**
