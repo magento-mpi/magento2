@@ -40,26 +40,13 @@ class Catalog_Product_BackorderStatusTest extends Magento_Test_Webservice
      */
     protected function setUp()
     {
-        $product = new Mage_Catalog_Model_Product;
+        $productData = require dirname(__FILE__) . '/../_fixtures/ProductData.php';
+        $product     = new Mage_Catalog_Model_Product;
 
-        $product->setData(array(
-            'sku'               => 'bo01-' . uniqid(),
-            'attribute_set_id'  => 4,
-            'type_id'           => Mage_Catalog_Model_Product_Type::TYPE_SIMPLE,
-            'name'              => 'Simple Product',
-            'website_ids'       => array(Mage::app()->getStore()->getWebsiteId()),
-            'description'       => '...',
-            'short_description' => '...',
-            'price'             => 0.99,
-            'tax_class_id'      => 2,
-            'visibility'        => Mage_Catalog_Model_Product_Visibility::VISIBILITY_BOTH,
-            'status'            => Mage_Catalog_Model_Product_Status::STATUS_ENABLED
-        ));
-
+        $product->setData($productData['create_full_fledged']);
         $product->save();
 
         $this->setFixture('product', $product);
-
 
         parent::setUp();
     }
@@ -91,7 +78,9 @@ class Catalog_Product_BackorderStatusTest extends Magento_Test_Webservice
         $newProductData->use_config_backorders = 0;
         $newProductData->backorders = 1;
 
-        $result = $this->call('cataloginventory_stock_item.update', array($this->getFixture('product')->getSku(), (array)$newProductData));
+        $result = $this->call(
+            'cataloginventory_stock_item.update', array($this->getFixture('product')->getSku(), (array)$newProductData)
+        );
         $this->assertTrue($result);
 
         // have to re-load product for stock item set
