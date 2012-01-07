@@ -274,7 +274,7 @@ class Mage_SalesRule_Model_Rule extends Mage_Rule_Model_Rule
             $this->_getResource()->saveStoreLabels($this->getId(), $this->getStoreLabels());
         }
         $couponCode = trim($this->getCouponCode());
-        if ($couponCode && $this->getCouponType() == self::COUPON_TYPE_SPECIFIC) {
+        if (strlen($couponCode) && $this->getCouponType() == self::COUPON_TYPE_SPECIFIC) {
             $this->getPrimaryCoupon()
                 ->setCode($couponCode)
                 ->setUsageLimit($this->getUsesPerCoupon() ? $this->getUsesPerCoupon() : null)

@@ -219,11 +219,8 @@ class Mage_Rule_Model_Condition_Combine extends Mage_Rule_Model_Condition_Abstra
     public function asHtml()
     {
            $html = $this->getTypeElement()->getHtml().
-               Mage::helper('Mage_Rule_Helper_Data')->__("If %s of these conditions are %s:",
-                   $this->getAggregatorElement()->getHtml(),
-                   $this->getValueElement()->getHtml()
-               );
-           if ($this->getId()!='1') {
+               Mage::helper('rule')->__('If %s of these conditions are %s:', $this->getAggregatorElement()->getHtml(), $this->getValueElement()->getHtml());
+           if ($this->getId() != '1') {
                $html.= $this->getRemoveLinkHtml();
            }
         return $html;

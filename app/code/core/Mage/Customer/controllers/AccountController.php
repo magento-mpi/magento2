@@ -376,6 +376,11 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
         $this->_getSession()->addSuccess(
             $this->__('Thank you for registering with %s.', Mage::app()->getStore()->getFrontendName())
         );
+        if ($this->_isVatValidationEnabled()) {
+            $this->_getSession()->addSuccess(
+                $this->__('If you are a registered VAT customer, please click <a href="%s">here</a> to enter you billing address to see proper VAT calculated', Mage::getUrl('customer/address/edit'))
+            );
+        }
 
         $customer->sendNewAccountEmail(
             $isJustConfirmed ? 'confirmed' : 'registered',
@@ -802,5 +807,16 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
     {
         $data = $this->_filterDates($data, array('dob'));
         return $data;
+    }
+
+    /**
+     * Check whether VAT ID validation is enabled
+     *
+     * @param Mage_Core_Model_Store|string|int $store
+     * @return bool
+     */
+    protected function _isVatValidationEnabled($store = null)
+    {
+        return Mage::helper('customer/address')->isVatValidationEnabled($store);
     }
 }

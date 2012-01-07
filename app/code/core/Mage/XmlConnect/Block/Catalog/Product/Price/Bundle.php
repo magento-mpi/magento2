@@ -88,7 +88,7 @@ class Mage_XmlConnect_Block_Catalog_Product_Price_Bundle extends Mage_Bundle_Blo
                         }
                         $weeeItemXmlObj = $weeeXmlObj->addChild('item');
                         $weeeItemXmlObj->addAttribute(
-                            'name', $weeeItemXmlObj->xmlentities($_weeeTaxAttribute->getName())
+                            'name', $weeeItemXmlObj->escapeXml($_weeeTaxAttribute->getName())
                         );
                         $weeeItemXmlObj->addAttribute(
                             'amount', $_coreHelper->currency($amount, true, false)
@@ -116,7 +116,7 @@ class Mage_XmlConnect_Block_Catalog_Product_Price_Bundle extends Mage_Bundle_Blo
                         }
                         $weeeItemXmlObj = $weeeXmlObj->addChild('item');
                         $weeeItemXmlObj->addAttribute(
-                            'name', $weeeItemXmlObj->xmlentities($_weeeTaxAttribute->getName())
+                            'name', $weeeItemXmlObj->escapeXml($_weeeTaxAttribute->getName())
                         );
                         $weeeItemXmlObj->addAttribute(
                             'amount', $_coreHelper->currency($amount, true, false)
@@ -152,7 +152,7 @@ class Mage_XmlConnect_Block_Catalog_Product_Price_Bundle extends Mage_Bundle_Blo
                             }
                             $weeeItemXmlObj = $weeeXmlObj->addChild('item');
                             $weeeItemXmlObj->addAttribute(
-                                'name', $weeeItemXmlObj->xmlentities($_weeeTaxAttribute->getName())
+                                'name', $weeeItemXmlObj->escapeXml($_weeeTaxAttribute->getName())
                             );
                             $weeeItemXmlObj->addAttribute(
                                 'amount', $_coreHelper->currency($amount, true, false)
@@ -178,7 +178,7 @@ class Mage_XmlConnect_Block_Catalog_Product_Price_Bundle extends Mage_Bundle_Blo
                             }
                             $weeeItemXmlObj = $weeeXmlObj->addChild('item');
                             $weeeItemXmlObj->addAttribute(
-                                'name', $weeeItemXmlObj->xmlentities($_weeeTaxAttribute->getName())
+                                'name', $weeeItemXmlObj->escapeXml($_weeeTaxAttribute->getName())
                             );
                             $weeeItemXmlObj->addAttribute('amount', $_coreHelper->currency($amount, true, false));
                         }
@@ -221,7 +221,7 @@ class Mage_XmlConnect_Block_Catalog_Product_Price_Bundle extends Mage_Bundle_Blo
                             }
                             $weeeItemXmlObj = $weeeXmlObj->addChild('item');
                             $weeeItemXmlObj->addAttribute(
-                                'name', $weeeItemXmlObj->xmlentities($_weeeTaxAttribute->getName())
+                                'name', $weeeItemXmlObj->escapeXml($_weeeTaxAttribute->getName())
                             );
                             $weeeItemXmlObj->addAttribute(
                                 'amount', $_coreHelper->currency($amount, true, false)
@@ -249,7 +249,7 @@ class Mage_XmlConnect_Block_Catalog_Product_Price_Bundle extends Mage_Bundle_Blo
                             }
                             $weeeItemXmlObj = $weeeXmlObj->addChild('item');
                             $weeeItemXmlObj->addAttribute(
-                                'name', $weeeItemXmlObj->xmlentities($_weeeTaxAttribute->getName())
+                                'name', $weeeItemXmlObj->escapeXml($_weeeTaxAttribute->getName())
                             );
                             $weeeItemXmlObj->addAttribute(
                                 'amount', $_coreHelper->currency($amount, true, false)
@@ -284,7 +284,7 @@ class Mage_XmlConnect_Block_Catalog_Product_Price_Bundle extends Mage_Bundle_Blo
                             }
                             $weeeItemXmlObj = $weeeXmlObj->addChild('item');
                             $weeeItemXmlObj->addAttribute(
-                                'name', $weeeItemXmlObj->xmlentities($_weeeTaxAttribute->getName())
+                                'name', $weeeItemXmlObj->escapeXml($_weeeTaxAttribute->getName())
                             );
                             $weeeItemXmlObj->addAttribute(
                                 'amount', $_coreHelper->currency($amount, true, false)
@@ -312,7 +312,7 @@ class Mage_XmlConnect_Block_Catalog_Product_Price_Bundle extends Mage_Bundle_Blo
                             }
                             $weeeItemXmlObj = $weeeXmlObj->addChild('item');
                             $weeeItemXmlObj->addAttribute(
-                                'name', $weeeItemXmlObj->xmlentities($_weeeTaxAttribute->getName())
+                                'name', $weeeItemXmlObj->escapeXml($_weeeTaxAttribute->getName())
                             );
                             $weeeItemXmlObj->addAttribute(
                                 'amount', $_coreHelper->currency($amount, true, false)

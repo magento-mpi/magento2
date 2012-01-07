@@ -56,7 +56,6 @@ class Mage_CatalogSearch_Model_Resource_Fulltext_Engine extends Mage_Core_Model_
      */
     public function saveEntityIndexes($storeId, $entityIndexes, $entity = 'product')
     {
-        $adapter = $this->_getWriteAdapter();
         $data    = array();
         $storeId = (int)$storeId;
         foreach ($entityIndexes as $entityId => &$index) {

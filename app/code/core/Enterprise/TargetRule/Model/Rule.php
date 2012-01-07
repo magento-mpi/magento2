@@ -333,10 +333,11 @@ class Enterprise_TargetRule_Model_Rule extends Mage_Rule_Model_Rule
     }
 
     /**
-     * Validates data for rule
+     * Validate data for rule
+     *
      * @param Varien_Object $object
-     * @returns boolean|array - returns true if validation passed successfully. Array with error
-     * description otherwise
+     *
+     * @return bool|array - returns true if validation passed successfully or array with error description otherwise
      */
     public function validate(Varien_Object $object)
     {
@@ -349,7 +350,7 @@ class Enterprise_TargetRule_Model_Rule extends Mage_Rule_Model_Rule
                     continue;
                 }
                 if (!$validator->isValid($actionArgs['type']) || !$validator->isValid($actionArgs['attribute'])) {
-                    $errorsArray[] = Mage::helper('Mage_Catalog_Helper_Product')->__('Attribute code is invalid. Please use only letters (a-z), numbers (0-9) or underscore(_) in this field, first character should be a letter.');
+                    $errorsArray[] = Mage::helper('enterprise_targetrule')->__('Attribute code is invalid. Please use only letters (a-z), numbers (0-9) or underscore(_) in this field, first character should be a letter.');
                 }
             }
         }

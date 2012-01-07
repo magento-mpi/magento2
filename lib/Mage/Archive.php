@@ -127,7 +127,8 @@ class Mage_Archive
     *
     * @param string $source
     * @param string $destination
-    * @param boolean $tillTar
+    * @param bool $tillTar
+    * @param bool $clearInterm
     * @return string Path to file
     */
     public function unpack($source, $destination='.', $tillTar=false, $clearInterm = true)
@@ -144,9 +145,7 @@ class Mage_Archive
                 $packed = rtrim($destination, DS) . DS . '~tmp-'. microtime(true) . $archivers[$i-1] . '.' . $archivers[$i-1];
             }
             $source = $this->_getArchiver($archivers[$i])->unpack($source, $packed);
-            
-            //var_dump($packed, $source);
-            
+
             if ($clearInterm && $interimSource && $i >= 0) {
                 unlink($interimSource);
             }
@@ -202,5 +201,4 @@ class Mage_Archive
         }
         return false;
     }
-
 }

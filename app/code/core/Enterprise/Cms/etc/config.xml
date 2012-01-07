@@ -12,7 +12,7 @@
 <config>
     <modules>
         <Enterprise_Cms>
-            <version>1.11.0.0</version>
+            <version>1.11.0.2</version>
         </Enterprise_Cms>
     </modules>
     <global>
@@ -63,6 +63,14 @@
                 </menu>
             </hierarchy>
         </enterprise_cms>
+        <logging_actions>
+            <preview translate="label" module="enterprise_cms">
+                <label>Preview</label>
+            </preview>
+            <publish translate="label" module="enterprise_cms">
+                <label>Publish</label>
+            </publish>
+        </logging_actions>
     </global>
     <frontend>
         <events>
@@ -124,6 +132,22 @@
                     </enterprise_cms>
                 </observers>
             </admin_user_delete_after>
+            <website_delete_after>
+                <observers>
+                    <enterprise_cms>
+                        <class>enterprise_cms/observer</class>
+                        <method>deleteWebsite</method>
+                    </enterprise_cms>
+                </observers>
+            </website_delete_after>
+            <store_delete_after>
+                <observers>
+                    <enterprise_cms>
+                        <class>enterprise_cms/observer</class>
+                        <method>deleteStore</method>
+                    </enterprise_cms>
+                </observers>
+            </store_delete_after>
             <cms_page_get_available_statuses>
                 <observers>
                     <enterprise_cms>
@@ -167,7 +191,6 @@
             <hierarchy>
                 <enabled>1</enabled>
                 <metadata_enabled>1</metadata_enabled>
-                <lock_timeout>180</lock_timeout>
                 <menu_layout>content</menu_layout>
             </hierarchy>
             <content>

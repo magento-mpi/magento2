@@ -174,20 +174,27 @@ class Enterprise_Banner_Block_Widget_Banner
         $aplliedRules = null;
         $segmentIds = array();
         $customer = Mage::registry('segment_customer');
-        if (Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn() || $customer) {
-            if (!$customer) {
-                $customer = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer();
+        if (!$customer) {
+            $customer = Mage::getSingleton('customer/session')->getCustomer();
+        }
+        $websiteId = Mage::app()->getWebsite()->getId();
+
+        if (!$customer->getId()) {
+            $allSegmentIds = Mage::getSingleton('customer/session')->getCustomerSegmentIds();
+            if ((is_array($allSegmentIds) && isset($allSegmentIds[$websiteId]))) {
+                $segmentIds = $allSegmentIds[$websiteId];
             }
-            $segmentIds = Mage::getSingleton('Enterprise_CustomerSegment_Model_Customer')
-                ->getCustomerSegmentIdsForWebsite($customer->getId(), Mage::app()->getWebsite()->getId());
+        } else {
+            $segmentIds = Mage::getSingleton('enterprise_customersegment/customer')
+                ->getCustomerSegmentIdsForWebsite($customer->getId(), $websiteId);
         }
 
         $this->_bannerResource->filterByTypes($this->getTypes());
 
-        // choose display mode
+        // Choose display mode
         switch ($this->getDisplayMode()) {
 
-            case self::BANNER_WIDGET_DISPLAY_SALESRULE:
+            case self::BANNER_WIDGET_DISPLAY_SALESRULE :
                 if (Mage::getSingleton('Mage_Checkout_Model_Session')->getQuoteId()) {
                     $quote = Mage::getSingleton('Mage_Checkout_Model_Session')->getQuote();
                     $aplliedRules = explode(',', $quote->getAppliedRuleIds());
@@ -196,7 +203,7 @@ class Enterprise_Banner_Block_Widget_Banner
                 $bannersContent = $this->_getBannersContent($bannerIds);
                 break;
 
-            case self::BANNER_WIDGET_DISPLAY_CATALOGRULE:
+            case self::BANNER_WIDGET_DISPLAY_CATALOGRULE :
                 $bannerIds = $this->_bannerResource->getCatalogRuleRelatedBannerIds(
                     Mage::app()->getWebsite()->getId(),
                     Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerGroupId(),
@@ -205,17 +212,17 @@ class Enterprise_Banner_Block_Widget_Banner
                 $bannersContent = $this->_getBannersContent($bannerIds);
                 break;
 
-            case self::BANNER_WIDGET_DISPLAY_FIXED:
-            default:
+            case self::BANNER_WIDGET_DISPLAY_FIXED :
+            default :
                 $bannersContent = $this->_getBannersContent($this->getBannerIds(), $segmentIds);
                 break;
         }
 
-        $this->_bannerResource->filterByTypes(); // unset types filter from resource
+        // Unset types filter from resource
+        $this->_bannerResource->filterByTypes();
 
-
-        // filtering directives
-        /* @var $helper Mage_Cms_Helper_Data */
+        // Filtering directives
+        /** @var $helper Mage_Cms_Helper_Data */
         $helper = Mage::helper('Mage_Cms_Helper_Data');
         $processor = $helper->getPageTemplateProcessor();
         foreach ($bannersContent as $bannerId => $content) {

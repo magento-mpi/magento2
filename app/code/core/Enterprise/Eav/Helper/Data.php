@@ -50,6 +50,44 @@ class Enterprise_Eav_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
+     * Check validation rules for specified input type and return possible warnings.
+     *
+     * @param string $frontendInput
+     * @param array $validateRules
+     * @return array
+     */
+    public function checkValidateRules($frontendInput, $validateRules)
+    {
+        $errors = array();
+        switch ($frontendInput) {
+            case 'text':
+            case 'textarea':
+            case 'multiline':
+                if (isset($validateRules['min_text_length']) && isset($validateRules['max_text_length'])) {
+                    $minTextLength = (int) $validateRules['min_text_length'];
+                    $maxTextLength = (int) $validateRules['max_text_length'];
+                    if ($minTextLength > $maxTextLength) {
+                        $errors[] = Mage::helper('enterprise_eav')->__('Wrong values for minimum and maximum text length validation rules.');
+                    }
+                }
+                break;
+            case 'date':
+                if (isset($validateRules['date_range_min']) && isset($validateRules['date_range_max'])) {
+                    $minValue = (int) $validateRules['date_range_min'];
+                    $maxValue = (int) $validateRules['date_range_max'];
+                    if ($minValue > $maxValue) {
+                        $errors[] = Mage::helper('enterprise_eav')->__('Wrong values for minimum and maximum date validation rules.');
+                    }
+                }
+                break;
+            default:
+                break;
+        }
+
+        return $errors;
+    }
+
+    /**
      * Return data array of available attribute Input Types
      *
      * @param string|null $inputType

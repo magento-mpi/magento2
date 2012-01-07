@@ -12,7 +12,7 @@
 <config>
     <modules>
         <Mage_Catalog>
-            <version>1.6.0.0.8</version>
+            <version>1.6.0.0.9</version>
         </Mage_Catalog>
     </modules>
     <global>
@@ -376,6 +376,7 @@
             <layered_navigation>
                 <price_range_calculation>auto</price_range_calculation>
                 <price_range_step>100</price_range_step>
+                <price_range_max_intervals>10</price_range_max_intervals>
             </layered_navigation>
         </catalog>
         <system>

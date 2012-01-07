@@ -83,6 +83,28 @@ $testCases = array(
     ),
     // test with large values (variance is near to zero)
     array(
+        array_merge(array(9659.57, 9659.59), array_fill(0, 231, 9659.58)),
+        10,
+        array(
+            array(
+                'from'  => 9659.57,
+                'to'    => 9659.57,
+                'count' => 1,
+            ),
+            array(
+                'from'  => 9659.58,
+                'to'    => 9659.58,
+                'count' => 231,
+            ),
+            array(
+                'from'  => 9659.59,
+                'to'    => 9659.59,
+                'count' => 1,
+            ),
+        )
+    ),
+    // another test with large values (variance is near to zero)
+    array(
         array_merge(array(8997.71, 8997.73), array_fill(0, 291, 8997.72)),
         10,
         array(

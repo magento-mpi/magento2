@@ -59,7 +59,7 @@ class Enterprise_CustomerSegment_Model_Observer
     }
 
     /**
-     * Match customer segments on supplied event for currently logged in customer and ran website.
+     * Match customer segments on supplied event for currently logged in customer or visitor and current website.
      * Can be used for processing just frontend events
      *
      * @param Varien_Event_Observer $observer
@@ -69,13 +69,11 @@ class Enterprise_CustomerSegment_Model_Observer
         $eventName = $observer->getEvent()->getName();
         $customer = Mage::registry('segment_customer');
 
-        $customerSession = Mage::getSingleton('Mage_Customer_Model_Session');
-        if (!$customerSession->isLoggedIn() && !$customer) {
-            return $this;
-        }
+        // For visitors use customer instance from customer session
         if (!$customer) {
-            $customer = $customerSession->getCustomer();
+            $customer = Mage::getSingleton('customer/session')->getCustomer();
         }
+
         $website = Mage::app()->getStore()->getWebsite();
         Mage::getSingleton('Enterprise_CustomerSegment_Model_Customer')->processEvent($eventName, $customer, $website);
     }

@@ -79,8 +79,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Order_Status
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Order Status %s %s:',
-                $this->getOperatorElementHtml(), $this->getValueElementHtml())
+            . Mage::helper('enterprise_customersegment')->__('Order Status %s %s:', $this->getOperatorElementHtml(), $this->getValueElementHtml())
             . $this->getRemoveLinkHtml();
     }
 

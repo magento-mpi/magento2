@@ -298,6 +298,7 @@
                 <collection_load_before>
                     <mage_sales_model_resource_report_bestsellers_collection>limitBestsellersCollection</mage_sales_model_resource_report_bestsellers_collection>
                     <mage_reports_model_resource_product_collection>limitProductReports</mage_reports_model_resource_product_collection>
+                    <mage_reports_model_resource_product_viewed_collection>limitMostViewedCollection</mage_reports_model_resource_product_viewed_collection>
                     <mage_core_model_resource_store_collection>limitStores</mage_core_model_resource_store_collection>
                     <mage_core_model_resource_website_collection>limitWebsites</mage_core_model_resource_website_collection>
                     <mage_core_model_resource_store_group_collection>limitStoreGroups</mage_core_model_resource_store_group_collection>

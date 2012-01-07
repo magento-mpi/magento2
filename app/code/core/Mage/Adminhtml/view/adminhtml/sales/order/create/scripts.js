@@ -1040,5 +1040,62 @@ AdminOrder.prototype = {
             top: parentPos[1] + 'px',
             left: parentPos[0] + 'px'
         });
+    },
+
+    validateVat: function(parameters)
+    {
+        var params = {
+            country: $(parameters.countryElementId).value,
+            vat: $(parameters.vatElementId).value
+        };
+
+        var currentCustomerGroupId = $(parameters.groupIdHtmlId).value;
+
+        new Ajax.Request(parameters.validateUrl, {
+            parameters: params,
+            onSuccess: function(response) {
+                var message = '';
+                var groupChangeRequired = false;
+                try {
+                    response = response.responseText.evalJSON();
+
+                    if (true === response.valid) {
+                        message = parameters.vatValidMessage;
+                        if (currentCustomerGroupId != response.group) {
+                            message = parameters.vatValidAndGroupChangeMessage;
+                            groupChangeRequired = true;
+                        }
+                    } else if (response.success) {
+                        message = parameters.vatInvalidMessage.replace(/%s/, params.vat);
+                    } else {
+                        message = parameters.vatValidationFailedMessage;
+                    }
+
+                } catch (e) {
+                    message = parameters.vatValidationFailedMessage;
+                }
+                if (!groupChangeRequired) {
+                    alert(message);
+                }
+                else {
+                    this.processCustomerGroupChange(parameters.groupIdHtmlId, message, response.group);
+                }
+            }.bind(this)
+        });
+    },
+
+    processCustomerGroupChange: function(groupIdHtmlId, message, groupId)
+    {
+        var currentCustomerGroupId = $(groupIdHtmlId).value;
+        var currentCustomerGroupTitle = $$('#' + groupIdHtmlId + ' > option[value=' + currentCustomerGroupId + ']')[0].text;
+        var customerGroupOption = $$('#' + groupIdHtmlId + ' > option[value=' + groupId + ']')[0];
+        var confirmText = message.replace(/%s/, customerGroupOption.text);
+        confirmText = confirmText.replace(/%s/, currentCustomerGroupTitle);
+        if (confirm(confirmText)) {
+            $$('#' + groupIdHtmlId + ' option').each(function(o) {
+                o.selected = o.readAttribute('value') == groupId;
+            });
+            this.accountGroupChange();
+        }
     }
 };

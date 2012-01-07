@@ -42,8 +42,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist_Quantity
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . Mage::helper('Enterprise_Reminder_Helper_Data')->__('Number of wishlist items %s %s ',
-                $this->getOperatorElementHtml(), $this->getValueElementHtml())
+            . Mage::helper('enterprise_reminder')->__('Number of wishlist items %s %s ', $this->getOperatorElementHtml(), $this->getValueElementHtml())
             . $this->getRemoveLinkHtml();
     }
 

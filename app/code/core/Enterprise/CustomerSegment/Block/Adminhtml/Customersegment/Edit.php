@@ -8,13 +8,17 @@
  * @license     {license_link}
  */
 
+/**
+ * Edit form for customer segment configuration
+ *
+ * @category    Enterprise
+ * @package     Enterprise_CustomerSegment
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
 class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit extends Mage_Adminhtml_Block_Widget_Form_Container
 {
-
     /**
-     * Intialize form
-     *
-     * @return void
+     * Initialize form
      */
     public function __construct()
     {
@@ -26,10 +30,12 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit extends Ma
         /** @var Enterprise_CustomerSegment_Model_Segment */
         $segment = Mage::registry('current_customer_segment');
         if ($segment) {
-            if ($segment->getId()) {
+            if ($segment->getId()
+                && $segment->getApplyTo() != Enterprise_CustomerSegment_Model_Segment::APPLY_TO_VISITORS
+            ) {
                 $this->_addButton('match_customers', array(
-                    'label'     => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Refresh Segment Data'),
-                    'onclick'   => 'setLocation(\'' . $this->getMatchUrl() . '\')',
+                    'label' => Mage::helper('enterprise_customersegment')->__('Refresh Segment Data'),
+                    'onclick' => 'setLocation(\'' . $this->getMatchUrl() . '\')',
                 ), -1);
             }
 
@@ -42,7 +48,7 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit extends Ma
                 $this->_addButton('save_and_continue_edit', array(
                     'class' => 'save',
                     'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Save and Continue Edit'),
-                    'onclick'   => 'saveAndContinueEdit()',
+                    'onclick' => 'saveAndContinueEdit()',
                 ), 3);
 
                 $this->_formScripts[] = "

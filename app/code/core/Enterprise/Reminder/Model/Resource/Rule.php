@@ -233,7 +233,7 @@ class Enterprise_Reminder_Model_Resource_Rule extends Mage_Core_Model_Resource_D
             case '!{}':
                 return 'NOT LIKE';
             case 'between':
-                return "BETWEEN '%s' AND '%s'";
+                return 'BETWEEN %s AND %s';
             case '>':
             case '<':
             case '>=':
@@ -271,7 +271,8 @@ class Enterprise_Reminder_Model_Resource_Rule extends Mage_Core_Model_Resource_D
                 }
                 break;
             case 'between':
-                $condition = $field . ' ' . sprintf($sqlOperator, $value['start'], $value['end']);
+                $condition = $field . ' ' . sprintf($sqlOperator,
+                    $adapter->quote($value['start']), $adapter->quote($value['end']));
                 break;
             default:
                 $condition = $adapter->quoteInto($field . ' ' . $sqlOperator . ' ?', $value);

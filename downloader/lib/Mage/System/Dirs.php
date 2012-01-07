@@ -19,12 +19,12 @@ class Mage_System_Dirs
         if (!@file_exists($dirname)) {
             return false;
         }
-     
+
         // Simple delete for a file
         if (@is_file($dirname) || @is_link($dirname)) {
             return unlink($dirname);
         }
-     
+
         // Create and iterate stack
         $stack = array($dirname);
         while ($entry = array_pop($stack)) {
@@ -33,12 +33,12 @@ class Mage_System_Dirs
                 @unlink($entry);
                 continue;
             }
-     
+
             // Attempt to remove the directory
             if (@rmdir($entry)) {
                 continue;
             }
-     
+
             // Otherwise add it to the stack
             $stack[] = $entry;
             $dh = opendir($entry);
@@ -46,7 +46,7 @@ class Mage_System_Dirs
                 // Ignore pointers
                 if ($child === '.' || $child === '..') {
                     continue;
-                }     
+                }
                 // Unlink files and add directories to stack
                 $child = $entry . DIRECTORY_SEPARATOR . $child;
                 if (is_dir($child) && !is_link($child)) {
@@ -56,33 +56,33 @@ class Mage_System_Dirs
                 }
             }
             @closedir($dh);
-        }     
+        }
         return true;
-    }  
-    
-    
+    }
+
+
     public static function mkdirStrict($path, $recursive = true, $mode = 0777)
     {
-        $exists = file_exists($path);        
+        $exists = file_exists($path);
         if($exists && is_dir($path)) {
             return true;
         }
         if($exists && !is_dir($path)) {
             throw new Exception("'{$path}' already exists, should be a dir, not a file!");
-        }     
-        $out = @mkdir($path, $mode, $recursive);  
+        }
+        $out = @mkdir($path, $mode, $recursive);
         if(false === $out) {
             throw new Exception("Can't create dir: '{$path}'");
-        }         
+        }
         return true;
     }
-    
+
     public static function copyFileStrict($source, $dest)
     {
         $exists = file_exists($source);
         if(!$exists) {
             throw new Exception('No file exists: '.$exists);
         }
-                
+
     }
 }

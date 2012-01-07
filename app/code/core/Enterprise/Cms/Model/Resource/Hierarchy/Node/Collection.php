@@ -244,4 +244,26 @@ class Enterprise_Cms_Model_Resource_Hierarchy_Node_Collection extends Mage_Core_
         $this->addFieldToFilter('parent_node_id', array('null' => true));
         return $this;
     }
+
+    /**
+     * Apply filter to retrieve only proper scope nodes.
+     *
+     * @param string $scope Scope name: default|store|website
+     */
+    public function applyScope($scope)
+    {
+        $this->getSelect()->where('main_table.scope = ?', $scope);
+        return $this;
+    }
+
+    /**
+     * Apply filter to retrieve only proper scope ID nodes.
+     *
+     * @param int $codeId
+     */
+    public function applyScopeId($codeId)
+    {
+        $this->getSelect()->where('main_table.scope_id = ?', $codeId);
+        return $this;
+    }
 }

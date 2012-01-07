@@ -440,7 +440,7 @@ tr.summary-details-excluded { font-style:italic; }
 .std ul.disc { list-style:disc outside; padding-left:18px; margin:0 0 10px; }
 .std dl dt { font-weight:bold; }
 .std dl dd { margin:0 0 10px; }
-/*.std ul,
+.std ul,
 .std ol,
 .std dl,
 .std p,
@@ -460,7 +460,7 @@ tr.summary-details-excluded { font-style:italic; }
 .std b,
 .std strong { font-weight:bold; }
 .std i,
-.std em { font-style:italic; }*/
+.std em { font-style:italic; }
 
 /* Misc */
 .links li { display:inline; }
@@ -1527,6 +1527,10 @@ tr.summary-details-excluded { font-style:italic; }
 
 /* Account Login/Create Pages ============================================================ */
 
+/* Captcha */
+.captcha {}
+.captcha-image {float:left;}
+.captcha-note {clear:left; padding-top:5px;}
 
 /* My Account ============================================================================= */
 .my-account .title-buttons .link-rss { float:none; margin:0; }
@@ -1819,3 +1823,9 @@ tr.summary-details-excluded { font-style:italic; }
 /* ======================================================================================= */
 
 .guest-select {width:305px !important;}
+
+/* Captcha ================================================================================ */
+div.input-box.captcha {width:244px;}
+div.captcha-image {margin:0; border:1px solid #ccc; position: relative;}
+div.registered-users div ul li div.captcha-image {border:solid 1px #ccc; margin:0;}
+img.captcha-reload {position: absolute; top: 2px; right: 2px;}

@@ -261,17 +261,15 @@ class Mage_Adminhtml_Promo_CatalogController extends Mage_Adminhtml_Controller_A
      */
     public function applyRulesAction()
     {
+        $errorMessage = Mage::helper('catalogrule')->__('Unable to apply rules.');
         try {
             Mage::getModel('Mage_CatalogRule_Model_Rule')->applyAll();
             Mage::app()->removeCache('catalog_rules_dirty');
-            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(
-                Mage::helper('Mage_CatalogRule_Helper_Data')->__('The rules have been applied.')
-            );
+            $this->_getSession()->addSuccess(Mage::helper('catalogrule')->__('The rules have been applied.'));
+        } catch (Mage_Core_Exception $e) {
+            $this->_getSession()->addError($errorMessage . ' ' . $e->getMessage());
         } catch (Exception $e) {
-            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(
-                Mage::helper('Mage_CatalogRule_Helper_Data')->__('Unable to apply rules.')
-            );
-            throw $e;
+            $this->_getSession()->addError($errorMessage);
         }
         $this->_redirect('*/*');
     }

@@ -52,7 +52,7 @@ class Enterprise_CustomerSegment_Model_Resource_Helper_Mssql extends Mage_Core_M
             case '![]':
                 return 'dbo.FIND_IN_SET(%s, %s) = 0';
             case 'between':
-                return "BETWEEN '%s' AND '%s'";
+                return 'BETWEEN %s AND %s';
             case '>':
             case '<':
             case '>=':

@@ -185,7 +185,7 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
      */
     public function limitStoreCredits($collection)
     {
-        $collection->addWebsiteFilter($this->_role->getRelevantWebsiteIds());
+        $collection->addWebsitesFilter($this->_role->getRelevantWebsiteIds());
     }
 
     /**
@@ -195,7 +195,7 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
      */
     public function limitStoreCreditsHistory($collection)
     {
-        $collection->addWebsiteFilter($this->_role->getRelevantWebsiteIds());
+        $collection->addWebsitesFilter($this->_role->getRelevantWebsiteIds());
     }
 
 
@@ -397,6 +397,16 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
      * @param Mage_Sales_Model_Resource_Report_Bestsellers_Collection $collection
      */
     public function limitBestsellersCollection($collection)
+    {
+        $collection->addStoreRestrictions($this->_role->getStoreIds());
+    }
+
+    /**
+     * Limit most viewed collection
+     *
+     * @param Mage_Reports_Model_Resource_Report_Product_Viewed_Collection $collection
+     */
+    public function limitMostViewedCollection($collection)
     {
         $collection->addStoreRestrictions($this->_role->getStoreIds());
     }

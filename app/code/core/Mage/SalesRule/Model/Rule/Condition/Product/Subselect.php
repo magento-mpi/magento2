@@ -29,29 +29,17 @@ class Mage_SalesRule_Model_Rule_Condition_Product_Subselect
 
     public function asXml($containerKey='conditions', $itemKey='condition')
     {
-        $xml .= '<attribute>'.$this->getAttribute().'</attribute>'
-            .'<operator>'.$this->getOperator().'</operator>'
-            .parent::asXml($containerKey, $itemKey);
+        $xml = '<attribute>'.$this->getAttribute().'</attribute>'
+            . '<operator>'.$this->getOperator().'</operator>'
+            . parent::asXml($containerKey, $itemKey);
         return $xml;
     }
 
-//    public function loadAggregatorOptions()
-//    {
-//        $this->setAggregatorOption(array(
-//            '1/all' => Mage::helper('Mage_Rule_Helper_Data')->__('MATCHING ALL'),
-//            '1/any' => Mage::helper('Mage_Rule_Helper_Data')->__('MATCHING ANY'),
-//            '0/all' => Mage::helper('Mage_Rule_Helper_Data')->__('NOT MATCHING ALL'),
-//            '0/any' => Mage::helper('Mage_Rule_Helper_Data')->__('NOT MATCHING ANY'),
-//        ));
-//        return $this;
-//    }
-
     public function loadAttributeOptions()
     {
-        $hlp = Mage::helper('Mage_SalesRule_Helper_Data');
         $this->setAttributeOption(array(
-            'qty'  => $hlp->__('total quantity'),
-            'base_row_total'  => $hlp->__('total amount'),
+            'qty'  => Mage::helper('salesrule')->__('total quantity'),
+            'base_row_total'  => Mage::helper('salesrule')->__('total amount'),
         ));
         return $this;
     }
@@ -84,15 +72,10 @@ class Mage_SalesRule_Model_Rule_Condition_Product_Subselect
     public function asHtml()
     {
         $html = $this->getTypeElement()->getHtml().
-            Mage::helper('Mage_SalesRule_Helper_Data')->__("If %s %s %s for a subselection of items in cart matching %s of these conditions:",
-              $this->getAttributeElement()->getHtml(),
-              $this->getOperatorElement()->getHtml(),
-              $this->getValueElement()->getHtml(),
-              $this->getAggregatorElement()->getHtml()
-           );
-           if ($this->getId()!='1') {
-               $html.= $this->getRemoveLinkHtml();
-           }
+        Mage::helper('salesrule')->__("If %s %s %s for a subselection of items in cart matching %s of these conditions:", $this->getAttributeElement()->getHtml(), $this->getOperatorElement()->getHtml(), $this->getValueElement()->getHtml(), $this->getAggregatorElement()->getHtml());
+        if ($this->getId() != '1') {
+            $html .= $this->getRemoveLinkHtml();
+        }
         return $html;
     }
 

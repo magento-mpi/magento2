@@ -222,7 +222,14 @@ class Enterprise_Logging_Model_Handler_Controllers
         $filter = $request->getParam('filter');
 
         //Filtering request data
-        $data = array_intersect_key($request->getParams(), array('report_from' => null, 'report_to' => null, 'report_period' => null, 'store' => null, 'website' => null, 'group' => null));
+        $data = array_intersect_key($request->getParams(), array(
+            'report_from' => null,
+            'report_to' => null,
+            'report_period' => null,
+            'store' => null,
+            'website' => null,
+            'group' => null
+        ));
 
         //Need when in request data there are was no period info
         if ($filter) {
@@ -382,7 +389,8 @@ class Enterprise_Logging_Model_Handler_Controllers
         if ($messages) {
             $success = 'error' != $messages->getType();
         }
-        return $eventModel->setIsSuccess($success)->setInfo($classType . ($classId ? ': #' . Mage::app()->getRequest()->getParam('class_id') : ''));
+        return $eventModel->setIsSuccess($success)->setInfo($classType
+            . ($classId ? ': #' . Mage::app()->getRequest()->getParam('class_id') : ''));
     }
 
     /**
@@ -413,9 +421,16 @@ class Enterprise_Logging_Model_Handler_Controllers
      */
     public function postDispatchSystemBackupsCreate($config, $eventModel)
     {
-        if ($backup = Mage::registry('backup_model')) {
-            $eventModel->setIsSuccess($backup->exists())
-                ->setInfo($backup->getFileName());
+        $backup = Mage::registry('backup_manager');
+
+        if ($backup) {
+            $eventModel->setIsSuccess($backup->getIsSuccess())
+                ->setInfo($backup->getBackupFilename());
+
+            $errorMessage = $backup->getErrorMessage();
+            if (!empty($errorMessage)) {
+                $eventModel->setErrorMessage($errorMessage);
+            }
         } else {
             $eventModel->setIsSuccess(false);
         }
@@ -431,12 +446,40 @@ class Enterprise_Logging_Model_Handler_Controllers
      */
     public function postDispatchSystemBackupsDelete($config, $eventModel)
     {
-        if ($backup = Mage::registry('backup_model')) {
-            $eventModel->setIsSuccess(!$backup->exists())
-                ->setInfo($backup->getFileName());
+        $backup = Mage::registry('backup_manager');
+
+        if ($backup) {
+            $eventModel->setIsSuccess($backup->getIsSuccess())
+                ->setInfo(Mage::helper('enterprise_logging')->implodeValues($backup->getDeleteResult()));
         } else {
             $eventModel->setIsSuccess(false);
         }
+        return $eventModel;
+    }
+
+    /**
+     * Custom handler for creating System Rollback
+     *
+     * @param Varien_Simplexml_Element $config
+     * @param Enterprise_Logging_Model_Event $eventModel
+     * @return Enterprise_Logging_Model_Event
+     */
+    public function postDispatchSystemRollback($config, $eventModel)
+    {
+        $backup = Mage::registry('backup_manager');
+
+        if ($backup) {
+            $eventModel->setIsSuccess($backup->getIsSuccess())
+                ->setInfo($backup->getBackupFilename());
+
+            $errorMessage = $backup->getErrorMessage();
+            if (!empty($errorMessage)) {
+                $eventModel->setErrorMessage($errorMessage);
+            }
+        } else {
+            $eventModel->setIsSuccess(false);
+        }
+
         return $eventModel;
     }
 

@@ -230,6 +230,15 @@
                 </observers>
             </controller_front_init_before>
         </events>
+        <logging_actions>
+            <mergePost translate="label" module="enterprise_staging">
+                <label>Merge Post</label>
+            </mergePost>
+
+            <unschedule translate="label" module="enterprise_staging">
+                <label>Unschedule</label>
+            </unschedule>
+        </logging_actions>
     </global>
     <adminhtml>
         <layout>

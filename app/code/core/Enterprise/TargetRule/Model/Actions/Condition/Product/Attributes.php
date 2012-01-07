@@ -119,14 +119,7 @@ class Enterprise_TargetRule_Model_Actions_Condition_Product_Attributes
      */
     public function asHtml()
     {
-        return Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Product %s%s%s%s%s%s%s',
-            $this->getTypeElementHtml(),
-            $this->getAttributeElementHtml(),
-            $this->getOperatorElementHtml(),
-            $this->getValueTypeElementHtml(),
-            $this->getValueElementHtml(),
-            $this->getRemoveLinkHtml(),
-            $this->getChooserContainerHtml());
+        return Mage::helper('enterprise_targetrule')->__('Product %s%s%s%s%s%s%s', $this->getTypeElementHtml(), $this->getAttributeElementHtml(), $this->getOperatorElementHtml(), $this->getValueTypeElementHtml(), $this->getValueElementHtml(), $this->getRemoveLinkHtml(), $this->getChooserContainerHtml());
     }
 
     /**

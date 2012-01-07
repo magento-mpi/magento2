@@ -125,16 +125,12 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes extends Mage_Admi
     protected function _getAdditionalElementTypes()
     {
         $result = array(
-            'price'    => Mage::getConfig()
-                ->getBlockClassName('Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Price'),
-            'gallery'  => Mage::getConfig()
-                ->getBlockClassName('Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery'),
-            'image'    => Mage::getConfig()
-                ->getBlockClassName('Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Image'),
-            'boolean'  => Mage::getConfig()
-                ->getBlockClassName('Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Boolean'),
-            'textarea' => Mage::getConfig()
-                ->getBlockClassName('Mage_Adminhtml_Block_Catalog_Helper_Form_Wysiwyg')
+            'price'    => Mage::getConfig()->getBlockClassName('adminhtml/catalog_product_helper_form_price'),
+            'weight'   => Mage::getConfig()->getBlockClassName('adminhtml/catalog_product_helper_form_weight'),
+            'gallery'  => Mage::getConfig()->getBlockClassName('adminhtml/catalog_product_helper_form_gallery'),
+            'image'    => Mage::getConfig()->getBlockClassName('adminhtml/catalog_product_helper_form_image'),
+            'boolean'  => Mage::getConfig()->getBlockClassName('adminhtml/catalog_product_helper_form_boolean'),
+            'textarea' => Mage::getConfig()->getBlockClassName('adminhtml/catalog_helper_form_wysiwyg')
         );
 
         $response = new Varien_Object();

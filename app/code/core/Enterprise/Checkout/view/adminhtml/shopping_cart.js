@@ -585,7 +585,7 @@ AdminCheckout.prototype = {
         for (var i=0; i < this.loadingAreas.length; i++){
             var id = this.loadingAreas[i];
             if($(this.getAreaId(id))){
-                if ('message' != id || response[id]) {
+                if ('message' == id || response[id]) {
                     $(this.getAreaId(id)).update(response[id] ? response[id] : '');
                 }
             }

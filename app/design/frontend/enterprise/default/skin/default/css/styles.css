@@ -1970,6 +1970,12 @@ ul.cms-menu.type-square ul { list-style-type:square; }
 .remember-me-popup .remember-me-popup-body p { margin:0 0 15px; }
 
 /* My Account ============================================================================= */
+
+/* Captcha */
+.captcha {}
+.captcha-image {float:left;}
+.captcha-note {clear:left; padding-top:5px;}
+
 /********** < Dashboard */
 .dashboard {}
 .dashboard .welcome-msg,
@@ -2299,3 +2305,10 @@ address.copyright { margin-top:6px; }
 /* ======================================================================================= */
 
 .guest-select {width:305px !important;}
+
+/* Captcha ================================================================================ */
+div.input-box.captcha {width:230px;}
+div.captcha-image {margin:0 0 0 240px; border:1px solid #ccc; position: relative;}
+form#login-form div.captcha-image {margin:0 0 0 100px; border:1px solid #ccc;}
+div.registered-users ul li div.captcha-image {border:solid 1px #ccc; margin:-12px 0 0 113px;}
+img.captcha-reload {position: absolute; top: 2px; right: 2px;}

@@ -38,17 +38,17 @@ class Maged_Connect
 {
 
     /**
-    * Object of config
-    *
-    * @var Mage_Connect_Config
-    */
+     * Object of config
+     *
+     * @var Mage_Connect_Config
+     */
     protected $_config;
 
     /**
-    * Object of single config
-    *
-    * @var Mage_Connect_Singleconfig
-    */
+     * Object of single config
+     *
+     * @var Mage_Connect_Singleconfig
+     */
     protected $_sconfig;
 
     /**
@@ -59,22 +59,29 @@ class Maged_Connect
     protected $_frontend;
 
     /**
-    * Internal cache for command objects
-    *
-    * @var array
-    */
+     * Internal cache for command objects
+     *
+     * @var array
+     */
     protected $_cmdCache = array();
 
     /**
-    * Instance of class
-    *
-    * @var Maged_Connect
-    */
+     * Console Started flag
+     *
+     * @var boolean
+     */
+    protected $_consoleStarted = false;
+
+    /**
+     * Instance of class
+     *
+     * @var Maged_Connect
+     */
     static protected $_instance;
 
     /**
-    * Constructor
-    */
+     * Constructor loads Config, Cache Config and initializes Frontend
+     */
     public function __construct()
     {
         $this->getConfig();
@@ -83,10 +90,20 @@ class Maged_Connect
     }
 
     /**
-    * Initialize instance
-    *
-    * @return Maged_Connect
-    */
+     * Destructor, sends Console footer if Console started
+     */
+    public function __destruct()
+    {
+        if ($this->_consoleStarted) {
+            $this->_consoleFooter();
+        }
+    }
+
+    /**
+     * Initialize instance
+     *
+     * @return Maged_Connect
+     */
     public static function getInstance()
     {
         if (!self::$_instance) {
@@ -96,10 +113,10 @@ class Maged_Connect
     }
 
     /**
-    * Retrieve object of config and set it to Mage_Connect_Command
-    *
-    * @return Mage_Connect_Config
-    */
+     * Retrieve object of config and set it to Mage_Connect_Command
+     *
+     * @return Mage_Connect_Config
+     */
     public function getConfig()
     {
         if (!$this->_config) {
@@ -118,15 +135,19 @@ class Maged_Connect
     }
 
     /**
-    * Retrieve object of single config and set it to Mage_Connect_Command
-    *
-    * @param bool $reload
-    * @return Mage_Connect_Singleconfig
-    */
+     * Retrieve object of single config and set it to Mage_Connect_Command
+     *
+     * @param bool $reload
+     * @return Mage_Connect_Singleconfig
+     */
     public function getSingleConfig($reload = false)
     {
         if(!$this->_sconfig || $reload) {
-            $this->_sconfig = new Mage_Connect_Singleconfig($this->getConfig()->magento_root . DIRECTORY_SEPARATOR . $this->getConfig()->downloader_path . DIRECTORY_SEPARATOR . Mage_Connect_Singleconfig::DEFAULT_SCONFIG_FILENAME);
+            $this->_sconfig = new Mage_Connect_Singleconfig(
+                $this->getConfig()->magento_root . DIRECTORY_SEPARATOR
+                . $this->getConfig()->downloader_path . DIRECTORY_SEPARATOR
+                . Mage_Connect_Singleconfig::DEFAULT_SCONFIG_FILENAME
+            );
         }
         Mage_Connect_Command::setSconfig($this->_sconfig);
         return $this->_sconfig;
@@ -134,10 +155,10 @@ class Maged_Connect
     }
 
     /**
-    * Retrieve object of frontend and set it to Mage_Connect_Command
-    *
-    * @return Maged_Connect_Frontend
-    */
+     * Retrieve object of frontend and set it to Mage_Connect_Command
+     *
+     * @return Maged_Connect_Frontend
+     */
     public function getFrontend()
     {
         if (!$this->_frontend) {
@@ -148,30 +169,30 @@ class Maged_Connect
     }
 
     /**
-    * Retrieve lof from frontend
-    *
-    * @return array
-    */
+     * Retrieve lof from frontend
+     *
+     * @return array
+     */
     public function getLog()
     {
         return $this->getFrontend()->getLog();
     }
 
     /**
-    * Retrieve output from frontend
-    *
-    * @return array
-    */
+     * Retrieve output from frontend
+     *
+     * @return array
+     */
     public function getOutput()
     {
         return $this->getFrontend()->getOutput();
     }
 
     /**
-    * Clean registry
-    *
-    * @return Maged_Connect
-    */
+     * Clean registry
+     *
+     * @return Maged_Connect
+     */
     public function cleanSconfig()
     {
         $this->getSingleConfig()->clear();
@@ -179,11 +200,11 @@ class Maged_Connect
     }
 
     /**
-    * Delete directory recursively
-    *
-    * @param string $path
-    * @return Maged_Connect
-    */
+     * Delete directory recursively
+     *
+     * @param string $path
+     * @return Maged_Connect
+     */
     public function delTree($path) {
         if (@is_dir($path)) {
             $entries = @scandir($path);
@@ -200,13 +221,13 @@ class Maged_Connect
     }
 
     /**
-    * Run commands from Mage_Connect_Command
-    *
-    * @param string $command
-    * @param array $options
-    * @param array $params
-    * @return
-    */
+     * Run commands from Mage_Connect_Command
+     *
+     * @param string $command
+     * @param array $options
+     * @param array $params
+     * @return boolean|Mage_Connect_Error
+     */
     public function run($command, $options=array(), $params=array())
     {
         @set_time_limit(0);
@@ -240,16 +261,20 @@ class Maged_Connect
         }
     }
 
-    public function setRemoteConfig($uri) #$host, $user, $password, $path='', $port=null)
+    /**
+     * Set remote Config by URI
+     *
+     * @param $uri
+     * @return Maged_Connect
+     */
+    public function setRemoteConfig($uri)
     {
-        #$uri = 'ftp://' . $user . ':' . $password . '@' . $host . (is_numeric($port) ? ':' . $port : '') . '/' . trim($path, '/') . '/';
-        //$this->run('config-set', array(), array('remote_config', $uri));
-        //$this->run('config-set', array('ftp'=>$uri), array('remote_config', $uri));
         $this->getConfig()->remote_config=$uri;
         return $this;
     }
 
     /**
+     * Show Errors
      *
      * @param array $errors Error messages
      * @return Maged_Connect
@@ -260,7 +285,7 @@ class Maged_Connect
         $run = new Maged_Model_Connect_Request();
         if ($callback = $run->get('failure_callback')) {
             if (is_array($callback)) {
-                call_user_func_array($callback, array($result));
+                call_user_func_array($callback, array($errors));
             } else {
                 echo $callback;
             }
@@ -273,8 +298,9 @@ class Maged_Connect
     /**
      * Run Mage_Connect_Command with html output console style
      *
-     * @param array|Maged_Model $runParams command, options, params,
-     *        comment, success_callback, failure_callback
+     * @throws Maged_Exception
+     * @param array|string|Maged_Model $runParams command, options, params, comment, success_callback, failure_callback
+     * @return bool|Mage_Connect_Error
      */
     public function runHtmlConsole($runParams)
     {
@@ -301,6 +327,58 @@ class Maged_Connect
         }
 
         if (!$run->get('no-header')) {
+            $this->_consoleHeader();
+        }
+        echo htmlspecialchars($run->get('comment')).'<br/>';
+
+        if ($command = $run->get('command')) {
+            $result = $this->run($command, $run->get('options'), $run->get('params'));
+
+            if ($this->getFrontend()->hasErrors()) {
+                echo "<br/>CONNECT ERROR: ";
+                foreach ($this->getFrontend()->getErrors(false) as $error) {
+                    echo nl2br($error[1]);
+                    echo '<br/>';
+                }
+            }
+            echo '<script type="text/javascript">';
+            if ($this->getFrontend()->hasErrors()) {
+                if ($callback = $run->get('failure_callback')) {
+                    if (is_array($callback)) {
+                        call_user_func_array($callback, array($result));
+                    } else {
+                        echo $callback;
+                    }
+                }
+            } else {
+                if (!$run->get('no-footer')) {
+                    if ($callback = $run->get('success_callback')) {
+                        if (is_array($callback)) {
+                            call_user_func_array($callback, array($result));
+                        } else {
+                            echo $callback;
+                        }
+                    }
+                }
+            }
+            echo '</script>';
+        } else {
+            $result = false;
+        }
+        if ($this->getFrontend()->getErrors() || !$run->get('no-footer')) {
+            //$this->_consoleFooter();
+            $fe->setLogStream($oldLogStream);
+        }
+        return $result;
+    }
+
+    /**
+     * Show HTML Console Header
+     *
+     * @return void
+     */
+    protected function _consoleHeader() {
+        if (!$this->_consoleStarted) {
 ?>
 <html><head><style type="text/css">
 body { margin:0px;
@@ -397,44 +475,17 @@ function clear_cache(callbacks)
 }
 </script>
 <?php
+            $this->_consoleStarted = true;
         }
-        echo htmlspecialchars($run->get('comment'));
+    }
 
-        if ($command = $run->get('command')) {
-            $result = $this->run($command, $run->get('options'), $run->get('params'));
-
-            if ($this->getFrontend()->hasErrors()) {
-                echo "<br/>CONNECT ERROR: ";
-                foreach ($this->getFrontend()->getErrors(false) as $error) {
-                    echo nl2br($error[1]);
-                    echo '<br/>';
-                }
-            }
-            echo '<script type="text/javascript">';
-            if ($this->getFrontend()->hasErrors()) {
-                if ($callback = $run->get('failure_callback')) {
-                    if (is_array($callback)) {
-                        call_user_func_array($callback, array($result));
-                    } else {
-                        echo $callback;
-                    }
-                }
-            } else {
-                if (!$run->get('no-footer')) {
-                    if ($callback = $run->get('success_callback')) {
-                        if (is_array($callback)) {
-                            call_user_func_array($callback, array($result));
-                        } else {
-                            echo $callback;
-                        }
-                    }
-                }
-            }
-            echo '</script>';
-        } else {
-            $result = false;
-        }
-        if ($this->getFrontend()->getErrors() || !$run->get('no-footer')) {
+    /**
+     * Show HTML Console Footer
+     *
+     * @return void
+     */
+    protected function _consoleFooter() {
+        if ($this->_consoleStarted) {
 ?>
 <script type="text/javascript">
 if (parent && parent.disableInputs) {
@@ -443,8 +494,7 @@ if (parent && parent.disableInputs) {
 </script>
 </body></html>
 <?php
-            $fe->setLogStream($oldLogStream);
+            $this->_consoleStarted = false;
         }
-        return $result;
     }
 }

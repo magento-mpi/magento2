@@ -224,4 +224,18 @@ abstract class Enterprise_PageCache_Model_Container_Abstract
         return $this->_processor
             ->getMetadata(Enterprise_PageCache_Model_Processor_Product::METADATA_PRODUCT_ID);
     }
+
+    /**
+     * Get current request id
+     *
+     * @return string|null
+     */
+    protected function _getRequestId()
+    {
+        if (!$this->_processor) {
+            return null;
+        }
+
+        return $this->_processor->getRequestId();
+    }
 }

@@ -432,9 +432,10 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
      */
     public function getCustomerGroupId()
     {
-        if ($this->getCustomerId()) {
-            return ($this->getData('customer_group_id')) ? $this->getData('customer_group_id')
-                : $this->getCustomer()->getGroupId();
+        if ($this->hasData('customer_group_id')) {
+            return $this->getData('customer_group_id');
+        } else if ($this->getCustomerId()) {
+            return $this->getCustomer()->getGroupId();
         } else {
             return Mage_Customer_Model_Group::NOT_LOGGED_IN_ID;
         }
@@ -1175,12 +1176,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         if ($this->getTotalsCollectedFlag()) {
             return $this;
         }
-        Mage::dispatchEvent(
-            $this->_eventPrefix . '_collect_totals_before',
-            array(
-                 $this->_eventObject=>$this
-            )
-        );
+        Mage::dispatchEvent($this->_eventPrefix . '_collect_totals_before', array($this->_eventObject => $this));
 
         $this->setSubtotal(0);
         $this->setBaseSubtotal(0);
@@ -1245,10 +1241,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         $this->setData('trigger_recollect', 0);
         $this->_validateCouponCode();
 
-        Mage::dispatchEvent(
-            $this->_eventPrefix . '_collect_totals_after',
-            array($this->_eventObject => $this)
-        );
+        Mage::dispatchEvent($this->_eventPrefix . '_collect_totals_after', array($this->_eventObject => $this));
 
         $this->setTotalsCollectedFlag(true);
         return $this;

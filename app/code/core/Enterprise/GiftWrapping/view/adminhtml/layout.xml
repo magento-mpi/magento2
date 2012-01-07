@@ -30,10 +30,6 @@
         </reference>
     </adminhtml_giftwrapping_edit>
 
-    <adminhtml_giftwrapping_orderoptions>
-        <block type="Enterprise_GiftWrapping_Block_Adminhtml_Order_Create_Info_Content" name="root" template="order/create/info/content.phtml" />
-    </adminhtml_giftwrapping_orderoptions>
-
     <adminhtml_sales_order_view>
         <reference name="gift_options">
             <block type="Enterprise_GiftWrapping_Block_Adminhtml_Order_View_Info" name="wrapping_order_view_info" template="order/view/info.phtml" />
@@ -112,6 +108,12 @@
             <block type="Enterprise_GiftWrapping_Block_Adminhtml_Sales_Order_Create_Link" name="giftwrapping_item_info" template="sales/order/link.phtml" />
         </reference>
     </adminhtml_sales_order_create_load_block_items>
+
+    <adminhtml_sales_order_create_load_block_giftwrapping>
+        <reference name="content">
+            <block type="Enterprise_GiftWrapping_Block_Adminhtml_Order_Create_Info_Content" name="giftwrapping" template="order/create/info/content.phtml" />
+        </reference>
+    </adminhtml_sales_order_create_load_block_giftwrapping>
 
     <adminhtml_sales_order_invoice_new>
         <reference name="invoice_totals">

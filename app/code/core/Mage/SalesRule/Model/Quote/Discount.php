@@ -123,7 +123,7 @@ class Mage_SalesRule_Model_Quote_Discount extends Mage_Sales_Model_Quote_Address
 
         if ($amount!=0) {
             $description = $address->getDiscountDescription();
-            if ($description) {
+            if (strlen($description)) {
                 $title = Mage::helper('Mage_Sales_Helper_Data')->__('Discount (%s)', $description);
             } else {
                 $title = Mage::helper('Mage_Sales_Helper_Data')->__('Discount');

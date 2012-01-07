@@ -72,7 +72,7 @@ class Mage_Core_Helper_Js extends Mage_Core_Helper_Abstract
      */
     protected function _getTranslateData()
     {
-        if ($this->_translateData ===null) {
+        if ($this->_translateData === null) {
             $this->_translateData = array(
                 'Please select an option.' => $this->__('Please select an option.'),
                 'This is a required field.' => $this->__('This is a required field.'),
@@ -165,9 +165,11 @@ class Mage_Core_Helper_Js extends Mage_Core_Helper_Abstract
                 'Please enter a valid date equal to or greater than %s' =>
                     $this->__('Please enter a valid date equal to or greater than %s'),
                 'Please enter a valid date less than or equal to %s' =>
-                    $this->__('Please enter a valid date less than or equal to %s')
+                    $this->__('Please enter a valid date less than or equal to %s'),
+                'Insert Widget...'
+                    => $this->__('Insert Widget...'),
             );
-            foreach ($this->_translateData as $key=>$value) {
+            foreach ($this->_translateData as $key => $value) {
                 if ($key == $value) {
                     unset($this->_translateData[$key]);
                 }

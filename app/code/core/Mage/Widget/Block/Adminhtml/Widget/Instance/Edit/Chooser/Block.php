@@ -50,7 +50,7 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Block
      */
     public function addAllowedBlock($block)
     {
-        $this->_allowedBlocks[] = $type;
+        $this->_allowedBlocks[] = $block;
         return $this;
     }
 
@@ -76,7 +76,7 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Block
         if (is_string($layoutHandle)) {
             $layoutHandle = explode(',', $layoutHandle);
         }
-        $this->_layoutHandle = array_merge(array('default'), $layoutHandle);
+        $this->_layoutHandle = array_merge(array('default'), (array)$layoutHandle);
         return $this;
     }
 
@@ -139,7 +139,8 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Block
         $selectBlock = $this->getLayout()->createBlock('Mage_Core_Block_Html_Select')
             ->setName('block')
             ->setClass('required-entry select')
-            ->setExtraParams('onchange="WidgetInstance.loadSelectBoxByType(\'block_template\', this.up(\'div.group_container\'), this.value)"')
+            ->setExtraParams('onchange="WidgetInstance.loadSelectBoxByType(\'block_template\','
+                .' this.up(\'div.group_container\'), this.value)"')
             ->setOptions($this->getBlocks())
             ->setValue($this->getSelected());
         return parent::_toHtml().$selectBlock->toHtml();

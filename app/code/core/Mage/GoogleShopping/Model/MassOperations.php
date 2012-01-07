@@ -68,10 +68,7 @@ class Mage_GoogleShopping_Model_MassOperations
                 } catch (Zend_Db_Statement_Exception $e) {
                     if ($e->getCode() == self::ERROR_CODE_SQL_UNIQUE_INDEX) {
                         $this->_getSession()->addError(
-                            Mage::helper('Mage_GoogleShopping_Helper_Data')->__("The Google Content item for product '%s' (in '%s' store) has already exist.",
-                                $product->getName(),
-                                Mage::app()->getStore($product->getStoreId())->getName()
-                            )
+                            Mage::helper('googleshopping')->__("The Google Content item for product '%s' (in '%s' store) has already exist.", $product->getName(), Mage::app()->getStore($product->getStoreId())->getName())
                         );
                     } else {
                         $this->_getSession()->addError($e->getMessage());

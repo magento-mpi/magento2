@@ -688,11 +688,11 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
         $label = '';
         if ($ruleLabel) {
             $label = $ruleLabel;
-        } else if ($address->getCouponCode()) {
+        } else if (strlen($address->getCouponCode())) {
             $label = $address->getCouponCode();
         }
 
-        if (!empty($label)) {
+        if (strlen($label)) {
             $description[$rule->getId()] = $label;
         }
 

@@ -106,7 +106,7 @@ class Mage_Catalog_Block_Product_View extends Mage_Catalog_Block_Product_Abstrac
         }
 
         $addUrlKey = Mage_Core_Controller_Front_Action::PARAM_NAME_URL_ENCODED;
-        $addUrlValue = Mage::getUrl('*/*/*', array('_use_rewrite' => true, '_current' => false));
+        $addUrlValue = Mage::getUrl('*/*/*', array('_use_rewrite' => true, '_current' => true));
         $additional[$addUrlKey] = Mage::helper('Mage_Core_Helper_Data')->urlEncode($addUrlValue);
 
         return $this->helper('Mage_Checkout_Helper_Cart')->getAddUrl($product, $additional);

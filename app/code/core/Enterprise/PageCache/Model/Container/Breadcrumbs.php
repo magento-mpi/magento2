@@ -20,11 +20,15 @@ class Enterprise_PageCache_Model_Container_Breadcrumbs extends Enterprise_PageCa
      */
     protected function _getCacheId()
     {
+        if ($this->_getCategoryId() || $this->_getProductId()) {
+            $cacheSubKey = '_' . $this->_getCategoryId()
+                . '_' . $this->_getProductId();
+        } else {
+            $cacheSubKey = $this->_getRequestId();
+        }
+
         return 'CONTAINER_BREADCRUMBS_'
-            . md5($this->_placeholder->getAttribute('cache_id')
-                . '_' . $this->_getCategoryId()
-                . '_' . $this->_getProductId()
-            );
+            . md5($this->_placeholder->getAttribute('cache_id') . $cacheSubKey);
     }
 
     /**

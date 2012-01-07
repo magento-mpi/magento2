@@ -556,6 +556,8 @@ Product.OptionsPrice.prototype = {
         this.oldMinusDisposition = config.oldMinusDisposition;
         this.minusDisposition    = config.minusDisposition;
 
+        this.exclDisposition     = config.exclDisposition;
+
         this.optionPrices    = {};
         this.containers      = {};
 
@@ -655,7 +657,10 @@ Product.OptionsPrice.prototype = {
                     var incl = excl + tax;
                 }
 
-                excl += parseFloat(_plusDisposition);
+                if (typeof this.exclDisposition == 'undefined') {
+                    excl += parseFloat(_plusDisposition);
+                }
+
                 incl += parseFloat(_plusDisposition) + parseFloat(this.plusDispositionTax);
                 excl -= parseFloat(_minusDisposition);
                 incl -= parseFloat(_minusDisposition);

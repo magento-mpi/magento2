@@ -194,7 +194,9 @@ class Enterprise_Search_Model_Adapter_HttpStream extends Enterprise_Search_Model
 
         try {
             $this->ping();
-            $response = $this->_client->search($searchConditions, $offset, $limit, $searchParams);
+            $response = $this->_client->search(
+                $searchConditions, $offset, $limit, $searchParams, Apache_Solr_Service::METHOD_POST
+            );
             $data = json_decode($response->getRawResponse());
 
             if (!isset($params['solr_params']['stats']) || $params['solr_params']['stats'] != 'true') {

@@ -147,7 +147,7 @@ class Enterprise_CustomerSegment_Model_Resource_Segment extends Mage_Core_Model_
     }
 
     /**
-     * Create string for select "where" condition based on field name, comparison operator and vield value
+     * Create string for select "where" condition based on field name, comparison operator and field value
      *
      * @param string $field
      * @param string $operator
@@ -178,14 +178,14 @@ class Enterprise_CustomerSegment_Model_Resource_Segment extends Mage_Core_Model_
                         $condition = array();
                         foreach ($value as $val) {
                             $condition[] = $this->_getReadAdapter()->quoteInto(
-                                $field.' '.$sqlOperator.' ?', '%'.$val.'%'
+                                $field . ' ' . $sqlOperator . ' ?', '%' . $val . '%'
                             );
                         }
                         $condition = implode(' AND ', $condition);
                     }
                 } else {
                     $condition = $this->_getReadAdapter()->quoteInto(
-                        $field.' '.$sqlOperator.' ?', '%'.$value.'%'
+                        $field . ' ' . $sqlOperator . ' ?', '%' . $value . '%'
                     );
                 }
                 break;
@@ -193,7 +193,7 @@ class Enterprise_CustomerSegment_Model_Resource_Segment extends Mage_Core_Model_
             case '!()':
                 if (is_array($value) && !empty($value)) {
                     $condition = $this->_getReadAdapter()->quoteInto(
-                        $field.' '.$sqlOperator.' (?)', $value
+                        $field . ' ' . $sqlOperator . ' (?)', $value
                     );
                 }
                 break;
@@ -213,19 +213,18 @@ class Enterprise_CustomerSegment_Model_Resource_Segment extends Mage_Core_Model_
                             $field, array('finset' => $this->_getReadAdapter()->quote($value))
                         );
                     } else {
-                        $condition = 'NOT ('.$this->_getReadAdapter()->prepareSqlCondition(
+                        $condition = 'NOT (' . $this->_getReadAdapter()->prepareSqlCondition(
                             $field, array('finset' => $this->_getReadAdapter()->quote($value))
-                        ).')';
+                        ) . ')';
                     }
                 }
                 break;
             case 'between':
-                $condition = $field.' '.sprintf($sqlOperator, $value['start'], $value['end']);
+                $condition = $field . ' ' . sprintf($sqlOperator,
+                    $this->_getReadAdapter()->quote($value['start']), $this->_getReadAdapter()->quote($value['end']));
                 break;
             default:
-                $condition = $this->_getReadAdapter()->quoteInto(
-                    $field.' '.$sqlOperator.' ?', $value
-                );
+                $condition = $this->_getReadAdapter()->quoteInto($field . ' ' . $sqlOperator . ' ?', $value);
                 break;
         }
         return $condition;

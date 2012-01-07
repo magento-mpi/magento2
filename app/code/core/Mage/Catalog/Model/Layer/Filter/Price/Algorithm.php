@@ -102,7 +102,7 @@ class Mage_Catalog_Model_Layer_Filter_Price_Algorithm
             $sumSquares += $price * $price;
         }
 
-        if ($pricesCount * $sumSquares - $sum * $sum == 0) {
+        if ($pricesCount * $sumSquares - $sum * $sum <= 0) {
             $intervalsNumber = 1000;
         } else {
             $intervalsNumber = ($this->getMaxPrice() - $this->getMinPrice()) * pow($pricesCount, 5 / 6)

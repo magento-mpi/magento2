@@ -35,4 +35,13 @@
             </modules>
         </translate>
     </adminhtml>
+    <crontab>
+        <jobs>
+            <system_backup>
+                <run>
+                    <model>backup/observer::scheduledBackup</model>
+                </run>
+            </system_backup>
+        </jobs>
+    </crontab>
 </config>

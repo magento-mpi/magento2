@@ -66,13 +66,20 @@ class Enterprise_CustomerSegment_Model_Condition_Abstract extends Mage_Rule_Mode
     /**
      * Generate customer condition string
      *
-     * @param $customer
+     * @param mixed $customer
      * @param string $fieldName
      * @return string
      */
     protected function _createCustomerFilter($customer, $fieldName)
     {
-        return "{$fieldName} = root.entity_id";
+        $customerFilter = '';
+        if ($customer) {
+            $customerFilter = "{$fieldName} = :customer_id";
+        } else {
+            $customerFilter = "{$fieldName} = root.entity_id";
+        }
+
+        return $customerFilter;
     }
 
     /**

@@ -847,7 +847,9 @@ class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstrac
         $request->setPackageCurrency($this->getQuote()->getStore()->getCurrentCurrency());
         $request->setLimitCarrier($this->getLimitCarrier());
 
-        $result = Mage::getModel('Mage_Shipping_Model_Shipping')->collectRates($request)->getResult();
+        $request->setBaseSubtotalInclTax($this->getBaseSubtotalInclTax());
+
+        $result = Mage::getModel('shipping/shipping')->collectRates($request)->getResult();
 
         $found = false;
         if ($result) {
