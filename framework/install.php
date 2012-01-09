@@ -26,12 +26,28 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-require_once __DIR__ . '/../../../app/bootstrap.php';
+define('SYNOPSIS', <<<SYNOPSIS
+php -f install.php --
+    --magento-dir="<magento_base_dir>"
+    --config-file="<config_php_array_file>"
+
+SYNOPSIS
+);
+$options = getopt('', array('magento-dir:', 'config-file:'));
+if (empty($options['magento-dir']) || empty($options['config-file'])) {
+    echo SYNOPSIS;
+    exit(1);
+}
+
+$configFile = $options['config-file'];
+$magentoDir = $options['magento-dir'];
+$magentoBootstrapFile = "$magentoDir/app/bootstrap.php";
+$magentoBootstrapFile = file_exists($magentoBootstrapFile) ? $magentoBootstrapFile : "$magentoDir/app/Mage.php";
+
+require_once $magentoBootstrapFile;
 
 if (!Mage::isInstalled()) {
     try {
-        $configFile = __DIR__ . '/config/install.php';
-        $configFile = file_exists($configFile) ? $configFile : "$configFile.dist";
         $config = require($configFile);
         if (!is_array($config) || !isset($config['installer_options'])) {
             throw new UnexpectedValueException("Configuration file '$configFile' is invalid.");
@@ -53,6 +69,3 @@ if (!Mage::isInstalled()) {
         exit(1);
     }
 }
-
-/* Unset declared global variables to release PHPUnit from maintaining their values between tests */
-unset($configFile, $config, $installerOptions, $systemConfigData, $installer, $isInstalled, $setupModel);
