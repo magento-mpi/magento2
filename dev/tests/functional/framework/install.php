@@ -64,8 +64,7 @@ if (!Mage::isInstalled()) {
             $setupModel->setConfigData($configPath, $configValue);
         }
     } catch (Exception $e) {
-        echo 'Magento installation has failed!' . PHP_EOL;
-        Mage::printException($e);
+        echo $e->getMessage() . PHP_EOL . $e->getTraceAsString();
         exit(1);
     }
 }
