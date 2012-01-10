@@ -58,8 +58,8 @@ class Mage_Selenium_Driver extends PHPUnit_Extensions_SeleniumTestCase_Driver
         parent::__construct();
 
         $tmpDir = SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'tmp';
-        if (!is_dir($tmpDir)){
-            mkdir($tmpDir, 0777);
+        if (!is_dir($tmpDir) || !is_writable($tmpDir)) {
+            throw new Exception("The '$tmpDir' is not a directory or not writable.");
         }
         $this->_logHandle = fopen($tmpDir . DIRECTORY_SEPARATOR . 'selenium-rc-' . date('d-m-Y-H-i-s') . '.log', 'a+');
     }

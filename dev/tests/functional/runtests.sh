@@ -26,4 +26,8 @@
 # @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
 #
 
-phpunit --configuration $(dirname $(readlink -f $0))/phpunit.xml
+config=$(dirname $(readlink -f $0))/phpunit.xml
+if [ ! -r $config ]; then
+    config="$config.dist"
+fi
+phpunit --configuration $config
