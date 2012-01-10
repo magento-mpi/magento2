@@ -28,8 +28,8 @@
 /**
  * Token confirmation pop up template
  *
- * @var $this Mage_Core_Block_Template
- * @see Mage_Core_Block_Template
+ * @var $this Mage_OAuth_Block_Authorize_Button
+ * @see Mage_OAuth_Block_Authorize_Button
  */
 ?>
 <style type="text/css">
@@ -44,9 +44,4 @@
     .main, .main-container  {min-height: inherit; background: none; width: auto; padding: 0}
     .oauth-authorize-confirmpopup {background: none;}
 </style>
-
-<?php
-$params['_area'] = 'adminhtml';
-$templateName = Mage::getDesign()->getTemplateFilename($this->getTemplate(), $params);
-require_once $templateName;
-?>
+<?php require_once $this->getGeneralTemplateFileName(); ?>

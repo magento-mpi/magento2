@@ -41,18 +41,17 @@
     .header-container {background: none;}
     .input-box label {font-weight: bold;}
     .required {font-weight: bold; color: #D40707 !important;}
-    .login-form.simple .form-buttons {
-        float: none;
-    }
     .login-form .form-buttons {
         clear: both;
         margin: 38px 0 0;
         text-align: right;
     }
     .page-title {margin-bottom: 0}
+    .header-top {
+        margin: 0;
+        clear: both;
+        display: block;
+        overflow: hidden;
+    }
 </style>
-<?php
-$params['_area'] = 'adminhtml';
-$templateName = Mage::getDesign()->getTemplateFilename($this->getTemplate(), $params);
-require_once $templateName;
-?>
+<?php require_once $this->getGeneralTemplateFileName(); ?>

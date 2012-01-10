@@ -43,16 +43,17 @@ if ($this->getIsException()) {
 $rejectJs = "document.location.href='{$this->getRejectUrl()}';";
 ?>
 <style type="text/css">
+    .page-empty {padding: 0;}
     .header-simple {display: block; clear: both;}
     .main {border: none;}
     .header-top {border: none;}
     .login-container.simple {margin: 0px; background-image: none; padding: 0px; width: auto;}
-    .login-container.simple .page-title {background-image: none; padding: 10px; border-top: 1px solid #CFCFCF; border-bottom: 1px solid #CFCFCF;}
+    .login-container.simple .page-title {background: none; padding: 10px; border-top: 1px solid #CFCFCF; border-bottom: 1px solid #CFCFCF; width: auto;}
     .login-container.simple .bottom {display: none;}
     .login-form.simple {padding: 0; background: none;}
     .login-container.simple h1 {text-align: left; color: #D12C01; font-size: 22px; font-weight: normal; margin: 0;}
     .login-container.simple h1 .consumer {font-weight: bold;}
-    .login-container.simple h2 {font: 16px Arial,Helvetica,sans-serif; color: #444; text-align: left;}
+    .login-container.simple h2 {font: 16px Arial,Helvetica,sans-serif; color: #444; text-align: left; margin: 0 0 5px;}
     .login-container.simple .form-box {border: 1px solid #CFCFCF; border-top: none; padding: 8px 20px;}
     .login-container.simple fieldset {width: 319px; float: none; margin: 0 auto;}
     .login-container.simple .input-box label {width: 72px; text-align: right; float: left; margin-right: 15px;}
@@ -60,15 +61,16 @@ $rejectJs = "document.location.href='{$this->getRejectUrl()}';";
     .login-form.simple .input-box.input-left,
     .login-form.simple .input-box.input-right {float: none; margin-bottom: 5px;}
     .login-form.simple .input-box.input-left {padding-bottom: 25px;}
-    .login-form.simple .form-buttons {float: none;}
-    .login-form.simple p.required{text-align: right; font-size: 11px; font-weight: normal!important;}
+    .login-form.simple .form-buttons {float: none; width: 319px;}
+    .login-form.simple p.required{text-align: right; font-size: 11px; font-weight: normal!important; width: 319px;}
     .logo {height: 70px; margin: 7px 0 0 10px;}
 </style>
 
 <div class="header-simple">
     <div class="header-top">
          <span>
-             <img src="<?php echo $this->getSkinUrl('images/logo-large.gif', array('_area' => 'adminhtml')) ?>" alt="<?php echo $this->__('Magento Logo') ?>" class="logo"/>
+             <img src="<?php echo $this->getSkinUrl('images/logo-large.gif', array('_area' => 'adminhtml', '_package' => 'default')) ?>"
+                  alt="<?php echo $this->__('Magento Logo') ?>" class="logo"/>
          </span>
     </div>
 </div>
@@ -112,9 +114,6 @@ $rejectJs = "document.location.href='{$this->getRejectUrl()}';";
                         </div>
                     </fieldset>
                 </form>
-            <script type="text/javascript">
-                var loginForm = new varienForm('loginForm');
-            </script>
             <?php endif; ?>
         </div>
         <div class="bottom"></div>

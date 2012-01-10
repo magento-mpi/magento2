@@ -49,6 +49,11 @@
     </oauth_authorize_index>
     <oauth_authorize_popup translate="label">
         <update handle="oauth_authorize_index"/>
+        <reference name="root">
+            <action method="setTemplate">
+                <template>page/empty.phtml</template>
+            </action>
+        </reference>
         <remove name="header"/>
         <label>OAuth authorization Pop Up for customer</label>
         <reference name="oauth.authorize.form">
@@ -73,7 +78,7 @@
             </action>
         </reference>
         <reference name="content">
-            <block type="oauth/authorize" name="oauth.authorize.confirm" template="oauth/authorize/confirm.phtml"/>
+            <block type="oauth/authorize_button" name="oauth.authorize.confirm" template="oauth/authorize/confirm.phtml"/>
         </reference>
         <remove name="account.links"/>
         <remove name="top.links"/>
@@ -84,6 +89,21 @@
         <remove name="cart_sidebar"/>
         <remove name="footer"/>
     </oauth_authorize_confirm>
+    <oauth_authorize_confirmpopup translate="label">
+        <label>Confirm OAuth token authorization Pop Up</label>
+        <update handle="oauth_authorize_confirm"/>
+        <reference name="root">
+            <action method="setTemplate">
+                <template>page/empty.phtml</template>
+            </action>
+        </reference>
+        <remove name="header"/>
+        <reference name="oauth.authorize.confirm">
+            <action method="setTemplate">
+                <template>oauth/authorize/confirm-simple.phtml</template>
+            </action>
+        </reference>
+    </oauth_authorize_confirmpopup>
     <!-- EOF Confirm Authorization -->
 
     <!-- Reject Authorization -->
@@ -95,7 +115,7 @@
             </action>
         </reference>
         <reference name="content">
-            <block type="core/template" name="oauth.authorize.reject" template="oauth/authorize/reject.phtml"/>
+            <block type="oauth/authorize_button" name="oauth.authorize.reject" template="oauth/authorize/reject.phtml"/>
         </reference>
         <remove name="account.links"/>
         <remove name="top.links"/>
@@ -106,6 +126,21 @@
         <remove name="cart_sidebar"/>
         <remove name="footer"/>
     </oauth_authorize_reject>
+    <oauth_authorize_rejectpopup translate="label">
+        <label>Reject OAuth token authorization Pop Up</label>
+        <update handle="oauth_authorize_reject"/>
+        <reference name="root">
+            <action method="setTemplate">
+                <template>page/empty.phtml</template>
+            </action>
+        </reference>
+        <remove name="header"/>
+        <reference name="oauth.authorize.reject">
+            <action method="setTemplate">
+                <template>oauth/authorize/reject-simple.phtml</template>
+            </action>
+        </reference>
+    </oauth_authorize_rejectpopup>
     <!-- EOF Reject Authorization -->
 
     <!-- My Applications-->

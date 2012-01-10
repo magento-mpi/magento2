@@ -43,10 +43,6 @@
     .page-title {margin-bottom: 0}
     .main, .main-container  {min-height: inherit; background: none; width: auto; padding: 0}
     .oauth-authorize-popup {background: none;}
+    button.button span {border: 1px solid #DE5400;}
 </style>
-
-<?php
-$params['_area'] = 'adminhtml';
-$templateName = Mage::getDesign()->getTemplateFilename($this->getTemplate(), $params);
-require_once $templateName;
-?>
+<?php require_once $this->getGeneralTemplateFileName() ?>

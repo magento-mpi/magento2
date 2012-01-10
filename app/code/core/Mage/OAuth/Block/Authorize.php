@@ -113,4 +113,18 @@ class Mage_OAuth_Block_Authorize extends Mage_Core_Block_Template
     {
         return $this->__('Log in as customer');
     }
+
+    /**
+     * Retrieve general template filename
+     *
+     * @return string
+     */
+    public function getGeneralTemplateFileName()
+    {
+        $params = array(
+            '_area'    => 'adminhtml',
+            '_package' => 'default'
+        );
+        return Mage::getDesign()->getTemplateFilename($this->getTemplate(), $params);
+    }
 }

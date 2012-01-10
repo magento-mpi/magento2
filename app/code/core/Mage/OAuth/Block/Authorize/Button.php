@@ -58,4 +58,18 @@ class Mage_OAuth_Block_Authorize_Button extends Mage_Core_Block_Template
     {
         return $this->getUrl('oauth/authorize/reject' . ($this->getIsSimple() ? 'PopUp' : ''));
     }
+
+    /**
+     * Retrieve general template filename
+     *
+     * @return string
+     */
+    public function getGeneralTemplateFileName()
+    {
+        $params = array(
+            '_area'    => 'adminhtml',
+            '_package' => 'default'
+        );
+        return Mage::getDesign()->getTemplateFilename($this->getTemplate(), $params);
+    }
 }
