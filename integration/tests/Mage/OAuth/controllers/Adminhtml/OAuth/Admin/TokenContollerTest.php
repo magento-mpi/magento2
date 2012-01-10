@@ -46,6 +46,8 @@ class Mage_OAuth_Adminhtml_OAuth_Admin_TokenControllerTest extends Magento_Test_
 
     /**
      * Test update revoke status
+     *
+     * @magentoConfigFixture current_store customer/account_share/scope 0
      */
     public function testRevokeAction()
     {
@@ -87,6 +89,8 @@ class Mage_OAuth_Adminhtml_OAuth_Admin_TokenControllerTest extends Magento_Test_
 
     /**
      * Test delete action
+     *
+     * @magentoConfigFixture current_store customer/account_share/scope 0
      */
     public function testDeleteAction()
     {
