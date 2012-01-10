@@ -25,7 +25,7 @@
  */
 
 /**
- * Manage consumers controller
+ * Manage authorized tokens controller
  *
  * @category    Mage
  * @package     Mage_OAuth
@@ -36,7 +36,7 @@ class Mage_OAuth_Adminhtml_OAuth_AuthorizedTokensController extends Mage_Adminht
     /**
      * Init titles
      *
-     * @return Mage_OAuth_Adminhtml_OAuth_ConsumerController
+     * @return Mage_OAuth_Adminhtml_OAuth_AuthorizedTokensController
      */
     public function preDispatch()
     {

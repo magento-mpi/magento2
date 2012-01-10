@@ -25,7 +25,7 @@
  */
 
 /**
- * OAuth Consumer grid block
+ * OAuth authorized tokens grid block
  *
  * @category   Mage
  * @package    Mage_OAuth
@@ -49,7 +49,7 @@ class Mage_OAuth_Block_Adminhtml_OAuth_AuthorizedTokens_Grid extends Mage_Adminh
     /**
      * Prepare collection
      *
-     * @return Mage_OAuth_Block_Adminhtml_Consumer_Grid
+     * @return Mage_OAuth_Block_Adminhtml_OAuth_AuthorizedTokens_Grid
      */
     protected function _prepareCollection()
     {
@@ -66,7 +66,7 @@ class Mage_OAuth_Block_Adminhtml_OAuth_AuthorizedTokens_Grid extends Mage_Adminh
     /**
      * Prepare columns
      *
-     * @return Mage_OAuth_Block_Adminhtml_Consumer_Grid
+     * @return Mage_OAuth_Block_Adminhtml_OAuth_AuthorizedTokens_Grid
      */
     protected function _prepareColumns()
     {
@@ -127,7 +127,7 @@ class Mage_OAuth_Block_Adminhtml_OAuth_AuthorizedTokens_Grid extends Mage_Adminh
     /**
      * Get revoke URL
      *
-     * @param Mage_OAuth_Model_Consumer $row
+     * @param Mage_OAuth_Model_Token $row
      * @return string|null
      */
     public function getRevokeUrl($row)
@@ -138,7 +138,7 @@ class Mage_OAuth_Block_Adminhtml_OAuth_AuthorizedTokens_Grid extends Mage_Adminh
     /**
      * Get delete URL
      *
-     * @param Mage_OAuth_Model_Consumer $row
+     * @param Mage_OAuth_Model_Token $row
      * @return string|null
      */
     public function getDeleteUrl($row)
@@ -149,7 +149,7 @@ class Mage_OAuth_Block_Adminhtml_OAuth_AuthorizedTokens_Grid extends Mage_Adminh
     /**
      * Add mass-actions to grid
      *
-     * @return Mage_OAuth_Block_Adminhtml_OAuth_Admin_Token_Grid
+     * @return Mage_OAuth_Block_Adminhtml_OAuth_AuthorizedTokens_Grid
      */
     protected function _prepareMassaction()
     {
@@ -177,8 +177,18 @@ class Mage_OAuth_Block_Adminhtml_OAuth_AuthorizedTokens_Grid extends Mage_Adminh
         return $this;
     }
 
+    /**
+     * Decorate user type column
+     *
+     * @param string $value
+     * @param Mage_OAuth_Model_Token $row
+     * @param Mage_Adminhtml_Block_Widget_Grid_Column $column
+     * @param bool $isExport
+     * @return mixed
+     */
     public function decorateUserType($value, $row, $column, $isExport)
     {
+        Mage::dumpc($column); exit;
         $options = $column->getOptions();
 
         $value = ($row->getCustomerId())   ?$options[1]   :$options[0];
@@ -187,6 +197,15 @@ class Mage_OAuth_Block_Adminhtml_OAuth_AuthorizedTokens_Grid extends Mage_Adminh
         return $cell;
     }
 
+    /**
+     * Decorate user type column
+     *
+     * @param string $value
+     * @param Mage_OAuth_Model_Token $row
+     * @param Mage_Adminhtml_Block_Widget_Grid_Column $column
+     * @param bool $isExport
+     * @return mixed
+     */
     public function decorateUserId($value, $row, $column, $isExport)
     {
         $value = ($row->getCustomerId())   ?$row->getCustomerId()   :$row->getAdminId();
