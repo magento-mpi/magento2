@@ -133,7 +133,11 @@ class Enterprise_Checkout_Block_Sku_Products extends Mage_Checkout_Block_Cart
             $renderer->overrideProductThumbnail($this->helper('catalog/image')->init($item, 'thumbnail'));
             $renderer->setProductName('');
         }
-        $renderer->setDeleteUrl($this->getUrl('checkout/cart/removeFailed', array('sku' => $item->getSku())));
+        $renderer->setDeleteUrl(
+            $this->getUrl('checkout/cart/removeFailed', array(
+                'sku' => Mage::helper('core/url')->urlEncode($item->getSku())
+            ))
+        );
         return parent::getItemHtml($item);
     }
 }

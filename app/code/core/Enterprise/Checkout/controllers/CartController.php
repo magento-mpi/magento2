@@ -129,7 +129,7 @@ class Enterprise_Checkout_CartController extends Mage_Core_Controller_Front_Acti
     public function removeFailedAction()
     {
         $removed = Mage::getModel('enterprise_checkout/cart')->removeAffectedItem(
-            $this->getRequest()->getParam('sku')
+            Mage::helper('core/url')->urlDecode($this->getRequest()->getParam('sku'))
         );
 
         if ($removed) {
