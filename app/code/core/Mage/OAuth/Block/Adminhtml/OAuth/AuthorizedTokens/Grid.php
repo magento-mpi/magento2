@@ -188,7 +188,6 @@ class Mage_OAuth_Block_Adminhtml_OAuth_AuthorizedTokens_Grid extends Mage_Adminh
      */
     public function decorateUserType($value, $row, $column, $isExport)
     {
-        Mage::dumpc($column); exit;
         $options = $column->getOptions();
 
         $value = ($row->getCustomerId())   ?$options[1]   :$options[0];
