@@ -620,7 +620,7 @@ Packaging.prototype = {
             return;
         }
 
-        currentNode.select(
+        $(currentNode).select(
             'input[name=container_length],input[name=container_width],input[name=container_height],select[name=container_dimension_units]'
         ).each(function(inputElement) {
             if (disable) {
