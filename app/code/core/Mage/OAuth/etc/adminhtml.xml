@@ -50,6 +50,10 @@
                                             </delete>
                                         </children>
                                     </consumer>
+                                    <authorizedTokens translate="title">
+                                        <title>Authorized Tokens</title>
+                                        <sort_order>30</sort_order>
+                                    </authorizedTokens>
                                     <cleanup>
                                         <title>Clean Up Settings</title>
                                     </cleanup>
@@ -92,9 +96,14 @@
                     <children>
                         <consumer translate="title">
                             <title>Consumers</title>
-                            <sort_order>15</sort_order>
+                            <sort_order>10</sort_order>
                             <action>adminhtml/oAuth_consumer</action>
                         </consumer>
+                        <authorizedTokens translate="title">
+                            <title>Authorized Tokens</title>
+                            <sort_order>20</sort_order>
+                            <action>adminhtml/oAuth_authorizedTokens</action>
+                        </authorizedTokens>
                     </children>
                 </oauth>
                 <acl>

@@ -132,4 +132,14 @@
         </reference>
     </adminhtml_oauth_authorize_rejectpopup>
     <!-- EOF Reject Authorization -->
+    
+    <adminhtml_oauth_authorizedtokens_index>
+        <reference name="content">
+            <block type="oauth/adminhtml_oAuth_authorizedTokens" name="oauth_authorizedTokens"/>
+        </reference>
+    </adminhtml_oauth_authorizedtokens_index>
+    <adminhtml_oauth_authorizedtokens_grid>
+        <remove name="root"/>
+        <block type="oauth/adminhtml_oAuth_authorizedTokens_grid" name="oauth_authorizedTokens.grid" output="toHtml"/>
+    </adminhtml_oauth_authorizedtokens_grid>
 </layout>
