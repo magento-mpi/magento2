@@ -294,7 +294,7 @@
             var nodeValue = $('node_id').value,
                 isNodeSaved = Validation.get('IsEmpty').test(nodeValue)
                     || (!isNaN(parseNumber(nodeValue)) && !/^\s+$/.test(parseNumber(nodeValue))),
-                isStoreViewLevel = !$('store_switcher') || ($('store') && $('store').value);
+                isStoreViewLevel = $('store') && $('store').value;
 
             if (isStoreViewLevel && isNodeSaved) {
                 var nodeUrlInfo = this.getNodePreviewUrlInfo(node);
