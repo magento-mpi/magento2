@@ -69,4 +69,23 @@ class Mage_OAuth_Model_Resource_Token extends Mage_Core_Model_Resource_Db_Abstra
         }
         return $adapter->delete($this->getMainTable(), $where);
     }
+
+    /**
+     * Delete old entries
+     *
+     * @param $minutes
+     * @return int
+     */
+    public function deleteOldEntries($minutes)
+    {
+        $adapter = $this->_getWriteAdapter();
+        return $adapter->delete(
+            $this->getTable('oauth/token'),
+            $adapter->quoteInto(
+                'created_at <= TIMESTAMPADD(MINUTE, -?, CURRENT_TIMESTAMP())',
+                $minutes,
+                Zend_Db::INT_TYPE
+            )
+        );
+    }
 }

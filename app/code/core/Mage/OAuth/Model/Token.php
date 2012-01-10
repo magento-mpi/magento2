@@ -93,6 +93,24 @@ class Mage_OAuth_Model_Token extends Mage_Core_Model_Abstract
     }
 
     /**
+     * "After save" actions
+     *
+     * @return Mage_OAuth_Model_Token
+     */
+    protected function _afterSave()
+    {
+        parent::_afterSave();
+
+        //Cleanup old entries
+        /** @var $helper Mage_OAuth_Helper_Data */
+        $helper = Mage::helper('oauth');
+        if ($helper->isCleanupProbability()) {
+            $this->_getResource()->deleteOldEntries($helper->getCleanupExpirationPeriod());
+        }
+        return $this;
+    }
+
+    /**
      * Authorize token
      *
      * @param int $userId Authorization user identifier
