@@ -768,9 +768,9 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
     }
 
     /**
-     * Wrapper for _getListItemInfo() - extends with additional list types. New method create to leave original
-     * method definition unchanged (add_by_sku list type utilizes additional parameter - $info).
-     * For return format see _getListItemInfo().
+     * Wrapper for _getListItemInfo() - extends with additional list types. New method has been created to leave
+     * definition of original method unchanged (add_by_sku list type utilizes additional parameter - $info).
+     * For return format @see _getListItemInfo().
      *
      * @param string $listType
      * @param int    $itemId
