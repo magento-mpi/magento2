@@ -62,6 +62,16 @@ AddBySku.prototype = {
                 var oldSourceGrids = that.order.sourceGrids;
                 // Leave only error grid (don't submit information from other grids right now)
                 that.order.sourceGrids = {'sku_errors': this.errorSourceGrid};
+                // Save old response handler function to override it
+                var parentResponseHandler = that.order.loadAreaResponseHandler;
+                that.order.loadAreaResponseHandler = function (response)
+                {
+                    if (!response['errors']) {
+                        // If response is empty loadAreaResponseHandler() won't update the area
+                        response['errors'] = '<span></span>';
+                    }
+                    parentResponseHandler.call(that.order, response);
+                };
                 that.order.productGridAddSelected('sku');
                 that.order.sourceGrids = oldSourceGrids;
             },
