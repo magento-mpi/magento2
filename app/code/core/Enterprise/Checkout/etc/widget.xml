@@ -39,12 +39,14 @@
                 <sort_order>10</sort_order>
                 <source_model>adminhtml/system_config_source_yesno</source_model>
             </link_display>
-            <link_text translate="label description">
+            <link_text translate="label description value">
+                <required>1</required>
                 <visible>1</visible>
                 <label>Link Text</label>
                 <description>The text of the link to the My Account &gt; Order by SKU page</description>
                 <type>text</type>
                 <sort_order>20</sort_order>
+                <value>Load a list of SKUs</value>
                 <depends>
                     <link_display>
                         <value>1</value>
