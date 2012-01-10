@@ -62,7 +62,7 @@ class Enterprise_Checkout_Block_Widget_Sku
             return '';
         }
 
-        return '<a href="' . $this->escapeHtml($this->getUrl('enterprise_checkout')) . '">'
+        return '<a href="' . $this->escapeHtml($this->getUrl('enterprise_checkout/sku')) . '">'
             . $this->escapeHtml($data['link_text']) . '</a>';
     }
 }
