@@ -501,11 +501,8 @@ class Magento_Test_Bootstrap
         /* Make a database backup to be able to restore it to initial state any time */
         $this->_db->createBackup(self::DB_BACKUP_NAME);
 
-        // Clean up config cache to avoid invalid data caching from non-installed mode initialization
-        Mage::app()->getCacheInstance()->clean('config');
-
-        /* Switch an application to installed mode */
-        $this->initialize();
+        /* Clean up config cache and reinit app */
+        $this->refreshConfiguration();
 
         /* Perform Reindex */
         $this->_refreshIndexes();
