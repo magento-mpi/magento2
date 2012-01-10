@@ -378,17 +378,11 @@ class Mage_Selenium_TestConfiguration
      */
     protected function _loadConfigData()
     {
-        $files = array(
-            'browsers.yml.dist',
-            'browsers.yml'
-        );
-        $configDir = SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR;
-        foreach ($files as $file) {
-            $fileData = $this->getFileHelper()->loadYamlFile($configDir . $file);
-            if ($fileData) {
-                $this->_configData = array_replace_recursive($this->_configData, $fileData);
-            }
+        $config = SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'browsers.yml';
+        if (!is_readable($config)) {
+            $config .= '.dist';
         }
+        $this->_configData = $this->getFileHelper()->loadYamlFile($config);
         return $this;
     }
 

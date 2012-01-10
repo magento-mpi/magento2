@@ -29,4 +29,6 @@ REM
 if "%PHPBIN%" == "" set PHPBIN=php.exe
 if not exist "%PHPBIN%" if "%PHP_PEAR_PHP_BIN%" neq "" set PHPBIN=%PHP_PEAR_PHP_BIN%
 set BASEDIR=%~dp0
-"%PHPBIN%" "%PHP_PEAR_BIN_DIR%\phpunit" --configuration "%BASEDIR%phpunit.xml" %*
+set CONFIG=%BASEDIR%phpunit.xml
+if NOT EXIST "%BASEDIR%phpunit.xml" (set CONFIG=%CONFIG%.dist)
+"%PHPBIN%" "%PHP_PEAR_BIN_DIR%\phpunit" --configuration "%CONFIG%" %*
