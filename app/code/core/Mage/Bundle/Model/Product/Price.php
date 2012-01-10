@@ -71,7 +71,7 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
     /**
      * Get Total price  for Bundle items
      *
-     * @param $product
+     * @param Mage_Catalog_Model_Product $product
      * @param null|float $qty
      * @return float
      */
@@ -92,7 +92,7 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
                     if ($selection->isSalable()) {
                         $selectionQty = $product->getCustomOption('selection_qty_' . $selection->getSelectionId());
                         if ($selectionQty) {
-                            $price += $this->getSelectionFinalPrice($product, $selection, $qty,
+                            $price += $this->getSelectionFinalTotalPrice($product, $selection, $qty,
                                 $selectionQty->getValue());
                         }
                     }
