@@ -30,10 +30,6 @@ define('SELENIUM_TESTS_BASEDIR', realpath(__DIR__ . DIRECTORY_SEPARATOR . '..'))
 define('SELENIUM_TESTS_SCREENSHOTDIR',
         realpath(SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'tmp' . DIRECTORY_SEPARATOR . 'screenshots'));
 
-if (defined('SELENIUM_TESTS_INSTALLATION') && SELENIUM_TESTS_INSTALLATION === 'enabled') {
-    require_once SELENIUM_TESTS_BASEDIR . '/install.php';
-}
-
 set_include_path(implode(PATH_SEPARATOR, array(
             realpath(SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'framework'),
             realpath(SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'testsuite'), //To allow load tests helper files
@@ -45,4 +41,25 @@ Mage_Selenium_Autoloader::register();
 
 require_once 'functions.php';
 
-Mage_Selenium_TestConfiguration::initInstance();
+$testsConfig = Mage_Selenium_TestConfiguration::initInstance();
+
+if (defined('SELENIUM_TESTS_INSTALLATION') && SELENIUM_TESTS_INSTALLATION === 'enabled') {
+    $installConfigFile = SELENIUM_TESTS_BASEDIR . '/config/install.php';
+    $installConfigFile = file_exists($installConfigFile) ? $installConfigFile : "$installConfigFile.dist";
+    $applicationHelper = new Mage_Selenium_Helper_Application($testsConfig);
+    passthru(
+        sprintf(
+            'php -f %s -- --magento-dir=%s --config-file=%s',
+            escapeshellarg(SELENIUM_TESTS_BASEDIR . '/framework/install.php'),
+            escapeshellarg($applicationHelper->getBasePath()),
+            escapeshellarg($installConfigFile)
+        ),
+        $installExitCode
+    );
+    if ($installExitCode !== 0) {
+        exit($installExitCode);
+    }
+}
+
+/* Unset declared global variables to release PHPUnit from maintaining their values between tests */
+unset($testsConfig, $applicationHelper, $installConfigFile, $installExitCode);
