@@ -175,17 +175,28 @@ class Catalog_ProductTest extends Magento_Test_Webservice
         list($optionValueApi, $optionValueInstaller) = $this->_addAttributes();
         $data = require dirname(__FILE__) . '/_fixtures/ProductData.php';
 
-        switch (TESTS_WEBSERVICE_TYPE) {
-            case self::TYPE_SOAPV1:
-            case self::TYPE_XMLRPC:
-                $this->_testSoapV1($optionValueApi, $optionValueInstaller, $data);
-                break;
+        try {
+            switch (TESTS_WEBSERVICE_TYPE) {
+                case self::TYPE_SOAPV1:
+                case self::TYPE_XMLRPC:
+                    $this->_testSoapV1($optionValueApi, $optionValueInstaller, $data);
+                    break;
 
-            case self::TYPE_SOAPV2:
-                $this->_testSoapV2($optionValueApi, $optionValueInstaller, $data);
-                break;
+                case self::TYPE_SOAPV2:
+                    $this->_testSoapV2($optionValueApi, $optionValueInstaller, $data);
+                    break;
+            }
+        } catch (Exception $e) {
+            //give delete attributes
         }
+
         $this->_removeAttributes();
+
+        if (isset($e)) {
+            //throw exception if it was catch
+            throw $e;
+        }
+
     }
 
     /**
@@ -323,7 +334,7 @@ class Catalog_ProductTest extends Magento_Test_Webservice
         foreach ($attributes as $attribute) {
             //remove by id
             $model = new Mage_Catalog_Model_Product_Attribute_Api();
-            $response = $model->remove($attribute);
+            $model->remove($attribute);
         }
 
         $data = require dirname(__FILE__) . '/_fixtures/ProductAttributeData.php';
