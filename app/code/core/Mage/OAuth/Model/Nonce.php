@@ -56,6 +56,8 @@ class Mage_OAuth_Model_Nonce extends Mage_Core_Model_Abstract
      */
     protected function _afterSave()
     {
+        parent::_afterSave();
+
         //Cleanup old entries
         /** @var $helper Mage_OAuth_Helper_Data */
         $helper = Mage::helper('oauth');
