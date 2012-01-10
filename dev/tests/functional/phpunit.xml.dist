@@ -52,6 +52,8 @@
     <php>
         <!-- Whether to install the application before tests execution. Value 'enabled' turns installation on. -->
         <const name="SELENIUM_TESTS_INSTALLATION" value="disabled"/>
+        <!-- Whether to perform a cleanup to guarantee the "clean" installation before the next tests execution. -->
+        <const name="SELENIUM_TESTS_INSTALLATION_CLEANUP" value="enabled"/>
     </php>
     <logging>
         <log type="coverage-html" target="./tmp/report" charset="UTF-8"
