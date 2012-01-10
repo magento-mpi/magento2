@@ -237,7 +237,11 @@ AddBySku.prototype = {
         $form.insert(new Element('input', {'type': 'hidden', 'name': this.controllerParamFieldNames['customerId'], 'value': this.order.customerId}));
         $form.insert(new Element('input', {'type': 'hidden', 'name': this.controllerParamFieldNames['storeId'], 'value': this.order.storeId}));
         $form.insert(new Element('input', {'type': 'hidden', 'name': 'form_key', 'value': FORM_KEY}));
+        // For IE we must make the form part of the DOM, otherwise browser refuses to submit it
+        Element.select(document, 'body')[0].insert($form);
         $form.submit();
+        // Show loader
+        varienLoaderHandler.handler.onCreate({options: {loaderArea: true}});
         return true;
     },
 
