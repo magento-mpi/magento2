@@ -351,7 +351,7 @@ class Mage_OAuth_Model_Server
     {
         $eMsg = $e->getMessage();
 
-        if ($e instanceof Mage_Oauth_Exception) {
+        if ($e instanceof Mage_OAuth_Exception) {
             $eCode = $e->getCode();
 
             if (isset($this->_errors[$eCode])) {
@@ -520,13 +520,13 @@ class Mage_OAuth_Model_Server
     protected function _validateTokenParam()
     {
         if (empty($this->_params['oauth_token'])) {
-            $this->_throwException('Parameter "oauth_token" is not set.', self::ERR_PARAMETER_ABSENT);
+            $this->_throwException('oauth_token', self::ERR_PARAMETER_ABSENT);
         }
         if (!is_string($this->_params['oauth_token'])) {
-            $this->_throwException('Parameter "oauth_token" is not a string.', self::ERR_TOKEN_REJECTED);
+            $this->_throwException('oauth_token', self::ERR_TOKEN_REJECTED);
         }
         if (strlen($this->_params['oauth_token']) != Mage_OAuth_Model_Token::LENGTH_TOKEN) {
-            $this->_throwException('Parameter "oauth_token" has wrong length.', self::ERR_TOKEN_REJECTED);
+            $this->_throwException('oauth_token', self::ERR_TOKEN_REJECTED);
         }
     }
 
@@ -536,13 +536,13 @@ class Mage_OAuth_Model_Server
     protected function _validateVerifierParam()
     {
         if (empty($this->_params['oauth_verifier'])) {
-            $this->_throwException('Parameter "oauth_verifier" is not set.', self::ERR_PARAMETER_ABSENT);
+            $this->_throwException('oauth_verifier', self::ERR_PARAMETER_ABSENT);
         }
         if (!is_string($this->_params['oauth_verifier'])) {
-            $this->_throwException('Parameter "oauth_verifier" is not a string.', self::ERR_VERIFIER_INVALID);
+            $this->_throwException('oauth_verifier', self::ERR_VERIFIER_INVALID);
         }
         if (strlen($this->_params['oauth_verifier']) != Mage_OAuth_Model_Token::LENGTH_VERIFIER) {
-            $this->_throwException('Parameter "oauth_verifier" has wrong length.', self::ERR_VERIFIER_INVALID);
+            $this->_throwException('oauth_verifier', self::ERR_VERIFIER_INVALID);
         }
     }
 
