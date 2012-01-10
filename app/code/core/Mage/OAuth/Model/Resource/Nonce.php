@@ -42,4 +42,19 @@ class Mage_OAuth_Model_Resource_Nonce extends Mage_Core_Model_Resource_Db_Abstra
     {
         $this->_init('oauth/nonce', null);
     }
+
+    /**
+     * Delete old entries
+     *
+     * @param $minutes
+     * @return int
+     */
+    public function deleteOldEntries($minutes)
+    {
+        $adapter = $this->_getWriteAdapter();
+        return $adapter->delete(
+            $this->getTable('oauth/nonce'),
+            $adapter->quoteInto('timestamp <= DATE_ADD(NOW(), INTERVAL -? MINUTE)', $minutes, Zend_Db::INT_TYPE)
+        );
+    }
 }

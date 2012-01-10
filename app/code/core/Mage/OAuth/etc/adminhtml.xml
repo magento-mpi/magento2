@@ -50,6 +50,9 @@
                                             </delete>
                                         </children>
                                     </consumer>
+                                    <cleanup>
+                                        <title>Clean Up Settings</title>
+                                    </cleanup>
                                 </children>
                             </oauth>
                             <acl>

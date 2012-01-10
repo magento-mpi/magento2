@@ -48,4 +48,22 @@ class Mage_OAuth_Model_Nonce extends Mage_Core_Model_Abstract
     {
         $this->_init('oauth/nonce');
     }
+
+    /**
+     * "After save" actions
+     *
+     * @return Mage_OAuth_Model_Nonce
+     */
+    protected function _afterSave()
+    {
+        //Cleanup old entries
+        /** @var $helper Mage_OAuth_Helper_Data */
+        $helper = Mage::helper('oauth');
+        $cleanupProbability = $helper->getCleanupProbability();
+        if ($cleanupProbability && !rand($cleanupProbability, 100)) {
+            $this->_getResource()->deleteOldEntries(
+                $helper->getCleanupExpirationPeriod());
+        }
+        return $this;
+    }
 }

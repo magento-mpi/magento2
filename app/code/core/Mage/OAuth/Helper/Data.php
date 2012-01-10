@@ -125,4 +125,25 @@ class Mage_OAuth_Helper_Data extends Mage_Core_Helper_Abstract
         }
         return rtrim(Mage::getUrl($type), '/');
     }
+
+    /**
+     * Get cleanup probability value from system configuration
+     *
+     * @return int
+     */
+    public function getCleanupProbability()
+    {
+        return 100;
+    }
+
+    /**
+     * Get cleanup expiration period value from system configuration
+     *
+     * @return int
+     */
+    public function getCleanupExpirationPeriod()
+    {
+        //minutes
+        return 120;
+    }
 }

@@ -153,4 +153,12 @@
             </modules>
         </translate>
     </frontend>
+    <default>
+        <oauth>
+            <cleanup>
+                <cleanup_probability>100</cleanup_probability>
+                <expiration_period>120</expiration_period>
+            </cleanup>
+        </oauth>
+    </default>
 </config>
