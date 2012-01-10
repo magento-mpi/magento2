@@ -134,7 +134,7 @@
 .grid th                        { white-space:nowrap; }
 .grid td.editable input.input-text { width:50px !important; margin-left:4px !important; }
 .grid td input.input-text       { width:86%; }
-.grid td input.input-text-export-filter { width:274px; }
+.grid td input.input-text-export-filter { width:272px; }
 .grid td input.input-text-range { width:104px; }
 .grid td input.input-text-range-date { width:87px; }
 .grid td input.input-inactive   { background:#eee; }
