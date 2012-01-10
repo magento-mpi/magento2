@@ -54,7 +54,7 @@ class Mage_OAuth_Model_Resource_Nonce extends Mage_Core_Model_Resource_Db_Abstra
         $adapter = $this->_getWriteAdapter();
         return $adapter->delete(
             $this->getTable('oauth/nonce'),
-            $adapter->quoteInto('timestamp <= DATE_ADD(NOW(), INTERVAL -? MINUTE)', $minutes, Zend_Db::INT_TYPE)
+            $adapter->quoteInto('timestamp <= UNIX_TIMESTAMP() - ?', $minutes * 60, Zend_Db::INT_TYPE)
         );
     }
 }
