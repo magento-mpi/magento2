@@ -580,7 +580,8 @@ final class Mage
             self::$_app = new Mage_Core_Model_App();
             self::setRoot();
             self::$_events = new Varien_Event_Collection();
-            self::$_config = new Mage_Core_Model_Config($options);
+            self::setIsInstalled($options);
+            self::setConfigModel($options);
 
             Varien_Profiler::start('self::app::init');
             self::$_app->init($code, $type, $options);
@@ -602,7 +603,8 @@ final class Mage
         try {
             self::setRoot();
             self::$_app     = new Mage_Core_Model_App();
-            self::$_config  = new Mage_Core_Model_Config();
+            self::setIsInstalled($options);
+            self::setConfigModel($options);
 
             if (!empty($modules)) {
                 self::$_app->initSpecified($code, $type, $options, $modules);
@@ -641,7 +643,8 @@ final class Mage
                 self::$_app->setResponse($options['response']);
             }
             self::$_events = new Varien_Event_Collection();
-            self::$_config = new Mage_Core_Model_Config($options);
+            self::setIsInstalled($options);
+            self::setConfigModel($options);
             self::$_app->run(array(
                 'scope_code' => $code,
                 'scope_type' => $type,
@@ -669,6 +672,40 @@ final class Mage
             } catch (Exception $ne) {
                 self::printException($ne, $e->getMessage());
             }
+        }
+    }
+
+    /**
+     * Set application isInstalled flag based on given options
+     *
+     * @param array $options
+     */
+    public static function setIsInstalled($options = array())
+    {
+        if (isset($options['is_installed']) && $options['is_installed']) {
+            self::$_isInstalled = true;
+        }
+    }
+
+    /**
+     * Set application Config model
+     *
+     * @param array $options
+     */
+    public static function setConfigModel($options = array())
+    {
+        if (isset($options['config_model']) && class_exists($options['config_model'])) {
+            $alternativeConfigModelName = $options['config_model'];
+            unset($options['config_model']);
+            $alternativeConfigModel = new $alternativeConfigModelName($options);
+        } else {
+            $alternativeConfigModel = null;
+        }
+
+        if (!is_null($alternativeConfigModel) && ($alternativeConfigModel instanceof Mage_Core_Model_Config)) {
+            self::$_config = $alternativeConfigModel;
+        } else {
+            self::$_config = new Mage_Core_Model_Config($options);
         }
     }
 
