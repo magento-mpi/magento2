@@ -150,22 +150,26 @@ class Enterprise_Checkout_Model_Observer
     }
 
     /**
-     * Update quote for failed items
+     * Calculate failed items quote-related data
      *
      * @param Varien_Event_Observer $observer
      * @return void
      */
-    public function salesQuoteSaveAfter($observer)
+    public function collectTotalsFailedItems($observer)
     {
+        if ($observer->getEvent()->getAction()->getFullActionName() != 'checkout_cart_index') {
+            return;
+        }
+
         /** @var $realQuote Mage_Sales_Model_Quote */
-        $realQuote = $observer->getEvent()->getQuote();
+        $realQuote = Mage::getSingleton('sales/quote');
         $affectedItems = $this->_getCart()->getFailedItems();
         if (empty($affectedItems)) {
             return;
         }
 
         /** @var $quote Mage_Sales_Model_Quote */
-        $quote = Mage::getModel('sales/quote');//clone $realQuote;
+        $quote = Mage::getModel('sales/quote');
         $quote->preventSaving()->setItemsCollection(Mage::helper('enterprise_checkout')->getFailedItems(false));
 
         $quote->setShippingAddress($this->_copyAddress($quote, $realQuote->getShippingAddress()));
