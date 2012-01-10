@@ -42,6 +42,13 @@ class Mage_OAuth_Helper_Data extends Mage_Core_Helper_Abstract
     const ENDPOINT_TOKEN              = 'oauth/token';
     /**#@-*/
 
+    /**#@+
+     * Cleanup xpath config settings
+     */
+    const XML_PATH_CLEANUP_PROBABILITY       = 'oauth/cleanup/cleanup_probability';
+    const XML_PATH_CLEANUP_EXPIRATION_PERIOD = 'oauth/cleanup/expiration_period';
+    /**#@-*/
+
     /**
      * Generate random string for token or secret or verifier
      *
@@ -134,7 +141,7 @@ class Mage_OAuth_Helper_Data extends Mage_Core_Helper_Abstract
     public function isCleanupProbability()
     {
         // Get cleanup probability value from system configuration
-        $configValue = 5;
+        $configValue = Mage::getStoreConfig(self::XML_PATH_CLEANUP_PROBABILITY);
         return $configValue && $configValue === rand(1, $configValue) ? true : false;
     }
 
@@ -145,7 +152,6 @@ class Mage_OAuth_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getCleanupExpirationPeriod()
     {
-        //minutes
-        return 120;
+        return Mage::getStoreConfig(self::XML_PATH_CLEANUP_EXPIRATION_PERIOD);
     }
 }
