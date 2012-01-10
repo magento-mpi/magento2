@@ -127,7 +127,7 @@ if($('add_new_item_button')){
 var skuForm = new VarienForm('skuForm');
 $('sku-submit-button').onclick = function(e) {
     var skuForm = $('skuForm');
-    if ($(skuForm.sku_file).present()) {
+    if (typeof skuForm.sku_file != 'undefined' && $(skuForm.sku_file).present()) {
         Event.stop(e);
         skuForm.submit();
     }

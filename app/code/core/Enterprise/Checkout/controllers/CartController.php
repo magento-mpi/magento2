@@ -75,13 +75,8 @@ class Enterprise_Checkout_CartController extends Mage_Core_Controller_Front_Acti
             $cart = Mage::getModel('enterprise_checkout/cart');
             $cart->prepareAddProductsBySku($this->getRequest()->getParam('items'));
             $cart->saveAffectedProducts();
-            $msg = $cart->getInfoMessage();
+            $this->_getSession()->addMessages($cart->getMessages());
             $cart->removeSuccessItems();
-            $method = ($msg->getFailedItemsCount()) ? 'addError' : 'addSuccess';
-
-            $this->_getSession()->$method(
-                $msg->getMessage()
-            );
         } catch (Enterprise_Checkout_Exception $e) {
             $this->_getSession()->addError(
                 $this->__('Something went wrong.')
