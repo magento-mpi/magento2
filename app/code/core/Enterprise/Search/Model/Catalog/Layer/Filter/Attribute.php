@@ -46,7 +46,7 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Attribute extends Mage_Catalo
         $fieldName = Mage::helper('enterprise_search')->getAttributeSolrFieldName($attribute);
         $productCollection = $this->getLayer()->getProductCollection();
         $options = $productCollection->getFacetedData($fieldName);
-        ksort($options);
+        $options = $this->sortOptions($options);
 
         $data = array();
         foreach ($options as $label => $count) {
@@ -113,6 +113,7 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Attribute extends Mage_Catalo
      *
      * @param Mage_Catalog_Model_Layer_Filter_Attribute $filter
      * @param int $value
+     * @return Enterprise_Search_Model_Catalog_Layer_Filter_Attribute
      */
     public function applyFilterToCollection($filter, $value)
     {
@@ -128,5 +129,27 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Attribute extends Mage_Catalo
         $param = Mage::helper('enterprise_search')->getSearchParam($productCollection, $attribute, $value);
         $productCollection->addFqFilter($param);
         return $this;
+    }
+
+    /**
+     * Sort options array according to position value in admin panel
+     *
+     * @param array $options
+     * @return array
+     */
+    public function sortOptions($options)
+    {
+        $sortedOptions = array();
+        $optionCollection = Mage::getResourceModel('eav/entity_attribute_option_collection')
+            ->setAttributeFilter($this->getAttributeModel()->getAttributeId())
+            ->setPositionOrder(Varien_Db_Select::SQL_ASC, true)
+            ->load();
+
+        foreach ($optionCollection as $option) {
+            if(array_key_exists($option->getValue(), $options)) {
+                $sortedOptions[$option->getValue()] = $options[$option->getValue()];
+            }
+        }
+        return $sortedOptions;
     }
 }
