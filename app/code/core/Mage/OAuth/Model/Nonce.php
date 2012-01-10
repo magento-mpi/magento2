@@ -59,10 +59,8 @@ class Mage_OAuth_Model_Nonce extends Mage_Core_Model_Abstract
         //Cleanup old entries
         /** @var $helper Mage_OAuth_Helper_Data */
         $helper = Mage::helper('oauth');
-        $cleanupProbability = $helper->getCleanupProbability();
-        if ($cleanupProbability && !rand($cleanupProbability, 100)) {
-            $this->_getResource()->deleteOldEntries(
-                $helper->getCleanupExpirationPeriod());
+        if ($helper->isCleanupProbability()) {
+            $this->_getResource()->deleteOldEntries($helper->getCleanupExpirationPeriod());
         }
         return $this;
     }

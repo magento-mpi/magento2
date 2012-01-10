@@ -127,13 +127,15 @@ class Mage_OAuth_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * Get cleanup probability value from system configuration
+     * Calculate cleanup possibility for nonce table
      *
-     * @return int
+     * @return bool
      */
-    public function getCleanupProbability()
+    public function isCleanupProbability()
     {
-        return 100;
+        // Get cleanup probability value from system configuration
+        $configValue = 5;
+        return $configValue && $configValue === rand(1, $configValue) ? true : false;
     }
 
     /**
