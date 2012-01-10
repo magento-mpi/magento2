@@ -26,19 +26,41 @@
             <div><?php echo $this->__("The backup's creation process will take time.")?></div>
             <div><?php echo $this->__('You will need to wait when the action ends.')?></div>
             <div><?php echo $this->__('Do you really want to proceed?')?></div>
-            <div class="maintenance-checkbox-container">
-                <input type="checkbox" name="maintenance_mode" value="1" id="backup_maintenance_mode"/>
-                <label for="backup_maintenance_mode"><?php echo $this->__('Put store on the maintenance mode while backup creation')?></label>
-            </div>
         </div>
         <div class="buttons-set">
             <div class="f-right">
-                <button type="button" class="scalable " onclick="backup.submitBackup()"><span><?php echo $this->__('OK')?></span></button>
+                <button type="button" class="scalable " onclick="backup.requestBackupOptions()"><span><?php echo $this->__('OK')?></span></button>
                 <button type="button" class="scalable " onclick="backup.hidePopups()"><span><?php echo $this->__('Cancel')?></span></button>
             </div>
         </div>
     </div>
 </div>
+
+<div class="backup-dialog" style="display: none;" id="backup-options">
+     <div class="entry-edit">
+         <div class="entry-edit-head">
+             <h4 class="head-edit-form fieldset-legend"><?php echo $this->__('Backup options') ?></h4>
+         </div>
+         <div class="content">
+             <div class="backup-messages" style="display: none;"><ul class="messages"></ul></div>
+             <div><?php echo $this->__('Please specify backup creation options')?></div>
+             <div class="exclude-media-checkbox-container">
+                  <input type="checkbox" name="exclude_media" value="1" id="exclude_media"/>
+                  <label for="exclude_media"><?php echo $this->__('Exclude media folder from backup')?></label>
+              </div>
+             <div class="maintenance-checkbox-container">
+                 <input type="checkbox" name="maintenance_mode" value="1" id="backup_maintenance_mode"/>
+                 <label for="backup_maintenance_mode"><?php echo $this->__('Put store on the maintenance mode while backup creation')?></label>
+             </div>
+         </div>
+         <div class="buttons-set">
+             <div class="f-right">
+                 <button type="button" class="scalable " onclick="backup.submitBackup()"><span><?php echo $this->__('OK')?></span></button>
+                 <button type="button" class="scalable " onclick="backup.hidePopups()"><span><?php echo $this->__('Cancel')?></span></button>
+             </div>
+         </div>
+     </div>
+ </div>
 
 <div class="backup-dialog" style="display: none;" id="rollback-request-password">
     <div class="entry-edit">

@@ -13,6 +13,7 @@ AdminBackup.prototype = {
         $('use_ftp').checked = false;
         $('ftp-credentials-container').hide();
         $('backup_maintenance_mode').checked = false;
+        $('exclude_media').checked = false;
         $('password').value = '';
         $$('#rollback-request-password .validation-advice').invoke('remove');
         $$('#rollback-request-password input').invoke('removeClassName', 'validation-failed');
@@ -46,6 +47,13 @@ AdminBackup.prototype = {
         this.showPopup('rollback-warning');
     },
 
+    requestBackupOptions: function() {
+        this.hidePopups();
+        var action = this.type != 'snapshot' ? 'hide' : 'show';
+        $$('.exclude-media-checkbox-container').invoke(action);
+        this.showPopup('backup-options');
+    },
+
     requestPassword: function() {
         this.hidePopups();
         this.type != 'db' ? $('use-ftp-checkbox-row').show() : $('use-ftp-checkbox-row').hide();
@@ -71,7 +79,8 @@ AdminBackup.prototype = {
         this.hidePopups();
         var data = {
             'type': this.type,
-            'maintenance_mode': $('backup_maintenance_mode').checked ? 1 : 0
+            'maintenance_mode': $('backup_maintenance_mode').checked ? 1 : 0,
+            'exclude_media': $('exclude_media').checked ? 1 : 0
         };
 
         new Ajax.Request(this.backupUrl, {

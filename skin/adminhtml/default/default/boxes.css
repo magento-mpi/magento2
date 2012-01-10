@@ -1469,7 +1469,7 @@ ul.super-product-attributes { padding-left:15px; }
 .backup-dialog .password-box-container {margin-top: 15px;}
 .backup-dialog #ftp-credentials-container fieldset {margin-bottom: 0;}
 .backup-dialog input[type=text], .backup-dialog input[type=password] {width: 180px}
-.backup-dialog .maintenance-checkbox-container {margin-top: 15px;}
+.backup-dialog .exclude-media-checkbox-container {margin-top: 15px;}
 .backup-dialog td.maintenance-checkbox-container {margin-top: 0; padding-top: 4px;}
 
 /*****************************************/
