@@ -51,7 +51,7 @@ class Mage_Catalog_Model_Product_Type_Price
      * Get base price with apply Group, Tier, Special prises
      *
      * @param Mage_Catalog_Model_Product $product
-     * @param null $qty
+     * @param float|null $qty
      */
     public function getBasePrice($product, $qty = null)
     {
