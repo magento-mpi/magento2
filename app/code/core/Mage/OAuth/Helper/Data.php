@@ -142,7 +142,7 @@ class Mage_OAuth_Helper_Data extends Mage_Core_Helper_Abstract
     {
         // Get cleanup probability value from system configuration
         $configValue = Mage::getStoreConfig(self::XML_PATH_CLEANUP_PROBABILITY);
-        return $configValue && $configValue == rand(1, $configValue) ? true : false;
+        return $configValue && $configValue == mt_rand(1, $configValue);
     }
 
     /**
