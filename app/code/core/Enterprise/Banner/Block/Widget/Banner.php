@@ -175,17 +175,17 @@ class Enterprise_Banner_Block_Widget_Banner
         $segmentIds = array();
         $customer = Mage::registry('segment_customer');
         if (!$customer) {
-            $customer = Mage::getSingleton('customer/session')->getCustomer();
+            $customer = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer();
         }
         $websiteId = Mage::app()->getWebsite()->getId();
 
         if (!$customer->getId()) {
-            $allSegmentIds = Mage::getSingleton('customer/session')->getCustomerSegmentIds();
+            $allSegmentIds = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerSegmentIds();
             if ((is_array($allSegmentIds) && isset($allSegmentIds[$websiteId]))) {
                 $segmentIds = $allSegmentIds[$websiteId];
             }
         } else {
-            $segmentIds = Mage::getSingleton('enterprise_customersegment/customer')
+            $segmentIds = Mage::getSingleton('Enterprise_CustomerSegment_Model_Customer')
                 ->getCustomerSegmentIdsForWebsite($customer->getId(), $websiteId);
         }
 
@@ -194,7 +194,7 @@ class Enterprise_Banner_Block_Widget_Banner
         // Choose display mode
         switch ($this->getDisplayMode()) {
 
-            case self::BANNER_WIDGET_DISPLAY_SALESRULE :
+            case self::BANNER_WIDGET_DISPLAY_SALESRULE:
                 if (Mage::getSingleton('Mage_Checkout_Model_Session')->getQuoteId()) {
                     $quote = Mage::getSingleton('Mage_Checkout_Model_Session')->getQuote();
                     $aplliedRules = explode(',', $quote->getAppliedRuleIds());

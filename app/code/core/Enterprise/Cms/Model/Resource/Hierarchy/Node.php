@@ -809,7 +809,7 @@ class Enterprise_Cms_Model_Resource_Hierarchy_Node extends Mage_Core_Model_Resou
     {
         // Copy hierarchy
         /** @var $nodesModel Enterprise_Cms_Model_Hierarchy_Node */
-        $nodesModel = Mage::getModel('enterprise_cms/hierarchy_node', array(
+        $nodesModel = Mage::getModel('Enterprise_Cms_Model_Hierarchy_Node', array(
             'scope' =>  $scope,
             'scope_id' => $scopeId,
         ));
@@ -856,7 +856,7 @@ class Enterprise_Cms_Model_Resource_Hierarchy_Node extends Mage_Core_Model_Resou
         try {
             $adapter = $this->_getWriteAdapter();
             // Delete metadata
-            $adapter->delete($this->getTable('enterprise_cms/hierarchy_metadata'), array(
+            $adapter->delete($this->getTable('enterprise_cms_hierarchy_metadata'), array(
                 'node_id IN (?)' => $adapter
                     ->select()
                     ->from($this->getMainTable(), array('node_id'))

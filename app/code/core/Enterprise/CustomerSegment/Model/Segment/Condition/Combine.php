@@ -37,14 +37,14 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Combine
         $conditions = array(
             array(
                 // Subconditions combo
-                'value' => 'enterprise_customersegment/segment_condition_combine',
-                'label' => Mage::helper('enterprise_customersegment')->__('Conditions Combination'),
+                'value' => 'Enterprise_CustomerSegment_Model_Segment_Condition_Combine',
+                'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Conditions Combination'),
                 'available_in_guest_mode' => true
             ),
             array(
                 // Customer address combo
-                'value' => 'enterprise_customersegment/segment_condition_customer_address',
-                'label' => Mage::helper('enterprise_customersegment')->__('Customer Address')
+                'value' => 'Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address',
+                'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Customer Address')
             ),
             // Customer attribute group
             Mage::getModel('Enterprise_CustomerSegment_Model_Segment_Condition_Customer')->getNewChildSelectOptions(),
@@ -56,14 +56,14 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Combine
                 'value' => array(
                     array(
                         // Product list combo
-                        'value' => 'enterprise_customersegment/segment_condition_product_combine_list',
-                        'label' => Mage::helper('enterprise_customersegment')->__('Product List'),
+                        'value' => 'Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_List',
+                        'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Product List'),
                         'available_in_guest_mode' => true
                     ),
                     array(
                         // Product history combo
-                        'value' => 'enterprise_customersegment/segment_condition_product_combine_history',
-                        'label' => Mage::helper('enterprise_customersegment')->__('Product History'),
+                        'value' => 'Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_History',
+                        'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Product History'),
                         'available_in_guest_mode' => true
                     )
                 ),
@@ -115,7 +115,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Combine
                 break;
 
             default:
-                Mage::throwException(Mage::helper('enterprise_customersegment')->__('Wrong "ApplyTo" type'));
+                Mage::throwException(Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Wrong "ApplyTo" type'));
                 break;
         }
         return $returnedConditions;

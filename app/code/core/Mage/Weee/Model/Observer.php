@@ -210,7 +210,7 @@ class Mage_Weee_Model_Observer extends Mage_Core_Model_Abstract
     public function updateBundleProductOptions(Varien_Event_Observer $observer)
     {
         /* @var $weeeHelper Mage_Weee_Helper_Data */
-        $weeeHelper = Mage::helper('weee');
+        $weeeHelper = Mage::helper('Mage_Weee_Helper_Data');
         if (!$weeeHelper->isEnabled()) {
             return $this;
         }

@@ -42,7 +42,7 @@ class Mage_Backup_Model_Fs_Collection extends Varien_Data_Collection_Filesystem
         }
 
         // set collection specific params
-        $extensions = Mage::helper('backup')->getExtensions();
+        $extensions = Mage::helper('Mage_Backup_Helper_Data')->getExtensions();
 
         foreach ($extensions as $key => $value) {
             $extensions[] = '(' . preg_quote($value, '/') . ')';

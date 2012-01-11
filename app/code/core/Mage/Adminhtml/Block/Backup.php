@@ -30,23 +30,23 @@ class Mage_Adminhtml_Block_Backup extends Mage_Adminhtml_Block_Template
         $this->setChild('createButton',
             $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->setData(array(
-                    'label' => Mage::helper('backup')->__('Database Backup'),
+                    'label' => Mage::helper('Mage_Backup_Helper_Data')->__('Database Backup'),
                     'onclick' => "return backup.backup('" . Mage_Backup_Helper_Data::TYPE_DB . "')",
                     'class'  => 'task'
                 ))
         );
         $this->setChild('createSnapshotButton',
-            $this->getLayout()->createBlock('adminhtml/widget_button')
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->setData(array(
-                    'label' => Mage::helper('backup')->__('System Backup'),
+                    'label' => Mage::helper('Mage_Backup_Helper_Data')->__('System Backup'),
                     'onclick' => "return backup.backup('" . Mage_Backup_Helper_Data::TYPE_SYSTEM_SNAPSHOT . "')",
                     'class'  => ''
                 ))
         );
         $this->setChild('createMediaBackupButton',
-            $this->getLayout()->createBlock('adminhtml/widget_button')
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->setData(array(
-                    'label' => Mage::helper('backup')->__('Database and Media Backup'),
+                    'label' => Mage::helper('Mage_Backup_Helper_Data')->__('Database and Media Backup'),
                     'onclick' => "return backup.backup('" . Mage_Backup_Helper_Data::TYPE_MEDIA . "')",
                     'class'  => ''
                 ))
@@ -55,7 +55,7 @@ class Mage_Adminhtml_Block_Backup extends Mage_Adminhtml_Block_Template
             $this->getLayout()->createBlock('Mage_Adminhtml_Block_Backup_Grid')
         );
 
-        $this->setChild('dialogs', $this->getLayout()->createBlock('adminhtml/backup_dialogs'));
+        $this->setChild('dialogs', $this->getLayout()->createBlock('Mage_Adminhtml_Block_Backup_Dialogs'));
     }
 
     public function getCreateButtonHtml()

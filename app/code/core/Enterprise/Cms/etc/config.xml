@@ -135,7 +135,7 @@
             <website_delete_after>
                 <observers>
                     <enterprise_cms>
-                        <class>enterprise_cms/observer</class>
+                        <class>Enterprise_Cms_Model_Observer</class>
                         <method>deleteWebsite</method>
                     </enterprise_cms>
                 </observers>
@@ -143,7 +143,7 @@
             <store_delete_after>
                 <observers>
                     <enterprise_cms>
-                        <class>enterprise_cms/observer</class>
+                        <class>Enterprise_Cms_Model_Observer</class>
                         <method>deleteStore</method>
                     </enterprise_cms>
                 </observers>

@@ -48,8 +48,8 @@ class Mage_Rss_Block_Catalog_Review extends Mage_Rss_Block_Abstract
     protected function _toHtml()
     {
         $newUrl = Mage::getUrl('rss/catalog/review');
-        $title = Mage::helper('rss')->__('Pending product review(s)');
-        Mage::helper('rss')->disableFlat();
+        $title = Mage::helper('Mage_Rss_Helper_Data')->__('Pending product review(s)');
+        Mage::helper('Mage_Rss_Helper_Data')->disableFlat();
 
         $rssObj = Mage::getModel('Mage_Rss_Model_Rss');
         $data = array(

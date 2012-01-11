@@ -34,7 +34,7 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit extends Ma
                 && $segment->getApplyTo() != Enterprise_CustomerSegment_Model_Segment::APPLY_TO_VISITORS
             ) {
                 $this->_addButton('match_customers', array(
-                    'label' => Mage::helper('enterprise_customersegment')->__('Refresh Segment Data'),
+                    'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Refresh Segment Data'),
                     'onclick' => 'setLocation(\'' . $this->getMatchUrl() . '\')',
                 ), -1);
             }

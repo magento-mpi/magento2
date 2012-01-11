@@ -44,7 +44,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart_Amount
     public function getNewChildSelectOptions()
     {
         return array('value' => $this->getType(),
-            'label' => Mage::helper('enterprise_customersegment')->__('Shopping Cart Total'),
+            'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Shopping Cart Total'),
             'available_in_guest_mode' => true);
     }
 
@@ -102,7 +102,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart_Amount
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . Mage::helper('enterprise_customersegment')->__('Shopping Cart %s Amount %s %s:', $this->getAttributeElementHtml(), $this->getOperatorElementHtml(), $this->getValueElementHtml())
+            . Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Shopping Cart %s Amount %s %s:', $this->getAttributeElementHtml(), $this->getOperatorElementHtml(), $this->getValueElementHtml())
             . $this->getRemoveLinkHtml();
     }
 

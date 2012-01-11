@@ -40,7 +40,7 @@ class Enterprise_Search_Block_Recommendations extends Mage_Core_Block_Template
         $result = array();
 
         /** @var $coreHelper Mage_Core_Helper_Data */
-        $coreHelper = Mage::helper('core');
+        $coreHelper = Mage::helper('Mage_Core_Helper_Data');
         foreach ($recommendations as $recommendation) {
             $result[] = array(
                 'word'        => $coreHelper->escapeHtml($recommendation['query_text']),

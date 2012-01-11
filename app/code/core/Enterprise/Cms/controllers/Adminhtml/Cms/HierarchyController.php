@@ -139,7 +139,7 @@ class Enterprise_Cms_Adminhtml_Cms_HierarchyController extends Mage_Adminhtml_Co
 
         $this->_initScope();
 
-        $nodeModel = Mage::getModel('enterprise_cms/hierarchy_node',
+        $nodeModel = Mage::getModel('Enterprise_Cms_Model_Hierarchy_Node',
                 array('scope' => $this->_scope, 'scope_id' => $this->_scopeId));
 
         // restore data if exists
@@ -174,7 +174,7 @@ class Enterprise_Cms_Adminhtml_Cms_HierarchyController extends Mage_Adminhtml_Co
             }
             try {
                 /* @var $nodeModel Enterprise_Cms_Model_Hierarchy_Node */
-                $nodeModel = Mage::getModel('enterprise_cms/hierarchy_node');
+                $nodeModel = Mage::getModel('Enterprise_Cms_Model_Hierarchy_Node');
                 foreach (array_unique($scopes) as $value) {
                     list ($scope, $scopeId) = $this->_getScopeData($value);
                     $nodeModel->setScope($scope);
@@ -187,7 +187,7 @@ class Enterprise_Cms_Adminhtml_Cms_HierarchyController extends Mage_Adminhtml_Co
                 $this->_getSession()->addError($e->getMessage());
             } catch (Exception $e) {
                 $this->_getSession()->addException($e,
-                    Mage::helper('enterprise_cms')->__('There has been an error deleting hierarchy.')
+                    Mage::helper('Enterprise_Cms_Helper_Data')->__('There has been an error deleting hierarchy.')
                 );
             }
         }
@@ -207,7 +207,7 @@ class Enterprise_Cms_Adminhtml_Cms_HierarchyController extends Mage_Adminhtml_Co
         $scopes = $this->getRequest()->getParam('scopes');
         if ($this->getRequest()->isPost() && is_array($scopes) && !empty($scopes)) {
             /** @var $nodeModel Enterprise_Cms_Model_Hierarchy_Node */
-            $nodeModel = Mage::getModel('enterprise_cms/hierarchy_node', array(
+            $nodeModel = Mage::getModel('Enterprise_Cms_Model_Hierarchy_Node', array(
                 'scope' =>  $this->_scope,
                 'scope_id' => $this->_scopeId,
             ));
@@ -222,7 +222,7 @@ class Enterprise_Cms_Adminhtml_Cms_HierarchyController extends Mage_Adminhtml_Co
                 $this->_getSession()->addError($e->getMessage());
             } catch (Exception $e) {
                 $this->_getSession()->addException($e,
-                    Mage::helper('enterprise_cms')->__('There has been an error copying hierarchy.')
+                    Mage::helper('Enterprise_Cms_Helper_Data')->__('There has been an error copying hierarchy.')
                 );
             }
         }
@@ -250,7 +250,7 @@ class Enterprise_Cms_Adminhtml_Cms_HierarchyController extends Mage_Adminhtml_Co
         $this->_initScope();
         if ($this->getRequest()->isPost()) {
             /** @var $node Enterprise_Cms_Model_Hierarchy_Node */
-            $node       = Mage::getModel('enterprise_cms/hierarchy_node', array(
+            $node       = Mage::getModel('Enterprise_Cms_Model_Hierarchy_Node', array(
                 'scope' =>  $this->_scope,
                 'scope_id' => $this->_scopeId
             ));
@@ -263,7 +263,7 @@ class Enterprise_Cms_Adminhtml_Cms_HierarchyController extends Mage_Adminhtml_Co
                 } else {
                     if (!empty($data['nodes_data'])) {
                         try{
-                            $nodesData = Mage::helper('core')->jsonDecode($data['nodes_data']);
+                            $nodesData = Mage::helper('Mage_Core_Helper_Data')->jsonDecode($data['nodes_data']);
                         }catch (Zend_Json_Exception $e){
                             $nodesData = array();
                         }
@@ -302,7 +302,7 @@ class Enterprise_Cms_Adminhtml_Cms_HierarchyController extends Mage_Adminhtml_Co
                 $this->_getSession()->addError($e->getMessage());
             } catch (Exception $e) {
                 $this->_getSession()->addException($e,
-                    Mage::helper('enterprise_cms')->__('There has been an error saving hierarchy.')
+                    Mage::helper('Enterprise_Cms_Helper_Data')->__('There has been an error saving hierarchy.')
                 );
             }
 

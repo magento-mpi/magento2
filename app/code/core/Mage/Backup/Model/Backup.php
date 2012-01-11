@@ -43,7 +43,7 @@ class Mage_Backup_Model_Backup extends Varien_Object
      */
     public function load($fileName, $filePath)
     {
-        $extensions = Mage::helper('backup')->getExtensions();
+        $extensions = Mage::helper('Mage_Backup_Helper_Data')->getExtensions();
 
         $fileNameWithoutExtension = $fileName;
 
@@ -61,7 +61,7 @@ class Mage_Backup_Model_Backup extends Varien_Object
             'id'   => $filePath . DS . $fileName,
             'time' => (int)$time,
             'path' => $filePath,
-            'extension' => Mage::helper('backup')->getExtensionByType($type),
+            'extension' => Mage::helper('Mage_Backup_Helper_Data')->getExtensionByType($type),
             'date_object' => new Zend_Date((int)$time, Mage::app()->getLocale()->getLocaleCode())
         ));
         $this->setType($type);
@@ -86,7 +86,7 @@ class Mage_Backup_Model_Backup extends Varien_Object
     public function getFileName()
     {
         return $this->getTime() . "_" . $this->getType()
-               . "." . Mage::helper('backup')->getExtensionByType($this->getType());
+               . "." . Mage::helper('Mage_Backup_Helper_Data')->getExtensionByType($this->getType());
     }
 
     /**
@@ -96,9 +96,9 @@ class Mage_Backup_Model_Backup extends Varien_Object
      */
     public function setType($value='db')
     {
-        $possibleTypes = Mage::helper('backup')->getBackupTypesList();
+        $possibleTypes = Mage::helper('Mage_Backup_Helper_Data')->getBackupTypesList();
         if(!in_array($value, $possibleTypes)) {
-            $value = Mage::helper('backup')->getDefaultBackupType();
+            $value = Mage::helper('Mage_Backup_Helper_Data')->getDefaultBackupType();
         }
 
         $this->_type = $value;
@@ -246,7 +246,7 @@ class Mage_Backup_Model_Backup extends Varien_Object
 
         if (!$this->_handler) {
             throw new Mage_Backup_Exception_NotEnoughPermissions(
-                Mage::helper('backup')->__('Backup file "%s" cannot be read from or written to.', $this->getFileName())
+                Mage::helper('Mage_Backup_Helper_Data')->__('Backup file "%s" cannot be read from or written to.', $this->getFileName())
             );
         }
 
@@ -354,7 +354,7 @@ class Mage_Backup_Model_Backup extends Varien_Object
      */
     public function validateUserPassword($password)
     {
-        $userPasswordHash = Mage::getModel('admin/session')->getUser()->getPassword();
-        return Mage::helper('core')->validateHash($password, $userPasswordHash);
+        $userPasswordHash = Mage::getModel('Mage_Admin_Model_Session')->getUser()->getPassword();
+        return Mage::helper('Mage_Core_Helper_Data')->validateHash($password, $userPasswordHash);
     }
 }

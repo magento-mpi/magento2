@@ -78,7 +78,7 @@
             </sales_order_place_after>
         </events>
         <logging_actions>
-            <share translate="label" module="enterprise_giftregistry">
+            <share translate="label" module="Enterprise_GiftRegistry">
                 <label>Share</label>
             </share>
         </logging_actions>

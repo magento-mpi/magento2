@@ -45,7 +45,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Account extends Mage_Adminhtml_Bloc
             ->initDefaultValues();
 
         $fieldset = $form->addFieldset('base_fieldset', array(
-            'legend' => Mage::helper('customer')->__('Account Information')
+            'legend' => Mage::helper('Mage_Customer_Helper_Data')->__('Account Information')
         ));
 
         $attributes = $customerForm->getAttributes();
@@ -57,7 +57,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Account extends Mage_Adminhtml_Bloc
         $this->_setFieldset($attributes, $fieldset, array($disableAutoGroupChangeAttributeName), 'customer');
 
         $form->getElement('group_id')->setRenderer($this->getLayout()
-            ->createBlock('adminhtml/customer_edit_renderer_attribute_group')
+            ->createBlock('Mage_Adminhtml_Block_Customer_Edit_Renderer_Attribute_Group')
             ->setDisableAutoGroupChangeAttribute($customerForm->getAttribute($disableAutoGroupChangeAttributeName))
             ->setDisableAutoGroupChangeAttributeValue($customer->getData($disableAutoGroupChangeAttributeName)));
 
@@ -77,10 +77,10 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Account extends Mage_Adminhtml_Bloc
             $form->getElement('website_id')->setAfterElementHtml(
                 '<script type="text/javascript">'
                 . "
-                var {$prefix}_websites = " . Mage::helper('core')->jsonEncode($websites) .";
+                var {$prefix}_websites = " . Mage::helper('Mage_Core_Helper_Data')->jsonEncode($websites) .";
                 Validation.add(
                     'validate-website-has-store',
-                    '" . Mage::helper('customer')->__('Please select a website which contains store view') . "',
+                    '" . Mage::helper('Mage_Customer_Helper_Data')->__('Please select a website which contains store view') . "',
                     function(v, elem){
                         return {$prefix}_websites[elem.value] == true;
                     }
@@ -138,7 +138,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Account extends Mage_Adminhtml_Bloc
                 // Add password management fieldset
                 $newFieldset = $form->addFieldset(
                     'password_fieldset',
-                    array('legend' => Mage::helper('customer')->__('Password Management'))
+                    array('legend' => Mage::helper('Mage_Customer_Helper_Data')->__('Password Management'))
                 );
                 // New customer password
                 $field = $newFieldset->addField('new_password', 'text',

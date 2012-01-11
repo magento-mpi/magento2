@@ -1,27 +1,11 @@
 <?php
 /**
- * Magento Enterprise Edition
- *
- * NOTICE OF LICENSE
- *
- * This source file is subject to the Magento Enterprise Edition License
- * that is bundled with this package in the file LICENSE_EE.txt.
- * It is also available through the world-wide-web at this URL:
- * http://www.magentocommerce.com/license/enterprise-edition
- * If you did not receive a copy of the license and are unable to
- * obtain it through the world-wide-web, please send an email
- * to license@magentocommerce.com so we can send you a copy immediately.
- *
- * DISCLAIMER
- *
- * Do not edit or add to this file if you wish to upgrade Magento to newer
- * versions in the future. If you wish to customize Magento for your
- * needs please refer to http://www.magentocommerce.com for more information.
+ * {license_notice}
  *
  * @category    Enterprise
  * @package     Enterprise_Cms
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
- * @license     http://www.magentocommerce.com/license/enterprise-edition
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 
 /**
@@ -84,21 +68,21 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Manage extends Mage_Adminhtml
         $form->addField('scopes', 'multiselect', array(
             'name'      => 'scopes[]',
             'class'     => 'manage-select',
-            'title'     => Mage::helper('enterprise_cms')->__('Manage Hierarchies'),
+            'title'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('Manage Hierarchies'),
             'values'    => $this->_prepareOptions($allStoreViews, $excludeScopes)
         ));
 
         $form->addField('submit_copy', 'note', array(
-            'text'      => $this->getLayout()->createBlock('adminhtml/widget_button')->setData(array(
-                'label'   => Mage::helper('enterprise_cms')->__('Copy Hierarchy To'),
+            'text'      => $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')->setData(array(
+                'label'   => Mage::helper('Enterprise_Cms_Helper_Data')->__('Copy Hierarchy To'),
                 'class'   => 'cms-hierarchy copy-submit',
                 'onclick' => 'submitCopy(this)'
             ))->toHtml(),
         ));
 
         $form->addField('submit_delete', 'note', array(
-            'text'      => $this->getLayout()->createBlock('adminhtml/widget_button')->setData(array(
-                'label'   => Mage::helper('enterprise_cms')->__('Delete Hierarchies From'),
+            'text'      => $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')->setData(array(
+                'label'   => Mage::helper('Enterprise_Cms_Helper_Data')->__('Delete Hierarchies From'),
                 'class'   => 'cms-hierarchy delete-submit',
                 'onclick' => 'submitDelete(this)'
             ))->toHtml(),
@@ -132,7 +116,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Manage extends Mage_Adminhtml
      */
     protected function _prepareOptions($all = false, $excludeScopes)
     {
-        $storeStructure = Mage::getSingleton('adminhtml/system_store')
+        $storeStructure = Mage::getSingleton('Mage_Adminhtml_Model_System_Store')
                 ->getStoresStructure($all);
         $nonEscapableNbspChar = html_entity_decode('&#160;', ENT_NOQUOTES, 'UTF-8');
         $options = array();

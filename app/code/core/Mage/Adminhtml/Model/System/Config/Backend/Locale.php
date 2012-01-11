@@ -35,7 +35,7 @@ class Mage_Adminhtml_Model_System_Config_Backend_Locale extends Mage_Core_Model_
 
         foreach ($collection as $data) {
             $match = false;
-            $scopeName = Mage::helper('adminhtml')->__('Default scope');
+            $scopeName = Mage::helper('Mage_Adminhtml_Helper_Data')->__('Default scope');
 
             if (preg_match('/(base|default)$/', $data->getPath(), $match)) {
                 if (!in_array($data->getValue(), $values)) {
@@ -63,7 +63,7 @@ class Mage_Adminhtml_Model_System_Config_Backend_Locale extends Mage_Core_Model_
                             break;
                     }
 
-                    $exceptions[] = Mage::helper('adminhtml')->__('Currency "%s" is used as %s in %s.', $currencyName, $fieldName, $scopeName);
+                    $exceptions[] = Mage::helper('Mage_Adminhtml_Helper_Data')->__('Currency "%s" is used as %s in %s.', $currencyName, $fieldName, $scopeName);
                 }
             }
         }

@@ -986,15 +986,15 @@ final class Maged_Controller
             $type = $this->_getBackupTypeByCode($archiveType);
 
             $backupManager = Mage_Backup::getBackupInstance($type)
-                ->setBackupExtension(Mage::helper('backup')->getExtensionByType($type))
+                ->setBackupExtension(Mage::helper('Mage_Backup_Helper_Data')->getExtensionByType($type))
                 ->setTime(time())
-                ->setBackupsDir(Mage::helper('backup')->getBackupsDir());
+                ->setBackupsDir(Mage::helper('Mage_Backup_Helper_Data')->getBackupsDir());
 
             Mage::register('backup_manager', $backupManager);
 
             if ($type != Mage_Backup_Helper_Data::TYPE_DB) {
                 $backupManager->setRootDir(Mage::getBaseDir())
-                    ->addIgnorePaths(Mage::helper('backup')->getBackupIgnorePaths());
+                    ->addIgnorePaths(Mage::helper('Mage_Backup_Helper_Data')->getBackupIgnorePaths());
             }
             $backupManager->create();
             $connect->runHtmlConsole(

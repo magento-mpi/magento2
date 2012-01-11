@@ -63,7 +63,7 @@ class Enterprise_Pci_Model_Observer
             $lockExpires = $lockExpires->toValue();
             if ($lockExpires > time()) {
                 throw new Mage_Core_Exception(
-                    Mage::helper('enterprise_pci')->__('This account is locked.'),
+                    Mage::helper('Enterprise_Pci_Helper_Data')->__('This account is locked.'),
                     self::ADMIN_USER_LOCKED
                 );
             }
@@ -79,7 +79,7 @@ class Enterprise_Pci_Model_Observer
          * Check whether the latest password is expired
          * Side-effect can be when passwords were changed with different lifetime configuration settings
          */
-        $latestPassword = Mage::getResourceSingleton('enterprise_pci/admin_user')->getLatestPassword($user->getId());
+        $latestPassword = Mage::getResourceSingleton('Enterprise_Pci_Model_Resource_Admin_User')->getLatestPassword($user->getId());
         if ($latestPassword) {
             if (isset($latestPassword['expires'])
                 && (
@@ -90,8 +90,8 @@ class Enterprise_Pci_Model_Observer
                 if ($this->isPasswordChangeForced()) {
                     $message = Mage::helper('Enterprise_Pci_Helper_Data')->__('Your password has expired, you must change it now.');
                 } else {
-                    $myAccountUrl = Mage::getSingleton('adminhtml/url')->getUrl('adminhtml/system_account/');
-                    $message = Mage::helper('enterprise_pci')
+                    $myAccountUrl = Mage::getSingleton('Mage_Adminhtml_Model_Url')->getUrl('adminhtml/system_account/');
+                    $message = Mage::helper('Enterprise_Pci_Helper_Data')
                         ->__('Your password has expired, please <a href="%s">change it</a>.', $myAccountUrl);
                 }
                 Mage::getSingleton('Mage_Adminhtml_Model_Session')->addNotice($message);
@@ -159,8 +159,8 @@ class Enterprise_Pci_Model_Observer
         }
 
         if ($password && !$user->getForceNewPassword() && $user->getId()) {
-            if (Mage::helper('core')->validateHash($password, $user->getOrigData('password'))) {
-                Mage::throwException(Mage::helper('enterprise_pci')->__('This password was used earlier, try another one.'));
+            if (Mage::helper('Mage_Core_Helper_Data')->validateHash($password, $user->getOrigData('password'))) {
+                Mage::throwException(Mage::helper('Enterprise_Pci_Helper_Data')->__('This password was used earlier, try another one.'));
             }
 
             // check whether password was used before
@@ -190,10 +190,10 @@ class Enterprise_Pci_Model_Observer
                 $resource     = Mage::getResourceSingleton('Enterprise_Pci_Model_Resource_Admin_User');
                 $passwordHash = Mage::helper('Mage_Core_Helper_Data')->getHash($password, false);
                 $resource->trackPassword($user, $passwordHash, $passwordLifetime);
-                Mage::getSingleton('adminhtml/session')
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')
                         ->getMessages()
                         ->deleteMessageByIdentifier('enterprise_pci_password_expired');
-                Mage::getSingleton('admin/session')->unsPciAdminUserIsPasswordExpired();
+                Mage::getSingleton('Mage_Admin_Model_Session')->unsPciAdminUserIsPasswordExpired();
             }
         }
     }
@@ -238,8 +238,8 @@ class Enterprise_Pci_Model_Observer
                     $controller->getFullActionName(),
                     array('adminhtml_system_account_index', 'adminhtml_system_account_save', 'adminhtml_index_logout')
             )) {
-                if (Mage::getSingleton('admin/session')->isAllowed('admin/system/myaccount')) {
-                    $controller->getResponse()->setRedirect(Mage::getSingleton('adminhtml/url')
+                if (Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('admin/system/myaccount')) {
+                    $controller->getResponse()->setRedirect(Mage::getSingleton('Mage_Adminhtml_Model_Url')
                             ->getUrl('adminhtml/system_account/'));
                     $controller->setFlag('', Mage_Core_Controller_Varien_Action::FLAG_NO_DISPATCH, true);
                     $controller->setFlag('', Mage_Core_Controller_Varien_Action::FLAG_NO_POST_DISPATCH, true);

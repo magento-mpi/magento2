@@ -46,9 +46,9 @@ class Mage_Adminhtml_Block_Backup_Grid extends Mage_Adminhtml_Block_Widget_Grid
         $this->getMassactionBlock()->setFormFieldName('ids');
 
         $this->getMassactionBlock()->addItem('delete', array(
-             'label'=> Mage::helper('adminhtml')->__('Delete'),
+             'label'=> Mage::helper('Mage_Adminhtml_Helper_Data')->__('Delete'),
              'url'  => $this->getUrl('*/*/massDelete'),
-             'confirm' => Mage::helper('backup')->__('Are you sure you want to delete the selected backup(s)?')
+             'confirm' => Mage::helper('Mage_Backup_Helper_Data')->__('Are you sure you want to delete the selected backup(s)?')
         ));
 
         return $this;
@@ -80,7 +80,7 @@ class Mage_Adminhtml_Block_Backup_Grid extends Mage_Adminhtml_Block_Widget_Grid
         $this->addColumn('type', array(
             'header'    => Mage::helper('Mage_Backup_Helper_Data')->__('Type'),
             'type'      => 'options',
-            'options'   => Mage::helper('backup')->getBackupTypes(),
+            'options'   => Mage::helper('Mage_Backup_Helper_Data')->getBackupTypes(),
             'index'     =>'type'
         ));
 
@@ -93,16 +93,16 @@ class Mage_Adminhtml_Block_Backup_Grid extends Mage_Adminhtml_Block_Widget_Grid
             'filter'    => false
         ));
 
-        if (Mage::helper('backup')->isRollbackAllowed()){
+        if (Mage::helper('Mage_Backup_Helper_Data')->isRollbackAllowed()){
             $this->addColumn('action', array(
-                    'header'   => Mage::helper('backup')->__('Action'),
+                    'header'   => Mage::helper('Mage_Backup_Helper_Data')->__('Action'),
                     'type'     => 'action',
                     'width'    => '80px',
                     'filter'   => false,
                     'sortable' => false,
                     'actions'  => array(array(
                         'url'     => '#',
-                        'caption' => Mage::helper('backup')->__('Rollback'),
+                        'caption' => Mage::helper('Mage_Backup_Helper_Data')->__('Rollback'),
                         'onclick' => 'return backup.rollback(\'$type\', \'$time\');'
                     )),
                     'index'    => 'type',

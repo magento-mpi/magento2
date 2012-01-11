@@ -817,6 +817,6 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
      */
     protected function _isVatValidationEnabled($store = null)
     {
-        return Mage::helper('customer/address')->isVatValidationEnabled($store);
+        return Mage::helper('Mage_Customer_Helper_Address')->isVatValidationEnabled($store);
     }
 }

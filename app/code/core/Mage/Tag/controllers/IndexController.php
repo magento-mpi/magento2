@@ -115,7 +115,7 @@ class Mage_Tag_IndexController extends Mage_Core_Controller_Front_Action
     protected function _fillMessageBox($counter)
     {
         $session = Mage::getSingleton('Mage_Catalog_Model_Session');
-        $helper = Mage::helper('core');
+        $helper = Mage::helper('Mage_Core_Helper_Data');
 
         if (count($counter[Mage_Tag_Model_Tag::ADD_STATUS_NEW])) {
             $session->addSuccess(

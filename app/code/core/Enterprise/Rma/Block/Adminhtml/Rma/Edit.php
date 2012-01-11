@@ -122,7 +122,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit extends Mage_Adminhtml_Block_Widge
     public function getHeaderText()
     {
         if ($this->getRma()->getId()) {
-            return Mage::helper('enterprise_rma')->__('RMA #%s - %s', intval($this->getRma()->getIncrementId()), $this->getRma()->getStatusLabel());
+            return Mage::helper('Enterprise_Rma_Helper_Data')->__('RMA #%s - %s', intval($this->getRma()->getIncrementId()), $this->getRma()->getStatusLabel());
         }
 
         return '';

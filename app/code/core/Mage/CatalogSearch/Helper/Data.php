@@ -270,7 +270,7 @@ class Mage_CatalogSearch_Helper_Data extends Mage_Core_Helper_Abstract
             $this->addNoteMessage($this->__('Maximum Search query  length is %s. Your query was cut.', $this->getMaxQueryLength()));
         }
 
-        $stringHelper = Mage::helper('core/string');
+        $stringHelper = Mage::helper('Mage_Core_Helper_String');
         /* @var $stringHelper Mage_Core_Helper_String */
 
         $searchType = Mage::getStoreConfig(Mage_CatalogSearch_Model_Fulltext::XML_PATH_CATALOG_SEARCH_TYPE);
@@ -283,7 +283,7 @@ class Mage_CatalogSearch_Helper_Data extends Mage_Core_Helper_Abstract
             if (count($wordsFull) > count($wordsLike)) {
                 $wordsCut = array_diff($wordsFull, $wordsLike);
 
-                $wordsCut = array_map(array($this, 'htmlEscape'), $wordsCut);
+                $wordsCut = array_map(array($this, 'escapeHtml'), $wordsCut);
                 $this->addNoteMessage(
                     $this->__('Maximum words count is %1$s. In your search query was cut next part: %2$s.', $this->getMaxQueryWords(), join(' ', $wordsCut))
                 );

@@ -89,39 +89,39 @@ class Mage_Adminhtml_Block_Catalog_Search_Edit_Form extends Mage_Adminhtml_Block
         if ($model->getId()) {
             $fieldset->addField('num_results', 'text', array(
                 'name'     => 'num_results',
-                'label'    => Mage::helper('catalog')->__('Number of results'),
-                'title'    => Mage::helper('catalog')->__('Number of results (For the last time placed)'),
-                'note'     => Mage::helper('catalog')->__('For the last time placed.'),
+                'label'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Number of results'),
+                'title'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Number of results (For the last time placed)'),
+                'note'     => Mage::helper('Mage_Catalog_Helper_Data')->__('For the last time placed.'),
                 'required' => true,
             ));
 
             $fieldset->addField('popularity', 'text', array(
                 'name'     => 'popularity',
-                'label'    => Mage::helper('catalog')->__('Number of Uses'),
-                'title'    => Mage::helper('catalog')->__('Number of Uses'),
+                'label'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Number of Uses'),
+                'title'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Number of Uses'),
                 'required' => true,
             ));
         }
 
         $fieldset->addField('synonym_for', 'text', array(
             'name'  => 'synonym_for',
-            'label' => Mage::helper('catalog')->__('Synonym For'),
-            'title' => Mage::helper('catalog')->__('Synonym For'),
-            'note'  => Mage::helper('catalog')->__('Will make search for the query above return results for this search.'),
+            'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Synonym For'),
+            'title' => Mage::helper('Mage_Catalog_Helper_Data')->__('Synonym For'),
+            'note'  => Mage::helper('Mage_Catalog_Helper_Data')->__('Will make search for the query above return results for this search.'),
         ));
 
         $fieldset->addField('redirect', 'text', array(
             'name'  => 'redirect',
-            'label' => Mage::helper('catalog')->__('Redirect URL'),
-            'title' => Mage::helper('catalog')->__('Redirect URL'),
+            'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Redirect URL'),
+            'title' => Mage::helper('Mage_Catalog_Helper_Data')->__('Redirect URL'),
             'class' => 'validate-url',
-            'note'  => Mage::helper('catalog')->__('ex. http://domain.com'),
+            'note'  => Mage::helper('Mage_Catalog_Helper_Data')->__('ex. http://domain.com'),
         ));
 
         $fieldset->addField('display_in_terms', 'select', array(
             'name'   => 'display_in_terms',
-            'label'  => Mage::helper('catalog')->__('Display in Suggested Terms'),
-            'title'  => Mage::helper('catalog')->__('Display in Suggested Terms'),
+            'label'  => Mage::helper('Mage_Catalog_Helper_Data')->__('Display in Suggested Terms'),
+            'title'  => Mage::helper('Mage_Catalog_Helper_Data')->__('Display in Suggested Terms'),
             'values' => $yesno,
         ));
 

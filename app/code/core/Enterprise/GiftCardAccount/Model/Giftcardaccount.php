@@ -449,7 +449,7 @@ class Enterprise_GiftCardAccount_Model_Giftcardaccount extends Mage_Core_Model_A
                 Mage::throwException(Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Invalid customer ID supplied.'));
             }
 
-            $additionalInfo = Mage::helper('enterprise_giftcardaccount')->__('Gift Card Redeemed: %s. For customer #%s.', $this->getCode(), $customerId);
+            $additionalInfo = Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Gift Card Redeemed: %s. For customer #%s.', $this->getCode(), $customerId);
 
             $balance = Mage::getModel('Enterprise_CustomerBalance_Model_Balance')
                 ->setCustomerId($customerId)

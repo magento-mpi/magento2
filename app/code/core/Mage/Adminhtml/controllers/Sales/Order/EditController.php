@@ -46,10 +46,10 @@ class Mage_Adminhtml_Sales_Order_EditController extends Mage_Adminhtml_Sales_Ord
                 $this->_redirect('*/sales_order/');
             }
         } catch (Mage_Core_Exception $e) {
-            Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
             $this->_redirect('*/sales_order/view', array('order_id' => $orderId));
         } catch (Exception $e) {
-            Mage::getSingleton('adminhtml/session')->addException($e, $e->getMessage());
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addException($e, $e->getMessage());
             $this->_redirect('*/sales_order/view', array('order_id' => $orderId));
         }
     }

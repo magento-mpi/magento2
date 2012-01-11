@@ -1,27 +1,11 @@
 <?php
 /**
- * Magento
- *
- * NOTICE OF LICENSE
- *
- * This source file is subject to the Open Software License (OSL 3.0)
- * that is bundled with this package in the file LICENSE.txt.
- * It is also available through the world-wide-web at this URL:
- * http://opensource.org/licenses/osl-3.0.php
- * If you did not receive a copy of the license and are unable to
- * obtain it through the world-wide-web, please send an email
- * to license@magentocommerce.com so we can send you a copy immediately.
- *
- * DISCLAIMER
- *
- * Do not edit or add to this file if you wish to upgrade Magento to newer
- * versions in the future. If you wish to customize Magento for your
- * needs please refer to http://www.magentocommerce.com for more information.
+ * {license_notice}
  *
  * @category    Mage
  * @package     Mage_Reports
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
- * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 
 
@@ -67,7 +51,7 @@ class Mage_Reports_Model_Resource_Report_Product_Viewed extends Mage_Sales_Model
 
         if ($from !== null || $to !== null) {
             $subSelect = $this->_getTableDateRangeSelect(
-                $this->getTable('reports/event'),
+                $this->getTable('report_event'),
                 'logged_at', 'logged_at', $from, $to
             );
         } else {
@@ -77,12 +61,12 @@ class Mage_Reports_Model_Resource_Report_Product_Viewed extends Mage_Sales_Model
         // convert dates from UTC to current admin timezone
         $periodExpr = $adapter->getDatePartSql(
             $this->getStoreTZOffsetQuery(
-                array('source_table' => $this->getTable('reports/event')),
+                array('source_table' => $this->getTable('report_event')),
                 'source_table.logged_at', $from, $to
             )
         );
 
-        $helper = Mage::getResourceHelper('core');
+        $helper = Mage::getResourceHelper('Mage_Core');
         $select = $adapter->select();
 
         $select->group(array(
@@ -119,16 +103,16 @@ class Mage_Reports_Model_Resource_Report_Product_Viewed extends Mage_Sales_Model
         $select
             ->from(
                 array(
-                    'source_table' => $this->getTable('reports/event')),
+                    'source_table' => $this->getTable('report_event')),
                 $columns)
             ->where('source_table.event_type_id = ?', Mage_Reports_Model_Event::EVENT_PRODUCT_VIEW);
 
         /** @var Mage_Catalog_Model_Resource_Product $product */
-        $product  = Mage::getResourceSingleton('catalog/product');
+        $product  = Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Product');
 
         $select->joinInner(
             array(
-                'product' => $this->getTable('catalog/product')),
+                'product' => $this->getTable('catalog_product_entity')),
             'product.entity_id = source_table.object_id',
             array()
         );
@@ -198,11 +182,11 @@ class Mage_Reports_Model_Resource_Report_Product_Viewed extends Mage_Sales_Model
             array_keys($columns));
         $adapter->query($insertQuery);
 
-        Mage::getResourceHelper('reports')
+        Mage::getResourceHelper('Mage_Reports')
             ->updateReportRatingPos('day', 'views_num', $mainTable, $this->getTable(self::AGGREGATION_DAILY));
-        Mage::getResourceHelper('reports')
+        Mage::getResourceHelper('Mage_Reports')
             ->updateReportRatingPos('month', 'views_num', $mainTable, $this->getTable(self::AGGREGATION_MONTHLY));
-        Mage::getResourceHelper('reports')
+        Mage::getResourceHelper('Mage_Reports')
             ->updateReportRatingPos('year', 'views_num', $mainTable, $this->getTable(self::AGGREGATION_YEARLY));
 
         $this->_setFlagData(Mage_Reports_Model_Flag::REPORT_PRODUCT_VIEWED_FLAG_CODE);

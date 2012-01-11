@@ -849,7 +849,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
             foreach ($moduleProp['depends'] as $dependModule => $true) {
                 if (!isset($definedModules[$dependModule])) {
                     Mage::throwException(
-                        Mage::helper('core')->__('Module "%1$s" cannot depend on "%2$s".', $moduleProp['module'], $dependModule)
+                        Mage::helper('Mage_Core_Helper_Data')->__('Module "%1$s" cannot depend on "%2$s".', $moduleProp['module'], $dependModule)
                     );
                 }
             }

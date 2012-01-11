@@ -32,9 +32,9 @@ class Enterprise_GiftCardAccount_Adminhtml_GiftcardaccountController extends Mag
                 $function = 'addError';
             }
 
-            $url = Mage::getSingleton('adminhtml/url')->getUrl('*/*/generate');
-            Mage::getSingleton('adminhtml/session')->$function(
-                Mage::helper('enterprise_giftcardaccount')->__('Code Pool used: <b>%.2f%%</b> (free <b>%d</b> of <b>%d</b> total). Generate new code pool <a href="%s">here</a>.', $usage->getPercent(), $usage->getFree(), $usage->getTotal(), $url)
+            $url = Mage::getSingleton('Mage_Adminhtml_Model_Url')->getUrl('*/*/generate');
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')->$function(
+                Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Code Pool used: <b>%.2f%%</b> (free <b>%d</b> of <b>%d</b> total). Generate new code pool <a href="%s">here</a>.', $usage->getPercent(), $usage->getFree(), $usage->getTotal(), $url)
             );
         }
 
@@ -75,14 +75,14 @@ class Enterprise_GiftCardAccount_Adminhtml_GiftcardaccountController extends Mag
         }
 
         $this->loadLayout()
-            ->_addBreadcrumb($id ? Mage::helper('enterprise_giftcardaccount')->__('Edit Gift Card Account') : Mage::helper('enterprise_giftcardaccount')->__('New Gift Card Account'),
-                             $id ? Mage::helper('enterprise_giftcardaccount')->__('Edit Gift Card Account') : Mage::helper('enterprise_giftcardaccount')->__('New Gift Card Account'))
+            ->_addBreadcrumb($id ? Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Edit Gift Card Account') : Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('New Gift Card Account'),
+                             $id ? Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Edit Gift Card Account') : Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('New Gift Card Account'))
             ->_addContent(
-                $this->getLayout()->createBlock('enterprise_giftcardaccount/adminhtml_giftcardaccount_edit')
+                $this->getLayout()->createBlock('Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit')
                     ->setData('form_action_url', $this->getUrl('*/*/save'))
             )
             ->_addLeft(
-                $this->getLayout()->createBlock('enterprise_giftcardaccount/adminhtml_giftcardaccount_edit_tabs')
+                $this->getLayout()->createBlock('Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tabs')
             )
             ->renderLayout();
     }
@@ -207,7 +207,7 @@ class Enterprise_GiftCardAccount_Adminhtml_GiftcardaccountController extends Mag
     {
         $this->getResponse()->setBody(
             $this->getLayout()->createBlock(
-                'enterprise_giftcardaccount/adminhtml_giftcardaccount_grid',
+                'Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Grid',
                 'giftcardaccount.grid'
             )
             ->toHtml()
@@ -253,7 +253,7 @@ class Enterprise_GiftCardAccount_Adminhtml_GiftcardaccountController extends Mag
 
         $this->loadLayout();
         $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('enterprise_giftcardaccount/adminhtml_giftcardaccount_edit_tab_history')
+            $this->getLayout()->createBlock('Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_History')
                 ->toHtml()
         );
     }

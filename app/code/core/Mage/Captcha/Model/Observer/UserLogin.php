@@ -1,27 +1,11 @@
 <?php
 /**
- * Magento
- *
- * NOTICE OF LICENSE
- *
- * This source file is subject to the Open Software License (OSL 3.0)
- * that is bundled with this package in the file LICENSE.txt.
- * It is also available through the world-wide-web at this URL:
- * http://opensource.org/licenses/osl-3.0.php
- * If you did not receive a copy of the license and are unable to
- * obtain it through the world-wide-web, please send an email
- * to license@magentocommerce.com so we can send you a copy immediately.
- *
- * DISCLAIMER
- *
- * Do not edit or add to this file if you wish to upgrade Magento to newer
- * versions in the future. If you wish to customize Magento for your
- * needs please refer to http://www.magentocommerce.com for more information.
+ * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Bundle
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
- * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @package     Mage_Captcha
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 
 /**
@@ -45,12 +29,12 @@ class Mage_Captcha_Model_Observer_UserLogin extends Mage_Captcha_Model_Observer_
      */
     protected function _setupRedirect($controller)
     {
-        $this->_getSession()->addError(Mage::helper('captcha')->__('Incorrect CAPTCHA.'));
+        $this->_getSession()->addError(Mage::helper('Mage_Captcha_Helper_Data')->__('Incorrect CAPTCHA.'));
         $controller->setFlag('', Mage_Core_Controller_Varien_Action::FLAG_NO_DISPATCH, true);
         $login = $controller->getRequest()->getPost('login');
         $this->_getSession()->setUsername($login['username']);
         $beforeUrl = $this->_getSession()->getBeforeAuthUrl();
-        $url =  $beforeUrl ? $beforeUrl : Mage::helper('customer')->getLoginUrl();
+        $url =  $beforeUrl ? $beforeUrl : Mage::helper('Mage_Customer_Helper_Data')->getLoginUrl();
         $controller->getResponse()->setRedirect($url);
     }
 }

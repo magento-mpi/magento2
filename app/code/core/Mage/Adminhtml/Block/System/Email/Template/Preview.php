@@ -19,8 +19,8 @@ class Mage_Adminhtml_Block_System_Email_Template_Preview extends Mage_Adminhtml_
 {
     protected function _toHtml()
     {
-        /* @var $template Mage_Core_Model_Email_Template */
-        $template = Mage::getModel('core/email_template');
+        /** @var $template Mage_Core_Model_Email_Template */
+        $template = Mage::getModel('Mage_Core_Model_Email_Template');
         if ($id = (int)$this->getRequest()->getParam('id')) {
             $template->load($id);
         } else {
@@ -30,7 +30,7 @@ class Mage_Adminhtml_Block_System_Email_Template_Preview extends Mage_Adminhtml_
         }
 
         /* @var $filter Mage_Core_Model_Input_Filter_MaliciousCode */
-        $filter = Mage::getSingleton('core/input_filter_maliciousCode');
+        $filter = Mage::getSingleton('Mage_Core_Model_Input_Filter_MaliciousCode');
 
         $template->setTemplateText(
             $filter->filter($template->getTemplateText())

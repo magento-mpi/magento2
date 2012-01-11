@@ -1,27 +1,11 @@
 <?php
 /**
- * Magento
- *
- * NOTICE OF LICENSE
- *
- * This source file is subject to the Open Software License (OSL 3.0)
- * that is bundled with this package in the file LICENSE.txt.
- * It is also available through the world-wide-web at this URL:
- * http://opensource.org/licenses/osl-3.0.php
- * If you did not receive a copy of the license and are unable to
- * obtain it through the world-wide-web, please send an email
- * to license@magentocommerce.com so we can send you a copy immediately.
- *
- * DISCLAIMER
- *
- * Do not edit or add to this file if you wish to upgrade Magento to newer
- * versions in the future. If you wish to customize Magento for your
- * needs please refer to http://www.magentocommerce.com for more information.
+ * {license_notice}
  *
  * @category    Mage
  * @package     Mage_Adminhtml
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
- * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 
 /**
@@ -40,7 +24,7 @@ class Mage_Adminhtml_Customer_System_Config_ValidatevatController extends Mage_A
      */
     protected function _validate()
     {
-        return Mage::helper('customer')->checkVatNumber(
+        return Mage::helper('Mage_Customer_Helper_Data')->checkVatNumber(
             $this->getRequest()->getParam('country'),
             $this->getRequest()->getParam('vat')
         );
@@ -65,13 +49,13 @@ class Mage_Adminhtml_Customer_System_Config_ValidatevatController extends Mage_A
     public function validateAdvancedAction()
     {
         /** @var $coreHelper Mage_Core_Helper_Data */
-        $coreHelper = Mage::helper('core');
+        $coreHelper = Mage::helper('Mage_Core_Helper_Data');
 
         $result = $this->_validate();
         $valid = $result->getIsValid();
         $success = $result->getRequestSuccess();
 
-        $groupId = Mage::helper('customer')->getCustomerGroupIdBasedOnVatNumber(
+        $groupId = Mage::helper('Mage_Customer_Helper_Data')->getCustomerGroupIdBasedOnVatNumber(
             $this->getRequest()->getParam('country'), $result
         );
 

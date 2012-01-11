@@ -84,8 +84,8 @@ class Mage_Adminhtml_Block_Report_Refresh_Statistics_Grid extends Mage_Adminhtml
             ),
             array(
                 'id'            => 'viewed',
-                'report'        => Mage::helper('sales')->__('Most Viewed'),
-                'comment'       => Mage::helper('sales')->__('Most Viewed Products Report'),
+                'report'        => Mage::helper('Mage_Sales_Helper_Data')->__('Most Viewed'),
+                'comment'       => Mage::helper('Mage_Sales_Helper_Data')->__('Most Viewed Products Report'),
                 'updated_at'    => $this->_getUpdatedAt(Mage_Reports_Model_Flag::REPORT_PRODUCT_VIEWED_FLAG_CODE)
             ),
         );

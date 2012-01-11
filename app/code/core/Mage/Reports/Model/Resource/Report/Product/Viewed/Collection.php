@@ -1,27 +1,11 @@
 <?php
 /**
- * Magento
- *
- * NOTICE OF LICENSE
- *
- * This source file is subject to the Open Software License (OSL 3.0)
- * that is bundled with this package in the file LICENSE.txt.
- * It is also available through the world-wide-web at this URL:
- * http://opensource.org/licenses/osl-3.0.php
- * If you did not receive a copy of the license and are unable to
- * obtain it through the world-wide-web, please send an email
- * to license@magentocommerce.com so we can send you a copy immediately.
- *
- * DISCLAIMER
- *
- * Do not edit or add to this file if you wish to upgrade Magento to newer
- * versions in the future. If you wish to customize Magento for your
- * needs please refer to http://www.magentocommerce.com for more information.
+ * {license_notice}
  *
  * @category    Mage
  * @package     Mage_Reports
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
- * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 
 
@@ -52,8 +36,8 @@ class Mage_Reports_Model_Resource_Report_Product_Viewed_Collection
     public function __construct()
     {
         parent::_construct();
-        $this->setModel('adminhtml/report_item');
-        $this->_resource = Mage::getResourceModel('sales/report')
+        $this->setModel('Mage_Adminhtml_Model_Report_Item');
+        $this->_resource = Mage::getResourceModel('Mage_Sales_Model_Resource_Report')
             ->init(Mage_Reports_Model_Resource_Report_Product_Viewed::AGGREGATION_DAILY);
         $this->setConnection($this->getResource()->getReadConnection());
         // overwrite default behaviour
@@ -138,7 +122,7 @@ class Mage_Reports_Model_Resource_Report_Product_Viewed_Collection
 
             //exclude removed products
             $subSelect = $this->getConnection()->select();
-            $subSelect->from(array('existed_products' => $this->getTable('catalog/product')), new Zend_Db_Expr('1)'));
+            $subSelect->from(array('existed_products' => $this->getTable('catalog_product_entity')), new Zend_Db_Expr('1)'));
 
             $select->exists($subSelect, $mainTable . '.product_id = existed_products.entity_id')
                 ->group('product_id')
@@ -343,7 +327,7 @@ class Mage_Reports_Model_Resource_Report_Product_Viewed_Collection
             if ($selectUnions) {
                 $unionParts = array();
                 $cloneSelect = clone $this->getSelect();
-                $helper = Mage::getResourceHelper('core');
+                $helper = Mage::getResourceHelper('Mage_Core');
                 $unionParts[] = '(' . $cloneSelect . ')';
                 foreach ($selectUnions as $union) {
                     $query = $helper->getQueryUsingAnalyticFunction($union);

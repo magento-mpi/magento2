@@ -425,7 +425,7 @@ class Mage_Customer_Helper_Data extends Mage_Core_Helper_Abstract
 
         if (!extension_loaded('soap')) {
             Mage::logException(Mage::exception('Mage_Core',
-                Mage::helper('core')->__('PHP SOAP extension is required.')));
+                Mage::helper('Mage_Core_Helper_Data')->__('PHP SOAP extension is required.')));
             return $gatewayResponse;
         }
 
@@ -472,7 +472,7 @@ class Mage_Customer_Helper_Data extends Mage_Core_Helper_Abstract
     {
         $result = true;
         /** @var $coreHelper Mage_Core_Helper_Data */
-        $coreHelper = Mage::helper('core');
+        $coreHelper = Mage::helper('Mage_Core_Helper_Data');
 
         if (!is_string($countryCode)
             || !is_string($vatNumber)
@@ -506,7 +506,7 @@ class Mage_Customer_Helper_Data extends Mage_Core_Helper_Abstract
 
         if (is_string($customerCountryCode)
             && !empty($customerCountryCode)
-            && $customerCountryCode === Mage::helper('core')->getMerchantCountryCode()
+            && $customerCountryCode === Mage::helper('Mage_Core_Helper_Data')->getMerchantCountryCode()
             && $isVatNumberValid
         ) {
             $vatClass = self::VAT_CLASS_DOMESTIC;

@@ -97,7 +97,7 @@ class Enterprise_CustomerSegment_Adminhtml_CustomersegmentController extends Mag
                 $model->getId() ? $this->__('Edit Segment') : $this->__('New Segment'))
             ->_addContent($block)
             ->_addLeft(
-                $this->getLayout()->createBlock('enterprise_customersegment/adminhtml_customersegment_edit_tabs'))
+                $this->getLayout()->createBlock('Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tabs'))
             ->renderLayout();
     }
 
@@ -135,8 +135,8 @@ class Enterprise_CustomerSegment_Adminhtml_CustomersegmentController extends Mag
         $this->loadLayout()
             ->_setActiveMenu('customer/customersegment')
             ->_addBreadcrumb(
-                Mage::helper('enterprise_customersegment')->__('Segments'),
-                Mage::helper('enterprise_customersegment')->__('Segments')
+                Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Segments'),
+                Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Segments')
             );
         return $this;
     }
@@ -150,7 +150,7 @@ class Enterprise_CustomerSegment_Adminhtml_CustomersegmentController extends Mag
         $typeArr = explode('|', str_replace('-', '/', $this->getRequest()->getParam('type')));
         $type = $typeArr[0];
 
-        $segment = Mage::getModel('enterprise_customersegment/segment');
+        $segment = Mage::getModel('Enterprise_CustomerSegment_Model_Segment');
         $segment->setApplyTo((int) $this->getRequest()->getParam('apply_to'));
         $model = Mage::getModel($type)
             ->setId($id)

@@ -600,13 +600,13 @@ EOT;
         }
 
         try {
-            $applicationId = Mage::getModel('xmlconnect/template')->load($queue->getTemplateId())->getApplicationId();
+            $applicationId = Mage::getModel('Mage_XmlConnect_Model_Template')->load($queue->getTemplateId())->getApplicationId();
             /** @var $app Mage_XmlConnect_Model_Application */
-            $app = Mage::getModel('xmlconnect/application')->load($applicationId);
+            $app = Mage::getModel('Mage_XmlConnect_Model_Application')->load($applicationId);
 
             if (!$app->getId()) {
                 Mage::throwException(
-                    Mage::helper('xmlconnect')->__('Can\'t load application with id "%s"', $applicationId)
+                    Mage::helper('Mage_XmlConnect_Helper_Data')->__('Can\'t load application with id "%s"', $applicationId)
                 );
             }
 

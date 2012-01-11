@@ -24,7 +24,7 @@ class Mage_Widget_Block_Adminhtml_Widget extends Mage_Adminhtml_Block_Widget_For
         $this->_blockGroup = 'Mage_Widget';
         $this->_controller = 'adminhtml';
         $this->_mode = 'widget';
-        $this->_headerText = $this->helper('widget')->__('Widget Insertion');
+        $this->_headerText = $this->helper('Mage_Widget_Helper_Data')->__('Widget Insertion');
 
         $this->removeButton('reset');
         $this->removeButton('back');

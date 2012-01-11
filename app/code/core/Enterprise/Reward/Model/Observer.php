@@ -73,7 +73,7 @@ class Enterprise_Reward_Model_Observer
         $customer = $observer->getEvent()->getCustomer();
 
         $data = $request->getPost('reward');
-        $subscribeByDefault = (int)Mage::helper('enterprise_reward')
+        $subscribeByDefault = (int)Mage::helper('Enterprise_Reward_Helper_Data')
             ->getNotificationConfig('subscribe_by_default', (int)$customer->getWebsiteId());
         if ($customer->isObjectNew()) {
             $data['reward_update_notification']  = $subscribeByDefault;

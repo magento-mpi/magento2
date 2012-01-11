@@ -135,7 +135,7 @@ class Enterprise_Cms_Model_Hierarchy_Node extends Mage_Core_Model_Abstract
     public function setScopeId($scopeId)
     {
         /** @var $storeModel Mage_Adminhtml_Model_System_Store */
-        $storeModel = Mage::getSingleton('adminhtml/system_store');
+        $storeModel = Mage::getSingleton('Mage_Adminhtml_Model_System_Store');
         $collection = array();
         if ($this->_scope == self::NODE_SCOPE_STORE) {
             $collection = $storeModel->getStoreCollection();
@@ -187,7 +187,7 @@ class Enterprise_Cms_Model_Hierarchy_Node extends Mage_Core_Model_Abstract
                 'identifier'        => $item->getIdentifier(),
                 'page_id'           => $item->getPageId()
             );
-            $nodes[] = Mage::helper('enterprise_cms/hierarchy')->copyMetaData($item->getData(), $node);
+            $nodes[] = Mage::helper('Enterprise_Cms_Helper_Hierarchy')->copyMetaData($item->getData(), $node);
         }
 
         return $nodes;
@@ -799,15 +799,15 @@ class Enterprise_Cms_Model_Hierarchy_Node extends Mage_Core_Model_Abstract
     public function getHeritage()
     {
         if ($this->getIsInherited()) {
-            $helper = Mage::helper('enterprise_cms/hierarchy');
+            $helper = Mage::helper('Enterprise_Cms_Helper_Hierarchy');
             $parentScope = $helper->getParentScope($this->_scope, $this->_scopeId);
-            $parentScopeNode = Mage::getModel('enterprise_cms/hierarchy_node', array(
+            $parentScopeNode = Mage::getModel('Enterprise_Cms_Model_Hierarchy_Node', array(
                 'scope' =>  $parentScope[0],
                 'scope_id' => $parentScope[1],
             ));
             if ($parentScopeNode->getIsInherited()) {
                 $parentScope = $helper->getParentScope($parentScope[0], $parentScope[1]);
-                $parentScopeNode = Mage::getModel('enterprise_cms/hierarchy_node', array(
+                $parentScopeNode = Mage::getModel('Enterprise_Cms_Model_Hierarchy_Node', array(
                     'scope' =>  $parentScope[0],
                     'scope_id' => $parentScope[1],
                 ));

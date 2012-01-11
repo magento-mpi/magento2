@@ -302,7 +302,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
     {
         try {
             /** @var $app Mage_XmlConnect_Model_Application */
-            $app = Mage::helper('xmlconnect')->getApplication();
+            $app = Mage::helper('Mage_XmlConnect_Helper_Data')->getApplication();
             $params = $app->getSubmitParams();
 
             $appConnectorUrl = Mage::getStoreConfig('xmlconnect/mobile_application/magentocommerce_url');
@@ -1303,11 +1303,11 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
         if (isset($template)) {
             $applicationId = $template->getApplicationId();
         } else {
-            $applicationId = Mage::getModel('xmlconnect/template')->load($message->getTemplateId())->getApplicationId();
+            $applicationId = Mage::getModel('Mage_XmlConnect_Model_Template')->load($message->getTemplateId())->getApplicationId();
         }
 
         /** @var $app Mage_XmlConnect_Model_Application */
-        $app = Mage::getModel('xmlconnect/application')->load($applicationId);
+        $app = Mage::getModel('Mage_XmlConnect_Model_Application')->load($applicationId);
 
         if(!$app->isNotificationsActive()) {
             $this->_getSession()->addError(

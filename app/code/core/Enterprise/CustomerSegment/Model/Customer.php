@@ -64,7 +64,7 @@ class Enterprise_CustomerSegment_Model_Customer extends Mage_Core_Model_Abstract
     public function getActiveSegmentsForEvent($eventName, $websiteId)
     {
         if (!isset($this->_segmentMap[$eventName][$websiteId])) {
-            $relatedSegments = Mage::getResourceModel('enterprise_customersegment/segment_collection')
+            $relatedSegments = Mage::getResourceModel('Enterprise_CustomerSegment_Model_Resource_Segment_Collection')
                 ->addEventFilter($eventName)
                 ->addWebsiteFilter($websiteId)
                 ->addIsActiveFilter(1);
@@ -138,7 +138,7 @@ class Enterprise_CustomerSegment_Model_Customer extends Mage_Core_Model_Abstract
                 if ($segment->getApplyTo() == Enterprise_CustomerSegment_Model_Segment::APPLY_TO_REGISTERED) {
                     continue;
                 }
-                $segment->setVisitorId(Mage::getSingleton('log/visitor')->getId());
+                $segment->setVisitorId(Mage::getSingleton('Mage_Log_Model_Visitor')->getId());
             } else {
                 // Skip segment if it cannot be applied to customer
                 if ($segment->getApplyTo() == Enterprise_CustomerSegment_Model_Segment::APPLY_TO_VISITORS) {
@@ -154,7 +154,7 @@ class Enterprise_CustomerSegment_Model_Customer extends Mage_Core_Model_Abstract
         }
 
         if (!$customerId) {
-            $visitorSession = Mage::getSingleton('customer/session');
+            $visitorSession = Mage::getSingleton('Mage_Customer_Model_Session');
             $this->addVisitorToWebsiteSegments($visitorSession, $websiteId, $matchedIds);
             $this->removeVisitorFromWebsiteSegments($visitorSession, $websiteId, $notMatchedIds);
         } else {

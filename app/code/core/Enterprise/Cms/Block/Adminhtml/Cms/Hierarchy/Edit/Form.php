@@ -158,7 +158,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
                 'values'    => $yesNoOptions,
                 'onchange'  => 'hierarchyNodes.nodeChanged()',
                 'container_id' => 'field_meta_cs_enabled',
-                'note'      => Mage::helper('enterprise_cms')->__('Enables Chapter/Section functionality for this node, its sub-nodes and pages'),
+                'note'      => Mage::helper('Enterprise_Cms_Helper_Data')->__('Enables Chapter/Section functionality for this node, its sub-nodes and pages'),
                 'tabindex'  => '45'
             ));
 
@@ -169,7 +169,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
                 'values'    => Mage::getSingleton('Enterprise_Cms_Model_Source_Hierarchy_Menu_Chapter')->toOptionArray(),
                 'onchange'  => 'hierarchyNodes.nodeChanged()',
                 'container_id' => 'field_meta_chapter_section',
-                'note'      => Mage::helper('enterprise_cms')->__('Defines this node as Chapter/Section'),
+                'note'      => Mage::helper('Enterprise_Cms_Helper_Data')->__('Defines this node as Chapter/Section'),
                 'tabindex'  => '50'
             ));
         }

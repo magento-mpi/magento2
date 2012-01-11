@@ -18,13 +18,13 @@
 
 <?php
 if ($_product->getPriceType() == 1) {
-    $_weeeTaxAmount = Mage::helper('weee')->getAmount($_product);
+    $_weeeTaxAmount = Mage::helper('Mage_Weee_Helper_Data')->getAmount($_product);
     $_weeeTaxAmountInclTaxes = $_weeeTaxAmount;
-    if (Mage::helper('weee')->isTaxable()) {
-        $_attributes = Mage::helper('weee')->getProductWeeeAttributesForRenderer($_product, null, null, null, true);
-        $_weeeTaxAmountInclTaxes = Mage::helper('weee')->getAmountInclTaxes($_attributes);
+    if (Mage::helper('Mage_Weee_Helper_Data')->isTaxable()) {
+        $_attributes = Mage::helper('Mage_Weee_Helper_Data')->getProductWeeeAttributesForRenderer($_product, null, null, null, true);
+        $_weeeTaxAmountInclTaxes = Mage::helper('Mage_Weee_Helper_Data')->getAmountInclTaxes($_attributes);
     }
-    if ($_weeeTaxAmount && Mage::helper('weee')->typeOfDisplay($_product, array(0, 1, 4))) {
+    if ($_weeeTaxAmount && Mage::helper('Mage_Weee_Helper_Data')->typeOfDisplay($_product, array(0, 1, 4))) {
         $_minimalPriceTax += $_weeeTaxAmount;
         $_minimalPriceInclTax += $_weeeTaxAmountInclTaxes;
     }

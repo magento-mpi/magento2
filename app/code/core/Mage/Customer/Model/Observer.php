@@ -101,7 +101,7 @@ class Mage_Customer_Model_Observer
         $customerAddress = $observer->getCustomerAddress();
         $customer = $customerAddress->getCustomer();
 
-        if (!Mage::helper('customer/address')->isVatValidationEnabled($customer->getStore())
+        if (!Mage::helper('Mage_Customer_Helper_Address')->isVatValidationEnabled($customer->getStore())
             || Mage::registry(self::VIV_PROCESSED_FLAG)
             || !$this->_canProcessAddress($customerAddress)
         ) {
@@ -112,10 +112,10 @@ class Mage_Customer_Model_Observer
             Mage::register(self::VIV_PROCESSED_FLAG, true);
 
             /** @var $customerHelper Mage_Customer_Helper_Data */
-            $customerHelper = Mage::helper('customer');
+            $customerHelper = Mage::helper('Mage_Customer_Helper_Data');
 
             if ($customerAddress->getVatId() == ''
-                || !Mage::helper('core')->isCountryInEU($customerAddress->getCountry()))
+                || !Mage::helper('Mage_Core_Helper_Data')->isCountryInEU($customerAddress->getCountry()))
             {
                 $defaultGroupId = $customerHelper->getDefaultCustomerGroupId($customer->getStore());
 
@@ -140,13 +140,13 @@ class Mage_Customer_Model_Observer
                 }
 
                 if (!Mage::app()->getStore()->isAdmin()) {
-                    $validationMessage = Mage::helper('customer')->getVatValidationUserMessage($customerAddress,
+                    $validationMessage = Mage::helper('Mage_Customer_Helper_Data')->getVatValidationUserMessage($customerAddress,
                         $customer->getDisableAutoGroupChange(), $result);
 
                     if (!$validationMessage->getIsError()) {
-                        Mage::getSingleton('customer/session')->addSuccess($validationMessage->getMessage());
+                        Mage::getSingleton('Mage_Customer_Model_Session')->addSuccess($validationMessage->getMessage());
                     } else {
-                        Mage::getSingleton('customer/session')->addError($validationMessage->getMessage());
+                        Mage::getSingleton('Mage_Customer_Model_Session')->addError($validationMessage->getMessage());
                     }
                 }
             }
@@ -165,7 +165,7 @@ class Mage_Customer_Model_Observer
         /** @var $formBlock Mage_Adminhtml_Block_Sales_Order_Create_Billing_Address */
         $formBlock = $observer->getForm();
         $formBlock->getForm()->getElement('vat_id')->setRenderer(
-            $formBlock->getLayout()->createBlock('adminhtml/customer_sales_order_address_form_billing_renderer_vat')
+            $formBlock->getLayout()->createBlock('Mage_Adminhtml_Block_Customer_Sales_Order_Address_Form_Billing_Renderer_Vat')
         );
     }
 
@@ -179,7 +179,7 @@ class Mage_Customer_Model_Observer
         /** @var $customer Mage_Customer_Model_Customer */
         $customer = $observer->getQuote()->getCustomer();
 
-        if (!Mage::helper('customer/address')->isVatValidationEnabled($customer->getStore())) {
+        if (!Mage::helper('Mage_Customer_Helper_Address')->isVatValidationEnabled($customer->getStore())) {
             return;
         }
 

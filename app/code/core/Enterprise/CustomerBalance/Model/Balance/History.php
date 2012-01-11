@@ -113,7 +113,7 @@ class Enterprise_CustomerBalance_Model_Balance_History extends Mage_Core_Model_A
                     Mage::throwException(Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('There is no creditmemo set to balance model.'));
                 }
                 $this->setAdditionalInfo(
-                    Mage::helper('enterprise_customerbalance')->__('Order #%s, creditmemo #%s', $balance->getOrder()->getIncrementId(), $balance->getCreditMemo()->getIncrementId())
+                    Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Order #%s, creditmemo #%s', $balance->getOrder()->getIncrementId(), $balance->getCreditMemo()->getIncrementId())
                 );
                 break;
             case self::ACTION_REVERTED:

@@ -25,7 +25,7 @@ class Mage_XmlConnect_Block_Checkout_Agreements extends Mage_Checkout_Block_Agre
     protected function _toHtml()
     {
         /** @var $agreementsXmlObj Mage_XmlConnect_Model_Simplexml_Element */
-        $agreementsXmlObj = Mage::getModel('xmlconnect/simplexml_element', '<agreements></agreements>');
+        $agreementsXmlObj = Mage::getModel('Mage_XmlConnect_Model_Simplexml_Element', '<agreements></agreements>');
         if ($this->getAgreements()) {
             foreach ($this->getAgreements() as $agreement) {
                 $itemXmlObj = $agreementsXmlObj->addChild('item');

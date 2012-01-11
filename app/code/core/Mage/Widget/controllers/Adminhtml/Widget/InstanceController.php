@@ -118,7 +118,7 @@ class Mage_Widget_Adminhtml_Widget_InstanceController extends Mage_Adminhtml_Con
      */
     private function setBody($body)
     {
-        Mage::getSingleton('core/translate_inline')->processResponseBody($body);
+        Mage::getSingleton('Mage_Core_Model_Translate_Inline')->processResponseBody($body);
         $this->getResponse()->setBody($body);
     }
 

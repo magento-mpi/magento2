@@ -134,7 +134,7 @@ class Mage_Backup_Helper_Data extends Mage_Core_Helper_Abstract
      * @return boolean
      */
     public function isRollbackAllowed(){
-        return Mage::getSingleton('admin/session')->isAllowed('system/tools/backup/rollback' );
+        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('system/tools/backup/rollback' );
     }
 
     /**
@@ -249,7 +249,7 @@ class Mage_Backup_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function invalidateIndexer()
     {
-        foreach (Mage::getResourceModel('index/process_collection') as $process){
+        foreach (Mage::getResourceModel('Mage_Index_Model_Resource_Process_Collection') as $process){
             $process->changeStatus(Mage_Index_Model_Process::STATUS_REQUIRE_REINDEX);
         }
         return $this;

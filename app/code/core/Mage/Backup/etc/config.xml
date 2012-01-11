@@ -39,7 +39,7 @@
         <jobs>
             <system_backup>
                 <run>
-                    <model>backup/observer::scheduledBackup</model>
+                    <model>Mage_Backup_Model_Observer::scheduledBackup</model>
                 </run>
             </system_backup>
         </jobs>

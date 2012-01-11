@@ -80,7 +80,7 @@ class Enterprise_Logging_Block_Adminhtml_Index_Grid extends Mage_Adminhtml_Block
         $fieldValues = Mage::getResourceSingleton('Enterprise_Logging_Model_Resource_Event')
             ->getAllFieldValues('action');
         foreach ($fieldValues as $action) {
-            $actions[$action] = Mage::helper('enterprise_logging')->getLoggingActionTranslatedLabel($action);
+            $actions[$action] = Mage::helper('Enterprise_Logging_Helper_Data')->getLoggingActionTranslatedLabel($action);
         }
         $this->addColumn('action', array(
             'header'    => Mage::helper('Enterprise_Logging_Helper_Data')->__('Action'),

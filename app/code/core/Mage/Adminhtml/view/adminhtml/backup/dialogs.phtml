@@ -1,3 +1,13 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
 <div class="backup-dialog" style="display: none;" id="rollback-warning">
     <div class="entry-edit">
         <div class="entry-edit-head">
@@ -109,7 +119,7 @@
 <div id="popup-window-mask" style="display: none;"></div>
 
 <?php
-    $helper = Mage::helper('backup');
+    $helper = Mage::helper('Mage_Backup_Helper_Data');
     $rollbackUrl = $this->getUrl('*/*/rollback');
     $backupUrl = $this->getUrl('*/*/create');
 ?>

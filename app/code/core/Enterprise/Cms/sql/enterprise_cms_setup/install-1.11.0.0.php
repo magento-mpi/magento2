@@ -123,12 +123,12 @@ $table = $installer->getConnection()
         Varien_Db_Ddl_Table::ACTION_SET_NULL, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
         $installer->getFkName(
-            'enterprise_cms/page_revision',
+            'enterprise_cms_page_revision',
             'version_id',
-            'enterprise_cms/page_version',
+            'enterprise_cms_page_version',
             'version_id'
         ),
-        'version_id', $installer->getTable('enterprise_cms/page_version'), 'version_id',
+        'version_id', $installer->getTable('enterprise_cms_page_version'), 'version_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Enterprise Cms Page Revision');
 $installer->getConnection()->createTable($table);
@@ -201,7 +201,7 @@ $table = $installer->getConnection()
         ), 'Xpath')
     ->addIndex(
         $installer->getIdxName(
-            'enterprise_cms/hierarchy_node',
+            'enterprise_cms_hierarchy_node',
             array('request_url'),
             Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
         ),
@@ -215,12 +215,12 @@ $table = $installer->getConnection()
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
         $installer->getFkName(
-            'enterprise_cms/hierarchy_node',
+            'enterprise_cms_hierarchy_node',
             'parent_node_id',
-            'enterprise_cms/hierarchy_node',
+            'enterprise_cms_hierarchy_node',
             'node_id'
         ),
-        'parent_node_id', $installer->getTable('enterprise_cms/hierarchy_node'), 'node_id',
+        'parent_node_id', $installer->getTable('enterprise_cms_hierarchy_node'), 'node_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Enterprise Cms Hierarchy Node');
 $installer->getConnection()->createTable($table);
@@ -290,12 +290,12 @@ $table = $installer->getConnection()
         ), 'Menu List Type')
     ->addForeignKey(
         $installer->getFkName(
-            'enterprise_cms/hierarchy_metadata',
+            'enterprise_cms_hierarchy_metadata',
             'node_id',
-            'enterprise_cms/hierarchy_node',
+            'enterprise_cms_hierarchy_node',
             'node_id'
         ),
-        'node_id', $installer->getTable('enterprise_cms/hierarchy_node'), 'node_id',
+        'node_id', $installer->getTable('enterprise_cms_hierarchy_node'), 'node_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Enterprise Cms Hierarchy Metadata');
 $installer->getConnection()->createTable($table);

@@ -153,10 +153,10 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
             $model->addData($data);
 
             if (isset($postData['tag_assigned_products'])) {
-                $productIds = Mage::helper('adminhtml/js')->decodeGridSerializedInput(
+                $productIds = Mage::helper('Mage_Adminhtml_Helper_Js')->decodeGridSerializedInput(
                     $postData['tag_assigned_products']
                 );
-                $tagRelationModel = Mage::getModel('tag/tag_relation');
+                $tagRelationModel = Mage::getModel('Mage_Tag_Model_Tag_Relation');
                 $tagRelationModel->addRelations($model, $productIds);
             }
 

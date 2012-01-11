@@ -26,7 +26,7 @@ class Mage_Adminhtml_Block_Report_Product_Viewed extends Mage_Adminhtml_Block_Wi
         $this->setTemplate('report/grid/container.phtml');
         $this->_removeButton('add');
         $this->addButton('filter_form_submit', array(
-            'label'     => Mage::helper('reports')->__('Show Report'),
+            'label'     => Mage::helper('Mage_Reports_Helper_Data')->__('Show Report'),
             'onclick'   => 'filterFormSubmit()'
         ));
     }

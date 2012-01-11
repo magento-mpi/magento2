@@ -39,7 +39,7 @@ class Mage_Backup_Model_Resource_Db
      */
     public function __construct()
     {
-        $this->_write = Mage::getSingleton('core/resource')->getConnection('backup_write');
+        $this->_write = Mage::getSingleton('Mage_Core_Model_Resource')->getConnection('backup_write');
     }
 
     /**
@@ -96,7 +96,7 @@ class Mage_Backup_Model_Resource_Db
         if (!$tableName) {
             $tables = $this->getTables();
             foreach($tables as $table) {
-                $tableFkScript = Mage::getResourceHelper('backup')->getTableForeignKeysSql($table);
+                $tableFkScript = Mage::getResourceHelper('Mage_Backup')->getTableForeignKeysSql($table);
                 if (!empty($tableFkScript)) {
                     $fkScript .= "\n" . $tableFkScript;
                 }
@@ -144,7 +144,7 @@ class Mage_Backup_Model_Resource_Db
      */
     public function getTableDataSql($tableName, $count = null, $offset = null)
     {
-        return Mage::getResourceHelper('backup')->getPartInsertSql($tableName, $count, $offset);
+        return Mage::getResourceHelper('Mage_Backup')->getPartInsertSql($tableName, $count, $offset);
     }
 
     /**

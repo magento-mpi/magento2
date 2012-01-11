@@ -35,7 +35,7 @@
                                     <backup translate="title" module="Mage_Backup">
                                         <title>Backups</title>
                                             <children>
-                                                <rollback translate="title" module="backup">
+                                                <rollback translate="title" module="Mage_Backup">
                                                     <title>Rollback</title>
                                                 </rollback>
                                             </children>

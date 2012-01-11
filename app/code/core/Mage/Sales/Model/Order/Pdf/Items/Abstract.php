@@ -224,20 +224,20 @@ abstract class Mage_Sales_Model_Order_Pdf_Items_Abstract extends Mage_Core_Model
     public function getItemPricesForDisplay() {
         $order = $this->getOrder();
         $item  = $this->getItem();
-        if (Mage::helper('tax')->displaySalesBothPrices()) {
+        if (Mage::helper('Mage_Tax_Helper_Data')->displaySalesBothPrices()) {
             $prices = array(
                 array(
-                    'label'    => Mage::helper('tax')->__('Excl. Tax') . ':',
+                    'label'    => Mage::helper('Mage_Tax_Helper_Data')->__('Excl. Tax') . ':',
                     'price'    => $order->formatPriceTxt($item->getPrice()),
                     'subtotal' => $order->formatPriceTxt($item->getRowTotal())
                 ),
                 array(
-                    'label'    => Mage::helper('tax')->__('Incl. Tax') . ':',
+                    'label'    => Mage::helper('Mage_Tax_Helper_Data')->__('Incl. Tax') . ':',
                     'price'    => $order->formatPriceTxt($item->getPriceInclTax()),
                     'subtotal' => $order->formatPriceTxt($item->getRowTotalInclTax())
                 ),
             );
-        } elseif (Mage::helper('tax')->displaySalesPriceInclTax()) {
+        } elseif (Mage::helper('Mage_Tax_Helper_Data')->displaySalesPriceInclTax()) {
             $prices = array(array(
                 'price' => $order->formatPriceTxt($item->getPriceInclTax()),
                 'subtotal' => $order->formatPriceTxt($item->getRowTotalInclTax()),

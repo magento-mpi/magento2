@@ -32,7 +32,7 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tab_Genera
         $form->setHtmlIdPrefix('segment_');
 
         $fieldset = $form->addFieldset('base_fieldset', array(
-            'legend' => Mage::helper('enterprise_customersegment')->__('General Properties')
+            'legend' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('General Properties')
         ));
 
         if ($model->getId()) {
@@ -63,31 +63,31 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tab_Genera
         } else {
             $fieldset->addField('website_ids', 'multiselect', array(
                 'name' => 'website_ids',
-                'label' => Mage::helper('enterprise_customersegment')->__('Assigned to Website'),
+                'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Assigned to Website'),
                 'required' => true,
-                'values' => Mage::getSingleton('adminhtml/system_store')->getWebsiteValuesForForm()
+                'values' => Mage::getSingleton('Mage_Adminhtml_Model_System_Store')->getWebsiteValuesForForm()
             ));
         }
 
         $fieldset->addField('is_active', 'select', array(
-            'label' => Mage::helper('enterprise_customersegment')->__('Status'),
+            'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Status'),
             'name' => 'is_active',
             'required' => true,
             'options' => array(
-                '1' => Mage::helper('enterprise_customersegment')->__('Active'),
-                '0' => Mage::helper('enterprise_customersegment')->__('Inactive')
+                '1' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Active'),
+                '0' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Inactive')
             )
         ));
 
         $fieldset->addField('apply_to', 'select', array(
-            'label' => Mage::helper('enterprise_customersegment')->__('Apply To'),
+            'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Apply To'),
             'name' => 'apply_to',
             'required' => false,
             'disabled' => (boolean) $model->getId(),
             'options' => array(
-                Enterprise_CustomerSegment_Model_Segment::APPLY_TO_VISITORS_AND_REGISTERED => Mage::helper('enterprise_customersegment')->__('Visitors and Registered Customers'),
-                Enterprise_CustomerSegment_Model_Segment::APPLY_TO_REGISTERED => Mage::helper('enterprise_customersegment')->__('Registered Customers'),
-                Enterprise_CustomerSegment_Model_Segment::APPLY_TO_VISITORS => Mage::helper('enterprise_customersegment')->__('Visitors')
+                Enterprise_CustomerSegment_Model_Segment::APPLY_TO_VISITORS_AND_REGISTERED => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Visitors and Registered Customers'),
+                Enterprise_CustomerSegment_Model_Segment::APPLY_TO_REGISTERED => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Registered Customers'),
+                Enterprise_CustomerSegment_Model_Segment::APPLY_TO_VISITORS => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Visitors')
             )
         ));
 

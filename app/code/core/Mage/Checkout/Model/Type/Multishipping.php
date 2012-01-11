@@ -446,30 +446,30 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
     {
         $quote = $this->getQuote();
         if (!$quote->getIsMultiShipping()) {
-            Mage::throwException(Mage::helper('checkout')->__('Invalid checkout type.'));
+            Mage::throwException(Mage::helper('Mage_Checkout_Helper_Data')->__('Invalid checkout type.'));
         }
 
         /** @var $paymentMethod Mage_Payment_Model_Method_Abstract */
         $paymentMethod = $quote->getPayment()->getMethodInstance();
         if (!empty($paymentMethod) && !$paymentMethod->isAvailable($quote)) {
-            Mage::throwException(Mage::helper('checkout')->__('Please specify payment method.'));
+            Mage::throwException(Mage::helper('Mage_Checkout_Helper_Data')->__('Please specify payment method.'));
         }
 
         $addresses = $quote->getAllShippingAddresses();
         foreach ($addresses as $address) {
             $addressValidation = $address->validate();
             if ($addressValidation !== true) {
-                Mage::throwException(Mage::helper('checkout')->__('Please check shipping addresses information.'));
+                Mage::throwException(Mage::helper('Mage_Checkout_Helper_Data')->__('Please check shipping addresses information.'));
             }
             $method= $address->getShippingMethod();
             $rate  = $address->getShippingRateByCode($method);
             if (!$method || !$rate) {
-                Mage::throwException(Mage::helper('checkout')->__('Please specify shipping methods for all addresses.'));
+                Mage::throwException(Mage::helper('Mage_Checkout_Helper_Data')->__('Please specify shipping methods for all addresses.'));
             }
         }
         $addressValidation = $quote->getBillingAddress()->validate();
         if ($addressValidation !== true) {
-            Mage::throwException(Mage::helper('checkout')->__('Please check billing address information.'));
+            Mage::throwException(Mage::helper('Mage_Checkout_Helper_Data')->__('Please check billing address information.'));
         }
         return $this;
     }

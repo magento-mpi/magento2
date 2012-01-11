@@ -56,20 +56,20 @@ class Mage_XmlConnect_Model_Simplexml_Form_Element_Validator_Abstract
     protected function _setDefaultValidatorTypeMessages()
     {
         $this->_validatorTypeMessages = array(
-            'min_length' => Mage::helper('xmlconnect')->__('Text length does not satisfy specified min text range.'),
-            'max_length' => Mage::helper('xmlconnect')->__('Text length does not satisfy specified max text range.'),
-            'alphanumeric' => Mage::helper('xmlconnect')->__('Please use only letters (a-z or A-Z) or numbers (0-9) only in this field. No spaces or other characters are allowed.'),
-            'email' => Mage::helper('xmlconnect')->__('Please enter a valid email address. For example johndoe@domain.com.'),
-            'required' => Mage::helper('xmlconnect')->__('This is a required field.'),
-            'required_select' => Mage::helper('xmlconnect')->__('Please select an option.'),
-            'numeric' => Mage::helper('xmlconnect')->__('Please use numbers only in this field. Please avoid spaces or other characters such as dots or commas.'),
-            'alpha' => Mage::helper('xmlconnect')->__('Please use letters only (a-z or A-Z) in this field.'),
-            'url' => Mage::helper('xmlconnect')->__('Please enter a valid URL. Protocol is required (http://, https:// or ftp://)'),
-            'date' => Mage::helper('xmlconnect')->__('Please enter a valid date.'),
-            'max_file_size' => Mage::helper('xmlconnect')->__('\'%s\' exceeds the allowed file size: %d (bytes)', $this->getFieldLabel(), $this->getValue()),
-            'file_extensions' => Mage::helper('xmlconnect')->__('\'%s\' is not a valid file extension. Allowed extensions: %s', $this->getFieldLabel(), $this->getValue()),
-            'max_image_width' => Mage::helper('xmlconnect')->__('\'%s\' width exceeds allowed value of %d px', $this->getFieldLabel(), $this->getValue()),
-            'max_image_height' => Mage::helper('xmlconnect')->__('\'%s\' height exceeds allowed value of %d px', $this->getFieldLabel(), $this->getValue())
+            'min_length' => Mage::helper('Mage_XmlConnect_Helper_Data')->__('Text length does not satisfy specified min text range.'),
+            'max_length' => Mage::helper('Mage_XmlConnect_Helper_Data')->__('Text length does not satisfy specified max text range.'),
+            'alphanumeric' => Mage::helper('Mage_XmlConnect_Helper_Data')->__('Please use only letters (a-z or A-Z) or numbers (0-9) only in this field. No spaces or other characters are allowed.'),
+            'email' => Mage::helper('Mage_XmlConnect_Helper_Data')->__('Please enter a valid email address. For example johndoe@domain.com.'),
+            'required' => Mage::helper('Mage_XmlConnect_Helper_Data')->__('This is a required field.'),
+            'required_select' => Mage::helper('Mage_XmlConnect_Helper_Data')->__('Please select an option.'),
+            'numeric' => Mage::helper('Mage_XmlConnect_Helper_Data')->__('Please use numbers only in this field. Please avoid spaces or other characters such as dots or commas.'),
+            'alpha' => Mage::helper('Mage_XmlConnect_Helper_Data')->__('Please use letters only (a-z or A-Z) in this field.'),
+            'url' => Mage::helper('Mage_XmlConnect_Helper_Data')->__('Please enter a valid URL. Protocol is required (http://, https:// or ftp://)'),
+            'date' => Mage::helper('Mage_XmlConnect_Helper_Data')->__('Please enter a valid date.'),
+            'max_file_size' => Mage::helper('Mage_XmlConnect_Helper_Data')->__('\'%s\' exceeds the allowed file size: %d (bytes)', $this->getFieldLabel(), $this->getValue()),
+            'file_extensions' => Mage::helper('Mage_XmlConnect_Helper_Data')->__('\'%s\' is not a valid file extension. Allowed extensions: %s', $this->getFieldLabel(), $this->getValue()),
+            'max_image_width' => Mage::helper('Mage_XmlConnect_Helper_Data')->__('\'%s\' width exceeds allowed value of %d px', $this->getFieldLabel(), $this->getValue()),
+            'max_image_height' => Mage::helper('Mage_XmlConnect_Helper_Data')->__('\'%s\' height exceeds allowed value of %d px', $this->getFieldLabel(), $this->getValue())
         );
         return $this;
     }

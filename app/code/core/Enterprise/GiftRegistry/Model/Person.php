@@ -46,21 +46,21 @@ class Enterprise_GiftRegistry_Model_Person extends Mage_Core_Model_Abstract
         $errors = array();
 
         if (!Zend_Validate::is($this->getFirstname(), 'NotEmpty')) {
-            $errors[] = Mage::helper('enterprise_giftregistry')->__('Please enter the first name.');
+            $errors[] = Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Please enter the first name.');
         }
 
         if (!Zend_Validate::is($this->getLastname(), 'NotEmpty')) {
-            $errors[] = Mage::helper('enterprise_giftregistry')->__('Please enter the last name.');
+            $errors[] = Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Please enter the last name.');
         }
 
         if (!Zend_Validate::is($this->getEmail(), 'EmailAddress')) {
-            $errors[] = Mage::helper('enterprise_giftregistry')->__('"Email" is not a valid email address.');
+            $errors[] = Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('"Email" is not a valid email address.');
         }
 
         $customValues = $this->getCustom();
         $attributes = Mage::getSingleton('Enterprise_GiftRegistry_Model_Entity')->getRegistrantAttributes();
 
-        $errorsCustom = Mage::helper('enterprise_giftregistry')->validateCustomAttributes($customValues, $attributes);
+        $errorsCustom = Mage::helper('Enterprise_GiftRegistry_Helper_Data')->validateCustomAttributes($customValues, $attributes);
         if ($errorsCustom !== true) {
             $errors = empty($errors) ? $errorsCustom : array_merge($errors, $errorsCustom);
         }

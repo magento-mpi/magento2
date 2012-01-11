@@ -450,7 +450,7 @@ class Enterprise_Logging_Model_Handler_Controllers
 
         if ($backup) {
             $eventModel->setIsSuccess($backup->getIsSuccess())
-                ->setInfo(Mage::helper('enterprise_logging')->implodeValues($backup->getDeleteResult()));
+                ->setInfo(Mage::helper('Enterprise_Logging_Helper_Data')->implodeValues($backup->getDeleteResult()));
         } else {
             $eventModel->setIsSuccess(false);
         }

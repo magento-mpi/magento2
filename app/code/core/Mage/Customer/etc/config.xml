@@ -79,7 +79,7 @@
             <customer_address_save_before>
                 <observers>
                     <customer_address_before_save_viv_observer>
-                        <class>customer/observer</class>
+                        <class>Mage_Customer_Model_Observer</class>
                         <method>beforeAddressSave</method>
                     </customer_address_before_save_viv_observer>
                 </observers>
@@ -87,7 +87,7 @@
             <customer_address_save_after>
                 <observers>
                     <customer_addres_after_save_viv_observer>
-                        <class>customer/observer</class>
+                        <class>Mage_Customer_Model_Observer</class>
                         <method>afterAddressSave</method>
                     </customer_addres_after_save_viv_observer>
                 </observers>
@@ -108,7 +108,7 @@
             <adminhtml_sales_order_billing_address_prepare_form_after>
                 <observers>
                     <customer_vat_id_renderer_observer>
-                        <class>customer/observer</class>
+                        <class>Mage_Customer_Model_Observer</class>
                         <method>prepareFormAfter</method>
                     </customer_vat_id_renderer_observer>
                 </observers>
@@ -131,7 +131,7 @@
             <sales_model_service_quote_submit_after>
                 <observers>
                     <restore_customer_group_id>
-                        <class>customer/observer</class>
+                        <class>Mage_Customer_Model_Observer</class>
                         <method>quoteSubmitAfter</method>
                     </restore_customer_group_id>
                 </observers>

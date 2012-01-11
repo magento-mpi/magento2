@@ -238,7 +238,7 @@
             <after_reindex_process_cataloginventory_stock>
                 <observers>
                     <cataloginventory>
-                        <class>cataloginventory/observer</class>
+                        <class>Mage_CatalogInventory_Model_Observer</class>
                         <method>reindexProductsMassAction</method>
                     </cataloginventory>
                 </observers>

@@ -26,7 +26,7 @@ class Mage_Adminhtml_Report_ProductController extends Mage_Adminhtml_Controller_
     public function _initAction()
     {
         parent::_initAction();
-        $this->_addBreadcrumb(Mage::helper('reports')->__('Products'), Mage::helper('reports')->__('Products'));
+        $this->_addBreadcrumb(Mage::helper('Mage_Reports_Helper_Data')->__('Products'), Mage::helper('Mage_Reports_Helper_Data')->__('Products'));
         return $this;
     }
 
@@ -87,7 +87,7 @@ class Mage_Adminhtml_Report_ProductController extends Mage_Adminhtml_Controller_
 
         $this->_initAction()
             ->_setActiveMenu('report/products/viewed')
-            ->_addBreadcrumb(Mage::helper('adminhtml')->__('Products Most Viewed Report'), Mage::helper('adminhtml')->__('Products Most Viewed Report'));
+            ->_addBreadcrumb(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Products Most Viewed Report'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('Products Most Viewed Report'));
 
         $gridBlock = $this->getLayout()->getBlock('report_product_viewed.grid');
         $filterFormBlock = $this->getLayout()->getBlock('grid.filter.form');
@@ -107,7 +107,7 @@ class Mage_Adminhtml_Report_ProductController extends Mage_Adminhtml_Controller_
     public function exportViewedCsvAction()
     {
         $fileName   = 'products_mostviewed.csv';
-        $grid       = $this->getLayout()->createBlock('adminhtml/report_product_viewed_grid');
+        $grid       = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Report_Product_Viewed_Grid');
         $this->_initReportAction($grid);
         $this->_prepareDownloadResponse($fileName, $grid->getCsvFile());
     }
@@ -119,7 +119,7 @@ class Mage_Adminhtml_Report_ProductController extends Mage_Adminhtml_Controller_
     public function exportViewedExcelAction()
     {
         $fileName   = 'products_mostviewed.xml';
-        $grid       = $this->getLayout()->createBlock('adminhtml/report_product_viewed_grid');
+        $grid       = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Report_Product_Viewed_Grid');
         $this->_initReportAction($grid);
         $this->_prepareDownloadResponse($fileName, $grid->getExcelFile($fileName));
     }

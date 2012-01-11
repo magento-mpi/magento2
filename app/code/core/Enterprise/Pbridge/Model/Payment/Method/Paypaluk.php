@@ -246,7 +246,9 @@ class Enterprise_Pbridge_Model_Payment_Method_Paypaluk extends Mage_PaypalUk_Mod
         $payment->setTransactionId($api->getTransactionId())->setIsTransactionClosed(0)
             ->setIsTransactionPending($api->getIsPaymentPending());
         $payflowTrxid = $api->getData(Enterprise_Pbridge_Model_Payment_Method_Paypaluk_Pro::TRANSPORT_PAYFLOW_TXN_ID);
-        $payment->setPreparedMessage(Mage::helper('enterprise_pbridge')->__('Payflow PNREF: #%s.', $payflowTrxid));
+        $payment->setPreparedMessage(
+            Mage::helper('Enterprise_Pbridge_Helper_Data')->__('Payflow PNREF: #%s.', $payflowTrxid)
+        );
 
         $this->_pro->importPaymentInfo($api, $payment);
     }

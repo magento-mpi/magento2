@@ -153,7 +153,7 @@ class Mage_Checkout_OnepageController extends Mage_Checkout_Controller_Action
         if (!$quote->validateMinimumAmount()) {
             $error = Mage::getStoreConfig('sales/minimum_order/error_message') ?
                 Mage::getStoreConfig('sales/minimum_order/error_message') :
-                Mage::helper('checkout')->__('Subtotal must exceed minimum order amount');
+                Mage::helper('Mage_Checkout_Helper_Data')->__('Subtotal must exceed minimum order amount');
 
             Mage::getSingleton('Mage_Checkout_Model_Session')->addError($error);
             $this->_redirect('checkout/cart');

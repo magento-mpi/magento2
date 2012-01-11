@@ -93,7 +93,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Uptodate
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . Mage::helper('enterprise_customersegment')->__('Period %s %s Days Up To Date', $this->getOperatorElementHtml(), $this->getValueElementHtml())
+            . Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Period %s %s Days Up To Date', $this->getOperatorElementHtml(), $this->getValueElementHtml())
             . $this->getRemoveLinkHtml();
     }
 

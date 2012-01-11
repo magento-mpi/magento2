@@ -67,7 +67,7 @@ class Enterprise_Eav_Helper_Data extends Mage_Core_Helper_Abstract
                     $minTextLength = (int) $validateRules['min_text_length'];
                     $maxTextLength = (int) $validateRules['max_text_length'];
                     if ($minTextLength > $maxTextLength) {
-                        $errors[] = Mage::helper('enterprise_eav')->__('Wrong values for minimum and maximum text length validation rules.');
+                        $errors[] = Mage::helper('Enterprise_Eav_Helper_Data')->__('Wrong values for minimum and maximum text length validation rules.');
                     }
                 }
                 break;
@@ -76,7 +76,7 @@ class Enterprise_Eav_Helper_Data extends Mage_Core_Helper_Abstract
                     $minValue = (int) $validateRules['date_range_min'];
                     $maxValue = (int) $validateRules['date_range_max'];
                     if ($minValue > $maxValue) {
-                        $errors[] = Mage::helper('enterprise_eav')->__('Wrong values for minimum and maximum date validation rules.');
+                        $errors[] = Mage::helper('Enterprise_Eav_Helper_Data')->__('Wrong values for minimum and maximum date validation rules.');
                     }
                 }
                 break;

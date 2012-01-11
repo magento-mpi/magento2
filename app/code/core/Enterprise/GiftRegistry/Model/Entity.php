@@ -581,17 +581,17 @@ class Enterprise_GiftRegistry_Model_Entity extends Mage_Core_Model_Abstract
         $errors = array();
 
         if (!Zend_Validate::is($this->getTitle(), 'NotEmpty')) {
-            $errors[] = Mage::helper('enterprise_giftregistry')->__('Please enter the title.');
+            $errors[] = Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Please enter the title.');
         }
 
         if (!Zend_Validate::is($this->getMessage(), 'NotEmpty')) {
-            $errors[] = Mage::helper('enterprise_giftregistry')->__('Please enter the message.');
+            $errors[] = Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Please enter the message.');
         }
 
         if (!Zend_Validate::is($this->getIsPublic(), 'NotEmpty')) {
-            $errors[] = Mage::helper('enterprise_giftregistry')->__('Please enter correct Privacy setting.');
+            $errors[] = Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Please enter correct Privacy setting.');
         } else if (!key_exists($this->getIsPublic(), $this->getOptionsIsPublic())) {
-            $errors[] = Mage::helper('enterprise_giftregistry')->__('Please enter correct Privacy setting.');
+            $errors[] = Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Please enter correct Privacy setting.');
         }
 
         $allCustomValues = $this->getCustomValues();
@@ -601,7 +601,7 @@ class Enterprise_GiftRegistry_Model_Entity extends Mage_Core_Model_Abstract
             }
         }
 
-        $errorsCustom = Mage::helper('enterprise_giftregistry')->validateCustomAttributes(
+        $errorsCustom = Mage::helper('Enterprise_GiftRegistry_Helper_Data')->validateCustomAttributes(
             $allCustomValues, $this->getRegistryAttributes()
         );
         if ($errorsCustom !== true) {

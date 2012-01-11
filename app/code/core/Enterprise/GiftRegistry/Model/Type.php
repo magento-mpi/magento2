@@ -42,7 +42,7 @@ class Enterprise_GiftRegistry_Model_Type extends Mage_Core_Model_Abstract
     {
         if (!$this->hasStoreId() && !$this->getStoreId()) {
             $this->_cleanupData();
-            $xmlModel = Mage::getModel('enterprise_giftregistry/attribute_processor');
+            $xmlModel = Mage::getModel('Enterprise_GiftRegistry_Model_Attribute_Processor');
             $this->setMetaXml($xmlModel->processData($this));
         }
 

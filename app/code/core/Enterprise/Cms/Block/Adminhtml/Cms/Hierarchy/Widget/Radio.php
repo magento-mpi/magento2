@@ -1,27 +1,11 @@
 <?php
 /**
- * Magento Enterprise Edition
- *
- * NOTICE OF LICENSE
- *
- * This source file is subject to the Magento Enterprise Edition License
- * that is bundled with this package in the file LICENSE_EE.txt.
- * It is also available through the world-wide-web at this URL:
- * http://www.magentocommerce.com/license/enterprise-edition
- * If you did not receive a copy of the license and are unable to
- * obtain it through the world-wide-web, please send an email
- * to license@magentocommerce.com so we can send you a copy immediately.
- *
- * DISCLAIMER
- *
- * Do not edit or add to this file if you wish to upgrade Magento to newer
- * versions in the future. If you wish to customize Magento for your
- * needs please refer to http://www.magentocommerce.com for more information.
+ * {license_notice}
  *
  * @category    Enterprise
  * @package     Enterprise_Cms
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
- * @license     http://www.magentocommerce.com/license/enterprise-edition
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 
 
@@ -59,7 +43,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Widget_Radio extends Mage_Adm
      *
      * @var string
      */
-    protected $_template = 'enterprise/cms/hierarchy/widget/radio.phtml';
+    protected $_template = 'hierarchy/widget/radio.phtml';
 
     /**
      * Get all Store View labels and ids
@@ -69,7 +53,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Widget_Radio extends Mage_Adm
     public function getAllStoreViews()
     {
         if (empty($this->_allStoreViews)) {
-            $storeValues = Mage::getSingleton('adminhtml/system_store')->getStoreValuesForForm(false, true);
+            $storeValues = Mage::getSingleton('Mage_Adminhtml_Model_System_Store')->getStoreValuesForForm(false, true);
             foreach ($storeValues as $view) {
                 if (is_array($view['value']) && empty($view['value'])) {
                     continue;
@@ -98,7 +82,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Widget_Radio extends Mage_Adm
         $storeViews[] = current($allStoreViews);
         unset($allStoreViews);
 
-        $storeValues = Mage::getSingleton('adminhtml/system_store')->getStoreCollection();
+        $storeValues = Mage::getSingleton('Mage_Adminhtml_Model_System_Store')->getStoreCollection();
 
         foreach ($storeValues as $store) {
             $storeViews[] = array(
@@ -176,7 +160,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Widget_Radio extends Mage_Adm
     public function getLabelByNodeId($nodeId)
     {
         if ($nodeId) {
-            $node = Mage::getSingleton('enterprise_cms/hierarchy_node')->load($nodeId);
+            $node = Mage::getSingleton('Enterprise_Cms_Model_Hierarchy_Node')->load($nodeId);
             if ($node->getId()) {
                 return $node->getLabel();
             }

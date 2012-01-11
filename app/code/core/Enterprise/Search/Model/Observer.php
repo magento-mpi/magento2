@@ -141,7 +141,7 @@ class Enterprise_Search_Model_Observer
         /**
          * Cleaning MAXPRICE cache
          */
-        $cacheTag = Mage::getSingleton('enterprise_search/catalog_layer_filter_price')->getCacheTag();
+        $cacheTag = Mage::getSingleton('Enterprise_Search_Model_Catalog_Layer_Filter_Price')->getCacheTag();
         Mage::app()->cleanCache(array($cacheTag));
     }
 

@@ -211,7 +211,7 @@ class Mage_Index_Model_Process extends Mage_Core_Model_Abstract
         }
 
         /** @var $eventResource Mage_Index_Model_Resource_Event */
-        $eventResource = Mage::getResourceSingleton('index/event');
+        $eventResource = Mage::getResourceSingleton('Mage_Index_Model_Resource_Event');
         $unprocessedEvents = $eventResource->getUnprocessedEvents($this);
         $this->setForcePartialReindex(count($unprocessedEvents) > 0 && $this->getStatus() == self::STATUS_PENDING);
 

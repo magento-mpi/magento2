@@ -373,7 +373,7 @@ class Enterprise_ImportExport_Model_Scheduled_Operation extends Mage_Core_Model_
         $result   = $fs->write($fileName, $fileContent);
         if (!$result) {
             Mage::throwException(
-                Mage::helper('enterprise_importexport')->__('Unable to write file "%s" to "%s" with "%s" driver', $fileName, $fileInfo['file_path'], $fileInfo['server_type'])
+                Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Unable to write file "%s" to "%s" with "%s" driver', $fileName, $fileInfo['file_path'], $fileInfo['server_type'])
             );
         }
         $operation->addLogComment(Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Save file content'));

@@ -327,7 +327,7 @@ class Mage_Sales_Model_Observer
     public function handleCustomerVatNumber(Varien_Event_Observer $observer)
     {
         /** @var $addressHelper Mage_Customer_Helper_Address */
-        $addressHelper = Mage::helper('customer/address');
+        $addressHelper = Mage::helper('Mage_Customer_Helper_Address');
 
         /** @var $customerInstance Mage_Customer_Model_Customer */
         $customerInstance = $observer->getQuote()->getCustomer();
@@ -341,7 +341,7 @@ class Mage_Sales_Model_Observer
         $quoteBillingAddress = $quoteInstance->getBillingAddress();
 
         /** @var $customerHelper Mage_Customer_Helper_Data */
-        $customerHelper = Mage::helper('customer');
+        $customerHelper = Mage::helper('Mage_Customer_Helper_Data');
 
         $customerAddressId = $quoteBillingAddress->getCustomerAddressId();
         $customerDefaultBillingAddressId = $customerInstance->getDefaultBilling();
@@ -349,7 +349,7 @@ class Mage_Sales_Model_Observer
         $customerCountryCode = $quoteBillingAddress->getCountryId();
         $customerVatNumber = $quoteBillingAddress->getVatId();
 
-        if (empty($customerVatNumber) || !Mage::helper('core')->isCountryInEU($customerCountryCode)) {
+        if (empty($customerVatNumber) || !Mage::helper('Mage_Core_Helper_Data')->isCountryInEU($customerCountryCode)) {
             $groupId = $customerHelper->getDefaultCustomerGroupId($customerInstance->getStore());
 
             if ($groupId && $customerInstance->getGroupId() != $groupId) {
@@ -369,7 +369,7 @@ class Mage_Sales_Model_Observer
         }
 
         /** @var $coreHelper Mage_Core_Helper_Data */
-        $coreHelper = Mage::helper('core');
+        $coreHelper = Mage::helper('Mage_Core_Helper_Data');
         $merchantCountryCode = $coreHelper->getMerchantCountryCode();
         $merchantVatNumber = $coreHelper->getMerchantVatNumber();
 
@@ -420,8 +420,8 @@ class Mage_Sales_Model_Observer
                 && is_string($vatRequestDate)
                 && !empty($vatRequestDate)
             ) {
-                $orderHistoryComment = Mage::helper('customer')->__('VAT Request Identifier')
-                    . ': ' . $vatRequestId . '<br />' . Mage::helper('customer')->__('VAT Request Date')
+                $orderHistoryComment = Mage::helper('Mage_Customer_Helper_Data')->__('VAT Request Identifier')
+                    . ': ' . $vatRequestId . '<br />' . Mage::helper('Mage_Customer_Helper_Data')->__('VAT Request Date')
                     . ': ' . $vatRequestDate;
                 $orderInstance->addStatusHistoryComment($orderHistoryComment, false);
             }

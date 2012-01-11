@@ -85,26 +85,26 @@
     </adminhtml_customer_producttags>
 
     <adminhtml_customer_taggrid>
-        <block type="core/text_list" name="root" output="toHtml">
-            <block type="adminhtml/customer_edit_tab_tag" name="admin.customer.tags"/>
+        <block type="Mage_Core_Block_Text_List" name="root" output="toHtml">
+            <block type="Mage_Adminhtml_Block_Customer_Edit_Tab_Tag" name="admin.customer.tags"/>
         </block>
     </adminhtml_customer_taggrid>
 
     <adminhtml_customer_newsletter>
-        <block type="core/text_list" name="root" output="toHtml">
-            <block type="adminhtml/customer_edit_tab_newsletter_grid" name="admin.customer.newsletter.grid"/>
+        <block type="Mage_Core_Block_Text_List" name="root" output="toHtml">
+            <block type="Mage_Adminhtml_Block_Customer_Edit_Tab_Newsletter_Grid" name="admin.customer.newsletter.grid"/>
         </block>
     </adminhtml_customer_newsletter>
 
     <adminhtml_customer_grid>
-        <block type="core/text_list" name="root" output="toHtml">
-            <block type="adminhtml/customer_grid" name="admin.customer.grid"/>
+        <block type="Mage_Core_Block_Text_List" name="root" output="toHtml">
+            <block type="Mage_Adminhtml_Block_Customer_Grid" name="admin.customer.grid"/>
         </block>
     </adminhtml_customer_grid>
 
     <adminhtml_customer_cart>
-        <block type="core/text_list" name="root" output="toHtml">
-            <block type="adminhtml/customer_edit_tab_cart" name="admin.customer.view.edit.cart" />
+        <block type="Mage_Core_Block_Text_List" name="root" output="toHtml">
+            <block type="Mage_Adminhtml_Block_Customer_Edit_Tab_Cart" name="admin.customer.view.edit.cart" />
         </block>
     </adminhtml_customer_cart>
 </layout>

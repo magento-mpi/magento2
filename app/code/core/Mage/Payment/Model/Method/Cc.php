@@ -124,16 +124,16 @@ class Mage_Payment_Model_Method_Cc extends Mage_Payment_Model_Method_Abstract
                 }
 
                 if (!$this->OtherCcType($info->getCcType()) && $ccType!=$info->getCcType()) {
-                    $errorMsg = Mage::helper('payment')->__('Credit card number mismatch with credit card type.');
+                    $errorMsg = Mage::helper('Mage_Payment_Helper_Data')->__('Credit card number mismatch with credit card type.');
                 }
             }
             else {
-                $errorMsg = Mage::helper('payment')->__('Invalid Credit Card Number');
+                $errorMsg = Mage::helper('Mage_Payment_Helper_Data')->__('Invalid Credit Card Number');
             }
 
         }
         else {
-            $errorMsg = Mage::helper('payment')->__('Credit card type is not allowed for this payment method.');
+            $errorMsg = Mage::helper('Mage_Payment_Helper_Data')->__('Credit card type is not allowed for this payment method.');
         }
 
         //validate credit card verification number
@@ -141,12 +141,12 @@ class Mage_Payment_Model_Method_Cc extends Mage_Payment_Model_Method_Abstract
             $verifcationRegEx = $this->getVerificationRegEx();
             $regExp = isset($verifcationRegEx[$info->getCcType()]) ? $verifcationRegEx[$info->getCcType()] : '';
             if (!$info->getCcCid() || !$regExp || !preg_match($regExp ,$info->getCcCid())){
-                $errorMsg = Mage::helper('payment')->__('Please enter a valid credit card verification number.');
+                $errorMsg = Mage::helper('Mage_Payment_Helper_Data')->__('Please enter a valid credit card verification number.');
             }
         }
 
         if ($ccType != 'SS' && !$this->_validateExpDate($info->getCcExpYear(), $info->getCcExpMonth())) {
-            $errorMsg = Mage::helper('payment')->__('Incorrect credit card expiration date.');
+            $errorMsg = Mage::helper('Mage_Payment_Helper_Data')->__('Incorrect credit card expiration date.');
         }
 
         if($errorMsg){

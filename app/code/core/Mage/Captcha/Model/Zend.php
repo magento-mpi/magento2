@@ -1,27 +1,11 @@
 <?php
 /**
- * Magento
- *
- * NOTICE OF LICENSE
- *
- * This source file is subject to the Open Software License (OSL 3.0)
- * that is bundled with this package in the file LICENSE.txt.
- * It is also available through the world-wide-web at this URL:
- * http://opensource.org/licenses/osl-3.0.php
- * If you did not receive a copy of the license and are unable to
- * obtain it through the world-wide-web, please send an email
- * to license@magentocommerce.com so we can send you a copy immediately.
- *
- * DISCLAIMER
- *
- * Do not edit or add to this file if you wish to upgrade Magento to newer
- * versions in the future. If you wish to customize Magento for your
- * needs please refer to http://www.magentocommerce.com for more information.
+ * {license_notice}
  *
  * @category    Mage
  * @package     Mage_Captcha
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
- * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 
 /**
@@ -77,7 +61,7 @@ class Mage_Captcha_Model_Zend extends Zend_Captcha_Image implements Mage_Captcha
      */
     public function getBlockName()
     {
-        return 'captcha/captcha_zend';
+        return 'Mage_Captcha_Block_Captcha_Zend';
     }
 
 
@@ -109,8 +93,8 @@ class Mage_Captcha_Model_Zend extends Zend_Captcha_Image implements Mage_Captcha
     protected function _isUserAuth()
     {
         return Mage::app()->getStore()->isAdmin()
-            ? Mage::getSingleton('admin/session')->isLoggedIn()
-            : Mage::getSingleton('customer/session')->isLoggedIn();
+            ? Mage::getSingleton('Mage_Admin_Model_Session')->isLoggedIn()
+            : Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn();
     }
 
     /**
@@ -216,7 +200,7 @@ class Mage_Captcha_Model_Zend extends Zend_Captcha_Image implements Mage_Captcha
     {
         if (!$this->_session) {
             $params = array('formId' => $this->_formId, 'lifetime' => $this->getTimeout());
-            $this->_session = Mage::getSingleton('captcha/session', $params);
+            $this->_session = Mage::getSingleton('Mage_Captcha_Model_Session', $params);
         }
         return $this->_session;
     }
@@ -272,7 +256,7 @@ class Mage_Captcha_Model_Zend extends Zend_Captcha_Image implements Mage_Captcha
     protected function _getHelper()
     {
         if (empty($this->_helper)) {
-            $this->_helper = Mage::helper('captcha');
+            $this->_helper = Mage::helper('Mage_Captcha_Helper_Data');
         }
         return $this->_helper;
     }

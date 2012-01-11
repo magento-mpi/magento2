@@ -540,7 +540,7 @@ class Mage_Catalog_Model_Convert_Adapter_Product
             } catch (Exception $e) {
                 if (!$e instanceof Mage_Dataflow_Model_Convert_Exception) {
                     $this->addException(
-                        Mage::helper('catalog')->__('An error occurred while saving the collection, aborting. Error message: %s', $e->getMessage()),
+                        Mage::helper('Mage_Catalog_Helper_Data')->__('An error occurred while saving the collection, aborting. Error message: %s', $e->getMessage()),
                         Mage_Dataflow_Model_Convert_Exception::FATAL
                     );
                 }
@@ -567,7 +567,7 @@ class Mage_Catalog_Model_Convert_Adapter_Product
             if (!is_null($this->getBatchParams('store'))) {
                 $store = $this->getStoreById($this->getBatchParams('store'));
             } else {
-                $message = Mage::helper('catalog')->__('Skipping import row, required field "%s" is not defined.', 'store');
+                $message = Mage::helper('Mage_Catalog_Helper_Data')->__('Skipping import row, required field "%s" is not defined.', 'store');
                 Mage::throwException($message);
             }
         } else {
@@ -575,7 +575,7 @@ class Mage_Catalog_Model_Convert_Adapter_Product
         }
 
         if ($store === false) {
-            $message = Mage::helper('catalog')->__('Skipping import row, store "%s" field does not exist.', $importData['store']);
+            $message = Mage::helper('Mage_Catalog_Helper_Data')->__('Skipping import row, store "%s" field does not exist.', $importData['store']);
             Mage::throwException($message);
         }
 
@@ -597,7 +597,7 @@ class Mage_Catalog_Model_Convert_Adapter_Product
              */
             if (empty($importData['type']) || !isset($productTypes[strtolower($importData['type'])])) {
                 $value = isset($importData['type']) ? $importData['type'] : '';
-                $message = Mage::helper('catalog')->__('Skip import row, is not valid value "%s" for field "%s"', $value, 'type');
+                $message = Mage::helper('Mage_Catalog_Helper_Data')->__('Skip import row, is not valid value "%s" for field "%s"', $value, 'type');
                 Mage::throwException($message);
             }
             $product->setTypeId($productTypes[strtolower($importData['type'])]);
@@ -606,7 +606,7 @@ class Mage_Catalog_Model_Convert_Adapter_Product
              */
             if (empty($importData['attribute_set']) || !isset($productAttributeSets[$importData['attribute_set']])) {
                 $value = isset($importData['attribute_set']) ? $importData['attribute_set'] : '';
-                $message = Mage::helper('catalog')->__('Skip import row, the value "%s" is invalid for field "%s"', $value, 'attribute_set');
+                $message = Mage::helper('Mage_Catalog_Helper_Data')->__('Skip import row, the value "%s" is invalid for field "%s"', $value, 'attribute_set');
                 Mage::throwException($message);
             }
             $product->setAttributeSetId($productAttributeSets[$importData['attribute_set']]);
@@ -614,7 +614,7 @@ class Mage_Catalog_Model_Convert_Adapter_Product
             foreach ($this->_requiredFields as $field) {
                 $attribute = $this->getAttribute($field);
                 if (!isset($importData[$field]) && $attribute && $attribute->getIsRequired()) {
-                    $message = Mage::helper('catalog')->__('Skipping import row, required field "%s" for new products is not defined.', $field);
+                    $message = Mage::helper('Mage_Catalog_Helper_Data')->__('Skipping import row, required field "%s" for new products is not defined.', $field);
                     Mage::throwException($message);
                 }
             }

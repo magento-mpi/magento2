@@ -83,7 +83,7 @@
                               break;
                         default: ?>
                             <div class="std">
-                                <?php echo $this->helper('catalog/output')->productAttribute($_item, $this->getProductAttributeValue($_item, $_attribute), $_attribute->getAttributeCode()) ?>
+                                <?php echo $this->helper('Mage_Catalog_Helper_Output')->productAttribute($_item, $this->getProductAttributeValue($_item, $_attribute), $_attribute->getAttributeCode()) ?>
                             </div>
                             <?php break;
                     } ?>

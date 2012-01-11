@@ -485,7 +485,7 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Sales_Model_Abstract
     {
         if ($price) {
             if (!isset($this->_rounders[$type])) {
-                $this->_rounders[$type] = Mage::getModel('core/calculator', $this->getStore());
+                $this->_rounders[$type] = Mage::getModel('Mage_Core_Model_Calculator', $this->getStore());
             }
             $price = $this->_rounders[$type]->deltaRound($price, $negative);
         }

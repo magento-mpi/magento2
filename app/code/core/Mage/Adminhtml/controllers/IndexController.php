@@ -199,16 +199,16 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
         if (!empty($email) && !empty($params)) {
             // Validate received data to be an email address
             if (Zend_Validate::is($email, 'EmailAddress')) {
-                $collection = Mage::getResourceModel('admin/user_collection');
-                /** @var $collection Mage_Admin_Model_Mysql4_User_Collection */
+                /** @var $collection Mage_Admin_Model_Resource_User_Collection */
+                $collection = Mage::getResourceModel('Mage_Admin_Model_Resource_User_Collection');
                 $collection->addFieldToFilter('email', $email);
                 $collection->load(false);
 
                 if ($collection->getSize() > 0) {
                     foreach ($collection as $item) {
-                        $user = Mage::getModel('admin/user')->load($item->getId());
+                        $user = Mage::getModel('Mage_Admin_Model_User')->load($item->getId());
                         if ($user->getId()) {
-                            $newResetPasswordLinkToken = Mage::helper('admin')->generateResetPasswordLinkToken();
+                            $newResetPasswordLinkToken = Mage::helper('Mage_Admin_Helper_Data')->generateResetPasswordLinkToken();
                             $user->changeResetPasswordLinkToken($newResetPasswordLinkToken);
                             $user->save();
                             $user->sendPasswordResetConfirmationEmail();
@@ -217,7 +217,7 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
                     }
                 }
                 $this->_getSession()
-                    ->addSuccess(Mage::helper('adminhtml')->__('If there is an account associated with %s you will receive an email with a link to reset your password.', Mage::helper('adminhtml')->htmlEscape($email)));
+                    ->addSuccess(Mage::helper('Mage_Adminhtml_Helper_Data')->__('If there is an account associated with %s you will receive an email with a link to reset your password.', Mage::helper('Mage_Adminhtml_Helper_Data')->escapeHtml($email)));
                 $this->_redirect('*/*/login');
                 return;
             } else {

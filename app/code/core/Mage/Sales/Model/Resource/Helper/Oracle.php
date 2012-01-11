@@ -32,7 +32,7 @@ class Mage_Sales_Model_Resource_Helper_Oracle extends Mage_Core_Model_Resource_H
         $mainTable, $aggregationTable
     ) {
         /** @var $reportsResourceHelper Mage_Reports_Model_Resource_Helper_Interface */
-        $reportsResourceHelper = Mage::getResourceHelper('reports');
+        $reportsResourceHelper = Mage::getResourceHelper('Mage_Reports');
 
         if ($aggregation == $aggregationAliases['monthly']) {
             $reportsResourceHelper

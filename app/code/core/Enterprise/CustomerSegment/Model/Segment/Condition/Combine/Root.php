@@ -69,7 +69,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Combine_Root
         } else {
             $select->from($table, array('entity_id'));
             if ($customer === null) {
-                if (Mage::getSingleton('customer/config_share')->isWebsiteScope()) {
+                if (Mage::getSingleton('Mage_Customer_Model_Config_Share')->isWebsiteScope()) {
                     $select->where('website_id=?', $website);
                 }
             }

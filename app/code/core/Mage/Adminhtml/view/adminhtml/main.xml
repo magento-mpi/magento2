@@ -221,17 +221,17 @@ Base preview layout
     </adminhtml_dashboard_productsviewed>
 
     <adminhtml_index_login>
-        <block type="core/text_list" name="root" output="toHtml">
-            <block type="adminhtml/template" name="content" template="login.phtml">
-                <block type="core/text_list" name="form.additional.info" />
+        <block type="Mage_Core_Block_Text_List" name="root" output="toHtml">
+            <block type="Mage_Adminhtml_Block_Template" name="content" template="admin/login.phtml">
+                <block type="Mage_Core_Block_Text_List" name="form.additional.info" />
             </block>
         </block>
     </adminhtml_index_login>
 
     <adminhtml_index_forgotpassword>
-        <block type="core/text_list" name="root" output="toHtml">
-            <block type="adminhtml/template" name="content" template="forgotpassword.phtml">
-                <block type="core/text_list" name="form.additional.info" />
+        <block type="Mage_Core_Block_Text_List" name="root" output="toHtml">
+            <block type="Mage_Adminhtml_Block_Template" name="content" template="admin/forgotpassword.phtml">
+                <block type="Mage_Core_Block_Text_List" name="form.additional.info" />
             </block>
         </block>
     </adminhtml_index_forgotpassword>

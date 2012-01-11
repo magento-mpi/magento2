@@ -133,7 +133,7 @@ class Enterprise_Cms_Model_Observer
          * Validate Request and modify router match condition
          */
         /* @var $node Enterprise_Cms_Model_Hierarchy_Node */
-        $node = Mage::getModel('enterprise_cms/hierarchy_node', array(
+        $node = Mage::getModel('Enterprise_Cms_Model_Hierarchy_Node', array(
             'scope' => Enterprise_Cms_Model_Hierarchy_Node::NODE_SCOPE_STORE,
             'scope_id' => Mage::app()->getStore()->getId(),
         ))->getHeritage();
@@ -160,7 +160,7 @@ class Enterprise_Cms_Model_Observer
 
         if (!$node->getPageId()) {
             /* @var $child Enterprise_Cms_Model_Hierarchy_Node */
-            $child = Mage::getModel('enterprise_cms/hierarchy_node', array(
+            $child = Mage::getModel('Enterprise_Cms_Model_Hierarchy_Node', array(
                 'scope' => $node->getScope(),
                 'scope_id' => $node->getScopeId(),
             ));
@@ -337,7 +337,7 @@ class Enterprise_Cms_Model_Observer
     {
         /* @var $store Mage_Core_Model_Website */
         $website = $observer->getEvent()->getWebsite();
-        $nodeModel = Mage::getModel('enterprise_cms/hierarchy_node');
+        $nodeModel = Mage::getModel('Enterprise_Cms_Model_Hierarchy_Node');
         $nodeModel->deleteByScope(Enterprise_Cms_Model_Hierarchy_Node::NODE_SCOPE_WEBSITE, $website->getId());
 
         foreach ($website->getStoreIds() as $storeId) {
@@ -368,14 +368,14 @@ class Enterprise_Cms_Model_Observer
     private function _cleanStoreFootprints($storeId)
     {
         $storeScope = Enterprise_Cms_Model_Hierarchy_Node::NODE_SCOPE_STORE;
-        $nodeModel = Mage::getModel('enterprise_cms/hierarchy_node');
+        $nodeModel = Mage::getModel('Enterprise_Cms_Model_Hierarchy_Node');
         $nodeModel->deleteByScope($storeScope, $storeId);
 
         /* @var $widgetModel Mage_Widget_Model_Widget_Instance */
-        $widgetModel = Mage::getModel('widget/widget_instance');
+        $widgetModel = Mage::getModel('Mage_Widget_Model_Widget_Instance');
         $widgets = $widgetModel->getResourceCollection()
                 ->addStoreFilter(array($storeId, false))
-                ->addFieldToFilter('instance_type','enterprise_cms/widget_node');
+                ->addFieldToFilter('instance_type', 'Enterprise_Cms_Block_Widget_Node');
 
         /* @var $widgetInstance Mage_Widget_Model_Widget_Instance */
         foreach ($widgets as $widgetInstance) {

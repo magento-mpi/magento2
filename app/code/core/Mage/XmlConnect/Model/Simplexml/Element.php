@@ -58,7 +58,7 @@ class Mage_XmlConnect_Model_Simplexml_Element extends Varien_Simplexml_Element
             $result = array();
             foreach ($data as $item) {
                 if ($stripTags) {
-                    $item = Mage::helper('core')->stripTags($item, $allowedTags);
+                    $item = Mage::helper('Mage_Core_Helper_Data')->stripTags($item, $allowedTags);
                 }
                 $result[] = $this->xmlentities($item);
             }
@@ -69,7 +69,7 @@ class Mage_XmlConnect_Model_Simplexml_Element extends Varien_Simplexml_Element
             $data = (string)$data;
 
             if ($stripTags) {
-                $data = Mage::helper('core')->stripTags($data, $allowedTags);
+                $data = Mage::helper('Mage_Core_Helper_Data')->stripTags($data, $allowedTags);
             }
             $result = $this->xmlentities($data);
         }
@@ -91,7 +91,7 @@ class Mage_XmlConnect_Model_Simplexml_Element extends Varien_Simplexml_Element
         $value = (string)$value;
 
         if ($stripTags) {
-            $value = Mage::helper('core')->stripTags($value);
+            $value = Mage::helper('Mage_Core_Helper_Data')->stripTags($value);
         }
         $value = str_replace(array('&', '"', '<', '>'), array('&amp;', '&quot;', '&lt;', '&gt;'), $value);
         return $value;

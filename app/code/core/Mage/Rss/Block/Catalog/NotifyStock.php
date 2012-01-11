@@ -48,7 +48,7 @@ class Mage_Rss_Block_Catalog_NotifyStock extends Mage_Rss_Block_Abstract
     protected function _toHtml()
     {
         $newUrl = Mage::getUrl('rss/catalog/notifystock');
-        $title = Mage::helper('rss')->__('Low Stock Products');
+        $title = Mage::helper('Mage_Rss_Helper_Data')->__('Low Stock Products');
 
         $rssObj = Mage::getModel('Mage_Rss_Model_Rss');
         $data = array(
@@ -63,7 +63,7 @@ class Mage_Rss_Block_Catalog_NotifyStock extends Mage_Rss_Block_Abstract
             Mage_CatalogInventory_Model_Stock_Item::XML_PATH_MANAGE_STOCK);
         $globalNotifyStockQty = (float) Mage::getStoreConfig(
             Mage_CatalogInventory_Model_Stock_Item::XML_PATH_NOTIFY_STOCK_QTY);
-        Mage::helper('rss')->disableFlat();
+        Mage::helper('Mage_Rss_Helper_Data')->disableFlat();
         /* @var $product Mage_Catalog_Model_Product */
         $product = Mage::getModel('Mage_Catalog_Model_Product');
         /* @var $collection Mage_Catalog_Model_Resource_Product_Collection */
