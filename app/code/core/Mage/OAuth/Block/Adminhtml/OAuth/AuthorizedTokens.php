@@ -26,7 +26,7 @@
  */
 
 /**
- * OAuth consumers grid container block
+ * OAuth authorized tokens grid container block
  *
  * @category   Mage
  * @package    Mage_OAuth
