@@ -18,6 +18,7 @@
     </testsuites>
     <php>
         <const name="SELENIUM_TESTS_INSTALLATION" value="enabled"/>
+        <const name="SELENIUM_TESTS_INSTALLATION_CLEANUP" value="enabled"/>
     </php>
     <logging>
         <log type="tap" target="tests-functional.tap"/>

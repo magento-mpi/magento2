@@ -27,44 +27,72 @@
  */
 
 define('SYNOPSIS', <<<SYNOPSIS
-php -f install.php --
-    --magento-dir="<magento_base_dir>"
-    --config-file="<config_php_array_file>"
+php -f install.php -- --magento-dir="<magento_base_dir>" --config-file="<config_php_array_file>"
+php -f install.php -- --magento-dir="<magento_base_dir>" --uninstall
 
 SYNOPSIS
 );
-$options = getopt('', array('magento-dir:', 'config-file:'));
-if (empty($options['magento-dir']) || empty($options['config-file'])) {
+$options = getopt('', array('magento-dir:', 'config-file:', 'uninstall'));
+if (empty($options['magento-dir']) || (empty($options['config-file']) && !isset($options['uninstall']))) {
     echo SYNOPSIS;
     exit(1);
 }
 
-$configFile = $options['config-file'];
+$configFile = isset($options['config-file']) ? $options['config-file'] : null;
 $magentoDir = $options['magento-dir'];
+$isUninstallMode = isset($options['uninstall']);
 $magentoBootstrapFile = "$magentoDir/app/bootstrap.php";
 $magentoBootstrapFile = file_exists($magentoBootstrapFile) ? $magentoBootstrapFile : "$magentoDir/app/Mage.php";
 
 require_once $magentoBootstrapFile;
 
-if (!Mage::isInstalled()) {
-    try {
+function installMagentoApplication(array $installerOptions, array $systemConfigData = array())
+{
+    if (Mage::isInstalled()) {
+        return;
+    }
+    $installer = new Mage_Install_Model_Installer_Console;
+    $isInstalled = $installer->init(Mage::app()) && $installer->setArgs($installerOptions) && $installer->install();
+    if (!$isInstalled) {
+        throw new Exception(implode(PHP_EOL, $installer->getErrors()));
+    }
+    $setupModel = new Mage_Core_Model_Resource_Setup(Mage_Core_Model_Resource_Setup::DEFAULT_SETUP_CONNECTION);
+    foreach ($systemConfigData as $configPath => $configValue) {
+        $setupModel->setConfigData($configPath, $configValue);
+    }
+}
+
+function uninstallMagentoApplication()
+{
+    if (!Mage::isInstalled()) {
+        return;
+    }
+    Mage::init();
+    $dbConfig = Mage::getConfig()->getResourceConnectionConfig(Mage_Core_Model_Resource::DEFAULT_SETUP_RESOURCE);
+    if ($dbConfig->model != 'mysql4') {
+        throw new UnexpectedValueException('Database uninstall is supported for the MySQL only.');
+    }
+    $resourceModel = new Mage_Core_Model_Resource;
+    $dbConnection = $resourceModel->getConnection(Mage_Core_Model_Resource::DEFAULT_SETUP_RESOURCE);
+    $dbConnection->query("DROP DATABASE `$dbConfig->dbname`");
+    $dbConnection->query("CREATE DATABASE `$dbConfig->dbname`");
+    unlink(Mage::app()->getConfig()->getOptions()->getEtcDir() . '/local.xml');
+    Varien_Io_File::rmdirRecursive(Mage::app()->getConfig()->getOptions()->getCacheDir());
+}
+
+try {
+    if ($isUninstallMode) {
+        uninstallMagentoApplication();
+    } else {
         $config = require($configFile);
         if (!is_array($config) || !isset($config['installer_options'])) {
             throw new UnexpectedValueException("Configuration file '$configFile' is invalid.");
         }
         $installerOptions = $config['installer_options'];
         $systemConfigData = isset($config['config_data']) ? $config['config_data'] : array();
-        $installer = new Mage_Install_Model_Installer_Console;
-        $isInstalled = $installer->init(Mage::app()) && $installer->setArgs($installerOptions) && $installer->install();
-        if (!$isInstalled) {
-            throw new Exception(implode(PHP_EOL, $installer->getErrors()));
-        }
-        $setupModel = new Mage_Core_Model_Resource_Setup('core_setup');
-        foreach ($systemConfigData as $configPath => $configValue) {
-            $setupModel->setConfigData($configPath, $configValue);
-        }
-    } catch (Exception $e) {
-        echo $e->getMessage() . PHP_EOL . $e->getTraceAsString();
-        exit(1);
+        installMagentoApplication($installerOptions, $systemConfigData);
     }
+} catch (Exception $e) {
+    echo $e->getMessage() . PHP_EOL . $e->getTraceAsString();
+    exit(1);
 }
