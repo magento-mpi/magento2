@@ -52,15 +52,16 @@ class Mage_Catalog_Model_Product_Type_Price
      *
      * @param Mage_Catalog_Model_Product $product
      * @param float|null $qty
+     *
+     * @return float
      */
     public function getBasePrice($product, $qty = null)
     {
-        $finalPrice = $product->getPrice();
-
-        $finalPrice = $this->_applyGroupPrice($product, $finalPrice);
-        $finalPrice = $this->_applyTierPrice($product, $qty, $finalPrice);
-        $finalPrice = $this->_applySpecialPrice($product, $finalPrice);
-        return $finalPrice;
+        $price = (float)$product->getPrice();
+        $price = $this->_applyGroupPrice($product, $price);
+        $price = $this->_applyTierPrice($product, $qty, $price);
+        $price = $this->_applySpecialPrice($product, $price);
+        return $price;
     }
 
 
@@ -151,9 +152,9 @@ class Mage_Catalog_Model_Product_Type_Price
      * Apply tier price for product if not return price that was before
      *
      * @param   Mage_Catalog_Model_Product $product
-     * @param   double $qty
-     * @param   double $finalPrice
-     * @return  double
+     * @param   float $qty
+     * @param   float $finalPrice
+     * @return  float
      */
     protected function _applyTierPrice($product, $qty, $finalPrice)
     {
@@ -171,9 +172,9 @@ class Mage_Catalog_Model_Product_Type_Price
     /**
      * Get product tier price by qty
      *
-     * @param   double $qty
+     * @param   float $qty
      * @param   Mage_Catalog_Model_Product $product
-     * @return  double
+     * @return  float
      */
     public function getTierPrice($qty = null, $product)
     {
@@ -264,8 +265,8 @@ class Mage_Catalog_Model_Product_Type_Price
      * Apply special price for product if not return price that was before
      *
      * @param   Mage_Catalog_Model_Product $product
-     * @param   double $finalPrice
-     * @return  double
+     * @param   float $finalPrice
+     * @return  float
      */
     protected function _applySpecialPrice($product, $finalPrice)
     {
@@ -287,11 +288,11 @@ class Mage_Catalog_Model_Product_Type_Price
     }
 
     /**
-     * Get formated by currency tier price
+     * Get formatted by currency tier price
      *
-     * @param   double $qty
+     * @param   float $qty
      * @param   Mage_Catalog_Model_Product $product
-     * @return  array || double
+     * @return  array || float
      */
     public function getFormatedTierPrice($qty=null, $product)
     {
@@ -311,10 +312,10 @@ class Mage_Catalog_Model_Product_Type_Price
     }
 
     /**
-     * Get formated by currency product price
+     * Get formatted by currency product price
      *
      * @param   Mage_Catalog_Model_Product $product
-     * @return  array || double
+     * @return  array || float
      */
     public function getFormatedPrice($product)
     {
@@ -326,8 +327,8 @@ class Mage_Catalog_Model_Product_Type_Price
      *
      * @param Mage_Catalog_Model_Product $product
      * @param int $qty
-     * @param double $finalPrice
-     * @return double
+     * @param float $finalPrice
+     * @return float
      */
     protected function _applyOptionsPrice($product, $qty, $finalPrice)
     {
