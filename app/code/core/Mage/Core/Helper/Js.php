@@ -164,14 +164,15 @@ class Mage_Core_Helper_Js extends Mage_Core_Helper_Abstract
     protected function _getXmlConfig()
     {
         if (is_null($this->_config)) {
-            if ($cachedXml = Mage::app()->loadCache(self::JAVASCRIPT_TRANSLATE_CONFIG_KEY)) {
+            $canUsaCache = Mage::app()->useCache('config');
+            if ($canUsaCache && $cachedXml = Mage::app()->loadCache(self::JAVASCRIPT_TRANSLATE_CONFIG_KEY)) {
                 $xmlConfig = new Varien_Simplexml_Config($cachedXml);
             } else {
                 $xmlConfig = new Varien_Simplexml_Config();
                 $xmlConfig->loadString('<?xml version="1.0"?><translater></translater>');
                 Mage::getConfig()->loadModulesConfiguration(self::JAVASCRIPT_TRANSLATE_CONFIG_FILENAME, $xmlConfig);
 
-                if (Mage::app()->useCache('config')) {
+                if ($canUsaCache) {
                     Mage::app()->saveCache($xmlConfig->getXmlString(), self::JAVASCRIPT_TRANSLATE_CONFIG_KEY,
                         array(Mage_Core_Model_Config::CACHE_TAG));
                 }
