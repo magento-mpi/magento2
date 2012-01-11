@@ -209,7 +209,7 @@ class Mage_OAuth_Model_Token extends Mage_Core_Model_Abstract
     {
         $this->validate();
 
-        if ($this->isObjectNew()) {
+        if ($this->isObjectNew() && null === $this->getCreatedAt()) {
             $this->setCreatedAt(Varien_Date::now());
         }
         parent::_beforeSave();

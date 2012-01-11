@@ -50,6 +50,11 @@ class Mage_OAuth_Helper_Data extends Mage_Core_Helper_Abstract
     /**#@-*/
 
     /**
+     * Cleanup expiration period in minutes
+     */
+    const CLEANUP_EXPIRATION_PERIOD_DEFAULT = 120;
+
+    /**
      * Generate random string for token or secret or verifier
      *
      * @param int $length String length
@@ -153,6 +158,6 @@ class Mage_OAuth_Helper_Data extends Mage_Core_Helper_Abstract
     public function getCleanupExpirationPeriod()
     {
         $minutes = (int) Mage::getStoreConfig(self::XML_PATH_CLEANUP_EXPIRATION_PERIOD);
-        return $minutes > 0 ? $minutes : 120;
+        return $minutes > 0 ? $minutes : self::CLEANUP_EXPIRATION_PERIOD_DEFAULT;
     }
 }
