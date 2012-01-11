@@ -114,6 +114,14 @@ $$('.sku-failed-qty').each(function(e) {
     }
 });
 
+$$('.sku-out-of-stock').each(function(e) {
+    var qtyElement = $(e.ancestors()[2]).select('td input.qty')[0];
+    if (qtyElement) {
+        qtyElement.addClassName('disabled');
+        qtyElement.disable();
+    }
+});
+
 $$('input[id^="sku_failed_qty_"]').each(function(e) {
     var qtyElement = $(e.ancestors()[1]).select('td input.qty')[0];
     if (qtyElement) {

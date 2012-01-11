@@ -67,9 +67,11 @@ class Enterprise_Checkout_Block_Sku_Products_Info extends Mage_Core_Block_Templa
                     Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_PERMISSIONS
                 );
             case Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_OUT_OF_STOCK:
-                return $this->_getHelper()->getMessage(
-                    Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_OUT_OF_STOCK
-                );
+                $message = '<span class="sku-out-of-stock" id="sku-stock-failed-' . $this->getItem()->getId() . '">'
+                    . $this->_getHelper()->getMessage(
+                        Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_OUT_OF_STOCK
+                    ) . '</span>';
+                return $message;
             case Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED:
                 /** @var $stockItem Mage_CatalogInventory_Model_Stock_Item */
                 $stockItem = Mage::getModel('cataloginventory/stock_item');

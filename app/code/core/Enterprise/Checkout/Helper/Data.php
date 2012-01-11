@@ -204,7 +204,7 @@ class Enterprise_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
     {
         if ($all && is_null($this->_itemsAll) || !$all && is_null($this->_items)) {
             $failedItems = Mage::getModel('enterprise_checkout/cart')->getFailedItems();
-            $collection = Mage::getModel('catalog/product')->getCollection()
+            $collection = Mage::getResourceSingleton('enterprise_checkout/product_collection')
                 ->addMinimalPrice()
                 ->addFinalPrice()
                 ->addTaxPercents()

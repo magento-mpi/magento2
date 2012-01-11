@@ -611,9 +611,6 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object
         Mage_Catalog_Model_Product $product,
         $requestedQty
     ) {
-        if (!$stockItem->getIsInStock()) {
-            return array('status' => Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_OUT_OF_STOCK);
-        }
         if (!$stockItem->getManageStock()) {
             return true;
         }
@@ -710,7 +707,11 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object
             $stockItem = Mage::getModel('cataloginventory/stock_item');
             $stockItem->loadByProduct($product);
             $stockItem->setProduct($product);
-            if ($this->_shouldBeConfigured($product)) {
+            if (!$stockItem->getIsInStock() && !$this->getStore()->isAdmin()) {
+                $status = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_OUT_OF_STOCK;
+            }
+
+            if (empty($status) && $this->_shouldBeConfigured($product)) {
                 if ($this->_isConfigured($product, $config)) {
                     $status = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_SUCCESS;
                 } else {

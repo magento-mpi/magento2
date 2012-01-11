@@ -35,7 +35,11 @@
         <models>
             <enterprise_checkout>
                 <class>Enterprise_Checkout_Model</class>
+                <resourceModel>enterprise_checkout_resource</resourceModel>
             </enterprise_checkout>
+            <enterprise_checkout_resource>
+                <class>Enterprise_Checkout_Model_Resource</class>
+            </enterprise_checkout_resource>
         </models>
         <blocks>
             <enterprise_checkout>
