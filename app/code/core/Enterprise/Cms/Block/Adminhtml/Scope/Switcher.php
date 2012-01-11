@@ -56,16 +56,6 @@ class Enterprise_Cms_Block_Adminhtml_Scope_Switcher extends Mage_Adminhtml_Block
     }
 
     /**
-     * Is scope switcher visible
-     *
-     * @return bool
-     */
-    public function isVisible()
-    {
-        return true; // scope switcher is always visible, see MAGE-5366 comments for details
-    }
-
-    /**
      * Get switcher default option value
      *
      * @return string
