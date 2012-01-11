@@ -22,14 +22,6 @@ $installer->addAttribute('customer', $disableAGCAttributeCode, array(
     'required'  => false
 ));
 
-$disableAGCAttribute = Mage::getSingleton('Mage_Eav_Model_Config')
-    ->getAttribute('customer', $disableAGCAttributeCode);
-$disableAGCAttribute->setData('used_in_forms', array(
-    'adminhtml_customer'
-));
-$disableAGCAttribute->save();
-
-
 $attributesInfo = array(
     'vat_id' => array(
         'label'     => 'VAT number',
@@ -68,11 +60,3 @@ $attributesInfo = array(
 foreach ($attributesInfo as $attributeCode => $attributeParams) {
     $installer->addAttribute('customer_address', $attributeCode, $attributeParams);
 }
-
-$vatAttribute = Mage::getSingleton('Mage_Eav_Model_Config')->getAttribute('customer_address', 'vat_id');
-$vatAttribute->setData('used_in_forms', array(
-     'adminhtml_customer_address',
-     'customer_address_edit',
-     'customer_register_address'
-));
-$vatAttribute->save();
