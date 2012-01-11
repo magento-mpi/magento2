@@ -147,6 +147,10 @@ class Magento_TestCase extends PHPUnit_Framework_TestCase
     protected function _replaceHelper($name, $mock)
     {
         if (strpos($name, '/') === false) {
+            $newRegistryKey = '_helper/' . $name;
+            Mage::unregister($newRegistryKey);
+            Mage::register($newRegistryKey, $mock);
+
             $name .= '/data';
         }
 
@@ -166,6 +170,7 @@ class Magento_TestCase extends PHPUnit_Framework_TestCase
     protected function _restoreHelper($name)
     {
         if (strpos($name, '/') === false) {
+            Mage::unregister('_helper/' . $name);
             $name .= '/data';
         }
 
