@@ -37,77 +37,72 @@ class Mage_Selenium_TestConfiguration
 {
     /**
      * Data helper instance
-     *
      * @var Mage_Selenium_Helper_Data
      */
     protected $_dataHelper = null;
 
     /**
      * Data generator helper instance
-     *
      * @var Mage_Selenium_Helper_DataGenerator
      */
     protected $_dataGenerator = null;
 
     /**
      * Page helper instance
-     *
      * @var Mage_Selenium_Helper_Page
      */
     protected $_pageHelper = null;
 
     /**
      * File helper instance
-     *
      * @var Mage_Selenium_Helper_File
      */
     protected $_fileHelper = null;
 
     /**
      * Application helper instance
-     *
      * @var Mage_Selenium_Helper_Application
      */
     protected $_applicationHelper = null;
 
     /**
      * Uimap helper instance
-     *
      * @var Mage_Selenium_Helper_Uimap
      */
     protected $_uimapHelper = null;
 
     /**
+     * Cache helper instance
+     * @var Mage_Selenium_Helper_Cache
+     */
+    protected $_cacheHelper;
+
+    /**
      * Initialized browsers connections
-     *
      * @var array[int]PHPUnit_Extensions_SeleniumTestCase_Driver
      */
     protected $_drivers = array();
 
     /**
      * Current browser connection
-     *
      * @var PHPUnit_Extensions_SeleniumTestCase_Driver
      */
     public $driver = null;
 
     /**
-     * Confiration object instance
-     *
+     * Configuration object instance
      * @var Mage_Selenium_TestConfiguration
      */
     public static $instance = null;
 
     /**
      * Test data
-     *
      * @var array
      */
     protected $_testData = array();
 
     /**
      * Configuration data
-     *
      * @var array
      */
     protected $_configData = array();
@@ -125,8 +120,8 @@ class Mage_Selenium_TestConfiguration
      */
     public function  __destruct()
     {
-        if ($this->getConfigValue('browsers/default/doNotKillBrowsers')
-            != 'true' && $this->_drivers
+        if ($this->getConfigValue('browsers/default/doNotKillBrowsers') != 'true'
+            && $this->_drivers
         ) {
             foreach ($this->_drivers as $driver) {
                 $driver->setContiguousSession(false);
@@ -137,7 +132,6 @@ class Mage_Selenium_TestConfiguration
 
     /**
      * Initializes test configuration
-     *
      * @return Mage_Selenium_TestConfiguration
      */
     public static function initInstance()
@@ -155,7 +149,6 @@ class Mage_Selenium_TestConfiguration
      * <li>Initialize DataSets
      * <li>Initialize UIMap instance
      * <li>Initialize all drivers connections from configuration
-     *
      * @return Mage_Selenium_TestConfiguration
      */
     public function init()
@@ -169,7 +162,6 @@ class Mage_Selenium_TestConfiguration
 
     /**
      * Performs retrieving of file helper instance
-     *
      * @return Mage_Selenium_Helper_File
      */
     public function getFileHelper()
@@ -188,7 +180,7 @@ class Mage_Selenium_TestConfiguration
      *
      * @return Mage_Selenium_Helper_Page
      */
-    public function getPageHelper($testCase=null, $applicationHelper=null)
+    public function getPageHelper($testCase = null, $applicationHelper = null)
     {
         if (is_null($this->_pageHelper)) {
             $this->_pageHelper = new Mage_Selenium_Helper_Page($this);
@@ -204,7 +196,6 @@ class Mage_Selenium_TestConfiguration
 
     /**
      * Performs retrieving of Data Generator helper instance
-     *
      * @return Mage_Selenium_Helper_DataGenerator
      */
     public function getDataGenerator()
@@ -217,7 +208,6 @@ class Mage_Selenium_TestConfiguration
 
     /**
      * Performs retrieving of Data helper instance
-     *
      * @return Mage_Selenium_Helper_Data
      */
     public function getDataHelper()
@@ -230,8 +220,7 @@ class Mage_Selenium_TestConfiguration
 
     /**
      * Performs retrieving of Application helper instance
-     *
-     * @return Mage_Selenium_Helper_File
+     * @return Mage_Selenium_Helper_Application
      */
     public function getApplicationHelper()
     {
@@ -243,7 +232,6 @@ class Mage_Selenium_TestConfiguration
 
     /**
      * Performs retrieving of UIMap helper instance
-     *
      * @return Mage_Selenium_Helper_Uimap
      */
     public function getUimapHelper()
@@ -255,8 +243,19 @@ class Mage_Selenium_TestConfiguration
     }
 
     /**
+     * Retrieve cache helper
+     * @return Mage_Selenium_Helper_Cache
+     */
+    public function getCacheHelper()
+    {
+        if (!$this->_cacheHelper) {
+            $this->_cacheHelper = new Mage_Selenium_Helper_Cache($this);
+        }
+        return $this->_cacheHelper;
+    }
+
+    /**
      * Initializes and loads configuration data
-     *
      * @return Mage_Selenium_TestConfiguration
      */
     protected function _initConfig()
@@ -267,7 +266,6 @@ class Mage_Selenium_TestConfiguration
 
     /**
      * Initializes test data from default location
-     *
      * @return Mage_Selenium_TestConfiguration
      */
     protected function _initTestData()
@@ -278,7 +276,6 @@ class Mage_Selenium_TestConfiguration
 
     /**
      * Initializes all driver connections from configuration
-     *
      * @return Mage_Selenium_TestConfiguration
      */
     protected function _initDrivers()
@@ -360,20 +357,18 @@ class Mage_Selenium_TestConfiguration
 
     /**
      * Performs loading and merging of DataSet files
-     *
      * @return Mage_Selenium_TestConfiguration
      */
     protected function _loadTestData()
     {
         $files = SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'data'
-                . DIRECTORY_SEPARATOR . '*.yml';
+            . DIRECTORY_SEPARATOR . '*.yml';
         $this->_testData = $this->getFileHelper()->loadYamlFiles($files);
         return $this;
     }
 
     /**
      * Performs loading of Configuration files
-     *
      * @return Mage_Selenium_TestConfiguration
      */
     protected function _loadConfigData()
@@ -391,5 +386,4 @@ class Mage_Selenium_TestConfiguration
         }
         return $this;
     }
-
 }

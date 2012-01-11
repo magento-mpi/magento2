@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Magento
  *
@@ -36,59 +35,72 @@
  */
 class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
 {
+    /**
+     * Path to 'basePath' in config
+     */
+    const XPATH_UIMAP_BASEPATH = 'default/uimaps/basePath';
 
     /**
-     * File helper instance
-     *
-     * @var Mage_Selenium_Helper_File
+     * Id for uimapData in cash
      */
-    protected $_fileHelper = null;
+    const CACHE_ID_DATA = 'UIMAP_DATA';
+
+    /**
+     * Tag for uimapData in cash
+     */
+    const CACHE_TAG = 'UIMAP';
 
     /**
      * Uimap data
-     *
      * @var array
      */
     protected $_uimapData = array();
 
     /**
-     * Class constructor
-     *
-     * @param Mage_Selenium_TestConfiguration $config Test configuration
+     * Initialize process
+     * @return Mage_Selenium_Helper_Uimap
      */
-    public function __construct(Mage_Selenium_TestConfiguration $config)
+    protected function _init()
     {
-        parent::__construct($config);
+        parent::_init();
 
-        $this->_fileHelper = new Mage_Selenium_Helper_File($this->_config);
-        $this->_loadUimapData('admin');
-        $this->_loadUimapData('frontend');
+        $this->_loadUimapData();
+        return $this;
     }
 
     /**
      * Load and merge data files
-     *
-     * @param string $area Application area ('frontend'|'admin')
-     *
      * @return Mage_Selenium_TestConfiguration
      */
-    protected function _loadUimapData($area)
+    protected function _loadUimapData()
     {
-        $files = SELENIUM_TESTS_BASEDIR
-                . DIRECTORY_SEPARATOR
-                . 'uimaps'
-                . DIRECTORY_SEPARATOR
-                . $area
-                . DIRECTORY_SEPARATOR
-                . '*.yml';
+        $cache = $this->getConfig()->getCacheHelper()->getCache();
 
-        $pages = $this->_fileHelper->loadYamlFiles($files);
-        foreach ($pages as $pageKey => $pageContent) {
-            if (!empty($pageContent)) {
-                $this->_uimapData[$area][$pageKey] = new Mage_Selenium_Uimap_Page($pageKey, $pageContent);
+        // try to load from cache
+        $this->_uimapData = $cache->load(self::CACHE_ID_DATA);
+        if (!$this->_uimapData) {
+            $areasConfig = $this->getConfig()->getApplicationHelper()->getAreasConfig();
+            $uimapsBasePath = $this->getConfig()->getConfigValue(self::XPATH_UIMAP_BASEPATH);
+
+            foreach ($areasConfig as $areaKey => $areaConfig) {
+                $files = implode(DIRECTORY_SEPARATOR, array(
+                                                           SELENIUM_TESTS_BASEDIR,
+                                                           $uimapsBasePath,
+                                                           $areaConfig['uimaps']['path'],
+                                                           '*.yml'
+                                                      ));
+                $pages = $this->getConfig()->getFileHelper()->loadYamlFiles($files);
+                foreach ($pages as $pageKey => $pageContent) {
+                    if ($pageContent) {
+                        $this->_uimapData[$areaKey][$pageKey] = new Mage_Selenium_Uimap_Page($pageKey, $pageContent);
+                    }
+                }
+            }
+
+            if ($this->_uimapData) {
+                $cache->save($this->_uimapData, self::CACHE_ID_DATA, array(self::CACHE_TAG));
             }
         }
-
         return $this;
     }
 
@@ -130,29 +142,60 @@ class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
      * Retrieve Page from uimap data configuration by MCA
      *
      * @param string $area Application area ('frontend'|'admin')
-     * @param string $pageKey UIMap page key
+     * @param string $mca
      * @param Mage_Selenium_Helper_Params $paramsDecorator Params decorator instance
      *
      * @return Mage_Selenium_Uimap_Page|Null
      */
     public function getUimapPageByMca($area, $mca, $paramsDecorator = null)
     {
+        if (!isset($area)) {
+            return null;
+        }
         $mca = trim($mca, ' /\\');
-        if (isset($this->_uimapData[$area])) {
-            foreach ($this->_uimapData[$area] as &$page) {
-                // get mca without any modifications
-                $pageMca = trim($page->getMca(new Mage_Selenium_Helper_Params()), ' /\\');
-                if ($pageMca !== false && $pageMca !== null) {
-                    if ($paramsDecorator) {
-                        $pageMca = $paramsDecorator->replaceParametersWithRegexp($pageMca);
-                    }
+        foreach ($this->_uimapData[$area] as &$page) {
+            // get mca without any modifications
+            $pageMca = trim($page->getMca(new Mage_Selenium_Helper_Params()), ' /\\');
+            if ($pageMca !== false && $pageMca !== null) {
+                if ($paramsDecorator) {
+                    $pageMca = $paramsDecorator->replaceParametersWithRegexp($pageMca);
+                }
+                if ($area == 'admin' || $area == 'frontend') {
                     if (preg_match(';^' . $pageMca . '$;', $mca)) {
                         $page->assignParams($paramsDecorator);
                         return $page;
                     }
+                } elseif ($this->_compareMcaAndPageMca($mca, $pageMca)) {
+                    $page->assignParams($paramsDecorator);
+                    return $page;
                 }
             }
         }
+    }
+
+    /**
+     * Compares mca from current url and from area mca array
+     *
+     * @param $mca
+     * @param $page_mca
+     *
+     * @return bool
+     */
+    protected function _compareMcaAndPageMca($mca, $page_mca)
+    {
+        if (parse_url($page_mca, PHP_URL_PATH) == parse_url($mca, PHP_URL_HOST) . parse_url($mca, PHP_URL_PATH)) {
+            parse_str(parse_url($mca, PHP_URL_QUERY), $mca_params);
+            parse_str(parse_url($page_mca, PHP_URL_QUERY), $page_mca_params);
+            if (array_keys($mca_params) == array_keys($page_mca_params)) {
+                foreach ($page_mca_params as $key => $value) {
+                    if ($mca_params[$key] != $value && $value != '%anyValue%') {
+                        return false;
+                    }
+                }
+                return true;
+            }
+        }
+        return false;
     }
 
 }

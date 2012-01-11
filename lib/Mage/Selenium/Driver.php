@@ -57,7 +57,7 @@ class Mage_Selenium_Driver extends PHPUnit_Extensions_SeleniumTestCase_Driver
     {
         parent::__construct();
 
-        $this->_logHandle = fopen('tmp'.DIRECTORY_SEPARATOR.'selenium-rc-'.date('d-m-Y-H-i-s').'.log', 'a+');
+        $this->_logHandle = fopen('tmp' . DIRECTORY_SEPARATOR . 'selenium-rc-' . date('d-m-Y-H-i-s') . '.log', 'a+');
     }
 
     /**
@@ -76,7 +76,6 @@ class Mage_Selenium_Driver extends PHPUnit_Extensions_SeleniumTestCase_Driver
 
     /**
      * Starts browser connection
-     *
      * @return string
      */
     public function start()
@@ -106,6 +105,7 @@ class Mage_Selenium_Driver extends PHPUnit_Extensions_SeleniumTestCase_Driver
      *
      * @param  string $command Command for send to Selenium RC server
      * @param  array $arguments Array of arguments to command
+     *
      * @return string
      */
     protected function doCommand($command, array $arguments = array())
@@ -136,12 +136,14 @@ class Mage_Selenium_Driver extends PHPUnit_Extensions_SeleniumTestCase_Driver
      *
      * @param  string $format A composite format string
      * @param  mixed  $utimestamp Timestamp (by default = null)
+     *
      * @return string String a formatted date string.
      */
     public static function udate($format, $utimestamp = null)
     {
-        if (is_null($utimestamp))
+        if (is_null($utimestamp)) {
             $utimestamp = microtime(true);
+        }
 
         $timestamp = floor($utimestamp);
         $milliseconds = round(($utimestamp - $timestamp) * 1000000);

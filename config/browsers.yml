@@ -26,14 +26,8 @@
 #
 ---
 browsers:
-    chrome: &chrome
+    firefox: &chrome
         browser: '*chrome'
-        host: 127.0.0.1
-        port: 4444
-        doNotKillBrowsers: false
-        browserTimeoutPeriod: 40000
-    firefox: &firefox
-        browser: '*firefox'
         host: 127.0.0.1
         port: 4444
         doNotKillBrowsers: false
@@ -51,11 +45,32 @@ browsers:
         doNotKillBrowsers: false
         browserTimeoutPeriod: 40000
     default: *chrome
-applications:
-    magento: &magento
-        frontendUrl: http://www.localhost.com/magento/
-        adminUrl: http://www.localhost.com/magento/admin/
-        adminLogin: admin
-        adminPassword: admin
-        basePath: /local/path/to/app/installation
-    default: *magento
+default:
+    cache:
+        frontend:
+            name: 'core'
+            options:
+                caching: false
+                cache_id_prefix: 'selenium_'
+                automatic_serialization: true
+        backend:
+            name: 'file'
+            options:
+                cache_dir: 'tmp/cache'
+    uimaps:
+        basePath: uimaps
+    applications:
+        magento: &magento
+            adminLogin: admin
+            adminPassword: 123123q
+            basePath: '/path/to/app/installation'
+            areas:
+                admin:
+                    url: 'http://www.localhost/magento/admin/'
+                    uimaps:
+                        path: 'admin'
+                frontend:
+                    url: 'http://www.localhost/magento/'
+                    uimaps:
+                        path: 'frontend'
+        default: *magento

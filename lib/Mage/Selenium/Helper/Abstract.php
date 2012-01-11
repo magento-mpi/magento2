@@ -37,14 +37,12 @@ class Mage_Selenium_Helper_Abstract
 {
     /**
      * Current test case
-     *
      * @var Mage_Selenium_TestCase
      */
     protected $_testCase = null;
 
     /**
      * Test configuration object
-     *
      * @var Mage_Selenium_TestConfiguration
      */
     protected $_config = null;
@@ -62,12 +60,20 @@ class Mage_Selenium_Helper_Abstract
 
     /**
      * Initialize object
-     *
      * @return Mage_Selenium_AbstractHelper
      */
     protected function _init()
     {
         return $this;
+    }
+
+    /**
+     * Return config
+     * @return Mage_Selenium_TestConfiguration|null
+     */
+    public function getConfig()
+    {
+        return $this->_config;
     }
 
     /**
