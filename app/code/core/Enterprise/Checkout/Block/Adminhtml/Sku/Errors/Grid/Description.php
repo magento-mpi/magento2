@@ -39,7 +39,7 @@
 class Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Grid_Description extends Mage_Adminhtml_Block_Template
 {
     /**
-     * Define error messages and template
+     * Define template
      */
     public function __construct()
     {
@@ -47,7 +47,7 @@ class Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Grid_Description extends Ma
     }
 
     /**
-     * HTML code of "Configure" button
+     * Retrieves HTML code of "Configure" button
      *
      * @return string
      */
@@ -77,9 +77,10 @@ class Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Grid_Description extends Ma
 
     /**
      * Returns error message by its code
+     * @see Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_* constants for $code
      *
-     * @param string $code See Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_* constants
-     * @return mixed
+     * @param string $code
+     * @return string
      */
     public function getErrorMessageByCode($code)
     {

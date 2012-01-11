@@ -623,13 +623,6 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object
         $quoteItem = $this->getActualQuote()->getItemByProduct($product);
         $isAdmin = $this->getStore()->isAdmin();
 
-        if ($stockItem->getMaxSaleQty() && !$isAdmin) {
-            $maxAllowedQty = $stockItem->getMaxSaleQty();
-            $status = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED_IN_CART;
-        } else {
-            $maxAllowedQty = $stockItem->getStockQty();
-        }
-
         if ($stockItem->getMinSaleQty() && !$isAdmin) {
             $minAllowedQty = $stockItem->getMinSaleQty();
             $status = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED_IN_CART;
@@ -637,12 +630,19 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object
             $minAllowedQty = 1;
         }
 
-        $allowedQty = $quoteItem ? ($maxAllowedQty - $quoteItem->getQty()) : $maxAllowedQty;
-
         if ($requestedQty < $minAllowedQty) {
             $status = empty($status) ? Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED : $status;
             return array('status' => $status, 'qty_min_allowed' => $minAllowedQty);
         }
+
+        if ($stockItem->getMaxSaleQty() && !$isAdmin) {
+            $maxAllowedQty = min($stockItem->getStockQty(), $stockItem->getMaxSaleQty());
+            $status = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED_IN_CART;
+        } else {
+            $maxAllowedQty = $stockItem->getStockQty();
+        }
+
+        $allowedQty = $quoteItem ? ($maxAllowedQty - $quoteItem->getQty()) : $maxAllowedQty;
 
         if ($allowedQty <= 0 || $allowedQty < $minAllowedQty) {
             // All available quantity already added to quote

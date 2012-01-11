@@ -218,11 +218,12 @@ class Enterprise_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
                 if (is_null($this->_items)
                     && $item['code'] != Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_SKU
                 ) {
-                    $itemsToLoad[$item['item']['id']] = $item['item'];
-                    $itemsToLoad[$item['item']['id']]['code'] = $item['code'];
-                    $itemsToLoad[$item['item']['id']]['error'] = isset($item['error']) ? $item['error'] : '';
+                    $id = $item['item']['id'];
+                    $itemsToLoad[$id] = $item['item'];
+                    $itemsToLoad[$id]['code'] = $item['code'];
+                    $itemsToLoad[$id]['error'] = isset($item['error']) ? $item['error'] : '';
                     // Avoid collisions of product ID with quote item ID
-                    unset($itemsToLoad[$item['item']['id']]['id']);
+                    unset($itemsToLoad[$id]['id']);
                 } elseif ($all && $item['code'] == Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_SKU) {
                     $item['item']['code'] = $item['code'];
                     $item['item']['product_type'] = 'undefined';
