@@ -41,7 +41,7 @@ manage_cms_widgets:
                         dropdowns:
                             view_per_page: //select[@name='limit']
                             filter_type: //select[@name='type']
-                            filter_design_package_theme: //select[@name='package_theme']
+                            filter_package_theme: //select[@name='package_theme']
                         fields:
                             page: //input[@name='page']
                             filter_widget_id: //input[@name='instance_id']
@@ -71,7 +71,7 @@ create_cms_widget:
                                     xpath: //div[@id='base_fieldset']
                                     dropdowns:
                                         type: //select[@name='type']
-                                        design_package_theme: //select[@name='package_theme']
+                                        package_theme: //select[@name='package_theme']
                                     buttons:
                                         continue: //button[span='Continue']
 
@@ -81,7 +81,7 @@ create_cms_widget:
 
 
 add_widget_options:
-    mca: widget_instance/edit/type/%type%/package/%package%/theme/%theme%/
+    mca: widget_instance/edit/type/%type%/package_theme/%package_theme%/
     title: New Instance / Widgets / CMS / Magento Admin
     uimap:
         form: &addWidgetOptions
@@ -95,7 +95,7 @@ add_widget_options:
                                     xpath: //div[@id='base_fieldset']
                                     dropdowns:
                                         type: //select[@name='type']
-                                        design_package_theme: //select[@name='package_theme']
+                                        package_theme: //select[@name='package_theme']
                                     fields:
                                         widget_instance_title: //input[@name='title']
                                         sort_order: //input[@name='sort_order']

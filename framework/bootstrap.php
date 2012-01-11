@@ -44,22 +44,26 @@ require_once 'functions.php';
 $testsConfig = Mage_Selenium_TestConfiguration::initInstance();
 
 if (defined('SELENIUM_TESTS_INSTALLATION') && SELENIUM_TESTS_INSTALLATION === 'enabled') {
+    $applicationHelper = new Mage_Selenium_Helper_Application($testsConfig);
+    $installCmd = sprintf(
+        'php -f %s -- --magento-dir=%s',
+        escapeshellarg(SELENIUM_TESTS_BASEDIR . '/framework/install.php'),
+        escapeshellarg($applicationHelper->getBasePath())
+    );
+    if (defined('SELENIUM_TESTS_INSTALLATION_CLEANUP') && SELENIUM_TESTS_INSTALLATION_CLEANUP === 'enabled') {
+        passthru("$installCmd --uninstall", $installExitCode);
+        if ($installExitCode !== 0) {
+            exit($installExitCode);
+        }
+        register_shutdown_function('passthru', "$installCmd --uninstall");
+    }
     $installConfigFile = SELENIUM_TESTS_BASEDIR . '/config/install.php';
     $installConfigFile = file_exists($installConfigFile) ? $installConfigFile : "$installConfigFile.dist";
-    $applicationHelper = new Mage_Selenium_Helper_Application($testsConfig);
-    passthru(
-        sprintf(
-            'php -f %s -- --magento-dir=%s --config-file=%s',
-            escapeshellarg(SELENIUM_TESTS_BASEDIR . '/framework/install.php'),
-            escapeshellarg($applicationHelper->getBasePath()),
-            escapeshellarg($installConfigFile)
-        ),
-        $installExitCode
-    );
+    passthru("$installCmd --config-file=" . escapeshellarg($installConfigFile), $installExitCode);
     if ($installExitCode !== 0) {
         exit($installExitCode);
     }
 }
 
 /* Unset declared global variables to release PHPUnit from maintaining their values between tests */
-unset($testsConfig, $applicationHelper, $installConfigFile, $installExitCode);
+unset($testsConfig, $applicationHelper, $installCmd, $installConfigFile, $installExitCode);
