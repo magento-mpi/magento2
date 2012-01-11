@@ -176,4 +176,24 @@ class Enterprise_Checkout_Model_Observer
         $quote->setBillingAddress($this->_copyAddress($quote, $realQuote->getBillingAddress()));
         $quote->setTotalsCollectedFlag(false)->collectTotals();
     }
+
+    /**
+     * Add link to cart in cart sidebar to view grid with failed products
+     *
+     * @param Varien_Event_Observer $observer
+     * @return void
+     */
+    public function addCartLink($observer)
+    {
+        $block = $observer->getEvent()->getBlock();
+        if (!$block instanceof Mage_Checkout_Block_Cart_Sidebar) {
+            return;
+        }
+
+        $failedItemsCount = count(Mage::getSingleton('enterprise_checkout/cart')->getFailedItems());
+        if ($failedItemsCount > 0) {
+            $block->setAllowCartLink(true);
+            $block->setCartEmptyMessage(Mage::helper('enterprise_checkout')->__('You have %d item(s) requiring attention.', $failedItemsCount));
+        }
+    }
 }
