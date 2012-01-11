@@ -173,7 +173,7 @@ abstract class Enterprise_GiftRegistry_Block_Customer_Edit_Abstract extends Mage
             ->setId($id)
             ->setName($name)
             ->setValue($this->formatDate($value, $format))
-            ->setClass($class . ' product-custom-option datetime-picker input-text')
+            ->setClass($class . ' product-custom-option datetime-picker input-text validate-date')
             ->setImage($this->getSkinUrl('images/calendar.gif'))
             ->setFormat(Mage::app()->getLocale()->getDateStrFormat($format));
         return $calendar->getHtml();
