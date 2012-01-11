@@ -9,6 +9,21 @@
 class Mage_OAuth_Model_TokenTest extends Magento_TestCase
 {
     /**
+     * 15 years, sec
+     */
+    const TOKEN_TIME_FOR_DELETE = 473040000;
+
+    /**
+     * Count of new token items
+     */
+    const NEW_TOKEN_COUNT = 5;
+
+    /**
+     * Count of old token items
+     */
+    const OLD_TOKEN_COUNT = 30;
+
+    /**
      * Token fixture data
      *
      * @var array
@@ -21,6 +36,23 @@ class Mage_OAuth_Model_TokenTest extends Magento_TestCase
      * @var array
      */
     protected $_consumerData;
+
+    /**
+     * Set up a consumer data fixture
+     */
+    protected function setUp()
+    {
+        /** @var $consumer Mage_OAuth_Model_Consumer */
+        $consumer = Mage::getModel('oauth/consumer');
+        $consumer->setData($this->_getFixtureConsumerData('create'))->save();
+
+        $this->setFixture('consumer', $consumer);
+
+        // Delete consumer model after test
+        $this->addModelToDelete($consumer, true);
+
+        parent::setUp();
+    }
 
     /**
      * Get token data
@@ -59,16 +91,59 @@ class Mage_OAuth_Model_TokenTest extends Magento_TestCase
     }
 
     /**
+     * Create several tokens for clean up test
+     *
+     * @return Mage_OAuth_Model_TokenTest
+     */
+    protected function _createTokensForCleanUp()
+    {
+        /** @var $consumer Mage_OAuth_Model_Consumer */
+        $consumer = $this->getFixture('consumer');
+
+        // Generate new token items
+        $i = 0;
+        while ($i < self::NEW_TOKEN_COUNT) {
+            /** @var $token Mage_OAuth_Model_Token */
+            $token = Mage::getModel('oauth/token');
+            $token->setData(array(
+                'consumer_id'  => $consumer->getId(),
+                'type'         => Mage_OAuth_Model_Token::TYPE_REQUEST,
+                'token'        => md5(mt_rand()),
+                'secret'       => md5(mt_rand()),
+                'callback_url' => Mage_OAuth_Model_Server::CALLBACK_ESTABLISHED,
+            ))->save();
+
+            $i++;
+        }
+
+        // Generate old token items
+        $j = 0;
+        while ($j < self::OLD_TOKEN_COUNT) {
+            /** @var $token Mage_OAuth_Model_Token */
+            $token = Mage::getModel('oauth/token');
+            $token->setData(array(
+                'consumer_id'  => $consumer->getId(),
+                'type'         => Mage_OAuth_Model_Token::TYPE_REQUEST,
+                'token'        => md5(mt_rand()),
+                'secret'       => md5(mt_rand()),
+                'callback_url' => Mage_OAuth_Model_Server::CALLBACK_ESTABLISHED,
+                'created_at'   => Varien_Date::formatDate(time() - self::TOKEN_TIME_FOR_DELETE)
+            ))->save();
+            $j++;
+        }
+
+        return $this;
+    }
+
+    /**
      * Test CRUD
      *
      * @return void
      */
     public function testCrud()
     {
-        $consumer = new Mage_OAuth_Model_Consumer();
-        $consumer->setData($this->_getFixtureConsumerData('create'));
-        $consumer->save();
-        $this->addModelToDelete($consumer);
+        /** @var $consumer Mage_OAuth_Model_Consumer */
+        $consumer = $this->getFixture('consumer');
         $consumerId = $consumer->getId();
 
         $customerId = $this->getDefaultCustomer()->getId();
@@ -127,5 +202,81 @@ class Mage_OAuth_Model_TokenTest extends Magento_TestCase
          */
         $model->delete();
         $this->assertNull($model->setId(null)->load($id)->getId(), 'ID must be null after deleting.');
+    }
+
+    /**
+     * Test delete old token items by _afterSave() method
+     *
+     * @return void
+     */
+    public function testAfterSave()
+    {
+        $this->_createTokensForCleanUp();
+
+        /** @var $token Mage_OAuth_Model_Token */
+        $token = Mage::getModel('oauth/token');
+
+        /** @var $collection Mage_OAuth_Model_Resource_Token_Collection */
+        $collection = $token->getCollection();
+
+        $helper = $this->_replaceHelperWithMock('oauth', array('isCleanupProbability', 'getCleanupExpirationPeriod'));
+        $helper->expects($this->once())
+            ->method('isCleanupProbability')
+            ->will($this->returnValue(true));
+
+        $helper->expects($this->once())
+            ->method('getCleanupExpirationPeriod')
+            ->will($this->returnValue(self::TOKEN_TIME_FOR_DELETE/60));
+
+        $collection->getFirstItem()->setKey(md5(mt_rand()))->save();
+        $this->assertEquals($collection->count() - self::OLD_TOKEN_COUNT, $token->getCollection()->count());
+
+        $this->_restoreHelper('oauth');
+    }
+
+    /**
+     * Test delete old token items fail by _afterSave() method
+     *
+     * @return void
+     */
+    public function testAfterSaveFail()
+    {
+        $this->_createTokensForCleanUp();
+
+        /** @var $token Mage_OAuth_Model_Token */
+        $token = Mage::getModel('oauth/token');
+
+        /** @var $collection Mage_OAuth_Model_Resource_Token_Collection */
+        $collection = $token->getCollection();
+
+        $helper = $this->_replaceHelperWithMock('oauth', array('isCleanupProbability', 'getCleanupExpirationPeriod'));
+        $helper->expects($this->once())
+            ->method('isCleanupProbability')
+            ->will($this->returnValue(false));
+
+        $helper->expects($this->never())
+            ->method('getCleanupExpirationPeriod');
+
+        $collection->getFirstItem()->setKey(md5(mt_rand()))->save();
+        $this->assertEquals($collection->count(), $token->getCollection()->count());
+
+        $this->_restoreHelper('oauth');
+    }
+
+    /**
+     * Test delete old token items by resource model method
+     *
+     * @return void
+     */
+    public function testDeleteOldEntries()
+    {
+        $this->_createTokensForCleanUp();
+
+        /** @var $token Mage_OAuth_Model_Token */
+        $token = Mage::getModel('oauth/token');
+        $count = $token->getCollection()->count();
+
+        $token->getResource()->deleteOldEntries(self::TOKEN_TIME_FOR_DELETE/60);
+        $this->assertEquals($count - self::OLD_TOKEN_COUNT, $token->getCollection()->count());
     }
 }
