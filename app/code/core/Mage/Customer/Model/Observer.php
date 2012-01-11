@@ -49,7 +49,8 @@ class Mage_Customer_Model_Observer
      */
     protected function _isDefaultBilling($address)
     {
-        return $address->getId() && $address->getId() == $address->getCustomer()->getDefaultBilling();
+        return ($address->getId() && $address->getId() == $address->getCustomer()->getDefaultBilling())
+            || $address->getIsPrimaryBilling() || $address->getIsDefaultBilling();
     }
 
     /**
@@ -60,7 +61,8 @@ class Mage_Customer_Model_Observer
      */
     protected function _isDefaultShipping($address)
     {
-        return $address->getId() && $address->getId() == $address->getCustomer()->getDefaultShipping();
+        return ($address->getId() && $address->getId() == $address->getCustomer()->getDefaultShipping())
+            || $address->getIsPrimaryShipping() || $address->getIsDefaultShipping();
     }
 
     /**
