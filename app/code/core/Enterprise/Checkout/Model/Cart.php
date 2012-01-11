@@ -633,8 +633,15 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object
         }
 
         if ($stockItem->getMaxSaleQty() && !$isAdmin) {
-            $maxAllowedQty = min($stockItem->getStockQty(), $stockItem->getMaxSaleQty());
-            $status = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED_IN_CART;
+            $stockQty = $stockItem->getStockQty();
+            $maxSaleQty = $stockItem->getMaxSaleQty();
+            if ($stockQty < $maxSaleQty) {
+                $maxAllowedQty = $stockQty;
+                $status = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED;
+            } else {
+                $maxAllowedQty = $maxSaleQty;
+                $status = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED_IN_CART;
+            }
         } else {
             $maxAllowedQty = $stockItem->getStockQty();
         }
