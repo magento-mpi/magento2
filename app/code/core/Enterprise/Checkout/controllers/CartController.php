@@ -204,9 +204,9 @@ class Enterprise_Checkout_CartController extends Mage_Core_Controller_Front_Acti
                 $this->getRequest()->getParam('sku')
             );
         } catch (Mage_Core_Exception $e) {
-            $this->_getCustomerSession()->addError($e->getMessage());
+            $this->_getSession()->addError($e->getMessage());
         } catch (Exception $e) {
-            $this->_getCustomerSession()->addError($this->__('Cannot add product'));
+            $this->_getSession()->addError($this->__('Cannot add product'));
             Mage::logException($e);
         }
         $this->_redirect('checkout/cart');
