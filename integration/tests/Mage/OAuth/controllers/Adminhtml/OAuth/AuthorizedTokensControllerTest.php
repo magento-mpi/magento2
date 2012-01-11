@@ -54,7 +54,7 @@ class Mage_OAuth_Adminhtml_OAuth_AuthorizedTokensControllerTest extends Magento_
         $models = $this->_getFixtureModels();
 
         $redirectUrl  = 'admin/oAuth_authorizedTokens/index';
-        $dispatchPath = 'admin/oAuth_authorizedTokens/revoke';
+        $dispatchPath = Mage::getModel('adminhtml/url')->getUrl('adminhtml/oAuth_authorizedTokens/revoke', array());
 
         $models = array_merge($models['token']['customer'], $models['token']['admin']);
         $tokenIds = array();
@@ -96,7 +96,7 @@ class Mage_OAuth_Adminhtml_OAuth_AuthorizedTokensControllerTest extends Magento_
         $models = $this->_getFixtureModels();
 
         $redirectUrl  = 'admin/oAuth_authorizedTokens/index';
-        $dispatchPath = 'admin/oAuth_authorizedTokens/delete';
+        $dispatchPath = Mage::getModel('adminhtml/url')->getUrl('adminhtml/oAuth_authorizedTokens/delete', array());
 
         $models = array_merge($models['token']['customer'], $models['token']['admin']);
         $tokenIds = array();
