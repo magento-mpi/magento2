@@ -113,22 +113,10 @@ class Mage_Selenium_TestConfiguration
     protected $_configData = array();
 
     /**
-     * Constructor<br>
-     * Initializes test configuration instance that includes:
-     * <li>Initialize configuration
-     * <li>Initialize DataSets
-     * <li>Initialize UIMap instance
-     * <li>Initialize all drivers connections from configuration
-     *
-     * @return Mage_Selenium_TestConfiguration
+     * Constructor defined as private to implement singleton
      */
     private function __construct()
     {
-        $this->_initConfig();
-        $this->_initTestData();
-        $this->getUimapHelper();
-        $this->_initDrivers();
-        return $this;
     }
 
     /**
@@ -154,8 +142,27 @@ class Mage_Selenium_TestConfiguration
     {
         if (is_null(self::$instance)) {
             self::$instance = new self();
+            self::$instance->init();
         }
         return self::$instance;
+    }
+
+    /**
+     * Initializes test configuration instance which includes:
+     * <li>Initialize configuration
+     * <li>Initialize DataSets
+     * <li>Initialize UIMap instance
+     * <li>Initialize all drivers connections from configuration
+     *
+     * @return Mage_Selenium_TestConfiguration
+     */
+    public function init()
+    {
+        $this->_initConfig();
+        $this->_initTestData();
+        $this->getUimapHelper();
+        $this->_initDrivers();
+        return $this;
     }
 
     /**

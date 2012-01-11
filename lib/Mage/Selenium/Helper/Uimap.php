@@ -133,8 +133,6 @@ class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
      * @param string $pageKey UIMap page key
      * @param Mage_Selenium_Helper_Params $paramsDecorator Params decorator instance
      *
-     * @throws Mage_Selenium_Exception
-     *
      * @return Mage_Selenium_Uimap_Page|null
      */
     public function getUimapPageByMca($area, $mca, $paramsDecorator = null)

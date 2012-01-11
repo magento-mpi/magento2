@@ -247,7 +247,7 @@ class Mage_Selenium_Uimap_Abstract
      *
      * @throws Exception
      *
-     * @return Mage_Selenium_Uimap_ElementsCollection|array|null
+     * @return Mage_Selenium_Uimap_ElementsCollection|Mage_Selenium_Uimap_TabsCollection|string|null
      */
     public function __call($name, $arguments)
     {
