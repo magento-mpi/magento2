@@ -96,12 +96,14 @@ class Mage_Adminhtml_System_BackupController extends Mage_Adminhtml_Controller_A
                 ->setTime(time())
                 ->setBackupsDir($helper->getBackupsDir());
 
+            $backupManager->setName($this->getRequest()->getParam('backup_name'));
+
             Mage::register('backup_manager', $backupManager);
 
             if ($this->getRequest()->getParam('maintenance_mode')) {
                 $turnedOn = $helper->turnOnMaintenanceMode();
 
-                if (!$turnedOn) {
+                if ($turnedOn) {
                     $response->setError(
                         Mage::helper('backup')->__("Warning! System couldn't put store on the maintenance mode.") . ' '
                         . Mage::helper('backup')->__("Please deselect the sufficient check-box, if you want to continue backup's creation")
@@ -191,12 +193,29 @@ class Mage_Adminhtml_System_BackupController extends Mage_Adminhtml_Controller_A
         $response = new Varien_Object();
 
         try {
-            $type = $this->getRequest()->getParam('type');
+            $backupsCollection = Mage::getSingleton('backup/fs_collection');
+            $backupId = $this->getRequest()->getParam('time') . '_' . $this->getRequest()->getParam('type');
+            $backupInfo = false;
+
+            foreach ($backupsCollection as $backup) {
+                if ($backup->getId() != $backupId) {
+                    continue;
+                }
+
+                $backupInfo = $backup;
+            }
+
+            if (!$backupInfo) {
+                throw new Mage_Backup_Exception_CantLoadSnapshot();
+            }
+
+            $type = $backupInfo->getType();
 
             $backupManager = Mage_Backup::getBackupInstance($type)
                 ->setBackupExtension($helper->getExtensionByType($type))
-                ->setTime($this->getRequest()->getParam('time'))
+                ->setTime($backupInfo->getTime())
                 ->setBackupsDir($helper->getBackupsDir())
+                ->setName($backupInfo->getName(), false)
                 ->setResourceModel(Mage::getResourceModel('backup/db'));
 
             Mage::register('backup_manager', $backupManager);
@@ -295,15 +314,18 @@ class Mage_Adminhtml_System_BackupController extends Mage_Adminhtml_Controller_A
         Mage::register('backup_manager', $resultData);
 
         $deleteFailMessage = Mage::helper('backup')->__('Failed to delete one or several backups.');
+        $backupsCollection = Mage::getSingleton('backup/fs_collection');
 
         try {
             $allBackupsDeleted = true;
 
-            foreach ($backupIds as $id) {
-                list($time, $type) = explode('_', $id);
-
-                $backupModel->setTime((int)$time)
-                    ->setType($type)
+            foreach ($backupsCollection as $backupInfo) {
+                if (!in_array($backupInfo->getId(), $backupIds)) {
+                    continue;
+                }
+                $backupModel->setTime((int)$backupInfo->getTime())
+                    ->setType($backupInfo->getType())
+                    ->setName($backupInfo->getName())
                     ->setPath(Mage::helper('backup')->getBackupsDir())
                     ->deleteFile();
 

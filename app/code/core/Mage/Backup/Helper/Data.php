@@ -281,4 +281,53 @@ class Mage_Backup_Helper_Data extends Mage_Core_Helper_Abstract
         }
         return $this;
     }
+
+    /**
+     * Creates backup's display name from it's name
+     *
+     * @param string $name
+     * @return string
+     */
+    public function nameToDisplayName($name)
+    {
+        return str_replace('_', ' ', $name);
+    }
+
+    /**
+     * Extracts information from backup's filename
+     *
+     * @param string $filename
+     * @return Varien_Object
+     */
+    public function extractDataFromFilename($filename)
+    {
+        $extensions = $this->getExtensions();
+
+        $filenameWithoutExtension = $filename;
+
+        foreach ($extensions as $extension) {
+            $filenameWithoutExtension = preg_replace('/' . preg_quote($extension, '/') . '$/', '',
+                $filenameWithoutExtension
+            );
+        }
+
+        $filenameWithoutExtension = substr($filenameWithoutExtension, 0, strrpos($filenameWithoutExtension, "."));
+
+        list($time, $type) = explode("_", $filenameWithoutExtension);
+
+        $name = str_replace($time . '_' . $type, '', $filenameWithoutExtension);
+
+        if (!empty($name)) {
+            $name = substr($name, 1);
+        }
+
+        $result = new Varien_Object();
+        $result->addData(array(
+            'name' => $name,
+            'type' => $type,
+            'time' => $time
+        ));
+
+        return $result;
+    }
 }

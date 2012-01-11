@@ -885,7 +885,7 @@ final class Maged_Controller
         }
 
         if (!empty($_GET['archive_type'])) {
-            $isSuccess = $this->_createBackup($_GET['archive_type']);
+            $isSuccess = $this->_createBackup($_GET['archive_type'], $_GET['backup_name']);
 
             if (!$isSuccess) {
                 $this->endInstall();
@@ -990,9 +990,10 @@ final class Maged_Controller
      * Create Backup
      *
      * @param string $archiveType
+     * @param string $archiveName
      * @return bool
      */
-    protected function _createBackup($archiveType){
+    protected function _createBackup($archiveType, $archiveName){
         /** @var $connect Maged_Connect */
         $connect = $this->model('connect', true)->connect();
         $connect->runHtmlConsole('Creating data backup...');
@@ -1005,6 +1006,7 @@ final class Maged_Controller
             $backupManager = Mage_Backup::getBackupInstance($type)
                 ->setBackupExtension(Mage::helper('backup')->getExtensionByType($type))
                 ->setTime(time())
+                ->setName($archiveName)
                 ->setBackupsDir(Mage::helper('backup')->getBackupsDir());
 
             Mage::register('backup_manager', $backupManager);
