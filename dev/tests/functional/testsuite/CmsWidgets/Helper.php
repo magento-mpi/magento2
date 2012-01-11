@@ -81,9 +81,7 @@ class CmsWidgets_Helper extends Mage_Selenium_TestCase
             $xpath = $this->_getControlXpath('dropdown', 'type');
             $type = $this->getValue($xpath . '/option[text()="' . $settings['type'] . '"]');
             $this->addParameter('type', str_replace('/', '-', $type));
-            $packageTheme = array_map('trim', (explode('/', $settings['design_package_theme'])));
-            $this->addParameter('package', $packageTheme[0]);
-            $this->addParameter('theme', $packageTheme[1]);
+            $this->addParameter('package_theme', $settings['package_theme']);
             $this->fillForm($settings);
         }
         $this->clickButton('continue', false);
