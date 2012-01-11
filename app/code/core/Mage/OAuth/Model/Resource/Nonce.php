@@ -46,15 +46,19 @@ class Mage_OAuth_Model_Resource_Nonce extends Mage_Core_Model_Resource_Db_Abstra
     /**
      * Delete old entries
      *
-     * @param $minutes
+     * @param int $minutes Delete entries older than
      * @return int
      */
     public function deleteOldEntries($minutes)
     {
-        $adapter = $this->_getWriteAdapter();
-        return $adapter->delete(
-            $this->getTable('oauth/nonce'),
-            $adapter->quoteInto('timestamp <= UNIX_TIMESTAMP() - ?', $minutes * 60, Zend_Db::INT_TYPE)
-        );
+        if ($minutes > 0) {
+            $adapter = $this->_getWriteAdapter();
+
+            return $adapter->delete(
+                $this->getMainTable(), $adapter->quoteInto('timestamp <= ?', time() - $minutes * 60, Zend_Db::INT_TYPE)
+            );
+        } else {
+            return 0;
+        }
     }
 }

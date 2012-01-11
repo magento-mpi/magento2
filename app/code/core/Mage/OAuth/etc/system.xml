@@ -41,26 +41,26 @@
                     <frontend_type>text</frontend_type>
                     <sort_order>300</sort_order>
                     <show_in_default>1</show_in_default>
-                    <show_in_website>1</show_in_website>
-                    <show_in_store>1</show_in_store>
+                    <show_in_website>0</show_in_website>
+                    <show_in_store>0</show_in_store>
                     <fields>
                         <cleanup_probability translate="label">
                             <label>Cleanup probability</label>
                             <frontend_type>text</frontend_type>
-                            <comment>Integer. Launch one cleanup in X entry updates.</comment>
+                            <comment>Integer. Launch cleanup in X OAuth requests. 0 (not recommended) - to disable cleanup</comment>
                             <sort_order>10</sort_order>
                             <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
                         </cleanup_probability>
                         <expiration_period translate="label">
                             <label>Expiration period</label>
-                            <comment>Cleanup unused entries olden than X minutes.</comment>
+                            <comment>Cleanup entries older than X minutes.</comment>
                             <frontend_type>text</frontend_type>
                             <sort_order>20</sort_order>
                             <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
                         </expiration_period>
                     </fields>
                 </cleanup>

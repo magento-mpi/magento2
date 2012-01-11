@@ -208,6 +208,10 @@ class Mage_OAuth_Model_Token extends Mage_Core_Model_Abstract
     protected function _beforeSave()
     {
         $this->validate();
+
+        if ($this->isObjectNew()) {
+            $this->setCreatedAt(Varien_Date::now());
+        }
         parent::_beforeSave();
         return $this;
     }

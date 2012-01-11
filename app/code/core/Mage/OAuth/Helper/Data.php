@@ -134,24 +134,25 @@ class Mage_OAuth_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * Calculate cleanup possibility for nonce table
+     * Calculate cleanup possibility for data with lifetime property
      *
      * @return bool
      */
     public function isCleanupProbability()
     {
-        // Get cleanup probability value from system configuration
-        $configValue = Mage::getStoreConfig(self::XML_PATH_CLEANUP_PROBABILITY);
-        return $configValue && $configValue == mt_rand(1, $configValue);
+        // Safe get cleanup probability value from system configuration
+        $configValue = (int) Mage::getStoreConfig(self::XML_PATH_CLEANUP_PROBABILITY);
+        return $configValue > 0 ? 1 == mt_rand(1, $configValue) : false;
     }
 
     /**
-     * Get cleanup expiration period value from system configuration
+     * Get cleanup expiration period value from system configuration in minutes
      *
      * @return int
      */
     public function getCleanupExpirationPeriod()
     {
-        return Mage::getStoreConfig(self::XML_PATH_CLEANUP_EXPIRATION_PERIOD);
+        $minutes = (int) Mage::getStoreConfig(self::XML_PATH_CLEANUP_EXPIRATION_PERIOD);
+        return $minutes > 0 ? $minutes : 120;
     }
 }
