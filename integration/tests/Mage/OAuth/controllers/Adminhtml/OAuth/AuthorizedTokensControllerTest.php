@@ -25,13 +25,13 @@
  */
 
 /**
- * Test model admin My Applications controller
+ * Test model admin Authorized Tokens controller
  *
  * @category    Mage
  * @package     Mage_OAuth
  * @author      Magento Api Team <api-team@magento.com>
  */
-class Mage_OAuth_Adminhtml_OAuth_Admin_TokenControllerTest extends Magento_Test_ControllerTestCaseAbstract
+class Mage_OAuth_Adminhtml_OAuth_AuthorizedTokensControllerTest extends Magento_Test_ControllerTestCaseAbstract
 {
     /**
      * Get token data
