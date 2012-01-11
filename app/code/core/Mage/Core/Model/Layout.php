@@ -599,12 +599,12 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
             }
         }
         foreach ($node->xpath('ancestor-or-self::*[last()-1]') as $handle) {
-            $name = Mage::getConfig()->determineOmittedNamespace($handle->getName());
+            $name = Mage::getConfig()->determineOmittedNamespace($handle->getName(), true);
             if ($name) {
                 //return Mage::getConfig()->getModuleConfig($name) ? $name : 'core';
                 return $name;
             }
         }
-        return 'core';
+        return 'Mage_Core';
     }
 }

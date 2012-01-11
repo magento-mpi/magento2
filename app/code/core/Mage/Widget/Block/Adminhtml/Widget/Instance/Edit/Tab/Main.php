@@ -105,8 +105,8 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main
 
         $this->_addElementTypes($fieldset);
 
-        $fieldset->addField('instance_type', 'select', array(
-            'name'  => 'instance_type',
+        $fieldset->addField('type', 'select', array(
+            'name'  => 'type',
             'label' => Mage::helper('Mage_Widget_Helper_Data')->__('Type'),
             'title' => Mage::helper('Mage_Widget_Helper_Data')->__('Type'),
             'class' => '',
