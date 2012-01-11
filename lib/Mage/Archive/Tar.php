@@ -456,6 +456,13 @@ class Mage_Archive_Tar extends Mage_Archive_Abstract implements Mage_Archive_Int
                     }
                 }
                 $list[] = $currentFile . DS;
+            } elseif ($header['type'] == '2') {
+
+                $symlinkResult = @symlink($header['symlink'], $currentFile);
+
+                if (false === $symlinkResult) {
+                    throw new Mage_Exception('Failed to create symlink ' . $currentFile . ' to ' . $header['symlink']);
+                }
             }
         }
 
