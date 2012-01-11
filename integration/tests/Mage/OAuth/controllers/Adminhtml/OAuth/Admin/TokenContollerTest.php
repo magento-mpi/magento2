@@ -25,7 +25,7 @@
  */
 
 /**
- * Test model admin My Applications controller
+ * Test model admin Authorized Tokens controller
  *
  * @category    Mage
  * @package     Mage_OAuth
