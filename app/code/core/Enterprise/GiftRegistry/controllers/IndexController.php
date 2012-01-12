@@ -261,23 +261,7 @@ class Enterprise_GiftRegistry_IndexController extends Mage_Core_Controller_Front
             $entity = $this->_initEntity();
             if ($entity->getId()) {
                 $items = $this->getRequest()->getParam('items');
-                foreach ($items as $id => $item) {
-                    $model = Mage::getModel('enterprise_giftregistry/item')->load($id);
-
-                    if ($model->getId() && $model->getEntityId() == $entity->getId()) {
-                        if (isset($item['delete'])) {
-                            $model->delete();
-                        } else {
-                            $model->setQty($item['qty']);
-                            $model->setNote($item['note']);
-                            $model->save();
-                        }
-                    } else {
-                        Mage::throwException(
-                            Mage::helper('enterprise_giftregistry')->__('Wrong gift registry item ID specified.')
-                        );
-                    }
-                }
+                $entity->updateItems($items);
                 $this->_getSession()->addSuccess(
                     Mage::helper('enterprise_giftregistry')->__('The gift registry items have been updated.')
                 );
