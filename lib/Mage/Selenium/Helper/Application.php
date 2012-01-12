@@ -57,10 +57,10 @@ class Mage_Selenium_Helper_Application extends Mage_Selenium_Helper_Abstract
     protected $_applicationsConfig = array();
 
     /**
-     * List of applications
+     * List of all application names
      * @var array
      */
-    protected $_applications = array();
+    protected $_applicationNames = array();
 
     /**
      * Config for current application
@@ -69,7 +69,7 @@ class Mage_Selenium_Helper_Application extends Mage_Selenium_Helper_Abstract
     protected $_applicationConfig = array();
 
     /**
-     * Current application
+     * Name of current application
      * @var string
      */
     protected $_application;
@@ -84,7 +84,7 @@ class Mage_Selenium_Helper_Application extends Mage_Selenium_Helper_Abstract
      * Current area
      * @var string
      */
-    protected $_area;
+    protected static $_area;
 
     /**
      * Initialize application
@@ -110,15 +110,15 @@ class Mage_Selenium_Helper_Application extends Mage_Selenium_Helper_Abstract
     }
 
     /**
-     * Return list of applications
+     * Return list of application names
      * @return array
      */
-    public function getApplications()
+    public function getApplicationNames()
     {
-        if (!$this->_applications) {
-            $this->_applications = array_keys($this->getApplicationsConfig());
+        if (!$this->_applicationNames) {
+            $this->_applicationNames = array_keys($this->getApplicationsConfig());
         }
-        return $this->_applications;
+        return $this->_applicationNames;
     }
 
     /**
@@ -133,7 +133,7 @@ class Mage_Selenium_Helper_Application extends Mage_Selenium_Helper_Abstract
     {
         $config = $this->getApplicationsConfig();
         if (!isset($config[$name])) {
-            throw new OutOfRangeException('Application with the same name is absent');
+            throw new OutOfRangeException('Application with the ' . $name . ' name is absent');
         }
 
         $this->_applicationConfig = $config[$name];
@@ -195,7 +195,7 @@ class Mage_Selenium_Helper_Application extends Mage_Selenium_Helper_Abstract
      */
     public function getArea()
     {
-        return $this->_area;
+        return self::$_area;
     }
 
     /**
@@ -210,11 +210,11 @@ class Mage_Selenium_Helper_Application extends Mage_Selenium_Helper_Abstract
     {
         $config = $this->getAreasConfig();
         if (!isset($config[$name])) {
-            throw new OutOfRangeException('Area with the same name is absent');
+            throw new OutOfRangeException('Area with the name ' . $name . ' is absent');
         }
 
         $this->_areaConfig = $config[$name];
-        $this->_area = $name;
+        self::$_area = $name;
 
         return $this;
     }
@@ -278,7 +278,7 @@ class Mage_Selenium_Helper_Application extends Mage_Selenium_Helper_Abstract
      */
     public function isAdmin()
     {
-        if ('admin' == $this->_area) {
+        if ('admin' == self::$_area) {
             return true;
         }
         return false;

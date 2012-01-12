@@ -80,12 +80,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     protected static $messages = null;
 
     /**
-     * Current application area
-     * @var string
-     */
-    protected static $_area = 'frontend';
-
-    /**
      * Configuration object instance
      * @var Mage_Selenium_TestConfiguration
      */
@@ -103,7 +97,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     protected $_browserTimeoutPeriod = 40000;
 
-    /**
+   /**
      * @var PHPUnit_Framework_TestResult
      */
     protected $result;
@@ -136,6 +130,13 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * @var    string
      */
     protected $expectedExceptionMessage = '';
+
+    /**
+     * The code of the expected Exception.
+     *
+     * @var integer
+     */
+    protected $expectedExceptionCode;
 
     /**
      * @var    array
@@ -407,8 +408,10 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         static $_isFirst = true;
 
         if ($_isFirst) {
-//            $this->useXpathLibrary('javascript-xpath');
-//            $this->allowNativeXpath (true);
+            if (strcmp($this->_testConfig->driver->getBrowser(), '*iexplore') === 0) {
+                $this->useXpathLibrary('javascript-xpath');
+                $this->allowNativeXpath(true);
+            }
             $this->setUpBeforeTests();
             $_isFirst = false;
         }
@@ -922,7 +925,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                 break;
             }
         }
-        self::$_area = $currentArea;
+
         return $currentArea;
     }
 
@@ -981,9 +984,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function getArea()
     {
-        return !is_null(self::$_area)
-            ? self::$_area
-            : $this->getCurrentLocationArea();
+        return $this->_applicationHelper->getArea();
     }
 
     /**
@@ -994,8 +995,10 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function getCurrentLocationArea()
     {
-        return Mage_Selenium_TestCase::_getAreaFromCurrentUrl($this->_applicationHelper->getAreasConfig(),
-                                                              $this->getLocation());
+        $currentArea = Mage_Selenium_TestCase::_getAreaFromCurrentUrl($this->_applicationHelper->getAreasConfig(),
+                                                                      $this->getLocation());
+        $this->setArea($currentArea);
+        return $currentArea;
     }
 
 
@@ -1010,7 +1013,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function setArea($area)
     {
-        self::$_area = $area;
         $this->_applicationHelper->setArea($area);
         return $this;
     }
@@ -1169,8 +1171,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     public function savePage($class)
     {
         $file = null;
-        $file = fopen('tmp' . DIRECTORY_SEPARATOR . 'screenshot' . DIRECTORY_SEPARATOR . $class . '-' . $this->name . date('d-m-Y-H-i-s') . '.html',
-                      'a+');
+        $file = fopen('tmp' . DIRECTORY_SEPARATOR . 'screenshot' . DIRECTORY_SEPARATOR . $class
+                          . '_' . $this->name . '_' . date('d-m-Y-H-i-s') . '.html', 'a+');
         fputs($file, $this->_testConfig->driver->getHtmlSource());
         fflush($file);
         fclose($file);
@@ -1648,7 +1650,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function searchAndOpen(array $data, $willChangePage = true, $fieldSetName = null)
     {
-        $data = $this->_prepareDataForSearch($data);
+        $this->_prepareDataForSearch($data);
         $xpathTR = $this->search($data, $fieldSetName);
 
         if ($xpathTR) {
@@ -1677,7 +1679,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function searchAndChoose(array $data, $fieldSetName = null)
     {
-        $data = $this->_prepareDataForSearch($data);
+        $this->_prepareDataForSearch($data);
         $xpathTR = $this->search($data, $fieldSetName);
         if ($xpathTR) {
             $xpathTR .= "//input[contains(@class,'checkbox') or contains(@class,'radio')][not(@disabled)]";
@@ -1697,7 +1699,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      *
      * @return array
      */
-    protected function _prepareDataForSearch(array $data, array $verifyFields = array('dropdown' => 'website'))
+    protected function _prepareDataForSearch(array &$data, array $verifyFields = array('dropdown' => 'website'))
     {
         $data = $this->arrayEmptyClear($data);
         foreach ($verifyFields as $fieldType => $fieldName) {
@@ -2588,7 +2590,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public static function suite($className)
     {
-
         $suite = new PHPUnit_Framework_TestSuite;
         $suite->setName($className);
 
@@ -2613,9 +2614,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 
                     foreach ($files as $file) {
                         $browserSuite->addTest(
-                        //new $className($file, array(), '', $browser),
-                            self::addTestDependencies(
-                                new $className($file, array(), '', $browser), $className, $name), $classGroups
+                            //new $className($file, array(), '', $browser),
+                            self::addTestDependencies(new $className($file, array(), '', $browser), $className, $name),
+                            $classGroups
                         );
                     }
 
@@ -2651,9 +2652,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 
                             foreach ($data as $_dataName => $_data) {
                                 $dataSuite->addTest(
-                                //new $className($name, $_data, $_dataName, $browser),
-                                    self::addTestDependencies(
-                                        new $className($name, $_data, $_dataName, $browser), $className, $name),
+                                    //new $className($name, $_data, $_dataName, $browser),
+                                    self::addTestDependencies(new $className($name, $_data, $_dataName, $browser),
+                                                              $className, $name),
                                     $groups
                                 );
                             }
@@ -2667,7 +2668,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                                 $browserSuite->addTest(
                                     new PHPUnit_Framework_Warning(
                                         sprintf(
-                                            'The data provider specified for %s::%s is invalid.', $className,
+                                            'The data provider specified for %s::%s is invalid.',
+                                            $className,
                                             $name
                                         )
                                     )
@@ -2677,9 +2679,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                             // Test method without @dataProvider.
                             else {
                                 $browserSuite->addTest(
-                                // new $className($name, array(), '', $browser),
-                                    self::addTestDependencies(
-                                        new $className($name, array(), '', $browser), $className, $name), $groups
+                                    //new $className($name, array(), '', $browser),
+                                    self::addTestDependencies(new $className($name, array(), '', $browser), $className,
+                                                              $name), $groups
                                 );
                             }
                         }
@@ -2706,9 +2708,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 
                         foreach ($data as $_dataName => $_data) {
                             $dataSuite->addTest(
-                            //new $className($name, $_data, $_dataName),
-                                self::addTestDependencies(
-                                    new $className($name, $_data, $_dataName), $className, $name), $groups
+                                //new $className($name, $_data, $_dataName),
+                                self::addTestDependencies(new $className($name, $_data, $_dataName), $className, $name),
+                                $groups
                             );
                         }
 
@@ -2721,7 +2723,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                             $suite->addTest(
                                 new PHPUnit_Framework_Warning(
                                     sprintf(
-                                        'The data provider specified for %s::%s is invalid.', $className, $name
+                                        'The data provider specified for %s::%s is invalid.',
+                                        $className,
+                                        $name
                                     )
                                 )
                             );
@@ -2730,8 +2734,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                         // Test method without @dataProvider.
                         else {
                             $suite->addTest(
-                            // new $className($name),
-                                self::addTestDependencies(new $className($name), $className, $name), $groups
+                                //new $className($name),
+                                self::addTestDependencies(new $className($name), $className, $name),
+                                $groups
                             );
                         }
                     }
@@ -2743,6 +2748,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     }
 
     /**
+     * net takoy
      * Takes a test and adds its dependencies
      *
      * @param PHPUnit_Framework_Test $test Object. A Test can be run and collect its results
@@ -2778,11 +2784,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             $result = $this->createResult();
         }
 
-        //$this->setResult($result);
+        $this->setTestResultObject($result);
         $this->result = $result;
-        $this->setExpectedExceptionFromAnnotation();
-        $this->setUseErrorHandlerFromAnnotation();
-        $this->setUseOutputBufferingFromAnnotation();
 
         $this->collectCodeCoverageInformation = $result->getCollectCodeCoverageInformation();
 
@@ -2817,18 +2820,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         if (!empty($this->dependencies) && !$this->inIsolation) {
             $className = get_class($this);
             $passed = $this->result->passed();
-
-            //backward compatibility with our old-styled tests and old PHPUnit
-            $backwardCompatible = array();
-            foreach ($passed as $depName => $depArray) {
-                if (is_array($depArray) && array_key_exists('result', $depArray)) {
-                    $backwardCompatible[$depName] = $depArray['result'];
-                }
-            }
-            if (!empty($backwardCompatible)) {
-                $passed = $backwardCompatible;
-            }
-
             $passedKeys = array_keys($passed);
             $numKeys = count($passedKeys);
 
@@ -2849,18 +2840,34 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 
                 if (!isset($passedKeys[$dependency])) {
                     $this->result->addError(
-                        $this, new PHPUnit_Framework_SkippedTestError(
-                                 sprintf('This test depends on "%s" to pass.', $dependency)
-                             ), 0
+                        $this,
+                        new PHPUnit_Framework_SkippedTestError(
+                            sprintf(
+                                'This test depends on "%s" to pass.', $dependency
+                            )
+                        ),
+                        0
                     );
 
                     return false;
-                } else {
-                    if (isset($passed[$dependency])) {
-                        $this->dependencyInput[] = $passed[$dependency];
-                    } else {
-                        $this->dependencyInput[] = null;
+                }
+
+                if (isset($passed[$dependency])) {
+                    if ($passed[$dependency]['size'] > $this->getSize()) {
+                        $this->result->addError(
+                            $this,
+                            new PHPUnit_Framework_SkippedTestError(
+                                'This test depends on a test that is larger than itself.'
+                            ),
+                            0
+                        );
+
+                        return false;
                     }
+
+                    $this->dependencyInput[] = $passed[$dependency]['result'];
+                } else {
+                    $this->dependencyInput[] = null;
                 }
             }
         }
@@ -2875,14 +2882,14 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     protected function runTest()
     {
-        if ($this->name === null) {
-            throw new PHPUnit_Framework_Exception(
-                'PHPUnit_Framework_TestCase::$name must not be null.'
-            );
-        }
-
         // Clear messages before running test
         Mage_Selenium_TestCase::$messages = null;
+
+        if ($this->name === null) {
+            throw new PHPUnit_Framework_Exception(
+                'PHPUnit_Framework_TestCase::$name must not be NULL.'
+            );
+        }
 
         try {
             $class = new ReflectionClass($this);
@@ -2892,39 +2899,43 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         }
 
         try {
-
             $testResult = $method->invokeArgs(
                 $this, array_merge($this->data, $this->dependencyInput)
             );
             // Fail test if have verification errors
             $this->assertEmptyVerificationErrors();
-            if (!empty($this->verificationErrors)) {
-                $this->fail(implode("\n", $this->verificationErrors));
-            }
         } catch (Exception $e) {
             $this->savePage($class->getName());
             if (!$e instanceof PHPUnit_Framework_IncompleteTest &&
                 !$e instanceof PHPUnit_Framework_SkippedTest &&
-                is_string($this->expectedException) &&
-                $e instanceof $this->expectedException
+                is_string($this->expectedException)
             ) {
+                $this->assertThat(
+                    $e,
+                    new PHPUnit_Framework_Constraint_Exception(
+                        $this->expectedException
+                    )
+                );
+
                 if (is_string($this->expectedExceptionMessage) &&
                     !empty($this->expectedExceptionMessage)
                 ) {
-                    $this->assertContains(
-                        $this->expectedExceptionMessage, $e->getMessage()
+                    $this->assertThat(
+                        $e,
+                        new PHPUnit_Framework_Constraint_ExceptionMessage(
+                            $this->expectedExceptionMessage
+                        )
                     );
                 }
 
-                if (is_int($this->expectedExceptionCode) &&
-                    $this->expectedExceptionCode !== 0
-                ) {
-                    $this->assertEquals(
-                        $this->expectedExceptionCode, $e->getCode()
+                if ($this->expectedExceptionCode !== null) {
+                    $this->assertThat(
+                        $e,
+                        new PHPUnit_Framework_Constraint_ExceptionCode(
+                            $this->expectedExceptionCode
+                        )
                     );
                 }
-
-                $this->numAssertions++;
 
                 return;
             } else {
@@ -2933,9 +2944,11 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         }
 
         if ($this->expectedException !== null) {
-            $this->numAssertions++;
-            $this->syntheticFail(
-                'Expected exception ' . $this->expectedException, '', 0, $this->expectedExceptionTrace
+            $this->assertThat(
+                null,
+                new PHPUnit_Framework_Constraint_Exception(
+                    $this->expectedException
+                )
             );
         }
 

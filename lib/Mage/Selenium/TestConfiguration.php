@@ -120,9 +120,7 @@ class Mage_Selenium_TestConfiguration
      */
     public function  __destruct()
     {
-        if ($this->getConfigValue('browsers/default/doNotKillBrowsers') != 'true'
-            && $this->_drivers
-        ) {
+        if ($this->getConfigValue('browsers/default/doNotKillBrowsers') != 'true' && $this->_drivers) {
             foreach ($this->_drivers as $driver) {
                 $driver->setContiguousSession(false);
                 $driver->stop();

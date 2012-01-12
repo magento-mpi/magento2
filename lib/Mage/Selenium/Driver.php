@@ -50,6 +50,12 @@ class Mage_Selenium_Driver extends PHPUnit_Extensions_SeleniumTestCase_Driver
     protected $_logHandle = null;
 
     /**
+     * Current browser name
+     * @var string
+     */
+    protected $_browser = null;
+
+    /**
      * Basic constructor of Selenium RC driver
      * Extension: initialization of log file handle.
      */
@@ -115,7 +121,7 @@ class Mage_Selenium_Driver extends PHPUnit_Extensions_SeleniumTestCase_Driver
             $response = parent::doCommand($command, $arguments);
             if (!empty($this->_logHandle)) {
                 fputs($this->_logHandle, self::udate('H:i:s.u') . "\n");
-                fputs($this->_logHandle, "\tRequest: " . end($this->commands) . "\n");
+                fputs($this->_logHandle, "\tRequest: " . $command . "\n");
                 fputs($this->_logHandle, "\tResponse: " . $response . "\n\n");
                 fflush($this->_logHandle);
             }
@@ -129,6 +135,26 @@ class Mage_Selenium_Driver extends PHPUnit_Extensions_SeleniumTestCase_Driver
         }
 
         return $response;
+    }
+
+    /**
+     * Saves browser name to be accessible from driver
+     *
+     * @param string
+     */
+    public function setBrowser($browser)
+    {
+        $this->_browser = $browser;
+        parent::setBrowser($browser);
+    }
+
+    /**
+     * Return browser name
+     * @return string
+     */
+    public function getBrowser()
+    {
+        return $this->_browser;
     }
 
     /**
