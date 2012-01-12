@@ -52,32 +52,25 @@ class Mage_OAuth_Model_NonceTest extends Magento_TestCase
      */
     protected function setUp()
     {
+        /** @var $nonceResource Mage_OAuth_Model_Resource_Nonce */
+        $nonceResource = Mage::getResourceModel('oauth/nonce');
+        /** @var $nonce Mage_OAuth_Model_Nonce */
+        $nonce = Mage::getModel('oauth/nonce');
+
+        $time = time();
+
         // Generate new nonce items
         $i = 0;
-        while ($i < self::NEW_NONCE_COUNT) {
-            /** @var $nonce Mage_OAuth_Model_Nonce */
-            $nonce = Mage::getModel('oauth/nonce');
-            $nonce->setData(array(
-                'nonce'     => md5(mt_rand()),
-                'timestamp' => time()
-            ))->save();
-
-            $i++;
+        while ($i++ < self::NEW_NONCE_COUNT) {
+            $nonce->setData(array('nonce' => md5(mt_rand()), 'timestamp' => $time));
+            $nonceResource->save($nonce); // save via resource to avoid object afterSave() calls
         }
-
         // Generate old nonce items
-        $j = 0;
-        while ($j < self::OLD_NONCE_COUNT) {
-            /** @var $nonce Mage_OAuth_Model_Nonce */
-            $nonce = Mage::getModel('oauth/nonce');
-            $nonce->setData(array(
-                'nonce'     => md5(mt_rand()),
-                'timestamp' => time() - self::NONCE_TIME_FOR_DELETE
-            ))->save();
-
-            $j++;
+        $i = 0;
+        while ($i++ < self::OLD_NONCE_COUNT) {
+            $nonce->setData(array('nonce' => md5(mt_rand()), 'timestamp' => $time - self::NONCE_TIME_FOR_DELETE));
+            $nonceResource->save($nonce); // save via resource to avoid object afterSave() calls
         }
-
         parent::setUp();
     }
 

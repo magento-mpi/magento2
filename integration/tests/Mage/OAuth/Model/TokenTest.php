@@ -99,28 +99,27 @@ class Mage_OAuth_Model_TokenTest extends Magento_TestCase
     {
         /** @var $consumer Mage_OAuth_Model_Consumer */
         $consumer = $this->getFixture('consumer');
+        /** @var $tokenResource Mage_OAuth_Model_Resource_Token */
+        $tokenResource = Mage::getResourceModel('oauth/token');
+        /** @var $token Mage_OAuth_Model_Token */
+        $token = Mage::getModel('oauth/token');
 
         // Generate new token items
         $i = 0;
-        while ($i < self::NEW_TOKEN_COUNT) {
-            /** @var $token Mage_OAuth_Model_Token */
-            $token = Mage::getModel('oauth/token');
+        while ($i++ < self::NEW_TOKEN_COUNT) {
             $token->setData(array(
                 'consumer_id'  => $consumer->getId(),
                 'type'         => Mage_OAuth_Model_Token::TYPE_REQUEST,
                 'token'        => md5(mt_rand()),
                 'secret'       => md5(mt_rand()),
                 'callback_url' => Mage_OAuth_Model_Server::CALLBACK_ESTABLISHED,
-            ))->save();
-
-            $i++;
+                'created_at'   => Varien_Date::now()
+            ));
+            $tokenResource->save($token); // save via resource to avoid object afterSave() calls
         }
-
         // Generate old token items
-        $j = 0;
-        while ($j < self::OLD_TOKEN_COUNT) {
-            /** @var $token Mage_OAuth_Model_Token */
-            $token = Mage::getModel('oauth/token');
+        $i = 0;
+        while ($i++ < self::OLD_TOKEN_COUNT) {
             $token->setData(array(
                 'consumer_id'  => $consumer->getId(),
                 'type'         => Mage_OAuth_Model_Token::TYPE_REQUEST,
@@ -128,10 +127,9 @@ class Mage_OAuth_Model_TokenTest extends Magento_TestCase
                 'secret'       => md5(mt_rand()),
                 'callback_url' => Mage_OAuth_Model_Server::CALLBACK_ESTABLISHED,
                 'created_at'   => Varien_Date::formatDate(time() - self::TOKEN_TIME_FOR_DELETE)
-            ))->save();
-            $j++;
+            ));
+            $tokenResource->save($token); // save via resource to avoid object afterSave() calls
         }
-
         return $this;
     }
 
