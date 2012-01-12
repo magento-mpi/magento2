@@ -154,10 +154,27 @@ class Mage_Adminhtml_System_BackupController extends Mage_Adminhtml_Controller_A
      */
     public function downloadAction()
     {
+        $backupsCollection = Mage::getSingleton('backup/fs_collection');
+        $backupId = $this->getRequest()->getParam('time') . '_' . $this->getRequest()->getParam('type');
+        $backupInfo = false;
+
+        foreach ($backupsCollection as $backup) {
+            if ($backup->getId() != $backupId) {
+                continue;
+            }
+
+            $backupInfo = $backup;
+        }
+
+        if (!$backupInfo) {
+            return $this->_redirect('*/*');
+        }
+
         $backup = Mage::getModel('backup/backup')
-            ->setTime((int)$this->getRequest()->getParam('time'))
-            ->setType($this->getRequest()->getParam('type'))
-            ->setPath(Mage::helper('backup')->getBackupsDir());
+            ->setTime((int)$backupInfo->getTime())
+            ->setType($backupInfo->getType())
+            ->setPath(Mage::helper('backup')->getBackupsDir())
+            ->setName($backupInfo->getName(), false);
         /* @var $backup Mage_Backup_Model_Backup */
 
         if (!$backup->exists()) {
