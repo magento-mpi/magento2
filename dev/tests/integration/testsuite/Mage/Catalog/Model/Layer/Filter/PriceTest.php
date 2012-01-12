@@ -48,6 +48,7 @@ class Mage_Catalog_Model_Layer_Filter_PriceTest extends PHPUnit_Framework_TestCa
      */
     public function testGetPriceRangeManual()
     {
+        $this->markTestIncomplete('MAGE-4937');
         $this->assertEquals(15, $this->_model->getPriceRange());
     }
 

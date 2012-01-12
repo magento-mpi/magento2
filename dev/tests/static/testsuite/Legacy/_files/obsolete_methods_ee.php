@@ -33,7 +33,6 @@ return array(
     'getUrls' => array('class_scope' => 'Enterprise_PageCache_Model_Crawler'),
     'getUrlStmt' => array('class_scope' => 'Enterprise_PageCache_Model_Resource_Crawler'),
     '_getLinkCollection' => array('class_scope' => 'Enterprise_TargetRule_Block_Checkout_Cart_Crosssell'),
-    'getCustomerSegmentIds' => array('class_scope' => 'Enterprise_CustomerSegment_Model_Customer'),
     'getCustomerSegments' => array('class_scope' => 'Enterprise_CustomerSegment_Model_Resource_Customer'),
     'getRequestUri' => array('class_scope' => 'Enterprise_PageCache_Model_Processor_Default'),
     '_getActiveEntity' => array('class_scope' => 'Enterprise_GiftRegistry_IndexController'),

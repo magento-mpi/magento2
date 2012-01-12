@@ -161,7 +161,7 @@ class Mage_Adminhtml_System_BackupController extends Mage_Adminhtml_Controller_A
             return $this->getUrl('*/*/index');
         }
 
-        $helper = Mage::helper('backup');
+        $helper = Mage::helper('Mage_Backup_Helper_Data');
         $response = new Varien_Object();
 
         try {
