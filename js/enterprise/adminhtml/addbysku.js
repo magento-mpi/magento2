@@ -169,6 +169,41 @@ AddBySku.prototype = {
                 });
             }
         });
+
+        var skuAreaId = order.getAreaId('additional_area'),
+            skuButton = {
+                label: Translator.translate('Add Products By SKU'),
+                node: new Element('button', {
+                    'class': 'scalable add',
+                    'id': 'show-sku-panel-button'
+                }),
+                onClick: function(){
+                    $(skuAreaId).show();
+                    this.remove();
+                },
+                insertIn: function(element, position) {
+                    var node = Object.extend(this.node),
+                        content = {};
+                    node.observe('click', this.onClick);
+                    node.update('<span>' + this.label + '</span>');
+                    content[position] = node;
+                    Element.insert(element, content);
+                }
+            };
+
+        this.order.dataArea.onLoad = this.order.dataArea.onLoad.wrap( function (proceed) {
+            proceed();
+            this._parent.itemsArea.setNode($(this._parent.getAreaId('items')));
+            this._parent.itemsArea.onLoad();
+        });
+
+        this.order.itemsArea.onLoad = this.order.itemsArea.onLoad.wrap( function (proceed) {
+            proceed();
+            if (!$(skuAreaId).visible()) {
+                this.addControlButton(skuButton);
+            }
+        });
+        this.order.dataArea.onLoad();
     },
 
     /**
