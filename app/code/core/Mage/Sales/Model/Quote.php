@@ -486,7 +486,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
     {
         /*
         * tax class can vary at any time. so instead of using the value from session,
-        * we need to retrieve from db everytime to get the correct tax class
+        * we need to retrieve from db every time to get the correct tax class
         */
         //if (!$this->getData('customer_group_id') && !$this->getData('customer_tax_class_id')) {
         $classId = Mage::getModel('customer/group')->getTaxClassId($this->getCustomerGroupId());
