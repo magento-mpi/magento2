@@ -163,9 +163,8 @@ class Mage_Adminhtml_Block_Widget_Form extends Mage_Adminhtml_Block_Widget
      * @param array $attributes attributes that are to be added
      * @param Varien_Data_Form_Element_Fieldset $fieldset
      * @param array $exclude attributes that should be skipped
-     * @param string $moduleName
      */
-    protected function _setFieldset($attributes, $fieldset, $exclude=array(), $moduleName = 'eav')
+    protected function _setFieldset($attributes, $fieldset, $exclude=array())
     {
         $this->_addElementTypes($fieldset);
         foreach ($attributes as $attribute) {
@@ -188,7 +187,7 @@ class Mage_Adminhtml_Block_Widget_Form extends Mage_Adminhtml_Block_Widget
                 $element = $fieldset->addField($attribute->getAttributeCode(), $fieldType,
                     array(
                         'name'      => $attribute->getAttributeCode(),
-                        'label'     => Mage::helper($moduleName)->__($attribute->getFrontend()->getLabel()),
+                        'label'     => $attribute->getFrontend()->getLabel(),
                         'class'     => $attribute->getFrontend()->getClass(),
                         'required'  => $attribute->getIsRequired(),
                         'note'      => $attribute->getNote(),

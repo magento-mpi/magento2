@@ -67,18 +67,32 @@ class Enterprise_Checkout_Block_Sku_Products_Info extends Mage_Core_Block_Templa
                     Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_PERMISSIONS
                 );
             case Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_OUT_OF_STOCK:
-                return $this->_getHelper()->getMessage(
-                    Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_OUT_OF_STOCK
-                );
+                $message = '<span class="sku-out-of-stock" id="sku-stock-failed-' . $this->getItem()->getId() . '">'
+                    . $this->_getHelper()->getMessage(
+                        Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_OUT_OF_STOCK
+                    ) . '</span>';
+                return $message;
             case Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED:
                 /** @var $stockItem Mage_CatalogInventory_Model_Stock_Item */
                 $stockItem = Mage::getModel('cataloginventory/stock_item');
                 $stockItem->loadByProduct($this->getItem()->getProduct());
-                return $this->_getHelper()->getMessage(
+                $message = $this->_getHelper()->getMessage(
                     Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED
-                )
-                    . '<br>'
-                    . $this->__("Only %s%g%s left in stock", '<span class="sku-failed-qty" id="sku-stock-failed-' . $this->getItem()->getId() . '">', $stockItem->getQty(), '</span>');
+                );
+                $message .= '<br/>' . $this->__("Only %s%g%s left in stock", '<span class="sku-failed-qty" id="sku-stock-failed-' . $this->getItem()->getId() . '">', $stockItem->getQty(), '</span>');
+                return $message;
+            case Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED_IN_CART:
+                $item = $this->getItem();
+                $message = $this->_getHelper()->getMessage(
+                    Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED_IN_CART
+                );
+                $message .= '<br/>';
+                if ($item->getQtyMaxAllowed()) {
+                    $message .= Mage::helper('cataloginventory')->__('The maximum quantity allowed for purchase is %s.', '<span class="sku-failed-qty" id="sku-stock-failed-' . $item->getId() . '">' . ($item->getQtyMaxAllowed()  * 1) . '</span>');
+                } else if ($item->getQtyMinAllowed()) {
+                    $message .= Mage::helper('cataloginventory')->__('The minimum quantity allowed for purchase is %s.', '<span class="sku-failed-qty" id="sku-stock-failed-' . $item->getId() . '">' . ($item->getQtyMinAllowed()  * 1) . '</span>');
+                }
+                return $message;
             case Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_CONFIGURE:
                 return $this->_getHelper()->getMessage(
                     Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_CONFIGURE

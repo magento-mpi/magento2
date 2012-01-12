@@ -62,7 +62,7 @@ class Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Grid extends Mage_Adminhtml
         foreach ($parentBlock->getFailedItems() as $affectedItem) {
             // Escape user-submitted input
             if (isset($affectedItem['item']['qty'])) {
-                $affectedItem['item']['qty'] = (int)$affectedItem['item']['qty'];
+                $affectedItem['item']['qty'] = (float)$affectedItem['item']['qty'];
             }
             $item = new Varien_Object();
             $item->setCode($affectedItem['code']);
@@ -77,7 +77,9 @@ class Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Grid extends Mage_Adminhtml
                 /* @var $stockStatus Mage_CatalogInventory_Model_Stock_Status */
                 $stockStatus = Mage::getModel('cataloginventory/stock_status');
                 $status = $stockStatus->getProductStatus($productId, $this->getWebsiteId());
-                $product->setIsSalable($status[$productId]);
+                if (!empty($status[$productId])) {
+                    $product->setIsSalable($status[$productId]);
+                }
                 $item->setPrice(Mage::helper('core')->formatPrice($product->getPrice()));
                 $item->setSubtotal(Mage::helper('core')->formatPrice($product->getPrice() * $item->getQty()));
             }

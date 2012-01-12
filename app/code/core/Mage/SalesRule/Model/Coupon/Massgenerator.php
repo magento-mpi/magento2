@@ -134,7 +134,9 @@ class Mage_SalesRule_Model_Coupon_Massgenerator extends Mage_Core_Model_Abstract
             $this->setLength($length);
         }
 
-        $now = $this->getResource()->formatDate(time());
+        $now = $this->getResource()->formatDate(
+            Mage::getSingleton('core/date')->gmtTimestamp()
+        );
 
         for ($i = 0; $i < $size; $i++) {
             $attempt = 0;

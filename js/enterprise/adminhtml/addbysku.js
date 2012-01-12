@@ -62,6 +62,16 @@ AddBySku.prototype = {
                 var oldSourceGrids = that.order.sourceGrids;
                 // Leave only error grid (don't submit information from other grids right now)
                 that.order.sourceGrids = {'sku_errors': this.errorSourceGrid};
+                // Save old response handler function to override it
+                var parentResponseHandler = that.order.loadAreaResponseHandler;
+                that.order.loadAreaResponseHandler = function (response)
+                {
+                    if (!response['errors']) {
+                        // If response is empty loadAreaResponseHandler() won't update the area
+                        response['errors'] = '<span></span>';
+                    }
+                    parentResponseHandler.call(that.order, response);
+                };
                 that.order.productGridAddSelected('sku');
                 that.order.sourceGrids = oldSourceGrids;
             },
@@ -78,6 +88,10 @@ AddBySku.prototype = {
                     onSuccess: function(transport)
                     {
                         var response = transport.responseText.evalJSON();
+                        if (!response.errors) {
+                            // If response is empty loadAreaResponseHandler() won't update the area
+                            response.errors = '<span></span>';
+                        }
                         this.loadAreaResponseHandler(response);
                     }.bind(that.order),
                     onComplete: function ()
@@ -214,6 +228,7 @@ AddBySku.prototype = {
     submitCsvFile : function ()
     {
         var $file = Element.select('body', 'input[name="' + this.fileFieldName + '"]')[0];
+        var $inputFileContainer = $file.up();
         if (!$file.value) {
             return false;
         }
@@ -224,11 +239,19 @@ AddBySku.prototype = {
             'method': 'post',
             'enctype': 'multipart/form-data'
         });
+        // We need to insert same file input element into the form. Simple copy of name/value doesn't work.
         $form.insert($file);
+        // Inserting element to other place removes it from the old one. Creating new file input element on same place
+        // to avoid confusing effect that it has disappeared.
+        $inputFileContainer.insert(new Element('input', {'type': 'file', 'name': this.fileFieldName}));
         $form.insert(new Element('input', {'type': 'hidden', 'name': this.controllerParamFieldNames['customerId'], 'value': this.order.customerId}));
-        $form.insert(new Element('input', {'type': 'hidden', 'name': this.controllerParamFieldNames['storeId'],    'value': this.order.storeId}));
-        $form.insert(new Element('input', {'type': 'hidden', 'name': 'form_key',                    'value': FORM_KEY}));
+        $form.insert(new Element('input', {'type': 'hidden', 'name': this.controllerParamFieldNames['storeId'], 'value': this.order.storeId}));
+        $form.insert(new Element('input', {'type': 'hidden', 'name': 'form_key', 'value': FORM_KEY}));
+        // For IE we must make the form part of the DOM, otherwise browser refuses to submit it
+        Element.select(document, 'body')[0].insert($form);
         $form.submit();
+        // Show loader
+        varienLoaderHandler.handler.onCreate({options: {loaderArea: true}});
         return true;
     },
 

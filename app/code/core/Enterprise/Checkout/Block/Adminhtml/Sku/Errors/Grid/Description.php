@@ -39,40 +39,15 @@
 class Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Grid_Description extends Mage_Adminhtml_Block_Template
 {
     /**
-     * List of error messages
-     *
-     * @var array
-     */
-    protected $_errorMessages = array();
-
-    /**
-     * Define error messages and template
+     * Define template
      */
     public function __construct()
     {
         $this->setTemplate('enterprise/checkout/sku/errors/grid/description.phtml');
-        $this->_errorMessages = array(
-            Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_SKU => $this->__('SKU not found in catalog'),
-            Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_CONFIGURE => $this->__('Product requires configuration'),
-            Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_OUT_OF_STOCK => $this->__('Out of stock'),
-            Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED => $this->__('Requested quantity is not available')
-        );
     }
 
     /**
-     * Return error message by its code
-     *
-     * @see Enterprise_Checkout_Helper_Data ADD_ITEM_STATUS_* constants
-     * @param string $code
-     * @return string
-     */
-    public function getErrorMessageByCode($code)
-    {
-        return isset($this->_errorMessages[$code]) ? $this->_errorMessages[$code] : '';
-    }
-
-    /**
-     * HTML code of "Configure" button
+     * Retrieves HTML code of "Configure" button
      *
      * @return string
      */
@@ -98,5 +73,17 @@ class Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Grid_Description extends Ma
     public function getSourceId()
     {
         return $this->_prepareLayout()->getLayout()->getBlock('sku_error_grid')->getId();
+    }
+
+    /**
+     * Returns error message by its code
+     * @see Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_* constants for $code
+     *
+     * @param string $code
+     * @return string
+     */
+    public function getErrorMessageByCode($code)
+    {
+        return Mage::helper('enterprise_checkout')->getMessage($code);
     }
 }

@@ -401,7 +401,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
      * Block Factory
      *
      * @param     string $type
-     * @param     string $blockName
+     * @param     string $name
      * @param     array $attributes
      * @return    Mage_Core_Block_Abstract
      */

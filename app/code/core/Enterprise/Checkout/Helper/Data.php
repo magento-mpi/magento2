@@ -60,6 +60,7 @@ class Enterprise_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
     const ADD_ITEM_STATUS_FAILED_SKU = 'failed_sku';
     const ADD_ITEM_STATUS_FAILED_OUT_OF_STOCK = 'failed_out_of_stock';
     const ADD_ITEM_STATUS_FAILED_QTY_ALLOWED = 'failed_qty_allowed';
+    const ADD_ITEM_STATUS_FAILED_QTY_ALLOWED_IN_CART = 'failed_qty_allowed_in_cart';
     const ADD_ITEM_STATUS_FAILED_CONFIGURE = 'failed_configure';
     const ADD_ITEM_STATUS_FAILED_PERMISSIONS = 'failed_permissions';
     const ADD_ITEM_STATUS_FAILED_UNKNOWN = 'failed_unknown';
@@ -125,6 +126,9 @@ class Enterprise_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
                 break;
             case self::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED:
                 $message = $this->__('Requested quantity is not available');
+                break;
+            case self::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED_IN_CART:
+                $message = $this->__('The product cannot be added to cart in requested quantity.');
                 break;
             case self::ADD_ITEM_STATUS_FAILED_CONFIGURE:
                 $message = $this->__("Please specify the product's options");
@@ -200,7 +204,7 @@ class Enterprise_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
     {
         if ($all && is_null($this->_itemsAll) || !$all && is_null($this->_items)) {
             $failedItems = Mage::getModel('enterprise_checkout/cart')->getFailedItems();
-            $collection = Mage::getModel('catalog/product')->getCollection()
+            $collection = Mage::getResourceSingleton('enterprise_checkout/product_collection')
                 ->addMinimalPrice()
                 ->addFinalPrice()
                 ->addTaxPercents()
@@ -214,11 +218,12 @@ class Enterprise_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
                 if (is_null($this->_items)
                     && $item['code'] != Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_SKU
                 ) {
-                    $itemsToLoad[$item['item']['id']] = array(
-                        'qty' => $item['item']['qty'],
-                        'code' => $item['code'],
-                        'error' => isset($item['error']) ? $item['error'] : '',
-                    );
+                    $id = $item['item']['id'];
+                    $itemsToLoad[$id] = $item['item'];
+                    $itemsToLoad[$id]['code'] = $item['code'];
+                    $itemsToLoad[$id]['error'] = isset($item['error']) ? $item['error'] : '';
+                    // Avoid collisions of product ID with quote item ID
+                    unset($itemsToLoad[$id]['id']);
                 } elseif ($all && $item['code'] == Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_SKU) {
                     $item['item']['code'] = $item['code'];
                     $item['item']['product_type'] = 'undefined';
@@ -234,9 +239,7 @@ class Enterprise_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
 
                 /** @var $product Mage_Catalog_Model_Product */
                 foreach ($collection->getItems() as $product) {
-                    $product->setQty($itemsToLoad[$product->getId()]['qty']);
-                    $product->setCode($itemsToLoad[$product->getId()]['code']);
-                    $product->setError($itemsToLoad[$product->getId()]['error']);
+                    $product->addData($itemsToLoad[$product->getId()]);
                     if (!$product->getOptionsByCode()) {
                         $product->setOptionsByCode(array());
                     }

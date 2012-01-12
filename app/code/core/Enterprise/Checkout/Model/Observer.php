@@ -150,26 +150,50 @@ class Enterprise_Checkout_Model_Observer
     }
 
     /**
-     * Update quote for failed items
+     * Calculate failed items quote-related data
      *
      * @param Varien_Event_Observer $observer
      * @return void
      */
-    public function salesQuoteSaveAfter($observer)
+    public function collectTotalsFailedItems($observer)
     {
+        if ($observer->getEvent()->getAction()->getFullActionName() != 'checkout_cart_index') {
+            return;
+        }
+
         /** @var $realQuote Mage_Sales_Model_Quote */
-        $realQuote = $observer->getEvent()->getQuote();
+        $realQuote = Mage::getSingleton('sales/quote');
         $affectedItems = $this->_getCart()->getFailedItems();
         if (empty($affectedItems)) {
             return;
         }
 
         /** @var $quote Mage_Sales_Model_Quote */
-        $quote = Mage::getModel('sales/quote');//clone $realQuote;
+        $quote = Mage::getModel('sales/quote');
         $quote->preventSaving()->setItemsCollection(Mage::helper('enterprise_checkout')->getFailedItems(false));
 
         $quote->setShippingAddress($this->_copyAddress($quote, $realQuote->getShippingAddress()));
         $quote->setBillingAddress($this->_copyAddress($quote, $realQuote->getBillingAddress()));
         $quote->setTotalsCollectedFlag(false)->collectTotals();
+    }
+
+    /**
+     * Add link to cart in cart sidebar to view grid with failed products
+     *
+     * @param Varien_Event_Observer $observer
+     * @return void
+     */
+    public function addCartLink($observer)
+    {
+        $block = $observer->getEvent()->getBlock();
+        if (!$block instanceof Mage_Checkout_Block_Cart_Sidebar) {
+            return;
+        }
+
+        $failedItemsCount = count(Mage::getSingleton('enterprise_checkout/cart')->getFailedItems());
+        if ($failedItemsCount > 0) {
+            $block->setAllowCartLink(true);
+            $block->setCartEmptyMessage(Mage::helper('enterprise_checkout')->__('You have %d item(s) requiring attention.', $failedItemsCount));
+        }
     }
 }

@@ -20,40 +20,63 @@
  *
  * @category    Mage
  * @package     Mage_Backup
- * @copyright   Copyright (c) 2011 Magento Inc. (http://www.magentocommerce.com)
+ * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * Class to work with backups
+ * Class to work system backup that excludes media folder
  *
  * @category    Mage
  * @package     Mage_Backup
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Backup
+class Mage_Backup_Nomedia extends Mage_Backup_Snapshot
 {
     /**
-     * List of supported a backup types
+     * Implementation Rollback functionality for Snapshot
      *
-     * @var array
+     * @throws Mage_Exception
+     * @return bool
      */
-    static protected $_allowedBackupTypes = array('db', 'snapshot', 'filesystem', 'media', 'nomedia');
+    public function rollback()
+    {
+        $this->_prepareIgnoreList();
+        return parent::rollback();
+    }
 
     /**
-     * get Backup Instance By File Name
+     * Implementation Create Backup functionality for Snapshot
      *
-     * @param  string $type
-     * @return Mage_Backup_Interface
+     * @throws Mage_Exception
+     * @return bool
      */
-    static public function getBackupInstance($type)
+    public function create()
     {
-        $class = 'Mage_Backup_' . $type;
+        $this->_prepareIgnoreList();
+        return parent::create();
+    }
 
-        if (!in_array($type, self::$_allowedBackupTypes) || !class_exists($class, true)){
-            throw new Mage_Exception('Current implementation not supported this type (' . $type . ') of backup.');
-        }
+    /**
+     * Overlap getType
+     *
+     * @return string
+     * @see Mage_Backup_Interface::getType()
+     */
+    public function getType()
+    {
+        return 'nomedia';
+    }
 
-        return new $class();
+    /**
+     * Add media folder to ignore list
+     *
+     * @return Mage_Backup_Media
+     */
+    protected function _prepareIgnoreList()
+    {
+        $this->addIgnorePaths($this->getRootDir() . DS . 'media');
+
+        return $this;
     }
 }

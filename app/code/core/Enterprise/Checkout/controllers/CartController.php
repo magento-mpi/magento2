@@ -75,13 +75,8 @@ class Enterprise_Checkout_CartController extends Mage_Core_Controller_Front_Acti
             $cart = Mage::getModel('enterprise_checkout/cart');
             $cart->prepareAddProductsBySku($this->getRequest()->getParam('items'));
             $cart->saveAffectedProducts();
-            $msg = $cart->getInfoMessage();
+            $this->_getSession()->addMessages($cart->getMessages());
             $cart->removeSuccessItems();
-            $method = ($msg->getFailedItemsCount()) ? 'addError' : 'addSuccess';
-
-            $this->_getSession()->$method(
-                $msg->getMessage()
-            );
         } catch (Enterprise_Checkout_Exception $e) {
             $this->_getSession()->addError(
                 $this->__('Something went wrong.')
@@ -106,6 +101,9 @@ class Enterprise_Checkout_CartController extends Mage_Core_Controller_Front_Acti
         $failedItemsCart = Mage::getModel('enterprise_checkout/cart');
 
         foreach ($failedItems as $productId => $data) {
+            if (!isset($data['qty']) || !isset($data['sku'])) {
+                continue;
+            }
             $checkedItem = $failedItemsCart->checkItem($data['sku'], $data['qty']);
             if ($checkedItem['code'] == Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_SUCCESS) {
                 $cart->addProduct($productId, $data['qty']);
@@ -126,7 +124,7 @@ class Enterprise_Checkout_CartController extends Mage_Core_Controller_Front_Acti
     public function removeFailedAction()
     {
         $removed = Mage::getModel('enterprise_checkout/cart')->removeAffectedItem(
-            $this->getRequest()->getParam('sku')
+            Mage::helper('core/url')->urlDecode($this->getRequest()->getParam('sku'))
         );
 
         if ($removed) {
@@ -206,9 +204,9 @@ class Enterprise_Checkout_CartController extends Mage_Core_Controller_Front_Acti
                 $this->getRequest()->getParam('sku')
             );
         } catch (Mage_Core_Exception $e) {
-            $this->_getCustomerSession()->addError($e->getMessage());
+            $this->_getSession()->addError($e->getMessage());
         } catch (Exception $e) {
-            $this->_getCustomerSession()->addError($this->__('Cannot add product'));
+            $this->_getSession()->addError($this->__('Cannot add product'));
             Mage::logException($e);
         }
         $this->_redirect('checkout/cart');

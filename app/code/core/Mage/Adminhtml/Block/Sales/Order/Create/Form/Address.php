@@ -172,9 +172,9 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Form_Address
             );
         }
 
-        // Set custom renderer for VAT field
+        // Set custom renderer for VAT field if needed
         $vatIdElement = $this->_form->getElement('vat_id');
-        if ($vatIdElement) {
+        if ($vatIdElement && $this->getDisplayVatValidationButton() !== false) {
             $vatIdElement->setRenderer(
                 $this->getLayout()->createBlock('adminhtml/customer_sales_order_address_form_renderer_vat')
                     ->setJsVariablePrefix($this->getJsVariablePrefix())

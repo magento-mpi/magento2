@@ -139,14 +139,18 @@ class Enterprise_Checkout_Model_Import extends Varien_Object
                 if ($num != 2) {
                     Mage::throwException(Mage::helper('enterprise_checkout')->__('Uploaded file is invalid'));
                 }
+                for ($i = 0; $i < 2; $i++) {
+                    // If header columns specified as "sku, qty" - it could cause problems because of the whitespace
+                    $colNames[$i] = trim($colNames[$i]);
+                }
                 while (($currentRow = fgetcsv($fileHandler)) !== false) {
                     $num = count($currentRow);
                     if ($num != 2) {
                         continue;
                     }
                     $csvDataRow = array();
-                    for ($i=0; $i<2; $i++) {
-                        $csvDataRow[$colNames[$i]] = $currentRow[$i];
+                    for ($i = 0; $i < 2; $i++) {
+                        $csvDataRow[$colNames[$i]] = trim($currentRow[$i]);
                     }
                     $csvData[] = $csvDataRow;
                     $currentKey++;

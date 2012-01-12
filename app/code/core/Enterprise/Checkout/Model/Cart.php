@@ -584,6 +584,9 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object
     public function prepareAddProductsBySku($items)
     {
         foreach ($items as $item) {
+            if (!isset($item['sku']) || !isset($item['qty'])) {
+                continue;
+            }
             $this->prepareAddProductBySku($item['sku'], $item['qty']);
         }
         return $this;
@@ -608,9 +611,6 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object
         Mage_Catalog_Model_Product $product,
         $requestedQty
     ) {
-        if (!$stockItem->getIsInStock()) {
-            return array('status' => Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_OUT_OF_STOCK);
-        }
         if (!$stockItem->getManageStock()) {
             return true;
         }
@@ -618,28 +618,43 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object
             return true;
         }
         $quoteItem = $this->getActualQuote()->getItemByProduct($product);
-        if (!$quoteItem) {
-            // This product is not added to quote
-            $stockQty = $stockItem->getStockQty();
-            if ($stockQty && $requestedQty > $stockQty) {
-                return array(
-                    'status' => Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED,
-                    'qty_max_allowed' => $stockQty
-                );
-            } else {
-                return true;
-            }
+        $isAdmin = $this->getStore()->isAdmin();
+
+        if ($stockItem->getMinSaleQty() && !$isAdmin) {
+            $minAllowedQty = $stockItem->getMinSaleQty();
+            $status = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED_IN_CART;
+        } else {
+            $minAllowedQty = 1;
         }
-        $allowedQty = $stockItem->getStockQty() - $quoteItem->getQty();
-        if ($allowedQty <= 0) {
+
+        if ($requestedQty < $minAllowedQty) {
+            $status = empty($status) ? Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED : $status;
+            return array('status' => $status, 'qty_min_allowed' => $minAllowedQty);
+        }
+
+        if ($stockItem->getMaxSaleQty() && !$isAdmin) {
+            $stockQty = $stockItem->getStockQty();
+            $maxSaleQty = $stockItem->getMaxSaleQty();
+            if ($stockQty < $maxSaleQty) {
+                $maxAllowedQty = $stockQty;
+                $status = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED;
+            } else {
+                $maxAllowedQty = $maxSaleQty;
+                $status = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED_IN_CART;
+            }
+        } else {
+            $maxAllowedQty = $stockItem->getStockQty();
+        }
+
+        $allowedQty = $quoteItem ? ($maxAllowedQty - $quoteItem->getQty()) : $maxAllowedQty;
+
+        if ($allowedQty <= 0 || $allowedQty < $minAllowedQty) {
             // All available quantity already added to quote
             return array('status' => Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_OUT_OF_STOCK);
         } else if ($requestedQty > $allowedQty) {
-            // Quantity added to quote and requested quantity exceeds available in stock
-            return array(
-                'status' => Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED,
-                'qty_max_allowed' => $allowedQty
-            );
+            $status = empty($status) ? Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED : $status;
+            // Quantity added to quote and requested quantity exceeds available in stock or maximum salable quantity
+            return array('status' => $status, 'qty_max_allowed' => $allowedQty);
         } else {
             return true;
         }
@@ -680,7 +695,10 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object
      */
     public function checkItem($sku, $qty, $config = array())
     {
-        $item = array('sku' => $sku, 'qty' => is_array($qty) ? $qty['qty'] : ($qty ? $qty : 1));
+        $item = array('sku' => $sku, 'qty' => is_array($qty) ? (float)$qty['qty'] : ($qty ? (float)$qty : 1));
+        if ($item['qty'] < 0) {
+            $item['qty'] = 1;
+        }
 
         /** @var $product Mage_Catalog_Model_Product */
         $product = Mage::getModel('catalog/product')->loadByAttribute('sku', $item['sku']);
@@ -696,7 +714,11 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object
             $stockItem = Mage::getModel('cataloginventory/stock_item');
             $stockItem->loadByProduct($product);
             $stockItem->setProduct($product);
-            if ($this->_shouldBeConfigured($product)) {
+            if (!$stockItem->getIsInStock() && !$this->getStore()->isAdmin()) {
+                $status = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_OUT_OF_STOCK;
+            }
+
+            if (empty($status) && $this->_shouldBeConfigured($product)) {
                 if ($this->_isConfigured($product, $config)) {
                     $status = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_SUCCESS;
                 } else {
@@ -710,9 +732,9 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object
                     $status = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_SUCCESS;
                 } else {
                     $status = $qtyStatus['status'];
-                    if (isset($qtyStatus['qty_max_allowed'])) {
-                        $item['qty_max_allowed'] = $qtyStatus['qty_max_allowed'];
-                    }
+                    unset($qtyStatus['status']);
+                    // Add qty_max_allowed and qty_min_allowed, if present
+                    $item = array_merge($item, $qtyStatus);
                 }
             }
         } else {
@@ -876,9 +898,9 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object
     /**
      * Retrieve info message
      *
-     * @return Varien_Object
+     * @return array
      */
-    public function getInfoMessage()
+    public function getMessages()
     {
         $affectedItems = $this->getAffectedItems();
         $currentlyAffectedItemsCount  = count($this->_currentlyAffectedItems);
@@ -896,25 +918,19 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object
 
         $failedItemsCount = count($this->getFailedItems());
         $messages = array();
-
         if ($addedItemsCount) {
-            $messages[] = ($addedItemsCount == 1)
+            $message = ($addedItemsCount == 1)
                     ? Mage::helper('enterprise_checkout')->__('%s product was added to your shopping cart.', $addedItemsCount)
                     : Mage::helper('enterprise_checkout')->__('%s products were added to your shopping cart.', $addedItemsCount);
+            $messages[] = Mage::getSingleton('core/message')->success($message);
         }
         if ($failedItemsCount) {
-            $messages[] = ($failedItemsCount == 1)
+            $warning = ($failedItemsCount == 1)
                     ? Mage::helper('enterprise_checkout')->__('%s product requires your attention.', $failedItemsCount)
                     : Mage::helper('enterprise_checkout')->__('%s products require your attention.', $failedItemsCount);
+            $messages[] = Mage::getSingleton('core/message')->error($warning);
         }
-
-        $result = new Varien_Object();
-        $result
-            ->setMessage(implode('<br>', $messages))
-            ->setAddedItemsCount($addedItemsCount)
-            ->setFailedItemsCount($failedItemsCount);
-
-        return $result;
+        return $messages;
     }
 
     /**

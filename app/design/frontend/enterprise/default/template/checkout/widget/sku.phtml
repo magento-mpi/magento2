@@ -30,6 +30,9 @@
  *
  * @see Enterprise_Checkout_Block_Widget_Sku
  */
+$uniqueSuffix = '_' . $this->helper('core')->getRandomString(20);
+$skuFormId = "skuForm{$uniqueSuffix}";
+$itemOptionsVariable = 'itemOptions["' . $uniqueSuffix . '"]';
 ?>
 <div class="widget widget-sku">
     <div class="block block-sku">
@@ -38,9 +41,9 @@
             <strong><span><?php echo $this->__('Order by SKU') ?></span></strong>
         </div>
         <?php endif ?>
-        <form id="skuForm" action="<?php echo $this->getFormAction(); ?>" method="post" <?php if ($this->getIsMultipart()): ?> enctype="multipart/form-data"<?php endif; ?>>
+        <form id="<?php echo $skuFormId; ?>" action="<?php echo $this->getFormAction(); ?>" method="post" <?php if ($this->getIsMultipart()): ?> enctype="multipart/form-data"<?php endif; ?>>
             <div class="block-content">
-                <table id="items-table" class="sku-table" cellspacing="0"  cellpadding="0">
+                <table id="items-table<?php echo $uniqueSuffix; ?>" class="sku-table" cellspacing="0"  cellpadding="0">
                     <colgroup>
                         <col width="60%" />
                         <col width="40%" />
@@ -56,21 +59,21 @@
                     <tfoot>
                         <tr>
                             <td colspan="3" class="a-right">
-                                <span href="#" id="add_new_item_button" title="<?php echo $this->__('Add Row') ?>" class="add-row"><?php echo $this->__('Add New Row') ?></span>
+                                <span href="#" id="add_new_item_button<?php echo $uniqueSuffix; ?>" title="<?php echo $this->__('Add Row') ?>" class="add-row"><?php echo $this->__('Add New Row') ?></span>
                             </td>
                         </tr>
                     </tfoot>
                     <tbody>
                         <tr class="order-row">
-                            <td><input name="items[0][sku]" class="input-text required-entry" type="text" /></td>
-                            <td><input name="items[0][qty]" class="input-text required-entry validate-number validate-number-range-0.00001-10000000" type="text" value="1" /></td>
+                            <td><input name="items[0<?php echo $uniqueSuffix; ?>][sku]" class="input-text required-entry" type="text" /></td>
+                            <td><input name="items[0<?php echo $uniqueSuffix; ?>][qty]" class="input-text required-entry validate-number validate-number-range-0.00001-10000000" type="text" value="1" /></td>
                             <td>&nbsp;</td>
                         </tr>
                     </tbody>
                 </table>
                 <?php echo $this->getChildHtml(); ?>
                 <div class="actions">
-                    <button id="sku-submit-button" type="submit" title="<?php echo $this->__('Add to Cart') ?>" class="button"><span><span><?php echo $this->__('Add to Cart') ?></span></span></button>
+                    <button id="sku-submit-button<?php echo $uniqueSuffix; ?>" type="submit" title="<?php echo $this->__('Add to Cart') ?>" class="button"><span><span><?php echo $this->__('Add to Cart') ?></span></span></button>
                 </div>
             </div>
         </form>
@@ -81,38 +84,44 @@
 <script type="text/javascript">
 //<![CDATA[
 
-var templateText =
+if (typeof templateText == 'undefined') {
+    var templateText =
         '<tr class="order-row">'+
             '<td><input name="items[{{id}}][sku]" value="" class="input-text required-entry" type="text" /><\/td>' +
             '<td></span><input name="items[{{id}}][qty]" value="1" class="input-text required-entry validate-number validate-number-range-0.00001-10000000" type="text" /><\/td>' +
             '<td class="v-middle"><span class="remove-row" title="<?php echo $this->__('Remove Row') ?>"></td>' +
         '<\/tr>';
+}
 
-var itemOptions = {
-    table : $('items-table').select('tbody')[0],
+if (typeof itemOptions == 'undefined') {
+    var itemOptions = {};
+}
+
+<?php echo $itemOptionsVariable; ?> = {
+    table : $('items-table<?php echo $uniqueSuffix; ?>').select('tbody')[0],
     templateSyntax : /(^|.|\r|\n)({{(\w+)}})/,
     templateText : templateText,
     itemCount : 1,
     add : function(data) {
         this.template = new Template(this.templateText, this.templateSyntax);
-        if(!data.id){
+        if (!data.id) {
             data = {};
-            data.id  = this.itemCount;
+            data.id  = this.itemCount + '<?php echo $uniqueSuffix; ?>';
         }
         Element.insert(this.table, {bottom: this.template.evaluate(data)});
         this.bindRemoveButtons();
         this.itemCount++;
     },
-    remove : function(event){
+    remove : function(event) {
         var element = $(Event.findElement(event, 'tr'));
-        if(element){
+        if (element) {
             element.remove();
         }
     },
-    bindRemoveButtons : function(){
-        var buttons = $$('.remove-row');
-        for(var i=0; i < buttons.length; i++){
-            if(!$(buttons[i]).binded){
+    bindRemoveButtons : function() {
+        var buttons = $$('#<?php echo $skuFormId; ?> .remove-row');
+        for(var i=0; i < buttons.length; i++) {
+            if (!$(buttons[i]).binded) {
                 $(buttons[i]).binded = true;
                 Event.observe(buttons[i], 'click', this.remove.bind(this));
             }
@@ -121,16 +130,21 @@ var itemOptions = {
 
 }
 
-if($('add_new_item_button')){
-    Event.observe('add_new_item_button', 'click', itemOptions.add.bind(itemOptions));
-}
-var skuForm = new VarienForm('skuForm');
-$('sku-submit-button').onclick = function(e) {
-    var skuForm = $('skuForm');
-    if ($(skuForm.sku_file).present()) {
-        Event.stop(e);
-        skuForm.submit();
+document.observe('dom:loaded', function() {
+    Event.observe(
+        'add_new_item_button<?php echo $uniqueSuffix; ?>',
+        'click',
+        <?php echo $itemOptionsVariable; ?>.add.bind(<?php echo $itemOptionsVariable; ?>)
+    );
+
+    var skuForm = new VarienForm('<?php echo $skuFormId; ?>');
+    $('sku-submit-button<?php echo $uniqueSuffix; ?>').onclick = function(e) {
+        var skuForm = $('<?php echo $skuFormId; ?>');
+        if (typeof skuForm.sku_file != 'undefined' && $(skuForm.sku_file).present()) {
+            Event.stop(e);
+            skuForm.submit();
+        }
     }
-}
+});
 //]]>
 </script>

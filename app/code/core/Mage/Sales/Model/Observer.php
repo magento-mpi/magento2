@@ -445,7 +445,7 @@ class Mage_Sales_Model_Observer
 
             if ($groupId && $customerInstance->getGroupId() != $groupId) {
                 $quoteAddress->setPrevQuoteCustomerGroupId($quoteInstance->getCustomerGroupId());
-                $quoteInstance->setCustomer($customerInstance->setGroupId($groupId));
+                $customerInstance->setGroupId($groupId);
                 $quoteInstance->setCustomerGroupId($groupId);
             }
 
@@ -490,11 +490,12 @@ class Mage_Sales_Model_Observer
 
         if ($customerAddressId != $customerDefaultAddressId || is_null($customerDefaultAddressId)) {
             $groupId = $customerHelper->getCustomerGroupIdBasedOnVatNumber(
-                $customerCountryCode, $gatewayResponse, $customerInstance->getStore());
+                $customerCountryCode, $gatewayResponse, $customerInstance->getStore()
+            );
 
             if ($groupId) {
                 $quoteAddress->setPrevQuoteCustomerGroupId($quoteInstance->getCustomerGroupId());
-                $quoteInstance->setCustomer($customerInstance->setGroupId($groupId));
+                $customerInstance->setGroupId($groupId);
                 $quoteInstance->setCustomerGroupId($groupId);
             }
         }

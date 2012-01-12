@@ -35,7 +35,11 @@
         <models>
             <enterprise_checkout>
                 <class>Enterprise_Checkout_Model</class>
+                <resourceModel>enterprise_checkout_resource</resourceModel>
             </enterprise_checkout>
+            <enterprise_checkout_resource>
+                <class>Enterprise_Checkout_Model_Resource</class>
+            </enterprise_checkout_resource>
         </models>
         <blocks>
             <enterprise_checkout>
@@ -125,14 +129,22 @@
                     </enterprise_checkout>
                 </observers>
             </controller_action_layout_load_before>
-            <sales_quote_save_after>
+            <controller_action_layout_generate_blocks_before>
                 <observers>
                     <enterprise_checkout>
                         <class>enterprise_checkout/observer</class>
-                        <method>salesQuoteSaveAfter</method>
+                        <method>collectTotalsFailedItems</method>
                     </enterprise_checkout>
                 </observers>
-            </sales_quote_save_after>
+            </controller_action_layout_generate_blocks_before>
+            <core_block_abstract_to_html_before>
+                <observers>
+                    <enterprise_checkout>
+                        <class>enterprise_checkout/observer</class>
+                        <method>addCartLink</method>
+                    </enterprise_checkout>
+                </observers>
+            </core_block_abstract_to_html_before>
         </events>
     </frontend>
 </config>

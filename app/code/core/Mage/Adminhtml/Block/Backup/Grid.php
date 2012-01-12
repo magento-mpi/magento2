@@ -85,6 +85,13 @@ class Mage_Adminhtml_Block_Backup_Grid extends Mage_Adminhtml_Block_Widget_Grid
             'type'      => 'datetime',
         ));
 
+        $this->addColumn('display_name', array(
+            'header'    => Mage::helper('backup')->__('Name'),
+            'index'     => 'display_name',
+            'filter'    => false,
+            'sortable'  => false,
+        ));
+
         $this->addColumn('size', array(
             'header'    => Mage::helper('backup')->__('Size, Bytes'),
             'index'     => 'size',

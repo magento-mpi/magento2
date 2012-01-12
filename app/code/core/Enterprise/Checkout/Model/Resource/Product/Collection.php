@@ -25,44 +25,20 @@
  */
 
 /**
- * Order by SKU Widget Block
+ * Product collection resource
  *
  * @category   Enterprise
  * @package    Enterprise_Checkout
  */
-class Enterprise_Checkout_Block_Widget_Sku
-    extends Mage_Core_Block_Template
-    implements Mage_Widget_Block_Interface
+class Enterprise_Checkout_Model_Resource_Product_Collection extends Mage_Catalog_Model_Resource_Product_Collection
 {
     /**
-     * Retrieve form action URL
+     * Join Product Price Table using left-join
      *
-     * @return string
+     * @return Mage_Catalog_Model_Resource_Product_Collection
      */
-    public function getFormAction()
+    protected function _productLimitationJoinPrice()
     {
-        return $this->getUrl('checkout/cart/advancedAdd');
-    }
-
-    /**
-     * Get link to "Order by SKU" on customer's account page
-     *
-     * @return string
-     */
-    public function getLink()
-    {
-        $data = $this->getData();
-        if (empty($data['link_display']) || empty($data['link_text'])) {
-            return '';
-        }
-
-        /** @var $helper Enterprise_Checkout_Helper_Data */
-        $helper = Mage::helper('enterprise_checkout');
-        if (!$helper->isSkuEnabled() || !$helper->isSkuApplied()) {
-            return '';
-        }
-
-        return '<a href="' . $this->escapeHtml($this->getUrl('enterprise_checkout/sku')) . '">'
-            . $this->escapeHtml($data['link_text']) . '</a>';
+        return $this->_liteProductLimitationJoinPrice(true);
     }
 }

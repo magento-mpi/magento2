@@ -3,7 +3,8 @@ AdminBackup.prototype = {
     initialize : function(a, b){
         this.reset();
         this.rollbackUrl = this.backupUrl = '';
-        this.validator = new Validation($('rollback-form'));
+        this.rollbackValidator = new Validation($('rollback-form'));
+        this.backupValidator = new Validation($('backup-form'));
     },
 
     reset: function() {
@@ -13,10 +14,12 @@ AdminBackup.prototype = {
         $('use_ftp').checked = false;
         $('ftp-credentials-container').hide();
         $('backup_maintenance_mode').checked = false;
+        $('exclude_media').checked = false;
         $('password').value = '';
-        $$('#rollback-request-password .validation-advice').invoke('remove');
-        $$('#rollback-request-password input').invoke('removeClassName', 'validation-failed');
-        $$('#rollback-request-password input').invoke('removeClassName', 'validation-passed');
+        $('backup_name').value = '';
+        $$('.validation-advice').invoke('remove');
+        $$('input').invoke('removeClassName', 'validation-failed');
+        $$('input').invoke('removeClassName', 'validation-passed');
         $$('.backup-messages').invoke('hide');
         $$('#ftp-credentials-container input').each(function(item) {
             item.value = '';
@@ -46,6 +49,13 @@ AdminBackup.prototype = {
         this.showPopup('rollback-warning');
     },
 
+    requestBackupOptions: function() {
+        this.hidePopups();
+        var action = this.type != 'snapshot' ? 'hide' : 'show';
+        $$('#exclude-media-checkbox-container').invoke(action);
+        this.showPopup('backup-options');
+    },
+
     requestPassword: function() {
         this.hidePopups();
         this.type != 'db' ? $('use-ftp-checkbox-row').show() : $('use-ftp-checkbox-row').hide();
@@ -68,24 +78,28 @@ AdminBackup.prototype = {
     },
 
     submitBackup: function () {
-        this.hidePopups();
-        var data = {
-            'type': this.type,
-            'maintenance_mode': $('backup_maintenance_mode').checked ? 1 : 0
-        };
+        if (!!this.backupValidator && this.backupValidator.validate()) {
+            this.hidePopups();
+            var data = {
+                'type': this.type,
+                'maintenance_mode': $('backup_maintenance_mode').checked ? 1 : 0,
+                'backup_name': $('backup_name').value,
+                'exclude_media': $('exclude_media').checked ? 1 : 0
+            };
 
-        new Ajax.Request(this.backupUrl, {
-            onSuccess: function(transport) {
-                this.processResponse(transport, 'backup-warning');
-            }.bind(this),
-            method: 'post',
-            parameters: data
-        });
+            new Ajax.Request(this.backupUrl, {
+                onSuccess: function(transport) {
+                    this.processResponse(transport, 'backup-options');
+                }.bind(this),
+                method: 'post',
+                parameters: data
+            });
+        }
         return false;
     },
 
     submitRollback: function() {
-        if (!!this.validator && this.validator.validate()) {
+        if (!!this.rollbackValidator && this.rollbackValidator.validate()) {
             var data = this.getPostData();
             this.hidePopups();
             new Ajax.Request(this.rollbackUrl, {

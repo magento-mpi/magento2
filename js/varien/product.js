@@ -665,15 +665,23 @@ Product.OptionsPrice.prototype = {
                 }
 
                 var subPrice = 0;
+                var subPriceincludeTax = 0;
                 Object.values(this.customPrices).each(function(el){
                     if (el.type == 'percent') {
                         subPrice += price * el.price / 100;
+                        subPriceincludeTax += _priceInclTax * el.price / 100;
                     } else {
-                        subPrice += el.price;
+                        if (el.excludeTax && el.includeTax) {
+                            subPrice += el.excludeTax;
+                            subPriceincludeTax += el.includeTax;
+                        } else {
+                            subPrice += el.price;
+                            subPriceincludeTax += el.price;
+                        }
                     }
                 })
                 price += subPrice;
-
+                _priceInclTax += subPriceincludeTax;
 
                 if (this.specialTaxPrice == 'true') {
                     var excl = price;

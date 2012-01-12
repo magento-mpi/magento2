@@ -97,7 +97,7 @@ class Enterprise_Pci_Model_Observer
          */
         $latestPassword = Mage::getResourceSingleton('enterprise_pci/admin_user')->getLatestPassword($user->getId());
         if ($latestPassword) {
-            if ($this->latestPasswordExpired($latestPassword)) {
+            if ($this->_isLatestPasswordExpired($latestPassword)) {
                 if ($this->isPasswordChangeForced()) {
                     $message = Mage::helper('enterprise_pci')->__('Your password has expired, you must change it now.');
                 } else {
@@ -121,18 +121,18 @@ class Enterprise_Pci_Model_Observer
     }
 
     /**
-     * Get latest password is expired
+     * Check if latest password is expired
      *
      * @param array $latestPassword
      * @return bool
      */
-    private function latestPasswordExpired($latestPassword)
+    protected function _isLatestPasswordExpired($latestPassword)
     {
         if (!isset($latestPassword['expires'])) {
             return false;
         }
 
-        if (Mage::getStoreConfig('admin/security/password_lifetime') === '') {
+        if ($this->getAdminPasswordLifetime() == 0) {
             return false;
         }
 

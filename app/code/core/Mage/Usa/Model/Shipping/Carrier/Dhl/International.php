@@ -42,6 +42,12 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
     const DHL_CONTENT_TYPE_NON_DOC    = 'N';
 
     /**
+     * Minimum allowed values for shipping package dimensions
+     */
+    const DIMENSION_MIN_CM = 3;
+    const DIMENSION_MIN_IN = 1;
+
+    /**
      * Container types that could be customized
      *
      * @var array
@@ -541,11 +547,11 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
         $countryWeightUnit = $this->getCode('dimensions_variables', $this->_getWeightUnit());
 
         if ($configWeightUnit != $countryWeightUnit) {
-            $weight = round(Mage::helper('usa')->convertMeasureWeight(
-                $weight,
+            $weight = Mage::helper('usa')->convertMeasureWeight(
+                round($weight,3),
                 $configWeightUnit,
                 $countryWeightUnit
-            ), 3);
+            );
         }
 
         return round($weight, 3);
@@ -692,15 +698,14 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
             $configDimensionUnit = Zend_Measure_Length::CENTIMETER;
         }
 
-
         $countryDimensionUnit = $this->getCode('dimensions_variables', $this->_getDimensionUnit());
 
         if ($configDimensionUnit != $countryDimensionUnit) {
-            $dimension = round(Mage::helper('usa')->convertMeasureDimension(
-                $dimension,
+            $dimension = Mage::helper('usa')->convertMeasureDimension(
+                round($dimension, 3),
                 $configDimensionUnit,
                 $countryDimensionUnit
-            ), 3);
+            );
         }
 
         return round($dimension, 3);
@@ -818,7 +823,9 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
             if (strpos(trim($response), '<?xml') === 0) {
                 $xml = simplexml_load_string($response);
                 if (is_object($xml)) {
-                    if (in_array($xml->getName(), array('ErrorResponse', 'ShipmentValidateErrorResponse'))) {
+                    if (in_array($xml->getName(), array('ErrorResponse', 'ShipmentValidateErrorResponse'))
+                        || isset($xml->GetQuoteResponse->Note->Condition)
+                    ) {
                         $code = null;
                         $data = null;
                         if (isset($xml->Response->Status->Condition)) {
@@ -865,6 +872,8 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
             } else {
                 $this->_errors[] = Mage::helper('usa')->__('The response is in wrong format.');
             }
+        } else {
+            $this->_errors[] = Mage::helper('usa')->__('The response is in wrong format.');
         }
 
         /* @var $result Mage_Shipping_Model_Rate_Result */
@@ -884,7 +893,10 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
                 $result->append($rate);
             }
         } else if (!empty($this->_errors)) {
-           return $this->_showError();
+            if ($this->_isShippingLabelFlag) {
+                Mage::throwException(Mage::helper('usa')->__('The response is in wrong format.'));
+            }
+            return $this->_showError();
         }
         return $result;
     }
@@ -1092,6 +1104,15 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
         $packageWeight = 0;
         $packages = $request->getPackages();
         foreach ($packages as &$piece) {
+            $params = $piece['params'];
+            if ($params['width'] || $params['length'] || $params['height']) {
+                $minValue = $this->_getMinDimension($params['dimension_units']);
+                if ($params['width'] < $minValue || $params['length'] < $minValue || $params['height'] < $minValue) {
+                    $message = Mage::helper('usa')->__('Height, width and length should be equal or greater than %s', $minValue);
+                    Mage::throwException($message);
+                }
+            }
+
             $weightUnits = $piece['params']['weight_units'];
             $piece['params']['height']          =  $this->_getDimension($piece['params']['height'], $weightUnits);
             $piece['params']['length']          =  $this->_getDimension($piece['params']['length'], $weightUnits);
@@ -1111,6 +1132,17 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
             ->setPackageCustomsValue($customsValue)
             ->setFreeMethodWeight(0);
     }
+
+        /**
+         * Retrieve minimum allowed value for dimensions in given dimension unit
+         *
+         * @param string $dimensionUnit
+         * @return int
+         */
+        protected function _getMinDimension($dimensionUnit)
+        {
+            return $dimensionUnit == "CENTIMETER" ? self::DIMENSION_MIN_CM : self::DIMENSION_MIN_IN;
+        }
 
     /**
      * Do rate request and handle errors
@@ -1318,14 +1350,17 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
             $nodePiece->addChild('PieceID', ++$i);
             $nodePiece->addChild('PackageType', $packageType);
             $nodePiece->addChild('Weight', round($package['params']['weight'],1));
-            if (!$originRegion) {
-                $nodePiece->addChild('Width', round($package['params']['width']));
-                $nodePiece->addChild('Height', round($package['params']['height']));
-                $nodePiece->addChild('Depth', round($package['params']['length']));
-            } else {
-                $nodePiece->addChild('Depth', round($package['params']['length']));
-                $nodePiece->addChild('Width', round($package['params']['width']));
-                $nodePiece->addChild('Height', round($package['params']['height']));
+            $params = $package['params'];
+            if ($params['width'] && $params['length'] && $params['height']) {
+                if (!$originRegion) {
+                    $nodePiece->addChild('Width', round($params['width']));
+                    $nodePiece->addChild('Height', round($params['height']));
+                    $nodePiece->addChild('Depth', round($params['length']));
+                } else {
+                    $nodePiece->addChild('Depth', round($params['length']));
+                    $nodePiece->addChild('Width', round($params['width']));
+                    $nodePiece->addChild('Height', round($params['height']));
+                }
             }
             $content = array();
             foreach ($package['items'] as $item) {
@@ -1593,14 +1628,13 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
         if (!is_array($packages) || !$packages) {
             Mage::throwException(Mage::helper('usa')->__('No packages for request'));
         }
-
         $result = $this->_doShipmentRequest($request);
 
         $response = new Varien_Object(array(
-            'info' => array(
+            'info' => array(array(
                 'tracking_number' => $result->getTrackingNumber(),
                 'label_content'   => $result->getShippingLabelContent()
-            )
+            ))
         ));
 
         $request->setMasterTrackingId($result->getTrackingNumber());

@@ -90,9 +90,9 @@
     position:fixed;
     top:45%;
     left:50%;
-    width:120px;
-    margin-left:-60px;
-    padding:15px 60px;
+    width:150px;
+    margin-left:-105px;
+    padding:15px 30px;
     background:#fff4e9;
     border:2px solid #f1af73;
     color:#d85909;
@@ -134,6 +134,9 @@
 .grid th                        { white-space:nowrap; }
 .grid td.editable input.input-text { width:50px !important; margin-left:4px !important; }
 .grid td input.input-text       { width:86%; }
+.grid td input.input-text-export-filter { width:272px; }
+.grid td input.input-text-range { width:104px; }
+.grid td input.input-text-range-date { width:87px; }
 .grid td input.input-inactive   { background:#eee; }
 .grid table td                  { border-width:0 1px 1px 0; border-color:#dadfe0; border-style:solid; }
 .grid table.border td           { background:#fff !important; }
@@ -205,7 +208,9 @@ table.actions td                { vertical-align:top; }
 .grid tr.filter .range select    { float:right; width:56px !important; margin-top:0; }
 .grid tr.filter .range .label    { display:block; width:36px; float:left; padding-left:2px; }
 .grid tr.filter .date img        { width:15px; height:15px; cursor:pointer; vertical-align:middle; }
-.grid .head-massaction select    { width:50px !important; }
+.grid .head-massaction select    { width:auto !important; max-width:90px; }
+.grid select.select-export-filter,
+.grid select.multiselect-export-filter { width:278px; }
 
 /* Grid Footer */
 .grid table tfoot tr            { background:#D7E5EF; }
@@ -335,6 +340,7 @@ table.form-edit                         { width:100%; }
 label.inline                            { float:none !important; width:auto !important; }
 .nested-content .entry-edit             { margin-left:2em; }
 .nested-content .entry-edit .entry-edit { margin-left:0; }
+#coupon_container .entry-edit { min-width:310px; }
 
 /* Form Elements */
 input.input-text,textarea,select { border-width:1px; border-style:solid; border-color:#aaa #c8c8c8 #c8c8c8 #aaa; background:#fff; font:12px arial, helvetica, sans-serif; }
@@ -372,6 +378,7 @@ select.multiselect option       { padding:3px 4px; border-bottom:1px solid #ddd;
 .form-list td.value textarea    { width:274px; }
 .form-list td.value textarea    { height:15em; }
 .form-list td.value select      { width:280px; }
+.form-list td.value select.select-date { width:87px; }
 .form-list td.note              { background:url(images/note_cell_bg.gif) 6px 10px no-repeat !important; padding-left:18px; }
 .form-list td.scope-label       { padding-left:5px; color:#6f8992; font-size:.9em; }
 .form-list p.note               { margin:0; padding:0 0 0 13px; background:url(images/note_bg.gif) 1px 6px no-repeat; font-size:11px; }
@@ -406,7 +413,7 @@ span.delete-file                { padding:0; }
 
 /* Form Button */
 .content-buttons.form-buttons,
-.content-header .form-buttons   { text-align:right; margin-bottom:0; white-space:nowrap; }
+.content-header .form-buttons   { text-align:right; margin-bottom:0; }
 .content-header .content-buttons-placeholder { display:inline !important; }
 .content-header .form-buttons   { float:right; }
 .content-header td.form-buttons   { float:none; }
@@ -1018,6 +1025,7 @@ ul.tabs a.paypal-section:hover span { background:url(images/paypal_section.png) 
 .x-tree-node { margin:0 !important; }
 .x-tree-node .leaf .x-tree-node-icon        { background-image:url(images/fam_leaf.png); }
 .x-tree-node .system-leaf .x-tree-node-icon { background-image:url(images/fam_application_form_delete.png); }
+.x-tree-node-ct { overflow:hidden; }
 
 /* Product - Websites */
 .webiste-groups                         { padding:10px 20px; }
@@ -1462,7 +1470,7 @@ ul.super-product-attributes { padding-left:15px; }
 .backup-dialog .password-box-container {margin-top: 15px;}
 .backup-dialog #ftp-credentials-container fieldset {margin-bottom: 0;}
 .backup-dialog input[type=text], .backup-dialog input[type=password] {width: 180px}
-.backup-dialog .maintenance-checkbox-container {margin-top: 15px;}
+.backup-dialog .exclude-media-checkbox-container {margin-top: 15px;}
 .backup-dialog td.maintenance-checkbox-container {margin-top: 0; padding-top: 4px;}
 
 /*****************************************/

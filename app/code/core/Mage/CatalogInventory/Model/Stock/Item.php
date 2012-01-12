@@ -316,7 +316,8 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
      */
     public function getMinSaleQty()
     {
-        if (!($customerGroupId = $this->getCustomerGroupId())) {
+        $customerGroupId = $this->getCustomerGroupId();
+        if (!$customerGroupId) {
             $customerGroupId = Mage::app()->getStore()->isAdmin()
                 ? Mage_Customer_Model_Group::CUST_GROUP_ALL
                 : Mage::getSingleton('customer/session')->getCustomerGroupId();
@@ -500,15 +501,11 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
         }
 
         // Suggest value closest to given qty
-        $divisibleLess = floor($qty / $qtyIncrements) * $qtyIncrements;
-        $divisibleMore = $divisibleLess + $qtyIncrements;
-        $isLessCloserToQty = abs($divisibleLess - $qty) < abs($divisibleMore - $qty);
-
-        if ($isLessCloserToQty && $divisibleLess >= $divisibleMin) {
-            return $divisibleLess;
-        }
-
-        return $divisibleMore <= $divisibleMax ? $divisibleMore : $qty;
+        $closestDivisibleLeft = floor($qty / $qtyIncrements) * $qtyIncrements;
+        $closestDivisibleRight = $closestDivisibleLeft + $qtyIncrements;
+        $acceptableLeft = min(max($divisibleMin, $closestDivisibleLeft), $divisibleMax);
+        $acceptableRight = max(min($divisibleMax, $closestDivisibleRight), $divisibleMin);
+        return abs($acceptableLeft - $qty) < abs($acceptableRight - $qty) ? $acceptableLeft : $acceptableRight;
     }
 
     /**

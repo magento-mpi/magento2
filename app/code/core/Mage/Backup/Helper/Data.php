@@ -58,6 +58,13 @@ class Mage_Backup_Helper_Data extends Mage_Core_Helper_Abstract
     const TYPE_MEDIA      = 'media';
 
     /**
+     * Backup type constant for full system backup excluding media folder
+     *
+     * @const string
+     */
+    const TYPE_SNAPSHOT_WITHOUT_MEDIA   = 'nomedia';
+
+    /**
      * Get all possible backup type values with descriptive title
      *
      * @return array
@@ -67,7 +74,8 @@ class Mage_Backup_Helper_Data extends Mage_Core_Helper_Abstract
         return array(
             self::TYPE_DB => self::__('Database'),
             self::TYPE_MEDIA => self::__('Database and Media'),
-            self::TYPE_SYSTEM_SNAPSHOT => self::__('System')
+            self::TYPE_SYSTEM_SNAPSHOT => self::__('System'),
+            self::TYPE_SNAPSHOT_WITHOUT_MEDIA => self::__('System (excluding Media)')
         );
     }
 
@@ -81,6 +89,7 @@ class Mage_Backup_Helper_Data extends Mage_Core_Helper_Abstract
         return array(
             self::TYPE_DB,
             self::TYPE_SYSTEM_SNAPSHOT,
+            self::TYPE_SNAPSHOT_WITHOUT_MEDIA,
             self::TYPE_MEDIA
         );
     }
@@ -126,6 +135,7 @@ class Mage_Backup_Helper_Data extends Mage_Core_Helper_Abstract
     {
         return array(
             self::TYPE_SYSTEM_SNAPSHOT => 'tgz',
+            self::TYPE_SNAPSHOT_WITHOUT_MEDIA => 'tgz',
             self::TYPE_MEDIA => 'tgz',
             self::TYPE_DB => 'gz'
         );
@@ -224,6 +234,7 @@ class Mage_Backup_Helper_Data extends Mage_Core_Helper_Abstract
     {
         $messagesMap = array(
             self::TYPE_SYSTEM_SNAPSHOT => $this->__('The system backup has been created.'),
+            self::TYPE_SNAPSHOT_WITHOUT_MEDIA => $this->__('The system backup has been created.'),
             self::TYPE_MEDIA => $this->__('The database and media backup has been created.'),
             self::TYPE_DB => $this->__('The database backup has been created.')
         );
@@ -269,5 +280,54 @@ class Mage_Backup_Helper_Data extends Mage_Core_Helper_Abstract
             $process->changeStatus(Mage_Index_Model_Process::STATUS_REQUIRE_REINDEX);
         }
         return $this;
+    }
+
+    /**
+     * Creates backup's display name from it's name
+     *
+     * @param string $name
+     * @return string
+     */
+    public function nameToDisplayName($name)
+    {
+        return str_replace('_', ' ', $name);
+    }
+
+    /**
+     * Extracts information from backup's filename
+     *
+     * @param string $filename
+     * @return Varien_Object
+     */
+    public function extractDataFromFilename($filename)
+    {
+        $extensions = $this->getExtensions();
+
+        $filenameWithoutExtension = $filename;
+
+        foreach ($extensions as $extension) {
+            $filenameWithoutExtension = preg_replace('/' . preg_quote($extension, '/') . '$/', '',
+                $filenameWithoutExtension
+            );
+        }
+
+        $filenameWithoutExtension = substr($filenameWithoutExtension, 0, strrpos($filenameWithoutExtension, "."));
+
+        list($time, $type) = explode("_", $filenameWithoutExtension);
+
+        $name = str_replace($time . '_' . $type, '', $filenameWithoutExtension);
+
+        if (!empty($name)) {
+            $name = substr($name, 1);
+        }
+
+        $result = new Varien_Object();
+        $result->addData(array(
+            'name' => $name,
+            'type' => $type,
+            'time' => $time
+        ));
+
+        return $result;
     }
 }
