@@ -422,7 +422,8 @@ Validation.addAllThese([
                 return !Validation.get('IsEmpty').test(v);
             }],
     ['validate-number', 'Please enter a valid number in this field.', function(v) {
-                return Validation.get('IsEmpty').test(v) || (!isNaN(parseNumber(v)) && !/^\s+$/.test(parseNumber(v)));
+                return Validation.get('IsEmpty').test(v)
+                    || (!isNaN(parseNumber(v)) && /^\s*-?\d*\.?\d+\s*$/.test(v));
             }],
     ['validate-number-range', 'The value is not within the specified range.', function(v, elm) {
                 var result = Validation.get('IsEmpty').test(v)

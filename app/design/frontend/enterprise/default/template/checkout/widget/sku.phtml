@@ -33,6 +33,8 @@
 $uniqueSuffix = '_' . $this->helper('core')->getRandomString(20);
 $skuFormId = "skuForm{$uniqueSuffix}";
 $itemOptionsVariable = 'itemOptions["' . $uniqueSuffix . '"]';
+$qtyValidationClass = 'required-entry validate-number validate-greater-than-zero'
+    . ' validate-number-range number-range-0.00001-10000000';
 ?>
 <div class="widget widget-sku">
     <div class="block block-sku">
@@ -66,7 +68,7 @@ $itemOptionsVariable = 'itemOptions["' . $uniqueSuffix . '"]';
                     <tbody>
                         <tr class="order-row">
                             <td><input name="items[0<?php echo $uniqueSuffix; ?>][sku]" class="input-text required-entry" type="text" /></td>
-                            <td><input name="items[0<?php echo $uniqueSuffix; ?>][qty]" class="input-text required-entry validate-number validate-number-range-0.00001-10000000" type="text" value="1" /></td>
+                            <td><input name="items[0<?php echo $uniqueSuffix; ?>][qty]" class="input-text <?php echo $qtyValidationClass; ?>" type="text" value="1" /></td>
                             <td>&nbsp;</td>
                         </tr>
                     </tbody>
@@ -88,7 +90,7 @@ if (typeof templateText == 'undefined') {
     var templateText =
         '<tr class="order-row">'+
             '<td><input name="items[{{id}}][sku]" value="" class="input-text required-entry" type="text" /><\/td>' +
-            '<td></span><input name="items[{{id}}][qty]" value="1" class="input-text required-entry validate-number validate-number-range-0.00001-10000000" type="text" /><\/td>' +
+            '<td></span><input name="items[{{id}}][qty]" value="1" class="input-text <?php echo $qtyValidationClass; ?>" type="text" /><\/td>' +
             '<td class="v-middle"><span class="remove-row" title="<?php echo $this->__('Remove Row') ?>"></td>' +
         '<\/tr>';
 }
