@@ -221,6 +221,10 @@ class Mage_Adminhtml_Report_ProductController extends Mage_Adminhtml_Controller_
      */
     public function downloadsAction()
     {
+        if (!$this->_isDownloadableAvailable()) {
+            $this->norouteAction();
+            return;
+        };
         $this->_title($this->__('Reports'))
              ->_title($this->__('Products'))
              ->_title($this->__('Downloads'));
@@ -238,6 +242,10 @@ class Mage_Adminhtml_Report_ProductController extends Mage_Adminhtml_Controller_
      */
     public function exportDownloadsCsvAction()
     {
+        if (!$this->_isDownloadableAvailable()) {
+            $this->norouteAction();
+            return;
+        };
         $fileName   = 'products_downloads.csv';
         $content    = $this->getLayout()->createBlock('adminhtml/report_product_downloads_grid')
             ->setSaveParametersInSession(true)
@@ -252,6 +260,10 @@ class Mage_Adminhtml_Report_ProductController extends Mage_Adminhtml_Controller_
      */
     public function exportDownloadsExcelAction()
     {
+        if (!$this->_isDownloadableAvailable()) {
+            $this->norouteAction();
+            return;
+        };
         $fileName   = 'products_downloads.xml';
         $content    = $this->getLayout()->createBlock('adminhtml/report_product_downloads_grid')
             ->setSaveParametersInSession(true)
@@ -259,6 +271,18 @@ class Mage_Adminhtml_Report_ProductController extends Mage_Adminhtml_Controller_
 
         $this->_prepareDownloadResponse($fileName, $content);
     }
+
+    /**
+     * Check whether Mage_Downloadable module is on
+     *
+     * @return bool
+     */
+    protected function _isDownloadableAvailable()
+    {
+        return is_object(Mage::getConfig()->getNode('modules/Mage_Downloadable'))
+            && Mage::getConfig()->getNode('modules/Mage_Downloadable')->is('active');
+    }
+
 
     /**
      * Check is allowed for report
