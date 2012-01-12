@@ -33,6 +33,13 @@
  */
 class Mage_OAuth_Adminhtml_OAuth_AuthorizedTokensControllerTest extends Magento_Test_ControllerTestCaseAbstract
 {
+    /**#@+
+     * Revoked status constants
+     */
+    const STATUS_REVOKED_FALSE = 0;
+    const STATUS_REVOKED_TRUE = 1;
+    /**#@-*/
+
     /**
      * Get token data
      *
@@ -60,12 +67,23 @@ class Mage_OAuth_Adminhtml_OAuth_AuthorizedTokensControllerTest extends Magento_
         foreach ($models as $item) {
             $tokenIds[] = $item->getId();
         }
+
         $this->loginToAdmin();
         $this->getRequest()->setParam('items', $tokenIds);
 
-        foreach (array(0, 1) as $revoked) {
+        $notifications = array(
+            self::STATUS_REVOKED_FALSE  => 1,
+            self::STATUS_REVOKED_TRUE   => 2,
+        );
+
+        foreach (array(self::STATUS_REVOKED_FALSE, self::STATUS_REVOKED_TRUE) as $revoked) {
+
             $this->getRequest()->setParam('status', $revoked);
             Mage::unregister('application_params');
+            $this->_replaceHelperWithMock('oauth', array('sendNotificationOnTokenStatusChange'))
+                 ->expects($this->exactly($notifications[$revoked]))
+                 ->method('sendNotificationOnTokenStatusChange');
+
             $this->dispatch(Mage::getModel('adminhtml/url')->getUrl('adminhtml/oAuth_authorizedTokens/revoke'));
             $this->assertRedirectMatch($redirectUrl);
 
@@ -99,9 +117,20 @@ class Mage_OAuth_Adminhtml_OAuth_AuthorizedTokensControllerTest extends Magento_
         foreach ($models as $item) {
             $tokenIds[] = $item->getId();
         }
+
+        $notifications = 2;
+
         $this->loginToAdmin();
         $this->getRequest()->setParam('items', $tokenIds);
+
+        $message                = 'Token is not deleted.';
+        $messageMustNotUpdated  = 'Token is deleted but it must be not.';
         Mage::unregister('application_params');
+        $this->_replaceHelperWithMock('oauth', array('sendNotificationOnTokenStatusChange'))
+             ->expects($this->exactly($notifications))
+             ->method('sendNotificationOnTokenStatusChange')
+             ->will($this->returnValue(1));
+        
         $this->dispatch(Mage::getModel('adminhtml/url')->getUrl('adminhtml/oAuth_authorizedTokens/delete'));
         $this->assertRedirectMatch($redirectUrl);
 
