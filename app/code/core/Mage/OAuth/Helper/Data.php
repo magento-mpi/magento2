@@ -51,6 +51,11 @@ class Mage_OAuth_Helper_Data extends Mage_Core_Helper_Abstract
     const XML_PATH_CLEANUP_EXPIRATION_PERIOD = 'oauth/cleanup/expiration_period';
     /**#@-*/
 
+    /**#@+ Email template */
+    const XML_PATH_EMAIL_TEMPLATE = 'oauth/email/template';
+    const XML_PATH_EMAIL_IDENTITY = 'oauth/email/identity';
+    /**#@-*/
+
     /**
      * Cleanup expiration period in minutes
      */
@@ -207,5 +212,33 @@ class Mage_OAuth_Helper_Data extends Mage_Core_Helper_Abstract
     {
         $minutes = (int) Mage::getStoreConfig(self::XML_PATH_CLEANUP_EXPIRATION_PERIOD);
         return $minutes > 0 ? $minutes : self::CLEANUP_EXPIRATION_PERIOD_DEFAULT;
+    }
+
+    /**
+     * Send Email to Token owner
+     *
+     * @param string $userEmail
+     * @param string $userName
+     * @param string $applicationName
+     * @param string $status
+     */
+    public function sendNotificationOnTokenStatusChange($userEmail, $userName, $applicationName, $status)
+    {
+        /* @var $mailTemplate Mage_Core_Model_Email_Template */
+        $mailTemplate = Mage::getModel('core/email_template');
+
+        $mailTemplate->sendTransactional(
+            Mage::getStoreConfig(self::XML_PATH_EMAIL_TEMPLATE),
+            Mage::getStoreConfig(self::XML_PATH_EMAIL_IDENTITY),
+            $userEmail,
+            $userName,
+            array(
+                'name'              => $userName,
+                'email'             => $userEmail,
+                'applicationName'   => $applicationName,
+                'status'            => $status,
+
+            )
+        );
     }
 }

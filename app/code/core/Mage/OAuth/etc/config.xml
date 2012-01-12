@@ -96,6 +96,15 @@
                 </observers>
             </admin_session_user_login_failed>
         </events>
+        <template>
+            <email>
+                <oauth_email_template translate="label" module="mage_oauth">
+                    <label>Token Status Change</label>
+                    <file>token.html</file>
+                    <type>html</type>
+                </oauth_email_template>
+            </email>
+        </template>
     </global>
     <admin>
         <routers>
@@ -159,6 +168,10 @@
                 <cleanup_probability>100</cleanup_probability>
                 <expiration_period>120</expiration_period>
             </cleanup>
+            <email>
+                <identity>general</identity>
+                <template>oauth_email_template</template>
+            </email>
         </oauth>
     </default>
 </config>

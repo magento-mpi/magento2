@@ -95,10 +95,43 @@ class Mage_OAuth_Adminhtml_OAuth_AuthorizedTokensController extends Mage_Adminht
                     ->addFilterById($ids)
                     ->addFilterByRevoked(!$status);
 
+            /** @var $helper Mage_OAuth_Helper_Data */
+            $helper = Mage::helper('oauth');
+
             /** @var $item Mage_OAuth_Model_Token */
             foreach ($collection as $item) {
                 $item->load($item->getId());
                 $item->setRevoked($status)->save();
+
+                $applicationName = $item->getConsumer()->getName();
+
+                $adminId = $item->getAdminId();
+                if ($adminId) {
+                    /** @var $session Mage_Admin_Model_Session */
+                    $session = Mage::getSingleton('admin/session');
+
+                    /** @var $admin Mage_Admin_Model_User */
+                    $admin = $session->getUser();
+
+                    if($admin->getId()==$adminId) {
+                        continue;
+                    }
+                    $userEmail = $admin->getEmail();
+                    $userName = $admin->getName(' ');
+                } else {
+                    /** @var $customer Mage_Customer_Model_Customer */
+                    $customer = Mage::getModel('customer/customer');
+                    $customer->load($item->getCustomerId());
+
+                    $userEmail = $customer->getEmail();
+                    $userName = $customer->getName();
+                }
+                $helper->sendNotificationOnTokenStatusChange(
+                    $userEmail,
+                    $userName,
+                    $applicationName,
+                    $status   ?$this->__('revoked')  :$this->__('enabled')
+                );
             }
             if ($status) {
                 $message = $this->__('Selected entries revoked.');
@@ -136,9 +169,42 @@ class Mage_OAuth_Adminhtml_OAuth_AuthorizedTokensController extends Mage_Adminht
                     ->addFilterByType(Mage_OAuth_Model_Token::TYPE_ACCESS)
                     ->addFilterById($ids);
 
+            /** @var $helper Mage_OAuth_Helper_Data */
+            $helper = Mage::helper('oauth');
+
+
             /** @var $item Mage_OAuth_Model_Token */
             foreach ($collection as $item) {
                 $item->delete();
+                $applicationName = $item->getConsumer()->getName();
+
+                $adminId = $item->getAdminId();
+                if ($adminId) {
+                    /** @var $session Mage_Admin_Model_Session */
+                    $session = Mage::getSingleton('admin/session');
+
+                    /** @var $admin Mage_Admin_Model_User */
+                    $admin = $session->getUser();
+
+                    if($admin->getId()==$adminId) {
+                        continue;
+                    }
+                    $userEmail = $admin->getEmail();
+                    $userName = $admin->getName(' ');
+                } else {
+                    /** @var $customer Mage_Customer_Model_Customer */
+                    $customer = Mage::getModel('customer/customer');
+                    $customer->load($item->getCustomerId());
+
+                    $userEmail = $customer->getEmail();
+                    $userName = $customer->getName();
+                }
+                $helper->sendNotificationOnTokenStatusChange(
+                    $userEmail,
+                    $userName,
+                    $applicationName,
+                    $this->__('deleted')
+                );
             }
             $this->_getSession()->addSuccess($this->__('Selected entries has been deleted.'));
         } catch (Mage_Core_Exception $e) {

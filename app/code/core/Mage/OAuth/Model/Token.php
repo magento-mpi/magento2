@@ -260,4 +260,21 @@ class Mage_OAuth_Model_Token extends Mage_Core_Model_Abstract
         }
         return true;
     }
+
+    /**
+     * Get Token Consumer
+     *
+     * @return Mage_OAuth_Model_Consumer
+     */
+    public function getConsumer()
+    {
+        if (!$this->getData('consumer')) {
+            /** @var $consumer Mage_OAuth_Model_Consumer */
+            $consumer = Mage::getModel('oauth/consumer');
+            $consumer->load($this->getConsumerId());
+            $this->setData('consumer', $consumer);
+        }
+
+        return $this->getData('consumer');
+    }
 }
