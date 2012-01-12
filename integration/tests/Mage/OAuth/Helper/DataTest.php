@@ -31,6 +31,22 @@
 class Mage_OAuth_Helper_DataTest extends Magento_TestCase
 {
     /**
+     * OAuth data helper instance
+     *
+     * @var Mage_OAuth_Helper_Data
+     */
+    protected $_helper;
+
+    /**
+     * Create OAuth data helper instance
+     */
+    protected function setUp()
+    {
+        $this->_helper = new Mage_OAuth_Helper_Data;
+        parent::setUp();
+    }
+
+    /**
      * Test calculation of cleanup possibility for data with lifetime property
      *
      * @magentoConfigFixture current_store oauth/cleanup/cleanup_probability 1
@@ -38,23 +54,70 @@ class Mage_OAuth_Helper_DataTest extends Magento_TestCase
      */
     public function testIsCleanupProbability()
     {
-        /** @var $helper Mage_OAuth_Helper_Data */
-        $helper = new Mage_OAuth_Helper_Data;
-
-        $this->assertTrue($helper->isCleanupProbability());
+        $this->assertTrue($this->_helper->isCleanupProbability());
     }
 
     /**
-     * Test calculation fail of cleanup possibility for data with lifetime property
+     * Test calculation of cleanup possibility for data with lifetime property (zero config value)
      *
      * @magentoConfigFixture current_store oauth/cleanup/cleanup_probability 0
      * @return void
      */
-    public function testIsCleanupProbabilityFail()
+    public function testIsCleanupProbabilityWithZeroValue()
     {
-        /** @var $helper Mage_OAuth_Helper_Data */
-        $helper = new Mage_OAuth_Helper_Data;
+        $this->assertFalse($this->_helper->isCleanupProbability());
+    }
 
-        $this->assertFalse($helper->isCleanupProbability());
+    /**
+     * Test calculation of cleanup possibility for data with lifetime property (string config value)
+     *
+     * @magentoConfigFixture current_store oauth/cleanup/cleanup_probability qwerty
+     * @return void
+     */
+    public function testIsCleanupProbabilityWithStringValue()
+    {
+        $this->assertFalse($this->_helper->isCleanupProbability());
+    }
+
+    /**
+     * Test getting cleanup expiration period value from system configuration in minutes
+     *
+     * @magentoConfigFixture current_store oauth/cleanup/expiration_period 500
+     * @return void
+     */
+    public function testGetCleanupExpirationPeriod()
+    {
+        $period = $this->_helper->getCleanupExpirationPeriod();
+
+        $this->assertInternalType('int', $period);
+        $this->assertEquals(500, $period);
+    }
+
+    /**
+     * Test getting cleanup expiration period value from system configuration in minutes (zero config value)
+     *
+     * @magentoConfigFixture current_store oauth/cleanup/expiration_period 0
+     * @return void
+     */
+    public function testGetCleanupExpirationPeriodWithZeroValue()
+    {
+        $period = $this->_helper->getCleanupExpirationPeriod();
+
+        $this->assertInternalType('int', $period);
+        $this->assertEquals(Mage_OAuth_Helper_Data::CLEANUP_EXPIRATION_PERIOD_DEFAULT, $period);
+    }
+
+    /**
+     * Test getting cleanup expiration period value from system configuration in minutes (string config value)
+     *
+     * @magentoConfigFixture current_store oauth/cleanup/expiration_period qwerty
+     * @return void
+     */
+    public function testGetCleanupExpirationPeriodWithStringValue()
+    {
+        $period = $this->_helper->getCleanupExpirationPeriod();
+
+        $this->assertInternalType('int', $period);
+        $this->assertEquals(Mage_OAuth_Helper_Data::CLEANUP_EXPIRATION_PERIOD_DEFAULT, $period);
     }
 }
