@@ -357,8 +357,8 @@ class Mage_Checkout_Model_Type_Onepage
      */
     protected function _validateCustomerData(array $data)
     {
-        /* @var $customerForm Mage_Customer_Model_Form */
-        $customerForm    = Mage::getModel('customer/form');
+        /** @var $customerForm Mage_Customer_Model_Form */
+        $customerForm = Mage::getModel('customer/form');
         $customerForm->setFormCode('checkout_register')
             ->setIsAjaxRequest(Mage::app()->getRequest()->isAjax());
 
@@ -394,10 +394,13 @@ class Mage_Checkout_Model_Type_Onepage
             $customer->setPassword($customerRequest->getParam('customer_password'));
             $customer->setConfirmation($customerRequest->getParam('confirm_password'));
         } else {
-            // emulate customer password for quest
+            // spoof customer password for guest
             $password = $customer->generatePassword();
             $customer->setPassword($password);
             $customer->setConfirmation($password);
+            // set NOT LOGGED IN group id explicitly,
+            // otherwise copyFieldset('customer_account', 'to_quote') will fill it with default group id value
+            $customer->setGroupId(Mage_Customer_Model_Group::NOT_LOGGED_IN_ID);
         }
 
         $result = $customer->validate();

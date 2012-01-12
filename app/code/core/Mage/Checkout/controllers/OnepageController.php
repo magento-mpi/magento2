@@ -33,6 +33,9 @@ class Mage_Checkout_OnepageController extends Mage_Checkout_Controller_Action
         'review'          => '_getReviewHtml',
     );
 
+    /** @var Mage_Sales_Model_Order */
+    protected $_order;
+
     /**
      * @return Mage_Checkout_OnepageController
      */
@@ -445,9 +448,6 @@ class Mage_Checkout_OnepageController extends Mage_Checkout_Controller_Action
         }
         $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
     }
-
-    /* @var $_order Mage_Sales_Model_Order */
-    protected $_order;
 
     /**
      * Get Order by quoteId

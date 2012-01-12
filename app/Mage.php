@@ -522,7 +522,7 @@ final class Mage
     }
 
     /**
-     * Retreive resource helper object
+     * Retrieve resource helper object
      *
      * @param string $moduleName
      * @return Mage_Core_Model_Resource_Helper_Abstract

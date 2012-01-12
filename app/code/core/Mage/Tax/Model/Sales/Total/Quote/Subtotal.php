@@ -91,7 +91,7 @@ class Mage_Tax_Model_Sales_Total_Quote_Subtotal extends Mage_Sales_Model_Quote_A
 
     /**
      * Calculate item price including/excluding tax, row total including/excluding tax
-     * and subotal including/excluding tax.
+     * and subtotal including/excluding tax.
      * Determine discount price if needed
      *
      * @param   Mage_Sales_Model_Quote_Address $address
