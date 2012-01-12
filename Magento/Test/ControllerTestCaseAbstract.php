@@ -67,6 +67,13 @@ abstract class Magento_Test_ControllerTestCaseAbstract extends Magento_TestCase
     {
         //Unregister previously registered controller
         Mage::unregister('controller');
+
+        // strip base URL if detected
+        $baseUrl = rtrim(Mage::getBaseUrl(), '/');
+
+        if (strpos($uri, $baseUrl) === 0) {
+            $uri = substr($uri, strlen($baseUrl));
+        }
         $this->getRequest()->setRequestUri($uri);
         Mage::run($this->_runCode, $this->_runScope, $this->_runOptions);
     }
@@ -153,24 +160,17 @@ abstract class Magento_Test_ControllerTestCaseAbstract extends Magento_TestCase
     {
         $messageAssert = $message ? $message : 'Response is not contain redirect header.';
         $this->assertTrue($this->getResponse()->isRedirect(), $messageAssert);
+
         if ($matchUrl) {
-            $redirectedUrl = null;
             foreach ($this->getResponse()->getHeaders() as $header) {
-                if ('Location' != $header['name'] || true != $header['replace']) {
-                    continue;
-                }
-                $redirectedUrl = $header['value'];
-                if (false === strpos($redirectedUrl, $matchUrl)) {
-                    $messageAssert = $message ? $message :
-                        sprintf(
-                            'Expected redirect URL "%s" cannot matched with redirected URL "%s".',
-                            $matchUrl,
-                            $redirectedUrl);
-                    $this->assertTrue(false, $messageAssert);
+                if ('Location' == $header['name'] && true === $header['replace']) {
+                    if (!$message) {
+                        $message = 'Expected redirect URL does not match URL in Location header.';
+                    }
+                    $this->assertContains($matchUrl, $header['value'], $message);
                     break;
                 }
             }
-
         }
     }
 
