@@ -103,7 +103,7 @@ class Mage_Adminhtml_System_BackupController extends Mage_Adminhtml_Controller_A
             if ($this->getRequest()->getParam('maintenance_mode')) {
                 $turnedOn = $helper->turnOnMaintenanceMode();
 
-                if ($turnedOn) {
+                if (!$turnedOn) {
                     $response->setError(
                         Mage::helper('backup')->__("Warning! System couldn't put store on the maintenance mode.") . ' '
                         . Mage::helper('backup')->__("Please deselect the sufficient check-box, if you want to continue backup's creation")
@@ -124,10 +124,6 @@ class Mage_Adminhtml_System_BackupController extends Mage_Adminhtml_Controller_A
 
             $this->_getSession()->addSuccess($successMessage);
 
-            if ($this->getRequest()->getParam('maintenance_mode')) {
-                $helper->turnOffMaintenanceMode();
-            }
-
             $response->setRedirectUrl($this->getUrl('*/*/index'));
         } catch (Mage_Backup_Exception_NotEnoughFreeSpace $e) {
             $errorMessage = Mage::helper('backup')->__('Not enough free space to create backup.');
@@ -142,6 +138,10 @@ class Mage_Adminhtml_System_BackupController extends Mage_Adminhtml_Controller_A
         if (!empty($errorMessage)) {
             $response->setError($errorMessage);
             $backupManager->setErrorMessage($errorMessage);
+        }
+
+        if ($this->getRequest()->getParam('maintenance_mode')) {
+            $helper->turnOffMaintenanceMode();
         }
 
         $this->getResponse()->setBody($response->toJson());
@@ -284,10 +284,10 @@ class Mage_Adminhtml_System_BackupController extends Mage_Adminhtml_Controller_A
         if (!empty($errorMsg)) {
             $response->setError($errorMsg);
             $backupManager->setErrorMessage($errorMsg);
+        }
 
-            if ($this->getRequest()->getParam('maintenance_mode')) {
-                $helper->turnOffMaintenanceMode();
-            }
+        if ($this->getRequest()->getParam('maintenance_mode')) {
+            $helper->turnOffMaintenanceMode();
         }
 
         $this->getResponse()->setBody($response->toJson());
