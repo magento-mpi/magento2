@@ -48,7 +48,7 @@ class Mage_OAuth_Model_TokenTest extends Magento_TestCase
 
         $this->setFixture('consumer', $consumer);
 
-        // Delete consumer model after test
+        // Delete consumer item after test
         $this->addModelToDelete($consumer, true);
 
         parent::setUp();

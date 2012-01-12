@@ -82,8 +82,26 @@ class Mage_OAuth_Model_NonceTest extends Magento_TestCase
     }
 
     /**
+     * Test delete old nonce items by resource model method
+     *
+     * @return void
+     */
+    public function testDeleteOldEntries()
+    {
+        /** @var $nonce Mage_OAuth_Model_Nonce */
+        $nonce = Mage::getModel('oauth/nonce');
+
+        // Nonce items count before delete action
+        $count = $nonce->getCollection()->count();
+
+        $nonce->getResource()->deleteOldEntries(self::NONCE_TIME_FOR_DELETE/60);
+        $this->assertEquals($count - self::OLD_NONCE_COUNT, $nonce->getCollection()->count());
+    }
+
+    /**
      * Test delete old nonce items by _afterSave() method
      *
+     * @depends testDeleteOldEntries
      * @return void
      */
     public function testAfterSave()
@@ -115,6 +133,7 @@ class Mage_OAuth_Model_NonceTest extends Magento_TestCase
     /**
      * Test delete old nonce items fail by _afterSave() method
      *
+     * @depends testDeleteOldEntries
      * @return void
      */
     public function testAfterSaveFail()
@@ -143,22 +162,5 @@ class Mage_OAuth_Model_NonceTest extends Magento_TestCase
 
         // Delete excess nonce items
         $nonce->getResource()->deleteOldEntries(self::NONCE_TIME_FOR_DELETE/60);
-    }
-
-    /**
-     * Test delete old nonce items by resource model method
-     *
-     * @return void
-     */
-    public function testDeleteOldEntries()
-    {
-        /** @var $nonce Mage_OAuth_Model_Nonce */
-        $nonce = Mage::getModel('oauth/nonce');
-
-        // Nonce items count before delete action
-        $count = $nonce->getCollection()->count();
-
-        $nonce->getResource()->deleteOldEntries(self::NONCE_TIME_FOR_DELETE/60);
-        $this->assertEquals($count - self::OLD_NONCE_COUNT, $nonce->getCollection()->count());
     }
 }
