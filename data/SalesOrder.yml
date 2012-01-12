@@ -21,7 +21,7 @@
 # @package     selenium
 # @subpackage  test-data
 # @author      Magento Core Team <core@magentocommerce.com>
-# @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+# @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
 # @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 #
 ---
@@ -547,7 +547,7 @@ saved_solo: &soloSavedCC
     card_verification_number: '111'
     issue_number:
     start_date_month: 12 - December
-    start_date_year: 2011
+    start_date_year: 2012
 
 saved_enroute: &enrouteSavedCC
     name_on_card: 'Test Account'
@@ -627,7 +627,7 @@ else_solo: &soloElse
     card_verification_number: '111'
     issue_number: 1234
     start_date_month: 12 - December
-    start_date_year: 2011
+    start_date_year: 2012
 
 else_switch_maestro: &switchMaestroElse
     card_type: 'Switch/Maestro'
@@ -636,9 +636,9 @@ else_switch_maestro: &switchMaestroElse
     expiration_month: '07 - July'
     expiration_year: '2020'
     card_verification_number: '111'
-    issue_number: 2011
+    issue_number: 2012
     start_date_month: 12 - December
-    start_date_year: 2011
+    start_date_year: 2012
 
 #*********************************************
 #*              Payment Data                 *
@@ -817,7 +817,7 @@ config_option_custom_options:
         field_dropdown_3:
             fieldType: dropdown
             fieldParameter: year
-            fieldsValue: 2011
+            fieldsValue: 2012
     option_4:
         title: Custom Options Date & Time
         field_dropdown_1:
@@ -831,7 +831,7 @@ config_option_custom_options:
         field_dropdown_3:
             fieldType: dropdown
             fieldParameter: year
-            fieldsValue: 2011
+            fieldsValue: 2012
         field_dropdown_4:
             fieldType: dropdown
             fieldParameter: hour

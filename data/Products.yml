@@ -21,7 +21,7 @@
 # @package     selenium
 # @subpackage  test-data
 # @author      Magento Core Team <core@magentocommerce.com>
-# @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+# @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
 # @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 #
 ---
@@ -1676,14 +1676,14 @@ custom_options_to_add_to_shopping_cart:
         options_to_choose:
             custom_option_day: 15
             custom_option_month: 10
-            custom_option_year: 2011
+            custom_option_year: 2012
     option_4:
         parameters:
             title: Custom Options Date & Time
         options_to_choose:
             custom_option_day: 15
             custom_option_month: 10
-            custom_option_year: 2011
+            custom_option_year: 2012
             custom_option_hour: 10
             custom_option_minute: 10
             custom_option_day_part: PM
