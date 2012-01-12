@@ -1,13 +1,49 @@
 <?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    Mage
+ * @package     Mage_Api2
+ * @copyright   Copyright (c) 2011 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
 
-
+/**
+ * Webservice api2 abstract
+ *
+ * @category   Mage
+ * @package    Mage_Api2
+ * @author     Magento Core Team <core@magentocommerce.com>
+ */
 class Mage_Api2_Model_Server
 {
+    /**#@+
+     * Api2 types
+     */
     const API_TYPE_REST = 'rest';
     const API_TYPE_SOAP = 'soap';
+    /**#@-*/
 
     /**
      * Run server, the only public method of the server
+     *
+     * @return void
      */
     public function run()
     {
@@ -17,18 +53,25 @@ class Mage_Api2_Model_Server
         $response = Mage::getSingleton('api2/response');
 
         try {
-            $this->authenticate($request);
-            $this->route($request);
-            $this->allow($request);
-            $this->dispatch($request, $response);
+            $this->_authenticate($request)
+                ->_route($request)
+                ->_allow($request)
+                ->_dispatch($request, $response);
         } catch (Exception $e) {
-            $this->catchCritical($request, $response, $e);
+            $this->_catchCritical($request, $response, $e);
         }
 
         $response->sendResponse();
     }
 
-    protected function authenticate(Mage_Api2_Model_Request $request)
+    /**
+     * Authenticate api2 user access key by OAuth module
+     *
+     * @param Mage_Api2_Model_Request $request
+     * @throws Mage_Api2_Exception
+     * @return Mage_Api2_Model_Server
+     */
+    protected function _authenticate(Mage_Api2_Model_Request $request)
     {
         $accessKey = $request->getAccessKey();
 
@@ -37,19 +80,29 @@ class Mage_Api2_Model_Server
         if (!$authManager->authenticate($accessKey)) {
             throw new Mage_Api2_Exception('Session expired or invalid.', 401);
         }
+
+        return $this;
     }
 
-    protected function route(Mage_Api2_Model_Request $request)
+    /**
+     * Set all routes of the given api type to Route object
+     * Find route that match current URL, set parameters of the route to Request object
+     *
+     * @param Mage_Api2_Model_Request $request
+     * @return Mage_Api2_Model_Server
+     */
+    protected function _route(Mage_Api2_Model_Request $request)
     {
         $apiType = $request->getApiType();
 
         /** @var $router Mage_Api2_Model_Router */
         $router = Mage::getModel('api2/router');
-        $router->setRoutes($this->getConfig()->getRoutes($apiType));
-        $router->route($request);
+        $router->setRoutes($this->_getConfig()->getRoutes($apiType))->route($request);
+
+        return $this;
     }
 
-    protected function allow(Mage_Api2_Model_Request $request)
+    protected function _allow(Mage_Api2_Model_Request $request)
     {
         $accessKey = $request->getAccessKey();
         $resourceType = $request->getResourceType();
@@ -62,35 +115,52 @@ class Mage_Api2_Model_Server
         if (!$isAllowed) {
             throw new Mage_Api2_Exception('Authorization error.', 403);
         }
+
+        return $this;
     }
 
-    protected function dispatch(Mage_Api2_Model_Request $request, Zend_Controller_Response_Http $response)
+    /**
+     * Load class file, instantiate resource class, set parameters to the instance, run resource internal dispatch
+     * method
+     *
+     * @param Mage_Api2_Model_Request $request
+     * @param Mage_Api2_Model_Response $response
+     * @return Zend_Controller_Response_Http
+     */
+    protected function _dispatch(Mage_Api2_Model_Request $request, Mage_Api2_Model_Response $response)
     {
         /** @var $dispatcher Mage_Api2_Model_Dispatcher */
         $dispatcher = Mage::getModel('api2/dispatcher');
         $dispatcher->dispatch($request, $response);
-
-        /*if ($response->getBody()=='') {
-            $response->setBody('Empty body');
-        }*/
         
         return $response;
     }
 
-    protected function getConfig()
+    /**
+     * Get api2 config instance
+     *
+     * @return Mage_Api2_Model_Config
+     */
+    protected function _getConfig()
     {
-        /** @var $config Mage_Api2_Model_Config */
-        $config = Mage::getModel('api2/config');
-
-        return $config;
+        return Mage::getModel('api2/config');
     }
 
-    protected function catchCritical(Mage_Api2_Model_Request $request, Zend_Controller_Response_Http $response, Exception $critical)
+    /**
+     * Process thrown exception
+     * Generate and set HTTP response code, error message to Response object
+     *
+     * @param Mage_Api2_Model_Request $request
+     * @param Zend_Controller_Response_Http $response
+     * @param Exception $critical
+     * @return Mage_Api2_Model_Server
+     */
+    protected function _catchCritical(Mage_Api2_Model_Request $request, Zend_Controller_Response_Http $response,
+        Exception $critical)
     {
-        //if developer mode is set $critical can be without a Code, it will result in a Zend_Controller_Response_Exception('Invalid HTTP response code')
-        $code = ($critical instanceof Mage_Api2_Exception)  ?$critical->getCode()   :500;
-        /*$code = $critical->getCode();
-        $code = ($code>100 && $code<599)  ?$code   :500;*/
+        //if developer mode is set $critical can be without a Code, it will result in a
+        //Zend_Controller_Response_Exception('Invalid HTTP response code')
+        $code = ($critical instanceof Mage_Api2_Exception) ? $critical->getCode() : 500;
 
         try {
             //add last error to stack and get the stack
@@ -112,6 +182,7 @@ class Mage_Api2_Model_Server
             $response->setHeader('Content-Type', 'text/plain; charset=UTF-8');
             $response->setBody($e->getMessage());
         }
-    }
 
+        return $this;
+    }
 }

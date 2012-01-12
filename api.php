@@ -22,8 +22,10 @@ Mage::init('admin');
 
 $isNewApi = true;
 if ($isNewApi) {
+    /** @var $server Mage_Api2_Model_Server */
     $server = Mage::getModel('api2/server');    //new Mage_Api2_Model_Server;
 } else {
+    /** @var $server Mage_Api2_Model_OldServer */
     $server = Mage::getModel('api2/old_server');    //new Mage_Api2_Model_OldServer;
 }
 
