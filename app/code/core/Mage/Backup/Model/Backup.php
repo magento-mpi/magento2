@@ -374,4 +374,29 @@ class Mage_Backup_Model_Backup extends Varien_Object
         $userPasswordHash = Mage::getModel('admin/session')->getUser()->getPassword();
         return Mage::helper('core')->validateHash($password, $userPasswordHash);
     }
+
+    /**
+     * Load backup by it's type and creation timestamp
+     *
+     * @param int $timestamp
+     * @param string $type
+     * @return Mage_Backup_Model_Backup
+     */
+    public function loadByTimeAndType($timestamp, $type)
+    {
+        $backupsCollection = Mage::getSingleton('backup/fs_collection');
+        $backupId = $timestamp . '_' . $type;
+
+        foreach ($backupsCollection as $backup) {
+            if ($backup->getId() == $backupId) {
+                $this->setType($backup->getType())
+                    ->setTime($backup->getTime())
+                    ->setName($backup->getName())
+                    ->setPath($backup->getPath());
+                break;
+            }
+        }
+
+        return $this;
+    }
 }
