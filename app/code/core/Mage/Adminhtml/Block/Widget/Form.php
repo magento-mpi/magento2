@@ -137,7 +137,7 @@ class Mage_Adminhtml_Block_Widget_Form extends Mage_Adminhtml_Block_Widget
      * @param array $exclude attributes that should be skipped
      * @param string $moduleName
      */
-    protected function _setFieldset($attributes, $fieldset, $exclude=array(), $moduleName = 'eav')
+    protected function _setFieldset($attributes, $fieldset, $exclude=array(), $moduleName = 'Mage_Eav')
     {
         $this->_addElementTypes($fieldset);
         foreach ($attributes as $attribute) {
