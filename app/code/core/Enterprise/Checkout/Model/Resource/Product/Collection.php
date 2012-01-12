@@ -39,6 +39,6 @@ class Enterprise_Checkout_Model_Resource_Product_Collection extends Mage_Catalog
      */
     protected function _productLimitationJoinPrice()
     {
-        return $this->_liteProductLimitationJoinPrice(true);
+        return $this->_productLimitationPrice(true);
     }
 }

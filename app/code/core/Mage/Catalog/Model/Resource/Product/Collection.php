@@ -1538,7 +1538,7 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
      */
     protected function _productLimitationJoinPrice()
     {
-        return $this->_liteProductLimitationJoinPrice();
+        return $this->_productLimitationPrice();
     }
 
     /**
@@ -1547,7 +1547,7 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
      * @see Mage_Catalog_Model_Resource_Product_Collection::_productLimitationJoinPrice()
      * @return Mage_Catalog_Model_Resource_Product_Collection
      */
-    protected function _liteProductLimitationJoinPrice($joinLeft = false)
+    protected function _productLimitationPrice($joinLeft = false)
     {
         $filters = $this->_productLimitationFilters;
         if (empty($filters['use_price_index'])) {
@@ -1574,7 +1574,7 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
             if ($joinLeft) {
                 $select->joinLeft($tableName, $joinCond, $colls);
             } else {
-                $select->joinLeft($tableName, $joinCond, $colls);
+                $select->join($tableName, $joinCond, $colls);
             }
             // Set additional field filters
             foreach ($this->_priceDataFieldFilters as $filterData) {
