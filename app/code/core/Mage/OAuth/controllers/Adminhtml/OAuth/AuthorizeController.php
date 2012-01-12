@@ -150,8 +150,11 @@ class Mage_OAuth_Adminhtml_OAuth_AuthorizeController extends Mage_Adminhtml_Cont
             /** @var $user Mage_Admin_Model_User */
             $user = $session->getData('user');
             $token = $server->authorizeToken($user->getId(), Mage_OAuth_Model_Token::USER_TYPE_ADMIN);
-            $callback = $server->getFullCallbackUrl($token);  //false in case of OOB
-            if ($callback) {
+
+            /** @var $helper Mage_OAuth_Helper_Data */
+            $helper = Mage::helper('oauth');
+
+            if (($callback = $helper->getFullCallbackUrl($token))) { //false in case of OOB
                 $this->getResponse()->setRedirect($callback);
                 return;
             } else {
@@ -186,9 +189,10 @@ class Mage_OAuth_Adminhtml_OAuth_AuthorizeController extends Mage_Adminhtml_Cont
 
         try {
             $token = $server->checkAuthorizeRequest();
+            /** @var $helper Mage_OAuth_Helper_Data */
+            $helper = Mage::helper('oauth');
 
-            $callback = $server->getFullCallbackUrl($token, true);
-            if ($callback) {
+            if (($callback = $helper->getFullCallbackUrl($token, true))) {
                 $this->_redirectUrl($callback);
                 return;
             } else {

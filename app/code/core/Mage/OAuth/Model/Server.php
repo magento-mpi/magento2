@@ -619,47 +619,6 @@ class Mage_OAuth_Model_Server
     }
 
     /**
-     * Return complete callback URL or boolean FALSE if no callback provided
-     *
-     * @param Mage_OAuth_Model_Token $token Token object
-     * @param bool $rejected                Add denied flag
-     * @param bool $popUp                   Add pop up showing flag
-     * @return bool|string
-     */
-    public function getFullCallbackUrl(Mage_OAuth_Model_Token $token, $rejected = false, $popUp = false)
-    {
-        //check authorized when URL has no rejected flag
-        if (!$token->getAuthorized() && !$rejected) {
-            Mage::throwException('Token is not authorized');
-        }
-
-        if ($rejected) {
-            /** @var $consumer Mage_OAuth_Model_Consumer */
-            $consumer = Mage::getModel('oauth/consumer')->load($token->getConsumerId());
-            $callbackUrl = $consumer->getRejectedCallbackUrl();
-            if (!$callbackUrl) {
-                $callbackUrl = $token->getCallbackUrl();
-            }
-        } else {
-            $callbackUrl = $token->getCallbackUrl();
-        }
-
-        if (!$callbackUrl || self::CALLBACK_ESTABLISHED == $callbackUrl) {
-            return false;
-        }
-
-        $callbackUrl .= (false === strpos($callbackUrl, '?') ? '?' : '&');
-        $callbackUrl .= 'oauth_token=' . $token->getToken();
-        $callbackUrl .= $rejected ? '&denied=1' : '&oauth_verifier=' . $token->getVerifier();
-
-        if ($popUp) {
-            $callbackUrl .= '&pop_up=1';
-        }
-
-        return $callbackUrl;
-    }
-
-    /**
      * Retrieve array of supported signature methods
      *
      * @return array

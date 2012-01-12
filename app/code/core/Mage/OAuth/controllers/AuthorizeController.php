@@ -104,13 +104,13 @@ class Mage_OAuth_AuthorizeController extends Mage_Core_Controller_Front_Action
             $session = Mage::getSingleton($this->_sessionName);
             /** @var $server Mage_OAuth_Model_Server */
             $server = Mage::getModel('oauth/server');
-
             /** @var $token Mage_OAuth_Model_Token */
             $token = $server->authorizeToken($session->getCustomerId(), Mage_OAuth_Model_Token::USER_TYPE_CUSTOMER);
-            //false in case of OOB
-            $callback = $server->getFullCallbackUrl($token, false, $this->getRequest()->getParam('popUp'));
-            if ($callback) {
-                $this->_redirectUrl($callback);
+            /** @var $helper Mage_OAuth_Helper_Data */
+            $helper = Mage::helper('oauth');
+
+            if (($callback = $helper->getFullCallbackUrl($token))) { //false in case of OOB
+                $this->_redirectUrl($callback . ($this->getRequest()->getParam('popUp') ? '&pop_up=1' : ''));
                 return;
             } else {
                 /** @var $block Mage_Core_Block_Template */
@@ -145,9 +145,10 @@ class Mage_OAuth_AuthorizeController extends Mage_Core_Controller_Front_Action
             $server = Mage::getModel('oauth/server');
             /** @var $token Mage_OAuth_Model_Token */
             $token = $server->checkAuthorizeRequest();
+            /** @var $helper Mage_OAuth_Helper_Data */
+            $helper = Mage::helper('oauth');
 
-            $callback = $server->getFullCallbackUrl($token, true);
-            if ($callback) {
+            if (($callback = $helper->getFullCallbackUrl($token, true))) {
                 $this->_redirectUrl($callback);
                 return;
             } else {

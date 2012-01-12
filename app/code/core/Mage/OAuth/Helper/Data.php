@@ -57,6 +57,11 @@ class Mage_OAuth_Helper_Data extends Mage_Core_Helper_Abstract
     const CLEANUP_EXPIRATION_PERIOD_DEFAULT = 120;
 
     /**
+     * Query parameter as a sign that user rejects
+     */
+    const QUERY_PARAM_REJECTED = 'rejected';
+
+    /**
      * Available endpoints list
      *
      * @var array
@@ -134,6 +139,37 @@ class Mage_OAuth_Helper_Data extends Mage_Core_Helper_Abstract
     public function generateConsumerSecret()
     {
         return $this->_generateRandomString(Mage_OAuth_Model_Consumer::SECRET_LENGTH);
+    }
+
+    /**
+     * Return complete callback URL or boolean FALSE if no callback provided
+     *
+     * @param Mage_OAuth_Model_Token $token Token object
+     * @param bool $rejected OPTIONAL Add user reject sign
+     * @return bool|string
+     */
+    public function getFullCallbackUrl(Mage_OAuth_Model_Token $token, $rejected = false)
+    {
+        $callbackUrl = $token->getCallbackUrl();
+
+        if (Mage_OAuth_Model_Server::CALLBACK_ESTABLISHED == $callbackUrl) {
+            return false;
+        }
+        if ($rejected) {
+            /** @var $consumer Mage_OAuth_Model_Consumer */
+            $consumer = Mage::getModel('oauth/consumer')->load($token->getConsumerId());
+
+            if ($consumer->getId() && $consumer->getRejectedCallbackUrl()) {
+                $callbackUrl = $consumer->getRejectedCallbackUrl();
+            }
+        } elseif (!$token->getAuthorized()) {
+            Mage::throwException('Token is not authorized');
+        }
+        $callbackUrl .= (false === strpos($callbackUrl, '?') ? '?' : '&');
+        $callbackUrl .= 'oauth_token=' . $token->getToken() . '&';
+        $callbackUrl .= $rejected ? self::QUERY_PARAM_REJECTED . '=1' : 'oauth_verifier=' . $token->getVerifier();
+
+        return $callbackUrl;
     }
 
     /**

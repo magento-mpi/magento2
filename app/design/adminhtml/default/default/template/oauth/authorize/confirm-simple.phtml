@@ -83,8 +83,8 @@
                 </div>
                 <?php if ($this->getVerifier()): ?>
                     <h2><?php echo $this->__('Authorization confirmed.') ?></h2>
-                    <p><?php echo $this->__('Lorem ipsum dolor sit amet, propriae lobortis has in, dico omnium doctus sit id, vim mucius oblique at. Paulo legimus mei ei. Pro quot vivendo ea, ex sit mollis oblique. Mei ad natum mentitum suavitate, no populo maiorum reprimique nam. Eu ius saperet meliore.') ?></p>
-                    <h2><?php echo $this->getVerifier() ?></h2>
+                    <p><?php echo $this->__('Give the verifier code to application administartor') ?></p>
+                    <h2><?php echo $this->__('Verifier code') . ': ' . $this->getVerifier() ?></h2>
                 <?php endif; ?>
             </div>
         </div>
