@@ -77,9 +77,15 @@ class Enterprise_Checkout_CartController extends Mage_Core_Controller_Front_Acti
             $cart->saveAffectedProducts();
             $this->_getSession()->addMessages($cart->getMessages());
             $cart->removeSuccessItems();
+
+            if ($cart->hasErrorMessage()) {
+                $this->_getSession()->addError(
+                    $cart->getErrorMessage()
+                );
+            }
         } catch (Enterprise_Checkout_Exception $e) {
             $this->_getSession()->addError(
-                $this->__('Something went wrong.')
+                $e->getMessage()
             );
         }
         $this->_redirect('checkout/cart');
