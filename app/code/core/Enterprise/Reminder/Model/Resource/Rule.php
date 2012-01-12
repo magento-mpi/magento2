@@ -346,7 +346,7 @@ class Enterprise_Reminder_Model_Resource_Rule extends Mage_Rule_Model_Resource_A
             'log_sent_at_min' => 'MIN(l.sent_at)'
         ));
 
-        /** @var $_helper Enterprise_Reminder_Helper_Data */
+        /** @var $_helper Mage_Core_Model_Resource_Helper_Abstract */
         $_helper = Mage::getResourceHelper('enterprise_reminder');
         $findInSetSql = $adapter->prepareSqlCondition(
             'schedule',
@@ -528,7 +528,7 @@ class Enterprise_Reminder_Model_Resource_Rule extends Mage_Rule_Model_Resource_A
     /**
      * Save customer data by matched customer coupons
      *
-      * @deprecated since 1.12.0.0
+      * @deprecated after 1.11.2.0
       *
      * @param array $data
      */
@@ -543,7 +543,7 @@ class Enterprise_Reminder_Model_Resource_Rule extends Mage_Rule_Model_Resource_A
     /**
      * Save all website ids associated to rule
      *
-     * @deprecated since 1.12.0.0 use $this->bindRuleToEntity() instead
+     * @deprecated after 1.11.2.0 use $this->bindRuleToEntity() instead
      *
      * @param Enterprise_Reminder_Model_Rule $rule
      * @return Enterprise_Reminder_Model_Resource_Rule
@@ -564,7 +564,7 @@ class Enterprise_Reminder_Model_Resource_Rule extends Mage_Rule_Model_Resource_A
     /**
      * Get empty select object
      *
-     * @deprecated since 1.12.0.0
+     * @deprecated after 1.11.2.0
      *
      * @return Varien_Db_Select
      */

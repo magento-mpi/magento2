@@ -142,7 +142,7 @@ class Mage_SalesRule_Model_Rule extends Mage_Rule_Model_Abstract
     /**
      * Contain sores labels
      *
-     * @deprecated since 1.7.0.0
+     * @deprecated after 1.6.2.0
      *
      * @var array
      */
@@ -518,7 +518,7 @@ class Mage_SalesRule_Model_Rule extends Mage_Rule_Model_Abstract
     /**
      * Collect all product attributes used in serialized rule's action or condition
      *
-     * @deprecated since 1.7.0.0 use Mage_SalesRule_Model_Resource_Rule::getProductAttributes() instead
+     * @deprecated after 1.6.2.0 use Mage_SalesRule_Model_Resource_Rule::getProductAttributes() instead
      *
      * @param string $serializedString
      *
@@ -530,7 +530,7 @@ class Mage_SalesRule_Model_Rule extends Mage_Rule_Model_Abstract
     }
 
     /**
-     * @deprecated since 1.7.0.0
+     * @deprecated after 1.6.2.0
      *
      * @param string $format
      *
@@ -544,7 +544,7 @@ class Mage_SalesRule_Model_Rule extends Mage_Rule_Model_Abstract
     /**
      * Returns rule as an array for admin interface
      *
-     * @deprecated since 1.7.0.0
+     * @deprecated after 1.6.2.0
      *
      * @param array $arrAttributes
      *

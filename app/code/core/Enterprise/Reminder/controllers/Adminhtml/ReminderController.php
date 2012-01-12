@@ -177,7 +177,7 @@ class Enterprise_Reminder_Adminhtml_ReminderController extends Mage_Adminhtml_Co
                     }
                     $this->_getSession()->setFormData($data);
 
-                    $this->_redirect('*/*/edit', array('id'=>$model->getId()));
+                    $this->_redirect('*/*/edit', array('id' => $model->getId()));
                     return;
                 }
 

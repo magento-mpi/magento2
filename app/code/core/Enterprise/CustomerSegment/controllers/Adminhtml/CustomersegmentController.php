@@ -132,7 +132,6 @@ class Enterprise_CustomerSegment_Adminhtml_CustomersegmentController extends Mag
             $this->_redirect('*/*/');
             return;
         } catch (Exception $e) {
-            Mage::logException($e);
             $this->_getSession()->addException($e,
                 Mage::helper('enterprise_customersegment')->__('Segment Customers matching error.')
             );
@@ -211,7 +210,7 @@ class Enterprise_CustomerSegment_Adminhtml_CustomersegmentController extends Mag
                     }
                     $this->_getSession()->setFormData($data);
 
-                    $this->_redirect('*/*/edit', array('id'=>$model->getId()));
+                    $this->_redirect('*/*/edit', array('id' => $model->getId()));
                     return;
                 }
 

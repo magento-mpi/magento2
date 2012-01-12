@@ -72,7 +72,9 @@ class Enterprise_TargetRule_Model_Rule extends Mage_Rule_Model_Abstract
     const UP_SELLS                      = 2;
     const CROSS_SELLS                   = 3;
 
-    // Shuffle mode by default
+    /**
+     * Shuffle mode by default
+     */
     const ROTATION_SHUFFLE              = 0;
     const ROTATION_NONE                 = 1;
 
@@ -82,7 +84,9 @@ class Enterprise_TargetRule_Model_Rule extends Mage_Rule_Model_Abstract
     const POSITIONS_DEFAULT_LIMIT       = 20;
 
     /**
-     * @deprecated after 1.6.1.0
+     * Path to default values
+     *
+     * @deprecated after 1.11.2.0
      */
     const XML_PATH_DEFAULT_VALUES       = 'catalog/enterprise_targetrule/';
 
@@ -293,7 +297,7 @@ class Enterprise_TargetRule_Model_Rule extends Mage_Rule_Model_Abstract
     /**
      * Retrieve Action select bind array
      *
-     * @return bool|int|float|string|array|object
+     * @return mixed
      */
     public function getActionSelectBind()
     {
@@ -358,7 +362,7 @@ class Enterprise_TargetRule_Model_Rule extends Mage_Rule_Model_Abstract
     /**
      * Retrieve Customer Segment Relations
      *
-     * @deprecated since 1.12.0.0
+     * @deprecated after 1.11.2.0
      *
      * @return array
      */
@@ -370,7 +374,7 @@ class Enterprise_TargetRule_Model_Rule extends Mage_Rule_Model_Abstract
     /**
      * Set customer segment relations
      *
-     * @deprecated since 1.12.0.0
+     * @deprecated after 1.11.2.0
      *
      * @param array|string $relations
      *

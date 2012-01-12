@@ -79,7 +79,7 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Grid
 
         $this->addColumn('name', array(
             'header'    => Mage::helper('enterprise_customersegment')->__('Segment Name'),
-            'align'     =>'left',
+            'align'     => 'left',
             'index'     => 'name',
         ));
 
@@ -98,7 +98,7 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Grid
         if (!Mage::app()->isSingleStoreMode()) {
             $this->addColumn('website', array(
                 'header'    => Mage::helper('enterprise_customersegment')->__('Website'),
-                'align'     =>'left',
+                'align'     => 'left',
                 'width'     => 200,
                 'index'     => 'website_ids',
                 'type'      => 'options',
