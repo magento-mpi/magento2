@@ -144,20 +144,11 @@
     <!-- Add by SKU create new order layout updates -->
 
     <!-- shortcut handles -->
-    <sku_add_button>
-        <reference name="items">
-            <action method="addButton">
-                <args translate="label">
-                    <label>Add Products by SKU</label>
-                    <class>add</class>
-                    <onclick>order.additionalAreaShow(this)</onclick>
-                </args>
-            </action>
-        </reference>
-    </sku_add_button>
 
     <sku_layout_update>
-        <update handle="sku_add_button"/>
+        <reference name="head">
+            <action method="addJs"><file>mage/adminhtml/product/composite/configure.js</file></action>
+        </reference>
         <reference name="data">
             <block type="enterprise_checkout/adminhtml_sales_order_create_sku" name="additional_area" template="sales/order/create/abstract.phtml">
                 <block type="enterprise_checkout/adminhtml_sales_order_create_sku_add"/>
@@ -188,10 +179,6 @@
             </block>
         </reference>
     </adminhtml_sales_order_create_load_block_additional_area>
-
-    <adminhtml_sales_order_create_load_block_items>
-        <update handle="sku_add_button"/>
-    </adminhtml_sales_order_create_load_block_items>
 
     <adminhtml_sales_order_create_load_block_errors>
         <reference name="content">
