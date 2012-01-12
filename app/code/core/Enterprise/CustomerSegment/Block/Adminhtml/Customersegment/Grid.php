@@ -74,14 +74,14 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Grid extends Ma
         // this column is mandatory for the chooser mode. It needs to be first
         $this->addColumn('grid_segment_id', array(
             'header'    => Mage::helper('enterprise_customersegment')->__('ID'),
-            'align'     =>'right',
+            'align'     => 'right',
             'width'     => 50,
             'index'     => 'segment_id',
         ));
 
         $this->addColumn('grid_segment_name', array(
             'header'    => Mage::helper('enterprise_customersegment')->__('Segment Name'),
-            'align'     =>'left',
+            'align'     => 'left',
             'index'     => 'name',
         ));
 
@@ -100,7 +100,7 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Grid extends Ma
         if (!Mage::app()->isSingleStoreMode()) {
             $this->addColumn('grid_segment_website', array(
                 'header'    => Mage::helper('enterprise_customersegment')->__('Website'),
-                'align'     =>'left',
+                'align'     => 'left',
                 'index'     => 'website_ids',
                 'type'      => 'options',
                 'sortable'  => false,

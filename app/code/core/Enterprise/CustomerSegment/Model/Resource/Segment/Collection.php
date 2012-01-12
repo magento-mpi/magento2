@@ -63,7 +63,7 @@ class Enterprise_CustomerSegment_Model_Resource_Segment_Collection
     /**
      * Store flag which determines if customer count data was added
      *
-     * @deprecated use $this->getFlag('is_customer_count_added') instead
+     * @deprecated after 1.11.2.0 - use $this->getFlag('is_customer_count_added') instead
      *
      * @var bool
      */
@@ -86,15 +86,16 @@ class Enterprise_CustomerSegment_Model_Resource_Segment_Collection
     public function addEventFilter($eventName)
     {
         $entityInfo = $this->_getAssociatedEntityInfo('event');
+        $entityIdField = $entityInfo['entity_id_field'];
         if (!$this->getFlag('is_event_table_joined')) {
             $this->setFlag('is_event_table_joined', true);
             $this->getSelect()->joinInner(
-                array('evt'=>$this->getTable($entityInfo['associations_table'])),
-                'main_table.' . $entityInfo['rule_id_field'] . ' = evt.' . $entityInfo['rule_id_field'],
+                array('evt' => $this->getTable($entityInfo['associations_table'])),
+                'main_table.' . $entityIdField . ' = evt.' . $entityIdField,
                 array()
             );
         }
-        $this->getSelect()->where('evt.' . $entityInfo['entity_id_field'] . ' = ?', $eventName);
+        $this->getSelect()->where('evt.' . $entityIdField . ' = ?', $eventName);
         return $this;
     }
 
@@ -106,9 +107,9 @@ class Enterprise_CustomerSegment_Model_Resource_Segment_Collection
      *
      * @return Enterprise_CustomerSegment_Model_Resource_Segment_Collection
      */
-    public function addFieldToFilter($field, $condition=null)
+    public function addFieldToFilter($field, $condition = null)
     {
-        if($field == 'customer_count') {
+        if ($field == 'customer_count') {
             return $this->addCustomerCountFilter($condition);
         } else if ($field == $this->getResource()->getIdFieldName()) {
             $field = 'main_table.' . $field;
