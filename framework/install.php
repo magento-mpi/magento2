@@ -35,7 +35,6 @@ SYNOPSIS
 $options = getopt('', array('magento-dir:', 'config-file:', 'uninstall'));
 if (empty($options['magento-dir']) || (empty($options['config-file']) && !isset($options['uninstall']))) {
     echo SYNOPSIS;
-    var_dump($options);
     exit(1);
 }
 
