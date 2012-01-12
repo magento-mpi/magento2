@@ -1171,7 +1171,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     public function savePage($class)
     {
         $file = null;
-        $file = fopen('tmp' . DIRECTORY_SEPARATOR . 'screenshot' . DIRECTORY_SEPARATOR . $class
+        $file = fopen(SELENIUM_TESTS_SCREENSHOTDIR . DIRECTORY_SEPARATOR . $class
                           . '_' . $this->name . '_' . date('d-m-Y-H-i-s') . '.html', 'a+');
         fputs($file, $this->_testConfig->driver->getHtmlSource());
         fflush($file);
