@@ -54,7 +54,6 @@ class Mage_OAuth_Adminhtml_OAuth_Admin_TokenControllerTest extends Magento_Test_
         $models = $this->_getFixtureModels();
 
         $redirectUrl  = 'admin/oAuth_admin_token/index';
-        $dispatchPath = 'admin/oAuth_admin_token/revoke';
 
         $models = array_merge($models['token']['customer'], $models['token']['admin']);
         $tokenIds = array();
@@ -72,7 +71,7 @@ class Mage_OAuth_Adminhtml_OAuth_Admin_TokenControllerTest extends Magento_Test_
         foreach (array(0, 1) as $revoked) {
             $this->getRequest()->setParam('status', $revoked);
             Mage::unregister('application_params');
-            $this->dispatch($dispatchPath);
+            $this->dispatch(Mage::getModel('adminhtml/url')->getUrl('adminhtml/oAuth_admin_token/revoke'));
             $this->assertRedirectMatch($redirectUrl);
 
             /** @var $item Mage_OAuth_Model_Token */
@@ -95,7 +94,6 @@ class Mage_OAuth_Adminhtml_OAuth_Admin_TokenControllerTest extends Magento_Test_
         $models = $this->_getFixtureModels();
 
         $redirectUrl  = 'admin/oAuth_admin_token/index';
-        $dispatchPath = 'admin/oAuth_admin_token/delete';
 
         $models = array_merge($models['token']['customer'], $models['token']['admin']);
         $tokenIds = array();
@@ -110,7 +108,7 @@ class Mage_OAuth_Adminhtml_OAuth_Admin_TokenControllerTest extends Magento_Test_
         $message                = 'Token is not deleted.';
         $messageMustNotUpdated  = 'Token is deleted but it must be not.';
         Mage::unregister('application_params');
-        $this->dispatch($dispatchPath);
+        $this->dispatch(Mage::getModel('adminhtml/url')->getUrl('adminhtml/oAuth_admin_token/delete'));
         $this->assertRedirectMatch($redirectUrl);
 
         /** @var $item Mage_OAuth_Model_Token */
