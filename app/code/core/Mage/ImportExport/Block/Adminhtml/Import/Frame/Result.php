@@ -150,7 +150,7 @@ class Mage_ImportExport_Block_Adminhtml_Import_Frame_Result extends Mage_Adminht
     {
         return '&nbsp;&nbsp;<button onclick="editForm.startImport(\'' . $this->getImportStartUrl()
             . '\', \'' . Mage_ImportExport_Model_Import::FIELD_NAME_SOURCE_FILE . '\');" class="scalable save"'
-            . ' type="button"><span>' . $this->__('Import') . '</span></button>';
+            . ' type="button"><span><span><span>' . $this->__('Import') . '</span></span></span></button>';
     }
 
     /**
