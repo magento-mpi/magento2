@@ -374,8 +374,8 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
                     $date = Mage::getModel('Mage_Core_Model_Date')->gmtDate(null, $schedulingDate);
                     $staging->setMergeSchedulingDate($date);
 
-                    $originDate = Mage::helper('core')->formatDate($date, Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM,
-                        true);
+                    $originDate = Mage::helper('Mage_Core_Helper_Data')->formatDate($date,
+                        Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM, true);
                     $staging->setMergeSchedulingOriginDate($originDate);
 
                     $staging->setMergeSchedulingMap(
