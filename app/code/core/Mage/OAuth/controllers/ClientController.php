@@ -81,7 +81,7 @@ class Mage_OAuth_ClientController extends Mage_Core_Controller_Front_Action
      */
     public function callbackAction()
     {
-        if ($this->getRequest()->getParam('rejected', false)) {
+        if ($this->getRequest()->getParam('rejected', false) || $this->getRequest()->getParam('denied', false)) {
             die('Token rejected by user.');
         }
         $this->_initConsumer();
