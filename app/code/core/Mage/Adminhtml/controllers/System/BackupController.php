@@ -154,30 +154,13 @@ class Mage_Adminhtml_System_BackupController extends Mage_Adminhtml_Controller_A
      */
     public function downloadAction()
     {
-        $backupsCollection = Mage::getSingleton('backup/fs_collection');
-        $backupId = $this->getRequest()->getParam('time') . '_' . $this->getRequest()->getParam('type');
-        $backupInfo = false;
-
-        foreach ($backupsCollection as $backup) {
-            if ($backup->getId() != $backupId) {
-                continue;
-            }
-
-            $backupInfo = $backup;
-        }
-
-        if (!$backupInfo) {
-            return $this->_redirect('*/*');
-        }
-
-        $backup = Mage::getModel('backup/backup')
-            ->setTime((int)$backupInfo->getTime())
-            ->setType($backupInfo->getType())
-            ->setPath(Mage::helper('backup')->getBackupsDir())
-            ->setName($backupInfo->getName(), false);
         /* @var $backup Mage_Backup_Model_Backup */
+        $backup = Mage::getModel('backup/backup')->loadByTimeAndType(
+            $this->getRequest()->getParam('time'),
+            $this->getRequest()->getParam('type')
+        );
 
-        if (!$backup->exists()) {
+        if (!$backup->getTime() || !$backup->exists()) {
             return $this->_redirect('*/*');
         }
 
@@ -210,29 +193,27 @@ class Mage_Adminhtml_System_BackupController extends Mage_Adminhtml_Controller_A
         $response = new Varien_Object();
 
         try {
-            $backupsCollection = Mage::getSingleton('backup/fs_collection');
-            $backupId = $this->getRequest()->getParam('time') . '_' . $this->getRequest()->getParam('type');
-            $backupInfo = false;
+            /* @var $backup Mage_Backup_Model_Backup */
+            $backup = Mage::getModel('backup/backup')->loadByTimeAndType(
+                $this->getRequest()->getParam('time'),
+                $this->getRequest()->getParam('type')
+            );
 
-            foreach ($backupsCollection as $backup) {
-                if ($backup->getId() != $backupId) {
-                    continue;
-                }
-
-                $backupInfo = $backup;
+            if (!$backup->getTime() || !$backup->exists()) {
+                return $this->_redirect('*/*');
             }
 
-            if (!$backupInfo) {
+            if (!$backup->getTime()) {
                 throw new Mage_Backup_Exception_CantLoadSnapshot();
             }
 
-            $type = $backupInfo->getType();
+            $type = $backup->getType();
 
             $backupManager = Mage_Backup::getBackupInstance($type)
                 ->setBackupExtension($helper->getExtensionByType($type))
-                ->setTime($backupInfo->getTime())
+                ->setTime($backup->getTime())
                 ->setBackupsDir($helper->getBackupsDir())
-                ->setName($backupInfo->getName(), false)
+                ->setName($backup->getName(), false)
                 ->setResourceModel(Mage::getResourceModel('backup/db'));
 
             Mage::register('backup_manager', $backupManager);
@@ -331,19 +312,14 @@ class Mage_Adminhtml_System_BackupController extends Mage_Adminhtml_Controller_A
         Mage::register('backup_manager', $resultData);
 
         $deleteFailMessage = Mage::helper('backup')->__('Failed to delete one or several backups.');
-        $backupsCollection = Mage::getSingleton('backup/fs_collection');
 
         try {
             $allBackupsDeleted = true;
 
-            foreach ($backupsCollection as $backupInfo) {
-                if (!in_array($backupInfo->getId(), $backupIds)) {
-                    continue;
-                }
-                $backupModel->setTime((int)$backupInfo->getTime())
-                    ->setType($backupInfo->getType())
-                    ->setName($backupInfo->getName())
-                    ->setPath(Mage::helper('backup')->getBackupsDir())
+            foreach ($backupIds as $id) {
+                list($time, $type) = explode('_', $id);
+                $backupModel
+                    ->loadByTimeAndType($time, $type)
                     ->deleteFile();
 
                 if ($backupModel->exists()) {
