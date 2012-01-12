@@ -36,10 +36,12 @@ class Mage_OAuth_Helper_Data extends Mage_Core_Helper_Abstract
     /**#@+
      * Endpoint types with appropriate routes
      */
-    const ENDPOINT_AUTHORIZE_CUSTOMER = 'oauth/authorize';
-    const ENDPOINT_AUTHORIZE_ADMIN    = 'adminhtml/oAuth_authorize';
-    const ENDPOINT_INITIATE           = 'oauth/initiate';
-    const ENDPOINT_TOKEN              = 'oauth/token';
+    const ENDPOINT_AUTHORIZE_CUSTOMER        = 'oauth/authorize';
+    const ENDPOINT_AUTHORIZE_ADMIN           = 'adminhtml/oAuth_authorize';
+    const ENDPOINT_AUTHORIZE_CUSTOMER_SIMPLE = 'oauth/authorize/simple';
+    const ENDPOINT_AUTHORIZE_ADMIN_SIMPLE    = 'adminhtml/oAuth_authorize/simple';
+    const ENDPOINT_INITIATE                  = 'oauth/initiate';
+    const ENDPOINT_TOKEN                     = 'oauth/token';
     /**#@-*/
 
     /**#@+
@@ -53,6 +55,20 @@ class Mage_OAuth_Helper_Data extends Mage_Core_Helper_Abstract
      * Cleanup expiration period in minutes
      */
     const CLEANUP_EXPIRATION_PERIOD_DEFAULT = 120;
+
+    /**
+     * Available endpoints list
+     *
+     * @var array
+     */
+    protected $_endpoints = array(
+        self::ENDPOINT_AUTHORIZE_CUSTOMER,
+        self::ENDPOINT_AUTHORIZE_ADMIN,
+        self::ENDPOINT_AUTHORIZE_CUSTOMER_SIMPLE,
+        self::ENDPOINT_AUTHORIZE_ADMIN_SIMPLE,
+        self::ENDPOINT_INITIATE,
+        self::ENDPOINT_TOKEN
+    );
 
     /**
      * Generate random string for token or secret or verifier
@@ -128,11 +144,7 @@ class Mage_OAuth_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getProtocolEndpointUrl($type)
     {
-        if (self::ENDPOINT_INITIATE != $type
-            && self::ENDPOINT_AUTHORIZE_CUSTOMER != $type
-            && self::ENDPOINT_AUTHORIZE_ADMIN != $type
-            && self::ENDPOINT_TOKEN != $type
-        ) {
+        if (!in_array($type, $this->_endpoints)) {
             Mage::throwException('Invalid endpoint type passed');
         }
         return rtrim(Mage::getUrl($type), '/');
