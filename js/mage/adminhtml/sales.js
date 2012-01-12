@@ -43,6 +43,34 @@ AdminOrder.prototype = {
         this.productConfigureAddFields = {};
         this.productPriceBase = {};
         this.collectElementsValue = true;
+        Event.observe(window, 'load',  (function(){
+            this.dataArea = new OrderFormArea('data', $(this.getAreaId('data')), this);
+            this.itemsArea = Object.extend(new OrderFormArea('items', $(this.getAreaId('items')), this), {
+                addControlButton: function(button){
+                    var controlButtonArea = $(this.node).select('.form-buttons')[0];
+                    if (typeof controlButtonArea != 'undefined') {
+                        var buttons = controlButtonArea.childElements();
+                        for (var i = 0; i < buttons.length; i++) {
+                            if (buttons[i].innerHTML.include(button.label)) {
+                                return ;
+                            }
+                        }
+                        button.insertIn(controlButtonArea, 'top');
+                    }
+                }
+            });
+            this.areasLoaded();
+        }).bind(this));
+    },
+
+    areasLoaded: function(){
+    },
+
+    itemsLoaded: function(){
+    },
+
+    dataLoaded: function(){
+        this.dataShow();
     },
 
     setLoadBaseUrl : function(url){
@@ -64,7 +92,7 @@ AdminOrder.prototype = {
     setCustomerAfter : function () {
         this.customerSelectorHide();
         if (this.storeId) {
-            $(this.getAreaId('data')).callback = 'dataShow';
+            $(this.getAreaId('data')).callback = 'dataLoaded';
             this.loadArea(['data'], true);
         }
         else {
@@ -375,13 +403,6 @@ AdminOrder.prototype = {
         this.productGridShowButton = buttonElement;
         Element.hide(buttonElement);
         this.showArea('search');
-    },
-
-    additionalAreaShow: function (buttonElement)
-    {
-        this.additionalAreaButton = buttonElement;
-        Element.hide(buttonElement);
-        this.showArea('additional_area');
     },
 
     productGridRowInit : function(grid, row){
@@ -1152,4 +1173,38 @@ AdminOrder.prototype = {
             this.accountGroupChange();
         }
     }
-}
+};
+
+var OrderFormArea = Class.create();
+OrderFormArea.prototype = {
+    _name: null,
+    _node: null,
+    _parent: null,
+    _callbackName: null,
+
+    initialize: function(name, node, parent){
+        this._name = name;
+        this._parent = parent;
+        this._callbackName = node.callback;
+        if (typeof this._callbackName == 'undefined') {
+            this._callbackName = name + 'Loaded';
+            node.callback = this._callbackName;
+        }
+        parent[this._callbackName] = parent[this._callbackName].wrap((function (proceed){
+            proceed();
+            this.onLoad();
+        }).bind(this));
+
+        this.setNode(node);
+    },
+
+    setNode: function(node){
+        if (!node.callback) {
+            node.callback = this._callbackName;
+        }
+        this.node = node;
+    },
+
+    onLoad: function(){
+    }
+};
