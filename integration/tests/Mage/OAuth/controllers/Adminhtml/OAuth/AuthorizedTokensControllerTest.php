@@ -51,28 +51,22 @@ class Mage_OAuth_Adminhtml_OAuth_AuthorizedTokensControllerTest extends Magento_
     public function testRevokeAction()
     {
         //generate test items
-        $models = $this->_getFixtureModels();
+        $models      = $this->_getFixtureModels();
+        $redirectUrl = 'admin/oAuth_authorizedTokens/index';
+        $models      = array_merge($models['token']['customer'], $models['token']['admin']);
+        $tokenIds    = array();
 
-        $redirectUrl  = 'admin/oAuth_authorizedTokens/index';
-        $dispatchPath = Mage::getModel('adminhtml/url')->getUrl('adminhtml/oAuth_authorizedTokens/revoke', array());
-
-        $models = array_merge($models['token']['customer'], $models['token']['admin']);
-        $tokenIds = array();
         /** @var $item Mage_OAuth_Model_Token */
         foreach ($models as $item) {
             $tokenIds[] = $item->getId();
         }
-
         $this->loginToAdmin();
         $this->getRequest()->setParam('items', $tokenIds);
-
-        $message                = 'Token is not updated.';
-        $messageMustNotUpdated  = 'Token is updated but it must be not.';
 
         foreach (array(0, 1) as $revoked) {
             $this->getRequest()->setParam('status', $revoked);
             Mage::unregister('application_params');
-            $this->dispatch($dispatchPath);
+            $this->dispatch(Mage::getModel('adminhtml/url')->getUrl('adminhtml/oAuth_authorizedTokens/revoke'));
             $this->assertRedirectMatch($redirectUrl);
 
             /** @var $item Mage_OAuth_Model_Token */
@@ -80,11 +74,14 @@ class Mage_OAuth_Adminhtml_OAuth_AuthorizedTokensControllerTest extends Magento_
                 $mustChange = $item->getType() == Mage_OAuth_Model_Token::TYPE_ACCESS;
                 $revokedTest = $mustChange ? $revoked : $item->getRevoked();
                 $item->load($item->getId());
-                $this->assertEquals($revokedTest, $item->getRevoked(), $mustChange ? $message : $messageMustNotUpdated);
+                $this->assertEquals(
+                    $revokedTest,
+                    $item->getRevoked(),
+                    $mustChange ? 'Token is not updated.' : 'Token is updated but it must be not.'
+                );
             }
         }
     }
-
 
     /**
      * Test delete action
@@ -93,25 +90,19 @@ class Mage_OAuth_Adminhtml_OAuth_AuthorizedTokensControllerTest extends Magento_
     public function testDeleteAction()
     {
         //generate test items
-        $models = $this->_getFixtureModels();
+        $models      = $this->_getFixtureModels();
+        $redirectUrl = 'admin/oAuth_authorizedTokens/index';
+        $models      = array_merge($models['token']['customer'], $models['token']['admin']);
+        $tokenIds    = array();
 
-        $redirectUrl  = 'admin/oAuth_authorizedTokens/index';
-        $dispatchPath = Mage::getModel('adminhtml/url')->getUrl('adminhtml/oAuth_authorizedTokens/delete', array());
-
-        $models = array_merge($models['token']['customer'], $models['token']['admin']);
-        $tokenIds = array();
         /** @var $item Mage_OAuth_Model_Token */
         foreach ($models as $item) {
             $tokenIds[] = $item->getId();
         }
-
         $this->loginToAdmin();
         $this->getRequest()->setParam('items', $tokenIds);
-
-        $message                = 'Token is not deleted.';
-        $messageMustNotUpdated  = 'Token is deleted but it must be not.';
         Mage::unregister('application_params');
-        $this->dispatch($dispatchPath);
+        $this->dispatch(Mage::getModel('adminhtml/url')->getUrl('adminhtml/oAuth_authorizedTokens/delete'));
         $this->assertRedirectMatch($redirectUrl);
 
         /** @var $item Mage_OAuth_Model_Token */
@@ -123,7 +114,7 @@ class Mage_OAuth_Adminhtml_OAuth_AuthorizedTokensControllerTest extends Magento_
             $this->assertEquals(
                 $item->getId(),
                 $mustChange ? null : $id,
-                $mustChange ? $message : $messageMustNotUpdated);
+                $mustChange ? 'Token is not deleted.' : 'Token is deleted but it must be not.');
         }
     }
 }
