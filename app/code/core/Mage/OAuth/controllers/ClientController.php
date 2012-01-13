@@ -131,14 +131,14 @@ class Mage_OAuth_ClientController extends Mage_Core_Controller_Front_Action
 
             $session->setInitToken($requestToken);
 
-            if ($this->_request->getParam('popUp')) {
+            if ($this->_request->getParam('simple')) {
                 $request = null;
                 if ($requestToken instanceof Zend_Oauth_Http_UserAuthorization) {
                     $request = $requestToken;
                     $token = null;
                 }
                 $redirectUrl = $this->_consumer->getRedirectUrl(null, $requestToken, $request);
-                $redirectUrl = str_replace('/authorize', '/authorize/popUp', $redirectUrl);
+                $redirectUrl = str_replace('/authorize', '/authorize/simple', $redirectUrl);
                 $this->_redirectUrl($redirectUrl);
                 return;
             } else {
@@ -204,7 +204,7 @@ class Mage_OAuth_ClientController extends Mage_Core_Controller_Front_Action
     /**
      * Test action for resource request with access token validation
      */
-    public function testPopUpAction()
+    public function testSimpleAction()
     {
         /** @var $tokenC Mage_OAuth_Model_Token */
         $tokenC = Mage::getModel('oauth/token')->load(1);
@@ -213,12 +213,12 @@ class Mage_OAuth_ClientController extends Mage_Core_Controller_Front_Action
 
         $baseUrl = Mage::app()->getStore()->getBaseUrl();
 
-        $urlCustomer = $baseUrl . 'oauth/authorize/popUp'
+        $urlCustomer = $baseUrl . 'oauth/authorize/simple'
                 . '?oauth_token=_token_'
-                . '&oauth_callback=' . $baseUrl . 'oauth/client/popUpBack';
-        $urlAdmin = $baseUrl . 'admin/oAuth_authorize/popUp'
+                . '&oauth_callback=' . $baseUrl . 'oauth/client/simpleBack';
+        $urlAdmin = $baseUrl . 'admin/oAuth_authorize/simple'
                 . '?oauth_token=_token_'
-                . '&oauth_callback=' . $baseUrl . 'oauth/client/popUpBack';
+                . '&oauth_callback=' . $baseUrl . 'oauth/client/simpleBack';
         ?>
         <html>
         <head>
@@ -255,7 +255,7 @@ class Mage_OAuth_ClientController extends Mage_Core_Controller_Front_Action
     /**
      * Test action for resource request with access token validation
      */
-    public function popUpBackAction()
+    public function simpleBackAction()
     {
         ?>
         <html>

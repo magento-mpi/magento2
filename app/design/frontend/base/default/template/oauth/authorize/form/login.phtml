@@ -23,37 +23,24 @@
  * @copyright   Copyright (c) 2011 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
-?>
-<?php
+
 /**
  * Customer login form template
  *
  * @var $this Mage_OAuth_Block_Authorize
- * @see Mage_OAuth_Block_Authorize
  */
+
+$rejectJs = "document.location.href='{$this->getRejectUrl()}';";
 ?>
-<?php if ($this->getIsSimple()) { ?>
-<style type="text/css">
-    .main {width:auto;}
-    .header {width:auto;}
-    .header .quick-access {width:auto;}
-    .wrapper {min-width:inherit;}
-    .header-container {background-image: none;}
-</style>
-<?php } ?>
 <div class="account-login">
-    <?php if ($this->isException()): ?>
-            <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
-    <?php else: ?>
-        <div class="page-title">
-            <h1><?php echo $this->__('Authorize %s to use your account?', $this->escapeHtml($this->getConsumer()->getName())) ?></h1>
-        </div>
-        <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+    <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+    <?php if (!$this->getHasException()): ?>
         <form action="<?php echo $this->getPostActionUrl() ?>" method="post" id="login-form">
             <div class="col1-set">
                 <div class="col-1 registered-users">
-                    <div class="content">
-                        <h2><?php echo $this->__('Log In As a Customer') ?></h2>
+                    <div class="content" style="margin: 0 auto; padding-bottom: 13px;">
+                        <h2><?php echo $this->__('Log in as a customer') ?></h2>
+                        <p class="description"><?php echo $this->__('Log in to use <strong>%s</strong>', $this->getConsumer()->getName()) ?></p>
                         <ul class="form-list">
                             <li>
                                 <label for="email"><?php echo $this->__('Email Address') ?></label>
@@ -68,14 +55,13 @@
                                 </div>
                             </li>
                         </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="col1-set">
-                <div class="col-1 registered-users">
-                    <div class="buttons-set">
-                        <button type="submit" class="button" title="<?php echo $this->__('Login') ?>" name="send" id="send2">
-                            <span><span><?php echo $this->__('Login') ?></span></span></button>
+                        <div class="buttons-set" style="margin-top: 20px; padding: 0;">
+                            <button type="submit" class="button" title="<?php echo $this->__('Login') ?>" name="send" id="send2">
+                                <span><span><?php echo $this->__('Login') ?></span></span></button>
+                            <button type="submit" class="button" onclick="<?php echo $rejectJs; ?>"
+                                    title="<?php echo $this->__('Reject') ?>" name="send">
+                                <span><span><?php echo $this->__('Reject') ?></span></span></button>
+                        </div>
                     </div>
                 </div>
             </div>

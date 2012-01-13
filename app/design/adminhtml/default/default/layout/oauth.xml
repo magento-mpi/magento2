@@ -75,9 +75,9 @@
             <block type="oauth/adminhtml_oAuth_authorize_button" name="oauth.authorize.button" template="oauth/authorize/button.phtml" />
         </reference>
     </adminhtml_oauth_authorize_index>
-    <adminhtml_oauth_authorize_popup translate="label">
+    <adminhtml_oauth_authorize_simple translate="label">
         <update handle="adminhtml_oauth_authorize_index"/>
-        <label>OAuth authorization popup for admin</label>
+        <label>OAuth authorization simple for admin</label>
         <reference name="oauth.authorize.form">
             <action method="setTemplate">
                 <template>oauth/authorize/form/login-simple.phtml</template>
@@ -88,7 +88,16 @@
                 <template>oauth/authorize/button-simple.phtml</template>
             </action>
         </reference>
-    </adminhtml_oauth_authorize_popup>
+        <reference name="head">
+            <action method="setTemplate">
+                <template>oauth/authorize/head-simple.phtml</template>
+            </action>
+            <block type="oauth/authorize_style" name="oauth.authorize.style" template="oauth/authorize/simple-css.phtml">
+                <block type="oauth/authorize_style" name="oauth.authorize.form.css" template="oauth/authorize/form/login-simple-css.phtml" />
+                <block type="oauth/authorize_style" name="oauth.authorize.button.css" template="oauth/authorize/button-simple-css.phtml" />
+            </block>
+        </reference>
+    </adminhtml_oauth_authorize_simple>
     <!-- EOF Authorize -->
 
     <!-- Confirm Authorization -->
@@ -101,7 +110,7 @@
             <block type="core/template" name="oauth.authorize.confirm" template="oauth/authorize/confirm.phtml" />
         </reference>
     </adminhtml_oauth_authorize_confirm>
-    <adminhtml_oauth_authorize_confirmpopup translate="label">
+    <adminhtml_oauth_authorize_confirmsimple translate="label">
         <update handle="adminhtml_oauth_authorize_confirm"/>
         <label>Confirm token authorization Pop Up for admin</label>
         <reference name="oauth.authorize.confirm">
@@ -109,20 +118,28 @@
                 <template>oauth/authorize/confirm-simple.phtml</template>
             </action>
         </reference>
-    </adminhtml_oauth_authorize_confirmpopup>
+        <reference name="head">
+            <action method="setTemplate">
+                <template>oauth/authorize/head-simple.phtml</template>
+            </action>
+            <block type="core/template" name="oauth.authorize.confirm.css" template="oauth/authorize/confirm-simple-css.phtml" />
+        </reference>
+    </adminhtml_oauth_authorize_confirmsimple>
     <!-- EOF Confirm Authorization -->
 
     <!-- Reject Authorization -->
     <adminhtml_oauth_authorize_reject translate="label">
         <label>Reject token authorization for admin</label>
         <reference name="root">
-            <action method="setTemplate"><template>empty.phtml</template></action>
+            <action method="setTemplate">
+                <template>empty.phtml</template>
+            </action>
         </reference>
         <reference name="content">
             <block type="core/template" name="oauth.authorize.reject" template="oauth/authorize/reject.phtml" />
         </reference>
     </adminhtml_oauth_authorize_reject>
-    <adminhtml_oauth_authorize_rejectpopup translate="label">
+    <adminhtml_oauth_authorize_rejectsimple translate="label">
         <update handle="adminhtml_oauth_authorize_reject"/>
         <label>Reject token authorization Pop Up for admin</label>
         <reference name="oauth.authorize.reject">
@@ -130,9 +147,15 @@
                 <template>oauth/authorize/reject-simple.phtml</template>
             </action>
         </reference>
-    </adminhtml_oauth_authorize_rejectpopup>
+        <reference name="head">
+            <action method="setTemplate">
+                <template>oauth/authorize/head-simple.phtml</template>
+            </action>
+            <block type="core/template" name="oauth.authorize.reject.css" template="oauth/authorize/reject-simple-css.phtml" />
+        </reference>
+    </adminhtml_oauth_authorize_rejectsimple>
     <!-- EOF Reject Authorization -->
-    
+
     <adminhtml_oauth_authorizedtokens_index>
         <reference name="content">
             <block type="oauth/adminhtml_oAuth_authorizedTokens" name="oauth_authorizedTokens"/>

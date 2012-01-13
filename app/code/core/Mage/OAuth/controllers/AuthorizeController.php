@@ -43,10 +43,10 @@ class Mage_OAuth_AuthorizeController extends Mage_Core_Controller_Front_Action
     /**
      * Init authorize page
      *
-     * @param bool $popUp
+     * @param bool $simple      Is simple page?
      * @return Mage_OAuth_AuthorizeController
      */
-    protected function _initForm($popUp = false)
+    protected function _initForm($simple = false)
     {
         /** @var $server Mage_OAuth_Model_Server */
         $server = Mage::getModel('oauth/server');
@@ -67,8 +67,11 @@ class Mage_OAuth_AuthorizeController extends Mage_Core_Controller_Front_Action
         }
 
         $this->loadLayout();
-        $contentBlock = $this->getLayout()->getBlock('content');
-        if ($session->isLoggedIn()) {
+        $layout = $this->getLayout();
+        $logged = $session->isLoggedIn();
+
+        $contentBlock = $layout->getBlock('content');
+        if ($logged) {
             $contentBlock->unsetChild('oauth.authorize.form');
             /** @var $block Mage_OAuth_Block_Authorize_Button */
             $block = $contentBlock->getChild('oauth.authorize.button');
@@ -78,25 +81,28 @@ class Mage_OAuth_AuthorizeController extends Mage_Core_Controller_Front_Action
             $block = $contentBlock->getChild('oauth.authorize.form');
         }
 
+        if ($simple) {
+            $layout->getBlock('oauth.authorize.style')->setData('is_logged', $logged);
+        }
 
         /** @var $helper Mage_Core_Helper_Url */
         $helper = Mage::helper('core/url');
         $session->setAfterAuthUrl(Mage::getUrl('customer/account/login', array('_nosid' => true)))
                 ->setBeforeAuthUrl($helper->getCurrentUrl());
 
-        $block->setIsSimple($popUp)
-                ->setToken($this->_getTokenString())
-                ->setIsException($isException);
-
+        $block->setIsSimple($simple)
+            ->setToken($this->getRequest()->getQuery('oauth_token'))
+            ->setHasException($isException);
         return $this;
     }
 
     /**
      * Init confirm page
      *
+     * @param bool $simple      Is simple page?
      * @return Mage_OAuth_AuthorizeController
      */
-    protected function _initConfirmPage()
+    protected function _initConfirmPage($simple = false)
     {
         $this->loadLayout();
         try {
@@ -104,25 +110,30 @@ class Mage_OAuth_AuthorizeController extends Mage_Core_Controller_Front_Action
             $session = Mage::getSingleton($this->_sessionName);
             /** @var $server Mage_OAuth_Model_Server */
             $server = Mage::getModel('oauth/server');
+
+            /** @var $block Mage_OAuth_Block_Authorize */
+            $block = $this->getLayout()->getBlock('oauth.authorize.confirm');
+            $block->setIsSimple($simple);
+
             /** @var $token Mage_OAuth_Model_Token */
             $token = $server->authorizeToken($session->getCustomerId(), Mage_OAuth_Model_Token::USER_TYPE_CUSTOMER);
+
             /** @var $helper Mage_OAuth_Helper_Data */
             $helper = Mage::helper('oauth');
 
             if (($callback = $helper->getFullCallbackUrl($token))) { //false in case of OOB
-                $this->_redirectUrl($callback . ($this->getRequest()->getParam('popUp') ? '&pop_up=1' : ''));
-                return;
+                $this->_redirectUrl($callback . ($simple ? '&simple=1' : ''));
+                return $this;
             } else {
-                /** @var $block Mage_Core_Block_Template */
-                $block = $this->getLayout()->getBlock('oauth.authorize.confirm');
                 $block->setVerifier($token->getVerifier());
+                $session->addSuccess($this->__('Authorization confirmed.'));
             }
         } catch (Mage_Core_Exception $e) {
             $session->addError($e->getMessage());
         } catch (Mage_OAuth_Exception $e) {
             $session->addException($e, $this->__('An error occurred. Your authorization request is invalid.'));
         } catch (Exception $e) {
-            $session->addException($e, $this->__('An error occurred.'));
+            $session->addException($e, $this->__('An error occurred on confirm authorize.'));
         }
 
         $this->_initLayoutMessages($this->_sessionName);
@@ -134,33 +145,40 @@ class Mage_OAuth_AuthorizeController extends Mage_Core_Controller_Front_Action
     /**
      * Init reject page
      *
+     * @param bool $simple      Is simple page?
      * @return Mage_OAuth_AuthorizeController
      */
-    protected function _initRejectPage()
+    protected function _initRejectPage($simple = false)
     {
+        $this->loadLayout();
+
         /** @var $session Mage_Customer_Model_Session */
         $session = Mage::getSingleton($this->_sessionName);
         try {
             /** @var $server Mage_OAuth_Model_Server */
             $server = Mage::getModel('oauth/server');
+
+            /** @var $block Mage_OAuth_Block_Authorize */
+            $block = $this->getLayout()->getBlock('oauth.authorize.reject');
+            $block->setIsSimple($simple . ($simple ? '&simple=1' : ''));
+
             /** @var $token Mage_OAuth_Model_Token */
             $token = $server->checkAuthorizeRequest();
             /** @var $helper Mage_OAuth_Helper_Data */
             $helper = Mage::helper('oauth');
 
             if (($callback = $helper->getFullCallbackUrl($token, true))) {
-                $this->_redirectUrl($callback);
-                return;
+                $this->_redirectUrl($callback . ($simple ? '&simple=1' : ''));
+                return $this;
             } else {
-                $session->addSuccess($this->__('App authorization rejected.'));
+                $session->addNotice($this->__('The application access request is rejected.'));
             }
         } catch (Mage_Core_Exception $e) {
             $session->addError($e->getMessage());
         } catch (Exception $e) {
-            $session->addException($e, $this->__('An error occurred on rejecting token.'));
+            $session->addException($e, $this->__('An error occurred on reject authorize.'));
         }
 
-        $this->loadLayout();
         $this->_initLayoutMessages($this->_sessionName);
         $this->renderLayout();
 
@@ -180,11 +198,11 @@ class Mage_OAuth_AuthorizeController extends Mage_Core_Controller_Front_Action
     }
 
     /**
-     * OAuth authorize or allow decline access pop up page
+     * OAuth authorize or allow decline access simple page
      *
      * @return void
      */
-    public function popUpAction()
+    public function simpleAction()
     {
         $this->_initForm(true);
         $this->_initLayoutMessages($this->_sessionName);
@@ -200,11 +218,11 @@ class Mage_OAuth_AuthorizeController extends Mage_Core_Controller_Front_Action
     }
 
     /**
-     * Confirm token authorization pop up page
+     * Confirm token authorization simple page
      */
-    public function confirmPopUpAction()
+    public function confirmSimpleAction()
     {
-        $this->_initConfirmPage();
+        $this->_initConfirmPage(true);
     }
 
     /**
@@ -216,63 +234,10 @@ class Mage_OAuth_AuthorizeController extends Mage_Core_Controller_Front_Action
     }
 
     /**
-     * Reject token authorization pop up page
+     * Reject token authorization simple page
      */
-    public function rejectPopUpAction()
+    public function rejectSimpleAction()
     {
-        $this->_initRejectPage();
-    }
-
-    /**
-     * Retrieve token out of request
-     *
-     * @return mixed
-     */
-    protected function _getTokenString()
-    {
-        return $this->getRequest()->getQuery('oauth_token');
-    }
-
-    /**
-     * Load token data by token from request
-     *
-     * @return Mage_OAuth_Model_Token
-     * @throws Exception
-     */
-    protected function _loadToken()
-    {
-        $tokenString = $this->_getTokenString();
-
-        if ($tokenString === null) {
-            throw new Exception('Missing token');
-        }
-        /** @var $token Mage_OAuth_Model_Token */
-        $token = Mage::getModel('oauth/token');
-
-        if (!$token->load($tokenString, 'token')->getId()) {
-            throw new Exception('Invalid token.');
-        }
-
-        return $token;
-    }
-
-    /**
-     * Load consumer data by token from request
-     *
-     * @return Mage_OAuth_Model_Consumer
-     * @throws Exception
-     */
-    protected function _loadConsumer()
-    {
-        $token = $this->_loadToken();
-
-        /** @var $consumer Mage_OAuth_Model_Consumer */
-        $consumer = Mage::getModel('oauth/consumer');
-
-        if (!$consumer->load($token->getConsumerId())->getId()) {
-            throw new Exception('Invalid consumer.');
-        }
-
-        return $consumer;
+        $this->_initRejectPage(true);
     }
 }

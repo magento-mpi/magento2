@@ -41,16 +41,22 @@ class Mage_OAuth_Model_Observer
      */
     protected function _getAfterAuthUrl($userType)
     {
+        $simple = Mage::app()->getRequest()->getParam('simple');
+
         if (Mage_OAuth_Model_Token::USER_TYPE_CUSTOMER == $userType) {
-            $route = 'oauth/authorize';
+            if ($simple) {
+                $route = Mage_OAuth_Helper_Data::ENDPOINT_AUTHORIZE_CUSTOMER_SIMPLE;
+            } else {
+                $route = Mage_OAuth_Helper_Data::ENDPOINT_AUTHORIZE_CUSTOMER;
+            }
         } elseif (Mage_OAuth_Model_Token::USER_TYPE_ADMIN == $userType) {
-            $route = 'adminhtml/oAuth_authorize';
+            if ($simple) {
+                $route = Mage_OAuth_Helper_Data::ENDPOINT_AUTHORIZE_ADMIN_SIMPLE;
+            } else {
+                $route = Mage_OAuth_Helper_Data::ENDPOINT_AUTHORIZE_ADMIN;
+            }
         } else {
             throw new Exception('Invalid user type.');
-        }
-
-        if (Mage::app()->getRequest()->getParam('popUp')) {
-            $route .= '/popUp';
         }
 
         return Mage::getUrl($route, array('_query' => array('oauth_token' => $this->_getOauthToken())));
@@ -108,11 +114,14 @@ class Mage_OAuth_Model_Observer
             $session->addError($observer->getException()->getMessage());
 
             $params = array('oauth_token' => $this->_getOauthToken());
-            $route = 'adminhtml/oAuth_authorize';
-            if (Mage::app()->getRequest()->getParam('popUp')) {
-                $route .= '/popUp';
+
+            if (Mage::app()->getRequest()->getParam('simple')) {
+                $route = Mage_OAuth_Helper_Data::ENDPOINT_AUTHORIZE_ADMIN_SIMPLE;
+            } else {
+                $route = Mage_OAuth_Helper_Data::ENDPOINT_AUTHORIZE_ADMIN;
             }
             $url = Mage::getUrl($route, array('_query' => $params));
+
             Mage::app()->getResponse()
                 ->setRedirect($url)
                 ->sendHeaders()

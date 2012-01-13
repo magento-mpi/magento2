@@ -19,61 +19,53 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_OAuth
  * @copyright   Copyright (c) 2011 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * OAuth admin authorization block
+ * OAuth authorization base abstract block with auth buttons
  *
  * @category   Mage
  * @package    Mage_OAuth
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_OAuth_Block_Adminhtml_OAuth_Authorize extends Mage_OAuth_Block_AuthorizeBaseAbstract
+abstract class Mage_OAuth_Block_Authorize_ButtonBaseAbstract extends Mage_OAuth_Block_Authorize_Abstract
 {
     /**
-     * Retrieve admin form posting url
+     * Get confirm url path
+     *
+     * @abstract
+     * @return string
+     */
+    abstract public function getConfirmUrlPath();
+
+    /**
+     * Get reject url path
+     *
+     * @abstract
+     * @return string
+     */
+    abstract public function getRejectUrlPath();
+
+    /**
+     * Retrieve reject authorization url
      *
      * @return string
      */
-    public function getPostActionUrl()
+    public function getConfirmUrl()
     {
-        $params = array();
-        if ($this->getIsSimple()) {
-            $params['simple'] = 1;
-        }
-        return $this->getUrl('adminhtml/index/login', $params);
+        return $this->getUrl($this->getConfirmUrlPath() . ($this->getIsSimple() ? 'Simple' : ''));
     }
 
     /**
-     * Get form identity label
+     * Retrieve reject authorization url
      *
      * @return string
      */
-    public function getIdentityLabel()
+    public function getRejectUrl()
     {
-        return $this->__('User Name');
-    }
-
-    /**
-     * Get form identity label
-     *
-     * @return string
-     */
-    public function getFormTitle()
-    {
-        return $this->__('Log in as admin');
-    }
-
-    /**
-     * Retrieve reject application authorization URL
-     *
-     * @return string
-     */
-    public function getRejectUrlPath()
-    {
-        return 'adminhtml/oAuth_authorize/reject';
+        return $this->getUrl($this->getRejectUrlPath() . ($this->getIsSimple() ? 'Simple' : ''));
     }
 }

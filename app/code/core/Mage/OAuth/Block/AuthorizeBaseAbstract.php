@@ -19,61 +19,58 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_OAuth
  * @copyright   Copyright (c) 2011 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * OAuth admin authorization block
+ * OAuth authorization block
  *
  * @category   Mage
  * @package    Mage_OAuth
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_OAuth_Block_Adminhtml_OAuth_Authorize extends Mage_OAuth_Block_AuthorizeBaseAbstract
+abstract class Mage_OAuth_Block_AuthorizeBaseAbstract extends Mage_OAuth_Block_Authorize_Abstract
 {
     /**
-     * Retrieve admin form posting url
+     * Retrieve user authorize form posting url
      *
      * @return string
      */
-    public function getPostActionUrl()
+    abstract public function getPostActionUrl();
+
+    /**
+     * Retrieve reject authorization url
+     *
+     * @return string
+     */
+    public function getRejectUrl()
     {
-        $params = array();
-        if ($this->getIsSimple()) {
-            $params['simple'] = 1;
-        }
-        return $this->getUrl('adminhtml/index/login', $params);
+        $url = $this->getUrl($this->getRejectUrlPath() . ($this->getIsSimple() ? 'Simple' : ''),
+            array('_query' => array('oauth_token' => $this->getToken())));
+        return $url;
     }
+
+    /**
+     * Retrieve reject URL path
+     *
+     * @abstract
+     * @return string
+     */
+    abstract public function getRejectUrlPath();
 
     /**
      * Get form identity label
      *
      * @return string
      */
-    public function getIdentityLabel()
-    {
-        return $this->__('User Name');
-    }
+    abstract public function getIdentityLabel();
 
     /**
      * Get form identity label
      *
      * @return string
      */
-    public function getFormTitle()
-    {
-        return $this->__('Log in as admin');
-    }
-
-    /**
-     * Retrieve reject application authorization URL
-     *
-     * @return string
-     */
-    public function getRejectUrlPath()
-    {
-        return 'adminhtml/oAuth_authorize/reject';
-    }
+    abstract public function getFormTitle();
 }

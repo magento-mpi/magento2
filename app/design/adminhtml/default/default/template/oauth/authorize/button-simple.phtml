@@ -27,53 +27,14 @@
 /**
  * "Grant Access" button
  *
- * @see Mage_OAuth_Block_Authorize
+ * @var $this Mage_OAuth_Block_Adminhtml_OAuth_Authorize_Button
  */
-
-/** @var $this Mage_OAuth_Block_Adminhtml_OAuth_Authorize_Button */
-
-//qqq1($this->getSkinUrl('images/logo-large.gif', array('_area'=> 'adminhtml')));
+$logo = $this->getSkinUrl('images/logo-large.gif', array('_area' => 'adminhtml', '_package' => 'default'));
 ?>
-
-<style type="text/css">
-    .page-empty {padding: 0;}
-    .main {border: 1px solid #CFCFCF;}
-    .login-container.simple {margin: 0px; background-image: none; padding: 0px; width: auto;}
-    .login-container.simple .page-title {background: none; padding: 10px; border: 1px solid #CFCFCF; width: auto;}
-    .login-container.simple .bottom {display: none;}
-    .login-form.simple {padding: 0; background: none;}
-    .login-container.simple h1 {text-align: left; color: #D12C01; font-size: 22px; font-weight: normal; margin: 0;}
-    .login-container.simple h1 .consumer {font-weight: bold;}
-    .login-container.simple h2 {font: 16px Arial,Helvetica,sans-serif; color: #444; text-align: left;}
-    .login-container.simple .form-box {border: 1px solid #CFCFCF; border-top: none; padding: 8px 20px;}
-    .login-container.simple fieldset {width: 319px; float: none; margin: 0 auto;}
-    .login-container.simple .input-box label {width: 72px; text-align: right; float: left; margin-right: 15px;}
-    .login-container.simple .input-box input {width: 224px; text-align: left; float: left;}
-    .login-form.simple .input-box.input-left,
-    .login-form.simple .input-box.input-right {float: none; margin-bottom: 5px;}
-    .login-form.simple .input-box.input-left {padding-bottom: 25px;}
-    .login-form.simple .form-buttons {float: none;}
-    .login-form.simple p.required{text-align: right; font-size: 11px; font-weight: normal!important;}
-    .logo {height: 70px; margin: 7px 0 0 10px;}
-    .header-top {border: none;}
-    .access-permissions {margin-bottom: 10px;}
-    .access-permissions .title {font-weight: bold; font-size: 1.1em; margin: 0;}
-    .access-permissions .description {font-size: 0.9em; margin: 0 0 0 20px;}
-    button.button { border-width:1px; border-style:solid; background:#ffac47 url(<?php echo $this->getSkinUrl('images/btn_bg.gif', array('_area'=> 'adminhtml', '_package' => 'default')) ?>) repeat-x 0 100%; color:#fff; font:bold 12px arial, helvetica, sans-serif; cursor:pointer; text-align:center !important; white-space:nowrap;}
-    button.button span, button.button span span {background: none; color: #FFFFFF; text-transform: none;}
-    button.button span span {border: none;}
-</style>
-
-<style type="text/css">
-    .login-container {margin: 15px auto;}
-</style>
-
 <div class="header_simple">
     <div class="header-top">
-         <a href="<?php echo $this->getHomeLink() ?>">
-             <img src="<?php echo $this->getSkinUrl('images/logo-large.gif', array('_area'=> 'adminhtml', '_package' => 'default')) ?>"
-                  alt="<?php echo $this->__('Magento Logo') ?>" class="logo"/>
-         </a>
+         <img src="<?php echo $logo ?>"
+              alt="<?php echo $this->__('Magento Logo') ?>" class="logo"/>
     </div>
 </div>
 <div class="login-container auth-confirm simple">
@@ -82,39 +43,22 @@
             <div class="page-title">
                 <h1><?php echo $this->__('Authorize application') ?></h1>
             </div>
-
             <div class="form-box">
-                <?php if ($this->getIsException()) : ?>
-                    <div id="messages">
-                        <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
-                    </div>
-                <?php else: ?>
+                <div id="messages">
                     <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
-                    <h2><?php echo $this->__('Application is requesting following privileges:') ?></h2>
-                    <p><?php echo $this->__('Authorizing application you allow it to act on behalf of your name and allow him to use yor personal data on its own. Be careful.') ?></p>
-                    <ul class="access-permissions">
-                        <li>
-                            <h5 class="title">Access my basic information</h5>
-                            <p class="description">
-                                Includes name, profile picture, gender, networks, user ID, l...ist of friends, and any other information I've made public
-                            </p>
-                        </li>
-                        <li>
-                            <h5 class="title">Send me email</h5>
-                            <p class="description">Causes may email me directly at unnamed011@gmail.com</p>
-                        </li>
-                        <li>
-                            <h5 class="title">Access my profile information</h5>
-                            <p class="description">Birthday</p>
-                        </li>
-                    </ul>
+                </div>
+                <?php if (!$this->getHasException()) : ?>
+                    <h2><?php echo $this->__('<strong>%s</strong> request access to your account', $this->escapeHtml($this->getConsumer()->getName())); ?></h2>
+                    <p><?php echo $this->__('After authorization application will have access to you account.'); ?></p>
                     <form id="oauth_authorize_confirm" action="<?php echo $this->getConfirmUrl() ?>" method="get">
                         <input type="hidden" name="oauth_token" value="<?php echo $this->escapeHtml($this->getToken()) ?>">
-                        <button type="submit" class="button" title="<?php echo $this->__('Authorize') ?>"><span><span><?php echo $this->__('Authorize') ?></span></span></button>
+                        <button type="submit" class="button" title="<?php echo $this->__('Authorize') ?>">
+                            <span><span><?php echo $this->__('Authorize') ?></span></span></button>
                     </form>
                     <form id="oauth_authorize_reject" action="<?php echo $this->getRejectUrl() ?>" method="get">
                         <input type="hidden" name="oauth_token" value="<?php echo $this->escapeHtml($this->getToken()) ?>">
-                        <button type="submit" class="button" title="<?php echo $this->__('Reject') ?>"><span><span><?php echo $this->__('Reject') ?></span></span></button>
+                        <button type="submit" class="button" title="<?php echo $this->__('Reject') ?>">
+                            <span><span><?php echo $this->__('Reject') ?></span></span></button>
                     </form>
                 <?php endif; ?>
             </div>

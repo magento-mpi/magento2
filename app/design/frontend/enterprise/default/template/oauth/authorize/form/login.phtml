@@ -32,31 +32,18 @@
  * @see Mage_OAuth_Block_Authorize
  */
 ?>
-<?php if ($this->getIsSimple()) { ?>
-<style type="text/css">
-    .header-panel {display: none};
-    .account-login .new-users, .account-login .registered-users {padding: inherit; width: inherit;}
-    .login-only .registered-users {float: inherit;}
-    .account-login .new-users, .account-login .registered-users {padding: 10px}
-    .header {width: inherit; padding: 0;}
-    .page {width: inherit;}
-    .page-title {margin: 0; padding: 10px 10px 11px;}
-    .header-container {margin: 10px 0px 10px 10px;}
-    .account-login {min-height: 200px;}
-    .main {min-height: 200px;}
-</style>
-<?php } ?>
 <div class="account-login  login-only">
     <div class="page-title">
-        <h1><?php echo $this->__('Authorize %s to use your account?', $this->escapeHtml($this->getConsumer()->getName())) ?></h1>
+        <h1><?php echo $this->__('Log In') ?></h1>
     </div>
     <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
-    <?php if (!$this->isException()): ?>
+    <?php if (!$this->getHasException()) : ?>
         <form action="<?php echo $this->getPostActionUrl() ?>" method="post" id="login-form">
             <div class="fieldset">
                 <div class="col2-set">
                     <div class="col-1 registered-users">
-                        <h2 class="legend"><?php echo $this->__('Log In As a Customer') ?></h2>
+                        <h2 class="legend"><?php echo $this->__('Log in as a customer') ?></h2>
+                        <p class="description"><?php echo $this->__('Log in to use <strong>%s</strong>', $this->getConsumer()->getName()) ?></p>
                         <ul class="form-list">
                             <li>
                                 <label for="email" class="required"><em>*</em><?php echo $this->__('Email Address') ?></label>

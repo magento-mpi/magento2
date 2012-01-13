@@ -23,25 +23,25 @@
  * @copyright   Copyright (c) 2011 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
-?>
-<?php
+
 /**
  * Admin login form template
  *
  * @var $this Mage_OAuth_Block_Adminhtml_OAuth_Authorize
  * @see Mage_OAuth_Block_Adminhtml_OAuth_Authorize
  */
-?>
-<?php /** @var $this Mage_OAuth_Block_Adminhtml_OAuth_Authorize */ ?>
+
+ ?>
 <div class="login-container">
     <div class="login-box">
         <div class="login-form">
             <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
-            <?php if (!$this->isException()): ?>
+            <?php if (!$this->getHasException()): ?>
                 <form method="post" action="<?php echo $this->getPostActionUrl() ?>" id="loginForm">
                     <fieldset>
                         <input name="form_key" type="hidden" value="<?php echo $this->getFormKey() ?>" />
-                        <h2><?php echo $this->__('Authorize %s to use your account? <br/>Log in as admin', $this->escapeHtml($this->getConsumer()->getName())) ?></h2>
+                        <h2><?php echo $this->__('Log in to Admin Panel'); ?></h2>
+                        <p class="description"><?php echo $this->__('Log in to use <strong>%s</strong>', $this->getConsumer()->getName()) ?></p>
                         <div class="input-box input-left"><label for="username"><?php echo $this->__('User Name:') ?></label><br/>
                             <input type="text" id="username" name="login[username]" value="" class="required-entry input-text" /></div>
                         <div class="input-box input-right"><label for="login"><?php echo $this->__('Password:') ?></label><br />

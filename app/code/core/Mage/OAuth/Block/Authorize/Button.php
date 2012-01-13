@@ -25,51 +25,31 @@
  */
 
 /**
- * OAuth authorization block
+ * OAuth authorization block with auth buttons
  *
  * @category   Mage
  * @package    Mage_OAuth
  * @author     Magento Core Team <core@magentocommerce.com>
- * @method string getToken()
- * @method Mage_OAuth_Block_Authorize_Button setToken() setToken(string $token)
- * @method boolean getIsException()
- * @method Mage_OAuth_Block_Authorize_Button setIsException() setIsException(boolean $flag)
- * @method boolean getIsSimple()
- * @method Mage_OAuth_Block_Authorize_Button setIsSimple() setIsSimple(boolean $flag)
  */
-class Mage_OAuth_Block_Authorize_Button extends Mage_Core_Block_Template
+class Mage_OAuth_Block_Authorize_Button extends Mage_OAuth_Block_Authorize_ButtonBaseAbstract
 {
     /**
-     * Retrieve confirm authorization url
+     * Retrieve confirm authorization url path
      *
      * @return string
      */
-    public function getConfirmUrl()
+    public function getConfirmUrlPath()
     {
-        return $this->getUrl('oauth/authorize/confirm' . ($this->getIsSimple() ? 'PopUp' : ''));
+        return 'oauth/authorize/confirm';
     }
 
     /**
-     * Retrieve reject authorization url
+     * Retrieve reject authorization url path
      *
      * @return string
      */
-    public function getRejectUrl()
+    public function getRejectUrlPath()
     {
-        return $this->getUrl('oauth/authorize/reject' . ($this->getIsSimple() ? 'PopUp' : ''));
-    }
-
-    /**
-     * Retrieve general template filename
-     *
-     * @return string
-     */
-    public function getGeneralTemplateFileName()
-    {
-        $params = array(
-            '_area'    => 'adminhtml',
-            '_package' => 'default'
-        );
-        return Mage::getDesign()->getTemplateFilename($this->getTemplate(), $params);
+        return 'oauth/authorize/reject';
     }
 }

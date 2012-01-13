@@ -30,14 +30,8 @@
  * @category   Mage
  * @package    Mage_OAuth
  * @author     Magento Core Team <core@magentocommerce.com>
- * @method string getToken()
- * @method Mage_OAuth_Block_Authorize setToken() setToken(string $token)
- * @method boolean getIsException()
- * @method Mage_OAuth_Block_Authorize setIsException() setIsException(boolean $flag)
- * @method boolean getIsSimple()
- * @method Mage_OAuth_Block_Authorize setIsSimple() setIsSimple(boolean $flag)
  */
-class Mage_OAuth_Block_Authorize extends Mage_Core_Block_Template
+class Mage_OAuth_Block_Authorize extends Mage_OAuth_Block_AuthorizeBaseAbstract
 {
     /**
      * Retrieve customer form posting url
@@ -50,48 +44,9 @@ class Mage_OAuth_Block_Authorize extends Mage_Core_Block_Template
         $helper = $this->helper('customer');
         $url = $helper->getLoginPostUrl();
         if ($this->getIsSimple()) {
-            $url = rtrim($url, '/') . '/popUp/1';
+            $url = rtrim($url, '/') . '/simple/1';
         }
         return $url;
-    }
-
-    /**
-     * Get consumer instance by token value
-     *
-     * @return Mage_OAuth_Model_Consumer
-     */
-    public function getConsumer()
-    {
-        /** @var $token Mage_OAuth_Model_Token */
-        $token = Mage::getModel('oauth/token');
-        $token->load($this->getToken(), 'token');
-
-        /** @var $consumer Mage_OAuth_Model_Consumer */
-        $consumer = Mage::getModel('oauth/consumer');
-        $consumer->load($token->getConsumerId());
-
-        return $consumer;
-    }
-
-    /**
-     * Has an exception been registered with the response?
-     *
-     * @return bool
-     */
-    public function isException()
-    {
-        return $this->getIsException();
-    }
-
-    /**
-     * Retrieve reject authorization url
-     *
-     * @return string
-     */
-    public function getRejectUrl()
-    {
-        return $this->getUrl('oauth/authorize/reject' . ($this->getIsSimple() ? 'PopUp' : ''),
-            array('_query' => array('oauth_token' => $this->getToken())));
     }
 
     /**
@@ -115,16 +70,12 @@ class Mage_OAuth_Block_Authorize extends Mage_Core_Block_Template
     }
 
     /**
-     * Retrieve general template filename
+     * Retrieve reject URL path
      *
      * @return string
      */
-    public function getGeneralTemplateFileName()
+    public function getRejectUrlPath()
     {
-        $params = array(
-            '_area'    => 'adminhtml',
-            '_package' => 'default'
-        );
-        return Mage::getDesign()->getTemplateFilename($this->getTemplate(), $params);
+        return 'oauth/authorize/reject';
     }
 }

@@ -31,41 +31,8 @@
  * @see Mage_OAuth_Block_Adminhtml_OAuth_Authorize
  */
 
-/** @var $header Mage_Page_Block_Html_Header */
-$header = $this->getLayout()->getBlock('header_frontend');
-
-if ($this->getIsException()) {
-    $title = $this->__('Authorize');
-} else {
-    $title = $this->__('Authorize &laquo;%s&raquo; to use your account?', $this->escapeHtml($this->getConsumer()->getName()));
-}
-
 $rejectJs = "document.location.href='{$this->getRejectUrl()}';";
 ?>
-<style type="text/css">
-    .page-empty {padding: 0;}
-    .header-simple {display: block; clear: both;}
-    .main {border: none;}
-    .header-top {border: none;}
-    .login-container.simple {margin: 0px; background-image: none; padding: 0px; width: auto;}
-    .login-container.simple .page-title {background: none; padding: 10px; border-top: 1px solid #CFCFCF; border-bottom: 1px solid #CFCFCF; width: auto;}
-    .login-container.simple .bottom {display: none;}
-    .login-form.simple {padding: 0; background: none;}
-    .login-container.simple h1 {text-align: left; color: #D12C01; font-size: 22px; font-weight: normal; margin: 0;}
-    .login-container.simple h1 .consumer {font-weight: bold;}
-    .login-container.simple h2 {font: 16px Arial,Helvetica,sans-serif; color: #444; text-align: left; margin: 0 0 5px;}
-    .login-container.simple .form-box {border: 1px solid #CFCFCF; border-top: none; padding: 8px 20px;}
-    .login-container.simple fieldset {width: 319px; float: none; margin: 0 auto;}
-    .login-container.simple .input-box label {width: 72px; text-align: right; float: left; margin-right: 15px;}
-    .login-container.simple .input-box input {width: 224px; text-align: left; float: left;}
-    .login-form.simple .input-box.input-left,
-    .login-form.simple .input-box.input-right {float: none; margin-bottom: 5px;}
-    .login-form.simple .input-box.input-left {padding-bottom: 25px;}
-    .login-form.simple .form-buttons {float: none; width: 319px;}
-    .login-form.simple p.required{text-align: right; font-size: 11px; font-weight: normal!important; width: 319px;}
-    .logo {height: 70px; margin: 7px 0 0 10px;}
-</style>
-
 <div class="header-simple">
     <div class="header-top">
          <span>
@@ -74,19 +41,19 @@ $rejectJs = "document.location.href='{$this->getRejectUrl()}';";
          </span>
     </div>
 </div>
-
 <div class="login-container simple">
     <div class="login-box">
         <div class="page-title">
-            <h1><?php echo $title ?></h1>
+            <h1><?php echo $this->__('Log In') ?></h1>
         </div>
         <div class="form-box">
             <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
-            <?php if (!$this->getIsException()) : ?>
-                <form method="post" action="<?php echo $this->getPostActionUrl() ?>" id="loginForm">
-                    <fieldset>
-                        <h2 class="legend"><?php echo $this->getFormTitle() ?></h2>
-                        <div class="login-form simple">
+            <?php if (!$this->getHasException()) : ?>
+            <form method="post" action="<?php echo $this->getPostActionUrl() ?>" id="loginForm">
+                <fieldset>
+                    <h2 class="legend"><?php echo $this->getFormTitle() ?></h2>
+                    <p class="description"><?php echo $this->__('Log in to use <strong>%s</strong>', $this->getConsumer()->getName()) ?></p>
+                    <div class="login-form simple">
                             <input name="form_key" type="hidden" value="<?php echo $this->getFormKey() ?>"/>
                             <input type="hidden" name="oauth_token" value="<?php echo $this->escapeHtml($this->getToken()) ?>"/>
 

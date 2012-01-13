@@ -25,24 +25,16 @@
  */
 
 /**
- * "Grant Access" button
+ * Token confirmation simple template css
  *
- * @see Mage_OAuth_Block_Authorize_Button
+ * @var $this Mage_OAuth_Block_Authorize_Style
  */
-
- /** @var $this Mage_OAuth_Block_Authorize_Button */
+if ($this->getIsLogged()) :
+    echo $this->getChildHtml('oauth.authorize.button.css');
+    echo $this->getChildHtml('oauth.authorize.button.css.base');
+else:
+    echo $this->getChildHtml('oauth.authorize.form.css');
+    echo $this->getChildHtml('oauth.authorize.form.css.base');
+endif;
 ?>
-<style type="text/css">
-    .page {width: auto;}
-    .header-top {
-        margin: 0;
-        clear: both;
-        display: block;
-        overflow: hidden;
-    }
-    .page-title {margin-bottom: 0}
-    .main, .main-container  {min-height: inherit; background: none; width: auto; padding: 0}
-    .oauth-authorize-popup {background: none;}
-    button.button span {border: 1px solid #DE5400;}
-</style>
-<?php require_once $this->getGeneralTemplateFileName() ?>
+

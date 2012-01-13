@@ -182,11 +182,12 @@ class Mage_OAuth_Helper_Data extends Mage_Core_Helper_Abstract
      *
      * @param string $type Endpoint type (one of ENDPOINT_ constants)
      * @return string
+     * @throws Exception    Exception when endpoint not found
      */
     public function getProtocolEndpointUrl($type)
     {
         if (!in_array($type, $this->_endpoints)) {
-            Mage::throwException('Invalid endpoint type passed');
+            throw new Exception('Invalid endpoint type passed.');
         }
         return rtrim(Mage::getUrl($type), '/');
     }

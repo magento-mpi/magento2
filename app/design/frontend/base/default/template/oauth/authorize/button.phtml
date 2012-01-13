@@ -26,27 +26,18 @@
 /**
  * "Grant Access" button
  *
- * @see Mage_OAuth_Block_Authorize_Button
+ * @var $this Mage_OAuth_Block_Authorize_Button
  */
- /** @var $this Mage_OAuth_Block_Authorize_Button */
 ?>
 <div>
     <div class="page-title">
         <h1><?php echo $this->__('Authorize application') ?></h1>
     </div>
+    <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
 
-    <?php if ($this->getIsException()): ?>
-        <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
-    <?php else: ?>
-        <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
-        <h2><?php echo $this->__('Application is requesting following privileges:') ?></h2>
-        <p><?php echo $this->__('Authorizing application you allow it to act on behalf of your name and allow him to use yor personal data on its own. Be careful.') ?></p>
-        <br />
-        <ul>
-            <li> <strong>Access my basic information</strong> <br /> <span style="padding-left:20px; font-size:9px;">Includes name, profile picture, gender, networks, user ID, l...ist of friends, and any other information I've made public</span></li>
-            <li> <strong>Send me email</strong>  <br /> <span style="padding-left:20px; font-size:9px;">Causes may email me directly at unnamed011@gmail.com</span></li>
-            <li> <strong>Access my profile information</strong>  <br /> <span style="padding-left:20px; font-size:9px;">Birthday</span></li>
-        </ul>
+    <?php if (!$this->getHasException()): ?>
+        <h2><?php echo $this->__('<strong>%s</strong> request access to your account', $this->escapeHtml($this->getConsumer()->getName())); ?></h2>
+        <p><?php echo $this->__('After authorization application will have access to you account.'); ?></p>
         <form id="oauth_authorize_confirm" action="<?php echo $this->getConfirmUrl() ?>" method="get">
             <input type="hidden" name="oauth_token" value="<?php echo $this->escapeHtml($this->getToken()) ?>">
             <button type="submit" class="button" title="<?php echo $this->__('Authorize') ?>" name="authorize">

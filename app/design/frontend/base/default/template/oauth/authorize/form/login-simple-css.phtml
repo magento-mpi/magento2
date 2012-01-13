@@ -25,22 +25,30 @@
  */
 
 /**
- * "Grant Access" button
+ * Customer login form template
  *
  * @var $this Mage_OAuth_Block_Authorize
  */
 ?>
-<div class="login-container">
-    <div class="login-box">
-        <div class="login-form">
-            <h1><?php echo $this->__('Confirmation Of Authorization') ?></h1>
-            <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
-            <?php if (!$this->getHasException()): ?>
-                <p><?php echo $this->__('Give the verifier code to application administrator') ?></p>
-                <p style="font-size: 14px;"><?php echo $this->__('Verifier code: %s', $this->getVerifier()) ?></p>
-            <?php endif; ?>
-        </div>
-        <p class="legal"><?php echo $this->__('Magento is a trademark of Magento Inc. Copyright &copy; %s Magento Inc.', date('Y')) ?></p>
-        <div class="bottom"></div>
-    </div>
-</div>
+<style type="text/css">
+    .main {width:auto; background: none; border: none; padding: 0; margin: 0; min-height: inherit;}
+    .header {width:auto;}
+    .wrapper {min-width:inherit;}
+    body,
+    .main-container,
+    .header-container {background: none;}
+    .input-box label {font-weight: bold;}
+    .required {font-weight: bold; color: #D40707 !important;}
+    .login-form .form-buttons {
+        clear: both;
+        margin: 38px 0 0;
+        text-align: right;
+    }
+    .page-title {margin-bottom: 0}
+    .header-top {
+        margin: 0;
+        clear: both;
+        display: block;
+        overflow: hidden;
+    }
+</style>
