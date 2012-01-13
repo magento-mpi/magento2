@@ -40,6 +40,11 @@ class Mage_Core_Model_App
 
     const XML_PATH_SKIP_PROCESS_MODULES_UPDATES = 'global/skip_process_modules_updates';
 
+    /**
+     * if this node set to true, we will ignore Developer Mode for applying updates
+     */
+    const XML_PATH_SKIP_PROCESS_MODULES_UPDATES_IGNORE_DEV_MODE = 'global/skip_process_modules_updates_ignore_dev_mode';
+
     const DEFAULT_ERROR_HANDLER = 'mageCoreErrorHandler';
 
     const DISTRO_LOCALE_CODE = 'en_US';
@@ -429,7 +434,9 @@ class Mage_Core_Model_App
             return false;
         }
 
-        if (Mage::getIsDeveloperMode()) {
+        $ignoreDevelopmentMode =
+            (bool)(string)$this->_config->getNode(self::XML_PATH_SKIP_PROCESS_MODULES_UPDATES_IGNORE_DEV_MODE);
+        if (Mage::getIsDeveloperMode() && !$ignoreDevelopmentMode) {
             return false;
         }
 
