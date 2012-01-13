@@ -21,10 +21,8 @@ abstract class Mage_Api2_Model_Request_Interpreter
 
             $interpreterType = $helper->getInterpreterType($request);    //this can also throw Exception with code 406 for example
         } else {
-            throw new Exception('');
+            throw new Exception(sprintf('Invalid Interpreter factory argument "%s"', $input));
         }
-
-
 
         return Mage::getModel($interpreterType);
     }

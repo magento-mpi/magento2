@@ -100,7 +100,7 @@ class Mage_Api2_Helper_Data extends Mage_Core_Helper_Abstract
         /** @var $config Mage_Api2_Model_Config */
         $config = Mage::getModel('api2/config');
         $found = null;
-        foreach ($config->getMimeTypesMappingForResponse() as $supported=>$path) {
+        foreach ($config->getMimeTypesMappingForRequest() as $supported=>$path) {
             if ($supported==$type || $supported=='*/*' || $supported==current(explode('/', $type)).'/*') {
                 $found = $path;
                 break;
