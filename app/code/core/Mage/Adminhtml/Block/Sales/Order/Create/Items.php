@@ -47,10 +47,6 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Items extends Mage_Adminhtml_Block
     {
         parent::__construct();
         $this->setId('sales_order_create_items');
-        $this->_buttons[] = array(
-            'label' => Mage::helper('sales')->__('Add Products'),
-            'onclick' => "order.productGridShow(this)",
-            'class' => 'add');
     }
 
     /**
@@ -81,23 +77,6 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Items extends Mage_Adminhtml_Block
     public function addButton($args)
     {
         $this->_buttons[] = $args;
-    }
-
-    /**
-     * Render buttons and return HTML code
-     *
-     * @return string
-     */
-    public function getButtonsHtml()
-    {
-        $html = '';
-        // Make buttons to be rendered in opposite order of addition. This makes "Add products" the last one.
-        $this->_buttons = array_reverse($this->_buttons);
-        foreach ($this->_buttons as $buttonData) {
-            $html .= $this->getLayout()->createBlock('adminhtml/widget_button')->setData($buttonData)->toHtml();
-        }
-
-        return $html;
     }
 
     /**

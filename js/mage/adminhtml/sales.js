@@ -59,6 +59,19 @@ AdminOrder.prototype = {
                     }
                 }
             });
+
+            var searchButton = new ControlButton(Translator.translate('Add Products')),
+                searchAreaId = this.getAreaId('search');
+            searchButton.onClick = function(){
+                $(searchAreaId).show();
+                this.remove();
+            }
+            this.itemsArea.onLoad = this.itemsArea.onLoad.wrap(function(proceed){
+                proceed();
+                if (!$(searchAreaId).visible()) {
+                    this.addControlButton(searchButton);
+                }
+            });
             this.areasLoaded();
         }).bind(this));
     },
@@ -1206,5 +1219,30 @@ OrderFormArea.prototype = {
     },
 
     onLoad: function(){
+    }
+};
+
+var ControlButton = Class.create();
+ControlButton.prototype = {
+    _label: '',
+    _node: null,
+
+    initialize: function(label){
+        this._label = label;
+        this._node = new Element('button', {
+            'class': 'scalable add'
+        });
+    },
+
+    onClick: function(){
+    },
+
+    insertIn: function(element, position){
+        var node = Object.extend(this._node),
+            content = {};
+        node.observe('click', this.onClick);
+        node.update('<span>' + this._label + '</span>');
+        content[position] = node;
+        Element.insert(element, content);
     }
 };
