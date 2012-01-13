@@ -9,6 +9,39 @@
  */
 class Mage_Api2_Helper_Data extends Mage_Core_Helper_Abstract
 {
+    /**#@+
+     * Config paths
+     */
+    const XML_PATH_AUTH_ADAPTERS = 'global/api2/auth_adapters';
+    const XML_PATH_USER_TYPES    = 'global/api2/user_types';
+    /**#@- */
+
+    /**
+     * Retrieve Auth adapters info from configuration file as array
+     *
+     * @param bool $enabledOnly
+     * @return array
+     */
+    public function getAuthAdapters($enabledOnly = false)
+    {
+        $adapters = Mage::getConfig()->getNode(self::XML_PATH_AUTH_ADAPTERS);
+
+        if (!$adapters) {
+            return array();
+        }
+        $adapters = $adapters->asArray();
+
+        if ($enabledOnly) {
+            foreach ($adapters as $adapter) {
+                if (empty($adapter['enabled'])) {
+                    unset($adapters);
+                }
+            }
+            $adapters = (array) $adapters;
+        }
+        return $adapters;
+    }
+
     /**
      * Format XML data to array form
      *

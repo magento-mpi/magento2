@@ -47,5 +47,29 @@
                 <resourceModel>api_resource</resourceModel>
             </api2>
         </models>
+        <api2 module="api2">
+            <auth_adapters>
+                <oauth translate="label">
+                    <model>api2/auth_adapter_oauth</model>
+                    <label>OAuth</label>
+                    <enabled>1</enabled>
+                    <order>10</order>
+                </oauth>
+            </auth_adapters>
+            <user_types>
+                <admin>
+                    <model>api2/auth_user_admin</model>
+                    <allowed>1</allowed>
+                </admin>
+                <customer>
+                    <model>api2/auth_user_customer</model>
+                    <allowed>1</allowed>
+                </customer>
+                <guest>
+                    <model>api2/auth_user_guest</model>
+                    <allowed>1</allowed>
+                </guest>
+            </user_types>
+        </api2>
     </global>
 </config>

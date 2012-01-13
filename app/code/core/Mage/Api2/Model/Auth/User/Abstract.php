@@ -25,33 +25,12 @@
  */
 
 /**
- * API User authentication model
+ * API2 User Abstract Class
  *
  * @category   Mage
  * @package    Mage_Api2
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Api2_Model_Auth
+abstract class Mage_Api2_Model_Auth_User_Abstract
 {
-    /**#@+
-     * Api2 user types
-     */
-    const USER_TYPE_ADMIN    = 'admin';
-    const USER_TYPE_CUSTOMER = 'customer';
-    const USER_TYPE_GUEST    = 'guest';
-    /**#@-*/
-
-    /**
-     * Figure out API user type, create user model instance
-     *
-     * @param Mage_Api2_Model_Request $request
-     * @return Mage_Api2_Model_Auth_User_Abstract
-     */
-    public function authenticate(Mage_Api2_Model_Request $request)
-    {
-        /** @var $helper Mage_Api2_Helper_Data */
-        $helper = Mage::helper('api2');
-
-        return Mage::getModel('api2/auth_user_guest');
-    }
 }

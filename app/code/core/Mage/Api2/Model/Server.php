@@ -64,8 +64,9 @@ class Mage_Api2_Model_Server
         $response = Mage::getSingleton('api2/response');
 
         try {
-            $this->_authenticate($request)
-                ->_route($request)
+            $apiUser = $this->_authenticate($request);
+
+            $this->_route($request)
                 ->_allow($request)
                 ->_dispatch($request, $response);
         } catch (Exception $e) {
@@ -76,23 +77,17 @@ class Mage_Api2_Model_Server
     }
 
     /**
-     * Authenticate api2 user access key by OAuth module
+     * Authenticate user
      *
      * @param Mage_Api2_Model_Request $request
-     * @throws Mage_Api2_Exception
-     * @return Mage_Api2_Model_Server
+     * @return Mage_Api2_Model_Auth_User_Abstract
      */
     protected function _authenticate(Mage_Api2_Model_Request $request)
     {
-        $accessKey = $request->getAccessKey();
-
         /** @var $authManager Mage_Api2_Model_Auth */
         $authManager = Mage::getModel('api2/auth');
-        if (!$authManager->authenticate($accessKey)) {
-            throw new Mage_Api2_Exception('Session expired or invalid.', self::HTTP_UNAUTHORIZED);
-        }
 
-        return $this;
+        return $authManager->authenticate($request);
     }
 
     /**
