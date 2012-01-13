@@ -40,6 +40,16 @@ class Mage_Api2_Model_Server
     const API_TYPE_SOAP = 'soap';
     /**#@-*/
 
+    /**#@+
+     * HTTP Response Codes
+     */
+    const HTTP_OK             = 200;
+    const HTTP_BAD_REQUEST    = 400;
+    const HTTP_UNAUTHORIZED   = 401;
+    const HTTP_FORBIDDEN      = 403;
+    const HTTP_INTERNAL_ERROR = 500;
+    /**#@- */
+
     /**
      * Run server, the only public method of the server
      *
@@ -78,7 +88,7 @@ class Mage_Api2_Model_Server
         /** @var $authManager Mage_Api2_Model_Auth */
         $authManager = Mage::getModel('api2/auth');
         if (!$authManager->authenticate($accessKey)) {
-            throw new Mage_Api2_Exception('Session expired or invalid.', 401);
+            throw new Mage_Api2_Exception('Session expired or invalid.', self::HTTP_UNAUTHORIZED);
         }
 
         return $this;
@@ -113,7 +123,7 @@ class Mage_Api2_Model_Server
         $isAllowed = $globalAcl->isAllowed($accessKey, $resourceType, $operation);
 
         if (!$isAllowed) {
-            throw new Mage_Api2_Exception('Authorization error.', 403);
+            throw new Mage_Api2_Exception('Authorization error.', self::HTTP_FORBIDDEN);
         }
 
         return $this;
@@ -160,7 +170,7 @@ class Mage_Api2_Model_Server
     {
         //if developer mode is set $critical can be without a Code, it will result in a
         //Zend_Controller_Response_Exception('Invalid HTTP response code')
-        $code = ($critical instanceof Mage_Api2_Exception) ? $critical->getCode() : 500;
+        $code = ($critical instanceof Mage_Api2_Exception) ? $critical->getCode() : self::HTTP_INTERNAL_ERROR;
 
         try {
             //add last error to stack and get the stack
@@ -178,7 +188,8 @@ class Mage_Api2_Model_Server
             $response->setBody($errorContent);
         } catch (Exception $e) {
             //if error appeared in "error rendering" process then show it in plain text
-            $response->setHttpResponseCode(500);  //$e->getCode() can result in one more loop of try..catch
+            $response->setHttpResponseCode(self::HTTP_INTERNAL_ERROR); //$e->getCode() can result in one more loop of
+                                                                       // try..catch
             $response->setHeader('Content-Type', 'text/plain; charset=UTF-8');
             $response->setBody($e->getMessage());
         }
