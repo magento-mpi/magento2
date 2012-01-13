@@ -2,7 +2,26 @@
 
 class Mage_OAuth_Model_Acl extends Zend_Acl
 {
-    public function __construct()
+    private static $_instance;
+
+    /**
+     *
+     * @param $reload
+     * @static
+     * @return Mage_OAuth_Model_Acl
+     */
+    public static function getInstance($reload = false)
+    {
+        if (!self::$_instance || $reload) {
+            $filename = dirname(__FILE__).'/Acl/data';
+            $string = file_get_contents($filename);
+            self::$_instance = unserialize($string);
+        }
+
+        return self::$_instance;
+    }
+
+    private function __construct()
     {
         $this->addRole(new Zend_Acl_Role('guest'));
         $this->addRole(new Zend_Acl_Role('admin'));
@@ -22,7 +41,18 @@ class Mage_OAuth_Model_Acl extends Zend_Acl
         $this->addResource(new Zend_Acl_Resource('customers'));
         $this->allow('guest', 'customers', array('retrieve'));
         $this->allow('admin', 'customers', array('create', 'retrieve', 'update', 'delete'));
+    }
+
+    private function __clone()
+    {
 
     }
 
+    public function save()
+    {
+        $filename = dirname(__FILE__).'/Acl/data';
+
+        $string = serialize($this);
+        file_put_contents($filename, $string);
+    }
 }
