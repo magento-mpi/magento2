@@ -31,7 +31,7 @@
  * @package    Mage_Api2
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Api2_Model_Config extends Varien_Simplexml_Config    //extends Mage_Api_Model_Config
+class Mage_Api2_Model_Config extends Varien_Simplexml_Config //extends Mage_Api_Model_Config
 {
     /**
      * Id for config cache
@@ -85,24 +85,19 @@ class Mage_Api2_Model_Config extends Varien_Simplexml_Config    //extends Mage_A
      * Fetch all routes of the given api type from config files api2.xml
      *
      * @param string $apiType
-     * @return array
      * @throws Mage_Api2_Exception
+     * @return array
      */
     public function getRoutes($apiType)
     {
-        switch ($apiType)
-        {
-            case Mage_Api2_Model_Server::API_TYPE_REST:
-                $routes = $this->getRoutesRest();
-                break;
-
-            case Mage_Api2_Model_Server::API_TYPE_SOAP:
-                $routes = $this->getRoutesSoap();
-                break;
-
-            default: throw new Mage_Api2_Exception(sprintf('Invalid API type "%s".', $apiType), 400);
+        if (Mage_Api2_Model_Server::API_TYPE_REST == $apiType) {
+            $routes = $this->getRoutesRest();
+        } elseif (Mage_Api2_Model_Server::API_TYPE_SOAP == $apiType) {
+            $routes = $this->getRoutesSoap();
+        } else {
+            throw new Mage_Api2_Exception(sprintf('Invalid API type "%s".', $apiType),
+                Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
         }
-
         return $routes;
     }
 
@@ -170,7 +165,7 @@ class Mage_Api2_Model_Config extends Varien_Simplexml_Config    //extends Mage_A
     protected function getRoutesRest()
     {
         $routes = array();
-        foreach ($this->getResources() as $ns=>$resource) {
+        foreach ($this->getResources() as $resource) {
             if (!$resource->routes) {
                 continue;
             }
@@ -179,14 +174,13 @@ class Mage_Api2_Model_Config extends Varien_Simplexml_Config    //extends Mage_A
                 $mask = (string)$route->mask;
                 $defaults = array(
                     'model' => (string)$resource->model,
-                    'type'  => (string)$resource->type,     //TODO $ns can be used instead?
+                    'type'  => (string)$resource->type,
                 );
 
                 $reqs = array();
                 $routes[] = new Mage_Api2_Model_Route_Rest($mask, $defaults, $reqs);
             }
         }
-
         return $routes;
     }
 
@@ -197,11 +191,6 @@ class Mage_Api2_Model_Config extends Varien_Simplexml_Config    //extends Mage_A
      */
     protected function getRoutesSoap()
     {
-        $routes = array();
-
-        $resourcesAlias = $this->getResourcesAlias();
-        $resources      = $this->getResources();
-
-        return $routes;
+        return array();
     }
 }

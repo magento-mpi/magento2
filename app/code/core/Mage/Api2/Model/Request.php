@@ -14,7 +14,7 @@
 class Mage_Api2_Model_Request extends Zend_Controller_Request_Http
 {
     const BASE_URL = '/api/:api/';
-    
+
     public function __construct()
     {
         $replace = array(':api' => $this->getApiType('rest'));
@@ -31,10 +31,7 @@ class Mage_Api2_Model_Request extends Zend_Controller_Request_Http
      */
     public function getBodyParams()
     {
-        $interpreter = Mage_Api2_Model_Request_Interpreter::factory($this);
-        $params = $interpreter->interpret($this->getRawBody());
-
-        return $params;
+        return Mage_Api2_Model_Request_Interpreter::factory($this)->interpret($this->getRawBody());
     }
 
     /**
@@ -127,21 +124,27 @@ class Mage_Api2_Model_Request extends Zend_Controller_Request_Http
         return $operation;
     }
 
+    /**
+     * Get Version header from headers
+     *
+     * @return false|string
+     */
     public function getVersion()
     {
-        $version = $this->getHeader('Version');
-
-        return $version;
+        return $this->getHeader('Version');
     }
 
+    /**
+     * Get api type from Request
+     *
+     * @return string
+     */
     public function getApiType()
     {
         $route = new Zend_Controller_Router_Route(self::BASE_URL . '*');
         $data = $route->match($this->getRequestUri());
-        
-        $apiType = $data['api'];
 
-        return $apiType;
+        return $data['api'];
     }
 
     public function getAccessKey()

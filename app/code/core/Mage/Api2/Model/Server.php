@@ -47,6 +47,7 @@ class Mage_Api2_Model_Server
     const HTTP_BAD_REQUEST    = 400;
     const HTTP_UNAUTHORIZED   = 401;
     const HTTP_FORBIDDEN      = 403;
+    const HTTP_NOT_FOUND      = 404;
     const HTTP_NOT_ACCEPTABLE = 406;
     const HTTP_INTERNAL_ERROR = 500;
     /**#@- */
@@ -167,7 +168,8 @@ class Mage_Api2_Model_Server
         //if developer mode is set $critical can be without a Code, it will result in a
         //Zend_Controller_Response_Exception('Invalid HTTP response code')
 
-        //if exception is not Mage_Api2_Exception we can't be sure it contains valid HTTP error code, so we change it to 500;
+        //if exception is not Mage_Api2_Exception we can't be sure it contains valid HTTP error code, so we change it
+        //to 500;
         $code = ($critical instanceof Mage_Api2_Exception) ? $critical->getCode() : self::HTTP_INTERNAL_ERROR;
 
         try {
@@ -186,7 +188,6 @@ class Mage_Api2_Model_Server
             );
             $response->setBody($errorContent);
         } catch (Exception $e) {
-            
             //tunnelling of 406(Not acceptable) error
             $status = ($e->getCode()==self::HTTP_NOT_ACCEPTABLE)    //$e->getCode() can result in one more loop
                     ?self::HTTP_NOT_ACCEPTABLE                      // of try..catch

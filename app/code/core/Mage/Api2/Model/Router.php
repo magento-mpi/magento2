@@ -48,7 +48,7 @@ class Mage_Api2_Model_Router extends Varien_Object //Zend_Controller_Router_Abst
     {
         $isMatched = false;
         /** @var $route Mage_Api2_Model_Route_Interface */
-        foreach ($this->getRoutes() as $route) {        //set in Mage_Api2_Model_Server::_route()
+        foreach ($this->getRoutes() as $route) { //set in Mage_Api2_Model_Server::_route()
             if ($params = $route->match($request)) {
                 $this->_setRequestParams($request, $params);
                 $isMatched = true;
@@ -57,9 +57,10 @@ class Mage_Api2_Model_Router extends Varien_Object //Zend_Controller_Router_Abst
         }
 
         if (!$isMatched) {
-            throw new Mage_Api2_Exception(sprintf('Request not matched any route.'), 404);
+            throw new Mage_Api2_Exception(sprintf('Request not matched any route.'),
+                Mage_Api2_Model_Server::HTTP_NOT_FOUND);
         }
-    
+
         return $request;
     }
 
@@ -74,7 +75,8 @@ class Mage_Api2_Model_Router extends Varien_Object //Zend_Controller_Router_Abst
     protected function _setRequestParams(Mage_Api2_Model_Request $request, $params)
     {
         if (!isset($params['type']) || !isset($params['model'])) {
-            throw new Mage_Api2_Exception("Matched resource is not properly set.", 500);
+            throw new Mage_Api2_Exception('Matched resource is not properly set.',
+                Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR);
         }
 
         foreach ($params as $param => $value) {
