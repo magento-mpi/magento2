@@ -70,7 +70,9 @@ class Mage_Api2_Model_ServerTest extends Magento_TestCase
         $product = $this->getFixture('product');
 
         /** @var $client Varien_Http_Client */
-        $client = new Varien_Http_Client('http://' . TESTS_HTTP_HOST . '/api/rest/products/' . $product->getId());
+        $client = new Varien_Http_Client('http://' . TESTS_HTTP_HOST . '/api/' . Mage_Api2_Model_Server::API_TYPE_REST
+            . '/products/' . $product->getId());
+
         $client->setHeaders(array(
             'Accept' => 'text/html',
             'Version' => 1,
@@ -160,7 +162,9 @@ class Mage_Api2_Model_ServerTest extends Magento_TestCase
     public function testGetWrongResource()
     {
         /** @var $response Zend_Http_Response */
-        $response = $this->_getClient()->setUri('http://' . TESTS_HTTP_HOST . '/api/rest/qwerty')->request();
+        $response = $this->_getClient()->setUri('http://' . TESTS_HTTP_HOST . '/api/'
+            . Mage_Api2_Model_Server::API_TYPE_REST . '/qwerty')->request();
+
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR, $response->getStatus());
     }
 }
