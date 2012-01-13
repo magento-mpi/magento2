@@ -67,13 +67,13 @@ abstract class Mage_Rule_Model_Resource_Abstract extends Mage_Core_Model_Resourc
         if ($object->getFromDate() instanceof Zend_Date) {
             $object->setFromDate($object->getFromDate()->toString(Varien_Date::DATETIME_INTERNAL_FORMAT));
         } else {
-            $object->setFromDate(new Zend_Db_Expr('NULL'));
+            $object->setFromDate(null);
         }
 
         if ($object->getToDate() instanceof Zend_Date) {
             $object->setToDate($object->getToDate()->toString(Varien_Date::DATETIME_INTERNAL_FORMAT));
         } else {
-            $object->setToDate(new Zend_Db_Expr('NULL'));
+            $object->setToDate(null);
         }
 
         parent::_beforeSave($object);
