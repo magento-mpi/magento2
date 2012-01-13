@@ -31,7 +31,7 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Form exten
      * Intialize form
      *
      * @return void
-     */        
+     */
     public function __construct()
     {
         parent::__construct();

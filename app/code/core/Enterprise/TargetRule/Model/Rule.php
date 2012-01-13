@@ -357,7 +357,18 @@ class Enterprise_TargetRule_Model_Rule extends Mage_Rule_Model_Abstract
         return !empty($result) ? $result : true;
     }
 
-
+    /**
+     * Retrieve Customer Segment
+     *
+     * @return array
+     */
+    public function getCustomerSegmentIds()
+    {
+        if ($this->getData('customer_segment_ids') === null) {
+            $this->setData('customer_segment_ids', $this->_getResource()->getCustomerSegmentIds($this));
+        }
+        return $this->getData('customer_segment_ids');
+    }
 
 
 

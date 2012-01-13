@@ -55,6 +55,51 @@ class Enterprise_TargetRule_Model_Resource_Rule extends Mage_Rule_Model_Resource
         $this->_init('enterprise_targetrule/rule', 'rule_id');
     }
 
+
+    /**
+     * Get Customer Segment Ids by rule
+     *
+     * @param Mage_Core_Model_Abstract $object
+     * @return array
+     */
+    public function getCustomerSegmentIds(Mage_Core_Model_Abstract $object)
+    {
+        $ids = $this->getReadConnection()->select()
+            ->from($this->getTable('enterprise_targetrule/customersegment'), 'segment_id')
+            ->where('rule_id = ?', $object->getId())
+            ->query()->fetchAll(Zend_Db::FETCH_COLUMN);
+
+        return $ids;
+    }
+
+    /**
+     * Bind rule to customer segments
+     *
+     * @param int $bannerId
+     * @param array $segmentIds
+     * @return Enterprise_TargetRule_Model_Resource_Rule
+     */
+    public function saveCustomerSegments($ruleId, $segmentIds)
+    {
+        if (is_string($segmentIds)) {
+            $segmentIds = array();
+        }
+        $adapter = $this->_getWriteAdapter();
+        foreach ($segmentIds as $segmentId) {
+            $adapter->insertOnDuplicate($this->getTable('enterprise_targetrule/customersegment'),
+                array('rule_id' => $ruleId, 'segment_id' => $segmentId), array('rule_id'));
+        }
+
+        if (empty($segmentIds)) {
+            $segmentIds = array(0);
+        }
+
+        $adapter->delete($this->getTable('enterprise_targetrule/customersegment'),
+            array('rule_id = ?' => $ruleId, 'segment_id NOT IN (?)' => $segmentIds));
+        return $this;
+    }
+
+
     /**
      * Save matched products for current rule and clean index
      *
@@ -65,6 +110,7 @@ class Enterprise_TargetRule_Model_Resource_Rule extends Mage_Rule_Model_Resource
     protected function _afterSave(Mage_Core_Model_Abstract $object)
     {
         parent::_afterSave($object);
+        $this->saveCustomerSegments($object->getId(), $object->getCustomerSegmentIds());
 
         $this->unbindRuleFromEntity($object->getId(), array(), 'product');
         $this->bindRuleToEntity($object->getId(), $object->getMatchingProductIds(), 'product');

@@ -100,17 +100,8 @@ class Enterprise_TargetRule_Adminhtml_TargetRuleController extends Mage_Adminhtm
 
         Mage::register('current_target_rule', $model);
 
-        $block = $this->getLayout()->createBlock('enterprise_targetrule/adminhtml_targetrule_edit');
         $this->_initAction();
-
-        $this->getLayout()->getBlock('head')
-            ->setCanLoadExtJs(true)
-            ->setCanLoadRulesJs(true);
-
-        $this
-            ->_addContent($block)
-            ->_addLeft($this->getLayout()->createBlock('enterprise_targetrule/adminhtml_targetrule_edit_tabs'))
-            ->renderLayout();
+        $this->renderLayout();
     }
 
     /**
