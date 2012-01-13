@@ -28,7 +28,7 @@
  */
 
 /**
- * UImap factory class
+ * UIMap factory class
  *
  * @package     selenium
  * @subpackage  Mage_Selenium
@@ -70,20 +70,18 @@ class Mage_Selenium_Uimap_Factory
                 break;
             case 'tabs':
                 $elements = new Mage_Selenium_Uimap_TabsCollection();
-                foreach ($elemValue as $tabArrayKey => &$tabArrayValue) {
+                foreach ($elemValue as &$tabArrayValue) {
                     foreach ($tabArrayValue as $tabKey => &$tabValue) {
-                        $elements[$tabKey] = new Mage_Selenium_Uimap_Tab($tabKey,
-                                        $tabValue);
+                        $elements[$tabKey] = new Mage_Selenium_Uimap_Tab($tabKey, $tabValue);
                     }
                 }
                 break;
             case 'fieldsets':
                 $elements = new Mage_Selenium_Uimap_FieldsetsCollection();
-                foreach ($elemValue as $fieldsetArrayKey => &$fieldsetArrayValue) {
+                foreach ($elemValue as &$fieldsetArrayValue) {
                     foreach ($fieldsetArrayValue as $fieldsetKey => &$fieldsetValue) {
                         $elements[$fieldsetKey] =
-                                new Mage_Selenium_Uimap_Fieldset($fieldsetKey,
-                                        $fieldsetValue);
+                            new Mage_Selenium_Uimap_Fieldset($fieldsetKey, $fieldsetValue);
                     }
                 }
                 break;

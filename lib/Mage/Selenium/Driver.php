@@ -28,7 +28,7 @@
 
 /**
  * Implementation of the Selenium RC client/server protocol.
- * Extension: logging of all client/server protocol tranactions to the 'selenium-rc-DATE.log' file.
+ * Extension: logging of all client/server protocol transactions to the 'selenium-rc-DATE.log' file.
  *
  * @package     selenium
  * @subpackage  Mage_Selenium

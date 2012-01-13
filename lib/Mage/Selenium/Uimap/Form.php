@@ -48,7 +48,7 @@ class Mage_Selenium_Uimap_Form extends Mage_Selenium_Uimap_Abstract
     /**
      * Get tab defined on the current form
      *
-     * @param string $id Tab's IDentifier
+     * @param string $id Tab's Identifier
      *
      * @return Mage_Selenium_Uimap_Tab
      */

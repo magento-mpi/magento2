@@ -1357,7 +1357,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     }
 
     /**
-     * Map data values to UIpage form
+     * Map data values to UIPage form
      *
      * @param array $fieldsets Array of fieldsets for filling
      * @param array $data Array of data to filling
@@ -1541,9 +1541,10 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 
         $waitAjax = true;
         $xpath = '';
+        $xpathContainer = $this->getCurrentUimapPage();
         if ($fieldSetName) {
             try {
-                $xpathContainer = $this->getCurrentUimapPage()->findFieldset($fieldSetName);
+                $xpathContainer = $xpathContainer->findFieldset($fieldSetName);
                 $xpath = $xpathContainer->getXpath();
             } catch (Exception $e) {
                 $errorMessage = 'Current location url: ' . $this->getLocation() . "\n"
@@ -1551,8 +1552,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                     . $e->getMessage() . ' - "' . $fieldSetName . '"';
                 $this->fail($errorMessage);
             }
-        } else {
-            $xpathContainer = $this->getCurrentUimapPage();
         }
         $resetXpath = $xpath . $xpathContainer->findButton('reset_filter');
         $jsName = $this->getAttribute($resetXpath . '/@onclick');
@@ -2748,7 +2747,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     }
 
     /**
-     * net takoy
      * Takes a test and adds its dependencies
      *
      * @param PHPUnit_Framework_Test $test Object. A Test can be run and collect its results

@@ -96,7 +96,7 @@ class Mage_Selenium_Helper_Page extends Mage_Selenium_Helper_Abstract
     public function getPageClickXpath($area, $page)
     {
         if (!$this->_applicationHelper) {
-            throw new Mage_Selenium_Exception('ApplicationHelper hasn\'t initialized yet');
+            throw new Mage_Selenium_Exception('ApplicationHelper has not initialized yet');
         }
 
         $pageData = $this->_config->getUimapHelper()->getUimapPage($area, $page);

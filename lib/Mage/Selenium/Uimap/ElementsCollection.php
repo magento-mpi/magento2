@@ -74,7 +74,7 @@ class Mage_Selenium_Uimap_ElementsCollection extends ArrayObject
     }
 
     /**
-     * Asign parameters decorator
+     * Assign parameters decorator
      *
      * @param Mage_Selenium_Helper_Params $params Parameters decorator
      *
@@ -111,9 +111,6 @@ class Mage_Selenium_Uimap_ElementsCollection extends ArrayObject
 
     /**
      * Getting of ElementsCollectionIterator object
-     *
-     * @param Mage_Selenium_Uimap_ElementsCollection $collection The array or object to be iterated on.
-     * @param Mage_Selenium_Helper_Params $paramsDecorator Params decorator array (by default = NULL)
      *
      * @return Mage_Selenium_Uimap_ElementsCollectionIterator
      */

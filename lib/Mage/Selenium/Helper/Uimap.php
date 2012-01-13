@@ -171,6 +171,7 @@ class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
                 }
             }
         }
+        return null;
     }
 
     /**

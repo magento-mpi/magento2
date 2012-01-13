@@ -112,7 +112,7 @@ class Mage_Selenium_Uimap_Abstract
     }
 
     /**
-     * Asign parameters decorator to uimap tree from any level
+     * Assign parameters decorator to uimap tree from any level
      *
      * @param Mage_Selenium_Helper_Params $params Parameters decorator
      *
@@ -270,8 +270,8 @@ class Mage_Selenium_Uimap_Abstract
                 $elementName .= 's';
             }
             if (!empty($elementName) && !empty($arguments)) {
-                $elemetsColl = $this->getAllElements($elementName);
-                $returnValue = $elemetsColl->get($arguments[0],
+                $elementsColl = $this->getAllElements($elementName);
+                $returnValue = $elementsColl->get($arguments[0],
                         $this->getParams(isset($arguments[1]) ? $arguments[1] : null));
             }
         }

@@ -279,7 +279,7 @@ class Mage_Selenium_TestConfiguration
     protected function _initDrivers()
     {
         $connections = $this->getConfigValue('browsers');
-        foreach ($connections as $connection => $config) {
+        foreach ($connections as $config) {
             $this->_addDriverConnection($config);
         }
         return $this;
@@ -300,7 +300,7 @@ class Mage_Selenium_TestConfiguration
         $driver->setPort($connectionConfig['port']);
         $driver->setContiguousSession(true);
         $this->_drivers[] = $driver;
-        // @TODO implement interations outside
+        // @TODO implement interactions outside
         $this->driver = $this->_drivers[0];
         return $this;
     }
