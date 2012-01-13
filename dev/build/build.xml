@@ -22,16 +22,16 @@
 
     <!-- make script, that runs phpunit with xdebug enabled, executable -->
     <target name="prepare-xdebug">
-        <exec executable="chmod" failonerror="true">
-            <arg line="u+x ${file.phpunit_xdebug}"/>
-        </exec>
+        <chmod perm="u+x" file="${file.phpunit_xdebug}"/>
     </target>
 
     <!-- setup permissions for the application installation -->
     <target name="prepare-installation">
-        <exec executable="chmod" failonerror="true">
-            <arg line="-R a+w ${basedir}/app/etc ${basedir}/pub/media ${basedir}/var"/>
-        </exec>
+        <chmod perm="a+w">
+            <dirset dir="${basedir}/app/etc"/>
+            <dirset dir="${basedir}/pub/media"/>
+            <dirset dir="${basedir}/var"/>
+        </chmod>
     </target>
 
     <!-- delete files, that don't belong to Community Edition, from working copy -->
