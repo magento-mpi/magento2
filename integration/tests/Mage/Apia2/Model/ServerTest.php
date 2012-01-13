@@ -89,7 +89,7 @@ class Mage_Api2_Model_ServerTest extends Magento_TestCase
     {
         /** @var $response Zend_Http_Response */
         $response = $this->_getClient()->setHeaders('Accept', 'text/html')->request();
-        $this->assertEquals(200, $response->getStatus());
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $response->getStatus());
 
         $contentType = explode('; ', $response->getHeader('Content-type'));
         $this->assertEquals('text/html', $contentType[0]);
@@ -104,7 +104,7 @@ class Mage_Api2_Model_ServerTest extends Magento_TestCase
     {
         /** @var $response Zend_Http_Response */
         $response = $this->_getClient()->setHeaders('Accept', 'application/json')->request();
-        $this->assertEquals(200, $response->getStatus());
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $response->getStatus());
 
         $body = Zend_Json::decode($response->getBody());
         $this->assertInternalType('array', $body);
@@ -128,7 +128,7 @@ class Mage_Api2_Model_ServerTest extends Magento_TestCase
     {
         /** @var $response Zend_Http_Response */
         $response = $this->_getClient()->setHeaders('Accept', 'application/xml')->request();
-        $this->assertEquals(200, $response->getStatus());
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $response->getStatus());
 
         /** @var $body Varien_Simplexml_Element */
         $body = new Varien_Simplexml_Element($response->getBody());
@@ -145,7 +145,7 @@ class Mage_Api2_Model_ServerTest extends Magento_TestCase
             } elseif ('sku' == $member->name) {
                 $this->assertEquals($member->value->string->asArray(), $product->getSku());
             } else {
-                $this->fail('Bad response.');
+                $this->fail('Bad param in response.');
             }
         }
 
@@ -161,7 +161,6 @@ class Mage_Api2_Model_ServerTest extends Magento_TestCase
     {
         /** @var $response Zend_Http_Response */
         $response = $this->_getClient()->setUri('http://' . TESTS_HTTP_HOST . '/api/rest/qwerty')->request();
-
-        $this->assertEquals(500, $response->getStatus());
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR, $response->getStatus());
     }
 }
