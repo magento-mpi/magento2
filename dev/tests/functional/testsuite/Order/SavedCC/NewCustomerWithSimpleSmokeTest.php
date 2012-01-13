@@ -401,7 +401,7 @@ class Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Selenium_TestCas
      * <p>9.Check payment method 'Credit Card';</p>
      * <p>10.Choose any from 'Get shipping methods and rates';</p>
      * <p>11. Submit order;</p>
-     * <p>12. Edit order (add products and change billing address);</p>
+     * <p>12. Edit order (add products and change billing address, add unsaved payment data);</p>
      * <p>13. Submit order;</p>
      * <p>Expected results:</p>
      * <p>New customer successfully created. Order is created for the new customer;</p>
@@ -421,6 +421,16 @@ class Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Selenium_TestCas
         $this->assertMessagePresent('success', 'success_created_order');
         //Steps
         $this->clickButton('reorder');
+
+        //Fill fields of unsaved payment data
+        if (isset($orderData['payment_data']['payment_info']['card_verification_number'])) {
+            $this->orderHelper()->fillForm(
+                array('card_verification_number' =>
+                    $orderData['payment_data']['payment_info']['card_verification_number']
+                )
+            );
+        }
+
         $this->orderHelper()->submitOreder();
         //Verifying
         $this->assertMessagePresent('success', 'success_created_order');
