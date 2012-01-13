@@ -53,7 +53,10 @@ abstract class Mage_Api2_Model_Renderer
 
             $renderType = $helper->getRendererType($request);    //this can also throw Exception with code 406 for example
         } else {
-            throw new Exception(sprintf('Invalid Renderer factory argument "%s"', $input));
+            throw new Mage_Api2_Exception(
+                sprintf('Invalid Renderer factory argument "%s"', $input),
+                Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR
+            );
         }
 
         return Mage::getModel($renderType);

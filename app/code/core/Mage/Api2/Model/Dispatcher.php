@@ -81,7 +81,7 @@ class Mage_Api2_Model_Dispatcher
             ':user'     => $userType,
             ':version'  => $version,
         );
-        $class = strtr(Mage_Api2_Model_Dispatcher::RESOURCE_CLASS_TEMPLATE, $replace);
+        $class = strtr(self::RESOURCE_CLASS_TEMPLATE, $replace);
 
         return $class;
     }

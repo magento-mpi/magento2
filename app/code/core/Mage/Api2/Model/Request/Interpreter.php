@@ -6,6 +6,7 @@ abstract class Mage_Api2_Model_Request_Interpreter
      * Request body interpreters factory
      *
      * @static
+     * @throw
      * @param mixed $input
      * @return Mage_Api2_Model_Request_Interpreter_Interface
      */
@@ -19,9 +20,12 @@ abstract class Mage_Api2_Model_Request_Interpreter
             /** @var $helper Mage_Api2_Helper_Data */
             $helper = Mage::helper('api2');
 
-            $interpreterType = $helper->getInterpreterType($request);    //this can also throw Exception with code 406 for example
+            $interpreterType = $helper->getInterpreterType($request);
         } else {
-            throw new Exception(sprintf('Invalid Interpreter factory argument "%s"', $input));
+            throw new Mage_Api2_Exception(
+                sprintf('Invalid Interpreter factory argument "%s"', $input),
+                Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR
+            );
         }
 
         return Mage::getModel($interpreterType);

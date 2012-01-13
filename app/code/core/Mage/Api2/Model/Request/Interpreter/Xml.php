@@ -1,7 +1,17 @@
 <?php
 
+/**
+ * Request body XML parser
+ */
 class Mage_Api2_Model_Request_Interpreter_Xml implements Mage_Api2_Model_Request_Interpreter_Interface
 {
+    /**
+     * Parse Request body into array of params
+     *
+     * @param string $body
+     * @param null|array $options
+     * @return array
+     */
     public function interpret($body, $options = null)
     {
         /*$xml = simplexml_load_string($body);
