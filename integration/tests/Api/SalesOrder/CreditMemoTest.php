@@ -28,7 +28,7 @@
 /**
  * @magentoDataFixture SalesOrder/_fixtures/invoice.php
  */
-class SalesOrder_CreditMemoTest extends Magento_Test_Webservice
+class Api_SalesOrder_CreditMemoTest extends Magento_Test_Webservice
 {
     /**
      * Test sales order credit memo list, info, create, cancel

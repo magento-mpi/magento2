@@ -28,7 +28,7 @@
 /**
  * Test Product CRUD operations
  */
-class Catalog_ProductTest extends Magento_Test_Webservice
+class Api_Catalog_ProductTest extends Magento_Test_Webservice
 {
 
     /**

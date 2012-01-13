@@ -3,7 +3,7 @@
 /**
  * Test if category changes through API properly applied on frontend
  */
-class Catalog_Category_FrontendTest extends Magento_Test_Webservice
+class Api_Catalog_Category_FrontendTest extends Magento_Test_Webservice
 {
     /** @var int Share category id between methods */
     protected static $_categoryId;
@@ -78,7 +78,7 @@ class Catalog_Category_FrontendTest extends Magento_Test_Webservice
 
     /**
      * Retrieve category data
-     * 
+     *
      * @return Mage_Catalog_Model_Category
      */
     protected function _getCategory()

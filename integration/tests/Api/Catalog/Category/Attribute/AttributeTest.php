@@ -32,7 +32,7 @@
  * @package    integration_tests
  * @author     Magento PaaS Team <paas-team@magento.com>
  */
-class Catalog_Category_Attribute_AttributeTest extends Magento_Test_Webservice
+class Api_Catalog_Category_Attribute_AttributeTest extends Magento_Test_Webservice
 {
     /** @var SimpleXMLObject|stdClass */
     protected static $_attributeFixture;

@@ -32,7 +32,7 @@
  * @package     Magento_Test
  * @author      Magento Api Team <api-team@magento.com>
  */
-class Catalog_Product_AttributeTest extends Magento_Test_Webservice
+class Api_Catalog_Product_AttributeTest extends Magento_Test_Webservice
 {
     /**
      * Tests attribute creation with invalid characters in attribute code (possible SQL injection)

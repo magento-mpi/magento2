@@ -28,7 +28,7 @@
 /**
  * @magentoDataFixture Catalog/Product/_fixtures/CustomOption.php
  */
-class Catalog_Product_CustomOptionCRUDTest extends Magento_Test_Webservice
+class Api_Catalog_Product_CustomOptionCRUDTest extends Magento_Test_Webservice
 {
     /**
      * @var array

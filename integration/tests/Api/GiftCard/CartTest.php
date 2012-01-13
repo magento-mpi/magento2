@@ -29,7 +29,7 @@
  * @magentoDataFixture GiftCard/_fixtures/code_pool.php
  * @magentoDataFixture GiftCard/_fixtures/giftcard_account.php
  */
-class GiftCard_CartTest extends Magento_Test_Webservice
+class Api_GiftCard_CartTest extends Magento_Test_Webservice
 {
     /**
      * Test giftcard Shopping Cart add, list, remove

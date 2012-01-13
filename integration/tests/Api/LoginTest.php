@@ -32,7 +32,7 @@
  * @package     Magento_Test
  * @author      Magento Api Team <api-team@magento.com>
  */
-class LoginTest extends Magento_Test_Webservice
+class Api_LoginTest extends Magento_Test_Webservice
 {
     /**
      * Test API login

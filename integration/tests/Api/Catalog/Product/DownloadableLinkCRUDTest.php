@@ -28,7 +28,7 @@
 /**
  * @magentoDataFixture Catalog/Product/_fixtures/LinkCRUD.php
  */
-class Catalog_Product_DownloadableLinkCRUDTest extends Magento_Test_Webservice
+class Api_Catalog_Product_DownloadableLinkCRUDTest extends Magento_Test_Webservice
 {
     protected static $links = array();
 

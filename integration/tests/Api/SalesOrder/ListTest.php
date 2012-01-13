@@ -33,7 +33,7 @@
  * @author      Magento Api Team <api-team@magento.com>
  * @magentoDataFixture SalesOrder/_fixtures/order.php
  */
-class SalesOrder_ListTest extends Magento_Test_Webservice
+class Api_SalesOrder_ListTest extends Magento_Test_Webservice
 {
     /**
      * Test getting sales order list in SOAP v2

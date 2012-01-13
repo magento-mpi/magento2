@@ -32,7 +32,7 @@
  * @package     Catalog_Category
  * @author      Magento Api Team <api-team@magento.com>
  */
-class Catalog_Category_CategoryTest extends Magento_Test_Webservice
+class Api_Catalog_Category_CategoryTest extends Magento_Test_Webservice
 {
     /**
      * Fixture data

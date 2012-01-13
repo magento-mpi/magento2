@@ -33,7 +33,7 @@
  * @author      Magento Api Team <api-team@magento.com>
  * @magentoDataFixture SalesOrder/_fixtures/order.php
  */
-class SalesOrder_StatusTest extends Magento_Test_Webservice
+class Api_SalesOrder_StatusTest extends Magento_Test_Webservice
 {
     /**
      * Tears down the fixture, for example, close a network connection.

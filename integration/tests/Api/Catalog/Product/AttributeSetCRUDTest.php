@@ -25,7 +25,7 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-class Catalog_Product_AttributeSetCRUDTest extends Magento_Test_Webservice
+class Api_Catalog_Product_AttributeSetCRUDTest extends Magento_Test_Webservice
 {
     /**
      * Test Attribute set CRUD

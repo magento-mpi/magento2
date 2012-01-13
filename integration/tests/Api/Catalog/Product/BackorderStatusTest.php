@@ -32,7 +32,7 @@
  * @package     Magento_Test
  * @author      Magento Api Team <api-team@magento.com>
  */
-class Catalog_Product_BackorderStatusTest extends Magento_Test_Webservice
+class Api_Catalog_Product_BackorderStatusTest extends Magento_Test_Webservice
 {
     /**
      * Sets up the fixture, for example, open a network connection.

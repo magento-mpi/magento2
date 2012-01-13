@@ -25,7 +25,7 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-class GiftCard_CustomerTest extends Magento_Test_Webservice
+class Api_GiftCard_CustomerTest extends Magento_Test_Webservice
 {
     /**
      * Test giftcard customer info by code
@@ -41,7 +41,7 @@ class GiftCard_CustomerTest extends Magento_Test_Webservice
         $balance = $giftcardAccount->getData('balance');
         $dateExpires = $giftcardAccount->getData('date_expires');
         $code = $giftcardAccount->getData('code');
-        
+
         $info = $this->call('giftcard_customer.info', array($code));
         $this->assertEquals($balance, $info['balance']);
         $this->assertEquals($dateExpires, $info['expire_date']);

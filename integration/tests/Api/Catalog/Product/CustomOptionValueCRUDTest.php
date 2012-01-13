@@ -28,7 +28,7 @@
 /**
  * @magentoDataFixture Catalog/Product/_fixtures/CustomOptionValue.php
  */
-class Catalog_Product_CustomOptionValueCRUDTest extends Magento_Test_Webservice
+class Api_Catalog_Product_CustomOptionValueCRUDTest extends Magento_Test_Webservice
 {
     protected static $_lastAddedOption;
 

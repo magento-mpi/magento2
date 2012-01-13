@@ -29,7 +29,7 @@
  * Test API login method
  *
  */
-class Checkout_CartTest extends Magento_Test_Webservice
+class Api_Checkout_CartTest extends Magento_Test_Webservice
 {
     /**
      * Product for test

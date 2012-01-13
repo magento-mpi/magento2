@@ -35,7 +35,7 @@
 /**
  * @magentoDataFixture CustomerBalance/_fixtures/CustomerBalance.php
  */
-class CustomerBalance_CustomerBalanceTest extends Magento_Test_Webservice
+class Api_CustomerBalance_CustomerBalanceTest extends Magento_Test_Webservice
 {
     /**
      * Customer fixture
