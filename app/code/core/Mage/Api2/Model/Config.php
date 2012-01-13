@@ -43,6 +43,30 @@ class Mage_Api2_Model_Config extends Varien_Simplexml_Config    //extends Mage_A
      */
     const CACHE_TAG = 'config_api2';
 
+    private $_typesForRequest = array(
+        'text'                  => 'api2/request_interpreter_query',
+        'text/plain'            => 'api2/request_interpreter_query',
+        'text/html'             => 'api2/request_interpreter_html',
+        'json'                  => 'api2/request_interpreter_json',
+        'application/json'      => 'api2/request_interpreter_json',
+        'xml'                   => 'api2/request_interpreter_xml',
+        'application/xml'       => 'api2/request_interpreter_xml',
+        'application/xhtml+xml' => 'api2/request_interpreter_xml',
+        'text/xml'              => 'api2/request_interpreter_xml',
+    );
+
+    private $_typesForResponse = array(
+        'text'                  => 'api2/renderer_query',
+        'text/plain'            => 'api2/renderer_query',
+        'text/html'             => 'api2/renderer_html',
+        'json'                  => 'api2/renderer_json',
+        'application/json'      => 'api2/renderer_json',
+        'xml'                   => 'api2/renderer_xml',
+        'application/xml'       => 'api2/renderer_xml',
+        'application/xhtml+xml' => 'api2/renderer_xml',
+        'text/xml'              => 'api2/renderer_xml',
+    );
+
     /**
      * Constructor
      * Initializes XML for this configuration
@@ -80,6 +104,30 @@ class Mage_Api2_Model_Config extends Varien_Simplexml_Config    //extends Mage_A
         }
 
         return $routes;
+    }
+
+    /**
+     * Get MIME type mapping to Request interpreter class
+     *
+     * @static
+     * @return array
+     */
+    public function getMimeTypesMappingForRequest()
+    {
+        //TODO fetch this from config files
+        return $this->_typesForRequest;
+    }
+
+    /**
+     * Get MIME type mapping to render Response body
+     *
+     * @static
+     * @return array
+     */
+    public function getMimeTypesMappingForResponse()
+    {
+        //TODO fetch this from config files
+        return $this->_typesForResponse;
     }
 
     /**

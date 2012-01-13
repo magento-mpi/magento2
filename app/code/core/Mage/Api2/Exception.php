@@ -39,6 +39,6 @@ class Mage_Api2_Exception extends Exception //extends Mage_Core_Exception
             throw new Exception(sprintf('Invalid Exception code "%d"', $code));
         }
 
-        return $this;
+        parent::__construct($message, $code);
     }
 }

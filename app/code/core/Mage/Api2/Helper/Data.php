@@ -1,28 +1,4 @@
 <?php
-/**
- * Magento
- *
- * NOTICE OF LICENSE
- *
- * This source file is subject to the Open Software License (OSL 3.0)
- * that is bundled with this package in the file LICENSE.txt.
- * It is also available through the world-wide-web at this URL:
- * http://opensource.org/licenses/osl-3.0.php
- * If you did not receive a copy of the license and are unable to
- * obtain it through the world-wide-web, please send an email
- * to license@magentocommerce.com so we can send you a copy immediately.
- *
- * DISCLAIMER
- *
- * Do not edit or add to this file if you wish to upgrade Magento to newer
- * versions in the future. If you wish to customize Magento for your
- * needs please refer to http://www.magentocommerce.com for more information.
- *
- * @category    Mage
- * @package     Mage_Api2
- * @copyright   Copyright (c) 2011 Magento Inc. (http://www.magentocommerce.com)
- * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- */
 
 /**
  * Webservice apia2 data helper
@@ -31,29 +7,8 @@
  * @package    Mage_Api2
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Api2_Helper_Data
+class Mage_Api2_Helper_Data extends Mage_Core_Helper_Abstract
 {
-    /**
-     * Get content type mapping
-     *
-     * @static
-     * @return array
-     */
-    public static function getTypeMapping()
-    {
-        return array(
-            'text'                  => 'query',
-            'text/plain'            => 'query',
-            'text/html'             => 'html',
-            'json'                  => 'json',
-            'application/json'      => 'json',
-            'xml'                   => 'xml',
-            'application/xml'       => 'xml',
-            'application/xhtml+xml' => 'xml',
-            'text/xml'              => 'xml',
-        );
-    }
-
     /**
      * Format XML data to array form
      *
@@ -97,5 +52,68 @@ class Mage_Api2_Helper_Data
             $result = (string) $xml;
         }
         return $result;
+    }
+
+    /**
+     * Get renderer type most preferred and acceptable by client
+     *
+     * @throw Mage_Api2_Exception 406
+     * @param Mage_Api2_Model_Request $request
+     * @return string
+     */
+    public function getRendererType(Mage_Api2_Model_Request $request)
+    {
+        /** @var $config Mage_Api2_Model_Config */
+        $config = Mage::getModel('api2/config');
+
+        $found = null;
+        foreach ($types = $request->getAcceptTypes() as $accepted) {
+            foreach ($config->getMimeTypesMappingForResponse() as $supported=>$path) {
+                if ($accepted==$supported || $accepted=='*/*' || $accepted==current(explode('/', $supported)).'/*') {
+                    $found = $path;
+                    break(2);
+                }
+            }
+        }
+
+        //if server can't respond in any of accepted types it SHOULD send 406(not acceptable)
+        if ($found===null) {
+            throw new Mage_Api2_Exception(
+                sprintf('Invalid media types in Accept HTTP header "%s".', $request->getHeader('Accept')),
+                Mage_Api2_Model_Server::HTTP_NOT_ACCEPTABLE);
+        }
+
+        return $found;
+    }
+
+    /**
+     * Get interpreter type for Request body according to Content-type HTTP header
+     *
+     * @throws Mage_Api2_Exception
+     * @param Mage_Api2_Model_Request $request
+     * @return string
+     */
+    public function getInterpreterType(Mage_Api2_Model_Request $request)
+    {
+        $type = $request->getContentType()->type;
+
+        /** @var $config Mage_Api2_Model_Config */
+        $config = Mage::getModel('api2/config');
+        $found = null;
+        foreach ($config->getMimeTypesMappingForResponse() as $supported=>$path) {
+            if ($supported==$type || $supported=='*/*' || $supported==current(explode('/', $type)).'/*') {
+                $found = $path;
+                break;
+            }
+        }
+
+        if ($found===null) {
+            throw new Mage_Api2_Exception(
+                sprintf('Invalid Request media type "%s"', $type),
+                Mage_Api2_Model_Server::HTTP_BAD_REQUEST
+            );
+        }
+
+        return $found;
     }
 }

@@ -47,7 +47,7 @@ class Mage_Api2_Model_Acl_Global
     protected function isAdminAllowed($resourceType, $operation, $accessKey)
     {
         $user = new Mage_OAuth_Model_User($accessKey);
-        $acl = new Mage_OAuth_Model_Acl;
+        $acl = Mage_OAuth_Model_Acl::getInstance();
 
         $role = $user->getRole();
         $isAllowed = $acl->isAllowed($role, $resourceType, $operation);

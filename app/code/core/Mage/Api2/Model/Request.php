@@ -24,6 +24,86 @@ class Mage_Api2_Model_Request extends Zend_Controller_Request_Http
         $this->setParam('accessKey', Mage_Api2_Model_Old::getTestAccessKey());
     }
 
+    /**
+     * Fetch data from HTTP Request body
+     *
+     * @return array
+     */
+    public function getBodyParams()
+    {
+        $interpreter = Mage_Api2_Model_Request_Interpreter::factory($this);
+        $params = $interpreter->interpret($this->getRawBody());
+
+        return $params;
+    }
+
+    /**
+     * Get Content-Type of Request body parsed into object
+     *
+     * @return object
+     */
+    public function getContentType()
+    {
+        $string = $this->getHeader('Content-Type');
+        list($type, $string) = explode(';', $string);
+        list(,$charset) = explode('=', $string);
+
+        return ((object)array('type' => trim($type), 'charset' => trim($charset)));
+    }
+
+    public function getAcceptTypes()
+    {
+        $string = $this->getHeader('Accept');
+        $definitions = preg_split('/,\s*/', $string);
+
+        //Assume that same quality values are forbidden and no two MIME types with out "q" at all
+        $groups = array();
+        foreach ($definitions as $definition) {
+            $array = explode(';', $definition);
+            $type = trim(array_shift($array));
+
+            $params = array();
+            foreach ($array as $param) {
+                $pair = explode('=', $param, 2);
+                if (count($pair)!=2) {
+                    continue;
+                }
+
+                $params[trim($pair[0])] = trim($pair[1]);
+            }
+
+            //TODO params except "q" not used and not saved anywhere
+            $quality = isset($params['q'])  ?$params['q']   :'1.0';     //No "q" means "q=1"
+
+            unset($params['q']);
+            list(, $subtype) = explode('/', $type);
+            if ($type == '*/*') {
+                $group = 1;
+            } elseif ($subtype=='*') {
+                $group = 2;
+            } elseif (count($params)>0) {
+                $group = 4;
+            } else {
+                $group = 3;
+            }
+
+            $groups[(string)$quality][$group][] = $type;
+        }
+
+        krsort($groups);
+        foreach ($groups as &$group) {
+            krsort($group);
+        }
+
+        $types = array();
+        $iterator = new RecursiveIteratorIterator(new RecursiveArrayIterator($groups));
+        foreach ($iterator as $item) {
+            $types[] = $item;
+        }
+
+        return $types;
+    }
+
     public function getResourceType()
     {
         //this is set during routing
@@ -36,12 +116,11 @@ class Mage_Api2_Model_Request extends Zend_Controller_Request_Http
     {
         //we use classical CRUD verbs
         $operationByMethod = array(
-            'GET'    => 'retrieve',
-            'POST'   => 'create',
-            'PUT'    => 'update',
-            'DELETE' => 'delete',
+            'GET'    => Mage_Api2_Model_Resource::OPERATION_RETRIEVE,
+            'POST'   => Mage_Api2_Model_Resource::OPERATION_CREATE,
+            'PUT'    => Mage_Api2_Model_Resource::OPERATION_UPDATE,
+            'DELETE' => Mage_Api2_Model_Resource::OPERATION_DELETE,
         );
-
 
         $operation = $operationByMethod[$this->getMethod()];
 
@@ -67,45 +146,21 @@ class Mage_Api2_Model_Request extends Zend_Controller_Request_Http
 
     public function getAccessKey()
     {
-        //TODO now it's set in request, in real life it should be fetched from HTTP "Authorization" header
+        //TODO now it's set in request __construct(), in real life it should be fetched from HTTP "Authorization" header
         // or as fallback in a query param "key"
         $accessKey = $this->getParam('accessKey');
 
         /*$string = $this->getHeader('Authorization');
-        //$string = 'OAuth 119c61237cd68994c17bcfd5193060ac8ac12239';
+        //example:: $string = 'OAuth 119c61237cd68994c17bcfd5193060ac8ac12239';
         preg_match('/OAuth\s(.+)/', $string, $matches);
         $accessKey = $matches[1];*/
 
         return $accessKey;
     }
 
-    public function getAcceptType()
-    {
-        $types = $this->getAcceptTypes();
 
-        return $types[0];
-    }
 
-    protected function getAcceptTypes()
-    {
-        $string = $this->getHeader('Accept');
-        list($string) = explode(';', $string);
 
-        $types = explode(',', $string);
-
-        return $types;
-    }
-
-    public function getContentType()
-    {
-        $string = $this->getHeader('Content-Type');
-        list($type, $string) = explode(';', $string);
-        list(,$charset) = explode('=', $string);
-
-        $object = (object)array('type'=>trim($type), 'charset'=>trim($charset));
-
-        return $object;
-    }
 
     //used?
     private function getResourceParams()
@@ -127,28 +182,13 @@ class Mage_Api2_Model_Request extends Zend_Controller_Request_Http
         return $data;
     }
 
-    /**
-     * Fetch data from HTTP Request body
-     *
-     * @return array
-     */
-    public function getBodyParams()
-    {
-        $type = $this->getContentType()->type;
-
-        $interpreter = Mage_Api2_Model_Request_Interpreter::factory($type);
-        $params = $interpreter->interpret($this->getRawBody());
-
-        return $params;
-    }
-
-    public function getEncoding()
+    public function getAcceptCharset()
     {
         //TODO in HTTP encoding!=charset, this method is about charset
         //TODO what charset it is request/response?
-        //TODO request charset determined by Content-Type HTTP header
-        //TODO response charset determined by Accept-Charset HTTP header
-        $encoding = 'UTF-8';
+        // * request charset determined by Content-Type HTTP header
+        // * response charset determined by Accept-Charset HTTP header
+        $encoding = 'utf-8';
 
         return $encoding;
     }

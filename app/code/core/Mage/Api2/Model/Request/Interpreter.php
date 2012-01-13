@@ -3,24 +3,29 @@
 abstract class Mage_Api2_Model_Request_Interpreter
 {
     /**
-     * Mage_Api2_Model_Renderer_Interface
+     * Request body interpreters factory
      *
      * @static
-     * @throws Exception
-     * @param string $type
+     * @param mixed $input
      * @return Mage_Api2_Model_Request_Interpreter_Interface
      */
-    public static function factory($type = 'json')
+    public static function factory($input=null)
     {
-        $types = Mage_Api2_Helper_Data::getTypeMapping();
+        if (is_string($input)) {
+            $interpreterType = $input;
+        } elseif ($input instanceof Mage_Api2_Model_Request) {
+            $request = $input;
 
-        if (!isset($types[$type])) {
-            throw new Exception(sprintf('Invalid response media type "%s"', $type));
+            /** @var $helper Mage_Api2_Helper_Data */
+            $helper = Mage::helper('api2');
+
+            $interpreterType = $helper->getInterpreterType($request);    //this can also throw Exception with code 406 for example
+        } else {
+            throw new Exception('');
         }
 
-        $class = sprintf('Mage_Api2_Model_Request_Interpreter_%s', ucfirst($types[$type]));
-        $renderer = new $class;
 
-        return $renderer;
+
+        return Mage::getModel($interpreterType);
     }
 }

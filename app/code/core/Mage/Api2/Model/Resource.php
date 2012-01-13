@@ -29,12 +29,24 @@ abstract class Mage_Api2_Model_Resource extends Varien_Object
         $this->setRequest($request);
         $this->setResponse($response);
 
-        $renderType = $this->getRequest()->getAcceptType();
-        $renderer = Mage_Api2_Model_Renderer::factory($renderType);
-        $this->setRenderer($renderer);
+        $this->_initRenderer($request);
 
         $response->clearHeaders();
-        $response->setHeader('Content-Type', sprintf('%s; charset=%s', $renderType, $request->getEncoding()));
+        $response->setHeader(
+            'Content-Type',
+            sprintf('%s; charset=%s',$this->getRenderer()->getMimeType(), $request->getAcceptCharset())
+        );
+    }
+
+    /**
+     * Init renderer
+     *
+     * @param Mage_Api2_Model_Request $request
+     */
+    protected function _initRenderer(Mage_Api2_Model_Request $request)
+    {
+        $renderer = Mage_Api2_Model_Renderer::factory($request);
+        $this->setRenderer($renderer);
     }
 
     /**
@@ -69,7 +81,7 @@ abstract class Mage_Api2_Model_Resource extends Varien_Object
      */
     protected function render($data)
     {
-        $content = $this->getRenderer()->render($data, array('encoding'=>$this->getRequest()->getEncoding()));
+        $content = $this->getRenderer()->render($data, array('encoding'=>$this->getRequest()->getAcceptCharset()));
         $this->getResponse()->setBody($content);
     }
 
