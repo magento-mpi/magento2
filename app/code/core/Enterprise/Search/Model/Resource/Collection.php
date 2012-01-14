@@ -366,6 +366,7 @@ class Enterprise_Search_Model_Resource_Collection
 
             if ($needToLoadFacetedData) {
                 $this->_facetedData = $result['faceted_data'];
+                $this->_facetedDataIsLoaded = true;
             }
         }
 

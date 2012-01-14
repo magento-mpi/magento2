@@ -135,6 +135,10 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
      */
     protected $_indexNeedsOptimization      = false;
 
+
+
+
+
     /**
      * Before commit action
      *
@@ -202,17 +206,23 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
             $productEntityTypeId = Mage::getSingleton('Mage_Eav_Model_Config')
                 ->getEntityType('catalog_product')
                 ->getEntityTypeId();
+
             $attributeCollection = Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Product_Attribute_Collection')
                 ->setEntityTypeFilter($productEntityTypeId)
-                ->addToIndexFilter();
+                ->addToIndexFilter()
+                ->getItems();
 
             $this->_indexableAttributeParams = array();
-            while ($item = $attributeCollection->fetchItem()) {
+            foreach ($attributeCollection as $item) {
                 $this->_indexableAttributeParams[$item->getAttributeCode()] = array(
-                    'backendType'   => $item->getBackendType(),
-                    'frontendInput' => $item->getFrontendInput(),
-                    'searchWeight'  => $item->getSearchWeight(),
-                    'isSearchable'  => $item->getIsSearchable()
+                    'backendType'       => $item->getBackendType(),
+                    'frontendInput'     => $item->getFrontendInput(),
+                    'searchWeight'      => $item->getSearchWeight(),
+                    'isSearchable'      => (bool) $item->getIsSearchable(),
+                    'usedForSortBy'     => (bool) $item->getUsedForSortBy(),
+                    'usedForSortOnly'   => !($item->getIsVisibleInAdvancedSearch()
+                                             || $item->getIsFilterable()
+                                             || $item->getIsFilterableInSearch())
                 );
             }
         }
@@ -234,10 +244,10 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
         }
 
         $docs = array();
-        $attributeParams = $this->_getIndexableAttributeParams();
-        $this->_separator = Mage::getResourceSingleton('Mage_CatalogSearch_Model_Resource_Fulltext')->getSeparator();
-        $fieldPrefix = Mage::getResourceSingleton('Enterprise_Search_Model_Resource_Engine')->getFieldsPrefix();
-        $fieldPrefixLength = strlen($fieldPrefix);
+        $attributeParams    = $this->_getIndexableAttributeParams();
+        $this->_separator   = Mage::getResourceSingleton('Mage_CatalogSearch_Model_Resource_Fulltext')->getSeparator();
+        $fieldPrefix        = Mage::getResourceSingleton('Enterprise_Search_Model_Resource_Engine')->getFieldsPrefix();
+        $fieldPrefixLength  = strlen($fieldPrefix);
 
         foreach ($docData as $entityId => $index) {
             $doc = new $this->_clientDocObjectName;
@@ -277,17 +287,6 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
                     $attributesWeights['fulltext' . $weight][] = $value;
                     $spellData[] = $value;
                 }
-
-                /*
-                 * Remove child products data from fields index. It would be present just at fulltext index.
-                 */
-                if (is_array($value) && !empty($attributeParams[$code])) {
-                    if (!array_key_exists($entityId, $value)) {
-                        unset($index[$code]);
-                    } else {
-                        $index[$code] = $value[$entityId];
-                    }
-                }
             }
             $index['fulltext_spell'] = $this->_implodeIndexData($spellData);
 
@@ -325,7 +324,7 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
      *
      * @param array $data
      * @param array $attributesParams
-     * @param string|null $localCode
+     * @param string|null $localeCode
      *
      * @return array
      */

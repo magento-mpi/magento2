@@ -67,6 +67,15 @@ class Mage_Adminhtml_Block_Backup_Grid extends Mage_Adminhtml_Block_Widget_Grid
             'header'    => Mage::helper('Mage_Backup_Helper_Data')->__('Time'),
             'index'     => 'date_object',
             'type'      => 'datetime',
+            'width'     => 200
+        ));
+
+        $this->addColumn('display_name', array(
+            'header'    => Mage::helper('backup')->__('Name'),
+            'index'     => 'display_name',
+            'filter'    => false,
+            'sortable'  => false,
+            'width'     => 350
         ));
 
         $this->addColumn('size', array(
@@ -81,7 +90,8 @@ class Mage_Adminhtml_Block_Backup_Grid extends Mage_Adminhtml_Block_Widget_Grid
             'header'    => Mage::helper('Mage_Backup_Helper_Data')->__('Type'),
             'type'      => 'options',
             'options'   => Mage::helper('Mage_Backup_Helper_Data')->getBackupTypes(),
-            'index'     =>'type'
+            'index'     => 'type',
+            'width'     => 300
         ));
 
         $this->addColumn('download', array(

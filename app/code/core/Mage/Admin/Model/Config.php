@@ -85,6 +85,9 @@ class Mage_Admin_Model_Config extends Varien_Simplexml_Config
         }
 
         foreach ($children as $res) {
+            if (1 == $res->disabled) {
+                continue;
+            }
             $this->loadAclResources($acl, $res, $resourceName);
         }
         return $this;

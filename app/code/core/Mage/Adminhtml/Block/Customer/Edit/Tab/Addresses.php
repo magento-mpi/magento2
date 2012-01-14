@@ -112,9 +112,11 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Mage_Adminhtml_Bl
                 ->processStreetAttribute($attributes['street']);
         }
         foreach ($attributes as $attribute) {
+            /* @var $attribute Mage_Eav_Model_Entity_Attribute */
+            $attribute->setFrontendLabel(Mage::helper('customer')->__($attribute->getFrontend()->getLabel()));
             $attribute->unsIsVisible();
         }
-        $this->_setFieldset($attributes, $fieldset, array(), 'customer');
+        $this->_setFieldset($attributes, $fieldset);
 
         $regionElement = $form->getElement('region');
         if ($regionElement) {

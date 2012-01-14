@@ -314,7 +314,7 @@ if($('<?php echo $this->getAddButtonId() ?>')){
 
 //validation for selected input type
 Validation.addAllThese([
-    ['required-option-select', '<?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Select type of option') ?>', function(v, elm) {
+    ['required-option-select', <?php echo $this->helper('Mage_Core_Helper_Data')->jsonEncode(Mage::helper('Mage_Catalog_Helper_Data')->__('Select type of option')) ?>, function(v, elm) {
         if (elm.getValue() == '') {
             return false;
         }

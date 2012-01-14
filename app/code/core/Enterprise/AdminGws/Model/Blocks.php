@@ -353,32 +353,6 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
     }
 
     /**
-     * Remove control buttons for store-level roles on Catalog Price Rules page
-     *
-     * @param Varien_Event_Observer $observer
-     */
-    public function removePromoCatalogButtons($observer)
-    {
-        $block = $observer->getEvent()->getBlock();
-        $block->removeButton('apply_rules');
-        if ($this->_role->getIsStoreLevel()) {
-            $block->removeButton('add');
-        }
-    }
-
-    /**
-     * Remove control buttons for store-level roles on Shopping Cart Price Rules page
-     *
-     * @param Varien_Event_Observer $observer
-     */
-    public function removePromoQuoteButtons($observer)
-    {
-        if ($this->_role->getIsStoreLevel()) {
-            $block = $observer->getEvent()->getBlock()->removeButton('add');
-        }
-    }
-
-    /**
      * Remove control buttons if user does not have exclusive access to current page
      *
      * @param Varien_Event_Observer $observer
@@ -1028,20 +1002,6 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
     }
 
     /**
-     * Remove add button for users who does not permissions for any site
-     *
-     * @param Varien_Event_Observer $observer
-     * @return Enterprise_AdminGws_Model_Blocks
-     */
-    public function removeCustomerSegmentAddButton($observer)
-    {
-        if (! $this->_role->getWebsiteIds()) {
-            $observer->getEvent()->getBlock()->removeButton('add');
-        }
-        return $this;
-    }
-
-    /**
      * Remove control buttons for all GWS limited users with no exclusive rights
      *
      * @param Varien_Event_Observer $observer
@@ -1123,6 +1083,138 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
     public function removeTaxRateImport($observer)
     {
         $observer->getEvent()->getBlock()->setIsReadonly(true);
+        return $this;
+    }
+
+    /**
+     * Remove rule entity grid buttons for users who does not have any permissions
+     *
+     * @param Varien_Event_Observer $observer
+     *
+     * @return Enterprise_AdminGws_Model_Blocks
+     */
+    public function removeRuleEntityGridButtons($observer)
+    {
+        /* @var $block Mage_Adminhtml_Block_Widget_Grid_Container */
+        $block = $observer->getEvent()->getBlock();
+        // Remove "Apply Rules" button at catalog rules grid for all GWS limited users
+        if ($block) {
+            $block->removeButton('apply_rules');
+        }
+
+        // Remove "Add" button if role has no allowed website ids
+        if (!$this->_role->getWebsiteIds()) {
+            if ($block) {
+                $block->removeButton('add');
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * Remove rule entity edit buttons for users who does not have any permissions or does not have full permissions
+     *
+     * @param Varien_Event_Observer $observer
+     *
+     * @return Enterprise_AdminGws_Model_Blocks
+     */
+    public function removeRuleEntityEditButtons($observer)
+    {
+        /* @var $block Mage_Adminhtml_Block_Widget_Grid_Container */
+        $block = $observer->getEvent()->getBlock();
+        if (!$block) {
+             return true;
+        }
+
+        $controllerName = $block->getRequest()->getControllerName();
+
+        // Determine rule entity object registry key
+        switch ($controllerName) {
+            case 'promo_catalog':
+                $registryKey = 'current_promo_catalog_rule';
+                break;
+            case 'promo_quote':
+                $registryKey = 'current_promo_quote_rule';
+                break;
+            case 'reminder':
+                $registryKey = 'current_reminder_rule';
+                break;
+            case 'customersegment':
+                $registryKey = 'current_customer_segment';
+                break;
+            default:
+                $registryKey = null;
+                break;
+        }
+
+        if (is_null($registryKey)) {
+            return true;
+        }
+
+        /** @var $model Mage_Rule_Model_Rule */
+        $model = Mage::registry($registryKey);
+        if ($model) {
+            $websiteIds = $model->getWebsiteIds();
+            if ($model->getId() && !$this->_role->hasExclusiveStoreAccess((array)$websiteIds)) {
+                $block->removeButton('save');
+                $block->removeButton('save_apply');
+                $block->removeButton('save_and_continue_edit');
+                $block->removeButton('run_now');
+                $block->removeButton('match_customers');
+                $block->removeButton('delete');
+            }
+        }
+
+        return $this;
+    }
+
+
+
+
+
+
+    /**
+     * Remove add button for users who does not permissions for any site
+     *
+     * @deprecated after 1.11.2.0 use $this->removeRuleEntityGridButtons() instead
+     *
+     * @param Varien_Event_Observer $observer
+     *
+     * @return Enterprise_AdminGws_Model_Blocks
+     */
+    public function removeCustomerSegmentAddButton($observer)
+    {
+        $this->removeRuleEntityGridButtons($observer);
+        return $this;
+    }
+
+    /**
+     * Remove control buttons for store-level roles on Catalog Price Rules page
+     *
+     * @deprecated after 1.11.2.0 use $this->removeRuleEntityGridButtons() instead
+     *
+     * @param Varien_Event_Observer $observer
+     *
+     * @return Enterprise_AdminGws_Model_Blocks
+     */
+    public function removePromoCatalogButtons($observer)
+    {
+        $this->removeRuleEntityGridButtons($observer);
+        return $this;
+    }
+
+    /**
+     * Remove control buttons for store-level roles on Shopping Cart Price Rules page
+     *
+     * @deprecated after 1.11.2.0 use $this->removeRuleEntityGridButtons() instead
+     *
+     * @param Varien_Event_Observer $observer
+     *
+     * @return Enterprise_AdminGws_Model_Blocks
+     */
+    public function removePromoQuoteButtons($observer)
+    {
+        $this->removeRuleEntityGridButtons($observer);
         return $this;
     }
 }

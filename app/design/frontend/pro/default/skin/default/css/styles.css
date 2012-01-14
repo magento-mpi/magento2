@@ -1528,9 +1528,28 @@ tr.summary-details-excluded { font-style:italic; }
 /* Account Login/Create Pages ============================================================ */
 
 /* Captcha */
-.captcha {}
-.captcha-image {float:left;}
-.captcha-note {clear:left; padding-top:5px;}
+.captcha-note { clear:left; padding-top:5px;}
+.input-box.captcha { width:244px; }
+.captcha-image { border:1px solid #b6b6b6; margin:0; position:relative; width:258px; }
+.captcha-image .captcha-img { vertical-align:bottom; width:100%; }
+.registered-users .captcha-image { margin:0; }
+#login-form .captcha-image { width:298px; }
+.account-login #login-form .captcha-image { width:328px; }
+.captcha-reload { cursor:pointer; position:absolute; top:2px; right:2px;}
+.captcha-reload.refreshing  { animation:rotate 1.5s infinite linear; -webkit-animation:rotate 1.5s infinite linear; -moz-animation:rotate 1.5s infinite linear; }
+
+@-webkit-keyframes rotate {
+    0% { -webkit-transform:rotate(0); }
+    0% { -webkit-transform:rotate(-360deg); }
+}
+@-moz-keyframes rotate {
+    0% { -moz-transform:rotate(0); }
+    0% { -moz-transform:rotate(-360deg); }
+}
+@keyframes rotate {
+    0% { transform:rotate(0); }
+    0% { transform:rotate(-360deg); }
+}
 
 /* My Account ============================================================================= */
 .my-account .title-buttons .link-rss { float:none; margin:0; }
@@ -1823,9 +1842,3 @@ tr.summary-details-excluded { font-style:italic; }
 /* ======================================================================================= */
 
 .guest-select {width:305px !important;}
-
-/* Captcha ================================================================================ */
-div.input-box.captcha {width:244px;}
-div.captcha-image {margin:0; border:1px solid #ccc; position: relative;}
-div.registered-users div ul li div.captcha-image {border:solid 1px #ccc; margin:0;}
-img.captcha-reload {position: absolute; top: 2px; right: 2px;}

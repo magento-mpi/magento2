@@ -121,11 +121,10 @@ class Mage_Adminhtml_Promo_CatalogController extends Mage_Adminhtml_Controller_A
                 $data['conditions'] = $data['rule']['conditions'];
                 unset($data['rule']);
 
+                $autoApply = false;
                 if (!empty($data['auto_apply'])) {
                     $autoApply = true;
                     unset($data['auto_apply']);
-                } else {
-                    $autoApply = false;
                 }
 
                 $model->loadPost($data);

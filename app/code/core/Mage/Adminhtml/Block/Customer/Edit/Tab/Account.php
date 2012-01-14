@@ -50,11 +50,13 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Account extends Mage_Adminhtml_Bloc
 
         $attributes = $customerForm->getAttributes();
         foreach ($attributes as $attribute) {
+            /* @var $attribute Mage_Eav_Model_Entity_Attribute */
+            $attribute->setFrontendLabel(Mage::helper('customer')->__($attribute->getFrontend()->getLabel()));
             $attribute->unsIsVisible();
         }
 
         $disableAutoGroupChangeAttributeName = 'disable_auto_group_change';
-        $this->_setFieldset($attributes, $fieldset, array($disableAutoGroupChangeAttributeName), 'customer');
+        $this->_setFieldset($attributes, $fieldset, array($disableAutoGroupChangeAttributeName));
 
         $form->getElement('group_id')->setRenderer($this->getLayout()
             ->createBlock('Mage_Adminhtml_Block_Customer_Edit_Renderer_Attribute_Group')

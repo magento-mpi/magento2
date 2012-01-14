@@ -47,7 +47,6 @@ if ($installer->getAttributeId('catalog_product', 'upsell_targetrule_position_li
 if ($installer->getAttributeId('catalog_product', 'upsell_targetrule_position_behavior')
     && !$installer->getAttributeId('catalog_product', 'upsell_tgtr_position_behavior')
 ) {
-    Zend_Debug::dump("updating");
     $installer->updateAttribute(
         'catalog_product',
         'upsell_targetrule_position_behavior',

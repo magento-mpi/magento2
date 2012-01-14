@@ -102,10 +102,11 @@ class Mage_Adminhtml_Block_Sales_Order_Shipment_View_Form extends Mage_Adminhtml
     /**
      * Check is carrier has functionality of creation shipping labels
      *
-     * @return boolean
+     * @return bool
      */
     public function canCreateShippingLabel()
     {
-        return $this->getOrder()->getShippingCarrier()->isShippingLabelsAvailable();
+        $shippingCarrier = $this->getOrder()->getShippingCarrier();
+        return $shippingCarrier && $shippingCarrier->isShippingLabelsAvailable();
     }
 }

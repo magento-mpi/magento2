@@ -45,7 +45,6 @@ abstract class Mage_Rule_Model_Action_Abstract extends Varien_Object implements 
 
     public function asXml()
     {
-        extract($this->toArray());
         $xml = "<type>".$this->getType()."</type>"
             ."<attribute>".$this->getAttribute()."</attribute>"
             ."<operator>".$this->getOperator()."</operator>"
@@ -203,7 +202,8 @@ abstract class Mage_Rule_Model_Action_Abstract extends Varien_Object implements 
     public function getRemoveLinkHtml()
     {
         $src = Mage::getDesign()->getSkinUrl('images/rule_component_remove.gif');
-        $html = '<span class="rule-param"><a href="javascript:void(0)" class="rule-param-remove"><img src="'.$src.'" alt="" class="v-middle" /></a></span>';
+        $html = '<span class="rule-param"><a href="javascript:void(0)" class="rule-param-remove"><img src="'
+            . $src . '" alt="" class="v-middle" /></a></span>';
         return $html;
     }
 

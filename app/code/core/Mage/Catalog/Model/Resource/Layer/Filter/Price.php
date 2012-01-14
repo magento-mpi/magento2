@@ -208,10 +208,14 @@ class Mage_Catalog_Model_Resource_Layer_Filter_Price extends Mage_Core_Model_Res
             "ROUND(({$table}.min_price {$additional}) * " . $connection->quote($filter->getCurrencyRate()) . ", 2)"
         );
 
-        $select->columns(array($maxPriceExpr));
+        $select->columns(array($maxPriceExpr))->order("$maxPriceExpr ASC");
 
         $prices = $connection->fetchCol($select);
-        $algorithm->setPrices($prices);
+        if ($filter->getInterval() && count($prices) <= $filter->getIntervalDivisionLimit()) {
+            $algorithm->setPrices(array());
+        } else {
+            $algorithm->setPrices($prices);
+        }
 
         return $prices;
     }

@@ -58,7 +58,7 @@
                             <input type="hidden" name="price" value="<?php echo $item->getPrice(); ?>">
                             <input type="text" name="qty" value="<?php echo $item->getQty()*1; ?>" class="input-text qty qty-decimal">&nbsp;
                             <button type="button" class="scalable delete icon-btn" onclick="packaging.deleteItem(this);" style="display:none;">
-                                <span><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Delete') ?></span>
+                                <span><span><span><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Delete') ?></span></span></span>
                             </button>
                         </td>
                     </tr>

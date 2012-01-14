@@ -757,4 +757,16 @@ class Enterprise_GiftRegistry_Model_Entity extends Mage_Core_Model_Abstract
         $this->_getResource()->loadByUrlKey($this, $urlKey);
         return $this;
     }
+
+    /**
+     * Update gift registry items
+     *
+     * @param array $items
+     * @return Enterprise_GiftRegistry_Model_Entity
+     */
+    public function updateItems($items)
+    {
+        $this->_getResource()->updateItems($this, $items);
+        return $this;
+    }
 }

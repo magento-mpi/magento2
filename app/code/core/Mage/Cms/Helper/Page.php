@@ -104,10 +104,13 @@ class Mage_Cms_Helper_Page extends Mage_Core_Helper_Abstract
                 ->applyTemplate($page->getRootTemplate());
         }
 
-        foreach (array('Mage_Catalog_Model_Session', 'Mage_Checkout_Model_Session') as $class_name) {
-            $storage = Mage::getSingleton($class_name);
+        /* @TODO: Move catalog and checkout storage types to appropriate modules */
+        $messageBlock = $action->getLayout()->getMessagesBlock();
+        foreach (array('Mage_Catalog_Model_Session', 'Mage_Checkout_Model_Session') as $storageType) {
+            $storage = Mage::getSingleton($storageType);
             if ($storage) {
-                $action->getLayout()->getMessagesBlock()->addMessages($storage->getMessages(true));
+                $messageBlock->addStorageType($storageType);
+                $messageBlock->addMessages($storage->getMessages(true));
             }
         }
 

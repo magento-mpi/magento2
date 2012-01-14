@@ -22,7 +22,7 @@ class Mage_Backup
      *
      * @var array
      */
-    static protected $_allowedBackupTypes = array('db', 'snapshot', 'filesystem', 'media');
+    static protected $_allowedBackupTypes = array('db', 'snapshot', 'filesystem', 'media', 'nomedia');
 
     /**
      * get Backup Instance By File Name

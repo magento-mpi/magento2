@@ -409,7 +409,8 @@ class Mage_CatalogSearch_Model_Resource_Fulltext extends Mage_Core_Model_Resourc
                 $productAttributeCollection->addSearchableAttributeFilter();
             }
 
-            while ($attribute = $productAttributeCollection->fetchItem()) {
+            $attributes = $productAttributeCollection->getItems();
+            foreach ($attributes as $attribute) {
                 $attribute->setEntity($entity);
                 $this->_searchableAttributes[$attribute->getId()] = $attribute;
             }

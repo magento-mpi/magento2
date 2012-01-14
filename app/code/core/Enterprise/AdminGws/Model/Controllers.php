@@ -187,49 +187,6 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     }
 
     /**
-     * Disallow saving catalog rules in disallowed scopes
-     *
-     * @param Mage_Adminhtml_Controller_Action $controller
-     */
-    public function validatePromoCatalog($controller)
-    {
-        return $this->validatePromoQuote($controller, Mage::getModel('Mage_CatalogRule_Model_Rule'));
-    }
-
-    /**
-     * Disallow saving quote rules in disallowed scopes
-     *
-     * @param Mage_Adminhtml_Controller_Action $controller
-     * @param Mage_Core_Model_Abstract $model
-     */
-    public function validatePromoQuote($controller, $model = null)
-    {
-        if (!$this->validateNoWebsiteGeneric($controller, array('new', 'delete', 'applyRules'), 'save', 'rule_id')) {
-            return;
-        }
-        $request = $controller->getRequest();
-        if (null === $model) {
-            $model = Mage::getModel('Mage_SalesRule_Model_Rule');
-        }
-        switch ($request->getActionName()) {
-            case 'edit': // also forwards from 'new'
-                $id = $request->getParam('id');
-                // break intentionally omitted
-            case 'save':
-                $id = $request->getParam('rule_id');
-                $model->load($id);
-                if (!$model->getId()) {
-                    return;
-                }
-                if (!$this->_role->hasWebsiteAccess(Mage::helper('Enterprise_AdminGws_Helper_Data')->explodeIds(
-                    $model->getOrigData('website_ids')))) {
-                    return $this->_forward();
-                }
-                break;
-        }
-    }
-
-    /**
      * Prevent viewing wrong categories and creation pages
      *
      * @param Mage_Adminhtml_Controller_Action $controller
@@ -885,6 +842,8 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
      * Validate Attribute creation action
      *
      * @param Mage_Adminhtml_Controller_Action $controller
+     *
+     * @return bool
      */
     public function validateCatalogProductAttributeCreateAction($controller)
     {
@@ -933,6 +892,8 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
      * Validate Attribute set creation, deletion and saving actions
      *
      * @param Mage_Adminhtml_Controller_Action $controller
+     *
+     * @return bool
      */
     public function validateAttributeSetActions($controller)
     {
@@ -943,7 +904,9 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     /**
      * Validate permission for adding new sub category to specified parent id
      *
-     * @param Mage_Adminhtml_Controller_Action $controller
+     * @param int $categoryId
+     *
+     * @return bool
      */
     protected function _validateCatalogSubCategoryAddPermission($categoryId)
     {
@@ -961,43 +924,6 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
         }
 
         return false;
-    }
-
-    /**
-     * Validate applying rules action
-     *
-     * @param Mage_Adminhtml_Controller_Action $controller
-     */
-    public function validatePromoCatalogApplyRules($controller)
-    {
-        if (!$this->_role->getIsAll()) {
-            $result = false;
-            if (Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('admin/promo/catalog')) {
-                /** @var $ruleModel Mage_Catalogrule_Model_Rule */
-                $ruleModel = Mage::getModel('Mage_CatalogRule_Model_Rule')->load(
-                    Mage::app()->getRequest()->getParam('rule_id')
-                );
-                if ($ruleModel->getId()) {
-                    $websites = array();
-                    if (is_string($ruleModel->getWebsiteIds())) {
-                        $websites = explode(',', $ruleModel->getWebsiteIds());
-                    } elseif (is_array($ruleModel->getWebsiteIds())) {
-                        $websites = $ruleModel->getWebsiteIds();
-                    }
-                    foreach ($this->_role->getWebsiteIds() as $roleWebsite) {
-                        if (in_array($roleWebsite, $websites)) {
-                            $result = true;
-                            break;
-                        }
-                    }
-                }
-            }
-            if (!$result) {
-                $this->_forward();
-                return false;
-            }
-        }
-        return true;
     }
 
     /**
@@ -1028,6 +954,8 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
      * Validate misc Manage Currency Rates requests
      *
      * @param Mage_Adminhtml_Controller_Action $controller
+     *
+     * @return bool
      */
     public function validateManageCurrencyRates($controller)
     {
@@ -1035,12 +963,16 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
             $this->_forward();
             return false;
         }
+
+        return true;
     }
 
     /**
      * Validate misc Transactional Emails
      *
      * @param Mage_Adminhtml_Controller_Action $controller
+     *
+     * @return bool
      */
     public function validateTransactionalEmails($controller)
     {
@@ -1048,6 +980,8 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
             $this->_forward();
             return false;
         }
+
+        return true;
     }
 
     /**
@@ -1113,5 +1047,153 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
             return false;
         }
         return true;
+    }
+
+    /**
+     * Deny certain actions at rule entity in disallowed scopes
+     *
+     * @param Mage_Adminhtml_Controller_Action $controller
+     *
+     * @return bool
+     */
+    public function validateRuleEntityAction($controller)
+    {
+        $request     = $controller->getRequest();
+        $denyActions = array('edit', 'new', 'delete', 'save', 'run', 'match');
+        $denyChangeDataActions = array('delete', 'save', 'run', 'match');
+        $actionName  = $request->getActionName();
+
+        // Deny access if role has no allowed website ids and there are considering actions to deny
+        if (!$this->_role->getWebsiteIds() && in_array($actionName, $denyActions)) {
+            return $this->_forward();
+        }
+
+        // Stop further validating if role has any allowed website ids and
+        // there are considering any action which is not in deny list
+        if (!in_array($actionName, $denyActions)) {
+            return true;
+        }
+
+        // Stop further validating if there is no an appropriate entity id in request params
+        $ruleId = $request->getParam('rule_id', $request->getParam('segment_id', $request->getParam('id', null)));
+        if (!$ruleId) {
+            return true;
+        }
+
+        $controllerName = $request->getControllerName();
+
+        // Determine entity model class name
+        switch ($controllerName) {
+            case 'promo_catalog':
+                $entityModelClassName = 'catalogrule/rule';
+                break;
+            case 'promo_quote':
+                $entityModelClassName = 'salesrule/rule';
+                break;
+            case 'reminder':
+                $entityModelClassName = 'enterprise_reminder/rule';
+                break;
+            case 'customersegment':
+                $entityModelClassName = 'enterprise_customersegment/segment';
+                break;
+            default:
+                $entityModelClassName = null;
+                break;
+        }
+
+        if (is_null($entityModelClassName)) {
+            return true;
+        }
+
+        $entityObject = Mage::getModel($entityModelClassName);
+        if (!$entityObject) {
+            return true;
+        }
+
+        // Deny action if specified rule entity doesn't exist
+        $entityObject->load($ruleId);
+        if (!$entityObject->getId()) {
+            return $this->_forward();
+        }
+
+        $ruleWebsiteIds = (array)$entityObject->getOrigData('website_ids');
+
+        // Deny actions what lead to changing data if role has no exclusive access to assigned to rule entity websites
+        if (!$this->_role->hasExclusiveAccess($ruleWebsiteIds) && in_array($actionName, $denyChangeDataActions)) {
+            return $this->_forward();
+        }
+
+        // Deny action if role has no access to assigned to rule entity websites
+        if (!$this->_role->hasWebsiteAccess($ruleWebsiteIds)) {
+            return $this->_forward();
+        }
+
+        return true;
+    }
+
+    /**
+     * Validate applying catalog rules action
+     *
+     * @param Mage_Adminhtml_Controller_Action $controller
+     *
+     * @return bool
+     */
+    public function validatePromoCatalogApplyRules($controller)
+    {
+        $result = false;
+        if (Mage::getSingleton('admin/session')->isAllowed('admin/promo/catalog')) {
+            /** @var $ruleModel Mage_Catalogrule_Model_Rule */
+            $ruleModel = Mage::getModel('catalogrule/rule')->load(
+                $controller->getRequest()->getParam('rule_id')
+            );
+            if ($ruleModel->getId()) {
+                $ruleWebsites = $ruleModel->getWebsiteIds();
+                if (is_string($ruleWebsites)) {
+                    $ruleWebsites = explode(',', $ruleWebsites);
+                } elseif (!is_array($ruleWebsites)) {
+                    $ruleWebsites = array();
+                }
+                $result = !empty($ruleWebsites) && $this->_role->hasExclusiveAccess($ruleWebsites);
+            }
+        }
+
+        if (!$result) {
+            $this->_forward();
+        }
+
+        return $result;
+    }
+
+
+
+
+
+    /**
+     * Disallow saving catalog rules in disallowed scopes
+     *
+     * @deprecated after 1.11.2.0 use $this->validateRuleEntityAction() instead
+     *
+     * @param Mage_Adminhtml_Controller_Action $controller
+     *
+     * @return bool
+     */
+    public function validatePromoCatalog($controller)
+    {
+        return $this->validateRuleEntityAction($controller);
+    }
+
+    /**
+     * Disallow saving quote rules in disallowed scopes
+     *
+     * @deprecated after 1.11.2.0 use $this->validateRuleEntityAction() instead
+     *
+     * @param Mage_Adminhtml_Controller_Action $controller
+     * @param Mage_Core_Model_Abstract $model
+     *
+     * @return bool
+     */
+    public function validatePromoQuote($controller, $model = null)
+    {
+        return $this->validateRuleEntityAction($controller);
     }
 }

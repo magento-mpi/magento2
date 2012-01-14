@@ -72,22 +72,6 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Manage extends Mage_Adminhtml
             'values'    => $this->_prepareOptions($allStoreViews, $excludeScopes)
         ));
 
-        $form->addField('submit_copy', 'note', array(
-            'text'      => $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')->setData(array(
-                'label'   => Mage::helper('Enterprise_Cms_Helper_Data')->__('Copy Hierarchy To'),
-                'class'   => 'cms-hierarchy copy-submit',
-                'onclick' => 'submitCopy(this)'
-            ))->toHtml(),
-        ));
-
-        $form->addField('submit_delete', 'note', array(
-            'text'      => $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')->setData(array(
-                'label'   => Mage::helper('Enterprise_Cms_Helper_Data')->__('Delete Hierarchies From'),
-                'class'   => 'cms-hierarchy delete-submit',
-                'onclick' => 'submitDelete(this)'
-            ))->toHtml(),
-        ));
-
         if ($currentWebsite) {
             $form->addField('website', 'hidden', array(
                 'name'   => 'website',

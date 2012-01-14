@@ -13,29 +13,24 @@
 <?php /* @var $captcha Mage_Core_Model_Captcha_Zend */ ?>
 <?php $captcha = $this->getCaptchaModel() ?>
 <li id="captcha-input-box-<?php echo $this->getFormId()?>">
-    <label for="captcha" class="required"><em>*</em><?php echo $this->__('Please type the letters below')?></label>
+    <label for="captcha_<?php echo $this->getFormId() ?>" class="required"><em>*</em><?php echo $this->__('Please type the letters below')?></label>
     <div class="input-box captcha">
-        <input name="<?php echo Mage_Captcha_Helper_Data::INPUT_NAME_FIELD_VALUE ?>[<?php echo $this->getFormId()?>]" type="text" class="input-text required-entry" id="captcha" title="captcha" />
+        <input name="<?php echo Mage_Captcha_Helper_Data::INPUT_NAME_FIELD_VALUE ?>[<?php echo $this->getFormId()?>]" type="text" class="input-text required-entry" id="captcha_<?php echo $this->getFormId() ?>" />
     </div>
 </li>
 <li>
-    <div class="captcha-image" style="width:<?php echo $this->getImgWidth() - 2 ?>px" id="captcha-image-box-<?php echo $this->getFormId()?>">
-        <img id="<?php echo $this->getFormId() ?>" width="100%" height="<?php echo $this->getImgHeight() ?>" src="<?php echo $captcha->getImgSrc() ?>"/>
+    <div class="captcha-image" id="captcha-image-box-<?php echo $this->getFormId()?>">
         <script type="text/javascript">
         //<![CDATA[
-        var captcha = window.captcha == undefined ? new array(): window.captcha;
-        captcha_<?php echo $this->getFormId()?> = new Captcha('<?php echo $this->getRefreshUrl() ?>', '<?php echo $this->getFormId() ?>');
+            var captcha_<?php echo $this->getFormId()?> = new Captcha('<?php echo $this->getRefreshUrl() ?>', '<?php echo $this->getFormId() ?>');
         //]]>
         </script>
-        <img class="captcha-reload"
-            src="<?php echo $this->getSkinUrl('Mage_Captcha::reload.png') ?>"
-            alt="<?php echo $this->__('Reload captcha') ?>"
-            onclick="captcha_<?php echo $this->getFormId()?>.refresh()">
+        <img id="catpcha-reload" class="captcha-reload" src="<?php echo $this->getSkinUrl('Mage_Captcha::reload.png') ?>" alt="<?php echo $this->__('Reload captcha') ?>" onclick="captcha_<?php echo $this->getFormId()?>.refresh(this)">
+        <img id="<?php echo $this->getFormId() ?>" class="captcha-img" height="<?php echo $this->getImgHeight() ?>" src="<?php echo $captcha->getImgSrc() ?>"/>
         <?php if ($captcha->isCaseSensitive()) :?>
         <div class="captcha-note">
-            <p><?php echo $this->__('<strong>Attention</strong>: Captcha is case sensitive.') ?></p>
+            <?php echo $this->__('<strong>Attention</strong>: Captcha is case sensitive.') ?>
         </div>
         <?php endif; ?>
     </div>
 </li>
-

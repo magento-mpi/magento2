@@ -40,16 +40,6 @@ class Enterprise_Cms_Block_Adminhtml_Scope_Switcher extends Mage_Adminhtml_Block
     }
 
     /**
-     * Get websites count
-     *
-     * @return int
-     */
-    public function isVisible()
-    {
-        return count($this->getStoreSelectOptions()) > 5;
-    }
-
-    /**
      * Get switcher default option value
      *
      * @return string

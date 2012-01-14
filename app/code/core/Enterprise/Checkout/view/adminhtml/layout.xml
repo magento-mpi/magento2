@@ -32,8 +32,12 @@
                 <block type="Enterprise_Checkout_Block_Adminhtml_Manage_Store_Switcher" name="checkout.store.switcher"/>
                 <block type="Enterprise_Checkout_Block_Adminhtml_Manage_Messages" name="checkout.message"/>
                 <block type="Enterprise_Checkout_Block_Adminhtml_Manage_Items" name="checkout.items" template="manage/items.phtml"/>
+                <block type="enterprise_checkout/adminhtml_manage_accordion_sku_errors" name="errors">
+                    <block type="enterprise_checkout/adminhtml_sku_errors_grid" name="sku_error_grid"/>
+                </block>
                 <block type="Enterprise_Checkout_Block_Adminhtml_Manage_Accordion" name="checkout.accordion">
                     <block type="Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Products" name="products"/>
+                    <block type="enterprise_checkout/adminhtml_manage_accordion_sku" name="sku.accordion"/>
                     <block type="Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Wishlist" name="wishlist"/>
                     <block type="Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Compared" name="compared"/>
                     <block type="Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Rcompared" name="rcompared"/>
@@ -90,7 +94,7 @@
         <remove name="root"/>
         <block type="Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Ordered" name="checkout.accordion.ordered" output="toHtml"/>
     </adminhtml_checkout_viewordered>
-    
+
     <adminhtml_checkout_manage_load_block_json>
         <reference name="root">
             <block type="Enterprise_Checkout_Block_Adminhtml_Manage_Load" name="content" />
@@ -102,16 +106,71 @@
             <block type="Mage_Core_Block_Text_List" name="content" />
         </reference>
     </adminhtml_checkout_manage_load_block_plain>
-    
+
     <adminhtml_checkout_manage_load_block_message>
         <reference name="content">
             <block type="Enterprise_Checkout_Block_Adminhtml_Manage_Messages" name="message" />
         </reference>
     </adminhtml_checkout_manage_load_block_message>
-    
+
     <adminhtml_checkout_manage_load_block_items>
         <reference name="content">
             <block type="Enterprise_Checkout_Block_Adminhtml_Manage_Items" name="items" template="manage/items.phtml"/>
         </reference>
     </adminhtml_checkout_manage_load_block_items>
+
+    <adminhtml_checkout_manage_load_block_errors>
+        <reference name="content">
+            <block type="enterprise_checkout/adminhtml_manage_accordion_sku_errors" name="errors">
+                <block type="enterprise_checkout/adminhtml_sku_errors_grid" name="sku_error_grid"/>
+            </block>
+        </reference>
+    </adminhtml_checkout_manage_load_block_errors>
+
+    <!-- Add by SKU create new order layout updates -->
+
+    <!-- shortcut handles -->
+
+    <sku_layout_update>
+        <reference name="head">
+            <action method="addJs"><file>mage/adminhtml/product/composite/configure.js</file></action>
+        </reference>
+        <reference name="data">
+            <block type="enterprise_checkout/adminhtml_sales_order_create_sku" name="additional_area" template="sales/order/create/abstract.phtml">
+                <block type="enterprise_checkout/adminhtml_sales_order_create_sku_add"/>
+            </block>
+            <block type="enterprise_checkout/adminhtml_sales_order_create_sku_errors" name="errors">
+                <block type="enterprise_checkout/adminhtml_sku_errors_grid" name="sku_error_grid"/>
+            </block>
+        </reference>
+    </sku_layout_update>
+
+    <!-- update real handles -->
+
+    <adminhtml_sales_order_create_index>
+        <update handle="sku_layout_update"/>
+    </adminhtml_sales_order_create_index>
+
+    <adminhtml_sales_order_create_load_block_data>
+        <update handle="sku_layout_update"/>
+    </adminhtml_sales_order_create_load_block_data>
+
+    <adminhtml_sales_order_create_load_block_additional_area>
+        <reference name="content">
+            <block type="enterprise_checkout/adminhtml_sales_order_create_sku" name="additional_area" template="sales/order/create/abstract.phtml">
+                <block type="enterprise_checkout/adminhtml_sales_order_create_sku_add"/>
+            </block>
+            <block type="enterprise_checkout/adminhtml_sales_order_create_sku_errors" name="errors">
+                <block type="enterprise_checkout/adminhtml_sku_errors_grid" name="sku_error_grid"/>
+            </block>
+        </reference>
+    </adminhtml_sales_order_create_load_block_additional_area>
+
+    <adminhtml_sales_order_create_load_block_errors>
+        <reference name="content">
+            <block type="enterprise_checkout/adminhtml_sales_order_create_sku_errors" name="errors">
+                <block type="enterprise_checkout/adminhtml_sku_errors_grid" name="sku_error_grid"/>
+            </block>
+        </reference>
+    </adminhtml_sales_order_create_load_block_errors>
 </layout>

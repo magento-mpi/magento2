@@ -560,6 +560,17 @@ class Mage_Catalog_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
                         'sort_order'                 => 6,
                         'visible'                    => false,
                     ),
+                    'group_price'         => array(
+                        'type'                       => 'decimal',
+                        'label'                      => 'Group Price',
+                        'input'                      => 'text',
+                        'backend'                    => 'catalog/product_attribute_backend_groupprice',
+                        'required'                   => false,
+                        'sort_order'                 => 6,
+                        'global'                     => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_WEBSITE,
+                        'apply_to'                   => 'simple,configurable,virtual',
+                        'group'                      => 'Prices',
+                    ),
                     'tier_price'         => array(
                         'type'                       => 'decimal',
                         'label'                      => 'Tier Price',

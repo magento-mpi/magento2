@@ -169,11 +169,11 @@ var WidgetInstance = {
                 data.entities = '';
             }
             data.id = this.count++;
-            if (data.all_products_entities) {
-                var selected_entities = data.all_products_entities.split(',');
+            if (data[data.group + '_entities']) {
+                var selected_entities = data[data.group + '_entities'].split(',');
                 if (selected_entities.length > 0) {
                     for (var i = 0; i < selected_entities.length; i++) {
-                        this.addProductItemToSelection('all_products_ids_' + data.id, selected_entities[i]);
+                        this.addProductItemToSelection(data.group + '_ids_' + data.id, selected_entities[i]);
                     }
                 }
             }

@@ -123,12 +123,21 @@
  */
 class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstract
 {
-    const TYPE_BILLING  = 'billing';
-    const TYPE_SHIPPING = 'shipping';
     const RATES_FETCH = 1;
     const RATES_RECALCULATE = 2;
 
+    /**
+     * Prefix of model events
+     *
+     * @var string
+     */
     protected $_eventPrefix = 'sales_quote_address';
+
+    /**
+     * Name of event object
+     *
+     * @var string
+     */
     protected $_eventObject = 'quote_address';
 
     /**
@@ -905,9 +914,11 @@ class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstrac
      */
     public function collectTotals()
     {
+        Mage::dispatchEvent($this->_eventPrefix . '_collect_totals_before', array($this->_eventObject => $this));
         foreach ($this->getTotalCollector()->getCollectors() as $model) {
             $model->collect($this);
         }
+        Mage::dispatchEvent($this->_eventPrefix . '_collect_totals_after', array($this->_eventObject => $this));
         return $this;
     }
 

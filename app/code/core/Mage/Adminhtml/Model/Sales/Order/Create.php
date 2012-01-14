@@ -617,6 +617,9 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
                 $this->removeItem($itemId, $from);
             }
         }
+        if (isset($data['empty_customer_cart']) && (int)$data['empty_customer_cart'] == 1) {
+            $this->getCustomerCart()->removeAllItems()->collectTotals()->save();
+        }
         return $this;
     }
 

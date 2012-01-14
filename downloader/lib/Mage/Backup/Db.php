@@ -87,11 +87,12 @@ class Mage_Backup_Db extends Mage_Backup_Abstract
 
         $this->_lastOperationSucceed = false;
 
-        $backup   = Mage::getModel('Mage_Backup_Model_Backup')
+        $backup = Mage::getModel('Mage_Backup_Model_Backup')
             ->setTime($this->getTime())
             ->setType($this->getType())
-            ->setPath($this->getBackupsDir());
-        Mage::register('backup_model', $backup);
+            ->setPath($this->getBackupsDir())
+            ->setName($this->getName());
+
         $backupDb = Mage::getModel('Mage_Backup_Model_Db');
         $backupDb->createBackup($backup);
 

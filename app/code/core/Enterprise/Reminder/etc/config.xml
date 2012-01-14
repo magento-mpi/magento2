@@ -12,7 +12,7 @@
 <config>
     <modules>
         <Enterprise_Reminder>
-            <version>1.11.0.0</version>
+            <version>1.11.0.1</version>
         </Enterprise_Reminder>
     </modules>
     <global>
@@ -47,6 +47,30 @@
                     <enterprise_reminder>
                         <class>Enterprise_Reminder_Model_Observer</class>
                         <method>updatePromoQuoteTabMainForm</method>
+                    </enterprise_reminder>
+                </observers>
+            </adminhtml_promo_quote_edit_tab_main_prepare_form>
+            <salesrule_rule_save_after>
+                <observers>
+                    <enterprise_reminder>
+                        <class>enterprise_reminder/observer</class>
+                        <method>detachUnsupportedSalesRule</method>
+                    </enterprise_reminder>
+                </observers>
+            </salesrule_rule_save_after>
+            <adminhtml_block_promo_widget_chooser_prepare_collection>
+                <observers>
+                    <enterprise_reminder>
+                        <class>enterprise_reminder/observer</class>
+                        <method>addSalesRuleFilter</method>
+                    </enterprise_reminder>
+                </observers>
+            </adminhtml_block_promo_widget_chooser_prepare_collection>
+            <adminhtml_promo_quote_edit_tab_main_prepare_form>
+                <observers>
+                    <enterprise_reminder>
+                        <class>enterprise_reminder/observer</class>
+                        <method>addUseAutoGenerationNotice</method>
                     </enterprise_reminder>
                 </observers>
             </adminhtml_promo_quote_edit_tab_main_prepare_form>

@@ -60,10 +60,10 @@
                             <show_in_store>0</show_in_store>
                             <depends><enable>1</enable></depends>
                         </mode>
-                        <failed_attempts translate="label comment">
+                        <failed_attempts_login translate="label comment">
                             <label>Number of Unsuccessful Attempts to Login</label>
                             <frontend_type>text</frontend_type>
-                            <comment>Note that you may specify the Maximum Login Failures to Lockout Account value at Security tab</comment>
+                            <comment>If 0 is specified, CAPTCHA on the Login form will be always available.</comment>
                             <sort_order>5</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
@@ -73,7 +73,7 @@
                                 <enable>1</enable>
                             </depends>
                             <frontend_class>required-entry validate-digits</frontend_class>
-                        </failed_attempts>
+                        </failed_attempts_login>
                         <timeout translate="label">
                             <label>CAPTCHA Timeout (minutes)</label>
                             <frontend_type>text</frontend_type>
@@ -170,9 +170,10 @@
                             <show_in_store>0</show_in_store>
                             <depends><enable>1</enable></depends>
                         </mode>
-                        <failed_attempts translate="label">
+                        <failed_attempts_login translate="label comment">
                             <label>Number of Unsuccessful Attempts to Login</label>
                             <frontend_type>text</frontend_type>
+                            <comment>If 0 is specified, CAPTCHA on the Login form will be always available.</comment>
                             <sort_order>5</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -182,7 +183,7 @@
                                 <mode>after_fail</mode>
                             </depends>
                             <frontend_class>required-entry validate-digits</frontend_class>
-                        </failed_attempts>
+                        </failed_attempts_login>
                         <timeout translate="label">
                             <label>CAPTCHA Timeout (minutes)</label>
                             <frontend_type>text</frontend_type>

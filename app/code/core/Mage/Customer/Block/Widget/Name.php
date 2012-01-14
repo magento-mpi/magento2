@@ -80,6 +80,16 @@ class Mage_Customer_Block_Widget_Name extends Mage_Customer_Block_Widget_Abstrac
     }
 
     /**
+     * Define if middlename attribute is required
+     *
+     * @return bool
+     */
+    public function isMiddlenameRequired()
+    {
+        return (bool)$this->_getAttribute('middlename')->getIsRequired();
+    }
+
+    /**
      * Define if suffix attribute can be shown
      *
      * @return bool

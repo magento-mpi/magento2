@@ -41,6 +41,7 @@ Default layout, loads most of the pages
                 <action method="setTitle" translate="title"><title>Magento Admin</title></action>
                 <action method="addJs"><file>prototype/prototype.js</file></action>
                 <action method="addJs"><file>mage/adminhtml/fix-extjs-defer.js</file><params/><if/><condition>can_load_ext_js</condition></action>
+                <action method="addJs"><file>mage/adminhtml/fix-extjs-defer-before.js</file><params/><if/><condition>can_load_ext_js</condition></action>
                 <action method="addJs"><file>prototype/window.js</file></action>
                 <action method="addJs"><file>scriptaculous/builder.js</file></action>
                 <action method="addJs"><file>scriptaculous/effects.js</file></action>
@@ -95,6 +96,10 @@ Default layout, loads most of the pages
 
             <!--<update handle="formkey"/> this won't work, see the try/catch and a jammed exception in Mage_Core_Model_Layout::createBlock() -->
             <block type="Mage_Core_Block_Template" name="formkey" as="formkey" template="Mage_Adminhtml::admin/formkey.phtml"/>
+            <!--
+                @deprecated after 1.7.0.0
+                @see Mage_Page_Block_Js_Translate
+            -->
             <block type="Mage_Page_Block_Js_Translate" name="js_translate" as="js_translate" template="Mage_Adminhtml::page/js/translate.phtml"/>
             <block type="Mage_Core_Block_Text_List" name="left" as="left"/>
             <block type="Mage_Core_Block_Text_List" name="content" as="content"/>
@@ -235,11 +240,9 @@ Base preview layout
             </block>
         </block>
     </adminhtml_index_forgotpassword>
-
 <!--
 Empty hanle for ajax response etc.
 -->
     <empty>
     </empty>
-
 </layout>

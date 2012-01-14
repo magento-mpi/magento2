@@ -56,16 +56,18 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tab_Genera
         if (Mage::app()->isSingleStoreMode()) {
             $websiteId = Mage::app()->getStore(true)->getWebsiteId();
             $fieldset->addField('website_ids', 'hidden', array(
-                'name' => 'website_ids[]',
-                'value' => $websiteId
+                'name'     => 'website_ids[]',
+                'value'    => $websiteId
             ));
             $model->setWebsiteIds($websiteId);
         } else {
             $fieldset->addField('website_ids', 'multiselect', array(
-                'name' => 'website_ids',
-                'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Assigned to Website'),
+                'name'     => 'website_ids[]',
+                'label'    => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Assigned to Website'),
+                'title'    => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Assigned to Website'),
                 'required' => true,
-                'values' => Mage::getSingleton('Mage_Adminhtml_Model_System_Store')->getWebsiteValuesForForm()
+                'values'   => Mage::getSingleton('Mage_Adminhtml_Model_System_Store')->getWebsiteValuesForForm(),
+                'value'    => $model->getWebsiteIds()
             ));
         }
 
@@ -79,23 +81,25 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tab_Genera
             )
         ));
 
-        $fieldset->addField('apply_to', 'select', array(
+        $applyToFieldConfig = array(
             'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Apply To'),
             'name' => 'apply_to',
             'required' => false,
-            'disabled' => (boolean) $model->getId(),
+            'disabled' => (boolean)$model->getId(),
             'options' => array(
                 Enterprise_CustomerSegment_Model_Segment::APPLY_TO_VISITORS_AND_REGISTERED => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Visitors and Registered Customers'),
                 Enterprise_CustomerSegment_Model_Segment::APPLY_TO_REGISTERED => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Registered Customers'),
                 Enterprise_CustomerSegment_Model_Segment::APPLY_TO_VISITORS => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Visitors')
             )
-        ));
+        );
+        if (!$model->getId()) {
+            $applyToFieldConfig['note'] = Mage::helper('enterprise_customersegment')->__('Please save this information in order to specify the conditions for segmentation');
+        }
+
+        $fieldset->addField('apply_to', 'select', $applyToFieldConfig);
 
         if (!$model->getId()) {
             $model->setData('is_active', '1');
-        } else {
-            // Init model website IDs
-            $model->getWebsiteIds();
         }
 
         $form->setValues($model->getData());

@@ -302,7 +302,7 @@ class Mage_Widget_Model_Widget_Instance extends Mage_Core_Model_Abstract
         } else if (is_null($this->getData('widget_parameters'))) {
             return array();
         }
-        return $this->getData('widget_parameters');
+        return (is_array($this->getData('widget_parameters'))) ? $this->getData('widget_parameters') : array();
     }
 
     /**

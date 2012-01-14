@@ -146,6 +146,7 @@ class Mage_Adminhtml_Block_Report_Grid_Abstract extends Mage_Adminhtml_Block_Wid
             ->setAggregatedColumns($this->_getAggregatedColumns());
 
         $this->_addOrderStatusFilter($resourceCollection, $filterData);
+        $this->_addCustomFilter($resourceCollection, $filterData);
 
         if ($this->_isExport) {
             $this->setCollection($resourceCollection);
@@ -174,6 +175,7 @@ class Mage_Adminhtml_Block_Report_Grid_Abstract extends Mage_Adminhtml_Block_Wid
                 ->isTotals(true);
 
             $this->_addOrderStatusFilter($totalsCollection, $filterData);
+            $this->_addCustomFilter($totalsCollection, $filterData);
 
             foreach ($totalsCollection as $item) {
                 $this->setTotals($item);
@@ -265,6 +267,19 @@ class Mage_Adminhtml_Block_Report_Grid_Abstract extends Mage_Adminhtml_Block_Wid
     protected function _addOrderStatusFilter($collection, $filterData)
     {
         $collection->addOrderStatusFilter($filterData->getData('order_statuses'));
+        return $this;
+    }
+
+    /**
+     * Adds custom filter to resource collection
+     * Can be overridden in child classes if custom filter needed
+     *
+     * @param Mage_Reports_Model_Resource_Report_Collection_Abstract $collection
+     * @param Varien_Object $filterData
+     * @return Mage_Adminhtml_Block_Report_Grid_Abstract
+     */
+    protected function _addCustomFilter($collection, $filterData)
+    {
         return $this;
     }
 }

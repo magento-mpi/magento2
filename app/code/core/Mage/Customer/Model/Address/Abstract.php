@@ -11,12 +11,32 @@
 /**
  * Address abstract model
  *
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @category   Mage
+ * @package    Mage_Customer
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Customer_Model_Address_Abstract extends Mage_Core_Model_Abstract
 {
+    /**
+     * Possible customer address types
+     */
+    const TYPE_BILLING  = 'billing';
+    const TYPE_SHIPPING = 'shipping';
+
+    /**
+     * Prefix of model events
+     *
+     * @var string
+     */
     protected $_eventPrefix = 'customer_address';
+
+    /**
+     * Name of event object
+     *
+     * @var string
+     */
     protected $_eventObject = 'customer_address';
+
     /**
      * Directory country models
      *

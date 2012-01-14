@@ -320,87 +320,6 @@ class Mage_Sales_Model_Observer
     }
 
     /**
-     * Handle customer VAT number if needed
-     *
-     * @param Varien_Event_Observer $observer
-     */
-    public function handleCustomerVatNumber(Varien_Event_Observer $observer)
-    {
-        /** @var $addressHelper Mage_Customer_Helper_Address */
-        $addressHelper = Mage::helper('Mage_Customer_Helper_Address');
-
-        /** @var $customerInstance Mage_Customer_Model_Customer */
-        $customerInstance = $observer->getQuote()->getCustomer();
-
-        if (!$addressHelper->isVatValidationEnabled($customerInstance->getStore())) {
-            return;
-        }
-
-        /** @var $quoteInstance Mage_Sales_Model_Quote */
-        $quoteInstance = $observer->getQuote();
-        $quoteBillingAddress = $quoteInstance->getBillingAddress();
-
-        /** @var $customerHelper Mage_Customer_Helper_Data */
-        $customerHelper = Mage::helper('Mage_Customer_Helper_Data');
-
-        $customerAddressId = $quoteBillingAddress->getCustomerAddressId();
-        $customerDefaultBillingAddressId = $customerInstance->getDefaultBilling();
-
-        $customerCountryCode = $quoteBillingAddress->getCountryId();
-        $customerVatNumber = $quoteBillingAddress->getVatId();
-
-        if (empty($customerVatNumber) || !Mage::helper('Mage_Core_Helper_Data')->isCountryInEU($customerCountryCode)) {
-            $groupId = $customerHelper->getDefaultCustomerGroupId($customerInstance->getStore());
-
-            if ($groupId && $customerInstance->getGroupId() != $groupId) {
-                $quoteInstance->setCustomer($customerInstance->setGroupId($groupId));
-                $quoteInstance->setCustomerGroupId($groupId);
-            }
-
-            return;
-        }
-
-        $mustValidateVat = $addressHelper->getValidateOnEachTransaction($customerInstance->getStore())
-            || $customerCountryCode != $quoteBillingAddress->getValidatedCountryCode()
-            || $customerVatNumber != $quoteBillingAddress->getValidatedVatNumber();
-
-        if (!$mustValidateVat) {
-            return;
-        }
-
-        /** @var $coreHelper Mage_Core_Helper_Data */
-        $coreHelper = Mage::helper('Mage_Core_Helper_Data');
-        $merchantCountryCode = $coreHelper->getMerchantCountryCode();
-        $merchantVatNumber = $coreHelper->getMerchantVatNumber();
-
-        $gatewayResponse = $customerHelper->checkVatNumber(
-            $customerCountryCode,
-            $customerVatNumber,
-            ($merchantVatNumber !== '') ? $merchantCountryCode : '',
-            $merchantVatNumber
-        );
-
-        // Store validation results in quote billing address
-        $quoteBillingAddress->setVatIsValid((int) $gatewayResponse->getIsValid())
-            ->setVatRequestId($gatewayResponse->getRequestIdentifier())
-            ->setVatRequestDate($gatewayResponse->getRequestDate())
-            ->setVatRequestSuccess($gatewayResponse->getRequestSuccess())
-            ->setValidatedVatNumber($customerVatNumber)
-            ->setValidatedCountryCode($customerCountryCode)
-            ->save();
-
-        if ($customerAddressId != $customerDefaultBillingAddressId) {
-            $groupId = $customerHelper->getCustomerGroupIdBasedOnVatNumber(
-                $customerCountryCode, $gatewayResponse, $customerInstance->getStore());
-
-            if ($groupId) {
-                $quoteInstance->setCustomer($customerInstance->setGroupId($groupId));
-                $quoteInstance->setCustomerGroupId($groupId);
-            }
-        }
-    }
-
-    /**
      * Add VAT validation request date and identifier to order comments
      *
      * @param Varien_Event_Observer $observer
@@ -410,21 +329,177 @@ class Mage_Sales_Model_Observer
     {
         /** @var $orderInstance Mage_Sales_Model_Order */
         $orderInstance = $observer->getOrder();
-        /** @var $billingAddress Mage_Sales_Model_Order_Address */
-        $billingAddress = $orderInstance->getBillingAddress();
-        if ($billingAddress instanceof Mage_Sales_Model_Order_Address) {
-            $vatRequestId = $billingAddress->getVatRequestId();
-            $vatRequestDate = $billingAddress->getVatRequestDate();
-            if (is_string($vatRequestId)
-                && !empty($vatRequestId)
-                && is_string($vatRequestDate)
-                && !empty($vatRequestDate)
-            ) {
-                $orderHistoryComment = Mage::helper('Mage_Customer_Helper_Data')->__('VAT Request Identifier')
-                    . ': ' . $vatRequestId . '<br />' . Mage::helper('Mage_Customer_Helper_Data')->__('VAT Request Date')
-                    . ': ' . $vatRequestDate;
-                $orderInstance->addStatusHistoryComment($orderHistoryComment, false);
+        /** @var $orderAddress Mage_Sales_Model_Order_Address */
+        $orderAddress = $this->_getVatRequiredSalesAddress($orderInstance);
+        if (!($orderAddress instanceof Mage_Sales_Model_Order_Address)) {
+            return;
+        }
+
+        $vatRequestId = $orderAddress->getVatRequestId();
+        $vatRequestDate = $orderAddress->getVatRequestDate();
+        if (is_string($vatRequestId) && !empty($vatRequestId) && is_string($vatRequestDate)
+            && !empty($vatRequestDate)
+        ) {
+            $orderHistoryComment = Mage::helper('customer')->__('VAT Request Identifier')
+                . ': ' . $vatRequestId . '<br />' . Mage::helper('customer')->__('VAT Request Date')
+                . ': ' . $vatRequestDate;
+            $orderInstance->addStatusHistoryComment($orderHistoryComment, false);
+        }
+    }
+
+    /**
+     * Retrieve sales address (order or quote) on which tax calculation must be based
+     *
+     * @param Mage_Core_Model_Abstract $salesModel
+     * @param Mage_Core_Model_Store|string|int|null $store
+     * @return Mage_Customer_Model_Address_Abstract|null
+     */
+    protected function _getVatRequiredSalesAddress($salesModel, $store = null)
+    {
+        $configAddressType = Mage::helper('customer/address')->getTaxCalculationAddressType($store);
+        $requiredAddress = null;
+        switch ($configAddressType) {
+            case Mage_Customer_Model_Address_Abstract::TYPE_SHIPPING:
+                $requiredAddress = $salesModel->getShippingAddress();
+                break;
+            default:
+                $requiredAddress = $salesModel->getBillingAddress();
+        }
+        return $requiredAddress;
+    }
+
+    /**
+     * Retrieve customer address (default billing or default shipping) ID on which tax calculation must be based
+     *
+     * @param Mage_Customer_Model_Customer $customer
+     * @param Mage_Core_Model_Store|string|int|null $store
+     * @return int|string
+     */
+    protected function _getVatRequiredCustomerAddress(Mage_Customer_Model_Customer $customer, $store = null)
+    {
+        $configAddressType = Mage::helper('customer/address')->getTaxCalculationAddressType($store);
+        $requiredAddress = null;
+        switch ($configAddressType) {
+            case Mage_Customer_Model_Address_Abstract::TYPE_SHIPPING:
+                $requiredAddress = $customer->getDefaultShipping();
+                break;
+            default:
+                $requiredAddress = $customer->getDefaultBilling();
+        }
+        return $requiredAddress;
+    }
+
+    /**
+     * Handle customer VAT number if needed on collect_totals_before event of quote address
+     *
+     * @param Varien_Event_Observer $observer
+     */
+    public function changeQuoteCustomerGroupId(Varien_Event_Observer $observer)
+    {
+        /** @var $addressHelper Mage_Customer_Helper_Address */
+        $addressHelper = Mage::helper('Mage_Customer_Helper_Address');
+
+        $quoteAddress = $observer->getQuoteAddress();
+        $quoteInstance = $quoteAddress->getQuote();
+        $customerInstance = $quoteInstance->getCustomer();
+
+        $storeId = $customerInstance->getStore();
+
+        $configAddressType = Mage::helper('customer/address')->getTaxCalculationAddressType($storeId);
+
+        // When VAT is based on billing address then Magento have to handle only billing addresses
+        $additionalBillingAddressCondition = ($configAddressType == Mage_Customer_Model_Address_Abstract::TYPE_BILLING)
+            ? $configAddressType != $quoteAddress->getAddressType() : false;
+        // Handle only addresses that corresponds to VAT configuration
+        if (!$addressHelper->isVatValidationEnabled($storeId) || $additionalBillingAddressCondition) {
+            return;
+        }
+
+        /** @var $customerHelper Mage_Customer_Helper_Data */
+        $customerHelper = Mage::helper('Mage_Customer_Helper_Data');
+
+        $customerAddressId = $quoteAddress->getCustomerAddressId();
+        $customerDefaultAddressId = $this->_getVatRequiredCustomerAddress($customerInstance, $storeId);
+
+        $customerCountryCode = $quoteAddress->getCountryId();
+        $customerVatNumber = $quoteAddress->getVatId();
+
+        if (empty($customerVatNumber) || !Mage::helper('Mage_Core_Helper_Data')->isCountryInEU($customerCountryCode)) {
+            $groupId = $customerHelper->getDefaultCustomerGroupId($storeId);
+
+            if ($groupId && $customerInstance->getGroupId() != $groupId) {
+                $quoteAddress->setPrevQuoteCustomerGroupId($quoteInstance->getCustomerGroupId());
+                $customerInstance->setGroupId($groupId);
+                $quoteInstance->setCustomerGroupId($groupId);
             }
+
+            return;
+        }
+
+        /** @var $coreHelper Mage_Core_Helper_Data */
+        $coreHelper = Mage::helper('Mage_Core_Helper_Data');
+        $merchantCountryCode = $coreHelper->getMerchantCountryCode();
+        $merchantVatNumber = $coreHelper->getMerchantVatNumber();
+
+        $gatewayResponse = null;
+        if ($addressHelper->getValidateOnEachTransaction($storeId)
+            || $customerCountryCode != $quoteAddress->getValidatedCountryCode()
+            || $customerVatNumber != $quoteAddress->getValidatedVatNumber()
+        ) {
+            // Send request to gateway
+            $gatewayResponse = $customerHelper->checkVatNumber(
+                $customerCountryCode,
+                $customerVatNumber,
+                ($merchantVatNumber !== '') ? $merchantCountryCode : '',
+                $merchantVatNumber
+            );
+
+            // Store validation results in corresponding quote address
+            $quoteAddress->setVatIsValid((int)$gatewayResponse->getIsValid())
+                ->setVatRequestId($gatewayResponse->getRequestIdentifier())
+                ->setVatRequestDate($gatewayResponse->getRequestDate())
+                ->setVatRequestSuccess($gatewayResponse->getRequestSuccess())
+                ->setValidatedVatNumber($customerVatNumber)
+                ->setValidatedCountryCode($customerCountryCode)
+                ->save();
+        } else {
+            // Restore validation results from corresponding quote address
+            $gatewayResponse = new Varien_Object(array(
+                'is_valid' => (int)$quoteAddress->getVatIsValid(),
+                'request_identifier' => (string)$quoteAddress->getVatRequestId(),
+                'request_date' => (string)$quoteAddress->getVatRequestDate(),
+                'request_success' => (boolean)$quoteAddress->getVatRequestSuccess()
+            ));
+        }
+
+        if ($customerAddressId != $customerDefaultAddressId || is_null($customerDefaultAddressId)) {
+            $groupId = $customerHelper->getCustomerGroupIdBasedOnVatNumber(
+                $customerCountryCode, $gatewayResponse, $customerInstance->getStore()
+            );
+
+            if ($groupId) {
+                $quoteAddress->setPrevQuoteCustomerGroupId($quoteInstance->getCustomerGroupId());
+                $customerInstance->setGroupId($groupId);
+                $quoteInstance->setCustomerGroupId($groupId);
+            }
+        }
+    }
+
+    /**
+     * Restore initial customer group ID in quote if needed on collect_totals_after event of quote address
+     *
+     * @param Varien_Event_Observer $observer
+     */
+    public function restoreQuoteCustomerGroupId($observer)
+    {
+        $quoteAddress = $observer->getQuoteAddress();
+        $configAddressType = Mage::helper('Mage_Customer_Helper_Address')->getTaxCalculationAddressType();
+        // Restore initial customer group ID in quote only if VAT is calculated based on shipping address
+        if ($quoteAddress->hasPrevQuoteCustomerGroupId()
+            && $configAddressType == Mage_Customer_Model_Address_Abstract::TYPE_SHIPPING
+        ) {
+            $quoteAddress->getQuote()->setCustomerGroupId($quoteAddress->getPrevQuoteCustomerGroupId());
+            $quoteAddress->unsPrevQuoteCustomerGroupId();
         }
     }
 }

@@ -16,45 +16,27 @@
  * @package     Mage_CatalogRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_CatalogRule_Model_Resource_Rule_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
+class Mage_CatalogRule_Model_Resource_Rule_Collection extends Mage_Rule_Model_Resource_Rule_Collection_Abstract
 {
     /**
-     * Enter description here ...
+     * Store associated with rule entities information map
      *
+     * @var array
+     */
+    protected $_associatedEntitiesMap = array(
+        'website' => array(
+            'associations_table' => 'catalogrule_website',
+            'rule_id_field'      => 'rule_id',
+            'entity_id_field'    => 'website_id'
+        )
+    );
+
+    /**
+     * Set resource model
      */
     protected function _construct()
     {
-        $this->_init('Mage_CatalogRule_Model_Rule', 'Mage_CatalogRule_Model_Resource_Rule');
-    }
-
-    /**
-     * Enter description here ...
-     *
-     */
-    protected function _afterLoad()
-    {
-        $this->walk('afterLoad');
-    }
-
-    /**
-     * Filter collection by specified website IDs
-     *
-     * @param int|array $websiteIds
-     * @return Mage_CatalogRule_Model_Resource_Rule_Collection
-     */
-    public function addWebsiteFilter($websiteIds)
-    {
-        if (!is_array($websiteIds)) {
-            $websiteIds = array($websiteIds);
-        }
-        $parts = array();
-        foreach ($websiteIds as $websiteId) {
-          $parts[] = $this->getConnection()->prepareSqlCondition('main_table.website_ids', array('finset' => $websiteId));
-        }
-        if ($parts) {
-            $this->getSelect()->where(new Zend_Db_Expr(implode(' OR ', $parts)));
-        }
-        return $this;
+        $this->_init('catalogrule/rule');
     }
 
     /**

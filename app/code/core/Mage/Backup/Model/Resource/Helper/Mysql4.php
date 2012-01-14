@@ -45,8 +45,7 @@ class Mage_Backup_Model_Resource_Helper_Mysql4 extends Mage_Core_Model_Resource_
             foreach ($this->_foreignKeys as $table => $foreignKeys) {
                 $sql .= $this->_buildForeignKeysAlterTableSql($table, $foreignKeys);
             }
-        }
-        else if (isset($this->_foreignKeys[$tableName])) {
+        } else if (isset($this->_foreignKeys[$tableName])) {
             $foreignKeys = $this->_foreignKeys[$tableName];
             $sql = $this->_buildForeignKeysAlterTableSql($tableName, $foreignKeys);
         }

@@ -63,7 +63,6 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
         $username = (is_array($loginData) && array_key_exists('username', $loginData)) ? $loginData['username'] : null;
 
         $this->loadLayout();
-        $this->getLayout()->getBlock('content')->assign('username', $username);
         $this->renderLayout();
     }
 
@@ -199,8 +198,8 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
         if (!empty($email) && !empty($params)) {
             // Validate received data to be an email address
             if (Zend_Validate::is($email, 'EmailAddress')) {
-                /** @var $collection Mage_Admin_Model_Resource_User_Collection */
                 $collection = Mage::getResourceModel('Mage_Admin_Model_Resource_User_Collection');
+                /** @var $collection Mage_Admin_Model_Resource_User_Collection */
                 $collection->addFieldToFilter('email', $email);
                 $collection->load(false);
 
@@ -217,7 +216,7 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
                     }
                 }
                 $this->_getSession()
-                    ->addSuccess(Mage::helper('Mage_Adminhtml_Helper_Data')->__('If there is an account associated with %s you will receive an email with a link to reset your password.', Mage::helper('Mage_Adminhtml_Helper_Data')->escapeHtml($email)));
+                    ->addSuccess(Mage::helper('Mage_Adminhtml_Helper_Data')->__('If there is an account associated with %s you will receive an email with a link to reset your password.', Mage::helper('adminhtml')->escapeHtml($email)));
                 $this->_redirect('*/*/login');
                 return;
             } else {
@@ -227,7 +226,6 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
             $this->_getSession()->addError(Mage::helper('Mage_Adminhtml_Helper_Data')->__('The email address is empty.'));
         }
         $this->loadLayout();
-        $this->getLayout()->getBlock('content')->assign('email', $email);
         $this->renderLayout();
     }
 

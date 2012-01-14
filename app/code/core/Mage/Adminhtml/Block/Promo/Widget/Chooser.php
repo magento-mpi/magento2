@@ -87,6 +87,10 @@ class Mage_Adminhtml_Block_Promo_Widget_Chooser extends Mage_Adminhtml_Block_Wid
         $collection = Mage::getModel('Mage_SalesRule_Model_Rule')->getResourceCollection();
         $this->setCollection($collection);
 
+        Mage::dispatchEvent('adminhtml_block_promo_widget_chooser_prepare_collection', array(
+            'collection' => $collection
+        ));
+
         return parent::_prepareCollection();
     }
 

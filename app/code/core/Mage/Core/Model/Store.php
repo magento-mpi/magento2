@@ -661,7 +661,8 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
         }
 
         if (Mage::isInstalled()) {
-            $secureBaseUrl = $this->getConfig(Mage_Core_Model_Url::XML_PATH_SECURE_URL);
+            $secureBaseUrl = Mage::getStoreConfig(Mage_Core_Model_Url::XML_PATH_SECURE_URL);
+
             if (!$secureBaseUrl) {
                 return false;
             }

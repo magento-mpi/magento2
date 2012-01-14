@@ -216,14 +216,20 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
                 foreach (array_keys($data['address']) as $index) {
                     $address = $customer->getAddressItemById($index);
                     if (!$address) {
-                        $address   = Mage::getModel('Mage_Customer_Model_Address');
+                        $address = Mage::getModel('Mage_Customer_Model_Address');
                     }
 
                     $requestScope = sprintf('address/%s', $index);
                     $formData = $addressForm->setEntity($address)
                         ->extractData($this->getRequest(), $requestScope);
 
-                    $address->setIsDefaultBilling($data['account']['default_billing'] == $index);
+                    // Set default billing and shipping flags to address
+                    $isDefaultBilling = isset($data['account']['default_billing'])
+                        && $data['account']['default_billing'] == $index;
+                    $address->setIsDefaultBilling($isDefaultBilling);
+                    $isDefaultShipping = isset($data['account']['default_shipping'])
+                        && $data['account']['default_shipping'] == $index;
+                    $address->setIsDefaultShipping($isDefaultShipping);
 
                     $errors = $addressForm->validateData($formData);
                     if ($errors !== true) {

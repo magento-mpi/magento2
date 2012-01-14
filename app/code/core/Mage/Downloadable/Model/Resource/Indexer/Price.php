@@ -130,6 +130,7 @@ class Mage_Downloadable_Model_Resource_Indexer_Price extends Mage_Catalog_Model_
         $write->query($query);
 
         $ifTierPrice = $write->getCheckSql('i.tier_price IS NOT NULL', '(i.tier_price + id.min_price)', 'NULL');
+        $ifGroupPrice = $write->getCheckSql('i.group_price IS NOT NULL', '(i.group_price + id.min_price)', 'NULL');
 
         $select = $write->select()
             ->join(
@@ -138,9 +139,10 @@ class Mage_Downloadable_Model_Resource_Indexer_Price extends Mage_Catalog_Model_
                     .' AND i.website_id = id.website_id',
                 array())
             ->columns(array(
-                'min_price'  => new Zend_Db_Expr('i.min_price + id.min_price'),
-                'max_price'  => new Zend_Db_Expr('i.max_price + id.max_price'),
-                'tier_price' => new Zend_Db_Expr($ifTierPrice)
+                'min_price'   => new Zend_Db_Expr('i.min_price + id.min_price'),
+                'max_price'   => new Zend_Db_Expr('i.max_price + id.max_price'),
+                'tier_price'  => new Zend_Db_Expr($ifTierPrice),
+                'group_price' => new Zend_Db_Expr($ifGroupPrice),
             ));
 
         $query = $select->crossUpdateFromSelect(array('i' => $this->_getDefaultFinalPriceTable()));

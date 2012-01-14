@@ -26,6 +26,35 @@ AdminOrder.prototype = {
         this.giftMessageDataChanged = false;
         this.productConfigureAddFields = {};
         this.productPriceBase = {};
+        this.collectElementsValue = true;
+        Event.observe(window, 'load',  (function(){
+            this.dataArea = new OrderFormArea('data', $(this.getAreaId('data')), this);
+            this.itemsArea = Object.extend(new OrderFormArea('items', $(this.getAreaId('items')), this), {
+                addControlButton: function(button){
+                    var controlButtonArea = $(this.node).select('.form-buttons')[0];
+                    if (typeof controlButtonArea != 'undefined') {
+                        var buttons = controlButtonArea.childElements();
+                        for (var i = 0; i < buttons.length; i++) {
+                            if (buttons[i].innerHTML.include(button.label)) {
+                                return ;
+                            }
+                        }
+                        button.insertIn(controlButtonArea, 'top');
+                    }
+                }
+            });
+            this.areasLoaded();
+        }).bind(this));
+    },
+
+    areasLoaded: function(){
+    },
+
+    itemsLoaded: function(){
+    },
+
+    dataLoaded: function(){
+        this.dataShow();
     },
 
     setLoadBaseUrl : function(url){
@@ -47,7 +76,7 @@ AdminOrder.prototype = {
     setCustomerAfter : function () {
         this.customerSelectorHide();
         if (this.storeId) {
-            $(this.getAreaId('data')).callback = 'dataShow';
+            $(this.getAreaId('data')).callback = 'dataLoaded';
             this.loadArea(['data'], true);
         }
         else {
@@ -203,14 +232,26 @@ AdminOrder.prototype = {
         }
     },
 
-    disableShippingAddress : function(flag){
+    disableShippingAddress : function(flag) {
         this.shippingAsBilling = flag;
-        if($('order-shipping_address_customer_address_id')) {
-            $('order-shipping_address_customer_address_id').disabled=flag;
+        if ($('order-shipping_address_customer_address_id')) {
+            $('order-shipping_address_customer_address_id').disabled = flag;
         }
-        if($(this.shippingAddressContainer)){
+        if ($(this.shippingAddressContainer)) {
             var dataFields = $(this.shippingAddressContainer).select('input', 'select', 'textarea');
-            for(var i=0;i<dataFields.length;i++) dataFields[i].disabled = flag;
+            for (var i = 0; i < dataFields.length; i++) {
+                dataFields[i].disabled = flag;
+            }
+            var buttons = $(this.shippingAddressContainer).select('button');
+            // Add corresponding class to buttons while disabling them
+            for (i = 0; i < buttons.length; i++) {
+                buttons[i].disabled = flag;
+                if (flag) {
+                    buttons[i].addClassName('disabled');
+                } else {
+                    buttons[i].removeClassName('disabled');
+                }
+            }
         }
     },
 
@@ -582,13 +623,27 @@ AdminOrder.prototype = {
         this.showArea('data');
     },
 
-    sidebarApplyChanges : function(){
-        if($(this.getAreaId('sidebar'))){
-            var data  = {};
-            var elems = $(this.getAreaId('sidebar')).select('input');
-            for(var i=0; i<elems.length; i++){
-                if(elems[i].getValue()){
-                    data[elems[i].name] = elems[i].getValue();
+    clearShoppingCart : function(confirmMessage){
+        if (confirm(confirmMessage)) {
+            this.collectElementsValue = false;
+            order.sidebarApplyChanges({'sidebar[empty_customer_cart]': 1});
+        }
+    },
+
+    sidebarApplyChanges : function(auxiliaryParams) {
+        if ($(this.getAreaId('sidebar'))) {
+            var data = {};
+            if (this.collectElementsValue) {
+                var elems = $(this.getAreaId('sidebar')).select('input');
+                for (var i=0; i < elems.length; i++) {
+                    if (elems[i].getValue()) {
+                        data[elems[i].name] = elems[i].getValue();
+                    }
+                }
+            }
+            if (auxiliaryParams instanceof Object) {
+                for (var paramName in auxiliaryParams) {
+                    data[paramName] = String(auxiliaryParams[paramName]);
                 }
             }
             data.reset_shipping = true;
@@ -1049,6 +1104,10 @@ AdminOrder.prototype = {
             vat: $(parameters.vatElementId).value
         };
 
+        if (this.storeId !== false) {
+            params.store_id = this.storeId;
+        }
+
         var currentCustomerGroupId = $(parameters.groupIdHtmlId).value;
 
         new Ajax.Request(parameters.validateUrl, {
@@ -1097,5 +1156,39 @@ AdminOrder.prototype = {
             });
             this.accountGroupChange();
         }
+    }
+};
+
+var OrderFormArea = Class.create();
+OrderFormArea.prototype = {
+    _name: null,
+    _node: null,
+    _parent: null,
+    _callbackName: null,
+
+    initialize: function(name, node, parent){
+        this._name = name;
+        this._parent = parent;
+        this._callbackName = node.callback;
+        if (typeof this._callbackName == 'undefined') {
+            this._callbackName = name + 'Loaded';
+            node.callback = this._callbackName;
+        }
+        parent[this._callbackName] = parent[this._callbackName].wrap((function (proceed){
+            proceed();
+            this.onLoad();
+        }).bind(this));
+
+        this.setNode(node);
+    },
+
+    setNode: function(node){
+        if (!node.callback) {
+            node.callback = this._callbackName;
+        }
+        this.node = node;
+    },
+
+    onLoad: function(){
     }
 };

@@ -26,7 +26,9 @@
     <td>
         <div class="right">
             <div class="entry-edit">
+                <?php if ($this->getHideFormElement() !== true):?>
                 <form action="" id="<?php echo $this->getHtmlId() ?>-form" method="post">
+                <?php endif ?>
                     <?php echo $this->getBlockHtml('formkey')?>
                     <fieldset>
                         <span class="field-row">
@@ -44,7 +46,9 @@
                             <?php echo $this->getApplyButtonHtml() ?>
                         </span>
                     </fieldset>
+                <?php if ($this->getHideFormElement() !== true):?>
                 </form>
+                <?php endif ?>
             </div>
 
             <div class="no-display">

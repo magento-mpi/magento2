@@ -9,12 +9,17 @@
  */
 
 /**
- * Reminder rules grid block
+ * Reminder Rules Grid
+ *
+ * @category Enterprise
+ * @package Enterprise_Reminder
+ * @author Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_Reminder_Block_Adminhtml_Reminder_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
     /**
-     * Intialize grid
+     * Initialize grid
+     * Set sort settings
      */
     public function __construct()
     {
@@ -25,20 +30,24 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Grid extends Mage_Adminhtml_B
     }
 
     /**
-     * Instantiate and prepare collection
+     * Add websites to reminder rules collection
+     * Set collection
      *
      * @return Enterprise_Reminder_Block_Adminhtml_Reminder_Grid
      */
     protected function _prepareCollection()
     {
+        /** @var $collection Enterprise_Reminder_Model_Resource_Rule_Collection */
         $collection = Mage::getModel('Enterprise_Reminder_Model_Rule')->getCollection();
         $collection->addWebsitesToResult();
         $this->setCollection($collection);
-        return parent::_prepareCollection();
+
+        parent::_prepareCollection();
+        return $this;
     }
 
     /**
-     * Prepare columns for grid
+     * Add grid columns
      *
      * @return Enterprise_Reminder_Block_Adminhtml_Reminder_Grid
      */
@@ -58,21 +67,21 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Grid extends Mage_Adminhtml_B
         ));
 
         $this->addColumn('from_date', array(
-            'header'    => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Active From'),
+            'header'    => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Date Start'),
             'align'     => 'left',
             'width'     => '120px',
             'type'      => 'date',
             'default'   => '--',
-            'index'     => 'active_from',
+            'index'     => 'from_date',
         ));
 
         $this->addColumn('to_date', array(
-            'header'    => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Active To'),
+            'header'    => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Date Expire'),
             'align'     => 'left',
             'width'     => '120px',
             'type'      => 'date',
             'default'   => '--',
-            'index'     => 'active_to',
+            'index'     => 'to_date',
         ));
 
         $this->addColumn('is_active', array(
@@ -98,13 +107,16 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Grid extends Mage_Adminhtml_B
                 'width'     => 200,
             ));
         }
-        return parent::_prepareColumns();
+
+        parent::_prepareColumns();
+        return $this;
     }
 
     /**
-     * Return url for current row
+     * Retrieve row click URL
      *
-     * @param Enterprise_Reminder_Model_Rule $row
+     * @param Varien_Object $row
+     *
      * @return string
      */
     public function getRowUrl($row)

@@ -23,11 +23,10 @@
                 <?php if ($this->getData('current_scope') != Enterprise_Cms_Model_Hierarchy_Node::NODE_SCOPE_DEFAULT): ?>
                 <span class="cms-scope">
                     <input type="checkbox" name="use_default_scope" id="use_default_scope" <?php echo $this->getData('use_default_scope') ? 'checked="checked"' : '' ?> onchange="hierarchyNodes.useDefaultScope()" />
-                    <label for="use_default_scope"><?php echo Mage::helper('Enterprise_Cms_Helper_Data')->__('Use Default Value') ?></label>
+                    <label for="use_default_scope"><?php echo Mage::helper('Enterprise_Cms_Helper_Data')->__('Use Parent node\'s hierarchy') ?></label>
                 </span>
                 <?php endif; ?>
                 <div id="tree-container" class="cms-tree tree x-tree"></div>
-                <?php echo $this->getButtonHtml($this->__('Delete Hierarchy'), "deleteCurrentHierarchy()") ?>
             </td>
             <td class="col-right">
                 <div class="buttons-set">
@@ -53,7 +52,7 @@
 
     function deleteCurrentHierarchy()
     {
-        if (confirm("<?php echo $this->__("Are you sure?") ?>")) {
+        if (confirm(<?php echo json_encode(Mage::helper('enterprise_cms')->__("Are you sure you want to delete current hierarchy?")); ?>)) {
             document.location = '<?php echo $this->getDeleteHierarchyUrl() ?>';
         }
     }
@@ -224,7 +223,6 @@
         },
 
         onNodeSelect: function(model, node){
-
             if ($('node_id').value) {
                 this.saveNodePage();
             }
@@ -259,7 +257,7 @@
             <?php endif; ?>
 
             $('node_id').value = node.id;
-            $('node_page_id').value = node.attributes.page_id;
+            $('node_page_id').value = node.attributes.page_id || '';
 
             // Assign node attributes to form elements, change some of them based on node properties
             this.renderMetadata(node);
@@ -273,8 +271,16 @@
                 : '<?php echo $this->getNodeFieldsetLegend()?>';
 
             // prepare preview link
-            var scopeStore = $('store');
-            if (scopeStore != undefined && scopeStore.value) {
+            Validation.add('IsEmpty', '', function(v) {
+                return  (v == '' || (v == null) || (v.length == 0) || /^\s+$/.test(v));
+            });
+
+            var nodeValue = $('node_id').value,
+                isNodeSaved = Validation.get('IsEmpty').test(nodeValue)
+                    || (!isNaN(parseNumber(nodeValue)) && !/^\s+$/.test(parseNumber(nodeValue))),
+                isStoreViewLevel = $('store') && $('store').value;
+
+            if (isStoreViewLevel && isNodeSaved) {
                 var nodeUrlInfo = this.getNodePreviewUrlInfo(node);
                 if (nodeUrlInfo != false) {
                     $('node_preview').up(1).show();
@@ -305,13 +311,17 @@
             this.pageGridLoad();
         },
 
-        onNodeAppend: function(tree,parent,node){
+        onNodeAppend: function(tree, parent, node){
             if (!parent || !node) {
                 return false;
             }
-            var identifier = node.attributes.identifier;
-            for(var i=0, l = parent.childNodes.length; i < l; i++) {
-                if (identifier == parent.childNodes[i].attributes.identifier) {
+
+            var currentId = node.id,
+                currentUrlKey = node.attributes.identifier;
+
+            for (var i=0, l = parent.childNodes.length; i < l; i++) {
+                var comparedNode = parent.childNodes[i];
+                if (comparedNode.id != currentId && comparedNode.attributes.identifier == currentUrlKey) {
                     alert('<?php echo $this->jsQuoteEscape($this->__('This page cannot be added, because a node or page with the same URL Key already exists in this tree part.'))?>');
                     return false;
                 }
@@ -401,7 +411,11 @@
                 $('use_default_scope').checked = false;
                 this.useDefaultScope();
             }
-            this.saveNodePage();
+
+            if (this.saveNodePage() == false) {
+                return;
+            }
+
             //if (this.dataModification) {
             //    if (!confirm('<?php echo Mage::helper('Enterprise_Cms_Helper_Data')->__('There are unsaved node data. Are you sure you want to proceed?') ?>')) {
             //        return;
@@ -510,14 +524,12 @@
         },
 
         saveNodePage: function(){
-            if ($('save_node_button').hasClassName('disabled')) {
-                return false;
-            }
-            if (!this.dataModification) {
+            if (!this.dataModification || $('save_node_button').hasClassName('disabled')) {
                 return;
             }
-            var hasNodeId = $('node_id').value != '';
-            var hasPageId = $('node_page_id').value != '';
+
+            var hasNodeId = $('node_id').value != '',
+                hasPageId = $('node_page_id').value != '';
 
             if (!hasPageId) {
                 var isValid = this.nodePropValidate();
@@ -527,13 +539,13 @@
             }
 
             if (hasNodeId) {
-                var node_id = $('node_id').value;
-                var node = this.tree.getNodeById(node_id);
+                var node_id = $('node_id').value,
+                    node = this.tree.getNodeById(node_id),
+                    identifier = $('node_identifier').value;
 
-                var identifier = $('node_identifier').value;
                 for(var i=0, l = node.parentNode.childNodes.length; i < l; i++) {
-                    checkNode = node.parentNode.childNodes[i];
-                    if (checkNode.id != node_id && identifier == checkNode.attributes.identifier) {
+                    var comparedNode = node.parentNode.childNodes[i];
+                    if (comparedNode.id != node_id && identifier == comparedNode.attributes.identifier) {
                         alert('<?php echo $this->jsQuoteEscape($this->__('Node with same URL Key already exists.'))?>');
                         return false;
                     }

@@ -46,7 +46,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage extends Mage_Adminhtml_Block_Wi
         $this->setChild('add_products_button',
             $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->setData(array(
-                    'label' => Mage::helper('Enterprise_Checkout_Helper_Data')->__("Add Products"),
+                    'label' => Mage::helper('Enterprise_Checkout_Helper_Data')->__('Add Products'),
                     'onclick' => 'checkoutObj.searchProducts()',
                     'class' => 'add',
                     'id' => 'add_products_btn'
@@ -56,8 +56,18 @@ class Enterprise_Checkout_Block_Adminhtml_Manage extends Mage_Adminhtml_Block_Wi
         $this->setChild('update_button',
             $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->setData(array(
-                    'label' => Mage::helper('Enterprise_Checkout_Helper_Data')->__("Update Items and Qty's"),
+                    'label' => Mage::helper('Enterprise_Checkout_Helper_Data')->__('Update Items and Qty\'s'),
                     'onclick' => 'checkoutObj.updateItems()',
+                    'style' => 'float:right; margin-left: 5px;'
+                ))
+        );
+        $deleteAllConfirmString = Mage::helper('enterprise_checkout')->__('Are you sure you want to delete all items from shopping cart?');
+        $this->setChild('empty_customer_cart_button',
+            $this->getLayout()->createBlock('adminhtml/widget_button')
+                ->setData(array(
+                    'label' => Mage::helper('enterprise_checkout')->__('Clear Shopping Cart'),
+                    'onclick' => 'confirm(\'' . $deleteAllConfirmString . '\') '
+                        . ' && checkoutObj.updateItems({\'empty_customer_cart\': 1})',
                     'style' => 'float:right;'
                 ))
         );
@@ -65,16 +75,16 @@ class Enterprise_Checkout_Block_Adminhtml_Manage extends Mage_Adminhtml_Block_Wi
         $this->setChild('addto_cart_button',
             $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->setData(array(
-                    'label' => Mage::helper('Enterprise_Checkout_Helper_Data')->__("Add Selected Product(s) to Shopping Cart"),
+                    'label' => Mage::helper('Enterprise_Checkout_Helper_Data')->__('Add Selected Product(s) to Shopping Cart'),
                     'onclick' => 'checkoutObj.addToCart()',
-                    'class' => 'add'
+                    'class' => 'add button-to-cart'
                 ))
         );
 
         $this->setChild('cancel_add_products_button',
             $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->setData(array(
-                    'label' => Mage::helper('Enterprise_Checkout_Helper_Data')->__("Cancel"),
+                    'label' => Mage::helper('Enterprise_Checkout_Helper_Data')->__('Cancel'),
                     'onclick' => 'checkoutObj.cancelSearch()',
                     'class' => 'cancel'
                 ))

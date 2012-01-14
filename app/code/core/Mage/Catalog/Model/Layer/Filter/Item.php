@@ -63,6 +63,27 @@ class Mage_Catalog_Model_Layer_Filter_Item extends Varien_Object
     }
 
     /**
+     * Get url for "clear" link
+     *
+     * @return false|string
+     */
+    public function getClearLinkUrl()
+    {
+        $clearLinkText = $this->getFilter()->getClearLinkText();
+        if (!$clearLinkText) {
+            return false;
+        }
+
+        $urlParams = array(
+            '_current' => true,
+            '_use_rewrite' => true,
+            '_query' => array($this->getFilter()->getRequestVar() => null),
+            '_escape' => true,
+        );
+        return Mage::getUrl('*/*/*', $urlParams);
+    }
+
+    /**
      * Get item filter name
      *
      * @return string

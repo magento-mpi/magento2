@@ -50,6 +50,11 @@
         <?php echo $this->getChildHtml('checkout.form_coupon') ?>
     </div>
     <?php echo $this->getChildHtml('update_button') ?>
+    <?php echo $this->getChildHtml('empty_customer_cart_button'); ?>
+</div>
+
+<div id="checkout_errors">
+    <?php echo $this->getChildHtml('errors') ?>
 </div>
 
 <div id="products_search">

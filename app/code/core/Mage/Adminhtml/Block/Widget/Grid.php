@@ -160,7 +160,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
     protected $_massactionIdField = null;
 
     /**
-     * Massaction row id field
+     * Massaction row id filter
      *
      * @var string
      */
@@ -1276,7 +1276,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
     }
 
     /**
-     * Retrieve massaction row identifier field
+     * Retrieve massaction row identifier filter
      *
      * @return string
      */
@@ -1288,7 +1288,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
     /**
      * Set massaction row identifier filter
      *
-     * @param  string    $idFilter
+     * @param string $idFilter
      * @return Mage_Adminhtml_Block_Widget_Grid
      */
     public function setMassactionIdFilter($idFilter)

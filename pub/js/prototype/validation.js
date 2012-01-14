@@ -422,7 +422,8 @@ Validation.addAllThese([
                 return !Validation.get('IsEmpty').test(v);
             }],
     ['validate-number', 'Please enter a valid number in this field.', function(v) {
-                return Validation.get('IsEmpty').test(v) || (!isNaN(parseNumber(v)) && !/^\s+$/.test(parseNumber(v)));
+                return Validation.get('IsEmpty').test(v)
+                    || (!isNaN(parseNumber(v)) && /^\s*-?\d*\.?\d+\s*$/.test(v));
             }],
     ['validate-number-range', 'The value is not within the specified range.', function(v, elm) {
                 var result = Validation.get('IsEmpty').test(v)
@@ -465,6 +466,9 @@ Validation.addAllThese([
             }],
     ['validate-alphanum', 'Please use only letters (a-z or A-Z) or numbers (0-9) only in this field. No spaces or other characters are allowed.', function(v) {
                 return Validation.get('IsEmpty').test(v) ||  /^[a-zA-Z0-9]+$/.test(v) /*!/\W/.test(v)*/
+            }],
+    ['validate-alphanum-with-spaces', 'Please use only letters (a-z or A-Z), numbers (0-9) or spaces only in this field.', function(v) {
+                    return Validation.get('IsEmpty').test(v) ||  /^[a-zA-Z0-9 ]+$/.test(v) /*!/\W/.test(v)*/
             }],
     ['validate-street', 'Please use only letters (a-z or A-Z) or numbers (0-9) or spaces and # only in this field.', function(v) {
                 return Validation.get('IsEmpty').test(v) ||  /^[ \w]{3,}([A-Za-z]\.)?([ \w]*\#\d+)?(\r\n| )[ \w]{3,}/.test(v)

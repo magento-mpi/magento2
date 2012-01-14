@@ -9,16 +9,18 @@
  */
 
 /**
- * description
+ * Catalog Rules Grid
  *
- * @category    Mage
- * @category   Mage
- * @package    Mage_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @category Mage
+ * @package Mage_Adminhtml
+ * @author Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Adminhtml_Block_Promo_Catalog_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
-
+    /**
+     * Initialize grid
+     * Set sort settings
+     */
     public function __construct()
     {
         parent::__construct();
@@ -28,14 +30,29 @@ class Mage_Adminhtml_Block_Promo_Catalog_Grid extends Mage_Adminhtml_Block_Widge
         $this->setSaveParametersInSession(true);
     }
 
+    /**
+     * Add websites to catalog rules collection
+     * Set collection
+     *
+     * @return Mage_Adminhtml_Block_Promo_Catalog_Grid
+     */
     protected function _prepareCollection()
     {
+        /** @var $collection Mage_CatalogRule_Model_Resource_Rule_Collection */
         $collection = Mage::getModel('Mage_CatalogRule_Model_Rule')
             ->getResourceCollection();
+        $collection->addWebsitesToResult();
         $this->setCollection($collection);
-        return parent::_prepareCollection();
+
+        parent::_prepareCollection();
+        return $this;
     }
 
+    /**
+     * Add grid columns
+     *
+     * @return Mage_Adminhtml_Block_Promo_Catalog_Grid
+     */
     protected function _prepareColumns()
     {
         $this->addColumn('rule_id', array(
@@ -80,9 +97,29 @@ class Mage_Adminhtml_Block_Promo_Catalog_Grid extends Mage_Adminhtml_Block_Widge
             ),
         ));
 
-        return parent::_prepareColumns();
+        if (!Mage::app()->isSingleStoreMode()) {
+            $this->addColumn('rule_website', array(
+                'header'    => Mage::helper('catalogrule')->__('Website'),
+                'align'     =>'left',
+                'index'     => 'website_ids',
+                'type'      => 'options',
+                'sortable'  => false,
+                'options'   => Mage::getSingleton('adminhtml/system_store')->getWebsiteOptionHash(),
+                'width'     => 200,
+            ));
+        }
+
+        parent::_prepareColumns();
+        return $this;
     }
 
+    /**
+     * Retrieve row click URL
+     *
+     * @param Varien_Object $row
+     *
+     * @return string
+     */
     public function getRowUrl($row)
     {
         return $this->getUrl('*/*/edit', array('id' => $row->getRuleId()));

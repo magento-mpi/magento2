@@ -273,7 +273,7 @@ class Mage_Checkout_Model_Type_Onepage
              */
             $usingCase = isset($data['use_for_shipping']) ? (int)$data['use_for_shipping'] : 0;
 
-            switch($usingCase) {
+            switch ($usingCase) {
                 case 0:
                     $shipping = $this->getQuote()->getShippingAddress();
                     $shipping->setSameAsBilling(0);
@@ -284,11 +284,14 @@ class Mage_Checkout_Model_Type_Onepage
                     $shipping = $this->getQuote()->getShippingAddress();
                     $shippingMethod = $shipping->getShippingMethod();
 
+                    // Billing address properties that must be always copied to shipping address
+                    $requiredBillingAttributes = array('customer_address_id');
+
                     // don't reset original shipping data, if it was not changed by customer
                     foreach ($shipping->getData() as $shippingKey => $shippingValue) {
-                        if (!is_null($shippingValue)
-                            && !is_null($billing->getData($shippingKey))
-                            && !isset($data[$shippingKey])) {
+                        if (!is_null($shippingValue) && !is_null($billing->getData($shippingKey))
+                            && !isset($data[$shippingKey]) && !in_array($shippingKey, $requiredBillingAttributes)
+                        ) {
                             $billing->unsetData($shippingKey);
                         }
                     }
@@ -327,8 +330,8 @@ class Mage_Checkout_Model_Type_Onepage
      */
     protected function _validateCustomerData(array $data)
     {
-        /* @var $customerForm Mage_Customer_Model_Form */
-        $customerForm    = Mage::getModel('Mage_Customer_Model_Form');
+        /** @var $customerForm Mage_Customer_Model_Form */
+        $customerForm = Mage::getModel('Mage_Customer_Model_Form');
         $customerForm->setFormCode('checkout_register')
             ->setIsAjaxRequest(Mage::app()->getRequest()->isAjax());
 
@@ -364,10 +367,13 @@ class Mage_Checkout_Model_Type_Onepage
             $customer->setPassword($customerRequest->getParam('customer_password'));
             $customer->setConfirmation($customerRequest->getParam('confirm_password'));
         } else {
-            // emulate customer password for quest
+            // spoof customer password for guest
             $password = $customer->generatePassword();
             $customer->setPassword($password);
             $customer->setConfirmation($password);
+            // set NOT LOGGED IN group id explicitly,
+            // otherwise copyFieldset('customer_account', 'to_quote') will fill it with default group id value
+            $customer->setGroupId(Mage_Customer_Model_Group::NOT_LOGGED_IN_ID);
         }
 
         $result = $customer->validate();
@@ -444,6 +450,7 @@ class Mage_Checkout_Model_Type_Onepage
                 }
             }
 
+            $address->setCustomerAddressId(null);
             // Additional form data, not fetched by extractData (as it fetches only attributes)
             $address->setSaveInAddressBook(empty($data['save_in_address_book']) ? 0 : 1);
             $address->setSameAsBilling(empty($data['same_as_billing']) ? 0 : 1);

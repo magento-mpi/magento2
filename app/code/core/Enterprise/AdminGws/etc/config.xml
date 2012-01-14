@@ -313,8 +313,6 @@
                     <mage_reports_model_resource_tag_customer_collection>addStoreFilter</mage_reports_model_resource_tag_customer_collection>
                     <mage_catalogSearch_model_resource_query_collection>addStoreFilter</mage_catalogSearch_model_resource_query_collection>
                     <enterprise_invitation_model_resource_invitation_collection>addStoreFilter</enterprise_invitation_model_resource_invitation_collection>
-                    <mage_catalogRule_model_resource_rule_collection>limitPriceRules</mage_catalogRule_model_resource_rule_collection>
-                    <mage_salesRule_model_resource_rule_collection>limitPriceRules</mage_salesRule_model_resource_rule_collection>
                     <mage_log_model_resource_visitor_online_collection>limitOnlineCustomers</mage_log_model_resource_visitor_online_collection>
                     <enterprise_giftCardAccount_model_resource_giftcardaccount_collection>limitGiftCardAccounts</enterprise_giftCardAccount_model_resource_giftcardaccount_collection>
                     <enterprise_catalogEvent_model_resource_event_collection>limitCatalogEvents</enterprise_catalogEvent_model_resource_event_collection>
@@ -341,7 +339,6 @@
                     <mage_widget_model_resource_widget_instance_collection>addStoreFilter</mage_widget_model_resource_widget_instance_collection>
                     <mage_sales_model_resource_order_payment_transaction_collection>addStoreFilter</mage_sales_model_resource_order_payment_transaction_collection>
                     <enterprise_banner_model_resource_banner_collection>addStoreFilter</enterprise_banner_model_resource_banner_collection>
-                    <enterprise_customerSegment_model_resource_segment_collection>limitCustomerSegments</enterprise_customerSegment_model_resource_segment_collection>
                     <enterprise_reward_model_resource_reward_history_collection>limitRewardHistoryWebsites</enterprise_reward_model_resource_reward_history_collection>
                     <enterprise_reward_model_resource_reward_collection>limitRewardBalanceWebsites</enterprise_reward_model_resource_reward_collection>
                     <enterprise_customerBalance_model_resource_balance_history_collection>limitStoreCreditsHistory</enterprise_customerBalance_model_resource_balance_history_collection>
@@ -349,12 +346,16 @@
                     <enterprise_giftRegistry_model_resource_entity_collection>limitGiftRegistryEntityWebsites</enterprise_giftRegistry_model_resource_entity_collection>
                     <mage_review_model_resource_review_product_collection>limitProductReviews</mage_review_model_resource_review_product_collection>
                     <enterprise_rma_model_resource_rma_grid_collection>addStoreAttributeToFilter</enterprise_rma_model_resource_rma_grid_collection>
+                    <catalogrule__rule_collection>limitRuleEntityCollection</catalogrule__rule_collection>
+                    <salesrule__rule_collection>limitRuleEntityCollection</salesrule__rule_collection>
+                    <enterprise_reminder__rule_collection>limitRuleEntityCollection</enterprise_reminder__rule_collection>
+                    <enterprise_customersegment__segment_collection>limitRuleEntityCollection</enterprise_customersegment__segment_collection>
                 </collection_load_before>
                 <model_save_before>
                     <mage_cms_model_page>cmsPageSaveBefore</mage_cms_model_page>
                     <mage_cms_model_block>cmsBlockSaveBefore</mage_cms_model_block>
                     <mage_poll_model_poll>pollSaveBefore</mage_poll_model_poll>
-                    <mage_rule_model_rule>ruleSaveBefore</mage_rule_model_rule>
+                    <mage_rule_model_abstract>ruleSaveBefore</mage_rule_model_abstract>
                     <mage_sales_model_order>salesOrderSaveBefore</mage_sales_model_order>
                     <mage_sales_model_order_invoice>salesOrderEntitySaveBefore</mage_sales_model_order_invoice>
                     <mage_sales_model_order_shipment>salesOrderEntitySaveBefore</mage_sales_model_order_shipment>
@@ -377,7 +378,6 @@
                     <mage_widget_model_widget_instance>widgetInstanceSaveBefore</mage_widget_model_widget_instance>
                     <enterprise_banner_model_banner>bannerSaveBefore</enterprise_banner_model_banner>
                     <enterprise_giftCardAccount_model_giftcardaccount>giftCardAccountSaveBefore</enterprise_giftCardAccount_model_giftcardaccount>
-                    <enterprise_customerSegment_model_segment>customerSegmentSaveBefore</enterprise_customerSegment_model_segment>
                     <enterprise_giftRegistry_model_type>giftRegistryTypeSaveBefore</enterprise_giftRegistry_model_type>
                     <mage_review_model_review>catalogProductReviewSaveBefore</mage_review_model_review>
                 </model_save_before>
@@ -385,7 +385,7 @@
                     <mage_cms_model_page>cmsPageDeleteBefore</mage_cms_model_page>
                     <mage_cms_model_block>cmsBlockDeleteBefore</mage_cms_model_block>
                     <mage_poll_model_poll>pollDeleteBefore</mage_poll_model_poll>
-                    <mage_rule_model_rule>ruleDeleteBefore</mage_rule_model_rule>
+                    <mage_rule_model_abstract>ruleDeleteBefore</mage_rule_model_abstract>
                     <mage_catalog_model_product>catalogProductDeleteBefore</mage_catalog_model_product>
                     <mage_catalog_model_category>catalogCategoryDeleteBefore</mage_catalog_model_category>
                     <mage_customer_model_customer>customerDeleteBefore</mage_customer_model_customer>
@@ -402,7 +402,6 @@
                     <mage_widget_model_widget_instance>widgetInstanceDeleteBefore</mage_widget_model_widget_instance>
                     <enterprise_banner_model_banner>bannerDeleteBefore</enterprise_banner_model_banner>
                     <enterprise_giftCardAccount_model_giftcardaccount>giftCardAccountDeleteBefore</enterprise_giftCardAccount_model_giftcardaccount>
-                    <enterprise_customerSegment_model_segment>customerSegmentDeleteBefore</enterprise_customerSegment_model_segment>
                     <enterprise_giftRegistry_model_type>giftRegistryTypeDeleteBefore</enterprise_giftRegistry_model_type>
                     <mage_review_model_review>catalogProductReviewDeleteBefore</mage_review_model_review>
                 </model_delete_before>
@@ -413,7 +412,7 @@
                     <mage_customer_model_customer>customerLoadAfter</mage_customer_model_customer>
                     <mage_sales_model_order>salesOrderLoadAfter</mage_sales_model_order>
                     <mage_sales_model_order_payment_transaction>salesOrderTransactionLoadAfter</mage_sales_model_order_payment_transaction>
-                    <mage_rule_model_rule>ruleLoadAfter</mage_rule_model_rule>
+                    <mage_rule_model_abstract>ruleLoadAfter</mage_rule_model_abstract>
                     <mage_core_model_website>coreWebsiteLoadAfter</mage_core_model_website>
                     <mage_core_model_store_group>coreStoreGroupLoadAfter</mage_core_model_store_group>
                     <mage_core_model_store>coreStoreGroupLoadAfter</mage_core_model_store>
@@ -422,7 +421,6 @@
                     <enterprise_banner_model_banner>bannerLoadAfter</enterprise_banner_model_banner>
                     <mage_widget_model_widget_instance>widgetInstanceLoadAfter</mage_widget_model_widget_instance>
                     <enterprise_giftCardAccount_model_giftcardaccount>giftCardAccountLoadAfter</enterprise_giftCardAccount_model_giftcardaccount>
-                    <enterprise_customerSegment_model_segment>customerSegmentLoadAfter</enterprise_customerSegment_model_segment>
                 </model_load_after>
                 <controller_predispatch>
                     <adminhtml__system_config__>validateSystemConfig</adminhtml__system_config__>
@@ -430,9 +428,13 @@
                     <adminhtml__catalog_product__edit>validateCatalogProductEdit</adminhtml__catalog_product__edit>
                     <adminhtml__catalog_product__massStatus>validateCatalogProductMassActions</adminhtml__catalog_product__massStatus>
                     <adminhtml__catalog_product_action_attribute__edit>validateCatalogProductMassActions</adminhtml__catalog_product_action_attribute__edit>
-                    <adminhtml__promo_catalog__>validatePromoCatalog</adminhtml__promo_catalog__>
+
+                    <adminhtml__promo_catalog__>validateRuleEntityAction</adminhtml__promo_catalog__>
                     <adminhtml__promo_catalog__applyRules>validatePromoCatalogApplyRules</adminhtml__promo_catalog__applyRules>
-                    <adminhtml__promo_quote__>validatePromoQuote</adminhtml__promo_quote__>
+                    <adminhtml__promo_quote__>validateRuleEntityAction</adminhtml__promo_quote__>
+                    <adminhtml__customersegment__>validateRuleEntityAction</adminhtml__customersegment__>
+                    <adminhtml__reminder__>validateRuleEntityAction</adminhtml__reminder__>
+
                     <adminhtml__customer__>validateNoWebsiteGeneric</adminhtml__customer__>
                     <adminhtml__customer__edit>validateCustomerEdit</adminhtml__customer__edit>
                     <adminhtml__customerbalance__>validateCustomerbalance</adminhtml__customerbalance__>
@@ -543,8 +545,6 @@
                     <mage_adminhtml_block_newsletter_queue_edit_form>setIsRequiredSubscribersFromFieldForNewsletterQueueForm</mage_adminhtml_block_newsletter_queue_edit_form>
                     <mage_adminhtml_block_catalog_product_edit_action_attribute_tab_websites>catalogProductMassUpdateWebsites</mage_adminhtml_block_catalog_product_edit_action_attribute_tab_websites>
                     <mage_adminhtml_block_catalog_product_grid_block_preparemassaction>catalogProductPrepareMassaction</mage_adminhtml_block_catalog_product_grid_block_preparemassaction>
-                    <mage_adminhtml_block_promo_catalog>removePromoCatalogButtons</mage_adminhtml_block_promo_catalog>
-                    <mage_adminhtml_block_promo_quote>removePromoQuoteButtons</mage_adminhtml_block_promo_quote>
                     <mage_adminhtml_block_cms_page_edit>removeCmsPageButtons</mage_adminhtml_block_cms_page_edit>
                     <mage_adminhtml_block_cms_block_edit>removeCmsBlockButtons</mage_adminhtml_block_cms_block_edit>
                     <mage_adminhtml_block_poll_edit>removePollButtons</mage_adminhtml_block_poll_edit>
@@ -575,7 +575,6 @@
                     <enterprise_banner_block_adminhtml_banner_new>validateBannerPermissions</enterprise_banner_block_adminhtml_banner_new>
                     <enterprise_cms_block_adminhtml_cms_hierarchy_edit>removeCmsHierarchyFormButtons</enterprise_cms_block_adminhtml_cms_hierarchy_edit>
                     <enterprise_cms_block_adminhtml_cms_page_edit_tab_hierarchy>prepareCmsHierarchyNodes</enterprise_cms_block_adminhtml_cms_page_edit_tab_hierarchy>
-                    <enterprise_customerSegment_block_adminhtml_customersegment>removeCustomerSegmentAddButton</enterprise_customerSegment_block_adminhtml_customersegment>
                     <mage_adminhtml_block_customer_group>removeCustomerGroupAddButton</mage_adminhtml_block_customer_group>
                     <mage_adminhtml_block_customer_group_edit>removeCustomerGroupControlButtons</mage_adminhtml_block_customer_group_edit>
                     <mage_adminhtml_block_sales_transactions_detail>removeSalesTransactionControlButtons</mage_adminhtml_block_sales_transactions_detail>
@@ -590,6 +589,14 @@
                     <enterprise_customer_block_adminhtml_customer_address_attribute>removeAddNewCustomerAttributeButton</enterprise_customer_block_adminhtml_customer_address_attribute>
                     <enterprise_customer_block_adminhtml_customer_attribute_edit>removeDeleteCustomerAttributeButton</enterprise_customer_block_adminhtml_customer_attribute_edit>
                     <enterprise_customer_block_adminhtml_customer_address_attribute_edit>removeDeleteCustomerAttributeButton</enterprise_customer_block_adminhtml_customer_address_attribute_edit>
+                    <adminhtml__promo_catalog>removeRuleEntityGridButtons</adminhtml__promo_catalog>
+                    <adminhtml__promo_quote>removeRuleEntityGridButtons</adminhtml__promo_quote>
+                    <enterprise_customersegment__adminhtml_customersegment>removeRuleEntityGridButtons</enterprise_customersegment__adminhtml_customersegment>
+                    <enterprise_reminder__adminhtml_reminder>removeRuleEntityGridButtons</enterprise_reminder__adminhtml_reminder>
+                    <adminhtml__promo_catalog_edit>removeRuleEntityEditButtons</adminhtml__promo_catalog_edit>
+                    <adminhtml__promo_quote_edit>removeRuleEntityEditButtons</adminhtml__promo_quote_edit>
+                    <enterprise_customersegment__adminhtml_customersegment_edit>removeRuleEntityEditButtons</enterprise_customersegment__adminhtml_customersegment_edit>
+                    <enterprise_reminder__adminhtml_reminder_edit>removeRuleEntityEditButtons</enterprise_reminder__adminhtml_reminder_edit>
                 </block_html_before>
             </admingws>
         </enterprise>

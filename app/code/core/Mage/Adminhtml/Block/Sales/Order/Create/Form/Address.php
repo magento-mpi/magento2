@@ -15,7 +15,8 @@
  * @package     Mage_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_Sales_Order_Create_Form_Address extends Mage_Adminhtml_Block_Sales_Order_Create_Form_Abstract
+class Mage_Adminhtml_Block_Sales_Order_Create_Form_Address
+    extends Mage_Adminhtml_Block_Sales_Order_Create_Form_Abstract
 {
     /**
      * Customer Address Form instance
@@ -67,7 +68,9 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Form_Address extends Mage_Adminhtm
 
         foreach ($this->getAddressCollection() as $address) {
             $addressForm->setEntity($address);
-            $data[$address->getId()] = $addressForm->outputData(Mage_Customer_Model_Attribute_Data::OUTPUT_FORMAT_JSON);
+            $data[$address->getId()] = $addressForm->outputData(
+                Mage_Customer_Model_Attribute_Data::OUTPUT_FORMAT_JSON
+            );
         }
         return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($data);
     }
@@ -150,6 +153,15 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Form_Address extends Mage_Adminhtm
         if (!$this->_form->getElement('country_id')->getValue()) {
             $this->_form->getElement('country_id')->setValue(
                 Mage::helper('Mage_Core_Helper_Data')->getDefaultCountry($this->getStore())
+            );
+        }
+
+        // Set custom renderer for VAT field if needed
+        $vatIdElement = $this->_form->getElement('vat_id');
+        if ($vatIdElement && $this->getDisplayVatValidationButton() !== false) {
+            $vatIdElement->setRenderer(
+                $this->getLayout()->createBlock('adminhtml/customer_sales_order_address_form_renderer_vat')
+                    ->setJsVariablePrefix($this->getJsVariablePrefix())
             );
         }
 
