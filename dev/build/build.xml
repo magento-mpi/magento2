@@ -111,8 +111,7 @@
     </target>
 
     <target name="functional-tests" description="Functional Tests" depends="init,prepare-installation">
-        <property name="useVmLauncher" value="true"/>
-        <condition property="useVmLauncher" value="false">
+        <condition property="useVmLauncher" value="false" else="true">
             <os family="windows"/>
         </condition>
         <exec dir="dev/tests/functional" executable="phpunit" vmlauncher="${useVmLauncher}" failonerror="true"/>
