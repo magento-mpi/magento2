@@ -400,6 +400,9 @@ class Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest extends M
      */
     public function createOrderWith3DSecure($card, $needSetUp, $orderData)
     {
+        if ($card == 'else_jcb_3d') {
+            $this->markTestIncomplete('MAUTOSEL-280 #5 - incorrect credit card data sets');
+        }
         //Data
         $orderData['payment_data']['payment_info'] = $this->loadData($card);
         //Steps

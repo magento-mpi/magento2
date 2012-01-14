@@ -99,6 +99,9 @@ class Order_PayPalDirect_Authorization_NewCustomerWithSimpleSmokeTest extends Ma
      */
     public function orderWithDifferentCreditCard($card, $orderData)
     {
+        if ($card != 'else_mastercard') {
+            $this->markTestIncomplete('MAUTOSEL-280 - incorrect credit card data sets');
+        }
         //Data
         $orderData['payment_data']['payment_info'] = $this->loadData($card);
         //Steps
@@ -145,6 +148,9 @@ class Order_PayPalDirect_Authorization_NewCustomerWithSimpleSmokeTest extends Ma
      */
     public function fullInvoiceWithDifferentTypesOfCapture($captureType, $orderData)
     {
+        if ($captureType == 'Capture Online') {
+            $this->markTestIncomplete('MAUTOSEL-280 #4 - incorrect credit card data sets');
+        }
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -174,6 +180,7 @@ class Order_PayPalDirect_Authorization_NewCustomerWithSimpleSmokeTest extends Ma
      */
     public function partialInvoiceWithDifferentTypesOfCapture($captureType, $orderData)
     {
+        $this->markTestIncomplete('MAUTOSEL-280 #4 - incorrect credit card data sets');
         //Data
         $orderData['products_to_add']['product_1']['product_qty'] = 10;
         $invoice = $this->loadData('products_to_invoice',
@@ -221,6 +228,9 @@ class Order_PayPalDirect_Authorization_NewCustomerWithSimpleSmokeTest extends Ma
      */
     public function fullCreditMemo($captureType, $refundType, $orderData)
     {
+        if ($captureType != 'Capture Offline') {
+            $this->markTestIncomplete('MAUTOSEL-280 #4 - incorrect credit card data sets');
+        }
         //Steps and Verifying
         $this->addParameter('invoice_id', 1);
         $this->navigate('manage_sales_orders');
@@ -240,6 +250,9 @@ class Order_PayPalDirect_Authorization_NewCustomerWithSimpleSmokeTest extends Ma
      */
     public function partialCreditMemo($captureType, $refundType, $orderData)
     {
+        if ($captureType != 'Capture Offline') {
+            $this->markTestIncomplete('MAUTOSEL-280 #4 - incorrect credit card data sets');
+        }
         //Data
         $orderData['products_to_add']['product_1']['product_qty'] = 10;
         $creditMemo = $this->loadData('products_to_refund',
@@ -461,6 +474,9 @@ class Order_PayPalDirect_Authorization_NewCustomerWithSimpleSmokeTest extends Ma
      */
     public function createOrderWith3DSecure($card, $needSetUp, $orderData)
     {
+        if ($card == 'else_visa') {
+            $this->markTestIncomplete('MAUTOSEL-280 #5 - incorrect credit card data sets');
+        }
         //Data
         $orderData['payment_data']['payment_info'] = $this->loadData($card);
         //Steps
