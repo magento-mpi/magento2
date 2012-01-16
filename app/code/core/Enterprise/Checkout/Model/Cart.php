@@ -713,6 +713,11 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object
                 return $item;
             }
 
+            if (!$product->isInStock()) {
+                $item['code'] = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_SKU;
+                return $item;
+            }
+
             /** @var $stockItem Mage_CatalogInventory_Model_Stock_Item */
             $stockItem = Mage::getModel('cataloginventory/stock_item');
             $stockItem->loadByProduct($product);
