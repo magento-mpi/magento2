@@ -50,6 +50,9 @@
                     <product>
                         <table>enterprise_targetrule_product</table>
                     </product>
+                    <segment>
+                        <table>enterprise_targetrule_customersegment</table>
+                    </segment>
                     <index>
                         <table>enterprise_targetrule_index</table>
                     </index>
