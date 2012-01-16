@@ -83,27 +83,32 @@ if (!$storeCode && $websiteCode) {
         initialize : function()
         {
             this.carriersUpsTypeId = 'carriers_ups_type';
-            if($(this.carriersUpsTypeId)) {
-                this.checkingUpsXmlId = new Array('carriers_ups_gateway_xml_url','carriers_ups_username','carriers_ups_password','carriers_ups_access_license_number');
-                this.checkingUpsId = new Array('carriers_ups_gateway_url');
-                this.originShipmentTitle = '';
-                this.allowedMethodsId = 'carriers_ups_allowed_methods';
-                this.freeShipmentId = 'carriers_ups_free_method';
-                this.onlyUpsXmlElements = new Array('carriers_ups_gateway_xml_url','carriers_ups_tracking_xml_url','carriers_ups_username','carriers_ups_password','carriers_ups_access_license_number','carriers_ups_origin_shipment','carriers_ups_negotiated_active','carriers_ups_shipper_number','carriers_ups_mode_xml');
-                this.onlyUpsElements = new Array('carriers_ups_gateway_url');
-
-                this.storedOriginShipment = '<?php echo $storedOriginShipment ?>';
-                this.storedFreeShipment = '<?php echo $storedFreeShipment ?>';
-                this.storedUpsType = '<?php echo $storedUpsType ?>';
-                <?php /** @var $_coreHelper Mage_Core_Helper_Data */ $_coreHelper = Mage::helper('core'); ?>
-                this.storedAllowedMethods = <?php echo $_coreHelper->jsonEncode($storedAllowedMethods) ?>;
-                this.originShipmentObj = <?php echo $_coreHelper->jsonEncode($orShipArr) ?>;
-                this.originShipmentObj['default'] = <?php echo $_coreHelper->jsonEncode($defShipArr) ?>;
-
-                this.setFormValues();
-                Event.observe($(this.carriersUpsTypeId), 'change', this.setFormValues.bind(this));
+            if (!$(this.carriersUpsTypeId)) {
+                return;
             }
 
+            this.checkingUpsXmlId = ['carriers_ups_gateway_xml_url','carriers_ups_username',
+                'carriers_ups_password','carriers_ups_access_license_number'];
+            this.checkingUpsId = ['carriers_ups_gateway_url'];
+            this.originShipmentTitle = '';
+            this.allowedMethodsId = 'carriers_ups_allowed_methods';
+            this.freeShipmentId = 'carriers_ups_free_method';
+            this.onlyUpsXmlElements = ['carriers_ups_gateway_xml_url','carriers_ups_tracking_xml_url',
+                'carriers_ups_username','carriers_ups_password','carriers_ups_access_license_number',
+                'carriers_ups_origin_shipment','carriers_ups_negotiated_active','carriers_ups_shipper_number',
+                'carriers_ups_mode_xml'];
+            this.onlyUpsElements = ['carriers_ups_gateway_url'];
+
+            this.storedOriginShipment = '<?php echo $storedOriginShipment ?>';
+            this.storedFreeShipment = '<?php echo $storedFreeShipment ?>';
+            this.storedUpsType = '<?php echo $storedUpsType ?>';
+            <?php /** @var $_coreHelper Mage_Core_Helper_Data */ $_coreHelper = Mage::helper('core'); ?>
+            this.storedAllowedMethods = <?php echo $_coreHelper->jsonEncode($storedAllowedMethods) ?>;
+            this.originShipmentObj = <?php echo $_coreHelper->jsonEncode($orShipArr) ?>;
+            this.originShipmentObj['default'] = <?php echo $_coreHelper->jsonEncode($defShipArr) ?>;
+
+            this.setFormValues();
+            Event.observe($(this.carriersUpsTypeId), 'change', this.setFormValues.bind(this));
         },
         updateAllowedMethods: function(originShipmentTitle)
         {
