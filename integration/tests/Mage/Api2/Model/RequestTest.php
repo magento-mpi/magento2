@@ -26,22 +26,15 @@
  */
 
 /**
- * Test Api2 Auth model
+ * Test Api2 server model
  */
-class Mage_Api2_Model_AuthTest extends Magento_TestCase
+class Mage_Api2_Model_RequestTest extends Magento_TestCase
 {
-    /**
-     * Test authenticate method
-     */
-    public function testAuthenticate()
+    public function testRequestGetBodyParamUseInterpreters()
     {
-        /** @var $request Mage_Api2_Model_Request */
-        $request = Mage::getSingleton('api2/request');
-        /** @var $authManager Mage_Api2_Model_Auth */
-        $authManager = Mage::getModel('api2/auth');
+        $request = new Mage_Api2_Model_Request();
+        $request->getBodyParams();
 
-        $apiUser = $authManager->authenticate($request);
 
-        $this->assertInstanceOf('Mage_Api2_Model_Auth_User_Abstract', $apiUser);
     }
 }
