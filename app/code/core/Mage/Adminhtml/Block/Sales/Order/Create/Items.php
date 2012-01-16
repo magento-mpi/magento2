@@ -80,6 +80,23 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Items extends Mage_Adminhtml_Block
     }
 
     /**
+     * Render buttons and return HTML code
+     * @deprecated
+     * @return string
+     */
+    public function getButtonsHtml()
+    {
+        $html = '';
+        // Make buttons to be rendered in opposite order of addition. This makes "Add products" the last one.
+        $this->_buttons = array_reverse($this->_buttons);
+        foreach ($this->_buttons as $buttonData) {
+            $html .= $this->getLayout()->createBlock('adminhtml/widget_button')->setData($buttonData)->toHtml();
+        }
+
+        return $html;
+    }
+
+    /**
      * Return HTML code of the block
      *
      * @return string
