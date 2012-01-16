@@ -32,6 +32,7 @@
     <h4 class="icon-head head-edit-form fieldset-legend"><?php echo $this->__('Create New Staging Store View') ?></h4>
 </div>
 <p class="switcher"><label for="staging_website_stores"><?php echo $this->__('Choose Store View') ?>:</label>
+<?php echo $this->getHintHtml() ?>
 <select name="staging_website_stores" id="staging_website_stores_<?php echo $this->getWebsite()->getId(); ?>" class="left-col-block">
     <option value=""><?php echo $this->__('Please, select a store view') ?></option>
     <?php foreach ($_storeCollection as $_store): ?>

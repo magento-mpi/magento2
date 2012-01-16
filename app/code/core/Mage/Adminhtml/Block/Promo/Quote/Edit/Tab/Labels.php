@@ -89,6 +89,9 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Labels
             'legend'       => Mage::helper('salesrule')->__('Store View Specific Labels'),
             'table_class'  => 'form-list stores-tree',
         ));
+        $renderer = $this->getLayout()->createBlock('adminhtml/store_switcher_form_renderer_fieldset');
+        $fieldset->setRenderer($renderer);
+
         foreach (Mage::app()->getWebsites() as $website) {
             $fieldset->addField("w_{$website->getId()}_label", 'note', array(
                 'label'    => $website->getName(),

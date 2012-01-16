@@ -199,6 +199,12 @@
                 </input_types>
             </validator_data>
         </general>
+        <hints>
+            <store_switcher>
+                <url><![CDATA[http://example.com]]></url>
+                <enabled>0</enabled>
+            </store_switcher>
+        </hints>
     </default>
     <stores>
         <admin>

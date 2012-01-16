@@ -100,7 +100,8 @@ class Mage_Adminhtml_Block_Review_Edit_Form extends Mage_Adminhtml_Block_Widget_
                 'label'     => Mage::helper('review')->__('Visible In'),
                 'required'  => true,
                 'name'      => 'stores[]',
-                'values'    => Mage::getSingleton('adminhtml/system_store')->getStoreValuesForForm()
+                'values'    => Mage::getSingleton('adminhtml/system_store')->getStoreValuesForForm(),
+                'after_element_html' => Mage::getBlockSingleton('adminhtml/store_switcher')->getHintHtml()
             ));
             $review->setSelectStores($review->getStores());
         }

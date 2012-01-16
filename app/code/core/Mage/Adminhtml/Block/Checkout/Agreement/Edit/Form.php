@@ -105,6 +105,7 @@ class Mage_Adminhtml_Block_Checkout_Agreement_Edit_Form extends Mage_Adminhtml_B
                 'title'     => Mage::helper('checkout')->__('Store View'),
                 'required'  => true,
                 'values'    => Mage::getSingleton('adminhtml/system_store')->getStoreValuesForForm(false, true),
+                'after_element_html' => Mage::getBlockSingleton('adminhtml/store_switcher')->getHintHtml()
             ));
         }
         else {

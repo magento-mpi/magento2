@@ -91,7 +91,8 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Main
                 'title'     => Mage::helper('cms')->__('Store View'),
                 'required'  => true,
                 'values'    => Mage::getSingleton('adminhtml/system_store')->getStoreValuesForForm(false, true),
-                'disabled'  => $isElementDisabled
+                'disabled'  => $isElementDisabled,
+                'after_element_html' => Mage::getBlockSingleton('adminhtml/store_switcher')->getHintHtml()
             ));
         }
         else {

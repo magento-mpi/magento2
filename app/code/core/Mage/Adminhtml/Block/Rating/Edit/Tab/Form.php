@@ -111,7 +111,8 @@ class Mage_Adminhtml_Block_Rating_Edit_Tab_Form extends Mage_Adminhtml_Block_Wid
                 'label'     => Mage::helper('rating')->__('Visible In'),
 //                'required'  => true,
                 'name'      => 'stores[]',
-                'values'    => Mage::getSingleton('adminhtml/system_store')->getStoreValuesForForm()
+                'values'    => Mage::getSingleton('adminhtml/system_store')->getStoreValuesForForm(),
+                'after_element_html' => Mage::getBlockSingleton('adminhtml/store_switcher')->getHintHtml()
             ));
 
             if (Mage::registry('rating_data')) {

@@ -27,6 +27,7 @@
 
 <?php if ($websites = $this->getWebsites()): ?>
 <label for="store_switcher"><?php echo $this->__('Choose Store View') ?>:</label>
+<?php echo $this->getHintHtml() ?>
 <select name="store_switcher" id="store_switcher">
     <?php foreach ($websites as $website): ?>
         <?php $showWebsite=false; ?>

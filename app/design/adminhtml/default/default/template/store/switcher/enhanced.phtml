@@ -28,6 +28,7 @@
 <?php if ($_websiteCollection->getSize()): ?>
 <div id="store_switcher_container">
 <p class="switcher"><label for="store_switcher"><?php echo $this->__('Choose Store View') ?>:</label>
+<?php echo $this->getHintHtml() ?>
 <select name="store_switcher" id="store_switcher" class="left-col-block">
     <option value=""><?php echo $this->getDefaultStoreName() ?></option>
     <?php foreach ($_websiteCollection as $_website): ?>
