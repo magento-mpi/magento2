@@ -28,6 +28,7 @@ abstract class Mage_Api2_Model_Request_Interpreter
             );
         }
 
+        //TODO Do we need check here? Or we assume this method receives valid Interpreter definition always
         return Mage::getModel($interpreterType);
     }
 }

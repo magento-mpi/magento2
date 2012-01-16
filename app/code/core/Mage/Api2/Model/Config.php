@@ -44,12 +44,8 @@ class Mage_Api2_Model_Config extends Varien_Simplexml_Config //extends Mage_Api_
     const CACHE_TAG = 'config_api2';
 
     private $_typesForRequest = array(
-        'text'                  => 'api2/request_interpreter_query',
         'text/plain'            => 'api2/request_interpreter_query',
-        'text/html'             => 'api2/request_interpreter_html',
-        'json'                  => 'api2/request_interpreter_json',
         'application/json'      => 'api2/request_interpreter_json',
-        'xml'                   => 'api2/request_interpreter_xml',
         'application/xml'       => 'api2/request_interpreter_xml',
         'application/xhtml+xml' => 'api2/request_interpreter_xml',
         'text/xml'              => 'api2/request_interpreter_xml',
