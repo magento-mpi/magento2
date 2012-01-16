@@ -81,7 +81,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Items extends Mage_Adminhtml_Block
 
     /**
      * Render buttons and return HTML code
-     * @deprecated
+     *
      * @return string
      */
     public function getButtonsHtml()
