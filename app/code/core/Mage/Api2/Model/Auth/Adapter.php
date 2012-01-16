@@ -34,6 +34,22 @@
 class Mage_Api2_Model_Auth_Adapter
 {
     /**
+     * Adapter models
+     *
+     * @var array
+     */
+    protected $_adapters = array();
+
+    /**
+     * Object constructor loads enabled adapters
+     */
+    public function __construct()
+    {
+        /** @var $helper Mage_Api2_Helper_Data */
+        $helper = Mage::helper('api2');
+    }
+
+    /**
      * Process request by adapters and figure out an API user type
      *
      * @param Mage_Api2_Model_Request $request

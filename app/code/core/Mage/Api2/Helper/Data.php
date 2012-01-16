@@ -17,6 +17,21 @@ class Mage_Api2_Helper_Data extends Mage_Core_Helper_Abstract
     /**#@- */
 
     /**
+     * Compare order to be used in adapters list sort
+     *
+     * @param int $a
+     * @param int $b
+     * @return int
+     */
+    protected static function _compareOrder($a, $b)
+    {
+        if ($a['order'] == $b['order']) {
+            return 0;
+        }
+        return ($a['order'] < $b['order']) ? -1 : 1;
+    }
+
+    /**
      * Retrieve Auth adapters info from configuration file as array
      *
      * @param bool $enabledOnly
@@ -39,7 +54,29 @@ class Mage_Api2_Helper_Data extends Mage_Core_Helper_Abstract
             }
             $adapters = (array) $adapters;
         }
+        uasort($adapters, array('Mage_Api2_Helper_Data', '_compareOrder'));
+
         return $adapters;
+    }
+
+    /**
+     * Retrieve enabled user types in form of user type => user model pairs
+     *
+     * @return array
+     */
+    public function getUserTypes()
+    {
+        $typesModels = array();
+        $types = Mage::getConfig()->getNode(self::XML_PATH_USER_TYPES);
+
+        if ($types) {
+            foreach ($types->asArray() as $type => $params) {
+                if (!empty($type['allowed'])) {
+                    $typesModels[$type] = $params['model'];
+                }
+            }
+        }
+        return $typesModels;
     }
 
     /**

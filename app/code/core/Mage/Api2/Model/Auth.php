@@ -45,13 +45,22 @@ class Mage_Api2_Model_Auth
      * Figure out API user type, create user model instance
      *
      * @param Mage_Api2_Model_Request $request
+     * @throws Exception
      * @return Mage_Api2_Model_Auth_User_Abstract
      */
     public function authenticate(Mage_Api2_Model_Request $request)
     {
         /** @var $helper Mage_Api2_Helper_Data */
         $helper = Mage::helper('api2');
+        /** @var $authAdapter Mage_Api2_Model_Auth_Adapter */
+        $authAdapter = Mage::getModel('api2/auth_adapter');
 
-        return Mage::getModel('api2/auth_user_guest');
+        $userTypes = $helper->getUserTypes();
+        $userType  = $authAdapter->getUserType($request);
+
+        if (!isset($userTypes[$userType])) {
+            throw new Exception('Invalid user type or type is not allowed');
+        }
+        return Mage::getModel($userTypes[$userType]);
     }
 }
