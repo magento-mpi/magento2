@@ -31,7 +31,7 @@ $installer = $this;
 
 $installer->getConnection()
     ->addColumn(
-        $installer->getTable('salesrule/coupon'),
+        $installer->getTable('salesrule_coupon'),
         'created_at',
         array(
             'type'     => Varien_Db_Ddl_Table::TYPE_TIMESTAMP,
@@ -42,7 +42,7 @@ $installer->getConnection()
     );
 
 $installer->getConnection()->addColumn(
-        $installer->getTable('salesrule/coupon'),
+        $installer->getTable('salesrule_coupon'),
         'type',
         array(
             'type'     => Varien_Db_Ddl_Table::TYPE_SMALLINT,
@@ -53,7 +53,7 @@ $installer->getConnection()->addColumn(
 
 $installer->getConnection()
     ->addColumn(
-        $installer->getTable('salesrule/rule'),
+        $installer->getTable('salesrule'),
         'use_auto_generation',
         array(
             'type'     => Varien_Db_Ddl_Table::TYPE_SMALLINT,
@@ -65,7 +65,7 @@ $installer->getConnection()
 
 $installer->getConnection()
     ->addColumn(
-        $installer->getTable('salesrule/rule'),
+        $installer->getTable('salesrule'),
         'uses_per_coupon',
         array(
             'type'     => Varien_Db_Ddl_Table::TYPE_INTEGER,
@@ -77,7 +77,7 @@ $installer->getConnection()
 
 $installer->getConnection()
     ->addColumn(
-        $installer->getTable('salesrule/coupon_aggregated'),
+        $installer->getTable('coupon_aggregated'),
         'rule_name',
         array(
             'type'     => Varien_Db_Ddl_Table::TYPE_TEXT,
@@ -88,7 +88,7 @@ $installer->getConnection()
 
 $installer->getConnection()
     ->addColumn(
-        $installer->getTable('salesrule/coupon_aggregated_order'),
+        $installer->getTable('coupon_aggregated_order'),
         'rule_name',
         array(
             'type'     => Varien_Db_Ddl_Table::TYPE_TEXT,
@@ -99,7 +99,7 @@ $installer->getConnection()
 
 $installer->getConnection()
     ->addColumn(
-        $installer->getTable('salesrule/coupon_aggregated_updated'),
+        $installer->getTable('coupon_aggregated_updated'),
         'rule_name',
         array(
             'type'     => Varien_Db_Ddl_Table::TYPE_TEXT,
@@ -110,7 +110,7 @@ $installer->getConnection()
 
 $installer->getConnection()
     ->addIndex(
-        $installer->getTable('salesrule/coupon_aggregated'),
+        $installer->getTable('coupon_aggregated'),
         $installer->getIdxName(
             'salesrule/coupon_aggregated',
             array('rule_name'),
@@ -122,7 +122,7 @@ $installer->getConnection()
 
 $installer->getConnection()
     ->addIndex(
-        $installer->getTable('salesrule/coupon_aggregated_order'),
+        $installer->getTable('coupon_aggregated_order'),
         $installer->getIdxName(
             'salesrule/coupon_aggregated_order',
             array('rule_name'),
@@ -134,7 +134,7 @@ $installer->getConnection()
 
 $installer->getConnection()
     ->addIndex(
-        $installer->getTable('salesrule/coupon_aggregated_updated'),
+        $installer->getTable('coupon_aggregated_updated'),
         $installer->getIdxName(
             'salesrule/coupon_aggregated_updated',
             array('rule_name'),

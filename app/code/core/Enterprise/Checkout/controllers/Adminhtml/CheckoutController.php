@@ -790,7 +790,7 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
                 if ($this->getCartModel()->getQuote()->getHasError()){
                     foreach ($this->getCartModel()->getQuote()->getErrors() as $error) {
                         /* @var $error Mage_Core_Model_Message_Error */
-                        Mage::getSingleton('adminhtml/session')->addError($error->getCode());
+                        Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($error->getCode());
                     }
                 }
             }
@@ -942,7 +942,7 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
             return;
         }
         /* @var $importModel Enterprise_Checkout_Model_Import */
-        $importModel = Mage::getModel('enterprise_checkout/import');
+        $importModel = Mage::getModel('Enterprise_Checkout_Model_Import');
         if ($importModel->uploadFile()) {
             try {
                 $cart = $this->getCartModel();

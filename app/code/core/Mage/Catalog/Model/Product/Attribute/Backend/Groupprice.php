@@ -42,7 +42,7 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Groupprice
      */
     protected function _getResource()
     {
-        return Mage::getResourceSingleton('catalog/product_attribute_backend_groupprice');
+        return Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Product_Attribute_Backend_Groupprice');
     }
 
     /**
@@ -52,6 +52,6 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Groupprice
      */
     protected function _getDuplicateErrorMessage()
     {
-        return Mage::helper('catalog')->__('Duplicate website group price customer group.');
+        return Mage::helper('Mage_Catalog_Helper_Data')->__('Duplicate website group price customer group.');
     }
 }

@@ -392,7 +392,7 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Price extends Mage_Index_Model
      */
     protected function _getGroupPriceIndexTable()
     {
-        return $this->getTable('catalog/product_index_group_price');
+        return $this->getTable('catalog_product_index_group_price');
     }
 
     /**
@@ -456,11 +456,11 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Price extends Mage_Index_Model
                 array('gp' => $this->getValueTable('catalog/product', 'group_price')),
                 array('entity_id'))
             ->join(
-                array('cg' => $this->getTable('customer/customer_group')),
+                array('cg' => $this->getTable('customer_group')),
                 'gp.all_groups = 1 OR (gp.all_groups = 0 AND gp.customer_group_id = cg.customer_group_id)',
                 array('customer_group_id'))
             ->join(
-                array('cw' => $this->getTable('core/website')),
+                array('cw' => $this->getTable('core_website')),
                 'gp.website_id = 0 OR gp.website_id = cw.website_id',
                 array('website_id'))
             ->join(

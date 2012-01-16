@@ -39,7 +39,7 @@ class Enterprise_Checkout_Model_Observer
      */
     protected function _getCart()
     {
-        return Mage::getSingleton('enterprise_checkout/cart');
+        return Mage::getSingleton('Enterprise_Checkout_Model_Cart');
     }
 
     /**
@@ -95,7 +95,7 @@ class Enterprise_Checkout_Model_Observer
     public function uploadSkuCsv(Varien_Event_Observer $observer)
     {
         /* @var $importModel Enterprise_Checkout_Model_Import */
-        $importModel = Mage::getModel('enterprise_checkout/import');
+        $importModel = Mage::getModel('Enterprise_Checkout_Model_Import');
         if ($importModel->uploadFile()) {
             /* @var $itemsModel Mage_Adminhtml_Model_Sales_Order_Create */
             $itemsModel = $observer->getOrderCreateModel();
@@ -137,7 +137,7 @@ class Enterprise_Checkout_Model_Observer
      */
     protected function _copyAddress($quote, $realAddress)
     {
-        $address = Mage::getModel('sales/quote_address');
+        $address = Mage::getModel('Mage_Sales_Model_Quote_Address');
         $address->setData($realAddress->getData());
         $address
             ->setId(null)
@@ -162,15 +162,15 @@ class Enterprise_Checkout_Model_Observer
         }
 
         /** @var $realQuote Mage_Sales_Model_Quote */
-        $realQuote = Mage::getSingleton('sales/quote');
+        $realQuote = Mage::getSingleton('Mage_Sales_Model_Quote');
         $affectedItems = $this->_getCart()->getFailedItems();
         if (empty($affectedItems)) {
             return;
         }
 
         /** @var $quote Mage_Sales_Model_Quote */
-        $quote = Mage::getModel('sales/quote');
-        $quote->preventSaving()->setItemsCollection(Mage::helper('enterprise_checkout')->getFailedItems(false));
+        $quote = Mage::getModel('Mage_Sales_Model_Quote');
+        $quote->preventSaving()->setItemsCollection(Mage::helper('Enterprise_Checkout_Helper_Data')->getFailedItems(false));
 
         $quote->setShippingAddress($this->_copyAddress($quote, $realQuote->getShippingAddress()));
         $quote->setBillingAddress($this->_copyAddress($quote, $realQuote->getBillingAddress()));
@@ -190,10 +190,10 @@ class Enterprise_Checkout_Model_Observer
             return;
         }
 
-        $failedItemsCount = count(Mage::getSingleton('enterprise_checkout/cart')->getFailedItems());
+        $failedItemsCount = count(Mage::getSingleton('Enterprise_Checkout_Model_Cart')->getFailedItems());
         if ($failedItemsCount > 0) {
             $block->setAllowCartLink(true);
-            $block->setCartEmptyMessage(Mage::helper('enterprise_checkout')->__('You have %d item(s) requiring attention.', $failedItemsCount));
+            $block->setCartEmptyMessage(Mage::helper('Enterprise_Checkout_Helper_Data')->__('You have %d item(s) requiring attention.', $failedItemsCount));
         }
     }
 }

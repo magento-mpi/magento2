@@ -32,7 +32,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Items extends Mage_Adminhtml_Block
         parent::__construct();
         $this->setId('sales_order_create_items');
         $this->_buttons[] = array(
-            'label' => Mage::helper('sales')->__('Add Products'),
+            'label' => Mage::helper('Mage_Sales_Helper_Data')->__('Add Products'),
             'onclick' => "order.productGridShow(this)",
             'class' => 'add');
     }

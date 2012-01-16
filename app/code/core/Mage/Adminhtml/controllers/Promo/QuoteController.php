@@ -286,7 +286,7 @@ class Mage_Adminhtml_Promo_QuoteController extends Mage_Adminhtml_Controller_Act
         if ($rule->getId()) {
             $fileName = 'coupon_codes.xml';
             $content = $this->getLayout()
-                ->createBlock('adminhtml/promo_quote_edit_tab_coupons_grid')
+                ->createBlock('Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Coupons_Grid')
                 ->getExcelFile($fileName);
             $this->_prepareDownloadResponse($fileName, $content);
         } else {
@@ -307,7 +307,7 @@ class Mage_Adminhtml_Promo_QuoteController extends Mage_Adminhtml_Controller_Act
         if ($rule->getId()) {
             $fileName = 'coupon_codes.csv';
             $content = $this->getLayout()
-                ->createBlock('adminhtml/promo_quote_edit_tab_coupons_grid')
+                ->createBlock('Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Coupons_Grid')
                 ->getCsvFile();
             $this->_prepareDownloadResponse($fileName, $content);
         } else {
@@ -332,7 +332,7 @@ class Mage_Adminhtml_Promo_QuoteController extends Mage_Adminhtml_Controller_Act
 
         if (is_array($codesIds)) {
 
-            $couponsCollection = Mage::getResourceModel('salesrule/coupon_collection')
+            $couponsCollection = Mage::getResourceModel('Mage_SalesRule_Model_Resource_Coupon_Collection')
                 ->addFieldToFilter('coupon_id', array('in' => $codesIds));
 
             foreach ($couponsCollection as $coupon) {
@@ -357,7 +357,7 @@ class Mage_Adminhtml_Promo_QuoteController extends Mage_Adminhtml_Controller_Act
         $rule = Mage::registry('current_promo_quote_rule');
 
         if (!$rule->getId()) {
-            $result['error'] = Mage::helper('salesrule')->__('Rule is not defined');
+            $result['error'] = Mage::helper('Mage_SalesRule_Helper_Data')->__('Rule is not defined');
         } else {
             try {
                 $data = $this->getRequest()->getParams();
@@ -368,23 +368,23 @@ class Mage_Adminhtml_Promo_QuoteController extends Mage_Adminhtml_Controller_Act
                 /** @var $generator Mage_SalesRule_Model_Coupon_Massgenerator */
                 $generator = $rule->getCouponMassGenerator();
                 if (!$generator->validateData($data)) {
-                    $result['error'] = Mage::helper('salesrule')->__('Not valid data provided');
+                    $result['error'] = Mage::helper('Mage_SalesRule_Helper_Data')->__('Not valid data provided');
                 } else {
                     $generator->setData($data);
                     $generator->generatePool();
                     $generated = $generator->getGeneratedCount();
-                    $this->_getSession()->addSuccess(Mage::helper('salesrule')->__('%s Coupon(s) generated successfully', $generated));
+                    $this->_getSession()->addSuccess(Mage::helper('Mage_SalesRule_Helper_Data')->__('%s Coupon(s) generated successfully', $generated));
                     $this->_initLayoutMessages('adminhtml/session');
                     $result['messages']  = $this->getLayout()->getMessagesBlock()->getGroupedHtml();
                 }
             } catch (Mage_Core_Exception $e) {
                 $result['error'] = $e->getMessage();
             } catch (Exception $e) {
-                $result['error'] = Mage::helper('salesrule')->__('An error occurred while generating coupons. Please review the log and try again.');
+                $result['error'] = Mage::helper('Mage_SalesRule_Helper_Data')->__('An error occurred while generating coupons. Please review the log and try again.');
                 Mage::logException($e);
             }
         }
-        $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
+        $this->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode($result));
     }
 
     /**

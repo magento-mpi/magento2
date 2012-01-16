@@ -109,8 +109,8 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Attributes
         $groupPrice = $this->getForm()->getElement('group_price');
         if ($groupPrice) {
             $groupPrice->setRenderer(
-                $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_price_group')
-                    ->setPriceColumnHeader(Mage::helper('bundle')->__('Percent Discount'))
+                $this->getLayout()->createBlock('Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Group')
+                    ->setPriceColumnHeader(Mage::helper('Mage_Bundle_Helper_Data')->__('Percent Discount'))
                     ->setPriceValidation('validate-greater-than-zero validate-percents')
             );
         }

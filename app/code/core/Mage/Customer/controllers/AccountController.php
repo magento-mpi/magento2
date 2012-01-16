@@ -378,7 +378,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
         );
         if ($this->_isVatValidationEnabled()) {
             // Show corresponding VAT message to customer
-            $configAddressType = Mage::helper('customer/address')->getTaxCalculationAddressType();
+            $configAddressType = Mage::helper('Mage_Customer_Helper_Address')->getTaxCalculationAddressType();
             $userPrompt = '';
             switch ($configAddressType) {
                 case Mage_Customer_Model_Address_Abstract::TYPE_SHIPPING:

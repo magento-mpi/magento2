@@ -133,7 +133,7 @@ class Mage_SalesRule_Model_Resource_Coupon extends Mage_Core_Model_Resource_Db_A
 
         if (!empty($updateArray)) {
             $this->_getWriteAdapter()->update(
-                $this->getTable('salesrule/coupon'),
+                $this->getTable('salesrule_coupon'),
                 $updateArray,
                 array('rule_id = ?' => $rule->getId())
             );

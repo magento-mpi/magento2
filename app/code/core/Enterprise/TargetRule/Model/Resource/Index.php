@@ -507,7 +507,7 @@ class Enterprise_TargetRule_Model_Resource_Index extends Mage_Index_Model_Resour
     public function removeProductIndex($productId = null, $ruleId = null)
     {
         /** @var $targetRule Enterprise_TargetRule_Model_Resource_Rule */
-        $targetRule = Mage::getResourceSingleton('enterprise_targetrule/rule');
+        $targetRule = Mage::getResourceSingleton('Enterprise_TargetRule_Model_Resource_Rule');
         $targetRule->unbindRuleFromEntity($ruleId, $productId, 'product');
 
         return $this;
@@ -525,7 +525,7 @@ class Enterprise_TargetRule_Model_Resource_Index extends Mage_Index_Model_Resour
     public function saveProductIndex($ruleId, $productId, $storeId)
     {
         /** @var $targetRule Enterprise_TargetRule_Model_Resource_Rule */
-        $targetRule = Mage::getResourceSingleton('enterprise_targetrule/rule');
+        $targetRule = Mage::getResourceSingleton('Enterprise_TargetRule_Model_Resource_Rule');
         $targetRule->bindRuleToEntity($ruleId, $productId, 'product');
 
         return $this;

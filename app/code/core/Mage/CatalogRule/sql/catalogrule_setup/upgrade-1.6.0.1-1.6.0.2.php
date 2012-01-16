@@ -28,11 +28,11 @@
 $installer           = $this;
 $connection          = $installer->getConnection();
 
-$rulesTable          = $installer->getTable('catalogrule/rule');
-$websitesTable       = $installer->getTable('core/website');
-$customerGroupsTable = $installer->getTable('customer/customer_group');
-$rulesWebsitesTable  = $installer->getTable('catalogrule/website');
-$rulesCustomerGroupsTable  = $installer->getTable('catalogrule/customer_group');
+$rulesTable          = $installer->getTable('catalogrule');
+$websitesTable       = $installer->getTable('core_website');
+$customerGroupsTable = $installer->getTable('customer_group');
+$rulesWebsitesTable  = $installer->getTable('catalogrule_website');
+$rulesCustomerGroupsTable  = $installer->getTable('catalogrule_customer_group');
 
 $installer->startSetup();
 /**

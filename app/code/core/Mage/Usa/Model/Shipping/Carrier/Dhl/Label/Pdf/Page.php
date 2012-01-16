@@ -138,7 +138,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_Page extends Zend_Pdf_Page
     {
         foreach ($lines as $line) {
             if (strlen($line) > $maxWidth) {
-                $subLines = Mage::helper('core/string')->str_split($line, $maxWidth, true, true);
+                $subLines = Mage::helper('Mage_Core_Helper_String')->str_split($line, $maxWidth, true, true);
                 $y = $this->drawLines(array_filter($subLines), $x, $y, $maxWidth, $align);
                 continue;
             }

@@ -103,7 +103,7 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object
     public function getActualQuote()
     {
         if ($this->getStore()->isAdmin()) {
-            return Mage::getSingleton('adminhtml/session_quote')->getQuote();
+            return Mage::getSingleton('Mage_Adminhtml_Model_Session_Quote')->getQuote();
         } else {
             return $this->getQuote();
         }
@@ -570,7 +570,7 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object
         foreach ($items as $item) {
             if (!isset($item['sku']) || !isset($item['qty']) || empty($item['sku']) || empty($item['qty'])) {
                 $this->setErrorMessage(
-                    Mage::helper('enterprise_checkout')->__('SKU or quantity of some product(s) is empty.')
+                    Mage::helper('Enterprise_Checkout_Helper_Data')->__('SKU or quantity of some product(s) is empty.')
                 );
                 continue;
             }
@@ -688,7 +688,7 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object
         }
 
         /** @var $product Mage_Catalog_Model_Product */
-        $product = Mage::getModel('catalog/product')->loadByAttribute('sku', $item['sku']);
+        $product = Mage::getModel('Mage_Catalog_Model_Product')->loadByAttribute('sku', $item['sku']);
         if ($product && $product->getId()) {
             $item['id'] = $product->getId();
 
@@ -698,7 +698,7 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object
             }
 
             /** @var $stockItem Mage_CatalogInventory_Model_Stock_Item */
-            $stockItem = Mage::getModel('cataloginventory/stock_item');
+            $stockItem = Mage::getModel('Mage_CatalogInventory_Model_Stock_Item');
             $stockItem->loadByProduct($product);
             $stockItem->setProduct($product);
             if (!$stockItem->getIsInStock() && !$this->getStore()->isAdmin()) {
@@ -783,7 +783,7 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object
 
         // copy data to temporary quote
         /** @var $temporaryQuote Mage_Sales_Model_Quote */
-        $temporaryQuote = Mage::getModel('sales/quote');
+        $temporaryQuote = Mage::getModel('Mage_Sales_Model_Quote');
         foreach ($quote->getAllItems() as $quoteItem) {
             $temporaryItem = clone $quoteItem;
             $temporaryItem->setQuote($temporaryQuote);
@@ -801,7 +801,7 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object
         } catch (Exception $e) {
             $success = false;
             $item['code'] = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_UNKNOWN;
-            $item['error'] = Mage::helper('enterprise_checkout')->__('The product cannot be added to cart.');
+            $item['error'] = Mage::helper('Enterprise_Checkout_Helper_Data')->__('The product cannot be added to cart.');
         }
 
         if ($success) {
@@ -907,15 +907,15 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object
         $messages = array();
         if ($addedItemsCount) {
             $message = ($addedItemsCount == 1)
-                    ? Mage::helper('enterprise_checkout')->__('%s product was added to your shopping cart.', $addedItemsCount)
-                    : Mage::helper('enterprise_checkout')->__('%s products were added to your shopping cart.', $addedItemsCount);
-            $messages[] = Mage::getSingleton('core/message')->success($message);
+                    ? Mage::helper('Enterprise_Checkout_Helper_Data')->__('%s product was added to your shopping cart.', $addedItemsCount)
+                    : Mage::helper('Enterprise_Checkout_Helper_Data')->__('%s products were added to your shopping cart.', $addedItemsCount);
+            $messages[] = Mage::getSingleton('Mage_Core_Model_Message')->success($message);
         }
         if ($failedItemsCount) {
             $warning = ($failedItemsCount == 1)
-                    ? Mage::helper('enterprise_checkout')->__('%s product requires your attention.', $failedItemsCount)
-                    : Mage::helper('enterprise_checkout')->__('%s products require your attention.', $failedItemsCount);
-            $messages[] = Mage::getSingleton('core/message')->error($warning);
+                    ? Mage::helper('Enterprise_Checkout_Helper_Data')->__('%s product requires your attention.', $failedItemsCount)
+                    : Mage::helper('Enterprise_Checkout_Helper_Data')->__('%s products require your attention.', $failedItemsCount);
+            $messages[] = Mage::getSingleton('Mage_Core_Model_Message')->error($warning);
         }
         return $messages;
     }
@@ -1044,7 +1044,7 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object
      */
     protected function _getCart()
     {
-        return Mage::getSingleton('checkout/cart');
+        return Mage::getSingleton('Mage_Checkout_Model_Cart');
     }
 
     /**
@@ -1054,7 +1054,7 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object
      */
     protected function _getHelper()
     {
-        return Mage::helper('enterprise_checkout');
+        return Mage::helper('Enterprise_Checkout_Helper_Data');
     }
 
     /**

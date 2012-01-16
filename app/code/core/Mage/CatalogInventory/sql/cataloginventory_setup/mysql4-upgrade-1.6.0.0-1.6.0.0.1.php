@@ -29,6 +29,6 @@ $installer = $this;
 /** @var $connection Varien_Db_Adapter_Pdo_Mysql */
 $connection = $installer->getConnection();
 $connection->changeTableEngine(
-    $installer->getTable('cataloginventory/stock_status_indexer_tmp'),
+    $installer->getTable('cataloginventory_stock_status_tmp'),
     Varien_Db_Adapter_Pdo_Mysql::ENGINE_MEMORY
 );

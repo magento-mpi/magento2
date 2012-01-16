@@ -42,7 +42,7 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Coupons
      */
     public function getTabLabel()
     {
-        return Mage::helper('salesrule')->__('Manage Coupon Codes');
+        return Mage::helper('Mage_SalesRule_Helper_Data')->__('Manage Coupon Codes');
     }
 
     /**
@@ -52,7 +52,7 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Coupons
      */
     public function getTabTitle()
     {
-        return Mage::helper('salesrule')->__('Manage Coupon Codes');
+        return Mage::helper('Mage_SalesRule_Helper_Data')->__('Manage Coupon Codes');
     }
 
     /**

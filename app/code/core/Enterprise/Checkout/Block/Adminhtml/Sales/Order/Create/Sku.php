@@ -74,6 +74,6 @@ class Enterprise_Checkout_Block_Adminhtml_Sales_Order_Create_Sku
             'onclick' => 'addBySku.submitAddForm()',
             'class' => 'add',
         );
-        return $this->getLayout()->createBlock('adminhtml/widget_button')->setData($addButtonData)->toHtml();
+        return $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')->setData($addButtonData)->toHtml();
     }
 }

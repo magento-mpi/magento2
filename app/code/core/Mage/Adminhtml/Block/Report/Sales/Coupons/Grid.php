@@ -56,7 +56,7 @@ class Mage_Adminhtml_Block_Report_Sales_Coupons_Grid extends Mage_Adminhtml_Bloc
         ));
 
         $this->addColumn('rule_name', array(
-            'header'    => Mage::helper('salesrule')->__('Shopping Cart Price Rule'),
+            'header'    => Mage::helper('Mage_SalesRule_Helper_Data')->__('Shopping Cart Price Rule'),
             'sortable'  => false,
             'index'     => 'rule_name'
         ));

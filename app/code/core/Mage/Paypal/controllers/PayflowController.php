@@ -77,7 +77,7 @@ class Mage_Paypal_PayflowController extends Mage_Core_Controller_Front_Action
         $data = $this->getRequest()->getPost();
         if (isset($data['INVNUM'])) {
             /** @var $paymentModel Mage_Paypal_Model_Payflowlink */
-            $paymentModel = Mage::getModel('paypal/payflowlink');
+            $paymentModel = Mage::getModel('Mage_Paypal_Model_Payflowlink');
             try {
                 $paymentModel->process($data);
             } catch (Exception $e) {

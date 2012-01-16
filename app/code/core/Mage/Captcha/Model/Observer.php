@@ -42,11 +42,11 @@ class Mage_Captcha_Model_Observer
     public function checkForgotpassword($observer)
     {
         $formId = 'user_forgotpassword';
-        $captchaModel = Mage::helper('captcha')->getCaptcha($formId);
+        $captchaModel = Mage::helper('Mage_Captcha_Helper_Data')->getCaptcha($formId);
         if ($captchaModel->isRequired()) {
             $controller = $observer->getControllerAction();
             if (!$captchaModel->isCorrect($this->_getCaptchaString($controller->getRequest(), $formId))) {
-                Mage::getSingleton('customer/session')->addError(Mage::helper('captcha')->__('Incorrect CAPTCHA.'));
+                Mage::getSingleton('Mage_Customer_Model_Session')->addError(Mage::helper('Mage_Captcha_Helper_Data')->__('Incorrect CAPTCHA.'));
                 $controller->setFlag('', Mage_Core_Controller_Varien_Action::FLAG_NO_DISPATCH, true);
                 $controller->getResponse()->setRedirect(Mage::getUrl('*/*/forgotpassword'));
             }
@@ -63,18 +63,18 @@ class Mage_Captcha_Model_Observer
     public function checkUserLogin($observer)
     {
         $formId = 'user_login';
-        $captchaModel = Mage::helper('captcha')->getCaptcha($formId);
+        $captchaModel = Mage::helper('Mage_Captcha_Helper_Data')->getCaptcha($formId);
         $controller = $observer->getControllerAction();
         $loginParams = $controller->getRequest()->getPost('login');
         $login = array_key_exists('username', $loginParams) ? $loginParams['username'] : null;
         if ($captchaModel->isRequired($login)) {
             $word = $this->_getCaptchaString($controller->getRequest(), $formId);
             if (!$captchaModel->isCorrect($word)) {
-                Mage::getSingleton('customer/session')->addError(Mage::helper('captcha')->__('Incorrect CAPTCHA.'));
+                Mage::getSingleton('Mage_Customer_Model_Session')->addError(Mage::helper('Mage_Captcha_Helper_Data')->__('Incorrect CAPTCHA.'));
                 $controller->setFlag('', Mage_Core_Controller_Varien_Action::FLAG_NO_DISPATCH, true);
-                Mage::getSingleton('customer/session')->setUsername($login);
-                $beforeUrl = Mage::getSingleton('customer/session')->getBeforeAuthUrl();
-                $url =  $beforeUrl ? $beforeUrl : Mage::helper('customer')->getLoginUrl();
+                Mage::getSingleton('Mage_Customer_Model_Session')->setUsername($login);
+                $beforeUrl = Mage::getSingleton('Mage_Customer_Model_Session')->getBeforeAuthUrl();
+                $url =  $beforeUrl ? $beforeUrl : Mage::helper('Mage_Customer_Helper_Data')->getLoginUrl();
                 $controller->getResponse()->setRedirect($url);
             }
         }
@@ -91,13 +91,13 @@ class Mage_Captcha_Model_Observer
     public function checkUserCreate($observer)
     {
         $formId = 'user_create';
-        $captchaModel = Mage::helper('captcha')->getCaptcha($formId);
+        $captchaModel = Mage::helper('Mage_Captcha_Helper_Data')->getCaptcha($formId);
         if ($captchaModel->isRequired()) {
             $controller = $observer->getControllerAction();
             if (!$captchaModel->isCorrect($this->_getCaptchaString($controller->getRequest(), $formId))) {
-                Mage::getSingleton('customer/session')->addError(Mage::helper('captcha')->__('Incorrect CAPTCHA.'));
+                Mage::getSingleton('Mage_Customer_Model_Session')->addError(Mage::helper('Mage_Captcha_Helper_Data')->__('Incorrect CAPTCHA.'));
                 $controller->setFlag('', Mage_Core_Controller_Varien_Action::FLAG_NO_DISPATCH, true);
-                Mage::getSingleton('customer/session')->setCustomerFormData($controller->getRequest()->getPost());
+                Mage::getSingleton('Mage_Customer_Model_Session')->setCustomerFormData($controller->getRequest()->getPost());
                 $controller->getResponse()->setRedirect(Mage::getUrl('*/*/create'));
             }
         }
@@ -113,15 +113,15 @@ class Mage_Captcha_Model_Observer
     public function checkGuestCheckout($observer)
     {
         $formId = 'guest_checkout';
-        $captchaModel = Mage::helper('captcha')->getCaptcha($formId);
-        $checkoutMethod = Mage::getSingleton('checkout/type_onepage')->getQuote()->getCheckoutMethod();
+        $captchaModel = Mage::helper('Mage_Captcha_Helper_Data')->getCaptcha($formId);
+        $checkoutMethod = Mage::getSingleton('Mage_Checkout_Model_Type_Onepage')->getQuote()->getCheckoutMethod();
         if ($checkoutMethod == Mage_Checkout_Model_Type_Onepage::METHOD_GUEST) {
             if ($captchaModel->isRequired()) {
                 $controller = $observer->getControllerAction();
                 if (!$captchaModel->isCorrect($this->_getCaptchaString($controller->getRequest(), $formId))) {
                     $controller->setFlag('', Mage_Core_Controller_Varien_Action::FLAG_NO_DISPATCH, true);
-                    $result = array('error' => 1, 'message' => Mage::helper('captcha')->__('Incorrect CAPTCHA.'));
-                    $controller->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
+                    $result = array('error' => 1, 'message' => Mage::helper('Mage_Captcha_Helper_Data')->__('Incorrect CAPTCHA.'));
+                    $controller->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode($result));
                 }
             }
         }
@@ -137,15 +137,15 @@ class Mage_Captcha_Model_Observer
     public function checkRegisterCheckout($observer)
     {
         $formId = 'register_during_checkout';
-        $captchaModel = Mage::helper('captcha')->getCaptcha($formId);
-        $checkoutMethod = Mage::getSingleton('checkout/type_onepage')->getQuote()->getCheckoutMethod();
+        $captchaModel = Mage::helper('Mage_Captcha_Helper_Data')->getCaptcha($formId);
+        $checkoutMethod = Mage::getSingleton('Mage_Checkout_Model_Type_Onepage')->getQuote()->getCheckoutMethod();
         if ($checkoutMethod == Mage_Checkout_Model_Type_Onepage::METHOD_REGISTER) {
             if ($captchaModel->isRequired()) {
                 $controller = $observer->getControllerAction();
                 if (!$captchaModel->isCorrect($this->_getCaptchaString($controller->getRequest(), $formId))) {
                     $controller->setFlag('', Mage_Core_Controller_Varien_Action::FLAG_NO_DISPATCH, true);
-                    $result = array('error' => 1, 'message' => Mage::helper('captcha')->__('Incorrect CAPTCHA.'));
-                    $controller->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
+                    $result = array('error' => 1, 'message' => Mage::helper('Mage_Captcha_Helper_Data')->__('Incorrect CAPTCHA.'));
+                    $controller->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode($result));
                 }
             }
         }
@@ -161,13 +161,13 @@ class Mage_Captcha_Model_Observer
     public function checkUserLoginBackend($observer)
     {
         $formId = 'backend_login';
-        $captchaModel = Mage::helper('captcha')->getCaptcha($formId);
+        $captchaModel = Mage::helper('Mage_Captcha_Helper_Data')->getCaptcha($formId);
         $loginParams = Mage::app()->getRequest()->getPost('login');
         $login = array_key_exists('username', $loginParams) ? $loginParams['username'] : null;
         if ($captchaModel->isRequired($login)) {
             if (!$captchaModel->isCorrect($this->_getCaptchaString(Mage::app()->getRequest(), $formId))) {
                 $captchaModel->logAttempt($login);
-                Mage::throwException(Mage::helper('captcha')->__('Incorrect CAPTCHA.'));
+                Mage::throwException(Mage::helper('Mage_Captcha_Helper_Data')->__('Incorrect CAPTCHA.'));
             }
         }
         $captchaModel->logAttempt($login);
@@ -181,7 +181,7 @@ class Mage_Captcha_Model_Observer
      */
     protected function _getBackendSession()
     {
-        return Mage::getSingleton('adminhtml/session');
+        return Mage::getSingleton('Mage_Adminhtml_Model_Session');
     }
 
     /**
@@ -193,7 +193,7 @@ class Mage_Captcha_Model_Observer
     public function checkUserForgotPasswordBackend($observer)
     {
         $formId = 'backend_forgotpassword';
-        $captchaModel = Mage::helper('captcha')->getCaptcha($formId);
+        $captchaModel = Mage::helper('Mage_Captcha_Helper_Data')->getCaptcha($formId);
         $controller = $observer->getControllerAction();
         $email = (string) $observer->getControllerAction()->getRequest()->getParam('email');
         $params = $observer->getControllerAction()->getRequest()->getParams();
@@ -203,7 +203,7 @@ class Mage_Captcha_Model_Observer
                 if (!$captchaModel->isCorrect($this->_getCaptchaString($controller->getRequest(), $formId))) {
                     $this->_getBackendSession()->setEmail((string) $controller->getRequest()->getPost('email'));
                     $controller->setFlag('', Mage_Core_Controller_Varien_Action::FLAG_NO_DISPATCH, true);
-                    $this->_getBackendSession()->addError(Mage::helper('captcha')->__('Incorrect CAPTCHA.'));
+                    $this->_getBackendSession()->addError(Mage::helper('Mage_Captcha_Helper_Data')->__('Incorrect CAPTCHA.'));
                     $controller->getResponse()->setRedirect(Mage::getUrl('*/*/forgotpassword'));
                 }
             }
@@ -240,7 +240,7 @@ class Mage_Captcha_Model_Observer
      */
     public function deleteOldAttempts()
     {
-        Mage::getResourceModel('captcha/log')->deleteOldAttempts();
+        Mage::getResourceModel('Mage_Captcha_Model_Resource_Log')->deleteOldAttempts();
         return $this;
     }
 
@@ -252,8 +252,8 @@ class Mage_Captcha_Model_Observer
     public function deleteExpiredImages()
     {
         foreach (Mage::app()->getWebsites(true) as $website){
-            $expire = time() - Mage::helper('captcha')->getConfigNode('timeout', $website->getDefaultStore())*60;
-            $imageDirectory = Mage::helper('captcha')->getImgDir($website);
+            $expire = time() - Mage::helper('Mage_Captcha_Helper_Data')->getConfigNode('timeout', $website->getDefaultStore())*60;
+            $imageDirectory = Mage::helper('Mage_Captcha_Helper_Data')->getImgDir($website);
             foreach (new DirectoryIterator($imageDirectory) as $file) {
                 if ($file->isFile() && pathinfo($file->getFilename(), PATHINFO_EXTENSION) == 'png') {
                     if ($file->getMTime() < $expire) {
@@ -273,7 +273,7 @@ class Mage_Captcha_Model_Observer
      */
     protected function _resetAttempt($login)
     {
-        Mage::getResourceModel('captcha/log')->deleteUserAttempts($login);
+        Mage::getResourceModel('Mage_Captcha_Model_Resource_Log')->deleteUserAttempts($login);
         return $this;
     }
 

@@ -49,7 +49,7 @@ class Enterprise_Checkout_Block_Sku_Products_Info extends Mage_Core_Block_Templa
     protected function _getHelper()
     {
         if (is_null($this->_helper)) {
-            $this->_helper = Mage::helper('enterprise_checkout');
+            $this->_helper = Mage::helper('Enterprise_Checkout_Helper_Data');
         }
         return $this->_helper;
     }
@@ -74,7 +74,7 @@ class Enterprise_Checkout_Block_Sku_Products_Info extends Mage_Core_Block_Templa
                 return $message;
             case Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED:
                 /** @var $stockItem Mage_CatalogInventory_Model_Stock_Item */
-                $stockItem = Mage::getModel('cataloginventory/stock_item');
+                $stockItem = Mage::getModel('Mage_CatalogInventory_Model_Stock_Item');
                 $stockItem->loadByProduct($this->getItem()->getProduct());
                 $message = $this->_getHelper()->getMessage(
                     Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED
@@ -88,9 +88,9 @@ class Enterprise_Checkout_Block_Sku_Products_Info extends Mage_Core_Block_Templa
                 );
                 $message .= '<br/>';
                 if ($item->getQtyMaxAllowed()) {
-                    $message .= Mage::helper('cataloginventory')->__('The maximum quantity allowed for purchase is %s.', '<span class="sku-failed-qty" id="sku-stock-failed-' . $item->getId() . '">' . ($item->getQtyMaxAllowed()  * 1) . '</span>');
+                    $message .= Mage::helper('Mage_CatalogInventory_Helper_Data')->__('The maximum quantity allowed for purchase is %s.', '<span class="sku-failed-qty" id="sku-stock-failed-' . $item->getId() . '">' . ($item->getQtyMaxAllowed()  * 1) . '</span>');
                 } else if ($item->getQtyMinAllowed()) {
-                    $message .= Mage::helper('cataloginventory')->__('The minimum quantity allowed for purchase is %s.', '<span class="sku-failed-qty" id="sku-stock-failed-' . $item->getId() . '">' . ($item->getQtyMinAllowed()  * 1) . '</span>');
+                    $message .= Mage::helper('Mage_CatalogInventory_Helper_Data')->__('The minimum quantity allowed for purchase is %s.', '<span class="sku-failed-qty" id="sku-stock-failed-' . $item->getId() . '">' . ($item->getQtyMinAllowed()  * 1) . '</span>');
                 }
                 return $message;
             case Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_CONFIGURE:
@@ -148,7 +148,7 @@ class Enterprise_Checkout_Block_Sku_Products_Info extends Mage_Core_Block_Templa
                         . '</a>';
             case Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_OUT_OF_STOCK:
                 /** @var $helper Mage_ProductAlert_Helper_Data */
-                $helper = Mage::helper('productalert')->setProduct($this->getItem()->getProduct());
+                $helper = Mage::helper('Mage_ProductAlert_Helper_Data')->setProduct($this->getItem()->getProduct());
                 $signUpLabel = $this->escapeHtml($this->__('Get notified when back in stock'));
                 return '<a href="'
                     . $this->escapeHtml($helper->getSaveUrl('stock'))

@@ -74,7 +74,7 @@ class Enterprise_Checkout_Model_Import extends Varien_Object
 
         try {
             /** @var $uploader Mage_Core_Model_File_Uploader */
-            $uploader  = Mage::getModel('core/file_uploader', self::FIELD_NAME_SOURCE_FILE);
+            $uploader  = Mage::getModel('Mage_Core_Model_File_Uploader', self::FIELD_NAME_SOURCE_FILE);
         } catch (Exception $e) {
             $result = false;
         }
@@ -86,7 +86,7 @@ class Enterprise_Checkout_Model_Import extends Varien_Object
 
                 $result = $uploader->save($this->_getWorkingDir());
             } catch (Exception $e) {
-                Mage::throwException(Mage::helper('enterprise_checkout')->__('Error in uploading file.'));
+                Mage::throwException(Mage::helper('Enterprise_Checkout_Helper_Data')->__('Error in uploading file.'));
             }
         }
 
@@ -112,7 +112,7 @@ class Enterprise_Checkout_Model_Import extends Varien_Object
             return $this->$method();
         }
 
-        Mage::throwException(Mage::helper('enterprise_checkout')->__('Not supported file type.'));
+        Mage::throwException(Mage::helper('Enterprise_Checkout_Helper_Data')->__('Not supported file type.'));
         return false;
     }
 
@@ -124,7 +124,7 @@ class Enterprise_Checkout_Model_Import extends Varien_Object
     public function getDataFromCsv()
     {
         if (!$this->_uploadedFile || !file_exists($this->_uploadedFile)) {
-            Mage::throwException(Mage::helper('enterprise_checkout')->__('Uploaded file not exists'));
+            Mage::throwException(Mage::helper('Enterprise_Checkout_Helper_Data')->__('Uploaded file not exists'));
         }
 
         $csvData = array();
@@ -137,7 +137,7 @@ class Enterprise_Checkout_Model_Import extends Varien_Object
                 $colNames = fgetcsv($fileHandler);
                 $num = count($colNames);
                 if ($num != 2) {
-                    Mage::throwException(Mage::helper('enterprise_checkout')->__('Uploaded file is invalid'));
+                    Mage::throwException(Mage::helper('Enterprise_Checkout_Helper_Data')->__('Uploaded file is invalid'));
                 }
                 for ($i = 0; $i < 2; $i++) {
                     // If header columns specified as "sku, qty" - it could cause problems because of the whitespace
@@ -158,7 +158,7 @@ class Enterprise_Checkout_Model_Import extends Varien_Object
                 fclose($fileHandler);
             }
         } catch (Exception $e) {
-            Mage::throwException(Mage::helper('enterprise_checkout')->__('File is corrupt.'));
+            Mage::throwException(Mage::helper('Enterprise_Checkout_Helper_Data')->__('File is corrupt.'));
         }
         return $csvData;
     }
@@ -187,7 +187,7 @@ class Enterprise_Checkout_Model_Import extends Varien_Object
             }
         }
 
-        Mage::throwException(Mage::helper('enterprise_checkout')->__('Not supported file type.'));
+        Mage::throwException(Mage::helper('Enterprise_Checkout_Helper_Data')->__('Not supported file type.'));
         return false;
     }
 }

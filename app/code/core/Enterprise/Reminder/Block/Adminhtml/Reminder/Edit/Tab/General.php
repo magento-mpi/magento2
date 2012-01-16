@@ -77,8 +77,8 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_General
         } else {
             $fieldset->addField('website_ids', 'multiselect', array(
                 'name'     => 'website_ids[]',
-                'label'    => Mage::helper('enterprise_reminder')->__('Assigned to Website'),
-                'title'    => Mage::helper('enterprise_reminder')->__('Assigned to Website'),
+                'label'    => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Assigned to Website'),
+                'title'    => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Assigned to Website'),
                 'required' => true,
                 'values'   => Mage::getSingleton('Mage_Adminhtml_Model_System_Store')->getWebsiteValuesForForm(),
                 'value'    => $model->getWebsiteIds()

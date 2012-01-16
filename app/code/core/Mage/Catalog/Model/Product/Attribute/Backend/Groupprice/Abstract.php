@@ -63,7 +63,7 @@ abstract class Mage_Catalog_Model_Product_Attribute_Backend_Groupprice_Abstract
             foreach (Mage::app()->getWebsites() as $website) {
                 /* @var $website Mage_Core_Model_Website */
                 if ($website->getBaseCurrencyCode() != $baseCurrency) {
-                    $rate = Mage::getModel('directory/currency')
+                    $rate = Mage::getModel('Mage_Directory_Model_Currency')
                         ->load($baseCurrency)
                         ->getRate($website->getBaseCurrencyCode());
                     if (!$rate) {
@@ -189,7 +189,7 @@ abstract class Mage_Catalog_Model_Product_Attribute_Backend_Groupprice_Abstract
     {
         $rates  = $this->_getWebsiteCurrencyRates();
         $data   = array();
-        $price  = Mage::getSingleton('catalog/product_type')->priceFactory($productTypeId);
+        $price  = Mage::getSingleton('Mage_Catalog_Model_Product_Type')->priceFactory($productTypeId);
         foreach ($priceData as $v) {
             $key = join('-', array_merge(array($v['cust_group']), $this->_getAdditionalUniqueFields($v)));
             if ($v['website_id'] == $websiteId) {

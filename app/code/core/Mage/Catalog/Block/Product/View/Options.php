@@ -129,10 +129,10 @@ class Mage_Catalog_Block_Product_View_Options extends Mage_Core_Block_Template
     {
         $data = array();
         $data['price'] = $option->getPrice(false);
-        $data['oldPrice'] = Mage::helper('core')->currency($option->getPrice(true), false, false);
+        $data['oldPrice'] = Mage::helper('Mage_Core_Helper_Data')->currency($option->getPrice(true), false, false);
         $data['type'] = $option->getPriceType();
-        $data['excludeTax'] = $price = Mage::helper('tax')->getPrice($option->getProduct(), $data['oldPrice'], false);
-        $data['includeTax'] = $price = Mage::helper('tax')->getPrice($option->getProduct(), $data['oldPrice'], true);
+        $data['excludeTax'] = $price = Mage::helper('Mage_Tax_Helper_Data')->getPrice($option->getProduct(), $data['oldPrice'], false);
+        $data['includeTax'] = $price = Mage::helper('Mage_Tax_Helper_Data')->getPrice($option->getProduct(), $data['oldPrice'], true);
         return $data;
     }
 

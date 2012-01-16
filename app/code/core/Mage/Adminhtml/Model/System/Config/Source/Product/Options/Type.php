@@ -25,7 +25,7 @@ class Mage_Adminhtml_Model_System_Config_Source_Product_Options_Type
             array('value' => '', 'label' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('-- Please select --'))
         );
 
-        $helper = Mage::helper('catalog');
+        $helper = Mage::helper('Mage_Catalog_Helper_Data');
 
         foreach (Mage::getConfig()->getNode(self::PRODUCT_OPTIONS_GROUPS_PATH)->children() as $group) {
             $types = array();

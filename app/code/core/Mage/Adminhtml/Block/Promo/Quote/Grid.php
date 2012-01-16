@@ -106,12 +106,12 @@ class Mage_Adminhtml_Block_Promo_Quote_Grid extends Mage_Adminhtml_Block_Widget_
 
         if (!Mage::app()->isSingleStoreMode()) {
             $this->addColumn('rule_website', array(
-                'header'    => Mage::helper('salesrule')->__('Website'),
+                'header'    => Mage::helper('Mage_SalesRule_Helper_Data')->__('Website'),
                 'align'     =>'left',
                 'index'     => 'website_ids',
                 'type'      => 'options',
                 'sortable'  => false,
-                'options'   => Mage::getSingleton('adminhtml/system_store')->getWebsiteOptionHash(),
+                'options'   => Mage::getSingleton('Mage_Adminhtml_Model_System_Store')->getWebsiteOptionHash(),
                 'width'     => 200,
             ));
         }

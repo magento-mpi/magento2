@@ -27,9 +27,9 @@
 /** @var $installer Enterprise_Reminder_Model_Resource_Setup */
 $installer = $this;
 
-$ruleTable  = $installer->getTable('enterprise_reminder/rule');
-$ruleWebsiteTable = $installer->getTable('enterprise_reminder/website');
-$coreWebsiteTable = $installer->getTable('core/website');
+$ruleTable  = $installer->getTable('enterprise_reminder_rule');
+$ruleWebsiteTable = $installer->getTable('enterprise_reminder_rule_website');
+$coreWebsiteTable = $installer->getTable('core_website');
 $connection = $installer->getConnection();
 
 $installer->startSetup();

@@ -45,14 +45,14 @@ class Enterprise_Checkout_SkuController extends Mage_Core_Controller_Front_Actio
 
         // guest redirected to "Login or Create an Account" page
         /** @var $customerSession Mage_Customer_Model_Session */
-        $customerSession = Mage::getSingleton('customer/session');
+        $customerSession = Mage::getSingleton('Mage_Customer_Model_Session');
         if (!$customerSession->authenticate($this)) {
             $this->setFlag('', 'no-dispatch', true);
             return $this;
         }
 
         /** @var $helper Enterprise_Checkout_Helper_Data */
-        $helper = Mage::helper('enterprise_checkout');
+        $helper = Mage::helper('Enterprise_Checkout_Helper_Data');
         if (!$helper->isSkuEnabled() || !$helper->isSkuApplied()) {
             $this->_redirect('customer/account');
         }
@@ -71,7 +71,7 @@ class Enterprise_Checkout_SkuController extends Mage_Core_Controller_Front_Actio
         $this->_initLayoutMessages('customer/session');
         $headBlock = $this->getLayout()->getBlock('head');
         if ($headBlock) {
-            $headBlock->setTitle(Mage::helper('enterprise_checkout')->__('Order by SKU'));
+            $headBlock->setTitle(Mage::helper('Enterprise_Checkout_Helper_Data')->__('Order by SKU'));
         }
         $this->renderLayout();
     }
@@ -88,7 +88,7 @@ class Enterprise_Checkout_SkuController extends Mage_Core_Controller_Front_Actio
         $uploadError = false;
         if ($data) {
             /** @var $importModel Enterprise_Checkout_Model_Import */
-            $importModel = Mage::getModel('enterprise_checkout/import');
+            $importModel = Mage::getModel('Enterprise_Checkout_Model_Import');
 
             try {
                 if ($importModel->uploadFile()) {
@@ -99,7 +99,7 @@ class Enterprise_Checkout_SkuController extends Mage_Core_Controller_Front_Actio
                 $uploadError = true;
             } catch (Exception $e) {
                 $this->_getSession()->addException($e,
-                    Mage::helper('enterprise_checkout')->__('File upload error.')
+                    Mage::helper('Enterprise_Checkout_Helper_Data')->__('File upload error.')
                 );
                 $uploadError = true;
             }
@@ -112,7 +112,7 @@ class Enterprise_Checkout_SkuController extends Mage_Core_Controller_Front_Actio
                 }
             }
             if (empty($rows) && !$uploadError) {
-                $this->_getSession()->addError(Mage::helper('enterprise_checkout')->__('File is empty.'));
+                $this->_getSession()->addError(Mage::helper('Enterprise_Checkout_Helper_Data')->__('File is empty.'));
             } else {
                 $this->getRequest()->setParam('items', $rows);
                 $this->_forward('advancedAdd', 'cart');
@@ -129,6 +129,6 @@ class Enterprise_Checkout_SkuController extends Mage_Core_Controller_Front_Actio
      */
     protected function _getSession()
     {
-        return Mage::getSingleton('checkout/session');
+        return Mage::getSingleton('Mage_Checkout_Model_Session');
     }
 }

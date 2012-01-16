@@ -71,7 +71,7 @@ class Mage_Adminhtml_Block_Backup_Grid extends Mage_Adminhtml_Block_Widget_Grid
         ));
 
         $this->addColumn('display_name', array(
-            'header'    => Mage::helper('backup')->__('Name'),
+            'header'    => Mage::helper('Mage_Backup_Helper_Data')->__('Name'),
             'index'     => 'display_name',
             'filter'    => false,
             'sortable'  => false,

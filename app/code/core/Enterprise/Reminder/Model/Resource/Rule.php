@@ -243,7 +243,7 @@ class Enterprise_Reminder_Model_Resource_Rule extends Mage_Rule_Model_Resource_A
         $i = 0;
         $ruleId = $rule->getId();
         $adapter = $this->_getWriteAdapter();
-        $couponsTable = $this->getTable('enterprise_reminder/coupon');
+        $couponsTable = $this->getTable('enterprise_reminder_rule_coupon');
         $currentDate = $this->formatDate(time());
         $dataToInsert = array();
 
@@ -414,7 +414,7 @@ class Enterprise_Reminder_Model_Resource_Rule extends Mage_Rule_Model_Resource_A
     public function detachSalesRule($salesRuleId)
     {
         $this->_getWriteAdapter()->update(
-            $this->getTable('enterprise_reminder/rule'),
+            $this->getTable('enterprise_reminder_rule'),
             array('salesrule_id' => new Zend_Db_Expr('NULL')),
             array('salesrule_id = ?' => $salesRuleId)
         );
@@ -448,7 +448,7 @@ class Enterprise_Reminder_Model_Resource_Rule extends Mage_Rule_Model_Resource_A
             case '<=':
                 return $operator;
             default:
-                Mage::throwException(Mage::helper('enterprise_reminder')->__('Unknown operator specified.'));
+                Mage::throwException(Mage::helper('Enterprise_Reminder_Helper_Data')->__('Unknown operator specified.'));
         }
     }
 
@@ -519,7 +519,7 @@ class Enterprise_Reminder_Model_Resource_Rule extends Mage_Rule_Model_Resource_A
     protected function _saveMatchedCustomerData($data)
     {
         if ($data) {
-            $table = $this->getTable('enterprise_reminder/coupon');
+            $table = $this->getTable('enterprise_reminder_rule_coupon');
             $this->_getWriteAdapter()->insertOnDuplicate($table, $data, array('is_active'));
         }
     }

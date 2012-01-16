@@ -172,7 +172,7 @@ class Enterprise_TargetRule_Model_Rule extends Mage_Rule_Model_Abstract
      */
     public function prepareMatchingProducts($onlyId = false)
     {
-        $productCollection = Mage::getResourceModel('catalog/product_collection');
+        $productCollection = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Collection');
 
         if (!$onlyId && !is_null($this->_productIds)) {
             $productCollection->addIdFilter($this->_productIds);

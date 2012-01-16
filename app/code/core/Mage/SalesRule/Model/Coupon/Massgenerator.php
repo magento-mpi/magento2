@@ -74,7 +74,7 @@ class Mage_SalesRule_Model_Coupon_Massgenerator extends Mage_Core_Model_Abstract
         $prefix  = $this->getPrefix();
 
         $splitChar = $this->getDelimiter();
-        $charset = Mage::helper('salesrule/coupon')->getCharset($format);
+        $charset = Mage::helper('Mage_SalesRule_Helper_Coupon')->getCharset($format);
 
         $code = '';
         $charsetSize = count($charset);
@@ -100,7 +100,7 @@ class Mage_SalesRule_Model_Coupon_Massgenerator extends Mage_Core_Model_Abstract
         if ($this->getData('delimiter')) {
             return $this->getData('delimiter');
         } else {
-            return Mage::helper('salesrule/coupon')->getCodeSeparator();
+            return Mage::helper('Mage_SalesRule_Helper_Coupon')->getCodeSeparator();
         }
     }
 
@@ -118,9 +118,9 @@ class Mage_SalesRule_Model_Coupon_Massgenerator extends Mage_Core_Model_Abstract
         $maxAttempts = $this->getMaxAttempts() ? $this->getMaxAttempts() : self::MAX_GENERATE_ATTEMPTS;
 
         /** @var $coupon Mage_SalesRule_Model_Coupon */
-        $coupon = Mage::getModel('salesrule/coupon');
+        $coupon = Mage::getModel('Mage_SalesRule_Model_Coupon');
 
-        $chars = count(Mage::helper('salesrule/coupon')->getCharset($this->getFormat()));
+        $chars = count(Mage::helper('Mage_SalesRule_Helper_Coupon')->getCharset($this->getFormat()));
         $length = (int) $this->getLength();
         $maxCodes = pow($chars, $length);
         $probability = $size / $maxCodes;
@@ -135,14 +135,14 @@ class Mage_SalesRule_Model_Coupon_Massgenerator extends Mage_Core_Model_Abstract
         }
 
         $now = $this->getResource()->formatDate(
-            Mage::getSingleton('core/date')->gmtTimestamp()
+            Mage::getSingleton('Mage_Core_Model_Date')->gmtTimestamp()
         );
 
         for ($i = 0; $i < $size; $i++) {
             $attempt = 0;
             do {
                 if ($attempt >= $maxAttempts) {
-                    Mage::throwException(Mage::helper('salesrule')->__('Unable to create requested Coupon Qty. Please check settings and try again.'));
+                    Mage::throwException(Mage::helper('Mage_SalesRule_Helper_Data')->__('Unable to create requested Coupon Qty. Please check settings and try again.'));
                 }
                 $code = $this->generateCode();
                 $attempt++;

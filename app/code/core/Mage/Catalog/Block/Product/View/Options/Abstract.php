@@ -121,7 +121,7 @@ abstract class Mage_Catalog_Block_Product_View_Options_Abstract extends Mage_Cor
             } elseif ($taxHelper->displayBothPrices()) {
                 $priceStr .= $this->helper('Mage_Core_Helper_Data')->currencyByStore($_priceExclTax, $store, true, $flag);
                 if ($_priceInclTax != $_priceExclTax) {
-                    $priceStr .= ' ('.$sign.$this->helper('core')
+                    $priceStr .= ' ('.$sign.$this->helper('Mage_Core_Helper_Data')
                         ->currencyByStore($_priceInclTax, $store, true, $flag).' '.$this->__('Incl. Tax').')';
                 }
             }

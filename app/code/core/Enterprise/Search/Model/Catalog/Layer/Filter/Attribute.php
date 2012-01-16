@@ -124,7 +124,7 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Attribute extends Mage_Catalo
     public function sortOptions($options)
     {
         $sortedOptions = array();
-        $optionCollection = Mage::getResourceModel('eav/entity_attribute_option_collection')
+        $optionCollection = Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute_Option_Collection')
             ->setAttributeFilter($this->getAttributeModel()->getAttributeId())
             ->setPositionOrder(Varien_Db_Select::SQL_ASC, true)
             ->load();

@@ -63,7 +63,7 @@ Default layout, loads most of the pages
                 <action method="addItemRender"><type>grouped</type><block>Mage_Checkout_Block_Cart_Item_Renderer_Grouped</block><template>cart/item/default.phtml</template></action>
                 <action method="addItemRender"><type>configurable</type><block>Mage_Checkout_Block_Cart_Item_Renderer_Configurable</block><template>cart/item/default.phtml</template></action>
 
-                <block type="core/text_list" name="checkout.cart.empty.widget" as="checkout_cart_empty_widget" translate="label">
+                <block type="Mage_Core_Block_Text_List" name="checkout.cart.empty.widget" as="checkout_cart_empty_widget" translate="label">
                     <label>Empty Shopping Cart Content Before</label>
                 </block>
 
@@ -86,7 +86,7 @@ Default layout, loads most of the pages
 
                 <block type="Mage_Checkout_Block_Cart_Coupon" name="checkout.cart.coupon" as="coupon" template="cart/coupon.phtml"/>
                 <block type="Mage_Checkout_Block_Cart_Shipping" name="checkout.cart.shipping" as="shipping" template="cart/shipping.phtml"/>
-                <block type="core/text_list" name="checkout.cart.widget" as="checkout_cart_widget" translate="label">
+                <block type="Mage_Core_Block_Text_List" name="checkout.cart.widget" as="checkout_cart_widget" translate="label">
                     <label>Shopping Cart Items After</label>
                 </block>
                 <block type="Mage_Checkout_Block_Cart_Crosssell" name="checkout.cart.crosssell" as="crosssell" template="cart/crosssell.phtml"/>

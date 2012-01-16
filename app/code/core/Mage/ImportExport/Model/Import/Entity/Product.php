@@ -1321,8 +1321,8 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
         static $tableName = null;
 
         if (!$tableName) {
-            $tableName = Mage::getModel('importexport/import_proxy_product_resource')
-                ->getTable('catalog/product_attribute_group_price');
+            $tableName = Mage::getModel('Mage_ImportExport_Model_Import_Proxy_Product_Resource')
+                ->getTable('catalog_product_entity_group_price');
         }
         if ($groupPriceData) {
             $groupPriceIn = array();

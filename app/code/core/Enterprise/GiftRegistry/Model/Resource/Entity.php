@@ -223,20 +223,20 @@ class Enterprise_GiftRegistry_Model_Resource_Entity extends Mage_Core_Model_Reso
     public function updateItems($entity, $items)
     {
         try {
-            $session = Mage::getSingleton('customer/session');
+            $session = Mage::getSingleton('Mage_Customer_Model_Session');
             $this->beginTransaction();
             foreach ($items as $id => $item) {
-                $model = Mage::getModel('enterprise_giftregistry/item')->load($id);
+                $model = Mage::getModel('Enterprise_GiftRegistry_Model_Item')->load($id);
                 if ($model->getId() && $model->getEntityId() == $entity->getId()) {
                     if (isset($item['delete'])) {
                         $model->delete();
                     } else {
                         /** @var $stockItem Mage_CatalogInventory_Model_Stock_Item */
-                        $stockItem = Mage::getSingleton('cataloginventory/stock_item');
+                        $stockItem = Mage::getSingleton('Mage_CatalogInventory_Model_Stock_Item');
                         $stockItem->loadByProduct($model->getProductId());
                         if ($stockItem->getIsQtyDecimal() == 0 && $item['qty'] != (int)$item['qty']) {
                             $session->addError(
-                                Mage::helper('enterprise_giftregistry')->__('Wrong gift registry item quantity specified.')
+                                Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Wrong gift registry item quantity specified.')
                             );
                             throw new Exception(''); // not Mage_Core_Exception intentionally
                         }
@@ -246,7 +246,7 @@ class Enterprise_GiftRegistry_Model_Resource_Entity extends Mage_Core_Model_Reso
                     }
                 } else {
                     Mage::throwException(
-                        Mage::helper('enterprise_giftregistry')->__('Wrong gift registry item ID specified.')
+                        Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Wrong gift registry item ID specified.')
                     );
                 }
             }

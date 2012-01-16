@@ -368,7 +368,7 @@ class Mage_Backup_Model_Backup extends Varien_Object
      */
     public function loadByTimeAndType($timestamp, $type)
     {
-        $backupsCollection = Mage::getSingleton('backup/fs_collection');
+        $backupsCollection = Mage::getSingleton('Mage_Backup_Model_Fs_Collection');
         $backupId = $timestamp . '_' . $type;
 
         foreach ($backupsCollection as $backup) {

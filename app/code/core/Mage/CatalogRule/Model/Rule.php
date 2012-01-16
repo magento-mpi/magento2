@@ -112,7 +112,7 @@ class Mage_CatalogRule_Model_Rule extends Mage_Rule_Model_Abstract
      */
     public function getConditionsInstance()
     {
-        return Mage::getModel('catalogrule/rule_condition_combine');
+        return Mage::getModel('Mage_CatalogRule_Model_Rule_Condition_Combine');
     }
 
     /**

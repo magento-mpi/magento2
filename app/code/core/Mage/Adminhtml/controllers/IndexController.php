@@ -216,7 +216,7 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
                     }
                 }
                 $this->_getSession()
-                    ->addSuccess(Mage::helper('Mage_Adminhtml_Helper_Data')->__('If there is an account associated with %s you will receive an email with a link to reset your password.', Mage::helper('adminhtml')->escapeHtml($email)));
+                    ->addSuccess(Mage::helper('Mage_Adminhtml_Helper_Data')->__('If there is an account associated with %s you will receive an email with a link to reset your password.', Mage::helper('Mage_Adminhtml_Helper_Data')->escapeHtml($email)));
                 $this->_redirect('*/*/login');
                 return;
             } else {

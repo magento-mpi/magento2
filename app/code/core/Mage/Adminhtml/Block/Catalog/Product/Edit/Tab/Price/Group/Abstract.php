@@ -143,10 +143,10 @@ abstract class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Group_Abstrac
     public function getCustomerGroups($groupId = null)
     {
         if ($this->_customerGroups === null) {
-            if (!Mage::helper('catalog')->isModuleEnabled('Mage_Customer')) {
+            if (!Mage::helper('Mage_Catalog_Helper_Data')->isModuleEnabled('Mage_Customer')) {
                 return array();
             }
-            $collection = Mage::getModel('customer/group')->getCollection();
+            $collection = Mage::getModel('Mage_Customer_Model_Group')->getCollection();
             $this->_customerGroups = $this->_getInitialCustomerGroups();
 
             foreach ($collection as $item) {
@@ -205,7 +205,7 @@ abstract class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Group_Abstrac
 
         $this->_websites = array(
             0 => array(
-                'name' => Mage::helper('catalog')->__('All Websites'),
+                'name' => Mage::helper('Mage_Catalog_Helper_Data')->__('All Websites'),
                 'currency' => Mage::app()->getBaseCurrencyCode()
             )
         );

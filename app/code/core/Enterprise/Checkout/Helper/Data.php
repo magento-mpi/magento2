@@ -152,7 +152,7 @@ class Enterprise_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
                 break;
             case Enterprise_Checkout_Model_Cart_Sku_Source_Settings::YES_SPECIFIED_GROUPS_VALUE:
                 /** @var $customerSession Mage_Customer_Model_Session */
-                $customerSession = Mage::getSingleton('customer/session');
+                $customerSession = Mage::getSingleton('Mage_Customer_Model_Session');
                 if ($customerSession) {
                     $customer = $customerSession->getCustomer();
                     if ($customer) {
@@ -187,12 +187,12 @@ class Enterprise_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
     public function getFailedItems($all = true)
     {
         if ($all && is_null($this->_itemsAll) || !$all && is_null($this->_items)) {
-            $failedItems = Mage::getModel('enterprise_checkout/cart')->getFailedItems();
-            $collection = Mage::getResourceSingleton('enterprise_checkout/product_collection')
+            $failedItems = Mage::getModel('Enterprise_Checkout_Model_Cart')->getFailedItems();
+            $collection = Mage::getResourceSingleton('Enterprise_Checkout_Model_Resource_Product_Collection')
                 ->addMinimalPrice()
                 ->addFinalPrice()
                 ->addTaxPercents()
-                ->addAttributeToSelect(Mage::getSingleton('catalog/config')->getProductAttributes())
+                ->addAttributeToSelect(Mage::getSingleton('Mage_Catalog_Model_Config')->getProductAttributes())
                 ->addUrlRewrite();
             $itemsToLoad = array();
 
@@ -218,8 +218,8 @@ class Enterprise_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
             if ($ids) {
                 $collection->addIdFilter($ids);
 
-                $quote = Mage::getSingleton('checkout/session')->getQuote();
-                $emptyQuoteItem = Mage::getModel('sales/quote_item');
+                $quote = Mage::getSingleton('Mage_Checkout_Model_Session')->getQuote();
+                $emptyQuoteItem = Mage::getModel('Mage_Sales_Model_Quote_Item');
 
                 /** @var $product Mage_Catalog_Model_Product */
                 foreach ($collection->getItems() as $product) {
@@ -236,14 +236,14 @@ class Enterprise_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
                         ->setRedirectUrl($product->getUrlModel()->getUrl($product));
 
                     $product->setCustomOptions($product->getOptionsByCode());
-                    if (Mage::helper('catalog')->canApplyMsrp($product)) {
+                    if (Mage::helper('Mage_Catalog_Helper_Data')->canApplyMsrp($product)) {
                         $quoteItem->setCanApplyMsrp(true);
                         $product->setRealPriceHtml(
                             Mage::app()->getStore()->formatPrice(Mage::app()->getStore()->convertPrice(
-                                Mage::helper('tax')->getPrice($product, $product->getFinalPrice(), true)
+                                Mage::helper('Mage_Tax_Helper_Data')->getPrice($product, $product->getFinalPrice(), true)
                             ))
                         );
-                        $product->setAddToCartUrl(Mage::helper('checkout/cart')->getAddUrl($product));
+                        $product->setAddToCartUrl(Mage::helper('Mage_Checkout_Helper_Cart')->getAddUrl($product));
                     } else {
                         $quoteItem->setCanApplyMsrp(false);
                     }

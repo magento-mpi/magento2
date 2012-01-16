@@ -216,7 +216,7 @@ class Mage_SalesRule_Model_Observer
         /**
          * @var Mage_SalesRule_Model_Coupon $couponModel
          */
-        $couponModel = Mage::getModel('salesrule/coupon');
+        $couponModel = Mage::getModel('Mage_SalesRule_Model_Coupon');
         $couponModel->loadByCode($couponCode);
 
         $ruleId = $couponModel->getRuleId();
@@ -228,7 +228,7 @@ class Mage_SalesRule_Model_Observer
         /**
          * @var Mage_SalesRule_Model_Rule $ruleModel
          */
-        $ruleModel = Mage::getModel('salesrule/rule');
+        $ruleModel = Mage::getModel('Mage_SalesRule_Model_Rule');
         $ruleModel->load($ruleId);
 
         $order->setCouponRuleName($ruleModel->getName());

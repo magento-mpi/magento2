@@ -216,7 +216,7 @@ class Mage_Catalog_Model_Layer_Filter_Price extends Mage_Catalog_Model_Layer_Fil
     protected function _getCalculatedItemsData()
     {
         /** @var $algorithmModel Mage_Catalog_Model_Layer_Filter_Price_Algorithm */
-        $algorithmModel = Mage::getSingleton('catalog/layer_filter_price_algorithm');
+        $algorithmModel = Mage::getSingleton('Mage_Catalog_Model_Layer_Filter_Price_Algorithm');
         $appliedInterval = $this->getInterval();
         if ($appliedInterval) {
             $algorithmModel->setLimits($appliedInterval[0], $appliedInterval[1]);
@@ -470,7 +470,7 @@ class Mage_Catalog_Model_Layer_Filter_Price extends Mage_Catalog_Model_Layer_Fil
     public function getClearLinkText()
     {
         if (Mage::app()->getStore()->getConfig(self::XML_PATH_RANGE_CALCULATION) == self::RANGE_CALCULATION_AUTO) {
-            return Mage::helper('catalog')->__('Clear Price');
+            return Mage::helper('Mage_Catalog_Helper_Data')->__('Clear Price');
         }
 
         return parent::getClearLinkText();

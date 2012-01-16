@@ -94,7 +94,7 @@ class Enterprise_CustomerSegment_Model_Segment extends Mage_Rule_Model_Abstract
      */
     public function getConditionsInstance()
     {
-        return Mage::getModel('enterprise_customersegment/segment_condition_combine_root');
+        return Mage::getModel('Enterprise_CustomerSegment_Model_Segment_Condition_Combine_Root');
     }
 
     /**
@@ -104,7 +104,7 @@ class Enterprise_CustomerSegment_Model_Segment extends Mage_Rule_Model_Abstract
      */
     public function getActionsInstance()
     {
-        return Mage::getModel('rule/action_collection');
+        return Mage::getModel('Mage_Rule_Model_Action_Collection');
     }
 
     /**

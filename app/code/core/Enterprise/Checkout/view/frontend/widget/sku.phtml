@@ -30,7 +30,7 @@
  *
  * @see Enterprise_Checkout_Block_Widget_Sku
  */
-$uniqueSuffix = '_' . $this->helper('core')->getRandomString(20);
+$uniqueSuffix = '_' . $this->helper('Mage_Core_Helper_Data')->getRandomString(20);
 $skuFormId = "skuForm{$uniqueSuffix}";
 $itemOptionsVariable = 'itemOptions["' . $uniqueSuffix . '"]';
 $qtyValidationClass = 'required-entry validate-number validate-greater-than-zero'

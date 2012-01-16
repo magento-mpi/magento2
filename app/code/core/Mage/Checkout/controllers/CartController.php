@@ -115,7 +115,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
 
                 $warning = Mage::getStoreConfig('sales/minimum_order/description')
                     ? Mage::getStoreConfig('sales/minimum_order/description')
-                    : Mage::helper('checkout')->__('Minimum order amount is %s', $minimumAmount);
+                    : Mage::helper('Mage_Checkout_Helper_Data')->__('Minimum order amount is %s', $minimumAmount);
 
                 $cart->getCheckoutSession()->addNotice($warning);
             }

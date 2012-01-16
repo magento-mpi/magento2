@@ -44,7 +44,7 @@ abstract class Enterprise_Checkout_Block_Adminhtml_Sku_Abstract extends Mage_Adm
      */
     public function __construct()
     {
-        $this->setTemplate('enterprise/checkout/sku/add.phtml');
+        $this->setTemplate('sku/add.phtml');
         // Used by JS to tell accordions from each other
         $this->setId('sku');
         /* @see Enterprise_Checkout_Adminhtml_CheckoutController::_getListItemInfo() */
@@ -63,11 +63,11 @@ abstract class Enterprise_Checkout_Block_Adminhtml_Sku_Abstract extends Mage_Adm
         $headBlock = parent::_prepareLayout()->getLayout()->getBlock('head');
         if ($headBlock) {
             // Head block is not defined on AJAX request
-            $headBlock->addJs('enterprise/adminhtml/addbysku.js');
+            $headBlock->addJs('Enterprise_Checkout::addbysku.js');
         }
 
         $this->setChild('deleteButton',
-            $this->getLayout()->createBlock('adminhtml/widget_button')
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->setData(array(
                     'label'   => '',
                     'onclick' => 'addBySku.del(this)',
@@ -76,7 +76,7 @@ abstract class Enterprise_Checkout_Block_Adminhtml_Sku_Abstract extends Mage_Adm
         );
 
         $this->setChild('addButton',
-            $this->getLayout()->createBlock('adminhtml/widget_button')
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->setData(array(
                     'label'   => '', // Widget button of class 'add' has '+' icon by default
                     'onclick' => 'addBySku.add()',
@@ -127,7 +127,7 @@ abstract class Enterprise_Checkout_Block_Adminhtml_Sku_Abstract extends Mage_Adm
             'skuFieldName'     => $this->getId(),
         );
 
-        $json = Mage::helper('core')->jsonEncode($data);
+        $json = Mage::helper('Mage_Core_Helper_Data')->jsonEncode($data);
         return $json;
     }
 

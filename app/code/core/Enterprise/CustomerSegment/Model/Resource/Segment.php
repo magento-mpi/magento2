@@ -128,7 +128,7 @@ class Enterprise_CustomerSegment_Model_Resource_Segment extends Mage_Rule_Model_
      */
     public function saveCustomersFromSelect($segment, $websiteId, $select)
     {
-        $customerTable = $this->getTable('enterprise_customersegment/customer');
+        $customerTable = $this->getTable('enterprise_customersegment_customer');
         $adapter   = $this->_getWriteAdapter();
         $segmentId = $segment->getId();
         $now       = $this->formatDate(time());
@@ -176,7 +176,7 @@ class Enterprise_CustomerSegment_Model_Resource_Segment extends Mage_Rule_Model_
     {
         $adapter = $this->_getReadAdapter();
         $select = $adapter->select()
-            ->from($this->getTable('enterprise_customersegment/customer'), array('COUNT(DISTINCT customer_id)'))
+            ->from($this->getTable('enterprise_customersegment_customer'), array('COUNT(DISTINCT customer_id)'))
             ->where('segment_id = ?', (int)$segmentId);
 
         return (int)$adapter->fetchOne($select);

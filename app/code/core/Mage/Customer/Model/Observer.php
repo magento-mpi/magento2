@@ -65,7 +65,7 @@ class Mage_Customer_Model_Observer
             return false;
         }
 
-        $configAddressType = Mage::helper('customer/address')->getTaxCalculationAddressType();
+        $configAddressType = Mage::helper('Mage_Customer_Helper_Address')->getTaxCalculationAddressType();
         if ($configAddressType == Mage_Customer_Model_Address_Abstract::TYPE_SHIPPING) {
             return $this->_isDefaultShipping($address);
         }
@@ -101,7 +101,7 @@ class Mage_Customer_Model_Observer
         if ($customerAddress->getId()) {
             Mage::register(self::VIV_CURRENTLY_SAVED_ADDRESS, $customerAddress->getId());
         } else {
-            $configAddressType = Mage::helper('customer/address')->getTaxCalculationAddressType();
+            $configAddressType = Mage::helper('Mage_Customer_Helper_Address')->getTaxCalculationAddressType();
 
             $forceProcess = ($configAddressType == Mage_Customer_Model_Address_Abstract::TYPE_SHIPPING)
                 ? $customerAddress->getIsDefaultShipping() : $customerAddress->getIsDefaultBilling();

@@ -637,7 +637,7 @@ class Mage_Bundle_Model_Resource_Indexer_Price extends Mage_Catalog_Model_Resour
         $select  = $adapter->select()
             ->from(array('i' => $this->_getGroupPriceIndexTable()), null)
             ->join(
-                array('e' => $this->getTable('catalog/product')),
+                array('e' => $this->getTable('catalog_product_entity')),
                 'i.entity_id=e.entity_id',
                 array()
             )
@@ -651,17 +651,17 @@ class Mage_Bundle_Model_Resource_Indexer_Price extends Mage_Catalog_Model_Resour
                 array('entity_id')
             )
             ->join(
-                array('e' => $this->getTable('catalog/product')),
+                array('e' => $this->getTable('catalog_product_entity')),
                 'gp.entity_id=e.entity_id',
                 array()
             )
             ->join(
-                array('cg' => $this->getTable('customer/customer_group')),
+                array('cg' => $this->getTable('customer_group')),
                 'gp.all_groups = 1 OR (gp.all_groups = 0 AND gp.customer_group_id = cg.customer_group_id)',
                 array('customer_group_id')
             )
             ->join(
-                array('cw' => $this->getTable('core/website')),
+                array('cw' => $this->getTable('core_website')),
                 'gp.website_id = 0 OR gp.website_id = cw.website_id',
                 array('website_id')
             )

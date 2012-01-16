@@ -52,7 +52,7 @@ class Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Grid extends Mage_Adminhtml
     protected function _prepareCollection()
     {
         $collection = new Varien_Data_Collection();
-        $removeButtonHtml = $this->getLayout()->createBlock('adminhtml/widget_button', '', array(
+        $removeButtonHtml = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button', '', array(
             'class' => 'delete',
             'label' => '',
             'onclick' => 'addBySku.errorDel(this)'
@@ -69,19 +69,19 @@ class Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Grid extends Mage_Adminhtml
             $item->addData($affectedItem['item']);
             $item->setId($item->getSku());
             /* @var $product Mage_Catalog_Model_Product */
-            $product = Mage::getModel('catalog/product');
+            $product = Mage::getModel('Mage_Catalog_Model_Product');
             if (isset($affectedItem['item']['id'])) {
                 $productId = $affectedItem['item']['id'];
                 $item->setProductId($productId);
                 $product->load($productId);
                 /* @var $stockStatus Mage_CatalogInventory_Model_Stock_Status */
-                $stockStatus = Mage::getModel('cataloginventory/stock_status');
+                $stockStatus = Mage::getModel('Mage_CatalogInventory_Model_Stock_Status');
                 $status = $stockStatus->getProductStatus($productId, $this->getWebsiteId());
                 if (!empty($status[$productId])) {
                     $product->setIsSalable($status[$productId]);
                 }
-                $item->setPrice(Mage::helper('core')->formatPrice($product->getPrice()));
-                $item->setSubtotal(Mage::helper('core')->formatPrice($product->getPrice() * $item->getQty()));
+                $item->setPrice(Mage::helper('Mage_Core_Helper_Data')->formatPrice($product->getPrice()));
+                $item->setSubtotal(Mage::helper('Mage_Core_Helper_Data')->formatPrice($product->getPrice() * $item->getQty()));
             }
             $descriptionBlock = $this->getLayout()->createBlock(
                 'enterprise_checkout/adminhtml_sku_errors_grid_description',

@@ -61,7 +61,7 @@ class Enterprise_Checkout_Block_Cart_Item_Renderer_Failed extends Mage_Core_Bloc
     protected function _getHelper()
     {
         if (is_null($this->_helper)) {
-            $this->_helper = Mage::helper('enterprise_checkout');
+            $this->_helper = Mage::helper('Enterprise_Checkout_Helper_Data');
         }
         return $this->_helper;
     }
@@ -170,7 +170,7 @@ class Enterprise_Checkout_Block_Cart_Item_Renderer_Failed extends Mage_Core_Bloc
                     Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_OUT_OF_STOCK
                 );
             case Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED:
-                $stockItem = Mage::getModel('cataloginventory/stock_item');
+                $stockItem = Mage::getModel('Mage_CatalogInventory_Model_Stock_Item');
                 $stockItem->loadByProduct($this->getProduct());
                 return $this->_getHelper()->getMessage(
                     Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED
@@ -218,7 +218,7 @@ class Enterprise_Checkout_Block_Cart_Item_Renderer_Failed extends Mage_Core_Bloc
      */
     public function getProductThumbnail()
     {
-        return $this->helper('catalog/image')->init($this->getProduct(), 'thumbnail');
+        return $this->helper('Mage_Catalog_Helper_Image')->init($this->getProduct(), 'thumbnail');
     }
 
     /**

@@ -46,12 +46,12 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tabs exten
 
         if ($segment && $segment->getId()) {
             $conditionsSectionContent = $this->getLayout()
-                ->createBlock('enterprise_customersegment/adminhtml_customersegment_edit_tab_conditions')
+                ->createBlock('Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tab_Conditions')
                 ->toHtml();
 
             $this->addTab('conditions_section', array(
-                'label'   => Mage::helper('enterprise_customersegment')->__('Conditions'),
-                'title'   => Mage::helper('enterprise_customersegment')->__('Conditions'),
+                'label'   => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Conditions'),
+                'title'   => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Conditions'),
                 'content' => $conditionsSectionContent,
             ));
 

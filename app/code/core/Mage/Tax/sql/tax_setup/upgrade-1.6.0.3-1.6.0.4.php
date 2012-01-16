@@ -35,7 +35,7 @@ $installer->startSetup();
 
 $installer->getConnection()
     ->modifyColumn(
-        $installer->getTable('tax/tax_calculation_rate'),
+        $installer->getTable('tax_calculation_rate'),
         'zip_from',
         array(
             'type'      => Varien_Db_Ddl_Table::TYPE_TEXT,
@@ -45,7 +45,7 @@ $installer->getConnection()
         )
     )
     ->modifyColumn(
-        $installer->getTable('tax/tax_calculation_rate'),
+        $installer->getTable('tax_calculation_rate'),
         'zip_to',
         array(
             'TYPE'      => Varien_Db_Ddl_Table::TYPE_TEXT,

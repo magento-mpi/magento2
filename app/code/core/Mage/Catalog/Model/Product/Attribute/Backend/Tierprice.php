@@ -60,7 +60,7 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Tierprice
      */
     protected function _getDuplicateErrorMessage()
     {
-        return Mage::helper('catalog')->__('Duplicate website tier price customer group and quantity.');
+        return Mage::helper('Mage_Catalog_Helper_Data')->__('Duplicate website tier price customer group and quantity.');
     }
 
     /**

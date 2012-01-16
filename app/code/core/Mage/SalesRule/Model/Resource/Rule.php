@@ -119,7 +119,7 @@ class Mage_SalesRule_Model_Resource_Rule extends Mage_Rule_Model_Resource_Abstra
 
         // Update auto geterated specific coupons if exists
         if ($object->getUseAutoGeneration() && $object->hasDataChanges()) {
-            Mage::getResourceModel('salesrule/coupon')->updateSpecificCoupons($object);
+            Mage::getResourceModel('Mage_SalesRule_Model_Resource_Coupon')->updateSpecificCoupons($object);
         }
         return parent::_afterSave($object);
     }

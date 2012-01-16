@@ -169,6 +169,6 @@ class Enterprise_TargetRule_Model_Resource_Rule extends Mage_Rule_Model_Resource
      */
     protected function _getRuleProductsTable()
     {
-        return $this->getTable('enterprise_targetrule/product');
+        return $this->getTable('enterprise_targetrule_product');
     }
 }

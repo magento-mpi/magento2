@@ -30,7 +30,7 @@ $installer = $this;
 $installer->startSetup();
 
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('captcha/log'))
+    ->newTable($installer->getTable('captcha_log'))
     ->addColumn('type', Varien_Db_Ddl_Table::TYPE_TEXT, 32, array(
         'nullable'  => false,
         'primary'   => true,

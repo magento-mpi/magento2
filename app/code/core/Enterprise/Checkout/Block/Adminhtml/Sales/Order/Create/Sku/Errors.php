@@ -52,7 +52,7 @@ class Enterprise_Checkout_Block_Adminhtml_Sales_Order_Create_Sku_Errors
     public function getCart()
     {
         if (!$this->_cart) {
-            $session = Mage::getSingleton('adminhtml/session_quote');
+            $session = Mage::getSingleton('Mage_Adminhtml_Model_Session_Quote');
             $this->_cart = parent::getCart()->setSession($session);
         }
         return $this->_cart;

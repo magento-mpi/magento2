@@ -43,7 +43,7 @@ class Mage_Paypal_PayflowadvancedController extends Mage_Paypal_Controller_Expre
 
         $session = $this->_getCheckout();
         if ($session->getLastRealOrderId()) {
-            $order = Mage::getModel('sales/order')->loadByIncrementId($session->getLastRealOrderId());
+            $order = Mage::getModel('Mage_Sales_Model_Order')->loadByIncrementId($session->getLastRealOrderId());
 
             if ($order && $order->getIncrementId() == $session->getLastRealOrderId()) {
                 $allowedOrderStates = array(
@@ -85,7 +85,7 @@ class Mage_Paypal_PayflowadvancedController extends Mage_Paypal_Controller_Expre
         $data = $this->getRequest()->getPost();
         if (isset($data['INVNUM'])) {
             /** @var $paymentModel Mage_Paypal_Model_Payflowadvanced */
-            $paymentModel = Mage::getModel('paypal/payflowadvanced');
+            $paymentModel = Mage::getModel('Mage_Paypal_Model_Payflowadvanced');
             try {
                 $paymentModel->process($data);
             } catch (Exception $e) {

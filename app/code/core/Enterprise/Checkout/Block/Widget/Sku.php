@@ -57,7 +57,7 @@ class Enterprise_Checkout_Block_Widget_Sku
         }
 
         /** @var $helper Enterprise_Checkout_Helper_Data */
-        $helper = Mage::helper('enterprise_checkout');
+        $helper = Mage::helper('Enterprise_Checkout_Helper_Data');
         if (!$helper->isSkuEnabled() || !$helper->isSkuApplied()) {
             return '';
         }

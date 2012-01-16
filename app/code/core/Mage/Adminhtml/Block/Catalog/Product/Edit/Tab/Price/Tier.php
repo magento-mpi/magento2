@@ -34,7 +34,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Tier
      */
     protected function _getInitialCustomerGroups()
     {
-        return array(Mage_Customer_Model_Group::CUST_GROUP_ALL => Mage::helper('catalog')->__('ALL GROUPS'));
+        return array(Mage_Customer_Model_Group::CUST_GROUP_ALL => Mage::helper('Mage_Catalog_Helper_Data')->__('ALL GROUPS'));
     }
 
     /**

@@ -113,7 +113,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Mage_Adminhtml_Bl
         }
         foreach ($attributes as $attribute) {
             /* @var $attribute Mage_Eav_Model_Entity_Attribute */
-            $attribute->setFrontendLabel(Mage::helper('customer')->__($attribute->getFrontend()->getLabel()));
+            $attribute->setFrontendLabel(Mage::helper('Mage_Customer_Helper_Data')->__($attribute->getFrontend()->getLabel()));
             $attribute->unsIsVisible();
         }
         $this->_setFieldset($attributes, $fieldset);

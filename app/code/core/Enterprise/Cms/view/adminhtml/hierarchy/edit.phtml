@@ -52,7 +52,7 @@
 
     function deleteCurrentHierarchy()
     {
-        if (confirm(<?php echo json_encode(Mage::helper('enterprise_cms')->__("Are you sure you want to delete current hierarchy?")); ?>)) {
+        if (confirm(<?php echo json_encode(Mage::helper('Enterprise_Cms_Helper_Data')->__("Are you sure you want to delete current hierarchy?")); ?>)) {
             document.location = '<?php echo $this->getDeleteHierarchyUrl() ?>';
         }
     }

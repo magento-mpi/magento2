@@ -146,7 +146,7 @@ class Mage_SalesRule_Model_Resource_Report_Collection extends Mage_Sales_Model_R
             return $this;
         }
 
-        $rulesList = Mage::getResourceModel('salesrule/report_rule')->getUniqRulesNamesList();
+        $rulesList = Mage::getResourceModel('Mage_SalesRule_Model_Resource_Report_Rule')->getUniqRulesNamesList();
 
         $rulesFilterSqlParts = array();
 

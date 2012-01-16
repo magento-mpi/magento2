@@ -108,7 +108,7 @@ class Enterprise_Reminder_Model_Observer
         $autoGeneration = $rule->getUseAutoGeneration();
 
         if ($couponType == Mage_SalesRule_Model_Rule::COUPON_TYPE_SPECIFIC && !empty($autoGeneration)) {
-            $model = Mage::getModel('enterprise_reminder/rule');
+            $model = Mage::getModel('Enterprise_Reminder_Model_Rule');
             $ruleId = $rule->getId();
             $model->detachSalesRule($ruleId);
         }
@@ -136,7 +136,7 @@ class Enterprise_Reminder_Model_Observer
         $checkbox = $form->getElement('use_auto_generation');
         $checkbox->setNote($checkbox->getNote()
             . '<br />'
-            . Mage::helper('enterprise_reminder')->__('<b>Important</b>: If this shopping cart price rule has been used in an automated email reminder rule it will be automatically unassigned after shopping cart price rule is saved.')
+            . Mage::helper('Enterprise_Reminder_Helper_Data')->__('<b>Important</b>: If this shopping cart price rule has been used in an automated email reminder rule it will be automatically unassigned after shopping cart price rule is saved.')
         );
     }
 }

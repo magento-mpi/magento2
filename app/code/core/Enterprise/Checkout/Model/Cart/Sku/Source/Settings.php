@@ -48,15 +48,15 @@ class Enterprise_Checkout_Model_Cart_Sku_Source_Settings
     {
         return array(
             array(
-                'label' => Mage::helper('enterprise_checkout')->__('Yes, for Specified Customer Groups'),
+                'label' => Mage::helper('Enterprise_Checkout_Helper_Data')->__('Yes, for Specified Customer Groups'),
                 'value' => self::YES_SPECIFIED_GROUPS_VALUE
             ),
             array(
-                'label' => Mage::helper('enterprise_checkout')->__('Yes, for Everyone'),
+                'label' => Mage::helper('Enterprise_Checkout_Helper_Data')->__('Yes, for Everyone'),
                 'value' => self::YES_VALUE
             ),
             array(
-                'label' => Mage::helper('enterprise_checkout')->__('No'),
+                'label' => Mage::helper('Enterprise_Checkout_Helper_Data')->__('No'),
                 'value' => self::NO_VALUE
             ),
         );

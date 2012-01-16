@@ -340,8 +340,8 @@ class Mage_Sales_Model_Observer
         if (is_string($vatRequestId) && !empty($vatRequestId) && is_string($vatRequestDate)
             && !empty($vatRequestDate)
         ) {
-            $orderHistoryComment = Mage::helper('customer')->__('VAT Request Identifier')
-                . ': ' . $vatRequestId . '<br />' . Mage::helper('customer')->__('VAT Request Date')
+            $orderHistoryComment = Mage::helper('Mage_Customer_Helper_Data')->__('VAT Request Identifier')
+                . ': ' . $vatRequestId . '<br />' . Mage::helper('Mage_Customer_Helper_Data')->__('VAT Request Date')
                 . ': ' . $vatRequestDate;
             $orderInstance->addStatusHistoryComment($orderHistoryComment, false);
         }
@@ -356,7 +356,7 @@ class Mage_Sales_Model_Observer
      */
     protected function _getVatRequiredSalesAddress($salesModel, $store = null)
     {
-        $configAddressType = Mage::helper('customer/address')->getTaxCalculationAddressType($store);
+        $configAddressType = Mage::helper('Mage_Customer_Helper_Address')->getTaxCalculationAddressType($store);
         $requiredAddress = null;
         switch ($configAddressType) {
             case Mage_Customer_Model_Address_Abstract::TYPE_SHIPPING:
@@ -377,7 +377,7 @@ class Mage_Sales_Model_Observer
      */
     protected function _getVatRequiredCustomerAddress(Mage_Customer_Model_Customer $customer, $store = null)
     {
-        $configAddressType = Mage::helper('customer/address')->getTaxCalculationAddressType($store);
+        $configAddressType = Mage::helper('Mage_Customer_Helper_Address')->getTaxCalculationAddressType($store);
         $requiredAddress = null;
         switch ($configAddressType) {
             case Mage_Customer_Model_Address_Abstract::TYPE_SHIPPING:
@@ -405,7 +405,7 @@ class Mage_Sales_Model_Observer
 
         $storeId = $customerInstance->getStore();
 
-        $configAddressType = Mage::helper('customer/address')->getTaxCalculationAddressType($storeId);
+        $configAddressType = Mage::helper('Mage_Customer_Helper_Address')->getTaxCalculationAddressType($storeId);
 
         // When VAT is based on billing address then Magento have to handle only billing addresses
         $additionalBillingAddressCondition = ($configAddressType == Mage_Customer_Model_Address_Abstract::TYPE_BILLING)

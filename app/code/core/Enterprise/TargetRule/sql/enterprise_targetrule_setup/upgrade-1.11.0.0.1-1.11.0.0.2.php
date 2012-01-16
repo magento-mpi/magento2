@@ -30,11 +30,11 @@ $connection = $installer->getConnection();
 
 $installer->startSetup();
 
-$targetRuleCustomerSegmentTable = $this->getTable('enterprise_targetrule/customersegment');
+$targetRuleCustomerSegmentTable = $this->getTable('enterprise_targetrule_customersegment');
 if ($connection->isTableExists($targetRuleCustomerSegmentTable)) {
     $connection->dropTable($targetRuleCustomerSegmentTable);
 }
-$connection->dropColumn($installer->getTable('enterprise_targetrule/rule'), 'use_customer_segment');
-$connection->dropColumn($installer->getTable('enterprise_targetrule/product'), 'store_id');
+$connection->dropColumn($installer->getTable('enterprise_targetrule'), 'use_customer_segment');
+$connection->dropColumn($installer->getTable('enterprise_targetrule_product'), 'store_id');
 
 $installer->endSetup();

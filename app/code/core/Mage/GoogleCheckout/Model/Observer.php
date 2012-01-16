@@ -29,7 +29,7 @@ class Mage_GoogleCheckout_Model_Observer
 
         // Process only Google Checkout internal methods
         /* @var $gcCarrier Mage_GoogleCheckout_Model_Shipping */
-        $gcCarrier = Mage::getModel('googlecheckout/shipping');
+        $gcCarrier = Mage::getModel('Mage_GoogleCheckout_Model_Shipping');
         list($carrierCode, $methodCode) = explode('_', $shippingMethod);
         if ($gcCarrier->getCarrierCode() != $carrierCode) {
             return;

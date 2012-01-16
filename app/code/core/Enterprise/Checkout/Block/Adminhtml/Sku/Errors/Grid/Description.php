@@ -43,7 +43,7 @@ class Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Grid_Description extends Ma
      */
     public function __construct()
     {
-        $this->setTemplate('enterprise/checkout/sku/errors/grid/description.phtml');
+        $this->setTemplate('sku/errors/grid/description.phtml');
     }
 
     /**
@@ -55,11 +55,11 @@ class Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Grid_Description extends Ma
     {
         $canConfigure = $this->getProduct()->canConfigure();
         /* @var $button Mage_Adminhtml_Block_Widget_Button */
-        $button = $this->getLayout()->createBlock('adminhtml/widget_button', '', array(
+        $button = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button', '', array(
             'class'    => $canConfigure ? '' : 'disabled',
             'onclick'  => $canConfigure ? "addBySku.configure({$this->getProduct()->getId()})" : '',
             'disabled' => !$canConfigure,
-            'label'    => Mage::helper('enterprise_checkout')->__('Configure'),
+            'label'    => Mage::helper('Enterprise_Checkout_Helper_Data')->__('Configure'),
         ));
 
         return $button->toHtml();
@@ -84,6 +84,6 @@ class Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Grid_Description extends Ma
      */
     public function getErrorMessageByCode($code)
     {
-        return Mage::helper('enterprise_checkout')->getMessage($code);
+        return Mage::helper('Enterprise_Checkout_Helper_Data')->getMessage($code);
     }
 }

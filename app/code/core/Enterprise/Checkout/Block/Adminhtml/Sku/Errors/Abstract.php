@@ -61,7 +61,7 @@ abstract class Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Abstract extends M
     public function __construct()
     {
         $this->setListType(self::LIST_TYPE);
-        $this->setTemplate('enterprise/checkout/sku/errors.phtml');
+        $this->setTemplate('sku/errors.phtml');
     }
 
     /**
@@ -96,7 +96,7 @@ abstract class Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Abstract extends M
             'onclick' => 'addBySku.removeAllFailed()',
             'class'   => 'delete',
         );
-        return $this->getLayout()->createBlock('adminhtml/widget_button')->setData($buttonData)->toHtml();
+        return $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')->setData($buttonData)->toHtml();
     }
 
     /**
@@ -151,7 +151,7 @@ abstract class Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Abstract extends M
     public function getCart()
     {
         if (!$this->_cart) {
-            $this->_cart =  Mage::getModel('enterprise_checkout/cart');
+            $this->_cart =  Mage::getModel('Enterprise_Checkout_Model_Cart');
         }
         return $this->_cart;
     }

@@ -245,7 +245,7 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
         if (empty($productIds)) {
             return array();
         }
-        $resource = Mage::getSingleton('core/resource');
+        $resource = Mage::getSingleton('Mage_Core_Model_Resource');
         $select = $this->_connection->select()
             ->from($resource->getTableName('catalog/product_attribute_group_price'))
             ->where('entity_id IN(?)', $productIds);

@@ -55,7 +55,7 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Coupons_Grid extends Mage_Adminh
         /**
          * @var Mage_SalesRule_Model_Resource_Coupon_Collection $collection
          */
-        $collection = Mage::getResourceModel('salesrule/coupon_collection')
+        $collection = Mage::getResourceModel('Mage_SalesRule_Model_Resource_Coupon_Collection')
             ->addRuleToFilter($priceRule)
             ->addGeneratedCouponsFilter();
 
@@ -72,12 +72,12 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Coupons_Grid extends Mage_Adminh
     protected function _prepareColumns()
     {
         $this->addColumn('code', array(
-            'header' => Mage::helper('salesrule')->__('Coupon Code'),
+            'header' => Mage::helper('Mage_SalesRule_Helper_Data')->__('Coupon Code'),
             'index'  => 'code'
         ));
 
         $this->addColumn('created_at', array(
-            'header' => Mage::helper('salesrule')->__('Created On'),
+            'header' => Mage::helper('Mage_SalesRule_Helper_Data')->__('Created On'),
             'index'  => 'created_at',
             'type'   => 'datetime',
             'align'  => 'center',
@@ -85,29 +85,29 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Coupons_Grid extends Mage_Adminh
         ));
 
         $this->addColumn('used', array(
-            'header'   => Mage::helper('salesrule')->__('Used'),
+            'header'   => Mage::helper('Mage_SalesRule_Helper_Data')->__('Used'),
             'index'    => 'times_used',
             'width'    => '100',
             'type'     => 'options',
             'options'  => array(
-                Mage::helper('adminhtml')->__('No'),
-                Mage::helper('adminhtml')->__('Yes')
+                Mage::helper('Mage_Adminhtml_Helper_Data')->__('No'),
+                Mage::helper('Mage_Adminhtml_Helper_Data')->__('Yes')
             ),
             'renderer' => 'adminhtml/promo_quote_edit_tab_coupons_grid_column_renderer_used',
             'filter_condition_callback' => array(
-                Mage::getResourceModel('salesrule/coupon_collection'), 'addIsUsedFilterCallback'
+                Mage::getResourceModel('Mage_SalesRule_Model_Resource_Coupon_Collection'), 'addIsUsedFilterCallback'
             )
         ));
 
         $this->addColumn('times_used', array(
-            'header' => Mage::helper('salesrule')->__('Times Used'),
+            'header' => Mage::helper('Mage_SalesRule_Helper_Data')->__('Times Used'),
             'index'  => 'times_used',
             'width'  => '50',
             'type'   => 'number',
         ));
 
-        $this->addExportType('*/*/exportCouponsCsv', Mage::helper('customer')->__('CSV'));
-        $this->addExportType('*/*/exportCouponsXml', Mage::helper('customer')->__('Excel XML'));
+        $this->addExportType('*/*/exportCouponsCsv', Mage::helper('Mage_Customer_Helper_Data')->__('CSV'));
+        $this->addExportType('*/*/exportCouponsXml', Mage::helper('Mage_Customer_Helper_Data')->__('Excel XML'));
         return parent::_prepareColumns();
     }
 
@@ -124,9 +124,9 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Coupons_Grid extends Mage_Adminh
         $this->getMassactionBlock()->setHideFormElement(true);
 
         $this->getMassactionBlock()->addItem('delete', array(
-             'label'=> Mage::helper('adminhtml')->__('Delete'),
+             'label'=> Mage::helper('Mage_Adminhtml_Helper_Data')->__('Delete'),
              'url'  => $this->getUrl('*/*/couponsMassDelete', array('_current' => true)),
-             'confirm' => Mage::helper('salesrule')->__('Are you sure you want to delete the selected coupon(s)?'),
+             'confirm' => Mage::helper('Mage_SalesRule_Helper_Data')->__('Are you sure you want to delete the selected coupon(s)?'),
              'complete' => 'refreshCouponCodesGrid'
         ));
 

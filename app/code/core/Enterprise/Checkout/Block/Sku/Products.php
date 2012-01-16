@@ -49,7 +49,7 @@ class Enterprise_Checkout_Block_Sku_Products extends Mage_Checkout_Block_Cart
      */
     protected function _getHelper()
     {
-        return Mage::helper('enterprise_checkout');
+        return Mage::helper('Enterprise_Checkout_Helper_Data');
     }
 
     /**
@@ -98,7 +98,7 @@ class Enterprise_Checkout_Block_Sku_Products extends Mage_Checkout_Block_Cart
         }
 
         if ($products) {
-            $products = Mage::getResourceSingleton('catalog/url')
+            $products = Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Url')
                 ->getRewriteByProductStore($products);
             foreach ($this->getItems() as $item) {
                 if ($item->getProductType() == 'undefined') {
@@ -130,12 +130,12 @@ class Enterprise_Checkout_Block_Sku_Products extends Mage_Checkout_Block_Cart
         $renderer = $this->getItemRenderer($item->getProductType());
 
         if ($item->getProductType() == 'undefined') {
-            $renderer->overrideProductThumbnail($this->helper('catalog/image')->init($item, 'thumbnail'));
+            $renderer->overrideProductThumbnail($this->helper('Mage_Catalog_Helper_Image')->init($item, 'thumbnail'));
             $renderer->setProductName('');
         }
         $renderer->setDeleteUrl(
             $this->getUrl('checkout/cart/removeFailed', array(
-                'sku' => Mage::helper('core/url')->urlEncode($item->getSku())
+                'sku' => Mage::helper('Mage_Core_Helper_Url')->urlEncode($item->getSku())
             ))
         );
         return parent::getItemHtml($item);

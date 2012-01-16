@@ -566,7 +566,7 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Price_Default
      */
     protected function _getGroupPriceIndexTable()
     {
-        return $this->getTable('catalog/product_index_group_price');
+        return $this->getTable('catalog_product_index_group_price');
     }
 
     /**

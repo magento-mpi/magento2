@@ -70,7 +70,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes extends Mage_Admi
             $groupPrice = $form->getElement('group_price');
             if ($groupPrice) {
                 $groupPrice->setRenderer(
-                    $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_price_group')
+                    $this->getLayout()->createBlock('Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Group')
                 );
             }
 

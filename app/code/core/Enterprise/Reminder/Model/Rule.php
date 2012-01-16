@@ -118,7 +118,7 @@ class Enterprise_Reminder_Model_Rule extends Mage_Rule_Model_Abstract
      */
     public function getActionsInstance()
     {
-        return Mage::getModel('rule/action_collection');
+        return Mage::getModel('Mage_Rule_Model_Action_Collection');
     }
 
     /**

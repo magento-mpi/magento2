@@ -34,6 +34,6 @@ $installer = $this;
 /** @var $connection Varien_Db_Adapter_Pdo_Mysql */
 $connection = $installer->getConnection();
 $connection->changeTableEngine(
-    $installer->getTable('downloadable/product_price_indexer_tmp'),
+    $installer->getTable('catalog_product_index_price_downlod_tmp'),
     Varien_Db_Adapter_Pdo_Mysql::ENGINE_MEMORY
 );

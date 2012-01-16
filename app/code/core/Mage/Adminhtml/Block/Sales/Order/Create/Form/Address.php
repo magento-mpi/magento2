@@ -160,7 +160,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Form_Address
         $vatIdElement = $this->_form->getElement('vat_id');
         if ($vatIdElement && $this->getDisplayVatValidationButton() !== false) {
             $vatIdElement->setRenderer(
-                $this->getLayout()->createBlock('adminhtml/customer_sales_order_address_form_renderer_vat')
+                $this->getLayout()->createBlock('Mage_Adminhtml_Block_Customer_Sales_Order_Address_Form_Renderer_Vat')
                     ->setJsVariablePrefix($this->getJsVariablePrefix())
             );
         }
