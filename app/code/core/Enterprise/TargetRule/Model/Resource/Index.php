@@ -148,13 +148,10 @@ class Enterprise_TargetRule_Model_Resource_Index extends Mage_Index_Model_Resour
                     $this->getTypeIndex($object->getType())->loadProductIdsBySegmentId($object, $segmentId));
             } else {
                 $matchedProductIds = $this->_matchProductIdsBySegmentId($object, $segmentId);
-                if ($matchedProductIds) {
-                    $productIds = array_merge($matchedProductIds, $productIds);
-                    $value = join(',', $matchedProductIds);
-                    $this->getTypeIndex($object->getType())
-                        ->saveResultForCustomerSegments($object, $segmentId, $value);
-                    $this->saveFlag($object, $segmentId);
-                }
+                $productIds = array_merge($matchedProductIds, $productIds);
+                $this->getTypeIndex($object->getType())
+                    ->saveResultForCustomerSegments($object, $segmentId, join(',', $matchedProductIds));
+                $this->saveFlag($object, $segmentId);
             }
         }
         $productIds = array_diff(array_unique($productIds), $object->getExcludeProductIds());
