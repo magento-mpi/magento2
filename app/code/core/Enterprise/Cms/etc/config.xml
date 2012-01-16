@@ -119,14 +119,6 @@
                 </menu>
             </hierarchy>
         </enterprise_cms>
-        <logging_actions>
-            <preview translate="label" module="enterprise_cms">
-                <label>Preview</label>
-            </preview>
-            <publish translate="label" module="enterprise_cms">
-                <label>Publish</label>
-            </publish>
-        </logging_actions>
     </global>
     <frontend>
         <events>
