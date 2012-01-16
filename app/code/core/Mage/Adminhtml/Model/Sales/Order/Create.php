@@ -32,7 +32,7 @@
  * @package     Mage_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
+class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object implements Mage_Checkout_Model_Cart_Interface
 {
     /**
      * Quote session object
@@ -110,6 +110,13 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
      * @var array
      */
     protected $_errors = array();
+
+    /**
+     * Quote associated with the model
+     *
+     * @var Mage_Sales_Model_Quote
+     */
+    protected $_quote;
 
     public function __construct()
     {
@@ -233,7 +240,22 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
      */
     public function getQuote()
     {
-        return $this->getSession()->getQuote();
+        if (!$this->_quote) {
+            $this->_quote = $this->getSession()->getQuote();
+        }
+        return $this->_quote;
+    }
+
+    /**
+     * Set quote object
+     *
+     * @param Mage_Sales_Model_Quote $quote
+     * @return Mage_Adminhtml_Model_Sales_Order_Create
+     */
+    public function setQuote(Mage_Sales_Model_Quote $quote)
+    {
+        $this->_quote = $quote;
+        return $this;
     }
 
     /**

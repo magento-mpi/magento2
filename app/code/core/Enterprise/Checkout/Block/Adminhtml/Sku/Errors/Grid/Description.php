@@ -76,14 +76,14 @@ class Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Grid_Description extends Ma
     }
 
     /**
-     * Returns error message by its code
+     * Returns error message of the item
      * @see Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_* constants for $code
      *
-     * @param string $code
+     * @param Varien_Object $item
      * @return string
      */
-    public function getErrorMessageByCode($code)
+    public function getErrorMessage($item)
     {
-        return Mage::helper('enterprise_checkout')->getMessage($code);
+        return Mage::helper('enterprise_checkout')->getMessageByItem($item);
     }
 }
