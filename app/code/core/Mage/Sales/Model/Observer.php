@@ -444,11 +444,9 @@ class Mage_Sales_Model_Observer
             $groupId = ($customerInstance->getId()) ? $customerHelper->getDefaultCustomerGroupId($storeId)
                 : Mage_Customer_Model_Group::NOT_LOGGED_IN_ID;
 
-            if ($groupId) {
-                $quoteAddress->setPrevQuoteCustomerGroupId($quoteInstance->getCustomerGroupId());
-                $customerInstance->setGroupId($groupId);
-                $quoteInstance->setCustomerGroupId($groupId);
-            }
+            $quoteAddress->setPrevQuoteCustomerGroupId($quoteInstance->getCustomerGroupId());
+            $customerInstance->setGroupId($groupId);
+            $quoteInstance->setCustomerGroupId($groupId);
 
             return;
         }
