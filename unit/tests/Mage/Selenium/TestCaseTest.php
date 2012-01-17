@@ -27,10 +27,64 @@
  */
 class Mage_Selenium_TestCaseTest extends Mage_PHPUnit_TestCase
 {
+    /**
+     * @covers Mage_Selenium_TestCase::__construct
+     */
     public function test__construct()
     {
         $instance = new Mage_Selenium_TestCase();
         $this->assertInstanceOf('Mage_Selenium_TestCase', $instance);
+    }
+
+    /**
+     * @covers Mage_Selenium_TestCase::assertEmptyVerificationErrors
+     *
+     * @TODO need to clear messages
+     */
+    public function testAssertEmptyVerificationErrorsTrue()
+    {
+        $instance = new Mage_Selenium_TestCase();
+        $instance->assertEmptyVerificationErrors();
+
+        $instance->addMessage('error', 'testAssertEmptyVerificationErrors error');
+        $instance->assertEmptyVerificationErrors();
+
+        $instance->addMessage('success', 'testAssertEmptyVerificationErrors success');
+        $instance->assertEmptyVerificationErrors();
+
+        $instance->addMessage('validation', 'testAssertEmptyVerificationErrors validation');
+        $instance->assertEmptyVerificationErrors();
+    }
+
+    /**
+     * @covers Mage_Selenium_TestCase::assertEmptyVerificationErrors
+     */
+    public function testAssertEmptyVerificationErrorsFalse()
+    {
+        $instance = new Mage_Selenium_TestCase();
+        $instance->addVerificationMessage('testAssertEmptyVerificationErrorsFalse');
+        try {
+            $instance->assertEmptyVerificationErrors();
+        } catch (PHPUnit_Framework_ExpectationFailedException $expected) {
+            return;
+        }
+        $this->fail('An expected exception has not been raised.');
+    }
+
+    /**
+     * @covers Mage_Selenium_TestCase::addVerificationMessage
+     * @covers Mage_Selenium_TestCase::getParsedMessages
+     */
+    public function testAddGetVerificationMessage()
+    {
+        $instance = new Mage_Selenium_TestCase();
+        $this->assertEmpty($instance->getParsedMessages('verification'));
+        $message1 = 'Verification message';
+        $instance->addVerificationMessage($message1);
+        $this->assertEquals($instance->getParsedMessages('verification'), array($message1));
+        $message2 = 'Second verification message';
+        $instance->addVerificationMessage($message2);
+        $this->assertEquals($instance->getParsedMessages('verification'), array($message1, $message2));
     }
 
     /**

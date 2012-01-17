@@ -333,7 +333,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         return parent::__call($command, $arguments);
     }
 
-
     /**
      * Access/load helpers from the tests. Helper class name should be like "TestScope_HelperName"
      *
@@ -1910,9 +1909,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                     ? Mage_Selenium_TestCase::$_messages[$type]
                     : null;
         }
-        if (!empty($this->verificationErrors)) {
-            Mage_Selenium_TestCase::$_messages['verification'] = $this->verificationErrors;
-        }
         return Mage_Selenium_TestCase::$_messages;
     }
 
@@ -1955,13 +1951,16 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     }
 
     /**
-     * Assert $this->verificationErrors is empty
+     * Assert there are no verification errors
+     *
+     * @throws PHPUnit_Framework_ExpectationFailedException
      */
     public function assertEmptyVerificationErrors()
     {
-        if (isset(Mage_Selenium_TestCase::$_messages['verification'])) {
-            $this->fail(implode("\n", Mage_Selenium_TestCase::$_messages['verification']));
-        }
+        $verificationErrors = (isset(Mage_Selenium_TestCase::$_messages['verification']))
+                                    ? Mage_Selenium_TestCase::$_messages['verification']
+                                    : array();
+        $this->assertEmpty($verificationErrors, implode("\n", $verificationErrors));
     }
 
     /**
