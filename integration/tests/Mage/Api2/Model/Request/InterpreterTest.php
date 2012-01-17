@@ -26,39 +26,27 @@
  */
 
 /**
- * Test Api2 server model
+ * Request content interpreter factory
+ *
+ * @category    Mage
+ * @package     Mage_Api2
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Api2_Model_Request_InterpreterTest extends Magento_TestCase
 {
     /**
-     * Test get product in HTML format
+     * Test request content interpreter factory
      */
     public function testFactoryInputTypes()
     {
         $data = array(
-            'application/xml'   => 'Mage_Api2_Model_Request_Interpreter_Xml',
-            'application/json'  => 'Mage_Api2_Model_Request_Interpreter_Json',
-            'text/plain'        => 'Mage_Api2_Model_Request_Interpreter_Query',
+            'application/xml'   => 'api2/request_interpreter_xml',
+            'application/json'  => 'api2/request_interpreter_json',
+            'text/plain'        => 'api2/request_interpreter_query',
         );
-
-        $request = new Mage_Api2_Model_Request();
-        foreach ($data as $type=>$class) {
-            $_SERVER['HTTP_CONTENT_TYPE'] = $type;
-            $interpreter = Mage_Api2_Model_Request_Interpreter::factory($request);
-            $this->assertInstanceOf($class, $interpreter);
+        foreach ($data as $type => $expectedClass) {
+            $interpreter = Mage_Api2_Model_Request_Interpreter::factory($type);
+            $this->assertInstanceOf($expectedClass, $interpreter);
         }
-
-        $data = array(
-            'api2/request_interpreter_xml'     => 'Mage_Api2_Model_Request_Interpreter_Xml',
-            'api2/request_interpreter_json'    => 'Mage_Api2_Model_Request_Interpreter_Json',
-            'api2/request_interpreter_query'   => 'Mage_Api2_Model_Request_Interpreter_Query',
-        );
-
-        foreach ($data as $id=>$class) {
-            $interpreter = Mage_Api2_Model_Request_Interpreter::factory($id);
-            $this->assertInstanceOf($class, $interpreter);
-        }
-
-
     }
 }
