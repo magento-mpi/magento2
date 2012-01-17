@@ -26,7 +26,7 @@
  */
 -->
 <translater>
-    <sales-order-create-addproducts translate="message" module="checkout">
+    <sales-order-create-addproducts translate="message" module="enterprise_checkout">
         <message>Add Products By SKU</message>
     </sales-order-create-addproducts>
 </translater>
