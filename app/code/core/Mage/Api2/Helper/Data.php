@@ -193,12 +193,10 @@ class Mage_Api2_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Get interpreter type for Request body according to Content-type HTTP header
      *
-     * @throws Mage_Api2_Exception
      * @return array
      */
     public function getRequestInterpreterAdapters()
     {
-        $adapters = (array) Mage::app()->getConfig()->getNode(self::XML_PATH_API2_REQUEST_INTERPRETERS);
-        return $adapters;
+        return (array) Mage::app()->getConfig()->getNode(self::XML_PATH_API2_REQUEST_INTERPRETERS);
     }
 }

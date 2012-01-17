@@ -37,8 +37,8 @@ interface Mage_Api2_Model_Request_Interpreter_Interface
      * Parse request body into array of params
      *
      * @abstract
-     * @param string $body
-     * @return array
+     * @param string $body  Posted content from request
+     * @return array|null   Return NULL if content is invalid
      */
     public function interpret($body);
 }

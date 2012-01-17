@@ -36,11 +36,15 @@ class Mage_Api2_Model_Request_Interpreter_Json implements Mage_Api2_Model_Reques
     /**
      * Parse Request body into array of params
      *
-     * @param string $body
-     * @return array
+     * @param string $body  Posted content from request
+     * @return array|null   Return NULL if content is invalid
+     * @throws Exception
      */
     public function interpret($body)
     {
+        if (!is_string($body)) {
+            throw new Exception('Content is not a string.');
+        }
         return Zend_Json::decode($body);
     }
 }
