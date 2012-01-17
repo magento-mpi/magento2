@@ -819,6 +819,8 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
         unset($htmlTranslationTable['<'], $htmlTranslationTable['>'], $htmlTranslationTable['"']);
         $response = str_replace(array_keys($htmlTranslationTable), array_values($htmlTranslationTable), $response);
 
+        $responseError =  Mage::helper('usa')->__('The response is in wrong format.');
+
         if (strlen(trim($response)) > 0) {
             if (strpos(trim($response), '<?xml') === 0) {
                 $xml = simplexml_load_string($response);
@@ -865,15 +867,15 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
                             }
                             return $result;
                         } else {
-                            $this->_errors[] = Mage::helper('usa')->__('The response is in wrong format.');
+                            $this->_errors[] = $responseError;
                         }
                     }
                 }
             } else {
-                $this->_errors[] = Mage::helper('usa')->__('The response is in wrong format.');
+                $this->_errors[] = $responseError;
             }
         } else {
-            $this->_errors[] = Mage::helper('usa')->__('The response is in wrong format.');
+            $this->_errors[] = $responseError;
         }
 
         /* @var $result Mage_Shipping_Model_Rate_Result */
@@ -894,7 +896,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
             }
         } else if (!empty($this->_errors)) {
             if ($this->_isShippingLabelFlag) {
-                Mage::throwException(Mage::helper('usa')->__('The response is in wrong format.'));
+                Mage::throwException($responseError);
             }
             return $this->_showError();
         }

@@ -146,8 +146,9 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Attribute extends Mage_Catalo
             ->load();
 
         foreach ($optionCollection as $option) {
-            if(array_key_exists($option->getValue(), $options)) {
-                $sortedOptions[$option->getValue()] = $options[$option->getValue()];
+            $optionValue = trim($option->getValue());
+            if(array_key_exists($optionValue, $options)) {
+                $sortedOptions[$optionValue] = $options[$optionValue];
             }
         }
         return $sortedOptions;

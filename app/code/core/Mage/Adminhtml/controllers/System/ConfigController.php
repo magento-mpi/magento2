@@ -161,6 +161,11 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
 
             // reinit configuration
             Mage::getConfig()->reinit();
+            Mage::dispatchEvent('admin_system_config_section_save_after', array(
+                'website' => $website,
+                'store'   => $store,
+                'section' => $section
+            ));
             Mage::app()->reinitStores();
 
             // website and store codes can be used in event implementation, so set them as well

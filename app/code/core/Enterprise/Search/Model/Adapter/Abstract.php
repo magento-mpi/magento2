@@ -716,7 +716,7 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
      */
     protected function _prepareFilterQueryText($text)
     {
-        $words = explode(' ', $text);
+        $words = explode(' ', trim($text));
         if (count($words) > 1) {
             $text = $this->_phrase($text);
         } else {

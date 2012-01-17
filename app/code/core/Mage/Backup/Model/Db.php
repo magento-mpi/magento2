@@ -37,10 +37,10 @@ class Mage_Backup_Model_Db
 
     /**
      * Buffer length for multi rows
-     * default 512 Kb
+     * default 100 Kb
      *
      */
-    const BUFFER_LENGTH = 524288;
+    const BUFFER_LENGTH = 102400;
 
     /**
      * Retrieve resource model

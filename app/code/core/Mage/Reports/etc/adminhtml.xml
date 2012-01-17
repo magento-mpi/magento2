@@ -99,10 +99,6 @@
                             <title>Low stock</title>
                             <action>adminhtml/report_product/lowstock</action>
                         </lowstock>
-                        <downloads translate="title" module="reports">
-                            <title>Downloads</title>
-                            <action>adminhtml/report_product/downloads</action>
-                        </downloads>
                     </children>
                 </products>
                 <customers translate="title" module="reports">
