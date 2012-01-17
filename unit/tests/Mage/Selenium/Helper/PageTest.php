@@ -44,9 +44,9 @@ class Mage_Selenium_Helper_PageTest extends Mage_PHPUnit_TestCase
     {
         $pageHelper = new Mage_Selenium_Helper_Page($this->_config);
         $appHelper = new Mage_Selenium_Helper_Application($this->_config);
-        $appHelper->setArea('frontend');
+       // $appHelper->setArea('frontend');
         $pageHelper->setApplicationHelper($appHelper);
-        $this->assertStringEndsWith('home', $pageHelper->getPageUrl('home'));
+        $this->assertStringEndsWith('home', $pageHelper->getPageUrl('frontend','home'));
     }
 
     /**
@@ -56,7 +56,7 @@ class Mage_Selenium_Helper_PageTest extends Mage_PHPUnit_TestCase
     {
         $pageHelper = new Mage_Selenium_Helper_Page($this->_config);
         $this->setExpectedException('Mage_Selenium_Exception', "ApplicationHelper hasn't been initialized yet");
-        $this->assertStringEndsWith('/control/permissions_user/', $pageHelper->getPageUrl('manage_admin_users'));
+        $this->assertStringEndsWith('/control/permissions_user/', $pageHelper->getPageUrl('admin','manage_admin_users'));
     }
 
     /**
@@ -66,11 +66,11 @@ class Mage_Selenium_Helper_PageTest extends Mage_PHPUnit_TestCase
     {
         $pageHelper = new Mage_Selenium_Helper_Page($this->_config);
         $appHelper = new Mage_Selenium_Helper_Application($this->_config);
-        $appHelper->setArea('admin');
+        //$appHelper->setArea('admin');
         $pageHelper->setApplicationHelper($appHelper);
 
         $this->setExpectedException('Mage_Selenium_Exception', 'Page data is not defined');
-        $pageHelper->getPageUrl('');
+        $pageHelper->getPageUrl('admin','');
     }
 
     /**
@@ -81,10 +81,10 @@ class Mage_Selenium_Helper_PageTest extends Mage_PHPUnit_TestCase
     {
         $pageHelper = new Mage_Selenium_Helper_Page($this->_config);
         $appHelper = new Mage_Selenium_Helper_Application($this->_config);
-        $appHelper->setArea('admin-bla-bla-bla');
+        //$appHelper->setArea('admin-bla-bla-bla');
         $pageHelper->setApplicationHelper($appHelper);
-
-        $this->assertFalse($pageHelper->getPageUrl('some_page'));
+        $this->setExpectedException('Mage_Selenium_Exception', 'Page data is not defined');
+        $this->assertFalse($pageHelper->getPageUrl('admin-bla-bla-bla','some_page'));
     }
 
     /**
@@ -98,6 +98,6 @@ class Mage_Selenium_Helper_PageTest extends Mage_PHPUnit_TestCase
         $appHelper->setArea('admin');
         $pageHelper->setApplicationHelper($appHelper);
 
-        $this->assertFalse($pageHelper->getPageUrl('some_page'));
+        $this->assertFalse($pageHelper->getPageUrl('admin','some_page'));
     }
 }

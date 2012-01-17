@@ -50,7 +50,10 @@ class Mage_FunctionsTest extends Mage_PHPUnit_TestCase
                 array('browser' => array('default' => array('browser' => 'firefox'), 'firefox'), 'applications' => array('magento-ce'))),
             array(array('a1' => array('b1' => array('c1' => 'c1Value')), 'a2' => array('b2')),
                 'string',
-                array('a1' => array('b1' => array('c1' => 'c1Value')), 'a2' => array('b2'))),
+                null),
+            array('string',
+                   array('a1' => array('b1' => array('c1' => 'c1Value')), 'a2' => array('b2')),
+                   null),
         );
     }
 
