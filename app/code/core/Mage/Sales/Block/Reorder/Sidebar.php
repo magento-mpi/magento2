@@ -27,6 +27,8 @@
 /**
  * Sales order view block
  *
+ * @method int|null getCustomerId()
+ *
  * @category   Mage
  * @package    Mage_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
@@ -118,7 +120,7 @@ class Mage_Sales_Block_Reorder_Sidebar extends Mage_Core_Block_Template
     /**
      * Last order getter
      *
-     * @return Mage_Sales_Model_Order | false
+     * @return Mage_Sales_Model_Order|false
      */
     public function getLastOrder()
     {
@@ -128,13 +130,19 @@ class Mage_Sales_Block_Reorder_Sidebar extends Mage_Core_Block_Template
         return false;
     }
 
+    /**
+     * @return string
+     */
     protected function _toHtml()
     {
-        if (Mage::helper('sales/reorder')->isAllow()
-            && (Mage::getSingleton('customer/session')->isLoggedIn() || $this->getCustomerId())
-        ) {
-            return parent::_toHtml();
-        }
-        return '';
+        return $this->_getCustomerSession()->isLoggedIn() || $this->getCustomerId() ? parent::_toHtml() : '';
+    }
+
+    /**
+     * @return Mage_Customer_Model_Session
+     */
+    protected function _getCustomerSession()
+    {
+        return Mage::getSingleton('customer/session');
     }
 }

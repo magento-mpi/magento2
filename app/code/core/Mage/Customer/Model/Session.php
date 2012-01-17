@@ -175,7 +175,7 @@ class Mage_Customer_Model_Session extends Mage_Core_Model_Session_Abstract
     }
 
     /**
-     * Checking custommer loggin status
+     * Checking customer login status
      *
      * @return bool
      */
