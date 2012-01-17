@@ -168,29 +168,32 @@ class Enterprise_Search_Model_Observer
      */
     public function storeSearchableAttributes(Varien_Event_Observer $observer)
     {
-        $engine = $observer->getEvent()->getEngine();
-        if ($engine && Mage::helper('enterprise_search')->isThirdPartyEngineAvailable()) {
-            $attributes = $observer->getEvent()->getAttributes();
+        $engine     = $observer->getEvent()->getEngine();
+        $attributes = $observer->getEvent()->getAttributes();
+        if (!$engine || !$attributes || !Mage::helper('enterprise_search')->isThirdPartyEngineAvailable()) {
+            return;
+        }
 
-            foreach ($attributes as $attribute) {
-                if ($attribute->usesSource()) {
-                    $optionCollection = Mage::getResourceModel('eav/entity_attribute_option_collection')
-                        ->setAttributeFilter($attribute->getAttributeId())
-                        ->setPositionOrder(Varien_Db_Select::SQL_ASC, true)
-                        ->load();
-
-                    $optionsOrder = array();
-                    foreach ($optionCollection as $option) {
-                        $optionsOrder[] = $option->getOptionId();
-                    }
-                    $optionsOrder = array_flip($optionsOrder);
-
-                    $attribute->setOptionsOrder($optionsOrder);
-                }
+        foreach ($attributes as $attribute) {
+            if (!$attribute->usesSource()) {
+                continue;
             }
 
-            $engine->storeSearchableAttributes($attributes);
+            $optionCollection = Mage::getResourceModel('eav/entity_attribute_option_collection')
+                ->setAttributeFilter($attribute->getAttributeId())
+                ->setPositionOrder(Varien_Db_Select::SQL_ASC, true)
+                ->load();
+
+            $optionsOrder = array();
+            foreach ($optionCollection as $option) {
+                $optionsOrder[] = $option->getOptionId();
+            }
+            $optionsOrder = array_flip($optionsOrder);
+
+            $attribute->setOptionsOrder($optionsOrder);
         }
+
+        $engine->storeSearchableAttributes($attributes);
     }
 
     /**
