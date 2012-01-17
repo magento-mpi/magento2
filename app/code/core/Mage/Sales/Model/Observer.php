@@ -441,13 +441,12 @@ class Mage_Sales_Model_Observer
         $customerVatNumber = $quoteAddress->getVatId();
 
         if (empty($customerVatNumber) || !Mage::helper('core')->isCountryInEU($customerCountryCode)) {
-            $groupId = $customerHelper->getDefaultCustomerGroupId($storeId);
+            $groupId = ($customerInstance->getId()) ? $customerHelper->getDefaultCustomerGroupId($storeId)
+                : Mage_Customer_Model_Group::NOT_LOGGED_IN_ID;
 
-            if ($groupId && $customerInstance->getGroupId() != $groupId) {
-                $quoteAddress->setPrevQuoteCustomerGroupId($quoteInstance->getCustomerGroupId());
-                $customerInstance->setGroupId($groupId);
-                $quoteInstance->setCustomerGroupId($groupId);
-            }
+            $quoteAddress->setPrevQuoteCustomerGroupId($quoteInstance->getCustomerGroupId());
+            $customerInstance->setGroupId($groupId);
+            $quoteInstance->setCustomerGroupId($groupId);
 
             return;
         }
