@@ -346,7 +346,8 @@ class Enterprise_TargetRule_Model_Rule extends Mage_Rule_Model_Abstract
                 if(1 === $actionArgsIndex) {
                     continue;
                 }
-                if (!$validator->isValid($actionArgs['type']) || !$validator->isValid($actionArgs['attribute'])) {
+                if (!$validator->isValid($actionArgs['type']) ||
+                    (isset($actionArgs['attribute']) && !$validator->isValid($actionArgs['attribute']))) {
                     $result[] = Mage::helper('enterprise_targetrule')->__('Attribute code is invalid. Please use only letters (a-z), numbers (0-9) or underscore(_) in this field, first character should be a letter.');
                 }
             }
