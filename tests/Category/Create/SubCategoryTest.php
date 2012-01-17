@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Magento
  *
@@ -36,7 +35,6 @@
  */
 class Category_Create_SubCategoryTest extends Mage_Selenium_TestCase
 {
-
     /**
      * <p>Login to backend</p>
      */
@@ -211,5 +209,4 @@ class Category_Create_SubCategoryTest extends Mage_Selenium_TestCase
             $rooCat.='/' . $categoryData['name'];
         }
     }
-
 }

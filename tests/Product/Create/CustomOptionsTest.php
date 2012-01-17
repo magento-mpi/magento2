@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Magento
  *
@@ -36,7 +35,6 @@
  */
 class Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
 {
-
     /**
      * <p>Login to backend</p>
      */
@@ -197,7 +195,7 @@ class Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
             'custom_options_general_sort_order' => $invalidData,
             'custom_options_sort_order' => $invalidData
         );
-        $productData = $this->loadData('simple_product_required', NULL, 'general_sku');
+        $productData = $this->loadData('simple_product_required', null, 'general_sku');
         $productData['custom_options_data'][] = $this->loadData('custom_options_multipleselect', $invalidSortOrder);
         //Steps
         $this->productHelper()->createProduct($productData);
@@ -230,7 +228,7 @@ class Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
     public function invalidMaxCharInCustomOption($invalidData)
     {
         //Data
-        $productData = $this->loadData('simple_product_required', NULL, 'general_sku');
+        $productData = $this->loadData('simple_product_required', null, 'general_sku');
         $productData['custom_options_data'][] = $this->loadData('custom_options_field',
                 array('custom_options_max_characters' => $invalidData));
         //Steps
@@ -417,5 +415,4 @@ class Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
             array('custom_options_multipleselect')
         );
     }
-
 }

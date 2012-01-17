@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Magento
  *
@@ -36,7 +35,6 @@
  */
 class CmsPolls_CreateTest extends Mage_Selenium_TestCase
 {
-
     /**
      * <p>Log in to Backend.</p>
      * <p>Close all opened Polls</p>
@@ -238,5 +236,4 @@ class CmsPolls_CreateTest extends Mage_Selenium_TestCase
         $this->assertFalse($this->cmsPollsHelper()->frontCheckPoll($name),
                 'There is ' . $name . ' poll on home page');
     }
-
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Magento
  *
@@ -25,31 +26,22 @@
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-
-/**
- * Unit test for File helper
- */
 class Mage_Selenium_Helper_FileTest extends Mage_PHPUnit_TestCase
 {
-    /**
-     * Selenium FileHelper instance
-     *
-     * @var Mage_Selenium_Helper_File
-     */
-    protected $_fileHelper = null;
-
-    public function  __construct($name = NULL, array $data = array(), $dataName = '')
+    public function test__construct()
     {
-        parent::__construct($name, $data, $dataName);
-        $this->_fileHelper = new Mage_Selenium_Helper_File($this->_config);
+        $fileHelper = new Mage_Selenium_Helper_File($this->_config);
+        $this->assertInstanceOf('Mage_Selenium_Helper_File', $fileHelper);
     }
 
     /**
-     * Testing Mage_Selenium_Helper_File::loadYamlFile()
+     * @covers Mage_Selenium_Helper_File::loadYamlFile
+     * @depends test__construct
      */
     public function testLoadYamlFile()
     {
-        $customers = $this->_fileHelper->loadYamlFile(SELENIUM_TESTS_BASEDIR.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR.'Customers.yml');
+        $fileHelper = new Mage_Selenium_Helper_File($this->_config);
+        $customers = $fileHelper->loadYamlFile(SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'data' . DIRECTORY_SEPARATOR . 'Customers.yml');
 
         $this->assertInternalType('array', $customers);
         $this->assertNotEmpty($customers);
@@ -61,33 +53,36 @@ class Mage_Selenium_Helper_FileTest extends Mage_PHPUnit_TestCase
         $this->assertArrayHasKey('all_fields_address', $customers);
         $this->assertArrayHasKey('first_name', $customers['customer_account_register']);
 
-        $this->assertFalse($this->_fileHelper->loadYamlFile(''));
-        $this->assertFalse($this->_fileHelper->loadYamlFile('some_file.yml'));
+        $this->assertFalse($fileHelper->loadYamlFile(''));
+        $this->assertFalse($fileHelper->loadYamlFile('some_file.yml'));
     }
 
     /**
-     * Test Mage_Selenium_Helper_File::loadYamlFile() wrong file's type loading
+     * @covers Mage_Selenium_Helper_File::loadYamlFile
+     * @depends test__construct
      *
      * @expectedException InvalidArgumentException
      */
     public function testLoadYamlFileException()
     {
-        $this->assertFalse($this->_fileHelper->loadYamlFile(SELENIUM_TESTS_BASEDIR.DIRECTORY_SEPARATOR.'phpunit.xml'));
+        $fileHelper = new Mage_Selenium_Helper_File($this->_config);
+        $this->assertFalse($fileHelper->loadYamlFile(SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'phpunit.xml'));
     }
 
     /**
-     * Testing Mage_Selenium_Helper_File::loadYamlFiles()
+     * @covers Mage_Selenium_Helper_File::loadYamlFiles
+     * @depends test__construct
      */
     public function testLoadYamlFiles()
     {
-        $allYmlData = $this->_fileHelper->loadYamlFiles(SELENIUM_TESTS_BASEDIR.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR.'*.yml');
+        $fileHelper = new Mage_Selenium_Helper_File($this->_config);
+        $allYmlData = $fileHelper->loadYamlFiles(SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'data' . DIRECTORY_SEPARATOR . '*.yml');
 
         $this->assertInternalType('array', $allYmlData);
         $this->assertNotEmpty($allYmlData);
         $this->assertGreaterThanOrEqual(25, count($allYmlData));
 
-        $this->assertEmpty($this->_fileHelper->loadYamlFiles(''));
-        $this->assertEmpty($this->_fileHelper->loadYamlFiles('*.yml'));
+        $this->assertEmpty($fileHelper->loadYamlFiles(''));
+        $this->assertEmpty($fileHelper->loadYamlFiles('*.yml'));
     }
-
 }

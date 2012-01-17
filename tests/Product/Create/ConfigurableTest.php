@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Magento
  *
@@ -36,7 +35,6 @@
  */
 class Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
 {
-
     public function setUpBeforeTests()
     {
         $this->loginAdminUser();
@@ -589,5 +587,4 @@ class Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
         //Verifying
         $this->productHelper()->verifyProductInfo($configurable, array('configurable_attribute_title'));
     }
-
 }

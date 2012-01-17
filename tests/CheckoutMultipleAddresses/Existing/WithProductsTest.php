@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Magento
  *
@@ -60,7 +59,7 @@ class CheckoutMultipleAddresses_Existing_WithProductsTest extends Mage_Selenium_
     public function createAttribute()
     {
         //Data
-        $attrData = $this->loadData('product_attribute_dropdown_with_options', NULL,
+        $attrData = $this->loadData('product_attribute_dropdown_with_options', null,
                 array('admin_title', 'attribute_code'));
         $associatedAttributes = $this->loadData('associated_attributes',
                 array('General' => $attrData['attribute_code']));
@@ -91,7 +90,7 @@ class CheckoutMultipleAddresses_Existing_WithProductsTest extends Mage_Selenium_
     public function createCustomer()
     {
         //Data
-        $userData = $this->loadData('customer_account_for_prices_validation', NULL, 'email');
+        $userData = $this->loadData('customer_account_for_prices_validation', null, 'email');
         //Steps
         $this->navigate('manage_customers');
         $this->customerHelper()->createCustomer($userData);
@@ -134,7 +133,7 @@ class CheckoutMultipleAddresses_Existing_WithProductsTest extends Mage_Selenium_
     public function createProductForAssociated($productDataSet, $productType, $attrData, $customerData)
     {
         //Data
-        $productData = $this->loadData($productDataSet, NULL, array('general_name','general_sku'));
+        $productData = $this->loadData($productDataSet, null, array('general_name','general_sku'));
         $productData['general_user_attr']['dropdown'][$attrData['attribute_code']] =
                 $attrData['option_1']['admin_option_name'];
         $checkoutData = $this->loadData('multiple_exist_flatrate_checkmoney',

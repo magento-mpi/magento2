@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Magento
  *
@@ -36,7 +35,6 @@
  */
 class Tax_TaxRate_CreateTest extends Mage_Selenium_TestCase
 {
-
     /**
      * Transfer data between tests.
      * Note: "@depends" does not help in this case
@@ -292,5 +290,4 @@ class Tax_TaxRate_CreateTest extends Mage_Selenium_TestCase
         //Verifying
         $this->assertTrue($this->verifyForm($taxRateData), $this->getParsedMessages());
     }
-
 }

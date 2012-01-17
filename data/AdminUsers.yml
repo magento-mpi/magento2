@@ -53,10 +53,10 @@ search_admin_user:
     last_name: Doe
     email: johndoe@magento.com
     status: %noValue%
-    
+
 disable_admin_captcha:
     configuration_scope: Default Config
     tab_1:
         tab_name: advanced_admin
         configuration:
-            captcha_enable_admin: No    
+            captcha_enable_admin: No

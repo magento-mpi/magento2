@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Magento
  *
@@ -36,7 +35,6 @@
  */
 class ProductAttribute_Helper extends Mage_Selenium_TestCase
 {
-
     /**
      * Action_helper method for Create Attribute
      *
@@ -104,7 +102,7 @@ class ProductAttribute_Helper extends Mage_Selenium_TestCase
             }
         }
         //Steps. Сlick 'Create New Attribute' button, select opened window.
-        $this->clickButton('create_new_attribute', FALSE);
+        $this->clickButton('create_new_attribute', false);
         $names = $this->getAllWindowNames();
         $this->waitForPopUp(end($names), '30000');
         $this->selectWindow("name=" . end($names));
@@ -115,7 +113,7 @@ class ProductAttribute_Helper extends Mage_Selenium_TestCase
         $this->attributeOptions($attrData);
         $this->addParameter('attributeId', 0);
         $this->saveForm('save_attribute', false);
-//        $this->clickButton('save_attribute', FALSE);
+//        $this->clickButton('save_attribute', false);
 //        $this->waitForPageToLoad($this->_browserTimeoutPeriod);
     }
 
@@ -126,7 +124,7 @@ class ProductAttribute_Helper extends Mage_Selenium_TestCase
      * @param string $fieldsetName
      * @param string $action
      */
-    public function storeViewTitles($attrData, $fieldsetName='manage_titles', $action ='fill')
+    public function storeViewTitles($attrData, $fieldsetName = 'manage_titles', $action = 'fill')
     {
         $name = 'store_view_titles';
         if (isset($attrData['admin_title'])) {
@@ -176,7 +174,7 @@ class ProductAttribute_Helper extends Mage_Selenium_TestCase
      * @param array $attrData
      * @param string $action
      */
-    public function attributeOptions($attrData, $action='fill')
+    public function attributeOptions($attrData, $action = 'fill')
     {
         $fieldSetXpath = $this->_getControlXpath('fieldset', 'manage_options');
 
@@ -193,7 +191,7 @@ class ProductAttribute_Helper extends Mage_Selenium_TestCase
                     switch ($action) {
                         case 'fill':
                             $this->addParameter('fieldOptionNumber', $optionCount);
-                            $this->clickButton('add_option', FALSE);
+                            $this->clickButton('add_option', false);
                             $this->storeViewTitles($attrData[$fKey], 'manage_options');
                             $this->fillForm($attrData[$fKey], 'manage_lables_options');
                             break;
@@ -230,5 +228,4 @@ class ProductAttribute_Helper extends Mage_Selenium_TestCase
 
         return $this->defineIdFromTitle($attrXpath);
     }
-
 }

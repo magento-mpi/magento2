@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Magento
  *
@@ -36,7 +35,6 @@
  */
 class Product_Linking_SimpleLinkingTest extends Mage_Selenium_TestCase
 {
-
     protected static $productsInStock = array();
     protected static $productsOutOfStock = array();
     protected function assertPreConditions()
@@ -50,7 +48,7 @@ class Product_Linking_SimpleLinkingTest extends Mage_Selenium_TestCase
      */
     public function createAttribute()
     {
-        $attrData = $this->loadData('product_attribute_dropdown_with_options', NULL,
+        $attrData = $this->loadData('product_attribute_dropdown_with_options', null,
                 array('admin_title', 'attribute_code'));
         $associatedAttributes = $this->loadData('associated_attributes',
                 array('General' => $attrData['attribute_code']));
@@ -78,7 +76,7 @@ class Product_Linking_SimpleLinkingTest extends Mage_Selenium_TestCase
      */
     public function createSimpleProductForBundle($attrData)
     {
-        $productData = $this->loadData('simple_product_visible', NULL, array('general_name','general_sku'));
+        $productData = $this->loadData('simple_product_visible', null, array('general_name','general_sku'));
         $productData['general_user_attr']['dropdown'][$attrData['attribute_code']] =
                 $attrData['option_1']['admin_option_name'];
         $this->loginAdminUser();

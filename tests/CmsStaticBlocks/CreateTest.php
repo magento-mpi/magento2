@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Magento
  *
@@ -36,7 +35,6 @@
  */
 class CmsStaticBlocks_CreateTest extends Mage_Selenium_TestCase
 {
-
     protected $_blockToBeDeleted = array();
 
     /**
@@ -252,5 +250,4 @@ class CmsStaticBlocks_CreateTest extends Mage_Selenium_TestCase
             array("with_a_space " . $this->generate('string', 12, ':alpha:'))
         );
     }
-
 }

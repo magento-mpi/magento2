@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Magento
  *
@@ -36,7 +35,6 @@
  */
 class Review_Helper extends Mage_Selenium_TestCase
 {
-
     /**
      * Creates review
      *
@@ -309,5 +307,4 @@ class Review_Helper extends Mage_Selenium_TestCase
         $url = $this->getAttribute($this->_getControlXpath('link', $linkName) . "/@href");
         $this->addParameter('categoryId', $this->defineParameterFromUrl('category', $url));
     }
-
 }

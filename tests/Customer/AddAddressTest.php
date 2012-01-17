@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Magento
  *
@@ -36,7 +35,6 @@
  */
 class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase
 {
-
     protected static $_customerTitleParameter = '';
 
     /**
@@ -67,7 +65,7 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase
     public function createCustomerTest()
     {
         //Data
-        $userData = $this->loadData('generic_customer_account', NULL, 'email');
+        $userData = $this->loadData('generic_customer_account', null, 'email');
         self::$_customerTitleParameter = $userData['first_name'] . ' ' . $userData['last_name'];
         //Steps
         $this->customerHelper()->createCustomer($userData);
@@ -335,5 +333,4 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase
         $addressNumber = $this->customerHelper()->isAddressPresent($addressData);
         $this->assertNotEquals(0, $addressNumber, 'The specified address is not present.');
     }
-
 }

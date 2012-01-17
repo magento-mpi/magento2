@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Magento
  *
@@ -36,7 +35,6 @@
  */
 class ProductAttribute_Create_CreateFromProductPageTest extends Mage_Selenium_TestCase
 {
-
     /**
      * <p>Log in to Backend.</p>
      */
@@ -112,5 +110,4 @@ class ProductAttribute_Create_CreateFromProductPageTest extends Mage_Selenium_Te
             array('product_attribute_fpt')
         );
     }
-
 }

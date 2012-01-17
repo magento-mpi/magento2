@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Magento
  *
@@ -36,7 +35,6 @@
  */
 class CustomerGroups_Helper extends Mage_Selenium_TestCase
 {
-
     /**
      * Create new Customer Group
      *

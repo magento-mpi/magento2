@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Magento
  *
@@ -36,7 +35,6 @@
  */
 class OrderInvoice_Helper extends Mage_Selenium_TestCase
 {
-
     /**
      * Provides partial or full invoice
      *
@@ -49,7 +47,7 @@ class OrderInvoice_Helper extends Mage_Selenium_TestCase
         $this->clickButton('invoice');
         foreach ($invoiceData as $product => $options) {
             if (is_array($options)) {
-                $sku = (isset($options['invoice_product_sku'])) ? $options['invoice_product_sku'] : NULL;
+                $sku = (isset($options['invoice_product_sku'])) ? $options['invoice_product_sku'] : null;
                 $productQty = (isset($options['qty_to_invoice'])) ? $options['qty_to_invoice'] : '%noValue%';
                 if ($sku) {
                     $verify[$sku] = $productQty;
@@ -115,5 +113,4 @@ class OrderInvoice_Helper extends Mage_Selenium_TestCase
         $this->waitForPageToLoad($this->_browserTimeoutPeriod);
         $this->validatePage($this->_findCurrentPageFromUrl($this->getLocation()));
     }
-
 }

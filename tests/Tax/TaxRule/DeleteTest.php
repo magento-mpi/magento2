@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Magento
  *
@@ -36,7 +35,6 @@
  */
 class Tax_TaxRule_DeleteTest extends Mage_Selenium_TestCase
 {
-
     /**
      * <p>Log in to Backend.</p>
      */
@@ -100,5 +98,4 @@ class Tax_TaxRule_DeleteTest extends Mage_Selenium_TestCase
         //Verifying
         $this->assertMessagePresent('success', 'success_deleted_tax_rule');
     }
-
 }

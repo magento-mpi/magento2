@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Magento
  *
@@ -36,7 +35,6 @@
  */
 class Product_Create_BundleTest extends Mage_Selenium_TestCase
 {
-
     /**
      * <p>Login to backend</p>
      */
@@ -643,5 +641,4 @@ class Product_Create_BundleTest extends Mage_Selenium_TestCase
             array('-128')
         );
     }
-
 }

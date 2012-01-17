@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Magento
  *
@@ -36,7 +35,6 @@
  */
 class OrderCreditMemo_Helper extends Mage_Selenium_TestCase
 {
-
     /**
      * Provides partial or full refund
      *
@@ -49,7 +47,7 @@ class OrderCreditMemo_Helper extends Mage_Selenium_TestCase
         $this->clickButton('credit_memo');
         foreach ($creditMemoData as $product => $options) {
             if (is_array($options)) {
-                $sku = (isset($options['return_filter_sku'])) ? $options['return_filter_sku'] : NULL;
+                $sku = (isset($options['return_filter_sku'])) ? $options['return_filter_sku'] : null;
                 $productQty = (isset($options['qty_to_refund'])) ? $options['qty_to_refund'] : '%noValue%';
                 if ($sku) {
                     $verify[$sku] = $productQty;
@@ -92,5 +90,4 @@ class OrderCreditMemo_Helper extends Mage_Selenium_TestCase
                     'Qty of refunded products is incorrect at the orders form');
         }
     }
-
 }

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Magento
  *
@@ -36,7 +35,6 @@
  */
 class Tax_CustomerTaxClass_CreateTest extends Mage_Selenium_TestCase
 {
-
     /**
      * <p>Login to backend</p>
      */
@@ -160,5 +158,4 @@ class Tax_CustomerTaxClass_CreateTest extends Mage_Selenium_TestCase
             array($this->generate('string', 50, ':punct:'))
         );
     }
-
 }

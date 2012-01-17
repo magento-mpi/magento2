@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Magento
  *
@@ -36,7 +35,6 @@
  */
 class Customer_RegisterTest extends Mage_Selenium_TestCase
 {
-
     /**
      * <p>Make sure that customer is not logged in, and navigate to homepage</p>
      */

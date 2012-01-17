@@ -81,12 +81,11 @@ class Mage_Selenium_Helper_Abstract
      *
      * @param Mage_Selenium_TestCase $testCase Current test case
      *
-     * @return Mage_Selenium_AbstractHelper
+     * @return Mage_Selenium_Helper_Abstract
      */
     public function setTestCase(Mage_Selenium_TestCase $testCase)
     {
         $this->_testCase = $testCase;
         return $this;
     }
-
 }

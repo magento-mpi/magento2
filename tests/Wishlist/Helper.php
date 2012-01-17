@@ -35,7 +35,6 @@
  */
 class Wishlist_Helper extends Mage_Selenium_TestCase
 {
-
     /**
      * Adds product to wishlist from a specific catalog page.
      *
@@ -70,7 +69,7 @@ class Wishlist_Helper extends Mage_Selenium_TestCase
      * Finds the product in the wishlist.
      *
      * @param string|array $productNameSet Product name or array of product names to search for.
-     * @return True|Array True if the products are all present.
+     * @return true|array True if the products are all present.
      *                    Otherwise returns an array of product names that are absent.
      */
     public function frontWishlistHasProducts($productNameSet)
@@ -154,5 +153,4 @@ class Wishlist_Helper extends Mage_Selenium_TestCase
             }
         }
     }
-
 }

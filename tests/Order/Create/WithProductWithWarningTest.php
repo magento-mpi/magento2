@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Magento
  *
@@ -36,7 +35,6 @@
  */
 class Order_Create_WithProductWithWarningTest extends Mage_Selenium_TestCase
 {
-
     /**
      * <p>Log in to Backend.</p>
      */
@@ -93,7 +91,7 @@ class Order_Create_WithProductWithWarningTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('validation', $message);
         $this->orderHelper()->fillOrderAddress($billingAddr, $billingAddr['address_choice'], 'billing');
         $this->orderHelper()->fillOrderAddress($shippingAddr, $shippingAddr['address_choice'], 'shipping');
-        $this->clickControl('link', 'get_shipping_methods_and_rates', FALSE);
+        $this->clickControl('link', 'get_shipping_methods_and_rates', false);
         $this->pleaseWait();
         $this->orderHelper()->selectShippingMethod($orderData['shipping_data']);
         $this->orderHelper()->selectPaymentMethod($orderData['payment_data']);
@@ -115,5 +113,4 @@ class Order_Create_WithProductWithWarningTest extends Mage_Selenium_TestCase
             array('simple_with_increments', 'wrong_increments_qty', 5)
         );
     }
-
 }

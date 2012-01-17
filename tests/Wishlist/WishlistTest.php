@@ -35,7 +35,6 @@
  */
 class Wishlist_Wishlist extends Mage_Selenium_TestCase
 {
-
     /**
      * <p>Login as a registered user</p>
      */
@@ -62,7 +61,7 @@ class Wishlist_Wishlist extends Mage_Selenium_TestCase
     public function createCustomer()
     {
         $this->loginAdminUser();
-        $userData = $this->loadData('customer_account_for_prices_validation', NULL, 'email');
+        $userData = $this->loadData('customer_account_for_prices_validation', null, 'email');
         $this->navigate('manage_customers');
         $this->customerHelper()->createCustomer($userData);
         $this->assertMessagePresent('success', 'success_saved_customer');
@@ -774,5 +773,4 @@ class Wishlist_Wishlist extends Mage_Selenium_TestCase
         //Cleanup
         $this->navigate('home'); // So that user is not redirected in further tests.
     }
-
 }

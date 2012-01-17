@@ -28,11 +28,10 @@
 
 class Installation_Helper extends Mage_Selenium_TestCase
 {
-
     /**
      * Delete installation files
      *
-     * @return NULL
+     * @return null
      */
     public function removeInstallData()
     {
@@ -58,7 +57,7 @@ class Installation_Helper extends Mage_Selenium_TestCase
      * Remove fs element with nested elements
      *
      * @param string $dir
-     * @return NULL
+     * @return null
      */
     protected function _rmRecursive($dir)
     {

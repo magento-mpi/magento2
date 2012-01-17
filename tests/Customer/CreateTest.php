@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Magento
  *
@@ -36,7 +35,6 @@
  */
 class Customer_CreateTest extends Mage_Selenium_TestCase
 {
-
     /**
      * <p>Log in to Backend.</p>
      */
@@ -349,12 +347,11 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
     public function withAddress()
     {
         //Data
-        $userData = $this->loadData('all_fields_customer_account', NULL, 'email');
+        $userData = $this->loadData('all_fields_customer_account', null, 'email');
         $addressData = $this->loadData('all_fields_address');
         //Steps
         $this->customerHelper()->createCustomer($userData, $addressData);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_customer');
     }
-
 }

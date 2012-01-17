@@ -35,7 +35,6 @@
  */
 class Mage_Autoloader
 {
-
     /**
      * Registers the autoloader handler
      */
@@ -56,5 +55,4 @@ class Mage_Autoloader
         $classFile = $classFile . '.php';
         return include_once $classFile;
     }
-
 }

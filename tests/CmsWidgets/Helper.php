@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Magento
  *
@@ -36,7 +35,6 @@
  */
 class CmsWidgets_Helper extends Mage_Selenium_TestCase
 {
-
     /**
      * Creates widget
      *
@@ -103,7 +101,7 @@ class CmsWidgets_Helper extends Mage_Selenium_TestCase
     {
         $count = 0;
         foreach ($layoutData as $key => $value) {
-            $this->clickButton('add_layout_update', FALSE);
+            $this->clickButton('add_layout_update', false);
             $this->addParameter('index', $count);
             $xpath = $this->_getControlXpath('dropdown', 'select_display_on');
             $layoutName = $this->getValue($xpath . '//option[text()="' . $value['select_display_on'] . '"]');
@@ -133,8 +131,8 @@ class CmsWidgets_Helper extends Mage_Selenium_TestCase
      */
     public function chooseLayoutOptions(array $layoutOptions, $layoutName = 'products')
     {
-        $this->clickControl('radiobutton', 'specific_categories_products_radio', FALSE);
-        $this->clickControl('link', 'open_chooser', FALSE);
+        $this->clickControl('radiobutton', 'specific_categories_products_radio', false);
+        $this->clickControl('link', 'open_chooser', false);
         $this->pleaseWait();
         if ($layoutName == 'categories') {
             foreach ($layoutOptions as $key => $value) {
@@ -147,7 +145,7 @@ class CmsWidgets_Helper extends Mage_Selenium_TestCase
         } else {
             return;
         }
-        $this->clickControl('link', 'apply', FALSE);
+        $this->clickControl('link', 'apply', false);
     }
 
     /**
@@ -173,7 +171,7 @@ class CmsWidgets_Helper extends Mage_Selenium_TestCase
     {
         $searchWidget = $this->arrayEmptyClear($searchWidget);
         $xpathTR = $this->search($searchWidget, 'cms_widgets_grid');
-        $this->assertNotEquals(NULL, $xpathTR, 'Widget is not found');
+        $this->assertNotEquals(null, $xpathTR, 'Widget is not found');
         $cellId = $this->getColumnIdByName('Widget Instance Title');
         $this->addParameter('widgetName', $this->getText($xpathTR . '//td[' . $cellId . ']'));
         $this->addParameter('id', $this->defineIdFromTitle($xpathTR));
@@ -192,5 +190,4 @@ class CmsWidgets_Helper extends Mage_Selenium_TestCase
         $this->openWidget($searchWidget);
         $this->clickButtonAndConfirm('delete', 'confirmation_for_delete');
     }
-
 }

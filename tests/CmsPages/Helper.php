@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Magento
  *
@@ -36,7 +35,6 @@
  */
 class CmsPages_Helper extends Mage_Selenium_TestCase
 {
-
     /**
      * Creates page
      *
@@ -102,16 +100,16 @@ class CmsPages_Helper extends Mage_Selenium_TestCase
     {
         $chooseOption = (isset($widgetData['chosen_option'])) ? $widgetData['chosen_option'] : array();
         if ($this->controlIsPresent('link', 'wysiwyg_insert_widget')) {
-            $this->clickControl('link', 'wysiwyg_insert_widget', FALSE);
+            $this->clickControl('link', 'wysiwyg_insert_widget', false);
         } else {
-            $this->clickButton('insert_widget', FALSE);
+            $this->clickButton('insert_widget', false);
         }
         $this->waitForAjax();
         $this->fillForm($widgetData);
         if ($chooseOption) {
             $this->selectOptionItem($chooseOption);
         }
-        $this->clickButton('submit_widget_insert', FALSE);
+        $this->clickButton('submit_widget_insert', false);
         $this->waitForAjax();
     }
 
@@ -186,13 +184,13 @@ class CmsPages_Helper extends Mage_Selenium_TestCase
     public function insertVariable($variable)
     {
         if ($this->controlIsPresent('link', 'wysiwyg_insert_variable')) {
-            $this->clickControl('link', 'wysiwyg_insert_variable', FALSE);
+            $this->clickControl('link', 'wysiwyg_insert_variable', false);
         } else {
-            $this->clickButton('insert_variable', FALSE);
+            $this->clickButton('insert_variable', false);
         }
         $this->waitForAjax();
         $this->addParameter('variableName', $variable);
-        $this->clickControl('link', 'variable', FALSE);
+        $this->clickControl('link', 'variable', false);
     }
 
     /**
@@ -208,7 +206,7 @@ class CmsPages_Helper extends Mage_Selenium_TestCase
             unset($searchPage['filter_store_viev']);
         }
         $xpathTR = $this->search($searchPage, 'cms_pages_grid');
-        $this->assertNotEquals(NULL, $xpathTR, 'CMS Page is not found');
+        $this->assertNotEquals(null, $xpathTR, 'CMS Page is not found');
         $cellId = $this->getColumnIdByName('Title');
         $this->addParameter('pageName', $this->getText($xpathTR . '//td[' . $cellId . ']'));
         $this->addParameter('id', $this->defineIdFromTitle($xpathTR));
@@ -279,17 +277,15 @@ class CmsPages_Helper extends Mage_Selenium_TestCase
      * @param string $key
      * @return array
      */
-    function searchArray($pageData, $key = NULL)
+    function searchArray($pageData, $key = null)
     {
-
-        $found = ($key !== NULL ? array_keys($pageData, $key) : array_keys($pageData));
+        $found = ($key !== null ? array_keys($pageData, $key) : array_keys($pageData));
         foreach ($pageData as $value) {
             if (is_array($value)) {
-                $found = ($key !== NULL ? array_merge($found, $this->searchArray($value, $key)) : array_merge($found,
+                $found = ($key !== null ? array_merge($found, $this->searchArray($value, $key)) : array_merge($found,
                                         $this->searchArray($value)));
             }
         }
         return $found;
     }
-
 }

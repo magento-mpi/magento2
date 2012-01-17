@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Magento
  *
@@ -36,7 +35,6 @@
  */
 class Store_Store_DeleteTest extends Mage_Selenium_TestCase
 {
-
     /**
      * <p>Login to backend</p>
      */
@@ -110,5 +108,4 @@ class Store_Store_DeleteTest extends Mage_Selenium_TestCase
         //Steps
         $this->storeHelper()->deleteStore($deleteStoreData);
     }
-
 }

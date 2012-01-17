@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Magento
  *
@@ -36,7 +35,6 @@
  */
 class Tax_TaxRule_CreateTest extends Mage_Selenium_TestCase
 {
-
     /**
      * <p>Save rule name for clean up</p>
      */
@@ -288,5 +286,4 @@ class Tax_TaxRule_CreateTest extends Mage_Selenium_TestCase
             array($this->generate('string', 50, ':punct:'))
         );
     }
-
 }

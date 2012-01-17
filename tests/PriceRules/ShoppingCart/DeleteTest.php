@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Magento
  *
@@ -69,7 +68,7 @@ class PriceRules_ShoppingCart_DeleteTest extends Mage_Selenium_TestCase
     public function deleteShoppingCartPriceRule()
     {
         $this->navigate('manage_shopping_cart_price_rules');
-        $ruleData = $this->loadData('scpr_required_fields', NULL, array('rule_name', 'coupon_code'));
+        $ruleData = $this->loadData('scpr_required_fields', null, array('rule_name', 'coupon_code'));
         $ruleSearch = $this->loadData('search_shopping_cart_rule',
                                       array('filter_rule_name' => $ruleData['info']['rule_name'],
                                             'filter_coupon_code' => $ruleData['info']['coupon_code']));

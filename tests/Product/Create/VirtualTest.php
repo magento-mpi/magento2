@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Magento
  *
@@ -36,7 +35,6 @@
  */
 class Product_Create_VirtualTest extends Mage_Selenium_TestCase
 {
-
     /**
      * <p>Log in to Backend.</p>
      */
@@ -463,5 +461,4 @@ class Product_Create_VirtualTest extends Mage_Selenium_TestCase
             array('-128')
         );
     }
-
 }

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Magento
  *
@@ -36,7 +35,6 @@
  */
 class Review_BackendCreateTest extends Mage_Selenium_TestCase
 {
-
     /**
      * <p>Preconditions:</p>
      * <p>Login as admin to backend</p>
@@ -302,5 +300,4 @@ class Review_BackendCreateTest extends Mage_Selenium_TestCase
         //Verification
         $this->assertMessagePresent('success', 'success_saved_review');
     }
-
 }

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Magento
  *
@@ -36,7 +35,6 @@
  */
 class SystemConfiguration_Helper extends Mage_Selenium_TestCase
 {
-
     /**
      * System Configuration
      *
@@ -48,7 +46,7 @@ class SystemConfiguration_Helper extends Mage_Selenium_TestCase
             $parameters = $this->loadData($parameters);
         }
         $parameters = $this->arrayEmptyClear($parameters);
-        $chooseScope = (isset($parameters['configuration_scope'])) ? $parameters['configuration_scope'] : NULL;
+        $chooseScope = (isset($parameters['configuration_scope'])) ? $parameters['configuration_scope'] : null;
         if ($chooseScope) {
             $xpath = $this->_getControlXpath('dropdown', 'current_configuration_scope');
             $toSelect = $xpath . '//option[normalize-space(text())="' . $chooseScope . '"]';
@@ -62,8 +60,8 @@ class SystemConfiguration_Helper extends Mage_Selenium_TestCase
         }
         foreach ($parameters as $key => $value) {
             if (is_array($value)) {
-                $tab = (isset($value['tab_name'])) ? $value['tab_name'] : NULL;
-                $settings = (isset($value['configuration'])) ? $value['configuration'] : NULL;
+                $tab = (isset($value['tab_name'])) ? $value['tab_name'] : null;
+                $settings = (isset($value['configuration'])) ? $value['configuration'] : null;
                 if ($tab) {
                     $xpath = $this->_getControlXpath('tab', $tab);
                     $this->_defineParameters($xpath, 'href');
@@ -124,5 +122,4 @@ class SystemConfiguration_Helper extends Mage_Selenium_TestCase
         }
         $this->assertTrue($this->verifyForm($data, 'general_web'), $this->getParsedMessages());
     }
-
 }

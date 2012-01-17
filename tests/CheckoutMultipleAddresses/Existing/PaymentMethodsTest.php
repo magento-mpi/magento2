@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Magento
  *
@@ -36,7 +35,6 @@
  */
 class CheckoutMultipleAddresses_Existing_PaymentMethodsTest extends Mage_Selenium_TestCase
 {
-
     protected static $useTearDown = false;
 
     protected function tearDown()
@@ -210,5 +208,4 @@ class CheckoutMultipleAddresses_Existing_PaymentMethodsTest extends Mage_Seleniu
             array('authorizenet')
         );
     }
-
 }

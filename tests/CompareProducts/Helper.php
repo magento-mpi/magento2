@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Magento
  *
@@ -36,7 +35,6 @@
  */
 class CompareProducts_Helper extends Mage_Selenium_TestCase
 {
-
     protected $_popupId = null;
 
     /**
@@ -61,7 +59,7 @@ class CompareProducts_Helper extends Mage_Selenium_TestCase
      * @param array $productName  Name of product to be added
      * @param array $categoryName  Product Category
      */
-    public function frontAddToCompareFromProductPage($productName, $categoryName=null)
+    public function frontAddToCompareFromProductPage($productName, $categoryName = null)
     {
         $this->productHelper()->frontOpenProduct($productName, $categoryName);
         $this->clickControl('link', 'add_to_compare');
@@ -291,5 +289,4 @@ class CompareProducts_Helper extends Mage_Selenium_TestCase
             $this->_popupId = null;
         }
     }
-
 }

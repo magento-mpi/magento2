@@ -35,7 +35,6 @@
  */
 class Tax_TaxAndPricesValidationBackendTest extends Mage_Selenium_TestCase
 {
-
     public function setUpBeforeTests()
     {
         $this->loginAdminUser();
@@ -54,7 +53,7 @@ class Tax_TaxAndPricesValidationBackendTest extends Mage_Selenium_TestCase
     public function createCustomer()
     {
         //Data
-        $userData = $this->loadData('customer_account_for_prices_validation', NULL, 'email');
+        $userData = $this->loadData('customer_account_for_prices_validation', null, 'email');
         $addressData = $this->loadData('customer_account_address_for_prices_validation');
         //Steps
         $this->navigate('manage_customers');
@@ -74,9 +73,9 @@ class Tax_TaxAndPricesValidationBackendTest extends Mage_Selenium_TestCase
     {
         $products = array();
         $this->navigate('manage_products');
-        for ($i=1; $i <= 3; $i++) {
+        for ($i = 1; $i <= 3; $i++) {
             $simpleProductData = $this->loadData("simple_product_for_prices_validation_$i",
-                NULL, array('general_name', 'general_sku'));
+                null, array('general_name', 'general_sku'));
             $products['sku'][$i] = $simpleProductData['general_sku'];
             $products['name'][$i] = $simpleProductData['general_name'];
             $this->productHelper()->createProduct($simpleProductData);
@@ -125,7 +124,7 @@ class Tax_TaxAndPricesValidationBackendTest extends Mage_Selenium_TestCase
         //Data for prices and total verification after refund creation on refund page
         $priceAftRefCrOnRef = $this->loadData($sysConfigData . '_backend_product_prices_after_refund_on_refund');
         $totAftRefCrOnRef = $this->loadData($sysConfigData . '_backend_total_after_refund_on_refund');
-        for ($i=1; $i <= 3; $i++) {
+        for ($i = 1; $i <= 3; $i++) {
             $crOrder['products_to_add']['product_' . $i]['filter_sku'] = $products['sku'][$i];
             $crOrder['prod_verification']['product_' . $i]['product'] = $products['name'][$i];
             $priceAftOrdCr['product_' . $i]['product'] = $products['name'][$i];

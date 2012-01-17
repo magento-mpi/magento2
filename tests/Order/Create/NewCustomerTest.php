@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Magento
  *
@@ -36,7 +35,6 @@
  */
 class Order_Create_NewCustomerTest extends Mage_Selenium_TestCase
 {
-
     /**
      * <p>Preconditions:</p>
      * <p>Log in to Backend.</p>
@@ -59,7 +57,7 @@ class Order_Create_NewCustomerTest extends Mage_Selenium_TestCase
     public function createSimpleProduct()
     {
         //Data
-        $simpleSku = $this->loadData('simple_product_for_order', NULL, array('general_name', 'general_sku'));
+        $simpleSku = $this->loadData('simple_product_for_order', null, array('general_name', 'general_sku'));
         //Steps
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($simpleSku);
@@ -190,7 +188,7 @@ class Order_Create_NewCustomerTest extends Mage_Selenium_TestCase
     public function newCustomerWithExistEmail($simpleSku)
     {
         //Data
-        $userData = $this->loadData('generic_customer_account', NULL, 'email');
+        $userData = $this->loadData('generic_customer_account', null, 'email');
         $orderData = $this->loadData('order_newcustmoer_checkmoney_flatrate',
                 array('filter_sku' => $simpleSku, 'customer_email' => $userData['email']));
         //Steps
@@ -343,5 +341,4 @@ class Order_Create_NewCustomerTest extends Mage_Selenium_TestCase
         //Verifying
         $this->assertMessagePresent('success', 'success_created_order');
     }
-
 }

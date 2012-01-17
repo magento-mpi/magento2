@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Magento
  *
@@ -36,7 +35,6 @@
  */
 class CheckoutOnePage_Existing_PaymentMethodsTest extends Mage_Selenium_TestCase
 {
-
     protected static $useTearDown = false;
 
     protected function assertPreConditions()
@@ -192,5 +190,4 @@ class CheckoutOnePage_Existing_PaymentMethodsTest extends Mage_Selenium_TestCase
             array('authorizenet')
         );
     }
-
 }

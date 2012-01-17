@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Magento
  *
@@ -36,7 +35,6 @@
  */
 class Order_Create_WithCouponTest extends Mage_Selenium_TestCase
 {
-
     /**
      * <p>Preconditions:</p>
      *
@@ -56,7 +54,7 @@ class Order_Create_WithCouponTest extends Mage_Selenium_TestCase
     public function createSimpleProduct()
     {
         //Data
-        $productData = $this->loadData('simple_product_for_order', NULL,
+        $productData = $this->loadData('simple_product_for_order', null,
                 array('general_name', 'general_sku'));
         //Steps
         $this->navigate('manage_products');
@@ -173,5 +171,4 @@ class Order_Create_WithCouponTest extends Mage_Selenium_TestCase
         $this->addParameter('code', 'wrong_code');
         $this->assertMessagePresent('error', 'invalid_coupon_code');
     }
-
 }

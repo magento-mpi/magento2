@@ -19,7 +19,7 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    tests
- * @package     selenium
+ * @package     selenium unit tests
  * @subpackage  runner
  * @author      Magento Core Team <core@magentocommerce.com>
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
@@ -37,6 +37,6 @@ set_include_path(implode(PATH_SEPARATOR, array(
     get_include_path(),
 )));
 
-require_once '../lib/functions.php';
-require_once './Mage/Autoloader.php';
+require_once 'functions.php';
+require_once SELENIUM_UNIT_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'Mage'  . DIRECTORY_SEPARATOR . 'Autoloader.php';
 Mage_Autoloader::register();

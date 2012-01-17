@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Magento
  *
@@ -36,7 +35,6 @@
  */
 class Tax_Helper extends Mage_Selenium_TestCase
 {
-
     /**
      * Define Store View id in Table by name
      *
@@ -132,5 +130,4 @@ class Tax_Helper extends Mage_Selenium_TestCase
         $this->openTaxItem($taxSearchData, $type);
         return $this->clickButtonAndConfirm('delete_' . $type, 'confirmation_for_delete');
     }
-
 }

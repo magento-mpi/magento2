@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Magento
  *
@@ -36,7 +35,6 @@
  */
 class Tags_FrontendCreateTest extends Mage_Selenium_TestCase
 {
-
     protected function assertPreConditions()
     {
         $this->addParameter('productUrl', '');
@@ -51,7 +49,7 @@ class Tags_FrontendCreateTest extends Mage_Selenium_TestCase
     public function createCustomer()
     {
         //Data
-        $userData = $this->loadData('customer_account_for_prices_validation', NULL, 'email');
+        $userData = $this->loadData('customer_account_for_prices_validation', null, 'email');
         //Steps
         $this->loginAdminUser();
         $this->navigate('manage_customers');
@@ -230,5 +228,4 @@ class Tags_FrontendCreateTest extends Mage_Selenium_TestCase
         $xpathTR = $this->search($searchTag, 'tags_grid');
         $this->assertTrue(is_null($xpathTR), $this->getMessagesOnPage());
     }
-
 }

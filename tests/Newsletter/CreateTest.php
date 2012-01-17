@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Magento
  *
@@ -36,7 +35,6 @@
  */
 class Newsletter_CreateTest extends Mage_Selenium_TestCase
 {
-
     protected function assertPreConditions()
     {
         $this->addParameter('categoryUrl', '');
@@ -332,5 +330,4 @@ class Newsletter_CreateTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->newsletterHelper()->checkStatus('unsubscribed', $search),
                 $this->getParsedMessages());
     }
-
 }

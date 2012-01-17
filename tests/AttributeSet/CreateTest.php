@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Magento
  *
@@ -36,7 +35,6 @@
  */
 class AttributeSet_CreateTest extends Mage_Selenium_TestCase
 {
-
     /**
      * <p>Log in to Backend.</p>
      */
@@ -247,5 +245,4 @@ class AttributeSet_CreateTest extends Mage_Selenium_TestCase
         //Verifying
         $this->assertMessagePresent('success', 'success_attribute_set_saved');
     }
-
 }

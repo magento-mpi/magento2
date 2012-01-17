@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Magento
  *
@@ -36,7 +35,6 @@
  */
 class Category_DeleteTest extends Mage_Selenium_TestCase
 {
-
     /**
      * <p>Login to backend</p>
      */
@@ -224,5 +222,4 @@ class Category_DeleteTest extends Mage_Selenium_TestCase
         //Verifying
         $this->assertMessagePresent('success', 'success_deleted_category');
     }
-
 }

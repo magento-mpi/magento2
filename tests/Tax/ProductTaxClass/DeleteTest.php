@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Magento
  *
@@ -36,7 +35,6 @@
  */
 class Tax_ProductTaxClass_DeleteTest extends Mage_Selenium_TestCase
 {
-
     /**
      * <p>Save rule name for clean up</p>
      */
@@ -186,5 +184,4 @@ class Tax_ProductTaxClass_DeleteTest extends Mage_Selenium_TestCase
         //Verifying
         $this->assertMessagePresent('error', 'error_delete_tax_class_product');
     }
-
 }

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Magento
  *
@@ -36,7 +35,6 @@
  */
 class CheckoutOnePage_LoggedIn_WithProductsTest extends Mage_Selenium_TestCase
 {
-
     protected function assertPreConditions()
     {
         $this->addParameter('id', '');
@@ -150,5 +148,4 @@ class CheckoutOnePage_LoggedIn_WithProductsTest extends Mage_Selenium_TestCase
         //Verification
         $this->assertMessagePresent('success', 'success_checkout');
     }
-
 }

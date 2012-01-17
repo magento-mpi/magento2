@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Magento
  *
@@ -36,7 +35,6 @@
  */
 class CmsPolls_Helper extends Mage_Selenium_TestCase
 {
-
     /**
      * Add answers to Poll
      *
@@ -46,7 +44,7 @@ class CmsPolls_Helper extends Mage_Selenium_TestCase
     {
         $answerId = 1;
         foreach ($answersSet as $value) {
-            $this->clickButton('add_new_answer', FALSE);
+            $this->clickButton('add_new_answer', false);
             $this->addParameter('answerId', '-' . $answerId++);
             $this->fillForm($value, 'poll_answers');
         }
@@ -200,5 +198,4 @@ class CmsPolls_Helper extends Mage_Selenium_TestCase
             $this->fail("Could not vote");
         }
     }
-
 }

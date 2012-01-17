@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Magento
  *
@@ -36,7 +35,6 @@
  */
 class Tax_TaxAndPricesValidationFrontendTest extends Mage_Selenium_TestCase
 {
-
     protected function assertPreConditions()
     {
         $this->loginAdminUser();
@@ -50,7 +48,7 @@ class Tax_TaxAndPricesValidationFrontendTest extends Mage_Selenium_TestCase
     public function createCustomer()
     {
         //Data
-        $userData = $this->loadData('customer_account_for_prices_validation', NULL, 'email');
+        $userData = $this->loadData('customer_account_for_prices_validation', null, 'email');
         $addressData = $this->loadData('customer_account_address_for_prices_validation');
         //Steps
         $this->navigate('manage_customers');
@@ -129,7 +127,7 @@ class Tax_TaxAndPricesValidationFrontendTest extends Mage_Selenium_TestCase
                     array('product_name' => $productName, 'category' => $category));
             $priceInProdDetails = $this->loadData($sysConfigData . '_front_prices_in_product_simple_' . $key);
             $this->categoryHelper()->frontOpenCategoryAndValidateProduct($priceInCategory);
-            $this->addParameter('categoryUrl', NULL);
+            $this->addParameter('categoryUrl', null);
             $this->productHelper()->frontOpenProduct($productName, $category);
             $this->categoryHelper()->frontVerifyProductPrices($priceInProdDetails);
             $this->productHelper()->frontAddProductToCart();
@@ -169,5 +167,4 @@ class Tax_TaxAndPricesValidationFrontendTest extends Mage_Selenium_TestCase
             array('total_cat_in_ship_in')
         );
     }
-
 }

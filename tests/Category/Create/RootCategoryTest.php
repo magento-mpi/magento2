@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Magento
  *
@@ -36,7 +35,6 @@
  */
 class Category_Create_RootCategoryTest extends Mage_Selenium_TestCase
 {
-
     /**
      * <p>Login to backend</p>
      */
@@ -131,5 +129,4 @@ class Category_Create_RootCategoryTest extends Mage_Selenium_TestCase
             array('available_product_listing', 'multiselect')
         );
     }
-
 }

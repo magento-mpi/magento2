@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Magento
  *
@@ -36,7 +35,6 @@
  */
 class Order_Create_ExistCustomerTest extends Mage_Selenium_TestCase
 {
-
     /**
      * <p>Log in to Backend.</p>
      */
@@ -58,7 +56,7 @@ class Order_Create_ExistCustomerTest extends Mage_Selenium_TestCase
     public function createSimpleProduct()
     {
         //Data
-        $productData = $this->loadData('simple_product_for_order', NULL, array('general_name', 'general_sku'));
+        $productData = $this->loadData('simple_product_for_order', null, array('general_name', 'general_sku'));
         //Steps
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($productData);
@@ -76,7 +74,7 @@ class Order_Create_ExistCustomerTest extends Mage_Selenium_TestCase
     public function createCustomer()
     {
         //Data
-        $userData = $this->loadData('generic_customer_account', NULL, 'email');
+        $userData = $this->loadData('generic_customer_account', null, 'email');
         $addressData = $this->loadData('all_fields_address');
         //Steps
         $this->navigate('manage_customers');
@@ -121,5 +119,4 @@ class Order_Create_ExistCustomerTest extends Mage_Selenium_TestCase
         $this->clickButtonAndConfirm('cancel', 'confirmation_for_cancel');
         $this->assertMessagePresent('success', 'success_canceled_order');
     }
-
 }

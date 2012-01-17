@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Magento
  *
@@ -36,13 +35,12 @@
  */
 class Mage_Selenium_Uimap_Factory
 {
-
     /**
-     * Array with allowed element names
+     * Array of allowed element names
      *
      * @var array
      */
-    protected static $allowedElementNames = array('buttons', 'messages', 'links', 'fields', 'dropdowns', 'multiselects',
+    protected static $_allowedElementNames = array('buttons', 'messages', 'links', 'fields', 'dropdowns', 'multiselects',
                                                   'checkboxes', 'radiobuttons', 'required', 'pageelements');
 
     /**
@@ -53,7 +51,7 @@ class Mage_Selenium_Uimap_Factory
     }
 
     /**
-     * Performs to create an UIMap object
+     * Creates a UIMap object
      *
      * @param string $elemKey
      * @param string|array $elemValue
@@ -86,7 +84,7 @@ class Mage_Selenium_Uimap_Factory
                 }
                 break;
             default:
-                if (in_array($elemKey, self::$allowedElementNames)) {
+                if (in_array($elemKey, self::$_allowedElementNames)) {
                     $elements = new Mage_Selenium_Uimap_ElementsCollection($elemKey,
                                     $elemValue);
                 }

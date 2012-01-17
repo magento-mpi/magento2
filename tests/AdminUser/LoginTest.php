@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Magento
  *
@@ -36,7 +35,6 @@
  */
 class AdminUser_LoginTest extends Mage_Selenium_TestCase
 {
-
     public function setUpBeforeTests()
     {
         $this->admin('log_in_to_admin', false);
@@ -211,7 +209,7 @@ class AdminUser_LoginTest extends Mage_Selenium_TestCase
     public function loginWithoutPermissions()
     {
         //Data
-        $userData = $this->loadData('generic_admin_user', NULL, array('email', 'user_name'));
+        $userData = $this->loadData('generic_admin_user', null, array('email', 'user_name'));
         $loginData = array('user_name' => $userData['user_name'], 'password' => $userData['password']);
         //Pre-Conditions
         $this->loginAdminUser();
@@ -288,7 +286,7 @@ class AdminUser_LoginTest extends Mage_Selenium_TestCase
     public function forgotPasswordCorrectEmail()
     {
         //Data
-        $userData = $this->loadData('generic_admin_user', NULL, array('email', 'user_name'));
+        $userData = $this->loadData('generic_admin_user', null, array('email', 'user_name'));
         $emailData = array('email' => $userData['email']);
         //Steps
         $this->loginAdminUser();
@@ -346,5 +344,4 @@ class AdminUser_LoginTest extends Mage_Selenium_TestCase
         //Verifying
         $this->assertTrue($this->checkCurrentPage('dashboard'), $this->getParsedMessages());
     }
-
 }

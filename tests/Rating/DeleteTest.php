@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Magento
  *
@@ -36,7 +35,6 @@
  */
 class Rating_DeleteTest extends Mage_Selenium_TestCase
 {
-
     /**
      * <p>Log in to Backend.</p>
      */
@@ -143,5 +141,4 @@ class Rating_DeleteTest extends Mage_Selenium_TestCase
         //Verification
         $this->assertMessagePresent('success', 'success_deleted_rating');
     }
-
 }

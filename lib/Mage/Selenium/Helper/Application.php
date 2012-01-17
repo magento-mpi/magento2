@@ -240,7 +240,7 @@ class Mage_Selenium_Helper_Application extends Mage_Selenium_Helper_Abstract
     }
 
     /**
-     * Retrieve default admin user username
+     * Retrieve default admin user name
      * @return string
      */
     public function getDefaultAdminUsername()

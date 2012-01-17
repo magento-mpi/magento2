@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Magento
  *
@@ -60,7 +59,7 @@ class CheckoutMultipleAddresses_LoggedIn_WithProductsTest extends Mage_Selenium_
     public function createAttribute()
     {
         //Data
-        $attrData = $this->loadData('product_attribute_dropdown_with_options', NULL,
+        $attrData = $this->loadData('product_attribute_dropdown_with_options', null,
                 array('admin_title', 'attribute_code'));
         $associatedAttributes = $this->loadData('associated_attributes',
                 array('General' => $attrData['attribute_code']));
@@ -91,7 +90,7 @@ class CheckoutMultipleAddresses_LoggedIn_WithProductsTest extends Mage_Selenium_
     public function createCustomer()
     {
         //Data
-        $userData = $this->loadData('customer_account_for_prices_validation', NULL, 'email');
+        $userData = $this->loadData('customer_account_for_prices_validation', null, 'email');
         //Steps
         $this->navigate('manage_customers');
         $this->customerHelper()->createCustomer($userData);
@@ -137,10 +136,10 @@ class CheckoutMultipleAddresses_LoggedIn_WithProductsTest extends Mage_Selenium_
     public function createProductForAssociated($productDataSet, $productType, $attrData, $customerData)
     {
         //Data
-        $productData = $this->loadData($productDataSet, NULL, array('general_name', 'general_sku'));
+        $productData = $this->loadData($productDataSet, null, array('general_name', 'general_sku'));
         $productData['general_user_attr']['dropdown'][$attrData['attribute_code']] =
                 $attrData['option_1']['admin_option_name'];
-        $checkoutData = $this->loadData('multiple_exist_flatrate_checkmoney', array('checkout_as_customer' => NULL));
+        $checkoutData = $this->loadData('multiple_exist_flatrate_checkmoney', array('checkout_as_customer' => null));
         $checkoutData['shipping_address_data']['address_to_ship_1']['general_name'] = $productData['general_name'];
         $checkoutData['products_to_add']['product_1']['general_name'] = $productData['general_name'];
         if(preg_match('/virtual_product_visible/', $productDataSet) ||
@@ -215,7 +214,7 @@ class CheckoutMultipleAddresses_LoggedIn_WithProductsTest extends Mage_Selenium_
         $productData = $this->loadData($productDataSet);
         $customOptions = $this->loadData('custom_options_to_add_to_shopping_cart');
         $customOptionsDownloadableLinks = $this->loadData('downloadable_options_to_add_to_shopping_cart');
-        $checkoutData = $this->loadData('multiple_exist_flatrate_checkmoney', array('checkout_as_customer' => NULL));
+        $checkoutData = $this->loadData('multiple_exist_flatrate_checkmoney', array('checkout_as_customer' => null));
         $checkoutData['shipping_address_data']['address_to_ship_1']['general_name'] = $productData['general_name'];
         $checkoutData['products_to_add']['product_1']['general_name'] = $productData['general_name'];
         if(preg_match('/virtual_/', $productDataSet) || preg_match('/downloadable_/', $productDataSet)) {

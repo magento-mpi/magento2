@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Magento
  *
@@ -36,7 +35,6 @@
  */
 class Installation extends Mage_Selenium_TestCase
 {
-
     /**
      * Make sure that customer is not logged in, and navigate to homepage
      * @BeforeMethod
@@ -112,5 +110,4 @@ class Installation extends Mage_Selenium_TestCase
         //Go to Frontend
         $this->assertTrue($this->frontend());
     }
-
 }

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Magento
  *
@@ -36,7 +35,6 @@
  */
 class CmsPages_DeleteTest extends Mage_Selenium_TestCase
 {
-
     protected function assertPreconditions()
     {
         $this->loginAdminUser();
@@ -71,5 +69,4 @@ class CmsPages_DeleteTest extends Mage_Selenium_TestCase
         //Verification
         $this->assertMessagePresent('success', 'success_deleted_cms_page');
     }
-
 }

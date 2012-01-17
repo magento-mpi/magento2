@@ -35,7 +35,6 @@
  */
 class Tags_BackendDeleteTest extends Mage_Selenium_TestCase
 {
-
     /**
      * <p>Log in to Backend.</p>
      */
