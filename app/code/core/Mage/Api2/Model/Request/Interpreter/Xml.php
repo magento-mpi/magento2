@@ -1,26 +1,56 @@
 <?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    Mage
+ * @package     Mage_Api2
+ * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
 
 /**
- * Request body XML parser
+ * Request content interpreter XML adapter
+ *
+ * @category    Mage
+ * @package     Mage_Api2
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Api2_Model_Request_Interpreter_Xml implements Mage_Api2_Model_Request_Interpreter_Interface
 {
     /**
      * Parse Request body into array of params
      *
-     * @param string $body
-     * @param null|array $options
-     * @return array
+     * @param string $body  Posted content from request
+     * @return array|null   Return NULL if content is invalid
+     * @throws Exception
      */
-    public function interpret($body, $options = null)
+    public function interpret($body)
     {
-        /*$xml = simplexml_load_string($body);
-        $data = Mage_Api2_Helper_Data::simpleXmlToArray($xml);*/
-
-        $body = strstr($body, '<?xml')  ?$body  :'<?xml version="1.0"?>'.PHP_EOL.$body;
-        $xml = new Zend_Config_Xml($body);
-        $data = $xml->toArray();
-
-        return $data;
+        if (!is_string($body)) {
+            throw new Exception('Content is not a string.');
+        }
+        $body = 0 === strpos($body, '<?xml') ? $body : '<?xml version="1.0"?>' . PHP_EOL . $body;
+        try {
+            $xml = new Zend_Config_Xml($body);
+        } catch (Zend_Config_Exception $e) {
+            return null;
+        }
+        return $xml->toArray();
     }
 }
