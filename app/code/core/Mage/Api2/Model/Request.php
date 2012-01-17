@@ -1,4 +1,28 @@
 <?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    Mage
+ * @package     Mage_Api2
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
 
 
 /**
@@ -13,7 +37,11 @@
  */
 class Mage_Api2_Model_Request extends Zend_Controller_Request_Http
 {
+    /** API url template with API type variable */
     const BASE_URL = '/api/:api/';
+
+    /** Used charset */
+    const DEFAULT_CHARSET = 'utf-8';
 
     /**
      * Interpreter adapter
@@ -22,6 +50,9 @@ class Mage_Api2_Model_Request extends Zend_Controller_Request_Http
      */
     protected $_interpreter;
 
+    /**
+     * Constructor
+     */
     public function __construct()
     {
         $replace = array(':api' => $this->getApiType('rest'));
@@ -32,14 +63,14 @@ class Mage_Api2_Model_Request extends Zend_Controller_Request_Http
     }
 
     /**
+     * Get request interpreter
+     *
      * @return Mage_Api2_Model_Request_Interpreter_Interface
      */
     protected function _getInterpreter()
     {
         if (null === $this->_interpreter) {
-            $this->_interpreter = Mage_Api2_Model_Request_Interpreter::factory(
-                $this->getContentType()->type
-            );
+            $this->_interpreter = Mage_Api2_Model_Request_Interpreter::factory($this->getContentType());
         }
         return $this->_interpreter;
     }
@@ -65,7 +96,17 @@ class Mage_Api2_Model_Request extends Zend_Controller_Request_Http
         list($type, $string) = explode(';', $string);
         list(, $charset) = explode('=', $string);
 
-        return ((object) array('type' => trim($type), 'charset' => trim($charset)));
+        //alternatively we could convert request data to DEFAULT_CHARSET
+        if ($charset!=self::DEFAULT_CHARSET) {
+            throw new Mage_Api2_Exception(
+                sprintf('Invalid request charset defined in Content-type header "%s", please provide data in utf-8',
+                    htmlspecialchars($charset)
+                ),
+                Mage_Api2_Model_Server::HTTP_BAD_REQUEST
+            );
+        }
+
+        return trim($type);
     }
 
     public function getAcceptTypes()
@@ -78,6 +119,15 @@ class Mage_Api2_Model_Request extends Zend_Controller_Request_Http
         foreach ($definitions as $definition) {
             $array = explode(';', $definition);
             $type = trim(array_shift($array));
+
+            $matches = null;
+            $result = preg_match('~^([0-9a-z*+\-]+)(?:/([0-9a-z*+\-\.]+))?$~i', $type, $matches);
+            if(!$result) {
+                throw new Mage_Api2_Exception(
+                    sprintf('Invalid Accept HTTP header type "%s"', htmlspecialchars($type)),
+                    Mage_Api2_Model_Server::HTTP_BAD_REQUEST
+                );
+            }
 
             $params = array();
             foreach ($array as $param) {
@@ -93,7 +143,8 @@ class Mage_Api2_Model_Request extends Zend_Controller_Request_Http
             $quality = isset($params['q'])  ?$params['q']   :'1.0';     //No "q" means "q=1"
 
             unset($params['q']);
-            list(, $subtype) = explode('/', $type);
+
+            $subtype = isset($matches[2])   ?$matches[2]    :null;
             if ($type == '*/*') {
                 $group = 1;
             } elseif ($subtype=='*') {
@@ -211,7 +262,7 @@ class Mage_Api2_Model_Request extends Zend_Controller_Request_Http
         //TODO what charset it is request/response?
         // * request charset determined by Content-Type HTTP header
         // * response charset determined by Accept-Charset HTTP header
-        $encoding = 'utf-8';
+        $encoding = self::DEFAULT_CHARSET;
 
         return $encoding;
     }

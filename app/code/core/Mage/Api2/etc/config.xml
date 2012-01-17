@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Mage_Api2>
-            <version>1.6.0.0</version>
+            <version>1.0.0.0</version>
         </Mage_Api2>
     </modules>
     <global>
@@ -47,6 +47,16 @@
                 <resourceModel>api_resource</resourceModel>
             </api2>
         </models>
+        <blocks>
+            <api2>
+                <class>Mage_Api2_Block</class>
+            </api2>
+        </blocks>
+        <helpers>
+            <api2>
+                <class>Mage_Api2_Helper</class>
+            </api2>
+        </helpers>
         <api2 module="api2">
             <auth_adapters>
                 <oauth translate="label">
@@ -103,4 +113,24 @@
             </responce>
         </api2>
     </global>
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <api2 before="Mage_Adminhtml">Mage_Api2_Adminhtml</api2>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+    <adminhtml>
+        <layout>
+            <updates>
+                <api2>
+                    <file>api2.xml</file>
+                </api2>
+            </updates>
+        </layout>
+    </adminhtml>
 </config>
