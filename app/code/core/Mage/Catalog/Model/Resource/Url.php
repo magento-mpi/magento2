@@ -174,6 +174,40 @@ class Mage_Catalog_Model_Resource_Url extends Mage_Core_Model_Resource_Db_Abstra
     }
 
     /**
+     * Get last used increment part of rewrite request path
+     *
+     * @param string $prefix
+     * @param string $suffix
+     * @param int $storeId
+     * @return int
+     */
+    public function getLastUsedRewriteRequestIncrement($prefix, $suffix, $storeId)
+    {
+        $adapter = $this->_getWriteAdapter();
+        $requestPathField = new Zend_Db_Expr($adapter->quoteIdentifier('request_path'));
+        //select increment part of request path and cast expression to integer
+        $urlIncrementPartExpression = Mage::getResourceHelper('eav')
+            ->getCastToIntExpression($adapter->getSubstringSql(
+                $requestPathField,
+                strlen($prefix) + 1,
+                $adapter->getLengthSql($requestPathField) . ' - ' . strlen($prefix) . ' - ' . strlen($suffix)
+            ));
+        $select = $adapter->select()
+            ->from($this->getMainTable(), new Zend_Db_Expr('MAX(' . $urlIncrementPartExpression . ')'))
+            ->where('store_id = :store_id')
+            ->where('request_path LIKE :request_path')
+            ->where($adapter->prepareSqlCondition('request_path', array(
+                'regexp' => '^' . preg_quote($prefix) . '[0-9]*' . preg_quote($suffix) . '$'
+            )));
+        $bind = array(
+            'store_id'            => (int)$storeId,
+            'request_path'        => $prefix . '%' . $suffix,
+        );
+
+        return (int)$adapter->fetchOne($select, $bind);
+    }
+
+    /**
      * Validate array of request paths. Return first not used path in case if validations passed
      *
      * @param array $paths
