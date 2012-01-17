@@ -74,22 +74,22 @@ class Mage_Api2_Model_Auth_Adapter
     }
 
     /**
-     * Process request by adapters and figure out an API user type
+     * Process request by adapters and figure out an API user role
      *
      * @param Mage_Api2_Model_Request $request
      * @return string
      * @throws Exception
      */
-    public function getUserType(Mage_Api2_Model_Request $request)
+    public function getUserRole(Mage_Api2_Model_Request $request)
     {
         foreach ($this->_adapters as $adapterModel) {
             /** @var $adapterModel Mage_Api2_Model_Auth_Adapter_Abstract */
-            $userType = $adapterModel->getUserType($request);
+            $userRole = $adapterModel->getUserRole($request);
 
-            if (false !== $userType) {
-                return $userType;
+            if (false !== $userRole) {
+                return $userRole;
             }
         }
-        throw new Exception('Can not determine user type');
+        throw new Exception('Can not determine user role');
     }
 }

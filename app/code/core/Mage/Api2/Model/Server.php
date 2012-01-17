@@ -65,11 +65,12 @@ class Mage_Api2_Model_Server
         $response = Mage::getSingleton('api2/response');
 
         try {
+            /** @var $apiUser Mage_Api2_Model_Auth_User_Abstract */
             $apiUser = $this->_authenticate($request);
 
             $this->_route($request)
-                ->_allow($request)
-                ->_dispatch($request, $response);
+                ->_allow($request, $apiUser)
+                ->_dispatch($request, $response, $apiUser);
         } catch (Exception $e) {
             $this->_catchCritical($request, $response, $e);
         }
@@ -107,15 +108,20 @@ class Mage_Api2_Model_Server
         return $this;
     }
 
-    protected function _allow(Mage_Api2_Model_Request $request)
+    /**
+     * @param Mage_Api2_Model_Request $request
+     * @param Mage_Api2_Model_Auth_User_Abstract $apiUser
+     * @return Mage_Api2_Model_Server
+     * @throws Mage_Api2_Exception
+     */
+    protected function _allow(Mage_Api2_Model_Request $request, Mage_Api2_Model_Auth_User_Abstract $apiUser)
     {
-        $accessKey = $request->getAccessKey();
         $resourceType = $request->getResourceType();
         $operation = $request->getOperation();
 
         /** @var $globalAcl Mage_Api2_Model_Acl_Global */
         $globalAcl = Mage::getModel('api2/acl_global');
-        $isAllowed = $globalAcl->isAllowed($accessKey, $resourceType, $operation);
+        $isAllowed = $globalAcl->isAllowed($apiUser, $resourceType, $operation);
 
         if (!$isAllowed) {
             throw new Mage_Api2_Exception('Authorization error.', self::HTTP_FORBIDDEN);
@@ -130,12 +136,16 @@ class Mage_Api2_Model_Server
      *
      * @param Mage_Api2_Model_Request $request
      * @param Mage_Api2_Model_Response $response
+     * @param Mage_Api2_Model_Auth_User_Abstract $apiUser
      * @return Zend_Controller_Response_Http
      */
-    protected function _dispatch(Mage_Api2_Model_Request $request, Mage_Api2_Model_Response $response)
+    protected function _dispatch(
+        Mage_Api2_Model_Request $request,
+        Mage_Api2_Model_Response $response,
+        Mage_Api2_Model_Auth_User_Abstract $apiUser)
     {
         /** @var $dispatcher Mage_Api2_Model_Dispatcher */
-        $dispatcher = Mage::getModel('api2/dispatcher');
+        $dispatcher = Mage::getModel('api2/dispatcher', $apiUser);
         $dispatcher->dispatch($request, $response);
         
         return $response;

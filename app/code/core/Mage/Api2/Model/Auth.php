@@ -34,7 +34,7 @@
 class Mage_Api2_Model_Auth
 {
     /**
-     * Figure out API user type, create user model instance
+     * Figure out API user role and create user model instance
      *
      * @param Mage_Api2_Model_Request $request
      * @throws Exception
@@ -47,19 +47,19 @@ class Mage_Api2_Model_Auth
         /** @var $authAdapter Mage_Api2_Model_Auth_Adapter */
         $authAdapter = Mage::getModel('api2/auth_adapter');
 
-        $userTypes = $helper->getUserTypes();
-        $userType  = $authAdapter->getUserType($request);
+        $userRoles = $helper->getUserRoles();
+        $userRole  = $authAdapter->getUserRole($request);
 
-        if (!isset($userTypes[$userType])) {
-            throw new Exception('Invalid user type or type is not allowed');
+        if (!isset($userRoles[$userRole])) {
+            throw new Exception('Invalid user role or role is not allowed');
         }
         /** @var $userModel Mage_Api2_Model_Auth_User_Abstract */
-        $userModel = Mage::getModel($userTypes[$userType]);
+        $userModel = Mage::getModel($userRoles[$userRole]);
 
         if (!$userModel instanceof Mage_Api2_Model_Auth_User_Abstract) {
             throw new Exception('User model must to extend Mage_Api2_Model_Auth_User_Abstract');
         }
-        $userModel->setType($userType);
+        $userModel->setRole($userRole);
 
         return $userModel;
     }

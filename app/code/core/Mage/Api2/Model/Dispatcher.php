@@ -36,6 +36,23 @@ class Mage_Api2_Model_Dispatcher
     const RESOURCE_CLASS_TEMPLATE = ':resource_:api_:user_V:version';
 
     /**
+     * API User object
+     *
+     * @var Mage_Api2_Model_Auth_User_Abstract
+     */
+    protected $_apiUser;
+
+    /**
+     * Dispatcher constructor
+     *
+     * @param Mage_Api2_Model_Auth_User_Abstract $apiUser
+     */
+    public function __construct(Mage_Api2_Model_Auth_User_Abstract $apiUser)
+    {
+        $this->setApiUser($apiUser);
+    }
+
+    /**
      * Load class file, instantiate resource class, set parameters to the instance, run resource internal dispatch
      * method
      *
@@ -66,13 +83,9 @@ class Mage_Api2_Model_Dispatcher
      */
     protected function buildClassName(Mage_Api2_Model_Request $request)
     {
-        $accessKey = $request->getAccessKey();
-        $user = new Mage_OAuth_Model_User($accessKey);
-        $userType = $user->getType('guest');
-
         $resource = $request->getParam('model');     //set in Mage_Api2_Model_Router::_setRequestParams
         $apiType = ucfirst($request->getApiType());
-        $userType = ucfirst($userType);
+        $userType = ucfirst($this->_apiUser->getRole());
         $version = $request->getVersion();
 
         $replace = array(
@@ -84,6 +97,19 @@ class Mage_Api2_Model_Dispatcher
         $class = strtr(self::RESOURCE_CLASS_TEMPLATE, $replace);
 
         return $class;
+    }
+
+    /**
+     * Set API user object
+     *
+     * @param Mage_Api2_Model_Auth_User_Abstract $apiUser
+     * @return Mage_Api2_Model_Dispatcher
+     */
+    public function setApiUser(Mage_Api2_Model_Auth_User_Abstract $apiUser)
+    {
+        $this->_apiUser = $apiUser;
+
+        return $this;
     }
 
     /**
