@@ -64,8 +64,8 @@ class Mage_Catalog_Block_Product_View_Options_Type_Select
             }
             foreach ($_option->getValues() as $_value) {
                 $priceStr = $this->_formatPrice(array(
-                    'is_percent' => ($_value->getPriceType() == 'percent'),
-                    'pricing_value' => $_value->getPrice(($_value->getPriceType() != 'percent'))
+                    'is_percent' => ($_value->getPriceType() == 'percent') ? true : false,
+                    'pricing_value' => $_value->getPrice(true)
                 ), false);
                 $select->addOption(
                     $_value->getOptionTypeId(),
@@ -99,11 +99,7 @@ class Mage_Catalog_Block_Product_View_Options_Type_Select
                     $type = 'radio';
                     $class = 'radio';
                     if (!$_option->getIsRequire()) {
-                        $selectHtml .= '<li><input type="radio" id="options_' . $_option->getId() . '" class="'
-                            . $class . ' product-custom-option" name="options[' . $_option->getId() . ']"'
-                            . ($this->getSkipJsReloadPrice() ? '' : ' onclick="opConfig.reloadPrice()"')
-                            . ' value="" checked="checked" /><span class="label"><label for="options_'
-                            . $_option->getId() . '">' . $this->__('None') . '</label></span></li>';
+                        $selectHtml .= '<li><input type="radio" id="options_'.$_option->getId().'" class="'.$class.' product-custom-option" name="options['.$_option->getId().']"' . ($this->getSkipJsReloadPrice() ? '' : ' onclick="opConfig.reloadPrice()"') . ' value="" checked="checked" /><span class="label"><label for="options_'.$_option->getId().'">' . $this->__('None') . '</label></span></li>';
                     }
                     break;
                 case Mage_Catalog_Model_Product_Option::OPTION_TYPE_CHECKBOX:
@@ -128,19 +124,14 @@ class Mage_Catalog_Block_Product_View_Options_Type_Select
                     $checked = $configValue == $htmlValue ? 'checked' : '';
                 }
 
-                $selectHtml .= '<li>' . '<input type="' . $type . '" class="' . $class . ' ' . $require
-                    . ' product-custom-option"'
-                    . ($this->getSkipJsReloadPrice() ? '' : ' onclick="opConfig.reloadPrice()"')
-                    . ' name="options[' . $_option->getId() . ']' . $arraySign . '" id="options_' . $_option->getId()
-                    . '_' . $count . '" value="' . $htmlValue . '" ' . $checked . ' price="'
-                    . $this->helper('core')->currencyByStore($_value->getPrice(true), $store, false) . '" />'
-                    . '<span class="label"><label for="options_' . $_option->getId() . '_' . $count . '">'
-                    . $_value->getTitle() . ' ' . $priceStr . '</label></span>';
+                $selectHtml .= '<li>' .
+                               '<input type="'.$type.'" class="'.$class.' '.$require.' product-custom-option"' . ($this->getSkipJsReloadPrice() ? '' : ' onclick="opConfig.reloadPrice()"') . ' name="options['.$_option->getId().']'.$arraySign.'" id="options_'.$_option->getId().'_'.$count.'" value="' . $htmlValue . '" ' . $checked . ' price="' . $this->helper('core')->currencyByStore($_value->getPrice(true), $store, false) . '" />' .
+                               '<span class="label"><label for="options_'.$_option->getId().'_'.$count.'">'.$_value->getTitle().' '.$priceStr.'</label></span>';
                 if ($_option->getIsRequire()) {
-                    $selectHtml .= '<script type="text/javascript">' . '$(\'options_' . $_option->getId() . '_'
-                    . $count . '\').advaiceContainer = \'options-' . $_option->getId() . '-container\';'
-                    . '$(\'options_' . $_option->getId() . '_' . $count
-                    . '\').callbackFunction = \'validateOptionsCallback\';' . '</script>';
+                    $selectHtml .= '<script type="text/javascript">' .
+                                    '$(\'options_'.$_option->getId().'_'.$count.'\').advaiceContainer = \'options-'.$_option->getId().'-container\';' .
+                                    '$(\'options_'.$_option->getId().'_'.$count.'\').callbackFunction = \'validateOptionsCallback\';' .
+                                   '</script>';
                 }
                 $selectHtml .= '</li>';
             }
