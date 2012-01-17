@@ -26,10 +26,20 @@
  */
 
 /**
- * Test Api2 config model
+ * Test request interpreter JSON adapter
+ *
+ * @category   Mage
+ * @package    Mage_Api2
+ * @subpackage integration_tests
+ * @author     Magento Api Team <apia-team@magento.com>
  */
 class Mage_Api2_Model_Request_Interpreter_JsonTest extends Magento_TestCase
 {
+    /**
+     * Content fixture
+     *
+     * @var array
+     */
     protected $_fixture;
 
     /**
@@ -40,13 +50,13 @@ class Mage_Api2_Model_Request_Interpreter_JsonTest extends Magento_TestCase
     protected function _getFixture()
     {
         if (null === $this->_fixture) {
-            $this->_fixture = require dirname(__FILE__) . '/_fixture/json.php';
+            $this->_fixture = require dirname(__FILE__) . '/_fixture/typesContent.php';
         }
         return $this->_fixture;
     }
 
     /**
-     * Test interpret JSON content
+     * Test interpret content
      */
     function testInterpretContent()
     {
@@ -54,19 +64,35 @@ class Mage_Api2_Model_Request_Interpreter_JsonTest extends Magento_TestCase
         $adapter = new Mage_Api2_Model_Request_Interpreter_Json();
         $this->assertEquals(
             $data['decoded'],
-            $adapter->interpret($data['encoded']),
-            'JSON decoded data is not like expected.');
+            $adapter->interpret($data['json_encoded']),
+            'Decoded data is not like expected.');
     }
 
     /**
-     * Test interpret bad JSON content
+     * Test interpret bad content
      */
     function testInterpretBadContent()
     {
         $data = $this->_getFixture();
         $adapter = new Mage_Api2_Model_Request_Interpreter_Json();
         $this->assertEmpty(
-            $adapter->interpret($data['invalid_encoded']),
-            'Result of decode bad JSON string should be empty.');
+            $adapter->interpret($data['json_invalid_encoded']),
+            'Result of decode bad string should be empty.');
+    }
+
+    /**
+     * Test interpret content not a string
+     */
+    function testInterpretContentNotString()
+    {
+        $adapter = new Mage_Api2_Model_Request_Interpreter_Json();
+        try {
+            $adapter->interpret(new stdClass());
+        } catch (Exception $e) {
+            $this->assertEquals(
+                'Content is not a string.',
+                $e->getMessage(),
+                'Unknown exception on interpret not a string value.');
+        }
     }
 }
