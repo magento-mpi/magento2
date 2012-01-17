@@ -31,7 +31,7 @@
  * @package    Mage_Api2
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Api2_Model_Route_Abstract extends Zend_Controller_Router_Route
+abstract class Mage_Api2_Model_Route_Abstract extends Zend_Controller_Router_Route
 {
     /**#@+
      * Names for Zend_Controller_Router_Route::__construct params

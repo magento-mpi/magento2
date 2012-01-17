@@ -50,10 +50,7 @@ class Mage_Api2_Model_Router extends Varien_Object
             throw new Mage_Api2_Exception('Matched resource is not properly set.',
                 Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR);
         }
-
-        foreach ($params as $param => $value) {
-            $request->setParam($param, $value);
-        }
+        $request->setParams($params);
 
         return $this;
     }
