@@ -100,11 +100,9 @@ class Mage_Api2_Model_Server
      */
     protected function _route(Mage_Api2_Model_Request $request)
     {
-        $apiType = $request->getApiType();
-
         /** @var $router Mage_Api2_Model_Router */
         $router = Mage::getModel('api2/router');
-        $router->setRoutes($this->_getConfig()->getRoutes($apiType))->route($request);
+        $router->setRoutes($this->_getConfig()->getRoutes($request->getApiType()))->route($request);
 
         return $this;
     }
