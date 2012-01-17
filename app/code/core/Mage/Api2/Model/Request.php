@@ -59,7 +59,7 @@ class Mage_Api2_Model_Request extends Zend_Controller_Request_Http
         $baseUrl = strtr(self::BASE_URL, $replace);
         $this->setBaseUrl($baseUrl);
 
-        $this->setParam('accessKey', Mage_Api2_Model_Old::getTestAccessKey());
+        //$this->setParam('accessKey', Mage_Api2_Model_Old::getTestAccessKey());
     }
 
     /**

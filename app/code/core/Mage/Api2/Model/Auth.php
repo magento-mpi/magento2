@@ -43,12 +43,15 @@ class Mage_Api2_Model_Auth
     public function authenticate(Mage_Api2_Model_Request $request)
     {
         /** @var $helper Mage_Api2_Helper_Data */
-        $helper = Mage::helper('api2');
+        $helper    = Mage::helper('api2/data');
+        $userRoles = $helper->getUserRoles();
+
+        if (!$userRoles) {
+            throw new Exception('No allowed user roles found');
+        }
         /** @var $authAdapter Mage_Api2_Model_Auth_Adapter */
         $authAdapter = Mage::getModel('api2/auth_adapter');
-
-        $userRoles = $helper->getUserRoles();
-        $userRole  = $authAdapter->getUserRole($request);
+        $userRole    = $authAdapter->getUserRole($request);
 
         if (!isset($userRoles[$userRole])) {
             throw new Exception('Invalid user role or role is not allowed');

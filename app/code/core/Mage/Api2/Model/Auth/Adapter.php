@@ -41,14 +41,6 @@ class Mage_Api2_Model_Auth_Adapter
     protected $_adapters = array();
 
     /**
-     * Object constructor loads enabled adapters
-     */
-    public function __construct()
-    {
-        $this->_initAdapters();
-    }
-
-    /**
      * Load adapters configuration and create adapters models
      *
      * @return Mage_Api2_Model_Auth_Adapter
@@ -82,6 +74,8 @@ class Mage_Api2_Model_Auth_Adapter
      */
     public function getUserRole(Mage_Api2_Model_Request $request)
     {
+        $this->_initAdapters();
+
         foreach ($this->_adapters as $adapterModel) {
             /** @var $adapterModel Mage_Api2_Model_Auth_Adapter_Abstract */
             $userRole = $adapterModel->getUserRole($request);
