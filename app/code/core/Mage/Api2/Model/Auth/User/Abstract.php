@@ -33,4 +33,24 @@
  */
 abstract class Mage_Api2_Model_Auth_User_Abstract
 {
+    /**
+     * User Type
+     *
+     * @var string
+     */
+    protected $_type;
+
+    /**
+     * Set user type
+     *
+     * @param string $type
+     * @throws Exception
+     */
+    public function setType($type)
+    {
+        if ($this->_type) {
+            throw new Exception('User type has been already set');
+        }
+        $this->_type = $type;
+    }
 }

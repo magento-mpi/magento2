@@ -190,6 +190,23 @@ class Mage_OAuth_Model_Token extends Mage_Core_Model_Abstract
     }
 
     /**
+     * Get OAuth user type
+     *
+     * @return string
+     * @throws Exception
+     */
+    public function getUserType()
+    {
+        if ($this->getAdminId()) {
+            return self::USER_TYPE_ADMIN;
+        } elseif ($this->getCustomerId()) {
+            return self::USER_TYPE_CUSTOMER;
+        } else {
+            Mage::throwException('User type is unknown');
+        }
+    }
+
+    /**
      * Get string representation of token
      *
      * @param string $format

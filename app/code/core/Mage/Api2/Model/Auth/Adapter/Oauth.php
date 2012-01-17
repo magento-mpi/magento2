@@ -25,7 +25,7 @@
  */
 
 /**
- * Webservice api2 abstract
+ * oAuth Authenticatin adapter
  *
  * @category   Mage
  * @package    Mage_Api2
@@ -33,4 +33,27 @@
  */
 class Mage_Api2_Model_Auth_Adapter_Oauth extends Mage_Api2_Model_Auth_Adapter_Abstract
 {
+    /**
+     * Process request and figure out an API user type
+     *
+     * @param Mage_Api2_Model_Request $request
+     * @return string|boolean Return boolean FALSE if can not determine user type
+     */
+    public function getUserType(Mage_Api2_Model_Request $request)
+    {
+        $headerValue = $request->getHeader('Authorization');
+
+        if (!$headerValue || 'OAuth' !== substr($headerValue, 0, 5)) {
+            return false;
+        }
+        /** @var $oauthServer Mage_OAuth_Model_Server */
+        $oauthServer = Mage::getModel('oauth/server', $request);
+        $requestUrl  = $request->getScheme() . '://' . $request->getHttpHost() . $request->getRequestUri();
+
+        try {
+            return $oauthServer->checkAccessRequest($requestUrl)->getUserType();
+        } catch (Exception $e) {
+            return false;
+        }
+    }
 }

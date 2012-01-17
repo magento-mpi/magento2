@@ -45,8 +45,32 @@ class Mage_Api2_Model_Auth_Adapter
      */
     public function __construct()
     {
+        $this->_initAdapters();
+    }
+
+    /**
+     * Load adapters configuration and create adapters models
+     *
+     * @return Mage_Api2_Model_Auth_Adapter
+     * @throws Exception
+     */
+    protected function _initAdapters()
+    {
         /** @var $helper Mage_Api2_Helper_Data */
         $helper = Mage::helper('api2');
+
+        foreach ($helper->getAuthAdapters(true) as $adapterKey => $adapterParams) {
+            $adapterModel = Mage::getModel($adapterParams['model']);
+
+            if (!$adapterModel instanceof Mage_Api2_Model_Auth_Adapter_Abstract) {
+                throw new Exception('Authentication adapter must to extend Mage_Api2_Model_Auth_Adapter_Abstract');
+            }
+            $this->_adapters[$adapterKey] = $adapterModel;
+        }
+        if (!$this->_adapters) {
+            throw new Exception('No active authentication adapters found');
+        }
+        return $this;
     }
 
     /**
@@ -54,9 +78,18 @@ class Mage_Api2_Model_Auth_Adapter
      *
      * @param Mage_Api2_Model_Request $request
      * @return string
+     * @throws Exception
      */
     public function getUserType(Mage_Api2_Model_Request $request)
     {
-        return '';
+        foreach ($this->_adapters as $adapterModel) {
+            /** @var $adapterModel Mage_Api2_Model_Auth_Adapter_Abstract */
+            $userType = $adapterModel->getUserType($request);
+
+            if (false !== $userType) {
+                return $userType;
+            }
+        }
+        throw new Exception('Can not determine user type');
     }
 }

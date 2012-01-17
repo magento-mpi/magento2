@@ -164,7 +164,7 @@ class Mage_OAuth_Model_Server
     /**
      * Response object
      *
-     * @var Mage_Core_Controller_Response_Http
+     * @var Zend_Controller_Response_Http
      */
     protected $_response = null;
 
@@ -178,11 +178,19 @@ class Mage_OAuth_Model_Server
     /**
      * Internal constructor not depended on params
      *
-     * @param Mage_Core_Controller_Request_Http $request OPTIONAL Request object (If not specified - use singlton)
+     * @param Zend_Controller_Request_Http $request OPTIONAL Request object (If not specified - use singleton)
+     * @throws Exception
      */
     public function __construct($request = null)
     {
-        $this->_request = $request instanceof Mage_Core_Controller_Request_Http ? $request : Mage::app()->getRequest();
+        if (is_object($request)) {
+            if (!$request instanceof Zend_Controller_Request_Http) {
+                throw new Exception('Invalid request object passed');
+            }
+            $this->_request = $request;
+        } else {
+            $this->_request = Mage::app()->getRequest();
+        }
     }
 
     /**
@@ -229,7 +237,7 @@ class Mage_OAuth_Model_Server
     /**
      * Retrieve response object
      *
-     * @return Mage_Core_Controller_Response_Http
+     * @return Zend_Controller_Response_Http
      */
     protected function _getResponse()
     {
@@ -241,6 +249,8 @@ class Mage_OAuth_Model_Server
 
     /**
      * Initialize consumer
+     *
+     * @throws Mage_OAuth_Exception
      */
     protected function _initConsumer()
     {
@@ -257,6 +267,7 @@ class Mage_OAuth_Model_Server
      * Load token object, validate it depending on request type, set access data and save
      *
      * @return Mage_OAuth_Model_Server
+     * @throws Mage_OAuth_Exception
      */
     protected function _initToken()
     {
@@ -308,6 +319,7 @@ class Mage_OAuth_Model_Server
      * @param string|null $url OPTIONAL Requested URL (used in signature verification)
      *                                  It will try to define it automatically if possible
      * @return Mage_OAuth_Model_Server
+     * @throws Mage_Core_Exception
      */
     protected function _processRequest($requestType, $url = null)
     {
@@ -339,42 +351,6 @@ class Mage_OAuth_Model_Server
         $this->_saveToken();
 
         return $this;
-    }
-
-    /**
-     * Create response string for problem during request and set HTTP error code
-     *
-     * @param Exception $e
-     * @return string
-     */
-    protected function _reportProblem(Exception $e)
-    {
-        $eMsg = $e->getMessage();
-
-        if ($e instanceof Mage_OAuth_Exception) {
-            $eCode = $e->getCode();
-
-            if (isset($this->_errors[$eCode])) {
-                $errorMsg = $this->_errors[$eCode];
-                $responseCode = $this->_errorsToHttpCode[$eCode];
-            } else {
-                $errorMsg = 'unknown_problem&code=' . $eCode;
-                $responseCode = self::HTTP_INTERNAL_ERROR;
-            }
-            if (self::ERR_PARAMETER_ABSENT == $eCode) {
-                $errorMsg .= '&oauth_parameters_absent=' . $eMsg;
-            } elseif (self::ERR_SIGNATURE_INVALID == $eCode) {
-                $errorMsg .= '&debug_sbs=' . $eMsg;
-            } elseif ($eMsg) {
-                $errorMsg .= '&message=' . $eMsg;
-            }
-        } else {
-            $errorMsg = 'internal_error&message=' . ($eMsg ? $eMsg : 'empty_message');
-            $responseCode = self::HTTP_INTERNAL_ERROR;
-        }
-        $this->_getResponse()->setHttpResponseCode($responseCode);
-
-        return 'oauth_problem=' . $errorMsg;
     }
 
     /**
@@ -452,6 +428,8 @@ class Mage_OAuth_Model_Server
 
     /**
      * Validate parameters
+     *
+     * @throws Mage_OAuth_Exception
      */
     protected function _validateParams()
     {
@@ -495,6 +473,7 @@ class Mage_OAuth_Model_Server
      * Validate signature
      *
      * @param string $url Request URL to be a part of data to sign
+     * @throws Mage_OAuth_Exception
      */
     protected function _validateSignature($url)
     {
@@ -523,10 +502,10 @@ class Mage_OAuth_Model_Server
             $this->_throwException('oauth_token', self::ERR_PARAMETER_ABSENT);
         }
         if (!is_string($this->_params['oauth_token'])) {
-            $this->_throwException('oauth_token', self::ERR_TOKEN_REJECTED);
+            $this->_throwException('', self::ERR_TOKEN_REJECTED);
         }
         if (strlen($this->_params['oauth_token']) != Mage_OAuth_Model_Token::LENGTH_TOKEN) {
-            $this->_throwException('oauth_token', self::ERR_TOKEN_REJECTED);
+            $this->_throwException('', self::ERR_TOKEN_REJECTED);
         }
     }
 
@@ -539,10 +518,10 @@ class Mage_OAuth_Model_Server
             $this->_throwException('oauth_verifier', self::ERR_PARAMETER_ABSENT);
         }
         if (!is_string($this->_params['oauth_verifier'])) {
-            $this->_throwException('oauth_verifier', self::ERR_VERIFIER_INVALID);
+            $this->_throwException('', self::ERR_VERIFIER_INVALID);
         }
         if (strlen($this->_params['oauth_verifier']) != Mage_OAuth_Model_Token::LENGTH_VERIFIER) {
-            $this->_throwException('oauth_verifier', self::ERR_VERIFIER_INVALID);
+            $this->_throwException('', self::ERR_VERIFIER_INVALID);
         }
     }
 
@@ -561,7 +540,7 @@ class Mage_OAuth_Model_Server
 
             $response = $this->_token->toString();
         } catch (Exception $e) {
-            $response = $this->_reportProblem($e);
+            $response = $this->reportProblem($e);
         }
         $this->_getResponse()->setBody($response);
     }
@@ -583,21 +562,16 @@ class Mage_OAuth_Model_Server
     }
 
     /**
-     * Validate request with access token
+     * Validate request with access token for specified URL
      *
      * @param string $url Request URL
-     * @return boolean
+     * @return Mage_OAuth_Model_Token
      */
     public function checkAccessRequest($url)
     {
-        try {
-            $this->_processRequest(self::REQUEST_RESOURCE, $url);
-        } catch (Exception $e) {
-            $this->_getResponse()->setBody($this->_reportProblem($e));
+        $this->_processRequest(self::REQUEST_RESOURCE, $url);
 
-            return false;
-        }
-        return true;
+        return $this->_token;
     }
 
     /**
@@ -643,18 +617,58 @@ class Mage_OAuth_Model_Server
 
             $response = $this->_token->toString() . '&oauth_callback_confirmed=true';
         } catch (Exception $e) {
-            $response = $this->_reportProblem($e);
+            $response = $this->reportProblem($e);
         }
         $this->_getResponse()->setBody($response);
     }
 
     /**
+     * Create response string for problem during request and set HTTP error code
+     *
+     * @param Exception $e
+     * @param Zend_Controller_Response_Http $response OPTIONAL If NULL - will use internal getter
+     * @return string
+     */
+    public function reportProblem(Exception $e, Zend_Controller_Response_Http $response = null)
+    {
+        $eMsg = $e->getMessage();
+
+        if ($e instanceof Mage_OAuth_Exception) {
+            $eCode = $e->getCode();
+
+            if (isset($this->_errors[$eCode])) {
+                $errorMsg = $this->_errors[$eCode];
+                $responseCode = $this->_errorsToHttpCode[$eCode];
+            } else {
+                $errorMsg = 'unknown_problem&code=' . $eCode;
+                $responseCode = self::HTTP_INTERNAL_ERROR;
+            }
+            if (self::ERR_PARAMETER_ABSENT == $eCode) {
+                $errorMsg .= '&oauth_parameters_absent=' . $eMsg;
+            } elseif (self::ERR_SIGNATURE_INVALID == $eCode) {
+                $errorMsg .= '&debug_sbs=' . $eMsg;
+            } elseif ($eMsg) {
+                $errorMsg .= '&message=' . $eMsg;
+            }
+        } else {
+            $errorMsg = 'internal_error&message=' . ($eMsg ? $eMsg : 'empty_message');
+            $responseCode = self::HTTP_INTERNAL_ERROR;
+        }
+        if (!$response) {
+            $response = $this->_getResponse();
+        }
+        $response->setHttpResponseCode($responseCode);
+
+        return 'oauth_problem=' . $errorMsg;
+    }
+
+    /**
      * Set response object
      *
-     * @param Mage_Core_Controller_Response_Http $response
+     * @param Zend_Controller_Response_Http $response
      * @return Mage_OAuth_Model_Server
      */
-    public function setResponse(Mage_Core_Controller_Response_Http $response)
+    public function setResponse(Zend_Controller_Response_Http $response)
     {
         $this->_response = $response;
 

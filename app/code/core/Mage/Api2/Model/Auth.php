@@ -33,14 +33,6 @@
  */
 class Mage_Api2_Model_Auth
 {
-    /**#@+
-     * Api2 user types
-     */
-    const USER_TYPE_ADMIN    = 'admin';
-    const USER_TYPE_CUSTOMER = 'customer';
-    const USER_TYPE_GUEST    = 'guest';
-    /**#@-*/
-
     /**
      * Figure out API user type, create user model instance
      *
@@ -61,6 +53,14 @@ class Mage_Api2_Model_Auth
         if (!isset($userTypes[$userType])) {
             throw new Exception('Invalid user type or type is not allowed');
         }
-        return Mage::getModel($userTypes[$userType]);
+        /** @var $userModel Mage_Api2_Model_Auth_User_Abstract */
+        $userModel = Mage::getModel($userTypes[$userType]);
+
+        if (!$userModel instanceof Mage_Api2_Model_Auth_User_Abstract) {
+            throw new Exception('User model must to extend Mage_Api2_Model_Auth_User_Abstract');
+        }
+        $userModel->setType($userType);
+
+        return $userModel;
     }
 }

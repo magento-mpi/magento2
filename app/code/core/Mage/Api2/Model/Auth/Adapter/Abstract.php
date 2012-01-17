@@ -37,10 +37,7 @@ abstract class Mage_Api2_Model_Auth_Adapter_Abstract
      * Process request and figure out an API user type
      *
      * @param Mage_Api2_Model_Request $request
-     * @return string
+     * @return string|boolean Return boolean FALSE if can not determine user type
      */
-    public function getUserType(Mage_Api2_Model_Request $request)
-    {
-        return '';
-    }
+    abstract public function getUserType(Mage_Api2_Model_Request $request);
 }
