@@ -38,7 +38,7 @@ abstract class Mage_Api2_Model_Request_Interpreter
      *
      * @static
      * @param string $type
-     * @return Mage_Core_Model_Abstract
+     * @return Mage_Api2_Model_Request_Interpreter_Interface
      * @throws Exception|Mage_Api2_Exception
      */
     public static function factory($type)
