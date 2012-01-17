@@ -59,9 +59,6 @@
 </div>
 <script type="text/javascript">
 //<![CDATA[
-    if (typeof productConfigure == 'undefined') {
-        productConfigure = {};
-    }
     Event.observe(window, 'load',  function() {
         addBySku = new AddBySku(<?php echo $this->getJsOrderObject() ?>, productConfigure, <?php echo $this->getAddBySkuDataJson() ?>);
         <?php echo $this->getAdditionalJavascript() ?>
