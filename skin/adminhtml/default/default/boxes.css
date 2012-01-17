@@ -481,6 +481,7 @@ button.icon-btn span { text-indent:-999em; display:block; width:16px; padding:0;
 .side-col .switcher select { width:100%; }
 /*.side-col .switcher     { margin-right:20px; margin-bottom:20px; }*/
 .catalog-categories .side-col .switcher { margin-right:0; margin-bottom:15px; }
+.link-storeScope { display:inline-block; vertical-align:middle; margin:0 0 1px; width:16px; height:16px; background:url(images/i_question-mark.png) 0 0 no-repeat; text-decoration:none !important; text-indent:-999em; overflow:hidden; }
 
 
 /* SPACE

@@ -250,8 +250,13 @@ class Mage_Adminhtml_Block_Store_Switcher extends Mage_Adminhtml_Block_Template
         $html = '';
         $url = $this->getHintUrl();
         if ($url) {
-            $html = '<a href="' . $this->escapeUrl($url) . '" onclick="this.target=\'_blank\'" class="link-storeScope">'
-                . $this->__('What is this?') . '</a>';
+            $html = '<a'
+                . ' href="'. $this->escapeUrl($url) . '"'
+                . ' onclick="this.target=\'_blank\'"'
+                . ' title="' . $this->__('What is this?') . '"'
+                . ' class="link-storeScope">'
+                . $this->__('What is this?')
+                . '</a>';
         }
         return $html;
     }
