@@ -652,11 +652,10 @@ class Mage_Catalog_Model_Url
             $match[1] = $match[1] . '-';
             $match[4] = isset($match[4]) ? $match[4] : '';
 
-            $lastRequestPath = $this->getResource()->getLastUsedRewriteRequestPath($match[1], $match[4], $storeId);
-            if ($lastRequestPath && preg_match($regularExpression, $lastRequestPath, $matchLastRequestPath)) {
-                $match = $matchLastRequestPath;
-                $match[1] = $match[1] . '-';
-                $match[4] = isset($match[4]) ? $match[4] : '';
+            $lastRequestPath = $this->getResource()
+                ->getLastUsedRewriteRequestIncrement($match[1], $match[4], $storeId);
+            if ($lastRequestPath) {
+                $match[3] = $lastRequestPath;
             }
             return $match[1]
                 . (isset($match[3]) ? ($match[3]+1) : '1')
