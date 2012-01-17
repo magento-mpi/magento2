@@ -38,7 +38,8 @@
     strict="false">
     <testsuites>
         <testsuite name="All Tests">
-            <directory suffix="Test.php">tests</directory>
+            <directory suffix="InputDataValidationTest.php">tests/CheckoutMultipleAddresses/LoggedIn</directory>
+            <directory suffix="InputDataValidationTest.php">tests/CheckoutMultipleAddresses/WithRegistration</directory>
         </testsuite>
     </testsuites>
     <logging>

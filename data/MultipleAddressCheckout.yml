@@ -130,11 +130,29 @@ multiple_shipping_new_usa: &newShippingUsa
 
 ################################################################################
 #                                                                              #
+#                                 Payment Card Data                            #
+#                                                                              #
+################################################################################
+
+multiple_front_saved_visa: &visaSavedCC
+    name_on_card: 'Test Account'
+    card_type: 'Visa'
+    card_number: '4000000000000002'
+    expiration_month: '07 - July'
+    expiration_year: '2020'
+    card_verification_number: '111'
+
+################################################################################
+#                                                                              #
 #                                 Payment Method                               #
 #                                                                              #
 ################################################################################
 multiple_front_payment_checkmoney: &checkMoney
     payment_method: Check / Money order
+
+multiple_front_payment_credit_card: &creditCard
+    payment_method: Credit Card (saved)
+    payment_info: *visaSavedCC
 
 ################################################################################
 #                                                                              #
@@ -397,3 +415,105 @@ multiple_payment_methods_register:
     <<: *multiplePaymentCommon
     general_account_info: *generalAccountInfo
     checkout_as_customer: *register
+
+################################################################################
+#                                                                              #
+#                     Order Data for InputDataValidation                      #
+#                                                                              #
+################################################################################
+
+#Auxiliary dataset
+multiple_invalid_data_common: &multipleInvalidCommon
+    products_to_add:
+        product_1:
+            general_name: %noValue%
+
+multiple_invalid_data_register:
+    <<: *multipleInvalidCommon
+    general_account_info: *generalAccountInfo
+    checkout_as_customer: *register
+
+multiple_invalid_data_ship_address:
+    <<: *multipleInvalidCommon
+    shipping_address_data:
+        address_to_add_1:
+            shipping_address: *newShippingSignedInReq
+
+multiple_empty_data_ship_address:
+    <<: *multipleInvalidCommon
+    checkout_as_customer: *login
+    shipping_address_data:
+        address_to_add_1:
+            shipping_address: *newShippingSignedInReq
+        address_to_ship_1:
+            general_name: %noValue%
+            qty: 1
+            shipping_address: *newShippingSignedInReq
+    shipping_data:
+        address_1:
+            search_shipping_address: *newShippingSignedInReq
+
+
+multiple_invalid_data_bill_address:
+    <<: *multipleInvalidCommon
+    shipping_address_data:
+        address_to_add_1:
+            shipping_address: *newShippingSignedInReq
+        address_to_ship_1:
+            general_name: %noValue%
+            qty: 1
+            shipping_address: *newShippingSignedInReq
+    shipping_data:
+        address_1:
+            search_shipping_address: *newShippingSignedInReq
+            shipping_method: *flatRate
+    billing_address_data:
+        new_address: *newBillingSignedInReqPhysical
+
+multiple_invalid_data_billing_address:
+    <<: *multipleInvalidCommon
+    shipping_address_data:
+        address_to_add_1:
+            shipping_address: *newShippingSignedInReq
+        address_to_ship_1:
+            general_name: %noValue%
+            qty: 1
+            shipping_address: *newShippingSignedInReq
+    shipping_data:
+        address_1:
+            search_shipping_address: *newShippingSignedInReq
+            shipping_method: *flatRate
+    billing_address_data:
+        new_address: *newBillingSignedInReqPhysical
+
+multiple_undefined_payment_method:
+    <<: *multipleInvalidCommon
+    shipping_address_data:
+        address_to_add_1:
+            shipping_address: *newShippingSignedInReq
+        address_to_ship_1:
+            general_name: %noValue%
+            qty: 1
+            shipping_address: *newShippingSignedInReq
+    shipping_data:
+        address_1:
+            search_shipping_address: *newShippingSignedInReq
+            shipping_method: *flatRate
+    billing_address_data: %noValue%
+
+multiple_empty_payment:
+    <<: *multipleInvalidCommon
+    shipping_address_data:
+        address_to_add_1:
+            shipping_address: *newShippingSignedInReq
+        address_to_ship_1:
+            general_name: %noValue%
+            qty: 1
+            shipping_address: *newShippingSignedInReq
+    shipping_data:
+        address_1:
+            search_shipping_address: *newShippingSignedInReq
+            shipping_method: *flatRate
+    billing_address_data: %noValue%
+    payment_data: *creditCard
+

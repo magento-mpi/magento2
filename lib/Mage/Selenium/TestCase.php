@@ -116,7 +116,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      *
      * @var string
      */
-    protected $_name = null;
+    protected $name = null;
 
     /**
      * The name of the expected Exception.
@@ -301,7 +301,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $this->_uimapHelper = $this->_testConfig->getUimapHelper();
 
         if ($name !== null) {
-            $this->_name = $name;
+            $this->name = $name;
         }
         $this->_data = $data;
         $this->dataName = $dataName;
@@ -2784,7 +2784,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             $result = $this->createResult();
         }
 
-        $this->setTestResultObject($result);
+//        $this->setTestResultObject($result);
         $this->_result = $result;
 
         $this->collectCodeCoverageInformation = $result->getCollectCodeCoverageInformation();
@@ -2897,7 +2897,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 
         try {
             $class = new ReflectionClass($this);
-            $method = $class->getMethod($this->_name);
+            $method = $class->getMethod($this->name);
         } catch (ReflectionException $e) {
             $this->fail($e->getMessage());
         }

@@ -54,7 +54,6 @@ checkout_multishipping_login:
             different_passwords: "//*[@id='advice-validate-cpassword-%fieldId%'][not(contains(@style,'display: none;'))]"
             invalid_password_length: "//*[@id='advice-validate-password-%fieldId%'][not(contains(@style,'display: none;'))]"
             invalid_email_address: "//*[@id='advice-validate-email-%fieldId%'][not(contains(@style,'display: none;'))]"
-            exist_email_alert: There is already a customer registered using this email address. Please login using this email address or enter a different email address to register your account.
             long_value_alert: '"%fieldName%" length must be equal or less than 255 characters.'
             invalid_credit_card_number: "//div[@id='advice-validate-cc-type-ccsave_cc_number' and not(contains(@style,'display: none;'))]"
             invalid_credit_card_type: "//div[@id='advice-validate-cc-type-select-ccsave_cc_type' and not(contains(@style,'display: none;'))]"
@@ -69,6 +68,7 @@ checkout_multishipping_login:
             shipping_alert: Please specify shipping method.
             payment_alert: Please specify payment method.
             success_checkout: //h2[contains(.,'Thank you for your purchase!')]
+            success_registered_user: //li[normalize-space(@class)='success-msg' and contains(.,'Thank you for registering with')]
 
 checkout_multishipping_register:
     mca: checkout/multishipping/register/
@@ -102,14 +102,14 @@ checkout_multishipping_register:
                             password: //input[@id='password']
                             password_confirmation: //input[@id='confirmation']
         messages:
-            not_valid_length_first_name: //li[normalize-space(@class)='error-msg' and contains(.,'"First Name" length must be equal or less than 255 characters.')]
-            not_valid_length_last_name: //li[normalize-space(@class)='error-msg' and contains(.,'"Last Name" length must be equal or less than 255 characters.')]
+            not_valid_length: //li[normalize-space(@class)='error-msg' and contains(.,'"%fieldName%" length must be equal or less than 255 characters.')]
             not_valid_length_email: //li[normalize-space(@class)='error-msg' and contains(.,'"Email" exceeds the allowed length.')]
-            empty_required_field: %fieldXpath%/following-sibling::*[text()='This is a required field.']
+            empty_required_field: "//*[@id='advice-required-entry-%fieldId%'][not(contains(@style,'display: none;'))]"
             invalid_mail: //div[@id='advice-validate-email-email_address']
             passwords_not_match: //div[@id='advice-validate-cpassword-confirmation']
             short_passwords: //div[@id='advice-validate-password-password']
             email_exists: //li[span='There is already an account with this email address. If you are sure that it is your email address, click here to get your password and access your account.']
+            please_select_option: "//*[@id='advice-validate-select-%fieldId%'][not(contains(@style,'display: none;'))]"
 
 checkout_multishipping_addresses:
     mca: checkout/multishipping/addresses/
@@ -137,8 +137,9 @@ checkout_multishipping_addresses:
             shipping_information: //li[@title='Shipping Information']
             billing_information: //li[@title='Billing Information']
             place_order: //li[@title='Place Order']
-            address_box: //div[./h2[text()='Shipping Information'] and //div[./address[%param%]]]/h3
+            address_box: //div[./h2[text()='Shipping Information'] and //div[./address%param%]]/h3
             order_success: //li[@title='Order Success']
+        messages: *checkoutMessages
 
 
 checkout_multishipping_add_new_address:
@@ -202,7 +203,7 @@ checkout_multishipping_shipping_methods:
                             gift_option_for_individual_items_message: //div[h5[contains(.,'%productName%')]]//textarea[@title='From']
                             ship_service_name: //div[div/h1[contains(text(),'Select Shipping Method')]]/form/div[h2[contains(.,'%addressHeader%')]]//dt[text()='%shipService%']
                         pageelements:
-                            address_box_ship: //div/h2[following-sibling::*//div[./address[%param%]]]
+                            address_box_ship: //div/h2[following-sibling::*//div[./address%param%]]
         buttons:
             continue_to_billing_information: //button[span='Continue to Billing Information']
         links:
@@ -283,8 +284,8 @@ checkout_multishipping_select_billing_address:
                         buttons:
                             add_new_address: //button[span='Add New Address']
                         links:
-                            edit_address: //div[./address[%param%]]//a[contains(@href, 'multishipping_address/editAddress/id/')]
-                            select_address: //div[./address[%param%]]//a[contains(@href, 'multishipping_address/setBilling/id/')]
+                            edit_address: //div[./address%param%]//a[contains(@href, 'multishipping_address/editAddress/id/')]
+                            select_address: //div[./address%param%]//a[contains(@href, 'multishipping_address/setBilling/id/')]
         messages: *checkoutMessages
 
 checkout_multishipping_create_billing_address:
