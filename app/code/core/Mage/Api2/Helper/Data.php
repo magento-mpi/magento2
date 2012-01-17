@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Webservice apia2 data helper
+ * Webservice API2 data helper
  *
  * @category   Mage
  * @package    Mage_Api2
@@ -9,6 +9,11 @@
  */
 class Mage_Api2_Helper_Data extends Mage_Core_Helper_Abstract
 {
+    /**
+     * Request interpret adapters
+     */
+    const XML_PATH_API2_REQUEST_INTERPRETERS = 'global/api2/request/interpreters';
+
     /**#@+
      * Config paths
      */
@@ -160,30 +165,11 @@ class Mage_Api2_Helper_Data extends Mage_Core_Helper_Abstract
      * Get interpreter type for Request body according to Content-type HTTP header
      *
      * @throws Mage_Api2_Exception
-     * @param Mage_Api2_Model_Request $request
-     * @return string
+     * @return array
      */
-    public function getInterpreterType(Mage_Api2_Model_Request $request)
+    public function getRequestInterpreterAdapters()
     {
-        $type = $request->getContentType()->type;
-
-        /** @var $config Mage_Api2_Model_Config */
-        $config = Mage::getModel('api2/config');
-        $found = null;
-        foreach ($config->getMimeTypesMappingForRequest() as $supported=>$path) {
-            if ($supported==$type || $supported=='*/*' || $supported==current(explode('/', $type)).'/*') {
-                $found = $path;
-                break;
-            }
-        }
-
-        if ($found===null) {
-            throw new Mage_Api2_Exception(
-                sprintf('Invalid Request media type "%s"', $type),
-                Mage_Api2_Model_Server::HTTP_BAD_REQUEST
-            );
-        }
-
-        return $found;
+        $adapters = (array) Mage::app()->getConfig()->getNode(self::XML_PATH_API2_REQUEST_INTERPRETERS);
+        return $adapters;
     }
 }

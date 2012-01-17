@@ -70,6 +70,37 @@
                     <allowed>1</allowed>
                 </guest>
             </user_types>
+            <request>
+                <interpreters>
+                    <text_plain>
+                        <type>text/plain</type>
+                        <model>api2/request_interpreter_query</model>
+                    </text_plain>
+                    <text_html>
+                        <type>text/html</type>
+                        <model>api2/request_interpreter_html</model>
+                    </text_html>
+                    <application_json>
+                        <type>application/json</type>
+                        <model>api2/request_interpreter_json</model>
+                    </application_json>
+                    <application_xml>
+                        <type>application/xml</type>
+                        <model>api2/request_interpreter_xml</model>
+                    </application_xml>
+                    <application_xhtml_xml>
+                        <type>application/xhtml+xml</type>
+                        <model>api2/request_interpreter_xml</model>
+                    </application_xhtml_xml>
+                    <text_xml>
+                        <type>text/xml</type>
+                        <model>api2/request_interpreter_xml</model>
+                    </text_xml>
+                </interpreters>
+            </request>
+            <responce>
+
+            </responce>
         </api2>
     </global>
 </config>

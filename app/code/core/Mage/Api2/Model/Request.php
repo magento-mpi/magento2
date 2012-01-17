@@ -15,13 +15,33 @@ class Mage_Api2_Model_Request extends Zend_Controller_Request_Http
 {
     const BASE_URL = '/api/:api/';
 
+    /**
+     * Interpreter adapter
+     *
+     * @var Mage_Api2_Model_Request_Interpreter_Interface
+     */
+    protected $_interpreter;
+
     public function __construct()
     {
         $replace = array(':api' => $this->getApiType('rest'));
         $baseUrl = strtr(self::BASE_URL, $replace);
         $this->setBaseUrl($baseUrl);
-        
+
         $this->setParam('accessKey', Mage_Api2_Model_Old::getTestAccessKey());
+    }
+
+    /**
+     * @return Mage_Api2_Model_Request_Interpreter_Interface
+     */
+    protected function _getInterpreter()
+    {
+        if (null === $this->_interpreter) {
+            $this->_interpreter = Mage_Api2_Model_Request_Interpreter::factory(
+                $this->getContentType()->type
+            );
+        }
+        return $this->_interpreter;
     }
 
     /**
@@ -31,21 +51,21 @@ class Mage_Api2_Model_Request extends Zend_Controller_Request_Http
      */
     public function getBodyParams()
     {
-        return Mage_Api2_Model_Request_Interpreter::factory($this)->interpret($this->getRawBody());
+        return $this->_getInterpreter()->interpret($this->getRawBody());
     }
 
     /**
      * Get Content-Type of Request body parsed into object
      *
-     * @return object
+     * @return stdClass
      */
     public function getContentType()
     {
         $string = $this->getHeader('Content-Type');
         list($type, $string) = explode(';', $string);
-        list(,$charset) = explode('=', $string);
+        list(, $charset) = explode('=', $string);
 
-        return ((object)array('type' => trim($type), 'charset' => trim($charset)));
+        return ((object) array('type' => trim($type), 'charset' => trim($charset)));
     }
 
     public function getAcceptTypes()

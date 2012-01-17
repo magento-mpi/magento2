@@ -1,34 +1,80 @@
 <?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    Mage
+ * @package     Mage_Api2
+ * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
 
+/**
+ * Request content interpreter factory
+ *
+ * @category    Mage
+ * @package     Mage_Api2
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
 abstract class Mage_Api2_Model_Request_Interpreter
 {
     /**
      * Request body interpreters factory
      *
      * @static
-     * @throw
-     * @param mixed $input
-     * @return Mage_Api2_Model_Request_Interpreter_Interface
+     * @param string $type
+     * @return Mage_Core_Model_Abstract
+     * @throws Exception|Mage_Api2_Exception
      */
-    public static function factory($input=null)
+    public static function factory($type)
     {
-        if (is_string($input)) {
-            $interpreterType = $input;
-        } elseif ($input instanceof Mage_Api2_Model_Request) {
-            $request = $input;
+        /** @var $helper Mage_Api2_Helper_Data */
+        $helper = Mage::helper('api2');
+        $adapters = $helper->getRequestInterpreterAdapters();
 
-            /** @var $helper Mage_Api2_Helper_Data */
-            $helper = Mage::helper('api2');
+        if (empty($adapters) || !is_array($adapters)) {
+            throw new Exception('Adapters is not set.');
+        }
 
-            $interpreterType = $helper->getInterpreterType($request);
-        } else {
+        $adapterModel = null;
+        foreach ($adapters as $item) {
+            $itemType = $item->type;
+            $model = $item->model;
+            if ($itemType == $type || $itemType == '*/*'
+                || $itemType == current(explode('/', $type)) . '/*'
+            ) {
+                $adapterModel = $model;
+                break;
+            }
+        }
+
+        if ($adapterModel === null) {
             throw new Mage_Api2_Exception(
-                sprintf('Invalid Interpreter factory argument "%s"', $input),
-                Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR
+                sprintf('Invalid Request media type "%s"', $type),
+                Mage_Api2_Model_Server::HTTP_BAD_REQUEST
             );
         }
 
-        //TODO Do we need check here? Or we assume this method receives valid Interpreter definition always
-        return Mage::getModel($interpreterType);
+        $adapter = Mage::getModel($adapterModel);
+        if (!$adapter) {
+            throw new Exception(sprintf('Request interpreter "%s" not found.', $type));
+        }
+
+        return $adapter;
     }
 }
