@@ -212,10 +212,13 @@ class Mage_Api2_Model_Request extends Zend_Controller_Request_Http
      */
     public function getApiType()
     {
-        $route = new Zend_Controller_Router_Route(self::BASE_URL . '*');
-        $data = $route->match($this->getRequestUri());
+        if (null === $this->getParam('api')) {
+            $route = new Zend_Controller_Router_Route(self::BASE_URL . '*');
+            $data = $route->match($this->getRequestUri());
 
-        return $data['api'];
+            $this->setParam('api', $data['api']);
+        }
+        return $this->getParam('api');
     }
 
     public function getAccessKey()

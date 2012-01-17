@@ -78,11 +78,12 @@ class Mage_Api2_Model_Config extends Varien_Simplexml_Config //extends Mage_Api_
     }
 
     /**
-     * Fetch all routes for REST API
+     * Fetch all routes for REST/SOAP API
      *
+     * @param string $apiType
      * @return array
      */
-    protected function _getRoutesRest()
+    protected function _getRoutes($apiType)
     {
         $routes = array();
         foreach ($this->getResources() as $resource) {
@@ -91,25 +92,18 @@ class Mage_Api2_Model_Config extends Varien_Simplexml_Config //extends Mage_Api_
             }
 
             foreach ($resource->routes->children() as $route) {
-                $defaults = array(
-                    'model' => (string)$resource->model,
-                    'type'  => (string)$resource->type,
+                $arguments = array(
+                    Mage_Api2_Model_Route_Abstract::ROUTE_PARAM    => (string)$route->mask,
+                    Mage_Api2_Model_Route_Abstract::DEFAULTS_PARAM => array(
+                        'model' => (string)$resource->model,
+                        'type'  => (string)$resource->type,
+                    )
                 );
 
-                $routes[] = new Mage_Api2_Model_Route_Rest((string)$route->mask, $defaults);
+                $routes[] = Mage::getModel('api2/route_' . $apiType, $arguments);
             }
         }
         return $routes;
-    }
-
-    /**
-     * Fetch all routes for SOAP API
-     *
-     * @return array
-     */
-    protected function _getRoutesSoap()
-    {
-        return array();
     }
 
     /**
@@ -121,10 +115,8 @@ class Mage_Api2_Model_Config extends Varien_Simplexml_Config //extends Mage_Api_
      */
     public function getRoutes($apiType)
     {
-        if (Mage_Api2_Model_Server::API_TYPE_REST == $apiType) {
-            $routes = $this->_getRoutesRest();
-        } elseif (Mage_Api2_Model_Server::API_TYPE_SOAP == $apiType) {
-            $routes = $this->_getRoutesSoap();
+        if (Mage_Api2_Model_Server::API_TYPE_REST == $apiType || Mage_Api2_Model_Server::API_TYPE_SOAP == $apiType) {
+            $routes = $this->_getRoutes($apiType);
         } else {
             throw new Mage_Api2_Exception(sprintf('Invalid API type "%s".', $apiType),
                 Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
