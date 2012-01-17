@@ -118,22 +118,21 @@ class Enterprise_TargetRule_Model_Resource_Index extends Mage_Index_Model_Resour
             ->where('type_id = :type_id')
             ->where('entity_id = :entity_id')
             ->where('store_id = :store_id')
-            ->where('customer_group_id = :customer_group_id')
-            ->where('customer_segment_id in (:customer_segment_ids)');
+            ->where('customer_group_id = :customer_group_id');
 
         $rotationMode = Mage::helper('enterprise_targetrule')->getRotationMode($object->getType());
         if ($rotationMode == Enterprise_TargetRule_Model_Rule::ROTATION_SHUFFLE) {
             $this->orderRand($select);
         }
 
-        $segmentsIds = array_merge(array('null'), $this->_getSegmentsIdsFromCurrentCustomer());
+        $segmentsIds = array_merge(array(0), $this->_getSegmentsIdsFromCurrentCustomer());
         $bind = array(
             ':type_id'              => $object->getType(),
             ':entity_id'            => $object->getProduct()->getEntityId(),
             ':store_id'             => $object->getStoreId(),
-            ':customer_group_id'    => $object->getCustomerGroupId(),
-            ':customer_segment_ids' => implode(',', $segmentsIds)
+            ':customer_group_id'    => $object->getCustomerGroupId()
         );
+
         $segmentsList = $adapter->fetchAll($select, $bind);
 
         $foundSegmentIndexes = array();
@@ -150,7 +149,7 @@ class Enterprise_TargetRule_Model_Resource_Index extends Mage_Index_Model_Resour
                 $matchedProductIds = $this->_matchProductIdsBySegmentId($object, $segmentId);
                 $productIds = array_merge($matchedProductIds, $productIds);
                 $this->getTypeIndex($object->getType())
-                    ->saveResultForCustomerSegments($object, $segmentId, join(',', $matchedProductIds));
+                    ->saveResultForCustomerSegments($object, $segmentId, implode(',', $matchedProductIds));
                 $this->saveFlag($object, $segmentId);
             }
         }
@@ -178,9 +177,7 @@ class Enterprise_TargetRule_Model_Resource_Index extends Mage_Index_Model_Resour
             if (!$rule->checkDateForStore($object->getStoreId())) {
                 continue;
             }
-
-            $excludeProductsIds = array_merge($productIds, $object->getExcludeProductIds());
-            $resultIds = $this->_getProductIdsByRule($rule, $object, $rule->getPositionsLimit(), $excludeProductsIds);
+            $resultIds = $this->_getProductIdsByRule($rule, $object, $rule->getPositionsLimit(), $productIds);
             $productIds = array_merge($productIds, $resultIds);
         }
         return $productIds;

@@ -49,73 +49,39 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 $installer->getConnection()
-    ->addColumn($installer->getTable('enterprise_targetrule/rule'),'use_customer_segment',
-        array('type' => Varien_Db_Ddl_Table::TYPE_SMALLINT, 'unsigned' => true, 'nullable' => false, 'default' => '0',
-        'comment' => 'Use Customer Segment'));
-$installer->getConnection()
-    ->addIndex($installer->getTable('enterprise_targetrule/rule'),
-        $installer->getIdxName('enterprise_targetrule/rule', array('use_customer_segment')),
-        array('use_customer_segment'));
-
-$installer->getConnection()
     ->addColumn($installer->getTable('enterprise_targetrule/index'),'customer_segment_id',
         array('type' => Varien_Db_Ddl_Table::TYPE_SMALLINT, 'nullable' => true, 'default' => '0',
-        'comment' => 'Use Customer Segment'));
+            'comment' => 'Use Customer Segment'));
 $installer->getConnection()
-    ->addIndex($installer->getTable('enterprise_targetrule/index'),
-        $installer->getIdxName('enterprise_targetrule/index', array('customer_segment_id')),
-        array('customer_segment_id'));
-/*$installer->getConnection()
-    ->addForeignKey($installer->getFkName('enterprise_targetrule/index', 'customer_segment_id',
-        'enterprise_customersegment/segment', 'segment_id'),
-        $installer->getTable('enterprise_targetrule/index'), 'customer_segment_id',
-        $installer->getTable('enterprise_customersegment/segment'), 'segment_id',
-        Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE);*/
+    ->addIndex($installer->getTable('enterprise_targetrule/index'), Varien_Db_Adapter_Interface::INDEX_TYPE_PRIMARY,
+        array('entity_id', 'store_id', 'customer_group_id', 'type_id','customer_segment_id'),
+        Varien_Db_Adapter_Interface::INDEX_TYPE_PRIMARY);
 
 $installer->getConnection()
     ->addColumn($installer->getTable('enterprise_targetrule/index_related'),'customer_segment_id',
         array('type' => Varien_Db_Ddl_Table::TYPE_SMALLINT, 'unsigned' => true, 'nullable' => false, 'default' => '0',
-        'comment' => 'Use Customer Segment'));
+            'comment' => 'Use Customer Segment'));
 $installer->getConnection()
     ->addIndex($installer->getTable('enterprise_targetrule/index_related'),
-        $installer->getIdxName('enterprise_targetrule/index_related', array('customer_segment_id')),
-        array('customer_segment_id'));
-/*$installer->getConnection()
-    ->addForeignKey($installer->getFkName('enterprise_targetrule/index_related', 'customer_segment_id',
-        'enterprise_customersegment/segment', 'segment_id'),
-        $installer->getTable('enterprise_targetrule/index_related'), 'customer_segment_id',
-        $installer->getTable('enterprise_customersegment/segment'), 'segment_id',
-        Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE);*/
+        Varien_Db_Adapter_Interface::INDEX_TYPE_PRIMARY, array('entity_id', 'store_id', 'customer_group_id',
+            'customer_segment_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_PRIMARY);
 
 $installer->getConnection()
-    ->addColumn($installer->getTable('enterprise_targetrule/index_upsell'),'customer_segment_id',
+    ->addColumn($installer->getTable('enterprise_targetrule/index_upsell'), 'customer_segment_id',
         array('type' => Varien_Db_Ddl_Table::TYPE_SMALLINT, 'unsigned' => true, 'nullable' => false, 'default' => '0',
-        'comment' => 'Use Customer Segment'));
+            'comment' => 'Use Customer Segment'));
 $installer->getConnection()
     ->addIndex($installer->getTable('enterprise_targetrule/index_upsell'),
-        $installer->getIdxName('enterprise_targetrule/index_upsell', array('customer_segment_id')),
-        array('customer_segment_id'));
-/*$installer->getConnection()
-    ->addForeignKey($installer->getFkName('enterprise_targetrule/index_upsell', 'customer_segment_id',
-        'enterprise_customersegment/segment', 'segment_id'),
-        $installer->getTable('enterprise_targetrule/index_upsell'), 'customer_segment_id',
-        $installer->getTable('enterprise_customersegment/segment'), 'segment_id',
-        Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE);*/
-
+        Varien_Db_Adapter_Interface::INDEX_TYPE_PRIMARY, array('entity_id', 'store_id', 'customer_group_id',
+            'customer_segment_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_PRIMARY);
 
 $installer->getConnection()
     ->addColumn($installer->getTable('enterprise_targetrule/index_crosssell'),'customer_segment_id',
         array('type' => Varien_Db_Ddl_Table::TYPE_SMALLINT, 'unsigned' => true, 'nullable' => false, 'default' => '0',
-        'comment' => 'Use Customer Segment'));
+            'comment' => 'Use Customer Segment'));
 $installer->getConnection()
     ->addIndex($installer->getTable('enterprise_targetrule/index_crosssell'),
-        $installer->getIdxName('enterprise_targetrule/index_crosssell', array('customer_segment_id')),
-        array('customer_segment_id'));
-/*$installer->getConnection()
-    ->addForeignKey($installer->getFkName('enterprise_targetrule/index_crosssell', 'customer_segment_id',
-        'enterprise_customersegment/segment', 'segment_id'),
-        $installer->getTable('enterprise_targetrule/index_crosssell'), 'customer_segment_id',
-        $installer->getTable('enterprise_customersegment/segment'), 'segment_id',
-        Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE);*/
+        Varien_Db_Adapter_Interface::INDEX_TYPE_PRIMARY, array('entity_id', 'store_id', 'customer_group_id',
+            'customer_segment_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_PRIMARY);
 
 $installer->endSetup();
