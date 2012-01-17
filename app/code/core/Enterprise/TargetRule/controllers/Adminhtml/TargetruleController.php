@@ -136,7 +136,6 @@ class Enterprise_TargetRule_Adminhtml_TargetRuleController extends Mage_Adminhtm
         $redirectParams = array();
 
         $data = $this->getRequest()->getPost();
-        $data = $this->_filterDates($data, array('from_date', 'to_date'));
 
         if ($this->getRequest()->isPost() && $data) {
             /* @var $model Enterprise_TargetRule_Model_Rule */
@@ -145,6 +144,7 @@ class Enterprise_TargetRule_Adminhtml_TargetRuleController extends Mage_Adminhtm
             $hasError       = false;
 
             try {
+                $data = $this->_filterDates($data, array('from_date', 'to_date'));
                 $ruleId = $this->getRequest()->getParam('rule_id');
                 if ($ruleId) {
                     $model->load($ruleId);
@@ -184,6 +184,9 @@ class Enterprise_TargetRule_Adminhtml_TargetRuleController extends Mage_Adminhtm
                 }
             } catch (Mage_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
+                $hasError = true;
+            } catch (Zend_Date_Exception $e) {
+                $this->_getSession()->addError(Mage::helper('enterprise_targetrule')->__('Invalid date.'));
                 $hasError = true;
             } catch (Exception $e) {
                 $this->_getSession()->addException($e,
