@@ -148,7 +148,7 @@ class Enterprise_CustomerSegment_Model_Observer
         /* @var $fieldset Varien_Data_Form_Element_Fieldset */
         $fieldset = $form->getElement('base_fieldset');
 
-        $model->setUseCustomerSegment($model->getCustomerSegmentIds() ? '1' : '0');
+        $model->setUseCustomerSegment(count($model->getCustomerSegmentIds()) > 0 ? '1' : '0');
         $fieldset->addField('use_customer_segment', 'select', array(
                 'name' => 'use_customer_segment',
                 'label' => Mage::helper('enterprise_customersegment')->__('Customer Segments'),
@@ -164,7 +164,7 @@ class Enterprise_CustomerSegment_Model_Observer
                 'name' => 'customer_segment_ids[]',
                 'values' => Mage::getResourceSingleton('enterprise_customersegment/segment_collection')
                         ->toOptionArray(),
-                'can_be_empty' => false,
+                'can_be_empty' => true,
             ));
 
         $htmlIdPrefix = $form->getHtmlIdPrefix();
