@@ -74,6 +74,7 @@
 </table>
 </div>
 <script type="text/javascript">
+//<![CDATA[
 function selectCarrier(elem) {
     option = elem.options[elem.selectedIndex];
     if (option.value && option.value != 'custom') {
@@ -89,4 +90,5 @@ function deleteTrackingNumber(url) {
         submitAndReloadArea($('shipment_tracking_info').parentNode, url)
     }
 }
+//]]>
 </script>
