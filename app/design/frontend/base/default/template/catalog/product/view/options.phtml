@@ -23,7 +23,6 @@
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
-/* @var $this Mage_Catalog_Block_Product_View_Options */
 ?>
 
 <?php $_options = Mage::helper('core')->decorateArray($this->getOptions()) ?>
@@ -110,23 +109,20 @@
             document.observe("dom:loaded", this.reloadPrice.bind(this));
         },
         reloadPrice : function(){
-            var config = this.config;
-            var skipIds = [];
-            $$('body .product-custom-option').each(function(element){
-                var price = 0;
-                var oldPrice = 0;
+            price = new Number();
+            oldPrice = new Number();
+            config = this.config;
+            skipIds = [];
+            $$('.product-custom-option').each(function(element){
                 var optionId = 0;
-                var priceType = '';
                 element.name.sub(/[0-9]+/, function(match){
-                    optionId = parseInt(match[0], 10);
+                    optionId = match[0];
                 });
-                if (config[optionId]) {
-                    var configOptions = config[optionId];
-                    var curConfig = {price: 0};
+                if (this.config[optionId]) {
                     if (element.type == 'checkbox' || element.type == 'radio') {
                         if (element.checked) {
-                            if (typeof configOptions[element.getValue()] != 'undefined') {
-                                curConfig = configOptions[element.getValue()];
+                            if (config[optionId][element.getValue()]['price']) {
+                                price += parseFloat(config[optionId][element.getValue()]['price']);
                             }
                         }
                     } else if(element.hasClassName('datetime-picker') && !skipIds.include(optionId)) {
@@ -137,29 +133,35 @@
                             }
                         });
                         if (dateSelected) {
-                            curConfig = configOptions;
+                            price += parseFloat(this.config[optionId]);
                             skipIds[optionId] = optionId;
                         }
                     } else if(element.type == 'select-one' || element.type == 'select-multiple') {
-                        if ('options' in element) {
+                        if (element.options) {
                             $A(element.options).each(function(selectOption){
-                                if ('selected' in selectOption && selectOption.selected) {
-                                    if (typeof(configOptions[selectOption.value]) != 'undefined') {
-                                        curConfig = configOptions[selectOption.value];
+                                try {
+                                    if (selectOption.selected) {
+                                        if (typeof(this.config[optionId][selectOption.value]['oldPrice']) !== undefined) {
+                                            price += parseFloat(this.config[optionId][selectOption.value]['price']);
+                                            oldPrice += parseFloat(this.config[optionId][selectOption.value]['oldPrice']);
+                                        }
                                     }
-                                }
+                                } catch (e) {}
                             });
                         }
                     } else {
                         if (element.getValue().strip() != '') {
-                            console.log(configOptions);
-                            curConfig = configOptions;
+                            price += parseFloat(this.config[optionId]);
                         }
                     }
-                    optionsPrice.addCustomPrices(element.id || optionId, curConfig);
-                    optionsPrice.reload();
                 }
             });
+            try {
+                optionsPrice.changePrice('config', {'price': price, 'oldPrice': oldPrice, 'optionsPriceInclTax': price});
+                optionsPrice.reload();
+            } catch (e) {
+
+            }
         }
     }
     function validateOptionsCallback(elmId, result){
