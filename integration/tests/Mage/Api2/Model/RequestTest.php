@@ -27,14 +27,13 @@
 
 /**
  * Test Api2 server model
+ *
+ * @todo Implement tests after full implementing
  */
 class Mage_Api2_Model_RequestTest extends Magento_TestCase
 {
     public function testRequestGetBodyParamUseInterpreters()
     {
         $request = new Mage_Api2_Model_Request();
-        $request->getBodyParams();
-
-
     }
 }
