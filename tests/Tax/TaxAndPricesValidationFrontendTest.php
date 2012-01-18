@@ -110,6 +110,7 @@ class Tax_TaxAndPricesValidationFrontendTest extends Mage_Selenium_TestCase
 
     /**
      * Create Order on the backend and validate prices with taxes
+     *
      * @dataProvider validateTaxFrontendDataProvider
      * @depends createCustomer
      * @depends createProducts

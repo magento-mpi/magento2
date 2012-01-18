@@ -94,6 +94,7 @@ class Tax_TaxAndPricesValidationBackendTest extends Mage_Selenium_TestCase
      * @param $sysConfigData
      * @param $customer
      * @param $products
+     *
      * @dataProvider createOrderBackendDataProvider
      * @depends createCustomer
      * @depends createProducts
