@@ -72,7 +72,7 @@ class Newsletter_Helper extends Mage_Selenium_TestCase
     public function checkStatus($status, $searchData)
     {
         $searchData['filter_status'] = ucfirst(strtolower($status));
-
-        return!is_null($this->search($searchData));
+        $searchData = $this->arrayEmptyClear($searchData);
+        return !is_null($this->search($searchData));
     }
 }
