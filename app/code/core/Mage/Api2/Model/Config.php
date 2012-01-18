@@ -78,7 +78,7 @@ class Mage_Api2_Model_Config extends Varien_Simplexml_Config //extends Mage_Api_
     }
 
     /**
-     * Fetch all routes for REST/SOAP API
+     * Fetch all routes for api type
      *
      * @param string $apiType
      * @return array
@@ -115,13 +115,14 @@ class Mage_Api2_Model_Config extends Varien_Simplexml_Config //extends Mage_Api_
      */
     public function getRoutes($apiType)
     {
-        if (Mage_Api2_Model_Server::API_TYPE_REST == $apiType || Mage_Api2_Model_Server::API_TYPE_SOAP == $apiType) {
-            $routes = $this->_getRoutes($apiType);
+        /** @var $helper Mage_Api2_Helper_Data */
+        $helper = Mage::helper('api2');
+        if ($helper->isApiTypeExist($apiType)) {
+            return $this->_getRoutes($apiType);
         } else {
             throw new Mage_Api2_Exception(sprintf('Invalid API type "%s".', $apiType),
                 Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
         }
-        return $routes;
     }
 
     /**

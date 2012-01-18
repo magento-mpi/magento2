@@ -33,12 +33,10 @@
  */
 class Mage_Api2_Model_Server
 {
-    /**#@+
-     * Api2 types
+    /**
+     * Api2 REST type
      */
     const API_TYPE_REST = 'rest';
-    const API_TYPE_SOAP = 'soap';
-    /**#@-*/
 
     /**#@+
      * HTTP Response Codes
@@ -51,6 +49,13 @@ class Mage_Api2_Model_Server
     const HTTP_NOT_ACCEPTABLE = 406;
     const HTTP_INTERNAL_ERROR = 500;
     /**#@- */
+
+    /**
+     * List of api types
+     *
+     * @var array
+     */
+    protected static $_apiTypes = array(self::API_TYPE_REST);
 
     /**
      * Run server, the only public method of the server
@@ -208,5 +213,16 @@ class Mage_Api2_Model_Server
         }
 
         return $this;
+    }
+
+    /**
+     * Retrieve api types
+     *
+     * @static
+     * @return array
+     */
+    public static function getApiTypes()
+    {
+        return self::$_apiTypes;
     }
 }

@@ -199,4 +199,14 @@ class Mage_Api2_Helper_Data extends Mage_Core_Helper_Abstract
     {
         return (array) Mage::app()->getConfig()->getNode(self::XML_PATH_API2_REQUEST_INTERPRETERS);
     }
+
+    /**
+     * Check api type existence
+     *
+     * @param string $type
+     * @return bool
+     */
+    public function isApiTypeExist($type) {
+        return in_array($type, Mage_Api2_Model_Server::getApiTypes());
+    }
 }
