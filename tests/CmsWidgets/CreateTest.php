@@ -22,7 +22,7 @@
  * @package     selenium
  * @subpackage  tests
  * @author      Magento Core Team <core@magentocommerce.com>
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
@@ -50,34 +50,35 @@ class CmsWidgets_CreateTest extends Mage_Selenium_TestCase
     /**
      * <p>Preconditions</p>
      * <p>Creates Category to use during tests</p>
-     *
      * @test
+     * @return string
      */
     public function createCategory()
     {
+        //Data
+        $categoryData = $this->loadData('sub_category_required');
+        //Steps
         $this->navigate('manage_categories');
-        $this->categoryHelper()->checkCategoriesPage();
-        $rootCat = 'Default Category';
-        $categoryData = $this->loadData('sub_category_required', null, 'name');
-        $this->categoryHelper()->createSubCategory($rootCat, $categoryData);
+        $this->categoryHelper()->createCategory($categoryData);
+        //Verification
         $this->assertMessagePresent('success', 'success_saved_category');
         $this->categoryHelper()->checkCategoriesPage();
 
-        return $rootCat . '/' . $categoryData['name'];
+        return $categoryData['parent_category'] . '/' . $categoryData['name'];
     }
 
     /**
      * <p>Preconditions</p>
      * <p>Creates Attribute (dropdown) to use during tests</p>
-     *
      * @test
+     * @return array
      */
     public function createAttribute()
     {
         $attrData = $this->loadData('product_attribute_dropdown_with_options', null,
-                array('admin_title', 'attribute_code'));
+                                    array('admin_title', 'attribute_code'));
         $associatedAttributes = $this->loadData('associated_attributes',
-                array('General' => $attrData['attribute_code']));
+                                                array('General' => $attrData['attribute_code']));
         $this->navigate('manage_attributes');
         $this->productAttributeHelper()->createAttribute($attrData);
         $this->assertMessagePresent('success', 'success_saved_attribute');
@@ -92,12 +93,14 @@ class CmsWidgets_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * Create required products for testing
-     *
      * @dataProvider createProductsDataProvider
      * @depends createCategory
      * @depends createAttribute
-     *
      * @test
+     *
+     * @param $dataProductType
+     * @param $category
+     * @param $attrData
      */
     public function createProducts($dataProductType, $category, $attrData)
     {
@@ -105,11 +108,12 @@ class CmsWidgets_CreateTest extends Mage_Selenium_TestCase
         //Data
         if ($dataProductType == 'configurable') {
             $productData = $this->loadData($dataProductType . '_product_required',
-                    array('configurable_attribute_title' => $attrData['admin_title'],
-                'categories' => $category), array('general_sku', 'general_name'));
+                                           array('configurable_attribute_title' => $attrData['admin_title'],
+                                                'categories'                    => $category),
+                                           array('general_sku', 'general_name'));
         } else {
             $productData = $this->loadData($dataProductType . '_product_required', array('categories' => $category),
-                    array('general_name', 'general_sku'));
+                                           array('general_name', 'general_sku'));
         }
         //Steps
         $this->productHelper()->createProduct($productData, $dataProductType);
@@ -138,10 +142,12 @@ class CmsWidgets_CreateTest extends Mage_Selenium_TestCase
      * <p>2. Create all types of widgets with all fields filled</p>
      * <p>Expected result</p>
      * <p>Widgets are created successfully</p>
-     *
      * @dataProvider widgetTypesDataProvider
      * @depends createCategory
      * @test
+     *
+     * @param $dataWidgetType
+     * @param $category
      */
     public function createAllTypesOfWidgetsAllFields($dataWidgetType, $category)
     {
@@ -151,11 +157,11 @@ class CmsWidgets_CreateTest extends Mage_Selenium_TestCase
         $temp['category_path'] = $category;
         $widgetData = $this->loadData($dataWidgetType . '_widget', $temp, 'widget_instance_title');
         $i = 1;
-        foreach (self::$products['sku'] as $key => $value) {
+        foreach (self::$products['sku'] as $value) {
             $widgetData['layout_updates']['layout_3']['choose_options']['product_' . $i++]['filter_sku'] = $value;
         }
         $i = 1;
-        foreach (self::$products['sku'] as $key => $value) {
+        foreach (self::$products['sku'] as $value) {
             $y = $i + 3;
             $widgetData['layout_updates']['layout_' . $y]['choose_options']['product_' . $i++]['filter_sku'] = $value;
         }
@@ -183,10 +189,12 @@ class CmsWidgets_CreateTest extends Mage_Selenium_TestCase
      * <p>2. Create all types of widgets with required fields filled</p>
      * <p>Expected result</p>
      * <p>Widgets are created successfully</p>
-     *
      * @dataProvider widgetTypesReqDataProvider
      * @depends createCategory
      * @test
+     *
+     * @param $dataWidgetType
+     * @param $category
      */
     public function createAllTypesOfWidgetsReqFields($dataWidgetType, $category)
     {
@@ -219,10 +227,14 @@ class CmsWidgets_CreateTest extends Mage_Selenium_TestCase
      * <p>2. Create all types of widgets with required fields empty</p>
      * <p>Expected result</p>
      * <p>Widgets are not created. Message about required field empty appears.</p>
-     *
      * @dataProvider withEmptyFieldsDataProvider
      * @depends createCategory
      * @test
+     *
+     * @param $dataWidgetType
+     * @param $emptyField
+     * @param $fieldType
+     * @param $category
      */
     public function withEmptyFields($dataWidgetType, $emptyField, $fieldType, $category)
     {

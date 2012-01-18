@@ -22,7 +22,7 @@
  * @package     selenium
  * @subpackage  tests
  * @author      Magento Core Team <core@magentocommerce.com>
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
@@ -49,8 +49,16 @@ class Category_Create_SubCategoryTest extends Mage_Selenium_TestCase
      */
     protected function assertPreConditions()
     {
-        $this->navigate('manage_categories');
+        $this->navigate('manage_categories', false);
         $this->categoryHelper()->checkCategoriesPage();
+    }
+
+    /**
+     * @TODO Temporary workaround(should be deleted)
+     */
+    protected function tearDown()
+    {
+        $this->navigate('manage_categories', false);
     }
 
     /**
@@ -61,21 +69,20 @@ class Category_Create_SubCategoryTest extends Mage_Selenium_TestCase
      * <p>3. Click "Save Category" button</p>
      * <p>Expected Result:</p>
      * <p>Subcategory created, success message appears</p>
-     *
      * @test
+     * @return string
      */
     public function withRequiredFieldsOnly()
     {
         //Data
-        $rooCat = 'Default Category';
-        $categoryData = $this->loadData('sub_category_required', null, 'name');
+        $categoryData = $this->loadData('sub_category_required');
         //Steps
-        $this->categoryHelper()->createSubCategory($rooCat, $categoryData);
+        $this->categoryHelper()->createCategory($categoryData);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_category');
         $this->categoryHelper()->checkCategoriesPage();
 
-        return $rooCat . '/' . $categoryData['name'];
+        return $categoryData['parent_category'] . '/' . $categoryData['name'];
     }
 
     /**
@@ -86,16 +93,17 @@ class Category_Create_SubCategoryTest extends Mage_Selenium_TestCase
      * <p>3. Click "Save Category" button</p>
      * <p>Expected Result:</p>
      * <p>Root Category created, success message appears</p>
-     *
      * @test
      * @depends withRequiredFieldsOnly
+     *
+     * @param $rooCat
      */
     public function rootCategoryWithAllFields($rooCat)
     {
         //Data
-        $categoryData = $this->loadData('category_all', null, 'name');
+        $categoryData = $this->loadData('sub_category_all', array('parent_category'=> $rooCat));
         //Steps
-        $this->categoryHelper()->createSubCategory($rooCat, $categoryData);
+        $this->categoryHelper()->createCategory($categoryData);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_category');
         $this->categoryHelper()->checkCategoriesPage();
@@ -109,17 +117,19 @@ class Category_Create_SubCategoryTest extends Mage_Selenium_TestCase
      * <p>3. Click "Save Category" button</p>
      * <p>Expected Result:</p>
      * <p>Subcategory not created, error message appears</p>
-     *
      * @dataProvider withRequiredFieldsEmptyDataProvider
      * @depends withRequiredFieldsOnly
      * @test
+     *
+     * @param $emptyField
+     * @param $fieldType
      */
-    public function withRequiredFieldsEmpty($emptyField, $fieldType, $rooCat)
+    public function withRequiredFieldsEmpty($emptyField, $fieldType)
     {
         //Data
         $categoryData = $this->loadData('sub_category_required', array($emptyField => '%noValue%'));
         //Steps
-        $this->categoryHelper()->createSubCategory($rooCat, $categoryData);
+        $this->categoryHelper()->createCategory($categoryData);
         //Verifying
         $this->addFieldIdToMessage($fieldType, $emptyField);
         $this->assertMessagePresent('validation', 'empty_required_field');
@@ -142,17 +152,19 @@ class Category_Create_SubCategoryTest extends Mage_Selenium_TestCase
      * <p>3. Click "Save Category" button</p>
      * <p>Expected Result:</p>
      * <p>Subcategory created, success message appears</p>
-     *
      * @depends withRequiredFieldsOnly
      * @test
+     *
+     * @param $rooCat
      */
     public function withSpecialCharacters($rooCat)
     {
         //Data
         $categoryData = $this->loadData('sub_category_required',
-                array('name' => $this->generate('string', 32, ':punct:')));
+                                        array('name'          => $this->generate('string', 32, ':punct:'),
+                                             'parent_category'=> $rooCat));
         //Steps
-        $this->categoryHelper()->createSubCategory($rooCat, $categoryData);
+        $this->categoryHelper()->createCategory($categoryData);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_category');
         $this->categoryHelper()->checkCategoriesPage();
@@ -166,17 +178,19 @@ class Category_Create_SubCategoryTest extends Mage_Selenium_TestCase
      * <p>3. Click "Save Category" button</p>
      * <p>Expected Result:</p>
      * <p>Subcategory created, success message appears</p>
-     *
      * @depends withRequiredFieldsOnly
      * @test
+     *
+     * @param $rooCat
      */
     public function withLongValues($rooCat)
     {
         //Data
         $categoryData = $this->loadData('sub_category_required',
-                array('name' => $this->generate('string', 255, ':alnum:')));
+                                        array('name'          => $this->generate('string', 255, ':alnum:'),
+                                             'parent_category'=> $rooCat));
         //Steps
-        $this->categoryHelper()->createSubCategory($rooCat, $categoryData);
+        $this->categoryHelper()->createCategory($categoryData);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_category');
         $this->categoryHelper()->checkCategoriesPage();
@@ -191,22 +205,24 @@ class Category_Create_SubCategoryTest extends Mage_Selenium_TestCase
      * <p>4. Click "Save Category" button</p>
      * <p>Expected Result:</p>
      * <p>Subcategory created, success message appears</p>
-     *
      * @depends withRequiredFieldsOnly
      * @test
+     *
+     * @param $rooCat
      */
     public function nestedSubCategory($rooCat)
     {
         for ($i = 1; $i <= 10; $i++) {
             //Data
-            $categoryData = $this->loadData('sub_category_required', null, 'name');
+            $categoryData = $this->loadData('sub_category_required', array('parent_category'=> $rooCat));
             //Steps
-            $this->categoryHelper()->createSubCategory($rooCat, $categoryData);
+            $this->categoryHelper()->createCategory($categoryData);
             //Verifying
             $this->assertMessagePresent('success', 'success_saved_category');
             $this->categoryHelper()->checkCategoriesPage();
             //Steps
-            $rooCat.='/' . $categoryData['name'];
+            $rooCat .= '/' . $categoryData['name'];
         }
     }
+
 }

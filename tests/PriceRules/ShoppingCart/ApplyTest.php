@@ -47,7 +47,6 @@ class PriceRules_ShoppingCart_ApplyTest extends Mage_Selenium_TestCase
 
     /**
      * Create Customer for tests
-     *
      * @return array    Returns array with the registration info
      * @test
      */
@@ -61,36 +60,36 @@ class PriceRules_ShoppingCart_ApplyTest extends Mage_Selenium_TestCase
         $this->customerHelper()->createCustomer($userData, $addressData);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_customer');
-        $customer = array('email' => $userData['email'], 'password' => $userData['password']);
+        $customer = array('email'    => $userData['email'],
+                          'password' => $userData['password']);
         return $customer;
     }
 
     /**
      * Create category
-     *
      * @return string   Returns category path
      * @test
      */
     public function createCategory()
     {
-        $this->navigate('manage_categories');
         //Data
-        $rootCat = 'Default Category';
-        $categoryData = $this->loadData('sub_category_required', null, 'name');
+        $categoryData = $this->loadData('sub_category_required');
         //Steps
-        $this->categoryHelper()->createSubCategory($rootCat, $categoryData);
-        //Verifying
+        $this->navigate('manage_categories');
+        $this->categoryHelper()->createCategory($categoryData);
+        //Verification
         $this->assertMessagePresent('success', 'success_saved_category');
+        $this->categoryHelper()->checkCategoriesPage();
 
-        return $rootCat . '/' . $categoryData['name'];
+        return $categoryData['parent_category'] . '/' . $categoryData['name'];
     }
 
     /**
      * Create Simple Products for tests
      *
      * @param string $category  String with the category path
-     * @return array    Returns the array with the sku and name of newly created products
      *
+     * @return array    Returns the array with the sku and name of newly created products
      * @depends createCategory
      * @test
      */
@@ -100,7 +99,8 @@ class PriceRules_ShoppingCart_ApplyTest extends Mage_Selenium_TestCase
         $this->navigate('manage_products');
         for ($i = 1; $i <= 3; $i++) {
             $simpleProductData = $this->loadData('simple_product_for_prices_validation_front_' . $i,
-                    array('categories' => $category), array('general_name', 'general_sku'));
+                                                 array('categories' => $category),
+                                                 array('general_name', 'general_sku'));
             $products['sku'][$i] = $simpleProductData['general_sku'];
             $products['name'][$i] = $simpleProductData['general_name'];
             $this->productHelper()->createProduct($simpleProductData);
@@ -115,7 +115,8 @@ class PriceRules_ShoppingCart_ApplyTest extends Mage_Selenium_TestCase
      * <p>Create Shopping cart price rule</p>
      * <p>Steps:</p>
      * <p>1. Navigate to Promotions - Shopping Cart Price Rules;</p>
-     * <p>2. Fill form for SCPR (Type of discount is provided via data provider); Select specific category in conditions; Add coupon that should be applied;</p>
+     * <p>2. Fill form for SCPR (Type of discount is provided via data provider);
+     * Select specific category in conditions; Add coupon that should be applied;</p>
      * <p>3. Save newly created SCPR;</p>
      * <p>4. Navigate to frontend;</p>
      * <p>5. Add product(s) for which rule should be applied to shopping cart;</p>
@@ -133,7 +134,6 @@ class PriceRules_ShoppingCart_ApplyTest extends Mage_Selenium_TestCase
      * @depends createCustomer
      * @depends createCategory
      * @depends createProducts
-     *
      * @test
      */
     public function createSCPR($ruleType, $customer, $category, $products)
@@ -165,7 +165,6 @@ class PriceRules_ShoppingCart_ApplyTest extends Mage_Selenium_TestCase
 
     /**
      * Data Provider for SCPR
-     *
      * @return array
      */
     public function ruleTypesDataProvider()
