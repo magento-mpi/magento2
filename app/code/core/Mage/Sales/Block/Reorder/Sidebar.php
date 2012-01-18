@@ -42,7 +42,7 @@ class Mage_Sales_Block_Reorder_Sidebar extends Mage_Core_Block_Template
     {
         parent::__construct();
 
-        if (Mage::getSingleton('customer/session')->isLoggedIn()) {
+        if ($this->_getCustomerSession()->isLoggedIn()) {
             $this->setTemplate('sales/order/history.phtml');
             $this->initOrders();
         }
@@ -55,7 +55,7 @@ class Mage_Sales_Block_Reorder_Sidebar extends Mage_Core_Block_Template
     public function initOrders()
     {
         $customerId = $this->getCustomerId() ? $this->getCustomerId()
-            : Mage::getSingleton('customer/session')->getCustomer()->getId();
+            : $this->_getCustomerSession()->getCustomer()->getId();
 
         $orders = Mage::getResourceModel('sales/order_collection')
             ->addAttributeToFilter('customer_id', $customerId)
@@ -131,6 +131,8 @@ class Mage_Sales_Block_Reorder_Sidebar extends Mage_Core_Block_Template
     }
 
     /**
+     * Render "My Orders" sidebar block
+     *
      * @return string
      */
     protected function _toHtml()
@@ -139,6 +141,8 @@ class Mage_Sales_Block_Reorder_Sidebar extends Mage_Core_Block_Template
     }
 
     /**
+     * Retrieve customer session instance
+     *
      * @return Mage_Customer_Model_Session
      */
     protected function _getCustomerSession()
