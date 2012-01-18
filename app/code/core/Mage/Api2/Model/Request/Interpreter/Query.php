@@ -38,15 +38,18 @@ class Mage_Api2_Model_Request_Interpreter_Query implements Mage_Api2_Model_Reque
      *
      * @param string $body  Posted content from request
      * @return array        Return always array
-     * @throws Exception
+     * @throws Exception|Mage_Api2_Exception
      */
     public function interpret($body)
     {
         if (!is_string($body)) {
-            throw new Exception('Content is not a string.');
+            throw new Exception(sprintf('Invalid data type "%s". String expected.', gettype($body)));
         }
         $data = array();
         parse_str($body, $data);
+        if ($data===array()) {
+            throw new Mage_Api2_Exception('Decoding error.', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+        }
         return $data;
     }
 }

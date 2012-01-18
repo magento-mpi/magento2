@@ -38,18 +38,18 @@ class Mage_Api2_Model_Request_Interpreter_Xml implements Mage_Api2_Model_Request
      *
      * @param string $body  Posted content from request
      * @return array|null   Return NULL if content is invalid
-     * @throws Exception
+     * @throws Exception|Mage_Api2_Exception
      */
     public function interpret($body)
     {
         if (!is_string($body)) {
-            throw new Exception('Content is not a string.');
+            throw new Exception(sprintf('Invalid data type "%s". String expected.', gettype($body)));
         }
         $body = 0 === strpos($body, '<?xml') ? $body : '<?xml version="1.0"?>' . PHP_EOL . $body;
         try {
             $xml = new Zend_Config_Xml($body);
         } catch (Zend_Config_Exception $e) {
-            return null;
+            throw new Mage_Api2_Exception('Decoding error.', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
         }
         return $xml->toArray();
     }
