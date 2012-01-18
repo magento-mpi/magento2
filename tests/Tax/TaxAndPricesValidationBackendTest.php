@@ -22,7 +22,7 @@
  * @package     selenium
  * @subpackage  tests
  * @author      Magento Core Team <core@magentocommerce.com>
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
@@ -50,6 +50,7 @@ class Tax_TaxAndPricesValidationBackendTest extends Mage_Selenium_TestCase
     /**
      * Create Customer for tests
      *
+     * @return string $userData
      * @test
      */
     public function createCustomer()
@@ -69,6 +70,7 @@ class Tax_TaxAndPricesValidationBackendTest extends Mage_Selenium_TestCase
     /**
      * Create Simple Products for tests
      *
+     * @return array $products
      * @test
      */
     public function createProducts()
@@ -89,6 +91,9 @@ class Tax_TaxAndPricesValidationBackendTest extends Mage_Selenium_TestCase
     /**
      * Create Order on the backend and validate prices with taxes
      *
+     * @param $sysConfigData
+     * @param $customer
+     * @param $products
      * @dataProvider createOrderBackendDataProvider
      * @depends createCustomer
      * @depends createProducts

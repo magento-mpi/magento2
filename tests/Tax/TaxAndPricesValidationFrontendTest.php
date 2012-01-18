@@ -44,6 +44,7 @@ class Tax_TaxAndPricesValidationFrontendTest extends Mage_Selenium_TestCase
 
     /**
      * Create Customer for tests
+     *
      * @test
      * @return array
      */
@@ -64,6 +65,7 @@ class Tax_TaxAndPricesValidationFrontendTest extends Mage_Selenium_TestCase
 
     /**
      * Create category
+     *
      * @test
      * @return string
      */
