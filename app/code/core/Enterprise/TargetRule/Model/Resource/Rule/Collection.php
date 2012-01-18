@@ -113,9 +113,11 @@ class Enterprise_TargetRule_Model_Resource_Rule_Collection extends Mage_Rule_Mod
      */
     public function addSegmentFilter($segmentId)
     {
-        $this->getSelect()->join(
-            array('segement_idx' => $this->getTable('enterprise_targetrule/segment')),
-            'segement_idx.rule_id = main_table.rule_id', array())->where('segement_idx.segment_id = ?', $segmentId);
+        if (!empty($segmentId)) {
+            $this->getSelect()->join(
+                array('segement_idx' => $this->getTable('enterprise_targetrule/segment')),
+                'segement_idx.rule_id = main_table.rule_id', array())->where('segement_idx.segment_id = ?', $segmentId);
+        }
         return $this;
     }
 }
