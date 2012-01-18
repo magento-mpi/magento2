@@ -168,6 +168,9 @@ class Order_Create_CheckingValidationTest extends Mage_Selenium_TestCase
      */
     public function emptyRequiredFildsInShippingAddress($emptyField, $simpleSku)
     {
+        if ($emptyField == 'shipping_country') {
+            $this->markTestIncomplete('MAGE-5616 - Undefined behaviour when empty country should be selected');
+        }
         //Data
         $orderData = $this->loadData('order_physical', array('filter_sku' => $simpleSku));
         if ($emptyField != 'shipping_country') {
