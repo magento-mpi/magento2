@@ -550,7 +550,11 @@
             if (!hasPageId) {
                 var isValid = this.nodePropValidate();
                 if (!isValid) {
-                    return;
+                    if(hasNodeId) {
+                        return;
+                    } else {
+                        return false;
+                    }
                 }
             }
 
