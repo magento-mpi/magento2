@@ -805,7 +805,25 @@ class Enterprise_GiftRegistry_Model_Entity extends Mage_Core_Model_Abstract
      */
     public function updateItems($items)
     {
-        $this->_getResource()->updateItems($this, $items);
+        foreach ($items as $id => $item) {
+            $model = Mage::getSingleton('enterprise_giftregistry/item')->load($id);
+            if ($model->getId() && $model->getEntityId() == $this->getId()) {
+                if (!isset($item['delete'])) {
+                    /** @var $stockItem Mage_CatalogInventory_Model_Stock_Item */
+                    $stockItem = Mage::getSingleton('cataloginventory/stock_item');
+                    $stockItem->loadByProduct($model->getProductId());
+                    // not Mage_Core_Exception intentionally
+                    if ($stockItem->getIsQtyDecimal() == 0 && $item['qty'] != (int)$item['qty']) {
+                        throw new Mage_Exception(Mage::helper('enterprise_giftregistry')->__('Wrong gift registry item quantity specified.'));
+                    }
+                }
+            } else {
+                Mage::throwException(
+                    Mage::helper('enterprise_giftregistry')->__('Wrong gift registry item ID specified.')
+                );
+            }
+        }
+        $this->_getResource()->updateItems($items);
         return $this;
     }
 }
