@@ -45,6 +45,8 @@ class Mage_Adminhtml_Model_Config_Data extends Varien_Object
         $this->_validate();
         $this->_getScope();
 
+        Mage::dispatchEvent('model_config_data_save_before', array('object' => $this));
+
         $section = $this->getSection();
         $website = $this->getWebsite();
         $store   = $this->getStore();
