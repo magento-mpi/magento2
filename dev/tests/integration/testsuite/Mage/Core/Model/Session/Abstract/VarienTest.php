@@ -40,6 +40,15 @@ class Mage_Core_Model_Session_Abstract_VarienTest extends PHPUnit_Framework_Test
 
     public function sessionSaveMethodDataProvider()
     {
-        return include(__DIR__ . '/_files/_session_save_method_data.php');
+        $testCases = array(
+            array('db', 'user'),
+            array('memcache', 'memcache'),
+            array('memcached', 'memcached'),
+            array('eaccelerator', 'eaccelerator'),
+            array('', ''),
+            array('dummy', ''),
+        );
+
+        return $testCases;
     }
 }
