@@ -227,6 +227,7 @@ class Newsletter_CreateTest extends Mage_Selenium_TestCase
      *
      * @param $category
      * @depends preconditionsForTests
+     *
      * @test
      */
     public function customerUseOwnEmail($category)

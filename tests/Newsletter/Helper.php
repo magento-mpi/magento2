@@ -67,6 +67,7 @@ class Newsletter_Helper extends Mage_Selenium_TestCase
      *
      * @param string $status Status from data set to check, e.g. 'subscribed'|'unsubscribed'
      * @param array $searchData
+     *
      * @return boolean. True if $searchData with $status status is found. False otherwise.
      */
     public function checkStatus($status, $searchData)
