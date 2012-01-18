@@ -69,8 +69,8 @@
  * @method float getBaseGrandTotal()
  * @method Mage_Sales_Model_Quote setBaseGrandTotal(float $value)
  * @method Mage_Sales_Model_Quote setCheckoutMethod(string $value)
- * @method int getCustomerId()
- * @method Mage_Sales_Model_Quote setCustomerId(int $value)
+ * @method int|null getCustomerId()
+ * @method Mage_Sales_Model_Quote setCustomerId(int|null $value)
  * @method Mage_Sales_Model_Quote setCustomerTaxClassId(int $value)
  * @method Mage_Sales_Model_Quote setCustomerGroupId(int $value)
  * @method string getCustomerEmail()
@@ -129,6 +129,8 @@
  * @method Mage_Sales_Model_Quote setExtShippingInfo(string $value)
  * @method int getGiftMessageId()
  * @method Mage_Sales_Model_Quote setGiftMessageId(int $value)
+ * @method bool|null getIsPersistent()
+ * @method Mage_Sales_Model_Quote setIsPersistent(bool $value)
  *
  * @category    Mage
  * @package     Mage_Sales

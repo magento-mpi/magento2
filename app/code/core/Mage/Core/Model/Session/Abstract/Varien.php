@@ -56,6 +56,10 @@ class Mage_Core_Model_Session_Abstract_Varien extends Varien_Object
                 ini_set('session.save_handler', 'memcache');
                 session_save_path($this->getSessionSavePath());
                 break;
+            case 'memcached':
+                ini_set('session.save_handler', 'memcached');
+                session_save_path($this->getSessionSavePath());
+                break;
             case 'eaccelerator':
                 ini_set('session.save_handler', 'eaccelerator');
                 break;

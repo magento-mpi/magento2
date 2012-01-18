@@ -288,8 +288,7 @@ class Mage_Persistent_Model_Observer
     {
         /** @var $customerSession Mage_Customer_Model_Session */
         $customerSession = Mage::getSingleton('customer/session');
-        $customerSession->setCustomerId(null)
-            ->setCustomerGroupId(null);
+        $customerSession->setCustomerId(null)->setCustomerGroupId(null);
 
         if (Mage::app()->getRequest()->getParam('context') != 'checkout') {
             $this->_expirePersistentSession();
@@ -314,8 +313,7 @@ class Mage_Persistent_Model_Observer
         /** @var $customerSession Mage_Customer_Model_Session */
         $customerSession = Mage::getSingleton('customer/session');
         if (!$customerSession->isLoggedIn()) {
-            $customerSession->setCustomerId(null)
-                ->setCustomerGroupId(null);
+            $customerSession->setCustomerId(null)->setCustomerGroupId(null);
         }
 
         $this->setQuoteGuest();
@@ -488,6 +486,8 @@ class Mage_Persistent_Model_Observer
             && !$this->_isPersistent()
             && !$customerSession->isLoggedIn()
             && Mage::getSingleton('checkout/session')->getQuoteId()
+            && !($observer->getControllerAction() instanceof Mage_Checkout_OnepageController)
+            // persistent session does not expire on onepage checkout page to not spoil customer group id
         ) {
             Mage::dispatchEvent('persistent_session_expired');
             $this->_expirePersistentSession();

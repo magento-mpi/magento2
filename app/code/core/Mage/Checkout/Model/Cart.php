@@ -55,7 +55,7 @@ class Mage_Checkout_Model_Cart extends Varien_Object implements Mage_Checkout_Mo
     }
 
     /**
-     * Retrieve custome session model
+     * Retrieve customer session model
      *
      * @return Mage_Customer_Model_Customer
      */
