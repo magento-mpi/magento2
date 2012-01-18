@@ -537,6 +537,7 @@
                 $('cancel_node_button').hide();
                 $('node_prop_container').hide();
             }
+            this.dataModification = false;
         },
 
         saveNodePage: function(){
@@ -550,7 +551,7 @@
             if (!hasPageId) {
                 var isValid = this.nodePropValidate();
                 if (!isValid) {
-                    if(hasNodeId) {
+                    if (hasNodeId) {
                         return;
                     } else {
                         return false;
