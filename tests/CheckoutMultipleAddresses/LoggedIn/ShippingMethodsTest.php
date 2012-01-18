@@ -125,10 +125,13 @@ class CheckoutMultipleAddresses_LoggedIn_ShippingMethodsTest extends Mage_Seleni
      */
     public function differentShippingMethods($shipment, $shippingOrigin, $simpleProductNames, $customerLoginData)
     {
+        if (strpos($shipment,'dhl') !== false) {
+            $this->markTestIncomplete('Temporary disabled DHL tests until a problem with DHL accounts is solved'
+                    . '\n Note that datasets and UImaps need to be updated as well then.');
+        }
         //Data
         $shippingMethod = $this->loadData('multiple_front_shipping_' . $shipment);
-        $checkoutData = $this->loadData('multiple_shipping_methods_loggedin',
-                array('shipping_method' => $shippingMethod));
+        $checkoutData = $this->loadData('multiple_shipping_methods_loggedin', array('shipping_method' => $shippingMethod));
         $checkoutData['products_to_add']['product_1']['general_name'] = $simpleProductNames[0];
         $checkoutData['products_to_add']['product_2']['general_name'] = $simpleProductNames[1];
         $checkoutData['shipping_address_data']['address_1']['general_name'] = $simpleProductNames[0];
@@ -164,12 +167,16 @@ class CheckoutMultipleAddresses_LoggedIn_ShippingMethodsTest extends Mage_Seleni
      * @depends createSimpleProducts
      * @depends createVirtualProduct
      * @depends createCustomer
-     * 
+     *
      * @test
      */
     public function differentShippingMethodsWithVirtualProduct($shipment, $shippingOrigin,
             $simpleProductNames, $virtualProductName, $customerLoginData)
     {
+        if(strpos($shipment,'dhl') !== false) {
+            $this->markTestIncomplete('Temporary disabled DHL tests until a problem with DHL accounts is solved'
+                                      . '\n Note that datasets and UImaps need to be updated as well then.');
+        }
         //Data
         $shippingMethod = $this->loadData('multiple_front_shipping_' . $shipment);
         $checkoutData = $this->loadData('multiple_shipping_methods_loggedin',

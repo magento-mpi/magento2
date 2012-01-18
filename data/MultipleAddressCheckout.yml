@@ -332,7 +332,7 @@ multiple_shipping_methods_common: &multipleShippingCommon
             shipping_address: *newShippingSignedInReq
         address_2:
             general_name: %noValue%
-            qty: 3
+            qty: 2
             shipping_address: *newShippingUsa
     shipping_data:
         address_1:
@@ -347,11 +347,30 @@ multiple_shipping_methods_common: &multipleShippingCommon
 #        address_1:
 #            search_shipping_address: *newShippingSignedInReq
 #            validate_prod_data:
+#                product_1:
+#                    product_name: %noValue%
+#                    price: $54.95
+#                    qty: 1
+#                    subtotal: $54.95
 #            validate_total_data:
+##                total_for_this_address: $59.95
+##                shipping_handling_flat_rate_fixed: $5.00
+#                subtotal: $54.95
 #        address_2:
 #            search_shipping_address: *newShippingUsa
 #            validate_prod_data:
+#                product_1:
+#                    product_name: %noValue%
+#                    price: $54.95
+#                    qty: 2
+#                    subtotal: $54.95
 #            validate_total_data:
+##                total_for_this_address: $85.93
+##                shipping_handling_flat_rate_fixed: $5.00
+#                subtotal: $109.90
+#        total_verification:
+#            validate_total_data:
+#                grand_total: $174.85
 
 multiple_shipping_methods_existing:
     <<: *multipleShippingCommon

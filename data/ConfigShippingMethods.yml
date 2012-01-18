@@ -221,5 +221,6 @@ shipping_disable:
             usps_enabled_for_checkout: No
             ups_enabled: No
             free_shipping_enabled: No
-            dhl_usa_enabled: No
-            dhl_int_enabled: No
+#            dhl_usa_enabled: No
+#            dhl_int_enabled: No
+            dhl_enabled: No

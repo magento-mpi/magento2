@@ -22,7 +22,7 @@
  * @package     selenium
  * @subpackage  tests
  * @author      Magento Core Team <core@magentocommerce.com>
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
@@ -124,6 +124,7 @@ class PriceRules_ShoppingCart_ApplyTest extends Mage_Selenium_TestCase
      * <p>Expected results:</p>
      * <p>Rule is created; Totals changed after applying coupon; Rule is discounting percent of each product;</p>
      *
+     * @param string $ruleType
      * @param array  $customer  Array with the customer information for logging in to the frontend
      * @param string $category  String with the category path for creating rules
      * @param array  $products  Array with the products' names and sku for validating prices on the frontend
