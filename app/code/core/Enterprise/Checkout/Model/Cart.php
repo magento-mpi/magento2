@@ -27,6 +27,9 @@
 /**
  * Admin Checkout processing model
  *
+ * @method bool hasErrorMessage()
+ * @method string getErrorMessage()
+ *
  * @category   Enterprise
  * @package    Enterprise_Checkout
  */

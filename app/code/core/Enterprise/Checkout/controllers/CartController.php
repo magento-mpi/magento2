@@ -64,6 +64,26 @@ class Enterprise_Checkout_CartController extends Mage_Core_Controller_Front_Acti
     }
 
     /**
+     * Get cart model instance
+     *
+     * @return Mage_Checkout_Model_Cart
+     */
+    protected function _getCart()
+    {
+        return Mage::getSingleton('checkout/cart');
+    }
+
+    /**
+     * Get failed items cart model instance
+     *
+     * @return Enterprise_Checkout_Model_Cart
+     */
+    protected function _getFailedItemsCart()
+    {
+        Mage::getModel('enterprise_checkout/cart');
+    }
+
+    /**
      * Add to cart products, which SKU specified in request
      *
      * @return void
@@ -71,10 +91,10 @@ class Enterprise_Checkout_CartController extends Mage_Core_Controller_Front_Acti
     public function advancedAddAction()
     {
         try {
-            /** @var $cart Enterprise_Checkout_Model_Cart */
-            $cart = Mage::getModel('enterprise_checkout/cart');
-            $cart->prepareAddProductsBySku($this->getRequest()->getParam('items'));
-            $cart->saveAffectedProducts();
+            $cart = $this->_getFailedItemsCart()
+                ->prepareAddProductsBySku($this->getRequest()->getParam('items'))
+                ->saveAffectedProducts();
+
             $this->_getSession()->addMessages($cart->getMessages());
             $cart->removeSuccessItems();
 
@@ -98,6 +118,8 @@ class Enterprise_Checkout_CartController extends Mage_Core_Controller_Front_Acti
      */
     public function addFailedItemsAction()
     {
+        $cart = $this->_getCart();
+        $failedItemsCart = $this->_getFailedItemsCart();
         $failedItems = $this->getRequest()->getParam('failed', array());
 
         /** @var $cart Mage_Checkout_Model_Cart */
@@ -124,7 +146,7 @@ class Enterprise_Checkout_CartController extends Mage_Core_Controller_Front_Acti
      */
     public function removeFailedAction()
     {
-        $removed = Mage::getModel('enterprise_checkout/cart')->removeAffectedItem(
+        $removed = $this->_getFailedItemsCart()->removeAffectedItem(
             Mage::helper('core/url')->urlDecode($this->getRequest()->getParam('sku'))
         );
 
@@ -144,7 +166,7 @@ class Enterprise_Checkout_CartController extends Mage_Core_Controller_Front_Acti
      */
     public function removeAllFailedAction()
     {
-        Mage::getModel('enterprise_checkout/cart')->removeAllAffectedItems();
+        $this->_getFailedItemsCart()->removeAllAffectedItems();
         $this->_getSession()->addSuccess(
             $this->__('Items were successfully removed.')
         );
@@ -158,7 +180,7 @@ class Enterprise_Checkout_CartController extends Mage_Core_Controller_Front_Acti
      */
     public function configureFailedAction()
     {
-        $id = (int) $this->getRequest()->getParam('id');
+        $id = (int)$this->getRequest()->getParam('id');
         $qty = $this->getRequest()->getParam('qty', 1);
 
         try {
@@ -197,6 +219,7 @@ class Enterprise_Checkout_CartController extends Mage_Core_Controller_Front_Acti
         $id = (int) $this->getRequest()->getParam('id');
         $buyRequest = new Varien_Object($this->getRequest()->getParams());
         try {
+<<<<<<< HEAD
             /** @var $cart Mage_Checkout_Model_Cart */
             $cart = Mage::getSingleton('checkout/cart');
 
@@ -218,6 +241,13 @@ class Enterprise_Checkout_CartController extends Mage_Core_Controller_Front_Acti
                     $this->_getSession()->addSuccess($message);
                 }
             }
+=======
+            $id = (int)$this->getRequest()->getParam('id');
+            $buyRequest = new Varien_Object($this->getRequest()->getParams());
+
+            $this->_getCart()->addProduct($id, $buyRequest)->save();
+            $this->_getFailedItemsCart()->removeAffectedItem($this->getRequest()->getParam('sku'));
+>>>>>>> CR-Changes MAGE-5521: Add by SKU widget: server-side checks are missing
         } catch (Mage_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
             $hasError = true;
