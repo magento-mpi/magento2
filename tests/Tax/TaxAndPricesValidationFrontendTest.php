@@ -38,6 +38,8 @@ class Tax_TaxAndPricesValidationFrontendTest extends Mage_Selenium_TestCase
     protected function assertPreConditions()
     {
         $this->loginAdminUser();
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('flat_rate_for_price_verification');
     }
 
     /**
