@@ -699,7 +699,8 @@
 
         resetMetadataFieldSet: function() {
             var defaultValue = '0';
-            var fields = ['meta_first_last','meta_next_previous','meta_cs_enabled','menu_visibility','menu_excluded'];
+            var fields = ['meta_first_last','meta_next_previous','meta_cs_enabled','menu_visibility','menu_excluded',
+                'top_menu_visibility', 'top_menu_excluded'];
             fields.each(function(e) {
                 $(e).value = defaultValue;
             });
@@ -781,7 +782,9 @@
                 'menu_excluded',
                 'menu_levels_down',
                 'menu_ordered',
-                'menu_list_type'
+                'menu_list_type',
+                'top_menu_visibility',
+                'top_menu_excluded'
             ];
         },
 
@@ -825,6 +828,9 @@
                 if($(switcher).id == 'menu_visibility') {
                     $('field_menu_excluded').hide();
                 }
+                if($(switcher).id == 'top_menu_visibility') {
+                    $('field_top_menu_excluded').hide();
+                }
             }
         },
 
@@ -857,9 +863,12 @@
 
             if (!isRootParent) {
                 $('field_menu_excluded').show();
+                $('field_top_menu_excluded').show();
+                $('field_top_menu_visibility').hide();
             } else {
                 $('field_menu_excluded').hide();
-
+                $('field_top_menu_excluded').hide();
+                $('field_top_menu_visibility').show();
 
                 // render List Type drop-dawn
                 if (node != undefined) {
@@ -877,6 +886,7 @@
 
             if(isRootParent) {
                 this.toggleMetadataFieldset('menu_visibility', 'menu_fieldset');
+                this.toggleMetadataFieldset('top_menu_visibility', 'top_menu_fieldset');
             }
 
             this.toggleMetadataFieldset('pager_visibility', 'pager_fieldset');
