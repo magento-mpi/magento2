@@ -102,6 +102,7 @@ class Mage_Checkout_Model_Type_Onepage
      * Declare checkout quote instance
      *
      * @param Mage_Sales_Model_Quote $quote
+     * @return Mage_Checkout_Model_Type_Onepage
      */
     public function setQuote(Mage_Sales_Model_Quote $quote)
     {
@@ -146,7 +147,7 @@ class Mage_Checkout_Model_Type_Onepage
         }
 
         /*
-        * want to laod the correct customer information by assiging to address
+        * want to load the correct customer information by assigning to address
         * instead of just loading from sales/quote_address
         */
         $customer = $customerSession->getCustomer();
@@ -188,7 +189,7 @@ class Mage_Checkout_Model_Type_Onepage
     }
 
     /**
-     * Specify chceckout method
+     * Specify checkout method
      *
      * @param   string $method
      * @return  array
@@ -837,7 +838,7 @@ class Mage_Checkout_Model_Type_Onepage
     }
 
     /**
-     * Validate quote state to be able submited from one page checkout page
+     * Validate quote state to be able submitted from one page checkout page
      *
      * @deprecated after 1.4 - service model doing quote validation
      * @return Mage_Checkout_Model_Type_Onepage

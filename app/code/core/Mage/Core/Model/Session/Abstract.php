@@ -220,7 +220,7 @@ class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_
     }
 
     /**
-     * Not Mage exeption handling
+     * Not Mage exception handling
      *
      * @param   Exception $exception
      * @param   string $alternativeText
