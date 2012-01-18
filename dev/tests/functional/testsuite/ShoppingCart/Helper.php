@@ -314,9 +314,7 @@ class ShoppingCart_Helper extends Mage_Selenium_TestCase
      */
     public function frontClearShoppingCart()
     {
-        if ($this->_findCurrentPageFromUrl($this->getLocation()) != 'shopping_cart') {
-            $this->frontend('shopping_cart');
-        }
+        $this->frontend('shopping_cart');
         $productLine = $this->_getControlXpath('pageelement', 'product_line');
         if ($this->isElementPresent($productLine)) {
             $productCount = $this->getXpathCount($productLine);
