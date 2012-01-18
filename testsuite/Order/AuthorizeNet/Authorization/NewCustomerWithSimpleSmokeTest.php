@@ -340,7 +340,7 @@ class Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest extends Ma
      * <p>9.Check payment method 'Credit Card';</p>
      * <p>10.Choose any from 'Get shipping methods and rates';</p>
      * <p>11. Submit order;</p>
-     * <p>12. Edit order (add products and change billing address);</p>
+     * <p>12. Edit order (add products and change billing address, add unsaved payment data);</p>
      * <p>13. Submit order;</p>
      * <p>Expected results:</p>
      * <p>New customer successfully created. Order is created for the new customer;</p>
@@ -371,8 +371,15 @@ class Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest extends Ma
                 $errors[] = "Value for field '$field' should be empty, but now is $value";
             }
         }
-        $this->fillForm(array('card_number' => $data['card_number'],
-            'card_verification_number' => $data['card_verification_number']));
+        $this->fillForm(
+            array(
+                'card_number' => $data['card_number'],
+                'card_verification_number' => $data['card_verification_number'],
+                'card_type' => $data['card_type'],
+                'expiration_month' => $data['expiration_month'],
+                'expiration_year' => $data['expiration_year'],
+            )
+        );
         $this->saveForm('submit_order', false);
         $this->orderHelper()->defineOrderId();
         $this->validatePage();
