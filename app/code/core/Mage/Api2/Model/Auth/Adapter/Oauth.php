@@ -47,7 +47,7 @@ class Mage_Api2_Model_Auth_Adapter_Oauth extends Mage_Api2_Model_Auth_Adapter_Ab
             return false;
         }
         /** @var $oauthServer Mage_OAuth_Model_Server */
-        $oauthServer = Mage::getModel('oauth/server', $request);
+        $oauthServer = Mage::getModel('oAuth/server', $request);
         $requestUrl  = $request->getScheme() . '://' . $request->getHttpHost() . $request->getRequestUri();
 
         try {
