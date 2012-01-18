@@ -62,11 +62,11 @@ AdminOrder.prototype = {
 
             var searchButton = new ControlButton(Translator.translate('Add Products')),
                 searchAreaId = this.getAreaId('search');
-            searchButton.onClick = function(){
+            searchButton.onClick = function() {
                 $(searchAreaId).show();
                 this.remove();
             }
-            this.itemsArea.onLoad = this.itemsArea.onLoad.wrap(function(proceed){
+            this.itemsArea.onLoad = this.itemsArea.onLoad.wrap(function(proceed) {
                 proceed();
                 if (!$(searchAreaId).visible()) {
                     this.addControlButton(searchButton);

@@ -57,7 +57,7 @@ AddBySku.prototype = {
         var adminCheckout = {
             controllerParamFieldNames : {'customerId': 'customer', 'storeId': 'store'},
 
-            initAreas: function(){
+            initAreas: function() {
             },
 
             submitConfigured : function ()
@@ -109,26 +109,26 @@ AddBySku.prototype = {
         var adminOrder = {
             controllerParamFieldNames : {'customerId': 'customerId', 'storeId': 'storeId'},
 
-            initAreas: function(){
-                setTimeout(function(){
-                var skuAreaId = order.getAreaId('additional_area'),
-                    skuButton = new ControlButton(Translator.translate('Add Products By SKU'));
-                skuButton.onClick = function(){
-                    $(skuAreaId).show();
-                    this.remove();
-                };
-                order.dataArea.onLoad = order.dataArea.onLoad.wrap( function (proceed) {
-                    proceed();
-                    this._parent.itemsArea.setNode($(this._parent.getAreaId('items')));
-                    this._parent.itemsArea.onLoad();
-                });
-                order.itemsArea.onLoad = order.itemsArea.onLoad.wrap( function (proceed) {
-                    proceed();
-                    if (!$(skuAreaId).visible()) {
-                        this.addControlButton(skuButton);
-                    }
-                });
-                order.dataArea.onLoad();
+            initAreas: function() {
+                setTimeout(function() {
+                    var skuAreaId = order.getAreaId('additional_area'),
+                        skuButton = new ControlButton(Translator.translate('Add Products By SKU'));
+                    skuButton.onClick = function() {
+                        $(skuAreaId).show();
+                        this.remove();
+                    };
+                    order.dataArea.onLoad = order.dataArea.onLoad.wrap( function(proceed) {
+                        proceed();
+                        this._parent.itemsArea.setNode($(this._parent.getAreaId('items')));
+                        this._parent.itemsArea.onLoad();
+                    });
+                    order.itemsArea.onLoad = order.itemsArea.onLoad.wrap( function(proceed) {
+                        proceed();
+                        if (!$(skuAreaId).visible()) {
+                            this.addControlButton(skuButton);
+                        }
+                    });
+                    order.dataArea.onLoad();
                 }, 10);
             },
 
