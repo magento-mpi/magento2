@@ -61,7 +61,6 @@ class Enterprise_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
     const ADD_ITEM_STATUS_FAILED_OUT_OF_STOCK = 'failed_out_of_stock';
     const ADD_ITEM_STATUS_FAILED_QTY_ALLOWED = 'failed_qty_allowed';
     const ADD_ITEM_STATUS_FAILED_QTY_ALLOWED_IN_CART = 'failed_qty_allowed_in_cart';
-    const ADD_ITEM_STATUS_FAILED_QTY_INCREMENTS = 'failed_qty_increment';
     const ADD_ITEM_STATUS_FAILED_CONFIGURE = 'failed_configure';
     const ADD_ITEM_STATUS_FAILED_PERMISSIONS = 'failed_permissions';
     const ADD_ITEM_STATUS_FAILED_UNKNOWN = 'failed_unknown';
@@ -84,6 +83,16 @@ class Enterprise_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
      * @var Mage_Core_Model_Session_Abstract
      */
     protected $_session;
+
+    /**
+     * List of item statuses, that should be rendered by 'failed' template
+     *
+     * @var array
+     */
+    protected $_codeForFailedTemplates = array(
+        self::ADD_ITEM_STATUS_FAILED_SKU,
+        self::ADD_ITEM_STATUS_FAILED_PERMISSIONS
+    );
 
     /**
      * Return session for affected items
@@ -231,16 +240,14 @@ class Enterprise_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
             $quoteItemsCollection = is_null($this->_items) ? array() : $this->_items;
 
             foreach ($failedItems as $item) {
-                if (is_null($this->_items)
-                    && $item['code'] != Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_SKU
-                ) {
+                if (is_null($this->_items) && !in_array($item['code'], $this->_codeForFailedTemplates)) {
                     $id = $item['item']['id'];
                     $itemsToLoad[$id] = $item['item'];
                     $itemsToLoad[$id]['code'] = $item['code'];
                     $itemsToLoad[$id]['error'] = isset($item['error']) ? $item['error'] : '';
                     // Avoid collisions of product ID with quote item ID
                     unset($itemsToLoad[$id]['id']);
-                } elseif ($all && $item['code'] == Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_SKU) {
+                } elseif ($all && in_array($item['code'], $this->_codeForFailedTemplates)) {
                     $item['item']['code'] = $item['code'];
                     $item['item']['product_type'] = 'undefined';
                     $quoteItemsCollection[] = new Varien_Object($item['item']);

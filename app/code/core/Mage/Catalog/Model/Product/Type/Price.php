@@ -58,10 +58,9 @@ class Mage_Catalog_Model_Product_Type_Price
     public function getBasePrice($product, $qty = null)
     {
         $price = (float)$product->getPrice();
-        $price = $this->_applyGroupPrice($product, $price);
-        $price = $this->_applyTierPrice($product, $qty, $price);
-        $price = $this->_applySpecialPrice($product, $price);
-        return $price;
+        return min($this->_applyGroupPrice($product, $price), $this->_applyTierPrice($product, $qty, $price),
+            $this->_applySpecialPrice($product, $price)
+        );
     }
 
 

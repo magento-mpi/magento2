@@ -38,6 +38,13 @@ class Mage_Adminhtml_Block_System_Config_Form_Fieldset_Modules_DisableOutput
 
         $modules = array_keys((array)Mage::getConfig()->getNode('modules')->children());
 
+        $dispatchResult = new Varien_Object($modules);
+        Mage::dispatchEvent(
+            'adminhtml_system_config_advanced_disableoutput_render_before',
+            array('modules' => $dispatchResult)
+        );
+        $modules = $dispatchResult->toArray();
+
         sort($modules);
 
         foreach ($modules as $moduleName) {

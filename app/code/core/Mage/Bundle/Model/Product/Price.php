@@ -370,27 +370,7 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
      */
     public function getSelectionPrice($bundleProduct, $selectionProduct, $selectionQty = null, $multiplyQty = true)
     {
-        if (is_null($selectionQty)) {
-            $selectionQty = $selectionProduct->getSelectionQty();
-        }
-
-        if ($bundleProduct->getPriceType() == self::PRICE_TYPE_DYNAMIC) {
-            if ($multiplyQty) {
-                return $selectionProduct->getFinalPrice($selectionQty) * $selectionQty;
-            } else {
-                return $selectionProduct->getFinalPrice($selectionQty);
-            }
-        } else {
-            if ($selectionProduct->getSelectionPriceType()) { // percent
-                $price = $bundleProduct->getFinalPrice() * ($selectionProduct->getSelectionPriceValue() / 100);
-            } else { // fixed
-                $price = $selectionProduct->getSelectionPriceValue();
-            }
-            if ($multiplyQty) {
-                $price *= $selectionQty;
-            }
-            return $price;
-        }
+        return $this->getSelectionFinalTotalPrice($bundleProduct, $selectionProduct, 0, $selectionQty, $multiplyQty);
     }
 
     /**
@@ -447,22 +427,25 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
 
         if ($bundleProduct->getPriceType() == self::PRICE_TYPE_DYNAMIC) {
             if ($multiplyQty) {
-                return $selectionProduct->getFinalPrice($selectionQty) * $selectionQty;
+                $price = $selectionProduct->getFinalPrice($selectionQty) * $selectionQty;
             } else {
-                return $selectionProduct->getFinalPrice($selectionQty);
+                $price = $selectionProduct->getFinalPrice($selectionQty);
             }
         } else {
             if ($selectionProduct->getSelectionPriceType()) { // percent
-                $price = $this->getBasePrice($bundleProduct, $bundleQty)
-                    * ($selectionProduct->getSelectionPriceValue() / 100);
+                $price = $this->getPrice($bundleProduct) * ($selectionProduct->getSelectionPriceValue() / 100);
             } else { // fixed
                 $price = $selectionProduct->getSelectionPriceValue();
             }
             if ($multiplyQty) {
                 $price *= $selectionQty;
             }
-            return $price;
         }
+
+        return min($this->_applyGroupPrice($bundleProduct, $price),
+            $this->_applyTierPrice($bundleProduct, $bundleQty, $price),
+            $this->_applySpecialPrice($bundleProduct, $price)
+        );
     }
 
     /**

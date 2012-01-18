@@ -324,58 +324,6 @@ class Enterprise_Search_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * Retrieve attribute field's name
-     *
-     * @param  Mage_Catalog_Model_Resource_Eav_Attribute $attribute
-     * @param  bool $sortField
-     * @return string
-     *
-     */
-    public function getSolrFieldName($attribute, $sortField = false)
-    {
-        $attributeCode = $attribute->getAttributeCode();
-        if (in_array($attributeCode, array('sku', 'score'))) {
-            return $attributeCode;
-        }
-
-        $backendType    = $attribute->getBackendType();
-        $frontendInput  = $attribute->getFrontendInput();
-
-        if ($frontendInput == 'multiselect') {
-            $fieldType = 'multi';
-        } elseif ($frontendInput == 'select' || $frontendInput == 'boolean') {
-            $fieldType = 'select';
-        } elseif ($backendType == 'decimal' || $backendType == 'datetime') {
-            $fieldType = $backendType;
-        } else {
-            $fieldType = 'text';
-        }
-
-        $fieldPrefix = ($sortField) ? 'attr_sort_' : 'attr_';
-        if ($fieldType == 'text') {
-            $localeCode     = Mage::app()->getStore()->getConfig(Mage_Core_Model_Locale::XML_PATH_DEFAULT_LOCALE);
-            $languageSuffix = $this->getLanguageSuffix($localeCode);
-            $fieldName      = $fieldPrefix . $attributeCode . $languageSuffix;
-        } else {
-            $fieldName      = $fieldPrefix . $fieldType . '_' . $attributeCode;
-        }
-
-        return $fieldName;
-    }
-
-    /**
-     * Retrieve attribute field's name
-     *
-     * @param Mage_Catalog_Model_Resource_Eav_Attribute $attribute
-     *
-     * @return string
-     */
-    public function getAttributeSolrFieldName($attribute)
-    {
-        return $this->getSolrFieldName($attribute);
-    }
-
-    /**
      * Check if enterprise engine is available
      *
      * @return bool
@@ -446,5 +394,25 @@ class Enterprise_Search_Helper_Data extends Mage_Core_Helper_Abstract
         }
 
         return $this->_isEngineAvailableForNavigation;
+    }
+
+
+
+
+
+    // Deprecated methods
+
+    /**
+     * Retrieve attribute field's name
+     *
+     * @deprecated after 1.11.2.0
+     *
+     * @param Mage_Catalog_Model_Resource_Eav_Attribute $attribute
+     *
+     * @return string
+     */
+    public function getAttributeSolrFieldName($attribute)
+    {
+        return '';
     }
 }

@@ -46,41 +46,18 @@ class Mage_Catalog_Model_Product_Type_Configurable_Price extends Mage_Catalog_Mo
             return $product->getCalculatedFinalPrice();
         }
 
-        $finalPrice = $this->getBasePrice($product, $qty);
-        $product->setFinalPrice($finalPrice);
-        Mage::dispatchEvent('catalog_product_get_final_price', array('product' => $product, 'qty' => $qty));
-        $finalPrice = $product->getData('final_price');
-
-        $finalPrice += $this->getTotalConfigurableItemsPrice($product, $qty);
-        $finalPrice = $this->_applyOptionsPrice($product, $qty, $finalPrice);
-        $finalPrice = max(0, $finalPrice);
-
-        $product->setFinalPrice($finalPrice);
-        return $finalPrice;
-    }
-
-    /**
-     * Get Total price for configurable items
-     *
-     * @param Mage_Catalog_Model_Product $product
-     * @param null|float $qty
-     * @return float
-     */
-    public function getTotalConfigurableItemsPrice($product, $qty = null)
-    {
-        $price = 0.0;
-
+        $finalPrice = parent::getFinalPrice($qty, $product);
         $product->getTypeInstance(true)
-                ->setStoreFilter($product->getStore(), $product);
+            ->setStoreFilter($product->getStore(), $product);
         $attributes = $product->getTypeInstance(true)
-                ->getConfigurableAttributes($product);
+            ->getConfigurableAttributes($product);
 
         $selectedAttributes = array();
         if ($product->getCustomOption('attributes')) {
             $selectedAttributes = unserialize($product->getCustomOption('attributes')->getValue());
         }
 
-        $basePrice = $this->getBasePrice($product, $qty);
+        $basePrice = $finalPrice;
         foreach ($attributes as $attribute) {
             $attributeId = $attribute->getProductAttribute()->getId();
             $value = $this->_getValueByIndex(
@@ -88,20 +65,20 @@ class Mage_Catalog_Model_Product_Type_Configurable_Price extends Mage_Catalog_Mo
                 isset($selectedAttributes[$attributeId]) ? $selectedAttributes[$attributeId] : null
             );
             $product->setParentId(true);
-            if ($value) {
-                if ($value['pricing_value'] != 0) {
+            if($value) {
+                if($value['pricing_value'] != 0) {
                     $product->setConfigurablePrice($this->_calcSelectionPrice($value, $basePrice));
                     Mage::dispatchEvent(
                         'catalog_product_type_configurable_price',
                         array('product' => $product)
                     );
-                    $price += $product->getConfigurablePrice();
+                    $finalPrice += $product->getConfigurablePrice();
                 }
             }
         }
-        return $price;
+        $product->setFinalPrice($finalPrice);
+        return max(0, $product->getData('final_price'));
     }
-
 
     /**
      * Calculate configurable product selection price
