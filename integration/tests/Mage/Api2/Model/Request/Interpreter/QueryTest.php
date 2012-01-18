@@ -35,67 +35,103 @@
  */
 class Mage_Api2_Model_Request_Interpreter_QueryTest extends Magento_TestCase
 {
-    /**
-     * Content fixture
-     *
-     * @var array
-     */
-    protected $_fixture;
-
-    /**
-     * Get fixture data
-     *
-     * @return array
-     */
-    protected function _getFixture()
-    {
-        if (null === $this->_fixture) {
-            $this->_fixture = require dirname(__FILE__) . '/_fixture/typesContent.php';
-        }
-        return $this->_fixture;
-    }
 
     /**
      * Test interpret content
+     *
+     * @dataProvider dataProviderSuccess
+     * @param string $encoded
+     * @param mixed $decoded
      */
-    function testInterpretContent()
+    public function testInterpretContent($encoded, $decoded)
     {
-        $data = $this->_getFixture();
         $adapter = new Mage_Api2_Model_Request_Interpreter_Query();
-        $this->assertEquals(
-            $data['decoded'],
-            $adapter->interpret($data['query_encoded']),
-            'Decoded data is not like expected.');
+        $this->assertEquals($decoded, $adapter->interpret($encoded), 'Decoded data is not what is expected.');
     }
 
     /**
      * Test interpret bad content
+     *
+     * @dataProvider dataProviderFailure
+     * @param $data string
      */
-    function testInterpretBadContent()
+    public function testInterpretBadContent($data)
     {
-        $data = $this->_getFixture();
-        $adapter = new Mage_Api2_Model_Request_Interpreter_Query();
+        //NOTE: Interpreter QUERY adapter always return array
+        try {
+            $adapter = new Mage_Api2_Model_Request_Interpreter_Query();
+            $adapter->interpret($data);
+        } catch (Mage_Api2_Exception $e) {
+            $this->assertEquals(
+                'Decoding error.',
+                $e->getMessage(),
+                'Invalid argument should produce exception "Decoding error."'
+            );
+            return;
+        }
 
-        //NOTE: Interpreter adapter QUERY always return array
-        $this->assertInternalType(
-            'array',
-            $adapter->interpret($data['query_invalid_encoded']),
-            'Result of decode a bad string or a valid sting should be array.');
+        $this->fail('Invalid argument should produce exception "Decoding error.(2)"');
     }
 
     /**
      * Test interpret content not a string
      */
-    function testInterpretContentNotString()
+    public function testInterpretContentNotString()
     {
         $adapter = new Mage_Api2_Model_Request_Interpreter_Query();
         try {
             $adapter->interpret(new stdClass());
         } catch (Exception $e) {
             $this->assertEquals(
-                'Content is not a string.',
+                'Invalid data type "object". String expected.',
                 $e->getMessage(),
-                'Unknown exception on interpret not a string value.');
+                'Invalid argument should produce exception "Invalid data type".'
+            );
+            return;
         }
+
+        $this->fail('Invalid argument should produce exception "Invalid data type".(2)');
+    }
+
+    /**
+     * Provides data for testing error processing
+     *
+     * @return array
+     */
+    public function dataProviderFailure()
+    {
+        return array(
+            array('&'),
+            array('='),
+            array(''),
+        );
+    }
+
+    /**
+     * Provides data for testing successful flow
+     *
+     * @return array
+     */
+    public function dataProviderSuccess()
+    {
+        return array(
+            array('foo', array('foo'=>'')),
+            array('foo bar', array('foo_bar'=>'')),
+            array('1', array('1'=>'')),
+            array('1.234', array('1_234'=>'')),
+            array('foo=bar', array('foo'=>'bar')),
+            array('foo=>bar', array('foo'=>'>bar')),
+            array('foo=bar=', array('foo'=>'bar=')),
+            array(
+                'key1=test1&key2=test2&array[test01]=some1&array[test02]=some2',
+                array(
+                    'key1' => 'test1',
+                    'key2' => 'test2',
+                    'array' => array(
+                        'test01' => 'some1',
+                        'test02' => 'some2',
+                    )
+                )),
+        );
     }
 }

@@ -36,63 +36,109 @@
 class Mage_Api2_Model_Request_Interpreter_XmlTest extends Magento_TestCase
 {
     /**
-     * Content fixture
-     *
-     * @var array
-     */
-    protected $_fixture;
-
-    /**
-     * Get fixture data
-     *
-     * @return array
-     */
-    protected function _getFixture()
-    {
-        if (null === $this->_fixture) {
-            $this->_fixture = require dirname(__FILE__) . '/_fixture/typesContent.php';
-        }
-        return $this->_fixture;
-    }
-
-    /**
      * Test interpret content
+     *
+     * @dataProvider dataProviderSuccess
+     * @param string $encoded
+     * @param mixed $decoded
      */
-    function testInterpretContent()
+    public function testInterpretContent($encoded, $decoded)
     {
-        $data = $this->_getFixture();
         $adapter = new Mage_Api2_Model_Request_Interpreter_Xml();
-        $this->assertEquals(
-            $data['decoded'],
-            $adapter->interpret($data['xml_encoded']),
-            'Decoded data is not like expected.');
+        $this->assertEquals($decoded, $adapter->interpret($encoded), 'Decoded data is not what is expected.');
     }
 
     /**
      * Test interpret bad content
+     *
+     * @dataProvider dataProviderFailure
+     * @param $data string
      */
-    function testInterpretBadContent()
+    public function testInterpretBadContent($data)
     {
-        $data = $this->_getFixture();
-        $adapter = new Mage_Api2_Model_Request_Interpreter_Xml();
-        $this->assertEmpty(
-            $adapter->interpret($data['xml_invalid_encoded']),
-            'Result of decode bad string should be empty.');
+        try {
+            $adapter = new Mage_Api2_Model_Request_Interpreter_Xml();
+            $adapter->interpret($data);
+        } catch (Mage_Api2_Exception $e) {
+            $this->assertEquals(
+                'Decoding error.',
+                $e->getMessage(),
+                'Invalid argument should produce exception "Decoding error."'
+            );
+            return;
+        }
+
+        $this->fail('Invalid argument should produce exception "Decoding error.(2)"');
     }
 
     /**
      * Test interpret content not a string
      */
-    function testInterpretContentNotString()
+    public function testInterpretContentNotString()
     {
         $adapter = new Mage_Api2_Model_Request_Interpreter_Xml();
         try {
             $adapter->interpret(new stdClass());
         } catch (Exception $e) {
             $this->assertEquals(
-                'Content is not a string.',
+                'Invalid data type "object". String expected.',
                 $e->getMessage(),
-                'Unknown exception on interpret not a string value.');
+                'Invalid argument should produce exception "Invalid data type".(2)'
+            );
+            return;
         }
+
+        $this->fail('Invalid argument should produce exception "Invalid data type".(2)');
+    }
+
+    /**
+     * Provides data for testing error processing
+     *
+     * @return array
+     */
+    public function dataProviderFailure()
+    {
+        return array(
+            array(''),
+            array('<'),
+            array('<root'),
+            array('<root>'),
+            array('<root><node>'),
+            array('<root><node></node>'),
+            array('<root><node></root>'),
+        );
+    }
+
+    /**
+     * Provides data for testing successful flow
+     *
+     * @return array
+     */
+    public function dataProviderSuccess()
+    {
+        return array(
+            array('<root></root>', array()),
+            array('<root />', array()),
+            array('<root>1</root>', array()),
+            array('<root><node /></root>', array('node'=>'')),
+            array('<?xml version="1.0"?><xml><key1>test1</key1><key2>test2</key2><array><test01>some1</test01>
+                    <test02>some2</test02></array></xml>',
+                array(
+                    'key1' => 'test1',
+                    'key2' => 'test2',
+                    'array' => array(
+                        'test01' => 'some1',
+                        'test02' => 'some2',
+            ))),
+            array('<xml><key1>test1</key1><key2>test2</key2><array><test01>some1</test01>
+                    <test02>some2</test02></array></xml>',
+                array(
+                    'key1' => 'test1',
+                    'key2' => 'test2',
+                    'array' => array(
+                        'test01' => 'some1',
+                        'test02' => 'some2',
+            ))),
+        );
     }
 }
