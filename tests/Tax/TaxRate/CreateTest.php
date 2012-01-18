@@ -131,7 +131,7 @@ class Tax_TaxRate_CreateTest extends Mage_Selenium_TestCase
      * @param string $emptyFieldName Name of the field to leave empty
      * @test
      */
-    public function withEmptyRequiredFields($emptyFieldName)
+    public function withEmptyRequiredFields($emptyFieldName, $errorMessage)
     {
         //Data
         $taxRateData = $this->loadData('tax_rate_create_test_zip_yes', array($emptyFieldName => ''));
@@ -139,16 +139,16 @@ class Tax_TaxRate_CreateTest extends Mage_Selenium_TestCase
         $this->taxHelper()->createTaxItem($taxRateData, 'rate');
         //Verifying
         $this->addFieldIdToMessage('field', $emptyFieldName);
-        $this->assertMessagePresent('error', 'empty_required_field');
+        $this->assertMessagePresent('error', $errorMessage);
     }
 
     public function withEmptyRequiredFieldsDataProvider()
     {
         return array(
-            array('tax_identifier'),
-            array('rate_percent'),
-            array('zip_range_from'),
-            array('zip_range_to')
+            array('tax_identifier', 'empty_required_field'),
+            array('rate_percent', 'enter_not_negative_number'),
+            array('zip_range_from', 'empty_required_field'),
+            array('zip_range_to', 'empty_required_field')
         );
     }
 
@@ -270,7 +270,7 @@ class Tax_TaxRate_CreateTest extends Mage_Selenium_TestCase
      * <p>3. Click button "Save Rate"</p>
      * <p>4. Open the Tax Rate</p>
      * <p>Expected result:</p>
-     * <p>All fields has the same values.</p>
+     * <p>All fields have the same values.</p>
      *
      * @depends withRequiredFieldsOnly
      * @test

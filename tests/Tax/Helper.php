@@ -78,8 +78,6 @@ class Tax_Helper extends Mage_Selenium_TestCase
                     $this->addParameter('storeNumber', $this->findTaxTitleByName($key));
                     $this->fillForm(array('tax_title' => $value));
                 }
-            } else {
-                $this->fail('Can not add Tax Titles for store views');
             }
         }
         $this->saveForm('save_' . $type);
