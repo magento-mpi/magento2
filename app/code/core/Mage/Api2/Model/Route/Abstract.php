@@ -36,11 +36,11 @@ abstract class Mage_Api2_Model_Route_Abstract extends Zend_Controller_Router_Rou
     /**#@+
      * Names for Zend_Controller_Router_Route::__construct params
      */
-    const ROUTE_PARAM      = 'route';
-    const DEFAULTS_PARAM   = 'defaults';
-    const REGS_PARAM       = 'regs';
-    const TRANSLATOR_PARAM = 'translator';
-    const LOCALE_PARAM     = 'locale';
+    const PARAM_ROUTE      = 'route';
+    const PARAM_DEFAULTS   = 'defaults';
+    const PARAM_REGS       = 'regs';
+    const PARAM_TRANSLATOR = 'translator';
+    const PARAM_LOCALE     = 'locale';
     /**#@- */
 
     /*
@@ -49,11 +49,11 @@ abstract class Mage_Api2_Model_Route_Abstract extends Zend_Controller_Router_Rou
      * @var array
      */
     protected $_paramsDefaultValues = array(
-        self::ROUTE_PARAM      => null,
-        self::DEFAULTS_PARAM   => array(),
-        self::REGS_PARAM       => array(),
-        self::TRANSLATOR_PARAM => null,
-        self::LOCALE_PARAM     => null
+        self::PARAM_ROUTE      => null,
+        self::PARAM_DEFAULTS   => array(),
+        self::PARAM_REGS       => array(),
+        self::PARAM_TRANSLATOR => null,
+        self::PARAM_LOCALE     => null
     );
 
     /**
@@ -64,11 +64,11 @@ abstract class Mage_Api2_Model_Route_Abstract extends Zend_Controller_Router_Rou
     public function __construct(array $arguments)
     {
         parent::__construct(
-            $this->_getArgumentValue(self::ROUTE_PARAM, $arguments),
-            $this->_getArgumentValue(self::DEFAULTS_PARAM, $arguments),
-            $this->_getArgumentValue(self::REGS_PARAM, $arguments),
-            $this->_getArgumentValue(self::TRANSLATOR_PARAM, $arguments),
-            $this->_getArgumentValue(self::LOCALE_PARAM, $arguments)
+            $this->_getArgumentValue(self::PARAM_ROUTE, $arguments),
+            $this->_getArgumentValue(self::PARAM_DEFAULTS, $arguments),
+            $this->_getArgumentValue(self::PARAM_REGS, $arguments),
+            $this->_getArgumentValue(self::PARAM_TRANSLATOR, $arguments),
+            $this->_getArgumentValue(self::PARAM_LOCALE, $arguments)
         );
     }
 

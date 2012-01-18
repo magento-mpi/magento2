@@ -27,15 +27,19 @@
 /**
  * Webservice api2 router model
  *
- * @method array getRoutes()
- * @method Mage_Api2_Model_Router setRoutes() setRoutes(array $routes)
- *
  * @category   Mage
  * @package    Mage_Api2
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Api2_Model_Router extends Varien_Object
+class Mage_Api2_Model_Router
 {
+    /**
+     * Routes which are stored in module config files api2.xml
+     *
+     * @var array
+     */
+    protected $_routes;
+
     /**
      * Set parameters of matched route to Request object
      *
@@ -53,6 +57,29 @@ class Mage_Api2_Model_Router extends Varien_Object
         $request->setParams($params);
 
         return $this;
+    }
+
+    /**
+     * Set routes
+     *
+     * @param array $routes
+     * @return Mage_Api2_Model_Router
+     */
+    public function setRoutes(array $routes)
+    {
+        $this->_routes = $routes;
+
+        return $this;
+    }
+
+    /**
+     * Get routes
+     *
+     * @return array
+     */
+    public function getRoutes()
+    {
+        return $this->_routes;
     }
 
     /**

@@ -78,35 +78,6 @@ class Mage_Api2_Model_Config extends Varien_Simplexml_Config //extends Mage_Api_
     }
 
     /**
-     * Fetch all routes for api type
-     *
-     * @param string $apiType
-     * @return array
-     */
-    protected function _getRoutes($apiType)
-    {
-        $routes = array();
-        foreach ($this->getResources() as $resource) {
-            if (!$resource->routes) {
-                continue;
-            }
-
-            foreach ($resource->routes->children() as $route) {
-                $arguments = array(
-                    Mage_Api2_Model_Route_Abstract::ROUTE_PARAM    => (string)$route->mask,
-                    Mage_Api2_Model_Route_Abstract::DEFAULTS_PARAM => array(
-                        'model' => (string)$resource->model,
-                        'type'  => (string)$resource->type,
-                    )
-                );
-
-                $routes[] = Mage::getModel('api2/route_' . $apiType, $arguments);
-            }
-        }
-        return $routes;
-    }
-
-    /**
      * Fetch all routes of the given api type from config files api2.xml
      *
      * @param string $apiType
@@ -118,7 +89,25 @@ class Mage_Api2_Model_Config extends Varien_Simplexml_Config //extends Mage_Api_
         /** @var $helper Mage_Api2_Helper_Data */
         $helper = Mage::helper('api2');
         if ($helper->isApiTypeExist($apiType)) {
-            return $this->_getRoutes($apiType);
+            $routes = array();
+            foreach ($this->getResources() as $resource) {
+                if (!$resource->routes) {
+                    continue;
+                }
+
+                foreach ($resource->routes->children() as $route) {
+                    $arguments = array(
+                        Mage_Api2_Model_Route_Abstract::PARAM_ROUTE    => (string)$route->mask,
+                        Mage_Api2_Model_Route_Abstract::PARAM_DEFAULTS => array(
+                            'model' => (string)$resource->model,
+                            'type'  => (string)$resource->type,
+                        )
+                    );
+
+                    $routes[] = Mage::getModel('api2/route_' . $apiType, $arguments);
+                }
+            }
+            return $routes;
         } else {
             throw new Mage_Api2_Exception(sprintf('Invalid API type "%s".', $apiType),
                 Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
