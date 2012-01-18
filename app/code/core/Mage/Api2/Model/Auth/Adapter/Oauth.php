@@ -25,7 +25,7 @@
  */
 
 /**
- * oAuth Authenticatin adapter
+ * oAuth Authentication adapter
  *
  * @category   Mage
  * @package    Mage_Api2

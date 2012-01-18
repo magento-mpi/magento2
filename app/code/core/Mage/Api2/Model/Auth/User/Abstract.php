@@ -58,6 +58,7 @@ abstract class Mage_Api2_Model_Auth_User_Abstract
      * Set user role
      *
      * @param string $role
+     * @return Mage_Api2_Model_Auth_User_Abstract
      * @throws Exception
      */
     public function setRole($role)
@@ -66,5 +67,7 @@ abstract class Mage_Api2_Model_Auth_User_Abstract
             throw new Exception('User role has been already set');
         }
         $this->_role = $role;
+
+        return $this;
     }
 }
