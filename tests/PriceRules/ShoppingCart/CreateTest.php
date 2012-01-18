@@ -22,7 +22,7 @@
  * @package     selenium
  * @subpackage  tests
  * @author      Magento Core Team <core@magentocommerce.com>
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
@@ -55,6 +55,8 @@ class PriceRules_ShoppingCart_CreateTest extends Mage_Selenium_TestCase
      * <p>Rule is not created; Message "This is required field" is shown under each empty required field;</p>
      *
      * @dataProvider withRequiredFieldsEmptyDataProvider
+     * @param string $fieldName
+     * @param string $fieldType
      * @test
      */
     public function withRequiredFieldsEmpty($fieldName, $fieldType)
@@ -79,7 +81,7 @@ class PriceRules_ShoppingCart_CreateTest extends Mage_Selenium_TestCase
             array('rule_name', 'field'),
             array('customer_groups', 'multiselect'),
             array('coupon_code', 'field'),
-            array('discount_amount', 'field')
+            array('discount_amount', 'field') //Bug MAGE-5623
         );
     }
 
@@ -91,6 +93,8 @@ class PriceRules_ShoppingCart_CreateTest extends Mage_Selenium_TestCase
      * <p>3. Try to save newly created SCPR with one field filled with special symbols;</p>
      * <p>Expected results:</p>
      * <p>Rule is created where applicable;</p>
+     *
+     * Bug MAGE-5625
      *
      * @test
      */

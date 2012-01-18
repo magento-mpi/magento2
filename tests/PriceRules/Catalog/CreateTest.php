@@ -22,7 +22,7 @@
  * @package     selenium
  * @subpackage  tests
  * @author      Magento Core Team <core@magentocommerce.com>
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
@@ -63,6 +63,7 @@ class PriceRules_Catalog_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>New rule is created. Success message appears.</p>
      *
+     * @return array
      * @test
      */
     public function requiredFields()
@@ -88,6 +89,8 @@ class PriceRules_Catalog_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected result: Validation message appears</p>
      *
      * @dataProvider withRequiredFieldsEmptyDataProvider
+     * @param string $emptyField
+     * @param string $fieldType
      * @test
      */
     public function withRequiredFieldsEmpty($emptyField, $fieldType)
@@ -107,7 +110,7 @@ class PriceRules_Catalog_CreateTest extends Mage_Selenium_TestCase
         return array(
             array('rule_name', 'field'),
             array('customer_groups', 'multiselect'),
-            array('discount_amount', 'field'),
+            array('discount_amount', 'field'),//Bug MAGE-5623
             array('sub_discount_amount', 'field')
         );
     }
@@ -124,6 +127,7 @@ class PriceRules_Catalog_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected result: Validation messages appears</p>
      *
      * @dataProvider invalidDiscountAmountDataProvider
+     * @param string $invalidDiscountData
      * @test
      */
     public function invalidDiscountAmount($invalidDiscountData)
