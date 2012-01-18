@@ -117,12 +117,12 @@ AddBySku.prototype = {
                         $(skuAreaId).show();
                         this.remove();
                     };
-                    order.dataArea.onLoad = order.dataArea.onLoad.wrap( function(proceed) {
+                    order.dataArea.onLoad = order.dataArea.onLoad.wrap(function(proceed) {
                         proceed();
                         this._parent.itemsArea.setNode($(this._parent.getAreaId('items')));
                         this._parent.itemsArea.onLoad();
                     });
-                    order.itemsArea.onLoad = order.itemsArea.onLoad.wrap( function(proceed) {
+                    order.itemsArea.onLoad = order.itemsArea.onLoad.wrap(function(proceed) {
                         proceed();
                         if (!$(skuAreaId).visible()) {
                             this.addControlButton(skuButton);
