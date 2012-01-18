@@ -444,7 +444,7 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
 
         return min($this->_applyGroupPrice($bundleProduct, $price),
             $this->_applyTierPrice($bundleProduct, $bundleQty, $price),
-            $price = $this->_applySpecialPrice($bundleProduct, $price)
+            $this->_applySpecialPrice($bundleProduct, $price)
         );
     }
 
