@@ -85,7 +85,7 @@ class Mage_Newsletter_Model_Resource_Problem_Collection extends Mage_Core_Model_
             'main_table.queue_id = queue.queue_id',
             array('queue_start_at', 'queue_finish_at')
         )
-        ->joinLeft(array('template'=>$this->getTable('newsletter/template')), 'main_table.queue_id = queue.queue_id',
+        ->joinLeft(array('template'=>$this->getTable('newsletter/template')), 'queue.template_id = template.template_id',
             array('template_subject','template_code','template_sender_name','template_sender_email')
         );
         return $this;
