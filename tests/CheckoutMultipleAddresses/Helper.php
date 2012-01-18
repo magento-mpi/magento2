@@ -205,8 +205,8 @@ class CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
                     $this->frontAddGiftMessage($value);
                 }
             }
-        $this->clickButton('continue_to_billing_information');
         }
+        $this->clickButton('continue_to_billing_information');
     }
 
     /**

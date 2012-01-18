@@ -103,6 +103,10 @@ class CheckoutOnePage_Guest_ShippingMethodsTest extends Mage_Selenium_TestCase
      */
     public function differentShippingMethods($shipping, $shippingOrigin, $simpleSku)
     {
+        if(strpos($shipping,'dhl') !== false) {
+            $this->markTestIncomplete('Temporary disabled DHL tests until a problem with DHL accounts is solved'
+                                      . '\n Note that datasets and UImaps need to be updated as well then.');
+        }
         $checkoutData = $this->loadData('guest_flatrate_checkmoney',
                 array('general_name' => $simpleSku, 'shipping_data' => $this->loadData('front_shipping_' . $shipping)));
         //Steps

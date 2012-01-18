@@ -93,6 +93,10 @@ class Order_Create_ShippingMethodsTest extends Mage_Selenium_TestCase
      */
     public function differentShipmentMethods($shipment, $shippingOrigin, $simpleSku)
     {
+        if(strpos($shipment,'dhl') !== false) {
+            $this->markTestIncomplete('Temporary disabled DHL tests until a problem with DHL accounts is solved'
+                                      . '\n Note that datasets and UImaps need to be updated as well then.');
+        }
         //Data
         $orderData = $this->loadData('order_newcustmoer_checkmoney_flatrate', array('filter_sku' => $simpleSku));
         $orderData['shipping_data'] = $this->loadData('shipping_' . $shipment);
