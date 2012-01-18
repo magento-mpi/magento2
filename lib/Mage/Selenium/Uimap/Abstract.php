@@ -112,7 +112,7 @@ class Mage_Selenium_Uimap_Abstract
     }
 
     /**
-     * Asign parameters decorator to UIMap tree from any level
+     * Assign parameters decorator to UIMap tree from any level
      *
      * @param Mage_Selenium_Helper_Params $params Parameters decorator
      *

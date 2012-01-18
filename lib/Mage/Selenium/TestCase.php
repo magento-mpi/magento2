@@ -42,16 +42,16 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     protected $_error = false;
 
     /**
+     * Configuration object instance
+     * @var Mage_Selenium_TestConfiguration
+     */
+    protected $_testConfig = null;
+
+    /**
      * Data helper instance
      * @var Mage_Selenium_Helper_Data
      */
     protected $_dataHelper = null;
-
-    /**
-     * Data generator helper instance
-     * @var Mage_Selenium_Helper_DataGenerator
-     */
-    protected $_dataGenerator = null;
 
     /**
      * Application helper instance
@@ -72,82 +72,10 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     protected $_pageHelper = null;
 
     /**
-     * Error and success messages on page
-     * @staticvar array
-     */
-    protected static $_messages = null;
-
-    /**
-     * Configuration object instance
-     * @var Mage_Selenium_TestConfiguration
-     */
-    protected $_testConfig = null;
-
-    /**
      * Parameters helper instance
      * @var Mage_Selenium_Helper_Params
      */
     protected $_paramsHelper = null;
-
-    /**
-     * Timeout const
-     * @var int
-     */
-    protected $_browserTimeoutPeriod = 40000;
-
-   /**
-     * @var PHPUnit_Framework_TestResult
-     */
-    protected $_result;
-
-    /**
-     * @var array
-     */
-    protected $_dependencies = array();
-
-    /**
-     * Whether or not this test is running in a separate PHP process.
-     * @var boolean
-     */
-    protected $_inIsolation = false;
-
-    /**
-     * The name of the test case.
-     *
-     * @var string
-     */
-    protected $name = null;
-
-    /**
-     * The name of the expected Exception.
-     *
-     * @var mixed
-     */
-    protected $_expectedException = null;
-
-    /**
-     * The message of the expected Exception.
-     *
-     * @var string
-     */
-    protected $_expectedExceptionMessage = '';
-
-    /**
-     * The code of the expected Exception.
-     *
-     * @var integer
-     */
-    protected $_expectedExceptionCode;
-
-    /**
-     * @var    array
-     */
-    protected $_data = array();
-
-    /**
-     * @var array
-     */
-    protected $_dependencyInput = array();
 
     /**
      * @var array
@@ -160,14 +88,82 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     protected $_helpers = array();
 
+    /**
+     * Data generator helper instance
+     * @var Mage_Selenium_Helper_DataGenerator
+     */
+    protected $_dataGenerator = null;
+
+    /**
+     * Error and success messages on page
+     * @var array
+     */
+    protected static $_messages = null;
+
+    /**
+     * Timeout const
+     * @var int
+     */
+    protected $_browserTimeoutPeriod = 40000;
+
     /*
      * @var string
      */
     protected $_firstPageAfterAdminLogin = 'dashboard';
 
-//    protected $_captureScreenshotOnFailure = TRUE;
-//    protected $_screenshotPath = SELENIUM_TESTS_SCREENSHOTDIR;
-//    protected $_screenshotUrl = SELENIUM_TESTS_SCREENSHOTDIR;
+    /**
+     * The name of the test case.
+     * @var string
+     */
+    protected $name = null;
+
+    /**
+     * @var    array
+     */
+    protected $data = array();
+
+    /**
+     * @var PHPUnit_Framework_TestResult
+     */
+    protected $result;
+
+    /**
+     * @var array
+     */
+    protected $dependencies = array();
+
+    /**
+     * Whether or not this test is running in a separate PHP process.
+     * @var boolean
+     */
+    protected $inIsolation = false;
+
+    /**
+     * The name of the expected Exception.
+     * @var mixed
+     */
+    protected $expectedException = null;
+
+    /**
+     * The message of the expected Exception.
+     * @var string
+     */
+    protected $expectedExceptionMessage = '';
+
+    /**
+     * The code of the expected Exception.
+     * @var integer
+     */
+    protected $expectedExceptionCode;
+
+    /**
+     * @var array
+     */
+    protected $dependencyInput = array();
+
+    protected $_captureScreenshotOnFailure = true;
+    protected $_screenshotPath = SELENIUM_TESTS_SCREENSHOTDIR;
+    protected $_screenshotUrl = SELENIUM_TESTS_SCREENSHOTDIR;
 
     /**
      * Success message Xpath
@@ -177,28 +173,24 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 
     /**
      * Error message Xpath
-     *
-     * @staticvarar string
+     * @staticvar string
      */
     protected static $xpathErrorMessage = "//*/descendant::*[normalize-space(@class)='error-msg'][string-length(.)>1]";
 
     /**
      * Notice message Xpath
-     *
      * @staticvar string
      */
     protected static $xpathNoticeMessage = "//*/descendant::*[normalize-space(@class)='notice-msg'][string-length(.)>1]";
 
     /**
      * Error message Xpath
-     *
      * @staticvar string
      */
     protected static $xpathValidationMessage = "//*/descendant::*[normalize-space(@class)='validation-advice' and not(contains(@style,'display: none;'))][string-length(.)>1]";
 
     /**
      * Field Name xpath with ValidationMessage
-     *
      * @staticvar string
      */
     protected static $xpathFieldNameWithValidationMessage = "/ancestor::*[2]//label/descendant-or-self::*[string-length(text())>1]";
@@ -223,28 +215,24 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 
     /**
      * Incoming Message Close button Xpath
-     *
      * @staticvar string
      */
     protected static $xpathIncomingMessageClose = "//*[@id='message-popup-window' and @class='message-popup show']//a[span='close']";
 
     /**
      * 'Go to notifications' xpath in 'Latest Message' block
-     *
      * @staticvar string
      */
     protected static $xpathGoToNotifications = "//a[text()='Go to notifications']";
 
     /**
      * 'Cache Management' xpath link when cache are invalided
-     *
      * @staticvar string
      */
     protected static $xpathCacheInvalidated = "//a[text()='Cache Management']";
 
     /**
      * 'Index Management' xpath link when indexes are invalided
-     *
      * @staticvar string
      */
     protected static $xpathIndexesInvalidated = "//a[text()='Index Management']";
@@ -303,7 +291,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         if ($name !== null) {
             $this->name = $name;
         }
-        $this->_data = $data;
+        $this->data = $data;
         $this->dataName = $dataName;
 
         $path = 'browsers/default/browserTimeoutPeriod';
@@ -340,7 +328,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * @param   string $helperName  Suffix that describes helper name (default = 'Helper')
      *
      * @throws UnexpectedValueException
-     *
      * @return  mixed Object of $helperName type
      */
     protected function _loadHelper($testScope, $helperName = 'Helper')
@@ -383,6 +370,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     /**
      * Returns number of nodes that match the specified xPath selector,
      * eg. "table" would give number of tables.
+     *
      * @param string $locator xPath selector
      *
      * @return int|string
@@ -399,7 +387,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     /**
      * Implementation of setUpBeforeClass() method in the object context, called as setUpBeforeTests()<br>
      * Used ONLY one time before execution of each class (tests in test class)
-     *
      * @staticvar boolean $_isFirst Internal variable, which described usage count of this one method
      */
     public function setUp()
@@ -422,6 +409,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function setUpBeforeTests()
     {
+
     }
 
     /**
@@ -484,18 +472,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     }
 
     /**
-     * Sets dependencies between test cases
-     *
-     * @param  array $dependencies List of a dependencies of the each loaded test
-     *
-     * @since  Method available since Release 3.4.0
-     */
-    public function setDependencies(array $dependencies)
-    {
-        $this->_dependencies = $dependencies;
-    }
-
-    /**
      * Checks if there was error during last operations
      * @return boolean
      */
@@ -555,8 +531,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                             $overrideResult = true;
                         }
                         if (is_array($v)) {
-                            $result = $this->overrideDataInSubArray($subArray, $overrideKey,
-                                                                    $overrideValue, $value);
+                            $result = $this->overrideDataInSubArray($subArray, $overrideKey, $overrideValue, $value);
                             if ($result || $overrideResult) {
                                 $overrideResult = true;
                             }
@@ -616,7 +591,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     /**
      * Remove array elements that have '%noValue%' value
      *
-     * @param array $array  Array of data for clearning
+     * @param array $array  Array of data for cleaning
      *
      * @return array|false
      */
@@ -824,7 +799,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 
     /**
      * Checks if the currently opened page is $page.<br>
-     * Returns TRUE if the specified page is the current page, otherwise returns FALSE and sets the error message:
+     * Returns true if the specified page is the current page, otherwise returns false and sets the error message:
      * "Opened the wrong page: $currentPage (should be:$page)".<br>
      * Page identifier must be described in the UIMap.
      *
@@ -906,6 +881,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     /**
      * Find area in areasConfig using full page URL
      *
+     * @static
      * @param string $currentUrl Full URL to page
      * @param array $areasConfig Full area config
      *
@@ -931,10 +907,11 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     /**
      * Get MCA-part of page URL
      *
+     * @static
      * @param array $areasConfig Full area config
      * @param string $currentUrl Current URL
      *
-     * @return string
+     * @return mixed
      */
     protected static function _getMcaFromCurrentUrl($areasConfig, $currentUrl)
     {
@@ -972,7 +949,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             $mca = preg_replace('|/index/?$|', '/', $mca);
         }
         return preg_replace('|^/|', '', $mca);
-
     }
 
     /**
@@ -999,7 +975,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $this->setArea($currentArea);
         return $currentArea;
     }
-
 
     /**
      * Sets current area<br>
@@ -1067,7 +1042,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     /**
      * Retrieves current Page data from UIMap.
      * Gets current page name from an internal variable.
-     *
      * @return Mage_Selenium_Uimap_Page|null
      */
     public function getCurrentUimapPage()
@@ -1101,7 +1075,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * @param string $controlName Name of a control from UIMap
      *
      * @throws OutOfRangeException
-     *
      * @return string
      */
     protected function _getControlXpath($controlType, $controlName)
@@ -1136,7 +1109,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * @param string $controlType Type of control (e.g. button|link|radiobutton|checkbox)
      * @param string $controlName Name of a control from UIMap
      * @param boolean $willChangePage Triggers page reloading. If clicking the control doesn't result<br>
-     * in page reloading, should be FALSE (by default = TRUE).
+     * in page reloading, should be false (by default = true).
      *
      * @return Mage_Selenium_TestCase
      */
@@ -1187,7 +1160,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      *
      * @param string $button Button's identifier (Name of a button from UIMap)
      * @param boolean $willChangePage Triggers page reloading. If clicking the control doesn't result<br>
-     * in page reloading, should be FALSE (by default = TRUE).
+     * in page reloading, should be false (by default = true).
      *
      * @return Mage_Selenium_TestCase
      */
@@ -1200,7 +1173,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 
     /**
      * Searches a control with the specified name and type on the page.
-     * If the control is present, returns TRUE; otherwise FALSE.
+     * If the control is present, returns true; otherwise false.
      *
      * @param string $controlType Type of control (e.g. button | link | radiobutton | checkbox)
      * @param string $controlName Name of a control from UIMap
@@ -1224,7 +1197,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 
     /**
      * Searches a button with the specified name on the page.
-     * If the button is present, returns TRUE; otherwise FALSE.
+     * If the button is present, returns true; otherwise false.
      *
      * @param string $button Name of a button from UIMap
      *
@@ -1296,7 +1269,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * @param string $tabId Tab ID from UIMap (by default = '')
      *
      * @throws InvalidArgumentException, OutOfRangeException
-     *
      * @return Mage_Selenium_TestCase|boolean
      */
     public function fillForm($data, $tabId = '')
@@ -1355,8 +1327,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                 }
             }
         } catch (PHPUnit_Framework_Exception $e) {
-            $errorMessage = isset($formFieldName)
-                ? 'Problem with field \'' . $formFieldName . '\': ' . $e->getMessage()
+            $errorMessage = isset($formFieldName) ? 'Problem with field \'' . $formFieldName . '\': ' . $e->getMessage()
                 : $e->getMessage();
             $this->fail($errorMessage);
         }
@@ -1600,6 +1571,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * Forming xpath that contains the data to look up
      *
      * @param array $data Array of data to look up
+     *
      * @return string
      */
     public function formSearchXpath(array $data)
@@ -1607,7 +1579,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $xpathTR = "//table[@class='data']//tr";
         foreach ($data as $key => $value) {
             if (!preg_match('/_from/', $key) and !preg_match('/_to/', $key) and !is_array($value)) {
-                $xpathTR .= "[td[normalize-space(text())='$value']]";
+                $xpathTR .= "[td[contains(text(),'$value')]]";
             }
         }
         return $xpathTR;
@@ -1652,7 +1624,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      *
      * @param array $data Array of data to look up
      * @param boolean $willChangePage Triggers page reloading. If clicking the control doesn't result<br>
-     * in page reloading, should be FALSE (by default = TRUE).
+     * in page reloading, should be false (by default = true).
      * @param string|null $fieldSetName Fieldset name that contains the grid (by default = null)
      *
      * @return boolean
@@ -1722,6 +1694,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * Define parameter %id% from XPath Title
      *
      * @param string $xpathTR XPath of control with 'title' attribute to retrieve an ID
+     *
      * @return integer|null
      */
     public function defineIdFromTitle($xpathTR)
@@ -1776,8 +1749,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     /**
      * Adds field ID to Message Xpath (sets %fieldId% parameter)
      *
-     * @param srting $fieldType Field type
-     * @param srting $fieldName Field name from UIMap
+     * @param string $fieldType Field type
+     * @param string $fieldName Field name from UIMap
      */
     public function addFieldIdToMessage($fieldType, $fieldName)
     {
@@ -1795,6 +1768,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * Check if the specified message exists on the page
      *
      * @param string $message  Message ID from UIMap
+     *
      * @return boolean
      */
     public function checkMessage($message)
@@ -1816,6 +1790,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * Checks if  message with the specified XPath exists on the page
      *
      * @param string $xpath XPath of message to checking
+     *
      * @return boolean
      */
     public function checkMessageByXpath($xpath)
@@ -1831,12 +1806,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * Checks if any 'error' message exists on the page
      *
      * @param string $message Error message ID from UIMap OR XPath of the error message (by default = null)
+     *
      * @return boolean
      */
     public function errorMessage($message = null)
     {
-        return (!empty($message))
-            ? $this->checkMessage($message)
+        return (!empty($message)) ? $this->checkMessage($message)
             : $this->checkMessageByXpath(self::$xpathErrorMessage);
     }
 
@@ -1844,12 +1819,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * Checks if any 'success' message exists on the page
      *
      * @param string $message Success message ID from UIMap OR XPath of the success message (by default = null)
+     *
      * @return boolean
      */
     public function successMessage($message = null)
     {
-        return (!empty($message))
-            ? $this->checkMessage($message)
+        return (!empty($message)) ? $this->checkMessage($message)
             : $this->checkMessageByXpath(self::$xpathSuccessMessage);
     }
 
@@ -1869,12 +1844,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * Checks if any 'validation' message exists on the page
      *
      * @param string $message Validation message ID from UIMap OR XPath of the validation message (by default = null)
+     *
      * @return boolean
      */
     public function validationMessage($message = null)
     {
-        return (!empty($message))
-            ? $this->checkMessage($message)
+        return (!empty($message)) ? $this->checkMessage($message)
             : $this->checkMessageByXpath(self::$xpathValidationMessage);
     }
 
@@ -1882,6 +1857,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * Returns all messages (or messages of the specified type) on the page
      *
      * @param null|string $type Message type: validation|error|success
+     *
      * @return array
      */
     public function getMessagesOnPage($type = null)
@@ -1905,9 +1881,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     public function getParsedMessages($type = null)
     {
         if ($type) {
-            return (isset(Mage_Selenium_TestCase::$_messages[$type]))
-                    ? Mage_Selenium_TestCase::$_messages[$type]
-                    : null;
+            return (isset(Mage_Selenium_TestCase::$_messages[$type])) ? Mage_Selenium_TestCase::$_messages[$type]
+                : null;
         }
         return Mage_Selenium_TestCase::$_messages;
     }
@@ -1944,22 +1919,22 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     protected function _parseMessages()
     {
-        Mage_Selenium_TestCase::$_messages['success']    = $this->getElementsByXpath(self::$xpathSuccessMessage);
-        Mage_Selenium_TestCase::$_messages['error']      = $this->getElementsByXpath(self::$xpathErrorMessage);
+        Mage_Selenium_TestCase::$_messages['success'] = $this->getElementsByXpath(self::$xpathSuccessMessage);
+        Mage_Selenium_TestCase::$_messages['error'] = $this->getElementsByXpath(self::$xpathErrorMessage);
         Mage_Selenium_TestCase::$_messages['validation'] = $this->getElementsByXpath(self::$xpathValidationMessage,
-                'text', self::$xpathFieldNameWithValidationMessage);
+                                                                                     'text',
+                                                                                     self::$xpathFieldNameWithValidationMessage);
     }
 
     /**
      * Assert there are no verification errors
-     *
      * @throws PHPUnit_Framework_ExpectationFailedException
      */
     public function assertEmptyVerificationErrors()
     {
         $verificationErrors = (isset(Mage_Selenium_TestCase::$_messages['verification']))
-                                    ? Mage_Selenium_TestCase::$_messages['verification']
-                                    : array();
+            ? Mage_Selenium_TestCase::$_messages['verification']
+            : array();
         $this->assertEmpty($verificationErrors, implode("\n", $verificationErrors));
     }
 
@@ -2118,8 +2093,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function clearInvalidedCache()
     {
-        if ($this->isElementPresent(self::xpathCacheInvalidated)) {
-            $this->clickAtAndWait(self::xpathCacheInvalidated);
+        if ($this->isElementPresent(self::$xpathCacheInvalidated)) {
+            $this->clickAtAndWait(self::$xpathCacheInvalidated);
             $this->validatePage('cache_storage_management');
 
             $invalided = array('cache_disabled', 'cache_invalided');
@@ -2145,8 +2120,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             }
             $notLoaded = true;
             $retries = 0;
-            while ($notLoaded)
-            {
+            while ($notLoaded) {
                 try {
                     $retries++;
                     $this->waitForPageToLoad($this->_browserTimeoutPeriod);
@@ -2166,8 +2140,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function reindexInvalidedData()
     {
-        if ($this->isElementPresent(self::xpathIndexesInvalidated)) {
-            $this->clickAtAndWait(self::xpathIndexesInvalidated);
+        if ($this->isElementPresent(self::$xpathIndexesInvalidated)) {
+            $this->clickAtAndWait(self::$xpathIndexesInvalidated);
             $this->validatePage('index_management');
 
             $invalided = array('reindex_required', 'update_required');
@@ -2177,8 +2151,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                     $this->click($xpath . "//a[text()='Reindex Data']");
                     $notLoaded = true;
                     $retries = 0;
-                    while ($notLoaded)
-                    {
+                    while ($notLoaded) {
                         try {
                             $retries++;
                             $this->waitForPageToLoad($this->_browserTimeoutPeriod);
@@ -2218,10 +2191,11 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     #******************************************************
 
     /**
-     * Asserts that $condition is TRUE. Reports an error $message if $condition is FALSE.
+     * Asserts that $condition is true. Reports an error $message if $condition is false.
      *
+     * @static
      * @param boolean $condition Condition to assert
-     * @param string $message Message to report if the condition is FALSE (by default = '')
+     * @param string $message Message to report if the condition is false (by default = '')
      *
      * @throws PHPUnit_Framework_AssertionFailedError
      */
@@ -2239,10 +2213,11 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     }
 
     /**
-     * Asserts that $condition is FALSE. Reports an error $message if $condition is TRUE.
+     * Asserts that $condition is false. Reports an error $message if $condition is true.
      *
+     * @static
      * @param boolean $condition Condition to assert
-     * @param string $message Message to report if the condition is TRUE (by default = '')
+     * @param string $message Message to report if the condition is true (by default = '')
      *
      * @throws PHPUnit_Framework_AssertionFailedError
      */
@@ -2263,6 +2238,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * Gets node | value from DataSet by the specified path to data source
      *
      * @param string $path Path to data source (e.g. filename in ../data without .yml extension) (by default = '')
+     *
      * @return array|string
      */
     protected function _getData($path = '')
@@ -2386,6 +2362,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * Method works only if AJAX request was sent by Prototype or JQuery framework.
      *
      * @param integer $timeout Timeout period in milliseconds. If not set, uses a default period.
+     *
      * @return void
      */
     public function waitForAjax($timeout = null)
@@ -2446,7 +2423,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * (default = array('password'))
      *
      * @throws InvalidArgumentException, OutOfRangeException
-     *
      * @return boolean
      */
     public function verifyForm($data, $tabName = '', $skipElements = array('password'))
@@ -2582,9 +2558,87 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     }
 
     /**
-     * Redefined PHPUnit_Extensions_SeleniumTestCase::suite, make possible to use dependency
+     * Performs scrolling to the specified element in the specified list(block) with the specified name.
      *
-     * @param  string $className Name of the class loaded for parsing and executing
+     * @param string $elementType Type of the element that should be visible after scrolling
+     * @param string $elementName Name of the element that should be visible after scrolling
+     * @param string $blockType Type of the block where to use scroll
+     * @param string $blockName Name of the block where to use scroll
+     *
+     * @return null
+     */
+    public function moveScrollToElement($elementType, $elementName, $blockType, $blockName)
+    {
+        // Getting XPath of the element what should be visible after scrolling
+        $specElementXpath = $this->_getControlXpath($elementType, $elementName);
+        // Getting @ID of the element what should be visible after scrolling
+        $specElementId = $this->getAttribute($specElementXpath . "/@id");
+
+        // Getting XPath of the block where scroll is using
+        $specFieldsetXpath = $this->_getControlXpath($blockType, $blockName);
+        // Getting @ID of the block where scroll is using
+        $specFieldsetId = $this->getAttribute($specFieldsetXpath . "/@id");
+
+        // Getting offset position of the element what should be visible after scrolling
+        $destinationOffsetTop = $this->getEval("this.browserbot.findElement('id=" . $specElementId . "').offsetTop");
+        // Moving scroll bar to previously defined offset
+        // Position (to the element what should be visible after scrolling)
+        $this->getEval("this.browserbot.findElement('id=" . $specFieldsetId
+                           . "').scrollTop = " . $destinationOffsetTop);
+    }
+
+    /**
+     * Moves the specified element (with type = $elementType and name = $elementName)<br>
+     * over the specified JS tree (with type = $blockType and name = $blockName)<br>
+     * to position = $moveToPosition
+     *
+     * @param string $elementType Type of the element to move
+     * @param string $elementName Name of the element to move
+     * @param string $blockType Type of the block that contains JS tree
+     * @param string $blockName Name of the block that contains JS tree
+     * @param integer $moveToPosition Index of the position where element should be after moving (default = 1)
+     */
+    public function moveElementOverTree($elementType, $elementName, $blockType, $blockName, $moveToPosition = 1)
+    {
+        // Getting XPath of the element to move
+        $specElementXpath = $this->_getControlXpath($elementType, $elementName);
+        // Getting @ID of the element to move
+        $specElementId = $this->getAttribute($specElementXpath . "/@id");
+
+        // Getting XPath of the block what is a JS tree
+        $specFieldsetXpath = $this->_getControlXpath($blockType, $blockName);
+        // Getting @ID of the block what is a JS tree
+        $specFieldsetId = $this->getAttribute($specFieldsetXpath . "/@id");
+
+        // Getting offset position of the element to move
+        $destinationOffsetTop = $this->getEval("this.browserbot.findElement('id=" . $specElementId . "').offsetTop");
+
+        // Storing of current height of the block with JS tree
+        $tmpBlockHeight = (integer)$this->getEval("this.browserbot.findElement('id="
+                                                      . $specFieldsetId . "').style.height");
+
+        // If element to move situated abroad of the current height, it will be increased
+        if ($destinationOffsetTop >= $tmpBlockHeight) {
+            $destinationOffsetTop = $destinationOffsetTop + 50;
+            $this->getEval("this.browserbot.findElement('id=" . $specFieldsetId
+                               . "').style.height='" . $destinationOffsetTop . "px'");
+        }
+
+        $this->clickAt($specElementXpath, '1,1');
+        $blockTo = $specFieldsetXpath . '//li[' . $moveToPosition . ']//a//span';
+        $this->mouseDownAt($specElementXpath, '1,1');
+        $this->mouseMoveAt($blockTo, '1,1');
+        $this->mouseUpAt($blockTo, '1,1');
+        $this->clickAt($specElementXpath, '1,1');
+    }
+
+    #****************************************************************************
+    #           Should be removed when bug with @depends is fixed               *
+    #****************************************************************************
+
+    /**
+     * @static
+     * @param  string $className
      *
      * @return PHPUnit_Framework_TestSuite
      */
@@ -2613,10 +2667,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                     $browserSuite->setName($className . ': ' . $browser['name']);
 
                     foreach ($files as $file) {
-                        $browserSuite->addTest(
-                            //new $className($file, array(), '', $browser),
-                            self::addTestDependencies(new $className($file, array(), '', $browser), $className, $name),
-                            $classGroups
+                        self::addConfiguredTestTo($browserSuite, new $className($file, array(), '', $browser),
+                                                  $classGroups
                         );
                     }
 
@@ -2627,7 +2679,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             // Create tests from Selenese/HTML files for single browser.
             else {
                 foreach ($files as $file) {
-                    $suite->addTest(new $className($file), $classGroups);
+                    self::addConfiguredTestTo($suite, new $className($file), $classGroups);
                 }
             }
         }
@@ -2651,12 +2703,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                             );
 
                             foreach ($data as $_dataName => $_data) {
-                                $dataSuite->addTest(
-                                    //new $className($name, $_data, $_dataName, $browser),
-                                    self::addTestDependencies(new $className($name, $_data, $_dataName, $browser),
-                                                              $className, $name),
-                                    $groups
-                                );
+                                self::addConfiguredTestTo($dataSuite,
+                                                          new $className($name, $_data, $_dataName, $browser), $groups);
                             }
 
                             $browserSuite->addTest($dataSuite);
@@ -2669,8 +2717,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                                     new PHPUnit_Framework_Warning(
                                         sprintf(
                                             'The data provider specified for %s::%s is invalid.',
-                                            $className,
-                                            $name
+                                            $className, $name
                                         )
                                     )
                                 );
@@ -2678,11 +2725,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 
                             // Test method without @dataProvider.
                             else {
-                                $browserSuite->addTest(
-                                    //new $className($name, array(), '', $browser),
-                                    self::addTestDependencies(new $className($name, array(), '', $browser), $className,
-                                                              $name), $groups
-                                );
+                                self::addConfiguredTestTo($browserSuite, new $className($name, array(), '', $browser),
+                                                          $groups);
                             }
                         }
                     }
@@ -2707,10 +2751,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                         );
 
                         foreach ($data as $_dataName => $_data) {
-                            $dataSuite->addTest(
-                                //new $className($name, $_data, $_dataName),
-                                self::addTestDependencies(new $className($name, $_data, $_dataName), $className, $name),
-                                $groups
+                            self::addConfiguredTestTo($dataSuite, new $className($name, $_data, $_dataName), $groups
                             );
                         }
 
@@ -2723,8 +2764,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                             $suite->addTest(
                                 new PHPUnit_Framework_Warning(
                                     sprintf(
-                                        'The data provider specified for %s::%s is invalid.',
-                                        $className,
+                                        'The data provider specified for %s::%s is invalid.', $className,
                                         $name
                                     )
                                 )
@@ -2733,11 +2773,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 
                         // Test method without @dataProvider.
                         else {
-                            $suite->addTest(
-                                //new $className($name),
-                                self::addTestDependencies(new $className($name), $className, $name),
-                                $groups
-                            );
+                            self::addConfiguredTestTo($suite, new $className($name), $groups);
                         }
                     }
                 }
@@ -2748,35 +2784,40 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     }
 
     /**
-     * Adds test dependencies based on annotations
-     *
-     * @param PHPUnit_Framework_Test $test Object. A Test can be run and collect its results
-     * @param string $className  Name of the class loaded for parsing and executing
-     * @param string $methodName Name of method what loaded from class to adding dependencies
-     *
-     * @return \PHPUnit_Framework_Test
+     * @static
+     * @param PHPUnit_Framework_TestSuite $suite
+     * @param PHPUnit_Framework_TestCase $test
+     * @param $classGroups
      */
-    public static function addTestDependencies(PHPUnit_Framework_Test $test, $className, $methodName)
+    private static function addConfiguredTestTo(PHPUnit_Framework_TestSuite $suite, PHPUnit_Framework_TestCase $test, $classGroups)
     {
-        if ($test instanceof PHPUnit_Framework_TestCase ||
-            $test instanceof PHPUnit_Framework_TestSuite_DataProvider
-        ) {
-            $test->setDependencies(
-                PHPUnit_Util_Test::getDependencies($className, $methodName)
-            );
-        }
-        return $test;
+        list ($methodName,) = explode(' ', $test->getName());
+        $test->setDependencies(
+            PHPUnit_Util_Test::getDependencies(get_class($test), $methodName)
+        );
+        $suite->addTest($test, $classGroups);
     }
 
     /**
-     * Runs the test case and collects the results in a TestResult object.<br>
-     * If no TestResult object is passed, a new one is created.
+     * Sets the dependencies of a TestCase.
      *
-     * @param  PHPUnit_Framework_TestResult $result Objec to collect of test results (by default = null)
+     * @param  array $dependencies
      *
-     * @throws InvalidArgumentException
+     * @since  Method available since Release 3.4.0
+     */
+    public function setDependencies(array $dependencies)
+    {
+        $this->dependencies = $dependencies;
+    }
+
+    /**
+     * Runs the test case and collects the results in a TestResult object.
+     * If no TestResult object is passed a new one will be created.
+     *
+     * @param  PHPUnit_Framework_TestResult $result
      *
      * @return PHPUnit_Framework_TestResult
+     * @throws InvalidArgumentException
      */
     public function run(PHPUnit_Framework_TestResult $result = null)
     {
@@ -2784,8 +2825,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             $result = $this->createResult();
         }
 
-//        $this->setTestResultObject($result);
-        $this->_result = $result;
+        $this->result = $result;
 
         $this->collectCodeCoverageInformation = $result->getCollectCodeCoverageInformation();
 
@@ -2811,62 +2851,63 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     }
 
     /**
-     * Handles dependencies for the currently executed test.
-     * Verifies if the test needs to be executed or skipped.
-     * @return boolean
      * @since Method available since Release 3.5.4
+     * @return bool
      */
     protected function handleDependencies()
     {
-        if (empty($this->_dependencies) || $this->_inIsolation) {
-            return true;
-        }
+        if (!empty($this->dependencies) && !$this->inIsolation) {
+            $className = get_class($this);
+            $passed = $this->result->passed();
+            $passedKeys = array_keys($passed);
+            $numKeys = count($passedKeys);
 
-        $className = get_class($this);
-        $passed = $this->_result->passed();
+            for ($i = 0; $i < $numKeys; $i++) {
+                $pos = strpos($passedKeys[$i], ' with data set');
 
-        //Backward compatibility with our old-styled tests and old PHPUnit
-        $backwardCompatible = array();
-        foreach ($passed as $depName => $depArray) {
-            if (is_array($depArray) && array_key_exists('result', $depArray)) {
-                $backwardCompatible[$depName] = $depArray['result'];
-            }
-        }
-        if (!empty($backwardCompatible)) {
-            $passed = $backwardCompatible;
-        }
-
-        $passedKeys = array_keys($passed);
-        $numKeys = count($passedKeys);
-
-        for ($i = 0; $i < $numKeys; $i++) {
-            $pos = strpos($passedKeys[$i], ' with data set');
-
-            if ($pos !== false) {
-                $passedKeys[$i] = substr($passedKeys[$i], 0, $pos);
-            }
-        }
-
-        $passedKeys = array_flip(array_unique($passedKeys));
-
-        foreach ($this->_dependencies as $dependency) {
-            if (strpos($dependency, '::') === false) {
-                $dependency = $className . '::' . $dependency;
+                if ($pos !== false) {
+                    $passedKeys[$i] = substr($passedKeys[$i], 0, $pos);
+                }
             }
 
-            if (!isset($passedKeys[$dependency])) {
-                $this->_result->addError(
-                        $this, new PHPUnit_Framework_SkippedTestError(
-                                sprintf('This test depends on "%s" to pass.', $dependency)
+            $passedKeys = array_flip(array_unique($passedKeys));
+
+            foreach ($this->dependencies as $dependency) {
+                if (strpos($dependency, '::') === false) {
+                    $dependency = $className . '::' . $dependency;
+                }
+
+                if (!isset($passedKeys[$dependency])) {
+                    $this->result->addError(
+                        $this,
+                        new PHPUnit_Framework_SkippedTestError(
+                            sprintf(
+                                'This test depends on "%s" to pass.', $dependency
+                            )
                         ), 0
-                );
+                    );
 
-                return false;
-            } else {
+                    return false;
+                }
+
                 if (isset($passed[$dependency])) {
-                    $this->_dependencyInput[] = $passed[$dependency];
+                    if (isset($passed[$dependency]['size'])) {
+                        if ($passed[$dependency]['size'] > $this->getSize()) {
+                            $this->result->addError(
+                                $this,
+                                new PHPUnit_Framework_SkippedTestError(
+                                    'This test depends on a test that is larger than itself.'
+                                ), 0
+                            );
+
+                            return false;
+                        }
+                        $this->dependencyInput[] = $passed[$dependency]['result'];
+                    } else {
+                        $this->dependencyInput[] = $passed[$dependency];
+                    }
                 } else {
-                    $this->_dependencyInput[] = null;
+                    $this->dependencyInput[] = null;
                 }
             }
         }
@@ -2875,11 +2916,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     }
 
     /**
-     * Overrided to run the test and assert its state
-     *
+     * Override to run the test and assert its state.
      * @return mixed
-     *
-     * @throws PHPUnit_Framework_Exception, Exception
+     * @throws RuntimeException
      */
     protected function runTest()
     {
@@ -2888,12 +2927,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 
         if ($this->name === null) {
             throw new PHPUnit_Framework_Exception(
-                'PHPUnit_Framework_TestCase::$name must not be NULL.'
+                'PHPUnit_Framework_TestCase::$name must not be null.'
             );
         }
-
-        // Clear messages before running test
-        Mage_Selenium_TestCase::$_messages = null;
 
         try {
             $class = new ReflectionClass($this);
@@ -2904,39 +2940,38 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 
         try {
             $testResult = $method->invokeArgs(
-                    $this, array_merge($this->_data, $this->_dependencyInput)
+                $this, array_merge($this->data, $this->dependencyInput)
             );
             // Fail test if have verification errors
             $this->assertEmptyVerificationErrors();
         } catch (Exception $e) {
-            $this->savePage($class->getName());
             if (!$e instanceof PHPUnit_Framework_IncompleteTest &&
                 !$e instanceof PHPUnit_Framework_SkippedTest &&
-                is_string($this->_expectedException)
+                is_string($this->expectedException)
             ) {
                 $this->assertThat(
                     $e,
                     new PHPUnit_Framework_Constraint_Exception(
-                        $this->_expectedException
+                        $this->expectedException
                     )
                 );
 
-                if (is_string($this->_expectedExceptionMessage) &&
-                    !empty($this->_expectedExceptionMessage)
+                if (is_string($this->expectedExceptionMessage) &&
+                    !empty($this->expectedExceptionMessage)
                 ) {
                     $this->assertThat(
                         $e,
                         new PHPUnit_Framework_Constraint_ExceptionMessage(
-                            $this->_expectedExceptionMessage
+                            $this->expectedExceptionMessage
                         )
                     );
                 }
 
-                if ($this->_expectedExceptionCode !== null) {
+                if ($this->expectedExceptionCode !== null) {
                     $this->assertThat(
                         $e,
                         new PHPUnit_Framework_Constraint_ExceptionCode(
-                            $this->_expectedExceptionCode
+                            $this->expectedExceptionCode
                         )
                     );
                 }
@@ -2947,11 +2982,11 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             }
         }
 
-        if ($this->_expectedException !== null) {
+        if ($this->expectedException !== null) {
             $this->assertThat(
                 null,
                 new PHPUnit_Framework_Constraint_Exception(
-                    $this->_expectedException
+                    $this->expectedException
                 )
             );
         }
@@ -2959,78 +2994,4 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         return $testResult;
     }
 
-    /**
-     * Performs scrolling to the specified element in the specified list(block) with the specified name.
-     *
-     * @param string $elementType Type of the element that should be visible after scrolling
-     * @param string $elementName Name of the element that should be visible after scrolling
-     * @param string $blockType Type of the block where to use scroll
-     * @param string $blockName Name of the block where to use scroll
-     *
-     * @return null
-     */
-    public function moveScrollToElement($elementType, $elementName, $blockType, $blockName)
-    {
-        // Getting XPath of the element what should be visible after scrolling
-        $specElementXpath = $this->_getControlXpath($elementType, $elementName);
-        // Getting @ID of the element what should be visible after scrolling
-        $specElementId = $this->getAttribute($specElementXpath . "/@id");
-
-        // Getting XPath of the block where scroll is using
-        $specFieldsetXpath = $this->_getControlXpath($blockType, $blockName);
-        // Getting @ID of the block where scroll is using
-        $specFieldsetId = $this->getAttribute($specFieldsetXpath . "/@id");
-
-        // Getting offset position of the element what should be visible after scrolling
-        $destinationOffsetTop = $this->getEval("this.browserbot.findElement('id=" . $specElementId . "').offsetTop");
-        // Moving scroll bar to previously defined offest
-        // Position (to the element what should be visible after scrolling)
-        $this->getEval("this.browserbot.findElement('id=" . $specFieldsetId
-                           . "').scrollTop = " . $destinationOffsetTop);
-    }
-
-    /**
-     * Moves the specified element (with type = $elementType and name = $elementName)<br>
-     * over the specified JS tree (with type = $blockType and name = $blockName)<br>
-     * to position = $moveToPosition
-     *
-     * @param string $elementType Type of the element to move
-     * @param string $elementName Name of the element to move
-     * @param string $blockType Type of the block that contains JS tree
-     * @param string $blockName Name of the block that contains JS tree
-     * @param integer $moveToPosition Index of the position where element should be after moving (default = 1)
-     */
-    public function moveElementOverTree($elementType, $elementName, $blockType, $blockName, $moveToPosition = 1)
-    {
-        // Getting XPath of the element to move
-        $specElemantXpath = $this->_getControlXpath($elementType, $elementName);
-        // Getting @ID of the element to move
-        $specElementId = $this->getAttribute($specElemantXpath . "/@id");
-
-        // Getting XPath of the block what is a JS tree
-        $specFieldsetXpath = $this->_getControlXpath($blockType, $blockName);
-        // Getting @ID of the block what is a JS tree
-        $specFieldsetId = $this->getAttribute($specFieldsetXpath . "/@id");
-
-        // Getting offset position of the element to move
-        $destinationOffsetTop = $this->getEval("this.browserbot.findElement('id=" . $specElementId . "').offsetTop");
-
-        // Storing of current height of the block with JS tree
-        $tmpBlockHeight = (integer)$this->getEval("this.browserbot.findElement('id="
-                                                      . $specFieldsetId . "').style.height");
-
-        // If element to move situated abroad of the current height, it will be increased
-        if ($destinationOffsetTop >= $tmpBlockHeight) {
-            $destinationOffsetTop = $destinationOffsetTop + 50;
-            $this->getEval("this.browserbot.findElement('id=" . $specFieldsetId
-                               . "').style.height='" . $destinationOffsetTop . "px'");
-        }
-
-        $this->clickAt($specElementXpath, '1,1');
-        $blockTo = $specFieldsetXpath . '//li[' . $moveToPosition . ']//a//span';
-        $this->mouseDownAt($specElementXpath, '1,1');
-        $this->mouseMoveAt($blockTo, '1,1');
-        $this->mouseUpAt($blockTo, '1,1');
-        $this->clickAt($specElementXpath, '1,1');
-    }
 }

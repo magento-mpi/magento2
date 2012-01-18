@@ -98,7 +98,7 @@ class Mage_Selenium_Helper_DataGenerator extends Mage_Selenium_Helper_Abstract
      * Generates email address
      *
      * @param int $length Generated string length (number of characters)
-     * @param string $validity  Defines if the generated string should be a vaild email address possible values of
+     * @param string $validity  Defines if the generated string should be a valid email address possible values of
      * this parameter are 'valid' and 'invalid', any other value doesn't define validity of the generated address
      * @param string $prefix Prefix to prepend the generated value
      *
@@ -236,7 +236,7 @@ class Mage_Selenium_Helper_DataGenerator extends Mage_Selenium_Helper_Abstract
         }
 
         $class[] = 'text';
-        $text = $prefix;
+        $textArr = array();
 
         //Reserve place for paragraph delimiters
         $length -= ($paraCount - 1) * strlen($this->_paraDelim);
