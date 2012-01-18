@@ -31,6 +31,59 @@
 class Mage_Api2_Model_RouterTest extends Mage_PHPUnit_TestCase
 {
     /**
+     * Message of message of raised exception fail
+     */
+    const RAISED_EXCEPTION_FAIL_MESSAGE = 'An expected Mage_Api2_Exception has not been raised.';
+
+    /**#@+
+     * Resource values
+     */
+    const RESOURCE_TYPE = 'product';
+    const RESOURCE_MODEL = 'Mage_Catalog_Model_Product_Api2';
+    /**#@- */
+
+    /**
+     * Product item id
+     */
+    const PRODUCT_ID = 2;
+
+    /**
+     * Get route
+     *
+     * @param array $options
+     * @return Mage_Api2_Model_Route_Rest
+     */
+    protected function _getConfigRoute(array $options)
+    {
+        $arguments = array(
+            Mage_Api2_Model_Route_Abstract::ROUTE_PARAM    => 'products/:id',
+            Mage_Api2_Model_Route_Abstract::DEFAULTS_PARAM => $options
+        );
+
+        /** @var $rest Mage_Api2_Model_Route_Rest */
+        $rest = Mage::getModel('api2/route_rest', $arguments);
+
+        return $rest;
+    }
+
+    /**
+     * Get Request object
+     *
+     * @return Mage_Api2_Model_Request
+     */
+    protected function _getRequest()
+    {
+        $baseUrl = strtr(Mage_Api2_Model_Request::BASE_URL, array(':api' => Mage_Api2_Model_Server::API_TYPE_REST));
+
+        /** @var $request Mage_Api2_Model_Request */
+        $request = Mage::getSingleton('api2/request');
+        $request->setRequestUri($baseUrl . 'products/' . self::PRODUCT_ID)
+            ->setBaseUrl($baseUrl);
+
+        return $request;
+    }
+
+    /**
      * Test not matched routes in Request
      *
      * @return void
@@ -50,6 +103,136 @@ class Mage_Api2_Model_RouterTest extends Mage_PHPUnit_TestCase
             return;
         }
 
-        $this->fail('An expected Mage_Api2_Exception has not been raised.');
+        $this->fail(self::RAISED_EXCEPTION_FAIL_MESSAGE);
+    }
+
+    /**
+     * Test routes match and set params to Request
+     *
+     * @return void
+     */
+    public function testRoute()
+    {
+        $request = $this->_getRequest();
+
+        $this->assertNull($request->getParam('id'));
+        $this->assertNull($request->getParam('type'));
+        $this->assertNull($request->getParam('model'));
+
+        /** @var $router Mage_Api2_Model_Router */
+        $router = Mage::getSingleton('api2/router');
+
+        $options = array(
+            'model' => self::RESOURCE_MODEL,
+            'type'  => self::RESOURCE_TYPE,
+        );
+
+        $router->setRoutes(array($this->_getConfigRoute($options)))
+            ->route($request);
+
+        $this->assertEquals(self::PRODUCT_ID, $request->getParam('id'));
+        $this->assertEquals('product', $request->getParam('type'));
+        $this->assertEquals(self::RESOURCE_MODEL, $request->getParam('model'));
+    }
+
+    /**
+     * Test routes match and set params to Request with wrong routes (without resource model tag)
+     *
+     * @return void
+     */
+    public function testSetRequestParamsWithoutResourceModel()
+    {
+        $request = $this->_getRequest();
+
+        $this->assertNull($request->getParam('id'));
+        $this->assertNull($request->getParam('type'));
+        $this->assertNull($request->getParam('model'));
+
+        /** @var $router Mage_Api2_Model_Router */
+        $router = Mage::getSingleton('api2/router');
+
+        $options = array(
+            'type'  => self::RESOURCE_TYPE
+        );
+
+        try {
+            $router->setRoutes(array($this->_getConfigRoute($options)))
+                ->route($request);
+        } catch (Mage_Api2_Exception $e) {
+            $this->assertEquals(Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR, $e->getCode());
+            $this->assertEquals('Matched resource is not properly set.', $e->getMessage());
+            $this->assertNull($request->getParam('id'));
+            $this->assertNull($request->getParam('type'));
+            $this->assertNull($request->getParam('model'));
+            return;
+        }
+
+        $this->fail(self::RAISED_EXCEPTION_FAIL_MESSAGE);
+    }
+
+    /**
+     * Test routes match and set params to Request with wrong routes (without resource type tag)
+     *
+     * @return void
+     */
+    public function testSetRequestParamsWithoutResourceType()
+    {
+        $request = $this->_getRequest();
+
+        $this->assertNull($request->getParam('id'));
+        $this->assertNull($request->getParam('type'));
+        $this->assertNull($request->getParam('model'));
+
+        /** @var $router Mage_Api2_Model_Router */
+        $router = Mage::getSingleton('api2/router');
+
+        $options = array(
+            'model' => self::RESOURCE_MODEL
+        );
+
+        try {
+            $router->setRoutes(array($this->_getConfigRoute($options)))
+                ->route($request);
+        } catch (Mage_Api2_Exception $e) {
+            $this->assertEquals(Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR, $e->getCode());
+            $this->assertEquals('Matched resource is not properly set.', $e->getMessage());
+            $this->assertNull($request->getParam('id'));
+            $this->assertNull($request->getParam('type'));
+            $this->assertNull($request->getParam('model'));
+            return;
+        }
+
+        $this->fail(self::RAISED_EXCEPTION_FAIL_MESSAGE);
+    }
+
+    /**
+     * Test routes match and set params to Request with wrong routes (without resource tags)
+     *
+     * @return void
+     */
+    public function testSetRequestParamsWithoutResourceTags()
+    {
+        $request = $this->_getRequest();
+
+        $this->assertNull($request->getParam('id'));
+        $this->assertNull($request->getParam('type'));
+        $this->assertNull($request->getParam('model'));
+
+        /** @var $router Mage_Api2_Model_Router */
+        $router = Mage::getSingleton('api2/router');
+
+        try {
+            $router->setRoutes(array($this->_getConfigRoute(array())))
+                ->route($request);
+        } catch (Mage_Api2_Exception $e) {
+            $this->assertEquals(Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR, $e->getCode());
+            $this->assertEquals('Matched resource is not properly set.', $e->getMessage());
+            $this->assertNull($request->getParam('id'));
+            $this->assertNull($request->getParam('type'));
+            $this->assertNull($request->getParam('model'));
+            return;
+        }
+
+        $this->fail(self::RAISED_EXCEPTION_FAIL_MESSAGE);
     }
 }

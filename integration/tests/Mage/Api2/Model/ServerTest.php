@@ -165,6 +165,6 @@ class Mage_Api2_Model_ServerTest extends Magento_TestCase
         $response = $this->_getClient()->setUri('http://' . TESTS_HTTP_HOST . '/api/'
             . Mage_Api2_Model_Server::API_TYPE_REST . '/qwerty')->request();
 
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR, $response->getStatus());
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $response->getStatus());
     }
 }
