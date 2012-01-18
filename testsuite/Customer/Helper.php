@@ -169,7 +169,15 @@ class Customer_Helper extends Mage_Selenium_TestCase
         $this->logoutCustomer();
         $this->clickControl('link', 'log_in');
         $this->fillForm($loginData);
-        $this->clickButton('login');
+        $this->clickButton('login', false);
+
+        /* wait for next page load */
+        $this->waitForPageToLoad($this->_browserTimeoutPeriod);
+
+        /* check that logout link exists on the page */
+        if (!$this->isElementPresent("//a[@title='Log Out']")) {
+            $this->fail('Log Out link not exists after customer authentication.');
+        }
     }
 
 }

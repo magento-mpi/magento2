@@ -60,6 +60,18 @@ function installMagentoApplication(array $installerOptions, array $systemConfigD
     foreach ($systemConfigData as $configPath => $configValue) {
         $setupModel->setConfigData($configPath, $configValue);
     }
+
+    /* Prepare order autoincrement */
+    $select = $setupModel->getConnection()->select()
+        ->from($setupModel->getTable('eav_entity_type'), 'entity_type_id')
+        ->where('entity_type_code=?', 'order');
+    $data = array(
+        'entity_type_id' => $setupModel->getConnection()->fetchOne($select),
+        'store_id' => '1',
+        /*Paypal has limitation for order number (20 characters). 10 digits prefix + 8 digits number is good enough */
+        'increment_prefix' => time(),
+    );
+    $setupModel->getConnection()->insert($setupModel->getTable('eav_entity_store'), $data);
 }
 
 function uninstallMagentoApplication()
