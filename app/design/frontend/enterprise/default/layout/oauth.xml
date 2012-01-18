@@ -27,6 +27,17 @@
 -->
 <layout version="1.0.0.0">
     <!-- Authorization -->
+    <!--Handle for simple pages-->
+    <oauth_authorize_head_simple>
+        <remove name="js_cookie" />
+        <reference name="head">
+            <action method="setTemplate">
+                <template>oauth/authorize/head-simple.phtml</template>
+            </action>
+            <block type="oauth/authorize_style" name="oauth.authorize.style" template="oauth/authorize/simple-css.phtml" />
+        </reference>
+    </oauth_authorize_head_simple>
+
     <oauth_authorize_index translate="label">
         <label>OAuth authorization for customer</label>
         <reference name="root">
@@ -47,8 +58,10 @@
         <remove name="cart_sidebar"/>
         <remove name="footer"/>
     </oauth_authorize_index>
+
     <oauth_authorize_simple translate="label">
         <update handle="oauth_authorize_index"/>
+        <update handle="oauth_authorize_head_simple"/>
         <reference name="root">
             <action method="setTemplate">
                 <template>page/empty.phtml</template>
@@ -65,24 +78,6 @@
             <action method="setTemplate">
                 <template>oauth/authorize/button-simple.phtml</template>
             </action>
-        </reference>
-        <reference name="head">
-            <block type="oauth/authorize_style" name="oauth.authorize.style" template="oauth/authorize/simple-css.phtml">
-                <block type="oauth/authorize_style" name="oauth.authorize.form.css" template="oauth/authorize/form/login-simple-css.phtml" />
-                <block type="oauth/authorize_style" name="oauth.authorize.button.css" template="oauth/authorize/button-simple-css.phtml" />
-
-                <!-- Blocks with base styles from adminhtml area -->
-                <block type="oauth/authorize_style" name="oauth.authorize.form.css.base" template="oauth/authorize/form/login-simple-css.phtml">
-                    <action method="setIsSimple">
-                        <flag>1</flag>
-                    </action>
-                </block>
-                <block type="oauth/authorize_style" name="oauth.authorize.button.css.base" template="oauth/authorize/button-simple-css.phtml">
-                    <action method="setIsSimple">
-                        <flag>1</flag>
-                    </action>
-                </block>
-            </block>
         </reference>
     </oauth_authorize_simple>
     <!-- EOF Authorization -->
@@ -107,9 +102,10 @@
         <remove name="cart_sidebar"/>
         <remove name="footer"/>
     </oauth_authorize_confirm>
+
     <oauth_authorize_confirmsimple translate="label">
-        <label>Confirm OAuth token authorization Simle</label>
         <update handle="oauth_authorize_confirm"/>
+        <update handle="oauth_authorize_head_simple"/>
         <reference name="root">
             <action method="setTemplate">
                 <template>page/empty.phtml</template>
@@ -120,16 +116,6 @@
             <action method="setTemplate">
                 <template>oauth/authorize/confirm-simple.phtml</template>
             </action>
-        </reference>
-        <reference name="head">
-            <block type="oauth/authorize_style" name="oauth.authorize.confirm.css" template="oauth/authorize/confirm-simple-css.phtml" />
-
-            <!-- Blocks with base styles from adminhtml area -->
-            <block type="oauth/authorize_style" name="oauth.authorize.confirm.css.base" template="oauth/authorize/confirm-simple-css.phtml">
-                <action method="setIsSimple">
-                    <flag>1</flag>
-                </action>
-            </block>
         </reference>
     </oauth_authorize_confirmsimple>
     <!-- EOF Confirm Authorization -->
@@ -154,9 +140,10 @@
         <remove name="cart_sidebar"/>
         <remove name="footer"/>
     </oauth_authorize_reject>
+
     <oauth_authorize_rejectsimple translate="label">
-        <label>Reject OAuth token authorization Simple</label>
         <update handle="oauth_authorize_reject"/>
+        <update handle="oauth_authorize_head_simple"/>
         <reference name="root">
             <action method="setTemplate">
                 <template>page/empty.phtml</template>
@@ -167,16 +154,6 @@
             <action method="setTemplate">
                 <template>oauth/authorize/reject-simple.phtml</template>
             </action>
-        </reference>
-        <reference name="head">
-            <block type="oauth/authorize_style" name="oauth.authorize.reject.css" template="oauth/authorize/reject-simple-css.phtml" />
-
-            <!-- Blocks with base styles from adminhtml area -->
-            <block type="oauth/authorize_style" name="oauth.authorize.reject.css.base" template="oauth/authorize/reject-simple-css.phtml">
-                <action method="setIsSimple">
-                    <flag>1</flag>
-                </action>
-            </block>
         </reference>
     </oauth_authorize_rejectsimple>
     <!-- EOF Reject Authorization -->
@@ -191,6 +168,7 @@
             </action>
         </reference>
     </customer_account>
+
     <oauth_customer_token_index translate="label">
         <label>Customer My Account My OAuth Applications</label>
         <update handle="customer_account"/>

@@ -32,10 +32,12 @@
             <block type="oauth/adminhtml_oAuth_consumer" name="oauth_consumer"/>
         </reference>
     </adminhtml_oauth_consumer_index>
+
     <adminhtml_oauth_consumer_grid>
         <remove name="root"/>
         <block type="oauth/adminhtml_oAuth_consumer_grid" name="oauth_consumer.grid" output="toHtml"/>
     </adminhtml_oauth_consumer_grid>
+
     <adminhtml_oauth_consumer_new>
         <reference name="content">
             <block type="oauth/adminhtml_oAuth_consumer_edit" name="oauth_consumer.edit">
@@ -43,6 +45,7 @@
             </block>
         </reference>
     </adminhtml_oauth_consumer_new>
+
     <adminhtml_oauth_consumer_edit>
         <reference name="content">
             <block type="oauth/adminhtml_oAuth_consumer_edit" name="oauth_consumer.edit">
@@ -58,6 +61,7 @@
             <block type="oauth/adminhtml_oAuth_admin_token" name="oauth_admin_token"/>
         </reference>
     </adminhtml_oauth_admin_token_index>
+
     <adminhtml_oauth_admin_token_grid>
         <remove name="root"/>
         <block type="oauth/adminhtml_oAuth_admin_token_grid" name="oauth_admin_token.grid" output="toHtml"/>
@@ -65,6 +69,17 @@
     <!-- EOF My Applications -->
 
     <!-- Authorize -->
+    <!--Handle for simple pages-->
+    <oauth_authorize_head_simple>
+        <remove name="js_cookie" />
+        <reference name="head">
+            <action method="setTemplate">
+                <template>oauth/authorize/head-simple.phtml</template>
+            </action>
+            <block type="oauth/authorize_style" name="oauth.authorize.style" template="oauth/authorize/simple-css.phtml" />
+        </reference>
+    </oauth_authorize_head_simple>
+
     <adminhtml_oauth_authorize_index translate="label">
         <label>OAuth authorization for admin</label>
         <reference name="root">
@@ -75,9 +90,11 @@
             <block type="oauth/adminhtml_oAuth_authorize_button" name="oauth.authorize.button" template="oauth/authorize/button.phtml" />
         </reference>
     </adminhtml_oauth_authorize_index>
+
     <adminhtml_oauth_authorize_simple translate="label">
-        <update handle="adminhtml_oauth_authorize_index"/>
         <label>OAuth authorization simple for admin</label>
+        <update handle="adminhtml_oauth_authorize_index"/>
+        <update handle="oauth_authorize_head_simple"/>
         <reference name="oauth.authorize.form">
             <action method="setTemplate">
                 <template>oauth/authorize/form/login-simple.phtml</template>
@@ -87,15 +104,6 @@
             <action method="setTemplate">
                 <template>oauth/authorize/button-simple.phtml</template>
             </action>
-        </reference>
-        <reference name="head">
-            <action method="setTemplate">
-                <template>oauth/authorize/head-simple.phtml</template>
-            </action>
-            <block type="oauth/authorize_style" name="oauth.authorize.style" template="oauth/authorize/simple-css.phtml">
-                <block type="oauth/authorize_style" name="oauth.authorize.form.css" template="oauth/authorize/form/login-simple-css.phtml" />
-                <block type="oauth/authorize_style" name="oauth.authorize.button.css" template="oauth/authorize/button-simple-css.phtml" />
-            </block>
         </reference>
     </adminhtml_oauth_authorize_simple>
     <!-- EOF Authorize -->
@@ -110,19 +118,15 @@
             <block type="core/template" name="oauth.authorize.confirm" template="oauth/authorize/confirm.phtml" />
         </reference>
     </adminhtml_oauth_authorize_confirm>
+
     <adminhtml_oauth_authorize_confirmsimple translate="label">
         <update handle="adminhtml_oauth_authorize_confirm"/>
+        <update handle="oauth_authorize_head_simple"/>
         <label>Confirm token authorization Pop Up for admin</label>
         <reference name="oauth.authorize.confirm">
             <action method="setTemplate">
                 <template>oauth/authorize/confirm-simple.phtml</template>
             </action>
-        </reference>
-        <reference name="head">
-            <action method="setTemplate">
-                <template>oauth/authorize/head-simple.phtml</template>
-            </action>
-            <block type="core/template" name="oauth.authorize.confirm.css" template="oauth/authorize/confirm-simple-css.phtml" />
         </reference>
     </adminhtml_oauth_authorize_confirmsimple>
     <!-- EOF Confirm Authorization -->
@@ -139,19 +143,15 @@
             <block type="core/template" name="oauth.authorize.reject" template="oauth/authorize/reject.phtml" />
         </reference>
     </adminhtml_oauth_authorize_reject>
+
     <adminhtml_oauth_authorize_rejectsimple translate="label">
         <update handle="adminhtml_oauth_authorize_reject"/>
+        <update handle="oauth_authorize_head_simple"/>
         <label>Reject token authorization Pop Up for admin</label>
         <reference name="oauth.authorize.reject">
             <action method="setTemplate">
                 <template>oauth/authorize/reject-simple.phtml</template>
             </action>
-        </reference>
-        <reference name="head">
-            <action method="setTemplate">
-                <template>oauth/authorize/head-simple.phtml</template>
-            </action>
-            <block type="core/template" name="oauth.authorize.reject.css" template="oauth/authorize/reject-simple-css.phtml" />
         </reference>
     </adminhtml_oauth_authorize_rejectsimple>
     <!-- EOF Reject Authorization -->
@@ -161,6 +161,7 @@
             <block type="oauth/adminhtml_oAuth_authorizedTokens" name="oauth_authorizedTokens"/>
         </reference>
     </adminhtml_oauth_authorizedtokens_index>
+
     <adminhtml_oauth_authorizedtokens_grid>
         <remove name="root"/>
         <block type="oauth/adminhtml_oAuth_authorizedTokens_grid" name="oauth_authorizedTokens.grid" output="toHtml"/>

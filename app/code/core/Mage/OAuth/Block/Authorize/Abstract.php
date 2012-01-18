@@ -77,9 +77,7 @@ abstract class Mage_OAuth_Block_Authorize_Abstract extends Mage_Core_Block_Templ
             /** @var $token Mage_OAuth_Model_Token */
             $token = Mage::getModel('oauth/token');
             $token->load($this->getToken(), 'token');
-
-            $this->_consumer = Mage::getModel('oauth/consumer');
-            $this->_consumer->load($token->getConsumerId());
+            $this->_consumer = $token->getConsumer();
         }
         return $this->_consumer;
     }

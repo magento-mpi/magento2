@@ -214,8 +214,14 @@ class Mage_OAuth_ClientController extends Mage_Core_Controller_Front_Action
     {
         /** @var $tokenC Mage_OAuth_Model_Token */
         $tokenC = Mage::getModel('oauth/token')->load(1);
+        if ($tokenC->getId()) {
+            $tokenC->setAuthorized(0)->setType('request')->save();
+        }
         /** @var $tokenA Mage_OAuth_Model_Token */
         $tokenA = Mage::getModel('oauth/token')->load(2);
+        if ($tokenA->getId()) {
+            $tokenA->setAuthorized(0)->setType('request')->save();
+        }
 
         $baseUrl = Mage::app()->getStore()->getBaseUrl();
 

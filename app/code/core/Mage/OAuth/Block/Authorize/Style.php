@@ -33,5 +33,15 @@
  */
 class Mage_OAuth_Block_Authorize_Style extends Mage_OAuth_Block_Authorize_Abstract
 {
+    /**
+     * Set default data
+     */
+    public function __construct()
+    {
+        parent::__construct();
+
+        //default load template from admin package
+        $this->setIsSimple(true);
+    }
 
 }
