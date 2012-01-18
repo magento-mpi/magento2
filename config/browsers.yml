@@ -46,31 +46,33 @@ browsers:
         browserTimeoutPeriod: 40000
     default: *chrome
 default:
-    cache:
+  cache:
+    frontend:
+      name: 'core'
+      options:
+        caching: false
+        cache_id_prefix: 'selenium_'
+        automatic_serialization: true
+    backend:
+      name: 'file'
+      options:
+        cache_dir: 'tmp/cache'
+
+  uimaps:
+    basePath: uimaps
+  applications:
+    magento: &magento
+      adminLogin: admin
+      adminPassword: 123123q
+      storeName: Store 1
+      basePath: '/path/to/app/installation'
+      areas:
+        admin:
+          url: 'http://www.localhost.com/magento/admin/'
+          uimaps:
+            path: 'admin'
         frontend:
-            name: 'core'
-            options:
-                caching: false
-                cache_id_prefix: 'selenium_'
-                automatic_serialization: true
-        backend:
-            name: 'file'
-            options:
-                cache_dir: 'tmp/cache'
-    uimaps:
-        basePath: uimaps
-    applications:
-        magento: &magento
-            adminLogin: admin
-            adminPassword: 123123q
-            basePath: '/path/to/app/installation'
-            areas:
-                admin:
-                    url: 'http://www.localhost/magento/admin/'
-                    uimaps:
-                        path: 'admin'
-                frontend:
-                    url: 'http://www.localhost/magento/'
-                    uimaps:
-                        path: 'frontend'
-        default: *magento
+          url: 'http://www.localhost.com/magento/'
+          uimaps:
+            path: 'frontend'
+    default: *magento
