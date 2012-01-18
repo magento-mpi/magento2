@@ -43,10 +43,27 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Attribute extends Mage_Catalo
         $attribute = $this->getAttributeModel();
         $this->_requestVar = $attribute->getAttributeCode();
 
-        $fieldName = Mage::helper('enterprise_search')->getAttributeSolrFieldName($attribute);
+        $engine = Mage::getResourceSingleton('enterprise_search/engine');
+        $fieldName = $engine->getSearchEngineFieldName($attribute, 'nav');
+
         $productCollection = $this->getLayer()->getProductCollection();
         $options = $productCollection->getFacetedData($fieldName);
-        $options = $this->sortOptions($options);
+
+        $sortedOptions = array();
+        foreach ($options as $option => $count) {
+            $pos = strpos($option, '_');
+            $sortPosition = substr($option, 0, $pos);
+            $option = substr($option, $pos + 1);
+            if (!isset($sortedOptions[$sortPosition])) {
+                $sortedOptions[$sortPosition] = array($option => $count);
+            }
+        }
+        ksort($sortedOptions);
+        $options = array();
+        foreach ($sortedOptions as $option) {
+            $option = each($option);
+            $options[$option[0]] = $option[1];
+        }
 
         $data = array();
         foreach ($options as $label => $count) {
@@ -69,6 +86,7 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Attribute extends Mage_Catalo
                 }
             }
         }
+
         return $data;
     }
 
@@ -102,7 +120,8 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Attribute extends Mage_Catalo
      */
     public function addFacetCondition()
     {
-        $facetField = Mage::helper('enterprise_search')->getAttributeSolrFieldName($this->getAttributeModel());
+        $engine = Mage::getResourceSingleton('enterprise_search/engine');
+        $facetField = $engine->getSearchEngineFieldName($this->getAttributeModel(), 'nav');
         $this->getLayer()->getProductCollection()->setFacetCondition($facetField);
 
         return $this;
@@ -111,46 +130,25 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Attribute extends Mage_Catalo
     /**
      * Apply attribute filter to solr query
      *
-     * @param Mage_Catalog_Model_Layer_Filter_Attribute $filter
-     * @param int $value
-     * @return Enterprise_Search_Model_Catalog_Layer_Filter_Attribute
+     * @param   Mage_Catalog_Model_Layer_Filter_Attribute $filter
+     * @param   int $value
+     *
+     * @return  Enterprise_Search_Model_Catalog_Layer_Filter_Attribute
      */
     public function applyFilterToCollection($filter, $value)
     {
         if (empty($value)) {
             $value = array();
-        } else if (!is_array($value)) {
+        } elseif (!is_array($value)) {
             $value = array($value);
         }
 
         $productCollection = $this->getLayer()->getProductCollection();
-        $attribute  = $filter->getAttributeModel();
+        $attribute = $filter->getAttributeModel();
 
         $param = Mage::helper('enterprise_search')->getSearchParam($productCollection, $attribute, $value);
         $productCollection->addFqFilter($param);
+
         return $this;
-    }
-
-    /**
-     * Sort options array according to position value in admin panel
-     *
-     * @param array $options
-     * @return array
-     */
-    public function sortOptions($options)
-    {
-        $sortedOptions = array();
-        $optionCollection = Mage::getResourceModel('eav/entity_attribute_option_collection')
-            ->setAttributeFilter($this->getAttributeModel()->getAttributeId())
-            ->setPositionOrder(Varien_Db_Select::SQL_ASC, true)
-            ->load();
-
-        foreach ($optionCollection as $option) {
-            $optionValue = trim($option->getValue());
-            if(array_key_exists($optionValue, $options)) {
-                $sortedOptions[$optionValue] = $options[$optionValue];
-            }
-        }
-        return $sortedOptions;
     }
 }

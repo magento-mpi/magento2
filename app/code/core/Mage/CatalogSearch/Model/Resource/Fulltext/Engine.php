@@ -91,6 +91,16 @@ class Mage_CatalogSearch_Model_Resource_Fulltext_Engine extends Mage_Core_Model_
     }
 
     /**
+     * Retrieve allowed visibility values for current engine
+     *
+     * @return array
+     */
+    public function getAllowedVisibility()
+    {
+        return Mage::getSingleton('catalog/product_visibility')->getVisibleInSearchIds();
+    }
+
+    /**
      * Define if current search engine supports advanced index
      *
      * @return bool
