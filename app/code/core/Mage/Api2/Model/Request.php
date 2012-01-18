@@ -97,7 +97,7 @@ class Mage_Api2_Model_Request extends Zend_Controller_Request_Http
         list(, $charset) = explode('=', $string);
 
         //alternatively we could convert request data to DEFAULT_CHARSET
-        if ($charset!=self::DEFAULT_CHARSET) {
+        if (strtolower($charset) != self::DEFAULT_CHARSET) {
             throw new Mage_Api2_Exception(
                 sprintf('Invalid request charset defined in Content-type header "%s", please provide data in utf-8',
                     htmlspecialchars($charset)
