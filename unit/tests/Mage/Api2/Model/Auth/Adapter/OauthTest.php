@@ -79,7 +79,7 @@ class Mage_Api2_Model_Auth_Adapter_OauthTest extends Mage_PHPUnit_TestCase
             ->method('getUserType')
             ->will($this->returnValue('customer'));
 
-        $this->assertEquals('customer', $this->_adapter->getUserRole($this->_request), 'User role does not match');
+        $this->assertEquals('customer', $this->_adapter->getUserType($this->_request), 'User role does not match');
     }
 
     /**
@@ -91,7 +91,7 @@ class Mage_Api2_Model_Auth_Adapter_OauthTest extends Mage_PHPUnit_TestCase
         $_SERVER['REQUEST_URI']        = '/testuri/';
         $_SERVER['HTTP_AUTHORIZATION'] = 'OAuth realm="Test Realm"';
 
-        $this->assertFalse($this->_adapter->getUserRole($this->_request));
+        $this->assertFalse($this->_adapter->getUserType($this->_request));
     }
 
     /**
@@ -101,7 +101,7 @@ class Mage_Api2_Model_Auth_Adapter_OauthTest extends Mage_PHPUnit_TestCase
     {
         $_SERVER['HTTP_AUTHORIZATION'] = 'NotOAuth realm="Test Realm"';
 
-        $this->assertFalse($this->_adapter->getUserRole($this->_request));
+        $this->assertFalse($this->_adapter->getUserType($this->_request));
     }
 
     /**
@@ -109,6 +109,6 @@ class Mage_Api2_Model_Auth_Adapter_OauthTest extends Mage_PHPUnit_TestCase
      */
     public function testGetUserRoleNoAuthorizationHeader()
     {
-        $this->assertFalse($this->_adapter->getUserRole($this->_request));
+        $this->assertFalse($this->_adapter->getUserType($this->_request));
     }
 }
