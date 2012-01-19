@@ -63,7 +63,7 @@
             </sales_order_creditmemo_resource_update_grid_records>
         </events>
         <logging_actions>
-            <massAdd translate="label" module="enterprise_salesarchive">
+            <massAdd translate="label" module="Enterprise_SalesArchive">
                 <label>Mass Add</label>
             </massAdd>
         </logging_actions>

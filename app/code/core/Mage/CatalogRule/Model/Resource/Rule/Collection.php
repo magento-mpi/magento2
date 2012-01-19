@@ -36,7 +36,7 @@ class Mage_CatalogRule_Model_Resource_Rule_Collection extends Mage_Rule_Model_Re
      */
     protected function _construct()
     {
-        $this->_init('catalogrule/rule');
+        $this->_init('Mage_CatalogRule_Model_Rule', 'Mage_CatalogRule_Model_Resource_Rule');
     }
 
     /**

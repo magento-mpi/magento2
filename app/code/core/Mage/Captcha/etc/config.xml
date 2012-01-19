@@ -23,25 +23,11 @@
                 </setup>
             </captcha_setup>
         </resources>
-        <models>
-            <captcha>
-                <class>Mage_Captcha_Model</class>
-                <resourceModel>captcha_resource</resourceModel>
-            </captcha>
-            <captcha_resource>
-                <class>Mage_Captcha_Model_Resource</class>
-                <entities>
-                    <log>
-                        <table>captcha_log</table>
-                    </log>
-                </entities>
-            </captcha_resource>
-        </models>
         <events>
             <controller_action_predispatch_customer_account_loginPost>
                 <observers>
                     <captcha>
-                        <class>captcha/observer</class>
+                        <class>Mage_Captcha_Model_Observer</class>
                         <method>checkUserLogin</method>
                     </captcha>
                 </observers>
@@ -49,7 +35,7 @@
             <controller_action_predispatch_customer_account_forgotpasswordpost>
                 <observers>
                     <captcha>
-                        <class>captcha/observer</class>
+                        <class>Mage_Captcha_Model_Observer</class>
                         <method>checkForgotPassword</method>
                     </captcha>
                 </observers>
@@ -57,7 +43,7 @@
             <controller_action_predispatch_customer_account_createpost>
                 <observers>
                     <captcha>
-                        <class>captcha/observer</class>
+                        <class>Mage_Captcha_Model_Observer</class>
                         <method>checkUserCreate</method>
                     </captcha>
                 </observers>
@@ -65,7 +51,7 @@
             <controller_action_predispatch_adminhtml_index_forgotpassword>
                 <observers>
                     <captcha>
-                        <class>captcha/observer</class>
+                        <class>Mage_Captcha_Model_Observer</class>
                         <method>checkUserForgotPasswordBackend</method>
                     </captcha>
                 </observers>
@@ -73,7 +59,7 @@
             <admin_user_authenticate_before>
                 <observers>
                     <captcha>
-                        <class>captcha/observer</class>
+                        <class>Mage_Captcha_Model_Observer</class>
                         <method>checkUserLoginBackend</method>
                     </captcha>
                 </observers>
@@ -81,11 +67,11 @@
             <controller_action_predispatch_checkout_onepage_saveBilling>
                 <observers>
                     <captcha_guest>
-                        <class>captcha/observer</class>
+                        <class>Mage_Captcha_Model_Observer</class>
                         <method>checkGuestCheckout</method>
                     </captcha_guest>
                     <captcha_register>
-                        <class>captcha/observer</class>
+                        <class>Mage_Captcha_Model_Observer</class>
                         <method>checkRegisterCheckout</method>
                     </captcha_register>
                 </observers>
@@ -93,7 +79,7 @@
             <customer_customer_authenticated>
                 <observers>
                     <captcha_reset_attempt>
-                        <class>captcha/observer</class>
+                        <class>Mage_Captcha_Model_Observer</class>
                         <method>resetAttemptForFrontend</method>
                     </captcha_reset_attempt>
                 </observers>
@@ -101,7 +87,7 @@
             <admin_session_user_login_success>
                 <observers>
                     <captcha_reset_attempt>
-                        <class>captcha/observer</class>
+                        <class>Mage_Captcha_Model_Observer</class>
                         <method>resetAttemptForBackend</method>
                     </captcha_reset_attempt>
                 </observers>
@@ -120,8 +106,8 @@
         </routers>
         <layout>
             <updates>
-                <captcha>
-                    <file>captcha.xml</file>
+                <captcha module="Mage_Captcha">
+                    <file>layout.xml</file>
                 </captcha>
             </updates>
         </layout>
@@ -140,8 +126,8 @@
     <adminhtml>
         <layout>
             <updates>
-                <captcha>
-                    <file>captcha.xml</file>
+                <captcha module="Mage_Captcha">
+                    <file>layout.xml</file>
                 </captcha>
             </updates>
         </layout>

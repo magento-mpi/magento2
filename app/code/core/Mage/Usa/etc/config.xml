@@ -171,7 +171,7 @@
                 <handling_action>O</handling_action>
             </usps>
             <dhlint>
-                <model>usa/shipping_carrier_dhl_international</model>
+                <model>Mage_Usa_Model_Shipping_Carrier_Dhl_International</model>
                 <account/>
                 <active>0</active>
                 <title>DHL</title>

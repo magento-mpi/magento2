@@ -1130,7 +1130,7 @@
                         0</sort_order>
                     </fields>
                 </usps>
-                <dhlint translate="label" module="usa">
+                <dhlint translate="label" module="Mage_Usa">
                     <label>DHL</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>140</sort_order>

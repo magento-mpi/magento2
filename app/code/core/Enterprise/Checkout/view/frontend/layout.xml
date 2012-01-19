@@ -20,15 +20,15 @@
         <reference name="checkout.cart">
             <block type="Enterprise_Checkout_Block_Sku_Products" name="sku.failed.products" template="cart/sku/failed.phtml" as="shopping.cart.table.after">
                 <block type="Enterprise_Checkout_Block_Sku_Products_Info" name='additional.product.info' template="cart/sku/failed/info.phtml" />
-                <action method="addItemRender"><type>default</type><block>checkout/cart_item_renderer</block><template>cart/item/failed.phtml</template></action>
-                <action method="addItemRender"><type>simple</type><block>checkout/cart_item_renderer</block><template>cart/item/default.phtml</template></action>
-                <action method="addItemRender"><type>grouped</type><block>checkout/cart_item_renderer</block><template>cart/item/failed.phtml</template></action>
-                <action method="addItemRender"><type>configurable</type><block>checkout/cart_item_renderer_configurable</block><template>cart/item/default.phtml</template></action>
-                <action method="addItemRender"><type>bundle</type><block>bundle/checkout_cart_item_renderer</block><template>cart/item/default.phtml</template></action>
-                <action method="addItemRender"><type>giftcard</type><block>enterprise_giftcard/checkout_cart_item_renderer</block><template>cart/item/default.phtml</template></action>
-                <action method="addItemRender"><type>downloadable</type><block>downloadable/checkout_cart_item_renderer</block><template>cart/item/default.phtml</template></action>
-                <action method="addItemRender"><type>virtual</type><block>checkout/cart_item_renderer</block><template>cart/item/default.phtml</template></action>
-                <action method="addItemRender"><type>undefined</type><block>checkout/cart_item_renderer</block><template>cart/item/failed.phtml</template></action>
+                <action method="addItemRender"><type>default</type><block>Mage_Checkout_Block_Cart_Item_Renderer</block><template>cart/item/failed.phtml</template></action>
+                <action method="addItemRender"><type>simple</type><block>Mage_Checkout_Block_Cart_Item_Renderer</block><template>cart/item/default.phtml</template></action>
+                <action method="addItemRender"><type>grouped</type><block>Mage_Checkout_Block_Cart_Item_Renderer</block><template>cart/item/failed.phtml</template></action>
+                <action method="addItemRender"><type>configurable</type><block>Mage_Checkout_Block_Cart_Item_Renderer_Configurable</block><template>cart/item/default.phtml</template></action>
+                <action method="addItemRender"><type>bundle</type><block>Mage_Bundle_Block_Checkout_Cart_Item_Renderer</block><template>cart/item/default.phtml</template></action>
+                <action method="addItemRender"><type>giftcard</type><block>Enterprise_Giftcard_Block_Checkout_Cart_Item_Renderer</block><template>cart/item/default.phtml</template></action>
+                <action method="addItemRender"><type>downloadable</type><block>Mage_Downloadable_Block_Checkout_Cart_Item_Renderer</block><template>cart/item/default.phtml</template></action>
+                <action method="addItemRender"><type>virtual</type><block>Mage_Checkout_Block_Cart_Item_Renderer</block><template>cart/item/default.phtml</template></action>
+                <action method="addItemRender"><type>undefined</type><block>Mage_Checkout_Block_Cart_Item_Renderer</block><template>cart/item/failed.phtml</template></action>
             </block>
         </reference>
     </sku_failed_products_handle>
@@ -47,7 +47,7 @@ Customer Account Dashboard
 
     <customer_account>
         <block type="Enterprise_Checkout_Block_Customer_Link" name="customer_link_sku">
-            <action method="addDashboardLink" translate="label" module="enterprise_checkout">
+            <action method="addDashboardLink" translate="label" module="Enterprise_Checkout">
                 <block>customer_account_navigation</block><name>checkout</name><path>enterprise_checkout/sku</path><label>Order by SKU</label>
             </action>
         </block>

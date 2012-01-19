@@ -17,10 +17,10 @@
     </modules>
     <global>
         <logging_actions>
-            <apply_coupon translate="label" module="enterprise_checkout">
+            <apply_coupon translate="label" module="Enterprise_Checkout">
                 <label>Apply Coupon</label>
             </apply_coupon>
-            <add_to_cart translate="label" module="enterprise_checkout">
+            <add_to_cart translate="label" module="Enterprise_Checkout">
                 <label>Add To Cart</label>
             </add_to_cart>
         </logging_actions>
@@ -57,11 +57,11 @@
             <adminhtml_sales_order_create_process_data_before>
                 <observers>
                     <addBySku>
-                        <class>enterprise_checkout/observer</class>
+                        <class>Enterprise_Checkout_Model_Observer</class>
                         <method>addBySku</method>
                     </addBySku>
                     <uploadSkuCsv>
-                        <class>enterprise_checkout/observer</class>
+                        <class>Enterprise_Checkout_Model_Observer</class>
                         <method>uploadSkuCsv</method>
                     </uploadSkuCsv>
                 </observers>
@@ -89,7 +89,7 @@
             <controller_action_layout_load_before>
                 <observers>
                     <enterprise_checkout>
-                        <class>enterprise_checkout/observer</class>
+                        <class>Enterprise_Checkout_Model_Observer</class>
                         <method>createSkuErrorHandleLayout</method>
                     </enterprise_checkout>
                 </observers>
@@ -97,7 +97,7 @@
             <controller_action_layout_generate_blocks_before>
                 <observers>
                     <enterprise_checkout>
-                        <class>enterprise_checkout/observer</class>
+                        <class>Enterprise_Checkout_Model_Observer</class>
                         <method>collectTotalsFailedItems</method>
                     </enterprise_checkout>
                 </observers>
@@ -105,7 +105,7 @@
             <core_block_abstract_to_html_before>
                 <observers>
                     <enterprise_checkout>
-                        <class>enterprise_checkout/observer</class>
+                        <class>Enterprise_Checkout_Model_Observer</class>
                         <method>addCartLink</method>
                     </enterprise_checkout>
                 </observers>

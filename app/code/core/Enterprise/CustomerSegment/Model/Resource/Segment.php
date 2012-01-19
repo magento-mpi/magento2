@@ -25,12 +25,12 @@ class Enterprise_CustomerSegment_Model_Resource_Segment extends Mage_Rule_Model_
      */
     protected $_associatedEntitiesMap = array(
         'website' => array(
-            'associations_table' => 'enterprise_customersegment/website',
+            'associations_table' => 'enterprise_customersegment_website',
             'rule_id_field'      => 'segment_id',
             'entity_id_field'    => 'website_id'
         ),
         'event' => array(
-            'associations_table' => 'enterprise_customersegment/event',
+            'associations_table' => 'enterprise_customersegment_event',
             'rule_id_field'      => 'segment_id',
             'entity_id_field'    => 'event'
         )
@@ -175,11 +175,12 @@ class Enterprise_CustomerSegment_Model_Resource_Segment extends Mage_Rule_Model_
     public function getSegmentCustomersQty($segmentId)
     {
         $adapter = $this->_getReadAdapter();
-        $select = $adapter->select()
-            ->from($this->getTable('enterprise_customersegment_customer'), array('COUNT(DISTINCT customer_id)'))
-            ->where('segment_id = ?', (int)$segmentId);
-
-        return (int)$adapter->fetchOne($select);
+        return (int)$adapter->fetchOne(
+            $adapter->select()
+                ->from($this->getTable('enterprise_customersegment_customer'), array('COUNT(DISTINCT customer_id)'))
+                ->where('segment_id = :segment_id'),
+            array(':segment_id' => (int)$segmentId)
+        );
     }
 
     /**
@@ -367,21 +368,4 @@ class Enterprise_CustomerSegment_Model_Resource_Segment extends Mage_Rule_Model_
 
         return $this;
     }
-
-    /**
-     * Save customer Ids matched by segment SQL select
-     *
-     * @param int $segmentId
-     * @return int
-     */
-    public function getSegmentCustomersQty($segmentId)
-    {
-        $adapter = $this->_getReadAdapter();
-        return (int)$adapter->fetchOne(
-            $adapter->select()
-                ->from($this->getTable('enterprise_customersegment_customer'), array('COUNT(DISTINCT customer_id)'))
-                ->where('segment_id = :segment_id'),
-            array(':segment_id' => (int)$segmentId)
-        );
-    }
-}
+ }

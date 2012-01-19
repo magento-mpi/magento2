@@ -133,10 +133,10 @@
 
     <sku_layout_update>
         <reference name="head">
-            <action method="addJs"><file>mage/adminhtml/product/composite/configure.js</file></action>
+            <action method="addJs"><file>Mage_Adminhtml::catalog/product/composite/configure.js</file></action>
         </reference>
         <reference name="data">
-            <block type="Enterprise_Checkout_Block_Adminhtml_Sales_Order_Create_Sku" name="additional_area" template="sales/order/create/abstract.phtml">
+            <block type="Enterprise_Checkout_Block_Adminhtml_Sales_Order_Create_Sku" name="additional_area" template="Mage_Adminhtml::sales/order/create/abstract.phtml">
                 <block type="Enterprise_Checkout_Block_Adminhtml_Sales_Order_Create_Sku_Add"/>
             </block>
             <block type="Enterprise_Checkout_Block_Adminhtml_Sales_Order_Create_Sku_Errors" name="errors">
@@ -157,7 +157,7 @@
 
     <adminhtml_sales_order_create_load_block_additional_area>
         <reference name="content">
-            <block type="Enterprise_Checkout_Block_Adminhtml_Sales_Order_Create_Sku" name="additional_area" template="sales/order/create/abstract.phtml">
+            <block type="Enterprise_Checkout_Block_Adminhtml_Sales_Order_Create_Sku" name="additional_area" template="Mage_Adminhtml::sales/order/create/abstract.phtml">
                 <block type="Enterprise_Checkout_Block_Adminhtml_Sales_Order_Create_Sku_Add"/>
             </block>
             <block type="Enterprise_Checkout_Block_Adminhtml_Sales_Order_Create_Sku_Errors" name="errors">

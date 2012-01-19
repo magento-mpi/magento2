@@ -26,14 +26,14 @@ class Enterprise_CustomerSegment_Model_Resource_Segment_Collection
      */
     protected $_associatedEntitiesMap = array(
         'website' => array(
-            'associations_table' => 'enterprise_customersegment/website',
+            'associations_table' => 'enterprise_customersegment_website',
             'rule_id_field'      => 'segment_id',
             'entity_id_field'    => 'website_id'
         ),
         'event' => array(
-            'associations_table' => 'enterprise_customersegment/event',
+            'associations_table' => 'enterprise_customersegment_event',
             'rule_id_field'      => 'segment_id',
-            'entity_id_field'    => 'event'
+            'entity_id_field'    => 'segment_id'
         )
     );
 

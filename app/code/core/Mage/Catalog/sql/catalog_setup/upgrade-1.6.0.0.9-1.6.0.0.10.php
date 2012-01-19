@@ -1,27 +1,11 @@
 <?php
 /**
- * Magento
- *
- * NOTICE OF LICENSE
- *
- * This source file is subject to the Open Software License (OSL 3.0)
- * that is bundled with this package in the file LICENSE.txt.
- * It is also available through the world-wide-web at this URL:
- * http://opensource.org/licenses/osl-3.0.php
- * If you did not receive a copy of the license and are unable to
- * obtain it through the world-wide-web, please send an email
- * to license@magentocommerce.com so we can send you a copy immediately.
- *
- * DISCLAIMER
- *
- * Do not edit or add to this file if you wish to upgrade Magento to newer
- * versions in the future. If you wish to customize Magento for your
- * needs please refer to http://www.magentocommerce.com for more information.
+ * {license_notice}
  *
  * @category    Mage
  * @package     Mage_Catalog
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
- * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 
 /** @var $installer Mage_Catalog_Model_Resource_Setup */
@@ -29,7 +13,7 @@ $installer  = $this;
 $connection = $installer->getConnection();
 
 /**
- * Create table 'catalog/product_attribute_group_price'
+ * Create table 'catalog_product_entity_group_price'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('catalog_product_entity_group_price'))
@@ -63,41 +47,41 @@ $table = $installer->getConnection()
         ), 'Website ID')
     ->addIndex(
         $installer->getIdxName(
-            'catalog/product_attribute_group_price',
+            'catalog_product_entity_group_price',
             array('entity_id', 'all_groups', 'customer_group_id', 'website_id'),
             Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
         ),
         array('entity_id', 'all_groups', 'customer_group_id', 'website_id'),
         array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
-    ->addIndex($installer->getIdxName('catalog/product_attribute_group_price', array('entity_id')),
+    ->addIndex($installer->getIdxName('catalog_product_entity_group_price', array('entity_id')),
         array('entity_id'))
-    ->addIndex($installer->getIdxName('catalog/product_attribute_group_price', array('customer_group_id')),
+    ->addIndex($installer->getIdxName('catalog_product_entity_group_price', array('customer_group_id')),
         array('customer_group_id'))
-    ->addIndex($installer->getIdxName('catalog/product_attribute_group_price', array('website_id')),
+    ->addIndex($installer->getIdxName('catalog_product_entity_group_price', array('website_id')),
         array('website_id'))
     ->addForeignKey(
         $installer->getFkName(
-            'catalog/product_attribute_group_price',
+            'catalog_product_entity_group_price',
             'customer_group_id',
-            'customer/customer_group',
+            'customer_group',
             'customer_group_id'
         ),
         'customer_group_id', $installer->getTable('customer_group'), 'customer_group_id',
          Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
         $installer->getFkName(
-            'catalog/product_attribute_group_price',
+            'catalog_product_entity_group_price',
             'entity_id',
-            'catalog/product',
+            'catalog_product_entity',
             'entity_id'
         ),
         'entity_id', $installer->getTable('catalog_product_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
         $installer->getFkName(
-            'catalog/product_attribute_group_price',
+            'catalog_product_entity_group_price',
             'website_id',
-            'core/website',
+            'core_website',
             'website_id'
         ),
         'website_id', $installer->getTable('core_website'), 'website_id',
@@ -109,7 +93,7 @@ $installer->addAttribute('catalog_product', 'group_price', array(
     'type'                       => 'decimal',
     'label'                      => 'Group Price',
     'input'                      => 'text',
-    'backend'                    => 'catalog/product_attribute_backend_groupprice',
+    'backend'                    => 'Mage_Catalog_Model_Product_Attribute_Backend_Groupprice',
     'required'                   => false,
     'sort_order'                 => 6,
     'global'                     => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_WEBSITE,
@@ -118,7 +102,7 @@ $installer->addAttribute('catalog_product', 'group_price', array(
 ));
 
 /**
- * Create table 'catalog/product_index_group_price'
+ * Create table 'catalog_product_index_group_price'
  */
 $table = $connection
     ->newTable($installer->getTable('catalog_product_index_group_price'))
@@ -139,33 +123,33 @@ $table = $connection
         ), 'Website ID')
     ->addColumn('price', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
         ), 'Min Price')
-    ->addIndex($installer->getIdxName('catalog/product_index_group_price', array('customer_group_id')),
+    ->addIndex($installer->getIdxName('catalog_product_index_group_price', array('customer_group_id')),
         array('customer_group_id'))
-    ->addIndex($installer->getIdxName('catalog/product_index_group_price', array('website_id')),
+    ->addIndex($installer->getIdxName('catalog_product_index_group_price', array('website_id')),
         array('website_id'))
     ->addForeignKey(
         $installer->getFkName(
-            'catalog/product_index_group_price',
+            'catalog_product_index_group_price',
             'customer_group_id',
-            'customer/customer_group',
+            'customer_group',
             'customer_group_id'
         ),
         'customer_group_id', $installer->getTable('customer_group'), 'customer_group_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
         $installer->getFkName(
-            'catalog/product_index_group_price',
+            'catalog_product_index_group_price',
             'entity_id',
-            'catalog/product',
+            'catalog_product_entity',
             'entity_id'
         ),
         'entity_id', $installer->getTable('catalog_product_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
         $installer->getFkName(
-            'catalog/product_index_group_price',
+            'catalog_product_index_group_price',
             'website_id',
-            'core/website',
+            'core_website',
             'website_id'
          ),
         'website_id', $installer->getTable('core_website'), 'website_id',
@@ -174,22 +158,22 @@ $table = $connection
 $connection->createTable($table);
 
 $finalPriceIndexerTables = array(
-    'catalog/product_price_indexer_final_idx',
-    'catalog/product_price_indexer_final_tmp',
+    'catalog_product_index_price_final_idx',
+    'catalog_product_index_price_final_tmp',
 );
 
 $priceIndexerTables =  array(
-    'catalog/product_price_indexer_option_aggregate_idx',
-    'catalog/product_price_indexer_option_aggregate_tmp',
-    'catalog/product_price_indexer_option_idx',
-    'catalog/product_price_indexer_option_tmp',
-    'catalog/product_price_indexer_idx',
-    'catalog/product_price_indexer_tmp',
-    'catalog/product_price_indexer_cfg_option_aggregate_idx',
-    'catalog/product_price_indexer_cfg_option_aggregate_tmp',
-    'catalog/product_price_indexer_cfg_option_idx',
-    'catalog/product_price_indexer_cfg_option_tmp',
-    'catalog/product_index_price',
+    'catalog_product_index_price_opt_agr_idx',
+    'catalog_product_index_price_opt_agr_tmp',
+    'catalog_product_index_price_opt_idx',
+    'catalog_product_index_price_opt_tmp',
+    'catalog_product_index_price_idx',
+    'catalog_product_index_price_tmp',
+    'catalog_product_index_price_cfg_opt_agr_idx',
+    'catalog_product_index_price_cfg_opt_agr_tmp',
+    'catalog_product_index_price_cfg_opt_idx',
+    'catalog_product_index_price_cfg_opt_tmp',
+    'catalog_product_index_price',
 );
 
 foreach ($finalPriceIndexerTables as $table) {

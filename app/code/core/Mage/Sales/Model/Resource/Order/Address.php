@@ -68,10 +68,10 @@ class Mage_Sales_Model_Resource_Order_Address extends Mage_Sales_Model_Resource_
         $resource = parent::_afterSave($object);
         if ($object->hasDataChanges() && $object->getOrder()) {
             $gridList = array(
-                'sales/order' => 'entity_id',
-                'sales/order_invoice' => 'order_id',
-                'sales/order_shipment' => 'order_id',
-                'sales/order_creditmemo' => 'order_id'
+                'Mage_Sales_Model_Resource_Order' => 'entity_id',
+                'Mage_Sales_Model_Resource_Order_Invoice' => 'order_id',
+                'Mage_Sales_Model_Resource_Order_Shipment' => 'order_id',
+                'Mage_Sales_Model_Resource_Order_Creditmemo' => 'order_id'
             );
 
             // update grid table after grid update
