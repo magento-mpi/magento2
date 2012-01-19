@@ -300,6 +300,7 @@ class Mage_Selenium_TestConfiguration
         $driver->setBrowser($connectionConfig['browser']);
         $driver->setHost($connectionConfig['host']);
         $driver->setPort($connectionConfig['port']);
+        $driver->setName($connectionConfig['name']);
         $driver->setContiguousSession(true);
         $this->_drivers[] = $driver;
         // @TODO implement interactions outside
