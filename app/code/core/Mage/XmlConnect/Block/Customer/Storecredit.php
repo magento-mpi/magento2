@@ -30,10 +30,8 @@ class Mage_XmlConnect_Block_Customer_Storecredit extends Mage_Core_Block_Templat
         $accountBalance = $this->getLayout()
             ->addBlock('Enterprise_CustomerBalance_Block_Account_Balance', 'account_balance');
 
-        $customerBalanceHelper = Mage::helper('Enterprise_CustomerBalance_Helper_Data');
-
         $xmlModel->addCustomChild('balance', null, array(
-            'label' => $customerBalanceHelper->__('Your current balance is:'),
+            'label' => $this->__('Your current balance is:'),
             'value' => $accountBalance->getBalance(),
             'formatted_value' => Mage::helper('Mage_Core_Helper_Data')->currency($accountBalance->getBalance(), true, false)
         ));
@@ -43,11 +41,11 @@ class Mage_XmlConnect_Block_Customer_Storecredit extends Mage_Core_Block_Templat
 
         if ($accountHistory->canShow() && $accountHistory->getEvents() && count($accountHistory->getEvents())) {
             $balanceHistory = $xmlModel->addCustomChild('balance_history', null, array(
-                'label' => $customerBalanceHelper->__('Balance History'),
-                'action_label' => $customerBalanceHelper->__('Action'),
-                'balance_change_label' => $customerBalanceHelper->__('Balance Change'),
-                'balance_label' => $customerBalanceHelper->__('Balance'),
-                'date_label' => $customerBalanceHelper->__('Date')
+                'label' => $this->__('Balance History'),
+                'action_label' => $this->__('Action'),
+                'balance_change_label' => $this->__('Balance Change'),
+                'balance_label' => $this->__('Balance'),
+                'date_label' => $this->__('Date')
             ));
 
             foreach ($accountHistory->getEvents() as $event) {

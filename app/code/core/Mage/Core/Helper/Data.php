@@ -33,6 +33,13 @@ class Mage_Core_Helper_Data extends Mage_Core_Helper_Abstract
     const CHARS_PASSWORD_SPECIALS               = '!$*-.=?@_';
 
     /**
+     * Config pathes to merchant country code and merchant VAT number
+     */
+    const XML_PATH_MERCHANT_COUNTRY_CODE = 'general/store_information/merchant_country';
+    const XML_PATH_MERCHANT_VAT_NUMBER = 'general/store_information/merchant_vat_number';
+    const XML_PATH_EU_COUNTRIES_LIST = 'general/country/eu_countries';
+
+    /**
      * @var Mage_Core_Model_Encryption
      */
     protected $_encryptor = null;
@@ -703,5 +710,40 @@ XML;
         $path = 'global/resource/connection/types/' . $connType . '/compatibleMode';
         $value = (string) Mage::getConfig()->getNode($path);
         return (bool) $value;
+    }
+
+    /**
+     * Retrieve merchant country code
+     *
+     * @param Mage_Core_Model_Store|string|int|null $store
+     * @return string
+     */
+    public function getMerchantCountryCode($store = null)
+    {
+        return (string) Mage::getStoreConfig(self::XML_PATH_MERCHANT_COUNTRY_CODE, $store);
+    }
+
+    /**
+     * Retrieve merchant VAT number
+     *
+     * @param Mage_Core_Model_Store|string|int|null $store
+     * @return string
+     */
+    public function getMerchantVatNumber($store = null)
+    {
+        return (string) Mage::getStoreConfig(self::XML_PATH_MERCHANT_VAT_NUMBER, $store);
+    }
+
+    /**
+     * Check whether specified country is in EU countries list
+     *
+     * @param string $countryCode
+     * @param null|int $storeId
+     * @return bool
+     */
+    public function isCountryInEU($countryCode, $storeId = null)
+    {
+        $euCountries = explode(',', Mage::getStoreConfig(self::XML_PATH_EU_COUNTRIES_LIST, $storeId));
+        return in_array($countryCode, $euCountries);
     }
 }

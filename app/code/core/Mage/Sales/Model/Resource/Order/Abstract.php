@@ -376,7 +376,7 @@ abstract class Mage_Sales_Model_Resource_Order_Abstract extends Mage_Sales_Model
     {
         if ($object->getId() && !empty($data)) {
             $table = $this->getMainTable();
-            $this->_getWriteAdapter()->update($table, $data, 
+            $this->_getWriteAdapter()->update($table, $data,
                 array($this->getIdFieldName() . '=?' => (int) $object->getId())
             );
             $object->addData($data);
@@ -411,4 +411,31 @@ abstract class Mage_Sales_Model_Resource_Order_Abstract extends Mage_Sales_Model
 
         return $this;
     }
+
+    /**
+     * Update grid table on entity update
+     *
+     * @param string $field
+     * @param int $entityId
+     * @return int
+     */
+    public function updateOnRelatedRecordChanged($field, $entityId)
+    {
+        $adapter = $this->_getWriteAdapter();
+        $column = array();
+        $select = $adapter->select()
+            ->from(array('main_table' => $this->getMainTable()), $column)
+            ->where('main_table.' . $field .' = ?', $entityId);
+        $this->joinVirtualGridColumnsToSelect('main_table', $select, $column);
+        $fieldsToUpdate = $adapter->fetchRow($select);
+        if ($fieldsToUpdate) {
+            return $adapter->update(
+                $this->getGridTable(),
+                $fieldsToUpdate,
+                $adapter->quoteInto($this->getGridTable() . '.' . $field . ' = ?', $entityId)
+            );
+        }
+        return 0;
+    }
 }
+

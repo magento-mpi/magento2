@@ -317,8 +317,7 @@ class Mage_XmlConnect_CheckoutController extends Mage_XmlConnect_Controller_Acti
         if (!$result) {
 
             Mage::dispatchEvent('checkout_controller_onepage_save_shipping_method', array(
-                'request' => $this->getRequest(),
-                'quote' => $this->getOnepage()->getQuote()
+                'request' => $this->getRequest(), 'quote' => $this->getOnepage()->getQuote()
             ));
             $this->getOnepage()->getQuote()->collectTotals()->save();
 
@@ -328,8 +327,7 @@ class Mage_XmlConnect_CheckoutController extends Mage_XmlConnect_Controller_Acti
                 $result['message'] = array($result['message']);
             }
             Mage::dispatchEvent('checkout_controller_onepage_save_shipping_method', array(
-                'request' => $this->getRequest(),
-                'quote' => $this->getOnepage()->getQuote()
+                'request' => $this->getRequest(), 'quote' => $this->getOnepage()->getQuote()
             ));
             $this->getOnepage()->getQuote()->collectTotals()->save();
             $this->_message(implode('. ', $result['message']), self::MESSAGE_STATUS_ERROR);

@@ -38,11 +38,13 @@ class Mage_Adminhtml_Checkout_AgreementController extends Mage_Adminhtml_Control
 
         $id  = $this->getRequest()->getParam('id');
         $agreementModel  = Mage::getModel('Mage_Checkout_Model_Agreement');
-        $hlp = Mage::helper('Mage_Checkout_Helper_Data');
+
         if ($id) {
             $agreementModel->load($id);
             if (!$agreementModel->getId()) {
-                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($hlp->__('This condition no longer exists.'));
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(
+                    Mage::helper('Mage_Checkout_Helper_Data')->__('This condition no longer exists.')
+                );
                 $this->_redirect('*/*/');
                 return;
             }
@@ -58,7 +60,12 @@ class Mage_Adminhtml_Checkout_AgreementController extends Mage_Adminhtml_Control
         Mage::register('checkout_agreement', $agreementModel);
 
         $this->_initAction()
-            ->_addBreadcrumb($id ? $hlp->__('Edit Condition') :  $hlp->__('New Condition'), $id ?  $hlp->__('Edit Condition') :  $hlp->__('New Condition'))
+            ->_addBreadcrumb(
+                $id ? Mage::helper('Mage_Checkout_Helper_Data')->__('Edit Condition')
+                    :  Mage::helper('Mage_Checkout_Helper_Data')->__('New Condition'),
+                $id ?  Mage::helper('Mage_Checkout_Helper_Data')->__('Edit Condition')
+                    :  Mage::helper('Mage_Checkout_Helper_Data')->__('New Condition')
+            )
             ->_addContent(
                 $this->getLayout()
                     ->createBlock('Mage_Adminhtml_Block_Checkout_Agreement_Edit')

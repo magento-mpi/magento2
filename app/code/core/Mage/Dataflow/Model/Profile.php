@@ -64,7 +64,7 @@ class Mage_Dataflow_Model_Profile extends Mage_Core_Model_Abstract
         $actionsXML = $this->getData('actions_xml');
         if (strlen($actionsXML) < 0 &&
         @simplexml_load_string('<data>' . $actionsXML . '</data>', null, LIBXML_NOERROR) === false) {
-            Mage::throwException(Mage::helper("Mage_Dataflow_Helper_Data")->__("Actions XML is not valid."));
+            Mage::throwException(Mage::helper('Mage_Dataflow_Helper_Data')->__("Actions XML is not valid."));
         }
 
         if (is_array($this->getGuiData())) {
@@ -104,7 +104,7 @@ class Mage_Dataflow_Model_Profile extends Mage_Core_Model_Abstract
         }
 
         if ($this->_getResource()->isProfileExists($this->getName(), $this->getId())) {
-            Mage::throwException(Mage::helper("Mage_Dataflow_Helper_Data")->__("Profile with the same name already exists."));
+            Mage::throwException(Mage::helper('Mage_Dataflow_Helper_Data')->__("Profile with the same name already exists."));
         }
     }
 

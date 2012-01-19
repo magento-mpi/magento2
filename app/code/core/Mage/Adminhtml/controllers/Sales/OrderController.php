@@ -706,10 +706,17 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
         $addressId = $this->getRequest()->getParam('address_id');
         $address = Mage::getModel('Mage_Sales_Model_Order_Address')
             ->getCollection()
+            ->addFilter('entity_id', $addressId)
             ->getItemById($addressId);
         if ($address) {
             Mage::register('order_address', $address);
             $this->loadLayout();
+            // Do not display VAT validation button on edit order address form
+            $addressFormContainer = $this->getLayout()->getBlock('sales_order_address.form.container');
+            if ($addressFormContainer) {
+                $addressFormContainer->getChild('form')->setDisplayVatValidationButton(false);
+            }
+
             $this->renderLayout();
         } else {
             $this->_redirect('*/*/');

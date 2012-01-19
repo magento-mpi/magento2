@@ -329,7 +329,7 @@ class Enterprise_TargetRule_Model_Resource_Index extends Mage_Index_Model_Resour
                 $selectOperator = '=?';
                 break;
         }
-
+        $field = $this->_getReadAdapter()->quoteIdentifier($field);
         return $this->_getReadAdapter()->quoteInto("{$field}{$selectOperator}", $value);
     }
 
@@ -338,14 +338,15 @@ class Enterprise_TargetRule_Model_Resource_Index extends Mage_Index_Model_Resour
      * also modify bind array
      *
      * @param string $field
-     * @param unknown_type $attribute
+     * @param mixed $attribute
      * @param string $operator
      * @param array $bind
-     * @param unknown_type $callback
+     * @param array $callback
      * @return string
      */
     public function getOperatorBindCondition($field, $attribute, $operator, &$bind, $callback = array())
     {
+        $field = $this->_getReadAdapter()->quoteIdentifier($field);
         $bindName = ':targetrule_bind_' . $this->_bindIncrement ++;
         switch ($operator) {
             case '!=':
@@ -500,43 +501,32 @@ class Enterprise_TargetRule_Model_Resource_Index extends Mage_Index_Model_Resour
      *
      * @param int $productId
      * @param int $ruleId
+     *
      * @return Enterprise_TargetRule_Model_Resource_Index
      */
     public function removeProductIndex($productId = null, $ruleId = null)
     {
-        $adapter = $this->_getWriteAdapter();
-        $where   = array();
-        if (!is_null($productId)) {
-            $where['product_id=?'] = $productId;
-        }
-        if (!is_null($ruleId)) {
-            $where['rule_id=?'] = $ruleId;
-        }
-
-        $adapter->delete($this->getTable('enterprise_targetrule_product'), $where);
+        /** @var $targetRule Enterprise_TargetRule_Model_Resource_Rule */
+        $targetRule = Mage::getResourceSingleton('Enterprise_TargetRule_Model_Resource_Rule');
+        $targetRule->unbindRuleFromEntity($ruleId, $productId, 'product');
 
         return $this;
     }
 
     /**
-     * Save target rule matched product index data
+     * Bind target rule to specified product
      *
      * @param int $ruleId
      * @param int $productId
+     * @param int $storeId
+     *
      * @return Enterprise_TargetRule_Model_Resource_Index
      */
     public function saveProductIndex($ruleId, $productId, $storeId)
     {
-        $this->removeProductIndex($productId, $ruleId);
-
-        $adapter = $this->_getWriteAdapter();
-        $bind    = array(
-            'rule_id'       => $ruleId,
-            'product_id'    => $productId,
-            'store_id'      => $storeId
-        );
-
-        $adapter->insert($this->getTable('enterprise_targetrule_product'), $bind);
+        /** @var $targetRule Enterprise_TargetRule_Model_Resource_Rule */
+        $targetRule = Mage::getResourceSingleton('Enterprise_TargetRule_Model_Resource_Rule');
+        $targetRule->bindRuleToEntity($ruleId, $productId, 'product');
 
         return $this;
     }

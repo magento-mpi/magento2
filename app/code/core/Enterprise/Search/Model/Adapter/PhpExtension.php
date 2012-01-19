@@ -38,7 +38,9 @@ class Enterprise_Search_Model_Adapter_PhpExtension extends Enterprise_Search_Mod
             $this->_connect($options);
         } catch (Exception $e) {
             Mage::logException($e);
-            Mage::throwException(Mage::helper('Enterprise_Search_Helper_Data')->__('Unable to perform search because of search engine missed configuration.'));
+            Mage::throwException(
+                Mage::helper('Enterprise_Search_Helper_Data')->__('Unable to perform search because of search engine missed configuration.')
+            );
         }
     }
 
@@ -140,10 +142,14 @@ class Enterprise_Search_Model_Adapter_PhpExtension extends Enterprise_Search_Mod
         /**
          * Add sort fields
          */
-        $sortFields = $this->_prepareSortFields($_params['sort_by']);
-        foreach ($sortFields as $sortField) {
-            $sortField['sortType'] = ($sortField['sortType'] == 'desc') ? SolrQuery::ORDER_DESC : SolrQuery::ORDER_ASC;
-            $solrQuery->addSortField($sortField['sortField'], $sortField['sortType']);
+        if ($limit > 1) {
+            $sortFields = $this->_prepareSortFields($_params['sort_by']);
+            foreach ($sortFields as $sortField) {
+                $sortField['sortType'] = ($sortField['sortType'] == 'desc')
+                    ? SolrQuery::ORDER_DESC
+                    : SolrQuery::ORDER_ASC;
+                $solrQuery->addSortField($sortField['sortField'], $sortField['sortType']);
+            }
         }
 
         /**

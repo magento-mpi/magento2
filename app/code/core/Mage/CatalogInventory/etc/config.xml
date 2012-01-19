@@ -12,7 +12,7 @@
 <config>
     <modules>
         <Mage_CatalogInventory>
-            <version>1.6.0.0</version>
+            <version>1.6.0.0.1</version>
         </Mage_CatalogInventory>
     </modules>
     <global>
@@ -234,6 +234,16 @@
                 </Mage_CatalogInventory>
             </modules>
         </translate>
+        <events>
+            <after_reindex_process_cataloginventory_stock>
+                <observers>
+                    <cataloginventory>
+                        <class>Mage_CatalogInventory_Model_Observer</class>
+                        <method>reindexProductsMassAction</method>
+                    </cataloginventory>
+                </observers>
+            </after_reindex_process_cataloginventory_stock>
+        </events>
     </adminhtml>
     <default>
         <cataloginventory>

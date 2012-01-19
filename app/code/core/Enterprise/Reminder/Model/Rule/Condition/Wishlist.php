@@ -88,10 +88,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . Mage::helper('Enterprise_Reminder_Helper_Data')->__('Wishlist is not empty and abandoned %s %s days and %s of these conditions match:',
-                $this->getOperatorElementHtml(),
-                $this->getValueElementHtml(),
-                $this->getAggregatorElement()->getHtml())
+            . Mage::helper('Enterprise_Reminder_Helper_Data')->__('Wishlist is not empty and abandoned %s %s days and %s of these conditions match:', $this->getOperatorElementHtml(), $this->getValueElementHtml(), $this->getAggregatorElement()->getHtml())
             . $this->getRemoveLinkHtml();
     }
 

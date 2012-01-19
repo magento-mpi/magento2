@@ -48,14 +48,6 @@
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
                         </menu_layout>
-                        <lock_timeout translate="label">
-                            <label>Hierarchy Page Lock Timeout (seconds)</label>
-                            <comment>Empty value disables page locking. Non-empty values less than 120 are ignored.</comment>
-                            <sort_order>30</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>0</show_in_website>
-                            <show_in_store>0</show_in_store>
-                        </lock_timeout>
                     </fields>
                 </hierarchy>
                 <content translate="label">

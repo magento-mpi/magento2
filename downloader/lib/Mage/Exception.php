@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Exception
+ * @package     Mage
  * @copyright   {copyright}
  * @license     {license_link}
  */

@@ -91,7 +91,8 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Daterange
     public function getValueAfterElementHtml()
     {
         return '<a href="javascript:void(0)" class="rule-chooser-trigger"><img src="'
-            . Mage::getDesign()->getSkinUrl('images/rule_chooser_trigger.gif') . '" alt="" class="v-middle rule-chooser-trigger"'
+            . Mage::getDesign()->getSkinUrl('images/rule_chooser_trigger.gif')
+            . '" alt="" class="v-middle rule-chooser-trigger"'
             . 'title="' . Mage::helper('Mage_Rule_Helper_Data')->__('Open Chooser') . '" /></a>';
     }
 
@@ -118,8 +119,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Daterange
     {
         $this->_valueElement = $this->getValueElement();
         return $this->getTypeElementHtml()
-            . Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Date Range %s within %s',
-                $this->getOperatorElementHtml(), $this->_valueElement->getHtml())
+            . Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Date Range %s within %s', $this->getOperatorElementHtml(), $this->_valueElement->getHtml())
             . $this->getRemoveLinkHtml()
             . '<div class="rule-chooser no-split" url="' . $this->getValueElementChooserUrl() . '"></div>';
     }

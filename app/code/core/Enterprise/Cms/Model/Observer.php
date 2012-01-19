@@ -133,12 +133,26 @@ class Enterprise_Cms_Model_Observer
          * Validate Request and modify router match condition
          */
         /* @var $node Enterprise_Cms_Model_Hierarchy_Node */
-        $node = Mage::getModel('Enterprise_Cms_Model_Hierarchy_Node');
+        $node = Mage::getModel('Enterprise_Cms_Model_Hierarchy_Node', array(
+            'scope' => Enterprise_Cms_Model_Hierarchy_Node::NODE_SCOPE_STORE,
+            'scope_id' => Mage::app()->getStore()->getId(),
+        ))->getHeritage();
         $requestUrl = $condition->getIdentifier();
         $node->loadByRequestUrl($requestUrl);
 
         if ($node->checkIdentifier($requestUrl, Mage::app()->getStore())) {
             $condition->setContinue(false);
+            if (!$node->getId()) {
+                $collection = $node->getNodesCollection();
+                foreach ($collection as $item) {
+                    if ($item->getPageIdentifier() == $requestUrl) {
+                        $url = Mage::getUrl('', array('_direct' => $item->getRequestUrl()));
+                        $condition->setRedirectUrl($url);
+                        break;
+                    }
+                }
+
+            }
         }
         if (!$node->getId()) {
             return $this;
@@ -146,7 +160,10 @@ class Enterprise_Cms_Model_Observer
 
         if (!$node->getPageId()) {
             /* @var $child Enterprise_Cms_Model_Hierarchy_Node */
-            $child = Mage::getModel('Enterprise_Cms_Model_Hierarchy_Node');
+            $child = Mage::getModel('Enterprise_Cms_Model_Hierarchy_Node', array(
+                'scope' => $node->getScope(),
+                'scope_id' => $node->getScopeId(),
+            ));
             $child->loadFirstChildByParent($node->getId());
             if (!$child->getId()) {
                 return $this;
@@ -181,7 +198,9 @@ class Enterprise_Cms_Model_Observer
 
         // Create new initial version & revision if it
         // is a new page or version control was turned on for this page.
-        if ($page->getIsNewPage() || ($page->getUnderVersionControl() && $page->dataHasChangedFor('under_version_control'))) {
+        if ($page->getIsNewPage() || ($page->getUnderVersionControl()
+            && $page->dataHasChangedFor('under_version_control'))
+        ) {
             $version = Mage::getModel('Enterprise_Cms_Model_Page_Version');
 
             $revisionInitialData = $page->getData();
@@ -306,6 +325,76 @@ class Enterprise_Cms_Model_Observer
             ->walk($collection->getSelect(), array(array($this, 'removeVersionCallback')), array('version'=> $version));
 
          return $this;
+    }
+
+    /**
+     * Clean up hierarchy tree that belongs to website.
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_Cms_Model_Observer
+     */
+    public function deleteWebsite(Varien_Event_Observer $observer)
+    {
+        /* @var $store Mage_Core_Model_Website */
+        $website = $observer->getEvent()->getWebsite();
+        $nodeModel = Mage::getModel('Enterprise_Cms_Model_Hierarchy_Node');
+        $nodeModel->deleteByScope(Enterprise_Cms_Model_Hierarchy_Node::NODE_SCOPE_WEBSITE, $website->getId());
+
+        foreach ($website->getStoreIds() as $storeId) {
+            $this->_cleanStoreFootprints($storeId);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Clean up hierarchy tree that belongs to store.
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_Cms_Model_Observer
+     */
+    public function deleteStore(Varien_Event_Observer $observer)
+    {
+        $storeId = $observer->getEvent()->getStore()->getId();
+        $this->_cleanStoreFootprints($storeId);
+        return $this;
+    }
+
+    /**
+     * Clean up information about deleted store from the widgets and hierarchy nodes
+     *
+     * @param int $storeId
+     */
+    private function _cleanStoreFootprints($storeId)
+    {
+        $storeScope = Enterprise_Cms_Model_Hierarchy_Node::NODE_SCOPE_STORE;
+        $nodeModel = Mage::getModel('Enterprise_Cms_Model_Hierarchy_Node');
+        $nodeModel->deleteByScope($storeScope, $storeId);
+
+        /* @var $widgetModel Mage_Widget_Model_Widget_Instance */
+        $widgetModel = Mage::getModel('Mage_Widget_Model_Widget_Instance');
+        $widgets = $widgetModel->getResourceCollection()
+                ->addStoreFilter(array($storeId, false))
+                ->addFieldToFilter('instance_type', 'Enterprise_Cms_Block_Widget_Node');
+
+        /* @var $widgetInstance Mage_Widget_Model_Widget_Instance */
+        foreach ($widgets as $widgetInstance) {
+            $storeIds = $widgetInstance->getStoreIds();
+            foreach ($storeIds as $key => $value) {
+                if ($value == $storeId) {
+                    unset($storeIds[$key]);
+                }
+            }
+            $widgetInstance->setStoreIds($storeIds);
+
+            $widgetParams = $widgetInstance->getWidgetParameters();
+            unset($widgetParams['anchor_text_' . $storeId]);
+            unset($widgetParams['title_' . $storeId]);
+            unset($widgetParams['node_id_' . $storeId]);
+            $widgetInstance->setWidgetParameters($widgetParams);
+
+            $widgetInstance->save();
+        }
     }
 
     /**

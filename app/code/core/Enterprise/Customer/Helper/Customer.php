@@ -36,19 +36,19 @@ class Enterprise_Customer_Helper_Customer extends Enterprise_Eav_Helper_Data
     {
         return array(
             array(
-                'label' => Mage::helper('Enterprise_Customer_Helper_Customer')->__('Customer Checkout Register'),
+                'label' => Mage::helper('Enterprise_Customer_Helper_Data')->__('Customer Checkout Register'),
                 'value' => 'checkout_register'
             ),
             array(
-                'label' => Mage::helper('Enterprise_Customer_Helper_Customer')->__('Customer Registration'),
+                'label' => Mage::helper('Enterprise_Customer_Helper_Data')->__('Customer Registration'),
                 'value' => 'customer_account_create'
             ),
             array(
-                'label' => Mage::helper('Enterprise_Customer_Helper_Customer')->__('Customer Account Edit'),
+                'label' => Mage::helper('Enterprise_Customer_Helper_Data')->__('Customer Account Edit'),
                 'value' => 'customer_account_edit'
             ),
             array(
-                'label' => Mage::helper('Enterprise_Customer_Helper_Customer')->__('Admin Checkout'),
+                'label' => Mage::helper('Enterprise_Customer_Helper_Data')->__('Admin Checkout'),
                 'value' => 'adminhtml_checkout'
             ),
         );

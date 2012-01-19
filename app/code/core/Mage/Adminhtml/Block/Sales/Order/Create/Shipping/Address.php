@@ -46,6 +46,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Shipping_Address
      */
     protected function _prepareForm()
     {
+        $this->setJsVariablePrefix('shippingAddress');
         parent::_prepareForm();
 
         $this->_form->addFieldNameSuffix('order[shipping_address]');

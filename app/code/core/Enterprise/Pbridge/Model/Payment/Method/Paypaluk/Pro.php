@@ -138,17 +138,17 @@ class Enterprise_Pbridge_Model_Payment_Method_Paypaluk_Pro extends Mage_PaypalUk
     protected function _importCaptureResultToPayment($api, $payment)
     {
         $payment->setTransactionId($api->getTransactionId())->setIsTransactionClosed(false);
-        $payment->setPreparedMessage(Mage::helper('Enterprise_Pbridge_Helper_Data')->__('Payflow PNREF: #%s.',
-            $api->getData(self::TRANSPORT_PAYFLOW_TXN_ID)
-        ));
+        $payment->setPreparedMessage(
+            Mage::helper('Enterprise_Pbridge_Helper_Data')->__('Payflow PNREF: #%s.', $api->getData(self::TRANSPORT_PAYFLOW_TXN_ID))
+        );
         Mage::getModel('Mage_Paypal_Model_Info')->importToPayment($api, $payment);
     }
 
     /**
      * Import refund results to payment
      *
-     * @param Mage_Paypal_Model_Api_Nvp
-     * @param Mage_Sales_Model_Order_Payment
+     * @param Mage_Paypal_Model_Api_Nvp $api
+     * @param Mage_Sales_Model_Order_Payment $payment
      * @param bool $canRefundMore
      */
     protected function _importRefundResultToPayment($api, $payment, $canRefundMore)
@@ -158,9 +158,9 @@ class Enterprise_Pbridge_Model_Payment_Method_Paypaluk_Pro extends Mage_PaypalUk
                 ->setShouldCloseParentTransaction(!$canRefundMore)
                 ->setTransactionAdditionalInfo(self::TRANSPORT_PAYFLOW_TXN_ID, $api->getPayflowTrxid());
 
-        $payment->setPreparedMessage(Mage::helper('Enterprise_Pbridge_Helper_Data')->__('Payflow PNREF: #%s.',
-            $api->getData(self::TRANSPORT_PAYFLOW_TXN_ID)
-        ));
+        $payment->setPreparedMessage(
+            Mage::helper('Enterprise_Pbridge_Helper_Data')->__('Payflow PNREF: #%s.', $api->getData(self::TRANSPORT_PAYFLOW_TXN_ID))
+        );
         Mage::getModel('Mage_Paypal_Model_Info')->importToPayment($api, $payment);
     }
 }

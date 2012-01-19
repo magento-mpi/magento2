@@ -9,16 +9,18 @@
  */
 
 /**
- * description
+ * Shopping Cart Rules Grid
  *
- * @category    Mage
- * @category   Mage
- * @package    Mage_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @category Mage
+ * @package Mage_Adminhtml
+ * @author Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Adminhtml_Block_Promo_Quote_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
-
+    /**
+     * Initialize grid
+     * Set sort settings
+     */
     public function __construct()
     {
         parent::__construct();
@@ -28,14 +30,29 @@ class Mage_Adminhtml_Block_Promo_Quote_Grid extends Mage_Adminhtml_Block_Widget_
         $this->setSaveParametersInSession(true);
     }
 
+    /**
+     * Add websites to sales rules collection
+     * Set collection
+     *
+     * @return Mage_Adminhtml_Block_Promo_Quote_Grid
+     */
     protected function _prepareCollection()
     {
+        /** @var $collection Mage_SalesRule_Model_Resource_Rule_Collection */
         $collection = Mage::getModel('Mage_SalesRule_Model_Rule')
             ->getResourceCollection();
+        $collection->addWebsitesToResult();
         $this->setCollection($collection);
-        return parent::_prepareCollection();
+
+        parent::_prepareCollection();
+        return $this;
     }
 
+    /**
+     * Add grid columns
+     *
+     * @return Mage_Adminhtml_Block_Promo_Quote_Grid
+     */
     protected function _prepareColumns()
     {
         $this->addColumn('rule_id', array(
@@ -87,15 +104,36 @@ class Mage_Adminhtml_Block_Promo_Quote_Grid extends Mage_Adminhtml_Block_Widget_
             ),
         ));
 
+        if (!Mage::app()->isSingleStoreMode()) {
+            $this->addColumn('rule_website', array(
+                'header'    => Mage::helper('Mage_SalesRule_Helper_Data')->__('Website'),
+                'align'     =>'left',
+                'index'     => 'website_ids',
+                'type'      => 'options',
+                'sortable'  => false,
+                'options'   => Mage::getSingleton('Mage_Adminhtml_Model_System_Store')->getWebsiteOptionHash(),
+                'width'     => 200,
+            ));
+        }
+
         $this->addColumn('sort_order', array(
             'header'    => Mage::helper('Mage_SalesRule_Helper_Data')->__('Priority'),
             'align'     => 'right',
             'index'     => 'sort_order',
+            'width'     => 100,
         ));
 
-        return parent::_prepareColumns();
+        parent::_prepareColumns();
+        return $this;
     }
 
+    /**
+     * Retrieve row click URL
+     *
+     * @param Varien_Object $row
+     *
+     * @return string
+     */
     public function getRowUrl($row)
     {
         return $this->getUrl('*/*/edit', array('id' => $row->getRuleId()));

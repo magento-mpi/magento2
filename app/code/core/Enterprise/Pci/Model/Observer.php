@@ -62,7 +62,10 @@ class Enterprise_Pci_Model_Observer
             $lockExpires = new Zend_Date($lockExpires, Varien_Date::DATETIME_INTERNAL_FORMAT);
             $lockExpires = $lockExpires->toValue();
             if ($lockExpires > time()) {
-                throw new Mage_Core_Exception(Mage::helper('Enterprise_Pci_Helper_Data')->__('This account is locked.'), self::ADMIN_USER_LOCKED);
+                throw new Mage_Core_Exception(
+                    Mage::helper('Enterprise_Pci_Helper_Data')->__('This account is locked.'),
+                    self::ADMIN_USER_LOCKED
+                );
             }
         }
 
@@ -76,10 +79,9 @@ class Enterprise_Pci_Model_Observer
          * Check whether the latest password is expired
          * Side-effect can be when passwords were changed with different lifetime configuration settings
          */
-        $resourceUser = Mage::getResourceSingleton('Enterprise_Pci_Model_Resource_Admin_User');
-        $latestPassword = $resourceUser->getLatestPassword($user->getId());
+        $latestPassword = Mage::getResourceSingleton('Enterprise_Pci_Model_Resource_Admin_User')->getLatestPassword($user->getId());
         if ($latestPassword) {
-            if (isset($latestPassword['expires']) && ((int)$latestPassword['expires'] < time() && Mage::getStoreConfig('admin/security/password_lifetime') !== '')) {
+            if ($this->_isLatestPasswordExpired($latestPassword)) {
                 if ($this->isPasswordChangeForced()) {
                     $message = Mage::helper('Enterprise_Pci_Helper_Data')->__('Your password has expired, you must change it now.');
                 } else {
@@ -100,6 +102,25 @@ class Enterprise_Pci_Model_Observer
                 ->setNewPassword($password)->setForceNewPassword(true)
                 ->save();
         }
+    }
+
+    /**
+     * Check if latest password is expired
+     *
+     * @param array $latestPassword
+     * @return bool
+     */
+    protected function _isLatestPasswordExpired($latestPassword)
+    {
+        if (!isset($latestPassword['expires'])) {
+            return false;
+        }
+
+        if ($this->getAdminPasswordLifetime() == 0) {
+            return false;
+        }
+
+        return (int)$latestPassword['expires'] < time();
     }
 
     /**
@@ -143,8 +164,18 @@ class Enterprise_Pci_Model_Observer
     {
         /* @var $user Mage_Admin_Model_User */
         $user = $observer->getEvent()->getObject();
-        $password = ($user->getNewPassword() ? $user->getNewPassword() : $user->getPassword());
+
+        if ($user->getNewPassword()) {
+            $password = $user->getNewPassword();
+        } else {
+            $password = $user->getPassword();
+        }
+
         if ($password && !$user->getForceNewPassword() && $user->getId()) {
+            if (Mage::helper('Mage_Core_Helper_Data')->validateHash($password, $user->getOrigData('password'))) {
+                Mage::throwException(Mage::helper('Enterprise_Pci_Helper_Data')->__('This password was used earlier, try another one.'));
+            }
+
             // check whether password was used before
             $resource     = Mage::getResourceSingleton('Enterprise_Pci_Model_Resource_Admin_User');
             $passwordHash = Mage::helper('Mage_Core_Helper_Data')->getHash($password, false);
@@ -172,7 +203,9 @@ class Enterprise_Pci_Model_Observer
                 $resource     = Mage::getResourceSingleton('Enterprise_Pci_Model_Resource_Admin_User');
                 $passwordHash = Mage::helper('Mage_Core_Helper_Data')->getHash($password, false);
                 $resource->trackPassword($user, $passwordHash, $passwordLifetime);
-                Mage::getSingleton('Mage_Adminhtml_Model_Session')->getMessages()->deleteMessageByIdentifier('enterprise_pci_password_expired');
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')
+                        ->getMessages()
+                        ->deleteMessageByIdentifier('enterprise_pci_password_expired');
                 Mage::getSingleton('Mage_Admin_Model_Session')->unsPciAdminUserIsPasswordExpired();
             }
         }
@@ -212,11 +245,14 @@ class Enterprise_Pci_Model_Observer
         if (!$session->isLoggedIn()) {
             return;
         }
+        $actionList = array('adminhtml_system_account_index', 'adminhtml_system_account_save',
+            'adminhtml_index_logout');
         $controller = $observer->getEvent()->getControllerAction();
         if (Mage::getSingleton('Mage_Admin_Model_Session')->getPciAdminUserIsPasswordExpired()) {
-            if (!in_array($controller->getFullActionName(), array('adminhtml_system_account_index', 'adminhtml_system_account_save', 'adminhtml_index_logout'))) {
+            if (!in_array($controller->getFullActionName(), $actionList)) {
                 if (Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('admin/system/myaccount')) {
-                    $controller->getResponse()->setRedirect(Mage::getSingleton('Mage_Adminhtml_Model_Url')->getUrl('adminhtml/system_account/'));
+                    $controller->getResponse()->setRedirect(Mage::getSingleton('Mage_Adminhtml_Model_Url')
+                            ->getUrl('adminhtml/system_account/'));
                     $controller->setFlag('', Mage_Core_Controller_Varien_Action::FLAG_NO_DISPATCH, true);
                     $controller->setFlag('', Mage_Core_Controller_Varien_Action::FLAG_NO_POST_DISPATCH, true);
                 } else {

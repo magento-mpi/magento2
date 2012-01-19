@@ -55,6 +55,12 @@ class Mage_Adminhtml_Block_Report_Sales_Coupons_Grid extends Mage_Adminhtml_Bloc
             'index'     => 'coupon_code'
         ));
 
+        $this->addColumn('rule_name', array(
+            'header'    => Mage::helper('Mage_SalesRule_Helper_Data')->__('Shopping Cart Price Rule'),
+            'sortable'  => false,
+            'index'     => 'rule_name'
+        ));
+
         $this->addColumn('coupon_uses', array(
             'header'    => Mage::helper('Mage_SalesRule_Helper_Data')->__('Number of Uses'),
             'sortable'  => false,
@@ -133,5 +139,25 @@ class Mage_Adminhtml_Block_Report_Sales_Coupons_Grid extends Mage_Adminhtml_Bloc
         $this->addExportType('*/*/exportCouponsExcel', Mage::helper('Mage_Adminhtml_Helper_Data')->__('Excel XML'));
 
         return parent::_prepareColumns();
+    }
+
+    /**
+     * Add price rule filter
+     *
+     * @param Mage_Reports_Model_Resource_Report_Collection_Abstract $collection
+     * @param Varien_Object $filterData
+     * @return Mage_Adminhtml_Block_Report_Grid_Abstract
+     */
+    protected function _addCustomFilter($collection, $filterData)
+    {
+        if ($filterData->getPriceRuleType()) {
+            $rulesList = $filterData->getData('rules_list');
+            if (isset($rulesList[0])) {
+                $rulesIds = explode(',', $rulesList[0]);
+                $collection->addRuleFilter($rulesIds);
+            }
+        }
+
+        return parent::_addCustomFilter($filterData, $collection);
     }
 }

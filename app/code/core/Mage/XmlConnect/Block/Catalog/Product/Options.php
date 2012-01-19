@@ -71,7 +71,7 @@ class Mage_XmlConnect_Block_Catalog_Product_Options extends Mage_XmlConnect_Bloc
             }
             $optionNode->addAttribute('code', $code);
             $optionNode->addAttribute('type', $type);
-            $optionNode->addAttribute('label', $xmlModel->xmlentities($option->getTitle()));
+            $optionNode->addAttribute('label', $xmlModel->escapeXml($option->getTitle()));
             if ($option->getIsRequire()) {
                 $optionNode->addAttribute('is_required', 1);
             }
@@ -89,7 +89,7 @@ class Mage_XmlConnect_Block_Catalog_Product_Options extends Mage_XmlConnect_Bloc
                 foreach ($option->getValues() as $value) {
                     $valueNode = $optionNode->addChild('value');
                     $valueNode->addAttribute('code', $value->getId());
-                    $valueNode->addAttribute('label', $xmlModel->xmlentities($value->getTitle()));
+                    $valueNode->addAttribute('label', $xmlModel->escapeXml($value->getTitle()));
 
                     if ($value->getPrice() != 0) {
                         $price = Mage::helper('Mage_XmlConnect_Helper_Data')->formatPriceForXml($value->getPrice());

@@ -21,11 +21,13 @@
             var url = "<?php echo $this->getUrl('*/*/getFilter') ?>";
             url += ((url.slice(-1) != '/') ? '/' : '') + 'entity/' + $F('entity');
 
-            new Ajax.Updater ('export_filter_grid_container', url, {
+            new Ajax.Request(url, {
                 method:      'post',
                 //parameters:  $(this.formId).serialize(),
                 evalScripts: true,
-                onComplete:  function(){
+                onComplete:  function(transport) {
+                    var responseText = transport.responseText.replace(/>\s+</g, '><');
+                    $('export_filter_grid_container').update(responseText);
                     $('export_filter_container').show();
                 }
             });

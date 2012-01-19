@@ -56,4 +56,33 @@ class Mage_Sales_Model_Resource_Order_Address extends Mage_Sales_Model_Resource_
         asort($attributes);
         return $attributes;
     }
+
+    /**
+     * Update related grid table after object save
+     *
+     * @param Varien_Object $object
+     * @return Mage_Core_Model_Resource_Db_Abstract
+     */
+    protected function _afterSave(Mage_Core_Model_Abstract $object)
+    {
+        $resource = parent::_afterSave($object);
+        if ($object->hasDataChanges() && $object->getOrder()) {
+            $gridList = array(
+                'Mage_Sales_Model_Resource_Order' => 'entity_id',
+                'Mage_Sales_Model_Resource_Order_Invoice' => 'order_id',
+                'Mage_Sales_Model_Resource_Order_Shipment' => 'order_id',
+                'Mage_Sales_Model_Resource_Order_Creditmemo' => 'order_id'
+            );
+
+            // update grid table after grid update
+            foreach ($gridList as $gridResource => $field) {
+                Mage::getResourceModel($gridResource)->updateOnRelatedRecordChanged(
+                    $field,
+                    $object->getParentId()
+                );
+            }
+        }
+
+        return $resource;
+    }
 }

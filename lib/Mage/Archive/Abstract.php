@@ -18,14 +18,16 @@
 class Mage_Archive_Abstract
 {
     /**
-     * Write data to file. If file can't be opened,
+     * Write data to file. If file can't be opened - throw exception
      *
      * @param string $destination
      * @param string $data
      * @return boolean
+     * @throws Mage_Exception
      */
     protected function _writeFile($destination, $data)
     {
+        $destination = trim($destination);
         if(false === file_put_contents($destination, $data)) {
             throw new Mage_Exception("Can't write to file: " . $destination);
         }
@@ -37,6 +39,7 @@ class Mage_Archive_Abstract
      *
      * @param string $source
      * @return string
+     * @throws Mage_Exception
      */
     protected function _readFile($source)
     {
@@ -54,7 +57,8 @@ class Mage_Archive_Abstract
      * Get file name from source (URI) without last extension.
      *
      * @param string $source
-     * @return string
+     * @param bool $withExtension
+     * @return mixed|string
      */
     public function getFilename($source, $withExtension=false)
     {
@@ -64,5 +68,4 @@ class Mage_Archive_Abstract
         }
         return $file;
     }
-
 }

@@ -32,9 +32,9 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Form_Element_Addrow
             . '" value="'.$this->getEscapedValue()
             . '" '
             . $this->serialize($this->getHtmlAttributes())
-            . ' ><span>'
+            . ' ><span><span><span>'
             . $this->getEscapedValue()
-            . '</span></button>'
+            . '</span></span></span></button>'
             . $this->getAfterElementHtml();
         return $html;
     }

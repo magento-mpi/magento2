@@ -46,7 +46,7 @@ class Mage_Widget_Adminhtml_Widget_InstanceController extends Mage_Adminhtml_Con
     /**
      * Init widget instance object and set it to registry
      *
-     * @return age_Widget_Model_Widget_Instance|boolean
+     * @return Mage_Widget_Model_Widget_Instance|boolean
      */
     protected function _initWidgetInstance()
     {
@@ -112,6 +112,17 @@ class Mage_Widget_Adminhtml_Widget_InstanceController extends Mage_Adminhtml_Con
     }
 
     /**
+     * Set body to response
+     *
+     * @param string $body
+     */
+    private function setBody($body)
+    {
+        Mage::getSingleton('Mage_Core_Model_Translate_Inline')->processResponseBody($body);
+        $this->getResponse()->setBody($body);
+    }
+
+    /**
      * Validate action
      *
      */
@@ -127,7 +138,7 @@ class Mage_Widget_Adminhtml_Widget_InstanceController extends Mage_Adminhtml_Con
             $response->setError(true);
             $response->setMessage($this->getLayout()->getMessagesBlock()->getGroupedHtml());
         }
-        $this->getResponse()->setBody($response->toJson());
+        $this->setBody($response->toJson());
     }
 
     /**
@@ -205,7 +216,7 @@ class Mage_Widget_Adminhtml_Widget_InstanceController extends Mage_Adminhtml_Con
             ->setId(Mage::helper('Mage_Core_Helper_Data')->uniqHash('categories'))
             ->setIsAnchorOnly($isAnchorOnly)
             ->setSelectedCategories(explode(',', $selected));
-        $this->getResponse()->setBody($chooser->toHtml());
+        $this->setBody($chooser->toHtml());
     }
 
     /**
@@ -225,7 +236,7 @@ class Mage_Widget_Adminhtml_Widget_InstanceController extends Mage_Adminhtml_Con
         /* @var $serializer Mage_Adminhtml_Block_Widget_Grid_Serializer */
         $serializer = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Grid_Serializer');
         $serializer->initSerializerBlock($chooser, 'getSelectedProducts', 'selected_products', 'selected_products');
-        $this->getResponse()->setBody($chooser->toHtml().$serializer->toHtml());
+        $this->setBody($chooser->toHtml().$serializer->toHtml());
     }
 
     /**
@@ -246,7 +257,7 @@ class Mage_Widget_Adminhtml_Widget_InstanceController extends Mage_Adminhtml_Con
             ->setLayoutHandle($layout)
             ->setSelected($selected)
             ->setAllowedBlocks($widgetInstance->getWidgetSupportedBlocks());
-        $this->getResponse()->setBody($blocksChooser->toHtml());
+        $this->setBody($blocksChooser->toHtml());
     }
 
     /**
@@ -263,7 +274,7 @@ class Mage_Widget_Adminhtml_Widget_InstanceController extends Mage_Adminhtml_Con
             ->createBlock('Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Template')
             ->setSelected($selected)
             ->setWidgetTemplates($widgetInstance->getWidgetSupportedTemplatesByBlock($block));
-        $this->getResponse()->setBody($templateChooser->toHtml());
+        $this->setBody($templateChooser->toHtml());
     }
 
     /**

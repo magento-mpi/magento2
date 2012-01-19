@@ -166,7 +166,7 @@ class Mage_XmlConnect_Model_Simplexml_Form_Abstract extends Varien_Object
     public function getElements()
     {
         if (empty($this->_elements)) {
-            $this->_elements = Mage::getModel('Mage_XmlConnect_Model_Simplexml_Form_Element_Collection');
+            $this->_elements = Mage::getModel('Mage_XmlConnect_Model_Simplexml_Form_Element_Collection', $this);
         }
         return $this->_elements;
     }

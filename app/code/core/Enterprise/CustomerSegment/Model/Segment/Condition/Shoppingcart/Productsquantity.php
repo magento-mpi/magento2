@@ -41,7 +41,8 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart_Productsqu
     public function getNewChildSelectOptions()
     {
         return array('value' => $this->getType(),
-            'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Products Quantity'));
+            'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Products Quantity'),
+            'available_in_guest_mode' => true);
     }
 
     /**
@@ -52,8 +53,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart_Productsqu
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Shopping Cart Products Qty %s %s:',
-                $this->getOperatorElementHtml(), $this->getValueElementHtml())
+            . Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Shopping Cart Products Qty %s %s:', $this->getOperatorElementHtml(), $this->getValueElementHtml())
             . $this->getRemoveLinkHtml();
     }
 
@@ -70,13 +70,19 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart_Productsqu
         $operator = $this->getResource()->getSqlOperator($this->getOperator());
 
         $select = $this->getResource()->createSelect();
-        $select->from(array('quote'=>$table), array(new Zend_Db_Expr(1)));
+        $select->from(array('quote' => $table), array(new Zend_Db_Expr(1)))
+            ->where('quote.is_active=1');
 
         $this->_limitByStoreWebsite($select, $website, 'quote.store_id');
         Mage::getResourceHelper('Enterprise_CustomerSegment')->setOneRowLimit($select);
 
         $select->where("quote.items_qty {$operator} ?", $this->getValue());
-        $select->where($this->_createCustomerFilter($customer, 'quote.customer_id'));
+        if ($customer) {
+            // Leave ability to check this condition not only by customer_id but also by quote_id
+            $select->where('quote.customer_id = :customer_id OR quote.entity_id = :quote_id');
+        } else {
+            $select->where($this->_createCustomerFilter($customer, 'quote.customer_id'));
+        }
 
         return $select;
     }

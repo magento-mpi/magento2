@@ -119,6 +119,28 @@ class Mage_Catalog_Block_Product_View_Options extends Mage_Core_Block_Template
         return false;
     }
 
+    /**
+     * Get price configuration
+     *
+     * @param Mage_Catalog_Model_Product_Option_Value|Mage_Catalog_Model_Product_Option $option
+     * @return array
+     */
+    protected function _getPriceConfiguration($option)
+    {
+        $data = array();
+        $data['price'] = $option->getPrice(false);
+        $data['oldPrice'] = Mage::helper('Mage_Core_Helper_Data')->currency($option->getPrice(true), false, false);
+        $data['type'] = $option->getPriceType();
+        $data['excludeTax'] = $price = Mage::helper('Mage_Tax_Helper_Data')->getPrice($option->getProduct(), $data['oldPrice'], false);
+        $data['includeTax'] = $price = Mage::helper('Mage_Tax_Helper_Data')->getPrice($option->getProduct(), $data['oldPrice'], true);
+        return $data;
+    }
+
+    /**
+     * Get json representation of
+     *
+     * @return string
+     */
     public function getJsonConfig()
     {
         $config = array();
@@ -130,11 +152,12 @@ class Mage_Catalog_Block_Product_View_Options extends Mage_Core_Block_Template
                 $_tmpPriceValues = array();
                 foreach ($option->getValues() as $value) {
                     /* @var $value Mage_Catalog_Model_Product_Option_Value */
-                   $_tmpPriceValues[$value->getId()] = Mage::helper('Mage_Core_Helper_Data')->currency($value->getPrice(true), false, false);
+                    $id = $value->getId();
+                    $_tmpPriceValues[$id] = $this->_getPriceConfiguration($value);
                 }
                 $priceValue = $_tmpPriceValues;
             } else {
-                $priceValue = Mage::helper('Mage_Core_Helper_Data')->currency($option->getPrice(true), false, false);
+                $priceValue = $this->_getPriceConfiguration($option);
             }
             $config[$option->getId()] = $priceValue;
         }

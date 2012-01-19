@@ -302,8 +302,9 @@ class Mage_Review_Model_Resource_Review_Product_Collection extends Mage_Catalog_
     public function getSelectCountSql()
     {
         $select = parent::getSelectCountSql();
-
-        $select->reset(Zend_Db_Select::HAVING);
+        $select->reset(Zend_Db_Select::COLUMNS)
+            ->columns('COUNT(e.entity_id)')
+            ->reset(Zend_Db_Select::HAVING);
 
         return $select;
     }

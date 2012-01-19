@@ -95,7 +95,7 @@ class Enterprise_PageCache_Model_Container_Sidebar_Poll extends Enterprise_PageC
     /**
      * Get poll id to show
      *
-     * @return int|null
+     * @return int|null|bool
      */
     protected function _getPollToShow()
     {
@@ -113,13 +113,12 @@ class Enterprise_PageCache_Model_Container_Sidebar_Poll extends Enterprise_PageC
             ) {
                 return null;
             }
-            $active_ids = array_diff($renderedParams['active_ids'],$renderedParams['voted_ids']);
-            if (!$active_ids || !$renderedParams['active_ids']) {
-                $this->_activePollId = false;
-            } else {
-                $this->_activePollId = $renderedParams['active_ids'][array_rand($active_ids)];
-            }
+
+            $activeIds = array_diff($renderedParams['active_ids'], $renderedParams['voted_ids']);
+            $randomKey = array_rand($activeIds);
+            $this->_activePollId = isset($activeIds[$randomKey]) ? $activeIds[$randomKey] : false;
         }
+
         return $this->_activePollId;
     }
 

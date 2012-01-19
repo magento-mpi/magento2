@@ -214,4 +214,14 @@ class Mage_Catalog_Block_Layer_View extends Mage_Core_Block_Template
     {
         return $this->getChild('_price_filter');
     }
+
+    /**
+     * Get url for 'Clear All' link
+     *
+     * @return string
+     */
+    public function getClearUrl()
+    {
+        return $this->getChild('layer_state')->getClearUrl();
+    }
 }

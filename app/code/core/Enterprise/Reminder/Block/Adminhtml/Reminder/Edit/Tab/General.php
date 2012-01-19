@@ -67,11 +67,19 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_General
                 ->prepareElementHtml($field);
         }
 
-        if (!Mage::app()->isSingleStoreMode()) {
-            $fieldset->addField('website_ids','multiselect',array(
-                'name'     => 'website_ids',
+        if (Mage::app()->isSingleStoreMode()) {
+            $websiteId = Mage::app()->getStore(true)->getWebsiteId();
+            $fieldset->addField('website_ids', 'hidden', array(
+                'name'     => 'website_ids[]',
+                'value'    => $websiteId
+            ));
+            $model->setWebsiteIds($websiteId);
+        } else {
+            $fieldset->addField('website_ids', 'multiselect', array(
+                'name'     => 'website_ids[]',
+                'label'    => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Assigned to Website'),
+                'title'    => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Assigned to Website'),
                 'required' => true,
-                'label'    => Mage::helper('Mage_Newsletter_Helper_Data')->__('Assigned to Websites'),
                 'values'   => Mage::getSingleton('Mage_Adminhtml_Model_System_Store')->getWebsiteValuesForForm(),
                 'value'    => $model->getWebsiteIds()
             ));
@@ -93,18 +101,18 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_General
 
         $dateFormatIso = Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
 
-        $fieldset->addField('active_from', 'date', array(
-            'name'   => 'active_from',
-            'label'  => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Active From'),
-            'title'  => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Active From'),
+        $fieldset->addField('from_date', 'date', array(
+            'name'   => 'from_date',
+            'label'  => Mage::helper('Enterprise_Reminder_Helper_Data')->__('From Date'),
+            'title'  => Mage::helper('Enterprise_Reminder_Helper_Data')->__('From Date'),
             'image'  => $this->getSkinUrl('images/grid-cal.gif'),
             'input_format' => Varien_Date::DATE_INTERNAL_FORMAT,
             'format'       => $dateFormatIso
         ));
-        $fieldset->addField('active_to', 'date', array(
-            'name'   => 'active_to',
-            'label'  => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Active To'),
-            'title'  => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Active To'),
+        $fieldset->addField('to_date', 'date', array(
+            'name'   => 'to_date',
+            'label'  => Mage::helper('Enterprise_Reminder_Helper_Data')->__('To Date'),
+            'title'  => Mage::helper('Enterprise_Reminder_Helper_Data')->__('To Date'),
             'image'  => $this->getSkinUrl('images/grid-cal.gif'),
             'input_format' => Varien_Date::DATE_INTERNAL_FORMAT,
             'format'       => $dateFormatIso

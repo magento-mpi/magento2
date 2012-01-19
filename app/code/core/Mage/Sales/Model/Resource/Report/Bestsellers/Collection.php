@@ -95,7 +95,7 @@ class Mage_Sales_Model_Resource_Report_Bestsellers_Collection
             ->where('period >= ?', $from)
             ->where('period <= ?', $to)
             ->group('product_id')
-            ->order('qty_ordered')
+            ->order('qty_ordered DESC')
             ->limit($this->_ratingLimit);
 
         $this->_applyStoresFilterToSelect($sel);
@@ -203,7 +203,6 @@ class Mage_Sales_Model_Resource_Report_Bestsellers_Collection
         parent::_beforeLoad();
 
         $this->_applyStoresFilter();
-        $this->_applyDateRangeFilter();
 
         if ($this->_period) {
             //
@@ -326,6 +325,8 @@ class Mage_Sales_Model_Resource_Report_Bestsellers_Collection
                 }
 
             }
+
+            $this->_applyDateRangeFilter();
 
             // add unions to select
             if ($selectUnions) {

@@ -210,6 +210,48 @@ abstract class Mage_Sales_Model_Order_Pdf_Items_Abstract extends Mage_Core_Model
         }
     }
 
+    /**
+     * Get array of arrays with item prices information for display in PDF
+     * array(
+     *  $index => array(
+     *      'label'    => $label,
+     *      'price'    => $price,
+     *      'subtotal' => $subtotal
+     *  )
+     * )
+     * @return array
+     */
+    public function getItemPricesForDisplay()
+    {
+        $order = $this->getOrder();
+        $item  = $this->getItem();
+        if (Mage::helper('Mage_Tax_Helper_Data')->displaySalesBothPrices()) {
+            $prices = array(
+                array(
+                    'label'    => Mage::helper('Mage_Tax_Helper_Data')->__('Excl. Tax') . ':',
+                    'price'    => $order->formatPriceTxt($item->getPrice()),
+                    'subtotal' => $order->formatPriceTxt($item->getRowTotal())
+                ),
+                array(
+                    'label'    => Mage::helper('Mage_Tax_Helper_Data')->__('Incl. Tax') . ':',
+                    'price'    => $order->formatPriceTxt($item->getPriceInclTax()),
+                    'subtotal' => $order->formatPriceTxt($item->getRowTotalInclTax())
+                ),
+            );
+        } elseif (Mage::helper('Mage_Tax_Helper_Data')->displaySalesPriceInclTax()) {
+            $prices = array(array(
+                'price' => $order->formatPriceTxt($item->getPriceInclTax()),
+                'subtotal' => $order->formatPriceTxt($item->getRowTotalInclTax()),
+            ));
+        } else {
+            $prices = array(array(
+                'price' => $order->formatPriceTxt($item->getPrice()),
+                'subtotal' => $order->formatPriceTxt($item->getRowTotal()),
+            ));
+        }
+        return $prices;
+    }
+
     public function getItemOptions() {
         $result = array();
         if ($options = $this->getItem()->getOrderItem()->getProductOptions()) {

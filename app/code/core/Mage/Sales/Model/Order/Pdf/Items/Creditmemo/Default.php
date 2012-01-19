@@ -46,13 +46,29 @@ class Mage_Sales_Model_Order_Pdf_Items_Creditmemo_Default extends Mage_Sales_Mod
 
         $x += 100;
         // draw Total (ex)
-        $lines[0][] = array(
-            'text'  => $order->formatPriceTxt($item->getRowTotal()),
-            'feed'  => $x,
-            'font'  => 'bold',
-            'align' => 'right',
-            'width' => 50,
-        );
+        $i = 0;
+        $prices = $this->getItemPricesForDisplay();
+        foreach ($prices as $priceData){
+            if (isset($priceData['label'])) {
+                // draw Subtotal label
+                $lines[$i][] = array(
+                    'text'  => $priceData['label'],
+                    'feed'  => $x,
+                    'align' => 'right',
+                    'width' => 50,
+                );
+                $i++;
+            }
+            // draw Subtotal
+            $lines[$i][] = array(
+                'text'  => $priceData['subtotal'],
+                'feed'  => $x,
+                'font'  => 'bold',
+                'align' => 'right',
+                'width' => 50,
+            );
+            $i++;
+        }
 
         $x += 50;
         // draw Discount
@@ -86,8 +102,10 @@ class Mage_Sales_Model_Order_Pdf_Items_Creditmemo_Default extends Mage_Sales_Mod
 
         $x += 45;
         // draw Subtotal
+        $subtotal = $item->getRowTotal()
+            + $item->getTaxAmount() + $item->getHiddenTaxAmount() - $item->getDiscountAmount();
         $lines[0][] = array(
-            'text'  => $order->formatPriceTxt($item->getRowTotal() + $item->getTaxAmount() - $item->getDiscountAmount()),
+            'text'  => $order->formatPriceTxt($subtotal),
             'feed'  => $rightBound,
             'font'  => 'bold',
             'align' => 'right'

@@ -78,40 +78,61 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     }
 
     /**
-     * Limit Rule save
+     * Limit Rule entity saving
      *
      * @param Mage_Rule_Model_Rule $model
+     *
      * @return void
      */
     public function ruleSaveBefore($model)
     {
-        $originalWebsiteIds = Mage::helper('Enterprise_AdminGws_Helper_Data')->explodeIds($model->getOrigData('website_ids'));
-        $websiteIds         = Mage::helper('Enterprise_AdminGws_Helper_Data')->explodeIds($model->getData('website_ids'));
-
+        // Deny creating new rule entity if role has no allowed website ids
         if (!$model->getId() && !$this->_role->getIsWebsiteLevel()) {
             $this->_throwSave();
         }
-        if ($model->getId() && !$this->_role->hasWebsiteAccess($websiteIds)) {
+
+        $websiteIds = (array)$model->getOrigData('website_ids');
+        // Deny saving rule entity if role has no exclusive access to assigned to rule entity websites
+        // Check if original websites list is empty implemented to deny saving target rules for all GWS limited users
+        if ($model->getId() && (!$this->_role->hasExclusiveAccess($websiteIds) || empty($websiteIds))) {
             $this->_throwSave();
         }
-        $model->setData('website_ids', implode(',', $this->_forceAssignToWebsite(
-            $this->_updateSavingWebsiteIds($websiteIds, $originalWebsiteIds)
-        )));
     }
 
     /**
-     * Limit rule model on after load
+     * Validate rule before delete
      *
      * @param Mage_Rule_Model_Rule $model
      * @return void
      */
+    public function ruleDeleteBefore($model)
+    {
+        $originalWebsiteIds = (array)$model->getOrigData('website_ids');
+
+        // Deny deleting rule entity if role has no exclusive access to assigned to rule entity websites
+        // Check if original websites list is empty implemented to deny deleting target rules for all GWS limited users
+        if (!$this->_role->hasExclusiveAccess($originalWebsiteIds) || empty($originalWebsiteIds)) {
+            $this->_throwDelete();
+        }
+    }
+
+    /**
+     * Limit rule entity model on after load
+     *
+     * @param Mage_Rule_Model_Rule $model
+     *
+     * @return void
+     */
     public function ruleLoadAfter($model)
     {
-        $websiteIds = explode(',', $model->getData('website_ids'));
+        $websiteIds = (array)$model->getData('website_ids');
+
+        // Set rule entity model as non-deleteable if role has no exclusive access to assigned to rule entity websites
         if (!$this->_role->hasExclusiveAccess($websiteIds)) {
             $model->setIsDeleteable(false);
         }
 
+        // Set rule entity model as readonly if role has no allowed website ids
         if (!$this->_role->getIsWebsiteLevel()) {
             $model->setIsReadonly(true);
         }
@@ -120,7 +141,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     /**
      * Limit newsletter queue save
      *
-     * @param Mage_Newsletter_Model_Queque $model
+     * @param Mage_Newsletter_Model_Queue $model
      */
     public function newsletterQueueSaveBefore($model)
     {
@@ -187,6 +208,9 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
             $model->lockAttribute('website_ids');
             $model->setOptionsReadonly(true);
             $model->setCompositeReadonly(true);
+            if (!in_array($model->getStore()->getId(), $this->_role->getStoreIds())) {
+                $model->setAttributesConfigurationReadonly(true);
+            }
             $model->setDownloadableReadonly(true);
             $model->setGiftCardReadonly(true);
             $model->setIsDeleteable(false);
@@ -365,20 +389,6 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     public function customerDeleteBefore($model)
     {
         if (!in_array($model->getWebsiteId(), $this->_role->getWebsiteIds())) {
-            $this->_throwDelete();
-        }
-    }
-
-    /**
-     * Validate rule before delete
-     *
-     * @param Mage_Rule_Model_Rule $model
-     * @return void
-     */
-    public function ruleDeleteBefore($model)
-    {
-        $originalWebsiteIds = $model->getOrigData('website_ids');
-        if (!$this->_role->hasExclusiveAccess($originalWebsiteIds)) {
             $this->_throwDelete();
         }
     }
@@ -1200,48 +1210,6 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     }
 
     /**
-     * Limit customer segment save
-     *
-     * @param Enterprise_CustomerSegment_Model_Segment $model
-     * @return void
-     */
-    public function customerSegmentSaveBefore($model)
-    {
-        if (!$model->getId() && !$this->_role->getIsWebsiteLevel()) {
-            $this->_throwSave();
-        }
-        if ($model->getId() && !$this->_role->hasExclusiveAccess($model->getWebsiteIds())) {
-            $this->_throwSave();
-        }
-    }
-
-    /**
-     * Validate customer segment before delete
-     *
-     * @param Enterprise_CustomerSegment_Model_Segment $model
-     * @return void
-     */
-    public function customerSegmentDeleteBefore($model)
-    {
-        if (!$this->_role->hasExclusiveAccess($model->getWebsiteIds())) {
-            $this->_throwDelete();
-        }
-    }
-
-    /**
-     * Limit customer segment model on after load
-     *
-     * @param Enterprise_CustomerSegment_Model_Segment $model
-     * @return void
-     */
-    public function customerSegmentLoadAfter($model)
-    {
-        if (! $this->_role->hasExclusiveAccess($model->getWebsiteIds())) {
-            $model->setIsReadonly(true);
-        }
-    }
-
-    /**
      * Validate Gift Registry Type before save
      *
      * @param Enterprise_GiftRegistry_Model_Type $model
@@ -1270,5 +1238,48 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     public function giftRegistryTypeDeleteBefore($model)
     {
        $this->_throwDelete();
+    }
+
+
+
+
+
+    /**
+     * Limit customer segment save
+     *
+     * @deprecated after 1.11.2.0 use $this->ruleSaveBefore() instead
+     *
+     * @param Enterprise_CustomerSegment_Model_Segment $model
+     * @return void
+     */
+    public function customerSegmentSaveBefore($model)
+    {
+        $this->ruleSaveBefore($model);
+    }
+
+    /**
+     * Validate customer segment before delete
+     *
+     * @deprecated after 1.11.2.0 use $this->ruleDeleteBefore() instead
+     *
+     * @param Enterprise_CustomerSegment_Model_Segment $model
+     * @return void
+     */
+    public function customerSegmentDeleteBefore($model)
+    {
+        $this->ruleDeleteBefore($model);
+    }
+
+    /**
+     * Limit customer segment model on after load
+     *
+     * @deprecated after 1.11.2.0 use $this->ruleLoadAfter() instead
+     *
+     * @param Enterprise_CustomerSegment_Model_Segment $model
+     * @return void
+     */
+    public function customerSegmentLoadAfter($model)
+    {
+        $this->ruleLoadAfter($model);
     }
 }

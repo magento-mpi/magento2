@@ -39,7 +39,7 @@ class Mage_XmlConnect_Block_Cart_Crosssell extends Mage_Checkout_Block_Cart_Cros
         /** @var $product Mage_Catalog_Model_Product */
         foreach ($this->getItems() as $product) {
             $itemXmlObj = $crossSellXmlObj->addChild('item');
-            $itemXmlObj->addChild('name', $crossSellXmlObj->xmlentities($product->getName()));
+            $itemXmlObj->addChild('name', $crossSellXmlObj->escapeXml($product->getName()));
             $icon = $this->helper('Mage_Catalog_Helper_Image')->init($product, 'thumbnail')
                 ->resize(Mage::helper('Mage_XmlConnect_Helper_Image')->getImageSizeForContent('product_small'));
 
@@ -54,12 +54,13 @@ class Mage_XmlConnect_Block_Cart_Crosssell extends Mage_Checkout_Block_Cart_Cros
             /**
              * If product type is grouped than it has options as its grouped items
              */
-            if ($product->getTypeId() == Mage_Catalog_Model_Product_Type_Grouped::TYPE_CODE) {
+            if ($product->getTypeId() == Mage_Catalog_Model_Product_Type_Grouped::TYPE_CODE
+                || $product->getTypeId() == Mage_Catalog_Model_Product_Type_Configurable::TYPE_CODE) {
                 $product->setHasOptions(true);
             }
 
             $itemXmlObj->addChild('has_options', (int)$product->getHasOptions());
-            $itemXmlObj->addChild('in_stock', (int)$product->getIsInStock());
+            $itemXmlObj->addChild('in_stock', (int)$product->getStockItem()->getIsInStock());
             if ($product->getTypeId() == Mage_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE) {
                 $itemXmlObj->addChild('is_salable', 0);
             } else {

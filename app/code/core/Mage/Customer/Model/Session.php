@@ -152,9 +152,10 @@ class Mage_Customer_Model_Session extends Mage_Core_Model_Session_Abstract
         if ($this->getData('customer_group_id')) {
             return $this->getData('customer_group_id');
         }
-        return $this->isLoggedIn() && $this->getCustomer()
-            ? $this->getCustomer()->getGroupId()
-            : Mage_Customer_Model_Group::NOT_LOGGED_IN_ID;
+        if ($this->isLoggedIn() && $this->getCustomer()) {
+            return $this->getCustomer()->getGroupId();
+        }
+        return Mage_Customer_Model_Group::NOT_LOGGED_IN_ID;
     }
 
     /**

@@ -11,6 +11,8 @@
 /**
  * Grid widget massaction block
  *
+ * @method Mage_Sales_Model_Quote setHideFormElement(boolean $value) Hide Form element to prevent IE errors
+ * @method boolean getHideFormElement()
  * @category   Mage
  * @package    Mage_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
@@ -24,6 +26,9 @@ abstract class Mage_Adminhtml_Block_Widget_Grid_Massaction_Abstract extends Mage
      */
     protected $_items = array();
 
+    /**
+     * Sets Massaction template
+     */
     public function __construct()
     {
         parent::__construct();
@@ -171,10 +176,8 @@ abstract class Mage_Adminhtml_Block_Widget_Grid_Massaction_Abstract extends Mage
         if($selected = $this->getRequest()->getParam($this->getFormFieldNameInternal())) {
             $selected = explode(',', $selected);
             return join(',', $selected);
-//            return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($selected);
         } else {
             return '';
-//            return '[]';
         }
     }
 
@@ -205,13 +208,14 @@ abstract class Mage_Adminhtml_Block_Widget_Grid_Massaction_Abstract extends Mage
 
     public function getJavaScript()
     {
-        return "
-                var {$this->getJsObjectName()} = new varienGridMassaction('{$this->getHtmlId()}', {$this->getGridJsObjectName()}, '{$this->getSelectedJson()}', '{$this->getFormFieldNameInternal()}', '{$this->getFormFieldName()}');
-                {$this->getJsObjectName()}.setItems({$this->getItemsJson()});
-                {$this->getJsObjectName()}.setGridIds('{$this->getGridIdsJson()}');
-                ". ($this->getUseAjax() ? "{$this->getJsObjectName()}.setUseAjax(true);" : '') . "
-                ". ($this->getUseSelectAll() ? "{$this->getJsObjectName()}.setUseSelectAll(true);" : '') .
-                "{$this->getJsObjectName()}.errorText = '{$this->getErrorText()}';";
+        return " var {$this->getJsObjectName()} = new varienGridMassaction('{$this->getHtmlId()}', "
+                . "{$this->getGridJsObjectName()}, '{$this->getSelectedJson()}'"
+                . ", '{$this->getFormFieldNameInternal()}', '{$this->getFormFieldName()}');"
+                . "{$this->getJsObjectName()}.setItems({$this->getItemsJson()}); "
+                . "{$this->getJsObjectName()}.setGridIds('{$this->getGridIdsJson()}');"
+                . ($this->getUseAjax() ? "{$this->getJsObjectName()}.setUseAjax(true);" : '')
+                . ($this->getUseSelectAll() ? "{$this->getJsObjectName()}.setUseSelectAll(true);" : '')
+                . "{$this->getJsObjectName()}.errorText = '{$this->getErrorText()}';";
     }
 
     public function getGridIdsJson()
@@ -224,10 +228,8 @@ abstract class Mage_Adminhtml_Block_Widget_Grid_Massaction_Abstract extends Mage
 
         if(!empty($gridIds)) {
             return join(",", $gridIds);
-            //return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($gridIds);
         }
         return '';
-        //return '[]';
     }
 
     public function getHtmlId()
@@ -272,4 +274,3 @@ abstract class Mage_Adminhtml_Block_Widget_Grid_Massaction_Abstract extends Mage
         return $this;
     }
 }
- // Class Mage_Adminhtml_Block_Widget_Grid_Massaction_Abstract End

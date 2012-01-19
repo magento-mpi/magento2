@@ -12,10 +12,18 @@
  * Product attribute value condition
  */
 class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Attributes
-    extends Mage_CatalogRule_Model_Rule_Condition_Product
+    extends Mage_Rule_Model_Condition_Product_Abstract
 {
+    /**
+     * Used for rule property field
+     *
+     * @var string
+     */
     protected $_isUsedForRuleProperty = 'is_used_for_promo_rules';
 
+    /**
+     * Init model
+     */
     public function __construct()
     {
         parent::__construct();

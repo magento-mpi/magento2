@@ -638,17 +638,16 @@ if (!("console" in window) || !("firebug" in console))
  *
  * @example fireEvent($('my-input', 'click'));
  */
-function fireEvent(element, event){
-    if (document.createEventObject){
-        // dispatch for IE
-        var evt = document.createEventObject();
-        return element.fireEvent('on'+event,evt)
-    }
-    else{
-        // dispatch for firefox + others
+function fireEvent(element, event) {
+    if (document.createEvent) {
+        // dispatch for all browsers except IE before version 9
         var evt = document.createEvent("HTMLEvents");
-        evt.initEvent(event, true, true ); // event type,bubbling,cancelable
-        return !element.dispatchEvent(evt);
+        evt.initEvent(event, true, true ); // event type, bubbling, cancelable
+        return element.dispatchEvent(evt);
+    } else {
+        // dispatch for IE before version 9
+        var evt = document.createEventObject();
+        return element.fireEvent('on' + event, evt)
     }
 }
 
