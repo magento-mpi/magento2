@@ -48,31 +48,28 @@ abstract class Mage_Api2_Model_Request_Interpreter
         $adapters = $helper->getRequestInterpreterAdapters();
 
         if (empty($adapters) || !is_array($adapters)) {
-            throw new Exception('Adapters is not set.');
+            throw new Exception('Request interpreter adapters is not set.');
         }
 
         $adapterModel = null;
         foreach ($adapters as $item) {
             $itemType = $item->type;
-            $model = $item->model;
-            if ($itemType == $type || $itemType == '*/*'
-                || $itemType == current(explode('/', $type)) . '/*'
-            ) {
-                $adapterModel = $model;
+            if ($itemType == $type) {
+                $adapterModel = $item->model;
                 break;
             }
         }
 
         if ($adapterModel === null) {
             throw new Mage_Api2_Exception(
-                sprintf('Invalid Request media type "%s"', $type),
+                sprintf('Server can not understand Content-Type HTTP header media type "%s"', $type),
                 Mage_Api2_Model_Server::HTTP_BAD_REQUEST
             );
         }
 
         $adapter = Mage::getModel($adapterModel);
         if (!$adapter) {
-            throw new Exception(sprintf('Request interpreter "%s" not found.', $type));
+            throw new Exception(sprintf('Request interpreter adapter "%s" not found.', $type));
         }
 
         return $adapter;
