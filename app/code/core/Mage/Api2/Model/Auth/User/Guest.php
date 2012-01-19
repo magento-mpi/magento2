@@ -43,4 +43,14 @@ class Mage_Api2_Model_Auth_User_Guest extends Mage_Api2_Model_Auth_User_Abstract
     {
         return 'guest';
     }
+
+    /**
+     * Retrieve user role
+     *
+     * @return string
+     */
+    public function getRole()
+    {
+        return 'guest';
+    }
 }
