@@ -1774,6 +1774,14 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     #******************************************************
 
     /**
+     * Removes all added messages
+     */
+    public function clearMessages()
+    {
+        Mage_Selenium_TestCase::$_messages = array();
+    }
+
+    /**
      * Adds field ID to Message Xpath (sets %fieldId% parameter)
      *
      * @param srting $fieldType Field type

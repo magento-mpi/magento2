@@ -37,6 +37,87 @@ class Mage_Selenium_TestCaseTest extends Mage_PHPUnit_TestCase
     }
 
     /**
+     * @covers Mage_Selenium_TestCase::clearMessages
+     * @covers Mage_Selenium_TestCase::getParsedMessages
+     */
+    public function testClearMessages()
+    {
+        $instance = new Mage_Selenium_TestCase();
+
+        $instance->clearMessages();
+        $this->assertEmpty($instance->getParsedMessages());
+
+        $instance->addMessage('error', 'testClearMessages error');
+        $this->assertNotEmpty($instance->getParsedMessages());
+        $instance->clearMessages();
+        $this->assertEmpty($instance->getParsedMessages());
+
+        $instance->addMessage('success', 'testClearMessages success');
+        $this->assertNotEmpty($instance->getParsedMessages());
+        $instance->clearMessages();
+        $this->assertEmpty($instance->getParsedMessages());
+
+        $instance->addMessage('validation', 'testClearMessages validation');
+        $this->assertNotEmpty($instance->getParsedMessages());
+        $instance->clearMessages();
+        $this->assertEmpty($instance->getParsedMessages());
+    }
+
+    /**
+     * @covers Mage_Selenium_TestCase::getParsedMessages
+     * @covers Mage_Selenium_TestCase::addMessage
+     * @covers Mage_Selenium_TestCase::clearMessages
+     */
+    public function testGetParsedMessages()
+    {
+        $instance = new Mage_Selenium_TestCase();
+
+        $instance->clearMessages();
+        $this->assertNotNull($instance->getParsedMessages());
+        $this->assertEmpty($instance->getParsedMessages());
+
+        $errorMessage = 'testGetParsedMessages error message';
+        $successMessage = 'testGetParsedMessages success message';
+        $validationMessage = 'testGetParsedMessages validation message';
+        $verificationMessage = 'testGetParsedMessages verification message';
+
+        $instance->addMessage('error', $errorMessage);
+        $foo = $instance->getParsedMessages();
+        $this->assertEquals($instance->getParsedMessages(), array('error' => array($errorMessage)));
+        $this->assertEquals($instance->getParsedMessages('error'), array($errorMessage));
+
+        $instance->addMessage('success', $successMessage);
+        $this->assertEquals($instance->getParsedMessages(),
+                array('error' => array($errorMessage),
+                      'success' => array($successMessage)));
+        $this->assertEquals($instance->getParsedMessages('success'), array($successMessage));
+
+        $instance->addMessage('validation', $validationMessage);
+        $this->assertEquals($instance->getParsedMessages(),
+                array('error' => array($errorMessage),
+                      'success' => array($successMessage),
+                      'validation' => array($validationMessage)));
+        $this->assertEquals($instance->getParsedMessages('validation'), array($validationMessage));
+
+        $instance->addMessage('verification', $verificationMessage);
+        $this->assertEquals($instance->getParsedMessages(),
+                array('error' => array($errorMessage),
+                      'success' => array($successMessage),
+                      'validation' => array($validationMessage),
+                      'verification' => array($verificationMessage)));
+        $this->assertEquals($instance->getParsedMessages('verification'), array($verificationMessage));
+    }
+
+    /**
+     * @covers Mage_Selenium_TestCase::getParsedMessages
+     */
+    public function testGetParsedMessagesNull()
+    {
+        $instance = new Mage_Selenium_TestCase();
+        $this->assertNull($instance->getParsedMessages('foo'));
+    }
+
+    /**
      * @covers Mage_Selenium_TestCase::assertEmptyVerificationErrors
      *
      * @TODO need to clear messages
@@ -44,6 +125,8 @@ class Mage_Selenium_TestCaseTest extends Mage_PHPUnit_TestCase
     public function testAssertEmptyVerificationErrorsTrue()
     {
         $instance = new Mage_Selenium_TestCase();
+
+        $instance->clearMessages();
         $instance->assertEmptyVerificationErrors();
 
         $instance->addMessage('error', 'testAssertEmptyVerificationErrors error');
@@ -78,10 +161,15 @@ class Mage_Selenium_TestCaseTest extends Mage_PHPUnit_TestCase
     public function testAddGetVerificationMessage()
     {
         $instance = new Mage_Selenium_TestCase();
+
+        $instance->clearMessages();
+        $instance->assertEmptyVerificationErrors();
         $this->assertEmpty($instance->getParsedMessages('verification'));
+
         $message1 = 'Verification message';
         $instance->addVerificationMessage($message1);
         $this->assertEquals($instance->getParsedMessages('verification'), array($message1));
+
         $message2 = 'Second verification message';
         $instance->addVerificationMessage($message2);
         $this->assertEquals($instance->getParsedMessages('verification'), array($message1, $message2));
