@@ -653,7 +653,7 @@ final class Mage
      */
     public static function setConfigModel($options = array())
     {
-        if (isset($options['config_model']) && class_exists($options['config_model'])) {
+        if (isset($options['config_model']) && Magento_Autoload::getInstance()->classExists($options['config_model'])) {
             $alternativeConfigModelName = $options['config_model'];
             unset($options['config_model']);
             $alternativeConfigModel = new $alternativeConfigModelName($options);

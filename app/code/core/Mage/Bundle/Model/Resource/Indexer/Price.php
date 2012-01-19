@@ -647,7 +647,7 @@ class Mage_Bundle_Model_Resource_Indexer_Price extends Mage_Catalog_Model_Resour
 
         $select  = $adapter->select()
             ->from(
-                array('gp' => $this->getValueTable('catalog/product', 'group_price')),
+                array('gp' => $this->getTable('catalog_product_entity_group_price')),
                 array('entity_id')
             )
             ->join(

@@ -386,8 +386,8 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
             }
         }
 
-        $this->getProduct($product)->setTypeHasOptions($linksExist);
-        $this->getProduct($product)->setLinksExist($linksExist);
+        $product->setTypeHasOptions($linksExist);
+        $product->setLinksExist($linksExist);
     }
 
     /**

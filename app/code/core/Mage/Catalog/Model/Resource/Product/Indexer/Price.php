@@ -453,7 +453,7 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Price extends Mage_Index_Model
         $websiteExpression = $write->getCheckSql('gp.website_id = 0', 'ROUND(gp.value * cwd.rate, 4)', 'gp.value');
         $select = $write->select()
             ->from(
-                array('gp' => $this->getValueTable('catalog/product', 'group_price')),
+                array('gp' => $this->getTable('catalog_product_entity_group_price')),
                 array('entity_id'))
             ->join(
                 array('cg' => $this->getTable('customer_group')),
