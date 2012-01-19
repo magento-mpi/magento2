@@ -37,7 +37,7 @@
         <reference name="head">
             <action method="addJs"><script>mage/adminhtml/wysiwyg/widget.js</script></action>
             <action method="addItem"><type>js_css</type><name>prototype/windows/themes/default.css</name></action>
-            <action method="addCss"><name>js/prototype/windows/themes/magento.css</name></action>
+            <action method="addCss"><name>lib/prototype/windows/themes/magento.css</name></action>
          </reference>
     </adminhtml_reminder_edit>
     <adminhtml_promo_quote_edit>

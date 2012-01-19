@@ -266,7 +266,7 @@ class Mage_Core_Model_Translate_Inline
 <!-- script type="text/javascript" src="<?php echo $baseJsUrl ?>prototype/effects.js"></script -->
 <script type="text/javascript" src="<?php echo $baseJsUrl ?>prototype/window.js"></script>
 <link rel="stylesheet" type="text/css" href="<?php echo $baseJsUrl ?>prototype/windows/themes/default.css"/>
-<link rel="stylesheet" type="text/css" href="<?php echo $magentoPrototypeCss; ?>"/>
+<link rel="stylesheet" type="text/css" href="<?php echo Mage::getDesign()->getSkinUrl('lib/prototype/windows/themes/magento.css'); ?>"/>
 
 <script type="text/javascript" src="<?php echo $baseJsUrl ?>mage/translate_inline.js"></script>
 <link rel="stylesheet" type="text/css" href="<?php echo $baseJsUrl ?>mage/translate_inline.css"/>
