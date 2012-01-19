@@ -33,4 +33,14 @@
  */
 class Mage_Api2_Model_Auth_User_Customer extends Mage_Api2_Model_Auth_User_Abstract
 {
+    /**
+     * Retrieve user type
+     *
+     * @abstract
+     * @return string
+     */
+    public function getType()
+    {
+        return 'customer';
+    }
 }

@@ -42,7 +42,7 @@ class Mage_Api2_Helper_Data extends Mage_Core_Helper_Abstract
      * Config paths
      */
     const XML_PATH_AUTH_ADAPTERS = 'global/api2/auth_adapters';
-    const XML_PATH_USER_ROLES    = 'global/api2/user_roles';
+    const XML_PATH_USER_TYPES    = 'global/api2/user_types';
     /**#@- */
 
     /**
@@ -89,19 +89,19 @@ class Mage_Api2_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * Retrieve enabled user roles in form of user role => user model pairs
+     * Retrieve enabled user types in form of user type => user model pairs
      *
      * @return array
      */
-    public function getUserRoles()
+    public function getUserTypes()
     {
         $userModels = array();
-        $roles = Mage::getConfig()->getNode(self::XML_PATH_USER_ROLES);
+        $types = Mage::getConfig()->getNode(self::XML_PATH_USER_TYPES);
 
-        if ($roles) {
-            foreach ($roles->asArray() as $role => $params) {
-                if (!empty($role['allowed'])) {
-                    $userModels[$role] = $params['model'];
+        if ($types) {
+            foreach ($types->asArray() as $type => $params) {
+                if (!empty($type['allowed'])) {
+                    $userModels[$type] = $params['model'];
                 }
             }
         }

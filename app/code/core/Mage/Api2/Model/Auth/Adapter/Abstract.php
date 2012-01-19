@@ -34,10 +34,10 @@
 abstract class Mage_Api2_Model_Auth_Adapter_Abstract
 {
     /**
-     * Process request and figure out an API user role
+     * Process request and figure out an API user type
      *
      * @param Mage_Api2_Model_Request $request
-     * @return string|boolean Return boolean FALSE if can not determine user role
+     * @return string|boolean Return boolean FALSE if can not determine user type
      */
-    abstract public function getUserRole(Mage_Api2_Model_Request $request);
+    abstract public function getUserType(Mage_Api2_Model_Request $request);
 }

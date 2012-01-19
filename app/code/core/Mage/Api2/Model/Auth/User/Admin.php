@@ -33,4 +33,52 @@
  */
 class Mage_Api2_Model_Auth_User_Admin extends Mage_Api2_Model_Auth_User_Abstract
 {
+    /**
+     * User Role
+     *
+     * @var string
+     */
+    protected $_role;
+
+    /**
+     * Retrieve user role
+     *
+     * @return string
+     * @throws Exception
+     */
+    public function getRole()
+    {
+        if (!$this->_role) {
+            throw new Exception('Admin role is unknown');
+        }
+        return $this->_role;
+    }
+
+    /**
+     * Retrieve user type
+     *
+     * @abstract
+     * @return string
+     */
+    public function getType()
+    {
+        return 'admin';
+    }
+
+    /**
+     * Set user role
+     *
+     * @param string $role
+     * @return Mage_Api2_Model_Auth_User_Abstract
+     * @throws Exception
+     */
+    public function setRole($role)
+    {
+        if ($this->_role) {
+            throw new Exception('Admin role has been already set');
+        }
+        $this->_role = $role;
+
+        return $this;
+    }
 }

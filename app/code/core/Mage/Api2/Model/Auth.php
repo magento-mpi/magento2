@@ -34,7 +34,7 @@
 class Mage_Api2_Model_Auth
 {
     /**
-     * Figure out API user role and create user model instance
+     * Figure out API user type and create user model instance
      *
      * @param Mage_Api2_Model_Request $request
      * @throws Exception
@@ -44,26 +44,30 @@ class Mage_Api2_Model_Auth
     {
         /** @var $helper Mage_Api2_Helper_Data */
         $helper    = Mage::helper('api2/data');
-        $userRoles = $helper->getUserRoles();
+        $userTypes = $helper->getUserTypes();
 
-        if (!$userRoles) {
-            throw new Exception('No allowed user roles found');
+        if (!$userTypes) {
+            throw new Exception('No allowed user types found');
         }
         /** @var $authAdapter Mage_Api2_Model_Auth_Adapter */
         $authAdapter = Mage::getModel('api2/auth_adapter');
-        $userRole    = $authAdapter->getUserRole($request);
+        $userType    = $authAdapter->getUserType($request);
 
-        if (!isset($userRoles[$userRole])) {
-            throw new Exception('Invalid user role or role is not allowed');
+        if (!isset($userTypes[$userType])) {
+            throw new Mage_Api2_Exception(
+                'Invalid user type or type is not allowed', Mage_Api2_Model_Server::HTTP_UNAUTHORIZED
+            );
         }
         /** @var $userModel Mage_Api2_Model_Auth_User_Abstract */
-        $userModel = Mage::getModel($userRoles[$userRole]);
+        $userModel = Mage::getModel($userTypes[$userType]);
 
         if (!$userModel instanceof Mage_Api2_Model_Auth_User_Abstract) {
             throw new Exception('User model must to extend Mage_Api2_Model_Auth_User_Abstract');
         }
-        $userModel->setRole($userRole);
-
+        // check user type consistency
+        if ($userModel->getType() != $userType) {
+            throw new Exception('User model type does not match appropriate type in config');
+        }
         return $userModel;
     }
 }

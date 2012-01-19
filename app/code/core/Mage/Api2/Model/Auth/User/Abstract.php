@@ -34,40 +34,20 @@
 abstract class Mage_Api2_Model_Auth_User_Abstract
 {
     /**
-     * User Role
-     *
-     * @var string
-     */
-    protected $_role;
-
-    /**
      * Retrieve user role
      *
      * @return string
-     * @throws Exception
      */
     public function getRole()
     {
-        if (!$this->_role) {
-            throw new Exception('User role is not set');
-        }
-        return $this->_role;
+        return null;
     }
 
     /**
-     * Set user role
+     * Retrieve user type
      *
-     * @param string $role
-     * @return Mage_Api2_Model_Auth_User_Abstract
-     * @throws Exception
+     * @abstract
+     * @return string
      */
-    public function setRole($role)
-    {
-        if ($this->_role) {
-            throw new Exception('User role has been already set');
-        }
-        $this->_role = $role;
-
-        return $this;
-    }
+    abstract function getType();
 }

@@ -66,7 +66,7 @@
                     <order>10</order>
                 </oauth>
             </auth_adapters>
-            <user_roles>
+            <user_types>
                 <admin>
                     <model>api2/auth_user_admin</model>
                     <allowed>1</allowed>
@@ -79,7 +79,7 @@
                     <model>api2/auth_user_guest</model>
                     <allowed>1</allowed>
                 </guest>
-            </user_roles>
+            </user_types>
             <request>
                 <interpreters>
                     <text_plain>
