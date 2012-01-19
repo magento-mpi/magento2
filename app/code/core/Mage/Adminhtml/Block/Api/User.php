@@ -42,4 +42,14 @@ class Mage_Adminhtml_Block_Api_User extends Mage_Adminhtml_Block_Widget_Grid_Con
         parent::__construct();
     }
 
+    /**
+     * Prepare output HTML
+     *
+     * @return string
+     */
+    protected function _toHtml()
+    {
+        Mage::dispatchEvent('api_user_html_before', array('block' => $this));
+        return parent::_toHtml();
+    }
 }
