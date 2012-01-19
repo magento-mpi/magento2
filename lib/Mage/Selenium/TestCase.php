@@ -2891,7 +2891,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                 }
 
                 if (isset($passed[$dependency])) {
-                    if (isset($passed[$dependency]['size'])) {
+                    if (is_array($passed[$dependency]) && array_key_exists('size', $passed[$dependency])) {
                         if ($passed[$dependency]['size'] > $this->getSize()) {
                             $this->result->addError(
                                 $this,
