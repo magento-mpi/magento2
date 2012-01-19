@@ -41,9 +41,9 @@ class Enterprise_GiftRegistry_Model_Type extends Mage_Core_Model_Abstract
     protected function _beforeSave()
     {
         if (!$this->hasStoreId() && !$this->getStoreId()) {
+            $this->_cleanupData();
             $xmlModel = Mage::getModel('Enterprise_GiftRegistry_Model_Attribute_Processor');
             $this->setMetaXml($xmlModel->processData($this));
-            $this->_cleanupData();
         }
 
         parent::_beforeSave();
@@ -172,14 +172,16 @@ class Enterprise_GiftRegistry_Model_Type extends Mage_Core_Model_Abstract
                             $optionsToSave = array();
                             foreach ($attribute['options'] as $option) {
                                 if ($option['is_deleted']) {
-                                  $this->_getResource()->deleteAttributeStoreData($this->getId(), $attribute['code'], $option['code']);
+                                  $this->_getResource()->deleteAttributeStoreData(
+                                      $this->getId(), $attribute['code'], $option['code']
+                                  );
                                 } else {
                                     $optionsToSave[] = $option;
                                 }
                             }
                             $attribute['options'] = $optionsToSave;
                         }
-                        $attributesToSave[$group] = $attribute;
+                        $attributesToSave[$group][] = $attribute;
                     }
                 }
                 $this->setAttributes($attributesToSave);

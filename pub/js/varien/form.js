@@ -183,7 +183,8 @@ RegionUpdater.prototype = {
 
                 option = document.createElement('OPTION');
                 option.value = regionId;
-                option.text = region.name;
+                option.text = region.name.stripTags();
+                option.title = region.name;
 
                 if (this.regionSelectEl.options.add) {
                     this.regionSelectEl.options.add(option);

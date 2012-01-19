@@ -1,0 +1,26 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+/**
+ * Order by SKU Failed item info
+ *
+ * @see Enterprise_Checkout_Block_Sku_Products_Info
+ * @var $this Enterprise_Checkout_Block_Sku_Products_Info
+ */
+$_item = $this->getItem();
+?>
+<h3 class="product-name product-sku"><?php echo $this->escapeHtml($_item->getSku()); ?></h3>
+<p class="item-msg error">* <?php echo $this->getMessage(); ?></p>
+<p class="item-configure"><?php echo $this->getLink(); ?></p>
+<?php if (!$this->isItemSkuFailed()): ?>
+    <input type="hidden" name="failed[<?php echo $_item->getProductId(); ?>][sku]" value="<?php echo $this->escapeHtml($_item->getSku()); ?>" />
+    <input type="hidden" name="failed[<?php echo $_item->getProductId(); ?>][code]" value="<?php echo $_item->getCode(); ?>" />
+    <input id="sku_failed_qty_<?php echo $_item->getProductId(); ?>" type="hidden" name="failed[<?php echo $_item->getProductId(); ?>][qty]" value="<?php echo $_item->getQty(); ?>" />
+<?php endif; ?>

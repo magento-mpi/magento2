@@ -35,6 +35,18 @@ class Mage_GoogleShopping_Model_Resource_Type_Collection extends Mage_Core_Model
         return $this;
     }
 
+   /**
+    * Get SQL for get record count
+    *
+    * @return Varien_Db_Select
+    */
+   public function getSelectCountSql()
+   {
+       $this->_renderFilters();
+       $paginatorAdapter = new Zend_Paginator_Adapter_DbSelect($this->getSelect());
+       return $paginatorAdapter->getCountSelect();
+   }
+
     /**
      * Add total count of Items for each type
      *

@@ -256,6 +256,8 @@ class Mage_Usa_Model_Shipping_Carrier_Ups
 
         $r->setIsReturn($request->getIsReturn());
 
+        $r->setBaseSubtotalInclTax($request->getBaseSubtotalInclTax());
+
         $this->_rawRequest = $r;
 
         return $this;
@@ -991,10 +993,7 @@ XMLRequest;
                             if (in_array($responseCurrencyCode, $allowedCurrencies)) {
                                 $cost = (float) $cost * $this->_getBaseCurrencyRate($responseCurrencyCode);
                             } else {
-                                $errorTitle = Mage::helper('Mage_Directory_Helper_Data')
-                                    ->__('Can\'t convert rate from "%s-%s".',
-                                        $responseCurrencyCode,
-                                        $this->_request->getPackageCurrency()->getCode());
+                                $errorTitle = Mage::helper('Mage_Directory_Helper_Data')->__('Can\'t convert rate from "%s-%s".', $responseCurrencyCode, $this->_request->getPackageCurrency()->getCode());
                                 $error = Mage::getModel('Mage_Shipping_Model_Rate_Result_Error');
                                 $error->setCarrier('ups');
                                 $error->setCarrierTitle($this->getConfigData('title'));

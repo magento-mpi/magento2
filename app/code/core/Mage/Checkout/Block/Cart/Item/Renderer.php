@@ -14,6 +14,9 @@
  * @category    Mage
  * @package     Mage_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
+ *
+ * @method Mage_Checkout_Block_Cart_Item_Renderer setProductName(string)
+ * @method Mage_Checkout_Block_Cart_Item_Renderer setDeleteUrl(string)
  */
 class Mage_Checkout_Block_Cart_Item_Renderer extends Mage_Core_Block_Template
 {
@@ -184,6 +187,9 @@ class Mage_Checkout_Block_Cart_Item_Renderer extends Mage_Core_Block_Template
      */
     public function getProductName()
     {
+        if ($this->hasProductName()) {
+            return $this->getData('product_name');
+        }
         return $this->getProduct()->getName();
     }
 
@@ -229,7 +235,10 @@ class Mage_Checkout_Block_Cart_Item_Renderer extends Mage_Core_Block_Template
      */
     public function getDeleteUrl()
     {
-        $encodedUrl = $this->helper('Mage_Core_Helper_Url')->getEncodedUrl();
+        if ($this->hasDeleteUrl()) {
+            return $this->getData('delete_url');
+        }
+
         return $this->getUrl(
             'checkout/cart/delete',
             array(

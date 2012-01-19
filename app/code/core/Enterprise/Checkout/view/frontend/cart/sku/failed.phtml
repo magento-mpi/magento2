@@ -1,0 +1,118 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+/**
+ * Order by SKU Failed Items grid
+ *
+ * @see Enterprise_Checkout_Block_Sku_Products
+ */
+?>
+<div class="failed-products">
+    <div class="page-title title-buttons">
+        <h1><?php echo $this->__('Products Requiring Attention') ?></h1>
+    </div>
+    <form action="<?php echo $this->getFormActionUrl() ?>" method="post">
+        <fieldset>
+            <table id="failed-products-table" class="data-table cart-table">
+                <col width="1" />
+                <col />
+                <col width="1" />
+            <?php if ($this->helper('Mage_Wishlist_Helper_Data')->isAllowInCart()) : ?>
+                <col width="1" />
+            <?php endif ?>
+            <?php if ($this->helper('Mage_Tax_Helper_Data')->displayCartPriceExclTax() || $this->helper('Mage_Tax_Helper_Data')->displayCartBothPrices()): ?>
+                <col width="1" />
+            <?php endif; ?>
+            <?php if ($this->helper('Mage_Tax_Helper_Data')->displayCartPriceInclTax() || $this->helper('Mage_Tax_Helper_Data')->displayCartBothPrices()): ?>
+                <col width="1" />
+            <?php endif; ?>
+                <col width="1" />
+            <?php if ($this->helper('Mage_Tax_Helper_Data')->displayCartPriceExclTax() || $this->helper('Mage_Tax_Helper_Data')->displayCartBothPrices()): ?>
+                <col width="1" />
+            <?php endif; ?>
+            <?php if ($this->helper('Mage_Tax_Helper_Data')->displayCartPriceInclTax() || $this->helper('Mage_Tax_Helper_Data')->displayCartBothPrices()): ?>
+                <col width="1" />
+            <?php endif; ?>
+                <col width="1" />
+
+            <?php $mergedCells = ($this->helper('Mage_Tax_Helper_Data')->displayCartBothPrices() ? 2 : 1); ?>
+                <thead>
+                    <tr>
+                        <th rowspan="<?php echo $mergedCells; ?>">&nbsp;</th>
+                        <th rowspan="<?php echo $mergedCells; ?>"><span class="nobr"><?php echo $this->__('Product Name') ?></span></th>
+                        <th rowspan="<?php echo $mergedCells; ?>"></th>
+                        <?php if ($this->helper('Mage_Wishlist_Helper_Data')->isAllowInCart()) : ?>
+                        <th rowspan="<?php echo $mergedCells; ?>" class="a-center"><span class="nobr"></span></th>
+                        <?php endif ?>
+                        <th class="a-center" colspan="<?php echo $mergedCells; ?>"><span class="nobr"><?php echo $this->__('Unit Price') ?></span></th>
+                        <th rowspan="<?php echo $mergedCells; ?>" class="a-center"><?php echo $this->__('Qty') ?></th>
+                        <th class="a-center" colspan="<?php echo $mergedCells; ?>"><?php echo $this->__('Subtotal') ?></th>
+                        <th rowspan="<?php echo $mergedCells; ?>" class="a-center"><?php echo $this->__('Remove') ?></th>
+                    </tr>
+                    <?php if ($this->helper('Mage_Tax_Helper_Data')->displayCartBothPrices()): ?>
+                    <tr>
+                        <th class="a-right"><?php echo $this->helper('Mage_Tax_Helper_Data')->getIncExcTaxLabel(false) ?></th>
+                        <th><?php echo $this->helper('Mage_Tax_Helper_Data')->getIncExcTaxLabel(true) ?></th>
+                        <th class="a-right"><?php echo $this->helper('Mage_Tax_Helper_Data')->getIncExcTaxLabel(false) ?></th>
+                        <th><?php echo $this->helper('Mage_Tax_Helper_Data')->getIncExcTaxLabel(true) ?></th>
+                    </tr>
+                    <?php endif; ?>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <td colspan="50" class="a-right">
+                            <button type="submit" title="<?php echo $this->__('Add to Cart') ?>" class="button btn-update"><span><span><?php echo $this->__('Add to Cart') ?></span></span></button>
+                            <button id="remove_all_failed_items" type="button" title="<?php echo $this->__('Remove All') ?>" class="button"><span><span><?php echo $this->__('Remove All') ?></span></span></button>
+                        </td>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    <?php foreach($this->getItems() as $_item): ?>
+                        <?php echo $this->getItemHtml($_item) ?>
+                    <?php endforeach ?>
+                </tbody>
+            </table>
+            <script type="text/javascript">decorateTable('failed-products-table')</script>
+        </fieldset>
+    </form>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+if($('remove_all_failed_items')) {
+    $('remove_all_failed_items').observe('click', function() {
+        setLocation('<?php echo $this->getDeleteAllItemsUrl(); ?>')
+    });
+}
+
+$$('.sku-failed-qty').each(function(e) {
+    var qtyElement = $(e.ancestors()[2]).select('td input.qty')[0];
+    if (qtyElement) {
+        qtyElement.addClassName('validation-failed');
+    }
+});
+
+$$('.sku-out-of-stock').each(function(e) {
+    var qtyElement = $(e.ancestors()[2]).select('td input.qty')[0];
+    if (qtyElement) {
+        qtyElement.addClassName('disabled');
+        qtyElement.disable();
+    }
+});
+
+$$('input[id^="sku_failed_qty_"]').each(function(e) {
+    var qtyElement = $(e.ancestors()[1]).select('td input.qty')[0];
+    if (qtyElement) {
+        qtyElement.observe('change', function() {
+            $(e).value = $(qtyElement).value;
+        })
+    }
+});
+//]]>
+</script>

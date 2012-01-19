@@ -57,8 +57,6 @@ class Mage_Adminhtml_Block_Widget_Form_Element_Dependence extends Mage_Adminhtml
     /**
      * Register field name dependence one from each other by specified values
      *
-     * @TODO: multiple values per dependency is not implemented. The values OR comparison is anticipated
-     *
      * @param string $fieldName
      * @param string $fieldNameFrom
      * @param string|array $refValues
@@ -66,9 +64,6 @@ class Mage_Adminhtml_Block_Widget_Form_Element_Dependence extends Mage_Adminhtml
      */
     public function addFieldDependence($fieldName, $fieldNameFrom, $refValues)
     {
-        if (is_array($refValues)) {
-            Mage::throwException('Dependency from multiple values is not implemented yet. Please fix to your widget.xml');
-        }
         $this->_depends[$fieldName][$fieldNameFrom] = $refValues;
         return $this;
     }

@@ -20,6 +20,13 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Price extends Mage_Catalog_Mo
     const CACHE_TAG = 'MAXPRICE';
 
     /**
+     * Whether current price interval is divisible
+     *
+     * @var bool
+     */
+    protected $_divisible = true;
+
+    /**
      * Return cache tag for layered price filter
      *
      * @return string
@@ -50,13 +57,16 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Price extends Mage_Catalog_Mo
      */
     protected function _getItemsData()
     {
-        $appliedInterval = $this->getInterval();
-        if ($appliedInterval) {
+        if (!$this->_divisible) {
             return array();
         }
 
         $isAuto = (Mage::app()->getStore()
                       ->getConfig(self::XML_PATH_RANGE_CALCULATION) == self::RANGE_CALCULATION_AUTO);
+        if (!$isAuto && $this->getInterval()) {
+            return array();
+        }
+
         $facets = $this->getLayer()->getProductCollection()->getFacetedData($this->_getFilterField());
         $data = array();
         if (!empty($facets)) {
@@ -68,11 +78,12 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Price extends Mage_Catalog_Mo
 
             if (!$isAuto && !empty($facets)) {
                 $range  = $this->getPriceRange();
-                $lastIndex = array_keys($facets);
-                $lastIndex = $lastIndex[count($lastIndex) - 1];
             }
 
+            $i = 0;
+            $maxIntervalsNumber = $this->getMaxIntervalsNumber();
             foreach ($facets as $key => $count) {
+                ++$i;
                 preg_match('/\[([\d\.\\\*]+) TO ([\d\.\\\*]+)\]$/', $key, $separator);
 
                 if ($isAuto) {
@@ -89,13 +100,35 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Price extends Mage_Catalog_Mo
 
                     $rangeKey = round($rangeKey, 2);
                     $separator[1] = ($rangeKey == 1) ? '' : (($rangeKey - 1) * $range);
-                    $separator[2] = ($key == $lastIndex) ? '' : ($rangeKey * $range);
+                    $separator[2] = ($key == null) ? '' : ($rangeKey * $range);
+                    // checking max number of intervals
+                    if ($i > 1 && $i > $maxIntervalsNumber) {
+                        --$i;
+                        $count += $data[$i - 1]['count'];
+                        $separator[1] = $data[$i - 1]['from'];
+                    }
                 }
 
-                $data[] = array(
+                $data[$i - 1] = array(
                     'label' => $this->_renderRangeLabel(empty($separator[1]) ? 0 : $separator[1], $separator[2]),
-                    'value' => $separator[1] . '-' . $separator[2],
-                    'count' => $count
+                    'value' => $separator[1] . '-' . $separator[2] . $this->_getAdditionalRequestData(),
+                    'count' => $count,
+                    'from'  => $separator[1],
+                    'to'    => $separator[2],
+                );
+            }
+
+            if (isset($data[$i - 1]) && $data[$i - 1]['from'] != $data[$i - 1]['to']) {
+                $upperIntervalLimit = '';
+                $appliedInterval = $this->getInterval();
+                if ($appliedInterval) {
+                    $upperIntervalLimit = $appliedInterval[1];
+                }
+                $data[$i - 1]['value'] = $data[$i - 1]['from'] . '-' . $upperIntervalLimit
+                    . $this->_getAdditionalRequestData();
+                $data[$i - 1]['label'] = $this->_renderRangeLabel(
+                    empty($separator[1]) ? 0 : $separator[1],
+                    $upperIntervalLimit
                 );
             }
         }
@@ -148,7 +181,18 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Price extends Mage_Catalog_Mo
             $prices = $this->getLayer()->getProductCollection()->getFieldData($this->_getFilterField());
             /** @var $algorithmModel Mage_Catalog_Model_Layer_Filter_Price_Algorithm */
             $algorithmModel = Mage::getSingleton('Mage_Catalog_Model_Layer_Filter_Price_Algorithm');
-            $algorithmModel->setPrices($prices);
+            $appliedInterval = $this->getInterval();
+            if ($appliedInterval
+                && (count($prices) <= $this->getIntervalDivisionLimit() || $appliedInterval[0] == $appliedInterval[1])
+            ) {
+                $algorithmModel->setPrices(array());
+                $this->_divisible = false;
+            } else {
+                if ($appliedInterval) {
+                    $algorithmModel->setLimits($appliedInterval[0], $appliedInterval[1]);
+                }
+                $algorithmModel->setPrices($prices);
+            }
 
             $cachedData = array();
             foreach ($algorithmModel->calculateSeparators() as $separator) {
@@ -159,6 +203,10 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Price extends Mage_Catalog_Mo
             $tags = $this->getLayer()->getStateTags();
             $tags[] = self::CACHE_TAG;
             Mage::app()->saveCache($cachedData, $cacheKey, $tags);
+        }
+
+        if (!$cachedData) {
+            return array();
         }
 
         $cachedData = explode(',', $cachedData);

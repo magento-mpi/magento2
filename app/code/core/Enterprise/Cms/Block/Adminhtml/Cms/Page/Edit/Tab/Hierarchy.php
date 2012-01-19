@@ -62,7 +62,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Hierarchy
                 ->joinCmsPage()
                 ->setOrderByLevel()
                 ->joinPageExistsNodeInfo($this->getPage());
- 
+
             if (is_array($data)) {
                 foreach ($data as $v) {
                     if (isset($v['page_exists'])) {
@@ -89,6 +89,9 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Hierarchy
             } else {
 
                 foreach ($collection as $item) {
+                    if ($item->getLevel() == Enterprise_Cms_Model_Hierarchy_Node::NODE_LEVEL_FAKE) {
+                        continue;
+                    }
                     /* @var $item Enterprise_Cms_Model_Hierarchy_Node */
                     $node = array(
                         'node_id'               => $item->getId(),

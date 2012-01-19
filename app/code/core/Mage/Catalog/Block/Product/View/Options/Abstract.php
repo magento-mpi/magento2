@@ -107,19 +107,23 @@ abstract class Mage_Catalog_Block_Product_View_Options_Abstract extends Mage_Cor
             $sign = '-';
             $value['pricing_value'] = 0 - $value['pricing_value'];
         }
-
-        $priceStr = $sign;
-        $_priceInclTax = $this->getPrice($value['pricing_value'], true);
-        $_priceExclTax = $this->getPrice($value['pricing_value']);
-        if ($taxHelper->displayPriceIncludingTax()) {
-            $priceStr .= $this->helper('Mage_Core_Helper_Data')->currencyByStore($_priceInclTax, $store, true, $flag);
-        } elseif ($taxHelper->displayPriceExcludingTax()) {
-            $priceStr .= $this->helper('Mage_Core_Helper_Data')->currencyByStore($_priceExclTax, $store, true, $flag);
-        } elseif ($taxHelper->displayBothPrices()) {
-            $priceStr .= $this->helper('Mage_Core_Helper_Data')->currencyByStore($_priceExclTax, $store, true, $flag);
-            if ($_priceInclTax != $_priceExclTax) {
-                $priceStr .= ' ('.$sign.$this->helper('Mage_Core_Helper_Data')
-                    ->currencyByStore($_priceInclTax, $store, true, $flag).' '.$this->__('Incl. Tax').')';
+        if (!empty($value['is_percent'])) {
+            $priceStr = $sign . $this->helper('Mage_Core_Helper_Data')->currencyByStore($value['pricing_value'], $store, false, $flag)
+                . '%';
+        } else {
+            $priceStr = $sign;
+            $_priceInclTax = $this->getPrice($value['pricing_value'], true);
+            $_priceExclTax = $this->getPrice($value['pricing_value']);
+            if ($taxHelper->displayPriceIncludingTax()) {
+                $priceStr .= $this->helper('Mage_Core_Helper_Data')->currencyByStore($_priceInclTax, $store, true, $flag);
+            } elseif ($taxHelper->displayPriceExcludingTax()) {
+                $priceStr .= $this->helper('Mage_Core_Helper_Data')->currencyByStore($_priceExclTax, $store, true, $flag);
+            } elseif ($taxHelper->displayBothPrices()) {
+                $priceStr .= $this->helper('Mage_Core_Helper_Data')->currencyByStore($_priceExclTax, $store, true, $flag);
+                if ($_priceInclTax != $_priceExclTax) {
+                    $priceStr .= ' ('.$sign.$this->helper('Mage_Core_Helper_Data')
+                        ->currencyByStore($_priceInclTax, $store, true, $flag).' '.$this->__('Incl. Tax').')';
+                }
             }
         }
 

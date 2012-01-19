@@ -66,7 +66,6 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
         $this->_initAction()
             ->_addBreadcrumb(Mage::helper('Mage_Adminhtml_Helper_Data')->__('All Tags'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('All Tags'))
             ->_setActiveMenu('catalog/tag/all')
-            ->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_Tag_Tag'))
             ->renderLayout();
     }
 
@@ -77,7 +76,7 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
     public function ajaxGridAction()
     {
         $this->loadLayout();
-        $this->getResponse()->setBody($this->getLayout()->createBlock('Mage_Adminhtml_Block_Tag_Tag_Grid')->toHtml());
+        $this->renderLayout();
     }
 
     /**
@@ -87,9 +86,7 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
     public function ajaxPendingGridAction()
     {
         $this->loadLayout();
-        $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Tag_Grid_Pending')->toHtml()
-        );
+        $this->renderLayout();
     }
 
     /**
@@ -156,7 +153,9 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
             $model->addData($data);
 
             if (isset($postData['tag_assigned_products'])) {
-                $productIds = Mage::helper('Mage_Adminhtml_Helper_Js')->decodeGridSerializedInput($postData['tag_assigned_products']);
+                $productIds = Mage::helper('Mage_Adminhtml_Helper_Js')->decodeGridSerializedInput(
+                    $postData['tag_assigned_products']
+                );
                 $tagRelationModel = Mage::getModel('Mage_Tag_Model_Tag_Relation');
                 $tagRelationModel->addRelations($model, $productIds);
             }
@@ -220,7 +219,6 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
         $this->_initAction()
             ->_addBreadcrumb(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Pending Tags'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('Pending Tags'))
             ->_setActiveMenu('catalog/tag/pending')
-            ->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_Tag_Pending'))
             ->renderLayout();
     }
 
@@ -255,9 +253,8 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
     public function productAction()
     {
         $this->_initTag();
-        $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Tag_Product_Grid')->toHtml()
-        );
+        $this->loadLayout();
+        $this->renderLayout();
     }
 
     /**
@@ -267,9 +264,8 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
     public function customerAction()
     {
         $this->_initTag();
-        $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Tag_Customer_Grid')->toHtml()
-        );
+        $this->loadLayout();
+        $this->renderLayout();
     }
 
     /**

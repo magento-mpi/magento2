@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_System
+ * @package     Mage_Connect
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -43,7 +43,7 @@ class Mage_System_Args
     {
         $this->flags = array();
         $this->filtered = array();
-        
+
         if(false === $source) {
             $argv = $GLOBALS['argv'];
             array_shift($argv);
@@ -73,7 +73,7 @@ class Mage_System_Args
             }
             elseif(strlen($str) == 2 && $str[0] == '-') // -a
             {
-                $this->flags[$str[1]] = true;                
+                $this->flags[$str[1]] = true;
                 if(isset($argv[$i + 1]) && preg_match('/^--?.+/', $argv[$i + 1]) == 0) {
                     $this->flags[$str[1]] = $argv[$i + 1];
                     $argv[$i + 1] = null;

@@ -212,6 +212,46 @@ class Mage_Core_Model_Store_Group extends Mage_Core_Model_Abstract
     }
 
     /**
+     * Get most suitable store by locale
+     * If no store with given locale is found - default store is returned
+     * If group has no stores - null is returned
+     *
+     * @param string $locale
+     * @return Mage_Core_Model_Store|null
+     */
+    public function getDefaultStoreByLocale($locale)
+    {
+        if ($this->getDefaultStore() && $this->getDefaultStore()->getLocaleCode() == $locale) {
+            return $this->getDefaultStore();
+        } else {
+            $stores = $this->getStoresByLocale($locale);
+            if (count($stores)) {
+                return $stores[0];
+            } else {
+                return $this->getDefaultStore() ? $this->getDefaultStore() : null;
+            }
+        }
+    }
+
+    /**
+     * Retrieve list of stores with given locale
+     *
+     * @param $locale
+     * @return array
+     */
+    public function getStoresByLocale($locale)
+    {
+        $stores = array();
+        foreach ($this->getStores() as $store) {
+            /* @var $store Mage_Core_Model_Store */
+            if ($store->getLocaleCode() == $locale) {
+                array_push($stores, $store);
+            }
+        }
+        return $stores;
+    }
+
+    /**
      * Set website model
      *
      * @param Mage_Core_Model_Website $website

@@ -94,6 +94,18 @@ class Mage_Wishlist_Model_Item extends Mage_Core_Model_Abstract
     }
 
     /**
+     * Set quantity. If quantity is less than 0 - set it to 1
+     *
+     * @param int $qty
+     * @return Mage_Wishlist_Model_Item
+     */
+    public function setQty($qty)
+    {
+        $this->setData('qty', ($qty >= 0) ? $qty : 1 );
+        return $this;
+    }
+
+    /**
      * Retrieve resource instance wrapper
      *
      * @return Mage_Wishlist_Model_Resource_Item

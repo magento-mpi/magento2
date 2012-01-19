@@ -141,12 +141,13 @@ class Mage_Archive
             if ($i == 0) {
                 $packed = rtrim($destination, DS) . DS;
             } else {
-                $packed = rtrim($destination, DS) . DS . '~tmp-'. microtime(true) . $archivers[$i-1] . '.' . $archivers[$i-1];
+                $packed = rtrim($destination, DS) . DS . '~tmp-'. microtime(true) . $archivers[$i-1] . '.'
+                    . $archivers[$i-1];
             }
             $source = $this->_getArchiver($archivers[$i])->unpack($source, $packed);
-            
+
             //var_dump($packed, $source);
-            
+
             if ($clearInterm && $interimSource && $i >= 0) {
                 unlink($interimSource);
             }
@@ -202,5 +203,4 @@ class Mage_Archive
         }
         return false;
     }
-
 }

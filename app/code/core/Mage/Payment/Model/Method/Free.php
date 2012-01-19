@@ -58,7 +58,7 @@ class Mage_Payment_Model_Method_Free extends Mage_Payment_Model_Method_Abstract
     public function getConfigPaymentAction()
     {
         if ('pending' == $this->getConfigData('order_status')) {
-            return Mage_Payment_Model_Method_Abstract::ACTION_AUTHORIZE;
+            return null; // do nothing if status pending
         }
         return parent::getConfigPaymentAction();
     }

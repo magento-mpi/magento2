@@ -143,8 +143,10 @@ class Mage_Adminhtml_Block_Report_Grid_Abstract extends Mage_Adminhtml_Block_Wid
             ->setPeriod($filterData->getData('period_type'))
             ->setDateRange($filterData->getData('from', null), $filterData->getData('to', null))
             ->addStoreFilter($storeIds)
-            ->addOrderStatusFilter($filterData->getData('order_statuses'))
             ->setAggregatedColumns($this->_getAggregatedColumns());
+
+        $this->_addOrderStatusFilter($resourceCollection, $filterData);
+        $this->_addCustomFilter($resourceCollection, $filterData);
 
         if ($this->_isExport) {
             $this->setCollection($resourceCollection);
@@ -169,9 +171,12 @@ class Mage_Adminhtml_Block_Report_Grid_Abstract extends Mage_Adminhtml_Block_Wid
                 ->setPeriod($filterData->getData('period_type'))
                 ->setDateRange($filterData->getData('from', null), $filterData->getData('to', null))
                 ->addStoreFilter($storeIds)
-                ->addOrderStatusFilter($filterData->getData('order_statuses'))
                 ->setAggregatedColumns($this->_getAggregatedColumns())
                 ->isTotals(true);
+
+            $this->_addOrderStatusFilter($totalsCollection, $filterData);
+            $this->_addCustomFilter($totalsCollection, $filterData);
+
             foreach ($totalsCollection as $item) {
                 $this->setTotals($item);
                 break;
@@ -192,9 +197,11 @@ class Mage_Adminhtml_Block_Report_Grid_Abstract extends Mage_Adminhtml_Block_Wid
                 ->setPeriod($filterData->getData('period_type'))
                 ->setDateRange($filterData->getData('from', null), $filterData->getData('to', null))
                 ->addStoreFilter($this->_getStoreIds())
-                ->addOrderStatusFilter($filterData->getData('order_statuses'))
                 ->setAggregatedColumns($this->_getAggregatedColumns())
                 ->isTotals(true);
+
+            $this->_addOrderStatusFilter($totalsCollection, $filterData);
+
             if (count($totalsCollection->getItems()) < 1 || !$filterData->getData('from')) {
                 $this->setTotals(new Varien_Object());
             } else {
@@ -214,9 +221,11 @@ class Mage_Adminhtml_Block_Report_Grid_Abstract extends Mage_Adminhtml_Block_Wid
             ->setPeriod($filterData->getData('period_type'))
             ->setDateRange($filterData->getData('from', null), $filterData->getData('to', null))
             ->addStoreFilter($this->_getStoreIds())
-            ->addOrderStatusFilter($filterData->getData('order_statuses'))
             ->setAggregatedColumns($this->_getAggregatedColumns())
             ->isSubTotals(true);
+
+        $this->_addOrderStatusFilter($subTotalsCollection, $filterData);
+
         $this->setSubTotals($subTotalsCollection->getItems());
         return parent::getSubTotals();
     }
@@ -236,7 +245,7 @@ class Mage_Adminhtml_Block_Report_Grid_Abstract extends Mage_Adminhtml_Block_Wid
         }
         return $this->_currentCurrencyCode;
     }
-    
+
     /**
      * Get currency rate (base to given currency)
      *
@@ -246,5 +255,31 @@ class Mage_Adminhtml_Block_Report_Grid_Abstract extends Mage_Adminhtml_Block_Wid
     public function getRate($toCurrency)
     {
         return Mage::app()->getStore()->getBaseCurrency()->getRate($toCurrency);
+    }
+
+    /**
+     * Add order status filter
+     *
+     * @param Mage_Reports_Model_Resource_Report_Collection_Abstract $collection
+     * @param Varien_Object $filterData
+     * @return Mage_Adminhtml_Block_Report_Grid_Abstract
+     */
+    protected function _addOrderStatusFilter($collection, $filterData)
+    {
+        $collection->addOrderStatusFilter($filterData->getData('order_statuses'));
+        return $this;
+    }
+
+    /**
+     * Adds custom filter to resource collection
+     * Can be overridden in child classes if custom filter needed
+     *
+     * @param Mage_Reports_Model_Resource_Report_Collection_Abstract $collection
+     * @param Varien_Object $filterData
+     * @return Mage_Adminhtml_Block_Report_Grid_Abstract
+     */
+    protected function _addCustomFilter($collection, $filterData)
+    {
+        return $this;
     }
 }

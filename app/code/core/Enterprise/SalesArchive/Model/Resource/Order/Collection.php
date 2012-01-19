@@ -42,4 +42,14 @@ class Enterprise_SalesArchive_Model_Resource_Order_Collection extends Mage_Sales
         return $select;
     }
 
+    /**
+     * Get SQL for get record count
+     *
+     * @return Varien_Db_Select
+     */
+    public function getSelectCountSql()
+    {
+        $countSelect = Mage_Sales_Model_Mysql4_Order_Collection::getSelectCountSql();
+        return $countSelect;
+    }
 }

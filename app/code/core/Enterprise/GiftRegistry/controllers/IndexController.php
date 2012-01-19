@@ -245,23 +245,7 @@ class Enterprise_GiftRegistry_IndexController extends Mage_Core_Controller_Front
             $entity = $this->_initEntity();
             if ($entity->getId()) {
                 $items = $this->getRequest()->getParam('items');
-                foreach ($items as $id => $item) {
-                    $model = Mage::getModel('Enterprise_GiftRegistry_Model_Item')->load($id);
-
-                    if ($model->getId() && $model->getEntityId() == $entity->getId()) {
-                        if (isset($item['delete'])) {
-                            $model->delete();
-                        } else {
-                            $model->setQty($item['qty']);
-                            $model->setNote($item['note']);
-                            $model->save();
-                        }
-                    } else {
-                        Mage::throwException(
-                            Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Wrong gift registry item ID specified.')
-                        );
-                    }
-                }
+                $entity->updateItems($items);
                 $this->_getSession()->addSuccess(
                     Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('The gift registry items have been updated.')
                 );
@@ -584,7 +568,9 @@ class Enterprise_GiftRegistry_IndexController extends Mage_Core_Controller_Front
                 $this->_getSession()->addError($e->getMessage());
                 $isError = true;
             } catch (Exception $e) {
-                $this->_getSession()->addError($this->__('Failed to save gift registry.'));
+                $this->_getSession()->addError(
+                    Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Failed to save gift registry.')
+                );
                 Mage::logException($e);
                 $isError = true;
             }

@@ -761,43 +761,42 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
     public function validate()
     {
         $errors = array();
-        $customerHelper = Mage::helper('Mage_Customer_Helper_Data');
         if (!Zend_Validate::is( trim($this->getFirstname()) , 'NotEmpty')) {
-            $errors[] = $customerHelper->__('The first name cannot be empty.');
+            $errors[] = Mage::helper('Mage_Customer_Helper_Data')->__('The first name cannot be empty.');
         }
 
         if (!Zend_Validate::is( trim($this->getLastname()) , 'NotEmpty')) {
-            $errors[] = $customerHelper->__('The last name cannot be empty.');
+            $errors[] = Mage::helper('Mage_Customer_Helper_Data')->__('The last name cannot be empty.');
         }
 
         if (!Zend_Validate::is($this->getEmail(), 'EmailAddress')) {
-            $errors[] = $customerHelper->__('Invalid email address "%s".', $this->getEmail());
+            $errors[] = Mage::helper('Mage_Customer_Helper_Data')->__('Invalid email address "%s".', $this->getEmail());
         }
 
         $password = $this->getPassword();
         if (!$this->getId() && !Zend_Validate::is($password , 'NotEmpty')) {
-            $errors[] = $customerHelper->__('The password cannot be empty.');
+            $errors[] = Mage::helper('Mage_Customer_Helper_Data')->__('The password cannot be empty.');
         }
         if (strlen($password) && !Zend_Validate::is($password, 'StringLength', array(6))) {
-            $errors[] = $customerHelper->__('The minimum password length is %s', 6);
+            $errors[] = Mage::helper('Mage_Customer_Helper_Data')->__('The minimum password length is %s', 6);
         }
         $confirmation = $this->getConfirmation();
         if ($password != $confirmation) {
-            $errors[] = $customerHelper->__('Please make sure your passwords match.');
+            $errors[] = Mage::helper('Mage_Customer_Helper_Data')->__('Please make sure your passwords match.');
         }
 
         $entityType = Mage::getSingleton('Mage_Eav_Model_Config')->getEntityType('customer');
         $attribute = Mage::getModel('Mage_Customer_Model_Attribute')->loadByCode($entityType, 'dob');
         if ($attribute->getIsRequired() && '' == trim($this->getDob())) {
-            $errors[] = $customerHelper->__('The Date of Birth is required.');
+            $errors[] = Mage::helper('Mage_Customer_Helper_Data')->__('The Date of Birth is required.');
         }
         $attribute = Mage::getModel('Mage_Customer_Model_Attribute')->loadByCode($entityType, 'taxvat');
         if ($attribute->getIsRequired() && '' == trim($this->getTaxvat())) {
-            $errors[] = $customerHelper->__('The TAX/VAT number is required.');
+            $errors[] = Mage::helper('Mage_Customer_Helper_Data')->__('The TAX/VAT number is required.');
         }
         $attribute = Mage::getModel('Mage_Customer_Model_Attribute')->loadByCode($entityType, 'gender');
         if ($attribute->getIsRequired() && '' == trim($this->getGender())) {
-            $errors[] = $customerHelper->__('Gender is required.');
+            $errors[] = Mage::helper('Mage_Customer_Helper_Data')->__('Gender is required.');
         }
 
         if (empty($errors)) {
@@ -815,7 +814,6 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
     public function importFromTextArray(array $row)
     {
         $this->resetErrors();
-        $hlp = Mage::helper('Mage_Customer_Helper_Data');
         $line = $row['i'];
         $row = $row['row'];
 
@@ -824,7 +822,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
         $website = Mage::getModel('Mage_Core_Model_Website')->load($row['website_code'], 'code');
 
         if (!$website->getId()) {
-            $this->addError($hlp->__('Invalid website, skipping the record, line: %s', $line));
+            $this->addError(Mage::helper('Mage_Customer_Helper_Data')->__('Invalid website, skipping the record, line: %s', $line));
 
         } else {
             $row['website_id'] = $website->getWebsiteId();
@@ -833,18 +831,18 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
 
         // Validate Email
         if (empty($row['email'])) {
-            $this->addError($hlp->__('Missing email, skipping the record, line: %s', $line));
+            $this->addError(Mage::helper('Mage_Customer_Helper_Data')->__('Missing email, skipping the record, line: %s', $line));
         } else {
             $this->loadByEmail($row['email']);
         }
 
         if (empty($row['entity_id'])) {
             if ($this->getData('entity_id')) {
-                $this->addError($hlp->__('The customer email (%s) already exists, skipping the record, line: %s', $row['email'], $line));
+                $this->addError(Mage::helper('Mage_Customer_Helper_Data')->__('The customer email (%s) already exists, skipping the record, line: %s', $row['email'], $line));
             }
         } else {
             if ($row['entity_id'] != $this->getData('entity_id')) {
-                $this->addError($hlp->__('The customer ID and email did not match, skipping the record, line: %s', $line));
+                $this->addError(Mage::helper('Mage_Customer_Helper_Data')->__('The customer ID and email did not match, skipping the record, line: %s', $line));
             } else {
                 $this->unsetData();
                 $this->load($row['entity_id']);
@@ -856,7 +854,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
         }
 
         if (empty($row['website_code'])) {
-            $this->addError($hlp->__('Missing website, skipping the record, line: %s', $line));
+            $this->addError(Mage::helper('Mage_Customer_Helper_Data')->__('Missing website, skipping the record, line: %s', $line));
         }
 
         if (empty($row['group'])) {
@@ -864,10 +862,10 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
         }
 
         if (empty($row['firstname'])) {
-            $this->addError($hlp->__('Missing first name, skipping the record, line: %s', $line));
+            $this->addError(Mage::helper('Mage_Customer_Helper_Data')->__('Missing first name, skipping the record, line: %s', $line));
         }
         if (empty($row['lastname'])) {
-            $this->addError($hlp->__('Missing last name, skipping the record, line: %s', $line));
+            $this->addError(Mage::helper('Mage_Customer_Helper_Data')->__('Missing last name, skipping the record, line: %s', $line));
         }
 
         if (!empty($row['password_new'])) {
@@ -888,7 +886,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
         }
 
         if (!$this->validateAddress($row, 'billing')) {
-            $this->printError($hlp->__('Invalid billing address for (%s)', $row['email']), $line);
+            $this->printError(Mage::helper('Mage_Customer_Helper_Data')->__('Invalid billing address for (%s)', $row['email']), $line);
         } else {
             // Handling billing address
             $billingAddress = $this->getPrimaryBillingAddress();
@@ -929,7 +927,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
         }
 
         if (!$this->validateAddress($row, 'shipping')) {
-            $this->printError($hlp->__('Invalid shipping address for (%s)', $row['email']), $line);
+            $this->printError(Mage::helper('Mage_Customer_Helper_Data')->__('Invalid shipping address for (%s)', $row['email']), $line);
         } else {
             // Handling shipping address
             $shippingAddress = $this->getPrimaryShippingAddress();
@@ -1272,7 +1270,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
 
         $tokenExpirationPeriod = Mage::helper('Mage_Customer_Helper_Data')->getResetPasswordLinkExpirationPeriod();
 
-        $currentDate = Varien_Date::now(true);
+        $currentDate = Varien_Date::now();
         $currentTimestamp = Varien_Date::toTimestamp($currentDate);
         $tokenTimestamp = Varien_Date::toTimestamp($resetPasswordLinkTokenCreatedAt);
         if ($tokenTimestamp > $currentTimestamp) {

@@ -31,33 +31,40 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tabs exten
      */
     protected function _beforeToHtml()
     {
-        $this->addTab('general_section', array(
-            'label'     => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('General Properties'),
-            'title'     => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('General Properties'),
-            'content'   => $this->getLayout()->createBlock(
-                'Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tab_General'
-            )->toHtml(),
-            'active'    => true
-        ));
+        $generalSectionContent = $this->getLayout()
+            ->createBlock('Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tab_General')
+            ->toHtml();
 
-        $this->addTab('conditions_section', array(
-            'label'     => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Conditions'),
-            'title'     => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Conditions'),
-            'content'   => $this->getLayout()->createBlock(
-                'Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tab_Conditions'
-            )->toHtml(),
+        $this->addTab('general_section', array(
+            'label'   => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('General Properties'),
+            'title'   => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('General Properties'),
+            'content' => $generalSectionContent,
+            'active'  => true
         ));
 
         $segment = Mage::registry('current_customer_segment');
+
         if ($segment && $segment->getId()) {
-            $customersQty = Mage::getModel('Enterprise_CustomerSegment_Model_Segment')->getResource()
-                ->getSegmentCustomersQty($segment->getId());
-            $this->addTab('customers_tab', array(
-                'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Matched Customers (%d)', $customersQty),
-                'url'   => $this->getUrl('*/report_customer_customersegment/customerGrid',
-                    array('segment_id' => $segment->getId())),
-                'class' => 'ajax',
+            $conditionsSectionContent = $this->getLayout()
+                ->createBlock('Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tab_Conditions')
+                ->toHtml();
+
+            $this->addTab('conditions_section', array(
+                'label'   => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Conditions'),
+                'title'   => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Conditions'),
+                'content' => $conditionsSectionContent,
             ));
+
+            if ($segment->getApplyTo() != Enterprise_CustomerSegment_Model_Segment::APPLY_TO_VISITORS) {
+                $customersQty = Mage::getModel('Enterprise_CustomerSegment_Model_Segment')->getResource()
+                    ->getSegmentCustomersQty($segment->getId());
+                $this->addTab('customers_tab', array(
+                    'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Matched Customers (%d)', $customersQty),
+                    'url'   => $this->getUrl('*/report_customer_customersegment/customerGrid',
+                        array('segment_id' => $segment->getId())),
+                    'class' => 'ajax',
+                ));
+            }
         }
 
         return parent::_beforeToHtml();

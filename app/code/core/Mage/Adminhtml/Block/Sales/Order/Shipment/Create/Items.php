@@ -113,6 +113,7 @@ class Mage_Adminhtml_Block_Sales_Order_Shipment_Create_Items extends Mage_Adminh
      */
     public function canCreateShippingLabel()
     {
-        return $this->getOrder()->getShippingCarrier()->isShippingLabelsAvailable();
+        $shippingCarrier = $this->getOrder()->getShippingCarrier();
+        return $shippingCarrier && $shippingCarrier->isShippingLabelsAvailable();
     }
 }

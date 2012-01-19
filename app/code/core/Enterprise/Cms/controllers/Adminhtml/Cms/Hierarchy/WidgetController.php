@@ -23,12 +23,17 @@ class Enterprise_Cms_Adminhtml_Cms_Hierarchy_WidgetController extends Mage_Admin
     public function chooserAction()
     {
         $this->getResponse()->setBody(
-            $this->_getTreeBlock()->getTreeHtml()
+            $this->_getTreeBlock()
+                ->setScope($this->getRequest()->getParam('scope'))
+                ->setScopeId((int)$this->getRequest()->getParam('scope_id'))
+                ->getTreeHtml()
         );
     }
 
     /**
      * Tree block instance
+     *
+     * @return Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Widget_Chooser
      */
     protected function _getTreeBlock()
     {

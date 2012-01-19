@@ -35,8 +35,11 @@ document.observe("dom:loaded", function() {
             
         });
     }
+    
+    var supportsOrientationChange = "onorientationchange" in window,
+    orientationEvent = supportsOrientationChange ? "orientationchange" : "resize";
 
-    Event.observe(window, 'orientationchange', function() {
+    Event.observe(window, orientationEvent, function() {
         var orientation,
             page;
             
@@ -56,23 +59,25 @@ document.observe("dom:loaded", function() {
         
         if ( $('nav-container') ) {
         
-            $$("#nav-container ul").each(function(ul) {
-                ul.setStyle({'width' : document.body.offsetWidth + "px"});
-            });
-                    
-            page = Math.floor(Math.abs(sliderPosition/viewportWidth));
-            sliderPosition = (sliderPosition + viewportWidth*page) - document.body.offsetWidth*page;
-            viewportWidth = document.body.offsetWidth;
-            
-            $("nav-container").setStyle({"-webkit-transform" : "translate3d(" + sliderPosition + "px, 0, 0)"});
+            setTimeout(function () {
+                $$("#nav-container ul").each(function(ul) {
+                    ul.setStyle({'width' : document.body.offsetWidth + "px"});
+                });
+                        
+                page = Math.floor(Math.abs(sliderPosition/viewportWidth));
+                sliderPosition = (sliderPosition + viewportWidth*page) - document.body.offsetWidth*page;
+                viewportWidth = document.body.offsetWidth;
+                
+                $("nav-container").setStyle({"-webkit-transform" : "translate3d(" + sliderPosition + "px, 0, 0)"});
 
-            if ( upSellCarousel ) {
-                if (orientation === 'landscape') {
-                    upSellCarousel.resize(3);
-                } else {
-                    upSellCarousel.resize(2);
+                if ( upSellCarousel ) {
+                    if (orientation === 'landscape') {
+                        upSellCarousel.resize(3);
+                    } else {
+                        upSellCarousel.resize(2);
+                    }
                 }
-            }
+            }, 400);
         
         }
 

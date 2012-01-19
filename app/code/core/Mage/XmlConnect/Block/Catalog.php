@@ -51,7 +51,7 @@ class Mage_XmlConnect_Block_Catalog extends Mage_Core_Block_Template
                 $item->addAttribute('isDefault', 1);
             }
             $item->addChild('code', $code);
-            $item->addChild('name', $ordersXmlObject->xmlentities(strip_tags($name)));
+            $item->addChild('name', $ordersXmlObject->escapeXml($name));
         }
 
         return $ordersXmlObject;

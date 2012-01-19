@@ -170,18 +170,20 @@ class Enterprise_CustomerSegment_Adminhtml_Report_Customer_CustomersegmentContro
         $segment = $this->_initSegment();
         if ($segment) {
             try {
-                $segment->matchCustomers();
+                if ($segment->getApplyTo() != Enterprise_CustomerSegment_Model_Segment::APPLY_TO_VISITORS) {
+                    $segment->matchCustomers();
+                }
                 Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(
                     $this->__('Customer Segment data has been refreshed.')
                 );
                 $this->_redirect('*/*/detail', array('_current' => true));
-                return ;
+                return;
             } catch (Mage_Core_Exception $e) {
                 Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
             }
         }
         $this->_redirect('*/*/detail', array('_current' => true));
-        return ;
+        return;
     }
 
     /**

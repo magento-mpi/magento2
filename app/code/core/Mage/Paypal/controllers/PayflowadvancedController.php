@@ -18,27 +18,6 @@
 class Mage_Paypal_PayflowadvancedController extends Mage_Paypal_Controller_Express_Abstract
 {
     /**
-     * Config mode type
-     *
-     * @var string
-     */
-    protected $_configType = 'paypal/config';
-
-    /**
-     * Config method type
-     *
-     * @var string
-     */
-    protected $_configMethod = Mage_Paypal_Model_Config::METHOD_PAYFLOWADVANCED;
-
-    /**
-     * Checkout mode type
-     *
-     * @var string
-     */
-    protected $_checkoutType = 'Mage_Paypal_Model_Payflowadvanced';
-
-    /**
      * When a customer cancel payment from payflow gateway.
      *
      * @return void
@@ -59,46 +38,60 @@ class Mage_Paypal_PayflowadvancedController extends Mage_Paypal_Controller_Expre
      */
     public function returnUrlAction()
     {
-        $errorMsg = '';
-        $session = $this->_getCheckout();
-        $quote = $session->getQuote();
-        /** @var $payment Mage_Sales_Model_Quote_Payment */
-        $payment = $quote->getPayment();
-        $gotoSection = 'payment';
-        if ($payment->getAdditionalInformation('authorization_id')) {
-            $gotoSection = 'review';
-        } else {
-            $gotoSection = 'payment';
-            $errorMsg = $this->__('Payment has been declined. Please try again.');
-        }
-
-        $checkToken = $this->getRequest()->getParam('TOKEN');
-        if ($checkToken) {
-            $payment->setAdditionalInformation('express_checkout_token', $checkToken)->save();
-            Mage::getSingleton('Mage_Paypal_Model_Session')->setExpressCheckoutToken($checkToken);
-            $this->_redirect('*/*/review');
-            return;
-        }
-
         $redirectBlock = $this->_getIframeBlock()
-            ->setTemplate('payflowadvanced/redirect.phtml');
+            ->setTemplate('paypal/payflowadvanced/redirect.phtml');
 
-        $redirectBlock->setErrorMsg($errorMsg);
-        $redirectBlock->setGotoSection($gotoSection);
+        $session = $this->_getCheckout();
+        if ($session->getLastRealOrderId()) {
+            $order = Mage::getModel('Mage_Sales_Model_Order')->loadByIncrementId($session->getLastRealOrderId());
+
+            if ($order && $order->getIncrementId() == $session->getLastRealOrderId()) {
+                $allowedOrderStates = array(
+                    Mage_Sales_Model_Order::STATE_PROCESSING,
+                    Mage_Sales_Model_Order::STATE_COMPLETE
+                );
+                if (in_array($order->getState(), $allowedOrderStates)) {
+                    $session->unsLastRealOrderId();
+                    $redirectBlock->setGotoSuccessPage(true);
+                } else {
+                    $gotoSection = $this->_cancelPayment(strval($this->getRequest()->getParam('RESPMSG')));
+                    $redirectBlock->setGotoSection($gotoSection);
+                    $redirectBlock->setErrorMsg($this->__('Payment has been declined. Please try again.'));
+                }
+            }
+        }
+
         $this->getResponse()->setBody($redirectBlock->toHtml());
     }
 
     /**
-     * When a customer return to website from payflow gateway.
+     * Submit transaction to Payflow getaway into iframe
      *
      * @return void
      */
-    public function placeOrderAction()
+    public function formAction()
     {
-        $session = $this->_getCheckout();
-        $quote = $session->getQuote();
-        $quote->collectTotals();
-        $this->_forward('saveOrder', 'onepage', 'checkout');
+        $this->getResponse()
+            ->setBody($this->_getIframeBlock()->toHtml());
+    }
+
+    /**
+     * Get response from PayPal by silent post method
+     *
+     * @return void
+     */
+    public function silentPostAction()
+    {
+        $data = $this->getRequest()->getPost();
+        if (isset($data['INVNUM'])) {
+            /** @var $paymentModel Mage_Paypal_Model_Payflowadvanced */
+            $paymentModel = Mage::getModel('Mage_Paypal_Model_Payflowadvanced');
+            try {
+                $paymentModel->process($data);
+            } catch (Exception $e) {
+                Mage::logException($e);
+            }
+        }
     }
 
     /**
@@ -135,58 +128,6 @@ class Mage_Paypal_PayflowadvancedController extends Mage_Paypal_Controller_Expre
         }
 
         return $gotoSection;
-    }
-
-    /**
-     * Submit transaction to Payflow getaway into iframe
-     *
-     * @return void
-     */
-    public function formAction()
-    {
-        $quote = $this->_getCheckout()->getQuote();
-        $payment = $quote->getPayment();
-
-        try {
-            $method = Mage::helper('Mage_Payment_Helper_Data')->getMethodInstance($this->_configMethod);
-            $method->setData('info_instance', $payment);
-            $method->initialize($method->getConfigData('payment_action'), new Varien_Object());
-
-            $quote->save();
-        } catch (Mage_Core_Exception $e) {
-            $this->loadLayout('paypal_payflow_advanced_iframe');
-
-            $block = $this->getLayout()->getBlock('payflow.advanced.info');
-            $block->setErrorMessage($e->getMessage());
-
-            $this->getResponse()->setBody(
-                $block->toHtml()
-            );
-            return;
-        } catch (Exception $e) {
-            Mage::logException($e);
-        }
-        $this->getResponse()
-            ->setBody($this->_getIframeBlock()->toHtml());
-    }
-
-    /**
-     * Get response from PayPal by silent post method
-     *
-     * @return void
-     */
-    public function silentPostAction()
-    {
-        $data = $this->getRequest()->getPost();
-        if (isset($data['INVNUM'])) {
-            /** @var $paymentModel Mage_Paypal_Model_Payflowadvanced */
-            $paymentModel = Mage::getModel('Mage_Paypal_Model_Payflowadvanced');
-            try {
-                $paymentModel->process($data);
-            } catch (Exception $e) {
-                Mage::logException($e);
-            }
-        }
     }
 
     /**

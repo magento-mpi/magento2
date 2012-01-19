@@ -1,0 +1,56 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<div class="add-by-sku">
+    <div class="add-sku">
+        <table class="form-list" id="<?php echo $this->getId()?>_table" cellspacing="0">
+            <thead>
+                <tr>
+                    <th><?php echo $this->__('SKU') ?></th>
+                    <th><?php echo $this->__('Qty') ?></th>
+                </tr>
+            </thead>
+            <tbody id="sku_container">
+                <tr>
+                    <td class="value"><input id="sku_0" type="text" name="<?php echo $this->getId() ?>" value="" class="input-text"></td>
+                    <td class="value"><input id="sku_qty_0" type="text" name="qty" value="1" class="input-text"></td>
+                    <td><?php echo $this->getAddButtonHtml(); ?></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="add-sku-csv">
+        <table class="form-list" id="sku_upload_table" cellspacing="0">
+            <tr>
+                <td class="label"><label for="sku_upload"><?php echo $this->__('Select File') ?></label></td>
+                <td class="value"><input type="file" id="sku_upload" name="<?php echo Enterprise_Checkout_Model_Import::FIELD_NAME_SOURCE_FILE ?>" value=""/></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td class="value">
+                    <p class="note"><span><?php echo $this->__('Allowed file type: csv.<br/>File must contain two columns, with "sku" and "qty" in the header row.') ?></span></p>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+    if (typeof productConfigure == 'undefined') {
+        productConfigure = {};
+    }
+    var orderWizzard = <?php echo $this->getJsOrderObject(); ?>;
+    orderWizzard.areasLoaded = orderWizzard.areasLoaded.wrap( function(proceed) {
+        proceed();
+        window.addBySku = new AddBySku(this, productConfigure, <?php echo $this->getAddBySkuDataJson() ?>);
+        <?php echo $this->getAdditionalJavascript() ?>
+    });
+//]]>
+</script>

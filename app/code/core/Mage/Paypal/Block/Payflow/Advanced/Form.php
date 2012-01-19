@@ -25,7 +25,7 @@ class Mage_Paypal_Block_Payflow_Advanced_Form extends Mage_Paypal_Block_Payflow_
     protected function _construct()
     {
         parent::_construct();
-        $this->setTemplate('payflowadvanced/iframe.phtml');
+        $this->setTemplate('payflowadvanced/info.phtml');
     }
 
     /**

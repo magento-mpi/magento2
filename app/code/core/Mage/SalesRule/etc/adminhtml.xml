@@ -25,13 +25,17 @@
         <resources>
             <admin>
                 <children>
-                    <promo>
+                    <system>
                         <children>
-                            <quote translate="title" module="Mage_SalesRule">
-                                <title>Shopping Cart Price Rules</title>
-                            </quote>
+                            <config>
+                                <children>
+                                    <promo  translate="title" module="Mage_SalesRule">
+                                        <title>Shopping Cart Price Rules</title>
+                                    </promo>
+                                </children>
+                            </config>
                         </children>
-                    </promo>
+                    </system>
                 </children>
             </admin>
         </resources>

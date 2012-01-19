@@ -4,7 +4,6 @@
  *
  * @category    tests
  * @package     static
- * @subpackage  Legacy
  * @copyright   {copyright}
  * @license     {license_link}
  */

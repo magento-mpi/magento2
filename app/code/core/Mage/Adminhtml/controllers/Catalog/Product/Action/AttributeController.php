@@ -143,8 +143,7 @@ class Mage_Adminhtml_Catalog_Product_Action_AttributeController extends Mage_Adm
             }
 
             $this->_getSession()->addSuccess(
-                $this->__('Total of %d record(s) were updated',
-                count($this->_getHelper()->getProductIds()))
+                $this->__('Total of %d record(s) were updated', count($this->_getHelper()->getProductIds()))
             );
         }
         catch (Mage_Core_Exception $e) {

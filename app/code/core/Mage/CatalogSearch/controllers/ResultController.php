@@ -32,7 +32,7 @@ class Mage_CatalogSearch_ResultController extends Mage_Core_Controller_Front_Act
 
         $query->setStoreId(Mage::app()->getStore()->getId());
 
-        if ($query->getQueryText()) {
+        if ($query->getQueryText() != '') {
             if (Mage::helper('Mage_CatalogSearch_Helper_Data')->isMinQueryLength()) {
                 $query->setId(0)
                     ->setIsActive(1)

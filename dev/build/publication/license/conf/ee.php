@@ -11,5 +11,5 @@
  */
 
 define('EDITION_LICENSE', 'MEL');
-$config = include __DIR__ . '/ce.php';
+$config = require __DIR__ . '/ce.php';
 return $config;

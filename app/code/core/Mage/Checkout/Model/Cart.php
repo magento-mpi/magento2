@@ -414,17 +414,21 @@ class Mage_Checkout_Model_Cart extends Varien_Object
         $this->getQuote()->save();
         $this->getCheckoutSession()->setQuoteId($this->getQuote()->getId());
         /**
-         * Cart save usually called after chenges with cart items.
+         * Cart save usually called after changes with cart items.
          */
         Mage::dispatchEvent('checkout_cart_save_after', array('cart'=>$this));
         return $this;
     }
 
+    /**
+     * Mark all quote items as deleted (empty shopping cart)
+     *
+     * @return Mage_Checkout_Model_Cart
+     */
     public function truncate()
     {
-        foreach ($this->getQuote()->getItemsCollection() as $item) {
-            $item->isDeleted(true);
-        }
+        $this->getQuote()->removeAllItems();
+        return $this;
     }
 
     public function getProductIds()

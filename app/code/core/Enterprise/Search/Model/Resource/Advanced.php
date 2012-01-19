@@ -121,6 +121,10 @@ class Enterprise_Search_Model_Resource_Advanced extends Mage_Core_Model_Resource
                 Mage::app()->getStore()->getId()
             );
 
+            if (!is_array($value)) {
+                $value = array($value);
+            }
+
             foreach ($value as &$val) {
                 $val = $attribute->getSource()->getOptionText($val);
             }

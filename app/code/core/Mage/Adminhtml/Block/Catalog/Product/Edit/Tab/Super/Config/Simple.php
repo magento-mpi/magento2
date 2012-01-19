@@ -15,7 +15,8 @@
  * @package    Mage_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Simple extends Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes
+class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Simple
+    extends Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes
 {
     /**
      * Link to currently editing product
@@ -40,7 +41,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Simple extends 
             'additional'   => array('name', 'sku', 'visibility', 'status')
         );
 
-        $availableTypes = array('text', 'select', 'multiselect', 'textarea', 'price');
+        $availableTypes = array('text', 'select', 'multiselect', 'textarea', 'price', 'weight');
 
         $attributes = Mage::getModel('Mage_Catalog_Model_Product')
             ->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_SIMPLE)
@@ -54,10 +55,12 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Simple extends 
                 // If not applied to configurable
                 && !in_array(Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE, $attribute->getApplyTo())
                 // If not used in configurable
-                && !in_array($attribute->getId(),$this->_getProduct()->getTypeInstance()->getUsedProductAttributeIds($this->_getProduct())))
+                && !in_array($attribute->getId(),
+                    $this->_getProduct()->getTypeInstance()->getUsedProductAttributeIds($this->_getProduct()))
+                )
                 // Or in additional
-                || in_array($attribute->getAttributeCode(), $attributesConfig['additional'])) {
-
+                || in_array($attribute->getAttributeCode(), $attributesConfig['additional'])
+            ) {
                 $inputType = $attribute->getFrontend()->getInputType();
                 if (!in_array($inputType, $availableTypes)) {
                     continue;
@@ -96,8 +99,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Simple extends 
         }
 
         /* Configurable attributes */
-        $product = $this->_getProduct();
-        foreach ($product->getTypeInstance()->getUsedProductAttributes($product) as $attribute) {
+        $usedAttributes = $this->_getProduct()->getTypeInstance()->getUsedProductAttributes($this->_getProduct());
+        foreach ($usedAttributes as $attribute) {
             $attributeCode =  $attribute->getAttributeCode();
             $fieldset->addField( 'simple_product_' . $attributeCode, 'select',  array(
                 'label' => $attribute->getFrontend()->getLabel(),
@@ -160,8 +163,6 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Simple extends 
                 'save'
             )
         ));
-
-
 
         $this->setForm($form);
     }

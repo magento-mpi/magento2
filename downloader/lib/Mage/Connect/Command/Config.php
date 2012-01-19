@@ -8,14 +8,21 @@
  * @license     {license_link}
  */
 
-
-class Mage_Connect_Command_Config
-extends Mage_Connect_Command
-
+/**
+ * Configuration command callbacks
+ *
+ * @throws Exception
+ * @category    Mage
+ * @package     Mage_Connect
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
+class Mage_Connect_Command_Config extends Mage_Connect_Command
 {
+    /**
+     * Parameters constants
+     */
     const PARAM_KEY = 0;
     const PARAM_VAL = 1;
-
 
     /**
      * Show config variable
@@ -53,7 +60,6 @@ extends Mage_Connect_Command
             return $this->doError($command, $e->getMessage());
         }
     }
-
 
     /**
      * Set config variable
@@ -191,7 +197,4 @@ extends Mage_Connect_Command
             return $this->doError($command, $e->getMessage());
         }
     }
-
 }
-
-

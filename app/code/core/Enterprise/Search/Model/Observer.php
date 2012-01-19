@@ -105,6 +105,9 @@ class Enterprise_Search_Model_Observer
             return;
         }
 
+        /*
+         * Index needs to be optimized if all products were affected
+         */
         $productIds = $observer->getEvent()->getProductIds();
         if (is_null($productIds)) {
             $engine->setIndexNeedsOptimization();
@@ -134,6 +137,12 @@ class Enterprise_Search_Model_Observer
         } else {
             $engine->commitChanges();
         }
+
+        /**
+         * Cleaning MAXPRICE cache
+         */
+        $cacheTag = Mage::getSingleton('Enterprise_Search_Model_Catalog_Layer_Filter_Price')->getCacheTag();
+        Mage::app()->cleanCache(array($cacheTag));
     }
 
     /**

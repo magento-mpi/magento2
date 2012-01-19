@@ -16,7 +16,7 @@ $defShipArr = Mage::getSingleton('Mage_Usa_Model_Shipping_Carrier_Ups')->getCode
 $sectionCode = $this->getRequest()->getParam('section');
 $websiteCode = $this->getRequest()->getParam('website');
 $storeCode = $this->getRequest()->getParam('store');
-
+$storedUpsType = Mage::getStoreConfig('carriers/ups/type');
 
 if(!$storeCode && $websiteCode){
     $web = Mage::getModel('Mage_Core_Model_Website')->load($websiteCode);
@@ -74,6 +74,9 @@ if(!$storeCode && $websiteCode){
         print "stroredFreeShipment='$stroredFreeShipment'";
     ?>
 
+    <?php
+        print "storedUpsType='$storedUpsType'";
+    ?>
 
     function hideRowArrayElements(arr,method)
     {
@@ -153,6 +156,13 @@ if(!$storeCode && $websiteCode){
 
                 if( (originShipmentTitle == stroredOriginShipment || originShipmentTitle=='default') && stroredFreeShipment==code){
                     optionFree.selected = true;
+                }
+                if (storedUpsType == 'UPS') {
+                    if (originShipmentTitle != 'default' || inArray(stroredAllowedMethods,code)) {
+                        option.selected = true;
+                    }
+                } else if (originShipmentTitle != stroredOriginShipment || inArray(stroredAllowedMethods, code)) {
+                    option.selected = true;
                 }
                 if( (originShipmentTitle == stroredOriginShipment || originShipmentTitle=='default') && inArray(stroredAllowedMethods,code)){
                     option.selected = true;

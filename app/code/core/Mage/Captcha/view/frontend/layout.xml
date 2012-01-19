@@ -1,0 +1,89 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <customer_account_login>
+        <reference name="customer_form_login">
+            <block type="Mage_Core_Block_Text_List" name="form.additional.info">
+                <block type="Mage_Captcha_Block_Captcha" name="captcha">
+                    <reference name="head">
+                        <action method="addJs"><file>mage/captcha.js</file></action>
+                    </reference>
+                    <action method="setFormId"><formId>user_login</formId></action>
+                    <action method="setImgWidth"><width>230</width></action>
+                    <action method="setImgHeight"><width>50</width></action>
+                </block>
+            </block>
+        </reference>
+    </customer_account_login>
+    <customer_account_forgotpassword>
+        <reference name="forgotPassword">
+            <block type="Mage_Core_Block_Text_List" name="form.additional.info">
+                <block type="Mage_Captcha_Block_Captcha" name="captcha">
+                    <reference name="head">
+                        <action method="addJs"><file>mage/captcha.js</file></action>
+                    </reference>
+                    <action method="setFormId"><formId>user_forgotpassword</formId></action>
+                    <action method="setImgWidth"><width>230</width></action>
+                    <action method="setImgHeight"><width>50</width></action>
+                </block>
+            </block>
+        </reference>
+    </customer_account_forgotpassword>
+    <customer_account_create>
+        <reference name="customer_form_register">
+            <block type="Mage_Core_Block_Text_List" name="form.additional.info">
+                <block type="Mage_Captcha_Block_Captcha" name="captcha">
+                    <reference name="head">
+                        <action method="addJs"><file>mage/captcha.js</file></action>
+                    </reference>
+                    <action method="setFormId"><formId>user_create</formId></action>
+                    <action method="setImgWidth"><width>230</width></action>
+                    <action method="setImgHeight"><width>50</width></action>
+                </block>
+            </block>
+        </reference>
+    </customer_account_create>
+    <checkout_onepage_index>
+        <reference name="checkout.onepage.login">
+            <block type="Mage_Core_Block_Text_List" name="form.additional.info">
+                <block type="Mage_Captcha_Block_Captcha" name="captcha">
+                    <reference name="head">
+                        <action method="addJs"><file>mage/captcha.js</file></action>
+                    </reference>
+                    <action method="setFormId"><formId>user_login</formId></action>
+                    <action method="setImgWidth"><width>230</width></action>
+                    <action method="setImgHeight"><width>50</width></action>
+                </block>
+            </block>
+        </reference>
+        <reference name="checkout.onepage.billing">
+            <block type="Mage_Core_Block_Text_List" name="form.additional.info">
+                <block type="Mage_Captcha_Block_Captcha" name="captcha.guest.checkout">
+                    <reference name="head">
+                        <action method="addJs"><file>mage/captcha.js</file></action>
+                    </reference>
+                    <action method="setFormId"><formId>guest_checkout</formId></action>
+                    <action method="setImgWidth"><width>230</width></action>
+                    <action method="setImgHeight"><width>50</width></action>
+                </block>
+                <block type="Mage_Captcha_Block_Captcha" name="captcha.register.during.checkout">
+                    <reference name="head">
+                        <action method="addJs"><file>mage/captcha.js</file></action>
+                    </reference>
+                    <action method="setFormId"><formId>register_during_checkout</formId></action>
+                    <action method="setImgWidth"><width>230</width></action>
+                    <action method="setImgHeight"><width>50</width></action>
+                </block>
+            </block>
+        </reference>
+    </checkout_onepage_index>
+</layout>

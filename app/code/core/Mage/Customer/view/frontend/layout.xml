@@ -75,7 +75,7 @@ Layout for customer login page
             <action method="setTemplate"><template>1column.phtml</template></action>
         </reference>
         <reference name="content">
-            <block type="Mage_Customer_Block_Form_Login" name="customer_form_login" template="form/login.phtml"/>
+            <block type="Mage_Customer_Block_Form_Login" name="customer_form_login" template="form/login.phtml" />
         </reference>
     </customer_account_login>
 
@@ -132,7 +132,7 @@ New customer registration
             <action method="setHeaderTitle" translate="title" module="Mage_Customer"><title>Password forgotten</title></action>
         </reference>
         <reference name="content">
-            <block type="Mage_Customer_Block_Account_Forgotpassword" name="forgotPassword" template="form/forgotpassword.phtml"/>
+            <block type="Mage_Customer_Block_Account_Forgotpassword" name="forgotPassword" template="form/forgotpassword.phtml" />
         </reference>
     </customer_account_forgotpassword>
 

@@ -1,0 +1,26 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+/** @var $this Enterprise_Checkout_Block_Customer_Sku */
+
+?>
+
+<div class="fieldset">
+    <ul class="form-list">
+        <li>
+            <label for="customer_sku_csv"><?php echo Mage::helper('Enterprise_Checkout_Helper_Data')->__('Select File'); ?></label>
+            <div class="input-box">
+                <input id="customer_sku_csv" type="file" name="<?php echo Enterprise_Checkout_Model_Import::FIELD_NAME_SOURCE_FILE ?>" class="customer-sku-csv"/>
+            </div>
+            <p class="note"><span><?php echo Mage::helper('Enterprise_Checkout_Helper_Data')->__('File extensions allowed: .csv'); ?></span></p>
+            <p class="note"><span><?php echo Mage::helper('Enterprise_Checkout_Helper_Data')->__('File must contain two columns, with "sku" and "qty" in the header row.'); ?></span></p>
+        </li>
+    </ul>
+</div>

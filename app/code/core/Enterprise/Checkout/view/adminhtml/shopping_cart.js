@@ -25,6 +25,7 @@ AdminCheckout.prototype = {
         this.storeId        = data.store_id ? data.store_id : false;
         this.currencySymbol = data.currency_symbol ? data.currency_symbol : '';
         this.productPriceBase = {};
+        this.sourceNoClean  = $H({});
     },
 
     getActionUrl: function (action)
@@ -101,9 +102,9 @@ AdminCheckout.prototype = {
         this.productGridAddSelected();
     },
 
-    updateItems: function()
+    updateItems: function(auxiliaryParams)
     {
-        this.itemsUpdate();
+        this.itemsUpdate(auxiliaryParams);
     },
 
     applyCoupon: function(ccode)
@@ -301,19 +302,28 @@ AdminCheckout.prototype = {
         productConfigure.submit(listType);
     },
 
-    productGridAddSelected: function () {
+    productGridAddSelected: function (additionalFields) {
+        if (!additionalFields) {
+            additionalFields = [];
+        }
+        if (typeof additionalFields == 'string') {
+            additionalFields = [additionalFields];
+        }
         // Scan through all grids and add checked products them to submitted list types
         var sources = $H({});
         for (var sourceId in this.sourceGrids) {
-            var sourceGrid = this.sourceGrids[sourceId];
             var table = $(sourceId + '_table');
             if (!table) {
                 continue;
             }
 
             var items = [];
-            var checkboxes = table.select('input[type=checkbox][name=' + sourceId + ']:checked');
-            checkboxes.each(function (elem) {
+            var elements = table.select('input[type=checkbox][name=' + sourceId + ']:checked');
+            if (!elements.length) {
+                // Try to get another type of inputs: maybe it's a dynamic table?
+                elements = table.select('input[type=text][name=' + sourceId + ']');
+            }
+            elements.each(function (elem) {
                 if (!elem.value || (elem.value == 'on')) {
                     return;
                 }
@@ -325,6 +335,12 @@ AdminCheckout.prototype = {
                     var qty = tr.select('input[name=qty]');
                     if (qty.length) {
                         itemInfo.qty = qty[0].value;
+                    }
+                    for (var i = 0; i < additionalFields.length; i++) {
+                        var field = tr.select('input[name="' + additionalFields[i] + '"]');
+                        if (field.length) {
+                            itemInfo[additionalFields[i]] = field[0].value;
+                        }
                     }
                 }
 
@@ -345,7 +361,6 @@ AdminCheckout.prototype = {
         var fieldsPrepare = {};
         var itemsFilter = $H({});
         var listTypes = [];
-        var this_obj = this;
         sources.each(function (item) {
             var sourceId = item.key;
             var items = item.value;
@@ -359,6 +374,11 @@ AdminCheckout.prototype = {
 
                 var paramKey = 'list[' + listType + '][item][' + item.id + '][qty]';
                 fieldsPrepare[paramKey] = item.qty;
+                for (var j = 0; j < additionalFields.length; j++) {
+                    var fieldName = additionalFields[j];
+                    paramKey = 'list[' + listType + '][item][' + item.id + '][' + fieldName + ']';
+                    fieldsPrepare[paramKey] = item[fieldName] ? item[fieldName] : '';
+                }
 
                 if (!productConfigure.itemConfigured(listType, item.id)) {
                     var paramKey = 'list[' + listType + '][item][' + item.id + '][_config_absent]';
@@ -369,7 +389,7 @@ AdminCheckout.prototype = {
 
             listTypes.push(listType);
         }.bind(this));
-        this.productConfigureSubmit(listTypes, ['items'], fieldsPrepare, itemsFilter);
+        this.productConfigureSubmit(listTypes, ['items', 'errors'], fieldsPrepare, itemsFilter);
     },
 
     productGridRowClick: function(grid, event){
@@ -576,16 +596,16 @@ AdminCheckout.prototype = {
         if (!this.loadingAreas) {
             this.loadingAreas = [];
         }
-        if (typeof this.loadingAreas == 'string'){
+        if (typeof this.loadingAreas == 'string') {
             this.loadingAreas = [this.loadingAreas];
         }
-        if (this.loadingAreas.indexOf('message'==-1)) {
+        if (this.loadingAreas.indexOf('message') == -1) {
             this.loadingAreas.push('message');
         }
-        for (var i=0; i < this.loadingAreas.length; i++){
+        for (var i=0; i < this.loadingAreas.length; i++) {
             var id = this.loadingAreas[i];
-            if($(this.getAreaId(id))){
-                if ('message' != id || response[id]) {
+            if($(this.getAreaId(id))) {
+                if ('message' == id || response[id]) {
                     $(this.getAreaId(id)).update(response[id] ? response[id] : '');
                 }
             }
@@ -596,7 +616,7 @@ AdminCheckout.prototype = {
         return 'checkout_' + area;
     },
 
-    itemsUpdate : function(){
+    itemsUpdate : function(auxiliaryParams) {
         var area = ['items'];
         // prepare additional fields
         var fieldsPrepare = {update_items: 1};
@@ -604,6 +624,11 @@ AdminCheckout.prototype = {
         for (var i = 0; i < info.length; i++) {
             if(!info[i].disabled && (info[i].type != 'checkbox' || info[i].checked)) {
                 fieldsPrepare[info[i].name] = info[i].getValue();
+            }
+        }
+        if (auxiliaryParams instanceof Object) {
+            for (var paramName in auxiliaryParams) {
+                fieldsPrepare[paramName] = String(auxiliaryParams[paramName]);
             }
         }
         fieldsPrepare = Object.extend(fieldsPrepare, this.quoteAddFields);
@@ -636,6 +661,9 @@ AdminCheckout.prototype = {
 
     clearSources: function () {
         for (var sourceId in this.sourceGrids) {
+            if (this.sourceNoClean.get(sourceId)) {
+                continue;
+            }
             var sourceGrid = this.sourceGrids[sourceId];
             var table = $(sourceId + '_table');
             if (!table) {
@@ -651,5 +679,14 @@ AdminCheckout.prototype = {
                 elem.value = '';
             });
         }
+    },
+
+    /**
+     * Prevents grid inputs to be cleared after successful submission
+     * @param sourceId
+     */
+    addNoCleanSource: function (sourceId)
+    {
+        this.sourceNoClean.set(sourceId, true);
     }
-}
+};

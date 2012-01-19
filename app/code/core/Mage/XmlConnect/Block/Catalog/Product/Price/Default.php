@@ -86,7 +86,7 @@ class Mage_XmlConnect_Block_Catalog_Product_Price_Default extends Mage_Catalog_B
                         foreach ($_weeeTaxAttributes as $_weeeTaxAttribute) {
                             $weeeItemXmlObj = $weeeXmlObj->addChild('item');
                             $weeeItemXmlObj->addAttribute(
-                                'name', $weeeItemXmlObj->xmlentities($_weeeTaxAttribute->getName())
+                                'name', $weeeItemXmlObj->escapeXml($_weeeTaxAttribute->getName())
                             );
                             $weeeItemXmlObj->addAttribute(
                                 'amount', $_coreHelper->currency($_weeeTaxAttribute->getAmount(), true, false)
@@ -108,7 +108,7 @@ class Mage_XmlConnect_Block_Catalog_Product_Price_Default extends Mage_Catalog_B
                         foreach ($_weeeTaxAttributes as $_weeeTaxAttribute) {
                             $weeeItemXmlObj = $weeeXmlObj->addChild('item');
                             $weeeItemXmlObj->addAttribute(
-                                'name', $weeeItemXmlObj->xmlentities($_weeeTaxAttribute->getName())
+                                'name', $weeeItemXmlObj->escapeXml($_weeeTaxAttribute->getName())
                             );
                             $weeeItemXmlObj->addAttribute('amount', $_coreHelper->currency(
                                 $_weeeTaxAttribute->getAmount() + $_weeeTaxAttribute->getTaxAmount(), true, false
@@ -123,7 +123,7 @@ class Mage_XmlConnect_Block_Catalog_Product_Price_Default extends Mage_Catalog_B
                         foreach ($_weeeTaxAttributes as $_weeeTaxAttribute) {
                             $weeeItemXmlObj = $weeeXmlObj->addChild('item');
                             $weeeItemXmlObj->addAttribute(
-                                'name', $weeeItemXmlObj->xmlentities($_weeeTaxAttribute->getName())
+                                'name', $weeeItemXmlObj->escapeXml($_weeeTaxAttribute->getName())
                             );
                             $weeeItemXmlObj->addAttribute(
                                 'amount', $_coreHelper->currency($_weeeTaxAttribute->getAmount(), true, false)
@@ -162,7 +162,7 @@ class Mage_XmlConnect_Block_Catalog_Product_Price_Default extends Mage_Catalog_B
                         foreach ($_weeeTaxAttributes as $_weeeTaxAttribute) {
                             $weeeItemXmlObj = $weeeXmlObj->addChild('item');
                             $weeeItemXmlObj->addAttribute(
-                                'name', $weeeItemXmlObj->xmlentities($_weeeTaxAttribute->getName())
+                                'name', $weeeItemXmlObj->escapeXml($_weeeTaxAttribute->getName())
                             );
                             $weeeItemXmlObj->addAttribute(
                                 'amount', $_coreHelper->currency($_weeeTaxAttribute->getAmount(), true, false)
@@ -181,7 +181,7 @@ class Mage_XmlConnect_Block_Catalog_Product_Price_Default extends Mage_Catalog_B
                         foreach ($_weeeTaxAttributes as $_weeeTaxAttribute) {
                             $weeeItemXmlObj = $weeeXmlObj->addChild('item');
                             $weeeItemXmlObj->addAttribute(
-                                'name', $weeeItemXmlObj->xmlentities($_weeeTaxAttribute->getName())
+                                'name', $weeeItemXmlObj->escapeXml($_weeeTaxAttribute->getName())
                             );
                             $weeeItemXmlObj->addAttribute('amount', $_coreHelper->currency(
                                 $_weeeTaxAttribute->getAmount() + $_weeeTaxAttribute->getTaxAmount(), true, false
@@ -198,7 +198,7 @@ class Mage_XmlConnect_Block_Catalog_Product_Price_Default extends Mage_Catalog_B
                         foreach ($_weeeTaxAttributes as $_weeeTaxAttribute) {
                             $weeeItemXmlObj = $weeeXmlObj->addChild('item');
                             $weeeItemXmlObj->addAttribute(
-                                'name', $weeeItemXmlObj->xmlentities($_weeeTaxAttribute->getName())
+                                'name', $weeeItemXmlObj->escapeXml($_weeeTaxAttribute->getName())
                             );
                             $weeeItemXmlObj->addAttribute(
                                 'amount', $_coreHelper->currency($_weeeTaxAttribute->getAmount(), true, false)
@@ -251,7 +251,7 @@ class Mage_XmlConnect_Block_Catalog_Product_Price_Default extends Mage_Catalog_B
                     foreach ($_weeeTaxAttributes as $_weeeTaxAttribute) {
                         $weeeItemXmlObj = $weeeXmlObj->addChild('item');
                         $weeeItemXmlObj->addAttribute(
-                            'name', $weeeItemXmlObj->xmlentities($_weeeTaxAttribute->getName())
+                            'name', $weeeItemXmlObj->escapeXml($_weeeTaxAttribute->getName())
                         );
                         $weeeItemXmlObj->addAttribute('amount', $_coreHelper->currency(
                             $_weeeTaxAttribute->getAmount(), true, false
@@ -276,7 +276,7 @@ class Mage_XmlConnect_Block_Catalog_Product_Price_Default extends Mage_Catalog_B
                     foreach ($_weeeTaxAttributes as $_weeeTaxAttribute) {
                         $weeeItemXmlObj = $weeeXmlObj->addChild('item');
                         $weeeItemXmlObj->addAttribute(
-                            'name', $weeeItemXmlObj->xmlentities($_weeeTaxAttribute->getName())
+                            'name', $weeeItemXmlObj->escapeXml($_weeeTaxAttribute->getName())
                         );
                         $weeeItemXmlObj->addAttribute('amount', $_coreHelper->currency(
                             $_weeeTaxAttribute->getAmount() + $_weeeTaxAttribute->getTaxAmount(), true, false
@@ -297,7 +297,7 @@ class Mage_XmlConnect_Block_Catalog_Product_Price_Default extends Mage_Catalog_B
                     foreach ($_weeeTaxAttributes as $_weeeTaxAttribute) {
                         $weeeItemXmlObj = $weeeXmlObj->addChild('item');
                         $weeeItemXmlObj->addAttribute(
-                            'name', $weeeItemXmlObj->xmlentities($_weeeTaxAttribute->getName())
+                            'name', $weeeItemXmlObj->escapeXml($_weeeTaxAttribute->getName())
                         );
                         $weeeItemXmlObj->addAttribute('amount', $_coreHelper->currency(
                             $_weeeTaxAttribute->getAmount(), true, false

@@ -73,14 +73,15 @@ class Enterprise_Reward_Model_Observer
         $customer = $observer->getEvent()->getCustomer();
 
         $data = $request->getPost('reward');
-        $subscribeByDefault = Mage::helper('Enterprise_Reward_Helper_Data')->getNotificationConfig('subscribe_by_default');
+        $subscribeByDefault = (int)Mage::helper('Enterprise_Reward_Helper_Data')
+            ->getNotificationConfig('subscribe_by_default', (int)$customer->getWebsiteId());
         if ($customer->isObjectNew()) {
-            $data['reward_update_notification']  = (int)$subscribeByDefault;
-            $data['reward_warning_notification'] = (int)$subscribeByDefault;
+            $data['reward_update_notification']  = $subscribeByDefault;
+            $data['reward_warning_notification'] = $subscribeByDefault;
         }
 
-        $customer->setRewardUpdateNotification((isset($data['reward_update_notification']) ? 1 : 0));
-        $customer->setRewardWarningNotification((isset($data['reward_warning_notification']) ? 1 : 0));
+        $customer->setRewardUpdateNotification(!empty($data['reward_update_notification']) ? 1 : 0);
+        $customer->setRewardWarningNotification(!empty($data['reward_warning_notification']) ? 1 : 0);
 
         return $this;
     }
@@ -427,7 +428,9 @@ class Enterprise_Reward_Model_Observer
      */
     protected function _paymentDataImport($quote, $payment, $useRewardPoints)
     {
-        if (!$quote || !$quote->getCustomerId()) {
+        if (!$quote || !$quote->getCustomerId()
+            || $quote->getBaseGrandTotal() + $quote->getBaseRewardCurrencyAmount() <= 0
+        ) {
             return $this;
         }
         $quote->setUseRewardPoints((bool)$useRewardPoints);

@@ -90,4 +90,14 @@ class Enterprise_Cms_Helper_Data extends Mage_Core_Helper_Abstract
             }
         }
     }
+
+    /**
+     * Get 'Delete Multiple Hierarchies' text
+     *
+     * @return string
+     */
+    public function getDeleteMultipleHierarchiesText()
+    {
+        return $this->__('Delete Multiple Hierarchies');
+    }
 }

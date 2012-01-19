@@ -83,13 +83,14 @@ class Mage_Adminhtml_Report_StatisticsController extends Mage_Adminhtml_Controll
         }
 
         $aliases = array(
-            'sales'     => 'Mage_Sales_Model_Resource_Report_Order',
-            'tax'       => 'Mage_Tax_Model_Resource_Report_Tax',
-            'shipping'  => 'Mage_Sales_Model_Resource_Report_Shipping',
-            'invoiced'  => 'Mage_Sales_Model_Resource_Report_Invoiced',
-            'refunded'  => 'Mage_Sales_Model_Resource_Report_Refunded',
-            'coupons'   => 'Mage_SalesRule_Model_Resource_Report_Rule',
+            'sales'       => 'Mage_Sales_Model_Resource_Report_Order',
+            'tax'         => 'Mage_Tax_Model_Resource_Report_Tax',
+            'shipping'    => 'Mage_Sales_Model_Resource_Report_Shipping',
+            'invoiced'    => 'Mage_Sales_Model_Resource_Report_Invoiced',
+            'refunded'    => 'Mage_Sales_Model_Resource_Report_Refunded',
+            'coupons'     => 'Mage_SalesRule_Model_Resource_Report_Rule',
             'bestsellers' => 'Mage_Sales_Model_Resource_Report_Bestsellers',
+            'viewed'      => 'Mage_Sales_Model_Resource_Report_Product_Viewed',
         );
         $out = array();
         foreach ($codes as $code) {
