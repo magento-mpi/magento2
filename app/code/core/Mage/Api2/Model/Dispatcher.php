@@ -33,6 +33,9 @@
  */
 class Mage_Api2_Model_Dispatcher
 {
+    /**
+     * Template for retrieve resource class name
+     */
     const RESOURCE_CLASS_TEMPLATE = ':resource_:api_:user_V:version';
 
     /**
@@ -53,50 +56,35 @@ class Mage_Api2_Model_Dispatcher
     }
 
     /**
-     * Load class file, instantiate resource class, set parameters to the instance, run resource internal dispatch
-     * method
+     * Instantiate resource class, set parameters to the instance, run resource internal dispatch method
      *
      * @param Mage_Api2_Model_Request $request
      * @param Mage_Api2_Model_Response $response
      * @return Mage_Api2_Model_Dispatcher
+     * @throws Mage_Api2_Exception
      */
     public function dispatch(Mage_Api2_Model_Request $request, Mage_Api2_Model_Response $response)
     {
-        $class = $this->buildClassName($request);
-
-        //comment this to leave the job for autoloader
-        $this->_anticipateAutoLoader($class);
-
-        /** @var $model Mage_Api2_Model_Resource */
-        $model = new $class($request, $response);   //Fatal error: Class '%s' not found in %s on line %d
-                                                    //which can not be caught if autoloader used
-        $model->dispatch();
-
-        return $this;
-    }
-
-    /**
-     * Build resource class name using request params
-     *
-     * @param Mage_Api2_Model_Request $request
-     * @return string
-     */
-    protected function buildClassName(Mage_Api2_Model_Request $request)
-    {
-        $resource = $request->getParam('model');     //set in Mage_Api2_Model_Router::_setRequestParams
-        $apiType = ucfirst($request->getApiType());
-        $userType = ucfirst($this->_apiUser->getRole());
-        $version = $request->getVersion();
-
         $replace = array(
-            ':resource' => $resource,
-            ':api'      => $apiType,
-            ':user'     => $userType,
-            ':version'  => $version,
+            ':resource' => $request->getParam('model'), // Set in Mage_Api2_Model_Router::_setRequestParams()
+            ':api'      => ucfirst($request->getApiType()),
+            ':user'     => ucfirst($this->_apiUser->getRole()),
+            ':version'  => (int)$request->getVersion(),
         );
         $class = strtr(self::RESOURCE_CLASS_TEMPLATE, $replace);
 
-        return $class;
+        try {
+            if (class_exists($class)) {
+                /** @var $model Mage_Api2_Model_Resource */
+                $model = new $class($request, $response);
+                $model->dispatch();
+            }
+        } catch (Exception $e) {
+            throw new Mage_Api2_Exception(sprintf('Invalid resource class "%s"', $class),
+                Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR);
+        }
+
+        return $this;
     }
 
     /**
@@ -108,26 +96,6 @@ class Mage_Api2_Model_Dispatcher
     public function setApiUser(Mage_Api2_Model_Auth_User_Abstract $apiUser)
     {
         $this->_apiUser = $apiUser;
-
-        return $this;
-    }
-
-    /**
-     * Replace autoload process to catch possible fatal error.
-     * Also requires Mage::setIsDeveloperMode(true) to catch it.
-     *
-     * @param string $class
-     * @throws Mage_Api2_Exception
-     * @return Mage_Api2_Model_Dispatcher
-     */
-    protected function _anticipateAutoLoader($class)
-    {
-        $classFile = str_replace(' ', DIRECTORY_SEPARATOR, ucwords(str_replace('_', ' ', $class))).'.php';
-        try {
-            include $classFile;
-        } catch (Exception $e) {
-            throw new Mage_Api2_Exception(sprintf('File "%s" could not be loaded', $classFile), 500);
-        }
 
         return $this;
     }
