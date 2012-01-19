@@ -66,18 +66,16 @@ class Tax_Helper extends Mage_Selenium_TestCase
             $taxItemData = $this->loadData($taxItemData);
         }
         $taxItemData = $this->arrayEmptyClear($taxItemData);
-
         $this->clickButton('add_' . $type);
-
         $this->fillForm($taxItemData);
 
         $rateTitles = (isset($taxItemData['tax_titles'])) ? $taxItemData['tax_titles'] : array();
         if ($rateTitles && $type == 'rate') {
-            if ($this->controlIsPresent('fieldset', 'tax_titles')) {
-                foreach ($rateTitles as $key => $value) {
-                    $this->addParameter('storeNumber', $this->findTaxTitleByName($key));
-                    $this->fillForm(array('tax_title' => $value));
-                }
+            $this->assertTrue($this->controlIsPresent('fieldset', 'tax_titles'),
+                    'Tax Titles for store views are defined, but cannot be set.');
+            foreach ($rateTitles as $key => $value) {
+                $this->addParameter('storeNumber', $this->findTaxTitleByName($key));
+                $this->fillForm(array('tax_title' => $value));
             }
         }
         $this->saveForm('save_' . $type);

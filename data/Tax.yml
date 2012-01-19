@@ -68,27 +68,28 @@ search_tax_rate:
     filter_rate_to: %noValue%
     filter_country: %noValue%
 
-tax_rate_create_test:
+tax_rate_create_test: &taxRateCreate
     tax_identifier: test_tax_id_%randomize%
     country: United States
-    state: Nevada
+    state: "*"
     zip_is_range: %noValue%
     rate_percent: 10
-    tax_titles:
-        Default Store View: Store View Title %randomize%
+
+tax_rate_create_with_custom_state:
+    <<: *taxRateCreate
+    state: Nevada
 
 tax_rate_create_test_zip_no:
-    tax_identifier: test_tax_id_%randomize%
-    country: United States
-    state: "*"
+    <<: *taxRateCreate
     zip_is_range: No
-    rate_percent: 10
 
 tax_rate_create_test_zip_yes:
-    tax_identifier: test_tax_id_%randomize%
-    country: United States
-    state: "*"
+    <<: *taxRateCreate
     zip_is_range: Yes
     zip_range_from: 89001
     zip_range_to: 89883
-    rate_percent: 10
+
+tax_rate_create_with_store_views:
+    <<: *taxRateCreate
+    tax_titles:
+        Default Store View: Store View Title %randomize%

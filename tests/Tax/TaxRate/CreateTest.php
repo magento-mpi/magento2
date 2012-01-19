@@ -131,7 +131,7 @@ class Tax_TaxRate_CreateTest extends Mage_Selenium_TestCase
      * @param string $emptyFieldName Name of the field to leave empty
      * @test
      */
-    public function withEmptyRequiredFields($emptyFieldName, $errorMessage)
+    public function withEmptyRequiredFields($emptyFieldName)
     {
         //Data
         $taxRateData = $this->loadData('tax_rate_create_test_zip_yes', array($emptyFieldName => ''));
@@ -139,16 +139,16 @@ class Tax_TaxRate_CreateTest extends Mage_Selenium_TestCase
         $this->taxHelper()->createTaxItem($taxRateData, 'rate');
         //Verifying
         $this->addFieldIdToMessage('field', $emptyFieldName);
-        $this->assertMessagePresent('error', $errorMessage);
+        $this->assertMessagePresent('error', 'empty_required_field');
     }
 
     public function withEmptyRequiredFieldsDataProvider()
     {
         return array(
-            array('tax_identifier', 'empty_required_field'),
-            array('rate_percent', 'enter_not_negative_number'),
-            array('zip_range_from', 'empty_required_field'),
-            array('zip_range_to', 'empty_required_field')
+            array('tax_identifier'),
+            array('rate_percent'),
+            array('zip_range_from'),
+            array('zip_range_to')
         );
     }
 
@@ -278,7 +278,7 @@ class Tax_TaxRate_CreateTest extends Mage_Selenium_TestCase
     public function withSelectedState()
     {
         //Data
-        $taxRateData = $this->loadData('tax_rate_create_test');
+        $taxRateData = $this->loadData('tax_rate_create_with_custom_state');
         $searchTaxRateData = $this->loadData('search_tax_rate',
                 array('filter_tax_id' => $taxRateData['tax_identifier']));
         //Steps
@@ -289,5 +289,48 @@ class Tax_TaxRate_CreateTest extends Mage_Selenium_TestCase
         $this->taxHelper()->openTaxItem($searchTaxRateData, 'rate');
         //Verifying
         $this->assertTrue($this->verifyForm($taxRateData), $this->getParsedMessages());
+    }
+
+    /**
+     * <p>Creating a new Tax Rate with custom store view titles.</p>
+     * <p>Preconditions:</p>
+     * <p>1. Ceate a new store view</p>
+     * <p>Steps:</p>
+     * <p>1. Click button "Add New Tax Rate"</p>
+     * <p>2. Fill in the fields, select title for the default and created store views</p>
+     * <p>3. Click button "Save Rate"</p>
+     * <p>4. Open the Tax Rate</p>
+     * <p>Expected result:</p>
+     * <p>All fields have the same values.</p>
+     * <p>Cleanup:</p>
+     * <p>Delete the created store view.</p>
+     *
+     * @depends withRequiredFieldsOnly
+     *
+     * @test
+     */
+    public function withStoreViewTitle()
+    {
+        //Preconditions
+        $this->navigate('manage_stores');
+        $storeViewData = $this->loadData('generic_store_view');
+        $this->storeHelper()->createStore($storeViewData, 'store_view');
+        $this->assertMessagePresent('success', 'success_saved_store_view');
+        //Data
+        $storeViewName = $storeViewData['store_view_name'];
+        $taxRateData = $this->loadData('tax_rate_create_with_store_views');
+        $taxRateData['tax_titles'][$storeViewName] = 'tax rate title for ' . $storeViewName;
+        $searchTaxRateData = $this->loadData('search_tax_rate',
+                array('filter_tax_id' => $taxRateData['tax_identifier']));
+        //Steps
+        $this->navigate('manage_tax_zones_and_rates');
+        $this->taxHelper()->createTaxItem($taxRateData, 'rate');
+        $this->assertMessagePresent('success', 'success_saved_tax_rate');
+        $this->taxHelper()->openTaxItem($searchTaxRateData, 'rate');
+        //Verification
+        $this->assertTrue($this->verifyForm($taxRateData), $this->getParsedMessages());
+        //Cleanup
+        $this->navigate('manage_stores');
+        $this->storeHelper()->deleteStore(array('store_view_name' => $storeViewName));
     }
 }
