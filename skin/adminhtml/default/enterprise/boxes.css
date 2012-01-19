@@ -450,6 +450,9 @@ button.add span,
 button.back span,
 button.add-image span,
 button.add-widget span { padding-left:20px; }
+/* Google Chrome specific fix for empty buttons */
+button.add span:after,
+button.delete span:after { display:block; clear:both; content:"."; font-size:0; line-height:0; height:0; overflow:hidden; }
 button.back { border-color:#ccc #aaa #aaa #ccc; background-color:#fff; background-image:url(images/btn_back_bg.gif); color:#555; }
 button.back span { background-image:url(images/icon_btn_back.gif); }
 button.fail,
