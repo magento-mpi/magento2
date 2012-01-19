@@ -187,10 +187,10 @@ abstract class Mage_Eav_Model_Resource_Attribute_Collection
     }
 
     /**
-     * Specify attribute entity type filter
-     * Entity type is defined
+     * Specify attribute entity type filter.
+     * Entity type is defined.
      *
-     * @param mixed $type
+     * @param  int $type
      * @return Mage_Eav_Model_Resource_Attribute_Collection
      */
     public function setEntityTypeFilter($type)

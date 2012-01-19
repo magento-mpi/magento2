@@ -251,7 +251,8 @@ varienGrid.prototype = {
         return url;
     },
     addVarToUrl : function(varName, varValue){
-        return this._addVarToUrl(this.url, varName, varValue)
+        this.url = this._addVarToUrl(this.url, varName, varValue);
+        return this.url;
     },
     doExport : function(){
         if($(this.containerId+'_export')){

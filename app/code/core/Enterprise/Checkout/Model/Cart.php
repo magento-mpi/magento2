@@ -705,11 +705,18 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object
 
         /** @var $product Mage_Catalog_Model_Product */
         $product = Mage::getModel('catalog/product')->loadByAttribute('sku', $item['sku']);
-        if ($product && $product->getId()) {
+        if ($product && $product->getId()
+            && in_array(Mage::app()->getStore()->getWebsiteId(), $product->getWebsiteIds())
+        ) {
             $item['id'] = $product->getId();
 
             if (true === $product->getDisableAddToCart()) {
                 $item['code'] = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_PERMISSIONS;
+                return $item;
+            }
+
+            if (!$product->isInStock()) {
+                $item['code'] = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_SKU;
                 return $item;
             }
 

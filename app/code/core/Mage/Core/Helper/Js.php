@@ -165,7 +165,8 @@ class Mage_Core_Helper_Js extends Mage_Core_Helper_Abstract
     {
         if (is_null($this->_config)) {
             $canUsaCache = Mage::app()->useCache('config');
-            if ($canUsaCache && $cachedXml = Mage::app()->loadCache(self::JAVASCRIPT_TRANSLATE_CONFIG_KEY)) {
+            $cachedXml = Mage::app()->loadCache(self::JAVASCRIPT_TRANSLATE_CONFIG_KEY);
+            if ($canUsaCache && $cachedXml) {
                 $xmlConfig = new Varien_Simplexml_Config($cachedXml);
             } else {
                 $xmlConfig = new Varien_Simplexml_Config();

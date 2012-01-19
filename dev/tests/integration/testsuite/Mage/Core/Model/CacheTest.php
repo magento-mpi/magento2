@@ -46,12 +46,24 @@ class Mage_Core_Model_CacheTest extends PHPUnit_Framework_TestCase
 
     public function constructorDataProvider()
     {
-        return array(
+        $data = array(
             array(array(), 'Zend_Cache_Backend_File'),
             array(array('backend' => 'File'), 'Zend_Cache_Backend_File'),
             array(array('backend' => 'File', 'backend_options' => array()), 'Zend_Cache_Backend_File'),
             array(array('backend' => 'Database'), 'Varien_Cache_Backend_Database'),
         );
+
+        $expectedMemcacheClass = null;
+        if (extension_loaded('memcached')) {
+            $expectedMemcacheClass = 'Zend_Cache_Backend_Libmemcached';
+        } elseif (extension_loaded('memcache')) {
+            $expectedMemcacheClass = 'Zend_Cache_Backend_Memcached';
+        }
+        if ($expectedMemcacheClass) {
+            $data[] = array(array('backend' => 'Memcached'), $expectedMemcacheClass);
+        }
+
+        return $data;
     }
 
     public function testGetFrontend()
@@ -254,6 +266,7 @@ class Mage_Core_Model_CacheTest extends PHPUnit_Framework_TestCase
         Mage_Core_Model_CacheTestRequestProcessor::$isEnabled = true;
         $this->assertTrue($model->processRequest());
     }
+
 }
 
 class Mage_Core_Model_CacheTestRequestProcessor

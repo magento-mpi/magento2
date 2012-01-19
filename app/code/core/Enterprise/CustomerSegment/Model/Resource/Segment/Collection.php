@@ -91,11 +91,11 @@ class Enterprise_CustomerSegment_Model_Resource_Segment_Collection
             $this->setFlag('is_event_table_joined', true);
             $this->getSelect()->joinInner(
                 array('evt' => $this->getTable($entityInfo['associations_table'])),
-                'main_table.' . $entityIdField . ' = evt.' . $entityIdField,
+                'main_table.' . $entityInfo['rule_id_field'] . ' = evt.' . $entityInfo['rule_id_field'],
                 array()
             );
         }
-        $this->getSelect()->where('evt.' . $entityIdField . ' = ?', $eventName);
+        $this->getSelect()->where('evt.' . $entityInfo['entity_id_field'] . ' = ?', $eventName);
         return $this;
     }
 

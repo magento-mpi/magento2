@@ -124,8 +124,7 @@ abstract class Mage_Catalog_Block_Product_View_Options_Abstract extends Mage_Cor
             $value['pricing_value'] = 0 - $value['pricing_value'];
         }
         if (!empty($value['is_percent'])) {
-            $priceStr = $sign . $this->helper('core')->currencyByStore($value['pricing_value'], $store, false, $flag)
-                . '%';
+            $priceStr = $sign . $value['pricing_value'] . '%';
         } else {
             $priceStr = $sign;
             $_priceInclTax = $this->getPrice($value['pricing_value'], true);
@@ -141,6 +140,7 @@ abstract class Mage_Catalog_Block_Product_View_Options_Abstract extends Mage_Cor
                         ->currencyByStore($_priceInclTax, $store, true, $flag).' '.$this->__('Incl. Tax').')';
                 }
             }
+
         }
 
         if ($flag) {
