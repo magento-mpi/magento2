@@ -87,17 +87,18 @@ class Enterprise_Checkout_Model_Observer
     {
         /* @var $importModel Enterprise_Checkout_Model_Import */
         $importModel = Mage::getModel('enterprise_checkout/import');
-        if ($importModel->uploadFile()) {
-            /* @var $orderCreateModel Mage_Adminhtml_Model_Sales_Order_Create */
-            $orderCreateModel = $observer->getOrderCreateModel();
-            try {
+        try {
+            if ($importModel->uploadFile()) {
+                /* @var $orderCreateModel Mage_Adminhtml_Model_Sales_Order_Create */
+                $orderCreateModel = $observer->getOrderCreateModel();
                 $cart = $this->_getCart()->setSession($observer->getSession());
                 $cart->prepareAddProductsBySku($importModel->getDataFromCsv());
                 $cart->saveAffectedProducts($orderCreateModel);
+            } else {
+                Mage::throwException(Mage::helper('enterprise_checkout')->__('Error in uploading file.'));
             }
-            catch (Mage_Core_Exception $e) {
-                $observer->getSession()->addError($e->getMessage());
-            }
+        } catch (Mage_Core_Exception $e) {
+            $observer->getSession()->addError($e->getMessage());
         }
     }
 
