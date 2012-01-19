@@ -1142,8 +1142,8 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     {
         $result = false;
         if (Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('admin/promo/catalog')) {
-            /** @var $ruleModel Mage_Catalogrule_Model_Rule */
-            $ruleModel = Mage::getModel('Mage_Catalogrule_Model_Rule')->load(
+            /** @var $ruleModel Mage_CatalogRule_Model_Rule */
+            $ruleModel = Mage::getModel('Mage_CatalogRule_Model_Rule')->load(
                 $controller->getRequest()->getParam('rule_id')
             );
             if ($ruleModel->getId()) {
