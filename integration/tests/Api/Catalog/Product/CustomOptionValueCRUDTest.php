@@ -26,7 +26,7 @@
  */
 
 /**
- * @magentoDataFixture Catalog/Product/_fixtures/CustomOptionValue.php
+ * @magentoDataFixture Api/Catalog/Product/_fixtures/CustomOptionValue.php
  */
 class Api_Catalog_Product_CustomOptionValueCRUDTest extends Magento_Test_Webservice
 {

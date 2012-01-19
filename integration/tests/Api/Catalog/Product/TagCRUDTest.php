@@ -26,7 +26,7 @@
  */
 
 /**
- * @magentoDataFixture Catalog/Product/_fixtures/TagCRUD.php
+ * @magentoDataFixture Api/Catalog/Product/_fixtures/TagCRUD.php
  */
 class Api_Catalog_Product_TagCRUDTest extends Magento_Test_Webservice
 {

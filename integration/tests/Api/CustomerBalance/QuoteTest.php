@@ -33,7 +33,7 @@
  */
 
 /**
- * @magentoDataFixture CustomerBalance/_fixtures/Quote.php
+ * @magentoDataFixture Api/CustomerBalance/_fixtures/Quote.php
  */
 class Api_CustomerBalance_QuoteTest extends Magento_Test_Webservice
 {

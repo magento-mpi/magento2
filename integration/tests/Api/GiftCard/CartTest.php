@@ -26,8 +26,8 @@
  */
 
 /**
- * @magentoDataFixture GiftCard/_fixtures/code_pool.php
- * @magentoDataFixture GiftCard/_fixtures/giftcard_account.php
+ * @magentoDataFixture Api/GiftCard/_fixtures/code_pool.php
+ * @magentoDataFixture Api/GiftCard/_fixtures/giftcard_account.php
  */
 class Api_GiftCard_CartTest extends Magento_Test_Webservice
 {
