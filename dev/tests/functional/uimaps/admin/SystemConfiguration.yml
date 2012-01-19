@@ -1931,7 +1931,7 @@ system_configuration:
                                         fedex_ship_to_specific_countries_use_default: //input[@name='groups[fedex][fields][specificcountry][inherit]']
                             -
                                 dhl_usa:
-                                    xpath: //div/fieldset[contains(legend, 'DHL')]
+                                    xpath: //div/fieldset[legend='DHL (Deprecated)']
                                     links:
                                         dhl_link: //a[@id='carriers_dhl-head']
                                     fields:
