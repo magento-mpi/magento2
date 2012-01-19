@@ -64,6 +64,7 @@ class Product_Create_BundleTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is created, confirmation message appears;</p>
      *
+     * @return array $productData
      * @test
      */
     public function requiredFieldsForDynamicSmoke()
@@ -171,6 +172,7 @@ class Product_Create_BundleTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Error message appears;</p>
      *
+     * @param $productData
      * @depends requiredFieldsForDynamicSmoke
      * @test
      */
@@ -196,8 +198,11 @@ class Product_Create_BundleTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is not created, error message appears;</p>
      *
+     * @param $emptyField
+     * @param $fieldType
      * @dataProvider emptyRequiredFieldInBundleDataProvider
      * @depends requiredFieldsForDynamicSmoke
+     *
      * @test
      */
     public function emptyRequiredFieldInBundle($emptyField, $fieldType)
@@ -329,6 +334,7 @@ class Product_Create_BundleTest extends Mage_Selenium_TestCase
     }
 
     /**
+     * Fails due to MAGE-5658
      * <p>Creating product with invalid weight</p>
      * <p>Steps</p>
      * <p>1. Click 'Add Product' button;</p>
@@ -365,8 +371,10 @@ class Product_Create_BundleTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is not created, error message appears;</p>
      *
+     * @param $invalidPrice
      * @dataProvider invalidNumericFieldDataProvider
      * @depends requiredFieldsForDynamicSmoke
+     *
      * @test
      */
     public function invalidPriceInBundle($invalidPrice)
@@ -392,8 +400,10 @@ class Product_Create_BundleTest extends Mage_Selenium_TestCase
      * <p>Expected result:<p>
      * <p>Product is not created, error message appears;</p>
      *
+     * @param $invalidValue
      * @dataProvider invalidNumericFieldDataProvider
      * @depends requiredFieldsForDynamicSmoke
+     *
      * @test
      */
     public function invalidSpecialPriceInBundle($invalidValue)
@@ -420,8 +430,10 @@ class Product_Create_BundleTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is not created, error message appears;</p>
      *
+     * @param $emptyTierPrice
      * @dataProvider emptyTierPriceFieldsInBundleDataProvider
      * @depends requiredFieldsForDynamicSmoke
+     *
      * @test
      */
     public function emptyTierPriceFieldsInBundle($emptyTierPrice)
@@ -458,6 +470,7 @@ class Product_Create_BundleTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is not created, error message appears;</p>
      *
+     * @param $invalidTierData
      * @dataProvider invalidNumericFieldDataProvider
      * @depends requiredFieldsForDynamicSmoke
      * @test
@@ -524,9 +537,11 @@ class Product_Create_BundleTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is not created, error message appears;</p>
      *
-     * @test
+     * @param $invalidPosition
      * @dataProvider invalidNumericFieldDataProvider
      * @depends requiredFieldsForDynamicSmoke
+     *
+     * @test
      */
     public function invalidPositionForBundleItems($invalidPosition)
     {
@@ -557,9 +572,11 @@ class Product_Create_BundleTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is created, confirmation message appears;</p>
      *
-     * @test
+     * @param $dataBundleType
      * @dataProvider bundleTypeDataProvider
      * @depends requiredFieldsForDynamicSmoke
+     *
+     * @test
      */
     public function bundleWithSimpleProduct($dataBundleType)
     {
@@ -598,9 +615,11 @@ class Product_Create_BundleTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is created, confirmation message appears;</p>
      *
-     * @test
+     * @param $dataBundleType
      * @dataProvider bundleTypeDataProvider
      * @depends requiredFieldsForDynamicSmoke
+     *
+     * @test
      */
     public function bundleWithVirtualProduct($dataBundleType)
     {
