@@ -110,7 +110,7 @@ class PriceRules_Catalog_CreateTest extends Mage_Selenium_TestCase
         return array(
             array('rule_name', 'field'),
             array('customer_groups', 'multiselect'),
-            array('discount_amount', 'field'),//Bug MAGE-5623
+            array('discount_amount', 'field'),//Bug MAGE-5623 (reproducible in 1.6.2, but is not reproducible in nightly build)
             array('sub_discount_amount', 'field')
         );
     }

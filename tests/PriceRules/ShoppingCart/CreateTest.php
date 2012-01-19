@@ -81,7 +81,7 @@ class PriceRules_ShoppingCart_CreateTest extends Mage_Selenium_TestCase
             array('rule_name', 'field'),
             array('customer_groups', 'multiselect'),
             array('coupon_code', 'field'),
-            array('discount_amount', 'field') //Bug MAGE-5623
+            array('discount_amount', 'field') //Bug MAGE-5623 (reproducible in 1.6.2, but is not reproducible in nightly build)
         );
     }
 
