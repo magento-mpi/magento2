@@ -115,8 +115,7 @@ class Enterprise_Search_Model_Resource_Index extends Mage_CatalogSearch_Model_Re
                     'store_id'
                 )
             )
-            ->where('store_id = ?', $storeId)
-            ->group('product_id');
+            ->where('store_id = ?', $storeId);
 
         if ($productIds) {
             $select->where('product_id IN (?)', $productIds);
