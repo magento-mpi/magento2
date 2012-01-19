@@ -50,20 +50,10 @@ class Mage_Api2_Model_Auth_Adapter_OauthTest extends Mage_PHPUnit_TestCase
      */
     protected function setUp()
     {
+        parent::setUp();
+
         $this->_request = Mage::getSingleton('api2/request');
         $this->_adapter = Mage::getModel('api2/auth_adapter_oauth');
-
-        parent::setUp();
-    }
-
-    /**
-     * Tears down the fixture, for example, close a network connection.
-     * This method is called after a test is executed.
-     */
-    protected function tearDown()
-    {
-        $this->_request = null;
-        $this->_adapter = null;
     }
 
     /**

@@ -57,20 +57,11 @@ class Mage_Api2_Model_AuthTest extends Mage_PHPUnit_TestCase
      */
     protected function setUp()
     {
+        parent::setUp();
+
         $this->_request     = Mage::getSingleton('api2/request');
         $this->_authManager = Mage::getModel('api2/auth');
         $this->_helperMock  = $this->getHelperMockBuilder('api2/data')->setMethods(array('getUserRoles'))->getMock();
-    }
-
-    /**
-     * Tears down the fixture, for example, close a network connection.
-     * This method is called after a test is executed.
-     */
-    protected function tearDown()
-    {
-        $this->_request     = null;
-        $this->_authManager = null;
-        $this->_helperMock  = null;
     }
 
     /**

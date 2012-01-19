@@ -43,18 +43,9 @@ class Mage_Api2_Model_Auth_Adapter_UserTest extends Mage_PHPUnit_TestCase
      */
     protected function setUp()
     {
-        $this->_userStub = Mage::getModel('api2/auth_user_admin_stub');
-
         parent::setUp();
-    }
 
-    /**
-     * Tears down the fixture, for example, close a network connection.
-     * This method is called after a test is executed.
-     */
-    protected function tearDown()
-    {
-        $this->_userStub = null;
+        $this->_userStub = Mage::getModel('api2/auth_user_admin_stub');
     }
 
     /**

@@ -56,8 +56,8 @@ class Mage_Api2_Model_RouterTest extends Mage_PHPUnit_TestCase
     protected function _getConfigRoute(array $options)
     {
         $arguments = array(
-            Mage_Api2_Model_Route_Abstract::ROUTE_PARAM    => 'products/:id',
-            Mage_Api2_Model_Route_Abstract::DEFAULTS_PARAM => $options
+            Mage_Api2_Model_Route_Abstract::PARAM_ROUTE    => 'products/:id',
+            Mage_Api2_Model_Route_Abstract::PARAM_DEFAULTS => $options
         );
 
         /** @var $rest Mage_Api2_Model_Route_Rest */
