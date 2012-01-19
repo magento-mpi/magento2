@@ -26,16 +26,33 @@
  */
 
 /**
- * Test Api2 User abstract model (Admin, Customer, Guest etc.)
+ * API2 User Admin Mock Class
+ *
+ * @category   Mage
+ * @package    Mage_Api2
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Api2_Model_Auth_Adapter_UserTest extends Mage_PHPUnit_TestCase
+class Mage_Api2_Model_Auth_User_Admin_Mock extends Mage_Api2_Model_Auth_User_Admin
+{
+    /**
+     * User Role rewrite for test purposes
+     *
+     * @var string
+     */
+    public $_role;
+}
+
+/**
+ * Test Api2 User Admin model
+ */
+class Mage_Api2_Model_Auth_User_AdminTest extends Mage_PHPUnit_TestCase
 {
     /**
      * API User object
      *
-     * @var Mage_Api2_Model_Auth_User_Admin_Stub
+     * @var Mage_Api2_Model_Auth_User_Admin_Mock
      */
-    protected $_userStub;
+    protected $_userMock;
 
     /**
      * Sets up the fixture, for example, open a network connection.
@@ -45,7 +62,7 @@ class Mage_Api2_Model_Auth_Adapter_UserTest extends Mage_PHPUnit_TestCase
     {
         parent::setUp();
 
-        $this->_userStub = Mage::getModel('api2/auth_user_admin_stub');
+        $this->_userMock = new Mage_Api2_Model_Auth_User_Admin_Mock;
     }
 
     /**
@@ -53,9 +70,9 @@ class Mage_Api2_Model_Auth_Adapter_UserTest extends Mage_PHPUnit_TestCase
      */
     public function testGetRole()
     {
-        $this->_userStub->_role = 'admin';
+        $this->_userMock->_role = 'admin';
 
-        $this->assertEquals('admin', $this->_userStub->getRole());
+        $this->assertEquals('admin', $this->_userMock->getRole());
     }
 
     /**
@@ -64,9 +81,9 @@ class Mage_Api2_Model_Auth_Adapter_UserTest extends Mage_PHPUnit_TestCase
     public function testGetRoleNotSet()
     {
         try {
-            $this->_userStub->getRole();
+            $this->_userMock->getRole();
         } catch (Exception $e) {
-            $this->assertEquals('User role is not set', $e->getMessage(), 'Invalid exception message');
+            $this->assertEquals('Admin role is unknown', $e->getMessage(), 'Invalid exception message');
 
             return;
         }
@@ -78,9 +95,9 @@ class Mage_Api2_Model_Auth_Adapter_UserTest extends Mage_PHPUnit_TestCase
      */
     public function testSetRole()
     {
-        $this->_userStub->setRole('admin');
+        $this->_userMock->setRole('admin');
 
-        $this->assertEquals('admin', $this->_userStub->_role);
+        $this->assertEquals('admin', $this->_userMock->_role);
     }
 
     /**
@@ -88,15 +105,23 @@ class Mage_Api2_Model_Auth_Adapter_UserTest extends Mage_PHPUnit_TestCase
      */
     public function testSetRoleMoreThanOnce()
     {
-        $this->_userStub->setRole('admin');
+        $this->_userMock->setRole('admin');
 
         try {
-            $this->_userStub->setRole('admin');
+            $this->_userMock->setRole('admin');
         } catch (Exception $e) {
-            $this->assertEquals('User role has been already set', $e->getMessage(), 'Invalid exception message');
+            $this->assertEquals('Admin role has been already set', $e->getMessage(), 'Invalid exception message');
 
             return;
         }
         $this->fail('An expected exception has not been raised.');
+    }
+
+    /**
+     * Test getType method
+     */
+    public function testGetType()
+    {
+        $this->assertEquals('admin', $this->_userMock->getType());
     }
 }

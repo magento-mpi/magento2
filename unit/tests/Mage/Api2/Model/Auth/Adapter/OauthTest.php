@@ -57,9 +57,9 @@ class Mage_Api2_Model_Auth_Adapter_OauthTest extends Mage_PHPUnit_TestCase
     }
 
     /**
-     * Test getUserRole method
+     * Test getUserType method
      */
-    public function testGetUserRoleAuthorization()
+    public function testGetUserTypeAuthorization()
     {
         $_SERVER['HTTP_HOST']          = 'testhost.com';
         $_SERVER['REQUEST_URI']        = '/testuri/';
@@ -83,9 +83,9 @@ class Mage_Api2_Model_Auth_Adapter_OauthTest extends Mage_PHPUnit_TestCase
     }
 
     /**
-     * Test getUserRole method
+     * Test getUserType method
      */
-    public function testGetUserRoleAuthorizationAuthInvalid()
+    public function testGetUserTypeAuthorizationAuthInvalid()
     {
         $_SERVER['HTTP_HOST']          = 'testhost.com';
         $_SERVER['REQUEST_URI']        = '/testuri/';
@@ -95,9 +95,9 @@ class Mage_Api2_Model_Auth_Adapter_OauthTest extends Mage_PHPUnit_TestCase
     }
 
     /**
-     * Test getUserRole method
+     * Test getUserType method
      */
-    public function testGetUserRoleAuthorizationHeaderInvalid()
+    public function testGetUserTypeAuthorizationHeaderInvalid()
     {
         $_SERVER['HTTP_AUTHORIZATION'] = 'NotOAuth realm="Test Realm"';
 
@@ -105,9 +105,9 @@ class Mage_Api2_Model_Auth_Adapter_OauthTest extends Mage_PHPUnit_TestCase
     }
 
     /**
-     * Test getUserRole method
+     * Test getUserType method
      */
-    public function testGetUserRoleNoAuthorizationHeader()
+    public function testGetUserTypeNoAuthorizationHeader()
     {
         $this->assertFalse($this->_adapter->getUserType($this->_request));
     }

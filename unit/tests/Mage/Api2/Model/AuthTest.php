@@ -61,23 +61,23 @@ class Mage_Api2_Model_AuthTest extends Mage_PHPUnit_TestCase
 
         $this->_request     = Mage::getSingleton('api2/request');
         $this->_authManager = Mage::getModel('api2/auth');
-        $this->_helperMock  = $this->getHelperMockBuilder('api2/data')->setMethods(array('getUserRoles'))->getMock();
+        $this->_helperMock  = $this->getHelperMockBuilder('api2/data')->setMethods(array('getUserTypes'))->getMock();
     }
 
     /**
-     * Test authenticate method with no roles
+     * Test authenticate method with no user types
      */
-    public function testAuthenticateNoAllowedRoles()
+    public function testAuthenticateNoAllowedTypes()
     {
         $this->_helperMock->expects($this->once())
-            ->method('getUserRoles')
+            ->method('getUserTypes')
             ->will($this->returnValue(array()));
 
         try {
             $this->_authManager->authenticate($this->_request);
         } catch (Exception $e) {
             $this->assertEquals(
-                'No allowed user roles found', $e->getMessage(), 'Expected exception message does not match'
+                'No allowed user types found', $e->getMessage(), 'Expected exception message does not match'
             );
             return;
         }
@@ -87,29 +87,21 @@ class Mage_Api2_Model_AuthTest extends Mage_PHPUnit_TestCase
     /**
      * Test authenticate method with invalid/not allowed
      */
-    public function testAuthenticateInvalidRole()
+    public function testAuthenticateInvalidType()
     {
         $this->_helperMock->expects($this->once())
-            ->method('getUserRoles')
+            ->method('getUserTypes')
             ->will($this->returnValue(array('admin' => 'api2/auth_user_admin')));
 
-        $authAdapterMock = $this->getModelMockBuilder('api2/auth_adapter')->setMethods(array('getUserRole'))->getMock();
+        $authAdapterMock = $this->getModelMockBuilder('api2/auth_adapter')->setMethods(array('getUserType'))->getMock();
 
         $authAdapterMock->expects($this->once())
-            ->method('getUserRole')
+            ->method('getUserType')
             ->will($this->returnValue('guest'));
 
-        try {
-            $this->_authManager->authenticate($this->_request);
-        } catch (Exception $e) {
-            $this->assertEquals(
-                'Invalid user role or role is not allowed',
-                $e->getMessage(),
-                'Expected exception message does not match'
-            );
-            return;
-        }
-        $this->fail('An expected exception has not been raised.');
+        $this->setExpectedException('Mage_Api2_Exception', 'Invalid user type or type is not allowed');
+
+        $this->_authManager->authenticate($this->_request);
     }
 
     /**
@@ -117,17 +109,17 @@ class Mage_Api2_Model_AuthTest extends Mage_PHPUnit_TestCase
      */
     public function testAuthenticateInvalidUserModel()
     {
-        $userRole = 'admin';
+        $userType = 'admin';
 
         $this->_helperMock->expects($this->once())
-            ->method('getUserRoles')
-            ->will($this->returnValue(array($userRole => 'catalog/product')));
+            ->method('getUserTypes')
+            ->will($this->returnValue(array($userType => 'catalog/product')));
 
-        $authAdapterMock = $this->getModelMockBuilder('api2/auth_adapter')->setMethods(array('getUserRole'))->getMock();
+        $authAdapterMock = $this->getModelMockBuilder('api2/auth_adapter')->setMethods(array('getUserType'))->getMock();
 
         $authAdapterMock->expects($this->once())
-            ->method('getUserRole')
-            ->will($this->returnValue($userRole));
+            ->method('getUserType')
+            ->will($this->returnValue($userType));
 
         try {
             $this->_authManager->authenticate($this->_request);
@@ -147,26 +139,56 @@ class Mage_Api2_Model_AuthTest extends Mage_PHPUnit_TestCase
      */
     public function testAuthenticate()
     {
-        $userRole = 'admin';
+        $userType = 'admin';
 
         $this->_helperMock->expects($this->once())
-            ->method('getUserRoles')
-            ->will($this->returnValue(array($userRole => 'api2/auth_user_admin')));
+            ->method('getUserTypes')
+            ->will($this->returnValue(array($userType => 'api2/auth_user_admin')));
 
-        $authAdapterMock = $this->getModelMockBuilder('api2/auth_adapter')->setMethods(array('getUserRole'))->getMock();
+        $authAdapterMock = $this->getModelMockBuilder('api2/auth_adapter')->setMethods(array('getUserType'))->getMock();
 
         $authAdapterMock->expects($this->once())
-            ->method('getUserRole')
-            ->will($this->returnValue($userRole));
-
-        $userMock = $this->getModelMockBuilder('api2/auth_user_admin')->setMethods(array('setRole'))->getMock();
-
-        $userMock->expects($this->once())
-            ->method('setRole')
-            ->with($userRole);
+            ->method('getUserType')
+            ->will($this->returnValue($userType));
 
         $this->assertInstanceOf(
             'Mage_Api2_Model_Auth_User_Abstract', $this->_authManager->authenticate($this->_request)
         );
+    }
+
+    /**
+     * Test authenticate method with inconsistent user type
+     */
+    public function testAuthenticateTypeInconsistent()
+    {
+        $userType = 'admin';
+
+        $this->_helperMock->expects($this->once())
+            ->method('getUserTypes')
+            ->will($this->returnValue(array($userType => 'api2/auth_user_admin')));
+
+        $authAdapterMock = $this->getModelMockBuilder('api2/auth_adapter')->setMethods(array('getUserType'))->getMock();
+
+        $authAdapterMock->expects($this->once())
+            ->method('getUserType')
+            ->will($this->returnValue($userType));
+
+        $userMock = $this->getModelMockBuilder('api2/auth_user_admin')->setMethods(array('getType'))->getMock();
+
+        $userMock->expects($this->once())
+            ->method('getType')
+            ->will($this->returnValue('guest'));
+
+        try {
+            $this->_authManager->authenticate($this->_request);
+        } catch (Exception $e) {
+            $this->assertEquals(
+                'User model type does not match appropriate type in config',
+                $e->getMessage(),
+                'Expected exception message does not match'
+            );
+            return;
+        }
+        $this->fail('An expected exception has not been raised.');
     }
 }
