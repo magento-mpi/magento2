@@ -71,10 +71,8 @@ default:
             areas:
                 admin:
                     url: 'http://www.localhost.com/magento/admin/'
-                    uimaps:
-                        path: 'admin'
+                    uimap_path: 'admin'
                 frontend:
                     url: 'http://www.localhost.com/magento/'
-                    uimaps:
-                        path: 'frontend'
+                    uimap_path: 'frontend'
         default: *magento
