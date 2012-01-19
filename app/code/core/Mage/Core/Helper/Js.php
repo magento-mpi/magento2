@@ -95,7 +95,7 @@ class Mage_Core_Helper_Js extends Mage_Core_Helper_Abstract
             foreach ($this->_getXmlConfig()->getXpath('*/message') as $message) {
                 $messageText = (string)$message;
                 $module = $message->getParent()->getAttribute("module");
-                $this->_translateData[$messageText] = Mage::helper(empty($module) ? 'core' : $module)->__($messageText);
+                $this->_translateData[$messageText] = Mage::helper(empty($module) ? 'Mage_Core' : $module)->__($messageText);
             }
 
             foreach ($this->_translateData as $key => $value) {
