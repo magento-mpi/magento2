@@ -40,9 +40,9 @@ class Mage_Api2_Model_Request_InterpreterTest extends Magento_TestCase
     public function testFactoryInputTypes()
     {
         $data = array(
-            'application/xml'   => 'api2/request_interpreter_xml',
-            'application/json'  => 'api2/request_interpreter_json',
-            'text/plain'        => 'api2/request_interpreter_query',
+            'application/xml'   => 'Mage_Api2_Request_Interpreter_Xml',
+            'application/json'  => 'Mage_Api2_Request_Interpreter_Json',
+            'text/plain'        => 'Mage_Api2_Request_Interpreter_Query',
         );
         foreach ($data as $type => $expectedClass) {
             $interpreter = Mage_Api2_Model_Request_Interpreter::factory($type);
