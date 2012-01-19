@@ -37,28 +37,49 @@ abstract class Mage_Api2_Model_Renderer
      * Get Renderer of given type
      *
      * @static
-     * @param mixed $input
+     * @param array|string $acceptTypes
      * @throws Mage_Api2_Exception
      * @return Mage_Api2_Model_Renderer_Interface
      */
-    public static function factory($input=null)
+    public static function factory($acceptTypes)
     {
-        if (is_string($input)) {
-            $renderType = $input;
-        } elseif ($input instanceof Mage_Api2_Model_Request) {
-            $request = $input;
+        /** @var $helper Mage_Api2_Helper_Data */
+        $helper   = Mage::helper('api2');
+        $adapters = $helper->getResponseRenderAdapters();
 
-            /** @var $helper Mage_Api2_Helper_Data */
-            $helper = Mage::helper('api2');
+        if (!is_array($acceptTypes)) {
+            $acceptTypes = array($acceptTypes);
+        }
 
-            $renderType = $helper->getRendererType($request);    //this can also throw Exception with code 406 for example
-        } else {
+        $type = null;
+        $adapterModel = null;
+        foreach ($acceptTypes as $type) {
+            foreach ($adapters as $item) {
+                $itemType = $item->type;
+                if ($type == $itemType
+                    || $type == current(explode('/', $itemType)) . '/*' || $type == '*/*'
+                ) {
+                    $adapterModel = $item->model;
+                    break 2;
+                }
+            }
+        }
+
+        //if server can't respond in any of accepted types it SHOULD send 406(not acceptable)
+        if ($adapterModel === null) {
             throw new Mage_Api2_Exception(
-                sprintf('Invalid Renderer factory argument "%s"', $input),
-                Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR
+                'Server can not understand Accept HTTP header media type.',
+                Mage_Api2_Model_Server::HTTP_NOT_ACCEPTABLE
             );
         }
 
-        return Mage::getModel($renderType);
+        $adapter = Mage::getModel($adapterModel);
+        if (!$adapter) {
+            throw new Exception(sprintf(
+                'Response renderer adapter for content type "%s" not found.',
+                $type));
+        }
+
+        return $adapter;
     }
 }

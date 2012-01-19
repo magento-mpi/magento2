@@ -29,24 +29,26 @@ abstract class Mage_Api2_Model_Resource extends Varien_Object
         $this->setRequest($request);
         $this->setResponse($response);
 
-        $this->_initRenderer($request);
+        $this->_initRenderer($request->getAcceptTypes());
 
         $response->clearHeaders();
         $response->setHeader(
             'Content-Type',
-            sprintf('%s; charset=%s',$this->getRenderer()->getMimeType(), $request->getAcceptCharset())
+            sprintf('%s; charset=%s', $this->getRenderer()->getMimeType(), $request->getAcceptCharset())
         );
     }
 
     /**
      * Init renderer
      *
-     * @param Mage_Api2_Model_Request $request
+     * @param array $acceptTypes
+     * @return Mage_Api2_Model_Resource
      */
-    protected function _initRenderer(Mage_Api2_Model_Request $request)
+    protected function _initRenderer($acceptTypes)
     {
-        $renderer = Mage_Api2_Model_Renderer::factory($request);
+        $renderer = Mage_Api2_Model_Renderer::factory($acceptTypes);
         $this->setRenderer($renderer);
+        return $this;
     }
 
     /**

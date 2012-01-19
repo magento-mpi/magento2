@@ -82,18 +82,19 @@
             </user_types>
             <request>
                 <interpreters>
-                    <text_plain>
-                        <type>text/plain</type>
-                        <model>api2/request_interpreter_query</model>
-                    </text_plain>
-                    <text_html>
-                        <type>text/html</type>
-                        <model>api2/request_interpreter_html</model>
-                    </text_html>
+                    <!-- JSON -->
                     <application_json>
                         <type>application/json</type>
                         <model>api2/request_interpreter_json</model>
                     </application_json>
+
+                    <!-- QUERY -->
+                    <text_plain>
+                        <type>text/plain</type>
+                        <model>api2/request_interpreter_query</model>
+                    </text_plain>
+
+                    <!-- XML -->
                     <application_xml>
                         <type>application/xml</type>
                         <model>api2/request_interpreter_xml</model>
@@ -108,9 +109,49 @@
                     </text_xml>
                 </interpreters>
             </request>
-            <responce>
+            <response>
+                <renders>
+                    <!-- JSON -->
+                    <default>
+                        <type>*/*</type>
+                        <model>api2/renderer_json</model>
+                    </default>
+                    <application_json>
+                        <type>application/json</type>
+                        <model>api2/renderer_json</model>
+                    </application_json>
 
-            </responce>
+                    <!-- QUERY -->
+                    <text_plain>
+                        <type>text/plain</type>
+                        <model>api2/renderer_query</model>
+                    </text_plain>
+
+                    <!-- XML -->
+                    <text_xml>
+                        <type>text/xml</type>
+                        <model>api2/renderer_xml</model>
+                    </text_xml>
+                    <application_xml>
+                        <type>application/xml</type>
+                        <model>api2/renderer_xml</model>
+                    </application_xml>
+                    <application_xhtml_xml>
+                        <type>application/xhtml+xml</type>
+                        <model>api2/renderer_xml</model>
+                    </application_xhtml_xml>
+
+                    <!-- HTML -->
+                    <text_html>
+                        <type>text/html</type>
+                        <model>api2/renderer_html</model>
+                    </text_html>
+                    <application_html>
+                        <type>application/html</type>
+                        <model>api2/renderer_html</model>
+                    </application_html>
+                </renders>
+            </response>
         </api2>
     </global>
     <admin>

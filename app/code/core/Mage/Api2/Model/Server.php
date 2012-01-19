@@ -152,7 +152,7 @@ class Mage_Api2_Model_Server
         /** @var $dispatcher Mage_Api2_Model_Dispatcher */
         $dispatcher = Mage::getModel('api2/dispatcher', $apiUser);
         $dispatcher->dispatch($request, $response);
-        
+
         return $response;
     }
 
@@ -175,8 +175,9 @@ class Mage_Api2_Model_Server
      * @param Exception $critical
      * @return Mage_Api2_Model_Server
      */
-    protected function _catchCritical(Mage_Api2_Model_Request $request, Zend_Controller_Response_Http $response,
-        Exception $critical)
+    protected function _catchCritical(Mage_Api2_Model_Request $request,
+                                      Zend_Controller_Response_Http $response,
+                                      Exception $critical)
     {
         //if developer mode is set $critical can be without a Code, it will result in a
         //Zend_Controller_Response_Exception('Invalid HTTP response code')
@@ -191,23 +192,37 @@ class Mage_Api2_Model_Server
             $exceptions = $response->getException();
 
             //render content
-            $renderer = Mage_Api2_Model_Renderer::factory($request);
-            $errorContent = $renderer->renderErrors($code, $exceptions);
+            $renderer = Mage_Api2_Model_Renderer::factory($request->getAcceptTypes());
+
+            //TODO implement domain usage
+            $domain = 'api2';
+
+            $messages = array();
+            /** @var Exception $exception */
+            foreach ($exceptions as $exception) {
+                $message = array(
+                    'domain'   => $domain,
+                    'code'     => $exception->getCode(),
+                    'message'  => $exception->getMessage(),
+                );
+                $messages['messages']['error'][] = $message;
+            }
+            $content = $renderer->render($messages);
 
             //set HTTP Code of last error, Content-Type and Body
             $response->setHttpResponseCode($code);
             $response->setHeader('Content-Type',
                 sprintf('%s; charset=%s', $renderer->getMimeType(), $request->getAcceptCharset())
             );
-            $response->setBody($errorContent);
+            $response->setBody($content);
         } catch (Exception $e) {
             //tunnelling of 406(Not acceptable) error
-            $status = ($e->getCode()==self::HTTP_NOT_ACCEPTABLE)    //$e->getCode() can result in one more loop
-                    ?self::HTTP_NOT_ACCEPTABLE                      // of try..catch
-                    :self::HTTP_INTERNAL_ERROR;
-            
+            $httpCode = $e->getCode() == self::HTTP_NOT_ACCEPTABLE    //$e->getCode() can result in one more loop
+                    ? self::HTTP_NOT_ACCEPTABLE                      // of try..catch
+                    : self::HTTP_INTERNAL_ERROR;
+
             //if error appeared in "error rendering" process then show it in plain text
-            $response->setHttpResponseCode($status);
+            $response->setHttpResponseCode($httpCode);
             $response->setHeader('Content-Type', 'text/plain; charset=UTF-8');
             $response->setBody($e->getMessage());
         }

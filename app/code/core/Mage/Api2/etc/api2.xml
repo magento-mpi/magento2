@@ -35,8 +35,5 @@
             </api_login>
             -->
         </resources>
-
-        <renderers>
-        </renderers>
     </api2>
 </config>
