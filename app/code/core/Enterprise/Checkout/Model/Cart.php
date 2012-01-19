@@ -29,6 +29,7 @@
  *
  * @method bool hasErrorMessage()
  * @method string getErrorMessage()
+ * @method setErrorMessage(string $message)
  *
  * @category   Enterprise
  * @package    Enterprise_Checkout
@@ -36,17 +37,17 @@
 class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Checkout_Model_Cart_Interface
 {
     /**
-     * @var Mage_Sales_Model_Quote
+     * @var Mage_Sales_Model_Quote|null
      */
     protected $_quote;
 
     /**
-     * @var Mage_Customer_Model_Customer
+     * @var Mage_Customer_Model_Customer|null
      */
     protected $_customer;
 
     /**
-     * @var Mage_Customer_Model_Customer
+     * @var array
      */
     protected $_resultErrors = array();
 
@@ -230,7 +231,6 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
      */
     public function getPreferredStoreId()
     {
-        $storeId = false;
         $quote = $this->getQuote();
         $customer = $this->getCustomer();
 
@@ -262,7 +262,7 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
      * In case of newer behaviour same product ids with different configs are added as separate quote items.
      *
      * @param   mixed $product
-     * @param   Varien_Object|array|float $config
+     * @param   array|float|int|Varien_Object $config
      * @return  Mage_Adminhtml_Model_Sales_Order_Create
      */
     public function addProduct($product, $config = 1)
@@ -322,6 +322,7 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
      * Add new item to quote based on existing order Item
      *
      * @param Mage_Sales_Model_Order_Item $orderItem
+     * @param int|float $qty
      * @return Mage_Sales_Model_Quote_Item
      * @throws Mage_Core_Exception
      */
@@ -554,7 +555,7 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
             $newParentItemIds[$oldItemId] = $newItem->getId();
         }
 
-        // save childs with new parent id
+        // save children with new parent id
         foreach ($quote->getItemsCollection() as $item) {
             if (!$item->getParentItem() || !isset($newParentItemIds[$item->getParentItemId()])) {
                 continue;
@@ -636,7 +637,7 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
      * @param array $items Example: [['sku' => 'simple1', 'qty' => 2], ['sku' => 'simple2', 'qty' => 3], ...]
      * @return Enterprise_Checkout_Model_Cart
      */
-    public function prepareAddProductsBySku($items)
+    public function prepareAddProductsBySku(array $items)
     {
         foreach ($items as $item) {
             if (!isset($item['sku']) || $item['sku'] == '' || empty($item['qty'])) {
@@ -645,7 +646,14 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
                 );
                 continue;
             }
-            $this->prepareAddProductBySku($item['sku'], $item['qty']);
+            $item += array('sku' => '', 'qty' => 0);
+            $item = $this->_getValidatedItem($item['sku'], $item['qty']);
+
+            if ($item['code'] == Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_SUCCESS) {
+                $this->prepareAddProductBySku($item['sku'], $item['qty']);
+            } else {
+                $this->setErrorMessage($this->_getHelper()->getMessage($item['code']));
+            }
         }
         return $this;
     }
@@ -871,10 +879,11 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
      */
     public function checkItem($sku, $qty, $config = array())
     {
-        $item = array('sku' => $sku, 'qty' => is_array($qty) ? (float)$qty['qty'] : ($qty ? (float)$qty : 1));
-        if ($item['qty'] < 0) {
-            $item['qty'] = 1;
+        $item = $this->_getValidatedItem($sku, $qty);
+        if ($item['code'] != Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_SUCCESS) {
+            return $item;
         }
+        unset($item['code']);
 
         if (!empty($config)) {
             $this->setAffectedItemConfig($sku, $config);
@@ -908,6 +917,11 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
 
                 if ($product->isDisabled()) {
                     $item['code'] = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_SKU;
+                    return $item;
+                }
+
+                if (!$product->isInStock()) {
+                    $item['code'] = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_OUT_OF_STOCK;
                     return $item;
                 }
 
@@ -953,6 +967,40 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
 
         $item['code'] = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_SUCCESS;
         return $item;
+    }
+
+    /**
+     * Returns validated item
+     *
+     * @param $sku string|array
+     * @param $qty string|int|float
+     *
+     * @return array
+     */
+    protected function _getValidatedItem($sku, $qty)
+    {
+        $code = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_SUCCESS;
+        if (empty($sku) || empty($qty)) {
+            $code = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_EMPTY;
+        } else {
+            if (!Zend_Validate::is($qty, 'Float')) {
+                $code = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_QTY_INVALID_NUMBER;
+            } else {
+                $qty = Mage::app()->getLocale()->getNumber($qty);
+                if ($qty <= 0) {
+                    $code = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_QTY_INVALID_NON_POSITIVE;
+                } elseif ($qty < 0.00001 || $qty > 10000000) {
+                    // same as app/design/frontend/enterprise/default/template/checkout/widget/sku.phtml
+                    $code = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_QTY_INVALID_RANGE;
+                }
+            }
+        }
+
+        if ($code != Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_SUCCESS) {
+            $qty = 1;
+        }
+
+        return array('sku' => $sku, 'qty' => $qty, 'code' => $code);
     }
 
     /**

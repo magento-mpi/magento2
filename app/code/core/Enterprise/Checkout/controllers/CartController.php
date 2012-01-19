@@ -80,7 +80,7 @@ class Enterprise_Checkout_CartController extends Mage_Core_Controller_Front_Acti
      */
     protected function _getFailedItemsCart()
     {
-        Mage::getModel('enterprise_checkout/cart');
+        return Mage::getModel('enterprise_checkout/cart');
     }
 
     /**
@@ -130,10 +130,14 @@ class Enterprise_Checkout_CartController extends Mage_Core_Controller_Front_Acti
         $failedItemsCart->removeAllAffectedItems();
 
         foreach ($failedItems as $data) {
-            if (!isset($data['qty']) || !isset($data['sku'])) {
-                continue;
+            $checkedItem = $failedItemsCart->checkItem($data['sku'], $data['qty']);
+
+            if ($checkedItem['code'] == Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_SUCCESS) {
+                $cart->addProduct($productId, $checkedItem['qty']);
+                $failedItemsCart->removeAffectedItem($checkedItem['sku']);
+            } else {
+                $failedItemsCart->updateItemQty($checkedItem['sku'], $checkedItem['qty']);
             }
-            $failedItemsCart->prepareAddProductBySku($data['sku'], $data['qty']);
         }
         $failedItemsCart->saveAffectedProducts();
         $this->_redirect('checkout/cart');
@@ -219,7 +223,6 @@ class Enterprise_Checkout_CartController extends Mage_Core_Controller_Front_Acti
         $id = (int) $this->getRequest()->getParam('id');
         $buyRequest = new Varien_Object($this->getRequest()->getParams());
         try {
-<<<<<<< HEAD
             /** @var $cart Mage_Checkout_Model_Cart */
             $cart = Mage::getSingleton('checkout/cart');
 
@@ -241,13 +244,6 @@ class Enterprise_Checkout_CartController extends Mage_Core_Controller_Front_Acti
                     $this->_getSession()->addSuccess($message);
                 }
             }
-=======
-            $id = (int)$this->getRequest()->getParam('id');
-            $buyRequest = new Varien_Object($this->getRequest()->getParams());
-
-            $this->_getCart()->addProduct($id, $buyRequest)->save();
-            $this->_getFailedItemsCart()->removeAffectedItem($this->getRequest()->getParam('sku'));
->>>>>>> CR-Changes MAGE-5521: Add by SKU widget: server-side checks are missing
         } catch (Mage_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
             $hasError = true;

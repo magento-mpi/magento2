@@ -62,9 +62,13 @@ class Enterprise_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
     const ADD_ITEM_STATUS_FAILED_QTY_ALLOWED = 'failed_qty_allowed';
     const ADD_ITEM_STATUS_FAILED_QTY_ALLOWED_IN_CART = 'failed_qty_allowed_in_cart';
     const ADD_ITEM_STATUS_FAILED_QTY_INCREMENTS = 'failed_qty_increment';
+    const ADD_ITEM_STATUS_FAILED_QTY_INVALID_NUMBER = 'failed_qty_invalid_number';
+    const ADD_ITEM_STATUS_FAILED_QTY_INVALID_NON_POSITIVE = 'failed_qty_invalid_non_positive';
+    const ADD_ITEM_STATUS_FAILED_QTY_INVALID_RANGE = 'failed_qty_invalid_range';
     const ADD_ITEM_STATUS_FAILED_CONFIGURE = 'failed_configure';
     const ADD_ITEM_STATUS_FAILED_PERMISSIONS = 'failed_permissions';
     const ADD_ITEM_STATUS_FAILED_UNKNOWN = 'failed_unknown';
+    const ADD_ITEM_STATUS_FAILED_EMPTY = 'failed_empty';
 
     /**
      * Layout handle for sku failed items
@@ -145,22 +149,34 @@ class Enterprise_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
     {
         switch ($code) {
             case self::ADD_ITEM_STATUS_FAILED_SKU:
-                $message = $this->__('SKU not found in catalog');
+                $message = $this->__('SKU not found in catalog.');
                 break;
             case self::ADD_ITEM_STATUS_FAILED_OUT_OF_STOCK:
-                $message = $this->__('Out of stock');
+                $message = $this->__('Out of stock.');
                 break;
             case self::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED:
-                $message = $this->__('Requested quantity is not available');
+                $message = $this->__('Requested quantity is not available.');
                 break;
             case self::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED_IN_CART:
                 $message = $this->__('The product cannot be added to cart in requested quantity.');
                 break;
+            case self::ADD_ITEM_STATUS_FAILED_QTY_INVALID_NUMBER:
+                $message = $this->__('Quantity must be a valid number.');
+                break;
+            case self::ADD_ITEM_STATUS_FAILED_QTY_INVALID_NON_POSITIVE:
+                $message = $this->__('Quantity must be greater than zero.');
+                break;
+            case self::ADD_ITEM_STATUS_FAILED_QTY_INVALID_RANGE:
+                $message = $this->__('Quantity is not within the specified range.');
+                break;
             case self::ADD_ITEM_STATUS_FAILED_CONFIGURE:
-                $message = $this->__("Please specify the product's options");
+                $message = $this->__('Please specify the product\'s options.');
                 break;
             case self::ADD_ITEM_STATUS_FAILED_PERMISSIONS:
-                $message = $this->__("The product cannot be added to cart.");
+                $message = $this->__('The product cannot be added to cart.');
+                break;
+            case self::ADD_ITEM_STATUS_FAILED_EMPTY:
+                $message = $this->__('SKU and quantity are required fields.');
                 break;
             default:
                 $message = '';

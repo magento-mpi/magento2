@@ -25,7 +25,7 @@
  */
 
 /**
- * Shoping cart model
+ * Shopping cart model
  *
  * @category    Mage
  * @package     Mage_Checkout
@@ -35,14 +35,6 @@ class Mage_Checkout_Model_Cart extends Varien_Object implements Mage_Checkout_Mo
 {
     protected $_summaryQty = null;
     protected $_productIds = null;
-
-    /**
-     * Get shopping cart resource model
-     */
-    protected function _getResource()
-    {
-        return Mage::getResourceSingleton('checkout/cart');
-    }
 
     /**
      * Retrieve checkout session model
@@ -117,6 +109,8 @@ class Mage_Checkout_Model_Cart extends Varien_Object implements Mage_Checkout_Mo
 
     /**
      * Initialize cart quote state to be able use it on cart page
+     *
+     * @return Mage_Checkout_Model_Cart
      */
     public function init()
     {
@@ -210,8 +204,7 @@ class Mage_Checkout_Model_Cart extends Varien_Object implements Mage_Checkout_Mo
         if ($requestInfo instanceof Varien_Object) {
             $request = $requestInfo;
         } elseif (is_numeric($requestInfo)) {
-            $request = new Varien_Object();
-            $request->setQty($requestInfo);
+            $request = new Varien_Object(array('qty' => $requestInfo));
         } else {
             $request = new Varien_Object($requestInfo);
         }
@@ -219,6 +212,7 @@ class Mage_Checkout_Model_Cart extends Varien_Object implements Mage_Checkout_Mo
         if (!$request->hasQty()) {
             $request->setQty(1);
         }
+
         return $request;
     }
 
@@ -483,7 +477,7 @@ class Mage_Checkout_Model_Cart extends Varien_Object implements Mage_Checkout_Mo
     }
 
     /**
-     * Get shopping cart items summary (inchlude config settings)
+     * Get shopping cart items summary (includes config settings)
      *
      * @return decimal
      */
@@ -534,7 +528,7 @@ class Mage_Checkout_Model_Cart extends Varien_Object implements Mage_Checkout_Mo
      * $requestInfo - either qty (int) or buyRequest in form of array or Varien_Object
      * $updatingParams - information on how to perform update, passed to Quote->updateItem() method
      *
-     * @param int $id
+     * @param int $itemId
      * @param int|array|Varien_Object $requestInfo
      * @param null|array|Varien_Object $updatingParams
      * @return Mage_Sales_Model_Quote_Item|string
