@@ -185,4 +185,27 @@ class Mage_Api2_Model_DispatcherTest extends Mage_PHPUnit_TestCase
 
         $this->fail('An expected Mage_Api2_Exception has not been raised.');
     }
+
+    /**
+     * Test set api user to class property
+     *
+     * @return void
+     */
+    public function testSetApiUser()
+    {
+        /** @var $dispatcher Mage_Api2_Model_Dispatcher */
+        $dispatcher = Mage::getModel('api2/dispatcher', $this->_getUser('guest'));
+        $this->assertInstanceOf('Mage_Api2_Model_Dispatcher', $dispatcher->setApiUser($this->_getUser('customer')));
+    }
+
+    /**
+     * Test failed set api user to class property
+     *
+     * @expectedException Exception
+     * @return void
+     */
+    public function testSetApiUserFail()
+    {
+        Mage::getModel('api2/dispatcher', 'qwerty');
+    }
 }
