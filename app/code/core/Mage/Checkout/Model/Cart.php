@@ -31,7 +31,7 @@
  * @package     Mage_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Checkout_Model_Cart extends Varien_Object
+class Mage_Checkout_Model_Cart extends Varien_Object implements Mage_Checkout_Model_Cart_Interface
 {
     protected $_summaryQty = null;
     protected $_productIds = null;
@@ -101,6 +101,18 @@ class Mage_Checkout_Model_Cart extends Varien_Object
             $this->setData('quote', $this->getCheckoutSession()->getQuote());
         }
         return $this->_getData('quote');
+    }
+
+    /**
+     * Set quote object associated with the cart
+     *
+     * @param Mage_Sales_Model_Quote $quote
+     * @return Mage_Checkout_Model_Cart
+     */
+    public function setQuote(Mage_Sales_Model_Quote $quote)
+    {
+        $this->setData('quote', $quote);
+        return $this;
     }
 
     /**
@@ -434,6 +446,14 @@ class Mage_Checkout_Model_Cart extends Varien_Object
          */
         Mage::dispatchEvent('checkout_cart_save_after', array('cart'=>$this));
         return $this;
+    }
+
+    /**
+     * Save cart (implement interface method)
+     */
+    public function saveQuote()
+    {
+        $this->save();
     }
 
     /**

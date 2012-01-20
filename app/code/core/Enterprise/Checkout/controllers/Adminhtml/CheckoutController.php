@@ -782,7 +782,7 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
         $productId = null;
         $buyRequest = new Varien_Object();
         switch ($listType) {
-            case 'add_by_sku':
+            case Enterprise_Checkout_Block_Adminhtml_Sku_Abstract::LIST_TYPE:
                 $info['sku'] = $itemId;
 
             case Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Abstract::LIST_TYPE:
@@ -884,15 +884,26 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
                         $config = $productHelper->addParamsToBuyRequest($info, $params)
                             ->toArray();
                     }
-                    try {
-                        $this->getCartModel()->addProduct($itemInfo->getProductId(), $config);
-                    } catch (Mage_Core_Exception $e){
-                        Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
-                    } catch (Exception $e){
-                        Mage::logException($e);
+                    if ($listType == Enterprise_Checkout_Block_Adminhtml_Sku_Abstract::LIST_TYPE) {
+                        // Items will be later added to cart using saveAffectedItems()
+                        $this->getCartModel()->setAffectedItemConfig($itemId, $config);
+                    } else {
+                        try {
+                            $this->getCartModel()->addProduct($itemInfo->getProductId(), $config);
+                        } catch (Mage_Core_Exception $e){
+                            Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+                        } catch (Exception $e){
+                            Mage::logException($e);
+                        }
                     }
                 }
             }
+        }
+
+        if (in_array(Enterprise_Checkout_Block_Adminhtml_Sku_Abstract::LIST_TYPE, $listTypes)) {
+            $cart = $this->getCartModel();
+            // We need to save products to enterprise_checkout/cart instead of checkout/cart
+            $cart->saveAffectedProducts($cart);
         }
 
         /**
@@ -980,9 +991,7 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
             try {
                 $cart = $this->getCartModel();
                 $cart->prepareAddProductsBySku($importModel->getDataFromCsv());
-                foreach ($cart->getSuccessfulAffectedItems() as $item) {
-                    $cart->addProduct($item['item']['id'], $item['item']['qty']);
-                }
+                $cart->saveAffectedProducts();
                 $cart->saveQuote();
             }
             catch (Mage_Core_Exception $e) {
