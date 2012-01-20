@@ -22,12 +22,12 @@
  * @package     selenium
  * @subpackage  tests
  * @author      Magento Core Team <core@magentocommerce.com>
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * One page Checkout test
+ * One page Checkout tests with different product types
  *
  * @package     selenium
  * @subpackage  tests
@@ -42,8 +42,8 @@ class CheckoutOnePage_Existing_WithProductsTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating Simple and Virtual products</p>
-     *
      * @test
+     * @return array
      */
     public function preconditionsForTests()
     {
@@ -59,7 +59,7 @@ class CheckoutOnePage_Existing_WithProductsTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('success', 'success_saved_product');
 
         return array(
-            'simple' => $simple['general_name'],
+            'simple'  => $simple['general_name'],
             'virtual' => $virtual['general_name'],
         );
     }
@@ -85,7 +85,7 @@ class CheckoutOnePage_Existing_WithProductsTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Checkout is successful.</p>
      *
-     * @params array $data
+     * @param array $data
      *
      * @depends preconditionsForTests
      * @test
@@ -94,7 +94,8 @@ class CheckoutOnePage_Existing_WithProductsTest extends Mage_Selenium_TestCase
     {
         $userData = $this->loadData('customer_account_register');
         $checkoutData = $this->loadData('exist_flatrate_checkmoney',
-                array('general_name' => $data['simple'], 'email_address' => $userData['email']));
+                                        array('general_name' => $data['simple'],
+                                             'email_address' => $userData['email']));
         //Steps
         $this->logoutCustomer();
         $this->navigate('customer_login');
@@ -126,7 +127,7 @@ class CheckoutOnePage_Existing_WithProductsTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Checkout is successful.</p>
      *
-     * @params array $data
+     * @param array $data
      *
      * @depends preconditionsForTests
      * @test
@@ -136,7 +137,8 @@ class CheckoutOnePage_Existing_WithProductsTest extends Mage_Selenium_TestCase
         //Data
         $userData = $this->loadData('customer_account_register');
         $checkoutData = $this->loadData('exist_flatrate_checkmoney_virtual',
-                array('general_name' => $data['virtual'], 'email_address' => $userData['email']));
+                                        array('general_name' => $data['virtual'],
+                                             'email_address' => $userData['email']));
         //Steps
         $this->logoutCustomer();
         $this->navigate('customer_login');

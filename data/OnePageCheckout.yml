@@ -528,26 +528,6 @@ signedin_flatrate_checkmoney:
     shipping_data: *flatRate
     payment_data: *checkMoney
 
-empty_billing_address_fields:
-    products_to_add:
-        product_1:
-            general_name: %noValue%
-    billing_address_data: *newBillingSignedInReqPhysical
-
-empty_shipping_address_fields:
-    products_to_add:
-        product_1:
-            general_name: %noValue%
-    billing_address_data: *newBillingSignedInReqPhysical
-    shipping_address_data: *newShippingSignedInReq
-
-empty_payment_method:
-    products_to_add:
-        product_1:
-            general_name: %noValue%
-    billing_address_data: *newBillingSignedInReqWithShipping
-    shipping_data: *flatRate
-
 ################################################################################
 #                                                                              #
 #               Order Data for With Registration                               #
@@ -570,17 +550,15 @@ with_register_flatrate_checkmoney:
     shipping_data: *flatRate
     payment_data: *checkMoney
 
-empty_checkout_data:
-    products_to_add:
-        product_1:
-            general_name: %noValue%
-
-with_register_empty_billing_fields:
+with_register_flatrate_checkmoney_different_address:
     products_to_add:
         product_1:
             general_name: %noValue%
     checkout_as_customer: *register
-    billing_address_data: *billingWithRegisterReqWithShipping
+    billing_address_data: *billingWithRegisterReq
+    shipping_address_data: *newShippingSignedInReq
+    shipping_data: *flatRate
+    payment_data: *checkMoney
 
 with_register_flatrate_checkmoney_long_address:
     products_to_add:
@@ -601,14 +579,6 @@ with_register_flatrate_checkmoney_special_address:
     shipping_address_data: *shippingWithRegisterSpecialValues
     shipping_data: *flatRate
     payment_data: *checkMoney
-
-with_register_empty_shipping_fields:
-    products_to_add:
-        product_1:
-            general_name: %noValue%
-    checkout_as_customer: *register
-    billing_address_data: *billingWithRegisterReq
-    shipping_address_data: *newShippingSignedInReq
 ################################################################################
 #                                                                              #
 #                           Order Data for Guest                               #

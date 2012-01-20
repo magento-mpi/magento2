@@ -22,12 +22,12 @@
  * @package     selenium
  * @subpackage  tests
  * @author      Magento Core Team <core@magentocommerce.com>
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * Tests for payment methods. Frontend
+ * Tests for payment methods. Frontend - OnePageCheckout
  *
  * @package     selenium
  * @subpackage  tests
@@ -53,8 +53,8 @@ class CheckoutOnePage_Guest_PaymentMethodsTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating Simple product</p>
-     *
      * @test
+     * @return string
      */
     public function preconditionsForTests()
     {
@@ -90,14 +90,19 @@ class CheckoutOnePage_Guest_PaymentMethodsTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Checkout is successful.</p>
      *
+     * @param string $payment
+     * @param string $simpleSku
+     *
      * @depends preconditionsForTests
      * @dataProvider differentPaymentMethodsWithout3DDataProvider
      * @test
+
      */
     public function differentPaymentMethodsWithout3D($payment, $simpleSku)
     {
         $checkoutData = $this->loadData('guest_flatrate_checkmoney',
-                array('general_name' => $simpleSku, 'payment_data' => $this->loadData('front_payment_' . $payment)));
+                                        array('general_name' => $simpleSku,
+                                             'payment_data'  => $this->loadData('front_payment_' . $payment)));
         if ($payment != 'checkmoney') {
             $payment .= '_without_3Dsecure';
         }
@@ -145,6 +150,9 @@ class CheckoutOnePage_Guest_PaymentMethodsTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Checkout is successful.</p>
      *
+     * @param string $payment
+     * @param string $simpleSku
+     *
      * @depends preconditionsForTests
      * @dataProvider differentPaymentMethodsWith3DDataProvider
      * @test
@@ -155,7 +163,8 @@ class CheckoutOnePage_Guest_PaymentMethodsTest extends Mage_Selenium_TestCase
             self::$useTearDown = TRUE;
         }
         $checkoutData = $this->loadData('guest_flatrate_checkmoney',
-                array('general_name' => $simpleSku, 'payment_data' => $this->loadData('front_payment_' . $payment)));
+                                        array('general_name' => $simpleSku,
+                                             'payment_data'  => $this->loadData('front_payment_' . $payment)));
         //Steps
         $this->systemConfigurationHelper()->useHttps('frontend', 'yes');
         $this->systemConfigurationHelper()->configure($payment . '_with_3Dsecure');

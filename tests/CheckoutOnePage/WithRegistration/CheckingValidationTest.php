@@ -22,13 +22,12 @@
  * @package     selenium
  * @subpackage  tests
  * @author      Magento Core Team <core@magentocommerce.com>
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * One page Checkout  - checking validation test
- *
+ * One page Checkout  - checking validation tests
  * @package     selenium
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
@@ -42,8 +41,8 @@ class CheckoutOnePage_WithRegistration_CheckingValidationTest extends Mage_Selen
 
     /**
      * <p>Creating Simple product</p>
-     *
      * @test
+     * @return string
      */
     public function preconditionsForTests()
     {
@@ -51,8 +50,6 @@ class CheckoutOnePage_WithRegistration_CheckingValidationTest extends Mage_Selen
         $simple = $this->loadData('simple_product_for_order');
         //Steps and Verification
         $this->loginAdminUser();
-        $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('shipping_disable');
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($simple);
         $this->assertMessagePresent('success', 'success_saved_product');
@@ -67,10 +64,9 @@ class CheckoutOnePage_WithRegistration_CheckingValidationTest extends Mage_Selen
      * <p>2. Click "Checkout" button</p>
      * <p>Expected Result</p>
      * <p>Shopping Cart is Empty page appears</p>
-     *
      * @test
      */
-    public function frontEmptyShoppingCart()
+    public function emptyShoppingCart()
     {
         //Steps
         $this->logoutCustomer();
@@ -78,7 +74,7 @@ class CheckoutOnePage_WithRegistration_CheckingValidationTest extends Mage_Selen
         $this->validatePage('shopping_cart');
         //Verifying
         $this->assertElementPresent($this->_getControlXpath('message', 'shopping_cart_is_empty'),
-                'Shopping cart is not empty');
+                                    'Shopping cart is not empty');
     }
 
     /**
@@ -92,24 +88,26 @@ class CheckoutOnePage_WithRegistration_CheckingValidationTest extends Mage_Selen
      * <p>Expected Result</p>
      * <p>Information window appears with message "Please choose to register or to checkout as a guest"</p>
      *
+     * @param string $simpleSku
+     *
      * @depends preconditionsForTests
      * @test
      */
-    public function frontCheckoutMethodNotDefined($simpleSku)
+    public function checkoutMethodNotDefined($simpleSku)
     {
         //Data
-        $checkoutData = $this->loadData('empty_checkout_data', array('general_name' => $simpleSku));
+        $checkoutData = $this->loadData('with_register_flatrate_checkmoney_different_address',
+                                        array('general_name'        => $simpleSku,
+                                             'checkout_as_customer' => '%noValue%',));
         //Steps
         $this->logoutCustomer();
-        $this->checkoutOnePageHelper()->doOnePageCheckoutSteps($checkoutData);
-        $this->checkoutOnePageHelper()->assertOnePageCheckoutTabOpened('checkout_method');
-        $this->clickButton('checkout_method_continue', false);
-        $this->waitForAjax();
-        if ($this->isAlertPresent()) {
-            $text = $this->getAlert();
-            $this->assertEquals($text, 'Please choose to register or to checkout as a guest');
+        try {
+            //Steps
+            $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
+        } catch (PHPUnit_Framework_AssertionFailedError $e) {
+            //Verification
+            $this->assertSame('Please choose to register or to checkout as a guest', $e->getMessage());
         }
-        $this->checkoutOnePageHelper()->assertOnePageCheckoutTabOpened('checkout_method');
     }
 
     /**
@@ -127,49 +125,50 @@ class CheckoutOnePage_WithRegistration_CheckingValidationTest extends Mage_Selen
      * <p>Expected result:</p>
      * <p>Error message appears</p>
      *
-     * @dataProvider frontEmptyRequiredFildsInBillingAddressDataProvider
+     * @param string $field
+     * @param string $errorMessage
+     * @param string $simpleSku
+     *
+     * @dataProvider emptyRequiredFieldsInBillingAddressDataProvider
      * @depends preconditionsForTests
      * @test
      */
-    public function frontEmptyRequiredFildsInBillingAddress($field, $fieldType, $simpleSku)
+    public function emptyRequiredFieldsInBillingAddress($field, $errorMessage, $simpleSku)
     {
         //Data
-        $checkoutData = $this->loadData('with_register_empty_billing_fields',
-                array('general_name' => $simpleSku, $field => ''));
+        $checkoutData = $this->loadData('with_register_flatrate_checkmoney_different_address',
+                                        array('general_name' => $simpleSku,
+                                             $field          => ''));
         //Steps
         $this->logoutCustomer();
         $this->shoppingCartHelper()->frontClearShoppingCart();
-        $this->checkoutOnePageHelper()->doOnePageCheckoutSteps($checkoutData);
-        //Verification
-        $this->addFieldIdToMessage($fieldType, $field);
-        $messagesCount = 1;
-        if ($fieldType == 'dropdown') {
-           $this->assertMessagePresent('validation', 'please_select_option');
-        } elseif ($field == 'billing_password') {
-           $this->assertMessagePresent('validation', 'empty_required_field');
-            $this->addFieldIdToMessage($fieldType, 'billing_confirm_password');
-           $this->assertMessagePresent('validation', 'different_passwords');
-            $messagesCount = 2;
-        } else {
-           $this->assertMessagePresent('validation', 'empty_required_field');
+        try {
+            //Steps
+            $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
+        } catch (PHPUnit_Framework_AssertionFailedError $e) {
+            //Verification
+            $expected = "'shipping_information' step is not selected:\n" . $errorMessage;
+            if ($field == 'billing_password') {
+                $expected .= "\n" . '"Confirm Password": Please make sure your passwords match.';
+            }
+            $this->assertSame($expected, $e->getMessage());
         }
-        $this->assertTrue($this->verifyMessagesCount($messagesCount), $this->getParsedMessages());
     }
 
-    public function frontEmptyRequiredFildsInBillingAddressDataProvider()
+    public function emptyRequiredFieldsInBillingAddressDataProvider()
     {
         return array(
-            array('billing_first_name', 'field'),
-            array('billing_last_name', 'field'),
-            array('billing_email', 'field'),
-            array('billing_street_address_1', 'field'),
-            array('billing_city', 'field'),
-            array('billing_state', 'dropdown'),
-            array('billing_zip_code', 'field'),
-            array('billing_country', 'dropdown'),
-            array('billing_telephone', 'field'),
-            array('billing_password', 'field'),
-            array('billing_confirm_password', 'field')
+            array('billing_first_name', '"First Name": This is a required field.'),
+            array('billing_last_name', '"Last Name": This is a required field.'),
+            array('billing_email', '"Email Address": This is a required field.'),
+            array('billing_street_address_1', '"Address": This is a required field.'),
+            array('billing_city', '"City": This is a required field.'),
+            array('billing_state', '"State/Province": Please select an option.'),
+            array('billing_zip_code', '"Zip/Postal Code": This is a required field.'),
+            array('billing_country', '"Country": Please select an option.'),
+            array('billing_telephone', '"Telephone": This is a required field.'),
+            array('billing_password', '"Password": This is a required field.'),
+            array('billing_confirm_password', '"Confirm Password": This is a required field.')
         );
     }
 
@@ -187,6 +186,8 @@ class CheckoutOnePage_WithRegistration_CheckingValidationTest extends Mage_Selen
      * <p>Expected result:</p>
      * <p>Error message appears</p>
      *
+     * @param string $simpleSku
+     *
      * @depends preconditionsForTests
      * @test
      */
@@ -194,16 +195,22 @@ class CheckoutOnePage_WithRegistration_CheckingValidationTest extends Mage_Selen
     {
         //Data
         $billingPassword = $this->generate('string', 5, ':punct:');
-        $checkoutData = $this->loadData('with_register_empty_billing_fields',
-                array('general_name' => $simpleSku, 'billing_password' => $billingPassword,
-            'billing_confirm_password' => $billingPassword));
+        $checkoutData = $this->loadData('with_register_flatrate_checkmoney_different_address',
+                                        array('general_name'            => $simpleSku,
+                                             'billing_password'         => $billingPassword,
+                                             'billing_confirm_password' => $billingPassword));
         //Steps
         $this->logoutCustomer();
         $this->shoppingCartHelper()->frontClearShoppingCart();
-        $this->checkoutOnePageHelper()->doOnePageCheckoutSteps($checkoutData);
-        //Verification
-        $this->addFieldIdToMessage('field', 'billing_password');
-        $this->assertMessagePresent('error', 'invalid_password_length');
+        try {
+            //Steps
+            $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
+        } catch (PHPUnit_Framework_AssertionFailedError $e) {
+            //Verification
+            $expected = "'shipping_information' step is not selected:\n" .
+                '"Password": Please enter 6 or more characters. Leading or trailing spaces will be ignored.';
+            $this->assertSame($expected, $e->getMessage());
+        }
     }
 
     /**
@@ -220,6 +227,9 @@ class CheckoutOnePage_WithRegistration_CheckingValidationTest extends Mage_Selen
      * <p>Expected result:</p>
      * <p>Error message appears</p>
      *
+     * @param string $wrongValue
+     * @param string $simpleSku
+     *
      * @depends preconditionsForTests
      * @dataProvider incorrectEmailDataProvider
      * @test
@@ -227,15 +237,21 @@ class CheckoutOnePage_WithRegistration_CheckingValidationTest extends Mage_Selen
     public function incorrectEmail($wrongValue, $simpleSku)
     {
         //Data
-        $checkoutData = $this->loadData('with_register_empty_billing_fields',
-                array('general_name' => $simpleSku, 'billing_email' => $wrongValue));
+        $checkoutData = $this->loadData('with_register_flatrate_checkmoney_different_address',
+                                        array('general_name' => $simpleSku,
+                                             'billing_email' => $wrongValue));
         //Steps
         $this->logoutCustomer();
         $this->shoppingCartHelper()->frontClearShoppingCart();
-        $this->checkoutOnePageHelper()->doOnePageCheckoutSteps($checkoutData);
-        //Verification
-        $this->addFieldIdToMessage('field', 'billing_email');
-        $this->assertMessagePresent('error', 'invalid_email_address');
+        try {
+            //Steps
+            $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
+        } catch (PHPUnit_Framework_AssertionFailedError $e) {
+            //Verification
+            $expected = "'shipping_information' step is not selected:\n" .
+                '"Email Address": Please enter a valid email address. For example johndoe@domain.com.';
+            $this->assertSame($expected, $e->getMessage());
+        }
     }
 
     public function incorrectEmailDataProvider()
@@ -261,6 +277,8 @@ class CheckoutOnePage_WithRegistration_CheckingValidationTest extends Mage_Selen
      * <p>Expected result:</p>
      * <p>Error message appears</p>
      *
+     * @param string $simpleSku
+     *
      * @depends preconditionsForTests
      * @test
      */
@@ -268,31 +286,28 @@ class CheckoutOnePage_WithRegistration_CheckingValidationTest extends Mage_Selen
     {
         //Data
         $userData = $this->loadData('customer_account_register');
-        $checkoutData = $this->loadData('with_register_empty_billing_fields',
-                array('general_name' => $simpleSku, 'billing_email' => $userData['email']));
+        $checkoutData = $this->loadData('with_register_flatrate_checkmoney_different_address',
+                                        array('general_name' => $simpleSku,
+                                             'billing_email' => $userData['email']));
         //Steps
         $this->logoutCustomer();
         $this->navigate('customer_login');
         $this->customerHelper()->registerCustomer($userData);
         $this->logoutCustomer();
-        $error = 'no alert error';
         try {
-            $this->checkoutOnePageHelper()->doOnePageCheckoutSteps($checkoutData);
-        } catch (PHPUnit_Framework_ExpectationFailedException $e) {
-            $error = $e->getMessage();
-            $errors = explode("\n", $error);
-            foreach ($errors as $key => $value) {
-                if (preg_match('/Failed asserting/', $value)) {
-                    unset($errors[$key]);
-                }
-            }
-            $error = trim(implode("\n", $errors), " \t\n\r\0\x0B");
+            //Steps
+            $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
+        } catch (PHPUnit_Framework_AssertionFailedError $e) {
+            //Verification
+            $expected = $this->_getControlXpath('message', 'exist_email_alert');
+            $this->assertSame($expected, $e->getMessage());
         }
-        //Verification
-        $this->assertEquals($this->_getControlXpath('message', 'exist_email_alert'), $error);
     }
 
     /**
+     * @param string $dataName
+     * @param string $simpleSku
+     *
      * @depends preconditionsForTests
      * @dataProvider specialValuesForAddressFieldsDataProvider
      * @test
@@ -334,40 +349,44 @@ class CheckoutOnePage_WithRegistration_CheckingValidationTest extends Mage_Selen
      * <p>Expected result:</p>
      * <p>Error message appears</p>
      *
-     * @dataProvider frontEmptyRequiredFildsInShippingAddressDataProvider
+     * @param string $field
+     * @param string $message
+     * @param string $simpleSku
+     *
+     * @dataProvider emptyRequiredFieldsInShippingAddressDataProvider
      * @depends preconditionsForTests
      * @test
      */
-    public function frontEmptyRequiredFildsInShippingAddress($field, $fieldType, $simpleSku)
+    public function emptyRequiredFieldsInShippingAddress($field, $message, $simpleSku)
     {
         //Data
-        $checkoutData = $this->loadData('with_register_empty_shipping_fields',
-                array('general_name' => $simpleSku, $field => ''));
+        $checkoutData = $this->loadData('with_register_flatrate_checkmoney_different_address',
+                                        array('general_name' => $simpleSku,
+                                             $field          => ''));
         //Steps
         $this->logoutCustomer();
         $this->shoppingCartHelper()->frontClearShoppingCart();
-        $this->checkoutOnePageHelper()->doOnePageCheckoutSteps($checkoutData);
-        //Verification
-        $this->addFieldIdToMessage($fieldType, $field);
-        if ($fieldType == 'dropdown') {
-           $this->assertMessagePresent('validation', 'please_select_option');
-        } else {
-           $this->assertMessagePresent('validation', 'empty_required_field');
+        try {
+            //Steps
+            $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
+        } catch (PHPUnit_Framework_AssertionFailedError $e) {
+            //Verification
+            $message = "'shipping_method' step is not selected:\n" . $message;
+            $this->assertSame($message, $e->getMessage());
         }
-        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
-    public function frontEmptyRequiredFildsInShippingAddressDataProvider()
+    public function emptyRequiredFieldsInShippingAddressDataProvider()
     {
         return array(
-            array('shipping_first_name', 'field'),
-            array('shipping_last_name', 'field'),
-            array('shipping_street_address_1', 'field'),
-            array('shipping_city', 'field'),
-            array('shipping_state', 'dropdown'),
-            array('shipping_zip_code', 'field'),
-            array('shipping_country', 'dropdown'),
-            array('shipping_telephone', 'field')
+            array('shipping_first_name', '"First Name": This is a required field.'),
+            array('shipping_last_name', '"Last Name": This is a required field.'),
+            array('shipping_street_address_1', '"Address": This is a required field.'),
+            array('shipping_city', '"City": This is a required field.'),
+            array('shipping_state', '"State/Province": Please select an option.'),
+            array('shipping_zip_code', '"Zip/Postal Code": This is a required field.'),
+            array('shipping_country', '"Country": Please select an option.'),
+            array('shipping_telephone', '"Telephone": This is a required field.')
         );
     }
 
@@ -386,42 +405,32 @@ class CheckoutOnePage_WithRegistration_CheckingValidationTest extends Mage_Selen
      * <p>7. Fill in one field by long value</p>
      * <p>8. Click 'Continue' button.</p>
      * <p>Expected result:</p>
-     * <p>Error masseges appears</p>
+     * <p>Error massages appears</p>
+     *
+     * @param string $field
+     * @param string $message
+     * @param string $simpleSku
      *
      * @depends preconditionsForTests
      * @dataProvider addressLongValuesDataProvider
      * @test
      */
-    public function frontBillingAddressLongValues($field, $simpleSku)
+    public function billingAddressLongValues($field, $message, $simpleSku)
     {
         //Data
-        $checkoutData = $this->loadData('with_register_empty_billing_fields',
-                array('general_name' => $simpleSku, 'billing_' . $field => $this->generate('string', 256, ':alpha:')));
+        $checkoutData = $this->loadData('with_register_flatrate_checkmoney_different_address',
+                                        array('general_name'     => $simpleSku,
+                                             'billing_' . $field => $this->generate('string', 256, ':alpha:')));
         //Steps and Verification
         $this->logoutCustomer();
         $this->shoppingCartHelper()->frontClearShoppingCart();
-        $error = 'no alert error';
         try {
-            $this->checkoutOnePageHelper()->doOnePageCheckoutSteps($checkoutData);
-        } catch (PHPUnit_Framework_ExpectationFailedException $e) {
-            $error = $e->getMessage();
-            $errors = explode("\n", $error);
-            foreach ($errors as $key => $value) {
-                if (preg_match('/Failed asserting/', $value)) {
-                    unset($errors[$key]);
-                }
-            }
-            $error = trim(implode("\n", $errors), " \t\n\r\0\x0B");
+            //Steps
+            $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
+        } catch (PHPUnit_Framework_AssertionFailedError $e) {
+            //Verification
+            $this->assertSame($message, $e->getMessage());
         }
-        //Verifications
-        if (!preg_match('/street_address/', $field)) {
-            $xpath = $this->_getControlXpath('field', 'billing_' . $field)
-                    . self::$xpathFieldNameWithValidationMessage;
-            $this->addParameter('fieldName', trim($this->getText($xpath), " *\t\n\r"));
-        } else {
-            $this->addParameter('fieldName', 'Street Address');
-        }
-        $this->assertEquals($this->_getControlXpath('message', 'long_value_alert'), $error);
     }
 
     /**
@@ -435,54 +444,45 @@ class CheckoutOnePage_WithRegistration_CheckingValidationTest extends Mage_Selen
      * <p>3. Fill in Billing Information tab</p>
      * <p>4. Fill in one field by long value</p>
      * <p>5. Click 'Continue' button.</p>
-     * <p>Error masseges appears</p>
+     * <p>Error massages appears</p>
+     *
+     * @param string $field
+     * @param string $message
+     * @param string $simpleSku
      *
      * @depends preconditionsForTests
      * @dataProvider addressLongValuesDataProvider
      * @test
      */
-    public function frontShippingAddressLongValues($field, $simpleSku)
+    public function shippingAddressLongValues($field, $message, $simpleSku)
     {
         //Data
-        $checkoutData = $this->loadData('with_register_empty_shipping_fields',
-                array('general_name' => $simpleSku, 'shipping_' . $field => $this->generate('string', 256, ':alpha:')));
+        $checkoutData = $this->loadData('with_register_flatrate_checkmoney_different_address',
+                                        array('general_name'      => $simpleSku,
+                                             'shipping_' . $field => $this->generate('string', 256, ':alpha:')));
         //Steps and Verification
         $this->logoutCustomer();
         $this->shoppingCartHelper()->frontClearShoppingCart();
-        $error = 'no alert error';
         try {
-            $this->checkoutOnePageHelper()->doOnePageCheckoutSteps($checkoutData);
-        } catch (PHPUnit_Framework_ExpectationFailedException $e) {
-            $error = $e->getMessage();
-            $errors = explode("\n", $error);
-            foreach ($errors as $key => $value) {
-                if (preg_match('/Failed asserting/', $value)) {
-                    unset($errors[$key]);
-                }
-            }
-            $error = trim(implode("\n", $errors), " \t\n\r\0\x0B");
+            //Steps
+            $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
+        } catch (PHPUnit_Framework_AssertionFailedError $e) {
+            //Verification
+            $this->assertSame($message, $e->getMessage());
         }
-        if (!preg_match('/street_address/', $field)) {
-            $xpath = $this->_getControlXpath('field', 'shipping_' . $field)
-                    . self::$xpathFieldNameWithValidationMessage;
-            $this->addParameter('fieldName', trim($this->getText($xpath), " *\t\n\r"));
-        } else {
-            $this->addParameter('fieldName', 'Street Address');
-        }
-        $this->assertEquals($this->_getControlXpath('message', 'long_value_alert'), $error);
     }
 
     public function addressLongValuesDataProvider()
     {
         return array(
-            array('first_name'),
-            array('last_name'),
-            array('company'),
-            array('street_address_1'),
-            array('street_address_2'),
-            array('city'),
-            array('telephone'),
-            array('fax')
+            array('first_name', '"First Name" length must be equal or less than 255 characters.'),
+            array('last_name', '"Last Name" length must be equal or less than 255 characters.'),
+            array('company', '"Company" length must be equal or less than 255 characters.'),
+            array('street_address_1', '"Street Address" length must be equal or less than 255 characters.'),
+            array('street_address_2', '"Street Address" length must be equal or less than 255 characters.'),
+            array('city', '"City" length must be equal or less than 255 characters.'),
+            array('telephone', '"Telephone" length must be equal or less than 255 characters.'),
+            array('fax', '"Fax" length must be equal or less than 255 characters.')
         );
     }
 }
