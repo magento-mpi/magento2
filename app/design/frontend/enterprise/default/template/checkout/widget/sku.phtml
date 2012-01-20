@@ -66,7 +66,7 @@ $qtyValidationClasses = 'validate-number validate-greater-than-zero'
                     </tfoot>
                     <tbody>
                         <tr class="order-row">
-                            <td><input type="text" name="items[0<?php echo $uniqueSuffix; ?>][sku]" class="input-text required-entry" maxlength="255" /></td>
+                            <td><input type="text" name="items[0<?php echo $uniqueSuffix; ?>][sku]" class="input-text required-entry" maxlength="64" /></td>
                             <td><input type="text" name="items[0<?php echo $uniqueSuffix; ?>][qty]" class="input-text <?php echo $qtyValidationClasses; ?>" value="1" maxlength="13" /></td>
                             <td>&nbsp;</td>
                         </tr>
