@@ -66,10 +66,10 @@ class Mage_Api2_Model_Dispatcher
     public function dispatch(Mage_Api2_Model_Request $request, Mage_Api2_Model_Response $response)
     {
         $replace = array(
-            ':resource' => $request->getParam('model'), // Set in Mage_Api2_Model_Router::_setRequestParams()
+            ':resource' => $request->getParam('model'),
             ':api'      => ucfirst($request->getApiType()),
             ':user'     => ucfirst($this->_apiUser->getRole()),
-            ':version'  => (int)$request->getVersion(),
+            ':version'  => $request->getVersion(),
         );
         $class = strtr(self::RESOURCE_CLASS_TEMPLATE, $replace);
 
