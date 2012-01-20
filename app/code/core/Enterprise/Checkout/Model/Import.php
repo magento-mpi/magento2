@@ -85,7 +85,7 @@ class Enterprise_Checkout_Model_Import extends Varien_Object
                 $uploader->skipDbProcessing(true);
                 $result = $uploader->save($this->_getWorkingDir());
             } catch (Exception $e) {
-                if ($e->getMessage() == 'Disallowed file type.') {
+                if ($uploader->getFailReason() == Varien_File_Uploader::FAIL_REASON_FILE_TYPE) {
                     $message = Mage::helper('enterprise_checkout')->__('File has an invalid extension. Only .csv files are supported.');
                 } else {
                     $message = Mage::helper('enterprise_checkout')->__('Error in uploading file.');

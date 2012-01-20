@@ -125,6 +125,27 @@ class Varien_File_Uploader
     protected $_allowedExtensions = null;
 
     /**
+     * Contains fail reason code (check FAIL_REASON_* constants)
+     *
+     * @var int
+     */
+    protected $_failReason = self::FAIL_REASON_OK;
+
+    /**
+     * Explanation messages for all fail codes
+     *
+     * @var array
+     */
+    protected $_failMessages = array(
+        self::FAIL_REASON_FILE_TYPE => 'Disallowed file type.',
+        self::FAIL_REASON_NOT_UPLOADED => 'File was not uploaded.',
+        self::FAIL_REASON_NOT_UPLOADED_TMP_NAME_EMPTY => 'File was not uploaded.',
+        self::FAIL_REASON_DESTINATION_NOT_WRITABLE => 'Destination folder is not writable or does not exists.',
+        self::FAIL_REASON_FILES_EMPTY => '$_FILES array is empty',
+        self::FAIL_REASON_CANT_CREATE_DIR => "Unable to create directory '%s'.",
+    );
+
+    /**
      * Validate callbacks storage
      *
      * @var array
@@ -134,7 +155,41 @@ class Varien_File_Uploader
 
     const SINGLE_STYLE = 0;
     const MULTIPLE_STYLE = 1;
-    const TMP_NAME_EMPTY = 666;
+
+    /**
+     * No error
+     */
+    const FAIL_REASON_OK = 0;
+
+    /**
+     * Invalid file type
+     */
+    const FAIL_REASON_FILE_TYPE = 1;
+
+    /**
+     * File was not uploaded by some reason
+     */
+    const FAIL_REASON_NOT_UPLOADED = 2;
+
+    /**
+     * File was not uploaded because tmp_name index in $_FILES array was empty
+     */
+    const FAIL_REASON_NOT_UPLOADED_TMP_NAME_EMPTY = 3;
+
+    /**
+     * Destination is not writable or does not exist
+     */
+    const FAIL_REASON_DESTINATION_NOT_WRITABLE = 4;
+
+    /**
+     * $_FILES array is empty
+     */
+    const FAIL_REASON_FILES_EMPTY = 5;
+
+    /**
+     * Can not create destination directory
+     */
+    const FAIL_REASON_CANT_CREATE_DIR = 6;
 
     /**
      * Resulting of uploaded file
@@ -148,8 +203,10 @@ class Varien_File_Uploader
     {
         $this->_setUploadFileId($fileId);
         if( !file_exists($this->_file['tmp_name']) ) {
-            $code = empty($this->_file['tmp_name']) ? self::TMP_NAME_EMPTY : 0;
-            throw new Exception('File was not uploaded.', $code);
+            $reason = empty($this->_file['tmp_name'])
+                    ? self::FAIL_REASON_NOT_UPLOADED_TMP_NAME_EMPTY
+                    : self::FAIL_REASON_NOT_UPLOADED;
+            $this->_fail($reason);
         } else {
             $this->_fileExists = true;
         }
@@ -184,7 +241,7 @@ class Varien_File_Uploader
         }
 
         if (!is_writable($destinationFolder)) {
-            throw new Exception('Destination folder is not writable or does not exists.');
+            $this->_fail(self::FAIL_REASON_DESTINATION_NOT_WRITABLE);
         }
 
         $this->_result = false;
@@ -255,7 +312,7 @@ class Varien_File_Uploader
         //is file extension allowed
         $fileExtension = substr($fileName, strrpos($fileName, '.')+1);
         if (!$this->checkAllowedExtension($fileExtension)) {
-            throw new Exception('Disallowed file type.');
+            $this->_fail(self::FAIL_REASON_FILE_TYPE);
         }
         //run validate callbacks
         foreach ($this->_validateCallbacks as $params) {
@@ -458,7 +515,7 @@ class Varien_File_Uploader
     private function _setUploadFileId($fileId)
     {
         if (empty($_FILES)) {
-            throw new Exception('$_FILES array is empty');
+            $this->_fail(self::FAIL_REASON_FILES_EMPTY);
         }
 
         if (is_array($fileId)) {
@@ -500,7 +557,7 @@ class Varien_File_Uploader
         }
 
         if (!(@is_dir($destinationFolder) || @mkdir($destinationFolder, 0777, true))) {
-            throw new Exception("Unable to create directory '{$destinationFolder}'.");
+            $this->_fail(self::FAIL_REASON_CANT_CREATE_DIR, $destinationFolder);
         }
         return $this;
     }
@@ -538,5 +595,28 @@ class Varien_File_Uploader
             $char ++;
         }
         return $dispretionPath;
+    }
+
+    /**
+     * Returns fail reason code (check FAIL_REASON_* constants)
+     *
+     * @return int
+     */
+    public function getFailReason()
+    {
+        return $this->_failReason;
+    }
+
+    /**
+     * Sets fail reason code and throws exception with explanation message
+     *
+     * @param int    $failReason Check FAIL_REASON_* constants
+     * @param string $token      '%s' in fail message is going to be substituted with it
+     * @throws Exception
+     */
+    protected function _fail($failReason, $token = '')
+    {
+        $this->_failReason = $failReason;
+        throw new Exception(sprintf($this->_failMessages[$failReason]), $token);
     }
 }
