@@ -241,9 +241,7 @@ AddBySku.prototype = {
      */
     add : function()
     {
-        var newElement = document.createElement('tr');
-        newElement.innerHTML = this.getTemplate();
-        $(this.dataContainerId).appendChild(newElement);
+        $(this.dataContainerId).insert(this.getTemplate());
     },
 
     /**
