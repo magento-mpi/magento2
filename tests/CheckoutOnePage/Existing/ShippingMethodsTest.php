@@ -22,13 +22,12 @@
  * @package     selenium
  * @subpackage  tests
  * @author      Magento Core Team <core@magentocommerce.com>
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * Tests for shipping methods. Frontend
- *
+ * Tests for shipping methods. Frontend - OnePageCheckout
  * @package     selenium
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
@@ -60,8 +59,8 @@ class CheckoutOnePage_Existing_ShippingMethodsTest extends Mage_Selenium_TestCas
 
     /**
      * <p>Creating Simple product</p>
-     *
      * @test
+     * @return string
      */
     public function preconditionsForTests()
     {
@@ -97,20 +96,25 @@ class CheckoutOnePage_Existing_ShippingMethodsTest extends Mage_Selenium_TestCas
      * <p>Expected result:</p>
      * <p>Checkout is successful.</p>
      *
+     * @param string $shipping
+     * @param string $shippingOrigin
+     * @param string $simpleSku
+     *
      * @depends preconditionsForTests
      * @dataProvider shipmentDataProvider
      * @test
      */
     public function differentShippingMethods($shipping, $shippingOrigin, $simpleSku)
     {
-        if(strpos($shipping,'dhl') !== false) {
+        if (strpos($shipping, 'dhl') !== false) {
             $this->markTestIncomplete('Temporary disabled DHL tests until a problem with DHL accounts is solved'
-                                      . '\n Note that datasets and UImaps need to be updated as well then.');
+                                          . '\n Note that datasets and UImaps need to be updated as well then.');
         }
         $userData = $this->loadData('customer_account_register');
         $checkoutData = $this->loadData('exist_flatrate_checkmoney',
-                array('general_name' => $simpleSku, 'email_address' => $userData['email'],
-            'shipping_data' => $this->loadData('front_shipping_' . $shipping)));
+                                        array('general_name' => $simpleSku,
+                                             'email_address' => $userData['email'],
+                                             'shipping_data' => $this->loadData('front_shipping_' . $shipping)));
         //Steps
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('shipping_settings_' . strtolower($shippingOrigin));
