@@ -1462,21 +1462,17 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
             $this->raw_query($query);
         }
 
-        $alterDrop   = array();
-        $foreignKeys = $this->getForeignKeys($tableName, $schemaName);
-        foreach ($foreignKeys as $fkProp) {
-            if ($fkProp['COLUMN_NAME'] == $columnName) {
-                $alterDrop[] = sprintf('DROP CONSTRAINT [%s]', $this->quoteIdentifier($fkProp['FK_NAME']));
+        foreach ($this->getForeignKeys($tableName, $schemaName) as $fkData) {
+            if (strtolower($fkData['COLUMN_NAME']) == $columnName) {
+                $this->dropForeignKey($tableName, $fkData['FK_NAME'], $schemaName);
             }
         }
 
-        $alterDrop[] = sprintf('DROP COLUMN %s', $this->quoteIdentifier($columnName));
-
-        $sql = sprintf('ALTER TABLE %s %s',
+        $query = sprintf('ALTER TABLE %s DROP COLUMN %s',
             $this->quoteIdentifier($this->_getTableName($tableName, $schemaName)),
-            implode(', ', $alterDrop));
+            $this->quoteIdentifier($columnName));
 
-        $result = $this->raw_query($sql);
+        $result = $this->raw_query($query);
 
         $this->resetDdlCache($tableName, $schemaName);
 
