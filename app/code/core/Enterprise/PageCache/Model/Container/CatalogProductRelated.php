@@ -19,50 +19,44 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Enterprise
- * @package     Enterprise_TargetRule
+ * @package     Enterprise_PageCache
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-
 /**
- * TargetRule Catalog Product List Related Block
- *
- * @category   Enterprise
- * @package    Enterprise_TargetRule
+ * Placeholder container for catalog product related block
  */
-class Enterprise_TargetRule_Block_Catalog_Product_List_Related
-    extends Enterprise_TargetRule_Block_Catalog_Product_List_Abstract
+class Enterprise_PageCache_Model_Container_CatalogProductRelated
+    extends Enterprise_PageCache_Model_Container_CatalogProductAbstract
 {
     /**
-     * Default MAP renderer type
+     * Get Items Block Alias
      *
-     * @var string
+     * @return string
      */
-    protected $_mapRenderer = 'msrp_noform';
-
-    /**
-     * Retrieve Catalog Product List Type identifier
-     *
-     * @return int
-     */
-    public function getProductListType()
+    protected function _getItemsBlockAlias()
     {
-        return Enterprise_TargetRule_Model_Rule::RELATED_PRODUCTS;
+        return 'catalog.product.related.item';
     }
 
     /**
-     * Retrieve array of exclude product ids
-     * Rewrite for exclude shopping cart products
+     * Get Items Block Template Path
      *
-     * @return array
+     * @return string
      */
-    public function getExcludeProductIds()
+    protected function _getItemsBlockTemplatePath()
     {
-        if (is_null($this->_excludeProductIds)) {
-            $cartProductIds = Mage::getSingleton('checkout/cart')->getProductIds();
-            $this->_excludeProductIds = array_merge($cartProductIds, array($this->getProduct()->getEntityId()));
-        }
-        return $this->_excludeProductIds;
+        return 'targetrule/catalog/product/list/related/item.phtml';
+    }
+
+    /**
+     * Get CachedId
+     *
+     * @return string
+     */
+    protected function _getCacheId()
+    {
+        return md5('CONTAINER_CATALOG_PRODUCT_RELATED_enterprise_targetrule/catalog_product_list_related');
     }
 }

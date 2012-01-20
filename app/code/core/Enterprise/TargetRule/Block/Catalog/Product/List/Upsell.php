@@ -46,7 +46,7 @@ class Enterprise_TargetRule_Block_Catalog_Product_List_Upsell
      *
      * @return int
      */
-    public function getType()
+    public function getProductListType()
     {
         return Enterprise_TargetRule_Model_Rule::UP_SELLS;
     }

@@ -177,11 +177,9 @@ class Enterprise_CustomerSegment_Model_Customer extends Mage_Core_Model_Abstract
             }
         }
 
-        if (!$customerId) {
-            $visitorSession = Mage::getSingleton('customer/session');
-            $this->addVisitorToWebsiteSegments($visitorSession, $websiteId, $matchedIds);
-            $this->removeVisitorFromWebsiteSegments($visitorSession, $websiteId, $notMatchedIds);
-        } else {
+        $this->addVisitorToWebsiteSegments(Mage::getSingleton('customer/session'), $websiteId, $matchedIds);
+        $this->removeVisitorFromWebsiteSegments(Mage::getSingleton('customer/session'), $websiteId, $notMatchedIds);
+        if ($customerId) {
             $this->addCustomerToWebsiteSegments($customerId, $websiteId, $matchedIds);
             $this->removeCustomerFromWebsiteSegments($customerId, $websiteId, $notMatchedIds);
         }
@@ -218,9 +216,10 @@ class Enterprise_CustomerSegment_Model_Customer extends Mage_Core_Model_Abstract
     /**
      * Add visitor-segment relation for specified website
      *
-     * @param Mage_Core_Model_Session_Abstract $customerSession
+     * @param Mage_Core_Model_Session_Abstract $visitorSession
      * @param int $websiteId
      * @param array $segmentIds
+     * @internal param \Mage_Core_Model_Session_Abstract $customerSession
      * @return Enterprise_CustomerSegment_Model_Customer
      */
     public function addVisitorToWebsiteSegments($visitorSession, $websiteId, $segmentIds)
@@ -239,15 +238,17 @@ class Enterprise_CustomerSegment_Model_Customer extends Mage_Core_Model_Abstract
             $visitorSegmentIds[$websiteId] = $segmentIds;
         }
         $visitorSession->setCustomerSegmentIds($visitorSegmentIds);
+        setcookie("CUSTOMER_SEGMENT_IDS_" .$websiteId , implode(',', $visitorSegmentIds[$websiteId]) , 0, '/');
         return $this;
     }
 
     /**
      * Remove visitor-segment relation for specified website
      *
-     * @param Mage_Core_Model_Session_Abstract $customerSession
+     * @param Mage_Core_Model_Session_Abstract $visitorSession
      * @param int $websiteId
      * @param array $segmentIds
+     * @internal param \Mage_Core_Model_Session_Abstract $customerSession
      * @return Enterprise_CustomerSegment_Model_Customer
      */
     public function removeVisitorFromWebsiteSegments($visitorSession, $websiteId, $segmentIds)
@@ -264,6 +265,7 @@ class Enterprise_CustomerSegment_Model_Customer extends Mage_Core_Model_Abstract
             $visitorCustomerSegmentIds[$websiteId] = $segmentsIdsForWebsite;
         }
         $visitorSession->setCustomerSegmentIds($visitorCustomerSegmentIds);
+        setcookie("CUSTOMER_SEGMENT_IDS_" .$websiteId , implode(',', $visitorCustomerSegmentIds[$websiteId]) , 0, '/');
         return $this;
     }
 
@@ -314,15 +316,6 @@ class Enterprise_CustomerSegment_Model_Customer extends Mage_Core_Model_Abstract
         }
         return $this->_customerWebsiteSegments[$websiteId][$customerId];
     }
-
-
-
-
-
-
-
-
-
 
     /**
      * Assign customer with specific segment ids

@@ -66,7 +66,7 @@ class Enterprise_TargetRule_Block_Checkout_Cart_Crosssell extends Enterprise_Tar
      *
      * @return int
      */
-    public function getType()
+    public function getProductListType()
     {
         return Enterprise_TargetRule_Model_Rule::CROSS_SELLS;
     }
