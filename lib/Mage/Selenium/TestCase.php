@@ -1515,7 +1515,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function search(array $data, $fieldSetName = null)
     {
-        $data = $this->arrayEmptyClear($data);
         if (!$data) {
             return null;
         }
