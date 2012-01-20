@@ -1932,10 +1932,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function assertEmptyVerificationErrors()
     {
-        $verificationErrors = (isset(Mage_Selenium_TestCase::$_messages['verification']))
-            ? Mage_Selenium_TestCase::$_messages['verification']
-            : array();
-        $this->assertEmpty($verificationErrors, implode("\n", $verificationErrors));
+        if (isset(Mage_Selenium_TestCase::$_messages['verification'])) {
+            $this->fail(implode("\n", Mage_Selenium_TestCase::$_messages['verification']));
+        }
     }
 
     /**
