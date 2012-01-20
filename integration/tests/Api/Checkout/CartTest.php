@@ -46,6 +46,13 @@ class Api_Checkout_CartTest extends Magento_Test_Webservice
     protected $_quote;
 
     /**
+     * Sales Rule object
+     *
+     * @var Mage_SalesRule_Model_Rule
+     */
+    protected $_salesRule;
+
+    /**
      * Sets up the fixture, for example, open a network connection.
      * This method is called before a test is executed.
      *
@@ -96,6 +103,9 @@ class Api_Checkout_CartTest extends Magento_Test_Webservice
 
         $this->_product->delete();
         $this->_quote->delete();
+        if ($this->_salesRule instanceof Mage_SalesRule_Model_Rule) {
+            $this->_salesRule->delete();
+        }
 
         Mage::unregister('isSecureArea');
 
@@ -204,5 +214,43 @@ class Api_Checkout_CartTest extends Magento_Test_Webservice
         $this->assertCount(1, $soapResult, 'Product List call result contain not exactly one product');
         $this->assertArrayHasKey('name', $soapResult[0], 'Product List call result does not contain a product name');
         $this->assertEquals($this->_product->getName(), $soapResult[0]['name'], 'Product Name does not match fixture');
+    }
+
+    /**
+     * Test coupon code applying
+     *
+     * @return void
+     */
+    public function testCartCouponAdd()
+    {
+        // create sales rule coupon
+        $this->_salesRule = new Mage_SalesRule_Model_Rule();
+        $discount = 10;
+        $data = array(
+            'name' => 'Test Coupon',
+            'is_active' => true,
+            'website_ids'       => array(Mage::app()->getStore()->getWebsiteId()),
+            'customer_group_ids' => array(Mage_Customer_Model_Group::NOT_LOGGED_IN_ID),
+            'coupon_type' => Mage_SalesRule_Model_Rule::COUPON_TYPE_SPECIFIC,
+            'coupon_code' => uniqid(),
+            'simple_action' => Mage_SalesRule_Model_Rule::BY_PERCENT_ACTION,
+            'discount_amount' => $discount,
+        );
+        $this->_salesRule->loadPost($data)->setUseAutoGeneration(false)->save();
+
+        // have to re-load product for stock item set
+        $this->_product->load($this->_product->getId());
+
+        // add product as a quote item
+        $this->_quote->addProduct($this->_product);
+        $this->_quote->collectTotals()->save();
+
+        $soapResult = $this->getWebService()->call('cart_coupon.add', array('quoteId' => $this->_quote->getId(),
+            'couponCode' => $this->_salesRule->getCouponCode()));
+        $this->assertTrue($soapResult, 'Coupon code was not applied');
+        $this->_quote->load($this->_quote->getId());
+        $discountedPrice = sprintf('%01.2f', $this->_product->getPrice() * (1 - $discount/100));
+        $this->assertEquals($this->_quote->getSubtotalWithDiscount(), $discountedPrice,
+            'Quote subtotal price does not match discounted item price');
     }
 }
