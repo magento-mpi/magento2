@@ -22,7 +22,7 @@
  * @package     selenium
  * @subpackage  tests
  * @author      Magento Core Team <core@magentocommerce.com>
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
@@ -272,7 +272,8 @@ class Product_Helper extends Mage_Selenium_TestCase
     /**
      * Select Website by Website name
      *
-     * @param type $websiteName
+     * @param $websiteName
+     * @param $action
      */
     public function selectWebsite($websiteName, $action = 'select')
     {
@@ -508,6 +509,7 @@ class Product_Helper extends Mage_Selenium_TestCase
      * Verify product info
      *
      * @param array $productData
+     * @param array $skipElements
      */
     public function verifyProductInfo(array $productData, $skipElements = array())
     {
@@ -623,6 +625,7 @@ class Product_Helper extends Mage_Selenium_TestCase
      * Verify Tier Prices
      *
      * @param array $tierPriceData
+     * @return boolean
      */
     public function verifyTierPrices(array $tierPriceData)
     {
@@ -722,6 +725,7 @@ class Product_Helper extends Mage_Selenium_TestCase
      * Verify Custom Options
      *
      * @param array $customOptionData
+     * @return boolean
      */
     public function verifyCustomOption(array $customOptionData)
     {
@@ -756,6 +760,7 @@ class Product_Helper extends Mage_Selenium_TestCase
      * verify Bundle Options
      *
      * @param array $bundleData
+     * @return boolean
      */
     public function verifyBundleOptions(array $bundleData)
     {
@@ -849,6 +854,7 @@ class Product_Helper extends Mage_Selenium_TestCase
      * Open product on FrontEnd
      *
      * @param string $productName
+     * @param $categoryPath
      */
     public function frontOpenProduct($productName, $categoryPath = null)
     {
@@ -1075,13 +1081,13 @@ class Product_Helper extends Mage_Selenium_TestCase
                 $xpathArray['custom_options']['option_' . $i]['xpath_' . $count++] = $xpath . $xpathExt;
             }
             if (array_key_exists('custom_options_image_size_x', $value)) {
-                $this->addParameter('fileExt', $value['custom_options_image_size_x'] . ' px.');
-                $xpathExt = $this->_getControlXpath('pageelement', 'custom_option_file_ext');
+                $this->addParameter('fileWidth', $value['custom_options_image_size_x']);
+                $xpathExt = $this->_getControlXpath('pageelement', 'custom_option_file_max_width');
                 $xpathArray['custom_options']['option_' . $i]['xpath_' . $count++] = $xpath . $xpathExt;
             }
             if (array_key_exists('custom_options_image_size_y', $value)) {
-                $this->addParameter('fileExt', $value['custom_options_image_size_y'] . ' px.');
-                $xpathExt = $this->_getControlXpath('pageelement', 'custom_option_file_ext');
+                $this->addParameter('fileHeight', $value['custom_options_image_size_y']);
+                $xpathExt = $this->_getControlXpath('pageelement', 'custom_option_file_max_height');
                 $xpathArray['custom_options']['option_' . $i]['xpath_' . $count++] = $xpath . $xpathExt;
             }
         } else {
@@ -1095,7 +1101,7 @@ class Product_Helper extends Mage_Selenium_TestCase
      * @param string $priceToCalc
      * @param int $i
      * @param string $pageelement
-     * @return
+     * @return array
      */
     private function _formXpathForCustomOptionsRows(array $options, $priceToCalc, $i, $pageelement)
     {

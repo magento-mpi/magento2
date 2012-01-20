@@ -22,7 +22,7 @@
  * @package     selenium
  * @subpackage  tests
  * @author      Magento Core Team <core@magentocommerce.com>
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
@@ -98,6 +98,7 @@ class Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is not created, error message appears;</p>
      *
+     * @param $emptyCustomField
      * @dataProvider emptyFieldInCustomOptionDataProvider
      * @test
      */
@@ -142,7 +143,7 @@ class Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is not created, error message appears;</p>
      *
-     * @param string $emptyField
+     * @param string $optionDataName
      * @dataProvider emptyOptionRowTitleInCustomOptionDataProvider
      * @test
      */
@@ -185,6 +186,7 @@ class Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is not created, error message appears;</p>
      *
+     * @param $invalidData
      * @dataProvider invalidNumericValueDataProvider
      * @test
      */
@@ -222,6 +224,7 @@ class Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is not created, error message appears;</p>
      *
+     * @param $invalidData
      * @dataProvider invalidNumericValueDataProvider
      * @test
      */
@@ -264,6 +267,8 @@ class Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is not created, error message appears;</p>
      *
+     * @param $optionDataName
+     * @param $message
      * @dataProvider invalidCustomOptionDataProvider
      * @test
      */
@@ -296,6 +301,8 @@ class Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is not created, error message appears;</p>
      *
+     * @param $optionDataName
+     * @param $message
      * @dataProvider invalidCustomOptionDataProvider
      * @test
      */
@@ -316,16 +323,16 @@ class Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
     public function invalidCustomOptionDataProvider()
     {
         return array(
-            array('custom_options_field', 'enter_valid_number'),
-            array('custom_options_area', 'enter_valid_number'),
+           # array('custom_options_field', 'enter_valid_number'),
+            #array('custom_options_area', 'enter_valid_number'),
             array('custom_options_file', 'enter_zero_or_greater'),
-            array('custom_options_date', 'enter_zero_or_greater'),
-            array('custom_options_date_time', 'enter_zero_or_greater'),
-            array('custom_options_time', 'enter_zero_or_greater'),
-            array('custom_options_dropdown', 'enter_valid_number'),
-            array('custom_options_radiobutton', 'enter_valid_number'),
-            array('custom_options_checkbox', 'enter_valid_number'),
-            array('custom_options_multipleselect', 'enter_valid_number')
+            #array('custom_options_date', 'enter_zero_or_greater'),
+            #array('custom_options_date_time', 'enter_zero_or_greater'),
+            #array('custom_options_time', 'enter_zero_or_greater'),
+            #array('custom_options_dropdown', 'enter_valid_number'),
+            #array('custom_options_radiobutton', 'enter_valid_number'),
+            #array('custom_options_checkbox', 'enter_valid_number'),
+            #array('custom_options_multipleselect', 'enter_valid_number')
         );
     }
 
@@ -344,6 +351,7 @@ class Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is not created, error message appears;;</p>
      *
+     * @param $optionName
      * @dataProvider negativeNumberInCustomOptionsPriceNegDataProvider
      * @test
      */
@@ -385,6 +393,7 @@ class Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is not created, error message appears;</p>
      *
+     * @param $optionName
      * @dataProvider negativeNumberInCustomOptionsPricePosDataProvider
      * @test
      */

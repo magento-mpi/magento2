@@ -567,6 +567,7 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
         $this->addParameter('attrId', $attrId);
         //2.Define attribute set ID that used in product
         $this->navigate('manage_products');
+        $data['search'] = $this->arrayEmptyClear($data['search']);
         $productXpath = $this->search($data['search']);
         $this->assertNotEquals(null, $productXpath);
         $columnId = $this->getColumnIdByName('Attrib. Set Name');
@@ -609,6 +610,7 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
         $this->addParameter('attrId', $attrId);
         //2.Define attribute set ID that used in product
         $this->navigate('manage_products');
+        $data['search'] = $this->arrayEmptyClear($data['search']);
         $productXpath = $this->search($data['search']);
         $this->assertNotEquals(null, $productXpath);
         $columnId = $this->getColumnIdByName('Attrib. Set Name');
