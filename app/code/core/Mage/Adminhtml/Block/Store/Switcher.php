@@ -232,15 +232,7 @@ class Mage_Adminhtml_Block_Store_Switcher extends Mage_Adminhtml_Block_Template
     public function getHintUrl()
     {
         if (null === $this->_hintUrl) {
-            $config = Mage::getConfig()->getNode('default/hints');
-            if ($config) {
-                foreach ($config->children() as $type => $node) {
-                    if ((string)$node->enabled && $type === self::XPATH_HINT_KEY) {
-                        $this->_hintUrl = (string)$node->url;
-                        break;
-                    }
-                }
-            }
+            $this->_hintUrl = Mage::helper('core/hint')->getHintByCode(self::XPATH_HINT_KEY);
         }
         return $this->_hintUrl;
     }
