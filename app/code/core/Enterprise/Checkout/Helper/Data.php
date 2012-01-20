@@ -89,7 +89,7 @@ class Enterprise_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
      *
      * @var array
      */
-    protected $_codeForFailedTemplates = array(
+    protected $_failedTemplateStatusCodes = array(
         self::ADD_ITEM_STATUS_FAILED_SKU,
         self::ADD_ITEM_STATUS_FAILED_PERMISSIONS
     );
@@ -225,14 +225,14 @@ class Enterprise_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
             $quoteItemsCollection = is_null($this->_items) ? array() : $this->_items;
 
             foreach ($failedItems as $item) {
-                if (is_null($this->_items) && !in_array($item['code'], $this->_codeForFailedTemplates)) {
+                if (is_null($this->_items) && !in_array($item['code'], $this->_failedTemplateStatusCodes)) {
                     $id = $item['item']['id'];
                     $itemsToLoad[$id] = $item['item'];
                     $itemsToLoad[$id]['code'] = $item['code'];
                     $itemsToLoad[$id]['error'] = isset($item['error']) ? $item['error'] : '';
                     // Avoid collisions of product ID with quote item ID
                     unset($itemsToLoad[$id]['id']);
-                } elseif ($all && in_array($item['code'], $this->_codeForFailedTemplates)) {
+                } elseif ($all && in_array($item['code'], $this->_failedTemplateStatusCodes)) {
                     $item['item']['code'] = $item['code'];
                     $item['item']['product_type'] = 'undefined';
                     $quoteItemsCollection[] = new Varien_Object($item['item']);
