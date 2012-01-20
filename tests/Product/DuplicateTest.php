@@ -22,7 +22,7 @@
  * @package     selenium
  * @subpackage  tests
  * @author      Magento Core Team <core@magentocommerce.com>
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
@@ -57,6 +57,7 @@ class Product_DuplicateTest extends Mage_Selenium_TestCase
      * Test Realizing precondition for creating configurable product.
      *
      * @test
+     * @return array $attrData
      */
     public function createConfigurableAttribute()
     {
@@ -84,8 +85,10 @@ class Product_DuplicateTest extends Mage_Selenium_TestCase
     /**
      * Test Realizing precondition for duplicating products.
      *
-     * @test
+     * @param $attrData
      * @depends createConfigurableAttribute
+     * @return array $productData
+     * @test
      */
     public function createProducts($attrData)
     {
@@ -121,6 +124,8 @@ class Product_DuplicateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is duplicated, confirmation message appears;</p>
      *
+     * @param $attrData
+     * @param $productData
      * @depends createConfigurableAttribute
      * @depends createProducts
      * @test
@@ -161,6 +166,8 @@ class Product_DuplicateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is duplicated, confirmation message appears;</p>
      *
+     * @param $attrData
+     * @param $productData
      * @depends createConfigurableAttribute
      * @depends createProducts
      * @test
@@ -193,6 +200,7 @@ class Product_DuplicateTest extends Mage_Selenium_TestCase
     }
 
     /**
+     * Fails due to MAGE-4390
      * <p>Creating duplicated downloadable product</p>
      * <p>Steps:</p>
      * <p>1. Open created product;</p>
@@ -201,6 +209,8 @@ class Product_DuplicateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is duplicated, confirmation message appears;</p>
      *
+     * @param $attrData
+     * @param $productData
      * @depends createConfigurableAttribute
      * @depends createProducts
      * @test
@@ -246,6 +256,7 @@ class Product_DuplicateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is created, confirmation message appears;</p>
      *
+     * @param $productData
      * @depends createProducts
      *
      * @test
@@ -296,6 +307,8 @@ class Product_DuplicateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is created, confirmation message appears;</p>
      *
+     * @param $data
+     * @param $productData
      * @depends createProducts
      * @dataProvider duplicateBundleDataProvider
      * @test
@@ -358,9 +371,11 @@ class Product_DuplicateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is created, confirmation message appears;</p>
      *
-     * @test
+     * @param $attrData
+     * @param $productData
      * @depends createConfigurableAttribute
      * @depends createProducts
+     * @test
      */
     public function duplicateConfigurable($attrData, $productData)
     {
