@@ -733,8 +733,8 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
         $product = Mage::getModel('catalog/product')->loadByAttribute('sku', $item['sku']);
         $store = Mage::app()->getStore();
 
-        if ($product && $product->getId() &&
-            ($store->isAdmin() || in_array($store->getWebsiteId(), $product->getWebsiteIds()))
+        if ($product && $product->getId()
+            && ($store->isAdmin() || in_array($store->getWebsiteId(), $product->getWebsiteIds()))
         ) {
             $item['id'] = $product->getId();
 
