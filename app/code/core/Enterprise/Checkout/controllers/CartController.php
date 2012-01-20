@@ -204,11 +204,25 @@ class Enterprise_Checkout_CartController extends Mage_Core_Controller_Front_Acti
 
             /** @var $cart Mage_Checkout_Model_Cart */
             $cart = Mage::getSingleton('checkout/cart');
-            $cart->addProduct($id, $buyRequest);
+
+            $product = Mage::getModel('catalog/product')
+                ->setStoreId(Mage::app()->getStore()->getId())
+                ->load($id);
+
+            $cart->addProduct($product, $buyRequest);
             $cart->save();
+
             Mage::getModel('enterprise_checkout/cart')->removeAffectedItem(
                 $this->getRequest()->getParam('sku')
             );
+
+            if (!$this->_getSession()->getNoCartRedirect(true)) {
+                if (!$cart->getQuote()->getHasError()){
+                    $productName = Mage::helper('core')->htmlEscape($product->getName());
+                    $message = $this->__('%s was added to your shopping cart.', $productName);
+                    $this->_getSession()->addSuccess($message);
+                }
+            }
         } catch (Mage_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         } catch (Exception $e) {
