@@ -56,6 +56,13 @@
  */
 class Mage_Api_Model_User extends Mage_Core_Model_Abstract
 {
+    /**
+     * Prefix of model events names
+     *
+     * @var string
+     */
+    protected $_eventPrefix = 'api_user';
+
     protected function _construct()
     {
         $this->_init('api/user');
