@@ -105,20 +105,15 @@ class Enterprise_Checkout_CartController extends Mage_Core_Controller_Front_Acti
 
         /** @var $failedItemsCart Enterprise_Checkout_Model_Cart */
         $failedItemsCart = Mage::getModel('enterprise_checkout/cart');
+        $failedItemsCart->removeAllAffectedItems();
 
-        foreach ($failedItems as $productId => $data) {
+        foreach ($failedItems as $data) {
             if (!isset($data['qty']) || !isset($data['sku'])) {
                 continue;
             }
-            $checkedItem = $failedItemsCart->checkItem($data['sku'], $data['qty']);
-            if ($checkedItem['code'] == Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_SUCCESS) {
-                $cart->addProduct($productId, $data['qty']);
-                $failedItemsCart->removeAffectedItem($data['sku']);
-            } else {
-                $failedItemsCart->updateItemQty($data['sku'], $data['qty']);
-            }
+            $failedItemsCart->prepareAddProductBySku($data['sku'], $data['qty']);
         }
-        $cart->save();
+        $failedItemsCart->saveAffectedProducts();
         $this->_redirect('checkout/cart');
     }
 
