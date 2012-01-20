@@ -481,21 +481,6 @@ class Enterprise_Eav_Helper_Data extends Mage_Core_Helper_Abstract
                     $value = $this->stripTags($value);
                 }
             }
-            //options
-            if (!empty($data['option']['value'])) {
-                foreach ($data['option']['value'] as &$options) {
-                    foreach ($options as &$label) {
-                        $label = $this->stripTags($label);
-                    }
-                }
-            }
-            //default value
-            if (!empty($data['default_value_text'])) {
-                $data['default_value_text'] = $this->stripTags($data['default_value_text']);
-            }
-            if (!empty($data['default_value_textarea'])) {
-                $data['default_value_textarea'] = $this->stripTags($data['default_value_textarea']);
-            }
 
             //validate attribute_code
             if (isset($data['attribute_code'])) {
