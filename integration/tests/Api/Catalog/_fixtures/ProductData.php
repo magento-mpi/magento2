@@ -42,6 +42,20 @@ return array(
             'name'          => 'Simple Product Updated',    //test update method
         )
     ),
+    'update_custom_store'   => array(
+        'product'   => '__PLACEHOLDER__',
+        'productData'   => array(
+            'status'        => Mage_Catalog_Model_Product_Status::STATUS_ENABLED,   //required to see product on backend
+            'name'          => 'Simple Product Updated Custom Store',    //test update method
+        ),
+        'store' => 'test_store'
+    ),
+    'update_default_store' => array(
+        'product' => '__PLACEHOLDER__',
+        'productData' => array(
+            'description' => 'Updated description'
+        )
+    ),
     'create_with_attributes_soapv2'    => array(
         'type'  => Mage_Catalog_Model_Product_Type::TYPE_SIMPLE,
         'set'   => 4,

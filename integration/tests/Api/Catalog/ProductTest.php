@@ -32,6 +32,13 @@ class Api_Catalog_ProductTest extends Magento_Test_Webservice
 {
 
     /**
+     * Test store model
+     *
+     * @var Mage_Core_Model_Store
+     */
+    protected $_store;
+
+    /**
      * Tear down
      *
      * @return void
@@ -41,6 +48,7 @@ class Api_Catalog_ProductTest extends Magento_Test_Webservice
         $product = new Mage_Catalog_Model_Product();
         $product->load($this->getFixture('productId'));
         $this->callModelDelete($product, true);
+        $this->callModelDelete($this->_store, true);
 
         parent::tearDown();
     }
@@ -390,5 +398,66 @@ class Api_Catalog_ProductTest extends Magento_Test_Webservice
                 'Invalid exception message'
             );
         }
+    }
+
+    /**
+     * Test product attributes update in custom store view
+     *
+     * @return void
+     */
+    public function testProductUpdateCustomStore()
+    {
+        // Create test store view
+        $website = Mage::app()->getWebsite();
+        $this->_store = new Mage_Core_Model_Store();
+        $this->_store->setData(array(
+            'group_id' => $website->getDefaultGroupId(),
+            'name' => 'Test Store View',
+            'code' => 'test_store',
+            'is_active' => true,
+            'website_id' => $website->getId()
+        ))->save();
+        // We need to reinit stores config as we are going to load product models later in this test
+        Mage::app()->reinitStores();
+
+        $data = require dirname(__FILE__) . '/_fixtures/ProductData.php';
+        // create product for test
+        $productId = $this->call('catalog_product.create', $data['create_full']['soap']);
+        $this->assertGreaterThan(0, $productId, 'Product was not created');
+        $this->setFixture('productId', $productId);
+
+        // update product on test store
+        $data['update_custom_store']['product'] = $productId;
+        $data['update_custom_store']['store'] = $this->_store->getCode();
+        $isOk = $this->call('catalog_product.update', $data['update_custom_store']);
+        $this->assertTrue($isOk, 'Can not update product on test store');
+
+        // Load product in test store
+        $product = new Mage_Catalog_Model_Product();
+        $product->setStoreId($this->_store->getId())->load($productId);
+        $this->assertNotNull($product->getId());
+        $this->assertEquals($data['update_custom_store']['productData']['name'], $product->getName(),
+            'Product name was not updated');
+
+        // update product attribute in default store
+        $data['update_default_store']['product'] = $productId;
+        $isOk = $this->call('catalog_product.update', $data['update_default_store']);
+        $this->assertTrue($isOk, 'Can not update product on default store');
+
+        // Load product in default store
+        $productDefault = new Mage_Catalog_Model_Product();
+        $productDefault->load($productId);
+        $this->assertEquals($data['update_default_store']['productData']['description'],
+            $productDefault->getDescription(), 'Description attribute was not updated for default store');
+        $this->assertEquals($data['create_full']['soap']['productData']['name'], $productDefault->getName(),
+            'Product name attribute should not have been changed');
+
+        // Load product in test store
+        $productTestStore = new Mage_Catalog_Model_Product();
+        $productTestStore->setStoreId($this->_store->getId())->load($productId);
+        $this->assertEquals($data['update_default_store']['productData']['description'],
+            $productTestStore->getDescription(), 'Description attribute was not updated for test store');
+        $this->assertEquals($data['update_custom_store']['productData']['name'], $productTestStore->getName(),
+            'Product name attribute should not have been changed for test store');
     }
 }
