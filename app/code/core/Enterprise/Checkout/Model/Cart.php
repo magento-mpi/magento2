@@ -989,7 +989,7 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
                 $qty = Mage::app()->getLocale()->getNumber($qty);
                 if ($qty <= 0) {
                     $code = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_QTY_INVALID_NON_POSITIVE;
-                } elseif ($qty < 0.00001 || $qty > 10000000) {
+                } elseif ($qty < 0.0001 || $qty > 99999999.9999) {
                     // same as app/design/frontend/enterprise/default/template/checkout/widget/sku.phtml
                     $code = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_QTY_INVALID_RANGE;
                 }
