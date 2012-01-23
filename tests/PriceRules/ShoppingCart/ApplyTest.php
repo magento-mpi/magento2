@@ -36,6 +36,18 @@
 class PriceRules_ShoppingCart_ApplyTest extends Mage_Selenium_TestCase
 {
     /**
+     * <p>Setup:</p>
+     * <p>Configure system for tests</p>
+     */
+    public function setUpBeforeTests()
+    {
+        $this->loginAdminUser();
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('default_tax_config');
+        $this->systemConfigurationHelper()->configure('flatrate_enable');
+    }
+
+    /**
      * <p>Preconditions:</p>
      * <p>Login Admin to backend</p>
      */
@@ -139,8 +151,6 @@ class PriceRules_ShoppingCart_ApplyTest extends Mage_Selenium_TestCase
      */
     public function createSCPR($ruleType, $customer, $category, $products)
     {
-        $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('default_tax_config');
         $cartProductsData = $this->loadData('prices_for_' . $ruleType);
         $checkoutData = $this->loadData('totals_for_' . $ruleType);
         $this->navigate('manage_shopping_cart_price_rules');
