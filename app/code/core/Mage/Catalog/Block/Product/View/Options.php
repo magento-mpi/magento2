@@ -144,11 +144,12 @@ class Mage_Catalog_Block_Product_View_Options extends Mage_Core_Block_Template
     protected function _getPriceConfiguration($option)
     {
         $data = array();
-        $data['price'] = $option->getPrice(false);
-        $data['oldPrice'] = Mage::helper('core')->currency($option->getPrice(true), false, false);
-        $data['type'] = $option->getPriceType();
-        $data['excludeTax'] = $price = Mage::helper('tax')->getPrice($option->getProduct(), $data['oldPrice'], false);
-        $data['includeTax'] = $price = Mage::helper('tax')->getPrice($option->getProduct(), $data['oldPrice'], true);
+        $data['price']      = Mage::helper('core')->currency($option->getPrice(true), false, false);
+        $data['oldPrice']   = Mage::helper('core')->currency($option->getPrice(false), false, false);
+        $data['priceValue'] = $option->getPrice(false);
+        $data['type']       = $option->getPriceType();
+        $data['excludeTax'] = $price = Mage::helper('tax')->getPrice($option->getProduct(), $data['price'], false);
+        $data['includeTax'] = $price = Mage::helper('tax')->getPrice($option->getProduct(), $data['price'], true);
         return $data;
     }
 

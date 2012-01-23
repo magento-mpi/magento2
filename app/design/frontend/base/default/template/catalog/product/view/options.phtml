@@ -152,8 +152,26 @@
                             curConfig = configOptions;
                         }
                     }
-                    optionsPrice.addCustomPrices(element.id || optionId, curConfig);
-                    optionsPrice.reload();
+                    if(element.type == 'select-multiple') {
+                        if ('options' in element) {
+                            $A(element.options).each(function(selectOption) {
+                                if ('selected' in selectOption) {
+                                    if (typeof(configOptions[selectOption.value]) != 'undefined') {
+                                        if (selectOption.selected) {
+                                            curConfig = configOptions[selectOption.value];
+                                            optionsPrice.addCustomPrices(optionId + '-' + selectOption.value, curConfig);
+                                        } else {
+                                            optionsPrice.addCustomPrices(optionId + '-' + selectOption.value, {price: 0});
+                                        }
+                                        optionsPrice.reload();
+                                    }
+                                }
+                            });
+                        }
+                    } else {
+                        optionsPrice.addCustomPrices(element.id || optionId, curConfig);
+                        optionsPrice.reload();
+                    }
                 }
             });
         }

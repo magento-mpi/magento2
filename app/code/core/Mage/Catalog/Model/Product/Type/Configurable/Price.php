@@ -46,13 +46,13 @@ class Mage_Catalog_Model_Product_Type_Configurable_Price extends Mage_Catalog_Mo
             return $product->getCalculatedFinalPrice();
         }
 
-        $finalPrice = $this->getBasePrice($product, $qty);
+        $finalPrice = $basePrice = $this->getBasePrice($product, $qty);
         $product->setFinalPrice($finalPrice);
         Mage::dispatchEvent('catalog_product_get_final_price', array('product' => $product, 'qty' => $qty));
         $finalPrice = $product->getData('final_price');
 
         $finalPrice += $this->getTotalConfigurableItemsPrice($product, $qty);
-        $finalPrice = $this->_applyOptionsPrice($product, $qty, $finalPrice);
+        $finalPrice += $this->_applyOptionsPrice($product, $qty, $basePrice) - $basePrice;
         $finalPrice = max(0, $finalPrice);
 
         $product->setFinalPrice($finalPrice);

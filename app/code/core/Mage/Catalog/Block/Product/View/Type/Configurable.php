@@ -171,11 +171,10 @@ class Mage_Catalog_Block_Product_View_Type_Configurable extends Mage_Catalog_Blo
                         'id'        => $value['value_index'],
                         'label'     => $value['label'],
                         'price'     => $configurablePrice,
-                        'oldPrice'  => $this->_preparePrice($value['pricing_value'], $value['is_percent']),
+                        'oldPrice'  => $this->_prepareOldPrice($value['pricing_value'], $value['is_percent']),
                         'products'  => $productsIndex,
                     );
                     $optionPrices[] = $configurablePrice;
-                    //$this->_registerAdditionalJsPrice($value['pricing_value'], $value['is_percent']);
                 }
             }
             /**
@@ -272,10 +271,33 @@ class Mage_Catalog_Block_Product_View_Type_Configurable extends Mage_Catalog_Blo
         return false;
     }
 
+    /**
+     * Calculation real price
+     *
+     * @param float $price
+     * @param bool $isPercent
+     * @return mixed
+     */
     protected function _preparePrice($price, $isPercent=false)
     {
         if ($isPercent && !empty($price)) {
-            $price = $this->getProduct()->getFinalPrice()*$price/100;
+            $price = $this->getProduct()->getFinalPrice() * $price/100;
+        }
+
+        return $this->_registerJsPrice($this->_convertPrice($price, true));
+    }
+
+    /**
+     * Calculation price before special price
+     *
+     * @param float $price
+     * @param bool $isPercent
+     * @return mixed
+     */
+    protected function _prepareOldPrice($price, $isPercent=false)
+    {
+        if ($isPercent && !empty($price)) {
+            $price = $this->getProduct()->getPrice() * $price/100;
         }
 
         return $this->_registerJsPrice($this->_convertPrice($price, true));
