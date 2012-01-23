@@ -91,7 +91,7 @@ class Mage_Api_Model_Server_WSI_Handler extends Mage_Api_Model_Server_Handler_Ab
      * @param string $apiKey
      * @return string
      */
-    public function login($username, $apiKey=null)
+    public function login($username, $apiKey)
     {
 
         /** @todo implement WS-I support check */
@@ -110,7 +110,7 @@ class Mage_Api_Model_Server_WSI_Handler extends Mage_Api_Model_Server_Handler_Ab
      * Return called class and method names
      *
      * @param String $apiPath
-     * @return Array 
+     * @return Array
      */
     protected function _getResourceName($apiPath){
 
@@ -139,7 +139,7 @@ class Mage_Api_Model_Server_WSI_Handler extends Mage_Api_Model_Server_Handler_Ab
 
     /**
      * Return an array of parameters for the callable method.
-     * 
+     *
      * @param String $modelName
      * @param String $methodName
      * @return Array of ReflectionParameter
