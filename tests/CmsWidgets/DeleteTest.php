@@ -58,7 +58,8 @@ class CmsWidgets_DeleteTest extends Mage_Selenium_TestCase
         //Data
         $categoryData = $this->loadData('sub_category_required');
         //Steps
-        $this->navigate('manage_categories');
+        $this->navigate('manage_categories', false);
+        $this->categoryHelper()->checkCategoriesPage();
         $this->categoryHelper()->createCategory($categoryData);
         //Verification
         $this->assertMessagePresent('success', 'success_saved_category');

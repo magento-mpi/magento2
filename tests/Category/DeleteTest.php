@@ -143,7 +143,8 @@ class Category_DeleteTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('success', 'success_saved_store');
         $this->assertTrue($this->checkCurrentPage('manage_stores'), $this->getParsedMessages());
         //Steps
-        $this->navigate('manage_categories');
+        $this->navigate('manage_categories', false);
+        $this->categoryHelper()->checkCategoriesPage();
         $this->categoryHelper()->selectCategory($rootCategoryData['name']);
         //Verifying
         $this->assertFalse($this->buttonIsPresent('delete_category'), 'There is "Delete Category" button on the page');

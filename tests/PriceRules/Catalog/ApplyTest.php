@@ -85,7 +85,8 @@ class PriceRules_Catalog_ApplyTest extends Mage_Selenium_TestCase
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_customer');
         //Steps
-        $this->navigate('manage_categories');
+        $this->navigate('manage_categories', false);
+        $this->categoryHelper()->checkCategoriesPage();
         $this->categoryHelper()->createCategory($categoryData);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_category');
