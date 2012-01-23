@@ -26,10 +26,15 @@
  */
 
 /**
- * Test Product CRUD operations
+ * Test Directory Region operations
  */
 class Api_Directory_RegionTest extends Magento_Test_Webservice
 {
+    /**
+     * Test region.list API method
+     *
+     * @return void
+     */
     public function testList()
     {
         $data  = $this->call('region.list', array('country' => 'US'));
