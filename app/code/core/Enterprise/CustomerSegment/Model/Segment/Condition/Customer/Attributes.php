@@ -356,12 +356,12 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Attributes
             $select->where($condition);
         } else {
             if ($this->getValue() == 'is_exists') {
-                $ifCoondition = 'COUNT(*) != 0';
+                $ifCondition = 'COUNT(*) != 0';
             } else {
-                $ifCoondition = 'COUNT(*) = 0';
+                $ifCondition = 'COUNT(*) = 0';
             }
             $select->reset(Zend_Db_Select::COLUMNS);
-            $condition = $this->getResource()->getReadConnection()->getCheckSql($ifCoondition, '1', '0');
+            $condition = $this->getResource()->getReadConnection()->getCheckSql($ifCondition, '1', '0');
             $select->columns(new Zend_Db_Expr($condition));
             $select->where('main.attribute_id = ?', $attribute->getId());
         }
