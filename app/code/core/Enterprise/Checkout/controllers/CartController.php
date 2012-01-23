@@ -118,17 +118,8 @@ class Enterprise_Checkout_CartController extends Mage_Core_Controller_Front_Acti
      */
     public function addFailedItemsAction()
     {
-        $cart = $this->_getCart();
-        $failedItemsCart = $this->_getFailedItemsCart();
+        $failedItemsCart = $this->_getFailedItemsCart()->removeAllAffectedItems();
         $failedItems = $this->getRequest()->getParam('failed', array());
-
-        /** @var $cart Mage_Checkout_Model_Cart */
-        $cart = Mage::getSingleton('checkout/cart');
-
-        /** @var $failedItemsCart Enterprise_Checkout_Model_Cart */
-        $failedItemsCart = Mage::getModel('enterprise_checkout/cart');
-        $failedItemsCart->removeAllAffectedItems();
-
         foreach ($failedItems as $data) {
             $checkedItem = $failedItemsCart->checkItem($data['sku'], $data['qty']);
 
