@@ -1144,15 +1144,16 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     }
 
     /**
-     * saves html content of current page
+     * Saves html content of current page
      *
-     * @param $class string
+     * @param null|string $fileName
      */
-    public function savePage($class)
+    public function saveHtmlPage($fileName = null)
     {
-        $file = null;
-        $file = fopen(SELENIUM_TESTS_SCREENSHOTDIR . DIRECTORY_SEPARATOR . $class
-                          . '_' . $this->name . '_' . date('d-m-Y-H-i-s') . '.html', 'a+');
+        if ($fileName == null) {
+            $fileName = $this->testId;
+        }
+        $file = fopen(SELENIUM_TESTS_SCREENSHOTDIR . DIRECTORY_SEPARATOR . $fileName . '.html', 'a+');
         fputs($file, $this->_testConfig->driver->getHtmlSource());
         fflush($file);
         fclose($file);
@@ -2634,6 +2635,17 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $this->clickAt($specElementXpath, '1,1');
     }
 
+    /**
+     * This method is called when a test method did not execute successfully.
+     *
+     * @param Exception $e
+     */
+    protected function onNotSuccessfulTest(Exception $e)
+    {
+        $this->testId = implode('_', array(get_class($this), $this->getName(), $this->testId));
+        $this->saveHtmlPage();
+        parent::onNotSuccessfulTest($e);
+    }
     #****************************************************************************
     #           Should be removed when bug with @depends is fixed               *
     #****************************************************************************
