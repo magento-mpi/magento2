@@ -126,4 +126,27 @@ class Tax_Helper extends Mage_Selenium_TestCase
         $this->openTaxItem($taxSearchData, $type);
         return $this->clickButtonAndConfirm('delete_' . $type, 'confirmation_for_delete');
     }
+
+    /**
+     * Delete all Tax Rules except specified in $excludeList
+     *
+     * @param array $excludeList Data for search
+     */
+    public function deleteRulesExceptSpecified(array $excludeList)
+    {
+        $tableXpath = $this->_getControlXpath('pageelement', 'rules_table');
+        $rowCount = $this->getXpathCount($tableXpath . '//tr') ;
+        $titleRowCount = $this->getXpathCount($tableXpath . '//tr[@title]');
+        $columnId = $this->getColumnIdByName('Name') - 1;
+        $rules = array();
+        for ($rowId = $rowCount - $titleRowCount; $rowId < $rowCount; $rowId++) {
+            $rule = $this->getTable($tableXpath . '.' . $rowId . '.' . $columnId);
+            if (!in_array($rule, $excludeList)) {
+                $rules[] = $rule;
+            }
+        }
+        foreach($rules as $rule) {
+            $this->deleteTaxItem(array('filter_name' => $rule),'rule');
+        }
+    }
 }
