@@ -154,10 +154,7 @@ class Tax_TaxAndPricesValidationFrontendTest extends Mage_Selenium_TestCase
         }
         $this->shoppingCartHelper()->frontEstimateShipping('estimate_shipping', 'shipping_flatrate');
         $this->shoppingCartHelper()->verifyPricesDataOnPage($cartProductsData, $checkoutData['validate_total_data']);
-        $this->clickButton('proceed_to_checkout');
-        $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
-        $xpath = $this->_getControlXpath('link', 'order_number');
-        $orderId = '# ' . $this->getText($xpath);
+        $orderId = '# ' . $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
         $this->addParameter('orderId', $orderId);
         $this->clickControl('link', 'order_number');
         $this->shoppingCartHelper()->verifyPricesDataOnPage($orderDetailsData['validate_prod_data'],
