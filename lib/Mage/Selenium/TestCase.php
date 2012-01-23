@@ -394,7 +394,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         static $_isFirst = true;
 
         // Clear messages before running test
-        Mage_Selenium_TestCase::$_messages = null;
+        $this->clearMessages();
 
         if ($_isFirst) {
             if (strcmp($this->_testConfig->driver->getBrowser(), '*iexplore') === 0) {
@@ -1749,6 +1749,20 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     #******************************************************
     #                 Messages helper methods             *
     #******************************************************
+
+    /**
+     * Removes all added messages
+     *
+     * @param null|string $type
+     */
+    public function clearMessages($type = null)
+    {
+        if ($type && array_key_exists($type, Mage_Selenium_TestCase::$_messages[$type])) {
+            unset(Mage_Selenium_TestCase::$_messages[$type]);
+        } elseif ($type == null) {
+            Mage_Selenium_TestCase::$_messages = null;
+        }
+    }
 
     /**
      * Adds field ID to Message Xpath (sets %fieldId% parameter)
