@@ -135,11 +135,10 @@ class Tax_Helper extends Mage_Selenium_TestCase
     public function deleteRulesExceptSpecified(array $excludeList)
     {
         $tableXpath = $this->_getControlXpath('pageelement', 'rules_table');
-        $rowCount = $this->getXpathCount($tableXpath . '//tr') ;
         $titleRowCount = $this->getXpathCount($tableXpath . '//tr[@title]');
         $columnId = $this->getColumnIdByName('Name') - 1;
         $rules = array();
-        for ($rowId = $rowCount - $titleRowCount; $rowId < $rowCount; $rowId++) {
+        for ($rowId = 0; $rowId < $titleRowCount; $rowId++) {
             $rule = $this->getTable($tableXpath . '.' . $rowId . '.' . $columnId);
             if (!in_array($rule, $excludeList)) {
                 $rules[] = $rule;

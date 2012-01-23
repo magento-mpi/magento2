@@ -35,13 +35,19 @@
  */
 class Tax_TaxAndPricesValidationFrontendTest extends Mage_Selenium_TestCase
 {
-    protected function assertPreConditions()
+    public function setUpBeforeTests()
     {
         $this->loginAdminUser();
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('flat_rate_for_price_verification');
         $this->navigate('manage_tax_rule');
         $this->taxHelper()-> deleteRulesExceptSpecified(array('Retail Customer-Taxable Goods-Rate 1'));
+    }
+
+    protected function assertPreConditions()
+    {
+        $this->loginAdminUser();
+        $this->addParameter('id', '0');
     }
 
     /**
