@@ -1042,7 +1042,7 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
      */
     protected function _addAffectedItem($item, $code)
     {
-        if (empty($item['sku'])) {
+        if (!isset($item['sku'])) {
             return $this;
         }
         $sku = $item['sku'];
