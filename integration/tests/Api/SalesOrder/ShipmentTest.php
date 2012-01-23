@@ -26,10 +26,33 @@
  */
 
 /**
- * @magentoDataFixture Api/Api/SalesOrder/_fixtures/shipment.php
+ * @magentoDataFixture Api/SalesOrder/_fixtures/shipment.php
  */
 class Api_SalesOrder_ShipmentTest extends Magento_Test_Webservice
 {
+    /**
+     * Clean up shipment and revert changes to entity store model
+     *
+     * @return void
+     */
+    protected function tearDown()
+    {
+        $shipment = new Mage_Sales_Model_Order_Shipment();
+        $shipment->loadByIncrementId($this->getFixture('shipmentIncrementId'));
+        $this->callModelDelete($shipment, true);
+
+        $entityStoreModel = $this->getFixture('entity_store_model');
+        if ($entityStoreModel instanceof Mage_Eav_Model_Entity_Store) {
+            $origIncrementData = $this->getFixture('orig_shipping_increment_data');
+            $entityStoreModel->loadByEntityStore($entityStoreModel->getEntityTypeId(),$entityStoreModel->getStoreId());
+            $entityStoreModel->setIncrementPrefix($origIncrementData['prefix'])
+                ->setIncrementLastId($origIncrementData['increment_last_id'])
+                ->save();
+        }
+
+        parent::tearDown();
+    }
+
     public function testCRUD()
     {
         /** @var $order Mage_Sales_Model_Order */
@@ -53,11 +76,48 @@ class Api_SalesOrder_ShipmentTest extends Magento_Test_Webservice
     }
 
     /**
-     * Test related to APIA-160 task
+     * Test shipment create API call results
+     *
+     * @return void
      */
     public function testAutoIncrementType()
     {
-        //TODO force order_shipment.create return string instead of integer,
-        //e.g. '0123' should not be cropped to '123'
+        /** @var $quote Mage_Sales_Model_Quote */
+        $quote = $this->getFixture('quote');
+        //Create order
+        $quoteService = new Mage_Sales_Model_Service_Quote($quote);
+        //Set payment method to check/money order
+        $quoteService->getQuote()->getPayment()->setMethod('checkmo');
+        $order = $quoteService->submitOrder();
+        $order->place();
+        $order->save();
+        $id = $order->getIncrementId();
+
+        // Set shipping increment id prefix
+        $website = Mage::app()->getWebsite();
+        $entityTypeModel = Mage::getModel('eav/entity_type')->loadByCode('shipment');
+        $entityStoreModel = Mage::getModel('eav/entity_store')->loadByEntityStore($entityTypeModel->getId(),$website->getDefaultStore()->getId());
+        Magento_Test_Webservice::setFixture('orig_shipping_increment_data', array(
+            'prefix' => $entityStoreModel->getIncrementPrefix(),
+            'increment_last_id' => $entityStoreModel->getIncrementLastId()
+        ));
+        $entityStoreModel->setIncrementPrefix('01');
+        $entityStoreModel->save();
+        Magento_Test_Webservice::setFixture('entity_store_model', $entityStoreModel);
+
+        // Create new shipment
+        $newShipmentId = $this->call('order_shipment.create', array(
+            'orderIncrementId' => $id,
+            'itemsQty' => array(),
+            'comment' => 'Shipment Created',
+            'email' => true,
+            'includeComment' => true
+        ));
+        $this->setFixture('shipmentIncrementId', $newShipmentId);
+
+        $this->assertTrue(is_string($newShipmentId), 'Increment Id is not a string');
+        $entityStoreModel = $this->getFixture('entity_store_model');
+        $this->assertStringStartsWith($entityStoreModel->getIncrementPrefix(), $newShipmentId,
+            'Increment Id returned by API is not correct');
     }
 }
