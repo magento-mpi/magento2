@@ -323,16 +323,16 @@ class Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
     public function invalidCustomOptionDataProvider()
     {
         return array(
-           # array('custom_options_field', 'enter_valid_number'),
-            #array('custom_options_area', 'enter_valid_number'),
-            array('custom_options_file', 'enter_zero_or_greater'),
-            #array('custom_options_date', 'enter_zero_or_greater'),
-            #array('custom_options_date_time', 'enter_zero_or_greater'),
-            #array('custom_options_time', 'enter_zero_or_greater'),
-            #array('custom_options_dropdown', 'enter_valid_number'),
-            #array('custom_options_radiobutton', 'enter_valid_number'),
-            #array('custom_options_checkbox', 'enter_valid_number'),
-            #array('custom_options_multipleselect', 'enter_valid_number')
+            array('custom_options_field', 'enter_valid_number'),
+            array('custom_options_area', 'enter_valid_number'),
+            array('custom_options_file', 'enter_zero_or_greater'), //Fails due to MAGE-4609
+            array('custom_options_date', 'enter_zero_or_greater'),
+            array('custom_options_date_time', 'enter_zero_or_greater'),
+            array('custom_options_time', 'enter_zero_or_greater'),
+            array('custom_options_dropdown', 'enter_valid_number'),
+            array('custom_options_radiobutton', 'enter_valid_number'),
+            array('custom_options_checkbox', 'enter_valid_number'),
+            array('custom_options_multipleselect', 'enter_valid_number')
         );
     }
 
@@ -371,7 +371,7 @@ class Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
     public function negativeNumberInCustomOptionsPriceNegDataProvider()
     {
         return array(
-            array('custom_options_file'),
+            array('custom_options_file'), //Fails due to MAGE-4609
             array('custom_options_date'),
             array('custom_options_date_time'),
             array('custom_options_time')
