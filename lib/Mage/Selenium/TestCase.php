@@ -2953,6 +2953,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             $testResult = $method->invokeArgs(
                 $this, array_merge($this->data, $this->dependencyInput)
             );
+            $this->assertEmptyVerificationErrors();
         } catch (Exception $e) {
             if (!$e instanceof PHPUnit_Framework_IncompleteTest &&
                 !$e instanceof PHPUnit_Framework_SkippedTest &&
