@@ -189,21 +189,21 @@ class Mage_Selenium_Uimap_Abstract
         foreach ($container as $elKey => $elValue) {
             if ($elValue instanceof ArrayObject) {
                 if (($elementsCollectionName == 'tabs'
-                        && $elementsCollectionName == $elKey
-                        && $elValue instanceof Mage_Selenium_Uimap_TabsCollection)
-                        || ($elementsCollectionName == 'fieldsets'
+                    && $elementsCollectionName == $elKey
+                    && $elValue instanceof Mage_Selenium_Uimap_TabsCollection)
+                    || ($elementsCollectionName == 'fieldsets'
                         && $elementsCollectionName == $elKey
                         && $elValue instanceof Mage_Selenium_Uimap_FieldsetsCollection)
-                        || $elKey == $elementsCollectionName
-                        && $elValue instanceof Mage_Selenium_Uimap_ElementsCollection
-                ) {
+                    || $elKey == $elementsCollectionName
+                        && $elValue instanceof Mage_Selenium_Uimap_ElementsCollection) {
                     $cache = array_merge($cache, $elValue->getArrayCopy());
                 } else {
                     $this->_getElementsRecursive($elementsCollectionName, $elValue, $cache, $paramsDecorator);
                 }
             } elseif ($elValue instanceof Mage_Selenium_Uimap_Abstract) {
+                $containerUimap = $elValue->getElements();
                 $this->_getElementsRecursive($elementsCollectionName,
-                        $elValue->getElements(), $cache, $paramsDecorator);
+                                             $containerUimap, $cache, $paramsDecorator);
             }
         }
 
