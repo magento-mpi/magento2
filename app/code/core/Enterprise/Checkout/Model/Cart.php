@@ -30,7 +30,7 @@
  * @category   Enterprise
  * @package    Enterprise_Checkout
  */
-class Enterprise_Checkout_Model_Cart extends Varien_Object
+class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Checkout_Model_Cart_Interface
 {
     /**
      * @var Mage_Sales_Model_Quote
@@ -53,6 +53,20 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object
      * @var array
      */
     protected $_currentlyAffectedItems = array();
+
+    /**
+     * Configs of currently affected items
+     *
+     * @var array
+     */
+    protected $_affectedItemsConfig = array();
+
+    /**
+     * Cart instance
+     *
+     * @var Mage_Checkout_Model_Cart
+     */
+    protected $_cart;
 
     /**
      * Setter for $_customer
@@ -109,6 +123,18 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object
         }
 
         return $this->_quote;
+    }
+
+    /**
+     * Sets different quote model
+     *
+     * @param Mage_Sales_Model_Quote $quote
+     * @return Enterprise_Checkout_Model_Cart
+     */
+    public function setQuote(Mage_Sales_Model_Quote $quote)
+    {
+        $this->_quote = $quote;
+        return $this;
     }
 
     /**
@@ -776,20 +802,48 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object
     }
 
     /**
-     * Add products previously successfully processed by prepareAddProductsBySku() to cart
+     * Set config for specific item
      *
+     * @param string $sku
+     * @param array  $config
      * @return Enterprise_Checkout_Model_Cart
      */
-    public function saveAffectedProducts()
+    public function setAffectedItemConfig($sku, $config)
     {
+        if (!empty($sku) && !empty($config) && is_array($config)) {
+            $this->_affectedItemsConfig[$sku] = $config;
+        }
+        return $this;
+    }
+
+    /**
+     * Return config of specific item
+     *
+     * @param string $sku
+     * @return array
+     */
+    public function getAffectedItemConfig($sku)
+    {
+        return isset($this->_affectedItemsConfig[$sku]) ? $this->_affectedItemsConfig[$sku] : array();
+    }
+
+    /**
+     * Add products previously successfully processed by prepareAddProductsBySku() to cart
+     *
+     * @param Mage_Checkout_Model_Cart_Interface|null $cart Custom cart model (different from checkout/cart)
+     * @return Enterprise_Checkout_Model_Cart
+     */
+    public function saveAffectedProducts(Mage_Checkout_Model_Cart_Interface $cart = null)
+    {
+        $cart = $cart ? $cart : $this->_getCart();
         $affectedItems = $this->getAffectedItems();
         foreach ($affectedItems as &$item) {
             if ($item['code'] == Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_SUCCESS) {
-                $this->_safeAddProduct($item);
+                $this->_safeAddProduct($item, $cart);
             }
         }
         $this->setAffectedItems($affectedItems);
-        $this->_getCart()->save();
+        $cart->saveQuote();
         return $this;
     }
 
@@ -797,11 +851,11 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object
      * Safely add product to cart, revert cart in error case
      *
      * @param array $item
+     * @param Mage_Checkout_Model_Cart_Interface $cart If we need to add product to different cart from checkout/cart
      * @return Enterprise_Checkout_Model_Cart
      */
-    protected function _safeAddProduct(&$item)
+    protected function _safeAddProduct(&$item, Mage_Checkout_Model_Cart_Interface $cart)
     {
-        $cart = $this->_getCart();
         $quote = $cart->getQuote();
 
         // copy data to temporary quote
@@ -812,11 +866,18 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object
             $temporaryItem->setQuote($temporaryQuote);
             $temporaryQuote->addItem($temporaryItem);
         }
-        $cart->setData('quote', $temporaryQuote);
+        $cart->setQuote($temporaryQuote);
         $success = true;
 
         try {
-            $cart->addProduct($item['item']['id'], $item['item']['qty']);
+            $config = $this->getAffectedItemConfig($item['item']['sku']);
+            if (!empty($config)) {
+                $config['qty'] = $item['item']['qty'];
+            } else {
+                // If second parameter of addProduct() is not an array than it is considered to be qty
+                $config = $item['item']['qty'];
+            }
+            $cart->addProduct($item['item']['id'], $config);
         } catch (Mage_Core_Exception $e) {
             $success = false;
             $item['code'] = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_UNKNOWN;
@@ -837,7 +898,8 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object
                 $quote->addItem($quoteItem);
             }
         }
-        $cart->setData('quote', $quote);
+
+        $cart->setQuote($quote);
 
         return $this;
     }

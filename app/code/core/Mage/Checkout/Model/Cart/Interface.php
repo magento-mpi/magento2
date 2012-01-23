@@ -19,37 +19,51 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Checkout
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * Adminhtml permissions user block
+ * Shopping cart interface
  *
- * @category   Mage
- * @package    Mage_Adminhtml
+ * @category    Mage
+ * @package     Mage_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_Api_User extends Mage_Adminhtml_Block_Widget_Grid_Container
-{
 
-    public function __construct()
-    {
-        $this->_controller = 'api_user';
-        $this->_headerText = Mage::helper('adminhtml')->__('Users');
-        $this->_addButtonLabel = Mage::helper('adminhtml')->__('Add New User');
-        parent::__construct();
-    }
+interface Mage_Checkout_Model_Cart_Interface
+{
+    /**
+     * Add product to shopping cart (quote)
+     *
+     * @param   int|Mage_Catalog_Model_Product $productInfo
+     * @param   mixed                          $requestInfo
+     * @return  Mage_Checkout_Model_Cart_Interface
+     */
+    public function addProduct($productInfo, $requestInfo = null);
 
     /**
-     * Prepare output HTML
+     * Save cart
      *
-     * @return string
+     * @abstract
+     * @return Mage_Checkout_Model_Cart_Interface
      */
-    protected function _toHtml()
-    {
-        Mage::dispatchEvent('api_user_html_before', array('block' => $this));
-        return parent::_toHtml();
-    }
+    public function saveQuote();
+
+    /**
+     * Associate quote with the cart
+     *
+     * @abstract
+     * @param $quote Mage_Sales_Model_Quote
+     * @return Mage_Checkout_Model_Cart_Interface
+     */
+    public function setQuote(Mage_Sales_Model_Quote $quote);
+
+    /**
+     * Get quote object associated with cart
+     * @abstract
+     * @return Mage_Sales_Model_Quote
+     */
+    public function getQuote();
 }

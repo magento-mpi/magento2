@@ -46,6 +46,11 @@ class Mage_Adminhtml_Catalog_Product_GalleryController extends Mage_Adminhtml_Co
                 Mage::getSingleton('catalog/product_media_config')->getBaseTmpMediaPath()
             );
 
+            Mage::dispatchEvent('catalog_product_gallery_upload_image_after', array(
+                'result' => $result,
+                'action' => $this
+            ));
+
             /**
              * Workaround for prototype 1.7 methods "isJSON", "evalJSON" on Windows OS
              */
