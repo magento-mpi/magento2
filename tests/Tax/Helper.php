@@ -130,7 +130,7 @@ class Tax_Helper extends Mage_Selenium_TestCase
     /**
      * Delete all Tax Rules except specified in $excludeList
      *
-     * @param array $excludeList Data for search
+     * @param array $excludeList
      */
     public function deleteRulesExceptSpecified(array $excludeList)
     {
