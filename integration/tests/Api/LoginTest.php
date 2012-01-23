@@ -102,7 +102,7 @@ class Api_LoginTest extends Magento_Test_Webservice
             return;
         }
 
-        $requestXml = file_get_contents(dirname(__FILE__) . '/_files/requestInvalidStructure.xml');
+        $requestXml = file_get_contents(dirname(__FILE__) . '/../_files/requestInvalidStructure.xml');
         $location = TESTS_WEBSERVICE_URL . '/index.php/api/soap/index/';
         $action = 'urn:Mage_Api_Model_Server_HandlerAction';
         $version = 1;
@@ -130,7 +130,7 @@ class Api_LoginTest extends Magento_Test_Webservice
             return;
         }
 
-        $requestXml = file_get_contents(dirname(__FILE__) . '/_files/requestInvalidNamespace.xml');
+        $requestXml = file_get_contents(dirname(__FILE__) . '/../_files/requestInvalidNamespace.xml');
         $location = TESTS_WEBSERVICE_URL . '/index.php/api/soap/index/';
         $action = 'urn:Mage_Api_Model_Server_HandlerAction';
         $version = 1;
@@ -182,22 +182,6 @@ class Api_LoginTest extends Magento_Test_Webservice
         } while ($time >= $timeStart);
 
         $this->assertFalse($equal, 'Session API starting has vulnerability.');
-    }
-
-    /**
-     * Check login with WS-I compliance
-     */
-    public function testLoginWithWsiCompliance()
-    {
-        if (TESTS_WEBSERVICE_TYPE != self::TYPE_SOAPV2_WSI) {
-            return;
-        }
-        $result = $this->getWebService()->login(TESTS_WEBSERVICE_USER, TESTS_WEBSERVICE_APIKEY);
-
-        $this->assertArrayHasKey(
-            'result', $result, 'Result array does not contains "result" key while SOAP v2 WS-I login'
-        );
-        $this->assertNotEmpty($result['result'], 'Session hash is empty while SOAP v2 WS-I login');
     }
 
     /**

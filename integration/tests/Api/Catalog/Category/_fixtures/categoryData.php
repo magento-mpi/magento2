@@ -6,7 +6,7 @@
  */
 return array(
     'create' => array(
-        'parentCategory' => 2,
+        'parentId' => 2,
         'categoryData' => array(
             'name' => 'Category Test Created',
             'is_active' => 1,
