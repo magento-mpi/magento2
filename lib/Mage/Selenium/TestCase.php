@@ -161,9 +161,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     protected $dependencyInput = array();
 
-    protected $_captureScreenshotOnFailure = true;
-    protected $_screenshotPath = SELENIUM_TESTS_SCREENSHOTDIR;
-    protected $_screenshotUrl = SELENIUM_TESTS_SCREENSHOTDIR;
+    protected $captureScreenshotOnFailure = true;
+    protected $screenshotPath = SELENIUM_TESTS_SCREENSHOTDIR;
+    protected $screenshotUrl = SELENIUM_TESTS_SCREENSHOTDIR;
 
     /**
      * Success message Xpath
@@ -392,6 +392,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     public function setUp()
     {
         static $_isFirst = true;
+
+        // Clear messages before running test
+        Mage_Selenium_TestCase::$_messages = null;
 
         if ($_isFirst) {
             if (strcmp($this->_testConfig->driver->getBrowser(), '*iexplore') === 0) {
@@ -2921,9 +2924,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     protected function runTest()
     {
-        // Clear messages before running test
-        Mage_Selenium_TestCase::$_messages = null;
-
         if ($this->name === null) {
             throw new PHPUnit_Framework_Exception(
                 'PHPUnit_Framework_TestCase::$name must not be null.'
@@ -2941,8 +2941,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             $testResult = $method->invokeArgs(
                 $this, array_merge($this->data, $this->dependencyInput)
             );
-            // Fail test if have verification errors
-            $this->assertEmptyVerificationErrors();
         } catch (Exception $e) {
             if (!$e instanceof PHPUnit_Framework_IncompleteTest &&
                 !$e instanceof PHPUnit_Framework_SkippedTest &&
@@ -2992,5 +2990,4 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 
         return $testResult;
     }
-
 }
