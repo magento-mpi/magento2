@@ -107,6 +107,7 @@ class CheckoutOnePage_WithRegistration_CheckingValidationTest extends Mage_Selen
         } catch (PHPUnit_Framework_AssertionFailedError $e) {
             //Verification
             $this->assertSame('Please choose to register or to checkout as a guest', $e->getMessage());
+            $this->clearMessages('verification');
         }
     }
 
@@ -152,6 +153,7 @@ class CheckoutOnePage_WithRegistration_CheckingValidationTest extends Mage_Selen
                 $expected .= "\n" . '"Confirm Password": Please make sure your passwords match.';
             }
             $this->assertSame($expected, $e->getMessage());
+            $this->clearMessages('verification');
         }
     }
 
@@ -210,6 +212,7 @@ class CheckoutOnePage_WithRegistration_CheckingValidationTest extends Mage_Selen
             $expected = "'shipping_information' step is not selected:\n" .
                 '"Password": Please enter 6 or more characters. Leading or trailing spaces will be ignored.';
             $this->assertSame($expected, $e->getMessage());
+            $this->clearMessages('verification');
         }
     }
 
@@ -251,6 +254,7 @@ class CheckoutOnePage_WithRegistration_CheckingValidationTest extends Mage_Selen
             $expected = "'shipping_information' step is not selected:\n" .
                 '"Email Address": Please enter a valid email address. For example johndoe@domain.com.';
             $this->assertSame($expected, $e->getMessage());
+            $this->clearMessages('verification');
         }
     }
 
@@ -301,6 +305,7 @@ class CheckoutOnePage_WithRegistration_CheckingValidationTest extends Mage_Selen
             //Verification
             $expected = $this->_getControlXpath('message', 'exist_email_alert');
             $this->assertSame($expected, $e->getMessage());
+            $this->clearMessages('verification');
         }
     }
 
@@ -373,6 +378,7 @@ class CheckoutOnePage_WithRegistration_CheckingValidationTest extends Mage_Selen
             //Verification
             $message = "'shipping_method' step is not selected:\n" . $message;
             $this->assertSame($message, $e->getMessage());
+            $this->clearMessages('verification');
         }
     }
 
@@ -430,6 +436,7 @@ class CheckoutOnePage_WithRegistration_CheckingValidationTest extends Mage_Selen
         } catch (PHPUnit_Framework_AssertionFailedError $e) {
             //Verification
             $this->assertSame($message, $e->getMessage());
+            $this->clearMessages('verification');
         }
     }
 
@@ -469,6 +476,7 @@ class CheckoutOnePage_WithRegistration_CheckingValidationTest extends Mage_Selen
         } catch (PHPUnit_Framework_AssertionFailedError $e) {
             //Verification
             $this->assertSame($message, $e->getMessage());
+            $this->clearMessages('verification');
         }
     }
 

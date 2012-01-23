@@ -103,6 +103,7 @@ class CheckoutOnePage_LoggedIn_CheckingValidationTest extends Mage_Selenium_Test
             //Verification
             $expected = "'shipping_information' step is not selected:\n" . $errorMessage;
             $this->assertSame($expected, $e->getMessage());
+            $this->clearMessages('verification');
         }
     }
 
@@ -145,6 +146,7 @@ class CheckoutOnePage_LoggedIn_CheckingValidationTest extends Mage_Selenium_Test
             //Verification
             $expected = "'shipping_method' step is not selected:\n" . $errorMessage;
             $this->assertSame($expected, $e->getMessage());
+            $this->clearMessages('verification');
         }
     }
 
@@ -280,6 +282,7 @@ class CheckoutOnePage_LoggedIn_CheckingValidationTest extends Mage_Selenium_Test
         } catch (PHPUnit_Framework_AssertionFailedError $e) {
             //Verification
             $this->assertSame('Please specify shipping method.', $e->getMessage());
+            $this->clearMessages('verification');
         }
     }
 
@@ -329,6 +332,7 @@ class CheckoutOnePage_LoggedIn_CheckingValidationTest extends Mage_Selenium_Test
         } catch (PHPUnit_Framework_AssertionFailedError $e) {
             //Verification
             $this->assertSame('Please specify payment method.', $e->getMessage());
+            $this->clearMessages('verification');
         }
     }
 }

@@ -78,7 +78,8 @@ class CompareProducts_CompareProductsTest extends Mage_Selenium_TestCase
         $virtual = $this->loadData('compare_virtual_product', array('categories' => $path));
         //Steps
         $this->loginAdminUser();
-        $this->navigate('manage_categories');
+        $this->navigate('manage_categories', false);
+        $this->categoryHelper()->checkCategoriesPage();
         $this->categoryHelper()->createCategory($category);
         //Verifyinging
         $this->assertMessagePresent('success', 'success_saved_category');

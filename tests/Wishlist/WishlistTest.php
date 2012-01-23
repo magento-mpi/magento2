@@ -82,7 +82,8 @@ class Wishlist_Wishlist extends Mage_Selenium_TestCase
                                            array('parent_category' => $rootCategoryData['name']));
         //Steps and Verification
         $this->loginAdminUser();
-        $this->navigate('manage_categories');
+        $this->navigate('manage_categories', false);
+        $this->categoryHelper()->checkCategoriesPage();
         $this->categoryHelper()->createCategory($rootCategoryData);
         $this->assertMessagePresent('success', 'success_saved_category');
         $this->categoryHelper()->createCategory($subCategoryData);

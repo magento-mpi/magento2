@@ -394,7 +394,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         static $_isFirst = true;
 
         // Clear messages before running test
-        Mage_Selenium_TestCase::$_messages = null;
+        $this->clearMessages();
 
         if ($_isFirst) {
             if (strcmp($this->_testConfig->driver->getBrowser(), '*iexplore') === 0) {
@@ -1144,15 +1144,16 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     }
 
     /**
-     * saves html content of current page
+     * Saves html content of current page
      *
-     * @param $class string
+     * @param null|string $fileName
      */
-    public function savePage($class)
+    public function saveHtmlPage($fileName = null)
     {
-        $file = null;
-        $file = fopen(SELENIUM_TESTS_SCREENSHOTDIR . DIRECTORY_SEPARATOR . $class
-                          . '_' . $this->name . '_' . date('d-m-Y-H-i-s') . '.html', 'a+');
+        if ($fileName == null) {
+            $fileName = $this->testId;
+        }
+        $file = fopen(SELENIUM_TESTS_SCREENSHOTDIR . DIRECTORY_SEPARATOR . $fileName . '.html', 'a+');
         fputs($file, $this->_testConfig->driver->getHtmlSource());
         fflush($file);
         fclose($file);
@@ -1748,6 +1749,20 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     #******************************************************
     #                 Messages helper methods             *
     #******************************************************
+
+    /**
+     * Removes all added messages
+     *
+     * @param null|string $type
+     */
+    public function clearMessages($type = null)
+    {
+        if ($type && array_key_exists($type, Mage_Selenium_TestCase::$_messages[$type])) {
+            unset(Mage_Selenium_TestCase::$_messages[$type]);
+        } elseif ($type == null) {
+            Mage_Selenium_TestCase::$_messages = null;
+        }
+    }
 
     /**
      * Adds field ID to Message Xpath (sets %fieldId% parameter)
@@ -2634,6 +2649,17 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $this->clickAt($specElementXpath, '1,1');
     }
 
+    /**
+     * This method is called when a test method did not execute successfully.
+     *
+     * @param Exception $e
+     */
+    protected function onNotSuccessfulTest(Exception $e)
+    {
+        $this->testId = implode('_', array(get_class($this), $this->getName(), $this->testId));
+        $this->saveHtmlPage();
+        parent::onNotSuccessfulTest($e);
+    }
     #****************************************************************************
     #           Should be removed when bug with @depends is fixed               *
     #****************************************************************************
@@ -2941,6 +2967,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             $testResult = $method->invokeArgs(
                 $this, array_merge($this->data, $this->dependencyInput)
             );
+            $this->assertEmptyVerificationErrors();
         } catch (Exception $e) {
             if (!$e instanceof PHPUnit_Framework_IncompleteTest &&
                 !$e instanceof PHPUnit_Framework_SkippedTest &&

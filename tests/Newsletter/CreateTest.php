@@ -53,7 +53,8 @@ class Newsletter_CreateTest extends Mage_Selenium_TestCase
         $category = $this->loadData('sub_category_required');
         //Steps
         $this->loginAdminUser();
-        $this->navigate('manage_categories');
+        $this->navigate('manage_categories', false);
+        $this->categoryHelper()->checkCategoriesPage();
         $this->categoryHelper()->createCategory($category);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_category');
