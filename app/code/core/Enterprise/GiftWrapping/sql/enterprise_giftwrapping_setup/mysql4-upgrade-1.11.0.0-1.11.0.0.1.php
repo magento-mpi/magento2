@@ -24,18 +24,18 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-/* @var $installer Enterprise_GiftWrapping_Model_Resource_Mysql4_Setup */
+/* @var $installer Enterprise_GiftWrapping_Model_Resource_Setup */
 $installer = $this;
 
 $installer->updateAttribute(
-    'catalog_product',
+    Mage_Catalog_Model_Product::ENTITY,
     'gift_wrapping_available',
     'frontend_class',
     'hidden-for-virtual'
 );
 
 $installer->updateAttribute(
-    'catalog_product',
+    Mage_Catalog_Model_Product::ENTITY,
     'gift_wrapping_price',
     'frontend_class',
     'hidden-for-virtual'
