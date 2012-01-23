@@ -52,6 +52,7 @@ abstract class Enterprise_PageCache_Model_Container_CatalogProductAbstract
         $block->setLayout(Mage::app()->getLayout());
         $block->setChild($this->_getItemsBlockAlias(), $this->_getItemsBlock());
         Mage::dispatchEvent('render_block', array('block' => $block, 'placeholder' => $this->_placeholder));
+        $block->setSkipRenderTag(true);
         return $block->toHtml();
     }
 
@@ -65,6 +66,8 @@ abstract class Enterprise_PageCache_Model_Container_CatalogProductAbstract
         $itemBlock = Mage::app()->getLayout()->createBlock('enterprise_targetrule/catalog_product_item');
         $itemBlock->setTemplate($this->_getItemsBlockTemplatePath());
         $itemBlock->setLayout(Mage::app()->getLayout());
+        $itemBlock->setNameInLayout($this->_getItemsBlockAlias());
+        $itemBlock->setIsAnonymous(false);
         return $itemBlock;
     }
 

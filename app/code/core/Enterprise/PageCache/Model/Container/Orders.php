@@ -75,6 +75,7 @@ class Enterprise_PageCache_Model_Container_Orders extends Enterprise_PageCache_M
         $block->setTemplate($template);
         $block->setLayout(Mage::app()->getLayout());
         Mage::dispatchEvent('render_block', array('block' => $block, 'placeholder' => $this->_placeholder));
+        $block->setSkipRenderTag(true);
 
         return $block->toHtml();
     }

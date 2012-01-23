@@ -81,6 +81,7 @@ class Enterprise_PageCache_Model_Container_Breadcrumbs extends Enterprise_PageCa
         $breadcrumbsBlock->setNameInLayout('breadcrumbs');
         Mage::app()->getLayout()->createBlock('catalog/breadcrumbs');
         Mage::dispatchEvent('render_block', array('block' => $breadcrumbsBlock, 'placeholder' => $this->_placeholder));
+        $breadcrumbsBlock->setSkipRenderTag(true);
         return $breadcrumbsBlock->toHtml();
     }
 }

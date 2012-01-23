@@ -65,6 +65,7 @@ class Enterprise_PageCache_Model_Container_Sidebar_Recentlycompared
         $block = new $block;
         $block->setTemplate($template);
         $block->setLayout(Mage::app()->getLayout());
+        $block->setSkipRenderTag(true);
 
         return $block->toHtml();
     }

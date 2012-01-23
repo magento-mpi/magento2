@@ -283,7 +283,7 @@ class Enterprise_PageCache_Model_Observer
         $block = $observer->getEvent()->getBlock();
         $transport = $observer->getEvent()->getTransport();
         $placeholder = $this->_config->getBlockPlaceholder($block);
-        if ($transport && $placeholder) {
+        if ($transport && $placeholder && !$block->getSkipRenderTag()) {
             $blockHtml = $transport->getHtml();
             $blockHtml = $placeholder->getStartTag() . $blockHtml . $placeholder->getEndTag();
             $transport->setHtml($blockHtml);

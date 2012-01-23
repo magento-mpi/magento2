@@ -178,6 +178,7 @@ class Enterprise_PageCache_Model_Container_Sidebar_Poll extends Enterprise_PageC
             $this->_saveInfoCache($renderedParams);
         }
 
+        $block->setSkipRenderTag(true);
         $content = $block->toHtml();
 
         if (is_null($this->_activePollId)) {

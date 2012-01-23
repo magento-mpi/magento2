@@ -87,6 +87,7 @@ class Enterprise_PageCache_Model_Container_Accountlinks extends Enterprise_PageC
             ));
         }
         Mage::dispatchEvent('render_block', array('block' => $block, 'placeholder' => $this->_placeholder));
+        $block->setSkipRenderTag(true);
 
         return $block->toHtml();
     }

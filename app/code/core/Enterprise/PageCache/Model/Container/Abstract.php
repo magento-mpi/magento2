@@ -101,7 +101,11 @@ abstract class Enterprise_PageCache_Model_Container_Abstract
             } else {
                 $this->_applyToContent($content, $blockContent);
             }
-            $this->saveCache($blockContent);
+            $subprocessor = $this->_processor->getSubprocessor();
+            if ($subprocessor) {
+                $contentWithOutNestedBlocks = $subprocessor->replaceContentToPlaceholderReplacer($blockContent);
+            }
+            $this->saveCache($contentWithOutNestedBlocks);
             return true;
         }
         return false;

@@ -136,6 +136,7 @@ class Enterprise_PageCache_Model_Container_Catalognavigation extends Enterprise_
         }
 
         Mage::dispatchEvent('render_block', array('block' => $block, 'placeholder' => $this->_placeholder));
+        $block->setSkipRenderTag(true);
 
         return $block->toHtml();
     }
