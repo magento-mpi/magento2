@@ -31,26 +31,14 @@
 class Mage_Api2_Model_DispatcherTest extends Mage_PHPUnit_TestCase
 {
     /**
-     * API version
+     * Resource model name prefix
      */
-    const API_VERSION = 1;
-
-    /**#@+
-     * Resource values
-     */
-    const RESOURCE_TYPE  = 'product';
     const RESOURCE_MODEL = 'Mage_Api2_Model_Dispatcher_TestResource';
-    /**#@- */
-
-    /**
-     * Product item id
-     */
-    const PRODUCT_ID = 2;
 
     /**
      * Request object
      *
-     * @var Mage_Api2_Model_Request
+     * @var PHPUnit_Framework_MockObject_MockObject
      */
     protected $_requestMock;
 
@@ -69,46 +57,11 @@ class Mage_Api2_Model_DispatcherTest extends Mage_PHPUnit_TestCase
     {
         parent::setUp();
 
-        $baseUrl = strtr(Mage_Api2_Model_Request::BASE_URL, array(':api' => Mage_Api2_Model_Server::API_TYPE_REST));
+        $this->_response = Mage::getSingleton('api2/response');
 
         $this->_requestMock = $this->getSingletonMockBuilder('api2/request')
-            ->setMethods(array('getVersion'))
+            ->setMethods(array('getVersion', 'getParam', 'getApiType'))
             ->getMock();
-
-        $this->_requestMock->setRequestUri($baseUrl . 'products/' . self::PRODUCT_ID)
-            ->setBaseUrl($baseUrl);
-
-        $this->_response = Mage::getSingleton('api2/response');
-    }
-
-    /**
-     * Retrieve User object
-     *
-     * @param string $name
-     * @return Mage_Api2_Model_Auth_User_Abstract
-     */
-    protected function _getUser($name)
-    {
-        return Mage::getModel('api2/auth_user_' . $name);
-    }
-
-    /**
-     * Get route
-     *
-     * @param array $options
-     * @return Mage_Api2_Model_Route_Rest
-     */
-    protected function _getConfigRoute(array $options)
-    {
-        $arguments = array(
-            Mage_Api2_Model_Route_Abstract::PARAM_ROUTE    => 'products/:id',
-            Mage_Api2_Model_Route_Abstract::PARAM_DEFAULTS => $options
-        );
-
-        /** @var $rest Mage_Api2_Model_Route_Rest */
-        $rest = Mage::getModel('api2/route_rest', $arguments);
-
-        return $rest;
     }
 
     /**
@@ -118,24 +71,28 @@ class Mage_Api2_Model_DispatcherTest extends Mage_PHPUnit_TestCase
      */
     public function testDispatch()
     {
+        $userMock = $this->getMock('Mage_Api2_Model_Auth_User_Guest');
+
+        $userMock->expects($this->once())
+            ->method('getRole')
+            ->will($this->returnValue('guest'));
+
         $this->_requestMock->expects($this->once())
             ->method('getVersion')
-            ->will($this->returnValue(self::API_VERSION));
+            ->will($this->returnValue(1));
 
-        /** @var $router Mage_Api2_Model_Router */
-        $router = Mage::getSingleton('api2/router');
+        $this->_requestMock->expects($this->once())
+            ->method('getParam')
+            ->with('model')
+            ->will($this->returnValue(self::RESOURCE_MODEL));
 
-        $options = array(
-            'model' => self::RESOURCE_MODEL,
-            'type'  => self::RESOURCE_TYPE,
-        );
+        $this->_requestMock->expects($this->once())
+            ->method('getApiType')
+            ->will($this->returnValue(Mage_Api2_Model_Server::API_TYPE_REST));
 
-        $router->setRoutes(array($this->_getConfigRoute($options)))
-            ->route($this->_requestMock);
+        $dispatcher = new Mage_Api2_Model_Dispatcher($userMock);
 
-        /** @var $dispatcher Mage_Api2_Model_Dispatcher */
-        $dispatcher = Mage::getModel('api2/dispatcher', $this->_getUser('guest'));
-        $this->assertTrue($dispatcher->dispatch($this->_requestMock, $this->_response) instanceof Mage_Api2_Model_Dispatcher);
+        $dispatcher->dispatch($this->_requestMock, $this->_response);
     }
 
     /**
@@ -145,36 +102,34 @@ class Mage_Api2_Model_DispatcherTest extends Mage_PHPUnit_TestCase
      */
     public function testDispatchFail()
     {
-        $apiVersion = 2;
+        $userMock = $this->getMock('Mage_Api2_Model_Auth_User_Guest', array('getRole'));
+
+        $userMock->expects($this->once())
+            ->method('getRole')
+            ->will($this->returnValue('guest'));
 
         $this->_requestMock->expects($this->once())
             ->method('getVersion')
-            ->will($this->returnValue($apiVersion));
+            ->will($this->returnValue('INVALID_VERSION'));
 
-        /** @var $router Mage_Api2_Model_Router */
-        $router = Mage::getSingleton('api2/router');
+        $this->_requestMock->expects($this->once())
+            ->method('getParam')
+            ->with('model')
+            ->will($this->returnValue(self::RESOURCE_MODEL));
 
-        $options = array(
-            'model' => self::RESOURCE_MODEL,
-            'type'  => self::RESOURCE_TYPE,
-        );
-
-        $router->setRoutes(array($this->_getConfigRoute($options)))
-            ->route($this->_requestMock);
-
-        $userType = 'guest';
-        $message = sprintf(
-            'Invalid resource class "%s_%s_%s_V%d"',
-            self::RESOURCE_MODEL,
-            ucfirst(Mage_Api2_Model_Server::API_TYPE_REST),
-            ucfirst($userType),
-            $apiVersion
-        );
-
-        $this->setExpectedException('Mage_Api2_Exception', $message, Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR);
+        $this->_requestMock->expects($this->once())
+            ->method('getApiType')
+            ->will($this->returnValue(Mage_Api2_Model_Server::API_TYPE_REST));
 
         /** @var $dispatcher Mage_Api2_Model_Dispatcher */
-        $dispatcher = Mage::getModel('api2/dispatcher', $this->_getUser($userType));
+        $dispatcher = new Mage_Api2_Model_Dispatcher($userMock);
+
+        $this->setExpectedException(
+            'Mage_Api2_Exception',
+            'Invalid resource class "Mage_Api2_Model_Dispatcher_TestResource_Rest_Guest_VINVALID_VERSION"',
+            Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR
+        );
+
         $dispatcher->dispatch($this->_requestMock, $this->_response);
     }
 
@@ -185,19 +140,35 @@ class Mage_Api2_Model_DispatcherTest extends Mage_PHPUnit_TestCase
      */
     public function testSetApiUser()
     {
-        /** @var $dispatcher Mage_Api2_Model_Dispatcher */
-        $dispatcher = Mage::getModel('api2/dispatcher', $this->_getUser('guest'));
-        $this->assertInstanceOf('Mage_Api2_Model_Dispatcher', $dispatcher->setApiUser($this->_getUser('customer')));
-    }
+        /** @var $userMock1 Mage_Api2_Model_Auth_User_Abstract */
+        $userMock1 = $this->getMockForAbstractClass('Mage_Api2_Model_Auth_User_Abstract');
+        /** @var $userMock2 Mage_Api2_Model_Auth_User_Abstract */
+        $userMock2 = $this->getMockForAbstractClass('Mage_Api2_Model_Auth_User_Abstract');
+        /** @var $dispatcher Mage_Api2_Model_Dispatcher_Mock */
+        $dispatcher = new Mage_Api2_Model_Dispatcher_Mock($userMock1);
 
-    /**
-     * Test failed set api user to class property
-     *
-     * @expectedException Exception
-     * @return void
-     */
-    public function testSetApiUserFail()
-    {
-        Mage::getModel('api2/dispatcher', 'qwerty');
+        $this->assertSame($userMock1, $dispatcher->_apiUser);
+
+        $dispatcher->setApiUser($userMock2);
+
+        $this->assertSame($userMock2, $dispatcher->_apiUser);
     }
+}
+
+/**
+ * Webservice api2 dispatcher model mock
+ *
+ * @category   Mage
+ * @package    Mage_Api2
+ * @author     Magento Core Team <core@magentocommerce.com>
+ */
+class Mage_Api2_Model_Dispatcher_Mock extends Mage_Api2_Model_Dispatcher
+{
+    /**
+     * API User object
+     * Make property public for test purposes
+     *
+     * @var Mage_Api2_Model_Auth_User_Abstract
+     */
+    public $_apiUser;
 }
