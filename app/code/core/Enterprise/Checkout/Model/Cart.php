@@ -846,6 +846,7 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
         }
         $this->setAffectedItems($affectedItems);
         $cart->saveQuote();
+        $this->removeSuccessItems();
         return $this;
     }
 
