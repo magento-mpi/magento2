@@ -33,18 +33,21 @@
  */
 class Mage_Api2_Model_Renderer_Query implements Mage_Api2_Model_Renderer_Interface
 {
+    /**
+     * Adapter mime type
+     */
     const MIME_TYPE = 'text/plain';
 
     /**
      * Convert Array to URL-encoded query string
      *
-     * @param array $data
-     * @param null $options
+     * @param array|object $data
      * @return string
      */
-    public function render(array $data, $options = null)
+    public function render($data)
     {
-        return http_build_query($data);
+        $query = http_build_query($data);
+        return $query;
     }
 
     /**
