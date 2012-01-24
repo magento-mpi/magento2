@@ -55,8 +55,11 @@ Product reviews page
             <action method="setTemplate"><template>1column.phtml</template></action>
         </reference>
         <reference name="head">
-            <action method="addJs"><file>js/jqzoom/jquery-1.3.1.min.js</file></action>
-            <action method="addJs"><file>js/jqzoom/jquery.jqzoom1.0.1.js</file></action>
+            <action method="addJs"><file>jquery/jquery-1.7.1.min.js</file></action>
+            <action method="addJs"><file>jquery/jquery-no-conflict.js</file></action>
+            <action method="addJs"><file>js/jqzoom/js/jquery.jqzoom-core-pack.js</file></action>
+            <action method="addCss"><file>js/jqzoom/css/jquery.jqzoom.css</file></action>
+
             <action method="addJs"><file>varien/product.js</file></action>
             <action method="addJs"><file>varien/configurable.js</file></action>
         </reference>
