@@ -33,16 +33,18 @@
  */
 class Mage_Api2_Model_Renderer_Json implements Mage_Api2_Model_Renderer_Interface
 {
+    /**
+     * Adapter mime type
+     */
     const MIME_TYPE = 'text/html';
 
     /**
      * Convert Array to JSON
      *
-     * @param array $data
-     * @param null $options
+     * @param array|object $data
      * @return string
      */
-    public function render(array $data, $options = null)
+    public function render($data)
     {
         return Zend_Json::encode($data);
     }
