@@ -51,14 +51,6 @@
                 <class>Enterprise_Checkout_Helper</class>
             </enterprise_checkout>
         </helpers>
-        <logging_actions>
-            <apply_coupon translate="label" module="enterprise_checkout">
-                <label>Apply Coupon</label>
-            </apply_coupon>
-            <add_to_cart translate="label" module="enterprise_checkout">
-                <label>Add To Cart</label>
-            </add_to_cart>
-        </logging_actions>
     </global>
     <admin>
         <routers>

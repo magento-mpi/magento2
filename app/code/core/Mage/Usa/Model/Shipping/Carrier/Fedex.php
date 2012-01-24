@@ -318,7 +318,7 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
                 'ShipTimestamp' => date('c'),
                 'PackagingType' => $r->getPackaging(),
                 'TotalInsuredValue' => array(
-                    'Ammount'  => $r->getValue(),
+                    'Amount'  => $r->getValue(),
                     'Currency' => $this->getCurrencyCode()
                 ),
                 'Shipper' => array(
@@ -355,6 +355,10 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
                         'Weight' => array(
                             'Value' => (float)$r->getWeight(),
                             'Units' => 'LB'
+                        ),
+                        'InsuredValue' => array(
+                            'Amount'  => $r->getValue(),
+                            'Currency' => $this->getCurrencyCode()
                         )
                     )
                 )
