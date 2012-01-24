@@ -389,17 +389,19 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
 
         if ($this->getProduct($product)->getCanSaveConfigurableAttributes()) {
             $this->getProduct($product)->canAffectOptions(true);
-            if ($data = $this->getProduct($product)->getConfigurableAttributesData()) {
-                if (!empty($data)) {
-                    foreach ($data as $attribute) {
-                        if (!empty($attribute['values'])) {
-                            $this->getProduct($product)->setTypeHasOptions(true);
-                            $this->getProduct($product)->setTypeHasRequiredOptions(true);
-                            break;
-                        }
+            $data = $this->getProduct($product)->getConfigurableAttributesData();
+            if (!empty($data)) {
+                foreach ($data as $attribute) {
+                    if (!empty($attribute['values'])) {
+                        $this->getProduct($product)->setTypeHasOptions(true);
+                        $this->getProduct($product)->setTypeHasRequiredOptions(true);
+                        break;
                     }
                 }
             }
+        }
+        foreach ($this->getConfigurableAttributes($product) as $attribute) {
+            $this->getProduct($product)->setData($attribute->getProductAttribute()->getAttributeCode(), null);
         }
 
         return $this;
