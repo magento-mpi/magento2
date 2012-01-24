@@ -163,6 +163,9 @@ class Category_Helper extends Mage_Selenium_TestCase
         }
         $this->pleaseWait();
         $this->fillCategoryInfo($categoryData);
+        if (isset($categoryData['name'])) {
+            $this->addParameter('elementTitle', $categoryData['name']);
+        }
         $this->saveForm('save_category');
     }
 
