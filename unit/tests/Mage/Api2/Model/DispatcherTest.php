@@ -163,27 +163,19 @@ class Mage_Api2_Model_DispatcherTest extends Mage_PHPUnit_TestCase
             ->route($this->_requestMock);
 
         $userType = 'guest';
+        $message = sprintf(
+            'Invalid resource class "%s_%s_%s_V%d"',
+            self::RESOURCE_MODEL,
+            ucfirst(Mage_Api2_Model_Server::API_TYPE_REST),
+            ucfirst($userType),
+            $apiVersion
+        );
+
+        $this->setExpectedException('Mage_Api2_Exception', $message, Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR);
 
         /** @var $dispatcher Mage_Api2_Model_Dispatcher */
         $dispatcher = Mage::getModel('api2/dispatcher', $this->_getUser($userType));
-
-        try {
-            $dispatcher->dispatch($this->_requestMock, $this->_response);
-        } catch (Mage_Api2_Exception $e) {
-            $this->assertEquals(Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR, $e->getCode());
-
-            $class = sprintf(
-                'Invalid resource class "%s_%s_%s_V%d"',
-                self::RESOURCE_MODEL,
-                ucfirst(Mage_Api2_Model_Server::API_TYPE_REST),
-                ucfirst($userType),
-                $apiVersion
-            );
-            $this->assertEquals($class, $e->getMessage());
-            return;
-        }
-
-        $this->fail('An expected Mage_Api2_Exception has not been raised.');
+        $dispatcher->dispatch($this->_requestMock, $this->_response);
     }
 
     /**
