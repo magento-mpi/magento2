@@ -1,4 +1,3 @@
-<<<<<<< Temporary merge branch 1
 <?php
 /**
  * Magento Enterprise Edition
