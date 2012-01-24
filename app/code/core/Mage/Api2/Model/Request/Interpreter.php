@@ -44,7 +44,7 @@ abstract class Mage_Api2_Model_Request_Interpreter
     public static function factory($type)
     {
         /** @var $helper Mage_Api2_Helper_Data */
-        $helper = Mage::helper('api2');
+        $helper = Mage::helper('api2/data');
         $adapters = $helper->getRequestInterpreterAdapters();
 
         if (empty($adapters) || !is_array($adapters)) {
