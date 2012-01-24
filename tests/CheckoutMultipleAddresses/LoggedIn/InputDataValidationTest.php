@@ -83,7 +83,6 @@ class CheckoutMultipleAddresses_LoggedIn_InputDataValidationTest extends Mage_Se
     {
         $this->admin();
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('shipping_settings_usa');
         $this->systemConfigurationHelper()->configure('free_enable');
         $this->systemConfigurationHelper()->configure('ups_enable');
     }
