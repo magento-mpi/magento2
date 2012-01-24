@@ -1757,7 +1757,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function clearMessages($type = null)
     {
-        if ($type && array_key_exists($type, Mage_Selenium_TestCase::$_messages[$type])) {
+        if ($type && array_key_exists($type, Mage_Selenium_TestCase::$_messages)) {
             unset(Mage_Selenium_TestCase::$_messages[$type]);
         } elseif ($type == null) {
             Mage_Selenium_TestCase::$_messages = null;
