@@ -34,7 +34,7 @@ abstract class Mage_Api2_Model_Resource extends Varien_Object
         $response->clearHeaders();
         $response->setHeader(
             'Content-Type',
-            sprintf('%s; charset=%s', $this->getRenderer()->getMimeType(), $request->getAcceptCharset())
+            sprintf('%s; charset=%s', $this->getRenderer()->getMimeType(), Mage_Api2_Model_Response::RESPONSE_CHARSET)
         );
     }
 
@@ -79,12 +79,18 @@ abstract class Mage_Api2_Model_Resource extends Varien_Object
     }
 
     /**
-     * @param $data
+     * Render data by renderer and set it into response body
+     *
+     * @param mixed $data Data to be rendered
+     * @return Mage_Api2_Model_Resource
      */
     protected function render($data)
     {
-        $content = $this->getRenderer()->render($data, array('encoding'=>$this->getRequest()->getAcceptCharset()));
-        $this->getResponse()->setBody($content);
+        $this->getResponse()->setBody(
+            $this->getRenderer()->render($data, array('encoding' => Mage_Api2_Model_Response::RESPONSE_CHARSET))
+        );
+
+        return $this;
     }
 
     /**
