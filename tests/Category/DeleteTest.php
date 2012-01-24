@@ -177,7 +177,6 @@ class Category_DeleteTest extends Mage_Selenium_TestCase
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_category');
         //Steps
-        $this->pleaseWait();
         $this->categoryHelper()->selectCategory($rootCategoryData['name']);
         $this->categoryHelper()->deleteCategory('delete_category', 'confirm_delete');
         //Verifying
@@ -219,7 +218,6 @@ class Category_DeleteTest extends Mage_Selenium_TestCase
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_category');
         //Steps
-        $this->pleaseWait();
         $this->categoryHelper()->selectCategory($rootCategoryData['name']);
         $this->categoryHelper()->deleteCategory('delete_category', 'confirm_delete');
         //Verifying
