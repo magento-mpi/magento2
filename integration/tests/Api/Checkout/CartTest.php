@@ -29,6 +29,9 @@
  * Test API login method
  *
  */
+/**
+ * @magentoDataFixture Api/Checkout/_fixtures/order2.php
+ */
 class Api_Checkout_CartTest extends Magento_Test_Webservice
 {
     /**
@@ -252,5 +255,38 @@ class Api_Checkout_CartTest extends Magento_Test_Webservice
         $discountedPrice = sprintf('%01.2f', $this->_product->getPrice() * (1 - $discount/100));
         $this->assertEquals($this->_quote->getSubtotalWithDiscount(), $discountedPrice,
             'Quote subtotal price does not match discounted item price');
+    }
+
+    /**
+     * Test for product list from shopping cart API method
+     *
+     * @return void
+     */
+    public function testCreateOrder()
+    {
+        // Set creditmemo increment id prefix
+        $website = Mage::app()->getWebsite();
+        $entityTypeModel = Mage::getModel('eav/entity_type')->loadByCode('order');
+        $entityStoreModel = Mage::getModel('eav/entity_store')->loadByEntityStore(
+            $entityTypeModel->getId(),$website->getDefaultStore()->getId());
+        Magento_Test_Webservice::setFixture('orig_creditmemo_increment_data', array(
+            'prefix' => $entityStoreModel->getIncrementPrefix(),
+            'increment_last_id' => $entityStoreModel->getIncrementLastId()
+        ));
+        $entityStoreModel->setIncrementPrefix('01');
+        $entityStoreModel->save();
+        Magento_Test_Webservice::setFixture('entity_store_model', $entityStoreModel);
+
+        $quote = self::getFixture('quote');
+
+        $orderIncrementId = $this->getWebService()->call('cart.order', array(
+            'quoteId'  => $quote->getId()
+        ));
+
+
+        $this->assertTrue(is_string($orderIncrementId), 'Increment Id is not a string');
+        $entityStoreModel = $this->getFixture('entity_store_model');
+        $this->assertStringStartsWith($entityStoreModel->getIncrementPrefix(), $orderIncrementId,
+            'Increment Id returned by API is not correct');
     }
 }
