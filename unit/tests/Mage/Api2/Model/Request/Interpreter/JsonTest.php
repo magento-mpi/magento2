@@ -20,20 +20,19 @@
  *
  * @category    Magento
  * @package     Mage_Api2
- * @subpackage  integration_tests
- * @copyright   Copyright (c) 2011 Magento Inc. (http://www.magento.com)
+ * @subpackage  unit_tests
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magento.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * Test request interpreter XML adapter
+ * Test request interpreter JSON adapter
  *
- * @category   Mage
- * @package    Mage_Api2
- * @subpackage integration_tests
- * @author     Magento Api Team <apia-team@magento.com>
+ * @category    Mage
+ * @package     Mage_Api2
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Api2_Model_Request_Interpreter_XmlTest extends Magento_TestCase
+class Mage_Api2_Model_Request_Interpreter_JsonTest extends Mage_PHPUnit_TestCase
 {
     /**
      * Test interpret content
@@ -41,11 +40,12 @@ class Mage_Api2_Model_Request_Interpreter_XmlTest extends Magento_TestCase
      * @dataProvider dataProviderSuccess
      * @param string $encoded
      * @param mixed $decoded
+     * @return void
      */
     public function testInterpretContent($encoded, $decoded)
     {
-        $adapter = new Mage_Api2_Model_Request_Interpreter_Xml();
-        $this->assertEquals($decoded, $adapter->interpret($encoded), 'Decoded data is not what is expected.');
+        $adapter = new Mage_Api2_Model_Request_Interpreter_Json();
+        $this->assertEquals($decoded, $adapter->interpret($encoded), 'Decoded data is not like expected.');
     }
 
     /**
@@ -53,11 +53,12 @@ class Mage_Api2_Model_Request_Interpreter_XmlTest extends Magento_TestCase
      *
      * @dataProvider dataProviderFailure
      * @param $data string
+     * @return void
      */
     public function testInterpretBadContent($data)
     {
         try {
-            $adapter = new Mage_Api2_Model_Request_Interpreter_Xml();
+            $adapter = new Mage_Api2_Model_Request_Interpreter_Json();
             $adapter->interpret($data);
         } catch (Mage_Api2_Exception $e) {
             $this->assertEquals(
@@ -68,15 +69,17 @@ class Mage_Api2_Model_Request_Interpreter_XmlTest extends Magento_TestCase
             return;
         }
 
-        $this->fail('Invalid argument should produce exception "Decoding error.(2)"');
+        $this->fail('Wrong data should throw exception');
     }
 
     /**
      * Test interpret content not a string
+     *
+     * @return void
      */
     public function testInterpretContentNotString()
     {
-        $adapter = new Mage_Api2_Model_Request_Interpreter_Xml();
+        $adapter = new Mage_Api2_Model_Request_Interpreter_Json();
         try {
             $adapter->interpret(new stdClass());
         } catch (Exception $e) {
@@ -100,12 +103,10 @@ class Mage_Api2_Model_Request_Interpreter_XmlTest extends Magento_TestCase
     {
         return array(
             array(''),
-            array('<'),
-            array('<root'),
-            array('<root>'),
-            array('<root><node>'),
-            array('<root><node></node>'),
-            array('<root><node></root>'),
+            array('"test1","test2",{"0":"some0","test01":"some1","test02":"some2","1":"some3"]'),
+            array('"'),
+            array('\\'),
+            array('{\}'),
         );
     }
 
@@ -117,28 +118,20 @@ class Mage_Api2_Model_Request_Interpreter_XmlTest extends Magento_TestCase
     public function dataProviderSuccess()
     {
         return array(
-            array('<root></root>', array()),
-            array('<root />', array()),
-            array('<root>1</root>', array()),
-            array('<root><node /></root>', array('node'=>'')),
-            array('<?xml version="1.0"?><xml><key1>test1</key1><key2>test2</key2><array><test01>some1</test01>
-                    <test02>some2</test02></array></xml>',
+            array(
+                '{"key1":"test1","key2":"test2","array":{"test01":"some1","test02":"some2"}}',
                 array(
                     'key1' => 'test1',
                     'key2' => 'test2',
                     'array' => array(
                         'test01' => 'some1',
                         'test02' => 'some2',
-            ))),
-            array('<xml><key1>test1</key1><key2>test2</key2><array><test01>some1</test01>
-                    <test02>some2</test02></array></xml>',
-                array(
-                    'key1' => 'test1',
-                    'key2' => 'test2',
-                    'array' => array(
-                        'test01' => 'some1',
-                        'test02' => 'some2',
-            ))),
+                    )
+                )),
+            array('null', null),
+            array('true', true),
+            array('1', 1),
+            array('1.234', 1.234),
         );
     }
 }

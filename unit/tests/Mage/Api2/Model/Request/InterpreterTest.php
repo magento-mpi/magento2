@@ -32,7 +32,7 @@
  * @package     Mage_Api2
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Api2_Model_RendererTest extends Mage_PHPUnit_TestCase
+class Mage_Api2_Model_Request_InterpreterTest extends Mage_PHPUnit_TestCase
 {
     /**
      * API2 data helper mock
@@ -42,11 +42,11 @@ class Mage_Api2_Model_RendererTest extends Mage_PHPUnit_TestCase
     protected $_helperMock;
 
     /**
-     * API2 renders data fixture
+     * API2 interpreters data fixture
      *
      * @var array
      */
-    protected $_renders;
+    protected $_interpreters;
 
     /**
      * Sets up the fixture, for example, open a network connection.
@@ -56,37 +56,36 @@ class Mage_Api2_Model_RendererTest extends Mage_PHPUnit_TestCase
     {
         parent::setUp();
 
-        $this->_renders = (array) simplexml_load_file(dirname(__FILE__) . '/_fixtures/xml/renders.xml');
+        $this->_interpreters = (array) simplexml_load_file(dirname(__FILE__) . '/_fixtures/xml/interpreters.xml');
         $this->_helperMock = $this->getHelperMockBuilder('api2')->getMock();
     }
 
     /**
-     * Test response content renderer factory
+     * Test request content interpreter factory
      *
      * @return void
      */
-    public function testFactory()
+    public function testFactoryInputTypes()
     {
         $this->_helperMock->expects($this->any())
-            ->method('getResponseRenderAdapters')
-            ->will($this->returnValue($this->_renders));
+            ->method('getRequestInterpreterAdapters')
+            ->will($this->returnValue($this->_interpreters));
 
         $data = array(
-            '*/*'               => 'Mage_Api2_Model_Renderer_Json',
-            'application/*'     => 'Mage_Api2_Model_Renderer_Json',
-            'application/json'  => 'Mage_Api2_Model_Renderer_Json',
-            'application/xml'   => 'Mage_Api2_Model_Renderer_Xml',
-            'text/plain'        => 'Mage_Api2_Model_Renderer_Query',
-            'text/html'         => 'Mage_Api2_Model_Renderer_Html',
+            'application/json'      => 'Mage_Api2_Model_Request_Interpreter_Json',
+            'text/plain'            => 'Mage_Api2_Model_Request_Interpreter_Query',
+            'application/xml'       => 'Mage_Api2_Model_Request_Interpreter_Xml',
+            'application/xhtml+xml' => 'Mage_Api2_Model_Request_Interpreter_Xml',
+            'text/xml'              => 'Mage_Api2_Model_Request_Interpreter_Xml'
         );
         foreach ($data as $type => $expectedClass) {
-            $adapter = Mage_Api2_Model_Renderer::factory($type);
-            $this->assertInstanceOf($expectedClass, $adapter);
+            $interpreter = Mage_Api2_Model_Request_Interpreter::factory($type);
+            $this->assertInstanceOf($expectedClass, $interpreter);
         }
     }
 
     /**
-     * Test response content renderer factory with unknown accept type
+     * Test request content interpreter factory with unknown accept type
      *
      * @expectedException Mage_Api2_Exception
      * @return void
@@ -94,13 +93,13 @@ class Mage_Api2_Model_RendererTest extends Mage_PHPUnit_TestCase
     public function testFactoryBadAcceptType()
     {
         $this->_helperMock->expects($this->any())
-            ->method('getResponseRenderAdapters')
-            ->will($this->returnValue($this->_renders));
+            ->method('getRequestInterpreterAdapters')
+            ->will($this->returnValue($this->_interpreters));
 
         /**
          * Try get adapter via invalid content type
          * and must be throw exception
          */
-        Mage_Api2_Model_Renderer::factory('unknown/unknown');
+        Mage_Api2_Model_Request_Interpreter::factory('unknown/unknown');
     }
 }
