@@ -45,7 +45,7 @@ paypal_enable:
         tab_name: sales_paypal
         configuration:
             merchant_country: United States
-            email_associated_with_paypal_merchant_account: taf_1323358030_biz@magento.com
+            email_associated_with_paypal_merchant_account: taf_d_1323432953_biz@magento.com
             website_payments_pro: No
             website_payments_pro_payflow_edition: No
             payflow_pro_gateway_express_checkout: No
@@ -126,7 +126,7 @@ paypaldirect_without_3Dsecure:
             wpp_sort_order: %noValue%
             wpp_payment_action: Authorization
             wpp_payment_applicable_from: All Allowed Countries
-            wpp_countries_payment_applicable_from:
+            wpp_countries_payment_applicable_from: %noValue%
             wpp_debug_mode: Yes
             wpp_transfer_cart_line_items: No
             wpp_allowed_credit_card_types: all
@@ -146,7 +146,7 @@ paypaldirect_with_3Dsecure:
             wpp_sort_order: %noValue%
             wpp_payment_action: Authorization
             wpp_payment_applicable_from: All Allowed Countries
-            wpp_countries_payment_applicable_from:
+            wpp_countries_payment_applicable_from: %noValue%
             wpp_debug_mode: Yes
             wpp_transfer_cart_line_items: No
             wpp_allowed_credit_card_types: all

@@ -22,7 +22,7 @@
  * @package     selenium
  * @subpackage  tests
  * @author      Magento Core Team <core@magentocommerce.com>
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
@@ -52,8 +52,9 @@ class Order_Create_CheckingValidationTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Create Simple Product for tests
+     * <p>Create Simple Product for tests</p>
      *
+     * @return string
      * @test
      */
     public function createSimple()
@@ -88,14 +89,14 @@ class Order_Create_CheckingValidationTest extends Mage_Selenium_TestCase
      *    Message with "Empty required field" appears.</p>
      *
      * @depends createSimple
-     * @dataProvider emptyRequiredFildsInBillingAddressDataProvider
+     * @dataProvider emptyRequiredFieldsInBillingAddressDataProvider
      *
      * @param string $emptyField
      * @param string $simpleSku
      * @test
      *
      */
-    public function emptyRequiredFildsInBillingAddress($emptyField, $simpleSku)
+    public function emptyRequiredFieldsInBillingAddress($emptyField, $simpleSku)
     {
         //Data
         $orderData = $this->loadData('order_physical', array('filter_sku' => $simpleSku));
@@ -125,7 +126,12 @@ class Order_Create_CheckingValidationTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
-    public function emptyRequiredFildsInBillingAddressDataProvider()
+    /**
+     * <p>Data provider for emptyRequiredFieldsInBillingAddress test</p>
+     *
+     * @return array
+     */
+    public function emptyRequiredFieldsInBillingAddressDataProvider()
     {
         return array(
             array('billing_first_name'),
@@ -158,13 +164,13 @@ class Order_Create_CheckingValidationTest extends Mage_Selenium_TestCase
      *    Message with "Empty required field" appears.</p>
      *
      * @depends createSimple
-     * @dataProvider emptyRequiredFildsInShippingAddressDataProvider
+     * @dataProvider emptyRequiredFieldsInShippingAddressDataProvider
      *
      * @param string $emptyField
      * @param string $simpleSku
      * @test
      */
-    public function emptyRequiredFildsInShippingAddress($emptyField, $simpleSku)
+    public function emptyRequiredFieldsInShippingAddress($emptyField, $simpleSku)
     {
         //Data
         $orderData = $this->loadData('order_physical', array('filter_sku' => $simpleSku));
@@ -194,7 +200,12 @@ class Order_Create_CheckingValidationTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
-    public function emptyRequiredFildsInShippingAddressDataProvider()
+    /**
+     * <p>Data provider for emptyRequiredFieldsInShippingAddress test</p>
+     *
+     * @return array
+     */
+    public function emptyRequiredFieldsInShippingAddressDataProvider()
     {
         return array(
             array('shipping_first_name'),
@@ -221,6 +232,7 @@ class Order_Create_CheckingValidationTest extends Mage_Selenium_TestCase
      * <p>Order cannot be created by the reason of empty required fields in shipping method.</p>
      *
      * @depends createSimple
+     * @param string $simpleSku
      * @test
      */
     public function withoutGotShippingMethod($simpleSku)
@@ -252,6 +264,7 @@ class Order_Create_CheckingValidationTest extends Mage_Selenium_TestCase
      * <p>Order cannot be created by the reason of empty required fields in shipping method.</p>
      *
      * @depends createSimple
+     * @param string $simpleSku
      * @test
      */
     public function withGotShippingMethod($simpleSku)
@@ -315,6 +328,7 @@ class Order_Create_CheckingValidationTest extends Mage_Selenium_TestCase
      * <p>Order cannot be created. Message 'Please select one of the options.' appears.</p>
      *
      * @depends createSimple
+     * @param string $simpleSku
      * @test
      */
     public function noPaymentMethodChosen($simpleSku)
@@ -330,10 +344,10 @@ class Order_Create_CheckingValidationTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * With all empty credit card fields
-     * @param type $simpleSku
+     * <p>Test for credit card with all empty fields</p>
      *
      * @depends createSimple
+     * @param type $simpleSku
      * @test
      */
     public function emptyAllCardFieldsInSavedCCVisa($simpleSku)
@@ -358,7 +372,7 @@ class Order_Create_CheckingValidationTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * With empty 'Name On Card' field in credit card visa
+     * <p>Test for empty 'Name On Card' field in credit card visa</p>
      *
      * @param type $simpleSku
      * @depends createSimple
@@ -382,7 +396,7 @@ class Order_Create_CheckingValidationTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * With empty 'Card Type' field in credit card visa
+     * <p>Test for empty 'Card Type' field in credit card visa</p>
      *
      * @param type $simpleSku
      * @depends createSimple
@@ -409,7 +423,7 @@ class Order_Create_CheckingValidationTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * With empty 'Card Number' field in credit card visa
+     * <p>Test for empty 'Card Number' field in credit card visa</p>
      *
      * @param type $simpleSku
      * @depends createSimple
@@ -433,7 +447,7 @@ class Order_Create_CheckingValidationTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * With empty 'Expiration Year' field in credit card visa
+     * <p>Test for empty 'Expiration Year' field in credit card visa</p>
      *
      * @param type $simpleSku
      * @depends createSimple
@@ -457,13 +471,13 @@ class Order_Create_CheckingValidationTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * With empty 'Card Verification Number' field in credit card visa
+     * <p>Test for empty 'Card Verification Number' field in credit card visa</p>
      *
      * @param type $simpleSku
      * @depends createSimple
      * @test
      */
-    public function emptCardVerificationNumberFieldInSavedCC($simpleSku)
+    public function emptyCardVerificationNumberFieldInSavedCC($simpleSku)
     {
         //Data
         $orderData = $this->loadData('order_newcustmoer_savedcc_flatrate',
@@ -481,7 +495,7 @@ class Order_Create_CheckingValidationTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * With empty 'Expiration Month' field in credit card visa
+     * <p>Test for empty 'Expiration Month' field in credit card visa</p>
      *
      * @param type $simpleSku
      * @depends createSimple

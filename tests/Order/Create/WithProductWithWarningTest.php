@@ -22,7 +22,7 @@
  * @package     selenium
  * @subpackage  tests
  * @author      Magento Core Team <core@magentocommerce.com>
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
@@ -65,6 +65,9 @@ class Order_Create_WithProductWithWarningTest extends Mage_Selenium_TestCase
      * <p>Warning message appears before submitting order. Order is created</p>
      *
      * @dataProvider orderWithProductWithValidationMessageDataProvider
+     * @param string $productData
+     * @param string $message
+     * @param integer $productQty
      * @test
      */
     public function orderWithProductWithValidationMessage($productData, $message, $productQty)
@@ -103,6 +106,11 @@ class Order_Create_WithProductWithWarningTest extends Mage_Selenium_TestCase
         $this->orderCreditMemoHelper()->createCreditMemoAndVerifyProductQty('refund_offline');
     }
 
+    /**
+     * <p>Data provider for orderWithProductWithValidationMessage test</p>
+     *
+     * @return array
+     */
     public function orderWithProductWithValidationMessageDataProvider()
     {
         return array(

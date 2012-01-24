@@ -22,7 +22,7 @@
  * @package     selenium
  * @subpackage  tests
  * @author      Magento Core Team <core@magentocommerce.com>
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
@@ -41,6 +41,7 @@ class Order_Helper extends Mage_Selenium_TestCase
      * @param string $addrType Gets two values: 'billing' and 'shipping'.
      *                         Default is 'billing'
      * @param int $symNum min = 5, default value = 32
+     * @param bool $required
      *
      * @throws Exception
      *
@@ -116,12 +117,12 @@ class Order_Helper extends Mage_Selenium_TestCase
             $this->applyCoupon($coupons, $validate);
         }
         if ($billingAddr) {
-            $billingChoise = $billingAddr['address_choice'];
-            $this->fillOrderAddress($billingAddr, $billingChoise, 'billing');
+            $billingChoice = $billingAddr['address_choice'];
+            $this->fillOrderAddress($billingAddr, $billingChoice, 'billing');
         }
         if ($shippingAddr) {
-            $shippingChoise = $shippingAddr['address_choice'];
-            $this->fillOrderAddress($shippingAddr, $shippingChoise, 'shipping');
+            $shippingChoice = $shippingAddr['address_choice'];
+            $this->fillOrderAddress($shippingAddr, $shippingChoice, 'shipping');
         }
         if ($shippingMethod) {
             $this->clickControl('link', 'get_shipping_methods_and_rates', false);
@@ -153,19 +154,19 @@ class Order_Helper extends Mage_Selenium_TestCase
      * Fills customer's addresses at the order page.
      *
      * @param string $addressType   'new', 'exist', 'sameAsBilling'
-     * @param string $address       'billing' or 'shipping'
+     * @param string $addressChoice       'billing' or 'shipping'
      * @param array  $addressData
      */
-    public function fillOrderAddress($addressData, $addressChoise = 'new', $addressType = 'billing')
+    public function fillOrderAddress($addressData, $addressChoice = 'new', $addressType = 'billing')
     {
         if (is_string($addressData)) {
             $addressData = $this->loadData($addressData);
         }
 
-        if ($addressChoise == 'sameAsBilling') {
+        if ($addressChoice == 'sameAsBilling') {
             $this->fillForm(array('shipping_same_as_billing_address' => 'yes'));
         }
-        if ($addressChoise == 'new') {
+        if ($addressChoice == 'new') {
             $xpath = $this->_getControlXpath('dropdown', $addressType . '_address_choice');
             if ($this->isElementPresent($xpath . "/option[@selected]")) {
                 $this->select($xpath, 'label=Add New Address');
@@ -183,7 +184,7 @@ class Order_Helper extends Mage_Selenium_TestCase
             }
             $this->fillForm($addressData);
         }
-        if ($addressChoise == 'exist') {
+        if ($addressChoice == 'exist') {
             if ($addressType == 'shipping') {
                 $xpath = $this->_getControlXpath('checkbox', 'shipping_same_as_billing_address');
                 $value = $this->getValue($xpath);
@@ -200,9 +201,10 @@ class Order_Helper extends Mage_Selenium_TestCase
     /**
      * Returns address that was found and can be selected from existing customer addresses.
      *
-     * @param array         $keyWords
+     * @param array  $addressData
+     * @param string $addressType
      *
-     * @return bool|string               The most suitable address found by using keywords
+     * @return bool|string                 The most suitable address found by using keywords
      */
     public function defineAddressToChoose(array $addressData, $addressType = 'billing')
     {
@@ -243,7 +245,6 @@ class Order_Helper extends Mage_Selenium_TestCase
     /**
      * Defines order id
      *
-     * @param string $fieldset
      * @return bool|integer
      */
     public function defineOrderId()
@@ -265,22 +266,22 @@ class Order_Helper extends Mage_Selenium_TestCase
      */
     public function addProductToOrder(array $productData)
     {
-        $configur = array();
-        $aditionalData = array();
+        $configure = array();
+        $additionalData = array();
         foreach ($productData as $key => $value) {
             if (!preg_match('/^filter_/', $key)) {
-                $aditionalData[$key] = $value;
+                $additionalData[$key] = $value;
                 unset($productData[$key]);
             }
             if ($key == 'qty_to_add') {
-                $aditionalData['product_qty'] = $value;
+                $additionalData['product_qty'] = $value;
                 unset($productData[$key]);
             }
             if ($key == 'filter_sku' || $key == 'filter_name') {
                 $productSku = $value;
             }
             if ($key == 'configurable_options') {
-                $configur = $value;
+                $configure = $value;
             }
         }
 
@@ -295,10 +296,10 @@ class Order_Helper extends Mage_Selenium_TestCase
                 $configurable = TRUE;
             }
             $this->click($xpathProduct . "//input[@type='checkbox']");
-            if ($configurable && $configur) {
+            if ($configurable && $configure) {
                 $this->pleaseWait();
                 $before = $this->getMessagesOnPage();
-                $this->configureProduct($configur);
+                $this->configureProduct($configure);
                 $this->clickButton('ok', false);
                 $after = $this->getMessagesOnPage();
                 $result = array();
@@ -317,8 +318,8 @@ class Order_Helper extends Mage_Selenium_TestCase
             }
             $this->clickButton('add_selected_products_to_order', false);
             $this->pleaseWait();
-            if ($aditionalData) {
-                $this->reconfigProduct($productSku, $aditionalData);
+            if ($additionalData) {
+                $this->reconfigProduct($productSku, $additionalData);
             }
         }
     }
@@ -326,13 +327,13 @@ class Order_Helper extends Mage_Selenium_TestCase
     /**
      * Configuring product when placing to order.
      *
-     * @param array $productData Product in array to add to order. Function should be called for each product to add
+     * @param array $configureData Product in array to add to order. Function should be called for each product to add
      */
-    public function configureProduct(array $configurData)
+    public function configureProduct(array $configureData)
     {
         $set = $this->getCurrentUimapPage()->findFieldset('product_composite_configure_form');
 
-        foreach ($configurData as $key => $value) {
+        foreach ($configureData as $key => $value) {
             if (is_array($value)) {
                 $optionTitle = (isset($value['title'])) ? $value['title'] : '';
                 $this->addParameter('optionTitle', $optionTitle);
@@ -365,8 +366,9 @@ class Order_Helper extends Mage_Selenium_TestCase
      * The way customer will pay for the order
      *
      * @param array|string $paymentMethod
+     * @param bool $validate
      */
-    public function selectPaymentMethod($paymentMethod, $validate = TRUE)
+    public function selectPaymentMethod($paymentMethod, $validate = true)
     {
         if (is_string($paymentMethod)) {
             $paymentMethod = $this->loadData($paymentMethod);
@@ -395,7 +397,9 @@ class Order_Helper extends Mage_Selenium_TestCase
     }
 
     /**
+     * Validates 3D secure frame
      *
+     * @param string $password
      */
     public function validate3dSecure($password = '1234')
     {
@@ -428,8 +432,9 @@ class Order_Helper extends Mage_Selenium_TestCase
      * The way to ship the order
      *
      * @param array|string $shippingMethod
+     * @param bool $validate
      */
-    public function selectShippingMethod($shippingMethod, $validate = TRUE)
+    public function selectShippingMethod($shippingMethod, $validate = true)
     {
         if (is_string($shippingMethod)) {
             $shippingMethod = $this->loadData($shippingMethod);
@@ -443,9 +448,11 @@ class Order_Helper extends Mage_Selenium_TestCase
             $this->addParameter('shipMethod', $shipMethod);
             $methodUnavailable = $this->_getControlXpath('message', 'ship_method_unavailable');
             $noShipping = $this->_getControlXpath('message', 'no_shipping');
-            if ($this->isElementPresent($methodUnavailable) || $this->isElementPresent($noShipping)) {
+            if (($this->isElementPresent($methodUnavailable) || $this->isElementPresent($noShipping)) && $validate) {
                 $this->addVerificationMessage('No Shipping Method is available for this order');
-            } elseif ($this->isElementPresent($this->_getControlXpath('field', 'ship_service_name'))) {
+            }
+            if ((!$this->isElementPresent($methodUnavailable) && !$this->isElementPresent($noShipping))
+                    && $this->isElementPresent($this->_getControlXpath('field', 'ship_service_name')) && $validate) {
                 $method = $this->_getControlXpath('radiobutton', 'ship_method');
                 if ($this->isElementPresent($method)) {
                     $this->click($method);
@@ -454,8 +461,11 @@ class Order_Helper extends Mage_Selenium_TestCase
                     $this->addVerificationMessage('Shipping Method "' . $shipMethod . '" for "'
                                                  . $shipService . '" is currently unavailable.');
                 }
-            } else {
+            } elseif ((!$this->isElementPresent($methodUnavailable) && !$this->isElementPresent($noShipping))
+                       && !$this->isElementPresent($this->_getControlXpath('field', 'ship_service_name')) && $validate){
                 $this->addVerificationMessage('Shipping Service "' . $shipService . '" is currently unavailable.');
+            } else {
+                return;
             }
         }
         $this->assertEmptyVerificationErrors();
@@ -465,6 +475,7 @@ class Order_Helper extends Mage_Selenium_TestCase
      * Gets to 'Create new Order page'
      *
      * @param array|string $customerData    Array with customer data to search or string with dataset to load
+     * @param string $storeView
      */
     public function navigateToCreateOrderPage($customerData, $storeView)
     {
@@ -496,7 +507,8 @@ class Order_Helper extends Mage_Selenium_TestCase
     /**
      * Reconfigure already added to order products (change quantity, add discount, etc)
      *
-     * @param array $reconfigProduct Array with the products and data to reconfigure
+     * @param string $productSku
+     * @param array $productData Array with the products and data to reconfigure
      */
     public function reconfigProduct($productSku, array $productData)
     {
@@ -531,6 +543,7 @@ class Order_Helper extends Mage_Selenium_TestCase
     }
 
     /**
+     * Verify gift message
      *
      * @param array $giftMessages
      */
@@ -557,9 +570,10 @@ class Order_Helper extends Mage_Selenium_TestCase
     /**
      * Applying coupon for the products in order
      *
-     * @param array $couponCode
+     * @param array $coupons
+     * @param bool $validate
      */
-    public function applyCoupon($coupons, $validate = TRUE)
+    public function applyCoupon($coupons, $validate = true)
     {
         if (is_string($coupons)) {
             $coup[] = $coupons;
@@ -620,7 +634,7 @@ class Order_Helper extends Mage_Selenium_TestCase
         $subject = $this->getLastRecord($httpHelperPath, $logFileName);
         $responseParams = $this->getResponse($subject);
         $resultArray = array_diff($inputArray, $responseParams);
-        return (count($resultArray)) ? $resultArray : TRUE;
+        return (count($resultArray)) ? $resultArray : true;
     }
 
     /**
@@ -692,6 +706,7 @@ class Order_Helper extends Mage_Selenium_TestCase
      * 3D Secure log verification
      *
      * @param array $verificationData
+     * @return bool
      */
     public function verify3DSecureLog($verificationData)
     {
@@ -704,7 +719,7 @@ class Order_Helper extends Mage_Selenium_TestCase
         {
             $this->fail("Arrays are not identical:\n" . var_export($result, true));
         } else {
-            return TRUE;
+            return true;
         }
     }
 }

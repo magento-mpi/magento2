@@ -22,7 +22,7 @@
  * @package     selenium
  * @subpackage  tests
  * @author      Magento Core Team <core@magentocommerce.com>
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
@@ -47,8 +47,9 @@ class Order_Create_WithCouponTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Create Simple Product for tests
+     * <p>Create Simple Product for tests</p>
      *
+     * @return string
      * @test
      */
     public function createSimpleProduct()
@@ -78,6 +79,7 @@ class Order_Create_WithCouponTest extends Mage_Selenium_TestCase
      * <p>Order is created, no error messages appear;</p>
      *
      * @depends createSimpleProduct
+     * @param string $simpleSku
      * @test
      */
     public function amountLessThanGrandTotal($simpleSku)
@@ -117,6 +119,7 @@ class Order_Create_WithCouponTest extends Mage_Selenium_TestCase
      * <p>Order is created, no error messages appear;</p>
      *
      * @depends createSimpleProduct
+     * @param string $simpleSku
      * @test
      */
     public function amountGreaterThanGrandTotal($simpleSku)
@@ -155,6 +158,7 @@ class Order_Create_WithCouponTest extends Mage_Selenium_TestCase
      * <p>Message with error appears;</p>
      *
      * @depends createSimpleProduct
+     * @param string $simpleSku
      * @test
      */
     public function wrongCode($simpleSku)

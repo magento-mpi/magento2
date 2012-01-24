@@ -22,7 +22,7 @@
  * @package     selenium
  * @subpackage  tests
  * @author      Magento Core Team <core@magentocommerce.com>
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
@@ -50,8 +50,9 @@ class Order_Create_NewCustomerTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Create Simple Product for tests
+     * <p>Create Simple Product for tests</p>
      *
+     * @return string
      * @test
      */
     public function createSimpleProduct()
@@ -88,6 +89,7 @@ class Order_Create_NewCustomerTest extends Mage_Selenium_TestCase
      *    Order is created for the new customer</p>
      *
      * @depends createSimpleProduct
+     * @param string $simpleSku
      * @test
      */
     public function newCustomerWithoutAddress($simpleSku)
@@ -133,6 +135,7 @@ class Order_Create_NewCustomerTest extends Mage_Selenium_TestCase
      * <p>New customer is created with addresses. Order is created for the new customer;</p>
      *
      * @depends createSimpleProduct
+     * @param string $simpleSku
      * @test
      */
     public function newCustomerWithAddress($simpleSku)
@@ -183,6 +186,7 @@ class Order_Create_NewCustomerTest extends Mage_Selenium_TestCase
      * <p>New customer is not created. Order is not created for the new customer;</p>
      *
      * @depends createSimpleProduct
+     * @param string $simpleSku
      * @test
      */
     public function newCustomerWithExistEmail($simpleSku)
@@ -222,6 +226,7 @@ class Order_Create_NewCustomerTest extends Mage_Selenium_TestCase
      * <p>New customer is not created. Order is not created for the new customer;</p>
      *
      * @depends createSimpleProduct
+     * @param string $simpleSku
      * @test
      */
     public function newCustomerWithLongEmail($simpleSku)
@@ -256,6 +261,7 @@ class Order_Create_NewCustomerTest extends Mage_Selenium_TestCase
      * <p>New customer is not created. Order is not created for the new customer;</p>
      *
      * @depends createSimpleProduct
+     * @param string $simpleSku
      * @test
      */
     public function newCustomerWithNotCorrectEmail($simpleSku)
@@ -292,6 +298,7 @@ class Order_Create_NewCustomerTest extends Mage_Selenium_TestCase
      * <p>New customer is not created. Order is not created for the new customer;</p>
      *
      * @depends createSimpleProduct
+     * @param string $simpleSku
      * @test
      */
     public function newCustomerWithNotValidEmail($simpleSku)
@@ -326,6 +333,7 @@ class Order_Create_NewCustomerTest extends Mage_Selenium_TestCase
      * <p>New customer is not created. Order is not created for the new customer;</p>
      *
      * @depends createSimpleProduct
+     * @param string $simpleSku
      * @test
      */
     public function orderCompleteReqFields($simpleSku)

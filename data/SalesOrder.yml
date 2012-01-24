@@ -574,12 +574,26 @@ else_american_express: &americanExpressElse
     expiration_year: '2020'
     card_verification_number: '1234'
 
+else_american_express_direct:
+    card_type: 'American Express'
+    card_number: '340000000000009'
+    expiration_month: '01 - January'
+    expiration_year: '2013'
+    card_verification_number: '1234'
+
 else_visa: &visaElse
     card_type: 'Visa'
     card_number: '4000000000000002'
     #card_number: '4832011527418035' #not work with payfloPro without3D
     expiration_month: '07 - July'
     expiration_year: '2020'
+    card_verification_number: '111'
+
+else_visa_direct:
+    card_type: 'Visa'
+    card_number: '4832011527418035'
+    expiration_month: '01 - January'
+    expiration_year: '2013'
     card_verification_number: '111'
 
 else_mastercard: &mastercardElse
@@ -595,6 +609,13 @@ else_discover: &discoverElse
     #card_number: '6011000000000004' #not work with payfloPro without3D
     expiration_month: '07 - July'
     expiration_year: '2020'
+    card_verification_number: '111'
+
+else_discover_direct:
+    card_type: 'Discover'
+    card_number: '6011000000000004'
+    expiration_month: '01 - January'
+    expiration_year: '2013'
     card_verification_number: '111'
 
 else_other: &otherElse
@@ -614,9 +635,12 @@ else_jcb: &jcbElse
 
 else_jcb_3d: &jcbElse3D
     card_type: 'JCB'
-    card_number: '3000000000000004'
-    expiration_month: '07 - July'
-    expiration_year: '2020'
+    #card_number: '3000000000000004' is not working even according to 3D secure checklist
+    card_number: '3566002020360505'
+    #expiration_month: '07 - July' is not working. to get eciflag 07 and no errors month should be 01 - January
+    expiration_month: '01 - January'
+    #expiration_year: '2020' is not working. year should be current year + 1
+    expiration_year: '2013'
     card_verification_number: '1234'
 
 else_solo: &soloElse

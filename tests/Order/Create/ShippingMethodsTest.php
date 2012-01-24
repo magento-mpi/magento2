@@ -22,7 +22,7 @@
  * @package     selenium
  * @subpackage  tests
  * @author      Magento Core Team <core@magentocommerce.com>
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
@@ -57,8 +57,9 @@ class Order_Create_ShippingMethodsTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Create Simple Product for tests
+     * <p>Create Simple Product for tests</p>
      *
+     * @return string
      * @test
      */
     public function createSimpleProduct()
@@ -89,6 +90,9 @@ class Order_Create_ShippingMethodsTest extends Mage_Selenium_TestCase
      *
      * @depends createSimpleProduct
      * @dataProvider shipmentDataProvider
+     * @param string $shipment
+     * @param string $shippingOrigin
+     * @param string $simpleSku
      * @test
      */
     public function differentShipmentMethods($shipment, $shippingOrigin, $simpleSku)
@@ -117,6 +121,11 @@ class Order_Create_ShippingMethodsTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('success', 'success_canceled_order');
     }
 
+    /**
+     * <p>Data provider differentShipmentMethods test</p>
+     *
+     * @return array
+     */
     public function shipmentDataProvider()
     {
         return array(

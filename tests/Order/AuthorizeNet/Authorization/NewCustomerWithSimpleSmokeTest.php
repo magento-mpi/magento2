@@ -22,7 +22,7 @@
  * @package     selenium
  * @subpackage  tests
  * @author      Magento Core Team <core@magentocommerce.com>
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
@@ -52,8 +52,10 @@ class Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest extends Ma
     }
 
     /**
-     * Create Simple Product for tests
+     * <p>Preconditions</p>
+     * <p>Create Simple Product for tests</p>
      *
+     * @return string
      * @test
      */
     public function createSimpleProduct()
@@ -70,7 +72,11 @@ class Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest extends Ma
     }
 
     /**
+     * <p>Order with 3D secure</p>
+     *
      * @depends createSimpleProduct
+     * @param string $simpleSku
+     * @return array
      * @test
      */
     public function orderWithout3DSecureSmoke($simpleSku)
@@ -87,12 +93,12 @@ class Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest extends Ma
     }
 
     /**
-     * Create order with AuthorizeNet using all types of credit card
+     * <p>Create order with AuthorizeNet using all types of credit card</p>
      *
-     * @param type $orderData
-     *
-     * @depends orderWithout3DSecureSmoke
      * @dataProvider cardAuthorizeNetDataProvider
+     * @depends orderWithout3DSecureSmoke
+     * @param array $orderData
+     * @param string $card
      * @test
      */
     public function differentCardInAuthorizeNet($card, $orderData)
@@ -106,6 +112,11 @@ class Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest extends Ma
         $this->assertMessagePresent('success', 'success_created_order');
     }
 
+    /**
+     * <p>Data provider for differentCardInAuthorizeNet test</p>
+     *
+     * @return array
+     */
     public function cardAuthorizeNetDataProvider()
     {
         return array(
@@ -136,8 +147,11 @@ class Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest extends Ma
      * <p>Expected result:</p>
      * <p>New customer is created. Order is created for the new customer. Invoice is created.</p>
      *
-     * @depends orderWithout3DSecureSmoke
      * @dataProvider captureTypeDataProvider
+     * @depends orderWithout3DSecureSmoke
+     * @param string $captureType
+     * @param array $orderData
+     *
      * @test
      */
     public function fullInvoiceWithDifferentTypesOfCapture($captureType, $orderData)
@@ -149,6 +163,11 @@ class Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest extends Ma
         $this->orderInvoiceHelper()->createInvoiceAndVerifyProductQty($captureType);
     }
 
+    /**
+     * <p>Data provider for fullInvoiceWithDifferentTypesOfCapture test</p>
+     *
+     * @return array
+     */
     public function captureTypeDataProvider()
     {
         return array(
@@ -178,8 +197,12 @@ class Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest extends Ma
      * <p>Expected result:</p>
      * <p>New customer is created. Order is created for the new customer. Credit memo is(isn't) created</p>
      *
-     * @depends orderWithout3DSecureSmoke
      * @dataProvider refundDataProvider
+     * @depends orderWithout3DSecureSmoke
+     * @param string $captureType
+     * @param string $refundType
+     * @param array $orderData
+     *
      * @test
      */
     public function fullRefund($captureType, $refundType, $orderData)
@@ -204,8 +227,13 @@ class Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest extends Ma
     }
 
     /**
-     * @depends orderWithout3DSecureSmoke
+     * <p>Partial refund test</p>
+     *
      * @dataProvider refundDataProvider
+     * @depends orderWithout3DSecureSmoke
+     * @param string $captureType
+     * @param string $refundType
+     * @param array $orderData
      * @test
      */
     public function partialRefund($captureType, $refundType, $orderData)
@@ -239,6 +267,11 @@ class Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest extends Ma
         }
     }
 
+    /**
+     * <p>Data provider for partialRefund test</p>
+     *
+     * @return array
+     */
     public function refundDataProvider()
     {
         return array(
@@ -270,6 +303,7 @@ class Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest extends Ma
      * <p>Order is invoiced and shipped successfully</p>
      *
      * @depends orderWithout3DSecureSmoke
+     * @param array $orderData
      * @test
      */
     public function fullShipmentForOrderWithoutInvoice($orderData)
@@ -294,6 +328,7 @@ class Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest extends Ma
      * <p>Order is unholded;</p>
      *
      * @depends orderWithout3DSecureSmoke
+     * @param array $orderData
      * @test
      */
     public function holdAndUnholdPendingOrderViaOrderPage($orderData)
@@ -309,9 +344,10 @@ class Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest extends Ma
     }
 
     /**
-     * Cancel Pending Order From Order Page
+     * <p>Cancel Pending Order From Order Page</p>
      *
      * @depends orderWithout3DSecureSmoke
+     * @param array $orderData
      * @test
      */
     public function cancelPendingOrderFromOrderPage($orderData)
@@ -347,6 +383,7 @@ class Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest extends Ma
      * <p>Message "The order has been created." is displayed.</p>
      *
      * @depends orderWithout3DSecureSmoke
+     * @param array $orderData
      * @test
      */
     public function reorderPendingOrder($orderData)
@@ -401,6 +438,7 @@ class Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest extends Ma
      * <p>New customer is created. Order is created for the new customer. Void successful</p>
      *
      * @depends orderWithout3DSecureSmoke
+     * @param array $orderData
      * @test
      */
     public function voidPendingOrderFromOrderPage($orderData)
@@ -434,8 +472,11 @@ class Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest extends Ma
      * <p>Expected result:</p>
      * <p>New customer is created. Order is created for the new customer.</p>
      *
-     * @depends orderWithout3DSecureSmoke
      * @dataProvider createOrderWith3DSecureDataProvider
+     * @depends orderWithout3DSecureSmoke
+     * @param string $card
+     * @param bool $needSetUp
+     * @param array $orderData
      * @test
      */
     public function createOrderWith3DSecure($card, $needSetUp, $orderData)
@@ -453,6 +494,10 @@ class Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest extends Ma
         $this->assertMessagePresent('success', 'success_created_order');
     }
 
+    /**
+     * <p>Data provider for createOrderWith3DSecure test</p>
+     * @return array
+     */
     public function createOrderWith3DSecureDataProvider()
     {
         return array(
