@@ -33,39 +33,117 @@
  */
 class Mage_Api2_Model_Renderer_Xml implements Mage_Api2_Model_Renderer_Interface
 {
+    /**
+     * Adapter mime type
+     */
     const MIME_TYPE = 'application/xml';
+
+    /**
+     * Default name for item of non-associative array
+     */
+    const ARRAY_NON_ASSOC_ITEM_NAME = 'data_item';
+
+    /**
+     * Unavailable Chars which must be not used in the tag names
+     *
+     * @var array
+     */
+    protected $_unavailableChars = array(
+        '!', '"', '#', '$', '%', '&', '\'', '(', ')', '*', '+',
+        ',', '/', ';', '<', '=', '>', '?', '@', '[', '\\', ']',
+        '^', '`', '{', '|', '}', '~'
+    );
+
+    /**
+     * Protected pattern for check chars in the begin of tag name
+     *
+     * @var array
+     */
+    protected $_protectedTagNamePattern = '/^[0-9,.-]/';
 
     /**
      * Convert Array to XML
      *
-     * @param array $data
-     * @param null $options
+     * @param array|object $data
      * @return string
      */
-    public function render(array $data, $options = null)
+    public function render($data)
     {
-        $value = Zend_XmlRpc_Value::getXmlRpcValue($data);
+        $data = $this->_prepareData($data, true);
+        $writer = new Zend_Config_Writer_Xml();
+        $config = new Zend_Config($data);
+        $writer->setConfig($config);
+        $xml = $writer->render();
+        return $xml;
+    }
 
-        $generator = Zend_XmlRpc_Value::getGenerator();
-        $generator->openElement('methodResponse')
-                  ->openElement('params')
-                  ->openElement('param');
-        $value->generateXml();
-        $generator->closeElement('param')
-                  ->closeElement('params')
-                  ->closeElement('methodResponse');
-
-        $content = $generator->flush();
-
-        if (isset($options['encoding'])) {
-            $content = preg_replace(
-                '/<\?xml version="([^\"]+)"([^\>]+)>/i',
-                '<?xml version="$1" encoding="'.$options['encoding'].'"?>',
-                $content
-            );
+    /**
+     * Prepare convert data
+     *
+     * @param $data
+     * @param bool $root
+     * @return array
+     * @throws Exception
+     */
+    protected function _prepareData($data, $root = false)
+    {
+        if ($root && !is_array($data) && !is_object($data)) {
+            $data = array($data);
         }
+        if (!is_array($data) && !is_object($data)) {
+            throw new Exception('Prepare data must be an object or an array.');
+        }
+        $data = (array) $data;
+        //check non associative array
+        $keys = implode(array_keys($data), '');
+        if ((string) (int) $keys === ltrim($keys, 0) || $keys === '0') {
+            $dataLoop = $data;
+            unset($data);
+            $data = array(self::ARRAY_NON_ASSOC_ITEM_NAME => &$dataLoop);
+            $assoc = false;
+        } else {
+            $dataLoop = &$data;
+            $assoc = true;
+        }
+        foreach ($dataLoop as $key => $value) {
+            if (0 === strpos($key, self::ARRAY_NON_ASSOC_ITEM_NAME)) {
+                //skip processed data with renamed key name
+                continue;
+            }
 
-        return $content;
+            //process item value
+            if (is_array($value) || is_object($value)) {
+                //process array or object item
+                $dataLoop[$key] = $this->_prepareData($value);
+            } else {
+                //replace "&" with HTML entity, because by default not replaced
+                $dataLoop[$key] = str_replace('&', '&amp;', $value);
+            }
+
+            //process item key name
+            if ($assoc) {
+                if (is_numeric($key)) {
+                    //tag names must not begin with the digits
+                    $newKey = self::ARRAY_NON_ASSOC_ITEM_NAME . '_' . $key;
+                } else {
+                    //replace unavailable chars
+                    $newKey = trim($key);
+                    $newKey = str_replace($this->_unavailableChars, '', $newKey);
+                    $newKey = str_replace(array(' ', ':'), '_', $newKey);
+                    $newKey = trim($newKey, '_');
+
+                    if (preg_match($this->_protectedTagNamePattern, $newKey)) {
+                        //tag names must not begin with the digits
+                        $newKey = self::ARRAY_NON_ASSOC_ITEM_NAME . '_' . $newKey;
+                    }
+                }
+                if ($newKey !== $key) {
+                    $dataLoop[$newKey] = $dataLoop[$key];
+                    unset($dataLoop[$key]);
+                }
+            }
+        }
+        return $data;
     }
 
     /**
