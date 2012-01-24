@@ -76,8 +76,7 @@ class Mage_Api2_Model_RendererTest extends Mage_PHPUnit_TestCase
             'application/*'     => 'Mage_Api2_Model_Renderer_Json',
             'application/json'  => 'Mage_Api2_Model_Renderer_Json',
             'application/xml'   => 'Mage_Api2_Model_Renderer_Xml',
-            'text/plain'        => 'Mage_Api2_Model_Renderer_Query',
-            'text/html'         => 'Mage_Api2_Model_Renderer_Html',
+            'text/plain'        => 'Mage_Api2_Model_Renderer_Query'
         );
         foreach ($data as $type => $expectedClass) {
             $adapter = Mage_Api2_Model_Renderer::factory($type);
