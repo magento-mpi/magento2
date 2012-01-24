@@ -39,3 +39,16 @@ $transactionSave->addObject($invoice)
     ->save();
 
 Magento_Test_Webservice::setFixture('creditmemo/invoice', $invoice);
+$order2 = Magento_Test_Webservice::getFixture('creditmemo/order2');
+$orderService2 = new Mage_Sales_Model_Service_Order($order2);
+$invoice2 = $orderService2->prepareInvoice();
+$invoice2->register();
+$invoice2->getOrder()->setIsInProcess(true);
+$transactionSave2 = new Mage_Core_Model_Resource_Transaction();
+$transactionSave2->addObject($invoice2)
+    ->addObject($invoice2->getOrder())
+    ->save();
+
+Magento_Test_Webservice::setFixture('creditmemo/invoice2', $invoice2);
+
+

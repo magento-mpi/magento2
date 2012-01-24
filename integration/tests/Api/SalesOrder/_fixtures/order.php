@@ -69,3 +69,23 @@ $order = $quoteService->submitOrder();
 $order->place();
 $order->save();
 Magento_Test_Webservice::setFixture('creditmemo/order', $order);
+
+//Create order
+$quote2 = new Mage_Sales_Model_Quote();
+$quote2->setStoreId(1)
+    ->setIsActive(false)
+    ->setIsMultiShipping(false)
+    ->assignCustomerWithAddressChange($customer)
+    ->setCheckoutMethod($customer->getMode())
+    ->setPasswordHash($customer->encryptPassword($customer->getPassword()))
+    ->addProduct($product->load($product->getId()), 2);
+
+$quote2->collectTotals();
+$quote2->save();
+$quoteService2 = new Mage_Sales_Model_Service_Quote($quote2);
+//Set payment method to check/money order
+$quoteService2->getQuote()->getPayment()->setMethod('checkmo');
+$order2 = $quoteService2->submitOrder();
+$order2->place();
+$order2->save();
+Magento_Test_Webservice::setFixture('creditmemo/order2', $order2);

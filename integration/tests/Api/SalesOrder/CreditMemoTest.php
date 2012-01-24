@@ -28,8 +28,19 @@
 /**
  * @magentoDataFixture Api/SalesOrder/_fixtures/invoice.php
  */
+
 class Api_SalesOrder_CreditMemoTest extends Magento_Test_Webservice
 {
+	/**
+	* tear down
+	*
+	* @return void
+	*/
+	protected function tearDown()
+	{
+		parent::tearDown();
+	}
+
     /**
      * Test sales order credit memo list, info, create, cancel
      *
@@ -180,5 +191,56 @@ class Api_SalesOrder_CreditMemoTest extends Magento_Test_Webservice
     public function testCancelInvalidIdException()
     {
         $this->call('order_creditmemo.cancel', array('invalid-id'));
+    }
+
+    /**
+     * Test credit memo create API call results
+     *
+     * @return void
+     */
+    public function testAutoIncrementType()
+    {
+        // Set creditmemo increment id prefix
+        $website = Mage::app()->getWebsite();
+        $entityTypeModel = Mage::getModel('eav/entity_type')->loadByCode('creditmemo');
+        $entityStoreModel = Mage::getModel('eav/entity_store')->loadByEntityStore(
+            $entityTypeModel->getId(),$website->getDefaultStore()->getId());
+        Magento_Test_Webservice::setFixture('orig_creditmemo_increment_data', array(
+            'prefix' => $entityStoreModel->getIncrementPrefix(),
+            'increment_last_id' => $entityStoreModel->getIncrementLastId()
+        ));
+        $entityStoreModel->setIncrementPrefix('01');
+        $entityStoreModel->save();
+        Magento_Test_Webservice::setFixture('entity_store_model', $entityStoreModel);
+
+
+        $order = self::getFixture('creditmemo/order2');
+
+        $orderItems = $order->getAllItems();
+        $qtys = array();
+
+        /** @var $orderItem Mage_Sales_Model_Order_Item */
+        foreach ($orderItems as $orderItem) {
+            $qtys[] = array('order_item_id' => $orderItem->getId(), 'qty' => 1);
+        }
+        $adjustmentPositive = 2;
+        $adjustmentNegative = 1;
+        $data = array(
+            'qtys'                => $qtys,
+            'adjustment_positive' => $adjustmentPositive,
+            'adjustment_negative' => $adjustmentNegative
+        );
+        $orderIncrementalId = $order->getIncrementId();
+
+        //Test create
+        $creditMemoIncrementId = $this->call('order_creditmemo.create', array($orderIncrementalId, $data));
+    	$this->setFixture('creditmemoIncrementId', $creditMemoIncrementId);
+    
+    	$this->assertTrue(is_string($creditMemoIncrementId), 'Increment Id is not a string');
+    	$entityStoreModel = $this->getFixture('entity_store_model');
+    	$this->assertStringStartsWith($entityStoreModel->getIncrementPrefix(), $creditMemoIncrementId,
+    			'Increment Id returned by API is not correct');
+
+        // you can not delete credit memo from non-admin area
     }
 }
