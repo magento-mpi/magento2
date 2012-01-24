@@ -34,20 +34,41 @@
  */
 class Mage_Catalog_Block_Product_View_Type_Configurable extends Mage_Catalog_Block_Product_View_Abstract
 {
+    /**
+     * Prices
+     *
+     * @var array
+     */
     protected $_prices      = array();
+
+    /**
+     * Prepared prices
+     *
+     * @var array
+     */
     protected $_resPrices   = array();
 
+    /**
+     * Get allowed attributes
+     *
+     * @return array
+     */
     public function getAllowAttributes()
     {
         return $this->getProduct()->getTypeInstance(true)
             ->getConfigurableAttributes($this->getProduct());
     }
 
+    /**
+     * Check if allowed attributes have options
+     *
+     * @return bool
+     */
     public function hasOptions()
     {
         $attributes = $this->getAllowAttributes();
         if (count($attributes)) {
-            foreach ($attributes as $key => $attribute) {
+            foreach ($attributes as $attribute) {
                 /** @var Mage_Catalog_Model_Product_Type_Configurable_Attribute $attribute */
                 if ($attribute->getData('prices')) {
                     return true;
@@ -57,6 +78,11 @@ class Mage_Catalog_Block_Product_View_Type_Configurable extends Mage_Catalog_Blo
         return false;
     }
 
+    /**
+     * Get Allowed Products
+     *
+     * @return array
+     */
     public function getAllowProducts()
     {
         if (!$this->hasAllowProducts()) {
@@ -223,7 +249,6 @@ class Mage_Catalog_Block_Product_View_Type_Configurable extends Mage_Catalog_Blo
         $config = array(
             'attributes'        => $attributes,
             'template'          => str_replace('%s', '#{price}', $store->getCurrentCurrency()->getOutputFormat()),
-//            'prices'          => $this->_prices,
             'basePrice'         => $this->_registerJsPrice($this->_convertPrice($currentProduct->getFinalPrice())),
             'oldPrice'          => $this->_registerJsPrice($this->_convertPrice($currentProduct->getPrice())),
             'productId'         => $currentProduct->getId(),
@@ -243,7 +268,7 @@ class Mage_Catalog_Block_Product_View_Type_Configurable extends Mage_Catalog_Blo
     /**
      * Validating of super product option value
      *
-     * @param array $attribute
+     * @param array $attributeId
      * @param array $value
      * @param array $options
      * @return boolean
@@ -278,10 +303,10 @@ class Mage_Catalog_Block_Product_View_Type_Configurable extends Mage_Catalog_Blo
      * @param bool $isPercent
      * @return mixed
      */
-    protected function _preparePrice($price, $isPercent=false)
+    protected function _preparePrice($price, $isPercent = false)
     {
         if ($isPercent && !empty($price)) {
-            $price = $this->getProduct()->getFinalPrice() * $price/100;
+            $price = $this->getProduct()->getFinalPrice() * $price / 100;
         }
 
         return $this->_registerJsPrice($this->_convertPrice($price, true));
@@ -294,26 +319,34 @@ class Mage_Catalog_Block_Product_View_Type_Configurable extends Mage_Catalog_Blo
      * @param bool $isPercent
      * @return mixed
      */
-    protected function _prepareOldPrice($price, $isPercent=false)
+    protected function _prepareOldPrice($price, $isPercent = false)
     {
         if ($isPercent && !empty($price)) {
-            $price = $this->getProduct()->getPrice() * $price/100;
+            $price = $this->getProduct()->getPrice() * $price / 100;
         }
 
         return $this->_registerJsPrice($this->_convertPrice($price, true));
     }
 
+    /**
+     * Replace ',' on '.' for js
+     *
+     * @param $price
+     * @return string
+     */
     protected function _registerJsPrice($price)
     {
-        $jsPrice            = str_replace(',', '.', $price);
-
-//        if (!isset($this->_prices[$jsPrice])) {
-//            $this->_prices[$jsPrice] = strip_tags(Mage::app()->getStore()->formatPrice($price));
-//        }
-        return $jsPrice;
+        return str_replace(',', '.', $price);
     }
 
-    protected function _convertPrice($price, $round=false)
+    /**
+     * Convert price from default currency to current currency
+     *
+     * @param   double $price
+     * @param   boolean $round
+     * @return  double
+     */
+    protected function _convertPrice($price, $round = false)
     {
         if (empty($price)) {
             return 0;
@@ -324,32 +357,6 @@ class Mage_Catalog_Block_Product_View_Type_Configurable extends Mage_Catalog_Blo
             $price = $this->getCurrentStore()->roundPrice($price);
         }
 
-
         return $price;
     }
-
-//    protected function _registerAdditionalJsPrice($price, $isPercent=false)
-//    {
-//        if (empty($price) && isset($this->_prices[0])) {
-//            return $this;
-//        }
-//
-//        $basePrice = $this->getProduct()->getFinalPrice();
-//        if ($isPercent) {
-//            $price = $basePrice*$price/100;
-//        }
-//        else {
-//            $price = $price;
-//        }
-//
-//        $price = $this->_convertPrice($price);
-//
-//        foreach ($this->_resPrices as $prevPrice) {
-//          $additionalPrice = $prevPrice + $price;
-//          $this->_resPrices[] = $additionalPrice;
-//          $jsAdditionalPrice = str_replace(',', '.', $additionalPrice);
-//          $this->_prices[$jsAdditionalPrice] = strip_tags(Mage::app()->getStore()->formatPrice($additionalPrice));
-//        }
-//        return $this;
-//    }
 }

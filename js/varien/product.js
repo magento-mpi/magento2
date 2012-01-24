@@ -491,7 +491,8 @@ Product.Config.prototype = {
             for(var i=this.settings.length-1;i>=0;i--){
                 var selected = this.settings[i].options[this.settings[i].selectedIndex];
                 if(selected.config){
-                    price+= parseFloat(selected.config.oldPrice);
+                    var parsedOldPrice = parseFloat(selected.config.oldPrice);
+                    price += isNaN(parsedOldPrice) ? 0 : parsedOldPrice;
                 }
             }
             if (price < 0)
