@@ -37,16 +37,22 @@
 class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Checkout_Model_Cart_Interface
 {
     /**
+     * Quote instance
+     *
      * @var Mage_Sales_Model_Quote|null
      */
     protected $_quote;
 
     /**
+     * Customer model instance
+     *
      * @var Mage_Customer_Model_Customer|null
      */
     protected $_customer;
 
     /**
+     * List of result errors
+     *
      * @var array
      */
     protected $_resultErrors = array();

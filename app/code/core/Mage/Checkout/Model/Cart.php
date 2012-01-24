@@ -33,8 +33,29 @@
  */
 class Mage_Checkout_Model_Cart extends Varien_Object implements Mage_Checkout_Model_Cart_Interface
 {
-    protected $_summaryQty = null;
-    protected $_productIds = null;
+    /**
+     * Shopping cart items summary quantity(s)
+     *
+     * @var int|null
+     */
+    protected $_summaryQty;
+
+    /**
+     * List of product ids in shopping cart
+     *
+     * @var array|null
+     */
+    protected $_productIds;
+
+    /**
+     * Get shopping cart resource model
+     *
+     * @return Mage_Checkout_Model_Resource_Cart
+     */
+    protected function _getResource()
+    {
+        return Mage::getResourceSingleton('checkout/cart');
+    }
 
     /**
      * Retrieve checkout session model
@@ -56,6 +77,11 @@ class Mage_Checkout_Model_Cart extends Varien_Object implements Mage_Checkout_Mo
         return Mage::getSingleton('customer/session');
     }
 
+    /**
+     * List of shopping cart items
+     *
+     * @return Mage_Eav_Model_Entity_Collection_Abstract|array
+     */
     public function getItems()
     {
         if (!$this->getQuote()->getId()) {
@@ -479,7 +505,7 @@ class Mage_Checkout_Model_Cart extends Varien_Object implements Mage_Checkout_Mo
     /**
      * Get shopping cart items summary (includes config settings)
      *
-     * @return decimal
+     * @return int
      */
     public function getSummaryQty()
     {
@@ -516,7 +542,7 @@ class Mage_Checkout_Model_Cart extends Varien_Object implements Mage_Checkout_Mo
     /**
      * Get shopping cart summary qty
      *
-     * @return decimal
+     * @return int
      */
     public function getItemsQty()
     {
