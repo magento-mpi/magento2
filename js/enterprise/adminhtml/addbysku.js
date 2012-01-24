@@ -190,7 +190,7 @@ AddBySku.prototype = {
                     var tr = $qty.up('tr');
                     var sku = tr.select('input[name="' + that.skuFieldName + '"]')[0].value;
                     var $maxAllowed = $(sku + '_max_allowed');
-                    if ($maxAllowed && (parseInt($qty.value) <= parseInt($maxAllowed.innerHTML))) {
+                    if ($maxAllowed && (parseFloat($qty.value) <= parseFloat($maxAllowed.innerHTML))) {
                         tr.removeClassName('qty-not-available');
                     } else if ($maxAllowed) {
                         tr.addClassName('qty-not-available');
