@@ -1357,6 +1357,21 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
             $this->query('DROP TRIGGER ' . $this->quoteIdentifier($triggerName));
         }
 
+        /* Remove references to a column from indexes */
+        foreach ($this->getIndexList($tableName, $schemaName) as $idxData) {
+            $idxColumns = $idxData['COLUMNS_LIST'];
+            $idxColumnKey = array_search($columnName, $idxColumns);
+            if ($idxColumnKey !== false) {
+                $idxName = $idxData['KEY_NAME'];
+                $this->dropIndex($tableName, $idxName, $schemaName);
+                unset($idxColumns[$idxColumnKey]);
+                /* re-create a multi-column index */
+                if ($idxColumns) {
+                    $this->addIndex($tableName, $idxName, $idxColumns, $idxData['INDEX_TYPE'], $schemaName);
+                }
+            }
+        }
+
         $query = sprintf('ALTER TABLE %s DROP COLUMN %s',
             $this->quoteIdentifier($this->_getTableName($tableName, $schemaName)),
             $this->quoteIdentifier($columnName));
