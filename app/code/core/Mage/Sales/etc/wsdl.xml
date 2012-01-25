@@ -847,6 +847,14 @@
     <message name="salesOrderShipmentAddTrackResponse">
         <part name="result" type="xsd:int" />
     </message>
+    <message name="salesOrderShipmentSendInfoRequest">
+        <part name="sessionId" type="xsd:string" />
+        <part name="shipmentIncrementId" type="xsd:string" />
+        <part name="comment" type="xsd:string" />
+    </message>
+    <message name="salesOrderShipmentSendInfoResponse">
+        <part name="result" type="xsd:boolean" />
+    </message>
     <message name="salesOrderShipmentRemoveTrackRequest">
         <part name="sessionId" type="xsd:string" />
         <part name="shipmentIncrementId" type="xsd:string" />
@@ -1017,6 +1025,11 @@
             <input message="typens:salesOrderShipmentAddTrackRequest" />
             <output message="typens:salesOrderShipmentAddTrackResponse" />
         </operation>
+        <operation name="salesOrderShipmentSendInfo">
+            <documentation>Send shipment info</documentation>
+            <input message="typens:salesOrderShipmentSendInfoRequest" />
+            <output message="typens:salesOrderShipmentSendInfoResponse" />
+        </operation>
         <operation name="salesOrderShipmentRemoveTrack">
             <documentation>Remove tracking number</documentation>
             <input message="typens:salesOrderShipmentRemoveTrackRequest" />
@@ -1181,6 +1194,15 @@
             </output>
         </operation>
         <operation name="salesOrderShipmentAddTrack">
+            <soap:operation soapAction="urn:{{var wsdl.handler}}Action" />
+            <input>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </input>
+            <output>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </output>
+        </operation>
+        <operation name="salesOrderShipmentSendInfo">
             <soap:operation soapAction="urn:{{var wsdl.handler}}Action" />
             <input>
                 <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />

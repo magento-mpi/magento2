@@ -245,6 +245,39 @@ class Mage_Sales_Model_Order_Shipment_Api extends Mage_Sales_Model_Api_Resource
     }
 
     /**
+     * Send email with shipment data to customer
+     *
+     * @param string $shipmentIncrementId
+     * @param string $comment
+     * @return bool
+     */
+    public function sendInfo($shipmentIncrementId, $comment = '')
+    {
+        /* @var $shipment Mage_Sales_Model_Order_Shipment */
+        $shipment = Mage::getModel('sales/order_shipment')->loadByIncrementId($shipmentIncrementId);
+
+        if (!$shipment->getId()) {
+            $this->_fault('not_exists');
+        }
+
+        try {
+            $shipment->sendEmail(true, $comment)
+                ->setEmailSent(true)
+                ->save();
+            $historyItem = Mage::getResourceModel('sales/order_status_history_collection')
+                ->getUnnotifiedForInstance($shipment, Mage_Sales_Model_Order_Shipment::HISTORY_ENTITY_NAME);
+            if ($historyItem) {
+                $historyItem->setIsCustomerNotified(1);
+                $historyItem->save();
+            }
+        } catch (Mage_Core_Exception $e) {
+            $this->_fault('data_invalid', $e->getMessage());
+        }
+
+        return true;
+    }
+
+    /**
      * Retrieve tracking number info
      *
      * @param string $shipmentIncrementId
