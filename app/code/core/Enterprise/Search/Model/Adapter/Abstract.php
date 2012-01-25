@@ -386,44 +386,48 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
                 }
             }
 
-            $backendType    = $attribute->getBackendType();
-            $frontendInput  = $attribute->getFrontendInput();
+            // Preparing data for solr fields
+            if ($attribute->getIsSearchable() || $attribute->getIsVisibleInAdvancedSearch()
+                || $attribute->getIsFilterable() || $attribute->getIsFilterableInSearch()
+            ) {
+                $backendType    = $attribute->getBackendType();
+                $frontendInput  = $attribute->getFrontendInput();
 
-            if ($attribute->usesSource()) {
-                $attribute->setStoreId($storeId);
-                $optionsOrder = $attribute->getOptionsOrder();
-                $preparedNavValue = array();
-                foreach ($value as $key => &$val) {
-                    $optionId = $val;
-                    $val = $attribute->getSource()->getOptionText($val);
-
-                    if ($attribute->getIsFilterable() || $attribute->getIsFilterableInSearch()) {
-                        if (isset($optionsOrder[$optionId])) {
-                            $preparedNavValue[$key] = $optionsOrder[$optionId] . '_' . $val;
-                        } else {
-                            $preparedNavValue[$key] = $val;
+                if ($attribute->usesSource()) {
+                    if ($frontendInput == 'multiselect') {
+                        $preparedValue = array();
+                        foreach ($value as $val) {
+                            $preparedValue = array_merge($preparedValue, explode(',', $val));
                         }
 
-                        $preparedNavValue = array_unique($preparedNavValue);
+                        $preparedNavValue = $preparedValue;
+                    } else {
+                        // safe condition
+                        if (!is_array($value)) {
+                            $preparedValue = array($value);
+                        } else {
+                            $preparedValue = array_unique($value);
+                        }
+
+                        $preparedNavValue = $preparedValue;
+                        // Ensure that self product value will be saved after array_unique() function for sorting purpose
+                        if (isset($value[$productId])) {
+                            if (!isset($preparedNavValue[$productId])) {
+                                $selfValueKey = array_search($value[$productId], $preparedNavValue);
+                                unset($preparedNavValue[$selfValueKey]);
+                                $preparedNavValue[$productId] = $value[$productId];
+                            }
+                        }
                     }
+
+                    foreach ($preparedValue as &$val) {
+                        $val = $attribute->getSource()->getOptionText($val);
+                    }
+                } else {
+                    $preparedValue = $value;
                 }
-            }
 
-            // Preparing data for search
-            if ($attribute->getIsSearchable() || $attribute->getIsVisibleInAdvancedSearch()) {
-                $preparedValue = $value;
-
-                if ($frontendInput == 'multiselect') {
-                    $preparedValue = array();
-                    foreach ($value as $val) {
-                        $preparedValue = array_merge($preparedValue, explode($this->_separator, $val));
-                    }
-                    $preparedValue = array_unique($preparedValue);
-                } elseif ($frontendInput == 'select' || $frontendInput == 'boolean') {
-                    if (is_array($value)) {
-                        $preparedValue = array_unique($value);
-                    }
-                } elseif (in_array($backendType, $this->_textFieldTypes)) {
+                if (in_array($backendType, $this->_textFieldTypes)) {
                     if (is_array($value)) {
                         $preparedValue = implode(' ', array_unique($value));
                     }
@@ -444,28 +448,28 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
                         }
                     }
                 }
+            }
 
-                // Adding data for fulltext search field
-                if ($attribute->getIsSearchable()) {
-                    $searchWeight = $attribute->getSearchWeight();
-                    if ($searchWeight) {
-                        if ($frontendInput == 'multiselect' || $frontendInput == 'select') {
-                            $spellValue = implode(' ', $preparedValue);
-                        } else {
-                            $spellValue = $preparedValue;
-                        }
-                        $fulltextData[$searchWeight][] = $spellValue;
+            // Adding data for fulltext search field
+            if ($attribute->getIsSearchable()) {
+                $searchWeight = $attribute->getSearchWeight();
+                if ($searchWeight) {
+                    if ($frontendInput == 'multiselect' || $frontendInput == 'select') {
+                        $spellValue = implode(' ', $preparedValue);
+                    } else {
+                        $spellValue = $preparedValue;
                     }
+                    $fulltextData[$searchWeight][] = $spellValue;
                 }
+            }
 
-                // Adding data for advanced search field (without additional prefix)
-                if ($attribute->getIsVisibleInAdvancedSearch()) {
-                    if (!is_array($preparedValue) && strlen($preparedValue) || !empty($preparedValue)) {
-                        $fieldName = $this->getSearchEngineFieldName($attribute);
+            // Adding data for advanced search field (without additional prefix)
+            if ($attribute->getIsVisibleInAdvancedSearch()) {
+                if (!is_array($preparedValue) && strlen($preparedValue) || !empty($preparedValue)) {
+                    $fieldName = $this->getSearchEngineFieldName($attribute);
 
-                        if ($fieldName) {
-                            $productIndexData[$fieldName] = $preparedValue;
-                        }
+                    if ($fieldName) {
+                        $productIndexData[$fieldName] = $preparedValue;
                     }
                 }
             }
@@ -479,7 +483,11 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
                         $sortValue = null;
                     }
                 } else {
-                    $sortValue = $value;
+                    if ($backendType == 'datetime') {
+                        $sortValue = $this->_getSolrDate($storeId, $value);
+                    } else {
+                        $sortValue = $value;
+                    }
                 }
 
                 if (strlen($sortValue)) {
@@ -493,12 +501,11 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
 
             // Prepare data for navigation field
             if ($attribute->getIsFilterable() || $attribute->getIsFilterableInSearch()) {
-                $fieldName = $this->getSearchEngineFieldName($attribute, 'nav');
-                if ($fieldName) {
-                    if (!$attribute->usesSource()) {
-                        $preparedNavValue = $preparedValue;
+                if ($preparedNavValue) {
+                    $fieldName = $this->getSearchEngineFieldName($attribute, 'nav');
+                    if ($fieldName) {
+                        $productIndexData[$fieldName] = $preparedNavValue;
                     }
-                    $productIndexData[$fieldName] = $preparedNavValue;
                 }
             }
         }

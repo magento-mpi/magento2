@@ -48,22 +48,7 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Attribute extends Mage_Catalo
 
         $productCollection = $this->getLayer()->getProductCollection();
         $options = $productCollection->getFacetedData($fieldName);
-
-        $sortedOptions = array();
-        foreach ($options as $option => $count) {
-            $pos = strpos($option, '_');
-            $sortPosition = substr($option, 0, $pos);
-            $option = substr($option, $pos + 1);
-            if (!isset($sortedOptions[$sortPosition])) {
-                $sortedOptions[$sortPosition] = array($option => $count);
-            }
-        }
-        ksort($sortedOptions);
-        $options = array();
-        foreach ($sortedOptions as $option) {
-            $option = each($option);
-            $options[$option[0]] = $option[1];
-        }
+        $options = $this->sortOptions($options, $attribute);
 
         $data = array();
         foreach ($options as $label => $count) {
@@ -88,6 +73,30 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Attribute extends Mage_Catalo
         }
 
         return $data;
+    }
+
+    /**
+     * Sort options array according to positions sorting values
+     *
+     * @param array $options
+     * @param $attribute
+     *
+     * @return array
+     */
+    public function sortOptions($options, $attribute)
+    {
+        $optionsOrder = $attribute->getSource()->getAllOptions(false);
+        $sortedOptions = array();
+        foreach ($optionsOrder as $option) {
+            if (isset($options[$option['value']])) {
+                $sortedOptions[$option['label']] = $options[$option['value']];
+            } else {
+                $sortedOptions[$option['label']] = 0;
+            }
+
+        }
+
+        return $sortedOptions;
     }
 
     /**
