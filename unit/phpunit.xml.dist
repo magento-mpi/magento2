@@ -28,7 +28,7 @@
 -->
 <phpunit bootstrap="./framework/bootstrap.php" colors="true">
     <testsuite name="Magento PaaS/Appstore Unit Tests">
-        <file>tests/AllTests.php</file>
+        <directory suffix="Test.php">tests</directory>
     </testsuite>
     <filter>
         <whitelist>
