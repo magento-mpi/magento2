@@ -318,9 +318,19 @@ class CheckoutMultipleAddresses_WithRegistration_InputDataValidationTest extends
         $this->saveForm('submit');
         //Verification
         $this->addParameter('fieldName',$fieldName );
+        if ($fieldName == 'Zip/Postal Code'){
+            $this->assertTrue($this->checkCurrentPage('checkout_multishipping_addresses'),"Unexpected page");
+            $this->assertMessagePresent('success', 'success_registered_user');
+            $this->addParameter('productName', $productData['general_name']);
+            $this->_getControlXpath('dropdown', 'shipping_address_choice');
+            $value = $this->getText($this->_getControlXpath('dropdown', 'shipping_address_choice'));
+            $this->assertFalse(strrpos($value, $fieldValue), 'Verification failed');
+            $this->assertTrue((bool)strrpos($value, substr($fieldValue,0,255)), 'Verification failed');
+        } else {
         $this->assertTrue($this->checkCurrentPage('checkout_multishipping_register'),"Unexpected page");
         $errorMsg = ($field=='email')? 'not_valid_length_email' : 'not_valid_length';
         $this->assertMessagePresent('error', $errorMsg);
+        }
     }
 
     public function withLongValuesNotValidDataProvider()
