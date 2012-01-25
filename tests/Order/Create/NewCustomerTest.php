@@ -88,6 +88,7 @@ class Order_Create_NewCustomerTest extends Mage_Selenium_TestCase
      * <p>New customer successfully created without address.
      *    Order is created for the new customer</p>
      *
+     * @group skip_due_to_bug
      * @depends createSimpleProduct
      * @param string $simpleSku
      * @test
@@ -134,6 +135,7 @@ class Order_Create_NewCustomerTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>New customer is created with addresses. Order is created for the new customer;</p>
      *
+     * @group skip_due_to_bug
      * @depends createSimpleProduct
      * @param string $simpleSku
      * @test

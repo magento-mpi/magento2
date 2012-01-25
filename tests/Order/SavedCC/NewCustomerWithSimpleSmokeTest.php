@@ -433,11 +433,14 @@ class Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Selenium_TestCas
     {
         //Steps
         $this->navigate('manage_sales_orders');
+        $data = $orderData['payment_data']['payment_info'];
         $this->orderHelper()->createOrder($orderData);
         //Verifying
         $this->assertMessagePresent('success', 'success_created_order');
         //Steps
         $this->clickButton('reorder');
+        $this->fillForm(array('card_number' => $data['card_number'],
+                    'card_verification_number' => $data['card_verification_number']));
         $this->orderHelper()->submitOreder();
         //Verifying
         $this->assertMessagePresent('success', 'success_created_order');

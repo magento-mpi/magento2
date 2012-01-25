@@ -322,10 +322,10 @@ class Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest extends Ma
      * <p>2. Create new order for new customer;</p>
      * <p>3. Hold order;</p>
      * <p>Expected result:</p>
-     * <p>Order is holded;</p>
+     * <p>Order is hold;</p>
      * <p>4. Unhold order;</p>
      * <p>Expected result:</p>
-     * <p>Order is unholded;</p>
+     * <p>Order is unhold;</p>
      *
      * @depends orderWithout3DSecureSmoke
      * @param array $orderData
@@ -406,8 +406,7 @@ class Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest extends Ma
                 $errors[] = "Value for field '$field' should be empty, but now is $value";
             }
         }
-        $this->fillForm(array('card_number' => $data['card_number'],
-            'card_verification_number' => $data['card_verification_number']));
+        $this->fillForm($data);
         $this->saveForm('submit_order', false);
         $this->orderHelper()->defineOrderId();
         $this->validatePage();

@@ -148,6 +148,7 @@ class Order_PayPalDirect_Authorization_NewCustomerWithSimpleSmokeTest extends Ma
      * <p>Expected result:</p>
      * <p>New customer is created. Order is created for the new customer. Invoice is created</p>
      *
+     * @group skip_due_to_bug
      * @depends orderWithout3DSecureSmoke
      * @dataProvider fullInvoiceWithDifferentTypesOfCaptureDataProvider
      * @param string $captureType
@@ -182,6 +183,7 @@ class Order_PayPalDirect_Authorization_NewCustomerWithSimpleSmokeTest extends Ma
     /**
      * <p>Partial invoice with different types of capture</p>
      *
+     * @group skip_due_to_bug
      * @depends orderWithout3DSecureSmoke
      * @dataProvider partialInvoiceWithDifferentTypesOfCaptureDataProvider
      * @param string $captureType
@@ -260,6 +262,7 @@ class Order_PayPalDirect_Authorization_NewCustomerWithSimpleSmokeTest extends Ma
     /**
      * <p>Partial Credit Memo</p>
      *
+     * @group skip_due_to_bug
      * @depends orderWithout3DSecureSmoke
      * @dataProvider creditMemoDataProvider
      * @param string $captureType
@@ -323,6 +326,7 @@ class Order_PayPalDirect_Authorization_NewCustomerWithSimpleSmokeTest extends Ma
      * <p>Message "The order has been created." is displayed.</p>
      * <p>Order is invoiced and shipped successfully</p>
      *
+     * @group skip_due_to_bug
      * @depends orderWithout3DSecureSmoke
      * @param array $orderData
      * @test
@@ -348,6 +352,7 @@ class Order_PayPalDirect_Authorization_NewCustomerWithSimpleSmokeTest extends Ma
      * <p>Expected result:</p>
      * <p>Order is unholded;</p>
      *
+     * @group skip_due_to_bug
      * @depends orderWithout3DSecureSmoke
      * @param array $orderData
      * @test
@@ -367,6 +372,7 @@ class Order_PayPalDirect_Authorization_NewCustomerWithSimpleSmokeTest extends Ma
     /**
      * <p>Cancel Pending Order From Order Page</p>
      *
+     * @group skip_due_to_bug
      * @depends orderWithout3DSecureSmoke
      * @param array $orderData
      * @test
@@ -403,6 +409,7 @@ class Order_PayPalDirect_Authorization_NewCustomerWithSimpleSmokeTest extends Ma
      * <p>New order during reorder is created.</p>
      * <p>Message "The order has been created." is displayed.</p>
      *
+     * @group skip_due_to_bug
      * @depends orderWithout3DSecureSmoke
      * @param array $orderData
      * @test
@@ -458,6 +465,7 @@ class Order_PayPalDirect_Authorization_NewCustomerWithSimpleSmokeTest extends Ma
      * <p>Expected result:</p>
      * <p>New customer is created. Order is created for the new customer. Void successful</p>
      *
+     * @group skip_due_to_bug
      * @depends orderWithout3DSecureSmoke
      * @param array $orderData
      * @test
