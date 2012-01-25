@@ -22,7 +22,7 @@
  * @package     selenium
  * @subpackage  tests
  * @author      Magento Core Team <core@magentocommerce.com>
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
@@ -38,7 +38,8 @@ class OrderCreditMemo_Helper extends Mage_Selenium_TestCase
     /**
      * Provides partial or full refund
      *
-     * @param array $refundData
+     * @param string $refundButton
+     * @param array $creditMemoData
      */
     public function createCreditMemoAndVerifyProductQty($refundButton, $creditMemoData = array())
     {
