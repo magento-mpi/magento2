@@ -60,10 +60,14 @@ class Mage_Bundle_Helper_Catalog_Product_Configuration extends Mage_Core_Helper_
     public function getSelectionFinalPrice(Mage_Catalog_Model_Product_Configuration_Item_Interface $item,
         $selectionProduct)
     {
-        return $item->getProduct()->getPriceModel()->getSelectionFinalPrice(
-            $item->getProduct(), $selectionProduct,
+        $selectionProduct->unsetData('final_price');
+        return $item->getProduct()->getPriceModel()->getSelectionFinalTotalPrice(
+            $item->getProduct(),
+            $selectionProduct,
             $item->getQty() * 1,
-            $this->getSelectionQty($item->getProduct(), $selectionProduct->getSelectionId())
+            $this->getSelectionQty($item->getProduct(), $selectionProduct->getSelectionId()),
+            false,
+            true
         );
     }
 

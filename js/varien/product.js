@@ -491,7 +491,8 @@ Product.Config.prototype = {
             for(var i=this.settings.length-1;i>=0;i--){
                 var selected = this.settings[i].options[this.settings[i].selectedIndex];
                 if(selected.config){
-                    price+= parseFloat(selected.config.price);
+                    var parsedOldPrice = parseFloat(selected.config.oldPrice);
+                    price += isNaN(parsedOldPrice) ? 0 : parsedOldPrice;
                 }
             }
             if (price < 0)
@@ -662,12 +663,14 @@ Product.OptionsPrice.prototype = {
 
                 var subPrice = 0;
                 Object.values(this.customPrices).each(function(el){
-                    if (el.type == 'percent') {
-                        subPrice += price * el.price / 100;
+                    if (el.excludeTax && el.includeTax) {
+                        subPrice += el.excludeTax;
+                        subPriceincludeTax += el.includeTax;
                     } else {
                         subPrice += el.price;
+                        subPriceincludeTax += el.price;
                     }
-                })
+                });
                 price += subPrice;
 
                 if (this.specialTaxPrice == 'true') {

@@ -138,13 +138,13 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
      */
     public function getChildFinalPrice($product, $productQty, $childProduct, $childProductQty)
     {
-        return $this->getSelectionFinalPrice($product, $childProduct, $productQty, $childProductQty, false);
+        return $this->getSelectionFinalTotalPrice($product, $childProduct, $productQty, $childProductQty, false);
     }
 
     /**
      * Retrieve Price
      *
-     * @deprecated after 1.10.1.1
+     * @deprecated after 1.5.1.0
      * @see Mage_Bundle_Model_Product_Price::getTotalPrices()
      *
      * @param  Mage_Catalog_Model_Product $product
@@ -159,7 +159,7 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
     /**
      * Retrieve Prices depending on tax
      *
-     * @deprecated after 1.10.1.1
+     * @deprecated after 1.5.1.0
      * @see Mage_Bundle_Model_Product_Price::getTotalPrices()
      *
      * @param  Mage_Catalog_Model_Product $product
@@ -362,6 +362,9 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
     /**
      * Calculate price of selection
      *
+     * @deprecated after 1.6.2.0
+     * @see Mage_Bundle_Model_Product_Price::getSelectionFinalTotalPrice()
+     *
      * @param Mage_Catalog_Model_Product $bundleProduct
      * @param Mage_Catalog_Model_Product $selectionProduct
      * @param float|null                 $selectionQty
@@ -389,7 +392,7 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
     /**
      * Calculate final price of selection
      *
-     * @deprecated after 1.10.1.1
+     * @deprecated after 1.5.1.0
      * @see Mage_Bundle_Model_Product_Price::getSelectionFinalTotalPrice()
      *
      * @param  Mage_Catalog_Model_Product $bundleProduct
@@ -426,23 +429,21 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
         }
 
         if ($bundleProduct->getPriceType() == self::PRICE_TYPE_DYNAMIC) {
-            if ($multiplyQty) {
-                $price = $selectionProduct->getFinalPrice($selectionQty) * $selectionQty;
-            } else {
-                $price = $selectionProduct->getFinalPrice($selectionQty);
-            }
+            $price = $selectionProduct->getFinalPrice($takeTierPrice ? $selectionQty : 1);
         } else {
             if ($selectionProduct->getSelectionPriceType()) { // percent
                 $price = $this->getPrice($bundleProduct) * ($selectionProduct->getSelectionPriceValue() / 100);
             } else { // fixed
                 $price = $selectionProduct->getSelectionPriceValue();
             }
-            if ($multiplyQty) {
-                $price *= $selectionQty;
-            }
         }
 
-        return min($this->_applyGroupPrice($bundleProduct, $price),
+        if ($multiplyQty) {
+            $price *= $selectionQty;
+        }
+
+        return min($price,
+            $this->_applyGroupPrice($bundleProduct, $price),
             $this->_applyTierPrice($bundleProduct, $bundleQty, $price),
             $this->_applySpecialPrice($bundleProduct, $price)
         );
