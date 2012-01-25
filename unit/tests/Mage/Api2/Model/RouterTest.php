@@ -81,7 +81,7 @@ class Mage_Api2_Model_RouterTest extends Mage_PHPUnit_TestCase
     {
         parent::setUp();
 
-        $this->_request = Mage::getSingleton('api2/request', null);
+        $this->_request = Mage::getModel('api2/request', null);
         $this->_router  = Mage::getSingleton('api2/router');
     }
 
@@ -195,7 +195,10 @@ class Mage_Api2_Model_RouterTest extends Mage_PHPUnit_TestCase
      */
     public function testRouteApiTypeNotMatch()
     {
-        $apiTypeRouteMock = $this->getModelMockBuilder('api2/route_apiType')->setMethods(array('match'))->getMock();
+        $apiTypeRouteMock = $this->getModelMockBuilder('api2/route_apiType')
+            ->setConstructorArgs(array(null))
+            ->setMethods(array('match'))
+            ->getMock();
 
         $apiTypeRouteMock->expects($this->once())
             ->method('match')

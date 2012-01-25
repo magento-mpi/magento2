@@ -111,7 +111,7 @@ class Mage_Api2_Model_RequestUnitTest extends Mage_PHPUnit_TestCase
     {
         parent::setUp();
 
-        $this->_request = Mage::getSingleton('api2/request', null);
+        $this->_request = Mage::getModel('api2/request', null);
     }
 
     /**
