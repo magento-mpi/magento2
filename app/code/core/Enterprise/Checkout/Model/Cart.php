@@ -144,9 +144,15 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
      */
     public function getActualQuote()
     {
-        if ($this->getStore()->isAdmin()) {
+        if (Mage::app()->getStore()->isAdmin()) {
             return Mage::getSingleton('adminhtml/session_quote')->getQuote();
         } else {
+            if (!$this->getCustomer()) {
+                $customer = Mage::helper('customer')->getCustomer();
+                if ($customer) {
+                    $this->setCustomer($customer);
+                }
+            }
             return $this->getQuote();
         }
     }
