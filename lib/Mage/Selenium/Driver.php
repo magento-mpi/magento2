@@ -113,6 +113,12 @@ class Mage_Selenium_Driver extends PHPUnit_Extensions_SeleniumTestCase_Driver
         // Add command logging
         try {
             $response = parent::doCommand($command, $arguments);
+            //Fixed bug for new PHPUnit_Selenium 1.2
+            if (!preg_match('/^OK/', $response)) {
+                $this->stop();
+                throw new PHPUnit_Framework_Exception(
+                    sprintf("Response from Selenium RC server for %s.\n%s.\n", $command, $response));
+            }
             if (!empty($this->_logHandle)) {
                 fputs($this->_logHandle, self::udate('H:i:s.u') . "\n");
                 fputs($this->_logHandle, "\tRequest: " . $command . "\n");
