@@ -41,9 +41,6 @@ class Mage_Adminhtml_Tax_ClassController extends Mage_Adminhtml_Controller_Actio
     {
         if ($postData = $this->getRequest()->getPost()) {
 
-            //filtering
-            $postData['class_name'] = Mage::helper('adminhtml')->stripTags($postData['class_name']);
-
             $model = Mage::getModel('tax/class')->setData($postData);
 
             try {
