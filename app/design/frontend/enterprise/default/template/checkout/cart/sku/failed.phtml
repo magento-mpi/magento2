@@ -144,8 +144,8 @@ document.observe('keyup', function (event)
             var $maxAllowed = tr.select('.qty_max_allowed');
             var $minAllowed = tr.select('.qty_min_allowed');
             var qty = parseFloat($qty.value);
-            var isMaxAllowedValid = !$maxAllowed || (qty <= parseFloat($maxAllowed[0].value));
-            var isMinAllowedValid = !$minAllowed || (qty >= parseFloat($minAllowed[0].value));
+            var isMaxAllowedValid = !$maxAllowed.length || (qty <= parseFloat($maxAllowed[0].value));
+            var isMinAllowedValid = !$minAllowed.length || (qty >= parseFloat($minAllowed[0].value));
             if (isMaxAllowedValid && isMinAllowedValid) {
                 $qty.removeClassName('validation-failed');
             } else {
