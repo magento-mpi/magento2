@@ -45,7 +45,7 @@ class Mage_Api2_Model_Request_Interpreter_Xml implements Mage_Api2_Model_Request
         if (!is_string($body)) {
             throw new Exception(sprintf('Invalid data type "%s". String expected.', gettype($body)));
         }
-        $body = 0 === strpos($body, '<?xml') ? $body : '<?xml version="1.0"?>' . PHP_EOL . $body;
+        $body = false !== strpos($body, '<?xml') ? $body : '<?xml version="1.0"?>' . PHP_EOL . $body;
         try {
             $xml = new Zend_Config_Xml($body);
         } catch (Zend_Config_Exception $e) {
