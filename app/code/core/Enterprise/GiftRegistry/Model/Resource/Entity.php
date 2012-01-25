@@ -229,47 +229,4 @@ class Enterprise_GiftRegistry_Model_Resource_Entity extends Mage_Core_Model_Reso
 
         return $this;
     }
-
-     /**
-     * Update gift registry items
-     *
-     * @param Enterprise_GiftRegistry_Model_Entity $entity
-     * @param array $items
-     */
-    public function updateItems($entity, $items)
-    {
-        try {
-            $session = Mage::getSingleton('customer/session');
-            $this->beginTransaction();
-            foreach ($items as $id => $item) {
-                $model = Mage::getModel('enterprise_giftregistry/item')->load($id);
-                if ($model->getId() && $model->getEntityId() == $entity->getId()) {
-                    if (isset($item['delete'])) {
-                        $model->delete();
-                    } else {
-                        /** @var $stockItem Mage_CatalogInventory_Model_Stock_Item */
-                        $stockItem = Mage::getSingleton('cataloginventory/stock_item');
-                        $stockItem->loadByProduct($model->getProductId());
-                        if ($stockItem->getIsQtyDecimal() == 0 && $item['qty'] != (int)$item['qty']) {
-                            $session->addError(
-                                Mage::helper('enterprise_giftregistry')->__('Wrong gift registry item quantity specified.')
-                            );
-                            throw new Exception(''); // not Mage_Core_Exception intentionally
-                        }
-                        $model->setQty($item['qty']);
-                        $model->setNote($item['note']);
-                        $model->save();
-                    }
-                } else {
-                    Mage::throwException(
-                        Mage::helper('enterprise_giftregistry')->__('Wrong gift registry item ID specified.')
-                    );
-                }
-            }
-            $this->commit();
-        } catch (Exception $e) {
-            $this->rollBack();
-            throw $e;
-        }
-    }
 }
