@@ -821,7 +821,7 @@ class Enterprise_GiftRegistry_Model_Entity extends Mage_Core_Model_Abstract
                     Mage::helper('enterprise_giftregistry')->__('Wrong gift registry item ID specified.')
                 );
             }
-        }        
+        }
     }
 
     /**
