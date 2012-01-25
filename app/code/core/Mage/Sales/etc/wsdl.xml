@@ -825,7 +825,7 @@
         <part name="includeComment" type="xsd:int" />
     </message>
     <message name="salesOrderShipmentCreateResponse">
-        <part name="shipmentIncrementId" type="xsd:int" />
+        <part name="shipmentIncrementId" type="xsd:string" />
     </message>
     <message name="salesOrderShipmentAddCommentRequest">
         <part name="sessionId" type="xsd:string" />
@@ -885,7 +885,7 @@
         <part name="includeComment" type="xsd:string" />
     </message>
     <message name="salesOrderInvoiceCreateResponse">
-        <part name="result" type="xsd:int" />
+        <part name="result" type="xsd:string" />
     </message>
     <message name="salesOrderInvoiceAddCommentRequest">
         <part name="sessionId" type="xsd:string" />
@@ -921,7 +921,7 @@
         <part name="refundToStoreCreditAmount" type="xsd:string" />
     </message>
     <message name="salesOrderCreditmemoCreateResponse">
-        <part name="result" type="xsd:int" />
+        <part name="result" type="xsd:string" />
     </message>
     <message name="salesOrderCreditmemoAddCommentRequest">
         <part name="sessionId" type="xsd:string" />
