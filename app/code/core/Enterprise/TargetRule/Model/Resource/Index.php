@@ -168,7 +168,10 @@ class Enterprise_TargetRule_Model_Resource_Index extends Mage_Index_Model_Resour
     {
         $limit = $object->getLimit() + $this->getOverfillLimit();
         $productIds = array();
-        $ruleCollection = $object->getRuleCollection()->addSegmentFilter($segmentId);
+        $ruleCollection = $object->getRuleCollection();
+        if (Mage::helper('enterprise_customersegment')->isEnabled()) {
+            $ruleCollection->addSegmentFilter($segmentId);
+        }
         foreach ($ruleCollection as $rule) {
             /* @var $rule Enterprise_TargetRule_Model_Rule */
             if (count($productIds) >= $limit) {
@@ -603,20 +606,22 @@ class Enterprise_TargetRule_Model_Resource_Index extends Mage_Index_Model_Resour
      */
     protected function _getSegmentsIdsFromCurrentCustomer(){
         $segmentIds = array();
-        $customer = Mage::registry('segment_customer');
-        if (!$customer) {
-            $customer = Mage::getSingleton('customer/session')->getCustomer();
-        }
-        $websiteId = Mage::app()->getWebsite()->getId();
-
-        if (!$customer->getId()) {
-            $allSegmentIds = Mage::getSingleton('customer/session')->getCustomerSegmentIds();
-            if ((is_array($allSegmentIds) && isset($allSegmentIds[$websiteId]))) {
-                $segmentIds = $allSegmentIds[$websiteId];
+        if (Mage::helper('enterprise_customersegment')->isEnabled()) {
+            $customer = Mage::registry('segment_customer');
+            if (!$customer) {
+                $customer = Mage::getSingleton('customer/session')->getCustomer();
             }
-        } else {
-            $segmentIds = Mage::getSingleton('enterprise_customersegment/customer')
-                ->getCustomerSegmentIdsForWebsite($customer->getId(), $websiteId);
+            $websiteId = Mage::app()->getWebsite()->getId();
+
+            if (!$customer->getId()) {
+                $allSegmentIds = Mage::getSingleton('customer/session')->getCustomerSegmentIds();
+                if ((is_array($allSegmentIds) && isset($allSegmentIds[$websiteId]))) {
+                    $segmentIds = $allSegmentIds[$websiteId];
+                }
+            } else {
+                $segmentIds = Mage::getSingleton('enterprise_customersegment/customer')
+                    ->getCustomerSegmentIdsForWebsite($customer->getId(), $websiteId);
+            }
         }
         return $segmentIds;
     }
