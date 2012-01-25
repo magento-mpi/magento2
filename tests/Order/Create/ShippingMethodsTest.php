@@ -88,6 +88,11 @@ class Order_Create_ShippingMethodsTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Order is created;</p>
      *
+     * @param $shipment
+     * @param $shippingOrigin
+     * @param $shippingDestination
+     * @param $simpleSku
+     *
      * @depends createSimpleProduct
      * @dataProvider shipmentDataProvider
      * @param string $shipment
@@ -95,18 +100,17 @@ class Order_Create_ShippingMethodsTest extends Mage_Selenium_TestCase
      * @param string $simpleSku
      * @test
      */
-    public function differentShipmentMethods($shipment, $shippingOrigin, $simpleSku)
+    public function differentShipmentMethods($shipment, $shippingOrigin, $shippingDestination, $simpleSku)
     {
-        if(strpos($shipment,'dhl') !== false) {
-            $this->markTestIncomplete('Temporary disabled DHL tests until a problem with DHL accounts is solved'
-                                      . '\n Note that datasets and UImaps need to be updated as well then.');
-        }
         //Data
-        $orderData = $this->loadData('order_newcustmoer_checkmoney_flatrate', array('filter_sku' => $simpleSku));
+        $orderData = $this->loadData('order_newcustomer_checkmoney_flatrate_' . $shippingDestination,
+                               array('filter_sku' => $simpleSku));
         $orderData['shipping_data'] = $this->loadData('shipping_' . $shipment);
         //Steps And Verifying
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('shipping_settings_' . strtolower($shippingOrigin));
+        if($shippingOrigin) {
+            $this->systemConfigurationHelper()->configure('shipping_settings_' . strtolower($shippingOrigin));
+        }
         $this->systemConfigurationHelper()->configure($shipment . '_enable');
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -129,14 +133,13 @@ class Order_Create_ShippingMethodsTest extends Mage_Selenium_TestCase
     public function shipmentDataProvider()
     {
         return array(
-            array('flatrate', 'usa'),
-            array('free', 'usa'),
-            array('ups', 'usa'),
-            array('upsxml', 'usa'),
-            array('usps', 'usa'),
-            array('fedex', 'usa'),
-            array('dhl_int', 'france'),
-            array('dhl_usa', 'usa'),
+            array('flatrate', null, 'usa'),
+            array('free', null, 'usa'),
+            array('ups', 'usa', 'usa'),
+            array('upsxml', 'usa', 'usa'),
+            array('usps', 'usa', 'usa'),
+            array('fedex', 'usa', 'usa'),
+            array('dhl', 'usa', 'france'),
         );
     }
 }

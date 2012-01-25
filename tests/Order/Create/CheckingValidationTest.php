@@ -238,7 +238,7 @@ class Order_Create_CheckingValidationTest extends Mage_Selenium_TestCase
     public function withoutGotShippingMethod($simpleSku)
     {
         //Data
-        $orderData = $this->loadData('order_newcustmoer_checkmoney_flatrate', array('filter_sku' => $simpleSku));
+        $orderData = $this->loadData('order_newcustomer_checkmoney_flatrate_usa', array('filter_sku' => $simpleSku));
         unset($orderData['shipping_data']);
         //Steps
         $this->navigate('manage_sales_orders');
@@ -270,7 +270,7 @@ class Order_Create_CheckingValidationTest extends Mage_Selenium_TestCase
     public function withGotShippingMethod($simpleSku)
     {
         //Data
-        $orderData = $this->loadData('order_newcustmoer_checkmoney_flatrate', array('filter_sku' => $simpleSku));
+        $orderData = $this->loadData('order_newcustomer_checkmoney_flatrate_usa', array('filter_sku' => $simpleSku));
         $orderData = $this->arrayEmptyClear($orderData);
         $billingAddr = $orderData['billing_addr_data'];
         $shippingAddr = $orderData['shipping_addr_data'];
@@ -306,7 +306,7 @@ class Order_Create_CheckingValidationTest extends Mage_Selenium_TestCase
     public function noProductsChosen()
     {
         //Data
-        $orderData = $this->loadData('order_newcustmoer_checkmoney_flatrate');
+        $orderData = $this->loadData('order_newcustomer_checkmoney_flatrate_usa');
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData, false);
@@ -334,7 +334,7 @@ class Order_Create_CheckingValidationTest extends Mage_Selenium_TestCase
     public function noPaymentMethodChosen($simpleSku)
     {
         //Data
-        $orderData = $this->loadData('order_newcustmoer_checkmoney_flatrate', array('filter_sku' => $simpleSku));
+        $orderData = $this->loadData('order_newcustomer_checkmoney_flatrate_usa', array('filter_sku' => $simpleSku));
         unset($orderData['payment_data']);
         //Steps
         $this->navigate('manage_sales_orders');

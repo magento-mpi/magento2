@@ -193,7 +193,7 @@ class Order_Create_NewCustomerTest extends Mage_Selenium_TestCase
     {
         //Data
         $userData = $this->loadData('generic_customer_account', null, 'email');
-        $orderData = $this->loadData('order_newcustmoer_checkmoney_flatrate',
+        $orderData = $this->loadData('order_newcustomer_checkmoney_flatrate_usa',
                 array('filter_sku' => $simpleSku, 'customer_email' => $userData['email']));
         //Steps
         $this->navigate('manage_customers');
@@ -233,7 +233,7 @@ class Order_Create_NewCustomerTest extends Mage_Selenium_TestCase
     {
         //Data
         $email = $this->generate('string', 129, ':alnum:') . '@example.com';
-        $orderData = $this->loadData('order_newcustmoer_checkmoney_flatrate',
+        $orderData = $this->loadData('order_newcustomer_checkmoney_flatrate_usa',
                 array('filter_sku' => $simpleSku, 'customer_email' => $email));
         //Steps
         $this->navigate('manage_sales_orders');
@@ -268,7 +268,7 @@ class Order_Create_NewCustomerTest extends Mage_Selenium_TestCase
     {
         //Data
         $email = $this->generate('string', 23, ':alnum:') . '@' . $this->generate('string', 65, ':alnum:') . '.org';
-        $orderData = $this->loadData('order_newcustmoer_checkmoney_flatrate',
+        $orderData = $this->loadData('order_newcustomer_checkmoney_flatrate_usa',
                 array('filter_sku' => $simpleSku, 'customer_email' => $email));
         //Steps
         $this->navigate('manage_sales_orders');
@@ -304,7 +304,7 @@ class Order_Create_NewCustomerTest extends Mage_Selenium_TestCase
     public function newCustomerWithNotValidEmail($simpleSku)
     {
         //Data
-        $orderData = $this->loadData('order_newcustmoer_checkmoney_flatrate',
+        $orderData = $this->loadData('order_newcustomer_checkmoney_flatrate_usa',
                 array('filter_sku' => $simpleSku, 'customer_email' => $this->generate('email', 23, 'invalid')));
         //Steps
         $this->navigate('manage_sales_orders');
@@ -339,7 +339,7 @@ class Order_Create_NewCustomerTest extends Mage_Selenium_TestCase
     public function orderCompleteReqFields($simpleSku)
     {
         //Data
-        $orderData = $this->loadData('order_newcustmoer_checkmoney_flatrate',
+        $orderData = $this->loadData('order_newcustomer_checkmoney_flatrate_usa',
                 array('filter_sku' => $simpleSku, 'customer_email' => $this->generate('email', 22, 'valid')));
         $orderData['billing_addr_data'] = $this->orderHelper()->customerAddressGenerator(':alnum:', 'billing', 255);
         $orderData['shipping_addr_data'] = $this->orderHelper()->customerAddressGenerator(':alnum:', 'shipping', 255);

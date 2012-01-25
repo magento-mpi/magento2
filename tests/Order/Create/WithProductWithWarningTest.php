@@ -75,7 +75,7 @@ class Order_Create_WithProductWithWarningTest extends Mage_Selenium_TestCase
         //Data
         $simple = $this->loadData($productData, null, array('general_name', 'general_sku'));
 
-        $orderData = $this->loadData('order_newcustmoer_checkmoney_flatrate',
+        $orderData = $this->loadData('order_newcustomer_checkmoney_flatrate_usa',
                 array('filter_sku' => $simple['general_sku'], 'product_qty' => $productQty));
         $orderData = $this->arrayEmptyClear($orderData);
         $billingAddr = $orderData['billing_addr_data'];

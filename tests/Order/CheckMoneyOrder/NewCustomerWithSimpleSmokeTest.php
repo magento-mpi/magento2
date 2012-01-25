@@ -81,7 +81,7 @@ class Order_CheckMoneyOrder_NewCustomerWithSimpleSmokeTest extends Mage_Selenium
     public function orderSmoke($simpleSku)
     {
         //Data
-        $orderData = $this->loadData('order_newcustmoer_checkmoney_flatrate', array('filter_sku' => $simpleSku));
+        $orderData = $this->loadData('order_newcustomer_checkmoney_flatrate_usa', array('filter_sku' => $simpleSku));
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);

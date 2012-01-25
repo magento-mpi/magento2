@@ -88,7 +88,7 @@ class Order_Create_WithGiftMessageTest extends Mage_Selenium_TestCase
     public function giftMessagePerOrder($simpleSku)
     {
         //Data
-        $orderData = $this->loadData('order_newcustmoer_checkmoney_flatrate',
+        $orderData = $this->loadData('order_newcustomer_checkmoney_flatrate_usa',
                 array('filter_sku' => $simpleSku, 'gift_messages' => $this->loadData('gift_messages_per_order')));
         //Steps
         $this->navigate('system_configuration');
@@ -120,7 +120,7 @@ class Order_Create_WithGiftMessageTest extends Mage_Selenium_TestCase
     {
         //Data
         $gift = $this->loadData('gift_messages_individual', array('sku_product' => $simpleSku));
-        $orderData = $this->loadData('order_newcustmoer_checkmoney_flatrate',
+        $orderData = $this->loadData('order_newcustomer_checkmoney_flatrate_usa',
                 array('filter_sku' => $simpleSku, 'gift_messages' => $gift));
         //Steps
         $this->navigate('system_configuration');

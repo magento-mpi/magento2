@@ -128,6 +128,34 @@ multiple_shipping_new_usa: &newShippingUsa
     shipping_telephone: 1800-2209-7492
     shipping_fax: %noValue%
 
+multiple_shipping_new_france_1: &newShippingFrance1
+    shipping_first_name: Michèle
+    shipping_last_name: St-Pierre
+    shipping_company: %noValue%
+    shipping_street_address_1: 10, rue Jean Vilar
+    shipping_street_address_2: %noValue%
+    shipping_city: Bergerac
+    shipping_country: France
+    shipping_state: Dordogne
+    shipping_region: %noValue%
+    shipping_zip_code: 24100
+    shipping_telephone: 05 53 57 11 61
+    shipping_fax: %noValue%
+
+multiple_shipping_new_france_2: &newShippingFrance2
+    shipping_first_name: Jean
+    shipping_last_name: Reno
+    shipping_company: %noValue%
+    shipping_street_address_1: 13, rue Jean Vilar
+    shipping_street_address_2: %noValue%
+    shipping_city: Bergerac
+    shipping_country: France
+    shipping_state: Dordogne
+    shipping_region: %noValue%
+    shipping_zip_code: 24100
+    shipping_telephone: 06 88 07 44 27
+    shipping_fax: %noValue%
+
 ################################################################################
 #                                                                              #
 #                                 Payment Card Data                            #
@@ -183,13 +211,19 @@ multiple_front_shipping_fedex: &fedex
     shipping_service: Federal Express
     shipping_method: Home Delivery
 
-multiple_front_shipping_dhl_usa: &dhl_usa
-    shipping_service: DHL USA
-    shipping_method: Express
-
-multiple_front_shipping_dhl_int: &dhl_int
+multiple_front_shipping_dhl:
     shipping_service: DHL
-    shipping_method: Express worldwide
+    shipping_method: International Express
+
+# Data for a release after CE1.6.2
+#
+#multiple_front_shipping_dhl_usa: &dhl_usa
+#    shipping_service: DHL USA
+#    shipping_method: Express
+#
+#multiple_front_shipping_dhl_int: &dhl_int
+#    shipping_service: DHL
+#    shipping_method: Express worldwide
 
 ################################################################################
 #                                                                              #
@@ -315,7 +349,7 @@ multiple_test_data:
 ################################################################################
 
 #Auxiliary dataset
-multiple_shipping_methods_common: &multipleShippingCommon
+multiple_shipping_methods_common_usa: &multipleShippingCommonUsa
     products_to_add:
         product_1:
             general_name: %noValue%
@@ -353,8 +387,6 @@ multiple_shipping_methods_common: &multipleShippingCommon
 #                    qty: 1
 #                    subtotal: $54.95
 #            validate_total_data:
-##                total_for_this_address: $59.95
-##                shipping_handling_flat_rate_fixed: $5.00
 #                subtotal: $54.95
 #        address_2:
 #            search_shipping_address: *newShippingUsa
@@ -365,20 +397,50 @@ multiple_shipping_methods_common: &multipleShippingCommon
 #                    qty: 2
 #                    subtotal: $54.95
 #            validate_total_data:
-##                total_for_this_address: $85.93
-##                shipping_handling_flat_rate_fixed: $5.00
 #                subtotal: $109.90
-#        total_verification:
-#            validate_total_data:
-#                grand_total: $174.85
 
-multiple_shipping_methods_existing:
-    <<: *multipleShippingCommon
+#Auxiliary dataset
+multiple_shipping_methods_common_france: &multipleShippingCommonFrance
+    products_to_add:
+        product_1:
+            general_name: %noValue%
+        product_2:
+            general_name: %noValue%
+    shipping_address_data:
+        address_to_add_1:
+            shipping_address: *newShippingFrance1
+        address_to_add_2:
+            shipping_address: *newShippingFrance2
+        address_1:
+            general_name: %noValue%
+            qty: 1
+            shipping_address: *newShippingFrance1
+        address_2:
+            general_name: %noValue%
+            qty: 2
+            shipping_address: *newShippingFrance2
+    shipping_data:
+        address_1:
+            search_shipping_address: *newShippingFrance1
+            shipping_method: %noValue%
+        address_2:
+            search_shipping_address: *newShippingFrance2
+            shipping_method: %noValue%
+    billing_address_data:
+    payment_data: *checkMoney
+
+multiple_shipping_methods_existing_usa:
+    <<: *multipleShippingCommonUsa
     general_shipping_address: *generalShippingAddress
     checkout_as_customer: *login
 
-multiple_shipping_methods_loggedin:
-    <<: *multipleShippingCommon
+multiple_shipping_methods_existing_france:
+    <<: *multipleShippingCommonFrance
+    general_shipping_address: *generalShippingAddress
+    checkout_as_customer: *login
+
+multiple_shipping_methods_loggedin_usa:
+    <<: *multipleShippingCommonUsa
     general_shipping_address: *generalShippingAddress
     checkout_as_customer:
         checkout_method: %noValue%
@@ -386,8 +448,22 @@ multiple_shipping_methods_loggedin:
             email_address: %noValue%
             password: %noValue%
 
-multiple_shipping_methods_register:
-    <<: *multipleShippingCommon
+multiple_shipping_methods_loggedin_france:
+    <<: *multipleShippingCommonFrance
+    general_shipping_address: *generalShippingAddress
+    checkout_as_customer:
+        checkout_method: %noValue%
+        additional_data:
+            email_address: %noValue%
+            password: %noValue%
+
+multiple_shipping_methods_register_usa:
+    <<: *multipleShippingCommonUsa
+    general_account_info: *generalAccountInfo
+    checkout_as_customer: *register
+
+multiple_shipping_methods_register_france:
+    <<: *multipleShippingCommonFrance
     general_account_info: *generalAccountInfo
     checkout_as_customer: *register
 

@@ -142,7 +142,7 @@ billing_new_signedin_req_virtual: &newBillingSignedInReqVirtual
     billing_fax: %noValue%
     billing_save_in_address_book: %noValue%
 
-billing_new_signedin_req_physical_withshipping: &newBillingSignedInReqWithShipping
+billing_new_signedin_req_physical_withshipping_usa: &newBillingSignedInReqWithShippingUsa
     billing_address_choice: New Address
     billing_first_name: Steven(billing.req)
     billing_last_name: Stevenson(billing.req)
@@ -155,6 +155,24 @@ billing_new_signedin_req_physical_withshipping: &newBillingSignedInReqWithShippi
     billing_region: %noValue%
     billing_zip_code: 90064
     billing_telephone: (091)019-019(billing.req)
+    billing_fax: %noValue%
+    billing_save_in_address_book: %noValue%
+    ship_to_this_address: Yes
+    ship_to_different_address: %noValue%
+
+billing_new_signedin_req_physical_withshipping_france: &newBillingSignedInReqWithShippingFrance
+    billing_address_choice: New Address
+    billing_first_name: Jean
+    billing_last_name: Reno
+    billing_company: %noValue%
+    billing_street_address_1: 13, rue Jean Vilar
+    billing_street_address_2: %noValue%
+    billing_city: Bergerac
+    billing_country: France
+    billing_state: Dordogne
+    billing_region: %noValue%
+    billing_zip_code: 24100
+    billing_telephone: 06 88 07 44 27
     billing_fax: %noValue%
     billing_save_in_address_book: %noValue%
     ship_to_this_address: Yes
@@ -257,6 +275,46 @@ billing_with_register_long_values: &billingWithRegisterSpecialValues
     ship_to_this_address: %noValue%
     ship_to_different_address: Yes
 
+billing_with_register_withshipping_usa: &billingWithRegisterWithShippingUsa
+    billing_address_choice: New Address
+    billing_first_name: Steven(billing.req)
+    billing_last_name: Stevenson(billing.req)
+    billing_email: onepage_checkout_%randomize%@domain.com
+    billing_company: %noValue%
+    billing_street_address_1: street address 1(billing.req)
+    billing_street_address_2: %noValue%
+    billing_city: Los Angeles
+    billing_country: United States
+    billing_state: California
+    billing_region: %noValue%
+    billing_zip_code: 90064
+    billing_telephone: (091)019-019(billing.req)
+    billing_fax: %noValue%
+    billing_password: 123123q
+    billing_confirm_password: 123123q
+    ship_to_this_address: Yes
+    ship_to_different_address: %noValue%
+
+billing_with_register_withshipping_france: &billingWithRegisterWithShippingFrance
+    billing_address_choice: New Address
+    billing_first_name: Jean
+    billing_last_name: Reno
+    billing_email: onepage_checkout_%randomize%@domain.com
+    billing_company: %noValue%
+    billing_street_address_1: 13, rue Jean Vilar
+    billing_street_address_2: %noValue%
+    billing_city: Bergerac
+    billing_country: France
+    billing_state: Dordogne
+    billing_region: %noValue%
+    billing_zip_code: 24100
+    billing_telephone: 06 88 07 44 27
+    billing_fax: %noValue%
+    billing_password: 123123q
+    billing_confirm_password: 123123q
+    ship_to_this_address: Yes
+    ship_to_different_address: %noValue%
+
 #<--------------Guest---------------->
 billing_guest_req_virtual: &billingGuestReqVirtual
     billing_address_choice: New Address
@@ -291,6 +349,43 @@ billing_guest_req_physical_withshipping: &guestBillingReqWithShipping
     billing_fax: %noValue%
     ship_to_this_address: Yes
     ship_to_different_address: %noValue%
+
+billing_guest_withshipping_usa: &guestBillingWithShippingUsa
+    billing_address_choice: New Address
+    billing_first_name: Steven(billing.req)
+    billing_last_name: Stevenson(billing.req)
+    billing_email: onepage_checkout_%randomize%@domain.com
+    billing_company: %noValue%
+    billing_street_address_1: street address 1(billing.req)
+    billing_street_address_2: %noValue%
+    billing_city: Los Angeles
+    billing_country: United States
+    billing_state: California
+    billing_region: %noValue%
+    billing_zip_code: 90064
+    billing_telephone: (091)019-019(billing.req)
+    billing_fax: %noValue%
+    ship_to_this_address: Yes
+    ship_to_different_address: %noValue%
+
+billing_guest_withshipping_france: &guestBillingWithShippingFrance
+    billing_address_choice: New Address
+    billing_first_name: Jean
+    billing_last_name: Reno
+    billing_email: onepage_checkout_%randomize%@domain.com
+    billing_company: %noValue%
+    billing_street_address_1: 13, rue Jean Vilar
+    billing_street_address_2: %noValue%
+    billing_city: Bergerac
+    billing_country: France
+    billing_state: Dordogne
+    billing_region: %noValue%
+    billing_zip_code: 24100
+    billing_telephone: 06 88 07 44 27
+    billing_fax: %noValue%
+    ship_to_this_address: Yes
+    ship_to_different_address: %noValue%
+
 ################################################################################
 #                                                                              #
 #                                Shipping Address                              #
@@ -462,13 +557,19 @@ front_shipping_fedex: &fedex
     shipping_service: Federal Express
     shipping_method: Home Delivery
 
-front_shipping_dhl_usa: &dhl_usa
-    shipping_service: DHL USA
-    shipping_method: Express
-
-front_shipping_dhl_int: &dhl_int
+front_shipping_dhl:
     shipping_service: DHL
-    shipping_method: Express easy
+    shipping_method: International Express
+
+# Data for a release after CE1.6.2
+#
+#front_shipping_dhl_usa: &dhl_usa
+#    shipping_service: DHL USA
+#    shipping_method: Express
+#
+#front_shipping_dhl_int: &dhl_int
+#    shipping_service: DHL
+#    shipping_method: Express easy
 
 ################################################################################
 #                                                                              #
@@ -524,7 +625,23 @@ signedin_flatrate_checkmoney:
     products_to_add:
         product_1:
             general_name: %noValue%
-    billing_address_data: *newBillingSignedInReqWithShipping
+    billing_address_data: *newBillingSignedInReqWithShippingUsa
+    shipping_data: *flatRate
+    payment_data: *checkMoney
+
+signedin_flatrate_checkmoney_usa:
+    products_to_add:
+        product_1:
+            general_name: %noValue%
+    billing_address_data: *newBillingSignedInReqWithShippingUsa
+    shipping_data: *flatRate
+    payment_data: *checkMoney
+
+signedin_flatrate_checkmoney_france:
+    products_to_add:
+        product_1:
+            general_name: %noValue%
+    billing_address_data: *newBillingSignedInReqWithShippingFrance
     shipping_data: *flatRate
     payment_data: *checkMoney
 
@@ -541,7 +658,7 @@ with_register_flatrate_checkmoney_virtual:
     billing_address_data: *billingWithRegisterReqVirtual
     payment_data: *checkMoney
 
-with_register_flatrate_checkmoney:
+with_register_flatrate_checkmoney: &withRegisterFlatrateCheck
     products_to_add:
         product_1:
             general_name: %noValue%
@@ -549,6 +666,14 @@ with_register_flatrate_checkmoney:
     billing_address_data: *billingWithRegisterReqWithShipping
     shipping_data: *flatRate
     payment_data: *checkMoney
+
+with_register_flatrate_checkmoney_usa:
+    <<: *withRegisterFlatrateCheck
+    billing_address_data: *billingWithRegisterWithShippingUsa
+
+with_register_flatrate_checkmoney_france:
+    <<: *withRegisterFlatrateCheck
+    billing_address_data: *billingWithRegisterWithShippingFrance
 
 with_register_flatrate_checkmoney_different_address:
     products_to_add:
@@ -584,7 +709,7 @@ with_register_flatrate_checkmoney_special_address:
 #                           Order Data for Guest                               #
 #                                                                              #
 ################################################################################
-guest_flatrate_checkmoney:
+guest_flatrate_checkmoney: &guestFlatrateCheck
     products_to_add:
         product_1:
             general_name: %noValue%
@@ -592,6 +717,14 @@ guest_flatrate_checkmoney:
     billing_address_data: *guestBillingReqWithShipping
     shipping_data: *flatRate
     payment_data: *checkMoney
+
+guest_flatrate_checkmoney_usa:
+    <<: *guestFlatrateCheck
+    billing_address_data: *guestBillingWithShippingUsa
+
+guest_flatrate_checkmoney_france:
+    <<: *guestFlatrateCheck
+    billing_address_data: *guestBillingWithShippingFrance
 
 guest_flatrate_checkmoney_virtual:
     products_to_add:
@@ -614,11 +747,19 @@ exist_flatrate_checkmoney_virtual:
     billing_address_data: *newBillingSignedInReqVirtual
     payment_data: *checkMoney
 
-exist_flatrate_checkmoney:
+exist_flatrate_checkmoney: &existFlatrateCheck
     products_to_add:
         product_1:
             general_name: %noValue%
     checkout_as_customer: *login
-    billing_address_data: *newBillingSignedInReqWithShipping
+    billing_address_data: *newBillingSignedInReqWithShippingUsa
     shipping_data: *flatRate
     payment_data: *checkMoney
+
+exist_flatrate_checkmoney_usa:
+    <<: *existFlatrateCheck
+    billing_address_data: *newBillingSignedInReqWithShippingUsa
+
+exist_flatrate_checkmoney_france:
+    <<: *existFlatrateCheck
+    billing_address_data: *newBillingSignedInReqWithShippingFrance

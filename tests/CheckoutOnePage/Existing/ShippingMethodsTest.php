@@ -98,26 +98,25 @@ class CheckoutOnePage_Existing_ShippingMethodsTest extends Mage_Selenium_TestCas
      *
      * @param string $shipping
      * @param string $shippingOrigin
+     * @param string $shippingDestination
      * @param string $simpleSku
      *
      * @depends preconditionsForTests
      * @dataProvider shipmentDataProvider
      * @test
      */
-    public function differentShippingMethods($shipping, $shippingOrigin, $simpleSku)
+    public function differentShippingMethods($shipping, $shippingOrigin, $shippingDestination, $simpleSku)
     {
-        if (strpos($shipping, 'dhl') !== false) {
-            $this->markTestIncomplete('Temporary disabled DHL tests until a problem with DHL accounts is solved'
-                                          . '\n Note that datasets and UImaps need to be updated as well then.');
-        }
         $userData = $this->loadData('customer_account_register');
-        $checkoutData = $this->loadData('exist_flatrate_checkmoney',
+        $checkoutData = $this->loadData('exist_flatrate_checkmoney_' . $shippingDestination,
                                         array('general_name' => $simpleSku,
                                              'email_address' => $userData['email'],
                                              'shipping_data' => $this->loadData('front_shipping_' . $shipping)));
         //Steps
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('shipping_settings_' . strtolower($shippingOrigin));
+        if($shippingOrigin) {
+            $this->systemConfigurationHelper()->configure('shipping_settings_' . strtolower($shippingOrigin));
+        }
         $this->systemConfigurationHelper()->configure($shipping . '_enable');
         $this->logoutCustomer();
         $this->navigate('customer_login');
@@ -134,14 +133,13 @@ class CheckoutOnePage_Existing_ShippingMethodsTest extends Mage_Selenium_TestCas
     public function shipmentDataProvider()
     {
         return array(
-            array('flatrate', 'usa'),
-            array('free', 'usa'),
-            array('ups', 'usa'),
-            array('upsxml', 'usa'),
-            array('usps', 'usa'),
-            array('fedex', 'usa'),
-            array('dhl_int', 'france'),
-            array('dhl_usa', 'usa'),
+            array('flatrate', null, 'usa'),
+            array('free', null, 'usa'),
+            array('ups', 'usa', 'usa'),
+            array('upsxml', 'usa', 'usa'),
+            array('usps', 'usa', 'usa'),
+            array('fedex', 'usa', 'usa'),
+            array('dhl', 'usa', 'france'),
         );
     }
 }

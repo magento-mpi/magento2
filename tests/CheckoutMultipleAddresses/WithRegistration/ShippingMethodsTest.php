@@ -99,20 +99,21 @@ class CheckoutMultipleAddresses_WithRegistration_ShippingMethodsTest extends Mag
      * <p>Two new orders are successfully created.</p>
      * @TODO change to create shipping addresses once for all tests
      *
+     * @param $shipment
+     * @param $shippingOrigin
+     * @param $shippingDestination
+     * @param $simpleProductNames
+     *
      * @dataProvider shipmentDataProvider
      * @depends createSimpleProducts
      *
      * @test
      */
-    public function differentShippingMethods($shipment, $shippingOrigin, $simpleProductNames)
+    public function differentShippingMethods($shipment, $shippingOrigin, $shippingDestination, $simpleProductNames)
     {
-        if(strpos($shipment,'dhl') !== false) {
-            $this->markTestIncomplete('Temporary disabled DHL tests until a problem with DHL accounts is solved'
-                                      . '\n Note that datasets and UImaps need to be updated as well then.');
-        }
         //Data
         $shippingMethod = $this->loadData('multiple_front_shipping_' . $shipment);
-        $checkoutData = $this->loadData('multiple_shipping_methods_register',
+        $checkoutData = $this->loadData('multiple_shipping_methods_register_' . $shippingDestination,
                 array('shipping_method' => $shippingMethod));
         $checkoutData['products_to_add']['product_1']['general_name'] = $simpleProductNames[0];
         $checkoutData['products_to_add']['product_2']['general_name'] = $simpleProductNames[1];
@@ -120,7 +121,9 @@ class CheckoutMultipleAddresses_WithRegistration_ShippingMethodsTest extends Mag
         $checkoutData['shipping_address_data']['address_2']['general_name'] = $simpleProductNames[1];
         //Setup
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('shipping_settings_' . strtolower($shippingOrigin));
+        if($shippingOrigin) {
+            $this->systemConfigurationHelper()->configure('shipping_settings_' . strtolower($shippingOrigin));
+        }
         $this->systemConfigurationHelper()->configure('shipping_disable');
         $this->systemConfigurationHelper()->configure($shipment . '_enable');
         //Steps and Verify
@@ -140,22 +143,24 @@ class CheckoutMultipleAddresses_WithRegistration_ShippingMethodsTest extends Mag
      * <p>Expected result:</p>
      * <p>Two new orders are successfully created.</p>
      *
+     * @param $shipment
+     * @param $shippingOrigin
+     * @param $shippingDestination
+     * @param $simpleProductNames
+     * @param $virtualProductName
+     *
      * @dataProvider shipmentDataProvider
      * @depends createSimpleProducts
      * @depends createVirtualProduct
      *
      * @test
      */
-    public function differentShippingMethodsWithVirtualProduct($shipment, $shippingOrigin,
+    public function differentShippingMethodsWithVirtualProduct($shipment, $shippingOrigin, $shippingDestination,
             $simpleProductNames, $virtualProductName)
     {
-        if(strpos($shipment,'dhl') !== false) {
-            $this->markTestIncomplete('Temporary disabled DHL tests until a problem with DHL accounts is solved'
-                                      . '\n Note that datasets and UImaps need to be updated as well then.');
-        }
         //Data
         $shippingMethod = $this->loadData('multiple_front_shipping_' . $shipment);
-        $checkoutData = $this->loadData('multiple_shipping_methods_register',
+        $checkoutData = $this->loadData('multiple_shipping_methods_register_' . $shippingDestination,
                 array('shipping_method' => $shippingMethod,
                             'address_2' => '%noValue%', 'address_to_add_2' => '%noValue%'));
         $checkoutData['products_to_add']['product_1']['general_name'] = $simpleProductNames[0];
@@ -163,7 +168,9 @@ class CheckoutMultipleAddresses_WithRegistration_ShippingMethodsTest extends Mag
         $checkoutData['shipping_address_data']['address_1']['general_name'] = $simpleProductNames[0];
         //Setup
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('shipping_settings_' . strtolower($shippingOrigin));
+        if($shippingOrigin) {
+            $this->systemConfigurationHelper()->configure('shipping_settings_' . strtolower($shippingOrigin));
+        }
         $this->systemConfigurationHelper()->configure('shipping_disable');
         $this->systemConfigurationHelper()->configure($shipment . '_enable');
         //Steps and Verify
@@ -174,14 +181,13 @@ class CheckoutMultipleAddresses_WithRegistration_ShippingMethodsTest extends Mag
     public function shipmentDataProvider()
     {
         return array(
-            array('flatrate', 'usa'),
-            array('free', 'usa'),
-            array('ups', 'usa'),
-            array('upsxml', 'usa'),
-            array('usps', 'usa'),
-            array('fedex', 'usa'),
-            array('dhl_int', 'france'),
-            array('dhl_usa', 'usa'),
+            array('flatrate', null, 'usa'),
+            array('free', null, 'usa'),
+            array('ups', 'usa', 'usa'),
+            array('upsxml', 'usa', 'usa'),
+            array('usps', 'usa', 'usa'),
+            array('fedex', 'usa', 'usa'),
+            array('dhl', 'usa', 'france'),
         );
     }
 }

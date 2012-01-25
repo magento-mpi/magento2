@@ -87,7 +87,7 @@ class Order_Create_WithCouponTest extends Mage_Selenium_TestCase
         //Data
         $coupon = $this->loadData('coupon_fixed_amount', array('discount_amount' => 5),
                 array('rule_name', 'coupon_code'));
-        $orderData = $this->loadData('order_newcustmoer_checkmoney_flatrate',
+        $orderData = $this->loadData('order_newcustomer_checkmoney_flatrate_usa',
                 array('filter_sku' => $simpleSku, 'coupon_1' => $coupon['coupon_code']));
         //Steps
         $this->navigate('manage_shopping_cart_price_rules');
@@ -127,7 +127,7 @@ class Order_Create_WithCouponTest extends Mage_Selenium_TestCase
         //Data
         $coupon = $this->loadData('coupon_fixed_amount', array('discount_amount' => 100),
                 array('rule_name', 'coupon_code'));
-        $orderData = $this->loadData('order_newcustmoer_checkmoney_flatrate',
+        $orderData = $this->loadData('order_newcustomer_checkmoney_flatrate_usa',
                 array('filter_sku' => $simpleSku, 'coupon_1' => $coupon['coupon_code']));
         unset($orderData['payment_data']);
         //Steps
@@ -164,7 +164,7 @@ class Order_Create_WithCouponTest extends Mage_Selenium_TestCase
     public function wrongCode($simpleSku)
     {
         //Data
-        $orderData = $this->loadData('order_newcustmoer_checkmoney_flatrate',
+        $orderData = $this->loadData('order_newcustomer_checkmoney_flatrate_usa',
                 array('filter_sku' => $simpleSku));
         $orderData = $this->arrayEmptyClear($orderData);
         //Steps
