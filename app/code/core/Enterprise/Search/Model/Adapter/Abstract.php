@@ -410,7 +410,7 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
                         }
 
                         $preparedNavValue = $preparedValue;
-                        // Ensure that self product value will be saved after array_unique() function for sorting purpose
+                        // Ensure that self product value will be saved after array_unique function for sorting purpose
                         if (isset($value[$productId])) {
                             if (!isset($preparedNavValue[$productId])) {
                                 $selfValueKey = array_search($value[$productId], $preparedNavValue);
