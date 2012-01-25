@@ -144,7 +144,7 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
     /**
      * Retrieve Price
      *
-     * @deprecated after 1.10.1.1
+     * @deprecated after 1.5.1.0
      * @see Mage_Bundle_Model_Product_Price::getTotalPrices()
      *
      * @param  Mage_Catalog_Model_Product $product
@@ -159,7 +159,7 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
     /**
      * Retrieve Prices depending on tax
      *
-     * @deprecated after 1.10.1.1
+     * @deprecated after 1.5.1.0
      * @see Mage_Bundle_Model_Product_Price::getTotalPrices()
      *
      * @param  Mage_Catalog_Model_Product $product
@@ -362,7 +362,7 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
     /**
      * Calculate price of selection
      *
-     * @deprecated after 1.12.0.0
+     * @deprecated after 1.6.2.0
      * @see Mage_Bundle_Model_Product_Price::getSelectionFinalTotalPrice()
      *
      * @param Mage_Catalog_Model_Product $bundleProduct
@@ -392,7 +392,7 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
     /**
      * Calculate final price of selection
      *
-     * @deprecated after 1.10.1.1
+     * @deprecated after 1.5.1.0
      * @see Mage_Bundle_Model_Product_Price::getSelectionFinalTotalPrice()
      *
      * @param  Mage_Catalog_Model_Product $bundleProduct

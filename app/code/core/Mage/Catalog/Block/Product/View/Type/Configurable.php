@@ -331,7 +331,7 @@ class Mage_Catalog_Block_Product_View_Type_Configurable extends Mage_Catalog_Blo
     /**
      * Replace ',' on '.' for js
      *
-     * @param $price
+     * @param float $price
      * @return string
      */
     protected function _registerJsPrice($price)
@@ -342,9 +342,9 @@ class Mage_Catalog_Block_Product_View_Type_Configurable extends Mage_Catalog_Blo
     /**
      * Convert price from default currency to current currency
      *
-     * @param   double $price
-     * @param   boolean $round
-     * @return  double
+     * @param float $price
+     * @param boolean $round
+     * @return float
      */
     protected function _convertPrice($price, $round = false)
     {
