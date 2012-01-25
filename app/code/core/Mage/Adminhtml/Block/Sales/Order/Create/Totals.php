@@ -97,13 +97,6 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Totals extends Mage_Adminhtml_Bloc
             $html .= $this->renderTotal($total, $area, $colspan);
         }
         return $html;
-
-        $html = '';
-        foreach($this->getTotals() as $total) {
-            $html .= $this->renderTotal($total, $area, $colspan);
-        }
-
-        return $html;
     }
 
     public function canSendNewOrderConfirmationEmail()

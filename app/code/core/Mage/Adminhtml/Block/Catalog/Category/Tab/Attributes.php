@@ -158,6 +158,8 @@ class Mage_Adminhtml_Block_Catalog_Category_Tab_Attributes extends Mage_Adminhtm
 
         $form->addValues($this->getCategory()->getData());
 
+        Mage::dispatchEvent('adminhtml_catalog_category_edit_prepare_form', array('form'=>$form));
+
         $form->setFieldNameSuffix('general');
         $this->setForm($form);
 

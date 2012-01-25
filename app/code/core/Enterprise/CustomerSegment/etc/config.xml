@@ -108,11 +108,6 @@
                 </observers>
             </customer_balance_save_commit_after>
         </events>
-        <logging_actions>
-            <refresh_data translate="label" module="enterprise_customersegment">
-                <label>Refresh Data</label>
-            </refresh_data>
-        </logging_actions>
     </global>
     <admin>
         <routers>

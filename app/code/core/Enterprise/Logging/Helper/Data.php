@@ -26,6 +26,10 @@
 
 /**
  * Logging helper
+ *
+ * @category    Enterprise
+ * @package     Enterprise_Logging
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_Logging_Helper_Data extends Mage_Core_Helper_Abstract
 {
@@ -63,29 +67,6 @@ class Enterprise_Logging_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getLoggingActionTranslatedLabel($action)
     {
-        /**
-         * @var Mage_Core_Model_Config_Element $actionNode
-         */
-        $actionNode = Mage::getConfig()->getNode('global/logging_actions/' . $action);
-
-        if (!$actionNode) {
-            return $action;
-        }
-
-        $actionNodeArray = $actionNode->asArray();
-
-        if (!isset($actionNodeArray['label'])) {
-            return $action;
-        }
-
-        if (!empty($actionNodeArray['@']['module'])) {
-            $helper = Mage::helper($actionNodeArray['@']['module']);
-        }
-
-        if (empty($helper)) {
-            $helper = $this;
-        }
-
-        return $helper->__($actionNodeArray['label']);
+        return Mage::getSingleton('enterprise_logging/config')->getActionLabel($action);
     }
 }

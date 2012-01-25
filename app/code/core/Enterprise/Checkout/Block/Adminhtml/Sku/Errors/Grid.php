@@ -66,6 +66,9 @@ class Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Grid extends Mage_Adminhtml
             }
             $item = new Varien_Object();
             $item->setCode($affectedItem['code']);
+            if (isset($affectedItem['error'])) {
+                $item->setError($affectedItem['error']);
+            }
             $item->addData($affectedItem['item']);
             $item->setId($item->getSku());
             /* @var $product Mage_Catalog_Model_Product */

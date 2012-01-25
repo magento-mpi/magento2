@@ -56,6 +56,10 @@ AddBySku.prototype = {
         var that = this;
         var adminCheckout = {
             controllerParamFieldNames : {'customerId': 'customer', 'storeId': 'store'},
+
+            initAreas: function() {
+            },
+
             submitConfigured : function ()
             {
                 // Save original source grids configuration to be restored later
@@ -104,6 +108,30 @@ AddBySku.prototype = {
 
         var adminOrder = {
             controllerParamFieldNames : {'customerId': 'customerId', 'storeId': 'storeId'},
+
+            initAreas: function() {
+                setTimeout(function() {
+                    var skuAreaId = order.getAreaId('additional_area'),
+                        skuButton = new ControlButton(Translator.translate('Add Products By SKU'));
+                    skuButton.onClick = function() {
+                        $(skuAreaId).show();
+                        this.remove();
+                    };
+                    order.dataArea.onLoad = order.dataArea.onLoad.wrap(function(proceed) {
+                        proceed();
+                        this._parent.itemsArea.setNode($(this._parent.getAreaId('items')));
+                        this._parent.itemsArea.onLoad();
+                    });
+                    order.itemsArea.onLoad = order.itemsArea.onLoad.wrap(function(proceed) {
+                        proceed();
+                        if (!$(skuAreaId).visible()) {
+                            this.addControlButton(skuButton);
+                        }
+                    });
+                    order.dataArea.onLoad();
+                }, 10);
+            },
+
             submitConfigured : function ()
             {
                 var area = ['errors', 'search', 'items', 'shipping_method', 'totals', 'giftmessage','billing_method'];
@@ -145,6 +173,7 @@ AddBySku.prototype = {
 
         // Strategy
         var provider = this.order instanceof (window.AdminOrder || function(){}) ? adminOrder : adminCheckout;
+        provider.initAreas();
         this.submitConfigured = provider.submitConfigured;
         this.removeAllFailed = provider.removeAllFailed;
         this.controllerParamFieldNames = provider.controllerParamFieldNames;
@@ -161,7 +190,7 @@ AddBySku.prototype = {
                     var tr = $qty.up('tr');
                     var sku = tr.select('input[name="' + that.skuFieldName + '"]')[0].value;
                     var $maxAllowed = $(sku + '_max_allowed');
-                    if ($maxAllowed && (parseInt($qty.value) <= parseInt($maxAllowed.innerHTML))) {
+                    if ($maxAllowed && (parseFloat($qty.value) <= parseFloat($maxAllowed.innerHTML))) {
                         tr.removeClassName('qty-not-available');
                     } else if ($maxAllowed) {
                         tr.addClassName('qty-not-available');
@@ -169,41 +198,6 @@ AddBySku.prototype = {
                 });
             }
         });
-
-        var skuAreaId = order.getAreaId('additional_area'),
-            skuButton = {
-                label: Translator.translate('Add Products By SKU'),
-                node: new Element('button', {
-                    'class': 'scalable add',
-                    'id': 'show-sku-panel-button'
-                }),
-                onClick: function(){
-                    $(skuAreaId).show();
-                    this.remove();
-                },
-                insertIn: function(element, position) {
-                    var node = Object.extend(this.node),
-                        content = {};
-                    node.observe('click', this.onClick);
-                    node.update('<span>' + this.label + '</span>');
-                    content[position] = node;
-                    Element.insert(element, content);
-                }
-            };
-
-        this.order.dataArea.onLoad = this.order.dataArea.onLoad.wrap( function (proceed) {
-            proceed();
-            this._parent.itemsArea.setNode($(this._parent.getAreaId('items')));
-            this._parent.itemsArea.onLoad();
-        });
-
-        this.order.itemsArea.onLoad = this.order.itemsArea.onLoad.wrap( function (proceed) {
-            proceed();
-            if (!$(skuAreaId).visible()) {
-                this.addControlButton(skuButton);
-            }
-        });
-        this.order.dataArea.onLoad();
     },
 
     /**
@@ -241,9 +235,7 @@ AddBySku.prototype = {
      */
     add : function()
     {
-        var newElement = document.createElement('tr');
-        newElement.innerHTML = this.getTemplate();
-        $(this.dataContainerId).appendChild(newElement);
+        $(this.dataContainerId).insert(this.getTemplate());
     },
 
     /**

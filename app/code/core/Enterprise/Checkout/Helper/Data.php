@@ -61,6 +61,7 @@ class Enterprise_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
     const ADD_ITEM_STATUS_FAILED_OUT_OF_STOCK = 'failed_out_of_stock';
     const ADD_ITEM_STATUS_FAILED_QTY_ALLOWED = 'failed_qty_allowed';
     const ADD_ITEM_STATUS_FAILED_QTY_ALLOWED_IN_CART = 'failed_qty_allowed_in_cart';
+    const ADD_ITEM_STATUS_FAILED_QTY_INCREMENTS = 'failed_qty_increment';
     const ADD_ITEM_STATUS_FAILED_CONFIGURE = 'failed_configure';
     const ADD_ITEM_STATUS_FAILED_PERMISSIONS = 'failed_permissions';
     const ADD_ITEM_STATUS_FAILED_UNKNOWN = 'failed_unknown';
@@ -89,7 +90,7 @@ class Enterprise_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
      *
      * @var array
      */
-    protected $_codeForFailedTemplates = array(
+    protected $_failedTemplateStatusCodes = array(
         self::ADD_ITEM_STATUS_FAILED_SKU,
         self::ADD_ITEM_STATUS_FAILED_PERMISSIONS
     );
@@ -117,6 +118,21 @@ class Enterprise_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
     public function setSession(Mage_Core_Model_Session_Abstract $session)
     {
         $this->_session = $session;
+    }
+
+    /**
+     * Retrieve error message for the item
+     *
+     * @param Varien_Object $item
+     * @return string
+     */
+    public function getMessageByItem(Varien_Object $item)
+    {
+        $message = $this->getMessage($item->getCode());
+        if (empty($message)) {
+            $message = $item->getError();
+        }
+        return $message;
     }
 
     /**
@@ -225,14 +241,14 @@ class Enterprise_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
             $quoteItemsCollection = is_null($this->_items) ? array() : $this->_items;
 
             foreach ($failedItems as $item) {
-                if (is_null($this->_items) && !in_array($item['code'], $this->_codeForFailedTemplates)) {
+                if (is_null($this->_items) && !in_array($item['code'], $this->_failedTemplateStatusCodes)) {
                     $id = $item['item']['id'];
                     $itemsToLoad[$id] = $item['item'];
                     $itemsToLoad[$id]['code'] = $item['code'];
                     $itemsToLoad[$id]['error'] = isset($item['error']) ? $item['error'] : '';
                     // Avoid collisions of product ID with quote item ID
                     unset($itemsToLoad[$id]['id']);
-                } elseif ($all && in_array($item['code'], $this->_codeForFailedTemplates)) {
+                } elseif ($all && in_array($item['code'], $this->_failedTemplateStatusCodes)) {
                     $item['item']['code'] = $item['code'];
                     $item['item']['product_type'] = 'undefined';
                     $quoteItemsCollection[] = new Varien_Object($item['item']);

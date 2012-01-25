@@ -408,7 +408,7 @@ Object.extend(Validation, {
 });
 
 Validation.add('IsEmpty', '', function(v) {
-    return  (v == '' || (v == null) || (v.length == 0) || /^\s+$/.test(v)); // || /^\s+$/.test(v));
+    return  (v == '' || (v == null) || (v.length == 0) || /^\s+$/.test(v));
 });
 
 Validation.addAllThese([
@@ -421,25 +421,32 @@ Validation.addAllThese([
     ['required-entry', 'This is a required field.', function(v) {
                 return !Validation.get('IsEmpty').test(v);
             }],
-    ['validate-number', 'Please enter a valid number in this field.', function(v) {
-                return Validation.get('IsEmpty').test(v)
-                    || (!isNaN(parseNumber(v)) && /^\s*-?\d*\.?\d+\s*$/.test(v));
+    ['validate-number', 'Please enter a valid number in this field.', function(v, elm) {
+                if (elm.hasClassName('required-entry') && !Validation.get('required-entry').test(v)) {
+                    return true; // hardcode, should be achieved by CSS classes ordering
+                }
+
+                return !Validation.get('IsEmpty').test(v)
+                    && !isNaN(parseNumber(v)) && /^\s*-?\d*([.,]\d*)?\s*$/.test(v);
             }],
     ['validate-number-range', 'The value is not within the specified range.', function(v, elm) {
-                var result = Validation.get('IsEmpty').test(v)
-                    || (!isNaN(parseNumber(v)) && !/^\s+$/.test(parseNumber(v)));
-                var reRange = new RegExp(/^number\-range\-[^-]+\-[^-]+$/);
-                $w(elm.className).each(function(name, index) {
-                    if (name.match(reRange) && result) {
-                        var nameParts = name.split('-');
-                        var min = parseNumber(nameParts[2]);
-                        var max = parseNumber(nameParts[3]);
-                        if (!isNaN(min) && !isNaN(max)) {
-                            var val = parseNumber(v);
-                            result = (v >= min) && (v <= max);
-                        }
+                var numValue = parseNumber(v);
+                if (Validation.get('IsEmpty').test(v) || isNaN(numValue)) {
+                    return false;
+                }
+
+                var reRange = /^number-range-([-\d.,]+)-([-\d.,]+)$/,
+                    result = true;
+
+                $w(elm.className).each(function(name) {
+                    var m = reRange.exec(name), min, max;
+                    if (m) {
+                        min = parseNumber(m[1]);
+                        max = parseNumber(m[2]);
+                        result = result && numValue >= min && numValue <= max;
                     }
                 });
+
                 return result;
             }],
     ['validate-digits', 'Please use numbers only in this field. Please avoid spaces or other characters such as dots or commas.', function(v) {
@@ -593,14 +600,16 @@ Validation.addAllThese([
                 }
             }],
     ['validate-not-negative-number', 'Please enter a valid number in this field.', function(v, elm) {
-                if (elm.hasClassName('required-entry') && !Validation.get('required-entry').test(v)) return true;
+                if (elm.hasClassName('required-entry') && !Validation.get('required-entry').test(v)) {
+                    return true; // hardcode, should be achieved by CSS classes ordering
+                }
+
                 v = parseNumber(v);
-                return (!isNaN(v) && v>=0);
+                return !isNaN(v) && v>=0;
             }],
     ['validate-state', 'Please select State/Province.', function(v) {
                 return (v!=0 || v == '');
             }],
-
     ['validate-new-password', 'Please enter 6 or more characters. Leading or trailing spaces will be ignored.', function(v) {
                 if (!Validation.get('validate-password').test(v)) return false;
                 if (Validation.get('IsEmpty').test(v) && v != '') return false;
@@ -608,13 +617,13 @@ Validation.addAllThese([
             }],
     ['validate-greater-than-zero', 'Please enter a number greater than 0 in this field.', function(v) {
                 if(v.length)
-                    return parseFloat(v) > 0;
+                    return parseNumber(v) > 0;
                 else
                     return true;
             }],
     ['validate-zero-or-greater', 'Please enter a number 0 or greater in this field.', function(v) {
                 if(v.length)
-                    return parseFloat(v) >= 0;
+                    return parseNumber(v) >= 0;
                 else
                     return true;
             }],

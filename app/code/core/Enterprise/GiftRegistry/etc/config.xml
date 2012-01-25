@@ -135,11 +135,6 @@
                 </giftregistry_item_id>
             </sales_convert_quote_address>
         </fieldsets>
-        <logging_actions>
-            <share translate="label" module="enterprise_giftregistry">
-                <label>Share</label>
-            </share>
-        </logging_actions>
     </global>
     <admin>
         <routers>
