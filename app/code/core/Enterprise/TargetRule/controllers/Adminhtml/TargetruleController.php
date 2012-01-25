@@ -186,7 +186,7 @@ class Enterprise_TargetRule_Adminhtml_TargetRuleController extends Mage_Adminhtm
 
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
                 Mage::getSingleton('adminhtml/session')->setPageData($data);
-                $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('id')));
+                $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('rule_id')));
                 return;
             }
 
