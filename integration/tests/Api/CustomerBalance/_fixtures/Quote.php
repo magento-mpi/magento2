@@ -48,7 +48,7 @@ $customerBalance->setCustomerId($customer->getId())
     ->save();
 
 //Save customer fixture
-CustomerBalance_QuoteTest::$customer = $customer;
+Api_CustomerBalance_QuoteTest::$customer = $customer;
 
 //Create new simple product to add it to shopping cart
 $product = new Mage_Catalog_Model_Product();
@@ -75,7 +75,7 @@ $product->setTypeId('simple')
     ->save();
 
 //Save product fixture
-CustomerBalance_QuoteTest::$product = $product;
+Api_CustomerBalance_QuoteTest::$product = $product;
 
 //Create shopping cart
 $quote = new Mage_Sales_Model_Quote();
@@ -121,7 +121,7 @@ $quote->collectTotals()
     ->save();
 
 //Save shopping cart
-CustomerBalance_QuoteTest::$quote = $quote;
+Api_CustomerBalance_QuoteTest::$quote = $quote;
 
 //Create shopping cart by guest
 $guestQuote = new Mage_Sales_Model_Quote();
@@ -136,4 +136,4 @@ $guestQuote->collectTotals()
     ->save();
 
 //Save shopping cart created by guest
-CustomerBalance_QuoteTest::$guestQuote = $guestQuote;
+Api_CustomerBalance_QuoteTest::$guestQuote = $guestQuote;

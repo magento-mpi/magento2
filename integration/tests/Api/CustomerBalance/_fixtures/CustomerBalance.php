@@ -56,7 +56,7 @@ $customerBalance->setCustomerId($customer->getId())
     ->save();
 
 //Save customer ID
-CustomerBalance_CustomerBalanceTest::$customer = $customer;
+Api_CustomerBalance_CustomerBalanceTest::$customer = $customer;
 
 //Add customer without balance
 $customerWithoutBalance = new Mage_Customer_Model_Customer();
@@ -74,4 +74,4 @@ $customerWithoutBalance->setStoreId(1)
     ->save();
 
 //Save customer without balance ID
-CustomerBalance_CustomerBalanceTest::$customerWithoutBalance = $customerWithoutBalance;
+Api_CustomerBalance_CustomerBalanceTest::$customerWithoutBalance = $customerWithoutBalance;
