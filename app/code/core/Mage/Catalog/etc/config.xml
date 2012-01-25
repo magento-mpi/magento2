@@ -459,6 +459,14 @@
                     </catalog_product_compare_item>
                 </observers>
             </log_log_clean_after>
+            <page_block_html_topmenu_gethtml_before>
+                <observers>
+                    <catalog_add_topmenu_items>
+                        <class>catalog/observer</class>
+                        <method>catalogAddTopmenuItems</method>
+                    </catalog_add_topmenu_items>
+                </observers>
+            </page_block_html_topmenu_gethtml_before>
         </events>
         <catalog>
             <product>

@@ -89,6 +89,14 @@
                     </enterprise_cms>
                 </observers>
             </cms_controller_router_match_before>
+            <page_block_html_topmenu_gethtml_before>
+                <observers>
+                    <enterprise_cms_add_topmenu_items>
+                        <class>enterprise_cms/observer</class>
+                        <method>cmsAddTopmenuItems</method>
+                    </enterprise_cms_add_topmenu_items>
+                </observers>
+            </page_block_html_topmenu_gethtml_before>
         </events>
         <enterprise_cms>
             <hierarchy>
