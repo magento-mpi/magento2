@@ -33,7 +33,7 @@
  * @subpackage integration_tests
  * @author     Magento Api Team <apia-team@magento.com>
  */
-class Mage_Api2_Model_Renderer_XmlTest extends Magento_TestCase
+class Mage_Api2_Model_Renderer_XmlTest extends Mage_PHPUnit_TestCase
 {
     /**
      * Test render data

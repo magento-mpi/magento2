@@ -33,7 +33,7 @@
  * @subpackage integration_tests
  * @author     Magento Api Team <apia-team@magento.com>
  */
-class Mage_Api2_Model_Renderer_JsonTest extends Magento_TestCase
+class Mage_Api2_Model_Renderer_JsonTest extends Mage_PHPUnit_TestCase
 {
     /**
      * Test render data
@@ -45,9 +45,8 @@ class Mage_Api2_Model_Renderer_JsonTest extends Magento_TestCase
     public function testRenderData($encoded, $decoded)
     {
         $adapter = new Mage_Api2_Model_Renderer_Json();
-        $render = $adapter->render($decoded);
         $this->assertEquals(
-            $encoded, $render,
+            $encoded, $adapter->render($decoded),
             'Decoded data is not like expected.');
     }
 
