@@ -105,6 +105,9 @@ class CheckoutOnePage_WithRegistration_ShippingMethodsTest extends Mage_Selenium
      */
     public function differentShippingMethods($shipping, $shippingOrigin, $simpleSku)
     {
+        if ($shipping == 'dhl_usa') {
+            $this->markTestSkipped("DHL Service return incorrect data. Bug MAGE-5256");
+        }
         $checkoutData = $this->loadData('with_register_flatrate_checkmoney',
                 array('general_name' => $simpleSku, 'shipping_data' => $this->loadData('front_shipping_' . $shipping)));
         //Steps
