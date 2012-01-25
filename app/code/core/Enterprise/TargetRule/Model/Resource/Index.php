@@ -180,7 +180,8 @@ class Enterprise_TargetRule_Model_Resource_Index extends Mage_Index_Model_Resour
             if (!$rule->checkDateForStore($object->getStoreId())) {
                 continue;
             }
-            $resultIds = $this->_getProductIdsByRule($rule, $object, $rule->getPositionsLimit(), $productIds);
+            $excludeProductIds = array_merge(array($object->getProduct()->getEntityId()), $productIds);
+            $resultIds = $this->_getProductIdsByRule($rule, $object, $rule->getPositionsLimit(), $excludeProductIds);
             $productIds = array_merge($productIds, $resultIds);
         }
         return $productIds;
