@@ -20,7 +20,7 @@
  *
  * @category    Magento
  * @package     Mage_Api2
- * @subpackage  integration_tests
+ * @subpackage  unit_tests
  * @copyright   Copyright (c) 2011 Magento Inc. (http://www.magento.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
@@ -30,8 +30,7 @@
  *
  * @category   Mage
  * @package    Mage_Api2
- * @subpackage integration_tests
- * @author     Magento Api Team <apia-team@magento.com>
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Api2_Model_Renderer_QueryTest extends Mage_PHPUnit_TestCase
 {
@@ -44,7 +43,9 @@ class Mage_Api2_Model_Renderer_QueryTest extends Mage_PHPUnit_TestCase
      */
     public function testRenderData($encoded, $decoded)
     {
-        $adapter = new Mage_Api2_Model_Renderer_Query();
+        /** @var $adapter Mage_Api2_Model_Renderer_Query */
+        $adapter = Mage::getModel('api2/renderer_query');
+
         $this->assertEquals(
             $encoded, $adapter->render($decoded),
             'Decoded data is not like expected.');
