@@ -108,7 +108,10 @@ class Mage_Api2_Model_Server
     {
         /** @var $router Mage_Api2_Model_Router */
         $router = Mage::getModel('api2/router');
-        $router->setRoutes($this->_getConfig()->getRoutes($request->getApiType()))->route($request);
+
+        $router->routeApiType($request, true)
+            ->setRoutes($this->_getConfig()->getRoutes($request->getApiType()))
+            ->route($request);
 
         return $this;
     }
