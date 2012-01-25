@@ -567,18 +567,8 @@ class Enterprise_Cms_Model_Observer
         $nodes = $hierarchyModel->getNodesData();
         $tree = $topMenuRootNode->getTree();
 
-        $currentNode = Mage::registry('current_cms_hierarchy_node');
-
-        $cmsHierarchyRootNodeData = array(
-            'name' => Mage::helper('enterprise_cms')->__('CMS Nodes'),
-            'id' => 'cms-hierarchy-root',
-            'url' => '',
-            'is_active' => !empty($currentNode)
-        );
-        $cmsHierarchyRootNode = new Varien_Data_Tree_Node($cmsHierarchyRootNodeData, 'id', $tree, $topMenuRootNode);
-
         $nodesFlatList = array(
-            $cmsHierarchyRootNode->getId() => $cmsHierarchyRootNode
+            $topMenuRootNode->getId() => $topMenuRootNode
         );
 
         $nodeModel = Mage::getModel('enterprise_cms/hierarchy_node');
@@ -602,7 +592,7 @@ class Enterprise_Cms_Model_Observer
                 'is_active' => $this->_isCmsNodeActive($nodeData)
             );
 
-            $parentNodeId = is_null($node['parent_node_id']) ? $cmsHierarchyRootNode->getId()
+            $parentNodeId = is_null($node['parent_node_id']) ? $topMenuRootNode->getId()
                 : 'cms-hierarchy-node-' . $node['parent_node_id'];
             $parentNode = isset($nodesFlatList[$parentNodeId]) ? $nodesFlatList[$parentNodeId] : null;
 
@@ -613,15 +603,7 @@ class Enterprise_Cms_Model_Observer
             $menuNode = new Varien_Data_Tree_Node($menuNodeData, 'id', $tree, $parentNode);
             $parentNode->addChild($menuNode);
 
-            if ($cmsHierarchyRootNode->getUrl() == '') {
-                $cmsHierarchyRootNode->setUrl($menuNode->getUrl());
-            }
-
             $nodesFlatList[$menuNodeId] = $menuNode;
-        }
-
-        if (count($nodesFlatList) > 1) {
-            $topMenuRootNode->addChild($cmsHierarchyRootNode);
         }
     }
 
