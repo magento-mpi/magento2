@@ -489,7 +489,7 @@ class Mage_Usa_Model_Shipping_Carrier_Ups
     /**
      * Get configuration data of carrier
      *
-     * @param strin $type
+     * @param string $type
      * @param string $code
      * @return array|bool
      */
