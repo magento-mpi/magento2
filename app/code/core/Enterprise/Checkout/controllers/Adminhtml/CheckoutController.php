@@ -900,7 +900,7 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
             }
         }
 
-        if (in_array(Enterprise_Checkout_Block_Adminhtml_Sku_Abstract::LIST_TYPE, $listTypes)) {
+        if (is_array($listTypes) && in_array(Enterprise_Checkout_Block_Adminhtml_Sku_Abstract::LIST_TYPE, $listTypes)) {
             $cart = $this->getCartModel();
             // We need to save products to enterprise_checkout/cart instead of checkout/cart
             $cart->saveAffectedProducts($cart);
