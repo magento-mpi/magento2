@@ -91,7 +91,33 @@ class Magento_Test_Webservice_SoapV2 extends Magento_Test_Webservice_Abstract
         $this->_configFunction = Mage::getSingleton('api/config')->getNode('v2/resources_function_prefix')->children();
         $this->_configAlias    = Mage::getSingleton('api/config')->getNode('resources_alias')->children();
 
-        $this->setSession($this->login(TESTS_WEBSERVICE_USER, TESTS_WEBSERVICE_APIKEY));
+        try {
+            $sessionId = $this->login(TESTS_WEBSERVICE_USER, TESTS_WEBSERVICE_APIKEY);
+        } catch (SoapFault $e) {
+            $this->_throwExceptionBadRequest($e);
+            throw $e;
+        }
+
+        $this->setSession($sessionId);
+        return $this;
+    }
+
+    /**
+     * Try to throw exception with show response
+     *
+     * @param SoapFault $e
+     * @return Magento_Test_Webservice_SoapV2
+     * @throws SoapFault
+     */
+    protected function _throwExceptionBadRequest(SoapFault $e)
+    {
+        if ($this->_isShowInvalidResponse()
+            && in_array($e->getMessage(), $this->_badRequestMessages)
+        ) {
+            throw new Magento_Test_Webservice_Exception(sprintf(
+                'SOAP client should be get XML document but got following: "%s"',
+                $this->getLastResponse()));
+        }
         return $this;
     }
 
