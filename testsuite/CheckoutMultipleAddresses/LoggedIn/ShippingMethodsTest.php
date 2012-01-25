@@ -127,6 +127,9 @@ class CheckoutMultipleAddresses_LoggedIn_ShippingMethodsTest extends Mage_Seleni
      */
     public function differentShippingMethods($shipment, $shippingOrigin, $simpleProductNames, $customerLoginData)
     {
+        if ($shipment == 'dhl_usa') {
+            $this->markTestSkipped("DHL Service return incorrect data. Bug MAGE-5256");
+        }
         //Data
         $shippingMethod = $this->loadData('multiple_front_shipping_' . $shipment);
         $checkoutData = $this->loadData('multiple_shipping_methods_loggedin',
@@ -172,6 +175,9 @@ class CheckoutMultipleAddresses_LoggedIn_ShippingMethodsTest extends Mage_Seleni
     public function differentShippingMethodsWithVirtualProduct($shipment, $shippingOrigin,
             $simpleProductNames, $virtualProductName, $customerLoginData)
     {
+        if ($shipment == 'dhl_usa') {
+            $this->markTestSkipped("DHL Service return incorrect data. Bug MAGE-5256");
+        }
         //Data
         $shippingMethod = $this->loadData('multiple_front_shipping_' . $shipment);
         $checkoutData = $this->loadData('multiple_shipping_methods_loggedin',

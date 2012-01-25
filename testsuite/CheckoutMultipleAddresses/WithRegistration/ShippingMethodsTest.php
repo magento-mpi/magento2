@@ -107,6 +107,9 @@ class CheckoutMultipleAddresses_WithRegistration_ShippingMethodsTest extends Mag
      */
     public function differentShippingMethods($shipment, $shippingOrigin, $simpleProductNames)
     {
+        if ($shipment == 'dhl_usa') {
+            $this->markTestSkipped("DHL Service return incorrect data. Bug MAGE-5256");
+        }
         //Data
         $shippingMethod = $this->loadData('multiple_front_shipping_' . $shipment);
         $checkoutData = $this->loadData('multiple_shipping_methods_register',
@@ -146,6 +149,9 @@ class CheckoutMultipleAddresses_WithRegistration_ShippingMethodsTest extends Mag
     public function differentShippingMethodsWithVirtualProduct($shipment, $shippingOrigin,
             $simpleProductNames, $virtualProductName)
     {
+        if ($shipment == 'dhl_usa') {
+            $this->markTestSkipped("DHL Service return incorrect data. Bug MAGE-5256");
+        }
         //Data
         $shippingMethod = $this->loadData('multiple_front_shipping_' . $shipment);
         $checkoutData = $this->loadData('multiple_shipping_methods_register',
