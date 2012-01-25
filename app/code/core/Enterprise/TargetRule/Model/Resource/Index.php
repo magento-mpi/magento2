@@ -623,6 +623,11 @@ class Enterprise_TargetRule_Model_Resource_Index extends Mage_Index_Model_Resour
                 $segmentIds = Mage::getSingleton('enterprise_customersegment/customer')
                     ->getCustomerSegmentIdsForWebsite($customer->getId(), $websiteId);
             }
+
+            if(count($segmentIds)) {
+                $segmentIds = Mage::getResourceModel('enterprise_customersegment/segment')
+                    ->getActiveSegmentsByIds($segmentIds);
+            }
         }
         return $segmentIds;
     }

@@ -424,4 +424,28 @@ class Enterprise_CustomerSegment_Model_Resource_Segment extends Mage_Rule_Model_
         }
         return $this;
     }
+
+    /**
+     * Get Active Segments By Ids
+     *
+     * @param array $segmentIds
+     * @return array
+     */
+    public function getActiveSegmentsByIds($segmentIds)
+    {
+        $activeSegmentsIds = array();
+        if (count($segmentIds)) {
+            $adapter = $this->_getWriteAdapter();
+            $select = $adapter->select()
+                ->from($this->getMainTable(), array('segment_id'))
+                ->where('segment_id IN (?)', $segmentIds)
+                ->where('is_active = 1');
+
+            $segmentsList = $adapter->fetchAll($select);
+            foreach ($segmentsList as $segment) {
+                $activeSegmentsIds[] = $segment['segment_id'];
+            }
+        }
+        return $activeSegmentsIds;
+    }
 }
