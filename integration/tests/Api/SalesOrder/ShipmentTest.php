@@ -97,13 +97,13 @@ class Api_SalesOrder_ShipmentTest extends Magento_Test_Webservice
         $website = Mage::app()->getWebsite();
         $entityTypeModel = Mage::getModel('eav/entity_type')->loadByCode('shipment');
         $entityStoreModel = Mage::getModel('eav/entity_store')->loadByEntityStore($entityTypeModel->getId(),$website->getDefaultStore()->getId());
-        Magento_Test_Webservice::setFixture('orig_shipping_increment_data', array(
+        $this->setFixture('orig_shipping_increment_data', array(
             'prefix' => $entityStoreModel->getIncrementPrefix(),
             'increment_last_id' => $entityStoreModel->getIncrementLastId()
         ));
         $entityStoreModel->setIncrementPrefix('01');
         $entityStoreModel->save();
-        Magento_Test_Webservice::setFixture('entity_store_model', $entityStoreModel);
+        $this->setFixture('entity_store_model', $entityStoreModel);
 
         // Create new shipment
         $newShipmentId = $this->call('order_shipment.create', array(
@@ -119,5 +119,36 @@ class Api_SalesOrder_ShipmentTest extends Magento_Test_Webservice
         $entityStoreModel = $this->getFixture('entity_store_model');
         $this->assertStringStartsWith($entityStoreModel->getIncrementPrefix(), $newShipmentId,
             'Increment Id returned by API is not correct');
+    }
+
+    /**
+     * Test send shipping info API
+     *
+     * @return void
+     */
+    public function testSendInfo()
+    {
+        /** @var $order Mage_Sales_Model_Order */
+        $order = self::getFixture('order');
+        $id = $order->getIncrementId();
+
+        // Create new shipment
+        $newShipmentId = $this->call('order_shipment.create', array(
+            'orderIncrementId' => $id,
+            'itemsQty' => array(),
+            'comment' => 'Shipment Created',
+            'email' => false,
+            'includeComment' => true
+        ));
+        $this->assertGreaterThan(0, strlen($newShipmentId));
+        $this->setFixture('shipmentIncrementId', $newShipmentId);
+
+        // Send info
+        $isOk = $this->call('order_shipment.sendInfo', array(
+            'shipmentIncrementId' => $newShipmentId,
+            'comment' => $id
+        ));
+
+        $this->assertTrue($isOk);
     }
 }
