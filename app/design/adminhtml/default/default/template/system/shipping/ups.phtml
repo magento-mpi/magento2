@@ -29,6 +29,7 @@ $upsModel = Mage::getSingleton('usa/shipping_carrier_ups');
 $orShipArr = $upsModel->getCode('originShipment');
 $defShipArr = $upsModel->getCode('method');
 
+/** @var $this Mage_Adminhtml_Block_Template */
 $sectionCode = $this->getRequest()->getParam('section');
 $websiteCode = $this->getRequest()->getParam('website');
 $storeCode = $this->getRequest()->getParam('store');
@@ -56,21 +57,21 @@ if (!$storeCode && $websiteCode) {
 //<![CDATA[
     function hideRowArrayElements(arr)
     {
-        for (var a=0; a<arr.length; a++) {
+        for (var a = 0; a < arr.length; a++) {
             $(arr[a]).up(1).hide();
         }
     }
 
     function showRowArrayElements(arr)
     {
-        for (var a=0; a<arr.length; a++) {
+        for (var a = 0; a < arr.length; a++) {
             $(arr[a]).up(1).show();
         }
     }
 
     function inArray(arr, value)
     {
-        for (var i=0; i < arr.length; i++) {
+        for (var i = 0; i < arr.length; i++) {
             if (arr[i] === value) {
                 return true;
             }
@@ -80,7 +81,7 @@ if (!$storeCode && $websiteCode) {
 
     var upsXml = Class.create();
     upsXml.prototype = {
-        initialize : function()
+        initialize: function()
         {
             this.carriersUpsTypeId = 'carriers_ups_type';
             if (!$(this.carriersUpsTypeId)) {
@@ -160,30 +161,30 @@ if (!$storeCode && $websiteCode) {
         {
             var a;
             if ($F(this.carriersUpsTypeId) == 'UPS') {
-                for(a=0;a<this.checkingUpsXmlId.length;a++){
+                for (a = 0; a < this.checkingUpsXmlId.length; a++) {
                     $(this.checkingUpsXmlId[a]).removeClassName('required-entry');
                 }
-                for(a=0;a<this.checkingUpsId.length;a++){
+                for (a = 0; a < this.checkingUpsId.length; a++) {
                     $(this.checkingUpsXmlId[a]).addClassName('required-entry');
                 }
                 Event.stopObserving($('carriers_ups_origin_shipment'), 'change', this.changeOriginShipment.bind(this));
                 showRowArrayElements(this.onlyUpsElements);
                 hideRowArrayElements(this.onlyUpsXmlElements);
-                this.changeOriginShipment(null,'default');
+                this.changeOriginShipment(null, 'default');
             } else {
-                for(a=0;a<this.checkingUpsXmlId.length;a++){
+                for (a = 0; a < this.checkingUpsXmlId.length; a++) {
                     $(this.checkingUpsXmlId[a]).addClassName('required-entry');
                 }
-                for(a=0;a<this.checkingUpsId.length;a++){
+                for (a = 0; a < this.checkingUpsId.length; a++) {
                     $(this.checkingUpsXmlId[a]).removeClassName('required-entry');
                 }
                 Event.observe($('carriers_ups_origin_shipment'), 'change', this.changeOriginShipment.bind(this));
                 showRowArrayElements(this.onlyUpsXmlElements);
                 hideRowArrayElements(this.onlyUpsElements);
-                this.changeOriginShipment(null,null);
+                this.changeOriginShipment(null, null);
             }
         },
-        changeOriginShipment: function(Event,key)
+        changeOriginShipment: function(Event, key)
         {
             this.originShipmentTitle = key ? key : $F('carriers_ups_origin_shipment');
             this.updateAllowedMethods(this.originShipmentTitle);
