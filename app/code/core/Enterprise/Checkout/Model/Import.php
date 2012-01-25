@@ -83,14 +83,14 @@ class Enterprise_Checkout_Model_Import extends Varien_Object
             try {
                 $uploader->setAllowedExtensions($this->_allowedExtensions);
                 $uploader->skipDbProcessing(true);
-                $result = $uploader->save($this->_getWorkingDir());
-            } catch (Exception $e) {
-                if ($uploader->getFailReason() == Varien_File_Uploader::FAIL_REASON_FILE_TYPE) {
-                    $message = Mage::helper('enterprise_checkout')->__('File has an invalid extension. Only .csv files are supported.');
-                } else {
-                    $message = Mage::helper('enterprise_checkout')->__('Error in uploading file.');
+                if (!$uploader->checkAllowedExtension($uploader->getFileExtension())) {
+                    Mage::throwException(Mage::helper('enterprise_checkout')->__('File has an invalid extension. Only .csv files are supported.'));
                 }
-                Mage::throwException($message);
+                $result = $uploader->save($this->_getWorkingDir());
+            } catch (Mage_Core_Exception $e) {
+                Mage::throwException($e->getMessage());
+            } catch (Exception $e) {
+                Mage::throwException(Mage::helper('enterprise_checkout')->__('Error in uploading file.'));
             }
         }
 
@@ -193,5 +193,15 @@ class Enterprise_Checkout_Model_Import extends Varien_Object
 
         Mage::throwException(Mage::helper('enterprise_checkout')->__('Not supported file type.'));
         return false;
+    }
+
+    /**
+     * Whether a file has been submitted by user
+     *
+     * @return bool
+     */
+    public function hasAnythingToUpload()
+    {
+        return !empty($_FILES);
     }
 }

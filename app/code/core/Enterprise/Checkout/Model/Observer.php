@@ -87,6 +87,9 @@ class Enterprise_Checkout_Model_Observer
     {
         /* @var $importModel Enterprise_Checkout_Model_Import */
         $importModel = Mage::getModel('enterprise_checkout/import');
+        if (!$importModel->hasAnythingToUpload()) {
+            return;
+        }
         try {
             if ($importModel->uploadFile()) {
                 /* @var $orderCreateModel Mage_Adminhtml_Model_Sales_Order_Create */
