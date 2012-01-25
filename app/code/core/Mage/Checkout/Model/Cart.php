@@ -505,7 +505,7 @@ class Mage_Checkout_Model_Cart extends Varien_Object implements Mage_Checkout_Mo
     /**
      * Get shopping cart items summary (includes config settings)
      *
-     * @return int
+     * @return int|float
      */
     public function getSummaryQty()
     {
@@ -542,7 +542,7 @@ class Mage_Checkout_Model_Cart extends Varien_Object implements Mage_Checkout_Mo
     /**
      * Get shopping cart summary qty
      *
-     * @return int
+     * @return int|float
      */
     public function getItemsQty()
     {
