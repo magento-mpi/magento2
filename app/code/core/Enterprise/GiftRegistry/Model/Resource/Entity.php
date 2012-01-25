@@ -229,30 +229,4 @@ class Enterprise_GiftRegistry_Model_Resource_Entity extends Mage_Core_Model_Reso
 
         return $this;
     }
-
-     /**
-     * Update gift registry items
-     *
-     * @param array $items
-     */
-    public function updateItems($items)
-    {
-        try {
-            $this->beginTransaction();
-            foreach ($items as $id => $item) {
-                $model = Mage::getSingleton('enterprise_giftregistry/item')->load($id);
-                if (isset($item['delete'])) {
-                    $model->delete();
-                } else {
-                    $model->setQty($item['qty']);
-                    $model->setNote($item['note']);
-                    $model->save();
-                }
-            }
-            $this->commit();
-        } catch (Exception $e) {
-            $this->rollBack();
-            throw $e;
-        }
-    }
 }

@@ -798,12 +798,11 @@ class Enterprise_GiftRegistry_Model_Entity extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Update gift registry items
+     * Validate gift registry items
      *
      * @param array $items
-     * @return Enterprise_GiftRegistry_Model_Entity
-     */
-    public function updateItems($items)
+     */    
+    protected function _validateItems($items)
     {
         foreach ($items as $id => $item) {
             $model = Mage::getSingleton('enterprise_giftregistry/item')->load($id);
@@ -822,8 +821,28 @@ class Enterprise_GiftRegistry_Model_Entity extends Mage_Core_Model_Abstract
                     Mage::helper('enterprise_giftregistry')->__('Wrong gift registry item ID specified.')
                 );
             }
+        }        
+    }
+
+    /**
+     * Update gift registry items
+     *
+     * @param array $items
+     * @return Enterprise_GiftRegistry_Model_Entity
+     */
+    public function updateItems($items)
+    {
+        $this->_validateItems($items);
+        foreach ($items as $id => $item) {
+            $model = Mage::getSingleton('enterprise_giftregistry/item')->load($id);
+            if (isset($item['delete'])) {
+                $model->delete();
+            } else {
+                $model->setQty($item['qty']);
+                $model->setNote($item['note']);
+                $model->save();
+            }
         }
-        $this->_getResource()->updateItems($items);
         return $this;
     }
 }
