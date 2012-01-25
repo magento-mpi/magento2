@@ -2183,7 +2183,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $xpathTR = "//table[@class='data']//tr";
         foreach ($data as $key => $value) {
             if (!preg_match('/_from/', $key) and !preg_match('/_to/', $key) and !is_array($value)) {
-                $xpathTR .= "[td[contains(text(),'$value')]]";
+                if (strpos($value, "'")) {
+                    $value = "concat('" . str_replace('\'', "',\"'\",'", $value) . "')";
+                } else {
+                    $value = "'" . $value . "'";
+                }
+                $xpathTR .= "[td[contains(text(),$value)]]";
             }
         }
         return $xpathTR;
