@@ -801,7 +801,7 @@ class Enterprise_GiftRegistry_Model_Entity extends Mage_Core_Model_Abstract
      * Validate gift registry items
      *
      * @param array $items
-     */    
+     */
     protected function _validateItems($items)
     {
         foreach ($items as $id => $item) {
