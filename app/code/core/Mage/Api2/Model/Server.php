@@ -65,14 +65,34 @@ class Mage_Api2_Model_Server
      */
     public function run()
     {
-        /** @var $request Mage_Api2_Model_Request */
-        $request = Mage::getSingleton('api2/request');
-        /** @var $response Mage_Api2_Model_Response */
-        $response = Mage::getSingleton('api2/response');
+        // can not use response object case
+        try {
+            /** @var $response Mage_Api2_Model_Response */
+            $response = Mage::getSingleton('api2/response');
+        } catch (Exception $e) {
+            Mage::logException($e);
 
-        /** @var $renderer Mage_Api2_Model_Renderer_Interface */
-        $renderer = Mage_Api2_Model_Renderer::factory($request->getAcceptTypes());
+            if (!headers_sent()) {
+                header('HTTP/1.1 ' . self::HTTP_INTERNAL_ERROR);
+            }
+            echo 'Service temporary unavailable';
+            return;
+        }
+        // can not render errors case
+        try {
+            /** @var $request Mage_Api2_Model_Request */
+            $request = Mage::getSingleton('api2/request');
+            /** @var $renderer Mage_Api2_Model_Renderer_Interface */
+            $renderer = Mage_Api2_Model_Renderer::factory($request->getAcceptTypes());
+        } catch (Exception $e) {
+            Mage::logException($e);
 
+            $response->setHttpResponseCode(self::HTTP_INTERNAL_ERROR)
+                ->setBody('Service temporary unavailable')
+                ->sendResponse();
+            return;
+        }
+        // default case
         try {
             /** @var $apiUser Mage_Api2_Model_Auth_User_Abstract */
             $apiUser = $this->_authenticate($request);
@@ -86,7 +106,9 @@ class Mage_Api2_Model_Server
                 throw new Mage_Api2_Exception('Unhandled simple errors.', Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR);
             }
         } catch (Exception $e) {
-            $this->_catchCritical($request, $response, $e, $renderer);
+            Mage::logException($e);
+
+            $this->_renderException($e, $renderer, $response);
         }
 
         $response->sendResponse();
@@ -183,50 +205,44 @@ class Mage_Api2_Model_Server
      * Process thrown exception
      * Generate and set HTTP response code, error message to Response object
      *
-     * @param Mage_Api2_Model_Request $request
-     * @param Zend_Controller_Response_Http $response
-     * @param Exception $critical
+     * @param Exception $exception
      * @param Mage_Api2_Model_Renderer_Interface $renderer
+     * @param Mage_Api2_Model_Response $response
      * @return Mage_Api2_Model_Server
      */
-    protected function _catchCritical(Mage_Api2_Model_Request $request, Zend_Controller_Response_Http $response,
-        Exception $critical, Mage_Api2_Model_Renderer_Interface $renderer)
+    protected function _renderException(Exception $exception,
+                                      Mage_Api2_Model_Renderer_Interface $renderer,
+                                      Mage_Api2_Model_Response $response)
     {
-        //if developer mode is set $critical can be without a Code, it will result in a
-        //Zend_Controller_Response_Exception('Invalid HTTP response code')
-
-        //if exception is not Mage_Api2_Exception we can't be sure it contains valid HTTP error code, so we change it
-        //to 500;
-        $code = ($critical instanceof Mage_Api2_Exception) ? $critical->getCode() : self::HTTP_INTERNAL_ERROR;
+        //if exception is not Mage_Api2_Exception we can't be sure it contains valid HTTP error code,
+        // so we change it to 500;
+        if ($exception instanceof Mage_Api2_Exception && $exception->getCode()) {
+            $httpCode = $exception->getCode();
+        } else {
+            $httpCode = self::HTTP_INTERNAL_ERROR;
+        }
 
         //TODO should we call $response->clearHeaders()
         try {
-            //add last error to stack and get the stack
-            $response->setException($critical);
-            $exceptions = $response->getException();
-
-            //TODO implement domain usage
-            $domain = 'api2';
+            //add last error to stack
+            $response->setException($exception);
 
             $messages = array();
+
             /** @var Exception $exception */
-            foreach ($exceptions as $exception) {
-                $message = array(
-                    'domain'  => $domain,
-                    'code'    => $exception->getCode(),
-                    'message' => $exception->getMessage(),
-                    'trace'   => $exception->getTraceAsString()
-                );
+            foreach ($response->getException() as $exception) {
+                $message = array('code' => $exception->getCode(), 'message' => $exception->getMessage());
+
+                if (Mage::getIsDeveloperMode()) {
+                    $message['trace'] = $exception->getTraceAsString();
+                }
                 $messages['messages']['error'][] = $message;
             }
-            $content = $renderer->render($messages);
-
             //set HTTP Code of last error, Content-Type and Body
-            $response->setHttpResponseCode($code);
-            $response->setHeader('Content-Type',
-                sprintf('%s; charset=%s', $renderer->getMimeType(), Mage_Api2_Model_Request::REQUEST_CHARSET)
-            );
-            $response->setBody($content);
+            $response->setBody($renderer->render($messages));
+            $response->setHeader('Content-Type', sprintf(
+                '%s; charset=%s', $renderer->getMimeType(), Mage_Api2_Model_Response::RESPONSE_CHARSET
+            ));
         } catch (Exception $e) {
             //tunnelling of 406(Not acceptable) error
             $httpCode = $e->getCode() == self::HTTP_NOT_ACCEPTABLE    //$e->getCode() can result in one more loop
@@ -234,10 +250,10 @@ class Mage_Api2_Model_Server
                     : self::HTTP_INTERNAL_ERROR;
 
             //if error appeared in "error rendering" process then show it in plain text
-            $response->setHttpResponseCode($httpCode);
-            $response->setHeader('Content-Type', 'text/plain; charset=UTF-8');
             $response->setBody($e->getMessage());
+            $response->setHeader('Content-Type', 'text/plain; charset=' . Mage_Api2_Model_Response::RESPONSE_CHARSET);
         }
+        $response->setHttpResponseCode($httpCode);
 
         return $this;
     }
