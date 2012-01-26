@@ -177,27 +177,6 @@ AddBySku.prototype = {
         this.submitConfigured = provider.submitConfigured;
         this.removeAllFailed = provider.removeAllFailed;
         this.controllerParamFieldNames = provider.controllerParamFieldNames;
-
-        /**
-         * Observe quantity input in error grid and compare with max-allowed value
-         */
-        document.observe('keyup', function (event)
-        {
-            var $errorTable = event.findElement('#sku_errors_table');
-            if ($errorTable) {
-                $errorTable.select('input[name="qty"]').each(function ($qty)
-                {
-                    var tr = $qty.up('tr');
-                    var sku = tr.select('input[name="' + that.skuFieldName + '"]')[0].value;
-                    var $maxAllowed = $(sku + '_max_allowed');
-                    if ($maxAllowed && (parseFloat($qty.value) <= parseFloat($maxAllowed.innerHTML))) {
-                        tr.removeClassName('qty-not-available');
-                    } else if ($maxAllowed) {
-                        tr.addClassName('qty-not-available');
-                    }
-                });
-            }
-        });
     },
 
     /**

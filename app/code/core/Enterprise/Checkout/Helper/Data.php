@@ -251,7 +251,11 @@ class Enterprise_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
                 } elseif ($all && in_array($item['code'], $this->_failedTemplateStatusCodes)) {
                     $item['item']['code'] = $item['code'];
                     $item['item']['product_type'] = 'undefined';
-                    $quoteItemsCollection[] = new Varien_Object($item['item']);
+                    // Create empty quote item. Otherwise it won't be correctly treated inside failed.phtml
+                    $collectionItem = Mage::getModel('sales/quote_item')
+                        ->setData($item['item'])
+                        ->setProduct(Mage::getModel('catalog/product'));
+                    $quoteItemsCollection[] = $collectionItem;
                 }
             }
             $ids = array_keys($itemsToLoad);
