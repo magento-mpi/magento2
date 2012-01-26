@@ -600,6 +600,20 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
      */
     public function prepareAddProductBySku($sku, $qty, $config = array())
     {
+        $affectedItems = $this->getAffectedItems();
+
+        if (isset($affectedItems[$sku])) {
+            /*
+             * This condition made for case when user inputs same SKU in several rows. We need to update qty, otherwise
+             * getQtyStatus() may return invalid result. If there's already such SKU in affected items array it means
+             * that both came from add form (not from error grid as the case when there is several products with same
+             * SKU requiring attention is not possible), so there could be no config.
+             */
+            $qty += $affectedItems[$sku]['item']['qty'];
+            unset($affectedItems[$sku]);
+            $this->setAffectedItems($affectedItems);
+        }
+
         $checkedItem = $this->checkItem($sku, $qty, $config);
         $code = $checkedItem['code'];
         unset($checkedItem['code']);
@@ -1078,16 +1092,7 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
         }
         $sku = $item['sku'];
         $affectedItems = $this->getAffectedItems();
-
-        if (isset($affectedItems[$item['sku']])) {
-            $affectedItems[$sku]['item']['qty'] += $item['qty'];
-            $affectedItems[$sku]['code'] = $code;
-            unset($item['qty']);
-            $affectedItems[$sku]['item'] = array_merge($affectedItems[$sku]['item'], $item);
-        } else {
-            $affectedItems[$sku] = array('item' => $item, 'code' => $code);
-        }
-
+        $affectedItems[$sku] = array('item' => $item, 'code' => $code);
         $this->_currentlyAffectedItems[] = $sku;
         $this->setAffectedItems($affectedItems);
         return $affectedItems[$sku];
