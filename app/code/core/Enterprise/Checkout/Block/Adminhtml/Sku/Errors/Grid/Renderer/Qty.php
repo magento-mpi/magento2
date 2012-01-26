@@ -25,7 +25,7 @@
  */
 
 /**
- * Description renderer
+ * Qty field renderer
  *
  * @category    Enterprise
  * @package     Enterprise_Checkout
