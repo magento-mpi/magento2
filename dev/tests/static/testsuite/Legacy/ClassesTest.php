@@ -91,6 +91,28 @@ class Legacy_ClassesTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Check by parentNodeName if currentNode under parent node
+     *
+     * @param $currentNode SimpleXMLElement
+     * @param $parentNodeName
+     * @return bool
+     */
+    protected function _isUnderParentNode($currentNode, $parentNodeName)
+    {
+        /** @var $parentNode SimpleXMLElement */
+        $parentNode = current($currentNode->xpath("parent::*"));
+        if (!$parentNode) {
+            return false;
+        }
+
+        if ($parentNode->getName() != $parentNodeName) {
+            return $this->_isUnderParentNode($parentNode, $parentNodeName);
+        }
+
+        return true;
+    }
+
+    /**
      * Collect class names by xpath in configurable files
      *
      * @param string $path
@@ -102,11 +124,10 @@ class Legacy_ClassesTest extends PHPUnit_Framework_TestCase
         $classes = array();
 
         // various nodes
-        // excluding class in /config/sections and model in //staging_items/*
+        // excluding class in /config/sections
         $nodes = $xml->xpath('/config//resource_adapter | /config/*[not(name()="sections")]//class
-            | //model[parent::parent[not(name() = "staging_items")]] | //backend_model | //source_model
-            | //price_model | //model_token | //writer_model | //clone_model | //frontend_model | //admin_renderer
-            | //renderer'
+            | //backend_model | //source_model | //price_model | //writer_model | //clone_model | //frontend_model
+            | //model_token | //admin_renderer | //renderer'
         ) ?: array();
         foreach ($nodes as $node) {
             if (preg_match('/([\w\d_\/]+)\:{0,2}/i', (string)$node, $matches)) {
@@ -121,6 +142,7 @@ class Legacy_ClassesTest extends PHPUnit_Framework_TestCase
             $classes[$node['@attributes']['backend_model']] = 1;
         }
 
+        $this->_collectModels($xml, $classes);
         $this->_collectLoggingExpectedModels($xml, $classes);
 
         $this->_assertClassesNamedCorrect(array_keys($classes), $path);
@@ -137,6 +159,28 @@ class Legacy_ClassesTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Special case: collect models not inside staging_items node
+     *
+     * @param SimpleXmlElement $xml
+     * @param array &$classes
+     */
+    protected function _collectModels($xml, &$classes)
+    {
+        $nodes = $xml->xpath('//model') ?: array();
+        foreach ($nodes as $node) {
+            // excluding model in //staging_items/*
+            if ($this->_isUnderParentNode($node, 'staging_items') && $node->getName() == 'model') {
+                continue;
+            }
+
+            if (preg_match('/([\w\d_\/]+)\:{0,2}/i', (string)$node, $matches)) {
+                $classes[$matches[1]] = 1;
+            }
+        }
+    }
+
+
+    /**
      * Special case: collect "expected models" from logging xml-file
      *
      * @param SimpleXmlElement $xml
@@ -149,6 +193,33 @@ class Legacy_ClassesTest extends PHPUnit_Framework_TestCase
             $classes[$node->getName()] = 1;
         }
     }
+
+    /**
+     * Collect class names by xpath in configurable files
+     *
+     * @param string $path
+     * @dataProvider configFileDataProvider
+     */
+    public function testConfigAttributeModule($path)
+    {
+        $xml = simplexml_load_file($path);
+        $modules = $classes = array();
+
+        // various nodes
+        $nodes = $xml->xpath('//*[@module]') ?: array();
+        foreach ($nodes as $node) {
+            $node = (array)$node;
+            if (isset($node['@attributes']['module'])) {
+                $modules[$node['@attributes']['module']] = 1;
+                $class = $node['@attributes']['module'] . '_Helper_Data';
+                $classes[$class] = 1;
+            }
+        }
+
+        $this->_assertModulesNamedCorrect(array_keys($modules), $path);
+        $this->_assertClassesNamedCorrect(array_keys($classes), $path);
+    }
+
 
     /**
      * Collect class names from layout files
@@ -282,6 +353,48 @@ class Legacy_ClassesTest extends PHPUnit_Framework_TestCase
         }
         if ($badClasses) {
             $this->fail("Incorrect class(es) declaration in {$fileName}:\n" . implode("\n", $badClasses));
+        }
+    }
+
+    /**
+     * Check whether specified classes correspond to a file according PSR-0 standard
+     *
+     * Cyclomatic complexity is because of temporary marking test as incomplete
+     * Suppressing "unused variable" because of the "catch" block
+     *
+     * @param array $modules
+     * @param string $fileName
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
+     */
+    protected function _assertModulesNamedCorrect($modules, $fileName)
+    {
+        if (!$modules) {
+            return;
+        }
+
+        $codeLocation = PATH_TO_SOURCE_CODE . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'code';
+        $locations = array(
+            $codeLocation . DIRECTORY_SEPARATOR . 'community',
+            $codeLocation . DIRECTORY_SEPARATOR . 'core',
+            $codeLocation . DIRECTORY_SEPARATOR . 'local'
+        );
+
+        $badModules = array();
+        foreach ($modules as $module) {
+            $modulesLocation = array();
+            foreach ($locations as $location) {
+                $modulesLocation[] = $location . DIRECTORY_SEPARATOR . str_replace('_', DIRECTORY_SEPARATOR, $module);
+            }
+            try {
+                $this->assertContains(true, array_map('is_dir', $modulesLocation));
+            } catch (PHPUnit_Framework_AssertionFailedError $e) {
+                $badModules[] = $module;
+            }
+        }
+
+        if ($badModules) {
+            $this->fail("Incorrect module(es) declaration in {$fileName}:\n" . implode("\n", $badModules));
         }
     }
 }

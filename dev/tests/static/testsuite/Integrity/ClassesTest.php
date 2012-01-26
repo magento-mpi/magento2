@@ -58,7 +58,7 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
 
         $this->_collectResourceHelpersPhp($contents, $classes);
 
-        $this->_assertClassesExist($classes);
+        $this->_assertClassesExist($classes, $file);
     }
 
     /**
@@ -113,7 +113,7 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
 
         $this->_collectLoggingExpectedModels($xml, $classes);
 
-        $this->_assertClassesExist(array_keys($classes));
+        $this->_assertClassesExist(array_keys($classes), $path);
     }
 
     /**
@@ -172,7 +172,7 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
 
         $this->_collectLayoutHelpersAndModules($xml, $classes);
 
-        $this->_assertClassesExist(array_keys($classes));
+        $this->_assertClassesExist(array_keys($classes), $path);
     }
 
     /**
@@ -261,7 +261,7 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
-    protected function _assertClassesExist($classes)
+    protected function _assertClassesExist($classes, $fileName)
     {
         if (!$classes) {
             return;
@@ -287,7 +287,7 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
             }
         }
         if ($badClasses) {
-            $this->fail("Missing files with declaration of classes:\n" . implode("\n", $badClasses));
+            $this->fail("Missing files with classes declarations in file {$fileName}:\n" . implode("\n", $badClasses));
         }
         if ($isBug) {
             $this->markTestIncomplete('Bug MAGE-4763');
