@@ -90,7 +90,7 @@ class Mage_Adminhtml_Block_Backup_Grid extends Mage_Adminhtml_Block_Widget_Grid
             'header'    => Mage::helper('backup')->__('Name'),
             'index'     => 'display_name',
             'filter'    => false,
-            'sortable'  => false,
+            'sortable'  => true,
             'width'     => 350
         ));
 
