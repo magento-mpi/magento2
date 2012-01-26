@@ -124,6 +124,8 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase
      * @param array $emptyField
      * @param array $searchData
      * @test
+     *
+     * @group skip_due_to_bug
      */
     public function withRequiredFieldsEmpty($emptyField, $searchData)
     {

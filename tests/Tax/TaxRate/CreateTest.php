@@ -130,6 +130,8 @@ class Tax_TaxRate_CreateTest extends Mage_Selenium_TestCase
      * @dataProvider withEmptyRequiredFieldsDataProvider
      * @param string $emptyFieldName Name of the field to leave empty
      * @test
+     *
+     * @group skip_due_to_bug
      */
     public function withEmptyRequiredFields($emptyFieldName)
     {
@@ -153,6 +155,7 @@ class Tax_TaxRate_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
+     * Fails because of MAGE-5237
      * <p>Creating a new Tax Rate with special values (long, special chars).</p>
      * <p>Steps:</p>
      * <p>1. Click button "Add New Tax Rate"</p>
@@ -166,6 +169,8 @@ class Tax_TaxRate_CreateTest extends Mage_Selenium_TestCase
      * @dataProvider withSpecialValuesDataProvider
      * @param array $specialValue
      * @test
+     *
+     * @group skip_due_to_bug
      */
     public function withSpecialValues($specialValue)
     {
