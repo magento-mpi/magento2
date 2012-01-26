@@ -33,7 +33,7 @@ class Enterprise_CustomerSegment_Model_Resource_Segment_Collection
         'event' => array(
             'associations_table' => 'enterprise_customersegment_event',
             'rule_id_field'      => 'segment_id',
-            'entity_id_field'    => 'segment_id'
+            'entity_id_field'    => 'event'
         )
     );
 

@@ -25,7 +25,7 @@ class Enterprise_Reminder_Model_Resource_Rule_Collection extends Mage_Rule_Model
      */
     protected $_associatedEntitiesMap = array(
         'website' => array(
-            'associations_table' => 'enterprise_reminder/website',
+            'associations_table' => 'enterprise_reminder_rule_website',
             'rule_id_field'      => 'rule_id',
             'entity_id_field'    => 'website_id'
         )
@@ -50,8 +50,8 @@ class Enterprise_Reminder_Model_Resource_Rule_Collection extends Mage_Rule_Model
     public function addDateFilter($date)
     {
         $this->getSelect()
-            ->where('date_from IS NULL OR date_from <= ?', $date)
-            ->where('date_to IS NULL OR date_to >= ?', $date);
+            ->where('from_date IS NULL OR from_date <= ?', $date)
+            ->where('to_date IS NULL OR to_date >= ?', $date);
 
         return $this;
     }
