@@ -31,7 +31,7 @@
  * @package    Mage_Api2
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Api2_Model_Config extends Varien_Simplexml_Config //extends Mage_Api_Model_Config
+class Mage_Api2_Model_Config extends Varien_Simplexml_Config
 {
     /**
      * Id for config cache
@@ -43,38 +43,46 @@ class Mage_Api2_Model_Config extends Varien_Simplexml_Config //extends Mage_Api_
      */
     const CACHE_TAG = 'config_api2';
 
-    private $_typesForRequest = array(
-        'text/plain'            => 'api2/request_interpreter_query',
-        'application/json'      => 'api2/request_interpreter_json',
-        'application/xml'       => 'api2/request_interpreter_xml',
-        'application/xhtml+xml' => 'api2/request_interpreter_xml',
-        'text/xml'              => 'api2/request_interpreter_xml',
-    );
-
-    private $_typesForResponse = array(
-        'text'                  => 'api2/renderer_query',
-        'text/plain'            => 'api2/renderer_query',
-        'text/html'             => 'api2/renderer_html',
-        'json'                  => 'api2/renderer_json',
-        'application/json'      => 'api2/renderer_json',
-        'xml'                   => 'api2/renderer_xml',
-        'application/xml'       => 'api2/renderer_xml',
-        'application/xhtml+xml' => 'api2/renderer_xml',
-        'text/xml'              => 'api2/renderer_xml',
-    );
-
     /**
      * Constructor
      * Initializes XML for this configuration
+     * Local cache configuration
      *
      * @param string|Varien_Simplexml_Element $sourceData
      */
-    public function __construct($sourceData=null)
+    public function __construct($sourceData = null)
     {
-        $this->setCacheId(self::CACHE_ID)->setCacheTags(array(self::CACHE_TAG));
-
         parent::__construct($sourceData);
-        $this->_construct();
+
+        $canUserCache = Mage::app()->useCache('config');
+        if ($canUserCache) {
+            $this->setCacheId(self::CACHE_ID)
+                ->setCacheTags(array(self::CACHE_TAG))
+                ->setCacheChecksum(null)
+                ->setCache(Mage::app()->getCache());
+
+            if ($this->loadCache()) {
+                return;
+            }
+        }
+
+        // Load data of config files api2.xml
+        $config = Mage::getConfig()->loadModulesConfiguration('api2.xml');
+        $this->setXml($config->getNode('api2'));
+
+        if ($canUserCache) {
+            $this->saveCache();
+        }
+    }
+
+    /**
+     * Retrieve all resources from config files api2.xml
+     *
+     * @return Varien_Simplexml_Element
+     */
+    protected function _getResources()
+    {
+        return $this->getNode('resources')->children();
     }
 
     /**
@@ -90,7 +98,7 @@ class Mage_Api2_Model_Config extends Varien_Simplexml_Config //extends Mage_Api_
         $helper = Mage::helper('api2');
         if ($helper->isApiTypeExist($apiType)) {
             $routes = array();
-            foreach ($this->getResources() as $resource) {
+            foreach ($this->_getResources() as $resource) {
                 if (!$resource->routes) {
                     continue;
                 }
@@ -115,62 +123,6 @@ class Mage_Api2_Model_Config extends Varien_Simplexml_Config //extends Mage_Api_
     }
 
     /**
-     * Get MIME type mapping to Request interpreter class
-     *
-     * @static
-     * @return array
-     */
-    public function getMimeTypesMappingForRequest()
-    {
-        //TODO fetch this from config files
-        return $this->_typesForRequest;
-    }
-
-    /**
-     * Get MIME type mapping to render Response body
-     *
-     * @static
-     * @return array
-     */
-    public function getMimeTypesMappingForResponse()
-    {
-        //TODO fetch this from config files
-        return $this->_typesForResponse;
-    }
-
-    /**
-     * Init configuration for WS API
-     *
-     * @return Mage_Api2_Model_Config
-     */
-    protected function _construct()
-    {
-        if (Mage::app()->useCache(self::CACHE_ID)) {
-            if ($this->loadCache()) {
-                return $this;
-            }
-        }
-
-        $config = Mage::getConfig()->loadModulesConfiguration('api2.xml');
-        $this->setXml($config->getNode('api2'));
-
-        if (Mage::app()->useCache(self::CACHE_ID)) {
-            $this->saveCache();
-        }
-        return $this;
-    }
-
-    /**
-     * Retrieve all resources from config files api2.xml
-     *
-     * @return Varien_Simplexml_Element
-     */
-    protected function getResources()
-    {
-        return $this->getNode('resources')->children();
-    }
-
-    /**
      * Get resource by type (or node, they are the same now)
      *
      * @param string $node
@@ -178,7 +130,7 @@ class Mage_Api2_Model_Config extends Varien_Simplexml_Config //extends Mage_Api_
      */
     public function getResource($node)
     {
-        return $this->getNode('resources/'.$node);
+        return $this->getNode('resources/' . $node);
     }
 
     /**
@@ -189,6 +141,6 @@ class Mage_Api2_Model_Config extends Varien_Simplexml_Config //extends Mage_Api_
      */
     public function getMainRoute($node)
     {
-        return (string)$this->getNode(join('/', array('resources', $node, 'routes', 'route_main', 'mask')));
+        return (string) $this->getNode(join('/', array('resources', $node, 'routes', 'route_main', 'mask')));
     }
 }
