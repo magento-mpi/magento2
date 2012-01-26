@@ -403,9 +403,11 @@ class Mage_Core_Model_Design_Package
     }
 
     /**
-     * Design package (optional) themes list getter
-     * @param string $package
-     * @return string
+     * Retrieve the list of themes available in the system.
+     * Results are grouped by packages themes belong to, if the optional 'package' argument is omitted.
+     *
+     * @param string|null $package
+     * @return array
      */
     public function getThemeList($package = null)
     {

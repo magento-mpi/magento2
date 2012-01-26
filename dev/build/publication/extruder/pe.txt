@@ -28,6 +28,7 @@ app/design/install/default/enterprise
 app/etc/modules/Enterprise_{AdminGws,Banner,CatalogEvent,CatalogPermissions,Checkout,Cms,Customer,CustomerSegment,GiftRegistry,Invitation,License,Logging,PageCache,Reminder,SalesArchive,Search,Staging,TargetRule,WebsiteRestriction}.xml
 app/locale/*/Enterprise_{AdminGws,Banner,CatalogEvent,CatalogPermissions,Checkout,Cms,Customer,CustomerSegment,GiftRegistry,Invitation,License,Logging,PageCache,Reminder,SalesArchive,Search,Staging,TargetRule,WebsiteRestriction}.csv
 dev/tests/integration/testsuite/Enterprise
+dev/tests/integration/testsuite/Theme/Enterprise
 downloader/Maged/Model/Config/Enterprise.php
 downloader/skin/install/images/enterprise.gif
 downloader/template/enterprise/
