@@ -36,7 +36,7 @@ class Mage_Api2_Model_Dispatcher
     /**
      * Template for retrieve resource class name
      */
-    const RESOURCE_CLASS_TEMPLATE = ':resource_:api_:user_V:version';
+    const RESOURCE_CLASS_TEMPLATE = ':resource_:api_:user_v:version';
 
     /**
      * API User object
@@ -44,16 +44,6 @@ class Mage_Api2_Model_Dispatcher
      * @var Mage_Api2_Model_Auth_User_Abstract
      */
     protected $_apiUser;
-
-    /**
-     * Dispatcher constructor
-     *
-     * @param Mage_Api2_Model_Auth_User_Abstract $apiUser
-     */
-    public function __construct(Mage_Api2_Model_Auth_User_Abstract $apiUser)
-    {
-        $this->setApiUser($apiUser);
-    }
 
     /**
      * Instantiate resource class, set parameters to the instance, run resource internal dispatch method
@@ -66,23 +56,35 @@ class Mage_Api2_Model_Dispatcher
     public function dispatch(Mage_Api2_Model_Request $request, Mage_Api2_Model_Response $response)
     {
         $replace = array(
-            ':resource' => $request->getParam('model'),
-            ':api'      => ucfirst($request->getApiType()),
-            ':user'     => ucfirst($this->_apiUser->getRole()),
-            ':version'  => $request->getVersion(),
+            ':resource' => $request->getParam('model'), // Set in Mage_Api2_Model_Router::_setRequestParams()
+            ':api'      => $request->getApiType(),
+            ':user'     => $this->getApiUser()->getRole(),
+            ':version'  => (int)$request->getVersion(),
         );
         $class = strtr(self::RESOURCE_CLASS_TEMPLATE, $replace);
 
         try {
-            if (class_exists($class)) {
-                /** @var $model Mage_Api2_Model_Resource */
-                $model = new $class($request, $response);
-                $model->dispatch();
-            }
+            /** @var $model Mage_Api2_Model_Resource */
+            $model = Mage::getModel($class);
         } catch (Exception $e) {
-            throw new Mage_Api2_Exception(sprintf('Invalid resource class "%s"', $class),
-                Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR);
+            throw new Mage_Api2_Exception(
+                sprintf('Invalid resource class "%s".', $class),
+                Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR
+            );
         }
+
+        if ($model === false) {
+            throw new Mage_Api2_Exception(
+                sprintf('File loaded but resource model "%s" not found.', $class),
+                Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR
+            );
+        }
+
+        $model->setRequest($request);
+        $model->setResponse($response);
+        $model->setApiUser($this->getApiUser());
+
+        $model->dispatch();
 
         return $this;
     }
@@ -98,5 +100,19 @@ class Mage_Api2_Model_Dispatcher
         $this->_apiUser = $apiUser;
 
         return $this;
+    }
+
+    /**
+     * Get API user object
+     *
+     * @return Mage_Api2_Model_Auth_User_Abstract
+     */
+    public function getApiUser()
+    {
+        if (!$this->_apiUser) {
+            throw new Exception('API user is not set.');
+        }
+
+        return $this->_apiUser;
     }
 }

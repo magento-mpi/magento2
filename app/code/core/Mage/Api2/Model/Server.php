@@ -24,6 +24,19 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+function unnamedErrorHandler($errno, $errstr, $errfile, $errline)
+{
+    echo __FILE__;
+    echo '<pre>';
+    var_dump($errno, $errstr, $errfile, $errline);
+    echo '</pre>';
+    exit;
+
+
+}
+set_error_handler('unnamedErrorHandler', E_ALL|E_STRICT);
+
+
 /**
  * Webservice api2 abstract
  *
@@ -41,13 +54,14 @@ class Mage_Api2_Model_Server
     /**#@+
      * HTTP Response Codes
      */
-    const HTTP_OK             = 200;
-    const HTTP_BAD_REQUEST    = 400;
-    const HTTP_UNAUTHORIZED   = 401;
-    const HTTP_FORBIDDEN      = 403;
-    const HTTP_NOT_FOUND      = 404;
-    const HTTP_NOT_ACCEPTABLE = 406;
-    const HTTP_INTERNAL_ERROR = 500;
+    const HTTP_OK                 = 200;
+    const HTTP_BAD_REQUEST        = 400;
+    const HTTP_UNAUTHORIZED       = 401;
+    const HTTP_FORBIDDEN          = 403;
+    const HTTP_NOT_FOUND          = 404;
+    const HTTP_METHOD_NOT_ALLOWED = 405;
+    const HTTP_NOT_ACCEPTABLE     = 406;
+    const HTTP_INTERNAL_ERROR     = 500;
     /**#@- */
 
     /**
@@ -69,6 +83,9 @@ class Mage_Api2_Model_Server
         /** @var $response Mage_Api2_Model_Response */
         $response = Mage::getSingleton('api2/response');
 
+        /** @var $renderer Mage_Api2_Model_Renderer_Interface */
+        $renderer = Mage_Api2_Model_Renderer::factory($request->getAcceptTypes());
+
         try {
             /** @var $apiUser Mage_Api2_Model_Auth_User_Abstract */
             $apiUser = $this->_authenticate($request);
@@ -76,8 +93,13 @@ class Mage_Api2_Model_Server
             $this->_route($request)
                 ->_allow($request, $apiUser)
                 ->_dispatch($request, $response, $apiUser);
+
+            //NOTE: At this moment Renderer already could have some content rendered, so we should replace it
+            if ($response->isException()) {
+                throw new Mage_Api2_Exception('Unhandled simple errors.', Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR);
+            }
         } catch (Exception $e) {
-            $this->_catchCritical($request, $response, $e);
+            $this->_catchCritical($request, $response, $e, $renderer);
         }
 
         $response->sendResponse();
@@ -150,11 +172,12 @@ class Mage_Api2_Model_Server
     protected function _dispatch(
         Mage_Api2_Model_Request $request,
         Mage_Api2_Model_Response $response,
-        Mage_Api2_Model_Auth_User_Abstract $apiUser)
+        Mage_Api2_Model_Auth_User_Abstract $apiUser
+    )
     {
         /** @var $dispatcher Mage_Api2_Model_Dispatcher */
-        $dispatcher = Mage::getModel('api2/dispatcher', $apiUser);
-        $dispatcher->dispatch($request, $response);
+        $dispatcher = Mage::getModel('api2/dispatcher');
+        $dispatcher->setApiUser($apiUser)->dispatch($request, $response);
 
         return $response;
     }
@@ -176,11 +199,11 @@ class Mage_Api2_Model_Server
      * @param Mage_Api2_Model_Request $request
      * @param Zend_Controller_Response_Http $response
      * @param Exception $critical
+     * @param Mage_Api2_Model_Renderer_Interface $renderer
      * @return Mage_Api2_Model_Server
      */
-    protected function _catchCritical(Mage_Api2_Model_Request $request,
-                                      Zend_Controller_Response_Http $response,
-                                      Exception $critical)
+    protected function _catchCritical(Mage_Api2_Model_Request $request, Zend_Controller_Response_Http $response,
+        Exception $critical, Mage_Api2_Model_Renderer_Interface $renderer)
     {
         //if developer mode is set $critical can be without a Code, it will result in a
         //Zend_Controller_Response_Exception('Invalid HTTP response code')
@@ -189,13 +212,11 @@ class Mage_Api2_Model_Server
         //to 500;
         $code = ($critical instanceof Mage_Api2_Exception) ? $critical->getCode() : self::HTTP_INTERNAL_ERROR;
 
+        //TODO should we call $response->clearHeaders()
         try {
             //add last error to stack and get the stack
             $response->setException($critical);
             $exceptions = $response->getException();
-
-            //render content
-            $renderer = Mage_Api2_Model_Renderer::factory($request->getAcceptTypes());
 
             //TODO implement domain usage
             $domain = 'api2';
@@ -204,9 +225,10 @@ class Mage_Api2_Model_Server
             /** @var Exception $exception */
             foreach ($exceptions as $exception) {
                 $message = array(
-                    'domain'   => $domain,
-                    'code'     => $exception->getCode(),
-                    'message'  => $exception->getMessage(),
+                    'domain'  => $domain,
+                    'code'    => $exception->getCode(),
+                    'message' => $exception->getMessage(),
+                    'trace'   => $exception->getTraceAsString()
                 );
                 $messages['messages']['error'][] = $message;
             }
@@ -215,7 +237,7 @@ class Mage_Api2_Model_Server
             //set HTTP Code of last error, Content-Type and Body
             $response->setHttpResponseCode($code);
             $response->setHeader('Content-Type',
-                sprintf('%s; charset=%s', $renderer->getMimeType(), $request->getAcceptCharset())
+                sprintf('%s; charset=%s', $renderer->getMimeType(), Mage_Api2_Model_Request::REQUEST_CHARSET)
             );
             $response->setBody($content);
         } catch (Exception $e) {

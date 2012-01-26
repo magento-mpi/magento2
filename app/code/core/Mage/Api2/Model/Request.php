@@ -38,6 +38,12 @@ class Mage_Api2_Model_Request extends Zend_Controller_Request_Http
      */
     const REQUEST_CHARSET = 'utf-8';
 
+    /**#@+
+     * Resource params
+     */
+    const RESOURCE_PARAM_INCLUDE = 'include';
+    /**#@- */
+
     /**
      * Interpreter adapter
      *
@@ -179,8 +185,8 @@ class Mage_Api2_Model_Request extends Zend_Controller_Request_Http
         // Map HTTP methods to classic CRUD verbs
         $operationByMethod = array(
             'GET'    => Mage_Api2_Model_Resource::OPERATION_RETRIEVE,
-            'POST'   => Mage_Api2_Model_Resource::OPERATION_CREATE,
-            'PUT'    => Mage_Api2_Model_Resource::OPERATION_UPDATE,
+            'POST'   => Mage_Api2_Model_Resource::OPERATION_UPDATE,
+            'PUT'    => Mage_Api2_Model_Resource::OPERATION_CREATE,
             'DELETE' => Mage_Api2_Model_Resource::OPERATION_DELETE
         );
 
@@ -205,5 +211,19 @@ class Mage_Api2_Model_Request extends Zend_Controller_Request_Http
     public function getVersion()
     {
         return $this->getHeader('Version');
+    }
+
+    public function getInclude()
+    {
+        $include = $this->getParam(self::RESOURCE_PARAM_INCLUDE, array());
+
+        //transform comma-separated list
+        if (!is_array($include)) {
+            $include = explode(',', $include);
+        }
+
+        //if (in_array('*', $include))
+
+        return $include;
     }
 }

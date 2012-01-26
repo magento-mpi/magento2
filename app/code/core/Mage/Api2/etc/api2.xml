@@ -2,38 +2,26 @@
 <config>
     <api2>
        <resources>
-            <products><!-- this not used but must be unique -->
+            <products>
                 <type>products</type><!-- used in ACL -->
-                <model>Mage_Catalog_Model_Products_Apia</model><!-- used in dispatching -->
+                <model>catalog/api2_products</model><!-- used in dispatching -->
                 <title>Catalog Products</title><!-- not used now, probably useful in frontend -->
                 <routes>
-                    <route_1>
+                    <route_main>
                         <mask>/products</mask>
-                    </route_1>
+                    </route_main>
                 </routes>
             </products>
-            <product><!-- this not used but must be unique -->
+            <product>
                 <type>product</type><!-- used in ACL -->
-                <model>Mage_Catalog_Model_Product_Api2</model><!-- used in dispatching -->
+                <model>catalog/api2_product</model><!-- used in dispatching -->
                 <title>Catalog Product</title><!-- not used now, probably useful in frontend -->
                 <routes>
-                    <route_1>
+                    <route_main>
                         <mask>/products/:id</mask>
-                    </route_1>
+                    </route_main>
                 </routes>
             </product>
-           <!--
-            <api_login>
-                <routes>
-                    <route1>
-                        <mask>login</mask>
-                    </route1>
-                    <route>
-                        <mask>login2</mask>
-                    </route>
-                </routes>
-            </api_login>
-            -->
         </resources>
     </api2>
 </config>

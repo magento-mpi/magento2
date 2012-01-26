@@ -169,4 +169,26 @@ class Mage_Api2_Model_Config extends Varien_Simplexml_Config //extends Mage_Api_
     {
         return $this->getNode('resources')->children();
     }
+
+    /**
+     * Get resource by type (or node, they are the same now)
+     *
+     * @param string $node
+     * @return Varien_Simplexml_Element
+     */
+    public function getResource($node)
+    {
+        return $this->getNode('resources/'.$node);
+    }
+
+    /**
+     * Get resource main route
+     *
+     * @param string $node
+     * @return string
+     */
+    public function getMainRoute($node)
+    {
+        return (string)$this->getNode(join('/', array('resources', $node, 'routes', 'route_main', 'mask')));
+    }
 }

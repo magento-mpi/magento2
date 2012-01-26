@@ -74,6 +74,8 @@ class Mage_Api2_Model_Auth_Adapter
      */
     public function getUserType(Mage_Api2_Model_Request $request)
     {
+        return 'guest';
+
         $this->_initAdapters();
 
         foreach ($this->_adapters as $adapterModel) {
