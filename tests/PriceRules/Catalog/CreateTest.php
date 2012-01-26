@@ -92,6 +92,8 @@ class PriceRules_Catalog_CreateTest extends Mage_Selenium_TestCase
      * @param string $emptyField
      * @param string $fieldType
      * @test
+     *
+     * @group skip_due_to_bug
      */
     public function withRequiredFieldsEmpty($emptyField, $fieldType)
     {

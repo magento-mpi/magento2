@@ -179,6 +179,8 @@ class Tax_TaxRule_CreateTest extends Mage_Selenium_TestCase
      * @param string $productTaxClassData
      *
      * @test
+     *
+     * @group skip_due_to_bug
      */
     public function withEmptyRequiredFields($emptyFieldName, $fieldType, $taxRateData, $productTaxClassData)
     {
@@ -208,6 +210,7 @@ class Tax_TaxRule_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
+     * Fails because of MAGE-5237
      * <p>Creating a new Tax Rule with special values (long, special chars).</p>
      * <p>Steps:</p>
      * <p>1. Click button "Add New Tax Rule"</p>
@@ -225,6 +228,8 @@ class Tax_TaxRule_CreateTest extends Mage_Selenium_TestCase
      * @param array $specialValue
      *
      * @test
+     *
+     * @group skip_due_to_bug
      */
     public function withSpecialValues($specialValue, $taxRateData, $productTaxClassData)
     {

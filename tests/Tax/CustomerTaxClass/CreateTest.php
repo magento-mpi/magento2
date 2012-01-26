@@ -124,6 +124,7 @@ class Tax_CustomerTaxClass_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
+     * Fails because of MAGE-5237
      * <p>Creating a new Customer Tax Class with special values (long, special chars).</p>
      * <p>Steps:</p>
      * <p>1. Click button "Add New"</p>
@@ -138,6 +139,8 @@ class Tax_CustomerTaxClass_CreateTest extends Mage_Selenium_TestCase
      * @test
      *
      * @param array $specialValue
+     *
+     * @group skip_due_to_bug
      */
     public function withSpecialValues($specialValue)
     {

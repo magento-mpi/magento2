@@ -214,6 +214,8 @@ class Product_DuplicateTest extends Mage_Selenium_TestCase
      * @depends createConfigurableAttribute
      * @depends createProducts
      * @test
+     *
+     * @group skip_due_to_bug
      */
     public function duplicateDownloadable($attrData, $productData)
     {

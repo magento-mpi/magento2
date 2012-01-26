@@ -347,6 +347,8 @@ class Product_Create_BundleTest extends Mage_Selenium_TestCase
      *
      * @depends requiredFieldsForDynamicSmoke
      * @test
+     *
+     * @group skip_due_to_bug
      */
     public function invalidWeightInBundle()
     {

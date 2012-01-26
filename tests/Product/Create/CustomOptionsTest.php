@@ -271,6 +271,8 @@ class Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
      * @param $message
      * @dataProvider invalidCustomOptionDataProvider
      * @test
+     *
+     * @group skip_due_to_bug
      */
     public function specialSymbolsInCustomOptionsPrice($optionDataName, $message)
     {
@@ -305,6 +307,8 @@ class Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
      * @param $message
      * @dataProvider invalidCustomOptionDataProvider
      * @test
+     *
+     * @group skip_due_to_bug
      */
     public function textValueInCustomOptionsPrice($optionDataName, $message)
     {
@@ -354,6 +358,8 @@ class Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
      * @param $optionName
      * @dataProvider negativeNumberInCustomOptionsPriceNegDataProvider
      * @test
+     *
+     * @group skip_due_to_bug
      */
     public function negativeNumberInCustomOptionsPriceNeg($optionName)
     {

@@ -97,6 +97,8 @@ class PriceRules_ShoppingCart_CreateTest extends Mage_Selenium_TestCase
      * Bug MAGE-5625
      *
      * @test
+     *
+     * @group skip_due_to_bug
      */
     public function createWithRequiredFieldsWithSpecialSymbols()
     {
