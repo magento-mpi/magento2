@@ -91,7 +91,7 @@ class Order_Helper extends Mage_Selenium_TestCase
      *
      * @return bool|string
      */
-    public function createOrder($orderData, $validate = TRUE)
+    public function createOrder($orderData, $validate = true)
     {
         $orderData = $this->arrayEmptyClear($orderData);
         $storeView = (isset($orderData['store_view'])) ? $orderData['store_view'] : null;
@@ -129,7 +129,9 @@ class Order_Helper extends Mage_Selenium_TestCase
             $this->pleaseWait();
             $this->selectShippingMethod($shippingMethod, $validate);
         }
-        $this->selectPaymentMethod($paymentMethod, $validate);
+        if ($paymentMethod) {
+            $this->selectPaymentMethod($paymentMethod, $validate);
+        }
         $this->addGiftMessage($giftMessages);
         if ($verProduct && $verTotal) {
             $this->shoppingCartHelper()->verifyPricesDataOnPage($verProduct, $verTotal);
@@ -448,24 +450,21 @@ class Order_Helper extends Mage_Selenium_TestCase
             $this->addParameter('shipMethod', $shipMethod);
             $methodUnavailable = $this->_getControlXpath('message', 'ship_method_unavailable');
             $noShipping = $this->_getControlXpath('message', 'no_shipping');
-            if (($this->isElementPresent($methodUnavailable) || $this->isElementPresent($noShipping)) && $validate) {
-                $this->addVerificationMessage('No Shipping Method is available for this order');
-            }
-            if ((!$this->isElementPresent($methodUnavailable) && !$this->isElementPresent($noShipping))
-                    && $this->isElementPresent($this->_getControlXpath('field', 'ship_service_name')) && $validate) {
+            if ($this->isElementPresent($methodUnavailable) || $this->isElementPresent($noShipping)) {
+                if ($validate) {
+                    $this->addVerificationMessage('No Shipping Method is available for this order');
+                }
+            } elseif ($this->isElementPresent($this->_getControlXpath('field', 'ship_service_name'))) {
                 $method = $this->_getControlXpath('radiobutton', 'ship_method');
                 if ($this->isElementPresent($method)) {
                     $this->click($method);
                     $this->pleaseWait();
-                } else {
+                } elseif ($validate) {
                     $this->addVerificationMessage('Shipping Method "' . $shipMethod . '" for "'
-                                                 . $shipService . '" is currently unavailable.');
+                                                  . $shipService . '" is currently unavailable.');
                 }
-            } elseif ((!$this->isElementPresent($methodUnavailable) && !$this->isElementPresent($noShipping))
-                       && !$this->isElementPresent($this->_getControlXpath('field', 'ship_service_name')) && $validate){
+            } elseif ($validate) {
                 $this->addVerificationMessage('Shipping Service "' . $shipService . '" is currently unavailable.');
-            } else {
-                return;
             }
         }
         $this->assertEmptyVerificationErrors();

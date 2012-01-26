@@ -143,7 +143,7 @@ class Order_Create_WithCouponTest extends Mage_Selenium_TestCase
         $this->saveForm('save_rule');
         $this->assertMessagePresent('success', 'success_saved_rule');
         $this->navigate('manage_sales_orders');
-        $this->orderHelper()->createOrder($orderData, false);
+        $this->orderHelper()->createOrder($orderData);
         $this->assertMessagePresent('success', 'success_created_order');
     }
 
