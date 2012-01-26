@@ -227,6 +227,19 @@ abstract class Mage_Core_Helper_Abstract
         return $result;
     }
 
+     /**
+     * Remove html tags, but leave "<" and ">" signs
+     *
+     * @param   string $html
+     * @return  string
+     */
+    public function removeTags($html)
+    {
+        $html = preg_replace("# <(?![/a-z]) | (?<=\s)>(?![a-z]) #exi", "htmlentities('$0')", $html);
+        $html =  strip_tags($html);
+        return htmlspecialchars_decode($html);
+    }
+
     /**
      * Wrapper for standart strip_tags() function with extra functionality for html entities
      *
