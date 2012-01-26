@@ -193,10 +193,10 @@ class Enterprise_Checkout_CartController extends Mage_Core_Controller_Front_Acti
      */
     public function updateFailedItemOptionsAction()
     {
+        $hasError = false;
+        $id = (int) $this->getRequest()->getParam('id');
+        $buyRequest = new Varien_Object($this->getRequest()->getParams());
         try {
-            $id = (int) $this->getRequest()->getParam('id');
-            $buyRequest = new Varien_Object($this->getRequest()->getParams());
-
             /** @var $cart Mage_Checkout_Model_Cart */
             $cart = Mage::getSingleton('checkout/cart');
 
@@ -220,10 +220,17 @@ class Enterprise_Checkout_CartController extends Mage_Core_Controller_Front_Acti
             }
         } catch (Mage_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
+            $hasError = true;
         } catch (Exception $e) {
             $this->_getSession()->addError($this->__('Cannot add product'));
             Mage::logException($e);
+            $hasError = true;
         }
-        $this->_redirect('checkout/cart');
+
+        if ($hasError) {
+            $this->_redirect('checkout/cart/configureFailed', array('id' => $id, 'sku' => $buyRequest->getSku()));
+        } else {
+            $this->_redirect('checkout/cart');
+        }
     }
 }
