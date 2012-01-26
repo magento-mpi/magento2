@@ -32,21 +32,21 @@ browsers:
         host: 127.0.0.1
         port: 4444
         doNotKillBrowsers: false
-        browserTimeoutPeriod: 40000
+        browserTimeoutPeriod: 90000
     iexplore: &iexplore
         name: Internet Explorer
         browser: '*iexplore'
         host: 127.0.0.1
         port: 4444
         doNotKillBrowsers: false
-        browserTimeoutPeriod: 40000
+        browserTimeoutPeriod: 90000
     googlechrome: &googlechrome
         name: Google Chrome
         browser: '*googlechrome'
         host: 127.0.0.1
         port: 4444
         doNotKillBrowsers: false
-        browserTimeoutPeriod: 40000
+        browserTimeoutPeriod: 90000
     default: *chrome
 default:
     cache:
@@ -75,4 +75,10 @@ default:
                 frontend:
                     url: 'http://www.localhost.com/magento/'
                     uimap_path: 'frontend'
+                paypal-sandbox:
+                    url: 'https://www.sandbox.paypal.com/'
+                    uimap_path: 'third-party/paypal-sandbox'
+                paypal-developer:
+                    url: 'https://developer.paypal.com/'
+                    uimap_path: 'third-party/paypal-developer'
         default: *magento
