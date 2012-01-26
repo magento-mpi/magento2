@@ -144,9 +144,15 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
      */
     public function getActualQuote()
     {
-        if ($this->getStore()->isAdmin()) {
+        if (Mage::app()->getStore()->isAdmin()) {
             return Mage::getSingleton('adminhtml/session_quote')->getQuote();
         } else {
+            if (!$this->getCustomer()) {
+                $customer = Mage::helper('customer')->getCustomer();
+                if ($customer) {
+                    $this->setCustomer($customer);
+                }
+            }
             return $this->getQuote();
         }
     }
@@ -732,53 +738,65 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
         /** @var $product Mage_Catalog_Model_Product */
         $product = Mage::getModel('catalog/product')->loadByAttribute('sku', $item['sku']);
         $store = Mage::app()->getStore();
+        $isAdmin = $store->isAdmin();
 
         if ($product && $product->getId()
-            && ($store->isAdmin() || in_array($store->getWebsiteId(), $product->getWebsiteIds()))
+            && ($isAdmin || in_array($store->getWebsiteId(), $product->getWebsiteIds()))
         ) {
             $item['id'] = $product->getId();
 
-            if (true === $product->getDisableAddToCart()) {
-                $item['code'] = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_PERMISSIONS;
-                return $item;
-            }
+            // FRONTEND
+            if (!$isAdmin) {
+                if (true === $product->getDisableAddToCart()) {
+                    $item['code'] = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_PERMISSIONS;
+                    return $item;
+                }
 
-            if (!$product->isInStock()) {
-                $item['code'] = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_SKU;
-                return $item;
-            }
+                if ($product->getStatus() == Mage_Catalog_Model_Product_Status::STATUS_DISABLED) {
+                    $item['code'] = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_SKU;
+                    return $item;
+                }
 
-            /** @var $stockItem Mage_CatalogInventory_Model_Stock_Item */
-            $stockItem = Mage::getModel('cataloginventory/stock_item');
-            $stockItem->loadByProduct($product);
-            $stockItem->setProduct($product);
-            if (!$stockItem->getIsInStock() && !$this->getStore()->isAdmin()) {
-                $status = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_OUT_OF_STOCK;
-            }
-
-            if (empty($status) && $this->_shouldBeConfigured($product)) {
-                if ($this->_isConfigured($product, $config)) {
-                    $status = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_SUCCESS;
-                } else {
-                    $status = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_CONFIGURE;
+                /** @var $stockItem Mage_CatalogInventory_Model_Stock_Item */
+                $stockItem = Mage::getModel('cataloginventory/stock_item');
+                $stockItem->loadByProduct($product);
+                $stockItem->setProduct($product);
+                if (!$stockItem->getIsInStock()) {
+                    $item['code'] = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_OUT_OF_STOCK;
+                    return $item;
                 }
             }
 
-            if (empty($status)) {
+            // FRONTEND & BACKEND
+            if ($this->_shouldBeConfigured($product)) {
+                if ($this->_isConfigured($product, $config)) {
+                    $item['code'] = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_SUCCESS;
+                } else {
+                    $item['code'] = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_CONFIGURE;
+                }
+                return $item;
+            }
+
+            // FRONTEND
+            if (!$isAdmin) {
                 $qtyStatus = $this->getQtyStatus($stockItem, $product, $item['qty']);
                 if ($qtyStatus === true) {
-                    $status = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_SUCCESS;
+                    $item['code'] = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_SUCCESS;
+                    return $item;
                 } else {
-                    $status = $qtyStatus['status'];
+                    $item['code'] = $qtyStatus['status'];
                     unset($qtyStatus['status']);
                     // Add qty_max_allowed and qty_min_allowed, if present
                     $item = array_merge($item, $qtyStatus);
+                    return $item;
                 }
             }
         } else {
-            $status = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_SKU;
+            $item['code'] = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_SKU;
+            return $item;
         }
-        $item['code'] = $status;
+
+        $item['code'] = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_SUCCESS;
         return $item;
     }
 

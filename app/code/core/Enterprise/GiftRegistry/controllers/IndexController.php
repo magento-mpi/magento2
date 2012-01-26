@@ -270,10 +270,11 @@ class Enterprise_GiftRegistry_IndexController extends Mage_Core_Controller_Front
             $this->_getSession()->addError($e->getMessage());
             $this->_redirect('*/*/');
             return;
+        } catch (Mage_Exception $e) {
+            $this->_getSession()->addError($e->getMessage());
         } catch (Exception $e) {
             $this->_getSession()->addError($this->__('Failed to update gift registry items list.'));
         }
-
         $this->_redirect('*/*/items', array('_current' => true));
     }
 
