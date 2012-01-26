@@ -347,7 +347,7 @@ abstract class Mage_Core_Helper_Abstract
      *  base64_encode() for URLs encoding
      *
      *  @param    string $url
-     *  @return	  string
+     *  @return   string
      */
     public function urlEncode($url)
     {
@@ -358,7 +358,7 @@ abstract class Mage_Core_Helper_Abstract
      *  base64_dencode() for URLs dencoding
      *
      *  @param    string $url
-     *  @return	  string
+     *  @return   string
      */
     public function urlDecode($url)
     {
@@ -370,7 +370,7 @@ abstract class Mage_Core_Helper_Abstract
      *   Translate array
      *
      *  @param    array $arr
-     *  @return	  array
+     *  @return   array
      */
     public function translateArray($arr = array())
     {
