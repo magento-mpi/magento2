@@ -61,7 +61,7 @@ class Mage_PHPUnit_Helper_Factory
      */
     public static function getHelper($key)
     {
-        if (!array_key_exists($key, self::$_helpers[$key])) {
+        if (!isset(self::$_helpers[$key])) {
             self::$_helpers[$key] = self::_initHelper($key);
         }
 

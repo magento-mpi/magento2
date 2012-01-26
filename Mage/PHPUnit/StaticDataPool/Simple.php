@@ -25,26 +25,43 @@
  */
 
 /**
- * Unit testing helper for blocks.
- * Is a singleton.
+ * Simple class for pool of data.
+ * Key-value data.
  *
  * @category    Mage
  * @package     Mage_PHPUnit
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_PHPUnit_Helper_Model_Block extends Mage_PHPUnit_Helper_Model_Model
+class Mage_PHPUnit_StaticDataPool_Simple extends Mage_PHPUnit_StaticDataPool_Abstract
 {
     /**
-     * Name of the pool with block's real class names
+     * Key-value data array
      *
-     * @var string
+     * @var array array(key => value)
      */
-    protected $_realModelClassesPool = Mage_PHPUnit_StaticDataPoolContainer::POOL_REAL_BLOCK_CLASSES;
+    protected $_data = array();
 
     /**
-     * Group type name
+     * Value getter by key.
      *
-     * @var string
+     * @param string $key
+     * @return mixed
      */
-    protected $_group = 'block';
+    public function getData($key)
+    {
+        return isset($this->_data[$key]) ? $this->_data[$key] : false;
+    }
+
+    /**
+     * Value setter for key
+     *
+     * @param string $key
+     * @param mixed $value
+     * @return Mage_PHPUnit_StaticDataPool_Simple
+     */
+    public function setData($key, $value)
+    {
+        $this->_data[$key] = $value;
+        return $this;
+    }
 }

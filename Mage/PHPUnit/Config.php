@@ -153,7 +153,8 @@ class Mage_PHPUnit_Config
     public function getDefaultConnection()
     {
         if (is_null($this->_defaultConnection)) {
-            $this->_defaultConnection = Mage::getModel('core/resource')->getConnection(Mage_Core_Model_Resource::DEFAULT_WRITE_RESOURCE);
+            $this->_defaultConnection = Mage::getModel('core/resource')
+                ->getConnection(Mage_Core_Model_Resource::DEFAULT_WRITE_RESOURCE);
         }
         return $this->_defaultConnection;
     }

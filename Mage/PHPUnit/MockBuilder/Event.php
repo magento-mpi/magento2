@@ -163,6 +163,11 @@ class Mage_PHPUnit_MockBuilder_Event extends Mage_PHPUnit_MockBuilder_Abstract
         $this->_getSingletonHelper()->registerSingleton($registryKey, $mock);
 
         //add observer to event
-        $this->_getEventHelper()->addObserverToEvent($this->getEvent(), "observer_{$modelKey}", $modelKey, $this->getRunMethod());
+        $this->_getEventHelper()->addObserverToEvent(
+            $this->getEvent(),
+            "observer_{$modelKey}",
+            $modelKey,
+            $this->getRunMethod()
+        );
     }
 }

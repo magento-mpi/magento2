@@ -24,10 +24,17 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+/**
+ * Local database resource type
+ *
+ * @category    Mage
+ * @package     Mage_PHPUnit
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
 class Mage_PHPUnit_Db_Type_Local extends Mage_Core_Model_Resource_Type_Db
 {
     /**
-     * Get stub adapter 
+     * Get stub adapter
      *
      * @param array $config Connection config
      * @return Mage_PHPUnit_Db_Adapter

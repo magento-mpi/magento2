@@ -25,26 +25,13 @@
  */
 
 /**
- * Unit testing helper for blocks.
- * Is a singleton.
+ * Local database adapter Exception
  *
  * @category    Mage
  * @package     Mage_PHPUnit
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_PHPUnit_Helper_Model_Block extends Mage_PHPUnit_Helper_Model_Model
+class Mage_PHPUnit_Db_Exception extends Exception
 {
-    /**
-     * Name of the pool with block's real class names
-     *
-     * @var string
-     */
-    protected $_realModelClassesPool = Mage_PHPUnit_StaticDataPoolContainer::POOL_REAL_BLOCK_CLASSES;
 
-    /**
-     * Group type name
-     *
-     * @var string
-     */
-    protected $_group = 'block';
 }

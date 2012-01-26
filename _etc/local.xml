@@ -104,6 +104,9 @@
             <core>
                 <class>Mage_Core_Model</class>
                 <resourceModel>core_mysql4</resourceModel>
+                <rewrite>
+                    <resource>Mage_PHPUnit_Stub_Mage_Core_Model_Resource</resource>
+                </rewrite>
             </core>
             <core_mysql4>
                 <class>Mage_Core_Model_Mysql4</class>

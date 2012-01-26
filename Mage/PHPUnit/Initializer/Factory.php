@@ -75,7 +75,9 @@ class Mage_PHPUnit_Initializer_Factory
     {
         $initializer = new $class();
         if (!($initializer instanceof Mage_PHPUnit_Initializer_Abstract)) {
-            throw new Exception('Magento PHPUnit test initializer must be instance of Mage_PHPUnit_Initializer_Abstract');
+            throw new Exception(
+                'Magento PHPUnit test initializer must be instance of Mage_PHPUnit_Initializer_Abstract'
+            );
         }
         if ($addToRunQuery) {
             self::$_initializers[$class] = $initializer;

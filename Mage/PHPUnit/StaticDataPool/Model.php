@@ -122,7 +122,9 @@ class Mage_PHPUnit_StaticDataPool_Model extends Mage_PHPUnit_StaticDataPool_Abst
             return array_shift($this->_mockedModels[$model]);
         }
         //create native model otherwise
-        $realClass = Mage_PHPUnit_StaticDataPoolContainer::getStaticDataObject(Mage_PHPUnit_StaticDataPoolContainer::POOL_REAL_MODEL_CLASSES)
+        $realClass = Mage_PHPUnit_StaticDataPoolContainer::getStaticDataObject(
+                Mage_PHPUnit_StaticDataPoolContainer::POOL_REAL_MODEL_CLASSES
+            )
             ->getRealModelClass($model);
         if (!$realClass) {
             throw new Exception("Cannot find real model class name in ModelClass static pool for model '{$model}'");

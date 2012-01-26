@@ -25,26 +25,35 @@
  */
 
 /**
- * Unit testing helper for blocks.
- * Is a singleton.
+ * Local DB queries factory
  *
  * @category    Mage
  * @package     Mage_PHPUnit
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_PHPUnit_Helper_Model_Block extends Mage_PHPUnit_Helper_Model_Model
+class Mage_PHPUnit_Db_Query_Factory
 {
     /**
-     * Name of the pool with block's real class names
+     * Array, which contains available processor class names
      *
-     * @var string
+     * @var array
      */
-    protected $_realModelClassesPool = Mage_PHPUnit_StaticDataPoolContainer::POOL_REAL_BLOCK_CLASSES;
+    protected static $_queryModels = array(
+        'Mage_PHPUnit_Db_Query_Select',
+        'Mage_PHPUnit_Db_Query_Delete'
+    );
 
     /**
-     * Group type name
+     * Gets all available query processors
      *
-     * @var string
+     * @return array
      */
-    protected $_group = 'block';
+    public static function getAllQueryModels()
+    {
+        $models = array();
+        foreach (self::$_queryModels as $modelName) {
+            $models[$modelName] = new $modelName();
+        }
+        return $models;
+    }
 }

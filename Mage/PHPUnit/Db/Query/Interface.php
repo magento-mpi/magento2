@@ -25,26 +25,36 @@
  */
 
 /**
- * Unit testing helper for blocks.
- * Is a singleton.
+ * Interface for Local DB query processors.
  *
  * @category    Mage
  * @package     Mage_PHPUnit
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_PHPUnit_Helper_Model_Block extends Mage_PHPUnit_Helper_Model_Model
+interface Mage_PHPUnit_Db_Query_Interface
 {
     /**
-     * Name of the pool with block's real class names
+     * Process SQL query and sets result into statement from Local Db Server
      *
-     * @var string
+     * @param Zend_Db_Statement_Interface $statement
+     * @param Mage_PHPUnit_Db_FixtureConnection $connection
+     * @param string|Zend_Db_Select $sql
+     * @param array $bind
      */
-    protected $_realModelClassesPool = Mage_PHPUnit_StaticDataPoolContainer::POOL_REAL_BLOCK_CLASSES;
+    public function process($statement, $connection, $sql, $bind = array());
 
     /**
-     * Group type name
+     * Checks if this query processor can process passed SQL query.
      *
-     * @var string
+     * @param string|Zend_Db_Select $sql
+     * @return bool
      */
-    protected $_group = 'block';
+    public function test($sql);
+
+    /**
+     * Parses and sets fixture data with queries information to a container
+     *
+     * @param SimpleXMLElement $fixture
+     */
+    public function setFixtureData($fixture);
 }

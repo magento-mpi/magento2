@@ -112,8 +112,11 @@ abstract class Mage_PHPUnit_MockBuilder_Abstract extends PHPUnit_Framework_MockO
      *    'save' and 'createData' will not be automatically prepared for mock object and should be described in a test manually.
      * @return Mage_PHPUnit_MockBuilder_Abstract
      */
-    public function setMethods(array $methods)
+    public function setMethods($methods)
     {
+        if (!$methods) {
+            return parent::setMethods($methods);
+        }
         $this->_simpleMethodReturnValues = array();
         $resultMethods = array();
         foreach ($methods as $method => $value) {
@@ -213,6 +216,4 @@ abstract class Mage_PHPUnit_MockBuilder_Abstract extends PHPUnit_Framework_MockO
     protected function _afterGetMock($mock)
     {
     }
-
-
 }

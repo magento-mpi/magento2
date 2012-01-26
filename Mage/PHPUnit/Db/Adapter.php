@@ -95,7 +95,6 @@ class Mage_PHPUnit_Db_Adapter extends Zend_Db_Adapter_Abstract
      */
     public function prepare($sql)
     {
-        // TODO Auto-generated method stub
         $class = $this->getStatementClass();
         return new $class($this, $sql);
     }
@@ -111,31 +110,9 @@ class Mage_PHPUnit_Db_Adapter extends Zend_Db_Adapter_Abstract
     public function query($sql, $bind = array())
     {
         $this->_connect();
-        $stmt = $this->prepare($sql);
-        if (is_string($sql)) {
-            $sql = trim($sql);
-            if (strtoupper(substr($sql, 0, 6)) == 'SELECT') {
-                if ($this->getConnection()->getLoadFromTable()) {
-                    $sqlObject = new Zend_Db_Select($this);
-                    $result = array();
-                    preg_match('/^SELECT.*[\\s\\r\\n\\t]+FROM[\\s\\r\\n\\t]+["\'`]?([0-9a-zA-Z_-]+)["\'`]?(?:(?:[\\s\\r\\n\\t]+.*)|$)/is', $sql, $result);
-                    if ($result[1]) {
-                        $sqlObject->from($result[1]);
-                        $sql = $sqlObject;
-                    }
-                } else {
-                    $result = $this->getConnection()->select($sql);
-                    $stmt->setResult($result);
-                    return $stmt;
-                }
-            }
-        }
-        if ($sql instanceof Zend_Db_Select) {
-            $result = $this->getConnection()->select($sql);
-            $stmt->setResult($result);
-        }
-
-        return $stmt;
+        $statement = $this->prepare($sql);
+        $this->getConnection()->query($statement, $sql, $bind);
+        return $statement;
     }
 
     /**
@@ -194,25 +171,24 @@ class Mage_PHPUnit_Db_Adapter extends Zend_Db_Adapter_Abstract
     }
 
     /**
-     * Temporary Stub. Empty method.
+     * Limit method. Adds limit string like "LIMIT 5 OFFSET 2".
      *
-     * @param mixed $sql
+     * @param string $sql
      * @param int $count
      * @param int $offset
+     * @return string
      */
     public function limit($sql, $count, $offset = 0)
     {
         $count = intval($count);
         if ($count <= 0) {
             /** @see Zend_Db_Adapter_Exception */
-            #require_once 'Zend/Db/Adapter/Exception.php';
             throw new Zend_Db_Adapter_Exception("LIMIT argument count=$count is not valid");
         }
 
         $offset = intval($offset);
         if ($offset < 0) {
             /** @see Zend_Db_Adapter_Exception */
-            #require_once 'Zend/Db/Adapter/Exception.php';
             throw new Zend_Db_Adapter_Exception("LIMIT argument offset=$offset is not valid");
         }
 
@@ -242,6 +218,6 @@ class Mage_PHPUnit_Db_Adapter extends Zend_Db_Adapter_Abstract
     public function getServerVersion()
     {
         // TODO Auto-generated method stub
-        return '1.0';
+        return '2.0';
     }
 }
