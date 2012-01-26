@@ -616,7 +616,7 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
     public function prepareAddProductsBySku($items)
     {
         foreach ($items as $item) {
-            if (!isset($item['sku']) || !isset($item['qty']) || empty($item['sku']) || empty($item['qty'])) {
+            if (!isset($item['sku']) || $item['sku'] == '' || empty($item['qty'])) {
                 $this->setErrorMessage(
                     Mage::helper('enterprise_checkout')->__('SKU or quantity of some product(s) is empty.')
                 );

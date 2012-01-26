@@ -786,7 +786,7 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
                 $info['sku'] = $itemId;
 
             case Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Abstract::LIST_TYPE:
-                if (empty($info['qty']) || empty($info['sku'])) {
+                if (empty($info['qty']) || (!isset($info['sku'])) || (string)$info['sku'] == '') { // Allow SKU == '0'
                     return false;
                 }
                 $item = $this->getCartModel()->prepareAddProductBySku($info['sku'], $info['qty'], $info);
