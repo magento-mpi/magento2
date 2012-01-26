@@ -185,8 +185,8 @@ class Mage_Api2_Model_Request extends Zend_Controller_Request_Http
         // Map HTTP methods to classic CRUD verbs
         $operationByMethod = array(
             'GET'    => Mage_Api2_Model_Resource::OPERATION_RETRIEVE,
-            'POST'   => Mage_Api2_Model_Resource::OPERATION_UPDATE,
-            'PUT'    => Mage_Api2_Model_Resource::OPERATION_CREATE,
+            'POST'   => Mage_Api2_Model_Resource::OPERATION_CREATE,
+            'PUT'    => Mage_Api2_Model_Resource::OPERATION_UPDATE,
             'DELETE' => Mage_Api2_Model_Resource::OPERATION_DELETE
         );
 
