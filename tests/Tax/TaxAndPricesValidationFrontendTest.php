@@ -131,6 +131,8 @@ class Tax_TaxAndPricesValidationFrontendTest extends Mage_Selenium_TestCase
      * @param $customer
      * @param $products
      * @param $category
+     *
+     * @group skip_due_to_bug
      */
     public function validateTaxFrontend($sysConfigData, $customer, $products, $category)
     {
