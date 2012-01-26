@@ -13,6 +13,6 @@ class Mage_Api2_Model_Acl_Global
      */
     public function isAllowed(Mage_Api2_Model_Auth_User_Abstract $apiUser, $resourceType, $operation)
     {
-        return Mage_OAuth_Model_Acl::getInstance()->isAllowed($apiUser->getRole(), $resourceType, $operation);
+        return Mage_Api2_Model_Acl::getInstance()->isAllowed($apiUser->getRole(), $resourceType, $operation);
     }
 }
