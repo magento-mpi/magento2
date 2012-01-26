@@ -24,19 +24,6 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-function unnamedErrorHandler($errno, $errstr, $errfile, $errline)
-{
-    echo __FILE__;
-    echo '<pre>';
-    var_dump($errno, $errstr, $errfile, $errline);
-    echo '</pre>';
-    exit;
-
-
-}
-set_error_handler('unnamedErrorHandler', E_ALL|E_STRICT);
-
-
 /**
  * Webservice api2 abstract
  *
