@@ -35,20 +35,42 @@
  */
 class Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTest extends Mage_Selenium_TestCase
 {
-    /**
-     * <p>Preconditions:</p>
-     * <p>Log in to Backend.</p>
-     */
-    public function setUpBeforeTests()
+    protected function assertPreConditions()
     {
         $this->loginAdminUser();
+        $this->addParameter('id', '0');
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('paypaldirectuk_without_3Dsecure');
     }
 
-    protected function assertPreConditions()
+    /**
+     * <p>Create Buyers Accounts on PayPal sandbox</p>
+     *
+     * @return array $accounts
+     * @test
+     */
+    public function createPayPalBuyerAccounts()
     {
-        $this->addParameter('id', '0');
+        //Preconditions
+        $accounts = array();
+        $this->goToArea('paypal-developer');
+        //Data
+        $visa = $this->loadData('paypal_sandbox_new_buyer_account_visa');
+        $mastercard = $this->loadData('paypal_sandbox_new_buyer_account_mastercard');
+        //Steps
+        $this->paypalHelper()->paypalDeveloperLogin('paypal_developer_login');
+        $this->navigate('create_preconfigured_account');
+        $this->paypalHelper()->createPaypalSandboxAccount($visa);
+        $this->navigate('create_preconfigured_account');
+        $this->paypalHelper()->createPaypalSandboxAccount($mastercard);
+        //Getting all cards info to one array
+        $this->navigate('test_accounts');
+        $accounts['visa'] = $this->paypalHelper()->getPaypalSandboxAccountInfo($visa);
+        $accounts['visa']['credit_card']['card_verification_number'] = '111';
+        $accounts['mastercard'] = $this->paypalHelper()->getPaypalSandboxAccountInfo($mastercard);
+        $accounts['mastercard']['credit_card']['card_verification_number'] = '111';
+
+        return $accounts;
     }
 
     /**
@@ -74,14 +96,17 @@ class Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTest extends 
      * <p>Smoke test for order without 3D secure</p>
      *
      * @depends createSimpleProduct
+     * @depends createPayPalBuyerAccounts
      * @param string $simpleSku
+     * @param array $accounts
      * @return array
      * @test
      */
-    public function orderWithout3DSecureSmoke($simpleSku)
+    public function orderWithout3DSecureSmoke($simpleSku, $accounts)
     {
         //Data
-        $orderData = $this->loadData('order_newcustmoer_paypaldirectuk_flatrate', array('filter_sku' => $simpleSku));
+        $orderData = $this->loadData('order_newcustmoer_paypaldirectuk_flatrate',
+            array('filter_sku' => $simpleSku, 'payment_info' => $accounts['mastercard']['credit_card']));
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -95,15 +120,17 @@ class Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTest extends 
      * <p>Create order with PayPal Direct Uk using all types of credit card</p>
      *
      * @depends orderWithout3DSecureSmoke
+     * @depends createPayPalBuyerAccounts
      * @dataProvider cardPayPalDirectUkDataProvider
      * @param string $card
      * @param array $orderData
+     * @param array $accounts
      * @test
      */
-    public function differentCardInPayPalDirectUk($card, $orderData)
+    public function differentCardInPayPalDirectUk($card, $orderData, $accounts)
     {
         //Data
-        $orderData['payment_data']['payment_info'] = $this->loadData($card);
+        $orderData['payment_data']['payment_info'] = $accounts[$card]['credit_card'];
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -119,10 +146,8 @@ class Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTest extends 
     public function cardPayPalDirectUkDataProvider()
     {
         return array(
-//            array('else_american_express_direct'), seems paypaluk does not support amex. need to clarify
-            array('else_visa_direct'),
-            array('else_mastercard'),
-//            array('else_other'), should we support this one?
+            array('visa'),
+            array('mastercard'),
 //            array('else_solo'),  need to implement switching currency for solo and maestro
 //            array('else_switch_maestro')
         );
