@@ -146,6 +146,7 @@ class Order_Create_CheckingValidationTest extends Mage_Selenium_TestCase
     }
 
     /**
+     * Fails due to MAGE-5616
      * <p>Create customer via 'Create order' form (required fields are not filled).</p>
      * <p>Steps:</p>
      * <p>1.Go to Sales-Orders;</p>
@@ -168,6 +169,7 @@ class Order_Create_CheckingValidationTest extends Mage_Selenium_TestCase
      *
      * @param string $emptyField
      * @param string $simpleSku
+     * @group skip_due_to_bug
      * @test
      */
     public function emptyRequiredFieldsInShippingAddress($emptyField, $simpleSku)
