@@ -48,6 +48,7 @@ class Wishlist_Wishlist extends Mage_Selenium_TestCase
      */
     protected function assertPreConditions()
     {
+        $this->loginAdminUser();
         $this->addParameter('id', '0');
     }
 
@@ -59,7 +60,6 @@ class Wishlist_Wishlist extends Mage_Selenium_TestCase
      */
     public function createCustomer()
     {
-        $this->loginAdminUser();
         $userData = $this->loadData('customer_account_for_prices_validation', null, 'email');
         $this->navigate('manage_customers');
         $this->customerHelper()->createCustomer($userData);
@@ -81,7 +81,6 @@ class Wishlist_Wishlist extends Mage_Selenium_TestCase
         $subCategoryData = $this->loadData('sub_category_required',
                                            array('parent_category' => $rootCategoryData['name']));
         //Steps and Verification
-        $this->loginAdminUser();
         $this->navigate('manage_categories', false);
         $this->categoryHelper()->checkCategoriesPage();
         $this->categoryHelper()->createCategory($rootCategoryData);
@@ -206,6 +205,7 @@ class Wishlist_Wishlist extends Mage_Selenium_TestCase
     /**
      * <p>Preconditions</p>
      * <p>Create products of all types for the tests with custom options</p>
+     *
      * @depends createConfigurableAttribute
      *
      * @param array $attrData
@@ -275,6 +275,7 @@ class Wishlist_Wishlist extends Mage_Selenium_TestCase
      * <p>2. Add product to wishlist</p>
      * <p>Expected result:</p>
      * <p>Success message is displayed</p>
+     *
      * @depends createCustomer
      * @depends createAllProductsWithCustomOptions
      *
@@ -318,7 +319,7 @@ class Wishlist_Wishlist extends Mage_Selenium_TestCase
      * @depends createCustomer
      * @depends createAllProductsWithCustomOptions
      *
-     * @param array $customer
+     * @param $customer
      * @param $productDataSet
      *
      * @internal param string $simpleProductName
@@ -358,7 +359,7 @@ class Wishlist_Wishlist extends Mage_Selenium_TestCase
      * <p>2. Add product to wishlist</p>
      * <p>Expected result:</p>
      * <p>Success message is displayed</p>
-     *      *
+     *
      * @depends createCustomer
      * @depends createAllProductsWithoutCustomOptions
      *
