@@ -71,6 +71,9 @@ class Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Grid extends Mage_Adminhtml
             }
             $item->addData($affectedItem['item']);
             $item->setId($item->getSku());
+            if ($item->getCode() == Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_SKU) {
+                $item->unsetData('qty');
+            }
             /* @var $product Mage_Catalog_Model_Product */
             $product = Mage::getModel('catalog/product');
             if (isset($affectedItem['item']['id'])) {
@@ -127,9 +130,9 @@ class Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Grid extends Mage_Adminhtml
             'header'   => $this->__('Qty'),
             'class'    => 'no-link sku-error-qty',
             'width'    => 40,
-            'type'     => 'input',
             'sortable' => false,
             'index'    => 'qty',
+            'renderer' => 'enterprise_checkout/adminhtml_sku_errors_grid_renderer_qty',
         ));
 
         $this->addColumn('subtotal', array(
