@@ -50,8 +50,8 @@ class Enterprise_Reminder_Model_Resource_Rule_Collection extends Mage_Rule_Model
     public function addDateFilter($date)
     {
         $this->getSelect()
-            ->where('active_from IS NULL OR active_from <= ?', $date)
-            ->where('active_to IS NULL OR active_to >= ?', $date);
+            ->where('from_date IS NULL OR from_date <= ?', $date)
+            ->where('to_date IS NULL OR to_date >= ?', $date);
 
         return $this;
     }
