@@ -73,7 +73,7 @@ paypaldirectuk_without_3Dsecure:
     tab_1: &payPalDirectUkWithout3Dsecure
         tab_name: sales_paypal
         configuration:
-            email_associated_with_paypal_merchant_account:
+            email_associated_with_paypal_merchant_account: lindy_1201044142_biz@varien.com
             website_payments_pro_payflow_edition: Yes
             wpppe_title: PayPal Direct Payment Payflow Edition
             wpppe_payment_action: Authorization
