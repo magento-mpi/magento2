@@ -30,12 +30,12 @@ class Mage_CatalogRule_Model_Resource_Rule extends Mage_Rule_Model_Resource_Abst
      */
     protected $_associatedEntitiesMap = array(
         'website' => array(
-            'associations_table' => 'catalogrule/website',
+            'associations_table' => 'catalogrule_website',
             'rule_id_field'      => 'rule_id',
             'entity_id_field'    => 'website_id'
         ),
         'customer_group' => array(
-            'associations_table' => 'catalogrule/customer_group',
+            'associations_table' => 'catalogrule_customer_group',
             'rule_id_field'      => 'rule_id',
             'entity_id_field'    => 'customer_group_id'
         )
