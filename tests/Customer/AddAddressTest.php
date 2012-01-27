@@ -33,7 +33,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase
+class Customer_AddAddressTest extends Mage_Selenium_TestCase
 {
     protected static $_customerTitleParameter = '';
 
@@ -120,7 +120,6 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase
      * <p>Customer address isn't added. Customer info is not saved.</p>
      * <p>Error Message is displayed</p>
      *
-     * @depends withRequiredFieldsOnly
      * @dataProvider withRequiredFieldsEmptyDataProvider
      * @param array $emptyField
      * @param array $searchData
