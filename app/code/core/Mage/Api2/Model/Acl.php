@@ -65,20 +65,20 @@ class Mage_Api2_Model_Acl extends Zend_Acl
         $this->addRole(new Zend_Acl_Role('admin'));
 
         $this->addResource(new Zend_Acl_Resource('product'));
-        $this->allow('guest', 'product', array('create', 'retrieve', 'update', 'delete'));
-        $this->allow('admin', 'product', array('create', 'retrieve', 'update', 'delete'));
+        $this->allow('guest', 'product', array('_create', '_retrieve', '_update', '_delete'));
+        $this->allow('admin', 'product', array('_create', '_retrieve', '_update', '_delete'));
 
         $this->addResource(new Zend_Acl_Resource('products'));
-        $this->allow('guest', 'products', array('create', 'retrieve', 'update', 'delete'));
-        $this->allow('admin', 'products', array('create', 'retrieve', 'update', 'delete'));
+        $this->allow('guest', 'products', array('_create', '_retrieve', '_update', '_delete'));
+        $this->allow('admin', 'products', array('_create', '_retrieve', '_update', '_delete'));
 
         $this->addResource(new Zend_Acl_Resource('customer'));
-        $this->allow('guest', 'customer', array('retrieve'));
-        $this->allow('admin', 'customer', array('create', 'retrieve', 'update', 'delete'));
+        $this->allow('guest', 'customer', array('_retrieve'));
+        $this->allow('admin', 'customer', array('_create', '_retrieve', '_update', '_delete'));
 
         $this->addResource(new Zend_Acl_Resource('customers'));
-        $this->allow('guest', 'customers', array('retrieve'));
-        $this->allow('admin', 'customers', array('create', 'retrieve', 'update', 'delete'));
+        $this->allow('guest', 'customers', array('_retrieve'));
+        $this->allow('admin', 'customers', array('_create', '_retrieve', '_update', '_delete'));
     }
 
     /**
