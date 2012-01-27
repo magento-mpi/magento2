@@ -46,7 +46,6 @@ class Wishlist_Helper extends Mage_Selenium_TestCase
         $pageId = $this->categoryHelper()->frontSearchAndOpenPageWithProduct($productName, $category);
         if (!$pageId)
             $this->fail('Could not find the product');
-        $this->appendParamsDecorator($this->categoryHelper()->_paramsHelper);  //@TODO Temporary workaround
         $this->addParameter('productName', $productName);
         $this->clickControl('link', 'add_to_wishlist');
     }
@@ -60,7 +59,6 @@ class Wishlist_Helper extends Mage_Selenium_TestCase
     public function frontAddProductToWishlistFromProductPage($productName, $categoryPath = null)
     {
         $this->productHelper()->frontOpenProduct($productName, $categoryPath);
-        $this->appendParamsDecorator($this->productHelper()->_paramsHelper);  //@TODO Temporary workaround
         $this->addParameter('productName', $productName);
         $this->clickControl('link', 'add_to_wishlist');
     }
