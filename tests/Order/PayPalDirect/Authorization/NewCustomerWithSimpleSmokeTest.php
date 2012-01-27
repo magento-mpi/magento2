@@ -51,13 +51,8 @@ class Order_PayPalDirect_Authorization_NewCustomerWithSimpleSmokeTest extends Ma
     {
         $this->goToArea('paypal-developer');
         $this->paypalHelper()->paypalDeveloperLogin('paypal_developer_login');
-        $this->navigate('create_preconfigured_account');
-        $parameters = $this->loadData('paypal_sandbox_new_pro_account');
-        $this->paypalHelper()->createPaypalSandboxAccount($parameters);
-        $this->navigate('test_accounts');
-        $info = $this->paypalHelper()->getPaypalSandboxAccountInfo($parameters);
-        $this->navigate('api_credentials');
-        $api = $this->paypalHelper()->getApiCredentials($info['email']);
+        $this->paypalHelper()->deleteAllAccounts();
+        $api = $this->paypalHelper()->createPayPalProAccount('paypal_sandbox_new_pro_account');
         $data = $this->loadData('paypaldirect_without_3Dsecure',
             array('email_associated_with_paypal_merchant_account' => $api['test_account'],
                   'api_username'                                  => $api['api_username'],
@@ -79,34 +74,9 @@ class Order_PayPalDirect_Authorization_NewCustomerWithSimpleSmokeTest extends Ma
      */
     public function createPayPalBuyerAccounts()
     {
-        //Preconditions
-        $accounts = array();
         $this->goToArea('paypal-developer');
-        //Data
-        $visa = $this->loadData('paypal_sandbox_new_buyer_account_visa');
-        $mastercard = $this->loadData('paypal_sandbox_new_buyer_account_mastercard');
-        $discover = $this->loadData('paypal_sandbox_new_buyer_account_discover');
-        $amex = $this->loadData('paypal_sandbox_new_buyer_account_amex');
-        //Steps
         $this->paypalHelper()->paypalDeveloperLogin('paypal_developer_login');
-        $this->navigate('create_preconfigured_account');
-        $this->paypalHelper()->createPaypalSandboxAccount($visa);
-        $this->navigate('create_preconfigured_account');
-        $this->paypalHelper()->createPaypalSandboxAccount($mastercard);
-        $this->navigate('create_preconfigured_account');
-        $this->paypalHelper()->createPaypalSandboxAccount($discover);
-        $this->navigate('create_preconfigured_account');
-        $this->paypalHelper()->createPaypalSandboxAccount($amex);
-        //Getting all cards info to one array
-        $this->navigate('test_accounts');
-        $accounts['visa'] = $this->paypalHelper()->getPaypalSandboxAccountInfo($visa);
-        $accounts['visa']['credit_card']['card_verification_number'] = '111';
-        $accounts['mastercard'] = $this->paypalHelper()->getPaypalSandboxAccountInfo($mastercard);
-        $accounts['mastercard']['credit_card']['card_verification_number'] = '111';
-        $accounts['discover'] = $this->paypalHelper()->getPaypalSandboxAccountInfo($discover);
-        $accounts['discover']['credit_card']['card_verification_number'] = '111';
-        $accounts['amex'] = $this->paypalHelper()->getPaypalSandboxAccountInfo($amex);
-        $accounts['amex']['credit_card']['card_verification_number'] = '1234';
+        $accounts = $this->paypalHelper()->createBuyerAccounts(array('visa' , 'mastercard', 'discover', 'amex'));
 
         return $accounts;
     }
@@ -189,8 +159,8 @@ class Order_PayPalDirect_Authorization_NewCustomerWithSimpleSmokeTest extends Ma
             array('amex'),
             array('visa'),
             array('discover'),
-//            array('else_solo'), paypal response is about unsupported type of credit card even with GBP currency
-//            array('else_switch_maestro') anyway need to implement switching to GBP currency
+//            array('else_solo'), @TODO paypal response is about unsupported type of credit card even with GBP currency
+//            array('else_switch_maestro') @TODO anyway need to implement switching to GBP currency
         );
     }
 
@@ -597,5 +567,28 @@ class Order_PayPalDirect_Authorization_NewCustomerWithSimpleSmokeTest extends Ma
             array('else_visa_direct', true),
             array('else_mastercard', false)
         );
+    }
+
+    /**
+     * <p>Delete test accounts</p>
+     *
+     * @depends createPayPalProAccountAndActivate
+     * @depends createPayPalBuyerAccounts
+     * @param array $api
+     * @param array $accounts
+     * @test
+     */
+    public function deleteTestAccounts($api, $accounts)
+    {
+        $this->goToArea('paypal-developer');
+        $this->paypalHelper()->paypalDeveloperLogin('paypal_developer_login');
+        if (isset($api['test_account'])) {
+            $this->paypalHelper()->deleteAccount($api['test_account']);
+        }
+        foreach ($accounts as $card) {
+            if (isset($card['email'])) {
+                $this->paypalHelper()->deleteAccount($card['email']);
+            }
+        }
     }
 }
