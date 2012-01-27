@@ -41,7 +41,7 @@ class Mage_Api2_Model_Config extends Varien_Simplexml_Config
     /**
      * Tag name for config cache
      */
-    const CACHE_TAG = 'config_api2';
+    const CACHE_TAG = 'CONFIG_API2';
 
     /**
      * Constructor
@@ -76,16 +76,6 @@ class Mage_Api2_Model_Config extends Varien_Simplexml_Config
     }
 
     /**
-     * Retrieve all resources from config files api2.xml
-     *
-     * @return Varien_Simplexml_Element
-     */
-    protected function _getResources()
-    {
-        return $this->getNode('resources')->children();
-    }
-
-    /**
      * Fetch all routes of the given api type from config files api2.xml
      *
      * @param string $apiType
@@ -98,7 +88,7 @@ class Mage_Api2_Model_Config extends Varien_Simplexml_Config
         $helper = Mage::helper('api2');
         if ($helper->isApiTypeExist($apiType)) {
             $routes = array();
-            foreach ($this->_getResources() as $resource) {
+            foreach ($this->getResources() as $resource) {
                 if (!$resource->routes) {
                     continue;
                 }
@@ -107,8 +97,8 @@ class Mage_Api2_Model_Config extends Varien_Simplexml_Config
                     $arguments = array(
                         Mage_Api2_Model_Route_Abstract::PARAM_ROUTE    => (string)$route->mask,
                         Mage_Api2_Model_Route_Abstract::PARAM_DEFAULTS => array(
-                            'model' => (string)$resource->model,
-                            'type'  => (string)$resource->type,
+                            'model' => (string) $resource->model,
+                            'type'  => (string) $resource->type,
                         )
                     );
 
@@ -123,10 +113,20 @@ class Mage_Api2_Model_Config extends Varien_Simplexml_Config
     }
 
     /**
-     * Get resource by type (or node, they are the same now)
+     * Retrieve all resources from config files api2.xml
+     *
+     * @return Varien_Simplexml_Element|false
+     */
+    public function getResources()
+    {
+        return $this->getNode('resources')->children();
+    }
+
+    /**
+     * Retrieve resource by type (node)
      *
      * @param string $node
-     * @return Varien_Simplexml_Element
+     * @return Varien_Simplexml_Element|false
      */
     public function getResource($node)
     {
@@ -134,7 +134,7 @@ class Mage_Api2_Model_Config extends Varien_Simplexml_Config
     }
 
     /**
-     * Get resource main route
+     * Retrieve resource main route
      *
      * @param string $node
      * @return string

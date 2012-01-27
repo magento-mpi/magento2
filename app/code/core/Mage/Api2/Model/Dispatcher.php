@@ -72,9 +72,7 @@ class Mage_Api2_Model_Dispatcher
             /** @var $model Mage_Api2_Model_Resource */
             $model = Mage::getModel($class);
         } catch (Exception $e) {
-            throw new Mage_Api2_Exception(
-                sprintf('Resource is not found', $class), Mage_Api2_Model_Server::HTTP_BAD_REQUEST
-            );
+            throw new Mage_Api2_Exception('Resource is not found', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
         }
 
         if ($model === false) {
