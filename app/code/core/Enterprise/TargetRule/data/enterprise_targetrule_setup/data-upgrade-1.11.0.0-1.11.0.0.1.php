@@ -24,14 +24,14 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-/** @var $installer Enterprise_GiftRegistry_Model_Resource_Setup */
+/** @var $installer Enterprise_TargetRule_Model_Resource_Setup */
 $installer = $this;
 
 if ($installer->getAttributeId('catalog_product', 'related_targetrule_position_limit')
     && !$installer->getAttributeId('catalog_product',  'related_tgtr_position_limit')
 ) {
     $installer->updateAttribute(
-        'catalog_product',
+        Mage_Catalog_Model_Product::ENTITY,
         'related_targetrule_position_limit',
         'attribute_code',
         'related_tgtr_position_limit'
@@ -42,7 +42,7 @@ if ($installer->getAttributeId('catalog_product', 'related_targetrule_position_b
     && !$installer->getAttributeId('catalog_product', 'related_tgtr_position_behavior')
 ) {
     $installer->updateAttribute(
-        'catalog_product',
+        Mage_Catalog_Model_Product::ENTITY,
         'related_targetrule_position_behavior',
         'attribute_code',
         'related_tgtr_position_behavior'
@@ -53,7 +53,7 @@ if ($installer->getAttributeId('catalog_product', 'upsell_targetrule_position_li
     && !$installer->getAttributeId('catalog_product', 'upsell_tgtr_position_limit')
 ) {
     $installer->updateAttribute(
-        'catalog_product',
+        Mage_Catalog_Model_Product::ENTITY,
         'upsell_targetrule_position_limit',
         'attribute_code',
         'upsell_tgtr_position_limit'
@@ -64,21 +64,10 @@ if ($installer->getAttributeId('catalog_product', 'upsell_targetrule_position_be
     && !$installer->getAttributeId('catalog_product', 'upsell_tgtr_position_behavior')
 ) {
     $installer->updateAttribute(
-        'catalog_product',
+        Mage_Catalog_Model_Product::ENTITY,
         'upsell_targetrule_position_behavior',
         'attribute_code',
         'upsell_tgtr_position_behavior'
     );
 }
 
-$indexerCodes = array(
-    'catalog_product_attribute',
-    'catalog_product_price',
-    'catalog_product_flat'
-);
-
-$indexer = Mage::getModel('index/process');
-foreach ($indexerCodes as $code) {
-    $indexer->load($code, 'indexer_code')
-        ->changeStatus(Mage_Index_Model_Process::STATUS_REQUIRE_REINDEX);
-}
