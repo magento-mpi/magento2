@@ -253,8 +253,8 @@ class Enterprise_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
                     $item['item']['product_type'] = 'undefined';
                     // Create empty quote item. Otherwise it won't be correctly treated inside failed.phtml
                     $collectionItem = Mage::getModel('sales/quote_item')
-                        ->setData($item['item'])
-                        ->setProduct(Mage::getModel('catalog/product'));
+                        ->setProduct(Mage::getModel('catalog/product'))
+                        ->addData($item['item']);
                     $quoteItemsCollection[] = $collectionItem;
                 }
             }
