@@ -65,6 +65,7 @@ class Enterprise_Checkout_Model_Observer
             }
         }
         $addBySkuItems = $request->getPost(Enterprise_Checkout_Block_Adminhtml_Sku_Abstract::LIST_TYPE, array());
+        $items = $request->getPost('item', array());
         if (!$addBySkuItems) {
             return;
         }
@@ -76,6 +77,8 @@ class Enterprise_Checkout_Model_Observer
         $orderCreateModel = $observer->getOrderCreateModel();
         $cart->saveAffectedProducts($orderCreateModel);
         $cart->removeSuccessItems();
+        // We have already saved succeeded add by SKU items in saveAffectedItems(). This prevents from duplicate saving.
+        $request->setPost('item', array());
     }
 
     /**

@@ -737,6 +737,10 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
             $item['qty'] = 1;
         }
 
+        if (!empty($config)) {
+            $this->setAffectedItemConfig($sku, $config);
+        }
+
         /** @var $product Mage_Catalog_Model_Product */
         $product = Mage::getModel('catalog/product')->loadByAttribute('sku', $item['sku']);
         $store = Mage::app()->getStore();
