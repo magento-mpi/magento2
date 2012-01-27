@@ -14,6 +14,7 @@ AdminBackup.prototype = {
         $('use_ftp').checked = false;
         $('ftp-credentials-container').hide();
         $('backup_maintenance_mode').checked = false;
+        $('rollback_maintenance_mode').checked = false;
         $('exclude_media').checked = false;
         $('password').value = '';
         $('backup_name').value = '';

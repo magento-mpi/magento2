@@ -250,6 +250,7 @@ class Enterprise_Search_Model_Resource_Collection
     {
         $result = $this->_searchQueryFilters;
         $result['query_text'] = $this->_searchQueryText;
+
         return $result;
     }
 
@@ -290,7 +291,7 @@ class Enterprise_Search_Model_Resource_Collection
      */
     public function addCategoryFilter(Mage_Catalog_Model_Category $category)
     {
-        $this->addFqFilter(array('categories' => $category->getId()));
+        $this->addFqFilter(array('category_ids' => $category->getId()));
 
         return $this;
     }
@@ -533,8 +534,8 @@ class Enterprise_Search_Model_Resource_Collection
     /**
      * Get field data from search results
      *
-     * @param string $field
-     * @return array
+     * @param   string $field
+     * @return  array
      */
     public function getFieldData($field)
     {

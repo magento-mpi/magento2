@@ -15,7 +15,8 @@
  * @package    Mage_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_Sales_Order_Create_Search_Grid_Renderer_Price extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Price
+class Mage_Adminhtml_Block_Sales_Order_Create_Search_Grid_Renderer_Price extends
+    Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Price
 {
     /**
      * Render minimal price for downloadable products
@@ -25,7 +26,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Search_Grid_Renderer_Price extends
      */
     public function render(Varien_Object $row)
     {
-        if ($row->getTypeId() == Mage_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE) {
+        if ($row->getTypeId() == 'downloadable') {
             $row->setPrice($row->getPrice());
         }
         return parent::render($row);

@@ -27,7 +27,7 @@
     <?php echo $this->getChildHtml('head') ?>
 </head>
 
-<body id="html-body"<?php echo $this->getBodyClass()?'class="'.$this->getBodyClass().'"':'' ?>>
+<body id="html-body"<?php echo $this->getBodyClass() ? ' class="' . $this->getBodyClass() . '"' : ''; ?>>
 <?php echo $this->getChildHtml('notification_window'); ?>
 <div class="wrapper">
     <?php echo $this->getChildHtml('global_notices') ?>

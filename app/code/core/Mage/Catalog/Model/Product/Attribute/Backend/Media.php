@@ -147,6 +147,8 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Media extends Mage_Eav_Model_
             }
         }
 
+        Mage::dispatchEvent('catalog_product_media_save_before', array('product' => $object, 'images' => $value));
+
         $object->setData($attrCode, $value);
 
         return $this;
@@ -252,6 +254,9 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Media extends Mage_Eav_Model_
         if (!$file || !file_exists($file)) {
             Mage::throwException(Mage::helper('Mage_Catalog_Helper_Data')->__('Image does not exist.'));
         }
+
+        Mage::dispatchEvent('catalog_product_media_add_image', array('product' => $product, 'image' => $file));
+
         $pathinfo = pathinfo($file);
         $imgExtensions = array('jpg','jpeg','gif','png');
         if (!isset($pathinfo['extension']) || !in_array(strtolower($pathinfo['extension']), $imgExtensions)) {

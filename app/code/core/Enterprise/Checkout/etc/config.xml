@@ -16,14 +16,6 @@
         </Enterprise_Checkout>
     </modules>
     <global>
-        <logging_actions>
-            <apply_coupon translate="label" module="Enterprise_Checkout">
-                <label>Apply Coupon</label>
-            </apply_coupon>
-            <add_to_cart translate="label" module="Enterprise_Checkout">
-                <label>Add To Cart</label>
-            </add_to_cart>
-        </logging_actions>
     </global>
     <admin>
         <routers>

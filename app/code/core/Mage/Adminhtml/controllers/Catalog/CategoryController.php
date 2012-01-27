@@ -162,13 +162,23 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
                 ->setLastEditedCategory($category->getId());
 //            $this->_initLayoutMessages('Mage_Adminhtml_Model_Session');
             $this->loadLayout();
-            $this->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode(array(
-                'messages' => $this->getLayout()->getMessagesBlock()->getGroupedHtml(),
-                'content' =>
-                    $this->getLayout()->getBlock('category.edit')->getFormHtml()
+
+            $eventResponse = new Varien_Object(array(
+                'content' => $this->getLayout()->getBlock('category.edit')->getFormHtml()
                     . $this->getLayout()->getBlock('category.tree')
-                        ->getBreadcrumbsJavascript($breadcrumbsPath, 'editingCategoryBreadcrumbs')
-            )));
+                    ->getBreadcrumbsJavascript($breadcrumbsPath, 'editingCategoryBreadcrumbs'),
+                'messages' => $this->getLayout()->getMessagesBlock()->getGroupedHtml(),
+            ));
+
+            Mage::dispatchEvent('category_prepare_ajax_response', array(
+                'response' => $eventResponse,
+                'controller' => $this
+            ));
+
+            $this->getResponse()->setBody(
+                Mage::helper('core')->jsonEncode($eventResponse->getData())
+            );
+
             return;
         }
 
