@@ -110,7 +110,7 @@ abstract class Mage_Api_Model_Server_Handler_Abstract
     /**
      *  Check session expiration
      *
-     *  @return	  boolean
+     *  @return  boolean
      */
     protected function _isSessionExpired ()
     {
@@ -215,7 +215,7 @@ abstract class Mage_Api_Model_Server_Handler_Abstract
         if (empty($username) || empty($apiKey)) {
             return $this->_fault('invalid_request_param');
         }
-        
+
         try {
             $this->_startSession();
             $this->_getSession()->login($username, $apiKey);
