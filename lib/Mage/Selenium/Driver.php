@@ -161,17 +161,17 @@ class Mage_Selenium_Driver extends PHPUnit_Extensions_SeleniumTestCase_Driver
      * Performs to return time to logging (e.g. 15:18:43.244768)
      *
      * @param  string $format A composite format string
-     * @param  mixed  $utimestamp Timestamp (by default = null)
+     * @param  mixed  $uTimeStamp Timestamp (by default = null)
      * @return string A formatted date string.
      */
-    public static function udate($format, $utimestamp = null)
+    public static function udate($format, $uTimeStamp = null)
     {
-        if (is_null($utimestamp)) {
-            $utimestamp = microtime(true);
+        if (is_null($uTimeStamp)) {
+            $uTimeStamp = microtime(true);
         }
 
-        $timestamp = floor($utimestamp);
-        $milliseconds = round(($utimestamp - $timestamp) * 1000000);
+        $timestamp = floor($uTimeStamp);
+        $milliseconds = round(($uTimeStamp - $timestamp) * 1000000);
 
         return date(preg_replace('`(?<!\\\\)u`', $milliseconds, $format), $timestamp);
     }
