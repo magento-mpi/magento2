@@ -58,6 +58,7 @@ class Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Grid_Renderer_Qty
      */
     protected function _isDisabled(Varien_Object $row)
     {
-        return $row->getCode() == Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_SKU;
+        $isDisabled = $row->getCode() == Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_SKU;
+        return $isDisabled || $row->getIsDisabled();
     }
 }

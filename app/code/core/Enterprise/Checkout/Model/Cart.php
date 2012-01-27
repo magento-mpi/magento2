@@ -69,6 +69,11 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
     protected $_cart;
 
     /**
+     * Used in saveAffectedProducts() and _safeAddProduct()
+     */
+    const FAIL_DISABLED = true;
+
+    /**
      * Setter for $_customer
      *
      * @param Mage_Customer_Model_Customer $customer
@@ -765,6 +770,10 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
         ) {
             $item['id'] = $product->getId();
 
+            if ($product->isDisabled()) {
+                $item['is_disabled'] = true;
+            }
+
             // FRONTEND
             if (!$isAdmin) {
                 if (true === $product->getDisableAddToCart()) {
@@ -772,7 +781,7 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
                     return $item;
                 }
 
-                if ($product->getStatus() == Mage_Catalog_Model_Product_Status::STATUS_DISABLED) {
+                if ($product->isDisabled()) {
                     $item['code'] = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_SKU;
                     return $item;
                 }
@@ -789,7 +798,8 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
 
             // FRONTEND & BACKEND
             if ($this->_shouldBeConfigured($product)) {
-                if ($this->_isConfigured($product, $config)) {
+                if ($this->_isConfigured($product, $config) || $product->isDisabled()) {
+                    // If a product is disabled we can not configure it
                     $item['code'] = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_SUCCESS;
                 } else {
                     $item['code'] = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_CONFIGURE;
@@ -870,16 +880,18 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
     /**
      * Add products previously successfully processed by prepareAddProductsBySku() to cart
      *
-     * @param Mage_Checkout_Model_Cart_Interface|null $cart Custom cart model (different from checkout/cart)
+     * @param Mage_Checkout_Model_Cart_Interface|null $cart         Custom cart model (different from checkout/cart)
+     * @param bool                                    $failDisabled This option for backend only. Whether to put
+     *                                                              disabled product into error grid.
      * @return Enterprise_Checkout_Model_Cart
      */
-    public function saveAffectedProducts(Mage_Checkout_Model_Cart_Interface $cart = null)
+    public function saveAffectedProducts(Mage_Checkout_Model_Cart_Interface $cart = null, $failDisabled = false)
     {
         $cart = $cart ? $cart : $this->_getCart();
         $affectedItems = $this->getAffectedItems();
         foreach ($affectedItems as &$item) {
             if ($item['code'] == Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_SUCCESS) {
-                $this->_safeAddProduct($item, $cart);
+                $this->_safeAddProduct($item, $cart, $failDisabled);
             }
         }
         $this->setAffectedItems($affectedItems);
@@ -891,11 +903,13 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
     /**
      * Safely add product to cart, revert cart in error case
      *
-     * @param array $item
+     * @param array                              $item
      * @param Mage_Checkout_Model_Cart_Interface $cart If we need to add product to different cart from checkout/cart
+     * @param bool                               $failDisabled This option for backend only. Whether to put disabled
+     *                                                         product into error grid.
      * @return Enterprise_Checkout_Model_Cart
      */
-    protected function _safeAddProduct(&$item, Mage_Checkout_Model_Cart_Interface $cart)
+    protected function _safeAddProduct(&$item, Mage_Checkout_Model_Cart_Interface $cart, $failDisabled = false)
     {
         $quote = $cart->getQuote();
 
@@ -928,6 +942,10 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
                 $success = false;
                 $item['code'] = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_UNKNOWN;
                 $item['error'] = $e->getMessage();
+            } else if ($failDisabled && !empty($item['item']['is_disabled'])) {
+                $success = false;
+                $item['code'] = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_UNKNOWN;
+                $item['error'] = Mage::helper('adminhtml')->__('This product is currently disabled.');
             }
         } catch (Exception $e) {
             $success = false;

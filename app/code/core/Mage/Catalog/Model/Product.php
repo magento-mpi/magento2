@@ -2046,4 +2046,14 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     {
         return $this->_getResource()->getProductEntitiesInfo($columns);
     }
+
+    /**
+     * Checks whether product has disabled status
+     *
+     * @return bool
+     */
+    public function isDisabled()
+    {
+        return $this->getStatus() == Mage_Catalog_Model_Product_Status::STATUS_DISABLED;
+    }
 }
