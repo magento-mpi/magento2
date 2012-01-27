@@ -45,8 +45,8 @@ abstract class Mage_Api2_Model_Resource
     const RESOURCE_METHOD_NOT_ALLOWED         = 'Resource does not support method.';
     const RESOURCE_METHOD_NOT_IMPLEMENTED     = 'Resource method not implemented yet.';
     const RESOURCE_INTERNAL_ERROR             = 'Resource internal error.';
-    const RESOURCE_DATA_PRE_VALIDATION_ERROR  = 'Resource data pre-validation error.';  //error while pre-validating
-    const RESOURCE_DATA_INVALID               = 'Resource data invalid.';               //error while checking data inside method
+    const RESOURCE_DATA_PRE_VALIDATION_ERROR  = 'Resource data pre-validation error.'; //error while pre-validating
+    const RESOURCE_DATA_INVALID               = 'Resource data invalid.'; //error while checking data inside method
     const RESOURCE_UNKNOWN_ERROR              = 'Resource unknown error.';
     /**#@- */
 
@@ -163,7 +163,9 @@ abstract class Mage_Api2_Model_Resource
             }
 
             if (array_key_exists($key, $valueable) && empty($data[$key])) {
-                $this->_error(sprintf('Empty value for "%s" in request.', $key), Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+                $this->_error(
+                    sprintf('Empty value for "%s" in request.', $key), Mage_Api2_Model_Server::HTTP_BAD_REQUEST
+                );
             }
         }
 
