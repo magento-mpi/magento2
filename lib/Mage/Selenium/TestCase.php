@@ -2696,16 +2696,14 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function logoutCustomer()
     {
-        try {
+        $this->frontend('home');
+        $xpath = "//a[@title='Log Out']";
+        if ($this->isElementPresent($xpath)) {
+            $this->clickAndWait($xpath, $this->_browserTimeoutPeriod);
             $this->frontend('home');
-            $xpath = "//a[@title='Log Out']";
-            if ($this->isElementPresent($xpath)) {
-                $this->clickAndWait($xpath, $this->_browserTimeoutPeriod);
-                $this->frontend('home');
-            }
-        } catch (PHPUnit_Framework_Exception $e) {
-            $this->fail($e->getMessage());
         }
+        //@TODO need remove this line
+        $this->assertElementNotPresent($xpath, 'Customer is signed in');
         return $this;
     }
 
