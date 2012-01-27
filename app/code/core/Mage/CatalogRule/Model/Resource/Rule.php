@@ -124,7 +124,7 @@ class Mage_CatalogRule_Model_Resource_Rule extends Mage_Rule_Model_Resource_Abst
         $ruleId = $rule->getId();
         $write  = $this->_getWriteAdapter();
         $write->beginTransaction();
-
+        $rule->load($rule->getId());
         if ($rule->getProductsFilter()) {
             $write->delete(
                 $this->getTable('catalogrule/rule_product'),
