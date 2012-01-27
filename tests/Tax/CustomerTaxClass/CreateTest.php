@@ -134,7 +134,6 @@ class Tax_CustomerTaxClass_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>All fields has the same values.</p>
      *
-     * @depends withRequiredFieldsOnly
      * @dataProvider withSpecialValuesDataProvider
      * @test
      *

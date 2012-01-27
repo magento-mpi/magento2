@@ -1453,8 +1453,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     protected function _getControlXpath($controlType, $controlName)
     {
-        $uipage = $this->getCurrentUimapPage();
-        if (!$uipage) {
+        $uimapPage = $this->getCurrentUimapPage();
+        if (!$uimapPage) {
             throw new OutOfRangeException("Can't find specified form in UIMap array '"
                 . $this->getLocation() . "', area['" . $this->getArea() . "']");
         }
@@ -1462,7 +1462,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $method = 'find' . ucfirst(strtolower($controlType));
 
         try {
-            $xpath = $uipage->$method($controlName);
+            $xpath = $uimapPage->$method($controlName);
         } catch (Exception $e) {
             $errorMessage = 'Current location url: ' . $this->getLocation() . "\n"
                 . 'Current page "' . $this->getCurrentPage() . '": '

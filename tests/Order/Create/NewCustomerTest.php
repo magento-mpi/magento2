@@ -52,6 +52,7 @@ class Order_Create_NewCustomerTest extends Mage_Selenium_TestCase
     /**
      * <p>Create Simple Product for tests</p>
      *
+     * @group preConditions
      * @return string
      * @test
      */
