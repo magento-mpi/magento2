@@ -1378,6 +1378,8 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
 
         $this->query($query);
 
+        $this->resetDdlCache($tableName, $schemaName);
+
         return $this;
     }
 

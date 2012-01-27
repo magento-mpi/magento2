@@ -104,6 +104,7 @@ class Varien_Db_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * @depends testDropColumn
      * @magentoDataFixture Varien/Db/Adapter/_files/table_two_column_idx.php
      */
     public function testDropColumnRemoveFromIndexes()
@@ -121,6 +122,7 @@ class Varien_Db_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * @depends testDropColumn
      * @magentoDataFixture Varien/Db/Adapter/_files/table_two_column_idx.php
      */
     public function testDropColumnSameColumnIndexDuplicate()
