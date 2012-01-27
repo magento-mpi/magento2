@@ -125,7 +125,7 @@ class Mage_Cms_Helper_Page extends Mage_Core_Helper_Abstract
 
         /* @TODO: Move catalog and checkout storage types to appropriate modules */
         $messageBlock = $action->getLayout()->getMessagesBlock();
-        foreach (array('catalog/session', 'checkout/session') as $storageType) {
+        foreach (array('catalog/session', 'checkout/session', 'customer/session') as $storageType) {
             $storage = Mage::getSingleton($storageType);
             if ($storage) {
                 $messageBlock->addStorageType($storageType);
