@@ -303,7 +303,7 @@ class CheckoutMultipleAddresses_WithRegistration_InputDataValidationTest extends
      *
      * @test
      */
-    public function withLongValuesNotValid($field,$fieldName,$fieldValue,$productData)
+    public function withLongValuesNotValid($field, $fieldName, $fieldValue, $productData)
     {
         //Data
         $userData = $this->loadData('general_account_info',
@@ -318,19 +318,9 @@ class CheckoutMultipleAddresses_WithRegistration_InputDataValidationTest extends
         $this->saveForm('submit');
         //Verification
         $this->addParameter('fieldName',$fieldName );
-        if ($fieldName == 'Zip/Postal Code'){
-            $this->assertTrue($this->checkCurrentPage('checkout_multishipping_addresses'),"Unexpected page");
-            $this->assertMessagePresent('success', 'success_registered_user');
-            $this->addParameter('productName', $productData['general_name']);
-            $this->_getControlXpath('dropdown', 'shipping_address_choice');
-            $value = $this->getText($this->_getControlXpath('dropdown', 'shipping_address_choice'));
-            $this->assertFalse(strrpos($value, $fieldValue), 'Verification failed');
-            $this->assertTrue((bool)strrpos($value, substr($fieldValue,0,255)), 'Verification failed');
-        } else {
         $this->assertTrue($this->checkCurrentPage('checkout_multishipping_register'),"Unexpected page");
         $errorMsg = ($field=='email')? 'not_valid_length_email' : 'not_valid_length';
         $this->assertMessagePresent('error', $errorMsg);
-        }
     }
 
     public function withLongValuesNotValidDataProvider()
@@ -341,9 +331,55 @@ class CheckoutMultipleAddresses_WithRegistration_InputDataValidationTest extends
             array('email', 'field',$this->generate('email', 256, 'valid')),//Email Address
             array('telephone', 'Telephone',$this->generate('string', 256, ':alnum:')),//Telephone
             array('street_address_1', 'Street Address',$this->generate('string', 256, ':alnum:')),
-            array('city', 'City',$this->generate('string', 256, ':alnum:')),//City
-            array('zip_code', 'Zip/Postal Code',$this->generate('string', 256, ':digit:')),//Zip/Postal Code
+            array('city', 'City',$this->generate('string', 256, ':alnum:'))//City
         );
+    }
+
+    /**
+     * <p>Customer registration. Fill in only Zip Code field. Use value that is greater than the allowable.</p>
+     * <p>Steps:</p>
+     * <p>1. Open product page.</p>
+     * <p>2. Add product to Shopping Cart.</p>
+     * <p>3. Click "Checkout with Multiple Addresses".</p>
+     * <p>4. Select Checkout Method with Registering</p>
+     * <p>5. Navigate to 'Create an Account' page.</p>
+     * <p>6. Fill in Zip Code field by using value that is greater than the allowable.</p>
+     * <p>7. Fill other required fields by regular data.</p>
+     * <p>8. Click 'Submit' button.</p>
+     * <p>Expected result:</p>
+     * <p>Customer is not registered.</p>
+     * <p>Error Message is displayed.</p>
+     *
+     * @depends preconditionsCreateProduct
+     * @param $productData
+     *
+     * @test
+     */
+    public function withInvalidZipCode($productData)
+    {
+        //Data
+        $userData = $this->loadData('general_account_info', array(
+                'company'           => '',
+                'fax'               => '',
+                'street_address_2'  => '',
+                'zip_code'          => $this->generate('string', 256, ':digit:'))
+        );
+        //Steps
+        $this->productHelper()->frontOpenProduct($productData['general_name']);
+        $this->productHelper()->frontAddProductToCart();
+        $this->clickControl('link', 'checkout_with_multiple_addresses');
+        $this->clickButton('create_account');
+        $this->fillForm($userData);
+        $this->saveForm('submit');
+        //Verification
+        $this->addParameter('fieldName', $userData['zip_code']);
+        $this->assertTrue($this->checkCurrentPage('checkout_multishipping_addresses'), "Unexpected page");
+        $this->assertMessagePresent('success', 'success_registered_user');
+        $this->addParameter('productName', $productData['general_name']);
+        $this->_getControlXpath('dropdown', 'shipping_address_choice');
+        $value = $this->getText($this->_getControlXpath('dropdown', 'shipping_address_choice'));
+        $this->assertFalse(strrpos($value, $userData['zip_code']), 'Verification failed');
+        $this->assertTrue((bool)strrpos($value, substr($userData['zip_code'], 0, 255)), 'Verification failed');
     }
 
     /**
