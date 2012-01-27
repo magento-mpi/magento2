@@ -2640,19 +2640,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                 $text = $this->getAlert();
                 $this->fail($text);
             }
-            $notLoaded = true;
-            $retries = 0;
-            while ($notLoaded) {
-                try {
-                    $retries++;
-                    $this->waitForPageToLoad($this->_browserTimeoutPeriod);
-                    $notLoaded = false;
-                } catch (PHPUnit_Framework_Exception $e) {
-                    if ($retries == 10) {
-                        throw $e;
-                    }
-                }
-            }
+            $this->waitForNewPage();
             $this->validatePage('cache_storage_management');
         }
     }
@@ -2671,20 +2659,28 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                 $xpath = $this->_getControlXpath('pageelement', $value);
                 while ($this->isElementPresent($xpath)) {
                     $this->click($xpath . "//a[text()='Reindex Data']");
-                    $notLoaded = true;
-                    $retries = 0;
-                    while ($notLoaded) {
-                        try {
-                            $retries++;
-                            $this->waitForPageToLoad($this->_browserTimeoutPeriod);
-                            $notLoaded = false;
-                        } catch (PHPUnit_Framework_Exception $e) {
-                            if ($retries == 10) {
-                                throw $e;
-                            }
-                        }
-                    }
+                    $this->waitForNewPage();
                     $this->validatePage('index_management');
+                }
+            }
+        }
+    }
+
+    /**
+     * @throws PHPUnit_Framework_Exception
+     */
+    public function waitForNewPage()
+    {
+        $notLoaded = true;
+        $retries = 0;
+        while ($notLoaded) {
+            try {
+                $retries++;
+                $this->waitForPageToLoad($this->_browserTimeoutPeriod);
+                $notLoaded = false;
+            } catch (PHPUnit_Framework_Exception $e) {
+                if ($retries == 10) {
+                    throw $e;
                 }
             }
         }

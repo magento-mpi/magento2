@@ -151,8 +151,8 @@ class PriceRules_Catalog_ApplyTest extends Mage_Selenium_TestCase
                                                   array('filter_rule_name' => $priceRuleData['info']['rule_name']));
         //Steps
         $this->clickButton('apply_rules', false);
-        $this->assertTrue($this->waitForElement($this->_getControlXpath('message', 'success_applied_rule'), 60),
-                          'Catalog Price Rule not applied');
+        $this->waitForNewPage();
+        $this->assertMessagePresent('success', 'success_applied_rule');
         //Verification on frontend
         $this->logoutCustomer();
         $this->categoryHelper()->frontOpenCategoryAndValidateProduct($priceInCategoryNotLogged);
