@@ -1,4 +1,28 @@
 <?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    Mage
+ * @package     Mage_Api2
+ * @copyright   Copyright (c) 2011 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
 
 /**
  * Base class for all API resources
@@ -6,13 +30,12 @@
 abstract class Mage_Api2_Model_Resource
 {
     /**#@+
-     * Operations
-     * Resource method names
+     * Operations. Resource method names
      */
-    const OPERATION_CREATE   = 'create';
-    const OPERATION_RETRIEVE = 'retrieve';
-    const OPERATION_UPDATE   = 'update';
-    const OPERATION_DELETE   = 'delete';
+    const OPERATION_CREATE   = '_create';
+    const OPERATION_RETRIEVE = '_retrieve';
+    const OPERATION_UPDATE   = '_update';
+    const OPERATION_DELETE   = '_delete';
     /**#@- */
 
     /**#@+
@@ -34,12 +57,6 @@ abstract class Mage_Api2_Model_Resource
     const RESOURCE_COLLECTION_ORDERING_ERROR   = 'Resource collection ordering error.';
     const RESOURCE_COLLECTION_FILTERING_ERROR  = 'Resource collection filtering error.';
     const RESOURCE_COLLECTION_ATTRIBUTES_ERROR = 'Resource collection including additional attributes error.';
-    /**#@- */
-
-    /**#@+
-     *  Default instance resources error messages
-     */
-    //const RESOURCE_INSTANCE_..._ERROR = 'Resource instance ... error.';
     /**#@- */
 
     /**
@@ -106,46 +123,25 @@ abstract class Mage_Api2_Model_Resource
     protected $_version;
 
     /**
-     * Internal resource model dispatch
-     *
-     */
-    public function dispatch()
-    {
-        $operation = $this->getRequest()->getOperation();
-
-        switch ($operation) {
-            case self::OPERATION_CREATE:
-            case self::OPERATION_UPDATE:
-                $data = $this->getRequest()->getBodyParams();
-                $filtered = $this->getFilter()->in($data);
-                $this->$operation($filtered);
-                break;
-
-            case self::OPERATION_RETRIEVE:
-                $result = $this->retrieve();
-                $filtered = $this->getFilter()->out($result);
-                $this->render($filtered);
-                break;
-
-            case self::OPERATION_DELETE:
-                $this->delete();
-                break;
-        }
-    }
-
-    /**
      * Render data using registered Renderer
-     * @param $data
+     *
+     * @param mixed $data
+     * @return void
      */
-    protected function render($data)
+    protected function _render($data)
     {
-        $content = $this->getRenderer()->render($data, array('charset'=>Mage_Api2_Model_Request::REQUEST_CHARSET));
-        $type = sprintf('%s; charset=%s', $this->getRenderer()->getMimeType(), Mage_Api2_Model_Request::REQUEST_CHARSET);
-
         $response = $this->getResponse();
-        $response->clearHeaders();
-        $response->setHeader('Content-Type', $type);
-        $response->setBody($content);
+
+        $response->clearHeaders()
+            ->setBody($this->getRenderer()->render($data))
+            ->setHeader(
+                'Content-Type',
+                sprintf(
+                    '%s; charset=%s',
+                    $this->getRenderer()->getMimeType(),
+                    Mage_Api2_Model_Response::RESPONSE_CHARSET
+                )
+            );
     }
 
     /**
@@ -157,22 +153,22 @@ abstract class Mage_Api2_Model_Resource
      * @param array $required
      * @param array $valueable
      */
-    protected function validate(array $data, array $required = array(), array $valueable = array())
+    protected function _validate(array $data, array $required = array(), array $valueable = array())
     {
         //NOTE can be extended in subclasses
         foreach ($required as $key) {
             if (!array_key_exists($key, $data)) {
-                $this->error(sprintf('Missing "%s" in request.', $key), Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+                $this->_error(sprintf('Missing "%s" in request.', $key), Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
                 continue;
             }
 
             if (array_key_exists($key, $valueable) && empty($data[$key])) {
-                $this->error(sprintf('Empty value for "%s" in request.', $key), Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+                $this->_error(sprintf('Empty value for "%s" in request.', $key), Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
             }
         }
 
         if ($this->getResponse()->isException()) {
-            $this->critical(self::RESOURCE_DATA_PRE_VALIDATION_ERROR);
+            $this->_critical(self::RESOURCE_DATA_PRE_VALIDATION_ERROR);
         }
     }
 
@@ -181,11 +177,11 @@ abstract class Mage_Api2_Model_Resource
     /**
      * Throw exception, critical error - stop execution
      *
-     * @throws Mage_Api2_Exception
      * @param string $message
      * @param int $code
+     * @throws Mage_Api2_Exception
      */
-    protected function critical($message, $code = null)
+    protected function _critical($message, $code = null)
     {
         $errors = array(
             self::RESOURCE_NOT_FOUND                 => Mage_Api2_Model_Server::HTTP_NOT_FOUND,
@@ -215,7 +211,6 @@ abstract class Mage_Api2_Model_Resource
             $code = $errors[$message];
         }
 
-
         throw new Mage_Api2_Exception($message, $code);
     }
 
@@ -226,7 +221,7 @@ abstract class Mage_Api2_Model_Resource
      * @param int $code
      * @return Mage_Api2_Model_Resource
      */
-    protected function error($message, $code)
+    protected function _error($message, $code)
     {
         $this->getResponse()->setException(new Mage_Api2_Exception($message, $code));
 
@@ -240,9 +235,9 @@ abstract class Mage_Api2_Model_Resource
      *
      * @param array $data
      */
-    protected function create(array $data)
+    protected function _create(array $data)
     {
-        $this->critical(self::RESOURCE_METHOD_NOT_IMPLEMENTED);
+        $this->_critical(self::RESOURCE_METHOD_NOT_IMPLEMENTED);
     }
 
     /**
@@ -250,9 +245,9 @@ abstract class Mage_Api2_Model_Resource
      *
      * @return array
      */
-    protected function retrieve()
+    protected function _retrieve()
     {
-        $this->critical(self::RESOURCE_METHOD_NOT_IMPLEMENTED);
+        $this->_critical(self::RESOURCE_METHOD_NOT_IMPLEMENTED);
     }
 
     /**
@@ -260,17 +255,17 @@ abstract class Mage_Api2_Model_Resource
      *
      * @param array $data
      */
-    protected function update(array $data)
+    protected function _update(array $data)
     {
-        $this->critical(self::RESOURCE_METHOD_NOT_IMPLEMENTED);
+        $this->_critical(self::RESOURCE_METHOD_NOT_IMPLEMENTED);
     }
 
     /**
      * Dummy method to be replaced in descendants
      */
-    protected function delete()
+    protected function _delete()
     {
-        $this->critical(self::RESOURCE_METHOD_NOT_IMPLEMENTED);
+        $this->_critical(self::RESOURCE_METHOD_NOT_IMPLEMENTED);
     }
 
     //Setters/getters

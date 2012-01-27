@@ -7,7 +7,7 @@ class Mage_Catalog_Model_Product_Api2_Rest_Guest_V1 extends Mage_Api2_Model_Reso
      *
      * @return array
      */
-    protected function retrieve()
+    protected function _retrieve()
     {
         $request = $this->getRequest();
         $id = $request->getParam('id', null);
@@ -25,7 +25,7 @@ class Mage_Catalog_Model_Product_Api2_Rest_Guest_V1 extends Mage_Api2_Model_Reso
      *
      * @param array $data
      */
-    protected function create(array $data)
+    protected function _create(array $data)
     {
         $this->fault('Resource does not support method.', 405);
     }
@@ -35,7 +35,7 @@ class Mage_Catalog_Model_Product_Api2_Rest_Guest_V1 extends Mage_Api2_Model_Reso
      *
      * @param array $data
      */
-    protected function update(array $data)
+    protected function _update(array $data)
     {
         $request = $this->getRequest();
         $response = $this->getResponse();
@@ -70,7 +70,7 @@ class Mage_Catalog_Model_Product_Api2_Rest_Guest_V1 extends Mage_Api2_Model_Reso
     /**
      * Delete product
      */
-    protected function delete()
+    protected function _delete()
     {
         $this->fault('Resource does not support method.', 405);
     }

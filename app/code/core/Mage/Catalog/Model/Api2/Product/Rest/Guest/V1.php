@@ -7,7 +7,7 @@ class Mage_Catalog_Model_Api2_Product_Rest_Guest_V1 extends Mage_Catalog_Model_A
      *
      * @return array
      */
-    protected function retrieve()
+    protected function _retrieve()
     {
         $request = $this->getRequest();
         $id = $request->getParam('id', null);
@@ -15,14 +15,14 @@ class Mage_Catalog_Model_Api2_Product_Rest_Guest_V1 extends Mage_Catalog_Model_A
         //$this->getResponse()->setBody($id)->sendResponse(); exit;
 
         if (!preg_match('/^([0-9]+)$/', $id)) {
-            $this->critical(self::RESOURCE_NOT_FOUND);
+            $this->_critical(self::RESOURCE_NOT_FOUND);
         }
 
         $product = Mage::getModel('catalog/product');
         $product->load($id);
 
         if (!$product->getId()) {
-            $this->critical(self::RESOURCE_NOT_FOUND);
+            $this->_critical(self::RESOURCE_NOT_FOUND);
         }
 
         return $product->toArray();
@@ -33,7 +33,7 @@ class Mage_Catalog_Model_Api2_Product_Rest_Guest_V1 extends Mage_Catalog_Model_A
      *
      * @param array $data
      */
-    protected function update(array $data)
+    protected function _update(array $data)
     {
         $request = $this->getRequest();
         $response = $this->getResponse();
@@ -77,8 +77,8 @@ class Mage_Catalog_Model_Api2_Product_Rest_Guest_V1 extends Mage_Catalog_Model_A
     /**
      * Delete product
      */
-    protected function delete()
+    protected function _delete()
     {
-        $this->critical(self::RESOURCE_METHOD_NOT_IMPLEMENTED);
+        $this->_critical(self::RESOURCE_METHOD_NOT_IMPLEMENTED);
     }
 }

@@ -9,11 +9,11 @@ class Mage_Catalog_Model_Api2_Products_Rest_Guest_V1 extends Mage_Catalog_Model_
      * @param array $data
      * @return array
      */
-    protected function create(array $data)
+    protected function _create(array $data)
     {
         $required = array('type', 'set', 'sku');
         $valueable = array('type', 'set', 'sku');
-        $this->validate($data, $required, $valueable);
+        $this->_validate($data, $required, $valueable);
 
         $productData = isset($data['productData']) ? $data['productData'] : array();
         $type = $data['type'];
@@ -25,25 +25,25 @@ class Mage_Catalog_Model_Api2_Products_Rest_Guest_V1 extends Mage_Catalog_Model_
         /** @var $typeModel Mage_Catalog_Model_Product_Type */
         $typeModel = Mage::getModel('catalog/product_type');
         if (!in_array($type, array_keys($typeModel->getOptionArray()))) {
-            $this->critical(self::RESOURCE_DATA_INVALID);
+            $this->_critical(self::RESOURCE_DATA_INVALID);
         }
 
         /** @var $attributeSet Mage_Eav_Model_Entity_Attribute_Set */
         $attributeSet = Mage::getModel('eav/entity_attribute_set')->load($set);
         if (is_null($attributeSet->getId())) {
-            $this->critical(self::RESOURCE_DATA_INVALID);  //product_attribute_set_not_exists
+            $this->_critical(self::RESOURCE_DATA_INVALID);  //product_attribute_set_not_exists
         }
 
         /** @var $product Mage_Catalog_Model_Product */
         $product = Mage::getModel('catalog/product');
         if ($product->getResource()->getTypeId() != $attributeSet->getEntityTypeId()) {
-            $this->critical(self::RESOURCE_DATA_INVALID);  //product_attribute_set_not_valid
+            $this->_critical(self::RESOURCE_DATA_INVALID);  //product_attribute_set_not_valid
         }
 
         try {
             $storeId = Mage::app()->getStore($store)->getId();
         } catch (Mage_Core_Model_Store_Exception $e) {
-            $this->critical(self::RESOURCE_DATA_INVALID);    //store_not_exists
+            $this->_critical(self::RESOURCE_DATA_INVALID);    //store_not_exists
         }
 
         $product->setStoreId($storeId)
@@ -66,21 +66,21 @@ class Mage_Catalog_Model_Api2_Products_Rest_Guest_V1 extends Mage_Catalog_Model_
             if (is_array($errors = $product->validate())) {
                 foreach($errors as $code => $error) {
                     if ($error === true) {
-                        $this->error(
+                        $this->_error(
                             sprintf('Attribute "%s" is invalid.', $code),
                             Mage_Api2_Model_Server::HTTP_BAD_REQUEST
                         );   //data_invalid
                     }
                 }
-                $this->critical(self::RESOURCE_DATA_INVALID);    //data_invalid
+                $this->_critical(self::RESOURCE_DATA_INVALID);    //data_invalid
             }
 
             $product->save();
         } catch (Mage_Core_Exception $e) {
-            $this->critical(self::RESOURCE_UNKNOWN_ERROR);    //data_invalid
+            $this->_critical(self::RESOURCE_UNKNOWN_ERROR);    //data_invalid
         }
 
-        return $this->getLocation($product);
+        return $this->_getLocation($product);
     }
 
     /**
@@ -88,13 +88,13 @@ class Mage_Catalog_Model_Api2_Products_Rest_Guest_V1 extends Mage_Catalog_Model_
      *
      * @return array
      */
-    protected function retrieve()
+    protected function _retrieve()
     {
         /** @var $collection Mage_Catalog_Model_Resource_Product_Collection */
         $collection = Mage::getResourceModel('catalog/product_collection');
 
-        $this->applyCollectionModifiers($collection);
-        $this->applyAttributeFilters($collection);
+        $this->_applyCollectionModifiers($collection);
+        $this->_applyAttributeFilters($collection);
 
         $collection->load();
 
@@ -201,7 +201,7 @@ class Mage_Catalog_Model_Api2_Products_Rest_Guest_V1 extends Mage_Catalog_Model_
      * @param Mage_Catalog_Model_Abstract $product
      * @return string Location of new resource
      */
-    protected function getLocation(Mage_Catalog_Model_Abstract $product)
+    protected function _getLocation(Mage_Catalog_Model_Abstract $product)
     {
         /** @var $config Mage_Api2_Model_Config */
         $config = Mage::getModel('api2/config');
