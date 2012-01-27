@@ -56,6 +56,7 @@ class Tax_TaxAndPricesValidationFrontendTest extends Mage_Selenium_TestCase
      *
      * @test
      * @return array
+     * @group preConditions
      */
     public function createCustomer()
     {
@@ -77,6 +78,7 @@ class Tax_TaxAndPricesValidationFrontendTest extends Mage_Selenium_TestCase
      *
      * @test
      * @return string
+     * @group preConditions
      */
     public function createCategory()
     {
@@ -101,6 +103,7 @@ class Tax_TaxAndPricesValidationFrontendTest extends Mage_Selenium_TestCase
      * @param $category
      *
      * @return array
+     * @group preConditions
      */
     public function createProducts($category)
     {

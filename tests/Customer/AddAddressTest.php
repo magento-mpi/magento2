@@ -59,6 +59,7 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase
     /**
      * <p>Create customer for add customer address tests</p>
      *
+     * @group preConditions
      * @return array
      * @test
      */

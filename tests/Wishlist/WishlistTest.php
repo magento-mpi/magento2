@@ -53,6 +53,7 @@ class Wishlist_Wishlist extends Mage_Selenium_TestCase
      * <p>Create a new customer for tests</p>
      * @return array Customer 'email' and 'password'
      * @test
+     * @group preConditions
      */
     public function preconditionsCreateCustomer()
     {
@@ -87,6 +88,7 @@ class Wishlist_Wishlist extends Mage_Selenium_TestCase
      * <p>Creating configurable product</p>
      * @return array
      * @test
+     * @group preConditions
      */
     public function preconditionsCreateConfigurableAttribute()
     {
@@ -152,6 +154,7 @@ class Wishlist_Wishlist extends Mage_Selenium_TestCase
      *
      * @return array Array of product names
      * @test
+     * @group preConditions
      */
     public function preconditionsCreateAllProductsWithoutCustomOptions($attrData)
     {

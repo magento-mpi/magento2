@@ -73,6 +73,7 @@ class Tax_TaxRule_CreateTest extends Mage_Selenium_TestCase
      * @return string $taxRateData
      *
      * @test
+     * @group preConditions
      */
     public function setupTestDataCreateTaxRate()
     {
@@ -89,7 +90,7 @@ class Tax_TaxRule_CreateTest extends Mage_Selenium_TestCase
      * <p>Create Product Tax Class for tests</p>
      *
      * @return string $productTaxClassData
-     *
+     * @group preConditions
      * @test
      */
     public function setupTestDataCreateTaxRule()

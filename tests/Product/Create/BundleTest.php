@@ -345,9 +345,7 @@ class Product_Create_BundleTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product created, confirmation message appears, Weight=0;</p>
      *
-     * @depends requiredFieldsForDynamicSmoke
      * @test
-     *
      * @group skip_due_to_bug
      */
     public function invalidWeightInBundle()

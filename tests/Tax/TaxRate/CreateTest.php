@@ -126,7 +126,6 @@ class Tax_TaxRate_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Received error message "This is a required field."</p>
      *
-     * @depends withRequiredFieldsOnly
      * @dataProvider withEmptyRequiredFieldsDataProvider
      * @param string $emptyFieldName Name of the field to leave empty
      * @test

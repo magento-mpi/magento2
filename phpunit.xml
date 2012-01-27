@@ -45,7 +45,7 @@
          stopOnSkipped="false"
          testSuiteLoaderClass="PHPUnit_Runner_StandardTestSuiteLoader"
          strict="false"
-         verbose="false">
+         verbose="true">
     <testsuites>
         <testsuite name="All Tests">
             <directory suffix="Test.php">tests/</directory>

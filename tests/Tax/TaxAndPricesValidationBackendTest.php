@@ -55,6 +55,7 @@ class Tax_TaxAndPricesValidationBackendTest extends Mage_Selenium_TestCase
      *
      * @return string $userData
      * @test
+     * @group preConditions
      */
     public function createCustomer()
     {
@@ -75,6 +76,7 @@ class Tax_TaxAndPricesValidationBackendTest extends Mage_Selenium_TestCase
      *
      * @return array $products
      * @test
+     * @group preConditions
      */
     public function createProducts()
     {

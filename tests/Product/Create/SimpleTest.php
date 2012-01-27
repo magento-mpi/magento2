@@ -306,10 +306,7 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product created, confirmation message appears, Weight=0;</p>
      *
-     * @depends onlyRequiredFieldsInSimple
-     *
      * @test
-     *
      * @group skip_due_to_bug
      */
     public function invalidWeightInSimple()
