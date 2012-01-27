@@ -163,8 +163,6 @@ if ($('update_shipping_method_submit')) {
         }
     }
 <?php endif ?>
-<!--  <form method="post" id="shipping_method_form" action="--><?php //echo $this->escapeHtml($this->getShippingMethodSubmitUrl()) ?><!--">-->
-
 PayPalExpressAjax = new OrderReviewController($('order_review_form'), $('review_button'),
     $('shipping_method'), $('order_review_form'), 'details-reload'
 );
@@ -173,6 +171,5 @@ PayPalExpressAjax.setUpdateButton($('update_order'),'<?php echo $this->escapeHtm
 if ($('billing:as_shipping')) {
     PayPalExpressAjax.setCopyElement($('billing:as_shipping'));
 }
-
 //]]>
 </script>
