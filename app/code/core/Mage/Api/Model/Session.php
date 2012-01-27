@@ -183,7 +183,7 @@ class Mage_Api_Model_Session extends Mage_Core_Model_Session_Abstract
      *  Renew user by session ID if session not expired
      *
      *  @param    string $sessId
-     *  @return	  boolean
+     *  @return  boolean
      */
     protected function _renewBySessId ($sessId)
     {
