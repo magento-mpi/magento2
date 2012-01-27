@@ -38,7 +38,7 @@ class Varien_Db_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
     {
         $installer = new Mage_Core_Model_Resource_Setup(Mage_Core_Model_Resource_Setup::DEFAULT_SETUP_CONNECTION);
         $this->_connection = $installer->getConnection();
-        $this->_tableName = $installer->getTable('_two_column_idx');
+        $this->_tableName = $installer->getTable('table_two_column_idx');
         $this->_oneColumnIdxName = $installer->getIdxName($this->_tableName, array('column1'));
         $this->_twoColumnIdxName = $installer->getIdxName($this->_tableName, array('column1', 'column2'));
     }

@@ -12,4 +12,4 @@
 $installer = new Mage_Core_Model_Resource_Setup(Mage_Core_Model_Resource_Setup::DEFAULT_SETUP_CONNECTION);
 $connection = $installer->getConnection();
 
-$connection->dropTable($installer->getTable('_two_column_idx'));
+$connection->dropTable($installer->getTable('table_two_column_idx'));
