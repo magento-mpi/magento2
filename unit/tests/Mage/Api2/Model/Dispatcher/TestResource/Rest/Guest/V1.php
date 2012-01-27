@@ -28,7 +28,7 @@
 /**
  * Test resource model for dispatcher model
  */
-class Mage_Api2_Model_Dispatcher_TestResource_Rest_Guest_V1
+class Mage_Api2_Model_Dispatcher_TestResource_Rest_Guest_V1 extends Mage_Api2_Model_Resource
 {
     /**
      * Test dispatch method
