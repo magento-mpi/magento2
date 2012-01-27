@@ -70,7 +70,7 @@ class Mage_Api2_Model_Auth_Adapter
      *
      * @param Mage_Api2_Model_Request $request
      * @return string
-     * @throws Exception
+     * @throws Mage_Api2_Exception
      */
     public function getUserType(Mage_Api2_Model_Request $request)
     {
@@ -78,12 +78,15 @@ class Mage_Api2_Model_Auth_Adapter
 
         foreach ($this->_adapters as $adapterModel) {
             /** @var $adapterModel Mage_Api2_Model_Auth_Adapter_Abstract */
-            $userType = $adapterModel->getUserType($request);
+            if ($adapterModel->isApplicableToRequest($request)) {
+                $userType = $adapterModel->getUserType($request);
 
-            if (false !== $userType) {
-                return $userType;
+                if (false !== $userType) {
+                    return $userType;
+                }
+                throw new Mage_Api2_Exception('Can not determine user type', Mage_Api2_Model_Server::HTTP_UNAUTHORIZED);
             }
         }
-        throw new Exception('Can not determine user type');
+        return Mage_Api2_Model_Auth::DEFAULT_USER_TYPE;
     }
 }

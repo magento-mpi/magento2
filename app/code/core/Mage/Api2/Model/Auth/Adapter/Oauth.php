@@ -41,11 +41,6 @@ class Mage_Api2_Model_Auth_Adapter_Oauth extends Mage_Api2_Model_Auth_Adapter_Ab
      */
     public function getUserType(Mage_Api2_Model_Request $request)
     {
-        $headerValue = $request->getHeader('Authorization');
-
-        if (!$headerValue || 'OAuth' !== substr($headerValue, 0, 5)) {
-            return false;
-        }
         /** @var $oauthServer Mage_OAuth_Model_Server */
         $oauthServer = Mage::getModel('oAuth/server', $request);
         $requestUrl  = $request->getScheme() . '://' . $request->getHttpHost() . $request->getRequestUri();
@@ -55,5 +50,18 @@ class Mage_Api2_Model_Auth_Adapter_Oauth extends Mage_Api2_Model_Auth_Adapter_Ab
         } catch (Exception $e) {
             return false;
         }
+    }
+
+    /**
+     * Check if request contains authentication info for adapter
+     *
+     * @param Mage_Api2_Model_Request $request
+     * @return boolean
+     */
+    public function isApplicableToRequest(Mage_Api2_Model_Request $request)
+    {
+        $headerValue = $request->getHeader('Authorization');
+
+        return $headerValue && 'OAuth' === substr($headerValue, 0, 5);
     }
 }

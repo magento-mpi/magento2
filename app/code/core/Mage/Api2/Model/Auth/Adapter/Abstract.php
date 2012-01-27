@@ -40,4 +40,13 @@ abstract class Mage_Api2_Model_Auth_Adapter_Abstract
      * @return string|boolean Return boolean FALSE if can not determine user type
      */
     abstract public function getUserType(Mage_Api2_Model_Request $request);
+
+    /**
+     * Check if request contains authentication info for adapter
+     *
+     * @abstract
+     * @param Mage_Api2_Model_Request $request
+     * @return boolean
+     */
+    abstract public function isApplicableToRequest(Mage_Api2_Model_Request $request);
 }
