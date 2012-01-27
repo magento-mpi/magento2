@@ -21,7 +21,7 @@
  * @category    Magento
  * @package     Mage_Api2
  * @subpackage  integration_tests
- * @copyright   Copyright (c) 2011 Magento Inc. (http://www.magento.com)
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magento.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
@@ -54,16 +54,7 @@ class Mage_Api2_Model_Acl_Global_RuleTest extends Magento_TestCase
         $model = Mage::getModel('api2/acl_global_rule');
         $this->addModelToDelete($model);
         $model->setData($data['create']);
-        qqq($model->getData());
         $testEntity = new Magento_Test_Entity($model, $data['update']);
-        try {
-            profiler();
-            $testEntity->testCrud();
-        } catch (Exception $e) {
-            qqq($e->getMessage());
-            qqq($e->getTraceAsString());
-            profilerQueries(1);
-            exit;
-        }
+        $testEntity->testCrud();
     }
 }
