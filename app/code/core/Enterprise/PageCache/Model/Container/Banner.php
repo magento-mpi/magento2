@@ -227,10 +227,8 @@ class Enterprise_PageCache_Model_Container_Banner
      */
     protected function _renderBlock()
     {
+        $block = $this->_getPlaceHolderBlock();
         $placeholder = $this->_placeholder;
-        $block = $placeholder->getAttribute('block');
-        $block = new $block;
-        $block->setSkipRenderTag(true);
 
         $parameters = array('name', 'types', 'display_mode', 'rotate', 'banner_ids', 'unique_id');
         foreach ($parameters as $parameter) {

@@ -38,21 +38,16 @@ abstract class Enterprise_PageCache_Model_Container_CatalogProductAbstract
     protected function _getAdditionalCacheId()
     {
         $websiteId = $this->_placeholder->getAttribute('website_id');
-        $segmentIds = Enterprise_PageCache_Model_Cookie::getCustomerSegmentsIds($websiteId);
+        $segmentIds = $this->_getCookieValue('CUSTOMER_SEGMENT_IDS_' . $websiteId, '');
         return 'SEGMENTS_LIST_' . $segmentIds;
     }
 
     protected function _renderBlock()
     {
         $this->_loadProductToRegister();
-        $block = $this->_placeholder->getAttribute('block');
-        $template = $this->_placeholder->getAttribute('template');
-        $block = new $block;
-        $block->setTemplate($template);
-        $block->setLayout(Mage::app()->getLayout());
+        $block = $this->_getPlaceHolderBlock();
         $block->setChild($this->_getItemsBlockAlias(), $this->_getItemsBlock());
         Mage::dispatchEvent('render_block', array('block' => $block, 'placeholder' => $this->_placeholder));
-        $block->setSkipRenderTag(true);
         return $block->toHtml();
     }
 

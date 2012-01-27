@@ -177,12 +177,21 @@ class Enterprise_CustomerSegment_Model_Customer extends Mage_Core_Model_Abstract
             }
         }
 
-        $this->addVisitorToWebsiteSegments(Mage::getSingleton('customer/session'), $websiteId, $matchedIds);
-        $this->removeVisitorFromWebsiteSegments(Mage::getSingleton('customer/session'), $websiteId, $notMatchedIds);
+
         if ($customerId) {
             $this->addCustomerToWebsiteSegments($customerId, $websiteId, $matchedIds);
             $this->removeCustomerFromWebsiteSegments($customerId, $websiteId, $notMatchedIds);
+            $segmentIds = $this->_customerWebsiteSegments[$websiteId][$customerId];
+        } else {
+            $this->addVisitorToWebsiteSegments(Mage::getSingleton('customer/session'), $websiteId, $matchedIds);
+            $this->removeVisitorFromWebsiteSegments(Mage::getSingleton('customer/session'), $websiteId, $notMatchedIds);
+            $allSegments= Mage::getSingleton('customer/session')->getCustomerSegmentIds();
+            $segmentIds = $allSegments[$websiteId];
         }
+
+        Mage::dispatchEvent('changes_in_customer_segments_ids',
+            array('website_id' => $websiteId, 'segment_ids' => $segmentIds)
+        );
 
         return $this;
     }
@@ -219,7 +228,6 @@ class Enterprise_CustomerSegment_Model_Customer extends Mage_Core_Model_Abstract
      * @param Mage_Core_Model_Session_Abstract $visitorSession
      * @param int $websiteId
      * @param array $segmentIds
-     * @internal param \Mage_Core_Model_Session_Abstract $customerSession
      * @return Enterprise_CustomerSegment_Model_Customer
      */
     public function addVisitorToWebsiteSegments($visitorSession, $websiteId, $segmentIds)
@@ -238,7 +246,6 @@ class Enterprise_CustomerSegment_Model_Customer extends Mage_Core_Model_Abstract
             $visitorSegmentIds[$websiteId] = $segmentIds;
         }
         $visitorSession->setCustomerSegmentIds($visitorSegmentIds);
-        setcookie("CUSTOMER_SEGMENT_IDS_" .$websiteId , implode(',', $visitorSegmentIds[$websiteId]) , 0, '/');
         return $this;
     }
 
@@ -248,7 +255,6 @@ class Enterprise_CustomerSegment_Model_Customer extends Mage_Core_Model_Abstract
      * @param Mage_Core_Model_Session_Abstract $visitorSession
      * @param int $websiteId
      * @param array $segmentIds
-     * @internal param \Mage_Core_Model_Session_Abstract $customerSession
      * @return Enterprise_CustomerSegment_Model_Customer
      */
     public function removeVisitorFromWebsiteSegments($visitorSession, $websiteId, $segmentIds)
@@ -265,7 +271,6 @@ class Enterprise_CustomerSegment_Model_Customer extends Mage_Core_Model_Abstract
             $visitorCustomerSegmentIds[$websiteId] = $segmentsIdsForWebsite;
         }
         $visitorSession->setCustomerSegmentIds($visitorCustomerSegmentIds);
-        setcookie("CUSTOMER_SEGMENT_IDS_" .$websiteId , implode(',', $visitorCustomerSegmentIds[$websiteId]) , 0, '/');
         return $this;
     }
 

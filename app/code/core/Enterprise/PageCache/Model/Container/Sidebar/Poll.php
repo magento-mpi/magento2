@@ -147,15 +147,13 @@ class Enterprise_PageCache_Model_Container_Sidebar_Poll extends Enterprise_PageC
     {
         $renderedParams = $this->_loadInfoCache();
 
-        $blockClass = $this->_placeholder->getAttribute('block');
         $templates = unserialize($this->_placeholder->getAttribute('templates'));
 
-        /** @var $block Mage_Poll_Block_ActivePoll */
-        $block = new $blockClass;
+        $block = $this->_getPlaceHolderBlock();
+
         foreach ($templates as $type=>$template) {
             $block->setPollTemplate($template, $type);
         }
-        $block->setLayout(Mage::app()->getLayout());
 
         if ($renderedParams) {
             if($this->_getPollToShow()) {
@@ -178,7 +176,6 @@ class Enterprise_PageCache_Model_Container_Sidebar_Poll extends Enterprise_PageC
             $this->_saveInfoCache($renderedParams);
         }
 
-        $block->setSkipRenderTag(true);
         $content = $block->toHtml();
 
         if (is_null($this->_activePollId)) {

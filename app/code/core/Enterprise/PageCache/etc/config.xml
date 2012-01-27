@@ -360,6 +360,14 @@
                     </enterprise_pagecache>
                 </observers>
             </catalog_controller_product_init_before>
+            <changes_in_customer_segments_ids>
+                <observers>
+                    <enterprise_pagecache>
+                        <class>enterprise_pagecache/observer</class>
+                        <method>changedCustomerSegmentIds</method>
+                    </enterprise_pagecache>
+                </observers>
+            </changes_in_customer_segments_ids>
         </events>
         <cache>
             <requests>

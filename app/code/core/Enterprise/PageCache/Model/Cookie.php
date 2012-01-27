@@ -60,11 +60,6 @@ class Enterprise_PageCache_Model_Cookie extends Mage_Core_Model_Cookie
     const COOKIE_CATEGORY_ID = 'LAST_CATEGORY';
 
     /**
-     * Cookie with customer segment ids
-     */
-    const COOKIE_CUSTOMER_SEGMENT_IDS = 'CUSTOMER_SEGMENT_IDS';
-
-    /**
      * Encryption salt value
      *
      * @var sting
@@ -204,18 +199,5 @@ class Enterprise_PageCache_Model_Cookie extends Mage_Core_Model_Cookie
     public static function setCategoryViewedCookieValue($id)
     {
         setcookie(self::COOKIE_CATEGORY_ID, $id, 0, '/');
-    }
-
-    /**
-     * Get Customer Segments Ids
-     *
-     * @static
-     * @param int $websiteId
-     * @return string
-     */
-    public static function getCustomerSegmentsIds($websiteId)
-    {
-        $cookieName = self::COOKIE_CUSTOMER_SEGMENT_IDS . '_' . $websiteId;
-        return (isset($_COOKIE[$cookieName])) ? $_COOKIE[$cookieName] : '';
     }
 }

@@ -70,17 +70,9 @@ class Enterprise_PageCache_Model_Container_Viewedproducts extends Enterprise_Pag
      */
     protected function _renderBlock()
     {
-        $block = $this->_placeholder->getAttribute('block');
-        $template = $this->_placeholder->getAttribute('template');
-        $productIds = $this->_getProductIds();
-
-        $block = new $block;
-        $block->setTemplate($template);
-        $block->setProductIds($productIds);
-        $block->setLayout(Mage::app()->getLayout());
+        $block = $this->_getPlaceHolderBlock();
+        $block->setProductIds($this->_getProductIds());
         Mage::dispatchEvent('render_block', array('block' => $block, 'placeholder' => $this->_placeholder));
-        $block->setSkipRenderTag(true);
-
         return $block->toHtml();
     }
 

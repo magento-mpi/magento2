@@ -120,14 +120,7 @@ class Enterprise_PageCache_Model_Container_Catalognavigation extends Enterprise_
      */
     protected function _renderBlock()
     {
-        $block = $this->_placeholder->getAttribute('block');
-        $template = $this->_placeholder->getAttribute('template');
-        $categoryPath = $this->_placeholder->getAttribute('category_path');
-
-        /** @var Mage_Catalog_Block_Product_Price $block */
-        $block = new $block;
-        $block->setTemplate($template);
-        $block->setLayout(Mage::app()->getLayout());
+        $block = $this->_getPlaceHolderBlock();
 
         $categoryId = $this->_getCategoryId();
         if (!Mage::registry('current_category') && $categoryId) {
@@ -136,7 +129,6 @@ class Enterprise_PageCache_Model_Container_Catalognavigation extends Enterprise_
         }
 
         Mage::dispatchEvent('render_block', array('block' => $block, 'placeholder' => $this->_placeholder));
-        $block->setSkipRenderTag(true);
 
         return $block->toHtml();
     }
