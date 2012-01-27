@@ -46,6 +46,7 @@ class PriceRules_ShoppingCart_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
+     * <p>Bug MAGE-5623 (reproducible in 1.6.2, but is not reproducible in nightly build)</p>
      * <p>Create Shopping cart price rule with empty required fields.</p>
      * <p>Steps:</p>
      * <p>1. Navigate to Promotions - Shopping Cart Price Rules;</p>
@@ -57,6 +58,7 @@ class PriceRules_ShoppingCart_CreateTest extends Mage_Selenium_TestCase
      * @dataProvider withRequiredFieldsEmptyDataProvider
      * @param string $fieldName
      * @param string $fieldType
+     * @group skip_due_to_bug
      * @test
      */
     public function withRequiredFieldsEmpty($fieldName, $fieldType)
@@ -81,7 +83,7 @@ class PriceRules_ShoppingCart_CreateTest extends Mage_Selenium_TestCase
             array('rule_name', 'field'),
             array('customer_groups', 'multiselect'),
             array('coupon_code', 'field'),
-            array('discount_amount', 'field') //Bug MAGE-5623 (reproducible in 1.6.2, but is not reproducible in nightly build)
+            array('discount_amount', 'field')
         );
     }
 
