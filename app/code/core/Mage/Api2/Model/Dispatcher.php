@@ -55,11 +55,16 @@ class Mage_Api2_Model_Dispatcher
      */
     public function dispatch(Mage_Api2_Model_Request $request, Mage_Api2_Model_Response $response)
     {
+        if (!$request->getModel() || !$request->getApiType() || $request->getVersion() != abs($request->getVersion())) {
+            throw new Mage_Api2_Exception(
+                'Request does not contains all neccessary data', Mage_Api2_Model_Server::HTTP_BAD_REQUEST
+            );
+        }
         $replace = array(
-            ':resource' => $request->getParam('model'), // Set in Mage_Api2_Model_Router::_setRequestParams()
+            ':resource' => $request->getModel(),
             ':api'      => $request->getApiType(),
             ':user'     => $this->getApiUser()->getRole(),
-            ':version'  => (int)$request->getVersion(),
+            ':version'  => (int)$request->getVersion()
         );
         $class = strtr(self::RESOURCE_CLASS_TEMPLATE, $replace);
 
@@ -68,16 +73,12 @@ class Mage_Api2_Model_Dispatcher
             $model = Mage::getModel($class);
         } catch (Exception $e) {
             throw new Mage_Api2_Exception(
-                sprintf('Invalid resource class "%s".', $class),
-                Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR
+                sprintf('Resource is not found', $class), Mage_Api2_Model_Server::HTTP_BAD_REQUEST
             );
         }
 
         if ($model === false) {
-            throw new Mage_Api2_Exception(
-                sprintf('File loaded but resource model "%s" not found.', $class),
-                Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR
-            );
+            throw new Exception(sprintf('File loaded but resource model "%s" not found.', $class));
         }
 
         $model->setRequest($request);
