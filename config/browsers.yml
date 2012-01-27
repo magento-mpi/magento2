@@ -32,21 +32,21 @@ browsers:
         host: 127.0.0.1
         port: 4444
         doNotKillBrowsers: false
-        browserTimeoutPeriod: 90000
+        browserTimeoutPeriod: 40000
     iexplore: &iexplore
         name: Internet Explorer
         browser: '*iexplore'
         host: 127.0.0.1
         port: 4444
         doNotKillBrowsers: false
-        browserTimeoutPeriod: 90000
+        browserTimeoutPeriod: 40000
     googlechrome: &googlechrome
         name: Google Chrome
         browser: '*googlechrome'
         host: 127.0.0.1
         port: 4444
         doNotKillBrowsers: false
-        browserTimeoutPeriod: 90000
+        browserTimeoutPeriod: 40000
     default: *chrome
 default:
     cache:

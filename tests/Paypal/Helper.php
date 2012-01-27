@@ -77,7 +77,23 @@ class Paypal_Helper extends Mage_Selenium_TestCase
         }
         $parameters = $this->arrayEmptyClear($parameters);
         $this->fillForm($parameters);
-        $this->clickButton('create_account');
+        $xpath = $this->_getControlXpath('button', 'create_account');
+        while ($this->isElementPresent($xpath)) {
+            $this->click($xpath);
+            $notLoaded = true;
+            $retries = 0;
+            while ($notLoaded) {
+                try {
+                    $retries++;
+                    $this->waitForPageToLoad($this->_browserTimeoutPeriod);
+                    $notLoaded = false;
+                } catch (PHPUnit_Framework_Exception $e) {
+                    if ($retries == 10) {
+                        throw $e;
+                    }
+                }
+            }
+        }
     }
 
     /**
@@ -117,26 +133,33 @@ class Paypal_Helper extends Mage_Selenium_TestCase
         foreach ($pageelements as $key => $value) {
             switch ($key) {
                 case 'credit_card':
-                    $text = $this->getText($value);
-                    $nodes = explode("\n", $text);
-                    foreach ($nodes as $line) {
-                        $exline = explode(' ', $line);
-                        foreach ($exline as $val) {
-                            if (preg_match('/([0-9])/', $val)) {
-                                if (preg_match('/Exp Date/', $line)) {
-                                    $expDate = explode('/', $val);
-                                    $info[$key]['expiration_month'] = self::$monthMap[$expDate[0]];
-                                    $info[$key]['expiration_year'] = $expDate[1];
-                                } else {
-                                    $info[$key]['card_number'] = $val;
+                    if (!$this->isElementPresent($value)) {
+                        $this->fail('Could not find element: ' . $value);
+                    } else {
+                        $text = $this->getText($value);
+                        $nodes = explode("\n", $text);
+                        foreach ($nodes as $line) {
+                            $exline = explode(' ', $line);
+                            foreach ($exline as $val) {
+                                if (preg_match('/([0-9])/', $val)) {
+                                    if (preg_match('/Exp Date/', $line)) {
+                                        $expDate = explode('/', $val);
+                                        $info[$key]['expiration_month'] = self::$monthMap[$expDate[0]];
+                                        $info[$key]['expiration_year'] = $expDate[1];
+                                    } else {
+                                        $info[$key]['card_number'] = $val;
+                                    }
                                 }
                             }
                         }
-
                     }
                     break;
                 case 'email':
-                    $info['email'] = $this->getText($value);
+                    if (!$this->isElementPresent($value)) {
+                        $this->fail('Could not find element: ' . $value);
+                    } else {
+                        $info['email'] = $this->getText($value);
+                    }
                 default:
                     break;
             }
@@ -153,7 +176,10 @@ class Paypal_Helper extends Mage_Selenium_TestCase
         while ($this->controlIsPresent('button', 'delete')) {
             $this->chooseOkOnNextConfirmation();
             $this->clickButton('delete', false);
-            $this->waitForPageToLoad($this->_browserTimeoutPeriod);
+            try {
+                $this->waitForPageToLoad($this->_browserTimeoutPeriod);
+            } catch (PHPUnit_Framework_Exception $e) {
+            }
             $this->navigate('test_accounts');
         }
     }
@@ -165,15 +191,73 @@ class Paypal_Helper extends Mage_Selenium_TestCase
      */
     public function deleteAccount($email)
     {
-        $this->addParameter('emailPart', $email);
-        $this->fillForm(array('account' => 'Yes'));
         $this->navigate('test_accounts');
-        if ($this->controlIsPresent('button', 'delete')) {
-            $this->chooseOkOnNextConfirmation();
-            $this->clickButton('delete', false);
-            $this->waitForPageToLoad($this->_browserTimeoutPeriod);
+        $this->addParameter('emailPart', $email);
+        if ($this->controlIsPresent('checkbox', 'account')) {
+            $this->fillForm(array('account' => 'Yes'));
             $this->navigate('test_accounts');
+            if ($this->controlIsPresent('button', 'delete')) {
+                $this->chooseOkOnNextConfirmation();
+                $this->clickButton('delete', false);
+                try {
+                    $this->waitForPageToLoad($this->_browserTimeoutPeriod);
+                } catch (PHPUnit_Framework_Exception $e) {
+                }
+                $this->navigate('test_accounts');
+            }
         }
+
+    }
+
+    /**
+     * Create Buyers Accounts on PayPal sandbox
+     *
+     * @param array|string $cards mastercard, visa, discover, amex
+     * @return array $accounts
+     * @test
+     */
+    public function createBuyerAccounts($cards)
+    {
+        if (is_string($cards)) {
+            $cards = explode(',', $cards);
+            $cards = array_map('trim', $cards);
+        }
+        $accounts = array();
+        foreach ($cards as $card) {
+            $this->navigate('create_preconfigured_account');
+            $info = $this->loadData('paypal_sandbox_new_buyer_account_' . $card);
+            $this->createPaypalSandboxAccount($info);
+            $this->navigate('test_accounts');
+            $accounts[$card] = $this->getPaypalSandboxAccountInfo($info);
+            if ($card != 'amex') {
+                $accounts[$card]['credit_card']['card_verification_number'] = '111';
+            } else {
+                $accounts[$card]['credit_card']['card_verification_number'] = '1234';
+            }
+        }
+        return $accounts;
+    }
+
+    /**
+     * Create Pro Merchant Account on PayPal sandbox
+     *
+     * @param string|array $accountData
+     * @return array
+     * @test
+     */
+    public function createPayPalProAccount($accountData)
+    {
+        if (is_string($accountData)) {
+            $accountData = $this->loadData($accountData);
+        }
+        $accountData = $this->arrayEmptyClear($accountData);
+        $this->navigate('create_preconfigured_account');
+        $this->createPaypalSandboxAccount($accountData);
+        $this->navigate('test_accounts');
+        $info = $this->getPaypalSandboxAccountInfo($accountData);
+        $this->navigate('api_credentials');
+
+        return $this->getApiCredentials($info['email']);
     }
 
     /**

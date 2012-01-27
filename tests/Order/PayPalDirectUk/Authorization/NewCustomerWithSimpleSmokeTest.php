@@ -51,24 +51,9 @@ class Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTest extends 
      */
     public function createPayPalBuyerAccounts()
     {
-        //Preconditions
-        $accounts = array();
         $this->goToArea('paypal-developer');
-        //Data
-        $visa = $this->loadData('paypal_sandbox_new_buyer_account_visa');
-        $mastercard = $this->loadData('paypal_sandbox_new_buyer_account_mastercard');
-        //Steps
         $this->paypalHelper()->paypalDeveloperLogin('paypal_developer_login');
-        $this->navigate('create_preconfigured_account');
-        $this->paypalHelper()->createPaypalSandboxAccount($visa);
-        $this->navigate('create_preconfigured_account');
-        $this->paypalHelper()->createPaypalSandboxAccount($mastercard);
-        //Getting all cards info to one array
-        $this->navigate('test_accounts');
-        $accounts['visa'] = $this->paypalHelper()->getPaypalSandboxAccountInfo($visa);
-        $accounts['visa']['credit_card']['card_verification_number'] = '111';
-        $accounts['mastercard'] = $this->paypalHelper()->getPaypalSandboxAccountInfo($mastercard);
-        $accounts['mastercard']['credit_card']['card_verification_number'] = '111';
+        $accounts = $this->paypalHelper()->createBuyerAccounts('visa, mastercard');
 
         return $accounts;
     }
@@ -148,8 +133,8 @@ class Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTest extends 
         return array(
             array('visa'),
             array('mastercard'),
-//            array('else_solo'),  need to implement switching currency for solo and maestro
-//            array('else_switch_maestro')
+//            array('else_solo'),  @TODO need to implement switching currency for solo and maestro
+//            array('else_switch_maestro') @TODO resolve the issue with that type of credit card
         );
     }
 
@@ -530,5 +515,23 @@ class Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTest extends 
             array('else_visa_direct', true),
             array('else_mastercard', false)
         );
+    }
+
+    /**
+     * <p>Delete test accounts</p>
+     *
+     * @depends createPayPalBuyerAccounts
+     * @param array $accounts
+     * @test
+     */
+    public function deleteTestAccounts($accounts)
+    {
+        $this->goToArea('paypal-developer');
+        $this->paypalHelper()->paypalDeveloperLogin('paypal_developer_login');
+        foreach ($accounts as $card) {
+            if (isset($card['email'])) {
+                $this->paypalHelper()->deleteAccount($card['email']);
+            }
+        }
     }
 }
