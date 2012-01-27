@@ -55,7 +55,6 @@ class Enterprise_TargetRule_Model_Resource_Rule extends Mage_Rule_Model_Resource
         $this->_init('enterprise_targetrule/rule', 'rule_id');
     }
 
-
     /**
      * Get Customer Segment Ids by rule
      *
@@ -68,13 +67,13 @@ class Enterprise_TargetRule_Model_Resource_Rule extends Mage_Rule_Model_Resource
             ->from($this->getTable('enterprise_targetrule/customersegment'), 'segment_id')
             ->where('rule_id = ?', $object->getId())
             ->query()->fetchAll(Zend_Db::FETCH_COLUMN);
-        return empty($ids) ? array() : $ids ;
+        return empty($ids) ? array() : $ids;
     }
 
     /**
      * Bind rule to customer segments
      *
-     * @param int $bannerId
+     * @param int $ruleId
      * @param array $segmentIds
      * @return Enterprise_TargetRule_Model_Resource_Rule
      */
@@ -87,7 +86,9 @@ class Enterprise_TargetRule_Model_Resource_Rule extends Mage_Rule_Model_Resource
         foreach ($segmentIds as $segmentId) {
             if (!empty($segmentId)) {
                 $adapter->insertOnDuplicate($this->getTable('enterprise_targetrule/customersegment'),
-                    array('rule_id' => $ruleId, 'segment_id' => $segmentId), array());
+                    array('rule_id' => $ruleId, 'segment_id' => $segmentId),
+                    array()
+                );
             }
         }
 
@@ -158,10 +159,6 @@ class Enterprise_TargetRule_Model_Resource_Rule extends Mage_Rule_Model_Resource
         parent::_beforeDelete($object);
         return $this;
     }
-
-
-
-
 
     /**
      * Prepare and Save Matched products for Rule

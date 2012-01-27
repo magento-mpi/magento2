@@ -51,6 +51,8 @@
  * @method Enterprise_TargetRule_Model_Rule setUseCustomerSegment(int $value)
  * @method string getActionSelect()
  * @method Enterprise_TargetRule_Model_Rule setActionSelect(string $value)
+ * @method array getCustomerSegmentIds()
+ * @method Enterprise_TargetRule_Model_Rule setCustomerSegmentIds(array $ids)
  *
  * @category    Enterprise
  * @package     Enterprise_TargetRule
