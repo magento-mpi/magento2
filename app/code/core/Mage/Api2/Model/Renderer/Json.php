@@ -36,7 +36,7 @@ class Mage_Api2_Model_Renderer_Json implements Mage_Api2_Model_Renderer_Interfac
     /**
      * Adapter mime type
      */
-    const MIME_TYPE = 'text/html';
+    const MIME_TYPE = 'application/json';
 
     /**
      * Convert Array to JSON
