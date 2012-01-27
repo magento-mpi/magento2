@@ -576,8 +576,9 @@ Product.OptionsPrice.prototype = {
 
         this.exclDisposition     = config.exclDisposition;
 
-        this.optionPrices    = {};
-        this.containers      = {};
+        this.optionPrices   = {};
+        this.customPrices   = {};
+        this.containers     = {};
 
         this.displayZeroPrice   = true;
 
@@ -600,6 +601,9 @@ Product.OptionsPrice.prototype = {
         this.optionPrices[key] = price;
     },
 
+    addCustomPrices: function(key, price) {
+        this.customPrices[key] = price;
+    },
     getOptionPrices: function() {
         var price = 0;
         var nonTaxable = 0;
@@ -662,6 +666,7 @@ Product.OptionsPrice.prototype = {
                 }
 
                 var subPrice = 0;
+                var subPriceincludeTax = 0;
                 Object.values(this.customPrices).each(function(el){
                     if (el.excludeTax && el.includeTax) {
                         subPrice += el.excludeTax;
@@ -672,6 +677,7 @@ Product.OptionsPrice.prototype = {
                     }
                 });
                 price += subPrice;
+                _priceInclTax += subPriceincludeTax;
 
                 if (this.specialTaxPrice == 'true') {
                     var excl = price;
@@ -754,7 +760,8 @@ Product.OptionsPrice.prototype = {
                 };
                 var container = $(this.containers[3]) ? this.containers[3] : this.containers[0];
                 var price = parsePrice($(container).innerHTML);
-                var tierPrice = parsePrice($$('.price.tier-' + i)[0].innerHTML);
+                var tierPrice = $$('.price.tier-' + i);
+                tierPrice = tierPrice.length ? parseInt(tierPrice[0].innerHTML, 10) : 0;
                 var $percent = Selector.findChildElements(el, ['.percent.tier-' + i]);
                 $percent.each(function (el) {
                     el.innerHTML = Math.ceil(100 - ((100 / price) * tierPrice));
