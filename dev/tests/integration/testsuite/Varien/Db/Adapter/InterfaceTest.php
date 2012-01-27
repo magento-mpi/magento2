@@ -22,7 +22,7 @@ class Varien_Db_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
     /**
      * @var string
      */
-    protected $_tableName = '_two_column_idx';
+    protected $_tableName;
 
     /**
      * @var string
@@ -38,8 +38,9 @@ class Varien_Db_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
     {
         $installer = new Mage_Core_Model_Resource_Setup(Mage_Core_Model_Resource_Setup::DEFAULT_SETUP_CONNECTION);
         $this->_connection = $installer->getConnection();
-        $this->_oneColumnIdxName = $this->_connection->getIndexName($this->_tableName, array('column1'));
-        $this->_twoColumnIdxName = $this->_connection->getIndexName($this->_tableName, array('column1', 'column2'));
+        $this->_tableName = $installer->getTable('_two_column_idx');
+        $this->_oneColumnIdxName = $installer->getIdxName($this->_tableName, array('column1'));
+        $this->_twoColumnIdxName = $installer->getIdxName($this->_tableName, array('column1', 'column2'));
     }
 
     /**
@@ -95,7 +96,7 @@ class Varien_Db_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
      */
     public function testDropColumn()
     {
-        $this->_connection->dropColumn($this->_connection->getTableName($this->_tableName), 'column1');
+        $this->_connection->dropColumn($this->_tableName, 'column1');
         $this->assertFalse(
             $this->_connection->tableColumnExists($this->_tableName, 'column1'),
             'Table column must not exist after it has been dropped.'
@@ -107,7 +108,7 @@ class Varien_Db_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
      */
     public function testDropColumnRemoveFromIndexes()
     {
-        $this->_connection->dropColumn($this->_connection->getTableName($this->_tableName), 'column1');
+        $this->_connection->dropColumn($this->_tableName, 'column1');
         $this->assertFalse(
             $this->_getIndexColumns($this->_tableName, $this->_oneColumnIdxName),
             'Column index must be dropped along with the column.'
@@ -124,7 +125,7 @@ class Varien_Db_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
      */
     public function testDropColumnSameColumnIndexDuplicate()
     {
-        $this->_connection->dropColumn($this->_connection->getTableName($this->_tableName), 'column2');
+        $this->_connection->dropColumn($this->_tableName, 'column2');
         $this->assertEquals(
             array('column1'),
             $this->_getIndexColumns($this->_tableName, $this->_oneColumnIdxName),
