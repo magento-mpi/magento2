@@ -25,12 +25,12 @@ class Mage_SalesRule_Model_Resource_Rule extends Mage_Rule_Model_Resource_Abstra
      */
     protected $_associatedEntitiesMap = array(
         'website' => array(
-            'associations_table' => 'salesrule/website',
+            'associations_table' => 'salesrule_website',
             'rule_id_field'      => 'rule_id',
             'entity_id_field'    => 'website_id'
         ),
         'customer_group' => array(
-            'associations_table' => 'salesrule/customer_group',
+            'associations_table' => 'salesrule_customer_group',
             'rule_id_field'      => 'rule_id',
             'entity_id_field'    => 'customer_group_id'
         )
