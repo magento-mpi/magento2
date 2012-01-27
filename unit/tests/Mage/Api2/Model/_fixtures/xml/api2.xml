@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<config>
+    <api2>
+       <resources>
+            <products>
+                <type>products</type><!-- used in ACL -->
+                <model>catalog/api2_products</model><!-- used in dispatching -->
+                <title>Catalog Products</title><!-- not used now, probably useful in frontend -->
+                <routes>
+                    <route_main>
+                        <mask>/products</mask>
+                    </route_main>
+                </routes>
+            </products>
+            <product>
+                <type>product</type><!-- used in ACL -->
+                <model>catalog/api2_product</model><!-- used in dispatching -->
+                <title>Catalog Product</title><!-- not used now, probably useful in frontend -->
+                <routes>
+                    <route_main>
+                        <mask>/products/:id</mask>
+                    </route_main>
+                </routes>
+            </product>
+        </resources>
+    </api2>
+</config>
