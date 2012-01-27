@@ -44,8 +44,22 @@
         <models>
             <api2>
                 <class>Mage_Api2_Model</class>
-                <resourceModel>api_resource</resourceModel>
+                <resourceModel>api2_resource</resourceModel>
             </api2>
+            <api2_resource>
+                <class>Mage_Api2_Model_Resource</class>
+                <entities>
+                    <acl_role>
+                        <table>api2_acl_role</table>
+                    </acl_role>
+                    <acl_user>
+                        <table>api2_acl_user</table>
+                    </acl_user>
+                    <acl_rule>
+                        <table>api2_acl_rule</table>
+                    </acl_rule>
+                </entities>
+            </api2_resource>
         </models>
         <blocks>
             <api2>
@@ -57,9 +71,17 @@
                 <class>Mage_Api2_Helper</class>
             </api2>
         </helpers>
-        <api2 module="api2">
+        <resources>
+            <api2_setup>
+                <setup>
+                    <module>Mage_Api2</module>
+                    <class>Mage_Api2_Model_Resource_Setup</class>
+                </setup>
+            </api2_setup>
+        </resources>
+        <api2>
             <auth_adapters>
-                <oauth translate="label">
+                <oauth module="api2" translate="label">
                     <model>api2/auth_adapter_oauth</model>
                     <label>OAuth</label>
                     <enabled>1</enabled>
