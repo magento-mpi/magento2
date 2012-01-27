@@ -143,18 +143,7 @@ class Legacy_TableTest extends PHPUnit_Framework_TestCase
      */
     protected function _getRegexpTableInArrays($filePath)
     {
-        $keys = array(
-            'table',
-            'additional_attribute_table',
-        );
-
-        $regexps = array();
-        foreach ($keys as $key) {
-            $regexps[] = '[\'"]' . $key . '[\'"]\s*=>\s*[\'"]([^\'"]+)';
-        }
-        $result = '#' . implode('|', $regexps) . '#';
-
-        return $result;
+        return '/[\'"](?:[a-z\d_]+_)?table[\'"]\s*=>\s*[\'"]([^\'"]+)/';
     }
 
     /**

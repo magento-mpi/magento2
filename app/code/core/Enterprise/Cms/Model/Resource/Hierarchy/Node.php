@@ -618,7 +618,7 @@ class Enterprise_Cms_Model_Resource_Hierarchy_Node extends Mage_Core_Model_Resou
             $maxLevel = $this->_treeMaxDepth > 0
                       ? min($this->_treeMaxDepth, $object->getLevel() + $down)
                       : $object->getLevel() + $down;
-            $select->where('level <= ?', $maxLevel);
+            $select->where($select->getAdapter()->quoteIdentifier('level') . ' <= ?', $maxLevel);
         }
         $select->order(array('level', $this->getMainTable() . '.sort_order'));
         return $select->query()->fetchAll();
@@ -890,7 +890,7 @@ class Enterprise_Cms_Model_Resource_Hierarchy_Node extends Mage_Core_Model_Resou
             ->from($this->getMainTable())
             ->where('scope = ?', $scope)
             ->where('scope_id = ?', $scopeId)
-            ->where('level = ?', Enterprise_Cms_Model_Hierarchy_Node::NODE_LEVEL_FAKE)
+            ->where($adapter->quoteIdentifier('level') . ' = ?', Enterprise_Cms_Model_Hierarchy_Node::NODE_LEVEL_FAKE)
             ->limit(1);
         return $adapter->fetchRow($select) ? false : true;
     }

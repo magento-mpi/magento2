@@ -25,7 +25,7 @@ class Enterprise_TargetRule_Model_Resource_Rule extends Mage_Rule_Model_Resource
      */
     protected $_associatedEntitiesMap = array(
         'product' => array(
-            'associations_table' => 'enterprise_targetrule/product',
+            'associations_table' => 'enterprise_targetrule_product',
             'rule_id_field'      => 'rule_id',
             'entity_id_field'    => 'product_id'
         )

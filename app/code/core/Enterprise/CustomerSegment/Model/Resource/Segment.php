@@ -175,12 +175,11 @@ class Enterprise_CustomerSegment_Model_Resource_Segment extends Mage_Rule_Model_
     public function getSegmentCustomersQty($segmentId)
     {
         $adapter = $this->_getReadAdapter();
-        return (int)$adapter->fetchOne(
-            $adapter->select()
-                ->from($this->getTable('enterprise_customersegment_customer'), array('COUNT(DISTINCT customer_id)'))
-                ->where('segment_id = :segment_id'),
-            array(':segment_id' => (int)$segmentId)
-        );
+        $select = $adapter->select()
+            ->from($this->getTable('enterprise_customersegment_customer'), array('COUNT(DISTINCT customer_id)'))
+            ->where('segment_id = ?', (int)$segmentId);
+
+        return (int)$adapter->fetchOne($select);
     }
 
     /**

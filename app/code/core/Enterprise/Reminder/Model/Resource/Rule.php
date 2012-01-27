@@ -25,7 +25,7 @@ class Enterprise_Reminder_Model_Resource_Rule extends Mage_Rule_Model_Resource_A
      */
     protected $_associatedEntitiesMap = array(
         'website' => array(
-            'associations_table' => 'enterprise_reminder/website',
+            'associations_table' => 'enterprise_reminder_rule_website',
             'rule_id_field'      => 'rule_id',
             'entity_id_field'    => 'website_id'
         )
