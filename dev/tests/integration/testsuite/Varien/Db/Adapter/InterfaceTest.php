@@ -125,7 +125,7 @@ class Varien_Db_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
      * @depends testDropColumn
      * @magentoDataFixture Varien/Db/Adapter/_files/table_two_column_idx.php
      */
-    public function testDropColumnSameColumnIndexDuplicate()
+    public function testDropColumnRemoveIndexDuplicate()
     {
         $this->_connection->dropColumn($this->_tableName, 'column2');
         $this->assertEquals(
@@ -133,10 +133,9 @@ class Varien_Db_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
             $this->_getIndexColumns($this->_tableName, $this->_oneColumnIdxName),
             'Column index must be preserved.'
         );
-        $this->assertEquals(
-            array('column1'),
+        $this->assertFalse(
             $this->_getIndexColumns($this->_tableName, $this->_twoColumnIdxName),
-            'Multiple-column index must be re-created with no reference to the dropped column.'
+            'Multiple-column index must be dropped to not duplicate existing index by indexed columns.'
         );
     }
 }
