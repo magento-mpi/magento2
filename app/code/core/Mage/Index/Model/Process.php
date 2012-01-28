@@ -476,6 +476,10 @@ class Mage_Index_Model_Process extends Mage_Core_Model_Abstract
      */
     public function changeStatus($status)
     {
+        Mage::dispatchEvent('index_process_change_status', array(
+            'process' => $this,
+            'status' => $status
+        ));
         $this->_getResource()->updateStatus($this, $status);
         return $this;
     }

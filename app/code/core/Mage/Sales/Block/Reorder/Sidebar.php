@@ -11,6 +11,8 @@
 /**
  * Sales order view block
  *
+ * @method int|null getCustomerId()
+ *
  * @category   Mage
  * @package    Mage_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
@@ -24,7 +26,7 @@ class Mage_Sales_Block_Reorder_Sidebar extends Mage_Core_Block_Template
     {
         parent::__construct();
 
-        if (Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()) {
+        if ($this->_getCustomerSession()->isLoggedIn()) {
             $this->setTemplate('order/history.phtml');
             $this->initOrders();
         }
@@ -37,7 +39,7 @@ class Mage_Sales_Block_Reorder_Sidebar extends Mage_Core_Block_Template
     public function initOrders()
     {
         $customerId = $this->getCustomerId() ? $this->getCustomerId()
-            : Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer()->getId();
+            : $this->_getCustomerSession()->getCustomer()->getId();
 
         $orders = Mage::getResourceModel('Mage_Sales_Model_Resource_Order_Collection')
             ->addAttributeToFilter('customer_id', $customerId)
@@ -102,7 +104,7 @@ class Mage_Sales_Block_Reorder_Sidebar extends Mage_Core_Block_Template
     /**
      * Last order getter
      *
-     * @return Mage_Sales_Model_Order | false
+     * @return Mage_Sales_Model_Order|false
      */
     public function getLastOrder()
     {
@@ -112,13 +114,23 @@ class Mage_Sales_Block_Reorder_Sidebar extends Mage_Core_Block_Template
         return false;
     }
 
+    /**
+     * Render "My Orders" sidebar block
+     *
+     * @return string
+     */
     protected function _toHtml()
     {
-        if (Mage::helper('Mage_Sales_Helper_Reorder')->isAllow()
-            && (Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn() || $this->getCustomerId())
-        ) {
-            return parent::_toHtml();
-        }
-        return '';
+        return $this->_getCustomerSession()->isLoggedIn() || $this->getCustomerId() ? parent::_toHtml() : '';
+    }
+
+    /**
+     * Retrieve customer session instance
+     *
+     * @return Mage_Customer_Model_Session
+     */
+    protected function _getCustomerSession()
+    {
+        return Mage::getSingleton('Mage_Customer_Model_Session');
     }
 }

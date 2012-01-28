@@ -32,13 +32,25 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Category extends Mage_Catalog
         $productCollection = $this->getLayer()->getProductCollection();
         $facets = $productCollection->getFacetedData('categories');
 
-        $data = array();
-        foreach ($categories as $category) {
-            $categoryId = $category->getId();
-            if (isset($facets[$categoryId])) {
-                $category->setProductCount($facets[$categoryId]);
-            } else {
-                $category->setProductCount(0);
+            $productCollection = $this->getLayer()->getProductCollection();
+            $facets = $productCollection->getFacetedData('category_ids');
+
+            $data = array();
+            foreach ($categories as $category) {
+                $categoryId = $category->getId();
+                if (isset($facets[$categoryId])) {
+                    $category->setProductCount($facets[$categoryId]);
+                } else {
+                    $category->setProductCount(0);
+                }
+
+                if ($category->getIsActive() && $category->getProductCount()) {
+                    $data[] = array(
+                        'label' => Mage::helper('core')->escapeHtml($category->getName()),
+                        'value' => $categoryId,
+                        'count' => $category->getProductCount(),
+                    );
+                }
             }
 
             if ($category->getIsActive() && $category->getProductCount()) {
@@ -68,7 +80,7 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Category extends Mage_Catalog
             ? array_keys($childrenCategories)
             : array_keys($childrenCategories->toArray());
 
-        $this->getLayer()->getProductCollection()->setFacetCondition('categories', $categories);
+        $this->getLayer()->getProductCollection()->setFacetCondition('category_ids', $categories);
 
         return $this;
     }

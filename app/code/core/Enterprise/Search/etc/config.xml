@@ -79,6 +79,15 @@
                     </enterprise_search>
                 </observers>
             </catalogsearch_index_process_complete>
+            <catelogsearch_searchable_attributes_load_after>
+                <observers>
+                    <enterprise_search>
+                        <class>enterprise_search/observer</class>
+                        <method>storeSearchableAttributes</method>
+                    </enterprise_search>
+                </observers>
+            </catelogsearch_searchable_attributes_load_after>
+
             <catalogsearch_query_save_after>
                 <observers>
                     <enterprise_search>

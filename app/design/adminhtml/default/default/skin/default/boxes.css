@@ -259,7 +259,7 @@ ul.tabs a.changed               { font-style:italic; }
 ul.tabs-horiz                   { margin:0 0 18px 0; background:url(images/horiz_tabs_ul_bg.gif) repeat-x 0 100% #f8f8f8; padding:8px 0 0 5px; }
 ul.tabs-horiz li                { float:left; margin:0 4px; }
 ul.tabs-horiz li a              { display:block; background:#e2e2e2; border:1px solid #ccc; padding:2px 10px; color:#333 !important; text-decoration:none !important; }
-ul.tabs-horiz li a.notloaded    { color:#999 !important; }
+ul.tabs-horiz li a.notloaded    { /* not used for now */ }
 ul.tabs-horiz li a.active       { border-bottom:1px solid #fff; background:#fff; }
 
 
@@ -419,6 +419,9 @@ button.add span,
 button.back span,
 button.add-image span,
 button.add-widget span { padding-left:20px; }
+/* Google Chrome specific fix for empty buttons */
+button.add span:after,
+button.delete span:after { display:inline-block; clear:both; content:"."; font-size:0; line-height:0; height:0; overflow:hidden; }
 button.back { border-color:#ccc #aaa #aaa #ccc; background-color:#fff; background-image:url(images/btn_back_bg.gif); color:#555; }
 button.back span { background-image:url(images/icon_btn_back.gif); }
 button.fail,
@@ -462,6 +465,7 @@ button.icon-btn span { text-indent:-999em; display:block; width:16px; padding:0;
 .side-col .switcher select { width:100%; }
 /*.side-col .switcher     { margin-right:20px; margin-bottom:20px; }*/
 .catalog-categories .side-col .switcher { margin-right:0; margin-bottom:15px; }
+.link-storeScope { display:inline-block; vertical-align:middle; margin:0 0 1px; width:16px; height:16px; background:url(images/i_question-mark.png) 0 0 no-repeat; text-decoration:none !important; text-indent:-999em; overflow:hidden; }
 
 
 /* SPACE

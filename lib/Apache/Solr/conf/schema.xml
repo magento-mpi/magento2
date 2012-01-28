@@ -1586,46 +1586,24 @@
                 Store offset information with the term vector. This will increase storage costs.
          -->
 
-        <!-- Numeric fields -->
-        <field name="id" type="string" indexed="true" stored="true" required="true"/>
-        <field name="unique" type="string" indexed="true" required="true"/>
-        <field name="store_id" type="int" indexed="true"/>
-        <field name="categories" type="int" indexed="true" multiValued="true"/>
-        <field name="show_in_categories" type="int" indexed="true" multiValued="true"/>
-        <field name="in_stock" type="boolean" indexed="true"/>
-        <field name="visibility" type="int" indexed="true"/>
 
-        <!-- Text fields -->
-        <field name="sku" type="textTight_en" indexed="true" omitNorms="true"/>
 
-        <!-- A field designed for sorting by name, its value will be pasted from name field. -->
-        <field name="alphaNameSort" type="alphaOnlySort"       indexed="true" stored="false"/>
-        <field name="alphaNameSort_en" type="alphaOnlySort_en" indexed="true" stored="false"/>
-        <field name="alphaNameSort_fr" type="alphaOnlySort_fr" indexed="true" stored="false"/>
-        <field name="alphaNameSort_de" type="alphaOnlySort_de" indexed="true" stored="false"/>
-        <field name="alphaNameSort_da" type="alphaOnlySort_da" indexed="true" stored="false"/>
-        <field name="alphaNameSort_nl" type="alphaOnlySort_nl" indexed="true" stored="false"/>
-        <field name="alphaNameSort_fi" type="alphaOnlySort_fi" indexed="true" stored="false"/>
-        <field name="alphaNameSort_it" type="alphaOnlySort_it" indexed="true" stored="false"/>
-        <field name="alphaNameSort_nb" type="alphaOnlySort_nb" indexed="true" stored="false"/>
-        <field name="alphaNameSort_pt" type="alphaOnlySort_pt" indexed="true" stored="false"/>
-        <field name="alphaNameSort_ro" type="alphaOnlySort_ro" indexed="true" stored="false"/>
-        <field name="alphaNameSort_ru" type="alphaOnlySort_ru" indexed="true" stored="false"/>
-        <field name="alphaNameSort_es" type="alphaOnlySort_es" indexed="true" stored="false"/>
-        <field name="alphaNameSort_sv" type="alphaOnlySort_sv" indexed="true" stored="false"/>
-        <field name="alphaNameSort_tr" type="alphaOnlySort_tr" indexed="true" stored="false"/>
-        <field name="alphaNameSort_cs" type="alphaOnlySort_cs" indexed="true" stored="false"/>
-        <field name="alphaNameSort_el" type="alphaOnlySort_el" indexed="true" stored="false"/>
-        <field name="alphaNameSort_th" type="alphaOnlySort_th" indexed="true" stored="false"/>
-        <field name="alphaNameSort_zh" type="alphaOnlySort_zh" indexed="true" stored="false"/>
-        <field name="alphaNameSort_ja" type="alphaOnlySort_ja" indexed="true" stored="false"/>
-        <field name="alphaNameSort_ko" type="alphaOnlySort_ko" indexed="true" stored="false"/>
 
-        <!--
-            The following will create a "timestamp" field using a default value of "NOW" to indicate when each document
-            was indexed.
-        -->
-        <field name="timestamp" type="date" indexed="true" default="NOW" multiValued="false"/>
+
+        <!-- System required fields. -->
+        <field name="id"            type="string"   indexed="true" required="true" stored="true"/>
+        <field name="unique"        type="string"   indexed="true" required="true"/>
+        <field name="store_id"      type="int"      indexed="true" required="true"/>
+        <field name="in_stock"      type="boolean"  indexed="true" required="true"/>
+        <field name="visibility"    type="int"      indexed="true" required="true"/>
+
+        <!-- System optional fields. -->
+        <field name="category_ids"  type="int"  indexed="true" multiValued="true"/>
+        <!-- Creates a "timestamp" field using a default value of "NOW" to indicate when each document was indexed. -->
+        <field name="timestamp"     type="date" indexed="true" multiValued="false" default="NOW"/>
+
+        <!-- Static type attribute fields. -->
+        <field name="sku"   type="textTight_en" indexed="true" omitNorms="true"/>
 
         <!--
             Dynamic fields definitions. If a field name is not found, dynamicFields will be used if the name matches any
@@ -1636,19 +1614,26 @@
             will be used.
         -->
         <dynamicField name="ignored_*" type="ignored" multiValued="true"/>
-        <dynamicField name="random_*" type="random"/>
+        <dynamicField name="random_*"  type="random"/>
 
-        <dynamicField name="attr_decimal_*"  type="float"  indexed="true" multiValued="true"/>
-        <dynamicField name="attr_datetime_*" type="date"   indexed="true" multiValued="true"/>
-        <dynamicField name="attr_select_*"   type="string" indexed="true" multiValued="true"/>
-        <dynamicField name="attr_multi_*"    type="string" indexed="true" multiValued="true"/>
+        <!-- Default dynamic fields for advanced search. -->
+        <dynamicField name="attr_decimal_*"         type="float"    indexed="true" multiValued="true"/>
+        <dynamicField name="attr_datetime_*"        type="date"     indexed="true" multiValued="true"/>
+        <dynamicField name="attr_select_*"          type="string"   indexed="true" multiValued="true"/>
+        <dynamicField name="attr_multi_*"           type="string"   indexed="true" multiValued="true"/>
 
-        <dynamicField name="attr_sort_decimal_*"  type="float"  indexed="true" stored="false"/>
-        <dynamicField name="attr_sort_datetime_*" type="date"   indexed="true" stored="false"/>
-        <dynamicField name="attr_sort_select_*"   type="string" indexed="true" stored="false"/>
+        <dynamicField name="price_*"                type="tfloat"   indexed="true"/>
+        <dynamicField name="position_category_*"    type="int"      indexed="true"/>
 
-        <dynamicField name="price_*" type="tfloat" indexed="true"/>
-        <dynamicField name="position_category_*" type="int" indexed="true"/>
+        <!-- Dynamic fields for sorting. -->
+        <dynamicField name="attr_sort_decimal_*"    type="float"/>
+        <dynamicField name="attr_sort_datetime_*"   type="date"/>
+        <dynamicField name="attr_sort_select_*"     type="alphaOnlySort"/>
+        <dynamicField name="attr_sort_*"            type="alphaOnlySort"/>
+
+        <!-- Dynamic fields for layered navigation. -->
+        <dynamicField name="attr_nav_select_*"      type="string"    multiValued="true"/>
+        <dynamicField name="attr_nav_multi_*"       type="string"    multiValued="true"/>
 
         <!-- Fulltext with search weight fields definition for all supported languages. -->
         <dynamicField name="*_def" type="textgen" indexed="true"/>
@@ -1674,27 +1659,27 @@
         <dynamicField name="*_ko" type="text_ko" indexed="true"/>
 
         <!-- Fields used for spellcheck definition. -->
-        <field name="fulltext_spell_def" type="textgen"/>
-        <field name="fulltext_spell_en" type="textSpell_en"/>
-        <field name="fulltext_spell_fr" type="textSpell_fr"/>
-        <field name="fulltext_spell_de" type="textSpell_de"/>
-        <field name="fulltext_spell_da" type="textSpell_da"/>
-        <field name="fulltext_spell_nl" type="textSpell_nl"/>
-        <field name="fulltext_spell_fi" type="textSpell_fi"/>
-        <field name="fulltext_spell_it" type="textSpell_it"/>
-        <field name="fulltext_spell_nb" type="textSpell_nb"/>
-        <field name="fulltext_spell_pt" type="textSpell_pt"/>
-        <field name="fulltext_spell_ro" type="textSpell_ro"/>
-        <field name="fulltext_spell_ru" type="textSpell_ru"/>
-        <field name="fulltext_spell_es" type="textSpell_es"/>
-        <field name="fulltext_spell_sv" type="textSpell_sv"/>
-        <field name="fulltext_spell_tr" type="textSpell_tr"/>
-        <field name="fulltext_spell_cs" type="textSpell_cs"/>
-        <field name="fulltext_spell_el" type="textSpell_el"/>
-        <field name="fulltext_spell_th" type="textSpell_th"/>
-        <field name="fulltext_spell_zh" type="textSpell_zh"/>
-        <field name="fulltext_spell_ja" type="textSpell_ja"/>
-        <field name="fulltext_spell_ko" type="textSpell_ko"/>
+        <field name="spell_def" type="textgen"/>
+        <field name="spell_en" type="textSpell_en"/>
+        <field name="spell_fr" type="textSpell_fr"/>
+        <field name="spell_de" type="textSpell_de"/>
+        <field name="spell_da" type="textSpell_da"/>
+        <field name="spell_nl" type="textSpell_nl"/>
+        <field name="spell_fi" type="textSpell_fi"/>
+        <field name="spell_it" type="textSpell_it"/>
+        <field name="spell_nb" type="textSpell_nb"/>
+        <field name="spell_pt" type="textSpell_pt"/>
+        <field name="spell_ro" type="textSpell_ro"/>
+        <field name="spell_ru" type="textSpell_ru"/>
+        <field name="spell_es" type="textSpell_es"/>
+        <field name="spell_sv" type="textSpell_sv"/>
+        <field name="spell_tr" type="textSpell_tr"/>
+        <field name="spell_cs" type="textSpell_cs"/>
+        <field name="spell_el" type="textSpell_el"/>
+        <field name="spell_th" type="textSpell_th"/>
+        <field name="spell_zh" type="textSpell_zh"/>
+        <field name="spell_ja" type="textSpell_ja"/>
+        <field name="spell_ko" type="textSpell_ko"/>
     </fields>
 
     <!-- Field used to determine and enforce document uniqueness. -->
@@ -1705,27 +1690,4 @@
 
     <!-- SolrQueryParser configuration: defaultOperator="AND|OR". -->
     <solrQueryParser defaultOperator="OR"/>
-
-    <!-- Copy name to alphaNameSort, a field designed for sorting by name. -->
-    <copyField source="name_def" dest="alphaNameSort"/>
-    <copyField source="name_en" dest="alphaNameSort_en"/>
-    <copyField source="name_fr" dest="alphaNameSort_fr"/>
-    <copyField source="name_de" dest="alphaNameSort_de"/>
-    <copyField source="name_da" dest="alphaNameSort_da"/>
-    <copyField source="name_nl" dest="alphaNameSort_nl"/>
-    <copyField source="name_fi" dest="alphaNameSort_fi"/>
-    <copyField source="name_it" dest="alphaNameSort_it"/>
-    <copyField source="name_nb" dest="alphaNameSort_nb"/>
-    <copyField source="name_pt" dest="alphaNameSort_pt"/>
-    <copyField source="name_ro" dest="alphaNameSort_ro"/>
-    <copyField source="name_ru" dest="alphaNameSort_ru"/>
-    <copyField source="name_es" dest="alphaNameSort_es"/>
-    <copyField source="name_sv" dest="alphaNameSort_sv"/>
-    <copyField source="name_tr" dest="alphaNameSort_tr"/>
-    <copyField source="name_cs" dest="alphaNameSort_cs"/>
-    <copyField source="name_el" dest="alphaNameSort_el"/>
-    <copyField source="name_th" dest="alphaNameSort_th"/>
-    <copyField source="name_zh" dest="alphaNameSort_zh"/>
-    <copyField source="name_ja" dest="alphaNameSort_ja"/>
-    <copyField source="name_ko" dest="alphaNameSort_ko"/>
 </schema>

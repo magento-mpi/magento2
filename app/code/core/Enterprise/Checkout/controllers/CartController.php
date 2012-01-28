@@ -90,20 +90,15 @@ class Enterprise_Checkout_CartController extends Mage_Core_Controller_Front_Acti
 
         /** @var $failedItemsCart Enterprise_Checkout_Model_Cart */
         $failedItemsCart = Mage::getModel('Enterprise_Checkout_Model_Cart');
+        $failedItemsCart->removeAllAffectedItems();
 
-        foreach ($failedItems as $productId => $data) {
+        foreach ($failedItems as $data) {
             if (!isset($data['qty']) || !isset($data['sku'])) {
                 continue;
             }
-            $checkedItem = $failedItemsCart->checkItem($data['sku'], $data['qty']);
-            if ($checkedItem['code'] == Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_SUCCESS) {
-                $cart->addProduct($productId, $data['qty']);
-                $failedItemsCart->removeAffectedItem($data['sku']);
-            } else {
-                $failedItemsCart->updateItemQty($data['sku'], $data['qty']);
-            }
+            $failedItemsCart->prepareAddProductBySku($data['sku'], $data['qty']);
         }
-        $cart->save();
+        $failedItemsCart->saveAffectedProducts();
         $this->_redirect('checkout/cart');
     }
 
@@ -189,11 +184,25 @@ class Enterprise_Checkout_CartController extends Mage_Core_Controller_Front_Acti
 
             /** @var $cart Mage_Checkout_Model_Cart */
             $cart = Mage::getSingleton('Mage_Checkout_Model_Cart');
-            $cart->addProduct($id, $buyRequest);
+
+            $product = Mage::getModel('catalog/product')
+                ->setStoreId(Mage::app()->getStore()->getId())
+                ->load($id);
+
+            $cart->addProduct($product, $buyRequest);
             $cart->save();
+
             Mage::getModel('Enterprise_Checkout_Model_Cart')->removeAffectedItem(
                 $this->getRequest()->getParam('sku')
             );
+
+            if (!$this->_getSession()->getNoCartRedirect(true)) {
+                if (!$cart->getQuote()->getHasError()){
+                    $productName = Mage::helper('core')->htmlEscape($product->getName());
+                    $message = $this->__('%s was added to your shopping cart.', $productName);
+                    $this->_getSession()->addSuccess($message);
+                }
+            }
         } catch (Mage_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         } catch (Exception $e) {

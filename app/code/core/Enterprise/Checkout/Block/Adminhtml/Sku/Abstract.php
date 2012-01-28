@@ -24,6 +24,11 @@
 abstract class Enterprise_Checkout_Block_Adminhtml_Sku_Abstract extends Mage_Adminhtml_Block_Template
 {
     /**
+     * List type of current block
+     */
+    const LIST_TYPE = 'add_by_sku';
+
+    /**
      * Initialize SKU container
      */
     public function __construct()
@@ -32,7 +37,7 @@ abstract class Enterprise_Checkout_Block_Adminhtml_Sku_Abstract extends Mage_Adm
         // Used by JS to tell accordions from each other
         $this->setId('sku');
         /* @see Enterprise_Checkout_Adminhtml_CheckoutController::_getListItemInfo() */
-        $this->setListType('add_by_sku');
+        $this->setListType(self::LIST_TYPE);
         $this->setDataContainerId('sku_container');
     }
 

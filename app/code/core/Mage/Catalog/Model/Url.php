@@ -629,11 +629,21 @@ class Mage_Catalog_Model_Url
             }
             // match request_url abcdef1234(-12)(.html) pattern
             $match = array();
-            if (!preg_match('#^([0-9a-z/-]+?)(-([0-9]+))?('.preg_quote($suffix).')?$#i', $requestPath, $match)) {
+            $regularExpression = '#^([0-9a-z/-]+?)(-([0-9]+))?('.preg_quote($suffix).')?$#i';
+            if (!preg_match($regularExpression, $requestPath, $match)) {
                 return $this->getUnusedPath($storeId, '-', $idPath);
             }
-            $requestPath = $match[1].(isset($match[3])?'-'.($match[3]+1):'-1').(isset($match[4])?$match[4]:'');
-            return $this->getUnusedPath($storeId, $requestPath, $idPath);
+            $match[1] = $match[1] . '-';
+            $match[4] = isset($match[4]) ? $match[4] : '';
+
+            $lastRequestPath = $this->getResource()
+                ->getLastUsedRewriteRequestIncrement($match[1], $match[4], $storeId);
+            if ($lastRequestPath) {
+                $match[3] = $lastRequestPath;
+            }
+            return $match[1]
+                . (isset($match[3]) ? ($match[3]+1) : '1')
+                . $match[4];
         }
         else {
             return $requestPath;

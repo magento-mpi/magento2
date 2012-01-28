@@ -229,6 +229,11 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
             $this->_getOrderCreateModel()->getQuote()->getPayment()->addData($paymentData);
         }
 
+        $eventData = array(
+            'order_create_model' => $this->_getOrderCreateModel(),
+            'request'            => $this->getRequest()->getPost(),
+        );
+
         Mage::dispatchEvent('adminhtml_sales_order_create_process_data', $eventData);
 
         $this->_getOrderCreateModel()
