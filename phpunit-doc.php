@@ -112,3 +112,8 @@ define('TESTS_BAMBOO_PROFILER_METRICS_FILE', '');
  * Define enable show content on get invalid response
  */
 define('TESTS_WEBSERVICE_SHOW_INVALID_RESPONSE', '');
+
+/**
+ * Define test oAuth consumer
+ */
+define('TESTS_OAUTH_CONSUMER', '');
