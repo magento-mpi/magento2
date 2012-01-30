@@ -2565,38 +2565,31 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function loginAdminUser()
     {
-        try {
-            $this->admin('log_in_to_admin', false);
+        $loginData = array(
+            'user_name' => $this->_applicationHelper->getDefaultAdminUsername(),
+            'password'  => $this->_applicationHelper->getDefaultAdminPassword()
+        );
 
-            $currentPage = $this->_findCurrentPageFromUrl($this->getLocation());
-            if ($currentPage != $this->_firstPageAfterAdminLogin) {
-                if ($currentPage == 'log_in_to_admin') {
-                    $this->validatePage('log_in_to_admin');
-                    $loginData = array(
-                        'user_name' => $this->_applicationHelper->getDefaultAdminUsername(),
-                        'password'  => $this->_applicationHelper->getDefaultAdminPassword()
-                    );
-                    $this->fillForm($loginData);
-                    $this->clickButton('login', false);
-                    $this->waitForElement(array(self::$xpathAdminLogo,
-                                               self::$xpathErrorMessage,
-                                               self::$xpathValidationMessage));
-                    if ($this->_findCurrentPageFromUrl($this->getLocation()) != $this->_firstPageAfterAdminLogin) {
-                        throw new PHPUnit_Framework_Exception('Admin was not logged in');
-                    }
-                    if ($this->isElementPresent(self::$xpathGoToNotifications)) {
-                        if ($this->waitForElement(self::$xpathIncomingMessageClose, 10)) {
-                            $this->click(self::$xpathIncomingMessageClose);
-                        }
-                    }
-                    $this->validatePage($this->_firstPageAfterAdminLogin);
-                } else {
-                    throw new PHPUnit_Framework_Exception('Wrong page was opened: ' . $this->getLocation());
-                }
+        $this->admin('log_in_to_admin', false);
+
+        $currentPage = $this->_findCurrentPageFromUrl($this->getLocation());
+        if ($currentPage != $this->_firstPageAfterAdminLogin) {
+            $this->validatePage('log_in_to_admin');
+            $this->fillForm($loginData);
+            $this->clickButton('login', false);
+            $this->waitForElement(array(self::$xpathAdminLogo,
+                                       self::$xpathErrorMessage,
+                                       self::$xpathValidationMessage));
+            if ($this->_findCurrentPageFromUrl($this->getLocation()) != $this->_firstPageAfterAdminLogin) {
+                $this->fail('Admin was not logged in');
             }
-        } catch (PHPUnit_Framework_Exception $e) {
-            $this->fail($e->getMessage());
+            if ($this->isElementPresent(self::$xpathGoToNotifications)
+                && $this->waitForElement(self::$xpathIncomingMessageClose, 5)) {
+                $this->click(self::$xpathIncomingMessageClose);
+            }
+            $this->validatePage($this->_firstPageAfterAdminLogin);
         }
+
         return $this;
     }
 
@@ -2606,15 +2599,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function logoutAdminUser()
     {
-        try {
-            if ($this->isElementPresent(self::$xpathLogOutAdmin)) {
-                $this->click(self::$xpathLogOutAdmin);
-                $this->waitForPageToLoad($this->_browserTimeoutPeriod);
-                $this->validatePage('log_in_to_admin');
-            }
-        } catch (PHPUnit_Framework_Exception $e) {
-            $this->fail($e->getMessage());
+        if ($this->isElementPresent(self::$xpathLogOutAdmin)) {
+            $this->click(self::$xpathLogOutAdmin);
+            $this->waitForPageToLoad($this->_browserTimeoutPeriod);
         }
+        $this->validatePage('log_in_to_admin');
+
         return $this;
     }
 
@@ -2706,8 +2696,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             $this->clickAndWait($xpath, $this->_browserTimeoutPeriod);
             $this->frontend('home');
         }
-        //@TODO need remove this line
-        $this->assertElementNotPresent($xpath, 'Customer is signed in');
+
         return $this;
     }
 
