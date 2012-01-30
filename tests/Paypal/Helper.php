@@ -77,23 +77,8 @@ class Paypal_Helper extends Mage_Selenium_TestCase
         }
         $parameters = $this->arrayEmptyClear($parameters);
         $this->fillForm($parameters);
-        $xpath = $this->_getControlXpath('button', 'create_account');
-        while ($this->isElementPresent($xpath)) {
-            $this->click($xpath);
-            $notLoaded = true;
-            $retries = 0;
-            while ($notLoaded) {
-                try {
-                    $retries++;
-                    $this->waitForPageToLoad($this->_browserTimeoutPeriod);
-                    $notLoaded = false;
-                } catch (PHPUnit_Framework_Exception $e) {
-                    if ($retries == 10) {
-                        throw $e;
-                    }
-                }
-            }
-        }
+        $this->clickButton('create_account', false);
+        $this->waitForNewPage();
     }
 
     /**
@@ -131,35 +116,31 @@ class Paypal_Helper extends Mage_Selenium_TestCase
         $info['credit_card']['card_type'] = $parameters['add_credit_card'];
         $pageelements = $this->getCurrentUimapPage()->getAllPageelements();
         foreach ($pageelements as $key => $value) {
+            if (!$this->isElementPresent($value)) {
+                $this->fail('Could not find element: ' . $value);
+            }
             switch ($key) {
                 case 'credit_card':
-                    if (!$this->isElementPresent($value)) {
-                        $this->fail('Could not find element: ' . $value);
-                    } else {
-                        $text = $this->getText($value);
-                        $nodes = explode("\n", $text);
-                        foreach ($nodes as $line) {
-                            $exline = explode(' ', $line);
-                            foreach ($exline as $val) {
-                                if (preg_match('/([0-9])/', $val)) {
-                                    if (preg_match('/Exp Date/', $line)) {
-                                        $expDate = explode('/', $val);
-                                        $info[$key]['expiration_month'] = self::$monthMap[$expDate[0]];
-                                        $info[$key]['expiration_year'] = $expDate[1];
-                                    } else {
-                                        $info[$key]['card_number'] = $val;
-                                    }
-                                }
+                    $text = $this->getText($value);
+                    $nodes = explode("\n", $text);
+                    foreach ($nodes as $line) {
+                        $exline = explode(' ', $line);
+                        foreach ($exline as $val) {
+                            if (!preg_match('/([0-9])/', $val)) {
+                                continue;
+                            }
+                            if (preg_match('/Exp Date/', $line)) {
+                                $expDate = explode('/', $val);
+                                $info[$key]['expiration_month'] = self::$monthMap[$expDate[0]];
+                                $info[$key]['expiration_year'] = $expDate[1];
+                            } else {
+                                $info[$key]['card_number'] = $val;
                             }
                         }
                     }
                     break;
                 case 'email':
-                    if (!$this->isElementPresent($value)) {
-                        $this->fail('Could not find element: ' . $value);
-                    } else {
-                        $info['email'] = $this->getText($value);
-                    }
+                    $info['email'] = $this->getText($value);
                 default:
                     break;
             }
@@ -174,13 +155,9 @@ class Paypal_Helper extends Mage_Selenium_TestCase
     {
         $this->navigate('test_accounts');
         while ($this->controlIsPresent('button', 'delete')) {
-            $this->chooseOkOnNextConfirmation();
-            $this->clickButton('delete', false);
-            try {
-                $this->waitForPageToLoad($this->_browserTimeoutPeriod);
-            } catch (PHPUnit_Framework_Exception $e) {
-            }
             $this->navigate('test_accounts');
+            $this->clickButtonAndConfirm('delete', 'confirmation_to_delete_account', false);
+            $this->waitForNewPage();
         }
     }
 
@@ -197,12 +174,8 @@ class Paypal_Helper extends Mage_Selenium_TestCase
             $this->fillForm(array('account' => 'Yes'));
             $this->navigate('test_accounts');
             if ($this->controlIsPresent('button', 'delete')) {
-                $this->chooseOkOnNextConfirmation();
-                $this->clickButton('delete', false);
-                try {
-                    $this->waitForPageToLoad($this->_browserTimeoutPeriod);
-                } catch (PHPUnit_Framework_Exception $e) {
-                }
+                $this->clickButtonAndConfirm('delete', 'confirmation_to_delete_account', false);
+                $this->waitForNewPage();
                 $this->navigate('test_accounts');
             }
         }
@@ -263,6 +236,7 @@ class Paypal_Helper extends Mage_Selenium_TestCase
     /**
      * Login using sandbox account
      * Function has not been verified and is not used right now
+     * @TODO check and rewrite
      *
      * @param $parameters
      */
@@ -283,6 +257,7 @@ class Paypal_Helper extends Mage_Selenium_TestCase
     /**
      * Configure sandbox account
      * Function has not been verified and is not used right now
+     * @TODO check and rewrite
      *
      * @param $parameters
      */
@@ -301,6 +276,7 @@ class Paypal_Helper extends Mage_Selenium_TestCase
     /**
      * Pays the order using paypal sandbox account
      * Function has not been verified and is not used right now
+     * @TODO check and rewrite
      *
      * @param $parameters
      */

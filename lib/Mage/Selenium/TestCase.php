@@ -1603,10 +1603,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * @param string $controlType Type of control (e.g. button|link)
      * @param string $controlName Name of a control from UIMap
      * @param string $message Confirmation message
+     * @param bool   $willChangePage Triggers page reloading. If clicking the control doesn't result</br>
+     * in page reloading, should be false (by default = true).
      *
      * @return boolean
      */
-    public function clickControlAndConfirm($controlType, $controlName, $message)
+    public function clickControlAndConfirm($controlType, $controlName, $message, $willChangePage = true)
     {
         $buttonXpath = $this->_getControlXpath($controlType, $controlName);
         if ($this->isElementPresent($buttonXpath)) {
@@ -1619,16 +1621,20 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                     $this->chooseOkOnNextConfirmation();
                     $this->click($buttonXpath);
                     $this->getConfirmation();
-                    $this->waitForPageToLoad($this->_browserTimeoutPeriod);
-                    $this->validatePage();
+                    if ($willChangePage) {
+                        $this->waitForPageToLoad($this->_browserTimeoutPeriod);
+                        $this->validatePage();
+                    }
                     return true;
                 } else {
                     $this->addVerificationMessage("The confirmation text incorrect: {$text}");
                 }
             } else {
                 $this->addVerificationMessage('The confirmation does not appear');
-                $this->waitForPageToLoad($this->_browserTimeoutPeriod);
-                $this->validatePage();
+                if ($willChangePage) {
+                    $this->waitForPageToLoad($this->_browserTimeoutPeriod);
+                    $this->validatePage();
+                }
                 return true;
             }
         } else {
@@ -1643,12 +1649,14 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      *
      * @param string $buttonName Name of a button from UIMap
      * @param string $message Message ID from UIMap
+     * @param bool   $willChangePage Triggers page reloading. If clicking the control doesn't result</br>
+     * in page reloading, should be false (by default = true).
      *
      * @return boolean
      */
-    public function clickButtonAndConfirm($buttonName, $message)
+    public function clickButtonAndConfirm($buttonName, $message, $willChangePage = true)
     {
-        $this->clickControlAndConfirm('button', $buttonName, $message);
+        return $this->clickControlAndConfirm('button', $buttonName, $message, $willChangePage);
     }
 
     /**

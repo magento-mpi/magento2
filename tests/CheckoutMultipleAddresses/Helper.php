@@ -406,7 +406,8 @@ class CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
         try {
             $this->waitForPageToLoad($this->_browserTimeoutPeriod);
             $this->validatePage();
-        } catch (Exception $e) {}
+        } catch (Exception $e) {
+        }
 
     }
 
