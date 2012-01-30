@@ -426,8 +426,8 @@ Validation.addAllThese([
                     return true; // hardcode, should be achieved by CSS classes ordering
                 }
 
-                return !Validation.get('IsEmpty').test(v)
-                    && !isNaN(parseNumber(v)) && /^\s*-?\d*([.,]\d*)?\s*$/.test(v);
+                return Validation.get('IsEmpty').test(v)
+                    || !isNaN(parseNumber(v));
             }],
     ['validate-number-range', 'The value is not within the specified range.', function(v, elm) {
                 var numValue = parseNumber(v);
