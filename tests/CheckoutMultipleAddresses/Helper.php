@@ -402,7 +402,12 @@ class CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
                 $this->fillForm($card);
             }
         }
-        $this->saveForm('continue_to_review_order');
+        $this->clickButton('continue_to_review_order', false);
+        try {
+            $this->waitForPageToLoad($this->_browserTimeoutPeriod);
+            $this->validatePage();
+        } catch (Exception $e) {}
+
     }
 
     /**
