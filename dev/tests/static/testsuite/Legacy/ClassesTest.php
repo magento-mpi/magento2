@@ -29,11 +29,20 @@ class Legacy_ClassesTest extends PHPUnit_Framework_TestCase
      */
     public function testPhpCode($file)
     {
-        $contents = file_get_contents($file);
-        $classes = array();
-        $this->_collectMatches(
-            $contents,
-            '/
+        $classes = self::collectPhpCodeClasses(file_get_contents($file));
+        $this->_assertClassesNamedCorrect($classes, $file);
+    }
+
+    /**
+     * Scan contents as PHP-code and find class name occurrences
+     *
+     * @param string $contents
+     * @param array &$classes
+     * @return array
+     */
+    public static function collectPhpCodeClasses($contents, &$classes = array())
+    {
+        self::collectMatches($contents, '/
             # ::getModel ::getSingleton ::getResourceModel ::getResourceSingleton
             \:\:get(?:Resource)?(?:Model | Singleton)\(\s*[\'"]([^\'"]+)[\'"]\s*[\),]
 
@@ -60,24 +69,20 @@ class Legacy_ClassesTest extends PHPUnit_Framework_TestCase
             | function\s_getCollectionClass\(\)\s+{\s+return\s+[\'"]([a-z\d_\/]+)[\'"]
             | _parentResourceModelName\s*=\s*\'([a-z\d_\/]+)\'
 
-            /Uix',
-            $classes
+            /Uix', $classes
         );
 
         // check ->_init | parent::_init
         $skipForInit = implode('|',
             array('id', '[\w\d_]+_id', 'pk', 'code', 'status', 'serial_number', 'entity_pk_value', 'currency_code')
         );
-        $this->_collectMatches(
-            $contents,
-            '/
+        self::collectMatches($contents, '/
             (?:parent\:\: | \->)_init\(\s*[\'"]([^\'"]+)[\'"]\s*\)
             | (?:parent\:\: | \->)_init\(\s*[\'"]([^\'"]+)[\'"]\s*,\s*[\'"]((?!(' . $skipForInit . '))[^\'"]+)[\'"]\s*\)
-            /Uix',
-            $classes
+            /Uix', $classes
         );
 
-        $this->_assertClassesNamedCorrect($classes, $file);
+        return $classes;
     }
 
     /**
@@ -299,7 +304,7 @@ class Legacy_ClassesTest extends PHPUnit_Framework_TestCase
      * @param array &$result
      * @return array
      */
-    protected function _collectMatches($contents, $regex, &$result = array())
+    public static function collectMatches($contents, $regex, &$result = array())
     {
         preg_match_all($regex, $contents, $matches);
 
