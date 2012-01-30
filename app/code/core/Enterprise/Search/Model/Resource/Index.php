@@ -29,7 +29,7 @@ class Enterprise_Search_Model_Resource_Index extends Mage_CatalogSearch_Model_Re
         $adapter = $this->_getWriteAdapter();
 
         $select = $adapter->select()
-            ->from($this->getTable('catalog/product_index_price'),
+            ->from($this->getTable('catalog_product_index_price'),
                 array('entity_id', 'customer_group_id', 'website_id', 'min_price'));
 
         if ($productIds) {
@@ -78,7 +78,7 @@ class Enterprise_Search_Model_Resource_Index extends Mage_CatalogSearch_Model_Re
 
         $select = $adapter->select()
             ->from(
-                array($this->getTable('catalog/category_product_index')),
+                array($this->getTable('catalog_category_product_index')),
                 array(
                     'category_id',
                     'product_id',
@@ -160,12 +160,12 @@ class Enterprise_Search_Model_Resource_Index extends Mage_CatalogSearch_Model_Re
         }
 
         $select = $adapter->select()
-            ->from(array($this->getTable('catalog/category_product_index')), $columns)
+            ->from(array($this->getTable('catalog_category_product_index')), $columns)
             ->where('product_id IN (?)', $productIds)
             ->where('store_id = ?', $storeId)
             ->group('product_id');
 
-        $helper = Mage::getResourceHelper('core');
+        $helper = Mage::getResourceHelper('Mage_Core');
         $helper->addGroupConcatColumn($select, 'parents', 'category_id', ' ', ',', 'is_parent = 1');
         $helper->addGroupConcatColumn($select, 'anchors', 'category_id', ' ', ',', 'is_parent = 0');
         $helper->addGroupConcatColumn($select, 'positions', array('category_id', 'position'), ' ', '_');

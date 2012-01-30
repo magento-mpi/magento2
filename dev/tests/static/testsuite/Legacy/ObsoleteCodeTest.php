@@ -48,7 +48,7 @@ class Legacy_ObsoleteCodeTest extends PHPUnit_Framework_TestCase
      */
     public function phpFileDataProvider()
     {
-        return FileDataProvider::getPhpFiles();
+        return Util_Files::getPhpFiles();
     }
 
     /**
@@ -66,7 +66,7 @@ class Legacy_ObsoleteCodeTest extends PHPUnit_Framework_TestCase
      */
     public function xmlFileDataProvider()
     {
-        return FileDataProvider::getXmlFiles();
+        return Util_Files::getXmlFiles();
     }
 
     /**
@@ -84,7 +84,7 @@ class Legacy_ObsoleteCodeTest extends PHPUnit_Framework_TestCase
      */
     public function jsFileDataProvider()
     {
-        return FileDataProvider::getJsFiles();
+        return Util_Files::getJsFiles();
     }
 
     /**
@@ -249,8 +249,16 @@ class Legacy_ObsoleteCodeTest extends PHPUnit_Framework_TestCase
         $result = array();
         foreach ($config as $key => $value) {
             $entity = is_string($key) ? $key : $value;
-            $class = isset($value['class_scope']) ? $value['class_scope'] : null;
-            $suggestion = isset($value['suggestion']) ? sprintf(self::SUGGESTION_MESSAGE, $value['suggestion']) : '';
+            $class = null;
+            $suggestion = null;
+            if (is_array($value)) {
+                if (isset($value['class_scope'])) {
+                    $class = $value['class_scope'];
+                }
+                if (isset($value['suggestion'])) {
+                    $suggestion = sprintf(self::SUGGESTION_MESSAGE, $value['suggestion']);
+                }
+            }
             $result[$entity] = array(
                 'suggestion' => $suggestion,
                 'class_scope' => $class

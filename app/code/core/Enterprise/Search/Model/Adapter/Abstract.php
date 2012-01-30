@@ -247,7 +247,7 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
     public function getPriceFieldName($customerGroupId = null, $websiteId = null)
     {
         if ($customerGroupId === null) {
-            $customerGroupId = Mage::getSingleton('customer/session')->getCustomerGroupId();
+            $customerGroupId = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerGroupId();
         }
         if ($websiteId === null) {
             $websiteId = Mage::app()->getStore()->getWebsiteId();
@@ -273,7 +273,7 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
     {
         $result = array();
 
-        $categoryProductData = Mage::getResourceSingleton('enterprise_search/index')
+        $categoryProductData = Mage::getResourceSingleton('Enterprise_Search_Model_Resource_Index')
             ->getCategoryProductIndexData($storeId, $productId);
 
         if (isset($categoryProductData[$productId])) {
@@ -304,7 +304,7 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
     {
         $result = array();
 
-        $productPriceIndexData = Mage::getResourceSingleton('enterprise_search/index')
+        $productPriceIndexData = Mage::getResourceSingleton('Enterprise_Search_Model_Resource_Index')
             ->getPriceIndexData($productId, $storeId);
 
         if (isset($productPriceIndexData[$productId])) {
@@ -532,7 +532,7 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
             return array();
         }
 
-        $this->_separator = Mage::getResourceSingleton('catalogsearch/fulltext')->getSeparator();
+        $this->_separator = Mage::getResourceSingleton('Mage_Catalogsearch_Model_Resource_Fulltext')->getSeparator();
 
         $docs = array();
         foreach ($docData as $productId => $productIndexData) {
@@ -1127,7 +1127,7 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
     protected function _getIndexableAttributeParams()
     {
         if ($this->_indexableAttributeParams === null) {
-            $attributeCollection = Mage::getResourceSingleton('catalog/product_attribute_collection')
+            $attributeCollection = Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Product_Attribute_Collection')
                 ->addToIndexFilter()
                 ->getItems();
 

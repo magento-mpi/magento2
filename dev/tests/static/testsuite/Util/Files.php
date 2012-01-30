@@ -1,18 +1,15 @@
 <?php
 /**
+ * A helper to gather specific kinds if files in Magento application
+ *
  * {license_notice}
  *
  * @category    tests
  * @package     static
- * @subpackage  Legacy
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-/**
- * One time iterator to gather fiels in our system
- */
-final class FileDataProvider
+class Util_Files
 {
     /**
      * In-memory cache for the data sets
@@ -79,7 +76,7 @@ final class FileDataProvider
      *
      * @param string $fileNamePattern
      * @param array $excludedFileNames
-     * @return array|bool
+     * @return array
      */
     public static function getConfigFiles(
         $fileNamePattern = '*.xml', $excludedFileNames = array('wsdl.xml', 'wsdl2.xml', 'wsi.xml')

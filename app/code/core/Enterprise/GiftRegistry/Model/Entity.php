@@ -766,20 +766,20 @@ class Enterprise_GiftRegistry_Model_Entity extends Mage_Core_Model_Abstract
     protected function _validateItems($items)
     {
         foreach ($items as $id => $item) {
-            $model = Mage::getSingleton('enterprise_giftregistry/item')->load($id);
+            $model = Mage::getSingleton('Enterprise_GiftRegistry_Model_Item')->load($id);
             if ($model->getId() && $model->getEntityId() == $this->getId()) {
                 if (!isset($item['delete'])) {
                     /** @var $stockItem Mage_CatalogInventory_Model_Stock_Item */
-                    $stockItem = Mage::getSingleton('cataloginventory/stock_item');
+                    $stockItem = Mage::getSingleton('Mage_CatalogInventory_Model_Stock_Item');
                     $stockItem->loadByProduct($model->getProductId());
                     // not Mage_Core_Exception intentionally
                     if ($stockItem->getIsQtyDecimal() == 0 && $item['qty'] != (int)$item['qty']) {
-                        throw new Mage_Exception(Mage::helper('enterprise_giftregistry')->__('Wrong gift registry item quantity specified.'));
+                        throw new Mage_Exception(Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Wrong gift registry item quantity specified.'));
                     }
                 }
             } else {
                 Mage::throwException(
-                    Mage::helper('enterprise_giftregistry')->__('Wrong gift registry item ID specified.')
+                    Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Wrong gift registry item ID specified.')
                 );
             }
         }
@@ -795,7 +795,7 @@ class Enterprise_GiftRegistry_Model_Entity extends Mage_Core_Model_Abstract
     {
         $this->_validateItems($items);
         foreach ($items as $id => $item) {
-            $model = Mage::getSingleton('enterprise_giftregistry/item')->load($id);
+            $model = Mage::getSingleton('Enterprise_GiftRegistry_Model_Item')->load($id);
             if (isset($item['delete'])) {
                 $model->delete();
             } else {

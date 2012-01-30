@@ -51,6 +51,6 @@ class Enterprise_Logging_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getLoggingActionTranslatedLabel($action)
     {
-        return Mage::getSingleton('enterprise_logging/config')->getActionLabel($action);
+        return Mage::getSingleton('Enterprise_Logging_Model_Config')->getActionLabel($action);
     }
 }

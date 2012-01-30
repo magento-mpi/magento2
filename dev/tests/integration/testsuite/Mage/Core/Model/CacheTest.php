@@ -53,14 +53,14 @@ class Mage_Core_Model_CacheTest extends PHPUnit_Framework_TestCase
             array(array('backend' => 'Database'), 'Varien_Cache_Backend_Database'),
         );
 
-        $expectedMemcacheClass = null;
+        $memcacheClass = null;
         if (extension_loaded('memcached')) {
-            $expectedMemcacheClass = 'Zend_Cache_Backend_Libmemcached';
+            $memcacheClass = 'Zend_Cache_Backend_Libmemcached';
         } elseif (extension_loaded('memcache')) {
-            $expectedMemcacheClass = 'Zend_Cache_Backend_Memcached';
+            $memcacheClass = 'Zend_Cache_Backend_Memcached';
         }
-        if ($expectedMemcacheClass) {
-            $data[] = array(array('backend' => 'Memcached'), $expectedMemcacheClass);
+        if ($memcacheClass) {
+            $data[] = array(array('backend' => 'Memcached'), $memcacheClass);
         }
 
         return $data;

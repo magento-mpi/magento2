@@ -43,6 +43,6 @@ class Legacy_ProductTypeModelTest extends PHPUnit_Framework_TestCase
             "$root/app/code/core/Mage/Catalog/Model/Product/Type/Virtual.php",
             "$root/app/code/core/Mage/Downloadable/Model/Product/Type.php",
         );
-        return FileDataProvider::composeDataSets($files);
+        return Util_Files::composeDataSets($files);
     }
 }

@@ -170,7 +170,7 @@ class Enterprise_TargetRule_Adminhtml_TargetRuleController extends Mage_Adminhtm
                 $this->_getSession()->addError($e->getMessage());
                 $hasError = true;
             } catch (Zend_Date_Exception $e) {
-                $this->_getSession()->addError(Mage::helper('enterprise_targetrule')->__('Invalid date.'));
+                $this->_getSession()->addError(Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Invalid date.'));
                 $hasError = true;
             } catch (Exception $e) {
                 $this->_getSession()->addException($e,

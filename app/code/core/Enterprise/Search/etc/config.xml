@@ -82,7 +82,7 @@
             <catelogsearch_searchable_attributes_load_after>
                 <observers>
                     <enterprise_search>
-                        <class>enterprise_search/observer</class>
+                        <class>Enterprise_Search_Model_Observer</class>
                         <method>storeSearchableAttributes</method>
                     </enterprise_search>
                 </observers>

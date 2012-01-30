@@ -58,6 +58,6 @@ class Legacy_Enterprise_Invitation_Helper_DataTest extends PHPUnit_Framework_Tes
             }
             $files[] = $file;
         }
-        return FileDataProvider::composeDataSets($files);
+        return Util_Files::composeDataSets($files);
     }
 }

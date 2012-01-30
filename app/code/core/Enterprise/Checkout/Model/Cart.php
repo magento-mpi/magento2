@@ -132,7 +132,7 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
             return Mage::getSingleton('Mage_Adminhtml_Model_Session_Quote')->getQuote();
         } else {
             if (!$this->getCustomer()) {
-                $customer = Mage::helper('customer')->getCustomer();
+                $customer = Mage::helper('Mage_Customer_Helper_Data')->getCustomer();
                 if ($customer) {
                     $this->setCustomer($customer);
                 }

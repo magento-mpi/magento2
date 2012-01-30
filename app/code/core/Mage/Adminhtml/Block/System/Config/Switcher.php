@@ -97,6 +97,6 @@ class Mage_Adminhtml_Block_System_Config_Switcher extends Mage_Adminhtml_Block_T
      */
     public function getHintHtml()
     {
-        return Mage::getBlockSingleton('adminhtml/store_switcher')->getHintHtml();
+        return Mage::getBlockSingleton('Mage_Adminhtml_Block_Store_Switcher')->getHintHtml();
     }
 }

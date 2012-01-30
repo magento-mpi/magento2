@@ -11,11 +11,11 @@
 -->
 <logging>
     <actions>
-        <mergePost translate="label" module="enterprise_staging">
+        <mergePost translate="label" module="Enterprise_Staging">
             <label>Merge Post</label>
         </mergePost>
 
-        <unschedule translate="label" module="enterprise_staging">
+        <unschedule translate="label" module="Enterprise_Staging">
             <label>Unschedule</label>
         </unschedule>
     </actions>

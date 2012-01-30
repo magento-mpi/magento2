@@ -21,11 +21,11 @@ class Mage_Core_Model_Session_Abstract_VarienTest extends PHPUnit_Framework_Test
     public function testSessionSaveMethod($saveMethod, $iniValue)
     {
         // depending on configuration some values cannot be set as default save session handlers.
-        $originalSessionHandler = ini_set('session.save_handler', $iniValue);
+        $origSessionHandler = ini_set('session.save_handler', $iniValue);
         if ($iniValue && (ini_get($iniValue) != $iniValue)) {
             $this->markTestSkipped("Can't  set '$iniValue' as session save handler");
         }
-        ini_set('session.save_handler', $originalSessionHandler);
+        ini_set('session.save_handler', $origSessionHandler);
 
         Mage::getConfig()->setNode(Mage_Core_Model_Session_Abstract::XML_NODE_SESSION_SAVE, $saveMethod);
         /**

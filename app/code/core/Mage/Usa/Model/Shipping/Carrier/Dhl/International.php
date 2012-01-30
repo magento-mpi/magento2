@@ -803,7 +803,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
         unset($htmlTranslationTable['<'], $htmlTranslationTable['>'], $htmlTranslationTable['"']);
         $response = str_replace(array_keys($htmlTranslationTable), array_values($htmlTranslationTable), $response);
 
-        $responseError =  Mage::helper('usa')->__('The response is in wrong format.');
+        $responseError =  Mage::helper('Mage_Usa_Helper_Data')->__('The response is in wrong format.');
 
         if (strlen(trim($response)) > 0) {
             if (strpos(trim($response), '<?xml') === 0) {

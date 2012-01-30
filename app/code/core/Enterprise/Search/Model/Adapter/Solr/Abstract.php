@@ -325,7 +325,7 @@ abstract class Enterprise_Search_Model_Adapter_Solr_Abstract extends Enterprise_
     public function getAdvancedTextFieldName($filed, $suffix = '')
     {
         $localeCode     = Mage::app()->getStore()->getConfig(Mage_Core_Model_Locale::XML_PATH_DEFAULT_LOCALE);
-        $languageSuffix = Mage::helper('enterprise_search')->getLanguageSuffix($localeCode);
+        $languageSuffix = Mage::helper('Enterprise_Search_Helper_Data')->getLanguageSuffix($localeCode);
 
         if ($suffix) {
             $suffix = '_' . $suffix;
@@ -349,7 +349,7 @@ abstract class Enterprise_Search_Model_Adapter_Solr_Abstract extends Enterprise_
                 return $this->getPriceFieldName();
             }
 
-            $eavConfig  = Mage::getSingleton('eav/config');
+            $eavConfig  = Mage::getSingleton('Mage_Eav_Model_Config');
             $entityType = $eavConfig->getEntityType('catalog_product');
             $attribute  = $eavConfig->getAttribute($entityType, $attribute);
         }
@@ -385,7 +385,7 @@ abstract class Enterprise_Search_Model_Adapter_Solr_Abstract extends Enterprise_
 
         if ($fieldType == 'text') {
             $localeCode     = Mage::app()->getStore()->getConfig(Mage_Core_Model_Locale::XML_PATH_DEFAULT_LOCALE);
-            $languageSuffix = Mage::helper('enterprise_search')->getLanguageSuffix($localeCode);
+            $languageSuffix = Mage::helper('Enterprise_Search_Helper_Data')->getLanguageSuffix($localeCode);
             $fieldName      = $fieldPrefix . $attributeCode . $languageSuffix;
         } else {
             $fieldName      = $fieldPrefix . $fieldType . '_' . $attributeCode;
