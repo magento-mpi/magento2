@@ -269,6 +269,13 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     const FIELD_TYPE_INPUT = 'field';
 
     /**
+     * URL of script which performs code coverage during testing
+     *
+     * @var string
+     */
+    protected $coverageScriptUrl = null;
+
+    /**
      * Constructs a test case with the given name and browser to test execution
      *
      * @param  string $name Test case name (by default = null)
@@ -283,6 +290,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         $this->_testConfig = Mage_Selenium_TestConfiguration::getInstance();
         $this->_dataHelper = $this->_testConfig->getDataHelper();
+        $this->coverageScriptUrl = $this->_testConfig->getConfigValue('default/applications/magento/coverageScriptUrl');
         $this->_dataGenerator = $this->_testConfig->getDataGenerator();
         $this->_applicationHelper = $this->_testConfig->getApplicationHelper();
         $this->_pageHelper = $this->_testConfig->getPageHelper($this, $this->_applicationHelper);
@@ -3076,5 +3084,31 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         }
 
         return $testResult;
+    }
+
+    /**
+     * Works correctly with PHPUnit 3.5.15 only (right now)
+     * Solving problem with coverage, send to phpunit_coverage.php cookieid(single) instead of testid(multiple)
+     * @return array
+     * @since  Method available since Release 3.2.0
+     */
+    protected function getCodeCoverage()
+    {
+        if (!empty($this->coverageScriptUrl)) {
+            $url = sprintf(
+                '%s?PHPUNIT_SELENIUM_TEST_ID=%s',
+                $this->coverageScriptUrl,
+                //$this->testId,
+                $_COOKIE['PHPUNIT_SELENIUM_TEST_ID']
+            );
+
+            $buffer = @file_get_contents($url);
+
+            if ($buffer !== FALSE) {
+                return $this->matchLocalAndRemotePaths(unserialize($buffer));
+            }
+        }
+
+        return array();
     }
 }
