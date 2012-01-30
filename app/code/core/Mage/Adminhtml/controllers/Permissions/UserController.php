@@ -82,7 +82,10 @@ class Mage_Adminhtml_Permissions_UserController extends Mage_Adminhtml_Controlle
         Mage::register('permissions_user', $model);
 
         $this->_initAction()
-            ->_addBreadcrumb($id ? $this->__('Edit User') : $this->__('New User'), $id ? $this->__('Edit User') : $this->__('New User'));
+            ->_addBreadcrumb(
+                $id ? $this->__('Edit User') : $this->__('New User'),
+                $id ? $this->__('Edit User') : $this->__('New User')
+            );
 
         $this->getLayout()->getBlock('adminhtml.permissions.user.edit')
             ->setData('action', $this->getUrl('*/permissions_user/save'));
@@ -192,7 +195,8 @@ class Mage_Adminhtml_Permissions_UserController extends Mage_Adminhtml_Controlle
         }
 
         Mage::register('permissions_user', $model);
-        $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/permissions_user_edit_tab_roles')->toHtml());
+        $this->getResponse()
+            ->setBody($this->getLayout()->createBlock('adminhtml/permissions_user_edit_tab_roles')->toHtml());
     }
 
     public function roleGridAction()
