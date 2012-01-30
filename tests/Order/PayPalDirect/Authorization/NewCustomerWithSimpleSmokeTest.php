@@ -51,7 +51,6 @@ class Order_PayPalDirect_Authorization_NewCustomerWithSimpleSmokeTest extends Ma
     {
         $this->goToArea('paypal-developer');
         $this->paypalHelper()->paypalDeveloperLogin('paypal_developer_login');
-        $this->paypalHelper()->deleteAllAccounts();
         $api = $this->paypalHelper()->createPayPalProAccount('paypal_sandbox_new_pro_account');
         $data = $this->loadData('paypaldirect_without_3Dsecure',
             array('email_associated_with_paypal_merchant_account' => $api['test_account'],
