@@ -66,6 +66,13 @@ AdminOrder.prototype = {
                 $(searchAreaId).show();
                 this.remove();
             }
+            
+            this.dataArea.onLoad = this.dataArea.onLoad.wrap(function(proceed) {
+                proceed();
+                this._parent.itemsArea.setNode($(this._parent.getAreaId('items')));
+                this._parent.itemsArea.onLoad();
+            });
+
             this.itemsArea.onLoad = this.itemsArea.onLoad.wrap(function(proceed) {
                 proceed();
                 if (!$(searchAreaId).visible()) {
@@ -73,6 +80,7 @@ AdminOrder.prototype = {
                 }
             });
             this.areasLoaded();
+            this.itemsArea.onLoad();
         }).bind(this));
     },
 
