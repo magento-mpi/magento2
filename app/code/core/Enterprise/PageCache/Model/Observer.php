@@ -642,6 +642,6 @@ class Enterprise_PageCache_Model_Observer
     {
         $segmentIds = is_array($observer->getSegmentIds()) ? $observer->getSegmentIds() : array();
         $segmentsIdsString= implode(',', $segmentIds);
-        $this->_getCookie()->set("CUSTOMER_SEGMENT_IDS", $segmentsIdsString);
+        $this->_getCookie()->set(Enterprise_PageCache_Model_Cookie::CUSTOMER_SEGMENT_IDS, $segmentsIdsString);
     }
 }

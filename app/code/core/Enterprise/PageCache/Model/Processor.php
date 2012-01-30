@@ -131,8 +131,8 @@ class Enterprise_PageCache_Model_Processor
             if (isset($_COOKIE[Enterprise_PageCache_Model_Cookie::COOKIE_CUSTOMER_LOGGED_IN])) {
                 $uri .= '_' . $_COOKIE[Enterprise_PageCache_Model_Cookie::COOKIE_CUSTOMER_LOGGED_IN];
             }
-            if (isset($_COOKIE['CUSTOMER_SEGMENT_IDS'])) {
-                $uri .= '_' . $_COOKIE['CUSTOMER_SEGMENT_IDS'];
+            if (isset($_COOKIE[Enterprise_PageCache_Model_Cookie::CUSTOMER_SEGMENT_IDS])) {
+                $uri .= '_' . $_COOKIE[Enterprise_PageCache_Model_Cookie::CUSTOMER_SEGMENT_IDS];
             }
             $designPackage = $this->_getDesignPackage();
 
