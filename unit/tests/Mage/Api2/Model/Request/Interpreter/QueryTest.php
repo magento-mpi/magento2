@@ -50,31 +50,6 @@ class Mage_Api2_Model_Request_Interpreter_QueryTest extends Mage_PHPUnit_TestCas
     }
 
     /**
-     * Test interpret bad content
-     *
-     * @dataProvider dataProviderFailure
-     * @param $data string
-     * @return void
-     */
-    public function testInterpretBadContent($data)
-    {
-        //NOTE: Interpreter QUERY adapter always return array
-        try {
-            $adapter = new Mage_Api2_Model_Request_Interpreter_Query();
-            $adapter->interpret($data);
-        } catch (Mage_Api2_Exception $e) {
-            $this->assertEquals(
-                'Decoding error.',
-                $e->getMessage(),
-                'Invalid argument should produce exception "Decoding error."'
-            );
-            return;
-        }
-
-        $this->fail('Invalid argument should produce exception "Decoding error.(2)"');
-    }
-
-    /**
      * Test interpret content not a string
      *
      * @return void
@@ -94,20 +69,6 @@ class Mage_Api2_Model_Request_Interpreter_QueryTest extends Mage_PHPUnit_TestCas
         }
 
         $this->fail('Invalid argument should produce exception "Invalid data type".(2)');
-    }
-
-    /**
-     * Provides data for testing error processing
-     *
-     * @return array
-     */
-    public function dataProviderFailure()
-    {
-        return array(
-            array('&'),
-            array('='),
-            array(''),
-        );
     }
 
     /**
