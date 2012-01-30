@@ -95,7 +95,7 @@ abstract class Enterprise_TargetRule_Model_Resource_Index_Abstract extends Mage_
             ':customer_segment_id' => $segmentId
         );
         $value  = $this->_getReadAdapter()->fetchOne($select, $bind);
-        
+
         return (!empty($value)) ? explode(',', $value) :array();
     }
 
