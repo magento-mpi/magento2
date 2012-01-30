@@ -133,7 +133,7 @@ class Mage_Api2_Model_Request extends Zend_Controller_Request_Http
      */
     public function getBodyParams()
     {
-        return $this->_getInterpreter()->interpret($this->getRawBody());
+        return $this->_getInterpreter()->interpret((string) $this->getRawBody());
     }
 
     /**
