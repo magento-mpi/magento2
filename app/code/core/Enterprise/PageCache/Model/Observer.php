@@ -640,10 +640,8 @@ class Enterprise_PageCache_Model_Observer
      */
     public function changedCustomerSegmentIds(Varien_Event_Observer $observer)
     {
-        $segmentIds = $observer->getSegmentIds();
-        $segmentIds = is_array($segmentIds) ? $segmentIds : array();
+        $segmentIds = is_array($observer->getSegmentIds()) ? $observer->getSegmentIds() : array();
         $segmentsIdsString= implode(',', $segmentIds);
-        $cookieName = "CUSTOMER_SEGMENT_IDS_" . $observer->getWebsiteId();
-        $this->_getCookie()->set($cookieName, $segmentsIdsString, 0, '/');
+        $this->_getCookie()->set("CUSTOMER_SEGMENT_IDS", $segmentsIdsString);
     }
 }

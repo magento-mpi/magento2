@@ -189,9 +189,7 @@ class Enterprise_CustomerSegment_Model_Customer extends Mage_Core_Model_Abstract
             $segmentIds = $allSegments[$websiteId];
         }
 
-        Mage::dispatchEvent('changes_in_customer_segments_ids',
-            array('website_id' => $websiteId, 'segment_ids' => $segmentIds)
-        );
+        Mage::dispatchEvent('changes_in_customer_segments_ids', array('segment_ids' => $segmentIds));
 
         return $this;
     }

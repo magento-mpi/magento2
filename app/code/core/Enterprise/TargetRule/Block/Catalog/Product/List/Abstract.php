@@ -329,16 +329,4 @@ abstract class Enterprise_TargetRule_Block_Catalog_Product_List_Abstract
 
         return $this->_allProductIds;
     }
-
-    /**
-     * Get cache key informative items with the position number to differentiate
-     *
-     * @return array
-     */
-    public function getCacheKeyInfo()
-    {
-        $cacheKeyInfo = parent::getCacheKeyInfo();
-        $cacheKeyInfo['website_id'] = Mage::app()->getWebsite()->getId();
-        return $cacheKeyInfo;
-    }
 }
