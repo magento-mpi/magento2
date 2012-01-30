@@ -56,7 +56,7 @@ class Api_SalesOrder_ShipmentTest extends Magento_Test_Webservice
     public function testCRUD()
     {
         /** @var $order Mage_Sales_Model_Order */
-        $order = self::getFixture('order');
+        $order = self::getFixture('shipmentorder');
 
         $id = $order->getIncrementId();
 
@@ -83,7 +83,7 @@ class Api_SalesOrder_ShipmentTest extends Magento_Test_Webservice
     public function testAutoIncrementType()
     {
         /** @var $quote Mage_Sales_Model_Quote */
-        $quote = $this->getFixture('quote');
+        $quote = $this->getFixture('shipmentquote');
         //Create order
         $quoteService = new Mage_Sales_Model_Service_Quote($quote);
         //Set payment method to check/money order
@@ -129,7 +129,7 @@ class Api_SalesOrder_ShipmentTest extends Magento_Test_Webservice
     public function testSendInfo()
     {
         /** @var $order Mage_Sales_Model_Order */
-        $order = self::getFixture('order');
+        $order = self::getFixture('shipmentorder');
         $id = $order->getIncrementId();
 
         // Create new shipment

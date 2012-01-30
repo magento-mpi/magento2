@@ -27,9 +27,20 @@
 
 Mage::init('base', 'website');
 //Set up customer fixture
-require_once 'customer.php';
-/** @var $customer Mage_Customer_Model_Customer */
-$customer = Magento_Test_Webservice::getFixture('creditmemo/customer');
+$customer = new Mage_Customer_Model_Customer();
+$customer->setStoreId(1)
+    ->setCreatedIn('Default Store View')
+    ->setDefaultBilling(1)
+    ->setDefaultShipping(1)
+    ->setEmail('mr.test.creditmemo2.' . time() . '@test.com')
+    ->setFirstname('Test')
+    ->setLastname('Test')
+    ->setMiddlename('Test')
+    ->setGroupId(1)
+    ->setRewardUpdateNotification(1)
+    ->setRewardWarningNotification(1)
+    ->save();
+Magento_Test_Webservice::setFixture('invoice/customer', $customer);
 
 //Set up customer address fixture
 require_once 'customer_address.php';
