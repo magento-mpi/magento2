@@ -159,8 +159,14 @@ class Enterprise_Checkout_Model_Observer
 
         /** @var $quote Mage_Sales_Model_Quote */
         $quote = Mage::getModel('sales/quote');
-        $quote->preventSaving()->setItemsCollection(Mage::helper('enterprise_checkout')->getFailedItems(false));
+        $collection = new Varien_Data_Collection();
 
+        foreach (Mage::helper('enterprise_checkout')->getFailedItems(true) as $item) {
+            $item->setQuote($quote);
+            $collection->addItem($item);
+        }
+
+        $quote->preventSaving()->setItemsCollection($collection);
         $quote->setShippingAddress($this->_copyAddress($quote, $realQuote->getShippingAddress()));
         $quote->setBillingAddress($this->_copyAddress($quote, $realQuote->getBillingAddress()));
         $quote->setTotalsCollectedFlag(false)->collectTotals();

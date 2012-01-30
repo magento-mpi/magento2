@@ -616,7 +616,7 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
     public function prepareAddProductsBySku($items)
     {
         foreach ($items as $item) {
-            if (!isset($item['sku']) || !isset($item['qty']) || empty($item['sku']) || empty($item['qty'])) {
+            if (!isset($item['sku']) || $item['sku'] == '' || empty($item['qty'])) {
                 $this->setErrorMessage(
                     Mage::helper('enterprise_checkout')->__('SKU or quantity of some product(s) is empty.')
                 );
@@ -653,7 +653,7 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
             return true;
         }
         $quoteItem = $this->getActualQuote()->getItemByProduct($product);
-        $isAdmin = $this->getStore()->isAdmin();
+        $isAdmin = Mage::app()->getStore()->isAdmin();
 
         if ($stockItem->getMinSaleQty() && !$isAdmin) {
             $minAllowedQty = $stockItem->getMinSaleQty();
@@ -900,9 +900,15 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
             }
             $cart->addProduct($item['item']['id'], $config);
         } catch (Mage_Core_Exception $e) {
-            $success = false;
-            $item['code'] = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_UNKNOWN;
-            $item['error'] = $e->getMessage();
+            if (!Mage::app()->getStore()->isAdmin()) {
+                /*
+                 * We suppress this behavior for back-end to allow adding to cart product with qty which do not comply
+                 * with quantity increments
+                 */
+                $success = false;
+                $item['code'] = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_UNKNOWN;
+                $item['error'] = $e->getMessage();
+            }
         } catch (Exception $e) {
             $success = false;
             $item['code'] = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_UNKNOWN;
