@@ -93,11 +93,12 @@ class Mage_Api2_Model_AuthTest extends Mage_PHPUnit_TestCase
             ->method('getUserTypes')
             ->will($this->returnValue(array('admin' => 'api2/auth_user_admin')));
 
-        $authAdapterMock = $this->getModelMockBuilder('api2/auth_adapter')->setMethods(array('getUserType'))->getMock();
-
-        $authAdapterMock->expects($this->once())
-            ->method('getUserType')
-            ->will($this->returnValue('guest'));
+        $this->getModelMockBuilder('api2/auth_adapter')
+            ->setMethods(array('getUserParams'))
+            ->getMock()
+            ->expects($this->once())
+            ->method('getUserParams')
+            ->will($this->returnValue((object) array('type' => 'guest', 'id' => null)));
 
         $this->setExpectedException('Mage_Api2_Exception', 'Invalid user type or type is not allowed');
 
@@ -115,11 +116,12 @@ class Mage_Api2_Model_AuthTest extends Mage_PHPUnit_TestCase
             ->method('getUserTypes')
             ->will($this->returnValue(array($userType => 'catalog/product')));
 
-        $authAdapterMock = $this->getModelMockBuilder('api2/auth_adapter')->setMethods(array('getUserType'))->getMock();
-
-        $authAdapterMock->expects($this->once())
-            ->method('getUserType')
-            ->will($this->returnValue($userType));
+        $this->getModelMockBuilder('api2/auth_adapter')
+            ->setMethods(array('getUserParams'))
+            ->getMock()
+            ->expects($this->once())
+            ->method('getUserParams')
+            ->will($this->returnValue((object) array('type' => $userType, 'id' => 5)));
 
         try {
             $this->_authManager->authenticate($this->_request);
@@ -145,11 +147,12 @@ class Mage_Api2_Model_AuthTest extends Mage_PHPUnit_TestCase
             ->method('getUserTypes')
             ->will($this->returnValue(array($userType => 'api2/auth_user_admin')));
 
-        $authAdapterMock = $this->getModelMockBuilder('api2/auth_adapter')->setMethods(array('getUserType'))->getMock();
-
-        $authAdapterMock->expects($this->once())
-            ->method('getUserType')
-            ->will($this->returnValue($userType));
+        $this->getModelMockBuilder('api2/auth_adapter')
+            ->setMethods(array('getUserParams'))
+            ->getMock()
+            ->expects($this->once())
+            ->method('getUserParams')
+            ->will($this->returnValue((object) array('type' => $userType, 'id' => 5)));
 
         $this->assertInstanceOf(
             'Mage_Api2_Model_Auth_User_Abstract', $this->_authManager->authenticate($this->_request)
@@ -167,11 +170,12 @@ class Mage_Api2_Model_AuthTest extends Mage_PHPUnit_TestCase
             ->method('getUserTypes')
             ->will($this->returnValue(array($userType => 'api2/auth_user_admin')));
 
-        $authAdapterMock = $this->getModelMockBuilder('api2/auth_adapter')->setMethods(array('getUserType'))->getMock();
-
-        $authAdapterMock->expects($this->once())
-            ->method('getUserType')
-            ->will($this->returnValue($userType));
+        $this->getModelMockBuilder('api2/auth_adapter')
+            ->setMethods(array('getUserParams'))
+            ->getMock()
+            ->expects($this->once())
+            ->method('getUserParams')
+            ->will($this->returnValue((object) array('type' => $userType, 'id' => 5)));
 
         $userMock = $this->getModelMockBuilder('api2/auth_user_admin')->setMethods(array('getType'))->getMock();
 

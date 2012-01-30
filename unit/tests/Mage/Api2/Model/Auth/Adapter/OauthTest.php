@@ -57,7 +57,7 @@ class Mage_Api2_Model_Auth_Adapter_OauthTest extends Mage_PHPUnit_TestCase
     }
 
     /**
-     * Test getUserType method
+     * Test getUserParams method
      */
     public function testGetUserTypeAuthorization()
     {
@@ -79,11 +79,16 @@ class Mage_Api2_Model_Auth_Adapter_OauthTest extends Mage_PHPUnit_TestCase
             ->method('getUserType')
             ->will($this->returnValue('customer'));
 
-        $this->assertEquals('customer', $this->_adapter->getUserType($this->_request), 'User role does not match');
+        $userParams = $this->_adapter->getUserParams($this->_request);
+
+        $this->assertInstanceOf('stdClass', $userParams);
+        $this->assertObjectHasAttribute('type', $userParams);
+        $this->assertObjectHasAttribute('id', $userParams);
+        $this->assertEquals('customer', $userParams->type, 'User role does not match');
     }
 
     /**
-     * Test getUserType method
+     * Test getUserParams method
      */
     public function testGetUserTypeAuthorizationAuthInvalid()
     {
@@ -91,24 +96,29 @@ class Mage_Api2_Model_Auth_Adapter_OauthTest extends Mage_PHPUnit_TestCase
         $_SERVER['REQUEST_URI']        = '/testuri/';
         $_SERVER['HTTP_AUTHORIZATION'] = 'OAuth realm="Test Realm"';
 
-        $this->assertFalse($this->_adapter->getUserType($this->_request));
+        $userParams = $this->_adapter->getUserParams($this->_request);
+
+        $this->assertInstanceOf('stdClass', $userParams);
+        $this->assertObjectHasAttribute('type', $userParams);
+        $this->assertObjectHasAttribute('id', $userParams);
+        $this->assertNull($userParams->type, 'User type is not NULL');
     }
 
     /**
-     * Test getUserType method
+     * Test IsApplicableToRequest method
      */
-    public function testGetUserTypeAuthorizationHeaderInvalid()
+    public function testIsApplicableToRequestAuthorizationHeaderInvalid()
     {
         $_SERVER['HTTP_AUTHORIZATION'] = 'NotOAuth realm="Test Realm"';
 
-        $this->assertFalse($this->_adapter->getUserType($this->_request));
+        $this->assertFalse($this->_adapter->isApplicableToRequest($this->_request));
     }
 
     /**
-     * Test getUserType method
+     * Test IsApplicableToRequest method
      */
-    public function testGetUserTypeNoAuthorizationHeader()
+    public function testIsApplicableToRequestNoAuthorizationHeader()
     {
-        $this->assertFalse($this->_adapter->getUserType($this->_request));
+        $this->assertFalse($this->_adapter->isApplicableToRequest($this->_request));
     }
 }
