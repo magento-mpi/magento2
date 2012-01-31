@@ -82,6 +82,7 @@ class Enterprise_Checkout_Model_Observer
      * Upload and parse CSV file with SKUs
      *
      * @param Varien_Event_Observer $observer
+     * @return null
      */
     public function uploadSkuCsv(Varien_Event_Observer $observer)
     {
