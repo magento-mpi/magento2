@@ -125,7 +125,8 @@
         <update handle="SHORTCUT_uk_popup" />
     </checkout_onepage_failure>
 
-    <SHORTCUT_uk_popup>
+    <SHORTCUT_uk_popup translate="label">
+        <label>PaypalUk Shortcut Popup</label>
         <reference name="product.tooltip">
             <block type="Mage_Page_Block_Html_Wrapper" name="product.info.addtocart.paypaluk.wrapper" translate="label">
                 <block type="Mage_PaypalUk_Block_Express_Shortcut" name="product.info.addtocart.paypaluk" template="Mage_Paypal::express/shortcut.phtml">
@@ -135,4 +136,8 @@
             </block>
         </reference>
     </SHORTCUT_uk_popup>
+
+    <paypaluk_express_review_details translate="label">
+        <label>Paypal UK Express Review Details</label>
+    </paypaluk_express_review_details>
 </layout>

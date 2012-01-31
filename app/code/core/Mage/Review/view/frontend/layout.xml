@@ -38,7 +38,8 @@ Customer account home dashboard layout
 Product reviews page (?)
 -->
 
-    <reviews>
+    <reviews translate="label">
+        <label>Review</label>
         <!-- Mage_Review -->
         <reference name="root">
             <action method="setTemplate"><template>2columns-left.phtml</template></action>

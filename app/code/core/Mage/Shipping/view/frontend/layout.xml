@@ -12,7 +12,8 @@
 -->
 <layout version="0.1.0">
 
-    <shipping_tracking_ajax>
+    <shipping_tracking_ajax translate="label">
+        <label>Shipment Tracking Ajax</label>
         <reference name="root">
             <action method="setTemplate"><template></template></action>
         </reference>

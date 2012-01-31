@@ -26,14 +26,16 @@
         </block>
     </wishlist_index_index>
 
-    <enterprise_giftregistry_index_index>
+    <enterprise_giftregistry_index_index translate="label">
+        <label>Customer GiftRegistry</label>
         <update handle="customer_account"/>
         <reference name="my.account.wrapper">
             <block type="Enterprise_GiftRegistry_Block_Customer_List" name="giftregistry.customer.list" template="customer/list.phtml"></block>
         </reference>
     </enterprise_giftregistry_index_index>
 
-    <enterprise_giftregistry_index_share>
+    <enterprise_giftregistry_index_share translate="label">
+        <label>Customer GiftRegistry Share</label>
         <update handle="customer_account"/>
         <reference name="customer_account_navigation">
             <action method="setActive"><path>enterprise_giftregistry/index/index</path></action>
@@ -43,7 +45,8 @@
         </reference>
     </enterprise_giftregistry_index_share>
 
-    <enterprise_giftregistry_index_items>
+    <enterprise_giftregistry_index_items translate="label">
+        <label>Customer GiftRegistry Item List</label>
         <update handle="customer_account"/>
         <reference name="customer_account_navigation">
             <action method="setActive"><path>enterprise_giftregistry/index/index</path></action>
@@ -69,7 +72,8 @@
         </block>
     </customer_account>
 
-    <enterprise_giftregistry_search_index>
+    <enterprise_giftregistry_search_index translate="label">
+        <label>Customer GiftRegistry Search Form</label>
         <update handle="calendar"/>
         <reference name="left">
             <remove name="giftregistry.quick.search" />
@@ -79,7 +83,8 @@
         </reference>
     </enterprise_giftregistry_search_index>
 
-    <enterprise_giftregistry_search_results>
+    <enterprise_giftregistry_search_results translate="label">
+        <label>Customer GiftRegistry Search Result List</label>
         <update handle="calendar"/>
         <reference name="left">
             <remove name="giftregistry.quick.search" />
@@ -90,11 +95,13 @@
         </reference>
     </enterprise_giftregistry_search_results>
 
-    <enterprise_giftregistry_search_advanced>
+    <enterprise_giftregistry_search_advanced translate="label">
+        <label>Customer GiftRegistry Advanced Search Form</label>
         <block type="Enterprise_GiftRegistry_Block_Search_Advanced" name="root" template="search/advanced.phtml"></block>
     </enterprise_giftregistry_search_advanced>
 
-    <enterprise_giftregistry_view_index>
+    <enterprise_giftregistry_view_index translate="label">
+        <label>Customer GiftRegistry Gift View</label>
         <reference name="root">
             <action method="setTemplate"><template>1column.phtml</template></action>
         </reference>
@@ -202,7 +209,8 @@
         </reference>
     </checkout_onepage_review>
 
-    <enterprise_giftregistry_email_entity_items>
+    <enterprise_giftregistry_email_entity_items translate="label">
+        <label>Customer GiftRegistry Email Item List</label>
         <block type="Enterprise_GiftRegistry_Block_Email_Items" name="giftregistry.email.items" template="email/items.phtml"></block>
     </enterprise_giftregistry_email_entity_items>
 </layout>

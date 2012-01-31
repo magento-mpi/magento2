@@ -410,4 +410,7 @@ SEO Site Map
         </reference>
     </catalog_seo_sitemap_product>
 
+    <catalog_category_view translate="label">
+        <label>Catalog Category View</label>
+    </catalog_category_view>
 </layout>

@@ -10,7 +10,8 @@
  */
 -->
 <layout version="0.1.0">
-    <CATALOGPERMISSIONS_DISABLED_CATALOG_SEARCH>
+    <CATALOGPERMISSIONS_DISABLED_CATALOG_SEARCH translate="label">
+        <label>Catalog Permission Disabled Catalog Search</label>
         <remove name="top.search"/>
         <reference name="footer_links">
             <action method="removeLinkByUrl"><url helper="Mage_CatalogSearch_Helper_Data::getSearchTermUrl" /></action>

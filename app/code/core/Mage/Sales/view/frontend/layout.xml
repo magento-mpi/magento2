@@ -180,7 +180,8 @@ Customer account home dashboard layout
         <block type="Mage_Core_Block_Text_List" name="additional.product.info" />
     </sales_order_creditmemo>
 
-    <sales_order_reorder>
+    <sales_order_reorder translate="label">
+        <label>Sales Reorder</label>
         <update handle="customer_account"/>
         <reference name="content">
             <block type="Mage_Sales_Block_Order_View" name="sales.order.view"/>
@@ -231,7 +232,8 @@ Customer account home dashboard layout
         <block type="Mage_Core_Block_Text_List" name="additional.product.info" />
     </sales_order_printshipment>
 
-    <sales_order_printcreditmemo>
+    <sales_order_printcreditmemo translate="label">
+        <label>Sales Creditmemo Print View</label>
         <reference name="content">
             <block type="Mage_Sales_Block_Order_Print_Creditmemo" name="sales.order.print.creditmemo" template="order/print/creditmemo.phtml">
                 <action method="addItemRender"><type>default</type><block>Mage_Sales_Block_Order_Item_Renderer_Default</block><template>order/creditmemo/items/renderer/default.phtml</template></action>
@@ -249,7 +251,8 @@ Customer account home dashboard layout
 <!--
 Email layouts section
 -->
-    <sales_email_order_items>
+    <sales_email_order_items translate="label">
+        <label>Email Order Item List</label>
         <block type="Mage_Sales_Block_Order_Email_Items" name="items" template="email/items.phtml">
             <action method="addItemRender"><type>default</type><block>Mage_Sales_Block_Order_Email_Items_Order_Default</block><template>email/items/order/default.phtml</template></action>
             <action method="addItemRender"><type>grouped</type><block>Mage_Sales_Block_Order_Email_Items_Order_Grouped</block><template>email/items/order/default.phtml</template></action>
@@ -264,7 +267,8 @@ Email layouts section
         <block type="Mage_Core_Block_Text_List" name="additional.product.info" />
     </sales_email_order_items>
 
-    <sales_email_order_invoice_items>
+    <sales_email_order_invoice_items translate="label">
+        <label>Email Invoice Item List</label>
         <block type="Mage_Sales_Block_Order_Email_Invoice_Items" name="items" template="email/invoice/items.phtml">
             <action method="addItemRender"><type>default</type><block>Mage_Sales_Block_Order_Email_Items_Default</block><template>email/items/invoice/default.phtml</template></action>
             <action method="addItemRender"><type>grouped</type><block>Mage_Sales_Block_Order_Email_Items_Order_Grouped</block><template>email/items/invoice/default.phtml</template></action>
@@ -277,14 +281,16 @@ Email layouts section
         <block type="Mage_Core_Block_Text_List" name="additional.product.info" />
     </sales_email_order_invoice_items>
 
-    <sales_email_order_shipment_items>
+    <sales_email_order_shipment_items translate="label">
+        <label>Email Shipment Item List</label>
         <block type="Mage_Sales_Block_Order_Email_Shipment_Items" name="items" template="email/shipment/items.phtml">
             <action method="addItemRender"><type>default</type><block>Mage_Sales_Block_Order_Email_Items_Default</block><template>email/items/shipment/default.phtml</template></action>
         </block>
         <block type="Mage_Core_Block_Text_List" name="additional.product.info" />
     </sales_email_order_shipment_items>
 
-    <sales_email_order_creditmemo_items>
+    <sales_email_order_creditmemo_items translate="label">
+        <label>Email Creditmemo Item List</label>
         <block type="Mage_Sales_Block_Order_Email_Creditmemo_Items" name="items" template="email/creditmemo/items.phtml">
             <action method="addItemRender"><type>default</type><block>Mage_Sales_Block_Order_Email_Items_Default</block><template>email/items/creditmemo/default.phtml</template></action>
             <action method="addItemRender"><type>grouped</type><block>Mage_Sales_Block_Order_Email_Items_Order_Grouped</block><template>email/items/creditmemo/default.phtml</template></action>
@@ -425,7 +431,8 @@ Guest
         </reference>
     </sales_guest_creditmemo>
 
-    <sales_guest_reorder>
+    <sales_guest_reorder translate="label">
+        <label>Sales Guest Reorder</label>
         <reference name="root">
             <action method="setTemplate"><template>1column.phtml</template></action>
         </reference>
@@ -475,7 +482,8 @@ Guest
         </reference>
     </sales_guest_printshipment>
 
-    <sales_guest_printcreditmemo>
+    <sales_guest_printcreditmemo translate="label">
+        <label>Sales Creditmemo Print View</label>
         <reference name="content">
             <block type="Mage_Sales_Block_Order_Print_Creditmemo" name="sales.order.print.creditmemo" template="order/print/creditmemo.phtml">
                 <action method="addItemRender"><type>default</type><block>Mage_Sales_Block_Order_Item_Renderer_Default</block><template>order/creditmemo/items/renderer/default.phtml</template></action>

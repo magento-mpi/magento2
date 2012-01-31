@@ -30,11 +30,13 @@
         </reference>
     </rss_index_index>
 
-    <rss_index_nofeed>
+    <rss_index_nofeed translate="label">
+        <label>RSS No Feed</label>
         <block type="Mage_Core_Block_Template" name="root" output="toHtml" template="Mage_Rss::nofeed.phtml"/>
     </rss_index_nofeed>
 
-    <rss_index_wishlist>
+    <rss_index_wishlist translate="label">
+        <label>RSS Wishlist</label>
         <block type="Mage_Rss_Block_Wishlist" name="rss.wishlist" output="toHtml">
             <action method="addPriceBlockType"><type>msrp_rss</type><block>Mage_Catalog_Block_Product_Price</block><template>Mage_Wishlist::render/item/price_msrp_rss.phtml</template></action>
         </block>
@@ -42,35 +44,42 @@
 <!--
 Catalog layout
 -->
-    <rss_catalog_new>
+    <rss_catalog_new translate="label">
+        <label>RSS New</label>
         <block type="Mage_Rss_Block_Catalog_New" output="toHtml" name="rss.catalog.new">
             <action method="addPriceBlockType"><type>msrp_rss</type><block>Mage_Catalog_Block_Product_Price</block><template>product/price_msrp_rss.phtml</template></action>
         </block>
     </rss_catalog_new>
 
-    <rss_catalog_special>
+    <rss_catalog_special translate="label">
+        <label>RSS Special</label>
         <block type="Mage_Rss_Block_Catalog_Special" output="toHtml" name="rss.catalog.special" />
     </rss_catalog_special>
 
-    <rss_catalog_salesrule>
+    <rss_catalog_salesrule translate="label">
+        <label>RSS Sales Rule</label>
         <block type="Mage_Rss_Block_Catalog_Salesrule" output="toHtml" name="rss.catalog.salesrule" />
     </rss_catalog_salesrule>
 
-    <rss_catalog_tag>
+    <rss_catalog_tag translate="label">
+        <label>RSS Tag</label>
         <block type="Mage_Rss_Block_Catalog_Tag" output="toHtml" name="rss.catalog.tag">
             <action method="addPriceBlockType"><type>msrp_rss</type><block>Mage_Catalog_Block_Product_Price</block><template>product/price_msrp_rss.phtml</template></action>
         </block>
     </rss_catalog_tag>
 
-    <rss_catalog_notifystock>
+    <rss_catalog_notifystock translate="label">
+        <label>RSS Notify Stock</label>
         <block type="Mage_Rss_Block_Catalog_NotifyStock" output="toHtml" name="rss.catalog.notifystock" />
     </rss_catalog_notifystock>
 
-    <rss_catalog_review>
+    <rss_catalog_review translate="label">
+        <label>RSS Review</label>
         <block type="Mage_Rss_Block_Catalog_Review" output="toHtml" name="rss.catalog.review" />
     </rss_catalog_review>
 
-    <rss_catalog_category>
+    <rss_catalog_category translate="label">
+        <label>RSS Catalog Category</label>
         <block type="Mage_Rss_Block_Catalog_Category" output="toHtml" name="rss.catalog.category">
             <action method="addPriceBlockType"><type>msrp_rss</type><block>Mage_Catalog_Block_Product_Price</block><template>product/price_msrp_rss.phtml</template></action>
         </block>
@@ -78,10 +87,12 @@ Catalog layout
 <!--
 Order layout
 -->
-    <rss_order_new>
+    <rss_order_new translate="label">
+        <label>RSS New Order</label>
         <block type="Mage_Rss_Block_Order_New" output="toHtml" name="rss.order.new"/>
     </rss_order_new>
-    <rss_order_status>
+    <rss_order_status translate="label">
+        <label>RSS Order Status</label>
         <block type="Mage_Rss_Block_Order_Status" output="toHtml" name="rss.order.status"/>
     </rss_order_status>
 </layout>
