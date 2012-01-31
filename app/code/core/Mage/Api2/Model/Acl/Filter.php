@@ -49,7 +49,7 @@ class Mage_Api2_Model_Acl_Filter
         $allowed = $this->getAllowedAttributes($resourceType, $operation, $userType);
 
         $data = $this->filter($allowed, $data);
-        
+
         return $data;
     }
 
