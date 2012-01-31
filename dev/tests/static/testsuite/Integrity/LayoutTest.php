@@ -15,11 +15,14 @@ class Integrity_LayoutTest extends PHPUnit_Framework_TestCase
     /**
      * Check count of layout handle labels that described in modules for frontend area
      *
+     * @param string $handleName
+     * @param int $labelCount
+     *
      * @dataProvider handleLabelCountDataProvider
      */
     public function testHandleLabelCount($handleName, $labelCount)
     {
-         $this->assertSame($labelCount, 1, "Handle '{$handleName} does not have a label or has more then one.'");
+         $this->assertSame($labelCount, 1, "Handle '{$handleName}' does not have a label or has more then one.'");
     }
 
     /**
