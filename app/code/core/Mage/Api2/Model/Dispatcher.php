@@ -63,7 +63,7 @@ class Mage_Api2_Model_Dispatcher
         $replace = array(
             ':resource' => $request->getModel(),
             ':api'      => $request->getApiType(),
-            ':user'     => $this->getApiUser()->getRole(),
+            ':user'     => $this->getApiUser()->getType(),
             ':version'  => (int)$request->getVersion()
         );
         $class = strtr(self::RESOURCE_CLASS_TEMPLATE, $replace);

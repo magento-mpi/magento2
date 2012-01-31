@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<config>
+    <api2>
+       <resources>
+            <orders>
+                <type>orders</type>
+                <model>sales/api2_orders</model>
+                <title>Sales Orders</title>
+                <routes>
+                    <route_main>
+                        <mask>/orders</mask>
+                    </route_main>
+                </routes>
+            </orders>
+        </resources>
+    </api2>
+</config>

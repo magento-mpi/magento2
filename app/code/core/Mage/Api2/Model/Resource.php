@@ -270,6 +270,11 @@ abstract class Mage_Api2_Model_Resource
         $this->_critical(self::RESOURCE_METHOD_NOT_IMPLEMENTED);
     }
 
+    /**
+     * Internal "collection" resource model dispatch
+     */
+    abstract public function dispatch();
+
     //Setters/getters
 
     /**
@@ -282,9 +287,11 @@ abstract class Mage_Api2_Model_Resource
         if (!$this->_filter) {
             /** @var $filter Mage_Api2_Model_Acl_Filter */
             $filter = Mage::getSingleton('api2/acl_filter');
+            $include = $this->getRequest()->getInclude();
+
             $filter->setResourceType($this->getRequest()->getResourceType())
                    ->setUserType($this->getApiUser()->getType())
-                   ->setInclude($this->getRequest()->getInclude());
+                   ->setInclude($include ? $include : array('*'));
 
             $this->setFilter($filter);
         }

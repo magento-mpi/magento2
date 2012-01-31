@@ -66,27 +66,28 @@ class Mage_Api2_Model_Auth_Adapter
     }
 
     /**
-     * Process request by adapters and figure out an API user type
+     * Process request and figure out an API user type and its identifier
+     *
+     * Returns stdClass object with two properties: type and id
      *
      * @param Mage_Api2_Model_Request $request
-     * @return string
-     * @throws Mage_Api2_Exception
+     * @return stdClass
      */
-    public function getUserType(Mage_Api2_Model_Request $request)
+    public function getUserParams(Mage_Api2_Model_Request $request)
     {
         $this->_initAdapters();
 
         foreach ($this->_adapters as $adapterModel) {
             /** @var $adapterModel Mage_Api2_Model_Auth_Adapter_Abstract */
             if ($adapterModel->isApplicableToRequest($request)) {
-                $userType = $adapterModel->getUserType($request);
+                $userParams = $adapterModel->getUserParams($request);
 
-                if (false !== $userType) {
-                    return $userType;
+                if (null !== $userParams->type) {
+                    return $userParams;
                 }
                 throw new Mage_Api2_Exception('Can not determine user type', Mage_Api2_Model_Server::HTTP_UNAUTHORIZED);
             }
         }
-        return Mage_Api2_Model_Auth::DEFAULT_USER_TYPE;
+        return (object) array('type' => Mage_Api2_Model_Auth::DEFAULT_USER_TYPE, 'id' => null);
     }
 }

@@ -98,38 +98,39 @@ abstract class Mage_Api2_Model_Resource_Collection extends Mage_Api2_Model_Resou
     }
 
     /**
-     * Apply filtering for items from URL params
+     * Set navigation parameters and apply filters from URL params
      *
-     * @param Mage_Eav_Model_Entity_Collection_Abstract $collection
+     * @param Varien_Data_Collection_Db $collection
      * @return Mage_Api2_Model_Resource_Collection
      */
-    final protected function _applyCollectionModifiers(Mage_Eav_Model_Entity_Collection_Abstract $collection)
+    final protected function _applyCollectionModifiers(Varien_Data_Collection_Db $collection)
     {
         $request = $this->getRequest();
-        $page = $request->getParam(self::HTTP_PARAM_PAGE, 1);
-        $order = $request->getParam(self::HTTP_PARAM_ORDER, null);
-        $filter = $request->getParam(self::HTTP_PARAM_FILTER, null);
+        $order   = $request->getParam(self::HTTP_PARAM_ORDER);
+        $filter  = $request->getParam(self::HTTP_PARAM_FILTER);
 
-        $collection->setPage($page, self::DEFAULT_PAGE_SIZE);
-        if ($order!==null) {
-            $collection->setOrder($order, Varien_Data_Collection::SORT_ORDER_DESC); //$collection->addAttributeToSort()
+        $collection->setCurPage($request->getParam(self::HTTP_PARAM_PAGE, 1))
+            ->setPageSize(self::DEFAULT_PAGE_SIZE);
+
+        if (null !== $order) {
+            $collection->setOrder($order, Varien_Data_Collection::SORT_ORDER_DESC);
         }
+        if (method_exists($collection, 'addAttributeToFilter')) {
+            /*$filter = array(
+                array('attribute'=>'status', 'in' => array(1)),
+                //array('attribute'=>'lastname', 'like'  => $this->getQuery().'%'),
+                //array('attribute'=>'company', 'like'   => $this->getQuery().'%'),
+            );*/
 
-        /*$filter = array(
-            array('attribute'=>'status', 'in' => array(1)),
-            //array('attribute'=>'lastname', 'like'  => $this->getQuery().'%'),
-            //array('attribute'=>'company', 'like'   => $this->getQuery().'%'),
-        );*/
-
-        if ($filter!==null && !empty($filter)) {
-            //TODO validate filter?
-            try {
-                $collection->addAttributeToFilter($filter);
-            } catch(Exception $e) {
-                $this->_critical(self::RESOURCE_COLLECTION_FILTERING_ERROR);
+            if ($filter) {
+                //TODO validate filter?
+                try {
+                    $collection->addAttributeToFilter($filter);
+                } catch(Exception $e) {
+                    $this->_critical(self::RESOURCE_COLLECTION_FILTERING_ERROR);
+                }
             }
         }
-
         return $this;
     }
 

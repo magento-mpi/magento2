@@ -34,22 +34,34 @@
 class Mage_Api2_Model_Auth_Adapter_Oauth extends Mage_Api2_Model_Auth_Adapter_Abstract
 {
     /**
-     * Process request and figure out an API user type
+     * Process request and figure out an API user type and its identifier
+     *
+     * Returns stdClass object with two properties: type and id
      *
      * @param Mage_Api2_Model_Request $request
-     * @return string|boolean Return boolean FALSE if can not determine user type
+     * @return stdClass
      */
-    public function getUserType(Mage_Api2_Model_Request $request)
+    public function getUserParams(Mage_Api2_Model_Request $request)
     {
         /** @var $oauthServer Mage_OAuth_Model_Server */
         $oauthServer = Mage::getModel('oAuth/server', $request);
         $requestUrl  = $request->getScheme() . '://' . $request->getHttpHost() . $request->getRequestUri();
+        $userParamsObj = (object) array('type' => null, 'id' => null);
 
         try {
-            return $oauthServer->checkAccessRequest($requestUrl)->getUserType();
+            $token    = $oauthServer->checkAccessRequest($requestUrl);
+            $userType = $token->getUserType();
+
+            if (Mage_OAuth_Model_Token::USER_TYPE_ADMIN == $userType) {
+                $userParamsObj->id = $token->getAdminId();
+            } else {
+                $userParamsObj->id = $token->getCustomerId();
+            }
+            $userParamsObj->type = $userType;
         } catch (Exception $e) {
-            return false;
+            // in case of Exception user type will remain NULL
         }
+        return $userParamsObj;
     }
 
     /**

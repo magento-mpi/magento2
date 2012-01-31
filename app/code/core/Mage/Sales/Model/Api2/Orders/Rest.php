@@ -25,30 +25,37 @@
  */
 
 /**
- * Abstract class of authentication adapter
+ * Abstract API2 class for orders
  *
  * @category   Mage
- * @package    Mage_Api2
+ * @package    Mage_Sales
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-abstract class Mage_Api2_Model_Auth_Adapter_Abstract
+abstract class Mage_Sales_Model_Api2_Orders_Rest extends Mage_Api2_Model_Resource_Collection
 {
     /**
-     * Process request and figure out an API user type and its identifier
+     * Retrieve collection instance for orders
      *
-     * Returns stdClass object with two properties: type and id
-     *
-     * @param Mage_Api2_Model_Request $request
-     * @return stdClass
+     * @return Mage_Sales_Model_Resource_Order_Collection
      */
-    abstract public function getUserParams(Mage_Api2_Model_Request $request);
+    protected function _getCollectionForRetrieve()
+    {
+        /** @var $collection Mage_Sales_Model_Resource_Order_Collection */
+        $collection = Mage::getResourceModel('sales/order_collection');
+
+        $this->_applyCollectionModifiers($collection);
+
+        return $collection;
+    }
 
     /**
-     * Check if request contains authentication info for adapter
+     * Fetch resource type
+     * Resource type should correspond to api2.xml config nodes under "config/api2/resources/"
      *
-     * @abstract
-     * @param Mage_Api2_Model_Request $request
-     * @return boolean
+     * @return string
      */
-    abstract public function isApplicableToRequest(Mage_Api2_Model_Request $request);
+    public function getType()
+    {
+        return 'orders';
+    }
 }

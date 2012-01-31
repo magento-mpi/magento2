@@ -55,24 +55,26 @@ class Mage_Api2_Model_Auth
             throw new Exception('No allowed user types found');
         }
         /** @var $authAdapter Mage_Api2_Model_Auth_Adapter */
-        $authAdapter = Mage::getModel('api2/auth_adapter');
-        $userType    = $authAdapter->getUserType($request);
+        $authAdapter   = Mage::getModel('api2/auth_adapter');
+        $userParamsObj = $authAdapter->getUserParams($request);
 
-        if (!isset($userTypes[$userType])) {
+        if (!isset($userTypes[$userParamsObj->type])) {
             throw new Mage_Api2_Exception(
                 'Invalid user type or type is not allowed', Mage_Api2_Model_Server::HTTP_UNAUTHORIZED
             );
         }
         /** @var $userModel Mage_Api2_Model_Auth_User_Abstract */
-        $userModel = Mage::getModel($userTypes[$userType]);
+        $userModel = Mage::getModel($userTypes[$userParamsObj->type]);
 
         if (!$userModel instanceof Mage_Api2_Model_Auth_User_Abstract) {
             throw new Exception('User model must to extend Mage_Api2_Model_Auth_User_Abstract');
         }
         // check user type consistency
-        if ($userModel->getType() != $userType) {
+        if ($userModel->getType() != $userParamsObj->type) {
             throw new Exception('User model type does not match appropriate type in config');
         }
+        $userModel->setUserId($userParamsObj->id);
+
         return $userModel;
     }
 }

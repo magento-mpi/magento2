@@ -148,6 +148,9 @@ class Mage_Api2_Model_Acl_Filter
                 self::OPERATION_READ    => array('id', 'entity_id', 'name', 'title', 'sku', 'status',),
                 self::OPERATION_WRITE   => array('type', 'set', 'sku'),
             ),
+            'orders' => array(
+                self::OPERATION_READ => array('entity_id', 'customer_id', 'state', 'subtotal', 'created_at')
+            )
         );
 
         $attributes = $example[$resourceType][$operation];
