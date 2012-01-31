@@ -282,8 +282,10 @@ AddBySku.prototype = {
             } else {
                 qty = elem.value;
             }
-            var paramKey = 'add_by_sku[' + sku + '][qty]';
-            fieldsPrepare[paramKey] = qty;
+            if (sku != '') { // SKU field processed before qty, so if it is empty - nothing has been entered there
+                var paramKey = 'add_by_sku[' + sku + '][qty]';
+                fieldsPrepare[paramKey] = qty;
+            }
         });
         if (fieldsPrepare != {}) {
             this.order.hideArea('additional_area');
