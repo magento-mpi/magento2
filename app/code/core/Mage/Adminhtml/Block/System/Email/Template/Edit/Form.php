@@ -72,7 +72,7 @@ class Mage_Adminhtml_Block_System_Email_Template_Edit_Form extends Mage_Adminhtm
                 'container_id' => 'used_currently_for',
                 'after_element_html' =>
                     '<script type="text/javascript">' .
-                    (!$this->getEmailTemplate()->getSystemConfigPathsWhereUsedCurrently() 
+                    (!$this->getEmailTemplate()->getSystemConfigPathsWhereUsedCurrently()
                         ? '$(\'' . 'used_currently_for' . '\').hide(); ' : '') .
                     '</script>',
             ));
