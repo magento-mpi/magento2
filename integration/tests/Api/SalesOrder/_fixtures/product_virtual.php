@@ -46,4 +46,4 @@ $product->setTypeId('virtual')
         )
     )
     ->save();
-Magento_Test_Webservice::setFixture('creditmemo/product_virtual', $product);
+Magento_Test_Webservice::setFixture('product_virtual', $product);

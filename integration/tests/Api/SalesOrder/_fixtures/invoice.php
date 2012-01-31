@@ -25,9 +25,9 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-require_once 'order.php';
+require 'order.php';
 /** @var $order Mage_Sales_Model_Order */
-$order = Magento_Test_Webservice::getFixture('creditmemo/order');
+$order = Magento_Test_Webservice::getFixture('order');
 
 $orderService = new Mage_Sales_Model_Service_Order($order);
 $invoice = $orderService->prepareInvoice();
@@ -38,8 +38,8 @@ $transactionSave->addObject($invoice)
     ->addObject($invoice->getOrder())
     ->save();
 
-Magento_Test_Webservice::setFixture('creditmemo/invoice', $invoice);
-$order2 = Magento_Test_Webservice::getFixture('creditmemo/order2');
+Magento_Test_Webservice::setFixture('invoice', $invoice);
+$order2 = Magento_Test_Webservice::getFixture('order2');
 $orderService2 = new Mage_Sales_Model_Service_Order($order2);
 $invoice2 = $orderService2->prepareInvoice();
 $invoice2->register();
@@ -49,6 +49,6 @@ $transactionSave2->addObject($invoice2)
     ->addObject($invoice2->getOrder())
     ->save();
 
-Magento_Test_Webservice::setFixture('creditmemo/invoice2', $invoice2);
+Magento_Test_Webservice::setFixture('invoice2', $invoice2);
 
 

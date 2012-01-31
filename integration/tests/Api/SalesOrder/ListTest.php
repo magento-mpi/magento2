@@ -45,7 +45,7 @@ class Api_SalesOrder_ListTest extends Magento_Test_Webservice
         }
 
         /** @var $order Mage_Sales_Model_Order */
-        $order = self::getFixture('creditmemo/order');
+        $order = self::getFixture('order');
 
         $filters = array(array(
             'filter' => array(
@@ -98,7 +98,7 @@ class Api_SalesOrder_ListTest extends Magento_Test_Webservice
         }
 
         /** @var $order Mage_Sales_Model_Order */
-        $order = self::getFixture('creditmemo/order');
+        $order = self::getFixture('order');
 
         $filters = array(array(
             'status' => array('processing', $order->getData('status')),
@@ -121,8 +121,8 @@ class Api_SalesOrder_ListTest extends Magento_Test_Webservice
      */
     static public function tearDownAfterClass()
     {
-        self::deleteFixture('creditmemo/order', true);
-        self::deleteFixture('creditmemo/product_virtual', true);
-        self::deleteFixture('creditmemo/customer', true);
+        self::deleteFixture('order', true);
+        self::deleteFixture('product_virtual', true);
+        self::deleteFixture('customer', true);
     }
 }

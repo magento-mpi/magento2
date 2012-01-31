@@ -27,36 +27,18 @@
 
 Mage::init('base', 'website');
 //Set up customer fixture
-$customer = new Mage_Customer_Model_Customer();
-$customer->setStoreId(1)
-    ->setCreatedIn('Default Store View')
-    ->setDefaultBilling(1)
-    ->setDefaultShipping(1)
-    ->setEmail('mr.test.creditmemo2.' . time() . '@test.com')
-    ->setFirstname('Test')
-    ->setLastname('Test')
-    ->setMiddlename('Test')
-    ->setGroupId(1)
-    ->setRewardUpdateNotification(1)
-    ->setRewardWarningNotification(1)
-    ->save();
-Magento_Test_Webservice::setFixture('invoice/customer', $customer);
-
 //Set up customer address fixture
-require_once 'customer_address.php';
+require 'customer.php';
+/** @var $customer Mage_Customer_Model_Customer */
+$customer = Magento_Test_Webservice::getFixture('customer');
 /** @var $customerAddress Mage_Customer_Model_Address */
-$customerAddress = Magento_Test_Webservice::getFixture('creditmemo/customer_address');
+$customerAddress = Magento_Test_Webservice::getFixture('customer_address');
 
 //Set up virtual product fixture
-require_once 'product_virtual.php';
+require 'product_virtual.php';
 /** @var $product Mage_Catalog_Model_Product */
-$product = Magento_Test_Webservice::getFixture('creditmemo/product_virtual');
+$product = Magento_Test_Webservice::getFixture('product_virtual');
 
-//Set customer default shipping and billing address
-$customer->addAddress($customerAddress);
-$customer->setDefaultShipping($customerAddress->getId());
-$customer->setDefaultBilling($customerAddress->getId());
-$customer->save();
 
 //Create quote
 $quote = new Mage_Sales_Model_Quote();
@@ -70,7 +52,7 @@ $quote->setStoreId(1)
 
 $quote->collectTotals();
 $quote->save();
-Magento_Test_Webservice::setFixture('creditmemo/quote', $quote);
+Magento_Test_Webservice::setFixture('quote', $quote);
 
 //Create order
 $quoteService = new Mage_Sales_Model_Service_Quote($quote);
@@ -79,7 +61,7 @@ $quoteService->getQuote()->getPayment()->setMethod('checkmo');
 $order = $quoteService->submitOrder();
 $order->place();
 $order->save();
-Magento_Test_Webservice::setFixture('creditmemo/order', $order);
+Magento_Test_Webservice::setFixture('order', $order);
 
 //Create order
 $quote2 = new Mage_Sales_Model_Quote();
@@ -99,4 +81,4 @@ $quoteService2->getQuote()->getPayment()->setMethod('checkmo');
 $order2 = $quoteService2->submitOrder();
 $order2->place();
 $order2->save();
-Magento_Test_Webservice::setFixture('creditmemo/order2', $order2);
+Magento_Test_Webservice::setFixture('order2', $order2);

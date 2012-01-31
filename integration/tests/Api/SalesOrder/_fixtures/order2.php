@@ -26,15 +26,12 @@
  */
 
 
-//Set up customer fixture
-require_once 'customer.php';
-/** @var $customer Mage_Customer_Model_Customer */
-$customer = Magento_Test_Webservice::getFixture('creditmemo/customer');
-
 //Set up customer address fixture
-require_once 'customer_address.php';
+require 'customer.php';
+/** @var $customer Mage_Customer_Model_Customer */
+$customer = Magento_Test_Webservice::getFixture('customer');
 /** @var $customerAddress Mage_Customer_Model_Address */
-$customerAddress = Magento_Test_Webservice::getFixture('creditmemo/customer_address');
+$customerAddress = Magento_Test_Webservice::getFixture('customer_address');
 
 /*//$customerAddress->addShippingRate($rate);
 $customerAddress->setShippingMethod('freeshipping_freeshipping');
@@ -42,15 +39,9 @@ $customerAddress->addShippingRate($method);   //$rate
 $customerAddress->save();*/
 
 //Set up simple product fixture
-require_once 'product_simple.php';
+require 'product_simple.php';
 /** @var $product Mage_Catalog_Model_Product */
 $product = Magento_Test_Webservice::getFixture('product_simple');
-
-//Set customer default shipping and billing address
-$customer->addAddress($customerAddress);
-$customer->setDefaultShipping($customerAddress->getId());
-$customer->setDefaultBilling($customerAddress->getId());
-$customer->save();
 
 //Create quote
 $quote = new Mage_Sales_Model_Quote();

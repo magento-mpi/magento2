@@ -31,15 +31,23 @@
 
 class Api_SalesOrder_CreditMemoTest extends Magento_Test_Webservice
 {
-	/**
-	* tear down
-	*
-	* @return void
-	*/
-	protected function tearDown()
-	{
-		parent::tearDown();
-	}
+    /**
+     * tear down
+     *
+     * @return void
+     */
+    protected function tearDown()
+    {
+        $entityStoreModel = self::getFixture('entity_store_model');
+        if ($entityStoreModel instanceof Mage_Eav_Model_Entity_Store) {
+            $origIncrementData = self::getFixture('orig_creditmemo_increment_data');
+            $entityStoreModel->loadByEntityStore($entityStoreModel->getEntityTypeId(), $entityStoreModel->getStoreId());
+            $entityStoreModel->setIncrementPrefix($origIncrementData['prefix'])
+                ->setIncrementLastId($origIncrementData['increment_last_id'])
+                ->save();
+        }
+        parent::tearDown();
+    }
 
     /**
      * Test sales order credit memo list, info, create, cancel
@@ -49,10 +57,10 @@ class Api_SalesOrder_CreditMemoTest extends Magento_Test_Webservice
     public function testCRUD()
     {
         /** @var $product Mage_Catalog_Model_Product */
-        $product = self::getFixture('creditmemo/product_virtual');
+        $product = self::getFixture('product_virtual');
 
         /** @var $order Mage_Sales_Model_Order */
-        $order = self::getFixture('creditmemo/order');
+        $order = self::getFixture('order');
 
         $orderItems = $order->getAllItems();
         $qtys = array();
@@ -110,20 +118,20 @@ class Api_SalesOrder_CreditMemoTest extends Magento_Test_Webservice
 
         //Test cancel
         //Situation when creditmemo is possible to cancel was not found
-        $this->setExpectedException('Exception');
+        $this->setExpectedException('SoapFault');
         $this->call('order_creditmemo.cancel', array($creditMemoIncrementId));
     }
 
     /**
      * Test Exception when refund amount greater than available to refund amount
      *
-     * @expectedException Exception
+     * @expectedException SoapFault
      * @return void
      */
     public function testNegativeRefundException()
     {
         /** @var $order Mage_Sales_Model_Order */
-        $order = self::getFixture('creditmemo/order');
+        $order = self::getFixture('order');
         $overRefundAmount = $order->getGrandTotal() + 10;
 
         $this->call('order_creditmemo.create', array($order->getIncrementId(), array(
@@ -152,7 +160,7 @@ class Api_SalesOrder_CreditMemoTest extends Magento_Test_Webservice
     /**
      * Test Exception on invalid creditmemo create data
      *
-     * @expectedException Exception
+     * @expectedException SoapFault
      * @return void
      */
     public function testCreateInvalidOrderException()
@@ -163,7 +171,7 @@ class Api_SalesOrder_CreditMemoTest extends Magento_Test_Webservice
     /**
      * Test Exception on invalid credit memo while adding comment
      *
-     * @expectedException Exception
+     * @expectedException SoapFault
      * @return void
      */
     public function testAddCommentInvalidOrderException()
@@ -174,7 +182,7 @@ class Api_SalesOrder_CreditMemoTest extends Magento_Test_Webservice
     /**
      * Test Exception on invalid credit memo while getting info
      *
-     * @expectedException Exception
+     * @expectedException SoapFault
      * @return void
      */
     public function testInfoInvalidOrderException()
@@ -185,7 +193,7 @@ class Api_SalesOrder_CreditMemoTest extends Magento_Test_Webservice
     /**
      * Test exception on invalid credit memo cancel
      *
-     * @expectedException Exception
+     * @expectedException SoapFault
      * @return void
      */
     public function testCancelInvalidIdException()
@@ -203,18 +211,17 @@ class Api_SalesOrder_CreditMemoTest extends Magento_Test_Webservice
         // Set creditmemo increment id prefix
         $website = Mage::app()->getWebsite();
         $entityTypeModel = Mage::getModel('eav/entity_type')->loadByCode('creditmemo');
-        $entityStoreModel = Mage::getModel('eav/entity_store')->loadByEntityStore(
-            $entityTypeModel->getId(),$website->getDefaultStore()->getId());
-        Magento_Test_Webservice::setFixture('orig_creditmemo_increment_data', array(
+        $entityStoreModel = Mage::getModel('eav/entity_store')
+            ->loadByEntityStore($entityTypeModel->getId(), $website->getDefaultStore()->getId());
+        self::setFixture('orig_creditmemo_increment_data', array(
             'prefix' => $entityStoreModel->getIncrementPrefix(),
             'increment_last_id' => $entityStoreModel->getIncrementLastId()
         ));
         $entityStoreModel->setIncrementPrefix('01');
         $entityStoreModel->save();
-        Magento_Test_Webservice::setFixture('entity_store_model', $entityStoreModel);
+        self::setFixture('entity_store_model', $entityStoreModel);
 
-
-        $order = self::getFixture('creditmemo/order2');
+        $order = self::getFixture('order2');
 
         $orderItems = $order->getAllItems();
         $qtys = array();
@@ -234,12 +241,11 @@ class Api_SalesOrder_CreditMemoTest extends Magento_Test_Webservice
 
         //Test create
         $creditMemoIncrementId = $this->call('order_creditmemo.create', array($orderIncrementalId, $data));
-    	$this->setFixture('creditmemoIncrementId', $creditMemoIncrementId);
-    
-    	$this->assertTrue(is_string($creditMemoIncrementId), 'Increment Id is not a string');
-    	$entityStoreModel = $this->getFixture('entity_store_model');
-    	$this->assertStringStartsWith($entityStoreModel->getIncrementPrefix(), $creditMemoIncrementId,
-    			'Increment Id returned by API is not correct');
+    	self::setFixture('creditmemoIncrementId', $creditMemoIncrementId);
+
+        $this->assertTrue(is_string($creditMemoIncrementId), 'Increment Id is not a string');
+        $this->assertStringStartsWith($entityStoreModel->getIncrementPrefix(), $creditMemoIncrementId,
+            'Increment Id returned by API is not correct');
 
         // you can not delete credit memo from non-admin area
     }

@@ -26,79 +26,23 @@
  */
 
 Mage::init('base', 'website');
-
-//Set up non-virtual order fixture
 //Set up customer fixture
-$customer = new Mage_Customer_Model_Customer();
-$customer->setStoreId(1)
-    ->setCreatedIn('Default Store View')
-    ->setDefaultBilling(1)
-    ->setDefaultShipping(1)
-    ->setEmail('mr.test.creditmemo3.' . time() . '@test.com')
-    ->setFirstname('Test')
-    ->setLastname('Test')
-    ->setMiddlename('Test')
-    ->setGroupId(1)
-    ->setRewardUpdateNotification(1)
-    ->setRewardWarningNotification(1)
-    ->save();
-Magento_Test_Webservice::setFixture('shipment/customer', $customer);
-
 //Set up customer address fixture
-$customerAddress = new Mage_Customer_Model_Address();
-$customerAddress->setData(array(
-    'city'                => 'New York',
-    'country_id'          => 'US',
-    'fax'                 => '56-987-987',
-    'firstname'           => 'Jacklin',
-    'lastname'            => 'Sparrow',
-    'middlename'          => 'John',
-    'postcode'            => '10012',
-    'region'              => 'New York',
-    'region_id'           => '43',
-    'street'              => 'Main Street',
-    'telephone'           => '718-452-9207',
-    'is_default_billing'  => true,
-    'is_default_shipping' => true
-));
-$customerAddress->setCustomer($customer);
-$customerAddress->save();
-Magento_Test_Webservice::setFixture('shipment/customer_address', $customerAddress);
-
+require 'customer.php';
+/** @var $customer Mage_Customer_Model_Customer */
+$customer = Magento_Test_Webservice::getFixture('customer');
+/** @var $customerAddress Mage_Customer_Model_Address */
+$customerAddress = Magento_Test_Webservice::getFixture('customer_address');
 /*//$customerAddress->addShippingRate($rate);
 $customerAddress->setShippingMethod('freeshipping_freeshipping');
 $customerAddress->addShippingRate($method);   //$rate
 $customerAddress->save();*/
 
 //Set up simple product fixture
-$product = new Mage_Catalog_Model_Product();
-$product->setTypeId('simple')
-    ->setAttributeSetId(4)
-    ->setName('Simple Product')
-    ->setSku('simple-product-' . time())
-    ->setPrice(10)
-    ->setTaxClassId(0)
-    ->setMetaTitle('meta title')
-    ->setMetaKeyword('meta keyword')
-    ->setMetaDescription('meta description')
-    ->setVisibility(Mage_Catalog_Model_Product_Visibility::VISIBILITY_BOTH)
-    ->setStatus(Mage_Catalog_Model_Product_Status::STATUS_ENABLED)
-    ->setStockData(
-    array(
-        'use_config_manage_stock' => 1,
-        'qty'                     => 100,
-        'is_qty_decimal'          => 0,
-        'is_in_stock'             => 1,
-    )
-)
-    ->save();
-Magento_Test_Webservice::setFixture('shipmentproduct_simple', $product);
+require 'product_simple.php';
+/** @var $product Mage_Catalog_Model_Product */
+$product = Magento_Test_Webservice::getFixture('product_simple');
 
-//Set customer default shipping and billing address
-$customer->addAddress($customerAddress);
-$customer->setDefaultShipping($customerAddress->getId());
-$customer->setDefaultBilling($customerAddress->getId());
-$customer->save();
 
 //Create quote
 $quote = new Mage_Sales_Model_Quote();
@@ -120,7 +64,7 @@ $quote->getShippingAddress()->addShippingRate($rate);
 
 $quote->collectTotals();
 $quote->save();
-Magento_Test_Webservice::setFixture('shipmentquote', $quote);
+Magento_Test_Webservice::setFixture('quote', $quote);
 
 //Create order
 $quoteService = new Mage_Sales_Model_Service_Quote($quote);
@@ -129,4 +73,4 @@ $quoteService->getQuote()->getPayment()->setMethod('checkmo');
 $order = $quoteService->submitOrder();
 $order->place();
 $order->save();
-Magento_Test_Webservice::setFixture('shipmentorder', $order);
+Magento_Test_Webservice::setFixture('order', $order);

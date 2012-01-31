@@ -41,10 +41,10 @@ class Api_SalesOrder_StatusTest extends Magento_Test_Webservice
      */
     public static function tearDownAfterClass()
     {
-        Magento_Test_Webservice::deleteFixture('creditmemo/customer', true);
-        Magento_Test_Webservice::deleteFixture('creditmemo/product_virtual', true);
-        Magento_Test_Webservice::deleteFixture('creditmemo/quote', true);
-        Magento_Test_Webservice::deleteFixture('creditmemo/order', true);
+        Magento_Test_Webservice::deleteFixture('customer', true);
+        Magento_Test_Webservice::deleteFixture('product_virtual', true);
+        Magento_Test_Webservice::deleteFixture('quote', true);
+        Magento_Test_Webservice::deleteFixture('order', true);
 
         parent::tearDownAfterClass();
     }
@@ -57,7 +57,7 @@ class Api_SalesOrder_StatusTest extends Magento_Test_Webservice
     public function testCancelPendingOrder()
     {
         /** @var $order Mage_Sales_Model_Order */
-        $order = Magento_Test_Webservice::getFixture('creditmemo/order');
+        $order = Magento_Test_Webservice::getFixture('order');
 
         $order->setStatus('pending')
            ->save();
@@ -80,7 +80,7 @@ class Api_SalesOrder_StatusTest extends Magento_Test_Webservice
     public function testCancelClosedOrder()
     {
         /** @var $order Mage_Sales_Model_Order */
-        $order = Magento_Test_Webservice::getFixture('creditmemo/order');
+        $order = Magento_Test_Webservice::getFixture('order');
 
         $order->setStatus(Mage_Sales_Model_Order::STATE_CLOSED) // closed order is not allowed to cancel
             ->save();
@@ -108,7 +108,7 @@ class Api_SalesOrder_StatusTest extends Magento_Test_Webservice
     public function testHoldProcessingOrder()
     {
         /** @var $order Mage_Sales_Model_Order */
-        $order = Magento_Test_Webservice::getFixture('creditmemo/order');
+        $order = Magento_Test_Webservice::getFixture('order');
 
         $order->setState(Mage_Sales_Model_Order::STATE_NEW, 'pending')
            ->save();
@@ -131,7 +131,7 @@ class Api_SalesOrder_StatusTest extends Magento_Test_Webservice
     public function testHoldCanceledOrder()
     {
         /** @var $order Mage_Sales_Model_Order */
-        $order = Magento_Test_Webservice::getFixture('creditmemo/order');
+        $order = Magento_Test_Webservice::getFixture('order');
 
         $order->setStatus(Mage_Sales_Model_Order::STATE_CANCELED)
            ->save();

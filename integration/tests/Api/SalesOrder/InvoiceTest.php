@@ -30,29 +30,29 @@
  */
 class Api_SalesOrder_InvoiceTest extends Magento_Test_Webservice
 {
-	/**
-	* Clean up invoice and revert changes to entity store model
-	*
-	* @return void
-	*/
-	protected function tearDown()
-	{
-		$invoice = new Mage_Sales_Model_Order_Invoice();
-		$invoice->loadByIncrementId($this->getFixture('invoiceIncrementId'));
-		$this->callModelDelete($invoice, true);
-	
-		$entityStoreModel = $this->getFixture('entity_store_model');
-		if ($entityStoreModel instanceof Mage_Eav_Model_Entity_Store) {
-			$origIncrementData = $this->getFixture('orig_invoice_increment_data');
-			$entityStoreModel->loadByEntityStore($entityStoreModel->getEntityTypeId(),$entityStoreModel->getStoreId());
-			$entityStoreModel->setIncrementPrefix($origIncrementData['prefix'])
-			->setIncrementLastId($origIncrementData['increment_last_id'])
-			->save();
-		}
-	
-		parent::tearDown();
-	}
-	
+    /**
+     * Clean up invoice and revert changes to entity store model
+     *
+     * @return void
+     */
+    protected function tearDown()
+    {
+        $invoice = new Mage_Sales_Model_Order_Invoice();
+        $invoice->loadByIncrementId(self::getFixture('invoiceIncrementId'));
+        $this->callModelDelete($invoice, true);
+
+        $entityStoreModel = self::getFixture('entity_store_model');
+        if ($entityStoreModel instanceof Mage_Eav_Model_Entity_Store) {
+            $origIncrementData = self::getFixture('orig_invoice_increment_data');
+            $entityStoreModel->loadByEntityStore($entityStoreModel->getEntityTypeId(), $entityStoreModel->getStoreId());
+            $entityStoreModel->setIncrementPrefix($origIncrementData['prefix'])
+                ->setIncrementLastId($origIncrementData['increment_last_id'])
+                ->save();
+        }
+
+        parent::tearDown();
+    }
+
     /**
      * Test credit memo create API call results
      *
@@ -60,36 +60,35 @@ class Api_SalesOrder_InvoiceTest extends Magento_Test_Webservice
      */
     public function testAutoIncrementType()
     {
-    	/** @var $quote Mage_Sales_Model_Quote */
-        $order = self::getFixture('creditmemo/order');
-    	$id = $order->getIncrementId();
-    
-    	// Set invoice increment id prefix
-    	$website = Mage::app()->getWebsite();
-    	$entityTypeModel = Mage::getModel('eav/entity_type')->loadByCode('invoice');
-    	$entityStoreModel = Mage::getModel('eav/entity_store')->loadByEntityStore(
-    		$entityTypeModel->getId(),$website->getDefaultStore()->getId());
-    	Magento_Test_Webservice::setFixture('orig_invoice_increment_data', array(
-    			'prefix' => $entityStoreModel->getIncrementPrefix(),
-    			'increment_last_id' => $entityStoreModel->getIncrementLastId()
-    	));
-    	$entityStoreModel->setIncrementPrefix('01');
-    	$entityStoreModel->save();
-    	Magento_Test_Webservice::setFixture('entity_store_model', $entityStoreModel);
-    
-    	// Create new invoice
-    	$newInvoiceId = $this->call('order_invoice.create', array(
-    			'invoiceIncrementId' => $id,
-    			'itemsQty' => array(),
-    			'comment' => 'invoice Created',
-    			'email' => true,
-    			'includeComment' => true
-    	));
-    	$this->setFixture('invoiceIncrementId', $newInvoiceId);
-    
-    	$this->assertTrue(is_string($newInvoiceId), 'Increment Id is not a string');
-    	$entityStoreModel = $this->getFixture('entity_store_model');
-    	$this->assertStringStartsWith($entityStoreModel->getIncrementPrefix(), $newInvoiceId,
-    			'Increment Id returned by API is not correct');
+        /** @var $quote Mage_Sales_Model_Quote */
+        $order = self::getFixture('order');
+        $id = $order->getIncrementId();
+
+        // Set invoice increment id prefix
+        $website = Mage::app()->getWebsite();
+        $entityTypeModel = Mage::getModel('eav/entity_type')->loadByCode('invoice');
+        $entityStoreModel = Mage::getModel('eav/entity_store')
+            ->loadByEntityStore($entityTypeModel->getId(), $website->getDefaultStore()->getId());
+        self::setFixture('orig_invoice_increment_data', array(
+            'prefix' => $entityStoreModel->getIncrementPrefix(),
+            'increment_last_id' => $entityStoreModel->getIncrementLastId()
+        ));
+        $entityStoreModel->setIncrementPrefix('01');
+        $entityStoreModel->save();
+        self::setFixture('entity_store_model', $entityStoreModel);
+
+        // Create new invoice
+        $newInvoiceId = $this->call('order_invoice.create', array(
+            'invoiceIncrementId' => $id,
+            'itemsQty' => array(),
+            'comment' => 'invoice Created',
+            'email' => true,
+            'includeComment' => true
+        ));
+        self::setFixture('invoiceIncrementId', $newInvoiceId);
+
+        $this->assertTrue(is_string($newInvoiceId), 'Increment Id is not a string');
+        $this->assertStringStartsWith($entityStoreModel->getIncrementPrefix(), $newInvoiceId,
+            'Increment Id returned by API is not correct');
     }
 }
