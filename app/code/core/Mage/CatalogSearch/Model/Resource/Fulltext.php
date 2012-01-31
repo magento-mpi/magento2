@@ -488,7 +488,7 @@ class Mage_CatalogSearch_Model_Resource_Fulltext extends Mage_Core_Model_Resourc
     {
         $result  = array();
         $selects = array();
-        $adapter = $this->_getReadAdapter();
+        $adapter = $this->_getWriteAdapter();
         $ifStoreValue = $adapter->getCheckSql('t_store.value_id > 0', 't_store.value', 't_default.value');
         foreach ($attributeTypes as $backendType => $attributeIds) {
             if ($attributeIds) {
