@@ -13,8 +13,10 @@ if (!Mage::isInstalled()) {
     exit;
 }
 
-//should be set to true, otherwise "Fatal error: Class '%s' not found" in Autoload will not generate exceptions in error handler mageCoreErrorHandler()
-Mage::setIsDeveloperMode(true);
+if (isset($_SERVER['MAGE_IS_DEVELOPER_MODE'])) {
+    Mage::setIsDeveloperMode(true);
+}
+
 #ini_set('display_errors', 1);
 
 Mage::$headersSentThrowsException = false;

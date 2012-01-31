@@ -182,6 +182,7 @@ class Mage_OAuth_ClientController extends Mage_Core_Controller_Front_Action
             $callUrl
         );
 
+        $client->setMethod(Zend_Oauth_Client::GET);
         $client->setToken($accessToken);
         $client->request();
 
@@ -199,7 +200,7 @@ class Mage_OAuth_ClientController extends Mage_Core_Controller_Front_Action
         $server = Mage::getModel('oauth/server');
 
         try {
-            $server->checkAccessRequest(Mage::getUrl('*/*/*'));
+            $server->checkAccessRequest();
 
             echo 'Access Granted<br>';
         } catch (Exception $e) {

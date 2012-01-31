@@ -316,12 +316,10 @@ class Mage_OAuth_Model_Server
      * Extract parameters from sources (GET, FormBody, Authorization header), decode them and validate
      *
      * @param string $requestType Request type - one of REQUEST_... class constant
-     * @param string|null $url OPTIONAL Requested URL (used in signature verification)
-     *                                  It will try to define it automatically if possible
      * @return Mage_OAuth_Model_Server
      * @throws Mage_Core_Exception
      */
-    protected function _processRequest($requestType, $url = null)
+    protected function _processRequest($requestType)
     {
         // validate request type to process (AUTHORIZE request is not allowed for method)
         if (self::REQUEST_INITIATE != $requestType
@@ -345,7 +343,7 @@ class Mage_OAuth_Model_Server
         $this->_initToken();
 
         // validate signature
-        $this->_validateSignature($url);
+        $this->_validateSignature();
 
         // save token if signature validation succeed
         $this->_saveToken();
@@ -472,10 +470,9 @@ class Mage_OAuth_Model_Server
     /**
      * Validate signature
      *
-     * @param string $url Request URL to be a part of data to sign
      * @throws Mage_OAuth_Exception
      */
-    protected function _validateSignature($url)
+    protected function _validateSignature()
     {
         $util = new Zend_Oauth_Http_Utility();
 
@@ -484,8 +481,8 @@ class Mage_OAuth_Model_Server
             $this->_params['oauth_signature_method'],
             $this->_consumer->getSecret(),
             $this->_token->getSecret(),
-            Zend_Oauth::POST,
-            $url
+            $this->_request->getMethod(),
+            $this->_request->getScheme() . '://' . $this->_request->getHttpHost() . $this->_request->getRequestUri()
         );
 
         if ($calculatedSign != $this->_params['oauth_signature']) {
@@ -531,12 +528,7 @@ class Mage_OAuth_Model_Server
     public function accessToken()
     {
         try {
-            /** @var $helper Mage_OAuth_Helper_Data */
-            $helper = Mage::helper('oauth');
-
-            $this->_processRequest(
-                self::REQUEST_TOKEN, $helper->getProtocolEndpointUrl(Mage_OAuth_Helper_Data::ENDPOINT_TOKEN)
-            );
+            $this->_processRequest(self::REQUEST_TOKEN);
 
             $response = $this->_token->toString();
         } catch (Exception $e) {
@@ -564,12 +556,11 @@ class Mage_OAuth_Model_Server
     /**
      * Validate request with access token for specified URL
      *
-     * @param string $url Request URL
      * @return Mage_OAuth_Model_Token
      */
-    public function checkAccessRequest($url)
+    public function checkAccessRequest()
     {
-        $this->_processRequest(self::REQUEST_RESOURCE, $url);
+        $this->_processRequest(self::REQUEST_RESOURCE);
 
         return $this->_token;
     }
@@ -608,12 +599,7 @@ class Mage_OAuth_Model_Server
     public function initiateToken()
     {
         try {
-            /** @var $helper Mage_OAuth_Helper_Data */
-            $helper = Mage::helper('oauth');
-
-            $this->_processRequest(
-                self::REQUEST_INITIATE, $helper->getProtocolEndpointUrl(Mage_OAuth_Helper_Data::ENDPOINT_INITIATE)
-            );
+            $this->_processRequest(self::REQUEST_INITIATE);
 
             $response = $this->_token->toString() . '&oauth_callback_confirmed=true';
         } catch (Exception $e) {
