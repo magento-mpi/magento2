@@ -145,7 +145,7 @@ class Enterprise_Checkout_Model_Observer
         $quote = Mage::getModel('Mage_Sales_Model_Quote');
         $collection = new Varien_Data_Collection();
 
-        foreach (Mage::helper('enterprise_checkout')->getFailedItems(true) as $item) {
+        foreach (Mage::helper('Enterprise_Checkout_Helper_Data')->getFailedItems(true) as $item) {
             $item->setQuote($quote);
             $collection->addItem($item);
         }

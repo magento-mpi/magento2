@@ -185,7 +185,7 @@ class Enterprise_Checkout_CartController extends Mage_Core_Controller_Front_Acti
             /** @var $cart Mage_Checkout_Model_Cart */
             $cart = Mage::getSingleton('Mage_Checkout_Model_Cart');
 
-            $product = Mage::getModel('catalog/product')
+            $product = Mage::getModel('Mage_Catalog_Model_Product')
                 ->setStoreId(Mage::app()->getStore()->getId())
                 ->load($id);
 
@@ -198,7 +198,7 @@ class Enterprise_Checkout_CartController extends Mage_Core_Controller_Front_Acti
 
             if (!$this->_getSession()->getNoCartRedirect(true)) {
                 if (!$cart->getQuote()->getHasError()){
-                    $productName = Mage::helper('core')->htmlEscape($product->getName());
+                    $productName = Mage::helper('Mage_Core_Helper_Data')->escapeHtml($product->getName());
                     $message = $this->__('%s was added to your shopping cart.', $productName);
                     $this->_getSession()->addSuccess($message);
                 }

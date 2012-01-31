@@ -154,7 +154,7 @@ class Enterprise_Search_Model_Observer
     {
         $engine     = $observer->getEvent()->getEngine();
         $attributes = $observer->getEvent()->getAttributes();
-        if (!$engine || !$attributes || !Mage::helper('enterprise_search')->isThirdPartyEngineAvailable()) {
+        if (!$engine || !$attributes || !Mage::helper('Enterprise_Search_Helper_Data')->isThirdPartyEngineAvailable()) {
             return;
         }
 
@@ -163,7 +163,7 @@ class Enterprise_Search_Model_Observer
                 continue;
             }
 
-            $optionCollection = Mage::getResourceModel('eav/entity_attribute_option_collection')
+            $optionCollection = Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute_Option_Collection')
                 ->setAttributeFilter($attribute->getAttributeId())
                 ->setPositionOrder(Varien_Db_Select::SQL_ASC, true)
                 ->load();

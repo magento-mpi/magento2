@@ -289,7 +289,7 @@ class Enterprise_Search_Model_Resource_Engine
      */
     public function getAllowedVisibility()
     {
-        return Mage::getSingleton('catalog/product_visibility')->getVisibleInSiteIds();
+        return Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')->getVisibleInSiteIds();
     }
 
     /**
@@ -503,7 +503,7 @@ class Enterprise_Search_Model_Resource_Engine
      */
     public function addAdvancedIndex($index, $storeId, $productIds = null)
     {
-        return Mage::getResourceSingleton('enterprise_search/index')
+        return Mage::getResourceSingleton('Enterprise_Search_Model_Resource_Index')
             ->addAdvancedIndex($index, $storeId, $productIds);
     }
 

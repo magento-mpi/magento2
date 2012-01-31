@@ -367,7 +367,7 @@ class Mage_CatalogSearch_Model_Resource_Fulltext extends Mage_Core_Model_Resourc
         if (is_null($this->_searchableAttributes)) {
             $this->_searchableAttributes = array();
 
-            $productAttributeCollection = Mage::getResourceModel('catalog/product_attribute_collection');
+            $productAttributeCollection = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Attribute_Collection');
 
             if ($this->_engine && $this->_engine->allowAdvancedIndex()) {
                 $productAttributeCollection->addToIndexFilter(true);

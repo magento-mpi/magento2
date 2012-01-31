@@ -148,7 +148,7 @@ class Enterprise_Logging_Model_Config
 
         $label = (string)$actionLabelNode;
         $module = $actionLabelNode->getParent()->getAttribute('module');
-        $helper = $module ? Mage::helper($module) : Mage::helper('enterprise_logging');
+        $helper = $module ? Mage::helper($module) : Mage::helper('Enterprise_Logging_Helper_Data');
 
         return $helper->__($label);
     }

@@ -76,7 +76,7 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Main
                 'required'  => true,
                 'values'    => Mage::getSingleton('Mage_Adminhtml_Model_System_Store')->getStoreValuesForForm(false, true),
                 'disabled'  => $isElementDisabled,
-                'after_element_html' => Mage::getBlockSingleton('adminhtml/store_switcher')->getHintHtml()
+                'after_element_html' => Mage::getBlockSingleton('Mage_Adminhtml_Block_Store_Switcher')->getHintHtml()
             ));
         }
         else {

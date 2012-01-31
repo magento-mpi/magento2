@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-/** @var $installer Mage_Sales_Model_Entity_Setup */
+/** @var $installer Mage_Sales_Model_Resource_Setup */
 $installer = $this;
 
 $subSelect = $installer->getConnection()->select()

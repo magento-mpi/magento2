@@ -31,7 +31,7 @@
                 <staging_items>
                     <config_data translate="label">
                         <module>Mage_Core</module>
-                        <model>core</model>
+                        <factory_prefix>core</factory_prefix>
                         <label>System Configuration</label>
                         <resource_adapter>Enterprise_Staging_Model_Resource_Adapter_Item_Config</resource_adapter>
                         <entities>
@@ -60,18 +60,18 @@
                     </config_data>
                     <category translate="label">
                         <module>Mage_Catalog</module>
-                        <model>catalog</model>
+                        <factory_prefix>catalog</factory_prefix>
                         <label>Catalog Categories</label>
                         <resource_adapter>Enterprise_Staging_Model_Resource_Adapter_Item_Category</resource_adapter>
                     </category>
                     <catalog_permissions translate="label">
                         <module>Enterprise_CatalogPermissions</module>
-                        <model>enterprise_catalogpermissions</model>
+                        <factory_prefix>enterprise_catalogpermissions</factory_prefix>
                         <label>Category Permissions</label>
                     </catalog_permissions>
                     <product>
                         <module>Mage_Catalog</module>
-                        <model>catalog</model>
+                        <factory_prefix>catalog</factory_prefix>
                         <label>Catalog Products</label>
                         <extends>
                             <bundle translate="label">
@@ -106,7 +106,7 @@
                             </catalogsearch>
                             <core_url_rewrite translate="label">
                                 <module>Mage_Core</module>
-                                <model>core</model>
+                                <factory_prefix>core</factory_prefix>
                                 <label>URL Rewrites</label>
                                 <entities>
                                     <url_rewrite/>
@@ -116,7 +116,7 @@
                     </product>
                     <cms_page translate="label">
                         <module>Mage_Cms</module>
-                        <model>cms</model>
+                        <factory_prefix>cms</factory_prefix>
                         <label>CMS Pages</label>
                         <entities>
                             <page_store/>
@@ -125,7 +125,7 @@
                     </cms_page>
                     <cms_block translate="label">
                         <module>Mage_Cms</module>
-                        <model>cms</model>
+                        <factory_prefix>cms</factory_prefix>
                         <label>CMS Blocks</label>
                         <entities>
                             <block_store/>

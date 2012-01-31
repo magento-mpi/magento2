@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-/* @var $installer Mage_Sales_Model_Entity_Setup */
+/* @var $installer Mage_Sales_Model_Resource_Setup */
 $installer = $this;
 $installer->getConnection()
     ->addColumn($installer->getTable('sales_flat_order_item'), 'base_tax_refunded', array(

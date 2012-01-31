@@ -170,7 +170,7 @@ class Mage_Catalog_Model_Resource_Url extends Mage_Core_Model_Resource_Db_Abstra
         $adapter = $this->_getWriteAdapter();
         $requestPathField = new Zend_Db_Expr($adapter->quoteIdentifier('request_path'));
         //select increment part of request path and cast expression to integer
-        $urlIncrementPartExpression = Mage::getResourceHelper('eav')
+        $urlIncrementPartExpression = Mage::getResourceHelper('Mage_Eav')
             ->getCastToIntExpression($adapter->getSubstringSql(
                 $requestPathField,
                 strlen($prefix) + 1,

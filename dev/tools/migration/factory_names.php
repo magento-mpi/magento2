@@ -12,7 +12,7 @@
 require realpath(dirname(dirname(dirname(__DIR__)))) . '/dev/tests/static/framework/bootstrap.php';
 
 // PHP code
-foreach (FileDataProvider::getPhpFiles() as $file) {
+foreach (Util_Files::getPhpFiles() as $file) {
     $file = array_shift($file);
     $content = file_get_contents($file);
     $classes = Legacy_ClassesTest::collectPhpCodeClasses($content);

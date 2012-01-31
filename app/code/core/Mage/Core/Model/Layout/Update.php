@@ -343,7 +343,7 @@ class Mage_Core_Model_Layout_Update
     public function fetchDbLayoutUpdates($handle)
     {
         $_profilerKey = 'layout_db_update: '.$handle;
-        Varien_Profiler::start($_profilerKey);
+        Magento_Profiler::start($_profilerKey);
         $updateStr = $this->_getUpdateString($handle);
         if (!$updateStr) {
             return false;

@@ -46,7 +46,7 @@ class Mage_Persistent_Model_Resource_Session extends Mage_Core_Model_Resource_Db
         $select = parent::_getLoadSelect($field, $value, $object);
         if (!$object->getLoadExpired()) {
             $select->join(
-                array('customer' => $this->getTable('customer/entity')),
+                array('customer' => $this->getTable('customer_entity')),
                 'customer.entity_id = persistent_session.customer_id'
             )->where('persistent_session.updated_at >= ?', $object->getExpiredBefore());
         }
