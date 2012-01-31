@@ -46,24 +46,40 @@ class Mage_Core_Model_CacheTest extends PHPUnit_Framework_TestCase
 
     public function constructorDataProvider()
     {
-        $data = array(
+        return array(
             array(array(), 'Zend_Cache_Backend_File'),
             array(array('backend' => 'File'), 'Zend_Cache_Backend_File'),
             array(array('backend' => 'File', 'backend_options' => array()), 'Zend_Cache_Backend_File'),
             array(array('backend' => 'Database'), 'Varien_Cache_Backend_Database'),
         );
+    }
 
-        $memcacheClass = null;
-        if (extension_loaded('memcached')) {
-            $memcacheClass = 'Zend_Cache_Backend_Libmemcached';
-        } elseif (extension_loaded('memcache')) {
-            $memcacheClass = 'Zend_Cache_Backend_Memcached';
+    /**
+     * @param string $optionCode
+     * @param string $extensionRequired
+     * @dataProvider backendTwoLevelsDataProvider
+     */
+    public function testBackendTwoLevels($optionCode, $extensionRequired)
+    {
+        if ($extensionRequired) {
+            if (!extension_loaded($extensionRequired)) {
+                $this->markTestSkipped("The PHP extension '{$extensionRequired}' is required for this test.");
+            }
         }
-        if ($memcacheClass) {
-            $data[] = array(array('backend' => 'Memcached'), $memcacheClass);
-        }
+        $model = new Mage_Core_Model_Cache(array('backend' => $optionCode));
+        $backend = $model->getFrontend()->getBackend();
+        $this->assertInstanceOf('Zend_Cache_Backend_TwoLevels', $backend);
+    }
 
-        return $data;
+    /**
+     * @return array
+     */
+    public function backendTwoLevelsDataProvider()
+    {
+        return array(
+            array('Memcached', 'memcached'),
+            array('Memcached', 'memcache'),
+        );
     }
 
     public function testGetFrontend()
