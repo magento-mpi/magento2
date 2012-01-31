@@ -141,6 +141,6 @@ class Mage_Api2_Model_Config extends Varien_Simplexml_Config
      */
     public function getMainRoute($node)
     {
-        return (string) $this->getNode(join('/', array('resources', $node, 'routes', 'route_main', 'mask')));
+        return (string) $this->getNode('resources/' . $node . '/routes/route_main/mask');
     }
 }
