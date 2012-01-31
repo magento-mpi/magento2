@@ -51,7 +51,9 @@ Default layout, loads most of the pages
         <label>CMS Home Page</label>
     </cms_index_index>
 
-    <cms_index_defaultindex>
+    <cms_index_defaultindex translate="label">
+        <label>CMS Home Default Page</label>
+
         <remove name="right"/>
         <remove name="left"/>
 
@@ -67,7 +69,9 @@ Default layout, loads most of the pages
         <label>CMS No-Route Page</label>
     </cms_index_noroute>
 
-    <cms_index_defaultnoroute>
+    <cms_index_defaultnoroute translate="label">
+        <label>CMS No-Route Default Page</label>
+
         <remove name="right"/>
         <remove name="left"/>
 

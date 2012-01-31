@@ -52,7 +52,8 @@
         <block type="Mage_Core_Block_Text_List" name="additional.product.info" />
     </paypal_express_review>
 
-    <paypal_express_review_details>
+    <paypal_express_review_details translate="label">
+        <label>Paypal Express Review Details</label>
         <block type="Mage_Paypal_Block_Express_Review_Details" name="root" output="toHtml" template="express/review/details.phtml">
             <action method="addItemRender"><type>default</type><block>Mage_Checkout_Block_Cart_Item_Renderer</block><template>onepage/review/item.phtml</template></action>
             <action method="addItemRender"><type>grouped</type><block>Mage_Checkout_Block_Cart_Item_Renderer_Grouped</block><template>onepage/review/item.phtml</template></action>
@@ -160,19 +161,23 @@ Available logo types can be assigned with action="setLogoType":
         </reference>
     </checkout_onepage_review>
 
-    <paypal_payflow_link_iframe>
+    <paypal_payflow_link_iframe translate="label">
+        <label>Paypal Payflow Link Frame</label>
         <block type="Mage_Paypal_Block_Payflow_Link_Iframe" name="payflow.link.iframe" template="payflowlink/form.phtml" />
     </paypal_payflow_link_iframe>
 
-    <paypal_payflow_advanced_iframe>
+    <paypal_payflow_advanced_iframe translate="label">
+        <label>Paypal Payflow Advanced Frame</label>
         <block type="Mage_Paypal_Block_Payflow_Advanced_Iframe" name="payflow.advanced.iframe" template="payflowadvanced/form.phtml" />
     </paypal_payflow_advanced_iframe>
 
-    <paypal_hosted_pro_iframe>
+    <paypal_hosted_pro_iframe translate="label">
+        <label>Paypal Hosted Pro Frame</label>
         <block type="Mage_Paypal_Block_Hosted_Pro_Iframe" name="hosted.pro.iframe" template="hss/form.phtml"/>
     </paypal_hosted_pro_iframe>
 
-    <SHORTCUT_popup>
+    <SHORTCUT_popup translate="label">
+        <label>Paypal Shortcut Popup</label>
         <reference name="product.tooltip">
             <block type="Mage_Page_Block_Html_Wrapper" name="product.info.addtocart.paypal.wrapper" translate="label">
                 <block type="Mage_Paypal_Block_Express_Shortcut" name="product.info.addtocart.paypal" template="express/shortcut.phtml">

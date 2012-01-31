@@ -11,7 +11,8 @@
 
 -->
 <layout version="0.1.0">
-    <moneybookers_processing_payment>
+    <moneybookers_processing_payment translate="label">
+        <label>Moneybookers Payment</label>
         <reference name="root">
             <action method="setTemplate"><template>1column.phtml</template></action>
         </reference>
@@ -20,7 +21,8 @@
         </reference>
     </moneybookers_processing_payment>
 
-    <moneybookers_processing_placeform>
+    <moneybookers_processing_placeform translate="label">
+        <label>Moneybookers Place Form</label>
         <reference name="root">
             <action method="setTemplate"><template>Phoenix_Moneybookers::blank.phtml</template></action>
         </reference>

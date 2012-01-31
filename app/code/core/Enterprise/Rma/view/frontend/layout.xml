@@ -47,7 +47,8 @@
         <update handle="enterprise_rma_return_create_handle"/>
     </enterprise_rma_return_create>
 
-    <enterprise_rma_return_create_handle>
+    <enterprise_rma_return_create_handle translate="label">
+        <label>RMA Return Create Hhandle</label>
         <reference name="content">
             <block name="enterprise_rma_item_form_template" type="Enterprise_Eav_Block_Form_Template">
                 <action method="addRenderer">
@@ -92,7 +93,8 @@
         <block type="Enterprise_Rma_Block_Return_Tracking" name="rma.return.tracking" as="tracking" />
     </enterprise_rma_return_view>
 
-    <enterprise_rma_return_view_handle>
+    <enterprise_rma_return_view_handle translate="label">
+        <label>RMA Return View Handle</label>
         <reference name="content">
             <block name="enterprise_rma_item_form_template" type="Enterprise_Eav_Block_Form_Template">
                 <action method="addRenderer">
@@ -268,21 +270,26 @@
         </reference>
     </sales_guest_creditmemo>
 
-    <enterprise_rma_email_rma_items>
+    <enterprise_rma_email_rma_items translate="label">
+        <label>RMA Email RMA Item List</label>
         <block type="Enterprise_Rma_Block_Email_Items" name="enterprise_rma_email_items" template="email/items.phtml" />
     </enterprise_rma_email_rma_items>
 
-    <enterprise_rma_return_addlabel>
+    <enterprise_rma_return_addlabel translate="label">
+        <label>RMA Return Add Label</label>
         <block type="Enterprise_Rma_Block_Return_Tracking" name="enterprise_rma_return_tracking" template="return/tracking.phtml" />
     </enterprise_rma_return_addlabel>
-    <enterprise_rma_return_dellabel>
+    <enterprise_rma_return_dellabel translate="label">
+        <label>RMA Return Delete Label</label>
         <block type="Enterprise_Rma_Block_Return_Tracking" name="enterprise_rma_return_tracking" template="return/tracking.phtml" />
     </enterprise_rma_return_dellabel>
 
-    <enterprise_rma_guest_addlabel>
+    <enterprise_rma_guest_addlabel translate="label">
+        <label>RMA Guest Add Label</label>
         <block type="Enterprise_Rma_Block_Return_Tracking" name="enterprise_rma_return_tracking" template="return/tracking.phtml" />
     </enterprise_rma_guest_addlabel>
-    <enterprise_rma_guest_dellabel>
+    <enterprise_rma_guest_dellabel translate="label">
+        <label>RMA Guest Delete Label</label>
         <block type="Enterprise_Rma_Block_Return_Tracking" name="enterprise_rma_return_tracking" template="return/tracking.phtml" />
     </enterprise_rma_guest_dellabel>
 

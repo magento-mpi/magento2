@@ -41,7 +41,8 @@ Default layout, loads most of the pages
 Load this update on every page when customer is logged in
 -->
 
-    <customer_logged_in>
+    <customer_logged_in translate="label">
+        <label>Customer Logged In</label>
         <reference name="top.links">
             <action method="addLink" translate="label title" module="Mage_Customer"><label>Log Out</label><url helper="Mage_Customer_Helper_Data::getLogoutUrl"/><title>Log Out</title><prepare/><urlParams/><position>100</position></action>
         </reference>
@@ -51,7 +52,8 @@ Load this update on every page when customer is logged in
 Load this update on every page when customer is logged out
 -->
 
-    <customer_logged_out>
+    <customer_logged_out translate="label">
+        <label>Customer Logged Out</label>
         <!---<reference name="right">
             <block type="Mage_Customer_Block_Form_Login" name="customer_form_mini_login" before="-" template="customer/form/mini.login.phtml"/>
         </reference>-->
@@ -159,7 +161,9 @@ New customer registration
         </reference>
     </customer_account_resetpassword>
 
-    <customer_account_confirmation>
+    <customer_account_confirmation translate="label">
+        <label>Customer Account Confirmation</label>
+
         <remove name="right"/>
         <remove name="left"/>
 
