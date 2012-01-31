@@ -74,7 +74,7 @@ class Mage_Api2_Model_DispatcherTest extends Mage_PHPUnit_TestCase
         $userMock = $this->getMock('Mage_Api2_Model_Auth_User_Guest');
 
         $userMock->expects($this->once())
-            ->method('getRole')
+            ->method('getType')
             ->will($this->returnValue('guest'));
 
         $this->_requestMock->expects($this->any())
@@ -105,10 +105,10 @@ class Mage_Api2_Model_DispatcherTest extends Mage_PHPUnit_TestCase
      */
     public function testDispatchFail()
     {
-        $userMock = $this->getMock('Mage_Api2_Model_Auth_User_Guest', array('getRole'));
+        $userMock = $this->getMock('Mage_Api2_Model_Auth_User_Guest', array('getType'));
 
         $userMock->expects($this->once())
-            ->method('getRole')
+            ->method('getType')
             ->will($this->returnValue('guest'));
 
         $this->_requestMock->expects($this->any())
