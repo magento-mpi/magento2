@@ -1168,8 +1168,8 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
         $currentlyFailedItemsCount = 0;
 
         foreach ($this->_currentlyAffectedItems as $sku) {
-            if (!isset($affectedItems[$sku])
-                || $affectedItems[$sku]['code'] != Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_SUCCESS
+            if (isset($affectedItems[$sku])
+                && $affectedItems[$sku]['code'] != Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_SUCCESS
             ) {
                 $currentlyFailedItemsCount++;
             }
