@@ -93,7 +93,7 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Mage_Adm
         $storeContents = $banner->getStoreContents();
         $model = Mage::registry('current_banner');
 
-        Mage::dispatchEvent('adminhtml_banner_edit_tab_content_before_prepare_form', 
+        Mage::dispatchEvent('adminhtml_banner_edit_tab_content_before_prepare_form',
             array('model' => $model, 'form' => $form)
         );
 
@@ -140,6 +140,8 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Mage_Adm
             'class'  => $fieldsetHtmlClass,
             'table_class' => 'form-list stores-tree',
         ));
+        $renderer = $this->getLayout()->createBlock('adminhtml/store_switcher_form_renderer_fieldset');
+        $fieldset->setRenderer($renderer);
         $wysiwygConfig->setUseContainer(true);
         foreach (Mage::app()->getWebsites() as $website) {
             $fieldset->addField("w_{$website->getId()}_label", 'note', array(

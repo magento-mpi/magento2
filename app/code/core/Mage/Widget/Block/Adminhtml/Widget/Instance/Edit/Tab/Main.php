@@ -154,6 +154,7 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main
                 'title'     => Mage::helper('widget')->__('Assign to Store Views'),
                 'required'  => true,
                 'values'    => Mage::getSingleton('adminhtml/system_store')->getStoreValuesForForm(false, true),
+                'after_element_html' => Mage::getBlockSingleton('adminhtml/store_switcher')->getHintHtml()
             ));
         }
 

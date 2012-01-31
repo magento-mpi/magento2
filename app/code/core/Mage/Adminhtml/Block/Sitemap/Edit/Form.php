@@ -87,7 +87,8 @@ class Mage_Adminhtml_Block_Sitemap_Edit_Form extends Mage_Adminhtml_Block_Widget
                 'name'     => 'store_id',
                 'required' => true,
                 'value'    => $model->getStoreId(),
-                'values'   => Mage::getSingleton('adminhtml/system_store')->getStoreValuesForForm()
+                'values'   => Mage::getSingleton('adminhtml/system_store')->getStoreValuesForForm(),
+                'after_element_html' => Mage::getBlockSingleton('adminhtml/store_switcher')->getHintHtml()
             ));
         }
         else {
