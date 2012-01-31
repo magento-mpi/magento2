@@ -84,7 +84,7 @@ class Enterprise_Checkout_Model_Import extends Varien_Object
                 $uploader->setAllowedExtensions($this->_allowedExtensions);
                 $uploader->skipDbProcessing(true);
                 if (!$uploader->checkAllowedExtension($uploader->getFileExtension())) {
-                    Mage::throwException(Mage::helper('enterprise_checkout')->__('File has an invalid extension. Only .csv files are supported.'));
+                    Mage::throwException(Mage::helper('enterprise_checkout')->__('Only .csv file format is supported.'));
                 }
                 $result = $uploader->save($this->_getWorkingDir());
             } catch (Mage_Core_Exception $e) {
