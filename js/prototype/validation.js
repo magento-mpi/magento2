@@ -427,7 +427,7 @@ Validation.addAllThese([
                 }
 
                 return Validation.get('IsEmpty').test(v)
-                    || !isNaN(parseNumber(v));
+                    || (!isNaN(parseNumber(v)) && /^\s*-?\d*([.,]\d*)?\s*$/.test(v));
             }],
     ['validate-number-range', 'The value is not within the specified range.', function(v, elm) {
                 var numValue = parseNumber(v);
