@@ -42,8 +42,7 @@ class Api2_Catalog_Product_GuestTest extends Magento_Test_Webservice_Rest_Guest
      */
     protected function tearDown()
     {
-        $product = new Mage_Catalog_Model_Product();
-        $product->load($this->getFixture('productId'));
+        $product = $this->getFixture('product_simple');
         $this->callModelDelete($product, true);
 
         parent::tearDown();
@@ -59,7 +58,7 @@ class Api2_Catalog_Product_GuestTest extends Magento_Test_Webservice_Rest_Guest
     {
         /** @var $product Mage_Catalog_Model_Product */
         $product = $this->getFixture('product_simple');
-        $this->setFixture('productId', $product->getId());
+
         $restResponse = $this->getWebService()->callGet('products/' . $product->getId());
         $this->assertEquals(200, $restResponse->getStatus());
         $body = $restResponse->getBody();
@@ -77,7 +76,6 @@ class Api2_Catalog_Product_GuestTest extends Magento_Test_Webservice_Rest_Guest
     {
         /** @var $product Mage_Catalog_Model_Product */
         $product = $this->getFixture('product_simple');
-        $this->setFixture('productId', $product->getId());
 
         $restResponse = $this->getWebService()->callDelete('products/' . $product->getId());
         // @todo: fix test when resource method implemented
@@ -109,7 +107,6 @@ class Api2_Catalog_Product_GuestTest extends Magento_Test_Webservice_Rest_Guest
     {
         /** @var $product Mage_Catalog_Model_Product */
         $product = $this->getFixture('product_simple');
-        $this->setFixture('productId', $product->getId());
 
         $productData = require dirname(__FILE__) . '/_fixtures/ProductData.php';
         $restResponse = $this->getWebService()->callPut('products/' . $product->getId(),
