@@ -132,6 +132,28 @@ class Enterprise_Logging_Model_Config
     }
 
     /**
+     * Get logging action translated label
+     *
+     * @param string $action
+     * @return string
+     */
+    public function getActionLabel($action)
+    {
+        $xpath = 'actions/' . $action . '/label';
+        $actionLabelNode = $this->_xmlConfig->getNode($xpath);
+
+        if (!$actionLabelNode) {
+            return $action;
+        }
+
+        $label = (string)$actionLabelNode;
+        $module = $actionLabelNode->getParent()->getAttribute('module');
+        $helper = $module ? Mage::helper($module) : Mage::helper('Enterprise_Logging_Helper_Data');
+
+        return $helper->__($label);
+    }
+
+    /**
      * Lookup configuration nodes by full action name
      *
      * @param string $fullActionName

@@ -242,7 +242,7 @@ $installer->addAttribute(Mage_Catalog_Model_Product::ENTITY, 'gift_wrapping_avai
     'user_defined'  => false,
     'default'       => '',
     'apply_to'      => $applyTo,
-    'class'         => 'hidden-for-virtual',
+    'frontend_class' => 'hidden-for-virtual',
     'frontend_input_renderer' => 'Enterprise_GiftWrapping_Block_Adminhtml_Product_Helper_Form_Config',
     'input_renderer'   => 'Enterprise_GiftWrapping_Block_Adminhtml_Product_Helper_Form_Config',
     'visible_on_front' => false
@@ -260,6 +260,6 @@ $installer->addAttribute(Mage_Catalog_Model_Product::ENTITY, 'gift_wrapping_pric
     'required'      => false,
     'user_defined'  => false,
     'apply_to'      => $applyTo,
-    'class'         => 'hidden-for-virtual',
+    'frontend_class' => 'hidden-for-virtual',
     'visible_on_front' => false
 ));

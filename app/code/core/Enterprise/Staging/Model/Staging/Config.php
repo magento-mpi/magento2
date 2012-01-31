@@ -329,15 +329,15 @@ class Enterprise_Staging_Model_Staging_Config
             $staging->checkFrontend();
         }
 
-        list($model, $entity) = explode('/' , $modelEntity, 2);
-        if (!$model){
+        list($factoryPrefix, $entity) = explode('/' , $modelEntity, 2);
+        if (!$factoryPrefix){
             return false;
         }
 
         $globalTablePrefix = (string) Mage::getConfig()->getTablePrefix();
 
         $_tableName = $globalTablePrefix . $tableName;
-        if ($this->isStagingUpTableName($model, $tableName)) {
+        if ($this->isStagingUpTableName($factoryPrefix, $tableName)) {
             return $stagingTablePrefix . $_tableName;
         }
 
@@ -347,17 +347,17 @@ class Enterprise_Staging_Model_Staging_Config
     /**
      * Check in staging config if need to modify src table name
      *
-     * @param string $model
+     * @param string $factoryPrefix
      * @param string $tableName
      * @return bool
      */
-    public function isStagingUpTableName($model, $tableName)
+    public function isStagingUpTableName($factoryPrefix, $tableName)
     {
         $itemSet = self::getConfig("staging_items");
         if ($itemSet) {
             foreach($itemSet->children() as $item) {
-                $itemModel = (string) $item->model;
-                if ($itemModel == $model) {
+                $itemModel = (string) $item->factory_prefix;
+                if ($itemModel == $factoryPrefix) {
                     $isBackend = ((string)$item->is_backend === '1');
                     if ($isBackend) {
                         $ignoreTables = (array) $item->ignore_tables;

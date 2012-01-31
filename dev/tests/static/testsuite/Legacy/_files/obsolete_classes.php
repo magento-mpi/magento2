@@ -149,6 +149,7 @@ return array(
     'Varien_Convert_Validator_Dryrun',
     'Varien_Convert_Validator_Column',
     'Varien_Convert_Validator_Interface',
+    'Varien_Profiler' => array('suggestion' => 'Magento_Profiler'),
     'Mage_Catalog_Model_Resource_Product_Attribute_Frontend_Tierprice',
     'Mage_Adminhtml_Block_Api_Tab_Userroles',
     'Mage_Adminhtml_Block_Api_Edituser',

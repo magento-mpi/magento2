@@ -49,7 +49,7 @@ class Mage_SalesRule_Model_Resource_Rule extends Mage_Rule_Model_Resource_Abstra
      *
      * @param Mage_Core_Model_Abstract $object
      *
-     * @return Mage_SalesRule_Model_Mysql4_Rule
+     * @return Mage_SalesRule_Model_Resource_Rule
      */
     protected function _afterLoad(Mage_Core_Model_Abstract $object)
     {
@@ -65,7 +65,7 @@ class Mage_SalesRule_Model_Resource_Rule extends Mage_Rule_Model_Resource_Abstra
      *
      * @param Mage_Core_Model_Abstract $object
      *
-     * @return Mage_SalesRule_Model_Mysql4_Rule
+     * @return Mage_SalesRule_Model_Resource_Rule
      */
     public function _beforeSave(Mage_Core_Model_Abstract $object)
     {
@@ -84,7 +84,7 @@ class Mage_SalesRule_Model_Resource_Rule extends Mage_Rule_Model_Resource_Abstra
      *
      * @param Mage_Core_Model_Abstract $object
      *
-     * @return Mage_SalesRule_Model_Mysql4_Rule
+     * @return Mage_SalesRule_Model_Resource_Rule
      */
     protected function _afterSave(Mage_Core_Model_Abstract $object)
     {

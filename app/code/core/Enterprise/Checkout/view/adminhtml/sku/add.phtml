@@ -43,14 +43,9 @@
 </div>
 <script type="text/javascript">
 //<![CDATA[
-    if (typeof productConfigure == 'undefined') {
-        productConfigure = {};
-    }
-    var orderWizzard = <?php echo $this->getJsOrderObject(); ?>;
-    orderWizzard.areasLoaded = orderWizzard.areasLoaded.wrap( function(proceed) {
-        proceed();
-        window.addBySku = new AddBySku(this, productConfigure, <?php echo $this->getAddBySkuDataJson() ?>);
+    Event.observe(window, 'load',  function() {
+        addBySku = new AddBySku(<?php echo $this->getJsOrderObject() ?>, productConfigure, <?php echo $this->getAddBySkuDataJson() ?>);
         <?php echo $this->getAdditionalJavascript() ?>
-    });
+    }, 10);
 //]]>
 </script>

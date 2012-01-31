@@ -56,9 +56,10 @@ class Mage_Catalog_Model_Resource_Product_Attribute_Collection
     }
 
     /**
-     * Specify attribute entity type filter
+     * Specify attribute entity type filter.
+     * Entity type is defined.
      *
-     * @param int $typeId
+     * @param  int $typeId
      * @return Mage_Catalog_Model_Resource_Product_Attribute_Collection
      */
     public function setEntityTypeFilter($typeId)

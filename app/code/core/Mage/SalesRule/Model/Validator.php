@@ -372,7 +372,7 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
                 case Mage_SalesRule_Model_Rule::BUY_X_GET_Y_ACTION:
                     $x = $rule->getDiscountStep();
                     $y = $rule->getDiscountAmount();
-                    if (!$x || $y>=$x) {
+                    if (!$x || $y > $x) {
                         break;
                     }
                     $buyAndDiscountQty = $x + $y;

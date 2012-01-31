@@ -521,6 +521,7 @@
                 $('cancel_node_button').hide();
                 $('node_prop_container').hide();
             }
+            this.dataModification = false;
         },
 
         saveNodePage: function(){
@@ -534,7 +535,11 @@
             if (!hasPageId) {
                 var isValid = this.nodePropValidate();
                 if (!isValid) {
-                    return;
+                    if (hasNodeId) {
+                        return;
+                    } else {
+                        return false;
+                    }
                 }
             }
 
@@ -698,9 +703,9 @@
 
                 if (save != undefined) {
                     if (save) {
-                        btn.down('span').update('<?php echo $this->getButtonSaveLabel() ?>');
+                        btn.down(2).update('<?php echo $this->getButtonSaveLabel() ?>');
                     } else {
-                        btn.down('span').update('<?php echo $this->getButtonUpdateLabel() ?>');
+                        btn.down(2).update('<?php echo $this->getButtonUpdateLabel() ?>');
                     }
                 }
             } else {

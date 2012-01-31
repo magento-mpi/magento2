@@ -216,6 +216,6 @@ class Legacy_TableTest extends PHPUnit_Framework_TestCase
      */
     public function tableNameDataProvider()
     {
-        return FileDataProvider::getPhpFiles();
+        return Util_Files::getPhpFiles();
     }
 }

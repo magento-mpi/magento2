@@ -142,6 +142,8 @@ class Mage_Adminhtml_Block_Tax_Rate_Form extends Mage_Adminhtml_Block_Widget_For
                 'label' => Mage::helper('Mage_Tax_Helper_Data')->__('Range From'),
                 'value' => $rateObject->getZipFrom(),
                 'required' => true,
+                'maxlength' => 9,
+                'class' => 'validate-digits'
             )
         );
 
@@ -151,6 +153,8 @@ class Mage_Adminhtml_Block_Tax_Rate_Form extends Mage_Adminhtml_Block_Widget_For
                 'label' => Mage::helper('Mage_Tax_Helper_Data')->__('Range To'),
                 'value' => $rateObject->getZipTo(),
                 'required' => true,
+                'maxlength' => 9,
+                'class' => 'validate-digits'
             )
         );
 
