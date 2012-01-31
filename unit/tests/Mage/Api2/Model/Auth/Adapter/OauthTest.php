@@ -45,6 +45,17 @@ class Mage_Api2_Model_Auth_Adapter_OauthTest extends Mage_PHPUnit_TestCase
     protected $_request;
 
     /**
+     * Prepares initializers.
+     * Is called in setUp method first. Can be overridden in testCases to add more initializers.
+     */
+    protected function prepareInitializers()
+    {
+        parent::prepareInitializers();
+
+        Mage_PHPUnit_Initializer_Factory::createInitializer('Mage_PHPUnit_Initializer_HeadersAlreadySent');
+    }
+
+    /**
      * Sets up the fixture, for example, open a network connection.
      * This method is called before a test is executed.
      */
@@ -67,12 +78,9 @@ class Mage_Api2_Model_Auth_Adapter_OauthTest extends Mage_PHPUnit_TestCase
 
         $oauthServer = $this->getModelMockBuilder('oAuth/server')->setMethods(array('checkAccessRequest'))->getMock();
         $oauthToken  = $this->getModelMockBuilder('oAuth/token')->setMethods(array('getUserType'))->getMock();
-        $requestUrl  = $this->_request->getScheme() . '://' . $this->_request->getHttpHost()
-            . $this->_request->getRequestUri();
 
         $oauthServer->expects($this->once())
             ->method('checkAccessRequest')
-            ->with($requestUrl)
             ->will($this->returnValue($oauthToken));
 
         $oauthToken->expects($this->once())
@@ -96,12 +104,9 @@ class Mage_Api2_Model_Auth_Adapter_OauthTest extends Mage_PHPUnit_TestCase
         $_SERVER['REQUEST_URI']        = '/testuri/';
         $_SERVER['HTTP_AUTHORIZATION'] = 'OAuth realm="Test Realm"';
 
-        $userParams = $this->_adapter->getUserParams($this->_request);
+        $this->setExpectedException('Mage_Api2_Exception', '', Mage_Api2_Model_Server::HTTP_UNAUTHORIZED);
 
-        $this->assertInstanceOf('stdClass', $userParams);
-        $this->assertObjectHasAttribute('type', $userParams);
-        $this->assertObjectHasAttribute('id', $userParams);
-        $this->assertNull($userParams->type, 'User type is not NULL');
+        $this->_adapter->getUserParams($this->_request);
     }
 
     /**
