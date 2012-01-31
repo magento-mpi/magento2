@@ -86,13 +86,14 @@ class Magento_Test_Webservice_Rest_Adapter
             'Accept' => self::ACCEPT,
         ));
 
+        // Create oAuth token if user type provided for REST adapter (admin/customer)
         if (isset($options['type'])) {
             $this->_createToken($options['type']);
         }
     }
 
     /**
-     * Create oauth token for specified user type
+     * Create oAuth token for specified user type
      *
      * @param string $userType
      * @return void
