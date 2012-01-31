@@ -70,14 +70,50 @@ class Mage_Api2_Model_Auth_Adapter_OauthTest extends Mage_PHPUnit_TestCase
     /**
      * Test getUserParams method
      */
-    public function testGetUserTypeAuthorization()
+    public function testGetUserParamsAuthorizationAdmin()
     {
         $_SERVER['HTTP_HOST']          = 'testhost.com';
         $_SERVER['REQUEST_URI']        = '/testuri/';
         $_SERVER['HTTP_AUTHORIZATION'] = 'OAuth realm="Test Realm"';
 
         $oauthServer = $this->getModelMockBuilder('oAuth/server')->setMethods(array('checkAccessRequest'))->getMock();
-        $oauthToken  = $this->getModelMockBuilder('oAuth/token')->setMethods(array('getUserType'))->getMock();
+        $oauthToken  = $this->getModelMockBuilder('oAuth/token')
+            ->setMethods(array('getUserType', 'getAdminId'))
+            ->getMock();
+
+        $oauthServer->expects($this->once())
+            ->method('checkAccessRequest')
+            ->will($this->returnValue($oauthToken));
+
+        $oauthToken->expects($this->once())
+            ->method('getUserType')
+            ->will($this->returnValue('admin'));
+        $oauthToken->expects($this->once())
+            ->method('getAdminId')
+            ->will($this->returnValue(5));
+
+        $userParams = $this->_adapter->getUserParams($this->_request);
+
+        $this->assertInstanceOf('stdClass', $userParams);
+        $this->assertObjectHasAttribute('type', $userParams);
+        $this->assertObjectHasAttribute('id', $userParams);
+        $this->assertEquals('admin', $userParams->type, 'User role does not match');
+        $this->assertEquals(5, $userParams->id, 'User identifier does not match');
+    }
+
+    /**
+     * Test getUserParams method
+     */
+    public function testGetUserParamsAuthorizationCustomer()
+    {
+        $_SERVER['HTTP_HOST']          = 'testhost.com';
+        $_SERVER['REQUEST_URI']        = '/testuri/';
+        $_SERVER['HTTP_AUTHORIZATION'] = 'OAuth realm="Test Realm"';
+
+        $oauthServer = $this->getModelMockBuilder('oAuth/server')->setMethods(array('checkAccessRequest'))->getMock();
+        $oauthToken  = $this->getModelMockBuilder('oAuth/token')
+            ->setMethods(array('getUserType', 'getCustomerId'))
+            ->getMock();
 
         $oauthServer->expects($this->once())
             ->method('checkAccessRequest')
@@ -86,6 +122,9 @@ class Mage_Api2_Model_Auth_Adapter_OauthTest extends Mage_PHPUnit_TestCase
         $oauthToken->expects($this->once())
             ->method('getUserType')
             ->will($this->returnValue('customer'));
+        $oauthToken->expects($this->once())
+            ->method('getCustomerId')
+            ->will($this->returnValue(5));
 
         $userParams = $this->_adapter->getUserParams($this->_request);
 
@@ -93,12 +132,13 @@ class Mage_Api2_Model_Auth_Adapter_OauthTest extends Mage_PHPUnit_TestCase
         $this->assertObjectHasAttribute('type', $userParams);
         $this->assertObjectHasAttribute('id', $userParams);
         $this->assertEquals('customer', $userParams->type, 'User role does not match');
+        $this->assertEquals(5, $userParams->id, 'User identifier does not match');
     }
 
     /**
      * Test getUserParams method
      */
-    public function testGetUserTypeAuthorizationAuthInvalid()
+    public function testGetUserParamsAuthorizationAuthInvalid()
     {
         $_SERVER['HTTP_HOST']          = 'testhost.com';
         $_SERVER['REQUEST_URI']        = '/testuri/';
