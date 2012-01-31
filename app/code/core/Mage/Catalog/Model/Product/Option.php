@@ -364,7 +364,7 @@ class Mage_Catalog_Model_Product_Option extends Mage_Core_Model_Abstract
      * get Product Option Collection
      *
      * @param Mage_Catalog_Model_Product $product
-     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Option_Collection
+     * @return Mage_Catalog_Model_Resource_Product_Option_Collection
      */
     public function getProductOptionCollection(Mage_Catalog_Model_Product $product)
     {
@@ -373,9 +373,13 @@ class Mage_Catalog_Model_Product_Option extends Mage_Core_Model_Abstract
             ->addTitleToResult($product->getStoreId())
             ->addPriceToResult($product->getStoreId())
             ->setOrder('sort_order', 'asc')
-            ->setOrder('title', 'asc')
-            ->addValuesToResult($product->getStoreId());
+            ->setOrder('title', 'asc');
 
+        if ($this->getAddRequiredFilter()) {
+            $collection->addRequiredFilter($this->getAddRequiredFilterValue());
+        }
+
+        $collection->addValuesToResult($product->getStoreId());
         return $collection;
     }
 

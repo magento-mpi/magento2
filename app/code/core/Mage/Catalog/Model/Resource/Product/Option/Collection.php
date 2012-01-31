@@ -174,6 +174,18 @@ class Mage_Catalog_Model_Resource_Product_Option_Collection extends Mage_Core_Mo
     }
 
     /**
+     * Add is_required filter to select
+     *
+     * @param bool $required
+     * @return Mage_Catalog_Model_Resource_Product_Option_Collection
+     */
+    public function addRequiredFilter($required = true)
+    {
+        $this->addFieldToFilter('main_table.is_require', (string)$required);
+        return $this;
+    }
+
+    /**
      * Add filtering by option ids
      *
      * @param mixed $optionIds

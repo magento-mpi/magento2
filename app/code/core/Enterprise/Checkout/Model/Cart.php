@@ -738,8 +738,74 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
                 return isset($config['giftcard_amount']);
             case Mage_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE:
                 return isset($config['links']);
+            case Mage_Catalog_Model_Product_Type::TYPE_SIMPLE:
+                return isset($config['options']);
         }
         return false;
+    }
+
+    /**
+     * Get product by specified sku
+     *
+     * @param string $sku
+     * @return Mage_Catalog_Model_Product|bool
+     */
+    protected function _loadProductBySku($sku)
+    {
+        $skuParts = explode('-', $sku);
+        $primarySku = array_shift($skuParts);
+
+        if (empty($primarySku)) {
+            return false;
+        }
+
+        /** @var $product Mage_Catalog_Model_Product */
+        $product = Mage::getModel('catalog/product')->loadByAttribute('sku', $primarySku);
+
+        if ($product && $product->getId()) {
+            /** @var $option Mage_Catalog_Model_Product_Option */
+            $option = Mage::getModel('catalog/product_option');
+            $option->setAddRequiredFilter(true);
+            $option->setAddRequiredFilterValue(true);
+            $productRequiredOptions = $option->getProductOptionCollection($product);
+            $options = array();
+            $missedRequiredOption = false;
+            foreach ($productRequiredOptions as $productOption) {
+                /** @var $productOption Mage_Catalog_Model_Product_Option */
+                foreach ($productOption->getValues() as $optionValue) {
+                    $found = array_search($optionValue->getSku(), $skuParts);
+                    if ($found !== false) {
+                        $options[$productOption->getOptionId()] = $optionValue->getOptionTypeId();
+                        unset($skuParts[$found]);
+                    } else {
+                        $missedRequiredOption = true;
+                    }
+                }
+            }
+
+            $option->setAddRequiredFilterValue(false);
+            $productOptions = $option->getProductOptionCollection($product);
+            foreach ($productOptions as $productOption) {
+                foreach ($productOption->getValues() as $optionValue) {
+                    $found = array_search($optionValue->getSku(), $skuParts);
+                    if ($found !== false) {
+                        $options[$productOption->getOptionId()] = $optionValue->getOptionTypeId();
+                        unset($skuParts[$found]);
+                    }
+                }
+            }
+
+            if (empty($skuParts) && $missedRequiredOption) {
+                return $product;
+            }
+
+            if (!empty($options)) {
+                $product->setConfiguredOptions($options);
+                $this->setAffectedItemConfig($sku, array('options' => $options));
+            }
+        }
+
+        return $product;
     }
 
     /**
@@ -762,7 +828,12 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
         }
 
         /** @var $product Mage_Catalog_Model_Product */
-        $product = Mage::getModel('catalog/product')->loadByAttribute('sku', $item['sku']);
+        $product = $this->_loadProductBySku($item['sku']);
+
+        if (empty($config) && $product && $product->hasConfiguredOptions()) {
+            $config['options'] = $product->getConfiguredOptions();
+        }
+
         $store = Mage::app()->getStore();
         $isAdmin = $store->isAdmin();
 
