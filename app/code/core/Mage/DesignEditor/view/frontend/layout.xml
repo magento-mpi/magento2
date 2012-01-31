@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     Mage_DesignEditor
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout>
+    <default>
+        <reference name="after_body_start">
+            <block type="Mage_DesignEditor_Block_Toolbar" name="design_editor_toolbar" as="design_editor_toolbar" template="Mage_DesignEditor::toolbar.phtml"/>
+        </reference>
+    </default>
+</layout>

@@ -15,4 +15,33 @@
             <version>1.0.0.0</version>
         </Mage_DesignEditor>
     </modules>
+    <frontend>
+        <layout>
+            <updates>
+                <designeditor module="Mage_DesignEditor">
+                    <file>layout.xml</file>
+                </designeditor>
+            </updates>
+        </layout>
+    </frontend>
+    <adminhtml>
+        <layout>
+            <updates>
+                <designeditor module="Mage_DesignEditor">
+                    <file>layout.xml</file>
+                </designeditor>
+            </updates>
+        </layout>
+    </adminhtml>
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <mage_designeditor before="Mage_Adminhtml">Mage_DesignEditor_Adminhtml</mage_designeditor>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
 </config>
