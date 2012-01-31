@@ -903,7 +903,7 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
         if (is_array($listTypes) && in_array(Enterprise_Checkout_Block_Adminhtml_Sku_Abstract::LIST_TYPE, $listTypes)) {
             $cart = $this->getCartModel();
             // We need to save products to enterprise_checkout/cart instead of checkout/cart
-            $cart->saveAffectedProducts($cart, Enterprise_Checkout_Model_Cart::FAIL_DISABLED);
+            $cart->saveAffectedProducts($cart, Enterprise_Checkout_Model_Cart::DONT_PASS_DISABLED_TO_CART);
         }
 
         /**
@@ -991,7 +991,7 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
             try {
                 $cart = $this->getCartModel();
                 $cart->prepareAddProductsBySku($importModel->getDataFromCsv());
-                $cart->saveAffectedProducts(null, Enterprise_Checkout_Model_Cart::FAIL_DISABLED);
+                $cart->saveAffectedProducts(null, Enterprise_Checkout_Model_Cart::DONT_PASS_DISABLED_TO_CART);
                 $cart->saveQuote();
             }
             catch (Mage_Core_Exception $e) {

@@ -42,23 +42,14 @@ class Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Grid_Renderer_Qty
      */
     public function render(Varien_Object $row)
     {
+        $isDisabled = ($row->getCode() == Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_SKU)
+            || $row->getIsDisabled();
+
         $html = '<input type="text" ';
         $html .= 'name="' . $this->getColumn()->getId() . '" ';
         $html .= 'value="' . $row->getData($this->getColumn()->getIndex()) . '" ';
-        $html .= $this->_isDisabled($row) ? 'disabled="disabled" ' : '';
+        $html .= $isDisabled ? 'disabled="disabled" ' : '';
         $html .= 'class="input-text ' . $this->getColumn()->getInlineCss() . '"/>';
         return $html;
-    }
-
-    /**
-     * Whether this input element should be disabled
-     *
-     * @param Varien_Object $row
-     * @return bool
-     */
-    protected function _isDisabled(Varien_Object $row)
-    {
-        $isDisabled = $row->getCode() == Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_SKU;
-        return $isDisabled || $row->getIsDisabled();
     }
 }
