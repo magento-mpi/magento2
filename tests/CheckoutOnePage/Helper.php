@@ -125,14 +125,9 @@ class CheckoutOnePage_Helper extends Mage_Selenium_TestCase
      */
     public function assertOnePageCheckoutTabOpened($fieldsetName)
     {
-        $this->assertEmptyVerificationErrors();
         $setXpath = $this->_getControlXpath('fieldset', $fieldsetName);
         if (!$this->isElementPresent($setXpath . self::$activeTab)) {
-            $messages = $this->getMessagesOnPage();
-            if ($messages && is_array($messages)) {
-                $messages = implode("\n", call_user_func_array('array_merge', $messages));
-            }
-            $this->fail("'" . $fieldsetName . "' step is not selected:\n" . $messages);
+            $this->fail("'" . $fieldsetName . "' step is not selected but there is no any message on the page");
         }
     }
 
@@ -149,8 +144,16 @@ class CheckoutOnePage_Helper extends Mage_Selenium_TestCase
             $this->waitForElement(array(self::$xpathErrorMessage,
                                        self::$xpathValidationMessage,
                                        $setXpath . self::$notActiveTab));
+            if (!$this->isElementPresent($setXpath . self::$notActiveTab)) {
+                $messages = $this->getMessagesOnPage();
+                if ($messages !== null) {
+                    $messages = implode("\n", call_user_func_array('array_merge', $messages));
+                    $this->clearMessages('verification');
+                    $this->addVerificationMessage($messages);
+                }
+            }
         }
-
+        $this->assertEmptyVerificationErrors();
     }
 
     /**

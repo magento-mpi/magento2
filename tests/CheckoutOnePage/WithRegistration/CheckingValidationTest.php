@@ -103,10 +103,12 @@ class CheckoutOnePage_WithRegistration_CheckingValidationTest extends Mage_Selen
         $this->logoutCustomer();
         try {
             //Steps
+            $expected = 'Please choose to register or to checkout as a guest';
             $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
+            $this->fail('Expected message is not displayed: [' . $expected . ']');
         } catch (PHPUnit_Framework_AssertionFailedError $e) {
             //Verification
-            $this->assertSame('Please choose to register or to checkout as a guest', $e->getMessage());
+            $this->assertSame($expected, $e->toString());
             $this->clearMessages('verification');
         }
     }
@@ -146,13 +148,10 @@ class CheckoutOnePage_WithRegistration_CheckingValidationTest extends Mage_Selen
         try {
             //Steps
             $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
+            $this->fail('Expected message is not displayed: [' . $errorMessage . ']');
         } catch (PHPUnit_Framework_AssertionFailedError $e) {
             //Verification
-            $expected = "'shipping_information' step is not selected:\n" . $errorMessage;
-            if ($field == 'billing_password') {
-                $expected .= "\n" . '"Confirm Password": Please make sure your passwords match.';
-            }
-            $this->assertSame($expected, $e->getMessage());
+            $this->assertSame($errorMessage, $e->toString());
             $this->clearMessages('verification');
         }
     }
@@ -169,7 +168,8 @@ class CheckoutOnePage_WithRegistration_CheckingValidationTest extends Mage_Selen
             array('billing_zip_code', '"Zip/Postal Code": This is a required field.'),
             array('billing_country', '"Country": Please select an option.'),
             array('billing_telephone', '"Telephone": This is a required field.'),
-            array('billing_password', '"Password": This is a required field.'),
+            array('billing_password', '"Password": This is a required field.' . "\n"
+                . '"Confirm Password": Please make sure your passwords match.'),
             array('billing_confirm_password', '"Confirm Password": This is a required field.')
         );
     }
@@ -206,12 +206,12 @@ class CheckoutOnePage_WithRegistration_CheckingValidationTest extends Mage_Selen
         $this->shoppingCartHelper()->frontClearShoppingCart();
         try {
             //Steps
+            $expected = '"Password": Please enter 6 or more characters. Leading or trailing spaces will be ignored.';
             $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
+            $this->fail('Expected message is not displayed: [' . $expected . ']');
         } catch (PHPUnit_Framework_AssertionFailedError $e) {
             //Verification
-            $expected = "'shipping_information' step is not selected:\n" .
-                '"Password": Please enter 6 or more characters. Leading or trailing spaces will be ignored.';
-            $this->assertSame($expected, $e->getMessage());
+            $this->assertSame($expected, $e->toString());
             $this->clearMessages('verification');
         }
     }
@@ -248,12 +248,12 @@ class CheckoutOnePage_WithRegistration_CheckingValidationTest extends Mage_Selen
         $this->shoppingCartHelper()->frontClearShoppingCart();
         try {
             //Steps
+            $expected = '"Email Address": Please enter a valid email address. For example johndoe@domain.com.';
             $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
+            $this->fail('Expected message is not displayed: [' . $expected . ']');
         } catch (PHPUnit_Framework_AssertionFailedError $e) {
             //Verification
-            $expected = "'shipping_information' step is not selected:\n" .
-                '"Email Address": Please enter a valid email address. For example johndoe@domain.com.';
-            $this->assertSame($expected, $e->getMessage());
+            $this->assertSame($expected, $e->toString());
             $this->clearMessages('verification');
         }
     }
@@ -298,13 +298,14 @@ class CheckoutOnePage_WithRegistration_CheckingValidationTest extends Mage_Selen
         $this->navigate('customer_login');
         $this->customerHelper()->registerCustomer($userData);
         $this->logoutCustomer();
+        $expected = $this->getUimapPage('frontend', 'onepage_checkout')->findMessage('exist_email_alert');
         try {
             //Steps
             $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
+            $this->fail('Expected message is not displayed: [' . $expected . ']');
         } catch (PHPUnit_Framework_AssertionFailedError $e) {
             //Verification
-            $expected = $this->_getControlXpath('message', 'exist_email_alert');
-            $this->assertSame($expected, $e->getMessage());
+            $this->assertSame($expected, $e->toString());
             $this->clearMessages('verification');
         }
     }
@@ -374,10 +375,10 @@ class CheckoutOnePage_WithRegistration_CheckingValidationTest extends Mage_Selen
         try {
             //Steps
             $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
+            $this->fail('Expected message is not displayed: [' . $message . ']');
         } catch (PHPUnit_Framework_AssertionFailedError $e) {
             //Verification
-            $message = "'shipping_method' step is not selected:\n" . $message;
-            $this->assertSame($message, $e->getMessage());
+            $this->assertSame($message, $e->toString());
             $this->clearMessages('verification');
         }
     }
@@ -433,9 +434,10 @@ class CheckoutOnePage_WithRegistration_CheckingValidationTest extends Mage_Selen
         try {
             //Steps
             $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
+            $this->fail('Expected message is not displayed: [' . $message . ']');
         } catch (PHPUnit_Framework_AssertionFailedError $e) {
             //Verification
-            $this->assertSame($message, $e->getMessage());
+            $this->assertSame($message, $e->toString());
             $this->clearMessages('verification');
         }
     }
@@ -475,7 +477,7 @@ class CheckoutOnePage_WithRegistration_CheckingValidationTest extends Mage_Selen
             $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
         } catch (PHPUnit_Framework_AssertionFailedError $e) {
             //Verification
-            $this->assertSame($message, $e->getMessage());
+            $this->assertSame($message, $e->toString());
             $this->clearMessages('verification');
         }
     }

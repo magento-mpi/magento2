@@ -80,14 +80,14 @@ class CheckoutOnePage_LoggedIn_CheckingValidationTest extends Mage_Selenium_Test
      * <p>Error message for field appears</p>
      *
      * @param string $field
-     * @param string $errorMessage
+     * @param string $message
      * @param array $data
      *
      * @depends preconditionsForTests
      * @dataProvider addressEmptyFieldsDataProvider
      * @test
      */
-    public function emptyRequiredFieldsInBillingAddress($field, $errorMessage, $data)
+    public function emptyRequiredFieldsInBillingAddress($field, $message, $data)
     {
         //Preconditions
         $this->customerHelper()->frontLoginCustomer($data['customer']);
@@ -99,10 +99,10 @@ class CheckoutOnePage_LoggedIn_CheckingValidationTest extends Mage_Selenium_Test
         try {
             //Steps
             $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
+            $this->fail('Expected message is not displayed: [' . $message . ']');
         } catch (PHPUnit_Framework_AssertionFailedError $e) {
             //Verification
-            $expected = "'shipping_information' step is not selected:\n" . $errorMessage;
-            $this->assertSame($expected, $e->getMessage());
+            $this->assertSame($message, $e->toString());
             $this->clearMessages('verification');
         }
     }
@@ -123,14 +123,14 @@ class CheckoutOnePage_LoggedIn_CheckingValidationTest extends Mage_Selenium_Test
      * <p>Error message for field appears</p>
      *
      * @param string $field
-     * @param string $errorMessage
+     * @param string $message
      * @param array $data
      *
      * @depends preconditionsForTests
      * @dataProvider addressEmptyFieldsDataProvider
      * @test
      */
-    public function emptyRequiredFieldsInShippingAddress($field, $errorMessage, $data)
+    public function emptyRequiredFieldsInShippingAddress($field, $message, $data)
     {
         //Preconditions
         $this->customerHelper()->frontLoginCustomer($data['customer']);
@@ -142,10 +142,10 @@ class CheckoutOnePage_LoggedIn_CheckingValidationTest extends Mage_Selenium_Test
         try {
             //Steps
             $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
+            $this->fail('Expected message is not displayed: [' . $message . ']');
         } catch (PHPUnit_Framework_AssertionFailedError $e) {
             //Verification
-            $expected = "'shipping_method' step is not selected:\n" . $errorMessage;
-            $this->assertSame($expected, $e->getMessage());
+            $this->assertSame($message, $e->toString());
             $this->clearMessages('verification');
         }
     }
@@ -276,12 +276,14 @@ class CheckoutOnePage_LoggedIn_CheckingValidationTest extends Mage_Selenium_Test
         $this->customerHelper()->registerCustomer($userData);
         //Verifying
         $this->assertMessagePresent('success', 'success_registration');
+        $message = $this->getUimapPage('frontend', 'onepage_checkout')->findMessage('shipping_alert');
         try {
             //Steps
             $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
+            $this->fail('Expected message is not displayed: [' . $message . ']');
         } catch (PHPUnit_Framework_AssertionFailedError $e) {
             //Verification
-            $this->assertSame('Please specify shipping method.', $e->getMessage());
+            $this->assertSame($message, $e->toString());
             $this->clearMessages('verification');
         }
     }
@@ -326,12 +328,14 @@ class CheckoutOnePage_LoggedIn_CheckingValidationTest extends Mage_Selenium_Test
         $this->customerHelper()->registerCustomer($userData);
         //Verifying
         $this->assertMessagePresent('success', 'success_registration');
+        $message = $this->getUimapPage('frontend', 'onepage_checkout')->findMessage('payment_alert');
         try {
             //Steps
             $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
+            $this->fail('Expected message is not displayed: [' . $message . ']');
         } catch (PHPUnit_Framework_AssertionFailedError $e) {
             //Verification
-            $this->assertSame('Please specify payment method.', $e->getMessage());
+            $this->assertSame($message, $e->toString());
             $this->clearMessages('verification');
         }
     }
