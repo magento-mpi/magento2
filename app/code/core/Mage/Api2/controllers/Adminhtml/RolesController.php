@@ -86,7 +86,10 @@ class Mage_Api2_Adminhtml_RolesController extends Mage_Adminhtml_Controller_Acti
         );
         //$resources = Mage::getModel('api/roles')->getResourcesList();
         $this->_addContent($this->getLayout()->createBlock('api2/adminhtml_roles_buttons'));
-        $this->_addJs($this->getLayout()->createBlock('adminhtml/template')->setTemplate('api/role_users_grid_js.phtml'));
+        $this->_addJs(
+            $this->getLayout()->createBlock('adminhtml/template')
+                    ->setTemplate('api/role_users_grid_js.phtml')
+        );
         $this->renderLayout();
     }
 
