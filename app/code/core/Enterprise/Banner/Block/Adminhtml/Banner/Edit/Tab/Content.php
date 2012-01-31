@@ -130,7 +130,7 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Mage_Adm
             'container_id' => 'store_default_content',
             'after_element_html' =>
                 '<script type="text/javascript">' .
-                ((bool)$model->getIsReadonly() || ($model->getCanSaveAllStoreViewsContent() === false) 
+                ((bool)$model->getIsReadonly() || ($model->getCanSaveAllStoreViewsContent() === false)
                     ? '$(\'buttons' . $form->getHtmlIdPrefix() . 'store_default_content\').hide(); ' : '') .
                 (isset($storeContents[0]) ? '' : (!$model->getId() ? '' : '$(\'store_default_content\').hide();')) .
                 '</script>',
