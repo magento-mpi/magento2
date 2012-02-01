@@ -25,27 +25,8 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-class Magento_Test_Webservice_Rest_Guest extends Magento_Test_Webservice
+class Magento_Test_Webservice_Rest_Guest extends Magento_Test_Webservice_Rest_Abstract
 {
-    /**
-     * Webservice adapter
-     *
-     * @var Magento_Test_Webservice_Rest_Adapter
-     */
-    protected static $_ws;
+    protected $_userType = 'guest';
 
-    /**
-     * Get webservice adapter
-     *
-     * @param array $options
-     * @return Magento_Test_Webservice_Rest_Adapter
-     */
-    public function getWebService($options = null)
-    {
-        if (null === self::$_ws) {
-            self::$_ws = new Magento_Test_Webservice_Rest_Adapter();
-            self::$_ws->init($options);
-        }
-        return self::$_ws;
-    }
 }
