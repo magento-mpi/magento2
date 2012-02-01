@@ -73,16 +73,6 @@ class Mage_Adminhtml_Block_Page_Menu extends Mage_Adminhtml_Block_Template
     }
 
     /**
-     * Retrieve Adminhtml Menu array
-     *
-     * @return array
-     */
-    public function getMenuArray()
-    {
-        return $this->_buildMenuArray();
-    }
-
-    /**
      * Retrieve Title value for menu node
      *
      * @param Varien_Simplexml_Element $child
@@ -243,7 +233,7 @@ class Mage_Adminhtml_Block_Page_Menu extends Mage_Adminhtml_Block_Template
      */
     protected function _afterToHtml($html)
     {
-        $html = preg_replace_callback('#'.Mage_Adminhtml_Model_Url::SECRET_KEY_PARAM_NAME.'/\$([^\/].*)/([^\$].*)\$#', array($this, '_callbackSecretKey'), $html);
+        $html = preg_replace_callback('#'.Mage_Adminhtml_Model_Url::SECRET_KEY_PARAM_NAME.'/\$([^\/].*)/([^\$].*)\$#U', array($this, '_callbackSecretKey'), $html);
 
         return $html;
     }
@@ -258,5 +248,59 @@ class Mage_Adminhtml_Block_Page_Menu extends Mage_Adminhtml_Block_Template
     {
         return Mage_Adminhtml_Model_Url::SECRET_KEY_PARAM_NAME . '/'
             . $this->_url->getSecretKey($match[1], $match[2]);
+    }
+
+    /**
+     * Render HTML menu recursively starting from the specified level
+     *
+     * @param array $menu
+     * @param int $level
+     * @return string
+     */
+    protected function _renderMenuLevel(array $menu, $level = 0)
+    {
+        $result = '<ul' . (!$level ? ' id="nav"' : '') . '>';
+        foreach ($menu as $_item) {
+            $hasChildren = !empty($_item['children']);
+            $cssClasses = array('level' . $level);
+            if (!$level && !empty($_item['active'])) {
+                $cssClasses[] = 'active';
+            }
+            if ($hasChildren) {
+                $cssClasses[] = 'parent';
+            }
+            if (!empty($level) && !empty($_item['last'])) {
+                $cssClasses[] = 'last';
+            }
+            $result .= '<li'
+                . ($hasChildren ? ' onmouseover="Element.addClassName(this,\'over\')"' : '')
+                . ($hasChildren ? ' onmouseout="Element.removeClassName(this,\'over\')"' : '')
+                . ' class="' . implode(' ', $cssClasses) . '">'
+                . '<a'
+                . ' href="' . $_item['url'] . '"'
+                . (!empty($_item['title']) ? ' title="' . $_item['title'] . '"' : '')
+                . (!empty($_item['click']) ? ' onclick="' . $_item['click'] . '"' : '')
+                . ($level === 0 && !empty($_item['active']) ? ' class="active"' : '')
+                . '>'
+                . '<span>' . $_item['label'] . '</span>'
+                . '</a>'
+            ;
+            if ($hasChildren) {
+                $result .= $this->_renderMenuLevel($_item['children'], $level + 1);
+            }
+            $result .= '</li>';
+        }
+        $result .= '</ul>';
+        return $result;
+    }
+
+    /**
+     * Render HTML menu
+     *
+     * @return string
+     */
+    public function renderMenu()
+    {
+        return $this->_renderMenuLevel($this->_buildMenuArray());
     }
 }
