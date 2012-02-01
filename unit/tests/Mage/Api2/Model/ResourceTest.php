@@ -128,16 +128,16 @@ class Mage_Api2_Model_ResourceTest extends Mage_PHPUnit_TestCase
      */
     public function testResourceTypeAccessors()
     {
-        // test default api type getting
-        $apiTypeFromRequest = 'rest';
-        $this->_request->setParam('api_type', $apiTypeFromRequest);
+        // test default resource type getting
+        $resourceTypeFromRequest = 'collection';
+        $this->_request->setParam('type', $resourceTypeFromRequest);
         $this->_resource->setRequest($this->_request);
-        $this->assertEquals($apiTypeFromRequest, $this->_resource->getApiType());
+        $this->assertEquals($resourceTypeFromRequest, $this->_resource->getResourceType());
 
-        // test preset api type getting
-        $apiType = "Test Api Type";
-        $this->_resource->setApiType($apiType);
-        $this->assertEquals($apiType, $this->_resource->getApiType());
+        // test preset resource type getting
+        $resourceType = "Test Resource Type";
+        $this->_resource->setResourceType($resourceType);
+        $this->assertEquals($resourceType, $this->_resource->getResourceType());
     }
 
     /**
@@ -285,10 +285,5 @@ abstract class Mage_Api2_Model_ResourceMock extends Mage_Api2_Model_Resource
     public function _critical($message, $code = null)
     {
         parent::_critical($message, $code);
-    }
-
-    public function _render($data)
-    {
-        parent::_render($data);
     }
 }
