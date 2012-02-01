@@ -112,6 +112,14 @@ class Api_Checkout_CartTest extends Magento_Test_Webservice
 
         Mage::unregister('isSecureArea');
 
+        $entityStoreModel = self::getFixture('entity_store_model');
+        if ($entityStoreModel instanceof Mage_Eav_Model_Entity_Store) {
+            $origIncrementData = self::getFixture('orig_increment_data');
+            $entityStoreModel->loadByEntityStore($entityStoreModel->getEntityTypeId(), $entityStoreModel->getStoreId());
+            $entityStoreModel->setIncrementPrefix($origIncrementData['prefix'])
+                ->setIncrementLastId($origIncrementData['increment_last_id'])
+                ->save();
+        }
         parent::tearDown();
     }
 
@@ -122,7 +130,7 @@ class Api_Checkout_CartTest extends Magento_Test_Webservice
      */
     public function testProductAddToCart()
     {
-        $soapResult = $this->getWebService()->call('cart_product.add', array(
+        $soapResult = $this->call('cart_product.add', array(
             'quoteId'  => $this->_quote->getId(),
             'products' => array(
                 array('sku' => $this->_product->getSku(), 'qty' => 1)
@@ -170,7 +178,7 @@ class Api_Checkout_CartTest extends Magento_Test_Webservice
         } else { // use numeric array otherwise
             $customOptionsData = array($customOptionId => $customOptionValue);
         }
-        $soapResult = $this->getWebService()->call('cart_product.add', array(
+        $soapResult = $this->call('cart_product.add', array(
             'quoteId'  => $this->_quote->getId(),
             'products' => array(
                 array('sku' => $this->_product->getSku(), 'qty' => 1, 'options' => $customOptionsData)
@@ -211,12 +219,12 @@ class Api_Checkout_CartTest extends Magento_Test_Webservice
         $this->_quote->addProduct($this->_product);
         $this->_quote->collectTotals()->save();
 
-        $soapResult = $this->getWebService()->call('cart_product.list', array('quoteId' => $this->_quote->getId()));
+        $soapResult = $this->call('cart_product.list', array('quoteId' => $this->_quote->getId()));
 
         $this->assertInternalType('array', $soapResult, 'Product List call result is not an array');
         $this->assertCount(1, $soapResult, 'Product List call result contain not exactly one product');
-        $this->assertArrayHasKey('name', $soapResult[0], 'Product List call result does not contain a product name');
-        $this->assertEquals($this->_product->getName(), $soapResult[0]['name'], 'Product Name does not match fixture');
+        $this->assertArrayHasKey('sku', $soapResult[0], 'Product List call result does not contain a product sku');
+        $this->assertEquals($this->_product->getSku(), $soapResult[0]['sku'], 'Product Sku does not match fixture');
     }
 
     /**
@@ -248,7 +256,7 @@ class Api_Checkout_CartTest extends Magento_Test_Webservice
         $this->_quote->addProduct($this->_product);
         $this->_quote->collectTotals()->save();
 
-        $soapResult = $this->getWebService()->call('cart_coupon.add', array('quoteId' => $this->_quote->getId(),
+        $soapResult = $this->call('cart_coupon.add', array('quoteId' => $this->_quote->getId(),
             'couponCode' => $this->_salesRule->getCouponCode()));
         $this->assertTrue($soapResult, 'Coupon code was not applied');
         $this->_quote->load($this->_quote->getId());
@@ -267,25 +275,25 @@ class Api_Checkout_CartTest extends Magento_Test_Webservice
         // Set creditmemo increment id prefix
         $website = Mage::app()->getWebsite();
         $entityTypeModel = Mage::getModel('eav/entity_type')->loadByCode('order');
-        $entityStoreModel = Mage::getModel('eav/entity_store')->loadByEntityStore(
-            $entityTypeModel->getId(),$website->getDefaultStore()->getId());
-        Magento_Test_Webservice::setFixture('orig_creditmemo_increment_data', array(
+        $entityStoreModel = Mage::getModel('eav/entity_store')
+            ->loadByEntityStore($entityTypeModel->getId(), $website->getDefaultStore()->getId());
+        self::setFixture('orig_increment_data', array(
             'prefix' => $entityStoreModel->getIncrementPrefix(),
             'increment_last_id' => $entityStoreModel->getIncrementLastId()
         ));
+        $entityStoreModel->setEntityTypeId($entityTypeModel->getId());
+        $entityStoreModel->setStoreId($website->getDefaultStore()->getId());
         $entityStoreModel->setIncrementPrefix('01');
         $entityStoreModel->save();
-        Magento_Test_Webservice::setFixture('entity_store_model', $entityStoreModel);
+        self::setFixture('entity_store_model', $entityStoreModel);
 
         $quote = self::getFixture('quote');
 
-        $orderIncrementId = $this->getWebService()->call('cart.order', array(
+        $orderIncrementId = $this->call('cart.order', array(
             'quoteId'  => $quote->getId()
         ));
 
-
         $this->assertTrue(is_string($orderIncrementId), 'Increment Id is not a string');
-        $entityStoreModel = $this->getFixture('entity_store_model');
         $this->assertStringStartsWith($entityStoreModel->getIncrementPrefix(), $orderIncrementId,
             'Increment Id returned by API is not correct');
     }
