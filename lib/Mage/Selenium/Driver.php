@@ -113,6 +113,12 @@ class Mage_Selenium_Driver extends PHPUnit_Extensions_SeleniumTestCase_Driver
         // Add command logging
         try {
             $response = parent::doCommand($command, $arguments);
+            //Fixed bug for new PHPUnit_Selenium 1.2
+            if (!preg_match('/^OK/', $response)) {
+                $this->stop();
+                throw new PHPUnit_Framework_Exception(
+                    sprintf("Response from Selenium RC server for %s.\n%s.\n", $command, $response));
+            }
             if (!empty($this->_logHandle)) {
                 fputs($this->_logHandle, self::udate('H:i:s.u') . "\n");
                 fputs($this->_logHandle, "\tRequest: " . $command . "\n");
@@ -155,17 +161,17 @@ class Mage_Selenium_Driver extends PHPUnit_Extensions_SeleniumTestCase_Driver
      * Performs to return time to logging (e.g. 15:18:43.244768)
      *
      * @param  string $format A composite format string
-     * @param  mixed  $utimestamp Timestamp (by default = null)
+     * @param  mixed  $uTimeStamp Timestamp (by default = null)
      * @return string A formatted date string.
      */
-    public static function udate($format, $utimestamp = null)
+    public static function udate($format, $uTimeStamp = null)
     {
-        if (is_null($utimestamp)) {
-            $utimestamp = microtime(true);
+        if (is_null($uTimeStamp)) {
+            $uTimeStamp = microtime(true);
         }
 
-        $timestamp = floor($utimestamp);
-        $milliseconds = round(($utimestamp - $timestamp) * 1000000);
+        $timestamp = floor($uTimeStamp);
+        $milliseconds = round(($uTimeStamp - $timestamp) * 1000000);
 
         return date(preg_replace('`(?<!\\\\)u`', $milliseconds, $format), $timestamp);
     }

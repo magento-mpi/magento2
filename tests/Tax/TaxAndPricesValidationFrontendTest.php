@@ -22,7 +22,7 @@
  * @package     selenium
  * @subpackage  tests
  * @author      Magento Core Team <core@magentocommerce.com>
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
@@ -35,15 +35,28 @@
  */
 class Tax_TaxAndPricesValidationFrontendTest extends Mage_Selenium_TestCase
 {
+    public function setUpBeforeTests()
+    {
+        $this->loginAdminUser();
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('shipping_settings_default');
+        $this->systemConfigurationHelper()->configure('flat_rate_for_price_verification');
+        $this->navigate('manage_tax_rule');
+        $this->taxHelper()-> deleteRulesExceptSpecified(array('Retail Customer-Taxable Goods-Rate 1'));
+    }
+
     protected function assertPreConditions()
     {
         $this->loginAdminUser();
+        $this->addParameter('id', '0');
     }
 
     /**
      * Create Customer for tests
      *
      * @test
+     * @return array
+     * @group preConditions
      */
     public function createCustomer()
     {
@@ -55,7 +68,8 @@ class Tax_TaxAndPricesValidationFrontendTest extends Mage_Selenium_TestCase
         $this->customerHelper()->createCustomer($userData, $addressData);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_customer');
-        $customer = array('email' => $userData['email'], 'password' => $userData['password']);
+        $customer = array('email'    => $userData['email'],
+                          'password' => $userData['password']);
         return $customer;
     }
 
@@ -63,26 +77,33 @@ class Tax_TaxAndPricesValidationFrontendTest extends Mage_Selenium_TestCase
      * Create category
      *
      * @test
+     * @return string
+     * @group preConditions
      */
     public function createCategory()
     {
-        $this->navigate('manage_categories');
         //Data
-        $rootCat = 'Default Category';
-        $categoryData = $this->loadData('sub_category_required', null, 'name');
+        $categoryData = $this->loadData('sub_category_required');
         //Steps
-        $this->categoryHelper()->createSubCategory($rootCat, $categoryData);
-        //Verifying
+        $this->navigate('manage_categories', false);
+        $this->categoryHelper()->checkCategoriesPage();
+        $this->categoryHelper()->createCategory($categoryData);
+        //Verification
         $this->assertMessagePresent('success', 'success_saved_category');
+        $this->categoryHelper()->checkCategoriesPage();
 
-        return $rootCat . '/' . $categoryData['name'];
+        return $categoryData['parent_category'] . '/' . $categoryData['name'];
     }
 
     /**
      * Create Simple Products for tests
-     *
      * @depends createCategory
      * @test
+     *
+     * @param $category
+     *
+     * @return array
+     * @group preConditions
      */
     public function createProducts($category)
     {
@@ -90,7 +111,8 @@ class Tax_TaxAndPricesValidationFrontendTest extends Mage_Selenium_TestCase
         $this->navigate('manage_products');
         for ($i = 1; $i <= 3; $i++) {
             $simpleProductData = $this->loadData('simple_product_for_prices_validation_front_' . $i,
-                    array('categories' => $category), array('general_name', 'general_sku'));
+                                                 array('categories' => $category),
+                                                 array('general_name', 'general_sku'));
             $products['sku'][$i] = $simpleProductData['general_sku'];
             $products['name'][$i] = $simpleProductData['general_name'];
             $this->productHelper()->createProduct($simpleProductData);
@@ -106,8 +128,14 @@ class Tax_TaxAndPricesValidationFrontendTest extends Mage_Selenium_TestCase
      * @depends createCustomer
      * @depends createProducts
      * @depends createCategory
-     *
      * @test
+     *
+     * @param $sysConfigData
+     * @param $customer
+     * @param $products
+     * @param $category
+     *
+     * @group skip_due_to_bug
      */
     public function validateTaxFrontend($sysConfigData, $customer, $products, $category)
     {
@@ -124,7 +152,8 @@ class Tax_TaxAndPricesValidationFrontendTest extends Mage_Selenium_TestCase
         $orderDetailsData = $this->loadData($sysConfigData . '_front_prices_on_order_details');
         foreach ($products['name'] as $key => $productName) {
             $priceInCategory = $this->loadData($sysConfigData . '_front_prices_in_category_simple_' . $key,
-                    array('product_name' => $productName, 'category' => $category));
+                                               array('product_name' => $productName,
+                                                    'category'      => $category));
             $priceInProdDetails = $this->loadData($sysConfigData . '_front_prices_in_product_simple_' . $key);
             $this->categoryHelper()->frontOpenCategoryAndValidateProduct($priceInCategory);
             $this->addParameter('categoryUrl', null);
@@ -140,14 +169,11 @@ class Tax_TaxAndPricesValidationFrontendTest extends Mage_Selenium_TestCase
         }
         $this->shoppingCartHelper()->frontEstimateShipping('estimate_shipping', 'shipping_flatrate');
         $this->shoppingCartHelper()->verifyPricesDataOnPage($cartProductsData, $checkoutData['validate_total_data']);
-        $this->clickButton('proceed_to_checkout');
-        $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
-        $xpath = $this->_getControlXpath('link', 'order_number');
-        $orderId = '# ' . $this->getText($xpath);
+        $orderId = '# ' . $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
         $this->addParameter('orderId', $orderId);
         $this->clickControl('link', 'order_number');
         $this->shoppingCartHelper()->verifyPricesDataOnPage($orderDetailsData['validate_prod_data'],
-                $orderDetailsData['validate_total_data']);
+                                                            $orderDetailsData['validate_total_data']);
     }
 
     public function validateTaxFrontendDataProvider()

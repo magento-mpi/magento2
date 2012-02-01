@@ -67,7 +67,7 @@ class ProductAttribute_Helper extends Mage_Selenium_TestCase
         $this->addParameter('id', $this->defineIdFromTitle($xpathTR));
         $this->click($xpathTR . '//td[' . $cellId . ']');
         $this->waitForPageToLoad($this->_browserTimeoutPeriod);
-        $this->validatePage($this->_findCurrentPageFromUrl($this->getLocation()));
+        $this->validatePage();
     }
 
     /**
@@ -223,6 +223,7 @@ class ProductAttribute_Helper extends Mage_Selenium_TestCase
     public function defineAttributeId(array $searchData)
     {
         $this->navigate('manage_attributes');
+        $searchData = $this->arrayEmptyClear($searchData);
         $attrXpath = $this->search($searchData);
         $this->assertNotEquals(null, $attrXpath);
 

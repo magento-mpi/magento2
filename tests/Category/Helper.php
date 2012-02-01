@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Magento
  *
@@ -22,7 +23,7 @@
  * @package     selenium
  * @subpackage  tests
  * @author      Magento Core Team <core@magentocommerce.com>
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
@@ -35,6 +36,7 @@
  */
 class Category_Helper extends Mage_Selenium_TestCase
 {
+
     /**
      * Find category with valid name
      *
@@ -144,34 +146,6 @@ class Category_Helper extends Mage_Selenium_TestCase
     }
 
     /**
-     * Create Root category
-     *
-     * @param array $categoryData
-     */
-    public function createRootCategory(array $categoryData)
-    {
-        $this->clickButton('add_root_category', false);
-        $this->pleaseWait();
-        $this->fillCategoryInfo($categoryData);
-        $this->saveForm('save_category');
-    }
-
-    /**
-     * Create Sub category
-     *
-     * @param string $categoryPath
-     * @param array $categoryData
-     */
-    public function createSubCategory($categoryPath, array $categoryData)
-    {
-        $this->selectCategory($categoryPath);
-        $this->clickButton('add_sub_category', false);
-        $this->pleaseWait();
-        $this->fillCategoryInfo($categoryData);
-        $this->saveForm('save_category');
-    }
-
-    /**
      *
      * @param array $categoryData
      */
@@ -189,6 +163,9 @@ class Category_Helper extends Mage_Selenium_TestCase
         }
         $this->pleaseWait();
         $this->fillCategoryInfo($categoryData);
+        if (isset($categoryData['name'])) {
+            $this->addParameter('elementTitle', $categoryData['name']);
+        }
         $this->saveForm('save_category');
     }
 
@@ -197,10 +174,14 @@ class Category_Helper extends Mage_Selenium_TestCase
      */
     public function checkCategoriesPage()
     {
+        $this->addParameter('id', $this->defineIdFromUrl());
         $currentPage = $this->_findCurrentPageFromUrl($this->getLocation());
-        if ($currentPage != 'edit_manage_categories' && $currentPage != 'manage_categories') {
+        if ($currentPage != 'edit_manage_categories' && $currentPage != 'manage_categories'
+            && $currentPage != 'edit_category'
+        ) {
             $this->fail("Opened the wrong page: '" . $currentPage . "' (should be: 'manage_categories')");
         }
+        $this->validatePage($currentPage);
     }
 
     /**
@@ -255,8 +236,8 @@ class Category_Helper extends Mage_Selenium_TestCase
             $productsInfo = $this->loadData($productsInfo);
         }
         $productsInfo = $this->arrayEmptyClear($productsInfo);
-        $category = (isset($productsInfo['category'])) ? $productsInfo['category'] : null;
-        $productName = (isset($productsInfo['product_name'])) ? $productsInfo['product_name'] : null;
+        $category = (isset($productsInfo['category'])) ? $productsInfo['category'] : NULL;
+        $productName = (isset($productsInfo['product_name'])) ? $productsInfo['product_name'] : NULL;
         $verificationData = (isset($productsInfo['verification'])) ? $productsInfo['verification'] : array();
 
         if ($category && $productName) {
@@ -276,7 +257,7 @@ class Category_Helper extends Mage_Selenium_TestCase
      */
     public function frontOpenCategory($categoryPath)
     {
-        $this->addParameter('productUrl', null);
+        $this->addParameter('productUrl', NULL);
         //Determine category title
         $nodes = explode('/', $categoryPath);
         $nodesReverse = array_reverse($nodes);
@@ -351,7 +332,7 @@ class Category_Helper extends Mage_Selenium_TestCase
                 $this->addParameter('param', '?p=' . $i);
                 $this->navigate('category_page_index');
             } else {
-                return false;
+                return FALSE;
             }
         }
     }
@@ -407,4 +388,5 @@ class Category_Helper extends Mage_Selenium_TestCase
             $this->fail('Cannot find elements to move');
         }
     }
+
 }

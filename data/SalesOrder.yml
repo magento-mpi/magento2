@@ -30,7 +30,7 @@
 #*********************************************
 
 #<------------Billing Address Required------------>
-billing_address_req: &billingReq
+billing_address_req:
     address_choice: new
     billing_first_name: 'billing_Steven'
     billing_last_name: 'billing_Stevenson'
@@ -42,8 +42,44 @@ billing_address_req: &billingReq
     billing_zip_code: '90064'
     billing_telephone: '(310) 954-8012'
 
+billing_address_req_usa: &billingReqUsa
+    address_choice: new
+    billing_first_name: 'billing_Steven'
+    billing_last_name: 'billing_Stevenson'
+    billing_street_address_1: '11832 W. Pico Blvd'
+    billing_city: 'Los Angeles'
+    billing_country: 'United States'
+    billing_state: California
+    billing_region: %noValue%
+    billing_zip_code: '90064'
+    billing_telephone: '(310) 954-8012'
+
+billing_address_req_france: &billingReqFrance
+    address_choice: new
+    billing_first_name: Jean
+    billing_last_name: Reno
+    billing_street_address_1: 13, rue Jean Vilar
+    billing_city: Bergerac
+    billing_country: France
+    billing_state: Dordogne
+    billing_region: %noValue%
+    billing_zip_code: 24100
+    billing_telephone: 06 88 07 44 27
+
 #<------------Shipping Address Required------------>
-shipping_address_req: &shippingReq
+shipping_address_req:
+    address_choice: new
+    shipping_first_name: 'shipping_Steven'
+    shipping_last_name: 'shipping_Stevenson'
+    shipping_street_address_1: '11832 W. Pico Blvd'
+    shipping_city: 'Los Angeles'
+    shipping_country: 'United States'
+    shipping_state: California
+    shipping_region: %noValue%
+    shipping_zip_code: '90064'
+    shipping_telephone: '(310) 954-8012'
+
+shipping_address_req_usa: &shippingReqUsa
     address_choice: new
     shipping_first_name: 'shipping_Steven'
     shipping_last_name: 'shipping_Stevenson'
@@ -574,12 +610,26 @@ else_american_express: &americanExpressElse
     expiration_year: '2020'
     card_verification_number: '1234'
 
+else_american_express_direct:
+    card_type: 'American Express'
+    card_number: '340000000000009'
+    expiration_month: '01 - January'
+    expiration_year: '2013'
+    card_verification_number: '1234'
+
 else_visa: &visaElse
     card_type: 'Visa'
     card_number: '4000000000000002'
     #card_number: '4832011527418035' #not work with payfloPro without3D
     expiration_month: '07 - July'
     expiration_year: '2020'
+    card_verification_number: '111'
+
+else_visa_direct:
+    card_type: 'Visa'
+    card_number: '4832011527418035'
+    expiration_month: '01 - January'
+    expiration_year: '2013'
     card_verification_number: '111'
 
 else_mastercard: &mastercardElse
@@ -591,10 +641,17 @@ else_mastercard: &mastercardElse
 
 else_discover: &discoverElse
     card_type: 'Discover'
-    card_number: '6011000990139424' 
+    card_number: '6011000990139424'
     #card_number: '6011000000000004' #not work with payfloPro without3D
     expiration_month: '07 - July'
     expiration_year: '2020'
+    card_verification_number: '111'
+
+else_discover_direct:
+    card_type: 'Discover'
+    card_number: '6011000000000004'
+    expiration_month: '01 - January'
+    expiration_year: '2013'
     card_verification_number: '111'
 
 else_other: &otherElse
@@ -614,9 +671,12 @@ else_jcb: &jcbElse
 
 else_jcb_3d: &jcbElse3D
     card_type: 'JCB'
-    card_number: '3000000000000004'
-    expiration_month: '07 - July'
-    expiration_year: '2020'
+    #card_number: '3000000000000004' is not working even according to 3D secure checklist
+    card_number: '3566002020360505'
+    #expiration_month: '07 - July' is not working. to get eciflag 07 and no errors month should be 01 - January
+    expiration_month: '01 - January'
+    #expiration_year: '2020' is not working. year should be current year + 1
+    expiration_year: '2013'
     card_verification_number: '1234'
 
 else_solo: &soloElse
@@ -695,13 +755,19 @@ shipping_fedex: &fedex
     shipping_service: Federal Express
     shipping_method: Home Delivery
 
-shipping_dhl_usa: &dhl_usa
-    shipping_service: DHL USA
-    shipping_method: Express
-
-shipping_dhl_int: &dhl_int
+shipping_dhl:
     shipping_service: DHL
-    shipping_method: Express easy
+    shipping_method: International Express
+
+# Data for a release after CE1.6.2
+#
+#shipping_dhl_usa: &dhl_usa
+#    shipping_service: DHL USA
+#    shipping_method: Express
+#
+#shipping_dhl_int: &dhl_int
+#    shipping_service: DHL
+#    shipping_method: Express easy
 
 #*********************************************
 #*      ConfigurableOptions For Products     *
@@ -916,8 +982,8 @@ order_physical:
         product_2: %noValue%
     coupons:
         coupon_1: %noValue%
-    billing_addr_data: *billingReq
-    shipping_addr_data: *shippingReq
+    billing_addr_data: *billingReqUsa
+    shipping_addr_data: *shippingReqUsa
     payment_data:
         payment_method: Check / Money order
         payment_info: %noValue%
@@ -956,13 +1022,13 @@ order_virtual:
         product_2: %noValue%
     coupons:
         coupon_1: %noValue%
-    billing_addr_data: *billingReq
+    billing_addr_data: *billingReqUsa
     payment_data:
         payment_method: Check / Money order
         payment_info: %noValue%
 
 #<------------New Customer, Check/Money, FlatRate, ShippingSameAsBilling------------>
-order_newcustmoer_checkmoney_flatrate:
+order_newcustomer_checkmoney_flatrate_usa: &orderNewCustomerCheckFlatrateUsa
     store_view: Default Store View
     account_data:
         customer_group: General
@@ -975,11 +1041,15 @@ order_newcustmoer_checkmoney_flatrate:
         product_2: %noValue%
     coupons:
         coupon_1: %noValue%
-    billing_addr_data: *billingReq
+    billing_addr_data: *billingReqUsa
     shipping_addr_data: *shippingSameAsBilling
     payment_data: *checkMoney
     shipping_data: *flatRate
     gift_messages: %noValue%
+
+order_newcustomer_checkmoney_flatrate_france:
+    <<: *orderNewCustomerCheckFlatrateUsa
+    billing_addr_data: *billingReqFrance
 
 #<------------New Customer, Saved CC, FlatRate, ShippingSameAsBilling------------>
 order_newcustmoer_savedcc_flatrate:
@@ -994,7 +1064,7 @@ order_newcustmoer_savedcc_flatrate:
         product_2: %noValue%
     coupons:
         coupon_1: %noValue%
-    billing_addr_data: *billingReq
+    billing_addr_data: *billingReqUsa
     shipping_addr_data: *shippingSameAsBilling
     payment_data: *savedCCVisa
     shipping_data: *flatRate
@@ -1012,7 +1082,7 @@ order_newcustmoer_paypaldirectuk_flatrate:
         product_2: %noValue%
     coupons:
         coupon_1: %noValue%
-    billing_addr_data: *billingReq
+    billing_addr_data: *billingReqUsa
     shipping_addr_data: *shippingSameAsBilling
     payment_data: *paypalDirectUkMastercard
     shipping_data: *flatRate
@@ -1030,7 +1100,7 @@ order_newcustmoer_paypaldirect_flatrate:
         product_2: %noValue%
     coupons:
         coupon_1: %noValue%
-    billing_addr_data: *billingReq
+    billing_addr_data: *billingReqUsa
     shipping_addr_data: *shippingSameAsBilling
     payment_data: *paypalDirectMastercard
     shipping_data: *flatRate
@@ -1048,7 +1118,7 @@ order_newcustmoer_payflowpro_flatrate:
         product_2: %noValue%
     coupons:
         coupon_1: %noValue%
-    billing_addr_data: *billingReq
+    billing_addr_data: *billingReqUsa
     shipping_addr_data: *shippingSameAsBilling
     payment_data: *payfloProVisa
     shipping_data: *flatRate
@@ -1066,7 +1136,7 @@ order_newcustmoer_authorizenet_flatrate:
         product_2: %noValue%
     coupons:
         coupon_1: %noValue%
-    billing_addr_data: *billingReq
+    billing_addr_data: *billingReqUsa
     shipping_addr_data: *shippingSameAsBilling
     payment_data: *authorizeNetVisa
     shipping_data: *flatRate

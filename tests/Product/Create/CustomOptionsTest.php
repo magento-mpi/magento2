@@ -22,7 +22,7 @@
  * @package     selenium
  * @subpackage  tests
  * @author      Magento Core Team <core@magentocommerce.com>
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
@@ -98,6 +98,7 @@ class Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is not created, error message appears;</p>
      *
+     * @param $emptyCustomField
      * @dataProvider emptyFieldInCustomOptionDataProvider
      * @test
      */
@@ -142,7 +143,7 @@ class Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is not created, error message appears;</p>
      *
-     * @param string $emptyField
+     * @param string $optionDataName
      * @dataProvider emptyOptionRowTitleInCustomOptionDataProvider
      * @test
      */
@@ -185,6 +186,7 @@ class Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is not created, error message appears;</p>
      *
+     * @param $invalidData
      * @dataProvider invalidNumericValueDataProvider
      * @test
      */
@@ -222,6 +224,7 @@ class Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is not created, error message appears;</p>
      *
+     * @param $invalidData
      * @dataProvider invalidNumericValueDataProvider
      * @test
      */
@@ -264,8 +267,12 @@ class Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is not created, error message appears;</p>
      *
+     * @param $optionDataName
+     * @param $message
      * @dataProvider invalidCustomOptionDataProvider
      * @test
+     *
+     * @group skip_due_to_bug
      */
     public function specialSymbolsInCustomOptionsPrice($optionDataName, $message)
     {
@@ -296,8 +303,12 @@ class Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is not created, error message appears;</p>
      *
+     * @param $optionDataName
+     * @param $message
      * @dataProvider invalidCustomOptionDataProvider
      * @test
+     *
+     * @group skip_due_to_bug
      */
     public function textValueInCustomOptionsPrice($optionDataName, $message)
     {
@@ -318,7 +329,7 @@ class Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
         return array(
             array('custom_options_field', 'enter_valid_number'),
             array('custom_options_area', 'enter_valid_number'),
-            array('custom_options_file', 'enter_zero_or_greater'),
+            array('custom_options_file', 'enter_zero_or_greater'), //Fails due to MAGE-4609
             array('custom_options_date', 'enter_zero_or_greater'),
             array('custom_options_date_time', 'enter_zero_or_greater'),
             array('custom_options_time', 'enter_zero_or_greater'),
@@ -344,8 +355,11 @@ class Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is not created, error message appears;;</p>
      *
+     * @param $optionName
      * @dataProvider negativeNumberInCustomOptionsPriceNegDataProvider
      * @test
+     *
+     * @group skip_due_to_bug
      */
     public function negativeNumberInCustomOptionsPriceNeg($optionName)
     {
@@ -363,7 +377,7 @@ class Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
     public function negativeNumberInCustomOptionsPriceNegDataProvider()
     {
         return array(
-            array('custom_options_file'),
+            array('custom_options_file'), //Fails due to MAGE-4609
             array('custom_options_date'),
             array('custom_options_date_time'),
             array('custom_options_time')
@@ -385,6 +399,7 @@ class Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is not created, error message appears;</p>
      *
+     * @param $optionName
      * @dataProvider negativeNumberInCustomOptionsPricePosDataProvider
      * @test
      */

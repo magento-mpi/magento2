@@ -22,7 +22,7 @@
  * @package     selenium
  * @subpackage  tests
  * @author      Magento Core Team <core@magentocommerce.com>
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
@@ -51,6 +51,7 @@ class Order_Create_WithDifferentProductsTest extends Mage_Selenium_TestCase
         $this->navigate('manage_products');
         $this->addParameter('id', '0');
     }
+
     /**
      * <p>Creating order with virtual product with custom options</p>
      * <p>Steps:</p>
@@ -90,8 +91,9 @@ class Order_Create_WithDifferentProductsTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Test Realizing precondition for creating configurable product.
+     * <p>Test Realizing precondition for creating configurable product</p>
      *
+     * @return array $attrData
      * @test
      */
     public function createConfigurableAttribute()
@@ -124,8 +126,10 @@ class Order_Create_WithDifferentProductsTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Order is created;</p>
      *
-     * @test
      * @depends createConfigurableAttribute
+     * @param array $attrData
+     * @return array
+     * @test
      */
     public function withSimpleProduct($attrData)
     {
@@ -133,7 +137,7 @@ class Order_Create_WithDifferentProductsTest extends Mage_Selenium_TestCase
         $simple = $this->loadData('simple_product_for_order');
         $attrCode = $attrData['attribute_code'];
         $simple['general_user_attr']['dropdown'][$attrCode] = $attrData['option_1']['admin_option_name'];
-        $orderData = $this->loadData('order_newcustmoer_checkmoney_flatrate',
+        $orderData = $this->loadData('order_newcustomer_checkmoney_flatrate_usa',
                 array('filter_sku' => $simple['general_sku']));
         //Steps and Verifying
         $this->productHelper()->createProduct($simple);
@@ -167,6 +171,8 @@ class Order_Create_WithDifferentProductsTest extends Mage_Selenium_TestCase
      * <p>Order is created;</p>
      *
      * @depends createConfigurableAttribute
+     * @param array $attrData
+     * @return array
      * @test
      */
     public function withVirtualProduct($attrData)
@@ -242,6 +248,8 @@ class Order_Create_WithDifferentProductsTest extends Mage_Selenium_TestCase
      * <p>Order is created;</p>
      *
      * @depends createConfigurableAttribute
+     * @param array $attrData
+     * @return array
      * @test
      */
     public function withDownloadableNotConfigProduct($attrData)
@@ -283,6 +291,9 @@ class Order_Create_WithDifferentProductsTest extends Mage_Selenium_TestCase
      *
      * @depends withSimpleProduct
      * @depends withVirtualProduct
+     * @param array $simple
+     * @param array $virtual
+     * @return array
      * @test
      */
     public function bundleWithSimple($simple, $virtual)
@@ -301,7 +312,7 @@ class Order_Create_WithDifferentProductsTest extends Mage_Selenium_TestCase
         $configurable = $this->loadData('config_option_bundle',
                 array('field_checkbox'    => $checkBox,    'field_dropdow' => $dropDown,
                       'field_multiselect' => $multiSelect, 'field_radio'   => $radio));
-        $orderData = $this->loadData('order_newcustmoer_checkmoney_flatrate',
+        $orderData = $this->loadData('order_newcustomer_checkmoney_flatrate_usa',
                 array('filter_sku' => $bundle['general_sku'], 'configurable_options' => $configurable));
         //Steps and Verifying
         $this->productHelper()->createProduct($bundle, 'bundle');
@@ -334,6 +345,7 @@ class Order_Create_WithDifferentProductsTest extends Mage_Selenium_TestCase
      * <p>Order is created;</p>
      *
      * @depends bundleWithSimple
+     * @param array $data
      * @test
      */
     public function bundleWithVirtual($data)
@@ -377,6 +389,11 @@ class Order_Create_WithDifferentProductsTest extends Mage_Selenium_TestCase
      * @depends withSimpleProduct
      * @depends withVirtualProduct
      * @depends withDownloadableNotConfigProduct
+     * @param array $attrData
+     * @param array $simple
+     * @param array $virtual
+     * @param array $download
+     * @return array
      * @test
      */
     public function configurableProductWithSimple($attrData, $simple, $virtual, $download)
@@ -390,10 +407,10 @@ class Order_Create_WithDifferentProductsTest extends Mage_Selenium_TestCase
                       'associated_configurable_1'    => $pr1,
                       'associated_configurable_2'    => $pr2,
                       'associated_configurable_3'    => $pr3));
-        $orderData = $this->loadData('order_newcustmoer_checkmoney_flatrate',
-                array('filter_sku'           => $configurable['general_sku'],
-                      'configurable_options' => $this->loadData('config_option_configurable',
-                                                    array('title' => $attrData['admin_title'],
+        $orderData = $this->loadData('order_newcustomer_checkmoney_flatrate_usa',
+                array('filter_sku'                   => $configurable['general_sku'],
+                      'configurable_options'         => $this->loadData('config_option_configurable',
+                                                  array('title'       => $attrData['admin_title'],
                                                         'fieldsValue' => $attrData['option_1']['admin_option_name']))));
         //Steps and Verifying
         $this->productHelper()->createProduct($configurable, 'configurable');
@@ -427,15 +444,17 @@ class Order_Create_WithDifferentProductsTest extends Mage_Selenium_TestCase
      *
      * @depends createConfigurableAttribute
      * @depends configurableProductWithSimple
+     * @param array $attrData
+     * @param array $configurable
      * @test
      */
     public function configurableProductWithVirtual($attrData, $configurable)
     {
         //Data
         $orderData = $this->loadData('order_virtual',
-                array('filter_sku' => $configurable['general_sku'],
+                array('filter_sku'           => $configurable['general_sku'],
                       'configurable_options' => $this->loadData('config_option_configurable',
-                                                    array('title' => $attrData['admin_title'],
+                                                  array('title'       => $attrData['admin_title'],
                                                         'fieldsValue' => $attrData['option_2']['admin_option_name']))));
         //Steps and Verifying
         $this->navigate('manage_sales_orders');
@@ -464,15 +483,19 @@ class Order_Create_WithDifferentProductsTest extends Mage_Selenium_TestCase
      *
      * @depends createConfigurableAttribute
      * @depends configurableProductWithSimple
+     * @param array $attrData
+     * @param array $configurable
      * @test
      */
     public function configurableProductWithDownloadable($attrData, $configurable)
     {
         //Data
         $configOpt = $this->loadData('config_option_configurable',
-                array('title' => $attrData['admin_title'],'fieldsValue' => $attrData['option_3']['admin_option_name']));
+                array('title'                => $attrData['admin_title'],
+                      'fieldsValue'          => $attrData['option_3']['admin_option_name']));
         $orderData = $this->loadData('order_virtual',
-                array('filter_sku' => $configurable['general_sku'], 'configurable_options' => $configOpt));
+                array('filter_sku'           => $configurable['general_sku'],
+                      'configurable_options' => $configOpt));
         //Steps and Verifying
         $this->navigate('manage_sales_orders');
         $orderId = $this->orderHelper()->createOrder($orderData);
@@ -500,6 +523,10 @@ class Order_Create_WithDifferentProductsTest extends Mage_Selenium_TestCase
      * @depends withSimpleProduct
      * @depends withVirtualProduct
      * @depends withDownloadableNotConfigProduct
+     * @param array $simple
+     * @param array $virtual
+     * @param array $download
+     * @return string
      * @test
      */
     public function groupedWithSimple($simple, $virtual, $download)
@@ -509,9 +536,10 @@ class Order_Create_WithDifferentProductsTest extends Mage_Selenium_TestCase
         $prod2 = $this->loadData('associated_grouped', array('associated_search_sku' => $virtual['general_sku']));
         $prod3 = $this->loadData('associated_grouped', array('associated_search_sku' => $download['general_sku']));
         $grouped = $this->loadData('grouped_product_for_order',
-                array('associated_grouped_1' => $prod1, 'associated_grouped_2' => $prod2,
+                array('associated_grouped_1' => $prod1,
+                      'associated_grouped_2' => $prod2,
                       'associated_grouped_3' => $prod3));
-        $orderData = $this->loadData('order_newcustmoer_checkmoney_flatrate',
+        $orderData = $this->loadData('order_newcustomer_checkmoney_flatrate_usa',
                 array('filter_sku'           => $grouped['general_sku'],
                       'configurable_options' => $this->loadData('config_option_grouped',
                                                                 array('fieldParameter' => $simple['general_sku']))));
@@ -548,13 +576,16 @@ class Order_Create_WithDifferentProductsTest extends Mage_Selenium_TestCase
      * @depends withVirtualProduct
      * @depends withDownloadableNotConfigProduct
      * @depends groupedWithSimple
+     * @param array $virtual
+     * @param array $download
+     * @param array $grouped
      * @test
      */
     public function groupedWithVirtualTypesOfProducts($virtual, $download, $grouped)
     {
         //Data
         $option2 = $this->loadData('config_option_grouped/option_1',
-                array('fieldParameter' => $download['general_sku']));
+                array('fieldParameter'       => $download['general_sku']));
         $orderData = $this->loadData('order_virtual',
                 array('filter_sku'           => $grouped,
                       'configurable_options' => $this->loadData('config_option_grouped',

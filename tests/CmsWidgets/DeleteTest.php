@@ -22,7 +22,7 @@
  * @package     selenium
  * @subpackage  tests
  * @author      Magento Core Team <core@magentocommerce.com>
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
@@ -50,33 +50,36 @@ class CmsWidgets_DeleteTest extends Mage_Selenium_TestCase
     /**
      * <p>Preconditions</p>
      * <p>Creates Category to use during tests</p>
-     *
      * @test
+     * @return string
      */
     public function createCategory()
     {
-        $this->navigate('manage_categories');
+        //Data
+        $categoryData = $this->loadData('sub_category_required');
+        //Steps
+        $this->navigate('manage_categories', false);
         $this->categoryHelper()->checkCategoriesPage();
-        $rootCat = 'Default Category';
-        $categoryData = $this->loadData('sub_category_required', null, 'name');
-        $this->categoryHelper()->createSubCategory($rootCat, $categoryData);
+        $this->categoryHelper()->createCategory($categoryData);
+        //Verification
         $this->assertMessagePresent('success', 'success_saved_category');
         $this->categoryHelper()->checkCategoriesPage();
 
-        return $rootCat . '/' . $categoryData['name'];
+        return $categoryData['parent_category'] . '/' . $categoryData['name'];
     }
 
     /**
      * <p>Preconditions</p>
      * <p>Creates Attribute (dropdown) to use during tests</p>
-     *
      * @test
+     * @return array
      */
     public function createAttribute()
     {
         $attrData = $this->loadData('product_attribute_dropdown_with_options', null,
-                array('admin_title', 'attribute_code'));
-        $associatedAttributes = $this->loadData('associated_attributes', array('General' => $attrData['attribute_code']));
+                                    array('admin_title', 'attribute_code'));
+        $associatedAttributes = $this->loadData('associated_attributes',
+                                                array('General' => $attrData['attribute_code']));
         $this->navigate('manage_attributes');
         $this->productAttributeHelper()->createAttribute($attrData);
         $this->assertMessagePresent('success', 'success_saved_attribute');
@@ -91,12 +94,14 @@ class CmsWidgets_DeleteTest extends Mage_Selenium_TestCase
 
     /**
      * Create required products for testing
-     *
      * @dataProvider createProductsDataProvider
      * @depends createCategory
      * @depends createAttribute
-     *
      * @test
+     *
+     * @param $dataProductType
+     * @param $category
+     * @param $attrData
      */
     public function createProducts($dataProductType, $category, $attrData)
     {
@@ -104,11 +109,12 @@ class CmsWidgets_DeleteTest extends Mage_Selenium_TestCase
         //Data
         if ($dataProductType == 'configurable') {
             $productData = $this->loadData($dataProductType . '_product_required',
-                    array('configurable_attribute_title' => $attrData['admin_title'],
-                          'categories' => $category), array('general_sku', 'general_name'));
+                                           array('configurable_attribute_title' => $attrData['admin_title'],
+                                                'categories'                    => $category),
+                                           array('general_sku', 'general_name'));
         } else {
             $productData = $this->loadData($dataProductType . '_product_required', array('categories' => $category),
-                    array('general_name', 'general_sku'));
+                                           array('general_name', 'general_sku'));
         }
         //Steps
         $this->productHelper()->createProduct($productData, $dataProductType);
@@ -134,10 +140,12 @@ class CmsWidgets_DeleteTest extends Mage_Selenium_TestCase
      * <p>4. Delete opened widget</p>
      * <p>Expected result</p>
      * <p>Widgets are created and deleted successfully</p>
-     *
      * @dataProvider widgetTypesReqDataProvider
      * @depends createCategory
      * @test
+     *
+     * @param $dataWidgetType
+     * @param $category
      */
     public function deleteAllTypesOfWidgets($dataWidgetType, $category)
     {
@@ -147,8 +155,8 @@ class CmsWidgets_DeleteTest extends Mage_Selenium_TestCase
         $temp['category_path'] = $category;
         $widgetData = $this->loadData($dataWidgetType . '_widget_req', $temp, 'widget_instance_title');
         $this->cmsWidgetsHelper()->createWidget($widgetData);
-        $widgetToDelete = array('filter_type' => $widgetData['settings']['type'],
-            'filter_title' => $widgetData['frontend_properties']['widget_instance_title']);
+        $widgetToDelete = array('filter_type'  => $widgetData['settings']['type'],
+                                'filter_title' => $widgetData['frontend_properties']['widget_instance_title']);
         $this->cmsWidgetsHelper()->deleteWidget($widgetToDelete);
     }
 

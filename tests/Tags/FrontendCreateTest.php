@@ -22,7 +22,7 @@
  * @package     selenium
  * @subpackage  tests
  * @author      Magento Core Team <core@magentocommerce.com>
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
@@ -43,8 +43,8 @@ class Tags_FrontendCreateTest extends Mage_Selenium_TestCase
     /**
      * <p>Preconditions</p>
      * <p>Create Customer for tests</p>
-     *
      * @test
+     * @return array
      */
     public function createCustomer()
     {
@@ -57,42 +57,48 @@ class Tags_FrontendCreateTest extends Mage_Selenium_TestCase
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_customer');
 
-        return array('email' => $userData['email'], 'password' => $userData['password']);
+        return array('email'    => $userData['email'],
+                     'password' => $userData['password']);
     }
 
     /**
      * <p>Preconditions</p>
      * <p>Creates Category to use during tests</p>
-     *
      * @test
+     * @return string
      */
     public function createCategory()
     {
+        //Data
+        $categoryData = $this->loadData('sub_category_required');
+        //Steps
         $this->loginAdminUser();
-        $this->navigate('manage_categories');
+        $this->navigate('manage_categories', false);
         $this->categoryHelper()->checkCategoriesPage();
-        $rootCat = 'Default Category';
-        $categoryData = $this->loadData('sub_category_required', null, 'name');
-        $this->categoryHelper()->createSubCategory($rootCat, $categoryData);
+        $this->categoryHelper()->createCategory($categoryData);
+        //Verification
         $this->assertMessagePresent('success', 'success_saved_category');
         $this->categoryHelper()->checkCategoriesPage();
 
-        return $rootCat . '/' . $categoryData['name'];
+        return $categoryData['parent_category'] . '/' . $categoryData['name'];
     }
 
     /**
      * <p>Preconditions</p>
      * <p>Create Simple Products for tests</p>
-     *
      * @depends createCategory
      * @test
+     *
+     * @param $category
+     *
+     * @return mixed
      */
     public function createProduct($category)
     {
         $this->loginAdminUser();
         $this->navigate('manage_products');
         $simpleProductData = $this->loadData('simple_product_for_prices_validation_front_1',
-                array('categories' => $category), array('general_name', 'general_sku'));
+                                             array('categories' => $category), array('general_name', 'general_sku'));
         $this->productHelper()->createProduct($simpleProductData);
         $this->assertMessagePresent('success', 'success_saved_product');
         return $simpleProductData['general_name'];
@@ -100,7 +106,6 @@ class Tags_FrontendCreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Tag creating with Logged Customer</p>
-     *
      * <p>1. Login to Frontend</p>
      * <p>2. Open created product</p>
      * <p>3. Add Tag to product</p>
@@ -111,12 +116,14 @@ class Tags_FrontendCreateTest extends Mage_Selenium_TestCase
      * <p>8. Check tag displaying on the page</p>
      * <p>9. Open current tag - page with assigned product opens</p>
      * <p>10. Tag is assigned to correct product</p>
-     *
      * @dataProvider tagNameDataProvider
      * @depends createCustomer
      * @depends createProduct
-     *
      * @test
+     *
+     * @param $tags
+     * @param $customer
+     * @param $product
      */
     public function frontendTagVerificationLoggedCustomer($tags, $customer, $product)
     {
@@ -146,14 +153,14 @@ class Tags_FrontendCreateTest extends Mage_Selenium_TestCase
             array("'" . $this->generate('string', 4, ':alpha:') . ' ' . $this->generate('string', 7, ':alpha:') . "'"),
             //3 tags = 1 word + 1 phrase with a space + 1 word; enclosed within quotes
             array($this->generate('string', 4, ':alpha:') . ' '
-                    . "'" . $this->generate('string', 4, ':alpha:') . ' ' . $this->generate('string', 7, ':alpha:'). "'"
-                    . ' ' . $this->generate('string', 4, ':alpha:')),
+                      . "'" . $this->generate('string', 4, ':alpha:') . ' ' . $this->generate('string', 7,
+                                                                                              ':alpha:') . "'"
+                      . ' ' . $this->generate('string', 4, ':alpha:')),
         );
     }
 
     /**
      * <p>Tags Verification in Category</p>
-     *
      * <p>1. Login to Frontend</p>
      * <p>2. Open created product</p>
      * <p>3. Add Tag to product</p>
@@ -164,12 +171,14 @@ class Tags_FrontendCreateTest extends Mage_Selenium_TestCase
      * <p>8. Change the status of created Tag;</p>
      * <p>9. Goto Frontend;</p>
      * <p>10. Check Tag displaying on category page;</p>
-     *
      * @depends createCustomer
      * @depends createCategory
      * @depends createProduct
-     *
      * @test
+     *
+     * @param $customer
+     * @param $category
+     * @param $product
      */
     public function frontendTagVerificationInCategory($customer, $category, $product)
     {
@@ -198,7 +207,6 @@ class Tags_FrontendCreateTest extends Mage_Selenium_TestCase
 
     /**
      * Tag creating with Not Logged Customer
-     *
      * <p>1. Goto Frontend</p>
      * <p>2. Open created product</p>
      * <p>3. Add Tag to product</p>
@@ -206,10 +214,10 @@ class Tags_FrontendCreateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Customer is redirected to the login page.</p>
      * <p>The tag hasn't been added for moderation in backend.</p>
-     *
      * @depends createProduct
-     *
      * @test
+     *
+     * @param $product
      */
     public function frontendTagVerificationNotLoggedCustomer($product)
     {

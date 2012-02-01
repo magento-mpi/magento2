@@ -45,7 +45,7 @@ paypal_enable:
         tab_name: sales_paypal
         configuration:
             merchant_country: United States
-            email_associated_with_paypal_merchant_account: taf_1323358030_biz@magento.com
+            email_associated_with_paypal_merchant_account: taf_d_1323432953_biz@magento.com
             website_payments_pro: No
             website_payments_pro_payflow_edition: No
             payflow_pro_gateway_express_checkout: No
@@ -56,7 +56,8 @@ paypal_enable:
 
 paypal_api_settings:
     configuration_scope: Default Config
-    tab_1: &setPaypalApi
+    tab_1: *enablePaypal
+    tab_2: &setPaypalApi
         tab_name: sales_paypal
         configuration:
             api_authentication_methods: API Signature
@@ -72,16 +73,16 @@ paypaldirectuk_without_3Dsecure:
     tab_1: &payPalDirectUkWithout3Dsecure
         tab_name: sales_paypal
         configuration:
-            email_associated_with_paypal_merchant_account:
+            email_associated_with_paypal_merchant_account: lindy_1201044142_biz@varien.com
             website_payments_pro_payflow_edition: Yes
             wpppe_title: PayPal Direct Payment Payflow Edition
             wpppe_payment_action: Authorization
             wpppe_debug_mode: Yes
             wpppe_transfer_cart_line_items: No
             wpppe_partner: PayPalUK
-            wpppe_user: ukpromerchant2g
-            wpppe_vendor: ukpromerchant2g
-            wpppe_password: testing678
+            wpppe_user: lindyvarien2
+            wpppe_vendor: lindyvarien2
+            wpppe_password: Magento12345
             wpppe_sandbox_mode: Yes
             wpppe_api_uses_proxy: No
             wpppe_allowed_credit_card_types: all
@@ -101,9 +102,9 @@ paypaldirectuk_with_3Dsecure:
             wpppe_debug_mode: Yes
             wpppe_transfer_cart_line_items: No
             wpppe_partner: PayPalUK
-            wpppe_user: ukpromerchant2g
-            wpppe_vendor: ukpromerchant2g
-            wpppe_password: testing678
+            wpppe_user: lindyvarien2
+            wpppe_vendor: lindyvarien2
+            wpppe_password: Magento12345
             wpppe_sandbox_mode: Yes
             wpppe_api_uses_proxy: No
             wpppe_allowed_credit_card_types: all
@@ -115,8 +116,9 @@ paypaldirectuk_with_3Dsecure:
 #<-------------PayPal Direct Payment------------------------>
 paypaldirect_without_3Dsecure:
     configuration_scope: Default Config
-    tab_1: *setPaypalApi
-    tab_2: &payPalDirectWithout3Dsecure
+    tab_1: *enablePaypal
+    tab_2: *setPaypalApi
+    tab_3: &payPalDirectWithout3Dsecure
         tab_name: sales_paypal
         configuration:
             website_payments_pro: Yes
@@ -124,7 +126,7 @@ paypaldirect_without_3Dsecure:
             wpp_sort_order: %noValue%
             wpp_payment_action: Authorization
             wpp_payment_applicable_from: All Allowed Countries
-            wpp_countries_payment_applicable_from:
+            wpp_countries_payment_applicable_from: %noValue%
             wpp_debug_mode: Yes
             wpp_transfer_cart_line_items: No
             wpp_allowed_credit_card_types: all
@@ -133,9 +135,10 @@ paypaldirect_without_3Dsecure:
 
 paypaldirect_with_3Dsecure:
     configuration_scope: Default Config
-    tab_1: *setPaypalApi
-    tab_2: *enable3DSecure
-    tab_3:
+    tab_1: *enablePaypal
+    tab_2: *setPaypalApi
+    tab_3: *enable3DSecure
+    tab_4:
         tab_name: sales_paypal
         configuration:
             website_payments_pro: Yes
@@ -143,7 +146,7 @@ paypaldirect_with_3Dsecure:
             wpp_sort_order: %noValue%
             wpp_payment_action: Authorization
             wpp_payment_applicable_from: All Allowed Countries
-            wpp_countries_payment_applicable_from:
+            wpp_countries_payment_applicable_from: %noValue%
             wpp_debug_mode: Yes
             wpp_transfer_cart_line_items: No
             wpp_allowed_credit_card_types: all
@@ -281,7 +284,7 @@ authorizenet_without_3Dsecure:
             an_title: Credit Card (Authorize.net)
             an_api_login_id: 36sCtGS8w
             an_payment_action: Authorize Only
-            an_transaction_key: 5T7hA5G8y4n7J88K
+            an_transaction_key: 9793Q2Rua5y68BGw
             an_new_order_status: %noValue%
             an_test_mode: No
             an_gateway_url: https://test.authorize.net/gateway/transact.dll
@@ -309,7 +312,7 @@ authorizenet_with_3Dsecure:
             an_title: Credit Card (Authorize.net)
             an_api_login_id: 36sCtGS8w
             an_payment_action: Authorize Only
-            an_transaction_key: 5T7hA5G8y4n7J88K
+            an_transaction_key: 9793Q2Rua5y68BGw
             an_new_order_status: %noValue%
             an_test_mode: No
             an_gateway_url: https://test.authorize.net/gateway/transact.dll

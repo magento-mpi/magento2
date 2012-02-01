@@ -22,7 +22,7 @@
  * @package     selenium
  * @subpackage  tests
  * @author      Magento Core Team <core@magentocommerce.com>
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
@@ -35,25 +35,33 @@
  */
 class Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTest extends Mage_Selenium_TestCase
 {
-    /**
-     * <p>Preconditions:</p>
-     * <p>Log in to Backend.</p>
-     */
-    public function setUpBeforeTests()
+    protected function assertPreConditions()
     {
         $this->loginAdminUser();
+        $this->addParameter('id', '0');
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('paypaldirectuk_without_3Dsecure');
     }
 
-    protected function assertPreConditions()
+    /**
+     * <p>Create Buyers Accounts on PayPal sandbox</p>
+     *
+     * @return array $accounts
+     * @test
+     */
+    public function createPayPalBuyerAccounts()
     {
-        $this->addParameter('id', '0');
+        $this->goToArea('paypal-developer');
+        $this->paypalHelper()->paypalDeveloperLogin('paypal_developer_login');
+        $accounts = $this->paypalHelper()->createBuyerAccounts('visa, mastercard');
+
+        return $accounts;
     }
 
     /**
-     * Create Simple Product for tests
+     * <p>Create Simple Product for tests</p>
      *
+     * @return string
      * @test
      */
     public function createSimpleProduct()
@@ -70,13 +78,20 @@ class Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTest extends 
     }
 
     /**
+     * <p>Smoke test for order without 3D secure</p>
+     *
      * @depends createSimpleProduct
+     * @depends createPayPalBuyerAccounts
+     * @param string $simpleSku
+     * @param array $accounts
+     * @return array
      * @test
      */
-    public function orderWithout3DSecureSmoke($simpleSku)
+    public function orderWithout3DSecureSmoke($simpleSku, $accounts)
     {
         //Data
-        $orderData = $this->loadData('order_newcustmoer_paypaldirectuk_flatrate', array('filter_sku' => $simpleSku));
+        $orderData = $this->loadData('order_newcustmoer_paypaldirectuk_flatrate',
+            array('filter_sku' => $simpleSku, 'payment_info' => $accounts['mastercard']['credit_card']));
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -87,18 +102,20 @@ class Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTest extends 
     }
 
     /**
-     * Create order with PayPal Direct Uk using all types of credit card
-     *
-     * @param type $simpleSku
+     * <p>Create order with PayPal Direct Uk using all types of credit card</p>
      *
      * @depends orderWithout3DSecureSmoke
+     * @depends createPayPalBuyerAccounts
      * @dataProvider cardPayPalDirectUkDataProvider
+     * @param string $card
+     * @param array $orderData
+     * @param array $accounts
      * @test
      */
-    public function differentCardInPayPalDirectUk($card, $orderData)
+    public function differentCardInPayPalDirectUk($card, $orderData, $accounts)
     {
         //Data
-        $orderData['payment_data']['payment_info'] = $this->loadData($card);
+        $orderData['payment_data']['payment_info'] = $accounts[$card]['credit_card'];
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -106,15 +123,18 @@ class Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTest extends 
         $this->assertMessagePresent('success', 'success_created_order');
     }
 
+    /**
+     * <p>Data provider for differentCardInPayPalDirectUk test</p>
+     *
+     * @return array
+     */
     public function cardPayPalDirectUkDataProvider()
     {
         return array(
-            array('else_american_express'),
-            array('else_visa'),
-            array('else_mastercard'),
-            array('else_other'),
-            array('else_solo'),
-            array('else_switch_maestro')
+            array('visa'),
+            array('mastercard'),
+//            array('else_solo'),  @TODO need to implement switching currency for solo and maestro
+//            array('else_switch_maestro') @TODO resolve the issue with that type of credit card
         );
     }
 
@@ -139,6 +159,8 @@ class Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTest extends 
      *
      * @depends orderWithout3DSecureSmoke
      * @dataProvider captureTypeDataProvider
+     * @param string $captureType
+     * @param array $orderData
      * @test
      */
     public function fullInvoiceWithDifferentTypesOfCapture($captureType, $orderData)
@@ -150,6 +172,11 @@ class Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTest extends 
         $this->orderInvoiceHelper()->createInvoiceAndVerifyProductQty($captureType);
     }
 
+    /**
+     * <p>Data provider for fullInvoiceWithDifferentTypesOfCapture test</p>
+     *
+     * @return array
+     */
     public function captureTypeDataProvider()
     {
         return array(
@@ -160,12 +187,12 @@ class Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTest extends 
     }
 
     /**
-     *
-     * @param type $captureType
-     * @param type $simpleSku
+     * <p>Partial invoice with different types of capture</p>
      *
      * @depends orderWithout3DSecureSmoke
      * @dataProvider captureTypeDataProvider
+     * @param string $captureType
+     * @param array $orderData
      * @test
      */
     public function partialInvoiceWithDifferentTypesOfCapture($captureType, $orderData)
@@ -203,6 +230,9 @@ class Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTest extends 
      *
      * @depends orderWithout3DSecureSmoke
      * @dataProvider creditMemoDataProvider
+     * @param string $captureType
+     * @param string $refundType
+     * @param array $orderData
      * @test
      */
     public function fullCreditMemo($captureType, $refundType, $orderData)
@@ -220,8 +250,13 @@ class Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTest extends 
     }
 
     /**
+     * <p>Partial Credit Memo test</p>
+     *
      * @depends orderWithout3DSecureSmoke
      * @dataProvider creditMemoDataProvider
+     * @param string $captureType
+     * @param string $refundType
+     * @param array $orderData
      * @test
      */
     public function partialCreditMemo($captureType, $refundType, $orderData)
@@ -242,6 +277,11 @@ class Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTest extends 
         $this->orderCreditMemoHelper()->createCreditMemoAndVerifyProductQty($refundType, $creditMemo);
     }
 
+    /**
+     * <p>Data provider for partialCreditMemo test</p>
+     *
+     * @return array
+     */
     public function creditMemoDataProvider()
     {
         return array(
@@ -273,6 +313,7 @@ class Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTest extends 
      * <p>Order is invoiced and shipped successfully</p>
      *
      * @depends orderWithout3DSecureSmoke
+     * @param array $orderData
      * @test
      */
     public function fullShipmentForOrderWithoutInvoice($orderData)
@@ -297,6 +338,7 @@ class Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTest extends 
      * <p>Order is unholded;</p>
      *
      * @depends orderWithout3DSecureSmoke
+     * @param array $orderData
      * @test
      */
     public function holdAndUnholdPendingOrderViaOrderPage($orderData)
@@ -312,9 +354,10 @@ class Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTest extends 
     }
 
     /**
-     * Cancel Pending Order From Order Page
+     * <p>Cancel Pending Order From Order Page</p>
      *
      * @depends orderWithout3DSecureSmoke
+     * @param array $orderData
      * @test
      */
     public function cancelPendingOrderFromOrderPage($orderData)
@@ -350,6 +393,7 @@ class Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTest extends 
      * <p>Message "The order has been created." is displayed.</p>
      *
      * @depends orderWithout3DSecureSmoke
+     * @param array $orderData
      * @test
      */
     public function reorderPendingOrder($orderData)
@@ -404,6 +448,7 @@ class Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTest extends 
      * <p>New customer is created. Order is created for the new customer. Void successful</p>
      *
      * @depends orderWithout3DSecureSmoke
+     * @param array $orderData
      * @test
      */
     public function voidPendingOrderFromOrderPage($orderData)
@@ -439,6 +484,9 @@ class Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTest extends 
      *
      * @depends orderWithout3DSecureSmoke
      * @dataProvider createOrderWith3DSecureDataProvider
+     * @param string $card
+     * @param bool $needSetUp
+     * @param array $orderData
      * @test
      */
     public function createOrderWith3DSecure($card, $needSetUp, $orderData)
@@ -456,11 +504,34 @@ class Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTest extends 
         $this->assertMessagePresent('success', 'success_created_order');
     }
 
+    /**
+     * <p>Data provider for createOrderWith3DSecure test</p>
+     *
+     * @return array
+     */
     public function createOrderWith3DSecureDataProvider()
     {
         return array(
-            array('else_visa', true),
+            array('else_visa_direct', true),
             array('else_mastercard', false)
         );
+    }
+
+    /**
+     * <p>Delete test accounts</p>
+     *
+     * @depends createPayPalBuyerAccounts
+     * @param array $accounts
+     * @test
+     */
+    public function deleteTestAccounts($accounts)
+    {
+        $this->goToArea('paypal-developer');
+        $this->paypalHelper()->paypalDeveloperLogin('paypal_developer_login');
+        foreach ($accounts as $card) {
+            if (isset($card['email'])) {
+                $this->paypalHelper()->deleteAccount($card['email']);
+            }
+        }
     }
 }

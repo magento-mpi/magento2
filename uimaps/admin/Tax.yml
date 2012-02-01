@@ -318,6 +318,7 @@ manage_tax_rule:
                             filter_sort_order: //input[@id='taxRuleGrid_filter_position']
                         pageelements:
                             grid_head: //*[@id='taxRuleGrid_table']/thead/tr[@class='headings']
+                            rules_table: //*[@id='taxRuleGrid_table']/tbody
         buttons:
             add_rule: //button[span='Add New Tax Rule']
         messages:

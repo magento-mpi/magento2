@@ -22,7 +22,7 @@
  * @package     selenium
  * @subpackage  tests
  * @author      Magento Core Team <core@magentocommerce.com>
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
@@ -35,9 +35,6 @@
  */
 class Product_ReviewTest extends Mage_Selenium_TestCase
 {
-    public function setUpBeforeTests()
-    {}
-
     /**
      * <p>Preconditions:</p>
      */
@@ -58,6 +55,8 @@ class Product_ReviewTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Products are created, Custom options are available for in stock product and disabled for out of stock;</p>
      *
+     * @param $productType
+     * @param $availability
      * @dataProvider reviewInfoInProductDetailsDataProvider
      * @test
      */

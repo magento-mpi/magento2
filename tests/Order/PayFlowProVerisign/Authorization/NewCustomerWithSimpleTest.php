@@ -22,7 +22,7 @@
  * @package     selenium
  * @subpackage  tests
  * @author      Magento Core Team <core@magentocommerce.com>
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
@@ -52,8 +52,9 @@ class Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest extends M
     }
 
     /**
-     * Create Simple Product for tests
+     * <p>Create Simple Product for tests</p>
      *
+     * @return string
      * @test
      */
     public function createSimpleProduct()
@@ -70,7 +71,11 @@ class Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest extends M
     }
 
     /**
+     * <p>Smoke test for order without 3D secure</p>
+     *
      * @depends createSimpleProduct
+     * @param string $simpleSku
+     * @return array
      * @test
      */
     public function orderWithout3DSecureSmoke($simpleSku)
@@ -87,12 +92,12 @@ class Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest extends M
     }
 
     /**
-     * Create order with PayFlowPro Verisign using all types of credit card
-     *
-     * @param type $simpleSku
+     * <p>Create order with PayFlowPro Verisign using all types of credit card</p>
      *
      * @depends orderWithout3DSecureSmoke
      * @dataProvider cardPayFlowProVerisignDataProvider
+     * @param string $card
+     * @param array $orderData
      * @test
      */
     public function orderWithDifferentCreditCard($card, $orderData)
@@ -106,6 +111,11 @@ class Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest extends M
         $this->assertMessagePresent('success', 'success_created_order');
     }
 
+    /**
+     * <p>Data provider for orderWithDifferentCreditCard test</p>
+     *
+     * @return array
+     */
     public function cardPayFlowProVerisignDataProvider()
     {
         return array(
@@ -138,6 +148,8 @@ class Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest extends M
      *
      * @depends orderWithout3DSecureSmoke
      * @dataProvider captureTypeDataProvider
+     * @param string $captureType
+     * @param array $orderData
      * @test
      */
     public function fullInvoiceWithDifferentTypesOfCapture($captureType, $orderData)
@@ -149,6 +161,11 @@ class Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest extends M
         $this->orderInvoiceHelper()->createInvoiceAndVerifyProductQty($captureType);
     }
 
+    /**
+     * <p>Data provider for fullInvoiceWithDifferentTypesOfCapture test</p>
+     *
+     * @return array
+     */
     public function captureTypeDataProvider()
     {
         return array(
@@ -180,9 +197,12 @@ class Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest extends M
      *
      * @depends orderWithout3DSecureSmoke
      * @dataProvider creditMemoDataProvider
+     * @param string $captureType
+     * @param string $refundType
+     * @param array $orderData
      * @test
      */
-    public function fullCrediMemo($captureType, $refundType, $orderData)
+    public function fullCreditMemo($captureType, $refundType, $orderData)
     {
         //Steps and Verifying
         $this->addParameter('invoice_id', 1);
@@ -196,6 +216,11 @@ class Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest extends M
         $this->orderCreditMemoHelper()->createCreditMemoAndVerifyProductQty($refundType);
     }
 
+    /**
+     * <p>Data provider for fullCreditMemo test</p>
+     *
+     * @return array
+     */
     public function creditMemoDataProvider()
     {
         return array(
@@ -227,6 +252,7 @@ class Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest extends M
      * <p>Order is invoiced and shipped successfully</p>
      *
      * @depends orderWithout3DSecureSmoke
+     * @param array $orderData
      * @test
      */
     public function fullShipmentForOrderWithoutInvoice($orderData)
@@ -251,6 +277,7 @@ class Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest extends M
      * <p>Order is unholded;</p>
      *
      * @depends orderWithout3DSecureSmoke
+     * @param array $orderData
      * @test
      */
     public function holdAndUnholdPendingOrderViaOrderPage($orderData)
@@ -269,6 +296,7 @@ class Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest extends M
      * Cancel Pending Order From Order Page
      *
      * @depends orderWithout3DSecureSmoke
+     * @param array $orderData
      * @test
      */
     public function cancelPendingOrderFromOrderPage($orderData)
@@ -304,6 +332,7 @@ class Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest extends M
      * <p>Message "The order has been created." is displayed.</p>
      *
      * @depends orderWithout3DSecureSmoke
+     * @param array $orderData
      * @test
      */
     public function reorderPendingOrder($orderData)
@@ -358,6 +387,7 @@ class Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest extends M
      * <p>New customer is created. Order is created for the new customer. Void successful</p>
      *
      * @depends orderWithout3DSecureSmoke
+     * @param array $orderData
      * @test
      */
     public function voidPendingOrderFromOrderPage($orderData)
@@ -374,7 +404,7 @@ class Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest extends M
     }
 
     /**
-     * <p>Create Orders using differnt payment methods with 3DSecure</p>
+     * <p>Create Orders using different payment methods with 3DSecure</p>
      * <p>Steps:</p>
      * <p>1.Go to Sales-Orders.</p>
      * <p>2.Press "Create New Order" button.</p>
@@ -393,6 +423,9 @@ class Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest extends M
      *
      * @depends orderWithout3DSecureSmoke
      * @dataProvider createOrderWith3DSecureDataProvider
+     * @param string $card
+     * @param bool $needSetUp
+     * @param array $orderData
      * @test
      */
     public function createOrderWith3DSecure($card, $needSetUp, $orderData)
@@ -410,6 +443,11 @@ class Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest extends M
         $this->assertMessagePresent('success', 'success_created_order');
     }
 
+    /**
+     * <p>Data provider for createOrderWith3DSecure test</p>
+     *
+     * @return array
+     */
     public function createOrderWith3DSecureDataProvider()
     {
         return array(

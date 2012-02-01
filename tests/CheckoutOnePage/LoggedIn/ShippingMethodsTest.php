@@ -22,12 +22,12 @@
  * @package     selenium
  * @subpackage  tests
  * @author      Magento Core Team <core@magentocommerce.com>
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * Tests for shipping methods. Frontend
+ * Tests for shipping methods. Frontend - OnePageCheckout
  *
  * @package     selenium
  * @subpackage  tests
@@ -60,8 +60,8 @@ class CheckoutOnePage_LoggedIn_ShippingMethodsTest extends Mage_Selenium_TestCas
 
     /**
      * <p>Creating Simple product</p>
-     *
      * @test
+     * @return string
      */
     public function preconditionsForTests()
     {
@@ -98,18 +98,26 @@ class CheckoutOnePage_LoggedIn_ShippingMethodsTest extends Mage_Selenium_TestCas
      * <p>Expected result:</p>
      * <p>Checkout is successful.</p>
      *
+     * @param string $shipping
+     * @param string $shippingOrigin
+     * @param string $shippingDestination
+     * @param string $simpleSku
+     *
      * @depends preconditionsForTests
      * @dataProvider shipmentDataProvider
      * @test
      */
-    public function differentShippingMethods($shipping, $shippingOrigin, $simpleSku)
+    public function differentShippingMethods($shipping, $shippingOrigin, $shippingDestination, $simpleSku)
     {
         $userData = $this->loadData('customer_account_register');
-        $checkoutData = $this->loadData('signedin_flatrate_checkmoney',
-                array('general_name' => $simpleSku, 'shipping_data' => $this->loadData('front_shipping_' . $shipping)));
+        $checkoutData = $this->loadData('signedin_flatrate_checkmoney_' . $shippingDestination,
+                                        array('general_name' => $simpleSku,
+                                             'shipping_data' => $this->loadData('front_shipping_' . $shipping)));
         //Steps
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('shipping_settings_' . strtolower($shippingOrigin));
+        if($shippingOrigin) {
+            $this->systemConfigurationHelper()->configure('shipping_settings_' . strtolower($shippingOrigin));
+        }
         $this->systemConfigurationHelper()->configure($shipping . '_enable');
         $this->logoutCustomer();
         $this->navigate('customer_login');
@@ -125,14 +133,13 @@ class CheckoutOnePage_LoggedIn_ShippingMethodsTest extends Mage_Selenium_TestCas
     public function shipmentDataProvider()
     {
         return array(
-            array('flatrate', 'usa'),
-            array('free', 'usa'),
-            array('ups', 'usa'),
-            array('upsxml', 'usa'),
-            array('usps', 'usa'),
-            array('fedex', 'usa'),
-            array('dhl_int', 'france'),
-            array('dhl_usa', 'usa'),
+            array('flatrate', null, 'usa'),
+            array('free', null, 'usa'),
+            array('ups', 'usa', 'usa'),
+            array('upsxml', 'usa', 'usa'),
+            array('usps', 'usa', 'usa'),
+            array('fedex', 'usa', 'usa'),
+            array('dhl', 'usa', 'france'),
         );
     }
 }

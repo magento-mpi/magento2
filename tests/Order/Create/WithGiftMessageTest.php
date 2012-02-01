@@ -22,7 +22,7 @@
  * @package     selenium
  * @subpackage  tests
  * @author      Magento Core Team <core@magentocommerce.com>
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
@@ -51,8 +51,9 @@ class Order_Create_WithGiftMessageTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Create Simple Product for tests
+     * <p>Create Simple Product for tests</p>
      *
+     * @return string
      * @test
      */
     public function createSimpleProduct()
@@ -81,12 +82,13 @@ class Order_Create_WithGiftMessageTest extends Mage_Selenium_TestCase
      * <p>Order is created, no error messages appear, gift message added for the order;</p>
      *
      * @depends createSimpleProduct
+     * @param string $simpleSku
      * @test
      */
     public function giftMessagePerOrder($simpleSku)
     {
         //Data
-        $orderData = $this->loadData('order_newcustmoer_checkmoney_flatrate',
+        $orderData = $this->loadData('order_newcustomer_checkmoney_flatrate_usa',
                 array('filter_sku' => $simpleSku, 'gift_messages' => $this->loadData('gift_messages_per_order')));
         //Steps
         $this->navigate('system_configuration');
@@ -111,13 +113,14 @@ class Order_Create_WithGiftMessageTest extends Mage_Selenium_TestCase
      * <p>Order is created, no error messages appear, gift message added for the products;</p>
      *
      * @depends createSimpleProduct
+     * @param string $simpleSku
      * @test
      */
     public function giftMessageForProduct($simpleSku)
     {
         //Data
         $gift = $this->loadData('gift_messages_individual', array('sku_product' => $simpleSku));
-        $orderData = $this->loadData('order_newcustmoer_checkmoney_flatrate',
+        $orderData = $this->loadData('order_newcustomer_checkmoney_flatrate_usa',
                 array('filter_sku' => $simpleSku, 'gift_messages' => $gift));
         //Steps
         $this->navigate('system_configuration');
@@ -142,6 +145,7 @@ class Order_Create_WithGiftMessageTest extends Mage_Selenium_TestCase
      * <p>Order is created, no error messages appear;</p>
      *
      * @depends createSimpleProduct
+     * @param string $simpleSku
      * @test
      */
     public function giftMessagesWithEmptyFields($simpleSku)

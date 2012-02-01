@@ -117,25 +117,34 @@ class CheckoutMultipleAddresses_LoggedIn_ShippingMethodsTest extends Mage_Seleni
      * <p>Two new orders are successfully created.</p>
      * @TODO change to create shipping addresses once for all tests
      *
+     * @param $shipment
+     * @param $shippingOrigin
+     * @param $shippingDestination
+     * @param $simpleProductNames
+     * @param $customerLoginData
+     *
      * @dataProvider shipmentDataProvider
      * @depends createSimpleProducts
      * @depends createCustomer
      *
      * @test
      */
-    public function differentShippingMethods($shipment, $shippingOrigin, $simpleProductNames, $customerLoginData)
+    public function differentShippingMethods($shipment, $shippingOrigin, $shippingDestination,
+                                             $simpleProductNames, $customerLoginData)
     {
         //Data
         $shippingMethod = $this->loadData('multiple_front_shipping_' . $shipment);
-        $checkoutData = $this->loadData('multiple_shipping_methods_loggedin',
-                array('shipping_method' => $shippingMethod));
+        $checkoutData = $this->loadData('multiple_shipping_methods_loggedin_' . $shippingDestination,
+                                  array('shipping_method' => $shippingMethod));
         $checkoutData['products_to_add']['product_1']['general_name'] = $simpleProductNames[0];
         $checkoutData['products_to_add']['product_2']['general_name'] = $simpleProductNames[1];
         $checkoutData['shipping_address_data']['address_1']['general_name'] = $simpleProductNames[0];
         $checkoutData['shipping_address_data']['address_2']['general_name'] = $simpleProductNames[1];
         //Setup
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('shipping_settings_' . strtolower($shippingOrigin));
+        if($shippingOrigin) {
+            $this->systemConfigurationHelper()->configure('shipping_settings_' . strtolower($shippingOrigin));
+        }
         $this->systemConfigurationHelper()->configure('shipping_disable');
         $this->systemConfigurationHelper()->configure($shipment . '_enable');
         $this->customerHelper()->frontLoginCustomer($customerLoginData);
@@ -160,19 +169,26 @@ class CheckoutMultipleAddresses_LoggedIn_ShippingMethodsTest extends Mage_Seleni
      * <p>Expected result:</p>
      * <p>Two new orders are successfully created.</p>
      *
+     * @param $shipment
+     * @param $shippingOrigin
+     * @param $shippingDestination
+     * @param $simpleProductNames
+     * @param $virtualProductName
+     * @param $customerLoginData
+     *
      * @dataProvider shipmentDataProvider
      * @depends createSimpleProducts
      * @depends createVirtualProduct
      * @depends createCustomer
-     * 
+     *
      * @test
      */
-    public function differentShippingMethodsWithVirtualProduct($shipment, $shippingOrigin,
+    public function differentShippingMethodsWithVirtualProduct($shipment, $shippingOrigin, $shippingDestination,
             $simpleProductNames, $virtualProductName, $customerLoginData)
     {
         //Data
         $shippingMethod = $this->loadData('multiple_front_shipping_' . $shipment);
-        $checkoutData = $this->loadData('multiple_shipping_methods_loggedin',
+        $checkoutData = $this->loadData('multiple_shipping_methods_loggedin_' . $shippingDestination,
                 array('shipping_method' => $shippingMethod,
                       'address_2' => '%noValue%', 'address_to_add_2' => '%noValue%'));
         $checkoutData['products_to_add']['product_1']['general_name'] = $simpleProductNames[0];
@@ -180,7 +196,9 @@ class CheckoutMultipleAddresses_LoggedIn_ShippingMethodsTest extends Mage_Seleni
         $checkoutData['shipping_address_data']['address_1']['general_name'] = $simpleProductNames[0];
         //Setup
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('shipping_settings_' . strtolower($shippingOrigin));
+        if($shippingOrigin) {
+            $this->systemConfigurationHelper()->configure('shipping_settings_' . strtolower($shippingOrigin));
+        }
         $this->systemConfigurationHelper()->configure('shipping_disable');
         $this->systemConfigurationHelper()->configure($shipment . '_enable');
         $this->customerHelper()->frontLoginCustomer($customerLoginData);
@@ -194,14 +212,13 @@ class CheckoutMultipleAddresses_LoggedIn_ShippingMethodsTest extends Mage_Seleni
     public function shipmentDataProvider()
     {
         return array(
-            array('flatrate', 'usa'),
-            array('free', 'usa'),
-            array('ups', 'usa'),
-            array('upsxml', 'usa'),
-            array('usps', 'usa'),
-            array('fedex', 'usa'),
-            array('dhl_int', 'france'),
-            array('dhl_usa', 'usa'),
+            array('flatrate', null, 'usa'),
+            array('free', null, 'usa'),
+            array('ups', 'usa', 'usa'),
+            array('upsxml', 'usa', 'usa'),
+            array('usps', 'usa', 'usa'),
+            array('fedex', 'usa', 'usa'),
+            array('dhl', 'usa', 'france'),
         );
     }
 }

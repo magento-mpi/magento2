@@ -66,20 +66,16 @@ class Tax_Helper extends Mage_Selenium_TestCase
             $taxItemData = $this->loadData($taxItemData);
         }
         $taxItemData = $this->arrayEmptyClear($taxItemData);
-
         $this->clickButton('add_' . $type);
-
         $this->fillForm($taxItemData);
 
         $rateTitles = (isset($taxItemData['tax_titles'])) ? $taxItemData['tax_titles'] : array();
         if ($rateTitles && $type == 'rate') {
-            if ($this->controlIsPresent('fieldset', 'tax_titles')) {
-                foreach ($rateTitles as $key => $value) {
-                    $this->addParameter('storeNumber', $this->findTaxTitleByName($key));
-                    $this->fillForm(array('tax_title' => $value));
-                }
-            } else {
-                $this->fail('Can not add Tax Titles for store views');
+            $this->assertTrue($this->controlIsPresent('fieldset', 'tax_titles'),
+                    'Tax Titles for store views are defined, but cannot be set.');
+            foreach ($rateTitles as $key => $value) {
+                $this->addParameter('storeNumber', $this->findTaxTitleByName($key));
+                $this->fillForm(array('tax_title' => $value));
             }
         }
         $this->saveForm('save_' . $type);
@@ -129,5 +125,27 @@ class Tax_Helper extends Mage_Selenium_TestCase
     {
         $this->openTaxItem($taxSearchData, $type);
         return $this->clickButtonAndConfirm('delete_' . $type, 'confirmation_for_delete');
+    }
+
+    /**
+     * Delete all Tax Rules except specified in $excludeList
+     *
+     * @param array $excludeList
+     */
+    public function deleteRulesExceptSpecified(array $excludeList)
+    {
+        $tableXpath = $this->_getControlXpath('pageelement', 'rules_table');
+        $titleRowCount = $this->getXpathCount($tableXpath . '//tr[@title]');
+        $columnId = $this->getColumnIdByName('Name') - 1;
+        $rules = array();
+        for ($rowId = 0; $rowId < $titleRowCount; $rowId++) {
+            $rule = $this->getTable($tableXpath . '.' . $rowId . '.' . $columnId);
+            if (!in_array($rule, $excludeList)) {
+                $rules[] = $rule;
+            }
+        }
+        foreach($rules as $rule) {
+            $this->deleteTaxItem(array('filter_name' => $rule),'rule');
+        }
     }
 }

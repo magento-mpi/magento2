@@ -22,7 +22,7 @@
  * @package     selenium
  * @subpackage  tests
  * @author      Magento Core Team <core@magentocommerce.com>
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
@@ -47,8 +47,9 @@ class Order_Create_WithCouponTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Create Simple Product for tests
+     * <p>Create Simple Product for tests</p>
      *
+     * @return string
      * @test
      */
     public function createSimpleProduct()
@@ -78,6 +79,7 @@ class Order_Create_WithCouponTest extends Mage_Selenium_TestCase
      * <p>Order is created, no error messages appear;</p>
      *
      * @depends createSimpleProduct
+     * @param string $simpleSku
      * @test
      */
     public function amountLessThanGrandTotal($simpleSku)
@@ -85,7 +87,7 @@ class Order_Create_WithCouponTest extends Mage_Selenium_TestCase
         //Data
         $coupon = $this->loadData('coupon_fixed_amount', array('discount_amount' => 5),
                 array('rule_name', 'coupon_code'));
-        $orderData = $this->loadData('order_newcustmoer_checkmoney_flatrate',
+        $orderData = $this->loadData('order_newcustomer_checkmoney_flatrate_usa',
                 array('filter_sku' => $simpleSku, 'coupon_1' => $coupon['coupon_code']));
         //Steps
         $this->navigate('manage_shopping_cart_price_rules');
@@ -117,6 +119,7 @@ class Order_Create_WithCouponTest extends Mage_Selenium_TestCase
      * <p>Order is created, no error messages appear;</p>
      *
      * @depends createSimpleProduct
+     * @param string $simpleSku
      * @test
      */
     public function amountGreaterThanGrandTotal($simpleSku)
@@ -124,7 +127,7 @@ class Order_Create_WithCouponTest extends Mage_Selenium_TestCase
         //Data
         $coupon = $this->loadData('coupon_fixed_amount', array('discount_amount' => 100),
                 array('rule_name', 'coupon_code'));
-        $orderData = $this->loadData('order_newcustmoer_checkmoney_flatrate',
+        $orderData = $this->loadData('order_newcustomer_checkmoney_flatrate_usa',
                 array('filter_sku' => $simpleSku, 'coupon_1' => $coupon['coupon_code']));
         unset($orderData['payment_data']);
         //Steps
@@ -140,7 +143,7 @@ class Order_Create_WithCouponTest extends Mage_Selenium_TestCase
         $this->saveForm('save_rule');
         $this->assertMessagePresent('success', 'success_saved_rule');
         $this->navigate('manage_sales_orders');
-        $this->orderHelper()->createOrder($orderData, false);
+        $this->orderHelper()->createOrder($orderData);
         $this->assertMessagePresent('success', 'success_created_order');
     }
 
@@ -155,12 +158,13 @@ class Order_Create_WithCouponTest extends Mage_Selenium_TestCase
      * <p>Message with error appears;</p>
      *
      * @depends createSimpleProduct
+     * @param string $simpleSku
      * @test
      */
     public function wrongCode($simpleSku)
     {
         //Data
-        $orderData = $this->loadData('order_newcustmoer_checkmoney_flatrate',
+        $orderData = $this->loadData('order_newcustomer_checkmoney_flatrate_usa',
                 array('filter_sku' => $simpleSku));
         $orderData = $this->arrayEmptyClear($orderData);
         //Steps

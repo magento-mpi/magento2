@@ -74,6 +74,7 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is created, confirmation message appears;</p>
      *
+     * @return array $productData
      * @test
      */
     public function onlyRequiredFieldsInSimple()
@@ -129,6 +130,7 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Error message appears;</p>
      *
+     * @param $productData
      * @depends onlyRequiredFieldsInSimple
      * @test
      */
@@ -154,6 +156,8 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is not created, error message appears;</p>
      *
+     * @param $emptyField
+     * @param $fieldType
      * @dataProvider withRequiredFieldsEmptyDataProvider
      * @depends onlyRequiredFieldsInSimple
      * @test
@@ -291,6 +295,7 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
     }
 
     /**
+     * Fails due to MAGE-5658
      * <p>Creating product with invalid weight</p>
      * <p>Steps</p>
      * <p>1. Click "Add Product" button;</p>
@@ -301,8 +306,8 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product created, confirmation message appears, Weight=0;</p>
      *
-     * @depends onlyRequiredFieldsInSimple
      * @test
+     * @group skip_due_to_bug
      */
     public function invalidWeightInSimple()
     {
@@ -313,7 +318,7 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
         $this->productHelper()->createProduct($productData);
         //Verifying
         $this->addFieldIdToMessage('field', 'general_weight');
-        $this->assertMessagePresent('validation', 'enter_zero_or_greater');
+        $this->assertMessagePresent('validation', 'enter_valid_number');
     }
 
     /**
@@ -327,6 +332,7 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is not created, error message appears;</p>
      *
+     * @param $invalidPrice
      * @dataProvider invalidNumericFieldDataProvider
      * @depends onlyRequiredFieldsInSimple
      * @test
@@ -354,6 +360,7 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
      * <p>Expected result:<p>
      * <p>Product is not created, error message appears;</p>
      *
+     * @param $invalidValue
      * @dataProvider invalidNumericFieldDataProvider
      * @depends onlyRequiredFieldsInSimple
      * @test
@@ -382,6 +389,7 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is not created, error message appears;</p>
      *
+     * @param $emptyTierPrice
      * @dataProvider emptyTierPriceFieldsDataProvider
      * @depends onlyRequiredFieldsInSimple
      * @test
@@ -420,6 +428,7 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is not created, error message appears;</p>
      *
+     * @param $invalidTierData
      * @dataProvider invalidNumericFieldDataProvider
      * @depends onlyRequiredFieldsInSimple
      * @test
@@ -454,6 +463,7 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is not created, error message appears;</p>
      *
+     * @param $invalidQty
      * @dataProvider invalidQtyDataProvider
      * @depends onlyRequiredFieldsInSimple
      * @test
@@ -490,7 +500,10 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
     }
 
     /**
+     * Quick create
+     *
      * depends onlyRequiredFieldsInSimple
+     * @return array
      * @test
      */
     public function onConfigurableProductPageQuickCreate()
@@ -534,6 +547,9 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
     }
 
     /**
+     * Create Empty
+     *
+     * @param $data
      * @depends onConfigurableProductPageQuickCreate
      * @test
      */
@@ -551,6 +567,7 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
         $this->addParameter('attrId', $attrId);
         //2.Define attribute set ID that used in product
         $this->navigate('manage_products');
+        $data['search'] = $this->arrayEmptyClear($data['search']);
         $productXpath = $this->search($data['search']);
         $this->assertNotEquals(null, $productXpath);
         $columnId = $this->getColumnIdByName('Attrib. Set Name');
@@ -573,6 +590,9 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
     }
 
     /**
+     * Copy From Configurable
+     *
+     * @param $data
      * @depends onConfigurableProductPageQuickCreate
      * @test
      */
@@ -590,6 +610,7 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
         $this->addParameter('attrId', $attrId);
         //2.Define attribute set ID that used in product
         $this->navigate('manage_products');
+        $data['search'] = $this->arrayEmptyClear($data['search']);
         $productXpath = $this->search($data['search']);
         $this->assertNotEquals(null, $productXpath);
         $columnId = $this->getColumnIdByName('Attrib. Set Name');

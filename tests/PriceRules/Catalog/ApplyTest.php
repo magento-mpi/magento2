@@ -22,7 +22,7 @@
  * @package     selenium
  * @subpackage  tests
  * @author      Magento Core Team <core@magentocommerce.com>
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
@@ -50,7 +50,6 @@ class PriceRules_Catalog_ApplyTest extends Mage_Selenium_TestCase
      */
     protected function assertPreConditions()
     {
-        $this->addParameter('id', 0);
         $this->loginAdminUser();
     }
 
@@ -68,26 +67,26 @@ class PriceRules_Catalog_ApplyTest extends Mage_Selenium_TestCase
      * <p>Preconditions</p>
      * <p>Create Customer for tests</p>
      * <p>Creates Category to use during tests</p>
-     *
+     * @return array
      * @test
      */
     public function preconditionsForTests()
     {
         //Data
         $userData = $this->loadData('generic_customer_account');
-        $rootCat = 'Default Category';
-        $categoryData = $this->loadData('sub_category_required', null, 'name');
+        $categoryData = $this->loadData('sub_category_required');
         $simple = $this->loadData('simple_product_for_price_rules_validation_front',
-                array('categories'       => $rootCat . '/' . $categoryData['name'],
-                      'prices_tax_class' => 'Taxable Goods'));
+                                  array('categories'       => $categoryData['parent_category'] . '/' . $categoryData['name'],
+                                       'prices_tax_class'  => 'Taxable Goods'));
         //Steps
         $this->navigate('manage_customers');
         $this->customerHelper()->createCustomer($userData);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_customer');
         //Steps
-        $this->navigate('manage_categories');
-        $this->categoryHelper()->createSubCategory($rootCat, $categoryData);
+        $this->navigate('manage_categories', false);
+        $this->categoryHelper()->checkCategoriesPage();
+        $this->categoryHelper()->createCategory($categoryData);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_category');
         //Steps
@@ -96,8 +95,9 @@ class PriceRules_Catalog_ApplyTest extends Mage_Selenium_TestCase
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
         return array(
-            'customer'     => array('email' => $userData['email'], 'password' => $userData['password']),
-            'categoryPath' => $rootCat . '/' . $categoryData['name'],
+            'customer'     => array('email'    => $userData['email'],
+                                    'password' => $userData['password']),
+            'categoryPath' => $categoryData['parent_category'] . '/' . $categoryData['name'],
             'categoryName' => $categoryData['name'],
             'simpleName'   => $simple['general_name']
         );
@@ -105,7 +105,6 @@ class PriceRules_Catalog_ApplyTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Create catalog price rule - To Fixed Amount</p>
-     *
      * <p>Steps</p>
      * <p>1. Click "Add New Rule"</p>
      * <p>2. Fill in required fields</p>
@@ -114,15 +113,16 @@ class PriceRules_Catalog_ApplyTest extends Mage_Selenium_TestCase
      * <p>4. Specify "Discount Amount" = 10%</p>
      * <p>5. Click "Save and Apply" button</p>
      * <p>Expected result: New rule created, success message appears</p>
-     *
      * <p>Verification</p>
-     *
      * <p>6. Open product in Frontend as a GUEST</p>
      * <p>7. Verify product special price = $10.00</p>
      * <p>8. Login to Frontend</p>
      * <p>9. Verify product REGULAR PRICE = $120.00</p>
      *
-     * @dataProvider ruleTypesDataProvider
+     * @param string $ruleType
+     * @param array $testData
+     *
+     * @dataProvider applyRuleToSimpleFrontDataProvider
      * @depends preconditionsForTests
      * @test
      */
@@ -130,26 +130,29 @@ class PriceRules_Catalog_ApplyTest extends Mage_Selenium_TestCase
     {
         //Data
         $priceRuleData = $this->loadData('test_catalog_rule',
-                array('category' => $testData['categoryPath'], 'status' =>  'Active',
-                    'actions' => $this->loadData($ruleType)));
+                                         array('category' => $testData['categoryPath'],
+                                              'status'    => 'Active',
+                                              'actions'   => $this->loadData($ruleType)));
         $productPriceLogged = $this->loadData($ruleType . '_simple_product_logged');
         $productPriceNotLogged = $this->loadData($ruleType . '_simple_product_not_logged');
-        $overrideData = array('product_name' => $testData['simpleName'], 'category' => $testData['categoryName']);
+        $overrideData = array('product_name' => $testData['simpleName'],
+                              'category'     => $testData['categoryName']);
         $priceInCategoryLogged = $this->loadData($ruleType . '_simple_logged_category', $overrideData);
         $priceInCategoryNotLogged = $this->loadData($ruleType . '_simple_not_logged_category', $overrideData);
         //Steps
-        $this->clearInvalidedCache();
         $this->navigate('manage_catalog_price_rules');
         $this->priceRulesHelper()->setAllRulesToInactive();
         $this->priceRulesHelper()->createRule($priceRuleData);
         //Verification
         $this->assertMessagePresent('success', 'success_saved_rule');
         $this->_ruleToBeDeleted = $this->loadData('search_catalog_rule',
-                array('filter_rule_name' => $priceRuleData['info']['rule_name']));
+                                                  array('filter_rule_name' => $priceRuleData['info']['rule_name']));
         //Steps
         $this->clickButton('apply_rules', false);
-        $this->assertTrue($this->waitForElement($this->_getControlXpath('message', 'success_applied_rule'), 60),
-                'Catalog Price Rule not applied');
+        $this->waitForNewPage();
+        $this->assertMessagePresent('success', 'success_applied_rule');
+        $this->clearInvalidedCache();
+        $this->reindexInvalidedData();
         //Verification on frontend
         $this->logoutCustomer();
         $this->categoryHelper()->frontOpenCategoryAndValidateProduct($priceInCategoryNotLogged);
@@ -161,7 +164,7 @@ class PriceRules_Catalog_ApplyTest extends Mage_Selenium_TestCase
         $this->categoryHelper()->frontVerifyProductPrices($productPriceLogged);
     }
 
-    public function ruleTypesDataProvider()
+    public function applyRuleToSimpleFrontDataProvider()
     {
         return array(
             array('by_percentage_of_the_original_price'),

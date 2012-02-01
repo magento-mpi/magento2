@@ -22,7 +22,7 @@
  * @package     selenium
  * @subpackage  tests
  * @author      Magento Core Team <core@magentocommerce.com>
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
@@ -57,8 +57,9 @@ class Order_Create_ShippingMethodsTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Create Simple Product for tests
+     * <p>Create Simple Product for tests</p>
      *
+     * @return string
      * @test
      */
     public function createSimpleProduct()
@@ -87,18 +88,29 @@ class Order_Create_ShippingMethodsTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Order is created;</p>
      *
+     * @param $shipment
+     * @param $shippingOrigin
+     * @param $shippingDestination
+     * @param $simpleSku
+     *
      * @depends createSimpleProduct
      * @dataProvider shipmentDataProvider
+     * @param string $shipment
+     * @param string $shippingOrigin
+     * @param string $simpleSku
      * @test
      */
-    public function differentShipmentMethods($shipment, $shippingOrigin, $simpleSku)
+    public function differentShipmentMethods($shipment, $shippingOrigin, $shippingDestination, $simpleSku)
     {
         //Data
-        $orderData = $this->loadData('order_newcustmoer_checkmoney_flatrate', array('filter_sku' => $simpleSku));
+        $orderData = $this->loadData('order_newcustomer_checkmoney_flatrate_' . $shippingDestination,
+                               array('filter_sku' => $simpleSku));
         $orderData['shipping_data'] = $this->loadData('shipping_' . $shipment);
         //Steps And Verifying
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('shipping_settings_' . strtolower($shippingOrigin));
+        if($shippingOrigin) {
+            $this->systemConfigurationHelper()->configure('shipping_settings_' . strtolower($shippingOrigin));
+        }
         $this->systemConfigurationHelper()->configure($shipment . '_enable');
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -113,17 +125,21 @@ class Order_Create_ShippingMethodsTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('success', 'success_canceled_order');
     }
 
+    /**
+     * <p>Data provider differentShipmentMethods test</p>
+     *
+     * @return array
+     */
     public function shipmentDataProvider()
     {
         return array(
-            array('flatrate', 'usa'),
-            array('free', 'usa'),
-            array('ups', 'usa'),
-            array('upsxml', 'usa'),
-            array('usps', 'usa'),
-            array('fedex', 'usa'),
-            array('dhl_int', 'france'),
-            array('dhl_usa', 'usa'),
+            array('flatrate', null, 'usa'),
+            array('free', null, 'usa'),
+            array('ups', 'usa', 'usa'),
+            array('upsxml', 'usa', 'usa'),
+            array('usps', 'usa', 'usa'),
+            array('fedex', 'usa', 'usa'),
+            array('dhl', 'usa', 'france'),
         );
     }
 }

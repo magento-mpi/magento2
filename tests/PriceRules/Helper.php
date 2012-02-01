@@ -22,7 +22,7 @@
  * @package     selenium
  * @subpackage  tests
  * @author      Magento Core Team <core@magentocommerce.com>
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
@@ -107,7 +107,7 @@ class PriceRules_Helper extends Mage_Selenium_TestCase
     /**
      * Fill Labels Tab
      *
-     * @param array $conditionsData
+     * @param array $labelsData
      */
     public function fillLabelsTab(array $labelsData)
     {
@@ -162,6 +162,8 @@ class PriceRules_Helper extends Mage_Selenium_TestCase
 
     /**
      * Set conditions params
+     *
+     * @param string $type
      */
     public function setConditionsParams($type)
     {
@@ -186,6 +188,7 @@ class PriceRules_Helper extends Mage_Selenium_TestCase
      *
      * @param array $data
      * @param string $tabId
+     * @param bool $isNested
      */
     public function fillConditionFields(array $data, $tabId = '', $isNested = false)
     {
@@ -248,25 +251,26 @@ class PriceRules_Helper extends Mage_Selenium_TestCase
     /**
      * Open Rule
      *
-     * @param array $productSearch
+     * @param array $ruleSearch
      */
     public function openRule(array $ruleSearch)
     {
         $ruleSearch = $this->arrayEmptyClear($ruleSearch);
         $xpathTR = $this->search($ruleSearch, 'rule_search_grid');
-        $this->assertNotNull($xpathTR, 'Rule is not found');
+        $this->assertNotNull($xpathTR, 'Rule with next search criteria:' . "\n" .
+                implode(' and ', $ruleSearch) . "\n" . 'is not found');
         $cellId = $this->getColumnIdByName('Rule Name');
         $this->addParameter('elementTitle', $this->getText($xpathTR . '//td[' . $cellId . ']'));
         $this->addParameter('id', $this->defineIdFromTitle($xpathTR));
         $this->click($xpathTR);
         $this->waitForPageToLoad($this->_browserTimeoutPeriod);
-        $this->validatePage($this->_findCurrentPageFromUrl($this->getLocation()));
+        $this->validatePage();
     }
 
     /**
      * Open Rule and delete
      *
-     * @param array $productSearch
+     * @param array $ruleSearch
      */
     public function deleteRule(array $ruleSearch)
     {
@@ -307,6 +311,8 @@ class PriceRules_Helper extends Mage_Selenium_TestCase
 
     /**
      * Sets all created Rules as inactive (PreConditions for prices verification in frontend)
+     *
+     * @return bool
      */
     public function setAllRulesToInactive()
     {

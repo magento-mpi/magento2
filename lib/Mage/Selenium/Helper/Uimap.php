@@ -86,7 +86,7 @@ class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
                 $files = implode(DIRECTORY_SEPARATOR, array(
                                                            SELENIUM_TESTS_BASEDIR,
                                                            $uimapsBasePath,
-                                                           $areaConfig['uimaps']['path'],
+                                                           $areaConfig['uimap_path'],
                                                            '*.yml'
                                                       ));
                 $pages = $this->getConfig()->getFileHelper()->loadYamlFiles($files);

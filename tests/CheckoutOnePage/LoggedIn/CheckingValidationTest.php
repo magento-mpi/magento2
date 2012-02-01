@@ -22,12 +22,12 @@
  * @package     selenium
  * @subpackage  tests
  * @author      Magento Core Team <core@magentocommerce.com>
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * One page Checkout test
+ * One page Checkout tests
  *
  * @package     selenium
  * @subpackage  tests
@@ -42,8 +42,8 @@ class CheckoutOnePage_LoggedIn_CheckingValidationTest extends Mage_Selenium_Test
 
     /**
      * <p>Creating Simple product</p>
-     *
      * @test
+     * @return array
      */
     public function preconditionsForTests()
     {
@@ -59,8 +59,9 @@ class CheckoutOnePage_LoggedIn_CheckingValidationTest extends Mage_Selenium_Test
         $this->customerHelper()->createCustomer($userData);
         $this->assertMessagePresent('success', 'success_saved_customer');
 
-        return array('sku' => $simple['general_name'],
-            'customer' => array('email' => $userData['email'], 'password' => $userData['password']));
+        return array('sku'      => $simple['general_name'],
+                     'customer' => array('email'    => $userData['email'],
+                                         'password' => $userData['password']));
     }
 
     /**
@@ -78,28 +79,32 @@ class CheckoutOnePage_LoggedIn_CheckingValidationTest extends Mage_Selenium_Test
      * <p>Expected result:</p>
      * <p>Error message for field appears</p>
      *
+     * @param string $field
+     * @param string $message
+     * @param array $data
+     *
      * @depends preconditionsForTests
      * @dataProvider addressEmptyFieldsDataProvider
      * @test
      */
-    public function emptyRequiredFildsInBillingAddress($field, $fieldType, $data)
+    public function emptyRequiredFieldsInBillingAddress($field, $message, $data)
     {
         //Preconditions
         $this->customerHelper()->frontLoginCustomer($data['customer']);
         $this->shoppingCartHelper()->frontClearShoppingCart();
         //Data
-        $checkoutData = $this->loadData('empty_billing_address_fields',
-                array('general_name' => $data['sku'], 'billing_' . $field => ''));
-        //Steps
-        $this->checkoutOnePageHelper()->doOnePageCheckoutSteps($checkoutData);
-        //Verification
-        $this->addFieldIdToMessage($fieldType, 'billing_' . $field);
-        if ($fieldType == 'dropdown') {
-            $this->assertMessagePresent('validation', 'please_select_option');
-        } else {
-            $this->assertMessagePresent('validation', 'empty_required_field');
+        $checkoutData = $this->loadData('signedin_flatrate_checkmoney_different_address',
+                                        array('general_name'     => $data['sku'],
+                                             'billing_' . $field => ''));
+        try {
+            //Steps
+            $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
+            $this->fail('Expected message is not displayed: [' . $message . ']');
+        } catch (PHPUnit_Framework_AssertionFailedError $e) {
+            //Verification
+            $this->assertSame($message, $e->toString());
+            $this->clearMessages('verification');
         }
-        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());;
     }
 
     /**
@@ -117,45 +122,52 @@ class CheckoutOnePage_LoggedIn_CheckingValidationTest extends Mage_Selenium_Test
      * <p>Expected result:</p>
      * <p>Error message for field appears</p>
      *
+     * @param string $field
+     * @param string $message
+     * @param array $data
+     *
      * @depends preconditionsForTests
      * @dataProvider addressEmptyFieldsDataProvider
      * @test
      */
-    public function emptyRequiredFildsInShippingAddress($field, $fieldType, $data)
+    public function emptyRequiredFieldsInShippingAddress($field, $message, $data)
     {
         //Preconditions
         $this->customerHelper()->frontLoginCustomer($data['customer']);
         $this->shoppingCartHelper()->frontClearShoppingCart();
         //Data
-        $checkoutData = $this->loadData('empty_shipping_address_fields',
-                array('general_name' => $data['sku'], 'shipping_' . $field => ''));
-        //Steps
-        $this->checkoutOnePageHelper()->doOnePageCheckoutSteps($checkoutData);
-        //Verification
-        $this->addFieldIdToMessage($fieldType, 'shipping_' . $field);
-        if ($fieldType == 'dropdown') {
-            $this->assertMessagePresent('validation', 'please_select_option');
-        } else {
-            $this->assertMessagePresent('validation', 'empty_required_field');
+        $checkoutData = $this->loadData('signedin_flatrate_checkmoney_different_address',
+                                        array('general_name'      => $data['sku'],
+                                             'shipping_' . $field => ''));
+        try {
+            //Steps
+            $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
+            $this->fail('Expected message is not displayed: [' . $message . ']');
+        } catch (PHPUnit_Framework_AssertionFailedError $e) {
+            //Verification
+            $this->assertSame($message, $e->toString());
+            $this->clearMessages('verification');
         }
-        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());;
     }
 
     public function addressEmptyFieldsDataProvider()
     {
         return array(
-            array('first_name', 'field'),
-            array('last_name', 'field'),
-            array('street_address_1', 'field'),
-            array('city', 'field'),
-            array('state', 'dropdown'),
-            array('zip_code', 'field'),
-            array('country', 'dropdown'),
-            array('telephone', 'field')
+            array('first_name', '"First Name": This is a required field.'),
+            array('last_name', '"Last Name": This is a required field.'),
+            array('street_address_1', '"Address": This is a required field.'),
+            array('city', '"City": This is a required field.'),
+            array('state', '"State/Province": Please select an option.'),
+            array('zip_code', '"Zip/Postal Code": This is a required field.'),
+            array('country', '"Country": Please select an option.'),
+            array('telephone', '"Telephone": This is a required field.')
         );
     }
 
     /**
+     * @param string $dataName
+     * @param array $data
+     *
      * @depends preconditionsForTests
      * @dataProvider specialDataDataProvider
      * @test
@@ -203,6 +215,8 @@ class CheckoutOnePage_LoggedIn_CheckingValidationTest extends Mage_Selenium_Test
      * <p>Data must be the same as billing address</p>
      * <p>Customer successfully redirected to the next page, no error massages appears</p>
      *
+     * @param array $data
+     *
      * @depends preconditionsForTests
      * @test
      */
@@ -210,7 +224,7 @@ class CheckoutOnePage_LoggedIn_CheckingValidationTest extends Mage_Selenium_Test
     {
         //Data
         $checkoutData = $this->loadData('signedin_flatrate_checkmoney_use_billing_in_shipping',
-                array('general_name' => $data['sku']));
+                                        array('general_name' => $data['sku']));
         $userData = $this->loadData('customer_account_register');
         //Steps
         $this->logoutCustomer();
@@ -240,6 +254,8 @@ class CheckoutOnePage_LoggedIn_CheckingValidationTest extends Mage_Selenium_Test
      * <p>Expected result:</p>
      * <p>Information window appears "Please specify shipping method."</p>
      *
+     * @param array $data
+     *
      * @depends preconditionsForTests
      * @test
      */
@@ -250,7 +266,9 @@ class CheckoutOnePage_LoggedIn_CheckingValidationTest extends Mage_Selenium_Test
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('free_enable');
         //Data
-        $checkoutData = $this->loadData('empty_shipping_address_fields', array('general_name' => $data['sku']));
+        $checkoutData = $this->loadData('signedin_flatrate_checkmoney_different_address',
+                                        array('general_name'  => $data['sku'],
+                                             'shipping_data'  => '%noValue%'));
         $userData = $this->loadData('customer_account_register');
         //Steps
         $this->logoutCustomer();
@@ -258,16 +276,16 @@ class CheckoutOnePage_LoggedIn_CheckingValidationTest extends Mage_Selenium_Test
         $this->customerHelper()->registerCustomer($userData);
         //Verifying
         $this->assertMessagePresent('success', 'success_registration');
-        //Steps
-        $this->checkoutOnePageHelper()->doOnePageCheckoutSteps($checkoutData);
-        $this->checkoutOnePageHelper()->assertOnePageCheckoutTabOpened('shipping_method');
-        $this->clickButton('shipping_method_continue', false);
-        $this->waitForAjax();
-        if ($this->isAlertPresent()) {
-            $text = $this->getAlert();
-            $this->assertEquals($text, 'Please specify shipping method.');
+        $message = $this->getUimapPage('frontend', 'onepage_checkout')->findMessage('shipping_alert');
+        try {
+            //Steps
+            $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
+            $this->fail('Expected message is not displayed: [' . $message . ']');
+        } catch (PHPUnit_Framework_AssertionFailedError $e) {
+            //Verification
+            $this->assertSame($message, $e->toString());
+            $this->clearMessages('verification');
         }
-        $this->checkoutOnePageHelper()->assertOnePageCheckoutTabOpened('shipping_method');
     }
 
     /**
@@ -288,6 +306,8 @@ class CheckoutOnePage_LoggedIn_CheckingValidationTest extends Mage_Selenium_Test
      * <p>Expected result:</p>
      * <p>Information window appears "Please specify payment method."</p>
      *
+     * @param array $data
+     *
      * @depends preconditionsForTests
      * @test
      */
@@ -298,7 +318,9 @@ class CheckoutOnePage_LoggedIn_CheckingValidationTest extends Mage_Selenium_Test
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('savedcc_without_3Dsecure');
         //Data
-        $checkoutData = $this->loadData('empty_payment_method', array('general_name' => $data['sku']));
+        $checkoutData = $this->loadData('signedin_flatrate_checkmoney_different_address',
+                                        array('general_name'  => $data['sku'],
+                                             'payment_data'   => '%noValue%'));
         $userData = $this->loadData('customer_account_register');
         //Steps
         $this->logoutCustomer();
@@ -306,15 +328,15 @@ class CheckoutOnePage_LoggedIn_CheckingValidationTest extends Mage_Selenium_Test
         $this->customerHelper()->registerCustomer($userData);
         //Verifying
         $this->assertMessagePresent('success', 'success_registration');
-        //Steps
-        $this->checkoutOnePageHelper()->doOnePageCheckoutSteps($checkoutData);
-        $this->checkoutOnePageHelper()->assertOnePageCheckoutTabOpened('payment_method');
-        $this->clickButton('payment_method_continue', false);
-        $this->waitForAjax();
-        if ($this->isAlertPresent()) {
-            $text = $this->getAlert();
-            $this->assertEquals($text, 'Please specify payment method.');
+        $message = $this->getUimapPage('frontend', 'onepage_checkout')->findMessage('payment_alert');
+        try {
+            //Steps
+            $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
+            $this->fail('Expected message is not displayed: [' . $message . ']');
+        } catch (PHPUnit_Framework_AssertionFailedError $e) {
+            //Verification
+            $this->assertSame($message, $e->toString());
+            $this->clearMessages('verification');
         }
-        $this->checkoutOnePageHelper()->assertOnePageCheckoutTabOpened('payment_method');
     }
 }

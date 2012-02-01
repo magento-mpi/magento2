@@ -22,7 +22,7 @@
  * @package     selenium
  * @subpackage  tests
  * @author      Magento Core Team <core@magentocommerce.com>
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
@@ -38,6 +38,11 @@ class Tax_TaxAndPricesValidationBackendTest extends Mage_Selenium_TestCase
     public function setUpBeforeTests()
     {
         $this->loginAdminUser();
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('shipping_settings_default');
+        $this->systemConfigurationHelper()->configure('flat_rate_for_price_verification');
+        $this->navigate('manage_tax_rule');
+        $this->taxHelper()-> deleteRulesExceptSpecified(array('Retail Customer-Taxable Goods-Rate 1'));
     }
 
     protected function assertPreConditions()
@@ -48,7 +53,9 @@ class Tax_TaxAndPricesValidationBackendTest extends Mage_Selenium_TestCase
     /**
      * Create Customer for tests
      *
+     * @return string $userData
      * @test
+     * @group preConditions
      */
     public function createCustomer()
     {
@@ -67,7 +74,9 @@ class Tax_TaxAndPricesValidationBackendTest extends Mage_Selenium_TestCase
     /**
      * Create Simple Products for tests
      *
+     * @return array $products
      * @test
+     * @group preConditions
      */
     public function createProducts()
     {
@@ -87,11 +96,17 @@ class Tax_TaxAndPricesValidationBackendTest extends Mage_Selenium_TestCase
     /**
      * Create Order on the backend and validate prices with taxes
      *
+     * @param $sysConfigData
+     * @param $customer
+     * @param $products
+     *
      * @dataProvider createOrderBackendDataProvider
      * @depends createCustomer
      * @depends createProducts
      *
      * @test
+     *
+     * @group skip_due_to_bug
      */
     public function createOrderBackend($sysConfigData, $customer, $products)
     {

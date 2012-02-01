@@ -22,7 +22,7 @@
  * @package     selenium
  * @subpackage  tests
  * @author      Magento Core Team <core@magentocommerce.com>
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
@@ -44,6 +44,7 @@ class Newsletter_CreateTest extends Mage_Selenium_TestCase
      * <p>Preconditions</p>
      * <p>Creates Category to use during tests</p>
      *
+     * @return string $category
      * @test
      */
     public function preconditionsForTests()
@@ -52,9 +53,10 @@ class Newsletter_CreateTest extends Mage_Selenium_TestCase
         $category = $this->loadData('sub_category_required');
         //Steps
         $this->loginAdminUser();
-        $this->navigate('manage_categories');
+        $this->navigate('manage_categories', false);
+        $this->categoryHelper()->checkCategoriesPage();
         $this->categoryHelper()->createCategory($category);
-        //Verifyinging
+        //Verifying
         $this->assertMessagePresent('success', 'success_saved_category');
 
         return $category['name'];
@@ -74,6 +76,7 @@ class Newsletter_CreateTest extends Mage_Selenium_TestCase
      * <p>7. Verify the email in subscribers list</p>
      * <p>Expected result: The email is present in the subscribers list</p>
      *
+     * @param $category
      * @depends preconditionsForTests
      *
      * @test
@@ -107,6 +110,7 @@ class Newsletter_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Error message is displayed</p>
      *
+     * @param $category
      * @depends preconditionsForTests
      * @test
      */
@@ -137,6 +141,7 @@ class Newsletter_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Error message is displayed</p>
      *
+     * @param $category
      * @depends preconditionsForTests
      *
      * @test
@@ -164,6 +169,7 @@ class Newsletter_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Validation message is displayed</p>
      *
+     * @param $category
      * @depends preconditionsForTests
      *
      * @test
@@ -190,6 +196,7 @@ class Newsletter_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Error message is displayed</p>
      *
+     * @param $category
      * @depends preconditionsForTests
      *
      * @test
@@ -219,7 +226,9 @@ class Newsletter_CreateTest extends Mage_Selenium_TestCase
      * <p>8. Verify the email in subscribers list</p>
      * <p>Expected result: The email is present in the subscribers list</p>
      *
+     * @param $category
      * @depends preconditionsForTests
+     *
      * @test
      */
     public function customerUseOwnEmail($category)
@@ -259,6 +268,7 @@ class Newsletter_CreateTest extends Mage_Selenium_TestCase
      * <p>11. Check confirmation message</p>
      * <p>Expected result: Subscriber`s has been removed from the list</p>
      *
+     * @param $category
      * @depends preconditionsForTests
      *
      * @test
@@ -303,6 +313,7 @@ class Newsletter_CreateTest extends Mage_Selenium_TestCase
      * <p>11. Check confirmation message</p>
      * <p>Expected result: Subscriber`s email status has changed</p>
      *
+     * @param $category
      * @depends preconditionsForTests
      *
      * @test

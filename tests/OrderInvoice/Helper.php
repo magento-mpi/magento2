@@ -22,7 +22,7 @@
  * @package     selenium
  * @subpackage  tests
  * @author      Magento Core Team <core@magentocommerce.com>
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
@@ -38,6 +38,7 @@ class OrderInvoice_Helper extends Mage_Selenium_TestCase
     /**
      * Provides partial or full invoice
      *
+     * @param string $captureType
      * @param array $invoiceData
      */
     public function createInvoiceAndVerifyProductQty($captureType = null, $invoiceData = array())
@@ -95,6 +96,7 @@ class OrderInvoice_Helper extends Mage_Selenium_TestCase
     }
 
     /**
+     * Opens invoice
      *
      * @param type $searchData
      */
@@ -111,6 +113,6 @@ class OrderInvoice_Helper extends Mage_Selenium_TestCase
         $this->addParameter('id', $this->defineIdFromTitle($xpathTR));
         $this->click($xpathTR . "//a[text()='View']");
         $this->waitForPageToLoad($this->_browserTimeoutPeriod);
-        $this->validatePage($this->_findCurrentPageFromUrl($this->getLocation()));
+        $this->validatePage();
     }
 }

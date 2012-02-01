@@ -68,6 +68,7 @@ default:
             adminPassword: 123123q
             storeName: Store 1
             basePath: '/path/to/app/installation'
+            coverageScriptUrl: 'http://localhost.com/phpunit_coverage.php'
             areas:
                 admin:
                     url: 'http://www.localhost.com/magento/admin/'

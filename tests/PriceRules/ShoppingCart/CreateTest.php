@@ -22,7 +22,7 @@
  * @package     selenium
  * @subpackage  tests
  * @author      Magento Core Team <core@magentocommerce.com>
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
@@ -46,6 +46,7 @@ class PriceRules_ShoppingCart_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
+     * <p>Bug MAGE-5623 (reproducible in 1.6.2, but is not reproducible in nightly build)</p>
      * <p>Create Shopping cart price rule with empty required fields.</p>
      * <p>Steps:</p>
      * <p>1. Navigate to Promotions - Shopping Cart Price Rules;</p>
@@ -55,6 +56,9 @@ class PriceRules_ShoppingCart_CreateTest extends Mage_Selenium_TestCase
      * <p>Rule is not created; Message "This is required field" is shown under each empty required field;</p>
      *
      * @dataProvider withRequiredFieldsEmptyDataProvider
+     * @param string $fieldName
+     * @param string $fieldType
+     * @group skip_due_to_bug
      * @test
      */
     public function withRequiredFieldsEmpty($fieldName, $fieldType)
@@ -92,7 +96,11 @@ class PriceRules_ShoppingCart_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected results:</p>
      * <p>Rule is created where applicable;</p>
      *
+     * Bug MAGE-5625
+     *
      * @test
+     *
+     * @group skip_due_to_bug
      */
     public function createWithRequiredFieldsWithSpecialSymbols()
     {

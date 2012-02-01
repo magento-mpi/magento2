@@ -22,7 +22,7 @@
  * @package     selenium
  * @subpackage  tests
  * @author      Magento Core Team <core@magentocommerce.com>
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
@@ -50,7 +50,7 @@ class Newsletter_Helper extends Mage_Selenium_TestCase
      * Perform a mass action with newsletter subscribers
      *
      * @param string $action Mass action value: 'unsubscribe'|'delete'
-     * @param array $searchData
+     * @param array $searchDataSet
      */
     public function massAction($action, $searchDataSet)
     {
@@ -67,12 +67,13 @@ class Newsletter_Helper extends Mage_Selenium_TestCase
      *
      * @param string $status Status from data set to check, e.g. 'subscribed'|'unsubscribed'
      * @param array $searchData
+     *
      * @return boolean. True if $searchData with $status status is found. False otherwise.
      */
     public function checkStatus($status, $searchData)
     {
         $searchData['filter_status'] = ucfirst(strtolower($status));
-
-        return!is_null($this->search($searchData));
+        $searchData = $this->arrayEmptyClear($searchData);
+        return !is_null($this->search($searchData));
     }
 }
