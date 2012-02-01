@@ -8,7 +8,7 @@ return array(
     'create' => array(
         'parentId' => 2,
         'categoryData' => array(
-            'name' => 'Category Test Created',
+            'name' => 'Category Test Created '.time(),
             'is_active' => 1,
             'is_anchor' => 1,
             'landing_page' => 1, //ID of CMS block
@@ -35,7 +35,7 @@ return array(
     'update' => array(
         'categoryId' => null,
         'categoryData' => array(
-            'name' => 'Category Test updated',
+            'name' => 'Category Test updated '.time(),
             'is_active' => 0,
             'is_anchor' => 0,
             'landing_page' => 2,

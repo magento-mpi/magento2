@@ -90,7 +90,7 @@ class Api_Catalog_Product_CustomOptionValueCRUDTest extends Magento_Test_Webserv
     /**
      * Test successful option value add with invalid option id
      *
-     * @expectedException Exception
+     * @expectedException SoapFault
      * @depends testCustomOptionValueCRUD
      */
     public function testCustomOptionValueAddExceptionInvalidOptionId()
@@ -108,7 +108,7 @@ class Api_Catalog_Product_CustomOptionValueCRUDTest extends Magento_Test_Webserv
     /**
      * Test product custom option values list with invalid option id (exception)
      *
-     * @expectedException Exception
+     * @expectedException SoapFault
      * @depends testCustomOptionValueCRUD
      */
     public function testCustomOptionValueListExceptionInvalidOptionId()
@@ -119,7 +119,7 @@ class Api_Catalog_Product_CustomOptionValueCRUDTest extends Magento_Test_Webserv
     /**
      * Test product custom option values update with invalid value id
      *
-     * @expectedException Exception
+     * @expectedException SoapFault
      * @depends testCustomOptionValueCRUD
      */
     public function testCustomOptionValueUpdateExceptionValueId()
@@ -136,7 +136,7 @@ class Api_Catalog_Product_CustomOptionValueCRUDTest extends Magento_Test_Webserv
     /**
      * Test product custom option values update with invalid title
      *
-     * @expectedException Exception
+     * @expectedException SoapFault
      * @depends testCustomOptionValueCRUD
      */
     public function testCustomOptionValueUpdateExceptionTitle()
@@ -165,7 +165,7 @@ class Api_Catalog_Product_CustomOptionValueCRUDTest extends Magento_Test_Webserv
         $this->assertTrue($removeOptionValueResult);
 
         // Delete exception test
-        $this->setExpectedException('Exception');
+        $this->setExpectedException('SoapFault');
         $this->call('product_custom_optionv.remove', array(self::$_lastAddedOption['value_id']));
     }
 }
