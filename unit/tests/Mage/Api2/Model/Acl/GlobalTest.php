@@ -28,7 +28,7 @@
 /**
  * Test Api2 ACL Global model
  */
-class Mage_Api2_Model_Acl_GloalTest extends Mage_PHPUnit_TestCase
+class Mage_Api2_Model_Acl_GlobalTest extends Mage_PHPUnit_TestCase
 {
     /**#@+
      * Test values
@@ -39,14 +39,17 @@ class Mage_Api2_Model_Acl_GloalTest extends Mage_PHPUnit_TestCase
     const RESOURCE_VALID    = 'resource_valid';
     const RESOURCE_INVALID  = 'resource_invalid';
     const OPERATION_ALLOWED = 'operation_allowed';
-    const OPERATION_DENIED  = 'operation_denied';
-    const OPERATION_INVALID = 'operation_invalid';
     /**#@- */
 
     /**
-     * @var Mage_Api2_Model_Acl_Global
+     * @var PHPUnit_Framework_MockObject_MockObject
      */
     protected $_aclGlobal;
+
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_aclMock;
 
     /**
      * @var Mage_Api2_Model_Auth_User_Abstract
@@ -66,12 +69,10 @@ class Mage_Api2_Model_Acl_GloalTest extends Mage_PHPUnit_TestCase
             'Mage_Api2_Model_Auth_User_Abstract', array(), '', true, true, true, array('getRole')
         );
 
-        $acl = Mage::getSingleton('api2/acl');
-
-        $acl->addRole(self::ROLE_VALID)
-            ->addResource(self::RESOURCE_VALID)
-            ->allow(self::ROLE_VALID, self::RESOURCE_VALID, self::OPERATION_ALLOWED)
-            ->deny(self::ROLE_VALID, self::RESOURCE_VALID, self::OPERATION_DENIED);
+        $this->_aclMock = $this->getSingletonMockBuilder('api2/acl')
+            ->disableOriginalConstructor()
+            ->setMethods(array('has', 'hasRole', 'isAllowed'))
+            ->getMock();
     }
 
     /**
@@ -83,14 +84,23 @@ class Mage_Api2_Model_Acl_GloalTest extends Mage_PHPUnit_TestCase
             ->method('getRole')
             ->will($this->returnValue(self::ROLE_VALID));
 
+        $this->_aclMock->expects($this->once())
+            ->method('hasRole')
+            ->with(self::ROLE_VALID)
+            ->will($this->returnValue(true));
+
+        $this->_aclMock->expects($this->once())
+            ->method('has')
+            ->with(self::RESOURCE_VALID)
+            ->will($this->returnValue(true));
+
+        $this->_aclMock->expects($this->once())
+            ->method('isAllowed')
+            ->with(self::ROLE_VALID, self::RESOURCE_VALID, self::OPERATION_ALLOWED)
+            ->will($this->returnValue(true));
+
         $this->assertTrue(
             $this->_aclGlobal->isAllowed($this->_apiUserMock, self::RESOURCE_VALID, self::OPERATION_ALLOWED)
-        );
-        $this->assertFalse(
-            $this->_aclGlobal->isAllowed($this->_apiUserMock, self::RESOURCE_VALID, self::OPERATION_DENIED)
-        );
-        $this->assertFalse(
-            $this->_aclGlobal->isAllowed($this->_apiUserMock, self::RESOURCE_VALID, self::OPERATION_INVALID)
         );
     }
 
@@ -102,6 +112,16 @@ class Mage_Api2_Model_Acl_GloalTest extends Mage_PHPUnit_TestCase
         $this->_apiUserMock->expects($this->exactly(2))
             ->method('getRole')
             ->will($this->returnValue(self::ROLE_VALID));
+
+        $this->_aclMock->expects($this->once())
+            ->method('hasRole')
+            ->with(self::ROLE_VALID)
+            ->will($this->returnValue(true));
+
+        $this->_aclMock->expects($this->once())
+            ->method('has')
+            ->with(self::RESOURCE_INVALID)
+            ->will($this->returnValue(false));
 
         $this->setExpectedException(
             'Mage_Api2_Exception', 'Resource not found', Mage_Api2_Model_Server::HTTP_NOT_FOUND
@@ -115,9 +135,14 @@ class Mage_Api2_Model_Acl_GloalTest extends Mage_PHPUnit_TestCase
      */
     public function testIsAllowedRoleNotFound()
     {
-        $this->_apiUserMock->expects($this->exactly(2))
+        $this->_apiUserMock->expects($this->atLeastOnce())
             ->method('getRole')
             ->will($this->returnValue(self::ROLE_INVALID));
+
+        $this->_aclMock->expects($this->once())
+            ->method('hasRole')
+            ->with(self::ROLE_INVALID)
+            ->will($this->returnValue(false));
 
         $this->setExpectedException('Mage_Api2_Exception', 'Role not found', Mage_Api2_Model_Server::HTTP_UNAUTHORIZED);
 
