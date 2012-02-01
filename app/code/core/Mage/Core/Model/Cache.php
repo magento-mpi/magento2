@@ -413,18 +413,6 @@ class Mage_Core_Model_Cache
     }
 
     /**
-     * Clean expired entities
-     *
-     * @param   array $tags
-     * @return  bool
-     */
-    public function cleanOld()
-    {
-        $res = $this->_frontend->clean(Zend_Cache::CLEANING_MODE_OLD);
-        return $res;
-    }
-
-    /**
      * Clean cached data by specific tag
      *
      * @return  bool

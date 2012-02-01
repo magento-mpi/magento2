@@ -79,10 +79,10 @@
         <events>
             <core_clean_cache>
                 <observers>
-                    <enterprise_admingws>
+                    <enterprise_pagecache>
                         <class>enterprise_pagecache/observer</class>
                         <method>cleanExpiredCache</method>
-                    </enterprise_admingws>
+                    </enterprise_pagecache>
                 </observers>
             </core_clean_cache>
         </events>

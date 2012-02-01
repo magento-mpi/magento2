@@ -251,6 +251,7 @@ class Enterprise_PageCache_Model_Observer
 
     /**
      * Clean full page cache
+     *
      * @return Enterprise_PageCache_Model_Observer
      */
     public function cleanCache()
@@ -265,7 +266,7 @@ class Enterprise_PageCache_Model_Observer
      */
     public function cleanExpiredCache()
     {
-        Enterprise_PageCache_Model_Cache::getCacheInstance()->cleanOld();
+        Enterprise_PageCache_Model_Cache::getCacheInstance()->getFrontend()->clean(Zend_Cache::CLEANING_MODE_OLD);
         return $this;
     }
 

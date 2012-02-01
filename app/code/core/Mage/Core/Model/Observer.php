@@ -96,7 +96,7 @@ class Mage_Core_Model_Observer
     }
 
     /**
-     * Cron job method for clean old cache resources
+     * Cron job method to clean old cache resources
      *
      * @param Mage_Cron_Model_Schedule $schedule
      */
