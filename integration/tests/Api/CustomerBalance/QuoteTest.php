@@ -169,7 +169,7 @@ class Api_CustomerBalance_QuoteTest extends Magento_Test_Webservice
     /**
      * Test customer balance set amount to quote using store code exception: No store found with requested id or code.
      *
-     * @expectedException Exception
+     * @expectedException SoapFault
      * @return void
      */
     public function testCustomerBalanceForQuoteSetAmountUsingInvalidStoreCodeException()
@@ -187,7 +187,7 @@ class Api_CustomerBalance_QuoteTest extends Magento_Test_Webservice
     /**
      * Test customer balance set amount to quote exception:  No quote found with requested id.
      *
-     * @expectedException Exception
+     * @expectedException SoapFault
      * @return void
      */
     public function testCustomerBalanceForQuoteSetAmountExceptionQuoteNotExists()
@@ -201,7 +201,7 @@ class Api_CustomerBalance_QuoteTest extends Magento_Test_Webservice
     /**
      * Test customer balance remove amount from quote exception: No quote found with requested id.
      *
-     * @expectedException Exception
+     * @expectedException SoapFault
      * @return void
      */
     public function testCustomerBalanceForQuoteRemoveAmountExceptionQuoteNotExists()
@@ -216,7 +216,7 @@ class Api_CustomerBalance_QuoteTest extends Magento_Test_Webservice
      * Test customer balance set amount to quote exception:
      * Store credit can not be used for quote created by guest.
      *
-     * @expectedException Exception
+     * @expectedException SoapFault
      * @return void
      */
     public function testCustomerBalanceForQuoteSetAmountExceptionGuestQuote()
@@ -233,7 +233,7 @@ class Api_CustomerBalance_QuoteTest extends Magento_Test_Webservice
      * Test customer balance remove amount from quote exception:
      * Store credit can not be used for quote created by guest.
      *
-     * @expectedException Exception
+     * @expectedException SoapFault
      * @return void
      */
     public function testCustomerBalanceForQuoteRemoveAmountExceptionGuestQuote()
