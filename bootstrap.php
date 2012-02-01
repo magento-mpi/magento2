@@ -30,7 +30,7 @@ define('SELENIUM_TESTS_SCREENSHOTDIR',
         realpath(SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'tmp' . DIRECTORY_SEPARATOR . 'screenshot'));
 
 set_include_path(implode(PATH_SEPARATOR, array(
-            realpath(SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'lib'),
+            realpath(SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'framework'),
             realpath(SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'tests'), //To allow load tests helper files
             get_include_path(),
         )));
