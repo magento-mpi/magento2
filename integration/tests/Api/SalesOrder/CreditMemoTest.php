@@ -43,7 +43,6 @@ class Api_SalesOrder_CreditMemoTest extends Magento_Test_Webservice
             $origIncrementData = self::getFixture('orig_creditmemo_increment_data');
             $entityStoreModel->loadByEntityStore($entityStoreModel->getEntityTypeId(), $entityStoreModel->getStoreId());
             $entityStoreModel->setIncrementPrefix($origIncrementData['prefix'])
-                ->setIncrementLastId($origIncrementData['increment_last_id'])
                 ->save();
         }
         parent::tearDown();
@@ -210,13 +209,17 @@ class Api_SalesOrder_CreditMemoTest extends Magento_Test_Webservice
     {
         // Set creditmemo increment id prefix
         $website = Mage::app()->getWebsite();
+        $storeId = $website->getDefaultStore()->getId();
         $entityTypeModel = Mage::getModel('eav/entity_type')->loadByCode('creditmemo');
         $entityStoreModel = Mage::getModel('eav/entity_store')
-            ->loadByEntityStore($entityTypeModel->getId(), $website->getDefaultStore()->getId());
+            ->loadByEntityStore($entityTypeModel->getId(), $storeId);
+        $prefix = $entityStoreModel->getIncrementPrefix() == null ? $storeId : $entityStoreModel->getIncrementPrefix();
         self::setFixture('orig_creditmemo_increment_data', array(
-            'prefix' => $entityStoreModel->getIncrementPrefix(),
+            'prefix' => $prefix,
             'increment_last_id' => $entityStoreModel->getIncrementLastId()
         ));
+        $entityStoreModel->setEntityTypeId($entityTypeModel->getId());
+        $entityStoreModel->setStoreId($storeId);
         $entityStoreModel->setIncrementPrefix('01');
         $entityStoreModel->save();
         self::setFixture('entity_store_model', $entityStoreModel);

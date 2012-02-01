@@ -46,7 +46,6 @@ class Api_SalesOrder_InvoiceTest extends Magento_Test_Webservice
             $origIncrementData = self::getFixture('orig_invoice_increment_data');
             $entityStoreModel->loadByEntityStore($entityStoreModel->getEntityTypeId(), $entityStoreModel->getStoreId());
             $entityStoreModel->setIncrementPrefix($origIncrementData['prefix'])
-                ->setIncrementLastId($origIncrementData['increment_last_id'])
                 ->save();
         }
 
@@ -64,15 +63,19 @@ class Api_SalesOrder_InvoiceTest extends Magento_Test_Webservice
         $order = self::getFixture('order');
         $id = $order->getIncrementId();
 
-        // Set invoice increment id prefix
+        // Set invoice increment id prefix        
         $website = Mage::app()->getWebsite();
+        $storeId = $website->getDefaultStore()->getId();
         $entityTypeModel = Mage::getModel('eav/entity_type')->loadByCode('invoice');
         $entityStoreModel = Mage::getModel('eav/entity_store')
-            ->loadByEntityStore($entityTypeModel->getId(), $website->getDefaultStore()->getId());
+            ->loadByEntityStore($entityTypeModel->getId(), $storeId);
+        $prefix = $entityStoreModel->getIncrementPrefix() == null ? $storeId : $entityStoreModel->getIncrementPrefix();
         self::setFixture('orig_invoice_increment_data', array(
-            'prefix' => $entityStoreModel->getIncrementPrefix(),
+            'prefix' => $prefix,
             'increment_last_id' => $entityStoreModel->getIncrementLastId()
         ));
+        $entityStoreModel->setEntityTypeId($entityTypeModel->getId());
+        $entityStoreModel->setStoreId($storeId);
         $entityStoreModel->setIncrementPrefix('01');
         $entityStoreModel->save();
         self::setFixture('entity_store_model', $entityStoreModel);
