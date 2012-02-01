@@ -66,7 +66,7 @@ AdminOrder.prototype = {
                 $(searchAreaId).show();
                 this.remove();
             }
-            
+
             this.dataArea.onLoad = this.dataArea.onLoad.wrap(function(proceed) {
                 proceed();
                 this._parent.itemsArea.setNode($(this._parent.getAreaId('items')));
@@ -1163,12 +1163,14 @@ AdminOrder.prototype = {
                         }
                     } else if (response.success) {
                         message = parameters.vatInvalidMessage.replace(/%s/, params.vat);
+                        groupChangeRequired = true;
                     } else {
                         message = parameters.vatValidationFailedMessage;
+                        groupChangeRequired = true;
                     }
 
                 } catch (e) {
-                    message = parameters.vatValidationFailedMessage;
+                    message = parameters.vatErrorMessage;
                 }
                 if (!groupChangeRequired) {
                     alert(message);
