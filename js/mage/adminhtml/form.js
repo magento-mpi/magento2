@@ -101,10 +101,12 @@ varienForm.prototype = {
     },
 
     _submit : function(){
+        var $form = $(this.formId);
         if(this.submitUrl){
-            $(this.formId).action = this.submitUrl;
+            $form.action = this.submitUrl;
         }
-        $(this.formId).submit();
+        // ff9 workaround
+        window.setTimeout(function(){ $form.submit(); }, 1);
     }
 }
 
