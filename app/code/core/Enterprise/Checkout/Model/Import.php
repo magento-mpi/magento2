@@ -90,7 +90,7 @@ class Enterprise_Checkout_Model_Import extends Varien_Object
             } catch (Mage_Core_Exception $e) {
                 Mage::throwException($e->getMessage());
             } catch (Exception $e) {
-                Mage::throwException(Mage::helper('enterprise_checkout')->__('Error in uploading file.'));
+                Mage::throwException(Mage::helper('enterprise_checkout')->__('Error while uploading file.'));
             }
         }
 
