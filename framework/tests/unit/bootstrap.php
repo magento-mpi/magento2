@@ -22,14 +22,14 @@
  * @package     selenium unit tests
  * @subpackage  runner
  * @author      Magento Core Team <core@magentocommerce.com>
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 define('SELENIUM_UNIT_TESTS_BASEDIR', realpath(dirname(__FILE__)));
-
-define('SELENIUM_TESTS_BASEDIR', realpath(SELENIUM_UNIT_TESTS_BASEDIR . DIRECTORY_SEPARATOR . '..'));
-define('SELENIUM_TESTS_LIBDIR', realpath(SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'lib'));
+define('SELENIUM_TESTS_LIBDIR', realpath(SELENIUM_UNIT_TESTS_BASEDIR
+                                         . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..'));
+define('SELENIUM_TESTS_BASEDIR', realpath(SELENIUM_TESTS_LIBDIR . DIRECTORY_SEPARATOR . '..'));
 
 set_include_path(implode(PATH_SEPARATOR, array(
     SELENIUM_UNIT_TESTS_BASEDIR,
