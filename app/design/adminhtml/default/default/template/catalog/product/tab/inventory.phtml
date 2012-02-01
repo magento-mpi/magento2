@@ -239,8 +239,15 @@
 
     function applyEnableDecimalDivided() {
         $('inventory_is_decimal_divided').up('tr').hide();
+        $('inventory_qty_increments').removeClassName('validate-digits').removeClassName('validate-number');
+        $('inventory_min_sale_qty').removeClassName('validate-digits').removeClassName('validate-number');
         if ($('inventory_is_qty_decimal').value == 1) {
             $('inventory_is_decimal_divided').up('tr').show();
+            $('inventory_qty_increments').addClassName('validate-number');
+            $('inventory_min_sale_qty').addClassName('validate-number');
+        } else {
+            $('inventory_qty_increments').addClassName('validate-digits');
+            $('inventory_min_sale_qty').addClassName('validate-digits');
         }
     }
     Event.observe($('inventory_is_qty_decimal'), 'change', applyEnableDecimalDivided);
