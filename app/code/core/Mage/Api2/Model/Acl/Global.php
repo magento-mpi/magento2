@@ -48,6 +48,15 @@ class Mage_Api2_Model_Acl_Global
         if (null === $apiUser->getRole()) {
             return true;
         }
-        return Mage_Api2_Model_Acl::getInstance()->isAllowed($apiUser->getRole(), $resourceType, $operation);
+        /** @var $aclInstance Mage_Api2_Model_Acl */
+        $aclInstance = Mage::getSingleton('api2/acl');
+
+        if (!$aclInstance->hasRole($apiUser->getRole())) {
+            throw new Mage_Api2_Exception('Role not found', Mage_Api2_Model_Server::HTTP_UNAUTHORIZED);
+        }
+        if (!$aclInstance->has($resourceType)) {
+            throw new Mage_Api2_Exception('Resource not found', Mage_Api2_Model_Server::HTTP_NOT_FOUND);
+        }
+        return $aclInstance->isAllowed($apiUser->getRole(), $resourceType, $operation);
     }
 }

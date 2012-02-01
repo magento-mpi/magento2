@@ -34,32 +34,9 @@
 class Mage_Api2_Model_Acl extends Zend_Acl
 {
     /**
-     * Class instance
-     *
-     * @var Mage_Api2_Model_Acl
-     */
-    private static $_instance;
-
-    /**
-     * Object instance retrieve
-     *
-     * @static
-     * @param boolean $reload
-     * @return Mage_Api2_Model_Acl
-     */
-    public static function getInstance($reload = false)
-    {
-        if (!self::$_instance || $reload) {
-            self::$_instance = new self();
-        }
-
-        return self::$_instance;
-    }
-
-    /**
      * Constructor
      */
-    private function __construct()
+    public function __construct()
     {
         $this->addRole(new Zend_Acl_Role('guest'));
         $this->addRole(new Zend_Acl_Role('admin'));
@@ -79,13 +56,6 @@ class Mage_Api2_Model_Acl extends Zend_Acl
         $this->addResource(new Zend_Acl_Resource('customers'));
         $this->allow('guest', 'customers', array('_retrieve'));
         $this->allow('admin', 'customers', array('_create', '_retrieve', '_update', '_delete'));
-    }
-
-    /**
-     * Object cloning disabled
-     */
-    private function __clone()
-    {
     }
 
     /**
