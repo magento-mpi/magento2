@@ -375,7 +375,7 @@ class Mage_Selenium_TestConfiguration
     protected function _loadConfigData()
     {
         $files = array(
-            'browsers.yml',
+            'config.yml',
             'local.yml'
         );
         $configDir = SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR;
