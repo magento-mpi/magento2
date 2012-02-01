@@ -62,7 +62,8 @@
     <!-- PHP INI settings and constants definition -->
     <php>
         <ini name="date.timezone" value="America/Los_Angeles"/>
-
+        <!-- HTTP Host-->
+        <const name="TESTS_HTTP_HOST" value="api.ll"/>
         <!-- WebSerivice Type. Possible values: soapv1, soapv2, soapv2_wsi, xmlrpc-->
         <const name="TESTS_WEBSERVICE_TYPE" value="xmlrpc"/>
         <!-- Enable/Disable transactions in fixtures. Possible values: on (default), off (req for WS tests) -->
