@@ -20,6 +20,13 @@ class Magento_Test_Listener_Annotation_Config
     protected static $_listenerDefault;
 
     /**
+     * Whether the execution is happening between 'startTest' and 'stopTest'
+     *
+     * @var bool
+     */
+    protected static $_isWithinTest = false;
+
+    /**
      * @var Magento_Test_Listener
      */
     protected $_listener;
@@ -148,6 +155,7 @@ class Magento_Test_Listener_Annotation_Config
     public function startTest()
     {
         $this->_assignConfigData();
+        self::$_isWithinTest = true;
     }
 
     /**
@@ -155,6 +163,7 @@ class Magento_Test_Listener_Annotation_Config
      */
     public function endTest()
     {
+        self::$_isWithinTest = false;
         $this->_restoreConfigData();
     }
 
@@ -163,6 +172,9 @@ class Magento_Test_Listener_Annotation_Config
      */
     public function initFrontControllerBefore()
     {
+        if (!self::$_isWithinTest) {
+            return;
+        }
         $this->_assignConfigData();
     }
 }
