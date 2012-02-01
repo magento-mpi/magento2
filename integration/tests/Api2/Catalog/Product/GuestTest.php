@@ -59,7 +59,7 @@ class Api2_Catalog_Product_GuestTest extends Magento_Test_Webservice_Rest_Guest
         /** @var $product Mage_Catalog_Model_Product */
         $product = $this->getFixture('product_simple');
 
-        $restResponse = $this->getWebService()->callGet('products/' . $product->getId());
+        $restResponse = $this->callGet('products/' . $product->getId());
         $this->assertEquals(200, $restResponse->getStatus());
         $body = $restResponse->getBody();
         $this->assertEquals($product->getName(), $body['name']);
@@ -77,7 +77,7 @@ class Api2_Catalog_Product_GuestTest extends Magento_Test_Webservice_Rest_Guest
         /** @var $product Mage_Catalog_Model_Product */
         $product = $this->getFixture('product_simple');
 
-        $restResponse = $this->getWebService()->callDelete('products/' . $product->getId());
+        $restResponse = $this->callDelete('products/' . $product->getId());
         // @todo: fix test when resource method implemented
         $this->assertEquals(405, $restResponse->getStatus());
     }
@@ -91,7 +91,7 @@ class Api2_Catalog_Product_GuestTest extends Magento_Test_Webservice_Rest_Guest
     {
         $productData = require dirname(__FILE__) . '/_fixtures/ProductData.php';
 
-        $restResponse = $this->getWebService()->callPost('products', $productData['guest']['full']);
+        $restResponse = $this->callPost('products', $productData['guest']['full']);
         $this->assertEquals(200, $restResponse->getStatus());
 
         // @todo: implement test when product resource is fixed
@@ -109,7 +109,7 @@ class Api2_Catalog_Product_GuestTest extends Magento_Test_Webservice_Rest_Guest
         $product = $this->getFixture('product_simple');
 
         $productData = require dirname(__FILE__) . '/_fixtures/ProductData.php';
-        $restResponse = $this->getWebService()->callPut('products/' . $product->getId(),
+        $restResponse = $this->callPut('products/' . $product->getId(),
             $productData['guest']['update']);
         $this->assertEquals(200, $restResponse->getStatus());
 
