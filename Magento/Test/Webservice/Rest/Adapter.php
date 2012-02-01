@@ -138,7 +138,7 @@ class Magento_Test_Webservice_Rest_Adapter
     {
         $resourceUri = $this->_getResourceUri($resourceName);
 
-        $this->_prepareRequest($resourceUri);
+        $this->_prepareRequest($resourceUri, Zend_Http_Client::GET);
 
         $zendHttpResponse = $this->_client->request(Zend_Http_Client::GET);
         $responseDecorator = new Magento_Test_Webservice_Rest_ResponseDecorator($zendHttpResponse);
@@ -155,7 +155,7 @@ class Magento_Test_Webservice_Rest_Adapter
     public function callPost($resourceName, $params)
     {
         $resourceUri = $this->_getResourceUri($resourceName);
-        $this->_prepareRequest($resourceUri);
+        $this->_prepareRequest($resourceUri, Zend_Http_Client::POST);
         $this->_prepareRequestBody($params);
 
         $zendHttpResponse = $this->_client->request(Zend_Http_Client::POST);
@@ -173,7 +173,7 @@ class Magento_Test_Webservice_Rest_Adapter
     public function callPut($resourceName, $params)
     {
         $resourceUri = $this->_getResourceUri($resourceName);
-        $this->_prepareRequest($resourceUri);
+        $this->_prepareRequest($resourceUri, Zend_Http_Client::PUT);
         $this->_prepareRequestBody($params);
 
         $zendHttpResponse = $this->_client->request(Zend_Http_Client::PUT);
@@ -190,7 +190,7 @@ class Magento_Test_Webservice_Rest_Adapter
     public function callDelete($resourceName)
     {
         $resourceUri = $this->_getResourceUri($resourceName);
-        $this->_prepareRequest($resourceUri);
+        $this->_prepareRequest($resourceUri, Zend_Http_Client::DELETE);
 
         $zendHttpResponse = $this->_client->request(Zend_Http_Client::DELETE);
         $responseDecorator = new Magento_Test_Webservice_Rest_ResponseDecorator($zendHttpResponse);
@@ -214,9 +214,10 @@ class Magento_Test_Webservice_Rest_Adapter
      * Prepare request and set oAuth headers if required
      *
      * @param string $resourceUri
+     * @param string $requestMethod
      * @return void
      */
-    protected function _prepareRequest($resourceUri)
+    protected function _prepareRequest($resourceUri, $requestMethod)
     {
         $this->_client->setUri($resourceUri);
 
@@ -234,7 +235,7 @@ class Magento_Test_Webservice_Rest_Adapter
                 self::OAUTH_SIGNATURE_METHOD,
                 $this->_consumer->getSecret(),
                 $this->_token->getSecret(),
-                Zend_Oauth::POST,
+                $requestMethod,
                 $resourceUri
             );
 
