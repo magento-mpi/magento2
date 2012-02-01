@@ -433,6 +433,35 @@
                         </anchor_text_for_next>
                     </fields>
                 </pagination>
+                <email translate="label">
+                    <label>Transactional Emails</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>510</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <logo translate="label">
+                            <label>Logo Image</label>
+                            <comment>Allowed file types: jpg, jpeg, gif, png</comment>
+                            <frontend_type>image</frontend_type>
+                            <backend_model>adminhtml/system_config_backend_email_logo</backend_model>
+                            <base_url type="media" scope_info="1">email/logo</base_url>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </logo>
+                        <logo_alt translate="label">
+                            <label>Logo Image Alt</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </logo_alt>
+                    </fields>
+                </email>
             </groups>
         </design>
         <dev translate="label" module="core">

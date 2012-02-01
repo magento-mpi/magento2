@@ -71,11 +71,12 @@ class Mage_Core_Model_Email_Template extends Mage_Core_Model_Template
 {
     /**
      * Configuration path for default email templates
-     *
      */
-    const XML_PATH_TEMPLATE_EMAIL          = 'global/template/email';
-    const XML_PATH_SENDING_SET_RETURN_PATH = 'system/smtp/set_return_path';
-    const XML_PATH_SENDING_RETURN_PATH_EMAIL = 'system/smtp/return_path_email';
+    const XML_PATH_TEMPLATE_EMAIL               = 'global/template/email';
+    const XML_PATH_SENDING_SET_RETURN_PATH      = 'system/smtp/set_return_path';
+    const XML_PATH_SENDING_RETURN_PATH_EMAIL    = 'system/smtp/return_path_email';
+    const XML_PATH_DESIGN_EMAIL_LOGO            = 'design/email/logo';
+    const XML_PATH_DESIGN_EMAIL_LOGO_ALT        = 'design/email/logo_alt';
 
     protected $_templateFilter;
     protected $_preprocessFlag = false;
@@ -90,6 +91,41 @@ class Mage_Core_Model_Email_Template extends Mage_Core_Model_Template
     protected function _construct()
     {
         $this->_init('core/email_template');
+    }
+
+    /**
+     * Return logo URL for emails
+     * Take logo from skin if custom logo is undefined
+     *
+     * @param  Mage_Core_Model_Store $store
+     * @return string
+     */
+    protected function _getLogoUrl(Mage_Core_Model_Store $store)
+    {
+        $storeConfig = $store->getConfig(self::XML_PATH_DESIGN_EMAIL_LOGO);
+        if ($storeConfig) {
+            $logoDir = Mage_Adminhtml_Model_System_Config_Backend_Email_logo::UPLOAD_DIR;
+            $logoFullFileName = Mage::getBaseDir('media') . DS . $logoDir . DS . $storeConfig;
+            if (file_exists($logoFullFileName)) {
+                return Mage::getBaseUrl('media') . $logoDir . '/' . $storeConfig;
+            }
+        }
+        return Mage::getDesign()->getSkinUrl('images/logo_email.gif');
+    }
+
+    /**
+     * Return logo alt for emails
+     *
+     * @param  Mage_Core_Model_Store $store
+     * @return string
+     */
+    protected function _getLogoAlt(Mage_Core_Model_Store $store)
+    {
+        $storeConfig = $store->getConfig(self::XML_PATH_DESIGN_EMAIL_LOGO_ALT);
+        if (!$storeConfig) {
+            return $store->getFrontendName();
+        }
+        return $storeConfig;
     }
 
     /**
@@ -444,12 +480,12 @@ class Mage_Core_Model_Email_Template extends Mage_Core_Model_Template
         }
 
         if (!$this->getId()) {
-            throw Mage::exception('Mage_Core', Mage::helper('core')->__('Invalid transactional email code: '.$templateId));
+            throw Mage::exception('Mage_Core', Mage::helper('core')->__('Invalid transactional email code: ' . $templateId));
         }
 
         if (!is_array($sender)) {
-            $this->setSenderName(Mage::getStoreConfig('trans_email/ident_'.$sender.'/name', $storeId));
-            $this->setSenderEmail(Mage::getStoreConfig('trans_email/ident_'.$sender.'/email', $storeId));
+            $this->setSenderName(Mage::getStoreConfig('trans_email/ident_' . $sender . '/name', $storeId));
+            $this->setSenderEmail(Mage::getStoreConfig('trans_email/ident_' . $sender . '/email', $storeId));
         } else {
             $this->setSenderName($sender['name']);
             $this->setSenderEmail($sender['email']);
@@ -458,7 +494,12 @@ class Mage_Core_Model_Email_Template extends Mage_Core_Model_Template
         if (!isset($vars['store'])) {
             $vars['store'] = Mage::app()->getStore($storeId);
         }
-
+        if (!isset($vars['logo_url'])) {
+            $vars['logo_url'] = $this->_getLogoUrl(Mage::app()->getStore($storeId));
+        }
+        if (!isset($vars['logo_alt'])) {
+            $vars['logo_alt'] = $this->_getLogoAlt(Mage::app()->getStore($storeId));
+        }
         $this->setSentSuccess($this->send($email, $name, $vars));
         return $this;
     }
