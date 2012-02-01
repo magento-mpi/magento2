@@ -3793,7 +3793,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      *
      * @param string $tableName
      * @param string $comment
-     * @return Varien_Db_Adapter_Oracle
+     * @return Varien_Db_Adapter_Pdo_Mssql
      */
     protected function _addTableComment($tableName, $comment)
     {
@@ -3806,7 +3806,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      *
      * @param string $tableName
      * @param string $comment
-     * @return Varien_Db_Adapter_Oracle
+     * @return Varien_Db_Adapter_Pdo_Mssql
      */
     protected function _addColumnComment($tableName, $columnName, $comment)
     {

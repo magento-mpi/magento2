@@ -2,15 +2,14 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento
- * @subpackage  static_tests
+ * @category    tests
+ * @package     static
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
- * Set of tests for static code analysis, e.g. code style, code complexity, compy paste detecting, etc.
+ * Set of tests for static code analysis, e.g. code style, code complexity, copy paste detecting, etc.
  */
 class Php_LiveCodeTest extends PHPUnit_Framework_TestCase
 {

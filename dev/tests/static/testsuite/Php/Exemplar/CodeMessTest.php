@@ -2,9 +2,8 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento
- * @subpackage  static_tests
+ * @category    tests
+ * @package     static
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -49,13 +48,11 @@ class Php_Exemplar_CodeMessTest extends PHPUnit_Framework_TestCase
     {
         $rulesetFile = self::$_cmd->getRulesetFile();
         $this->assertFileExists($rulesetFile);
-        $schemaFile = dirname($rulesetFile) . '/ruleset.xsd';
-
         $doc = new DOMDocument();
         $doc->load($rulesetFile);
 
         libxml_use_internal_errors(true);
-        $isValid = $doc->schemaValidate($schemaFile);
+        $isValid = $doc->schemaValidate(__DIR__ . '/_files/phpmd_ruleset.xsd');
         $errors = "XML-file is invalid.\n";
         if ($isValid === false) {
             foreach (libxml_get_errors() as $error) {
