@@ -748,9 +748,10 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
      * Get product by specified sku
      *
      * @param string $sku
-     * @return Mage_Catalog_Model_Product|bool
+     * @param array $config
+     * @return bool|Mage_Catalog_Model_Product
      */
-    protected function _loadProductBySku($sku)
+    protected function _loadProductBySku($sku, $config = array())
     {
         $skuParts = explode('-', $sku);
         $primarySku = array_shift($skuParts);
@@ -762,6 +763,10 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
         /** @var $product Mage_Catalog_Model_Product */
         $product = Mage::getModel('catalog/product')->loadByAttribute('sku', $primarySku);
 
+        if ($this->_shouldBeConfigured($product) && $this->_isConfigured($product, $config)) {
+            return $product;
+        }
+
         if ($product && $product->getId()) {
             /** @var $option Mage_Catalog_Model_Product_Option */
             $option = Mage::getModel('catalog/product_option');
@@ -772,7 +777,19 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
             $missedRequiredOption = false;
             foreach ($productRequiredOptions as $productOption) {
                 /** @var $productOption Mage_Catalog_Model_Product_Option */
-                foreach ($productOption->getValues() as $optionValue) {
+
+                $productOptionValues = $productOption->getValues();
+                if (empty($productOptionValues)) {
+                    if ($productOption->hasSku()) {
+                        $found = array_search($productOption->getSku(), $skuParts);
+                        if($found !== false) {
+                            unset($skuParts[$found]);
+                        }
+                    }
+                    continue;
+                }
+
+                foreach ($productOptionValues as $optionValue) {
                     $found = array_search($optionValue->getSku(), $skuParts);
                     if ($found !== false) {
                         $options[$productOption->getOptionId()] = $optionValue->getOptionTypeId();
@@ -786,7 +803,19 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
             $option->setAddRequiredFilterValue(false);
             $productOptions = $option->getProductOptionCollection($product);
             foreach ($productOptions as $productOption) {
-                foreach ($productOption->getValues() as $optionValue) {
+
+                $productOptionValues = $productOption->getValues();
+                if (empty($productOptionValues)) {
+                    if ($productOption->hasSku()) {
+                        $found = array_search($productOption->getSku(), $skuParts);
+                        if($found !== false) {
+                            unset($skuParts[$found]);
+                        }
+                    }
+                    continue;
+                }
+
+                foreach ($productOptionValues as $optionValue) {
                     $found = array_search($optionValue->getSku(), $skuParts);
                     if ($found !== false) {
                         $options[$productOption->getOptionId()] = $optionValue->getOptionTypeId();
@@ -795,7 +824,11 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
                 }
             }
 
-            if (empty($skuParts) && $missedRequiredOption) {
+            if (!empty($skuParts)) {
+                return false;
+            }
+
+            if ($missedRequiredOption) {
                 return $product;
             }
 
@@ -828,9 +861,9 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
         }
 
         /** @var $product Mage_Catalog_Model_Product */
-        $product = $this->_loadProductBySku($item['sku']);
+        $product = $this->_loadProductBySku($item['sku'], $config);
 
-        if (empty($config) && $product && $product->hasConfiguredOptions()) {
+        if ($product && $product->hasConfiguredOptions()) {
             $config['options'] = $product->getConfiguredOptions();
         }
 
