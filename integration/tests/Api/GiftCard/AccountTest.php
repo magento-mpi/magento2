@@ -72,14 +72,14 @@ class Api_GiftCard_AccountTest extends Magento_Test_Webservice
         $this->assertTrue($removeResult);
 
         //Test item was really removed and fault was Exception thrown
-        $this->setExpectedException('Exception');
+        $this->setExpectedException('SoapFault');
         $this->call('giftcard_account.remove', array($id));
     }
 
     /**
      * Test Exception on invalid data
      *
-     * @expectedException Exception
+     * @expectedException SoapFault
      * @return void
      */
     public function testCreateExceptionInvalidData()
@@ -93,7 +93,7 @@ class Api_GiftCard_AccountTest extends Magento_Test_Webservice
     /**
      * Test giftcard account not found exception
      *
-     * @expectedException Exception
+     * @expectedException SoapFault
      * @return void
      */
     public function testExceptionNotFound()

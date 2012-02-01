@@ -80,14 +80,14 @@ class Api_GiftCard_CustomerTest extends Magento_Test_Webservice
         $this->assertEquals($giftcardAccount->getBalance(), $customerBalance->getAmount());
 
         //Test giftcard already redeemed
-        $this->setExpectedException('Exception');
+        $this->setExpectedException('SoapFault');
         $this->call('giftcard_customer.redeem', array($code, $customerId, $websiteId));
     }
 
     /**
      * Test info throw exception with incorrect data
      *
-     * @expectedException Exception
+     * @expectedException SoapFault
      * @return void
      */
     public function testIncorrectDataInfoException()
@@ -100,7 +100,7 @@ class Api_GiftCard_CustomerTest extends Magento_Test_Webservice
     /**
      * Test redeem throw exception with incorrect data
      *
-     * @expectedException Exception
+     * @expectedException SoapFault
      * @return void
      */
     public function testIncorrectDataRedeemException()
