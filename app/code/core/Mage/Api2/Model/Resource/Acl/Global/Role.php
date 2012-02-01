@@ -77,4 +77,30 @@ class Mage_Api2_Model_Resource_Acl_Global_Role extends Mage_Core_Model_Resource_
 
         return $this;
     }
+
+    /**
+     * Create/update new relation row of admin user to API2 role
+     *
+     * @param int $adminId Admin user id
+     * @param int $roleId API2 role id
+     * @return Mage_Api2_Model_Resource_Acl_Global_Role
+     */
+    public function saveAdminToRoleRelation($adminId, $roleId)
+    {
+        $read = $this->_getReadAdapter();
+        $select = $read->select()
+            ->from($this->getTable('api2/acl_user'), 'admin_id')
+            ->where('admin_id = ?', $adminId, Zend_Db::INT_TYPE);
+
+        $write = $this->_getWriteAdapter();
+        $table = $this->getTable('api2/acl_user');
+
+        if (false === $read->fetchOne($select)) {
+            $write->insert($table, array('admin_id' => $adminId, 'role_id' => $roleId));
+        } else {
+            $write->update($table, array('role_id' => $roleId), array('admin_id = ?' => $adminId));
+        }
+
+        return $this;
+    }
 }

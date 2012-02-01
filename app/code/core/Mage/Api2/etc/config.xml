@@ -79,6 +79,16 @@
                 </setup>
             </api2_setup>
         </resources>
+        <events>
+            <admin_user_save_after>
+                <observers>
+                    <api2>
+                        <class>api2/observer</class>
+                        <method>saveAdminToRoleRelation</method>
+                    </api2>
+                </observers>
+            </admin_user_save_after>
+        </events>
         <api2>
             <auth_adapters>
                 <oauth module="api2" translate="label">
