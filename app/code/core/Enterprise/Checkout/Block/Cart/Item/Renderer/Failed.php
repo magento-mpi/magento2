@@ -158,37 +158,6 @@ class Enterprise_Checkout_Block_Cart_Item_Renderer_Failed extends Mage_Core_Bloc
     }
 
     /**
-     * Retrieve item's message
-     *
-     * @return string
-     */
-    public function getMessage()
-    {
-        switch ($this->getItemCode()) {
-            case Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_OUT_OF_STOCK:
-                return $this->_getHelper()->getMessage(
-                    Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_OUT_OF_STOCK
-                );
-            case Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED:
-                $stockItem = Mage::getModel('cataloginventory/stock_item');
-                $stockItem->loadByProduct($this->getProduct());
-                return $this->_getHelper()->getMessage(
-                    Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED
-                )
-                    . '<br>'
-                    . $this->__("Only %d left in stock", $stockItem->getQty());
-            case Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_CONFIGURE:
-                return $this->_getHelper()->getMessage(
-                    Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_CONFIGURE
-                );
-            case Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_SKU:
-                return $this->_getHelper()->getMessage(
-                    Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_SKU
-                );
-        }
-    }
-
-    /**
      * Retrieve item's SKU
      *
      * @return string

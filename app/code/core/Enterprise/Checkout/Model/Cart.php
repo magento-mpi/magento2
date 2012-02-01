@@ -669,9 +669,11 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
         if (!$stockItem->getManageStock()) {
             return true;
         }
+
         if ($stockItem->getBackorders() != Mage_CatalogInventory_Model_Stock::BACKORDERS_NO) {
             return true;
         }
+
         $quoteItem = $this->getActualQuote()->getItemByProduct($product);
         $isAdmin = Mage::app()->getStore()->isAdmin();
 
@@ -706,13 +708,23 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
         if ($allowedQty <= 0 || $allowedQty < $minAllowedQty) {
             // All available quantity already added to quote
             return array('status' => Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_OUT_OF_STOCK);
-        } else if ($requestedQty > $allowedQty) {
+        } elseif ($requestedQty > $allowedQty) {
             $status = empty($status) ? Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED : $status;
             // Quantity added to quote and requested quantity exceeds available in stock or maximum salable quantity
             return array('status' => $status, 'qty_max_allowed' => $allowedQty);
-        } else {
-            return true;
         }
+
+        $qtyIncrementsResult = $stockItem->checkQtyIncrements($requestedQty);
+
+        if ($qtyIncrementsResult->getHasError()) {
+            return array(
+                'status' => Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_QTY_INCREMENTS,
+                'qty_increments' => $stockItem->getQtyIncrements(),
+                'error' => $qtyIncrementsResult->getMessage(),
+            );
+        }
+
+        return true;
     }
 
     /**

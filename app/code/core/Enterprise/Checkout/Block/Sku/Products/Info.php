@@ -62,10 +62,6 @@ class Enterprise_Checkout_Block_Sku_Products_Info extends Mage_Core_Block_Templa
     public function getMessage()
     {
         switch ($this->getItem()->getCode()) {
-            case Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_PERMISSIONS:
-                return $this->_getHelper()->getMessage(
-                    Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_PERMISSIONS
-                );
             case Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_OUT_OF_STOCK:
                 $message = '<span class="sku-out-of-stock" id="sku-stock-failed-' . $this->getItem()->getId() . '">'
                     . $this->_getHelper()->getMessage(
@@ -90,18 +86,10 @@ class Enterprise_Checkout_Block_Sku_Products_Info extends Mage_Core_Block_Templa
                     $message .= Mage::helper('cataloginventory')->__('The minimum quantity allowed for purchase is %s.', '<span class="sku-failed-qty" id="sku-stock-failed-' . $item->getId() . '">' . ($item->getQtyMinAllowed()  * 1) . '</span>');
                 }
                 return $message;
-            case Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_CONFIGURE:
-                return $this->_getHelper()->getMessage(
-                    Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_CONFIGURE
-                );
-            case Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_SKU:
-                return $this->_getHelper()->getMessage(
-                    Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_SKU
-                );
-            case Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_UNKNOWN:
-                return $this->escapeHtml($this->getItem()->getError());
             default:
-                return '';
+                $error = $this->_getHelper()->getMessage($this->getItem()->getCode());
+                $error = $error ? $error : $this->escapeHtml($this->getItem()->getError());
+                return $error ? $error : '';
         }
     }
 

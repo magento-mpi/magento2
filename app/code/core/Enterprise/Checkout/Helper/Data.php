@@ -245,7 +245,7 @@ class Enterprise_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
                     $id = $item['item']['id'];
                     $itemsToLoad[$id] = $item['item'];
                     $itemsToLoad[$id]['code'] = $item['code'];
-                    $itemsToLoad[$id]['error'] = isset($item['error']) ? $item['error'] : '';
+                    $itemsToLoad[$id]['error'] = isset($item['item']['error']) ? $item['item']['error'] : '';
                     // Avoid collisions of product ID with quote item ID
                     unset($itemsToLoad[$id]['id']);
                 } elseif ($all && in_array($item['code'], $this->_failedTemplateStatusCodes)) {

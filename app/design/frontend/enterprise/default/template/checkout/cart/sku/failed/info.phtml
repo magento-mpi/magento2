@@ -45,4 +45,7 @@ $_item = $this->getItem();
     <?php if ($_item->getQtyMinAllowed()): ?>
         <input type="hidden" class="qty_min_allowed" value="<?php echo $_item->getQtyMinAllowed() ?>"/>
     <?php endif ?>
+    <?php if ($_item->getQtyIncrements()): ?>
+        <input type="hidden" class="qty_increments" value="<?php echo $_item->getQtyIncrements() ?>"/>
+    <?php endif ?>
 <?php endif; ?>
