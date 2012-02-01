@@ -35,6 +35,19 @@
 class Api_LoginTest extends Magento_Test_Webservice
 {
     /**
+     * Restore session to make possible another tests work
+     *
+     * @static
+     * @return void
+     */
+    public static function tearDownAfterClass()
+    {
+        parent::tearDownAfterClass();
+
+        self::$_ws->init($options);
+    }
+
+    /**
      * Test API login
      *
      * @return void
