@@ -25,39 +25,25 @@
  */
 
 /**
- * API2 global ACL role resource collection model
+ * REST User Controller
  *
- * @category    Mage
- * @package     Mage_Api2
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @category   Mage
+ * @package    Mage_Api2
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Api2_Model_Resource_Acl_Global_Role_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
+class Mage_Api2_Adminhtml_Api2_Rest_UserController extends Mage_Adminhtml_Controller_Action
 {
     /**
-     * Initialize collection model
-     *
-     * @return void
+     * Get API2 roles ajax grid action
      */
-    protected function _construct()
+    public function rolesGridAction()
     {
-        $this->_init('api2/acl_global_role');
-    }
+        /** @var $model Mage_Admin_Model_User */
+        $model = Mage::getModel('admin/user');
+        $model->load($this->getRequest()->getParam('user_id'));
 
-    /**
-     * Add filter by admin user id and join table with appropriate information
-     *
-     * @param int $id
-     * @return Mage_Api2_Model_Resource_Acl_Global_Role_Collection
-     */
-    public function addFilterByAdminId($id)
-    {
-        $this->getSelect()
-            ->joinInner(
-                array('user' => $this->getTable('api2/acl_user')),
-                'main_table.entity_id = user.role_id',
-                array('role_id' => 'user.admin_id'))
-            ->where('user.admin_id = ?', $id, Zend_Db::INT_TYPE);
-
-        return $this;
+        Mage::register('permissions_user', $model);
+        $this->getResponse()
+            ->setBody($this->getLayout()->createBlock('api2/adminhtml_permissions_user_edit_tab_rest_roles')->toHtml());
     }
 }

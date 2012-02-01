@@ -36,4 +36,16 @@
         <remove name="root"/>
         <block type="api2/adminhtml_roles_grid" name="api2_roles.grid" output="toHtml"/>
     </adminhtml_roles_grid>
+
+    <!-- admin acl users edit page -->
+    <adminhtml_permissions_user_edit>
+        <reference name="adminhtml.permissions.user.edit.tabs">
+            <block type="api2/adminhtml_permissions_user_edit_tab_rest_roles" name="adminhtml.permissions.user.edit.tab.rest.roles"/>
+            <action method="addTabAfter">
+                <id>rest_roles_section</id>
+                <block>adminhtml.permissions.user.edit.tab.rest.roles</block>
+                <after>roles_section</after>
+            </action>
+        </reference>
+    </adminhtml_permissions_user_edit>
 </layout>
