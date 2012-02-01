@@ -66,15 +66,6 @@ class Mage_Api2_Block_Adminhtml_Roles_Tab_Info extends Mage_Adminhtml_Block_Widg
             )
         );
 
-        /*$fieldset->addField('in_role_user', 'hidden',
-            array(
-                'name'  => 'in_role_user',
-                'id'    => 'in_role_userz',
-            )
-        );
-
-        $fieldset->addField('in_role_user_old', 'hidden', array('name' => 'in_role_user_old'));*/
-
         $form->setValues($this->getRole()->getData());
         $this->setForm($form);
     }

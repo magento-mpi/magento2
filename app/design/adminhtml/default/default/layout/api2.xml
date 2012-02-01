@@ -26,17 +26,22 @@
  */
 -->
 <layout>
-    <adminhtml_roles_index>
+    <adminhtml_api2_roles_index>
         <reference name="content">
             <block type="api2/adminhtml_roles" name="api2_roles"/>
         </reference>
-    </adminhtml_roles_index>
+    </adminhtml_api2_roles_index>
 
-    <adminhtml_roles_grid>
+    <adminhtml_api2_roles_grid>
         <remove name="root"/>
         <block type="api2/adminhtml_roles_grid" name="api2_roles.grid" output="toHtml"/>
-    </adminhtml_roles_grid>
+    </adminhtml_api2_roles_grid>
 
+    <adminhtml_api2_roles_usersgrid>
+        <remove name="root"/>
+        <block type="api2/adminhtml_roles_tab_users" name="api2_role_tab_users.grid" output="toHtml"/>
+    </adminhtml_api2_roles_usersgrid>
+    
     <!-- admin acl users edit page -->
     <adminhtml_permissions_user_edit>
         <reference name="adminhtml.permissions.user.edit.tabs">

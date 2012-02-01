@@ -24,34 +24,109 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-class Mage_Api2_Block_Adminhtml_Roles_Tab_Users extends Mage_Adminhtml_Block_Widget_Tabs {
+/**
+ * @method Mage_Api2_Model_Resource_Acl_Global_Role getRole
+ * @method setRole(Mage_Api2_Model_Resource_Acl_Global_Role $role)
+ */
+class Mage_Api2_Block_Adminhtml_Roles_Tab_Users extends Mage_Adminhtml_Block_Widget_Grid
+{
 
+    /**
+     * Construct grid block
+     */
     public function __construct()
     {
         parent::__construct();
-
-        $roleId = $this->getRequest()->getParam('id', false);
-
-        $users = Mage::getModel("api/user")->getCollection()->load();
-        $this->setTemplate('api/rolesusers.phtml')
-            ->assign('users', $users->getItems())
-            ->assign('roleId', $roleId);
+        $this->setId('usersGrid');
+        $this->setUseAjax(true);
+        $this->setSaveParametersInSession(true);
+        $this->setDefaultSort('user_id')
+            ->setDefaultDir(Varien_Db_Select::SQL_DESC);
     }
 
-    protected function _prepareLayout()
+    /**
+     * Prepare collection
+     *
+     * @return Mage_Api2_Block_Adminhtml_Roles_Grid
+     */
+    protected function _prepareCollection()
     {
-        $this->setChild('userGrid', $this->getLayout()->createBlock('adminhtml/api_role_grid_user', 'roleUsersGrid'));
-        return parent::_prepareLayout();
+        /** @var $collection Mage_Admin_Model_Resource_User_Collection */
+        $collection = Mage::getModel('admin/user')->getCollection();
+        $collection->getSelect()->joinLeft(
+            array('acl' => $collection->getTable('api2/acl_user')),
+            'acl.admin_id = main_table.user_id',
+            'role_id'
+        );
+        
+        $collection->addFilter('acl.role_id', $this->getRole()->getId());
+        $this->setCollection($collection);
+        parent::_prepareCollection();
+        return $this;
     }
 
-    protected function _getGridHtml()
+    /**
+     * Prepare columns
+     *
+     * @return Mage_Api2_Block_Adminhtml_Roles_Grid
+     */
+    protected function _prepareColumns()
     {
-        return $this->getChildHtml('userGrid');
+        /** @var $helper Mage_OAuth_Helper_Data */
+        $helper = Mage::helper('oauth');
+        $this->addColumn('user_id', array(
+            'header'    => $helper->__('ID'),
+            'index'     => 'user_id',
+            'align'     => 'right',
+            'width'     => '50px',
+        ));
+
+        $this->addColumn('username', array(
+            'header'    =>Mage::helper('adminhtml')->__('User Name'),
+            'align'     =>'left',
+            'index'     =>'username'
+        ));
+
+        $this->addColumn('firstname', array(
+            'header'    =>Mage::helper('adminhtml')->__('First Name'),
+            'align'     =>'left',
+            'index'     =>'firstname'
+        ));
+
+        $this->addColumn('lastname', array(
+            'header'    =>Mage::helper('adminhtml')->__('Last Name'),
+            'align'     =>'left',
+            'index'     =>'lastname'
+        ));
+
+        parent::_prepareColumns();
+        return $this;
     }
 
-    protected function _getJsObjectName()
+    /**
+     * Get grid URL
+     *
+     * @return string
+     */
+    public function getGridUrl()
     {
-        return $this->getChild('userGrid')->getJsObjectName();
+        return $this->getUrl('*/*/usersGrid', array('_current' => true));
     }
 
+    /**
+     * Get row URL
+     *
+     * @param Mage_Api2_Model_Acl_Global_Role $row
+     * @return string|null
+     */
+    public function getRowUrl($row)
+    {
+        /** @var $session Mage_Admin_Model_Session */
+        $session = Mage::getSingleton('admin/session');
+
+        if ($session->isAllowed('system/api/roles/edit')) {
+            return $this->getUrl('*/permissions_user/edit', array('user_id' => $row->getId()));
+        }
+        return null;
+    }
 }

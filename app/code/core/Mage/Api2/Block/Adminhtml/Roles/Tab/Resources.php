@@ -31,8 +31,6 @@ class Mage_Api2_Block_Adminhtml_Roles_Tab_Resources extends Mage_Adminhtml_Block
         parent::__construct();
 
         $this->setTemplate('api2/role/resources.phtml');
-        //->assign('resources', $resources);
-        //->assign('checkedResources', join(',', $selrids));
     }
 
     public function _beforeToHtml()
@@ -67,16 +65,6 @@ class Mage_Api2_Block_Adminhtml_Roles_Tab_Resources extends Mage_Adminhtml_Block
 
     public function getEverythingAllowed()
     {
-
-        $e = new Exception();
-        $trace = $e->getTrace();
-
-        echo __FILE__;
-        echo '<pre>';
-        var_dump($e->getTraceAsString());
-        echo '</pre>';
-        exit;
-
         return in_array('all', $this->getSelectedResources());
     }
 

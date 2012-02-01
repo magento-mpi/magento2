@@ -44,8 +44,6 @@ class Mage_Api2_Adminhtml_Api2_RolesController extends Mage_Adminhtml_Controller
         $this->_addBreadcrumb($this->__('REST Roles'), $this->__('REST Roles'));
         $this->_addBreadcrumb($this->__('Roles'), $this->__('Roles'));*/
 
-        //$this->_addContent($this->getLayout()->createBlock('adminhtml/api2_roles'));
-
         $this->renderLayout();
     }
 
@@ -53,12 +51,19 @@ class Mage_Api2_Adminhtml_Api2_RolesController extends Mage_Adminhtml_Controller
     {
         $this->loadLayout();
         $this->renderLayout();
+    }
 
-        /*$this->getResponse()
-            ->setBody($this->getLayout()
-            ->createBlock('api2/adminhtml_api_grid_role')
-            ->toHtml()
-        );*/
+    public function usersGridAction()
+    {
+        $id = $this->getRequest()->getParam('id', false);
+
+        /** @var $role Mage_Api2_Model_Acl_Global_Role */
+        $role = Mage::getModel('api2/acl_global_role')->load($id);
+
+        $this->loadLayout();
+        $this->getLayout()->getBlock('api2_role_tab_users.grid')->setRole($role);
+
+        $this->renderLayout();
     }
 
     public function newAction()
@@ -72,7 +77,6 @@ class Mage_Api2_Adminhtml_Api2_RolesController extends Mage_Adminhtml_Controller
         $this->_addBreadcrumb($this->__('REST Roles'), $this->__('REST Roles'));
         $this->_addBreadcrumb($this->__('Roles'), $this->__('Roles'));*/
 
-        $roleId = null;
         $breadCrumb = $this->__('Add New Role');
         $breadCrumbTitle = $this->__('Add New Role');
         $this->_title($this->__('New Role'));
@@ -84,11 +88,10 @@ class Mage_Api2_Adminhtml_Api2_RolesController extends Mage_Adminhtml_Controller
         $this->_addLeft(
             $this->getLayout()->createBlock('api2/adminhtml_roles_tabs')
         );
-        //$resources = Mage::getModel('api/roles')->getResourcesList();
         $this->_addContent($this->getLayout()->createBlock('api2/adminhtml_roles_buttons'));
         $this->_addJs(
             $this->getLayout()->createBlock('adminhtml/template')
-                    ->setTemplate('api/role_users_grid_js.phtml')
+                ->setTemplate('api/role_users_grid_js.phtml')
         );
         $this->renderLayout();
     }
@@ -96,6 +99,7 @@ class Mage_Api2_Adminhtml_Api2_RolesController extends Mage_Adminhtml_Controller
     public function saveAction()
     {
         $id = $this->getRequest()->getParam('id', false);
+        /** @var $role Mage_Api2_Model_Acl_Global_Role */
         $role = Mage::getModel('api2/acl_global_role')->load($id);
 
         if (!$role->getId() && $id) {
