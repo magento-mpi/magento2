@@ -16,8 +16,7 @@
  */
 $uniqueSuffix = '_' . $this->helper('Mage_Core_Helper_Data')->getRandomString(20);
 $skuFormId = "skuForm{$uniqueSuffix}";
-$itemOptionsVariable = 'itemOptions["' . $uniqueSuffix . '"]';
-$qtyValidationClass = 'required-entry validate-number validate-greater-than-zero'
+$qtyValidationClasses = 'validate-number validate-greater-than-zero'
     . ' validate-number-range number-range-0.00001-10000000';
 ?>
 <div class="widget widget-sku">
@@ -52,7 +51,7 @@ $qtyValidationClass = 'required-entry validate-number validate-greater-than-zero
                     <tbody>
                         <tr class="order-row">
                             <td><input name="items[0<?php echo $uniqueSuffix; ?>][sku]" class="input-text required-entry" type="text" /></td>
-                            <td><input name="items[0<?php echo $uniqueSuffix; ?>][qty]" class="input-text <?php echo $qtyValidationClass; ?>" type="text" value="1" /></td>
+                            <td><input name="items[0<?php echo $uniqueSuffix; ?>][qty]" class="input-text <?php echo $qtyValidationClasses; ?>" type="text" value="1" /></td>
                             <td>&nbsp;</td>
                         </tr>
                     </tbody>
@@ -74,21 +73,19 @@ if (typeof templateText == 'undefined') {
     var templateText =
         '<tr class="order-row">'+
             '<td><input name="items[{{id}}][sku]" value="" class="input-text required-entry" type="text" /><\/td>' +
-            '<td></span><input name="items[{{id}}][qty]" value="1" class="input-text <?php echo $qtyValidationClass; ?>" type="text" /><\/td>' +
+            '<td></span><input name="items[{{id}}][qty]" value="1" class="input-text <?php echo $qtyValidationClasses; ?>" type="text" /><\/td>' +
             '<td class="v-middle"><span class="remove-row" title="<?php echo $this->__('Remove Row') ?>"></td>' +
         '<\/tr>';
 }
 
-if (typeof itemOptions == 'undefined') {
-    var itemOptions = {};
-}
+var itemOptions = itemOptions || {};
 
-<?php echo $itemOptionsVariable; ?> = {
-    table : $('items-table<?php echo $uniqueSuffix; ?>').select('tbody')[0],
-    templateSyntax : /(^|.|\r|\n)({{(\w+)}})/,
-    templateText : templateText,
-    itemCount : 1,
-    add : function(data) {
+itemOptions["<?php echo $uniqueSuffix; ?>"] = {
+    table: $('items-table<?php echo $uniqueSuffix; ?>').select('tbody')[0],
+    templateSyntax: /(^|.|\r|\n)({{(\w+)}})/,
+    templateText: templateText,
+    itemCount: 1,
+    add: function(data) {
         this.template = new Template(this.templateText, this.templateSyntax);
         if (!data.id) {
             data = {};
@@ -98,13 +95,13 @@ if (typeof itemOptions == 'undefined') {
         this.bindRemoveButtons();
         this.itemCount++;
     },
-    remove : function(event) {
+    remove: function(event) {
         var element = $(Event.findElement(event, 'tr'));
         if (element) {
             element.remove();
         }
     },
-    bindRemoveButtons : function() {
+    bindRemoveButtons: function() {
         var buttons = $$('#<?php echo $skuFormId; ?> .remove-row');
         for(var i=0; i < buttons.length; i++) {
             if (!$(buttons[i]).binded) {
@@ -120,7 +117,7 @@ document.observe('dom:loaded', function() {
     Event.observe(
         'add_new_item_button<?php echo $uniqueSuffix; ?>',
         'click',
-        <?php echo $itemOptionsVariable; ?>.add.bind(<?php echo $itemOptionsVariable; ?>)
+        itemOptions["<?php echo $uniqueSuffix; ?>"].add.bind(itemOptions["<?php echo $uniqueSuffix; ?>"])
     );
 
     var skuForm = new VarienForm('<?php echo $skuFormId; ?>');

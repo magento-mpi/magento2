@@ -13,6 +13,11 @@
 class Integrity_LayoutTest extends PHPUnit_Framework_TestCase
 {
     /**
+     * @var array|bool
+     */
+    protected $_codeFrontendHandles = false;
+
+    /**
      * Check count of layout handle labels that described in modules for frontend area
      *
      * @param string $handleName
@@ -30,34 +35,85 @@ class Integrity_LayoutTest extends PHPUnit_Framework_TestCase
      */
     public function handleLabelCountDataProvider()
     {
-        $root = PATH_TO_SOURCE_CODE;
-        $pool = $namespace = $module = '*';
-        $files = glob(
-            "{$root}/app/code/{$pool}/{$namespace}/{$module}/view/frontend/*.xml",
-            GLOB_NOSORT | GLOB_BRACE
+        $handles = $this->_getCodeFrontendHandles();
+
+        $result = array();
+        foreach ($handles as $handleName => $data) {
+            $result[] = array($handleName, $data['label_count']);
+        }
+        return $result;
+    }
+
+    /**
+     * Check that all handles declared in a theme layout are declared in code
+     *
+     * @param string $handleName
+     * @dataProvider designHandlesDataProvider
+     */
+    public function testIsDesignHandleDeclaredInCode($handleName)
+    {
+        $this->assertArrayHasKey(
+            $handleName,
+            $this->_getCodeFrontendHandles(),
+            "Handle '{$handleName}' is not declared in any module.'"
         );
+    }
+
+    /**
+     * @return array
+     */
+    public function designHandlesDataProvider()
+    {
+        $files = Util_Files::getLayoutFiles(array(
+            'include_code' => false,
+            'area' => 'frontend'
+        ));
 
         $handles = array();
-        foreach ($files as $path) {
+        foreach (array_keys($files) as $path) {
             $xml = simplexml_load_file($path);
             $handleNodes = $xml->xpath('/layout/*') ?: array();
             foreach ($handleNodes as $handleNode) {
-                $isLabel = $handleNode->xpath('label');
-                if (isset($handles[$handleNode->getName()])) {
-                    $handles[$handleNode->getName()] = $handles[$handleNode->getName()] + (int)$isLabel;
-                } else {
-                    $handles[$handleNode->getName()] = (int)$isLabel;
-                }
+                $handles[] = $handleNode->getName();
             }
         }
 
         $result = array();
-        foreach ($handles as $handleName => $labelCount) {
-            $result[] = array(
-                $handleName,
-                $labelCount
-            );
+        foreach (array_unique($handles) as $handleName) {
+            $result[] = array($handleName);
         }
         return $result;
+    }
+
+    /**
+     * Returns information about handles that are declared in code for frontend
+     *
+     * @return array
+     */
+    protected function _getCodeFrontendHandles()
+    {
+        if ($this->_codeFrontendHandles) {
+            return $this->_codeFrontendHandles;
+        }
+
+        $files = Util_Files::getLayoutFiles(array(
+            'include_design' => false,
+            'area' => 'frontend'
+        ));
+        foreach (array_keys($files) as $path) {
+            $xml = simplexml_load_file($path);
+            $handleNodes = $xml->xpath('/layout/*') ?: array();
+            foreach ($handleNodes as $handleNode) {
+                $isLabel = $handleNode->xpath('label');
+                if (isset($handles[$handleNode->getName()]['label_count'])) {
+                    $handles[$handleNode->getName()]['label_count'] += (int)$isLabel;
+                } else {
+                    $handles[$handleNode->getName()]['label_count'] = (int)$isLabel;
+                }
+            }
+        }
+
+        $this->_codeFrontendHandles = $handles;
+        return $this->_codeFrontendHandles;
     }
 }

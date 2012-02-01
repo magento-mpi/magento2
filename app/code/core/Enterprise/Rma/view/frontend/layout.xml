@@ -48,7 +48,7 @@
     </enterprise_rma_return_create>
 
     <enterprise_rma_return_create_handle translate="label">
-        <label>RMA Return Create Hhandle</label>
+        <label>RMA Return Create</label>
         <reference name="content">
             <block name="enterprise_rma_item_form_template" type="Enterprise_Eav_Block_Form_Template">
                 <action method="addRenderer">
@@ -94,7 +94,7 @@
     </enterprise_rma_return_view>
 
     <enterprise_rma_return_view_handle translate="label">
-        <label>RMA Return View Handle</label>
+        <label>RMA Return View Image</label>
         <reference name="content">
             <block name="enterprise_rma_item_form_template" type="Enterprise_Eav_Block_Form_Template">
                 <action method="addRenderer">
@@ -271,7 +271,7 @@
     </sales_guest_creditmemo>
 
     <enterprise_rma_email_rma_items translate="label">
-        <label>RMA Email RMA Item List</label>
+        <label>RMA Email Items List</label>
         <block type="Enterprise_Rma_Block_Email_Items" name="enterprise_rma_email_items" template="email/items.phtml" />
     </enterprise_rma_email_rma_items>
 

@@ -48,8 +48,8 @@ class Mage_Catalog_Block_Product_View_Options_Type_Select
             }
             foreach ($_option->getValues() as $_value) {
                 $priceStr = $this->_formatPrice(array(
-                    'is_percent' => ($_value->getPriceType() == 'percent'),
-                    'pricing_value' => $_value->getPrice(($_value->getPriceType() != 'percent'))
+                    'is_percent'    => ($_value->getPriceType() == 'percent'),
+                    'pricing_value' => $_value->getPrice(($_value->getPriceType() == 'percent'))
                 ), false);
                 $select->addOption(
                     $_value->getOptionTypeId(),
@@ -107,8 +107,8 @@ class Mage_Catalog_Block_Product_View_Options_Type_Select
                 $count++;
 
                 $priceStr = $this->_formatPrice(array(
-                    'is_percent' => ($_value->getPriceType() == 'percent') ? true : false,
-                    'pricing_value' => $_value->getPrice(true)
+                    'is_percent'    => ($_value->getPriceType() == 'percent'),
+                    'pricing_value' => $_value->getPrice($_value->getPriceType() == 'percent')
                 ));
 
                 $htmlValue = $_value->getOptionTypeId();

@@ -10,6 +10,12 @@
  */
 -->
 <logging>
+    <actions>
+        <share translate="label" module="Enterprise_GiftRegistry">
+            <label>Share</label>
+        </share>
+    </actions>
+
     <enterprise_giftregistry_type translate="label">
         <label>Gift Registry Type</label>
         <expected_models>

@@ -260,16 +260,16 @@ class Mage_Adminhtml_Block_Page_Menu extends Mage_Adminhtml_Block_Template
     protected function _renderMenuLevel(array $menu, $level = 0)
     {
         $result = '<ul' . (!$level ? ' id="nav"' : '') . '>';
-        foreach ($menu as $_item) {
-            $hasChildren = !empty($_item['children']);
+        foreach ($menu as $item) {
+            $hasChildren = !empty($item['children']);
             $cssClasses = array('level' . $level);
-            if (!$level && !empty($_item['active'])) {
+            if (!$level && !empty($item['active'])) {
                 $cssClasses[] = 'active';
             }
             if ($hasChildren) {
                 $cssClasses[] = 'parent';
             }
-            if (!empty($level) && !empty($_item['last'])) {
+            if (!empty($level) && !empty($item['last'])) {
                 $cssClasses[] = 'last';
             }
             $result .= '<li'
@@ -277,16 +277,16 @@ class Mage_Adminhtml_Block_Page_Menu extends Mage_Adminhtml_Block_Template
                 . ($hasChildren ? ' onmouseout="Element.removeClassName(this,\'over\')"' : '')
                 . ' class="' . implode(' ', $cssClasses) . '">'
                 . '<a'
-                . ' href="' . $_item['url'] . '"'
-                . (!empty($_item['title']) ? ' title="' . $_item['title'] . '"' : '')
-                . (!empty($_item['click']) ? ' onclick="' . $_item['click'] . '"' : '')
-                . ($level === 0 && !empty($_item['active']) ? ' class="active"' : '')
+                . ' href="' . $item['url'] . '"'
+                . (!empty($item['title']) ? ' title="' . $item['title'] . '"' : '')
+                . (!empty($item['click']) ? ' onclick="' . $item['click'] . '"' : '')
+                . ($level === 0 && !empty($item['active']) ? ' class="active"' : '')
                 . '>'
-                . '<span>' . $_item['label'] . '</span>'
+                . '<span>' . Mage::helper('Mage_Adminhtml_Helper_Data')->escapeHtml($item['label']) . '</span>'
                 . '</a>'
             ;
             if ($hasChildren) {
-                $result .= $this->_renderMenuLevel($_item['children'], $level + 1);
+                $result .= $this->_renderMenuLevel($item['children'], $level + 1);
             }
             $result .= '</li>';
         }

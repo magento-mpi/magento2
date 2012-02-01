@@ -130,7 +130,7 @@
 -->
 
     <sales_recurring_profile_orders translate="label">
-        <label>Recurring Profile Order List</label>
+        <label>Recurring Profile Orders List</label>
         <update handle="customer_account"/>
         <update handle="sales_recurring_profile_view__tabs"/>
         <reference name="sales.recurring.profile.view.tab.orders">
