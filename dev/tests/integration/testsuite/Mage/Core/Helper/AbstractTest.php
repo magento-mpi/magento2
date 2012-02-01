@@ -97,6 +97,20 @@ class Mage_Core_Helper_AbstractTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expected[0], $this->_helper->jsQuoteEscape($data[0]));
     }
 
+    /**
+     * @covers Mage_Core_Helper_Abstract::quoteEscape
+     */
+    public function testQuoteEscape()
+    {
+        $data = "Text with 'single' and \"double\" quotes";
+        $expected = array(
+            "Text with &#039;single&#039; and &quot;double&quot; quotes",
+            "Text with \\&#039;single\\&#039; and \\&quot;double\\&quot; quotes",
+        );
+        $this->assertEquals($expected[0], $this->_helper->quoteEscape($data));
+        $this->assertEquals($expected[1], $this->_helper->quoteEscape($data, true));
+    }
+
     public function testSetGetLayout()
     {
         $this->assertNull($this->_helper->getLayout());

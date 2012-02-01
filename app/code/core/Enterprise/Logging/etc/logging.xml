@@ -10,6 +10,90 @@
  */
 -->
 <logging>
+    <actions>
+        <view translate="label">
+            <label>View</label>
+        </view>
+        <save translate="label">
+            <label>Save</label>
+        </save>
+        <delete translate="label">
+            <label>Delete</label>
+        </delete>
+        <massDelete translate="label">
+            <label>Mass Delete</label>
+        </massDelete>
+        <export translate="label">
+            <label>Export</label>
+        </export>
+        <import translate="label">
+            <label>Import</label>
+        </import>
+        <edit translate="label">
+            <label>Edit</label>
+        </edit>
+        <massUpdate translate="label">
+            <label>Mass Update</label>
+        </massUpdate>
+        <move translate="label">
+            <label>Move</label>
+        </move>
+        <new translate="label">
+            <label>New</label>
+        </new>
+        <forgotpassword translate="label">
+            <label>Forgot Password</label>
+        </forgotpassword>
+        <global_search translate="label">
+            <label>Global Search</label>
+        </global_search>
+        <apply translate="label">
+            <label>Apply</label>
+        </apply>
+        <reorder translate="label">
+            <label>Reorder</label>
+        </reorder>
+        <print translate="label">
+            <label>Print</label>
+        </print>
+        <email translate="label">
+            <label>Email</label>
+        </email>
+        <run translate="label">
+            <label>Run</label>
+        </run>
+        <rollback translate="label">
+            <label>Rollback</label>
+        </rollback>
+        <reindex_process translate="label">
+            <label>Reindex Process</label>
+        </reindex_process>
+        <clean translate="label">
+            <label>Clean</label>
+        </clean>
+        <flush translate="label">
+            <label>Flush</label>
+        </flush>
+        <fetch translate="label">
+            <label>Fetch</label>
+        </fetch>
+        <updateProfile translate="label">
+            <label>Update Profile</label>
+        </updateProfile>
+        <updateState translate="label">
+            <label>Update State</label>
+        </updateState>
+        <login translate="label">
+            <label>Login</label>
+        </login>
+        <send translate="label">
+            <label>Send</label>
+        </send>
+        <create translate="label">
+            <label>Create</label>
+        </create>
+    </actions>
+
     <catalog_products translate="label">
         <label>Catalog Products</label>
         <expected_models>
@@ -1467,18 +1551,21 @@
     <adminhtml_system_backups translate="label">
         <label>System Backups</label>
         <actions>
-            <adminhtml_system_backup_create>
+            <adminhtml_system_backup_create translate="label">
                 <action>create</action>
+                <label>Create</label>
                 <post_dispatch>postDispatchSystemBackupsCreate</post_dispatch>
             </adminhtml_system_backup_create>
 
-            <adminhtml_system_backup_massDelete>
+            <adminhtml_system_backup_massDelete translate="label">
                 <action>massDelete</action>
+                <label>Mass Delete</label>
                 <post_dispatch>postDispatchSystemBackupsDelete</post_dispatch>
             </adminhtml_system_backup_massDelete>
 
-            <adminhtml_system_backup_rollback>
+            <adminhtml_system_backup_rollback translate="label">
                 <action>rollback</action>
+                <label>Rollback</label>
                 <post_dispatch>postDispatchSystemRollback</post_dispatch>
             </adminhtml_system_backup_rollback>
         </actions>
@@ -1604,7 +1691,8 @@
             <Mage_GoogleShopping_Model_Type/>
         </expected_models>
         <actions>
-            <googleshopping_types_edit>
+            <googleshopping_types_edit translate="label">
+                <label>Edit</label>
                 <action>edit</action>
             </googleshopping_types_edit>
 

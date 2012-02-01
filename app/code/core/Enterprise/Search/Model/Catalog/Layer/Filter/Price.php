@@ -43,9 +43,8 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Price extends Mage_Catalog_Mo
      */
     protected function _getFilterField()
     {
-        $websiteId       = Mage::app()->getStore()->getWebsiteId();
-        $customerGroupId = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerGroupId();
-        $priceField      = 'price_'. $customerGroupId .'_'. $websiteId;
+        $engine = Mage::getResourceSingleton('Enterprise_Search_Model_Resource_Engine');
+        $priceField = $engine->getSearchEngineFieldName('price');
 
         return $priceField;
     }

@@ -42,5 +42,8 @@
         <message>b</message>
     </flexuploader-b>
     <!-- end flexuploader.js -->
+    <sales-order-create-addproducts translate="message" module="Mage_Adminhtml">
+        <message>Add Products</message>
+    </sales-order-create-addproducts>
 </translater>
 

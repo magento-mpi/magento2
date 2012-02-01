@@ -38,6 +38,6 @@ class Legacy_LayoutTest extends PHPUnit_Framework_TestCase
 
     public function layoutFileDataProvider()
     {
-        return FileDataProvider::getLayoutFiles();
+        return Util_Files::getLayoutFiles();
     }
 }

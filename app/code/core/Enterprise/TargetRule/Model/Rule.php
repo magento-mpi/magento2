@@ -327,10 +327,12 @@ class Enterprise_TargetRule_Model_Rule extends Mage_Rule_Model_Abstract
         $actionArgsList = $object->getData('rule');
         if (is_array($actionArgsList) && isset($actionArgsList['actions'])) {
             foreach ($actionArgsList['actions'] as $actionArgsIndex => $actionArgs) {
-                if(1 === $actionArgsIndex) {
+                if (1 === $actionArgsIndex) {
                     continue;
                 }
-                if (!$validator->isValid($actionArgs['type']) || !$validator->isValid($actionArgs['attribute'])) {
+                if (!$validator->isValid($actionArgs['type'])
+                    || (isset($actionArgs['attribute']) && !$validator->isValid($actionArgs['attribute']))
+                ) {
                     $result[] = Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Attribute code is invalid. Please use only letters (a-z), numbers (0-9) or underscore(_) in this field, first character should be a letter.');
                 }
             }

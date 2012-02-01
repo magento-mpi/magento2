@@ -10,6 +10,12 @@
  */
 -->
 <logging>
+    <actions>
+        <refresh_data translate="label" module="Enterprise_CustomerSegment">
+            <label>Refresh Data</label>
+        </refresh_data>
+    </actions>
+
     <enterprise_customersegment translate="label">
         <label>Manage Segments</label>
         <expected_models>

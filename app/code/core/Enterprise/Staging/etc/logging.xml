@@ -10,6 +10,15 @@
  */
 -->
 <logging>
+    <actions>
+        <mergePost translate="label" module="Enterprise_Staging">
+            <label>Merge Post</label>
+        </mergePost>
+
+        <unschedule translate="label" module="Enterprise_Staging">
+            <label>Unschedule</label>
+        </unschedule>
+    </actions>
     <enterprise_staging translate="label">
         <label>Content Staging</label>
         <expected_models>

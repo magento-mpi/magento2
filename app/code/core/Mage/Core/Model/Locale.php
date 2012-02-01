@@ -397,6 +397,18 @@ class Mage_Core_Model_Locale
     }
 
     /**
+     * Retrieve short date format with 4-digit year
+     *
+     * @return  string
+     */
+    public function getDateFormatWithLongYear()
+    {
+        return preg_replace('/(?<!y)yy(?!y)/', 'yyyy',
+            $this->getTranslation(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT, 'date'));
+    }
+
+
+    /**
      * Retrieve ISO time format
      *
      * @param   string $type
