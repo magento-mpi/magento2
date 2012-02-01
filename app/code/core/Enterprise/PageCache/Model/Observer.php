@@ -260,6 +260,16 @@ class Enterprise_PageCache_Model_Observer
     }
 
     /**
+     * Clean expired entities in full page cache
+     * @return Enterprise_PageCache_Model_Observer
+     */
+    public function cleanExpiredCache()
+    {
+        Enterprise_PageCache_Model_Cache::getCacheInstance()->cleanOld();
+        return $this;
+    }
+
+    /**
      * Invalidate full page cache
      * @return Enterprise_PageCache_Model_Observer
      */

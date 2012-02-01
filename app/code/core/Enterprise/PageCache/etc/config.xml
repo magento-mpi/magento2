@@ -76,6 +76,16 @@
                 <full_page/>
             </related_cache_types>
         </widget>
+        <events>
+            <core_clean_cache>
+                <observers>
+                    <enterprise_admingws>
+                        <class>enterprise_pagecache/observer</class>
+                        <method>cleanExpiredCache</method>
+                    </enterprise_admingws>
+                </observers>
+            </core_clean_cache>
+        </events>
     </global>
     <adminhtml>
         <events>
