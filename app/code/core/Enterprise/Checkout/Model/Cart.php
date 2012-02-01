@@ -937,9 +937,7 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
 
         if ($success) {
             // copy temporary data to real quote
-            foreach ($quote->getAllItems() as $quoteItem) {
-                $quote->removeItem($quoteItem->getId());
-            }
+            $quote->removeAllItems();
             foreach ($temporaryQuote->getAllItems() as $quoteItem) {
                 $quoteItem->setQuote($quote);
                 $quote->addItem($quoteItem);

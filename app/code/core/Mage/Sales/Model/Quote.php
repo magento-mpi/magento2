@@ -836,8 +836,12 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
      */
     public function removeAllItems()
     {
-        foreach ($this->getItemsCollection() as $item) {
-            $item->isDeleted(true);
+        foreach ($this->getItemsCollection() as $itemId => $item) {
+            if (is_null($item->getId())) {
+                $this->getItemsCollection()->removeItemByKey($itemId);
+            } else {
+                $item->isDeleted(true);
+            }
         }
         return $this;
     }
