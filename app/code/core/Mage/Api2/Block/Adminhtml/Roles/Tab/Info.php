@@ -66,7 +66,9 @@ class Mage_Api2_Block_Adminhtml_Roles_Tab_Info extends Mage_Adminhtml_Block_Widg
             )
         );
 
-        $form->setValues($this->getRole()->getData());
+        if ($this->getRole()) {
+            $form->setValues($this->getRole()->getData());
+        }
         $this->setForm($form);
     }
 }

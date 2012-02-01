@@ -82,7 +82,7 @@ class Mage_Api2_Block_Adminhtml_Roles_Buttons extends Mage_Adminhtml_Block_Templ
 
     public function getDeleteButtonHtml()
     {
-        if(!$this->getRole()->getId()) {
+        if(!$this->getRole() || !$this->getRole()->getId()) {
             return '';
         }
 
@@ -101,6 +101,6 @@ class Mage_Api2_Block_Adminhtml_Roles_Buttons extends Mage_Adminhtml_Block_Templ
 
     public function getCaption()
     {
-        return $this->getRole()->getId() ? ($this->__('Edit Role') . " '{$this->escapeHtml($this->getRole()->getRoleName())}'") : $this->__('Add New Role');
+        return $this->getRole() && $this->getRole()->getId() ? ($this->__('Edit Role') . " '{$this->escapeHtml($this->getRole()->getRoleName())}'") : $this->__('Add New Role');
     }
 }

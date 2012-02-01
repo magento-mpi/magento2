@@ -55,7 +55,7 @@ class Mage_Api2_Block_Adminhtml_Roles_Tabs extends Mage_Adminhtml_Block_Widget_T
                 ->toHtml(),
         ));
 
-        if($this->getRole()->getId()) {
+        if($this->getRole() && $this->getRole()->getId()) {
             $this->addTab('users', array(
                 'label'     => Mage::helper('adminhtml')->__('Role Users'),
                 'title'     => Mage::helper('adminhtml')->__('Role Users'),
