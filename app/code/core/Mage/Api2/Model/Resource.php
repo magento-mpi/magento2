@@ -36,7 +36,7 @@ abstract class Mage_Api2_Model_Resource
     const OPERATION_RETRIEVE = '_retrieve';
     const OPERATION_UPDATE   = '_update';
     const OPERATION_DELETE   = '_delete';
-    /**#@- */
+    /**#@-*/
 
     /**#@+
      *  Default error messages
@@ -48,16 +48,7 @@ abstract class Mage_Api2_Model_Resource
     const RESOURCE_DATA_PRE_VALIDATION_ERROR  = 'Resource data pre-validation error.'; //error while pre-validating
     const RESOURCE_DATA_INVALID               = 'Resource data invalid.'; //error while checking data inside method
     const RESOURCE_UNKNOWN_ERROR              = 'Resource unknown error.';
-    /**#@- */
-
-    /**#@+
-     *  Default collection resources error messages
-     */
-    const RESOURCE_COLLECTION_PAGING_ERROR     = 'Resource collection paging error.';
-    const RESOURCE_COLLECTION_ORDERING_ERROR   = 'Resource collection ordering error.';
-    const RESOURCE_COLLECTION_FILTERING_ERROR  = 'Resource collection filtering error.';
-    const RESOURCE_COLLECTION_ATTRIBUTES_ERROR = 'Resource collection including additional attributes error.';
-    /**#@- */
+    /**#@-*/
 
     /**
      * Api user
@@ -162,7 +153,7 @@ abstract class Mage_Api2_Model_Resource
                 continue;
             }
 
-            if (array_key_exists($key, $valueable) && empty($data[$key])) {
+            if (in_array($key, $valueable) && empty($data[$key])) {
                 $this->_error(
                     sprintf('Empty value for "%s" in request.', $key), Mage_Api2_Model_Server::HTTP_BAD_REQUEST
                 );
@@ -185,23 +176,7 @@ abstract class Mage_Api2_Model_Resource
      */
     protected function _critical($message, $code = null)
     {
-        $errors = array(
-            self::RESOURCE_NOT_FOUND                 => Mage_Api2_Model_Server::HTTP_NOT_FOUND,
-            self::RESOURCE_METHOD_NOT_ALLOWED        => Mage_Api2_Model_Server::HTTP_METHOD_NOT_ALLOWED,
-            self::RESOURCE_METHOD_NOT_IMPLEMENTED    => Mage_Api2_Model_Server::HTTP_METHOD_NOT_ALLOWED,
-            self::RESOURCE_DATA_PRE_VALIDATION_ERROR => Mage_Api2_Model_Server::HTTP_BAD_REQUEST,
-            self::RESOURCE_INTERNAL_ERROR            => Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR,
-            self::RESOURCE_UNKNOWN_ERROR             => Mage_Api2_Model_Server::HTTP_BAD_REQUEST,
-        );
-
-        //Collections
-        $errors[self::RESOURCE_COLLECTION_PAGING_ERROR]     = Mage_Api2_Model_Server::HTTP_BAD_REQUEST;
-        $errors[self::RESOURCE_COLLECTION_ORDERING_ERROR]   = Mage_Api2_Model_Server::HTTP_BAD_REQUEST;
-        $errors[self::RESOURCE_COLLECTION_FILTERING_ERROR]  = Mage_Api2_Model_Server::HTTP_BAD_REQUEST;
-        $errors[self::RESOURCE_COLLECTION_ATTRIBUTES_ERROR] = Mage_Api2_Model_Server::HTTP_BAD_REQUEST;
-
-        //Instances
-        //$errors[self::RESOURCE_INSTANCE_..._ERROR] = Mage_Api2_Model_Server::HTTP_...;
+        $errors = $this->_getCriticalErrors();
 
         if ($code === null) {
             if (!isset($errors[$message])) {
@@ -214,6 +189,23 @@ abstract class Mage_Api2_Model_Resource
         }
 
         throw new Mage_Api2_Exception($message, $code);
+    }
+
+    /**
+     * Retrieve array with critical errors mapped to HTTP codes
+     *
+     * @return array
+     */
+    protected function _getCriticalErrors()
+    {
+        return array(
+            self::RESOURCE_NOT_FOUND => Mage_Api2_Model_Server::HTTP_NOT_FOUND,
+            self::RESOURCE_METHOD_NOT_ALLOWED => Mage_Api2_Model_Server::HTTP_METHOD_NOT_ALLOWED,
+            self::RESOURCE_METHOD_NOT_IMPLEMENTED => Mage_Api2_Model_Server::HTTP_METHOD_NOT_ALLOWED,
+            self::RESOURCE_DATA_PRE_VALIDATION_ERROR => Mage_Api2_Model_Server::HTTP_BAD_REQUEST,
+            self::RESOURCE_INTERNAL_ERROR => Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR,
+            self::RESOURCE_UNKNOWN_ERROR => Mage_Api2_Model_Server::HTTP_BAD_REQUEST,
+        );
     }
 
     /**

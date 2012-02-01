@@ -40,7 +40,16 @@ abstract class Mage_Api2_Model_Resource_Collection extends Mage_Api2_Model_Resou
     const HTTP_PARAM_PAGE    = 'page';
     const HTTP_PARAM_ORDER   = 'order';
     const HTTP_PARAM_FILTER  = 'filter';
-    /**#@- */
+    /**#@-*/
+
+    /**#@+
+     *  Default collection resources error messages
+     */
+    const RESOURCE_COLLECTION_PAGING_ERROR      = 'Resource collection paging error.';
+    const RESOURCE_COLLECTION_ORDERING_ERROR    = 'Resource collection ordering error.';
+    const RESOURCE_COLLECTION_FILTERING_ERROR   = 'Resource collection filtering error.';
+    const RESOURCE_COLLECTION_ATTRIBUTES_ERROR  = 'Resource collection including additional attributes error.';
+    /**#@-*/
 
     /**
      * Internal "collection" resource model dispatch
@@ -166,4 +175,21 @@ abstract class Mage_Api2_Model_Resource_Collection extends Mage_Api2_Model_Resou
      * @return string URL
      */
     abstract protected function _getLocation(Mage_Catalog_Model_Abstract $resource);
+
+    /**
+     * Add collection specific errors
+     *
+     * @return array
+     */
+    protected function _getCriticalErrors()
+    {
+        $errors = parent::_getCriticalErrors();
+
+        $errors[self::RESOURCE_COLLECTION_PAGING_ERROR] = Mage_Api2_Model_Server::HTTP_BAD_REQUEST;
+        $errors[self::RESOURCE_COLLECTION_ORDERING_ERROR] = Mage_Api2_Model_Server::HTTP_BAD_REQUEST;
+        $errors[self::RESOURCE_COLLECTION_FILTERING_ERROR] = Mage_Api2_Model_Server::HTTP_BAD_REQUEST;
+        $errors[self::RESOURCE_COLLECTION_ATTRIBUTES_ERROR] = Mage_Api2_Model_Server::HTTP_BAD_REQUEST;
+
+        return $errors;
+    }
 }
