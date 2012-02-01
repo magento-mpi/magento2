@@ -67,7 +67,7 @@
     <?php $_finalPrice = $_taxHelper->getPrice($_product, $_product->getFinalPrice()) ?>
     <?php $_finalPriceInclTax = $_taxHelper->getPrice($_product, $_product->getFinalPrice(), true) ?>
     <?php $_weeeDisplayType = $_weeeHelper->getPriceDisplayType(); ?>
-    <?php if ($_finalPrice == $_price): ?>
+    <?php if ($_finalPrice >= $_price): ?>
         <?php if ($_taxHelper->displayBothPrices()): ?>
             <?php if ($_weeeTaxAmount && $_weeeHelper->typeOfDisplay($_product, 0)): // including ?>
                 <span class="price-excluding-tax">
@@ -144,7 +144,11 @@
                 <span class="price-excluding-tax">
                     <span class="label"><?php echo $this->helper('tax')->__('Excl. Tax:') ?></span>
                     <span class="price" id="price-excluding-tax-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>">
-                        <?php echo $_coreHelper->currency($_price,true,false) ?>
+                        <?php if ($_finalPrice == $_price): ?>
+                            <?php echo $_coreHelper->currency($_price,true,false) ?>
+                        <?php else: /* if ($_finalPrice > $_price): */ ?>
+                            <?php echo $_coreHelper->currency($_finalPrice,true,false) ?>
+                        <?php endif; ?>
                     </span>
                 </span>
                 <span class="price-including-tax">
