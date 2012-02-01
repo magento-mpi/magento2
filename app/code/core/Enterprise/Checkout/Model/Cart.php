@@ -753,6 +753,12 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
      */
     protected function _loadProductBySku($sku, $config = array())
     {
+        /** @var $product Mage_Catalog_Model_Product */
+        $product = Mage::getModel('catalog/product')->loadByAttribute('sku', $sku);
+        if ($product && $product->getId()) {
+            return $product;
+        }
+
         $skuParts = explode('-', $sku);
         $primarySku = array_shift($skuParts);
 
@@ -760,7 +766,6 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
             return false;
         }
 
-        /** @var $product Mage_Catalog_Model_Product */
         $product = Mage::getModel('catalog/product')->loadByAttribute('sku', $primarySku);
 
         if ($this->_shouldBeConfigured($product) && $this->_isConfigured($product, $config)) {
@@ -782,7 +787,7 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
                 if (empty($productOptionValues)) {
                     if ($productOption->hasSku()) {
                         $found = array_search($productOption->getSku(), $skuParts);
-                        if($found !== false) {
+                        if ($found !== false) {
                             unset($skuParts[$found]);
                         }
                     }
@@ -808,7 +813,7 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
                 if (empty($productOptionValues)) {
                     if ($productOption->hasSku()) {
                         $found = array_search($productOption->getSku(), $skuParts);
-                        if($found !== false) {
+                        if ($found !== false) {
                             unset($skuParts[$found]);
                         }
                     }
