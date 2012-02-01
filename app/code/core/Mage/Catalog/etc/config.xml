@@ -463,7 +463,7 @@
                 <observers>
                     <catalog_add_topmenu_items>
                         <class>catalog/observer</class>
-                        <method>catalogAddTopmenuItems</method>
+                        <method>addCatalogToTopmenuItems</method>
                     </catalog_add_topmenu_items>
                 </observers>
             </page_block_html_topmenu_gethtml_before>

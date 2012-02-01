@@ -552,10 +552,10 @@ class Enterprise_Cms_Model_Observer
      *
      * @param Varien_Event_Observer $observer
      */
-    public function cmsAddTopmenuItems(Varien_Event_Observer $observer)
+    public function addCmsToTopmenuItems(Varien_Event_Observer $observer)
     {
         /**
-         * @var Varien_Data_Tree_Node $topMenuRootNode
+         * @var $topMenuRootNode Varien_Data_Tree_Node
          */
         $topMenuRootNode = $observer->getMenu();
 
@@ -579,8 +579,8 @@ class Enterprise_Cms_Model_Observer
 
             if (!$nodeData || ($nodeData->getParentNodeId() == null && !$nodeData->getTopMenuVisibility())
                 || ($nodeData->getParentNodeId() != null && $nodeData->getTopMenuExcluded())
-                || ($nodeData->getPageId() && !$nodeData->getPageIsActive()))
-            {
+                || ($nodeData->getPageId() && !$nodeData->getPageIsActive())
+            ) {
                 continue;
             }
 
@@ -592,7 +592,7 @@ class Enterprise_Cms_Model_Observer
                 'is_active' => $this->_isCmsNodeActive($nodeData)
             );
 
-            $parentNodeId = is_null($node['parent_node_id']) ? $topMenuRootNode->getId()
+            $parentNodeId = !isset($node['parent_node_id']) ? $topMenuRootNode->getId()
                 : 'cms-hierarchy-node-' . $node['parent_node_id'];
             $parentNode = isset($nodesFlatList[$parentNodeId]) ? $nodesFlatList[$parentNodeId] : null;
 

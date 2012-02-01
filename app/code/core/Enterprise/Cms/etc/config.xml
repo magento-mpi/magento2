@@ -93,7 +93,7 @@
                 <observers>
                     <enterprise_cms_add_topmenu_items>
                         <class>enterprise_cms/observer</class>
-                        <method>cmsAddTopmenuItems</method>
+                        <method>addCmsToTopmenuItems</method>
                     </enterprise_cms_add_topmenu_items>
                 </observers>
             </page_block_html_topmenu_gethtml_before>

@@ -250,15 +250,9 @@ class Mage_Catalog_Model_Observer
      *
      * @param Varien_Event_Observer $observer
      */
-    public function catalogAddTopmenuItems(Varien_Event_Observer $observer)
+    public function addCatalogToTopmenuItems(Varien_Event_Observer $observer)
     {
-        /**
-         * @var Varien_Data_Tree_Node $topMenuRootNode
-         */
-        $topMenuRootNode = $observer->getMenu();
-        $storeRootCategories = $helper = Mage::helper('catalog/category')->getStoreCategories();
-
-        $this->_addCategoriesToMenu($storeRootCategories, $topMenuRootNode);
+        $this->_addCategoriesToMenu(Mage::helper('catalog/category')->getStoreCategories(), $observer->getMenu());
     }
 
     /**

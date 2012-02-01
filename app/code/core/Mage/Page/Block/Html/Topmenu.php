@@ -43,7 +43,7 @@ class Mage_Page_Block_Html_Topmenu extends Mage_Core_Block_Template
     /**
      * Init top menu tree structure
      */
-    public function __construct()
+    public function _construct()
     {
         $this->_menu = new Varien_Data_Tree_Node(array(), 'root', new Varien_Data_Tree());
     }
