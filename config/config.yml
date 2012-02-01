@@ -25,6 +25,11 @@
 # @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 #
 ---
+################################################################################
+#                                                                              #
+#                      Browsers for running tests                              #
+#                                                                              #
+################################################################################
 browsers:
     firefox: &chrome
         name: Firefox
@@ -48,6 +53,12 @@ browsers:
         doNotKillBrowsers: false
         browserTimeoutPeriod: 40000
     default: *chrome
+
+################################################################################
+#                                                                              #
+#                      Projects configuration                                  #
+#                                                                              #
+################################################################################
 default:
     cache:
         frontend:
@@ -63,11 +74,12 @@ default:
     uimaps:
         basePath: uimaps
     applications:
-        magento: &magento
+        mage: &mage
             adminLogin: admin
             adminPassword: 123123q
             storeName: Store 1
             basePath: '/path/to/app/installation'
+            fallbackorder: 'default'
             areas:
                 admin:
                     url: 'http://www.localhost.com/magento/admin/'
@@ -75,10 +87,70 @@ default:
                 frontend:
                     url: 'http://www.localhost.com/magento/'
                     uimap_path: 'frontend'
-                paypal-sandbox:
+                paypal-sandbox: &paypalSandbox
                     url: 'https://www.sandbox.paypal.com/'
                     uimap_path: 'third-party/paypal-sandbox'
-                paypal-developer:
+                paypal-developer: &paypalDeveloper
                     url: 'https://developer.paypal.com/'
                     uimap_path: 'third-party/paypal-developer'
-        default: *magento
+        enterprise: &enterprise
+            adminLogin: admin
+            adminPassword: 123123q
+            storeName: Store 1
+            basePath: '/path/to/app/installation'
+            fallbackorder: 'default enterprise'
+            areas:
+                admin:
+                    url: 'http://www.localhost.com/magento/admin/'
+                    uimap_path: 'admin'
+                frontend:
+                    url: 'http://www.localhost.com/magento/'
+                    uimap_path: 'frontend'
+                paypal-sandbox: *paypalSandbox
+                paypal-developer: *paypalDeveloper
+        saas: &saas
+            adminLogin: admin
+            adminPassword: 123123q
+            storeName: Store 1
+            basePath: '/path/to/app/installation'
+            fallbackorder: 'default enterprise saas'
+            areas:
+                admin:
+                    url: 'http://www.localhost.com/magento/admin/'
+                    uimap_path: 'admin'
+                frontend:
+                    url: 'http://www.localhost.com/magento/'
+                    uimap_path: 'frontend'
+                paypal-sandbox: *paypalSandbox
+                paypal-developer: *paypalDeveloper
+        paas: &paas
+            adminLogin: admin
+            adminPassword: 123123q
+            storeName: Store 1
+            basePath: '/path/to/app/installation'
+            fallbackorder:
+            areas:
+                admin:
+                    url: 'http://www.localhost.com/magento/admin/'
+                    uimap_path: 'admin'
+                frontend:
+                    url: 'http://www.localhost.com/magento/'
+                    uimap_path: 'frontend'
+                paypal-sandbox: *paypalSandbox
+                paypal-developer: *paypalDeveloper
+        ecg: &ecg
+            adminLogin: admin
+            adminPassword: 123123q
+            storeName: Store 1
+            basePath: '/path/to/app/installation'
+            fallbackorder:
+            areas:
+                admin:
+                    url: 'http://www.localhost.com/magento/admin/'
+                    uimap_path: 'admin'
+                frontend:
+                    url: 'http://www.localhost.com/magento/'
+                    uimap_path: 'frontend'
+                paypal-sandbox: *paypalSandbox
+                paypal-developer: *paypalDeveloper
+        default: *mage
