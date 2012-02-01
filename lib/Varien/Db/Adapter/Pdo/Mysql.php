@@ -601,7 +601,9 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
      */
     protected function _splitMultiQuery($sql)
     {
-        $parts = preg_split('#(;|\'|"|\\\\|//|--|\n|/\*|\*/)#', $sql, null, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
+        $parts = preg_split('#(;|\'|"|\\\\|//|--|\n|/\*|\*/)#', $sql, null,
+            PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE
+        );
 
         $q      = false;
         $c      = false;
@@ -868,7 +870,8 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
         $schemaName = null)
     {
         if (!$this->tableColumnExists($tableName, $oldColumnName, $schemaName)) {
-            throw new Zend_Db_Exception(sprintf('Column "%s" does not exists on table "%s"', $oldColumnName, $tableName));
+            throw new Zend_Db_Exception(sprintf('Column "%s" does not exists on table "%s"', $oldColumnName,
+                $tableName));
         }
 
         if (is_array($definition)) {
@@ -3592,5 +3595,15 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
         }
 
         return $fkName;
+    }
+
+    /**
+     * Destructor for test transaction level
+     */
+    public function __destruct()
+    {
+        if ($this->_transactionLevel > 0 && Mage::getIsDeveloperMode()) {
+            trigger_error('Transaction won\'t commit', E_USER_ERROR);
+        }
     }
 }
