@@ -109,43 +109,53 @@ class Util_Files
      *     'include_design' => true|false,
      * )
      *
-     * @param array $params
+     * @param array $incomingParams
      * @return array
      */
-    public static function getLayoutFiles($params = array())
+    public static function getLayoutFiles($incomingParams = array())
     {
-        $root      = PATH_TO_SOURCE_CODE;
-        $pool      = isset($params['pool']) ? $params['pool'] : '*';
-        $namespace = isset($params['namespace']) ? $params['namespace'] : '*';
-        $module    = isset($params['module']) ? $params['module'] : '*';
-        $area      = isset($params['area']) ? $params['area'] : '*';
-        $package   = isset($params['package']) ? $params['package'] : '*';
-        $theme     = isset($params['theme']) ? $params['theme'] : '*';
-        $includeCode = isset($params['include_code']) ? $params['include_code'] : true;
-        $includeDesign = isset($params['include_design']) ? $params['include_design'] : true;
-
-        $cacheKey = md5(
-            "{$root}|{$pool}|{$namespace}|{$module}|{$area}|{$package}|{$theme}{$includeCode}|{$includeDesign}"
+         $root = PATH_TO_SOURCE_CODE;
+         $params = array(
+            'pool' => '*',
+            'namespace' => '*',
+            'module' => '*',
+            'area' => '*',
+            'package' => '*',
+            'theme' => '*',
+            'include_code' => true,
+            'include_design' => true
         );
+        foreach (array_keys($params) as $key) {
+            if (isset($incomingParams[$key])) {
+                $params[$key] = $incomingParams[$key];
+            }
+        }
+
+        $cacheKey = md5(implode('|', $params));
         if (isset(self::$_cache[__METHOD__][$cacheKey])) {
             return self::$_cache[__METHOD__][$cacheKey];
         }
 
         $files = array();
-        if ($includeCode) {
+        if ($params['include_code']) {
             $files = self::_getFiles(
-                array("{$root}/app/code/{$pool}/{$namespace}/{$module}/view/{$area}"),
+                array("{$root}/app/code/{$params['pool']}/{$params['namespace']}/{$params['module']}"
+                    . "/view/{$params['area']}"),
                 '*.xml'
             );
         }
-        if ($includeDesign) {
+        if ($params['include_design']) {
             $files = array_merge(
                 $files,
                 self::_getFiles(
-                    array("{$root}/app/design/{$area}/{$package}/{$theme}/{$namespace}_{$module}"),
+                    array("{$root}/app/design/{$params['area']}/{$params['package']}/{$params['theme']}"
+                        . "/{$params['namespace']}_{$params['module']}"),
                     '*.xml'
                 ),
-                glob("{$root}/app/design/{$area}/{$package}/{$theme}/local.xml", GLOB_NOSORT)
+                glob(
+                    "{$root}/app/design/{$params['area']}/{$params['package']}/{$params['theme']}/local.xml",
+                    GLOB_NOSORT
+                )
             );
         }
 
