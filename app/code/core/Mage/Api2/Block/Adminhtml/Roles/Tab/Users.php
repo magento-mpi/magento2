@@ -58,7 +58,7 @@ class Mage_Api2_Block_Adminhtml_Roles_Tab_Users extends Mage_Adminhtml_Block_Wid
             'acl.admin_id = main_table.user_id',
             'role_id'
         );
-        
+
         $collection->addFilter('acl.role_id', $this->getRole()->getId());
         $this->setCollection($collection);
         parent::_prepareCollection();
