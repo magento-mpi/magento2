@@ -31,7 +31,7 @@
  * @package    Mage_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Api2_Adminhtml_RolesController extends Mage_Adminhtml_Controller_Action
+class Mage_Api2_Adminhtml_Api2_RolesController extends Mage_Adminhtml_Controller_Action
 {
     public function indexAction()
     {
@@ -250,5 +250,19 @@ class Mage_Api2_Adminhtml_RolesController extends Mage_Adminhtml_Controller_Acti
     {
         $this->_getSession()->setData('role_data', $data);
         return $this;
+    }
+
+    /**
+     * Get API2 roles ajax grid action
+     */
+    public function rolesGridAction()
+    {
+        /** @var $model Mage_Admin_Model_User */
+        $model = Mage::getModel('admin/user');
+        $model->load($this->getRequest()->getParam('user_id'));
+
+        Mage::register('permissions_user', $model);
+        $this->getResponse()
+            ->setBody($this->getLayout()->createBlock('api2/adminhtml_permissions_user_edit_tab_roles')->toHtml());
     }
 }

@@ -25,13 +25,13 @@
  */
 
 /**
- * REST role list for user permissions
+ * API2 role list for user permissions
  *
  * @category   Mage
  * @package    Mage_Api2
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Api2_Block_Adminhtml_Permissions_User_Edit_Tab_Rest_Roles
+class Mage_Api2_Block_Adminhtml_Permissions_User_Edit_Tab_Roles
     extends Mage_Adminhtml_Block_Widget_Grid
     implements Mage_Adminhtml_Block_Widget_Tab_Interface
 {
@@ -78,7 +78,7 @@ class Mage_Api2_Block_Adminhtml_Permissions_User_Edit_Tab_Rest_Roles
     public function __construct()
     {
         parent::__construct();
-        $this->setId('rest_roles_section')
+        $this->setId('api2_roles_section')
             ->setDefaultSort('sort_order')
             ->setDefaultDir(Varien_Db_Select::SQL_ASC)
             ->setTitle(Mage::helper('api2')->__('REST Roles Information'))
@@ -137,7 +137,7 @@ class Mage_Api2_Block_Adminhtml_Permissions_User_Edit_Tab_Rest_Roles
 
     public function getGridUrl()
     {
-        return $this->getUrl('*/api2_user/rolesGrid', array('user_id' => Mage::registry('permissions_user')
+        return $this->getUrl('*/api2_roles/rolesGrid', array('user_id' => Mage::registry('permissions_user')
             ->getUserId()));
     }
 
