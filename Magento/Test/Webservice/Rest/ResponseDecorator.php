@@ -31,6 +31,18 @@
  * @category    Magento
  * @package     Magento_Test
  * @author      Magento Api Team <api-team@magento.com>
+ * @method boolean isError() isError()
+ * @method int getStatus() getStatus()
+ * @method boolean isSuccessful() isSuccessful()
+ * @method boolean isRedirect() isRedirect()
+ * @method string getRawBody() getRawBody()
+ * @method string getVersion() getVersion()
+ * @method int getStatus() getStatus()
+ * @method string getMessage() getMessage()
+ * @method array getHeaders() getHeaders()
+ * @method string|array|null getHeader($header) getHeader($header)
+ * @method string getHeadersAsString($status_line, $br) getHeadersAsString($status_line, $br)
+ * @method string asString($br)
  */
 class Magento_Test_Webservice_Rest_ResponseDecorator
 {
@@ -42,39 +54,9 @@ class Magento_Test_Webservice_Rest_ResponseDecorator
     }
 
     /**
-     * Check whether the response is an error
-     *
-     * @return boolean
-     */
-    public function isError()
-    {
-        return $this->_zendHttpResponse->isError();
-    }
-
-    /**
-     * Check whether the response in successful
-     *
-     * @return boolean
-     */
-    public function isSuccessful()
-    {
-        return $this->_zendHttpResponse->isSuccessful();
-    }
-
-    /**
-     * Check whether the response is a redirection
-     *
-     * @return boolean
-     */
-    public function isRedirect()
-    {
-        return $this->_zendHttpResponse->isRedirect();
-    }
-
-    /**
      * Get the response body as array
      *
-     * @return array|string
+     * @return array
      */
     public function getBody()
     {
@@ -85,95 +67,19 @@ class Magento_Test_Webservice_Rest_ResponseDecorator
     }
 
     /**
-     * Get the raw response body (as transfered "on wire") as string
+     * Proxy method calls to decorated object
      *
-     * If the body is encoded (with Transfer-Encoding, not content-encoding -
-     * IE "chunked" body), gzip compressed, etc. it will not be decoded.
-     *
-     * @return string
+     * @param $method
+     * @param $arguments
+     * @return mixed
      */
-    public function getRawBody()
+    public function __call($method, $arguments)
     {
-        return $this->_zendHttpResponse->getRawBody();
+       return call_user_func_array(array($this->_zendHttpResponse, $method), $arguments);
     }
 
     /**
-     * Get the HTTP version of the response
-     *
-     * @return string
-     */
-    public function getVersion()
-    {
-        return $this->_zendHttpResponse->getVersion();
-    }
-
-    /**
-     * Get the HTTP response status code
-     *
-     * @return int
-     */
-    public function getStatus()
-    {
-        return $this->_zendHttpResponse->getStatus();
-    }
-
-    /**
-     * Return a message describing the HTTP response code
-     * (Eg. "OK", "Not Found", "Moved Permanently")
-     *
-     * @return string
-     */
-    public function getMessage()
-    {
-        return $this->_zendHttpResponse->getMessage();
-    }
-
-    /**
-     * Get the response headers
-     *
-     * @return array
-     */
-    public function getHeaders()
-    {
-        return $this->_zendHttpResponse->getHeaders();
-    }
-
-    /**
-     * Get a specific header as string, or null if it is not set
-     *
-     * @param string$header
-     * @return string|array|null
-     */
-    public function getHeader($header)
-    {
-        return $this->_zendHttpResponse->getHeader($header);
-    }
-
-    /**
-     * Get all headers as string
-     *
-     * @param boolean $status_line Whether to return the first status line (IE "HTTP 200 OK")
-     * @param string $br Line breaks (eg. "\n", "\r\n", "<br />")
-     * @return string
-     */
-    public function getHeadersAsString($status_line = true, $br = "\n")
-    {
-        return $this->_zendHttpResponse->getHeadersAsString($status_line, $br);
-    }
-
-    /**
-     * Get the entire response as string
-     *
-     * @param string $br Line breaks (eg. "\n", "\r\n", "<br />")
-     * @return string
-     */
-    public function asString($br = "\n")
-    {
-        return $this->_zendHttpResponse->asString($br);
-    }
-
-    /**
-     * Implements magic __toString()
+     * Proxy __toString
      *
      * @return string
      */
