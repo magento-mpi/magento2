@@ -30,15 +30,16 @@ class Integrity_LayoutTest extends PHPUnit_Framework_TestCase
      */
     public function handleLabelCountDataProvider()
     {
-        $root = PATH_TO_SOURCE_CODE;
-        $pool = $namespace = $module = '*';
-        $files = glob(
-            "{$root}/app/code/{$pool}/{$namespace}/{$module}/view/frontend/*.xml",
-            GLOB_NOSORT | GLOB_BRACE
-        );
-
         $handles = array();
-        foreach ($files as $path) {
+
+        /*
+         * Collect counts of handle labels that declared in code
+         */
+        $files = Util_Files::getLayoutFiles(array(
+            'include_design' => false,
+            'area' => 'frontend'
+        ));
+        foreach ($files as $path => $details) {
             $xml = simplexml_load_file($path);
             $handleNodes = $xml->xpath('/layout/*') ?: array();
             foreach ($handleNodes as $handleNode) {
@@ -47,6 +48,23 @@ class Integrity_LayoutTest extends PHPUnit_Framework_TestCase
                     $handles[$handleNode->getName()] = $handles[$handleNode->getName()] + (int)$isLabel;
                 } else {
                     $handles[$handleNode->getName()] = (int)$isLabel;
+                }
+            }
+        }
+
+        /*
+         * Collect handle labels that declared in design only
+         */
+        $files = Util_Files::getLayoutFiles(array(
+            'include_code' => false,
+            'area' => 'frontend'
+        ));
+        foreach ($files as $path => $details) {
+            $xml = simplexml_load_file($path);
+            $handleNodes = $xml->xpath('/layout/*') ?: array();
+            foreach ($handleNodes as $handleNode) {
+                if (!isset($handles[$handleNode->getName()])) {
+                    $handles[$handleNode->getName()] = 0;
                 }
             }
         }

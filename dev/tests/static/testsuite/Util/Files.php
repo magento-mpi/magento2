@@ -97,27 +97,60 @@ class Util_Files
     /**
      * Returns list of layout files, used by Magento application modules
      *
+     * An incoming array can contain the following items
+     * array (
+     *     'pool'           => 'pool_name',
+     *     'namespace'      => 'namespace_name',
+     *     'module'         => 'module_name',
+     *     'area'           => 'area_name',
+     *     'package'        => 'package_name',
+     *     'theme'          => 'theme_name',
+     *     'include_code'   => true|false,
+     *     'include_design' => true|false,
+     * )
+     *
+     * @param array $params
      * @return array
      */
-    public static function getLayoutFiles()
+    public static function getLayoutFiles($params = array())
     {
-        if (isset(self::$_cache[__METHOD__])) {
-            return self::$_cache[__METHOD__];
-        }
-        $root = PATH_TO_SOURCE_CODE;
-        $pool = $namespace = $module = $area = $package = $theme = '*';
-        $files = array_merge(
-            self::_getFiles(
-                array(
-                    "{$root}/app/code/{$pool}/{$namespace}/{$module}/view/{$area}",
-                    "{$root}/app/design/{$area}/{$package}/{$theme}/{$namespace}_{$module}",
-                ),
-                '*.xml'
-            ),
-            glob("{$root}/app/design/{$area}/{$package}/{$theme}/local.xml", GLOB_NOSORT)
+        $root      = PATH_TO_SOURCE_CODE;
+        $pool      = isset($params['pool']) ? $params['pool'] : '*';
+        $namespace = isset($params['namespace']) ? $params['namespace'] : '*';
+        $module    = isset($params['module']) ? $params['module'] : '*';
+        $area      = isset($params['area']) ? $params['area'] : '*';
+        $package   = isset($params['package']) ? $params['package'] : '*';
+        $theme     = isset($params['theme']) ? $params['theme'] : '*';
+        $includeCode = isset($params['include_code']) ? $params['include_code'] : true;
+        $includeDesign = isset($params['include_design']) ? $params['include_design'] : true;
+
+        $cacheKey = md5(
+            "{$root}|{$pool}|{$namespace}|{$module}|{$area}|{$package}|{$theme}{$includeCode}|{$includeDesign}"
         );
+        if (isset(self::$_cache[__METHOD__][$cacheKey])) {
+            return self::$_cache[__METHOD__][$cacheKey];
+        }
+
+        $files = array();
+        if ($includeCode) {
+            $files = self::_getFiles(
+                array("{$root}/app/code/{$pool}/{$namespace}/{$module}/view/{$area}"),
+                '*.xml'
+            );
+        }
+        if ($includeDesign) {
+            $files = array_merge(
+                $files,
+                self::_getFiles(
+                    array("{$root}/app/design/{$area}/{$package}/{$theme}/{$namespace}_{$module}"),
+                    '*.xml'
+                ),
+                glob("{$root}/app/design/{$area}/{$package}/{$theme}/local.xml", GLOB_NOSORT)
+            );
+        }
+
         $result = self::composeDataSets($files);
-        self::$_cache[__METHOD__] = $result;
+        self::$_cache[__METHOD__][$cacheKey] = $result;
         return $result;
     }
 

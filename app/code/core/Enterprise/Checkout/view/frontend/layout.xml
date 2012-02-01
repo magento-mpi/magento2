@@ -17,7 +17,7 @@
     </default>
 
     <sku_failed_products_handle translate="label">
-        <label>Checkout Sku Failed Product Handle</label>
+        <label>Checkout with Failed Product Sku</label>
         <reference name="checkout.cart">
             <block type="Enterprise_Checkout_Block_Sku_Products" name="sku.failed.products" template="cart/sku/failed.phtml" as="shopping.cart.table.after">
                 <block type="Enterprise_Checkout_Block_Sku_Products_Info" name='additional.product.info' template="cart/sku/failed/info.phtml" />
@@ -55,7 +55,7 @@ Customer Account Dashboard
     </customer_account>
 
     <enterprise_checkout_sku_index translate="label">
-        <label>Checkout Customer Sku</label>
+        <label>Customer Checkout by SKU</label>
         <update handle="customer_account"/>
         <reference name="my.account.wrapper">
             <block type="Mage_Core_Block_Template" name="checkout.customer.order" template="customer/sku.phtml">

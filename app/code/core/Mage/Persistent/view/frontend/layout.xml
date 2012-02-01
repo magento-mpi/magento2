@@ -43,4 +43,8 @@
             <block type="Mage_Sales_Block_Reorder_Sidebar" name="sale.reorder.sidebar" as="reorder" template="reorder/sidebar.phtml"/>
         </reference>
     </customer_logged_out>
+
+    <customer_logged_out_psc_handle translate="label">
+        <label>Customer Logged Out with Persistent Shopping Cart</label>
+    </customer_logged_out_psc_handle>
 </layout>
