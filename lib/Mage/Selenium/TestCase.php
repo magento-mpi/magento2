@@ -1645,34 +1645,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                 }
                 return true;
             }
-        }
-        return null;
-    }
-
-    #******************************************************
-    #                 Messages helper methods             *
-    #******************************************************
-
-    /**
-     * Removes all added messages
-     */
-    public function clearMessages()
-    {
-        Mage_Selenium_TestCase::$_messages = array();
-    }
-
-    /**
-     * Adds field ID to Message Xpath (sets %fieldId% parameter)
-     *
-     * @param srting $fieldType Field type
-     * @param srting $fieldName Field name from UIMap
-     */
-    public function addFieldIdToMessage($fieldType, $fieldName)
-    {
-        $fieldXpath = $this->_getControlXpath($fieldType, $fieldName);
-        if ($this->isElementPresent($fieldXpath . '/@id')) {
-            $fieldId = $this->getAttribute($fieldXpath . '/@id');
-            $fieldId = empty($fieldId) ? $this->getAttribute($fieldXpath . '/@name') : $fieldId;
         } else {
             $this->addVerificationMessage("There is no way to click on control(There is no '$controlName' control)");
         }
