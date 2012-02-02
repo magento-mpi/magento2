@@ -35,14 +35,11 @@ class Mage_DesignEditor_Block_ToolbarTest extends PHPUnit_Framework_TestCase
     public function testToHtmlDesignEditorActive()
     {
         $this->assertNotEmpty($this->_block->toHtml());
+        $this->assertContains('title="Exit" class="vde_button">', $this->_block->toHtml());
     }
 
-    /**
-     * @magentoDataFixture Mage/DesignEditor/_files/design_editor_active.php
-     */
-    public function testGetExitButton()
+    public function testGetExitUrl()
     {
         $this->assertContains('index.php/admin/system_design_editor/exit/', $this->_block->getExitUrl());
-        $this->assertContains('title="Exit" class="vde_button">', $this->_block->toHtml());
     }
 }
