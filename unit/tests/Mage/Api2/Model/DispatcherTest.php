@@ -71,7 +71,7 @@ class Mage_Api2_Model_DispatcherTest extends Mage_PHPUnit_TestCase
      */
     public function testDispatch()
     {
-        $userMock = $this->getMock('Mage_Api2_Model_Auth_User_Guest');
+        $userMock = $this->getMock('Mage_Api2_Model_Auth_User_Guest', array('getType'));
 
         $userMock->expects($this->once())
             ->method('getType')

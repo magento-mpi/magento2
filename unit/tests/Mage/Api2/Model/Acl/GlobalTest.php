@@ -39,7 +39,7 @@ class Mage_Api2_Model_Acl_GlobalTest extends Mage_PHPUnit_TestCase
     const RESOURCE_VALID    = 'resource_valid';
     const RESOURCE_INVALID  = 'resource_invalid';
     const OPERATION_ALLOWED = 'operation_allowed';
-    /**#@- */
+    /**#@-*/
 
     /**
      * @var PHPUnit_Framework_MockObject_MockObject

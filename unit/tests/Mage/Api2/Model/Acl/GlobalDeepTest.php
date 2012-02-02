@@ -38,7 +38,7 @@ class Mage_Api2_Model_Acl_GlobalDeepTest extends Mage_PHPUnit_TestCase
     const OPERATION_ALLOWED = 'operation_allowed';
     const OPERATION_DENIED  = 'operation_denied';
     const OPERATION_INVALID = 'operation_invalid';
-    /**#@- */
+    /**#@-*/
 
     /**
      * @var Mage_Api2_Model_Acl_Global
