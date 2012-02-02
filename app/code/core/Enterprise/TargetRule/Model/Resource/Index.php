@@ -605,7 +605,8 @@ class Enterprise_TargetRule_Model_Resource_Index extends Mage_Index_Model_Resour
      *
      * @return array
      */
-    protected function _getSegmentsIdsFromCurrentCustomer(){
+    protected function _getSegmentsIdsFromCurrentCustomer()
+    {
         $segmentIds = array();
         if (Mage::helper('enterprise_customersegment')->isEnabled()) {
             $customer = Mage::registry('segment_customer');
