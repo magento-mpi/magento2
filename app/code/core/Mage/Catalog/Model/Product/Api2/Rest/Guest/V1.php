@@ -1,6 +1,6 @@
 <?php
 
-class Mage_Catalog_Model_Product_Api2_Rest_Guest_V1 extends Mage_Api2_Model_Resource
+class Mage_Catalog_Model_Product_Api2_Rest_Guest_V1 extends Mage_Api2_Model_Resource_Instance
 {
     /**
      * Get product

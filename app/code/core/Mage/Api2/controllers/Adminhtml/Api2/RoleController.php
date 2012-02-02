@@ -31,7 +31,7 @@
  * @package    Mage_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Api2_Adminhtml_Api2_RoleController extends Mage_Adminhtml_Controller_Action
+class Mage_Api2_Adminhtml_Api2_RolesController extends Mage_Adminhtml_Controller_Action
 {
     /**
      * Show grid
@@ -85,6 +85,9 @@ class Mage_Api2_Adminhtml_Api2_RoleController extends Mage_Adminhtml_Controller_
              ->_title($this->__('Rest Roles'));
 
         $this->loadLayout()->_setActiveMenu('system/services/roles');
+        /*$this->_addBreadcrumb($this->__('Web services'), $this->__('Web services'));
+        $this->_addBreadcrumb($this->__('REST Roles'), $this->__('REST Roles'));
+        $this->_addBreadcrumb($this->__('Roles'), $this->__('Roles'));*/
 
         $breadCrumb = $this->__('Add New Role');
         $breadCrumbTitle = $this->__('Add New Role');
@@ -92,15 +95,45 @@ class Mage_Api2_Adminhtml_Api2_RoleController extends Mage_Adminhtml_Controller_
 
         $this->_addBreadcrumb($breadCrumb, $breadCrumbTitle);
 
-        /** @var $head Mage_Page_Block_Html_Head */
-        $head = $this->getLayout()->getBlock('head');
-        $head->setCanLoadExtJs(true);
+        $this->getLayout()->getBlock('head')->setCanLoadExtJs(true);
 
+        $this->_addLeft(
+            $this->getLayout()->createBlock('api2/adminhtml_roles_tabs')
+        );
+        $this->_addContent($this->getLayout()->createBlock('api2/adminhtml_roles_buttons'));
         $this->_addJs(
             $this->getLayout()->createBlock('adminhtml/template')
                 ->setTemplate('api/role_users_grid_js.phtml')
         );
         $this->renderLayout();
+    }
+
+    /**
+     * Save role
+     *
+     * @return mixed
+     */
+    public function saveAction()
+    {
+        $id = $this->getRequest()->getParam('id', false);
+        /** @var $role Mage_Api2_Model_Acl_Global_Role */
+        $role = Mage::getModel('api2/acl_global_role')->load($id);
+
+        if (!$role->getId() && $id) {
+            Mage::getSingleton('adminhtml/session')->addError(
+                $this->__('Role "%s" no longer exists', $role->getData('role_name')));
+            $this->_redirect('*/*/');
+            return;
+        }
+
+        try {
+            $role->setRoleName($this->getRequest()->getParam('role_name', false))->save();
+            Mage::getSingleton('adminhtml/session')->addSuccess($this->__('The role has been saved.'));
+        } catch (Exception $e) {
+            Mage::getSingleton('adminhtml/session')->addError($this->__('An error occurred while saving this role.'));
+        }
+
+        $this->_redirect('*/*/');
     }
 
     /**
@@ -123,92 +156,18 @@ class Mage_Api2_Adminhtml_Api2_RoleController extends Mage_Adminhtml_Controller_
         $this->_title($this->__('Edit Role'));
         $this->_addBreadcrumb($breadCrumb, $breadCrumbTitle);
 
-        /** @var $head Mage_Page_Block_Html_Head */
-        $head = $this->getLayout()->getBlock('head');
-        $head->setCanLoadExtJs(true);
+        $this->getLayout()->getBlock('head')->setCanLoadExtJs(true);
 
-        /** @var $tabs Mage_Api2_Block_Adminhtml_Roles_Tabs */
-        $tabs = $this->getLayout()->getBlock('adminhtml.role.edit.tabs');
-        $tabs->setRole($role);
+        $this->_addLeft(
+            $this->getLayout()->createBlock('api2/adminhtml_roles_tabs')->setRole($role)
 
-        /** @var $buttons Mage_Api2_Block_Adminhtml_Roles_Buttons */
-        $buttons = $this->getLayout()->getBlock('adminhtml.roles.buttons');
-        $buttons->setRole($role);
+        );
+
+        $this->_addContent(
+            $this->getLayout()->createBlock('api2/adminhtml_roles_buttons')->setRole($role)
+        );
 
         $this->renderLayout();
-    }
-
-    /**
-     * Save role
-     *
-     * @return mixed
-     */
-    public function saveAction()
-    {
-        $id = $this->getRequest()->getParam('id', false);
-        /** @var $role Mage_Api2_Model_Acl_Global_Role */
-        $role = Mage::getModel('api2/acl_global_role')->load($id);
-
-        if (!$role->getId() && $id) {
-            Mage::getSingleton('adminhtml/session')->addError(
-                $this->__('Role "%s" no longer exists', $role->getData('role_name')));
-            $this->_redirect('*/*/');
-            return;
-        }
-
-
-        $isAll = $this->getRequest()->getParam('all');
-        if ($isAll) {
-            $resources = array('all');
-        } else {
-            $resources = explode(',', $this->getRequest()->getParam('resource'));
-            $prefix = 'resource-';
-            foreach ($resources as $i => $item) {
-                if (0 === strpos($item, $prefix)) {
-                    $resources[$i] = substr($item, mb_strlen($prefix, 'UTF-8'));
-                } else {
-                    unset($resources[$i]);
-                }
-            }
-        }
-
-        /** @var $session Mage_Adminhtml_Model_Session */
-        $session = Mage::getSingleton('adminhtml/session');
-
-        try {
-            $role->setRoleName($this->getRequest()->getParam('role_name', false))
-                    ->save();
-
-            /** @var $rule Mage_Api2_Model_Acl_Global_Rule */
-            $rule = Mage::getModel('api2/acl_global_rule');
-
-            if ($id) {
-                $collection = $rule->getCollection();
-                $collection->addFilterByRoleId($role->getId());
-
-                /** @var $model Mage_Api2_Model_Acl_Global_Rule */
-                foreach ($collection as $model) {
-                    $model->delete();
-                }
-            }
-
-            $id = $role->getId();
-            foreach ($resources as $resource) {
-                $rule->setId(null)
-                        ->isObjectNew(true);
-
-                $rule->setRoleId($id)
-                        ->setResourceId($resource)
-                        ->setPermission(Mage_Api2_Model_Acl_Global_Rule_Permission::SOURCE_ALLOW)
-                        ->save();
-            }
-
-            $session->addSuccess($this->__('The role has been saved.'));
-        } catch (Exception $e) {
-            $session->addError($this->__('An error occurred on the saving role.'));
-        }
-
-        $this->_redirect('*/*/');
     }
 
     /**
