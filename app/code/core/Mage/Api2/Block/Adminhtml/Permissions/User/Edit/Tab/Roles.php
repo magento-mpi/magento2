@@ -194,7 +194,7 @@ class Mage_Api2_Block_Adminhtml_Permissions_User_Edit_Tab_Roles
     public function getGridUrl()
     {
         return $this->getUrl(
-            '*/api2_roles/rolesGrid',
+            '*/api2_role/rolesGrid',
             array('user_id' => Mage::registry('permissions_user')->getUserId())
         );
     }
