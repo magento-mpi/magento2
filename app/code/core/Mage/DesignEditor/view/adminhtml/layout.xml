@@ -20,7 +20,7 @@
 
     <adminhtml_system_design_editor_exit>
         <reference name="content">
-            <block type="Mage_DesignEditor_Block_Adminhtml_Exit" name="design_editor_exit" as="exit" template="exit.phtml"/>
+            <block type="Mage_Adminhtml_Block_Template" name="design_editor_exit" as="exit" template="Mage_DesignEditor::exit.phtml"/>
         </reference>
     </adminhtml_system_design_editor_exit>
 </layout>
