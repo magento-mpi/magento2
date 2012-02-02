@@ -40,6 +40,6 @@
         </testsuite>
     </testsuites>
     <logging>
-        <log type="testdox-html" target="../tmp/unittests.html"/>
+        <log type="testdox-html" target="../../../tmp/unittests.html"/>
     </logging>
 </phpunit>
