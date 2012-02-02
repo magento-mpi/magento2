@@ -14,6 +14,6 @@ require __DIR__ . '/admin_user.php';
 $user = new Mage_Admin_Model_User();
 $user->loadByUsername('admin');
 
-$session = Mage::getSingleton('Mage_Admin_Model_Session');
+$session = new Mage_Admin_Model_Session();
 $session->setData('user', $user);
 $session->setData('acl', Mage::getResourceModel('Mage_Admin_Model_Resource_Acl')->loadAcl());

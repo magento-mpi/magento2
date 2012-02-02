@@ -9,4 +9,5 @@
  * @license     {license_link}
  */
 
-Mage::getSingleton('Mage_DesignEditor_Model_Session')->activateDesignEditor();
+$session = new Mage_DesignEditor_Model_Session();
+$session->activateDesignEditor();

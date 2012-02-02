@@ -15,24 +15,9 @@
 class Mage_DesignEditor_Model_SessionTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * Do not backup/restore session data between tests
-     *
-     * @var bool
-     */
-    protected $backupGlobalsBlacklist = array('_SESSION');
-
-    /**
      * @var Mage_DesignEditor_Model_Session
      */
     protected $_model;
-
-    /**
-     * Cleanup session data
-     */
-    public static function tearDownAfterClass()
-    {
-        $_SESSION = array();
-    }
 
     protected function setUp()
     {
@@ -60,7 +45,7 @@ class Mage_DesignEditor_Model_SessionTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @depends testActivateDesignEditor
+     * @magentoDataFixture Mage/DesignEditor/_files/design_editor_active.php
      */
     public function testDeactivateDesignEditor()
     {

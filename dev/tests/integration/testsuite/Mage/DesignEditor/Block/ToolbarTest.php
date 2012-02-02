@@ -24,12 +24,18 @@ class Mage_DesignEditor_Block_ToolbarTest extends PHPUnit_Framework_TestCase
         $this->_block = new Mage_DesignEditor_Block_Toolbar(array('template' => 'toolbar.phtml'));
     }
 
+    /**
+     * Isolation has been raised because block pollutes the registry
+     *
+     * @magentoAppIsolation enabled
+     */
     public function testToHtmlDesignEditorInactive()
     {
         $this->assertEmpty($this->_block->toHtml());
     }
 
     /**
+     * @magentoAppIsolation enabled
      * @magentoDataFixture Mage/DesignEditor/_files/design_editor_active.php
      */
     public function testToHtmlDesignEditorActive()
