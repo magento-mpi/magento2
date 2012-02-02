@@ -13,6 +13,7 @@
  * Abstract class for the controller tests
  *
  * @SuppressWarnings(PHPMD.NumberOfChildren)
+ * @SuppressWarnings(PHPMD.numberOfChildren)
  */
 abstract class Magento_Test_TestCase_ControllerAbstract extends PHPUnit_Framework_TestCase
 {
