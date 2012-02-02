@@ -28,6 +28,12 @@
 class Mage_Eav_Model_Entity_Attribute_Set extends Mage_Core_Model_Abstract
 {
     /**
+     * Prefix of model events names
+     * @var string
+     */
+    protected $_eventPrefix = 'eav_entity_attribute_set';
+
+    /**
      * Initialize resource model
      *
      */

@@ -10,6 +10,14 @@
  */
 -->
 <logging>
+    <actions>
+        <massAdd translate="label" module="Enterprise_SalesArchive">
+            <label>Mass Add</label>
+        </massAdd>
+        <add translate="label" module="Enterprise_SalesArchive">
+            <label>Add</label>
+        </add>
+    </actions>
     <enterprise_salesarchive translate="label">
         <label>Sales Archive</label>
         <expected_models>

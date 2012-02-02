@@ -82,5 +82,4 @@ Default layout, loads most of the pages
             <block type="Mage_Core_Block_Template" name="default_no_route" template="Mage_Cms::default/no-route.phtml"/>
         </reference>
     </cms_index_defaultnoroute>
-
 </layout>

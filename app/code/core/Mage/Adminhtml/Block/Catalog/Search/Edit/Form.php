@@ -77,6 +77,7 @@ class Mage_Adminhtml_Block_Catalog_Search_Edit_Form extends Mage_Adminhtml_Block
                 'title'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Store'),
                 'values'    => Mage::getSingleton('Mage_Adminhtml_Model_System_Store')->getStoreValuesForForm(true, false),
                 'required'  => true,
+                'after_element_html' => Mage::getBlockSingleton('Mage_Adminhtml_Block_Store_Switcher')->getHintHtml()
             ));
         }
         else {

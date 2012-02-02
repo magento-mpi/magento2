@@ -46,7 +46,7 @@
     </enterprise_giftregistry_index_share>
 
     <enterprise_giftregistry_index_items translate="label">
-        <label>Customer GiftRegistry Item List</label>
+        <label>Customer GiftRegistry Items List</label>
         <update handle="customer_account"/>
         <reference name="customer_account_navigation">
             <action method="setActive"><path>enterprise_giftregistry/index/index</path></action>
@@ -84,7 +84,7 @@
     </enterprise_giftregistry_search_index>
 
     <enterprise_giftregistry_search_results translate="label">
-        <label>Customer GiftRegistry Search Result List</label>
+        <label>Customer GiftRegistry Search Results List</label>
         <update handle="calendar"/>
         <reference name="left">
             <remove name="giftregistry.quick.search" />
@@ -210,7 +210,7 @@
     </checkout_onepage_review>
 
     <enterprise_giftregistry_email_entity_items translate="label">
-        <label>Customer GiftRegistry Email Item List</label>
+        <label>Customer GiftRegistry Email Items List</label>
         <block type="Enterprise_GiftRegistry_Block_Email_Items" name="giftregistry.email.items" template="email/items.phtml"></block>
     </enterprise_giftregistry_email_entity_items>
 </layout>

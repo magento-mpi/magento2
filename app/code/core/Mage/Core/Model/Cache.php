@@ -140,12 +140,18 @@ class Mage_Core_Model_Cache
                 }
                 break;
             case 'memcached':
-                if (extension_loaded('memcache')) {
+                if (extension_loaded('memcached')) {
                     if (isset($cacheOptions['memcached'])) {
                         $options = $cacheOptions['memcached'];
                     }
                     $enable2levels = true;
-                    $backendType = 'Varien_Cache_Backend_Memcached';
+                    $backendType = 'Libmemcached';
+                } elseif (extension_loaded('memcache')) {
+                    if (isset($cacheOptions['memcached'])) {
+                        $options = $cacheOptions['memcached'];
+                    }
+                    $enable2levels = true;
+                    $backendType = 'Memcached';
                 }
                 break;
             case 'apc':

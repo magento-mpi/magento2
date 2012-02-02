@@ -10,7 +10,7 @@
 ?>
 <?php /* @var $this Mage_Core_Block_Template */ ?>
 <?php if ($websites = $this->getWebsites()): ?>
-<p class="switcher"><label for="store_switcher"><?php echo $this->__('Choose Store View') ?>:</label>
+<p class="switcher"><label for="store_switcher"><?php echo $this->__('Choose Store View:') ?></label>
 <select name="store_switcher" id="store_switcher" onchange="return switchStore(this);">
 <?php if ($this->hasDefaultOption()): ?>
     <option value=""><?php echo $this->getDefaultStoreName() ?></option>
@@ -36,6 +36,7 @@
         <?php endforeach; ?>
     <?php endforeach; ?>
 </select>
+<?php echo $this->getHintHtml() ?>
 </p>
 <script type="text/javascript">
     function switchStore(obj) {

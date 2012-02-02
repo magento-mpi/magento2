@@ -132,6 +132,7 @@ input.radio,
 input.checkbox { margin-right:3px; font-size:11px !important; margin-top:2px; vertical-align:top; }
 input.radio { font-size:10px !important; }
 input.qty { width:2.5em !important; }
+input.disabled { background:#f6f6f6 !important; color:#bbb !important; }
 button.button::-moz-focus-inner { padding:0; border:0; } /* FF Fix */
 button.button { -webkit-border-fit:lines; } /* <- Safari & Google Chrome Fix */
 
