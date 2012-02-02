@@ -47,9 +47,13 @@ class Mage_Api2_Model_Observer
         if ($user->hasData('api2_roles')) {
             $roles = $user->getData('api2_roles');
 
+            if (!is_array($roles) || !isset($roles[0])) {
+                throw new Exception('API2 roles property has wrong data format.');
+            }
+
             /** @var $resourceModel Mage_Api2_Model_Resource_Acl_Global_Role */
             $resourceModel = Mage::getResourceModel('api2/acl_global_role');
-            $resourceModel->saveAdminToRoleRelation($user->getId(), $roles['0']);
+            $resourceModel->saveAdminToRoleRelation($user->getId(), $roles[0]);
         }
     }
 }
