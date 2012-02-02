@@ -31,7 +31,7 @@
  * @package     Mage_Adminhtml
  * @author      Magento Api Team <api-team@magento.com>
  */
-class Mage_Api2_Adminhtml_Api2_RolesControllerTest extends Magento_Test_ControllerTestCaseAbstract
+class Mage_Api2_Adminhtml_Api2_RoleControllerTest extends Magento_Test_ControllerTestCaseAbstract
 {
     /**
      * Test role correctly saved
@@ -75,7 +75,7 @@ class Mage_Api2_Adminhtml_Api2_RolesControllerTest extends Magento_Test_Controll
             $this->loginToAdmin();
             $this->getRequest()->setParam('role_name', $roleName2);
             $this->getRequest()->setParam('id', $role->getId());
-            $this->dispatch('admin/api2_roles/save');
+            $this->dispatch('admin/api2_role/save');
         } catch (Exception $e) {
             throw $e;
         }
@@ -100,7 +100,7 @@ class Mage_Api2_Adminhtml_Api2_RolesControllerTest extends Magento_Test_Controll
         try {
             $this->loginToAdmin();
             $this->getRequest()->setParam('role_name', $roleName);
-            $this->dispatch('admin/api2_roles/');
+            $this->dispatch('admin/api2_role/');
         } catch (Exception $e) {
             throw $e;
         }
@@ -123,7 +123,7 @@ class Mage_Api2_Adminhtml_Api2_RolesControllerTest extends Magento_Test_Controll
         try {
             $this->loginToAdmin();
             $this->getRequest()->setParam('id', $role->getId());
-            $this->dispatch('admin/api2_roles/delete');
+            $this->dispatch('admin/api2_role/delete');
         } catch (Exception $e) {
             throw $e;
         }
