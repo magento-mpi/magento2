@@ -43,6 +43,6 @@ class Mage_DesignEditor_Block_ToolbarTest extends PHPUnit_Framework_TestCase
     public function testGetExitButton()
     {
         $this->assertContains('index.php/admin/system_design_editor/exit/', $this->_block->getExitUrl());
-        $this->assertContains('title="Exit" class="vde_button">Exit</a>', $this->_block->toHtml());
+        $this->assertContains('title="Exit" class="vde_button">', $this->_block->toHtml());
     }
 }

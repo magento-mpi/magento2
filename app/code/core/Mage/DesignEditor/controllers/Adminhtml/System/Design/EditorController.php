@@ -40,7 +40,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
     }
 
     /**
-     * Exit edit mode action
+     * Exit design editor
      */
     public function exitAction()
     {
