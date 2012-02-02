@@ -23,6 +23,15 @@
                 </designeditor>
             </updates>
         </layout>
+        <routers>
+            <catalog>
+                <use>standard</use>
+                <args>
+                    <module>Mage_DesignEditor</module>
+                    <frontName>design</frontName>
+                </args>
+            </catalog>
+        </routers>
     </frontend>
     <adminhtml>
         <layout>
