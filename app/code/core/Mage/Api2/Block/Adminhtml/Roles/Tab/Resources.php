@@ -24,8 +24,18 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+/**
+ * Block for rendering resources list tab
+ *
+ * @category   Mage
+ * @package    Mage_Api2
+ * @author     Magento Core Team <core@magentocommerce.com>
+ */
 class Mage_Api2_Block_Adminhtml_Roles_Tab_Resources extends Mage_Adminhtml_Block_Widget_Form {
 
+    /**
+     * Construct
+     */
     public function __construct()
     {
         parent::__construct();
@@ -33,6 +43,11 @@ class Mage_Api2_Block_Adminhtml_Roles_Tab_Resources extends Mage_Adminhtml_Block
         $this->setTemplate('api2/role/resources.phtml');
     }
 
+    /**
+     * This method is called before rendering HTML
+     *
+     * @return Mage_Adminhtml_Block_Widget_Form
+     */
     public function _beforeToHtml()
     {
         $this->getResources();
@@ -40,6 +55,9 @@ class Mage_Api2_Block_Adminhtml_Roles_Tab_Resources extends Mage_Adminhtml_Block
         return parent::_beforeToHtml();
     }
 
+    /**
+     * TODO
+     */
     public function getResources()
     {
         /*$id = $this->getRole()->getId();
@@ -63,11 +81,21 @@ class Mage_Api2_Block_Adminhtml_Roles_Tab_Resources extends Mage_Adminhtml_Block
         $this->setSelectedResources($selrids);*/
     }
 
+    /**
+     * TODO
+     *
+     * @return bool
+     */
     public function getEverythingAllowed()
     {
         return in_array('all', $this->getSelectedResources());
     }
 
+    /**
+     * TODO
+     *
+     * @return mixed
+     */
     public function getResTreeJson()
     {
         $rid = Mage::app()->getRequest()->getParam('rid', false);
@@ -80,12 +108,25 @@ class Mage_Api2_Block_Adminhtml_Roles_Tab_Resources extends Mage_Adminhtml_Block
         return $json;
     }
 
+    /**
+     * TODO
+     *
+     * @param $a
+     * @param $b
+     * @return int
+     */
     protected function _sortTree($a, $b)
     {
         return $a['sort_order']<$b['sort_order'] ? -1 : ($a['sort_order']>$b['sort_order'] ? 1 : 0);
     }
 
-
+    /**
+     * TODO
+     *
+     * @param $node
+     * @param int $level
+     * @return array
+     */
     protected function _getNodeJson($node, $level=0)
     {
         $item = array();

@@ -24,17 +24,29 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
- * implementing now
+ * Block for rendering role info tab
  *
+ * @category   Mage
+ * @package    Mage_Api2
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Api2_Block_Adminhtml_Roles_Tab_Info extends Mage_Adminhtml_Block_Widget_Form
 {
+    /**
+     * Constructor
+     */
     public function __construct()
     {
         parent::__construct();
     }
 
+    /**
+     * This method is called before rendering HTML
+     *
+     * @return Mage_Adminhtml_Block_Widget_Form
+     */
     public function _beforeToHtml()
     {
         $this->_initForm();
@@ -42,6 +54,9 @@ class Mage_Api2_Block_Adminhtml_Roles_Tab_Info extends Mage_Adminhtml_Block_Widg
         return parent::_beforeToHtml();
     }
 
+    /**
+     * Prepare form object
+     */
     protected function _initForm()
     {
         $form = new Varien_Data_Form();

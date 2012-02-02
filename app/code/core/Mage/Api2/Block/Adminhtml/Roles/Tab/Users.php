@@ -25,6 +25,11 @@
  */
 
 /**
+ * Block for rendering users list tab
+ *
+ * @category   Mage
+ * @package    Mage_Api2
+ * @author     Magento Core Team <core@magentocommerce.com>
  * @method Mage_Api2_Model_Resource_Acl_Global_Role getRole
  * @method setRole(Mage_Api2_Model_Resource_Acl_Global_Role $role)
  */

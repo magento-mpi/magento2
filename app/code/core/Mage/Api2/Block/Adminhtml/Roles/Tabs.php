@@ -24,8 +24,19 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-class Mage_Api2_Block_Adminhtml_Roles_Tabs extends Mage_Adminhtml_Block_Widget_Tabs {
+/**
+ * Block for rendering tabs
+ *
+ * @category   Mage
+ * @package    Mage_Api2
+ * @author     Magento Core Team <core@magentocommerce.com>
+ */
+class Mage_Api2_Block_Adminhtml_Roles_Tabs extends Mage_Adminhtml_Block_Widget_Tabs
+{
 
+    /**
+     * Constructor
+     */
     public function __construct()
     {
         parent::__construct();
@@ -34,6 +45,11 @@ class Mage_Api2_Block_Adminhtml_Roles_Tabs extends Mage_Adminhtml_Block_Widget_T
         $this->setTitle(Mage::helper('api2')->__('Role Information'));
     }
 
+    /**
+     * This method is called before rendering HTML
+     *
+     * @return Mage_Core_Block_Abstract
+     */
     protected function _beforeToHtml()
     {
         $this->addTab('info', array(

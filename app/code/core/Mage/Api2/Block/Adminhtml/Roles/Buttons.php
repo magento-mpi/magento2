@@ -24,15 +24,29 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+/**
+ * Block for rendering buttons
+ *
+ * @category   Mage
+ * @package    Mage_Api2
+ * @author     Magento Core Team <core@magentocommerce.com>
+ */
 class Mage_Api2_Block_Adminhtml_Roles_Buttons extends Mage_Adminhtml_Block_Template
 {
-
+    /**
+     * Construct
+     */
     public function __construct()
     {
         parent::__construct();
         $this->setTemplate('api2/role/buttons.phtml');
     }
 
+    /**
+     * Preparing global layout
+     *
+     * @return Mage_Core_Block_Abstract
+     */
     protected function _prepareLayout()
     {
         $buttons = array(
@@ -65,21 +79,41 @@ class Mage_Api2_Block_Adminhtml_Roles_Buttons extends Mage_Adminhtml_Block_Templ
         return parent::_prepareLayout();
     }
 
+    /**
+     * Get button
+     *
+     * @return string
+     */
     public function getBackButtonHtml()
     {
         return $this->getChildHtml('backButton');
     }
 
+    /**
+     * Get button
+     *
+     * @return string
+     */
     public function getResetButtonHtml()
     {
         return $this->getChildHtml('resetButton');
     }
 
+    /**
+     * Get button
+     *
+     * @return string
+     */
     public function getSaveButtonHtml()
     {
         return $this->getChildHtml('saveButton');
     }
 
+    /**
+     * Get button
+     *
+     * @return string
+     */
     public function getDeleteButtonHtml()
     {
         if(!$this->getRole() || !$this->getRole()->getId()) {
@@ -94,11 +128,11 @@ class Mage_Api2_Block_Adminhtml_Roles_Buttons extends Mage_Adminhtml_Block_Templ
         return $this->getChildHtml('deleteButton');
     }
 
-    public function getUser()
-    {
-        return Mage::registry('user_data');
-    }
-
+    /**
+     * Get block caption
+     *
+     * @return string
+     */
     public function getCaption()
     {
         return $this->getRole() && $this->getRole()->getId() ? ($this->__('Edit Role') . " '{$this->escapeHtml($this->getRole()->getRoleName())}'") : $this->__('Add New Role');
