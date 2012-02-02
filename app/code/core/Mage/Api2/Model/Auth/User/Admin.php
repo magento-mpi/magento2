@@ -61,7 +61,7 @@ class Mage_Api2_Model_Auth_User_Admin extends Mage_Api2_Model_Auth_User_Abstract
                 throw new Exception('Admin role not found.');
             }
 
-            $role->setRole($role->getRoleName());
+            $this->setRole($role->getRoleName());
         }
 
         return $this->_role;
