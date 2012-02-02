@@ -960,15 +960,15 @@
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
                         </use_case_sensitive_login>
-                        <session_cookie_lifetime translate="label comment">
-                            <label>Session Lifetime (seconds)</label>
+                        <session_lifetime translate="label comment">
+                            <label>Admin Session Lifetime (seconds)</label>
                             <comment>Values less than 60 are ignored. Note that changes will apply after logout.</comment>
                             <validate>validate-digits</validate>
                             <sort_order>3</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
-                        </session_cookie_lifetime>
+                        </session_lifetime>
                     </fields>
                 </security>
                 <dashboard translate="label">
@@ -1208,7 +1208,7 @@
                     <show_in_store>1</show_in_store>
                 </polls>
                 <cookie translate="label">
-                    <label>Session Cookie Management</label>
+                    <label>Default Cookie Settings</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>50</sort_order>
                     <show_in_default>1</show_in_default>

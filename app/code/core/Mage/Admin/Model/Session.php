@@ -18,6 +18,7 @@
  */
 class Mage_Admin_Model_Session extends Mage_Core_Model_Session_Abstract
 {
+    const XML_PATH_SESSION_LIFETIME = 'admin/security/session_lifetime';
 
     /**
      * Whether it is the first page after successfull login
@@ -82,6 +83,7 @@ class Mage_Admin_Model_Session extends Mage_Core_Model_Session_Abstract
                 $this->setIsFirstPageAfterLogin(true);
                 $this->setUser($user);
                 $this->setAcl(Mage::getResourceModel('Mage_Admin_Model_Resource_Acl')->loadAcl());
+                $this->setUpdatedAt(time());
 
                 $requestUri = $this->_getRequestUri($request);
                 if ($requestUri) {
@@ -168,7 +170,19 @@ class Mage_Admin_Model_Session extends Mage_Core_Model_Session_Abstract
      */
     public function isLoggedIn()
     {
-        return $this->getUser() && $this->getUser()->getId();
+        $lifetime = Mage::getStoreConfig(self::XML_PATH_SESSION_LIFETIME);
+        $currentTime = time();
+
+        /* Validate admin session lifetime */
+        if ($lifetime && ($this->getUpdatedAt() < $currentTime - $lifetime)) {
+            return false;
+        }
+
+        if ($this->getUser() && $this->getUser()->getId()) {
+            $this->setUpdatedAt($currentTime);
+            return true;
+        }
+        return false;
     }
 
     /**
