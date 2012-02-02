@@ -15,7 +15,7 @@
             <action method="addCss"><file>Mage_DesignEditor::css/styles.css</file></action>
         </reference>
         <reference name="after_body_start">
-            <block type="Mage_DesignEditor_Block_Toolbar" name="design_editor_toolbar" as="design_editor_toolbar" template="Mage_DesignEditor::toolbar.phtml"/>
+            <block type="Mage_DesignEditor_Block_Toolbar" name="design_editor_toolbar" template="toolbar.phtml" before="-"/>
         </reference>
     </default>
 </layout>

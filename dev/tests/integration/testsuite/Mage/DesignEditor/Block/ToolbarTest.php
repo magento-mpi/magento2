@@ -21,7 +21,7 @@ class Mage_DesignEditor_Block_ToolbarTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_block = new Mage_DesignEditor_Block_Toolbar(array('template' => 'Mage_DesignEditor::toolbar.phtml'));
+        $this->_block = new Mage_DesignEditor_Block_Toolbar(array('template' => 'toolbar.phtml'));
     }
 
     public function testToHtmlDesignEditorInactive()

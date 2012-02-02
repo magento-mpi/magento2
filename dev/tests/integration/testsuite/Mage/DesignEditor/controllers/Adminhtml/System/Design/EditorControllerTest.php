@@ -30,6 +30,9 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorControllerTest extends Mag
         $this->assertContains('onclick="editForm.submit();"', $content);
     }
 
+    /**
+     * Skip the current test, if session identifier is not defined in the environment
+     */
     public function _requireSessionId()
     {
         if (!session_id()) {
