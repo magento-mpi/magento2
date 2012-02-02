@@ -37,9 +37,9 @@
         <testsuite name="All Tests">
             <directory suffix="Test.php">tests/</directory>
         </testsuite>
+        <!-- Test suite guaranteed covers Magento's code -->
         <!--
-        <!-- Test suite guaranteed coveres Magento's code -->
-        <testsuite name="All Tests Covergae list">
+        <testsuite name="All Tests Coverage list">
             <directory suffix="Test.php">tests/AdminUser</directory>
             <directory suffix="Test.php">tests/AttributeSet</directory>
             <directory suffix="Test.php">tests/Category</directory>
