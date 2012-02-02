@@ -130,10 +130,6 @@ var validateErrorGrid = function (event)
     if ($errorTable) {
         $errorTable.select('input.qty').each(function ($qty)
         {
-            var isInt = function (number)
-            {
-                return parseInt(number) == number;
-            };
             var tr = $qty.up('tr');
             var $maxAllowed = tr.select('.qty_max_allowed');
             var $minAllowed = tr.select('.qty_min_allowed');
@@ -141,7 +137,7 @@ var validateErrorGrid = function (event)
             var qty = parseFloat($qty.value);
             var isMaxAllowedValid = !$maxAllowed.length || (qty <= parseFloat($maxAllowed[0].value));
             var isMinAllowedValid = !$minAllowed.length || (qty >= parseFloat($minAllowed[0].value));
-            var isQtyIncrementsValid = !$qtyIncrements.length || isInt(qty / parseFloat($qtyIncrements[0].value));
+            var isQtyIncrementsValid = !$qtyIncrements.length || modulo(qty, parseFloat($qtyIncrements[0].value)) == 0;
             if (isMaxAllowedValid && isMinAllowedValid && isQtyIncrementsValid) {
                 $qty.removeClassName('validation-failed');
             } else {
