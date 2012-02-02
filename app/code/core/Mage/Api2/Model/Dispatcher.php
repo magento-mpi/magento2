@@ -67,8 +67,6 @@ class Mage_Api2_Model_Dispatcher
             ':version'  => (int)$request->getVersion()
         );
         $class = strtr(self::RESOURCE_CLASS_TEMPLATE, $replace);
-        
-        Mage::dump($class); exit;
 
         try {
             /** @var $model Mage_Api2_Model_Resource */
