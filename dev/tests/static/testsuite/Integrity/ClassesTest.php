@@ -96,7 +96,7 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
 
     /**
      * @param string $path
-     * @dataProvider Util_Files::getLayoutFiles
+     * @dataProvider layoutFileDataProvider
      */
     public function testLayoutFile($path)
     {
@@ -115,6 +115,14 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
         $classes = array_merge($classes, Util_Classes::collectLayoutClasses($xml));
 
         $this->_assertClassesExist(array_unique($classes));
+    }
+
+    /**
+     * @return array
+     */
+    public function layoutFileDataProvider()
+    {
+        return Util_Files::getLayoutFiles();
     }
 
     /**
