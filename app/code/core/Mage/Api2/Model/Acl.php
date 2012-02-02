@@ -59,13 +59,14 @@ class Mage_Api2_Model_Acl extends Zend_Acl
     }
 
     /**
-     * Ssve ACL data
+     * Save ACL data
+     *
+     * @return Mage_Api2_Model_Acl
      */
     public function save()
     {
-        $filename = dirname(__FILE__).'/Acl/data';
+        file_put_contents(dirname(__FILE__) . '/Acl/data', serialize($this));
 
-        $string = serialize($this);
-        file_put_contents($filename, $string);
+        return $this;
     }
 }
