@@ -410,6 +410,7 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
                 $frontendInput = $attribute->getFrontendInput();
 
                 if ($attribute->usesSource()) {
+                    $attribute->setStoreId($storeId);
                     if ($frontendInput == 'multiselect') {
                         $preparedValue = array();
                         foreach ($value as $val) {

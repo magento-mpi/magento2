@@ -146,17 +146,19 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Attribute extends Mage_Catalo
      */
     public function applyFilterToCollection($filter, $value)
     {
-        if (empty($value)) {
+        if (empty($value) || (isset($value['from']) && empty($value['from']) && isset($value['to'])
+            && empty($value['to']))
+        ) {
             $value = array();
-        } elseif (!is_array($value)) {
+        }
+
+        if (!is_array($value)) {
             $value = array($value);
         }
 
-        $productCollection = $this->getLayer()->getProductCollection();
         $attribute = $filter->getAttributeModel();
-
-        $param = Mage::helper('enterprise_search')->getSearchParam($productCollection, $attribute, $value);
-        $productCollection->addFqFilter($param);
+        $fieldName = Mage::getResourceSingleton('enterprise_search/engine')->getSearchEngineFieldName($attribute);
+        $this->getLayer()->getProductCollection()->addFqFilter(array($fieldName => $value));
 
         return $this;
     }
