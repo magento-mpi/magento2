@@ -35,10 +35,10 @@ function enablePaymentMethods(free) {
                 || elements[i].name == 'payment[use_reward_points]'
             ) {
                 methodName = elements[i].value;
-                if ((free && elements[i].value == 'free') || (!free && elements[i].value != 'free')) {
+                if ((free && methodName == 'free') || (!free && methodName != 'free')) {
                     $((elements[i]).parentNode).show();
-                    if ($('p_method_' + (elements[i].value)) && $('p_method_' + (elements[i].value)).checked) {
-                        payment.switchMethod(elements[i].value);
+                    if ($('p_method_' + (methodName)) && $('p_method_' + (methodName)).checked) {
+                        payment.switchMethod(methodName);
                     }
                     if (free) {
                         elements[i].checked = true;
