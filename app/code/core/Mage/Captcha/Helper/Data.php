@@ -52,7 +52,7 @@ class Mage_Captcha_Helper_Data extends Mage_Core_Helper_Abstract
     public function getCaptcha($formId)
     {
         if (!array_key_exists($formId, $this->_captcha)) {
-            $type = $this->getConfigNode('type');
+            $type = ucfirst($this->getConfigNode('type'));
             $this->_captcha[$formId] = Mage::getModel('Mage_Captcha_Model_' . $type, array('formId' => $formId));
         }
         return $this->_captcha[$formId];
