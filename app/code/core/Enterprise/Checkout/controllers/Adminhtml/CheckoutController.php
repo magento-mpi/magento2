@@ -834,6 +834,11 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
             $this->getCartModel()->removeAllAffectedItems();
         }
 
+        $sku = $this->getRequest()->getPost('remove_sku', false);
+        if ($sku) {
+            $this->getCartModel()->removeAffectedItem($sku);
+        }
+
         /**
          * Add products from different lists
          */

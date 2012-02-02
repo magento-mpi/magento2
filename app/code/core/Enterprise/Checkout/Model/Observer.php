@@ -43,6 +43,20 @@ class Enterprise_Checkout_Model_Observer
     }
 
     /**
+     * Returns cart model for backend
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_Checkout_Model_Cart
+     */
+    protected function _getBackendCart(Varien_Event_Observer $observer)
+    {
+        if (!$observer->getSession()) {
+            Mage::throwException('No session object in passed observer');
+        }
+        return $this->_getCart()->setSession($observer->getSession());
+    }
+
+    /**
      * Check submitted SKU's form the form or from error grid
      *
      * @param Varien_Event_Observer $observer
@@ -52,18 +66,28 @@ class Enterprise_Checkout_Model_Observer
     {
         /* @var $request Mage_Core_Controller_Request_Http */
         $request = $observer->getRequestModel();
-        /* @var $cart Enterprise_Checkout_Model_Cart */
-        $cart = $this->_getCart()->setSession($observer->getSession());
+        $cart = $this->_getBackendCart($observer);
+
         if (empty($request) || empty($cart)) {
             return;
         }
+
         $removeFailed = $request->getPost('sku_remove_failed');
+
         if ($removeFailed || $request->getPost('from_error_grid')) {
             $cart->removeAllAffectedItems();
             if ($removeFailed) {
                 return;
             }
         }
+
+        $sku = $observer->getRequestModel()->getPost('remove_sku', false);
+
+        if ($sku) {
+            $this->_getBackendCart($observer)->removeAffectedItem($sku);
+            return;
+        }
+
         $addBySkuItems = $request->getPost(Enterprise_Checkout_Block_Adminhtml_Sku_Abstract::LIST_TYPE, array());
         $items = $request->getPost('item', array());
         if (!$addBySkuItems) {

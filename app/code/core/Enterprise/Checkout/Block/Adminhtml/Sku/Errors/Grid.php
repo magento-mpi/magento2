@@ -55,7 +55,7 @@ class Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Grid extends Mage_Adminhtml
         $removeButtonHtml = $this->getLayout()->createBlock('adminhtml/widget_button', '', array(
             'class' => 'delete',
             'label' => '',
-            'onclick' => 'addBySku.errorDel(this)'
+            'onclick' => 'addBySku.removeFailedItem(this)'
         ))->toHtml();
         /* @var $parentBlock Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Abstract */
         $parentBlock = $this->getParentBlock();
