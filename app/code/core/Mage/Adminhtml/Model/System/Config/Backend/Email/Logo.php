@@ -72,4 +72,21 @@ class Mage_Adminhtml_Model_System_Config_Backend_Email_Logo extends Mage_Adminht
     {
         return true;
     }
+
+    /**
+     * Save uploaded file before saving config value
+     *
+     * Save changes and delete file if "delete" option passed
+     *
+     * @return Mage_Adminhtml_Model_System_Config_Backend_Email_logo
+     */
+    protected function _beforeSave()
+    {
+        $value = $this->getValue();
+        if (is_array($value) && !empty($value['delete'])) {
+            $io = new Varien_Io_File();
+            $io->rm($this->_getUploadRoot(self::UPLOAD_ROOT_TOKEN) . DS . self::UPLOAD_DIR . DS . $value['value']);
+        }
+        return parent::_beforeSave();
+    }
 }
