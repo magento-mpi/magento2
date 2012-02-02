@@ -46,7 +46,7 @@ class Mage_Api2_Adminhtml_Api2_RoleControllerTest extends Magento_Test_Controlle
         try {
             $this->loginToAdmin();
             $this->getRequest()->setParam('role_name', $roleName);
-            $this->dispatch('admin/api2_roles/save');
+            $this->dispatch('admin/api2_role/save');
         } catch (Exception $e) {
             throw $e;
         }
