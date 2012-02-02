@@ -25,7 +25,7 @@ class Mage_DesignEditor_Block_ToolbarCrosscuttingTest extends Magento_Test_TestC
      */
     protected function _assertContainsToolbar($content)
     {
-        $this->assertContains('design-editor-toolbar', $content);
+        $this->assertContains('id="vde_toolbar"', $content);
     }
 
     /**

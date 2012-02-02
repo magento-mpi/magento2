@@ -11,6 +11,9 @@
 -->
 <layout>
     <default>
+        <reference name="head">
+            <action method="addCss"><file>Mage_DesignEditor::css/styles.css</file></action>
+        </reference>
         <reference name="after_body_start">
             <block type="Mage_DesignEditor_Block_Toolbar" name="design_editor_toolbar" template="toolbar.phtml" before="-"/>
         </reference>

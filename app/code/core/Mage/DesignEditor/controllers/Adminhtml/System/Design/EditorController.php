@@ -38,4 +38,16 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
         }
         $this->_redirectUrl($baseUrl . '?' . $query);
     }
+
+    /**
+     * Exit edit mode action
+     */
+    public function exitAction()
+    {
+        /** @var $session Mage_DesignEditor_Model_Session */
+        $session = Mage::getSingleton('Mage_DesignEditor_Model_Session');
+        $session->deactivateDesignEditor();
+        $this->loadLayout();
+        $this->renderLayout();
+    }
 }
