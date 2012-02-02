@@ -939,6 +939,12 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
                     $item['code'] = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_OUT_OF_STOCK;
                     return $item;
                 }
+            } else {
+                $customer = $this->getCustomer();
+                if ($customer && !in_array($customer->getWebsiteId(), $product->getWebsiteIds())) {
+                    $item['code'] = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_WEBSITE;
+                    return $item;
+                }
             }
 
             // FRONTEND & BACKEND

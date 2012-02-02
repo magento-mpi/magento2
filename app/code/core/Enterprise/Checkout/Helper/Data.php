@@ -66,6 +66,7 @@ class Enterprise_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
     const ADD_ITEM_STATUS_FAILED_QTY_INVALID_RANGE = 'failed_qty_invalid_range';
     const ADD_ITEM_STATUS_FAILED_CONFIGURE = 'failed_configure';
     const ADD_ITEM_STATUS_FAILED_PERMISSIONS = 'failed_permissions';
+    const ADD_ITEM_STATUS_FAILED_WEBSITE = 'failed_website';
     const ADD_ITEM_STATUS_FAILED_UNKNOWN = 'failed_unknown';
     const ADD_ITEM_STATUS_FAILED_EMPTY = 'failed_empty';
 
@@ -173,6 +174,9 @@ class Enterprise_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
                 break;
             case self::ADD_ITEM_STATUS_FAILED_EMPTY:
                 $message = $this->__('SKU and quantity are required fields.');
+                break;
+            case self::ADD_ITEM_STATUS_FAILED_WEBSITE:
+                $message = $this->__("The products is assigned to another website.");
                 break;
             default:
                 $message = '';
