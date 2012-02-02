@@ -44,6 +44,11 @@
 class Mage_Api2_Model_Acl_Global_Rule extends Mage_Core_Model_Abstract
 {
     /**
+     * Resource all
+     */
+    const RESOURCE_ALL = 'all';
+
+    /**
      * Initialize resource model
      *
      * @return void

@@ -21,33 +21,77 @@
  *
  * @category    Mage
  * @package     Mage_Catalog
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @copyright   Copyright (c) 2011 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 -->
 <config>
     <api2>
-       <resources>
-            <products>
-                <type>products</type><!-- used in ACL -->
-                <model>catalog/api2_products</model><!-- used in dispatching -->
-                <title>Catalog Products</title><!-- not used now, probably useful in frontend -->
+        <resource_groups>
+            <catalog translate="title" module="api2">
+                <title>Catalog</title>
+                <sort_order>30</sort_order>
+                <children>
+                    <catalog_category translate="title" module="api2">
+                        <title>Category</title>
+                        <sort_order>30</sort_order>
+                    </catalog_category>
+                    <catalog_product translate="title" module="api2">
+                        <title>Product</title>
+                        <sort_order>50</sort_order>
+                    </catalog_product>
+                </children>
+            </catalog>
+        </resource_groups>
+        <resources>
+            <products translate="title" module="api2">
+                <group>catalog_product</group>
+                <!-- Resource ID -->
+                <type>products</type>
+                <!-- Resource model which process data -->
+                <model>catalog/api2_products</model>
+                <title>Products</title>
                 <routes>
                     <route_main>
                         <mask>/products</mask>
                     </route_main>
                 </routes>
             </products>
-            <product>
-                <type>product</type><!-- used in ACL -->
-                <model>catalog/api2_product</model><!-- used in dispatching -->
-                <title>Catalog Product</title><!-- not used now, probably useful in frontend -->
+            <product translate="title" module="api2">
+                <group>catalog_product</group>
+                <type>product</type>
+                <model>catalog/api2_product</model>
+                <title>Product</title>
                 <routes>
                     <route_main>
                         <mask>/products/:id</mask>
                     </route_main>
                 </routes>
             </product>
+            <categories translate="title" module="api2">
+                <group>catalog_category</group>
+                <!-- Resource ID -->
+                <type>categories</type>
+                <!-- Resource model which process data -->
+                <model>catalog/api2_categories</model>
+                <title>Categories</title>
+                <routes>
+                    <route_main>
+                        <mask>/categories</mask>
+                    </route_main>
+                </routes>
+            </categories>
+            <category translate="title" module="api2">
+                <group>catalog_category</group>
+                <type>category</type>
+                <model>catalog/api2_category</model>
+                <title>Category</title>
+                <routes>
+                    <route_main>
+                        <mask>/categories/:id</mask>
+                    </route_main>
+                </routes>
+            </category>
         </resources>
     </api2>
 </config>

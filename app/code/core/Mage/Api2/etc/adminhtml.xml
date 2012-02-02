@@ -68,7 +68,7 @@
                         <roles_rest>
                             <title>REST Roles</title>
                             <sort_order>30</sort_order>
-                            <action>adminhtml/api2_roles</action>
+                            <action>adminhtml/api2_role</action>
                         </roles_rest>
                     </children>
                 </api>

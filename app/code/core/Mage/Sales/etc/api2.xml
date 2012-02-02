@@ -27,11 +27,18 @@
 -->
 <config>
     <api2>
-       <resources>
+        <resource_groups>
+            <sales translate="title" module="api2">
+                <title>Sales</title>
+                <sort_order>130</sort_order>
+            </sales>
+        </resource_groups>
+        <resources>
             <orders>
+                <group>sales</group>
                 <type>orders</type>
                 <model>sales/api2_orders</model>
-                <title>Sales Orders</title>
+                <title>Orders</title>
                 <routes>
                     <route_main>
                         <mask>/orders</mask>

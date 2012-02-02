@@ -30,6 +30,8 @@
  * @category   Mage
  * @package    Mage_Api2
  * @author     Magento Core Team <core@magentocommerce.com>
+ * @method Mage_Api2_Block_Adminhtml_Roles_Tabs setRole(Mage_Api2_Model_Acl_Global_Role $role)
+ * @method Mage_Api2_Model_Acl_Global_Role getRole()
  */
 class Mage_Api2_Block_Adminhtml_Roles_Buttons extends Mage_Adminhtml_Block_Template
 {
@@ -135,6 +137,8 @@ class Mage_Api2_Block_Adminhtml_Roles_Buttons extends Mage_Adminhtml_Block_Templ
      */
     public function getCaption()
     {
-        return $this->getRole() && $this->getRole()->getId() ? ($this->__('Edit Role') . " '{$this->escapeHtml($this->getRole()->getRoleName())}'") : $this->__('Add New Role');
+        return $this->getRole() && $this->getRole()->getId()
+                ? ($this->__('Edit Role') . " '{$this->escapeHtml($this->getRole()->getRoleName())}'")
+                : $this->__('Add New Role');
     }
 }

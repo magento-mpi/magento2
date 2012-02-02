@@ -33,14 +33,14 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Api2_Block_Adminhtml_Roles_Tab_Info extends Mage_Adminhtml_Block_Widget_Form
+    implements Mage_Adminhtml_Block_Widget_Tab_Interface
 {
     /**
-     * Constructor
+     * Role model
+     *
+     * @var Mage_Api2_Model_Acl_Global_Role
      */
-    public function __construct()
-    {
-        parent::__construct();
-    }
+    protected $_role;
 
     /**
      * This method is called before rendering HTML
@@ -85,5 +85,61 @@ class Mage_Api2_Block_Adminhtml_Roles_Tab_Info extends Mage_Adminhtml_Block_Widg
             $form->setValues($this->getRole()->getData());
         }
         $this->setForm($form);
+    }
+
+    /**
+     * Get role model
+     *
+     * @return Mage_Api2_Model_Acl_Global_Role
+     */
+    public function getRole()
+    {
+        if (null === $this->_role) {
+            /** @var $tabs Mage_Api2_Block_Adminhtml_Roles_Tabs */
+            $tabs = $this->getParentBlock();
+            $role = $tabs->getData('role');
+            $this->_role = $role ? $role : false;
+        }
+        return $this->_role;
+    }
+
+    /**
+     * Get tab label
+     *
+     * @return string
+     */
+    public function getTabLabel()
+    {
+        return Mage::helper('api2')->__('Role Info');
+    }
+
+    /**
+     * Get tab title
+     *
+     * @return string
+     */
+    public function getTabTitle()
+    {
+        return $this->getTabLabel();
+    }
+
+    /**
+     * Whether tab is available
+     *
+     * @return bool
+     */
+    public function canShowTab()
+    {
+        return true;
+    }
+
+    /**
+     * Whether tab is visible
+     *
+     * @return bool
+     */
+    public function isHidden()
+    {
+        return false;
     }
 }

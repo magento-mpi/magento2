@@ -34,6 +34,11 @@
 class Mage_Api2_Model_Config extends Varien_Simplexml_Config
 {
     /**
+     * Node name of resource groups
+     */
+    const NODE_RESOURCE_GROUPS = 'resource_groups';
+
+    /**
      * Id for config cache
      */
     const CACHE_ID  = 'config_api2';
@@ -42,6 +47,13 @@ class Mage_Api2_Model_Config extends Varien_Simplexml_Config
      * Tag name for config cache
      */
     const CACHE_TAG = 'CONFIG_API2';
+
+    /**
+     * Is resources added to group
+     *
+     * @var boolean
+     */
+    protected $_resourcesGrouped = false;
 
     /**
      * Constructor
@@ -115,7 +127,7 @@ class Mage_Api2_Model_Config extends Varien_Simplexml_Config
     /**
      * Retrieve all resources from config files api2.xml
      *
-     * @return Varien_Simplexml_Element|false
+     * @return Varien_Simplexml_Element
      */
     public function getResources()
     {
@@ -123,10 +135,71 @@ class Mage_Api2_Model_Config extends Varien_Simplexml_Config
     }
 
     /**
+     * Retrieve all resource groups from config files api2.xml
+     *
+     * @return Varien_Simplexml_Element|boolean
+     */
+    public function getResourceGroups()
+    {
+        $groups = $this->getXpath('//' . self::NODE_RESOURCE_GROUPS);
+        if (!$groups) {
+            return false;
+        }
+
+        /** @var $groups Varien_Simplexml_Element */
+        $groups = $groups[0];
+
+        if (!$this->_resourcesGrouped) {
+            /** @var $node Varien_Simplexml_Element */
+            foreach ($this->getResources() as $node) {
+                $result = $node->xpath('group');
+                if (!$result) {
+                    continue;
+                }
+                $groupName = (string) $result[0];
+                if ($groupName) {
+                    $result = $groups->xpath('.//' . $groupName);
+                    if (!$result) {
+                        continue;
+                    }
+
+                    /** @var $group Varien_Simplexml_Element */
+                    $group = $result[0];
+
+                    //add resource to group with simple values from the first level
+                    /** @var $child Varien_Simplexml_Element */
+                    foreach ($node->children() as $child) {
+                        $value = (string)$child;
+                        if ($value) {
+                            $group->setNode('children/' . $node->getName() . '/' . $child->getName(), $value);
+                        }
+                    }
+                }
+            }
+        }
+        return $groups;
+    }
+
+    /**
+     * Retrieve resource group from config files api2.xml
+     *
+     * @param string $name
+     * @return Mage_Core_Model_Config_Element|boolean
+     */
+    public function getResourceGroup($name)
+    {
+        $group = $this->getResourceGroups()->xpath('.//' . $name);
+        if (!$group) {
+            return false;
+        }
+        return $group[0];
+    }
+
+    /**
      * Retrieve resource by type (node)
      *
      * @param string $node
-     * @return Varien_Simplexml_Element|false
+     * @return Varien_Simplexml_Element|boolean
      */
     public function getResource($node)
     {

@@ -34,7 +34,14 @@
  * @method setRole(Mage_Api2_Model_Resource_Acl_Global_Role $role)
  */
 class Mage_Api2_Block_Adminhtml_Roles_Tab_Users extends Mage_Adminhtml_Block_Widget_Grid
+    implements Mage_Adminhtml_Block_Widget_Tab_Interface
 {
+    /**
+     * Role model
+     *
+     * @var Mage_Api2_Model_Acl_Global_Role
+     */
+    protected $_role;
 
     /**
      * Construct grid block
@@ -43,7 +50,7 @@ class Mage_Api2_Block_Adminhtml_Roles_Tab_Users extends Mage_Adminhtml_Block_Wid
     {
         parent::__construct();
         $this->setId('usersGrid');
-        $this->setUseAjax(true);
+        $this->setData('use_ajax', true);
         $this->setSaveParametersInSession(true);
         $this->setDefaultSort('user_id')
             ->setDefaultDir(Varien_Db_Select::SQL_DESC);
@@ -109,6 +116,22 @@ class Mage_Api2_Block_Adminhtml_Roles_Tab_Users extends Mage_Adminhtml_Block_Wid
     }
 
     /**
+     * Get role model
+     *
+     * @return Mage_Api2_Model_Acl_Global_Role
+     */
+    public function getRole()
+    {
+        if (null === $this->_role) {
+            /** @var $tabs Mage_Api2_Block_Adminhtml_Roles_Tabs */
+            $tabs = $this->getParentBlock();
+            $role = $tabs->getData('role');
+            $this->_role = $role ? $role : false;
+        }
+        return $this->_role;
+    }
+
+    /**
      * Get grid URL
      *
      * @return string
@@ -133,5 +156,45 @@ class Mage_Api2_Block_Adminhtml_Roles_Tab_Users extends Mage_Adminhtml_Block_Wid
             return $this->getUrl('*/permissions_user/edit', array('user_id' => $row->getId()));
         }
         return null;
+    }
+
+    /**
+     * Get tab label
+     *
+     * @return string
+     */
+    public function getTabLabel()
+    {
+        return Mage::helper('api2')->__('Role Users');
+    }
+
+    /**
+     * Get tab title
+     *
+     * @return string
+     */
+    public function getTabTitle()
+    {
+        return $this->getTabLabel();
+    }
+
+    /**
+     * Whether tab is available
+     *
+     * @return bool
+     */
+    public function canShowTab()
+    {
+        return true;
+    }
+
+    /**
+     * Whether tab is visible
+     *
+     * @return bool
+     */
+    public function isHidden()
+    {
+        return false;
     }
 }

@@ -26,22 +26,67 @@
  */
 -->
 <layout>
-    <adminhtml_api2_roles_index>
+    <adminhtml_api2_role_index>
         <reference name="content">
             <block type="api2/adminhtml_roles" name="api2_roles"/>
         </reference>
-    </adminhtml_api2_roles_index>
+    </adminhtml_api2_role_index>
 
-    <adminhtml_api2_roles_grid>
+    <adminhtml_api2_role_new>
+        <reference name="left">
+            <block type="api2/adminhtml_roles_tabs" name="adminhtml.role.edit.tabs">
+                <block type="api2/adminhtml_roles_tab_info" name="adminhtml.role.edit.tab.info"/>
+                <block type="api2/adminhtml_roles_tab_resources" name="adminhtml.role.edit.tab.resources"/>
+                <action method="addTab">
+                    <id>api2_role_section_info</id>
+                    <block>adminhtml.role.edit.tab.info</block>
+                </action>
+                <action method="addTab">
+                    <id>api2_role_section_resources</id>
+                    <block>adminhtml.role.edit.tab.resources</block>
+                </action>
+            </block>
+        </reference>
+        <reference name="content">
+            <block type="api2/adminhtml_roles_buttons" name="adminhtml.roles.buttons"/>
+        </reference>
+    </adminhtml_api2_role_new>
+
+    <adminhtml_api2_role_edit>
+        <reference name="left">
+            <block type="api2/adminhtml_roles_tabs" name="adminhtml.role.edit.tabs">
+                <block type="api2/adminhtml_roles_tab_info" name="adminhtml.role.edit.tab.info"/>
+                <block type="api2/adminhtml_roles_tab_resources" name="adminhtml.role.edit.tab.resources"/>
+                <block type="api2/adminhtml_roles_tab_users" name="adminhtml.role.edit.tab.users"/>
+                <action method="addTab">
+                    <id>api2_role_section_info</id>
+                    <block>adminhtml.role.edit.tab.info</block>
+                </action>
+                <action method="addTab">
+                    <id>api2_role_section_resources</id>
+                    <block>adminhtml.role.edit.tab.resources</block>
+                </action>
+                <action method="addTab">
+                    <id>api2_role_section_users</id>
+                    <block>adminhtml.role.edit.tab.users</block>
+                </action>
+            </block>
+        </reference>
+        <reference name="content">
+            <block type="api2/adminhtml_roles_buttons" name="adminhtml.roles.buttons"/>
+        </reference>
+    </adminhtml_api2_role_edit>
+
+    <adminhtml_api2_role_grid>
         <remove name="root"/>
         <block type="api2/adminhtml_roles_grid" name="api2_roles.grid" output="toHtml"/>
-    </adminhtml_api2_roles_grid>
+    </adminhtml_api2_role_grid>
 
-    <adminhtml_api2_roles_usersgrid>
+    <adminhtml_api2_role_usersgrid>
         <remove name="root"/>
         <block type="api2/adminhtml_roles_tab_users" name="api2_role_tab_users.grid" output="toHtml"/>
-    </adminhtml_api2_roles_usersgrid>
-    
+    </adminhtml_api2_role_usersgrid>
+
     <!-- admin acl users edit page -->
     <adminhtml_permissions_user_edit>
         <reference name="adminhtml.permissions.user.edit.tabs">

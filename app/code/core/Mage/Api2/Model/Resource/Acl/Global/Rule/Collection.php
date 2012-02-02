@@ -42,4 +42,14 @@ class Mage_Api2_Model_Resource_Acl_Global_Rule_Collection extends Mage_Core_Mode
     {
         $this->_init('api2/acl_global_rule');
     }
+
+    /**
+     * Add filtering by role ID
+     *
+     * @param $roleId
+     */
+    public function addFilterByRoleId($roleId)
+    {
+        $this->addFilter('role_id', $roleId, 'public');
+    }
 }

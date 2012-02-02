@@ -25,14 +25,15 @@
  */
 
 /**
- * Block for rendering tabs
+ * Block tabs for role edit page
  *
  * @category   Mage
  * @package    Mage_Api2
  * @author     Magento Core Team <core@magentocommerce.com>
+ * @method Mage_Api2_Block_Adminhtml_Roles_Tabs setRole(Mage_Api2_Model_Acl_Global_Role $role)
+ * @method Mage_Api2_Model_Acl_Global_Role getRole()
  */
-class Mage_Api2_Block_Adminhtml_Roles_Tabs extends Mage_Adminhtml_Block_Widget_Tabs
-{
+class Mage_Api2_Block_Adminhtml_Roles_Tabs extends Mage_Adminhtml_Block_Widget_Tabs {
 
     /**
      * Constructor
@@ -42,45 +43,6 @@ class Mage_Api2_Block_Adminhtml_Roles_Tabs extends Mage_Adminhtml_Block_Widget_T
         parent::__construct();
         $this->setId('role_info_tabs');
         $this->setDestElementId('role_edit_form');
-        $this->setTitle(Mage::helper('api2')->__('Role Information'));
-    }
-
-    /**
-     * This method is called before rendering HTML
-     *
-     * @return Mage_Core_Block_Abstract
-     */
-    protected function _beforeToHtml()
-    {
-        $this->addTab('info', array(
-            'label'     => Mage::helper('adminhtml')->__('Role Info'),
-            'title'     => Mage::helper('adminhtml')->__('Role Info'),
-            'content'   => $this->getLayout()
-                ->createBlock('api2/adminhtml_roles_tab_info')
-                ->setRole($this->getRole())
-                ->toHtml(),
-            'active'    => true
-        ));
-
-        $this->addTab('resources', array(
-            'label'     => Mage::helper('adminhtml')->__('Role Resources'),
-            'title'     => Mage::helper('adminhtml')->__('Role Resources'),
-            'content'   => $this->getLayout()
-                ->createBlock('api2/adminhtml_roles_tab_resources')
-                ->setRole($this->getRole())
-                ->toHtml(),
-        ));
-
-        if($this->getRole() && $this->getRole()->getId()) {
-            $this->addTab('users', array(
-                'label'     => Mage::helper('adminhtml')->__('Role Users'),
-                'title'     => Mage::helper('adminhtml')->__('Role Users'),
-                'content'   => $this->getLayout()
-                    ->createBlock('api2/adminhtml_roles_tab_users')
-                    ->setRole($this->getRole())
-                    ->toHtml(),
-            ));
-        }
-        return parent::_beforeToHtml();
+        $this->setData('title', Mage::helper('api2')->__('Role Information'));
     }
 }
