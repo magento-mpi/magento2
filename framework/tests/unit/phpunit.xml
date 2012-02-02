@@ -28,9 +28,12 @@
  */
 -->
 <phpunit bootstrap="bootstrap.php"
-    colors="true"
-    syntaxCheck="true"
-    verbose="true">
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+         colors="true"
+         syntaxCheck="true"
+         verbose="true">
     <testsuites>
         <testsuite name="Mage Selenium Unit Tests">
             <directory suffix="Test.php">tests</directory>
