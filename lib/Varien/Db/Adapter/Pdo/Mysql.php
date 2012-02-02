@@ -3598,12 +3598,12 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
     }
 
     /**
-     * Destructor for test transaction level
+     * Check if all transactions have been committed
      */
     public function __destruct()
     {
         if ($this->_transactionLevel > 0 && Mage::getIsDeveloperMode()) {
-            trigger_error('Transaction won\'t commit', E_USER_ERROR);
+            trigger_error('Some transactions have not been committed or rolled back', E_USER_ERROR);
         }
     }
 }
