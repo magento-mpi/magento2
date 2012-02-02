@@ -362,8 +362,9 @@ class Mage_Selenium_TestConfiguration
      */
     protected function _loadTestData()
     {
-        $files = SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'data'
-            . DIRECTORY_SEPARATOR . '*.yml';
+        $files = SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'fixture'
+                . DIRECTORY_SEPARATOR . '*' . DIRECTORY_SEPARATOR . '*' . DIRECTORY_SEPARATOR . '*'
+                . DIRECTORY_SEPARATOR . 'data' . DIRECTORY_SEPARATOR . '*.yml';
         $this->_testData = $this->getFileHelper()->loadYamlFiles($files);
         return $this;
     }
