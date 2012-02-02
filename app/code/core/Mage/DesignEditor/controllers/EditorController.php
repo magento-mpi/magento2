@@ -50,8 +50,6 @@ class Mage_DesignEditor_EditorController extends Mage_Core_Controller_Front_Acti
             }
 
             $this->loadLayout(null, false, true);
-//            echo $this->getLayout()->getNode()->asNiceXml();
-//            exit;
             $this->renderLayout();
             return;
         } catch (Mage_Core_Exception $e) {

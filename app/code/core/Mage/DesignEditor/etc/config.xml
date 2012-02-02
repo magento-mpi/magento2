@@ -24,13 +24,13 @@
             </updates>
         </layout>
         <routers>
-            <catalog>
+            <designeditor>
                 <use>standard</use>
                 <args>
                     <module>Mage_DesignEditor</module>
                     <frontName>design</frontName>
                 </args>
-            </catalog>
+            </designeditor>
         </routers>
     </frontend>
     <adminhtml>
