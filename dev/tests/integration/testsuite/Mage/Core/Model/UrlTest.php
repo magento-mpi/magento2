@@ -313,7 +313,8 @@ class Mage_Core_Model_UrlTest extends PHPUnit_Framework_TestCase
 
     public function testSessionUrlVar()
     {
-        $this->assertEquals('<a href="http://example.com/?SID=' . session_id() . '">www.example.com</a>',
+        $sessionId = Mage::getSingleton('Mage_Core_Model_Session')->getEncryptedSessionId();
+        $this->assertEquals('<a href="http://example.com/?SID=' . $sessionId . '">www.example.com</a>',
             $this->_model->sessionUrlVar('<a href="http://example.com/?___SID=U">www.example.com</a>')
         );
     }

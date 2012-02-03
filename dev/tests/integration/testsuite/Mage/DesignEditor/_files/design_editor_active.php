@@ -9,5 +9,9 @@
  * @license     {license_link}
  */
 
+require 'testsuite/Mage/Admin/_files/user.php';
+Mage::getSingleton('Mage_Adminhtml_Model_Url')->turnOffSecretKey();
+
 $session = new Mage_DesignEditor_Model_Session();
+$session->login('user', 'password');
 $session->activateDesignEditor();

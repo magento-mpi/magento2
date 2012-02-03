@@ -9,27 +9,26 @@
  * @license     {license_link}
  */
 
-$role = new Mage_Admin_Model_Role();
-$role->setData(array(
-    'parent_id'     => 0,
-    'tree_level'    => 1,
-    'sort_order'    => 1,
-    'role_type'     => 'G',
-    'user_id'       => 0,
-    'role_name'     => 'Test Role'
-    ))
-    ->save();
-
-
 $user = new Mage_Admin_Model_User();
-$user->setResourceId('all')
-    ->setFirstname('firstname')
-    ->setLastname('lastname')
-    ->setEmail('email@magento.com')
-    ->setUsername('user')
-    ->setPassword('password')
-    ->setIsActive(1)
-    ->save();
+$user->setData(array(
+    'firstname' => 'firstname',
+    'lastname'  => 'lastname',
+    'email'     => 'admin@example.com',
+    'username'  => 'user',
+    'password'  => 'password',
+    'is_active' => 1
+));
+$user->save();
 
-$user->setRoleIds(array($role->getId()))
-    ->saveRelations();
+$roleAdmin = new Mage_Admin_Model_Role();
+$roleAdmin->load('Administrators', 'role_name');
+
+$roleUser = new Mage_Admin_Model_Role();
+$roleUser->setData(array(
+    'parent_id'  => $roleAdmin->getId(),
+    'tree_level' => $roleAdmin->getTreeLevel() + 1,
+    'role_type'  => Mage_Admin_Model_Acl::ROLE_TYPE_USER,
+    'user_id'    => $user->getId(),
+    'role_name'  => $user->getFirstname(),
+));
+$roleUser->save();

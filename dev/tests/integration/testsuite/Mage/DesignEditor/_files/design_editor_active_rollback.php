@@ -11,3 +11,4 @@
 
 $session = new Mage_DesignEditor_Model_Session();
 $session->deactivateDesignEditor();
+Mage::getSingleton('Mage_Adminhtml_Model_Url')->turnOnSecretKey();

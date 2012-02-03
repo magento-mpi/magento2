@@ -101,9 +101,9 @@ class Mage_Core_Model_Session_AbstractTest extends PHPUnit_Framework_TestCase
 
     public function testSetSessionId()
     {
-        $id = $this->_model->getSessionId();
+        $sessionId = $this->_model->getSessionId();
         $this->_model->setSessionId();
-        $this->assertEquals($id, $this->_model->getSessionId());
+        $this->assertEquals($sessionId, $this->_model->getSessionId());
 
         $this->_model->setSessionId('test');
         $this->assertEquals('test', $this->_model->getSessionId());
@@ -128,9 +128,9 @@ class Mage_Core_Model_Session_AbstractTest extends PHPUnit_Framework_TestCase
 
     public function testGetEncryptedSessionId()
     {
-        $id = $this->_model->getEncryptedSessionId();
+        $sessionId = $this->_model->getEncryptedSessionId();
         $this->_model->setSessionId('new-id');
-        $this->assertEquals($id, $this->_model->getEncryptedSessionId());
+        $this->assertEquals($sessionId, $this->_model->getEncryptedSessionId());
     }
 
     public function testGetSessionIdQueryParam()

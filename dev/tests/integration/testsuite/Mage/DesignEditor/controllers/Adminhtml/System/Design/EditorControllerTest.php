@@ -11,11 +11,22 @@
 
 /**
  * @group module:Mage_DesignEditor
- * @magentoDataFixture Mage/Admin/_files/admin_user_logged_in.php
- * @magentoDataFixture Mage/Adminhtml/_files/form_key_disabled.php
  */
 class Mage_DesignEditor_Adminhtml_System_Design_EditorControllerTest extends Magento_Test_TestCase_ControllerAbstract
 {
+    /**
+     * @var Mage_Admin_Model_Session
+     */
+    protected  $_session;
+
+    protected function setUp()
+    {
+        parent::setUp();
+        Mage::getSingleton('Mage_Adminhtml_Model_Url')->turnOffSecretKey();
+        $this->_session = new Mage_Admin_Model_Session();
+        $this->_session->login('user', 'password');
+    }
+
     /**
      * Assert that a page content contains the design editor form
      *
@@ -35,11 +46,14 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorControllerTest extends Mag
      */
     public function _requireSessionId()
     {
-        if (!session_id()) {
+        if (!$this->_session->getSessionId()) {
             $this->markTestSkipped('Test requires environment with non-empty session identifier.');
         }
     }
 
+    /**
+     * @magentoDataFixture Mage/Admin/_files/user.php
+     */
     public function testIndexActionSingleStore()
     {
         $this->dispatch('admin/system_design_editor/index');
@@ -47,8 +61,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorControllerTest extends Mag
     }
 
     /**
-     * @magentoDataFixture Mage/Admin/_files/admin_user_logged_in.php
-     * @magentoDataFixture Mage/Adminhtml/_files/form_key_disabled.php
+     * @magentoDataFixture Mage/Admin/_files/user.php
      * @magentoDataFixture Mage/Core/_files/store.php
      */
     public function testIndexActionMultipleStores()
@@ -61,6 +74,9 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorControllerTest extends Mag
         $this->assertContains('Fixture Store</option>', $responseBody);
     }
 
+    /**
+     * @magentoDataFixture Mage/Admin/_files/user.php
+     */
     public function testLaunchActionSingleStore()
     {
         $session = new Mage_DesignEditor_Model_Session();
@@ -69,12 +85,11 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorControllerTest extends Mag
         $this->assertTrue($session->isDesignEditorActive());
 
         $this->_requireSessionId();
-        $this->assertRedirect('http://localhost/index.php/?SID=' . session_id());
+        $this->assertRedirect('http://localhost/index.php/?SID=' . $this->_session->getSessionId());
     }
 
     /**
-     * @magentoDataFixture Mage/Admin/_files/admin_user_logged_in.php
-     * @magentoDataFixture Mage/Adminhtml/_files/form_key_disabled.php
+     * @magentoDataFixture Mage/Admin/_files/user.php
      * @magentoDataFixture Mage/Core/_files/store.php
      * @magentoConfigFixture fixturestore_store web/unsecure/base_link_url http://example.com/
      */
@@ -88,12 +103,12 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorControllerTest extends Mag
         $this->assertTrue($session->isDesignEditorActive());
 
         $this->_requireSessionId();
-        $this->assertRedirect('http://example.com/index.php/?SID=' . session_id() . '&___store=fixturestore');
+        $this->assertRedirect(
+            'http://example.com/index.php/?SID=' . $this->_session->getSessionId() . '&___store=fixturestore'
+        );
     }
 
     /**
-     * @magentoDataFixture Mage/Admin/_files/admin_user_logged_in.php
-     * @magentoDataFixture Mage/Adminhtml/_files/form_key_disabled.php
      * @magentoDataFixture Mage/DesignEditor/_files/design_editor_active.php
      */
     public function testExitAction()

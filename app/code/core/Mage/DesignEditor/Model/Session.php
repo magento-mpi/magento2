@@ -25,7 +25,7 @@ class Mage_DesignEditor_Model_Session extends Mage_Admin_Model_Session
      */
     public function isDesignEditorActive()
     {
-        return (bool)$this->getData(self::SESSION_DESIGN_EDITOR_ACTIVE);
+        return (bool)$this->getData(self::SESSION_DESIGN_EDITOR_ACTIVE) && $this->isLoggedIn();
     }
 
     /**
