@@ -85,11 +85,6 @@ class Mage_Api2_Model_DispatcherTest extends Mage_PHPUnit_TestCase
             ->method('getModel')
             ->will($this->returnValue(self::RESOURCE_MODEL));
 
-        $this->_requestMock->expects($this->once())
-            ->method('getParam')
-            ->with('type')
-            ->will($this->returnValue('product'));
-
         $this->_requestMock->expects($this->any())
             ->method('getApiType')
             ->will($this->returnValue(Mage_Api2_Model_Server::API_TYPE_REST));

@@ -144,6 +144,34 @@ class Mage_Api2_Model_RequestUnitTest extends Mage_PHPUnit_TestCase
     }
 
     /**
+     * Test for getApiType() method
+     */
+    public function testGetApiTypeFromWrongSources()
+    {
+        $apiType = 'test_api_type';
+
+        $_GET['api_type']  = $apiType;
+        $_POST['api_type'] = $apiType;
+
+        $this->assertNull($this->_request->getApiType());
+    }
+
+    /**
+     * Test for getFilter() method
+     */
+    public function testGetFilter()
+    {
+        $_POST[Mage_Api2_Model_Request::QUERY_PARAM_FILTER] = 'filter_exists';
+        $this->_request->setParam(Mage_Api2_Model_Request::QUERY_PARAM_FILTER, 'filter_exists');
+
+        $this->assertNull($this->_request->getFilter());
+
+        $_GET[Mage_Api2_Model_Request::QUERY_PARAM_FILTER] = 'filter_exists';
+
+        $this->assertEquals('filter_exists', $this->_request->getFilter());
+    }
+
+    /**
      * Test for getBodyParams() method
      */
     public function testGetBodyParams()
@@ -212,6 +240,19 @@ class Mage_Api2_Model_RequestUnitTest extends Mage_PHPUnit_TestCase
     }
 
     /**
+     * Test for getApiType() method
+     */
+    public function testGetModelFromWrongSources()
+    {
+        $model = 'test_model';
+
+        $_GET['model']  = $model;
+        $_POST['model'] = $model;
+
+        $this->assertNull($this->_request->getModel());
+    }
+
+    /**
      * Test for getOperation() method
      *
      * @dataProvider providerRequestMethod
@@ -242,6 +283,53 @@ class Mage_Api2_Model_RequestUnitTest extends Mage_PHPUnit_TestCase
     }
 
     /**
+     * Test for getOrder() method
+     */
+    public function testGetOrder()
+    {
+        $_POST[Mage_Api2_Model_Request::QUERY_PARAM_ORDER] = 'order_exists';
+        $this->_request->setParam(Mage_Api2_Model_Request::QUERY_PARAM_FILTER, 'order_exists');
+
+        $this->assertNull($this->_request->getOrder());
+
+        $_GET[Mage_Api2_Model_Request::QUERY_PARAM_ORDER] = 'order_exists';
+
+        $this->assertEquals('order_exists', $this->_request->getOrder());
+    }
+
+    /**
+     * Test for getPageNumber() method
+     */
+    public function testGetPageNumber()
+    {
+        $_POST[Mage_Api2_Model_Request::QUERY_PARAM_PAGE_NUM] = 5;
+        $this->_request->setParam(Mage_Api2_Model_Request::QUERY_PARAM_PAGE_NUM, 5);
+
+        $this->assertNull($this->_request->getPageNumber());
+
+        $_GET[Mage_Api2_Model_Request::QUERY_PARAM_PAGE_NUM] = 5;
+
+        $this->assertEquals(5, $this->_request->getPageNumber());
+    }
+
+    /**
+     * Test for getRequestedAttributes() method
+     */
+    public function testGetRequestedAttributes()
+    {
+        $_GET[Mage_Api2_Model_Request::QUERY_PARAM_REQ_ATTRS][] = 'attr1';
+        $_GET[Mage_Api2_Model_Request::QUERY_PARAM_REQ_ATTRS][] = 'attr2';
+
+        $this->assertInternalType('array', $this->_request->getRequestedAttributes());
+        $this->assertEquals(array('attr1', 'attr2'), $this->_request->getRequestedAttributes());
+
+        $_GET[Mage_Api2_Model_Request::QUERY_PARAM_REQ_ATTRS] = 'attr1, attr2';
+
+        $this->assertInternalType('array', $this->_request->getRequestedAttributes());
+        $this->assertEquals(array('attr1', 'attr2'), $this->_request->getRequestedAttributes());
+    }
+
+    /**
      * Test for getResourceType() method
      *
      */
@@ -254,6 +342,19 @@ class Mage_Api2_Model_RequestUnitTest extends Mage_PHPUnit_TestCase
         $this->_request->setParam('type', $resource);
 
         $this->assertEquals($resource, $this->_request->getResourceType());
+    }
+
+    /**
+     * Test for getResourceType() method
+     */
+    public function testResourceTypeFromWrongSources()
+    {
+        $resourceType = 'test_resource_type';
+
+        $_GET['type']  = $resourceType;
+        $_POST['type'] = $resourceType;
+
+        $this->assertNull($this->_request->getResourceType());
     }
 
     /**

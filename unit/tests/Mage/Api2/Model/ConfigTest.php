@@ -58,7 +58,7 @@ class Mage_Api2_Model_ConfigTest extends Mage_PHPUnit_TestCase
     {
         parent::setUp();
 
-        $this->_helperMock = $this->getHelperMockBuilder('api2')->setMethods(array('isApiTypeExist'))->getMock();
+        $this->_helperMock = $this->getHelperMockBuilder('api2')->setMethods(array('isApiTypeSupported'))->getMock();
 
         Mage::setConfigModel(array('config_model' => 'Mage_Core_Model_Config_Mock'));
         Mage::getConfig()->init();
@@ -146,7 +146,7 @@ class Mage_Api2_Model_ConfigTest extends Mage_PHPUnit_TestCase
     public function testGetRoutes()
     {
         $this->_helperMock->expects($this->once())
-            ->method('isApiTypeExist')
+            ->method('isApiTypeSupported')
             ->will($this->returnValue(true));
 
         $routes = $this->_config->getRoutes(Mage_Api2_Model_Server::API_TYPE_REST);
@@ -171,12 +171,12 @@ class Mage_Api2_Model_ConfigTest extends Mage_PHPUnit_TestCase
     public function testGetRoutesFail()
     {
         $this->_helperMock->expects($this->once())
-            ->method('isApiTypeExist');
+            ->method('isApiTypeSupported');
 
         $wrongApiType = 'qwerty';
         $this->setExpectedException(
             'Mage_Api2_Exception',
-            sprintf('Invalid API type "%s".', $wrongApiType),
+            sprintf('API type "%s" is not supported', $wrongApiType),
             Mage_Api2_Model_Server::HTTP_BAD_REQUEST
         );
 
