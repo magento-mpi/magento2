@@ -36,9 +36,37 @@ class Mage_Review_Model_Api2_Review_Rest_Admin_V1 extends Mage_Review_Model_Api2
     /**
      * Retrieve information about specified review item
      *
+     * @throws Mage_Api2_Exception
      * @return array
      */
     protected function _retrieve()
+    {
+        $review = $this->_loadReview();
+        return $review->getData();
+    }
+
+    /**
+     * Delete specified review item
+     *
+     * @throws Mage_Api2_Exception
+     */
+    protected function _delete()
+    {
+        $review = $this->_loadReview();
+        try {
+            $review->delete();
+        } catch (Exception $e) {
+            $this->_critical(Mage_Api2_Model_Resource::RESOURCE_INTERNAL_ERROR);
+        }
+    }
+
+    /**
+     * Load review by its id passed through request
+     *
+     * @throws Mage_Api2_Exception
+     * @return Mage_Review_Model_Review
+     */
+    protected function _loadReview()
     {
         $reviewId = $this->getRequest()->getParam('id');
         /** @var $review Mage_Review_Model_Review */
@@ -46,7 +74,6 @@ class Mage_Review_Model_Api2_Review_Rest_Admin_V1 extends Mage_Review_Model_Api2
         if (!$review->getId()) {
             $this->_critical(Mage_Api2_Model_Resource::RESOURCE_NOT_FOUND);
         }
-
-        return $review->getData();
+        return $review;
     }
 }
