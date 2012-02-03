@@ -47,7 +47,7 @@ $adapter->addColumn($table, 'privilege', array(
 
 // Add 'allowed_attributes' column
 $adapter->addColumn($table, 'allowed_attributes', array(
-    'comment'     => 'Allowed Attributes Ids',
+    'comment'     => 'Allowed Attributes',
     'nullable'    => true,
     'column_type' => Varien_Db_Ddl_Table::TYPE_TEXT
 ));
