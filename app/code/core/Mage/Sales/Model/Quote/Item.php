@@ -326,7 +326,9 @@ class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
             $qtyOptions = array();
             foreach ($this->getOptions() as $option) {
                 /** @var $option Mage_Sales_Model_Quote_Item_Option */
-                if (is_object($option->getProduct()) && $option->getProduct()->getId() != $this->getProduct()->getId()) {
+                if (is_object($option->getProduct())
+                    && $option->getProduct()->getId() != $this->getProduct()->getId()
+                ) {
                     $productIds[$option->getProduct()->getId()] = $option->getProduct()->getId();
                 }
             }
@@ -502,7 +504,8 @@ class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
                         $itemOptionValue = $_itemOptionValue;
                         $optionValue     = $_optionValue;
                         // looks like it does not break bundle selection qty
-                        unset($itemOptionValue['qty'], $itemOptionValue['uenc'], $optionValue['qty'], $optionValue['uenc']);
+                        unset($itemOptionValue['qty'], $itemOptionValue['uenc']);
+                        unset($optionValue['qty'], $optionValue['uenc']);
                     }
                 }
 
