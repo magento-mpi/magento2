@@ -21,7 +21,7 @@
 # @package     selenium
 # @subpackage  configuration
 # @author      Magento Core Team <core@magentocommerce.com>
-# @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+# @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
 # @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 #
 ---
@@ -53,7 +53,6 @@ browsers:
         doNotKillBrowsers: false
         browserTimeoutPeriod: 40000
     default: *chrome
-
 ################################################################################
 #                                                                              #
 #                      Projects configuration                                  #
@@ -71,15 +70,13 @@ default:
             name: 'file'
             options:
             cache_dir: 'tmp/cache'
-    uimaps:
-        basePath: uimaps
+    fixture_base_path: fixture
+    coverageScriptUrl:
     applications:
         mage: &mage
             adminLogin: admin
             adminPassword: 123123q
-            storeName: Store 1
-            basePath: '/path/to/app/installation'
-            fallbackorder: 'default'
+            fallbackOrder: default
             areas:
                 admin:
                     url: 'http://www.localhost.com/magento/admin/'
@@ -87,18 +84,16 @@ default:
                 frontend:
                     url: 'http://www.localhost.com/magento/'
                     uimap_path: 'frontend'
-                paypal-sandbox: &paypalSandbox
+                paypal_sandbox: &paypalSandbox
                     url: 'https://www.sandbox.paypal.com/'
-                    uimap_path: 'third-party/paypal-sandbox'
-                paypal-developer: &paypalDeveloper
+                    uimap_path: 'paypal_sandbox'
+                paypal_developer: &paypalDeveloper
                     url: 'https://developer.paypal.com/'
-                    uimap_path: 'third-party/paypal-developer'
+                    uimap_path: 'paypal_developer'
         enterprise: &enterprise
             adminLogin: admin
             adminPassword: 123123q
-            storeName: Store 1
-            basePath: '/path/to/app/installation'
-            fallbackorder: 'default enterprise'
+            fallbackOrder: enterprise, default
             areas:
                 admin:
                     url: 'http://www.localhost.com/magento/admin/'
@@ -106,51 +101,6 @@ default:
                 frontend:
                     url: 'http://www.localhost.com/magento/'
                     uimap_path: 'frontend'
-                paypal-sandbox: *paypalSandbox
-                paypal-developer: *paypalDeveloper
-        saas: &saas
-            adminLogin: admin
-            adminPassword: 123123q
-            storeName: Store 1
-            basePath: '/path/to/app/installation'
-            fallbackorder: 'default enterprise saas'
-            areas:
-                admin:
-                    url: 'http://www.localhost.com/magento/admin/'
-                    uimap_path: 'admin'
-                frontend:
-                    url: 'http://www.localhost.com/magento/'
-                    uimap_path: 'frontend'
-                paypal-sandbox: *paypalSandbox
-                paypal-developer: *paypalDeveloper
-        paas: &paas
-            adminLogin: admin
-            adminPassword: 123123q
-            storeName: Store 1
-            basePath: '/path/to/app/installation'
-            fallbackorder:
-            areas:
-                admin:
-                    url: 'http://www.localhost.com/magento/admin/'
-                    uimap_path: 'admin'
-                frontend:
-                    url: 'http://www.localhost.com/magento/'
-                    uimap_path: 'frontend'
-                paypal-sandbox: *paypalSandbox
-                paypal-developer: *paypalDeveloper
-        ecg: &ecg
-            adminLogin: admin
-            adminPassword: 123123q
-            storeName: Store 1
-            basePath: '/path/to/app/installation'
-            fallbackorder:
-            areas:
-                admin:
-                    url: 'http://www.localhost.com/magento/admin/'
-                    uimap_path: 'admin'
-                frontend:
-                    url: 'http://www.localhost.com/magento/'
-                    uimap_path: 'frontend'
-                paypal-sandbox: *paypalSandbox
-                paypal-developer: *paypalDeveloper
+                paypal_sandbox: *paypalSandbox
+                paypal_developer: *paypalDeveloper
         default: *mage
