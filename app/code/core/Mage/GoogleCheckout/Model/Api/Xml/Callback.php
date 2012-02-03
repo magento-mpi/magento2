@@ -789,8 +789,11 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
         $order->addStatusToHistory($order->getStatus(), $msg);
 
         $order->setPaymentAuthorizationAmount($payment->getAmountAuthorized());
+        $timestamp = Mage::getModel('core/date')->gmtTimestamp(
+            $this->getData('root/authorization-expiration-date/VALUE')
+        );
         $order->setPaymentAuthorizationExpiration(
-            Mage::getModel('core/date')->gmtTimestamp($this->getData('root/authorization-expiration-date/VALUE'))
+            $timestamp ? $timestamp : Mage::getModel('core/date')->gmtTimestamp()
         );
 
         $order->save();

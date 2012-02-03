@@ -395,6 +395,11 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
 
                     //convert to internal time
                     $date = Mage::getModel('core/date')->gmtDate(null, $schedulingDate);
+
+                    if (!$date) {
+                        Mage::throwException(Mage::helper('enterprise_staging')->__('Invalid date'));
+                    }
+
                     $staging->setMergeSchedulingDate($date);
 
                     $originDate = Mage::helper('core')->formatDate(
