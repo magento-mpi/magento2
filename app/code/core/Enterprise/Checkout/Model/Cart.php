@@ -791,13 +791,13 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
         $skuParts = explode('-', $sku);
         $primarySku = array_shift($skuParts);
 
-        if (empty($primarySku)) {
+        if (empty($primarySku) || $primarySku == $sku) {
             return false;
         }
 
         $product = Mage::getModel('catalog/product')->loadByAttribute('sku', $primarySku);
 
-        if ($this->_shouldBeConfigured($product) && $this->_isConfigured($product, $config)) {
+        if ($product && $this->_shouldBeConfigured($product) && $this->_isConfigured($product, $config)) {
             return $product;
         }
 
