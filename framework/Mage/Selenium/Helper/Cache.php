@@ -43,7 +43,7 @@ class Mage_Selenium_Helper_Cache extends Mage_Selenium_Helper_Abstract
     /**
      * Default dir fo cash files
      */
-    const DEFAULT_CACHE_DIR = 'tmp/cache';
+    const DEFAULT_CACHE_DIR = 'var/cache';
 
     /**
      * Instance of cache

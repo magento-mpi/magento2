@@ -35,33 +35,33 @@
          strict="false" verbose="true" syntaxCheck="false">
     <testsuites>
         <testsuite name="All Tests">
-            <directory suffix="Test.php">tests/</directory>
+            <directory suffix="Test.php">testsuite/Core/Mage/</directory>
         </testsuite>
         <!--
         <!-- Test suite guaranteed coveres Magento's code -->
         <testsuite name="All Tests Covergae list">
-            <directory suffix="Test.php">tests/AdminUser</directory>
-            <directory suffix="Test.php">tests/AttributeSet</directory>
-            <directory suffix="Test.php">tests/Category</directory>
-            <directory suffix="Test.php">tests/CheckoutOnePage</directory>
-            <directory suffix="Test.php">tests/CheckoutMultipleAddresses</directory>
-            <directory suffix="Test.php">tests/Customer</directory>
-            <directory suffix="Test.php">tests/CmsPages</directory>
-            <directory suffix="Test.php">tests/CmsPolls</directory>
-            <directory suffix="Test.php">tests/CmsStaticBlocks</directory>
-            <directory suffix="Test.php">tests/CmsWidgets</directory>
-            <directory suffix="Test.php">tests/CompareProducts</directory>
-            <directory suffix="Test.php">tests/Newsletter</directory>
-            <directory suffix="Test.php">tests/Order</directory>
-            <directory suffix="Test.php">tests/Product</directory>
-            <directory suffix="Test.php">tests/ProductAttribute</directory>
-            <directory suffix="Test.php">tests/PriceRules</directory>
-            <directory suffix="Test.php">tests/Rating</directory>
-            <directory suffix="Test.php">tests/Review</directory>
-            <directory suffix="Test.php">tests/Store</directory>
-            <directory suffix="Test.php">tests/Tags</directory>
-            <directory suffix="Test.php">tests/Tax</directory>
-            <directory suffix="Test.php">tests/Wishlist</directory>
+            <directory suffix="Test.php">testsuite/Core/Mage/AdminUser</directory>
+            <directory suffix="Test.php">testsuite/Core/Mage/AttributeSet</directory>
+            <directory suffix="Test.php">testsuite/Core/Mage/Category</directory>
+            <directory suffix="Test.php">testsuite/Core/Mage/CheckoutOnePage</directory>
+            <directory suffix="Test.php">testsuite/Core/Mage/CheckoutMultipleAddresses</directory>
+            <directory suffix="Test.php">testsuite/Core/Mage/Customer</directory>
+            <directory suffix="Test.php">testsuite/Core/Mage/CmsPages</directory>
+            <directory suffix="Test.php">testsuite/Core/Mage/CmsPolls</directory>
+            <directory suffix="Test.php">testsuite/Core/Mage/CmsStaticBlocks</directory>
+            <directory suffix="Test.php">testsuite/Core/Mage/CmsWidgets</directory>
+            <directory suffix="Test.php">testsuite/Core/Mage/CompareProducts</directory>
+            <directory suffix="Test.php">testsuite/Core/Mage/Newsletter</directory>
+            <directory suffix="Test.php">testsuite/Core/Mage/Order</directory>
+            <directory suffix="Test.php">testsuite/Core/Mage/Product</directory>
+            <directory suffix="Test.php">testsuite/Core/Mage/ProductAttribute</directory>
+            <directory suffix="Test.php">testsuite/Core/Mage/PriceRules</directory>
+            <directory suffix="Test.php">testsuite/Core/Mage/Rating</directory>
+            <directory suffix="Test.php">testsuite/Core/Mage/Review</directory>
+            <directory suffix="Test.php">testsuite/Core/Mage/Store</directory>
+            <directory suffix="Test.php">testsuite/Core/Mage/Tags</directory>
+            <directory suffix="Test.php">testsuite/Core/Mage/Tax</directory>
+            <directory suffix="Test.php">testsuite/Core/Mage/Wishlist</directory>
         </testsuite>
         -->
     </testsuites>
@@ -102,16 +102,16 @@
         </whitelist>
     </filter>
     <logging>
-        <log type="json" target="./tmp/logfile.json"/>
-        <log type="tap" target="./tmp/logfile.tap"/>
-        <log type="junit" target="./tmp/logfile.xml" logIncompleteSkipped="false"/>
-        <log type="testdox-html" target="./tmp/testdox.html"/>
-        <log type="testdox-text" target="./tmp/testdox.txt"/>
+        <log type="json" target="./var/logs/logfile.json"/>
+        <log type="tap" target="./var/logs/logfile.tap"/>
+        <log type="junit" target="./var/logs/logfile.xml" logIncompleteSkipped="false"/>
+        <log type="testdox-html" target="./var/logs/testdox.html"/>
+        <log type="testdox-text" target="./var/logs/testdox.txt"/>
         <!-- PHPUnit 3.5.x -->
-        <log type="coverage-clover" target="./tmp/coverage.xml"/>
-        <log type="coverage-html" target="./tmp/report" charset="UTF-8" yui="true" highlight="false" lowUpperBound="35" highLowerBound="70"/>
+        <log type="coverage-clover" target="./var/logs/coverage.xml"/>
+        <log type="coverage-html" target="./var/logs/report" charset="UTF-8" yui="true" highlight="false" lowUpperBound="35" highLowerBound="70"/>
         <!-- PHPUnit 3.6.x -->
-        <log type="coverage-php" target="./tmp/coverage.serialized"/>
+        <log type="coverage-php" target="./var/logs/coverage.serialized"/>
         <log type="coverage-text" target="php://stdout" showUncoveredFiles="false"/>
     </logging>
 </phpunit>

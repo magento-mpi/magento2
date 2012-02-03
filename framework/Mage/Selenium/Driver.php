@@ -62,7 +62,8 @@ class Mage_Selenium_Driver extends PHPUnit_Extensions_SeleniumTestCase_Driver
     {
         parent::__construct();
 
-        $this->_logHandle = fopen('tmp' . DIRECTORY_SEPARATOR . 'selenium-rc-' . date('d-m-Y-H-i-s') . '.log', 'a+');
+        $this->_logHandle = fopen('var' . DIRECTORY_SEPARATOR . 'logs' . DIRECTORY_SEPARATOR
+                                      . 'selenium-rc-' . date('d-m-Y-H-i-s') . '.log', 'a+');
     }
 
     /**
