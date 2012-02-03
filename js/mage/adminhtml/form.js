@@ -105,8 +105,7 @@ varienForm.prototype = {
         if(this.submitUrl){
             $form.action = this.submitUrl;
         }
-        // ff9 workaround
-        window.setTimeout(function(){ $form.submit(); }, 1);
+        $form.submit();
     }
 }
 
