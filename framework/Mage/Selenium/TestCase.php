@@ -419,8 +419,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             throw new UnexpectedValueException('Helper name can\'t be empty');
         }
         $testClassName = get_class($this);
-        $nameSpace = preg_replace('/([A-Za-z0-9])+_([A-Za-z0-9])+$/', '', $testClassName);
-        $helperClassName = $nameSpace . $testScope . '_' . $helperName;
+        $nameSpace = explode('_', $testClassName);
+        $helperClassName = $nameSpace[0] . '_' . $nameSpace[1] . '_' . $testScope . '_' . $helperName;
 
         if (!isset($this->_testHelpers[$helperClassName])) {
             if (class_exists($helperClassName)) {
