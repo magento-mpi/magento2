@@ -32,10 +32,6 @@
  * @package     Magento_Test
  * @author      Magento Api Team <api-team@magento.com>
  */
-/**
- * @magentoDataFixture Api/SalesOrder/_fixtures/product_simple.php
- */
-
 class Api2_Review_Reviews_AdminTest extends Magento_Test_Webservice_Rest_Admin
 {
     /**
@@ -56,17 +52,16 @@ class Api2_Review_Reviews_AdminTest extends Magento_Test_Webservice_Rest_Admin
     /**
      * Test creating new review
      *
+     * @param array $reviewData
+     * @magentoDataFixture Api/SalesOrder/_fixtures/product_simple.php
+     * @dataProvider dataProviderTestPost
      * @return void
      */
-    public function testPost()
+    public function testPost($reviewData)
     {
         /** @var $product Mage_Catalog_Model_Product */
         $product = $this->getFixture('product_simple');
-
-        $reviewData = require dirname(__FILE__) . '/../_fixtures/ReviewData.php';
         $reviewData['product_id'] = $product->getId();
-
-        $this->getWebService()->getClient()->setHeaders('Cookie', 'XDEBUG_SESSION=netbeans-xdebug');
 
         $restResponse = $this->callPost('reviews', $reviewData);
         $this->assertEquals(200, $restResponse->getStatus());
@@ -80,6 +75,136 @@ class Api2_Review_Reviews_AdminTest extends Magento_Test_Webservice_Rest_Admin
         $this->assertEquals($reviewData['nickname'], $review->getNickname());
         $this->assertEquals($reviewData['title'], $review->getTitle());
         $this->assertEquals($reviewData['detail'], $review->getDetail());
+    }
+
+    /**
+     * Data provider for testPost()
+     *
+     * @return array
+     */
+    public function dataProviderTestPost()
+    {
+        $reviewData = require dirname(__FILE__) . '/../_fixtures/ReviewData.php';
+        $reviewDataSqlInjection = require dirname(__FILE__) . '/../_fixtures/ReviewDataSqlInj.php';
+        return array(
+            array($reviewData),
+            array($reviewDataSqlInjection),
+        );
+    }
+
+    /**
+     * Test creating new review with invalid data.
+     * Negative test.
+     *
+     * @magentoDataFixture Api/SalesOrder/_fixtures/product_simple.php
+     * @return void
+     */
+    public function testPostEmptyRequired()
+    {
+        /** @var $product Mage_Catalog_Model_Product */
+        $product = $this->getFixture('product_simple');
+
+        $reviewData = require dirname(__FILE__) . '/../_fixtures/ReviewDataEmptyRequired.php';
+        $reviewData['product_id'] = $product->getId();
+
+        $restResponse = $this->callPost('reviews', $reviewData);
+        $this->assertEquals(400, $restResponse->getStatus());
+        $body = $restResponse->getBody();
+        $errors = $body['messages']['error'];
+        $this->assertNotEmpty($errors);
+        $expectedErrors = array('Resource data pre-validation error.');
+        unset($reviewData['product_id']);
+        foreach ($reviewData as $key => $value) {
+            $expectedErrors[] = sprintf('Empty value for "%s" in request.', $key);
+        }
+        foreach ($errors as $error) {
+            $this->assertContains($error['message'], $expectedErrors);
+        }
+    }
+
+    /**
+     * Test creating new review with invalid product.
+     * Negative test.
+     *
+     * @return void
+     */
+    public function testPostInvalidProduct()
+    {
+        $reviewData = require dirname(__FILE__) . '/../_fixtures/ReviewDataInvalidProduct.php';
+
+        $restResponse = $this->callPost('reviews', $reviewData);
+        $this->assertEquals(400, $restResponse->getStatus());
+        $body = $restResponse->getBody();
+        $error = reset($body['messages']['error']);
+        $this->assertEquals($error['message'], 'Product not found');
+    }
+
+    /**
+     * Test creating new review with invalid status.
+     * Negative test.
+     *
+     * @magentoDataFixture Api/SalesOrder/_fixtures/product_simple.php
+     * @return void
+     */
+    public function testPostInvalidStatus()
+    {
+        /** @var $product Mage_Catalog_Model_Product */
+        $product = $this->getFixture('product_simple');
+
+        $reviewData = require dirname(__FILE__) . '/../_fixtures/ReviewDataInvalidStatus.php';
+        $reviewData['product_id'] = $product->getId();
+
+        $restResponse = $this->callPost('reviews', $reviewData);
+        $this->assertEquals(400, $restResponse->getStatus());
+        $body = $restResponse->getBody();
+        $error = reset($body['messages']['error']);
+        $this->assertEquals($error['message'], 'Invalid status provided');
+    }
+
+    /**
+     * Test creating new review with invalid stores (not array given).
+     * Negative test.
+     *
+     * @magentoDataFixture Api/SalesOrder/_fixtures/product_simple.php
+     * @return void
+     */
+    public function testPostInvalidStores()
+    {
+        /** @var $product Mage_Catalog_Model_Product */
+        $product = $this->getFixture('product_simple');
+
+        $reviewData = require dirname(__FILE__) . '/../_fixtures/ReviewDataInvalidStores.php';
+        $reviewData['product_id'] = $product->getId();
+
+        $restResponse = $this->callPost('reviews', $reviewData);
+        $this->assertEquals(400, $restResponse->getStatus());
+        $body = $restResponse->getBody();
+        $error = reset($body['messages']['error']);
+        $this->assertEquals($error['message'], 'Invalid stores provided');
+    }
+
+    /**
+     * Test creating new review with invalid stores (non existing store provided).
+     * Negative test.
+     *
+     * @magentoDataFixture Api/SalesOrder/_fixtures/product_simple.php
+     * @return void
+     */
+    public function testPostInvalidStore()
+    {
+        /** @var $product Mage_Catalog_Model_Product */
+        $product = $this->getFixture('product_simple');
+
+        $reviewData = require dirname(__FILE__) . '/../_fixtures/ReviewData.php';
+        $reviewData['product_id'] = $product->getId();
+        $invalidStoreId = 32000;
+        $reviewData['stores'][] = $invalidStoreId;
+
+        $restResponse = $this->callPost('reviews', $reviewData);
+        $this->assertEquals(400, $restResponse->getStatus());
+        $body = $restResponse->getBody();
+        $error = reset($body['messages']['error']);
+        $this->assertEquals($error['message'], sprintf('Invalid store ID "%s" provided', $invalidStoreId));
     }
 }
 
