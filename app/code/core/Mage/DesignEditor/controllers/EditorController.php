@@ -23,13 +23,20 @@ class Mage_DesignEditor_EditorController extends Mage_Core_Controller_Front_Acti
      */
     protected $_fullActionName = '';
 
+    /**
+     * Enforce admin session with the active design editor mode
+     *
+     * @return Mage_DesignEditor_EditorController
+     */
     public function preDispatch()
     {
         parent::preDispatch();
 
         $this->_session = Mage::getSingleton('Mage_DesignEditor_Model_Session');
         if (!$this->_session->isDesignEditorActive()) {
-            Mage::getSingleton('Mage_Core_Model_Session')->addError($this->__('Administrator is not logged in.'));
+            Mage::getSingleton('Mage_Core_Model_Session')->addError(
+                $this->__('Design editor is not initialized by administrator.')
+            );
             $this->norouteAction();
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
         }
@@ -37,19 +44,24 @@ class Mage_DesignEditor_EditorController extends Mage_Core_Controller_Front_Acti
         return $this;
     }
 
+    /**
+     * Display an arbitrary page by specified page type
+     */
     public function pageAction()
     {
         try {
             $pageType = $this->getRequest()->getParam('page_type');
             if ($pageType && preg_match('/^[a-z\d]+(_[a-z\d]+){2}$/i', $pageType)) {
                 $this->_fullActionName = $pageType;
-                // check if this page type exists at all (declared in layout as handle)
+                // @todo: check if this page type exists at all (declared in layout as handle?)
             }
             if (!$this->_fullActionName) {
                 Mage::throwException($this->__('Empty or invalid page type specified.'));
             }
 
             $this->loadLayout(null, false, true);
+            Mage::getModel('Mage_DesignEditor_Model_Layout')->sanitizeLayout($this->getLayout()->getNode());
+            $this->getLayout()->generateBlocks();
             $this->renderLayout();
             return;
         } catch (Mage_Core_Exception $e) {
@@ -61,6 +73,12 @@ class Mage_DesignEditor_EditorController extends Mage_Core_Controller_Front_Acti
         $this->getResponse()->setHeader('Content-Type', 'text/plain; charset=UTF-8')->setHttpResponseCode(500);
     }
 
+    /**
+     * Hack the "full action name" in order to render emulated layout
+     *
+     * @param string $delimiter
+     * @return string
+     */
     public function getFullActionName($delimiter = '_')
     {
         if ($this->_fullActionName) {
