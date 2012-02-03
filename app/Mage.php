@@ -580,8 +580,8 @@ final class Mage
             self::$_app = new Mage_Core_Model_App();
             self::setRoot();
             self::$_events = new Varien_Event_Collection();
-            self::setIsInstalled($options);
-            self::setConfigModel($options);
+            self::_setIsInstalled($options);
+            self::_setConfigModel($options);
 
             Varien_Profiler::start('self::app::init');
             self::$_app->init($code, $type, $options);
@@ -603,8 +603,8 @@ final class Mage
         try {
             self::setRoot();
             self::$_app     = new Mage_Core_Model_App();
-            self::setIsInstalled($options);
-            self::setConfigModel($options);
+            self::_setIsInstalled($options);
+            self::_setConfigModel($options);
 
             if (!empty($modules)) {
                 self::$_app->initSpecified($code, $type, $options, $modules);
@@ -643,8 +643,8 @@ final class Mage
                 self::$_app->setResponse($options['response']);
             }
             self::$_events = new Varien_Event_Collection();
-            self::setIsInstalled($options);
-            self::setConfigModel($options);
+            self::_setIsInstalled($options);
+            self::_setConfigModel($options);
             self::$_app->run(array(
                 'scope_code' => $code,
                 'scope_type' => $type,
@@ -680,7 +680,7 @@ final class Mage
      *
      * @param array $options
      */
-    public static function setIsInstalled($options = array())
+    protected static function _setIsInstalled($options = array())
     {
         if (isset($options['is_installed']) && $options['is_installed']) {
             self::$_isInstalled = true;
@@ -692,7 +692,7 @@ final class Mage
      *
      * @param array $options
      */
-    public static function setConfigModel($options = array())
+    protected static function _setConfigModel($options = array())
     {
         if (isset($options['config_model']) && class_exists($options['config_model'])) {
             $alternativeConfigModelName = $options['config_model'];
