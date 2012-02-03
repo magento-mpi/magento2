@@ -32,9 +32,6 @@
  * @package     Magento_Test
  * @author      Magento Api Team <api-team@magento.com>
  */
-/**
- * @magentoDataFixture Api2/Review/_fixtures/review.php
- */
 class Api2_Review_Review_AdminTest extends Magento_Test_Webservice_Rest_Admin
 {
     /**
@@ -51,9 +48,9 @@ class Api2_Review_Review_AdminTest extends Magento_Test_Webservice_Rest_Admin
     }
 
     /**
-     * Test creating new review
+     * Test retrieving existing product review item
      *
-     * @return void
+     * @magentoDataFixture Api2/Review/_fixtures/review.php
      */
     public function testGet()
     {
@@ -61,7 +58,7 @@ class Api2_Review_Review_AdminTest extends Magento_Test_Webservice_Rest_Admin
         $review = $this->getFixture('review');
         $restResponse = $this->callGet('review/' . $review->getId());
 
-        $this->assertEquals(200, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
         $responseData = $restResponse->getBody();
         $this->assertNotEmpty($responseData);
         $reviewOriginalData = $review->getData();
@@ -72,6 +69,47 @@ class Api2_Review_Review_AdminTest extends Magento_Test_Webservice_Rest_Admin
                 $this->assertEquals(count($value), count($reviewOriginalData[$field]));
             }
         }
+    }
+
+    /**
+     * Test retrieving not existing review item
+     */
+    public function testGetUnavailableResource()
+    {
+        $restResponse = $this->callGet('review/' . 'invalid_id');
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $restResponse->getStatus());
+    }
+
+    /**
+     * Test successful review item removal
+     *
+     * @magentoDataFixture Api2/Review/_fixtures/review.php
+     */
+    public function testDelete()
+    {
+        /** @var $product Mage_Review_Model_Review */
+        $review = $this->getFixture('review');
+        $reviewId = $review->getId();
+        // check if review item exists
+        $existingReview = Mage::getModel('review/review');
+        $existingReview->load($reviewId);
+        $this->assertNotEmpty($existingReview->getId());
+        // delete review using API
+        $restResponse = $this->callDelete('review/' . $review->getId());
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+        // check if review item was deleted
+        $removedReview = Mage::getModel('review/review');
+        $removedReview->load($reviewId);
+        $this->assertEmpty($removedReview->getId());
+    }
+
+    /**
+     * Test removing not existing review item
+     */
+    public function testDeleteUnavailableResource()
+    {
+        $restResponse = $this->callDelete('review/' . 'invalid_id');
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $restResponse->getStatus());
     }
 }
 
