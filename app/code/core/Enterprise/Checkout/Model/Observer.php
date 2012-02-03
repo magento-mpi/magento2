@@ -50,9 +50,6 @@ class Enterprise_Checkout_Model_Observer
      */
     protected function _getBackendCart(Varien_Event_Observer $observer)
     {
-        if (!$observer->getSession()) {
-            Mage::throwException('No session object in passed observer');
-        }
         return $this->_getCart()->setSession($observer->getSession());
     }
 

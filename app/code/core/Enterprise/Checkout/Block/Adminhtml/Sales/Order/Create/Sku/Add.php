@@ -61,7 +61,6 @@ class Enterprise_Checkout_Block_Adminhtml_Sales_Order_Create_Sku_Add
      */
     public function getFileUploadUrl()
     {
-        /* @see Enterprise_Checkout_Model_Observer::uploadSkuCsv() */
         return $this->getUrl('*/sales_order_create/processData');
     }
 }
