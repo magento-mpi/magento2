@@ -921,7 +921,7 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
                     return $item;
                 }
 
-                if ($product->isDisabled()) {
+                if ($product->isDisabled() || !$product->isVisibleInSiteVisibility()) {
                     $item['code'] = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_SKU;
                     return $item;
                 }
