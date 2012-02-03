@@ -11,7 +11,8 @@
 
 -->
 <layout version="0.1.0">
-    <moneybookers_processing_payment translate="label">
+    <moneybookers_processing_payment translate="label" type="page">
+        <parent_node>checkout_onepage_paymentmethod</parent_node>
         <label>Moneybookers Payment</label>
         <reference name="root">
             <action method="setTemplate"><template>1column.phtml</template></action>
@@ -21,7 +22,8 @@
         </reference>
     </moneybookers_processing_payment>
 
-    <moneybookers_processing_placeform translate="label">
+    <moneybookers_processing_placeform translate="label" type="page">
+        <parent_node>moneybookers_processing_payment</parent_node>
         <label>Moneybookers Place Form</label>
         <reference name="root">
             <action method="setTemplate"><template>Phoenix_Moneybookers::blank.phtml</template></action>

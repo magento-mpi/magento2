@@ -16,8 +16,10 @@
         </reference>
     </default>
 
-    <sku_failed_products_handle translate="label">
+    <sku_failed_products_handle translate="label" type="page">
+        <parent_node>enterprise_checkout_sku_index</parent_node>
         <label>Checkout with Failed Product Sku</label>
+
         <reference name="checkout.cart">
             <block type="Enterprise_Checkout_Block_Sku_Products" name="sku.failed.products" template="cart/sku/failed.phtml" as="shopping.cart.table.after">
                 <block type="Enterprise_Checkout_Block_Sku_Products_Info" name='additional.product.info' template="cart/sku/failed/info.phtml" />
@@ -34,7 +36,8 @@
         </reference>
     </sku_failed_products_handle>
 
-    <checkout_cart_configurefailed translate="label">
+    <checkout_cart_configurefailed translate="label" type="page">
+        <parent_node>checkout_cart_configure</parent_node>
         <label>Configure Cart Item</label>
         <update handle="catalog_product_view"/>
         <reference name="product.info">
@@ -54,7 +57,8 @@ Customer Account Dashboard
         </block>
     </customer_account>
 
-    <enterprise_checkout_sku_index translate="label">
+    <enterprise_checkout_sku_index type="page" translate="label">
+        <parent_node>checkout_cart_index</parent_node>
         <label>Customer Checkout by SKU</label>
         <update handle="customer_account"/>
         <reference name="my.account.wrapper">

@@ -37,7 +37,7 @@ Default layout, loads most of the pages
         </reference>
     </default>
 
-    <checkout_cart_index translate="label">
+    <checkout_cart_index translate="label" type="page">
         <label>Shopping Cart</label>
         <remove name="right"/>
         <remove name="left"/>
@@ -81,7 +81,8 @@ Default layout, loads most of the pages
         </block>
     </checkout_cart_index>
 
-    <checkout_cart_configure translate="label">
+    <checkout_cart_configure translate="label" type="page">
+        <parent_node>catalog_product_view</parent_node>
         <label>Configure Cart Item</label>
         <update handle="catalog_product_view"/>
         <reference name="product.info">
@@ -94,7 +95,8 @@ Multi address shipping checkout main layout,
 will be rendered on all checkout pages
 -->
 
-    <checkout_multishipping translate="label">
+    <checkout_multishipping translate="label" type="page">
+        <parent_node>checkout_cart_index</parent_node>
         <label>Multishipping Checkout</label>
         <!-- Mage_Checkout -->
         <remove name="right"/>
@@ -108,12 +110,14 @@ will be rendered on all checkout pages
         </reference>
     </checkout_multishipping>
 
-    <checkout_multishipping_login translate="label">
+    <checkout_multishipping_login translate="label" type="page">
+        <parent_node>customer_account_login</parent_node>
         <label>Multishipping Checkout Login User Form</label>
         <update handle="customer_account_login"/>
     </checkout_multishipping_login>
 
-    <checkout_multishipping_register translate="label">
+    <checkout_multishipping_register translate="label" type="page">
+        <parent_node>customer_account_create</parent_node>
         <label>Multishipping Checkout Register User Form</label>
         <update handle="customer_account_create"/>
     </checkout_multishipping_register>
@@ -122,7 +126,8 @@ will be rendered on all checkout pages
 Multi address shipping checkout selection of address per item page
 -->
 
-    <checkout_multishipping_address_select translate="label">
+    <checkout_multishipping_address_select translate="label" type="page">
+        <parent_node>checkout_multishipping_addresses</parent_node>
         <label>Multishipping Checkout Shipping Address Selection</label>
         <update handle="checkout_multishipping"/>
         <!-- Mage_Checkout -->
@@ -131,7 +136,8 @@ Multi address shipping checkout selection of address per item page
         </reference>
     </checkout_multishipping_address_select>
 
-    <checkout_multishipping_address_selectbilling translate="label">
+    <checkout_multishipping_address_selectbilling translate="label" type="page">
+        <parent_node>checkout_multishipping_address_select</parent_node>
         <label>Multishipping Checkout Billing Address Selection</label>
         <update handle="checkout_multishipping"/>
         <!-- Mage_Checkout -->
@@ -141,37 +147,43 @@ Multi address shipping checkout selection of address per item page
     </checkout_multishipping_address_selectbilling>
 
 
-    <checkout_multishipping_address_newshipping translate="label">
+    <checkout_multishipping_address_newshipping translate="label" type="page">
+        <parent_node>checkout_multishipping_shipping</parent_node>
         <label>Multishipping Checkout Shipping Address Creation</label>
         <update handle="checkout_multishipping"/>
         <update handle="checkout_multishipping_customer_address"/>
     </checkout_multishipping_address_newshipping>
 
-    <checkout_multishipping_address_newbilling translate="label">
+    <checkout_multishipping_address_newbilling translate="label" type="page">
+        <parent_node>checkout_multishipping_billing</parent_node>
         <label>Multishipping Checkout Billing Address Creation</label>
         <update handle="checkout_multishipping"/>
         <update handle="checkout_multishipping_customer_address"/>
     </checkout_multishipping_address_newbilling>
 
-    <checkout_multishipping_address_editshipping translate="label">
+    <checkout_multishipping_address_editshipping translate="label" type="page">
+        <parent_node>checkout_multishipping_shipping</parent_node>
         <label>Multishipping Checkout Shipping Address Edit Form</label>
         <update handle="checkout_multishipping"/>
         <update handle="checkout_multishipping_customer_address"/>
     </checkout_multishipping_address_editshipping>
 
-    <checkout_multishipping_address_editaddress translate="label">
+    <checkout_multishipping_address_editaddress translate="label" type="page">
+        <parent_node>checkout_multishipping_customer_address</parent_node>
         <label>Multishipping Checkout One Address Edit Form</label>
         <update handle="checkout_multishipping"/>
         <update handle="checkout_multishipping_customer_address"/>
     </checkout_multishipping_address_editaddress>
 
-    <checkout_multishipping_address_editbilling translate="label">
+    <checkout_multishipping_address_editbilling translate="label" type="page">
+        <parent_node>checkout_multishipping_billing</parent_node>
         <label>Multishipping Checkout Billing Address Edit Form</label>
         <update handle="checkout_multishipping"/>
         <update handle="checkout_multishipping_customer_address"/>
     </checkout_multishipping_address_editbilling>
 
-    <checkout_multishipping_customer_address translate="label">
+    <checkout_multishipping_customer_address translate="label" type="page">
+        <parent_node>customer_address_form</parent_node>
         <label>Multishipping Checkout Customer Address Edit Form</label>
         <reference name="content">
             <block type="Mage_Customer_Block_Address_Edit" name="customer_address_edit" template="address/edit.phtml"/>
@@ -182,7 +194,8 @@ Multi address shipping checkout selection of address per item page
 Multi address shipping checkout address page
 -->
 
-    <checkout_multishipping_addresses translate="label">
+    <checkout_multishipping_addresses translate="label" type="page">
+        <parent_node>checkout_multishipping</parent_node>
         <label>Multishipping Checkout Address (Any) Form</label>
         <update handle="checkout_multishipping"/>
         <!-- Mage_Checkout -->
@@ -199,7 +212,8 @@ Multi address shipping checkout address page
 Multi address shipping checkout shipping information
 -->
 
-    <checkout_multishipping_shipping translate="label">
+    <checkout_multishipping_shipping translate="label" type="page">
+        <parent_node>checkout_multishipping</parent_node>
         <label>Multishipping Checkout Shipping Information Step</label>
         <update handle="checkout_multishipping"/>
         <!-- Mage_Checkout -->
@@ -222,7 +236,8 @@ Multi address shipping checkout shipping information
 Multi address shipping checkout billing information
 -->
 
-    <checkout_multishipping_billing translate="label">
+    <checkout_multishipping_billing translate="label" type="page">
+        <parent_node>checkout_multishipping</parent_node>
         <label>Multishipping Checkout Billing Information Step</label>
         <update handle="checkout_multishipping"/>
         <!-- Mage_Checkout -->
@@ -244,7 +259,8 @@ Multi address shipping checkout billing information
 Multi address shipping checkout overview
 -->
 
-    <checkout_multishipping_overview translate="label">
+    <checkout_multishipping_overview translate="label" type="page">
+        <parent_node>checkout_multishipping</parent_node>
         <label>Multishipping Checkout Overview</label>
         <update handle="checkout_multishipping"/>
         <!-- Mage_Checkout -->
@@ -271,7 +287,8 @@ Multi address shipping checkout overview
 Multi address shipping checkout success
 -->
 
-    <checkout_multishipping_success translate="label">
+    <checkout_multishipping_success translate="label" type="page">
+        <parent_node>checkout_multishipping</parent_node>
         <label>Multishipping Checkout Success</label>
         <update handle="checkout_multishipping"/>
         <!-- Mage_Checkout -->
@@ -284,7 +301,8 @@ Multi address shipping checkout success
 One page checkout main layout
 -->
 
-    <checkout_onepage_index translate="label">
+    <checkout_onepage_index translate="label" type="page">
+        <parent_node>checkout_cart_index</parent_node>
         <label>One Page Checkout</label>
         <!-- Mage_Checkout -->
         <remove name="left"/>
@@ -328,7 +346,8 @@ One page checkout main layout
 One page checkout progress block
 -->
 
-    <checkout_onepage_progress translate="label">
+    <checkout_onepage_progress translate="label" type="page">
+        <parent_node>checkout_onepage_index</parent_node>
         <label>One Page Checkout Progress</label>
         <!-- Mage_Checkout -->
         <remove name="right"/>
@@ -344,7 +363,8 @@ One page checkout progress block
 <!--
 One page checkout payment methods block
 -->
-    <checkout_onepage_paymentmethod translate="label">
+    <checkout_onepage_paymentmethod translate="label" type="page">
+        <parent_node>checkout_onepage_index</parent_node>
         <label>One Page Checkout Choose Payment Method</label>
         <remove name="right"/>
         <remove name="left"/>
@@ -359,7 +379,8 @@ One page checkout payment methods block
 One page checkout shipping methods block
 -->
 
-    <checkout_onepage_shippingmethod translate="label">
+    <checkout_onepage_shippingmethod translate="label" type="page">
+        <parent_node>checkout_onepage_index</parent_node>
         <label>One Page Checkout Choose Shipping Method</label>
         <!-- Mage_Checkout -->
         <remove name="right"/>
@@ -368,7 +389,8 @@ One page checkout shipping methods block
         <block type="Mage_Checkout_Block_Onepage_Shipping_Method_Available" name="root" output="toHtml" template="onepage/shipping_method/available.phtml"/>
     </checkout_onepage_shippingmethod>
 
-    <checkout_onepage_additional translate="label">
+    <checkout_onepage_additional translate="label" type="page">
+        <parent_node>checkout_onepage_index</parent_node>
         <label>One Page Checkout Additional Address Form</label>
         <!-- Mage_Checkout -->
         <remove name="right"/>
@@ -383,7 +405,8 @@ One page checkout shipping methods block
 One page checkout order review block
 -->
 
-    <checkout_onepage_review translate="label">
+    <checkout_onepage_review translate="label" type="page">
+        <parent_node>checkout_onepage_index</parent_node>
         <label>One Page Checkout Overview</label>
         <!-- Mage_Checkout -->
         <remove name="right"/>
@@ -405,7 +428,8 @@ One page checkout order review block
         </block>
     </checkout_onepage_review>
 
-    <checkout_onepage_success translate="label">
+    <checkout_onepage_success translate="label" type="page">
+        <parent_node>checkout_onepage_index</parent_node>
         <label>One Page Checkout Success</label>
         <reference name="root">
             <action method="setTemplate"><template>2columns-right.phtml</template></action>
@@ -414,7 +438,8 @@ One page checkout order review block
             <block type="Mage_Checkout_Block_Onepage_Success" name="checkout.success" template="success.phtml"/>
         </reference>
     </checkout_onepage_success>
-    <checkout_onepage_failure translate="label">
+    <checkout_onepage_failure translate="label" type="page">
+        <parent_node>checkout_onepage_index</parent_node>
         <label>One Page Checkout Failure</label>
         <reference name="root">
             <action method="setTemplate"><template>2columns-right.phtml</template></action>
