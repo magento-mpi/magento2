@@ -28,16 +28,6 @@ class Mage_Core_Model_Session_AbstractTest extends PHPUnit_Framework_TestCase
         $this->_model = new Mage_Core_Model_Session_AbstractTestAbstract();
     }
 
-    public function testStart()
-    {
-        unset($_SESSION);
-        $this->_model->start('test');
-        $cookieParams = session_get_cookie_params();
-
-        $this->assertEquals('test', $this->_model->getSessionName());
-        $this->assertEquals(0, $cookieParams['lifetime']);
-    }
-
     public function testGetCookie()
     {
         $cookie = $this->_model->getCookie();

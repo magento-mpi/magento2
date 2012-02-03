@@ -134,12 +134,15 @@ class Integrity_Theme_SkinFilesTest extends Magento_Test_TestCase_IntegrityAbstr
         $layout = Mage::app()->getLayout()->getUpdate()->getFileLayoutUpdatesXml(
             $area, $package, $theme
         );
-        foreach ($layout->xpath('//action[@method="addCss" or @method="addJs"]/*[1]') as $filenameNode) {
-            $skinFile = (string)$filenameNode;
-            if ($this->_isFileForDisabledModule($skinFile)) {
-                continue;
+        $elements = $layout->xpath('//action[@method="addCss" or @method="addJs"]/*[1]');
+        if ($elements) {
+            foreach ($elements as $filenameNode) {
+                $skinFile = (string)$filenameNode;
+                if ($this->_isFileForDisabledModule($skinFile)) {
+                    continue;
+                }
+                $files[$area][$package][$theme][] = $skinFile;
             }
-            $files[$area][$package][$theme][] = $skinFile;
         }
     }
 

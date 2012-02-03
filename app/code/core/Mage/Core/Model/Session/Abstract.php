@@ -740,6 +740,10 @@ class Mage_Core_Model_Session_Abstract extends Varien_Object
      */
     public function renewSession()
     {
+        if (headers_sent()) {
+            Mage::log('Can not regenerate session id because HTTP headers already sent.');
+            return $this;
+        }
         session_regenerate_id(true);
 
         $sessionHosts = $this->_getHosts();
