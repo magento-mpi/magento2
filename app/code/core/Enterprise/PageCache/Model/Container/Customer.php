@@ -14,7 +14,7 @@
 class Enterprise_PageCache_Model_Container_Customer extends Enterprise_PageCache_Model_Container_Abstract
 {
     /**
-     * Save data to cache storage and set cache lifetime equal with customer session lifetime
+     * Save data to cache storage and set cache lifetime equal with default cookie lifetime
      *
      * @param string $data
      * @param string $id
@@ -22,7 +22,7 @@ class Enterprise_PageCache_Model_Container_Customer extends Enterprise_PageCache
      */
     protected function _saveCache($data, $id, $tags = array(), $lifetime = null)
     {
-        $lifetime = Mage::getConfig()->getNode(Mage_Core_Model_Session_Abstract::XML_PATH_COOKIE_LIFETIME);
+        $lifetime = Mage::getConfig()->getNode(Mage_Core_Model_Cookie::XML_PATH_COOKIE_LIFETIME);
         return parent::_saveCache($data, $id, $tags, $lifetime);
     }
 }
