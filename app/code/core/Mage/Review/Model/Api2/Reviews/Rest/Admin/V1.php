@@ -95,6 +95,20 @@ class Mage_Review_Model_Api2_Reviews_Rest_Admin_V1 extends Mage_Review_Model_Api
         if (!in_array($data['status_id'], $validStatusList)) {
             $this->_critical('Invalid status provided', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
         }
+
+        if (!is_array($data['stores'])) {
+            $this->_critical('Invalid stores provided', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+        }
+        $validStores = array();
+        foreach (Mage::app()->getStores() as $store) {
+            $validStores[] = $store->getId();
+        }
+        foreach ($data['stores'] as $store) {
+            if (!in_array($store, $validStores)) {
+                $this->_critical(sprintf('Invalid store ID "%s" provided', $store),
+                    Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+            }
+        }
     }
 
     /**
