@@ -123,31 +123,21 @@
     #RewriteBase /magento/
 
 ############################################
-## workaround for old api calls, skip to rewrite them
-#    RewriteCond %{REQUEST_URI} ^/api/([a-z][0-9a-z_]+)/?$
-#    RewriteCond %{HTTP:Version} .+
+## uncomment next line to enable light API calls processing
+
+#    RewriteRule ^api/([a-z][0-9a-z_]+)/?$ api.php?type=$1 [QSA,L]
 
 ############################################
-## rewrite api calls to api.php
+## rewrite all API2 calls to api.php
 
-#    RewriteRule .* api.php?type=%1 [QSA,L]
+    RewriteCond %{HTTP:Version} .+
+    RewriteRule ^api/ api.php [L]
 
 ############################################
 ## workaround for HTTP authorization
 ## in CGI environment
 
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
-
-
-##############################################
-## workaround for old api calls, skip to rewrite them
-
-    RewriteCond %{HTTP:Version} .+
-
-############################################
-## rewrite api calls to api.php
-
-    RewriteRule ^api/ api.php [L]
 
 ############################################
 ## always send 404 on missing files in these folders

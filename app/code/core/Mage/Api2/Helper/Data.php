@@ -134,12 +134,12 @@ class Mage_Api2_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * Check api type existence
+     * Check API type support
      *
      * @param string $type
      * @return bool
      */
-    public function isApiTypeExist($type)
+    public function isApiTypeSupported($type)
     {
         return in_array($type, Mage_Api2_Model_Server::getApiTypes());
     }

@@ -39,9 +39,12 @@ class Mage_Api2_Model_Request extends Zend_Controller_Request_Http
     const REQUEST_CHARSET = 'utf-8';
 
     /**#@+
-     * Resource params
+     * Name of query ($_GET) parameters to use in navigation and so on
      */
-    const RESOURCE_PARAM_INCLUDE = 'include';
+    const QUERY_PARAM_REQ_ATTRS = 'include';
+    const QUERY_PARAM_PAGE_NUM  = 'page';
+    const QUERY_PARAM_ORDER     = 'order';
+    const QUERY_PARAM_FILTER    = 'filter';
     /**#@- */
 
     /**
@@ -123,7 +126,8 @@ class Mage_Api2_Model_Request extends Zend_Controller_Request_Http
      */
     public function getApiType()
     {
-        return $this->getParam('api_type');
+        // getParam() is not used to avoid parameter fetch from $_GET or $_POST
+        return isset($this->_params['api_type']) ? $this->_params['api_type'] : null;
     }
 
     /**
@@ -162,13 +166,24 @@ class Mage_Api2_Model_Request extends Zend_Controller_Request_Http
     }
 
     /**
+     * Get filter settings passed by API user
+     *
+     * @return mixed
+     */
+    public function getFilter()
+    {
+        return $this->getQuery(self::QUERY_PARAM_FILTER);
+    }
+
+    /**
      * Get resource model class name
      *
      * @return string
      */
     public function getModel()
     {
-        return $this->getParam('model');
+        // getParam() is not used to avoid parameter fetch from $_GET or $_POST
+        return isset($this->_params['model']) ? $this->_params['model'] : null;
     }
 
     /**
@@ -194,13 +209,50 @@ class Mage_Api2_Model_Request extends Zend_Controller_Request_Http
     }
 
     /**
+     * Get sort order requested by API user
+     *
+     * @return mixed
+     */
+    public function getOrder()
+    {
+        return $this->getQuery(self::QUERY_PARAM_ORDER);
+    }
+
+    /**
+     * Retrieve page number requested by API user
+     *
+     * @return mixed
+     */
+    public function getPageNumber()
+    {
+        return $this->getQuery(self::QUERY_PARAM_PAGE_NUM);
+    }
+
+    /**
+     * Get an array of attribute codes requested by API user
+     *
+     * @return array
+     */
+    public function getRequestedAttributes()
+    {
+        $include = $this->getQuery(self::QUERY_PARAM_REQ_ATTRS, array());
+
+        //transform comma-separated list
+        if (!is_array($include)) {
+            $include = explode(',', $include);
+        }
+        return array_map('trim', $include);
+    }
+
+    /**
      * Retrieve resource type
      *
      * @return string
      */
     public function getResourceType()
     {
-        return $this->getParam('type');
+        // getParam() is not used to avoid parameter fetch from $_GET or $_POST
+        return isset($this->_params['type']) ? $this->_params['type'] : null;
     }
 
     /**
@@ -211,19 +263,5 @@ class Mage_Api2_Model_Request extends Zend_Controller_Request_Http
     public function getVersion()
     {
         return $this->getHeader('Version');
-    }
-
-    public function getInclude()
-    {
-        $include = $this->getParam(self::RESOURCE_PARAM_INCLUDE, array());
-
-        //transform comma-separated list
-        if (!is_array($include)) {
-            $include = explode(',', $include);
-        }
-
-        //if (in_array('*', $include))
-
-        return $include;
     }
 }

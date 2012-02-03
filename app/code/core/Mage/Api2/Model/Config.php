@@ -98,7 +98,7 @@ class Mage_Api2_Model_Config extends Varien_Simplexml_Config
     {
         /** @var $helper Mage_Api2_Helper_Data */
         $helper = Mage::helper('api2');
-        if ($helper->isApiTypeExist($apiType)) {
+        if ($helper->isApiTypeSupported($apiType)) {
             $routes = array();
             foreach ($this->getResources() as $resource) {
                 if (!$resource->routes) {
@@ -107,10 +107,10 @@ class Mage_Api2_Model_Config extends Varien_Simplexml_Config
 
                 foreach ($resource->routes->children() as $route) {
                     $arguments = array(
-                        Mage_Api2_Model_Route_Abstract::PARAM_ROUTE    => (string)$route->mask,
+                        Mage_Api2_Model_Route_Abstract::PARAM_ROUTE    => (string) $route->mask,
                         Mage_Api2_Model_Route_Abstract::PARAM_DEFAULTS => array(
                             'model' => (string) $resource->model,
-                            'type'  => (string) $resource->type,
+                            'type'  => (string) $resource->type
                         )
                     );
 
@@ -119,7 +119,7 @@ class Mage_Api2_Model_Config extends Varien_Simplexml_Config
             }
             return $routes;
         } else {
-            throw new Mage_Api2_Exception(sprintf('Invalid API type "%s".', $apiType),
+            throw new Mage_Api2_Exception(sprintf('API type "%s" is not supported', $apiType),
                 Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
         }
     }

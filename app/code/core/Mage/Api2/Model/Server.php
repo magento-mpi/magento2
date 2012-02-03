@@ -60,8 +60,6 @@ class Mage_Api2_Model_Server
 
     /**
      * Run server, the only public method of the server
-     *
-     * @return void
      */
     public function run()
     {
