@@ -236,13 +236,22 @@ class Mage_Core_Model_Date
     {
         // look for supported format
         $isSupportedFormatFound = false;
-        foreach (array(
+
+        $formats = array(
             // priority is important!
-            '%m/%d/%y %I:%M' => array('/^([0-9]{1,2})\/([0-9]{1,2})\/([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2})/', array('y' => 3, 'm' => 1, 'd' => 2, 'h' => 4, 'i' => 5)),
-            'm/d/y h:i'      => array('/^([0-9]{1,2})\/([0-9]{1,2})\/([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2})/', array('y' => 3, 'm' => 1, 'd' => 2, 'h' => 4, 'i' => 5)),
-            '%m/%d/%y'       => array('/^([0-9]{1,2})\/([0-9]{1,2})\/([0-9]{1,2})/', array('y' => 3, 'm' => 1, 'd' => 2)),
-            'm/d/y'          => array('/^([0-9]{1,2})\/([0-9]{1,2})\/([0-9]{1,2})/', array('y' => 3, 'm' => 1, 'd' => 2)),
-            ) as $supportedFormat => $regRule) {
+            '%m/%d/%y %I:%M' => array(
+                '/^([0-9]{1,2})\/([0-9]{1,2})\/([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2})/',
+                array('y' => 3, 'm' => 1, 'd' => 2, 'h' => 4, 'i' => 5)
+            ),
+            'm/d/y h:i' => array(
+                '/^([0-9]{1,2})\/([0-9]{1,2})\/([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2})/',
+                array('y' => 3, 'm' => 1, 'd' => 2, 'h' => 4, 'i' => 5)
+            ),
+            '%m/%d/%y' => array('/^([0-9]{1,2})\/([0-9]{1,2})\/([0-9]{1,2})/', array('y' => 3, 'm' => 1, 'd' => 2)),
+            'm/d/y' => array('/^([0-9]{1,2})\/([0-9]{1,2})\/([0-9]{1,2})/', array('y' => 3, 'm' => 1, 'd' => 2)),
+        );
+
+        foreach ($formats as $supportedFormat => $regRule) {
             if (false !== strpos($dateTimeFormat, $supportedFormat, 0)) {
                 $isSupportedFormatFound = true;
                 break;
