@@ -87,7 +87,6 @@ class Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Grid extends Mage_Adminhtml
                     $product->setIsSalable($status[$productId]);
                 }
                 $item->setPrice(Mage::helper('core')->formatPrice($product->getPrice()));
-                $item->setSubtotal(Mage::helper('core')->formatPrice($product->getPrice() * $item->getQty()));
             }
             $descriptionBlock = $this->getLayout()->createBlock(
                 'enterprise_checkout/adminhtml_sku_errors_grid_description',
@@ -133,15 +132,6 @@ class Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Grid extends Mage_Adminhtml
             'sortable' => false,
             'index'    => 'qty',
             'renderer' => 'enterprise_checkout/adminhtml_sku_errors_grid_renderer_qty',
-        ));
-
-        $this->addColumn('subtotal', array(
-            'header'   => $this->__('Subtotal'),
-            'class'    => 'no-link',
-            'width'    => 100,
-            'index'    => 'subtotal',
-            'sortable' => false,
-            'type'     => 'text',
         ));
 
         $this->addColumn('remove', array(
