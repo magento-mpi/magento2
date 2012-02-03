@@ -629,6 +629,10 @@ class Enterprise_PageCache_Model_Observer
      */
     public function updateProductInfo(Varien_Event_Observer $observer)
     {
+        if (!$this->isCacheEnabled()) {
+            return $this;
+        }
+
         $paramsObject = $observer->getEvent()->getParams();
         if ($paramsObject instanceof Varien_Object) {
             if (array_key_exists(Enterprise_PageCache_Model_Cookie::COOKIE_CATEGORY_ID, $_COOKIE)) {

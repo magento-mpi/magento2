@@ -314,6 +314,8 @@ class Mage_Catalog_Helper_Product extends Mage_Core_Helper_Url
             if ($product->canBeShowInCategory($lastId)) {
                 $categoryId = $lastId;
             }
+        } elseif (!$product->canBeShowInCategory($categoryId)) {
+            $categoryId = null;
         }
 
         if ($categoryId) {
