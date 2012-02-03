@@ -27,7 +27,7 @@
 -->
 <config>
     <api2>
-       <resources>
+        <resources>
             <reviews>
                 <type>reviews</type>
                 <model>review/api2_reviews</model>
@@ -38,6 +38,16 @@
                     </route_main>
                 </routes>
             </reviews>
+            <review>
+                <type>review</type>
+                <model>review/api2_review</model>
+                <title>Product Review</title>
+                <routes>
+                    <route_main>
+                        <mask>/review/:id</mask>
+                    </route_main>
+                </routes>
+            </review>
         </resources>
     </api2>
 </config>
