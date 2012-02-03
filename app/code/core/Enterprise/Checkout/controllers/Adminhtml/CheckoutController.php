@@ -987,16 +987,17 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
         }
         /* @var $importModel Enterprise_Checkout_Model_Import */
         $importModel = Mage::getModel('enterprise_checkout/import');
-        if ($importModel->uploadFile()) {
-            try {
+        try {
+            if ($importModel->uploadFile()) {
                 $cart = $this->getCartModel();
                 $cart->prepareAddProductsBySku($importModel->getDataFromCsv());
                 $cart->saveAffectedProducts(null, Enterprise_Checkout_Model_Cart::DONT_PASS_DISABLED_TO_CART);
                 $cart->saveQuote();
+            } else {
+                Mage::throwException(Mage::helper('enterprise_checkout')->__('Error in uploading file.'));
             }
-            catch (Mage_Core_Exception $e) {
-                $this->_getSession()->addError($e->getMessage());
-            }
+        } catch (Mage_Core_Exception $e) {
+            $this->_getSession()->addError($e->getMessage());
         }
         $this->_redirectReferer();
     }
