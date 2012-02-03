@@ -69,7 +69,7 @@ default:
         backend:
             name: 'file'
             options:
-            cache_dir: 'tmp/cache'
+            cache_dir: var\cache
     fixture_base_path: fixture
     coverageScriptUrl:
     applications:

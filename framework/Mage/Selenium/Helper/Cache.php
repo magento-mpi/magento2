@@ -84,7 +84,7 @@ class Mage_Selenium_Helper_Cache extends Mage_Selenium_Helper_Abstract
                 $backend = $config['backend']['name'];
 
                 $frontendOption = $config['frontend']['options'];
-                $backendOption = $config['backend']['options'];
+                $backendOption['cache_dir'] = $config['backend']['options'];
 
                 $backendOption['cache_dir'] = $this->_getCacheDir($backendOption);
 
