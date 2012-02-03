@@ -281,8 +281,12 @@ class Mage_Selenium_TestConfiguration
     protected function _initDrivers()
     {
         $connections = $this->getConfigValue('browsers');
-        foreach ($connections as $config) {
-            $this->_addDriverConnection($config);
+        if (array_key_exists('default', $connections)) {
+            $this->_addDriverConnection($connections['default']);
+        } else {
+            foreach ($connections as $config) {
+                $this->_addDriverConnection($config);
+            }
         }
         return $this;
     }
@@ -383,15 +387,13 @@ class Mage_Selenium_TestConfiguration
      */
     protected function _loadConfigData()
     {
-        $files = array(
-            'config.yml',
-            'local.yml'
-        );
-        $configDir = SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR;
+        $files = array('local.yml', 'config.yml');
         foreach ($files as $file) {
-            $fileData = $this->getFileHelper()->loadYamlFile($configDir . $file);
+            $configDir = implode(DIRECTORY_SEPARATOR, array(SELENIUM_TESTS_BASEDIR, 'config', $file));
+            $fileData = $this->getFileHelper()->loadYamlFile($configDir);
             if ($fileData) {
-                $this->_configData = array_replace_recursive($this->_configData, $fileData);
+                $this->_configData = $fileData;
+                return $this;
             }
         }
         return $this;
