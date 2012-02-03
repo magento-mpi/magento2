@@ -1,11 +1,13 @@
 <?php
 /**
- * Magento Commercial Edition
+ * Magento Enterprise Edition
  *
  * NOTICE OF LICENSE
  *
- * This source file is subject to the Magento Commercial Edition License
- * that is available at: http://www.magentocommerce.com/license/commercial-edition
+ * This source file is subject to the Magento Enterprise Edition License
+ * that is bundled with this package in the file LICENSE_EE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.magentocommerce.com/license/enterprise-edition
  * If you did not receive a copy of the license and are unable to
  * obtain it through the world-wide-web, please send an email
  * to license@magentocommerce.com so we can send you a copy immediately.
@@ -17,14 +19,16 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    design
- * @package     pro_default
- * @copyright   Copyright (c) 2010 Magento, Inc.
- * @license     http://www.magentocommerce.com/license/commercial-edition
+ * @package     enterprise_default
+ * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 ?>
 <ul class="form-list pbridge" id="payment_form_<?php echo $this->getMethodCode() ?>" style="display:none;">
     <li>
-        <span class="pbridge-reload"><a href="#" onclick="reloadIframe('<?php echo $this->getMethodCode() ?>');return false;">Reload Form</a></span>
+        <?php if ($this->getReloadAllowed()): ?>
+            <span class="pbridge-reload"><a href="#" onclick="reloadIframe('<?php echo $this->getMethodCode() ?>');return false;">Reload Form</a></span>
+        <?php endif; ?>
         <div id="payment_form_<?php echo $this->getMethodCode() ?>_container">
             <?php echo $this->getChildHtml('pbridge_iframe'); ?>
         </div>
