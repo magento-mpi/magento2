@@ -646,13 +646,7 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
     public function prepareAddProductsBySku(array $items)
     {
         foreach ($items as $item) {
-            if (!isset($item['sku']) || $item['sku'] == '' || empty($item['qty'])) {
-                $this->setErrorMessage(
-                    Mage::helper('enterprise_checkout')->__('SKU or quantity of some product(s) is empty.')
-                );
-                continue;
-            }
-            $item += array('sku' => '', 'qty' => 0);
+            $item += array('sku' => '', 'qty' => '');
             $item = $this->_getValidatedItem($item['sku'], $item['qty']);
 
             if ($item['code'] == Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_SUCCESS) {
@@ -921,13 +915,8 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
                     return $item;
                 }
 
-                if ($product->isDisabled() || !$product->isVisibleInSiteVisibility()) {
+                if ($product->isDisabled() || !$product->isInStock() || !$product->isVisibleInSiteVisibility()) {
                     $item['code'] = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_SKU;
-                    return $item;
-                }
-
-                if (!$product->isInStock()) {
-                    $item['code'] = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_OUT_OF_STOCK;
                     return $item;
                 }
 
@@ -992,7 +981,7 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
     protected function _getValidatedItem($sku, $qty)
     {
         $code = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_SUCCESS;
-        if (empty($sku) || empty($qty)) {
+        if ($sku == '' || $qty == '') {
             $code = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_EMPTY;
         } else {
             if (!Zend_Validate::is($qty, 'Float')) {

@@ -121,14 +121,8 @@ class Enterprise_Checkout_CartController extends Mage_Core_Controller_Front_Acti
         $failedItemsCart = $this->_getFailedItemsCart()->removeAllAffectedItems();
         $failedItems = $this->getRequest()->getParam('failed', array());
         foreach ($failedItems as $data) {
-            $checkedItem = $failedItemsCart->checkItem($data['sku'], $data['qty']);
-
-            if ($checkedItem['code'] == Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_SUCCESS) {
-                $cart->addProduct($productId, $checkedItem['qty']);
-                $failedItemsCart->removeAffectedItem($checkedItem['sku']);
-            } else {
-                $failedItemsCart->updateItemQty($checkedItem['sku'], $checkedItem['qty']);
-            }
+            $data += array('sku' => '', 'qty' => '');
+            $failedItemsCart->prepareAddProductBySku($data['sku'], $data['qty']);
         }
         $failedItemsCart->saveAffectedProducts();
         $this->_redirect('checkout/cart');
@@ -211,26 +205,22 @@ class Enterprise_Checkout_CartController extends Mage_Core_Controller_Front_Acti
     public function updateFailedItemOptionsAction()
     {
         $hasError = false;
-        $id = (int) $this->getRequest()->getParam('id');
+        $id = (int)$this->getRequest()->getParam('id');
         $buyRequest = new Varien_Object($this->getRequest()->getParams());
         try {
-            /** @var $cart Mage_Checkout_Model_Cart */
-            $cart = Mage::getSingleton('checkout/cart');
+            $cart = $this->_getCart();
 
             $product = Mage::getModel('catalog/product')
                 ->setStoreId(Mage::app()->getStore()->getId())
                 ->load($id);
 
-            $cart->addProduct($product, $buyRequest);
-            $cart->save();
+            $cart->addProduct($product, $buyRequest)->save();
 
-            Mage::getModel('enterprise_checkout/cart')->removeAffectedItem(
-                $this->getRequest()->getParam('sku')
-            );
+            $this->_getFailedItemsCart()->removeAffectedItem($this->getRequest()->getParam('sku'));
 
             if (!$this->_getSession()->getNoCartRedirect(true)) {
                 if (!$cart->getQuote()->getHasError()){
-                    $productName = Mage::helper('core')->htmlEscape($product->getName());
+                    $productName = Mage::helper('core')->escapeHtml($product->getName());
                     $message = $this->__('%s was added to your shopping cart.', $productName);
                     $this->_getSession()->addSuccess($message);
                 }
