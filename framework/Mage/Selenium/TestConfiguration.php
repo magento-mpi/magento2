@@ -22,7 +22,7 @@
  * @package     selenium
  * @subpackage  Mage_Selenium
  * @author      Magento Core Team <core@magentocommerce.com>
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
@@ -154,8 +154,8 @@ class Mage_Selenium_TestConfiguration
     public function init()
     {
         $this->_initConfig();
-        $this->_initTestData();
         $this->getUimapHelper();
+        $this->_initTestData();
         $this->_initDrivers();
         return $this;
     }
@@ -362,10 +362,18 @@ class Mage_Selenium_TestConfiguration
      */
     protected function _loadTestData()
     {
-        $files = SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'fixture'
-                . DIRECTORY_SEPARATOR . '*' . DIRECTORY_SEPARATOR . '*' . DIRECTORY_SEPARATOR . '*'
-                . DIRECTORY_SEPARATOR . 'data' . DIRECTORY_SEPARATOR . '*.yml';
-        $this->_testData = $this->getFileHelper()->loadYamlFiles($files);
+        $initialPath = SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR
+            . $this->_uimapHelper->getConfig()->getConfigValue($this->_uimapHelper->getFixtureBasePath());
+        $fixturePath = $this->_uimapHelper->getFixturePath();
+        foreach ($fixturePath as $projectName => $projectData) {
+            if (array_key_exists('data', $projectData)) {
+                foreach ($projectData['data'] as $file) {
+                    $filePath = $initialPath . DIRECTORY_SEPARATOR . $projectName . $file;
+                    $this->_testData = array_merge($this->getFileHelper()->loadYamlFiles($filePath), $this->_testData);
+                }
+            }
+        }
+
         return $this;
     }
 

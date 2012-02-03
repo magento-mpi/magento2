@@ -166,6 +166,13 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     protected $screenshotUrl = SELENIUM_TESTS_SCREENSHOTDIR;
 
     /**
+     * URL of script which performs code coverage during testing
+     *
+     * @var string
+     */
+    protected $coverageScriptUrl = null;
+
+    /**
      * Success message Xpath
      * @staticvar string
      */
@@ -269,13 +276,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     const FIELD_TYPE_INPUT = 'field';
 
     /**
-     * URL of script which performs code coverage during testing
-     *
-     * @var string
-     */
-    protected $coverageScriptUrl = null;
-
-    /**
      * Constructs a test case with the given name and browser to test execution
      *
      * @param  string $name Test case name (by default = null)
@@ -290,7 +290,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         $this->_testConfig = Mage_Selenium_TestConfiguration::getInstance();
         $this->_dataHelper = $this->_testConfig->getDataHelper();
-        $this->coverageScriptUrl = $this->_testConfig->getConfigValue('default/applications/magento/coverageScriptUrl');
         $this->_dataGenerator = $this->_testConfig->getDataGenerator();
         $this->_applicationHelper = $this->_testConfig->getApplicationHelper();
         $this->_pageHelper = $this->_testConfig->getPageHelper($this, $this->_applicationHelper);
@@ -302,10 +301,13 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $this->data = $data;
         $this->dataName = $dataName;
 
-        $path = 'browsers/default/browserTimeoutPeriod';
-        $this->_browserTimeoutPeriod = (!is_bool($this->_testConfig->getConfigValue($path)))
-            ? $this->_testConfig->getConfigValue($path)
+        //set browser timeout period
+        $browserTimeout = $this->_testConfig->getConfigValue('browsers/default/browserTimeoutPeriod');
+        $this->_browserTimeoutPeriod = ($browserTimeout != false)
+            ? $browserTimeout
             : $this->_browserTimeoutPeriod;
+        //set coverage script url
+        $this->coverageScriptUrl = $this->_testConfig->getConfigValue('default/coverageScriptUrl');
         parent::__construct($name, $data, $dataName, $browser);
     }
 
@@ -416,8 +418,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         if (empty($testScope) || empty($helperName)) {
             throw new UnexpectedValueException('Helper name can\'t be empty');
         }
-
-        $helperClassName = $testScope . '_' . $helperName;
+        $testClassName = get_class($this);
+        $nameSpace = preg_replace('/([A-Za-z0-9])+_([A-Za-z0-9])+$/', '', $testClassName);
+        $helperClassName = $nameSpace . $testScope . '_' . $helperName;
 
         if (!isset($this->_testHelpers[$helperClassName])) {
             if (class_exists($helperClassName)) {

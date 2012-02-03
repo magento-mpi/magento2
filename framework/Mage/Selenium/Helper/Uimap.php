@@ -22,7 +22,7 @@
  * @package     selenium
  * @subpackage  Mage_Selenium
  * @author      Magento Core Team <core@magentocommerce.com>
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
@@ -36,9 +36,25 @@
 class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
 {
     /**
-     * Path to 'basePath' in config
+     * Uimap data
+     * @var array
      */
-    const XPATH_UIMAP_BASEPATH = 'default/uimaps/basePath';
+    protected $_uimapData = array();
+
+    /**
+     * @var array
+     */
+    protected $_projectsSequence = array();
+
+    /**
+     * @var array
+     */
+    protected $_fixturePath = array();
+
+    /**
+     *  Base path to fixtures
+     */
+    const FIXTURE_BASEPATH = 'default/fixture_base_path';
 
     /**
      * Id for uimapData in cash
@@ -49,12 +65,6 @@ class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
      * Tag for UimapData in cash
      */
     const CACHE_TAG = 'UIMAP';
-
-    /**
-     * Uimap data
-     * @var array
-     */
-    protected $_uimapData = array();
 
     /**
      * Initialize process
@@ -80,23 +90,36 @@ class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
         $this->_uimapData = $cache->load(self::CACHE_ID_DATA);
         if (!$this->_uimapData) {
             $areasConfig = $this->getConfig()->getApplicationHelper()->getAreasConfig();
-            $uimapsBasePath = $this->getConfig()->getConfigValue(self::XPATH_UIMAP_BASEPATH);
+            $applicationConfig = $this->getConfig()->getApplicationHelper()->getApplicationConfig();
+            //get projects sequence
+            $this->_projectsSequence = array_reverse(array_map('trim',
+                                                               explode(',', $applicationConfig['fallbackOrder'])));
+            //get initial path to files
+            $initialPath = SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR
+                . $this->getConfig()->getConfigValue(self::FIXTURE_BASEPATH);
+            $separator = preg_quote(DIRECTORY_SEPARATOR);
 
-            foreach ($areasConfig as $areaKey => $areaConfig) {
-                $files = implode(DIRECTORY_SEPARATOR, array(
-                                                           SELENIUM_TESTS_BASEDIR,
-                                                           $uimapsBasePath,
-                                                           $areaConfig['uimap_path'],
-                                                           '*.yml'
-                                                      ));
-                $pages = $this->getConfig()->getFileHelper()->loadYamlFiles($files);
-                foreach ($pages as $pageKey => $pageContent) {
-                    if ($pageContent) {
-                        $this->_uimapData[$areaKey][$pageKey] = new Mage_Selenium_Uimap_Page($pageKey, $pageContent);
+            foreach ($this->_projectsSequence as $codePoolName) {
+                $projectPath = $initialPath . DIRECTORY_SEPARATOR . $codePoolName;
+                if (!is_dir($projectPath)) {
+                    continue;
+                }
+                $this->_getFilesPath($this->_scanDirectory($projectPath), '', $codePoolName);
+                foreach ($areasConfig as $areaKey => $areaConfig) {
+                    $pages = array();
+                    foreach ($this->_fixturePath[$codePoolName]['uimap'] as $file) {
+                        if (preg_match('|uimap' . $separator . $areaKey . '|', $file)) {
+                            $pages = array_merge($this->getConfig()->getFileHelper()->loadYamlFiles($projectPath . $file),
+                                                 $pages);
+                        }
+                    }
+                    foreach ($pages as $pageKey => $content) {
+                        if ($content) {
+                            $this->_uimapData[$areaKey][$pageKey] = new Mage_Selenium_Uimap_Page($pageKey, $content);
+                        }
                     }
                 }
             }
-
             if ($this->_uimapData) {
                 $cache->save($this->_uimapData, self::CACHE_ID_DATA, array(self::CACHE_TAG));
             }
@@ -110,7 +133,6 @@ class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
      * @param string $area Application area ('frontend'|'admin')
      *
      * @throws OutOfRangeException
-     *
      * @return array
      */
     public function getUimap($area)
@@ -201,4 +223,74 @@ class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
         return false;
     }
 
+    /**
+     * @param string $path
+     * @return array
+     */
+    protected function _scanDirectory($path)
+    {
+        $directories = array();
+        $array = opendir($path);
+
+        while ($v = readdir($array))
+        {
+            if ($v == '.' or $v == '..') {
+                continue;
+            }
+            if (!is_dir($path . DIRECTORY_SEPARATOR . $v)) {
+                $directories[] = $v;
+            }
+            if (is_dir($path . DIRECTORY_SEPARATOR . $v)) {
+                $directories[$v] = $this->_scanDirectory($path . DIRECTORY_SEPARATOR . $v);
+            }
+        }
+
+        return $directories;
+    }
+
+    /**
+     * @param array $pathData
+     * @param string $path
+     * @param string $project
+     * @return mixed
+     */
+    protected function _getFilesPath($pathData, $path = '', $project)
+    {
+        $currentPath = preg_replace('|' . preg_quote(DIRECTORY_SEPARATOR) . '(\w)+$' . '|', '', $path);
+        foreach ($pathData as $key => $value) {
+            if (is_array($value)) {
+                $path .= DIRECTORY_SEPARATOR . $key;
+                $path = $this->_getFilesPath($value, $path, $project);
+            } else {
+                $path = preg_replace('|' . preg_quote(DIRECTORY_SEPARATOR) . '(\w)+\.yml$|', '', $path);
+                $path .= DIRECTORY_SEPARATOR . $value;
+                $separator = preg_quote(DIRECTORY_SEPARATOR);
+                if (preg_match('|' . $separator . 'data' . $separator . '|', $path)) {
+                    $this->_fixturePath[$project]['data'][preg_replace('|\.yml$|', '', $value)] = $path;
+                }
+                if (preg_match('|' . $separator . 'uimap' . $separator . '|', $path)) {
+                    //$this->_fixturePath[$project]['uimap'][preg_replace('|\.yml$|', '', $value)] = $path;
+                    $this->_fixturePath[$project]['uimap'][] = $path;
+                }
+            }
+
+        }
+        return $currentPath;
+    }
+
+    /**
+     * @return array
+     */
+    public function getFixturePath()
+    {
+        return $this->_fixturePath;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFixtureBasePath()
+    {
+        return self::FIXTURE_BASEPATH;
+    }
 }
