@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Mage_Api2>
-            <version>1.0.0.2</version>
+            <version>1.0.0.3</version>
         </Mage_Api2>
     </modules>
     <global>
@@ -58,6 +58,9 @@
                     <acl_rule>
                         <table>api2_acl_rule</table>
                     </acl_rule>
+                    <acl_rule_attribute>
+                        <table>api2_acl_rule_attribute</table>
+                    </acl_rule_attribute>
                 </entities>
             </api2_resource>
         </models>

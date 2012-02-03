@@ -25,35 +25,39 @@
  */
 
 /**
- * Change index type to UNIQUE
+ * Delete unnecessary attribute, add new attributes and index
  */
 /** @var $installer Mage_Api2_Model_Resource_Setup */
 $installer = $this;
-
 /** @var $adapter Varien_Db_Adapter_Pdo_Mysql */
 $adapter = $installer->getConnection();
 
-$table = $installer->getTable('api2/acl_user');
-$fk = $installer->getFkName('api2/acl_user', 'admin_id', 'admin/user', 'user_id');
+$table = $installer->getTable('api2/acl_rule');
 
-$adapter->dropForeignKey(
-    $table,
-    $fk
-);
+// Delete 'permission' column
+$adapter->dropColumn($table, 'permission');
+
+// Add 'privilege' column
+$adapter->addColumn($table, 'privilege', array(
+    'comment'     => 'ACL Privilege',
+    'nullable'    => true,
+    'column_type' => Varien_Db_Ddl_Table::TYPE_TEXT,
+    'length'      => 20
+));
+
+// Add 'allowed_attributes' column
+$adapter->addColumn($table, 'allowed_attributes', array(
+    'comment'     => 'Allowed Attributes Ids',
+    'nullable'    => true,
+    'column_type' => Varien_Db_Ddl_Table::TYPE_TEXT
+));
 
 $adapter->addIndex(
     $table,
-    $installer->getIdxName($table, 'admin_id', Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
-    'admin_id',
+    $installer->getIdxName($table,
+        array('role_id', 'resource_id', 'privilege'),
+        Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
+    ),
+    array('role_id', 'resource_id', 'privilege'),
     Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
-);
-
-$adapter->addForeignKey(
-    $fk,
-    $table,
-    'admin_id',
-    $installer->getTable('admin/user'),
-    'user_id',
-    Varien_Db_Ddl_Table::ACTION_CASCADE,
-    Varien_Db_Ddl_Table::ACTION_CASCADE
 );
