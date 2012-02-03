@@ -27,7 +27,7 @@
     </wishlist_index_index>
 
     <enterprise_giftregistry_index_index translate="label" type="page">
-        <parent_node>customer_account</parent_node>
+        <parent_node>customer_account_index</parent_node>
         <label>Customer GiftRegistry</label>
         <update handle="customer_account"/>
         <reference name="my.account.wrapper">

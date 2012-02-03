@@ -21,7 +21,7 @@
     </customer_account>
 
     <enterprise_customerbalance_info_index translate="label" module="Enterprise_CustomerBalance" type="page">
-        <parent_node>customer_account</parent_node>
+        <parent_node>customer_account_index</parent_node>
         <label>Customer My Account Store Credit</label>
         <update handle="customer_account"/>
 
