@@ -49,7 +49,8 @@ class Mage_Captcha_Model_Resource_Log extends Mage_Core_Model_Resource_Db_Abstra
      */
     protected function _construct()
     {
-        $this->_init('captcha/log', array('type','value'));
+        $this->_setResource('captcha');
+        $this->_mainTable = 'log;';
     }
 
     /**
