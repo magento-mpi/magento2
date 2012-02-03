@@ -100,13 +100,11 @@ class Enterprise_TargetRule_Model_Observer
     {
         if ($observer->getDataObject()->getPath() == 'customer/enterprise_customersegment/is_enabled'
             && $observer->getDataObject()->isValueChanged()) {
-            foreach (Mage::app()->getWebsites() as $website) {
-                Mage::getSingleton('index/indexer')->logEvent(
-                    new Varien_Object(array('type_id' => null, 'store' => $website->getStoreIds())),
-                    Enterprise_TargetRule_Model_Index::ENTITY_TARGETRULE,
-                    Enterprise_TargetRule_Model_Index::EVENT_TYPE_CLEAN_TARGETRULES
-                );
-            }
+            Mage::getSingleton('index/indexer')->logEvent(
+                new Varien_Object(array('type_id' => null, 'store' => null)),
+                Enterprise_TargetRule_Model_Index::ENTITY_TARGETRULE,
+                Enterprise_TargetRule_Model_Index::EVENT_TYPE_CLEAN_TARGETRULES
+            );
             Mage::getSingleton('index/indexer')->indexEvents(
                 Enterprise_TargetRule_Model_Index::ENTITY_TARGETRULE,
                 Enterprise_TargetRule_Model_Index::EVENT_TYPE_CLEAN_TARGETRULES
