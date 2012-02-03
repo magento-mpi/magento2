@@ -38,7 +38,7 @@ Customer account home dashboard layout
 Product reviews page (?)
 -->
 
-    <reviews translate="label">
+    <reviews translate="label" type="page">
         <label>Review</label>
         <!-- Mage_Review -->
         <reference name="root">
@@ -50,7 +50,8 @@ Product reviews page (?)
 Product reviews page
 -->
 
-    <review_product_list translate="label">
+    <review_product_list translate="label" type="page">
+        <parent_node>reviews</parent_node>
         <label>Catalog Product Reviews List</label>
         <reference name="root">
             <action method="setTemplate"><template>2columns-right.phtml</template></action>
@@ -90,7 +91,8 @@ Product reviews page
         </reference>
     </review_product_list>
 
-    <review_product_view translate="label">
+    <review_product_view translate="label" type="page">
+        <parent_node>review_product_list</parent_node>
         <label>Catalog Product Review View</label>
         <reference name="root">
             <action method="setTemplate"><template>2columns-right.phtml</template></action>
@@ -100,7 +102,8 @@ Product reviews page
         </reference>
     </review_product_view>
 
-    <review_customer_index translate="label">
+    <review_customer_index translate="label" type="page">
+        <parent_node>reviews</parent_node>
         <label>Customer My Account Product Reviews</label>
         <update handle="customer_account"/>
         <reference name="my.account.wrapper">
@@ -108,7 +111,8 @@ Product reviews page
         </reference>
     </review_customer_index>
 
-    <review_customer_view translate="label">
+    <review_customer_view translate="label" type="page">
+        <parent_node>review_customer_index</parent_node>
         <label>Customer My Account Review Details</label>
         <update handle="customer_account"/>
         <reference name="my.account.wrapper">

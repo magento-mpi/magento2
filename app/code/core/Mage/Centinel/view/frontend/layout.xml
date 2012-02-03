@@ -11,12 +11,14 @@
 
 -->
 <layout version="0.1.0">
-    <centinel_index_authenticationstart translate="label">
+    <centinel_index_authenticationstart translate="label" type="page">
+        <parent_node>checkout_onepage_paymentmethod</parent_node>
         <label>Centinel Authentication Start</label>
         <block type="Mage_Centinel_Block_Authentication_Start" name="root" output="toHtml" template="authentication/start.phtml"/>
     </centinel_index_authenticationstart>
 
-    <centinel_index_authenticationcomplete translate="label">
+    <centinel_index_authenticationcomplete translate="label" type="page">
+        <parent_node>centinel_index_authenticationstart</parent_node>
         <label>Centinel Authentication Finish</label>
         <block type="Mage_Centinel_Block_Authentication_Complete" name="root" output="toHtml" template="authentication/complete.phtml"/>
     </centinel_index_authenticationcomplete>

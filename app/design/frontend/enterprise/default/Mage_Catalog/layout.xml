@@ -66,7 +66,7 @@ Default layout, loads most of the pages
 Category default layout
 -->
 
-    <catalog_category_default translate="label">
+    <catalog_category_default translate="label" type="page">
         <label>Catalog Category (Non-Anchor)</label>
         <reference name="left">
             <block type="Mage_Catalog_Block_Navigation" name="catalog.leftnav" before="-" template="navigation/left.phtml"/>
@@ -105,7 +105,8 @@ Category default layout
 Category layered navigation layout
 -->
 
-    <catalog_category_layered translate="label">
+    <catalog_category_layered translate="label" type="page">
+        <parent_node>catalog_category_default</parent_node>
         <label>Catalog Category (Anchor)</label>
         <reference name="left">
             <block type="Mage_Catalog_Block_Layer_View" name="catalog.leftnav" before="-" template="layer/view.phtml"/>
@@ -151,7 +152,8 @@ Category layered navigation layout
 Compare products page
 -->
 
-    <catalog_product_compare_index translate="label">
+    <catalog_product_compare_index translate="label" type="page">
+        <parent_node>catalog_category_default</parent_node>
         <label>Catalog Product Compare List</label>
         <!-- Mage_Catalog -->
         <reference name="root">
@@ -170,7 +172,8 @@ Compare products page
 Product view
 -->
 
-    <catalog_product_view translate="label">
+    <catalog_product_view translate="label" type="page">
+        <parent_node>catalog_category_default</parent_node>
         <label>Catalog Product View (Any)</label>
         <!-- Mage_Catalog -->
         <reference name="root">
@@ -270,7 +273,8 @@ Product view
 <!--
 Additional block dependant on product type
 -->
-    <PRODUCT_TYPE_simple translate="label" module="Mage_Catalog">
+    <PRODUCT_TYPE_simple translate="label" module="Mage_Catalog" type="page">
+        <parent_node>catalog_product_view</parent_node>
         <label>Catalog Product View (Simple)</label>
         <reference name="product.info">
             <block type="Mage_Catalog_Block_Product_View_Type_Simple" name="product.info.simple" as="product_type_data" template="product/view/type/default.phtml">
@@ -280,7 +284,8 @@ Additional block dependant on product type
             </block>
         </reference>
     </PRODUCT_TYPE_simple>
-    <PRODUCT_TYPE_configurable translate="label" module="Mage_Catalog">
+    <PRODUCT_TYPE_configurable translate="label" module="Mage_Catalog" type="page">
+        <parent_node>catalog_product_view</parent_node>
         <label>Catalog Product View (Configurable)</label>
         <reference name="product.info">
             <block type="Mage_Catalog_Block_Product_View_Type_Configurable" name="product.info.configurable" as="product_type_data" template="product/view/type/default.phtml">
@@ -293,7 +298,8 @@ Additional block dependant on product type
             <block type="Mage_Catalog_Block_Product_View_Type_Configurable" name="product.info.options.configurable" as="options_configurable" before="-" template="product/view/type/options/configurable.phtml"/>
         </reference>
     </PRODUCT_TYPE_configurable>
-    <PRODUCT_TYPE_grouped translate="label" module="Mage_Catalog">
+    <PRODUCT_TYPE_grouped translate="label" module="Mage_Catalog" type="page">
+        <parent_node>catalog_product_view</parent_node>
         <label>Catalog Product View (Grouped)</label>
         <reference name="product.info">
             <block type="Mage_Catalog_Block_Product_View_Type_Grouped" name="product.info.grouped" as="product_type_data" template="product/view/type/grouped.phtml">
@@ -303,7 +309,8 @@ Additional block dependant on product type
             </block>
         </reference>
     </PRODUCT_TYPE_grouped>
-    <PRODUCT_TYPE_virtual translate="label" module="Mage_Catalog">
+    <PRODUCT_TYPE_virtual translate="label" module="Mage_Catalog" type="page">
+        <parent_node>catalog_product_view</parent_node>
         <label>Catalog Product View (Virtual)</label>
         <reference name="product.info">
             <block type="Mage_Catalog_Block_Product_View_Type_Virtual" name="product.info.virtual" as="product_type_data" template="product/view/type/default.phtml">
@@ -318,7 +325,8 @@ Additional block dependant on product type
 Product additional images gallery popup
 -->
 
-    <catalog_product_gallery translate="label">
+    <catalog_product_gallery translate="label" type="page">
+        <parent_node>catalog_product_view</parent_node>
         <label>Catalog Product Image Gallery Popup</label>
         <!-- Mage_Catalog -->
         <reference name="root">
@@ -333,7 +341,8 @@ Product additional images gallery popup
 SEO Site Map
 -->
 
-    <catalog_seo_sitemap translate="label">
+    <catalog_seo_sitemap translate="label" type="page">
+        <parent_node>catalog_category_default</parent_node>
         <label>Catalog Seo Sitemap (Common)</label>
         <remove name="right"/>
         <remove name="left"/>
@@ -350,7 +359,8 @@ SEO Site Map
         </reference>
     </catalog_seo_sitemap>
 
-    <catalog_seo_sitemap_category translate="label">
+    <catalog_seo_sitemap_category translate="label" type="page">
+        <parent_node>catalog_seo_sitemap</parent_node>
         <label>Catalog Seo Sitemap (Category List)</label>
         <reference name="head">
             <action method="setTitle" translate="title" module="Mage_Catalog"><title>Site Map</title></action>
@@ -369,7 +379,8 @@ SEO Site Map
         </reference>
     </catalog_seo_sitemap_category>
 
-    <catalog_seo_sitemap_category_tree translate="label">
+    <catalog_seo_sitemap_category_tree translate="label" type="page">
+        <parent_node>catalog_seo_sitemap</parent_node>
         <label>Catalog Seo Sitemap (Category Tree)</label>
         <reference name="seo.sitemap.container">
             <remove name="seo.sitemap.pager.top" />
@@ -384,7 +395,8 @@ SEO Site Map
         </reference>
     </catalog_seo_sitemap_category_tree>
 
-    <catalog_seo_sitemap_product translate="label">
+    <catalog_seo_sitemap_product translate="label" type="page">
+        <parent_node>catalog_seo_sitemap</parent_node>
         <label>Catalog Seo Sitemap (Product List)</label>
         <reference name="head">
             <action method="setTitle" translate="title" module="Mage_Catalog"><title>Site Map</title></action>
