@@ -63,12 +63,12 @@ class Api2_Review_Reviews_AdminTest extends Magento_Test_Webservice_Rest_Admin
         /** @var $product Mage_Catalog_Model_Product */
         $product = $this->getFixture('product_simple');
 
-        $reviewData = require dirname(__FILE__) . '/_fixtures/ReviewData.php';
-        $reviewData['admin']['create']['product_id'] = $product->getId();
+        $reviewData = require dirname(__FILE__) . '/../_fixtures/ReviewData.php';
+        $reviewData['product_id'] = $product->getId();
 
         $this->getWebService()->getClient()->setHeaders('Cookie', 'XDEBUG_SESSION=netbeans-xdebug');
 
-        $restResponse = $this->callPost('reviews', $reviewData['admin']['create']);
+        $restResponse = $this->callPost('reviews', $reviewData);
         $this->assertEquals(200, $restResponse->getStatus());
         // Get created review id from Location header and check that it has been saved correctly
         $location = $restResponse->getHeader('Location2');
@@ -76,10 +76,10 @@ class Api2_Review_Reviews_AdminTest extends Magento_Test_Webservice_Rest_Admin
         /** @var $review Mage_Review_Model_Review */
         $review = Mage::getModel('review/review')->load($reviewId);
         $this->setFixture('review', $review);
-        $this->assertEquals($reviewData['admin']['create']['status_id'], $review->getStatusId());
-        $this->assertEquals($reviewData['admin']['create']['nickname'], $review->getNickname());
-        $this->assertEquals($reviewData['admin']['create']['title'], $review->getTitle());
-        $this->assertEquals($reviewData['admin']['create']['detail'], $review->getDetail());
+        $this->assertEquals($reviewData['status_id'], $review->getStatusId());
+        $this->assertEquals($reviewData['nickname'], $review->getNickname());
+        $this->assertEquals($reviewData['title'], $review->getTitle());
+        $this->assertEquals($reviewData['detail'], $review->getDetail());
     }
 }
 

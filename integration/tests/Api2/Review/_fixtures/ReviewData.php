@@ -26,14 +26,10 @@
  */
 
 return array(
-    'admin' => array(
-        'create' => array(
-            'product_id' => '__PLACEHOLDER__',
-            'status_id'  => Mage_Review_Model_Review::STATUS_APPROVED,
-            'stores'     => Mage::app()->getWebsite()->getStoreIds(),
-            'nickname'   => 'Test Nickname',
-            'title'      => 'Test Summary',
-            'detail'     => 'Test Review',
-        ),
-    )
+    'product_id' => '__PLACEHOLDER__',
+    'status_id' => Mage_Review_Model_Review::STATUS_APPROVED,
+    'stores' => Mage::app()->getWebsite()->getStoreIds(),
+    'nickname' => 'Test Nickname',
+    'title' => 'Test Summary',
+    'detail' => 'Test Review',
 );
