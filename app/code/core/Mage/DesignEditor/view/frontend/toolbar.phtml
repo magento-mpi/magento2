@@ -8,8 +8,12 @@
  * @license     {license_link}
  */
 ?>
+<?php /** @var $this Mage_DesignEditor_Block_Toolbar */ ?>
 <div class="header-panel" id="vde_toolbar">
-    <a href="<?php echo $this->getExitUrl(); ?>" title="<?php echo $this->__('Exit'); ?>" class="vde_button">
-        <?php echo $this->__('Exit'); ?>
-    </a>
+    <?php echo $this->getChildHtml('design_editor_toolbar_skin'); ?>
+    <div>
+        <a href="<?php echo $this->getExitUrl(); ?>" title="<?php echo $this->__('Exit'); ?>" class="vde_button">
+            <?php echo $this->__('Exit'); ?>
+        </a>
+    </div>
 </div>

@@ -32,6 +32,16 @@
                 </args>
             </designeditor>
         </routers>
+        <events>
+            <controller_action_predispatch>
+                <observers>
+                    <designeditor>
+                        <class>Mage_DesignEditor_Model_Observer</class>
+                        <method>applyCustomSkin</method>
+                    </designeditor>
+                </observers>
+            </controller_action_predispatch>
+        </events>
     </frontend>
     <adminhtml>
         <layout>

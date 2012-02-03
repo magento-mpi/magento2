@@ -43,4 +43,41 @@ class Mage_DesignEditor_Model_Session extends Mage_Admin_Model_Session
     {
         $this->unsetData(self::SESSION_DESIGN_EDITOR_ACTIVE);
     }
+
+    /**
+     * Apply skin to user session, so that next time everything will be rendered with this skin
+     *
+     * @param string $skin
+     * @return Mage_DesignEditor_Model_Session
+     */
+    public function applySkin($skin)
+    {
+        if (!$this->_isSkinApplicable($skin)) {
+            Mage::throwException(Mage::helper('Mage_DesignEditor_Helper_Data')->__("Skin doesn't exist"));
+        }
+        $this->setSkin($skin);
+        return $this;
+    }
+
+    /**
+     * Returns whether a skin is a valid one to set into user session
+     *
+     * @param string $skin
+     * @return bool
+     */
+    protected function _isSkinApplicable($skin)
+    {
+        if (!$skin) {
+            return false;
+        }
+        $options = Mage::getModel('Mage_Core_Model_Design_Source_Design')->getOptions();
+        foreach ($options as $optGroup) {
+            foreach ($optGroup['value'] as $option) {
+                if ($option['value'] == $skin) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }
