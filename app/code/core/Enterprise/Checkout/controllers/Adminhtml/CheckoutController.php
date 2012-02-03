@@ -996,7 +996,7 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
             if ($importModel->uploadFile()) {
                 $cart = $this->getCartModel();
                 $cart->prepareAddProductsBySku($importModel->getDataFromCsv());
-                $cart->saveAffectedProducts(null, Enterprise_Checkout_Model_Cart::DONT_PASS_DISABLED_TO_CART);
+                $cart->saveAffectedProducts($this->getCartModel(), Enterprise_Checkout_Model_Cart::DONT_PASS_DISABLED_TO_CART);
                 $cart->saveQuote();
             } else {
                 Mage::throwException(Mage::helper('enterprise_checkout')->__('Error in uploading file.'));
