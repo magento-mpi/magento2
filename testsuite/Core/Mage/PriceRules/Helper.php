@@ -33,7 +33,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class PriceRules_Helper extends Mage_Selenium_TestCase
+class Core_Mage_PriceRules_Helper extends Mage_Selenium_TestCase
 {
     protected static $optionsNesting = 1;
     protected static $qtyOptionsNesting = 0;

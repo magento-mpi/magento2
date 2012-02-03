@@ -33,7 +33,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Tax_TaxRate_DeleteTest extends Mage_Selenium_TestCase
+class Core_Mage_Tax_TaxRate_DeleteTest extends Mage_Selenium_TestCase
 {
     /**
      * <p>Save rule name for clean up</p>

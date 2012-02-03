@@ -26,7 +26,7 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-class Installation_Helper extends Mage_Selenium_TestCase
+class Core_Mage_Installation_Helper extends Mage_Selenium_TestCase
 {
     /**
      * Delete installation files

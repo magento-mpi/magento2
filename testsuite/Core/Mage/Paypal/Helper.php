@@ -33,7 +33,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Paypal_Helper extends Mage_Selenium_TestCase
+class Core_Mage_Paypal_Helper extends Mage_Selenium_TestCase
 {
     public static $monthMap = array('1'  => '01 - January',
                                     '2'  => '02 - February',

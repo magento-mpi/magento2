@@ -33,7 +33,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Tax_Helper extends Mage_Selenium_TestCase
+class Core_Mage_Tax_Helper extends Mage_Selenium_TestCase
 {
     /**
      * Define Store View id in Table by name
@@ -104,7 +104,7 @@ class Tax_Helper extends Mage_Selenium_TestCase
                 break;
             case 'customer_class':
             case 'product_class':
-                $cellId = $this->getColumnIdByName('Class Name');
+                $cellId = $this->getColumnIdByName('class Core_Mage_Name');
                 $this->addParameter('id', $this->defineIdFromTitle($xpathTR));
                 break;
         }

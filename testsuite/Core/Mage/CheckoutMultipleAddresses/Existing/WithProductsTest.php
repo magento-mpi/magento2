@@ -33,7 +33,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class CheckoutMultipleAddresses_Existing_WithProductsTest extends Mage_Selenium_TestCase
+class Core_Mage_CheckoutMultipleAddresses_Existing_WithProductsTest extends Mage_Selenium_TestCase
 {
     /**
      * @var array

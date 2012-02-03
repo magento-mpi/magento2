@@ -33,7 +33,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Tax_TaxRule_CreateTest extends Mage_Selenium_TestCase
+class Core_Mage_Tax_TaxRule_CreateTest extends Mage_Selenium_TestCase
 {
     /**
      * <p>Save rule name for clean up</p>
@@ -87,7 +87,7 @@ class Tax_TaxRule_CreateTest extends Mage_Selenium_TestCase
         return $taxRateData['tax_identifier'];
     }
     /**
-     * <p>Create Product Tax Class for tests</p>
+     * <p>Create Product Tax class Core_Mage_for tests</p>
      *
      * @return string $productTaxClassData
      * @group preConditions

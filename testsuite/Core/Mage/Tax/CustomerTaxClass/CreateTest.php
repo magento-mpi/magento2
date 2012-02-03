@@ -27,13 +27,13 @@
  */
 
 /**
- * Customer Tax Class creation tests
+ * Customer Tax class Core_Mage_creation tests
  *
  * @package     selenium
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Tax_CustomerTaxClass_CreateTest extends Mage_Selenium_TestCase
+class Core_Mage_Tax_CustomerTaxClass_CreateTest extends Mage_Selenium_TestCase
 {
     /**
      * <p>Login to backend</p>
@@ -53,13 +53,13 @@ class Tax_CustomerTaxClass_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Creating Customer Tax Class with required field</p>
+     * <p>Creating Customer Tax class Core_Mage_with required field</p>
      * <p>Steps</p>
      * <p>1. Click "Add New" button </p>
      * <p>2. Fill in required fields</p>
      * <p>3. Click "Save Class" button</p>
      * <p>Expected Result:</p>
-     * <p>Customer Tax Class created, success message appears</p>
+     * <p>Customer Tax class Core_Mage_created, success message appears</p>
      *
      * @return array $customerTaxClassData
      * @test
@@ -81,13 +81,13 @@ class Tax_CustomerTaxClass_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Creating Customer Tax Class with name that exists</p>
+     * <p>Creating Customer Tax class Core_Mage_with name that exists</p>
      * <p>Steps</p>
      * <p>1. Click "Add New" button </p>
-     * <p>2. Fill in Class Name with name that exists</p>
+     * <p>2. Fill in class Core_Mage_Name with name that exists</p>
      * <p>3. Click "Save Class" button</p>
      * <p>Expected Result:</p>
-     * <p>Customer Tax Class should not be created, error message appears</p>
+     * <p>Customer Tax class Core_Mage_should not be created, error message appears</p>
      *
      * @depends withRequiredFieldsOnly
      * @param array $customerTaxClassData
@@ -102,13 +102,13 @@ class Tax_CustomerTaxClass_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Creating Customer Tax Class with empty name</p>
+     * <p>Creating Customer Tax class Core_Mage_with empty name</p>
      * <p>Steps</p>
      * <p>1. Click "Add New" button </p>
-     * <p>2. Leave Class Name empty</p>
+     * <p>2. Leave class Core_Mage_Name empty</p>
      * <p>3. Click "Save Class" button</p>
      * <p>Expected Result:</p>
-     * <p>Customer Tax Class should not be created, error message appears</p>
+     * <p>Customer Tax class Core_Mage_should not be created, error message appears</p>
      *
      * @depends withRequiredFieldsOnly
      * @test
@@ -125,7 +125,7 @@ class Tax_CustomerTaxClass_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * Fails because of MAGE-5237
-     * <p>Creating a new Customer Tax Class with special values (long, special chars).</p>
+     * <p>Creating a new Customer Tax class Core_Mage_with special values (long, special chars).</p>
      * <p>Steps:</p>
      * <p>1. Click button "Add New"</p>
      * <p>2. Fill in the fields</p>
