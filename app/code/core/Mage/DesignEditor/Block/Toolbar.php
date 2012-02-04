@@ -13,6 +13,11 @@
  */
 class Mage_DesignEditor_Block_Toolbar extends Mage_Core_Block_Template
 {
+    /**
+     * Prevent rendering if the design editor is inactive
+     *
+     * @return string
+     */
     protected function _toHtml()
     {
         /** @var $session Mage_DesignEditor_Model_Session */

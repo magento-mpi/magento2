@@ -31,12 +31,14 @@
                 <children>
                     <system>
                         <children>
-                            <editor translate="title" module="Mage_DesignEditor">
+                            <design>
                                 <children>
-                                    <title>Editor</title>
-                                    <sort_order>20</sort_order>
+                                    <editor translate="title" module="Mage_DesignEditor">
+                                        <title>Editor</title>
+                                        <sort_order>20</sort_order>
+                                    </editor>
                                 </children>
-                            </editor>
+                            </design>
                         </children>
                     </system>
                 </children>

@@ -13,6 +13,9 @@
  */
 class Mage_DesignEditor_Block_Adminhtml_Launcher_Form_Container extends Mage_Adminhtml_Block_Widget_Form_Container
 {
+    /**
+     * Customize inherited buttons
+     */
     public function __construct()
     {
         parent::__construct();

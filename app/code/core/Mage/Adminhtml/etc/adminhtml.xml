@@ -34,7 +34,7 @@
                     <title>Design</title>
                     <sort_order>30</sort_order>
                     <children>
-                        <schedule>
+                        <schedule translate="title">
                             <title>Schedule</title>
                             <action>adminhtml/system_design</action>
                             <sort_order>10</sort_order>
@@ -141,8 +141,10 @@
                                 <title>Design</title>
                                 <sort_order>25</sort_order>
                                 <children>
-                                    <title>Schedule</title>
-                                    <sort_order>10</sort_order>
+                                    <schedule translate="title">
+                                        <title>Schedule</title>
+                                        <sort_order>10</sort_order>
+                                    </schedule>
                                 </children>
                             </design>
                             <config translate="title">

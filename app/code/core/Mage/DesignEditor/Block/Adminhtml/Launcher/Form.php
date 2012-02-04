@@ -13,6 +13,11 @@
  */
 class Mage_DesignEditor_Block_Adminhtml_Launcher_Form extends Mage_Adminhtml_Block_Widget_Form
 {
+    /**
+     * Create a form element with necessary controls
+     *
+     * @return Mage_Adminhtml_Block_Widget_Form
+     */
     protected function _prepareForm()
     {
         $form = new Varien_Data_Form(array(
