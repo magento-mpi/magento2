@@ -46,6 +46,7 @@ class Mage_DesignEditor_Block_ToolbarTest extends PHPUnit_Framework_TestCase
 
     public function testGetExitUrl()
     {
-        $this->assertContains('index.php/admin/system_design_editor/exit/', $this->_block->getExitUrl());
+        $expected = 'http://localhost/index.php/admin/system_design_editor/exit/';
+        $this->assertContains($expected, $this->_block->getExitUrl());
     }
 }

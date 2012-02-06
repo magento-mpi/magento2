@@ -2263,6 +2263,10 @@ address.copyright { margin-top:6px; }
 .col1-layout .private-sales-demo { margin:0 -20px -31px; background-position:0 20px; padding-top:20px; height:auto !important; height:550px; min-height:550px; }
 /* ======================================================================================= */
 
+/* Visual Design Editor ================================================================== */
+#vde_toolbar a.vde_button { border-width:1px; border-style:solid; border-color:#ed6502 #a04300 #a04300 #ed6502; padding:0 7px 1px 7px; background:#ffac47; color:#fff; font:bold 12px arial, helvetica, sans-serif; cursor:pointer; text-align:center !important; white-space:nowrap; text-decoration: none; }
+#vde_toolbar a.vde_button:hover { background:#f77c16 repeat-x 0 0; }
+/* ======================================================================================= */
 
 /* Clears ================================================================================ */
 .product-options dt:after,
