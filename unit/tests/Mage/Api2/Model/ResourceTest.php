@@ -246,17 +246,17 @@ class Mage_Api2_Model_ResourceTest extends Mage_PHPUnit_TestCase
      * @dataProvider providerValidate
      * @param array $data
      * @param array $required
-     * @param array $valuable
+     * @param array $notEmpty
      * @param bool $isExceptionExpected
      */
-    public function testValidate($data, $required, $valuable, $isExceptionExpected)
+    public function testValidate($data, $required, $notEmpty, $isExceptionExpected)
     {
         if ($isExceptionExpected) {
             $this->setExpectedException('Mage_Api2_Exception',
                 Mage_Api2_Model_Resource::RESOURCE_DATA_PRE_VALIDATION_ERROR);
         }
         $this->_resource->setResponse($this->_response);
-        $this->_resource->_validate($data, $required, $valuable);
+        $this->_resource->_validate($data, $required, $notEmpty);
     }
 
     /**
@@ -277,9 +277,9 @@ class Mage_Api2_Model_ResourceTest extends Mage_PHPUnit_TestCase
 
 abstract class Mage_Api2_Model_ResourceMock extends Mage_Api2_Model_Resource
 {
-    public function _validate(array $data, array $required = array(), array $valueable = array())
+    public function _validate(array $data, array $required = array(), array $notEmpty = array())
     {
-        parent::_validate($data, $required, $valueable);
+        parent::_validate($data, $required, $notEmpty);
     }
 
     public function _critical($message, $code = null)

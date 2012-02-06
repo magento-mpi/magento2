@@ -35,6 +35,7 @@ $reviewData = require 'ReviewData.php';
 $review->setData($reviewData);
 $entityId = $review->getEntityIdByCode(Mage_Review_Model_Review::ENTITY_PRODUCT_CODE);
 $review->setEntityId($entityId)
+    ->setProductId($product->getId())
     ->setEntityPkValue($product->getId())
     ->setStoreId($product->getStoreId())
     ->setStatusId($reviewData['status_id'])

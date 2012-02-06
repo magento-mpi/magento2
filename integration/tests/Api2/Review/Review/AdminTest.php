@@ -64,9 +64,9 @@ class Api2_Review_Review_AdminTest extends Magento_Test_Webservice_Rest_Admin
         $reviewOriginalData = $review->getData();
         foreach ($responseData as $field => $value) {
             if (!is_array($value)) {
-                $this->assertEquals($value, $reviewOriginalData[$field]);
+                $this->assertEquals($reviewOriginalData[$field], $value);
             } else {
-                $this->assertEquals(count($value), count($reviewOriginalData[$field]));
+                $this->assertEquals(count($reviewOriginalData[$field]), count($value));
             }
         }
     }
@@ -89,17 +89,16 @@ class Api2_Review_Review_AdminTest extends Magento_Test_Webservice_Rest_Admin
     {
         /** @var $product Mage_Review_Model_Review */
         $review = $this->getFixture('review');
-        $reviewId = $review->getId();
         // check if review item exists
         $existingReview = Mage::getModel('review/review');
-        $existingReview->load($reviewId);
+        $existingReview->load($review->getId());
         $this->assertNotEmpty($existingReview->getId());
         // delete review using API
         $restResponse = $this->callDelete('review/' . $review->getId());
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
         // check if review item was deleted
         $removedReview = Mage::getModel('review/review');
-        $removedReview->load($reviewId);
+        $removedReview->load($review->getId());
         $this->assertEmpty($removedReview->getId());
     }
 
@@ -110,6 +109,138 @@ class Api2_Review_Review_AdminTest extends Magento_Test_Webservice_Rest_Admin
     {
         $restResponse = $this->callDelete('review/' . 'invalid_id');
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $restResponse->getStatus());
+    }
+
+    /**
+     * Test successful review item update
+     *
+     * @param array $dataForUpdate
+     * @dataProvider dataProviderTestUpdate
+     * @magentoDataFixture Api2/Review/_fixtures/review.php
+     */
+    public function testUpdate($dataForUpdate)
+    {
+        /** @var $product Mage_Review_Model_Review */
+        $review = $this->getFixture('review');
+        // update review using API
+        $restResponse = $this->callPut('review/' . $review->getId(), $dataForUpdate);
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+        // check if review item was updated
+        $updatedReview = Mage::getModel('review/review');
+        $updatedReview->load($review->getId());
+        $updatedReviewData = $updatedReview->getData();
+        foreach ($dataForUpdate as $field => $value) {
+            $this->assertEquals($value, $updatedReviewData[$field]);
+        }
+    }
+
+    /**
+     * Data provider for testUpdate()
+     *
+     * @return array
+     */
+    public function dataProviderTestUpdate()
+    {
+        $validReviewData = array(
+            'nickname' => 'Updated nickname',
+            'title' => 'Updated title',
+            'detail' => 'Updated detail',
+            'status_id' => Mage_Review_Model_Review::STATUS_PENDING,
+            'stores' => array(0)
+        );
+        $validReviewDataSqlInjection = require dirname(__FILE__) . '/../_fixtures/ReviewDataSqlInj.php';
+        // unset fields that could not be used for SQL-injections
+        unset($validReviewDataSqlInjection['product_id']);
+        unset($validReviewDataSqlInjection['stores']);
+        unset($validReviewDataSqlInjection['status_id']);
+
+        return array(array($validReviewData), array($validReviewDataSqlInjection));
+    }
+
+    /**
+     * Test updating not existing review item
+     */
+    public function testUpdateUnavailableResource()
+    {
+        $restResponse = $this->callPut('review/' . 'invalid_id', array());
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $restResponse->getStatus());
+    }
+
+    /**
+     * Test unsuccessful review item update with empty required data
+     *
+     * @magentoDataFixture Api2/Review/_fixtures/review.php
+     */
+    public function testUpdateEmptyRequired()
+    {
+        /** @var $product Mage_Review_Model_Review */
+        $review = $this->getFixture('review');
+
+        $dataForUpdate = require dirname(__FILE__) . '/../_fixtures/ReviewDataEmptyRequired.php';
+        unset($dataForUpdate['product_id']);
+
+        // update review using API
+        $restResponse = $this->callPut('review/' . $review->getId(), $dataForUpdate);
+
+        // check error code
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
+        // check error messages
+        $body = $restResponse->getBody();
+        $errors = $body['messages']['error'];
+        $this->assertNotEmpty($errors);
+        $expectedErrors = array('Resource data pre-validation error.');
+        foreach ($dataForUpdate as $key => $value) {
+            $expectedErrors[] = sprintf('Empty value for "%s" in request.', $key);
+        }
+        $this->assertEquals(count($expectedErrors), count($errors));
+        foreach ($errors as $error) {
+            $this->assertContains($error['message'], $expectedErrors);
+        }
+    }
+
+    /**
+     * Test unsuccessful review item update with invalid status
+     *
+     * @magentoDataFixture Api2/Review/_fixtures/review.php
+     */
+    public function testUpdateInvalidStatus()
+    {
+        /** @var $product Mage_Review_Model_Review */
+        $review = $this->getFixture('review');
+
+        $dataForUpdate = require dirname(__FILE__) . '/../_fixtures/ReviewDataInvalidStatus.php';
+        unset($dataForUpdate['product_id']);
+
+        // update review using API
+        $restResponse = $this->callPut('review/' . $review->getId(), $dataForUpdate);
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
+        $body = $restResponse->getBody();
+        $errors = $body['messages']['error'];
+        $this->assertNotEmpty($errors);
+        $error = reset($errors);
+        $expectedErrorMessage = 'Invalid status provided';
+        $this->assertEquals($error['message'], $expectedErrorMessage);
+    }
+
+    /**
+     * Test unsuccessful review item update with invalid stores
+     *
+     * @magentoDataFixture Api2/Review/_fixtures/review.php
+     */
+    public function testUpdateInvalidStores()
+    {
+        /** @var $product Mage_Review_Model_Review */
+        $review = $this->getFixture('review');
+
+        $dataForUpdate = require dirname(__FILE__) . '/../_fixtures/ReviewDataInvalidStores.php';
+        unset($dataForUpdate['product_id']);
+
+        // update review using API
+        $restResponse = $this->callPut('review/' . $review->getId(), $dataForUpdate);
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
+        $body = $restResponse->getBody();
+        $error = reset($body['messages']['error']);
+        $this->assertEquals($error['message'], 'Invalid stores provided');
     }
 }
 
