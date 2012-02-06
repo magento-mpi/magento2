@@ -39,12 +39,33 @@
                 <type>orders</type>
                 <model>sales/api2_orders</model>
                 <title>Orders</title>
+                <privileges>
+                    <create>1</create>
+                    <read>1</read>
+                </privileges>
                 <routes>
                     <route_main>
                         <mask>/orders</mask>
                     </route_main>
                 </routes>
             </orders>
+            <order>
+                <group>sales</group>
+                <type>order</type>
+                <model>sales/api2_order</model>
+                <title>Order</title>
+                <privileges>
+                    <create>1</create>
+                    <read>1</read>
+                    <update>1</update>
+                    <!-- No able to DELETE -->
+                </privileges>
+                <routes>
+                    <route_main>
+                        <mask>/order</mask>
+                    </route_main>
+                </routes>
+            </order>
         </resources>
     </api2>
 </config>

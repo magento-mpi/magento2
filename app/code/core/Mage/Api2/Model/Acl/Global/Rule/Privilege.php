@@ -25,19 +25,21 @@
  */
 
 /**
- * Permission source model
+ * Privilege of rule source model
  *
  * @category    Mage
  * @package     Mage_Api2
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Api2_Model_Acl_Global_Rule_Permission
+class Mage_Api2_Model_Acl_Global_Rule_Privilege
 {
     /**#@+
      * Source keys
      */
-    const TYPE_ALLOW = 1;
-    const TYPE_DENY  = 0;
+    const PRIVILEGE_CREATE = 'create';
+    const PRIVILEGE_READ   = 'read';
+    const PRIVILEGE_UPDATE = 'update';
+    const PRIVILEGE_DELETE = 'delete';
     /**#@-*/
 
     /**
@@ -47,14 +49,24 @@ class Mage_Api2_Model_Acl_Global_Rule_Permission
      */
     static public function toOptionArray()
     {
+        /** @var $helper Mage_Api2_Helper_Data */
+        $helper = Mage::helper('api2');
         return array(
             array(
-                'value' => self::TYPE_DENY,
-                'label' => Mage::helper('api2')->__('Deny')
+                'value' => self::PRIVILEGE_CREATE,
+                'label' => $helper->__('Create')
             ),
             array(
-                'value' => self::TYPE_ALLOW,
-                'label' => Mage::helper('api2')->__('Allow')
+                'value' => self::PRIVILEGE_READ,
+                'label' => $helper->__('Read')
+            ),
+            array(
+                'value' => self::PRIVILEGE_UPDATE,
+                'label' => $helper->__('Update')
+            ),
+            array(
+                'value' => self::PRIVILEGE_DELETE,
+                'label' => $helper->__('Delete')
             ),
         );
     }
@@ -66,9 +78,13 @@ class Mage_Api2_Model_Acl_Global_Rule_Permission
      */
     static public function toArray()
     {
+        /** @var $helper Mage_Api2_Helper_Data */
+        $helper = Mage::helper('api2');
         return array(
-            self::TYPE_DENY  => Mage::helper('api2')->__('Deny'),
-            self::TYPE_ALLOW => Mage::helper('api2')->__('Allow'),
+            self::PRIVILEGE_CREATE => $helper->__('Create'),
+            self::PRIVILEGE_READ   => $helper->__('Read'),
+            self::PRIVILEGE_UPDATE => $helper->__('Update'),
+            self::PRIVILEGE_DELETE => $helper->__('Delete'),
         );
     }
 }

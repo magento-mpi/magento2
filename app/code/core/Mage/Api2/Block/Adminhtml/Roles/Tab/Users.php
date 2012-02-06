@@ -30,26 +30,19 @@
  * @category   Mage
  * @package    Mage_Api2
  * @author     Magento Core Team <core@magentocommerce.com>
- * @method Mage_Api2_Model_Resource_Acl_Global_Role getRole
- * @method setRole(Mage_Api2_Model_Resource_Acl_Global_Role $role)
+ * @method Mage_Api2_Model_Acl_Global_Role getRole()
+ * @method Mage_Api2_Block_Adminhtml_Roles_Tab_Users setRole(Mage_Api2_Model_Acl_Global_Role $role)
  */
 class Mage_Api2_Block_Adminhtml_Roles_Tab_Users extends Mage_Adminhtml_Block_Widget_Grid
     implements Mage_Adminhtml_Block_Widget_Tab_Interface
 {
-    /**
-     * Role model
-     *
-     * @var Mage_Api2_Model_Acl_Global_Role
-     */
-    protected $_role;
-
     /**
      * Construct grid block
      */
     public function __construct()
     {
         parent::__construct();
-        $this->setId('usersGrid');
+        $this->setId('api2_role_section_users');
         $this->setData('use_ajax', true);
         $this->setSaveParametersInSession(true);
         $this->setDefaultSort('user_id')
@@ -113,22 +106,6 @@ class Mage_Api2_Block_Adminhtml_Roles_Tab_Users extends Mage_Adminhtml_Block_Wid
 
         parent::_prepareColumns();
         return $this;
-    }
-
-    /**
-     * Get role model
-     *
-     * @return Mage_Api2_Model_Acl_Global_Role
-     */
-    public function getRole()
-    {
-        if (null === $this->_role) {
-            /** @var $tabs Mage_Api2_Block_Adminhtml_Roles_Tabs */
-            $tabs = $this->getParentBlock();
-            $role = $tabs->getData('role');
-            $this->_role = $role ? $role : false;
-        }
-        return $this->_role;
     }
 
     /**

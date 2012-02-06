@@ -31,33 +31,16 @@
  * @category   Mage
  * @package    Mage_Api2
  * @author     Magento Core Team <core@magentocommerce.com>
+ * @method Mage_Api2_Model_Acl_Global_Role getRole()
+ * @method Mage_Api2_Block_Adminhtml_Roles_Tab_Info setRole(Mage_Api2_Model_Acl_Global_Role $role)
  */
 class Mage_Api2_Block_Adminhtml_Roles_Tab_Info extends Mage_Adminhtml_Block_Widget_Form
     implements Mage_Adminhtml_Block_Widget_Tab_Interface
 {
     /**
-     * Role model
-     *
-     * @var Mage_Api2_Model_Acl_Global_Role
-     */
-    protected $_role;
-
-    /**
-     * This method is called before rendering HTML
-     *
-     * @return Mage_Adminhtml_Block_Widget_Form
-     */
-    public function _beforeToHtml()
-    {
-        $this->_initForm();
-
-        return parent::_beforeToHtml();
-    }
-
-    /**
      * Prepare form object
      */
-    protected function _initForm()
+    protected function _prepareForm()
     {
         $form = new Varien_Data_Form();
 
@@ -85,22 +68,6 @@ class Mage_Api2_Block_Adminhtml_Roles_Tab_Info extends Mage_Adminhtml_Block_Widg
             $form->setValues($this->getRole()->getData());
         }
         $this->setForm($form);
-    }
-
-    /**
-     * Get role model
-     *
-     * @return Mage_Api2_Model_Acl_Global_Role
-     */
-    public function getRole()
-    {
-        if (null === $this->_role) {
-            /** @var $tabs Mage_Api2_Block_Adminhtml_Roles_Tabs */
-            $tabs = $this->getParentBlock();
-            $role = $tabs->getData('role');
-            $this->_role = $role ? $role : false;
-        }
-        return $this->_role;
     }
 
     /**

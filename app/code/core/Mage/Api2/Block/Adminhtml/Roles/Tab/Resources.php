@@ -30,14 +30,19 @@
  * @category   Mage
  * @package    Mage_Api2
  * @author     Magento Core Team <core@magentocommerce.com>
- * @method Mage_Api2_Block_Adminhtml_Roles_Tab_Resources setSelectedResources() setSelectedResources()
+ * @method Mage_Api2_Block_Adminhtml_Roles_Tab_Resources setSelectedResources(array $resources)
  * @method array getSelectedResources() getSelectedResources()
+ * @method Mage_Api2_Block_Adminhtml_Roles_Tab_Resources setExistsPrivileges(array $resources)
+ * @method array getExistsPrivileges()
  * @method Mage_Api2_Block_Adminhtml_Roles_Tab_Resources setConfigResources(Varien_Simplexml_Element $resources)
  * @method Varien_Simplexml_Element getConfigResources()
+ * @method Mage_Api2_Model_Acl_Global_Role getRole()
+ * @method Mage_Api2_Block_Adminhtml_Roles_Tab_Resources setRole(Mage_Api2_Model_Acl_Global_Role $role)
  */
 class Mage_Api2_Block_Adminhtml_Roles_Tab_Resources extends Mage_Adminhtml_Block_Widget_Form
     implements Mage_Adminhtml_Block_Widget_Tab_Interface
 {
+    const NAME_CHILDREN = 'children';
     /**
      * Role model
      *
@@ -53,19 +58,24 @@ class Mage_Api2_Block_Adminhtml_Roles_Tab_Resources extends Mage_Adminhtml_Block
     protected $_initialized = false;
 
     /**
+     * Exist privileges
+     *
+     * @var array
+     */
+    protected $_privileges;
+
+    /**
      * Constructor
      */
     public function __construct()
     {
         parent::__construct();
 
-        $this->setId('api2_rules_section')
+        $this->setId('api2_role_section_resources')
                 ->setDefaultDir(Varien_Db_Select::SQL_ASC)
                 ->setDefaultSort('sort_order')
                 ->setData('title', Mage::helper('api2')->__('Api Rules Information'))
                 ->setData('use_ajax', true);
-
-        $this->setTemplate('permissions/rolesedit.phtml');
     }
 
     /**
@@ -88,37 +98,23 @@ class Mage_Api2_Block_Adminhtml_Roles_Tab_Resources extends Mage_Adminhtml_Block
         $resources = $config->getResourceGroups();
         $this->setConfigResources($resources);
 
+        /** @var $privilegeSource Mage_Api2_Model_Acl_Global_Rule_Privilege */
+        $privilegeSource = Mage::getModel('api2/acl_global_rule_privilege');
+        $this->setExistsPrivileges($privilegeSource->toArray());
+
         $selectedIds = array();
-        $permissions = $role->getResourcesPermissionsPairs();
+        $permissions = $role->getResourcesPermissions();
         $all = Mage_Api2_Model_Acl_Global_Rule::RESOURCE_ALL;
-        if (!isset($permissions[$all])) {
+        if (empty($permissions[$all])) {
             /** @var $status Mage_Api2_Model_Acl_Global_Rule */
             foreach ($permissions as $itemResourceId => $status) {
-                if ($status == Mage_Api2_Model_Acl_Global_Rule_Permission::SOURCE_ALLOW) {
+                if ($status == Mage_Api2_Model_Acl_Global_Rule_Permission::TYPE_ALLOW) {
                     $selectedIds[] = $itemResourceId;
                 }
             }
         }
-
         $this->setSelectedResources($selectedIds);
-
         return $this;
-    }
-
-    /**
-     * Get role model
-     *
-     * @return Mage_Api2_Model_Acl_Global_Role
-     */
-    public function getRole()
-    {
-        if (null === $this->_role) {
-            /** @var $tabs Mage_Api2_Block_Adminhtml_Roles_Tabs */
-            $tabs = $this->getParentBlock();
-            $role = $tabs->getRole();
-            $this->_role = $role ? $role : Mage::getModel('api2/acl_global_role');
-        }
-        return $this->_role;
     }
 
     /**
@@ -134,10 +130,9 @@ class Mage_Api2_Block_Adminhtml_Roles_Tab_Resources extends Mage_Adminhtml_Block
             return true;
         }
 
-        $permissions = $this->getRole()->getResourcesPermissionsPairs();
+        $resources = $this->getRole()->getResourcesPermissions();
         $all = Mage_Api2_Model_Acl_Global_Rule::RESOURCE_ALL;
-        return isset($permissions[$all])
-                && $permissions[$all] == Mage_Api2_Model_Acl_Global_Rule_Permission::SOURCE_ALLOW;
+        return !empty($resources[$all]);
     }
 
     /**
@@ -149,100 +144,21 @@ class Mage_Api2_Block_Adminhtml_Roles_Tab_Resources extends Mage_Adminhtml_Block
     {
         $this->_init();
         $resources = $this->getConfigResources();
-        $rootArray = $this->_getNodeJson($resources, 1);
+        /** @var $helperRole Mage_Api2_Helper_Role */
+        $helperRole = Mage::helper('api2/role');
+        $data = $helperRole->getTreeResources(
+            $resources,
+            $this->getSelectedResources(),
+            $this->getExistsPrivileges());
+
         /** @var $helper Mage_Core_Helper_Data */
         $helper = Mage::helper('core');
-        $json = $helper->jsonEncode(isset($rootArray['children']) ? $rootArray['children'] : array());
+        $json = $helper->jsonEncode($data);
 
         return $json;
     }
 
-    /**
-     * Compare two nodes of the Resource Tree
-     *
-     * @param array $a
-     * @param array $b
-     * @return boolean
-     */
-    protected function _sortTree($a, $b)
-    {
-        return $a['sort_order'] < $b['sort_order'] ? -1 : ($a['sort_order'] > $b['sort_order'] ? 1 : 0);
-    }
 
-    /**
-     * Get Node Json
-     *
-     * @param Varien_Simplexml_Element|array $node
-     * @param int $level
-     * @return array
-     */
-    protected function _getNodeJson($node, $level = 0)
-    {
-        $item = array();
-        $selectedResources = $this->getSelectedResources();
-
-        $group = false;
-        if ($level != 0) {
-            $type = (string) $node->type;
-            if (!$type) {
-                $group = true;
-                $name = $node->getName();
-                if ('resource_groups' != $name) {
-                    $item['id'] = 'group-' . $name;
-                }
-                $item['text'] = (string) $node->title;
-            } else {
-                $item['id'] = 'resource-' . $type;
-                $item['text'] = $this->__('%s (Resource)', (string) $node->title);
-            }
-            $item['sort_order'] = isset($node->sort_order) ? (string) $node->sort_order : 0;
-
-            if (in_array($type, $selectedResources)) {
-                $item['checked'] = true;
-            }
-        }
-        if (isset($node->children)) {
-            $children = $node->children->children();
-        } else {
-            $children = $node->children();
-        }
-
-        if (empty($children)) {
-            return $item;
-        }
-
-        if ($children) {
-            $item['children'] = array();
-            /** @var $child Varien_Simplexml_Element */
-            foreach ($children as $child) {
-                if ($child->getName() != 'title' && $child->getName() != 'sort_order') {
-                    if (!(string) $child->title) {
-                        continue;
-                    }
-
-                    if ($level != 0) {
-                        $subNode = $this->_getNodeJson($child, $level + 1);
-                        if (!$subNode) {
-                            continue;
-                        }
-                        //if sub-node check then check current node
-                        if (!empty($subNode['checked'])) {
-                            $item['checked'] = true;
-                        }
-                        $item['children'][] = $subNode;
-                    } else {
-                        $item = $this->_getNodeJson($child, $level + 1);
-                    }
-                }
-            }
-            if (!empty($item['children'])) {
-                usort($item['children'], array($this, '_sortTree'));
-            } elseif ($group) {
-                return null;
-            }
-        }
-        return $item;
-    }
 
     /**
      * Get tab label

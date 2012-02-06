@@ -40,11 +40,15 @@
  * @method Mage_Api2_Model_Acl_Global_Rule setResourceId() setResourceId(string $resource)
  * @method int getPermission()
  * @method Mage_Api2_Model_Acl_Global_Rule setPermission() setPermission(int $permission)
+ * @method string getPrivilege()
+ * @method Mage_Api2_Model_Acl_Global_Rule setPrivilege() setPrivilege(string $privilege)
+ * @method string getAllowedAttributes()
+ * @method Mage_Api2_Model_Acl_Global_Rule setAllowedAttributes() setAllowedAttributes(string $allowedAttributes)
  */
 class Mage_Api2_Model_Acl_Global_Rule extends Mage_Core_Model_Abstract
 {
     /**
-     * Resource all
+     * Root resource ID "all"
      */
     const RESOURCE_ALL = 'all';
 

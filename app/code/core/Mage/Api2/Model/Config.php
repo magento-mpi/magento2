@@ -166,14 +166,13 @@ class Mage_Api2_Model_Config extends Varien_Simplexml_Config
                     /** @var $group Varien_Simplexml_Element */
                     $group = $result[0];
 
-                    //add resource to group with simple values from the first level
-                    /** @var $child Varien_Simplexml_Element */
-                    foreach ($node->children() as $child) {
-                        $value = (string)$child;
-                        if ($value) {
-                            $group->setNode('children/' . $node->getName() . '/' . $child->getName(), $value);
-                        }
+                    if (!isset($group->children)) {
+                        $children = new Varien_Simplexml_Element('<children />');
+                    } else {
+                        $children = $group->children;
                     }
+                    $children->appendChild($node);
+                    $group->appendChild($children);
                 }
             }
         }

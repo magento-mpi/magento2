@@ -81,40 +81,60 @@ class Mage_Api2_Model_Acl_Global_Role extends Mage_Core_Model_Abstract
      *
      * @return array
      */
-    public function getResourcesPermissionsPairs()
+    public function getResourcesPermissions()
     {
         if (null === $this->_resourcesPermissions) {
             $id = $this->getId();
             $rulesPairs = array();
+
+            /** @var $config Mage_Api2_Model_Config */
+            $config = Mage::getModel('api2/config');
+
             if ($id) {
                 /** @var $rules Mage_Api2_Model_Resource_Acl_Global_Rule_Collection */
                 $rules = Mage::getResourceModel('api2/acl_global_rule_collection');
                 $rules->addFilterByRoleId($id);
+
                 /** @var $rule Mage_Api2_Model_Acl_Global_Rule */
                 foreach ($rules as $rule) {
-                    $rulesPairs[$rule->getResourceId()] = $rule->getPermission();
+                    $resourceId = $rule->getResourceId();
+                    if ($resourceId == Mage_Api2_Model_Acl_Global_Rule::RESOURCE_ALL) {
+                        continue;
+                    }
+                    $rulesPairs[$resourceId]['privileges'][$rule->getPrivilege()] =
+                            Mage_Api2_Model_Acl_Global_Rule_Permission::TYPE_ALLOW;
                 }
             }
 
             if (!$rulesPairs) {
                 $rulesPairs = array(
                     Mage_Api2_Model_Acl_Global_Rule::RESOURCE_ALL =>
-                        Mage_Api2_Model_Acl_Global_Rule_Permission::SOURCE_ALLOW);
+                        Mage_Api2_Model_Acl_Global_Rule_Permission::TYPE_ALLOW);
             }
-
-            /** @var $config Mage_Api2_Model_Config */
-            $config = Mage::getModel('api2/config');
 
             //set permissions to resources
             $resources = $config->getResources();
+            /** @var $privilegeSource Mage_Api2_Model_Acl_Global_Rule_Privilege */
+            $privilegeSource = Mage::getModel('api2/acl_global_rule_privilege');
+            $privileges = array_keys($privilegeSource->toArray());
+
             /** @var $node Varien_Simplexml_Element */
             foreach ($resources as $node) {
-                $name = (string) $node->type;
-                if (!isset($rulesPairs[$name])) {
-                    $rulesPairs[$name] = Mage_Api2_Model_Acl_Global_Rule_Permission::SOURCE_DISALLOW;
+                $resourceId = (string) $node->type;
+                $allowedPrivileges = (array) $node->privileges;
+                foreach ($privileges as $privilege) {
+                    if (empty($allowedPrivileges[$privilege])
+                        && isset($rulesPairs[$resourceId]['privileges'][$privilege])
+                    ) {
+                        unset($rulesPairs[$resourceId]['privileges'][$privilege]);
+                    } elseif (!empty($allowedPrivileges[$privilege])
+                        && !isset($rulesPairs[$resourceId]['privileges'][$privilege])
+                    ) {
+                        $rulesPairs[$resourceId]['privileges'][$privilege] =
+                                Mage_Api2_Model_Acl_Global_Rule_Permission::TYPE_DENY;
+                    }
                 }
             }
-
             $this->_resourcesPermissions = $rulesPairs;
         }
         return $this->_resourcesPermissions;
@@ -126,7 +146,7 @@ class Mage_Api2_Model_Acl_Global_Role extends Mage_Core_Model_Abstract
      * @param bool $grouped
      * @return bool|Mage_Core_Model_Config_Element|Varien_Simplexml_Element
      */
-    public function getResources($grouped = false)
+    public function getAclResources($grouped = false)
     {
         /** @var $config Mage_Api2_Model_Config */
         $config = Mage::getModel('api2/config');

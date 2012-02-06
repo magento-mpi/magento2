@@ -51,6 +51,12 @@
                 <!-- Resource model which process data -->
                 <model>catalog/api2_products</model>
                 <title>Products</title>
+                <sort_order>20</sort_order>
+                <privileges>
+                    <!-- For collection only CREATE and READ-->
+                    <create>1</create>
+                    <read>1</read>
+                </privileges>
                 <routes>
                     <route_main>
                         <mask>/products</mask>
@@ -62,6 +68,13 @@
                 <type>product</type>
                 <model>catalog/api2_product</model>
                 <title>Product</title>
+                <sort_order>10</sort_order>
+                <privileges>
+                    <create>1</create>
+                    <read>1</read>
+                    <update>1</update>
+                    <delete>1</delete>
+                </privileges>
                 <routes>
                     <route_main>
                         <mask>/products/:id</mask>
@@ -75,6 +88,11 @@
                 <!-- Resource model which process data -->
                 <model>catalog/api2_categories</model>
                 <title>Categories</title>
+                <privileges>
+                    <!-- For collection only CREATE and READ -->
+                    <create>1</create>
+                    <read>1</read>
+                </privileges>
                 <routes>
                     <route_main>
                         <mask>/categories</mask>
@@ -86,6 +104,12 @@
                 <type>category</type>
                 <model>catalog/api2_category</model>
                 <title>Category</title>
+                <privileges>
+                    <create>1</create>
+                    <read>1</read>
+                    <update>1</update>
+                    <delete>1</delete>
+                </privileges>
                 <routes>
                     <route_main>
                         <mask>/categories/:id</mask>
