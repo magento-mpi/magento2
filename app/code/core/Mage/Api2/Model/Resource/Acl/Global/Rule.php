@@ -49,7 +49,7 @@ class Mage_Api2_Model_Resource_Acl_Global_Rule extends Mage_Core_Model_Resource_
      * @param int $roleId
      * @param int $resourceId
      * @param int $privilege
-     * @return array
+     * @return string|bool
      */
     public function getAllowedAttributes($roleId, $resourceId, $privilege)
     {
@@ -61,7 +61,6 @@ class Mage_Api2_Model_Resource_Acl_Global_Rule extends Mage_Core_Model_Resource_
             ->where('resource_id = ?', $resourceId, Zend_Db::INT_TYPE)
             ->where('privilege = ?', $privilege);
 
-        $attributes = $read->fetchOne($select);
-        return (false === $attributes ? array() : explode(',', $attributes));
+        return $read->fetchOne($select);
     }
 }

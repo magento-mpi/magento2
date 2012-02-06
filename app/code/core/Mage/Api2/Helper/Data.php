@@ -143,4 +143,21 @@ class Mage_Api2_Helper_Data extends Mage_Core_Helper_Abstract
     {
         return in_array($type, Mage_Api2_Model_Server::getApiTypes());
     }
+
+    /**
+     * Get allowed attributes of a rule
+     *
+     * @param int $roleId
+     * @param int $resourceId
+     * @param int $privilege
+     * @return array
+     */
+    public function getAllowedAttributes($roleId, $resourceId, $privilege)
+    {
+        /** @var $rule Mage_Api2_Model_Acl_Global_Rule */
+        $rule = Mage::getModel('api2/acl_global_rule');
+
+        $attributes = $rule->getAllowedAttributes($roleId, $resourceId, $privilege);
+        return (false === $attributes ? array() : explode(',', $attributes));
+    }
 }
