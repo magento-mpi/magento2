@@ -72,6 +72,57 @@ class Mage_Review_Model_Api2_Reviews_Rest_Admin_V1 extends Mage_Review_Model_Api
     }
 
     /**
+     * Get list of reviews
+     *
+     * @return array
+     */
+    protected function _retrieve()
+    {
+        /** @var $collection Mage_Review_Model_Resource_Review_Collection */
+        $collection = Mage::getResourceModel('review/review_collection');
+        $this->_applyProductFilter($collection);
+        $this->_applyStatusFilter($collection);
+        $this->_applyCollectionModifiers($collection);
+        $collection->getSelect()->columns(array('product_id' => 'main_table.entity_pk_value'));
+        $data = $collection->load()->toArray();
+
+        return $data['items'];
+    }
+
+    /**
+     * Apply filter by product
+     *
+     * @param Mage_Review_Model_Resource_Review_Collection $collection
+     */
+    protected function _applyProductFilter(Mage_Review_Model_Resource_Review_Collection $collection)
+    {
+        $productId = $this->getRequest()->getParam('product');
+        if ($productId) {
+            /** @var $product Mage_Catalog_Model_Product */
+            $product = Mage::getModel('catalog/product')->load($productId);
+            if (!$product->getId()) {
+                $this->_critical('Invalid product', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+            }
+
+            $collection->addEntityFilter(Mage_Review_Model_Review::ENTITY_PRODUCT_CODE, $product->getId());
+        }
+    }
+
+    /**
+     * Apply filter by status
+     *
+     * @param Mage_Review_Model_Resource_Review_Collection $collection
+     */
+    protected function _applyStatusFilter(Mage_Review_Model_Resource_Review_Collection $collection)
+    {
+        $status = $this->getRequest()->getParam('status');
+        if ($status) {
+            $this->_validateStatus($status);
+            $collection->addStatusFilter($status);
+        }
+    }
+
+    /**
      * Validate status input data
      *
      * @param array $data
@@ -82,6 +133,30 @@ class Mage_Review_Model_Api2_Reviews_Rest_Admin_V1 extends Mage_Review_Model_Api
     {
         parent::_validate($data, $required, $notEmpty);
 
+        $this->_validateStatus($data['status_id']);
+
+        if (!is_array($data['stores'])) {
+            $this->_critical('Invalid stores provided', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+        }
+        $validStores = array();
+        foreach (Mage::app()->getStores(true) as $store) {
+            $validStores[] = $store->getId();
+        }
+        foreach ($data['stores'] as $store) {
+            if (!in_array($store, $validStores)) {
+                $this->_critical(sprintf('Invalid store ID "%s" provided', $store),
+                    Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+            }
+        }
+    }
+
+    /**
+     * Validate review status input
+     *
+     * @param $inputStatus
+     */
+    protected function _validateStatus($inputStatus)
+    {
         $validStatusList = array();
         $statusList = Mage::getModel('review/review')
             ->getStatusCollection()
@@ -92,22 +167,8 @@ class Mage_Review_Model_Api2_Reviews_Rest_Admin_V1 extends Mage_Review_Model_Api
             $validStatusList[] = $status['status_id'];
         }
 
-        if (!in_array($data['status_id'], $validStatusList)) {
+        if (!in_array($inputStatus, $validStatusList)) {
             $this->_critical('Invalid status provided', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
-        }
-
-        if (!is_array($data['stores'])) {
-            $this->_critical('Invalid stores provided', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
-        }
-        $validStores = array();
-        foreach (Mage::app()->getStores() as $store) {
-            $validStores[] = $store->getId();
-        }
-        foreach ($data['stores'] as $store) {
-            if (!in_array($store, $validStores)) {
-                $this->_critical(sprintf('Invalid store ID "%s" provided', $store),
-                    Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
-            }
         }
     }
 
