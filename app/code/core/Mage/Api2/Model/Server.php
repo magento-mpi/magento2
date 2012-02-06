@@ -171,7 +171,7 @@ class Mage_Api2_Model_Server
      * @param Mage_Api2_Model_Request $request
      * @param Mage_Api2_Model_Response $response
      * @param Mage_Api2_Model_Auth_User_Abstract $apiUser
-     * @return Zend_Controller_Response_Http
+     * @return Mage_Api2_Model_Server
      */
     protected function _dispatch(
         Mage_Api2_Model_Request $request,
@@ -183,7 +183,7 @@ class Mage_Api2_Model_Server
         $dispatcher = Mage::getModel('api2/dispatcher');
         $dispatcher->setApiUser($apiUser)->dispatch($request, $response);
 
-        return $response;
+        return $this;
     }
 
     /**
