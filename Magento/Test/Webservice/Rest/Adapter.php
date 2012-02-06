@@ -77,9 +77,7 @@ class Magento_Test_Webservice_Rest_Adapter
      */
     public function init($options = null)
     {
-        $this->_client = new Zend_Http_Client(TESTS_WEBSERVICE_URL, array(
-            'adapter' => 'Zend_Http_Client_Adapter_Curl'
-        ));
+        $this->_client = new Zend_Http_Client(TESTS_WEBSERVICE_URL);
         $this->_client->setHeaders(array(
             'Version' => self::API_VERSION,
             'Content-Type' => self::CONTENT_TYPE,
