@@ -139,27 +139,18 @@ class Mage_Api2_Model_Resource_Acl_Global_RuleTest extends Magento_TestCase
         $resource = Mage::getResourceModel('api2/acl_global_rule');
 
         // Test method success
-        $this->assertSame(
-            explode(',', self::ALLOWED_ATTRIBUTES),
+        $this->assertEquals(
+            self::ALLOWED_ATTRIBUTES,
             $resource->getAllowedAttributes(self::$_role->getId(), self::RULE_RESOURCE_ID, 'create')
         );
 
         // Test method with wrong role ID
-        $this->assertSame(
-            array(),
-            $resource->getAllowedAttributes(0, self::RULE_RESOURCE_ID, 'create')
-        );
+        $this->assertFalse($resource->getAllowedAttributes(0, self::RULE_RESOURCE_ID, 'create'));
 
         // Test method with wrong resource ID
-        $this->assertSame(
-            array(),
-            $resource->getAllowedAttributes(self::$_role->getId(), 'qwerty/integration/test', 'create')
-        );
+        $this->assertFalse($resource->getAllowedAttributes(self::$_role->getId(), 'qwerty/integration/test', 'create'));
 
         // Test method with wrong privilege
-        $this->assertSame(
-            array(),
-            $resource->getAllowedAttributes(self::$_role->getId(), self::RULE_RESOURCE_ID, 'update')
-        );
+        $this->assertFalse($resource->getAllowedAttributes(self::$_role->getId(), self::RULE_RESOURCE_ID, 'update'));
     }
 }
