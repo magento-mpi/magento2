@@ -64,7 +64,10 @@ AdminOrder.prototype = {
                 searchAreaId = this.getAreaId('search');
             searchButton.onClick = function() {
                 $(searchAreaId).show();
-                this.remove();
+                var el = this;
+                window.setTimeout(function () {
+                    el.remove();
+                }, 10);
             }
 
             this.dataArea.onLoad = this.dataArea.onLoad.wrap(function(proceed) {

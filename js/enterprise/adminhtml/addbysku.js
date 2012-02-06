@@ -119,7 +119,10 @@ AddBySku.prototype = {
                         skuButton = new ControlButton(Translator.translate('Add Products By SKU'));
                     skuButton.onClick = function() {
                         $(skuAreaId).show();
-                        this.remove();
+                        var el = this;
+                        window.setTimeout(function () {
+                            el.remove();
+                        }, 10);
                     };
                     order.itemsArea.onLoad = order.itemsArea.onLoad.wrap(function(proceed) {
                         proceed();
