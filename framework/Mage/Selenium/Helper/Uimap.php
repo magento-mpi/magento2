@@ -74,8 +74,30 @@ class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
     {
         parent::_init();
 
+        $this->_initFixturePath();
         $this->_loadUimapData();
         return $this;
+    }
+
+    /**
+     * Get all paths to *.yml files
+     */
+    protected function _initFixturePath()
+    {
+        $applicationConfig = $this->getConfig()->getApplicationHelper()->getApplicationConfig();
+        //get projects sequence
+        $this->_projectsSequence = array_reverse(array_map('trim',
+                                                           explode(',', $applicationConfig['fallbackOrder'])));
+        //get initial path to files
+        $initialPath = SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR
+            . $this->getConfig()->getConfigValue(self::FIXTURE_BASEPATH);
+        foreach ($this->_projectsSequence as $codePoolName) {
+            $projectPath = $initialPath . DIRECTORY_SEPARATOR . $codePoolName;
+            if (!is_dir($projectPath)) {
+                continue;
+            }
+            $this->_getFilesPath($this->_scanDirectory($projectPath), '', $codePoolName);
+        }
     }
 
     /**
@@ -90,25 +112,17 @@ class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
         $this->_uimapData = $cache->load(self::CACHE_ID_DATA);
         if (!$this->_uimapData) {
             $areasConfig = $this->getConfig()->getApplicationHelper()->getAreasConfig();
-            $applicationConfig = $this->getConfig()->getApplicationHelper()->getApplicationConfig();
-            //get projects sequence
-            $this->_projectsSequence = array_reverse(array_map('trim',
-                                                               explode(',', $applicationConfig['fallbackOrder'])));
-            //get initial path to files
             $initialPath = SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR
                 . $this->getConfig()->getConfigValue(self::FIXTURE_BASEPATH);
             $separator = preg_quote(DIRECTORY_SEPARATOR);
 
-            foreach ($this->_projectsSequence as $codePoolName) {
+            foreach ($this->_fixturePath as $codePoolName => $codePoolData) {
                 $projectPath = $initialPath . DIRECTORY_SEPARATOR . $codePoolName;
-                if (!is_dir($projectPath)) {
-                    continue;
-                }
-                $this->_getFilesPath($this->_scanDirectory($projectPath), '', $codePoolName);
                 foreach ($areasConfig as $areaKey => $areaConfig) {
                     $pages = array();
-                    foreach ($this->_fixturePath[$codePoolName]['uimap'] as $file) {
-                        if (preg_match('|uimap' . $separator . $areaKey . '|', $file)) {
+                    foreach ($codePoolData['uimap'] as $file) {
+                        $pattern = implode($separator, array('', 'uimap', $areaKey, ''));
+                        if (preg_match('|' . $pattern . '|', $file)) {
                             $pages = array_merge($this->getConfig()->getFileHelper()->loadYamlFiles($projectPath . $file),
                                                  $pages);
                         }

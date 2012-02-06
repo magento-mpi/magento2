@@ -369,10 +369,10 @@ class Mage_Selenium_TestConfiguration
         $initialPath = SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR
             . $this->_uimapHelper->getConfig()->getConfigValue($this->_uimapHelper->getFixtureBasePath());
         $fixturePath = $this->_uimapHelper->getFixturePath();
-        foreach ($fixturePath as $projectName => $projectData) {
-            if (array_key_exists('data', $projectData)) {
-                foreach ($projectData['data'] as $file) {
-                    $filePath = $initialPath . DIRECTORY_SEPARATOR . $projectName . $file;
+        foreach ($fixturePath as $codePoolName => $codePoolData) {
+            if (array_key_exists('data', $codePoolData)) {
+                foreach ($codePoolData['data'] as $file) {
+                    $filePath = $initialPath . DIRECTORY_SEPARATOR . $codePoolName . $file;
                     $this->_testData = array_merge($this->getFileHelper()->loadYamlFiles($filePath), $this->_testData);
                 }
             }
