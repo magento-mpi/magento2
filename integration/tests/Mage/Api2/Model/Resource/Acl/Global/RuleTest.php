@@ -34,7 +34,15 @@
  */
 class Mage_Api2_Model_Resource_Acl_Global_RuleTest extends Magento_TestCase
 {
+    /**
+     * Allowed attributes for ACL rule
+     */
     const ALLOWED_ATTRIBUTES = 'name,description,short_description,price';
+
+    /**
+     * Resource resource id
+     */
+    const RULE_RESOURCE_ID = 'test/resource';
 
     /**
      * Admin user data fixture
@@ -106,7 +114,7 @@ class Mage_Api2_Model_Resource_Acl_Global_RuleTest extends Magento_TestCase
     {
         $data = array(
             'role_id'     => self::$_role->getId(),
-            'resource_id' => 'test/resource',
+            'resource_id' => self::RULE_RESOURCE_ID,
             'privilege'   => 'create',
             'allowed_attributes' => self::ALLOWED_ATTRIBUTES
         );
@@ -127,6 +135,27 @@ class Mage_Api2_Model_Resource_Acl_Global_RuleTest extends Magento_TestCase
      */
     public function testGetAllowedAttributes()
     {
+        /** @var $resource Mage_Api2_Model_Resource_Acl_Global_Rule */
+        $resource = Mage::getResourceModel('api2/acl_global_rule');
 
+        $this->assertSame(
+            explode(',', self::ALLOWED_ATTRIBUTES),
+            $resource->getAllowedAttributes(self::$_role->getId(), self::RULE_RESOURCE_ID, 'create')
+        );
+
+        $this->assertSame(
+            array(),
+            $resource->getAllowedAttributes(0, self::RULE_RESOURCE_ID, 'create')
+        );
+
+        $this->assertSame(
+            array(),
+            $resource->getAllowedAttributes(self::$_role->getId(), 'qwerty/integration/test', 'create')
+        );
+
+        $this->assertSame(
+            array(),
+            $resource->getAllowedAttributes(self::$_role->getId(), self::RULE_RESOURCE_ID, 'update')
+        );
     }
 }
