@@ -123,7 +123,8 @@ class Enterprise_TargetRule_Model_Resource_Rule extends Mage_Rule_Model_Resource
     protected function _afterSave(Mage_Core_Model_Abstract $object)
     {
         parent::_afterSave($object);
-        $this->saveCustomerSegments($object->getId(), $object->getCustomerSegmentIds());
+        $segmentIds = $object->getUseCustomerSegment() ? $object->getCustomerSegmentIds() : array(0);
+        $this->saveCustomerSegments($object->getId(), $segmentIds);
 
         $this->unbindRuleFromEntity($object->getId(), array(), 'product');
         $this->bindRuleToEntity($object->getId(), $object->getMatchingProductIds(), 'product');
