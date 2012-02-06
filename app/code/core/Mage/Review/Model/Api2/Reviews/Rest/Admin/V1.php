@@ -43,9 +43,9 @@ class Mage_Review_Model_Api2_Reviews_Rest_Admin_V1 extends Mage_Review_Model_Api
     protected function _create(array $data)
     {
         $required = array('product_id', 'status_id', 'stores', 'nickname', 'title', 'detail');
-        $valuable = array('product_id', 'status_id', 'stores', 'nickname', 'title', 'detail');
+        $notEmpty = array('product_id', 'status_id', 'stores', 'nickname', 'title', 'detail');
 
-        $this->_validate($data, $required, $valuable);
+        $this->_validate($data, $required, $notEmpty);
 
         /** @var $product Mage_Catalog_Model_Product */
         $product = Mage::getModel('catalog/product')->load($data['product_id']);
@@ -76,11 +76,11 @@ class Mage_Review_Model_Api2_Reviews_Rest_Admin_V1 extends Mage_Review_Model_Api
      *
      * @param array $data
      * @param array $required
-     * @param array $valueable
+     * @param array $notEmpty
      */
-    protected function _validate(array $data, array $required = array(), array $valueable = array())
+    protected function _validate(array $data, array $required = array(), array $notEmpty = array())
     {
-        parent::_validate($data, $required, $valueable);
+        parent::_validate($data, $required, $notEmpty);
 
         $validStatusList = array();
         $statusList = Mage::getModel('review/review')

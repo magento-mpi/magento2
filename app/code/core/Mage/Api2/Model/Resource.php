@@ -32,22 +32,22 @@ abstract class Mage_Api2_Model_Resource
     /**#@+
      * Operations. Resource method names
      */
-    const OPERATION_CREATE   = '_create';
+    const OPERATION_CREATE = '_create';
     const OPERATION_RETRIEVE = '_retrieve';
-    const OPERATION_UPDATE   = '_update';
-    const OPERATION_DELETE   = '_delete';
+    const OPERATION_UPDATE = '_update';
+    const OPERATION_DELETE = '_delete';
     /**#@-*/
 
     /**#@+
      *  Default error messages
      */
-    const RESOURCE_NOT_FOUND                  = 'Resource not found.';
-    const RESOURCE_METHOD_NOT_ALLOWED         = 'Resource does not support method.';
-    const RESOURCE_METHOD_NOT_IMPLEMENTED     = 'Resource method not implemented yet.';
-    const RESOURCE_INTERNAL_ERROR             = 'Resource internal error.';
-    const RESOURCE_DATA_PRE_VALIDATION_ERROR  = 'Resource data pre-validation error.'; //error while pre-validating
-    const RESOURCE_DATA_INVALID               = 'Resource data invalid.'; //error while checking data inside method
-    const RESOURCE_UNKNOWN_ERROR              = 'Resource unknown error.';
+    const RESOURCE_NOT_FOUND = 'Resource not found.';
+    const RESOURCE_METHOD_NOT_ALLOWED = 'Resource does not support method.';
+    const RESOURCE_METHOD_NOT_IMPLEMENTED = 'Resource method not implemented yet.';
+    const RESOURCE_INTERNAL_ERROR = 'Resource internal error.';
+    const RESOURCE_DATA_PRE_VALIDATION_ERROR = 'Resource data pre-validation error.'; //error while pre-validating
+    const RESOURCE_DATA_INVALID = 'Resource data invalid.'; //error while checking data inside method
+    const RESOURCE_UNKNOWN_ERROR = 'Resource unknown error.';
     /**#@-*/
 
     /**
@@ -126,13 +126,13 @@ abstract class Mage_Api2_Model_Resource
         $response->clearHeaders()
             ->setBody($this->getRenderer()->render($data))
             ->setHeader(
-                'Content-Type',
-                sprintf(
-                    '%s; charset=%s',
-                    $this->getRenderer()->getMimeType(),
-                    Mage_Api2_Model_Response::RESPONSE_CHARSET
-                )
-            );
+            'Content-Type',
+            sprintf(
+                '%s; charset=%s',
+                $this->getRenderer()->getMimeType(),
+                Mage_Api2_Model_Response::RESPONSE_CHARSET
+            )
+        );
     }
 
     /**
@@ -142,18 +142,19 @@ abstract class Mage_Api2_Model_Resource
      *
      * @param array $data
      * @param array $required
-     * @param array $valueable
+     * @param array $notEmpty
      */
-    protected function _validate(array $data, array $required = array(), array $valueable = array())
+    protected function _validate(array $data, array $required = array(), array $notEmpty = array())
     {
-        //NOTE can be extended in subclasses
         foreach ($required as $key) {
             if (!array_key_exists($key, $data)) {
                 $this->_error(sprintf('Missing "%s" in request.', $key), Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
                 continue;
             }
+        }
 
-            if (in_array($key, $valueable) && empty($data[$key])) {
+        foreach ($notEmpty as $key) {
+            if (array_key_exists($key, $data) && empty($data[$key])) {
                 $this->_error(
                     sprintf('Empty value for "%s" in request.', $key), Mage_Api2_Model_Server::HTTP_BAD_REQUEST
                 );
@@ -282,8 +283,8 @@ abstract class Mage_Api2_Model_Resource
             $include = $this->getRequest()->getRequestedAttributes();
 
             $filter->setResourceType($this->getRequest()->getResourceType())
-                   ->setUserType($this->getApiUser()->getType())
-                   ->setInclude($include ? $include : array('*'));
+                ->setUserType($this->getApiUser()->getType())
+                ->setInclude($include ? $include : array('*'));
 
             $this->setFilter($filter);
         }

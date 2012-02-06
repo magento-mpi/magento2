@@ -55,8 +55,35 @@ class Mage_Review_Model_Api2_Review_Rest_Admin_V1 extends Mage_Review_Model_Api2
         $review = $this->_loadReview();
         try {
             $review->delete();
+        } catch (Mage_Core_Exception $e) {
+            $this->_error($e->getMessage(), Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR);
         } catch (Exception $e) {
-            $this->_critical(Mage_Api2_Model_Resource::RESOURCE_INTERNAL_ERROR);
+            $this->_critical(self::RESOURCE_INTERNAL_ERROR);
+        }
+    }
+
+    /**
+     * Update specified review item
+     *
+     * @param array $data
+     * @throws Mage_Api2_Exception
+     */
+    protected function _update(array $data)
+    {
+        $notEmpty = array('status_id', 'stores', 'nickname', 'title', 'detail');
+        $this->_validate($data, array(), $notEmpty);
+
+        $review = $this->_loadReview();
+        $review->addData($data);
+        if (isset($data['stores'])) {
+            $review->setStores($data['stores']);
+        }
+        try {
+            $review->save();
+        } catch (Mage_Core_Exception $e) {
+            $this->_error($e->getMessage(), Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR);
+        } catch (Exception $e) {
+            $this->_critical(self::RESOURCE_INTERNAL_ERROR);
         }
     }
 
@@ -72,8 +99,48 @@ class Mage_Review_Model_Api2_Review_Rest_Admin_V1 extends Mage_Review_Model_Api2
         /** @var $review Mage_Review_Model_Review */
         $review = Mage::getModel('review/review')->load($reviewId);
         if (!$review->getId()) {
-            $this->_critical(Mage_Api2_Model_Resource::RESOURCE_NOT_FOUND);
+            $this->_critical(self::RESOURCE_NOT_FOUND);
         }
         return $review;
+    }
+
+    /**
+     * Review specific input data validation
+     *
+     * @throws Mage_Api2_Exception
+     * @param array $data
+     * @param array $required
+     * @param array $notEmpty
+     */
+    protected function _validate(array $data, array $required = array(), array $notEmpty = array())
+    {
+        parent::_validate($data, $required, $notEmpty);
+
+        $validStatusList = array();
+        $statusList = Mage::getModel('review/review')
+            ->getStatusCollection()
+            ->load()
+            ->toArray();
+
+        foreach ($statusList['items'] as $status) {
+            $validStatusList[] = $status['status_id'];
+        }
+        if (isset($data['status_id']) && !in_array($data['status_id'], $validStatusList)) {
+            $this->_critical('Invalid status provided', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+        }
+
+        if (isset($data['stores']) && !is_array($data['stores'])) {
+            $this->_critical('Invalid stores provided', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+        }
+        $validStores = array();
+        foreach (Mage::app()->getStores(true) as $store) {
+            $validStores[] = $store->getId();
+        }
+        foreach ($data['stores'] as $store) {
+            if (!in_array($store, $validStores)) {
+                $this->_critical(sprintf('Invalid store ID "%s" provided', $store),
+                    Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+            }
+        }
     }
 }
