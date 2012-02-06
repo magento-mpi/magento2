@@ -25,7 +25,7 @@
  */
 
 /**
- * Api2 for review item
+ * API2 for review item
  *
  * @category   Mage
  * @package    Mage_Review
@@ -116,31 +116,13 @@ class Mage_Review_Model_Api2_Review_Rest_Admin_V1 extends Mage_Review_Model_Api2
     {
         parent::_validate($data, $required, $notEmpty);
 
-        $validStatusList = array();
-        $statusList = Mage::getModel('review/review')
-            ->getStatusCollection()
-            ->load()
-            ->toArray();
-
-        foreach ($statusList['items'] as $status) {
-            $validStatusList[] = $status['status_id'];
-        }
-        if (isset($data['status_id']) && !in_array($data['status_id'], $validStatusList)) {
-            $this->_critical('Invalid status provided', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
-        }
-
-        if (isset($data['stores']) && !is_array($data['stores'])) {
+        /** @var $validator Mage_Review_Model_Api2_Validator */
+        $validator = Mage::getModel('review/api2_validator');
+        if (isset($data['stores']) && !$validator->areStoresValid($data['stores'])) {
             $this->_critical('Invalid stores provided', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
         }
-        $validStores = array();
-        foreach (Mage::app()->getStores(true) as $store) {
-            $validStores[] = $store->getId();
-        }
-        foreach ($data['stores'] as $store) {
-            if (!in_array($store, $validStores)) {
-                $this->_critical(sprintf('Invalid store ID "%s" provided', $store),
-                    Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
-            }
+        if (isset($data['status_id']) && !$validator->isStatusValid($data['status_id'])) {
+            $this->_critical('Invalid status provided', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
         }
     }
 }

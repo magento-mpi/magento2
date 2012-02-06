@@ -33,6 +33,8 @@
  */
 abstract class Mage_Review_Model_Api2_Review_Rest extends Mage_Api2_Model_Resource_Instance
 {
+    const RESOURCE_NAME = 'review';
+
     /**
      * Fetch resource type
      *
@@ -40,6 +42,6 @@ abstract class Mage_Review_Model_Api2_Review_Rest extends Mage_Api2_Model_Resour
      */
     public function getType()
     {
-        return 'review';
+        return self::RESOURCE_NAME;
     }
 }
