@@ -79,6 +79,13 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
     protected $_cart;
 
     /**
+     * Options, that should configure product
+     *
+     * @var array
+     */
+    protected $_successOptions = array();
+
+    /**
      * Don't allow passing disabled product to cart - put it inside error grid instead. Used in saveAffectedProducts()
      * and _safeAddProduct()
      */
@@ -801,11 +808,11 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
             $option->setAddRequiredFilter(true);
             $option->setAddRequiredFilterValue(true);
             $productRequiredOptions = $option->getProductOptionCollection($product);
-            $options = array();
             $missedRequiredOption = false;
             foreach ($productRequiredOptions as $productOption) {
                 /** @var $productOption Mage_Catalog_Model_Product_Option */
 
+                $isMultiple = $this->_isOptionMultiple($productOption);
                 $productOptionValues = $productOption->getValues();
                 if (empty($productOptionValues)) {
                     if ($productOption->hasSku()) {
@@ -817,14 +824,22 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
                     continue;
                 }
 
+                $ignoreRequiredOption = false;
                 foreach ($productOptionValues as $optionValue) {
                     $found = array_search($optionValue->getSku(), $skuParts);
                     if ($found !== false) {
-                        $options[$productOption->getOptionId()] = $optionValue->getOptionTypeId();
+                        $this->_addSuccessOption($productOption, $optionValue);
                         unset($skuParts[$found]);
+                        $ignoreRequiredOption = true;
+                        if (!$this->_isOptionMultiple($productOption)) {
+                            break 1;
+                        }
                     } else {
                         $missedRequiredOption = true;
                     }
+                }
+                if ($ignoreRequiredOption) {
+                    $missedRequiredOption = false;
                 }
             }
 
@@ -846,7 +861,7 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
                 foreach ($productOptionValues as $optionValue) {
                     $found = array_search($optionValue->getSku(), $skuParts);
                     if ($found !== false) {
-                        $options[$productOption->getOptionId()] = $optionValue->getOptionTypeId();
+                        $this->_addSuccessOption($productOption, $optionValue);
                         unset($skuParts[$found]);
                     }
                 }
@@ -860,13 +875,64 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
                 return $product;
             }
 
+            $options = $this->_getSuccessOptions();
+
             if (!empty($options)) {
                 $product->setConfiguredOptions($options);
                 $this->setAffectedItemConfig($sku, array('options' => $options));
+                $this->_successOptions = array();
             }
         }
 
         return $product;
+    }
+
+    /**
+     * Check whether specified option could have multiple values
+     *
+     * @param Mage_Catalog_Model_Product_Option $option
+     * @return bool
+     */
+    protected function _isOptionMultiple($option)
+    {
+        switch ($option->getType()) {
+            case Mage_Catalog_Model_Product_Option::OPTION_TYPE_MULTIPLE:
+            case Mage_Catalog_Model_Product_Option::OPTION_TYPE_CHECKBOX:
+                return true;
+        }
+        return false;
+    }
+
+    /**
+     * @param Mage_Catalog_Model_Product_Option $option
+     * @param Mage_Catalog_Model_Product_Option_Value $value
+     * @return Enterprise_Checkout_Model_Cart
+     */
+    protected function _addSuccessOption($option, $value)
+    {
+        if ($this->_isOptionMultiple($option)) {
+            if (isset($this->_successOptions[$option->getOptionId()])
+                && is_array($this->_successOptions[$option->getOptionId()])
+            ) {
+                $this->_successOptions[$option->getOptionId()][] = $value->getOptionTypeId();
+            } else {
+                $this->_successOptions[$option->getOptionId()] = array($value->getOptionTypeId());
+            }
+        } else {
+            $this->_successOptions[$option->getOptionId()] = $value->getOptionTypeId();
+        }
+
+        return $this;
+    }
+
+    /**
+     * Retrieve list of options, that should configure the product
+     *
+     * @return array
+     */
+    protected function _getSuccessOptions()
+    {
+        return $this->_successOptions;
     }
 
     /**
