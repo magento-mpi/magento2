@@ -39,6 +39,10 @@
                     <create>1</create>
                     <read>1</read>
                 </privileges>
+                <attributes>
+                    <!-- Source model with available attributes -->
+                    <model>review/api2_review_rest</model>
+                </attributes>
                 <routes>
                     <route_main>
                         <mask>/reviews</mask>
@@ -57,6 +61,10 @@
                     <update>1</update>
                     <delete>1</delete>
                 </privileges>
+                <attributes>
+                    <!-- Source model with available attributes -->
+                    <model>review/api2_review_rest</model>
+                </attributes>
                 <routes>
                     <route_main>
                         <mask>/review/:id</mask>

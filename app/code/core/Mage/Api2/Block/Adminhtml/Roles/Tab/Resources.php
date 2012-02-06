@@ -118,7 +118,7 @@ class Mage_Api2_Block_Adminhtml_Roles_Tab_Resources extends Mage_Adminhtml_Block
     {
         $this->_init();
 
-        if (!$this->getRole()->getId()) {
+        if (!$this->getRole() || !$this->getRole()->getId()) {
             return true;
         }
 
