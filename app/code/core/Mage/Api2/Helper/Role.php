@@ -43,11 +43,11 @@ class Mage_Api2_Helper_Role extends Mage_Core_Helper_Abstract
     const PREFIX_GROUP = 'group';
 
     /**
-     * Selected resources
+     * Resources permissions
      *
      * @var array
      */
-    protected $_selectedResources;
+    protected $_resourcesPermissions;
 
     /**
      * Exist privileges
@@ -92,17 +92,16 @@ class Mage_Api2_Helper_Role extends Mage_Core_Helper_Abstract
      * Get tree resources
      *
      * @param Varien_Simplexml_Element|array $node  Resources list in SimpleXML tree
-     * @param array $selectedResources
+     * @param array $resourcesPermissions
      * @param array $existPrivileges
      * @return array
      */
-    public function getTreeResources($node, $selectedResources, $existPrivileges)
+    public function getTreeResources($node, $resourcesPermissions, $existPrivileges)
     {
-        $this->_selectedResources = $selectedResources;
+        $this->_resourcesPermissions = $resourcesPermissions;
         $this->_existPrivileges   = $existPrivileges;
         $root = $this->_getTreeNode($node, 1);
-        $root = isset($root[self::NAME_CHILDREN]) ? $root[self::NAME_CHILDREN] : array();
-        return $root;
+        return isset($root[self::NAME_CHILDREN]) ? $root[self::NAME_CHILDREN] : array();
     }
 
     /**
@@ -134,6 +133,7 @@ class Mage_Api2_Helper_Role extends Mage_Core_Helper_Abstract
                 $item['id'] = self::PREFIX_RESOURCE . self::ID_SEPARATOR . $type;
                 $item['text'] = $this->__('%s (Resource)', (string) $node->title);
             }
+            $item['checked'] = false;
             $item['sort_order'] = isset($node->sort_order) ? (string) $node->sort_order : 0;
         }
         if (isset($node->children)) {
@@ -166,10 +166,12 @@ class Mage_Api2_Helper_Role extends Mage_Core_Helper_Abstract
                     if (empty($allowed[$key])) {
                         continue;
                     }
+                    $checked = !empty($this->_resourcesPermissions[$type]['privileges'][$key]);
+                    $item['checked'] = $checked ? $checked : $item['checked'];
                     $item[self::NAME_CHILDREN][] = array(
                         'id'   => self::PREFIX_PRIVILEGE . self::ID_SEPARATOR . $type . self::ID_SEPARATOR . $key,
                         'text' => $title,
-                        'checked' => isset($this->_selectedResources[$type]['privileges'][$key]),
+                        'checked' => $checked,
                         'sort_order' => ++$cnt,
                     );
                 }

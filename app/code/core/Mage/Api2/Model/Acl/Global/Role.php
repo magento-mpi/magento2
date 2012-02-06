@@ -81,14 +81,11 @@ class Mage_Api2_Model_Acl_Global_Role extends Mage_Core_Model_Abstract
      *
      * @return array
      */
-    public function getResourcesPermissions()
+    public function getAclResourcesPermissions()
     {
         if (null === $this->_resourcesPermissions) {
             $id = $this->getId();
             $rulesPairs = array();
-
-            /** @var $config Mage_Api2_Model_Config */
-            $config = Mage::getModel('api2/config');
 
             if ($id) {
                 /** @var $rules Mage_Api2_Model_Resource_Acl_Global_Rule_Collection */
@@ -113,7 +110,7 @@ class Mage_Api2_Model_Acl_Global_Role extends Mage_Core_Model_Abstract
             }
 
             //set permissions to resources
-            $resources = $config->getResources();
+            $resources = $this->getAclResources();
             /** @var $privilegeSource Mage_Api2_Model_Acl_Global_Rule_Privilege */
             $privilegeSource = Mage::getModel('api2/acl_global_rule_privilege');
             $privileges = array_keys($privilegeSource->toArray());

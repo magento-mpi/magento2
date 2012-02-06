@@ -102,6 +102,10 @@ class Mage_Api2_Adminhtml_Api2_RoleController extends Mage_Adminhtml_Controller_
             $this->getLayout()->createBlock('adminhtml/template')
                 ->setTemplate('api/role_users_grid_js.phtml')
         );
+
+        /** @var $block Mage_Api2_Block_Adminhtml_Roles_Tab_Resources */
+        $block = $this->getLayout()->getBlock('adminhtml.role.edit.tab.resources');
+        $block->getResTreeJson();
         $this->renderLayout();
     }
 

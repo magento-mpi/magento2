@@ -30,8 +30,8 @@
  * @category   Mage
  * @package    Mage_Api2
  * @author     Magento Core Team <core@magentocommerce.com>
- * @method Mage_Api2_Block_Adminhtml_Roles_Tab_Resources setSelectedResources(array $resources)
- * @method array getSelectedResources() getSelectedResources()
+ * @method Mage_Api2_Block_Adminhtml_Roles_Tab_Resources setResourcesPermissions(array $resources)
+ * @method array getResourcesPermissions()
  * @method Mage_Api2_Block_Adminhtml_Roles_Tab_Resources setExistsPrivileges(array $resources)
  * @method array getExistsPrivileges()
  * @method Mage_Api2_Block_Adminhtml_Roles_Tab_Resources setConfigResources(Varien_Simplexml_Element $resources)
@@ -102,18 +102,10 @@ class Mage_Api2_Block_Adminhtml_Roles_Tab_Resources extends Mage_Adminhtml_Block
         $privilegeSource = Mage::getModel('api2/acl_global_rule_privilege');
         $this->setExistsPrivileges($privilegeSource->toArray());
 
-        $selectedIds = array();
-        $permissions = $role->getResourcesPermissions();
-        $all = Mage_Api2_Model_Acl_Global_Rule::RESOURCE_ALL;
-        if (empty($permissions[$all])) {
-            /** @var $status Mage_Api2_Model_Acl_Global_Rule */
-            foreach ($permissions as $itemResourceId => $status) {
-                if ($status == Mage_Api2_Model_Acl_Global_Rule_Permission::TYPE_ALLOW) {
-                    $selectedIds[] = $itemResourceId;
-                }
-            }
+        if ($role) {
+            $permissions = $role->getAclResourcesPermissions();
+            $this->setResourcesPermissions($permissions);
         }
-        $this->setSelectedResources($selectedIds);
         return $this;
     }
 
@@ -130,7 +122,7 @@ class Mage_Api2_Block_Adminhtml_Roles_Tab_Resources extends Mage_Adminhtml_Block
             return true;
         }
 
-        $resources = $this->getRole()->getResourcesPermissions();
+        $resources = $this->getRole()->getAclResourcesPermissions();
         $all = Mage_Api2_Model_Acl_Global_Rule::RESOURCE_ALL;
         return !empty($resources[$all]);
     }
@@ -148,14 +140,12 @@ class Mage_Api2_Block_Adminhtml_Roles_Tab_Resources extends Mage_Adminhtml_Block
         $helperRole = Mage::helper('api2/role');
         $data = $helperRole->getTreeResources(
             $resources,
-            $this->getSelectedResources(),
+            $this->getResourcesPermissions(),
             $this->getExistsPrivileges());
 
         /** @var $helper Mage_Core_Helper_Data */
         $helper = Mage::helper('core');
-        $json = $helper->jsonEncode($data);
-
-        return $json;
+        return $helper->jsonEncode($data);
     }
 
 
