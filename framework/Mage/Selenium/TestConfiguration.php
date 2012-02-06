@@ -396,6 +396,6 @@ class Mage_Selenium_TestConfiguration
                 return $this;
             }
         }
-        return $this;
+        throw new OutOfRangeException('Configuration files are not exist');
     }
 }

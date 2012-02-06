@@ -266,10 +266,9 @@ class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
                 $path .= DIRECTORY_SEPARATOR . $value;
                 $separator = preg_quote(DIRECTORY_SEPARATOR);
                 if (preg_match('|' . $separator . 'data' . $separator . '|', $path)) {
-                    $this->_fixturePath[$project]['data'][preg_replace('|\.yml$|', '', $value)] = $path;
+                    $this->_fixturePath[$project]['data'][] = $path;
                 }
                 if (preg_match('|' . $separator . 'uimap' . $separator . '|', $path)) {
-                    //$this->_fixturePath[$project]['uimap'][preg_replace('|\.yml$|', '', $value)] = $path;
                     $this->_fixturePath[$project]['uimap'][] = $path;
                 }
             }
