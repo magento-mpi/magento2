@@ -134,21 +134,21 @@ class Core_Mage_Wishlist_Helper extends Mage_Selenium_TestCase
     /**
      * Adds products to Shopping Cart from the wishlist
      *
-     * @param string|array $productNameSet Product name (string) or array of product names to add
+     * @param string $productName Product name (string)
+     * @param array $productOptions Options to be filled
      */
-    public function frontAddToShoppingCart($productNameSet)
+    public function frontAddToShoppingCart($productName, $productOptions = array())
     {
-        if (is_string($productNameSet))
-            $productNameSet = array($productNameSet);
-        foreach ($productNameSet as $productName) {
-            $this->addParameter('productName', $productName);
-            if ($this->buttonIsPresent('add_to_cart')) {
+        $this->addParameter('productName', $productName);
+        $this->navigate('my_wishlist');
+        if ($this->buttonIsPresent('add_to_cart')) {
+            $this->clickButton('add_to_cart');
+            if ($this->getCurrentPage() == 'wishlist_configure_product') {
+                $this->productHelper()->frontFillBuyInfo($productOptions);
                 $this->clickButton('add_to_cart');
-                // TODO: redirected to configure
-                $this->navigate('my_wishlist');
-            } else {
-                $this->fail('Product ' . $productName . ' is not in the wishlist');
             }
+        } else {
+            $this->fail('Product ' . $productName . ' is not in the wishlist');
         }
     }
 }
