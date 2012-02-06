@@ -58,7 +58,7 @@ class Mage_Api2_Model_Acl_Global_Rule_Privilege
             ),
             array(
                 'value' => self::PRIVILEGE_RETRIVE,
-                'label' => $helper->__('Read')
+                'label' => $helper->__('Retrive')
             ),
             array(
                 'value' => self::PRIVILEGE_UPDATE,
@@ -81,10 +81,10 @@ class Mage_Api2_Model_Acl_Global_Rule_Privilege
         /** @var $helper Mage_Api2_Helper_Data */
         $helper = Mage::helper('api2');
         return array(
-            self::PRIVILEGE_CREATE => $helper->__('Create'),
-            self::PRIVILEGE_RETRIVE   => $helper->__('Read'),
-            self::PRIVILEGE_UPDATE => $helper->__('Update'),
-            self::PRIVILEGE_DELETE => $helper->__('Delete'),
+            self::PRIVILEGE_CREATE  => $helper->__('Create'),
+            self::PRIVILEGE_RETRIVE => $helper->__('Read'),
+            self::PRIVILEGE_UPDATE  => $helper->__('Update'),
+            self::PRIVILEGE_DELETE  => $helper->__('Delete'),
         );
     }
 }
