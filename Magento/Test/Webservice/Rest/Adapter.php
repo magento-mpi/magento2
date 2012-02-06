@@ -132,13 +132,13 @@ class Magento_Test_Webservice_Rest_Adapter
      * REST GET
      *
      * @param string $resourceName
+     * @param array $params
      * @return Magento_Test_Webservice_Rest_ResponseDecorator
      */
-    public function callGet($resourceName)
+    public function callGet($resourceName, $params = array())
     {
         $resourceUri = $this->_getResourceUri($resourceName);
-
-        $this->_prepareRequest($resourceUri, Zend_Http_Client::GET);
+        $this->_prepareRequest($resourceUri, Zend_Http_Client::GET, $params);
 
         $zendHttpResponse = $this->_client->request(Zend_Http_Client::GET);
         $responseDecorator = new Magento_Test_Webservice_Rest_ResponseDecorator($zendHttpResponse);
@@ -155,8 +155,7 @@ class Magento_Test_Webservice_Rest_Adapter
     public function callPost($resourceName, $params)
     {
         $resourceUri = $this->_getResourceUri($resourceName);
-        $this->_prepareRequest($resourceUri, Zend_Http_Client::POST);
-        $this->_prepareRequestBody($params);
+        $this->_prepareRequest($resourceUri, Zend_Http_Client::POST, $params);
 
         $zendHttpResponse = $this->_client->request(Zend_Http_Client::POST);
         $responseDecorator = new Magento_Test_Webservice_Rest_ResponseDecorator($zendHttpResponse);
@@ -173,8 +172,7 @@ class Magento_Test_Webservice_Rest_Adapter
     public function callPut($resourceName, $params)
     {
         $resourceUri = $this->_getResourceUri($resourceName);
-        $this->_prepareRequest($resourceUri, Zend_Http_Client::PUT);
-        $this->_prepareRequestBody($params);
+        $this->_prepareRequest($resourceUri, Zend_Http_Client::PUT, $params);
 
         $zendHttpResponse = $this->_client->request(Zend_Http_Client::PUT);
         $responseDecorator = new Magento_Test_Webservice_Rest_ResponseDecorator($zendHttpResponse);
@@ -198,32 +196,29 @@ class Magento_Test_Webservice_Rest_Adapter
     }
 
     /**
-     * Prepare request body, encode input params array
-     *
-     * @param array $params
-     * @return void
-     */
-    protected function _prepareRequestBody($params)
-    {
-        $contentType = $this->_client->getHeader('Content-Type');
-        $interpreter = Magento_Test_Webservice_Rest_Interpreter_Factory::getInterpreter($contentType);
-        $this->_client->setRawData($interpreter->encode($params));
-    }
-
-    /**
      * Prepare request and set oAuth headers if required
      *
      * @param string $resourceUri
      * @param string $requestMethod
+     * @param array $requestParams
      * @return void
      */
-    protected function _prepareRequest($resourceUri, $requestMethod)
+    protected function _prepareRequest($resourceUri, $requestMethod, $requestParams = array())
     {
+        if ($requestMethod == Zend_Http_Client::GET) {
+            $resourceUri .= '?' . http_build_query($requestParams);
+            $params = $requestParams;
+        } else {
+            $contentType = $this->_client->getHeader('Content-Type');
+            $interpreter = Magento_Test_Webservice_Rest_Interpreter_Factory::getInterpreter($contentType);
+            $this->_client->setRawData($interpreter->encode($requestParams));
+            $params = array();
+        }
         $this->_client->setUri($resourceUri);
 
         if ($this->_token !== null) {
             $utility = new Zend_Oauth_Http_Utility();
-            $params = array(
+            $params += array(
                 'oauth_consumer_key'     => $this->_consumer->getKey(),
                 'oauth_nonce'            => $utility->generateNonce(),
                 'oauth_signature_method' => self::OAUTH_SIGNATURE_METHOD,

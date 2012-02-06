@@ -87,15 +87,16 @@ abstract class Magento_Test_Webservice_Rest_Abstract extends Magento_Test_Webser
      * REST GET
      *
      * @param string $resourceName
+     * @param array $params
      * @return Magento_Test_Webservice_Rest_ResponseDecorator
      */
-    public function callGet($resourceName)
+    public function callGet($resourceName, $params = array())
     {
         if (null === $this->getInstance()) {
             $this->getWebService();
         }
 
-        return $this->getInstance()->callGet($resourceName);
+        return $this->getInstance()->callGet($resourceName, $params);
     }
 
     /**
