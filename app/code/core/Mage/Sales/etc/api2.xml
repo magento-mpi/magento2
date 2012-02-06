@@ -41,7 +41,7 @@
                 <title>Orders</title>
                 <privileges>
                     <create>1</create>
-                    <read>1</read>
+                    <retrieve>1</retrieve>
                 </privileges>
                 <routes>
                     <route_main>
@@ -56,7 +56,7 @@
                 <title>Order</title>
                 <privileges>
                     <create>1</create>
-                    <read>1</read>
+                    <retrieve>1</retrieve>
                     <update>1</update>
                     <!-- No able to DELETE -->
                 </privileges>

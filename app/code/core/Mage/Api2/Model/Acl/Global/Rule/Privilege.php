@@ -36,10 +36,10 @@ class Mage_Api2_Model_Acl_Global_Rule_Privilege
     /**#@+
      * Source keys
      */
-    const PRIVILEGE_CREATE  = 'create';
-    const PRIVILEGE_RETRIVE = 'retrive';
-    const PRIVILEGE_UPDATE  = 'update';
-    const PRIVILEGE_DELETE  = 'delete';
+    const PRIVILEGE_CREATE   = 'create';
+    const PRIVILEGE_RETRIEVE = 'retrieve';
+    const PRIVILEGE_UPDATE   = 'update';
+    const PRIVILEGE_DELETE   = 'delete';
     /**#@-*/
 
     /**
@@ -57,7 +57,7 @@ class Mage_Api2_Model_Acl_Global_Rule_Privilege
                 'label' => $helper->__('Create')
             ),
             array(
-                'value' => self::PRIVILEGE_RETRIVE,
+                'value' => self::PRIVILEGE_RETRIEVE,
                 'label' => $helper->__('Retrive')
             ),
             array(
@@ -82,7 +82,7 @@ class Mage_Api2_Model_Acl_Global_Rule_Privilege
         $helper = Mage::helper('api2');
         return array(
             self::PRIVILEGE_CREATE  => $helper->__('Create'),
-            self::PRIVILEGE_RETRIVE => $helper->__('Read'),
+            self::PRIVILEGE_RETRIEVE => $helper->__('Read'),
             self::PRIVILEGE_UPDATE  => $helper->__('Update'),
             self::PRIVILEGE_DELETE  => $helper->__('Delete'),
         );
