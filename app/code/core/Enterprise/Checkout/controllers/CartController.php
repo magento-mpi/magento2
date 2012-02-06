@@ -80,7 +80,7 @@ class Enterprise_Checkout_CartController extends Mage_Core_Controller_Front_Acti
      */
     protected function _getFailedItemsCart()
     {
-        return Mage::getModel('enterprise_checkout/cart');
+        return Mage::getSingleton('enterprise_checkout/cart');
     }
 
     /**
