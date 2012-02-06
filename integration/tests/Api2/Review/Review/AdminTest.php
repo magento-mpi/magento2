@@ -19,14 +19,14 @@
  * needs please refer to http://www.magento.com for more information.
  *
  * @category    Magento
- * @package     Mage_Core
+ * @package     Magento_Test
  * @subpackage  integration_tests
  * @copyright   Copyright (c) 2011 Magento Inc. (http://www.magento.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * Test for review item Api2
+ * Test for review item API2
  *
  * @category    Magento
  * @package     Magento_Test

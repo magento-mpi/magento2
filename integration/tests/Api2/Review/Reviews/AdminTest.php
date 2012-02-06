@@ -19,14 +19,14 @@
  * needs please refer to http://www.magento.com for more information.
  *
  * @category    Magento
- * @package     Mage_Core
+ * @package     Magento_Test
  * @subpackage  integration_tests
  * @copyright   Copyright (c) 2011 Magento Inc. (http://www.magento.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * Test reviews collection
+ * Test for reviews collection API2
  *
  * @category    Magento
  * @package     Magento_Test
@@ -35,9 +35,7 @@
 class Api2_Review_Reviews_AdminTest extends Magento_Test_Webservice_Rest_Admin
 {
     /**
-     * Tear down
-     *
-     * @return void
+     * Delete fixtures
      */
     protected function tearDown()
     {
@@ -54,12 +52,11 @@ class Api2_Review_Reviews_AdminTest extends Magento_Test_Webservice_Rest_Admin
     }
 
     /**
-     * Test creating new review
+     * Test successful review creation
      *
      * @param array $reviewData
      * @magentoDataFixture Api/SalesOrder/_fixtures/product_simple.php
      * @dataProvider dataProviderTestPost
-     * @return void
      */
     public function testPost($reviewData)
     {
@@ -68,7 +65,7 @@ class Api2_Review_Reviews_AdminTest extends Magento_Test_Webservice_Rest_Admin
         $reviewData['product_id'] = $product->getId();
 
         $restResponse = $this->callPost('reviews', $reviewData);
-        $this->assertEquals(200, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
         // Get created review id from Location header and check that it has been saved correctly
         $location = $restResponse->getHeader('Location2');
         list($reviewId) = array_reverse(explode('/', $location));
@@ -101,7 +98,6 @@ class Api2_Review_Reviews_AdminTest extends Magento_Test_Webservice_Rest_Admin
      * Negative test.
      *
      * @magentoDataFixture Api/SalesOrder/_fixtures/product_simple.php
-     * @return void
      */
     public function testPostEmptyRequired()
     {
@@ -112,7 +108,7 @@ class Api2_Review_Reviews_AdminTest extends Magento_Test_Webservice_Rest_Admin
         $reviewData['product_id'] = $product->getId();
 
         $restResponse = $this->callPost('reviews', $reviewData);
-        $this->assertEquals(400, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
         $body = $restResponse->getBody();
         $errors = $body['messages']['error'];
         $this->assertNotEmpty($errors);
@@ -121,6 +117,7 @@ class Api2_Review_Reviews_AdminTest extends Magento_Test_Webservice_Rest_Admin
         foreach ($reviewData as $key => $value) {
             $expectedErrors[] = sprintf('Empty value for "%s" in request.', $key);
         }
+        $this->assertEquals(count($expectedErrors), count($errors));
         foreach ($errors as $error) {
             $this->assertContains($error['message'], $expectedErrors);
         }
@@ -129,15 +126,13 @@ class Api2_Review_Reviews_AdminTest extends Magento_Test_Webservice_Rest_Admin
     /**
      * Test creating new review with invalid product.
      * Negative test.
-     *
-     * @return void
      */
     public function testPostInvalidProduct()
     {
         $reviewData = require dirname(__FILE__) . '/../_fixtures/ReviewDataInvalidProduct.php';
 
         $restResponse = $this->callPost('reviews', $reviewData);
-        $this->assertEquals(400, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
         $body = $restResponse->getBody();
         $error = reset($body['messages']['error']);
         $this->assertEquals($error['message'], 'Product not found');
@@ -148,7 +143,6 @@ class Api2_Review_Reviews_AdminTest extends Magento_Test_Webservice_Rest_Admin
      * Negative test.
      *
      * @magentoDataFixture Api/SalesOrder/_fixtures/product_simple.php
-     * @return void
      */
     public function testPostInvalidStatus()
     {
@@ -159,7 +153,7 @@ class Api2_Review_Reviews_AdminTest extends Magento_Test_Webservice_Rest_Admin
         $reviewData['product_id'] = $product->getId();
 
         $restResponse = $this->callPost('reviews', $reviewData);
-        $this->assertEquals(400, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
         $body = $restResponse->getBody();
         $error = reset($body['messages']['error']);
         $this->assertEquals($error['message'], 'Invalid status provided');
@@ -170,7 +164,6 @@ class Api2_Review_Reviews_AdminTest extends Magento_Test_Webservice_Rest_Admin
      * Negative test.
      *
      * @magentoDataFixture Api/SalesOrder/_fixtures/product_simple.php
-     * @return void
      */
     public function testPostInvalidStores()
     {
@@ -181,7 +174,7 @@ class Api2_Review_Reviews_AdminTest extends Magento_Test_Webservice_Rest_Admin
         $reviewData['product_id'] = $product->getId();
 
         $restResponse = $this->callPost('reviews', $reviewData);
-        $this->assertEquals(400, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
         $body = $restResponse->getBody();
         $error = reset($body['messages']['error']);
         $this->assertEquals($error['message'], 'Invalid stores provided');
@@ -192,7 +185,6 @@ class Api2_Review_Reviews_AdminTest extends Magento_Test_Webservice_Rest_Admin
      * Negative test.
      *
      * @magentoDataFixture Api/SalesOrder/_fixtures/product_simple.php
-     * @return void
      */
     public function testPostInvalidStore()
     {
@@ -205,22 +197,21 @@ class Api2_Review_Reviews_AdminTest extends Magento_Test_Webservice_Rest_Admin
         $reviewData['stores'][] = $invalidStoreId;
 
         $restResponse = $this->callPost('reviews', $reviewData);
-        $this->assertEquals(400, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
         $body = $restResponse->getBody();
         $error = reset($body['messages']['error']);
-        $this->assertEquals($error['message'], sprintf('Invalid store ID "%s" provided', $invalidStoreId));
+        $this->assertEquals($error['message'], 'Invalid stores provided');
     }
 
     /**
      * Test retrieving list of reviews
      *
      * @magentoDataFixture Api2/Review/_fixtures/reviews_list.php
-     * @return void
      */
     public function testGet()
     {
         $restResponse = $this->callGet('reviews', array('order' => 'review_id'));
-        $this->assertEquals(200, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
         $body = $restResponse->getBody();
         $this->assertNotEmpty($body);
         $responseReviews = array();
@@ -241,7 +232,6 @@ class Api2_Review_Reviews_AdminTest extends Magento_Test_Webservice_Rest_Admin
      * Test retrieving list of reviews with product filter
      *
      * @magentoDataFixture Api2/Review/_fixtures/reviews_list.php
-     * @return void
      */
     public function testGetProductFilter()
     {
@@ -249,7 +239,7 @@ class Api2_Review_Reviews_AdminTest extends Magento_Test_Webservice_Rest_Admin
         $product = Magento_Test_Webservice::getFixture('product_simple');
 
         $restResponse = $this->callGet('reviews', array('product' => $product->getId()));
-        $this->assertEquals(200, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
         $reviews = $restResponse->getBody();
         $this->assertNotEmpty($reviews);
         $this->assertCount(2, $reviews, 'There should be 2 reviews posted to the simple product in this test');
@@ -261,13 +251,11 @@ class Api2_Review_Reviews_AdminTest extends Magento_Test_Webservice_Rest_Admin
 
     /**
      * Test invalid product id in filter
-     *
-     * @return void
      */
     public function testGetProductFilterInvalid()
     {
         $restResponse = $this->callGet('reviews', array('product' => 'INVALID PRODUCT'));
-        $this->assertEquals(400, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
         $body = $restResponse->getBody();
         $error = reset($body['messages']['error']);
         $this->assertEquals($error['message'], 'Invalid product');
@@ -277,12 +265,11 @@ class Api2_Review_Reviews_AdminTest extends Magento_Test_Webservice_Rest_Admin
      * Test retrieving list of reviews with status filter
      *
      * @magentoDataFixture Api2/Review/_fixtures/reviews_list.php
-     * @return void
      */
     public function testGetStatusFilter()
     {
         $restResponse = $this->callGet('reviews', array('status' => Mage_Review_Model_Review::STATUS_APPROVED));
-        $this->assertEquals(200, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
         $reviews = $restResponse->getBody();
         $this->assertNotEmpty($reviews);
         foreach ($reviews as $review) {
@@ -292,13 +279,11 @@ class Api2_Review_Reviews_AdminTest extends Magento_Test_Webservice_Rest_Admin
 
     /**
      * Test invalid status in filter
-     *
-     * @return void
      */
     public function testGetStatusFilterInvalid()
     {
         $restResponse = $this->callGet('reviews', array('status' => 'INVALID STATUS'));
-        $this->assertEquals(400, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
         $body = $restResponse->getBody();
         $error = reset($body['messages']['error']);
         $this->assertEquals($error['message'], 'Invalid status provided');
