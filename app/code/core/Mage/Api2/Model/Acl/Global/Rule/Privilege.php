@@ -33,15 +33,6 @@
  */
 class Mage_Api2_Model_Acl_Global_Rule_Privilege
 {
-    /**#@+
-     * Source keys
-     */
-    const PRIVILEGE_CREATE  = 'create';
-    const PRIVILEGE_RETRIVE = 'retrive';
-    const PRIVILEGE_UPDATE  = 'update';
-    const PRIVILEGE_DELETE  = 'delete';
-    /**#@-*/
-
     /**
      * Options getter
      *
@@ -53,21 +44,21 @@ class Mage_Api2_Model_Acl_Global_Rule_Privilege
         $helper = Mage::helper('api2');
         return array(
             array(
-                'value' => self::PRIVILEGE_CREATE,
+                'value' => Mage_Api2_Model_Resource::OPERATION_CREATE,
                 'label' => $helper->__('Create')
             ),
             array(
-                'value' => self::PRIVILEGE_RETRIVE,
-                'label' => $helper->__('Retrive')
+                'value' => Mage_Api2_Model_Resource::OPERATION_RETRIEVE,
+                'label' => $helper->__('Retrieve')
             ),
             array(
-                'value' => self::PRIVILEGE_UPDATE,
+                'value' => Mage_Api2_Model_Resource::OPERATION_UPDATE,
                 'label' => $helper->__('Update')
             ),
             array(
-                'value' => self::PRIVILEGE_DELETE,
+                'value' => Mage_Api2_Model_Resource::OPERATION_DELETE,
                 'label' => $helper->__('Delete')
-            ),
+            )
         );
     }
 
@@ -81,10 +72,10 @@ class Mage_Api2_Model_Acl_Global_Rule_Privilege
         /** @var $helper Mage_Api2_Helper_Data */
         $helper = Mage::helper('api2');
         return array(
-            self::PRIVILEGE_CREATE  => $helper->__('Create'),
-            self::PRIVILEGE_RETRIVE => $helper->__('Read'),
-            self::PRIVILEGE_UPDATE  => $helper->__('Update'),
-            self::PRIVILEGE_DELETE  => $helper->__('Delete'),
+            Mage_Api2_Model_Resource::OPERATION_CREATE   => $helper->__('Create'),
+            Mage_Api2_Model_Resource::OPERATION_RETRIEVE => $helper->__('Retrieve'),
+            Mage_Api2_Model_Resource::OPERATION_UPDATE   => $helper->__('Update'),
+            Mage_Api2_Model_Resource::OPERATION_DELETE   => $helper->__('Delete')
         );
     }
 }

@@ -35,9 +35,9 @@
                 <title>Product Reviews</title>
                 <sort_order>110</sort_order>
                 <privileges>
-                    <!-- For collection only CREATE and READ-->
+                    <!-- For collection only CREATE and retrieve-->
                     <create>1</create>
-                    <read>1</read>
+                    <retrieve>1</retrieve>
                 </privileges>
                 <attributes>
                     <!-- Source model with available attributes -->
@@ -57,7 +57,7 @@
                 <sort_order>100</sort_order>
                 <privileges>
                     <create>1</create>
-                    <read>1</read>
+                    <retrieve>1</retrieve>
                     <update>1</update>
                     <delete>1</delete>
                 </privileges>
