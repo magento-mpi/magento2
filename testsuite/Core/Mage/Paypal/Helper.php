@@ -57,7 +57,7 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_TestCase
         if (is_string($parameters)) {
             $parameters = $this->loadData($parameters);
         }
-        $xpath = $this->getUimapPage('paypal-developer', 'home')->findButton('button_login');
+        $xpath = $this->getUimapPage('paypal_developer', 'home')->findButton('button_login');
         if ($this->isElementPresent($xpath)) {
             $this->validatePage();
             $this->fillForm($parameters);
@@ -245,7 +245,7 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_TestCase
         if (is_string($parameters)) {
             $parameters = $this->loadData($parameters);
         }
-        $xpath = $this->getUimapPage('paypal-sandbox', 'paypal_sandbox')->findButton('button_login');
+        $xpath = $this->getUimapPage('paypal_sandbox', 'paypal_sandbox')->findButton('button_login');
         if ($this->isElementPresent($xpath)) {
             $this->addParameter('pageTitle', $parameters['page_title']);
             $this->validatePage();
@@ -285,7 +285,7 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_TestCase
         if (is_string($parameters)) {
             $parameters = $this->loadData($parameters);
         }
-        $xpath = $this->getUimapPage('paypal-sandbox', 'paypal_sandbox')->findButton('button_login');
+        $xpath = $this->getUimapPage('paypal_sandbox', 'paypal_sandbox')->findButton('button_login');
         if (!$this->isElementPresent($xpath)) {
             $this->addParameter('pageTitle', $parameters['page_title_pay_with']);
             $this->validatePage();

@@ -51,7 +51,7 @@ class Core_Mage_Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTes
      */
     public function createPayPalBuyerAccounts()
     {
-        $this->goToArea('paypal-developer');
+        $this->goToArea('paypal_developer');
         $this->paypalHelper()->paypalDeveloperLogin('paypal_developer_login');
         $accounts = $this->paypalHelper()->createBuyerAccounts('visa, mastercard');
 
@@ -526,7 +526,7 @@ class Core_Mage_Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTes
      */
     public function deleteTestAccounts($accounts)
     {
-        $this->goToArea('paypal-developer');
+        $this->goToArea('paypal_developer');
         $this->paypalHelper()->paypalDeveloperLogin('paypal_developer_login');
         foreach ($accounts as $card) {
             if (isset($card['email'])) {

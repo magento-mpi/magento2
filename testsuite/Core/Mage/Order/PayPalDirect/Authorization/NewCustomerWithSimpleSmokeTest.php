@@ -49,7 +49,7 @@ class Core_Mage_Order_PayPalDirect_Authorization_NewCustomerWithSimpleSmokeTest 
      */
     public function createPayPalProAccountAndActivate()
     {
-        $this->goToArea('paypal-developer');
+        $this->goToArea('paypal_developer');
         $this->paypalHelper()->paypalDeveloperLogin('paypal_developer_login');
         $api = $this->paypalHelper()->createPayPalProAccount('paypal_sandbox_new_pro_account');
         $data = $this->loadData('paypaldirect_without_3Dsecure',
@@ -73,7 +73,7 @@ class Core_Mage_Order_PayPalDirect_Authorization_NewCustomerWithSimpleSmokeTest 
      */
     public function createPayPalBuyerAccounts()
     {
-        $this->goToArea('paypal-developer');
+        $this->goToArea('paypal_developer');
         $this->paypalHelper()->paypalDeveloperLogin('paypal_developer_login');
         $accounts = $this->paypalHelper()->createBuyerAccounts(array('visa' , 'mastercard', 'discover', 'amex'));
 
@@ -579,7 +579,7 @@ class Core_Mage_Order_PayPalDirect_Authorization_NewCustomerWithSimpleSmokeTest 
      */
     public function deleteTestAccounts($api, $accounts)
     {
-        $this->goToArea('paypal-developer');
+        $this->goToArea('paypal_developer');
         $this->paypalHelper()->paypalDeveloperLogin('paypal_developer_login');
         if (isset($api['test_account'])) {
             $this->paypalHelper()->deleteAccount($api['test_account']);
