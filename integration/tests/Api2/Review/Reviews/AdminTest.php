@@ -41,10 +41,8 @@ class Api2_Review_Reviews_AdminTest extends Magento_Test_Webservice_Rest_Admin
      */
     protected function tearDown()
     {
-        $product = $this->getFixture('product_simple');
-        $this->callModelDelete($product, true);
-        $review = $this->getFixture('review');
-        $this->callModelDelete($review, true);
+        $this->deleteFixture('product_simple', true);
+        $this->deleteFixture('review', true);
         $reviewsList = $this->getFixture('reviews_list');
         if ($reviewsList && count($reviewsList)) {
             foreach ($reviewsList as $review) {
