@@ -171,10 +171,10 @@ abstract class Mage_Api2_Model_Resource_Collection extends Mage_Api2_Model_Resou
      * Get resource location
      *
      * @abstract
-     * @param Mage_Catalog_Model_Abstract $resource
+     * @param Mage_Core_Model_Abstract $resource
      * @return string URL
      */
-    abstract protected function _getLocation(Mage_Catalog_Model_Abstract $resource);
+    abstract protected function _getLocation(Mage_Core_Model_Abstract $resource);
 
     /**
      * Add collection specific errors

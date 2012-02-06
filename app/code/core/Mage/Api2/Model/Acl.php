@@ -56,6 +56,14 @@ class Mage_Api2_Model_Acl extends Zend_Acl
         $this->addResource(new Zend_Acl_Resource('customers'));
         $this->allow('guest', 'customers', array('_retrieve'));
         $this->allow('admin', 'customers', array('_create', '_retrieve', '_update', '_delete'));
+
+        $this->addResource(new Zend_Acl_Resource('reviews'));
+        $this->allow('guest', 'reviews', array('_retrieve'));
+        $this->allow('admin', 'reviews', array('_create', '_retrieve'));
+
+        $this->addResource(new Zend_Acl_Resource('review'));
+        $this->allow('guest', 'review', array('_retrieve'));
+        $this->allow('admin', 'review', array('_retrieve', '_update', '_delete'));
     }
 
     /**

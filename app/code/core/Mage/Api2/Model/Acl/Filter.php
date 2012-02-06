@@ -150,6 +150,14 @@ class Mage_Api2_Model_Acl_Filter
             ),
             'orders' => array(
                 self::OPERATION_READ => array('entity_id', 'customer_id', 'state', 'subtotal', 'created_at')
+            ),
+            'review' => array(
+                self::OPERATION_READ  => array('review_id', 'product_id', 'status_id', 'stores', 'nickname', 'title', 'detail'),
+                self::OPERATION_WRITE => array('status_id', 'stores', 'nickname', 'title', 'detail')
+            ),
+            'reviews' => array(
+                self::OPERATION_READ  => array('review_id', 'product_id', 'status_id', 'stores', 'nickname', 'title', 'detail'),
+                self::OPERATION_WRITE => array('product_id', 'status_id', 'stores', 'nickname', 'title', 'detail')
             )
         );
 
