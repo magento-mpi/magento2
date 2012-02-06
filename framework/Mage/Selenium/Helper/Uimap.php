@@ -224,7 +224,10 @@ class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
     }
 
     /**
+     * Get all folder and file names in directory
+     *
      * @param string $path
+     *
      * @return array
      */
     protected function _scanDirectory($path)
@@ -249,9 +252,12 @@ class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
     }
 
     /**
+     * Get path to files in directory
+     *
      * @param array $pathData
      * @param string $path
      * @param string $project
+     *
      * @return mixed
      */
     protected function _getFilesPath($pathData, $path = '', $project)
@@ -278,6 +284,7 @@ class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
     }
 
     /**
+     * Get fixture path
      * @return array
      */
     public function getFixturePath()
@@ -286,6 +293,7 @@ class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
     }
 
     /**
+     * Get fixture base path
      * @return string
      */
     public function getFixtureBasePath()

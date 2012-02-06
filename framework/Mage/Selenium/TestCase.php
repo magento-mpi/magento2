@@ -418,9 +418,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         if (empty($testScope) || empty($helperName)) {
             throw new UnexpectedValueException('Helper name can\'t be empty');
         }
-        $testClassName = get_class($this);
-        $nameSpace = explode('_', $testClassName);
-        $helperClassName = $nameSpace[0] . '_' . $nameSpace[1] . '_' . $testScope . '_' . $helperName;
+        list($codePool, $nameSpace) = explode('_', get_class($this));
+        $helperClassName = implode('_', array($codePool, $nameSpace, ucwords($testScope), $helperName));
 
         if (!isset($this->_testHelpers[$helperClassName])) {
             if (class_exists($helperClassName)) {
