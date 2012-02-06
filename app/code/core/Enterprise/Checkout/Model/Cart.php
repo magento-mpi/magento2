@@ -1098,6 +1098,19 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
             $temporaryItem = clone $quoteItem;
             $temporaryItem->setQuote($temporaryQuote);
             $temporaryQuote->addItem($temporaryItem);
+            $quoteItem->setClonnedItem($temporaryItem);
+
+            //Check for parent item
+            $parentItem = null;
+            if ($quoteItem->getParentItem()) {
+                $parentItem = $quoteItem->getParentItem();
+                $temporaryItem->setParentProductId(null);
+            } elseif ($quoteItem->getParentProductId()) {
+                $parentItem = $quote->getItemById($quoteItem->getParentProductId());
+            }
+            if ($parentItem && $parentItem->getClonnedItem()) {
+                $temporaryItem->setParentItem($parentItem->getClonnedItem());
+            }
         }
         $cart->setQuote($temporaryQuote);
         $success = true;
