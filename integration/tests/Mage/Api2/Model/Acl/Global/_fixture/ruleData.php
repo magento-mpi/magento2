@@ -44,12 +44,12 @@ $roleId = $role->getId();
 return array(
     'create' => array(
         'role_id'     => $roleId,
-        'permission'  => Mage_Api2_Model_Acl_Global_Rule_Permission::SOURCE_ALLOW,
+        'permission'  => Mage_Api2_Model_Acl_Global_Rule_Permission::TYPE_ALLOW,
         'resource_id' => 'some/resource',
     ),
     'update' => array(
         'role_id'     => $roleId,
-        'permission'  => Mage_Api2_Model_Acl_Global_Rule_Permission::SOURCE_DISALLOW,
+        'permission'  => Mage_Api2_Model_Acl_Global_Rule_Permission::TYPE_DENY,
         'resource_id' => 'someUpdate/resource',
     )
 );
