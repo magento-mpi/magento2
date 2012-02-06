@@ -43,7 +43,51 @@ class Mage_Api2_Model_Auth_User_Admin_Mock extends Mage_Api2_Model_Auth_User_Adm
 }
 
 /**
+ * API2 global ACL role resource collection mock class
+ *
+ * @category    Mage
+ * @package     Mage_Api2
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
+class Mage_Api2_Model_Resource_Acl_Global_Role_Collection_Mock
+{
+    /**
+     * Add filter by admin user id and join table with appropriate information
+     *
+     * @return Mage_Api2_Model_Resource_Acl_Global_Role_Collection_Mock
+     */
+    public function addFilterByAdminId()
+    {
+        return $this;
+    }
+
+    /**
+     * Retrieve collection first item
+     *
+     * @return Mage_Api2_Model_Resource_Acl_Global_Role_Collection_Mock
+     */
+    public function getFirstItem()
+    {
+        return $this;
+    }
+
+    /**
+     * Retrieve collection item id
+     *
+     * @return Mage_Api2_Model_Resource_Acl_Global_Role_Collection_Mock
+     */
+    public function getId()
+    {
+        return null;
+    }
+}
+
+/**
  * Test Api2 User Admin model
+ *
+ * @category   Mage
+ * @package    Mage_Api2
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Api2_Model_Auth_User_AdminTest extends Mage_PHPUnit_TestCase
 {
@@ -78,12 +122,38 @@ class Mage_Api2_Model_Auth_User_AdminTest extends Mage_PHPUnit_TestCase
     /**
      * Test getRole method
      */
-    public function testGetRoleNotSet()
+    public function testGetRoleUserIdNotSet()
     {
         try {
             $this->_userMock->getRole();
         } catch (Exception $e) {
-            $this->assertEquals('Admin role is unknown', $e->getMessage(), 'Invalid exception message');
+            $this->assertEquals('User id is invalid or not set', $e->getMessage(), 'Invalid exception message');
+
+            return;
+        }
+        $this->fail('An expected exception has not been raised.');
+    }
+
+    /**
+     * Test getRole method
+     */
+    public function testGetRoleNotSet()
+    {
+        /** @var $roleMock PHPUnit_Framework_MockObject_MockObject */
+        $roleMock = $this->getModelMockBuilder('api2/acl_global_role')
+            ->setMethods(array('getCollection'))
+            ->getMock();
+
+        $roleMock->expects($this->once())
+            ->method('getCollection')
+            ->will($this->returnValue(new Mage_Api2_Model_Resource_Acl_Global_Role_Collection_Mock()));
+
+        $this->_userMock->setUserId(1);
+
+        try {
+            $this->_userMock->getRole();
+        } catch (Exception $e) {
+            $this->assertEquals('Admin role not found', $e->getMessage(), 'Invalid exception message');
 
             return;
         }
