@@ -66,7 +66,7 @@ AddBySku.prototype = {
                 // Save original source grids configuration to be restored later
                 var oldSourceGrids = that.order.sourceGrids;
                 // Leave only error grid (don't submit information from other grids right now)
-                that.order.sourceGrids = {'sku_errors': this.errorSourceGrid};
+                that.order.sourceGrids = {'sku_errors': that.errorSourceGrid};
                 // Save old response handler function to override it
                 var parentResponseHandler = that.order.loadAreaResponseHandler;
                 that.order.loadAreaResponseHandler = function (response)
