@@ -89,7 +89,7 @@ class Mage_Api2_Model_DispatcherTest extends Mage_PHPUnit_TestCase
             ->method('getApiType')
             ->will($this->returnValue(Mage_Api2_Model_Server::API_TYPE_REST));
 
-        $dispatcher = new Mage_Api2_Model_Dispatcher($userMock);
+        $dispatcher = new Mage_Api2_Model_Dispatcher();
         $dispatcher->setApiUser($userMock)->dispatch($this->_requestMock, $this->_response);
     }
 
@@ -119,13 +119,9 @@ class Mage_Api2_Model_DispatcherTest extends Mage_PHPUnit_TestCase
             ->will($this->returnValue(Mage_Api2_Model_Server::API_TYPE_REST));
 
         /** @var $dispatcher Mage_Api2_Model_Dispatcher */
-        $dispatcher = new Mage_Api2_Model_Dispatcher($userMock);
+        $dispatcher = new Mage_Api2_Model_Dispatcher();
 
-        $this->setExpectedException(
-            'Mage_Api2_Exception',
-            'Resource is not found',
-            Mage_Api2_Model_Server::HTTP_BAD_REQUEST
-        );
+        $this->setExpectedException('Mage_PHPUnit_Exception');
 
         $dispatcher->setApiUser($userMock)->dispatch($this->_requestMock, $this->_response);
     }

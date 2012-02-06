@@ -127,7 +127,7 @@ class Mage_Api2_Model_Auth_User_AdminTest extends Mage_PHPUnit_TestCase
         try {
             $this->_userMock->getRole();
         } catch (Exception $e) {
-            $this->assertEquals('User id is invalid or not set', $e->getMessage(), 'Invalid exception message');
+            $this->assertEquals('Admin identifier is not set', $e->getMessage(), 'Invalid exception message');
 
             return;
         }

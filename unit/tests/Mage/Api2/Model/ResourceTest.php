@@ -268,7 +268,7 @@ class Mage_Api2_Model_ResourceTest extends Mage_PHPUnit_TestCase
     {
         return array(
             array(array('key1' => 'value1', 'key2' => 'value2'), array('key2', 'key1'), array('key2'), false),
-            array(array('key1' => 'value1', 'key2' => ''), array('key1'), array('key2'), false),
+            array(array('key1' => 'value1', 'key2' => ''), array('key1'), array('key2'), true),
             array(array('key1' => 'value1', 'key2' => 'value2'), array('key3', 'key1'), array('key3'), true),
             array(array('key1' => 'value1', 'key2' => ''), array('key2', 'key1'), array('key2'), true),
         );
