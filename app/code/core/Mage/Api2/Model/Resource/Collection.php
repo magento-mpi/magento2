@@ -25,7 +25,11 @@
  */
 
 /**
- * Base class for all API collection resources
+ * API2 Collection resource model
+ *
+ * @category   Mage
+ * @package    Mage_Api2
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
 abstract class Mage_Api2_Model_Resource_Collection extends Mage_Api2_Model_Resource
 {
@@ -56,34 +60,29 @@ abstract class Mage_Api2_Model_Resource_Collection extends Mage_Api2_Model_Resou
      */
     final public function dispatch()
     {
-        $operation = $this->getRequest()->getOperation();
-        switch ($operation) {
-            //not exist for this kind of resource
+        switch ($this->getRequest()->getOperation()) {
             case self::OPERATION_UPDATE:
-            case self::OPERATION_DELETE:
-                $this->$operation(array());
+                $this->_update(array());
                 break;
-
+            case self::OPERATION_DELETE:
+                $this->_delete(array());
+                break;
             case self::OPERATION_CREATE:
-
-                $data = $this->getRequest()->getBodyParams();
-                $filtered = $this->getFilter()->in($data);
-                $location = $this->$operation($filtered);
+                $filtered = $this->getFilter()->in($this->getRequest()->getBodyParams());
+                $location = $this->_create($filtered);
 
                 //TODO change to "Location"
                 $this->getResponse()->setHeader('Location2', $location);
-                //$this->getResponse()->setHeader('Location', 'http://google.com');
                 break;
-
             case self::OPERATION_RETRIEVE:
                 $result = $this->_retrieve();
-
-                //$this->render($result);
-
                 //TODO We need filtering below cause real columns can't be removed ...
                 //TODO ... by $collection->removeAttributeToSelect()
                 $filtered = $this->getFilter()->collectionOut($result);
                 $this->_render($filtered);
+                break;
+            default:
+                $this->_critical(self::RESOURCE_METHOD_NOT_IMPLEMENTED);
                 break;
         }
     }

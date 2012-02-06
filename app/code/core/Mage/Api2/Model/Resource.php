@@ -25,18 +25,22 @@
  */
 
 /**
- * Base class for all API resources
+ * API2 Resource model
+ *
+ * @category   Mage
+ * @package    Mage_Api2
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
 abstract class Mage_Api2_Model_Resource
 {
     /**#@+
      * Operations. Resource method names
      */
-    const OPERATION_CREATE = '_create';
-    const OPERATION_RETRIEVE = '_retrieve';
-    const OPERATION_UPDATE = '_update';
-    const OPERATION_DELETE = '_delete';
-    /**#@-*/
+    const OPERATION_CREATE   = 'create';
+    const OPERATION_RETRIEVE = 'retrieve';
+    const OPERATION_UPDATE   = 'update';
+    const OPERATION_DELETE   = 'delete';
+    /**#@- */
 
     /**#@+
      *  Default error messages
@@ -48,7 +52,7 @@ abstract class Mage_Api2_Model_Resource
     const RESOURCE_DATA_PRE_VALIDATION_ERROR = 'Resource data pre-validation error.'; //error while pre-validating
     const RESOURCE_DATA_INVALID = 'Resource data invalid.'; //error while checking data inside method
     const RESOURCE_UNKNOWN_ERROR = 'Resource unknown error.';
-    /**#@-*/
+    /**#@- */
 
     /**
      * Api user
@@ -177,18 +181,17 @@ abstract class Mage_Api2_Model_Resource
      */
     protected function _critical($message, $code = null)
     {
-        $errors = $this->_getCriticalErrors();
-
         if ($code === null) {
+            $errors = $this->_getCriticalErrors();
+
             if (!isset($errors[$message])) {
-                throw new Mage_Api2_Exception(
+                throw new Exception(
                     sprintf('Invalid error "%s" or error code missed.', $message),
                     Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR
                 );
             }
             $code = $errors[$message];
         }
-
         throw new Mage_Api2_Exception($message, $code);
     }
 
@@ -264,7 +267,7 @@ abstract class Mage_Api2_Model_Resource
     }
 
     /**
-     * Internal "collection" resource model dispatch
+     * Internal resource model dispatch
      */
     abstract public function dispatch();
 

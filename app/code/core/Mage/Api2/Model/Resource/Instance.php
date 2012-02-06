@@ -25,7 +25,11 @@
  */
 
 /**
- * Base class for all API collection resources
+ * API2 Instance resource model
+ *
+ * @category   Mage
+ * @package    Mage_Api2
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
 abstract class Mage_Api2_Model_Resource_Instance extends Mage_Api2_Model_Resource
 {
@@ -37,26 +41,24 @@ abstract class Mage_Api2_Model_Resource_Instance extends Mage_Api2_Model_Resourc
         $operation = $this->getRequest()->getOperation();
 
         switch ($operation) {
-            //not exist for this kind of resource
             case self::OPERATION_CREATE:
                 $this->_create(array());
                 break;
-
             case self::OPERATION_UPDATE:
-                $data = $this->getRequest()->getBodyParams();
-                $filtered = $this->getFilter()->in($data);
-                $this->$operation($filtered);
+                $filtered = $this->getFilter()->in($this->getRequest()->getBodyParams());
+                $this->_update($filtered);
                 break;
-
             case self::OPERATION_RETRIEVE:
                 //TODO how we process &include, what attributes we show by default, all allowed, all static?
                 $result = $this->_retrieve();
                 $filtered = $this->getFilter()->out($result);
                 $this->_render($filtered);
                 break;
-
             case self::OPERATION_DELETE:
                 $this->_delete();
+                break;
+            default:
+                $this->_critical(self::RESOURCE_METHOD_NOT_IMPLEMENTED);
                 break;
         }
     }
