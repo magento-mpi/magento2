@@ -43,7 +43,7 @@ abstract class Mage_Api2_Model_Auth_User_Abstract
     /**
      * Retrieve user role
      *
-     * @return string
+     * @return int
      */
     public function getRole()
     {

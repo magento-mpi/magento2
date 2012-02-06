@@ -36,32 +36,34 @@ class Mage_Api2_Model_Auth_User_Admin extends Mage_Api2_Model_Auth_User_Abstract
     /**
      * User Role
      *
-     * @var string
+     * @var int
      */
     protected $_role;
 
     /**
      * Retrieve user role
      *
-     * @return string
+     * @return int
      * @throws Exception
      */
     public function getRole()
     {
         if (!$this->_role) {
             if (!$this->getUserId()) {
-                throw new Exception('User id is invalid or not set.');
+                throw new Exception('User id is invalid or not set');
             }
+
             /** @var $collection Mage_Api2_Model_Resource_Acl_Global_Role_Collection */
             $collection = Mage::getModel('api2/acl_global_role')->getCollection();
             $collection->addFilterByAdminId($this->getUserId());
 
+            /** @var $role Mage_Api2_Model_Acl_Global_Role */
             $role = $collection->getFirstItem();
             if (!$role->getId()) {
-                throw new Exception('Admin role not found.');
+                throw new Exception('Admin role not found');
             }
 
-            $this->setRole($role->getRoleName());
+            $this->setRole($role->getId());
         }
 
         return $this->_role;
@@ -81,7 +83,7 @@ class Mage_Api2_Model_Auth_User_Admin extends Mage_Api2_Model_Auth_User_Abstract
     /**
      * Set user role
      *
-     * @param string $role
+     * @param int $role
      * @return Mage_Api2_Model_Auth_User_Abstract
      * @throws Exception
      */
