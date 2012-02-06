@@ -45,6 +45,12 @@ class Api2_Review_Reviews_AdminTest extends Magento_Test_Webservice_Rest_Admin
         $this->callModelDelete($product, true);
         $review = $this->getFixture('review');
         $this->callModelDelete($review, true);
+        $reviewsList = $this->getFixture('reviews_list');
+        if ($reviewsList && count($reviewsList)) {
+            foreach ($reviewsList as $review) {
+                $this->callModelDelete($review, true);
+            }
+        }
 
         parent::tearDown();
     }
@@ -205,6 +211,99 @@ class Api2_Review_Reviews_AdminTest extends Magento_Test_Webservice_Rest_Admin
         $body = $restResponse->getBody();
         $error = reset($body['messages']['error']);
         $this->assertEquals($error['message'], sprintf('Invalid store ID "%s" provided', $invalidStoreId));
+    }
+
+    /**
+     * Test retrieving list of reviews
+     *
+     * @magentoDataFixture Api2/Review/_fixtures/reviews_list.php
+     * @return void
+     */
+    public function testGet()
+    {
+        $restResponse = $this->callGet('reviews', array('order' => 'review_id'));
+        $this->assertEquals(200, $restResponse->getStatus());
+        $body = $restResponse->getBody();
+        $this->assertNotEmpty($body);
+        $responseReviews = array();
+        foreach ($body as $responseReview) {
+            $responseReviews[$responseReview['review_id']] = $responseReview;
+        }
+
+        $reviewsList = $this->getFixture('reviews_list');
+        foreach ($reviewsList as $review) {
+            $this->assertTrue(isset($responseReviews[$review->getId()]),
+                'Review created from fixture was not found in response');
+            $this->assertEquals($review->getEntityPkValue(), $responseReviews[$review->getId()]['product_id']);
+            $this->assertEquals($review->getStatusId(), $responseReviews[$review->getId()]['status_id']);
+        }
+    }
+
+    /**
+     * Test retrieving list of reviews with product filter
+     *
+     * @magentoDataFixture Api2/Review/_fixtures/reviews_list.php
+     * @return void
+     */
+    public function testGetProductFilter()
+    {
+        /** @var $product Mage_Catalog_Model_Product */
+        $product = Magento_Test_Webservice::getFixture('product_simple');
+
+        $restResponse = $this->callGet('reviews', array('product' => $product->getId()));
+        $this->assertEquals(200, $restResponse->getStatus());
+        $reviews = $restResponse->getBody();
+        $this->assertNotEmpty($reviews);
+        $this->assertCount(2, $reviews, 'There should be 2 reviews posted to the simple product in this test');
+
+        foreach ($reviews as $review) {
+            $this->assertEquals($product->getId(), $review['product_id'], 'Review is not for correct product');
+        }
+    }
+
+    /**
+     * Test invalid product id in filter
+     *
+     * @return void
+     */
+    public function testGetProductFilterInvalid()
+    {
+        $restResponse = $this->callGet('reviews', array('product' => 'INVALID PRODUCT'));
+        $this->assertEquals(400, $restResponse->getStatus());
+        $body = $restResponse->getBody();
+        $error = reset($body['messages']['error']);
+        $this->assertEquals($error['message'], 'Invalid product');
+    }
+
+    /**
+     * Test retrieving list of reviews with status filter
+     *
+     * @magentoDataFixture Api2/Review/_fixtures/reviews_list.php
+     * @return void
+     */
+    public function testGetStatusFilter()
+    {
+        $restResponse = $this->callGet('reviews', array('status' => Mage_Review_Model_Review::STATUS_APPROVED));
+        $this->assertEquals(200, $restResponse->getStatus());
+        $reviews = $restResponse->getBody();
+        $this->assertNotEmpty($reviews);
+        foreach ($reviews as $review) {
+            $this->assertEquals(Mage_Review_Model_Review::STATUS_APPROVED, $review['status_id']);
+        }
+    }
+
+    /**
+     * Test invalid status in filter
+     *
+     * @return void
+     */
+    public function testGetStatusFilterInvalid()
+    {
+        $restResponse = $this->callGet('reviews', array('status' => 'INVALID STATUS'));
+        $this->assertEquals(400, $restResponse->getStatus());
+        $body = $restResponse->getBody();
+        $error = reset($body['messages']['error']);
+        $this->assertEquals($error['message'], 'Invalid status provided');
     }
 }
 
