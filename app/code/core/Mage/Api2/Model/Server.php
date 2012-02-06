@@ -25,7 +25,7 @@
  */
 
 /**
- * Webservice api2 abstract
+ * API2 Server
  *
  * @category   Mage
  * @package    Mage_Api2
@@ -146,6 +146,8 @@ class Mage_Api2_Model_Server
     }
 
     /**
+     * Global ACL processing
+     *
      * @param Mage_Api2_Model_Request $request
      * @param Mage_Api2_Model_Auth_User_Abstract $apiUser
      * @return Mage_Api2_Model_Server
@@ -153,17 +155,12 @@ class Mage_Api2_Model_Server
      */
     protected function _allow(Mage_Api2_Model_Request $request, Mage_Api2_Model_Auth_User_Abstract $apiUser)
     {
-        $resourceType = $request->getResourceType();
-        $operation = $request->getOperation();
-
         /** @var $globalAcl Mage_Api2_Model_Acl_Global */
         $globalAcl = Mage::getModel('api2/acl_global');
-        $isAllowed = $globalAcl->isAllowed($apiUser, $resourceType, $operation);
 
-        if (!$isAllowed) {
-            throw new Mage_Api2_Exception('Authorization error.', self::HTTP_FORBIDDEN);
+        if (!$globalAcl->isAllowed($apiUser, $request->getResourceType(), $request->getOperation())) {
+            throw new Mage_Api2_Exception('Authorization error', self::HTTP_FORBIDDEN);
         }
-
         return $this;
     }
 
@@ -212,15 +209,11 @@ class Mage_Api2_Model_Server
                                       Mage_Api2_Model_Renderer_Interface $renderer,
                                       Mage_Api2_Model_Response $response)
     {
-        //if exception is not Mage_Api2_Exception we can't be sure it contains valid HTTP error code,
-        // so we change it to 500;
         if ($exception instanceof Mage_Api2_Exception && $exception->getCode()) {
             $httpCode = $exception->getCode();
         } else {
             $httpCode = self::HTTP_INTERNAL_ERROR;
         }
-
-        //TODO should we call $response->clearHeaders()
         try {
             //add last error to stack
             $response->setException($exception);

@@ -135,6 +135,21 @@ class Mage_Api2_Model_Config extends Varien_Simplexml_Config
     }
 
     /**
+     * Retrieve all resources types
+     *
+     * @return array
+     */
+    public function getResourcesTypes()
+    {
+        $list = array();
+
+        foreach ($this->getResources() as $resourceCfg) {
+            $list[] = (string) $resourceCfg->type;
+        }
+        return $list;
+    }
+
+    /**
      * Retrieve all resource groups from config files api2.xml
      *
      * @return Varien_Simplexml_Element|boolean

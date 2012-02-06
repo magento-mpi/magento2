@@ -38,6 +38,7 @@
  * @method Mage_Api2_Model_Acl_Global_Rule setRoleId() setRoleId(int $roleId)
  * @method string getResourceId()
  * @method Mage_Api2_Model_Acl_Global_Rule setResourceId() setResourceId(string $resource)
+ * @method string getPrivilege()
  * @method int getPermission()
  * @method Mage_Api2_Model_Acl_Global_Rule setPermission() setPermission(int $permission)
  * @method string getPrivilege()

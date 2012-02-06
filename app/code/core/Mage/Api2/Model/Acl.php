@@ -38,43 +38,74 @@ class Mage_Api2_Model_Acl extends Zend_Acl
      */
     public function __construct()
     {
-        $this->addRole(new Zend_Acl_Role('guest'));
-        $this->addRole(new Zend_Acl_Role('admin'));
-
-        $this->addResource(new Zend_Acl_Resource('product'));
-        $this->allow('guest', 'product', array('_create', '_retrieve', '_update', '_delete'));
-        $this->allow('admin', 'product', array('_create', '_retrieve', '_update', '_delete'));
-
-        $this->addResource(new Zend_Acl_Resource('products'));
-        $this->allow('guest', 'products', array('_create', '_retrieve', '_update', '_delete'));
-        $this->allow('admin', 'products', array('_create', '_retrieve', '_update', '_delete'));
-
-        $this->addResource(new Zend_Acl_Resource('customer'));
-        $this->allow('guest', 'customer', array('_retrieve'));
-        $this->allow('admin', 'customer', array('_create', '_retrieve', '_update', '_delete'));
-
-        $this->addResource(new Zend_Acl_Resource('customers'));
-        $this->allow('guest', 'customers', array('_retrieve'));
-        $this->allow('admin', 'customers', array('_create', '_retrieve', '_update', '_delete'));
-
-        $this->addResource(new Zend_Acl_Resource('reviews'));
-        $this->allow('guest', 'reviews', array('_retrieve'));
-        $this->allow('admin', 'reviews', array('_create', '_retrieve'));
-
-        $this->addResource(new Zend_Acl_Resource('review'));
-        $this->allow('guest', 'review', array('_retrieve'));
-        $this->allow('admin', 'review', array('_retrieve', '_update', '_delete'));
+        $this->_setResources();
+        $this->_setRoles();
+        $this->_setRules();
     }
 
     /**
-     * Save ACL data
+     * Retrieve resources types and set into ACL
      *
      * @return Mage_Api2_Model_Acl
      */
-    public function save()
+    protected function _setResources()
     {
-        file_put_contents(dirname(__FILE__) . '/Acl/data', serialize($this));
+        /** @var $config Mage_Api2_Model_Config */
+        $config = Mage::getModel('api2/config');
 
+        foreach ($config->getResourcesTypes() as $type) {
+            $this->addResource($type);
+        }
         return $this;
+    }
+
+    /**
+     * Retrieve roles from DB and set into ACL
+     *
+     * @return Mage_Api2_Model_Acl
+     */
+    protected function _setRoles()
+    {
+        /** @var $rolesCollection Mage_Api2_Model_Resource_Acl_Global_Role_Collection */
+        $rolesCollection = Mage::getResourceModel('api2/acl_global_role_collection');
+
+        /** @var $role Mage_Api2_Model_Acl_Global_Role */
+        foreach ($rolesCollection as $role) {
+            $this->addRole($role->getId());
+        }
+        return $this;
+    }
+
+    /**
+     * Retrieve rules data from DB and inject it into ACL
+     *
+     * @return Mage_Api2_Model_Acl
+     */
+    protected function _setRules()
+    {
+        /** @var $rulesCollection Mage_Api2_Model_Resource_Acl_Global_Rule_Collection */
+        $rulesCollection = Mage::getResourceModel('api2/acl_global_rule_collection');
+
+        /** @var $rule Mage_Api2_Model_Acl_Global_Rule */
+        foreach ($rulesCollection as $rule) {
+            $this->allow($rule->getRoleId(), $rule->getResourceId(), $rule->getPrivilege());
+        }
+        return $this;
+    }
+
+    /**
+     * Adds a Role having an identifier unique to the registry
+     * OVERRIDE to allow numeric roles identifiers
+     *
+     * @param int $roleId Role identifier
+     * @param Zend_Acl_Role_Interface|string|array $parents
+     * @return Zend_Acl Provides a fluent interface
+     */
+    public function addRole($roleId, $parents = null)
+    {
+        if (!is_numeric($roleId)) {
+            throw new Exception('Invalid role identifier');
+        }
+        return parent::addRole((string) $roleId);
     }
 }

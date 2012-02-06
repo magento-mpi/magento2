@@ -50,7 +50,7 @@ class Mage_Api2_Model_Auth_User_Admin extends Mage_Api2_Model_Auth_User_Abstract
     {
         if (!$this->_role) {
             if (!$this->getUserId()) {
-                throw new Exception('User id is invalid or not set');
+                throw new Exception('Admin identifier is not set');
             }
 
             /** @var $collection Mage_Api2_Model_Resource_Acl_Global_Role_Collection */

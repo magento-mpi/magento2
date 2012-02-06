@@ -38,7 +38,7 @@ abstract class Mage_Api2_Model_Route_Abstract extends Zend_Controller_Router_Rou
      */
     const PARAM_ROUTE      = 'route';
     const PARAM_DEFAULTS   = 'defaults';
-    const PARAM_REGS       = 'regs';
+    const PARAM_REQS       = 'reqs';
     const PARAM_TRANSLATOR = 'translator';
     const PARAM_LOCALE     = 'locale';
     /**#@- */
@@ -51,7 +51,7 @@ abstract class Mage_Api2_Model_Route_Abstract extends Zend_Controller_Router_Rou
     protected $_paramsDefaultValues = array(
         self::PARAM_ROUTE      => null,
         self::PARAM_DEFAULTS   => array(),
-        self::PARAM_REGS       => array(),
+        self::PARAM_REQS       => array(),
         self::PARAM_TRANSLATOR => null,
         self::PARAM_LOCALE     => null
     );
@@ -66,7 +66,7 @@ abstract class Mage_Api2_Model_Route_Abstract extends Zend_Controller_Router_Rou
         parent::__construct(
             $this->_getArgumentValue(self::PARAM_ROUTE, $arguments),
             $this->_getArgumentValue(self::PARAM_DEFAULTS, $arguments),
-            $this->_getArgumentValue(self::PARAM_REGS, $arguments),
+            $this->_getArgumentValue(self::PARAM_REQS, $arguments),
             $this->_getArgumentValue(self::PARAM_TRANSLATOR, $arguments),
             $this->_getArgumentValue(self::PARAM_LOCALE, $arguments)
         );
@@ -90,7 +90,7 @@ abstract class Mage_Api2_Model_Route_Abstract extends Zend_Controller_Router_Rou
      *
      * @param Mage_Api2_Model_Request $request
      * @param boolean $partial Partial path matching
-     * @return array|false An array of assigned values or a false on a mismatch
+     * @return array|bool An array of assigned values or a boolean false on a mismatch
      */
     public function match($request, $partial = false)
     {

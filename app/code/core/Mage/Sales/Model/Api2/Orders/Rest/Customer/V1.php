@@ -64,10 +64,10 @@ class Mage_Sales_Model_Api2_Orders_Rest_Customer_V1 extends Mage_Sales_Model_Api
     /**
      * Get location for given resource
      *
-     * @param Mage_Catalog_Model_Abstract $product
+     * @param Mage_Core_Model_Abstract $product
      * @return string Location of new resource
      */
-    protected function _getLocation(Mage_Catalog_Model_Abstract $product)
+    protected function _getLocation(Mage_Core_Model_Abstract $product)
     {
         return '/';
     }

@@ -41,7 +41,7 @@ class Mage_Api2_Model_Request extends Zend_Controller_Request_Http
     /**#@+
      * Name of query ($_GET) parameters to use in navigation and so on
      */
-    const QUERY_PARAM_REQ_ATTRS = 'include';
+    const QUERY_PARAM_REQ_ATTRS = 'attrs';
     const QUERY_PARAM_PAGE_NUM  = 'page';
     const QUERY_PARAM_ORDER     = 'order';
     const QUERY_PARAM_FILTER    = 'filter';

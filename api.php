@@ -74,6 +74,8 @@ if (false !== Mage::app()->getRequest()->getHeader('Version')) {
 
         Mage::app()->getResponse()->sendResponse();
     } catch (Exception $e) {
+        Mage::logException($e);
+
         echo $e->getMessage();
         exit;
     }
