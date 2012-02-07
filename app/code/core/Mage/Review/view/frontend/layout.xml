@@ -38,7 +38,7 @@ Customer account home dashboard layout
 Product reviews page (?)
 -->
 
-    <reviews translate="label" type="page">
+    <reviews translate="label" type="page" parent="default">
         <label>Review</label>
         <!-- Mage_Review -->
         <reference name="root">
@@ -50,8 +50,7 @@ Product reviews page (?)
 Product reviews page
 -->
 
-    <review_product_list translate="label" type="page">
-        <parent_node>reviews</parent_node>
+    <review_product_list translate="label" type="page" parent="catalog_product_view">
         <label>Catalog Product Reviews List</label>
         <reference name="root">
             <action method="setTemplate"><template>2columns-right.phtml</template></action>
@@ -91,8 +90,7 @@ Product reviews page
         </reference>
     </review_product_list>
 
-    <review_product_view translate="label" type="page">
-        <parent_node>review_product_list</parent_node>
+    <review_product_view translate="label" type="page" parent="review_product_list">
         <label>Catalog Product Review View</label>
         <reference name="root">
             <action method="setTemplate"><template>2columns-right.phtml</template></action>
@@ -102,8 +100,7 @@ Product reviews page
         </reference>
     </review_product_view>
 
-    <review_customer_index translate="label" type="page">
-        <parent_node>reviews</parent_node>
+    <review_customer_index translate="label" type="page" parent="reviews">
         <label>Customer My Account Product Reviews</label>
         <update handle="customer_account"/>
         <reference name="my.account.wrapper">
@@ -111,8 +108,7 @@ Product reviews page
         </reference>
     </review_customer_index>
 
-    <review_customer_view translate="label" type="page">
-        <parent_node>review_customer_index</parent_node>
+    <review_customer_view translate="label" type="page" parent="review_customer_index">
         <label>Customer My Account Review Details</label>
         <update handle="customer_account"/>
         <reference name="my.account.wrapper">

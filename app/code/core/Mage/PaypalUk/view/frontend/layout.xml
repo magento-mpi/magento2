@@ -26,8 +26,7 @@
         <update handle="SHORTCUT_uk_popup" />
     </checkout_cart_index>
 
-    <paypaluk_express_review translate="label" module="Mage_PaypalUk" type="page">
-        <parent_node>checkout_onepage_paymentmethod</parent_node>
+    <paypaluk_express_review translate="label" module="Mage_PaypalUk" type="page" parent="checkout_onepage_paymentmethod">
         <label>PayPal Express Order Review Form</label>
         <remove name="right"/>
         <remove name="left"/>
@@ -52,8 +51,7 @@
         </reference>
     </paypaluk_express_review>
 
-    <paypal_express_review_details type="page">
-        <parent_node>paypaluk_express_review</parent_node>
+    <paypal_express_review_details type="page" parent="paypaluk_express_review">
         <block type="Mage_Paypal_Block_Express_Review_Details" name="root" output="toHtml" template="express/review/details.phtml">
             <action method="addItemRender"><type>default</type><block>Mage_Checkout_Block_Cart_Item_Renderer</block><template>onepage/review/item.phtml</template></action>
             <action method="addItemRender"><type>grouped</type><block>Mage_Checkout_Block_Cart_Item_Renderer_Grouped</block><template>onepage/review/item.phtml</template></action>
