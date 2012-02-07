@@ -38,13 +38,6 @@ class Mage_Api2_Block_Adminhtml_Roles_Tab_Info extends Mage_Adminhtml_Block_Widg
     implements Mage_Adminhtml_Block_Widget_Tab_Interface
 {
     /**
-     * Role model
-     *
-     * @var Mage_Api2_Model_Acl_Global_Role
-     */
-    protected $_role;
-
-    /**
      * This method is called before rendering HTML
      *
      * @return Mage_Adminhtml_Block_Widget_Form
@@ -140,6 +133,6 @@ class Mage_Api2_Block_Adminhtml_Roles_Tab_Info extends Mage_Adminhtml_Block_Widg
      */
     public function isHidden()
     {
-        return false;
+        return $this->getRole() && $this->getRole()->isGuestRole();
     }
 }
