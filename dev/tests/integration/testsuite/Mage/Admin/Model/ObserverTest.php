@@ -26,10 +26,14 @@ class Mage_Admin_Model_ObserverTest extends PHPUnit_Framework_TestCase
 
     public function testActionPreDispatchAdmin()
     {
+        $request = Mage::app()->getRequest();
+        $this->assertEmpty($request->getRouteName());
+        $this->assertEmpty($request->getControllerName());
+        $this->assertEmpty($request->getActionName());
+
         $observer = new Varien_Event_Observer();
         $this->_model->actionPreDispatchAdmin($observer);
 
-        $request = Mage::app()->getRequest();
         $this->assertEquals('adminhtml', $request->getRouteName());
         $this->assertEquals('index', $request->getControllerName());
         $this->assertEquals('login', $request->getActionName());

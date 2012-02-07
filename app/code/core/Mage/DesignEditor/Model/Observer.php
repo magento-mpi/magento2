@@ -23,8 +23,7 @@ class Mage_DesignEditor_Model_Observer
      */
     public function applyCustomSkin($observer)
     {
-        /** @var $session Mage_DesignEditor_Model_Session */
-        $session = Mage::getSingleton('Mage_DesignEditor_Model_Session');
+        $session = $this->_getSession();
         if (!$session->isDesignEditorActive()) {
             return $this;
         }
@@ -52,5 +51,15 @@ class Mage_DesignEditor_Model_Observer
             $block->setDesignEditorActive(true);
         }
         return $this;
+    }
+
+    /**
+     * Returns session for Magento Design Editor
+     *
+     * @return Mage_DesignEditor_Model_Session
+     */
+    protected function _getSession()
+    {
+        return Mage::getSingleton('Mage_DesignEditor_Model_Session');
     }
 }

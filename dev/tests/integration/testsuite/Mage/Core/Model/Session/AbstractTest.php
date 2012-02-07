@@ -39,7 +39,9 @@ class Mage_Core_Model_Session_AbstractTest extends PHPUnit_Framework_TestCase
     {
         $this->_model->init('test');
         $this->_model->setTestData('test');
-        $this->assertSame($_SESSION['test'], $this->_model->getData());
+        $data = $this->_model->getData();
+        $this->assertArrayHasKey('test_data', $data);
+        $this->assertSame($_SESSION['test'], $data);
     }
 
     public function testGetData()
@@ -78,7 +80,7 @@ class Mage_Core_Model_Session_AbstractTest extends PHPUnit_Framework_TestCase
 
     public function testValidate()
     {
-        $this->_model->validate();
+        $this->assertInstanceOf('Mage_Core_Model_Session_Abstract', $this->_model->validate());
     }
 
     public function testGetValidateHttpUserAgentSkip()
