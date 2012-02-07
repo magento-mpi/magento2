@@ -49,7 +49,7 @@ class Core_Mage_Order_PayPalDirect_Authorization_MaestroSoloCreditCardsTest exte
      */
     public function createPayPalProAccountAndActivate()
     {
-        $this->goToArea('paypal-developer');
+        $this->goToArea('paypal_developer');
         $this->paypalHelper()->paypalDeveloperLogin('paypal_developer_login');
         $api = $this->paypalHelper()->createPayPalProAccount('paypal_sandbox_new_pro_account_gbp');
         $data = $this->loadData('paypaldirect_with_3Dsecure',
@@ -509,7 +509,7 @@ class Core_Mage_Order_PayPalDirect_Authorization_MaestroSoloCreditCardsTest exte
      */
     public function deleteTestAccounts($api)
     {
-        $this->goToArea('paypal-developer');
+        $this->goToArea('paypal_developer');
         $this->paypalHelper()->paypalDeveloperLogin('paypal_developer_login');
         if (isset($api['test_account'])) {
             $this->paypalHelper()->deleteAccount($api['test_account']);
