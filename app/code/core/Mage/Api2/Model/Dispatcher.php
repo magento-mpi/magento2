@@ -68,10 +68,14 @@ class Mage_Api2_Model_Dispatcher
         );
         $class = strtr(self::RESOURCE_CLASS_TEMPLATE, $replace);
 
-        /** @var $model Mage_Api2_Model_Resource */
-        $model = Mage::getModel($class);
 
-        if ($model === false || !$model instanceof Mage_Api2_Model_Resource) {
+        try {
+            /** @var $model Mage_Api2_Model_Resource */
+            $model = Mage::getModel($class);
+        } catch (Exception $e) {
+            // getModel() throws exception when in application is in development mode - skip it to next check
+        }
+        if (empty($model) || !$model instanceof Mage_Api2_Model_Resource) {
             throw new Mage_Api2_Exception('Resource not found', Mage_Api2_Model_Server::HTTP_NOT_FOUND);
         }
         $model->setRequest($request);
