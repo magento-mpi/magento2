@@ -78,53 +78,18 @@ class Mage_Review_Model_Api2_Reviews_Rest_Admin_V1 extends Mage_Review_Model_Api
     }
 
     /**
-     * Get list of reviews
+     * Prepare collection for retrieve
      *
-     * @return array
+     * @return Mage_Review_Model_Resource_Review_Collection
      */
-    protected function _retrieve()
+    protected function _prepareRetrieveCollection()
     {
         /** @var $collection Mage_Review_Model_Resource_Review_Collection */
         $collection = Mage::getResourceModel('review/review_collection');
         $this->_applyProductFilter($collection);
         $this->_applyStatusFilter($collection);
         $this->_applyCollectionModifiers($collection);
-        $collection->getSelect()->columns(array('product_id' => 'main_table.entity_pk_value'));
-        $data = $collection->load()->toArray();
 
-        return $data['items'];
-    }
-
-    /**
-     * Apply filter by product
-     *
-     * @param Mage_Review_Model_Resource_Review_Collection $collection
-     */
-    protected function _applyProductFilter(Mage_Review_Model_Resource_Review_Collection $collection)
-    {
-        $productId = $this->getRequest()->getParam('product');
-        if ($productId) {
-            /** @var $product Mage_Catalog_Model_Product */
-            $product = Mage::getModel('catalog/product')->load($productId);
-            if (!$product->getId()) {
-                $this->_critical('Invalid product', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
-            }
-
-            $collection->addEntityFilter(Mage_Review_Model_Review::ENTITY_PRODUCT_CODE, $product->getId());
-        }
-    }
-
-    /**
-     * Apply filter by status
-     *
-     * @param Mage_Review_Model_Resource_Review_Collection $collection
-     */
-    protected function _applyStatusFilter(Mage_Review_Model_Resource_Review_Collection $collection)
-    {
-        $status = $this->getRequest()->getParam('status');
-        if ($status) {
-            $this->_validateStatus($status);
-            $collection->addStatusFilter($status);
-        }
+        return $collection;
     }
 }

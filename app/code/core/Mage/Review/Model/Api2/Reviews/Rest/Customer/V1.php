@@ -67,4 +67,25 @@ class Mage_Review_Model_Api2_Reviews_Rest_Customer_V1 extends Mage_Review_Model_
         parent::_validate($data, $required, $notEmpty);
         $this->_validateStores($data['stores']);
     }
+
+    /**
+     * Prepare collection for retrieve
+     *
+     * @return Mage_Review_Model_Resource_Review_Collection
+     */
+    protected function _prepareRetrieveCollection()
+    {
+        /** @var $collection Mage_Review_Model_Resource_Review_Collection */
+        $collection = Mage::getResourceModel('review/review_collection');
+        $collection->addStatusFilter(Mage_Review_Model_Review::STATUS_APPROVED);
+        $storeId = $this->getRequest()->getParam('store_id');
+        if ($storeId) {
+            $this->_validateStores(array($storeId));
+            $collection->addStoreFilter($storeId);
+        }
+        $this->_applyProductFilter($collection);
+        $this->_applyCollectionModifiers($collection);
+
+        return $collection;
+    }
 }
