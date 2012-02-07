@@ -224,9 +224,13 @@ class Mage_Api2_Model_ResourceTest extends Mage_PHPUnit_TestCase
      */
     public function testCriticalWithUnknownMessageWithoutCode()
     {
-        $message = 'Unknown error message';
-        $this->setExpectedException('Mage_Api2_Exception', '', Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR);
-        $this->_resource->_critical($message);
+        try {
+            $this->_resource->_critical('Unknown error message');
+        } catch (Exception $e) {
+            $this->assertEquals(Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR, $e->getCode());
+            return;
+        }
+        $this->fail('An expected exception has not been raised');
     }
 
     /**
