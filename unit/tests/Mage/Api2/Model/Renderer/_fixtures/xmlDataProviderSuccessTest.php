@@ -1,8 +1,10 @@
 <?php
 //case
+$rootNode = Mage_Api2_Model_Renderer_Xml_Writer::XML_ROOT_NODE;
+
 $xml[] = <<<XML
 <?xml version="1.0"?>
-<zend-config xmlns:zf="http://framework.zend.com/xml/zend-config-xml/1.0/">
+<{$rootNode}>
   <data_item>test1</data_item>
   <data_item>test2</data_item>
   <data_item>
@@ -13,7 +15,7 @@ $xml[] = <<<XML
       <data_item_100test>some01</data_item_100test>
     </test03>
   </data_item>
-</zend-config>
+</{$rootNode}>
 
 XML;
 $data[] = array(
@@ -32,7 +34,7 @@ $data[] = array(
 //case
 $xml[] = <<<XML
 <?xml version="1.0"?>
-<zend-config xmlns:zf="http://framework.zend.com/xml/zend-config-xml/1.0/">
+<{$rootNode}>
   <assoc.test002>1 &gt; 0</assoc.test002>
   <assoc_test003.>chars ]]&gt;</assoc_test003.>
   <assoc_test004>chars  !"#$%&amp;'()*+,/;&lt;=&gt;?@[\]^`{|}~  chars </assoc_test004>
@@ -40,7 +42,7 @@ $xml[] = <<<XML
   <data_item_1>assoc_item2</data_item_1>
   <assoc_test001>&lt;some01&gt;text&lt;/some01&gt;</assoc_test001>
   <key_chars__.>chars</key_chars__.>
-</zend-config>
+</{$rootNode}>
 
 XML;
 $data[] = array(
@@ -56,9 +58,9 @@ $data[] = array(
 //case
 $xml[] = <<<XML
 <?xml version="1.0"?>
-<zend-config xmlns:zf="http://framework.zend.com/xml/zend-config-xml/1.0/">
+<{$rootNode}>
   <foo_bar></foo_bar>
-</zend-config>
+</{$rootNode}>
 
 XML;
 $data[] = array('foo_bar' => '');
@@ -66,9 +68,9 @@ $data[] = array('foo_bar' => '');
 //case
 $xml[] = <<<XML
 <?xml version="1.0"?>
-<zend-config xmlns:zf="http://framework.zend.com/xml/zend-config-xml/1.0/">
+<{$rootNode}>
   <data_item>some1</data_item>
-</zend-config>
+</{$rootNode}>
 
 XML;
 $data[] = array('1' => 'some1');
@@ -76,9 +78,9 @@ $data[] = array('1' => 'some1');
 //case
 $xml[] = <<<XML
 <?xml version="1.0"?>
-<zend-config xmlns:zf="http://framework.zend.com/xml/zend-config-xml/1.0/">
+<{$rootNode}>
   <data_item_1.234>0.123</data_item_1.234>
-</zend-config>
+</{$rootNode}>
 
 XML;
 $data[] = array('1.234' => .123);
@@ -86,9 +88,9 @@ $data[] = array('1.234' => .123);
 //case
 $xml[] = <<<XML
 <?xml version="1.0"?>
-<zend-config xmlns:zf="http://framework.zend.com/xml/zend-config-xml/1.0/">
+<{$rootNode}>
   <foo>bar</foo>
-</zend-config>
+</{$rootNode}>
 
 XML;
 $data[] = array('foo' => 'bar');
@@ -96,9 +98,9 @@ $data[] = array('foo' => 'bar');
 //case
 $xml[] = <<<XML
 <?xml version="1.0"?>
-<zend-config xmlns:zf="http://framework.zend.com/xml/zend-config-xml/1.0/">
+<{$rootNode}>
   <data_item>string</data_item>
-</zend-config>
+</{$rootNode}>
 
 XML;
 $data[] = 'string';
@@ -106,9 +108,9 @@ $data[] = 'string';
 //case
 $xml[] = <<<XML
 <?xml version="1.0"?>
-<zend-config xmlns:zf="http://framework.zend.com/xml/zend-config-xml/1.0/">
+<{$rootNode}>
   <foo>&gt;bar=</foo>
-</zend-config>
+</{$rootNode}>
 
 XML;
 $data[] = array('foo' => '>bar=');
@@ -116,7 +118,7 @@ $data[] = array('foo' => '>bar=');
 //case
 $xml[] = <<<XML
 <?xml version="1.0"?>
-<zend-config xmlns:zf="http://framework.zend.com/xml/zend-config-xml/1.0/"/>
+<{$rootNode}/>
 
 XML;
 $data[] = array();
@@ -124,7 +126,7 @@ $data[] = array();
 //case
 $xml[] = <<<XML
 <?xml version="1.0"?>
-<zend-config xmlns:zf="http://framework.zend.com/xml/zend-config-xml/1.0/"/>
+<{$rootNode}/>
 
 XML;
 $data[] = new stdClass();
