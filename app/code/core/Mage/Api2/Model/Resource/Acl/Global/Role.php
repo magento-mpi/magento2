@@ -48,10 +48,10 @@ class Mage_Api2_Model_Resource_Acl_Global_Role extends Mage_Core_Model_Resource_
     /**
      * Perform checks before role delete
      *
-     * @param Mage_Api2_Model_Acl_Global_Role $role
+     * @param Mage_Core_Model_Abstract $role
      * @return Mage_Api2_Model_Resource_Acl_Global_Role
      */
-    protected function _beforeDelete(Mage_Api2_Model_Acl_Global_Role $role)
+    protected function _beforeDelete(Mage_Core_Model_Abstract $role)
     {
         if ($role->isGuestRole()) {
             Mage::throwException(Mage::helper('api2')->__('Guest role is a special one and can\'t be deleted.'));
@@ -63,10 +63,10 @@ class Mage_Api2_Model_Resource_Acl_Global_Role extends Mage_Core_Model_Resource_
     /**
      * Perform checks before role save
      *
-     * @param Mage_Api2_Model_Acl_Global_Role $role
+     * @param Mage_Core_Model_Abstract $role
      * @return Mage_Api2_Model_Resource_Acl_Global_Role
      */
-    protected function _beforeSave(Mage_Api2_Model_Acl_Global_Role $role)
+    protected function _beforeSave(Mage_Core_Model_Abstract $role)
     {
         if ($role->isGuestRole() && $role->getRoleName() != $role->getOrigData('role_name')) {
             Mage::throwException(Mage::helper('api2')->__('Guest role is a special one and can\'t be changed.'));
