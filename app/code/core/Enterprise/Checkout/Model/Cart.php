@@ -79,7 +79,7 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
     protected $_cart;
 
     /**
-     * Options, that should configure product
+     * Product options for configuring
      *
      * @var array
      */
@@ -875,7 +875,7 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
                 return $product;
             }
 
-            $options = $this->_getSuccessOptions();
+            $options = $this->getSuccessOptions();
 
             if (!empty($options)) {
                 $product->setConfiguredOptions($options);
@@ -904,6 +904,8 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
     }
 
     /**
+     * Add product option for configuring
+     *
      * @param Mage_Catalog_Model_Product_Option $option
      * @param Mage_Catalog_Model_Product_Option_Value $value
      * @return Enterprise_Checkout_Model_Cart
@@ -930,7 +932,7 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
      *
      * @return array
      */
-    protected function _getSuccessOptions()
+    public function getSuccessOptions()
     {
         return $this->_successOptions;
     }
