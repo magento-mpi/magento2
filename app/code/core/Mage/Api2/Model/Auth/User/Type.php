@@ -53,7 +53,7 @@ class Mage_Api2_Model_Auth_User_Type
             ),
             array(
                 'value' => Mage_Api2_Model_Auth_User_Customer::USER_TYPE,
-                'label' => $helper->__('Custormer')
+                'label' => $helper->__('Customer')
             ),
         );
     }
@@ -70,7 +70,7 @@ class Mage_Api2_Model_Auth_User_Type
         return array(
             Mage_Api2_Model_Auth_User_Guest::USER_TYPE      => $helper->__('Guest'),
             Mage_Api2_Model_Auth_User_Admin::USER_TYPE      => $helper->__('Admin'),
-            Mage_Api2_Model_Auth_User_Customer::USER_TYPE   => $helper->__('Custormer'),
+            Mage_Api2_Model_Auth_User_Customer::USER_TYPE   => $helper->__('Customer'),
         );
     }
 }
