@@ -39,6 +39,16 @@ class Mage_Api2_Model_Auth_User_Customer extends Mage_Api2_Model_Auth_User_Abstr
     const USER_TYPE = 'customer';
 
     /**
+     * Retrieve user human-readable label
+     *
+     * @return string
+     */
+    public function getLabel()
+    {
+        return Mage::helper('api2')->__('Customer');
+    }
+
+    /**
      * Retrieve user type
      *
      * @abstract

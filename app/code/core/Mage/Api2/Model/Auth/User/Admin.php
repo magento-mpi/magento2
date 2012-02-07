@@ -46,6 +46,16 @@ class Mage_Api2_Model_Auth_User_Admin extends Mage_Api2_Model_Auth_User_Abstract
     protected $_role;
 
     /**
+     * Retrieve user human-readable label
+     *
+     * @return string
+     */
+    public function getLabel()
+    {
+        return Mage::helper('api2')->__('Admin');
+    }
+
+    /**
      * Retrieve user role
      *
      * @return int

@@ -41,6 +41,16 @@ abstract class Mage_Api2_Model_Auth_User_Abstract
     protected $_userId;
 
     /**
+     * Retrieve user human-readable label
+     *
+     * @return string
+     */
+    public function getLabel()
+    {
+        return $this->getType();
+    }
+
+    /**
      * Retrieve user role
      *
      * @return int
@@ -56,7 +66,7 @@ abstract class Mage_Api2_Model_Auth_User_Abstract
      * @abstract
      * @return string
      */
-    abstract function getType();
+    abstract public function getType();
 
     /**
      * Retrieve user identifier

@@ -40,22 +40,12 @@ class Mage_Api2_Model_Auth_User_Type
      */
     static public function toOptionArray()
     {
-        /** @var $helper Mage_Api2_Helper_Data */
-        $helper = Mage::helper('api2');
-        return array(
-            array(
-                'value' => Mage_Api2_Model_Auth_User_Guest::USER_TYPE,
-                'label' => $helper->__('Guest')
-            ),
-            array(
-                'value' => Mage_Api2_Model_Auth_User_Admin::USER_TYPE,
-                'label' => $helper->__('Admin')
-            ),
-            array(
-                'value' => Mage_Api2_Model_Auth_User_Customer::USER_TYPE,
-                'label' => $helper->__('Customer')
-            ),
-        );
+        $options = array();
+
+        foreach (self::toArray() as $userType => $userLabel) {
+            $options[] = array('value' => $userType, 'label' => $userLabel);
+        }
+        return $options;
     }
 
     /**
@@ -65,12 +55,17 @@ class Mage_Api2_Model_Auth_User_Type
      */
     static public function toArray()
     {
+        $userTypes = array();
+
         /** @var $helper Mage_Api2_Helper_Data */
         $helper = Mage::helper('api2');
-        return array(
-            Mage_Api2_Model_Auth_User_Guest::USER_TYPE      => $helper->__('Guest'),
-            Mage_Api2_Model_Auth_User_Admin::USER_TYPE      => $helper->__('Admin'),
-            Mage_Api2_Model_Auth_User_Customer::USER_TYPE   => $helper->__('Customer'),
-        );
+
+        foreach ($helper->getUserTypes() as $modelPath) {
+            /** @var $userModel Mage_Api2_Model_Auth_User_Abstract */
+            $userModel = Mage::getModel($modelPath);
+
+            $userTypes[$userModel->getType()] = $userModel->getLabel();
+        }
+        return $userTypes;
     }
 }
