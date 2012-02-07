@@ -72,4 +72,20 @@ abstract class Mage_Api2_Model_Resource_Instance extends Mage_Api2_Model_Resourc
     {
         $this->_critical(self::RESOURCE_METHOD_NOT_ALLOWED);
     }
+
+    /**
+     * Get available attributes of API resource
+     *
+     * This method used for single API resource and for API resource collection.
+     * Each model in a module must have implementation of this method.
+     *
+     * @todo Make this method as abstract or make default processing
+     * @absract
+     * @static
+     * @return array
+     */
+    static public function getAvailableAttributes()
+    {
+
+    }
 }

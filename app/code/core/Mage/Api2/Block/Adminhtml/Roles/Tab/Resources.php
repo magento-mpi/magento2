@@ -30,19 +30,12 @@
  * @category   Mage
  * @package    Mage_Api2
  * @author     Magento Core Team <core@magentocommerce.com>
- * @method Mage_Api2_Block_Adminhtml_Roles_Tab_Resources setResourcesPermissions(array $resources)
- * @method array getResourcesPermissions()
- * @method Mage_Api2_Block_Adminhtml_Roles_Tab_Resources setExistsPrivileges(array $resources)
- * @method array getExistsPrivileges()
- * @method Mage_Api2_Block_Adminhtml_Roles_Tab_Resources setConfigResources(Varien_Simplexml_Element $resources)
- * @method Varien_Simplexml_Element getConfigResources()
  * @method Mage_Api2_Model_Acl_Global_Role getRole()
  * @method Mage_Api2_Block_Adminhtml_Roles_Tab_Resources setRole(Mage_Api2_Model_Acl_Global_Role $role)
  */
 class Mage_Api2_Block_Adminhtml_Roles_Tab_Resources extends Mage_Adminhtml_Block_Widget_Form
     implements Mage_Adminhtml_Block_Widget_Tab_Interface
 {
-    const NAME_CHILDREN = 'children';
     /**
      * Role model
      *
@@ -51,18 +44,11 @@ class Mage_Api2_Block_Adminhtml_Roles_Tab_Resources extends Mage_Adminhtml_Block
     protected $_role;
 
     /**
-     * Initialized
+     * Tree model
      *
-     * @var bool
+     * @var Mage_Api2_Model_Acl_Global_Rule_Tree
      */
-    protected $_initialized = false;
-
-    /**
-     * Exist privileges
-     *
-     * @var array
-     */
-    protected $_privileges;
+    protected $_treeModel = false;
 
     /**
      * Constructor
@@ -76,55 +62,8 @@ class Mage_Api2_Block_Adminhtml_Roles_Tab_Resources extends Mage_Adminhtml_Block
                 ->setDefaultSort('sort_order')
                 ->setData('title', Mage::helper('api2')->__('Api Rules Information'))
                 ->setData('use_ajax', true);
-    }
 
-    /**
-     * Initialize block
-     *
-     * @return Mage_Api2_Block_Adminhtml_Roles_Tab_Resources
-     * @throws Exception
-     */
-    protected function _init()
-    {
-        if ($this->_initialized) {
-            return $this;
-        }
-
-        $role = $this->getRole();
-
-        /** @var $config Mage_Api2_Model_Config */
-        $config = Mage::getModel('api2/config');
-
-        $resources = $config->getResourceGroups();
-        $this->setConfigResources($resources);
-
-        /** @var $privilegeSource Mage_Api2_Model_Acl_Global_Rule_Privilege */
-        $privilegeSource = Mage::getModel('api2/acl_global_rule_privilege');
-        $this->setExistsPrivileges($privilegeSource->toArray());
-
-        if ($role) {
-            $permissions = $role->getAclResourcesPermissions();
-            $this->setResourcesPermissions($permissions);
-        }
-        return $this;
-    }
-
-    /**
-     * Check if everything is allowed
-     *
-     * @return boolean
-     */
-    public function getEverythingAllowed()
-    {
-        $this->_init();
-
-        if (!$this->getRole() || !$this->getRole()->getId()) {
-            return true;
-        }
-
-        $resources = $this->getRole()->getAclResourcesPermissions();
-        $all = Mage_Api2_Model_Acl_Global_Rule::RESOURCE_ALL;
-        return !empty($resources[$all]);
+        $this->_treeModel = Mage::getModel('api2/acl_global_rule_tree');
     }
 
     /**
@@ -134,18 +73,24 @@ class Mage_Api2_Block_Adminhtml_Roles_Tab_Resources extends Mage_Adminhtml_Block
      */
     public function getResTreeJson()
     {
-        $this->_init();
-        $resources = $this->getConfigResources();
-        /** @var $helperRole Mage_Api2_Helper_Role */
-        $helperRole = Mage::helper('api2/role');
-        $data = $helperRole->getTreeResources(
-            $resources,
-            $this->getResourcesPermissions(),
-            $this->getExistsPrivileges());
+        $this->_treeModel->setRole($this->getRole());
+        $data = $this->_treeModel->getTreeResources();
 
         /** @var $helper Mage_Core_Helper_Data */
         $helper = Mage::helper('core');
         return $helper->jsonEncode($data);
+    }
+
+
+    /**
+     * Check if everything is allowed
+     *
+     * @return boolean
+     */
+    public function getEverythingAllowed()
+    {
+        $this->_treeModel->setRole($this->getRole());
+        return $this->_treeModel->getEverythingAllowed();
     }
 
 

@@ -56,7 +56,6 @@
                 <title>Product Review</title>
                 <sort_order>100</sort_order>
                 <privileges>
-                    <create>1</create>
                     <retrieve>1</retrieve>
                     <update>1</update>
                     <delete>1</delete>

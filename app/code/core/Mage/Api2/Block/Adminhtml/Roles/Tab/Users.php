@@ -32,6 +32,9 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  * @method Mage_Api2_Model_Acl_Global_Role getRole()
  * @method Mage_Api2_Block_Adminhtml_Roles_Tab_Users setRole(Mage_Api2_Model_Acl_Global_Role $role)
+ * @method array|null getUsers()
+ * @method Mage_Api2_Block_Adminhtml_Roles_Tab_Users setUsers(array $users)
+ * @method Mage_Admin_Model_Resource_User_Collection getCollection()
  */
 class Mage_Api2_Block_Adminhtml_Roles_Tab_Users extends Mage_Adminhtml_Block_Widget_Grid
     implements Mage_Adminhtml_Block_Widget_Tab_Interface
@@ -140,13 +143,6 @@ class Mage_Api2_Block_Adminhtml_Roles_Tab_Users extends Mage_Adminhtml_Block_Wid
     public function getRowUrl($row)
     {
         return null;
-        /** @var $session Mage_Admin_Model_Session */
-        $session = Mage::getSingleton('admin/session');
-
-        if ($session->isAllowed('system/api/roles/edit')) {
-            return $this->getUrl('*/permissions_user/edit', array('user_id' => $row->getId()));
-        }
-        return null;
     }
 
     /**
@@ -200,34 +196,41 @@ class Mage_Api2_Block_Adminhtml_Roles_Tab_Users extends Mage_Adminhtml_Block_Wid
             if (empty($inRoleIds)) {
                 $inRoleIds = 0;
             }
+
             if ($column->getFilter()->getValue()) {
-                $this->getCollection()->addFieldToFilter('user_id', array('in'=>$inRoleIds));
-            }
-            else {
+                $this->getCollection()->addFieldToFilter('user_id', array('in' => $inRoleIds));
+            } else {
                 if($inRoleIds) {
-                    $this->getCollection()->addFieldToFilter('user_id', array('nin'=>$inRoleIds));
+                    $this->getCollection()->addFieldToFilter('user_id', array('nin' => $inRoleIds));
                 }
             }
-        }
-        else {
+        } else {
             parent::_addColumnFilterToCollection($column);
         }
         return $this;
     }
 
+    /**
+     * Get users
+     *
+     * @param bool $json
+     * @return array|string
+     */
     public function getUsers($json = false)
     {
         $users = $this->getData('users');
 
         if ($json) {
-            if ($users===array()) {
+            if ($users === array()) {
                 return '{}';
             }
             $jsonUsers = array();
             foreach($users as $usrId) {
                 $jsonUsers[$usrId] = 0;
             }
-            $result = Mage::helper('core')->jsonEncode((object)$jsonUsers);
+            /** @var $helper Mage_Core_Helper_Data */
+            $helper = Mage::helper('core');
+            $result = $helper->jsonEncode((object) $jsonUsers);
         } else {
             $result = array_values($users);
         }

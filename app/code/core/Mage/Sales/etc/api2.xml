@@ -55,7 +55,6 @@
                 <model>sales/api2_order</model>
                 <title>Order</title>
                 <privileges>
-                    <create>1</create>
                     <retrieve>1</retrieve>
                     <update>1</update>
                     <!-- No able to DELETE -->

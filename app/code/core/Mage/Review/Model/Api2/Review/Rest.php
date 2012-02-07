@@ -33,6 +33,9 @@
  */
 abstract class Mage_Review_Model_Api2_Review_Rest extends Mage_Api2_Model_Resource_Instance
 {
+    /**
+     * Resource name
+     */
     const RESOURCE_NAME = 'review';
 
     /**
@@ -79,4 +82,19 @@ abstract class Mage_Review_Model_Api2_Review_Rest extends Mage_Api2_Model_Resour
      * @return Mage_Review_Model_Review
      */
     abstract protected function _loadReview();
+
+    /**
+     * Available attributes
+     *
+     * @return array
+     * @todo Investigate list of attributes and add it to this method
+     */
+    public function getAvailableAttributes()
+    {
+        return array(
+             'entity_id' => 'ID',
+             'content' => 'Content',
+             'created_at' => 'Created At',
+        );
+    }
 }

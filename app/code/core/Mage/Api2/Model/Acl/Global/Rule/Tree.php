@@ -31,16 +31,22 @@
  * @package    Mage_Api2
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Api2_Helper_Role extends Mage_Core_Helper_Abstract
+class Mage_Api2_Model_Acl_Global_Rule_Tree extends Mage_Core_Helper_Abstract
 {
+    /**#@+
+     * Names
+     */
+    const NAME_CHILDREN         = 'children';
+    const NAME_PRIVILEGE        = 'privilege';
+    const NAME_RESOURCE         = 'resource';
+    const NAME_RESOURCE_GROUPS  = 'resource_groups';
+    const NAME_GROUP            = 'group';
+    /**#@-*/
 
-    const NAME_CHILDREN = 'children';
-    const PREFIX_PRIVILEGE = 'privilege';
-    const PREFIX_RESOURCE = 'resource';
+    /**
+     * Separator for tree ID
+     */
     const ID_SEPARATOR = '-';
-
-    const RESOURCE_GROUPS_NAME = 'resource_groups';
-    const PREFIX_GROUP = 'group';
 
     /**
      * Resources permissions
@@ -50,6 +56,13 @@ class Mage_Api2_Helper_Role extends Mage_Core_Helper_Abstract
     protected $_resourcesPermissions;
 
     /**
+     * Resources from config model
+     *
+     * @var array
+     */
+    protected $_resourcesConfig;
+
+    /**
      * Exist privileges
      *
      * @var array
@@ -57,11 +70,55 @@ class Mage_Api2_Helper_Role extends Mage_Core_Helper_Abstract
     protected $_existPrivileges;
 
     /**
+     * Role model
+     *
+     * @var Mage_Api2_Model_Acl_Global_Role
+     */
+    protected $_role;
+
+    /**
+     * Initialized
+     *
+     * @var bool
+     */
+    protected $_initialized = false;
+
+
+    /**
+     * Initialize block
+     *
+     * @return Mage_Api2_Model_Acl_Global_Rule_Tree
+     * @throws Exception
+     */
+    protected function _init()
+    {
+        if ($this->_initialized) {
+            return $this;
+        }
+
+        $role = $this->getRole();
+
+        /** @var $config Mage_Api2_Model_Config */
+        $config = Mage::getModel('api2/config');
+
+        $this->_resourcesConfig = $config->getResourceGroups();
+
+        /** @var $privilegeSource Mage_Api2_Model_Acl_Global_Rule_Privilege */
+        $privilegeSource = Mage::getModel('api2/acl_global_rule_privilege');
+        $this->_existPrivileges = $privilegeSource->toArray();
+
+        if ($role) {
+            $this->_resourcesPermissions = $role->getAclResourcesPermissions();
+        }
+        return $this;
+    }
+
+    /**
      * Convert to array serialized post data from tree grid
      *
      * @return array
      */
-    public function getPostResources()
+    public function getPostResourcesPrivleges()
     {
         $isAll = Mage::app()->getRequest()->getParam(Mage_Api2_Model_Acl_Global_Rule::RESOURCE_ALL);
         if ($isAll) {
@@ -69,8 +126,8 @@ class Mage_Api2_Helper_Role extends Mage_Core_Helper_Abstract
         } else {
             $resources = array();
             $checkedResources = explode(',', Mage::app()->getRequest()->getParam('resource'));
-            $prefixResource = self::PREFIX_RESOURCE . self::ID_SEPARATOR;
-            $prefixPrivilege = self::PREFIX_PRIVILEGE . self::ID_SEPARATOR;
+            $prefixResource  = self::NAME_RESOURCE  . self::ID_SEPARATOR;
+            $prefixPrivilege = self::NAME_PRIVILEGE . self::ID_SEPARATOR;
             $nameResource = null;
             foreach ($checkedResources as $i => $item) {
                 if (0 === strpos($item, $prefixResource)) {
@@ -89,18 +146,32 @@ class Mage_Api2_Helper_Role extends Mage_Core_Helper_Abstract
     }
 
     /**
+     * Check if everything is allowed
+     *
+     * @return boolean
+     */
+    public function getEverythingAllowed()
+    {
+        $this->_init();
+
+        if (!$this->getRole() || !$this->getRole()->getId()) {
+            return true;
+        }
+
+        $resources = $this->getRole()->getAclResourcesPermissions();
+        $all = Mage_Api2_Model_Acl_Global_Rule::RESOURCE_ALL;
+        return !empty($resources[$all]);
+    }
+
+    /**
      * Get tree resources
      *
-     * @param Varien_Simplexml_Element|array $node  Resources list in SimpleXML tree
-     * @param array $resourcesPermissions
-     * @param array $existPrivileges
      * @return array
      */
-    public function getTreeResources($node, $resourcesPermissions, $existPrivileges)
+    public function getTreeResources()
     {
-        $this->_resourcesPermissions = $resourcesPermissions;
-        $this->_existPrivileges   = $existPrivileges;
-        $root = $this->_getTreeNode($node, 1);
+        $this->_init();
+        $root = $this->_getTreeNode($this->_resourcesConfig, 1);
         return isset($root[self::NAME_CHILDREN]) ? $root[self::NAME_CHILDREN] : array();
     }
 
@@ -123,14 +194,14 @@ class Mage_Api2_Helper_Role extends Mage_Core_Helper_Abstract
             $type = (string) $node->type;
             if (!$type) {
                 $name = $node->getName();
-                if (self::RESOURCE_GROUPS_NAME != $name) {
+                if (self::NAME_RESOURCE_GROUPS != $name) {
                     $isGroup = true;
-                    $item['id'] = self::PREFIX_GROUP . self::ID_SEPARATOR . $name;
+                    $item['id'] = self::NAME_GROUP . self::ID_SEPARATOR . $name;
                 }
                 $item['text'] = (string) $node->title;
             } else {
                 $isResource = true;
-                $item['id'] = self::PREFIX_RESOURCE . self::ID_SEPARATOR . $type;
+                $item['id'] = self::NAME_RESOURCE . self::ID_SEPARATOR . $type;
                 $item['text'] = $this->__('%s (Resource)', (string) $node->title);
             }
             $item['checked'] = false;
@@ -169,7 +240,7 @@ class Mage_Api2_Helper_Role extends Mage_Core_Helper_Abstract
                     $checked = !empty($this->_resourcesPermissions[$type]['privileges'][$key]);
                     $item['checked'] = $checked ? $checked : $item['checked'];
                     $item[self::NAME_CHILDREN][] = array(
-                        'id'   => self::PREFIX_PRIVILEGE . self::ID_SEPARATOR . $type . self::ID_SEPARATOR . $key,
+                        'id'   => self::NAME_PRIVILEGE . self::ID_SEPARATOR . $type . self::ID_SEPARATOR . $key,
                         'text' => $title,
                         'checked' => $checked,
                         'sort_order' => ++$cnt,
@@ -221,4 +292,25 @@ class Mage_Api2_Helper_Role extends Mage_Core_Helper_Abstract
         return $a['sort_order'] < $b['sort_order'] ? -1 : ($a['sort_order'] > $b['sort_order'] ? 1 : 0);
     }
 
+    /**
+     * Set role
+     *
+     * @param Mage_Api2_Model_Acl_Global_Role $role
+     * @return Mage_Api2_Model_Acl_Global_Rule_Tree
+     */
+    public function setRole($role)
+    {
+        $this->_role = $role;
+        return $this;
+    }
+
+    /**
+     * Get role
+     *
+     * @return Mage_Api2_Model_Acl_Global_Role
+     */
+    public function getRole()
+    {
+        return $this->_role;
+    }
 }
