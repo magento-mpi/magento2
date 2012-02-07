@@ -53,8 +53,8 @@
         </reference>
         <reference name="content">
             <block type="paypal/express_review" name="paypal.express.review" template="paypal/express/review.phtml">
-                <block type="checkout/onepage_billing" name="express.review.billing" as="billing" template="paypal/express/review/address.phtml"/>
-                <block type="checkout/onepage_shipping" name="express.review.shipping" as="shipping" template="paypal/express/review/address.phtml"/>
+                <block type="paypal/express_review_billing" name="express.review.billing" as="billing" template="paypal/express/review/address.phtml"/>
+                <block type="paypal/express_review_shipping" name="express.review.shipping" as="shipping" template="paypal/express/review/address.phtml"/>
                 <block type="paypal/express_review_details" name="paypal.express.review.details" as="details" template="paypal/express/review/details.phtml">
                     <action method="addItemRender"><type>default</type><block>checkout/cart_item_renderer</block><template>checkout/onepage/review/item.phtml</template></action>
                     <action method="addItemRender"><type>grouped</type><block>checkout/cart_item_renderer_grouped</block><template>checkout/onepage/review/item.phtml</template></action>
