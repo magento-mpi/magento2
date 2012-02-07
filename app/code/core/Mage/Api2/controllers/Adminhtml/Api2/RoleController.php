@@ -239,7 +239,7 @@ class Mage_Api2_Adminhtml_Api2_RoleController extends Mage_Adminhtml_Controller_
             /** @var $model Mage_Api2_Model_Acl_Global_Role */
             $model = Mage::getModel("api2/acl_global_role");
             $model->load($id)->delete();
-            $this->_getSession()->addSuccess($this->__('Role "%s" has been deleted.', $model->getRoleName()));
+            $this->_getSession()->addSuccess($this->__('Role has been deleted.'));
         } catch (Mage_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         } catch (Exception $e) {
