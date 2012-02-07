@@ -37,22 +37,11 @@
 class Mage_Api2_Block_Adminhtml_Roles_Tab_Info extends Mage_Adminhtml_Block_Widget_Form
     implements Mage_Adminhtml_Block_Widget_Tab_Interface
 {
-    /**
-     * This method is called before rendering HTML
-     *
-     * @return Mage_Adminhtml_Block_Widget_Form
-     */
-    public function _beforeToHtml()
-    {
-        $this->_initForm();
-
-        return parent::_beforeToHtml();
-    }
 
     /**
      * Prepare form object
      */
-    protected function _initForm()
+    protected function _prepareForm()
     {
         $form = new Varien_Data_Form();
 
