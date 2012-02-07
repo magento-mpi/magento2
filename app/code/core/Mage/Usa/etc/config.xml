@@ -110,6 +110,7 @@
                 <id backend_model="adminhtml/system_config_backend_encrypted"/>
                 <model>usa/shipping_carrier_dhl</model>
                 <password backend_model="adminhtml/system_config_backend_encrypted"/>
+                <shipment_requesttype>0</shipment_requesttype>
                 <shipment_type>P</shipment_type>
                 <shipping_key backend_model="adminhtml/system_config_backend_encrypted"/>
                 <shipping_intlkey backend_model="adminhtml/system_config_backend_encrypted"/>
@@ -128,6 +129,7 @@
                 <key backend_model="adminhtml/system_config_backend_encrypted"/>
                 <password backend_model="adminhtml/system_config_backend_encrypted"/>
                 <sandbox_mode>0</sandbox_mode>
+                <shipment_requesttype>0</shipment_requesttype>
                 <active>0</active>
                 <sallowspecific>0</sallowspecific>
                 <allowed_methods>EUROPE_FIRST_INTERNATIONAL_PRIORITY,FEDEX_1_DAY_FREIGHT,FEDEX_2_DAY_FREIGHT,FEDEX_2_DAY,FEDEX_3_DAY_FREIGHT,FEDEX_EXPRESS_SAVER,FEDEX_GROUND,FIRST_OVERNIGHT,GROUND_HOME_DELIVERY,INTERNATIONAL_ECONOMY,INTERNATIONAL_ECONOMY_FREIGHT,INTERNATIONAL_FIRST,INTERNATIONAL_GROUNDINTERNATIONAL_PRIORITY,INTERNATIONAL_PRIORITY_FREIGHT,PRIORITY_OVERNIGHT,SMART_POSTSTANDARD_OVERNIGHT</allowed_methods>
@@ -149,6 +151,7 @@
                 <sallowspecific>0</sallowspecific>
                 <allowed_methods>1DM,1DML,1DA,1DAL,1DAPI,1DP,1DPL,2DM,2DML,2DA,2DAL,3DS,GND,GNDCOM,GNDRES,STD,XPR,WXS,XPRL,XDM,XDML,XPD</allowed_methods>
                 <origin_shipment>Shipments Originating in United States</origin_shipment>
+                <shipment_requesttype>0</shipment_requesttype>
                 <container>CP</container>
                 <cutoff_cost/>
                 <dest_type>RES</dest_type>
@@ -181,6 +184,7 @@
                 <free_method/>
                 <gateway_url>http://production.shippingapis.com/ShippingAPI.dll</gateway_url>
                 <gateway_secure_url>https://secure.shippingapis.com/ShippingAPI.dll</gateway_secure_url>
+                <shipment_requesttype>0</shipment_requesttype>
                 <handling/>
                 <machinable>true</machinable>
                 <methods>Bound Printed Matter,Express Mail,Express Mail Flat Rate Envelope,Express Mail Flat Rate Envelope Hold For Pickup,Express Mail Flat-Rate Envelope Sunday/Holiday Guarantee,Express Mail Hold For Pickup,Express Mail International,Express Mail International Flat Rate Envelope,Express Mail PO to PO,Express Mail Sunday/Holiday Guarantee,First-Class Mail International Large Envelope,First-Class Mail International Letters,First-Class Mail International Package,First-Class,First-Class Mail,First-Class Mail Flat,First-Class Mail Large Envelope,First-Class Mail International,First-Class Mail Letter,First-Class Mail Parcel,First-Class Mail Package,Global Express Guaranteed (GXG),Global Express Guaranteed Non-Document Non-Rectangular,Global Express Guaranteed Non-Document Rectangular,Library Mail,Media Mail,Parcel Post,Priority Mail,Priority Mail Small Flat Rate Box,Priority Mail Medium Flat Rate Box,Priority Mail Large Flat Rate Box,Priority Mail Flat Rate Box,Priority Mail Flat Rate Envelope,Priority Mail International,Priority Mail International Flat Rate Box,Priority Mail International Flat Rate Envelope,Priority Mail International Small Flat Rate Box,Priority Mail International Medium Flat Rate Box,Priority Mail International Large Flat Rate Box,USPS GXG Envelopes</methods>

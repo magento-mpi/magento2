@@ -157,4 +157,15 @@ class Mage_Shipping_Model_Rate_Result
         $this->_rates = $result;
         return $this;
     }
+
+    public function updateRatesValue($packageCount)
+    {
+        if ($packageCount > 1) {
+            foreach ($this->_rates as $rate) {
+                $rate->setPrice($rate->getPrice() * $packageCount);
+            }
+        }
+
+        return $this;
+    }
 }
