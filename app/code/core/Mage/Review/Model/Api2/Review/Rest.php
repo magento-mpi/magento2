@@ -36,6 +36,21 @@ abstract class Mage_Review_Model_Api2_Review_Rest extends Mage_Api2_Model_Resour
     const RESOURCE_NAME = 'review';
 
     /**
+     * Helper for review specific data validation
+     *
+     * @var Mage_Review_Model_Api2_Validator
+     */
+    protected $_validator;
+
+    /**
+     * Initialize validator
+     */
+    function __construct()
+    {
+        $this->_validator = Mage::getModel('review/api2_validator');
+    }
+
+    /**
      * Fetch resource type
      *
      * @return string
@@ -44,4 +59,24 @@ abstract class Mage_Review_Model_Api2_Review_Rest extends Mage_Api2_Model_Resour
     {
         return self::RESOURCE_NAME;
     }
+
+    /**
+     * Retrieve information about specified review item
+     *
+     * @throws Mage_Api2_Exception
+     * @return array
+     */
+    protected function _retrieve()
+    {
+        $review = $this->_loadReview();
+        return $review->getData();
+    }
+
+    /**
+     * Load review by its id passed through request
+     *
+     * @throws Mage_Api2_Exception
+     * @return Mage_Review_Model_Review
+     */
+    abstract protected function _loadReview();
 }

@@ -38,15 +38,16 @@ class Mage_Review_Model_Api2_Validator
      * Check if passed stores are valid
      *
      * @param array $stores
+     * @param bool $forAdminArea
      * @return bool
      */
-    public function areStoresValid($stores)
+    public function areStoresValid($stores, $forAdminArea = false)
     {
         if (!is_array($stores)) {
             return false;
         }
         $validStores = array();
-        foreach (Mage::app()->getStores(true) as $store) {
+        foreach (Mage::app()->getStores($forAdminArea) as $store) {
             $validStores[] = $store->getId();
         }
         foreach ($stores as $store) {

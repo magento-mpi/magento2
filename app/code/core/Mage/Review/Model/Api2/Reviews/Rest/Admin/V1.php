@@ -134,7 +134,7 @@ class Mage_Review_Model_Api2_Reviews_Rest_Admin_V1 extends Mage_Review_Model_Api
         $this->_validateStatus($data['status_id']);
         /** @var $validator Mage_Review_Model_Api2_Validator */
         $validator = Mage::getModel('review/api2_validator');
-        if (!$validator->areStoresValid($data['stores'])) {
+        if (!$validator->areStoresValid($data['stores'], true)) {
             $this->_critical('Invalid stores provided', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
         }
     }
