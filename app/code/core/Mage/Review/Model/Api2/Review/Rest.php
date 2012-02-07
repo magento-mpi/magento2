@@ -84,6 +84,37 @@ abstract class Mage_Review_Model_Api2_Review_Rest extends Mage_Api2_Model_Resour
     abstract protected function _loadReview();
 
     /**
+     * Review specific input data validation
+     *
+     * @throws Mage_Api2_Exception
+     * @param array $data
+     * @param array $required
+     * @param array $notEmpty
+     */
+    protected function _validate(array $data, array $required = array(), array $notEmpty = array())
+    {
+        parent::_validate($data, $required, $notEmpty);
+        if (isset($data['stores'])) {
+            $this->_validateStores($data['stores']);
+        }
+        if (isset($data['status_id']) && !$this->_validator->isStatusValid($data['status_id'])) {
+            $this->_critical('Invalid status provided', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+        }
+    }
+
+    /**
+     * Validate stores
+     *
+     * @param mixed $stores
+     */
+    protected function _validateStores($stores)
+    {
+        if (!$this->_validator->areStoresValid($stores)) {
+            $this->_critical('Invalid stores provided', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+        }
+    }
+
+    /**
      * Available attributes
      *
      * @return array
@@ -92,9 +123,9 @@ abstract class Mage_Review_Model_Api2_Review_Rest extends Mage_Api2_Model_Resour
     static public function getAvailableAttributes()
     {
         return array(
-             'entity_id' => 'ID',
-             'content' => 'Content',
-             'created_at' => 'Created At',
+            'entity_id' => 'ID',
+            'content' => 'Content',
+            'created_at' => 'Created At',
         );
     }
 }

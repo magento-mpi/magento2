@@ -65,6 +65,19 @@ class Mage_Review_Model_Api2_Reviews_Rest_Admin_V1 extends Mage_Review_Model_Api
     }
 
     /**
+     * Validate stores including admin area
+     *
+     * @throws Mage_Api2_Exception
+     * @param array $stores
+     */
+    protected function _validateStores($stores)
+    {
+        if (!$this->_validator->areStoresValid($stores, true)) {
+            $this->_critical('Invalid stores provided', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+        }
+    }
+
+    /**
      * Get list of reviews
      *
      * @return array

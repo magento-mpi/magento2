@@ -36,6 +36,21 @@ abstract class Mage_Review_Model_Api2_Reviews_Rest extends Mage_Api2_Model_Resou
     const RESOURCE_NAME = 'reviews';
 
     /**
+     * Helper for review specific data validation
+     *
+     * @var Mage_Review_Model_Api2_Validator
+     */
+    protected $_validator;
+
+    /**
+     * Initialize validator
+     */
+    function __construct()
+    {
+        $this->_validator = Mage::getModel('review/api2_validator');
+    }
+
+    /**
      * Fetch resource type
      *
      * @return string
@@ -94,9 +109,7 @@ abstract class Mage_Review_Model_Api2_Reviews_Rest extends Mage_Api2_Model_Resou
      */
     protected function _validateStores($stores)
     {
-        /** @var $validator Mage_Review_Model_Api2_Validator */
-        $validator = Mage::getModel('review/api2_validator');
-        if (!$validator->areStoresValid($stores, true)) {
+        if (!$this->_validator->areStoresValid($stores)) {
             $this->_critical('Invalid stores provided', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
         }
     }
@@ -109,9 +122,7 @@ abstract class Mage_Review_Model_Api2_Reviews_Rest extends Mage_Api2_Model_Resou
      */
     protected function _validateStatus($statusId)
     {
-        /** @var $validator Mage_Review_Model_Api2_Validator */
-        $validator = Mage::getModel('review/api2_validator');
-        if (!$validator->isStatusValid($statusId)) {
+        if (!$this->_validator->isStatusValid($statusId)) {
             $this->_critical('Invalid status provided', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
         }
     }
