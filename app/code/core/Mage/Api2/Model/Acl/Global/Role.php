@@ -77,7 +77,29 @@ class Mage_Api2_Model_Acl_Global_Role extends Mage_Core_Model_Abstract
         } else {
             $this->setUpdatedAt(Varien_Date::now());
         }
+
+        //check and protect guest role
+        if ($this->isGuestRole() && $this->getRoleName() != $this->getOrigData('role_name')) {
+            Mage::throwException(
+                Mage::helper('api2')->__('Guest role is a special one and can\'t be changed.'));
+        }
+
         parent::_beforeSave();
+        return $this;
+    }
+
+    /**
+     * Perform checks before role delete
+     *
+     * @return Mage_Api2_Model_Acl_Global_Role
+     */
+    protected function _beforeDelete()
+    {
+        if ($this->isGuestRole()) {
+            Mage::throwException(
+                Mage::helper('api2')->__('Guest role is a special one and can\'t be deleted.'));
+        }
+
         return $this;
     }
 
