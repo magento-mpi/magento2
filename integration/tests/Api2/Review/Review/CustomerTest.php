@@ -160,5 +160,23 @@ class Api2_Review_Review_CustomerTest extends Magento_Test_Webservice_Rest_Custo
             array(Mage_Review_Model_Review::STATUS_PENDING),
         );
     }
+
+    /**
+     * Customer should not be able to remove any review
+     */
+    public function testDelete()
+    {
+        $restResponse = $this->callDelete('review/any_id');
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_METHOD_NOT_ALLOWED, $restResponse->getStatus());
+    }
+
+    /**
+     * Customer should not be able to update any review
+     */
+    public function testUpdate()
+    {
+        $restResponse = $this->callPut('review/any_id', array());
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_METHOD_NOT_ALLOWED, $restResponse->getStatus());
+    }
 }
 
