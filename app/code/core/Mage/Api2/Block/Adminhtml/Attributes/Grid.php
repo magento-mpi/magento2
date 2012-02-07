@@ -77,6 +77,19 @@ class Mage_Api2_Block_Adminhtml_Attributes_Grid extends Mage_Adminhtml_Block_Wid
     }
 
     /**
+     * Disable unnecessary functionality
+     *
+     * @return Mage_Api2_Block_Adminhtml_Attributes_Grid
+     */
+    public function _prepareLayout()
+    {
+        $this->setFilterVisibility(false);
+        $this->setPagerVisibility(false);
+
+        return $this;
+    }
+
+    /**
      * Get row URL
      *
      * @param Varien_Object $row
