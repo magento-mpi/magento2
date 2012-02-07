@@ -214,7 +214,6 @@ class Mage_Api2_Adminhtml_Api2_RoleController extends Mage_Adminhtml_Controller_
                     $rule->setRoleId($id)
                             ->setResourceId($resourceId)
                             ->setPrivilege($privilege)
-                            ->setPermission(Mage_Api2_Model_Acl_Global_Rule_Permission::TYPE_ALLOW)
                             ->save();
                 }
             }

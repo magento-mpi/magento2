@@ -121,8 +121,13 @@ class Mage_Api2_Model_Acl_Global_Rule_Tree extends Mage_Core_Helper_Abstract
     public function getPostResourcesPrivleges()
     {
         $isAll = Mage::app()->getRequest()->getParam(Mage_Api2_Model_Acl_Global_Rule::RESOURCE_ALL);
+        $allow = Mage_Api2_Model_Acl_Global_Rule_Permission::TYPE_ALLOW;
         if ($isAll) {
-            $resources = array(Mage_Api2_Model_Acl_Global_Rule::RESOURCE_ALL);
+            $resources = array(
+                Mage_Api2_Model_Acl_Global_Rule::RESOURCE_ALL => array(
+                    null => $allow
+                )
+            );
         } else {
             $resources = array();
             $checkedResources = explode(',', Mage::app()->getRequest()->getParam('resource'));
@@ -136,7 +141,7 @@ class Mage_Api2_Model_Acl_Global_Rule_Tree extends Mage_Core_Helper_Abstract
                 } elseif (0 === strpos($item, $prefixPrivilege)) {
                     $name = substr($item, mb_strlen($prefixPrivilege, 'UTF-8'));
                     $namePrivilege = str_replace($nameResource . self::ID_SEPARATOR, '', $name);
-                    $resources[$nameResource][$namePrivilege] = 1;
+                    $resources[$nameResource][$namePrivilege] = $allow;
                 } else {
                     unset($checkedResources[$i]);
                 }
