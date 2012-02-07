@@ -27,7 +27,7 @@
  */
 
 /**
- * Creting Order with promoted product
+ * Creating Order with promoted product
  *
  * @package     selenium
  * @subpackage  tests

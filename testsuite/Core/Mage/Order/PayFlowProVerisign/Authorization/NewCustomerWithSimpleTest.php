@@ -27,7 +27,7 @@
  */
 
 /**
- * Cancel orders
+ * Create order on the backend using PayflowProVerisign
  *
  * @package     selenium
  * @subpackage  tests
@@ -330,6 +330,9 @@ class Core_Mage_Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest
      * <p>Message "The order has been created." is displayed.</p>
      * <p>New order during reorder is created.</p>
      * <p>Message "The order has been created." is displayed.</p>
+     * <p>Bug MAGE-5802</p>
+     *
+     * @group skip_due_to_bug
      *
      * @depends orderWithout3DSecureSmoke
      * @param array $orderData
@@ -347,7 +350,8 @@ class Core_Mage_Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest
         //Steps
         $this->clickButton('reorder');
         $data = $orderData['payment_data']['payment_info'];
-        $emptyFields = array('card_number', 'card_verification_number');
+        $emptyFields = array(
+            'card_type', 'card_number', 'expiration_month', 'expiration_year', 'card_verification_number');
         foreach ($emptyFields as $field) {
             $xpath = $this->_getControlXpath('field', $field);
             $value = $this->getAttribute($xpath . '@value');
@@ -355,8 +359,7 @@ class Core_Mage_Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest
                 $errors[] = "Value for field '$field' should be empty, but now is $value";
             }
         }
-        $this->fillForm(array('card_number' => $data['card_number'],
-            'card_verification_number' => $data['card_verification_number']));
+        $this->fillForm($data);
         $this->saveForm('submit_order', false);
         $this->orderHelper()->defineOrderId();
         $this->validatePage();

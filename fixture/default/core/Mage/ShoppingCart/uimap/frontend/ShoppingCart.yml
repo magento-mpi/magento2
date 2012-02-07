@@ -33,6 +33,17 @@ shopping_cart:
         form:
             fieldsets:
                 -
+                    cart_header:
+                        xpath: //div[@class='header']
+                        links:
+                            my_account: //a[@title='My Account']
+                            my_wishlist: //a[contains(@title,'My Wishlist')]
+                            my_cart: //a[@title='My Cart']
+                            checkout: //a[@title='Checkout']
+                            log_in: //a[@title='Log In']
+                        dropdowns:
+                            your_language: //select[@id='select-language']
+                -
                     products_in_cart:
                         xpath: //table[@id='shopping-cart-table']
                         buttons:

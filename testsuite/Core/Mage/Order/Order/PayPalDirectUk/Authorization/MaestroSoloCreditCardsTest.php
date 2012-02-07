@@ -27,35 +27,20 @@
  */
 
 /**
- * Cancel orders
+ * Create order using Maestro/Solo/Switch credit cards on the backend with PayPal direct UK payment method
  *
  * @package     selenium
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Core_Mage_Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTest extends Mage_Selenium_TestCase
+class Order_PayPalDirectUk_Authorization_MaestroSoloCreditCardsTest extends Mage_Selenium_TestCase
 {
     protected function assertPreConditions()
     {
         $this->loginAdminUser();
         $this->addParameter('id', '0');
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('paypaldirectuk_without_3Dsecure');
-    }
-
-    /**
-     * <p>Create Buyers Accounts on PayPal sandbox</p>
-     *
-     * @return array $accounts
-     * @test
-     */
-    public function createPayPalBuyerAccounts()
-    {
-        $this->goToArea('paypal_developer');
-        $this->paypalHelper()->paypalDeveloperLogin('paypal_developer_login');
-        $accounts = $this->paypalHelper()->createBuyerAccounts('visa, mastercard');
-
-        return $accounts;
+        $this->systemConfigurationHelper()->configure('paypaldirectuk_with_3Dsecure');
     }
 
     /**
@@ -81,17 +66,18 @@ class Core_Mage_Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTes
      * <p>Smoke test for order without 3D secure</p>
      *
      * @depends createSimpleProduct
-     * @depends createPayPalBuyerAccounts
      * @param string $simpleSku
-     * @param array $accounts
      * @return array
      * @test
      */
-    public function orderWithout3DSecureSmoke($simpleSku, $accounts)
+    public function orderWith3DSecureSmoke($simpleSku)
     {
+        //Preconditions
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('enable_gbp');
         //Data
         $orderData = $this->loadData('order_newcustmoer_paypaldirectuk_flatrate',
-            array('filter_sku' => $simpleSku, 'payment_info' => $accounts['mastercard']['credit_card']));
+            array('filter_sku' => $simpleSku, 'payment_info' => $this->loadData('else_switch_maestro')));
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -99,41 +85,6 @@ class Core_Mage_Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTes
         $this->assertMessagePresent('success', 'success_created_order');
 
         return $orderData;
-    }
-
-    /**
-     * <p>Create order with PayPal Direct Uk using all types of credit card</p>
-     *
-     * @depends orderWithout3DSecureSmoke
-     * @depends createPayPalBuyerAccounts
-     * @dataProvider cardPayPalDirectUkDataProvider
-     * @param string $card
-     * @param array $orderData
-     * @param array $accounts
-     * @test
-     */
-    public function differentCardInPayPalDirectUk($card, $orderData, $accounts)
-    {
-        //Data
-        $orderData['payment_data']['payment_info'] = $accounts[$card]['credit_card'];
-        //Steps
-        $this->navigate('manage_sales_orders');
-        $this->orderHelper()->createOrder($orderData);
-        //Verifying
-        $this->assertMessagePresent('success', 'success_created_order');
-    }
-
-    /**
-     * <p>Data provider for differentCardInPayPalDirectUk test</p>
-     *
-     * @return array
-     */
-    public function cardPayPalDirectUkDataProvider()
-    {
-        return array(
-            array('visa'),
-            array('mastercard'),
-        );
     }
 
     /**
@@ -155,7 +106,7 @@ class Core_Mage_Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTes
      * <p>Expected result:</p>
      * <p>New customer is created. Order is created for the new customer. Invoice is created</p>
      *
-     * @depends orderWithout3DSecureSmoke
+     * @depends orderWith3DSecureSmoke
      * @dataProvider captureTypeDataProvider
      * @param string $captureType
      * @param array $orderData
@@ -187,7 +138,7 @@ class Core_Mage_Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTes
     /**
      * <p>Partial invoice with different types of capture</p>
      *
-     * @depends orderWithout3DSecureSmoke
+     * @depends orderWith3DSecureSmoke
      * @dataProvider captureTypeDataProvider
      * @param string $captureType
      * @param array $orderData
@@ -226,7 +177,7 @@ class Core_Mage_Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTes
      * <p>Expected result:</p>
      * <p>New customer is created. Order is created for the new customer. Refund Online is successful</p>
      *
-     * @depends orderWithout3DSecureSmoke
+     * @depends orderWith3DSecureSmoke
      * @dataProvider creditMemoDataProvider
      * @param string $captureType
      * @param string $refundType
@@ -250,7 +201,7 @@ class Core_Mage_Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTes
     /**
      * <p>Partial Credit Memo test</p>
      *
-     * @depends orderWithout3DSecureSmoke
+     * @depends orderWith3DSecureSmoke
      * @dataProvider creditMemoDataProvider
      * @param string $captureType
      * @param string $refundType
@@ -310,7 +261,7 @@ class Core_Mage_Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTes
      * <p>Message "The order has been created." is displayed.</p>
      * <p>Order is invoiced and shipped successfully</p>
      *
-     * @depends orderWithout3DSecureSmoke
+     * @depends orderWith3DSecureSmoke
      * @param array $orderData
      * @test
      */
@@ -335,7 +286,7 @@ class Core_Mage_Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTes
      * <p>Expected result:</p>
      * <p>Order is unholded;</p>
      *
-     * @depends orderWithout3DSecureSmoke
+     * @depends orderWith3DSecureSmoke
      * @param array $orderData
      * @test
      */
@@ -354,7 +305,7 @@ class Core_Mage_Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTes
     /**
      * <p>Cancel Pending Order From Order Page</p>
      *
-     * @depends orderWithout3DSecureSmoke
+     * @depends orderWith3DSecureSmoke
      * @param array $orderData
      * @test
      */
@@ -393,7 +344,7 @@ class Core_Mage_Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTes
      *
      * @group skip_due_to_bug
      *
-     * @depends orderWithout3DSecureSmoke
+     * @depends orderWith3DSecureSmoke
      * @param array $orderData
      * @test
      */
@@ -410,7 +361,8 @@ class Core_Mage_Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTes
         $this->clickButton('reorder');
         $data = $orderData['payment_data']['payment_info'];
         $emptyFields = array(
-            'card_type', 'card_number', 'expiration_month', 'expiration_year', 'card_verification_number');
+                    'card_type', 'card_number', 'expiration_month', 'expiration_year',
+                    'card_verification_number', 'issue_number', 'start_date_month', 'start_date_year');
         foreach ($emptyFields as $field) {
             $xpath = $this->_getControlXpath('field', $field);
             $value = $this->getAttribute($xpath . '@value');
@@ -448,7 +400,7 @@ class Core_Mage_Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTes
      * <p>Expected result:</p>
      * <p>New customer is created. Order is created for the new customer. Void successful</p>
      *
-     * @depends orderWithout3DSecureSmoke
+     * @depends orderWith3DSecureSmoke
      * @param array $orderData
      * @test
      */
@@ -482,23 +434,20 @@ class Core_Mage_Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTes
      * <p>12.Submit order.</p>
      * <p>Expected result:</p>
      * <p>New customer is created. Order is created for the new customer.</p>
+     * <p>Bug number MAGE-5167</p>
      *
-     * @depends orderWithout3DSecureSmoke
-     * @dataProvider createOrderWith3DSecureDataProvider
-     * @param string $card
-     * @param bool $needSetUp
+     * @group skip_due_to_bug
+     * @depends orderWith3DSecureSmoke
      * @param array $orderData
      * @test
      */
-    public function createOrderWith3DSecure($card, $needSetUp, $orderData)
+    public function createOrderWithout3DSecure($orderData)
     {
         //Data
-        $orderData['payment_data']['payment_info'] = $this->loadData($card);
+        $orderData['payment_data']['payment_info'] = $this->loadData('else_solo');
         //Steps
-        if ($needSetUp) {
-            $this->systemConfigurationHelper()->useHttps('admin', 'yes');
-            $this->systemConfigurationHelper()->configure('paypaldirectuk_with_3Dsecure');
-        }
+        $this->systemConfigurationHelper()->useHttps('admin', 'yes');
+        $this->systemConfigurationHelper()->configure('paypaldirectuk_without_3Dsecure');
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
         //Verifying
@@ -506,33 +455,14 @@ class Core_Mage_Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTes
     }
 
     /**
-     * <p>Data provider for createOrderWith3DSecure test</p>
+     * <p>Move back to USD currency</p>
      *
-     * @return array
-     */
-    public function createOrderWith3DSecureDataProvider()
-    {
-        return array(
-            array('else_visa_direct', true),
-            array('else_mastercard', false)
-        );
-    }
-
-    /**
-     * <p>Delete test accounts</p>
-     *
-     * @depends createPayPalBuyerAccounts
-     * @param array $accounts
      * @test
      */
-    public function deleteTestAccounts($accounts)
+    public function switchToUsdCurrency()
     {
-        $this->goToArea('paypal_developer');
-        $this->paypalHelper()->paypalDeveloperLogin('paypal_developer_login');
-        foreach ($accounts as $card) {
-            if (isset($card['email'])) {
-                $this->paypalHelper()->deleteAccount($card['email']);
-            }
-        }
+        $this->loginAdminUser();
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('enable_usd');
     }
 }

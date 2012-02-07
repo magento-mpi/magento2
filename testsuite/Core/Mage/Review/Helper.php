@@ -109,7 +109,7 @@ class Core_Mage_Review_Helper extends Mage_Selenium_TestCase
      */
     public function fillRatings(array $detailedRatings)
     {
-        if ($this->waitForElement($this->_getControlXpath('message', 'not_available_rating'), 5)) {
+        if ($this->controlIsPresent('message', 'not_available_rating')) {
             $this->fail('Rating is not available for this store view');
         }
         foreach ($detailedRatings as $value) {
@@ -138,6 +138,7 @@ class Core_Mage_Review_Helper extends Mage_Selenium_TestCase
      * Verify Review
      *
      * @param array|string $reviewData
+     * @param array $skipFields
      */
     public function verifyReviewData($reviewData, $skipFields = array())
     {
@@ -190,6 +191,7 @@ class Core_Mage_Review_Helper extends Mage_Selenium_TestCase
      * Filling In Rating
      *
      * @param array|string $ratingData
+     * @param bool $validateRating
      */
     public function frontendAddRating($ratingData, $validateRating = true)
     {
@@ -277,7 +279,7 @@ class Core_Mage_Review_Helper extends Mage_Selenium_TestCase
      * Verification review on frontend
      * (@TODO doesn't work for several reviews posted by one nickname)
      *
-     * @param array $reviewText
+     * @param array $reviewData
      * @param string $productName
      */
     public function frontVerifyReviewDisplayingInMyAccount($reviewData, $productName)
@@ -300,7 +302,6 @@ class Core_Mage_Review_Helper extends Mage_Selenium_TestCase
      * Add parameter ReviewId
      *
      * @param string $linkName
-     * @param string $paramName
      */
     public function defineCorrectParam($linkName)
     {

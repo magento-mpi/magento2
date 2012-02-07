@@ -27,7 +27,7 @@
  */
 
 /**
- * Cancel orders
+ * Create order with AuthorizeNet payment method
  *
  * @package     selenium
  * @subpackage  tests
@@ -381,6 +381,9 @@ class Core_Mage_Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest 
      * <p>Message "The order has been created." is displayed.</p>
      * <p>New order during reorder is created.</p>
      * <p>Message "The order has been created." is displayed.</p>
+     * <p>Bug MAGE-5802</p>
+     *
+     * @group skip_due_to_bug
      *
      * @depends orderWithout3DSecureSmoke
      * @param array $orderData
@@ -398,7 +401,8 @@ class Core_Mage_Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest 
         //Steps
         $this->clickButton('reorder');
         $data = $orderData['payment_data']['payment_info'];
-        $emptyFields = array('card_number', 'card_verification_number');
+        $emptyFields = array(
+            'card_type', 'card_number', 'expiration_month', 'expiration_year', 'card_verification_number');
         foreach ($emptyFields as $field) {
             $xpath = $this->_getControlXpath('field', $field);
             $value = $this->getAttribute($xpath . '@value');
