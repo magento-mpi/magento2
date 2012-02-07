@@ -53,4 +53,18 @@ class Mage_DesignEditor_Model_SessionTest extends PHPUnit_Framework_TestCase
         $this->_model->deactivateDesignEditor();
         $this->assertFalse($this->_model->isDesignEditorActive());
     }
+
+    public function testSetSkin()
+    {
+        $this->_model->setSkin('default/default/blank');
+        $this->assertEquals('default/default/blank', $this->_model->getSkin());
+    }
+
+    /**
+     * @expectedException Mage_Core_Exception
+     */
+    public function testSetSkinWrongValue()
+    {
+        $this->_model->setSkin('wrong/skin/applied');
+    }
 }
