@@ -225,7 +225,7 @@ class Mage_Api2_Adminhtml_Api2_RoleController extends Mage_Adminhtml_Controller_
             $session->addError($this->__('An error occurred while saving role.'));
         }
 
-        $this->_redirect('*/*/');
+        $this->_redirect('*/*/edit', array('id'=>$id));
     }
 
     /**
