@@ -53,6 +53,14 @@ class Api2_Review_Reviews_CustomerTest extends Magento_Test_Webservice_Rest_Cust
     }
 
     /**
+     * Set up store fixture
+     */
+    public static function setUpBeforeClass()
+    {
+        require dirname(__FILE__) . '/../_fixtures/store.php';
+    }
+
+    /**
      * Delete store fixture after test case
      */
     public static function tearDownAfterClass()
@@ -107,7 +115,6 @@ class Api2_Review_Reviews_CustomerTest extends Magento_Test_Webservice_Rest_Cust
      * Test successful review creation on custom store
      *
      * @magentoDataFixture Api/SalesOrder/_fixtures/product_simple.php
-     * @magentoDataFixture Api2/Review/_fixtures/store.php
      */
     public function testPostCustomStore()
     {
@@ -198,6 +205,79 @@ class Api2_Review_Reviews_CustomerTest extends Magento_Test_Webservice_Rest_Cust
         $body = $restResponse->getBody();
         $error = reset($body['messages']['error']);
         $this->assertEquals($error['message'], 'Invalid stores provided');
+    }
+
+    /**
+     * Test retrieving list of reviews
+     *
+     * @magentoDataFixture Api2/Review/_fixtures/Customer/reviews_list.php
+     */
+    public function testGet()
+    {
+        $restResponse = $this->callGet('reviews', array('order' => 'review_id'));
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+        $body = $restResponse->getBody();
+        $this->assertNotEmpty($body);
+        $responseReviews = array();
+        foreach ($body as $responseReview) {
+            $responseReviews[$responseReview['review_id']] = $responseReview;
+        }
+
+        $reviewsList = $this->getFixture('reviews_list');
+        foreach ($reviewsList as $review) {
+            $this->assertTrue(isset($responseReviews[$review->getId()]),
+                'Review created from fixture was not found in response');
+            $this->assertEquals($review->getEntityPkValue(), $responseReviews[$review->getId()]['product_id']);
+            $this->assertEquals($review->getStatusId(), $responseReviews[$review->getId()]['status_id']);
+        }
+    }
+
+    /**
+     * Test retrieving list of reviews
+     *
+     * @magentoDataFixture Api2/Review/_fixtures/Customer/reviews_list.php
+     */
+    public function testGetCustomStore()
+    {
+        /** @var $store Mage_Core_Model_Store */
+        $store = Magento_Test_Webservice::getFixture('store');
+        $restResponse = $this->callGet('reviews', array('order' => 'review_id', 'store_id' => $store->getId()));
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+        $body = $restResponse->getBody();
+        $this->assertCount(1, $body, 'There should be 1 review assigned to custom store in this test.');
+    }
+
+    /**
+     * Test retrieving list of reviews with product filter
+     *
+     * @magentoDataFixture Api2/Review/_fixtures/Customer/reviews_list.php
+     */
+    public function testGetProductFilter()
+    {
+        /** @var $product Mage_Catalog_Model_Product */
+        $product = Magento_Test_Webservice::getFixture('product_simple');
+
+        $restResponse = $this->callGet('reviews', array('product' => $product->getId()));
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+        $reviews = $restResponse->getBody();
+        $this->assertNotEmpty($reviews);
+        $this->assertCount(2, $reviews, 'There should be 2 reviews posted to the simple product in this test');
+
+        foreach ($reviews as $review) {
+            $this->assertEquals($product->getId(), $review['product_id'], 'Review is not for correct product');
+        }
+    }
+
+    /**
+     * Test invalid product id in filter
+     */
+    public function testGetProductFilterInvalid()
+    {
+        $restResponse = $this->callGet('reviews', array('product' => 'INVALID PRODUCT'));
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
+        $body = $restResponse->getBody();
+        $error = reset($body['messages']['error']);
+        $this->assertEquals($error['message'], 'Invalid product');
     }
 }
 
