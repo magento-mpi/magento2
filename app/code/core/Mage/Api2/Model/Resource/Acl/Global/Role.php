@@ -68,7 +68,7 @@ class Mage_Api2_Model_Resource_Acl_Global_Role extends Mage_Core_Model_Resource_
      */
     protected function _beforeSave(Mage_Core_Model_Abstract $role)
     {
-        if ($role->isGuestRole()) {
+        if ($role->isGuestRole() && $role->getRoleName()!=$role->getOrigData('role_name')) {
             Mage::throwException(Mage::helper('api2')->__('Guest role is a special one and can\'t be changed.'));
         }
 

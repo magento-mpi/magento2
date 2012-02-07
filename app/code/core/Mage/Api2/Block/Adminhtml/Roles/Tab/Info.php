@@ -67,16 +67,20 @@ class Mage_Api2_Block_Adminhtml_Roles_Tab_Info extends Mage_Adminhtml_Block_Widg
             'legend'    => Mage::helper('adminhtml')->__('Role Information')
         ));
 
-        $fieldset->addField('role_name', 'text',
-            array(
-                'name'  => 'role_name',
-                'label' => Mage::helper('adminhtml')->__('Role Name'),
-                'id'    => 'role_name',
-                'class' => 'required-entry',
-                'required' => true,
-                'disabled' => $this->getRole() && $this->getRole()->isGuestRole()
-            )
+        $isGuestRole = $this->getRole() && $this->getRole()->isGuestRole();
+
+        $data = array(
+            'name'  => 'role_name',
+            'label' => Mage::helper('adminhtml')->__('Role Name'),
+            'id'    => 'role_name',
+            'class' => 'required-entry',
+            'required' => true,
         );
+        if ($isGuestRole) {
+            $data['readonly'] = 'readonly';
+            $data['note'] = 'Guest role is protected.';
+        }
+        $fieldset->addField('role_name', 'text', $data);
 
         $fieldset->addField('entity_id', 'hidden',
             array(
