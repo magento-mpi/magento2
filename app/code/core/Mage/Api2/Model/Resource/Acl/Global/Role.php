@@ -36,16 +36,6 @@
 class Mage_Api2_Model_Resource_Acl_Global_Role extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Guest default role name
-     */
-    const ROLE_GUEST = 'guest';
-
-    /**
-     * Guest default role id
-     */
-    const ROLE_GUEST_ID = 1;
-
-    /**
      * Initialize resource model
      *
      * @return void
@@ -63,7 +53,7 @@ class Mage_Api2_Model_Resource_Acl_Global_Role extends Mage_Core_Model_Resource_
      */
     protected function _beforeDelete(Mage_Core_Model_Abstract $role)
     {
-        if ($role->getRoleName() == self::ROLE_GUEST) {
+        if ($role->isGuestRole()) {
             Mage::throwException(Mage::helper('api2')->__('Guest role is a special one and can\'t be deleted.'));
         }
 
@@ -78,8 +68,8 @@ class Mage_Api2_Model_Resource_Acl_Global_Role extends Mage_Core_Model_Resource_
      */
     protected function _beforeSave(Mage_Core_Model_Abstract $role)
     {
-        if ($role->getRoleName()==self::ROLE_GUEST || $role->getOrigData('role_name')==self::ROLE_GUEST) {
-            Mage::throwException(Mage::helper('api2')->__('Guest role is a special one and can\'t be deleted.'));
+        if ($role->isGuestRole()) {
+            Mage::throwException(Mage::helper('api2')->__('Guest role is a special one and can\'t be changed.'));
         }
 
         return $this;
@@ -94,7 +84,7 @@ class Mage_Api2_Model_Resource_Acl_Global_Role extends Mage_Core_Model_Resource_
      */
     public function saveAdminToRoleRelation($adminId, $roleId)
     {
-        if ($roleId == self::ROLE_GUEST_ID) {
+        if ($roleId == Mage_Api2_Model_Acl_Global_Role::ROLE_GUEST_ID) {
             Mage::throwException(
                 Mage::helper('api2')->__('Guest role is a special one and not for assigning it to admin users.')
             );

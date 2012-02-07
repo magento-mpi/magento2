@@ -44,6 +44,11 @@
 class Mage_Api2_Model_Acl_Global_Role extends Mage_Core_Model_Abstract
 {
     /**
+     * Guest default role id
+     */
+    const ROLE_GUEST_ID = 1;
+
+    /**
      * Resources permissions
      *
      * @var array
@@ -149,5 +154,15 @@ class Mage_Api2_Model_Acl_Global_Role extends Mage_Core_Model_Abstract
         $config = Mage::getModel('api2/config');
         $resources = $grouped ? $config->getResourceGroups() : $config->getResources();
         return $resources;
+    }
+
+    /**
+     * Check if role is "guest" special role
+     *
+     * @return bool
+     */
+    public function isGuestRole()
+    {
+        return $this->getId()==self::ROLE_GUEST_ID;
     }
 }

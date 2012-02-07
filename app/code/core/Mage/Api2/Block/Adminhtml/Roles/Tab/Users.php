@@ -186,7 +186,7 @@ class Mage_Api2_Block_Adminhtml_Roles_Tab_Users extends Mage_Adminhtml_Block_Wid
      */
     public function isHidden()
     {
-        return false;
+        return $this->getRole() && $this->getRole()->isGuestRole();
     }
 
     /**

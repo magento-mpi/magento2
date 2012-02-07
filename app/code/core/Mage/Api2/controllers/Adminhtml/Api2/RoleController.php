@@ -66,16 +66,10 @@ class Mage_Api2_Adminhtml_Api2_RoleController extends Mage_Adminhtml_Controller_
     {
         $id = $this->getRequest()->getParam('id', false);
 
-        /** @var $role Mage_Api2_Model_Acl_Global_Role */
-        $role = Mage::getModel('api2/acl_global_role')->load($id);
-
         $this->loadLayout();
         /** @var $grid Mage_Api2_Block_Adminhtml_Roles_Tab_Users */
         $grid = $this->getLayout()->getBlock('adminhtml.role.edit.tab.users');
         $grid->setUsers($this->_getUsers($id));
-
-        //NOTE: If we set role than we limit grid to show users possessing this role
-        //$grid->setRole($role);
 
         $this->renderLayout();
     }
@@ -124,6 +118,12 @@ class Mage_Api2_Adminhtml_Api2_RoleController extends Mage_Adminhtml_Controller_
         /** @var $role Mage_Api2_Model_Acl_Global_Role */
         $role = Mage::getModel('api2/acl_global_role')->load($id);
 
+        if (!$role->getId()) {
+            Mage::getSingleton('adminhtml/session')->addError($this->__('Role "%s" not found.', $id));
+            $this->_redirect('*/*/');
+            return;
+        }
+
         $this->loadLayout()->_setActiveMenu('system/services/roles');
 
         $this->_title($this->__('System'))
@@ -155,7 +155,6 @@ class Mage_Api2_Adminhtml_Api2_RoleController extends Mage_Adminhtml_Controller_
         $block = $this->getLayout()->getBlock('adminhtml.role.edit.tab.resources');
 
         $this->getLayout()->getBlock('adminhtml.role.edit.tab.users')->setUsers($this->_getUsers($id));
-
         $this->_addJs(
             $this->getLayout()->createBlock('adminhtml/template')->setTemplate('api2/role/users_grid_js.phtml')
         );
@@ -249,6 +248,8 @@ class Mage_Api2_Adminhtml_Api2_RoleController extends Mage_Adminhtml_Controller_
             }
 
             $session->addSuccess($this->__('The role has been saved.'));
+        } catch (Mage_Core_Exception $e) {
+            Mage::getSingleton('adminhtml/session')->addError($this->__($e->getMessage()));
         } catch (Exception $e) {
             Mage::getSingleton('adminhtml/session')->addError($this->__('An error occurred while saving role.'));
         }

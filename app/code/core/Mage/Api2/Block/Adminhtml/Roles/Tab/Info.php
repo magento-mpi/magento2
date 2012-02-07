@@ -74,6 +74,7 @@ class Mage_Api2_Block_Adminhtml_Roles_Tab_Info extends Mage_Adminhtml_Block_Widg
                 'id'    => 'role_name',
                 'class' => 'required-entry',
                 'required' => true,
+                'disabled' => $this->getRole() && $this->getRole()->isGuestRole()
             )
         );
 
