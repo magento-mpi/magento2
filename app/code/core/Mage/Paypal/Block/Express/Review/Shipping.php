@@ -25,11 +25,11 @@
  */
 
 /**
- * Paypal Express Onepage checkout block
+ * Paypal Express Onepage checkout block for Shipping Address
  *
  * @category   Mage
  * @package    Mage_Paypal
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Paypal_Block_Express_Review_Shipping extends Mage_Checkout_Block_Onepage_Shipping
 {
