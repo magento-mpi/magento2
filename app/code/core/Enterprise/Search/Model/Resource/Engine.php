@@ -36,13 +36,9 @@ class Enterprise_Search_Model_Resource_Engine
     /**
      * Store search engine adapter model instance
      *
-     * @var object
+     * @var Enterprise_Search_Model_Adapter_Abstract
      */
     protected $_adapter = null;
-
-
-
-
 
     /**
      * Advanced index fields prefix
@@ -73,10 +69,6 @@ class Enterprise_Search_Model_Resource_Engine
         '#position_category_',
         '#price_'
     );
-
-
-
-
 
     /**
      * Check if hold commit action is possible depending on current commit mode

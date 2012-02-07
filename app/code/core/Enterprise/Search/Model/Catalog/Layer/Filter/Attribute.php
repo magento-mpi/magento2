@@ -126,7 +126,17 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Attribute extends Mage_Catalo
         }
 
         $attribute = $filter->getAttributeModel();
-        $fieldName = Mage::getResourceSingleton('enterprise_search/engine')->getSearchEngineFieldName($attribute);
+        $options = $attribute->getSource()->getAllOptions();
+        foreach ($value as &$valueText) {
+            foreach ($options as $option) {
+                if ($option['label'] == $valueText) {
+                    $valueText = $option['value'];
+                }
+            }
+        }
+
+        $fieldName = Mage::getResourceSingleton('enterprise_search/engine')
+            ->getSearchEngineFieldName($attribute, 'nav');
         $this->getLayer()->getProductCollection()->addFqFilter(array($fieldName => $value));
 
         return $this;

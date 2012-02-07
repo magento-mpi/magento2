@@ -74,7 +74,7 @@ class Enterprise_Search_Model_Resource_Collection
     /**
      * Store engine instance
      *
-     * @var object
+     * @var Enterprise_Search_Model_Resource_Engine
      */
     protected $_engine = null;
 
@@ -443,9 +443,6 @@ class Enterprise_Search_Model_Resource_Collection
             if ($searchSuggestionsEnabled) {
                 $params['solr_params']['spellcheck'] = 'true';
                 $searchSuggestionsCount = (int) $helper->getSolrConfigData('server_suggestion_count');
-                if ($searchSuggestionsCount < 1) {
-                    $searchSuggestionsCount = 1;
-                }
                 $params['solr_params']['spellcheck.count']  = $searchSuggestionsCount;
                 $params['spellcheck_result_counts']         = (bool) $helper->getSolrConfigData(
                     'server_suggestion_count_results_enabled');
