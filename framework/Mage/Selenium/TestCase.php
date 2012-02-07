@@ -337,18 +337,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     }
 
     /**
-     * This method is called when a test method did not execute successfully.
-     *
-     * @param Exception $e
-     */
-    protected function onNotSuccessfulTest(Exception $e)
-    {
-        $this->testId = implode('_', array(get_class($this), $this->getName(), $this->testId));
-        $this->saveHtmlPage();
-        parent::onNotSuccessfulTest($e);
-    }
-
-    /**
      * Checks if there was error during last operations
      * @TODO need to check this feature
      * @return boolean
@@ -2715,5 +2703,53 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         }
 
         return array();
+    }
+
+    ################################################################################
+    #                                                                              #
+    #       Should be removed when onNotSuccessfulTest is fixed                    #
+    #                                                                              #
+    ################################################################################
+    /**
+     * This method is called when a test method did not execute successfully.
+     *
+     * @param Exception $e
+     */
+    protected function onNotSuccessfulTest(Exception $e)
+    {
+        $file = implode('_', array(date('d-m-Y-H-i-s'), get_class($this), $this->getName(false)));
+
+        $this->selectWindow('null');
+        //self::$sessionId = NULL;
+
+        $buffer = 'Current URL: ' . $this->drivers[0]->getLocation() . "\n";
+
+        if ($this->captureScreenshotOnFailure && !empty($this->screenshotPath) && !empty($this->screenshotUrl)) {
+            $filename = $this->getScreenshotPath() . $file . '.png';
+            $this->drivers[0]->captureEntirePageScreenshot($filename);
+            $buffer .= 'Screenshot: ' . $filename . "\n";
+        }
+
+        try {
+            $this->stop();
+        } catch (RuntimeException $e) {
+        }
+
+        if ($e instanceof PHPUnit_Framework_ExpectationFailedException && is_object($e->getComparisonFailure())) {
+            $message = $e->getComparisonFailure()->toString();
+        } else {
+            $message = $e->getMessage();
+        }
+
+        $buffer .= "\n" . $message;
+
+        if ($e instanceof PHPUnit_Framework_IncompleteTestError || $e instanceof PHPUnit_Framework_SkippedTestError) {
+            throw $e;
+        }
+        if ($e instanceof PHPUnit_Framework_AssertionFailedError) {
+            $this->saveHtmlPage($file);
+            throw $e;
+        }
+        throw new PHPUnit_Framework_Error($buffer, $e->getCode(), $e->getFile(), $e->getLine(), $e->getTrace());
     }
 }
