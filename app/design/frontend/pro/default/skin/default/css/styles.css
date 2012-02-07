@@ -1782,10 +1782,6 @@ tr.summary-details-excluded { font-style:italic; }
 .best-selling p a:hover { text-decoration:underline; }
 /* ======================================================================================= */
 
-/* Visual Design Editor ================================================================== */
-#vde_toolbar a.vde_button { border-width:1px; border-style:solid; border-color:#ed6502 #a04300 #a04300 #ed6502; padding:0 7px 1px 7px; background:#ffac47 repeat-x 0 100%; color:#fff; font:bold 12px arial, helvetica, sans-serif; cursor:pointer; text-align:center !important; white-space:nowrap; }
-#vde_toolbar a.vde_button:hover { background:#f77c16 repeat-x 0 0; }
-/* ======================================================================================= */
 
 /* Clears ================================================================================ */
 .clearer:after,

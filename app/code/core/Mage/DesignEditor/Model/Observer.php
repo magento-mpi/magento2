@@ -33,4 +33,24 @@ class Mage_DesignEditor_Model_Observer
         }
         return $this;
     }
+
+    /**
+     * Set design_editor_active flag, which allows to load DesignEditor's CSS or JS scripts
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Mage_DesignEditor_Model_Observer
+     */
+    public function setDesignEditorFlag(Varien_Event_Observer $observer)
+    {
+        $block = $observer->getLayout()->getBlock('head');
+        if (!$block) {
+            return $this;
+        }
+        /** @var $session Mage_DesignEditor_Model_Session */
+        $session = Mage::getSingleton('Mage_DesignEditor_Model_Session');
+        if ($session->isDesignEditorActive()) {
+            $block->setDesignEditorActive(true);
+        }
+        return $this;
+    }
 }
