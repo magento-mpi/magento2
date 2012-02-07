@@ -439,15 +439,12 @@ class Core_Mage_Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Seleni
         $this->assertMessagePresent('success', 'success_created_order');
         //Steps
         $this->clickButton('reorder');
-        $emptyFields = array('card_verification_number');
-        foreach ($emptyFields as $field) {
-            $xpath = $this->_getControlXpath('field', $field);
-            $value = $this->getAttribute($xpath . '@value');
-            if ($value) {
-                $errors[] = "Value for field '$field' should be empty, but now is $value";
-            }
+        $xpath = $this->_getControlXpath('field', 'card_verification_number');
+        $value = $this->getAttribute($xpath . '@value');
+        if ($value) {
+            $errors[] = "Value for field 'card_verification_number' should be empty, but now is $value";
         }
-        $this->fillForm(array('card_verification_number' => $data['card_verification_number']));
+        $this->fillForm($data);
         $this->orderHelper()->submitOreder();
         //Verifying
         $this->assertMessagePresent('success', 'success_created_order');

@@ -409,13 +409,17 @@ class Core_Mage_Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTes
         //Steps
         $this->clickButton('reorder');
         $data = $orderData['payment_data']['payment_info'];
-        $emptyFields = array(
-            'card_type', 'card_number', 'expiration_month', 'expiration_year', 'card_verification_number');
+        $fieldset = $this->getCurrentLocationUimapPage()->findFieldset('order_payment_method');
+        $emptyFields = $this->_getFormDataMap(array($fieldset), $data);
         foreach ($emptyFields as $field) {
-            $xpath = $this->_getControlXpath('field', $field);
-            $value = $this->getAttribute($xpath . '@value');
-            if ($value) {
-                $errors[] = "Value for field '$field' should be empty, but now is $value";
+            $value = null;
+            if ($field['type'] == 'field') {
+                $value = $this->getAttribute($field['path'] . '@value');
+            } else {
+                $value = $this->getSelectedLabel($field['path']);
+            }
+            if ($value == $field['value']) {
+                $errors[] = "Value for field " . $field['type'] . " should be empty, but now is $value";
             }
         }
         $this->fillForm($data);
