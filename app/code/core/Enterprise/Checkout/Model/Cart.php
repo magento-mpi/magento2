@@ -1098,7 +1098,7 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
         $stockItem = Mage::getModel('cataloginventory/stock_item');
         $stockItem->loadByProduct($product);
         $stockItem->setProduct($product);
-        return (!$stockItem->getIsInStock());
+        return !$stockItem->getIsInStock();
     }
 
     /**
