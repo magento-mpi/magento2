@@ -49,7 +49,7 @@ class Core_Mage_Various_CheckoutLinkVerificationTest extends Mage_Selenium_TestC
      * @return string
      * @test
      */
-    public function preConditionForTest()
+    public function preconditionForTest()
     {
         //Data
         $productData = $this->loadData('simple_product_for_order');
@@ -81,7 +81,7 @@ class Core_Mage_Various_CheckoutLinkVerificationTest extends Mage_Selenium_TestC
      *
      * @param string $productName
      *
-     * @depends preConditionForTest
+     * @depends preconditionForTest
      * @test
      */
     public function frontendCheckoutLinkVerification($productName)
