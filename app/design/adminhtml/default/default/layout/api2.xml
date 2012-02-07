@@ -56,7 +56,7 @@
         <reference name="left">
             <block type="api2/adminhtml_roles_tabs" name="adminhtml.role.edit.tabs">
                 <block type="api2/adminhtml_roles_tab_info" name="adminhtml.role.edit.tab.info"/>
-                <block type="api2/adminhtml_roles_tab_resources" name="adminhtml.role.edit.tab.resources" template="permissions/rolesedit.phtml"/>
+                <block type="api2/adminhtml_roles_tab_resources" name="adminhtml.role.edit.tab.resources"/>
                 <block type="api2/adminhtml_roles_tab_users" name="adminhtml.role.edit.tab.users"/>
                 <action method="addTab">
                     <id>api2_role_section_info</id>
@@ -67,7 +67,7 @@
                     <block>adminhtml.role.edit.tab.resources</block>
                 </action>
                 <action method="addTab">
-                    <id>api2_role_section_users</id>
+                    <id>roleUsersGrid</id>
                     <block>adminhtml.role.edit.tab.users</block>
                 </action>
             </block>
@@ -84,7 +84,7 @@
 
     <adminhtml_api2_role_usersgrid>
         <remove name="root"/>
-        <block type="api2/adminhtml_roles_tab_users" name="api2_role_tab_users.grid" output="toHtml"/>
+        <block type="api2/adminhtml_roles_tab_users" name="adminhtml.role.edit.tab.users" output="toHtml"/>
     </adminhtml_api2_role_usersgrid>
 
     <!-- admin acl users edit page -->

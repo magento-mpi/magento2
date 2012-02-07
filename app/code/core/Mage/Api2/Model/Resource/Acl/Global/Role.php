@@ -36,11 +36,6 @@
 class Mage_Api2_Model_Resource_Acl_Global_Role extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Guest default role name
-     */
-    const ROLE_GUEST = 'guest';
-
-    /**
      * Initialize resource model
      *
      * @return void
@@ -58,7 +53,7 @@ class Mage_Api2_Model_Resource_Acl_Global_Role extends Mage_Core_Model_Resource_
      */
     protected function _beforeDelete(Mage_Core_Model_Abstract $role)
     {
-        if ($role->getRoleName()==self::ROLE_GUEST) {
+        if ($role->isGuestRole()) {
             Mage::throwException(Mage::helper('api2')->__('Guest role is a special one and can\'t be deleted.'));
         }
 
@@ -73,8 +68,8 @@ class Mage_Api2_Model_Resource_Acl_Global_Role extends Mage_Core_Model_Resource_
      */
     protected function _beforeSave(Mage_Core_Model_Abstract $role)
     {
-        if ($role->getRoleName()==self::ROLE_GUEST || $role->getOrigData('role_name')==self::ROLE_GUEST) {
-            Mage::throwException(Mage::helper('api2')->__('Guest role is a special one and can\'t be deleted.'));
+        if ($role->isGuestRole()) {
+            Mage::throwException(Mage::helper('api2')->__('Guest role is a special one and can\'t be changed.'));
         }
 
         return $this;
@@ -89,6 +84,12 @@ class Mage_Api2_Model_Resource_Acl_Global_Role extends Mage_Core_Model_Resource_
      */
     public function saveAdminToRoleRelation($adminId, $roleId)
     {
+        if ($roleId == Mage_Api2_Model_Acl_Global_Role::ROLE_GUEST_ID) {
+            Mage::throwException(
+                Mage::helper('api2')->__('Guest role is a special one and not for assigning it to admin users.')
+            );
+        }
+
         $read = $this->_getReadAdapter();
         $select = $read->select()
             ->from($this->getTable('api2/acl_user'), 'admin_id')
@@ -104,5 +105,45 @@ class Mage_Api2_Model_Resource_Acl_Global_Role extends Mage_Core_Model_Resource_
         }
 
         return $this;
+    }
+
+    /**
+     * delete relation row of admin user to API2 role
+     *
+     * @param int $adminId Admin user id
+     * @param int $roleId API2 role id
+     * @return Mage_Api2_Model_Resource_Acl_Global_Role
+     */
+    public function deleteAdminToRoleRelation($adminId, $roleId)
+    {
+        $write = $this->_getWriteAdapter();
+        $table = $this->getTable('api2/acl_user');
+
+        $where = array(
+            'role_id = ?' => $roleId,
+            'admin_id = ?' => $adminId
+        );
+
+        $write->delete($table, $where);
+
+        return $this;
+    }
+
+    /**
+     * Get users
+     *
+     * @param Mage_Api2_Model_Acl_Global_Role $role
+     * @return array
+     */
+    public function getRoleUsers(Mage_Api2_Model_Acl_Global_Role $role)
+    {
+        $adapter = $this->_getReadAdapter();
+        $select = $adapter->select()
+            ->from($this->getTable('api2/acl_user'))
+            ->where('role_id=?', $role->getId());
+
+        $users = $adapter->fetchCol($select);
+
+        return $users;
     }
 }

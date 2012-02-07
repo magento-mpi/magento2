@@ -38,9 +38,28 @@ class Mage_Api2_Block_Adminhtml_Roles_Tab_Info extends Mage_Adminhtml_Block_Widg
     implements Mage_Adminhtml_Block_Widget_Tab_Interface
 {
     /**
+     * Role model
+     *
+     * @var Mage_Api2_Model_Acl_Global_Role
+     */
+    protected $_role;
+
+    /**
+     * This method is called before rendering HTML
+     *
+     * @return Mage_Adminhtml_Block_Widget_Form
+     */
+    public function _beforeToHtml()
+    {
+        $this->_initForm();
+
+        return parent::_beforeToHtml();
+    }
+
+    /**
      * Prepare form object
      */
-    protected function _prepareForm()
+    protected function _initForm()
     {
         $form = new Varien_Data_Form();
 
@@ -55,6 +74,7 @@ class Mage_Api2_Block_Adminhtml_Roles_Tab_Info extends Mage_Adminhtml_Block_Widg
                 'id'    => 'role_name',
                 'class' => 'required-entry',
                 'required' => true,
+                'disabled' => $this->getRole() && $this->getRole()->isGuestRole()
             )
         );
 
@@ -63,6 +83,15 @@ class Mage_Api2_Block_Adminhtml_Roles_Tab_Info extends Mage_Adminhtml_Block_Widg
                 'name'  => 'id',
             )
         );
+
+        $fieldset->addField('in_role_users', 'hidden',
+            array(
+                'name'  => 'in_role_users',
+                'id'    => 'in_role_userz',
+            )
+        );
+
+        $fieldset->addField('in_role_users_old', 'hidden', array('name' => 'in_role_users_old'));
 
         if ($this->getRole()) {
             $form->setValues($this->getRole()->getData());
