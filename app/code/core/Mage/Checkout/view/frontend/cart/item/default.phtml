@@ -46,8 +46,8 @@ $canApplyMsrp = Mage::helper('Mage_Catalog_Helper_Data')->canApplyMsrp($_item->g
             <p class="item-msg <?php echo $message['type'] ?>">* <?php echo $message['text'] ?></p>
         <?php endforeach; ?>
         <?php endif; ?>
-        <?php $addInfoBlock = $this->getProductAdditionalInformationBlock(); ?>
-        <?php if ($addInfoBlock): ?>
+        <?php $addtInfoBlock = $this->getProductAdditionalInformationBlock(); ?>
+        <?php if ($addtInfoBlock): ?>
             <?php echo $addtInfoBlock->setItem($_item)->toHtml() ?>
         <?php endif;?>
     </td>
