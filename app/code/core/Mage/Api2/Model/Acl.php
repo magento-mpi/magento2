@@ -88,7 +88,11 @@ class Mage_Api2_Model_Acl extends Zend_Acl
 
         /** @var $rule Mage_Api2_Model_Acl_Global_Rule */
         foreach ($rulesCollection as $rule) {
-            $this->allow($rule->getRoleId(), $rule->getResourceId(), $rule->getPrivilege());
+            if (Mage_Api2_Model_Acl_Global_Rule::RESOURCE_ALL === $rule->getResourceId()) {
+                $this->allow($rule->getRoleId());
+            } else {
+                $this->allow($rule->getRoleId(), $rule->getResourceId(), $rule->getPrivilege());
+            }
         }
         return $this;
     }
