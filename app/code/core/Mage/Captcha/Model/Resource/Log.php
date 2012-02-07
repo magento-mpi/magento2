@@ -38,6 +38,7 @@ class Mage_Captcha_Model_Resource_Log extends Mage_Core_Model_Resource_Db_Abstra
      * Type Remote Address
      */
     const TYPE_REMOTE_ADDRESS = 1;
+
     /**
      * Type User Login Name
      */
@@ -49,8 +50,7 @@ class Mage_Captcha_Model_Resource_Log extends Mage_Core_Model_Resource_Db_Abstra
      */
     protected function _construct()
     {
-        $this->_setResource('captcha');
-        $this->_mainTable = 'log;';
+        $this->_setMainTable('captcha/log');
     }
 
     /**
