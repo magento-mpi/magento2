@@ -112,57 +112,18 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     protected $_firstPageAfterAdminLogin = 'dashboard';
 
     /**
-     * The name of the test case.
-     * @var string
+     * @var    boolean
      */
-    protected $name = null;
-
-    /**
-     * @var    array
-     */
-    protected $data = array();
-
-    /**
-     * @var PHPUnit_Framework_TestResult
-     */
-    protected $result;
-
-    /**
-     * @var array
-     */
-    protected $dependencies = array();
-
-    /**
-     * Whether or not this test is running in a separate PHP process.
-     * @var boolean
-     */
-    protected $inIsolation = false;
-
-    /**
-     * The name of the expected Exception.
-     * @var mixed
-     */
-    protected $expectedException = null;
-
-    /**
-     * The message of the expected Exception.
-     * @var string
-     */
-    protected $expectedExceptionMessage = '';
-
-    /**
-     * The code of the expected Exception.
-     * @var integer
-     */
-    protected $expectedExceptionCode;
-
-    /**
-     * @var array
-     */
-    protected $dependencyInput = array();
-
     protected $captureScreenshotOnFailure = true;
+
+    /**
+     * @var    string
+     */
     protected $screenshotPath = SELENIUM_TESTS_SCREENSHOTDIR;
+
+    /**
+     * @var    string
+     */
     protected $screenshotUrl = SELENIUM_TESTS_SCREENSHOTDIR;
 
     /**
@@ -294,13 +255,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $this->_applicationHelper = $this->_testConfig->getApplicationHelper();
         $this->_pageHelper = $this->_testConfig->getPageHelper($this, $this->_applicationHelper);
         $this->_uimapHelper = $this->_testConfig->getUimapHelper();
-
-        if ($name !== null) {
-            $this->name = $name;
-        }
-        $this->data = $data;
-        $this->dataName = $dataName;
-
         //set browser timeout period
         $browserTimeout = $this->_testConfig->getConfigValue('browsers/default/browserTimeoutPeriod');
         $this->_browserTimeoutPeriod = ($browserTimeout != false)
@@ -2729,366 +2683,10 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 
     ################################################################################
     #                                                                              #
-    #       Should be removed if PHPUnit_Selenium version is 1.2.1 or more         #
+    #       Should be removed when CodeCoverage work for PHPUnit3.6                #
     #                                                                              #
     ################################################################################
-    /**
-     * @static
-     *
-     * @param  string $className
-     *
-     * @return PHPUnit_Framework_TestSuite
-     */
-    public static function suite($className)
-    {
-        $suite = new PHPUnit_Framework_TestSuite;
-        $suite->setName($className);
-
-        $class = new ReflectionClass($className);
-        $classGroups = PHPUnit_Util_Test::getGroups($className);
-        $staticProperties = $class->getStaticProperties();
-
-        // Create tests from Selenese/HTML files.
-        if (isset($staticProperties['seleneseDirectory']) &&
-            is_dir($staticProperties['seleneseDirectory'])
-        ) {
-            $files = array_merge(
-                self::getSeleneseFiles($staticProperties['seleneseDirectory'], '.htm'),
-                self::getSeleneseFiles($staticProperties['seleneseDirectory'], '.html')
-            );
-
-            // Create tests from Selenese/HTML files for multiple browsers.
-            if (!empty($staticProperties['browsers'])) {
-                foreach ($staticProperties['browsers'] as $browser) {
-                    $browserSuite = new PHPUnit_Framework_TestSuite;
-                    $browserSuite->setName($className . ': ' . $browser['name']);
-
-                    foreach ($files as $file) {
-                        self::addConfiguredTestTo($browserSuite, new $className($file, array(), '', $browser),
-                                                  $classGroups
-                        );
-                    }
-
-                    $suite->addTest($browserSuite);
-                }
-            }
-
-            // Create tests from Selenese/HTML files for single browser.
-            else {
-                foreach ($files as $file) {
-                    self::addConfiguredTestTo($suite, new $className($file), $classGroups);
-                }
-            }
-        }
-
-        // Create tests from test methods for multiple browsers.
-        if (!empty($staticProperties['browsers'])) {
-            foreach ($staticProperties['browsers'] as $browser) {
-                $browserSuite = new PHPUnit_Framework_TestSuite;
-                $browserSuite->setName($className . ': ' . $browser['name']);
-
-                foreach ($class->getMethods() as $method) {
-                    if (PHPUnit_Framework_TestSuite::isPublicTestMethod($method)) {
-                        $name = $method->getName();
-                        $data = PHPUnit_Util_Test::getProvidedData($className, $name);
-                        $groups = PHPUnit_Util_Test::getGroups($className, $name);
-
-                        // Test method with @dataProvider.
-                        if (is_array($data) || $data instanceof Iterator) {
-                            $dataSuite = new PHPUnit_Framework_TestSuite_DataProvider(
-                                $className . '::' . $name
-                            );
-
-                            foreach ($data as $_dataName => $_data) {
-                                self::addConfiguredTestTo($dataSuite,
-                                                          new $className($name, $_data, $_dataName, $browser), $groups);
-                            }
-
-                            $browserSuite->addTest($dataSuite);
-                        }
-
-                        // Test method with invalid @dataProvider.
-                        else {
-                            if ($data === false) {
-                                $browserSuite->addTest(
-                                    new PHPUnit_Framework_Warning(
-                                        sprintf(
-                                            'The data provider specified for %s::%s is invalid.',
-                                            $className, $name
-                                        )
-                                    )
-                                );
-                            }
-
-                            // Test method without @dataProvider.
-                            else {
-                                self::addConfiguredTestTo($browserSuite, new $className($name, array(), '', $browser),
-                                                          $groups);
-                            }
-                        }
-                    }
-                }
-
-                $suite->addTest($browserSuite);
-            }
-        }
-
-        // Create tests from test methods for single browser.
-        else {
-            foreach ($class->getMethods() as $method) {
-                if (PHPUnit_Framework_TestSuite::isPublicTestMethod($method)) {
-                    $name = $method->getName();
-                    $data = PHPUnit_Util_Test::getProvidedData($className, $name);
-                    $groups = PHPUnit_Util_Test::getGroups($className, $name);
-
-                    // Test method with @dataProvider.
-                    if (is_array($data) || $data instanceof Iterator) {
-                        $dataSuite = new PHPUnit_Framework_TestSuite_DataProvider(
-                            $className . '::' . $name
-                        );
-
-                        foreach ($data as $_dataName => $_data) {
-                            self::addConfiguredTestTo($dataSuite, new $className($name, $_data, $_dataName), $groups
-                            );
-                        }
-
-                        $suite->addTest($dataSuite);
-                    }
-
-                    // Test method with invalid @dataProvider.
-                    else {
-                        if ($data === false) {
-                            $suite->addTest(
-                                new PHPUnit_Framework_Warning(
-                                    sprintf(
-                                        'The data provider specified for %s::%s is invalid.', $className,
-                                        $name
-                                    )
-                                )
-                            );
-                        }
-
-                        // Test method without @dataProvider.
-                        else {
-                            self::addConfiguredTestTo($suite, new $className($name), $groups);
-                        }
-                    }
-                }
-            }
-        }
-
-        return $suite;
-    }
-
-    /**
-     * @static
-     *
-     * @param PHPUnit_Framework_TestSuite $suite
-     * @param PHPUnit_Framework_TestCase $test
-     * @param $classGroups
-     */
-    private static function addConfiguredTestTo(PHPUnit_Framework_TestSuite $suite, PHPUnit_Framework_TestCase $test, $classGroups)
-    {
-        list ($methodName,) = explode(' ', $test->getName());
-        $test->setDependencies(
-            PHPUnit_Util_Test::getDependencies(get_class($test), $methodName)
-        );
-        $suite->addTest($test, $classGroups);
-    }
-
-    /**
-     * Sets the dependencies of a TestCase.
-     *
-     * @param  array $dependencies
-     *
-     * @since  Method available since Release 3.4.0
-     */
-    public function setDependencies(array $dependencies)
-    {
-        $this->dependencies = $dependencies;
-    }
-
-    /**
-     * Runs the test case and collects the results in a TestResult object.
-     * If no TestResult object is passed a new one will be created.
-     *
-     * @param  PHPUnit_Framework_TestResult $result
-     *
-     * @return PHPUnit_Framework_TestResult
-     * @throws InvalidArgumentException
-     */
-    public function run(PHPUnit_Framework_TestResult $result = null)
-    {
-        if ($result === null) {
-            $result = $this->createResult();
-        }
-
-        $this->result = $result;
-
-        $this->collectCodeCoverageInformation = $result->getCollectCodeCoverageInformation();
-
-        foreach ($this->drivers as $driver) {
-            $driver->setCollectCodeCoverageInformation(
-                $this->collectCodeCoverageInformation
-            );
-        }
-
-        if (!$this->handleDependencies()) {
-            return;
-        }
-
-        $result->run($this);
-
-        if ($this->collectCodeCoverageInformation) {
-            $result->getCodeCoverage()->append(
-                $this->getCodeCoverage(), $this
-            );
-        }
-
-        return $result;
-    }
-
-    /**
-     * @since Method available since Release 3.5.4
-     * @return bool
-     */
-    protected function handleDependencies()
-    {
-        if (!empty($this->dependencies) && !$this->inIsolation) {
-            $className = get_class($this);
-            $passed = $this->result->passed();
-            $passedKeys = array_keys($passed);
-            $numKeys = count($passedKeys);
-
-            for ($i = 0; $i < $numKeys; $i++) {
-                $pos = strpos($passedKeys[$i], ' with data set');
-
-                if ($pos !== false) {
-                    $passedKeys[$i] = substr($passedKeys[$i], 0, $pos);
-                }
-            }
-
-            $passedKeys = array_flip(array_unique($passedKeys));
-
-            foreach ($this->dependencies as $dependency) {
-                if (strpos($dependency, '::') === false) {
-                    $dependency = $className . '::' . $dependency;
-                }
-
-                if (!isset($passedKeys[$dependency])) {
-                    $this->result->addError(
-                        $this,
-                        new PHPUnit_Framework_SkippedTestError(
-                            sprintf(
-                                'This test depends on "%s" to pass.', $dependency
-                            )
-                        ), 0
-                    );
-
-                    return false;
-                }
-
-                if (isset($passed[$dependency])) {
-                    if (is_array($passed[$dependency]) && array_key_exists('size', $passed[$dependency])) {
-                        if ($passed[$dependency]['size'] > $this->getSize()) {
-                            $this->result->addError(
-                                $this,
-                                new PHPUnit_Framework_SkippedTestError(
-                                    'This test depends on a test that is larger than itself.'
-                                ), 0
-                            );
-
-                            return false;
-                        }
-                        $this->dependencyInput[] = $passed[$dependency]['result'];
-                    } else {
-                        $this->dependencyInput[] = $passed[$dependency];
-                    }
-                } else {
-                    $this->dependencyInput[] = null;
-                }
-            }
-        }
-
-        return true;
-    }
-
-    /**
-     * Override to run the test and assert its state.
-     * @return mixed
-     * @throws RuntimeException
-     */
-    protected function runTest()
-    {
-        if ($this->name === null) {
-            throw new PHPUnit_Framework_Exception(
-                'PHPUnit_Framework_TestCase::$name must not be null.'
-            );
-        }
-
-        try {
-            $class = new ReflectionClass($this);
-            $method = $class->getMethod($this->name);
-        } catch (ReflectionException $e) {
-            $this->fail($e->getMessage());
-        }
-
-        try {
-            $testResult = $method->invokeArgs(
-                $this, array_merge($this->data, $this->dependencyInput)
-            );
-            $this->assertEmptyVerificationErrors();
-        } catch (Exception $e) {
-            if (!$e instanceof PHPUnit_Framework_IncompleteTest &&
-                !$e instanceof PHPUnit_Framework_SkippedTest &&
-                is_string($this->expectedException)
-            ) {
-                $this->assertThat(
-                    $e,
-                    new PHPUnit_Framework_Constraint_Exception(
-                        $this->expectedException
-                    )
-                );
-
-                if (is_string($this->expectedExceptionMessage) &&
-                    !empty($this->expectedExceptionMessage)
-                ) {
-                    $this->assertThat(
-                        $e,
-                        new PHPUnit_Framework_Constraint_ExceptionMessage(
-                            $this->expectedExceptionMessage
-                        )
-                    );
-                }
-
-                if ($this->expectedExceptionCode !== null) {
-                    $this->assertThat(
-                        $e,
-                        new PHPUnit_Framework_Constraint_ExceptionCode(
-                            $this->expectedExceptionCode
-                        )
-                    );
-                }
-
-                return;
-            } else {
-                throw $e;
-            }
-        }
-
-        if ($this->expectedException !== null) {
-            $this->assertThat(
-                null,
-                new PHPUnit_Framework_Constraint_Exception(
-                    $this->expectedException
-                )
-            );
-        }
-
-        return $testResult;
-    }
-
-    /**
+      /**
      * Works correctly with PHPUnit 3.5.15 only (right now)
      * Solving problem with coverage, send to phpunit_coverage.php cookieid(single) instead of testid(multiple)
      * @return array
@@ -3100,14 +2698,19 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             $url = sprintf(
                 '%s?PHPUNIT_SELENIUM_TEST_ID=%s',
                 $this->coverageScriptUrl,
-                //$this->testId,
+                //$this->testId
                 $_COOKIE['PHPUNIT_SELENIUM_TEST_ID']
             );
 
             $buffer = @file_get_contents($url);
 
             if ($buffer !== FALSE) {
-                return $this->matchLocalAndRemotePaths(unserialize($buffer));
+                $coverageData = unserialize($buffer);
+                if (is_array($coverageData)) {
+                    return $this->matchLocalAndRemotePaths($coverageData);
+                } else {
+                    throw new Exception('Empty or invalid code coverage data received from url "' . $url . '"');
+                }
             }
         }
 
