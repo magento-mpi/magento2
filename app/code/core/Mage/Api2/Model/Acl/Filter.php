@@ -20,13 +20,13 @@ class Mage_Api2_Model_Acl_Filter
     protected $_userType;
 
     /**
-     * Attributes to include
+     * Attributes requested by API user
      *
      * @var array
      */
-    protected $_include;
+    protected $_requestedAttributes = array();
 
-    public function in(array $data, $resourceType = null, $userType = null)
+    public function in(array $requestData, $resourceType = null, $userType = null)
     {
         $operation = self::OPERATION_WRITE;
         $resourceType = $resourceType === null ? $this->getResourceType() : $resourceType;
@@ -34,12 +34,12 @@ class Mage_Api2_Model_Acl_Filter
 
         $allowed = $this->getAllowedAttributes($resourceType, $operation, $userType);
 
-        $data = $this->filter($allowed, $data);
+        $requestData = $this->filter($allowed, $requestData);
 
-        return $data;
+        return $requestData;
     }
 
-    public function out(array $data, $resourceType = null, $userType = null)
+    public function out(array $retrievedData, $resourceType = null, $userType = null)
     {
         $operation = self::OPERATION_READ;
         $resourceType = $resourceType === null ? $this->getResourceType() : $resourceType;
@@ -48,9 +48,9 @@ class Mage_Api2_Model_Acl_Filter
         //TODO how we process &include, what attributes we show by default, all allowed, all static?
         $allowed = $this->getAllowedAttributes($resourceType, $operation, $userType);
 
-        $data = $this->filter($allowed, $data);
+        $retrievedData = $this->filter($allowed, $retrievedData);
 
-        return $data;
+        return $retrievedData;
     }
 
     public function getAttributesToInclude($resourceType = null, $userType = null)
@@ -61,7 +61,7 @@ class Mage_Api2_Model_Acl_Filter
 
         $attributes = $this->getAllowedAttributes($resourceType, $operation, $userType);
 
-        $include = $this->getInclude();
+        $include = $this->getRequestedAttributes();
 
         if (in_array('*', $include)) {
             return $attributes;
@@ -227,16 +227,16 @@ class Mage_Api2_Model_Acl_Filter
     }
 
     /**
-     * Get attributes to include
+     * Get attributes requested by API user
      *
      * @return array
      */
-    public function getInclude()
+    public function getRequestedAttributes()
     {
-        if (!is_array($this->_include)) {
+        if (!is_array($this->_requestedAttributes)) {
             throw new Exception('Invalid or not set attributes to include.');
         }
-        return $this->_include;
+        return $this->_requestedAttributes;
     }
 
     /**
@@ -244,8 +244,8 @@ class Mage_Api2_Model_Acl_Filter
      *
      * @param array $include
      */
-    public function setInclude(array $include)
+    public function setRequestedAttributes(array $include)
     {
-        $this->_include = $include;
+        $this->_requestedAttributes = $include;
     }
 }

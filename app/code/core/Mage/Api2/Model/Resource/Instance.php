@@ -38,21 +38,21 @@ abstract class Mage_Api2_Model_Resource_Instance extends Mage_Api2_Model_Resourc
      */
     public function dispatch()
     {
-        $operation = $this->getRequest()->getOperation();
-
-        switch ($operation) {
+        switch ($this->getRequest()->getOperation()) {
             case self::OPERATION_CREATE:
                 $this->_create(array());
                 break;
             case self::OPERATION_UPDATE:
-                $filtered = $this->getFilter()->in($this->getRequest()->getBodyParams());
-                $this->_update($filtered);
+                $requestData  = $this->getRequest()->getBodyParams();
+                $filteredData = $this->getFilter()->in($requestData);
+
+                $this->_update($filteredData);
                 break;
             case self::OPERATION_RETRIEVE:
-                //TODO how we process &include, what attributes we show by default, all allowed, all static?
-                $result = $this->_retrieve();
-                $filtered = $this->getFilter()->out($result);
-                $this->_render($filtered);
+                $retrievedData = $this->_retrieve();
+                $filteredData  = $this->getFilter()->out($retrievedData);
+
+                $this->_render($filteredData);
                 break;
             case self::OPERATION_DELETE:
                 $this->_delete();
@@ -71,21 +71,5 @@ abstract class Mage_Api2_Model_Resource_Instance extends Mage_Api2_Model_Resourc
     final protected function _create(array $data)
     {
         $this->_critical(self::RESOURCE_METHOD_NOT_ALLOWED);
-    }
-
-    /**
-     * Get available attributes of API resource
-     *
-     * This method used for single API resource and for API resource collection.
-     * Each model in a module must have implementation of this method.
-     *
-     * @todo Make this method as abstract or make default processing
-     * @absract
-     * @static
-     * @return array
-     */
-    static public function getAvailableAttributes()
-    {
-
     }
 }

@@ -39,53 +39,13 @@ abstract class Mage_Api2_Model_Resource_Collection extends Mage_Api2_Model_Resou
     const DEFAULT_PAGE_SIZE = 10;
 
     /**#@+
-     * Parameters for pager
-     */
-    const HTTP_PARAM_PAGE    = 'page';
-    const HTTP_PARAM_ORDER   = 'order';
-    const HTTP_PARAM_FILTER  = 'filter';
-    /**#@-*/
-
-    /**#@+
      *  Default collection resources error messages
      */
     const RESOURCE_COLLECTION_PAGING_ERROR      = 'Resource collection paging error.';
     const RESOURCE_COLLECTION_ORDERING_ERROR    = 'Resource collection ordering error.';
     const RESOURCE_COLLECTION_FILTERING_ERROR   = 'Resource collection filtering error.';
     const RESOURCE_COLLECTION_ATTRIBUTES_ERROR  = 'Resource collection including additional attributes error.';
-    /**#@-*/
-
-    /**
-     * Internal "collection" resource model dispatch
-     */
-    final public function dispatch()
-    {
-        switch ($this->getRequest()->getOperation()) {
-            case self::OPERATION_UPDATE:
-                $this->_update(array());
-                break;
-            case self::OPERATION_DELETE:
-                $this->_delete(array());
-                break;
-            case self::OPERATION_CREATE:
-                $filtered = $this->getFilter()->in($this->getRequest()->getBodyParams());
-                $location = $this->_create($filtered);
-
-                //TODO change to "Location"
-                $this->getResponse()->setHeader('Location2', $location);
-                break;
-            case self::OPERATION_RETRIEVE:
-                $result = $this->_retrieve();
-                //TODO We need filtering below cause real columns can't be removed ...
-                //TODO ... by $collection->removeAttributeToSelect()
-                $filtered = $this->getFilter()->collectionOut($result);
-                $this->_render($filtered);
-                break;
-            default:
-                $this->_critical(self::RESOURCE_METHOD_NOT_IMPLEMENTED);
-                break;
-        }
-    }
+    /**#@- */
 
     /**
      * Update method not allowed for this type of resource
@@ -114,14 +74,12 @@ abstract class Mage_Api2_Model_Resource_Collection extends Mage_Api2_Model_Resou
     final protected function _applyCollectionModifiers(Varien_Data_Collection_Db $collection)
     {
         $request = $this->getRequest();
-        $order   = $request->getParam(self::HTTP_PARAM_ORDER);
-        $filter  = $request->getParam(self::HTTP_PARAM_FILTER);
 
-        $collection->setCurPage($request->getParam(self::HTTP_PARAM_PAGE, 1))
+        $collection->setCurPage($request->getPageNumber())
             ->setPageSize(self::DEFAULT_PAGE_SIZE);
 
-        if (null !== $order) {
-            $collection->setOrder($order, Varien_Data_Collection::SORT_ORDER_DESC);
+        if (null !== $request->getOrder()) {
+            $collection->setOrder($request->getOrder(), Varien_Data_Collection::SORT_ORDER_DESC);
         }
         if (method_exists($collection, 'addAttributeToFilter')) {
             /*$filter = array(
@@ -130,10 +88,10 @@ abstract class Mage_Api2_Model_Resource_Collection extends Mage_Api2_Model_Resou
                 //array('attribute'=>'company', 'like'   => $this->getQuery().'%'),
             );*/
 
-            if ($filter) {
+            if ($request->getFilter()) {
                 //TODO validate filter?
                 try {
-                    $collection->addAttributeToFilter($filter);
+                    $collection->addAttributeToFilter($request->getFilter());
                 } catch(Exception $e) {
                     $this->_critical(self::RESOURCE_COLLECTION_FILTERING_ERROR);
                 }
@@ -190,5 +148,35 @@ abstract class Mage_Api2_Model_Resource_Collection extends Mage_Api2_Model_Resou
         $errors[self::RESOURCE_COLLECTION_ATTRIBUTES_ERROR] = Mage_Api2_Model_Server::HTTP_BAD_REQUEST;
 
         return $errors;
+    }
+
+    /**
+     * Internal "collection" resource model dispatch
+     */
+    final public function dispatch()
+    {
+        switch ($this->getRequest()->getOperation()) {
+            case self::OPERATION_UPDATE:
+                $this->_update(array());
+                break;
+            case self::OPERATION_DELETE:
+                $this->_delete(array());
+                break;
+            case self::OPERATION_CREATE:
+                $requestData  = $this->getRequest()->getBodyParams();
+                $filteredData = $this->getFilter()->in($requestData);
+
+                $this->_create($filteredData);
+                break;
+            case self::OPERATION_RETRIEVE:
+                $retrievedData = $this->_retrieve();
+                $filteredData  = $this->getFilter()->collectionOut($retrievedData);
+
+                $this->_render($filteredData);
+                break;
+            default:
+                $this->_critical(self::RESOURCE_METHOD_NOT_IMPLEMENTED);
+                break;
+        }
     }
 }

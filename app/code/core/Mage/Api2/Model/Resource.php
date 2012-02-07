@@ -290,11 +290,11 @@ abstract class Mage_Api2_Model_Resource
         if (!$this->_filter) {
             /** @var $filter Mage_Api2_Model_Acl_Filter */
             $filter = Mage::getSingleton('api2/acl_filter');
-            $include = $this->getRequest()->getRequestedAttributes();
+            $requested = $this->getRequest()->getRequestedAttributes();
 
             $filter->setResourceType($this->getRequest()->getResourceType())
                 ->setUserType($this->getApiUser()->getType())
-                ->setInclude($include ? $include : array('*'));
+                ->setRequestedAttributes($requested ? $requested : array('*'));
 
             $this->setFilter($filter);
         }
