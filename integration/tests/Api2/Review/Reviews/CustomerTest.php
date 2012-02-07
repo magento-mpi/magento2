@@ -58,6 +58,8 @@ class Api2_Review_Reviews_CustomerTest extends Magento_Test_Webservice_Rest_Cust
     public static function tearDownAfterClass()
     {
         Magento_TestCase::deleteFixture('store', true);
+
+        parent::tearDownAfterClass();
     }
 
     /**
@@ -72,7 +74,6 @@ class Api2_Review_Reviews_CustomerTest extends Magento_Test_Webservice_Rest_Cust
         /** @var $product Mage_Catalog_Model_Product */
         $product = $this->getFixture('product_simple');
         $reviewData['product_id'] = $product->getId();
-        $this->getWebService()->getClient()->setHeaders('Cookie', 'XDEBUG_SESSION=PHPSTORM');
 
         $restResponse = $this->callPost('reviews', $reviewData);
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());

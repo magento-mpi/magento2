@@ -48,6 +48,17 @@ class Api2_Review_Review_CustomerTest extends Magento_Test_Webservice_Rest_Custo
     }
 
     /**
+     * Remove store fixture
+     */
+    public static function tearDownAfterClass()
+    {
+        Magento_TestCase::deleteFixture('store', true);
+
+        parent::tearDownAfterClass();
+    }
+
+
+    /**
      * Test successful retrieving of existing product review
      *
      * @param bool $withStore
@@ -61,7 +72,7 @@ class Api2_Review_Review_CustomerTest extends Magento_Test_Webservice_Rest_Custo
         $review = $this->getFixture('review');
         $params = array();
         if ($withStore) {
-            $params['store'] = $storeId;
+            $params['store_id'] = $storeId;
         }
         $restResponse = $this->callGet('review/' . $review->getId(), $params);
 
@@ -113,7 +124,7 @@ class Api2_Review_Review_CustomerTest extends Magento_Test_Webservice_Rest_Custo
         $storeId = 0;
         /** @var $product Mage_Review_Model_Review */
         $review = $this->getFixture('review');
-        $restResponse = $this->callGet('review/' . $review->getId(), array('store' => $storeId));
+        $restResponse = $this->callGet('review/' . $review->getId(), array('store_id' => $storeId));
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
         $body = $restResponse->getBody();
         $errors = $body['messages']['error'];
@@ -125,10 +136,17 @@ class Api2_Review_Review_CustomerTest extends Magento_Test_Webservice_Rest_Custo
 
     /**
      * Test retrieving existing product review using store in which this review is unavailable
+     *
+     * @magentoDataFixture Api2/Review/_fixtures/review.php
+     * @magentoDataFixture Api2/Review/_fixtures/store.php
      */
     public function testGetWithInappropriateStore()
     {
-        $this->markTestIncomplete('Implement after store fixture creation');
+        $store = $this->getFixture('store');
+        /** @var $product Mage_Review_Model_Review */
+        $review = $this->getFixture('review');
+        $restResponse = $this->callGet('review/' . $review->getId(), array('store_id' => $store->getId()));
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $restResponse->getStatus());
     }
 
     /**

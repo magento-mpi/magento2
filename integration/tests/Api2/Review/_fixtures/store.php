@@ -24,15 +24,17 @@
  * @copyright   Copyright (c) 2011 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-$website = Mage::app()->getWebsite();
-$store = new Mage_Core_Model_Store();
-$store->setData(array(
-    'group_id' => $website->getDefaultGroupId(),
-    'name' => 'Test Store View',
-    'code' => 'store_' . uniqid(),
-    'is_active' => true,
-    'website_id' => $website->getId()
-))->save();
+if (!Magento_Test_Webservice::getFixture('store')) {
+    $website = Mage::app()->getWebsite();
+    $store = new Mage_Core_Model_Store();
+    $store->setData(array(
+        'group_id' => $website->getDefaultGroupId(),
+        'name' => 'Test Store View',
+        'code' => 'store_' . uniqid(),
+        'is_active' => true,
+        'website_id' => $website->getId()
+    ))->save();
 
-Mage::app()->reinitStores();
-Magento_Test_Webservice::setFixture('store', $store);
+    Mage::app()->reinitStores();
+    Magento_Test_Webservice::setFixture('store', $store);
+}
