@@ -25,7 +25,7 @@
  */
 
 /**
- * API2 roles controller
+ * API2 attributes controller
  *
  * @category   Mage
  * @package    Mage_Api2
