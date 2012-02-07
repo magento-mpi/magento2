@@ -988,11 +988,7 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
                     return $item;
                 }
 
-                /** @var $stockItem Mage_CatalogInventory_Model_Stock_Item */
-                $stockItem = Mage::getModel('cataloginventory/stock_item');
-                $stockItem->loadByProduct($product);
-                $stockItem->setProduct($product);
-                if (!$stockItem->getIsInStock()) {
+                if ($this->_isProductOutOfStock($product)) {
                     $item['code'] = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_OUT_OF_STOCK;
                     return $item;
                 }
@@ -1017,6 +1013,10 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
 
             // FRONTEND
             if (!$isAdmin) {
+                /** @var $stockItem Mage_CatalogInventory_Model_Stock_Item */
+                $stockItem = Mage::getModel('cataloginventory/stock_item');
+                $stockItem->loadByProduct($product);
+                $stockItem->setProduct($product);
                 $qtyStatus = $this->getQtyStatus($stockItem, $product, $item['qty']);
                 if ($qtyStatus === true) {
                     $item['code'] = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_SUCCESS;
@@ -1070,6 +1070,35 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
         }
 
         return array('sku' => $sku, 'qty' => $qty, 'code' => $code);
+    }
+
+    /**
+     * Check whether specified product is out of stock
+     *
+     * @param Mage_Catalog_Model_Product $product
+     * @return bool
+     */
+    protected function _isProductOutOfStock($product)
+    {
+        if ($product->isComposite()) {
+            $productsByGroups = $product->getTypeInstance(true)->getProductsToPurchaseByReqGroups($product);
+            foreach ($productsByGroups as $productsInGroup) {
+                foreach ($productsInGroup as $childProduct) {
+                    if (($childProduct->hasStockItem() && $childProduct->getStockItem()->getIsInStock())
+                        || !$childProduct->isDisabled()
+                    ) {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+
+        /** @var $stockItem Mage_CatalogInventory_Model_Stock_Item */
+        $stockItem = Mage::getModel('cataloginventory/stock_item');
+        $stockItem->loadByProduct($product);
+        $stockItem->setProduct($product);
+        return (!$stockItem->getIsInStock());
     }
 
     /**
