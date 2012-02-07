@@ -25,7 +25,7 @@
  */
 
 /**
- * Privilege of rule source model
+ * Source model with user types
  *
  * @category    Mage
  * @package     Mage_Api2
