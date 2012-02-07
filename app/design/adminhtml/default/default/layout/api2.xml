@@ -113,6 +113,12 @@
     </adminhtml_permissions_user_edit>
 
     <!-- ACL attributes -->
+    <adminhtml_api2_attribute_index>
+        <reference name="content">
+            <block type="api2/adminhtml_attributes" name="api2.attributes"/>
+        </reference>
+    </adminhtml_api2_attribute_index>
+
     <adminhtml_api2_attribute_edit>
         <reference name="left">
             <block type="api2/adminhtml_attribute_tabs" name="adminhtml.attribute.edit.tabs">
