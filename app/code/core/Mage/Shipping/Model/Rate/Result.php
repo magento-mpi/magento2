@@ -53,7 +53,7 @@ class Mage_Shipping_Model_Rate_Result
     }
 
     /**
-     * Reset result
+     * Set Error
      *
      * @param bool $error
      * @return void
@@ -64,7 +64,7 @@ class Mage_Shipping_Model_Rate_Result
     }
 
     /**
-     * Reset result
+     * Get Error
      *
      * @return null|bool;
      */
@@ -200,12 +200,12 @@ class Mage_Shipping_Model_Rate_Result
     }
 
     /**
-     * Get rates values according to count of package
+     * Set price for each rate according to count of packages
      *
      * @param int $packageCount
      * @return Mage_Shipping_Model_Rate_Result
      */
-    public function updateRatesValue($packageCount)
+    public function updateRatePrice($packageCount)
     {
         if ($packageCount > 1) {
             foreach ($this->_rates as $rate) {

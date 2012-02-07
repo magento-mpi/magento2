@@ -170,7 +170,7 @@ class Mage_Shipping_Model_Shipping
         if (false !== $result){
             if (!$result instanceof Mage_Shipping_Model_Rate_Result_Error) {
                 if ($carrier->getConfigData('shipment_requesttype')) {
-                    $packages = $this->makeRealWeightForPackage($carrier, $request);
+                    $packages = $this->composePackagesForCarrier($carrier, $request);
                     if (!empty($packages)) {
                         $sumResults = array();
                         foreach ($packages as $weight => $packageCount) {
@@ -179,7 +179,7 @@ class Mage_Shipping_Model_Shipping
                             if (!$result) {
                                 return $this;
                             } else {
-                                $result->updateRatesValue($packageCount);
+                                $result->updateRatePrice($packageCount);
                             }
                             $sumResults[] = $result;
                         }
@@ -223,13 +223,14 @@ class Mage_Shipping_Model_Shipping
     }
 
     /**
-     * Make Real Weight For Package
+     * Compose Packages For Carrier.
+     * Devides order into items and items into parts if it's neccesary
      *
      * @param Mage_Shipping_Model_Carrier_Abstract $carrier
      * @param Mage_Shipping_Model_Rate_Request $request
      * @return array [int, float]
      */
-    public function makeRealWeightForPackage($carrier, $request)
+    public function composePackagesForCarrier($carrier, $request)
     {
         $allItems   = $request->getAllItems();
         $fullItems  = array();
@@ -311,6 +312,7 @@ class Mage_Shipping_Model_Shipping
 
     /**
      * Make pieces
+     * Compose packeges list based on given items, so that each package is as heavy as possible
      *
      * @param array $items
      * @param float $maxWeight

@@ -31,7 +31,8 @@
  * @package    Mage_Usa
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Usa_Model_Shipping_Carrier_Abstract_Requesttype extends Mage_Usa_Model_Shipping_Carrier_Dhl_Source_Method
+class Mage_Usa_Model_Shipping_Carrier_Abstract_Source_Requesttype
+    extends Mage_Usa_Model_Shipping_Carrier_Dhl_Source_Method
 {
     /**
      * Returns array to be used in packages request type on back-end
