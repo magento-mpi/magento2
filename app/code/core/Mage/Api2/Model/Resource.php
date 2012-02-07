@@ -43,6 +43,13 @@ abstract class Mage_Api2_Model_Resource
     /**#@- */
 
     /**#@+
+     * Common operations for attributes
+     */
+    const OPERATION_ATTRIBUTE_READ  = 'read';
+    const OPERATION_ATTRIBUTE_WRITE = 'write';
+    /**#@- */
+
+    /**#@+
      *  Default error messages
      */
     const RESOURCE_NOT_FOUND = 'Resource not found.';
