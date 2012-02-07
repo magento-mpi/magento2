@@ -199,7 +199,7 @@ class Mage_Api2_Adminhtml_Api2_RoleController extends Mage_Adminhtml_Controller_
             }
 
             /** @var $ruleTree Mage_Api2_Model_Acl_Global_Rule_Tree */
-            $ruleTree = Mage::getSingleton('api2/role');
+            $ruleTree = Mage::getSingleton('api2/acl_global_rule_tree');
             $resources = $ruleTree->getPostResourcesPrivleges();
             $id = $role->getId();
             foreach ($resources as $resourceId => $privileges) {
