@@ -121,7 +121,9 @@ class Mage_Api2_Model_DispatcherTest extends Mage_PHPUnit_TestCase
         /** @var $dispatcher Mage_Api2_Model_Dispatcher */
         $dispatcher = new Mage_Api2_Model_Dispatcher();
 
-        $this->setExpectedException('Mage_PHPUnit_Exception');
+        $this->setExpectedException(
+            'Mage_Api2_Exception', 'Resource not found', Mage_Api2_Model_Server::HTTP_NOT_FOUND
+        );
 
         $dispatcher->setApiUser($userMock)->dispatch($this->_requestMock, $this->_response);
     }
