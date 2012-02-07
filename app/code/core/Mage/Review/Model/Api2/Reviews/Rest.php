@@ -44,4 +44,75 @@ abstract class Mage_Review_Model_Api2_Reviews_Rest extends Mage_Api2_Model_Resou
     {
         return self::RESOURCE_NAME;
     }
+
+    /**
+     * Create new review
+     *
+     * @param array $data
+     * @return string
+     */
+    protected function _create(array $data)
+    {
+        /** @var $product Mage_Catalog_Model_Product */
+        $product = Mage::getModel('catalog/product')->load($data['product_id']);
+        if (!$product->getId()) {
+            $this->_critical('Product not found', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+        }
+        /** @var $review Mage_Review_Model_Review */
+        $review = Mage::getModel('review/review')->setData($data);
+        try {
+            $entityId = $review->getEntityIdByCode(Mage_Review_Model_Review::ENTITY_PRODUCT_CODE);
+            $review->setEntityId($entityId)
+                ->setEntityPkValue($product->getId())
+                ->save();
+
+        } catch (Mage_Core_Exception $e) {
+            $this->_error($e->getMessage(), Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR);
+        } catch (Exception $e) {
+            $this->_critical(self::RESOURCE_INTERNAL_ERROR);
+        }
+
+        return $this->_getLocation($review);
+    }
+
+    /**
+     * Get review location
+     *
+     * @param Mage_Core_Model_Abstract $review
+     * @return string
+     */
+    protected function _getLocation(Mage_Core_Model_Abstract $review)
+    {
+        return Mage_Review_Model_Api2_Review_Rest::RESOURCE_NAME . '/' . $review->getId();
+    }
+
+    /**
+     * Validate review stores input
+     *
+     * @throws Mage_Api2_Exception
+     * @param array $stores
+     */
+    protected function _validateStores($stores)
+    {
+        /** @var $validator Mage_Review_Model_Api2_Validator */
+        $validator = Mage::getModel('review/api2_validator');
+        if (!$validator->areStoresValid($stores, true)) {
+            $this->_critical('Invalid stores provided', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+        }
+    }
+
+    /**
+     * Validate review status input
+     *
+     * @throws Mage_Api2_Exception
+     * @param int $statusId
+     */
+    protected function _validateStatus($statusId)
+    {
+        /** @var $validator Mage_Review_Model_Api2_Validator */
+        $validator = Mage::getModel('review/api2_validator');
+        if (!$validator->isStatusValid($statusId)) {
+            $this->_critical('Invalid status provided', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+        }
+    }
 }

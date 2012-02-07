@@ -159,7 +159,7 @@ class Mage_Api2_Model_Acl_Filter
             'reviews' => array(
                 self::OPERATION_READ  => array('review_id', 'product_id', 'status_id', 'stores', 'nickname', 'title',
                     'detail'),
-                self::OPERATION_WRITE => array('product_id', 'status_id', 'stores', 'nickname', 'title', 'detail')
+                self::OPERATION_WRITE => array('product_id', 'status_id', 'stores', 'store_id', 'nickname', 'title', 'detail')
             )
         );
 
