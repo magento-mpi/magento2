@@ -128,12 +128,11 @@ class Mage_Api2_Model_Acl_Global_Role extends Mage_Core_Model_Abstract
                     $rulesPairs[$resourceId]['privileges'][$rule->getPrivilege()] =
                             Mage_Api2_Model_Acl_Global_Rule_Permission::TYPE_ALLOW;
                 }
-            }
-
-            if (!$rulesPairs) {
+            } else {
+                //make resource "all" as default for new item
                 $rulesPairs = array(
                     Mage_Api2_Model_Acl_Global_Rule::RESOURCE_ALL =>
-                        Mage_Api2_Model_Acl_Global_Rule_Permission::TYPE_ALLOW);
+                    Mage_Api2_Model_Acl_Global_Rule_Permission::TYPE_ALLOW);
             }
 
             //set permissions to resources
