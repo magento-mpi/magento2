@@ -1,0 +1,202 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magento.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magento.com for more information.
+ *
+ * @category    Magento
+ * @package     Magento_Test
+ * @subpackage  integration_tests
+ * @copyright   Copyright (c) 2011 Magento Inc. (http://www.magento.com)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+
+/**
+ * Test for reviews collection API2
+ *
+ * @category    Magento
+ * @package     Magento_Test
+ * @author      Magento Api Team <api-team@magento.com>
+ */
+class Api2_Review_Reviews_CustomerTest extends Magento_Test_Webservice_Rest_Customer
+{
+    /**
+     * Delete fixtures
+     */
+    protected function tearDown()
+    {
+        $this->deleteFixture('product_simple', true);
+        $this->deleteFixture('review', true);
+
+        $reviewsList = $this->getFixture('reviews_list');
+        if ($reviewsList && count($reviewsList)) {
+            foreach ($reviewsList as $review) {
+                $this->callModelDelete($review, true);
+            }
+        }
+
+        parent::tearDown();
+    }
+
+    /**
+     * Delete store fixture after test case
+     */
+    public static function tearDownAfterClass()
+    {
+        Magento_TestCase::deleteFixture('store', true);
+    }
+
+    /**
+     * Test successful review creation
+     *
+     * @param array $reviewData
+     * @magentoDataFixture Api/SalesOrder/_fixtures/product_simple.php
+     * @dataProvider dataProviderTestPost
+     */
+    public function testPost($reviewData)
+    {
+        /** @var $product Mage_Catalog_Model_Product */
+        $product = $this->getFixture('product_simple');
+        $reviewData['product_id'] = $product->getId();
+        $this->getWebService()->getClient()->setHeaders('Cookie', 'XDEBUG_SESSION=PHPSTORM');
+
+        $restResponse = $this->callPost('reviews', $reviewData);
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+        // Get created review id from Location header and check that it has been saved correctly
+        $location = $restResponse->getHeader('Location2');
+        list($reviewId) = array_reverse(explode('/', $location));
+        /** @var $review Mage_Review_Model_Review */
+        $review = Mage::getModel('review/review')->load($reviewId);
+        $this->setFixture('review', $review);
+        $this->assertEquals($reviewData['nickname'], $review->getNickname());
+        $this->assertEquals($reviewData['title'], $review->getTitle());
+        $this->assertEquals($reviewData['detail'], $review->getDetail());
+    }
+
+    /**
+     * Data provider for testPost()
+     *
+     * @return array
+     */
+    public function dataProviderTestPost()
+    {
+        $reviewData = require dirname(__FILE__) . '/../_fixtures/Customer/ReviewData.php';
+        $reviewDataSqlInjection = require dirname(__FILE__) . '/../_fixtures/Customer/ReviewDataSqlInj.php';
+        return array(
+            array($reviewData),
+            array($reviewDataSqlInjection),
+        );
+    }
+
+    /**
+     * Test successful review creation on custom store
+     *
+     * @magentoDataFixture Api/SalesOrder/_fixtures/product_simple.php
+     * @magentoDataFixture Api2/Review/_fixtures/store.php
+     */
+    public function testPostCustomStore()
+    {
+        /** @var $product Mage_Catalog_Model_Product */
+        $product = $this->getFixture('product_simple');
+        /** @var $store Mage_Core_Model_Store */
+        $store = $this->getFixture('store');
+
+        $reviewData = require dirname(__FILE__) . '/../_fixtures/Customer/ReviewData.php';
+        $reviewData['product_id'] = $product->getId();
+        $reviewData['store_id'] = $store->getId();
+
+        $restResponse = $this->callPost('reviews', $reviewData);
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+        // Get created review id from Location header and check that it has been saved correctly
+        $location = $restResponse->getHeader('Location2');
+        list($reviewId) = array_reverse(explode('/', $location));
+        /** @var $review Mage_Review_Model_Review */
+        $review = Mage::getModel('review/review')->load($reviewId);
+        $this->setFixture('review', $review);
+        $this->assertEquals($reviewData['store_id'], $review->getStoreId());
+        $this->assertEquals($reviewData['nickname'], $review->getNickname());
+        $this->assertEquals($reviewData['title'], $review->getTitle());
+        $this->assertEquals($reviewData['detail'], $review->getDetail());
+    }
+
+    /**
+     * Test creating new review with invalid data.
+     * Negative test.
+     *
+     * @magentoDataFixture Api/SalesOrder/_fixtures/product_simple.php
+     */
+    public function testPostEmptyRequired()
+    {
+        /** @var $product Mage_Catalog_Model_Product */
+        $product = $this->getFixture('product_simple');
+
+        $reviewData = require dirname(__FILE__) . '/../_fixtures/Customer/ReviewDataEmptyRequired.php';
+        $reviewData['product_id'] = $product->getId();
+
+        $restResponse = $this->callPost('reviews', $reviewData);
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
+        $body = $restResponse->getBody();
+        $errors = $body['messages']['error'];
+        $this->assertNotEmpty($errors);
+        $expectedErrors = array('Resource data pre-validation error.');
+        unset($reviewData['product_id']);
+        foreach ($reviewData as $key => $value) {
+            $expectedErrors[] = sprintf('Empty value for "%s" in request.', $key);
+        }
+        $this->assertEquals(count($expectedErrors), count($errors));
+        foreach ($errors as $error) {
+            $this->assertContains($error['message'], $expectedErrors);
+        }
+    }
+
+    /**
+     * Test creating new review with invalid product.
+     * Negative test.
+     */
+    public function testPostInvalidProduct()
+    {
+        $reviewData = require dirname(__FILE__) . '/../_fixtures/ReviewDataInvalidProduct.php';
+
+        $restResponse = $this->callPost('reviews', $reviewData);
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
+        $body = $restResponse->getBody();
+        $error = reset($body['messages']['error']);
+        $this->assertEquals($error['message'], 'Product not found');
+    }
+
+    /**
+     * Test creating new review with invalid store (not existing store given).
+     * Negative test.
+     *
+     * @magentoDataFixture Api/SalesOrder/_fixtures/product_simple.php
+     */
+    public function testPostInvalidStore()
+    {
+        /** @var $product Mage_Catalog_Model_Product */
+        $product = $this->getFixture('product_simple');
+
+        $reviewData = require dirname(__FILE__) . '/../_fixtures/Customer/ReviewDataInvalidStores.php';
+        $reviewData['product_id'] = $product->getId();
+
+        $restResponse = $this->callPost('reviews', $reviewData);
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
+        $body = $restResponse->getBody();
+        $error = reset($body['messages']['error']);
+        $this->assertEquals($error['message'], 'Invalid stores provided');
+    }
+}
+
