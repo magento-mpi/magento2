@@ -25,7 +25,7 @@
  */
 
 /**
- * API2 attributes controller
+ * API2 attribute controller
  *
  * @category   Mage
  * @package    Mage_Api2
@@ -33,13 +33,51 @@
  */
 class Mage_Api2_Adminhtml_Api2_AttributeController extends Mage_Adminhtml_Controller_Action
 {
+    /**
+     * Edit role
+     */
     public function editAction()
     {
+        $this->loadLayout()
+                ->_setActiveMenu('system/services/roles');
 
+        $type = $this->getRequest()->getParam('type');
+
+        $userTypes = $this->_getUserTypes();
+        if (!isset($userTypes[$type])) {
+            $this->_getSession()->addError($this->__('User type "%s" not found.', $type));
+            $this->_redirect('*/*/');
+            return;
+        }
+
+        $this->_title($this->__('System'))
+                ->_title($this->__('Web Services'))
+                ->_title($this->__('Rest ACL Attributes'));
+
+        $title = $this->__('Edit %s ACL attribute rules', $userTypes[$type]);
+        $this->_title($title);
+        $this->_addBreadcrumb($title, $title);
+
+        $this->renderLayout();
     }
 
+    /**
+     * Save action
+     */
     public function saveAction()
     {
+        $this->_redirect('*/*/');
+    }
 
+    /**
+     * Get user types
+     *
+     * @return array
+     */
+    protected function _getUserTypes()
+    {
+        /** @var $model Mage_Api2_Model_Auth_User_Type */
+        $model = Mage::getModel('api2/auth_user_type');
+        return $model->toArray();
     }
 }

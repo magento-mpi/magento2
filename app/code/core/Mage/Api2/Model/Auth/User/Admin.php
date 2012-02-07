@@ -34,6 +34,11 @@
 class Mage_Api2_Model_Auth_User_Admin extends Mage_Api2_Model_Auth_User_Abstract
 {
     /**
+     * User type
+     */
+    const USER_TYPE = 'admin';
+
+    /**
      * User Role
      *
      * @var int
@@ -77,7 +82,7 @@ class Mage_Api2_Model_Auth_User_Admin extends Mage_Api2_Model_Auth_User_Abstract
      */
     public function getType()
     {
-        return 'admin';
+        return self::USER_TYPE;
     }
 
     /**

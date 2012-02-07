@@ -19,33 +19,29 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_Api2
- * @copyright   Copyright (c) 2011 Magento Inc. (http://www.magentocommerce.com)
+ * @package     Mage_Adminhtml
+ * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * API2 User Customer Class
+ * Block tabs for role edit page
  *
  * @category   Mage
  * @package    Mage_Api2
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Api2_Model_Auth_User_Customer extends Mage_Api2_Model_Auth_User_Abstract
+class Mage_Api2_Block_Adminhtml_Attribute_Tabs extends Mage_Adminhtml_Block_Widget_Tabs
 {
-    /**
-     * User type
-     */
-    const USER_TYPE = 'customer';
 
     /**
-     * Retrieve user type
-     *
-     * @abstract
-     * @return string
+     * Constructor
      */
-    public function getType()
+    public function __construct()
     {
-        return self::USER_TYPE;
+        parent::__construct();
+        $this->setId('attribute_info_tabs');
+        $this->setDestElementId('attr_edit_form');
+        $this->setData('title', Mage::helper('api2')->__('ACL Attribues Information'));
     }
 }

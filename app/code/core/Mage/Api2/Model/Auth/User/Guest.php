@@ -34,6 +34,11 @@
 class Mage_Api2_Model_Auth_User_Guest extends Mage_Api2_Model_Auth_User_Abstract
 {
     /**
+     * User type
+     */
+    const USER_TYPE = 'guest';
+
+    /**
      * Role ID of a guest user type
      */
     const GUEST_ROLE_ID = 1;
@@ -53,7 +58,7 @@ class Mage_Api2_Model_Auth_User_Guest extends Mage_Api2_Model_Auth_User_Abstract
      */
     public function getType()
     {
-        return 'guest';
+        return self::USER_TYPE;
     }
 
     /**
