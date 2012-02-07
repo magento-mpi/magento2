@@ -33,6 +33,13 @@
  */
 class Mage_Adminhtml_Promo_CatalogController extends Mage_Adminhtml_Controller_Action
 {
+    /**
+     * Dirty rules notice message
+     *
+     * @var string
+     */
+    protected $_dirtyRulesNoticeMessage;
+
     protected function _initAction()
     {
         $this->loadLayout()
@@ -49,9 +56,7 @@ class Mage_Adminhtml_Promo_CatalogController extends Mage_Adminhtml_Controller_A
         $this->_title($this->__('Promotions'))->_title($this->__('Catalog Price Rules'));
 
         if (Mage::app()->loadCache('catalog_rules_dirty')) {
-            Mage::getSingleton('adminhtml/session')->addNotice(
-                Mage::helper('catalogrule')->__('There are rules that have been changed but were not applied. Please, click Apply Rules in order to see immediate effect in the catalog.')
-            );
+            Mage::getSingleton('adminhtml/session')->addNotice($this->getDirtyRulesNoticeMessage());
         }
 
         $this->_initAction()
@@ -305,5 +310,26 @@ class Mage_Adminhtml_Promo_CatalogController extends Mage_Adminhtml_Controller_A
     protected function _isAllowed()
     {
         return Mage::getSingleton('admin/session')->isAllowed('promo/catalog');
+    }
+
+    /**
+     * Set dirty rules notice message
+     *
+     * @param string $dirtyRulesNoticeMessage
+     */
+    public function setDirtyRulesNoticeMessage($dirtyRulesNoticeMessage)
+    {
+        $this->_dirtyRulesNoticeMessage = $dirtyRulesNoticeMessage;
+    }
+
+    /**
+     * Get dirty rules notice message
+     *
+     * @return string
+     */
+    public function getDirtyRulesNoticeMessage()
+    {
+        $defaultMessage = Mage::helper('catalogrule')->__('There are rules that have been changed but were not applied. Please, click Apply Rules in order to see immediate effect in the catalog.');
+        return $this->_dirtyRulesNoticeMessage ? $this->_dirtyRulesNoticeMessage : $defaultMessage;
     }
 }

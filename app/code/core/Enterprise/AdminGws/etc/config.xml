@@ -461,6 +461,7 @@
                     <adminhtml__catalog_product_action_attribute__edit>validateCatalogProductMassActions</adminhtml__catalog_product_action_attribute__edit>
 
                     <adminhtml__promo_catalog__>validateRuleEntityAction</adminhtml__promo_catalog__>
+                    <adminhtml__promo_catalog__index>promoCatalogIndexAction</adminhtml__promo_catalog__index>
                     <adminhtml__promo_catalog__applyRules>validatePromoCatalogApplyRules</adminhtml__promo_catalog__applyRules>
                     <adminhtml__promo_quote__>validateRuleEntityAction</adminhtml__promo_quote__>
                     <adminhtml__customersegment__>validateRuleEntityAction</adminhtml__customersegment__>
