@@ -512,11 +512,12 @@ class Mage_Paypal_Model_Express_Checkout
         if (!$this->_quote->getIsVirtual() && isset($data['shipping'])) {
             $checkout->saveShipping($data['shipping'], 0);
         }
-        $this->_quote->setTotalsCollectedFlag(false);
 
         if (isset($data['shipping_method'])) {
             $this->updateShippingMethod($data['shipping_method']);
         }
+        $this->_quote->setTotalsCollectedFlag(false);
+        $this->_quote->collectTotals();
         $this->_quote->setDataChanges(true);
         $this->_quote->save();
     }

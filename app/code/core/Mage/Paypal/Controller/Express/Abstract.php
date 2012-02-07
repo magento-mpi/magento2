@@ -265,7 +265,7 @@ abstract class Mage_Paypal_Controller_Express_Abstract extends Mage_Core_Control
         } catch (Mage_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         } catch (Exception $e) {
-            $this->_getSession()->addError($this->__('Unable to update shipping method.'));
+            $this->_getSession()->addError($this->__('Unable to update Order data.'));
             Mage::logException($e);
         }
         if ($isAjax) {
