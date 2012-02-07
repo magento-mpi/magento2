@@ -47,56 +47,25 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Attribute extends Mage_Catalo
         $fieldName = $engine->getSearchEngineFieldName($attribute, 'nav');
 
         $productCollection = $this->getLayer()->getProductCollection();
-        $options = $productCollection->getFacetedData($fieldName);
-        $options = $this->sortOptions($options, $attribute);
+        $optionsFacetedData = $productCollection->getFacetedData($fieldName);
+        $options = $attribute->getSource()->getAllOptions(false);
 
         $data = array();
-        foreach ($options as $label => $count) {
-            if (Mage::helper('core/string')->strlen($label)) {
-                // Check filter type
-                if ($this->_getIsFilterableAttribute($attribute) == self::OPTIONS_ONLY_WITH_RESULTS) {
-                    if (!empty($count)) {
-                        $data[] = array(
-                            'label' => $label,
-                            'value' => $label,
-                            'count' => $count,
-                        );
-                    }
-                } else {
-                    $data[] = array(
-                        'label' => $label,
-                        'value' => $label,
-                        'count' => (int) $count,
-                    );
-                }
+        foreach ($options as $option) {
+            $optionId = $option['value'];
+            // Check filter type
+            if ($this->_getIsFilterableAttribute($attribute) != self::OPTIONS_ONLY_WITH_RESULTS
+                || !empty($optionsFacetedData[$optionId])
+            ) {
+                $data[] = array(
+                    'label' => $option['label'],
+                    'value' => $optionId,
+                    'count' => isset($optionsFacetedData[$optionId]) ? $optionsFacetedData[$optionId] : 0,
+                );
             }
         }
 
         return $data;
-    }
-
-    /**
-     * Sort options array according to positions sorting values
-     *
-     * @param array $options
-     * @param $attribute
-     *
-     * @return array
-     */
-    public function sortOptions($options, $attribute)
-    {
-        $optionsOrder = $attribute->getSource()->getAllOptions(false);
-        $sortedOptions = array();
-        foreach ($optionsOrder as $option) {
-            if (isset($options[$option['value']])) {
-                $sortedOptions[$option['label']] = $options[$option['value']];
-            } else {
-                $sortedOptions[$option['label']] = 0;
-            }
-
-        }
-
-        return $sortedOptions;
     }
 
     /**
