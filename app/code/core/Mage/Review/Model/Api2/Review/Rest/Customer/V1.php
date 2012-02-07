@@ -34,6 +34,27 @@
 class Mage_Review_Model_Api2_Review_Rest_Customer_V1 extends Mage_Review_Model_Api2_Review_Rest
 {
     /**
+     * Customer could not delete any review
+     *
+     * @throws Mage_Api2_Exception
+     */
+    protected function _delete()
+    {
+        $this->_critical(self::RESOURCE_METHOD_NOT_ALLOWED);
+    }
+
+    /**
+     * Customer could not update any review
+     *
+     * @param array $data
+     * @throws Mage_Api2_Exception
+     */
+    protected function _update(array $data)
+    {
+        $this->_critical(self::RESOURCE_METHOD_NOT_ALLOWED);
+    }
+
+    /**
      * Load review by its id passed through request
      *
      * @throws Mage_Api2_Exception
