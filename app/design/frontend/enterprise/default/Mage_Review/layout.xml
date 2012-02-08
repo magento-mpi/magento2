@@ -38,7 +38,7 @@ Customer account home dashboard layout
 Product reviews page (?)
 -->
 
-    <reviews type="page" parent="default">
+    <reviews>
         <!-- Mage_Review -->
         <reference name="root">
             <action method="setTemplate"><template>2columns-left.phtml</template></action>
@@ -105,7 +105,7 @@ Product reviews page
         </reference>
     </review_product_view>
 
-    <review_customer_index translate="label" type="page" parent="reviews">
+    <review_customer_index translate="label" type="page" parent="customer_account_index">
         <label>Customer My Account Product Reviews</label>
         <update handle="customer_account"/>
         <reference name="my.account.wrapper">
