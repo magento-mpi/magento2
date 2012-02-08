@@ -27,8 +27,6 @@ class Social_Facebook_Block_Head extends Mage_Core_Block_Template
         $product = Mage::registry('product');
 
         if ($product) {
-            $this->setTemplate('page.phtml');
-
             $tags[] = array(
                 'property'  => 'fb:app_id',
                 'content'   => $helper->getAppId()
