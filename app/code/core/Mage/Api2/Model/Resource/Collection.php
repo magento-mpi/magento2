@@ -193,7 +193,7 @@ abstract class Mage_Api2_Model_Resource_Collection extends Mage_Api2_Model_Resou
                 break;
         }
     }
-    
+
     /**
      * Get available attributes of API resource
      *
