@@ -133,7 +133,13 @@ class Enterprise_Checkout_Block_Sku_Products_Info extends Mage_Core_Block_Templa
                         . '</a>';
             case Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_OUT_OF_STOCK:
                 /** @var $helper Mage_ProductAlert_Helper_Data */
-                $helper = Mage::helper('productalert')->setProduct($this->getItem()->getProduct());
+                $helper = Mage::helper('productalert');
+
+                if (!$helper->isStockAlertAllowed()) {
+                    return '';
+                }
+
+                $helper->setProduct($this->getItem()->getProduct());
                 $signUpLabel = $this->escapeHtml($this->__('Get notified when back in stock'));
                 return '<a href="'
                     . $this->escapeHtml($helper->getSaveUrl('stock'))
