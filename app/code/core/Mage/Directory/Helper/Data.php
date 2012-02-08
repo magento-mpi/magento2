@@ -132,10 +132,12 @@ class Mage_Directory_Helper_Data extends Mage_Core_Helper_Abstract
                 $collection = Mage::getModel('directory/region')->getResourceCollection()
                     ->addCountryFilter($countryIds)
                     ->load();
-                $regions = array( 'config' => array(
-                    'show_all_regions' => $this->getShowNonRequiredState(),
-                    'regions_required' => $this->getCountriesWithStatesRequired()
-                ));
+                $regions = array(
+                    'config' => array(
+                        'show_all_regions' => $this->getShowNonRequiredState(),
+                        'regions_required' => $this->getCountriesWithStatesRequired()
+                    )
+                );
                 foreach ($collection as $region) {
                     if (!$region->getRegionId()) {
                         continue;
@@ -224,7 +226,7 @@ class Mage_Directory_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * Return flag, which indicates whether or not non required state shold be shown
+     * Return flag, which indicates whether or not non required state should be shown
      *
      * @return bool
      */
