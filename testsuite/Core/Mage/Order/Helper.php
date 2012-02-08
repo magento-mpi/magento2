@@ -730,4 +730,26 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
             return true;
         }
     }
+
+    /**
+     * Check empty fields for credit card during reorder
+     *
+     * @param array $cardData
+     */
+    public function verifyIfCreditCardFieldsAreEmpty(array $cardData)
+    {
+        $fieldset = $this->getCurrentUimapPage()->findFieldset('order_payment_method');
+        $emptyFields = $this->_getFormDataMap(array($fieldset), $cardData);
+        foreach ($emptyFields as $fieldName => $fieldData) {
+            $value = 'not_set';
+            if ($fieldData['type'] == 'field') {
+                $value = $this->getAttribute($fieldData['path'] . '@value');
+            } elseif ($fieldData['type'] == 'dropdown') {
+                $value = $this->getSelectedLabel($fieldData['path']);
+            }
+            if ($value == $fieldData['value']) {
+                $this->addVerificationMessage("Value for field " . $fieldName . " should be empty, but now is $value");
+            }
+        }
+    }
 }

@@ -394,8 +394,6 @@ class Core_Mage_Order_SavedCC_MaestroCreditCardTest extends Mage_Selenium_TestCa
      */
     public function reorderPendingOrder($orderData)
     {
-        //Data
-        $errors = array();
         //Steps
         $this->navigate('manage_sales_orders');
         $data = $orderData['payment_data']['payment_info'];
@@ -404,18 +402,14 @@ class Core_Mage_Order_SavedCC_MaestroCreditCardTest extends Mage_Selenium_TestCa
         $this->assertMessagePresent('success', 'success_created_order');
         //Steps
         $this->clickButton('reorder');
-        $emptyFields = array('card_verification_number', 'issue_number');
-        foreach ($emptyFields as $field) {
-            $xpath = $this->_getControlXpath('field', $field);
-            $value = $this->getAttribute($xpath . '@value');
-            if ($value) {
-                $errors[] = "Value for field '$field' should be empty, but now is $value";
-            }
-        }
+        $emptyFields = array('card_verification_number' => $data['card_verification_number'],
+                             'issue_number'             => $data['issue_number']);
+        $this->orderHelper()->verifyIfCreditCardFieldsAreEmpty($emptyFields);
         $this->fillForm($data);
         $this->orderHelper()->submitOreder();
         //Verifying
         $this->assertMessagePresent('success', 'success_created_order');
+        $this->assertEmptyVerificationErrors();
     }
 
     /**

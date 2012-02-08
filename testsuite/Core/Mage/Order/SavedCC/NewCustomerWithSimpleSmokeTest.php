@@ -429,8 +429,6 @@ class Core_Mage_Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Seleni
      */
     public function reorderPendingOrder($orderData)
     {
-        //Data
-        $errors = array();
         //Steps
         $this->navigate('manage_sales_orders');
         $data = $orderData['payment_data']['payment_info'];
@@ -439,18 +437,13 @@ class Core_Mage_Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Seleni
         $this->assertMessagePresent('success', 'success_created_order');
         //Steps
         $this->clickButton('reorder');
-        $xpath = $this->_getControlXpath('field', 'card_verification_number');
-        $value = $this->getAttribute($xpath . '@value');
-        if ($value) {
-            $errors[] = "Value for field 'card_verification_number' should be empty, but now is $value";
-        }
+        $emptyFields = array('card_verification_number' => $data['card_verification_number']);
+        $this->orderHelper()->verifyIfCreditCardFieldsAreEmpty($emptyFields);
         $this->fillForm($data);
         $this->orderHelper()->submitOreder();
         //Verifying
         $this->assertMessagePresent('success', 'success_created_order');
-        if ($errors) {
-            $this->fail(implode("\n", $errors));
-        }
+        $this->assertEmptyVerificationErrors();
     }
 
     /**

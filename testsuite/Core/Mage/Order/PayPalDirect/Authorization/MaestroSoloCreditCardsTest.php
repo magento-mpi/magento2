@@ -395,8 +395,6 @@ class Core_Mage_Order_PayPalDirect_Authorization_MaestroSoloCreditCardsTest exte
      */
     public function reorderPendingOrder($orderData)
     {
-        //Data
-        $errors = array();
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -405,19 +403,7 @@ class Core_Mage_Order_PayPalDirect_Authorization_MaestroSoloCreditCardsTest exte
         //Steps
         $this->clickButton('reorder');
         $data = $orderData['payment_data']['payment_info'];
-        $fieldset = $this->getCurrentLocationUimapPage()->findFieldset('order_payment_method');
-        $emptyFields = $this->_getFormDataMap(array($fieldset), $data);
-        foreach ($emptyFields as $field) {
-            $value = null;
-            if ($field['type'] == 'field') {
-                $value = $this->getAttribute($field['path'] . '@value');
-            } else {
-                $value = $this->getSelectedLabel($field['path']);
-            }
-            if ($value == $field['value']) {
-                $errors[] = "Value for field " . $field['type'] . " should be empty, but now is $value";
-            }
-        }
+        $this->orderHelper()->verifyIfCreditCardFieldsAreEmpty($data);
         $this->fillForm($data);
         $this->orderHelper()->validate3dSecure();
         $this->saveForm('submit_order', false);
@@ -425,9 +411,7 @@ class Core_Mage_Order_PayPalDirect_Authorization_MaestroSoloCreditCardsTest exte
         $this->validatePage();
         //Verifying
         $this->assertMessagePresent('success', 'success_created_order');
-        if ($errors) {
-            $this->fail(implode("\n", $errors));
-        }
+        $this->assertEmptyVerificationErrors();
     }
 
     /**
