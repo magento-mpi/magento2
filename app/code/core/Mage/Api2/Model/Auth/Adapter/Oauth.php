@@ -73,6 +73,6 @@ class Mage_Api2_Model_Auth_Adapter_Oauth extends Mage_Api2_Model_Auth_Adapter_Ab
     {
         $headerValue = $request->getHeader('Authorization');
 
-        return $headerValue && 'OAuth' === substr($headerValue, 0, 5);
+        return $headerValue && 'oauth' === strtolower(substr($headerValue, 0, 5));
     }
 }
