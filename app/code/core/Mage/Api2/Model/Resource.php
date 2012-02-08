@@ -509,4 +509,54 @@ abstract class Mage_Api2_Model_Resource
     {
         $this->_version = (int)$version;
     }
+
+    /**
+     * Get available attributes of API resource
+     *
+     * This method used for single API resource and for API resource collection.
+     * Each model in a module must have implementation of this method.
+     *
+     * @abstract
+     * @return array
+     */
+    abstract public function getAvailableAttributes();
+
+    /**
+     * Get EAV attributes of working model
+     *
+     * @return array
+     */
+    public function getEavAttributes()
+    {
+        $model = $this->getConfig()->getResourceWorkingModel($this->getResourceType());
+
+        /** @var $entityType Mage_Eav_Model_Entity_Type */
+        $entityType = Mage::getModel('eav/entity_type');
+        $entityType->load($model, 'entity_model');
+
+        /** @var $config Mage_Eav_Model_Config */
+        $config = Mage::getModel('eav/config');
+
+        return $config->getEntityAttributeCodes($entityType->getEntityTypeId());
+    }
+
+    /**
+     * Get API2 config
+     *
+     * @return Mage_Api2_Model_Config
+     */
+    public function getConfig()
+    {
+        return Mage::getModel('api2/config');
+    }
+
+    /**
+     * Get working model
+     *
+     * @return Mage_Core_Model_Abstract
+     */
+    public function getWorkingModel()
+    {
+        return Mage::getModel($this->getConfig()->getResourceWorkingModel($this->getResourceType()));
+    }
 }

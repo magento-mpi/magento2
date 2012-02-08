@@ -230,4 +230,49 @@ class Mage_Api2_Model_Config extends Varien_Simplexml_Config
     {
         return (string) $this->getNode('resources/' . $node . '/routes/route_main/mask');
     }
+
+    /**
+     * Retrieve resource collection
+     *
+     * @param string $node
+     * @return string
+     */
+    public function getResourceCollection($node)
+    {
+        return (string) $this->getNode('resources/' . $node . '/collection');
+    }
+
+    /**
+     * Retrieve resource instance
+     *
+     * @param string $node
+     * @return string
+     */
+    public function getResourceInstance($node)
+    {
+        return (string) $this->getNode('resources/' . $node . '/instance');
+    }
+
+    /**
+     * Retrieve resource resource instance
+     *
+     * @param string $node
+     * @return array
+     */
+    public function getResourceAttributes($node)
+    {
+        return (array) $this->getNode('resources/' . $node . '/attributes');
+    }
+
+    /**
+     * Retrieve resource resource instance
+     *
+     * @param string $node
+     * @return string
+     */
+    public function getResourceWorkingModel($node)
+    {
+        return (string) $this->getNode('resources/' . $node . '/working_model');
+    }
+
 }

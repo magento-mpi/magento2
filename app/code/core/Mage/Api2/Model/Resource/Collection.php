@@ -45,7 +45,39 @@ abstract class Mage_Api2_Model_Resource_Collection extends Mage_Api2_Model_Resou
     const RESOURCE_COLLECTION_ORDERING_ERROR    = 'Resource collection ordering error.';
     const RESOURCE_COLLECTION_FILTERING_ERROR   = 'Resource collection filtering error.';
     const RESOURCE_COLLECTION_ATTRIBUTES_ERROR  = 'Resource collection including additional attributes error.';
-    /**#@- */
+    /**#@-*/
+
+    /**
+     * Internal "collection" resource model dispatch
+     */
+    final public function dispatch()
+    {
+        switch ($this->getRequest()->getOperation()) {
+            case self::OPERATION_UPDATE:
+                $this->_update(array());
+                break;
+            case self::OPERATION_DELETE:
+                $this->_delete(array());
+                break;
+            case self::OPERATION_CREATE:
+                $filtered = $this->getFilter()->in($this->getRequest()->getBodyParams());
+                $location = $this->_create($filtered);
+
+                //TODO change to "Location"
+                $this->getResponse()->setHeader('Location2', $location);
+                break;
+            case self::OPERATION_RETRIEVE:
+                $result = $this->_retrieve();
+                //TODO We need filtering below cause real columns can't be removed ...
+                //TODO ... by $collection->removeAttributeToSelect()
+                $filtered = $this->getFilter()->collectionOut($result);
+                $this->_render($filtered);
+                break;
+            default:
+                $this->_critical(self::RESOURCE_METHOD_NOT_IMPLEMENTED);
+                break;
+        }
+    }
 
     /**
      * Update method not allowed for this type of resource
@@ -127,11 +159,25 @@ abstract class Mage_Api2_Model_Resource_Collection extends Mage_Api2_Model_Resou
     /**
      * Get resource location
      *
-     * @abstract
      * @param Mage_Core_Model_Abstract $resource
      * @return string URL
      */
-    abstract protected function _getLocation(Mage_Core_Model_Abstract $resource);
+    protected function _getLocation(Mage_Core_Model_Abstract $resource)
+    {
+         /** @var $apiTypeRoute Mage_Api2_Model_Route_ApiType */
+         $apiTypeRoute = Mage::getModel('api2/route_apiType');
+
+         $chain = $apiTypeRoute->chain(
+             new Zend_Controller_Router_Route($this->getConfig()->getMainRoute($this->getResourceType()))
+         );
+         $params = array(
+             'api_type' => $this->getRequest()->getApiType(),
+             'id'       => $resource->getId()
+         );
+         $uri = $chain->assemble($params);
+
+         return '/'.$uri;
+    }
 
     /**
      * Add collection specific errors
@@ -178,5 +224,20 @@ abstract class Mage_Api2_Model_Resource_Collection extends Mage_Api2_Model_Resou
                 $this->_critical(self::RESOURCE_METHOD_NOT_IMPLEMENTED);
                 break;
         }
+    }
+    
+    /**
+     * Get available attributes of API resource
+     *
+     * This method used for single API resource and for API resource collection.
+     * Each model in a module must have implementation of this method.
+     *
+     * @return array
+     */
+    public function getAvailableAttributes()
+    {
+        $instanceResource = $this->getConfig()->getResourceInstance($this->getResourceType());
+
+        return $this->getConfig()->getResourceAttributes($instanceResource);
     }
 }

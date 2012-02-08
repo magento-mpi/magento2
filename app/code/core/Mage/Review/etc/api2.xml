@@ -32,6 +32,7 @@
                 <group>catalog_product</group>
                 <type>reviews</type>
                 <model>review/api2_reviews</model>
+                <working_model>review/review</working_model>
                 <title>Product Reviews</title>
                 <sort_order>110</sort_order>
                 <privileges>
@@ -39,20 +40,18 @@
                     <create>1</create>
                     <retrieve>1</retrieve>
                 </privileges>
-                <attributes>
-                    <!-- Source model with available attributes -->
-                    <model>review/api2_review_rest</model>
-                </attributes>
                 <routes>
                     <route_main>
                         <mask>/reviews</mask>
                     </route_main>
                 </routes>
+                <instance>review</instance>
             </reviews>
             <review>
                 <group>catalog_product</group>
                 <type>review</type>
                 <model>review/api2_review</model>
+                <working_model>review/review</working_model>
                 <title>Product Review</title>
                 <sort_order>100</sort_order>
                 <privileges>
@@ -61,14 +60,16 @@
                     <delete>1</delete>
                 </privileges>
                 <attributes>
-                    <!-- Source model with available attributes -->
-                    <model>review/api2_review_rest</model>
+                    <entity_id>ID</entity_id>
+                    <content>Content</content>
+                    <created_at>Content</created_at>
                 </attributes>
                 <routes>
                     <route_main>
                         <mask>/review/:id</mask>
                     </route_main>
                 </routes>
+                <collection>reviews</collection>
             </review>
         </resources>
     </api2>

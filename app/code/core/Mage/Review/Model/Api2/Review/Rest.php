@@ -31,13 +31,8 @@
  * @package    Mage_Review
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-abstract class Mage_Review_Model_Api2_Review_Rest extends Mage_Api2_Model_Resource_Instance
+abstract class Mage_Review_Model_Api2_Review_Rest extends Mage_Review_Model_Api2_Review
 {
-    /**
-     * Resource name
-     */
-    const RESOURCE_NAME = 'review';
-
     /**
      * Helper for review specific data validation
      *
@@ -51,16 +46,6 @@ abstract class Mage_Review_Model_Api2_Review_Rest extends Mage_Api2_Model_Resour
     function __construct()
     {
         $this->_validator = Mage::getModel('review/api2_validator');
-    }
-
-    /**
-     * Fetch resource type
-     *
-     * @return string
-     */
-    public function getType()
-    {
-        return self::RESOURCE_NAME;
     }
 
     /**
@@ -121,20 +106,5 @@ abstract class Mage_Review_Model_Api2_Review_Rest extends Mage_Api2_Model_Resour
         if (!$this->_validator->areStoresValid($stores)) {
             $this->_critical('Invalid stores provided', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
         }
-    }
-
-    /**
-     * Available attributes
-     *
-     * @return array
-     * @todo Investigate list of attributes and add it to this method
-     */
-    static public function getAvailableAttributes()
-    {
-        return array(
-            'entity_id' => 'ID',
-            'content' => 'Content',
-            'created_at' => 'Created At',
-        );
     }
 }

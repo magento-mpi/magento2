@@ -31,35 +31,8 @@
  * @package    Mage_Review
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-abstract class Mage_Review_Model_Api2_Reviews_Rest extends Mage_Api2_Model_Resource_Collection
+abstract class Mage_Review_Model_Api2_Reviews_Rest extends Mage_Review_Model_Api2_Reviews
 {
-    const RESOURCE_NAME = 'reviews';
-
-    /**
-     * Helper for review specific data validation
-     *
-     * @var Mage_Review_Model_Api2_Validator
-     */
-    protected $_validator;
-
-    /**
-     * Initialize validator
-     */
-    function __construct()
-    {
-        $this->_validator = Mage::getModel('review/api2_validator');
-    }
-
-    /**
-     * Fetch resource type
-     *
-     * @return string
-     */
-    public function getType()
-    {
-        return self::RESOURCE_NAME;
-    }
-
     /**
      * Create new review
      *
