@@ -788,7 +788,7 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
                 $info['sku'] = $itemId;
 
             case Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Abstract::LIST_TYPE:
-                if (empty($info['qty']) || (!isset($info['sku'])) || (string)$info['sku'] == '') { // Allow SKU == '0'
+                if ((!isset($info['sku'])) || (string)$info['sku'] == '') { // Allow SKU == '0'
                     return false;
                 }
                 $item = $this->getCartModel()->prepareAddProductBySku($info['sku'], $info['qty'], $info);
@@ -977,8 +977,6 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
 
     /**
      * Upload and parse CSV file with SKUs and quantity
-     *
-     * @return mixed
      */
     public function uploadSkuCsvAction()
     {
@@ -992,23 +990,40 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
         if ($this->_redirectFlag) {
             return;
         }
+
+        $rows = array();
+        $data = $this->getRequest()->getPost();
         /* @var $importModel Enterprise_Checkout_Model_Import */
         $importModel = Mage::getModel('enterprise_checkout/import');
         try {
             if ($importModel->uploadFile()) {
-                $cart = $this->getCartModel();
-                $cart->prepareAddProductsBySku($importModel->getDataFromCsv());
-                $cart->saveAffectedProducts(
-                    $this->getCartModel(),
-                    Enterprise_Checkout_Model_Cart::DONT_PASS_DISABLED_TO_CART
-                );
-                $cart->saveQuote();
-            } else {
-                Mage::throwException(Mage::helper('enterprise_checkout')->__('Error in uploading file.'));
+                $rows = $importModel->getRows();
             }
         } catch (Mage_Core_Exception $e) {
-            $this->_getSession()->addError($e->getMessage());
+            $this->_getSession()->addException($e, $e->getMessage());
+        } catch (Exception $e) {
+            $this->_getSession()->addException($e,
+                Mage::helper('enterprise_checkout')->__('File upload error.')
+            );
         }
+
+        if (!empty($data['add_by_sku'])) {
+            foreach ($data['add_by_sku'] as $sku => $qty) {
+                $rows[] = array('sku' => $sku, 'qty' => $qty['qty']);
+            }
+        }
+
+        if (!empty($rows)) {
+            $cart = $this->getCartModel();
+            $cart->prepareAddProductsBySku($rows);
+            $cart->saveAffectedProducts(
+                null,
+                Enterprise_Checkout_Model_Cart::DONT_PASS_DISABLED_TO_CART
+            );
+            $cart->saveQuote();
+        }
+
+
         $this->_redirectReferer();
     }
 }

@@ -158,23 +158,16 @@ class Enterprise_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
             case self::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED_IN_CART:
                 $message = $this->__('The product cannot be added to cart in requested quantity.');
                 break;
-            case self::ADD_ITEM_STATUS_FAILED_QTY_INVALID_NUMBER:
-                $message = $this->__('Quantity must be a valid number.');
-                break;
-            case self::ADD_ITEM_STATUS_FAILED_QTY_INVALID_NON_POSITIVE:
-                $message = $this->__('Quantity must be greater than zero.');
-                break;
-            case self::ADD_ITEM_STATUS_FAILED_QTY_INVALID_RANGE:
-                $message = $this->__('Quantity is not within the specified range.');
-                break;
             case self::ADD_ITEM_STATUS_FAILED_CONFIGURE:
                 $message = $this->__('Please specify the product\'s options.');
                 break;
             case self::ADD_ITEM_STATUS_FAILED_PERMISSIONS:
                 $message = $this->__('The product cannot be added to cart.');
                 break;
-            case self::ADD_ITEM_STATUS_FAILED_EMPTY:
-                $message = $this->__('SKU and quantity are required fields.');
+            case self::ADD_ITEM_STATUS_FAILED_QTY_INVALID_NUMBER:
+            case self::ADD_ITEM_STATUS_FAILED_QTY_INVALID_NON_POSITIVE:
+            case self::ADD_ITEM_STATUS_FAILED_QTY_INVALID_RANGE:
+                $message = $this->__('Please enter a valid number in the "Qty" field.');
                 break;
             case self::ADD_ITEM_STATUS_FAILED_WEBSITE:
                 $message = $this->__('The products is assigned to another website.');

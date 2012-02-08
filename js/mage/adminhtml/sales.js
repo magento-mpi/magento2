@@ -1243,7 +1243,8 @@ ControlButton.prototype = {
     initialize: function(label){
         this._label = label;
         this._node = new Element('button', {
-            'class': 'scalable add'
+            'class': 'scalable add',
+            'type':  'button'
         });
     },
 

@@ -353,6 +353,7 @@ table.form-edit                         { width:100%; }
 .entry-edit fieldset .field-row .hint,
 .entry-edit .fieldset .field-row .hint  { float:left; color:#999; padding-left:12em; }
 .entry-edit .form-buttons               { float:right; margin:2px -3px 2px 0pt; }
+.entry-edit .form-buttons button        { margin-left:5px; }
 label.inline                            { float:none !important; width:auto !important; }
 .nested-content .entry-edit             { margin-left:2em; }
 .nested-content .entry-edit .entry-edit { margin-left:0; }

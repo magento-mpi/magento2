@@ -632,7 +632,11 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
              * that both came from add form (not from error grid as the case when there is several products with same
              * SKU requiring attention is not possible), so there could be no config.
              */
-            $qty += $affectedItems[$sku]['item']['qty'];
+            if (empty($qty) || empty($affectedItems[$sku]['item']['qty'])) {
+                $qty = '';
+            } else {
+                $qty += $affectedItems[$sku]['item']['qty'];
+            }
             unset($affectedItems[$sku]);
             $this->setAffectedItems($affectedItems);
         }
@@ -656,10 +660,8 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
             $item += array('sku' => '', 'qty' => '');
             $item = $this->_getValidatedItem($item['sku'], $item['qty']);
 
-            if ($item['code'] == Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_SUCCESS) {
+            if ($item['code'] != Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_EMPTY) {
                 $this->prepareAddProductBySku($item['sku'], $item['qty']);
-            } else {
-                $this->setErrorMessage($this->_getHelper()->getMessage($item['code']));
             }
         }
         return $this;
@@ -948,9 +950,10 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
     public function checkItem($sku, $qty, $config = array())
     {
         $item = $this->_getValidatedItem($sku, $qty);
-        if ($item['code'] != Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_SUCCESS) {
+        if ($item['code'] == Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_EMPTY) {
             return $item;
         }
+        $prevalidateStatus = $item['code'];
         unset($item['code']);
 
         if (!empty($config)) {
@@ -1011,6 +1014,11 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
                 return $item;
             }
 
+            if ($prevalidateStatus != Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_SUCCESS) {
+                $item['code'] = $prevalidateStatus;
+                return $item;
+            }
+
             // FRONTEND
             if (!$isAdmin) {
                 /** @var $stockItem Mage_CatalogInventory_Model_Stock_Item */
@@ -1049,7 +1057,7 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
     protected function _getValidatedItem($sku, $qty)
     {
         $code = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_SUCCESS;
-        if ($sku == '' || $qty == '') {
+        if ($sku == '') {
             $code = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_EMPTY;
         } else {
             if (!Zend_Validate::is($qty, 'Float')) {
@@ -1066,7 +1074,7 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
         }
 
         if ($code != Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_SUCCESS) {
-            $qty = 1;
+            $qty = '';
         }
 
         return array('sku' => $sku, 'qty' => $qty, 'code' => $code);
@@ -1391,7 +1399,7 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
      */
     protected function _addAffectedItem($item, $code)
     {
-        if (!isset($item['sku'])) {
+        if (!isset($item['sku']) || $code == Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_EMPTY) {
             return $this;
         }
         $sku = $item['sku'];

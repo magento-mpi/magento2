@@ -135,7 +135,6 @@ abstract class Enterprise_Checkout_Block_Adminhtml_Sku_Abstract extends Mage_Adm
             'errorGridId'      => $this->getErrorGridId(),
             'fileFieldName'    => Enterprise_Checkout_Model_Import::FIELD_NAME_SOURCE_FILE,
             'fileUploadUrl'    => $this->getFileUploadUrl(),
-            'skuFieldName'     => $this->getId(),
         );
 
         $json = Mage::helper('core')->jsonEncode($data);
