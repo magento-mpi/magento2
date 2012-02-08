@@ -646,8 +646,172 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     }
 
     /**
+     * Generates random value as a string|text|email $type, with specified $length.<br>
+     * Available $modifier:
+     * <li>if $type = string - alnum|alpha|digit|lower|upper|punct
+     * <li>if $type = text - alnum|alpha|digit|lower|upper|punct
+     * <li>if $type = email - valid|invalid
+     *
+     * @param string $type Available types are 'string', 'text', 'email' (by default = 'string')
+     * @param integer $length Generated value length (by default = 100)
+     * @param string|array|null $modifier Value modifier, e.g. PCRE class (by default = null)
+     * @param string|null $prefix Prefix to prepend the generated value (by default = null)
+     *
+     * @return mixed
+     */
+    public function generate($type = 'string', $length = 100, $modifier = null, $prefix = null)
+    {
+        $result = $this->_dataGenerator->generate($type, $length, $modifier, $prefix);
+        return $result;
+    }
+
+    /**
+     * Loads test data.
+     *
+     * @param string $dataSource
+     * @param array|null $overrideByValueKey
+     * @param array|null $overrideByValueParam
+     *
+     * @return array
+     */
+    public function loadDataSet($dataSource, $overrideByValueKey = null, $overrideByValueParam = null)
+    {
+        $data = $this->_getData($dataSource);
+        if (!is_array($data)) {
+            throw new PHPUnit_Framework_Expectation('Data "' . $dataSource . '" is not loaded.');
+        }
+
+        //override data by key value
+        if ($overrideByValueKey) {
+            foreach ($overrideByValueKey as $fieldKey => $fieldValue) {
+                if (!$this->overrideDataByValueKey($fieldKey, $fieldValue, $data)) {
+                    throw new PHPUnit_Framework_AssertionFailedError('Value for field "' . $fieldKey .
+                        '" is not changed in "' . $dataSource . '" DataSet');
+                }
+            }
+        }
+
+        //override data by value parameter
+        if ($overrideByValueParam) {
+            foreach ($overrideByValueParam as $fieldKey => $fieldValue) {
+                if (!$this->overrideDataByValueParam($fieldKey, $fieldValue, $data)) {
+                    throw new PHPUnit_Framework_AssertionFailedError('Value for field with value parameter "'
+                        . $fieldKey . '" is not changed for "' . $dataSource . '" DataSet');
+                }
+            }
+        }
+
+        array_walk_recursive($data, array($this, 'setDataParams'));
+
+        return $this->clearDataArray($data);
+    }
+
+    /**
+     * Change in array value for specified field.
+     *
+     * @param string $overrideKey
+     * @param string $overrideValue
+     * @param array $overrideArray
+     *
+     * @return bool
+     */
+    public function overrideDataByValueKey($overrideKey, $overrideValue, &$overrideArray)
+    {
+        $overrideResult = false;
+        foreach ($overrideArray as $currentKey => &$currentValue) {
+            if ($currentKey === $overrideKey) {
+                $currentValue = $overrideValue;
+                $overrideResult = true;
+            } elseif (is_array($currentValue)) {
+                $overrideResult = $overrideResult
+                    || $this->overrideDataByValueKey($overrideKey, $overrideValue, $currentValue);
+            }
+        }
+        return $overrideResult;
+    }
+
+    /**
+     * Change in array value for field with specified value.
+     *
+     * @param string $overrideKey
+     * @param string $overrideValue
+     * @param array $overrideArray
+     *
+     * @return bool
+     */
+    public function overrideDataByValueParam($overrideKey, $overrideValue, &$overrideArray)
+    {
+        $overrideResult = false;
+        foreach ($overrideArray as &$currentValue) {
+            if ($currentValue === '%' . $overrideKey . '%') {
+                $currentValue = $overrideValue;
+                $overrideResult = true;
+            } elseif (is_array($currentValue)) {
+                $overrideResult = $overrideResult
+                    || $this->overrideDataByValueParam($overrideKey, $overrideValue, $currentValue);
+            }
+        }
+        return $overrideResult;
+    }
+
+    /**
+     * Set data params
+     *
+     * @param string $value
+     * @param string $key Index of the target to randomize
+     */
+    public function setDataParams(&$value, $key)
+    {
+        if (preg_match('/%randomize%/', $value)) {
+            $value = preg_replace('/%randomize%/', $this->generate('string', 5, ':lower:'), $value);
+        }
+        if (preg_match('/^%longValue[0-9]+%$/', $value)) {
+            $length = preg_replace('/[^0-9]/', '', $value);
+            $value = preg_replace('/%longValue[0-9]+%/', $this->generate('text', $length, ':alpha:'), $value);
+        }
+        if (preg_match('/^%specialValue[0-9]+%$/', $value)) {
+            $length = preg_replace('/[^0-9]/', '', $value);
+            $value = preg_replace('/%specialValue[0-9]+%/', $this->generate('string', $length, ':punct:'), $value);
+        }
+        if (preg_match('/%currentDate%/', $value)) {
+            $value = preg_replace('/%currentDate%/', date("n/j/y"), $value);
+        }
+    }
+
+    /**
+     * Delete field in array with special values(for example: %noValue%)
+     *
+     * @param array $dataArray
+     *
+     * @return array|bool
+     */
+    public function clearDataArray($dataArray)
+    {
+        if (!is_array($dataArray)) {
+            return false;
+        }
+
+        foreach ($dataArray as $key => $value) {
+            if (is_array($value)) {
+                $dataArray[$key] = $this->clearDataArray($value);
+                if (count($dataArray[$key]) == false) {
+                    unset($dataArray[$key]);
+                }
+            } elseif (preg_match('/^\%(\w)+\%$/', $value)) {
+                unset($dataArray[$key]);
+            }
+        }
+
+        return $dataArray;
+    }
+
+    ################################################################################
+    #                    Deprecated data helper methods                            #
+    ################################################################################
+    /**
      * Loads test data from DataSet, specified in the $dataSource
      *
+     * @deprecated
      * @param string|array $dataSource Data source (e.g. filename in ../data without .yml extension)
      * @param array|null $override Value to override in original data from data source
      * @param string|array|null $randomize Value to randomize
@@ -697,28 +861,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     }
 
     /**
-     * Generates random value as a string|text|email $type, with specified $length.<br>
-     * Available $modifier:
-     * <li>if $type = string - alnum|alpha|digit|lower|upper|punct
-     * <li>if $type = text - alnum|alpha|digit|lower|upper|punct
-     * <li>if $type = email - valid|invalid
-     *
-     * @param string $type Available types are 'string', 'text', 'email' (by default = 'string')
-     * @param integer $length Generated value length (by default = 100)
-     * @param string|array|null $modifier Value modifier, e.g. PCRE class (by default = null)
-     * @param string|null $prefix Prefix to prepend the generated value (by default = null)
-     *
-     * @return mixed
-     */
-    public function generate($type = 'string', $length = 100, $modifier = null, $prefix = null)
-    {
-        $result = $this->_dataGenerator->generate($type, $length, $modifier, $prefix);
-        return $result;
-    }
-
-    /**
      * Remove array elements that have '%noValue%' value
      *
+     * @deprecated
      * @param array $array  Array of data for cleaning
      *
      * @return array|false
@@ -748,6 +893,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     /**
      * Override data with index $key on-fly in the $overrideArray by new value (&$value)
      *
+     * @deprecated
      * @param string $overrideKey Index of the target to override
      * @param string $overrideValue Value for override
      * @param array $overrideArray Target array, which contains some index(es) to override
@@ -773,6 +919,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     }
 
     /**
+     * @deprecated
      * @param string $subArray
      * @param string $overrideKey
      * @param string|array $overrideValue
@@ -812,6 +959,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     /**
      * Randomize data with index $key on-fly in the $randomizeArray by new value (&$value)
      *
+     * @deprecated
      * @param string $value Value for randomization (in this case - value will be as a suffix)
      * @param string $key Index of the target to randomize
      * @param array $randomizeArray Target array, which contains some index(es) to randomize
@@ -822,30 +970,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             if ($randomizeField === $key) {
                 $value = $this->generate('string', 5, ':lower:') . '_' . $value;
             }
-        }
-    }
-
-    /**
-     * Set data params
-     *
-     * @param string $value
-     * @param string $key Index of the target to randomize
-     */
-    public function setDataParams(&$value, $key)
-    {
-        if (preg_match('/%randomize%/', $value)) {
-            $value = preg_replace('/%randomize%/', $this->generate('string', 5, ':lower:'), $value);
-        }
-        if (preg_match('/^%longValue[0-9]+%$/', $value)) {
-            $length = preg_replace('/[^0-9]/', '', $value);
-            $value = preg_replace('/%longValue[0-9]+%/', $this->generate('string', $length, ':alpha:'), $value);
-        }
-        if (preg_match('/^%specialValue[0-9]+%$/', $value)) {
-            $length = preg_replace('/[^0-9]/', '', $value);
-            $value = preg_replace('/%specialValue[0-9]+%/', $this->generate('string', $length, ':punct:'), $value);
-        }
-        if (preg_match('/%currentDate%/', $value)) {
-            $value = preg_replace('/%currentDate%/', date("n/j/y"), $value);
         }
     }
 
