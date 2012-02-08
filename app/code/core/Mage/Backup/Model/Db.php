@@ -43,6 +43,15 @@ class Mage_Backup_Model_Db
     const BUFFER_LENGTH = 102400;
 
     /**
+     * List of tables which data should not be backed up
+     *
+     * @var array
+     */
+    protected $_ignoreDataTablesList = array(
+        'importexport/importdata'
+    );
+
+    /**
      * Retrieve resource model
      *
      * @return Mage_Backup_Model_Mysql4_Db
@@ -108,7 +117,7 @@ class Mage_Backup_Model_Db
 
         $backup->write($this->getResource()->getHeader());
 
-        $ignoreDataTablesList = Mage::helper('backup')->getIgnoreDataTablesList();
+        $ignoreDataTablesList = $this->getIgnoreDataTablesList();
 
         foreach ($tables as $table) {
             $backup->write($this->getResource()->getTableHeader($table)
@@ -150,5 +159,22 @@ class Mage_Backup_Model_Db
         $backup->close();
 
         return $this;
+    }
+
+    /**.
+     * Returns the list of tables which data should not be backed up
+     *
+     * @return array
+     */
+    public function getIgnoreDataTablesList()
+    {
+        $result = array();
+        $resource = Mage::getSingleton('core/resource');
+
+        foreach ($this->_ignoreDataTablesList as $table) {
+            $result[] = $resource->getTableName($table);
+        }
+
+        return $result;
     }
 }
