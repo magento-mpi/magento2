@@ -70,7 +70,7 @@ class Magento_Config_Theme extends Magento_Config_XmlAbstract
      *
      * @param string $package
      * @param string $theme
-     * @throw Exception an exception in case of unknown theme
+     * @throw Magento_Exception an exception in case of unknown theme
      * @return array
      */
     public function getCompatibleVersions($package, $theme)
@@ -80,7 +80,7 @@ class Magento_Config_Theme extends Magento_Config_XmlAbstract
             ->query("/design/package[@code='{$package}']/theme[@code='{$theme}']/requirements/magento_version")
             ->item(0);
         if (!$version) {
-            throw new Exception('Unknown theme "' . $theme . '" in "' . $package . '" package.');
+            throw new Magento_Exception('Unknown theme "' . $theme . '" in "' . $package . '" package.');
         }
         $result = array(
             'from'  => $version->getAttribute('from'),

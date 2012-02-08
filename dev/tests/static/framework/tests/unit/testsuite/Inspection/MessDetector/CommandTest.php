@@ -33,13 +33,13 @@ class Inspection_MessDetector_CommandTest extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider canTestDataProvider
      */
-    public function testCanRun($expectedResult)
+    public function testCanRun($cmdOutput, $expectedResult)
     {
         $this->_cmd
             ->expects($this->once())
             ->method('_execShellCmd')
             ->with($this->stringContains('phpmd'))
-            ->will($this->returnValue($expectedResult))
+            ->will($this->returnValue($cmdOutput))
         ;
         $this->assertEquals($expectedResult, $this->_cmd->canRun());
     }
@@ -47,16 +47,8 @@ class Inspection_MessDetector_CommandTest extends PHPUnit_Framework_TestCase
     public function canTestDataProvider()
     {
         return array(
-            'success' => array(true),
-            'failure' => array(false),
-        );
-    }
-
-    public function getVersionDataProvider()
-    {
-        return array(
-            array('PHPMD 0.2.8RC1 by Manuel Pichler', '0.2.8RC1'),
-            array('PHPMD 1.1.1 by Manuel Pichler',    '1.1.1'),
+            'success' => array('PHPMD X.Y.Z', true),
+            'failure' => array(false, false),
         );
     }
 
@@ -65,18 +57,21 @@ class Inspection_MessDetector_CommandTest extends PHPUnit_Framework_TestCase
      */
     public function testGetVersion($versionCmdOutput, $expectedVersion)
     {
-        $cmdCallback = function ($shellCmd, array &$output = null) use ($versionCmdOutput)
-        {
-            $output = array($versionCmdOutput);
-            return !empty($shellCmd);
-        };
         $this->_cmd
             ->expects($this->once())
             ->method('_execShellCmd')
             ->with($this->stringContains('phpmd'))
-            ->will($this->returnCallback($cmdCallback))
+            ->will($this->returnValue($versionCmdOutput))
         ;
         $this->assertEquals($expectedVersion, $this->_cmd->getVersion());
+    }
+
+    public function getVersionDataProvider()
+    {
+        return array(
+            array('PHPMD 0.2.8RC1 by Manuel Pichler', '0.2.8RC1'),
+            array('PHPMD 1.1.1 by Manuel Pichler',    '1.1.1'),
+        );
     }
 
     public function testRun()

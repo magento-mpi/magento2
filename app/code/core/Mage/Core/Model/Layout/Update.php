@@ -187,13 +187,14 @@ class Mage_Core_Model_Layout_Update
      *
      * @param array|string $handles
      * @return Mage_Core_Model_Layout_Update
+     * @throws Magento_Exception
      */
     public function load($handles=array())
     {
         if (is_string($handles)) {
             $handles = array($handles);
         } elseif (!is_array($handles)) {
-            throw Mage::exception('Mage_Core', Mage::helper('Mage_Core_Helper_Data')->__('Invalid layout update handle'));
+            throw new Magento_Exception('Invalid layout update handle');
         }
 
         foreach ($handles as $handle) {
@@ -383,6 +384,7 @@ class Mage_Core_Model_Layout_Update
      * @param string $theme
      * @param integer|null $storeId
      * @return Mage_Core_Model_Layout_Element
+     * @throws Magento_Exception
      */
     public function getFileLayoutUpdatesXml($area, $package, $theme, $storeId = null)
     {
@@ -412,7 +414,9 @@ class Mage_Core_Model_Layout_Update
                 $module = $updateNode->getAttribute('module');
                 if (!$module) {
                     $updateNodePath = $area . '/layout/updates/' . $updateNode->getName();
-                    throw new Exception("Layout update instruction '{$updateNodePath}' must specify the module.");
+                    throw new Magento_Exception(
+                        "Layout update instruction '{$updateNodePath}' must specify the module."
+                    );
                 }
                 if ($module && Mage::getStoreConfigFlag('advanced/modules_disable_output/' . $module, $storeId)) {
                     continue;
@@ -423,7 +427,7 @@ class Mage_Core_Model_Layout_Update
                     $layoutParams + array('_module' => $module)
                 );
                 if (!is_readable($filename)) {
-                    throw new Exception("Layout update file '{$filename}' doesn't exist or isn't readable.");
+                    throw new Magento_Exception("Layout update file '{$filename}' doesn't exist or isn't readable.");
                 }
                 $updateFiles[] = $filename;
             }

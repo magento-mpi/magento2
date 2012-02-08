@@ -39,7 +39,7 @@ abstract class Inspection_CommandAbstract
     public function run(array $whiteList, array $blackList = array())
     {
         $shellCmd = $this->_buildShellCmd($whiteList, $blackList);
-        return $this->_execShellCmd($shellCmd);
+        return ($this->_execShellCmd($shellCmd) !== false);
     }
 
     /**
@@ -49,7 +49,7 @@ abstract class Inspection_CommandAbstract
      */
     public function canRun()
     {
-        return $this->_execShellCmd($this->_buildVersionShellCmd());
+        return ($this->_execShellCmd($this->_buildVersionShellCmd()) !== false);
     }
 
     /**
@@ -59,10 +59,10 @@ abstract class Inspection_CommandAbstract
      */
     public function getVersion()
     {
-        if (!$this->_execShellCmd($this->_buildVersionShellCmd(), $versionOutput)) {
+        $versionOutput = $this->_execShellCmd($this->_buildVersionShellCmd());
+        if (!$versionOutput) {
             return null;
         }
-        $versionOutput = implode("\n", $versionOutput);
         return (preg_match('/[^\d]*([^\s]+)/', $versionOutput, $matches) ? $matches[1] : $versionOutput);
     }
 
@@ -93,16 +93,16 @@ abstract class Inspection_CommandAbstract
     abstract protected function _buildShellCmd($whiteList, $blackList);
 
     /**
-     * Execute the shell command on the current environment
+     * Execute a shell command on the current environment and return its output or FALSE on failure
      *
      * @param string $shellCmd
-     * @param array $output
-     * @return bool
+     * @return string|false
      */
-    protected function _execShellCmd($shellCmd, array &$output = null)
+    protected function _execShellCmd($shellCmd)
     {
         $output = array();
         exec($shellCmd . ' 2>&1', $output, $exitCode);
-        return ($exitCode === 0);
+        $output = implode(PHP_EOL, $output);
+        return ($exitCode === 0 ? $output : false);
     }
 }

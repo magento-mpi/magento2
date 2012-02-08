@@ -106,7 +106,7 @@ class Mage_Core_Model_Layout_UpdateTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Exception
+     * @expectedException Magento_Exception
      * @dataProvider getFileLayoutUpdatesXmlExceptionDataProvider
      */
     public function testGetFileLayoutUpdatesXmlException($configFixture)

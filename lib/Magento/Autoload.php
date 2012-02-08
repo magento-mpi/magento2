@@ -136,8 +136,8 @@ class Magento_Autoload
      * Add classes files declaration to the map. New map will override existing values if such was defined before.
      *
      * @param array|string $map
-     * @param string $basePath
      * @return Magento_Autoload
+     * @throws Magento_Exception
      */
     public function addFilesMap($map)
     {
@@ -145,13 +145,13 @@ class Magento_Autoload
             if (is_file($map) && is_readable($map)) {
                 $map = unserialize(file_get_contents($map));
             } else {
-                throw new Exception($map . ' file does not exist.');
+                throw new Magento_Exception($map . ' file does not exist.');
             }
         }
         if (is_array($map)) {
             $this->_filesMap = array_merge($this->_filesMap, $map);
         } else {
-            throw new Exception('$map parameter should be an array or path map file.');
+            throw new Magento_Exception('$map parameter should be an array or path map file.');
         }
         return $this;
     }

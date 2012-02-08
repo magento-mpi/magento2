@@ -518,12 +518,12 @@ class Mage_Core_Helper_Data extends Mage_Core_Helper_Abstract
      * @param array $array
      * @param string $rootName
      * @return SimpleXMLElement
-     * @throws Exception
+     * @throws Magento_Exception
      */
     public function assocToXml(array $array, $rootName = '_')
     {
         if (empty($rootName) || is_numeric($rootName)) {
-            throw new Exception('Root element must not be empty or numeric');
+            throw new Magento_Exception('Root element must not be empty or numeric');
         }
 
         $xmlstr = <<<XML
@@ -533,7 +533,7 @@ XML;
         $xml = new SimpleXMLElement($xmlstr);
         foreach ($array as $key => $value) {
             if (is_numeric($key)) {
-                throw new Exception('Array root keys must not be numeric.');
+                throw new Magento_Exception('Array root keys must not be numeric.');
             }
         }
         return self::_assocToXml($array, $rootName, $xml);
@@ -546,7 +546,7 @@ XML;
      * @param string $rootName
      * @param SimpleXMLElement $xml
      * @return SimpleXMLElement
-     * @throws Exception
+     * @throws Magento_Exception
      */
     private function _assocToXml(array $array, $rootName, SimpleXMLElement &$xml)
     {
@@ -556,7 +556,7 @@ XML;
             if (!is_array($value)) {
                 if (is_string($key)) {
                     if ($key === $rootName) {
-                        throw new Exception('Associative key must not be the same as its parent associative key.');
+                        throw new Magento_Exception('Associative key must not be the same as its parent associative key.');
                     }
                     $hasStringKey = true;
                     $xml->$key = $value;
@@ -571,7 +571,7 @@ XML;
             }
         }
         if ($hasNumericKey && $hasStringKey) {
-            throw new Exception('Associative and numeric keys must not be mixed at one level.');
+            throw new Magento_Exception('Associative and numeric keys must not be mixed at one level.');
         }
         return $xml;
     }

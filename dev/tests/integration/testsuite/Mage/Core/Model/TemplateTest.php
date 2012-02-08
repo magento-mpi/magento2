@@ -16,7 +16,7 @@ class Mage_Core_Model_TemplateTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @dataProvider setDesignConfigExceptionDataProvider
-     * @expectedException Exception
+     * @expectedException Magento_Exception
      */
     public function testSetDesignConfigException($config)
     {

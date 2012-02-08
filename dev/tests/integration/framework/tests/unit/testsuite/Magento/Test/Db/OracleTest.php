@@ -39,7 +39,7 @@ class Magento_Test_Db_OracleTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Exception
+     * @expectedException Magento_Exception
      */
     public function test__construct()
     {
