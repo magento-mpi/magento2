@@ -257,7 +257,7 @@ class Api2_Review_Reviews_CustomerTest extends Magento_Test_Webservice_Rest_Cust
         /** @var $product Mage_Catalog_Model_Product */
         $product = Magento_Test_Webservice::getFixture('product_simple');
 
-        $restResponse = $this->callGet('reviews', array('product' => $product->getId()));
+        $restResponse = $this->callGet('reviews', array('product_id' => $product->getId()));
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
         $reviews = $restResponse->getBody();
         $this->assertNotEmpty($reviews);
@@ -305,7 +305,7 @@ class Api2_Review_Reviews_CustomerTest extends Magento_Test_Webservice_Rest_Cust
      */
     public function testGetProductFilterInvalid()
     {
-        $restResponse = $this->callGet('reviews', array('product' => 'INVALID PRODUCT'));
+        $restResponse = $this->callGet('reviews', array('product_id' => 'INVALID PRODUCT'));
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
         $body = $restResponse->getBody();
         $error = reset($body['messages']['error']);
