@@ -169,7 +169,7 @@ class Integrity_LayoutTest extends PHPUnit_Framework_TestCase
         foreach ($this->_getPackagesAndThemes() as $packageAndTheme) {
             $files = Util_Files::getLayoutFiles($packageAndTheme);
             $packageAndTheme['include_design'] = (int) $packageAndTheme['include_design'];
-            $identifierPackageAndTheme = implode('_', $packageAndTheme);
+            $idPackageAndTheme = implode('_', $packageAndTheme);
 
             $handleNodesResult = array();
             foreach (array_keys($files) as $path) {
@@ -185,7 +185,7 @@ class Integrity_LayoutTest extends PHPUnit_Framework_TestCase
                     $handleNodesResult[$handleNodeName] = $parentNodeName;
                 }
             }
-            $handles[] = array($identifierPackageAndTheme, $handleNodesResult);
+            $handles[] = array($idPackageAndTheme, $handleNodesResult);
         }
 
         $this->_pageHandles = $handles;
