@@ -97,17 +97,18 @@ class Mage_Core_Model_Email_Template extends Mage_Core_Model_Template
      * Return logo URL for emails
      * Take logo from skin if custom logo is undefined
      *
-     * @param  Mage_Core_Model_Store $store
+     * @param  Mage_Core_Model_Store|int|string $store
      * @return string
      */
-    protected function _getLogoUrl(Mage_Core_Model_Store $store)
+    protected function _getLogoUrl($store)
     {
-        $storeConfig = $store->getConfig(self::XML_PATH_DESIGN_EMAIL_LOGO);
-        if ($storeConfig) {
-            $logoDir = Mage_Adminhtml_Model_System_Config_Backend_Email_logo::UPLOAD_DIR;
-            $logoFullFileName = Mage::getBaseDir('media') . DS . $logoDir . DS . $storeConfig;
-            if (file_exists($logoFullFileName)) {
-                return Mage::getBaseUrl('media') . $logoDir . '/' . $storeConfig;
+        $store = Mage::app()->getStore($store);
+        $fileName = $store->getConfig(self::XML_PATH_DESIGN_EMAIL_LOGO);
+        if ($fileName) {
+            $uploadDir = Mage_Adminhtml_Model_System_Config_Backend_Email_logo::UPLOAD_DIR;
+            $fullFileName = Mage::getBaseDir('media') . DS . $uploadDir . DS . $fileName;
+            if (file_exists($fullFileName)) {
+                return Mage::getBaseUrl('media') . $uploadDir . '/' . $fileName;
             }
         }
         return Mage::getDesign()->getSkinUrl('images/logo_email.gif');
@@ -116,16 +117,17 @@ class Mage_Core_Model_Email_Template extends Mage_Core_Model_Template
     /**
      * Return logo alt for emails
      *
-     * @param  Mage_Core_Model_Store $store
+     * @param  Mage_Core_Model_Store|int|string $store
      * @return string
      */
-    protected function _getLogoAlt(Mage_Core_Model_Store $store)
+    protected function _getLogoAlt($store)
     {
-        $storeConfig = $store->getConfig(self::XML_PATH_DESIGN_EMAIL_LOGO_ALT);
-        if (!$storeConfig) {
-            return $store->getFrontendName();
+        $store = Mage::app()->getStore($store);
+        $alt = $store->getConfig(self::XML_PATH_DESIGN_EMAIL_LOGO_ALT);
+        if ($alt) {
+            return $alt;
         }
-        return $storeConfig;
+        return $store->getFrontendName();
     }
 
     /**
@@ -320,12 +322,19 @@ class Mage_Core_Model_Email_Template extends Mage_Core_Model_Template
         $processor->setUseSessionInUrl(false)
             ->setPlainTemplateMode($this->isPlain());
 
-        if(!$this->_preprocessFlag) {
+        if (!$this->_preprocessFlag) {
             $variables['this'] = $this;
         }
 
-        if(isset($variables['subscriber']) && ($variables['subscriber'] instanceof Mage_Newsletter_Model_Subscriber)) {
+        if (isset($variables['subscriber']) && ($variables['subscriber'] instanceof Mage_Newsletter_Model_Subscriber)) {
             $processor->setStoreId($variables['subscriber']->getStoreId());
+        }
+
+        if (!isset($variables['logo_url'])) {
+            $variables['logo_url'] = $this->_getLogoUrl($processor->getStoreId());
+        }
+        if (!isset($variables['logo_alt'])) {
+            $variables['logo_alt'] = $this->_getLogoAlt($processor->getStoreId());
         }
 
         $processor->setIncludeProcessor(array($this, 'getInclude'))
@@ -493,12 +502,6 @@ class Mage_Core_Model_Email_Template extends Mage_Core_Model_Template
 
         if (!isset($vars['store'])) {
             $vars['store'] = Mage::app()->getStore($storeId);
-        }
-        if (!isset($vars['logo_url'])) {
-            $vars['logo_url'] = $this->_getLogoUrl(Mage::app()->getStore($storeId));
-        }
-        if (!isset($vars['logo_alt'])) {
-            $vars['logo_alt'] = $this->_getLogoAlt(Mage::app()->getStore($storeId));
         }
         $this->setSentSuccess($this->send($email, $name, $vars));
         return $this;

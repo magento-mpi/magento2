@@ -1,6 +1,6 @@
 <?php
 /**
- * Magento Core Edition
+ * Magento Enterprise Edition
  *
  * NOTICE OF LICENSE
  *
@@ -29,9 +29,9 @@
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author     Magento Saas Team <core@magentocommerce.com>
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Model_System_Config_Backend_Email_logo extends Mage_Adminhtml_Model_System_Config_Backend_Image
+class Mage_Adminhtml_Model_System_Config_Backend_Email_Logo extends Mage_Adminhtml_Model_System_Config_Backend_Image
 {
     /**
      * The tail part of directory path for uploading
