@@ -130,6 +130,22 @@ final class Mage
     static private $_isInstalled;
 
     /**
+     * Magento edition constants
+     */
+    const EDITION_COMMUNITY    = 'Community';
+    const EDITION_ENTERPRISE   = 'Enterprise';
+    const EDITION_PROFESSIONAL = 'Professional';
+    const EDITION_GO           = 'Go';
+
+    /**
+     * Current Magento edition.
+     *
+     * @var string
+     * @static
+     */
+    static private $_currentEdition = self::EDITION_COMMUNITY;
+
+    /**
      * Gets the current Magento version string
      * @link http://www.magentocommerce.com/blog/new-community-edition-release-process/
      *
@@ -158,6 +174,17 @@ final class Mage
             'stability' => 'rc',
             'number'    => '1',
         );
+    }
+
+    /**
+     * Get current Magento edition
+     *
+     * @static
+     * @return string
+     */
+    public static function getEdition()
+    {
+       return self::$_currentEdition;
     }
 
     /**
@@ -635,6 +662,9 @@ final class Mage
         try {
             Varien_Profiler::start('mage');
             self::setRoot();
+            if (isset($options['edition'])) {
+                self::$_currentEdition = $options['edition'];
+            }
             self::$_app    = new Mage_Core_Model_App();
             if (isset($options['request'])) {
                 self::$_app->setRequest($options['request']);
