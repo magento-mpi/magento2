@@ -132,32 +132,38 @@ class Enterprise_Checkout_Model_Import extends Varien_Object
         }
 
         $csvData = array();
-        $currentKey = 0;
 
         try {
             $fileHandler = fopen($this->_uploadedFile, 'r');
             if ($fileHandler) {
-                rewind($fileHandler);
                 $colNames = fgetcsv($fileHandler);
-                $num = count($colNames);
-                if ($num != 2) {
-                    Mage::throwException(Mage::helper('enterprise_checkout')->__('Uploaded file is invalid'));
+
+                foreach ($colNames as &$colName) {
+                    $colName = trim($colName);
                 }
-                for ($i = 0; $i < 2; $i++) {
-                    // If header columns specified as "sku, qty" - it could cause problems because of the whitespace
-                    $colNames[$i] = trim($colNames[$i]);
+
+                $requiredColumns = array('sku', 'qty');
+                $requiredColumnsPositions = array();
+
+                foreach ($requiredColumns as $columnName) {
+                    $found = array_search($columnName, $colNames);
+                    if (false !== $found) {
+                        $requiredColumnsPositions[] = $found;
+                    } else {
+                        Mage::throwException(Mage::helper('enterprise_checkout')->__('SKU and quantity are required fields.'));
+                    }
                 }
+
                 while (($currentRow = fgetcsv($fileHandler)) !== false) {
-                    $num = count($currentRow);
-                    if ($num != 2) {
-                        continue;
+                    $csvDataRow = array('qty' => '');
+                    foreach ($requiredColumnsPositions as $index) {
+                        if (isset($currentRow[$index])) {
+                            $csvDataRow[$colNames[$index]] = trim($currentRow[$index]);
+                        }
                     }
-                    $csvDataRow = array();
-                    for ($i = 0; $i < 2; $i++) {
-                        $csvDataRow[$colNames[$i]] = trim($currentRow[$i]);
+                    if (isset($csvDataRow['sku']) && $csvDataRow['sku'] !== '') {
+                        $csvData[] = $csvDataRow;
                     }
-                    $csvData[] = $csvDataRow;
-                    $currentKey++;
                 }
                 fclose($fileHandler);
             }
