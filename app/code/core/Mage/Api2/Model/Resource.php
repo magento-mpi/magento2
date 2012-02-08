@@ -128,22 +128,11 @@ abstract class Mage_Api2_Model_Resource
      * Render data using registered Renderer
      *
      * @param mixed $data
-     * @return void
      */
     protected function _render($data)
     {
-        $response = $this->getResponse();
-
-        $response->clearHeaders()
-            ->setBody($this->getRenderer()->render($data))
-            ->setHeader(
-            'Content-Type',
-            sprintf(
-                '%s; charset=%s',
-                $this->getRenderer()->getMimeType(),
-                Mage_Api2_Model_Response::RESPONSE_CHARSET
-            )
-        );
+        $this->getResponse()->setMimeType($this->getRenderer()->getMimeType())
+            ->setBody($this->getRenderer()->render($data));
     }
 
     /**
@@ -176,8 +165,6 @@ abstract class Mage_Api2_Model_Resource
             $this->_critical(self::RESOURCE_DATA_PRE_VALIDATION_ERROR);
         }
     }
-
-    //Errors
 
     /**
      * Throw exception, critical error - stop execution
@@ -233,8 +220,6 @@ abstract class Mage_Api2_Model_Resource
         return $this;
     }
 
-    //CRUD
-
     /**
      * Dummy method to be replaced in descendants
      *
@@ -278,7 +263,16 @@ abstract class Mage_Api2_Model_Resource
      */
     abstract public function dispatch();
 
-    //Setters/getters
+    /**
+     * Retrieve list of attributes available for resource.
+     * Returns an array where key is attribute code, value is an attribute label.
+     *
+     * @return array
+     */
+    public function getAvailableAttributes()
+    {
+        return array();
+    }
 
     /**
      * Get filter if not exists create

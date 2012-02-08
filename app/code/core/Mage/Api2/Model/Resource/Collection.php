@@ -73,54 +73,30 @@ abstract class Mage_Api2_Model_Resource_Collection extends Mage_Api2_Model_Resou
      */
     final protected function _applyCollectionModifiers(Varien_Data_Collection_Db $collection)
     {
-        $request = $this->getRequest();
+        $request    = $this->getRequest();
+        $pageNumber = $request->getPageNumber();
+        $orderField = $request->getOrderField();
 
-        $collection->setCurPage($request->getPageNumber())
-            ->setPageSize(self::DEFAULT_PAGE_SIZE);
-
-        if (null !== $request->getOrder()) {
-            $collection->setOrder($request->getOrder(), Varien_Data_Collection::SORT_ORDER_DESC);
+        if ($pageNumber != abs($pageNumber)) {
+            $this->_critical(self::RESOURCE_COLLECTION_PAGING_ERROR);
         }
-        if (method_exists($collection, 'addAttributeToFilter')) {
-            /*$filter = array(
-                array('attribute'=>'status', 'in' => array(1)),
-                //array('attribute'=>'lastname', 'like'  => $this->getQuery().'%'),
-                //array('attribute'=>'company', 'like'   => $this->getQuery().'%'),
-            );*/
+        if (null !== $orderField) {
+            if (!is_string($orderField) || !array_key_exists($orderField, $this->getAvailableAttributes())) {
+                $this->_critical(self::RESOURCE_COLLECTION_ORDERING_ERROR);
+            }
+            $collection->setOrder($orderField, $request->getOrderDirection());
+        }
+        $collection->setCurPage($pageNumber)->setPageSize(self::DEFAULT_PAGE_SIZE);
 
-            if ($request->getFilter()) {
-                //TODO validate filter?
-                try {
-                    $collection->addAttributeToFilter($request->getFilter());
-                } catch(Exception $e) {
-                    $this->_critical(self::RESOURCE_COLLECTION_FILTERING_ERROR);
-                }
+        if (method_exists($collection, 'addAttributeToFilter') && ($filter = $request->getFilter())) {
+            $this->_validateFilter($filter);
+
+            try {
+                $collection->addAttributeToFilter($filter);
+            } catch(Exception $e) {
+                $this->_critical(self::RESOURCE_COLLECTION_FILTERING_ERROR);
             }
         }
-        return $this;
-    }
-
-    /**
-     * Apply filtering for item attributes from Attribute Filter
-     *
-     * @param Mage_Eav_Model_Entity_Collection_Abstract $collection
-     * @return Mage_Api2_Model_Resource_Collection
-     */
-    final protected function _applyAttributeFilters(Mage_Eav_Model_Entity_Collection_Abstract $collection)
-    {
-        //TODO validate &include
-        $collection->removeAttributeToSelect();
-        foreach ($this->getFilter()->getAttributesToInclude() as $attribute) {
-            //echo $attribute.PHP_EOL;
-            $collection->addAttributeToSelect($attribute);
-        }
-
-        /*
-        $collection->removeAttributeToSelect()
-        $collection->addAttributeToFilter()
-        $collection->addAttributeToSelect()
-        $collection->addAttributeToSort()*/
-
         return $this;
     }
 
@@ -165,6 +141,24 @@ abstract class Mage_Api2_Model_Resource_Collection extends Mage_Api2_Model_Resou
     }
 
     /**
+     * Validate filter data from request
+     *
+     * @param mixed $filter
+     * @return Mage_Api2_Model_Resource_Collection
+     */
+    protected function _validateFilter($filter)
+    {
+        $conditions = array(
+            'eq', 'neq', 'like', 'nlike', 'in', 'nin', 'is', 'notnull', 'null', 'gt', 'lt',
+            'gteq', 'lteq', 'finset', 'regexp', 'from', 'to', 'seq', 'sneq'
+        );
+        if (false) {
+            $this->_critical(self::RESOURCE_COLLECTION_FILTERING_ERROR);
+        }
+        return $this;
+    }
+
+    /**
      * Internal "collection" resource model dispatch
      */
     final public function dispatch()
@@ -177,10 +171,11 @@ abstract class Mage_Api2_Model_Resource_Collection extends Mage_Api2_Model_Resou
                 $this->_delete(array());
                 break;
             case self::OPERATION_CREATE:
-                $requestData  = $this->getRequest()->getBodyParams();
-                $filteredData = $this->getFilter()->in($requestData);
+                $requestData     = $this->getRequest()->getBodyParams();
+                $filteredData    = $this->getFilter()->in($requestData);
+                $newItemLocation = $this->_create($filteredData);
 
-                $this->_create($filteredData);
+                $this->getResponse()->setHeader('Location', $newItemLocation);
                 break;
             case self::OPERATION_RETRIEVE:
                 $retrievedData = $this->_retrieve();

@@ -41,10 +41,11 @@ class Mage_Api2_Model_Request extends Zend_Controller_Request_Http
     /**#@+
      * Name of query ($_GET) parameters to use in navigation and so on
      */
-    const QUERY_PARAM_REQ_ATTRS = 'attrs';
-    const QUERY_PARAM_PAGE_NUM  = 'page';
-    const QUERY_PARAM_ORDER     = 'order';
-    const QUERY_PARAM_FILTER    = 'filter';
+    const QUERY_PARAM_REQ_ATTRS   = 'attrs';
+    const QUERY_PARAM_PAGE_NUM    = 'page';
+    const QUERY_PARAM_ORDER_FIELD = 'order';
+    const QUERY_PARAM_ORDER_DIR   = 'dir';
+    const QUERY_PARAM_FILTER      = 'filter';
     /**#@- */
 
     /**
@@ -209,13 +210,23 @@ class Mage_Api2_Model_Request extends Zend_Controller_Request_Http
     }
 
     /**
-     * Get sort order requested by API user
+     * Get sort order direction requested by API user
      *
      * @return mixed
      */
-    public function getOrder()
+    public function getOrderDirection()
     {
-        return $this->getQuery(self::QUERY_PARAM_ORDER);
+        return $this->getQuery(self::QUERY_PARAM_ORDER_DIR);
+    }
+
+    /**
+     * Get sort order field requested by API user
+     *
+     * @return mixed
+     */
+    public function getOrderField()
+    {
+        return $this->getQuery(self::QUERY_PARAM_ORDER_FIELD);
     }
 
     /**
