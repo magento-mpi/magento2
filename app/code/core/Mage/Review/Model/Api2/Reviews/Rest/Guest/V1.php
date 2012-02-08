@@ -56,7 +56,7 @@ class Mage_Review_Model_Api2_Reviews_Rest_Guest_V1 extends Mage_Review_Model_Api
 
         $this->_validate($data, $required, $notEmpty);
         $data['status_id'] = Mage_Review_Model_Review::STATUS_PENDING;
-        $data['customer_id'] = $this->getApiUser()->getUserId();
+        $data['customer_id'] = null;
         return parent::_create($data);
     }
 
