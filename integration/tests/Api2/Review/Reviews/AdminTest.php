@@ -85,8 +85,8 @@ class Api2_Review_Reviews_AdminTest extends Magento_Test_Webservice_Rest_Admin
      */
     public function dataProviderTestPost()
     {
-        $reviewData = require dirname(__FILE__) . '/../_fixtures/ReviewData.php';
-        $reviewDataSqlInjection = require dirname(__FILE__) . '/../_fixtures/ReviewDataSqlInj.php';
+        $reviewData = require dirname(__FILE__) . '/../_fixtures/Backend/ReviewData.php';
+        $reviewDataSqlInjection = require dirname(__FILE__) . '/../_fixtures/Backend/ReviewDataSqlInj.php';
         return array(
             array($reviewData),
             array($reviewDataSqlInjection),
@@ -104,7 +104,7 @@ class Api2_Review_Reviews_AdminTest extends Magento_Test_Webservice_Rest_Admin
         /** @var $product Mage_Catalog_Model_Product */
         $product = $this->getFixture('product_simple');
 
-        $reviewData = require dirname(__FILE__) . '/../_fixtures/ReviewDataEmptyRequired.php';
+        $reviewData = require dirname(__FILE__) . '/../_fixtures/Backend/ReviewDataEmptyRequired.php';
         $reviewData['product_id'] = $product->getId();
 
         $restResponse = $this->callPost('reviews', $reviewData);
@@ -129,7 +129,7 @@ class Api2_Review_Reviews_AdminTest extends Magento_Test_Webservice_Rest_Admin
      */
     public function testPostInvalidProduct()
     {
-        $reviewData = require dirname(__FILE__) . '/../_fixtures/ReviewDataInvalidProduct.php';
+        $reviewData = require dirname(__FILE__) . '/../_fixtures/Backend/ReviewDataInvalidProduct.php';
 
         $restResponse = $this->callPost('reviews', $reviewData);
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
@@ -149,7 +149,7 @@ class Api2_Review_Reviews_AdminTest extends Magento_Test_Webservice_Rest_Admin
         /** @var $product Mage_Catalog_Model_Product */
         $product = $this->getFixture('product_simple');
 
-        $reviewData = require dirname(__FILE__) . '/../_fixtures/ReviewDataInvalidStatus.php';
+        $reviewData = require dirname(__FILE__) . '/../_fixtures/Backend/ReviewDataInvalidStatus.php';
         $reviewData['product_id'] = $product->getId();
 
         $restResponse = $this->callPost('reviews', $reviewData);
@@ -170,7 +170,7 @@ class Api2_Review_Reviews_AdminTest extends Magento_Test_Webservice_Rest_Admin
         /** @var $product Mage_Catalog_Model_Product */
         $product = $this->getFixture('product_simple');
 
-        $reviewData = require dirname(__FILE__) . '/../_fixtures/ReviewDataInvalidStores.php';
+        $reviewData = require dirname(__FILE__) . '/../_fixtures/Backend/ReviewDataInvalidStores.php';
         $reviewData['product_id'] = $product->getId();
 
         $restResponse = $this->callPost('reviews', $reviewData);
@@ -191,7 +191,7 @@ class Api2_Review_Reviews_AdminTest extends Magento_Test_Webservice_Rest_Admin
         /** @var $product Mage_Catalog_Model_Product */
         $product = $this->getFixture('product_simple');
 
-        $reviewData = require dirname(__FILE__) . '/../_fixtures/ReviewData.php';
+        $reviewData = require dirname(__FILE__) . '/../_fixtures/Backend/ReviewData.php';
         $reviewData['product_id'] = $product->getId();
         $invalidStoreId = 32000;
         $reviewData['stores'][] = $invalidStoreId;

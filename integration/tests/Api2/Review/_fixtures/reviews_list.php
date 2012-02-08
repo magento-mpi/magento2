@@ -36,7 +36,7 @@ $reviewsList = array();
 
 /** @var $review Mage_Review_Model_Review */
 $review = new Mage_Review_Model_Review();
-$reviewData = require 'ReviewData.php';
+$reviewData = require 'Backend/ReviewData.php';
 $review->setData($reviewData);
 $entityId = $review->getEntityIdByCode(Mage_Review_Model_Review::ENTITY_PRODUCT_CODE);
 

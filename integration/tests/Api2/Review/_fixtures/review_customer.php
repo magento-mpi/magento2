@@ -31,7 +31,7 @@ $product = Magento_Test_Webservice::getFixture('product_simple');
 
 /** @var $review Mage_Review_Model_Review */
 $review = new Mage_Review_Model_Review();
-$reviewData = require 'Customer/ReviewData.php';
+$reviewData = require 'Frontend/ReviewData.php';
 $reviewData['status_id'] = Mage_Review_Model_Review::STATUS_APPROVED;
 $reviewData['stores'] = Mage::app()->getWebsite()->getStoreIds();
 $review->setData($reviewData);

@@ -103,8 +103,8 @@ class Api2_Review_Reviews_CustomerTest extends Magento_Test_Webservice_Rest_Cust
      */
     public function dataProviderTestPost()
     {
-        $reviewData = require dirname(__FILE__) . '/../_fixtures/Customer/ReviewData.php';
-        $reviewDataSqlInjection = require dirname(__FILE__) . '/../_fixtures/Customer/ReviewDataSqlInj.php';
+        $reviewData = require dirname(__FILE__) . '/../_fixtures/Frontend/ReviewData.php';
+        $reviewDataSqlInjection = require dirname(__FILE__) . '/../_fixtures/Frontend/ReviewDataSqlInj.php';
         return array(
             array($reviewData),
             array($reviewDataSqlInjection),
@@ -123,7 +123,7 @@ class Api2_Review_Reviews_CustomerTest extends Magento_Test_Webservice_Rest_Cust
         /** @var $store Mage_Core_Model_Store */
         $store = $this->getFixture('store');
 
-        $reviewData = require dirname(__FILE__) . '/../_fixtures/Customer/ReviewData.php';
+        $reviewData = require dirname(__FILE__) . '/../_fixtures/Frontend/ReviewData.php';
         $reviewData['product_id'] = $product->getId();
         $reviewData['store_id'] = $store->getId();
 
@@ -152,7 +152,7 @@ class Api2_Review_Reviews_CustomerTest extends Magento_Test_Webservice_Rest_Cust
         /** @var $product Mage_Catalog_Model_Product */
         $product = $this->getFixture('product_simple');
 
-        $reviewData = require dirname(__FILE__) . '/../_fixtures/Customer/ReviewDataEmptyRequired.php';
+        $reviewData = require dirname(__FILE__) . '/../_fixtures/Frontend/ReviewDataEmptyRequired.php';
         $reviewData['product_id'] = $product->getId();
 
         $restResponse = $this->callPost('reviews', $reviewData);
@@ -177,7 +177,7 @@ class Api2_Review_Reviews_CustomerTest extends Magento_Test_Webservice_Rest_Cust
      */
     public function testPostInvalidProduct()
     {
-        $reviewData = require dirname(__FILE__) . '/../_fixtures/ReviewDataInvalidProduct.php';
+        $reviewData = require dirname(__FILE__) . '/../_fixtures/Backend/ReviewDataInvalidProduct.php';
 
         $restResponse = $this->callPost('reviews', $reviewData);
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
@@ -197,7 +197,7 @@ class Api2_Review_Reviews_CustomerTest extends Magento_Test_Webservice_Rest_Cust
         /** @var $product Mage_Catalog_Model_Product */
         $product = $this->getFixture('product_simple');
 
-        $reviewData = require dirname(__FILE__) . '/../_fixtures/Customer/ReviewDataInvalidStores.php';
+        $reviewData = require dirname(__FILE__) . '/../_fixtures/Frontend/ReviewDataInvalidStores.php';
         $reviewData['product_id'] = $product->getId();
 
         $restResponse = $this->callPost('reviews', $reviewData);
@@ -210,7 +210,7 @@ class Api2_Review_Reviews_CustomerTest extends Magento_Test_Webservice_Rest_Cust
     /**
      * Test retrieving list of reviews
      *
-     * @magentoDataFixture Api2/Review/_fixtures/Customer/reviews_list.php
+     * @magentoDataFixture Api2/Review/_fixtures/Frontend/reviews_list.php
      */
     public function testGet()
     {
@@ -235,7 +235,7 @@ class Api2_Review_Reviews_CustomerTest extends Magento_Test_Webservice_Rest_Cust
     /**
      * Test retrieving list of reviews
      *
-     * @magentoDataFixture Api2/Review/_fixtures/Customer/reviews_list.php
+     * @magentoDataFixture Api2/Review/_fixtures/Frontend/reviews_list.php
      */
     public function testGetCustomStore()
     {
@@ -250,7 +250,7 @@ class Api2_Review_Reviews_CustomerTest extends Magento_Test_Webservice_Rest_Cust
     /**
      * Test retrieving list of reviews with product filter
      *
-     * @magentoDataFixture Api2/Review/_fixtures/Customer/reviews_list.php
+     * @magentoDataFixture Api2/Review/_fixtures/Frontend/reviews_list.php
      */
     public function testGetProductFilter()
     {
@@ -271,7 +271,7 @@ class Api2_Review_Reviews_CustomerTest extends Magento_Test_Webservice_Rest_Cust
     /**
      * Test retrieving list of reviews with customer filter
      *
-     * @magentoDataFixture Api2/Review/_fixtures/Customer/reviews_list.php
+     * @magentoDataFixture Api2/Review/_fixtures/Frontend/reviews_list.php
      */
     public function testGetCustomerFilter()
     {

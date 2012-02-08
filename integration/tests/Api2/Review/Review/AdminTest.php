@@ -148,7 +148,7 @@ class Api2_Review_Review_AdminTest extends Magento_Test_Webservice_Rest_Admin
             'status_id' => Mage_Review_Model_Review::STATUS_PENDING,
             'stores' => array(0)
         );
-        $validReviewDataSqlInjection = require dirname(__FILE__) . '/../_fixtures/ReviewDataSqlInj.php';
+        $validReviewDataSqlInjection = require dirname(__FILE__) . '/../_fixtures/Backend/ReviewDataSqlInj.php';
         // unset fields that could not be used for SQL-injections
         unset($validReviewDataSqlInjection['product_id']);
         unset($validReviewDataSqlInjection['stores']);
@@ -176,7 +176,7 @@ class Api2_Review_Review_AdminTest extends Magento_Test_Webservice_Rest_Admin
         /** @var $product Mage_Review_Model_Review */
         $review = $this->getFixture('review');
 
-        $dataForUpdate = require dirname(__FILE__) . '/../_fixtures/ReviewDataEmptyRequired.php';
+        $dataForUpdate = require dirname(__FILE__) . '/../_fixtures/Backend/ReviewDataEmptyRequired.php';
         unset($dataForUpdate['product_id']);
 
         // update review using API
@@ -208,7 +208,7 @@ class Api2_Review_Review_AdminTest extends Magento_Test_Webservice_Rest_Admin
         /** @var $product Mage_Review_Model_Review */
         $review = $this->getFixture('review');
 
-        $dataForUpdate = require dirname(__FILE__) . '/../_fixtures/ReviewDataInvalidStatus.php';
+        $dataForUpdate = require dirname(__FILE__) . '/../_fixtures/Backend/ReviewDataInvalidStatus.php';
         unset($dataForUpdate['product_id']);
 
         // update review using API
@@ -232,7 +232,7 @@ class Api2_Review_Review_AdminTest extends Magento_Test_Webservice_Rest_Admin
         /** @var $product Mage_Review_Model_Review */
         $review = $this->getFixture('review');
 
-        $dataForUpdate = require dirname(__FILE__) . '/../_fixtures/ReviewDataInvalidStores.php';
+        $dataForUpdate = require dirname(__FILE__) . '/../_fixtures/Backend/ReviewDataInvalidStores.php';
         unset($dataForUpdate['product_id']);
 
         // update review using API
