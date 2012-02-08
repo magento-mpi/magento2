@@ -727,20 +727,6 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
     }
 
     /**
-     * Simple Search suggestions interface
-     *
-     * @deprecated after 1.9.0.0 - integrated into $this->_search()
-     *
-     * @param string $query The raw query string
-     * @param array $params
-     * @param int|bool $limit
-     * @param bool $withResultsCounts
-     * @return array
-     */
-    abstract protected function _searchSuggestions($query, $params = array(), $limit = false,
-        $withResultsCounts = false);
-
-    /**
      * Search documents in Solr index sorted by relevance
      *
      * @param string $query
