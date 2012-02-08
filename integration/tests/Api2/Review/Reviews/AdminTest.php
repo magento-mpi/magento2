@@ -210,7 +210,7 @@ class Api2_Review_Reviews_AdminTest extends Magento_Test_Webservice_Rest_Admin
      */
     public function testGet()
     {
-        $restResponse = $this->callGet('reviews', array('order' => 'review_id'));
+        $restResponse = $this->callGet('reviews', array('order' => 'review_id', 'dir' => 'DESC'));
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
         $body = $restResponse->getBody();
         $this->assertNotEmpty($body);
