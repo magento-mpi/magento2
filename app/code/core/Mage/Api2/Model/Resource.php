@@ -264,17 +264,6 @@ abstract class Mage_Api2_Model_Resource
     abstract public function dispatch();
 
     /**
-     * Retrieve list of attributes available for resource.
-     * Returns an array where key is attribute code, value is an attribute label.
-     *
-     * @return array
-     */
-    public function getAvailableAttributes()
-    {
-        return array();
-    }
-
-    /**
      * Get filter if not exists create
      *
      * @return Mage_Api2_Model_Acl_Filter
