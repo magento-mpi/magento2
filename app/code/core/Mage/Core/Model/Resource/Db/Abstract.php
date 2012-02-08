@@ -333,8 +333,8 @@ abstract class Mage_Core_Model_Resource_Db_Abstract extends Mage_Core_Model_Reso
     protected function _getReadAdapter()
     {
         $writeAdapter = $this->_getWriteAdapter();
-        if ($writeAdapter->getTransactionLevel() > 0) {
-            // if transaction was started We must read from "write adapter"
+        if ($writeAdapter && $writeAdapter->getTransactionLevel() > 0) {
+            // if transaction is started we should use write connection for reading
             return $writeAdapter;
         }
         return $this->_getConnection('read');
