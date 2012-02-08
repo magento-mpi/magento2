@@ -32,7 +32,7 @@
  * @package     Magento_Test
  * @author      Magento Api Team <api-team@magento.com>
  */
-class Api2_Review_Review_CustomerTest extends Magento_Test_Webservice_Rest_Customer
+class Api2_Review_Review_GuestTest extends Magento_Test_Webservice_Rest_Guest
 {
     /**
      * Remove fixtures
@@ -43,7 +43,6 @@ class Api2_Review_Review_CustomerTest extends Magento_Test_Webservice_Rest_Custo
     {
         $this->deleteFixture('product_simple', true);
         $this->deleteFixture('review', true);
-        $this->deleteFixture('review_customer', true);
 
         parent::tearDown();
     }
@@ -120,7 +119,7 @@ class Api2_Review_Review_CustomerTest extends Magento_Test_Webservice_Rest_Custo
      */
     public function testGetWithInvalidStore()
     {
-        // admin store should not be available for customers
+        // admin store should not be available for guests
         $storeId = 0;
         /** @var $product Mage_Review_Model_Review */
         $review = $this->getFixture('review');
@@ -167,24 +166,7 @@ class Api2_Review_Review_CustomerTest extends Magento_Test_Webservice_Rest_Custo
     }
 
     /**
-     * Test retrieve of existing not approved review by its author
-     *
-     * @param int $status
-     * @dataProvider providerTestGetWithInappropriateStatus
-     * @magentoDataFixture Api2/Review/_fixtures/review_customer.php
-     */
-    public function testGetWithInappropriateStatusByAuthor($status)
-    {
-        /** @var $product Mage_Review_Model_Review */
-        $review = $this->getFixture('review_customer');
-        $review->setStatusId($status)->save();
-
-        $restResponse = $this->callGet('review/' . $review->getId());
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
-    }
-
-    /**
-     * Provider of not eligible for customer review statuses
+     * Provider of not eligible for guest review statuses
      *
      * @return array
      */
@@ -197,7 +179,7 @@ class Api2_Review_Review_CustomerTest extends Magento_Test_Webservice_Rest_Custo
     }
 
     /**
-     * Customer should not be able to remove any review
+     * Guest should not be able to remove any review
      */
     public function testDelete()
     {
@@ -206,7 +188,7 @@ class Api2_Review_Review_CustomerTest extends Magento_Test_Webservice_Rest_Custo
     }
 
     /**
-     * Customer should not be able to update any review
+     * Guest should not be able to update any review
      */
     public function testUpdate()
     {
