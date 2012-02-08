@@ -127,8 +127,10 @@ class Mage_CatalogRule_Model_Resource_Rule extends Mage_Rule_Model_Resource_Abst
         if ($rule->getProductsFilter()) {
             $write->delete(
                 $this->getTable('catalogrule/rule_product'),
-                $write->quoteInto('rule_id=?', $ruleId)
-                . $write->quoteInto('and product_id in (?)', implode(',' , $rule->getProductsFilter()))
+                array(
+                    'rule_id=?' => $ruleId,
+                    'product_id IN (?)' => $rule->getProductsFilter()
+                )
             );
         } else {
             $write->delete($this->getTable('catalogrule/rule_product'), $write->quoteInto('rule_id=?', $ruleId));
@@ -316,7 +318,8 @@ class Mage_CatalogRule_Model_Resource_Rule extends Mage_Rule_Model_Resource_Abst
         $priceTable = $priceAttr->getBackend()->getTable();
         $attributeId= $priceAttr->getId();
 
-        $joinCondition = '%1$s.entity_id=rp.product_id AND (%1$s.attribute_id='.$attributeId.') and %1$s.store_id=%2$s';
+        $joinCondition = '%1$s.entity_id=rp.product_id AND (%1$s.attribute_id=' . $attributeId
+            . ') and %1$s.store_id=%2$s';
 
         $select->join(
             array('pp_default'=>$priceTable),
@@ -509,8 +512,10 @@ class Mage_CatalogRule_Model_Resource_Rule extends Mage_Rule_Model_Resource_Abst
 
             $select = $write->select()
                 ->distinct(true)
-                ->from($this->getTable('catalogrule/rule_product'), array('rule_id', 'customer_group_id', 'website_id'))
-                ->where("{$timestamp} >= from_time AND (({$timestamp} <= to_time AND to_time > 0) OR to_time = 0)");
+                ->from(
+                    $this->getTable('catalogrule/rule_product'),
+                    array('rule_id', 'customer_group_id', 'website_id')
+                )->where("{$timestamp} >= from_time AND (({$timestamp} <= to_time AND to_time > 0) OR to_time = 0)");
             $query = $select->insertFromSelect($this->getTable('catalogrule/rule_group_website'));
             $write->query($query);
 
