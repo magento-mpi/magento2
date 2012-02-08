@@ -1875,4 +1875,21 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
         return parent::clear();
     }
 
+    /**
+     * Set Order field
+     *
+     * @param string $attribute
+     * @param string $dir
+     * @return Mage_CatalogSearch_Model_Resource_Fulltext_Collection
+     */
+    public function setOrder($attribute, $dir = 'desc')
+    {
+        if ($attribute == 'price') {
+            $this->addAttributeToSort($attribute, $dir);
+        } else {
+            parent::setOrder($attribute, $dir);
+        }
+        return $this;
+    }
+
 }
