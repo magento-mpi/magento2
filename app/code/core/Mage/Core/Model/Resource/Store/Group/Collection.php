@@ -89,7 +89,7 @@ class Mage_Core_Model_Resource_Store_Group_Collection extends Mage_Core_Model_Re
      *
      * @return Mage_Core_Model_Resource_Store_Group_Collection
      */
-    public function setWithoutViewFilter()
+    public function setWithoutStoreViewFilter()
     {
         return $this->addFieldToFilter('main_table.default_store_id', array('gt' => 0));
     }

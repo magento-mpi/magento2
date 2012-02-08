@@ -109,11 +109,9 @@ class Mage_Adminhtml_Block_System_Store_Edit_Form extends Mage_Adminhtml_Block_W
             ));
 
             if (Mage::registry('store_action') == 'edit') {
-                /** @var $storeGroupCollection Mage_Core_Model_Resource_Store_Group_Collection */
-                $storeGroupCollection = Mage::getModel('core/store_group')->getCollection();
-                $groups = $storeGroupCollection
+                $groups = Mage::getModel('core/store_group')->getCollection()
                     ->addWebsiteFilter($websiteModel->getId())
-                    ->setWithoutViewFilter()
+                    ->setWithoutStoreViewFilter()
                     ->toOptionArray();
 
                 $fieldset->addField('website_default_group_id', 'select', array(
