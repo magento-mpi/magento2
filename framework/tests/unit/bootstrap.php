@@ -30,6 +30,8 @@ define('SELENIUM_UNIT_TESTS_BASEDIR', realpath(dirname(__FILE__)));
 define('SELENIUM_TESTS_LIBDIR', realpath(SELENIUM_UNIT_TESTS_BASEDIR
                                          . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..'));
 define('SELENIUM_TESTS_BASEDIR', realpath(SELENIUM_TESTS_LIBDIR . DIRECTORY_SEPARATOR . '..'));
+define('SELENIUM_TESTS_SCREENSHOTDIR',
+        realpath(SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'tmp' . DIRECTORY_SEPARATOR . 'screenshot'));
 
 set_include_path(implode(PATH_SEPARATOR, array(
     SELENIUM_UNIT_TESTS_BASEDIR,

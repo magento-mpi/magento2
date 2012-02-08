@@ -41,7 +41,7 @@ class Mage_Selenium_Helper_FileTest extends Mage_PHPUnit_TestCase
     public function testLoadYamlFile()
     {
         $fileHelper = new Mage_Selenium_Helper_File($this->_config);
-        $filePath = SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'fixture'
+        $filePath = SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'fixture' . DIRECTORY_SEPARATOR . 'default'
                 . DIRECTORY_SEPARATOR . 'Core' . DIRECTORY_SEPARATOR . 'Mage' . DIRECTORY_SEPARATOR . 'Customer'
                 . DIRECTORY_SEPARATOR . 'data' . DIRECTORY_SEPARATOR . 'Customers.yml';
         $customers = $fileHelper->loadYamlFile($filePath);
@@ -79,7 +79,7 @@ class Mage_Selenium_Helper_FileTest extends Mage_PHPUnit_TestCase
     public function testLoadYamlFiles()
     {
         $fileHelper = new Mage_Selenium_Helper_File($this->_config);
-        $filePath = SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'fixture'
+        $filePath = SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'fixture' . DIRECTORY_SEPARATOR . 'default'
                 . DIRECTORY_SEPARATOR . '*' . DIRECTORY_SEPARATOR . '*' . DIRECTORY_SEPARATOR . '*'
                 . DIRECTORY_SEPARATOR . 'data' . DIRECTORY_SEPARATOR . '*.yml';
         $allYmlData = $fileHelper->loadYamlFiles($filePath);

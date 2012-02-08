@@ -73,7 +73,7 @@ class Mage_Selenium_TestCaseTest extends Mage_PHPUnit_TestCase
         $instance = new Mage_Selenium_TestCase();
 
         $instance->clearMessages();
-        $this->assertNotNull($instance->getParsedMessages());
+        $this->assertNull($instance->getParsedMessages());
         $this->assertEmpty($instance->getParsedMessages());
 
         $errorMessage = 'testGetParsedMessages error message';
@@ -148,7 +148,7 @@ class Mage_Selenium_TestCaseTest extends Mage_PHPUnit_TestCase
         $instance->addVerificationMessage('testAssertEmptyVerificationErrorsFalse');
         try {
             $instance->assertEmptyVerificationErrors();
-        } catch (PHPUnit_Framework_ExpectationFailedException $expected) {
+        } catch (PHPUnit_Framework_AssertionFailedError $expected) {
             return;
         }
         $this->fail('An expected exception has not been raised.');
