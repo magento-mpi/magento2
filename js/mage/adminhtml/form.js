@@ -192,6 +192,8 @@ RegionUpdater.prototype = {
 //        // clone for select element (#6924)
 //        this._regionSelectEl = {};
 //        this.tpl = new Template('<select class="#{className}" name="#{name}" id="#{id}">#{innerHTML}</select>');
+        this.config = regions['config'];
+        delete regions.config;
         this.regions = regions;
         this.disableAction = (typeof disableAction=='undefined') ? 'hide' : disableAction;
         this.clearRegionValueOnDisable = (typeof clearRegionValueOnDisable == 'undefined') ? false : clearRegionValueOnDisable;
@@ -206,6 +208,64 @@ RegionUpdater.prototype = {
         this.countryEl.changeUpdater = this.update.bind(this);
 
         Event.observe(this.countryEl, 'change', this.update.bind(this));
+    },
+
+    _checkRegionRequired: function()
+    {
+        var label, wildCard;
+        var elements = [this.regionTextEl, this.regionSelectEl];
+        var that = this;
+        if (typeof this.config == 'undefined') {
+            return;
+        }
+        var regionRequired = this.config.regions_required.indexOf(this.countryEl.value) >= 0;
+
+        elements.each(function(currentElement) {
+            if(!currentElement) {
+                return;
+            }
+            Validation.reset(currentElement);
+            label = $$('label[for="' + currentElement.id + '"]')[0];
+            if (label) {
+                wildCard = label.down('em') || label.down('span.required');
+                var topElement = label.up('tr') || label.up('li');
+                if (!that.config.show_all_regions && topElement) {
+                    if (regionRequired) {
+                        topElement.show();
+                    } else {
+                        topElement.hide();
+                    }
+                }
+            }
+
+            if (label && wildCard) {
+                if (!regionRequired) {
+                    wildCard.hide();
+                } else {
+                    wildCard.show();
+                }
+            }
+
+            if (!regionRequired || !currentElement.visible()) {
+                if (currentElement.hasClassName('required-entry')) {
+                    currentElement.removeClassName('required-entry');
+                }
+                if ('select' == currentElement.tagName.toLowerCase() &&
+                    currentElement.hasClassName('validate-select')
+                ) {
+                    currentElement.removeClassName('validate-select');
+                }
+            } else {
+                if (!currentElement.hasClassName('required-entry')) {
+                    currentElement.addClassName('required-entry');
+                }
+                if ('select' == currentElement.tagName.toLowerCase() &&
+                    !currentElement.hasClassName('validate-select')
+                ) {
+                    currentElement.addClassName('validate-select');
+                }
+            }
+        });
     },
 
     update: function()
@@ -296,6 +356,7 @@ RegionUpdater.prototype = {
 //            this.regionSelectEl = null;
         }
         varienGlobalEvents.fireEvent("address_country_changed", this.countryEl);
+        this._checkRegionRequired();
     },
 
     setMarkDisplay: function(elem, display){

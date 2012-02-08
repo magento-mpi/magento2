@@ -251,10 +251,8 @@ class Mage_Customer_Model_Address_Abstract extends Mage_Core_Model_Abstract
                 $this->setData('region_id', $region);
                 $this->unsRegion();
             } else {
-                $regionModel = Mage::getModel('directory/region')->loadByCode(
-                    $this->getRegionCode(),
-                    $this->getCountryId()
-                );
+                $regionModel = Mage::getModel('directory/region')
+                    ->loadByCode($this->getRegionCode(), $this->getCountryId());
                 $this->setData('region_id', $regionModel->getId());
             }
         }
@@ -263,6 +261,11 @@ class Mage_Customer_Model_Address_Abstract extends Mage_Core_Model_Abstract
 
     public function getCountry()
     {
+        /*if ($this->getData('country_id') && !$this->getData('country')) {
+            $this->setData('country', Mage::getModel('directory/country')
+                ->load($this->getData('country_id'))->getIso2Code());
+        }
+        return $this->getData('country');*/
         $country = $this->getCountryId();
         return $country ? $country : $this->getData('country');
     }
@@ -275,9 +278,8 @@ class Mage_Customer_Model_Address_Abstract extends Mage_Core_Model_Abstract
     public function getCountryModel()
     {
         if(!isset(self::$_countryModels[$this->getCountryId()])) {
-            self::$_countryModels[$this->getCountryId()] = Mage::getModel('directory/country')->load(
-                $this->getCountryId()
-            );
+            self::$_countryModels[$this->getCountryId()] = Mage::getModel('directory/country')
+                ->load($this->getCountryId());
         }
 
         return self::$_countryModels[$this->getCountryId()];
@@ -315,6 +317,7 @@ class Mage_Customer_Model_Address_Abstract extends Mage_Core_Model_Abstract
     public function getFormated($html=false)
     {
         return $this->format($html ? 'html' : 'text');
+        //Mage::getModel('directory/country')->load($this->getCountryId())->formatAddress($this, $html);
     }
 
     public function format($type)
@@ -385,7 +388,9 @@ class Mage_Customer_Model_Address_Abstract extends Mage_Core_Model_Abstract
         }
 
         if ($this->getCountryModel()->getRegionCollection()->getSize()
-               && !Zend_Validate::is($this->getRegionId(), 'NotEmpty')) {
+               && !Zend_Validate::is($this->getRegionId(), 'NotEmpty')
+               && Mage::helper('directory')->isRegionRequired($this->getCountryId())
+        ) {
             $errors[] = Mage::helper('customer')->__('Please enter the state/province.');
         }
 
