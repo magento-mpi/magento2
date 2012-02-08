@@ -134,7 +134,7 @@ abstract class Mage_Review_Model_Api2_Reviews_Rest extends Mage_Api2_Model_Resou
      */
     protected function _applyProductFilter(Mage_Review_Model_Resource_Review_Collection $collection)
     {
-        $productId = $this->getRequest()->getParam('product');
+        $productId = $this->getRequest()->getParam('product_id');
         if ($productId) {
             /** @var $product Mage_Catalog_Model_Product */
             $product = Mage::getModel('catalog/product')->load($productId);
@@ -153,7 +153,7 @@ abstract class Mage_Review_Model_Api2_Reviews_Rest extends Mage_Api2_Model_Resou
      */
     protected function _applyStatusFilter(Mage_Review_Model_Resource_Review_Collection $collection)
     {
-        $status = $this->getRequest()->getParam('status');
+        $status = $this->getRequest()->getParam('status_id');
         if ($status) {
             $this->_validateStatus($status);
             $collection->addStatusFilter($status);
