@@ -20,6 +20,7 @@ return array(
         'key'           => $keyUpdate,
         'secret'        => $secretUpdate,
         'callback_url'  => 'http://example.com/oauth_model/?oauthKey=key&oauthSecret=secret',
+        'rejected_callback_url' => 'http://example.com/rekected_callback_url'
     ),
     'expected_create' => array(
         'entity_id'     => '',
@@ -27,6 +28,7 @@ return array(
         'key'           => $keyCreate,
         'secret'        => $secretCreate,
         'callback_url'  => null,
+        'rejected_callback_url' => ''
     ),
     'expected_update'  => array(
         'entity_id'     => '',
@@ -34,5 +36,6 @@ return array(
         'key'           => $keyUpdate,
         'secret'        => $secretUpdate,
         'callback_url'  => 'http://example.com/oauth_model/?oauthKey=key&oauthSecret=secret',
+        'rejected_callback_url' => 'http://example.com/rekected_callback_url'
     )
 );
