@@ -48,9 +48,15 @@ $review->setEntityId($entityId)
     ->save();
 $reviewsList[] = $review;
 
+/** @var $customerModel Mage_Customer_Model_Customer */
+$customerModel = Mage::getModel('customer/customer');
+$customerModel->setWebsiteId(Mage::app()->getWebsite()->getId())->loadByEmail(TESTS_CUSTOMER_EMAIL);
+$customerId = $customerModel->getId();
+
 // Review #2: Simple Product, Status Pending
 $review2 = new Mage_Review_Model_Review();
 $review2->setData($reviewData)
+    ->setCustomerId($customerId)
     ->setEntityId($entityId)
     ->setEntityPkValue($productSimple->getId())
     ->setStoreId($productSimple->getStoreId())
@@ -61,6 +67,7 @@ $reviewsList[] = $review2;
 // Review #3: Virtual Product, Status Approved
 $review3 = new Mage_Review_Model_Review();
 $review3->setData($reviewData)
+    ->setCustomerId($customerId)
     ->setEntityId($entityId)
     ->setEntityPkValue($productVirtual->getId())
     ->setStoreId($productVirtual->getStoreId())

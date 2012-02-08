@@ -269,6 +269,38 @@ class Api2_Review_Reviews_CustomerTest extends Magento_Test_Webservice_Rest_Cust
     }
 
     /**
+     * Test retrieving list of reviews with customer filter
+     *
+     * @magentoDataFixture Api2/Review/_fixtures/Customer/reviews_list.php
+     */
+    public function testGetCustomerFilter()
+    {
+        /** @var $customer Mage_Customer_Model_Customer */
+        $customer = Mage::getModel('customer/customer');
+        $customer->setWebsiteId(Mage::app()->getWebsite()->getId())->loadByEmail(TESTS_CUSTOMER_EMAIL);
+
+        $restResponse = $this->callGet('reviews', array('customer_id' => $customer->getId()));
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+        $reviews = $restResponse->getBody();
+        $this->assertNotEmpty($reviews);
+        $reviewsIds = array();
+        foreach ($reviews as $review) {
+            $reviewsIds[] = $review['review_id'];
+        }
+        $fixtureReviews = $this->getFixture('reviews_list');
+
+        foreach ($fixtureReviews as $fixtureReview) {
+            if ($fixtureReview->getCustomerId() == $customer->getId()) {
+                $this->assertContains($fixtureReview->getId(), $reviewsIds,
+                    'Review by current customer should be in response');
+            } else {
+                $this->assertNotContains($fixtureReview->getId(), $reviewsIds,
+                    'Review by current customer should NOT be in response');
+            }
+        }
+    }
+
+    /**
      * Test invalid product id in filter
      */
     public function testGetProductFilterInvalid()
