@@ -1360,11 +1360,11 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
             $this->quoteIdentifier($newColumnName)
         );
 
-        $result = $this->raw_query($sql);
+        $this->raw_query($sql);
 
         $this->resetDdlCache($tableName, $schemaName);
 
-        return $result;
+        return $this;
     }
 
     /**
