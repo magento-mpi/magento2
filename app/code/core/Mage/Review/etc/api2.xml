@@ -60,7 +60,7 @@
                     <delete>1</delete>
                 </privileges>
                 <attributes>
-                    <entity_id>ID</entity_id>
+                    <review_id>ID</review_id>
                     <content>Content</content>
                     <created_at>Content</created_at>
                 </attributes>

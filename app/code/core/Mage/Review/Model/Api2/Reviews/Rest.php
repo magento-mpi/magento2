@@ -34,6 +34,21 @@
 abstract class Mage_Review_Model_Api2_Reviews_Rest extends Mage_Review_Model_Api2_Reviews
 {
     /**
+     * Helper for review specific data validation
+     *
+     * @var Mage_Review_Model_Api2_Validator
+     */
+    protected $_validator;
+
+    /**
+     * Initialize validator
+     */
+    function __construct()
+    {
+        $this->_validator = Mage::getModel('review/api2_validator');
+    }
+
+    /**
      * Create new review
      *
      * @param array $data
@@ -71,7 +86,7 @@ abstract class Mage_Review_Model_Api2_Reviews_Rest extends Mage_Review_Model_Api
      */
     protected function _getLocation(Mage_Core_Model_Abstract $review)
     {
-        return Mage_Review_Model_Api2_Review_Rest::RESOURCE_NAME . '/' . $review->getId();
+        return $this->getConfig()->getResourceInstance('reviews') . '/' . $review->getId();
     }
 
     /**
