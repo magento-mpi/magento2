@@ -45,8 +45,8 @@ class Mage_DesignEditor_Model_Observer
         if (!$block) {
             return $this;
         }
-        /** @var $session Mage_DesignEditor_Model_Session */
-        $session = Mage::getSingleton('Mage_DesignEditor_Model_Session');
+
+        $session = $this->_getSession();
         if ($session->isDesignEditorActive()) {
             $block->setDesignEditorActive(true);
         }

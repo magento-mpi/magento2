@@ -43,8 +43,7 @@ class Mage_DesignEditor_Block_Toolbar_Skin extends Mage_Core_Block_Template
      */
     public function getJsonConfig()
     {
-        $currentUrl = Mage::helper('Mage_Core_Helper_Url')->getCurrentUrl();
-        $encodedUrl = Mage::helper('Mage_Core_Helper_Data')->urlEncode($currentUrl);
+        $encodedUrl = Mage::helper('Mage_Core_Helper_Url')->getEncodedUrl();
         $config = array(
             'selectId' => $this->getSelectHtmlId(),
             'changeSkinUrl' => $this->getUrl('design/editor/skin'),

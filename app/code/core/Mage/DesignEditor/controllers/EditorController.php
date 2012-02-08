@@ -99,7 +99,7 @@ class Mage_DesignEditor_EditorController extends Mage_Core_Controller_Front_Acti
         try {
             $session->setSkin($skin);
         } catch (Exception $e) {
-            $session->addException($e, Mage::helper('Mage_DesignEditor_Helper_Data')->__($e->getMessage()));
+            $session->addException($e, $e->getMessage());
         }
         $this->getResponse()->setRedirect($backUrl);
     }
