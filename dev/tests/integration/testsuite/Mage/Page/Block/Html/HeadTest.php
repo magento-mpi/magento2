@@ -44,7 +44,7 @@ class Mage_Page_Block_Html_HeadTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Exception
+     * @expectedException Magento_Exception
      */
     public function testAddCssException()
     {

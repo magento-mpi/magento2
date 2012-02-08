@@ -62,7 +62,7 @@ class Mage_Core_Model_Config_OptionsTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Exception
+     * @expectedException Mage_Core_Exception
      */
     public function testGetDirException()
     {
