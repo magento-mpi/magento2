@@ -76,23 +76,6 @@ class Mage_Review_Model_Api2_Review_Rest_Admin_V1 extends Mage_Review_Model_Api2
     }
 
     /**
-     * Load review by its id passed through request
-     *
-     * @throws Mage_Api2_Exception
-     * @return Mage_Review_Model_Review
-     */
-    protected function _loadReview()
-    {
-        $reviewId = $this->getRequest()->getParam('id');
-        /** @var $review Mage_Review_Model_Review */
-        $review = Mage::getModel('review/review')->load($reviewId);
-        if (!$review->getId()) {
-            $this->_critical(self::RESOURCE_NOT_FOUND);
-        }
-        return $review;
-    }
-
-    /**
      * Validate stores including admin area
      *
      * @param mixed $stores

@@ -31,10 +31,10 @@
  * @package    Mage_Review
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Review_Model_Api2_Review_Rest_Customer_V1 extends Mage_Review_Model_Api2_Review_Rest
+class Mage_Review_Model_Api2_Review_Rest_Guest_V1 extends Mage_Review_Model_Api2_Review_Rest
 {
     /**
-     * Customer could not delete any review
+     * Guest could not delete any review
      *
      * @throws Mage_Api2_Exception
      */
@@ -44,7 +44,7 @@ class Mage_Review_Model_Api2_Review_Rest_Customer_V1 extends Mage_Review_Model_A
     }
 
     /**
-     * Customer could not update any review
+     * Guest could not update any review
      *
      * @param array $data
      * @throws Mage_Api2_Exception
@@ -71,12 +71,7 @@ class Mage_Review_Model_Api2_Review_Rest_Customer_V1 extends Mage_Review_Model_A
         } else {
             $isStoreEligible = true;
         }
-        if ($this->getApiUser()->getUserId() == $review->getCustomerId()) {
-            // customer should be able to view his own review with any status
-            $isReviewStatusEligible = true;
-        } else {
-            $isReviewStatusEligible = ($review->getStatusId() == Mage_Review_Model_Review::STATUS_APPROVED);
-        }
+        $isReviewStatusEligible = ($review->getStatusId() == Mage_Review_Model_Review::STATUS_APPROVED);
         if (!$isReviewStatusEligible || !$isStoreEligible) {
             $this->_critical(self::RESOURCE_NOT_FOUND);
         }

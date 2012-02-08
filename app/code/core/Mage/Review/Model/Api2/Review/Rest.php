@@ -81,7 +81,16 @@ abstract class Mage_Review_Model_Api2_Review_Rest extends Mage_Api2_Model_Resour
      * @throws Mage_Api2_Exception
      * @return Mage_Review_Model_Review
      */
-    abstract protected function _loadReview();
+    protected function _loadReview()
+    {
+        $reviewId = $this->getRequest()->getParam('id');
+        /** @var $review Mage_Review_Model_Review */
+        $review = Mage::getModel('review/review')->load($reviewId);
+        if (!$review->getId()) {
+            $this->_critical(self::RESOURCE_NOT_FOUND);
+        }
+        return $review;
+    }
 
     /**
      * Review specific input data validation
