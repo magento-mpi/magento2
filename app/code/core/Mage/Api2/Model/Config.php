@@ -274,5 +274,4 @@ class Mage_Api2_Model_Config extends Varien_Simplexml_Config
     {
         return (string) $this->getNode('resources/' . $node . '/working_model');
     }
-
 }

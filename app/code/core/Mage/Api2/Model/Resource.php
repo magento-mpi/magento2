@@ -494,17 +494,6 @@ abstract class Mage_Api2_Model_Resource
     }
 
     /**
-     * Get available attributes of API resource
-     *
-     * This method used for single API resource and for API resource collection.
-     * Each model in a module must have implementation of this method.
-     *
-     * @abstract
-     * @return array
-     */
-    abstract public function getAvailableAttributes();
-
-    /**
      * Get EAV attributes of working model
      *
      * @return array
