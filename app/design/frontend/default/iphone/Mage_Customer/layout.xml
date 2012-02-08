@@ -65,7 +65,7 @@ Load this update on every page when customer is logged out
 Layout for customer login page
 -->
 
-    <customer_account_login translate="label">
+    <customer_account_login translate="label" type="page" parent="customer_account">
         <label>Customer Account Login Form</label>
         <!-- Mage_Customer -->
         <remove name="right"/>
@@ -83,7 +83,7 @@ Layout for customer login page
 Layout for customer log out page
 -->
 
-    <customer_account_logoutsuccess translate="label">
+    <customer_account_logoutsuccess translate="label" type="page" parent="customer_account">
         <label>Customer Account Logout Success</label>
         <!-- Mage_Customer -->
         <remove name="right"/>
@@ -101,7 +101,7 @@ Layout for customer log out page
 New customer registration
 -->
 
-    <customer_account_create translate="label">
+    <customer_account_create translate="label" type="page" parent="customer_account">
         <label>Customer Account Registration Form</label>
         <!-- Mage_Customer -->
         <remove name="right"/>
@@ -119,7 +119,7 @@ New customer registration
         </reference>
     </customer_account_create>
 
-    <customer_account_forgotpassword translate="label">
+    <customer_account_forgotpassword translate="label" type="page" parent="customer_account">
         <label>Customer Forgot Password Form</label>
         <remove name="right"/>
         <remove name="left"/>
@@ -133,7 +133,7 @@ New customer registration
         </reference>
     </customer_account_forgotpassword>
 
-    <customer_account_confirmation>
+    <customer_account_confirmation type="page" parent="customer_account">
         <remove name="right"/>
         <remove name="left"/>
 
@@ -146,7 +146,7 @@ New customer registration
         </reference>
     </customer_account_confirmation>
 
-    <customer_account_edit translate="label">
+    <customer_account_edit translate="label" type="page" parent="customer_account">
         <label>Customer Account Edit Form</label>
         <update handle="customer_account"/>
         <reference name="root">
@@ -165,7 +165,7 @@ New customer registration
 Customer account pages, rendered for all tabs in dashboard
 -->
 
-    <customer_account translate="label">
+    <customer_account translate="label" type="page" parent="default">
         <label>Customer My Account (All Pages)</label>
         <!--remove name="catalog.compare.sidebar"/>
         <remove name="sale.reorder.sidebar"/-->
@@ -202,7 +202,7 @@ Customer account pages, rendered for all tabs in dashboard
 Customer account home dashboard layout
 -->
 
-    <customer_account_index translate="label">
+    <customer_account_index translate="label" type="page" parent="customer_account">
         <label>Customer My Account Dashboard</label>
         <update handle="customer_account"/>
         <!-- Mage_Customer -->
@@ -225,7 +225,7 @@ Customer account home dashboard layout
 Customer account address book
 -->
 
-    <customer_address_index translate="label">
+    <customer_address_index translate="label" type="page" parent="customer_account_index">
         <label>Customer My Account Address Book</label>
         <!-- Mage_Customer -->
         <update handle="customer_account"/>
@@ -238,7 +238,7 @@ Customer account address book
 Customer account address edit page
 -->
 
-    <customer_address_form translate="label">
+    <customer_address_form translate="label" type="page" parent="customer_address_index">
         <label>Customer My Account Address Edit Form</label>
         <!-- Mage_Customer -->
         <update handle="customer_account"/>
