@@ -194,6 +194,7 @@ class Mage_Paypal_Model_Express_Checkout
      * @param string $successUrl - payment success result
      * @param string $cancelUrl  - payment cancellation result
      * @param string $pendingUrl - pending payment result
+     * @return Mage_Paypal_Model_Express_Checkout
      */
     public function prepareGiropayUrls($successUrl, $cancelUrl, $pendingUrl)
     {
@@ -256,7 +257,10 @@ class Mage_Paypal_Model_Express_Checkout
 
     /**
      * Reserve order ID for specified quote and start checkout on PayPal
-     * @return string
+     *
+     * @param $returnUrl
+     * @param $cancelUrl
+     * @return mixed
      */
     public function start($returnUrl, $cancelUrl)
     {
@@ -536,7 +540,7 @@ class Mage_Paypal_Model_Express_Checkout
         }
 
         $isNewCustomer = false;
-        switch ($this->_quote->getCheckoutMethod()) {
+        switch ($this->getCheckoutMethod()) {
             case Mage_Checkout_Model_Type_Onepage::METHOD_GUEST:
                 $this->_prepareGuestQuote();
                 break;
@@ -608,7 +612,6 @@ class Mage_Paypal_Model_Express_Checkout
     /**
      * Determine whether redirect somewhere specifically is required
      *
-     * @param string $action
      * @return string
      */
     public function getRedirectUrl()
@@ -644,6 +647,27 @@ class Mage_Paypal_Model_Express_Checkout
     public function getOrder()
     {
         return $this->_order;
+    }
+
+    /**
+     * Get checkout method
+     *
+     * @return string
+     */
+    public function getCheckoutMethod()
+    {
+        if ($this->getCustomerSession()->isLoggedIn()) {
+            return Mage_Checkout_Model_Type_Onepage::METHOD_CUSTOMER;
+        }
+        $methodFromQuote = $this->_quote->getCheckoutMethod();
+        if (!$methodFromQuote) {
+            if (Mage::helper('checkout')->isAllowedGuestCheckout($this->_quote)) {
+                $this->_quote->setCheckoutMethod(Mage_Checkout_Model_Type_Onepage::METHOD_GUEST);
+            } else {
+                $this->_quote->setCheckoutMethod(Mage_Checkout_Model_Type_Onepage::METHOD_REGISTER);
+            }
+        }
+        return $methodFromQuote;
     }
 
     /**
