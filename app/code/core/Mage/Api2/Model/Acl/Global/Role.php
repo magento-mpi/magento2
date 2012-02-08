@@ -122,9 +122,6 @@ class Mage_Api2_Model_Acl_Global_Role extends Mage_Core_Model_Abstract
                 /** @var $rule Mage_Api2_Model_Acl_Global_Rule */
                 foreach ($rules as $rule) {
                     $resourceId = $rule->getResourceId();
-                    if ($resourceId == Mage_Api2_Model_Acl_Global_Rule::RESOURCE_ALL) {
-                        continue;
-                    }
                     $rulesPairs[$resourceId]['privileges'][$rule->getPrivilege()] =
                             Mage_Api2_Model_Acl_Global_Rule_Permission::TYPE_ALLOW;
                 }
@@ -147,17 +144,18 @@ class Mage_Api2_Model_Acl_Global_Role extends Mage_Core_Model_Abstract
                 $allowedPrivileges = (array) $node->privileges;
                 foreach ($privileges as $privilege) {
                     if (empty($allowedPrivileges[$privilege])
-                        && isset($rulesPairs[$resourceId]['privileges'][$privilege])
-                    ) {
+                    && isset($rulesPairs[$resourceId]['privileges'][$privilege])
+                ) {
                         unset($rulesPairs[$resourceId]['privileges'][$privilege]);
                     } elseif (!empty($allowedPrivileges[$privilege])
-                        && !isset($rulesPairs[$resourceId]['privileges'][$privilege])
-                    ) {
+                    && !isset($rulesPairs[$resourceId]['privileges'][$privilege])
+                ) {
                         $rulesPairs[$resourceId]['privileges'][$privilege] =
-                                Mage_Api2_Model_Acl_Global_Rule_Permission::TYPE_DENY;
+                        Mage_Api2_Model_Acl_Global_Rule_Permission::TYPE_DENY;
                     }
                 }
             }
+
             $this->_resourcesPermissions = $rulesPairs;
         }
         return $this->_resourcesPermissions;
