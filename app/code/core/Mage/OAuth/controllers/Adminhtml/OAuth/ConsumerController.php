@@ -248,4 +248,33 @@ class Mage_OAuth_Adminhtml_OAuth_ConsumerController extends Mage_Adminhtml_Contr
         $this->_getSession()->setData('consumer_data', $data);
         return $this;
     }
+
+    /**
+     * Delete consumer action
+     */
+    public function deleteAction()
+    {
+        $consumerId = (int) $this->getRequest()->getParam('id');
+        if ($consumerId) {
+            try {
+                /** @var $helper Mage_OAuth_Helper_Data */
+                $helper = Mage::helper('oauth');
+
+                /** @var $consumer Mage_OAuth_Model_Consumer */
+                $consumer = Mage::getModel('oauth/consumer')->load($consumerId);
+                if (!$consumer->getId()) {
+                    Mage::throwException($helper->__('Unable to find a consumer.'));
+                }
+
+                $consumer->delete();
+
+                $this->_getSession()->addSuccess($helper->__('The consumer has been deleted.'));
+            } catch (Mage_Core_Exception $e) {
+                $this->_getSession()->addError($e->getMessage());
+            } catch (Exception $e) {
+                $this->_getSession()->addException($e, $helper->__('An error occurred while deleting the consumer.'));
+            }
+        }
+        $this->_redirect('*/*/index');
+    }
 }
