@@ -48,38 +48,6 @@ abstract class Mage_Api2_Model_Resource_Collection extends Mage_Api2_Model_Resou
     /**#@-*/
 
     /**
-     * Internal "collection" resource model dispatch
-     */
-    final public function dispatch()
-    {
-        switch ($this->getRequest()->getOperation()) {
-            case self::OPERATION_UPDATE:
-                $this->_update(array());
-                break;
-            case self::OPERATION_DELETE:
-                $this->_delete(array());
-                break;
-            case self::OPERATION_CREATE:
-                $filtered = $this->getFilter()->in($this->getRequest()->getBodyParams());
-                $location = $this->_create($filtered);
-
-                //TODO change to "Location"
-                $this->getResponse()->setHeader('Location2', $location);
-                break;
-            case self::OPERATION_RETRIEVE:
-                $result = $this->_retrieve();
-                //TODO We need filtering below cause real columns can't be removed ...
-                //TODO ... by $collection->removeAttributeToSelect()
-                $filtered = $this->getFilter()->collectionOut($result);
-                $this->_render($filtered);
-                break;
-            default:
-                $this->_critical(self::RESOURCE_METHOD_NOT_IMPLEMENTED);
-                break;
-        }
-    }
-
-    /**
      * Update method not allowed for this type of resource
      *
      * @param array $data
