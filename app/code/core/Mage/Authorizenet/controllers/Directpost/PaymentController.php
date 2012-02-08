@@ -18,6 +18,13 @@
 class Mage_Authorizenet_Directpost_PaymentController extends Mage_Core_Controller_Front_Action
 {
     /**
+     * Register key name for form params
+     *
+     * @const string
+     */
+    const REGISTER_FORM_PARAMS_KEY = 'authorizenet_directpost_form_params';
+
+    /**
      * @return Mage_Checkout_Model_Session
      */
     protected function _getCheckout()
@@ -33,16 +40,6 @@ class Mage_Authorizenet_Directpost_PaymentController extends Mage_Core_Controlle
     protected function _getDirectPostSession()
     {
         return Mage::getSingleton('Mage_Authorizenet_Model_Directpost_Session');
-    }
-
-    /**
-     * Get iframe block instance
-     *
-     * @return Mage_Authorizenet_Block_Directpost_Iframe
-     */
-    protected function _getIframeBlock()
-    {
-        return $this->getLayout()->createBlock('Mage_Authorizenet_Block_Directpost_Iframe');
     }
 
     /**
@@ -86,8 +83,9 @@ class Mage_Authorizenet_Directpost_PaymentController extends Mage_Core_Controlle
             $result['is_secure'] = isset($data['is_secure']) ? $data['is_secure'] : false;
             $params['redirect'] = Mage::helper('Mage_Authorizenet_Helper_Data')->getRedirectIframeUrl($result);
         }
-        $block = $this->_getIframeBlock()->setParams($params);
-        $this->getResponse()->setBody($block->toHtml());
+
+        Mage::register(self::REGISTER_FORM_PARAMS_KEY, $params);
+        $this->loadLayout()->renderLayout();
     }
 
     /**
@@ -109,8 +107,8 @@ class Mage_Authorizenet_Directpost_PaymentController extends Mage_Core_Controlle
             $cancelOrder = empty($redirectParams['x_invoice_num']);
             $this->_returnCustomerQuote($cancelOrder, $redirectParams['error_msg']);
         }
-        $block = $this->_getIframeBlock()->setParams(array_merge($params, $redirectParams));
-        $this->getResponse()->setBody($block->toHtml());
+        Mage::register(self::REGISTER_FORM_PARAMS_KEY, array_merge($params, $redirectParams));
+        $this->loadLayout()->renderLayout();
     }
 
     /**
