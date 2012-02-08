@@ -115,22 +115,22 @@
     <!-- ACL attributes -->
     <adminhtml_api2_attribute_index>
         <reference name="content">
-            <block type="api2/adminhtml_attributes" name="api2.attributes"/>
+            <block type="api2/adminhtml_attribute" name="api2.attribute"/>
         </reference>
     </adminhtml_api2_attribute_index>
 
     <adminhtml_api2_attribute_edit>
         <reference name="left">
             <block type="api2/adminhtml_attribute_tabs" name="adminhtml.attribute.edit.tabs">
-                <block type="api2/adminhtml_attribute_tab_resource" name="adminhtml.attribute.edit.tab.resource" template="permissions/rolesedit.phtml"/>
+                <block type="api2/adminhtml_attribute_tab_resource" name="adminhtml.attribute.tab.resource"/>
                 <action method="addTab">
-                    <id>api2_attribute_section_resource</id>
-                    <block>adminhtml.attribute.edit.tab.resource</block>
+                    <id>api2_attribute_section_resources</id>
+                    <block>adminhtml.attribute.tab.resource</block>
                 </action>
             </block>
         </reference>
         <reference name="content">
-            <block type="api2/adminhtml_roles_buttons" name="adminhtml.attribute.buttons"/>
+            <block type="api2/adminhtml_attribute_buttons" name="adminhtml.attribute.buttons"/>
         </reference>
         <reference name="head">
             <action method="setCanLoadExtJs">

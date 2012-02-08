@@ -19,8 +19,8 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_Adminhtml
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @package     Mage_Api2
+ * @copyright   Copyright (c) 2011 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
@@ -31,7 +31,7 @@
  * @package    Mage_Api2
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Api2_Block_Adminhtml_Acl_Attribute_Tab_Resource extends Mage_Adminhtml_Block_Widget_Form
+class Mage_Api2_Block_Adminhtml_Attribute_Tab_Resource extends Mage_Adminhtml_Block_Widget_Form
     implements Mage_Adminhtml_Block_Widget_Tab_Interface
 {
     /**
@@ -51,7 +51,7 @@ class Mage_Api2_Block_Adminhtml_Acl_Attribute_Tab_Resource extends Mage_Adminhtm
         $this->setId('api2_attribute_section_resources')
                 ->setDefaultDir(Varien_Db_Select::SQL_ASC)
                 ->setDefaultSort('sort_order')
-                ->setData('title', Mage::helper('api2')->__('Attribute Rules Information'))
+                ->setData('title', $this->__('Attribute Rules Information'))
                 ->setData('use_ajax', true);
 
         $this->_treeModel = Mage::getModel('api2/acl_global_rule_tree');
@@ -64,11 +64,10 @@ class Mage_Api2_Block_Adminhtml_Acl_Attribute_Tab_Resource extends Mage_Adminhtm
      */
     public function getResTreeJson()
     {
-        $data = $this->_treeModel->getTreeResources();
-
         /** @var $helper Mage_Core_Helper_Data */
         $helper = Mage::helper('core');
-        return $helper->jsonEncode($data);
+
+        return $helper->jsonEncode($this->_treeModel->getTreeResources());
     }
 
 
@@ -91,7 +90,7 @@ class Mage_Api2_Block_Adminhtml_Acl_Attribute_Tab_Resource extends Mage_Adminhtm
      */
     public function getTabLabel()
     {
-        return Mage::helper('api2')->__('ACL Attribute Rules');
+        return $this->__('ACL Attribute Rules');
     }
 
     /**

@@ -19,13 +19,13 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_Adminhtml
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @package     Mage_Api2
+ * @copyright   Copyright (c) 2011 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * Block tabs for role edit page
+ * Block tabs for attributes edit page
  *
  * @category   Mage
  * @package    Mage_Api2
@@ -33,15 +33,15 @@
  */
 class Mage_Api2_Block_Adminhtml_Attribute_Tabs extends Mage_Adminhtml_Block_Widget_Tabs
 {
-
     /**
      * Constructor
      */
     public function __construct()
     {
         parent::__construct();
-        $this->setId('attribute_info_tabs');
-        $this->setDestElementId('attr_edit_form');
-        $this->setData('title', Mage::helper('api2')->__('ACL Attribues Information'));
+
+        $this->setId('attribute_info_tabs')
+            ->setDestElementId('attr_edit_form')
+            ->setData('title', $this->__('ACL Attributes Information'));
     }
 }

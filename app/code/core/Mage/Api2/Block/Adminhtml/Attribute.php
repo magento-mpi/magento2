@@ -31,7 +31,7 @@
  * @package    Mage_Api2
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Api2_Block_Adminhtml_Attributes extends Mage_Adminhtml_Block_Widget_Grid_Container
+class Mage_Api2_Block_Adminhtml_Attribute extends Mage_Adminhtml_Block_Widget_Grid_Container
 {
     /**
      * Construct grid container
@@ -41,7 +41,7 @@ class Mage_Api2_Block_Adminhtml_Attributes extends Mage_Adminhtml_Block_Widget_G
         parent::__construct();
 
         $this->_blockGroup = 'api2';
-        $this->_controller = 'adminhtml_attributes';
+        $this->_controller = 'adminhtml_attribute';
         $this->_headerText = $this->__('REST Attributes');
         $this->_removeButton('add');
     }

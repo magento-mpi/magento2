@@ -19,8 +19,8 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_Adminhtml
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @package     Mage_Api2
+ * @copyright   Copyright (c) 2011 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
@@ -30,8 +30,6 @@
  * @category   Mage
  * @package    Mage_Api2
  * @author     Magento Core Team <core@magentocommerce.com>
- * @method Mage_Api2_Block_Adminhtml_Roles_Tabs setRole(Mage_Api2_Model_Acl_Global_Role $role)
- * @method Mage_Api2_Model_Acl_Global_Role getRole()
  */
 class Mage_Api2_Block_Adminhtml_Attribute_Buttons extends Mage_Adminhtml_Block_Template
 {
@@ -41,11 +39,11 @@ class Mage_Api2_Block_Adminhtml_Attribute_Buttons extends Mage_Adminhtml_Block_T
     public function __construct()
     {
         parent::__construct();
-        $this->setTemplate('api2/role/buttons.phtml');
+        $this->setTemplate('api2/attribute/buttons.phtml');
     }
 
     /**
-     * Preparing global layout
+     * Prepare global layout
      *
      * @return Mage_Core_Block_Abstract
      */
@@ -53,12 +51,12 @@ class Mage_Api2_Block_Adminhtml_Attribute_Buttons extends Mage_Adminhtml_Block_T
     {
         $buttons = array(
             'backButton'    => array(
-                'label'     => Mage::helper('adminhtml')->__('Back'),
+                'label'     => $this->__('Back'),
                 'onclick'   => sprintf("window.location.href='%s';", $this->getUrl('*/*/')),
                 'class'     => 'back'
             ),
             'saveButton'    => array(
-                'label'     => Mage::helper('adminhtml')->__('Save'),
+                'label'     => $this->__('Save'),
                 'onclick'   => 'form.submit(); return false;',
                 'class'     => 'save'
             ),
@@ -83,7 +81,7 @@ class Mage_Api2_Block_Adminhtml_Attribute_Buttons extends Mage_Adminhtml_Block_T
     }
 
     /**
-     * Get button
+     * Reset button
      *
      * @return string
      */
@@ -93,7 +91,7 @@ class Mage_Api2_Block_Adminhtml_Attribute_Buttons extends Mage_Adminhtml_Block_T
     }
 
     /**
-     * Get button
+     * Save button
      *
      * @return string
      */

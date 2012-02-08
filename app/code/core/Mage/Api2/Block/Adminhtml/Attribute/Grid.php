@@ -31,7 +31,7 @@
  * @package    Mage_Api2
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Api2_Block_Adminhtml_Attributes_Grid extends Mage_Adminhtml_Block_Widget_Grid
+class Mage_Api2_Block_Adminhtml_Attribute_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
     /**
      * Set grid ID
