@@ -283,18 +283,33 @@ class Mage_Api2_Model_RequestUnitTest extends Mage_PHPUnit_TestCase
     }
 
     /**
-     * Test for getOrder() method
+     * Test for getOrderDirection() method
      */
-    public function testGetOrder()
+    public function testGetOrderDirection()
     {
-        $_POST[Mage_Api2_Model_Request::QUERY_PARAM_ORDER] = 'order_exists';
-        $this->_request->setParam(Mage_Api2_Model_Request::QUERY_PARAM_FILTER, 'order_exists');
+        $_POST[Mage_Api2_Model_Request::QUERY_PARAM_ORDER_DIR] = 'asc';
+        $this->_request->setParam(Mage_Api2_Model_Request::QUERY_PARAM_ORDER_DIR, 'asc');
 
-        $this->assertNull($this->_request->getOrder());
+        $this->assertNull($this->_request->getOrderDirection());
 
-        $_GET[Mage_Api2_Model_Request::QUERY_PARAM_ORDER] = 'order_exists';
+        $_GET[Mage_Api2_Model_Request::QUERY_PARAM_ORDER_DIR] = 'asc';
 
-        $this->assertEquals('order_exists', $this->_request->getOrder());
+        $this->assertEquals('asc', $this->_request->getOrderDirection());
+    }
+
+    /**
+     * Test for getOrderField() method
+     */
+    public function testGetOrderField()
+    {
+        $_POST[Mage_Api2_Model_Request::QUERY_PARAM_ORDER_FIELD] = 'order_exists';
+        $this->_request->setParam(Mage_Api2_Model_Request::QUERY_PARAM_ORDER_FIELD, 'order_exists');
+
+        $this->assertNull($this->_request->getOrderField());
+
+        $_GET[Mage_Api2_Model_Request::QUERY_PARAM_ORDER_FIELD] = 'order_exists';
+
+        $this->assertEquals('order_exists', $this->_request->getOrderField());
     }
 
     /**
