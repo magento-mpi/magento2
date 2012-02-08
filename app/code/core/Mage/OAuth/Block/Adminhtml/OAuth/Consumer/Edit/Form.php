@@ -115,6 +115,7 @@ class Mage_OAuth_Block_Adminhtml_OAuth_Consumer_Edit_Form extends Mage_Adminhtml
             'title'     => $helper->__('Callback URL'),
             'required'  => false,
             'value'     => $model->getCallbackUrl(),
+            'class'     => 'validate-url',
         ));
 
         $fieldset->addField('rejected_callback_url', 'text', array(
@@ -123,6 +124,7 @@ class Mage_OAuth_Block_Adminhtml_OAuth_Consumer_Edit_Form extends Mage_Adminhtml
             'title'     => $helper->__('Rejected callback URL'),
             'required'  => false,
             'value'     => $model->getRejectedCallbackUrl(),
+            'class'     => 'validate-url',
         ));
 
         $form->setAction($this->getUrl('*/*/save'));
