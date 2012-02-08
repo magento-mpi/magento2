@@ -59,7 +59,7 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Attribute extends Mage_Catalo
             ) {
                 $data[] = array(
                     'label' => $option['label'],
-                    'value' => $optionId,
+                    'value' => $option['label'],
                     'count' => isset($optionsFacetedData[$optionId]) ? $optionsFacetedData[$optionId] : 0,
                 );
             }
