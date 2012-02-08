@@ -18,4 +18,8 @@
     <calendar translate="label">
         <label>Calendar</label>
     </calendar>
+
+    <ajax_index translate="label" type="page">
+        <label>All form pages</label>
+    </ajax_index>
 </layout>

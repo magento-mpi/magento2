@@ -40,4 +40,10 @@ class Mage_Core_AjaxController extends Mage_Core_Controller_Front_Action
         $this->getResponse()->setBody($response);
         $this->setFlag('', self::FLAG_NO_POST_DISPATCH, true);
     }
+
+    public function indexAction()
+    {
+        $this->loadLayout(false);
+        $this->renderLayout();
+    }
 }
