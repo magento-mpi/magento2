@@ -108,13 +108,16 @@ class Mage_Backup_Model_Db
 
         $backup->write($this->getResource()->getHeader());
 
+        $ignoreDataTablesList = Mage::helper('backup')->getIgnoreDataTablesList();
+
         foreach ($tables as $table) {
-            $backup->write($this->getResource()->getTableHeader($table) . $this->getResource()->getTableDropSql($table) . "\n");
+            $backup->write($this->getResource()->getTableHeader($table)
+                . $this->getResource()->getTableDropSql($table) . "\n");
             $backup->write($this->getResource()->getTableCreateSql($table, false) . "\n");
 
             $tableStatus = $this->getResource()->getTableStatus($table);
 
-            if ($tableStatus->getRows()) {
+            if ($tableStatus->getRows() && !in_array($table, $ignoreDataTablesList)) {
                 $backup->write($this->getResource()->getTableDataBeforeSql($table));
 
                 if ($tableStatus->getDataLength() > self::BUFFER_LENGTH) {
@@ -148,5 +151,4 @@ class Mage_Backup_Model_Db
 
         return $this;
     }
-
 }

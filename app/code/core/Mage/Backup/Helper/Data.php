@@ -330,4 +330,18 @@ class Mage_Backup_Helper_Data extends Mage_Core_Helper_Abstract
 
         return $result;
     }
+
+    /**
+     * Returns the list of tables which data will not be backed up
+     *
+     * @return array
+     */
+    public function getIgnoreDataTablesList()
+    {
+        $resource = Mage::getSingleton('core/resource');
+
+        return array(
+            $resource->getTableName('importexport/importdata')
+        );
+    }
 }
