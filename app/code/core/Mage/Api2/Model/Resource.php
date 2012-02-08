@@ -517,10 +517,18 @@ abstract class Mage_Api2_Model_Resource
         $entityType = Mage::getModel('eav/entity_type');
         $entityType->load($model, 'entity_model');
 
-        /** @var $config Mage_Eav_Model_Config */
-        $config = Mage::getModel('eav/config');
+        /** @var $resourceModel Mage_Catalog_Model_Resource_Product_Attribute_Collection */
+        $resourceModel = Mage::getResourceModel($entityType->getEntityAttributeCollection());
+        $attributesInfo = $resourceModel
+            ->setEntityTypeFilter($entityType)
+            ->getData();
 
-        return $config->getEntityAttributeCodes($entityType->getEntityTypeId());
+        $attributes = array();
+        foreach ($attributesInfo as $attribute) {
+            $attributes[$attribute['attribute_code']] = $attribute['frontend_label'];
+        }
+
+        return $attributes;
     }
 
     /**
