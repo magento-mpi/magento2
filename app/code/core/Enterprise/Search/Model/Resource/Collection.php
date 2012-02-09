@@ -449,7 +449,7 @@ class Enterprise_Search_Model_Resource_Collection
             }
 
             $result = $this->_engine->getIdsByQuery($query, $params);
-            if ($searchSuggestionsEnabled) {
+            if ($searchSuggestionsEnabled && !empty($result['suggestions_data'])) {
                 $this->_suggestionsData = $result['suggestions_data'];
             }
 
