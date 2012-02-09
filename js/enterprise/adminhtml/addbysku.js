@@ -59,6 +59,13 @@ AddBySku.prototype = {
             this.submitConfigured = function() {};
             this.updateErrorGrid = function(params) {};
             this.onSubmitSkuForm = function() {};
+            var fields = $$(
+                '#' + addBySkuObject.dataContainerId + ' input[name="sku"]',
+                '#' + addBySkuObject.dataContainerId + ' input[name="qty"]'
+            );
+            for (var i = 0; i < fields.length; i++) {
+                Event.observe(fields[i], 'keypress', addBySkuObject.formKeyPress.bind(addBySkuObject));
+            }
         }
 
         // admin sales instance for 'Manage shopping cart'
@@ -371,5 +378,13 @@ AddBySku.prototype = {
     addErrorSourceGrid : function (params)
     {
         this.errorSourceGrid = params;
+    },
+
+    formKeyPress : function (event)
+    {
+        if(event.keyCode==Event.KEY_RETURN){
+            this.submitSkuForm();
+        }
+        return false;
     }
 };

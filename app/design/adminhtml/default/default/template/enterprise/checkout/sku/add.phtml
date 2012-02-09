@@ -69,6 +69,13 @@
                     + '<td class="value"><input id="sku_qty_' + id  +'" type="text" value="" name="qty" class="input-text"></td>'
                     + '<td>' + this.deleteButtonHtml + '</td>'
             );
+            var fields = $$(
+                '#' + this.dataContainerId + ' #sku_' + id,
+                '#' + this.dataContainerId + ' #sku_qty_' + id
+            );
+            for (var i = 0; i < fields.length; i++) {
+                Event.observe(fields[i], 'keypress', this.formKeyPress.bind(this));
+            }
         }
         <?php echo $this->getAdditionalJavascript() ?>
     }, 10);
