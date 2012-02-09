@@ -10,11 +10,15 @@
 class Phoenix_Moneybookers_Block_Redirect extends Mage_Core_Block_Template
 {
     /**
-     * Constructor. Set template.
+     * Get redirect url
+     *
+     * @return string
      */
-    protected function _construct()
+    public function getRedirectUrl()
     {
-        parent::_construct();
-        $this->setTemplate('redirect.phtml');
+        if ($url = Mage::registry(Phoenix_Moneybookers_ProcessingController::REGISTER_FORM_REDIRECT_URL_KEY)) {
+            return $url;
+        }
+        return '';
     }
 }
