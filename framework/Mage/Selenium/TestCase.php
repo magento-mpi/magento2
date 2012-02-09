@@ -167,7 +167,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 
     /**
      * URL of script which performs code coverage during testing
-     *
      * @var string
      */
     protected $coverageScriptUrl = null;
@@ -684,7 +683,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         //override data by key value
         if ($overrideByValueKey) {
             foreach ($overrideByValueKey as $fieldKey => $fieldValue) {
-                if (!$this->overrideDataByValueKey($fieldKey, $fieldValue, $data)) {
+                if (!$this->overrideDataByCondition($fieldKey, $fieldValue, $data, 'byValueKey')) {
                     throw new PHPUnit_Framework_AssertionFailedError('Value for field "' . $fieldKey .
                         '" is not changed in "' . $dataSource . '" DataSet');
                 }
@@ -694,7 +693,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         //override data by value parameter
         if ($overrideByValueParam) {
             foreach ($overrideByValueParam as $fieldKey => $fieldValue) {
-                if (!$this->overrideDataByValueParam($fieldKey, $fieldValue, $data)) {
+                if (!$this->overrideDataByCondition($fieldKey, $fieldValue, $data, 'byValueParam')) {
                     throw new PHPUnit_Framework_AssertionFailedError('Value for field with value parameter "'
                         . $fieldKey . '" is not changed for "' . $dataSource . '" DataSet');
                 }
@@ -707,48 +706,36 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     }
 
     /**
-     * Change in array value for specified field.
+     * Change in array value by condition.
      *
      * @param string $overrideKey
      * @param string $overrideValue
      * @param array $overrideArray
+     * @param string $condition   byValueKey|byValueParam
      *
      * @return bool
      */
-    public function overrideDataByValueKey($overrideKey, $overrideValue, &$overrideArray)
+    public function overrideDataByCondition($overrideKey, $overrideValue, &$overrideArray, $condition)
     {
         $overrideResult = false;
         foreach ($overrideArray as $currentKey => &$currentValue) {
-            if ($currentKey === $overrideKey) {
-                $currentValue = $overrideValue;
-                $overrideResult = true;
-            } elseif (is_array($currentValue)) {
-                $overrideResult = $overrideResult
-                    || $this->overrideDataByValueKey($overrideKey, $overrideValue, $currentValue);
+            switch ($condition) {
+                case 'byValueKey':
+                    $result = ($currentKey === $overrideKey);
+                    break;
+                case 'byValueParam':
+                    $result = ($currentValue === '%' . $overrideKey . '%');
+                    break;
+                default:
+                    throw new OutOfRangeException('Wrong condition');
+                    break;
             }
-        }
-        return $overrideResult;
-    }
-
-    /**
-     * Change in array value for field with specified value.
-     *
-     * @param string $overrideKey
-     * @param string $overrideValue
-     * @param array $overrideArray
-     *
-     * @return bool
-     */
-    public function overrideDataByValueParam($overrideKey, $overrideValue, &$overrideArray)
-    {
-        $overrideResult = false;
-        foreach ($overrideArray as &$currentValue) {
-            if ($currentValue === '%' . $overrideKey . '%') {
+            if ($result) {
                 $currentValue = $overrideValue;
                 $overrideResult = true;
             } elseif (is_array($currentValue)) {
                 $overrideResult = $overrideResult
-                    || $this->overrideDataByValueParam($overrideKey, $overrideValue, $currentValue);
+                    || $this->overrideDataByCondition($overrideKey, $overrideValue, $currentValue, $condition);
             }
         }
         return $overrideResult;
@@ -810,8 +797,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     ################################################################################
     /**
      * Loads test data from DataSet, specified in the $dataSource
-     *
      * @deprecated
+     *
      * @param string|array $dataSource Data source (e.g. filename in ../data without .yml extension)
      * @param array|null $override Value to override in original data from data source
      * @param string|array|null $randomize Value to randomize
@@ -862,8 +849,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 
     /**
      * Remove array elements that have '%noValue%' value
-     *
      * @deprecated
+     *
      * @param array $array  Array of data for cleaning
      *
      * @return array|false
@@ -892,8 +879,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 
     /**
      * Override data with index $key on-fly in the $overrideArray by new value (&$value)
-     *
      * @deprecated
+     *
      * @param string $overrideKey Index of the target to override
      * @param string $overrideValue Value for override
      * @param array $overrideArray Target array, which contains some index(es) to override
@@ -920,6 +907,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 
     /**
      * @deprecated
+     *
      * @param string $subArray
      * @param string $overrideKey
      * @param string|array $overrideValue
@@ -958,8 +946,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 
     /**
      * Randomize data with index $key on-fly in the $randomizeArray by new value (&$value)
-     *
      * @deprecated
+     *
      * @param string $value Value for randomization (in this case - value will be as a suffix)
      * @param string $key Index of the target to randomize
      * @param array $randomizeArray Target array, which contains some index(es) to randomize
