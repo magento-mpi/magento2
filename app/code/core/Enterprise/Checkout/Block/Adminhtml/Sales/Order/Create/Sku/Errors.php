@@ -70,7 +70,7 @@ class Enterprise_Checkout_Block_Adminhtml_Sales_Order_Create_Sku_Errors
     }
 
     /**
-     * Get html of button, that adds products to order
+     * Get title of button, that adds products to order
      *
      * @return string
      */

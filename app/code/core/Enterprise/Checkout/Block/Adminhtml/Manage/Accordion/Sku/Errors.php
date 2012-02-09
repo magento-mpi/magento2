@@ -71,7 +71,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Sku_Errors
     }
 
     /**
-     * Get html of button, that adds products to shopping cart
+     * Get title of button, that adds products to shopping cart
      *
      * @return string
      */

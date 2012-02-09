@@ -165,7 +165,7 @@ abstract class Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Abstract extends M
     abstract public function getStore();
 
     /**
-     * Get html of button, that adds products from grid
+     * Get title of button, that adds products from grid
      *
      * @abstract
      * @return string
