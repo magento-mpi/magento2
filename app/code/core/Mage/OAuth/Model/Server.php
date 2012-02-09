@@ -241,8 +241,12 @@ class Mage_OAuth_Model_Server
         }
         $protocolParamsNotSet = !$this->_protocolParams;
 
-        if ($protocolParamsNotSet) {
-            $this->_fetchProtocolParamsFromQuery();
+        foreach ($this->_request->getQuery() as $queryParamName => $queryParamValue) {
+            if (!$this->_isProtocolParameter($queryParamName)) {
+                $this->_params[$queryParamName] = $queryParamValue;
+            } elseif ($protocolParamsNotSet) {
+                $this->_protocolParams[$queryParamName] = $queryParamValue;
+            }
         }
         return $this;
     }
