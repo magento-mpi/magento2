@@ -27,7 +27,7 @@
         <update handle="SHORTCUT_popup" />
     </checkout_cart_index>
 
-    <paypal_express_review translate="label" type="page" parent="checkout_onepage_paymentmethod">
+    <paypal_express_review translate="label" type="page" parent="default">
         <label>PayPal Express Order Review Form</label>
         <remove name="right"/>
         <remove name="left"/>
@@ -52,7 +52,7 @@
         <block type="Mage_Core_Block_Text_List" name="additional.product.info" />
     </paypal_express_review>
 
-    <paypal_express_review_details translate="label" type="page" parent="paypal_express_review">
+    <paypal_express_review_details translate="label" type="page" parent="checkout_onepage_review">
         <label>Paypal Express Review Details</label>
         <block type="Mage_Paypal_Block_Express_Review_Details" name="root" output="toHtml" template="express/review/details.phtml">
             <action method="addItemRender"><type>default</type><block>Mage_Checkout_Block_Cart_Item_Renderer</block><template>onepage/review/item.phtml</template></action>

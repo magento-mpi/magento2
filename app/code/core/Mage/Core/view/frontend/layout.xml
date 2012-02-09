@@ -20,6 +20,6 @@
     </calendar>
 
     <ajax_index translate="label" type="page">
-        <label>All form pages</label>
+        <label>Dynamic Page Blocks (Updated by Ajax Request)</label>
     </ajax_index>
 </layout>
