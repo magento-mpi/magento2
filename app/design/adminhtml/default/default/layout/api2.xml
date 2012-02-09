@@ -135,10 +135,9 @@
             </block>
         </reference>
         <reference name="content">
-            <block type="api2/adminhtml_attribute_buttons" name="api2.attribute.buttons"/>
-            <!--<block type="api2/adminhtml_attribute_edit" name="form_container">-->
-                <!--<block type="api2/adminhtml_attribute_edit_form" name="form"/>-->
-            <!--</block>-->
+            <block type="api2/adminhtml_attribute_edit" name="attr_edit_form">
+                <block type="api2/adminhtml_attribute_edit_form" name="form"/>
+            </block>
         </reference>
         <reference name="head">
             <action method="setCanLoadExtJs">

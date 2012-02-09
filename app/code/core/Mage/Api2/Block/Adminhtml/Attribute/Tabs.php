@@ -40,7 +40,7 @@ class Mage_Api2_Block_Adminhtml_Attribute_Tabs extends Mage_Adminhtml_Block_Widg
     {
         parent::__construct();
 
-        $this->setId('attribute_info_tabs')
+        $this->setId('api2_attribute_section_main')
             ->setDestElementId('attr_edit_form')
             ->setData('title', $this->__('ACL Attributes Information'));
     }
