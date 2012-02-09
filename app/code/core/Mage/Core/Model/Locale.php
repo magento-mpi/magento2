@@ -580,8 +580,8 @@ class Mage_Core_Model_Locale
      * '2'054.52' = 2054.52
      * '2,46 GB' = 2.46
      *
-     * @param string|int $value
-     * @return float
+     * @param string|float|int $value
+     * @return float|null
      */
     public function getNumber($value)
     {
@@ -593,9 +593,8 @@ class Mage_Core_Model_Locale
             return floatval($value);
         }
 
-        //trim space and apos
-        $value = str_replace('\'', '', $value);
-        $value = str_replace(' ', '', $value);
+        //trim spaces and apostrophes
+        $value = str_replace(array('\'', ' '), '', $value);
 
         $separatorComa = strpos($value, ',');
         $separatorDot  = strpos($value, '.');
@@ -614,11 +613,10 @@ class Mage_Core_Model_Locale
         }
 
         return floatval($value);
-        //return Zend_Locale_Format::getNumber($value, array('locale' => $this->getLocaleCode()));
     }
 
     /**
-     * Functions returns array with price formating info for js function
+     * Functions returns array with price formatting info for js function
      * formatCurrency in js/varien/js.js
      *
      * @return array

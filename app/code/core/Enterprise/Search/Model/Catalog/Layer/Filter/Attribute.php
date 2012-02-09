@@ -31,43 +31,21 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Attribute extends Mage_Catalo
         $fieldName = $engine->getSearchEngineFieldName($attribute, 'nav');
 
         $productCollection = $this->getLayer()->getProductCollection();
-        $options = $productCollection->getFacetedData($fieldName);
-
-        $sortedOptions = array();
-        foreach ($options as $option => $count) {
-            $pos = strpos($option, '_');
-            $sortPosition = substr($option, 0, $pos);
-            $option = substr($option, $pos + 1);
-            if (!isset($sortedOptions[$sortPosition])) {
-                $sortedOptions[$sortPosition] = array($option => $count);
-            }
-        }
-        ksort($sortedOptions);
-        $options = array();
-        foreach ($sortedOptions as $option) {
-            $option = each($option);
-            $options[$option[0]] = $option[1];
-        }
+        $optionsFacetedData = $productCollection->getFacetedData($fieldName);
+        $options = $attribute->getSource()->getAllOptions(false);
 
         $data = array();
-        foreach ($options as $label => $count) {
-            if (Mage::helper('Mage_Core_Helper_String')->strlen($label)) {
-                // Check filter type
-                if ($this->_getIsFilterableAttribute($attribute) == self::OPTIONS_ONLY_WITH_RESULTS) {
-                    if (!empty($count)) {
-                        $data[] = array(
-                            'label' => $label,
-                            'value' => $label,
-                            'count' => $count,
-                        );
-                    }
-                } else {
-                    $data[] = array(
-                        'label' => $label,
-                        'value' => $label,
-                        'count' => (int) $count,
-                    );
-                }
+        foreach ($options as $option) {
+            $optionId = $option['value'];
+            // Check filter type
+            if ($this->_getIsFilterableAttribute($attribute) != self::OPTIONS_ONLY_WITH_RESULTS
+                || !empty($optionsFacetedData[$optionId])
+            ) {
+                $data[] = array(
+                    'label' => $option['label'],
+                    'value' => $optionId,
+                    'count' => isset($optionsFacetedData[$optionId]) ? $optionsFacetedData[$optionId] : 0,
+                );
             }
         }
 
@@ -121,17 +99,19 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Attribute extends Mage_Catalo
      */
     public function applyFilterToCollection($filter, $value)
     {
-        if (empty($value)) {
+        if (empty($value) || (isset($value['from']) && empty($value['from']) && isset($value['to'])
+            && empty($value['to']))
+        ) {
             $value = array();
-        } elseif (!is_array($value)) {
+        }
+
+        if (!is_array($value)) {
             $value = array($value);
         }
 
-        $productCollection = $this->getLayer()->getProductCollection();
         $attribute = $filter->getAttributeModel();
-
-        $param = Mage::helper('Enterprise_Search_Helper_Data')->getSearchParam($productCollection, $attribute, $value);
-        $productCollection->addFqFilter($param);
+        $fieldName = Mage::getResourceSingleton('enterprise_search/engine')->getSearchEngineFieldName($attribute);
+        $this->getLayer()->getProductCollection()->addFqFilter(array($fieldName => $value));
 
         return $this;
     }

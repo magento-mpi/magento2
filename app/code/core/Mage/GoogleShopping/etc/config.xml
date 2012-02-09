@@ -143,6 +143,20 @@
                         <currency>USD</currency>
                         <currency_name>US Dollar</currency_name>
                     </US>
+                    <BR translate="name currency_name">
+                        <name>Brazil</name>
+                        <language>pt</language>
+                        <locale>pt_BR</locale>
+                        <currency>BRL</currency>
+                        <currency_name>Brazilian Real</currency_name>
+                    </BR>
+                    <CH translate="name currency_name">
+                        <name>Switzerland</name>
+                        <language>de</language>
+                        <locale>de_CH</locale>
+                        <currency>CHF</currency>
+                        <currency_name>Swiss Franc</currency_name>
+                    </CH>
                 </allowed_countries>
                 <!-- Available destinations for products. -->
                 <destinations>

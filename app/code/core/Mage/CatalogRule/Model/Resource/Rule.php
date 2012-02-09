@@ -108,7 +108,6 @@ class Mage_CatalogRule_Model_Resource_Rule extends Mage_Rule_Model_Resource_Abst
         $ruleId = $rule->getId();
         $write  = $this->_getWriteAdapter();
         $write->beginTransaction();
-
         if ($rule->getProductsFilter()) {
             $write->delete(
                 $this->getTable('catalogrule_product'),
@@ -174,12 +173,14 @@ class Mage_CatalogRule_Model_Resource_Rule extends Mage_Rule_Model_Resource_Abst
             if (!empty($rows)) {
                $write->insertMultiple($this->getTable('catalogrule_product'), $rows);
             }
+
+            $write->commit();
         } catch (Exception $e) {
             $write->rollback();
             throw $e;
         }
 
-        $write->commit();
+
         return $this;
     }
 

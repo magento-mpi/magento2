@@ -64,7 +64,7 @@
             <action method="addJs"><file>mage/adminhtml/browser.js</file></action>
             <action method="addJs"><file>prototype/window.js</file></action>
             <action method="addCss"><file>prototype/windows/themes/default.css</file></action>
-            <action method="addCss"><file>prototype/windows/themes/magento.css</file></action>
+            <action method="addCss"><file>js/prototype/windows/themes/magento.css</file></action>
         </reference>
         <reference name="content">
             <block type="Mage_XmlConnect_Block_Adminhtml_Template_Edit" name="template_edit"/>

@@ -108,14 +108,6 @@
                     </enterprise_admingws>
                 </observers>
             </eav_collection_abstract_load_before>
-            <review_review_collection_load_before>
-                <observers>
-                    <enterprise_admingws>
-                        <class>Enterprise_AdminGws_Model_Observer</class>
-                        <method>limitCollection</method>
-                    </enterprise_admingws>
-                </observers>
-            </review_review_collection_load_before>
             <log_visitor_collection_load_before>
                 <observers>
                     <enterprise_admingws>

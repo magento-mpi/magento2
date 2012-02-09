@@ -531,4 +531,83 @@ class Enterprise_Cms_Model_Observer
 
         return $this;
     }
+
+    /**
+     * Adds CMS hierarchy menu item to top menu
+     *
+     * @param Varien_Event_Observer $observer
+     */
+    public function addCmsToTopmenuItems(Varien_Event_Observer $observer)
+    {
+        /**
+         * @var $topMenuRootNode Varien_Data_Tree_Node
+         */
+        $topMenuRootNode = $observer->getMenu();
+
+        $hierarchyModel = Mage::getModel('enterprise_cms/hierarchy_node', array(
+            'scope' => Enterprise_Cms_Model_Hierarchy_Node::NODE_SCOPE_STORE,
+            'scope_id' => Mage::app()->getStore()->getId(),
+        ))->getHeritage();
+
+        $nodes = $hierarchyModel->getNodesData();
+        $tree = $topMenuRootNode->getTree();
+
+        $nodesFlatList = array(
+            $topMenuRootNode->getId() => $topMenuRootNode
+        );
+
+        $nodeModel = Mage::getModel('enterprise_cms/hierarchy_node');
+
+        foreach ($nodes as $node) {
+
+            $nodeData = $nodeModel->load($node['node_id']);
+
+            if (!$nodeData || ($nodeData->getParentNodeId() == null && !$nodeData->getTopMenuVisibility())
+                || ($nodeData->getParentNodeId() != null && $nodeData->getTopMenuExcluded())
+                || ($nodeData->getPageId() && !$nodeData->getPageIsActive())
+            ) {
+                continue;
+            }
+
+            $menuNodeId = 'cms-hierarchy-node-' . $node['node_id'];
+            $menuNodeData = array(
+                'name' => $nodeData->getLabel(),
+                'id' => $menuNodeId,
+                'url' => $nodeData->getUrl(),
+                'is_active' => $this->_isCmsNodeActive($nodeData)
+            );
+
+            $parentNodeId = !isset($node['parent_node_id']) ? $topMenuRootNode->getId()
+                : 'cms-hierarchy-node-' . $node['parent_node_id'];
+            $parentNode = isset($nodesFlatList[$parentNodeId]) ? $nodesFlatList[$parentNodeId] : null;
+
+            if (!$parentNode) {
+                continue;
+            }
+
+            $menuNode = new Varien_Data_Tree_Node($menuNodeData, 'id', $tree, $parentNode);
+            $parentNode->addChild($menuNode);
+
+            $nodesFlatList[$menuNodeId] = $menuNode;
+        }
+    }
+
+    /**
+     * Checks whether node belongs to currently active node's path
+     *
+     * @param Enterprise_Cms_Model_Hierarchy_Node $cmsNode
+     * @return bool
+     */
+    protected function _isCmsNodeActive($cmsNode)
+    {
+        $currentNode = Mage::registry('current_cms_hierarchy_node');
+
+        if (!$currentNode) {
+            return false;
+        }
+
+        $nodePathIds = explode('/', $currentNode->getXpath());
+
+        return in_array($cmsNode->getId(), $nodePathIds);
+    }
 }

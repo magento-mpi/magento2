@@ -44,6 +44,11 @@ class Enterprise_PageCache_Model_Cookie extends Mage_Core_Model_Cookie
     const COOKIE_CATEGORY_ID = 'LAST_CATEGORY';
 
     /**
+     * Customer segment ids cookie name
+     */
+    const CUSTOMER_SEGMENT_IDS = 'CUSTOMER_SEGMENT_IDS';
+
+    /**
      * Encryption salt value
      *
      * @var sting

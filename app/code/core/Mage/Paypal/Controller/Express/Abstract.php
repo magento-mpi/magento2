@@ -216,12 +216,40 @@ abstract class Mage_Paypal_Controller_Express_Abstract extends Mage_Core_Control
                     ->toHtml());
                 return;
             }
-        }
-        catch (Mage_Core_Exception $e) {
+        } catch (Mage_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             $this->_getSession()->addError($this->__('Unable to update shipping method.'));
+            Mage::logException($e);
+        }
+        if ($isAjax) {
+            $this->getResponse()->setBody('<script type="text/javascript">window.location.href = '
+                . Mage::getUrl('*/*/review') . ';</script>');
+        } else {
+            $this->_redirect('*/*/review');
+        }
+    }
+
+    /**
+     * Update Order (combined action for ajax and regular request)
+     */
+    public function updateOrderAction()
+    {
+        try {
+            $isAjax = $this->getRequest()->getParam('isAjax');
+            $this->_initCheckout();
+            $this->_checkout->updateOrder($this->getRequest()->getParams());
+            if ($isAjax) {
+                $this->loadLayout('paypal_express_review_details');
+                $this->getResponse()->setBody($this->getLayout()->getBlock('root')
+                    ->setQuote($this->_getQuote())
+                    ->toHtml());
+                return;
+            }
+        } catch (Mage_Core_Exception $e) {
+            $this->_getSession()->addError($e->getMessage());
+        } catch (Exception $e) {
+            $this->_getSession()->addError($this->__('Unable to update Order data.'));
             Mage::logException($e);
         }
         if ($isAjax) {

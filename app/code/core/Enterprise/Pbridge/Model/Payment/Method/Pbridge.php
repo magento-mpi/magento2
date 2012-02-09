@@ -362,8 +362,10 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
             ;
 
             $canRefundMore = $order->canCreditmemo(); // TODO: fix this to be able to create multiple refunds
-            $isFullRefund = !$canRefundMore
-                && (0 == ((float)$order->getBaseTotalOnlineRefunded() + (float)$order->getBaseTotalOfflineRefunded()));
+            $allRefunds = (float)$amount
+                + (float)$order->getBaseTotalOnlineRefunded()
+                + (float)$order->getBaseTotalOfflineRefunded();
+            $isFullRefund = !$canRefundMore && (0 == (float)$order->getBaseGrandTotal() - $allRefunds);
             $request->setData('is_full_refund', (int)$isFullRefund);
 
             $api = $this->_getApi()->doRefund($request);

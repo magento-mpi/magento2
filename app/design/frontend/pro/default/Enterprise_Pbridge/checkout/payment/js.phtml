@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    design
- * @package     pro_default
+ * @package     enterprise_default
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -20,11 +20,17 @@
                     if (elm) elm.remove();
                 });
             }
-            toggleContinueButton(iframeContainer.up('ul'));
             new Ajax.Updater(
                 iframeContainer,
                 "<?php echo $this->getUrl('enterprise_pbridge/pbridge/iframe', array('_current' => true, '_secure' => true)); ?>",
-                {parameters : {method_code : method}}
+                {parameters : {method_code : method},
+                 onSuccess: function(transport) {
+                         if (iframeContainer.previous('span.pbridge-reload') && iframeContainer.previous('span.pbridge-reload').down('a')) {
+                             iframeContainer.previous('span.pbridge-reload').down('a').show();
+                         }
+                         toggleContinueButton(iframeContainer.up('ul'));
+                     }
+                }
             );
         }
     }

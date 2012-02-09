@@ -623,7 +623,7 @@ Payment.prototype = {
 
     beforeInit : function() {
         (this.beforeInitFunc).each(function(init){
-           (init.value)();;
+           (init.value)();
         });
     },
 

@@ -226,7 +226,7 @@ class Mage_Catalog_Model_Resource_Url extends Mage_Core_Model_Resource_Db_Abstra
     public function prepareRewrites($storeId, $categoryIds = null, $productIds = null)
     {
         $rewrites   = array();
-        $adapter    = $this->_getReadAdapter();
+        $adapter    = $this->_getWriteAdapter();
         $select     = $adapter->select()
             ->from($this->getMainTable())
             ->where('store_id = :store_id')

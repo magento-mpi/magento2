@@ -214,6 +214,13 @@ ul.add-row .btn-remove,
 .form-alt .input-box { width:496px; margin-top:5px; padding-bottom:11px; }
 .form-alt .input-text { width:480px; }
 
+.form-list-narrow label { width:105px; }
+.form-list-narrow select { width:290px; }
+.form-list-narrow input.input-text,
+.form-list-narrow textarea { width:285px; }
+.form-list-narrow .wide { width:auto; }
+.form-list-narrow .add-field .input-box { margin-left:120px; }
+
 .inner-form { margin:10px 0 5px; padding:10px 0 0; border:1px dashed #d1d1d1; border-width:1px; background:#f7f7f7; }
 .inner-form .form-alt label { padding-left:5px; }
 
@@ -908,6 +915,10 @@ ul.disc li { padding-left:10px; background:url(../images/bkg_bulletsm.gif) no-re
 
 /* Paypal */
 .sidebar .paypal-logo { display:block; margin:10px 0; text-align:center; }
+.paypal-review-order .legend { font-size:14px; font-weight:normal; margin:0 0 6px; }
+.paypal-review-order .col2-set .legend { font-weight:bold; }
+.paypal-review-order .paypal-shipping-method { padding-left:120px; }
+.paypal-review-order .paypal-shipping-method .box-title { margin:0 0 6px; }
 /* ======================================================================================= */
 
 

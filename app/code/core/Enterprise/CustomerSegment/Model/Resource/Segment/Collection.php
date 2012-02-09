@@ -70,7 +70,6 @@ class Enterprise_CustomerSegment_Model_Resource_Segment_Collection
     public function addEventFilter($eventName)
     {
         $entityInfo = $this->_getAssociatedEntityInfo('event');
-        $entityIdField = $entityInfo['entity_id_field'];
         if (!$this->getFlag('is_event_table_joined')) {
             $this->setFlag('is_event_table_joined', true);
             $this->getSelect()->joinInner(

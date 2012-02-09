@@ -22,6 +22,49 @@
         </reference>
     </adminhtml_targetrule_index>
 
+    <adminhtml_targetrule_new>
+        <update handle="adminhtml_targetrule_edit"/>
+    </adminhtml_targetrule_new>
+
+    <adminhtml_targetrule_edit>
+        <reference name="head">
+            <action method="setCanLoadExtJs">
+                <flag>1</flag>
+            </action>
+            <action method="setCanLoadRulesJs">
+                <flag>1</flag>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="enterprise_targetrule/adminhtml_targetrule_edit"
+                   name="enterprise_targetrule_edit"/>
+        </reference>
+        <reference name="left">
+            <block type="enterprise_targetrule/adminhtml_targetrule_edit_tabs"
+                   name="enterprise_targetrule_edit_tabs">
+                <block type="enterprise_targetrule/adminhtml_targetrule_edit_tab_main"
+                       name="enterprise_targetrule_edit_tab_main"></block>
+                <block type="enterprise_targetrule/adminhtml_targetrule_edit_tab_conditions"
+                       name="enterprise_targetrule_edit_tab_conditions"></block>
+                <block type="enterprise_targetrule/adminhtml_targetrule_edit_tab_actions"
+                       name="enterprise_targetrule_edit_tab_actions"></block>
+
+                <action method="addTab">
+                    <name>enterprise_targetrule_edit_tab_main</name>
+                    <block>enterprise_targetrule_edit_tab_main</block>
+                </action>
+                <action method="addTab">
+                    <name>enterprise_targetrule_edit_tab_conditions</name>
+                    <block>enterprise_targetrule_edit_tab_conditions</block>
+                </action>
+                <action method="addTab">
+                    <name>enterprise_targetrule_edit_tab_actions</name>
+                    <block>enterprise_targetrule_edit_tab_actions</block>
+                </action>
+            </block>
+        </reference>
+    </adminhtml_targetrule_edit>
+
     <adminhtml_targetrule_grid>
         <block type="Enterprise_TargetRule_Block_Adminhtml_Targetrule_Grid" name="root"/>
     </adminhtml_targetrule_grid>

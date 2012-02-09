@@ -301,7 +301,7 @@ class Mage_Shipping_Model_Shipping
         $request->setRecipientAddressStreet1($address->getStreet1());
         $request->setRecipientAddressStreet2($address->getStreet2());
         $request->setRecipientAddressCity($address->getCity());
-        $request->setRecipientAddressStateOrProvinceCode($address->getRegion());
+        $request->setRecipientAddressStateOrProvinceCode($address->getRegionCode());
         $request->setRecipientAddressRegionCode($recipientRegionCode);
         $request->setRecipientAddressPostalCode($address->getPostcode());
         $request->setRecipientAddressCountryCode($address->getCountryId());

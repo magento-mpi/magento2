@@ -29,9 +29,6 @@ Default layout, loads most of the pages
     <default>
 
         <!-- Mage_Catalog -->
-        <reference name="top.menu">
-            <block type="Mage_Catalog_Block_Navigation" name="catalog.topnav" template="navigation/top.phtml"/>
-        </reference>
         <reference name="left">
             <!--block type="Mage_Core_Block_Template" name="left.permanent.callout" template="callouts/left_col.phtml">
                 <action method="setImgSrc"><src>images/media/left_col_callout.jpg</src></action>

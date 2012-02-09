@@ -35,6 +35,8 @@
  * @method Enterprise_TargetRule_Model_Rule setUseCustomerSegment(int $value)
  * @method string getActionSelect()
  * @method Enterprise_TargetRule_Model_Rule setActionSelect(string $value)
+ * @method array getCustomerSegmentIds()
+ * @method Enterprise_TargetRule_Model_Rule setCustomerSegmentIds(array $ids)
  *
  * @category    Enterprise
  * @package     Enterprise_TargetRule
@@ -340,10 +342,6 @@ class Enterprise_TargetRule_Model_Rule extends Mage_Rule_Model_Abstract
 
         return !empty($result) ? $result : true;
     }
-
-
-
-
 
     /**
      * Retrieve Customer Segment Relations

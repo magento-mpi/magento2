@@ -124,10 +124,9 @@ class Mage_Paypal_Block_Express_Review extends Mage_Core_Block_Template
         if ($rate->getErrorMessage()) {
             $price = $rate->getErrorMessage();
         } else {
-            $price = $this->_getShippingPrice(
-                $rate->getPrice(),
-                $this->helper('Mage_Tax_Helper_Data')->displayShippingPriceIncludingTax()
-            );
+            $price = $this->_getShippingPrice($rate->getPrice(),
+                $this->helper('Mage_Tax_Helper_Data')->displayShippingPriceIncludingTax());
+
             $incl = $this->_getShippingPrice($rate->getPrice(), true);
             if (($incl != $price) && $this->helper('Mage_Tax_Helper_Data')->displayShippingBothPrices()) {
                 $renderedInclTax = sprintf(
@@ -197,6 +196,7 @@ class Mage_Paypal_Block_Express_Review extends Mage_Core_Block_Template
     {
         $methodInstance = $this->_quote->getPayment()->getMethodInstance();
         $this->setPaymentMethodTitle($methodInstance->getTitle());
+        $this->setUpdateOrderSubmitUrl($this->getUrl("{$this->_paypalActionPrefix}/express/updateOrder"));
 
         $this->setShippingRateRequired(true);
         if ($this->_quote->getIsVirtual()) {
@@ -219,8 +219,7 @@ class Mage_Paypal_Block_Express_Review extends Mage_Core_Block_Template
             }
 
             // misc shipping parameters
-            $this->setShippingMethodSubmitUrl($this->getUrl("{$this->_paypalActionPrefix}/express/saveShippingMethod"))
-                ->setCanEditShippingAddress($this->_quote->getMayEditShippingAddress())
+            $this->setCanEditShippingAddress($this->_quote->getMayEditShippingAddress())
                 ->setCanEditShippingMethod($this->_quote->getMayEditShippingMethod())
             ;
         }

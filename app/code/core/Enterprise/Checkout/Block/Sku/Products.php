@@ -123,6 +123,8 @@ class Enterprise_Checkout_Block_Sku_Products extends Mage_Checkout_Block_Cart
                 'sku' => Mage::helper('Mage_Core_Helper_Url')->urlEncode($item->getSku())
             ))
         );
+        // Don't display subtotal column
+        $item->setNoSubtotal(true);
         return parent::getItemHtml($item);
     }
 }

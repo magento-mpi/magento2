@@ -36,7 +36,7 @@ class Mage_Eav_Model_Entity_Attribute_Source_Table extends Mage_Eav_Model_Entity
         }
         if (!isset($this->_options[$storeId])) {
             $collection = Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute_Option_Collection')
-                ->setPositionOrder('asc')
+                ->setPositionOrder('asc', true)
                 ->setAttributeFilter($this->getAttribute()->getId())
                 ->setStoreFilter($this->getAttribute()->getStoreId())
                 ->load();

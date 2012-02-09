@@ -289,13 +289,9 @@ class Mage_Core_Controller_Varien_Front extends Varien_Object
             return;
         }
 
-        $adminPath = (string)Mage::getConfig()->getNode(Mage_Adminhtml_Helper_Data::XML_PATH_CUSTOM_ADMIN_PATH);
-        if (!$adminPath) {
-            $adminPath = (string)Mage::getConfig()
-                ->getNode(Mage_Adminhtml_Helper_Data::XML_PATH_ADMINHTML_ROUTER_FRONTNAME);
-        }
-        if (preg_match('#^' . $adminPath . '(\/.*)?$#', ltrim($request->getPathInfo(), '/'))
-            && (string)Mage::getConfig()->getNode(Mage_Adminhtml_Helper_Data::XML_PATH_USE_CUSTOM_ADMIN_URL)) {
+        if ($this->_isAdminFrontNameMatched($request)
+            && (string)Mage::getConfig()->getNode(Mage_Adminhtml_Helper_Data::XML_PATH_USE_CUSTOM_ADMIN_URL)
+        ) {
             return;
         }
 
@@ -321,5 +317,40 @@ class Mage_Core_Controller_Varien_Front extends Varien_Object
                 ->sendResponse();
             exit;
         }
+    }
+
+    /**
+     * Check if requested path starts with one of the admin front names
+     *
+     * @param Zend_Controller_Request_Http $request
+     * @return boolean
+     */
+    protected function _isAdminFrontNameMatched($request)
+    {
+        $adminPath = (string)Mage::getConfig()->getNode(Mage_Adminhtml_Helper_Data::XML_PATH_CUSTOM_ADMIN_PATH);
+        if (!$adminPath) {
+            $adminPath = (string)Mage::getConfig()
+                ->getNode(Mage_Adminhtml_Helper_Data::XML_PATH_ADMINHTML_ROUTER_FRONTNAME);
+        }
+        $adminFrontNames = array($adminPath);
+
+        // Check for other modules that can use admin router (a lot of Magento extensions do that)
+        $adminFrontNameNodes = Mage::getConfig()->getNode('admin/routers')
+            ->xpath('*[not(self::adminhtml) and use = "admin"]/args/frontName');
+
+        if (is_array($adminFrontNameNodes)) {
+            foreach ($adminFrontNameNodes as $frontNameNode) {
+                /** @var $frontNameNode SimpleXMLElement */
+                array_push($adminFrontNames, (string)$frontNameNode);
+            }
+        }
+
+        $pathPrefix = ltrim($request->getPathInfo(), '/');
+        $urlDelimiterPos = strpos($pathPrefix, '/');
+        if ($urlDelimiterPos) {
+            $pathPrefix = substr($pathPrefix, 0, $urlDelimiterPos);
+        }
+
+        return in_array($pathPrefix, $adminFrontNames);
     }
 }

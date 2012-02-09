@@ -43,6 +43,7 @@ Default layout, loads most of the pages
             <block type="Mage_Page_Block_Html_Header" name="header" as="header">
                 <block type="Mage_Core_Block_Text_List" name="top.menu" as="topMenu" translate="label">
                     <label>Navigation Bar</label>
+                    <block type="Mage_Page_Block_Html_Topmenu" name="catalog.topnav" template="html/topmenu.phtml"/>
                 </block>
                 <block type="Mage_Page_Block_Switch" name="store_language" as="store_language" template="switch/languages.phtml"/>
                 <block type="Mage_Page_Block_Template_Links" name="top.links" as="topLinks"/>

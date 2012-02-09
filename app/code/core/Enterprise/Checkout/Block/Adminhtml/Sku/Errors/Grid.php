@@ -39,7 +39,7 @@ class Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Grid extends Mage_Adminhtml
         $removeButtonHtml = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button', '', array(
             'class' => 'delete',
             'label' => '',
-            'onclick' => 'addBySku.errorDel(this)'
+            'onclick' => 'addBySku.removeFailedItem(this)'
         ))->toHtml();
         /* @var $parentBlock Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Abstract */
         $parentBlock = $this->getParentBlock();
@@ -55,6 +55,9 @@ class Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Grid extends Mage_Adminhtml
             }
             $item->addData($affectedItem['item']);
             $item->setId($item->getSku());
+            if ($item->getCode() == Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_SKU) {
+                $item->unsetData('qty');
+            }
             /* @var $product Mage_Catalog_Model_Product */
             $product = Mage::getModel('Mage_Catalog_Model_Product');
             if (isset($affectedItem['item']['id'])) {
@@ -68,7 +71,6 @@ class Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Grid extends Mage_Adminhtml
                     $product->setIsSalable($status[$productId]);
                 }
                 $item->setPrice(Mage::helper('Mage_Core_Helper_Data')->formatPrice($product->getPrice()));
-                $item->setSubtotal(Mage::helper('Mage_Core_Helper_Data')->formatPrice($product->getPrice() * $item->getQty()));
             }
             $descriptionBlock = $this->getLayout()->createBlock(
                 'Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Grid_Description',
@@ -111,18 +113,9 @@ class Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Grid extends Mage_Adminhtml
             'header'   => $this->__('Qty'),
             'class'    => 'no-link sku-error-qty',
             'width'    => 40,
-            'type'     => 'input',
             'sortable' => false,
             'index'    => 'qty',
-        ));
-
-        $this->addColumn('subtotal', array(
-            'header'   => $this->__('Subtotal'),
-            'class'    => 'no-link',
-            'width'    => 100,
-            'index'    => 'subtotal',
-            'sortable' => false,
-            'type'     => 'text',
+            'renderer' => 'enterprise_checkout/adminhtml_sku_errors_grid_renderer_qty',
         ));
 
         $this->addColumn('remove', array(

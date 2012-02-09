@@ -31,9 +31,6 @@ Default layout, loads most of the pages
             <action method="addCss"><file>Mage_Catalog::widgets.css</file></action>
         </reference>
         <!-- Mage_Catalog -->
-        <reference name="top.menu">
-            <block type="Mage_Catalog_Block_Navigation" name="catalog.topnav" template="navigation/top.phtml"/>
-        </reference>
         <reference name="header">
             <block type="Mage_Catalog_Block_Product_Compare_Sidebar" name="catalogCompareLink" template="product/compare/sidebar.phtml"/>
         </reference>
@@ -55,12 +52,6 @@ Default layout, loads most of the pages
         </reference>
         <block type="Mage_Catalog_Block_Product_Price_Template" name="catalog_product_price_template" />
     </default>
-
-    <print>
-        <reference name="head">
-            <action method="addCss"><file>Mage_Catalog::widgets.css</file></action>
-        </reference>
-    </print>
 
 <!--
 Category default layout

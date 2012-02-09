@@ -101,7 +101,7 @@
                     node.attributes.cls += ' disallowed';
                 }
             } else {
-                if( node.id.indexOf('_') == -1 && <?php echo $this->getData('use_default_scope') ? '1' : '0' ?>) {
+                if (node.id.indexOf('_') == -1 && <?php echo $this->getData('use_default_scope') ? '1' : '0' ?>) {
                     var newNodeId = '_' + hierarchyNodes.increment;
                     if ($('node_id').value && $('node_id').value == node.id) {
                         $('node_id').value = newNodeId;
@@ -673,7 +673,7 @@
         resetFieldSet: function(id) {
             var elems = Element.select(id, ['select', 'input', 'textarea']);
             elems.each(function (elem) {
-                if($(elem).tagName.toLowerCase() == 'select') {
+                if ($(elem).tagName.toLowerCase() == 'select') {
                     $(elem).selectedIndex = 0;
                 } else {
                     $(elem).value = '';
@@ -683,7 +683,8 @@
 
         resetMetadataFieldSet: function() {
             var defaultValue = '0';
-            var fields = ['meta_first_last','meta_next_previous','meta_cs_enabled','menu_visibility','menu_excluded'];
+            var fields = ['meta_first_last','meta_next_previous','meta_cs_enabled','menu_visibility','menu_excluded',
+                'top_menu_visibility', 'top_menu_excluded'];
             fields.each(function(e) {
                 $(e).value = defaultValue;
             });
@@ -720,7 +721,7 @@
                 this.lastChangedNode = node;
             }
             this.dataModification = true;
-            if(!$('node_id').value) {
+            if (!$('node_id').value) {
                 this.saveButton(true, true);
             }
             editForm.validator.validate();
@@ -740,7 +741,7 @@
 
             var allowedTypes = this.menuListTypes[listType];
             this.addOptionToSelect('menu_list_type', '', '<?php echo $this->__('Default') ?>');
-            if(allowedTypes) {
+            if (allowedTypes) {
                 Object.keys(allowedTypes).each(function(k) {
                     this.addOptionToSelect('menu_list_type', k, allowedTypes[k]);
                 }.bind(this));
@@ -765,7 +766,9 @@
                 'menu_excluded',
                 'menu_levels_down',
                 'menu_ordered',
-                'menu_list_type'
+                'menu_list_type',
+                'top_menu_visibility',
+                'top_menu_excluded'
             ];
         },
 
@@ -779,7 +782,7 @@
             this.getMetadataFields().each(function(f) {
                 if ($(f) != undefined) {
                     var value = node.attributes[f] != undefined ? node.attributes[f] : '';
-                    if($(f).tagName.toLowerCase() == 'select') {
+                    if ($(f).tagName.toLowerCase() == 'select') {
                         $(f).value = value;
                     } else {
                         $(f).value = (value == '0' ? '' : value);
@@ -802,12 +805,15 @@
         },
 
         toggleMetadataFieldset: function(switcher, fieldsetId) {
-            if($(fieldsetId) != undefined && $(switcher) != undefined) {
+            if ($(fieldsetId) != undefined && $(switcher) != undefined) {
                 var yes = '1'; // "Yes" value
                 var hidden = $(switcher).value != yes;
                 this.toggleFieldset($(switcher), $(fieldsetId), hidden);
-                if($(switcher).id == 'menu_visibility') {
+                if ($(switcher).id == 'menu_visibility') {
                     $('field_menu_excluded').hide();
+                }
+                if ($(switcher).id == 'top_menu_visibility') {
+                    $('field_top_menu_excluded').hide();
                 }
             }
         },
@@ -815,7 +821,7 @@
         toggleFieldset: function(switcher, container, hidden) {
             var elems = Element.select(container, ['select', 'input', 'textarea', 'button']);
             elems.each(function (elem) {
-                if(elem!=switcher) {
+                if (elem!=switcher) {
                     hidden ? elem.up(1).hide() : elem.up(1).show();
                 };
             });
@@ -841,9 +847,12 @@
 
             if (!isRootParent) {
                 $('field_menu_excluded').show();
+                $('field_top_menu_excluded').show();
+                $('field_top_menu_visibility').hide();
             } else {
                 $('field_menu_excluded').hide();
-
+                $('field_top_menu_excluded').hide();
+                $('field_top_menu_visibility').show();
 
                 // render List Type drop-dawn
                 if (node != undefined) {
@@ -859,8 +868,9 @@
                 this.assignNodeMetadataToValues(node);
             }
 
-            if(isRootParent) {
+            if (isRootParent) {
                 this.toggleMetadataFieldset('menu_visibility', 'menu_fieldset');
+                this.toggleMetadataFieldset('top_menu_visibility', 'top_menu_fieldset');
             }
 
             this.toggleMetadataFieldset('pager_visibility', 'pager_fieldset');
@@ -878,11 +888,11 @@
 
         addOptionToSelect: function(selectId, optionValue, optionText) {
             // select element not found
-            if($(selectId) == undefined) {
+            if ($(selectId) == undefined) {
                 return false;
             }
             // option already exists
-            if($(selectId).down('option[value="' + optionValue + '"]') != undefined) {
+            if ($(selectId).down('option[value="' + optionValue + '"]') != undefined) {
                 return false;
             }
 
@@ -898,7 +908,7 @@
         removeOptionFromSelect: function (selectId, optionValue) {
             var option = $(selectId).down('option[value="' + optionValue + '"]');
             // option doesn't exist
-            if(option == undefined) {
+            if (option == undefined) {
                 return false;
             }
             option.remove();

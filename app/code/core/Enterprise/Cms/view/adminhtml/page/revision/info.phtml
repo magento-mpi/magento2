@@ -36,7 +36,7 @@
         </tr>
         <tr>
             <th><span class="nobr"><?php echo $this->__('Version:') ?></span></th>
-            <td><?php echo $this->getVersionLabel() ?></td>
+            <td><?php echo $this->escapeHtml($this->getVersionLabel()) ?></td>
         </tr>
     </table>
 </div>

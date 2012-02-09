@@ -16,8 +16,8 @@
  */
 $uniqueSuffix = '_' . $this->helper('Mage_Core_Helper_Data')->getRandomString(20);
 $skuFormId = "skuForm{$uniqueSuffix}";
-$qtyValidationClasses = 'validate-number validate-greater-than-zero'
-    . ' validate-number-range number-range-0.00001-10000000';
+$qtyValidationClasses = 'required-entry validate-number validate-greater-than-zero'
+    . ' validate-number-range number-range-0.0001-99999999.9999';
 ?>
 <div class="widget widget-sku">
     <div class="block block-sku">
@@ -50,8 +50,8 @@ $qtyValidationClasses = 'validate-number validate-greater-than-zero'
                     </tfoot>
                     <tbody>
                         <tr class="order-row">
-                            <td><input name="items[0<?php echo $uniqueSuffix; ?>][sku]" class="input-text required-entry" type="text" /></td>
-                            <td><input name="items[0<?php echo $uniqueSuffix; ?>][qty]" class="input-text <?php echo $qtyValidationClasses; ?>" type="text" value="1" /></td>
+                            <td><input type="text" name="items[0<?php echo $uniqueSuffix; ?>][sku]" class="input-text required-entry" maxlength="64" /></td>
+                            <td><input type="text" name="items[0<?php echo $uniqueSuffix; ?>][qty]" class="input-text <?php echo $qtyValidationClasses; ?>" value="1" maxlength="13" /></td>
                             <td>&nbsp;</td>
                         </tr>
                     </tbody>
@@ -68,22 +68,17 @@ $qtyValidationClasses = 'validate-number validate-greater-than-zero'
 
 <script type="text/javascript">
 //<![CDATA[
-
-if (typeof templateText == 'undefined') {
-    var templateText =
-        '<tr class="order-row">'+
-            '<td><input name="items[{{id}}][sku]" value="" class="input-text required-entry" type="text" /><\/td>' +
-            '<td></span><input name="items[{{id}}][qty]" value="1" class="input-text <?php echo $qtyValidationClasses; ?>" type="text" /><\/td>' +
-            '<td class="v-middle"><span class="remove-row" title="<?php echo $this->__('Remove Row') ?>"></td>' +
-        '<\/tr>';
-}
-
 var itemOptions = itemOptions || {};
 
 itemOptions["<?php echo $uniqueSuffix; ?>"] = {
     table: $('items-table<?php echo $uniqueSuffix; ?>').select('tbody')[0],
     templateSyntax: /(^|.|\r|\n)({{(\w+)}})/,
-    templateText: templateText,
+    templateText:
+        '<tr class="order-row">'
+            + '<td><input type="text" name="items[{{id}}][sku]" class="input-text required-entry" maxlength="64" /></td>'
+            + '<td><input type="text" name="items[{{id}}][qty]" value="1" class="input-text <?php echo $qtyValidationClasses; ?>" maxlength="13" /></td>'
+            + '<td class="v-middle"><span class="remove-row" title="<?php echo $this->__('Remove Row') ?>"></span></td>'
+        + '</tr>',
     itemCount: 1,
     add: function(data) {
         this.template = new Template(this.templateText, this.templateSyntax);

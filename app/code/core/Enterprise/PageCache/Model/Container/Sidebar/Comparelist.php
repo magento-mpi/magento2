@@ -40,12 +40,6 @@ class Enterprise_PageCache_Model_Container_Sidebar_Comparelist extends Enterpris
      */
     protected function _renderBlock()
     {
-        $template = $this->_placeholder->getAttribute('template');
-
-        $block = Mage::app()->getLayout()->createBlock('Mage_Catalog_Block_Product_Compare_List');
-        $block->setTemplate($template);
-        $block->setLayout(Mage::app()->getLayout());
-
-        return $block->toHtml();
+        return $this->_getPlaceHolderBlock()->toHtml();
     }
 }

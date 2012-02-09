@@ -96,6 +96,12 @@ abstract class Enterprise_Checkout_Block_Adminhtml_Sku_Abstract extends Mage_Adm
         return $this->getChildHtml('deleteButton');
     }
 
+    /**
+     * Returns URL to which CSV file should be submitted
+     *
+     * @abstract
+     * @return string
+     */
     abstract public function getFileUploadUrl();
 
     /**
