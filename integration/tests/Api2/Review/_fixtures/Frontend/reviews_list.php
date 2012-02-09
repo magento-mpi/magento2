@@ -27,6 +27,7 @@
 
 require realpath(dirname(__FILE__) . '/../../../..') . '/Api/SalesOrder/_fixtures/product_simple.php';
 require realpath(dirname(__FILE__) . '/../../../..') . '/Api/SalesOrder/_fixtures/product_virtual.php';
+require realpath(dirname(__FILE__) . '/../../../..') . '/Api2/Review/_fixtures/store.php';
 
 /** @var $productSimple Mage_Catalog_Model_Product */
 $productSimple = Magento_Test_Webservice::getFixture('product_simple');

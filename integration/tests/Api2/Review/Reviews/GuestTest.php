@@ -53,14 +53,6 @@ class Api2_Review_Reviews_GuestTest extends Magento_Test_Webservice_Rest_Guest
     }
 
     /**
-     * Set up store fixture
-     */
-    public static function setUpBeforeClass()
-    {
-        require dirname(__FILE__) . '/../_fixtures/store.php';
-    }
-
-    /**
      * Delete store fixture after test case
      */
     public static function tearDownAfterClass()
@@ -82,11 +74,12 @@ class Api2_Review_Reviews_GuestTest extends Magento_Test_Webservice_Rest_Guest
         /** @var $product Mage_Catalog_Model_Product */
         $product = $this->getFixture('product_simple');
         $reviewData['product_id'] = $product->getId();
+        $this->getWebservice()->getClient()->setHeaders('Cookie', 'XDEBUG_SESSION=PHPSTORM');
 
         $restResponse = $this->callPost('reviews', $reviewData);
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
         // Get created review id from Location header and check that it has been saved correctly
-        $location = $restResponse->getHeader('Location2');
+        $location = $restResponse->getHeader('Location');
         list($reviewId) = array_reverse(explode('/', $location));
         /** @var $review Mage_Review_Model_Review */
         $review = Mage::getModel('review/review')->load($reviewId);
@@ -137,6 +130,7 @@ class Api2_Review_Reviews_GuestTest extends Magento_Test_Webservice_Rest_Guest
      * Test successful review creation on custom store
      *
      * @magentoDataFixture Api/SalesOrder/_fixtures/product_simple.php
+     * @magentoDataFixture Api2/Review/_fixtures/store.php
      */
     public function testPostCustomStore()
     {
@@ -152,7 +146,7 @@ class Api2_Review_Reviews_GuestTest extends Magento_Test_Webservice_Rest_Guest
         $restResponse = $this->callPost('reviews', $reviewData);
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
         // Get created review id from Location header and check that it has been saved correctly
-        $location = $restResponse->getHeader('Location2');
+        $location = $restResponse->getHeader('Location');
         list($reviewId) = array_reverse(explode('/', $location));
         /** @var $review Mage_Review_Model_Review */
         $review = Mage::getModel('review/review')->load($reviewId);

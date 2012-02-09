@@ -67,7 +67,7 @@ class Api2_Review_Reviews_AdminTest extends Magento_Test_Webservice_Rest_Admin
         $restResponse = $this->callPost('reviews', $reviewData);
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
         // Get created review id from Location header and check that it has been saved correctly
-        $location = $restResponse->getHeader('Location2');
+        $location = $restResponse->getHeader('Location');
         list($reviewId) = array_reverse(explode('/', $location));
         /** @var $review Mage_Review_Model_Review */
         $review = Mage::getModel('review/review')->load($reviewId);
@@ -210,7 +210,8 @@ class Api2_Review_Reviews_AdminTest extends Magento_Test_Webservice_Rest_Admin
      */
     public function testGet()
     {
-        $restResponse = $this->callGet('reviews', array('order' => 'review_id', 'dir' => 'DESC'));
+        $this->getWebservice()->getClient()->setHeaders('Cookie', 'XDEBUG_SESSION=PHPSTORM');
+        $restResponse = $this->callGet('reviews', array('order' => 'review_id', 'dir' => Zend_Db_Select::SQL_DESC));
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
         $body = $restResponse->getBody();
         $this->assertNotEmpty($body);
