@@ -16,9 +16,7 @@
         </reference>
     </default>
 
-    <sku_failed_products_handle translate="label" type="page" parent="enterprise_checkout_sku_index">
-        <label>Checkout with Failed Product Sku</label>
-
+    <checkout_cart_index>
         <reference name="checkout.cart">
             <block type="Enterprise_Checkout_Block_Sku_Products" name="sku.failed.products" template="cart/sku/failed.phtml" as="shopping.cart.table.after">
                 <block type="Enterprise_Checkout_Block_Sku_Products_Info" name='additional.product.info' template="cart/sku/failed/info.phtml" />
@@ -33,7 +31,7 @@
                 <action method="addItemRender"><type>undefined</type><block>Mage_Checkout_Block_Cart_Item_Renderer</block><template>cart/item/failed.phtml</template></action>
             </block>
         </reference>
-    </sku_failed_products_handle>
+    </checkout_cart_index>
 
     <checkout_cart_configurefailed translate="label" type="page" parent="checkout_cart_configure">
         <label>Configure Cart Item</label>

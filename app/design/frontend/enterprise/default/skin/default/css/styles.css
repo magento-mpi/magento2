@@ -2147,6 +2147,8 @@ ul.cms-menu.type-square ul { list-style-type:square; }
 .sidebar .block-gr-search .form-alt select { width:148px; }
 .block-gr-search p.note { margin:0 0 3px; text-align:right; color:#f15c22; }
 
+.widget-sku .remove-row    { background:url(../images/btn_remove.gif) no-repeat right; cursor:pointer; display:inline-block; height:12px; vertical-align:middle; width:13px; text-indent:-999em; }
+
 /* Order By SKU */
 .order-by-sku .widget-sku .block .block-content { padding:0; }
 .order-by-sku .widget-sku .block .block-content table { margin-left:164px; width:462px; }

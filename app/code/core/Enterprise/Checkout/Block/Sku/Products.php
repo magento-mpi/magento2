@@ -125,4 +125,19 @@ class Enterprise_Checkout_Block_Sku_Products extends Mage_Checkout_Block_Cart
         );
         return parent::getItemHtml($item);
     }
+
+    /**
+     * Added failed items existence validation before block html generation
+     *
+     * @return string
+     */
+    protected function _toHtml()
+    {
+        if (Mage::getSingleton('Enterprise_Checkout_Model_Cart')->getFailedItems()) {
+            $html = parent::_toHtml();
+        } else {
+            $html = '';
+        }
+        return $html;
+    }
 }
