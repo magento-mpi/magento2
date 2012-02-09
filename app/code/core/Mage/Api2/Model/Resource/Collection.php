@@ -41,11 +41,50 @@ abstract class Mage_Api2_Model_Resource_Collection extends Mage_Api2_Model_Resou
     /**#@+
      *  Default collection resources error messages
      */
-    const RESOURCE_COLLECTION_PAGING_ERROR      = 'Resource collection paging error.';
-    const RESOURCE_COLLECTION_ORDERING_ERROR    = 'Resource collection ordering error.';
-    const RESOURCE_COLLECTION_FILTERING_ERROR   = 'Resource collection filtering error.';
-    const RESOURCE_COLLECTION_ATTRIBUTES_ERROR  = 'Resource collection including additional attributes error.';
+    const RESOURCE_COLLECTION_PAGING_ERROR     = 'Resource collection paging error.';
+    const RESOURCE_COLLECTION_ORDERING_ERROR   = 'Resource collection ordering error.';
+    const RESOURCE_COLLECTION_FILTERING_ERROR  = 'Resource collection filtering error.';
+    const RESOURCE_COLLECTION_ATTRIBUTES_ERROR = 'Resource collection including additional attributes error.';
     /**#@-*/
+
+    /**
+     * Validate filter data and apply it to collection if possible
+     *
+     * @param Varien_Data_Collection_Db $collection
+     * @return Mage_Api2_Model_Resource_Collection
+     */
+    protected function _applyFilter(Varien_Data_Collection_Db $collection)
+    {
+        $filter = $this->getRequest()->getFilter();
+
+        if (!method_exists($collection, 'addAttributeToFilter') || !$filter) {
+            return $this;
+        }
+        if (!is_array($filter)) {
+            $this->_critical(self::RESOURCE_COLLECTION_FILTERING_ERROR);
+        }
+        $allowedAttributes = $this->getFilter()->getAllowedAttributes(
+            $this->getResourceType(), self::OPERATION_ATTRIBUTE_READ, $this->getUserType()
+        );
+
+        foreach ($filter as $filterEntry) {
+            if (!is_array($filter)
+                || !array_key_exists('attribute', $filterEntry)
+                || !in_array($filterEntry['attribute'], $allowedAttributes)) {
+                $this->_critical(self::RESOURCE_COLLECTION_FILTERING_ERROR);
+            }
+            $attributeCode = $filterEntry['attribute'];
+
+            unset($filterEntry['attribute']);
+
+            try {
+                $collection->addAttributeToFilter($attributeCode, $filterEntry);
+            } catch(Exception $e) {
+                $this->_critical(self::RESOURCE_COLLECTION_FILTERING_ERROR);
+            }
+        }
+        return $this;
+    }
 
     /**
      * Update method not allowed for this type of resource
@@ -88,16 +127,7 @@ abstract class Mage_Api2_Model_Resource_Collection extends Mage_Api2_Model_Resou
         }
         $collection->setCurPage($pageNumber)->setPageSize(self::DEFAULT_PAGE_SIZE);
 
-        if (method_exists($collection, 'addAttributeToFilter') && ($filter = $request->getFilter())) {
-            $this->_validateFilter($filter);
-
-            try {
-                $collection->addAttributeToFilter($filter);
-            } catch(Exception $e) {
-                $this->_critical(self::RESOURCE_COLLECTION_FILTERING_ERROR);
-            }
-        }
-        return $this;
+        return $this->_applyFilter($collection);
     }
 
     /**
@@ -138,24 +168,6 @@ abstract class Mage_Api2_Model_Resource_Collection extends Mage_Api2_Model_Resou
         $errors[self::RESOURCE_COLLECTION_ATTRIBUTES_ERROR] = Mage_Api2_Model_Server::HTTP_BAD_REQUEST;
 
         return $errors;
-    }
-
-    /**
-     * Validate filter data from request
-     *
-     * @param mixed $filter
-     * @return Mage_Api2_Model_Resource_Collection
-     */
-    protected function _validateFilter($filter)
-    {
-        $conditions = array(
-            'eq', 'neq', 'like', 'nlike', 'in', 'nin', 'is', 'notnull', 'null', 'gt', 'lt',
-            'gteq', 'lteq', 'finset', 'regexp', 'from', 'to', 'seq', 'sneq'
-        );
-        if (false) {
-            $this->_critical(self::RESOURCE_COLLECTION_FILTERING_ERROR);
-        }
-        return $this;
     }
 
     /**

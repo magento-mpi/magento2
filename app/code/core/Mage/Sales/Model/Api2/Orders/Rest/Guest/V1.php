@@ -25,39 +25,12 @@
  */
 
 /**
- * API2 class for orders (customer)
+ * API2 class for orders (guest)
  *
  * @category   Mage
  * @package    Mage_Sales
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Sales_Model_Api2_Orders_Rest_Customer_V1 extends Mage_Sales_Model_Api2_Orders_Rest
+class Mage_Sales_Model_Api2_Orders_Rest_Guest_V1 extends Mage_Sales_Model_Api2_Orders_Rest
 {
-    /**
-     * Apply owner filter (so known local ACL) for collection to avoid operations with somebody else's data
-     *
-     * @param Mage_Sales_Model_Resource_Collection_Abstract $collection
-     * @return Mage_Sales_Model_Api2_Orders_Rest
-     */
-    protected function _applyLocalAclFilter(Mage_Sales_Model_Resource_Collection_Abstract $collection)
-    {
-        $collection->addAttributeToFilter('customer_id', array('eq' => $this->getApiUser()->getUserId()));
-
-        return $this;
-    }
-
-    /**
-     * Retrieve collection instance for orders
-     *
-     * @return Mage_Sales_Model_Resource_Order_Collection
-     */
-    protected function _getCollectionForRetrieve()
-    {
-        /** @var $collection Mage_Sales_Model_Resource_Order_Collection */
-        $collection = parent::_getCollectionForRetrieve();
-
-        $this->_applyLocalAclFilter($collection);
-
-        return $collection;
-    }
 }

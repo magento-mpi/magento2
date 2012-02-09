@@ -135,7 +135,7 @@ class Mage_Api2_Model_Acl_Filter
      * @param string $userType
      * @return array
      */
-    protected function getAllowedAttributes($resourceType, $operation, $userType)
+    public function getAllowedAttributes($resourceType, $operation, $userType)
     {
         //TODO backend to get real attributes allowed
 
