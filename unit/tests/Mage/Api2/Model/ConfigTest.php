@@ -230,8 +230,6 @@ class Mage_Api2_Model_ConfigTest extends Mage_PHPUnit_TestCase
         $this->assertEquals('catalog/product', $this->_config->getResourceWorkingModel('product'));
         $this->assertEquals('catalog/product', $this->_config->getResourceWorkingModel('products'));
     }
-
-
 }
 
 /**
