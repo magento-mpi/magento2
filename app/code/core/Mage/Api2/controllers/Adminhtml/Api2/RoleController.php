@@ -206,7 +206,7 @@ class Mage_Api2_Adminhtml_Api2_RoleController extends Mage_Adminhtml_Controller_
                 'api2/acl_global_rule_tree',
                 array('type' => Mage_Api2_Model_Acl_Global_Rule_Tree::TYPE_PRIVILEGE)
             );
-            $resources = $ruleTree->getPostResourcesPrivileges();
+            $resources = $ruleTree->getPostResources();
             $id = $role->getId();
             foreach ($resources as $resourceId => $privileges) {
                 foreach ($privileges as $privilege => $allow) {

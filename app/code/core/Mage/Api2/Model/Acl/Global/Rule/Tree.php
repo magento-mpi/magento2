@@ -36,7 +36,7 @@ class Mage_Api2_Model_Acl_Global_Rule_Tree extends Mage_Core_Helper_Abstract
     /**#@+
      * Tree types
      */
-    const TYPE_ATTR      = 'attribute';
+    const TYPE_ATTRIBUTE = 'attribute';
     const TYPE_PRIVILEGE = 'privilege';
     /**#@-*/
 
@@ -106,14 +106,14 @@ class Mage_Api2_Model_Acl_Global_Rule_Tree extends Mage_Core_Helper_Abstract
      * Attributes for tree with resources, operations and attributes.
      * Privileges for tree with resources and privileges.
      *
-     * @param string $type
+     * @param array $options
      */
     public function __construct($options)
     {
         $this->_type = $options['type'];
 
         switch ($this->_type) {
-            case self::TYPE_ATTR:
+            case self::TYPE_ATTRIBUTE:
                 /** @var $operationSource Mage_Api2_Model_Acl_Global_Attribute_Operation */
                 $operationSource = Mage::getModel('api2/acl_global_attribute_operation');
                 $this->_existOperations = $operationSource->toArray();
@@ -147,7 +147,7 @@ class Mage_Api2_Model_Acl_Global_Rule_Tree extends Mage_Core_Helper_Abstract
         $config = Mage::getModel('api2/config');
         $this->_resourcesConfig = $config->getResourceGroups();
 
-        if ($this->_type == self::TYPE_ATTR && !$this->_existOperations) {
+        if ($this->_type == self::TYPE_ATTRIBUTE && !$this->_existOperations) {
             throw new Exception('Operations is not set');
         }
 
@@ -163,7 +163,7 @@ class Mage_Api2_Model_Acl_Global_Rule_Tree extends Mage_Core_Helper_Abstract
      *
      * @return array
      */
-    public function getPostResourcesPrivileges()
+    public function getPostResources()
     {
         $isAll = Mage::app()->getRequest()->getParam(Mage_Api2_Model_Acl_Global_Rule::RESOURCE_ALL);
         $allow = Mage_Api2_Model_Acl_Global_Rule_Permission::TYPE_ALLOW;
@@ -177,19 +177,42 @@ class Mage_Api2_Model_Acl_Global_Rule_Tree extends Mage_Core_Helper_Abstract
             $resources = array();
             $checkedResources = explode(',', Mage::app()->getRequest()->getParam('resource'));
             $prefixResource  = self::NAME_RESOURCE  . self::ID_SEPARATOR;
-            $prefixPrivilege = self::NAME_PRIVILEGE . self::ID_SEPARATOR;
-            $nameResource = null;
-            foreach ($checkedResources as $i => $item) {
-                if (0 === strpos($item, $prefixResource)) {
-                    $nameResource = substr($item, mb_strlen($prefixResource, 'UTF-8'));
-                    $resources[$nameResource] = array();
-                } elseif (0 === strpos($item, $prefixPrivilege)) {
-                    $name = substr($item, mb_strlen($prefixPrivilege, 'UTF-8'));
-                    $namePrivilege = str_replace($nameResource . self::ID_SEPARATOR, '', $name);
-                    $resources[$nameResource][$namePrivilege] = $allow;
-                } else {
-                    unset($checkedResources[$i]);
-                }
+            switch ($this->_type) {
+                case self::TYPE_PRIVILEGE:
+                    $prefixPrivilege = self::NAME_PRIVILEGE . self::ID_SEPARATOR;
+                    $nameResource = null;
+                    foreach ($checkedResources as $i => $item) {
+                        if (0 === strpos($item, $prefixResource)) {
+                            $nameResource = substr($item, mb_strlen($prefixResource, 'UTF-8'));
+                            $resources[$nameResource] = array();
+                        } elseif (0 === strpos($item, $prefixPrivilege)) {
+                            $name = substr($item, mb_strlen($prefixPrivilege, 'UTF-8'));
+                            $namePrivilege = str_replace($nameResource . self::ID_SEPARATOR, '', $name);
+                            $resources[$nameResource][$namePrivilege] = $allow;
+                        } else {
+                            unset($checkedResources[$i]);
+                        }
+                    }
+                    break;
+
+                case self::TYPE_ATTRIBUTE:
+                    $prefixPrivilege = self::NAME_ATTRIBUTE . self::ID_SEPARATOR;
+                    $nameResource = null;
+                    foreach ($checkedResources as $i => $item) {
+                        if (0 === strpos($item, $prefixResource)) {
+                            $nameResource = substr($item, mb_strlen($prefixResource, 'UTF-8'));
+                            $resources[$nameResource] = array();
+                        } elseif (0 === strpos($item, $prefixPrivilege)) {
+                            $name = substr($item, mb_strlen($prefixPrivilege, 'UTF-8'));
+                            $namePrivilege = str_replace($nameResource . self::ID_SEPARATOR, '', $name);
+                            $resources[$nameResource][$namePrivilege] = $allow;
+                        } else {
+                            unset($checkedResources[$i]);
+                        }
+                    }
+                    break;
+
+                //no default
             }
         }
         return $resources;
@@ -270,7 +293,7 @@ class Mage_Api2_Model_Acl_Global_Rule_Tree extends Mage_Core_Helper_Abstract
         if ($isResource) {
 
             switch ($this->_type) {
-                case self::TYPE_ATTR:
+                case self::TYPE_ATTRIBUTE:
                     //add operations
                     if (!$this->_addOperations($item, $node, $name)) {
                         return null;
@@ -377,17 +400,19 @@ class Mage_Api2_Model_Acl_Global_Rule_Tree extends Mage_Core_Helper_Abstract
             );
 
             if (!empty($this->_resourcesPermissions[$name]['operations'][$key]['attributes'])) {
-                $this->_addAttribute(
-                    $subItem,
-                    $node,
-                    $name,
-                    $key
-                );
+                if (!$this->_addAttribute($subItem, $node, $name, $key)) {
+                    continue;
+                }
+            } else {
+                continue;
             }
             if (!empty($subItem['checked'])) {
                 $item['checked'] = true;
             }
             $item[self::NAME_CHILDREN][] = $subItem;
+        }
+        if (!$cnt) {
+            return false;
         }
         return true;
     }
