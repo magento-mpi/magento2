@@ -74,7 +74,6 @@ class Mage_Selenium_TestCaseTest extends Mage_PHPUnit_TestCase
 
         $instance->clearMessages();
         $this->assertNull($instance->getParsedMessages());
-        $this->assertEmpty($instance->getParsedMessages());
 
         $errorMessage = 'testGetParsedMessages error message';
         $successMessage = 'testGetParsedMessages success message';
