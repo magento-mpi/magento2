@@ -136,6 +136,13 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
     protected $_processIndexEvents = true;
 
     /**
+     * Product name of the current item
+     *
+     * @var string
+     */
+    protected $_productName = false;
+
+    /**
      * Initialize resource model
      *
      */
@@ -506,6 +513,26 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
         $acceptableLeft = min(max($divisibleMin, $closestDivisibleLeft), $divisibleMax);
         $acceptableRight = max(min($divisibleMax, $closestDivisibleRight), $divisibleMin);
         return abs($acceptableLeft - $qty) < abs($acceptableRight - $qty) ? $acceptableLeft : $acceptableRight;
+    }
+
+    /**
+     * Returns product name (name of the parent product in case this is a child item)
+     *
+     * @return string
+     */
+    public function getProductName()
+    {
+        if ($this->_productName === false) {
+            $parentProductId = $this->getProduct()->getParentProductId();
+
+            if ($parentProductId) {
+                $this->_productName = Mage::getModel('catalog/product')->load($parentProductId)->getName();
+            } else {
+                $this->_productName = $this->getData('product_name');
+            }
+        }
+
+        return $this->_productName;
     }
 
     /**
