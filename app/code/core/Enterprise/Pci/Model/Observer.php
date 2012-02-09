@@ -149,7 +149,7 @@ class Enterprise_Pci_Model_Observer
         $apiKey = $observer->getEvent()->getApiKey();
         $model  = $observer->getEvent()->getModel();
         if (!Mage::helper('core')->getEncryptor()->validateHashByVersion($apiKey, $model->getApiKey())) {
-            Mage::getModel('acl/user')->load($model->getId())->setNewApiKey($apiKey)->save();
+            Mage::getModel('api/user')->load($model->getId())->setNewApiKey($apiKey)->save();
         }
     }
 

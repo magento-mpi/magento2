@@ -76,6 +76,16 @@
                 <full_page/>
             </related_cache_types>
         </widget>
+        <events>
+            <core_clean_cache>
+                <observers>
+                    <enterprise_pagecache>
+                        <class>enterprise_pagecache/observer</class>
+                        <method>cleanExpiredCache</method>
+                    </enterprise_pagecache>
+                </observers>
+            </core_clean_cache>
+        </events>
     </global>
     <adminhtml>
         <events>
@@ -360,6 +370,14 @@
                     </enterprise_pagecache>
                 </observers>
             </catalog_controller_product_init_before>
+            <enterprise_customersegment_ids_changed>
+                <observers>
+                    <enterprise_pagecache>
+                        <class>enterprise_pagecache/observer</class>
+                        <method>changedCustomerSegmentIds</method>
+                    </enterprise_pagecache>
+                </observers>
+            </enterprise_customersegment_ids_changed>
         </events>
         <cache>
             <requests>

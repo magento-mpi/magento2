@@ -101,7 +101,11 @@ abstract class Enterprise_PageCache_Model_Container_Abstract
             } else {
                 $this->_applyToContent($content, $blockContent);
             }
-            $this->saveCache($blockContent);
+            $subprocessor = $this->_processor->getSubprocessor();
+            if ($subprocessor) {
+                $contentWithOutNestedBlocks = $subprocessor->replaceContentToPlaceholderReplacer($blockContent);
+            }
+            $this->saveCache($contentWithOutNestedBlocks);
             return true;
         }
         return false;
@@ -253,5 +257,20 @@ abstract class Enterprise_PageCache_Model_Container_Abstract
         }
 
         return $this->_processor->getRequestId();
+    }
+
+    /**
+     * Get Place Holder Block
+     *
+     * @return Mage_Core_Block_Abstract
+     */
+    protected function _getPlaceHolderBlock()
+    {
+        $blockName = $this->_placeholder->getAttribute('block');
+        $block = new $blockName;
+        $block->setTemplate($this->_placeholder->getAttribute('template'));
+        $block->setLayout(Mage::app()->getLayout());
+        $block->setSkipRenderTag(true);
+        return $block;
     }
 }

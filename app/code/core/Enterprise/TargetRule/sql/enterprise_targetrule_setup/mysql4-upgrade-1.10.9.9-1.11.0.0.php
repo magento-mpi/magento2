@@ -823,29 +823,4 @@ $installer->getConnection()->addForeignKey(
     'rule_id'
 );
 
-$installer->updateAttribute(
-    'catalog_product',
-    'related_targetrule_position_limit',
-    'attribute_code',
-    'related_tgtr_position_limit'
-);
-$installer->updateAttribute(
-    'catalog_product',
-    'related_targetrule_position_behavior',
-    'attribute_code',
-    'related_tgtr_position_behavior'
-);
-$installer->updateAttribute(
-    'catalog_product',
-    'upsell_targetrule_position_limit',
-    'attribute_code',
-    'upsell_tgtr_position_limit'
-);
-$installer->updateAttribute(
-    'catalog_product',
-    'upsell_targetrule_position_behavior',
-    'attribute_code',
-    'upsell_tgtr_position_behavior'
-);
-
 $installer->endSetup();

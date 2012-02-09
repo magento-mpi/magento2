@@ -43,6 +43,17 @@ class Enterprise_Checkout_Model_Observer
     }
 
     /**
+     * Returns cart model for backend
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_Checkout_Model_Cart
+     */
+    protected function _getBackendCart(Varien_Event_Observer $observer)
+    {
+        return $this->_getCart()->setSession($observer->getSession());
+    }
+
+    /**
      * Check submitted SKU's form the form or from error grid
      *
      * @param Varien_Event_Observer $observer
@@ -52,19 +63,30 @@ class Enterprise_Checkout_Model_Observer
     {
         /* @var $request Mage_Core_Controller_Request_Http */
         $request = $observer->getRequestModel();
-        /* @var $cart Enterprise_Checkout_Model_Cart */
-        $cart = $this->_getCart()->setSession($observer->getSession());
+        $cart = $this->_getBackendCart($observer);
+
         if (empty($request) || empty($cart)) {
             return;
         }
+
         $removeFailed = $request->getPost('sku_remove_failed');
+
         if ($removeFailed || $request->getPost('from_error_grid')) {
             $cart->removeAllAffectedItems();
             if ($removeFailed) {
                 return;
             }
         }
+
+        $sku = $observer->getRequestModel()->getPost('remove_sku', false);
+
+        if ($sku) {
+            $this->_getBackendCart($observer)->removeAffectedItem($sku);
+            return;
+        }
+
         $addBySkuItems = $request->getPost(Enterprise_Checkout_Block_Adminhtml_Sku_Abstract::LIST_TYPE, array());
+        $items = $request->getPost('item', array());
         if (!$addBySkuItems) {
             return;
         }
@@ -76,28 +98,35 @@ class Enterprise_Checkout_Model_Observer
         $orderCreateModel = $observer->getOrderCreateModel();
         $cart->saveAffectedProducts($orderCreateModel);
         $cart->removeSuccessItems();
+        // We have already saved succeeded add by SKU items in saveAffectedItems(). This prevents from duplicate saving.
+        $request->setPost('item', array());
     }
 
     /**
      * Upload and parse CSV file with SKUs
      *
      * @param Varien_Event_Observer $observer
+     * @return null
      */
     public function uploadSkuCsv(Varien_Event_Observer $observer)
     {
         /* @var $importModel Enterprise_Checkout_Model_Import */
         $importModel = Mage::getModel('enterprise_checkout/import');
-        if ($importModel->uploadFile()) {
-            /* @var $orderCreateModel Mage_Adminhtml_Model_Sales_Order_Create */
-            $orderCreateModel = $observer->getOrderCreateModel();
-            try {
+        if (!$importModel->hasAnythingToUpload()) {
+            return;
+        }
+        try {
+            if ($importModel->uploadFile()) {
+                /* @var $orderCreateModel Mage_Adminhtml_Model_Sales_Order_Create */
+                $orderCreateModel = $observer->getOrderCreateModel();
                 $cart = $this->_getCart()->setSession($observer->getSession());
                 $cart->prepareAddProductsBySku($importModel->getDataFromCsv());
                 $cart->saveAffectedProducts($orderCreateModel);
+            } else {
+                Mage::throwException(Mage::helper('enterprise_checkout')->__('Error while uploading file.'));
             }
-            catch (Mage_Core_Exception $e) {
-                $observer->getSession()->addError($e->getMessage());
-            }
+        } catch (Mage_Core_Exception $e) {
+            $observer->getSession()->addError($e->getMessage());
         }
     }
 
@@ -167,6 +196,7 @@ class Enterprise_Checkout_Model_Observer
         }
 
         $quote->preventSaving()->setItemsCollection($collection);
+
         $quote->setShippingAddress($this->_copyAddress($quote, $realQuote->getShippingAddress()));
         $quote->setBillingAddress($this->_copyAddress($quote, $realQuote->getBillingAddress()));
         $quote->setTotalsCollectedFlag(false)->collectTotals();

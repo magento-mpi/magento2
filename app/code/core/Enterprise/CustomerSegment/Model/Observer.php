@@ -127,4 +127,51 @@ class Enterprise_CustomerSegment_Model_Observer
             'values'    => Mage::getModel('adminhtml/system_config_source_yesno')->toOptionArray(),
         ));
     }
+
+    /**
+     * Add Customer Segment form fields to Target Rule form
+     *
+     * Observe  targetrule_edit_tab_main_after_prepare_form event
+     *
+     * @param Varien_Event_Observer $observer
+     */
+    public function addFieldsToTargetRuleForm(Varien_Event_Observer $observer)
+    {
+        if (!Mage::helper('enterprise_customersegment')->isEnabled()) {
+            return;
+        }
+        /* @var $form Varien_Data_Form */
+        $form = $observer->getEvent()->getForm();
+        $model = $observer->getEvent()->getModel();
+        $block = $observer->getEvent()->getBlock();
+
+        /* @var $fieldset Varien_Data_Form_Element_Fieldset */
+        $fieldset = $form->getElement('base_fieldset');
+
+        $model->setUseCustomerSegment(count($model->getCustomerSegmentIds()) > 0 ? '1' : '0');
+        $fieldset->addField('use_customer_segment', 'select', array(
+                'name' => 'use_customer_segment',
+                'label' => Mage::helper('enterprise_customersegment')->__('Customer Segments'),
+                'options' => array(
+                    '0' => Mage::helper('enterprise_customersegment')->__('All'),
+                    '1' => Mage::helper('enterprise_customersegment')->__('Specified'),
+                ),
+                'note' => Mage::helper('enterprise_customersegment')->__('Applies to All of the Specified Customer Segments'),
+                'disabled' => $model->getIsReadonly()
+            ));
+
+        $fieldset->addField('customer_segment_ids', 'multiselect', array(
+                'name' => 'customer_segment_ids[]',
+                'values' => Mage::getResourceSingleton('enterprise_customersegment/segment_collection')
+                        ->toOptionArray(),
+                'can_be_empty' => true,
+            ));
+
+        $htmlIdPrefix = $form->getHtmlIdPrefix();
+        $block->setChild('form_after', $block->getLayout()->createBlock('adminhtml/widget_form_element_dependence')
+                ->addFieldMap("{$htmlIdPrefix}use_customer_segment", 'use_customer_segment')
+                ->addFieldMap("{$htmlIdPrefix}customer_segment_ids", 'customer_segment_ids')
+                ->addFieldDependence('customer_segment_ids', 'use_customer_segment', '1'));
+
+    }
 }

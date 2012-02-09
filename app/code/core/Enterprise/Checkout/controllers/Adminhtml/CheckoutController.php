@@ -79,7 +79,9 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
                 $this->_redirectFlag = true;
                 return $this;
             } else {
-                throw new Enterprise_Checkout_Exception($this->__('Shopping cart management disabled for this customer.'));
+                throw new Enterprise_Checkout_Exception(
+                    $this->__('Shopping cart management disabled for this customer.')
+                );
             }
         }
 
@@ -834,6 +836,11 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
             $this->getCartModel()->removeAllAffectedItems();
         }
 
+        $sku = $this->getRequest()->getPost('remove_sku', false);
+        if ($sku) {
+            $this->getCartModel()->removeAffectedItem($sku);
+        }
+
         /**
          * Add products from different lists
          */
@@ -903,7 +910,7 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
         if (is_array($listTypes) && in_array(Enterprise_Checkout_Block_Adminhtml_Sku_Abstract::LIST_TYPE, $listTypes)) {
             $cart = $this->getCartModel();
             // We need to save products to enterprise_checkout/cart instead of checkout/cart
-            $cart->saveAffectedProducts($cart);
+            $cart->saveAffectedProducts($cart, Enterprise_Checkout_Model_Cart::DONT_PASS_DISABLED_TO_CART);
         }
 
         /**
@@ -987,16 +994,20 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
         }
         /* @var $importModel Enterprise_Checkout_Model_Import */
         $importModel = Mage::getModel('enterprise_checkout/import');
-        if ($importModel->uploadFile()) {
-            try {
+        try {
+            if ($importModel->uploadFile()) {
                 $cart = $this->getCartModel();
                 $cart->prepareAddProductsBySku($importModel->getDataFromCsv());
-                $cart->saveAffectedProducts();
+                $cart->saveAffectedProducts(
+                    $this->getCartModel(),
+                    Enterprise_Checkout_Model_Cart::DONT_PASS_DISABLED_TO_CART
+                );
                 $cart->saveQuote();
+            } else {
+                Mage::throwException(Mage::helper('enterprise_checkout')->__('Error in uploading file.'));
             }
-            catch (Mage_Core_Exception $e) {
-                $this->_getSession()->addError($e->getMessage());
-            }
+        } catch (Mage_Core_Exception $e) {
+            $this->_getSession()->addError($e->getMessage());
         }
         $this->_redirectReferer();
     }

@@ -149,6 +149,11 @@ class Enterprise_CustomerSegment_Model_Segment extends Mage_Rule_Model_Abstract
                 $events = array_merge($events, $this->collectMatchedEvents($child));
             }
         }
+
+        if ($this->getApplyToo() != self::APPLY_TO_REGISTERED) {
+            $events = array_merge($events, array('visitor_init'));
+        }
+
         $events = array_unique($events);
 
         return $events;

@@ -86,6 +86,8 @@ class Enterprise_Cms_Helper_Hierarchy extends Mage_Core_Helper_Abstract
             'menu_levels_down',
             'menu_ordered',
             'menu_list_type',
+            'top_menu_visibility',
+            'top_menu_excluded'
         );
     }
 

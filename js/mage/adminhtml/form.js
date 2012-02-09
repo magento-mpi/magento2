@@ -101,10 +101,11 @@ varienForm.prototype = {
     },
 
     _submit : function(){
+        var $form = $(this.formId);
         if(this.submitUrl){
-            $(this.formId).action = this.submitUrl;
+            $form.action = this.submitUrl;
         }
-        $(this.formId).submit();
+        $form.submit();
     }
 }
 

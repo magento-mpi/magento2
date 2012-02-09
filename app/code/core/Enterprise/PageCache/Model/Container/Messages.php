@@ -76,14 +76,12 @@ class Enterprise_PageCache_Model_Container_Messages extends Enterprise_PageCache
     {
         Mage::getSingleton('core/cookie')->delete(Enterprise_PageCache_Model_Cookie::COOKIE_MESSAGE);
 
-        $block = $this->_placeholder->getAttribute('block');
-        $block = new $block;
-        $types = unserialize($this->_placeholder->getAttribute('storage_types'));
+        $block = $this->_getPlaceHolderBlock();
 
+        $types = unserialize($this->_placeholder->getAttribute('storage_types'));
         foreach ($types as $type) {
             $this->_addMessagesToBlock($type, $block);
         }
-        $block->setLayout(Mage::app()->getLayout());
         Mage::dispatchEvent('render_block', array('block' => $block, 'placeholder' => $this->_placeholder));
 
         return $block->toHtml();

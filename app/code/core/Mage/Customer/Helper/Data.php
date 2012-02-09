@@ -453,9 +453,9 @@ class Mage_Customer_Helper_Data extends Mage_Core_Helper_Abstract
 
             $requestParams = array();
             $requestParams['countryCode'] = $countryCode;
-            $requestParams['vatNumber'] = $vatNumber;
+            $requestParams['vatNumber'] = str_replace(array(' ', '-'), array('', ''), $vatNumber);
             $requestParams['requesterCountryCode'] = $requesterCountryCode;
-            $requestParams['requesterVatNumber'] = $requesterVatNumber;
+            $requestParams['requesterVatNumber'] = str_replace(array(' ', '-'), array('', ''), $requesterVatNumber);
 
             // Send request to service
             $result = $soapClient->checkVatApprox($requestParams);

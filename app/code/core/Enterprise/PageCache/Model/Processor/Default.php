@@ -57,15 +57,15 @@ class Enterprise_PageCache_Model_Processor_Default
         return true;
     }
 
+
     /**
-     * Prepare response body before caching
+     * Replace block content to placeholder replacer
      *
-     * @param Zend_Controller_Response_Http $response
+     * @param string $content
      * @return string
      */
-    public function prepareContent(Zend_Controller_Response_Http $response)
+    public function replaceContentToPlaceholderReplacer($content)
     {
-        $content = $response->getBody();
         $placeholders = array();
         preg_match_all(
             Enterprise_PageCache_Model_Container_Placeholder::HTML_NAME_PATTERN,
@@ -86,6 +86,17 @@ class Enterprise_PageCache_Model_Processor_Default
             throw $e;
         }
         return $content;
+    }
+
+    /**
+     * Prepare response body before caching
+     *
+     * @param Zend_Controller_Response_Http $response
+     * @return string
+     */
+    public function prepareContent(Zend_Controller_Response_Http $response)
+    {
+        return $this->replaceContentToPlaceholderReplacer($response->getBody());
     }
 
     /**

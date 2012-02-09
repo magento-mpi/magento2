@@ -1156,33 +1156,9 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
      */
     public function validatePromoCatalogApplyRules($controller)
     {
-        $result = false;
-        if (Mage::getSingleton('admin/session')->isAllowed('admin/promo/catalog')) {
-            /** @var $ruleModel Mage_Catalogrule_Model_Rule */
-            $ruleModel = Mage::getModel('catalogrule/rule')->load(
-                $controller->getRequest()->getParam('rule_id')
-            );
-            if ($ruleModel->getId()) {
-                $ruleWebsites = $ruleModel->getWebsiteIds();
-                if (is_string($ruleWebsites)) {
-                    $ruleWebsites = explode(',', $ruleWebsites);
-                } elseif (!is_array($ruleWebsites)) {
-                    $ruleWebsites = array();
-                }
-                $result = !empty($ruleWebsites) && $this->_role->hasExclusiveAccess($ruleWebsites);
-            }
-        }
-
-        if (!$result) {
-            $this->_forward();
-        }
-
-        return $result;
+        $this->_forward();
+        return false;
     }
-
-
-
-
 
     /**
      * Disallow saving catalog rules in disallowed scopes
@@ -1211,5 +1187,19 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     public function validatePromoQuote($controller, $model = null)
     {
         return $this->validateRuleEntityAction($controller);
+    }
+
+    /**
+     * Promo catalog index action
+     *
+     * @param Mage_Adminhtml_Controller_Action $controller
+     * @return Enterprise_AdminGws_Model_Controllers
+     */
+    public function promoCatalogIndexAction($controller)
+    {
+        $controller->setDirtyRulesNoticeMessage(
+            Mage::helper('catalogrule')->__('There are rules that have been changed but were not applied. Only users with exclusive access can apply rules.')
+        );
+        return $this;
     }
 }

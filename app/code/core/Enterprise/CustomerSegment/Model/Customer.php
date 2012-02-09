@@ -177,14 +177,19 @@ class Enterprise_CustomerSegment_Model_Customer extends Mage_Core_Model_Abstract
             }
         }
 
-        if (!$customerId) {
-            $visitorSession = Mage::getSingleton('customer/session');
-            $this->addVisitorToWebsiteSegments($visitorSession, $websiteId, $matchedIds);
-            $this->removeVisitorFromWebsiteSegments($visitorSession, $websiteId, $notMatchedIds);
-        } else {
+
+        if ($customerId) {
             $this->addCustomerToWebsiteSegments($customerId, $websiteId, $matchedIds);
             $this->removeCustomerFromWebsiteSegments($customerId, $websiteId, $notMatchedIds);
+            $segmentIds = $this->_customerWebsiteSegments[$websiteId][$customerId];
+        } else {
+            $this->addVisitorToWebsiteSegments(Mage::getSingleton('customer/session'), $websiteId, $matchedIds);
+            $this->removeVisitorFromWebsiteSegments(Mage::getSingleton('customer/session'), $websiteId, $notMatchedIds);
+            $allSegments= Mage::getSingleton('customer/session')->getCustomerSegmentIds();
+            $segmentIds = $allSegments[$websiteId];
         }
+
+        Mage::dispatchEvent('enterprise_customersegment_ids_changed', array('segment_ids' => $segmentIds));
 
         return $this;
     }
@@ -218,7 +223,7 @@ class Enterprise_CustomerSegment_Model_Customer extends Mage_Core_Model_Abstract
     /**
      * Add visitor-segment relation for specified website
      *
-     * @param Mage_Core_Model_Session_Abstract $customerSession
+     * @param Mage_Core_Model_Session_Abstract $visitorSession
      * @param int $websiteId
      * @param array $segmentIds
      * @return Enterprise_CustomerSegment_Model_Customer
@@ -245,7 +250,7 @@ class Enterprise_CustomerSegment_Model_Customer extends Mage_Core_Model_Abstract
     /**
      * Remove visitor-segment relation for specified website
      *
-     * @param Mage_Core_Model_Session_Abstract $customerSession
+     * @param Mage_Core_Model_Session_Abstract $visitorSession
      * @param int $websiteId
      * @param array $segmentIds
      * @return Enterprise_CustomerSegment_Model_Customer
@@ -314,15 +319,6 @@ class Enterprise_CustomerSegment_Model_Customer extends Mage_Core_Model_Abstract
         }
         return $this->_customerWebsiteSegments[$websiteId][$customerId];
     }
-
-
-
-
-
-
-
-
-
 
     /**
      * Assign customer with specific segment ids

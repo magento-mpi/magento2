@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Enterprise_Cms>
-            <version>1.11.0.2</version>
+            <version>1.11.0.3</version>
         </Enterprise_Cms>
     </modules>
     <global>
@@ -89,6 +89,14 @@
                     </enterprise_cms>
                 </observers>
             </cms_controller_router_match_before>
+            <page_block_html_topmenu_gethtml_before>
+                <observers>
+                    <enterprise_cms_add_topmenu_items>
+                        <class>enterprise_cms/observer</class>
+                        <method>addCmsToTopmenuItems</method>
+                    </enterprise_cms_add_topmenu_items>
+                </observers>
+            </page_block_html_topmenu_gethtml_before>
         </events>
         <enterprise_cms>
             <hierarchy>

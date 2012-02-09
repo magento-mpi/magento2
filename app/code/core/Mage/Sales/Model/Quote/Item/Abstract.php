@@ -547,6 +547,10 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
      */
     public function isChildrenCalculated()
     {
+        if ($this->getForceCalculateDiscountForParent()) {
+            return false;
+        }
+
         if ($this->getParentItem()) {
             $calculate = $this->getParentItem()->getProduct()->getPriceType();
         } else {

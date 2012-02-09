@@ -320,12 +320,7 @@ class Enterprise_PageCache_Model_Container_CatalogProductItem
             ->setStoreId(Mage::app()->getStore()->getId())
             ->load($itemId);
 
-        $block = $this->_placeholder->getAttribute('block');
-        $template = $this->_placeholder->getAttribute('template');
-
-        $block = new $block;
-        $block->setTemplate($template);
-        $block->setLayout(Mage::app()->getLayout());
+        $block = $this->_getPlaceHolderBlock();
         $block->setItem($item);
         Mage::dispatchEvent('render_block', array('block' => $block, 'placeholder' => $this->_placeholder));
 

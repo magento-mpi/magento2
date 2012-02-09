@@ -52,10 +52,11 @@ AddBySku.prototype = {
         this.fileFieldName = data.fileFieldName;
         this.fileUploadUrl = data.fileUploadUrl;
         this.skuFieldName = data.skuFieldName;
+        this._provider = {};
 
         var that = this;
         var adminCheckout = {
-            controllerParamFieldNames : {'customerId': 'customer', 'storeId': 'store'},
+            _controllerParamFieldNames : {'customerId': 'customer', 'storeId': 'store'},
 
             initAreas: function() {
             },
@@ -65,7 +66,7 @@ AddBySku.prototype = {
                 // Save original source grids configuration to be restored later
                 var oldSourceGrids = that.order.sourceGrids;
                 // Leave only error grid (don't submit information from other grids right now)
-                that.order.sourceGrids = {'sku_errors': this.errorSourceGrid};
+                that.order.sourceGrids = {'sku_errors': that.errorSourceGrid};
                 // Save old response handler function to override it
                 var parentResponseHandler = that.order.loadAreaResponseHandler;
                 that.order.loadAreaResponseHandler = function (response)
@@ -80,14 +81,17 @@ AddBySku.prototype = {
                 that.order.sourceGrids = oldSourceGrids;
             },
 
-            removeAllFailed : function ()
+            updateErrorGrid : function (params)
             {
                 var oldLoadingAreas = that.order.loadingAreas;
                 // We need to override this field, otherwise layout is going to be broken
                 that.order.loadingAreas = 'errors';
                 var url = that.order.loadBaseUrl + 'block/' + that.listType;
+                if (!params['json']) {
+                    params['json'] = true;
+                }
                 new Ajax.Request(url, {
-                    parameters: that.order.prepareParams({'json': true, 'sku_remove_failed': '1'}),
+                    parameters: that.order.prepareParams(params),
                     loaderArea: 'html-body',
                     onSuccess: function(transport)
                     {
@@ -103,11 +107,11 @@ AddBySku.prototype = {
                         this.loadingAreas = oldLoadingAreas;
                     }.bind(that.order)
                 })
-            }
+            },
         };
 
         var adminOrder = {
-            controllerParamFieldNames : {'customerId': 'customerId', 'storeId': 'storeId'},
+            _controllerParamFieldNames : {'customerId': 'customerId', 'storeId': 'storeId'},
 
             initAreas: function() {
                 setTimeout(function() {
@@ -115,13 +119,11 @@ AddBySku.prototype = {
                         skuButton = new ControlButton(Translator.translate('Add Products By SKU'));
                     skuButton.onClick = function() {
                         $(skuAreaId).show();
-                        this.remove();
+                        var el = this;
+                        window.setTimeout(function () {
+                            el.remove();
+                        }, 10);
                     };
-                    order.dataArea.onLoad = order.dataArea.onLoad.wrap(function(proceed) {
-                        proceed();
-                        this._parent.itemsArea.setNode($(this._parent.getAreaId('items')));
-                        this._parent.itemsArea.onLoad();
-                    });
                     order.itemsArea.onLoad = order.itemsArea.onLoad.wrap(function(proceed) {
                         proceed();
                         if (!$(skuAreaId).visible()) {
@@ -165,18 +167,36 @@ AddBySku.prototype = {
                 that.configuredIds = [];
             },
 
-            removeAllFailed : function ()
+            updateErrorGrid : function (params)
             {
-                that.order.loadArea('errors', true, {'sku_remove_failed': '1'});
+                that.order.loadArea('errors', true, params);
             }
         };
 
         // Strategy
-        var provider = this.order instanceof (window.AdminOrder || function(){}) ? adminOrder : adminCheckout;
-        provider.initAreas();
-        this.submitConfigured = provider.submitConfigured;
-        this.removeAllFailed = provider.removeAllFailed;
-        this.controllerParamFieldNames = provider.controllerParamFieldNames;
+        this._provider = this.order instanceof (window.AdminOrder || function(){}) ? adminOrder : adminCheckout;
+        this._provider.initAreas();
+        this._controllerParamFieldNames = this._provider._controllerParamFieldNames;
+    },
+
+    removeFailedItem : function (obj)
+    {
+        try {
+            var sku = obj.up('tr').select('td')[0].select('input[name="sku"]')[0].value;
+            this._provider.updateErrorGrid({'remove_sku': sku});
+        } catch (e) {
+            return false;
+        }
+    },
+
+    removeAllFailed : function ()
+    {
+        this._provider.updateErrorGrid({'sku_remove_failed': '1'});
+    },
+
+    submitConfigured : function ()
+    {
+        this._provider.submitConfigured();
     },
 
     /**
@@ -196,17 +216,6 @@ AddBySku.prototype = {
             $(this.dataContainerId).appendChild(newElement);
         }
         tr.remove();
-    },
-
-    /**
-     * Remove row from error grid and update counter of products requiring attention
-     *
-     * @param obj Table row to be removed
-     */
-    errorDel : function (obj)
-    {
-        this.del(obj);
-        $('sku-attention-num').innerHTML--;
     },
 
     /**
@@ -250,8 +259,8 @@ AddBySku.prototype = {
         // Inserting element to other place removes it from the old one. Creating new file input element on same place
         // to avoid confusing effect that it has disappeared.
         $inputFileContainer.insert(new Element('input', {'type': 'file', 'name': this.fileFieldName}));
-        $form.insert(new Element('input', {'type': 'hidden', 'name': this.controllerParamFieldNames['customerId'], 'value': this.order.customerId}));
-        $form.insert(new Element('input', {'type': 'hidden', 'name': this.controllerParamFieldNames['storeId'], 'value': this.order.storeId}));
+        $form.insert(new Element('input', {'type': 'hidden', 'name': this._controllerParamFieldNames['customerId'], 'value': this.order.customerId}));
+        $form.insert(new Element('input', {'type': 'hidden', 'name': this._controllerParamFieldNames['storeId'], 'value': this.order.storeId}));
         $form.insert(new Element('input', {'type': 'hidden', 'name': 'form_key', 'value': FORM_KEY}));
         // For IE we must make the form part of the DOM, otherwise browser refuses to submit it
         Element.select(document, 'body')[0].insert($form);
@@ -287,8 +296,10 @@ AddBySku.prototype = {
             } else {
                 qty = elem.value;
             }
-            var paramKey = 'add_by_sku[' + sku + '][qty]';
-            fieldsPrepare[paramKey] = qty;
+            if (sku != '') { // SKU field processed before qty, so if it is empty - nothing has been entered there
+                var paramKey = 'add_by_sku[' + sku + '][qty]';
+                fieldsPrepare[paramKey] = qty;
+            }
         });
         if (fieldsPrepare != {}) {
             this.order.hideArea('additional_area');

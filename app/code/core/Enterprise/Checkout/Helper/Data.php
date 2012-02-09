@@ -61,10 +61,15 @@ class Enterprise_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
     const ADD_ITEM_STATUS_FAILED_OUT_OF_STOCK = 'failed_out_of_stock';
     const ADD_ITEM_STATUS_FAILED_QTY_ALLOWED = 'failed_qty_allowed';
     const ADD_ITEM_STATUS_FAILED_QTY_ALLOWED_IN_CART = 'failed_qty_allowed_in_cart';
+    const ADD_ITEM_STATUS_FAILED_QTY_INVALID_NUMBER = 'failed_qty_invalid_number';
+    const ADD_ITEM_STATUS_FAILED_QTY_INVALID_NON_POSITIVE = 'failed_qty_invalid_non_positive';
+    const ADD_ITEM_STATUS_FAILED_QTY_INVALID_RANGE = 'failed_qty_invalid_range';
     const ADD_ITEM_STATUS_FAILED_QTY_INCREMENTS = 'failed_qty_increment';
     const ADD_ITEM_STATUS_FAILED_CONFIGURE = 'failed_configure';
     const ADD_ITEM_STATUS_FAILED_PERMISSIONS = 'failed_permissions';
+    const ADD_ITEM_STATUS_FAILED_WEBSITE = 'failed_website';
     const ADD_ITEM_STATUS_FAILED_UNKNOWN = 'failed_unknown';
+    const ADD_ITEM_STATUS_FAILED_EMPTY = 'failed_empty';
 
     /**
      * Layout handle for sku failed items
@@ -76,7 +81,7 @@ class Enterprise_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
      *
      * @var array|null
      */
-    protected $_allowedGroups = null;
+    protected $_allowedGroups;
 
     /**
      * Contains session object to which data is saved
@@ -129,10 +134,7 @@ class Enterprise_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
     public function getMessageByItem(Varien_Object $item)
     {
         $message = $this->getMessage($item->getCode());
-        if (empty($message)) {
-            $message = $item->getError();
-        }
-        return $message;
+        return $message ? $message : $item->getError();
     }
 
     /**
@@ -145,22 +147,37 @@ class Enterprise_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
     {
         switch ($code) {
             case self::ADD_ITEM_STATUS_FAILED_SKU:
-                $message = $this->__('SKU not found in catalog');
+                $message = $this->__('SKU not found in catalog.');
                 break;
             case self::ADD_ITEM_STATUS_FAILED_OUT_OF_STOCK:
-                $message = $this->__('Out of stock');
+                $message = $this->__('Out of stock.');
                 break;
             case self::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED:
-                $message = $this->__('Requested quantity is not available');
+                $message = $this->__('Requested quantity is not available.');
                 break;
             case self::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED_IN_CART:
                 $message = $this->__('The product cannot be added to cart in requested quantity.');
                 break;
+            case self::ADD_ITEM_STATUS_FAILED_QTY_INVALID_NUMBER:
+                $message = $this->__('Quantity must be a valid number.');
+                break;
+            case self::ADD_ITEM_STATUS_FAILED_QTY_INVALID_NON_POSITIVE:
+                $message = $this->__('Quantity must be greater than zero.');
+                break;
+            case self::ADD_ITEM_STATUS_FAILED_QTY_INVALID_RANGE:
+                $message = $this->__('Quantity is not within the specified range.');
+                break;
             case self::ADD_ITEM_STATUS_FAILED_CONFIGURE:
-                $message = $this->__("Please specify the product's options");
+                $message = $this->__('Please specify the product\'s options.');
                 break;
             case self::ADD_ITEM_STATUS_FAILED_PERMISSIONS:
-                $message = $this->__("The product cannot be added to cart.");
+                $message = $this->__('The product cannot be added to cart.');
+                break;
+            case self::ADD_ITEM_STATUS_FAILED_EMPTY:
+                $message = $this->__('SKU and quantity are required fields.');
+                break;
+            case self::ADD_ITEM_STATUS_FAILED_WEBSITE:
+                $message = $this->__('The products is assigned to another website.');
                 break;
             default:
                 $message = '';
@@ -229,7 +246,7 @@ class Enterprise_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
     public function getFailedItems($all = true)
     {
         if ($all && is_null($this->_itemsAll) || !$all && is_null($this->_items)) {
-            $failedItems = Mage::getModel('enterprise_checkout/cart')->getFailedItems();
+            $failedItems = Mage::getSingleton('enterprise_checkout/cart')->getFailedItems();
             $collection = Mage::getResourceSingleton('enterprise_checkout/product_collection')
                 ->addMinimalPrice()
                 ->addFinalPrice()
@@ -245,7 +262,7 @@ class Enterprise_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
                     $id = $item['item']['id'];
                     $itemsToLoad[$id] = $item['item'];
                     $itemsToLoad[$id]['code'] = $item['code'];
-                    $itemsToLoad[$id]['error'] = isset($item['error']) ? $item['error'] : '';
+                    $itemsToLoad[$id]['error'] = isset($item['item']['error']) ? $item['item']['error'] : '';
                     // Avoid collisions of product ID with quote item ID
                     unset($itemsToLoad[$id]['id']);
                 } elseif ($all && in_array($item['code'], $this->_failedTemplateStatusCodes)) {

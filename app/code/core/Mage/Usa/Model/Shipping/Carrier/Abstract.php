@@ -151,15 +151,29 @@ abstract class Mage_Usa_Model_Shipping_Carrier_Abstract extends Mage_Shipping_Mo
             return $this;
         }
 
-        $maxAllowedWeight = (float) $this->getConfigData('max_package_weight');
-        $errorMsg = '';
-        $configErrorMsg = $this->getConfigData('specificerrmsg');
-        $defaultErrorMsg = Mage::helper('shipping')->__('The shipping module is not available.');
-        $showMethod = $this->getConfigData('showmethod');
+        $maxAllowedWeight   = (float) $this->getConfigData('max_package_weight');
+        $errorMsg           = '';
+        $configErrorMsg     = $this->getConfigData('specificerrmsg');
+        $defaultErrorMsg    = Mage::helper('shipping')->__('The shipping module is not available.');
+        $showMethod         = $this->getConfigData('showmethod');
 
         foreach ($this->getAllItems($request) as $item) {
             if ($item->getProduct() && $item->getProduct()->getId()) {
-                if ($item->getProduct()->getWeight() * $item->getQty() > $maxAllowedWeight) {
+                $weight         = $item->getProduct()->getWeight();
+                $stockItem      = $item->getProduct()->getStockItem();
+                $doValidation   = true;
+
+                if ($stockItem->getIsQtyDecimal() && $stockItem->getIsDecimalDivided()) {
+                    if ($stockItem->getEnableQtyIncrements() && $stockItem->getQtyIncrements()) {
+                        $weight = $weight * $stockItem->getQtyIncrements();
+                    } else {
+                        $doValidation = false;
+                    }
+                } elseif ($stockItem->getIsQtyDecimal() && !$stockItem->getIsDecimalDivided()) {
+                    $weight = $weight * $item->getQty();
+                }
+
+                if ($doValidation && $weight > $maxAllowedWeight) {
                     $errorMsg = ($configErrorMsg) ? $configErrorMsg : $defaultErrorMsg;
                     break;
                 }

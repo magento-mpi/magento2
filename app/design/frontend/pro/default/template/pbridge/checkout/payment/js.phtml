@@ -1,11 +1,13 @@
 <?php
 /**
- * Magento Commercial Edition
+ * Magento Enterprise Edition
  *
  * NOTICE OF LICENSE
  *
- * This source file is subject to the Magento Commercial Edition License
- * that is available at: http://www.magentocommerce.com/license/commercial-edition
+ * This source file is subject to the Magento Enterprise Edition License
+ * that is bundled with this package in the file LICENSE_EE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.magentocommerce.com/license/enterprise-edition
  * If you did not receive a copy of the license and are unable to
  * obtain it through the world-wide-web, please send an email
  * to license@magentocommerce.com so we can send you a copy immediately.
@@ -17,9 +19,9 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    design
- * @package     pro_default
- * @copyright   Copyright (c) 2010 Magento, Inc.
- * @license     http://www.magentocommerce.com/license/commercial-edition
+ * @package     enterprise_default
+ * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 ?>
 
@@ -34,11 +36,17 @@
                     if (elm) elm.remove();
                 });
             }
-            toggleContinueButton(iframeContainer.up('ul'));
             new Ajax.Updater(
                 iframeContainer,
                 "<?php echo $this->getUrl('enterprise_pbridge/pbridge/iframe', array('_current' => true, '_secure' => true)); ?>",
-                {parameters : {method_code : method}}
+                {parameters : {method_code : method},
+                 onSuccess: function(transport) {
+                         if (iframeContainer.previous('span.pbridge-reload') && iframeContainer.previous('span.pbridge-reload').down('a')) {
+                             iframeContainer.previous('span.pbridge-reload').down('a').show();
+                         }
+                         toggleContinueButton(iframeContainer.up('ul'));
+                     }
+                }
             );
         }
     }

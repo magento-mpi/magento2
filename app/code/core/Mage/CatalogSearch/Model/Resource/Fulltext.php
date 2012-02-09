@@ -481,16 +481,16 @@ class Mage_CatalogSearch_Model_Resource_Fulltext extends Mage_Core_Model_Resourc
      *
      * @param int $storeId
      * @param array $productIds
-     * @param array $atributeTypes
+     * @param array $attributeTypes
      * @return array
      */
-    protected function _getProductAttributes($storeId, array $productIds, array $atributeTypes)
+    protected function _getProductAttributes($storeId, array $productIds, array $attributeTypes)
     {
         $result  = array();
         $selects = array();
-        $adapter = $this->_getReadAdapter();
+        $adapter = $this->_getWriteAdapter();
         $ifStoreValue = $adapter->getCheckSql('t_store.value_id > 0', 't_store.value', 't_default.value');
-        foreach ($atributeTypes as $backendType => $attributeIds) {
+        foreach ($attributeTypes as $backendType => $attributeIds) {
             if ($attributeIds) {
                 $tableName = $this->getTable(array('catalog/product', $backendType));
                 $selects[] = $adapter->select()
@@ -695,8 +695,6 @@ class Mage_CatalogSearch_Model_Resource_Fulltext extends Mage_Core_Model_Resourc
                     return null;
                 }
             }
-
-            $value = preg_replace("#\s+#siu", ' ', trim(strip_tags($value)));
         } elseif ($attribute->getBackendType() == 'datetime') {
             $value = $this->_getStoreDate($storeId, $value);
         } else {
@@ -705,6 +703,8 @@ class Mage_CatalogSearch_Model_Resource_Fulltext extends Mage_Core_Model_Resourc
                 $value = Mage::app()->getStore($storeId)->roundPrice($value);
             }
         }
+
+        $value = preg_replace("#\s+#siu", ' ', trim(strip_tags($value)));
 
         return $value;
     }

@@ -288,6 +288,10 @@ class Mage_Paypal_Model_Express_Checkout
 
         $this->_setBillingAgreementRequest();
 
+        if ($this->_config->requireBillingAddress) {
+            $this->_api->setRequireBillingAddress(1);
+        }
+
         // supress or export shipping address
         if ($this->_quote->getIsVirtual()) {
             $this->_api->setSuppressShipping(true);
@@ -485,9 +489,37 @@ class Mage_Paypal_Model_Express_Checkout
             if ($methodCode != $shippingAddress->getShippingMethod()) {
                 $this->_ignoreAddressValidation();
                 $shippingAddress->setShippingMethod($methodCode)->setCollectShippingRates(true);
-                $this->_quote->collectTotals()->save();
+                $this->_quote->collectTotals();
             }
         }
+    }
+
+    /**
+     * Update order data
+     *
+     * @param array $data
+     */
+    public function updateOrder($data)
+    {
+        /** @var $checkout Mage_Checkout_Model_Type_Onepage */
+        $checkout = Mage::getModel('checkout/type_onepage');
+
+        $this->_quote->setTotalsCollectedFlag(true);
+        $checkout->setQuote($this->_quote);
+        if (isset($data['billing'])) {
+            $checkout->saveBilling($data['billing'], 0);
+        }
+        if (!$this->_quote->getIsVirtual() && isset($data['shipping'])) {
+            $checkout->saveShipping($data['shipping'], 0);
+        }
+
+        if (isset($data['shipping_method'])) {
+            $this->updateShippingMethod($data['shipping_method']);
+        }
+        $this->_quote->setTotalsCollectedFlag(false);
+        $this->_quote->collectTotals();
+        $this->_quote->setDataChanges(true);
+        $this->_quote->save();
     }
 
     /**
@@ -835,8 +867,8 @@ class Mage_Paypal_Model_Express_Checkout
         $customer->setSuffix($quote->getCustomerSuffix());
         $customer->setPassword($customer->decryptPassword($quote->getPasswordHash()));
         $customer->setPasswordHash($customer->hashPassword($customer->getPassword()));
-        $quote->setCustomer($customer)
-            ->setCustomerId(true);
+        $customer->save();
+        $quote->setCustomer($customer);
 
         return $this;
     }
