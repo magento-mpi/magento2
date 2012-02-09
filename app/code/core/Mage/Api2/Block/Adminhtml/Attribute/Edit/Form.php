@@ -29,50 +29,29 @@
  * OAuth consumer edit form block
  *
  * @category   Mage
- * @package    Mage_Api2
+ * @package    Mage_OAuth
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Api2_Block_Adminhtml_Roles_Edit_Form extends Mage_Adminhtml_Block_Widget_Form
+class Mage_Api2_Block_Adminhtml_Attribute_Edit_Form extends Mage_Adminhtml_Block_Widget_Form
 {
     /**
      * Prepare form before rendering HTML
      *
-     * @return Mage_Api2_Block_Adminhtml_Roles_Edit_Form
+     * @return Mage_Api2_Block_Adminhtml_Attribute_Edit_Form
      */
     protected function _prepareForm()
     {
-        $model  = $this->getModel();
         $form   = new Varien_Data_Form(array(
             'id'        => 'edit_form',
             'action'    => $this->getData('action'),
             'method'    => 'post'
         ));
 
-        /** @var $helper Mage_Api2_Helper_Data */
-        $helper = Mage::helper('api2');
+        $form->setData('action', $this->getUrl(
+            '*/*/save',
+            array('type' => $this->getRequest()->getParam('type'))));
 
-        $fieldset   = $form->addFieldset('base_fieldset', array(
-            'legend'    => $helper->__('Role Information'),
-            'class'     => 'fieldset-wide'
-        ));
-
-        if ($model && $model->getId()) {
-            $fieldset->addField('id', 'hidden', array(
-                'name'  => 'id',
-                'value' => $model->getId(),
-            ));
-        }
-
-        $fieldset->addField('name', 'text', array(
-            'name'      => 'name',
-            'label'     => $helper->__('Name'),
-            'title'     => $helper->__('Name'),
-            'required'  => true,
-            'value'     => $model   ?$model->getName()  :'',
-        ));
-
-        $form->setAction($this->getUrl('*/*/save'));
-        $form->setUseContainer(true);
+        $form->setData('use_container', true);
         $this->setForm($form);
 
         return parent::_prepareForm();

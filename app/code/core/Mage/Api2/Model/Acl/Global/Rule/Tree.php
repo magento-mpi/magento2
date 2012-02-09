@@ -151,6 +151,10 @@ class Mage_Api2_Model_Acl_Global_Rule_Tree extends Mage_Core_Helper_Abstract
             throw new Exception('Operations is not set');
         }
 
+        if ($this->_type == self::TYPE_PRIVILEGE && !$this->_existPrivileges) {
+            throw new Exception('Privileges is not set.');
+        }
+
         return $this;
     }
 
@@ -268,7 +272,7 @@ class Mage_Api2_Model_Acl_Global_Rule_Tree extends Mage_Core_Helper_Abstract
             switch ($this->_type) {
                 case self::TYPE_ATTR:
                     //add operations
-                    if (!$this->_addPrivileges($item, $node, $name)) {
+                    if (!$this->_addOperations($item, $node, $name)) {
                         return null;
                     }
                     break;
@@ -361,7 +365,7 @@ class Mage_Api2_Model_Acl_Global_Rule_Tree extends Mage_Core_Helper_Abstract
      * @param string $name                      Resource name
      * @return bool
      */
-    protected function _addOperation(&$item, Varien_Simplexml_Element $node, $name)
+    protected function _addOperations(&$item, Varien_Simplexml_Element $node, $name)
     {
         $cnt = 0;
         foreach ($this->_existOperations as $key => $title) {

@@ -121,16 +121,24 @@
 
     <adminhtml_api2_attribute_edit>
         <reference name="left">
-            <block type="api2/adminhtml_attribute_tabs" name="adminhtml.attribute.edit.tabs">
-                <block type="api2/adminhtml_attribute_tab_resource" name="adminhtml.attribute.tab.resource" template="permissions/rolesedit.phtml"/>
+            <block type="api2/adminhtml_attribute_tabs" name="api2.attribute.edit.tabs">
+                <block type="api2/adminhtml_attribute_tab_main" name="api2.attribute.tab.main"/>
                 <action method="addTab">
-                    <id>api2_attribute_section_resources</id>
-                    <block>adminhtml.attribute.tab.resource</block>
+                    <name>api2_attribute_section_main</name>
+                    <block>api2.attribute.tab.main</block>
+                </action>
+                <block type="api2/adminhtml_attribute_tab_resource" name="api2.attribute.tab.resource" template="permissions/rolesedit.phtml"/>
+                <action method="addTab">
+                    <name>api2_attribute_section_resources</name>
+                    <block>api2.attribute.tab.resource</block>
                 </action>
             </block>
         </reference>
         <reference name="content">
-            <block type="api2/adminhtml_attribute_buttons" name="adminhtml.attribute.buttons"/>
+            <block type="api2/adminhtml_attribute_buttons" name="api2.attribute.buttons"/>
+            <!--<block type="api2/adminhtml_attribute_edit" name="form_container">-->
+                <!--<block type="api2/adminhtml_attribute_edit_form" name="form"/>-->
+            <!--</block>-->
         </reference>
         <reference name="head">
             <action method="setCanLoadExtJs">

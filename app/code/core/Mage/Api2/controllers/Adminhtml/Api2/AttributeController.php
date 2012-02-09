@@ -57,7 +57,7 @@ class Mage_Api2_Adminhtml_Api2_AttributeController extends Mage_Adminhtml_Contro
     public function editAction()
     {
         $this->loadLayout()
-                ->_setActiveMenu('system/services/roles');
+                ->_setActiveMenu('system/services/attributes');
 
         $type = $this->getRequest()->getParam('type');
 
