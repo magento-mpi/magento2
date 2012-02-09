@@ -88,8 +88,26 @@ class Mage_Review_Model_Api2_Reviews_Rest_Admin_V1 extends Mage_Review_Model_Api
         $collection = Mage::getResourceModel('review/review_collection');
         $this->_applyProductFilter($collection);
         $this->_applyStatusFilter($collection);
+        $this->_applyCustomerFilter($collection);
         $this->_applyCollectionModifiers($collection);
-
         return $collection;
+    }
+
+    /**
+     * Apply filter by current customer
+     *
+     * @param Mage_Review_Model_Resource_Review_Collection $collection
+     */
+    protected function _applyCustomerFilter(Mage_Review_Model_Resource_Review_Collection $collection)
+    {
+        $customerId = $this->getRequest()->getParam('customer_id');
+        if ($customerId !== null) {
+            /** @var $customer Mage_Customer_Model_Customer */
+            $customer = Mage::getModel('customer/customer')->load($customerId);
+            if (!$customer->getId()) {
+                $this->_critical('Customer not found', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+            }
+            $collection->addCustomerFilter($customer->getId());
+        }
     }
 }

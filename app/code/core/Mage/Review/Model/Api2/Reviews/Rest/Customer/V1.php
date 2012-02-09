@@ -77,7 +77,11 @@ class Mage_Review_Model_Api2_Reviews_Rest_Customer_V1 extends Mage_Review_Model_
     {
         /** @var $collection Mage_Review_Model_Resource_Review_Collection */
         $collection = Mage::getResourceModel('review/review_collection');
-        $this->_applyProductFilter($collection);
+        if ($this->getRequest()->getParam('product_id')) {
+            $this->_applyProductFilter($collection);
+        } else {
+            $this->_applyCustomerFilter($collection);
+        }
         $this->_applyCollectionModifiers($collection);
         // apply store filter
         $storeId = $this->getRequest()->getParam('store_id');
@@ -85,8 +89,17 @@ class Mage_Review_Model_Api2_Reviews_Rest_Customer_V1 extends Mage_Review_Model_
             $this->_validateStores(array($storeId));
             $collection->addStoreFilter($storeId);
         }
-        // apply customer filter
-        $customerId = $this->getRequest()->getParam('customer_id');
+        return $collection;
+    }
+
+    /**
+     * Apply filter by current customer
+     *
+     * @param Mage_Review_Model_Resource_Review_Collection $collection
+     */
+    protected function _applyCustomerFilter(Mage_Review_Model_Resource_Review_Collection $collection)
+    {
+        $customerId = $this->getApiUser()->getUserId();
         if ($customerId !== null) {
             /** @var $customer Mage_Customer_Model_Customer */
             $customer = Mage::getModel('customer/customer')->load($customerId);
@@ -95,14 +108,5 @@ class Mage_Review_Model_Api2_Reviews_Rest_Customer_V1 extends Mage_Review_Model_
             }
             $collection->addCustomerFilter($customer->getId());
         }
-        // apply status filter
-        $isCustomerSet = isset($customer) && $customer->getId();
-        if ($isCustomerSet && ($this->getApiUser()->getUserId() == $customer->getId())) {
-            // there is no need to filter customer's own reviews by status
-        } else {
-            $collection->addStatusFilter(Mage_Review_Model_Review::STATUS_APPROVED);
-        }
-
-        return $collection;
     }
 }
