@@ -11,6 +11,8 @@
                         <mask>/products</mask>
                     </route_main>
                 </routes>
+                <instance>product</instance>
+                <working_model>catalog/product</working_model>
             </products>
             <product>
                 <type>product</type><!-- used in ACL -->
@@ -21,6 +23,13 @@
                         <mask>/products/:id</mask>
                     </route_main>
                 </routes>
+                <collection>products</collection>
+                <attributes>
+                    <review_id>ID</review_id>
+                    <content>Content</content>
+                    <created_at>Content</created_at>
+                </attributes>
+                <working_model>catalog/product</working_model>
             </product>
         </resources>
     </api2>

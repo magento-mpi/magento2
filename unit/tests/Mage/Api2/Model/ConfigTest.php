@@ -182,6 +182,56 @@ class Mage_Api2_Model_ConfigTest extends Mage_PHPUnit_TestCase
 
         $this->_config->getRoutes($wrongApiType);
     }
+
+    /**
+     * Test get resource collection
+     *
+     * @return void
+     */
+    public function testGetResourceCollection()
+    {
+        $this->assertEquals('products', $this->_config->getResourceCollection('product'));
+        $this->assertEmpty($this->_config->getResourceCollection('products'));
+    }
+
+    /**
+     * Test get resource instance
+     *
+     * @return void
+     */
+    public function testGetResourceInstance()
+    {
+        $this->assertEquals('product', $this->_config->getResourceInstance('products'));
+        $this->assertEmpty($this->_config->getResourceInstance('product'));
+    }
+
+    /**
+     * Test get resource attributes
+     *
+     * @return void
+     */
+    public function testGetResourceAttributes()
+    {
+        $attributes = array (
+            'review_id' => 'ID',
+            'content' => 'Content',
+            'created_at' => 'Content',
+        );
+        $this->assertEquals($attributes, $this->_config->getResourceAttributes('product'));
+    }
+
+    /**
+     * Test get resource attributes
+     *
+     * @return void
+     */
+    public function testGetResourceWorkingModel()
+    {
+        $this->assertEquals('catalog/product', $this->_config->getResourceWorkingModel('product'));
+        $this->assertEquals('catalog/product', $this->_config->getResourceWorkingModel('products'));
+    }
+
+
 }
 
 /**
