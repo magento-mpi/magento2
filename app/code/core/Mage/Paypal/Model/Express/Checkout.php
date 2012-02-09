@@ -258,8 +258,8 @@ class Mage_Paypal_Model_Express_Checkout
     /**
      * Reserve order ID for specified quote and start checkout on PayPal
      *
-     * @param $returnUrl
-     * @param $cancelUrl
+     * @param string $returnUrl
+     * @param string $cancelUrl
      * @return mixed
      */
     public function start($returnUrl, $cancelUrl)
@@ -659,15 +659,14 @@ class Mage_Paypal_Model_Express_Checkout
         if ($this->getCustomerSession()->isLoggedIn()) {
             return Mage_Checkout_Model_Type_Onepage::METHOD_CUSTOMER;
         }
-        $methodFromQuote = $this->_quote->getCheckoutMethod();
-        if (!$methodFromQuote) {
+        if (!$this->_quote->getCheckoutMethod()) {
             if (Mage::helper('checkout')->isAllowedGuestCheckout($this->_quote)) {
                 $this->_quote->setCheckoutMethod(Mage_Checkout_Model_Type_Onepage::METHOD_GUEST);
             } else {
                 $this->_quote->setCheckoutMethod(Mage_Checkout_Model_Type_Onepage::METHOD_REGISTER);
             }
         }
-        return $methodFromQuote;
+        return $this->_quote->getCheckoutMethod();
     }
 
     /**
