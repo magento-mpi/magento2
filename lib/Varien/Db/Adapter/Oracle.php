@@ -617,7 +617,8 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
                     TC.DATA_SCALE, TC.DATA_PRECISION, C.CONSTRAINT_TYPE, CC.POSITION
                 FROM ALL_TAB_COLUMNS TC
                 LEFT JOIN (ALL_CONS_COLUMNS CC JOIN ALL_CONSTRAINTS C
-                    ON (CC.CONSTRAINT_NAME = C.CONSTRAINT_NAME AND CC.TABLE_NAME = C.TABLE_NAME AND CC.OWNER = C.OWNER AND C.CONSTRAINT_TYPE = 'P'))
+                    ON (CC.CONSTRAINT_NAME = C.CONSTRAINT_NAME AND CC.TABLE_NAME = C.TABLE_NAME AND CC.OWNER = C.OWNER
+                      AND C.CONSTRAINT_TYPE = 'P'))
                   ON TC.TABLE_NAME = CC.TABLE_NAME AND TC.COLUMN_NAME = CC.COLUMN_NAME AND CC.OWNER = TC.OWNER
                 WHERE UPPER(TC.TABLE_NAME) = UPPER(:TBNAME)";
             $bind[':TBNAME'] = $tableName;
@@ -644,7 +645,8 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
                     TC.DATA_SCALE, TC.DATA_PRECISION, CC.CONSTRAINT_TYPE, CC.POSITION
                 FROM ALL_TAB_COLUMNS TC, ($subSql) CC
                 WHERE UPPER(TC.TABLE_NAME) = UPPER(:TBNAME)
-                  AND TC.OWNER = CC.OWNER(+) AND TC.TABLE_NAME = CC.TABLE_NAME(+) AND TC.COLUMN_NAME = CC.COLUMN_NAME(+)";
+                  AND TC.OWNER = CC.OWNER(+) AND TC.TABLE_NAME = CC.TABLE_NAME(+)
+                  AND TC.COLUMN_NAME = CC.COLUMN_NAME(+)";
             if ($schemaName) {
                 $sql .= ' AND UPPER(TC.OWNER) = UPPER(:SCNAME)';
             }
@@ -1256,10 +1258,12 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
         }
 
         if (!$this->tableColumnExists($tableName, $oldColumnName, $schemaName)) {
-            throw new Zend_Db_Exception(sprintf('Column "%s" does not exists on table "%s"', $oldColumnName, $tableName));
+            throw new Zend_Db_Exception(sprintf('Column "%s" does not exists on table "%s"', $oldColumnName,
+                $tableName));
         }
         if ($this->tableColumnExists($tableName, $newColumnName, $schemaName)) {
-            throw new Exception(sprintf('Column "%s" already exists on table "%s"', $newColumnName, $tableName));
+            throw new Exception(sprintf('Column "%s" already exists on table "%s"', $newColumnName,
+                $tableName));
         }
 
         $query = sprintf('ALTER TABLE %s RENAME COLUMN %s TO %s',
@@ -1567,9 +1571,12 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
             $ddl = array();
 
             $casesResults  = array(
-                "uc.constraint_type = 'P'"                                        => "'" . Varien_Db_Adapter_Interface::INDEX_TYPE_PRIMARY . "'",
-                "nvl(uc.constraint_type,'N') = 'U'/* AND ui.uniqueness = 'UNIQUE'*/ " => "'" . Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE . "'",
-                "ui.ityp_owner = 'CTXSYS' AND ui.ityp_name = 'CONTEXT'"           => "'" . Varien_Db_Adapter_Interface::INDEX_TYPE_FULLTEXT . "'",
+                "uc.constraint_type = 'P'"                                        => "'"
+                    . Varien_Db_Adapter_Interface::INDEX_TYPE_PRIMARY . "'",
+                "nvl(uc.constraint_type,'N') = 'U'/* AND ui.uniqueness = 'UNIQUE'*/ " => "'"
+                    . Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE . "'",
+                "ui.ityp_owner = 'CTXSYS' AND ui.ityp_name = 'CONTEXT'"           => "'"
+                    . Varien_Db_Adapter_Interface::INDEX_TYPE_FULLTEXT . "'",
             );
             $defaultValue  = "'" . Varien_Db_Adapter_Interface::INDEX_TYPE_INDEX . "'";
             $indexTypeExpr = $this->getCaseSql('', $casesResults, $defaultValue);
@@ -1730,14 +1737,17 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
         $columnName     = $this->quoteIdentifier($columnName);
         $refColumnName  = $this->quoteIdentifier($refColumnName);
 
-        if (strtoupper($onDelete) == Varien_Db_Ddl_Table::ACTION_CASCADE || strtoupper($onDelete) == Varien_Db_Ddl_Table::ACTION_RESTRICT) {
+        if (strtoupper($onDelete) == Varien_Db_Ddl_Table::ACTION_CASCADE
+            || strtoupper($onDelete) == Varien_Db_Ddl_Table::ACTION_RESTRICT
+        ) {
             $sql = " UPDATE {$tableName} t1 SET t1.code = NULL ";
         } else if (strtoupper($onDelete) == Varien_Db_Ddl_Table::ACTION_SET_NULL) {
             $sql = " DELETE FROM {$tableName} t1";
         }
 
         $sql .= sprintf(" WHERE NOT EXISTS( SELECT 1 FROM %s t2 WHERE t2.%s = t1.%s)",
-            $refTableName, $refColumnName, $columnName);
+            $refTableName, $refColumnName, $columnName
+        );
 
         $this->raw_query($sql);
 
@@ -1769,7 +1779,10 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
                     $this->raw_fetchRow(sprintf(" DROP PACKAGE %s",
                         $this->quoteIdentifier($this->_getPackageName($tableName, $columnName))));
                     $this->raw_fetchRow(sprintf(" DROP TRIGGER %s",
-                        $this->quoteIdentifier($this->_getTriggerName($tableName, $columnName, self::TRIGGER_BEFORE_UPDATE))));
+                        $this->quoteIdentifier(
+                            $this->_getTriggerName($tableName, $columnName, self::TRIGGER_BEFORE_UPDATE)
+                        )
+                    ));
                     $this->raw_fetchRow(sprintf(" DROP TRIGGER %s", $this->quoteIdentifier(
                         $this->_getTriggerName($tableName, $columnName, self::TRIGGER_BEFORE_UPDATE_ER))));
                     $this->raw_fetchRow(sprintf(" DROP TRIGGER %s", $this->quoteIdentifier(
@@ -2230,7 +2243,8 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
         if ($fields) {
             $query = sprintf("BEGIN\n %s;\n %s;\n END;",
                 $query,
-                sprintf('UPDATE %s t1 SET (%s)= (SELECT %s FROM (%s) t2 WHERE %s) WHERE EXISTS ( SELECT 1 FROM (%s) t3 WHERE %s )',
+                sprintf('UPDATE %s t1 SET (%s)= (SELECT %s FROM (%s) t2 WHERE %s)'
+                    . ' WHERE EXISTS ( SELECT 1 FROM (%s) t3 WHERE %s )',
                     $table,
                     implode(', ', $fields),
                     implode(', ', $fields),
@@ -2391,7 +2405,9 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
      */
     protected function _splitMultiQuery($sql)
     {
-        $parts = preg_split('#(;|\'|"|\\\\|//|--|\n|/\*|\*/)#', $sql, null, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
+        $parts = preg_split('#(;|\'|"|\\\\|//|--|\n|/\*|\*/)#', $sql, null,
+            PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE
+        );
 
         $q     = false;
         $c     = false;
@@ -3503,7 +3519,8 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
     {
         $sequenceName = $this->getSequenceName($tableName);
         if (!$this->isSequenceExists($sequenceName)) {
-            $query = 'CREATE SEQUENCE "%s" MINVALUE 0 MAXVALUE 4294967296 INCREMENT BY 1 START WITH 0 CACHE 20 NOORDER NOCYCLE';
+            $query = 'CREATE SEQUENCE "%s" MINVALUE 0 MAXVALUE 4294967296 INCREMENT BY 1 START WITH 0 CACHE 20 '
+                . ' NOORDER NOCYCLE';
             $this->query(sprintf($query, $this->quoteIdentifier($sequenceName)));
             $query = sprintf('SELECT "%s".NEXTVAL FROM dual', $this->quoteIdentifier($sequenceName));
             $this->query($query);
@@ -4532,7 +4549,9 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
                     } else {
                         /** @see Zend_Db_Adapter_Exception */
                         #require_once 'Zend/Db/Adapter/Exception.php';
-                        throw new Zend_Db_Adapter_Exception(get_class($this) ." doesn't support positional or named binding");
+                        throw new Zend_Db_Adapter_Exception(
+                            get_class($this) . " doesn't support positional or named binding"
+                        );
                     }
                 }
             }
@@ -4904,5 +4923,15 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
         }
 
         return $fkName;
+    }
+
+    /**
+     * Check if all transactions have been committed
+     */
+    public function __destruct()
+    {
+        if ($this->_transactionLevel > 0) {
+            trigger_error('Some transactions have not been committed or rolled back', E_USER_ERROR);
+        }
     }
 }

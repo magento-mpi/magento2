@@ -4682,7 +4682,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      */
     public function __destruct()
     {
-        if ($this->_transactionLevel > 0 && Mage::getIsDeveloperMode()) {
+        if ($this->_transactionLevel > 0) {
             trigger_error('Some transactions have not been committed or rolled back', E_USER_ERROR);
         }
     }
