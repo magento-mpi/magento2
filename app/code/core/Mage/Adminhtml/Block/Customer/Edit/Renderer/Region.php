@@ -51,6 +51,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Renderer_Region extends Mage_Adminhtml_
 
         $html = '<tr>';
         $element->setClass('input-text');
+        $element->setRequired(true);
         $html.= '<td class="label">'.$element->getLabelHtml().'</td><td class="value">';
         $html.= $element->getElementHtml();
 
