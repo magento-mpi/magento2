@@ -535,6 +535,12 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
             ->setPaypalCart(Mage::getModel('paypal/cart', array($order)))
             ->setIsLineItemsEnabled($this->_pro->getConfig()->lineItemsEnabled)
         ;
+        if ($order->getIsVirtual()) {
+            $api->setAddress($order->getBillingAddress())->setSuppressShipping(true);
+        } else {
+            $api->setAddress($order->getShippingAddress());
+            $api->setBillingAddress($order->getBillingAddress());
+        }
 
         // call api and get details from it
         $api->callDoExpressCheckoutPayment();
