@@ -241,12 +241,19 @@ class Mage_OAuth_Model_Server
         }
         $protocolParamsNotSet = !$this->_protocolParams;
 
-        foreach ($this->_request->getQuery() as $queryParamName => $queryParamValue) {
-            if (!$this->_isProtocolParameter($queryParamName)) {
-                $this->_params[$queryParamName] = $queryParamValue;
-            } elseif ($protocolParamsNotSet) {
-                $this->_protocolParams[$queryParamName] = $queryParamValue;
+        $url = $this->_request->getScheme() . '://' . $this->_request->getHttpHost() . $this->_request->getRequestUri();
+
+        if (($queryString = Zend_Uri_Http::fromString($url)->getQuery())) {
+            foreach (explode('&', $queryString) as $paramToValue) {
+                $paramData = explode('=', $paramToValue);
+
+                if (2 === count($paramData) && !$this->_isProtocolParameter($paramData[0])) {
+                    $this->_params[$paramData[0]] = $paramData[1];
+                }
             }
+        }
+        if ($protocolParamsNotSet) {
+            $this->_fetchProtocolParamsFromQuery();
         }
         return $this;
     }
