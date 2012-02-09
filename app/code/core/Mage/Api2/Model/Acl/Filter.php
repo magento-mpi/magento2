@@ -2,9 +2,6 @@
 
 class Mage_Api2_Model_Acl_Filter
 {
-    const OPERATION_READ  = 'read';
-    const OPERATION_WRITE = 'write';
-
     /**
      * Resource type
      *
@@ -28,11 +25,12 @@ class Mage_Api2_Model_Acl_Filter
 
     public function in(array $requestData, $resourceType = null, $userType = null)
     {
-        $operation = self::OPERATION_WRITE;
         $resourceType = $resourceType === null ? $this->getResourceType() : $resourceType;
         $userType = $userType === null ? $this->getUserType() : $userType;
 
-        $allowed = $this->getAllowedAttributes($resourceType, $operation, $userType);
+        $allowed = $this->getAllowedAttributes(
+            $resourceType, Mage_Api2_Model_Resource::OPERATION_ATTRIBUTE_WRITE, $userType
+        );
 
         $requestData = $this->filter($allowed, $requestData);
 
@@ -41,12 +39,13 @@ class Mage_Api2_Model_Acl_Filter
 
     public function out(array $retrievedData, $resourceType = null, $userType = null)
     {
-        $operation = self::OPERATION_READ;
         $resourceType = $resourceType === null ? $this->getResourceType() : $resourceType;
         $userType = $userType === null ? $this->getUserType() : $userType;
 
         //TODO how we process &include, what attributes we show by default, all allowed, all static?
-        $allowed = $this->getAllowedAttributes($resourceType, $operation, $userType);
+        $allowed = $this->getAllowedAttributes(
+            $resourceType, Mage_Api2_Model_Resource::OPERATION_ATTRIBUTE_READ, $userType
+        );
 
         $retrievedData = $this->filter($allowed, $retrievedData);
 
@@ -55,11 +54,12 @@ class Mage_Api2_Model_Acl_Filter
 
     public function getAttributesToInclude($resourceType = null, $userType = null)
     {
-        $operation = self::OPERATION_READ;
         $resourceType = $resourceType === null ? $this->getResourceType() : $resourceType;
         $userType = $userType === null ? $this->getUserType() : $userType;
 
-        $attributes = $this->getAllowedAttributes($resourceType, $operation, $userType);
+        $attributes = $this->getAllowedAttributes(
+            $resourceType, Mage_Api2_Model_Resource::OPERATION_ATTRIBUTE_READ, $userType
+        );
 
         $include = $this->getRequestedAttributes();
 
@@ -140,27 +140,30 @@ class Mage_Api2_Model_Acl_Filter
         //TODO backend to get real attributes allowed
 
         $example = array(
-            'product'   => array(
-                self::OPERATION_READ    => array('id', 'entity_id', 'name', 'title', 'sku'),
-                self::OPERATION_WRITE   => array('name'),
+            'product' => array(
+                Mage_Api2_Model_Resource::OPERATION_ATTRIBUTE_READ => array('id', 'entity_id', 'name', 'title', 'sku'),
+                Mage_Api2_Model_Resource::OPERATION_ATTRIBUTE_WRITE => array('name'),
             ),
-            'products'   => array(
-                self::OPERATION_READ    => array('id', 'entity_id', 'name', 'title', 'sku', 'status',),
-                self::OPERATION_WRITE   => array('type', 'set', 'sku'),
+            'products' => array(
+                Mage_Api2_Model_Resource::OPERATION_ATTRIBUTE_READ
+                    => array('id', 'entity_id', 'name', 'title', 'sku', 'status',),
+                Mage_Api2_Model_Resource::OPERATION_ATTRIBUTE_WRITE => array('type', 'set', 'sku'),
             ),
             'orders' => array(
-                self::OPERATION_READ => array('entity_id', 'customer_id', 'state', 'subtotal', 'created_at')
+                Mage_Api2_Model_Resource::OPERATION_ATTRIBUTE_READ
+                    => array('entity_id', 'customer_id', 'state', 'subtotal', 'created_at')
             ),
             'review' => array(
-                self::OPERATION_READ  => array('review_id', 'product_id', 'status_id', 'stores', 'nickname', 'title',
-                    'detail'),
-                self::OPERATION_WRITE => array('status_id', 'stores', 'nickname', 'title', 'detail')
+                Mage_Api2_Model_Resource::OPERATION_ATTRIBUTE_READ
+                    => array('review_id', 'product_id', 'status_id', 'stores', 'nickname', 'title', 'detail'),
+                Mage_Api2_Model_Resource::OPERATION_ATTRIBUTE_WRITE
+                    => array('status_id', 'stores', 'nickname', 'title', 'detail')
             ),
             'reviews' => array(
-                self::OPERATION_READ  => array('review_id', 'product_id', 'status_id', 'stores', 'nickname', 'title',
-                    'detail'),
-                self::OPERATION_WRITE => array('product_id', 'status_id', 'stores', 'store_id', 'nickname', 'title',
-                    'detail')
+                Mage_Api2_Model_Resource::OPERATION_ATTRIBUTE_READ
+                    => array('review_id', 'product_id', 'status_id', 'stores', 'nickname', 'title', 'detail'),
+                Mage_Api2_Model_Resource::OPERATION_ATTRIBUTE_WRITE
+                    => array('product_id', 'status_id', 'stores', 'store_id', 'nickname', 'title', 'detail')
             )
         );
 
