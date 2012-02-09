@@ -49,6 +49,29 @@ abstract class Mage_Sales_Model_Api2_Orders_Rest extends Mage_Api2_Model_Resourc
     }
 
     /**
+     * Get location for given resource
+     *
+     * @param Mage_Core_Model_Abstract $product
+     * @return string Location of new resource
+     */
+    protected function _getLocation(Mage_Core_Model_Abstract $product)
+    {
+        return '/';
+    }
+
+    /**
+     * Get orders list
+     *
+     * @return array
+     */
+    protected function _retrieve()
+    {
+        $data = $this->_getCollectionForRetrieve()->load()->toArray();
+
+        return isset($data['items']) ? $data['items'] : $data;
+    }
+
+    /**
      * Fetch resource type
      * Resource type should correspond to api2.xml config nodes under "config/api2/resources/"
      *

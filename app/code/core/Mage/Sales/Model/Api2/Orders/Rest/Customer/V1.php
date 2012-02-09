@@ -25,7 +25,7 @@
  */
 
 /**
- * API2 class for orders
+ * API2 class for orders (customer)
  *
  * @category   Mage
  * @package    Mage_Sales
@@ -59,28 +59,5 @@ class Mage_Sales_Model_Api2_Orders_Rest_Customer_V1 extends Mage_Sales_Model_Api
         $this->_applyLocalAclFilter($collection);
 
         return $collection;
-    }
-
-    /**
-     * Get location for given resource
-     *
-     * @param Mage_Core_Model_Abstract $product
-     * @return string Location of new resource
-     */
-    protected function _getLocation(Mage_Core_Model_Abstract $product)
-    {
-        return '/';
-    }
-
-    /**
-     * Get orders list
-     *
-     * @return array
-     */
-    protected function _retrieve()
-    {
-        $data = $this->_getCollectionForRetrieve()->load()->toArray();
-
-        return isset($data['items']) ? $data['items'] : $data;
     }
 }

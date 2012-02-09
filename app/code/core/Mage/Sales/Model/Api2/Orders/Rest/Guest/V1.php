@@ -25,23 +25,12 @@
  */
 
 /**
- * Block tabs for attributes edit page
+ * API2 class for orders (guest)
  *
  * @category   Mage
- * @package    Mage_Api2
+ * @package    Mage_Sales
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Api2_Block_Adminhtml_Attribute_Tabs extends Mage_Adminhtml_Block_Widget_Tabs
+class Mage_Sales_Model_Api2_Orders_Rest_Guest_V1 extends Mage_Sales_Model_Api2_Orders_Rest
 {
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        parent::__construct();
-
-        $this->setId('api2_attribute_section_main')
-            ->setDestElementId('attr_edit_form')
-            ->setData('title', $this->__('ACL Attributes Information'));
-    }
 }

@@ -80,6 +80,10 @@ class Mage_Review_Model_Api2_Reviews_Rest_Guest_V1 extends Mage_Review_Model_Api
      */
     protected function _prepareRetrieveCollection()
     {
+        if (!$this->getRequest()->getParam('product_id')) {
+            $this->_critical('Product id is required', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+        }
+
         /** @var $collection Mage_Review_Model_Resource_Review_Collection */
         $collection = Mage::getResourceModel('review/review_collection');
         $this->_applyProductFilter($collection);

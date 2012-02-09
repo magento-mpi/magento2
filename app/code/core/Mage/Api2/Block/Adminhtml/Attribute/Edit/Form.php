@@ -42,7 +42,7 @@ class Mage_Api2_Block_Adminhtml_Attribute_Edit_Form extends Mage_Adminhtml_Block
     protected function _prepareForm()
     {
         $form   = new Varien_Data_Form(array(
-            'id'        => 'edit_form',
+            'id'        => 'attr_edit_form',
             'action'    => $this->getData('action'),
             'method'    => 'post'
         ));

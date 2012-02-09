@@ -255,7 +255,7 @@ class Mage_Api2_Model_Config extends Varien_Simplexml_Config
     }
 
     /**
-     * Retrieve resource resource instance
+     * Retrieve resource attributes
      *
      * @param string $node
      * @return array
@@ -266,7 +266,7 @@ class Mage_Api2_Model_Config extends Varien_Simplexml_Config
     }
 
     /**
-     * Retrieve resource resource instance
+     * Retrieve resource working model
      *
      * @param string $node
      * @return string
