@@ -39,6 +39,7 @@
     </td>
 </tr>
 <?php endforeach ?>
+<?php if ($this->getDeleteLabelUrl()): ?>
 <script type="text/javascript">
 //<![CDATA[
     function deleteTrackNumber(number) {
@@ -56,3 +57,4 @@
     }
 //]]>
 </script>
+<?php endif ?>

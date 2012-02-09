@@ -34,7 +34,10 @@ class Enterprise_Rma_Block_Return_Tracking extends Mage_Core_Block_Template
      */
     public function getTrackingNumbers()
     {
-        return $this->getRma()->getTrackingNumbers();
+        if ($this->getRma()) {
+            return $this->getRma()->getTrackingNumbers();
+        }
+        return array();
     }
 
     /**
@@ -44,7 +47,10 @@ class Enterprise_Rma_Block_Return_Tracking extends Mage_Core_Block_Template
      */
     public function getDeleteLabelUrl()
     {
-        return $this->getUrl('*/*/delLabel/', array('entity_id' => $this->getRma()->getEntityId()));
+        if ($this->getRma()) {
+            return $this->getUrl('*/*/delLabel/', array('entity_id' => $this->getRma()->getEntityId()));
+        }
+        return false;
     }
 
     /**
