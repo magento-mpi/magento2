@@ -120,7 +120,7 @@ abstract class Mage_Api2_Model_Resource_Collection extends Mage_Api2_Model_Resou
          );
          $uri = $chain->assemble($params);
 
-         return '/'.$uri;
+         return '/' . $uri;
     }
 
     /**
