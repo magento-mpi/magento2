@@ -230,7 +230,10 @@ class Api2_Review_Reviews_GuestTest extends Magento_Test_Webservice_Rest_Guest
      */
     public function testGet()
     {
-        $restResponse = $this->callGet('reviews', array('order' => 'review_id'));
+        /** @var $product Mage_Catalog_Model_Product */
+        $product = Magento_Test_Webservice::getFixture('product_simple');
+
+        $restResponse = $this->callGet('reviews', array('order' => 'review_id', 'product_id' => $product->getId()));
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
         $body = $restResponse->getBody();
         $this->assertNotEmpty($body);
@@ -241,10 +244,15 @@ class Api2_Review_Reviews_GuestTest extends Magento_Test_Webservice_Rest_Guest
 
         $reviewsList = $this->getFixture('reviews_list');
         foreach ($reviewsList as $review) {
-            $this->assertTrue(isset($responseReviews[$review->getId()]),
-                'Review created from fixture was not found in response');
-            $this->assertEquals($review->getEntityPkValue(), $responseReviews[$review->getId()]['product_id']);
-            $this->assertEquals($review->getStatusId(), $responseReviews[$review->getId()]['status_id']);
+            if ($review->getEntityPkValue() == $product->getId()) {
+                $this->assertTrue(isset($responseReviews[$review->getId()]),
+                    'Review created from fixture was not found in response');
+                $this->assertEquals($review->getEntityPkValue(), $responseReviews[$review->getId()]['product_id']);
+                $this->assertEquals($review->getStatusId(), $responseReviews[$review->getId()]['status_id']);
+            } else {
+                $this->assertFalse(isset($responseReviews[$review->getId()]),
+                    'Review created from fixture should not be present in response');
+            }
         }
     }
 
@@ -255,12 +263,28 @@ class Api2_Review_Reviews_GuestTest extends Magento_Test_Webservice_Rest_Guest
      */
     public function testGetCustomStore()
     {
+        /** @var $product Mage_Catalog_Model_Product */
+        $product = Magento_Test_Webservice::getFixture('product_virtual');
         /** @var $store Mage_Core_Model_Store */
         $store = Magento_Test_Webservice::getFixture('store');
-        $restResponse = $this->callGet('reviews', array('order' => 'review_id', 'store_id' => $store->getId()));
+        $restResponse = $this->callGet('reviews', array('order' => 'review_id', 'store_id' => $store->getId(),
+            'product_id' => $product->getId()));
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
         $body = $restResponse->getBody();
         $this->assertCount(1, $body, 'There should be 1 review assigned to custom store in this test.');
+    }
+
+    /**
+     * Test retrieving list of reviews without product filter.
+     * Negative test.
+     */
+    public function testGetNoProductFilter()
+    {
+        $restResponse = $this->callGet('reviews');
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
+        $body = $restResponse->getBody();
+        $error = reset($body['messages']['error']);
+        $this->assertEquals($error['message'], 'Product id is required');
     }
 
     /**
