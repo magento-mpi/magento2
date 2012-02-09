@@ -90,8 +90,6 @@ class Mage_Api2_Block_Adminhtml_Attribute_Tab_Resource extends Mage_Adminhtml_Bl
         return $this->_treeModel->getEverythingAllowed();
     }
 
-
-
     /**
      * Get tab label
      *

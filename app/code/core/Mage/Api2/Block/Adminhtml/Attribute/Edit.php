@@ -45,7 +45,7 @@ class Mage_Api2_Block_Adminhtml_Attribute_Edit extends Mage_Adminhtml_Block_Widg
 
         parent::__construct();
 
-        $this->_updateButton('save', 'label', Mage::helper('api2')->__('Save News Item'));
+        $this->_updateButton('save', 'label', Mage::helper('api2')->__('Save'));
         $this->_addButton('save_and_continue', array(
             'label'   => Mage::helper('adminhtml')->__('Save and Continue Edit'),
             'onclick' => 'saveAndContinueEdit()',

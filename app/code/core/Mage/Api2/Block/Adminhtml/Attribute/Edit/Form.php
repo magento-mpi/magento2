@@ -42,16 +42,15 @@ class Mage_Api2_Block_Adminhtml_Attribute_Edit_Form extends Mage_Adminhtml_Block
     protected function _prepareForm()
     {
         $form   = new Varien_Data_Form(array(
-            'id'        => 'attr_edit_form',
+            'id'        => 'edit_form',
             'action'    => $this->getData('action'),
             'method'    => 'post'
         ));
 
-        $form->setData('action', $this->getUrl(
-            '*/*/save',
-            array('type' => $this->getRequest()->getParam('type'))));
 
-        $form->setData('use_container', true);
+        $form->setAction($this->getUrl('*/*/save', array('type' => $this->getRequest()->getParam('type'))))
+            ->setUseContainer(true);
+
         $this->setForm($form);
 
         return parent::_prepareForm();
