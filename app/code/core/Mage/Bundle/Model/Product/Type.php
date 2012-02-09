@@ -535,7 +535,9 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
         $selections = array();
         $product = $this->getProduct($product);
         $isStrictProcessMode = $this->_isStrictProcessMode($processMode);
-        $_appendAllSelections = (bool)$product->getSkipCheckRequiredOption();
+
+        $skipSaleableCheck = Mage::helper('catalog/product')->getSkipSaleableCheck();
+        $_appendAllSelections = (bool)$product->getSkipCheckRequiredOption() || $skipSaleableCheck;
 
         $options = $buyRequest->getBundleOption();
         if (is_array($options)) {
@@ -582,7 +584,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
 
                 // Check if added selections are still on sale
                 foreach ($selections->getItems() as $key => $selection) {
-                    if (!$selection->isSalable()) {
+                    if (!$selection->isSalable() && !$skipSaleableCheck) {
                         $_option = $optionsCollection->getItemById($selection->getOptionId());
                         if (is_array($options[$_option->getId()]) && count($options[$_option->getId()]) > 1) {
                             $moreSelections = true;
@@ -943,10 +945,11 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
             Mage::throwException($this->getSpecifyOptionMessage());
         }
 
+        $skipSaleableCheck = Mage::helper('catalog/product')->getSkipSaleableCheck();
         foreach ($selectionIds as $selectionId) {
             /* @var $selection Mage_Bundle_Model_Selection */
             $selection = $productSelections->getItemById($selectionId);
-            if (!$selection || !$selection->isSalable()) {
+            if (!$selection || (!$selection->isSalable() && !$skipSaleableCheck)) {
                 Mage::throwException(
                     Mage::helper('bundle')->__('Selected required options are not available.')
                 );
