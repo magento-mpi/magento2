@@ -1880,7 +1880,7 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
      *
      * @param string $attribute
      * @param string $dir
-     * @return Mage_CatalogSearch_Model_Resource_Fulltext_Collection
+     * @return Mage_Catalog_Model_Resource_Product_Collection
      */
     public function setOrder($attribute, $dir = 'desc')
     {
@@ -1891,5 +1891,4 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
         }
         return $this;
     }
-
 }
