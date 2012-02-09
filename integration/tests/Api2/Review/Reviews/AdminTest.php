@@ -52,6 +52,16 @@ class Api2_Review_Reviews_AdminTest extends Magento_Test_Webservice_Rest_Admin
     }
 
     /**
+     * Delete store fixture after test case
+     */
+    public static function tearDownAfterClass()
+    {
+        Magento_TestCase::deleteFixture('store', true);
+
+        parent::tearDownAfterClass();
+    }
+
+    /**
      * Test successful review creation
      *
      * @param array $reviewData
@@ -226,6 +236,39 @@ class Api2_Review_Reviews_AdminTest extends Magento_Test_Webservice_Rest_Admin
                 'Review created from fixture was not found in response');
             $this->assertEquals($review->getEntityPkValue(), $responseReviews[$review->getId()]['product_id']);
             $this->assertEquals($review->getStatusId(), $responseReviews[$review->getId()]['status_id']);
+        }
+    }
+
+    /**
+     * Test retrieving list of reviews with customer filter
+     *
+     * @magentoDataFixture Api2/Review/_fixtures/reviews_list_customer.php
+     */
+    public function testGetCustomerFilter()
+    {
+        /** @var $customer Mage_Customer_Model_Customer */
+        $customer = Mage::getModel('customer/customer');
+        $customer->setWebsiteId(Mage::app()->getWebsite()->getId())->loadByEmail(TESTS_CUSTOMER_EMAIL);
+
+        $restResponse = $this->callGet('reviews', array('customer_id' => $customer->getId(),
+                    'order' => 'review_id', 'dir' => Zend_Db_Select::SQL_DESC));
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+        $reviews = $restResponse->getBody();
+        $this->assertNotEmpty($reviews);
+        $reviewsIds = array();
+        foreach ($reviews as $review) {
+            $reviewsIds[] = $review['review_id'];
+        }
+        $fixtureReviews = $this->getFixture('reviews_list');
+
+        foreach ($fixtureReviews as $fixtureReview) {
+            if ($fixtureReview->getCustomerId() == $customer->getId()) {
+                $this->assertContains($fixtureReview->getId(), $reviewsIds,
+                    'Review by current customer should be in response');
+            } else {
+                $this->assertNotContains($fixtureReview->getId(), $reviewsIds,
+                    'Review by current customer should NOT be in response');
+            }
         }
     }
 

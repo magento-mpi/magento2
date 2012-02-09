@@ -25,23 +25,18 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-require realpath(dirname(__FILE__) . '/../../../..') . '/Api/SalesOrder/_fixtures/product_simple.php';
-require realpath(dirname(__FILE__) . '/../../../..') . '/Api/SalesOrder/_fixtures/product_virtual.php';
-require realpath(dirname(__FILE__) . '/../../../..') . '/Api2/Review/_fixtures/store.php';
-
+require realpath(dirname(__FILE__) . '/../../..') . '/Api/SalesOrder/_fixtures/product_simple.php';
+require realpath(dirname(__FILE__) . '/../../..') . '/Api/SalesOrder/_fixtures/product_virtual.php';
 /** @var $productSimple Mage_Catalog_Model_Product */
 $productSimple = Magento_Test_Webservice::getFixture('product_simple');
 /** @var $productVirtual Mage_Catalog_Model_Product */
 $productVirtual = Magento_Test_Webservice::getFixture('product_virtual');
-/** @var $store Mage_Core_Model_Store */
-$store = Magento_Test_Webservice::getFixture('store');
 
 $reviewsList = array();
 
 /** @var $review Mage_Review_Model_Review */
 $review = new Mage_Review_Model_Review();
-$reviewData = require 'ReviewData.php';
-$reviewData['stores'] = array(Mage::app()->getDefaultStoreView()->getId());
+$reviewData = require 'Backend/ReviewData.php';
 $review->setData($reviewData);
 $entityId = $review->getEntityIdByCode(Mage_Review_Model_Review::ENTITY_PRODUCT_CODE);
 
@@ -53,20 +48,26 @@ $review->setEntityId($entityId)
     ->save();
 $reviewsList[] = $review;
 
-// Review #2: Simple Product, Status Approved
+/** @var $customerModel Mage_Customer_Model_Customer */
+$customerModel = Mage::getModel('customer/customer');
+$customerModel->setWebsiteId(Mage::app()->getWebsite()->getId())->loadByEmail(TESTS_CUSTOMER_EMAIL);
+$customerId = $customerModel->getId();
+
+// Review #2: Simple Product, Status Pending
 $review2 = new Mage_Review_Model_Review();
 $review2->setData($reviewData)
+    ->setCustomerId($customerId)
     ->setEntityId($entityId)
     ->setEntityPkValue($productSimple->getId())
-    ->setStoreId($store->getId())
-    ->setStatusId(Mage_Review_Model_Review::STATUS_APPROVED)
+    ->setStoreId($productSimple->getStoreId())
+    ->setStatusId(Mage_Review_Model_Review::STATUS_PENDING)
     ->save();
 $reviewsList[] = $review2;
 
-// Review #3: Virtual Product, Status Approved, Custom Store
-$reviewData['stores'] = array($store->getId());
+// Review #3: Virtual Product, Status Approved
 $review3 = new Mage_Review_Model_Review();
 $review3->setData($reviewData)
+    ->setCustomerId($customerId)
     ->setEntityId($entityId)
     ->setEntityPkValue($productVirtual->getId())
     ->setStoreId($productVirtual->getStoreId())

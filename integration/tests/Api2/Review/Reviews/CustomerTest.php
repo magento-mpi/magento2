@@ -201,40 +201,50 @@ class Api2_Review_Reviews_CustomerTest extends Magento_Test_Webservice_Rest_Cust
     }
 
     /**
-     * Test retrieving list of reviews
+     * Test retrieving list of reviews without any filters (customer filter is applied by default)
      *
-     * @magentoDataFixture Api2/Review/_fixtures/Frontend/reviews_list.php
+     * @magentoDataFixture Api2/Review/_fixtures/reviews_list_customer.php
      */
     public function testGet()
     {
-        $restResponse = $this->callGet('reviews', array('order' => 'review_id'));
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
-        $body = $restResponse->getBody();
-        $this->assertNotEmpty($body);
-        $responseReviews = array();
-        foreach ($body as $responseReview) {
-            $responseReviews[$responseReview['review_id']] = $responseReview;
-        }
+        /** @var $customer Mage_Customer_Model_Customer */
+        $customer = Mage::getModel('customer/customer');
+        $customer->setWebsiteId(Mage::app()->getWebsite()->getId())->loadByEmail(TESTS_CUSTOMER_EMAIL);
 
-        $reviewsList = $this->getFixture('reviews_list');
-        foreach ($reviewsList as $review) {
-            $this->assertTrue(isset($responseReviews[$review->getId()]),
-                'Review created from fixture was not found in response');
-            $this->assertEquals($review->getEntityPkValue(), $responseReviews[$review->getId()]['product_id']);
-            $this->assertEquals($review->getStatusId(), $responseReviews[$review->getId()]['status_id']);
+        $restResponse = $this->callGet('reviews', array('order' => 'review_id', 'dir' => Zend_Db_Select::SQL_DESC));
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+        $reviews = $restResponse->getBody();
+        $this->assertNotEmpty($reviews);
+        $reviewsIds = array();
+        foreach ($reviews as $review) {
+            $reviewsIds[] = $review['review_id'];
+        }
+        $fixtureReviews = $this->getFixture('reviews_list');
+
+        foreach ($fixtureReviews as $fixtureReview) {
+            if ($fixtureReview->getCustomerId() == $customer->getId()) {
+                $this->assertContains($fixtureReview->getId(), $reviewsIds,
+                    'Review by current customer should be in response');
+            } else {
+                $this->assertNotContains($fixtureReview->getId(), $reviewsIds,
+                    'Review by current customer should NOT be in response');
+            }
         }
     }
 
     /**
      * Test retrieving list of reviews
      *
-     * @magentoDataFixture Api2/Review/_fixtures/Frontend/reviews_list.php
+     * @magentoDataFixture Api2/Review/_fixtures/reviews_list.php
      */
     public function testGetCustomStore()
     {
         /** @var $store Mage_Core_Model_Store */
         $store = Magento_Test_Webservice::getFixture('store');
-        $restResponse = $this->callGet('reviews', array('order' => 'review_id', 'store_id' => $store->getId()));
+        /** @var $productVirtual Mage_Catalog_Model_Product */
+        $productVirtual = Magento_Test_Webservice::getFixture('product_virtual');
+        $restResponse = $this->callGet('reviews', array('product_id' => $productVirtual->getId(),
+            'order' => 'review_id', 'store_id' => $store->getId()));
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
         $body = $restResponse->getBody();
         $this->assertCount(1, $body, 'There should be 1 review assigned to custom store in this test.');
@@ -243,7 +253,7 @@ class Api2_Review_Reviews_CustomerTest extends Magento_Test_Webservice_Rest_Cust
     /**
      * Test retrieving list of reviews with product filter
      *
-     * @magentoDataFixture Api2/Review/_fixtures/Frontend/reviews_list.php
+     * @magentoDataFixture Api2/Review/_fixtures/reviews_list.php
      */
     public function testGetProductFilter()
     {
@@ -264,7 +274,7 @@ class Api2_Review_Reviews_CustomerTest extends Magento_Test_Webservice_Rest_Cust
     /**
      * Test retrieving list of reviews with customer filter
      *
-     * @magentoDataFixture Api2/Review/_fixtures/Frontend/reviews_list.php
+     * @magentoDataFixture Api2/Review/_fixtures/reviews_list_customer.php
      */
     public function testGetCustomerFilter()
     {
@@ -272,7 +282,8 @@ class Api2_Review_Reviews_CustomerTest extends Magento_Test_Webservice_Rest_Cust
         $customer = Mage::getModel('customer/customer');
         $customer->setWebsiteId(Mage::app()->getWebsite()->getId())->loadByEmail(TESTS_CUSTOMER_EMAIL);
 
-        $restResponse = $this->callGet('reviews', array('customer_id' => $customer->getId()));
+        $restResponse = $this->callGet('reviews', array('customer_id' => $customer->getId(),
+            'order' => 'review_id', 'dir' => Zend_Db_Select::SQL_DESC));
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
         $reviews = $restResponse->getBody();
         $this->assertNotEmpty($reviews);

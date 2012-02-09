@@ -226,7 +226,7 @@ class Api2_Review_Reviews_GuestTest extends Magento_Test_Webservice_Rest_Guest
     /**
      * Test retrieving list of reviews
      *
-     * @magentoDataFixture Api2/Review/_fixtures/Frontend/reviews_list.php
+     * @magentoDataFixture Api2/Review/_fixtures/reviews_list.php
      */
     public function testGet()
     {
@@ -259,7 +259,7 @@ class Api2_Review_Reviews_GuestTest extends Magento_Test_Webservice_Rest_Guest
     /**
      * Test retrieving list of reviews
      *
-     * @magentoDataFixture Api2/Review/_fixtures/Frontend/reviews_list.php
+     * @magentoDataFixture Api2/Review/_fixtures/reviews_list.php
      */
     public function testGetCustomStore()
     {
@@ -290,7 +290,7 @@ class Api2_Review_Reviews_GuestTest extends Magento_Test_Webservice_Rest_Guest
     /**
      * Test retrieving list of reviews with product filter
      *
-     * @magentoDataFixture Api2/Review/_fixtures/Frontend/reviews_list.php
+     * @magentoDataFixture Api2/Review/_fixtures/reviews_list.php
      */
     public function testGetProductFilter()
     {
