@@ -30,6 +30,8 @@
  * @category   Mage
  * @package    Mage_Api2
  * @author     Magento Core Team <core@magentocommerce.com>
+ * @method Mage_Api2_Model_Acl_Global_Role getRole()
+ * @method Mage_Api2_Block_Adminhtml_Roles_Tab_Resources setRole(Mage_Api2_Model_Acl_Global_Role $role)
  */
 class Mage_Api2_Block_Adminhtml_Attribute_Tab_Resource extends Mage_Adminhtml_Block_Widget_Form
     implements Mage_Adminhtml_Block_Widget_Tab_Interface
@@ -49,12 +51,21 @@ class Mage_Api2_Block_Adminhtml_Attribute_Tab_Resource extends Mage_Adminhtml_Bl
         parent::__construct();
 
         $this->setId('api2_attribute_section_resources')
-                ->setDefaultDir(Varien_Db_Select::SQL_ASC)
-                ->setDefaultSort('sort_order')
+                ->setData('default_dir', Varien_Db_Select::SQL_ASC)
+                ->setData('default_sort', 'sort_order')
                 ->setData('title', $this->__('Attribute Rules Information'))
                 ->setData('use_ajax', true);
 
-        $this->_treeModel = Mage::getModel('api2/acl_global_rule_tree');
+        $this->_treeModel = Mage::getModel(
+            'api2/acl_global_rule_tree',
+            array('type' => Mage_Api2_Model_Acl_Global_Rule_Tree::TYPE_ATTR));
+
+        /** @var $permissions Mage_Api2_Model_Acl_Global_Attribute_ResourcePermission */
+        $permissions = Mage::getModel('api2/acl_global_attribute_resourcePermission');
+        $permissions->setFilterValue($this->getRequest()->getParam('type'));
+        $this->_treeModel->setResourcesPermissions(
+            $permissions->getResourcesPermissions()
+        );
     }
 
     /**
@@ -66,10 +77,8 @@ class Mage_Api2_Block_Adminhtml_Attribute_Tab_Resource extends Mage_Adminhtml_Bl
     {
         /** @var $helper Mage_Core_Helper_Data */
         $helper = Mage::helper('core');
-
         return $helper->jsonEncode($this->_treeModel->getTreeResources());
     }
-
 
     /**
      * Check if everything is allowed

@@ -52,7 +52,6 @@ class Mage_Api2_Model_Resource_Acl_Global_Rule_Collection extends Mage_Core_Mode
     public function addFilterByRoleId($roleId)
     {
         $this->addFilter('role_id', $roleId, 'public');
-
         return $this;
     }
 }

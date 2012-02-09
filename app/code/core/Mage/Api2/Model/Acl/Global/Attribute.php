@@ -46,6 +46,13 @@
 class Mage_Api2_Model_Acl_Global_Attribute extends Mage_Core_Model_Abstract
 {
     /**
+     * Permissions model
+     *
+     * @var array
+     */
+    protected $_permissionModel;
+
+    /**
      * Initialize resource model
      *
      * @return void
@@ -53,5 +60,18 @@ class Mage_Api2_Model_Acl_Global_Attribute extends Mage_Core_Model_Abstract
     protected function _construct()
     {
         $this->_init('api2/acl_global_attribute');
+    }
+
+    /**
+     * Get pairs resources-permissions for current attribute
+     *
+     * @return Mage_Api2_Model_Acl_Global_Attribute_ResourcePermission
+     */
+    public function getPermissionModel()
+    {
+        if (null == $this->_permissionModel) {
+            $this->_permissionModel = Mage::getModel('api2/acl_global_rule_resourcePermission');
+        }
+        return $this->_permissionModel;
     }
 }

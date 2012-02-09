@@ -200,7 +200,6 @@ abstract class Mage_Api2_Model_Resource_Collection extends Mage_Api2_Model_Resou
     public function getAvailableAttributes()
     {
         $instanceResource = $this->getConfig()->getResourceInstance($this->getResourceType());
-
         return $this->getConfig()->getResourceAttributes($instanceResource);
     }
 }

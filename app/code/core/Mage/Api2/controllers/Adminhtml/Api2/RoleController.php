@@ -139,6 +139,9 @@ class Mage_Api2_Adminhtml_Api2_RoleController extends Mage_Adminhtml_Controller_
         $users = $this->getLayout()->getBlock('adminhtml.role.edit.tab.users');
         $users->setUsers($this->_getUsers($id));
 
+        //$this->getLayout()->getBlock('adminhtml.role.edit.tab.resources')->getResTreeJson();
+        //exit;
+
         $this->renderLayout();
     }
 
@@ -199,8 +202,11 @@ class Mage_Api2_Adminhtml_Api2_RoleController extends Mage_Adminhtml_Controller_
             }
 
             /** @var $ruleTree Mage_Api2_Model_Acl_Global_Rule_Tree */
-            $ruleTree = Mage::getSingleton('api2/acl_global_rule_tree');
-            $resources = $ruleTree->getPostResourcesPrivleges();
+            $ruleTree = Mage::getSingleton(
+                'api2/acl_global_rule_tree',
+                array('type' => Mage_Api2_Model_Acl_Global_Rule_Tree::TYPE_PRIVILEGE)
+            );
+            $resources = $ruleTree->getPostResourcesPrivileges();
             $id = $role->getId();
             foreach ($resources as $resourceId => $privileges) {
                 foreach ($privileges as $privilege => $allow) {

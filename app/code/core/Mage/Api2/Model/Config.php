@@ -186,6 +186,7 @@ class Mage_Api2_Model_Config extends Varien_Simplexml_Config
                     } else {
                         $children = $group->children;
                     }
+                    $node->resource = 1;
                     $children->appendChild($node);
                     $group->appendChild($children);
                 }

@@ -25,33 +25,29 @@
  */
 
 /**
- * API2 global ACL attribute resource collection model
+ * API2 global ACL resource permission interface
  *
  * @category    Mage
  * @package     Mage_Api2
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Api2_Model_Resource_Acl_Global_Attribute_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
+interface Mage_Api2_Model_Acl_Global_AclPermissionInterface
 {
     /**
-     * Initialize collection model
+     * Get ACL resources permissions
      *
-     * @return void
+     * Get permissions list with set permissions
+     *
+     * @abstract
+     * @return array
      */
-    protected function _construct()
-    {
-        $this->_init('api2/acl_global_attribute');
-    }
+    public function getResourcesPermissions();
 
     /**
-     * Add filtering by user type
+     * Set filter value
      *
-     * @param string $userType
-     * @return Mage_Api2_Model_Resource_Acl_Global_Attribute_Collection
+     * @param mixed $filterValue
+     * @return Mage_Api2_Model_Acl_Global_AclPermissionInterface
      */
-    public function addFilterByUserType($userType)
-    {
-        $this->addFilter('user_type', $userType, 'public');
-        return $this;
-    }
+    public function setFilterValue($filterValue);
 }

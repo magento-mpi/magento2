@@ -34,10 +34,19 @@
 class Mage_Api2_Model_Acl_Global_Rule_Tree extends Mage_Core_Helper_Abstract
 {
     /**#@+
+     * Tree types
+     */
+    const TYPE_ATTR      = 'attribute';
+    const TYPE_PRIVILEGE = 'privilege';
+    /**#@-*/
+
+    /**#@+
      * Names
      */
     const NAME_CHILDREN         = 'children';
     const NAME_PRIVILEGE        = 'privilege';
+    const NAME_OPERATION        = 'operation';
+    const NAME_ATTRIBUTE        = 'attribute';
     const NAME_RESOURCE         = 'resource';
     const NAME_RESOURCE_GROUPS  = 'resource_groups';
     const NAME_GROUP            = 'group';
@@ -70,11 +79,18 @@ class Mage_Api2_Model_Acl_Global_Rule_Tree extends Mage_Core_Helper_Abstract
     protected $_existPrivileges;
 
     /**
-     * Role model
+     * Exist operations
      *
-     * @var Mage_Api2_Model_Acl_Global_Role
+     * @var array
      */
-    protected $_role;
+    protected $_existOperations;
+
+    /**
+     * Tree type
+     *
+     * @var string
+     */
+    protected $_type;
 
     /**
      * Initialized
@@ -83,6 +99,37 @@ class Mage_Api2_Model_Acl_Global_Rule_Tree extends Mage_Core_Helper_Abstract
      */
     protected $_initialized = false;
 
+    /**
+     * Constructor
+     *
+     * In the constructor should be set tree type: attributes or privileges.
+     * Attributes for tree with resources, operations and attributes.
+     * Privileges for tree with resources and privileges.
+     *
+     * @param string $type
+     */
+    public function __construct($options)
+    {
+        $this->_type = $options['type'];
+
+        switch ($this->_type) {
+            case self::TYPE_ATTR:
+                /** @var $operationSource Mage_Api2_Model_Acl_Global_Attribute_Operation */
+                $operationSource = Mage::getModel('api2/acl_global_attribute_operation');
+                $this->_existOperations = $operationSource->toArray();
+                break;
+
+            case self::TYPE_PRIVILEGE:
+                /** @var $privilegeSource Mage_Api2_Model_Acl_Global_Rule_Privilege */
+                $privilegeSource = Mage::getModel('api2/acl_global_rule_privilege');
+                $this->_existPrivileges = $privilegeSource->toArray();
+                break;
+
+            default:
+                throw new Exception(sprintf('Unknown tree type "%s".', $this->_type));
+                break;
+        }
+    }
 
     /**
      * Initialize block
@@ -96,20 +143,14 @@ class Mage_Api2_Model_Acl_Global_Rule_Tree extends Mage_Core_Helper_Abstract
             return $this;
         }
 
-        $role = $this->getRole();
-
         /** @var $config Mage_Api2_Model_Config */
         $config = Mage::getModel('api2/config');
-
         $this->_resourcesConfig = $config->getResourceGroups();
 
-        /** @var $privilegeSource Mage_Api2_Model_Acl_Global_Rule_Privilege */
-        $privilegeSource = Mage::getModel('api2/acl_global_rule_privilege');
-        $this->_existPrivileges = $privilegeSource->toArray();
-
-        if ($role) {
-            $this->_resourcesPermissions = $role->getAclResourcesPermissions();
+        if ($this->_type == self::TYPE_ATTR && !$this->_existOperations) {
+            throw new Exception('Operations is not set');
         }
+
         return $this;
     }
 
@@ -118,7 +159,7 @@ class Mage_Api2_Model_Acl_Global_Rule_Tree extends Mage_Core_Helper_Abstract
      *
      * @return array
      */
-    public function getPostResourcesPrivleges()
+    public function getPostResourcesPrivileges()
     {
         $isAll = Mage::app()->getRequest()->getParam(Mage_Api2_Model_Acl_Global_Rule::RESOURCE_ALL);
         $allow = Mage_Api2_Model_Acl_Global_Rule_Permission::TYPE_ALLOW;
@@ -159,13 +200,8 @@ class Mage_Api2_Model_Acl_Global_Rule_Tree extends Mage_Core_Helper_Abstract
     {
         $this->_init();
 
-        if (!$this->getRole() || !$this->getRole()->getId()) {
-            return true;
-        }
-
-        $resources = $this->getRole()->getAclResourcesPermissions();
         $all = Mage_Api2_Model_Acl_Global_Rule::RESOURCE_ALL;
-        return !empty($resources[$all]);
+        return !empty($this->_resourcesPermissions[$all]);
     }
 
     /**
@@ -193,12 +229,11 @@ class Mage_Api2_Model_Acl_Global_Rule_Tree extends Mage_Core_Helper_Abstract
 
         $isResource = false;
         $isGroup    = false;
-        $type       = null;
+        $name       = null;
 
         if ($level != 0) {
-            $type = (string) $node->type;
-            if (!$type) {
-                $name = $node->getName();
+            $name = $node->getName();
+            if (!(int) $node->resource) {
                 if (self::NAME_RESOURCE_GROUPS != $name) {
                     $isGroup = true;
                     $item['id'] = self::NAME_GROUP . self::ID_SEPARATOR . $name;
@@ -206,7 +241,7 @@ class Mage_Api2_Model_Acl_Global_Rule_Tree extends Mage_Core_Helper_Abstract
                 $item['text'] = (string) $node->title;
             } else {
                 $isResource = true;
-                $item['id'] = self::NAME_RESOURCE . self::ID_SEPARATOR . $type;
+                $item['id'] = self::NAME_RESOURCE . self::ID_SEPARATOR . $name;
                 $item['text'] = $this->__('%s (Resource)', (string) $node->title);
             }
             $item['checked'] = false;
@@ -219,70 +254,187 @@ class Mage_Api2_Model_Acl_Global_Rule_Tree extends Mage_Core_Helper_Abstract
         }
 
         if (empty($children)) {
+            /**
+             * Node doesn't have any child nodes
+             * and it should be skipped
+             */
             return $item;
         }
 
-        if ($children) {
-            $item[self::NAME_CHILDREN] = array();
+        $item[self::NAME_CHILDREN] = array();
 
-            if ($isResource) {
-                //add privileges
-                if ($node->privileges) {
-                    $allowed = $node->privileges->asArray();
-                } else {
-                    $allowed = array();
-                }
+        if ($isResource) {
 
-                if (!$allowed) {
-                    return null;
-                }
-
-                $cnt = 0;
-                foreach ($this->_existPrivileges as $key => $title) {
-                    if (empty($allowed[$key])) {
-                        continue;
+            switch ($this->_type) {
+                case self::TYPE_ATTR:
+                    //add operations
+                    if (!$this->_addPrivileges($item, $node, $name)) {
+                        return null;
                     }
-                    $checked = !empty($this->_resourcesPermissions[$type]['privileges'][$key]);
-                    $item['checked'] = $checked ? $checked : $item['checked'];
-                    $item[self::NAME_CHILDREN][] = array(
-                        'id'   => self::NAME_PRIVILEGE . self::ID_SEPARATOR . $type . self::ID_SEPARATOR . $key,
-                        'text' => $title,
-                        'checked' => $checked,
-                        'sort_order' => ++$cnt,
-                    );
-                }
-            }
+                    break;
 
-            /** @var $child Varien_Simplexml_Element */
-            foreach ($children as $child) {
-                if ($child->getName() != 'title' && $child->getName() != 'sort_order') {
-                    if (!(string) $child->title) {
-                        continue;
+                case self::TYPE_PRIVILEGE:
+                    //add privileges
+                    if (!$this->_addPrivileges($item, $node, $name)) {
+                        return null;
                     }
+                    break;
 
-                    if ($level != 0) {
-                        $subNode = $this->_getTreeNode($child, $level + 1);
-                        if (!$subNode) {
-                            continue;
-                        }
-                        //if sub-node check then check current node
-                        if (!empty($subNode['checked'])) {
-                            $item['checked'] = true;
-                        }
-                        $item[self::NAME_CHILDREN][] = $subNode;
-                    } else {
-                        $item = $this->_getTreeNode($child, $level + 1);
-                    }
-                }
-            }
-            if (!empty($item[self::NAME_CHILDREN])) {
-                usort($item[self::NAME_CHILDREN], array($this, '_sortTree'));
-            } elseif ($isGroup) {
-                //skip empty group
-                return null;
+                //no default
             }
         }
+
+        /** @var $child Varien_Simplexml_Element */
+        foreach ($children as $child) {
+            if ($child->getName() != 'title' && $child->getName() != 'sort_order') {
+                if (!(string) $child->title) {
+                    continue;
+                }
+
+                if ($level != 0) {
+                    $subNode = $this->_getTreeNode($child, $level + 1);
+                    if (!$subNode) {
+                        continue;
+                    }
+                    //if sub-node check then check current node
+                    if (!empty($subNode['checked'])) {
+                        $item['checked'] = true;
+                    }
+                    $item[self::NAME_CHILDREN][] = $subNode;
+                } else {
+                    $item = $this->_getTreeNode($child, $level + 1);
+                }
+            }
+        }
+        if (!empty($item[self::NAME_CHILDREN])) {
+            usort($item[self::NAME_CHILDREN], array($this, '_sortTree'));
+        } elseif ($isGroup) {
+            //skip empty group
+            return null;
+        }
         return $item;
+    }
+
+    /**
+     * Add privileges
+     *
+     * @param array $item                       Tree node
+     * @param Varien_Simplexml_Element $node    XML node
+     * @param string $name                      Resource name
+     * @return bool
+     */
+    protected function _addPrivileges(&$item, Varien_Simplexml_Element $node, $name)
+    {
+        if ($node->privileges) {
+            $possibleList = $node->privileges->asArray();
+        } else {
+            $possibleList = array();
+        }
+
+        if (!$possibleList) {
+            return false;
+        }
+
+        $cnt = 0;
+        foreach ($this->_existPrivileges as $key => $title) {
+            if (empty($possibleList[$key])) {
+                continue;
+            }
+            $checked = !empty($this->_resourcesPermissions[$name]['privileges'][$key]);
+            $item['checked'] = $checked ? $checked : $item['checked'];
+            $subItem = array(
+                'id' => self::NAME_PRIVILEGE . self::ID_SEPARATOR . $name . self::ID_SEPARATOR . $key,
+                'text' => $title,
+                'checked' => $checked,
+                'sort_order' => ++$cnt,
+            );
+            $item[self::NAME_CHILDREN][] = $subItem;
+        }
+        return true;
+    }
+
+    /**
+     * Add operation
+     *
+     * @param array $item                       Tree node
+     * @param Varien_Simplexml_Element $node    XML node
+     * @param string $name                      Resource name
+     * @return bool
+     */
+    protected function _addOperation(&$item, Varien_Simplexml_Element $node, $name)
+    {
+        $cnt = 0;
+        foreach ($this->_existOperations as $key => $title) {
+            $subItem = array(
+                'id' => self::NAME_OPERATION . self::ID_SEPARATOR . $name . self::ID_SEPARATOR . $key,
+                'text' => $title,
+                'checked' => false,
+                'sort_order' => ++$cnt,
+            );
+
+            if (!empty($this->_resourcesPermissions[$name]['operations'][$key]['attributes'])) {
+                $this->_addAttribute(
+                    $subItem,
+                    $node,
+                    $name,
+                    $key
+                );
+            }
+            if (!empty($subItem['checked'])) {
+                $item['checked'] = true;
+            }
+            $item[self::NAME_CHILDREN][] = $subItem;
+        }
+        return true;
+    }
+
+    /**
+     * Add privileges
+     *
+     * @param array $item                       Tree node
+     * @param Varien_Simplexml_Element $node    XML node
+     * @param string $name                      Node name
+     * @param string $privilege                 Privilege name
+     * @return bool
+     */
+    protected function _addAttribute(&$item, Varien_Simplexml_Element $node, $name, $privilege)
+    {
+        $modelName = (string) $node->model;
+        if (!$modelName) {
+            return false;
+        }
+
+        try {
+            /** @var $model Mage_Api2_Model_Resource_Instance */
+            $model = Mage::getModel($modelName);
+        } catch (Exception $e) {
+            //skip if model not found
+            return false;
+        }
+        if (!$model) {
+            return false;
+        }
+
+        $model->setResourceType($name);
+        $possibleList = $model->getAvailableAttributes();
+
+        if (!$possibleList) {
+            return null;
+        }
+
+        $cnt = 0;
+        foreach ($possibleList as $key => $title) {
+            $checked = !empty($this->_resourcesPermissions[$name]['operations'][$privilege]['attributes'][$key]);
+            $item['checked'] = $checked ? $checked : $item['checked'];
+            $item[self::NAME_CHILDREN][] = array(
+                'id'   => self::NAME_ATTRIBUTE . self::ID_SEPARATOR . $name
+                        . self::ID_SEPARATOR . $privilege . self::ID_SEPARATOR . $key,
+                'text' => $title,
+                'checked' => $checked,
+                'sort_order' => ++$cnt,
+            );
+        }
+        return true;
     }
 
     /**
@@ -298,24 +450,24 @@ class Mage_Api2_Model_Acl_Global_Rule_Tree extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * Set role
+     * Set resources permissions
      *
-     * @param Mage_Api2_Model_Acl_Global_Role $role
+     * @param array $resourcesPermissions
      * @return Mage_Api2_Model_Acl_Global_Rule_Tree
      */
-    public function setRole($role)
+    public function setResourcesPermissions($resourcesPermissions)
     {
-        $this->_role = $role;
+        $this->_resourcesPermissions = $resourcesPermissions;
         return $this;
     }
 
     /**
-     * Get role
+     * Get resources permissions
      *
-     * @return Mage_Api2_Model_Acl_Global_Role
+     * @return array
      */
-    public function getRole()
+    public function getResourcesPermissions()
     {
-        return $this->_role;
+        return $this->_resourcesPermissions;
     }
 }

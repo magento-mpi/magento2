@@ -36,7 +36,7 @@
                 <title>Product Reviews</title>
                 <sort_order>110</sort_order>
                 <privileges>
-                    <!-- For collection only CREATE and retrieve-->
+                    <!-- For collection only CREATE and retrieve -->
                     <create>1</create>
                     <retrieve>1</retrieve>
                 </privileges>
@@ -62,7 +62,7 @@
                 <attributes>
                     <review_id>ID</review_id>
                     <content>Content</content>
-                    <created_at>Content</created_at>
+                    <created_at>Created At</created_at>
                 </attributes>
                 <routes>
                     <route_main>

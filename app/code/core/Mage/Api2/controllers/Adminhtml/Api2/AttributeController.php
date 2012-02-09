@@ -70,7 +70,7 @@ class Mage_Api2_Adminhtml_Api2_AttributeController extends Mage_Adminhtml_Contro
 
         $this->_title($this->__('System'))
                 ->_title($this->__('Web Services'))
-                ->_title($this->__('Rest ACL Attributes'));
+                ->_title($this->__('REST ACL Attributes'));
 
         $title = $this->__('Edit %s ACL attribute rules', $userTypes[$type]);
         $this->_title($title);

@@ -58,12 +58,14 @@ class Mage_Api2_Block_Adminhtml_Roles_Tab_Resources extends Mage_Adminhtml_Block
         parent::__construct();
 
         $this->setId('api2_role_section_resources')
-                ->setDefaultDir(Varien_Db_Select::SQL_ASC)
-                ->setDefaultSort('sort_order')
+                ->setData('default_dir', Varien_Db_Select::SQL_ASC)
+                ->setData('default_sort', 'sort_order')
                 ->setData('title', Mage::helper('api2')->__('Api Rules Information'))
                 ->setData('use_ajax', true);
 
-        $this->_treeModel = Mage::getModel('api2/acl_global_rule_tree');
+        $this->_treeModel = Mage::getModel(
+            'api2/acl_global_rule_tree',
+            array('type' => Mage_Api2_Model_Acl_Global_Rule_Tree::TYPE_PRIVILEGE));
     }
 
     /**
@@ -73,7 +75,7 @@ class Mage_Api2_Block_Adminhtml_Roles_Tab_Resources extends Mage_Adminhtml_Block
      */
     public function getResTreeJson()
     {
-        $this->_treeModel->setRole($this->getRole());
+        $this->_setTreeResourcesPermissions();
         $data = $this->_treeModel->getTreeResources();
 
         /** @var $helper Mage_Core_Helper_Data */
@@ -81,6 +83,22 @@ class Mage_Api2_Block_Adminhtml_Roles_Tab_Resources extends Mage_Adminhtml_Block
         return $helper->jsonEncode($data);
     }
 
+    /**
+     * Set resources permissions to tree model
+     *
+     * @return Mage_Api2_Block_Adminhtml_Roles_Tab_Resources
+     */
+    public function _setTreeResourcesPermissions()
+    {
+        $role = $this->getRole();
+        if ($role) {
+            $role->getPermissionModel()->setFilterValue($role);
+            $this->_treeModel->setResourcesPermissions(
+                $role->getPermissionModel()->getResourcesPermissions()
+            );
+        }
+        return $this;
+    }
 
     /**
      * Check if everything is allowed
@@ -89,7 +107,7 @@ class Mage_Api2_Block_Adminhtml_Roles_Tab_Resources extends Mage_Adminhtml_Block
      */
     public function getEverythingAllowed()
     {
-        $this->_treeModel->setRole($this->getRole());
+        $this->_setTreeResourcesPermissions();
         return $this->_treeModel->getEverythingAllowed();
     }
 
