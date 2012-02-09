@@ -20,7 +20,7 @@
         </block>
         <block type="Mage_Install_Block_Db_Main" name="database" as="database"/>
     </install_wizard>
-    <install_wizard_config type="page">
+    <install_wizard_config>
         <reference name="database">
             <action method="setTemplate"><template>db/main.phtml</template></action>
             <action method="addDatabaseBlock"><type>mysql4</type><block>Mage_Install_Block_Db_Type_Mysql4</block><template>db/mysql4.phtml</template></action>

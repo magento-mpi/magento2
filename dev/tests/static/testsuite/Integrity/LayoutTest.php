@@ -124,8 +124,12 @@ class Integrity_LayoutTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param $params
+     * Test is parent handle exists
+     *
+     * @param string $packageAndTheme
+     * @param array $pageHandles
      * @dataProvider getPageTypesHandles
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     public function testParentHandleCorrect($packageAndTheme, $pageHandles)
     {
@@ -137,10 +141,7 @@ class Integrity_LayoutTest extends PHPUnit_Framework_TestCase
                 continue;
             }
             try {
-                $this->assertArrayHasKey(
-                    $parentHandleName,
-                    $pageHandles
-                );
+                $this->assertArrayHasKey($parentHandleName, $pageHandles);
             } catch(PHPUnit_Framework_ExpectationFailedException $e) {
                 $failedHandles[] = sprintf( "Parent handle name %s not exist for %s", $parentHandleName, $handleName);
             }
@@ -156,7 +157,8 @@ class Integrity_LayoutTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param array $params
+     * Get page types handlers filtered by packages and themes in frontend area
+     *
      * @return array
      */
     public function getPageTypesHandles()
@@ -193,6 +195,8 @@ class Integrity_LayoutTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Get all possible packages and themes in frontend area
+     *
      * @return array
      */
     protected function _getPackagesAndThemes()
@@ -200,6 +204,7 @@ class Integrity_LayoutTest extends PHPUnit_Framework_TestCase
         return array(
             array('area' => 'frontend', 'package' => 'default',    'theme' => 'default', 'include_design' => false),
             array('area' => 'frontend', 'package' => 'default',    'theme' => 'default', 'include_design' => true),
+            array('area' => 'frontend', 'package' => 'default',    'theme' => 'iphone',  'include_design' => true),
             array('area' => 'frontend', 'package' => 'default',    'theme' => 'modern',  'include_design' => true),
             array('area' => 'frontend', 'package' => 'pro',        'theme' => 'default', 'include_design' => true),
             array('area' => 'frontend', 'package' => 'enterprise', 'theme' => 'default', 'include_design' => true)
