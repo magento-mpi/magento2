@@ -25,7 +25,7 @@
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 -->
-<translater>
+<jstranslator>
     <!-- flexuploader.js -->
     <flexuploader-complete translate="message" module="adminhtml">
         <message>Complete</message>
@@ -61,5 +61,5 @@
     <sales-order-create-addproducts translate="message" module="adminhtml">
         <message>Add Products</message>
     </sales-order-create-addproducts>
-</translater>
+</jstranslator>
 

@@ -25,10 +25,10 @@
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 -->
-<translater>
+<jstranslator>
     <!-- widget.js -->
     <widget-ui-insert translate="message" module="widget">
         <message>Insert Widget...</message>
     </widget-ui-insert>
     <!-- end widget.js -->
-</translater>
+</jstranslator>

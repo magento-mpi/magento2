@@ -25,7 +25,7 @@
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 -->
-<translater>
+<jstranslator>
     <!-- opcheckout.js -->
     <validate-guest translate="message" module="checkout">
         <message>Please choose to register or to checkout as a guest</message>
@@ -43,4 +43,4 @@
         <message>Please specify payment method.</message>
     </validate-shipping-methods-required>
     <!-- end opcheckout.js -->
-</translater>
+</jstranslator>

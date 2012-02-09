@@ -170,7 +170,7 @@ class Mage_Core_Helper_Js extends Mage_Core_Helper_Abstract
                 $xmlConfig = new Varien_Simplexml_Config($cachedXml);
             } else {
                 $xmlConfig = new Varien_Simplexml_Config();
-                $xmlConfig->loadString('<?xml version="1.0"?><translater></translater>');
+                $xmlConfig->loadString('<?xml version="1.0"?><jstranslator></jstranslator>');
                 Mage::getConfig()->loadModulesConfiguration(self::JAVASCRIPT_TRANSLATE_CONFIG_FILENAME, $xmlConfig);
 
                 if ($canUsaCache) {
