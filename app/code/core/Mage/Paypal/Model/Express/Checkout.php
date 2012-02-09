@@ -473,7 +473,7 @@ class Mage_Paypal_Model_Express_Checkout
     public function updateOrder($data)
     {
         /** @var $checkout Mage_Checkout_Model_Type_Onepage */
-        $checkout = Mage::getModel('checkout/type_onepage');
+        $checkout = Mage::getModel('Mage_Checkout_Model_Type_Onepage');
 
         $this->_quote->setTotalsCollectedFlag(true);
         $checkout->setQuote($this->_quote);

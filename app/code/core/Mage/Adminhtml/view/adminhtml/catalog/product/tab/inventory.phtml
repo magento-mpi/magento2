@@ -92,13 +92,13 @@
             <td class="value scope-label"><?php echo Mage::helper('Mage_Adminhtml_Helper_Data')->__('[GLOBAL]') ?></td>
         </tr>
         <tr>
-            <td class="label"><label for="inventory_is_decimal_divided"><?php echo Mage::helper('catalog')->__('Can be Divided into Multiple Boxes for Shipping') ?></label></td>
+            <td class="label"><label for="inventory_is_decimal_divided"><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Can be Divided into Multiple Boxes for Shipping') ?></label></td>
             <td class="value"><select id="inventory_is_decimal_divided" name="<?php echo $this->getFieldSuffix() ?>[stock_data][is_decimal_divided]" class="select" <?php echo $_readonly;?>>
-                <option value="0"><?php echo Mage::helper('catalog')->__('No') ?></option>
-                <option value="1"<?php if($this->getFieldValue('is_decimal_divided') == 1): ?> selected="selected"<?php endif; ?>><?php echo Mage::helper('catalog')->__('Yes') ?></option>
+                <option value="0"><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('No') ?></option>
+                <option value="1"<?php if($this->getFieldValue('is_decimal_divided') == 1): ?> selected="selected"<?php endif; ?>><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Yes') ?></option>
             </select>
             </td>
-            <td class="value scope-label"><?php echo Mage::helper('adminhtml')->__('[GLOBAL]') ?></td>
+            <td class="value scope-label"><?php echo Mage::helper('Mage_Adminhtml_Helper_Data')->__('[GLOBAL]') ?></td>
         </tr>
         <?php endif; ?>
 

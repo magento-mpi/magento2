@@ -110,7 +110,7 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Attribute extends Mage_Catalo
         }
 
         $attribute = $filter->getAttributeModel();
-        $fieldName = Mage::getResourceSingleton('enterprise_search/engine')->getSearchEngineFieldName($attribute);
+        $fieldName = Mage::getResourceSingleton('Enterprise_Search_Model_Resource_Engine')->getSearchEngineFieldName($attribute);
         $this->getLayer()->getProductCollection()->addFqFilter(array($fieldName => $value));
 
         return $this;

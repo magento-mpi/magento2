@@ -971,7 +971,7 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
                 );
                 $cart->saveQuote();
             } else {
-                Mage::throwException(Mage::helper('enterprise_checkout')->__('Error in uploading file.'));
+                Mage::throwException(Mage::helper('Enterprise_Checkout_Helper_Data')->__('Error in uploading file.'));
             }
         } catch (Mage_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());

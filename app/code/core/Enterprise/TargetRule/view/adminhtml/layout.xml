@@ -36,17 +36,17 @@
             </action>
         </reference>
         <reference name="content">
-            <block type="enterprise_targetrule/adminhtml_targetrule_edit"
+            <block type="Enterprise_TargetRule_Block_Adminhtml_Targetrule_Edit"
                    name="enterprise_targetrule_edit"/>
         </reference>
         <reference name="left">
-            <block type="enterprise_targetrule/adminhtml_targetrule_edit_tabs"
+            <block type="Enterprise_TargetRule_Block_Adminhtml_Targetrule_Edit_Tabs"
                    name="enterprise_targetrule_edit_tabs">
-                <block type="enterprise_targetrule/adminhtml_targetrule_edit_tab_main"
+                <block type="Enterprise_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Main"
                        name="enterprise_targetrule_edit_tab_main"></block>
-                <block type="enterprise_targetrule/adminhtml_targetrule_edit_tab_conditions"
+                <block type="Enterprise_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Conditions"
                        name="enterprise_targetrule_edit_tab_conditions"></block>
-                <block type="enterprise_targetrule/adminhtml_targetrule_edit_tab_actions"
+                <block type="Enterprise_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Actions"
                        name="enterprise_targetrule_edit_tab_actions"></block>
 
                 <action method="addTab">

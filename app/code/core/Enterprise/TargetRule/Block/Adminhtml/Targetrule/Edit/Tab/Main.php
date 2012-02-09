@@ -121,7 +121,7 @@ class Enterprise_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Main
      */
     public function getTabLabel()
     {
-        return Mage::helper('enterprise_targetrule')->__('Rule Information');
+        return Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Rule Information');
     }
 
     /**
@@ -131,7 +131,7 @@ class Enterprise_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Main
      */
     public function getTabTitle()
     {
-        return Mage::helper('enterprise_targetrule')->__('Rule Information');
+        return Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Rule Information');
     }
 
     /**

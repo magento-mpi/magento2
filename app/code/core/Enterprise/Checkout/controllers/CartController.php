@@ -55,7 +55,7 @@ class Enterprise_Checkout_CartController extends Mage_Core_Controller_Front_Acti
      */
     protected function _getCart()
     {
-        return Mage::getSingleton('checkout/cart');
+        return Mage::getSingleton('Mage_Checkout_Model_Cart');
     }
 
     /**
@@ -65,7 +65,7 @@ class Enterprise_Checkout_CartController extends Mage_Core_Controller_Front_Acti
      */
     protected function _getFailedItemsCart()
     {
-        return Mage::getSingleton('enterprise_checkout/cart');
+        return Mage::getSingleton('Enterprise_Checkout_Model_Cart');
     }
 
     /**

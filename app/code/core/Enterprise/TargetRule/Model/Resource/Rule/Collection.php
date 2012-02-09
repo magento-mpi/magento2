@@ -99,11 +99,11 @@ class Enterprise_TargetRule_Model_Resource_Rule_Collection extends Mage_Rule_Mod
     {
         if (!empty($segmentId)) {
             $this->getSelect()->join(
-                array('segement_idx' => $this->getTable('enterprise_targetrule/segment')),
+                array('segement_idx' => $this->getTable('enterprise_targetrule_customersegment')),
                 'segement_idx.rule_id = main_table.rule_id', array())->where('segement_idx.segment_id = ?', $segmentId);
         } else {
             $this->getSelect()->joinLeft(
-                array('segement_idx' => $this->getTable('enterprise_targetrule/segment')),
+                array('segement_idx' => $this->getTable('enterprise_targetrule_customersegment')),
                 'segement_idx.rule_id = main_table.rule_id', array())->where('segement_idx.segment_id IS NULL');
         }
         return $this;

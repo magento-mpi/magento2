@@ -44,7 +44,7 @@
             <core_clean_cache>
                 <observers>
                     <enterprise_pagecache>
-                        <class>enterprise_pagecache/observer</class>
+                        <class>Enterprise_PageCache_Model_Observer</class>
                         <method>cleanExpiredCache</method>
                     </enterprise_pagecache>
                 </observers>
@@ -337,7 +337,7 @@
             <enterprise_customersegment_ids_changed>
                 <observers>
                     <enterprise_pagecache>
-                        <class>enterprise_pagecache/observer</class>
+                        <class>Enterprise_PageCache_Model_Observer</class>
                         <method>changedCustomerSegmentIds</method>
                     </enterprise_pagecache>
                 </observers>

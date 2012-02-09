@@ -114,7 +114,7 @@
             <targetrule_edit_tab_main_after_prepare_form>
                 <observers>
                     <enterprise_customersegment>
-                        <class>enterprise_customersegment/observer</class>
+                        <class>Enterprise_CustomerSegment_Model_Observer</class>
                         <method>addFieldsToTargetRuleForm</method>
                     </enterprise_customersegment>
                 </observers>
@@ -191,7 +191,7 @@
             <visitor_init>
                 <observers>
                     <enterprise_customersegment>
-                        <class>enterprise_customersegment/observer</class>
+                        <class>Enterprise_CustomerSegment_Model_Observer</class>
                         <method>processEvent</method>
                     </enterprise_customersegment>
                 </observers>

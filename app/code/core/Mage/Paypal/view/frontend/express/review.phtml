@@ -18,7 +18,7 @@ $shippingAddress = $this->getShippingAddress();
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
 <script type="text/javascript">
 //<![CDATA[
-    var countryRegions = <?php echo $this->helper('directory')->getRegionJson() ?>
+    var countryRegions = <?php echo $this->helper('Mage_Directory_Helper_Data')->getRegionJson() ?>
 //]]>
 </script>
 

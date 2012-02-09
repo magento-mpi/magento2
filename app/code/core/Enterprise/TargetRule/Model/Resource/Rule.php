@@ -48,7 +48,7 @@ class Enterprise_TargetRule_Model_Resource_Rule extends Mage_Rule_Model_Resource
     public function getCustomerSegmentIds(Mage_Core_Model_Abstract $object)
     {
         $ids = $this->getReadConnection()->select()
-            ->from($this->getTable('enterprise_targetrule/customersegment'), 'segment_id')
+            ->from($this->getTable('enterprise_targetrule_customersegment'), 'segment_id')
             ->where('rule_id = ?', $object->getId())
             ->query()->fetchAll(Zend_Db::FETCH_COLUMN);
         return empty($ids) ? array() : $ids;
@@ -69,7 +69,7 @@ class Enterprise_TargetRule_Model_Resource_Rule extends Mage_Rule_Model_Resource
         $adapter = $this->_getWriteAdapter();
         foreach ($segmentIds as $segmentId) {
             if (!empty($segmentId)) {
-                $adapter->insertOnDuplicate($this->getTable('enterprise_targetrule/customersegment'),
+                $adapter->insertOnDuplicate($this->getTable('enterprise_targetrule_customersegment'),
                     array('rule_id' => $ruleId, 'segment_id' => $segmentId),
                     array()
                 );
@@ -80,7 +80,7 @@ class Enterprise_TargetRule_Model_Resource_Rule extends Mage_Rule_Model_Resource
             $segmentIds = array(0);
         }
 
-        $adapter->delete($this->getTable('enterprise_targetrule/customersegment'),
+        $adapter->delete($this->getTable('enterprise_targetrule_customersegment'),
             array('rule_id = ?' => $ruleId, 'segment_id NOT IN (?)' => $segmentIds));
         return $this;
     }

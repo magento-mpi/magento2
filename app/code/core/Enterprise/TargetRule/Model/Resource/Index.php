@@ -153,7 +153,7 @@ class Enterprise_TargetRule_Model_Resource_Index extends Mage_Index_Model_Resour
         $limit = $object->getLimit() + $this->getOverfillLimit();
         $productIds = array();
         $ruleCollection = $object->getRuleCollection();
-        if (Mage::helper('enterprise_customersegment')->isEnabled()) {
+        if (Mage::helper('Enterprise_CustomerSegment_Helper_Data')->isEnabled()) {
             $ruleCollection->addSegmentFilter($segmentId);
         }
         foreach ($ruleCollection as $rule) {
@@ -591,25 +591,25 @@ class Enterprise_TargetRule_Model_Resource_Index extends Mage_Index_Model_Resour
     protected function _getSegmentsIdsFromCurrentCustomer()
     {
         $segmentIds = array();
-        if (Mage::helper('enterprise_customersegment')->isEnabled()) {
+        if (Mage::helper('Enterprise_CustomerSegment_Helper_Data')->isEnabled()) {
             $customer = Mage::registry('segment_customer');
             if (!$customer) {
-                $customer = Mage::getSingleton('customer/session')->getCustomer();
+                $customer = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer();
             }
             $websiteId = Mage::app()->getWebsite()->getId();
 
             if (!$customer->getId()) {
-                $allSegmentIds = Mage::getSingleton('customer/session')->getCustomerSegmentIds();
+                $allSegmentIds = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerSegmentIds();
                 if ((is_array($allSegmentIds) && isset($allSegmentIds[$websiteId]))) {
                     $segmentIds = $allSegmentIds[$websiteId];
                 }
             } else {
-                $segmentIds = Mage::getSingleton('enterprise_customersegment/customer')
+                $segmentIds = Mage::getSingleton('Enterprise_CustomerSegment_Model_Customer')
                     ->getCustomerSegmentIdsForWebsite($customer->getId(), $websiteId);
             }
 
             if(count($segmentIds)) {
-                $segmentIds = Mage::getResourceModel('enterprise_customersegment/segment')
+                $segmentIds = Mage::getResourceModel('Enterprise_CustomerSegment_Model_Resource_Segment')
                     ->getActiveSegmentsByIds($segmentIds);
             }
         }

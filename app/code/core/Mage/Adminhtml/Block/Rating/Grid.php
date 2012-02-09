@@ -56,7 +56,7 @@ class Mage_Adminhtml_Block_Rating_Grid extends Mage_Adminhtml_Block_Widget_Grid
         ));
 
         $this->addColumn('position', array(
-            'header' => Mage::helper('rating')->__('Sort Order'),
+            'header' => Mage::helper('Mage_Rating_Helper_Data')->__('Sort Order'),
             'align' => 'left',
             'width' => '100px',
             'index' => 'position',

@@ -65,7 +65,7 @@ class Enterprise_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Actions
      */
     public function getTabLabel()
     {
-        return Mage::helper('enterprise_targetrule')->__('Products to Display');
+        return Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Products to Display');
     }
 
     /**
@@ -75,7 +75,7 @@ class Enterprise_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Actions
      */
     public function getTabTitle()
     {
-        return Mage::helper('enterprise_targetrule')->__('Products to Display');
+        return Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Products to Display');
     }
 
     /**

@@ -107,7 +107,7 @@ class Enterprise_Checkout_Model_Observer
                 $cart->prepareAddProductsBySku($importModel->getDataFromCsv());
                 $cart->saveAffectedProducts($orderCreateModel);
             } else {
-                Mage::throwException(Mage::helper('enterprise_checkout')->__('Error while uploading file.'));
+                Mage::throwException(Mage::helper('Enterprise_Checkout_Helper_Data')->__('Error while uploading file.'));
             }
         } catch (Mage_Core_Exception $e) {
             $observer->getSession()->addError($e->getMessage());

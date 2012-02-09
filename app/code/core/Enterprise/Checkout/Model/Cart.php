@@ -768,7 +768,7 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
     protected function _loadProductBySku($sku, $config = array())
     {
         /** @var $product Mage_Catalog_Model_Product */
-        $product = Mage::getModel('catalog/product')->loadByAttribute('sku', $sku);
+        $product = Mage::getModel('Mage_Catalog_Model_Product')->loadByAttribute('sku', $sku);
         if ($product && $product->getId()) {
             return $product;
         }
@@ -780,7 +780,7 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
             return false;
         }
 
-        $product = Mage::getModel('catalog/product')->loadByAttribute('sku', $primarySku);
+        $product = Mage::getModel('Mage_Catalog_Model_Product')->loadByAttribute('sku', $primarySku);
 
         if ($product && $this->_shouldBeConfigured($product) && $this->_isConfigured($product, $config)) {
             return $product;
@@ -788,7 +788,7 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
 
         if ($product && $product->getId()) {
             /** @var $option Mage_Catalog_Model_Product_Option */
-            $option = Mage::getModel('catalog/product_option');
+            $option = Mage::getModel('Mage_Catalog_Model_Product_Option');
             $option->setAddRequiredFilter(true);
             $option->setAddRequiredFilterValue(true);
             $productRequiredOptions = $option->getProductOptionCollection($product);
@@ -998,7 +998,7 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
             // FRONTEND
             if (!$isAdmin) {
                 /** @var $stockItem Mage_CatalogInventory_Model_Stock_Item */
-                $stockItem = Mage::getModel('cataloginventory/stock_item');
+                $stockItem = Mage::getModel('Mage_CatalogInventory_Model_Stock_Item');
                 $stockItem->loadByProduct($product);
                 $stockItem->setProduct($product);
                 $qtyStatus = $this->getQtyStatus($stockItem, $product, $item['qty']);
@@ -1065,7 +1065,7 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
     protected function _isProductOutOfStock($product)
     {
         if ($product->isComposite()) {
-            $productsByGroups = $product->getTypeInstance(true)->getProductsToPurchaseByReqGroups($product);
+            $productsByGroups = $product->getTypeInstance()->getProductsToPurchaseByReqGroups($product);
             foreach ($productsByGroups as $productsInGroup) {
                 foreach ($productsInGroup as $childProduct) {
                     if (($childProduct->hasStockItem() && $childProduct->getStockItem()->getIsInStock())
@@ -1079,7 +1079,7 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
         }
 
         /** @var $stockItem Mage_CatalogInventory_Model_Stock_Item */
-        $stockItem = Mage::getModel('cataloginventory/stock_item');
+        $stockItem = Mage::getModel('Mage_CatalogInventory_Model_Stock_Item');
         $stockItem->loadByProduct($product);
         $stockItem->setProduct($product);
         return !$stockItem->getIsInStock();
@@ -1217,7 +1217,7 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
             } elseif (!$doPassDisabledToCart && !empty($item['item']['is_disabled'])) {
                 $success = false;
                 $item['code'] = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_UNKNOWN;
-                $item['error'] = Mage::helper('adminhtml')->__('This product is currently disabled.');
+                $item['error'] = Mage::helper('Mage_Adminhtml_Helper_Data')->__('This product is currently disabled.');
             }
         } catch (Exception $e) {
             $success = false;

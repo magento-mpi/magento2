@@ -159,9 +159,9 @@ class Enterprise_CustomerSegment_Model_Customer extends Mage_Core_Model_Abstract
             $this->removeCustomerFromWebsiteSegments($customerId, $websiteId, $notMatchedIds);
             $segmentIds = $this->_customerWebsiteSegments[$websiteId][$customerId];
         } else {
-            $this->addVisitorToWebsiteSegments(Mage::getSingleton('customer/session'), $websiteId, $matchedIds);
-            $this->removeVisitorFromWebsiteSegments(Mage::getSingleton('customer/session'), $websiteId, $notMatchedIds);
-            $allSegments= Mage::getSingleton('customer/session')->getCustomerSegmentIds();
+            $this->addVisitorToWebsiteSegments(Mage::getSingleton('Mage_Customer_Model_Session'), $websiteId, $matchedIds);
+            $this->removeVisitorFromWebsiteSegments(Mage::getSingleton('Mage_Customer_Model_Session'), $websiteId, $notMatchedIds);
+            $allSegments= Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerSegmentIds();
             $segmentIds = $allSegments[$websiteId];
         }
 

@@ -126,7 +126,7 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Mage_Adm
             'class'  => $fieldsetHtmlClass,
             'table_class' => 'form-list stores-tree',
         ));
-        $renderer = $this->getLayout()->createBlock('adminhtml/store_switcher_form_renderer_fieldset');
+        $renderer = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Store_Switcher_Form_Renderer_Fieldset');
         $fieldset->setRenderer($renderer);
         $wysiwygConfig->setUseContainer(true);
         foreach (Mage::app()->getWebsites() as $website) {

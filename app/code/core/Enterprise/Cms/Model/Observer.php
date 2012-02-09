@@ -544,7 +544,7 @@ class Enterprise_Cms_Model_Observer
          */
         $topMenuRootNode = $observer->getMenu();
 
-        $hierarchyModel = Mage::getModel('enterprise_cms/hierarchy_node', array(
+        $hierarchyModel = Mage::getModel('Enterprise_Cms_Model_Hierarchy_Node', array(
             'scope' => Enterprise_Cms_Model_Hierarchy_Node::NODE_SCOPE_STORE,
             'scope_id' => Mage::app()->getStore()->getId(),
         ))->getHeritage();
@@ -556,7 +556,7 @@ class Enterprise_Cms_Model_Observer
             $topMenuRootNode->getId() => $topMenuRootNode
         );
 
-        $nodeModel = Mage::getModel('enterprise_cms/hierarchy_node');
+        $nodeModel = Mage::getModel('Enterprise_Cms_Model_Hierarchy_Node');
 
         foreach ($nodes as $node) {
 

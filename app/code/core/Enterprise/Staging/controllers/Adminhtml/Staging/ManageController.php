@@ -374,7 +374,7 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
                     $date = Mage::getModel('Mage_Core_Model_Date')->gmtDate(null, $schedulingDate);
 
                     if (!$date) {
-                        Mage::throwException(Mage::helper('enterprise_staging')->__('Invalid date'));
+                        Mage::throwException(Mage::helper('Enterprise_Staging_Helper_Data')->__('Invalid date'));
                     }
 
                     $staging->setMergeSchedulingDate($date);

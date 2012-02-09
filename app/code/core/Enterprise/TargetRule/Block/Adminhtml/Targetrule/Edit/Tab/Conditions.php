@@ -66,7 +66,7 @@ class Enterprise_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Conditions
      */
     public function getTabLabel()
     {
-        return Mage::helper('enterprise_targetrule')->__('Products to Match');
+        return Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Products to Match');
     }
 
     /**
@@ -76,7 +76,7 @@ class Enterprise_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Conditions
      */
     public function getTabTitle()
     {
-        return Mage::helper('enterprise_targetrule')->__('Products to Match');
+        return Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Products to Match');
     }
 
     /**

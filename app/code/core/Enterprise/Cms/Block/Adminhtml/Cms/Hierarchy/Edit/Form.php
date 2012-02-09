@@ -286,11 +286,11 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
          * Top menu options
          */
         $menuFieldset   = $form->addFieldset('top_menu_fieldset', array(
-            'legend'    => Mage::helper('enterprise_cms')->__('Top Navigation Menu Options')
+            'legend'    => Mage::helper('Enterprise_Cms_Helper_Data')->__('Top Navigation Menu Options')
         ));
 
         $menuFieldset->addField('top_menu_excluded', 'select', array(
-            'label'     => Mage::helper('enterprise_cms')->__('Exclude from Navigation Menu'),
+            'label'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('Exclude from Navigation Menu'),
             'name'      => 'top_menu_excluded',
             'values'    => $yesNoOptions,
             'onchange'   => "hierarchyNodes.nodeChanged()",
@@ -299,7 +299,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
         ));
 
         $menuFieldset->addField('top_menu_visibility', 'select', array(
-            'label'     => Mage::helper('enterprise_cms')->__('Enable Navigation Menu'),
+            'label'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('Enable Navigation Menu'),
             'name'      => 'top_menu_visibility',
             'values'    => $yesNoOptions,
             'onchange'   => "hierarchyNodes.metadataChanged('top_menu_visibility', 'top_menu_fieldset')",

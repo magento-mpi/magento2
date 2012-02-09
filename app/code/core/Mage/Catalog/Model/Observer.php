@@ -237,7 +237,7 @@ class Mage_Catalog_Model_Observer
      */
     public function addCatalogToTopmenuItems(Varien_Event_Observer $observer)
     {
-        $this->_addCategoriesToMenu(Mage::helper('catalog/category')->getStoreCategories(), $observer->getMenu());
+        $this->_addCategoriesToMenu(Mage::helper('Mage_Catalog_Helper_Category')->getStoreCategories(), $observer->getMenu());
     }
 
     /**
@@ -259,13 +259,13 @@ class Mage_Catalog_Model_Observer
             $categoryData = array(
                 'name' => $category->getName(),
                 'id' => $nodeId,
-                'url' => Mage::helper('catalog/category')->getCategoryUrl($category),
+                'url' => Mage::helper('Mage_Catalog_Helper_Category')->getCategoryUrl($category),
                 'is_active' => $this->_isActiveMenuCategory($category)
             );
             $categoryNode = new Varien_Data_Tree_Node($categoryData, 'id', $tree, $parentCategoryNode);
             $parentCategoryNode->addChild($categoryNode);
 
-            if (Mage::helper('catalog/category_flat')->isEnabled()) {
+            if (Mage::helper('Mage_Catalog_Helper_Category_Flat')->isEnabled()) {
                 $subcategories = (array)$category->getChildrenNodes();
             } else {
                 $subcategories = $category->getChildren();
@@ -283,7 +283,7 @@ class Mage_Catalog_Model_Observer
      */
     protected function _isActiveMenuCategory($category)
     {
-        $catalogLayer = Mage::getSingleton('catalog/layer');
+        $catalogLayer = Mage::getSingleton('Mage_Catalog_Model_Layer');
         if (!$catalogLayer) {
             return false;
         }

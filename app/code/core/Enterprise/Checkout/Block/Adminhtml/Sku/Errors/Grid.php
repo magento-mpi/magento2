@@ -115,7 +115,7 @@ class Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Grid extends Mage_Adminhtml
             'width'    => 40,
             'sortable' => false,
             'index'    => 'qty',
-            'renderer' => 'enterprise_checkout/adminhtml_sku_errors_grid_renderer_qty',
+            'renderer' => 'Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Grid_Renderer_Qty',
         ));
 
         $this->addColumn('remove', array(
