@@ -75,6 +75,7 @@ class Mage_OAuth_Adminhtml_OAuth_ConsumerController extends Mage_Adminhtml_Contr
 
         $formData = $this->_getFormData();
         if ($formData) {
+            $this->_setFormData($formData);
             $model->addData($formData);
         } else {
             /** @var $helper Mage_OAuth_Helper_Data */
