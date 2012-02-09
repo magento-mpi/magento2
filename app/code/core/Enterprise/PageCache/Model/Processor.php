@@ -447,7 +447,7 @@ class Enterprise_PageCache_Model_Processor
                 preg_match($placeholder->getPattern(), $content, $matches);
                 if (array_key_exists(1,$matches)) {
                     $containers = array_merge($this->_processContainers($matches[1]), $containers);
-                    $content = preg_replace($placeholder->getPattern(), $matches[1], $content);
+                    $content = preg_replace($placeholder->getPattern(), str_replace('$', '\\$', $matches[1]), $content);
                 }
             }
         }
