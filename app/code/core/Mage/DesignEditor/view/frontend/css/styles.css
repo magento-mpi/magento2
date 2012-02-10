@@ -10,4 +10,14 @@
 /* Visual Design Editor ================================================================== */
 #vde_toolbar a.vde_button { border: 1px solid #777777; background: #ffffff; text-decoration: none; padding: 0 7px 1px 7px; text-align: center; }
 #vde_toolbar a.vde_button:hover { background: #eeeeee; }
+#vde_toolbar .item-msg {
+    border-style: solid;
+    border-width: 1px;
+    padding: 4px;
+}
+
+#vde_toolbar .error {
+    border-color: red;
+    color: red;
+}
 /* ======================================================================================= */

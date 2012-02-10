@@ -110,8 +110,8 @@ class Mage_DesignEditor_EditorController extends Mage_Core_Controller_Front_Acti
         $session = Mage::getSingleton('Mage_DesignEditor_Model_Session');
         try {
             $session->setSkin($skin);
-        } catch (Exception $e) {
-            $session->addException($e, $e->getMessage());
+        } catch (Mage_Core_Exception $e) {
+            $session->addError($e->getMessage());
         }
         $this->getResponse()->setRedirect($backUrl);
     }
