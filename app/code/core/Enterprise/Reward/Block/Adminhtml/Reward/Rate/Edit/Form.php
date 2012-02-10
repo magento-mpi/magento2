@@ -65,7 +65,8 @@ class Enterprise_Reward_Block_Adminhtml_Reward_Rate_Edit_Form extends Mage_Admin
             'name'   => 'website_id',
             'title'  => Mage::helper('enterprise_reward')->__('Website'),
             'label'  => Mage::helper('enterprise_reward')->__('Website'),
-            'values' => Mage::getModel('enterprise_reward/source_website')->toOptionArray()
+            'values' => Mage::getModel('enterprise_reward/source_website')->toOptionArray(),
+            'after_element_html' => Mage::getBlockSingleton('adminhtml/store_switcher')->getHintHtml()
         ));
 
         $fieldset->addField('customer_group_id', 'select', array(
