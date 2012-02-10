@@ -253,11 +253,15 @@ class Enterprise_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
             foreach ($failedItems as $item) {
                 if (is_null($this->_items) && !in_array($item['code'], $this->_failedTemplateStatusCodes)) {
                     $id = $item['item']['id'];
-                    $itemsToLoad[$id] = $item['item'];
-                    $itemsToLoad[$id]['code'] = $item['code'];
-                    $itemsToLoad[$id]['error'] = isset($item['item']['error']) ? $item['item']['error'] : '';
+                    if (!isset($itemsToLoad[$id])) {
+                        $itemsToLoad[$id] = array();
+                    }
+                    $itemToLoad = $item['item'];
+                    $itemToLoad['code'] = $item['code'];
+                    $itemToLoad['error'] = isset($item['item']['error']) ? $item['item']['error'] : '';
                     // Avoid collisions of product ID with quote item ID
-                    unset($itemsToLoad[$id]['id']);
+                    unset($itemToLoad['id']);
+                    $itemsToLoad[$id][] = $itemToLoad;
                 } elseif ($all && in_array($item['code'], $this->_failedTemplateStatusCodes)) {
                     $item['item']['code'] = $item['code'];
                     $item['item']['product_type'] = 'undefined';
@@ -275,34 +279,38 @@ class Enterprise_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
                 $quote = Mage::getSingleton('checkout/session')->getQuote();
                 $emptyQuoteItem = Mage::getModel('sales/quote_item');
 
-                /** @var $product Mage_Catalog_Model_Product */
+                /** @var $itemProduct Mage_Catalog_Model_Product */
                 foreach ($collection->getItems() as $product) {
-                    $product->addData($itemsToLoad[$product->getId()]);
-                    if (!$product->getOptionsByCode()) {
-                        $product->setOptionsByCode(array());
-                    }
-                    // Create a new quote item and import data to it
-                    $quoteItem = clone $emptyQuoteItem;
-                    $quoteItem->addData($product->getData())
-                        ->setQuote($quote)
-                        ->setProduct($product)
-                        ->setOptions($product->getOptions())
-                        ->setRedirectUrl($product->getUrlModel()->getUrl($product));
+                    $itemsCount = count($itemsToLoad[$product->getId()]);
+                    foreach ($itemsToLoad[$product->getId()] as $index => $itemToLoad) {
+                        $itemProduct = ($index == $itemsCount - 1) ? $product : (clone $product);
+                        $itemProduct->addData($itemToLoad);
+                        if (!$itemProduct->getOptionsByCode()) {
+                            $itemProduct->setOptionsByCode(array());
+                        }
+                        // Create a new quote item and import data to it
+                        $quoteItem = clone $emptyQuoteItem;
+                        $quoteItem->addData($itemProduct->getData())
+                            ->setQuote($quote)
+                            ->setProduct($itemProduct)
+                            ->setOptions($itemProduct->getOptions())
+                            ->setRedirectUrl($itemProduct->getUrlModel()->getUrl($itemProduct));
 
-                    $product->setCustomOptions($product->getOptionsByCode());
-                    if (Mage::helper('catalog')->canApplyMsrp($product)) {
-                        $quoteItem->setCanApplyMsrp(true);
-                        $product->setRealPriceHtml(
-                            Mage::app()->getStore()->formatPrice(Mage::app()->getStore()->convertPrice(
-                                Mage::helper('tax')->getPrice($product, $product->getFinalPrice(), true)
-                            ))
-                        );
-                        $product->setAddToCartUrl(Mage::helper('checkout/cart')->getAddUrl($product));
-                    } else {
-                        $quoteItem->setCanApplyMsrp(false);
-                    }
+                        $itemProduct->setCustomOptions($itemProduct->getOptionsByCode());
+                        if (Mage::helper('catalog')->canApplyMsrp($itemProduct)) {
+                            $quoteItem->setCanApplyMsrp(true);
+                            $itemProduct->setRealPriceHtml(
+                                Mage::app()->getStore()->formatPrice(Mage::app()->getStore()->convertPrice(
+                                    Mage::helper('tax')->getPrice($itemProduct, $itemProduct->getFinalPrice(), true)
+                                ))
+                            );
+                            $itemProduct->setAddToCartUrl(Mage::helper('checkout/cart')->getAddUrl($itemProduct));
+                        } else {
+                            $quoteItem->setCanApplyMsrp(false);
+                        }
 
-                    $quoteItemsCollection[] = $quoteItem;
+                        $quoteItemsCollection[] = $quoteItem;
+                    }
                 }
             }
 
