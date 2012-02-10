@@ -48,6 +48,7 @@
                         <mask>/orders</mask>
                     </route_main>
                 </routes>
+                <instance>order</instance>
             </orders>
             <order>
                 <group>sales</group>
@@ -64,6 +65,14 @@
                         <mask>/order</mask>
                     </route_main>
                 </routes>
+                <attributes>
+                    <entity_id>Order ID</entity_id>
+                    <customer_id>Customer ID</customer_id>
+                    <state>Order State</state>
+                    <subtotal>Subtotal</subtotal>
+                    <created_at>Creation Time</created_at>
+                </attributes>
+                <collection>orders</collection>
             </order>
         </resources>
     </api2>

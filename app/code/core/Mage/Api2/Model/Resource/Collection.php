@@ -202,16 +202,18 @@ abstract class Mage_Api2_Model_Resource_Collection extends Mage_Api2_Model_Resou
     }
 
     /**
-     * Get available attributes of API resource
-     *
-     * This method used for single API resource and for API resource collection.
-     * Each model in a module must have implementation of this method.
+     * Get available attributes of API resource from configuration file
      *
      * @return array
+     * @throw Exception
      */
-    public function getAvailableAttributes()
+    public function getAvailableAttributesFromConfig()
     {
         $instanceResource = $this->getConfig()->getResourceInstance($this->getResourceType());
+
+        if (!$instanceResource) {
+            throw new Exception('Can not find instance node name for resource');
+        }
         return $this->getConfig()->getResourceAttributes($instanceResource);
     }
 }

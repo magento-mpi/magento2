@@ -336,6 +336,25 @@ abstract class Mage_Api2_Model_Resource
     }
 
     /**
+     * Get available attributes of API resource
+     *
+     * This method used for single API resource and for API resource collection.
+     *
+     * @return array
+     */
+    public function getAvailableAttributes()
+    {
+        return $this->getAvailableAttributesFromConfig();
+    }
+
+    /**
+     * Get available attributes of API resource from configuration file
+     *
+     * @return array
+     */
+    abstract public function getAvailableAttributesFromConfig();
+
+    /**
      * Set API user
      *
      * @param Mage_Api2_Model_Auth_User_Abstract $apiUser
@@ -506,7 +525,7 @@ abstract class Mage_Api2_Model_Resource
         $entityType = Mage::getModel('eav/entity_type');
         $entityType->load($model, 'entity_model');
 
-        /** @var $resourceModel Mage_Catalog_Model_Resource_Product_Attribute_Collection */
+        /** @var $resourceModel Mage_Eav_Model_Resource_Entity_Attribute_Collection */
         $resourceModel = Mage::getResourceModel($entityType->getEntityAttributeCollection());
         $attributesInfo = $resourceModel
             ->setEntityTypeFilter($entityType)

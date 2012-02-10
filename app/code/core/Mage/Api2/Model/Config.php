@@ -262,7 +262,9 @@ class Mage_Api2_Model_Config extends Varien_Simplexml_Config
      */
     public function getResourceAttributes($node)
     {
-        return (array) $this->getNode('resources/' . $node . '/attributes');
+        $attributes = $this->getNode('resources/' . $node . '/attributes');
+
+        return $attributes ? (array) $attributes : array();
     }
 
     /**
