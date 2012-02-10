@@ -115,14 +115,14 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
             return $product->getCalculatedFinalPrice();
         }
 
-        $finalPrice = $this->getBasePrice($product, $qty);
-
+        $basePrice = $this->getBasePrice($product, $qty);
+        $finalPrice = $basePrice;
         $product->setFinalPrice($finalPrice);
         Mage::dispatchEvent('catalog_product_get_final_price', array('product' => $product, 'qty' => $qty));
         $finalPrice = $product->getData('final_price');
 
         $finalPrice += $this->getTotalBundleItemsPrice($product, $qty);
-        $finalPrice = $this->_applyOptionsPrice($product, $qty, $finalPrice);
+        $finalPrice += $this->_applyOptionsPrice($product, $qty, $basePrice) - $basePrice;
         $product->setFinalPrice($finalPrice);
         return max(0, $product->getData('final_price'));
     }
