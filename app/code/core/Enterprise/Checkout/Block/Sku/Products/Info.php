@@ -148,4 +148,34 @@ class Enterprise_Checkout_Block_Sku_Products_Info extends Mage_Core_Block_Templa
                 return '';
         }
     }
+
+    /**
+     * Get html of tier price
+     *
+     * @return string
+     */
+    public function getTierPriceHtml()
+    {
+        /** @var $product Mage_Catalog_Model_Product */
+        $product = $this->getItem()->getProduct();
+        if (!$product || !$product->getId()) {
+            return '';
+        }
+
+        $productTierPrices = $product->getData('tier_price');
+        if (is_null($productTierPrices) || !is_array($productTierPrices)) {
+            $productAttributes = $product->getAttributes();
+            if (!isset($productAttributes['tier_price'])) {
+                return '';
+            }
+            $productAttributes['tier_price']->getBackend()->afterLoad($product);
+        }
+
+        Mage::unregister('product');
+        Mage::register('product', $product);
+        if (!$this->hasProductViewBlock()) {
+            $this->setProductViewBlock($this->getLayout()->createBlock('catalog/product_view'));
+        }
+        return $this->getProductViewBlock()->getTierPriceHtml();
+    }
 }

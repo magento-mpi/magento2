@@ -33,6 +33,7 @@
 $_item = $this->getItem();
 ?>
 <h3 class="product-name product-sku"><?php echo $this->escapeHtml($_item->getSku()); ?></h3>
+<p class="tier-prices"><?php echo $this->getTierPriceHtml(); ?></p>
 <p class="item-msg error">* <?php echo $this->getMessage(); ?></p>
 <p class="item-configure"><?php echo $this->getLink(); ?></p>
 <?php if (!$this->isItemSkuFailed()): ?>
