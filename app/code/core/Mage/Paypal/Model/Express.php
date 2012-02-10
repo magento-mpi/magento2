@@ -106,6 +106,21 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
         return $this;
     }
 
+   /**
+    * Can be used in regular checkout
+    *
+    * @return bool
+    */
+   public function canUseCheckout()
+   {
+       if (Mage::getStoreConfigFlag('payment/hosted_pro/active')
+           && !Mage::getStoreConfigFlag('payment/hosted_pro/display_ec')
+       ) {
+           return false;
+       }
+       return parent::canUseCheckout();
+   }
+
     /**
      * Whether method is available for specified currency
      *
