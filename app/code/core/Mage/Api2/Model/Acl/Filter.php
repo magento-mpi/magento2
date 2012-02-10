@@ -137,39 +137,13 @@ class Mage_Api2_Model_Acl_Filter
      */
     public function getAllowedAttributes($resourceType, $operation, $userType)
     {
-        //TODO backend to get real attributes allowed
+        /** @var $model Mage_Api2_Model_Acl_Global_Attribute_ResourcePermission */
+        $model = Mage::getModel('api2/acl_global_attribute_resourcePermission');
 
-        $example = array(
-            'product' => array(
-                Mage_Api2_Model_Resource::OPERATION_ATTRIBUTE_READ => array('id', 'entity_id', 'name', 'title', 'sku'),
-                Mage_Api2_Model_Resource::OPERATION_ATTRIBUTE_WRITE => array('name'),
-            ),
-            'products' => array(
-                Mage_Api2_Model_Resource::OPERATION_ATTRIBUTE_READ
-                    => array('id', 'entity_id', 'name', 'title', 'sku', 'status',),
-                Mage_Api2_Model_Resource::OPERATION_ATTRIBUTE_WRITE => array('type', 'set', 'sku'),
-            ),
-            'orders' => array(
-                Mage_Api2_Model_Resource::OPERATION_ATTRIBUTE_READ
-                    => array('entity_id', 'customer_id', 'state', 'subtotal', 'created_at')
-            ),
-            'review' => array(
-                Mage_Api2_Model_Resource::OPERATION_ATTRIBUTE_READ
-                    => array('review_id', 'product_id', 'status_id', 'stores', 'nickname', 'title', 'detail'),
-                Mage_Api2_Model_Resource::OPERATION_ATTRIBUTE_WRITE
-                    => array('status_id', 'stores', 'nickname', 'title', 'detail')
-            ),
-            'reviews' => array(
-                Mage_Api2_Model_Resource::OPERATION_ATTRIBUTE_READ
-                    => array('review_id', 'product_id', 'status_id', 'stores', 'nickname', 'title', 'detail'),
-                Mage_Api2_Model_Resource::OPERATION_ATTRIBUTE_WRITE
-                    => array('product_id', 'status_id', 'stores', 'store_id', 'nickname', 'title', 'detail')
-            )
-        );
+        $permissions = $model->setFilterValue($userType)->getResourcesPermissions();
+        $attributes = $permissions[$resourceType]['operations'][$operation]['attributes'];
 
-        $attributes = $example[$resourceType][$operation];
-
-        return $attributes;
+        return array_keys($attributes);
     }
 
     /**
