@@ -94,10 +94,17 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Wishlist
                 $collection = parent::getItemsCollection();
             }
             foreach ($collection as $item) {
-                if ($item->getProduct()) {
-                    $item->setName($item->getProduct()->getName());
-                    $item->setPrice($item->getProduct()->getPrice());
+                $product = $item->getProduct();
+                if ($product) {
+                    if (!$product->getStockItem()->getIsInStock() || !$product->isInStock()) {
+                        // Remove disabled and out of stock products from the grid
+                        $collection->removeItemByKey($item->getId());
+                    } else {
+                        $item->setName($product->getName());
+                        $item->setPrice($product->getPrice());
+                    }
                 }
+
             }
             $this->setData('items_collection', $collection);
         }

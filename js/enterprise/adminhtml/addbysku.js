@@ -274,7 +274,7 @@ AddBySku.prototype = {
                 requestParams[paramKey] = qty;
             }
         });
-        if (requestParams == {} && !$file.value) {
+        if (requestParams.toSource() == '({})' && !$file.value) {
             return false;
         }
 
