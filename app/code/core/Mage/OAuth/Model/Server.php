@@ -248,7 +248,7 @@ class Mage_OAuth_Model_Server
                 $paramData = explode('=', $paramToValue);
 
                 if (2 === count($paramData) && !$this->_isProtocolParameter($paramData[0])) {
-                    $this->_params[$paramData[0]] = $paramData[1];
+                    $this->_params[rawurldecode($paramData[0])] = rawurldecode($paramData[1]);
                 }
             }
         }
