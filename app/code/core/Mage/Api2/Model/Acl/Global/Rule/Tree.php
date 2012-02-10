@@ -36,7 +36,7 @@ class Mage_Api2_Model_Acl_Global_Rule_Tree extends Mage_Core_Helper_Abstract
     /**#@+
      * Tree types
      */
-    const TYPE_ATTRIBUTE = 'attribute';
+    const TYPE_ATTRIBUTE      = 'attribute';
     const TYPE_PRIVILEGE = 'privilege';
     /**#@-*/
 
@@ -401,9 +401,11 @@ class Mage_Api2_Model_Acl_Global_Rule_Tree extends Mage_Core_Helper_Abstract
 
             if (!empty($this->_resourcesPermissions[$name]['operations'][$key]['attributes'])) {
                 if (!$this->_addAttribute($subItem, $node, $name, $key)) {
+                    $cnt--;
                     continue;
                 }
             } else {
+                $cnt--;
                 continue;
             }
             if (!empty($subItem['checked'])) {
