@@ -364,6 +364,15 @@
                             <validate>validate-digits validate-digits-range digits-range-1-10000</validate>
                             <depends><price_range_calculation>auto</price_range_calculation></depends>
                         </interval_division_limit>
+                        <display_product_count translate="label">
+                            <label>Display Product Count</label>
+                            <frontend_type>select</frontend_type>
+                            <sort_order>3</sort_order>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </display_product_count>
                     </fields>
                 </layered_navigation>
                 <navigation translate="label">
