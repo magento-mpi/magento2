@@ -813,7 +813,6 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
             foreach ($productRequiredOptions as $productOption) {
                 /** @var $productOption Mage_Catalog_Model_Product_Option */
 
-                $isMultiple = $this->_isOptionMultiple($productOption);
                 $productOptionValues = $productOption->getValues();
                 if (empty($productOptionValues)) {
                     if ($productOption->hasSku()) {
@@ -822,6 +821,8 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
                             unset($skuParts[$found]);
                         }
                     }
+                    // we are not able to configure such required option automatically
+                    $missedRequiredOption = true;
                     continue;
                 }
 
