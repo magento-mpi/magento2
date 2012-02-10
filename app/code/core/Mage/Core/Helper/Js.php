@@ -39,7 +39,7 @@ class Mage_Core_Helper_Js extends Mage_Core_Helper_Abstract
     /**
      * Translate file name
      */
-    const JAVASCRIPT_TRANSLATE_CONFIG_FILENAME = 'translator.xml';
+    const JAVASCRIPT_TRANSLATE_CONFIG_FILENAME = 'jstranslator.xml';
 
     /**
      * Array of senteces of JS translations
@@ -140,11 +140,14 @@ class Mage_Core_Helper_Js extends Mage_Core_Helper_Abstract
     {
         if ($this->_translateData === null) {
             $this->_translateData = array();
-
-            foreach ($this->_getXmlConfig()->getXpath('*/message') as $message) {
-                $messageText = (string)$message;
-                $module = $message->getParent()->getAttribute("module");
-                $this->_translateData[$messageText] = Mage::helper(empty($module) ? 'core' : $module)->__($messageText);
+            $messages = $this->_getXmlConfig()->getXpath('*/message');
+            if (!empty($nodes)) {
+                foreach ($messages as $message) {
+                    $messageText = (string)$message;
+                    $module = $message->getParent()->getAttribute("module");
+                    $this->_translateData[$messageText] = Mage::helper(empty($module) ? 'core' : $module
+                    )->__($messageText);
+                }
             }
 
             foreach ($this->_translateData as $key => $value) {
