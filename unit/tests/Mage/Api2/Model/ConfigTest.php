@@ -60,8 +60,14 @@ class Mage_Api2_Model_ConfigTest extends Mage_PHPUnit_TestCase
 
         $this->_helperMock = $this->getHelperMockBuilder('api2')->setMethods(array('isApiTypeSupported'))->getMock();
 
-        Mage::setConfigModel(array('config_model' => 'Mage_Core_Model_Config_Mock'));
-        Mage::getConfig()->init();
+        // re-initiate application to inject config class
+        /** @var $initializer Mage_PHPUnit_Initializer_App */
+        $initializer = Mage_PHPUnit_Initializer_Factory::getInitializer('Mage_PHPUnit_Initializer_App');
+        $runOptions = $initializer->getRunOptions();
+        $runOptions['config_model'] = 'Mage_Core_Model_Config_Mock';
+
+        $initializer->setRunOptions($runOptions);
+        $initializer->run();
 
         $this->_config = new Mage_Api2_Model_Config();
     }
