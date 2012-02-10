@@ -759,6 +759,7 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
         // If below POST fields were submitted - this is product's options, it has been already configured
         switch ($product->getTypeId()) {
             case Mage_Catalog_Model_Product_Type::TYPE_SIMPLE:
+            case Mage_Catalog_Model_Product_Type::TYPE_VIRTUAL:
                 return isset($config['options']);
             case Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE:
                 return isset($config['super_attribute']);
@@ -770,8 +771,6 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
                 return isset($config['giftcard_amount']);
             case Mage_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE:
                 return isset($config['links']);
-            case Mage_Catalog_Model_Product_Type::TYPE_SIMPLE:
-                return isset($config['options']);
         }
         return false;
     }
