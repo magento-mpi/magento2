@@ -24,7 +24,7 @@ class Mage_Core_Model_Layout_Update
     protected $_elementClass;
 
     /**
-     * @var Simplexml_Element
+     * @var SimpleXMLElement
      */
     protected $_packageLayout;
 

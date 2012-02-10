@@ -20,12 +20,30 @@ class Mage_DesignEditor_Model_Layout
      *
      * @var array
      */
-    protected static $_safeBlockTypes = array(
+    protected static $_blockWhiteList = array(
         'Mage_Core_Block_Template',
         'Mage_Core_Block_Text_List',
-        'Mage_Page_Block_Html',
-        'Mage_Page_Block_Html_Head',
-        'Mage_Page_Block_Html_Wrapper'
+        'Mage_Page_Block_',
+        'Mage_DesignEditor_Block_',
+    );
+
+    /**
+     * List of block types considered as "not safe"
+     *
+     * @var array
+     */
+    protected static $_blockBlackList = array(
+        'Mage_Page_Block_Html_Pager',
+    );
+
+    /**
+     * List of layout containers that potentially have "safe" blocks
+     *
+     * @var array
+     */
+    protected static $_containerWhiteList = array(
+        'root', 'head', 'after_body_start', 'header', 'footer', 'before_body_end',
+        'top.links', 'top.menu',
     );
 
     /**
@@ -80,12 +98,29 @@ class Mage_DesignEditor_Model_Layout
         if (!$type) {
             return; // we encountered a node with name "block", however it doesn't actually define any block...
         }
-        if (self::_isTypeSafe($type)) {
+        if (self::_isParentSafe($node) || self::_isTypeSafe($type)) {
             return;
         }
         self::_overrideAttribute($node, 'template', 'Mage_DesignEditor::stub.phtml');
         self::_overrideAttribute($node, 'type', 'Mage_Core_Block_Template');
         self::_deleteNodes($node, 'action');
+    }
+
+    /**
+     * Whether parent node of specified node can be considered a safe container
+     *
+     * @param Varien_Simplexml_Element $node
+     * @return bool
+     */
+    protected static function _isParentSafe(Varien_Simplexml_Element $node)
+    {
+        $parentAttributes = $node->getParent()->attributes();
+        if (isset($parentAttributes['name'])) {
+            if (in_array($parentAttributes['name'], self::$_containerWhiteList)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -96,7 +131,19 @@ class Mage_DesignEditor_Model_Layout
      */
     protected static function _isTypeSafe($type)
     {
-        return (0 === strpos($type, 'Mage_DesignEditor_Block_')) || in_array($type, self::$_safeBlockTypes);
+        if (in_array($type, self::$_blockBlackList)) {
+            return false;
+        }
+        foreach (self::$_blockWhiteList as $safeType) {
+            if ('_' !== substr($safeType, -1, 1)) {
+                if ($type === $safeType) {
+                    return true;
+                }
+            } elseif (0 === strpos($type, $safeType)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -143,7 +190,8 @@ class Mage_DesignEditor_Model_Layout
         $name = $attributes['name'];
         $result = $node->xpath("//block[@name='{$name}']") ?: array();
         foreach ($result as $block) {
-            if (!self::_isTypeSafe($block->getAttribute('type'))) {
+            $isTypeSafe = self::_isTypeSafe($block->getAttribute('type'));
+            if (!($isTypeSafe || $isTypeSafe && self::_isParentSafe($block))) {
                 self::_deleteNodes($node, 'action');
             }
             break;
