@@ -98,7 +98,7 @@
         </events>
         <template>
             <email>
-                <oauth_email_template translate="label" module="mage_oauth">
+                <oauth_email_template translate="label" module="oauth">
                     <label>Token Status Change</label>
                     <file>token.html</file>
                     <type>html</type>
