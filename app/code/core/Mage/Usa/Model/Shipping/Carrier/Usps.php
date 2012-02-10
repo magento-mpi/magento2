@@ -1336,7 +1336,7 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
         list($fromZip5, $fromZip4) = $this->_parseZip($request->getShipperAddressPostalCode());
         list($toZip5, $toZip4) = $this->_parseZip($request->getRecipientAddressPostalCode(), true);
 
-        if ($this->getConfigData('isproduction')) {
+        if ($this->getConfigData('mode')) {
             $rootNode = 'SignatureConfirmationV3.0Request';
         } else {
             $rootNode = 'SigConfirmCertifyV3.0Request';
@@ -1641,7 +1641,7 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
             $api = 'ExpressMailLabel';
         } else if ($recipientUSCountry) {
             $requestXml = $this->_formUsSignatureConfirmationShipmentRequest($request, $service);
-            if ($this->getConfigData('isproduction')) {
+            if ($this->getConfigData('mode')) {
                 $api = 'SignatureConfirmationV3';
             } else {
                 $api = 'SignatureConfirmationCertifyV3';

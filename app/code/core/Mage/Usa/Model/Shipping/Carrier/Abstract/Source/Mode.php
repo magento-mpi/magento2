@@ -25,19 +25,25 @@
  */
 
 /**
- * UPS (UPS XML) Modesource model
+ * Shippers Modesource model
  *
  * @category Mage
  * @package Mage_Usa
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @author Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Usa_Model_Shipping_Carrier_Ups_Source_Mode
+
+class Mage_Usa_Model_Shipping_Carrier_Abstract_Source_Mode
 {
+    /**
+     * Returns array to be used in packages request type on back-end
+     *
+     * @return array
+     */
     public function toOptionArray()
     {
         return array(
-            array('value' => '1', 'label' => Mage::helper('usa')->__('Live')),
             array('value' => '0', 'label' => Mage::helper('usa')->__('Development')),
+            array('value' => '1', 'label' => Mage::helper('usa')->__('Live')),
         );
     }
 }

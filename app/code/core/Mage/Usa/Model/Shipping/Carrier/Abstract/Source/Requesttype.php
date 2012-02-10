@@ -25,14 +25,13 @@
  */
 
 /**
- * Source model for DHL Content Type
+ * Source model for Shippers Request Type
  *
  * @category   Mage
  * @package    Mage_Usa
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Usa_Model_Shipping_Carrier_Abstract_Source_Requesttype
-    extends Mage_Usa_Model_Shipping_Carrier_Dhl_Source_Method
 {
     /**
      * Returns array to be used in packages request type on back-end
@@ -41,11 +40,9 @@ class Mage_Usa_Model_Shipping_Carrier_Abstract_Source_Requesttype
      */
     public function toOptionArray()
     {
-        $requestType = array(
+        return array(
             array('value' => 0, 'label' => Mage::helper('shipping')->__('Divide to equal weight (one request)')),
             array('value' => 1, 'label' => Mage::helper('shipping')->__('Use origin weight (few requests)')),
         );
-
-        return $requestType;
     }
 }
