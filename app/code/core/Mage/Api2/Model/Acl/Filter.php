@@ -1,228 +1,170 @@
 <?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    Mage
+ * @package     Mage_Api2
+ * @copyright   Copyright (c) 2011 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
 
+/**
+ * API ACL filter
+ *
+ * @category   Mage
+ * @package    Mage_Api2
+ * @author     Magento Core Team <core@magentocommerce.com>
+ */
 class Mage_Api2_Model_Acl_Filter
 {
     /**
-     * Resource type
-     *
-     * @var string
-     */
-    protected $_resourceType;
-
-    /**
-     * User type
-     *
-     * @var string
-     */
-    protected $_userType;
-
-    /**
-     * Attributes requested by API user
+     * Attributes allowed for use
      *
      * @var array
      */
-    protected $_requestedAttributes = array();
+    protected $_allowedAttributes = array();
 
-    public function in(array $requestData, $resourceType = null, $userType = null)
+    /**
+     * A list of attributes to be included into output
+     *
+     * @var array
+     */
+    protected $_attributesToInclude;
+
+    /**
+     * Associated resource model
+     *
+     * @var Mage_Api2_Model_Resource
+     */
+    protected $_resource;
+
+    /**
+     * Object constructor
+     *
+     * @param Mage_Api2_Model_Resource $resource
+     */
+    public function __construct(Mage_Api2_Model_Resource $resource)
     {
-        $resourceType = $resourceType === null ? $this->getResourceType() : $resourceType;
-        $userType = $userType === null ? $this->getUserType() : $userType;
+        $this->_resource = $resource;
 
-        $allowed = $this->getAllowedAttributes(
-            $resourceType, Mage_Api2_Model_Resource::OPERATION_ATTRIBUTE_WRITE, $userType
+        // TODO: Remove it when attributes' management is finished
+        $this->_allowedAttributes = array(
+            'entity_id', 'customer_id', 'state', 'subtotal', 'created_at',
+            'review_id', 'product_id', 'status_id', 'stores', 'nickname', 'title', 'detail'
         );
-
-        $requestData = $this->filter($allowed, $requestData);
-
-        return $requestData;
     }
 
-    public function out(array $retrievedData, $resourceType = null, $userType = null)
+    /**
+     * Return only the data which keys are allowed
+     *
+     * @param array $allowedAttributes List of attributes available to use
+     * @param array $data Associative array attribute to value
+     * @return array
+     */
+    protected function _filter(array $allowedAttributes, array $data)
     {
-        $resourceType = $resourceType === null ? $this->getResourceType() : $resourceType;
-        $userType = $userType === null ? $this->getUserType() : $userType;
-
-        //TODO how we process &include, what attributes we show by default, all allowed, all static?
-        $allowed = $this->getAllowedAttributes(
-            $resourceType, Mage_Api2_Model_Resource::OPERATION_ATTRIBUTE_READ, $userType
-        );
-
-        $retrievedData = $this->filter($allowed, $retrievedData);
-
-        return $retrievedData;
-    }
-
-    public function getAttributesToInclude($resourceType = null, $userType = null)
-    {
-        $resourceType = $resourceType === null ? $this->getResourceType() : $resourceType;
-        $userType = $userType === null ? $this->getUserType() : $userType;
-
-        $attributes = $this->getAllowedAttributes(
-            $resourceType, Mage_Api2_Model_Resource::OPERATION_ATTRIBUTE_READ, $userType
-        );
-
-        $include = $this->getRequestedAttributes();
-
-        if (in_array('*', $include)) {
-            return $attributes;
+        foreach ($data as $attribute => $value) {
+            if (!in_array($attribute, $allowedAttributes)) {
+                unset($data[$attribute]);
+            }
         }
-
-        return $this->filter2($include, $attributes);
+        return $data;
     }
 
     /**
      * Strip attributes out of collection items
      *
      * @param array $items
-     * @param null $resourceType
-     * @param null $userType
      * @return mixed
      */
-    public function collectionOut($items, $resourceType = null, $userType = null)
+    public function collectionOut($items)
     {
-        $attributes = $this->getAttributesToInclude($resourceType, $userType);
         foreach ($items as &$data) {
-            $data = $this->filter($attributes, $data);
+            $data = $this->out($data);
         }
-
         return $items;
-    }
-
-    /**
-     * Return only the data which is allowed
-     *
-     * @param array $allowed numeric
-     * @param array $data associative
-     * @return array
-     */
-    protected function filter(array $allowed, array $data)
-    {
-        //TODO use whatever is faster
-
-        /*$filtered = array();
-        foreach ($allowed as $attribute) {
-            if (isset($data[$attribute])) {
-                $filtered[$attribute] = $data[$attribute];
-            }
-        }*/
-
-        foreach ($data as $attribute=>$value) {
-            if (!in_array($attribute, $allowed)) {
-                unset($data[$attribute]);
-            }
-        }
-
-        return $data;
-    }
-
-    /**
-     * Return only the data which is asked to include
-     *
-     * @param array $include numeric
-     * @param array $attributes numeric
-     * @return array
-     */
-    protected function filter2(array $include, array $attributes)
-    {
-        return array_intersect_key($include, $attributes);
     }
 
     /**
      * Fetch array of allowed attributes for given resource type, operation and user type.
      *
-     * @param string $resourceType
-     * @param string $operation
-     * @param string $userType
+     * @param string $operation One of Mage_Api2_Model_Resource::OPERATION_ATTRIBUTE_... constant
      * @return array
      */
-    public function getAllowedAttributes($resourceType, $operation, $userType)
+    public function getAllowedAttributes($operation)
     {
-        /** @var $model Mage_Api2_Model_Acl_Global_Attribute_ResourcePermission */
-        $model = Mage::getModel('api2/acl_global_attribute_resourcePermission');
+        if (null === $this->_allowedAttributes) {
+            /** @var $model Mage_Api2_Model_Acl_Global_Attribute_ResourcePermission */
+            $model       = Mage::getModel('api2/acl_global_attribute_resourcePermission');
+            $permissions = $model->setFilterValue($this->_resource->getUserType())->getResourcesPermissions();
+            $attributes  = $permissions[$this->_resource->getResourceType()]['operations'][$operation]['attributes'];
 
-        $permissions = $model->setFilterValue($userType)->getResourcesPermissions();
-        $attributes = $permissions[$resourceType]['operations'][$operation]['attributes'];
-
-        return array_keys($attributes);
-    }
-
-    /**
-     * Get resource type
-     * If not exists error
-     *
-     * @throws Exception
-     * @return string
-     */
-    public function getResourceType()
-    {
-        if (!$this->_resourceType) {
-            throw new Exception('Resource type is not set.');
+            $this->_allowedAttributes = array_keys($attributes);
         }
-
-        return $this->_resourceType;
+        return $this->_allowedAttributes;
     }
 
     /**
-     * Set resource type
-     * @param string $resourceType
-     * @return Mage_Api2_Model_Acl_Filter
-     */
-    public function setResourceType($resourceType)
-    {
-        $this->_resourceType = $resourceType;
-
-        return $this;
-    }
-
-    /**
-     * Get user type
-     * If not exists error
-     *
-     * @throws Exception
-     * @return string
-     */
-    public function getUserType()
-    {
-        if (!$this->_userType) {
-            throw new Exception('User type is not set.');
-        }
-
-        return $this->_userType;
-    }
-
-    /**
-     * Set user type
-     *
-     * @param string $userType
-     * @return Mage_Api2_Model_Acl_Filter
-     */
-    public function setUserType($userType)
-    {
-        $this->_userType = $userType;
-
-        return $this;
-    }
-
-    /**
-     * Get attributes requested by API user
+     * Retrieve a list of attributes to be included in output based on available and requested attributes
      *
      * @return array
      */
-    public function getRequestedAttributes()
+    public function getAttributesToInclude()
     {
-        if (!is_array($this->_requestedAttributes)) {
-            throw new Exception('Invalid or not set attributes to include.');
+        if (null === $this->_attributesToInclude) {
+            $allowedAttrs   = $this->getAllowedAttributes(Mage_Api2_Model_Resource::OPERATION_ATTRIBUTE_READ);
+            $requestedAttrs = $this->_resource->getRequest()->getRequestedAttributes();
+
+            if ($requestedAttrs) {
+                foreach ($allowedAttrs as $allowedAttr) {
+                    if (in_array($allowedAttr, $requestedAttrs)) {
+                        $this->_attributesToInclude[] = $allowedAttr;
+                    }
+                }
+            } else {
+                $this->_attributesToInclude = $allowedAttrs;
+            }
         }
-        return $this->_requestedAttributes;
+        return $this->_attributesToInclude;
     }
 
     /**
-     * Set attributes to include
+     * Filter data for write operations
      *
-     * @param array $include
+     * @param array $requestData
+     * @return array
      */
-    public function setRequestedAttributes(array $include)
+    public function in(array $requestData)
     {
-        $this->_requestedAttributes = $include;
+        $allowedAttributes = $this->getAllowedAttributes(Mage_Api2_Model_Resource::OPERATION_ATTRIBUTE_WRITE);
+
+        return $this->_filter($allowedAttributes, $requestData);
+    }
+
+    /**
+     * Filter data before output
+     *
+     * @param array $retrievedData
+     * @return array
+     */
+    public function out(array $retrievedData)
+    {
+        return $this->_filter($this->getAttributesToInclude(), $retrievedData);
     }
 }

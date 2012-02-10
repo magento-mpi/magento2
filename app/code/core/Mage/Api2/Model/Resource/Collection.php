@@ -63,9 +63,7 @@ abstract class Mage_Api2_Model_Resource_Collection extends Mage_Api2_Model_Resou
         if (!is_array($filter)) {
             $this->_critical(self::RESOURCE_COLLECTION_FILTERING_ERROR);
         }
-        $allowedAttributes = $this->getFilter()->getAllowedAttributes(
-            $this->getResourceType(), self::OPERATION_ATTRIBUTE_READ, $this->getUserType()
-        );
+        $allowedAttributes = $this->getFilter()->getAllowedAttributes(self::OPERATION_ATTRIBUTE_READ);
 
         foreach ($filter as $filterEntry) {
             if (!is_array($filter)
