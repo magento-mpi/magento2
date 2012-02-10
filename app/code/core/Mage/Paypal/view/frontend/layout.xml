@@ -176,6 +176,11 @@ Available logo types can be assigned with action="setLogoType":
         <block type="Mage_Paypal_Block_Hosted_Pro_Iframe" name="hosted.pro.iframe" template="hss/form.phtml"/>
     </paypal_hosted_pro_iframe>
 
+    <paypal_standard_redirect translate="label" type="page" parent="checkout_onepage_paymentmethod">
+        <label>Paypal Standard Redirect</label>
+        <block type="Mage_Paypal_Block_Standard_Redirect" name="standard.redirect"  output="toHtml"/>
+    </paypal_standard_redirect>
+
     <SHORTCUT_popup translate="label">
         <label>Paypal Shortcut Popup</label>
         <reference name="product.tooltip">
