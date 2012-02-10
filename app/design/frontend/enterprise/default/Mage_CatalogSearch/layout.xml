@@ -22,8 +22,7 @@
         </reference>
     </default>
 
-    <catalogsearch_result_index translate="label" module="Mage_CatalogSearch" type="page">
-        <parent_node>catalog_category_default</parent_node>
+    <catalogsearch_result_index translate="label" module="Mage_CatalogSearch" type="page" parent="catalog_category_default">
         <label>Quick Search Form</label>
         <reference name="root">
             <action method="setTemplate"><template>3columns.phtml</template></action>
@@ -57,8 +56,7 @@
         </reference>
     </catalogsearch_result_index>
 
-    <catalogsearch_advanced_index translate="label" module="Mage_CatalogSearch" type="page">
-        <parent_node>catalog_category_default</parent_node>
+    <catalogsearch_advanced_index translate="label" module="Mage_CatalogSearch" type="page" parent="catalog_category_default">
         <label>Advanced Search Form</label>
         <!-- Mage_Catalogsearch -->
         <reference name="root">
@@ -80,8 +78,7 @@
 Advanced search results
 -->
 
-    <catalogsearch_advanced_result translate="label" module="Mage_CatalogSearch" type="page">
-        <parent_node>catalogsearch_advanced_index</parent_node>
+    <catalogsearch_advanced_result translate="label" module="Mage_CatalogSearch" type="page" parent="catalogsearch_advanced_index">
         <label>Advanced Search Result</label>
         <!-- Mage_Catalogsearch -->
         <reference name="root">
@@ -108,8 +105,7 @@ Advanced search results
         </reference>
     </catalogsearch_advanced_result>
 
-    <catalogsearch_term_popular translate="label" module="Mage_CatalogSearch" type="page">
-        <parent_node>catalog_category_default</parent_node>
+    <catalogsearch_term_popular translate="label" module="Mage_CatalogSearch" type="page" parent="catalog_category_default">
         <label>Popular Search Terms</label>
         <remove name="right"/>
         <remove name="left"/>

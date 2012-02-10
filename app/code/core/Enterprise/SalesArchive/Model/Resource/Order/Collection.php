@@ -49,7 +49,7 @@ class Enterprise_SalesArchive_Model_Resource_Order_Collection extends Mage_Sales
      */
     public function getSelectCountSql()
     {
-        $countSelect = Mage_Sales_Model_Mysql4_Order_Collection::getSelectCountSql();
+        $countSelect = Mage_Sales_Model_Resource_Order_Collection::getSelectCountSql();
         return $countSelect;
     }
 }

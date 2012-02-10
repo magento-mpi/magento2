@@ -309,7 +309,7 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
 
     /**
      * @param string $file
-     * @expectedException Exception
+     * @expectedException Magento_Exception
      * @dataProvider getSkinUrlDataExceptionProvider
      */
     public function testGetSkinUrlException($file)
@@ -323,17 +323,15 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
     public function getSkinUrlDataExceptionProvider()
     {
         return array(
-            // non-existing theme file
-            array('path/to/nonexisting-file.ext'),
-            // non-existing module file
-            array('Some_Module::path/to/nonexisting-file.ext'),
+            'non-existing theme file'  => array('path/to/nonexisting-file.ext'),
+            'non-existing module file' => array('Some_Module::path/to/nonexisting-file.ext'),
         );
     }
 
 
     /**
      * @param string $file
-     * @expectedException Exception
+     * @expectedException Magento_Exception
      * @dataProvider findFileExceptionDataProvider
      */
     public function testFindFileException($file)

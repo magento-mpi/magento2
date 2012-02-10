@@ -22,7 +22,7 @@ class Magento_Config_ThemeTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Exception
+     * @expectedException Magento_Exception
      */
     public function testConstructException()
     {
@@ -83,7 +83,7 @@ class Magento_Config_ThemeTest extends PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider getCompatibleVersionsExceptionDataProvider
-     * @expectedException Exception
+     * @expectedException Magento_Exception
      */
     public function testGetCompatibleVersionsException($package, $theme)
     {

@@ -143,11 +143,12 @@ class Magento_Test_TestSuite_ModuleGroupsTest extends PHPUnit_Framework_TestCase
      * Adds fixture tests to the suite
      *
      * @param Magento_Test_TestSuite_ModuleGroups $suite
-     * @return Magento_Test_Profiler_ModuleGroupsTest
+     * @return Magento_Test_TestSuite_ModuleGroupsTest
      */
     protected function _fillTests($suite)
     {
-        $fileIterator = File_Iterator_Factory::getFileIterator(
+        $fileIteratorFactory = new File_Iterator_Factory();
+        $fileIterator = $fileIteratorFactory->getFileIterator(
             array(__DIR__ . '/_files/ModuleGroups'),
             '.php'
         );

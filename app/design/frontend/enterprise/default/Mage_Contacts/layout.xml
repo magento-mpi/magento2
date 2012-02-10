@@ -16,7 +16,7 @@
         </reference>
     </default>
 
-    <contacts_index_index translate="label" type="page">
+    <contacts_index_index translate="label" type="page" parent="cms_page">
         <parent_node>cms_page</parent_node>
         <label>Contact Us Form</label>
         <reference name="head">

@@ -90,7 +90,7 @@ class Magento_AutoloadTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Exception
+     * @expectedException Magento_Exception
      */
     public function testAddFilesMapWrongFile()
     {
@@ -98,7 +98,7 @@ class Magento_AutoloadTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Exception
+     * @expectedException Magento_Exception
      */
     public function testAddFilesMapWrongParam()
     {

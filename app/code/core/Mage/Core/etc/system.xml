@@ -962,7 +962,7 @@
                         </use_case_sensitive_login>
                         <session_lifetime translate="label comment">
                             <label>Admin Session Lifetime (seconds)</label>
-                            <comment>Values less than 60 are ignored. Note that changes will apply after logout.</comment>
+                            <comment>Values less than 60 are ignored.</comment>
                             <validate>validate-digits</validate>
                             <sort_order>3</sort_order>
                             <show_in_default>1</show_in_default>

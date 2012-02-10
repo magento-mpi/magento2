@@ -173,8 +173,8 @@ class Mage_Admin_Model_Session extends Mage_Core_Model_Session_Abstract
         $lifetime = Mage::getStoreConfig(self::XML_PATH_SESSION_LIFETIME);
         $currentTime = time();
 
-        /* Validate admin session lifetime */
-        if ($lifetime && ($this->getUpdatedAt() < $currentTime - $lifetime)) {
+        /* Validate admin session lifetime that should be more than 60 seconds */
+        if ($lifetime >= 60 && ($this->getUpdatedAt() < $currentTime - $lifetime)) {
             return false;
         }
 

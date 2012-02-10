@@ -28,13 +28,13 @@ class Inspection_CodeSniffer_CommandTest extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider canRunDataProvider
      */
-    public function testCanRun($expectedResult)
+    public function testCanRun($cmdOutput, $expectedResult)
     {
         $this->_cmd
             ->expects($this->once())
             ->method('_execShellCmd')
             ->with($this->stringContains('phpcs'))
-            ->will($this->returnValue($expectedResult))
+            ->will($this->returnValue($cmdOutput))
         ;
         $this->assertEquals($expectedResult, $this->_cmd->canRun());
     }
@@ -42,8 +42,8 @@ class Inspection_CodeSniffer_CommandTest extends PHPUnit_Framework_TestCase
     public function canRunDataProvider()
     {
         return array(
-            'success' => array(true),
-            'failure' => array(false),
+            'success' => array('PHP_CodeSniffer version X.Y.Z', true),
+            'failure' => array(false, false),
         );
     }
 
@@ -52,16 +52,11 @@ class Inspection_CodeSniffer_CommandTest extends PHPUnit_Framework_TestCase
      */
     public function testGetVersion($versionCmdOutput, $expectedVersion)
     {
-        $cmdCallback = function ($shellCmd, array &$output = null) use ($versionCmdOutput)
-        {
-            $output = array($versionCmdOutput);
-            return !empty($shellCmd);
-        };
         $this->_cmd
             ->expects($this->once())
             ->method('_execShellCmd')
             ->with($this->stringContains('phpcs'))
-            ->will($this->returnCallback($cmdCallback))
+            ->will($this->returnValue($versionCmdOutput))
         ;
         $this->assertEquals($expectedVersion, $this->_cmd->getVersion());
     }

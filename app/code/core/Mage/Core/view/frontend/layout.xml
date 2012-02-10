@@ -18,4 +18,8 @@
     <calendar translate="label">
         <label>Calendar</label>
     </calendar>
+
+    <ajax_index translate="label" type="page">
+        <label>Dynamic Page Blocks (Updated by Ajax Request)</label>
+    </ajax_index>
 </layout>

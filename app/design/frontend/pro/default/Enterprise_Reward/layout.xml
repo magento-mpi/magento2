@@ -14,8 +14,7 @@
         <block type="Enterprise_Reward_Block_Customer_Account" name="enterprise.reward.customer.account" />
     </customer_account>
 
-    <enterprise_reward_customer_info type="page">
-        <parent_node>customer_account</parent_node>
+    <enterprise_reward_customer_info type="page" parent="customer_account">
         <update handle="customer_account"/>
         <reference name="my.account.wrapper">
             <block type="Enterprise_Reward_Block_Customer_Reward" name="customer.reward" template="customer/reward.phtml">

@@ -18,6 +18,11 @@ class Integrity_LayoutTest extends PHPUnit_Framework_TestCase
     protected $_codeFrontendHandles = false;
 
     /**
+     * @var array|bool
+     */
+    protected $_pageHandles = false;
+
+    /**
      * Check count of layout handle labels that described in modules for frontend area
      *
      * @param string $handleName
@@ -50,6 +55,7 @@ class Integrity_LayoutTest extends PHPUnit_Framework_TestCase
      * @param string $handleName
      * @dataProvider designHandlesDataProvider
      */
+
     public function testIsDesignHandleDeclaredInCode($handleName)
     {
         $this->assertArrayHasKey(
@@ -115,5 +121,93 @@ class Integrity_LayoutTest extends PHPUnit_Framework_TestCase
 
         $this->_codeFrontendHandles = $handles;
         return $this->_codeFrontendHandles;
+    }
+
+    /**
+     * Test is parent handle exists
+     *
+     * @param string $packageAndTheme
+     * @param array $pageHandles
+     * @dataProvider getPageTypesHandles
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
+     */
+    public function testParentHandleCorrect($packageAndTheme, $pageHandles)
+    {
+        list($area, $package, $theme) = explode('_', $packageAndTheme);
+
+        $failedHandles = array();
+        foreach ($pageHandles as $handleName => $parentHandleName) {
+            if ($parentHandleName == '') {
+                continue;
+            }
+            try {
+                $this->assertArrayHasKey($parentHandleName, $pageHandles);
+            } catch(PHPUnit_Framework_ExpectationFailedException $e) {
+                $failedHandles[] = sprintf( "Parent handle name %s not exist for %s", $parentHandleName, $handleName);
+            }
+        }
+
+        if (!empty($failedHandles)) {
+            $this->fail(
+                sprintf("Area: %s\tPackage: %s\tTheme: %s\n", $area, $package, $theme)
+                . implode("\n", $failedHandles)
+            );
+        }
+
+    }
+
+    /**
+     * Get page types handlers filtered by packages and themes in frontend area
+     *
+     * @return array
+     */
+    public function getPageTypesHandles()
+    {
+        if ($this->_pageHandles) {
+            return $this->_pageHandles;
+        }
+
+        $handles = array();
+        foreach ($this->_getPackagesAndThemes() as $packageAndTheme) {
+            $files = Util_Files::getLayoutFiles($packageAndTheme);
+            $packageAndTheme['include_design'] = (int) $packageAndTheme['include_design'];
+            $idPackageAndTheme = implode('_', $packageAndTheme);
+
+            $handleNodesResult = array();
+            foreach (array_keys($files) as $path) {
+                $xml = simplexml_load_file($path);
+                $handleNodes = $xml->xpath('/layout//*[@type="page"]') ?: array();
+                /** @var $handleNode SimpleXMLElement */
+                foreach ($handleNodes as $handleNode) {
+                    $handleNodeName = $handleNode->getName();
+                    $handleNodeAttributes = $handleNode->attributes();
+                    $parentNodeName = isset($handleNodeAttributes['parent'])?
+                            (string) $handleNodeAttributes['parent'] : '';
+
+                    $handleNodesResult[$handleNodeName] = $parentNodeName;
+                }
+            }
+            $handles[] = array($idPackageAndTheme, $handleNodesResult);
+        }
+
+        $this->_pageHandles = $handles;
+        return $this->_pageHandles;
+    }
+
+    /**
+     * Get all possible packages and themes in frontend area
+     *
+     * @return array
+     */
+    protected function _getPackagesAndThemes()
+    {
+        return array(
+            array('area' => 'frontend', 'package' => 'default',    'theme' => 'default', 'include_design' => false),
+            array('area' => 'frontend', 'package' => 'default',    'theme' => 'default', 'include_design' => true),
+            array('area' => 'frontend', 'package' => 'default',    'theme' => 'iphone',  'include_design' => true),
+            array('area' => 'frontend', 'package' => 'default',    'theme' => 'modern',  'include_design' => true),
+            array('area' => 'frontend', 'package' => 'pro',        'theme' => 'default', 'include_design' => true),
+            array('area' => 'frontend', 'package' => 'enterprise', 'theme' => 'default', 'include_design' => true)
+        );
     }
 }

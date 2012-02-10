@@ -166,8 +166,7 @@ Onepage Checkout Review Page
 Additional block for bundle product type
 -->
 
-    <PRODUCT_TYPE_bundle translate="label" module="Mage_Bundle" type="page">
-        <parent_node>catalog_product_view</parent_node>
+    <PRODUCT_TYPE_bundle translate="label" module="Mage_Bundle" type="page" parent="catalog_product_view">
         <label>Catalog Product View (Bundle)</label>
         <reference name="head">
             <action method="addJs"><file>Mage_Bundle::bundle.js</file></action>

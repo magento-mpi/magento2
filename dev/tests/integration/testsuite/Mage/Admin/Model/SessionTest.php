@@ -54,4 +54,18 @@ class Mage_Admin_Model_SessionTest extends PHPUnit_Framework_TestCase
         $this->_model->setUpdatedAt(time()-101);
         $this->assertFalse($this->_model->isLoggedIn());
     }
+
+    /**
+     * Disabled form security in order to prevent exit from the app
+     * @magentoConfigFixture current_store admin/security/use_form_key 0
+     * @magentoConfigFixture current_store admin/security/session_lifetime 59
+     */
+    public function testIsLoggedInWithIgnoredLifetime()
+    {
+        $this->_model->login('user', 'password');
+        $this->assertTrue($this->_model->isLoggedIn());
+
+        $this->_model->setUpdatedAt(time()-101);
+        $this->assertTrue($this->_model->isLoggedIn());
+    }
 }

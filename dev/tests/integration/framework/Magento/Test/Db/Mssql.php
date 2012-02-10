@@ -25,6 +25,7 @@ class Magento_Test_Db_Mssql extends Magento_Test_Db_DbAbstract
      * Getter for MSSQL external command name
      *
      * @return string
+     * @throws Magento_Exception
      */
     public function getExternalProgram()
     {
@@ -34,7 +35,7 @@ class Magento_Test_Db_Mssql extends Magento_Test_Db_DbAbstract
             } elseif ($this->_exec('tsql -C')) {
                 $this->_program = 'tsql';
             } else {
-                throw new Exception('Command lime utility (tsql or sqlcmd) is not installed.');
+                throw new Magento_Exception('Command lime utility (tsql or sqlcmd) is not installed.');
             }
         }
         return $this->_program;

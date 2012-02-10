@@ -101,8 +101,6 @@ class Magento_Test_Listener_Annotation_Fixture
 
     /**
      * Start transaction
-     *
-     * @throws Exception
      */
     protected function _startTransaction()
     {
@@ -139,6 +137,7 @@ class Magento_Test_Listener_Annotation_Fixture
      * Execute fixture scripts if any
      *
      * @param array $fixtures
+     * @throws Magento_Exception
      */
     protected function _applyFixtures(array $fixtures)
     {
@@ -148,14 +147,14 @@ class Magento_Test_Listener_Annotation_Fixture
         /* Start transaction before applying first fixture to be able to revert them all further */
         if (empty($this->_appliedFixtures)) {
             if (!$this->_isSingleConnection()) {
-                throw new Exception('Transaction fixtures with 2 connections are not implemented yet.');
+                throw new Magento_Exception('Transaction fixtures with 2 connections are not implemented yet.');
             }
             $this->_startTransaction();
         }
         /* Execute fixture scripts */
         foreach ($fixtures as $fixture) {
             if (strpos($fixture, '\\') !== false) {
-                throw new Exception('The "\" symbol is not allowed for fixture definition.');
+                throw new Magento_Exception('The "\" symbol is not allowed for fixture definition.');
             }
             $fixtureMethod = array(get_class($this->_listener->getCurrentTest()), $fixture);
             $fixtureScript = realpath(__DIR__ . '/../../../../../testsuite') . DIRECTORY_SEPARATOR . $fixture;

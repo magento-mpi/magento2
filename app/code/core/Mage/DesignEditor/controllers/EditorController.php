@@ -95,11 +95,11 @@ class Mage_DesignEditor_EditorController extends Mage_Core_Controller_Front_Acti
         $skin = $this->getRequest()->get('skin');
         $backUrl = $this->_getRefererUrl();
 
-        $session = Mage::getModel('Mage_DesignEditor_Model_Session');
+        $session = Mage::getSingleton('Mage_DesignEditor_Model_Session');
         try {
-            $session->applySkin($skin);
+            $session->setSkin($skin);
         } catch (Exception $e) {
-            $session->addException($e, Mage::helper('Mage_DesignEditor_Helper_Data')->__($e->getMessage()));
+            $session->addException($e, $e->getMessage());
         }
         $this->getResponse()->setRedirect($backUrl);
     }

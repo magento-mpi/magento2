@@ -83,6 +83,8 @@ class Magento_Test_Listener_Annotation_Isolation
 
     /**
      * Handler for 'endTest' event
+     *
+     * @throws Magento_Exception
      */
     public function endTest()
     {
@@ -95,7 +97,9 @@ class Magento_Test_Listener_Annotation_Isolation
         if (isset($annotations['method']['magentoAppIsolation'])) {
             $isolation = $annotations['method']['magentoAppIsolation'];
             if ($isolation !== array('enabled') && $isolation !== array('disabled')) {
-                throw new Exception('Invalid "@magentoAppIsolation" annotation, can be "enabled" or "disabled" only.');
+                throw new Magento_Exception(
+                    'Invalid "@magentoAppIsolation" annotation, can be "enabled" or "disabled" only.'
+                );
             }
             $isIsolationEnabled = ($isolation === array('enabled'));
         } else {
