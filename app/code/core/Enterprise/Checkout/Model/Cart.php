@@ -693,64 +693,33 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
         Mage_Catalog_Model_Product $product,
         $requestedQty
     ) {
-        if (!$stockItem->getManageStock()) {
-            return true;
-        }
+        $result = $stockItem->checkQuoteItemQty($requestedQty, $requestedQty);
+        if ($result->getHasError()) {
+            $return = array();
 
-        if ($stockItem->getBackorders() != Mage_CatalogInventory_Model_Stock::BACKORDERS_NO) {
-            return true;
-        }
-
-        $quoteItem = $this->getActualQuote()->getItemByProduct($product);
-        $isAdmin = Mage::app()->getStore()->isAdmin();
-
-        if ($stockItem->getMinSaleQty() && !$isAdmin) {
-            $minAllowedQty = $stockItem->getMinSaleQty();
-            $status = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED_IN_CART;
-        } else {
-            $minAllowedQty = 1;
-        }
-
-        if ($requestedQty < $minAllowedQty) {
-            $status = empty($status) ? Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED : $status;
-            return array('status' => $status, 'qty_min_allowed' => $minAllowedQty);
-        }
-
-        if ($stockItem->getMaxSaleQty() && !$isAdmin) {
-            $stockQty = $stockItem->getStockQty();
-            $maxSaleQty = $stockItem->getMaxSaleQty();
-            if ($stockQty < $maxSaleQty) {
-                $maxAllowedQty = $stockQty;
-                $status = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED;
-            } else {
-                $maxAllowedQty = $maxSaleQty;
-                $status = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED_IN_CART;
+            switch ($result->getErrorCode()) {
+                case 'qty_increments':
+                    $status = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_QTY_INCREMENTS;
+                    $return['qty_increments'] = $stockItem->getQtyIncrements();
+                    break;
+                case 'qty_min':
+                    $status = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED_IN_CART;
+                    $return['qty_min_allowed'] = $stockItem->getMinSaleQty();
+                    break;
+                case 'qty_max':
+                    $status = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED_IN_CART;
+                    $return['qty_max_allowed'] = $stockItem->getMaxSaleQty();
+                    break;
+                default:
+                    $status = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED;
+                    $return['qty_max_allowed'] = $stockItem->getStockQty();
             }
-        } else {
-            $maxAllowedQty = $stockItem->getStockQty();
+
+            $return['status'] = $status;
+            $return['error'] = $result->getMessage();
+
+            return $return;
         }
-
-        $allowedQty = $quoteItem ? ($maxAllowedQty - $quoteItem->getQty()) : $maxAllowedQty;
-
-        if ($allowedQty <= 0 || $allowedQty < $minAllowedQty) {
-            // All available quantity already added to quote
-            return array('status' => Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_OUT_OF_STOCK);
-        } elseif ($requestedQty > $allowedQty) {
-            $status = empty($status) ? Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED : $status;
-            // Quantity added to quote and requested quantity exceeds available in stock or maximum salable quantity
-            return array('status' => $status, 'qty_max_allowed' => $allowedQty);
-        }
-
-        $qtyIncrementsResult = $stockItem->checkQtyIncrements($requestedQty);
-
-        if ($qtyIncrementsResult->getHasError()) {
-            return array(
-                'status' => Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_QTY_INCREMENTS,
-                'qty_increments' => $stockItem->getQtyIncrements(),
-                'error' => $qtyIncrementsResult->getMessage(),
-            );
-        }
-
         return true;
     }
 
@@ -1013,8 +982,8 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
                     $item['code'] = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_SUCCESS;
                 } else {
                     $item['code'] = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_CONFIGURE;
+                    return $item;
                 }
-                return $item;
             }
 
             if ($prevalidateStatus != Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_SUCCESS) {
