@@ -1336,7 +1336,11 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
         list($fromZip5, $fromZip4) = $this->_parseZip($request->getShipperAddressPostalCode());
         list($toZip5, $toZip4) = $this->_parseZip($request->getRecipientAddressPostalCode(), true);
 
-        $rootNode = 'SigConfirmCertifyV3.0Request';
+        if ($this->getConfigData('isproduction')) {
+            $rootNode = 'SignatureConfirmationV3.0Request';
+        } else {
+            $rootNode = 'SigConfirmCertifyV3.0Request';
+        }
         // the wrap node needs for remove xml declaration above
         $xmlWrap = new SimpleXMLElement('<?xml version = "1.0" encoding = "UTF-8"?><wrap/>');
         $xml = $xmlWrap->addChild($rootNode);
@@ -1637,7 +1641,11 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
             $api = 'ExpressMailLabel';
         } else if ($recipientUSCountry) {
             $requestXml = $this->_formUsSignatureConfirmationShipmentRequest($request, $service);
-            $api = 'SignatureConfirmationCertifyV3';
+            if ($this->getConfigData('isproduction')) {
+                $api = 'SignatureConfirmationV3';
+            } else {
+                $api = 'SignatureConfirmationCertifyV3';
+            }
         } else if ($service == 'FIRST CLASS') {
             $requestXml = $this->_formIntlShipmentRequest($request);
             $api = 'FirstClassMailIntl';
