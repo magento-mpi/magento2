@@ -338,19 +338,18 @@ class Mage_Shipping_Model_Shipping
                         unset($items[$key]);
                         $sumWeight += $weight;
                     } elseif (($sumWeight + $weight) > $maxWeight) {
-                        $pieces[] = (string)$sumWeight;
+                        $pieces[] = (string)(float)$sumWeight;
                         break;
                     } else {
                         unset($items[$key]);
-                        $sumWeight += $weight;
-                        $pieces[] = (string)$sumWeight;
+                        $pieces[] = (string)(float)($sumWeight + $weight);
                         $sumWeight = 0;
                         break;
                     }
                 }
             }
             if ($sumWeight > 0) {
-                $pieces[] = (string)$sumWeight;
+                $pieces[] = (string)(float)$sumWeight;
             }
             $pieces = array_count_values($pieces);
         }
