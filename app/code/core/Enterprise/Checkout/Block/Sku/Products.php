@@ -127,7 +127,7 @@ class Enterprise_Checkout_Block_Sku_Products extends Mage_Checkout_Block_Cart
     public function getItemHtml(Mage_Sales_Model_Quote_Item $item)
     {
         /** @var $renderer Mage_Checkout_Block_Cart_Item_Renderer */
-        $renderer = $this->getItemRenderer($item->getProductType());
+        $renderer = $this->getItemRenderer($item->getProductType())->setQtyMode(false);
 
         if ($item->getProductType() == 'undefined') {
             $renderer->overrideProductThumbnail($this->helper('catalog/image')->init($item, 'thumbnail'));

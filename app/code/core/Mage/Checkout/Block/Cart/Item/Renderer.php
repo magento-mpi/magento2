@@ -43,6 +43,13 @@ class Mage_Checkout_Block_Cart_Item_Renderer extends Mage_Core_Block_Template
     protected $_productThumbnail = null;
 
     /**
+     * Whether qty will be converted to number
+     *
+     * @var bool
+     */
+    protected $_strictQtyMode = true;
+
+    /**
      * Set item for render
      *
      * @param   Mage_Sales_Model_Quote_Item $item
@@ -225,11 +232,14 @@ class Mage_Checkout_Block_Cart_Item_Renderer extends Mage_Core_Block_Template
     /**
      * Get quote item qty
      *
-     * @return mixed
+     * @return float|int|string
      */
     public function getQty()
     {
-        return $this->getItem()->getQty()*1;
+        if (!$this->_strictQtyMode && (string)$this->getItem()->getQty() == '') {
+            return '';
+        }
+        return $this->getItem()->getQty() * 1;
     }
 
     /**
@@ -369,5 +379,17 @@ class Mage_Checkout_Block_Cart_Item_Renderer extends Mage_Core_Block_Template
             ->setTemplate('catalog/product/price_msrp_item.phtml')
             ->setProduct($item->getProduct())
             ->toHtml();
+    }
+
+    /**
+     * Set qty mode to be strict or not
+     *
+     * @param bool $strict
+     * @return Mage_Checkout_Block_Cart_Item_Renderer
+     */
+    public function setQtyMode($strict)
+    {
+        $this->_strictQtyMode = $strict;
+        return $this;
     }
 }
