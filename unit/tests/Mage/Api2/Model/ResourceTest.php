@@ -192,24 +192,6 @@ class Mage_Api2_Model_ResourceTest extends Mage_PHPUnit_TestCase
     }
 
     /**
-     * Test filter setter and getter
-     */
-    public function testFilterAccessors()
-    {
-        // test default filter getting
-        $this->_resource->setRequest($this->_request);
-        $this->_resource->setApiUser($this->_guest);
-        $this->assertInstanceOf('Mage_Api2_Model_Acl_Filter', $this->_resource->getFilter());
-
-        // test preset filter getting
-        $filter = new Mage_Api2_Model_Acl_Filter();
-        $userType = 'Test user type';
-        $filter->setUserType($userType);
-        $this->_resource->setFilter($filter);
-        $this->assertEquals($userType, $this->_resource->getFilter()->getUserType());
-    }
-
-    /**
      * Test critical messages exception
      */
     public function testCriticalWithPredefinedMessage()
