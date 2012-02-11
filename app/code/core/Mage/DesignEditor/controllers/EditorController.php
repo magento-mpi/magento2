@@ -53,7 +53,7 @@ class Mage_DesignEditor_EditorController extends Mage_Core_Controller_Front_Acti
             $pageType = $this->getRequest()->getParam('page_type');
 
             // page type format
-            if (!$pageType && !preg_match('/^[a-z\d]+(_[a-z\d]+){2}$/i', $pageType)) {
+            if (!$pageType || !preg_match('/^[a-z\d]+(_[a-z\d]+){2}$/i', $pageType)) {
                 Mage::throwException($this->__('Invalid page type specified.'));
             }
 
@@ -71,18 +71,10 @@ class Mage_DesignEditor_EditorController extends Mage_Core_Controller_Front_Acti
             Mage::getModel('Mage_DesignEditor_Model_Layout')->sanitizeLayout($this->getLayout()->getNode());
             $this->getLayout()->generateBlocks();
             $this->renderLayout();
-            return;
         } catch (Mage_Core_Exception $e) {
             $this->getResponse()->setBody($e->getMessage());
-        } catch (Exception $e) {
-            $this->getResponse()->setBody($this->__('Unable to load specified page. See error log for details.'));
-            if (Mage::getIsDeveloperMode()) {
-                echo $e;
-            } else {
-                Mage::logException($e);
-            }
+            $this->getResponse()->setHeader('Content-Type', 'text/plain; charset=UTF-8')->setHttpResponseCode(503);
         }
-        $this->getResponse()->setHeader('Content-Type', 'text/plain; charset=UTF-8')->setHttpResponseCode(500);
     }
 
     /**
