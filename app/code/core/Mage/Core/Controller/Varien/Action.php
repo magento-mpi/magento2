@@ -262,22 +262,32 @@ abstract class Mage_Core_Controller_Varien_Action
         return $this;
     }
 
+    /**
+     * Add layout handle by full controller action name
+     *
+     * @return Mage_Core_Controller_Varien_Action
+     */
     public function addActionLayoutHandles()
     {
-        $update = $this->getLayout()->getUpdate();
+        $this->getLayout()->getUpdate()->addHandle(strtolower($this->getFullActionName()));
+        return $this;
+    }
 
-        // load store handle
-        $update->addHandle('STORE_'.Mage::app()->getStore()->getCode());
-
-        // load theme handle
-        $package = Mage::getSingleton('Mage_Core_Model_Design_Package');
-        $update->addHandle(
-            'THEME_'.$package->getArea().'_'.$package->getPackageName().'_'.$package->getTheme()
-        );
-
-        // load action handle
-        $update->addHandle(strtolower($this->getFullActionName()));
-
+    /**
+     * Load layout updates associated with the page
+     *
+     * @param array $parameters page parameters
+     * @return Mage_Core_Controller_Varien_Action
+     */
+    public function loadActionPageLayout(array $parameters = array())
+    {
+        $handle = strtolower($this->getFullActionName());
+        $pageHandles = array($handle);
+        foreach ($parameters as $key => $value) {
+            $pageHandles[] = $handle . '_' . $key . '_' . $value;
+        }
+        $this->getLayout()->getUpdate()->addPageHandles(array_reverse($pageHandles));
+        $this->loadLayoutUpdates();
         return $this;
     }
 

@@ -35,7 +35,7 @@
     </restriction_index_stub>
 
     <!-- private sales mode additional layout update -->
-    <restriction_privatesales_mode translate="label" module="Enterprise_WebsiteRestriction" type="page" parent="restriction_index_stub">
+    <restriction_privatesales_mode translate="label" module="Enterprise_WebsiteRestriction">
         <label>Website Closed Private Sales Landing Page</label>
     </restriction_privatesales_mode>
 </layout>

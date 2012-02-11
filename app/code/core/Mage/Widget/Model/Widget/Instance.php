@@ -31,8 +31,8 @@ class Mage_Widget_Model_Widget_Instance extends Mage_Core_Model_Abstract
 
     const DEFAULT_LAYOUT_HANDLE            = 'default';
     const PRODUCT_LAYOUT_HANDLE            = 'catalog_product_view';
-    const SINGLE_PRODUCT_LAYOUT_HANLDE     = 'PRODUCT_{{ID}}';
-    const PRODUCT_TYPE_LAYOUT_HANDLE       = 'PRODUCT_TYPE_{{TYPE}}';
+    const SINGLE_PRODUCT_LAYOUT_HANLDE     = 'catalog_product_view_id_{{ID}}';
+    const PRODUCT_TYPE_LAYOUT_HANDLE       = 'catalog_product_view_type_{{TYPE}}';
     const ANCHOR_CATEGORY_LAYOUT_HANDLE    = 'catalog_category_layered';
     const NOTANCHOR_CATEGORY_LAYOUT_HANDLE = 'catalog_category_default';
     const SINGLE_CATEGORY_LAYOUT_HANDLE    = 'CATEGORY_{{ID}}';
