@@ -163,9 +163,11 @@ class Enterprise_Checkout_Block_Sku_Products_Info extends Mage_Core_Block_Templa
         }
 
         $productTierPrices = $product->getData('tier_price');
-        if (is_null($productTierPrices) || !is_array($productTierPrices)) {
+        if (!is_array($productTierPrices)) {
             $productAttributes = $product->getAttributes();
-            if (!isset($productAttributes['tier_price'])) {
+            if (!isset($productAttributes['tier_price'])
+                || !($productAttributes['tier_price'] instanceof Mage_Catalog_Model_Resource_Eav_Attribute)
+            ) {
                 return '';
             }
             $productAttributes['tier_price']->getBackend()->afterLoad($product);
