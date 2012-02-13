@@ -39,5 +39,69 @@
                 </children>
             </catalog>
         </resource_groups>
+        <resources>
+            <products>
+                <group>catalog_product</group>
+                <type>products</type>
+                <model>catalog/api2_products</model>
+                <working_model>catalog/product</working_model>
+                <title>Catalog Products</title>
+                <sort_order>10</sort_order>
+                <privileges>
+                    <!-- For collection only CREATE and retrieve -->
+                    <create>1</create>
+                    <retrieve>1</retrieve>
+                </privileges>
+                <routes>
+                    <route_main>
+                        <mask>/products</mask>
+                    </route_main>
+                </routes>
+                <instance>product</instance>
+            </products>
+            <product>
+                <group>catalog_product</group>
+                <type>product</type>
+                <model>product/api2_product</model>
+                <working_model>catalog/product</working_model>
+                <title>Catalog Product</title>
+                <sort_order>20</sort_order>
+                <privileges>
+                    <retrieve>1</retrieve>
+                    <update>1</update>
+                    <delete>1</delete>
+                </privileges>
+                <attributes>
+                    <product_id>Product ID</product_id>
+                    <sku>SKU</sku>
+                    <type>Product Type</type>
+                    <set>Attribute Set</set>
+                </attributes>
+                <routes>
+                    <route_main>
+                        <mask>/product/:id</mask>
+                    </route_main>
+                </routes>
+                <collection>products</collection>
+            </product>
+            <products_grouped>
+                <group>catalog_product</group>
+                <type>products_grouped</type>
+                <model>catalog/api2_products_grouped</model>
+                <working_model>catalog/product</working_model>
+                <title>Grouped Products</title>
+                <sort_order>30</sort_order>
+                <privileges>
+                    <!-- For collection only CREATE and retrieve -->
+                    <create>1</create>
+                    <retrieve>1</retrieve>
+                </privileges>
+                <routes>
+                    <route_main>
+                        <mask>/products/grouped/:id</mask>
+                    </route_main>
+                </routes>
+            </products_grouped>
+        </resources>
     </api2>
 </config>

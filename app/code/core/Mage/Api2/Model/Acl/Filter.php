@@ -66,7 +66,9 @@ class Mage_Api2_Model_Acl_Filter
         // TODO: Remove it when attributes' management is finished
         $this->_allowedAttributes = array(
             'entity_id', 'customer_id', 'state', 'subtotal', 'created_at',
-            'review_id', 'product_id', 'status_id', 'stores', 'nickname', 'title', 'detail'
+            'review_id', 'product_id', 'status_id', 'stores', 'nickname', 'title', 'detail',
+            'sku', 'type', 'set', 'name', 'website_ids', 'description', 'short_description', 'price', 'tax_class_id',
+            'visibility', 'status', 'simple_product_id', 'qty', 'position'
         );
     }
 
