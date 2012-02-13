@@ -150,7 +150,7 @@ class Enterprise_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
                 $message = $this->__('SKU not found in catalog.');
                 break;
             case self::ADD_ITEM_STATUS_FAILED_OUT_OF_STOCK:
-                $message = $this->__('Out of stock.');
+                $message = $this->__('Availability: Out of stock.');
                 break;
             case self::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED:
                 $message = $this->__('Requested quantity is not available.');

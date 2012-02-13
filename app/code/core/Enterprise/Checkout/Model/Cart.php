@@ -1109,6 +1109,9 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
     protected function _isProductOutOfStock($product)
     {
         if ($product->isComposite()) {
+            if (!$product->getStockItem()->getIsInStock()) {
+                return true;
+            }
             $productsByGroups = $product->getTypeInstance(true)->getProductsToPurchaseByReqGroups($product);
             foreach ($productsByGroups as $productsInGroup) {
                 foreach ($productsInGroup as $childProduct) {
