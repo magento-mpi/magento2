@@ -122,7 +122,7 @@
     <adminhtml_api2_attribute_edit>
         <reference name="left">
             <block type="api2/adminhtml_attribute_tabs" name="api2.attribute.edit.tabs">
-                <block type="api2/adminhtml_attribute_tab_resource" name="api2.attribute.tab.resource" template="permissions/rolesedit.phtml"/>
+                <block type="api2/adminhtml_attribute_tab_resource" name="api2.attribute.tab.resource" template="api2/attribute/resource.phtml"/>
                 <action method="addTab">
                     <name>api2_attribute_section_resources</name>
                     <block>api2.attribute.tab.resource</block>
