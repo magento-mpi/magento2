@@ -632,22 +632,24 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
      */
     public function addGroupedProductToShoppingCartFromWishlist($customer, $productDataSet)
     {
+        //Data
+        $groupedName = $productDataSet['grouped']['general_name'];
+        $simpleName = $productDataSet['simple']['general_name'];
         //Setup
         $this->customerHelper()->frontLoginCustomer($customer);
         $this->navigate('my_wishlist');
         $this->wishlistHelper()->frontClearWishlist();
         $this->navigate('shopping_cart');
         $this->shoppingCartHelper()->frontClearShoppingCart();
-        $this->wishlistHelper()->frontAddProductToWishlistFromProductPage($productDataSet['grouped']['general_name']);
+        $this->wishlistHelper()->frontAddProductToWishlistFromProductPage($groupedName);
         $this->assertMessagePresent('success', 'successfully_added_product');
         //Steps
         $this->navigate('my_wishlist');
-        $this->wishlistHelper()->frontAddToShoppingCart($productDataSet['grouped']['general_name']);
+        $this->wishlistHelper()->frontAddToShoppingCart($groupedName);
         //Verify
         $this->assertTrue($this->checkCurrentPage('shopping_cart'), $this->getParsedMessages());
-        $this->assertTrue($this->
-                shoppingCartHelper()->frontShoppingCartHasProducts($productDataSet['simple']['general_name']),
-            'Product ' . $productDataSet['grouped']['general_name'] . ' is not in the shopping cart.');
+        $this->assertTrue($this->shoppingCartHelper()->frontShoppingCartHasProducts($simpleName), 'Product ' .
+            $groupedName . ' is not in the shopping cart.');
         $this->addParameter('productXpath', $this->_getControlXpath('pageelement', 'product_line'));
         $productQty = $this->getElementByXpath($this->_getControlXpath('field', 'product_qty'), 'value');
         $this->assertEquals(3, $productQty, "Product quantity is unexpected");
