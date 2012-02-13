@@ -31,6 +31,8 @@ if (version_compare(PHPUnit_Runner_Version::id(), '3.6.0', '<')) {
 define('SELENIUM_TESTS_BASEDIR', realpath(dirname(__FILE__)));
 define('SELENIUM_TESTS_SCREENSHOTDIR',
         realpath(SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'var' . DIRECTORY_SEPARATOR . 'screenshots'));
+define('SELENIUM_TESTS_LOGS',
+        realpath(SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'var' . DIRECTORY_SEPARATOR . 'logs'));
 
 set_include_path(implode(PATH_SEPARATOR, array(
             realpath(SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'framework'),

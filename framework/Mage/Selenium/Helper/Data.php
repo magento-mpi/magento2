@@ -35,4 +35,74 @@
  */
 class Mage_Selenium_Helper_Data extends Mage_Selenium_Helper_Abstract
 {
+    /**
+     * @var array
+     */
+    protected $_configFixtures = array();
+    /**
+     * Test data array
+     * @var array
+     */
+    protected $_testData = array();
+
+    /**
+     * Initialize process
+     */
+    protected function _init()
+    {
+        $this->_configFixtures = $this->getConfig()->getHelper('uimap')->getConfigFixtures();
+        $config = $frameworkConfig = $this->getConfig()->getHelper('config')->getConfigFramework();
+        if ($config['load_all_fixtures']) {
+            $this->_loadTestData();
+        }
+    }
+
+    /**
+     * Performs loading and merging of DataSet files
+     * @return Mage_Selenium_Helper_Data
+     */
+    protected function _loadTestData()
+    {
+        if ($this->_testData) {
+            return $this;
+        }
+        $frameworkConfig = $this->getConfig()->getHelper('config')->getConfigFramework();
+        $initialPath = SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . $frameworkConfig['fixture_base_path'];
+
+        foreach ($this->_configFixtures as $codePoolName => $codePoolData) {
+            if (array_key_exists('data', $codePoolData)) {
+                foreach ($codePoolData['data'] as $file) {
+                    $filePath = $initialPath . DIRECTORY_SEPARATOR . $codePoolName . $file;
+                    $this->_testData = array_merge($this->getConfig()->getHelper('file')->loadYamlFile($filePath),
+                                                   $this->_testData);
+                }
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * Return test data array
+     * @return array
+     */
+    protected function getTestData()
+    {
+        if (!$this->_testData) {
+            $this->_loadTestData();
+        }
+        return $this->_testData;
+    }
+
+    /**
+     * Get value from DataSet by path
+     *
+     * @param string $path XPath-like path to DataSet value (by default = '')
+     *
+     * @return mixed
+     */
+    public function getDataValue($path = '')
+    {
+        return $this->getConfig()->_descend($this->_testData, $path);
+    }
 }

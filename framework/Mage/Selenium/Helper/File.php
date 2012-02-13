@@ -42,7 +42,7 @@ class Mage_Selenium_Helper_File extends Mage_Selenium_Helper_Abstract
      *
      * @param string $fullFileName Full file name (including path)
      *
-     * @return array|false
+     * @return array
      */
     public function loadYamlFile($fullFileName)
     {

@@ -31,34 +31,39 @@
 #                                                                              #
 ################################################################################
 browsers:
-    firefox: &chrome
-        name: Firefox
-        browser: '*chrome'
-        host: 127.0.0.1
-        port: 4444
-        doNotKillBrowsers: false
-        browserTimeoutPeriod: 40000
-    iexplore: &iexplore
-        name: Internet Explorer
-        browser: '*iexplore'
-        host: 127.0.0.1
-        port: 4444
-        doNotKillBrowsers: false
-        browserTimeoutPeriod: 40000
     googlechrome: &googlechrome
-        name: Google Chrome
-        browser: '*googlechrome'
-        host: 127.0.0.1
-        port: 4444
-        doNotKillBrowsers: false
-        browserTimeoutPeriod: 40000
-    default: *chrome
+         name: 'Google Chrome'
+         browser: '*googlechrome'
+         host: 'localhost'
+         port: 4444
+         timeout: 40
+         restartBrowser: true
+    firefox: &firefox
+         name: 'Firefox'
+         browser: '*chrome'
+         host: 'localhost'
+         port: 4444
+         timeout: 40
+         restartBrowser: false
+    iexplorer: &iexplorer
+         name: 'Internet Explorer'
+         browser: '*iexplore'
+         host: 'localhost'
+         port: 4444
+         timeout: 60
+         restartBrowser: false
+    default: *firefox
 ################################################################################
 #                                                                              #
-#                      Projects configuration                                  #
+#                     Framework configuration                                  #
 #                                                                              #
 ################################################################################
-default:
+framework:
+    fixture_base_path: 'fixture'
+    testsuite_base_path: 'testsuite'
+    coverageScriptUrl: ''
+    captureScreenshotOnFailure: true
+    load_all_fixtures: true
     cache:
         frontend:
             name: 'core'
@@ -68,39 +73,68 @@ default:
                 automatic_serialization: true
         backend:
             name: 'file'
-            options:
+            options: ''
             cache_dir: 'var\cache'
-    fixture_base_path: fixture
-    coverageScriptUrl:
-    applications:
-        mage: &mage
-            adminLogin: admin
-            adminPassword: 123123q
-            fallbackOrder: default
-            areas:
-                admin:
-                    url: 'http://www.localhost.com/magento/admin/'
-                    uimap_path: 'admin'
-                frontend:
-                    url: 'http://www.localhost.com/magento/'
-                    uimap_path: 'frontend'
-                paypal_sandbox: &paypalSandbox
-                    url: 'https://www.sandbox.paypal.com/'
-                    uimap_path: 'paypal_sandbox'
-                paypal_developer: &paypalDeveloper
-                    url: 'https://developer.paypal.com/'
-                    uimap_path: 'paypal_developer'
-        enterprise: &enterprise
-            adminLogin: admin
-            adminPassword: 123123q
-            fallbackOrder: enterprise, default
-            areas:
-                admin:
-                    url: 'http://www.localhost.com/magento/admin/'
-                    uimap_path: 'admin'
-                frontend:
-                    url: 'http://www.localhost.com/magento/'
-                    uimap_path: 'frontend'
-                paypal_sandbox: *paypalSandbox
-                paypal_developer: *paypalDeveloper
-        default: *mage
+################################################################################
+#                                                                              #
+#                  Applications for running tests                              #
+#                                                                              #
+################################################################################
+applications:
+    mage: &mage
+        fallbackOrderFixture: 'default'
+        fallbackOrderHelper: 'Core'
+        areas:
+            admin:
+                url: 'http://www.localhost.com/magento/admin/'
+                base_page_uimap: 'log_in_to_admin'
+                uimap_path: 'admin'
+                login: 'login'
+                password: 'password'
+            frontend:
+                url: 'http://www.localhost.com/magento/'
+                base_page_uimap: 'home_page'
+                uimap_path: 'frontend'
+                login: ''
+                password: ''
+            paypal_sandbox: &paypalSandbox
+                url: 'https://www.sandbox.paypal.com/'
+                base_page_uimap: 'paypal_sandbox'
+                uimap_path: 'paypal_sandbox'
+                login: 'login'
+                password: 'password'
+            paypal_developer: &paypalDeveloper
+                url: 'https://developer.paypal.com/'
+                base_page_uimap: 'home'
+                uimap_path: 'paypal_developer'
+                login: 'login'
+                password: 'password'
+    enterprise: &enterprise
+        fallbackOrderFixture: 'enterprise, default'
+        fallbackOrderHelper: 'Enterprise, Core'
+        areas:
+            admin:
+                url: 'http://www.localhost.com/magento/admin/'
+                base_page_uimap: 'log_in_to_admin'
+                uimap_path: 'admin'
+                login: 'login'
+                password: 'password'
+            frontend:
+                url: 'http://www.localhost.com/magento/'
+                base_page_uimap: 'home_page'
+                uimap_path: 'frontend'
+                login: ''
+                password: ''
+            paypal_sandbox: &paypalSandbox
+                url: 'https://www.sandbox.paypal.com/'
+                base_page_uimap: 'paypal_sandbox'
+                uimap_path: 'paypal_sandbox'
+                login: 'login'
+                password: 'password'
+            paypal_developer: &paypalDeveloper
+                url: 'https://developer.paypal.com/'
+                base_page_uimap: 'home'
+                uimap_path: 'paypal_developer'
+                login: 'login'
+                password: 'password'
+    default: *mage

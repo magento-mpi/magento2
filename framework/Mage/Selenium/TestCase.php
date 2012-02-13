@@ -35,241 +35,215 @@
  */
 class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 {
-    /**
-     * Testcase error
-     * @var boolean
-     */
-    protected $_error = false;
-
+    ################################################################################
+    #              Framework variables and constant                                #
+    ################################################################################
     /**
      * Configuration object instance
      * @var Mage_Selenium_TestConfiguration
      */
-    protected $_testConfig = null;
-
+    protected $_testConfig;
     /**
-     * Data helper instance
-     * @var Mage_Selenium_Helper_Data
+     * Config helper instance
+     * @var Mage_Selenium_Helper_Config
      */
-    protected $_dataHelper = null;
-
-    /**
-     * Application helper instance
-     * @var Mage_Selenium_Helper_Application
-     */
-    protected $_applicationHelper = null;
-
+    protected $_configHelper;
     /**
      * UIMap helper instance
      * @var Mage_Selenium_Helper_Uimap
      */
-    protected $_uimapHelper = null;
-
+    protected $_uimapHelper;
     /**
-     * Page helper instance
-     * @var Mage_Selenium_Helper_Page
+     * Data helper instance
+     * @var Mage_Selenium_Helper_Data
      */
-    protected $_pageHelper = null;
-
+    protected $_dataHelper;
     /**
-     * Parameters helper instance
+     * Params helper instance
      * @var Mage_Selenium_Helper_Params
      */
-    protected $_paramsHelper = null;
-
+    protected $_paramsHelper;
     /**
-     * @var array
-     */
-    protected $_testHelpers = array();
-
-    /**
-     * Array of instanced helpers
-     * @var array
-     */
-    protected $_helpers = array();
-
-    /**
-     * Data generator helper instance
+     * Data Generator helper instance
      * @var Mage_Selenium_Helper_DataGenerator
      */
-    protected $_dataGenerator = null;
-
+    protected $_dataGeneratorHelper;
     /**
-     * Error and success messages on page
+     * Array of Test Helper instances
      * @var array
      */
-    protected static $_messages = null;
-
+    protected static $_testHelpers = array();
     /**
      * Timeout const
      * @var int
      */
     protected $_browserTimeoutPeriod = 40000;
-
-    /*
+    /**
      * @var string
      */
     protected $_firstPageAfterAdminLogin = 'dashboard';
-
     /**
-     * @var    boolean
+     * Array of messages on page
+     * @var array
      */
-    protected $captureScreenshotOnFailure = true;
-
-    /**
-     * @var    string
-     */
-    protected $screenshotPath = SELENIUM_TESTS_SCREENSHOTDIR;
-
-    /**
-     * @var    string
-     */
-    protected $screenshotUrl = SELENIUM_TESTS_SCREENSHOTDIR;
-
-    /**
-     * URL of script which performs code coverage during testing
-     *
-     * @var string
-     */
-    protected $coverageScriptUrl = null;
-
-    /**
-     * Success message Xpath
-     * @staticvar string
-     */
-    protected static $xpathSuccessMessage = "//*/descendant::*[normalize-space(@class)='success-msg'][string-length(.)>1]";
-
-    /**
-     * Error message Xpath
-     * @staticvar string
-     */
-    protected static $xpathErrorMessage = "//*/descendant::*[normalize-space(@class)='error-msg'][string-length(.)>1]";
-
-    /**
-     * Notice message Xpath
-     * @staticvar string
-     */
-    protected static $xpathNoticeMessage = "//*/descendant::*[normalize-space(@class)='notice-msg'][string-length(.)>1]";
-
-    /**
-     * Error message Xpath
-     * @staticvar string
-     */
-    protected static $xpathValidationMessage = "//*/descendant::*[normalize-space(@class)='validation-advice' and not(contains(@style,'display: none;'))][string-length(.)>1]";
-
-    /**
-     * Field Name xpath with ValidationMessage
-     * @staticvar string
-     */
-    protected static $xpathFieldNameWithValidationMessage = "/ancestor::*[2]//label/descendant-or-self::*[string-length(text())>1]";
-
-    /**
-     * Loading holder XPath
-     * @staticvar string
-     */
-    protected static $xpathLoadingHolder = "//div[@id='loading-mask' and not(contains(@style,'display: none'))]";
-
-    /**
-     * Log Out link
-     * @staticvar string
-     */
-    protected static $xpathLogOutAdmin = "//div[@class='header-right']//a[@class='link-logout']";
-
-    /**
-     * Admin Logo Xpath
-     * @staticvar string
-     */
-    protected static $xpathAdminLogo = "//img[@class='logo' and contains(@src,'logo.gif')]";
-
-    /**
-     * Incoming Message Close button Xpath
-     * @staticvar string
-     */
-    protected static $xpathIncomingMessageClose = "//*[@id='message-popup-window' and @class='message-popup show']//a[span='close']";
-
-    /**
-     * 'Go to notifications' xpath in 'Latest Message' block
-     * @staticvar string
-     */
-    protected static $xpathGoToNotifications = "//a[text()='Go to notifications']";
-
-    /**
-     * 'Cache Management' xpath link when cache are invalided
-     * @staticvar string
-     */
-    protected static $xpathCacheInvalidated = "//a[text()='Cache Management']";
-
-    /**
-     * 'Index Management' xpath link when indexes are invalided
-     * @staticvar string
-     */
-    protected static $xpathIndexesInvalidated = "//a[text()='Index Management']";
-
-    /**
-     * Qty elements in Table
-     * @staticvar string
-     */
-    protected static $qtyElementsInTable = "//td[@class='pager']//span[contains(@id,'total-count')]";
-
+    protected static $_messages = array();
     /**
      * @var string
      */
     const FIELD_TYPE_MULTISELECT = 'multiselect';
-
     /**
      * @var string
      */
     const FIELD_TYPE_DROPDOWN = 'dropdown';
-
     /**
      * @var string
      */
     const FIELD_TYPE_CHECKBOX = 'checkbox';
-
     /**
      * @var string
      */
     const FIELD_TYPE_RADIOBUTTON = 'radiobutton';
-
     /**
      * @var string
      */
     const FIELD_TYPE_INPUT = 'field';
+    ################################################################################
+    #                      Selenium variables(do not rename)                       #
+    ################################################################################
+    /**
+     * @var array
+     */
+    protected $drivers = array();
+    /**
+     * @var null
+     */
+    protected $coverageScriptUrl = null;
+    /**
+     * @var bool
+     */
+    protected $captureScreenshotOnFailure = false;
+    /**
+     * @var string
+     */
+    protected $screenshotPath = SELENIUM_TESTS_SCREENSHOTDIR;
+    /**
+     * @var string
+     */
+    protected $screenshotUrl = SELENIUM_TESTS_SCREENSHOTDIR;
+    ################################################################################
+    #                             Else variables                                   #
+    ################################################################################
+    /**
+     * Success message Xpath
+     * @var string
+     */
+    protected static $xpathSuccessMessage = "//*/descendant::*[normalize-space(@class)='success-msg'][string-length(.)>1]";
+    /**
+     * Error message Xpath
+     * @var string
+     */
+    protected static $xpathErrorMessage = "//*/descendant::*[normalize-space(@class)='error-msg'][string-length(.)>1]";
+    /**
+     * Notice message Xpath
+     * @var string
+     */
+    protected static $xpathNoticeMessage = "//*/descendant::*[normalize-space(@class)='notice-msg'][string-length(.)>1]";
+    /**
+     * Validation message Xpath
+     * @var string
+     */
+    protected static $xpathValidationMessage = "//*/descendant::*[normalize-space(@class)='validation-advice' and not(contains(@style,'display: none;'))][string-length(.)>1]";
+    /**
+     * Field Name xpath with ValidationMessage
+     * @var string
+     */
+    protected static $xpathFieldNameWithValidationMessage = "/ancestor::*[2]//label/descendant-or-self::*[string-length(text())>1]";
+    /**
+     * Loading holder XPath
+     * @var string
+     */
+    protected static $xpathLoadingHolder = "//div[@id='loading-mask' and not(contains(@style,'display: none'))]";
+    /**
+     * Log Out link
+     * @var string
+     */
+    protected static $xpathLogOutAdmin = "//div[@class='header-right']//a[@class='link-logout']";
+    /**
+     * Admin Logo Xpath
+     * @var string
+     */
+    protected static $xpathAdminLogo = "//img[@class='logo' and contains(@src,'logo.gif')]";
+    /**
+     * Incoming Message 'Close' button Xpath
+     * @var string
+     */
+    protected static $xpathIncomingMessageClose = "//*[@id='message-popup-window' and @class='message-popup show']//a[span='close']";
+    /**
+     * 'Go to notifications' xpath in 'Latest Message' block
+     * @var string
+     */
+    protected static $xpathGoToNotifications = "//a[text()='Go to notifications']";
+    /**
+     * 'Cache Management' xpath link when cache are invalided
+     * @var string
+     */
+    protected static $xpathCacheInvalidated = "//a[text()='Cache Management']";
+    /**
+     * 'Index Management' xpath link when indexes are invalided
+     * @var string
+     */
+    protected static $xpathIndexesInvalidated = "//a[text()='Index Management']";
+    /**
+     * Qty elements in Table
+     * @var string
+     */
+    protected static $qtyElementsInTable = "//td[@class='pager']//span[contains(@id,'total-count')]";
 
     /**
      * Constructs a test case with the given name and browser to test execution
      *
-     * @param  string $name Test case name (by default = null)
-     * @param  array  $data Test case data array (PHPUnit ONLY) (by default = array())
-     * @param  string $dataName Name of Data set (PHPUnit ONLY) (by default = '')
+     * @param  string $name Test case name(by default = null)
+     * @param  array  $data Test case data array(by default = array())
+     * @param  string $dataName Name of Data set(by default = '')
      * @param  array  $browser Array of browser configuration settings: 'name', 'browser', 'host', 'port', 'timeout',
      * 'httpTimeout' (by default = array())
-     *
-     * @throws InvalidArgumentException
      */
     public function __construct($name = null, array $data = array(), $dataName = '', array $browser = array())
     {
         $this->_testConfig = Mage_Selenium_TestConfiguration::getInstance();
-        $this->_dataHelper = $this->_testConfig->getDataHelper();
-        $this->_dataGenerator = $this->_testConfig->getDataGenerator();
-        $this->_applicationHelper = $this->_testConfig->getApplicationHelper();
-        $this->_pageHelper = $this->_testConfig->getPageHelper($this, $this->_applicationHelper);
-        $this->_uimapHelper = $this->_testConfig->getUimapHelper();
-        //set browser timeout period
-        $browserTimeout = $this->_testConfig->getConfigValue('browsers/default/browserTimeoutPeriod');
-        $this->_browserTimeoutPeriod = ($browserTimeout != false)
-            ? $browserTimeout
-            : $this->_browserTimeoutPeriod;
-        //set coverage script url
-        $this->coverageScriptUrl = $this->_testConfig->getConfigValue('default/coverageScriptUrl');
+        $this->_configHelper = $this->_testConfig->getHelper('config');
+        $this->_uimapHelper = $this->_testConfig->getHelper('uimap');
+        $this->_dataHelper = $this->_testConfig->getHelper('data');
+        $this->_paramsHelper = $this->_testConfig->getHelper('params');
+        $this->_dataGeneratorHelper = $this->_testConfig->getHelper('dataGenerator');
+
         parent::__construct($name, $data, $dataName, $browser);
+        if (isset($browser['timeout'])) {
+            $this->_browserTimeoutPeriod = $browser['timeout'] * 1000;
+        }
+        $config = $this->_configHelper->getConfigFramework();
+        $this->captureScreenshotOnFailure = $config['captureScreenshotOnFailure'];
+        $this->coverageScriptUrl = $config['coverageScriptUrl'];
+    }
+
+    public function __destruct()
+    {
+        if (!isset($this->drivers)) {
+            return;
+        }
+        foreach ($this->drivers as $driver) {
+            if (!$driver->getContiguousSession()) {
+                $driver->setContiguousSession(true);
+                $driver->stop();
+            }
+        }
     }
 
     /**
      * Delegate method calls to the driver. Overridden to load test helpers
      *
-     * @param string $command    Command (method) name to call
-     * @param array  $arguments  Arguments to be sent to the called command (method)
+     * @param string $command Command (method) name to call
+     * @param array $arguments Arguments to be sent to the called command (method)
      *
      * @return mixed
      */
@@ -279,6 +253,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         if ($helper) {
             $helper = $this->_loadHelper($helper);
             if ($helper) {
+
                 return $helper;
             }
         }
@@ -288,42 +263,38 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     /**
      * Loads specific driver for specified browser
      *
-     * @param   array $browser Defines what kind of driver, for a what browser will be loaded
+     * @param array $browser Defines what kind of driver, for a what browser will be loaded
      *
-     * @since   Method available since Release 3.3.0
-     * @return  PHPUnit_Extensions_SeleniumTestCase_Driver
+     * @return Mage_Selenium_Driver
      */
     protected function getDriver(array $browser)
     {
-        $driver = $this->_testConfig->driver;
+        $driver = $this->_testConfig->addDriverConnection($browser);
         $driver->setTestCase($this);
         $driver->setTestId($this->testId);
-        // @TODO we need separate driver connections if admin url doesn't start with frontend url
-        $driver->setBrowserUrl($this->_applicationHelper->getBaseUrl());
-        $driver->start();
+
         $this->drivers[] = $driver;
+
         return $driver;
     }
 
     /**
      * Implementation of setUpBeforeClass() method in the object context, called as setUpBeforeTests()<br>
      * Used ONLY one time before execution of each class (tests in test class)
-     * @staticvar boolean $_isFirst Internal variable, which described usage count of this one method
      */
     public function setUp()
     {
-        static $_isFirst = true;
-
         // Clear messages before running test
         $this->clearMessages();
-
-        if ($_isFirst) {
-            if (strcmp($this->_testConfig->driver->getBrowser(), '*iexplore') === 0) {
+        $isFirst = $this->drivers[0]->driverSetUp(get_class($this));
+        if ($isFirst) {
+            $browser = $this->drivers[0]->getBrowserSettings();
+            if ($browser['browser'] == '*iexplore') {
+                $this->captureScreenshotOnFailure = false;
                 $this->useXpathLibrary('javascript-xpath');
                 $this->allowNativeXpath(true);
             }
             $this->setUpBeforeTests();
-            $_isFirst = false;
         }
     }
 
@@ -333,78 +304,40 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function setUpBeforeTests()
     {
-
-    }
-
-    /**
-     * Checks if there was error during last operations
-     * @TODO need to check this feature
-     * @return boolean
-     */
-    public function hasError()
-    {
-        return $this->_error;
     }
 
     /**
      * Access/load helpers from the tests. Helper class name should be like "TestScope_HelperName"
      *
-     * @param   string $testScope   Part of the helper class name which refers to the file with the needed helper
-     * @param   string $helperName  Suffix that describes helper name (default = 'Helper')
+     * @param string $testScope Part of the helper class name which refers to the file with the needed helper
+     * @param string $helperName Name Suffix that describes helper name (default = 'Helper')
      *
+     * @return bool
      * @throws UnexpectedValueException
-     * @return  mixed Object of $helperName type
      */
     protected function _loadHelper($testScope, $helperName = 'Helper')
     {
-        if (empty($testScope) || empty($helperName)) {
+        if (empty($testScope)) {
             throw new UnexpectedValueException('Helper name can\'t be empty');
         }
         list($codePool, $nameSpace) = explode('_', get_class($this));
         $helperClassName = implode('_', array($codePool, $nameSpace, ucwords($testScope), $helperName));
 
-        if (!isset($this->_testHelpers[$helperClassName])) {
+        if (!isset(self::$_testHelpers[$helperClassName])) {
             if (class_exists($helperClassName)) {
-                $this->_testHelpers[$helperClassName] = new $helperClassName;
+                self::$_testHelpers[$helperClassName] = new $helperClassName();
             } else {
                 return false;
             }
         }
 
-        if ($this->_testHelpers[$helperClassName] instanceof Mage_Selenium_TestCase) {
-            $this->_testHelpers[$helperClassName]->appendParamsDecorator($this->getParamsDecorator());
-        }
-
-        return $this->_testHelpers[$helperClassName];
-    }
-
-    /**
-     * Retrieve instance of helper
-     *
-     * @param  string $className
-     *
-     * @return Mage_Selenium_TestCase
-     */
-    public function helper($className)
-    {
-        $className = str_replace('/', '_', $className);
-        if (strpos($className, '_Helper') === false) {
-            $className .= '_Helper';
-        }
-
-        if (!isset($this->_helpers[$className])) {
-            if (class_exists($className)) {
-                $this->_helpers[$className] = new $className;
-            } else {
-                return false;
+        if (self::$_testHelpers[$helperClassName] instanceof Mage_Selenium_TestCase) {
+            foreach (get_object_vars($this) as $name => $value) {
+                self::$_testHelpers[$helperClassName]->$name = $value;
             }
         }
 
-        if ($this->_helpers[$className] instanceof Mage_Selenium_TestCase) {
-            $this->_helpers[$className]->appendParamsDecorator($this->getParamsDecorator());
-        }
-
-        return $this->_helpers[$className];
+        return self::$_testHelpers[$helperClassName];
     }
 
     ################################################################################
@@ -416,10 +349,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * Asserts that $condition is true. Reports an error $message if $condition is false.
      * @static
      *
-     * @param boolean $condition Condition to assert
-     * @param string $message Message to report if the condition is false (by default = '')
-     *
-     * @throws PHPUnit_Framework_AssertionFailedError
+     * @param bool $condition Condition to assert
+     * @param string|array $message Message to report if the condition is false (by default = '')
      */
     public static function assertTrue($condition, $message = '')
     {
@@ -438,10 +369,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * Asserts that $condition is false. Reports an error $message if $condition is true.
      * @static
      *
-     * @param boolean $condition Condition to assert
+     * @param bool $condition Condition to assert
      * @param string $message Message to report if the condition is true (by default = '')
-     *
-     * @throws PHPUnit_Framework_AssertionFailedError
      */
     public static function assertFalse($condition, $message = '')
     {
@@ -462,51 +391,38 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     #                                                                              #
     ################################################################################
     /**
-     * Append parameters decorator object
+     * Add parameter to params object instance
      *
-     * @param Mage_Selenium_Helper_Params $paramsHelperObject Parameters decorator object
+     * @param string $name
+     * @param string $value
      *
-     * @return Mage_Selenium_TestCase
+     * @return Mage_Selenium_Helper_Params
      */
-    public function appendParamsDecorator($paramsHelperObject)
+    public function addParameter($name, $value)
     {
-        $this->_paramsHelper = $paramsHelperObject;
-
+        $this->_paramsHelper->setParameter($name, $value);
         return $this;
     }
 
     /**
-     * Retrieve instance of params helper
-     * @return Mage_Selenium_Helper_Params
-     */
-    public function getParamsDecorator()
-    {
-        if (null === $this->_paramsHelper) {
-            $this->_paramsHelper = new Mage_Selenium_Helper_Params();
-        }
-        return $this->_paramsHelper;
-    }
-
-    /**
-     * Set parameter to decorator object instance
+     * Get  parameter from params object instance
      *
-     * @param   string $name   Parameter name
-     * @param   string $value  Parameter value (null to unset)
+     * @param string $name
      *
-     * @return  Mage_Selenium_Helper_Params
+     * @return string
      */
-    public function addParameter($name, $value)
+    public function getParameter($name)
     {
-        return $this->getParamsDecorator()->setParameter($name, $value);
+        return $this->_paramsHelper->getParameter($name);
     }
 
     /**
      * Define parameter %$paramName% from URL
      *
      * @param string $paramName
-     * @param string|null $url
+     * @param null|string $url
      *
-     * @return integer|null
+     * @return null|string
      */
     public function defineParameterFromUrl($paramName, $url = null)
     {
@@ -524,28 +440,28 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     }
 
     /**
-     * Define parameter %id% from XPath Title
+     * Define parameter %id% from attribute @title by XPath
      *
-     * @param string $xpathTR XPath of control with 'title' attribute to retrieve an ID
+     * @param string $xpath
      *
-     * @return integer|null
+     * @return null|string
      */
-    public function defineIdFromTitle($xpathTR)
+    public function defineIdFromTitle($xpath)
     {
-        $title = $this->getValue($xpathTR . '/@title');
-        if (is_numeric($title)) {
-            return $title;
+        $urlFromTitleAttribute = $this->getValue($xpath . '/@title');
+        if (is_numeric($urlFromTitleAttribute)) {
+            return $urlFromTitleAttribute;
         }
 
-        return $this->defineIdFromUrl($title);
+        return $this->defineIdFromUrl($urlFromTitleAttribute);
     }
 
     /**
      * Define parameter %id% from URL
      *
-     * @param string|null $url
+     * @param null|string $url
      *
-     * @return integer|null
+     * @return null|string
      */
     public function defineIdFromUrl($url = null)
     {
@@ -575,30 +491,19 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     #                               Data helper methods                            #
     #                                                                              #
     ################################################################################
-    /**
-     * Gets node | value from DataSet by the specified path to data source
-     *
-     * @param string $path Path to data source (e.g. filename in ../data without .yml extension) (by default = '')
-     *
-     * @return array|string
-     */
-    protected function _getData($path = '')
-    {
-        return $this->_testConfig->getDataValue($path);
-    }
 
     /**
      * Loads test data from DataSet, specified in the $dataSource
      *
-     * @param string|array $dataSource Data source (e.g. filename in ../data without .yml extension)
-     * @param array|null $override Value to override in original data from data source
-     * @param string|array|null $randomize Value to randomize
+     * @param string $dataSource Data source (e.g. filename in ../data without .yml extension)
+     * @param null|array $override value to override in original data from data source
+     * @param null|array|string $randomize Value to randomize
      *
      * @return array
      */
     public function loadData($dataSource, $override = null, $randomize = null)
     {
-        $data = $this->_getData($dataSource);
+        $data = $this->_dataHelper->getDataValue($dataSource);
 
         if (!is_array($data)) {
             $this->fail('Data \'' . $dataSource . '\' is not loaded');
@@ -646,31 +551,27 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * <li>if $type = email - valid|invalid
      *
      * @param string $type Available types are 'string', 'text', 'email' (by default = 'string')
-     * @param integer $length Generated value length (by default = 100)
-     * @param string|array|null $modifier Value modifier, e.g. PCRE class (by default = null)
-     * @param string|null $prefix Prefix to prepend the generated value (by default = null)
+     * @param int $length Generated value length (by default = 100)
+     * @param null|string $modifier Value modifier, e.g. PCRE class (by default = null)
+     * @param null|string $prefix Prefix to prepend the generated value (by default = null)
      *
-     * @return mixed
+     * @return string
      */
     public function generate($type = 'string', $length = 100, $modifier = null, $prefix = null)
     {
-        $result = $this->_dataGenerator->generate($type, $length, $modifier, $prefix);
+        $result = $this->_dataGeneratorHelper->generate($type, $length, $modifier, $prefix);
         return $result;
     }
 
     /**
      * Remove array elements that have '%noValue%' value
      *
-     * @param array $array  Array of data for cleaning
+     * @param array $array
      *
-     * @return array|false
+     * @return array
      */
-    public function arrayEmptyClear($array)
+    public function arrayEmptyClear(array $array)
     {
-        if (!is_array($array)) {
-            return false;
-        }
-
         foreach ($array as $k => $v) {
             if (is_array($v)) {
                 $array[$k] = $this->arrayEmptyClear($v);
@@ -694,7 +595,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * @param string $overrideValue Value for override
      * @param array $overrideArray Target array, which contains some index(es) to override
      *
-     * @return boolean
+     * @return bool
      */
     public function overrideData($overrideKey, $overrideValue, &$overrideArray)
     {
@@ -717,10 +618,10 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     /**
      * @param string $subArray
      * @param string $overrideKey
-     * @param string|array $overrideValue
+     * @param string $overrideValue
      * @param array $overrideArray
      *
-     * @return boolean
+     * @return bool
      */
     public function overrideDataInSubArray($subArray, $overrideKey, $overrideValue, &$overrideArray)
     {
@@ -796,6 +697,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     #                               Messages helper methods                        #
     #                                                                              #
     ################################################################################
+
     /**
      * Removes all added messages
      *
@@ -803,23 +705,22 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function clearMessages($type = null)
     {
-        if ($type && array_key_exists($type, Mage_Selenium_TestCase::$_messages)) {
-            unset(Mage_Selenium_TestCase::$_messages[$type]);
+        if ($type && array_key_exists($type, self::$_messages)) {
+            unset(self::$_messages[$type]);
         } elseif ($type == null) {
-            Mage_Selenium_TestCase::$_messages = null;
+            self::$_messages = null;
         }
     }
 
     /**
-     * Gets all messages on the page
+     * Gets all messages on the pages
      */
     protected function _parseMessages()
     {
-        Mage_Selenium_TestCase::$_messages['success'] = $this->getElementsByXpath(self::$xpathSuccessMessage);
-        Mage_Selenium_TestCase::$_messages['error'] = $this->getElementsByXpath(self::$xpathErrorMessage);
-        Mage_Selenium_TestCase::$_messages['validation'] = $this->getElementsByXpath(self::$xpathValidationMessage,
-                                                                                     'text',
-                                                                                     self::$xpathFieldNameWithValidationMessage);
+        self::$_messages['success'] = $this->getElementsByXpath(self::$xpathSuccessMessage);
+        self::$_messages['error'] = $this->getElementsByXpath(self::$xpathErrorMessage);
+        self::$_messages['validation'] = $this->getElementsByXpath(self::$xpathValidationMessage,
+                                                                   'text', self::$xpathFieldNameWithValidationMessage);
     }
 
     /**
@@ -833,11 +734,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         $this->_parseMessages();
         if ($type) {
-            return Mage_Selenium_TestCase::$_messages[$type];
+            return self::$_messages[$type];
         }
 
-        return Mage_Selenium_TestCase::$_messages;
+        return self::$_messages;
     }
+
 
     /**
      * Returns all parsed messages (or messages of the specified type)
@@ -849,11 +751,11 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     public function getParsedMessages($type = null)
     {
         if ($type) {
-            return (isset(Mage_Selenium_TestCase::$_messages[$type]))
-                ? Mage_Selenium_TestCase::$_messages[$type]
+            return (isset(self::$_messages[$type]))
+                ? self::$_messages[$type]
                 : null;
         }
-        return Mage_Selenium_TestCase::$_messages;
+        return self::$_messages;
     }
 
     /**
@@ -866,10 +768,10 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         if (is_array($message)) {
             foreach ($message as $value) {
-                Mage_Selenium_TestCase::$_messages[$type][] = $value;
+                self::$_messages[$type][] = $value;
             }
         } else {
-            Mage_Selenium_TestCase::$_messages[$type][] = $message;
+            self::$_messages[$type][] = $message;
         }
     }
 
@@ -883,13 +785,14 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $this->addMessage('verification', $message);
     }
 
+
     /**
      * Verifies messages count
      *
-     * @param integer $count Expected number of message(s) on the page
-     * @param string $xpath XPath of a message(s) that should be evaluated (default = null)
+     * @param int $count Expected number of message(s) on the page
+     * @param null|string $xpath XPath of a message(s) that should be evaluated (default = null)
      *
-     * @return integer Number of nodes that match the specified $xpath
+     * @return int Number of nodes that match the specified $xpath
      */
     public function verifyMessagesCount($count = 1, $xpath = null)
     {
@@ -903,22 +806,13 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     /**
      * Check if the specified message exists on the page
      *
-     * @param string $message  Message ID from UIMap
+     * @param string $message Message ID from UIMap
      *
-     * @return boolean
+     * @return bool
      */
     public function checkMessage($message)
     {
-        $page = $this->getCurrentUimapPage();
-        try {
-            $messageLocator = $page->findMessage($message);
-        } catch (Exception $e) {
-            $errorMessage = 'Current location url: ' . $this->getLocation() . "\n"
-                . 'Current page "' . $this->getCurrentPage() . '": '
-                . $e->getMessage() . ' - "' . $message . '"' . "\n"
-                . implode("\n", call_user_func_array('array_merge', $this->getMessagesOnPage()));
-            $this->fail($errorMessage);
-        }
+        $messageLocator = $this->findUimapElement('message', $message);
         return $this->checkMessageByXpath($messageLocator);
     }
 
@@ -927,12 +821,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      *
      * @param string $xpath XPath of message to checking
      *
-     * @return boolean
+     * @return bool
      */
     public function checkMessageByXpath($xpath)
     {
         $this->_parseMessages();
-        if ($xpath && $this->isElementPresent($xpath)) {
+        if ($xpath && $this->isVisible($xpath)) {
             return true;
         }
         return false;
@@ -941,9 +835,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     /**
      * Checks if any 'error' message exists on the page
      *
-     * @param string $message Error message ID from UIMap OR XPath of the error message (by default = null)
+     * @param null|string $message Error message ID from UIMap OR XPath of the error message (by default = null)
      *
-     * @return boolean
+     * @return bool
      */
     public function errorMessage($message = null)
     {
@@ -955,9 +849,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     /**
      * Checks if any 'success' message exists on the page
      *
-     * @param string $message Success message ID from UIMap OR XPath of the success message (by default = null)
+     * @param null|string $message Success message ID from UIMap OR XPath of the success message (by default = null)
      *
-     * @return boolean
+     * @return bool
      */
     public function successMessage($message = null)
     {
@@ -969,9 +863,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     /**
      * Checks if any 'validation' message exists on the page
      *
-     * @param string $message Validation message ID from UIMap OR XPath of the validation message (by default = null)
+     * @param null|string $message Validation message ID from UIMap OR XPath of the validation message (by default = null)
      *
-     * @return boolean
+     * @return bool
      */
     public function validationMessage($message = null)
     {
@@ -983,8 +877,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     /**
      * Asserts that the specified message of the specified type is present on the current page
      *
-     * @param string $type    success|validation|error
-     * @param string $message Message text
+     * @param string $type success|validation|error
+     * @param null|string $message Message ID from UIMap
      */
     public function assertMessagePresent($type, $message = null)
     {
@@ -994,7 +888,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 
     /**
      * Assert there are no verification errors
-     * @throws PHPUnit_Framework_ExpectationFailedException
      */
     public function assertEmptyVerificationErrors()
     {
@@ -1015,13 +908,13 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      *
      * @param string $area Area identifier (by default = 'frontend')
      * @param string $page Page identifier (by default = 'home')
-     * @param boolean $validatePage
+     * @param bool $validatePage
      *
      * @return Mage_Selenium_TestCase
      */
     public function goToArea($area = 'frontend', $page = 'home', $validatePage = true)
     {
-        $this->setArea($area);
+        $this->_configHelper->setArea($area);
         $this->navigate($page, $validatePage);
         return $this;
     }
@@ -1031,27 +924,22 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * Page identifier must be described in the UIMap.
      *
      * @param string $page Page identifier
-     * @param boolean $validatePage
+     * @param bool $validatePage
      *
      * @return Mage_Selenium_TestCase
      */
     public function navigate($page, $validatePage = true)
     {
-        $area = $this->getArea();
-        try {
-            $clickXpath = $this->getPageClickXpath($area, $page);
-
-            if ($clickXpath && $this->isElementPresent($clickXpath)) {
-                $this->click($clickXpath);
-                $this->waitForPageToLoad($this->_browserTimeoutPeriod);
-            } else {
-                $this->open($this->getPageUrl($area, $page));
-            }
-            if ($validatePage) {
-                $this->validatePage($page);
-            }
-        } catch (PHPUnit_Framework_Exception $e) {
-            $this->_error = true;
+        $area = $this->_configHelper->getArea();
+        $clickXpath = $this->_uimapHelper->getPageClickXpath($area, $page, $this->_paramsHelper);
+        if ($clickXpath && $this->isElementPresent($clickXpath)) {
+            $this->click($clickXpath);
+            $this->waitForPageToLoad($this->_browserTimeoutPeriod);
+        } else {
+            $this->open($this->_uimapHelper->getPageUrl($area, $page, $this->_paramsHelper));
+        }
+        if ($validatePage) {
+            $this->validatePage($page);
         }
 
         return $this;
@@ -1062,7 +950,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * Page identifier must be described in the UIMap. Opens "Dashboard" page by default.
      *
      * @param string $page Page identifier (by default = 'dashboard')
-     * @param boolean $validatePage
+     * @param bool $validatePage
      *
      * @return Mage_Selenium_TestCase
      */
@@ -1077,7 +965,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * Page identifier must be described in the UIMap. Opens "Home page" by default.
      *
      * @param string $page Page identifier (by default = 'home')
-     * @param boolean $validatePage
+     * @param bool $validatePage
      *
      * @return Mage_Selenium_TestCase
      */
@@ -1093,17 +981,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     #                                                                              #
     ################################################################################
     /**
-     * Gets current area<br>
-     * Usage: to definition of area what operates in this time.
-     * <li>Possible areas: frontend | admin
-     * @return string
-     */
-    public function getArea()
-    {
-        return $this->_applicationHelper->getArea();
-    }
-
-    /**
      * Gets current location area<br>
      * Usage: to definition of area what operates in this time.
      * <li>Possible areas: frontend | admin
@@ -1111,9 +988,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function getCurrentLocationArea()
     {
-        $currentArea = Mage_Selenium_TestCase::_getAreaFromCurrentUrl($this->_applicationHelper->getAreasConfig(),
-                                                                      $this->getLocation());
-        $this->setArea($currentArea);
+        $currentArea = self::_getAreaFromCurrentUrl($this->_configHelper->getConfigAreas(),
+                                                    $this->getLocation());
+        $this->_configHelper->setArea($currentArea);
         return $currentArea;
     }
 
@@ -1121,8 +998,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * Find area in areasConfig using full page URL
      * @static
      *
-     * @param string $currentUrl Full URL to page
      * @param array $areasConfig Full area config
+     * @param string $currentUrl Full URL to page
      *
      * @return string
      */
@@ -1143,21 +1020,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         return $currentArea;
     }
 
-    /**
-     * Sets current area<br>
-     * Usage: to setup area that will be used further
-     * <li>Possible areas: frontend | admin
-     *
-     * @param string $area Area identifier ('admin'|'frontend')
-     *
-     * @return Mage_Selenium_TestCase
-     */
-    public function setArea($area)
-    {
-        $this->_applicationHelper->setArea($area);
-        return $this;
-    }
-
     ################################################################################
     #                                                                              #
     #                       UIMap of Page helper methods                           #
@@ -1166,49 +1028,38 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     /**
      * Retrieves Page's data from UIMap by $pageKey
      *
-     * @param string $area Area identifier ('admin'|'frontend')
+     * @param string $area Area identifier
      * @param string $pageKey UIMap page key
      *
      * @return Mage_Selenium_Uimap_Page
      */
     public function getUimapPage($area, $pageKey)
     {
-        $page = $this->_uimapHelper->getUimapPage($area, $pageKey, $this->getParamsDecorator());
-
-        if (!$page) {
-            $this->fail('Can\'t find page "' . $pageKey . '" in area "' . $area . '"');
-        }
-
-        return $page;
+        return $this->_uimapHelper->getUimapPage($area, $pageKey, $this->_paramsHelper);
     }
 
     /**
      * Retrieves current Page data from UIMap.
      * Gets current page name from an internal variable.
-     * @return Mage_Selenium_Uimap_Page|null
+     * @return Mage_Selenium_Uimap_Page
      */
     public function getCurrentUimapPage()
     {
-        return $this->getUimapPage($this->getArea(), $this->getCurrentPage());
+        return $this->getUimapPage($this->_configHelper->getArea(), $this->getCurrentPage());
     }
 
     /**
      * Retrieves current Page data from UIMap.
      * Gets current page name from the current URL.
-     * @return Mage_Selenium_Uimap_Page|null
+     * @return Mage_Selenium_Uimap_Page
      */
     public function getCurrentLocationUimapPage()
     {
-        $areasConfig = $this->_applicationHelper->getAreasConfig();
+        $areasConfig = $this->_configHelper->getConfigAreas();
         $currentUrl = $this->getLocation();
-        $mca = Mage_Selenium_TestCase::_getMcaFromCurrentUrl($areasConfig, $currentUrl);
-        $area = Mage_Selenium_TestCase::_getAreaFromCurrentUrl($areasConfig, $currentUrl);
-        $page = $this->_uimapHelper->getUimapPageByMca($area, $mca, $this->getParamsDecorator());
-
-        if (!$page) {
-            $this->fail('Can\'t find page for mca "' . $mca . '" in area "' . $area . '"');
-        }
-        return $page;
+        $mca = self::_getMcaFromCurrentUrl($areasConfig, $currentUrl);
+        $area = self::_getAreaFromCurrentUrl($areasConfig, $currentUrl);
+        return $this->_uimapHelper->getUimapPageByMca($area, $mca, $this->_paramsHelper);
     }
 
     ################################################################################
@@ -1217,48 +1068,45 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     #                                                                              #
     ################################################################################
     /**
-     * Set PageID
+     * Change current page
      *
      * @param string $page
      *
-     * @return \Mage_Selenium_TestCase
+     * @return Mage_Selenium_TestCase
      */
     public function setCurrentPage($page)
     {
-        $this->_pageHelper->setCurrentPage($page);
+        $this->_configHelper->setCurrentPageId($page);
         return $this;
     }
 
     /**
-     * Returns PageID of current page
+     * Get current page
      * @return string
      */
     public function getCurrentPage()
     {
-        return $this->_pageHelper->getCurrentPage();
+        return $this->_configHelper->getCurrentPageId();
     }
 
     /**
      * Find PageID in UIMap in the current area using full page URL
      *
-     * @param string  $url Full URL
+     * @param string|null $url Full URL
      *
-     * @return string|boolean
+     * @return string
      */
-    protected function _findCurrentPageFromUrl($url)
+    protected function _findCurrentPageFromUrl($url = null)
     {
-        $areasConfig = $this->_applicationHelper->getAreasConfig();
-
-        $mca = Mage_Selenium_TestCase::_getMcaFromCurrentUrl($areasConfig, $url);
-        $area = Mage_Selenium_TestCase::_getAreaFromCurrentUrl($areasConfig, $url);
-        $page = $this->_pageHelper->getPageByMca($area, $mca, $this->getParamsDecorator());
-        if ($page) {
-            return $page->getPageId();
-        } else {
-            $this->fail('Can\'t find page for url: ' . $url);
+        if (is_null($url)) {
+            $url = $this->getLocation();
         }
+        $areasConfig = $this->_configHelper->getConfigAreas();
+        $mca = self::_getMcaFromCurrentUrl($areasConfig, $url);
+        $area = self::_getAreaFromCurrentUrl($areasConfig, $url);
+        $page = $this->_uimapHelper->getUimapPageByMca($area, $mca, $this->_paramsHelper);
 
-        return false;
+        return $page->getPageId();
     }
 
     /**
@@ -1269,13 +1117,14 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      *
      * @param string $page Page identifier
      *
-     * @return boolean
+     * @return bool
      */
     public function checkCurrentPage($page)
     {
-        $currentPage = $this->_findCurrentPageFromUrl($this->getLocation());
+        $currentPage = $this->_findCurrentPageFromUrl();
         if ($currentPage != $page) {
-            $this->addVerificationMessage("Opened the wrong page: '" . $currentPage . "'(should be: '" . $page . "')");
+            $this->addVerificationMessage("Opened the wrong page '"
+                                              . $currentPage . "'(should be: '" . $page . "')");
             return false;
         }
         return true;
@@ -1284,15 +1133,14 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     /**
      * Validates properties of the current page.
      *
-     * @param string $page
+     * @param string $page Page identifier
      */
     public function validatePage($page = '')
     {
         if ($page) {
-            $this->assertTrue($this->checkCurrentPage($page), $this->getParsedMessages());
-        }
-        if (!$page) {
-            $page = $this->_findCurrentPageFromUrl($this->getLocation());
+            $this->assertTrue($this->checkCurrentPage($page), $this->getMessagesOnPage());
+        } else {
+            $page = $this->_findCurrentPageFromUrl();
         }
         $this->assertTextNotPresent('Fatal error', 'Fatal error on page');
         $this->assertTextNotPresent('There has been an error processing your request',
@@ -1307,9 +1155,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $this->assertTextNotPresent('Service Temporarily Unavailable', 'Service Temporarily Unavailable');
         $this->assertTextNotPresent('The page isn\'t redirecting properly', 'The page isn\'t redirecting properly');
         //@TODO
-        //$this->assertSame($this->getUimapPage($this->getArea(), $page)->getTitle($this->getParamsDecorator()),
-        //                  $this->getTitle(),
-        //                  'Page title is unexpected');
+        //$expectedTitle = $this->getUimapPage($this->_configHelper->getArea(), $page)->getTitle($this->_paramsHelper);
+        //$this->assertSame($expectedTitle, $this->getTitle(), 'Page title is unexpected');
         $this->setCurrentPage($page);
     }
 
@@ -1318,6 +1165,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     #                       Page Elements helper methods                           #
     #                                                                              #
     ################################################################################
+
     /**
      * Get MCA-part of page URL
      * @static
@@ -1325,7 +1173,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * @param array $areasConfig Full area config
      * @param string $currentUrl Current URL
      *
-     * @return mixed
+     * @return string
      */
     protected static function _getMcaFromCurrentUrl($areasConfig, $currentUrl)
     {
@@ -1366,32 +1214,29 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     }
 
     /**
-     * Returns URL of the specified page
+     * @param string $elementType
+     * @param string $elementName
+     * @param Mage_Selenium_Uimap_Page|null $uimap
      *
-     * @param string $area
-     * @param string $page Page identifier
-     *
-     * @return string
+     * @return mixed
+     * @throw PHPUnit_Framework_Exception
      */
-    public function getPageUrl($area, $page)
+    public function findUimapElement($elementType, $elementName, $uimap = null)
     {
-        $pageData = $this->getUimapPage($area, $page);
-        $url = $this->_applicationHelper->getBaseUrl() . $pageData->getMca();
-
-        return $url;
-    }
-
-    /**
-     * Return click xpath of the specified page
-     *
-     * @param string $area
-     * @param string $page Page identifier
-     *
-     * @return string
-     */
-    public function getPageClickXpath($area, $page)
-    {
-        return $this->_pageHelper->getPageClickXpath($area, $page);
+        if (is_null($uimap)) {
+            $uimap = $this->getCurrentUimapPage();
+        }
+        try {
+            $method = 'find' . ucfirst(strtolower($elementType));
+            return $uimap->$method($elementName, $this->_paramsHelper);
+        } catch (Exception $e) {
+            $errorMessage = 'Current location url: ' . $this->getLocation() . "\n"
+                . 'Current page "' . $this->getCurrentPage() . '": '
+                . $e->getMessage() . ' - "' . $elementName . '"' . "\n"
+                . 'Messages on current page:' . "\n"
+                . implode("\n", call_user_func_array('array_merge', $this->getMessagesOnPage()));
+            throw new PHPUnit_Framework_Exception($errorMessage);
+        }
     }
 
     /**
@@ -1399,31 +1244,15 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      *
      * @param string $controlType Type of control (e.g. button | link | radiobutton | checkbox)
      * @param string $controlName Name of a control from UIMap
+     * @param mixed $uimap
      *
-     * @throws OutOfRangeException
      * @return string
      */
-    protected function _getControlXpath($controlType, $controlName)
+    protected function _getControlXpath($controlType, $controlName, $uimap = null)
     {
-        $uimapPage = $this->getCurrentUimapPage();
-        if (!$uimapPage) {
-            throw new OutOfRangeException("Can't find specified form in UIMap array '"
-                . $this->getLocation() . "', area['" . $this->getArea() . "']");
-        }
-
-        $method = 'find' . ucfirst(strtolower($controlType));
-
-        try {
-            $xpath = $uimapPage->$method($controlName);
-        } catch (Exception $e) {
-            $errorMessage = 'Current location url: ' . $this->getLocation() . "\n"
-                . 'Current page "' . $this->getCurrentPage() . '": '
-                . $e->getMessage() . ' - "' . $controlName . '"';
-            $this->fail($errorMessage);
-        }
-
+        $xpath = $this->findUimapElement($controlType, $controlName, $uimap);
         if (is_object($xpath) && method_exists($xpath, 'getXPath')) {
-            $xpath = $xpath->getXPath();
+            $xpath = $xpath->getXPath($this->_paramsHelper);
         }
 
         return $xpath;
@@ -1432,7 +1261,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     /**
      * Gets map data values to UIPage form
      *
-     * @param array $fieldsets Array of fieldsets to fill
+     * @param mixed $fieldsets Array of fieldsets to fill
      * @param array $data Array of data to fill
      *
      * @return array
@@ -1455,7 +1284,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                 foreach ($uimapFields as $fieldsType => $fieldsData) {
                     foreach ($fieldsData as $uimapFieldName => $uimapFieldValue) {
                         if ($dataFieldName == $uimapFieldName) {
-                            $parent = $fieldset->getXpath();
+                            $parent = $fieldset->getXpath($this->_paramsHelper);
                             if (!is_null($parent) && !$parent == '') {
                                 $uimapFieldValue = str_ireplace('css=', ' ', $uimapFieldValue);
                             }
@@ -1490,7 +1319,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             $fileName = $this->testId;
         }
         $file = fopen(SELENIUM_TESTS_SCREENSHOTDIR . DIRECTORY_SEPARATOR . $fileName . '.html', 'a+');
-        fputs($file, $this->_testConfig->driver->getHtmlSource());
+        fputs($file, $this->drivers[0]->getHtmlSource());
         fflush($file);
         fclose($file);
     }
@@ -1500,7 +1329,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      *
      * @param string $controlType Type of control (e.g. button|link|radiobutton|checkbox)
      * @param string $controlName Name of a control from UIMap
-     * @param boolean $willChangePage Triggers page reloading. If clicking the control doesn't result<br>
+     * @param bool $willChangePage Triggers page reloading. If clicking the control doesn't result<br>
      * in page reloading, should be false (by default = true).
      *
      * @return Mage_Selenium_TestCase
@@ -1508,26 +1337,15 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     public function clickControl($controlType, $controlName, $willChangePage = true)
     {
         $xpath = $this->_getControlXpath($controlType, $controlName);
-
-        if (empty($xpath)) {
-            $this->fail('Xpath for control "' . $controlName . '" is empty');
+        if (!$this->isVisible($xpath)) {
+            $this->fail('Control "' . $controlName . '" is not present on the page "'
+                            . $this->getCurrentPage() . '". ' . 'Type: ' . $controlType . ', xpath: ' . $xpath);
         }
-
-        if (!$this->isElementPresent($xpath)) {
-            $this->fail('Control "' . $controlName . '" is not present on the page "' . $this->getCurrentPage() . '". '
-                            . 'Type: ' . $controlType . ', xpath: ' . $xpath);
-        }
-
-        try {
-            $this->click($xpath);
-
-            if ($willChangePage) {
-                $this->waitForPageToLoad($this->_browserTimeoutPeriod);
-                $this->addParameter('id', $this->defineIdFromUrl());
-                $this->validatePage();
-            }
-        } catch (PHPUnit_Framework_Exception $e) {
-            $this->fail($e->getMessage());
+        $this->click($xpath);
+        if ($willChangePage) {
+            $this->waitForPageToLoad($this->_browserTimeoutPeriod);
+            $this->addParameter('id', $this->defineIdFromUrl());
+            $this->validatePage();
         }
         return $this;
     }
@@ -1535,17 +1353,15 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     /**
      * Click on button with specified name
      *
-     * @param string $button Button's identifier (Name of a button from UIMap)
-     * @param boolean $willChangePage Triggers page reloading. If clicking the control doesn't result<br>
+     * @param string $button Name of a control from UIMap
+     * @param bool $willChangePage Triggers page reloading. If clicking the control doesn't result<br>
      * in page reloading, should be false (by default = true).
      *
      * @return Mage_Selenium_TestCase
      */
     public function clickButton($button, $willChangePage = true)
     {
-        $this->clickControl('button', $button, $willChangePage);
-
-        return $this;
+        return $this->clickControl('button', $button, $willChangePage);
     }
 
     /**
@@ -1555,16 +1371,16 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * @param string $controlType Type of control (e.g. button|link)
      * @param string $controlName Name of a control from UIMap
      * @param string $message Confirmation message
-     * @param bool   $willChangePage Triggers page reloading. If clicking the control doesn't result</br>
+     * @param bool $willChangePage Triggers page reloading. If clicking the control doesn't result<br>
      * in page reloading, should be false (by default = true).
      *
-     * @return boolean
+     * @return bool
      */
     public function clickControlAndConfirm($controlType, $controlName, $message, $willChangePage = true)
     {
         $buttonXpath = $this->_getControlXpath($controlType, $controlName);
         if ($this->isElementPresent($buttonXpath)) {
-            $confirmation = $this->getCurrentUimapPage()->findMessage($message);
+            $confirmation = $this->findUimapElement('message', $message);
             $this->chooseCancelOnNextConfirmation();
             $this->click($buttonXpath);
             if ($this->isConfirmationPresent()) {
@@ -1600,11 +1416,11 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * Submit form and confirms the confirmation popup with the specified message.
      *
      * @param string $buttonName Name of a button from UIMap
-     * @param string $message Message ID from UIMap
-     * @param bool   $willChangePage Triggers page reloading. If clicking the control doesn't result</br>
+     * @param string $message Confirmation message id from UIMap
+     * @param bool $willChangePage Triggers page reloading. If clicking the control doesn't result<br>
      * in page reloading, should be false (by default = true).
      *
-     * @return boolean
+     * @return bool
      */
     public function clickButtonAndConfirm($buttonName, $message, $willChangePage = true)
     {
@@ -1618,16 +1434,11 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * @param string $controlType Type of control (e.g. button | link | radiobutton | checkbox)
      * @param string $controlName Name of a control from UIMap
      *
-     * @return boolean
+     * @return bool
      */
     public function controlIsPresent($controlType, $controlName)
     {
         $xpath = $this->_getControlXpath($controlType, $controlName);
-
-        if ($xpath == null) {
-            $this->fail("Can't find control: [$controlType: $controlName]");
-        }
-
         if ($this->isElementPresent($xpath)) {
             return true;
         }
@@ -1641,7 +1452,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      *
      * @param string $button Name of a button from UIMap
      *
-     * @return boolean
+     * @return bool
      */
     public function buttonIsPresent($button)
     {
@@ -1651,7 +1462,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     /**
      * Open tab
      *
-     * @param string $tabName Tab name as displayed on the page
+     * @param string $tabName tab id from uimap
+     *
+     * @throw OutOfRangeException
      */
     public function openTab($tabName)
     {
@@ -1662,7 +1475,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         } elseif ($this->isElementPresent($tabXpath . '/parent::*[@class]')) {
             $isTabOpened = $this->getAttribute($tabXpath . '/parent::*/@class');
         } else {
-            $this->fail('Wrong xpath for tab');
+            throw new OutOfRangeException("Wrong xpath for tab: [$tabName : $tabXpath]");
         }
         if (!preg_match('/active/', $isTabOpened)) {
             if (preg_match('/ajax/', $isTabOpened)) {
@@ -1683,6 +1496,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * @param string $additionalXPath Additional XPath (by default= '')
      *
      * @return array
+     * @throw OutOfRangeException
      */
     public function getElementsByXpath($xpath, $get = 'text', $additionalXPath = '')
     {
@@ -1705,7 +1519,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                         $element = $this->getText($x);
                         break;
                     default :
-                        $this->fail('Possible values of the variable $get only "text" and "value"');
+                        throw new OutOfRangeException('Possible values of the variable $get only "text" and "value"');
                         break;
                 }
 
@@ -1737,11 +1551,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * @param string $xpath XPath of an element to look up
      * @param string $get What to get. Allowed params: 'text' or 'value' (by default = 'text')
      *
-     * @return array
+     * @return mixed
      */
     public function getElementByXpath($xpath, $get = 'text')
     {
-        return array_shift($this->getElementsByXpath($xpath, $get));
+        $elements = $this->getElementsByXpath($xpath, $get);
+        return array_shift($elements);
     }
 
     /**
@@ -1750,7 +1565,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      *
      * @param string $locator CSS selector
      *
-     * @return string
+     * @return int
      */
     public function getCssCount($locator)
     {
@@ -1764,7 +1579,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      *
      * @param string $locator xPath selector
      *
-     * @return int|string
+     * @return int
      */
     public function getXpathCount($locator)
     {
@@ -1804,7 +1619,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * @param string $columnName
      * @param string $tableXpath
      *
-     * @return number
+     * @return int
      */
     public function getColumnIdByName($columnName, $tableXpath = '//table[@id]')
     {
@@ -1815,9 +1630,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * Waits for the element to appear
      *
      * @param string|array $locator XPath locator or array of locators
-     * @param integer $timeout Timeout period in seconds (by default = 40)
+     * @param int $timeout Timeout period in seconds (by default = 40)
      *
-     * @return boolean
+     * @return bool
      */
     public function waitForElement($locator, $timeout = 40)
     {
@@ -1839,13 +1654,14 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         return false;
     }
 
+
     /**
      * Waits for the element(s) to be visible
      *
      * @param string|array $locator XPath locator or array of locators
-     * @param integer $timeout Timeout period in seconds (by default = 40)
+     * @param int $timeout Timeout period in seconds (by default = 40)
      *
-     * @return boolean
+     * @return bool
      */
     public function waitForElementVisible($locator, $timeout = 40)
     {
@@ -1871,9 +1687,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * Waits for AJAX request to continue.<br>
      * Method works only if AJAX request was sent by Prototype or JQuery framework.
      *
-     * @param integer $timeout Timeout period in milliseconds. If not set, uses a default period.
-     *
-     * @return void
+     * @param int $timeout Timeout period in milliseconds. If not set, uses a default period.
      */
     public function waitForAjax($timeout = null)
     {
@@ -1891,24 +1705,24 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * Submits the opened form.
      *
      * @param string $buttonName Name of the button, what intended to save (submit) form (from UIMap)
-     * @param boolean $validate
+     * @param bool $validate
      *
      * @return Mage_Selenium_TestCase
      */
     public function saveForm($buttonName, $validate = true)
     {
         $this->_parseMessages();
-        foreach (Mage_Selenium_TestCase::$_messages as $key => $value) {
-            Mage_Selenium_TestCase::$_messages[$key] = array_unique($value);
+        foreach (self::$_messages as $key => $value) {
+            self::$_messages[$key] = array_unique($value);
         }
         $success = self::$xpathSuccessMessage;
         $error = self::$xpathErrorMessage;
         $validation = self::$xpathValidationMessage;
         $types = array('success', 'error', 'validation');
         foreach ($types as $message) {
-            if (array_key_exists($message, Mage_Selenium_TestCase::$_messages)) {
+            if (array_key_exists($message, self::$_messages)) {
                 $exclude = '';
-                foreach (Mage_Selenium_TestCase::$_messages[$message] as $messageText) {
+                foreach (self::$_messages[$message] as $messageText) {
                     $exclude .= "[not(..//.='$messageText')]";
                 }
                 ${$message} .= $exclude;
@@ -1931,8 +1745,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * @param string $elementName Name of the element that should be visible after scrolling
      * @param string $blockType Type of the block where to use scroll
      * @param string $blockName Name of the block where to use scroll
-     *
-     * @return null
      */
     public function moveScrollToElement($elementType, $elementName, $blockType, $blockName)
     {
@@ -1940,12 +1752,10 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $specElementXpath = $this->_getControlXpath($elementType, $elementName);
         // Getting @ID of the element what should be visible after scrolling
         $specElementId = $this->getAttribute($specElementXpath . "/@id");
-
         // Getting XPath of the block where scroll is using
         $specFieldsetXpath = $this->_getControlXpath($blockType, $blockName);
         // Getting @ID of the block where scroll is using
         $specFieldsetId = $this->getAttribute($specFieldsetXpath . "/@id");
-
         // Getting offset position of the element what should be visible after scrolling
         $destinationOffsetTop = $this->getEval("this.browserbot.findElement('id=" . $specElementId . "').offsetTop");
         // Moving scroll bar to previously defined offset
@@ -1971,26 +1781,21 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $specElementXpath = $this->_getControlXpath($elementType, $elementName);
         // Getting @ID of the element to move
         $specElementId = $this->getAttribute($specElementXpath . "/@id");
-
         // Getting XPath of the block what is a JS tree
         $specFieldsetXpath = $this->_getControlXpath($blockType, $blockName);
         // Getting @ID of the block what is a JS tree
         $specFieldsetId = $this->getAttribute($specFieldsetXpath . "/@id");
-
         // Getting offset position of the element to move
         $destinationOffsetTop = $this->getEval("this.browserbot.findElement('id=" . $specElementId . "').offsetTop");
-
         // Storing of current height of the block with JS tree
         $tmpBlockHeight = (integer)$this->getEval("this.browserbot.findElement('id="
                                                       . $specFieldsetId . "').style.height");
-
         // If element to move situated abroad of the current height, it will be increased
         if ($destinationOffsetTop >= $tmpBlockHeight) {
             $destinationOffsetTop = $destinationOffsetTop + 50;
             $this->getEval("this.browserbot.findElement('id=" . $specFieldsetId
                                . "').style.height='" . $destinationOffsetTop . "px'");
         }
-
         $this->clickAt($specElementXpath, '1,1');
         $blockTo = $specFieldsetXpath . '//li[' . $moveToPosition . ']//a//span';
         $this->mouseDownAt($specElementXpath, '1,1');
@@ -2003,11 +1808,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * Searches for the specified data in specific the grid and opens the found item.
      *
      * @param array $data Array of data to look up
-     * @param boolean $willChangePage Triggers page reloading. If clicking the control doesn't result<br>
+     * @param bool $willChangePage Triggers page reloading. If clicking the control doesn't result<br>
      * in page reloading, should be false (by default = true).
      * @param string|null $fieldSetName Fieldset name that contains the grid (by default = null)
-     *
-     * @return boolean
      */
     public function searchAndOpen(array $data, $willChangePage = true, $fieldSetName = null)
     {
@@ -2025,9 +1828,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                 $this->click($xpathTR . "/td[contains(text(),'" . $data[array_rand($data)] . "')]");
                 $this->waitForAjax($this->_browserTimeoutPeriod);
             }
-            return true;
+        } else {
+            $this->fail('Cant\'t find item in grid for data: ' . print_r($data, true));
         }
-        return false;
     }
 
     /**
@@ -2054,14 +1857,14 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * Prepare data array to search in grid
      *
      * @param array $data Array of data to look up
-     * @param array $verifyFields
+     * @param array $checkFields
      *
      * @return array
      */
-    protected function _prepareDataForSearch(array &$data, array $verifyFields = array('dropdown' => 'website'))
+    protected function _prepareDataForSearch(array &$data, array $checkFields = array('dropdown' => 'website'))
     {
         $data = $this->arrayEmptyClear($data);
-        foreach ($verifyFields as $fieldType => $fieldName) {
+        foreach ($checkFields as $fieldType => $fieldName) {
             if (array_key_exists($fieldName, $data) && !$this->controlIsPresent($fieldType, $fieldName)) {
                 unset($data[$fieldName]);
             }
@@ -2080,25 +1883,14 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function search(array $data, $fieldSetName = null)
     {
-        if (!$data) {
-            return null;
-        }
-
         $waitAjax = true;
         $xpath = '';
-        $xpathContainer = $this->getCurrentUimapPage();
+        $xpathContainer = null;
         if ($fieldSetName) {
-            try {
-                $xpathContainer = $xpathContainer->findFieldset($fieldSetName);
-                $xpath = $xpathContainer->getXpath();
-            } catch (Exception $e) {
-                $errorMessage = 'Current location url: ' . $this->getLocation() . "\n"
-                    . 'Current page "' . $this->getCurrentPage() . '": '
-                    . $e->getMessage() . ' - "' . $fieldSetName . '"';
-                $this->fail($errorMessage);
-            }
+            $xpathContainer = $this->findUimapElement('fieldset', $fieldSetName);
+            $xpath = $xpathContainer->getXpath($this->_paramsHelper);
         }
-        $resetXpath = $xpath . $xpathContainer->findButton('reset_filter');
+        $resetXpath = $xpath . $this->_getControlXpath('button', 'reset_filter', $xpathContainer);
         $jsName = $this->getAttribute($resetXpath . '/@onclick');
         $jsName = preg_replace('/\.[\D]+\(\)/', '', $jsName);
         $scriptXpath = "//script[contains(text(),\"$jsName.useAjax = ''\")]";
@@ -2112,7 +1904,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             $this->waitForPageToLoad($this->_browserTimeoutPeriod);
             $this->validatePage();
         }
-
         //Forming xpath that contains string 'Total $number records found' where $number - number of items in table
         $totalCount = intval($this->getText($xpath . self::$qtyElementsInTable));
         $xpathPager = $xpath . self::$qtyElementsInTable . "[not(text()='" . $totalCount . "')]";
@@ -2131,6 +1922,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         }
         return null;
     }
+
 
     /**
      * Forming xpath that contains the data to look up
@@ -2161,34 +1953,24 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * @param array|string $data Array of data to fill or datasource name
      * @param string $tabId Tab ID from UIMap (by default = '')
      *
-     * @throws InvalidArgumentException, OutOfRangeException
-     * @return Mage_Selenium_TestCase|boolean
+     * @throws OutOfRangeException|PHPUnit_Framework_Exception
      */
     public function fillForm($data, $tabId = '')
     {
         if (is_string($data)) {
             $data = $this->loadData($data);
         }
-        if (!is_array($data)) {
-            throw new InvalidArgumentException('FillForm argument "data" must be an array!!!');
-        }
 
         $formData = $this->getCurrentUimapPage()->getMainForm();
-
-        if (!$formData) {
-            throw new OutOfRangeException("Can't find main form in UIMap array '"
-                . $this->getLocation() . "', area['" . $this->getArea() . "']");
-        }
-
         if ($tabId && $formData->getTab($tabId)) {
-            $fieldsets = $formData->getTab($tabId)->getAllFieldsets();
+            $fieldsets = $formData->getTab($tabId)->getAllFieldsets($this->_paramsHelper);
         } else {
-            $fieldsets = $formData->getAllFieldsets();
+            $fieldsets = $formData->getAllFieldsets($this->_paramsHelper);
         }
-        $fieldsets->assignParams($this->getParamsDecorator());
         // if we have got empty UIMap but not empty dataset
-        if (empty($fieldsets) && !empty($data)) {
-            return false;
+        if (empty($fieldsets)) {
+            throw new OutOfRangeException("Can't find main form in UIMap array for page '"
+                . $this->getCurrentPage() . "', area['" . $this->_configHelper->getArea() . "']");
         }
 
         $formDataMap = $this->_getFormDataMap($fieldsets, $data);
@@ -2220,50 +2002,44 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                 }
             }
         } catch (PHPUnit_Framework_Exception $e) {
-            $errorMessage = isset($formFieldName) ? 'Problem with field \'' . $formFieldName . '\': ' . $e->getMessage()
+            $errorMessage = isset($formFieldName)
+                ? 'Problem with field \'' . $formFieldName . '\': ' . $e->getMessage()
                 : $e->getMessage();
             $this->fail($errorMessage);
         }
-
-        return true;
     }
 
     /**
      * Verifies values on the opened form
      *
      * @param array|string $data Array of data to verify or datasource name
-     * @param string $tabName Defines a specific Tab on the page that contains the form to verify (by default = '')
+     * @param string $tabId Defines a specific Tab on the page that contains the form to verify (by default = '')
      * @param array $skipElements Array of elements that will be skipped during verification <br>
      * (default = array('password'))
      *
-     * @throws InvalidArgumentException, OutOfRangeException
-     * @return boolean
+     * @return bool
+     * @throws InvalidArgumentException|OutOfRangeException
      */
-    public function verifyForm($data, $tabName = '', $skipElements = array('password'))
+    public function verifyForm($data, $tabId = '', $skipElements = array('password'))
     {
         if (is_string($data)) {
             $data = $this->loadData($data);
         }
-        if (!is_array($data)) {
-            throw new InvalidArgumentException('FillForm argument "data" must be an array!!!');
-        }
 
         $formData = $this->getCurrentUimapPage()->getMainForm();
-
-        if (!$formData) {
-            throw new OutOfRangeException("Can't find main form in UIMap array '"
-                . $this->getLocation() . "', area['" . $this->getArea() . "']");
-        }
-
-        if ($tabName && $formData->getTab($tabName)) {
-            $fieldsets = $formData->getTab($tabName)->getAllFieldsets();
+        if ($tabId && $formData->getTab($tabId)) {
+            $fieldsets = $formData->getTab($tabId)->getAllFieldsets($this->_paramsHelper);
         } else {
-            $fieldsets = $formData->getAllFieldsets();
+            $fieldsets = $formData->getAllFieldsets($this->_paramsHelper);
         }
-        $fieldsets->assignParams($this->getParamsDecorator());
-        //If we have got empty UIMap but not an empty dataset
-        if (empty($fieldsets) && !empty($data)) {
-            return false;
+        // if we have got empty UIMap but not empty dataset
+        if (empty($fieldsets)) {
+            throw new OutOfRangeException("Can't find main form in UIMap array for page '"
+                . $this->getCurrentPage() . "', area['" . $this->_configHelper->getArea() . "']");
+        }
+
+        if ($tabId) {
+            $this->openTab($tabId);
         }
 
         foreach ($data as $key => $value) {
@@ -2280,7 +2056,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                     if ($this->isElementPresent($formField['path'])) {
                         $val = $this->getValue($formField['path']);
                         if ($val != $formField['value']) {
-                            $this->addVerificationMessage($formFieldName . ": The stored value is not equal to specified: ("
+                            $this->addVerificationMessage($formFieldName
+                                                              . ": The stored value is not equal to specified: ("
                                                               . $formField['value'] . "' != '" . $val . "')");
                             $resultFlag = false;
                         }
@@ -2294,11 +2071,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                     if ($this->isElementPresent($formField['path'])) {
                         $isChecked = $this->isChecked($formField['path']);
                         $expectedVal = strtolower($formField['value']);
-                        if (($isChecked && $expectedVal != 'yes') ||
-                            (!$isChecked && !($expectedVal == 'no' || $expectedVal == ''))
+                        if (($isChecked && $expectedVal != 'yes')
+                            || (!$isChecked && !($expectedVal == 'no' || $expectedVal == ''))
                         ) {
                             $printVal = ($isChecked) ? 'yes' : 'no';
-                            $this->addVerificationMessage($formFieldName . ": The stored value is not equal to specified: ("
+                            $this->addVerificationMessage($formFieldName
+                                                              . ": The stored value is not equal to specified: ("
                                                               . $expectedVal . "' != '" . $printVal . "')");
                             $resultFlag = false;
                         }
@@ -2311,7 +2089,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                     if ($this->isElementPresent($formField['path'])) {
                         $label = $this->getSelectedLabel($formField['path']);
                         if ($formField['value'] != $label) {
-                            $this->addVerificationMessage($formFieldName . ": The stored value is not equal to specified: ("
+                            $this->addVerificationMessage($formFieldName
+                                                              . ": The stored value is not equal to specified: ("
                                                               . $formField['value'] . "' != '" . $label . "')");
                             $resultFlag = false;
                         }
@@ -2517,13 +2296,11 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function loginAdminUser()
     {
-        $loginData = array(
-            'user_name' => $this->_applicationHelper->getDefaultAdminUsername(),
-            'password'  => $this->_applicationHelper->getDefaultAdminPassword()
-        );
-
         $this->admin('log_in_to_admin', false);
-
+        $loginData = array(
+            'user_name' => $this->_configHelper->getDefaultLogin(),
+            'password'  => $this->_configHelper->getDefaultPassword()
+        );
         $currentPage = $this->_findCurrentPageFromUrl($this->getLocation());
         if ($currentPage != $this->_firstPageAfterAdminLogin) {
             $this->validatePage('log_in_to_admin');
@@ -2536,7 +2313,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                 $this->fail('Admin was not logged in');
             }
             if ($this->isElementPresent(self::$xpathGoToNotifications)
-                && $this->waitForElement(self::$xpathIncomingMessageClose, 5)) {
+                && $this->waitForElement(self::$xpathIncomingMessageClose, 5)
+            ) {
                 $this->click(self::$xpathIncomingMessageClose);
             }
             $this->validatePage($this->_firstPageAfterAdminLogin);
@@ -2674,11 +2452,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     #       Should be removed when CodeCoverage work for PHPUnit3.6                #
     #                                                                              #
     ################################################################################
-      /**
-     * Works correctly with PHPUnit 3.5.15 only (right now)
-     * Solving problem with coverage, send to phpunit_coverage.php cookieid(single) instead of testid(multiple)
+    /**
      * @return array
-     * @since  Method available since Release 3.2.0
+     * @throws Exception
      */
     protected function getCodeCoverage()
     {
@@ -2711,45 +2487,23 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     #                                                                              #
     ################################################################################
     /**
-     * This method is called when a test method did not execute successfully.
-     *
      * @param Exception $e
+     *
+     * @throws Exception|RuntimeException
      */
     protected function onNotSuccessfulTest(Exception $e)
     {
-        $file = implode('_', array(date('d-m-Y-H-i-s'), get_class($this), $this->getName(false)));
-
-        $this->selectWindow('null');
-        //self::$sessionId = NULL;
-
-        $buffer = 'Current URL: ' . $this->drivers[0]->getLocation() . "\n";
-
-        if ($this->captureScreenshotOnFailure && !empty($this->screenshotPath) && !empty($this->screenshotUrl)) {
-            $filename = $this->getScreenshotPath() . $file . '.png';
+        if ($this->captureScreenshotOnFailure && !empty($this->screenshotPath)
+            && ($e instanceof PHPUnit_Framework_AssertionFailedError
+                || $e instanceof PHPUnit_Framework_ExpectationFailedException)
+        ) {
+            $filename = $this->getScreenshotPath() . $this->testId . '.png';
             $this->drivers[0]->captureEntirePageScreenshot($filename);
-            $buffer .= 'Screenshot: ' . $filename . "\n";
         }
-
         try {
-            $this->stop();
+            $this->drivers[0]->stop();
         } catch (RuntimeException $e) {
         }
-
-        if ($e instanceof PHPUnit_Framework_ExpectationFailedException && is_object($e->getComparisonFailure())) {
-            $message = $e->getComparisonFailure()->toString();
-        } else {
-            $message = $e->getMessage();
-        }
-
-        $buffer .= "\n" . $message;
-
-        if ($e instanceof PHPUnit_Framework_IncompleteTestError || $e instanceof PHPUnit_Framework_SkippedTestError) {
-            throw $e;
-        }
-        if ($e instanceof PHPUnit_Framework_AssertionFailedError) {
-            $this->saveHtmlPage($file);
-            throw $e;
-        }
-        throw new PHPUnit_Framework_Error($buffer, $e->getCode(), $e->getFile(), $e->getLine(), $e->getTrace());
+        throw $e;
     }
 }
