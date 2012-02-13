@@ -30,7 +30,7 @@
     <!-- Test suites definition -->
     <testsuites>
         <testsuite name="Magento PaaS/API Integration Tests">
-            <directory suffix="Test.php">tests</directory>
+            <directory suffix="Test.php">tests/Api</directory>
         </testsuite>
     </testsuites>
 
