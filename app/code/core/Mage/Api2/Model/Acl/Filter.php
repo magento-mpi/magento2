@@ -106,6 +106,7 @@ class Mage_Api2_Model_Acl_Filter
      *
      * @param string $operation One of Mage_Api2_Model_Resource::OPERATION_ATTRIBUTE_... constant
      * @return array
+     * @throw Exception
      */
     public function getAllowedAttributes($operation)
     {
@@ -113,8 +114,17 @@ class Mage_Api2_Model_Acl_Filter
             /** @var $model Mage_Api2_Model_Acl_Global_Attribute_ResourcePermission */
             $model       = Mage::getModel('api2/acl_global_attribute_resourcePermission');
             $permissions = $model->setFilterValue($this->_resource->getUserType())->getResourcesPermissions();
-            $attributes  = $permissions[$this->_resource->getResourceType()]['operations'][$operation]['attributes'];
+            $resourceType = $this->_resource->getResourceType();
 
+            if (isset($permissions[$resourceType]['operations'][$operation]['attributes'])) {
+                $attributes = $permissions[$resourceType]['operations'][$operation]['attributes'];
+
+                if (!is_array($attributes)) {
+                    throw new Exception('Allowed attributes is not an array');
+                }
+            } else {
+                throw new Exception('Allowed attributes is unknown');
+            }
             $this->_allowedAttributes = array_keys($attributes);
         }
         return $this->_allowedAttributes;
