@@ -1017,7 +1017,7 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
             $cart = $this->getCartModel();
             $cart->prepareAddProductsBySku($rows);
             $cart->saveAffectedProducts(
-                null,
+                $this->getCartModel(),
                 Enterprise_Checkout_Model_Cart::DONT_PASS_DISABLED_TO_CART
             );
             $cart->saveQuote();
