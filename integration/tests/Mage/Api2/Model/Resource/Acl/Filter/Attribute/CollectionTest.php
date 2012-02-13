@@ -26,13 +26,13 @@
  */
 
 /**
- * Test API2 global ACL attribute resource collection model
+ * Test API2 filter ACL attribute resource collection model
  *
  * @category   Mage
  * @package    Mage_Api2
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Api2_Model_Resource_Acl_Global_Attribute_CollectionTest extends Magento_TestCase
+class Mage_Api2_Model_Resource_Acl_Filter_Attribute_CollectionTest extends Magento_TestCase
 {
     /**
      * Get fixture data
@@ -41,7 +41,7 @@ class Mage_Api2_Model_Resource_Acl_Global_Attribute_CollectionTest extends Magen
      */
     protected function _getFixture()
     {
-        return require realpath(dirname(__FILE__) . '/../../../..') . '/Acl/Global/_fixture/attributeData.php';
+        return require realpath(dirname(__FILE__) . '/../../../..') . '/Acl/_fixture/attributeData.php';
     }
 
     /**
@@ -53,8 +53,8 @@ class Mage_Api2_Model_Resource_Acl_Global_Attribute_CollectionTest extends Magen
         $cnt = 3;
         $ids = array();
         for ($i = $cnt; $i > 0; $i--) {
-            /** @var $model Mage_Api2_Model_Acl_Global_Attribute */
-            $model = Mage::getModel('api2/acl_global_attribute');
+            /** @var $model Mage_Api2_Model_Acl_Filter_Attribute */
+            $model = Mage::getModel('api2/acl_filter_attribute');
             $setData = $data['create'];
             $setData['resource_id'] . $i;
             $this->addModelToDelete($model);
@@ -63,8 +63,8 @@ class Mage_Api2_Model_Resource_Acl_Global_Attribute_CollectionTest extends Magen
             $ids[] = $model->getId();
         }
 
-        /** @var $model Mage_Api2_Model_Acl_Global_Attribute */
-        $model = Mage::getModel('api2/acl_global_attribute');
+        /** @var $model Mage_Api2_Model_Acl_Filter_Attribute */
+        $model = Mage::getModel('api2/acl_filter_attribute');
         $collection = $model->getCollection();
         $collection->addFilter('main_table.entity_id', array('in' => $ids), 'public');
         $this->assertEquals($cnt, $collection->count());

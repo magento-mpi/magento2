@@ -41,7 +41,7 @@ class Mage_Api2_Model_Resource_Acl_Global_Role_CollectionTest extends Magento_Te
      */
     protected function _getFixture()
     {
-        return require realpath(dirname(__FILE__) . '/../../../..') . '/Acl/Global/_fixture/roleData.php';
+        return require realpath(dirname(__FILE__) . '/../../../..') . '/Acl/_fixture/roleData.php';
     }
 
     /**

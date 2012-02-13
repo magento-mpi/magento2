@@ -26,13 +26,13 @@
  */
 
 /**
- * Test API2 global ACL attribute model
+ * Test API2 filter ACL attribute model
  *
  * @category   Mage
  * @package    Mage_Api2
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Api2_Model_Acl_Global_AttributeTest extends Magento_TestCase
+class Mage_Api2_Model_Acl_Filter_AttributeTest extends Magento_TestCase
 {
     /**
      * Get fixture data
@@ -41,7 +41,7 @@ class Mage_Api2_Model_Acl_Global_AttributeTest extends Magento_TestCase
      */
     protected function _getFixture()
     {
-        return require '_fixture/attributeData.php';
+        return require dirname(__FILE__) . DS . '..' . DS . '_fixture' .DS . 'attributeData.php';
     }
 
     /**
@@ -50,8 +50,8 @@ class Mage_Api2_Model_Acl_Global_AttributeTest extends Magento_TestCase
     public function testCrud()
     {
         $data = $this->_getFixture();
-        /** @var $model Mage_Api2_Model_Acl_Global_Attribute */
-        $model = Mage::getModel('api2/acl_global_attribute');
+        /** @var $model Mage_Api2_Model_Acl_Filter_Attribute */
+        $model = Mage::getModel('api2/acl_filter_attribute');
         $this->addModelToDelete($model);
         $model->setData($data['create']);
         $testEntity = new Magento_Test_Entity($model, $data['update']);

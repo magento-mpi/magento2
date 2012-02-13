@@ -41,7 +41,7 @@ class Mage_Api2_Model_Acl_Global_RuleTest extends Magento_TestCase
      */
     protected function _getFixture()
     {
-        return require '_fixture/ruleData.php';
+        return require dirname(__FILE__) . DS . '..' . DS . '_fixture' .DS . 'ruleData.php';
     }
 
     /**
