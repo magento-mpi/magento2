@@ -1009,8 +1009,7 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
 
             // FRONTEND & BACKEND
             if ($this->_shouldBeConfigured($product)) {
-                if ($this->_isConfigured($product, $config) || $product->isDisabled()) {
-                    // If a product is disabled we can not configure it
+                if ($this->_isConfigured($product, $config)) {
                     $item['code'] = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_SUCCESS;
                 } else {
                     $item['code'] = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_CONFIGURE;
