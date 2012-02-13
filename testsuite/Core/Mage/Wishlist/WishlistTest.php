@@ -466,11 +466,11 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
      *
      * @depends preconditionsCreateCustomer
      * @depends preconditionsCreateAllProductsWithoutSpecialOptions
+     * @depends addProductsWithoutSpecialOptionsToWishlistFromProductPage
      *
      * @param array $customer
      * @param array $productDataSet
      *
-     * @depends addProductsWithoutSpecialOptionsToWishlistFromProductPage
      * @test
      */
     public function addProductsWithoutSpecialOptionsToShoppingCartFromWishlist($customer, $productDataSet)
@@ -511,11 +511,11 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
      *
      * @depends preconditionsCreateCustomer
      * @depends preconditionsCreateAllProductsWithSpecialOptions
+     * @depends addProductsWithSpecialOptionsToWishlistFromProductPage
      *
      * @param array $customer
      * @param array $productDataSet
      *
-     * @depends addProductsWithSpecialOptionsToWishlistFromProductPage
      * @test
      */
     public function addProductsWithSpecialOptionsToShoppingCartFromWishlist($customer, $productDataSet)
@@ -535,7 +535,7 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
         //Steps
         $this->navigate('my_wishlist');
         foreach ($productDataSet as $product) {
-            $productOptions = (isset($product['special_options'])) ? $product['special_options']: array();
+            $productOptions = (isset($product['special_options'])) ? $product['special_options'] : array();
             $this->wishlistHelper()->frontAddToShoppingCart($product['general_name'], $productOptions);
         }
         //Verify
@@ -560,11 +560,11 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
      *
      * @depends preconditionsCreateCustomer
      * @depends preconditionsCreateAllProductsWithSpecialOptions
+     * @depends addProductsWithSpecialOptionsToWishlistFromProductPage
      *
      * @param array $customer
      * @param array $productDataSet
      *
-     * @depends addProductsWithSpecialOptionsToWishlistFromProductPage
      * @test
      */
     public function addAllProductsToShoppingCartFromWishlist($customer, $productDataSet)
@@ -614,11 +614,20 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
 
     /**
      * Grouped product is added as several simple products to the shopping cart
+     * <p>Steps:</p>
+     * <p>1. Empty the shopping cart</p>
+     * <p>2. Add a Grouped product to the wishlist, fill its custom options</p>
+     * <p>3. Open the wishlist</p>
+     * <p>4. Click 'Add to Cart' button for product</p>
+     * <p>Expected result:</p>
+     * <p>Grouped product is added as several simple products</p>
+     *
+     * @depends preconditionsCreateCustomer
+     * @depends preconditionsCreateAllProductsWithSpecialOptions
      *
      * @param array $customer
      * @param array $productDataSet
-     * @depends preconditionsCreateCustomer
-     * @depends preconditionsCreateAllProductsWithSpecialOptions
+     *
      * @test
      */
     public function addGroupedProductToShoppingCartFromWishlist($customer, $productDataSet)
