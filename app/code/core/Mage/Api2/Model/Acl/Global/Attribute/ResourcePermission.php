@@ -114,9 +114,7 @@ class Mage_Api2_Model_Acl_Global_Attribute_ResourcePermission
      */
     public function setFilterValue($userType)
     {
-        /** @var $userTypes Mage_Api2_Model_Auth_User_Type */
-        $userTypes = Mage::getModel('api2/auth_user_type');
-        if (!in_array($userType, array_keys($userTypes->toArray()))) {
+        if (!array_key_exists($userType, Mage_Api2_Model_Auth_User::getUserTypes())) {
             throw new Exception('Unknown user type.');
         }
         $this->_userType = $userType;

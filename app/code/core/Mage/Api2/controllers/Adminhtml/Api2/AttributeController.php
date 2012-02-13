@@ -61,7 +61,7 @@ class Mage_Api2_Adminhtml_Api2_AttributeController extends Mage_Adminhtml_Contro
 
         $type = $this->getRequest()->getParam('type');
 
-        $userTypes = $this->_getUserTypes();
+        $userTypes = Mage_Api2_Model_Auth_User::getUserTypes();
         if (!isset($userTypes[$type])) {
             $this->_getSession()->addError($this->__('User type "%s" not found.', $type));
             $this->_redirect('*/*/');
@@ -140,17 +140,5 @@ class Mage_Api2_Adminhtml_Api2_AttributeController extends Mage_Adminhtml_Contro
         }
 
         $this->_redirect('*/*/edit', array('id'=>$type));
-    }
-
-    /**
-     * Get user types
-     *
-     * @return array
-     */
-    protected function _getUserTypes()
-    {
-        /** @var $model Mage_Api2_Model_Auth_User_Type */
-        $model = Mage::getModel('api2/auth_user_type');
-        return $model->toArray();
     }
 }

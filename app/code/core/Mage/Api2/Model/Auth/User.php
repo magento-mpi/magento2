@@ -25,35 +25,21 @@
  */
 
 /**
- * Source model with user types
+ * API auth user
  *
  * @category    Mage
  * @package     Mage_Api2
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Api2_Model_Auth_User_Type
+class Mage_Api2_Model_Auth_User
 {
-    /**
-     * Options getter
-     *
-     * @return array
-     */
-    static public function toOptionArray()
-    {
-        $options = array();
-
-        foreach (self::toArray() as $userType => $userLabel) {
-            $options[] = array('value' => $userType, 'label' => $userLabel);
-        }
-        return $options;
-    }
-
     /**
      * Options getter with "key-value" format
      *
+     * @param boolean $asOptionArray OPTIONAL If TRUE - return an options array, plain array - otherwise
      * @return array
      */
-    static public function toArray()
+    static public function getUserTypes($asOptionArray = false)
     {
         $userTypes = array();
 
@@ -64,7 +50,11 @@ class Mage_Api2_Model_Auth_User_Type
             /** @var $userModel Mage_Api2_Model_Auth_User_Abstract */
             $userModel = Mage::getModel($modelPath);
 
-            $userTypes[$userModel->getType()] = $userModel->getLabel();
+            if ($asOptionArray) {
+                $userTypes[] = array('value' => $userModel->getType(), 'label' => $userModel->getLabel());
+            } else {
+                $userTypes[$userModel->getType()] = $userModel->getLabel();
+            }
         }
         return $userTypes;
     }

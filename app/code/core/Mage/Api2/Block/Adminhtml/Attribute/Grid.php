@@ -44,18 +44,17 @@ class Mage_Api2_Block_Adminhtml_Attribute_Grid extends Mage_Adminhtml_Block_Widg
         $this->setId('api2_attributes');
     }
 
+    /**
+     * Collection object set up
+     */
     protected function _prepareCollection()
     {
         $collection = new Varien_Data_Collection();
 
-        foreach (Mage_Api2_Model_Auth_User_Type::toOptionArray() as $userType) {
-            $item = new Varien_Object();
-            $item->setData(array(
-                'user_type_name' => $userType['label'],
-                'user_type_code' => $userType['value']
-            ));
-
-            $collection->addItem($item);
+        foreach (Mage_Api2_Model_Auth_User::getUserTypes() as $type => $label) {
+            $collection->addItem(
+                new Varien_Object(array('user_type_name' => $label, 'user_type_code' => $type))
+            );
         }
 
         $this->setCollection($collection);
