@@ -25,25 +25,25 @@
  */
 
 /**
- * API2 global ACL attribute model
+ * API2 filter ACL attribute model
  *
  * @category    Mage
  * @package     Mage_Api2
  * @author      Magento Core Team <core@magentocommerce.com>
- * @method Mage_Api2_Model_Resource_Acl_Global_Attribute_Collection getCollection()
- * @method Mage_Api2_Model_Resource_Acl_Global_Attribute_Collection getResourceCollection()
- * @method Mage_Api2_Model_Resource_Acl_Global_Attribute getResource()
- * @method Mage_Api2_Model_Resource_Acl_Global_Attribute _getResource()
+ * @method Mage_Api2_Model_Resource_Acl_Filter_Attribute_Collection getCollection()
+ * @method Mage_Api2_Model_Resource_Acl_Filter_Attribute_Collection getResourceCollection()
+ * @method Mage_Api2_Model_Resource_Acl_Filter_Attribute getResource()
+ * @method Mage_Api2_Model_Resource_Acl_Filter_Attribute _getResource()
  * @method string getUserType()
- * @method Mage_Api2_Model_Resource_Acl_Global_Attribute setUserType() setUserType(string $type)
+ * @method Mage_Api2_Model_Resource_Acl_Filter_Attribute setUserType() setUserType(string $type)
  * @method string getResourceId()
- * @method Mage_Api2_Model_Resource_Acl_Global_Attribute setResourceId() setResourceId(string $resource)
+ * @method Mage_Api2_Model_Resource_Acl_Filter_Attribute setResourceId() setResourceId(string $resource)
  * @method string getOperation()
- * @method Mage_Api2_Model_Resource_Acl_Global_Attribute setOperation() setOperation(string $operation)
+ * @method Mage_Api2_Model_Resource_Acl_Filter_Attribute setOperation() setOperation(string $operation)
  * @method string getAllowedAttributes()
- * @method Mage_Api2_Model_Resource_Acl_Global_Attribute setAllowedAttributes() setAllowedAttributes(string $attributes)
+ * @method Mage_Api2_Model_Resource_Acl_Filter_Attribute setAllowedAttributes() setAllowedAttributes(string $attributes)
  */
-class Mage_Api2_Model_Acl_Global_Attribute extends Mage_Core_Model_Abstract
+class Mage_Api2_Model_Acl_Filter_Attribute extends Mage_Core_Model_Abstract
 {
     /**
      * Permissions model
@@ -59,18 +59,18 @@ class Mage_Api2_Model_Acl_Global_Attribute extends Mage_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('api2/acl_global_attribute');
+        $this->_init('api2/acl_filter_attribute');
     }
 
     /**
      * Get pairs resources-permissions for current attribute
      *
-     * @return Mage_Api2_Model_Acl_Global_Attribute_ResourcePermission
+     * @return Mage_Api2_Model_Acl_Filter_Attribute_ResourcePermission
      */
     public function getPermissionModel()
     {
         if (null == $this->_permissionModel) {
-            $this->_permissionModel = Mage::getModel('api2/acl_global_rule_resourcePermission');
+            $this->_permissionModel = Mage::getModel('api2/acl_filter_attribute_resourcePermission');
         }
         return $this->_permissionModel;
     }

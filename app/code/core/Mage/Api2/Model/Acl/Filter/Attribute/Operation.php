@@ -31,7 +31,7 @@
  * @package     Mage_Api2
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Api2_Model_Acl_Global_Attribute_Operation
+class Mage_Api2_Model_Acl_Filter_Attribute_Operation
 {
     /**
      * Options getter

@@ -57,7 +57,7 @@ class Mage_Api2_Adminhtml_Api2_AttributeController extends Mage_Adminhtml_Contro
     public function editAction()
     {
         $this->loadLayout()
-                ->_setActiveMenu('system/services/attributes');
+            ->_setActiveMenu('system/services/attributes');
 
         $type = $this->getRequest()->getParam('type');
 
@@ -69,8 +69,8 @@ class Mage_Api2_Adminhtml_Api2_AttributeController extends Mage_Adminhtml_Contro
         }
 
         $this->_title($this->__('System'))
-                ->_title($this->__('Web Services'))
-                ->_title($this->__('REST ACL Attributes'));
+            ->_title($this->__('Web Services'))
+            ->_title($this->__('REST ACL Attributes'));
 
         $title = $this->__('Edit %s ACL attribute rules', $userTypes[$type]);
         $this->_title($title);
@@ -90,55 +90,59 @@ class Mage_Api2_Adminhtml_Api2_AttributeController extends Mage_Adminhtml_Contro
 
         if (!$type) {
             $this->_getSession()->addError(
-                $this->__('Role "%s" no longer exists', $role->getData('role_name')));
+                $this->__('User type "%s" no longer exists', $type));
             $this->_redirect('*/*/');
             return;
         }
-
-        $roleUsers  = $request->getParam('in_role_users', null);
-        parse_str($roleUsers, $roleUsers);
-        $roleUsers = array_keys($roleUsers);
-
-        $oldRoleUsers = $this->getRequest()->getParam('in_role_users_old');
-        parse_str($oldRoleUsers, $oldRoleUsers);
-        $oldRoleUsers = array_keys($oldRoleUsers);
 
         /** @var $session Mage_Adminhtml_Model_Session */
         $session = $this->_getSession();
 
         try {
-
             /** @var $ruleTree Mage_Api2_Model_Acl_Global_Rule_Tree */
             $ruleTree = Mage::getSingleton(
                 'api2/acl_global_rule_tree',
                 array('type' => Mage_Api2_Model_Acl_Global_Rule_Tree::TYPE_ATTRIBUTE)
             );
-            $resources = $ruleTree->getPostResources();
-            /** @var $attribute Mage_Api2_Model_Acl_Global_Attribute */
-            $attribute = Mage::getModel('api2/acl_global_attribute');
-            foreach ($resources as $resourceId => $privileges) {
-                foreach ($privileges as $privilege => $allow) {
-                    if (!$allow) {
-                        continue;
-                    }
 
-                    $attribute->setId(null)
+            /** @var $attribute Mage_Api2_Model_Acl_Filter_Attribute */
+            $attribute = Mage::getModel('api2/acl_filter_attribute');
+
+            /** @var $collection Mage_Api2_Model_Resource_Acl_Filter_Attribute_Collection */
+            $collection = $attribute->getCollection();
+            $collection->addFilterByUserType($type);
+
+            /** @var $model Mage_Api2_Model_Acl_Filter_Attribute */
+            foreach ($collection as $model) {
+                $model->delete();
+            }
+
+            foreach ($ruleTree->getPostResources() as $resourceId => $operations) {
+                if (Mage_Api2_Model_Acl_Global_Rule::RESOURCE_ALL === $resourceId) {
+                    $attribute->setUserType($type)
+                        ->setResourceId($resourceId)
+                        ->save();
+                } else {
+                    foreach ($operations as $operation => $attributes) {
+                        $attribute->setId(null)
                             ->isObjectNew(true);
 
-                    $attribute->setUserType($type)
+                        $attribute->setUserType($type)
                             ->setResourceId($resourceId)
-                            ->setPrivilege($privilege)
+                            ->setOperation($operation)
+                            ->setAllowedAttributes(implode(',', array_keys($attributes)))
                             ->save();
+                    }
                 }
             }
 
-            $session->addSuccess($this->__('The role has been saved.'));
+            $session->addSuccess($this->__('The attribute rules were saved.'));
         } catch (Mage_Core_Exception $e) {
             $session->addError($e->getMessage());
         } catch (Exception $e) {
-            $session->addError($this->__('An error occurred while saving role.'));
+            $session->addException($e, $this->__('An error occurred while saving attribute rules.'));
         }
 
-        $this->_redirect('*/*/edit', array('id'=>$type));
+        $this->_redirect('*/*/edit', array('type' => $type));
     }
 }

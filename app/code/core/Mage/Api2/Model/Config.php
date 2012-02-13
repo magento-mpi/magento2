@@ -296,4 +296,15 @@ class Mage_Api2_Model_Config extends Varien_Simplexml_Config
 
         return $versions;
     }
+
+    /**
+     * Retrieve resource model
+     *
+     * @param string $node
+     * @return string
+     */
+    public function getResourceModel($node)
+    {
+        return (string) $this->getNode('resources/' . $node . '/model');
+    }
 }

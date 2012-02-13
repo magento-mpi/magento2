@@ -20,7 +20,7 @@
  *
  * @category    Mage
  * @package     Mage_Api2
- * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @copyright   Copyright (c) 2011 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
@@ -36,7 +36,7 @@ class Mage_Api2_Model_Acl_Global_Rule_Tree extends Mage_Core_Helper_Abstract
     /**#@+
      * Tree types
      */
-    const TYPE_ATTRIBUTE      = 'attribute';
+    const TYPE_ATTRIBUTE = 'attribute';
     const TYPE_PRIVILEGE = 'privilege';
     /**#@-*/
 
@@ -114,8 +114,8 @@ class Mage_Api2_Model_Acl_Global_Rule_Tree extends Mage_Core_Helper_Abstract
 
         switch ($this->_type) {
             case self::TYPE_ATTRIBUTE:
-                /** @var $operationSource Mage_Api2_Model_Acl_Global_Attribute_Operation */
-                $operationSource = Mage::getModel('api2/acl_global_attribute_operation');
+                /** @var $operationSource Mage_Api2_Model_Acl_Filter_Attribute_Operation */
+                $operationSource = Mage::getModel('api2/acl_filter_attribute_operation');
                 $this->_existOperations = $operationSource->toArray();
                 break;
 
@@ -196,16 +196,25 @@ class Mage_Api2_Model_Acl_Global_Rule_Tree extends Mage_Core_Helper_Abstract
                     break;
 
                 case self::TYPE_ATTRIBUTE:
-                    $prefixPrivilege = self::NAME_ATTRIBUTE . self::ID_SEPARATOR;
+                    $prefixOperation = self::NAME_OPERATION . self::ID_SEPARATOR;
+                    $prefixAttribute = self::NAME_ATTRIBUTE . self::ID_SEPARATOR;
                     $nameResource = null;
                     foreach ($checkedResources as $i => $item) {
                         if (0 === strpos($item, $prefixResource)) {
                             $nameResource = substr($item, mb_strlen($prefixResource, 'UTF-8'));
                             $resources[$nameResource] = array();
-                        } elseif (0 === strpos($item, $prefixPrivilege)) {
-                            $name = substr($item, mb_strlen($prefixPrivilege, 'UTF-8'));
-                            $namePrivilege = str_replace($nameResource . self::ID_SEPARATOR, '', $name);
-                            $resources[$nameResource][$namePrivilege] = $allow;
+                        } elseif (0 === strpos($item, $prefixOperation)) {
+                            $name = substr($item, mb_strlen($prefixOperation, 'UTF-8'));
+                            $operationName = str_replace($nameResource . self::ID_SEPARATOR, '', $name);
+                            $resources[$nameResource][$operationName] = array();
+                        } elseif (0 === strpos($item, $prefixAttribute)) {
+                            $name = substr($item, mb_strlen($prefixOperation, 'UTF-8'));
+                            $attributeName = str_replace(
+                                $nameResource . self::ID_SEPARATOR . $operationName . self::ID_SEPARATOR,
+                                '',
+                                $name
+                            );
+                            $resources[$nameResource][$operationName][$attributeName] = $allow;
                         } else {
                             unset($checkedResources[$i]);
                         }

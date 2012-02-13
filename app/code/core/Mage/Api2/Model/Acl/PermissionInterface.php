@@ -25,36 +25,29 @@
  */
 
 /**
- * Attribute Edit block
+ * API2 ACL resource permission interface
  *
- * @category   Mage
- * @package    Mage_Api2
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @category    Mage
+ * @package     Mage_Api2
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Api2_Block_Adminhtml_Attribute_Edit extends Mage_Adminhtml_Block_Widget_Form_Container
+interface Mage_Api2_Model_Acl_PermissionInterface
 {
     /**
-     * Initialize edit form container
+     * Get ACL resources permissions
+     *
+     * Get permissions list with set permissions
+     *
+     * @abstract
+     * @return array
      */
-    public function __construct()
-    {
-        $this->_objectId   = 'id';
-        $this->_blockGroup = 'api2';
-        $this->_controller = 'adminhtml_attribute';
-
-        parent::__construct();
-
-        $this->_updateButton('save', 'label', $this->__('Save'))
-            ->_removeButton('delete');
-    }
+    public function getResourcesPermissions();
 
     /**
-     * Retrieve text for header element depending on loaded page
+     * Set filter value
      *
-     * @return string
+     * @param mixed $filterValue
+     * @return Mage_Api2_Model_Acl_PermissionInterface
      */
-    public function getHeaderText()
-    {
-        return $this->__('Edit attribute rules');
-    }
+    public function setFilterValue($filterValue);
 }
