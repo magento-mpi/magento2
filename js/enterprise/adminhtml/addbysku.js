@@ -128,10 +128,11 @@ AddBySku.prototype = {
         adminOrder.prototype.constructor = adminOrder;
         function adminOrder()
         {
+            var skuAreaId = this.order.getAreaId('additional_area');
+            
             this.controllerRequestParameterNames = {customerId: 'customerId', storeId: 'storeId'};
-            var skuAreaId = this.order.getAreaId('additional_area'),
-                skuButton = new ControlButton(Translator.translate('Add Products By SKU'));
-            skuButton.onClick = function() {
+            this.order.itemsArea.skuButton = new ControlButton(Translator.translate('Add Products By SKU'));
+            this.order.itemsArea.skuButton.onClick = function() {
                 $(skuAreaId).show();
                 var el = this;
                 window.setTimeout(function () {
@@ -141,7 +142,7 @@ AddBySku.prototype = {
             this.order.itemsArea.onLoad = this.order.itemsArea.onLoad.wrap(function(proceed) {
                 proceed();
                 if (!$(skuAreaId).visible()) {
-                    this.addControlButton(skuButton);
+                    this.addControlButton(this.skuButton);
                 }
             });
             this.order.dataArea.onLoad();
@@ -183,6 +184,7 @@ AddBySku.prototype = {
         adminOrder.prototype.onSubmitSkuForm = function()
         {
             this.order.additionalAreaButton && Element.show(this.order.additionalAreaButton);
+            this.order.itemsArea.addControlButton(this.order.itemsArea.skuButton);
         };
 
         // Strategy
