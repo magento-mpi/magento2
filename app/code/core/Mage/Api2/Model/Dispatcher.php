@@ -55,19 +55,21 @@ class Mage_Api2_Model_Dispatcher
      */
     public function dispatch(Mage_Api2_Model_Request $request, Mage_Api2_Model_Response $response)
     {
-        if (!$request->getModel() || !$request->getApiType() || $request->getVersion() != abs($request->getVersion())) {
+        if (!$request->getModel() || !$request->getApiType()) {
             throw new Mage_Api2_Exception(
-                'Request does not contains all neccessary data', Mage_Api2_Model_Server::HTTP_BAD_REQUEST
+                'Request does not contains all necessary data', Mage_Api2_Model_Server::HTTP_BAD_REQUEST
             );
         }
+
+        $version = $this->getVersion($request->getResourceType(), $request->getVersion());
+
         $replace = array(
             ':resource' => $request->getModel(),
             ':api'      => $request->getApiType(),
             ':user'     => $this->getApiUser()->getType(),
-            ':version'  => (int)$request->getVersion()
+            ':version'  => $version
         );
         $class = strtr(self::RESOURCE_CLASS_TEMPLATE, $replace);
-
 
         try {
             /** @var $model Mage_Api2_Model_Resource */
@@ -112,5 +114,38 @@ class Mage_Api2_Model_Dispatcher
         }
 
         return $this->_apiUser;
+    }
+
+    /**
+     * Get correct version of the resource moddel
+     *
+     * @param string $resourceType
+     * @param $requestedVersion
+     * @return null
+     * @throws Mage_Api2_Exception
+     */
+    public function getVersion($resourceType, $requestedVersion)
+    {
+        if ($requestedVersion <= 0 || !ctype_digit($requestedVersion)) {
+            throw new Mage_Api2_Exception(
+                sprintf('Invalid version "%s" requested.', htmlspecialchars($requestedVersion)),
+                Mage_Api2_Model_Server::HTTP_BAD_REQUEST
+            );
+        }
+
+        settype($requestedVersion, 'int');
+
+        /** @var $config Mage_Api2_Model_Config */
+        $config = Mage::getModel('api2/config');
+
+        $useVersion = null;
+        foreach ($config->getVersions($resourceType) as $version) {
+            if ($version<=$requestedVersion) {
+                $useVersion = $version;
+                break;
+            }
+        }
+
+        return $useVersion;
     }
 }

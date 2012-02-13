@@ -46,6 +46,7 @@
                     </route_main>
                 </routes>
                 <instance>review</instance>
+                <versions>1</versions>
             </reviews>
             <review>
                 <group>catalog_product</group>
@@ -75,6 +76,7 @@
                     </route_main>
                 </routes>
                 <collection>reviews</collection>
+                <versions>1</versions>
             </review>
         </resources>
     </api2>

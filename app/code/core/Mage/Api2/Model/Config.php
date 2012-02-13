@@ -277,4 +277,23 @@ class Mage_Api2_Model_Config extends Varien_Simplexml_Config
     {
         return (string) $this->getNode('resources/' . $node . '/working_model');
     }
+
+    /**
+     * Get resource allowed versions
+     *
+     * @param string $node
+     * @return array
+     * @throws Exception
+     */
+    public function getVersions($node)
+    {
+        $versions = explode(',', (string)$this->getNode('resources/' . $node . '/versions'));
+        if (count(array_filter($versions, 'is_numeric')) != count($versions)) {
+            throw new Exception(sprintf('Invalid resource "%s" versions in config.', htmlspecialchars($node)));
+        }
+
+        rsort($versions, SORT_NUMERIC);
+
+        return $versions;
+    }
 }
