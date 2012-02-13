@@ -124,6 +124,7 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
     protected function _createProduct(array $productData, $productType)
     {
         $this->navigate('manage_products');
+        $productData = $this->arrayEmptyClear($productData);
         $this->productHelper()->createProduct($productData, $productType);
         $this->assertMessagePresent('success', 'success_saved_product');
         return $productData;
@@ -237,7 +238,15 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
         //Create a bundle product
         $productData = $this->loadData('fixed_bundle_visible', null, array('general_name', 'general_sku'));
         $productData['bundle_items_data']['item_1'] = $this->loadData('bundle_item_1',
-            array('bundle_items_search_sku' => $simpleData['general_sku']));
+            array('add_product_1/bundle_items_search_sku' => $simpleData['general_sku'],
+                  'add_product_2/bundle_items_search_sku' => $productVirtual['general_sku']));
+        $productData['special_options'] = $this->loadData('bundle_options_to_add_to_shopping_cart',
+            array('custom_option_multiselect' => $productVirtual['general_name'],
+                'option_2' => '%noValue%',
+                'option_3' => '%noValue%',
+                'option_4' => '%noValue%',
+                'option_5' => '%noValue%')
+        );
         $productBundle = $this->_createProduct($productData, 'bundle');
 
         $allProducts = array('simple'       => $productSimple,
@@ -574,6 +583,7 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
         $downloadableProductName = $productDataSet['downloadable']['general_name'];
         $configurableProductName = $productDataSet['configurable']['general_name'];
         $groupedProductName = $productDataSet['grouped']['general_name'];
+        $bundleProductName = $productDataSet['bundle']['general_name'];
         $this->customerHelper()->frontLoginCustomer($customer);
         $this->navigate('my_wishlist');
         $this->wishlistHelper()->frontClearWishlist();
@@ -593,14 +603,17 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
         //Check error message for configurable product
         $this->addParameter('productName', $configurableProductName);
         $this->assertMessagePresent('error', 'specify_product_options');
+        //Check error message for bundle product
+        $this->addParameter('productName', $bundleProductName);
+        $this->assertMessagePresent('error', 'specify_product_options');
         //Check success message for other products
-        $this->addParameter('productQty', '4');
+        $this->addParameter('productQty', '3');
         $this->assertMessagePresent('success', 'successfully_added_products');
         //Check if the products are in the shopping cart
         $this->navigate('shopping_cart');
         foreach ($productNameSet as $productName) {
             if ($productName == $downloadableProductName || $productName == $configurableProductName
-                || $productName == $groupedProductName
+                || $productName == $groupedProductName || $productName == $bundleProductName
             ) {
                 $this->assertTrue(is_array($this->shoppingCartHelper()->frontShoppingCartHasProducts($productName)),
                     'Product ' . $productName . ' is in the shopping cart, but should not be.');

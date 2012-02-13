@@ -74,7 +74,7 @@ my_wishlist:
             successfully_added_products: //li[normalize-space(@class)='success-msg' and contains(.,'%productQty% product(s) have been added to shopping cart:')]
             successfully_shared_wishlist: //li[normalize-space(@class)='success-msg' and contains(.,'Your Wishlist has been shared.')]
             specify_product_links: //li[normalize-space(@class)='error-msg' and contains(.,'Please specify product link(s) for "%productName%".')]
-            specify_product_options: //li[normalize-space(@class)='error-msg' and contains(.,'s option(s) for "%productName%".')]
+            specify_product_options: //li[normalize-space(@class)='error-msg' and contains(.,' option(s) for "%productName%".')]
             confirmation_for_delete: Are you sure you want to remove this product from your wishlist?
             invalid_emails: //li[@class='error-msg' and contains(.,'Please input a valid email address.')]
             invalid_emails_js: //div[@class='validation-advice' and @id='advice-validate-emails-email_address' and contains(.,'Please enter a valid email addresses, separated by commas. For example johndoe@domain.com, johnsmith@domain.com.')]
