@@ -668,34 +668,34 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * Loads test data.
      *
      * @param string $dataSource
-     * @param array|null $overrideByValueKey
+     * @param array|null $overrideByKey
      * @param array|null $overrideByValueParam
      *
      * @return array
+     * @throws PHPUnit_Framework_Exception
      */
-    public function loadDataSet($dataSource, $overrideByValueKey = null, $overrideByValueParam = null)
+    public function loadDataSet($dataSource, $overrideByKey = null, $overrideByValueParam = null)
     {
         $data = $this->_getData($dataSource);
         if (!is_array($data)) {
-            throw new PHPUnit_Framework_Expectation('Data "' . $dataSource . '" is not loaded.');
+            throw new PHPUnit_Framework_Exception('Data "' . $dataSource . '" is not loaded.');
         }
 
-        //override data by key value
-        if ($overrideByValueKey) {
-            foreach ($overrideByValueKey as $fieldKey => $fieldValue) {
+        if ($overrideByKey) {
+            foreach ($overrideByKey as $fieldKey => $fieldValue) {
                 if (!$this->overrideDataByCondition($fieldKey, $fieldValue, $data, 'byValueKey')) {
-                    throw new PHPUnit_Framework_AssertionFailedError('Value for field "' . $fieldKey .
-                        '" is not changed in "' . $dataSource . '" DataSet');
+                    throw new PHPUnit_Framework_Exception("Value for '" . $fieldKey
+                        . "' field is not changed: [There is no this key in dataset '" . $dataSource . "']");
                 }
             }
         }
 
-        //override data by value parameter
         if ($overrideByValueParam) {
             foreach ($overrideByValueParam as $fieldKey => $fieldValue) {
                 if (!$this->overrideDataByCondition($fieldKey, $fieldValue, $data, 'byValueParam')) {
-                    throw new PHPUnit_Framework_AssertionFailedError('Value for field with value parameter "'
-                        . $fieldKey . '" is not changed for "' . $dataSource . '" DataSet');
+                    throw new PHPUnit_Framework_Exception("Value for '" . $fieldKey
+                        . "' value parameter is not changed: [There is no this value parameter in dataset '"
+                        . $dataSource . "']");
                 }
             }
         }
@@ -714,31 +714,32 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * @param string $condition   byValueKey|byValueParam
      *
      * @return bool
+     * @throws OutOfRangeException
      */
     public function overrideDataByCondition($overrideKey, $overrideValue, &$overrideArray, $condition)
     {
-        $overrideResult = false;
+        $isOverrided = false;
         foreach ($overrideArray as $currentKey => &$currentValue) {
             switch ($condition) {
                 case 'byValueKey':
-                    $result = ($currentKey === $overrideKey);
+                    $isFound = ($currentKey === $overrideKey);
                     break;
                 case 'byValueParam':
-                    $result = ($currentValue === '%' . $overrideKey . '%');
+                    $isFound = ($currentValue === '%' . $overrideKey . '%');
                     break;
                 default:
                     throw new OutOfRangeException('Wrong condition');
                     break;
             }
-            if ($result) {
+            if ($isFound) {
                 $currentValue = $overrideValue;
-                $overrideResult = true;
+                $isOverrided = true;
             } elseif (is_array($currentValue)) {
-                $overrideResult = $overrideResult
+                $isOverrided = $isOverrided
                     || $this->overrideDataByCondition($overrideKey, $overrideValue, $currentValue, $condition);
             }
         }
-        return $overrideResult;
+        return $isOverrided;
     }
 
     /**
