@@ -35,6 +35,12 @@ TranslateInline.prototype = {
         $$('*[translate]').each(this.initializeElement.bind(this));
         var scope = this;
         Ajax.Responders.register({onComplete: function() {setTimeout(scope.reinitElements.bind(scope), 50)}});
+        var ElementUpdate = HTMLElement.prototype.update;
+        HTMLElement.prototype.update = function () {
+            ElementUpdate.apply(this, arguments);
+            $(this).select('*[translate]').each(scope.initializeElement.bind(scope));
+        }
+
         this.trigEl = $(trigEl);
         this.trigEl.observe('mouseover', this.trigHideClear.bind(this));
         this.trigEl.observe('mouseout', this.trigHideDelayed.bind(this));
