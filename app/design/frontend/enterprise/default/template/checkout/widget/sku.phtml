@@ -31,7 +31,7 @@
  * @see Enterprise_Checkout_Block_Widget_Sku
  */
 $uniqueSuffix = '_' . $this->helper('core')->getRandomString(20);
-$skuFormId = "skuForm{$uniqueSuffix}";
+$skuFormId = 'skuForm' . $uniqueSuffix;
 $qtyValidationClasses = 'required-entry validate-number validate-greater-than-zero'
     . ' validate-number-range number-range-0.0001-99999999.9999';
 ?>
@@ -44,7 +44,7 @@ $qtyValidationClasses = 'required-entry validate-number validate-greater-than-ze
         <?php endif ?>
         <form id="<?php echo $skuFormId; ?>" action="<?php echo $this->getFormAction(); ?>" method="post" <?php if ($this->getIsMultipart()): ?> enctype="multipart/form-data"<?php endif; ?>>
             <div class="block-content">
-                <table id="items-table<?php echo $uniqueSuffix; ?>" class="sku-table" cellspacing="0"  cellpadding="0">
+                <table id="items-table<?php echo $uniqueSuffix; ?>" class="sku-table" cellspacing="0" cellpadding="0">
                     <colgroup>
                         <col width="60%" />
                         <col width="40%" />
@@ -66,8 +66,8 @@ $qtyValidationClasses = 'required-entry validate-number validate-greater-than-ze
                     </tfoot>
                     <tbody>
                         <tr class="order-row">
-                            <td><input type="text" name="items[0<?php echo $uniqueSuffix; ?>][sku]" class="input-text required-entry" maxlength="64" /></td>
-                            <td><input type="text" name="items[0<?php echo $uniqueSuffix; ?>][qty]" class="input-text <?php echo $qtyValidationClasses; ?>" value="1" maxlength="13" /></td>
+                            <td><input type="text" name="items[0<?php echo $uniqueSuffix; ?>][sku]" class="input-text" /></td>
+                            <td><input type="text" name="items[0<?php echo $uniqueSuffix; ?>][qty]" class="input-text" /></td>
                             <td>&nbsp;</td>
                         </tr>
                     </tbody>
@@ -91,8 +91,8 @@ itemOptions["<?php echo $uniqueSuffix; ?>"] = {
     templateSyntax: /(^|.|\r|\n)({{(\w+)}})/,
     templateText:
         '<tr class="order-row">'
-            + '<td><input type="text" name="items[{{id}}][sku]" class="input-text required-entry" maxlength="64" /></td>'
-            + '<td><input type="text" name="items[{{id}}][qty]" value="1" class="input-text <?php echo $qtyValidationClasses; ?>" maxlength="13" /></td>'
+            + '<td><input type="text" name="items[{{id}}][sku]" class="input-text" /></td>'
+            + '<td><input type="text" name="items[{{id}}][qty]" class="input-text" /></td>'
             + '<td class="v-middle"><span class="remove-row" title="<?php echo $this->__('Remove Row') ?>"></span></td>'
         + '</tr>',
     itemCount: 1,
@@ -104,6 +104,7 @@ itemOptions["<?php echo $uniqueSuffix; ?>"] = {
         }
         Element.insert(this.table, {bottom: this.template.evaluate(data)});
         this.bindRemoveButtons();
+        this.bindValidationOnChange(data.id);
         this.itemCount++;
     },
     remove: function(event) {
@@ -114,14 +115,32 @@ itemOptions["<?php echo $uniqueSuffix; ?>"] = {
     },
     bindRemoveButtons: function() {
         var buttons = $$('#<?php echo $skuFormId; ?> .remove-row');
-        for(var i=0; i < buttons.length; i++) {
+        for (var i = 0; i < buttons.length; i++) {
             if (!$(buttons[i]).binded) {
                 $(buttons[i]).binded = true;
                 Event.observe(buttons[i], 'click', this.remove.bind(this));
             }
         }
-    }
+    },
+    bindValidationOnChange: function(id) {
+        $('<?php echo $skuFormId; ?>').select('[name="items[' + id + '][sku]"]')[0].onchange = this.validateRow;
+        $('<?php echo $skuFormId; ?>').select('[name="items[' + id + '][qty]"]')[0].onchange = this.validateRow;
+    },
+    validateRow: function() {
+        var form = $('<?php echo $skuFormId; ?>'),
+            skuInput = form.select('[name="' + this.name.replace('[qty]', '[sku]') + '"]')[0],
+            qtyInput = form.select('[name="' + this.name.replace('[sku]', '[qty]') + '"]')[0];
 
+        Validation.reset(qtyInput);
+        qtyInput.removeClassName('<?php echo $qtyValidationClasses; ?>');
+
+        if (Validation.get('IsEmpty').test(skuInput.value)) {
+            return;
+        }
+
+        qtyInput.addClassName('<?php echo $qtyValidationClasses; ?>');
+        Validation.validate(qtyInput);
+    }
 }
 
 document.observe('dom:loaded', function() {
@@ -130,6 +149,11 @@ document.observe('dom:loaded', function() {
         'click',
         itemOptions["<?php echo $uniqueSuffix; ?>"].add.bind(itemOptions["<?php echo $uniqueSuffix; ?>"])
     );
+
+    $('<?php echo $skuFormId; ?>').select('[name="items[0<?php echo $uniqueSuffix; ?>][sku]"]')[0].onchange
+        = itemOptions["<?php echo $uniqueSuffix; ?>"].validateRow;
+    $('<?php echo $skuFormId; ?>').select('[name="items[0<?php echo $uniqueSuffix; ?>][qty]"]')[0].onchange
+        = itemOptions["<?php echo $uniqueSuffix; ?>"].validateRow;
 
     var skuForm = new VarienForm('<?php echo $skuFormId; ?>');
     $('sku-submit-button<?php echo $uniqueSuffix; ?>').onclick = function(e) {
