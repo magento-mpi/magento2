@@ -52,7 +52,7 @@ class Mage_OAuth_Model_Server
     const ERR_VERIFIER_INVALID          = 13;
     const ERR_PERMISSION_UNKNOWN        = 14;
     const ERR_PERMISSION_DENIED         = 15;
-    /**#@- */
+    /**#@-*/
 
     /**#@+
      * Signature Methods
@@ -60,7 +60,7 @@ class Mage_OAuth_Model_Server
     const SIGNATURE_HMAC  = 'HMAC-SHA1';
     const SIGNATURE_RSA   = 'RSA-SHA1';
     const SIGNATURE_PLAIN = 'PLAINTEXT';
-    /**#@- */
+    /**#@-*/
 
     /**#@+
      * Request Types
@@ -69,7 +69,7 @@ class Mage_OAuth_Model_Server
     const REQUEST_AUTHORIZE = 'authorize'; // display authorize form
     const REQUEST_TOKEN     = 'token';     // ask for permanent credentials
     const REQUEST_RESOURCE  = 'resource';  // ask for protected resource using permanent credentials
-    /**#@- */
+    /**#@-*/
 
     /**#@+
      * HTTP Response Codes
@@ -78,7 +78,12 @@ class Mage_OAuth_Model_Server
     const HTTP_BAD_REQUEST    = 400;
     const HTTP_UNAUTHORIZED   = 401;
     const HTTP_INTERNAL_ERROR = 500;
-    /**#@- */
+    /**#@-*/
+
+    /**
+     * Possible time deviation for timestamp validation in sec.
+     */
+    const TIME_DEVIATION = 600;
 
     /**
      * Value of callback URL when it is established or if cliaent is unable to receive callbacks
@@ -459,7 +464,7 @@ class Mage_OAuth_Model_Server
     {
         $timestamp = (int) $timestamp;
 
-        if ($timestamp <= 0 || $timestamp > time()) {
+        if ($timestamp <= 0 || $timestamp > (time() + self::TIME_DEVIATION)) {
             $this->_throwException('', self::ERR_TIMESTAMP_REFUSED);
         }
         /** @var $nonceObj Mage_OAuth_Model_Nonce */
