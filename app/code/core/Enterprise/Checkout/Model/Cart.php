@@ -1053,7 +1053,7 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
     /**
      * Check product availability for current website
      *
-     * @param $product
+     * @param Mage_Catalog_Model_Product $product
      * @return bool|string
      */
     protected function _validateProductWebsite($product)
@@ -1538,7 +1538,7 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
     /**
      * Retrieve instance of current store
      *
-     * @return Mage_Core_Model_Store|null
+     * @return Mage_Core_Model_Store
      */
     public function getCurrentStore()
     {
