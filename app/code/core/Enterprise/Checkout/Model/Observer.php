@@ -69,6 +69,7 @@ class Enterprise_Checkout_Model_Observer
             return;
         }
 
+        $cart->setCurrentStore($request->getParam('storeId'));
         $removeFailed = $request->getPost('sku_remove_failed');
 
         if ($removeFailed || $request->getPost('from_error_grid')) {

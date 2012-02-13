@@ -1015,6 +1015,7 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
 
         if (!empty($rows)) {
             $cart = $this->getCartModel();
+            $cart->setCurrentStore($data['store']);
             $cart->prepareAddProductsBySku($rows);
             $cart->saveAffectedProducts(
                 $this->getCartModel(),

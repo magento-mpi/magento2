@@ -86,6 +86,13 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
     protected $_successOptions = array();
 
     /**
+     * Instance of current store
+     *
+     * @var null|Mage_Core_Model_Store
+     */
+    protected $_currentStore = null;
+
+    /**
      * Don't allow passing disabled product to cart - put it inside error grid instead. Used in saveAffectedProducts()
      * and _safeAddProduct()
      */
@@ -967,16 +974,19 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
             $config['options'] = $product->getConfiguredOptions();
         }
 
-        $store = Mage::app()->getStore();
-        $isAdmin = $store->isAdmin();
+        $isAdmin = Mage::app()->getStore()->isAdmin();
 
-        if ($product && $product->getId()
-            && ($isAdmin || in_array($store->getWebsiteId(), $product->getWebsiteIds()))
-        ) {
+        if ($product && $product->getId()) {
             $item['id'] = $product->getId();
 
             if ($product->isDisabled()) {
                 $item['is_disabled'] = true;
+            }
+
+            $productWebsiteValidationResult = $this->_validateProductWebsite($product);
+            if ($productWebsiteValidationResult !== true) {
+                $item['code'] = $productWebsiteValidationResult;
+                return $item;
             }
 
             // FRONTEND
@@ -993,12 +1003,6 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
 
                 if ($this->_isProductOutOfStock($product)) {
                     $item['code'] = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_OUT_OF_STOCK;
-                    return $item;
-                }
-            } else {
-                $customer = $this->getCustomer();
-                if ($customer && !in_array($customer->getWebsiteId(), $product->getWebsiteIds())) {
-                    $item['code'] = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_WEBSITE;
                     return $item;
                 }
             }
@@ -1044,6 +1048,23 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
 
         $item['code'] = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_SUCCESS;
         return $item;
+    }
+
+    /**
+     * Check product availability for current website
+     *
+     * @param $product
+     * @return bool|string
+     */
+    protected function _validateProductWebsite($product)
+    {
+        if (in_array($this->getCurrentStore()->getWebsiteId(), $product->getWebsiteIds())) {
+            return true;
+        }
+
+        return (Mage::app()->getStore()->isAdmin())
+            ? Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_WEBSITE
+            : Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_SKU;
     }
 
     /**
@@ -1512,5 +1533,36 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
     public function getSession()
     {
         return $this->_getHelper()->getSession();
+    }
+
+    /**
+     * Retrieve instance of current store
+     *
+     * @return Mage_Core_Model_Store|null
+     */
+    public function getCurrentStore()
+    {
+        if (is_null($this->_currentStore)) {
+            return Mage::app()->getStore();
+        }
+        return $this->_currentStore;
+    }
+
+    /**
+     * Set current store
+     *
+     * @param mixed $store
+     * @return Enterprise_Checkout_Model_Cart
+     */
+    public function setCurrentStore($store)
+    {
+        try {
+            $this->_currentStore = Mage::app()->getStore($store);
+        } catch (Mage_Core_Model_Store_Exception $e) {
+            Mage::throwException(
+                Mage::helper('enterprise_checkout')->__('Wron store specified')
+            );
+        }
+        return $this;
     }
 }
