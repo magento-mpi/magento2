@@ -37,4 +37,26 @@ class Mage_DesignEditor_Block_Toolbar extends Mage_Core_Block_Template
     {
         return Mage::getSingleton('Mage_Adminhtml_Model_Url')->getUrl('adminhtml/system_design_editor/exit');
     }
+
+    /**
+     * Returns messages for Visual Design Editor, clears list of session messages
+     *
+     * @return array
+     */
+    public function getMessages()
+    {
+        return $this->_getSession()
+            ->getMessages(true)
+            ->getItems();
+    }
+
+    /**
+     * Returns user session for toolbar
+     *
+     * @return Mage_DesignEditor_Model_Session
+     */
+    protected function _getSession()
+    {
+        return Mage::getSingleton('Mage_DesignEditor_Model_Session');
+    }
 }

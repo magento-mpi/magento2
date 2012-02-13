@@ -51,26 +51,30 @@ class Mage_DesignEditor_EditorController extends Mage_Core_Controller_Front_Acti
     {
         try {
             $pageType = $this->getRequest()->getParam('page_type');
-            if ($pageType && preg_match('/^[a-z\d]+(_[a-z\d]+){2}$/i', $pageType)) {
-                $this->_fullActionName = $pageType;
-                // @todo: check if this page type exists at all (declared in layout as handle?)
-            }
-            if (!$this->_fullActionName) {
-                Mage::throwException($this->__('Empty or invalid page type specified.'));
+
+            // page type format
+            if (!$pageType || !preg_match('/^[a-z\d]+(_[a-z\d]+){2}$/i', $pageType)) {
+                Mage::throwException($this->__('Invalid page type specified.'));
             }
 
+            // whether such page type exists
+            $area = Mage::getDesign()->getArea();
+            $package = Mage::getDesign()->getPackageName();
+            $theme = Mage::getDesign()->getTheme();
+            $xml = $this->getLayout()->getUpdate()->getFileLayoutUpdatesXml($area, $package, $theme);
+            if (!$xml->xpath("/layouts/{$pageType}")) {
+                Mage::throwException($this->__("Specified page type doesn't exist: '{$pageType}'."));
+            }
+
+            $this->_fullActionName = $pageType;
             $this->loadLayout(null, false, true);
             Mage::getModel('Mage_DesignEditor_Model_Layout')->sanitizeLayout($this->getLayout()->getNode());
             $this->getLayout()->generateBlocks();
             $this->renderLayout();
-            return;
         } catch (Mage_Core_Exception $e) {
             $this->getResponse()->setBody($e->getMessage());
-        } catch (Exception $e) {
-            $this->getResponse()->setBody($this->__('Unable to load specified page. See error log for details.'));
-            Mage::logException($e);
+            $this->getResponse()->setHeader('Content-Type', 'text/plain; charset=UTF-8')->setHttpResponseCode(503);
         }
-        $this->getResponse()->setHeader('Content-Type', 'text/plain; charset=UTF-8')->setHttpResponseCode(500);
     }
 
     /**
@@ -98,8 +102,8 @@ class Mage_DesignEditor_EditorController extends Mage_Core_Controller_Front_Acti
         $session = Mage::getSingleton('Mage_DesignEditor_Model_Session');
         try {
             $session->setSkin($skin);
-        } catch (Exception $e) {
-            $session->addException($e, $e->getMessage());
+        } catch (Mage_Core_Exception $e) {
+            $session->addError($e->getMessage());
         }
         $this->getResponse()->setRedirect($backUrl);
     }

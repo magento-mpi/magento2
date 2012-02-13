@@ -2871,12 +2871,3 @@ section .category-title { display:none; }
     padding:20px 0;
     text-align:center;
 }
-
-/* Visual Design Editor
------------------------------*/
-
-#vde_toolbar {
-    position: relative;
-    background-color: white;
-    z-index: 100;
-}

@@ -10,6 +10,11 @@
 ?>
 <?php /** @var $this Mage_DesignEditor_Block_Toolbar */ ?>
 <div class="header-panel" id="vde_toolbar">
+    <?php $messages = $this->getMessages(); ?>
+    <?php foreach ($messages as $message): ?>
+        <p class="item-msg <?php echo $message->getType() ?>"><?php echo $this->escapeHtml($message->getCode()) ?></p>
+    <?php endforeach; ?>
+
     <?php echo $this->getChildHtml('design_editor_toolbar_skin'); ?>
     <div>
         <a href="<?php echo $this->getExitUrl(); ?>" title="<?php echo $this->__('Exit'); ?>" class="vde_button">
