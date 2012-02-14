@@ -1095,7 +1095,7 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
             foreach ($productsByGroups as $productsInGroup) {
                 foreach ($productsInGroup as $childProduct) {
                     if (($childProduct->hasStockItem() && $childProduct->getStockItem()->getIsInStock())
-                        || !$childProduct->isDisabled()
+                        && !$childProduct->isDisabled()
                     ) {
                         return false;
                     }
@@ -1542,7 +1542,7 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
             $this->_currentStore = Mage::app()->getStore($store);
         } catch (Mage_Core_Model_Store_Exception $e) {
             Mage::throwException(
-                Mage::helper('enterprise_checkout')->__('Wron store specified')
+                Mage::helper('enterprise_checkout')->__('Wrong store specified')
             );
         }
         return $this;

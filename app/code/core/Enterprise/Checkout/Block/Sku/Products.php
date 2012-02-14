@@ -128,7 +128,6 @@ class Enterprise_Checkout_Block_Sku_Products extends Mage_Checkout_Block_Cart
     {
         /** @var $renderer Mage_Checkout_Block_Cart_Item_Renderer */
         $renderer = $this->getItemRenderer($item->getProductType())->setQtyMode(false);
-
         if ($item->getProductType() == 'undefined') {
             $renderer->overrideProductThumbnail($this->helper('catalog/image')->init($item, 'thumbnail'));
             $renderer->setProductName('');
@@ -138,8 +137,35 @@ class Enterprise_Checkout_Block_Sku_Products extends Mage_Checkout_Block_Cart
                 'sku' => Mage::helper('core/url')->urlEncode($item->getSku())
             ))
         );
+        $renderer->setIgnoreProductUrl(!$this->showItemLink($item));
+
         // Don't display subtotal column
         $item->setNoSubtotal(true);
         return parent::getItemHtml($item);
+    }
+
+    /**
+     * Check whether item link should be rendered
+     *
+     * @param Mage_Sales_Model_Quote_Item $item
+     * @return bool
+     */
+    public function showItemLink(Mage_Sales_Model_Quote_Item $item)
+    {
+        $product = $item->getProduct();
+        if ($product->isComposite()) {
+            $productsByGroups = $product->getTypeInstance(true)->getProductsToPurchaseByReqGroups($product);
+            foreach ($productsByGroups as $productsInGroup) {
+                foreach ($productsInGroup as $childProduct) {
+                    if (($childProduct->hasStockItem() && $childProduct->getStockItem()->getIsInStock())
+                        && !$childProduct->isDisabled()
+                    ) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+        return true;
     }
 }
