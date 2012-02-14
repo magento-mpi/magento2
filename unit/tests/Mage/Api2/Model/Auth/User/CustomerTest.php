@@ -93,7 +93,7 @@ class Mage_Api2_Model_Auth_User_CustomerTest extends Mage_PHPUnit_TestCase
      */
     public function testGuestRoleId()
     {
-        $this->assertInternalType('integer', Mage_Api2_Model_Auth_User_Customer::CUSTOMER_ROLE_ID);
+        $this->assertInternalType('integer', Mage_Api2_Model_Acl_Global_Role::ROLE_CUSTOMER_ID);
     }
 
     /**
@@ -107,9 +107,9 @@ class Mage_Api2_Model_Auth_User_CustomerTest extends Mage_PHPUnit_TestCase
 
         $this->_roleMock->expects($this->once())
             ->method('getId')
-            ->will($this->returnValue(Mage_Api2_Model_Auth_User_Customer::CUSTOMER_ROLE_ID));
+            ->will($this->returnValue(Mage_Api2_Model_Acl_Global_Role::ROLE_CUSTOMER_ID));
 
-        $this->assertEquals(Mage_Api2_Model_Auth_User_Customer::CUSTOMER_ROLE_ID, $this->_customer->getRole());
+        $this->assertEquals(Mage_Api2_Model_Acl_Global_Role::ROLE_CUSTOMER_ID, $this->_customer->getRole());
     }
 
     /**
@@ -124,9 +124,9 @@ class Mage_Api2_Model_Auth_User_CustomerTest extends Mage_PHPUnit_TestCase
             ->method('getId');
 
         $customerMock = new Mage_Api2_Model_Auth_User_Customer_Mock;
-        $customerMock->setRole(Mage_Api2_Model_Auth_User_Customer_Mock::CUSTOMER_ROLE_ID);
+        $customerMock->setRole(Mage_Api2_Model_Acl_Global_Role::ROLE_CUSTOMER_ID);
 
-        $this->assertEquals(Mage_Api2_Model_Auth_User_Customer::CUSTOMER_ROLE_ID, $customerMock->getRole());
+        $this->assertEquals(Mage_Api2_Model_Acl_Global_Role::ROLE_CUSTOMER_ID, $customerMock->getRole());
     }
 
     /**
