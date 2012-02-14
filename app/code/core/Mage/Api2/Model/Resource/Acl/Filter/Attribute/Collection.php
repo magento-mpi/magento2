@@ -54,4 +54,23 @@ class Mage_Api2_Model_Resource_Acl_Filter_Attribute_Collection extends Mage_Core
         $this->addFilter('user_type', $userType, 'public');
         return $this;
     }
+
+    /**
+     * Get allowed attributes
+     *
+     * @param string $userType
+     * @param string $resourceId
+     * @param string $operation One of Mage_Api2_Model_Resource::OPERATION_ATTRIBUTE_... constant
+     * @return string|bool
+     */
+    public function getAllowedAttributes($userType, $resourceId, $operation)
+    {
+        $select = $this->getSelect()->reset(Zend_Db_Select::COLUMNS)
+            ->columns(array('allowed_attributes'))
+            ->where('user_type = ?', $userType, Zend_Db::INT_TYPE)
+            ->where('resource_id = ?', $resourceId, Zend_Db::INT_TYPE)
+            ->where('operation = ?', $operation);
+
+        return $this->getResource()->getReadConnection()->fetchOne($select);
+    }
 }

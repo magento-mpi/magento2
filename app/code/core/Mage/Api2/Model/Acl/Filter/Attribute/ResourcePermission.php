@@ -84,23 +84,27 @@ class Mage_Api2_Model_Acl_Filter_Attribute_ResourcePermission
                     try {
                         /** @var $resourceModel Mage_Api2_Model_Resource_Instance */
                         $resourceModel = Mage::getModel($config->getResourceModel($resource));
-                        $resourceModel->setResourceType($resource);
+                        if ($resourceModel) {
+                            $resourceModel->setResourceType($resource);
 
-                        /** @var $operationSource Mage_Api2_Model_Acl_Filter_Attribute_Operation */
-                        $operationSource = Mage::getModel('api2/acl_filter_attribute_operation');
+                            /** @var $operationSource Mage_Api2_Model_Acl_Filter_Attribute_Operation */
+                            $operationSource = Mage::getModel('api2/acl_filter_attribute_operation');
 
-                        foreach ($operationSource->toArray() as $operationValue => $operationLabel) {
-                            foreach ($resourceModel->getAvailableAttributes() as $attributeValue => $attributeLabel) {
-                                $status = isset($allowedAttributes[$resource][$operationValue])
-                                    && in_array($attributeValue, $allowedAttributes[$resource][$operationValue])
-                                        ? Mage_Api2_Model_Acl_Global_Rule_Permission::TYPE_ALLOW
-                                        : Mage_Api2_Model_Acl_Global_Rule_Permission::TYPE_DENY;
+                            foreach ($operationSource->toArray() as $operationValue => $operationLabel) {
+                                $avalaibleAttributes = $resourceModel->getAvailableAttributes();
+                                foreach ($avalaibleAttributes as $attributeValue => $attributeLabel) {
+                                    $status = isset($allowedAttributes[$resource][$operationValue])
+                                        && in_array($attributeValue, $allowedAttributes[$resource][$operationValue])
+                                            ? Mage_Api2_Model_Acl_Global_Rule_Permission::TYPE_ALLOW
+                                            : Mage_Api2_Model_Acl_Global_Rule_Permission::TYPE_DENY;
 
-                                $rulesPairs[$resource]['operations'][$operationValue]['attributes'][$attributeValue]
-                                    = $status;
+                                    $rulesPairs[$resource]['operations'][$operationValue]['attributes'][$attributeValue]
+                                        = $status;
+                                }
                             }
                         }
                     } catch (Exception $e) {
+                        // getModel() throws exception when application is in development mode
                         Mage::logException($e);
                     }
                 }

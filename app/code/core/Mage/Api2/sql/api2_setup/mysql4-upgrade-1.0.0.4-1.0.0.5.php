@@ -25,29 +25,22 @@
  */
 
 /**
- * API2 global ACL resource permission interface
- *
- * @category    Mage
- * @package     Mage_Api2
- * @author      Magento Core Team <core@magentocommerce.com>
+ * Add user_type + resource_id + operation unique key for api2_acl_attribute table
  */
-interface Mage_Api2_Model_Acl_Global_AclPermissionInterface
-{
-    /**
-     * Get ACL resources permissions
-     *
-     * Get permissions list with set permissions
-     *
-     * @abstract
-     * @return array
-     */
-    public function getResourcesPermissions();
+/** @var $installer Mage_Api2_Model_Resource_Setup */
+$installer = $this;
 
-    /**
-     * Set filter value
-     *
-     * @param mixed $filterValue
-     * @return Mage_Api2_Model_Acl_Global_AclPermissionInterface
-     */
-    public function setFilterValue($filterValue);
-}
+$installer->startSetup();
+
+$table = $installer->getTable('api2/acl_attribute');
+$indexes = array('user_type', 'resource_id', 'operation');
+
+$installer->getConnection()
+    ->addIndex(
+        $table,
+        $installer->getIdxName($table, $indexes),
+        $indexes,
+        Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
+    );
+
+$installer->endSetup();

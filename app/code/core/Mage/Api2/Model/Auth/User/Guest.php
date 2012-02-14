@@ -39,18 +39,6 @@ class Mage_Api2_Model_Auth_User_Guest extends Mage_Api2_Model_Auth_User_Abstract
     const USER_TYPE = 'guest';
 
     /**
-     * Role ID of a guest user type
-     */
-    const GUEST_ROLE_ID = 1;
-
-    /**
-     * User Role
-     *
-     * @var int
-     */
-    protected $_role;
-
-    /**
      * Retrieve user human-readable label
      *
      * @return string
@@ -80,12 +68,12 @@ class Mage_Api2_Model_Auth_User_Guest extends Mage_Api2_Model_Auth_User_Abstract
     {
         if (!$this->_role) {
             /** @var $role Mage_Api2_Model_Acl_Global_Role */
-            $role = Mage::getModel('api2/acl_global_role')->load(self::GUEST_ROLE_ID);
+            $role = Mage::getModel('api2/acl_global_role')->load(Mage_Api2_Model_Acl_Global_Role::ROLE_GUEST_ID);
             if (!$role->getId()) {
                 throw new Exception('Guest role not found');
             }
 
-            $this->_role = self::GUEST_ROLE_ID;
+            $this->_role = Mage_Api2_Model_Acl_Global_Role::ROLE_GUEST_ID;
         }
 
         return $this->_role;

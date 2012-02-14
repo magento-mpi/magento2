@@ -38,7 +38,7 @@ class Mage_Api2_Model_Acl_Filter
      *
      * @var array
      */
-    protected $_allowedAttributes = array();
+    protected $_allowedAttributes;
 
     /**
      * A list of attributes to be included into output
@@ -62,14 +62,6 @@ class Mage_Api2_Model_Acl_Filter
     public function __construct(Mage_Api2_Model_Resource $resource)
     {
         $this->_resource = $resource;
-
-        // TODO: Remove it when attributes' management is finished
-        $this->_allowedAttributes = array(
-            'entity_id', 'customer_id', 'state', 'subtotal', 'created_at',
-            'review_id', 'product_id', 'status_id', 'stores', 'nickname', 'title', 'detail',
-            'sku', 'type', 'set', 'name', 'website_ids', 'description', 'short_description', 'price', 'tax_class_id',
-            'visibility', 'status', 'simple_product_id', 'qty', 'position'
-        );
     }
 
     /**
@@ -113,21 +105,12 @@ class Mage_Api2_Model_Acl_Filter
     public function getAllowedAttributes($operation)
     {
         if (null === $this->_allowedAttributes) {
-            /** @var $model Mage_Api2_Model_Acl_Filter_Attribute_ResourcePermission */
-            $model        = Mage::getModel('api2/acl_filter_attribute_resourcePermission');
-            $permissions  = $model->setFilterValue($this->_resource->getUserType())->getResourcesPermissions();
-            $resourceType = $this->_resource->getResourceType();
+            /** @var $helper Mage_Api2_Helper_Data */
+            $helper = Mage::helper('api2/data');
 
-            if (isset($permissions[$resourceType]['operations'][$operation]['attributes'])) {
-                $attributes = $permissions[$resourceType]['operations'][$operation]['attributes'];
-
-                if (!is_array($attributes)) {
-                    throw new Exception('Allowed attributes is not an array');
-                }
-            } else {
-                throw new Exception('Allowed attributes is unknown');
-            }
-            $this->_allowedAttributes = array_keys($attributes);
+            $this->_allowedAttributes = $helper->getAllowedAttributes(
+                $this->_resource->getUserType(), $this->_resource->getResourceType(), $operation
+            );
         }
         return $this->_allowedAttributes;
     }

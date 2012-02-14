@@ -66,6 +66,8 @@ class Mage_Api2_Block_Adminhtml_Permissions_User_Edit_Tab_Roles
     {
         /** @var $collection Mage_Api2_Model_Resource_Acl_Global_Role_Collection */
         $collection = Mage::getResourceModel('api2/acl_global_role_collection');
+        $collection->addFieldToFilter('entity_id', array('nin' => Mage_Api2_Model_Acl_Global_Role::getSystemRoles()));
+
         $this->setCollection($collection);
 
         return parent::_prepareCollection();

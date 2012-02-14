@@ -118,7 +118,9 @@ class Mage_Api2_Block_Adminhtml_Roles_Buttons extends Mage_Adminhtml_Block_Templ
      */
     public function getDeleteButtonHtml()
     {
-        if(!$this->getRole() || !$this->getRole()->getId() || $this->getRole()->isGuestRole()) {
+        if(!$this->getRole() || !$this->getRole()->getId() || $this->getRole()->isGuestRole()
+            || $this->getRole()->isCustomerRole()) {
+
             return '';
         }
 
