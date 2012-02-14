@@ -60,8 +60,8 @@ class Mage_Api2_Block_Adminhtml_Attribute_Tab_Resource extends Mage_Adminhtml_Bl
             'api2/acl_global_rule_tree',
             array('type' => Mage_Api2_Model_Acl_Global_Rule_Tree::TYPE_ATTRIBUTE));
 
-        /** @var $permissions Mage_Api2_Model_Acl_Global_Attribute_ResourcePermission */
-        $permissions = Mage::getModel('api2/acl_global_attribute_resourcePermission');
+        /** @var $permissions Mage_Api2_Model_Acl_Filter_Attribute_ResourcePermission */
+        $permissions = Mage::getModel('api2/acl_filter_attribute_resourcePermission');
         $permissions->setFilterValue($this->getRequest()->getParam('type'));
         $this->_treeModel->setResourcesPermissions(
             $permissions->getResourcesPermissions()

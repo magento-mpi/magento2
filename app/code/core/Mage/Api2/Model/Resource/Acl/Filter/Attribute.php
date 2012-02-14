@@ -25,13 +25,13 @@
  */
 
 /**
- * API2 global ACL attribute resource model
+ * API2 filter ACL attribute resource model
  *
  * @category    Mage
  * @package     Mage_Api2
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Api2_Model_Resource_Acl_Global_Attribute extends Mage_Core_Model_Resource_Db_Abstract
+class Mage_Api2_Model_Resource_Acl_Filter_Attribute extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
      * Initialize resource model

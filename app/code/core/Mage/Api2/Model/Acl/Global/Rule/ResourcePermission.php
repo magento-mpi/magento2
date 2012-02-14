@@ -32,7 +32,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Api2_Model_Acl_Global_Rule_ResourcePermission
-    implements Mage_Api2_Model_Acl_Global_AclPermissionInterface
+    implements Mage_Api2_Model_Acl_PermissionInterface
 {
     /**
      * Resources permissions

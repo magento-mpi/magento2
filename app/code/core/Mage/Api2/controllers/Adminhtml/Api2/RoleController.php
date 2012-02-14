@@ -228,7 +228,7 @@ class Mage_Api2_Adminhtml_Api2_RoleController extends Mage_Adminhtml_Controller_
         } catch (Mage_Core_Exception $e) {
             $session->addError($e->getMessage());
         } catch (Exception $e) {
-            $session->addError($this->__('An error occurred while saving role.'));
+            $session->addException($e, $this->__('An error occurred while saving role.'));
         }
 
         $this->_redirect('*/*/edit', array('id'=>$id));
@@ -249,7 +249,7 @@ class Mage_Api2_Adminhtml_Api2_RoleController extends Mage_Adminhtml_Controller_
         } catch (Mage_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         } catch (Exception $e) {
-            $this->_getSession()->addError($this->__('An error occurred while deleting the role.'));
+            $this->_getSession()->addException($e, $this->__('An error occurred while deleting the role.'));
         }
 
         $this->_redirect("*/*/");

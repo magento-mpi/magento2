@@ -25,13 +25,13 @@
  */
 
 /**
- * API2 global ACL attribute resource collection model
+ * API2 filter ACL attribute resource collection model
  *
  * @category    Mage
  * @package     Mage_Api2
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Api2_Model_Resource_Acl_Global_Attribute_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
+class Mage_Api2_Model_Resource_Acl_Filter_Attribute_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
      * Initialize collection model
@@ -40,14 +40,14 @@ class Mage_Api2_Model_Resource_Acl_Global_Attribute_Collection extends Mage_Core
      */
     protected function _construct()
     {
-        $this->_init('api2/acl_global_attribute');
+        $this->_init('api2/acl_filter_attribute');
     }
 
     /**
      * Add filtering by user type
      *
      * @param string $userType
-     * @return Mage_Api2_Model_Resource_Acl_Global_Attribute_Collection
+     * @return Mage_Api2_Model_Resource_Acl_Filter_Attribute_Collection
      */
     public function addFilterByUserType($userType)
     {

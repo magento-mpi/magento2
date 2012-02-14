@@ -51,5 +51,5 @@ $table = $adapter->newTable($installer->getTable('api2/acl_attribute'))
     ->addColumn('allowed_attributes', Varien_Db_Ddl_Table::TYPE_TEXT,
         null, array('nullable'  => true), 'Allowed attributes')
     ->addIndex($installer->getIdxName('api2/acl_attribute', array('user_type')), array('user_type'))
-    ->setComment('Api2 Global ACL Attributes');
+    ->setComment('Api2 Filter ACL Attributes');
 $adapter->createTable($table);

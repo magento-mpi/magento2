@@ -113,9 +113,9 @@ class Mage_Api2_Model_Acl_Filter
     public function getAllowedAttributes($operation)
     {
         if (null === $this->_allowedAttributes) {
-            /** @var $model Mage_Api2_Model_Acl_Global_Attribute_ResourcePermission */
-            $model       = Mage::getModel('api2/acl_global_attribute_resourcePermission');
-            $permissions = $model->setFilterValue($this->_resource->getUserType())->getResourcesPermissions();
+            /** @var $model Mage_Api2_Model_Acl_Filter_Attribute_ResourcePermission */
+            $model        = Mage::getModel('api2/acl_filter_attribute_resourcePermission');
+            $permissions  = $model->setFilterValue($this->_resource->getUserType())->getResourcesPermissions();
             $resourceType = $this->_resource->getResourceType();
 
             if (isset($permissions[$resourceType]['operations'][$operation]['attributes'])) {
