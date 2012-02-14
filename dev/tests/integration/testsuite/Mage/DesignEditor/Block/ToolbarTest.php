@@ -52,27 +52,22 @@ class Mage_DesignEditor_Block_ToolbarTest extends PHPUnit_Framework_TestCase
 
     public function testGetMessages()
     {
-        $messageError = new Mage_Core_Model_Message_Error('test error');
-        $messageSuccess = new Mage_Core_Model_Message_Error('test success');
-        $messages = new Mage_Core_Model_Message_Collection();
-        $messages->addMessage($messageError);
-        $messages->addMessage($messageSuccess);
+        /** @var $session Mage_DesignEditor_Model_Session */
+        $session = Mage::getSingleton('Mage_DesignEditor_Model_Session');
+        $this->assertEmpty($session->getMessages()->getItems());
 
-        $session = $this->getMock('Mage_DesignEditor_Model_Session');
-        $session->expects($this->atLeastOnce())
-            ->method('getMessages')
-            ->with(true)
-            ->will($this->returnValue($messages));
+        $session->addError('test error');
+        $session->addSuccess('test success');
 
-        $block = $this->getMock('Mage_DesignEditor_Block_Toolbar', array('_getSession'));
-        $block->expects($this->atLeastOnce())
-            ->method('_getSession')
-            ->will($this->returnValue($session));
-
-        $blockMessages = $block->getMessages();
+        $blockMessages = $this->_block->getMessages();
         $this->assertInternalType('array', $blockMessages);
-        $this->assertCount(2, $blockMessages);
-        $this->assertContains($messageError, $blockMessages);
-        $this->assertContains($messageSuccess, $blockMessages);
+        $this->assertEquals(2, count($blockMessages));
+
+        $this->assertInstanceOf('Mage_Core_Model_Message_Error', $blockMessages[0]);
+        $this->assertEquals('test error', $blockMessages[0]->getCode());
+        $this->assertInstanceOf('Mage_Core_Model_Message_Success', $blockMessages[1]);
+        $this->assertEquals('test success', $blockMessages[1]->getCode());
+
+        $this->assertEmpty($session->getMessages()->getItems());
     }
 }

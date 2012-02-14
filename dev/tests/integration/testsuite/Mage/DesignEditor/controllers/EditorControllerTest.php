@@ -41,7 +41,7 @@ class Mage_DesignEditor_EditorControllerTest extends Magento_Test_TestCase_Contr
     {
         return array(
             'no page type'      => array('', 'Invalid page type specified.'),
-            'invalid page type' => array('invalid_type', 'Invalid page type specified.'),
+            'invalid page type' => array('too_long_page_type', 'Invalid page type specified.'),
             'no-nexisting type' => array('non_existing_type', 'Specified page type doesn\'t exist: %s'),
         );
     }

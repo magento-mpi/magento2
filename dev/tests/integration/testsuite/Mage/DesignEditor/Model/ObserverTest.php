@@ -17,39 +17,32 @@
 class Mage_DesignEditor_Model_ObserverTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @param bool $isActive
+     * @var Mage_DesignEditor_Model_Observer
+     */
+    protected $_observer;
+
+    protected function setUp()
+    {
+        $this->_observer = new Mage_DesignEditor_Model_Observer;
+    }
+
+    /**
      * @param string $skin
      * @param string|null $expectedSkin
      *
+     * @magentoAppIsolation enabled
+     * @magentoDataFixture Mage/DesignEditor/_files/design_editor_active.php
      * @dataProvider applyCustomSkinDesignDataProvider
-     * @SuppressWarnings(PHPMD.ShortVariable)
      */
-    public function testApplyCustomSkinDesignNotActive($isActive, $skin, $expectedSkin)
+    public function testApplyCustomSkinDesign($skin, $expectedSkin)
     {
-        $session = $this->getMock('Mage_DesignEditor_Model_Session', array('isDesignEditorActive'));
-        $session->expects($this->any())
-            ->method('isDesignEditorActive')
-            ->will($this->returnValue($isActive));
+        $session = Mage::getSingleton('Mage_DesignEditor_Model_Session');
         $session->setSkin($skin);
-
-        $observer = $this->getMock('Mage_DesignEditor_Model_Observer', array('_getSession'));
-        $observer->expects($this->any())
-            ->method('_getSession')
-            ->will($this->returnValue($session));
-
         $oldSkin = Mage::getDesign()->getDesignTheme();
 
-        $e = null;
         $expectedSkin = $expectedSkin ?: $oldSkin;
-        try {
-            $observer->applyCustomSkin(new Varien_Event_Observer());
-            $this->assertEquals($expectedSkin, Mage::getDesign()->getDesignTheme());
-        } catch (Exception $e) {
-        }
-        Mage::getDesign()->setDesignTheme($oldSkin);
-        if ($e) {
-            throw $e;
-        }
+        $this->_observer->applyCustomSkin(new Varien_Event_Observer());
+        $this->assertEquals($expectedSkin, Mage::getDesign()->getDesignTheme());
     }
 
     /**
@@ -58,9 +51,24 @@ class Mage_DesignEditor_Model_ObserverTest extends PHPUnit_Framework_TestCase
     public function applyCustomSkinDesignDataProvider()
     {
         return array(
-            array(false, 'default/default/blank', null),
-            array(true, '', null),
-            array(true, 'default/default/blank', 'default/default/blank')
+            array('', null),
+            array('default/default/blank', 'default/default/blank')
         );
+    }
+
+    /**
+     * @magentoAppIsolation enabled
+     */
+    public function testApplyCustomSkinDesignNotActive()
+    {
+        $newSkin = 'default/default/blank';
+        $oldSkin = Mage::getDesign()->getDesignTheme();
+        $this->assertNotEquals($newSkin, $oldSkin);
+
+        $session = Mage::getSingleton('Mage_DesignEditor_Model_Session');
+        $session->setSkin($newSkin);
+
+        $this->_observer->applyCustomSkin(new Varien_Event_Observer());
+        $this->assertEquals($oldSkin, Mage::getDesign()->getDesignTheme());
     }
 }
