@@ -49,6 +49,7 @@
                     </route_main>
                 </routes>
                 <instance>order</instance>
+                <versions>1</versions>
             </orders>
             <order>
                 <group>sales</group>
@@ -73,6 +74,7 @@
                     <created_at>Creation Time</created_at>
                 </attributes>
                 <collection>orders</collection>
+                <versions>1</versions>
             </order>
         </resources>
     </api2>

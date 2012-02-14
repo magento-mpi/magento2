@@ -126,7 +126,7 @@ class Mage_Api2_Model_Dispatcher
      */
     public function getVersion($resourceType, $requestedVersion)
     {
-        if ($requestedVersion <= 0 || !ctype_digit($requestedVersion)) {
+        if ($requestedVersion != (string)(int)$requestedVersion || $requestedVersion <= 0) {
             throw new Mage_Api2_Exception(
                 sprintf('Invalid version "%s" requested.', htmlspecialchars($requestedVersion)),
                 Mage_Api2_Model_Server::HTTP_BAD_REQUEST
@@ -135,11 +135,8 @@ class Mage_Api2_Model_Dispatcher
 
         settype($requestedVersion, 'int');
 
-        /** @var $config Mage_Api2_Model_Config */
-        $config = Mage::getModel('api2/config');
-
         $useVersion = null;
-        foreach ($config->getVersions($resourceType) as $version) {
+        foreach ($this->getConfig()->getVersions($resourceType) as $version) {
             if ($version<=$requestedVersion) {
                 $useVersion = $version;
                 break;
@@ -147,5 +144,15 @@ class Mage_Api2_Model_Dispatcher
         }
 
         return $useVersion;
+    }
+
+    /**
+     * Get config
+     *
+     * @return Mage_Api2_Model_Config
+     */
+    public function getConfig()
+    {
+        return Mage::getModel('api2/config');
     }
 }
