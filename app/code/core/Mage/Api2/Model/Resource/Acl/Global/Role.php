@@ -54,9 +54,11 @@ class Mage_Api2_Model_Resource_Acl_Global_Role extends Mage_Core_Model_Resource_
      */
     public function saveAdminToRoleRelation($adminId, $roleId)
     {
-        if ($roleId == Mage_Api2_Model_Acl_Global_Role::ROLE_GUEST_ID) {
+        if (Mage_Api2_Model_Acl_Global_Role::ROLE_GUEST_ID == $roleId
+            || Mage_Api2_Model_Acl_Global_Role::ROLE_CUSTOMER_ID == $roleId) {
+
             Mage::throwException(
-                Mage::helper('api2')->__('Guest role is a special one and not for assigning it to admin users.')
+                Mage::helper('api2')->__('The role is a special one and not for assigning it to admin users.')
             );
         }
 

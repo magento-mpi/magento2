@@ -37,7 +37,6 @@
 class Mage_Api2_Block_Adminhtml_Roles_Tab_Info extends Mage_Adminhtml_Block_Widget_Form
     implements Mage_Adminhtml_Block_Widget_Tab_Interface
 {
-
     /**
      * Prepare form object
      */
@@ -49,8 +48,6 @@ class Mage_Api2_Block_Adminhtml_Roles_Tab_Info extends Mage_Adminhtml_Block_Widg
             'legend'    => Mage::helper('adminhtml')->__('Role Information')
         ));
 
-        $isGuestRole = $this->getRole() && $this->getRole()->isGuestRole();
-
         $data = array(
             'name'  => 'role_name',
             'label' => Mage::helper('adminhtml')->__('Role Name'),
@@ -58,9 +55,16 @@ class Mage_Api2_Block_Adminhtml_Roles_Tab_Info extends Mage_Adminhtml_Block_Widg
             'class' => 'required-entry',
             'required' => true,
         );
-        if ($isGuestRole) {
+
+        if ($this->isHidden()) {
+            /** @var $helper Mage_Core_Helper_Data */
+            $helper = Mage::helper('core');
+
+            $data['note'] = Mage::helper('api2')->__(
+                '%s role is protected.',
+                $helper->escapeHtml($this->getRole()->getRoleName())
+            );
             $data['readonly'] = 'readonly';
-            $data['note'] = 'Guest role is protected.';
         }
         $fieldset->addField('role_name', 'text', $data);
 
@@ -122,6 +126,6 @@ class Mage_Api2_Block_Adminhtml_Roles_Tab_Info extends Mage_Adminhtml_Block_Widg
      */
     public function isHidden()
     {
-        return $this->getRole() && $this->getRole()->isGuestRole();
+        return $this->getRole() && ($this->getRole()->isGuestRole() || $this->getRole()->isCustomerRole());
     }
 }

@@ -49,6 +49,11 @@ class Mage_Api2_Model_Acl_Global_Role extends Mage_Core_Model_Abstract
     const ROLE_GUEST_ID = 1;
 
     /**
+     * Customer default role id
+     */
+    const ROLE_CUSTOMER_ID = 2;
+
+    /**
      * Permissions model
      *
      * @var array
@@ -79,9 +84,18 @@ class Mage_Api2_Model_Acl_Global_Role extends Mage_Core_Model_Abstract
         }
 
         //check and protect guest role
-        if ($this->isGuestRole() && $this->getRoleName() != $this->getOrigData('role_name')) {
+        if (($this->isGuestRole() || $this->isCustomerRole())
+            && $this->getRoleName() != $this->getOrigData('role_name')) {
+
+            /** @var $helper Mage_Core_Helper_Data */
+            $helper = Mage::helper('core');
+
             Mage::throwException(
-                Mage::helper('api2')->__('Guest role is a special one and can\'t be changed.'));
+                Mage::helper('api2')->__(
+                    '%s role is a special one and can\'t be changed.',
+                    $helper->escapeHtml($this->getRoleName())
+                )
+            );
         }
 
         parent::_beforeSave();
@@ -95,9 +109,16 @@ class Mage_Api2_Model_Acl_Global_Role extends Mage_Core_Model_Abstract
      */
     protected function _beforeDelete()
     {
-        if ($this->isGuestRole()) {
+        if ($this->isGuestRole() || $this->isCustomerRole()) {
+            /** @var $helper Mage_Core_Helper_Data */
+            $helper = Mage::helper('core');
+
             Mage::throwException(
-                Mage::helper('api2')->__('Guest role is a special one and can\'t be deleted.'));
+                Mage::helper('api2')->__(
+                    '%s role is a special one and can\'t be deleted.',
+                    $helper->escapeHtml($this->getRoleName())
+                )
+            );
         }
 
         parent::_beforeDelete();
@@ -125,5 +146,15 @@ class Mage_Api2_Model_Acl_Global_Role extends Mage_Core_Model_Abstract
     public function isGuestRole()
     {
         return $this->getId() == self::ROLE_GUEST_ID;
+    }
+
+    /**
+     * Check if role is "customer" special role
+     *
+     * @return bool
+     */
+    public function isCustomerRole()
+    {
+        return $this->getId() == self::ROLE_CUSTOMER_ID;
     }
 }

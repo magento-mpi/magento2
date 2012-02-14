@@ -104,6 +104,7 @@ class Mage_Api2_Model_Acl_Filter_Attribute_ResourcePermission
                             }
                         }
                     } catch (Exception $e) {
+                        // getModel() throws exception when application is in development mode
                         Mage::logException($e);
                     }
                 }
