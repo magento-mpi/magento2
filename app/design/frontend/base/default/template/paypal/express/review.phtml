@@ -41,7 +41,7 @@ $shippingAddress = $this->getShippingAddress();
 <div class="paypal-review-order">
     <form method="post" id="order_review_form" action="<?php echo $this->getPlaceOrderUrl() ?>">
     <div class="info-set col2-set">
-        <div class="col-1">
+        <div class="col-1" id="billing-address">
             <h2 class="legend"><?php echo $this->__('Billing Address') ?></h2>
             <?php if ($shippingAddress): ?>
                 <?php echo $billingBlock->setShowAsShippingCheckbox(true)->toHtml(); ?>
@@ -50,7 +50,7 @@ $shippingAddress = $this->getShippingAddress();
             <?php endif; ?>
         </div>
     <?php if ($shippingAddress): ?>
-        <div class="col-2">
+        <div class="col-2" id="shipping-address">
             <h2 class="legend"><?php echo $this->__('Shipping Address') ?></h2>
             <?php echo $this->getChild('shipping')->setFieldNamePrefix('shipping')->toHtml(); ?>
         </div>
@@ -63,31 +63,7 @@ $shippingAddress = $this->getShippingAddress();
                     <h3><?php echo $this->__('Shipping Method') ?></h3>
                 </div>
                 <div class="box-content">
-                <?php if ($this->getCanEditShippingMethod() || !$this->getCurrentShippingRate()):?>
-                    <?php if ($groups = $this->getShippingRateGroups()):?>
-                        <?php $currentRate = $this->getCurrentShippingRate(); ?>
-                            <fieldset>
-                                <select name="shipping_method" id="shipping_method" style="width:250px;" class="required-entry">
-                                <?php if (!$currentRate):?>
-                                    <option value=""><?php echo $this->__('Please select a shipping method...') ?></option>
-                                <?php endif;?>
-                                <?php foreach ($groups as $code => $rates):?>
-                                    <optgroup label="<?php echo $this->getCarrierName($code) ?>" style="font-style:normal;">
-                                    <?php foreach ($rates as $rate):?>
-                                        <option value="<?php echo $this->renderShippingRateValue($rate)?>"<?php echo ($currentRate === $rate) ? ' selected="selected"' : '' ;?>>
-                                            <?php echo $this->renderShippingRateOption($rate)?>
-                                        </option>
-                                    <?php endforeach;?>
-                                    </optgroup>
-                                <?php endforeach;?>
-                                </select>
-                            </fieldset>
-                    <?php else: ?>
-                        <p><strong><?php echo $this->__('Sorry, no quotes are available for this order at this time.') ?></strong></p>
-                    <?php endif;?>
-                <?php else: ?>
-                    <p><strong><?php echo $this->renderShippingRateOption($this->getCurrentShippingRate())?></strong></p>
-                <?php endif; ?>
+                    <?php echo $this->getChild('shipping_method')->toHtml(); ?>
                 </div>
             </div>
         </div>
@@ -164,9 +140,11 @@ if ($('update_shipping_method_submit')) {
     }
 <?php endif ?>
 PayPalExpressAjax = new OrderReviewController($('order_review_form'), $('review_button'),
-    $('shipping_method'), $('order_review_form'), 'details-reload'
+    'shipping_method', $('order_review_form'), 'details-reload'
 );
 PayPalExpressAjax.addPleaseWait($('review-please-wait'));
+PayPalExpressAjax.setShippingAddressContainer($('shipping-address'));
+PayPalExpressAjax.shippingMethodsUpdateUrl = '<?php echo $this->escapeHtml($this->getUpdateShippingMethodsUrl()) ?>';
 PayPalExpressAjax.setUpdateButton($('update_order'),'<?php echo $this->escapeHtml($this->getUpdateOrderSubmitUrl()) ?>','details-reload');
 if ($('billing:as_shipping')) {
     PayPalExpressAjax.setCopyElement($('billing:as_shipping'));

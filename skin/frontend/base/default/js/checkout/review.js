@@ -32,6 +32,9 @@ OrderReviewController.prototype = {
     _pleaseWait : false,
     _copyElement : false,
     onSubmitShippingSuccess : false,
+    shippingMethodsUpdateUrl : false,
+    _updateShippingMethods: false,
+    shippingMethodsContainer: false,
 
     /**
      * Add listeners to provided objects, if any
@@ -47,10 +50,18 @@ OrderReviewController.prototype = {
             return;
         }
         this.form = orderForm;
+        this._updateOrderSubmit(true);
+        Form.getElements(this.form).each(this._bindElementChange, this);
+
+        if (shippingSelect) {
+            this.shippingSelect = $(shippingSelect).id;
+            this.shippingMethodsContainer = $(this.shippingSelect).up(1);
+        }
         if (orderFormSubmit) {
             this.formSubmit = orderFormSubmit;
             Event.observe(orderFormSubmit, 'click', this._submitOrder.bind(this));
         }
+        this._updateOrderSubmit(true);
 
         this._updateOrderSubmit(false);
     },
@@ -108,6 +119,21 @@ OrderReviewController.prototype = {
     },
 
     /**
+     * Set observers to Shipping Address elements
+     * @param element Container of Shipping Address elements
+     */
+    setShippingAddressContainer: function(element)
+    {
+        Form.getElements(element).each(function(input) {
+            if (input.type.toLowerCase() == 'radio' || input.type.toLowerCase() == 'checkbox') {
+                Event.observe(input, 'click', this._onShippingChange.bindAsEventListener(this));
+            } else {
+                Event.observe(input, 'change', this._onShippingChange.bindAsEventListener(this));
+            }
+        }, this);
+    },
+
+    /**
      * Copy data from shipping address to billing
      */
     _copyShippingToBilling : function ()
@@ -131,6 +157,7 @@ OrderReviewController.prototype = {
             $$('[id^="billing:"]').invoke('removeClassName', 'local-validation');
             $$('[id^="billing:"]').invoke('setStyle', {opacity:1});
         }
+        this._updateOrderSubmit(true);
     },
 
     /**
@@ -155,17 +182,43 @@ OrderReviewController.prototype = {
             new Ajax.Updater(resultId, url, {
                 parameters: formData,
                 onComplete: function() {
-                    if (this._pleaseWait) {
+                    if (this._pleaseWait && !this._updateShippingMethods) {
                         this._pleaseWait.hide();
                     }
                 }.bind(this),
-                onSuccess: this._onSubmitShippingSuccess.bind(this),
+                onSuccess: this._updateShippingMethodsElement.bind(this),
                 evalScripts: true
             });
         } else {
             if (this._copyElement && this._copyElement.checked) {
                 this._clearValidation('billing');
             }
+        }
+    },
+
+    /**
+     * Update Shipping Methods Element from server
+     */
+    _updateShippingMethodsElement : function (){
+        if (this._updateShippingMethods) {
+            new Ajax.Updater(this.shippingMethodsContainer, this.shippingMethodsUpdateUrl, {
+                onComplete: function() {
+                    if ($(this.shippingSelect)) {
+                        $(this.shippingSelect).enable();
+                        this._bindElementChange($(this.shippingSelect));
+                        $(this.shippingSelect + '_update').hide();
+                        $(this.shippingSelect).show();
+                    }
+                    this._updateShippingMethods = false;
+                    if (this._pleaseWait) {
+                        this._pleaseWait.hide();
+                    }
+                }.bind(this),
+                onSuccess: this._onSubmitShippingSuccess.bind(this),
+                evalScripts: false
+            });
+        } else {
+            this._onSubmitShippingSuccess();
         }
     },
 
@@ -185,6 +238,38 @@ OrderReviewController.prototype = {
     },
 
     /**
+     * Actions on change Shipping Address data
+     * @param event
+     */
+    _onShippingChange : function(event){
+        var element = Event.element(event);
+        if (element != $(this.shippingSelect) && !$(this.shippingSelect).disabled) {
+            $(this.shippingSelect).disable();
+            $(this.shippingSelect).hide();
+            if ($('advice-required-entry-' + this.shippingSelect)) {
+                $('advice-required-entry-' + this.shippingSelect).hide();
+            }
+            $(this.shippingSelect + '_update').show();
+            this._updateShippingMethods = true;
+        }
+    },
+
+    /**
+     * Bind onChange event listener to elements for update Submit Order button state
+     * @param input
+     */
+    _bindElementChange : function(input){
+        Event.observe(input, 'change', this._onElementChange.bindAsEventListener(this))
+    },
+
+    /**
+     * Disable Submit Order button
+     */
+    _onElementChange : function(){
+        this._updateOrderSubmit(true);
+    },
+
+    /**
      * Clear validation result for all form elements or for elements with id prefix
      * @param idprefix
      */
@@ -198,6 +283,8 @@ OrderReviewController.prototype = {
                     .removeClassName('validation-passed')
                     .removeClassName('validation-error');
             });
+        } else {
+            this.formValidator.reset();
         }
         $$('.validation-advice' + prefix).invoke('remove');
         $$('.validation-failed' + prefix).invoke('removeClassName', 'validation-failed');

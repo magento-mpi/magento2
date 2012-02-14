@@ -203,6 +203,7 @@ class Mage_Paypal_Block_Express_Review extends Mage_Core_Block_Template
         $methodInstance = $this->_quote->getPayment()->getMethodInstance();
         $this->setPaymentMethodTitle($methodInstance->getTitle());
         $this->setUpdateOrderSubmitUrl($this->getUrl("{$this->_paypalActionPrefix}/express/updateOrder"));
+        $this->setUpdateShippingMethodsUrl($this->getUrl("{$this->_paypalActionPrefix}/express/updateShippingMethods"));
 
         $this->setShippingRateRequired(true);
         if ($this->_quote->getIsVirtual()) {
