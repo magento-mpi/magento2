@@ -67,7 +67,7 @@ $qtyValidationClasses = 'required-entry validate-number validate-greater-than-ze
                     <tbody>
                         <tr class="order-row">
                             <td><input type="text" name="items[0<?php echo $uniqueSuffix; ?>][sku]" class="input-text" /></td>
-                            <td><input type="text" name="items[0<?php echo $uniqueSuffix; ?>][qty]" class="input-text" /></td>
+                            <td><input type="text" name="items[0<?php echo $uniqueSuffix; ?>][qty]" class="input-text" maxlength="13" /></td>
                             <td>&nbsp;</td>
                         </tr>
                     </tbody>
@@ -92,7 +92,7 @@ itemOptions["<?php echo $uniqueSuffix; ?>"] = {
     templateText:
         '<tr class="order-row">'
             + '<td><input type="text" name="items[{{id}}][sku]" class="input-text" /></td>'
-            + '<td><input type="text" name="items[{{id}}][qty]" class="input-text" /></td>'
+            + '<td><input type="text" name="items[{{id}}][qty]" class="input-text" maxlength="13" /></td>'
             + '<td class="v-middle"><span class="remove-row" title="<?php echo $this->__('Remove Row') ?>"></span></td>'
         + '</tr>',
     itemCount: 1,
@@ -123,15 +123,22 @@ itemOptions["<?php echo $uniqueSuffix; ?>"] = {
         }
     },
     bindValidationOnChange: function(id) {
-        $('<?php echo $skuFormId; ?>').select('[name="items[' + id + '][sku]"]')[0].onchange = this.validateRow;
-        $('<?php echo $skuFormId; ?>').select('[name="items[' + id + '][qty]"]')[0].onchange = this.validateRow;
+        Event.observe(
+            $('<?php echo $skuFormId; ?>').select('[name="items[' + id + '][sku]"]')[0],
+            'change',
+            this.validateRow
+        );
+        Event.observe(
+            $('<?php echo $skuFormId; ?>').select('[name="items[' + id + '][qty]"]')[0],
+            'change',
+            this.validateRow
+        );
     },
     validateRow: function() {
         var form = $('<?php echo $skuFormId; ?>'),
             skuInput = form.select('[name="' + this.name.replace('[qty]', '[sku]') + '"]')[0],
             qtyInput = form.select('[name="' + this.name.replace('[sku]', '[qty]') + '"]')[0];
 
-        Validation.reset(qtyInput);
         qtyInput.removeClassName('<?php echo $qtyValidationClasses; ?>');
 
         if (Validation.get('IsEmpty').test(skuInput.value)) {
@@ -139,7 +146,12 @@ itemOptions["<?php echo $uniqueSuffix; ?>"] = {
         }
 
         qtyInput.addClassName('<?php echo $qtyValidationClasses; ?>');
-        Validation.validate(qtyInput);
+        setTimeout(
+            function() {
+                Validation.validate(qtyInput);
+            },
+            200 // immediate validation animations break "Add New Row" functionality
+        );
     }
 }
 
@@ -149,20 +161,30 @@ document.observe('dom:loaded', function() {
         'click',
         itemOptions["<?php echo $uniqueSuffix; ?>"].add.bind(itemOptions["<?php echo $uniqueSuffix; ?>"])
     );
+    Event.observe(
+        $('<?php echo $skuFormId; ?>').select('[name="items[0<?php echo $uniqueSuffix; ?>][sku]"]')[0],
+        'change',
+        itemOptions["<?php echo $uniqueSuffix; ?>"].validateRow
+    );
+    Event.observe(
+        $('<?php echo $skuFormId; ?>').select('[name="items[0<?php echo $uniqueSuffix; ?>][qty]"]')[0],
+        'change',
+        itemOptions["<?php echo $uniqueSuffix; ?>"].validateRow
+    );
 
-    $('<?php echo $skuFormId; ?>').select('[name="items[0<?php echo $uniqueSuffix; ?>][sku]"]')[0].onchange
-        = itemOptions["<?php echo $uniqueSuffix; ?>"].validateRow;
-    $('<?php echo $skuFormId; ?>').select('[name="items[0<?php echo $uniqueSuffix; ?>][qty]"]')[0].onchange
-        = itemOptions["<?php echo $uniqueSuffix; ?>"].validateRow;
+    new VarienForm('<?php echo $skuFormId; ?>');
 
-    var skuForm = new VarienForm('<?php echo $skuFormId; ?>');
-    $('sku-submit-button<?php echo $uniqueSuffix; ?>').onclick = function(e) {
-        var skuForm = $('<?php echo $skuFormId; ?>');
-        if (typeof skuForm.sku_file != 'undefined' && $(skuForm.sku_file).present()) {
-            Event.stop(e);
-            skuForm.submit();
+    Event.observe(
+        'sku-submit-button<?php echo $uniqueSuffix; ?>',
+        'click',
+        function(e) {
+            var skuForm = $('<?php echo $skuFormId; ?>');
+            if (typeof skuForm.sku_file != 'undefined' && $(skuForm.sku_file).present()) {
+                Event.stop(e);
+                skuForm.submit();
+            }
         }
-    }
+    );
 });
 //]]>
 </script>
