@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Mage_Api2>
-            <version>1.0.0.4</version>
+            <version>1.0.0.5</version>
         </Mage_Api2>
     </modules>
     <global>
