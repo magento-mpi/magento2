@@ -43,6 +43,7 @@ class Core_Mage_CmsPolls_Helper extends Mage_Selenium_TestCase
     public function addAnswer(array $answersSet)
     {
         $answerId = 1;
+        $this->openTab('poll_answers');
         foreach ($answersSet as $value) {
             $this->clickButton('add_new_answer', false);
             $this->addParameter('answerId', '-' . $answerId++);
