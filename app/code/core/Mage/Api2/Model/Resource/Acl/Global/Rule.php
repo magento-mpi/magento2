@@ -42,25 +42,4 @@ class Mage_Api2_Model_Resource_Acl_Global_Rule extends Mage_Core_Model_Resource_
     {
         $this->_init('api2/acl_rule', 'entity_id');
     }
-
-    /**
-     * Get allowed attributes
-     *
-     * @param int $roleId
-     * @param int $resourceId
-     * @param int $privilege
-     * @return string|bool
-     */
-    public function getAllowedAttributes($roleId, $resourceId, $privilege)
-    {
-        $read = $this->_getReadAdapter();
-
-        $select = $read->select()
-            ->from($this->getMainTable(), 'allowed_attributes')
-            ->where('role_id = ?', $roleId, Zend_Db::INT_TYPE)
-            ->where('resource_id = ?', $resourceId, Zend_Db::INT_TYPE)
-            ->where('privilege = ?', $privilege);
-
-        return $read->fetchOne($select);
-    }
 }

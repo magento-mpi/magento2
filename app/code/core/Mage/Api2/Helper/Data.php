@@ -147,17 +147,18 @@ class Mage_Api2_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Get allowed attributes of a rule
      *
-     * @param int $roleId
-     * @param int $resourceId
-     * @param int $privilege
+     * @param string $userType
+     * @param string $resourceId
+     * @param string $operation One of Mage_Api2_Model_Resource::OPERATION_ATTRIBUTE_... constant
      * @return array
      */
-    public function getAllowedAttributes($roleId, $resourceId, $privilege)
+    public function getAllowedAttributes($userType, $resourceId, $operation)
     {
-        /** @var $rule Mage_Api2_Model_Acl_Global_Rule */
-        $rule = Mage::getModel('api2/acl_global_rule');
+        /** @var $collection Mage_Api2_Model_Resource_Acl_Filter_Attribute_Collection */
+        $collection = Mage::getResourceModel('api2/acl_filter_attribute_collection');
 
-        $attributes = $rule->getAllowedAttributes($roleId, $resourceId, $privilege);
+        $attributes = $collection->getAllowedAttributes($userType, $resourceId, $operation);
+
         return (false === $attributes ? array() : explode(',', $attributes));
     }
 }
