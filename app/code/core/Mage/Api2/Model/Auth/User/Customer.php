@@ -39,13 +39,6 @@ class Mage_Api2_Model_Auth_User_Customer extends Mage_Api2_Model_Auth_User_Abstr
     const USER_TYPE = 'customer';
 
     /**
-     * User Role
-     *
-     * @var int
-     */
-    protected $_role;
-
-    /**
      * Retrieve user human-readable label
      *
      * @return string

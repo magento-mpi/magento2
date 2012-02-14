@@ -39,13 +39,6 @@ class Mage_Api2_Model_Auth_User_Guest extends Mage_Api2_Model_Auth_User_Abstract
     const USER_TYPE = 'guest';
 
     /**
-     * User Role
-     *
-     * @var int
-     */
-    protected $_role;
-
-    /**
      * Retrieve user human-readable label
      *
      * @return string
