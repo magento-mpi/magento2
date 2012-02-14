@@ -101,6 +101,7 @@ class Mage_Page_Block_Template_Links extends Mage_Core_Block_Template
     {
         $block = $this->getLayout()->getBlock($blockName);
         $this->_links[$this->_getNewPosition((int)$block->getPosition())] = $block;
+        ksort($this->_links);
         return $this;
     }
 

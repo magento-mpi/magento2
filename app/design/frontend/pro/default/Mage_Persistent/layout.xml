@@ -10,10 +10,6 @@
  */
 -->
 <layout version="0.1.0">
-    <customer_logged_out_psc_handle>
-        <block type="Mage_Persistent_Block_Header_Additional" name="header.additional" />
-    </customer_logged_out_psc_handle>
-
     <customer_account_login>
         <reference name="customer_form_login">
             <action method="setTemplate"><template>Mage_Persistent::customer/form/login.phtml</template></action>

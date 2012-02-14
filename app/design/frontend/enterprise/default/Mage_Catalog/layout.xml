@@ -270,7 +270,7 @@ Product view
 <!--
 Additional block dependant on product type
 -->
-    <PRODUCT_TYPE_simple translate="label" module="Mage_Catalog" type="page" parent="catalog_product_view">
+    <catalog_product_view_type_simple translate="label" module="Mage_Catalog" type="page" parent="catalog_product_view">
         <label>Catalog Product View (Simple)</label>
         <reference name="product.info">
             <block type="Mage_Catalog_Block_Product_View_Type_Simple" name="product.info.simple" as="product_type_data" template="product/view/type/default.phtml">
@@ -279,8 +279,8 @@ Additional block dependant on product type
                 </block>
             </block>
         </reference>
-    </PRODUCT_TYPE_simple>
-    <PRODUCT_TYPE_configurable translate="label" module="Mage_Catalog" type="page" parent="catalog_product_view">
+    </catalog_product_view_type_simple>
+    <catalog_product_view_type_configurable translate="label" module="Mage_Catalog" type="page" parent="catalog_product_view">
         <label>Catalog Product View (Configurable)</label>
         <reference name="product.info">
             <block type="Mage_Catalog_Block_Product_View_Type_Configurable" name="product.info.configurable" as="product_type_data" template="product/view/type/default.phtml">
@@ -292,8 +292,8 @@ Additional block dependant on product type
         <reference name="product.info.options.wrapper">
             <block type="Mage_Catalog_Block_Product_View_Type_Configurable" name="product.info.options.configurable" as="options_configurable" before="-" template="product/view/type/options/configurable.phtml"/>
         </reference>
-    </PRODUCT_TYPE_configurable>
-    <PRODUCT_TYPE_grouped translate="label" module="Mage_Catalog" type="page" parent="catalog_product_view">
+    </catalog_product_view_type_configurable>
+    <catalog_product_view_type_grouped translate="label" module="Mage_Catalog" type="page" parent="catalog_product_view">
         <label>Catalog Product View (Grouped)</label>
         <reference name="product.info">
             <block type="Mage_Catalog_Block_Product_View_Type_Grouped" name="product.info.grouped" as="product_type_data" template="product/view/type/grouped.phtml">
@@ -302,8 +302,8 @@ Additional block dependant on product type
                 </block>
             </block>
         </reference>
-    </PRODUCT_TYPE_grouped>
-    <PRODUCT_TYPE_virtual translate="label" module="Mage_Catalog" type="page" parent="catalog_product_view">
+    </catalog_product_view_type_grouped>
+    <catalog_product_view_type_virtual translate="label" module="Mage_Catalog" type="page" parent="catalog_product_view">
         <label>Catalog Product View (Virtual)</label>
         <reference name="product.info">
             <block type="Mage_Catalog_Block_Product_View_Type_Virtual" name="product.info.virtual" as="product_type_data" template="product/view/type/default.phtml">
@@ -312,7 +312,7 @@ Additional block dependant on product type
                 </block>
             </block>
         </reference>
-    </PRODUCT_TYPE_virtual>
+    </catalog_product_view_type_virtual>
 
 <!--
 Product additional images gallery popup
