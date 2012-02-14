@@ -107,7 +107,7 @@ class Core_Mage_AdminUser_DeleteTest extends Mage_Selenium_TestCase
         $this->navigate('manage_admin_users');
         $this->addParameter('user_first_last_name',
                 $searchDataCurrentUser['first_name'] . ' ' . $searchDataCurrentUser['last_name']);
-        $this->assertTrue($this->searchAndOpen($searchDataCurrentUser), 'Admin User is not found');
+        $this->searchAndOpen($searchDataCurrentUser);
         //Verifying
         $this->clickButtonAndConfirm('delete_user', 'confirmation_for_delete');
         //Verifying

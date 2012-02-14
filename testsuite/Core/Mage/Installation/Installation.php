@@ -58,7 +58,7 @@ class Core_Mage_Installation extends Mage_Selenium_TestCase
     public function installTest()
     {
         $this->setArea('frontend');
-        $this->open($this->_applicationHelper->getBaseUrl());
+        $this->open($this->_configHelper->getBaseUrl());
 
         // 'License Agreement' page
         $this->assertTrue($this->checkCurrentPage('license_agreement'), $this->getParsedMessages());

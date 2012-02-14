@@ -134,6 +134,6 @@ class Core_Mage_AttributeSet_Helper extends Mage_Selenium_TestCase
         if ($this->getCurrentPage() !== 'manage_attribute_sets') {
             $this->navigate('manage_attribute_sets');
         }
-        $this->assertTrue($this->searchAndOpen($searchData), "Attribute Set with name '$setName' is not found");
+        $this->searchAndOpen($searchData);
     }
 }

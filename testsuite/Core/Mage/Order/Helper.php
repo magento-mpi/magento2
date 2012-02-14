@@ -495,7 +495,7 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
             if (is_string($customerData)) {
                 $customerData = $this->loadData($customerData);
             }
-            $this->assertTrue($this->searchAndOpen($customerData, false, 'order_customer_grid'),"Customer isn't found");
+            $this->searchAndOpen($customerData, false, 'order_customer_grid');
         }
 
         $storeSelectorXpath = $this->_getControlXpath('fieldset', 'order_store_selector');
@@ -720,7 +720,7 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
     {
         $this->setArea('frontend');
         $fileUrl = preg_replace('|/index.php/?|', '/',
-                   $this->_applicationHelper->getBaseUrl()) . '3DSecureLogVerification.php';
+                   $this->_configHelper->getBaseUrl()) . '3DSecureLogVerification.php';
         $logFileName = 'card_validation_3d_secure.log';
         $result = $this->compareArraysFromLog($fileUrl, $logFileName, $verificationData['response']);
         if(is_array($result))

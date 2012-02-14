@@ -133,7 +133,7 @@ class Core_Mage_Customer_Helper extends Mage_Selenium_TestCase
      */
     public function openCustomer(array $searchData)
     {
-        $this->assertTrue($this->searchAndOpen($searchData, true, 'customers_grid'), 'Customer is not found');
+        $this->searchAndOpen($searchData, true, 'customers_grid');
     }
 
     /**

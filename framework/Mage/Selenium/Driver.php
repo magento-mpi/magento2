@@ -38,21 +38,35 @@ class Mage_Selenium_Driver extends PHPUnit_Extensions_SeleniumTestCase_Driver
 {
     /**
      * If the flag is set to True, browser connection is not restarted after each test
-     * @var boolean
+     * @var bool
      */
     protected $_contiguousSession = false;
 
     /**
      * Handle to log file
-     * @var Resource
+     * @var null|resource
      */
     protected $_logHandle = null;
 
     /**
-     * Current browser name
+     * @var array
+     */
+    private static $_currentBrowser = array();
+
+    /**
      * @var string
      */
-    protected $_browser = null;
+    private static $_currentSessionId;
+
+    /**
+     * @var bool
+     */
+    private static $_currentContiguousSession;
+
+    /**
+     * @var bool
+     */
+    private static $_currentTestClassName;
 
     /**
      * Basic constructor of Selenium RC driver
@@ -61,15 +75,53 @@ class Mage_Selenium_Driver extends PHPUnit_Extensions_SeleniumTestCase_Driver
     public function __construct()
     {
         parent::__construct();
+        $this->_logHandle = fopen(SELENIUM_TESTS_LOGS . DIRECTORY_SEPARATOR
+                                      . 'selenium-rc-' . date('d-m-Y-H-i-s') . '.log',
+                                  'a+');
+    }
 
-        $this->_logHandle = fopen('var' . DIRECTORY_SEPARATOR . 'logs' . DIRECTORY_SEPARATOR
-                                      . 'selenium-rc-' . date('d-m-Y-H-i-s') . '.log', 'a+');
+    /**
+     * Sends a command to the Selenium RC server.
+     * Extension: transaction logging to opened file stream in view: TIME,REQUEST,RESPONSE or TIME,EXCEPTION
+     *
+     * @param string $command Command for send to Selenium RC server
+     * @param array $arguments Array of arguments to command
+     *
+     * @return string
+     * @throws RuntimeException
+     */
+    protected function doCommand($command, array $arguments = array())
+    {
+        try {
+            $response = parent::doCommand($command, $arguments);
+            //Fixed bug for PHPUnit_Selenium 1.2.0(1)
+            if (!preg_match('/^OK/', $response)) {
+                throw new RuntimeException($response);
+            }
+            // Add command logging
+            if (!empty($this->_logHandle)) {
+                fputs($this->_logHandle, self::udate('H:i:s.u') . "\n");
+                fputs($this->_logHandle, "\tRequest: " . $command . "\n");
+                fputs($this->_logHandle, "\tResponse: " . $response . "\n\n");
+                fflush($this->_logHandle);
+            }
+            return $response;
+        } catch (RuntimeException $e) {
+            if (!empty($this->_logHandle)) {
+                fputs($this->_logHandle, self::udate('H:i:s.u') . "\n");
+                fputs($this->_logHandle, "\tRequest: " . $command . "\n");
+                fputs($this->_logHandle, "\tException: " . $e->getMessage() . "\n\n");
+                fflush($this->_logHandle);
+            }
+            throw $e;
+        }
     }
 
     /**
      * Sets the flag to restart browser connection or not after each test
      *
-     * @param boolean $flag Flag to restart browser after each test or not (TRUE - do not restart, FALSE - restart)
+     * @param bool $flag Flag to restart browser after each test or not (TRUE - do restart, FALSE - do not restart)
+     *
      * @return Mage_Selenium_Driver
      */
     public function setContiguousSession($flag)
@@ -79,90 +131,104 @@ class Mage_Selenium_Driver extends PHPUnit_Extensions_SeleniumTestCase_Driver
     }
 
     /**
-     * Starts browser connection
-     * @return string
+     * Gets the flag to restart browser connection or not after each test
+     * @return bool
      */
-    public function start()
+    public function getContiguousSession()
     {
-        return parent::start();
+        return $this->_contiguousSession;
+    }
+
+    /**
+     * Get browser settings
+     * @return array
+     */
+    public function getBrowserSettings()
+    {
+        return array(
+            'name'           => $this->name,
+            'browser'        => $this->browser,
+            'host'           => $this->host,
+            'port'           => $this->port,
+            'timeout'        => $this->seleniumTimeout,
+            'restartBrowser' => $this->_contiguousSession,
+        );
+    }
+
+    /**
+     * @param string $testClassName
+     *
+     * @return bool
+     */
+    public function driverSetUp($testClassName)
+    {
+        $isFirst = false;
+
+        if (self::$_currentTestClassName == null) {
+            self::$_currentTestClassName = $testClassName;
+        }
+        if (self::$_currentBrowser == null) {
+            self::$_currentBrowser = $this->getBrowserSettings();
+        }
+        if (self::$_currentContiguousSession === null) {
+            $config = $this->getBrowserSettings();
+            self::$_currentContiguousSession = $config['restartBrowser'];
+        }
+        if (array_diff($this->getBrowserSettings(), self::$_currentBrowser)) {
+            self::$_currentBrowser = $this->getBrowserSettings();
+            $this->setSessionId(self::$_currentSessionId);
+            if (self::$_currentContiguousSession === false) {
+                $this->setContiguousSession(true);
+                $this->stop();
+                $this->setContiguousSession(false);
+                self::$_currentContiguousSession = null;
+            }
+        }
+        if (self::$_currentContiguousSession === true && self::$_currentSessionId !== null) {
+            $this->setSessionId(self::$_currentSessionId);
+            $this->stop();
+        }
+        if (self::$_currentSessionId === null) {
+            $this->start();
+        } else {
+            $this->setSessionId(self::$_currentSessionId);
+        }
+        $currentSession = $this->getSessionId();
+        if (($currentSession != self::$_currentSessionId)) {
+            self::$_currentSessionId = $currentSession;
+            $isFirst = true;
+        }
+        if (self::$_currentTestClassName != $testClassName) {
+            self::$_currentTestClassName = $testClassName;
+            $isFirst = true;
+        }
+        return $isFirst;
     }
 
     /**
      * Stops browser connection if the session is not marked as contiguous
+     * @return mixed
      */
     public function stop()
     {
-        if ($this->_contiguousSession) {
+        if (!$this->_contiguousSession) {
             return;
         }
+        self::$_currentSessionId = null;
+        self::$_currentBrowser = null;
+        self::$_currentContiguousSession = null;
+        self::$_currentTestClassName = null;
         parent::stop();
-    }
-
-    /**
-     * Sends a command to the Selenium RC server.
-     * Extension: transaction logging to opened file stream in view: TIME,REQUEST,RESPONSE or TIME,EXCEPTION
-     *
-     * @param  string $command Command for send to Selenium RC server
-     * @param  array $arguments Array of arguments to command
-     *
-     * @throws PHPUnit_Framework_Exception
-     *
-     * @return string
-     */
-    protected function doCommand($command, array $arguments = array())
-    {
-        // Add command logging
-        try {
-            $response = parent::doCommand($command, $arguments);
-            //Fixed bug for new PHPUnit_Selenium 1.2
-            if (!preg_match('/^OK/', $response)) {
-                $this->stop();
-                throw new PHPUnit_Framework_Exception(
-                    sprintf("Response from Selenium RC server for %s.\n%s.\n", $command, $response));
-            }
-            if (!empty($this->_logHandle)) {
-                fputs($this->_logHandle, self::udate('H:i:s.u') . "\n");
-                fputs($this->_logHandle, "\tRequest: " . $command . "\n");
-                fputs($this->_logHandle, "\tResponse: " . $response . "\n\n");
-                fflush($this->_logHandle);
-            }
-        } catch (PHPUnit_Framework_Exception $e) {
-            if (!empty($this->_logHandle)) {
-                fputs($this->_logHandle, self::udate('H:i:s.u') . "\n");
-                fputs($this->_logHandle, "\tException: " . $e->getMessage() . "\n");
-                fflush($this->_logHandle);
-            }
-            throw $e;
-        }
-
-        return $response;
-    }
-
-    /**
-     * Saves browser name to be accessible from driver
-     *
-     * @param string
-     */
-    public function setBrowser($browser)
-    {
-        $this->_browser = $browser;
-        parent::setBrowser($browser);
-    }
-
-    /**
-     * Return browser name
-     * @return string
-     */
-    public function getBrowser()
-    {
-        return $this->_browser;
     }
 
     /**
      * Performs to return time to logging (e.g. 15:18:43.244768)
      *
-     * @param  string $format A composite format string
-     * @param  mixed  $uTimeStamp Timestamp (by default = null)
+     * @static
+     *
+     * @param string $format A composite format string
+     * @param mixed $uTimeStamp Timestamp (by default = null)
+     *
      * @return string A formatted date string.
      */
     public static function udate($format, $uTimeStamp = null)
@@ -176,4 +242,13 @@ class Mage_Selenium_Driver extends PHPUnit_Extensions_SeleniumTestCase_Driver
 
         return date(preg_replace('`(?<!\\\\)u`', $milliseconds, $format), $timestamp);
     }
+
+    /**
+     * @return string
+     */
+    public static function getCurrentBrowser()
+    {
+        return self::$_currentBrowser['browser'];
+    }
+
 }

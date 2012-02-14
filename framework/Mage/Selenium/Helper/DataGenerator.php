@@ -54,25 +54,29 @@ class Mage_Selenium_Helper_DataGenerator extends Mage_Selenium_Helper_Abstract
      * @var string
      */
     protected $_emailDomain = 'example.com';
+
+    /**
+     * Email domain zone used for auto generated values
+     * @var string
+     */
     protected $_emailDomainZone = 'com';
 
     /**
      * Paragraph delimiter used for text generation
      * @var string
      */
-    protected $_paraDelim = "\n";
+    protected $_paragraphDelimiter = "\n";
 
     /**
      * Generates some random value
      *
      * @param string $type Available types are 'string', 'text', 'email'
      * @param int $length Generated value length
-     * @param string|array|null $modifier Value modifier, e.g. PCRE class
-     * @param string|null $prefix Prefix to prepend the generated value
+     * @param null|string|array $modifier Value modifier, e.g. PCRE class
+     * @param null|string $prefix Prefix to prepend the generated value
      *
+     * @return string
      * @throws Mage_Selenium_Exception
-     *
-     * @return mixed
      */
     public function generate($type = 'string', $length = 100, $modifier = null, $prefix = null)
     {
@@ -98,7 +102,7 @@ class Mage_Selenium_Helper_DataGenerator extends Mage_Selenium_Helper_Abstract
      * Generates email address
      *
      * @param int $length Generated string length (number of characters)
-     * @param string $validity  Defines if the generated string should be a valid email address possible values of
+     * @param string $validity Defines if the generated string should be a valid email address possible values of
      * this parameter are 'valid' and 'invalid', any other value doesn't define validity of the generated address
      * @param string $prefix Prefix to prepend the generated value
      *
@@ -127,11 +131,11 @@ class Mage_Selenium_Helper_DataGenerator extends Mage_Selenium_Helper_Abstract
                 $email .= $this->generateRandomString($mainLength);
                 break;
             case 'invalid':
-                mt_srand((double) microtime() * 100000);
+                mt_srand((double)microtime() * 100000);
                 switch (mt_rand(0, 3)) {
                     case 0:
                         $email .= $this->generateRandomString(ceil($mainLength / 2))
-                                . $this->generateRandomString(floor($mainLength / 2), 'invalid-email');
+                            . $this->generateRandomString(floor($mainLength / 2), 'invalid-email');
                         break;
                     case 1:
                         $email .= $this->generateRandomString($mainLength - 1, ':alnum:', '.');
@@ -139,28 +143,22 @@ class Mage_Selenium_Helper_DataGenerator extends Mage_Selenium_Helper_Abstract
                     case 2:
                         $ml = $mainLength - 2;
                         $email .= $this->generateRandomString(ceil($ml / 2))
-                                . '..'
-                                . $this->generateRandomString(floor($ml / 2));
+                            . '..' . $this->generateRandomString(floor($ml / 2));
                         break;
                     case 3:
                         $ml = $mainLength - 1;
                         $email .= $this->generateRandomString(ceil($ml / 2))
-                                . '@'
-                                . $this->generateRandomString(floor($ml / 2));
+                            . '@' . $this->generateRandomString(floor($ml / 2));
                         break;
                 }
                 break;
             default:
-                $email .= $this->generateRandomString($mainLength, array(':alnum:',
-                    'invalid-email'));
+                $email .= $this->generateRandomString($mainLength, array(':alnum:', 'invalid-email'));
                 break;
         }
 
         if (!empty($email)) {
-            $email .= '@'
-                    . $this->generateRandomString($domainPartLength)
-                    . '.'
-                    . $this->_emailDomainZone;
+            $email .= '@' . $this->generateRandomString($domainPartLength) . '.' . $this->_emailDomainZone;
         }
 
         return $email;
@@ -239,7 +237,7 @@ class Mage_Selenium_Helper_DataGenerator extends Mage_Selenium_Helper_Abstract
         $textArr = array();
 
         //Reserve place for paragraph delimiters
-        $length -= ($paraCount - 1) * strlen($this->_paraDelim);
+        $length -= ($paraCount - 1) * strlen($this->_paragraphDelimiter);
         $paraLength = floor($length / $paraCount);
 
         for ($i = 0; $i < $paraCount; $i++) {
@@ -252,6 +250,6 @@ class Mage_Selenium_Helper_DataGenerator extends Mage_Selenium_Helper_Abstract
             $textArr[$paraCount - 1] .= $this->generateRandomString($missed, $class);
         }
 
-        return $prefix . implode($this->_paraDelim, $textArr);
+        return $prefix . implode($this->_paragraphDelimiter, $textArr);
     }
 }

@@ -36,47 +36,33 @@
 class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
 {
     /**
+     * Array of files paths to fixtures
+     * @var array
+     */
+    protected $_configFixtures = array();
+
+    /**
+     * Fixture downloading order
+     * @var array
+     */
+    protected $_fallbackOrderFixture = array();
+
+    /**
      * Uimap data
      * @var array
      */
     protected $_uimapData = array();
 
     /**
-     * @var array
-     */
-    protected $_projectsSequence = array();
-
-    /**
-     * @var array
-     */
-    protected $_fixturePath = array();
-
-    /**
-     *  Base path to fixtures
-     */
-    const FIXTURE_BASEPATH = 'default/fixture_base_path';
-
-    /**
-     * Id for uimapData in cash
-     */
-    const CACHE_ID_DATA = 'UIMAP_DATA';
-
-    /**
-     * Tag for UimapData in cash
-     */
-    const CACHE_TAG = 'UIMAP';
-
-    /**
      * Initialize process
-     * @return Mage_Selenium_Helper_Uimap
      */
     protected function _init()
     {
-        parent::_init();
-
         $this->_initFixturePath();
-        $this->_loadUimapData();
-        return $this;
+        $config = $this->getConfig()->getHelper('config')->getConfigFramework();
+        if ($config['load_all_fixtures']) {
+            $this->_loadUimapData();
+        }
     }
 
     /**
@@ -84,14 +70,14 @@ class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
      */
     protected function _initFixturePath()
     {
-        $applicationConfig = $this->getConfig()->getApplicationHelper()->getApplicationConfig();
+        $configHelper = $this->getConfig()->getHelper('config');
+        $applicationConfig = $configHelper->getApplicationConfig();
+        $frameworkConfig = $configHelper->getConfigFramework();
         //get projects sequence
-        $this->_projectsSequence = array_reverse(array_map('trim',
-                                                           explode(',', $applicationConfig['fallbackOrder'])));
-        //get initial path to files
-        $initialPath = SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR
-            . $this->getConfig()->getConfigValue(self::FIXTURE_BASEPATH);
-        foreach ($this->_projectsSequence as $codePoolName) {
+        $this->_fallbackOrderFixture = array_reverse(array_map('trim', explode(',',
+                                                                               $applicationConfig['fallbackOrderFixture'])));
+        $initialPath = SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . $frameworkConfig['fixture_base_path'];
+        foreach ($this->_fallbackOrderFixture as $codePoolName) {
             $projectPath = $initialPath . DIRECTORY_SEPARATOR . $codePoolName;
             if (!is_dir($projectPath)) {
                 continue;
@@ -101,41 +87,106 @@ class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
     }
 
     /**
+     * Get path to files in directory
+     *
+     * @param array $pathData
+     * @param string $path
+     * @param string $project
+     *
+     * @return mixed
+     */
+    protected function _getFilesPath($pathData, $path = '', $project)
+    {
+        $currentPath = preg_replace('|' . preg_quote(DIRECTORY_SEPARATOR) . '(\w)+$' . '|', '', $path);
+        $separator = preg_quote(DIRECTORY_SEPARATOR);
+        foreach ($pathData as $key => $value) {
+            if (is_array($value)) {
+                $path .= DIRECTORY_SEPARATOR . $key;
+                $path = $this->_getFilesPath($value, $path, $project);
+            } else {
+                $path = preg_replace('|' . preg_quote(DIRECTORY_SEPARATOR) . '(\w)+\.yml$|', '', $path);
+                $path .= DIRECTORY_SEPARATOR . $value;
+                if (preg_match('|' . $separator . 'data' . $separator . '|', $path)) {
+                    $this->_configFixtures[$project]['data'][] = $path;
+                }
+                if (preg_match('|' . $separator . 'uimap' . $separator . '|', $path)) {
+                    $this->_configFixtures[$project]['uimap'][] = $path;
+                }
+            }
+
+        }
+        return $currentPath;
+    }
+
+    /**
+     * Get all folder and file names in directory
+     *
+     * @param string $path
+     *
+     * @return array
+     */
+    protected function _scanDirectory($path)
+    {
+        $directories = array();
+        $folderIndicator = opendir($path);
+        while ($value = readdir($folderIndicator))
+        {
+            if ($value == '.' or $value == '..') {
+                continue;
+            }
+            if (!is_dir($path . DIRECTORY_SEPARATOR . $value)) {
+                $directories[] = $value;
+            }
+            if (is_dir($path . DIRECTORY_SEPARATOR . $value)) {
+                $directories[$value] = $this->_scanDirectory($path . DIRECTORY_SEPARATOR . $value);
+            }
+        }
+
+        return $directories;
+    }
+
+    /**
+     * Get fixture paths
+     * @return array
+     */
+    public function getConfigFixtures()
+    {
+        return $this->_configFixtures;
+    }
+
+    /**
      * Load and merge data files
-     * @return Mage_Selenium_TestConfiguration
+     * @return Mage_Selenium_Helper_Uimap
      */
     protected function _loadUimapData()
     {
-        $cache = $this->getConfig()->getCacheHelper()->getCache();
+        if ($this->_uimapData) {
+            return $this;
+        }
 
-        // try to load from cache
-        $this->_uimapData = $cache->load(self::CACHE_ID_DATA);
-        if (!$this->_uimapData) {
-            $areasConfig = $this->getConfig()->getApplicationHelper()->getAreasConfig();
-            $initialPath = SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR
-                . $this->getConfig()->getConfigValue(self::FIXTURE_BASEPATH);
-            $separator = preg_quote(DIRECTORY_SEPARATOR);
+        $configHelper = $this->getConfig()->getHelper('config');
+        $configAreas = $configHelper->getConfigAreas();
+        $frameworkConfig = $configHelper->getConfigFramework();
 
-            foreach ($this->_fixturePath as $codePoolName => $codePoolData) {
-                $projectPath = $initialPath . DIRECTORY_SEPARATOR . $codePoolName;
-                foreach ($areasConfig as $areaKey => $areaConfig) {
-                    $pages = array();
-                    foreach ($codePoolData['uimap'] as $file) {
-                        $pattern = implode($separator, array('', 'uimap', $areaKey, ''));
-                        if (preg_match('|' . $pattern . '|', $file)) {
-                            $pages = array_merge($this->getConfig()->getFileHelper()->loadYamlFiles($projectPath . $file),
-                                                 $pages);
-                        }
-                    }
-                    foreach ($pages as $pageKey => $content) {
-                        if ($content) {
-                            $this->_uimapData[$areaKey][$pageKey] = new Mage_Selenium_Uimap_Page($pageKey, $content);
-                        }
+        $initialPath = SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . $frameworkConfig['fixture_base_path'];
+        $separator = preg_quote(DIRECTORY_SEPARATOR);
+
+        foreach ($this->_configFixtures as $codePoolName => $codePoolData) {
+            $projectPath = $initialPath . DIRECTORY_SEPARATOR . $codePoolName;
+            foreach ($configAreas as $areaKey => $areaConfig) {
+                $pages = array();
+                foreach ($codePoolData['uimap'] as $file) {
+                    $pattern = implode($separator, array('', 'uimap', $areaKey, ''));
+                    if (preg_match('|' . $pattern . '|', $file)) {
+                        $pages = array_merge($this->getConfig()->getHelper('file')->loadYamlFile($projectPath . $file),
+                                             $pages);
                     }
                 }
-            }
-            if ($this->_uimapData) {
-                $cache->save($this->_uimapData, self::CACHE_ID_DATA, array(self::CACHE_TAG));
+                foreach ($pages as $pageKey => $content) {
+                    if ($content) {
+                        $this->_uimapData[$areaKey][$pageKey] = new Mage_Selenium_Uimap_Page($pageKey, $content);
+                    }
+                }
             }
         }
         return $this;
@@ -144,15 +195,15 @@ class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
     /**
      * Retrieve array with UIMap data
      *
-     * @param string $area Application area ('frontend'|'admin')
+     * @param string $area Application area
      *
+     * @return mixed
      * @throws OutOfRangeException
-     * @return array
      */
-    public function getUimap($area)
+    public function getAreaUimaps($area)
     {
         if (!array_key_exists($area, $this->_uimapData)) {
-            throw new OutOfRangeException();
+            throw new OutOfRangeException('UIMaps for "' . $area . '" area do not exist');
         }
 
         return $this->_uimapData[$area];
@@ -161,16 +212,21 @@ class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
     /**
      * Retrieve Page from UIMap data configuration by path
      *
-     * @param string $area Application area ('frontend'|'admin')
+     * @param string $area Application area
      * @param string $pageKey UIMap page key
-     * @param Mage_Selenium_Helper_Params $paramsDecorator Params decorator instance
+     * @param null|Mage_Selenium_Helper_Params $paramsDecorator Params decorator instance
      *
-     * @return Mage_Selenium_Uimap_Page|null
+     * @return mixed
+     * @throws OutOfRangeException
      */
     public function getUimapPage($area, $pageKey, $paramsDecorator = null)
     {
-        $page = isset($this->_uimapData[$area][$pageKey]) ? $this->_uimapData[$area][$pageKey] : null;
-        if ($page && $paramsDecorator) {
+        $areaUimaps = $this->getAreaUimaps($area);
+        if (!array_key_exists($pageKey, $areaUimaps)) {
+            throw new OutOfRangeException('Can not find page "' . $pageKey . '" in area "' . $area . '"');
+        }
+        $page = $areaUimaps[$pageKey];
+        if ($paramsDecorator) {
             $page->assignParams($paramsDecorator);
         }
         return $page;
@@ -179,18 +235,17 @@ class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
     /**
      * Retrieve Page from UIMap data configuration by MCA
      *
-     * @param string $area Application area ('frontend'|'admin')
+     * @param string $area Application area
      * @param string $mca
-     * @param Mage_Selenium_Helper_Params $paramsDecorator Params decorator instance
+     * @param null|Mage_Selenium_Helper_Params $paramsDecorator Params decorator instance
      *
-     * @return Mage_Selenium_Uimap_Page|null
+     * @return mixed
+     * @throws OutOfRangeException
      */
     public function getUimapPageByMca($area, $mca, $paramsDecorator = null)
     {
-        if (!isset($area)) {
-            return null;
-        }
         $mca = trim($mca, ' /\\');
+        $isExpectedPage = false;
         foreach ($this->_uimapData[$area] as &$page) {
             // get mca without any modifications
             $pageMca = trim($page->getMca(new Mage_Selenium_Helper_Params()), ' /\\');
@@ -200,23 +255,28 @@ class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
                 }
                 if ($area == 'admin' || $area == 'frontend') {
                     if (preg_match(';^' . $pageMca . '$;', $mca)) {
-                        $page->assignParams($paramsDecorator);
-                        return $page;
+                        $isExpectedPage = true;
                     }
                 } elseif ($this->_compareMcaAndPageMca($mca, $pageMca)) {
-                    $page->assignParams($paramsDecorator);
+                    $isExpectedPage = true;
+                }
+                if ($isExpectedPage) {
+                    if ($paramsDecorator) {
+                        $page->assignParams($paramsDecorator);
+                    }
+
                     return $page;
                 }
             }
         }
-        return null;
+        throw new OutOfRangeException('Can not find page with mca "' . $mca . '" in "' . $area . '" area');
     }
 
     /**
      * Compares mca from current url and from area mca array
      *
-     * @param $mca
-     * @param $page_mca
+     * @param string $mca
+     * @param string $page_mca
      *
      * @return bool
      */
@@ -238,80 +298,48 @@ class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
     }
 
     /**
-     * Get all folder and file names in directory
+     * Return URL of a specified page
      *
-     * @param string $path
+     * @param string $area Application area
+     * @param string $page UIMap page key
+     * @param null|Mage_Selenium_Helper_Params $paramsDecorator Params decorator instance
      *
-     * @return array
+     * @return string
      */
-    protected function _scanDirectory($path)
+    public function getPageUrl($area, $page, $paramsDecorator = null)
     {
-        $directories = array();
-        $array = opendir($path);
-
-        while ($v = readdir($array))
-        {
-            if ($v == '.' or $v == '..') {
-                continue;
-            }
-            if (!is_dir($path . DIRECTORY_SEPARATOR . $v)) {
-                $directories[] = $v;
-            }
-            if (is_dir($path . DIRECTORY_SEPARATOR . $v)) {
-                $directories[$v] = $this->_scanDirectory($path . DIRECTORY_SEPARATOR . $v);
-            }
-        }
-
-        return $directories;
+        $baseUrl = $this->getConfig()->getHelper('config')->getBaseUrl();
+        return $baseUrl . $this->getPageMca($area, $page, $paramsDecorator);
     }
 
     /**
-     * Get path to files in directory
+     * Return Page Mca
      *
-     * @param array $pathData
-     * @param string $path
-     * @param string $project
+     * @param string $area Application area
+     * @param string $page UIMap page key
+     * @param null|Mage_Selenium_Helper_Params $paramsDecorator Params decorator instance
      *
      * @return mixed
      */
-    protected function _getFilesPath($pathData, $path = '', $project)
+    public function getPageMca($area, $page, $paramsDecorator = null)
     {
-        $currentPath = preg_replace('|' . preg_quote(DIRECTORY_SEPARATOR) . '(\w)+$' . '|', '', $path);
-        foreach ($pathData as $key => $value) {
-            if (is_array($value)) {
-                $path .= DIRECTORY_SEPARATOR . $key;
-                $path = $this->_getFilesPath($value, $path, $project);
-            } else {
-                $path = preg_replace('|' . preg_quote(DIRECTORY_SEPARATOR) . '(\w)+\.yml$|', '', $path);
-                $path .= DIRECTORY_SEPARATOR . $value;
-                $separator = preg_quote(DIRECTORY_SEPARATOR);
-                if (preg_match('|' . $separator . 'data' . $separator . '|', $path)) {
-                    $this->_fixturePath[$project]['data'][] = $path;
-                }
-                if (preg_match('|' . $separator . 'uimap' . $separator . '|', $path)) {
-                    $this->_fixturePath[$project]['uimap'][] = $path;
-                }
-            }
-
-        }
-        return $currentPath;
+        $pageUimap = $this->getUimapPage($area, $page, $paramsDecorator);
+        return $pageUimap->getMca($paramsDecorator);
     }
 
     /**
-     * Get fixture path
-     * @return array
+     * Return xpath which we need to click to open page
+     *
+     * @param string $area Application area
+     * @param string $page UIMap page key
+     * @param null|Mage_Selenium_Helper_Params $paramsDecorator Params decorator instance
+     *
+     * @return mixed
      */
-    public function getFixturePath()
+    public function getPageClickXpath($area, $page, $paramsDecorator = null)
     {
-        return $this->_fixturePath;
+        $pageUimap = $this->getUimapPage($area, $page, $paramsDecorator);
+        return $pageUimap->getClickXpath($paramsDecorator);
     }
 
-    /**
-     * Get fixture base path
-     * @return string
-     */
-    public function getFixtureBasePath()
-    {
-        return self::FIXTURE_BASEPATH;
-    }
 }

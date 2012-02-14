@@ -42,9 +42,7 @@ class Mage_Selenium_Helper_Params
     protected $_paramsArray = array();
 
     /**
-     * Class constructor
-     *
-     * @param array $params Parameters array
+     * @param array|null $params
      */
     public function __construct(array $params = null)
     {
@@ -56,12 +54,12 @@ class Mage_Selenium_Helper_Params
     }
 
     /**
-     * Set Xpath parameter
+     * Set parameter
      *
      * @param string $name Parameter name
      * @param string $value Parameter value (null to unset)
      *
-     * @return \Mage_Selenium_Helper_Params
+     * @return Mage_Selenium_Helper_Params
      */
     public function setParameter($name, $value)
     {
@@ -75,16 +73,21 @@ class Mage_Selenium_Helper_Params
     }
 
     /**
-     * Get Xpath parameter
+     * Get parameter value
      *
      * @param string $name Parameter name
      *
-     * @return string|boolean Returns the parameter value or False
+     * @return string
+     * @throws PHPUnit_Framework_Exception
      */
     public function getParameter($name)
     {
         $key = '%' . $name . '%';
-        return isset($this->_paramsArray[$key]) ? $this->_paramsArray[$key] : false;
+        if (!array_key_exists($name, $this->_paramsArray)) {
+            throw new PHPUnit_Framework_Exception('Parameter "' . $name . '" is not specified');
+        }
+
+        return $this->_paramsArray[$key];
     }
 
     /**

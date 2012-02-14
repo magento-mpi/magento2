@@ -277,7 +277,7 @@ class Core_Mage_Category_Helper extends Mage_Selenium_TestCase
         $link = $link . '/a';
         if ($this->isElementPresent($link)) {
             //Determine category mca parameters
-            $mca = Mage_Selenium_TestCase::_getMcaFromCurrentUrl($this->_applicationHelper->getAreasConfig(),
+            $mca = self::_getMcaFromCurrentUrl($this->_configHelper->getConfigAreas(),
                             $this->getAttribute($link . '@href'));
             if (preg_match('/\.html$/', $mca)) {
                 if (preg_match('|/|', $mca)) {
