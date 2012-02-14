@@ -52,17 +52,25 @@
                     <create>1</create>
                     <retrieve>1</retrieve>
                 </privileges>
+                <attributes>
+                    <product_id>Product ID</product_id>
+                    <sku>SKU</sku>
+                    <type>Product Type</type>
+                    <set>Attribute Set</set>
+                    <store>Store</store>
+                </attributes>
                 <routes>
                     <route_main>
                         <mask>/products</mask>
                     </route_main>
                 </routes>
                 <instance>product</instance>
+                <versions>1</versions>
             </products>
             <product>
                 <group>catalog_product</group>
                 <type>product</type>
-                <model>product/api2_product</model>
+                <model>catalog/api2_products</model>
                 <working_model>catalog/product</working_model>
                 <title>Catalog Product</title>
                 <sort_order>20</sort_order>
@@ -96,11 +104,17 @@
                     <create>1</create>
                     <retrieve>1</retrieve>
                 </privileges>
+                <attributes>
+                    <simple_product_id>Simple Product ID</simple_product_id>
+                    <qty>Default Quantity</qty>
+                    <position>Position</position>
+                </attributes>
                 <routes>
                     <route_main>
                         <mask>/products/grouped/:id</mask>
                     </route_main>
                 </routes>
+                <versions>1</versions>
             </products_grouped>
         </resources>
     </api2>

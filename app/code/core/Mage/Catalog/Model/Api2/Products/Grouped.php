@@ -25,13 +25,13 @@
  */
 
 /**
- * Abstract Api2 model for products collection
+ * Abstract Api2 model for grouped products collection
  *
  * @category   Mage
  * @package    Mage_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Catalog_Model_Api2_Products extends Mage_Api2_Model_Resource_Collection
+class Mage_Catalog_Model_Api2_Products_Grouped extends Mage_Api2_Model_Resource_Collection
 {
     /**
      * Available attributes
@@ -40,16 +40,6 @@ class Mage_Catalog_Model_Api2_Products extends Mage_Api2_Model_Resource_Collecti
      */
     public function getAvailableAttributes()
     {
-        $attributes = $this->getConfig()->getResourceAttributes($this->getResourceType());
-        /** @var $entityType Mage_Eav_Model_Entity_Type */
-        $entityType = Mage::getModel('eav/entity_type')->loadByCode('catalog_product');
-        /** @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
-        foreach ($entityType->getAttributeCollection() as $attribute) {
-            if ($attribute->getIsVisible()) {
-                $attributes[$attribute->getAttributeCode()] = $attribute->getFrontendLabel();
-            }
-        }
-
-        return $attributes;
+        return $this->getConfig()->getResourceAttributes($this->getResourceType());
     }
 }

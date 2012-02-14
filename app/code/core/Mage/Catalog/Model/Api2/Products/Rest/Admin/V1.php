@@ -33,12 +33,94 @@
  */
 class Mage_Catalog_Model_Api2_Products_Rest_Admin_V1 extends Mage_Catalog_Model_Api2_Products_Rest
 {
+    /**
+     * Get resource static attributes
+     *
+     * @return array
+     */
+    protected function _getStaticAttributes()
+    {
+        return $this->getConfig()->getResourceAttributes($this->getResourceType());
+    }
 
+    /**
+     * Pre-validate request data
+     *
+     * @param array $data
+     * @param array $required
+     * @param array $notEmpty
+     */
+    protected function _validate(array $data, array $required = array(), array $notEmpty = array())
+    {
+        parent::_validate($data, $required);
+
+        $setId = $data['set'];
+        /** @var $entity Mage_Eav_Model_Entity_Type */
+        $entity = Mage::getModel('eav/entity_type')->loadByCode(Mage_Catalog_Model_Product::ENTITY);
+        /** @var $attributeSet Mage_Eav_Model_Entity_Attribute_Set */
+        $attributeSet = Mage::getModel('eav/entity_attribute_set')->load($setId);
+        if (!$attributeSet->getId() || $entity->getEntityTypeId() != $attributeSet->getEntityTypeId()) {
+            $this->_critical('Invalid attribute set', self::RESOURCE_DATA_INVALID);
+        }
+
+        $type = $data['type'];
+        $productTypes = Mage_Catalog_Model_Product_Type::getTypes();
+        if (!array_key_exists($type, $productTypes)) {
+            $this->_critical('Invalid product type', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+        }
+
+        $setAttributes = array();
+        /** @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
+        foreach ($entity->getAttributeCollection($setId) as $attribute) {
+            $setAttributes[] = $attribute->getAttributeCode();
+            $applicable = false;
+            if (!$attribute->getApplyTo() || in_array($type, $attribute->getApplyTo())) {
+                $applicable = true;
+            }
+
+            if (!$applicable && !$attribute->isStatic() && isset($data[$attribute->getAttributeCode()])) {
+                $this->_error(sprintf('Attribute "%s" is not applicable for product type "%s"',
+                    $attribute->getAttributeCode(), $productTypes[$type]['label']),
+                    Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+            }
+
+            if ($attribute->usesSource() && isset($data[$attribute->getAttributeCode()])) {
+                $allowedValues = array();
+                foreach ($attribute->getSource()->getAllOptions() as $option) {
+                    $allowedValues[] = $option['value'];
+                }
+                if (!in_array($data[$attribute->getAttributeCode()], $allowedValues)) {
+                    $this->_error(sprintf('Invalid value for attribute "%s"', $attribute->getAttributeCode()),
+                        Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+                }
+            }
+
+            if ($attribute->getIsRequired() && $attribute->getIsVisible() && $applicable) {
+                $required[] = $attribute->getAttributeCode();
+            }
+        }
+
+        // Check if there are attributes in request that does not belong to provided attribute set
+        $inputAttributes = array_diff_key($data, $this->_getStaticAttributes()); // Skip static attributes
+        $wrongAttributes = array_diff(array_keys($inputAttributes), $setAttributes);
+        foreach ($wrongAttributes as $attributeCode) {
+            $this->_error(sprintf('Attribute "%s" is not from set #%d', $attributeCode, $setId),
+                Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+        }
+
+        parent::_validate($data, $required);
+    }
+
+    /**
+     * Create product
+     *
+     * @param array $data
+     * @return string
+     */
     protected function _create(array $data)
     {
         $required = array('type', 'set', 'sku');
-        $notEmpty = array('type', 'set', 'sku');
-        $this->_validate($data, $required, $notEmpty);
+        $this->_validate($data, $required);
 
         $type = $data['type'];
         $set = $data['set'];
@@ -46,23 +128,8 @@ class Mage_Catalog_Model_Api2_Products_Rest_Admin_V1 extends Mage_Catalog_Model_
         $store = isset($data['store']) ? $data['store'] : '';
         $productData = array_diff_key($data, array_flip(array('type', 'set', 'sku')));
 
-        /** @var $typeModel Mage_Catalog_Model_Product_Type */
-        $typeModel = Mage::getModel('catalog/product_type');
-        if (!in_array($type, array_keys($typeModel->getOptionArray()))) {
-            $this->_critical(self::RESOURCE_DATA_INVALID);
-        }
-
-        /** @var $attributeSet Mage_Eav_Model_Entity_Attribute_Set */
-        $attributeSet = Mage::getModel('eav/entity_attribute_set')->load($set);
-        if (is_null($attributeSet->getId())) {
-            $this->_critical(self::RESOURCE_DATA_INVALID);  //product_attribute_set_not_exists
-        }
-
         /** @var $product Mage_Catalog_Model_Product */
         $product = Mage::getModel('catalog/product');
-        if ($product->getResource()->getTypeId() != $attributeSet->getEntityTypeId()) {
-            $this->_critical(self::RESOURCE_DATA_INVALID);  //product_attribute_set_not_valid
-        }
 
         try {
             $storeId = Mage::app()->getStore($store)->getId();
