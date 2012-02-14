@@ -534,9 +534,162 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     #                               Data helper methods                            #
     #                                                                              #
     ################################################################################
+    /**
+     * Generates random value as a string|text|email $type, with specified $length.<br>
+     * Available $modifier:
+     * <li>if $type = string - alnum|alpha|digit|lower|upper|punct
+     * <li>if $type = text - alnum|alpha|digit|lower|upper|punct
+     * <li>if $type = email - valid|invalid
+     *
+     * @param string $type Available types are 'string', 'text', 'email' (by default = 'string')
+     * @param int $length Generated value length (by default = 100)
+     * @param null|string $modifier Value modifier, e.g. PCRE class (by default = null)
+     * @param null|string $prefix Prefix to prepend the generated value (by default = null)
+     *
+     * @return string
+     */
+    public function generate($type = 'string', $length = 100, $modifier = null, $prefix = null)
+    {
+        $result = $this->_dataGeneratorHelper->generate($type, $length, $modifier, $prefix);
+        return $result;
+    }
 
     /**
+     * Loads test data.
+     *
+     * @param string $dataSource
+     * @param array|null $overrideByKey
+     * @param array|null $overrideByValueParam
+     *
+     * @return array
+     * @throws PHPUnit_Framework_Exception
+     */
+    public function loadDataSet($dataSource, $overrideByKey = null, $overrideByValueParam = null)
+    {
+        $data = $this->_dataHelper->getDataValue($dataSource);
+        if (!is_array($data)) {
+            throw new PHPUnit_Framework_Exception('Data "' . $dataSource . '" is not loaded.');
+        }
+
+        if ($overrideByKey) {
+            foreach ($overrideByKey as $fieldKey => $fieldValue) {
+                if (!$this->overrideDataByCondition($fieldKey, $fieldValue, $data, 'byValueKey')) {
+                    throw new PHPUnit_Framework_Exception("Value for '" . $fieldKey
+                        . "' field is not changed: [There is no this key in dataset '" . $dataSource . "']");
+                }
+            }
+        }
+
+        if ($overrideByValueParam) {
+            foreach ($overrideByValueParam as $fieldKey => $fieldValue) {
+                if (!$this->overrideDataByCondition($fieldKey, $fieldValue, $data, 'byValueParam')) {
+                    throw new PHPUnit_Framework_Exception("Value for '" . $fieldKey
+                        . "' value parameter is not changed: [There is no this value parameter in dataset '"
+                        . $dataSource . "']");
+                }
+            }
+        }
+
+        array_walk_recursive($data, array($this, 'setDataParams'));
+
+        return $this->clearDataArray($data);
+    }
+
+    /**
+     * Change in array value by condition.
+     *
+     * @param string $overrideKey
+     * @param string $overrideValue
+     * @param array $overrideArray
+     * @param string $condition   byValueKey|byValueParam
+     *
+     * @return bool
+     * @throws OutOfRangeException
+     */
+    public function overrideDataByCondition($overrideKey, $overrideValue, &$overrideArray, $condition)
+    {
+        $isOverrided = false;
+        foreach ($overrideArray as $currentKey => &$currentValue) {
+            switch ($condition) {
+                case 'byValueKey':
+                    $isFound = ($currentKey === $overrideKey);
+                    break;
+                case 'byValueParam':
+                    $isFound = ($currentValue === '%' . $overrideKey . '%');
+                    break;
+                default:
+                    throw new OutOfRangeException('Wrong condition');
+                    break;
+            }
+            if ($isFound) {
+                $currentValue = $overrideValue;
+                $isOverrided = true;
+            } elseif (is_array($currentValue)) {
+                $isOverrided = $this->overrideDataByCondition($overrideKey, $overrideValue, $currentValue,
+                                                              $condition) || $isOverrided;
+            }
+        }
+        return $isOverrided;
+    }
+
+    /**
+     * Set data params
+     *
+     * @param string $value
+     * @param string $key Index of the target to randomize
+     */
+    public function setDataParams(&$value, $key)
+    {
+        if (preg_match('/%randomize%/', $value)) {
+            $value = preg_replace('/%randomize%/', $this->generate('string', 5, ':lower:'), $value);
+        }
+        if (preg_match('/^%longValue[0-9]+%$/', $value)) {
+            $length = preg_replace('/[^0-9]/', '', $value);
+            $value = preg_replace('/%longValue[0-9]+%/', $this->generate('string', $length, ':alpha:'), $value);
+        }
+        if (preg_match('/^%specialValue[0-9]+%$/', $value)) {
+            $length = preg_replace('/[^0-9]/', '', $value);
+            $value = preg_replace('/%specialValue[0-9]+%/', $this->generate('string', $length, ':punct:'), $value);
+        }
+        if (preg_match('/%currentDate%/', $value)) {
+            $value = preg_replace('/%currentDate%/', date("n/j/y"), $value);
+        }
+    }
+
+    /**
+     * Delete field in array with special values(for example: %noValue%)
+     *
+     * @param array $dataArray
+     *
+     * @return array|bool
+     */
+    public function clearDataArray($dataArray)
+    {
+        if (!is_array($dataArray)) {
+            return false;
+        }
+
+        foreach ($dataArray as $key => $value) {
+            if (is_array($value)) {
+                $dataArray[$key] = $this->clearDataArray($value);
+                if (count($dataArray[$key]) == false) {
+                    unset($dataArray[$key]);
+                }
+            } elseif (preg_match('/^\%(\w)+\%$/', $value)) {
+                unset($dataArray[$key]);
+            }
+        }
+
+        return $dataArray;
+    }
+
+    ################################################################################
+    #                    Deprecated data helper methods                            #
+    ################################################################################
+    /**
      * Loads test data from DataSet, specified in the $dataSource
+     *
+     * @deprecated
      *
      * @param string $dataSource Data source (e.g. filename in ../data without .yml extension)
      * @param null|array $override value to override in original data from data source
@@ -587,27 +740,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     }
 
     /**
-     * Generates random value as a string|text|email $type, with specified $length.<br>
-     * Available $modifier:
-     * <li>if $type = string - alnum|alpha|digit|lower|upper|punct
-     * <li>if $type = text - alnum|alpha|digit|lower|upper|punct
-     * <li>if $type = email - valid|invalid
-     *
-     * @param string $type Available types are 'string', 'text', 'email' (by default = 'string')
-     * @param int $length Generated value length (by default = 100)
-     * @param null|string $modifier Value modifier, e.g. PCRE class (by default = null)
-     * @param null|string $prefix Prefix to prepend the generated value (by default = null)
-     *
-     * @return string
-     */
-    public function generate($type = 'string', $length = 100, $modifier = null, $prefix = null)
-    {
-        $result = $this->_dataGeneratorHelper->generate($type, $length, $modifier, $prefix);
-        return $result;
-    }
-
-    /**
      * Remove array elements that have '%noValue%' value
+     *
+     * @deprecated
      *
      * @param array $array
      *
@@ -633,6 +768,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 
     /**
      * Override data with index $key on-fly in the $overrideArray by new value (&$value)
+     * @deprecated
      *
      * @param string $overrideKey Index of the target to override
      * @param string $overrideValue Value for override
@@ -659,6 +795,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     }
 
     /**
+     * @deprecated
+     *
      * @param string $subArray
      * @param string $overrideKey
      * @param string $overrideValue
@@ -698,6 +836,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     /**
      * Randomize data with index $key on-fly in the $randomizeArray by new value (&$value)
      *
+     * @deprecated
+     *
      * @param string $value Value for randomization (in this case - value will be as a suffix)
      * @param string $key Index of the target to randomize
      * @param array $randomizeArray Target array, which contains some index(es) to randomize
@@ -708,30 +848,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             if ($randomizeField === $key) {
                 $value = $this->generate('string', 5, ':lower:') . '_' . $value;
             }
-        }
-    }
-
-    /**
-     * Set data params
-     *
-     * @param string $value
-     * @param string $key Index of the target to randomize
-     */
-    public function setDataParams(&$value, $key)
-    {
-        if (preg_match('/%randomize%/', $value)) {
-            $value = preg_replace('/%randomize%/', $this->generate('string', 5, ':lower:'), $value);
-        }
-        if (preg_match('/^%longValue[0-9]+%$/', $value)) {
-            $length = preg_replace('/[^0-9]/', '', $value);
-            $value = preg_replace('/%longValue[0-9]+%/', $this->generate('string', $length, ':alpha:'), $value);
-        }
-        if (preg_match('/^%specialValue[0-9]+%$/', $value)) {
-            $length = preg_replace('/[^0-9]/', '', $value);
-            $value = preg_replace('/%specialValue[0-9]+%/', $this->generate('string', $length, ':punct:'), $value);
-        }
-        if (preg_match('/%currentDate%/', $value)) {
-            $value = preg_replace('/%currentDate%/', date("n/j/y"), $value);
         }
     }
 
