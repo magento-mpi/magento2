@@ -678,23 +678,41 @@ class Mage_Wishlist_IndexController extends Mage_Wishlist_Controller_Abstract
      */
     public function downloadCustomOptionAction()
     {
-        try {
-            $optionId = $this->getRequest()->getParam('id');
-            $option   = Mage::getModel('wishlist/item_option')->load($optionId);
-            $hasError = false;
+        $option = Mage::getModel('wishlist/item_option')->load($this->getRequest()->getParam('id'));
 
-            if ($option->getId() && $option->getCode() !== 'info_buyRequest') {
-                $info      = unserialize($option->getValue());
-                $filePath  = Mage::getBaseDir() . $info['quote_path'];
-                $secretKey = $this->getRequest()->getParam('key');
+        if (!$option->getId()) {
+            return $this->_forward('noRoute');
+        }
 
-                if ($secretKey == $info['secret_key']) {
-                    $this->_prepareDownloadResponse($info['title'], array(
-                        'value' => $filePath,
-                        'type'  => 'filename'
-                    ));
-                }
+        $optionId = null;
+        if (strpos($option->getCode(), Mage_Catalog_Model_Product_Type_Abstract::OPTION_PREFIX) === 0) {
+            $optionId = str_replace(Mage_Catalog_Model_Product_Type_Abstract::OPTION_PREFIX, '', $option->getCode());
+            if ((int)$optionId != $optionId) {
+                return $this->_forward('noRoute');
             }
+        }
+        $productOption = Mage::getModel('catalog/product_option')->load($optionId);
+
+        if (!$productOption
+            || !$productOption->getId()
+            || $productOption->getProductId() != $option->getProductId()
+            || $productOption->getType() != 'file'
+        ) {
+            return $this->_forward('noRoute');
+        }
+
+        try {
+            $info      = unserialize($option->getValue());
+            $filePath  = Mage::getBaseDir() . $info['quote_path'];
+            $secretKey = $this->getRequest()->getParam('key');
+
+            if ($secretKey == $info['secret_key']) {
+                $this->_prepareDownloadResponse($info['title'], array(
+                    'value' => $filePath,
+                    'type'  => 'filename'
+                ));
+            }
+
         } catch(Exception $e) {
             $this->_forward('noRoute');
         }
