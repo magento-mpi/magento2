@@ -57,8 +57,14 @@ $table = $adapter->newTable($installer->getTable('api2/acl_role'))
     ->setComment('Api2 Global ACL Roles');
 $adapter->createTable($table);
 
-// Create Guest User Role
-$adapter->insert($installer->getTable('api2/acl_role'), array('role_name' => 'Guest'));
+// Create Guest and Customer User Roles
+$adapter->insertMultiple(
+    $installer->getTable('api2/acl_role'),
+    array(
+        array('role_name' => 'Guest'),
+        array('role_name' => 'Customer')
+    )
+);
 
 /**
  * Create table 'api2/acl_user'
