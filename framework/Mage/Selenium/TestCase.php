@@ -826,7 +826,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     public function checkMessageByXpath($xpath)
     {
         $this->_parseMessages();
-        if ($xpath && $this->isVisible($xpath)) {
+        if ($xpath && $this->isElementPresent($xpath)) {
             return true;
         }
         return false;
@@ -2406,7 +2406,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                 $retries++;
                 $this->waitForPageToLoad($this->_browserTimeoutPeriod);
                 $notLoaded = false;
-            } catch (PHPUnit_Framework_Exception $e) {
+            } catch (RuntimeException $e) {
                 if ($retries == 10) {
                     throw $e;
                 }
