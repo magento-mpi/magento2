@@ -259,6 +259,27 @@ class Mage_Api2_Model_ResourceTest extends Mage_PHPUnit_TestCase
             array(array('key1' => 'value1', 'key2' => ''), array('key2', 'key1'), array('key2'), true),
         );
     }
+
+    public function testGetEavAttributes()
+    {
+        Mage::setConfigModel(array('config_model' => 'Mage_Core_Model_Config_Mock'));
+        Mage::getConfig()->init();
+
+        $this->_resource->setResourceType('product');
+        $type = $this->getMock('Mage_Eav_Model_Entity_Type', array('load'));
+        $type->expects($this->exactly('product'), $this->exactly('entity_model'))
+            ->method('load');
+
+        $config = $this->getMock('Mage_Api2_Model_Config', array('getResourceWorkingModel'));
+        $config->expects($this->once())
+            ->method('getResourceWorkingModel')
+            ->will($this->returnValue('catalog/products'));
+
+
+
+
+        //$this->_resource->getEavAttributes();
+    }
 }
 
 abstract class Mage_Api2_Model_ResourceMock extends Mage_Api2_Model_Resource

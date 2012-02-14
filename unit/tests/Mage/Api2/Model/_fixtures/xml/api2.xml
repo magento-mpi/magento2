@@ -13,6 +13,7 @@
                 </routes>
                 <instance>product</instance>
                 <working_model>catalog/product</working_model>
+                <versions>1,2,5</versions>
             </products>
             <product>
                 <type>product</type><!-- used in ACL -->
@@ -31,6 +32,10 @@
                 </attributes>
                 <working_model>catalog/product</working_model>
             </product>
+            <test1 />
+            <test2><versions /></test2>
+            <test3><versions>1,,5</versions></test3>
+            <test4><versions>1,2m,5</versions></test4>
         </resources>
     </api2>
 </config>

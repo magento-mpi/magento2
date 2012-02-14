@@ -69,7 +69,7 @@ class Mage_Api2_Model_DispatcherTest extends Mage_PHPUnit_TestCase
      *
      * @return void
      */
-    public function testDispatch()
+    public function _testDispatch()
     {
         $userMock = $this->getMock('Mage_Api2_Model_Auth_User_Guest', array('getType'));
 
@@ -100,15 +100,17 @@ class Mage_Api2_Model_DispatcherTest extends Mage_PHPUnit_TestCase
      */
     public function testDispatchFail()
     {
+        $invalidVersion = 'INVALID_VERSION';
+
         $userMock = $this->getMock('Mage_Api2_Model_Auth_User_Guest', array('getType'));
 
-        $userMock->expects($this->once())
+        $userMock->expects($this->never())
             ->method('getType')
             ->will($this->returnValue('guest'));
 
         $this->_requestMock->expects($this->any())
             ->method('getVersion')
-            ->will($this->returnValue('INVALID_VERSION'));
+            ->will($this->returnValue($invalidVersion));
 
         $this->_requestMock->expects($this->any())
             ->method('getModel')
@@ -122,7 +124,9 @@ class Mage_Api2_Model_DispatcherTest extends Mage_PHPUnit_TestCase
         $dispatcher = new Mage_Api2_Model_Dispatcher();
 
         $this->setExpectedException(
-            'Mage_Api2_Exception', 'Resource not found', Mage_Api2_Model_Server::HTTP_NOT_FOUND
+            'Mage_Api2_Exception',
+            sprintf('Invalid version "%s" requested.', $invalidVersion),
+            Mage_Api2_Model_Server::HTTP_BAD_REQUEST
         );
 
         $dispatcher->setApiUser($userMock)->dispatch($this->_requestMock, $this->_response);
@@ -144,6 +148,40 @@ class Mage_Api2_Model_DispatcherTest extends Mage_PHPUnit_TestCase
 
         $this->assertSame($userMock, $dispatcher->_apiUser);
     }
+
+    /**
+     * Test that version correctly determined
+     */
+    public function testGetVersion()
+    {
+        $dispatcher = new Mage_Api2_Model_Dispatcher_Mock();
+        $this->assertEquals(1, $dispatcher->getVersion('products', 1));
+        $this->assertEquals(2, $dispatcher->getVersion('products', 2));
+        $this->assertEquals(2, $dispatcher->getVersion('products', 3));
+        $this->assertEquals(2, $dispatcher->getVersion('products', 4));
+        $this->assertEquals(5, $dispatcher->getVersion('products', 5));
+        $this->assertEquals(5, $dispatcher->getVersion('products', 6));
+
+        try {
+            $dispatcher->getVersion('products', 0);
+        } catch (Mage_Api2_Exception $e) {
+            try {
+                $dispatcher->getVersion('products', -1);
+            } catch (Mage_Api2_Exception $e) {
+                try {
+                    $dispatcher->getVersion('products', 1.1);
+                } catch (Mage_Api2_Exception $e) {
+                    try {
+                        $version = $dispatcher->getVersion('products', '1m');
+                    } catch (Mage_Api2_Exception $e) {
+                        return;
+                    }
+                }
+            }
+        }
+
+        $this->fail('Expected exception was not throwed.');
+    }
 }
 
 /**
@@ -162,4 +200,20 @@ class Mage_Api2_Model_Dispatcher_Mock extends Mage_Api2_Model_Dispatcher
      * @var Mage_Api2_Model_Auth_User_Abstract
      */
     public $_apiUser;
+
+    public function getConfig()
+    {
+        return new Mage_Api2_Model_Config_Mock;
+    }
+}
+
+class Mage_Api2_Model_Config_Mock extends Mage_Api2_Model_Config
+{
+    public function __construct()
+    {
+        // Load data of config files api2.xml
+        $config = Mage::getConfig();
+        $config->loadFile('/usr/local/www/apache22/data/apia/tests/unit/tests/Mage/Api2/Model/_fixtures/xml/api2.xml');
+        $this->setXml($config->getNode('api2'));
+    }
 }
