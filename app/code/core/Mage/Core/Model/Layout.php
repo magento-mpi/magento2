@@ -17,6 +17,10 @@
  */
 class Mage_Core_Model_Layout extends Varien_Simplexml_Config
 {
+    /**
+     * XPath that matches page type declarations in the merged (concatenated) layout updates
+     */
+    const XPATH_PAGE_TYPES = '/layouts/*[@type="page"]';
 
     /**
      * Layout Update module
@@ -606,5 +610,92 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
             }
         }
         return 'Mage_Core';
+    }
+
+    /**
+     * Add a page type information into the proper place in the hierarchy
+     *
+     * @param array $result Result hierarchy to add a page type to
+     * @param Varien_Simplexml_Element $node XML node that represents a page type
+     * @param SimpleXMLElement $layoutFullXml Entire layout structure
+     * @param array $flatLookupTable Lookup table that allows direct and quick access to the page types hierarchy
+     * @throws UnexpectedValueException
+     */
+    protected function _addPageType(
+        array &$result, Varien_Simplexml_Element $node, SimpleXMLElement $layoutFullXml, array &$flatLookupTable
+    ) {
+        $name = $node->getName();
+        if (array_key_exists($name, $flatLookupTable)) {
+            /* page type has already been added to the hierarchy */
+            return;
+        }
+        $parentName = $node->getAttribute('parent');
+        if ($parentName) {
+            $parentNode = reset($layoutFullXml->xpath(self::XPATH_PAGE_TYPES . '[name()="' . $parentName . '"][1]'));
+            if (!$parentNode) {
+                throw new UnexpectedValueException("Page type '$name' refers to non-existing parent '$parentName'.");
+            }
+            /* add parent page types first to be able to nest the page type */
+            $this->_addPageType($result, $parentNode, $layoutFullXml, $flatLookupTable);
+            $parent = &$flatLookupTable[$parentName];
+        } else {
+            $parent = &$result;
+        }
+        $label = (string)$node->label;
+        $parent[$name] = array(
+            'label' => $label,
+            'children' => array(),
+        );
+        /* create a reference to a page type to be able to quickly locate it by name */
+        $flatLookupTable[$name] = &$parent[$name]['children'];
+    }
+
+    /**
+     * Retrieve all page types in the system represented as a hierarchy
+     *
+     * Result format:
+     * array(
+     *     'page_type_1' => array(
+     *         'label' => 'Page Type 1',
+     *         'children' => array(
+     *             'page_type_2' => array(
+     *                 'label' => 'Page Type 2',
+     *                 'children' => array(
+     *                     // ...
+     *                 )
+     *             ),
+     *             // ...
+     *         )
+     *     ),
+     *     // ...
+     * )
+     *
+     * @return array
+     */
+    public function getPageTypesHierarchy()
+    {
+        $design = Mage::getDesign();
+        $area = $design->getArea();
+        $package = $design->getPackageName();
+        $theme = $design->getTheme();
+        /* @todo use constant cache id, as soon as there will be no ability to introduce page types with a theme */
+        $cacheId = Mage::app()->useCache('layout') ? "LAYOUT_page_types_hierarchy_{$area}_{$package}_{$theme}" : false;
+        if ($cacheId) {
+            $result = Mage::app()->loadCache($cacheId);
+            if ($result) {
+                return unserialize($result);
+            }
+        }
+        $layoutFullXml = $this->getUpdate()->getFileLayoutUpdatesXml($area, $package, $theme);
+        $result = array();
+        $flatLookup = array();
+        foreach ($layoutFullXml->xpath(self::XPATH_PAGE_TYPES) as $node) {
+            $this->_addPageType($result, $node, $layoutFullXml, $flatLookup);
+        }
+        if ($cacheId) {
+            $cacheTags = array(Mage_Core_Model_Layout_Update::LAYOUT_GENERAL_CACHE_TAG);
+            Mage::app()->saveCache(serialize($result), $cacheId, $cacheTags);
+        }
+        return $result;
     }
 }

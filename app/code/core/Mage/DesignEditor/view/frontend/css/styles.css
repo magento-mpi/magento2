@@ -20,4 +20,17 @@
     border-color: red;
     color: red;
 }
+
+#vde_page_types_hierarchy {
+    position: absolute;
+    max-height: 300px; /* maximal allowed height */
+    overflow-y: auto; /* display vertical scrollbar when content exceeds the maximal allowed height */
+    overflow-x: hidden; /* don't display horizontal scrollbar */
+    padding-right: 20px; /* make sure vertical scrollbar doesn't overlap list items */
+    z-index: 1000;
+    text-align: left;
+    display: none;
+    border: 1px solid #aaa;
+    background-color: #fff;
+}
 /* ======================================================================================= */
