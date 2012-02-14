@@ -35,7 +35,7 @@ class Core_Mage_Installation_Helper extends Mage_Selenium_TestCase
      */
     public function removeInstallData()
     {
-        $basePath = $this->_applicationHelper->getBasePath();
+        $basePath = $this->_configHelper->getBaseUrl();
 
         $localXml = rtrim($basePath, DIRECTORY_SEPARATOR)
                     . DIRECTORY_SEPARATOR . 'app'
