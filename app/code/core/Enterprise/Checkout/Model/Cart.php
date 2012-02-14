@@ -1201,6 +1201,7 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
         // copy data to temporary quote
         /** @var $temporaryQuote Mage_Sales_Model_Quote */
         $temporaryQuote = Mage::getModel('sales/quote');
+        $temporaryQuote->setIsSuperMode($quote->getIsSuperMode());
         foreach ($quote->getAllItems() as $quoteItem) {
             $temporaryItem = clone $quoteItem;
             $temporaryItem->setQuote($temporaryQuote);
