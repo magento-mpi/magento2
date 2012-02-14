@@ -265,9 +265,15 @@ class Mage_Review_ProductController extends Mage_Core_Controller_Front_Action
     protected function _initProductLayout($product)
     {
         $update = $this->getLayout()->getUpdate();
-        $this->loadActionPageLayout(
+        $this->addPageLayoutHandles(
             array('id' => $product->getId(), 'sku' => $product->getSku(), 'type' => $product->getTypeId())
         );
+
+        if ($product->getPageLayout()) {
+            $this->getLayout()->helper('Mage_Page_Helper_Layout')
+                ->applyHandle($product->getPageLayout());
+        }
+        $this->loadLayoutUpdates();
 
         if ($product->getPageLayout()) {
             $this->getLayout()->helper('Mage_Page_Helper_Layout')

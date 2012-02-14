@@ -279,7 +279,7 @@ abstract class Mage_Core_Controller_Varien_Action
      * @param array $parameters page parameters
      * @return Mage_Core_Controller_Varien_Action
      */
-    public function loadActionPageLayout(array $parameters = array())
+    public function addPageLayoutHandles(array $parameters = array())
     {
         $handle = strtolower($this->getFullActionName());
         $pageHandles = array($handle);
@@ -287,7 +287,6 @@ abstract class Mage_Core_Controller_Varien_Action
             $pageHandles[] = $handle . '_' . $key . '_' . $value;
         }
         $this->getLayout()->getUpdate()->addPageHandles(array_reverse($pageHandles));
-        $this->loadLayoutUpdates();
         return $this;
     }
 

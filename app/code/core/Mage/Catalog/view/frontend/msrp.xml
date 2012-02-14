@@ -14,12 +14,9 @@
 <!--
 Default layout, loads most of the pages
 -->
-    <catalog_category_default>
+    <catalog_category_view>
         <update handle="MAP_popup" />
-    </catalog_category_default>
-    <catalog_category_layered>
-        <update handle="MAP_popup" />
-    </catalog_category_layered>
+    </catalog_category_view>
     <catalog_product_compare_index>
         <update handle="MAP_popup" />
     </catalog_product_compare_index>

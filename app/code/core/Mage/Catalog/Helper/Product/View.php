@@ -37,10 +37,10 @@ class Mage_Catalog_Helper_Product_View extends Mage_Core_Helper_Abstract
         }
 
         $update = $controller->getLayout()->getUpdate();
-        $controller->loadActionPageLayout(
+        $controller->addPageLayoutHandles(
             array('id' => $product->getId(), 'sku' => $product->getSku(), 'type' => $product->getTypeId())
         );
-
+        $controller->loadLayoutUpdates();
         // Apply custom layout update once layout is loaded
         $layoutUpdates = $settings->getLayoutUpdates();
         if ($layoutUpdates) {

@@ -58,97 +58,72 @@ Default layout, loads most of the pages
 <!--
 Category default layout
 -->
-
-    <catalog_category_default translate="label" type="page" parent="default">
-        <label>Catalog Category (Non-Anchor)</label>
+    <catalog_category_view translate="label" type="page" parent="default">
+        <label>Catalog Category</label>
         <reference name="root">
             <action method="setTemplate"><template>2columns-left.phtml</template></action>
         </reference>
+        <reference name="content">
+            <block type="Mage_Catalog_Block_Category_View" name="category.products" template="category/view.phtml">
+                <block type="Mage_Catalog_Block_Product_List" name="product_list" template="product/list.phtml">
+                    <block type="Mage_Catalog_Block_Product_List_Toolbar" name="product_list_toolbar" template="product/list/toolbar.phtml">
+                        <block type="Mage_Page_Block_Html_Pager" name="product_list_toolbar_pager"/>
+                        <!-- The following code shows how to set your own pager increments -->
+                        <!--
+                            <action method="setDefaultListPerPage"><limit>10</limit></action>
+                            <action method="setDefaultGridPerPage"><limit>8</limit></action>
+                            <action method="addPagerLimit"><mode>list</mode><limit>10</limit></action>
+                            <action method="addPagerLimit"><mode>list</mode><limit>20</limit></action>
+                            <action method="addPagerLimit"><mode>list</mode><limit>30</limit></action>
+                            <action method="addPagerLimit" translate="label"><mode>list</mode><limit>all</limit><label>All</label></action>
+                            <action method="addPagerLimit"><mode>grid</mode><limit>8</limit></action>
+                            <action method="addPagerLimit"><mode>grid</mode><limit>16</limit></action>
+                            <action method="addPagerLimit"><mode>grid</mode><limit>24</limit></action>
+                            <action method="addPagerLimit" translate="label"><mode>grid</mode><limit>all</limit><label>All</label></action>
+                        -->
+                    </block>
+                    <!--action method="addColumnCountLayoutDepend"><layout>empty</layout><count>6</count></action>
+                    <action method="addColumnCountLayoutDepend"><layout>one_column</layout><count>5</count></action>
+                    <action method="addColumnCountLayoutDepend"><layout>two_columns_left</layout><count>4</count></action>
+                    <action method="addColumnCountLayoutDepend"><layout>two_columns_right</layout><count>4</count></action>
+                    <action method="addColumnCountLayoutDepend"><layout>three_columns</layout><count>3</count></action-->
+                    <action method="setColumnCount"><count>4</count></action>
+                    <action method="setToolbarBlockName"><name>product_list_toolbar</name></action>
+                </block>
+            </block>
+        </reference>
+    </catalog_category_view>
+
+    <catalog_category_view_type_default translate="label" type="page" parent="catalog_category_view">
+        <label>Non Anchor Catalog Category</label>
         <reference name="left">
             <block type="Mage_Catalog_Block_Navigation" name="catalog.leftnav" after="currency" template="navigation/left.phtml"/>
         </reference>
-        <reference name="content">
-            <block type="Mage_Catalog_Block_Category_View" name="category.products" template="category/view.phtml">
-                <block type="Mage_Catalog_Block_Product_List" name="product_list" template="product/list.phtml">
-                    <block type="Mage_Catalog_Block_Product_List_Toolbar" name="product_list_toolbar" template="product/list/toolbar.phtml">
-                        <block type="Mage_Page_Block_Html_Pager" name="product_list_toolbar_pager"/>
-                        <!-- The following code shows how to set your own pager increments -->
-                        <!--
-                            <action method="setDefaultListPerPage"><limit>10</limit></action>
-                            <action method="setDefaultGridPerPage"><limit>8</limit></action>
-                            <action method="addPagerLimit"><mode>list</mode><limit>10</limit></action>
-                            <action method="addPagerLimit"><mode>list</mode><limit>20</limit></action>
-                            <action method="addPagerLimit"><mode>list</mode><limit>30</limit></action>
-                            <action method="addPagerLimit" translate="label"><mode>list</mode><limit>all</limit><label>All</label></action>
-                            <action method="addPagerLimit"><mode>grid</mode><limit>8</limit></action>
-                            <action method="addPagerLimit"><mode>grid</mode><limit>16</limit></action>
-                            <action method="addPagerLimit"><mode>grid</mode><limit>24</limit></action>
-                            <action method="addPagerLimit" translate="label"><mode>grid</mode><limit>all</limit><label>All</label></action>
-                        -->
-                    </block>
-                    <!--action method="addColumnCountLayoutDepend"><layout>empty</layout><count>6</count></action>
-                    <action method="addColumnCountLayoutDepend"><layout>one_column</layout><count>5</count></action>
-                    <action method="addColumnCountLayoutDepend"><layout>two_columns_left</layout><count>4</count></action>
-                    <action method="addColumnCountLayoutDepend"><layout>two_columns_right</layout><count>4</count></action>
-                    <action method="addColumnCountLayoutDepend"><layout>three_columns</layout><count>3</count></action-->
-                    <action method="setColumnCount"><count>4</count></action>
-                    <action method="setToolbarBlockName"><name>product_list_toolbar</name></action>
-                </block>
-            </block>
-        </reference>
-    </catalog_category_default>
+    </catalog_category_view_type_default>
 
-<!--
-Category layered navigation layout
--->
-
-    <catalog_category_layered translate="label" type="page" parent="catalog_category_default">
-        <label>Catalog Category (Anchor)</label>
-        <reference name="root">
-            <action method="setTemplate"><template>2columns-left.phtml</template></action>
-        </reference>
-        <reference name="left">
-            <block type="Mage_Catalog_Block_Layer_View" name="catalog.leftnav" after="currency" template="layer/view.phtml"/>
-        </reference>
-        <reference name="content">
-            <block type="Mage_Catalog_Block_Category_View" name="category.products" template="category/view.phtml">
-                <block type="Mage_Catalog_Block_Product_List" name="product_list" template="product/list.phtml">
-                    <!-- <action method="addReviewSummaryTemplate"><type>default</type><template>review/helper/su.phtml</template></action> -->
-                    <block type="Mage_Catalog_Block_Product_List_Toolbar" name="product_list_toolbar" template="product/list/toolbar.phtml">
-                        <block type="Mage_Page_Block_Html_Pager" name="product_list_toolbar_pager"/>
-                        <!-- The following code shows how to set your own pager increments -->
-                        <!--
-                            <action method="setDefaultListPerPage"><limit>10</limit></action>
-                            <action method="setDefaultGridPerPage"><limit>8</limit></action>
-                            <action method="addPagerLimit"><mode>list</mode><limit>10</limit></action>
-                            <action method="addPagerLimit"><mode>list</mode><limit>20</limit></action>
-                            <action method="addPagerLimit"><mode>list</mode><limit>30</limit></action>
-                            <action method="addPagerLimit" translate="label"><mode>list</mode><limit>all</limit><label>All</label></action>
-                            <action method="addPagerLimit"><mode>grid</mode><limit>8</limit></action>
-                            <action method="addPagerLimit"><mode>grid</mode><limit>16</limit></action>
-                            <action method="addPagerLimit"><mode>grid</mode><limit>24</limit></action>
-                            <action method="addPagerLimit" translate="label"><mode>grid</mode><limit>all</limit><label>All</label></action>
-                        -->
-                    </block>
-                    <!--action method="addColumnCountLayoutDepend"><layout>empty</layout><count>6</count></action>
-                    <action method="addColumnCountLayoutDepend"><layout>one_column</layout><count>5</count></action>
-                    <action method="addColumnCountLayoutDepend"><layout>two_columns_left</layout><count>4</count></action>
-                    <action method="addColumnCountLayoutDepend"><layout>two_columns_right</layout><count>4</count></action>
-                    <action method="addColumnCountLayoutDepend"><layout>three_columns</layout><count>3</count></action-->
-                    <action method="setColumnCount"><count>4</count></action>
-                    <action method="setToolbarBlockName"><name>product_list_toolbar</name></action>
-                </block>
-            </block>
-        </reference>
-    </catalog_category_layered>
-
-    <catalog_category_layered_nochildren translate="label" type="page" parent="catalog_category_layered">
-        <label>Catalog Category (Without Subcategories)</label>
+    <catalog_category_view_type_default_without_children translate="label" type="page" parent="catalog_category_view_type_default">
+        <label>Non Anchor Catalog Category Without Subcategories</label>
         <remove name="right.reports.product.viewed"/>
         <reference name="left">
             <!--block type="Mage_Reports_Block_Product_Viewed" name="left.reports.product.viewed" template="product_viewed.phtml"/-->
         </reference>
-    </catalog_category_layered_nochildren>
+    </catalog_category_view_type_default_without_children>
+
+    <catalog_category_view_type_layered translate="label" type="page" parent="catalog_category_view">
+        <label>Anchor Catalog Category</label>
+        <reference name="left">
+            <block type="Mage_Catalog_Block_Layer_View" name="catalog.leftnav" after="currency" template="layer/view.phtml"/>
+        </reference>
+    </catalog_category_view_type_layered>
+
+    <catalog_category_view_type_layered_without_children>
+        <label>Anchor Catalog Category Without Subcategories</label>
+        <remove name="right.reports.product.viewed"/>
+        <reference name="left">
+            <!--block type="Mage_Reports_Block_Product_Viewed" name="left.reports.product.viewed" template="product_viewed.phtml"/-->
+        </reference>
+    </catalog_category_view_type_layered_without_children>
+
 
 <!--
 Compare products page

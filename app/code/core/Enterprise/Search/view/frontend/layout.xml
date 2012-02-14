@@ -19,11 +19,10 @@
         </reference>
     </catalogsearch_result_index>
 
-    <catalog_category_layered>
+    <catalog_category_view_type_layered_without_children>
         <reference name="left">
             <remove name="catalog.leftnav"/>
             <block type="Enterprise_Search_Block_Catalog_Layer_View" name="enterprisecatalog.leftnav" before="-" template="Mage_Catalog::layer/view.phtml"/>
         </reference>
-    </catalog_category_layered>
-
+    </catalog_category_view_type_layered_without_children>
 </layout>
