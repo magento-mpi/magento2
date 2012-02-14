@@ -54,7 +54,7 @@ Mage::init('admin');
 
 if (false !== Mage::app()->getRequest()->getHeader('Version')) {
     /** @var $server Mage_Api2_Model_Server */
-    $server = Mage::getModel('api2/server');
+    $server = Mage::getSingleton('api2/server');
 
     $server->run();
 } else {

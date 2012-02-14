@@ -125,6 +125,11 @@ abstract class Mage_Api2_Model_Resource
     protected $_version;
 
     /**
+     * @var Mage_Api2_Model_Multicall
+     */
+    protected $_multicall;
+
+    /**
      * Render data using registered Renderer
      *
      * @param mixed $data
@@ -256,6 +261,21 @@ abstract class Mage_Api2_Model_Resource
     protected function _delete()
     {
         $this->_critical(self::RESOURCE_METHOD_NOT_IMPLEMENTED);
+    }
+
+    /**
+     * Perform multiple calls to subresources of specified resource
+     *
+     * @param string $resourceInstanceId
+     * @return Mage_Api2_Model_Response
+     */
+    protected function _multicall($resourceInstanceId)
+    {
+        if (!$this->_multicall) {
+            $this->_multicall = Mage::getModel('api2/multicall');
+        }
+        $resourceName = $this->getResourceType();
+        return $this->_multicall->call($resourceInstanceId, $resourceName, $this->getRequest());
     }
 
     /**
@@ -540,7 +560,7 @@ abstract class Mage_Api2_Model_Resource
      */
     public function getConfig()
     {
-        return Mage::getModel('api2/config');
+        return Mage::getSingleton('api2/config');
     }
 
     /**

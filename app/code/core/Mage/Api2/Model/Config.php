@@ -314,4 +314,17 @@ class Mage_Api2_Model_Config extends Varien_Simplexml_Config
     {
         return (string) $this->getNode('resources/' . $node . '/model');
     }
+
+    /**
+     * Retrieve resource subresources
+     *
+     * @param string $node
+     * @return array
+     */
+    public function getResourceSubresources($node)
+    {
+        $subresources = $this->getNode('resources/' . $node . '/subresources');
+
+        return $subresources ? (array)$subresources : array();
+    }
 }
