@@ -45,18 +45,8 @@ class Mage_DesignEditor_Block_Toolbar extends Mage_Core_Block_Template
      */
     public function getMessages()
     {
-        return $this->_getSession()
+        return Mage::getSingleton('Mage_DesignEditor_Model_Session')
             ->getMessages(true)
             ->getItems();
-    }
-
-    /**
-     * Returns user session for toolbar
-     *
-     * @return Mage_DesignEditor_Model_Session
-     */
-    protected function _getSession()
-    {
-        return Mage::getSingleton('Mage_DesignEditor_Model_Session');
     }
 }
