@@ -631,7 +631,8 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         }
         $parentName = $node->getAttribute('parent');
         if ($parentName) {
-            $parentNode = reset($layoutFullXml->xpath(self::XPATH_PAGE_TYPES . '[name()="' . $parentName . '"][1]'));
+            $parentNode = $layoutFullXml->xpath(self::XPATH_PAGE_TYPES . '[name()="' . $parentName . '"][1]');
+            $parentNode = reset($parentNode);
             if (!$parentNode) {
                 throw new UnexpectedValueException("Page type '$name' refers to non-existing parent '$parentName'.");
             }
