@@ -755,7 +755,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         }
         if (preg_match('/^%longValue[0-9]+%$/', $value)) {
             $length = preg_replace('/[^0-9]/', '', $value);
-            $value = preg_replace('/%longValue[0-9]+%/', $this->generate('text', $length, ':alpha:'), $value);
+            $value = preg_replace('/%longValue[0-9]+%/', $this->generate('string', $length, ':alpha:'), $value);
         }
         if (preg_match('/^%specialValue[0-9]+%$/', $value)) {
             $length = preg_replace('/[^0-9]/', '', $value);
