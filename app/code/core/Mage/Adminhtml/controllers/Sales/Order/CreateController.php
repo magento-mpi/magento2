@@ -288,7 +288,9 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
         }
 
         $data = $this->getRequest()->getPost('order');
-        $couponCode = trim($data['coupon']['code']);
+        if (isset($data) && isset($data['coupon'])) {
+            $couponCode = trim($data['coupon']['code']);
+        }
         if (!empty($couponCode)) {
             if ($this->_getQuote()->getCouponCode() !== $couponCode) {
                 $this->_getSession()->addError(
