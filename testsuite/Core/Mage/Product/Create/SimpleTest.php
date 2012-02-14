@@ -619,7 +619,7 @@ class Core_Mage_Product_Create_SimpleTest extends Mage_Selenium_TestCase
         $this->addParameter('setId', $setId);
         //3. Open product and create simple product
         $this->productHelper()->openProduct($data['search']);
-        $this->addParameter('productId', $this->getParamsDecorator()->getParameter('id'));
+        $this->addParameter('productId', $this->getParameter('id'));
         $this->openTab('associated');
         $this->clickButton('create_copy_from_configurable', false);
         $names = $this->getAllWindowNames();
