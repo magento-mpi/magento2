@@ -63,6 +63,7 @@ framework:
     testsuite_base_path: 'testsuite'
     coverageScriptUrl: ''
     captureScreenshotOnFailure: true
+    saveHtmlPageOnFailure: false
     load_all_fixtures: true
     cache:
         frontend:

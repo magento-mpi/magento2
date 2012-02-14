@@ -74,6 +74,11 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     protected static $_testHelpers = array();
     /**
+     * Saves html content of current page if test has error
+     * @var bool
+     */
+    protected $_saveHtmlPageOnFailure = false;
+    /**
      * Timeout const
      * @var int
      */
@@ -223,6 +228,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         }
         $config = $this->_configHelper->getConfigFramework();
         $this->captureScreenshotOnFailure = $config['captureScreenshotOnFailure'];
+        $this->_saveHtmlPageOnFailure = $config['saveHtmlPageOnFailure'];
         $this->coverageScriptUrl = $config['coverageScriptUrl'];
     }
 
@@ -1309,19 +1315,53 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     #                                                                              #
     ################################################################################
     /**
-     * Saves html content of current page
+     * Saves html content of current page and return information about it.
+     * Return an empty string if the screenshotPath property is empty.
      *
      * @param null|string $fileName
+     *
+     * @return string
      */
     public function saveHtmlPage($fileName = null)
     {
-        if ($fileName == null) {
-            $fileName = $this->testId;
+        if (!empty($this->screenshotPath)) {
+            if ($fileName == null) {
+                $fileName = date('d-m-Y-H-i-s') . '_' . $this->getName();
+            }
+            $filePath = $this->getScreenshotPath() . $fileName;
+            $file = fopen($filePath . '.html', 'a+');
+            fputs($file, $this->drivers[0]->getHtmlSource());
+            fflush($file);
+            fclose($file);
+            return 'HTML Page: ' . $filePath . ".html\n";
+        } else {
+            return '';
         }
-        $file = fopen(SELENIUM_TESTS_SCREENSHOTDIR . DIRECTORY_SEPARATOR . $fileName . '.html', 'a+');
-        fputs($file, $this->drivers[0]->getHtmlSource());
-        fflush($file);
-        fclose($file);
+    }
+
+    /**
+     * Take a screenshot and return information about it.
+     * Return an empty string if the screenshotPath property is empty.
+     *
+     * @param null|string $fileName
+     *
+     * @return string
+     */
+    public function takeScreenshot($fileName = null)
+    {
+        if (!empty($this->screenshotPath)) {
+            if ($fileName == null) {
+                $fileName = date('d-m-Y-H-i-s') . '_' . $this->getName();
+            }
+            $filePath = $this->getScreenshotPath() . $fileName;
+            $file = fopen($filePath . '.png', 'a+');
+            fputs($file, base64_decode($this->drivers[0]->captureEntirePageScreenshotToString()));
+            fflush($file);
+            fclose($file);
+            return 'Screenshot: ' . $filePath . ".png\n";
+        } else {
+            return '';
+        }
     }
 
     /**
@@ -2493,12 +2533,15 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     protected function onNotSuccessfulTest(Exception $e)
     {
-        if ($this->captureScreenshotOnFailure && !empty($this->screenshotPath)
-            && ($e instanceof PHPUnit_Framework_AssertionFailedError
-                || $e instanceof PHPUnit_Framework_ExpectationFailedException)
-        ) {
-            $filename = $this->getScreenshotPath() . $this->testId . '.png';
-            $this->drivers[0]->captureEntirePageScreenshot($filename);
+        if (($e instanceof PHPUnit_Framework_AssertionFailedError
+                || $e instanceof PHPUnit_Framework_ExpectationFailedException)) {
+            $this->selectWindow('null');
+            if ($this->_saveHtmlPageOnFailure) {
+                $this->saveHtmlPage();
+            }
+            if ($this->captureScreenshotOnFailure) {
+                $this->takeScreenshot();
+            }
         }
         try {
             $this->drivers[0]->stop();
