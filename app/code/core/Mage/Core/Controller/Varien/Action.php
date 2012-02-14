@@ -1048,6 +1048,8 @@ abstract class Mage_Core_Controller_Varien_Action
                 if (!empty($content['rm'])) {
                     $ioAdapter->rm($file);
                 }
+
+                exit(0);
             } else {
                 $this->getResponse()->setBody($content);
             }
