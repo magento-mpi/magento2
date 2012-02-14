@@ -244,12 +244,17 @@ class Mage_Selenium_Helper_Config extends Mage_Selenium_Helper_Abstract
     /**
      * Return all area configs for current application
      * @return array
+     * @throws OutOfRangeException
      */
     public function getConfigAreas()
     {
-        $config = $this->getApplicationConfig();
-        $this->_configAreas = $config['areas'];
-
+        if (!$this->_configAreas) {
+            $config = $this->getApplicationConfig();
+            if (!isset($config['areas'])) {
+                throw new OutOfRangeException('Areas for "' . self::$_application . '" application is not set');
+            }
+            $this->_configAreas = $config['areas'];
+        }
         return $this->_configAreas;
     }
 
