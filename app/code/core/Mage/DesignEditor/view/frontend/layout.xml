@@ -16,6 +16,7 @@
             <action method="addJs"><file>jquery/jquery-no-conflict.js</file><params/><if/><condition>design_editor_active</condition></action>
             <action method="addJs"><file>Mage_DesignEditor::js/design_editor.js</file><params/><if/><condition>design_editor_active</condition></action>
             <action method="addJs"><file>jquery/jstree/jquery.jstree.js</file><params/><if/><condition>design_editor_active</condition></action>
+            <action method="addJs"><file>jquery/jquery-ui-1.8.17.custom.min.js</file><params/><if/><condition>design_editor_active</condition></action>
             <action method="addCss"><file>Mage_DesignEditor::css/styles.css</file><params/><if/><condition>design_editor_active</condition></action>
         </reference>
         <reference name="after_body_start">

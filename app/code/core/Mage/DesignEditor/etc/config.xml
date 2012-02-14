@@ -49,6 +49,14 @@
                     </designeditor>
                 </observers>
             </controller_action_layout_generate_blocks_after>
+            <core_block_abstract_to_html_after>
+                <observers>
+                    <designeditor>
+                        <class>Mage_DesignEditor_Model_Observer</class>
+                        <method>wrapHtmlWithBlockInfo</method>
+                    </designeditor>
+                </observers>
+            </core_block_abstract_to_html_after>
         </events>
     </frontend>
     <adminhtml>
