@@ -735,8 +735,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                 $currentValue = $overrideValue;
                 $isOverrided = true;
             } elseif (is_array($currentValue)) {
-                $isOverrided = $isOverrided
-                    || $this->overrideDataByCondition($overrideKey, $overrideValue, $currentValue, $condition);
+                $isOverrided = $this->overrideDataByCondition($overrideKey, $overrideValue, $currentValue,
+                                                              $condition) || $isOverrided;
             }
         }
         return $isOverrided;
