@@ -41,27 +41,32 @@ class Mage_Selenium_Driver extends PHPUnit_Extensions_SeleniumTestCase_Driver
      * @var bool
      */
     protected $_contiguousSession = false;
+
     /**
      * Handle to log file
      * @var null|resource
      */
     protected $_logHandle = null;
+
     /**
      * @var array
      */
-    private static $currentBrowser = array();
+    private static $_currentBrowser = array();
+
     /**
      * @var string
      */
-    private static $currentSessionId;
+    private static $_currentSessionId;
+
     /**
      * @var bool
      */
-    private static $currentContiguousSession;
+    private static $_currentContiguousSession;
+
     /**
      * @var bool
      */
-    private static $currentTestClassName;
+    private static $_currentTestClassName;
 
     /**
      * Basic constructor of Selenium RC driver
@@ -159,42 +164,42 @@ class Mage_Selenium_Driver extends PHPUnit_Extensions_SeleniumTestCase_Driver
     {
         $isFirst = false;
 
-        if (self::$currentTestClassName == null) {
-            self::$currentTestClassName = $testClassName;
+        if (self::$_currentTestClassName == null) {
+            self::$_currentTestClassName = $testClassName;
         }
-        if (self::$currentBrowser == null) {
-            self::$currentBrowser = $this->getBrowserSettings();
+        if (self::$_currentBrowser == null) {
+            self::$_currentBrowser = $this->getBrowserSettings();
         }
-        if (self::$currentContiguousSession === null) {
+        if (self::$_currentContiguousSession === null) {
             $config = $this->getBrowserSettings();
-            self::$currentContiguousSession = $config['restartBrowser'];
+            self::$_currentContiguousSession = $config['restartBrowser'];
         }
-        if (array_diff($this->getBrowserSettings(), self::$currentBrowser)) {
-            self::$currentBrowser = $this->getBrowserSettings();
-            $this->setSessionId(self::$currentSessionId);
-            if (self::$currentContiguousSession === false) {
+        if (array_diff($this->getBrowserSettings(), self::$_currentBrowser)) {
+            self::$_currentBrowser = $this->getBrowserSettings();
+            $this->setSessionId(self::$_currentSessionId);
+            if (self::$_currentContiguousSession === false) {
                 $this->setContiguousSession(true);
                 $this->stop();
                 $this->setContiguousSession(false);
-                self::$currentContiguousSession = null;
+                self::$_currentContiguousSession = null;
             }
         }
-        if (self::$currentContiguousSession === true && self::$currentSessionId !== null) {
-            $this->setSessionId(self::$currentSessionId);
+        if (self::$_currentContiguousSession === true && self::$_currentSessionId !== null) {
+            $this->setSessionId(self::$_currentSessionId);
             $this->stop();
         }
-        if (self::$currentSessionId === null) {
+        if (self::$_currentSessionId === null) {
             $this->start();
         } else {
-            $this->setSessionId(self::$currentSessionId);
+            $this->setSessionId(self::$_currentSessionId);
         }
         $currentSession = $this->getSessionId();
-        if (($currentSession != self::$currentSessionId)) {
-            self::$currentSessionId = $currentSession;
+        if (($currentSession != self::$_currentSessionId)) {
+            self::$_currentSessionId = $currentSession;
             $isFirst = true;
         }
-        if (self::$currentTestClassName != $testClassName) {
-            self::$currentTestClassName = $testClassName;
+        if (self::$_currentTestClassName != $testClassName) {
+            self::$_currentTestClassName = $testClassName;
             $isFirst = true;
         }
         return $isFirst;
@@ -209,10 +214,10 @@ class Mage_Selenium_Driver extends PHPUnit_Extensions_SeleniumTestCase_Driver
         if (!$this->_contiguousSession) {
             return;
         }
-        self::$currentSessionId = null;
-        self::$currentBrowser = null;
-        self::$currentContiguousSession = null;
-        self::$currentTestClassName = null;
+        self::$_currentSessionId = null;
+        self::$_currentBrowser = null;
+        self::$_currentContiguousSession = null;
+        self::$_currentTestClassName = null;
         parent::stop();
     }
 
@@ -243,7 +248,7 @@ class Mage_Selenium_Driver extends PHPUnit_Extensions_SeleniumTestCase_Driver
      */
     public static function getCurrentBrowser()
     {
-        return self::$currentBrowser['browser'];
+        return self::$_currentBrowser['browser'];
     }
 
 }

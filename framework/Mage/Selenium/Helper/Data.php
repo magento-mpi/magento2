@@ -36,9 +36,11 @@
 class Mage_Selenium_Helper_Data extends Mage_Selenium_Helper_Abstract
 {
     /**
+     * Array of files paths to fixtures
      * @var array
      */
     protected $_configFixtures = array();
+
     /**
      * Test data array
      * @var array
@@ -51,14 +53,14 @@ class Mage_Selenium_Helper_Data extends Mage_Selenium_Helper_Abstract
     protected function _init()
     {
         $this->_configFixtures = $this->getConfig()->getHelper('uimap')->getConfigFixtures();
-        $config = $frameworkConfig = $this->getConfig()->getHelper('config')->getConfigFramework();
+        $config = $this->getConfig()->getHelper('config')->getConfigFramework();
         if ($config['load_all_fixtures']) {
             $this->_loadTestData();
         }
     }
 
     /**
-     * Performs loading and merging of DataSet files
+     * Loads and merges DataSet files
      * @return Mage_Selenium_Helper_Data
      */
     protected function _loadTestData()

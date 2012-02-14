@@ -40,41 +40,48 @@ class Mage_Selenium_TestConfiguration
      * @var Mage_Selenium_TestConfiguration|null
      */
     public static $instance = null;
+
     /**
      * File helper instance
      * @var Mage_Selenium_Helper_File|null
      */
     protected $_fileHelper = null;
+
     /**
      * Config helper instance
      * @var Mage_Selenium_Helper_Config|null
      */
     protected $_configHelper = null;
+
     /**
      * UIMap helper instance
      * @var Mage_Selenium_Helper_Uimap|null
      */
     protected $_uimapHelper = null;
+
     /**
      * Data helper instance
      * @var Mage_Selenium_Helper_Data|null
      */
     protected $_dataHelper = null;
+
     /**
      * Params helper instance
      * @var Mage_Selenium_Helper_Params|null
      */
     protected $_paramsHelper = null;
+
     /**
      * Data generator helper instance
      * @var Mage_Selenium_Helper_DataGenerator|null
      */
     protected $_dataGeneratorHelper = null;
+
     /**
      * Cache helper instance
      * @var Mage_Selenium_Helper_Cache
      */
-    protected $_cacheHelper;
+    protected $_cacheHelper = null;
 
     /**
      * Constructor defined as private to implement singleton
@@ -133,9 +140,9 @@ class Mage_Selenium_TestConfiguration
     /**
      * Get $helperName helper instance
      *
-     * @param $helperName
+     * @param string $helperName
      *
-     * @return mixed
+     * @return object
      * @throws OutOfRangeException
      */
     public function getHelper($helperName)
@@ -152,7 +159,7 @@ class Mage_Selenium_TestConfiguration
             }
             return $this->$variableName;
         }
-        throw new OutOfRangeException($class . 'do not exist');
+        throw new OutOfRangeException($class . ' does not exist');
     }
 
     /**
@@ -189,54 +196,27 @@ class Mage_Selenium_TestConfiguration
      */
     public function addDriverConnection(array $browser)
     {
-        if (isset($browser['name'])) {
-            if (!is_string($browser['name'])) {
-                throw new InvalidArgumentException('Array element "name" is no string.');
-            }
-        } else {
+        if (!isset($browser['name'])) {
             $browser['name'] = '';
         }
-
-        if (isset($browser['browser'])) {
-            if (!is_string($browser['browser'])) {
-                throw new InvalidArgumentException('Array element "browser" is no string.');
-            }
-        } else {
+        if (!isset($browser['browser'])) {
             $browser['browser'] = '';
         }
-
-        if (isset($browser['host'])) {
-            if (!is_string($browser['host'])) {
-                throw new InvalidArgumentException('Array element "host" is no string.');
-            }
-        } else {
+        if (!isset($browser['host'])) {
             $browser['host'] = 'localhost';
         }
-
-        if (isset($browser['port'])) {
-            if (!is_int($browser['port'])) {
-                throw new InvalidArgumentException('Array element "port" is no integer.');
-            }
-        } else {
+        if (!isset($browser['port'])) {
             $browser['port'] = 4444;
         }
-
-        if (isset($browser['timeout'])) {
-            if (!is_int($browser['timeout'])) {
-                throw new InvalidArgumentException('Array element "timeout" is no integer.');
-            }
-        } else {
+        if (!isset($browser['timeout'])) {
             $browser['timeout'] = 30;
         }
-
-        if (isset($browser['httpTimeout'])) {
-            if (!is_int($browser['httpTimeout'])) {
-                throw new InvalidArgumentException('Array element "httpTimeout" is no integer.');
-            }
-        } else {
+        if (!isset($browser['httpTimeout'])) {
             $browser['httpTimeout'] = 45;
         }
-
+        if (!isset($browser['restartBrowser'])) {
+            $browser['restartBrowser'] = true;
+        }
         $driver = new Mage_Selenium_Driver();
         $driver->setName($browser['name']);
         $driver->setBrowser($browser['browser']);
@@ -244,9 +224,7 @@ class Mage_Selenium_TestConfiguration
         $driver->setPort($browser['port']);
         $driver->setTimeout($browser['timeout']);
         $driver->setHttpTimeout($browser['httpTimeout']);
-        if (isset($browser['restartBrowser'])) {
-            $driver->setContiguousSession($browser['restartBrowser']);
-        }
+        $driver->setContiguousSession($browser['restartBrowser']);
         $driver->setBrowserUrl($this->_configHelper->getBaseUrl());
 
         return $driver;

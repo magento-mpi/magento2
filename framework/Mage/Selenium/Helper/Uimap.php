@@ -36,13 +36,17 @@
 class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
 {
     /**
+     * Array of files paths to fixtures
      * @var array
      */
     protected $_configFixtures = array();
+
     /**
+     * Fixture downloading order
      * @var array
      */
     protected $_fallbackOrderFixture = array();
+
     /**
      * Uimap data
      * @var array
@@ -55,7 +59,7 @@ class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
     protected function _init()
     {
         $this->_initFixturePath();
-        $config = $frameworkConfig = $this->getConfig()->getHelper('config')->getConfigFramework();
+        $config = $this->getConfig()->getHelper('config')->getConfigFramework();
         if ($config['load_all_fixtures']) {
             $this->_loadUimapData();
         }
@@ -116,6 +120,7 @@ class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
 
     /**
      * Get all folder and file names in directory
+     *
      * @param string $path
      *
      * @return array

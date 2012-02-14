@@ -102,40 +102,30 @@ applications:
                 url: 'https://www.sandbox.paypal.com/'
                 base_page_uimap: 'paypal_sandbox'
                 uimap_path: 'paypal_sandbox'
-                login: 'login'
-                password: 'password'
+                login: 'paypal_sandbox_login'
+                password: 'paypal_sandbox_password'
             paypal_developer: &paypalDeveloper
                 url: 'https://developer.paypal.com/'
                 base_page_uimap: 'home'
                 uimap_path: 'paypal_developer'
-                login: 'login'
-                password: 'password'
+                login: 'paypal_developer_login'
+                password: 'paypal_developer_password'
     enterprise: &enterprise
         fallbackOrderFixture: 'enterprise, default'
         fallbackOrderHelper: 'Enterprise, Core'
         areas:
             admin:
-                url: 'http://www.localhost.com/magento/admin/'
+                url: 'http://www.localhost.com/magento_enterprise/admin/'
                 base_page_uimap: 'log_in_to_admin'
                 uimap_path: 'admin'
-                login: 'login'
-                password: 'password'
+                login: 'admin'
+                password: '123123q'
             frontend:
-                url: 'http://www.localhost.com/magento/'
+                url: 'http://www.localhost.com/magento_enterprise/'
                 base_page_uimap: 'home_page'
                 uimap_path: 'frontend'
                 login: ''
                 password: ''
-            paypal_sandbox: &paypalSandbox
-                url: 'https://www.sandbox.paypal.com/'
-                base_page_uimap: 'paypal_sandbox'
-                uimap_path: 'paypal_sandbox'
-                login: 'login'
-                password: 'password'
-            paypal_developer: &paypalDeveloper
-                url: 'https://developer.paypal.com/'
-                base_page_uimap: 'home'
-                uimap_path: 'paypal_developer'
-                login: 'login'
-                password: 'password'
+            paypal_sandbox: *paypalSandbox
+            paypal_developer: *paypalDeveloper
     default: *mage

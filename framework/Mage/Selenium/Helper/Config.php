@@ -40,66 +40,78 @@ class Mage_Selenium_Helper_Config extends Mage_Selenium_Helper_Abstract
      * @var array
      */
     protected $_configData = array();
+
     /**
-     * Configuration data for all browser
+     * Configuration data for all browsers
      * @var array
      */
     protected $_configBrowsers = array();
+
     /**
      * Configuration data for framework
      * @var array
      */
     protected $_configFramework = array();
+
     /**
      * Configuration data for all applications
      * @var array
      */
     protected $_configApplications = array();
+
     /**
      * Configuration data for all areas for current application
      * @var array
      */
     protected $_configAreas = array();
+
     /**
      * Default browser name
      * @var string
      */
     const DEFAULT_BROWSER = 'default';
+
     /**
      * Default application name
      * @var string
      */
     const DEFAULT_APPLICATION = 'default';
+
     /**
      * Default area
      * @var string
      */
     const DEFAULT_AREA = 'frontend';
+
     /**
      * Configuration data for current application
      * @var array
      */
     protected $_applicationConfig = array();
+
     /**
      * Configuration data for current area
      * @var array
      */
     protected $_areaConfig = array();
+
     /**
      * Name of current application
      * @var null|string
      */
-    protected static $_application = null;
+    protected $_application = null;
+
     /**
      * Name of current area
      * @var null|string
      */
-    protected static $_area = null;
+    protected $_area = null;
+
     /**
      * Name of current page
      * @var null|string
      */
-    protected static $_currentPageId = null;
+    protected $_currentPageId = null;
 
     /**
      * Initialize config
@@ -151,7 +163,7 @@ class Mage_Selenium_Helper_Config extends Mage_Selenium_Helper_Abstract
      */
     public function getConfigFramework()
     {
-        if (!$this->_configFramework) {
+        if (empty($this->_configFramework)) {
             $this->_configFramework = $this->getConfigValue('framework');
         }
         return $this->_configFramework;
@@ -159,7 +171,7 @@ class Mage_Selenium_Helper_Config extends Mage_Selenium_Helper_Abstract
     }
 
     /**
-     * load config for browsers
+     * Load config for browsers
      * @return Mage_Selenium_Helper_Config
      */
     protected function _loadConfigBrowsers()
@@ -194,7 +206,7 @@ class Mage_Selenium_Helper_Config extends Mage_Selenium_Helper_Abstract
             throw new InvalidArgumentException('Application with the ' . $name . ' name is absent');
         }
         $this->_applicationConfig = $config[$name];
-        self::$_application = $name;
+        $this->_application = $name;
 
         return $this;
     }
@@ -214,7 +226,7 @@ class Mage_Selenium_Helper_Config extends Mage_Selenium_Helper_Abstract
             throw new OutOfRangeException('Area with the name ' . $name . ' is absent');
         }
         $this->_areaConfig = $config[$name];
-        self::$_area = $name;
+        $this->_area = $name;
 
         return $this;
     }
@@ -226,7 +238,7 @@ class Mage_Selenium_Helper_Config extends Mage_Selenium_Helper_Abstract
      */
     public function setCurrentPageId($pageId)
     {
-        self::$_currentPageId = $pageId;
+        $this->_currentPageId = $pageId;
     }
 
     /**
@@ -251,7 +263,7 @@ class Mage_Selenium_Helper_Config extends Mage_Selenium_Helper_Abstract
         if (!$this->_configAreas) {
             $config = $this->getApplicationConfig();
             if (!isset($config['areas'])) {
-                throw new OutOfRangeException('Areas for "' . self::$_application . '" application is not set');
+                throw new OutOfRangeException('Areas for "' . $this->_application . '" application is not set');
             }
             $this->_configAreas = $config['areas'];
         }
@@ -265,7 +277,7 @@ class Mage_Selenium_Helper_Config extends Mage_Selenium_Helper_Abstract
      */
     public function getApplicationConfig()
     {
-        if (!isset($this->_applicationConfig)) {
+        if (empty($this->_applicationConfig)) {
             throw new OutOfRangeException('Application Config is not set');
         }
         return $this->_applicationConfig;
@@ -278,10 +290,10 @@ class Mage_Selenium_Helper_Config extends Mage_Selenium_Helper_Abstract
      */
     public function getApplication()
     {
-        if (!isset(self::$_application)) {
+        if (is_null($this->_application)) {
             throw new OutOfRangeException('Application is not set');
         }
-        return self::$_application;
+        return $this->_application;
     }
 
     /**
@@ -291,7 +303,7 @@ class Mage_Selenium_Helper_Config extends Mage_Selenium_Helper_Abstract
      */
     public function getAreaConfig()
     {
-        if (!isset($this->_areaConfig)) {
+        if (empty($this->_areaConfig)) {
             throw new OutOfRangeException('Area Config is not set');
         }
         return $this->_areaConfig;
@@ -304,10 +316,10 @@ class Mage_Selenium_Helper_Config extends Mage_Selenium_Helper_Abstract
      */
     public function getArea()
     {
-        if (!isset(self::$_area)) {
+        if (is_null($this->_area)) {
             throw new OutOfRangeException('Area is not set');
         }
-        return self::$_area;
+        return $this->_area;
     }
 
     /**
@@ -316,7 +328,10 @@ class Mage_Selenium_Helper_Config extends Mage_Selenium_Helper_Abstract
      */
     public function getCurrentPageId()
     {
-        return self::$_currentPageId;
+        if (is_null($this->_currentPageId)) {
+            throw new OutOfRangeException('Current page is not set');
+        }
+        return $this->_currentPageId;
     }
 
     /**
@@ -361,5 +376,4 @@ class Mage_Selenium_Helper_Config extends Mage_Selenium_Helper_Abstract
         }
         return $config['password'];
     }
-
 }

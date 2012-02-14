@@ -48,16 +48,19 @@ class Mage_Selenium_Helper_DataGenerator extends Mage_Selenium_Helper_Abstract
         ':punct:'       => '!@#$%^&*()_+=-[]{}\\|";:/?.>,<',
         'invalid-email' => '()[]\\;:,<>@'
     );
-    /**
-     * Email domain zone used for auto generated values
-     * @var string
-     */
-    protected $_emailDomain = 'example.com';
+
     /**
      * Email domain used for auto generated values
      * @var string
      */
+    protected $_emailDomain = 'example.com';
+
+    /**
+     * Email domain zone used for auto generated values
+     * @var string
+     */
     protected $_emailDomainZone = 'com';
+
     /**
      * Paragraph delimiter used for text generation
      * @var string
@@ -69,7 +72,7 @@ class Mage_Selenium_Helper_DataGenerator extends Mage_Selenium_Helper_Abstract
      *
      * @param string $type Available types are 'string', 'text', 'email'
      * @param int $length Generated value length
-     * @param null|string $modifier Value modifier, e.g. PCRE class
+     * @param null|string|array $modifier Value modifier, e.g. PCRE class
      * @param null|string $prefix Prefix to prepend the generated value
      *
      * @return string
@@ -165,7 +168,7 @@ class Mage_Selenium_Helper_DataGenerator extends Mage_Selenium_Helper_Abstract
      * Generates random string
      *
      * @param int $length Generated string length (number of characters)
-     * @param string $class PCRE class(es) to use for character in the generated string.
+     * @param string|array $class PCRE class(es) to use for character in the generated string.
      * String value can contain several comma-separated PCRE classes.
      * If no class is specified, only alphanumeric characters are used by default
      * @param string $prefix Prefix to prepend the generated value

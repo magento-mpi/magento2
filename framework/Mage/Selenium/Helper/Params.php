@@ -42,8 +42,6 @@ class Mage_Selenium_Helper_Params
     protected $_paramsArray = array();
 
     /**
-     * Class constructor
-     *
      * @param array|null $params
      */
     public function __construct(array $params = null)

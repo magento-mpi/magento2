@@ -43,72 +43,93 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * @var Mage_Selenium_TestConfiguration
      */
     protected $_testConfig;
+
     /**
      * Config helper instance
      * @var Mage_Selenium_Helper_Config
      */
     protected $_configHelper;
+
     /**
      * UIMap helper instance
      * @var Mage_Selenium_Helper_Uimap
      */
     protected $_uimapHelper;
+
     /**
      * Data helper instance
      * @var Mage_Selenium_Helper_Data
      */
     protected $_dataHelper;
+
     /**
      * Params helper instance
      * @var Mage_Selenium_Helper_Params
      */
     protected $_paramsHelper;
+
     /**
      * Data Generator helper instance
      * @var Mage_Selenium_Helper_DataGenerator
      */
     protected $_dataGeneratorHelper;
+
     /**
      * Array of Test Helper instances
      * @var array
      */
     protected static $_testHelpers = array();
+
     /**
      * Saves html content of current page if test has error
      * @var bool
      */
     protected $_saveHtmlPageOnFailure = false;
+
     /**
-     * Timeout const
+     * Timeout const in ms
      * @var int
      */
     protected $_browserTimeoutPeriod = 40000;
+
     /**
+     * Name of the first page after logging into the back-end
      * @var string
      */
     protected $_firstPageAfterAdminLogin = 'dashboard';
+
     /**
      * Array of messages on page
      * @var array
      */
     protected static $_messages = array();
+
     /**
+     * Type of uimap elements
      * @var string
      */
     const FIELD_TYPE_MULTISELECT = 'multiselect';
+
     /**
+     * Type of uimap elements
      * @var string
      */
     const FIELD_TYPE_DROPDOWN = 'dropdown';
+
     /**
+     * Type of uimap elements
      * @var string
      */
     const FIELD_TYPE_CHECKBOX = 'checkbox';
+
     /**
+     * Type of uimap elements
      * @var string
      */
     const FIELD_TYPE_RADIOBUTTON = 'radiobutton';
+
     /**
+     * Type of uimap elements
      * @var string
      */
     const FIELD_TYPE_INPUT = 'field';
@@ -116,21 +137,25 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     #                      Selenium variables(do not rename)                       #
     ################################################################################
     /**
-     * @var array
+     * @var PHPUnit_Extensions_SeleniumTestCase_Driver[]
      */
     protected $drivers = array();
+
     /**
-     * @var null
+     * @var string
      */
-    protected $coverageScriptUrl = null;
+    protected $coverageScriptUrl = '';
+
     /**
      * @var bool
      */
     protected $captureScreenshotOnFailure = false;
+
     /**
      * @var string
      */
     protected $screenshotPath = SELENIUM_TESTS_SCREENSHOTDIR;
+
     /**
      * @var string
      */
@@ -140,67 +165,79 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     ################################################################################
     /**
      * Success message Xpath
-     * @var string
+     * @staticvar string
      */
     protected static $xpathSuccessMessage = "//*/descendant::*[normalize-space(@class)='success-msg'][string-length(.)>1]";
+
     /**
      * Error message Xpath
-     * @var string
+     * @staticvar string
      */
     protected static $xpathErrorMessage = "//*/descendant::*[normalize-space(@class)='error-msg'][string-length(.)>1]";
+
     /**
      * Notice message Xpath
-     * @var string
+     * @staticvar string
      */
     protected static $xpathNoticeMessage = "//*/descendant::*[normalize-space(@class)='notice-msg'][string-length(.)>1]";
+
     /**
      * Validation message Xpath
-     * @var string
+     * @staticvar string
      */
     protected static $xpathValidationMessage = "//*/descendant::*[normalize-space(@class)='validation-advice' and not(contains(@style,'display: none;'))][string-length(.)>1]";
+
     /**
      * Field Name xpath with ValidationMessage
-     * @var string
+     * @staticvar string
      */
     protected static $xpathFieldNameWithValidationMessage = "/ancestor::*[2]//label/descendant-or-self::*[string-length(text())>1]";
+
     /**
      * Loading holder XPath
-     * @var string
+     * @staticvar string
      */
     protected static $xpathLoadingHolder = "//div[@id='loading-mask' and not(contains(@style,'display: none'))]";
+
     /**
      * Log Out link
-     * @var string
+     * @staticvar string
      */
     protected static $xpathLogOutAdmin = "//div[@class='header-right']//a[@class='link-logout']";
+
     /**
      * Admin Logo Xpath
-     * @var string
+     * @staticvar string
      */
     protected static $xpathAdminLogo = "//img[@class='logo' and contains(@src,'logo.gif')]";
+
     /**
      * Incoming Message 'Close' button Xpath
-     * @var string
+     * @staticvar string
      */
     protected static $xpathIncomingMessageClose = "//*[@id='message-popup-window' and @class='message-popup show']//a[span='close']";
+
     /**
      * 'Go to notifications' xpath in 'Latest Message' block
-     * @var string
+     * @staticvar string
      */
     protected static $xpathGoToNotifications = "//a[text()='Go to notifications']";
+
     /**
      * 'Cache Management' xpath link when cache are invalided
-     * @var string
+     * @staticvar string
      */
     protected static $xpathCacheInvalidated = "//a[text()='Cache Management']";
+
     /**
      * 'Index Management' xpath link when indexes are invalided
-     * @var string
+     * @staticvar string
      */
     protected static $xpathIndexesInvalidated = "//a[text()='Index Management']";
+
     /**
      * Qty elements in Table
-     * @var string
+     * @staticvar string
      */
     protected static $qtyElementsInTable = "//td[@class='pager']//span[contains(@id,'total-count')]";
 
@@ -295,7 +332,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $isFirst = $this->drivers[0]->driverSetUp(get_class($this));
         if ($isFirst) {
             $browser = $this->drivers[0]->getBrowserSettings();
-            if ($browser['browser'] == '*iexplore') {
+            if ($browser['browser'] == '*iexplore' || $browser['browser'] == '*iehta') {
                 $this->captureScreenshotOnFailure = false;
                 $this->useXpathLibrary('javascript-xpath');
                 $this->allowNativeXpath(true);
@@ -318,7 +355,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * @param string $testScope Part of the helper class name which refers to the file with the needed helper
      * @param string $helperName Name Suffix that describes helper name (default = 'Helper')
      *
-     * @return bool
+     * @return object
      * @throws UnexpectedValueException
      */
     protected function _loadHelper($testScope, $helperName = 'Helper')
@@ -1869,7 +1906,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                 $this->waitForAjax($this->_browserTimeoutPeriod);
             }
         } else {
-            $this->fail('Cant\'t find item in grid for data: ' . print_r($data, true));
+            $this->fail('Can\'t find item in grid for data: ' . print_r($data, true));
         }
     }
 
@@ -2534,7 +2571,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     protected function onNotSuccessfulTest(Exception $e)
     {
         if (($e instanceof PHPUnit_Framework_AssertionFailedError
-                || $e instanceof PHPUnit_Framework_ExpectationFailedException)) {
+            || $e instanceof PHPUnit_Framework_ExpectationFailedException)
+        ) {
             $this->selectWindow('null');
             if ($this->_saveHtmlPageOnFailure) {
                 $this->saveHtmlPage();
