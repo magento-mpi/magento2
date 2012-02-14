@@ -294,13 +294,11 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_TestCase
      */
     public function frontValidate3dSecure($password = '1234')
     {
-        $xpathFrame = $this->_getControlXpath('fieldset', '3d_secure_card_validation');
-        if ($this->waitForElement($xpathFrame, 5)) {
+        if ($this->controlIsPresent('fieldset', '3d_secure_card_validation')) {
             $xpath = $this->_getControlXpath('field', '3d_password');
             $xpathContinue = $this->_getControlXpath('button', '3d_continue');
             $xpathSubmit = $this->_getControlXpath('button', '3d_submit');
-            $this->waitForElement($xpath);
-            if ($this->isElementPresent($xpath)) {
+            if ($this->waitForElement($xpath)) {
                 $this->type($xpath, $password);
                 $this->click($xpathSubmit);
                 $this->waitForElementNotPresent($xpathSubmit);

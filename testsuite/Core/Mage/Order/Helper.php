@@ -406,6 +406,9 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
     public function validate3dSecure($password = '1234')
     {
         $xpath = $this->_getControlXpath('fieldset', '3d_secure_card_validation');
+        $xpathSubmit = "//input[@value='Submit']";
+        $xpathContinue = "//input[@value='Continue']";
+        $xpathPassword = "//input[@name='external.field.password']";
         if ($this->isElementPresent($xpath)) {
             $this->clickButton('start_reset_validation', false);
             $this->pleaseWait();
@@ -414,15 +417,21 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
                 $text = $this->getAlert();
                 $this->fail($text);
             }
-            $this->waitForElement("//div//iframe[@id='centinel_authenticate_iframe'" .
-                                  " and normalize-space(@style)='display: block;']");
-            $this->waitForElement("//body[@onbeforeunload and @onload]");
-            if ($this->waitForElement("//input[@name='external.field.password']", 5)) {
-                $this->type("//input[@name='external.field.password']", $password);
-                $this->click("//input[@value='Submit']");
+//            $this->waitForElement("//div//iframe[@id='centinel_authenticate_iframe'" .
+//                                                  " and normalize-space(@style)='display: block;']");
+//            $this->waitForElement("//body[@onbeforeunload and @onload]");
+            if ($this->waitForElement($xpathPassword)) {
+                $this->type($xpathPassword, $password);
+                $this->click($xpathSubmit);
+                $this->waitForElementNotPresent($xpathSubmit);
                 $a = "//font//b[text()='Incorrect, Please try again']";
                 $b = "//html/body/h1[text()='Verification Successful']";
-                $this->waitForElement(array($a, $b));
+                $this->waitForElement(array($a, $b, $xpathContinue));
+                if ($this->isElementPresent($xpathContinue)) {
+                    $this->click($xpathContinue);
+                    $this->waitForElementNotPresent($xpathContinue);
+                    $this->waitForElement(array($a, $b));
+                }
                 $this->assertElementPresent("//html/body/h1[text()='Verification Successful']");
             } else {
                 $this->fail('3D Secure frame is not loaded(maybe wrong card)');
@@ -719,6 +728,28 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
             $this->fail("Arrays are not identical:\n" . var_export($result, true));
         } else {
             return true;
+        }
+    }
+
+    /**
+     * Check empty fields for credit card during reorder
+     *
+     * @param array $cardData
+     */
+    public function verifyIfCreditCardFieldsAreEmpty(array $cardData)
+    {
+        $fieldset = $this->getCurrentUimapPage()->findFieldset('order_payment_method');
+        $emptyFields = $this->_getFormDataMap(array($fieldset), $cardData);
+        foreach ($emptyFields as $fieldName => $fieldData) {
+            $value = 'not_set';
+            if ($fieldData['type'] == 'field') {
+                $value = $this->getAttribute($fieldData['path'] . '@value');
+            } elseif ($fieldData['type'] == 'dropdown') {
+                $value = $this->getSelectedLabel($fieldData['path']);
+            }
+            if ($value == $fieldData['value']) {
+                $this->addVerificationMessage("Value for field " . $fieldName . " should be empty, but now is $value");
+            }
         }
     }
 }

@@ -561,10 +561,13 @@ saved_diners_club: &dinersClubSavedCC
 saved_switch_maestro: &switchMaestroSavedCC
     name_on_card: 'Test Account'
     card_type: 'Switch/Maestro'
-    card_number: '4024007127653'
-    expiration_month: '07 - July'
-    expiration_year: '2020'
+    card_number: '6759343422308233'
+    expiration_month: '01 - January'
+    expiration_year: '2013'
     card_verification_number: '111'
+    issue_number: 1234
+    start_date_month: 12 - December
+    start_date_year: 2011
 
 saved_discover: &discoverSavedCC
     name_on_card: 'Test Account'
@@ -681,24 +684,24 @@ else_jcb_3d: &jcbElse3D
 
 else_solo: &soloElse
     card_type: 'Solo'
-    card_number: '6767705369846419'
-    expiration_month: '07 - July'
-    expiration_year: '2020'
+    card_number: '6767661395122343'
+    expiration_month: '01 - January'
+    expiration_year: '2013'
     card_verification_number: '111'
     issue_number: 1234
     start_date_month: 12 - December
-    start_date_year: 2012
+    start_date_year: 2011
 
 else_switch_maestro: &switchMaestroElse
     card_type: 'Switch/Maestro'
-    card_number: '6331101999990016'
+    card_number: '6759343422308233'
     #card_number: '4024007127653'
-    expiration_month: '07 - July'
-    expiration_year: '2020'
+    expiration_month: '01 - January'
+    expiration_year: '2013'
     card_verification_number: '111'
-    issue_number: 2012
+    issue_number: 1234
     start_date_month: 12 - December
-    start_date_year: 2012
+    start_date_year: 2011
 
 #*********************************************
 #*              Payment Data                 *

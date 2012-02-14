@@ -277,7 +277,7 @@ create_order_for_new_customer:
                         fields:
                             name_on_card: //input[@id='%paymentId%_cc_owner']
                             card_number: //input[@id='%paymentId%_cc_number']
-                            card_verification_number : //input[@id='%paymentId%_cc_cid']
+                            card_verification_number: //input[@id='%paymentId%_cc_cid']
                             issue_number: //*[@id='%paymentId%_cc_issue']
                         dropdowns:
                             card_type: //select[@id='%paymentId%_cc_type']
