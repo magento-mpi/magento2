@@ -44,8 +44,6 @@ class Mage_Selenium_Uimap_TabsCollection extends ArrayObject
      */
     public function getTab($name)
     {
-        return isset($this[$name])
-                ? $this[$name]
-                : null;
+        return isset($this[$name]) ? $this[$name] : null;
     }
 }
