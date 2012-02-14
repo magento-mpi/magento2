@@ -49,7 +49,7 @@
         <reference name="head">
             <action method="addJs"><file>Mage_Paypal::review.js</file></action>
         </reference>
-        <block type="Mage_Core_Block_Text_List" name="additional.product.info" />
+        <container name="additional.product.info" label="Additional Product Info"/>
     </paypal_express_review>
 
     <paypal_express_review_details translate="label" type="page" parent="checkout_onepage_review">

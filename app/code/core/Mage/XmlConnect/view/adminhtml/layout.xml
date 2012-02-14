@@ -165,57 +165,57 @@
     </adminhtml_mobile_template_preview>
 
     <adminhtml_mobile_previewhome>
-        <block type="Mage_Core_Block_Text_List" name="root" output="toHtml">
+        <container name="root" label="Root">
             <block type="Mage_XmlConnect_Block_Adminhtml_Mobile_Preview_Content" name="preview_home_content">
                 <action method="setTemplate"><templateType>home</templateType></action>
                 <block type="Mage_XmlConnect_Block_Adminhtml_Mobile_Preview_Tabitems" name="preview_tab_items" as="tab_items">
                     <action method="setActiveTab"><tab>home</tab></action>
                 </block>
             </block>
-        </block>
+        </container>
     </adminhtml_mobile_previewhome>
 
     <adminhtml_mobile_previewhomehor>
-        <block type="Mage_Core_Block_Text_List" name="root" output="toHtml">
+        <container name="root" label="Root">
             <block type="Mage_XmlConnect_Block_Adminhtml_Mobile_Preview_Content" name="preview_home_hor_content">
                 <action method="setTemplate"><templateType>home_hor</templateType></action>
                 <block type="Mage_XmlConnect_Block_Adminhtml_Mobile_Preview_Tabitems" name="preview_tab_items" as="tab_items">
                     <action method="setActiveTab"><tab>home</tab></action>
                 </block>
             </block>
-        </block>
+        </container>
     </adminhtml_mobile_previewhomehor>
 
     <adminhtml_mobile_previewcataloghor>
-        <block type="Mage_Core_Block_Text_List" name="root" output="toHtml">
+        <container name="root" label="Root">
             <block type="Mage_XmlConnect_Block_Adminhtml_Mobile_Preview_Content" name="preview_catalog_hor_content">
                 <action method="setTemplate"><templateType>catalog_hor</templateType></action>
                 <block type="Mage_XmlConnect_Block_Adminhtml_Mobile_Preview_Tabitems" name="preview_tab_items" as="tab_items">
                     <action method="setActiveTab"><tab>shop</tab></action>
                 </block>
             </block>
-        </block>
+        </container>
     </adminhtml_mobile_previewcataloghor>
 
     <adminhtml_mobile_previewcatalog>
-        <block type="Mage_Core_Block_Text_List" name="root" output="toHtml">
+        <container name="root" label="Root">
             <block type="Mage_XmlConnect_Block_Adminhtml_Mobile_Preview_Content" name="preview_catalog_content">
                 <action method="setTemplate"><templateType>catalog</templateType></action>
                 <block type="Mage_XmlConnect_Block_Adminhtml_Mobile_Preview_Tabitems" name="preview_tab_items" as="tab_items">
                     <action method="setActiveTab"><tab>shop</tab></action>
                 </block>
             </block>
-        </block>
+        </container>
     </adminhtml_mobile_previewcatalog>
 
     <adminhtml_mobile_previewproductinfo>
-        <block type="Mage_Core_Block_Text_List" name="root" output="toHtml">
+        <container name="root" label="Root">
             <block type="Mage_XmlConnect_Block_Adminhtml_Mobile_Preview_Content" name="preview_productinfo_content">
                 <action method="setTemplate"><templateType>productinfo</templateType></action>
                 <block type="Mage_XmlConnect_Block_Adminhtml_Mobile_Preview_Tabitems" name="preview_tab_items" as="tab_items">
                     <action method="setActiveTab"><tab>shop</tab></action>
                 </block>
             </block>
-        </block>
+        </container>
     </adminhtml_mobile_previewproductinfo>
 </layout>

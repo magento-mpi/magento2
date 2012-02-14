@@ -36,11 +36,10 @@
                     <block type="Mage_Catalog_Block_Product_List_Toolbar" name="product_list_toolbar" template="product/list/toolbar.phtml">
                         <block type="Mage_Page_Block_Html_Pager" name="product_list_toolbar_pager"/>
                     </block>
-                    <block type="Mage_Core_Block_Text_List" name="additional" translate="label">
-                        <label>Additional Info</label>
+                    <container name="additional" label="Additional Info">
                         <block type='Enterprise_Search_Block_Suggestions' name='search_suggestions' template="suggestions.phtml"></block>
                         <block type='Enterprise_Search_Block_Recommendations' name='search_recommendations' template="recommendations.phtml"></block>
-                    </block>
+                    </container>
                     <action method="addColumnCountLayoutDepend"><layout>empty</layout><count>6</count></action>
                     <action method="addColumnCountLayoutDepend"><layout>one_column</layout><count>5</count></action>
                     <action method="addColumnCountLayoutDepend"><layout>two_columns_left</layout><count>4</count></action>

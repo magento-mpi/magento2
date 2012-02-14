@@ -37,9 +37,7 @@ Default layout, loads most of the pages
                 <block type="Mage_Page_Block_Js_Cookie" name="js_cookies" template="js/cookie.phtml"/>
             </block>
 
-            <block type="Mage_Core_Block_Text_List" name="after_body_start" as="after_body_start" translate="label">
-                <label>Page Top</label>
-            </block>
+            <container name="after_body_start" as="after_body_start" label="Page Top"/>
 
             <block type="Mage_Page_Block_Html_Notices" name="global_notices" as="global_notices" template="html/notices.phtml" />
 
@@ -47,9 +45,7 @@ Default layout, loads most of the pages
                 <block type="Mage_Page_Block_Template_Links" name="top.links" as="topLinks"/>
                 <block type="Mage_Page_Block_Switch" name="store_language" as="store_language" template="switch/languages.phtml"/>
                 <block type="Mage_Page_Block_Switch" name="store_switcher" as="store_switcher" template="switch/stores.phtml"/>
-                <block type="Mage_Core_Block_Text_List" name="top.menu" as="topMenu" translate="label">
-                    <label>Navigation Bar</label>
-                </block>
+                <container name="top.menu" as="topMenu" label="Navigation Bar"/>
                 <block type="Mage_Page_Block_Html_Wrapper" name="top.container" as="topContainer" translate="label">
                     <label>Page Header</label>
                     <action method="setElementClass"><value>top-container</value></action>
@@ -63,20 +59,18 @@ Default layout, loads most of the pages
                     <action method="addItemRender"><type>configurable</type><block>Mage_Checkout_Block_Cart_Item_Renderer_Configurable</block><template>cart/item/default.phtml</template></action>
                     <remove name="checkout.cart.breadcrumbs"/>
 
-                    <block type="Mage_Core_Block_Text_List" name="checkout.cart.top_methods" as="top_methods" translate="label">
-                        <label>Payment Methods Before Checkout Button</label>
+                    <container name="checkout.cart.top_methods" as="top_methods" label="Payment Methods Before Checkout Button">
                         <block type="Mage_Checkout_Block_Onepage_Link" name="checkout.cart.methods.onepage" template="onepage/link.phtml"/>
-                    </block>
+                    </container>
 
                     <block type="Mage_Page_Block_Html_Wrapper" name="checkout.cart.form.before" as="form_before" translate="label">
                         <label>Shopping Cart Form Before</label>
                     </block>
 
-                    <block type="Mage_Core_Block_Text_List" name="checkout.cart.methods" as="methods" translate="label">
-                        <label>Payment Methods After Checkout Button</label>
+                    <container name="checkout.cart.methods" as="methods" label="Payment Methods After Checkout Button">
                         <block type="Mage_Checkout_Block_Onepage_Link" name="checkout.cart.methods.onepage" template="onepage/link.phtml"/>
                         <block type="Mage_Checkout_Block_Multishipping_Link" name="checkout.cart.methods.multishipping" template="multishipping/link.phtml"/>
-                    </block>
+                    </container>
 
                     <block type="Mage_Checkout_Block_Cart_Coupon" name="checkout.cart.coupon" as="coupon" template="cart/coupon.phtml"/>
                     <block type="Mage_Checkout_Block_Cart_Shipping" name="checkout.cart.shipping" as="shipping" template="cart/shipping.phtml"/>
@@ -90,9 +84,7 @@ Default layout, loads most of the pages
 
             <block type="Mage_Core_Block_Messages" name="global_messages" as="global_messages"/>
             <block type="Mage_Core_Block_Messages" name="messages" as="messages"/>
-            <block type="Mage_Core_Block_Text_List" name="content" as="content" translate="label">
-                <label>Main Content Area</label>
-            </block>
+            <container name="content" as="content" label="Main Content Area"/>
 
             <block type="Mage_Page_Block_Html_Footer" name="footer" as="footer" template="html/footer.phtml">
                 <block type="Mage_Page_Block_Html_Wrapper" name="bottom.container" as="bottomContainer" translate="label">
@@ -102,9 +94,7 @@ Default layout, loads most of the pages
                 <block type="Mage_Page_Block_Template_Links" name="footer_links" as="footer_links" template="template/links.phtml"/>
             </block>
 
-            <block type="Mage_Core_Block_Text_List" name="before_body_end" as="before_body_end" translate="label">
-                <label>Page Bottom</label>
-            </block>
+            <container name="before_body_end" as="before_body_end" label="Page Bottom"/>
         </block>
     </default>
 

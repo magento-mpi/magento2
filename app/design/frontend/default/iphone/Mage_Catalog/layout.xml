@@ -190,9 +190,7 @@ Product view
                 <action method="addReviewSummaryTemplate"><type>...</type><template>...</template></action>
                 -->
                 <block type="Mage_Catalog_Block_Product_View_Media" name="product.info.media" as="media" template="product/view/media.phtml"/>
-                <block type="Mage_Core_Block_Text_List" name="alert.urls" as="alert_urls" translate="label">
-                    <label>Alert Urls</label>
-                </block>
+                <container name="alert.urls" as="alert_urls" label="Alert Urls"/>
 
                 <action method="setTierPriceTemplate"><template>catalog/product/view/tierprices.phtml</template></action>
 
@@ -211,9 +209,7 @@ Product view
                 <block type="Mage_Catalog_Block_Product_View" name="product.info.addto" as="addto" template="product/view/addto.phtml"/>
                 <block type="Mage_Catalog_Block_Product_View" name="product.info.addtocart" as="addtocart" template="product/view/addtocart.phtml"/>
 
-                <block type="Mage_Core_Block_Text_List" name="product.info.extrahint" as="extrahint" translate="label">
-                    <label>Product View Extra Hint</label>
-                </block>
+                <container name="product.info.extrahint" as="extrahint" label="Product View Extra Hint"/>
 
                 <block type="Mage_Catalog_Block_Product_View" name="product.info.options.wrapper" as="product_options_wrapper" template="product/view/options/wrapper.phtml" translate="label">
                     <label>Info Column Options Wrapper</label>
@@ -262,9 +258,7 @@ Additional block dependant on product type
         <label>Catalog Product View (Simple)</label>
         <reference name="product.info">
             <block type="Mage_Catalog_Block_Product_View_Type_Simple" name="product.info.simple" as="product_type_data" template="product/view/type/default.phtml">
-                <block type="Mage_Core_Block_Text_List" name="product.info.simple.extra" as="product_type_data_extra" translate="label">
-                    <label>Product Extra Info</label>
-                </block>
+                <container name="product.info.simple.extra" as="product_type_data_extra" label="Product Extra Info"/>
             </block>
         </reference>
     </PRODUCT_TYPE_simple>
@@ -272,9 +266,7 @@ Additional block dependant on product type
         <label>Catalog Product View (Configurable)</label>
         <reference name="product.info">
             <block type="Mage_Catalog_Block_Product_View_Type_Configurable" name="product.info.configurable" as="product_type_data" template="product/view/type/default.phtml">
-                <block type="Mage_Core_Block_Text_List" name="product.info.configurable.extra" as="product_type_data_extra" translate="label">
-                    <label>Product Extra Info</label>
-                </block>
+                <container name="product.info.configurable.extra" as="product_type_data_extra" label="Product Extra Info"/>
             </block>
         </reference>
         <reference name="product.info.options.wrapper">
@@ -285,9 +277,7 @@ Additional block dependant on product type
         <label>Catalog Product View (Grouped)</label>
         <reference name="product.info">
             <block type="Mage_Catalog_Block_Product_View_Type_Grouped" name="product.info.grouped" as="product_type_data" template="product/view/type/grouped.phtml">
-                <block type="Mage_Core_Block_Text_List" name="product.info.grouped.extra" as="product_type_data_extra" translate="label">
-                    <label>Product Extra Info</label>
-                </block>
+                <container name="product.info.grouped.extra" as="product_type_data_extra" label="Product Extra Info"/>
             </block>
             <block type="Mage_Catalog_Block_Product_View_Type_Grouped" name="product.info.grouped.grid" as="product_type_data_grid" template="product/view/type/grouped_grid.phtml">
             </block>
@@ -297,9 +287,7 @@ Additional block dependant on product type
         <label>Catalog Product View (Virtual)</label>
         <reference name="product.info">
             <block type="Mage_Catalog_Block_Product_View_Type_Virtual" name="product.info.virtual" as="product_type_data" template="product/view/type/default.phtml">
-                <block type="Mage_Core_Block_Text_List" name="product.info.virtual.extra" as="product_type_data_extra" translate="label">
-                    <label>Product Extra Info</label>
-                </block>
+                <container name="product.info.virtual.extra" as="product_type_data_extra" label="Product Extra Info"/>
             </block>
         </reference>
     </PRODUCT_TYPE_virtual>

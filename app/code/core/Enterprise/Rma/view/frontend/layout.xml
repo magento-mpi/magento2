@@ -24,9 +24,7 @@
         </reference>
         <reference name="my.account.wrapper">
             <block type="Enterprise_Rma_Block_Return_History" name="rma.return.history">
-                <block type="Mage_Core_Block_Text_List" name="rma.return.history.info" as="info" translate="label">
-                    <label>Returns History Info</label>
-                </block>
+                <container name="rma.return.history.info" as="info" label="Returns History Info"/>
             </block>
             <block type="Enterprise_Rma_Block_Return_History" name="customer.account.link.back" template="Mage_Customer::account/link/back.phtml"/>
         </reference>
@@ -83,9 +81,7 @@
         <update handle="customer_account"/>
         <reference name="my.account.wrapper">
             <block type="Enterprise_Rma_Block_Return_View" name="rma.return.history">
-                <block type="Mage_Core_Block_Text_List" name="rma.return.history.info" as="info" translate="label">
-                    <label>Customer My Account Return View</label>
-                </block>
+                <container name="rma.return.history.info" as="info" label="Customer My Account Return View"/>
             </block>
             <block type="Enterprise_Rma_Block_Return_View" name="customer.account.link.back" template="Mage_Customer::account/link/back.phtml"/>
         </reference>
@@ -164,9 +160,7 @@
                 </block>
             </block>
             <block type="Enterprise_Rma_Block_Return_View" name="rma.return.history">
-                <block type="Mage_Core_Block_Text_List" name="rma.return.history.info" as="info" translate="label">
-                    <label>View Return</label>
-                </block>
+                <container name="rma.return.history.info" as="info" label="View Return"/>
             </block>
             <block type="Enterprise_Rma_Block_Return_View" name="customer.account.link.back" template="Mage_Customer::account/link/back.phtml"/>
         </reference>
