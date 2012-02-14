@@ -53,7 +53,7 @@ class Mage_Api2_Block_Adminhtml_Roles_Tabs extends Mage_Adminhtml_Block_Widget_T
     protected function _beforeToHtml()
     {
         $role = $this->getRole();
-        if ($role && ($role->isGuestRole() || $role->isCustomerRole())) {
+        if ($role && Mage_Api2_Model_Acl_Global_Role::isSystemRole($role)) {
             $this->setActiveTab('api2_role_section_resources');
         } else {
             $this->setActiveTab('api2_role_section_info');

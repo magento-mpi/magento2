@@ -126,6 +126,6 @@ class Mage_Api2_Block_Adminhtml_Roles_Tab_Info extends Mage_Adminhtml_Block_Widg
      */
     public function isHidden()
     {
-        return $this->getRole() && ($this->getRole()->isGuestRole() || $this->getRole()->isCustomerRole());
+        return $this->getRole() && Mage_Api2_Model_Acl_Global_Role::isSystemRole($this->getRole());
     }
 }

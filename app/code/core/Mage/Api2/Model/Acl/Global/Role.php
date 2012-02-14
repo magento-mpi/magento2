@@ -43,15 +43,12 @@
  */
 class Mage_Api2_Model_Acl_Global_Role extends Mage_Core_Model_Abstract
 {
-    /**
-     * Guest default role id
+    /**#@+
+     * System roles identifiers
      */
     const ROLE_GUEST_ID = 1;
-
-    /**
-     * Customer default role id
-     */
     const ROLE_CUSTOMER_ID = 2;
+    /**#@-*/
 
     /**
      * Permissions model
@@ -84,7 +81,7 @@ class Mage_Api2_Model_Acl_Global_Role extends Mage_Core_Model_Abstract
         }
 
         //check and protect guest role
-        if (($this->isGuestRole() || $this->isCustomerRole())
+        if (Mage_Api2_Model_Acl_Global_Role::isSystemRole($this)
             && $this->getRoleName() != $this->getOrigData('role_name')) {
 
             /** @var $helper Mage_Core_Helper_Data */
@@ -109,7 +106,7 @@ class Mage_Api2_Model_Acl_Global_Role extends Mage_Core_Model_Abstract
      */
     protected function _beforeDelete()
     {
-        if ($this->isGuestRole() || $this->isCustomerRole()) {
+        if (Mage_Api2_Model_Acl_Global_Role::isSystemRole($this)) {
             /** @var $helper Mage_Core_Helper_Data */
             $helper = Mage::helper('core');
 
@@ -139,26 +136,6 @@ class Mage_Api2_Model_Acl_Global_Role extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Check if role is "guest" special role
-     *
-     * @return bool
-     */
-    public function isGuestRole()
-    {
-        return $this->getId() == self::ROLE_GUEST_ID;
-    }
-
-    /**
-     * Check if role is "customer" special role
-     *
-     * @return bool
-     */
-    public function isCustomerRole()
-    {
-        return $this->getId() == self::ROLE_CUSTOMER_ID;
-    }
-
-    /**
      * Retrieve system roles
      *
      * @return array
@@ -169,5 +146,17 @@ class Mage_Api2_Model_Acl_Global_Role extends Mage_Core_Model_Abstract
             self::ROLE_GUEST_ID,
             self::ROLE_CUSTOMER_ID
         );
+    }
+
+    /**
+     * Is role a system role?
+     *
+     * @static
+     * @param Mage_Api2_Model_Acl_Global_Role $role
+     * @return bool
+     */
+    public static function isSystemRole($role)
+    {
+        return in_array($role->getId(), self::getSystemRoles());
     }
 }
