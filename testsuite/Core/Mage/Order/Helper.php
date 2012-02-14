@@ -486,7 +486,7 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
             if (is_string($customerData)) {
                 $customerData = $this->loadData($customerData);
             }
-            $this->assertTrue($this->searchAndOpen($customerData, false, 'order_customer_grid'),"Customer isn't found");
+            $this->searchAndOpen($customerData, false, 'order_customer_grid');
         }
 
         $storeSelectorXpath = $this->_getControlXpath('fieldset', 'order_store_selector');

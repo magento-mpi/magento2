@@ -51,7 +51,7 @@ class Core_Mage_Review_Helper extends Mage_Selenium_TestCase
         if (!$product) {
             $this->fail('Data for selecting product for review is not set');
         }
-        $this->assertTrue($this->searchAndOpen($product, false, 'select_product_grid'), 'Product is not found');
+        $this->searchAndOpen($product, false, 'select_product_grid');
         $this->validatePage();
         $this->fillInfo($reviewData);
         $this->saveForm('save_review');
@@ -82,7 +82,7 @@ class Core_Mage_Review_Helper extends Mage_Selenium_TestCase
                 && !$this->controlIsPresent('dropdown', 'filter_websites')) {
             unset($reviewSearch['filter_websites']);
         }
-        $this->assertTrue($this->searchAndOpen($reviewSearch), 'Review is not opened');
+        $this->searchAndOpen($reviewSearch);
     }
 
     /**
