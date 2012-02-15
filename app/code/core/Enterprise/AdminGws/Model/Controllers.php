@@ -886,11 +886,11 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
 
         $productsWebsites = $resource->getWebsiteIdsByProductIds($productIds);
 
-        foreach ($productsWebsites as $productWebsites) {
-            if (!$this->_role->hasExclusiveAccess(explode(',', $productWebsites['website_ids']))) {
-                $productNotExclusiveIds[]  = $productWebsites['product_id'];
+        foreach ($productsWebsites as $productId => $productWebsiteIds) {
+            if (!$this->_role->hasExclusiveAccess($productWebsiteIds)) {
+                $productNotExclusiveIds[]  = $productId;
             } else {
-                $productExclusiveIds[]     = $productWebsites['product_id'];
+                $productExclusiveIds[] = $productId;
             }
         }
 
