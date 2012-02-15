@@ -46,7 +46,7 @@ class Mage_Selenium_Driver extends PHPUnit_Extensions_SeleniumTestCase_Driver
      * Handle to log file
      * @var null|resource
      */
-    protected $_logHandle = null;
+    protected static $_logHandle = null;
 
     /**
      * @var array
@@ -75,9 +75,11 @@ class Mage_Selenium_Driver extends PHPUnit_Extensions_SeleniumTestCase_Driver
     public function __construct()
     {
         parent::__construct();
-        $this->_logHandle = fopen(SELENIUM_TESTS_LOGS . DIRECTORY_SEPARATOR
-                                      . 'selenium-rc-' . date('d-m-Y-H-i-s') . '.log',
-                                  'a+');
+        if (is_null(self::$_logHandle)) {
+            self::$_logHandle = fopen(SELENIUM_TESTS_LOGS . DIRECTORY_SEPARATOR
+                                          . 'selenium-rc-' . date('d-m-Y-H-i-s') . '.log',
+                                      'a+');
+        }
     }
 
     /**
@@ -99,19 +101,19 @@ class Mage_Selenium_Driver extends PHPUnit_Extensions_SeleniumTestCase_Driver
                 throw new RuntimeException($response);
             }
             // Add command logging
-            if (!empty($this->_logHandle)) {
-                fputs($this->_logHandle, self::udate('H:i:s.u') . "\n");
-                fputs($this->_logHandle, "\tRequest: " . $command . "\n");
-                fputs($this->_logHandle, "\tResponse: " . $response . "\n\n");
-                fflush($this->_logHandle);
+            if (!empty(self::$_logHandle)) {
+                fputs(self::$_logHandle, self::udate('H:i:s.u') . "\n");
+                fputs(self::$_logHandle, "\tRequest: " . $command . "\n");
+                fputs(self::$_logHandle, "\tResponse: " . $response . "\n\n");
+                fflush(self::$_logHandle);
             }
             return $response;
         } catch (RuntimeException $e) {
-            if (!empty($this->_logHandle)) {
-                fputs($this->_logHandle, self::udate('H:i:s.u') . "\n");
-                fputs($this->_logHandle, "\tRequest: " . $command . "\n");
-                fputs($this->_logHandle, "\tException: " . $e->getMessage() . "\n\n");
-                fflush($this->_logHandle);
+            if (!empty(self::$_logHandle)) {
+                fputs(self::$_logHandle, self::udate('H:i:s.u') . "\n");
+                fputs(self::$_logHandle, "\tRequest: " . $command . "\n");
+                fputs(self::$_logHandle, "\tException: " . $e->getMessage() . "\n\n");
+                fflush(self::$_logHandle);
             }
             throw $e;
         }
