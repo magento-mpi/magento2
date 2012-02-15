@@ -37,6 +37,7 @@ class Enterprise_Rma_GuestControllerTest extends Magento_Test_TestCase_Controlle
         $this->getRequest()->setPost('oar_order_id', $rma->getOrder()->getIncrementId());
         $this->getRequest()->setPost('oar_billing_lastname', $rma->getOrder()->getBillingAddress()->getLastname());
         $this->getRequest()->setPost('oar_email', $rma->getOrder()->getBillingAddress()->getEmail());
+        $this->getRequest()->setPost('oar_zip', '');
 
         $this->dispatch('rma/guest/addlabel');
         $this->assertContains('<td>CarrierTitle</td>', $this->getResponse()->getBody());
@@ -54,6 +55,7 @@ class Enterprise_Rma_GuestControllerTest extends Magento_Test_TestCase_Controlle
         $this->getRequest()->setPost('oar_order_id', $rma->getOrder()->getIncrementId());
         $this->getRequest()->setPost('oar_billing_lastname', $rma->getOrder()->getBillingAddress()->getLastname());
         $this->getRequest()->setPost('oar_email', $rma->getOrder()->getBillingAddress()->getEmail());
+        $this->getRequest()->setPost('oar_zip', '');
 
         $this->dispatch('rma/guest/dellabel');
         $this->assertContains('<td>CarrierTitle</td>', $this->getResponse()->getBody());
