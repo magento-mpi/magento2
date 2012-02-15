@@ -57,7 +57,7 @@ class Enterprise_Checkout_Model_Observer
         return $this->_getCart()
             ->setSession($observer->getSession())
             ->setContext(Enterprise_Checkout_Model_Cart::CONTEXT_ADMIN_ORDER)
-            ->setCurrentStore($storeId);
+            ->setCurrentStore((int)$storeId);
     }
 
     /**

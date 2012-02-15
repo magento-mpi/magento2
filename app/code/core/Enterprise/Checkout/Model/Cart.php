@@ -1608,12 +1608,8 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
      */
     public function setCurrentStore($store)
     {
-        try {
+        if (!is_null($store)) {
             $this->_currentStore = Mage::app()->getStore($store);
-        } catch (Mage_Core_Model_Store_Exception $e) {
-            Mage::throwException(
-                Mage::helper('enterprise_checkout')->__('Wrong store specified')
-            );
         }
         return $this;
     }
