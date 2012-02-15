@@ -130,6 +130,16 @@ abstract class Mage_Wishlist_Block_Abstract extends Mage_Catalog_Block_Product_A
     }
 
     /**
+     * Retrieve wishlist instance
+     *
+     * @return Mage_Wishlist_Model_Wishlist
+     */
+    public function getWishlistInstance()
+    {
+        return $this->_getWishlist();
+    }
+
+    /**
      * Back compatibility retrieve wishlist product items
      *
      * @deprecated after 1.4.2.0

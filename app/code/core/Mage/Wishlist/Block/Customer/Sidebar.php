@@ -35,6 +35,16 @@
 class Mage_Wishlist_Block_Customer_Sidebar extends Mage_Wishlist_Block_Abstract
 {
     /**
+     * Retrieve block title
+     *
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->__('My Wishlist <small>(%d)</small>', $this->getItemCount());
+    }
+
+    /**
      * Add sidebar conditions to collection
      *
      * @param  Mage_Wishlist_Model_Resource_Item_Collection $collection
@@ -57,7 +67,7 @@ class Mage_Wishlist_Block_Customer_Sidebar extends Mage_Wishlist_Block_Abstract
      */
     protected function _toHtml()
     {
-        if (($this->getCustomWishlist() && $this->getItemCount()) || $this->hasWishlistItems()) {
+        if ($this->getItemCount()) {
             return parent::_toHtml();
         }
 
@@ -105,26 +115,56 @@ class Mage_Wishlist_Block_Customer_Sidebar extends Mage_Wishlist_Block_Abstract
      */
     protected function _getWishlist()
     {
-
-        if (!$this->getCustomWishlist() || !is_null($this->_wishlist)) {
-            return parent::_getWishlist();
+        if (is_null($this->_wishlist)) {
+            if (!$this->getCustomWishlist()) {
+                return parent::_getWishlist();
+            } else {
+                $this->_wishlist = $this->getCustomWishlist();
+            }
         }
-
-        $this->_wishlist = $this->getCustomWishlist();
         return $this->_wishlist;
     }
 
     /**
-     * Return wishlist items count
+     * Retrieve wishlist item collection
+     *
+     * @return Mage_Wishlist_Model_Resource_Item_Collection
+     */
+    public function getWishlistItems()
+    {
+        $collection = clone $this->helper('wishlist')->getWishlistItemCollection();
+        $collection->clear();
+        $this->_prepareCollection($collection);
+        return $collection;
+    }
+
+    /**
+     * Check whether user has items in his wishlist
+     *
+     * @return bool
+     */
+    public function hasWishlistItems()
+    {
+        return $this->getItemCount() > 0;
+    }
+
+    /**
+     * Count items in wishlist
      *
      * @return int
      */
     public function getItemCount()
     {
-        if ($this->getCustomWishlist()) {
-            return $this->getCustomWishlist()->getItemsCount();
-        }
+        return $this->helper('wishlist')->getItemCount();
+    }
 
-        return $this->getWishlistItemsCount();
+    /**
+     * Set custom wishlist
+     *
+     * @param Mage_Wishlist_Model_Wishlist $wishlist
+     */
+    public function setCustomWishlist(Mage_Wishlist_Model_Wishlist $wishlist)
+    {
+        Mage::helper('wishlist')->setWishlistItemCollection($wishlist->getItemCollection());
     }
 }

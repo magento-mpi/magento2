@@ -33,6 +33,11 @@
  */
 class Enterprise_Checkout_Block_Adminhtml_Manage_Items extends Mage_Adminhtml_Block_Template
 {
+    /**
+     * Rterieve grid id in template
+     *
+     * @return string
+     */
     public function getJsObjectName()
     {
         return 'checkoutItemsGrid';
@@ -129,6 +134,12 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Items extends Mage_Adminhtml_Bl
         return $this->getStore()->formatPrice($value);
     }
 
+    /**
+     * Check whether to use custom price for item
+     *
+     * @param $item
+     * @return bool
+     */
     public function usedCustomPriceForItem($item)
     {
         return false;
@@ -207,5 +218,17 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Items extends Mage_Adminhtml_Bl
     public function isMoveToWishlistAllowed($item)
     {
         return $item->getProduct()->isVisibleInSiteVisibility();
+    }
+
+    /**
+     * Retrieve collection of customer wishlists
+     *
+     * @return Mage_Wishlist_Model_Resource_Wishlist_Collection
+     */
+    public function getCustomerWishlists()
+    {
+        /* @var Mage_Wishlist_Model_Resource_Wishlist_Collection $wishlistCollection */
+        return Mage::getModel("wishlist/wishlist")->getCollection()
+            ->filterByCustomerId($this->getCustomerId());
     }
 }

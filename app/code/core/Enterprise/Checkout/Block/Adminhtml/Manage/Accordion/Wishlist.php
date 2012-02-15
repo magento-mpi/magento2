@@ -76,6 +76,16 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Wishlist
     }
 
     /**
+     * Create wishlist item collection
+     *
+     * @return Mage_Wishlist_Model_Resource_Item_Collection
+     */
+    protected function _createItemsCollection()
+    {
+        return Mage::getModel('wishlist/item')->getCollection();
+    }
+
+    /**
      * Return items collection
      *
      * @return Mage_Wishlist_Model_Resource_Item_Collection
@@ -83,16 +93,13 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Wishlist
     public function getItemsCollection()
     {
         if (!$this->hasData('items_collection')) {
-            $wishlist = Mage::getModel('wishlist/wishlist')->loadByCustomer($this->_getCustomer())
-                ->setStore($this->_getStore())
-                ->setSharedStoreIds($this->_getStore()->getWebsite()->getStoreIds());
-            if ($wishlist->getId()) {
-                $collection = $wishlist->getItemCollection()
-                    ->setSalableFilter()
-                    ->resetSortOrder();
-            } else {
-                $collection = parent::getItemsCollection();
-            }
+            $collection = $this->_createItemsCollection()
+                ->addCustomerIdFilter($this->_getCustomer()->getId())
+                ->addStoreFilter($this->_getStore()->getWebsite()->getStoreIds())
+                ->setVisibilityFilter()
+                ->setSalableFilter()
+                ->resetSortOrder();
+
             foreach ($collection as $item) {
                 $product = $item->getProduct();
                 if ($product) {

@@ -184,6 +184,17 @@ class Mage_Wishlist_Helper_Data extends Mage_Core_Helper_Abstract
         return $this->_wishlistItemCollection;
     }
 
+    /**
+     * Set Wishlist Item collection
+     *
+     * @param Mage_Wishlist_Model_Resource_Item_Collection $collection
+     * @return Mage_Wishlist_Helper_Data
+     */
+    public function setWishlistItemCollection($collection)
+    {
+        $this->_wishlistItemCollection = $collection;
+        return $this;
+    }
 
     /**
      * Retrieve wishlist product items collection
@@ -267,6 +278,18 @@ class Mage_Wishlist_Helper_Data extends Mage_Core_Helper_Abstract
     public function getAddUrl($item)
     {
         return $this->getAddUrlWithParams($item);
+    }
+
+    /**
+     * Retrieve url for adding product to wishlist
+     *
+     * @param int $itemId
+     *
+     * @return  string
+     */
+    public function getMoveFromCartUrl($itemId)
+    {
+        return $this->_getUrl('wishlist/index/fromcart', array('item' => $itemId));
     }
 
     /**
@@ -382,11 +405,16 @@ class Mage_Wishlist_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Retrieve customer wishlist url
      *
+     * @param int $wishlistId
      * @return string
      */
-    public function getListUrl()
+    public function getListUrl($wishlistId = null)
     {
-        return $this->_getUrl('wishlist');
+        $params = array();
+        if ($wishlistId) {
+            $params['wishlist_id'] = $wishlistId;
+        }
+        return $this->_getUrl('wishlist', $params);
     }
 
     /**
@@ -425,18 +453,23 @@ class Mage_Wishlist_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Retrieve RSS URL
      *
+     * @param $wishlistId
      * @return string
      */
-    public function getRssUrl()
+    public function getRssUrl($wishlistId = null)
     {
         $customer = $this->_getCurrentCustomer();
         $key = $customer->getId().','.$customer->getEmail();
+        $params = array(
+            'data' => Mage::helper('core')->urlEncode($key),
+            '_secure' => false,
+        );
+        if ($wishlistId) {
+            $params['wishlist_id'] = $wishlistId;
+        }
         return $this->_getUrl(
             'rss/index/wishlist',
-            array(
-                'data' => Mage::helper('core')->urlEncode($key),
-                '_secure' => false
-            )
+            $params
         );
     }
 
@@ -461,6 +494,16 @@ class Mage_Wishlist_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
+     * Retrieve default empty comment message
+     *
+     * @return string
+     */
+    public function getDefaultWishlistName()
+    {
+        return $this->__('Main Wishlist');
+    }
+
+    /**
      * Calculate count of wishlist items and put value to customer session.
      * Method called after wishlist modifications and trigger 'wishlist_items_renewed' event.
      * Depends from configuration.
@@ -471,7 +514,7 @@ class Mage_Wishlist_Helper_Data extends Mage_Core_Helper_Abstract
     {
         $session = $this->_getCustomerSession();
         $count = 0;
-        if ($this->_isCustomerLogIn()) {
+        if ($this->_isCustomerLogIn() || $this->_wishlistItemCollection) {
             $collection = $this->getWishlistItemCollection()->setInStockFilter(true);
             if (Mage::getStoreConfig(self::XML_PATH_WISHLIST_LINK_USE_QTY)) {
                 $count = $collection->getItemsQty();
@@ -486,5 +529,15 @@ class Mage_Wishlist_Helper_Data extends Mage_Core_Helper_Abstract
         $session->setWishlistItemCount($count);
         Mage::dispatchEvent('wishlist_items_renewed');
         return $this;
+    }
+
+    /**
+     * Should display item quantities in my wishlist link
+     *
+     * @return bool
+     */
+    public function isDisplayQty()
+    {
+        return Mage::getStoreConfig(self::XML_PATH_WISHLIST_LINK_USE_QTY);
     }
 }

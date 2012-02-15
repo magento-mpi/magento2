@@ -56,8 +56,16 @@ class Mage_Rss_Block_Wishlist extends Mage_Wishlist_Block_Abstract
     {
         if (is_null($this->_wishlist)) {
             $this->_wishlist = Mage::getModel('wishlist/wishlist');
-            if ($this->_getCustomer()->getId()) {
-                $this->_wishlist->loadByCustomer($this->_getCustomer());
+            $wishlistId = $this->getRequest()->getParam('wishlist_id');
+            if ($wishlistId) {
+                $this->_wishlist->load($wishlistId);
+                if ($this->_wishlist->getCustomerId() != $this->_getCustomer()->getId()) {
+                    $this->_wishlist->unsetData();
+                }
+            } else {
+                if($this->_getCustomer()->getId()) {
+                    $this->_wishlist->loadByCustomer($this->_getCustomer());
+                }
             }
         }
         return $this->_wishlist;

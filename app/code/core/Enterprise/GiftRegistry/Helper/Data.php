@@ -139,7 +139,6 @@ class Enterprise_GiftRegistry_Helper_Data extends Mage_Core_Helper_Abstract
             ->filterByIsActive(1);
 
         if (count($entityCollection)) {
-            $result[] = new Varien_Object(array('value' => '', 'title' => $this->__('Select Gift Registry')));
             foreach ($entityCollection as $entity) {
                 $result[] = new Varien_Object(array('value' => $entity->getId(),
                         'title' => $this->escapeHtml($entity->getTitle())));

@@ -49,7 +49,9 @@ abstract class Mage_Wishlist_Controller_Abstract extends Mage_Core_Controller_Fr
     protected function _processLocalizedQty($qty)
     {
         if (!$this->_localFilter) {
-            $this->_localFilter = new Zend_Filter_LocalizedToNormalized(array('locale' => Mage::app()->getLocale()->getLocaleCode()));
+            $this->_localFilter = new Zend_Filter_LocalizedToNormalized(
+                array('locale' => Mage::app()->getLocale()->getLocaleCode())
+            );
         }
         $qty = $this->_localFilter->filter($qty);
         if ($qty < 0) {
@@ -121,7 +123,7 @@ abstract class Mage_Wishlist_Controller_Abstract extends Mage_Core_Controller_Fr
         }
 
         if ($isOwner) {
-            $indexUrl = Mage::helper('wishlist')->getListUrl();
+            $indexUrl = Mage::helper('wishlist')->getListUrl($wishlist->getId());
         } else {
             $indexUrl = Mage::getUrl('wishlist/shared', array('code' => $wishlist->getSharingCode()));
         }

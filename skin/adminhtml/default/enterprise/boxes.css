@@ -802,6 +802,7 @@ ul.item-options li { padding-left:.7em; }
 .create-order-sidebar-container         { border:1px solid #d6d6d6; background:#fafafa; }
 .create-order-sidebar-block .content    { margin:0 !important; padding:4px 6px; }
 .create-order-sidebar-block .head       { border-top:1px solid #ddd; background:#ececec; padding:2px 6px 1px; font-size:.9em; text-align:right; }
+.create-order-sidebar-block .head .sidebar-selector {float: left; font-size: 10px; height: 10px; line-height: 10px; margin: 2px 0px 0px 5px; width: 100px;}
 .create-order-sidebar-block .head h5    { float:left; margin:0; color:#2c464f; text-align:left; }
 .create-order-sidebar-block .content table td,
 .create-order-sidebar-block table th    { padding:0 3px 0 0; }

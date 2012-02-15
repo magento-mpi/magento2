@@ -81,9 +81,6 @@ class Mage_Wishlist_Block_Customer_Wishlist extends Mage_Wishlist_Block_Abstract
      */
     public function getBackUrl()
     {
-        if ($this->getRefererUrl()) {
-            return $this->getRefererUrl();
-        }
         return $this->getUrl('customer/account/');
     }
 
@@ -180,19 +177,9 @@ class Mage_Wishlist_Block_Customer_Wishlist extends Mage_Wishlist_Block_Abstract
     }
 
     /**
-     * Returns default description to show in textarea field
-     *
-     * @param Mage_Wishlist_Model_Item $item
-     * @return string
-     */
-    public function getCommentValue(Mage_Wishlist_Model_Item $item)
-    {
-        return $this->hasDescription($item) ? $this->getEscapedDescription($item) : Mage::helper('wishlist')->defaultCommentString();
-    }
-
-    /**
      * Returns qty to show visually to user
      *
+     * @deprecated after 1.6.2.0
      * @param Mage_Wishlist_Model_Item $item
      * @return float
      */

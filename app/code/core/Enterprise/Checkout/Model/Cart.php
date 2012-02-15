@@ -522,23 +522,33 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
     {
         $item = $this->_getQuoteItem($item);
         if ($item) {
-            switch ($moveTo) {
-                case 'wishlist':
-                    $wishlist = Mage::getModel('wishlist/wishlist')->loadByCustomer($this->getCustomer(), true)
-                        ->setStore($this->getStore())
-                        ->setSharedStoreIds($this->getStore()->getWebsite()->getStoreIds());
-                    if ($wishlist->getId() && $item->getProduct()->isVisibleInSiteVisibility()) {
-                        $wishlistItem = $wishlist->addNewItem($item->getProduct(), $item->getBuyRequest());
-                        if (is_string($wishlistItem)) {
-                            $this->_addResultError($wishlistItem);
-                        } else if ($wishlistItem->getId()) {
-                            $this->getQuote()->removeItem($item->getId());
-                        }
+            $moveTo = explode('_', $moveTo);
+            if ($moveTo[0] == 'wishlist') {
+                $wishlist = null;
+                if (!isset($moveTo[1])) {
+                    $wishlist = Mage::getModel('wishlist/wishlist')->loadByCustomer($this->getCustomer(), true);
+                } else {
+                    $wishlist = Mage::getModel('wishlist/wishlist')->load($moveTo[1]);
+                    if (!$wishlist->getId() || $wishlist->getCustomerId() != $this->getCustomer()->getId()) {
+                        $wishlist = null;
                     }
-                    break;
-                default:
-                    $this->getQuote()->removeItem($item->getId());
-                    break;
+                }
+                if (!$wishlist) {
+                    $this->_addResultError(Mage::helper('wishlist')->__("Could not find such wishlist"));
+                    return $this;
+                }
+                $wishlist->setStore($this->getStore())
+                    ->setSharedStoreIds($this->getStore()->getWebsite()->getStoreIds());
+                if ($wishlist->getId() && $item->getProduct()->isVisibleInSiteVisibility()) {
+                    $wishlistItem = $wishlist->addNewItem($item->getProduct(), $item->getBuyRequest());
+                    if (is_string($wishlistItem)) {
+                        $this->_addResultError($wishlistItem);
+                    } else if ($wishlistItem->getId()) {
+                        $this->getQuote()->removeItem($item->getId());
+                    }
+                }
+            } else {
+                $this->getQuote()->removeItem($item->getId());
             }
         }
         return $this;

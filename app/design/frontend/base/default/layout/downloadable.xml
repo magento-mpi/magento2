@@ -128,7 +128,7 @@
     </sales_order_creditmemo>
 
     <wishlist_index_index>
-        <reference name="customer.wishlist">
+        <reference name="customer.wishlist.item.cart">
             <action method="addOptionsRenderCfg"><type>downloadable</type><helper>downloadable/catalog_product_configuration</helper></action>
         </reference>
     </wishlist_index_index>

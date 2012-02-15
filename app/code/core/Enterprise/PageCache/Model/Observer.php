@@ -506,6 +506,24 @@ class Enterprise_PageCache_Model_Observer
     }
 
     /**
+     * Clear wishlist list
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_PageCache_Model_Observer
+     */
+    public function registerWishlistListChange(Varien_Event_Observer $observer)
+    {
+        if (!$this->isCacheEnabled()) {
+            return $this;
+        }
+
+        $blockContainer = Mage::getModel('enterprise_pagecache/container_wishlists');
+        Enterprise_PageCache_Model_Cache::getCacheInstance()->remove($blockContainer->getCacheId());
+
+        return $this;
+    }
+
+    /**
      * Set poll hash in cookie on poll vote
      *
      * @param Varien_Event_Observer $observer

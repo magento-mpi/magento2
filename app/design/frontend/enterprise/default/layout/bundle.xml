@@ -84,7 +84,7 @@ Adding custom product price block
     </default>
 
     <wishlist_index_index>
-        <reference name="customer.wishlist">
+        <reference name="customer.wishlist.item.cart">
             <action method="addOptionsRenderCfg"><type>bundle</type><helper>bundle/catalog_product_configuration</helper></action>
         </reference>
     </wishlist_index_index>

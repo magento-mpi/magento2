@@ -111,8 +111,7 @@ class Enterprise_Persistent_Model_Observer
         if (!$this->_isWishlistPersist()) {
             return;
         }
-        $block->setItemCount($this->_initWishlist()->getItemsCount());
-        $block->initLinkProperties();
+        $block->setCustomWishlist($this->_initWishlist());
     }
 
     /**
@@ -253,14 +252,9 @@ class Enterprise_Persistent_Model_Observer
             return;
         }
 
-        $wishlist = $this->_initWishlist();
-        if ($wishlist->getId()) {
-            /** @var $controller Mage_Wishlist_IndexController */
-            $controller = $observer->getEvent()->getControllerAction();
-            if ($controller instanceof Mage_Wishlist_IndexController) {
-                Mage::register('wishlist', $wishlist);
-                $controller->skipAuthentication();
-            }
+        $controller = $observer->getEvent()->getControllerAction();
+        if ($controller instanceof Mage_Wishlist_IndexController) {
+            $controller->skipAuthentication();
         }
     }
 
