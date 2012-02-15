@@ -390,8 +390,4 @@ SEO Site Map
             <action method="addLink" translate="label title" module="Mage_Catalog"><label>Categories Sitemap</label><url helper="Mage_Catalog_Helper_Map::getCategoryUrl"/><title>Categories Sitemap</title></action>
         </reference>
     </catalog_seo_sitemap_product>
-
-    <catalog_category_view translate="label">
-        <label>Catalog Category View</label>
-    </catalog_category_view>
 </layout>
