@@ -154,11 +154,25 @@ class Mage_Api2_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getAllowedAttributes($userType, $resourceId, $operation)
     {
-        /** @var $collection Mage_Api2_Model_Resource_Acl_Filter_Attribute_Collection */
-        $collection = Mage::getResourceModel('api2/acl_filter_attribute_collection');
+        /** @var $resource Mage_Api2_Model_Resource_Acl_Filter_Attribute */
+        $resource = Mage::getResourceModel('api2/acl_filter_attribute');
 
-        $attributes = $collection->getAllowedAttributes($userType, $resourceId, $operation);
+        $attributes = $resource->getAllowedAttributes($userType, $resourceId, $operation);
 
-        return (false === $attributes ? array() : explode(',', $attributes));
+        return ($attributes === false || $attributes === null ? array() : explode(',', $attributes));
+    }
+
+    /**
+     * Check if ALL attributes allowed
+     *
+     * @param string $userType
+     * @return array
+     */
+    public function isAllAttributesAllowed($userType)
+    {
+        /** @var $resource Mage_Api2_Model_Resource_Acl_Filter_Attribute */
+        $resource = Mage::getResourceModel('api2/acl_filter_attribute');
+
+        return $resource->isAllAttributesAllowed($userType);
     }
 }
