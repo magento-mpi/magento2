@@ -125,18 +125,15 @@ class Mage_Api2_Model_Server
      * Make internal call to api
      *
      * @param Mage_Api2_Model_Request $request
+     * @param Mage_Api2_Model_Response $response
      * @return Mage_Api2_Model_Response
      */
-    public function internalCall(Mage_Api2_Model_Request $request)
+    public function internalCall(Mage_Api2_Model_Request $request, Mage_Api2_Model_Response $response)
     {
-        /** @var $response Mage_Api2_Model_Response */
-        $response = Mage::getModel('api2/response');
         $apiUser = $this->_getAuthUser();
         $this->_route($request)
             ->_allow($request, $apiUser)
             ->_dispatch($request, $response, $apiUser);
-
-        return $response;
     }
 
     /**

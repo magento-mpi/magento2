@@ -119,8 +119,10 @@ class Mage_Api2_Model_Multicall
             if (!array_key_exists($subresourceIdKey, $requestData)) {
                 $subresourceCreateResourceName = (string)$subresource->create_resource_name;
                 $internalRequest = $this->_prepareRequest($subresourceCreateResourceName, $requestData);
-                $internalResponse = $server->internalCall($internalRequest);
-                $createdSubresourceInstanceId = $this->_getCreatedResourceId($internalResponse);
+                /** @var $internalCreateResponse Mage_Api2_Model_Response */
+                $internalCreateResponse = Mage::getModel('api2/response');
+                $server->internalCall($internalRequest, $internalCreateResponse);
+                $createdSubresourceInstanceId = $this->_getCreatedResourceId($internalCreateResponse);
                 if (empty($createdSubresourceInstanceId)) {
                     throw new Mage_Api2_Exception('Error during subresource creation',
                         Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR);
@@ -132,8 +134,10 @@ class Mage_Api2_Model_Multicall
             $subresourceName = (string)$subresource->name;
             $parentResourceIdFieldName = (string)$subresource->parent_resource_id_field_name;
             $internalRequest = $this->_prepareRequest($subresourceName, $requestData, $parentResourceIdFieldName);
-            $internalResponse = $server->internalCall($internalRequest);
-            $this->_aggregateResponse($internalResponse);
+
+            /** @var $internalResponse Mage_Api2_Model_Response */
+            $internalResponse = Mage::getModel('api2/response');
+            $server->internalCall($internalRequest, $internalResponse);
         } catch (Exception $e) {
             // TODO: implement strict mode
             Mage::logException($e);
@@ -141,6 +145,14 @@ class Mage_Api2_Model_Multicall
             // TODO: Refactor partial success idintification process
             $this->_getResponse()->setHttpResponseCode(Mage_Api2_Model_Server::HTTP_CREATED);
         }
+
+        if (isset($internalCreateResponse)) {
+            $this->_aggregateResponse($internalCreateResponse);
+        }
+        if (isset($internalResponse)) {
+            $this->_aggregateResponse($internalResponse);
+        }
+
         return $this;
     }
 
@@ -236,6 +248,7 @@ class Mage_Api2_Model_Multicall
     {
         if ($response->isException()) {
             $errors = $response->getException();
+            // @TODO: add subresource prefix to error messages
             foreach ($errors as $error) {
                 $this->_getResponse()->setException($error);
             }
