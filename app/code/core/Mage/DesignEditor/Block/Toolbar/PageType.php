@@ -21,6 +21,9 @@ class Mage_DesignEditor_Block_Toolbar_PageType extends Mage_Core_Block_Template
      */
     protected function _renderPageTypes(array $pageTypes)
     {
+        if (!$pageTypes) {
+            return '';
+        }
         $result = '<ul>';
         foreach ($pageTypes as $name => $info) {
             $result .= '<li rel="' . $name . '">';

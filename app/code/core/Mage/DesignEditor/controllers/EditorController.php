@@ -53,16 +53,12 @@ class Mage_DesignEditor_EditorController extends Mage_Core_Controller_Front_Acti
             $pageType = $this->getRequest()->getParam('page_type');
 
             // page type format
-            if (!$pageType || !preg_match('/^[a-z][a-z\d]*(_[a-z][a-z\d]*){0,2}$/i', $pageType)) {
+            if (!$pageType || !preg_match('/^[a-z][a-z\d]*(_[a-z][a-z\d]*)*$/i', $pageType)) {
                 Mage::throwException($this->__('Invalid page type specified.'));
             }
 
             // whether such page type exists
-            $area = Mage::getDesign()->getArea();
-            $package = Mage::getDesign()->getPackageName();
-            $theme = Mage::getDesign()->getTheme();
-            $xml = $this->getLayout()->getUpdate()->getFileLayoutUpdatesXml($area, $package, $theme);
-            if (!$xml->xpath("/layouts/{$pageType}")) {
+            if (!array_key_exists($pageType, $this->getLayout()->getPageTypesFlat())) {
                 Mage::throwException($this->__("Specified page type doesn't exist: '{$pageType}'."));
             }
 

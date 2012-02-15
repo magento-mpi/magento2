@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Mage_Core
+ * @subpackage  integration_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layouts>
+    <!-- Note: some page types have been intentionally declared before parents they refer to -->
+    <sales_order_print type="page" parent="print">
+        <label>Sales Order Print View</label>
+    </sales_order_print>
+    <print type="page">
+        <label>All Pages (Print Version)</label>
+    </print>
+    <sales_guest_print type="page" parent="print">
+        <label>Sales Order Print View (Guest)</label>
+    </sales_guest_print>
+    <not_a_page_type translate="label">
+        <label>Handle that Is Not a Page Type</label>
+    </not_a_page_type>
+    <catalog_category_layered type="page" parent="catalog_category_default">
+        <label>Catalog Category (Anchor)</label>
+    </catalog_category_layered>
+    <catalog_category_default type="page" parent="default">
+        <label>Catalog Category (Non-Anchor)</label>
+    </catalog_category_default>
+    <default type="page">
+        <label>All Pages</label>
+    </default>
+    <catalog_product_view type="page" parent="catalog_category_default">
+        <label>Catalog Product View (Any)</label>
+    </catalog_product_view>
+    <PRODUCT_TYPE_simple type="page" parent="catalog_product_view">
+        <label>Catalog Product View (Simple)</label>
+    </PRODUCT_TYPE_simple>
+    <PRODUCT_TYPE_configurable type="page" parent="catalog_product_view">
+        <label>Catalog Product View (Configurable)</label>
+    </PRODUCT_TYPE_configurable>
+    <PRODUCT_TYPE_grouped type="page" parent="catalog_product_view">
+        <label>Catalog Product View (Grouped)</label>
+    </PRODUCT_TYPE_grouped>
+</layouts>
