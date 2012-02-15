@@ -27,7 +27,7 @@
  */
 
 /**
- * An extended test case implementation that add useful helper methods
+ * An extended test case implementation that adds useful helper methods
  *
  * @package     selenium
  * @subpackage  Mage_Selenium
@@ -81,13 +81,13 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     protected static $_testHelpers = array();
 
     /**
-     * Saves html content of current page if test has error
+     * Saves HTML content of the current page if the test failed
      * @var bool
      */
     protected $_saveHtmlPageOnFailure = false;
 
     /**
-     * Timeout const in ms
+     * Timeout in ms
      * @var int
      */
     protected $_browserTimeoutPeriod = 40000;
@@ -133,6 +133,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * @var string
      */
     const FIELD_TYPE_INPUT = 'field';
+
     ################################################################################
     #                      Selenium variables(do not rename)                       #
     ################################################################################

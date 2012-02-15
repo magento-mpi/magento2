@@ -54,7 +54,7 @@ class Mage_Selenium_Helper_File extends Mage_Selenium_Helper_Abstract
     }
 
     /**
-     * Load multiple YAML files and return merged data
+     * Loads multiple YAML files and returns merged data
      *
      * @param string $globExpr File names glob pattern
      *

@@ -85,7 +85,7 @@ class Mage_Selenium_Helper_Data extends Mage_Selenium_Helper_Abstract
     }
 
     /**
-     * Return test data array
+     * Get test data array
      * @return array
      */
     protected function getTestData()

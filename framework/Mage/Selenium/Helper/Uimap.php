@@ -298,7 +298,7 @@ class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
     }
 
     /**
-     * Return URL of a specified page
+     * Get URL of the specified page
      *
      * @param string $area Application area
      * @param string $page UIMap page key
@@ -313,7 +313,7 @@ class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
     }
 
     /**
-     * Return Page Mca
+     * Get Page Mca
      *
      * @param string $area Application area
      * @param string $page UIMap page key
@@ -328,7 +328,7 @@ class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
     }
 
     /**
-     * Return xpath which we need to click to open page
+     * Get XPath that opens the specified page on click
      *
      * @param string $area Application area
      * @param string $page UIMap page key

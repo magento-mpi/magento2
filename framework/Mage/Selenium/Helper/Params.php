@@ -54,7 +54,7 @@ class Mage_Selenium_Helper_Params
     }
 
     /**
-     * Set parameter
+     * Set a parameter
      *
      * @param string $name Parameter name
      * @param string $value Parameter value (null to unset)

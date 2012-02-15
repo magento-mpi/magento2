@@ -236,11 +236,13 @@ class Mage_Selenium_Uimap_Abstract
     /**
      * Magic method to call accessor methods<br>
      * Format:
+     * <ul>
      * <li>- call "get"+"UIMap properties collection name"() to get UIMap elements collection by name from current level
      * <li>- call "getAll"+"UIMap properties collection name"() to get UIMap elements collection by name on any level
      * from current and deeper
      * <li>- call "find"+"UIMap element type"(element name) to get UIMap element by name on any level from current
      * and deeper
+     * </ul>
      *
      * @param string $name Method's name to call 'get' | 'getAll' | 'find'
      * @param string $arguments Argument to calling method 'UIMap properties collection name' | 'UIMap element type'

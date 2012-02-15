@@ -107,8 +107,10 @@ class Mage_Selenium_TestConfiguration
 
     /**
      * Initializes test configuration instance which includes:
+     * <ul>
      * <li>Initialize configuration
      * <li>Initialize Fixtures
+     * </ul>
      */
     public function init()
     {

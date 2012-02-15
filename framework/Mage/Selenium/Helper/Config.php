@@ -90,25 +90,25 @@ class Mage_Selenium_Helper_Config extends Mage_Selenium_Helper_Abstract
     protected $_applicationConfig = array();
 
     /**
-     * Configuration data for current area
+     * Configuration data for the current area
      * @var array
      */
     protected $_areaConfig = array();
 
     /**
-     * Name of current application
+     * Name of the current application
      * @var null|string
      */
     protected $_application = null;
 
     /**
-     * Name of current area
+     * Name of the current area
      * @var null|string
      */
     protected $_area = null;
 
     /**
-     * Name of current page
+     * Name of the current page
      * @var null|string
      */
     protected $_currentPageId = null;

@@ -42,7 +42,7 @@ class Mage_Selenium_Helper_Abstract
     protected $_config = null;
 
     /**
-     * Constructor, expects global test configuration object
+     * Constructor expects global test configuration object
      *
      * @param Mage_Selenium_TestConfiguration $config
      */
@@ -53,7 +53,6 @@ class Mage_Selenium_Helper_Abstract
     }
 
     /**
-     * Initialize object
      * @return Mage_Selenium_Helper_Abstract
      */
     protected function _init()

@@ -224,7 +224,7 @@ class Mage_Selenium_Driver extends PHPUnit_Extensions_SeleniumTestCase_Driver
     }
 
     /**
-     * Performs to return time to logging (e.g. 15:18:43.244768)
+     * Get current time for logging (e.g. 15:18:43.244768)
      *
      * @static
      *
