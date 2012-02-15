@@ -70,6 +70,7 @@ class Enterprise_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
     const ADD_ITEM_STATUS_FAILED_WEBSITE = 'failed_website';
     const ADD_ITEM_STATUS_FAILED_UNKNOWN = 'failed_unknown';
     const ADD_ITEM_STATUS_FAILED_EMPTY = 'failed_empty';
+    const ADD_ITEM_STATUS_FAILED_DISABLED = 'failed_disabled';
 
     /**
      * Layout handle for sku failed items
@@ -171,6 +172,9 @@ class Enterprise_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
                 break;
             case self::ADD_ITEM_STATUS_FAILED_WEBSITE:
                 $message = $this->__('The products is assigned to another website.');
+                break;
+            case self::ADD_ITEM_STATUS_FAILED_DISABLED:
+                $message = $this->__('Disabled products cannot be added.');
                 break;
             default:
                 $message = '';

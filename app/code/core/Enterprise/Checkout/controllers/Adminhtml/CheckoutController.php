@@ -49,7 +49,9 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
     public function getCartModel()
     {
         return Mage::getSingleton('enterprise_checkout/cart')
-            ->setSession(Mage::getSingleton('adminhtml/session'));
+            ->setSession(Mage::getSingleton('adminhtml/session'))
+            ->setContext(Enterprise_Checkout_Model_Cart::CONTEXT_ADMIN_CHECKOUT)
+            ->setCurrentStore($this->getRequest()->getPost('store'));
     }
 
     /**
@@ -1015,7 +1017,6 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
 
         if (!empty($rows)) {
             $cart = $this->getCartModel();
-            $cart->setCurrentStore($data['store']);
             $cart->prepareAddProductsBySku($rows);
             $cart->saveAffectedProducts(
                 $this->getCartModel(),

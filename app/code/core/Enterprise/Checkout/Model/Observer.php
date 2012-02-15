@@ -50,7 +50,14 @@ class Enterprise_Checkout_Model_Observer
      */
     protected function _getBackendCart(Varien_Event_Observer $observer)
     {
-        return $this->_getCart()->setSession($observer->getSession());
+        $storeId = $observer->getRequestModel()->getParam('storeId');
+        if (is_null($storeId)) {
+            $storeId = $observer->getRequestModel()->getParam('store_id');
+        }
+        return $this->_getCart()
+            ->setSession($observer->getSession())
+            ->setContext(Enterprise_Checkout_Model_Cart::CONTEXT_ADMIN_ORDER)
+            ->setCurrentStore($storeId);
     }
 
     /**
@@ -69,7 +76,6 @@ class Enterprise_Checkout_Model_Observer
             return;
         }
 
-        $cart->setCurrentStore($request->getParam('storeId'));
         $removeFailed = $request->getPost('sku_remove_failed');
 
         if ($removeFailed || $request->getPost('from_error_grid')) {
@@ -120,7 +126,7 @@ class Enterprise_Checkout_Model_Observer
             if ($importModel->uploadFile()) {
                 /* @var $orderCreateModel Mage_Adminhtml_Model_Sales_Order_Create */
                 $orderCreateModel = $observer->getOrderCreateModel();
-                $cart = $this->_getCart()->setSession($observer->getSession());
+                $cart = $this->_getBackendCart($observer);
                 $cart->prepareAddProductsBySku($importModel->getDataFromCsv());
                 $cart->saveAffectedProducts($orderCreateModel);
             } else {
