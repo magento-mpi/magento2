@@ -39,11 +39,9 @@ Default layout, loads most of the pages
         <label>CMS Pages (All)</label>
         <reference name="content">
             <block type="Mage_Core_Block_Template" name="page_content_heading" template="Mage_Cms::content_heading.phtml"/>
-            <block type="Mage_Page_Block_Html_Wrapper" name="cms.wrapper" translate="label">
-                <label>CMS Content Wrapper</label>
-                <action method="setElementClass"><value>std</value></action>
+            <container name="cms.wrapper" label="CMS Content Wrapper" htmlTagName="div" htmlClass="std">
                 <block type="Mage_Cms_Block_Page" name="cms_page"/>
-            </block>
+            </container>
         </reference>
     </cms_page>
 

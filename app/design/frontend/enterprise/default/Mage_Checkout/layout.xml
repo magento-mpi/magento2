@@ -67,11 +67,7 @@ Default layout, loads most of the pages
                     <block type="Mage_Checkout_Block_Onepage_Link" name="checkout.cart.methods.onepage.top" template="onepage/link.phtml"/>
                 </container>
 
-                <block type="Mage_Page_Block_Html_Wrapper" name="checkout.cart.form.before" as="form_before" translate="label">
-                    <label>Shopping Cart Items Before</label>
-                    <action method="setElementClass"><value>rewards</value></action>
-                    <action method="setMayBeInvisible"><value>1</value></action>
-                </block>
+                <container name="checkout.cart.form.before" as="form_before" label="Shopping Cart Items Before" htmlTagName="div" htmlClass="rewards"/>
 
                 <container name="checkout.cart.methods" as="methods" label="Payment Methods After Checkout Button">
                     <block type="Mage_Checkout_Block_Onepage_Link" name="checkout.cart.methods.onepage.bottom" template="onepage/link.phtml"/>
@@ -316,10 +312,7 @@ One page checkout main layout
                 </block>
                 <block type="Mage_Checkout_Block_Onepage_Progress" as="checkoutProgress" name="checkout.progress" template="onepage/progress.phtml"/>
                 <block type="Mage_Checkout_Block_Onepage_Login" name="checkout.onepage.login" as="login" template="onepage/login.phtml">
-                    <block type="Mage_Page_Block_Html_Wrapper" name="checkout.onepage.login.before" as="login_before" translate="label">
-                        <label>Login/Registration Before</label>
-                        <action method="setMayBeInvisible"><value>1</value></action>
-                    </block>
+                    <container name="checkout.onepage.login.before" as="login_before" label="Login/Registration Before" htmlTagName="div"/>
                 </block>
                 <block type="Mage_Checkout_Block_Onepage_Billing" name="checkout.onepage.billing" as="billing" template="onepage/billing.phtml">
                     <block type="Enterprise_Customer_Block_Form" template="form/userattributes.phtml" name="customer_form_customer_user_defined_attributes">

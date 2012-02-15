@@ -23,11 +23,9 @@
             <block type="Mage_Core_Block_Messages" name="global_messages" as="global_messages"/>
             <block type="Mage_Core_Block_Messages" name="messages" as="messages"/>
             <container name="content" as="content" label="Main Content Area">
-                <block type="Mage_Page_Block_Html_Wrapper" name="cms.wrapper" translate="label">
-                    <label>CMS Content Wrapper</label>
-                    <action method="setElementClass"><value>std</value></action>
+                <container name="cms.wrapper" label="CMS Content Wrapper" htmlTagName="div" htmlClass="std">
                     <block type="Enterprise_WebsiteRestriction_Block_Cms_Stub" name="cms_page" />
-                </block>
+                </container>
             </container>
             <block type="Mage_Page_Block_Html_Footer" name="footer" as="footer" template="html/footer.phtml"/>
         </block>

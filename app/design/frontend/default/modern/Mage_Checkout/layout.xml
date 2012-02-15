@@ -59,9 +59,7 @@ Default layout, loads most of the pages
                     <block type="Mage_Checkout_Block_Onepage_Link" name="checkout.cart.methods.onepage" template="onepage/link.phtml"/>
                 </container>
 
-                <block type="Mage_Page_Block_Html_Wrapper" name="checkout.cart.form.before" as="form_before" translate="label">
-                    <label>Shopping Cart Form Before</label>
-                </block>
+                <container name="checkout.cart.form.before" as="form_before" label="Shopping Cart Form Before" htmlTagName="div"/>
 
                 <container name="checkout.cart.methods" as="methods" label="Payment Methods After Checkout Button">
                     <block type="Mage_Checkout_Block_Onepage_Link" name="checkout.cart.methods.onepage" template="onepage/link.phtml"/>
@@ -284,19 +282,14 @@ One page checkout main layout
         </reference>
         <reference name="left">
             <action method="unsetChildren"></action>
-            <block type="Mage_Page_Block_Html_Wrapper" name="checkout.progress.wrapper" translate="label">
-                <label>Checkout Progress Wrapper</label>
-                <action method="setElementId"><value>checkout-progress-wrapper</value></action>
+            <container name="checkout.progress.wrapper" label="Checkout Progress Wrapper" htmlTagName="div" htmlId="checkout-progress-wrapper">
                 <block type="Mage_Checkout_Block_Onepage_Progress" name="checkout.progress" before="-" template="onepage/progress.phtml"/>
-            </block>
+            </container>
         </reference>
         <reference name="content">
             <block type="Mage_Checkout_Block_Onepage" name="checkout.onepage" template="onepage.phtml">
                 <block type="Mage_Checkout_Block_Onepage_Login" name="checkout.onepage.login" as="login" template="onepage/login.phtml">
-                    <block type="Mage_Page_Block_Html_Wrapper" name="checkout.onepage.login.before" as="login_before" translate="label">
-                        <label>Login/Registration Before</label>
-                        <action method="setMayBeInvisible"><value>1</value></action>
-                    </block>
+                    <container name="checkout.onepage.login.before" as="login_before" label="Login/Registration Before" htmlTagName="div"/>
                 </block>
                 <block type="Mage_Checkout_Block_Onepage_Billing" name="checkout.onepage.billing" as="billing" template="onepage/billing.phtml"/>
                 <block type="Mage_Checkout_Block_Onepage_Shipping" name="checkout.onepage.shipping" as="shipping" template="onepage/shipping.phtml"/>

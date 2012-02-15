@@ -42,15 +42,10 @@ Default layout, loads most of the pages
                 <container name="top.menu" as="topMenu" label="Navigation Bar"/>
                 <block type="Mage_Page_Block_Switch" name="store_language" as="store_language" template="switch/languages.phtml"/>
                 <block type="Mage_Page_Block_Template_Links" name="top.links" as="topLinks"/>
-                <block type="Mage_Page_Block_Html_Wrapper" name="top.bar" as="topBar" translate="label">
-                    <label>Breadcrumbs</label>
-                    <action method="setElementClass"><value>top-bar</value></action>
+                <container name="top.bar" as="topBar" label="Breadcrumbs" htmlTagName="div" htmlClass="top-bar">
                     <block type="Mage_Page_Block_Html_Breadcrumbs" name="breadcrumbs" as="breadcrumbs"/>
-                </block>
-                <block type="Mage_Page_Block_Html_Wrapper" name="top.container" as="topContainer" translate="label">
-                    <label>Page Header</label>
-                    <action method="setElementClass"><value>top-container</value></action>
-                </block>
+                </container>
+                <container name="top.container" as="topContainer" label="Page Header" htmlTagName="div" htmlClass="top-container"/>
             </block>
 
             <container name="left" as="left" label="Left Column"/>
@@ -63,10 +58,7 @@ Default layout, loads most of the pages
             <container name="right" as="right" label="Right Column"/>
 
             <block type="Mage_Page_Block_Html_Footer" name="footer" as="footer" template="html/footer.phtml">
-                <block type="Mage_Page_Block_Html_Wrapper" name="bottom.container" as="bottomContainer" translate="label">
-                    <label>Page Footer</label>
-                    <action method="setElementClass"><value>bottom-container</value></action>
-                </block>
+                <container name="bottom.container" as="bottomContainer" label="Page Footer" htmlTagName="div" htmlClass="bottom-container"/>
                 <block type="Mage_Page_Block_Template_Links" name="footer_links" as="footer_links" template="template/links.phtml"/>
                 <block type="Mage_Page_Block_Switch" name="store_switcher" as="store_switcher" template="switch/stores.phtml"/>
             </block>

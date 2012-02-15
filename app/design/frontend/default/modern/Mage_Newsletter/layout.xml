@@ -41,10 +41,7 @@ Customer account pages, rendered for all tabs in dashboard
         <update handle="customer_account"/>
         <reference name="my.account.wrapper">
             <block type="Mage_Customer_Block_Newsletter" name="customer_newsletter">
-                <block type="Mage_Page_Block_Html_Wrapper" name="customer.newsletter.form.before" as="form_before" translate="label">
-                    <label>Newsletter Subscription Form Before</label>
-                    <action method="setMayBeInvisible"><value>1</value></action>
-                </block>
+                <container name="customer.newsletter.form.before" as="form_before" label="Newsletter Subscription Form Before" htmlTagName="div"/>
             </block>
         </reference>
     </newsletter_manage_index>
