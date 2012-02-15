@@ -129,7 +129,7 @@ Category default layout
 Compare products page
 -->
 
-    <catalog_product_compare_index translate="label" type="page" parent="catalog_category_default">
+    <catalog_product_compare_index translate="label" type="page" parent="default">
         <label>Catalog Product Compare List</label>
         <!-- Mage_Catalog -->
         <reference name="root">
@@ -300,7 +300,7 @@ Product additional images gallery popup
 SEO Site Map
 -->
 
-    <catalog_seo_sitemap translate="label" type="page" parent="catalog_category_default">
+    <catalog_seo_sitemap translate="label" type="page" parent="default">
         <label>Catalog Seo Sitemap (Common)</label>
         <remove name="right"/>
         <remove name="left"/>
@@ -322,7 +322,6 @@ SEO Site Map
         <reference name="head">
             <action method="setTitle" translate="title" module="Mage_Catalog"><title>Site Map</title></action>
         </reference>
-        <update handle="catalog_seo_sitemap" />
         <reference name="seo.sitemap.container">
             <action method="setTitle" translate="title" module="Mage_Catalog"><title>Categories</title></action>
             <block type="Mage_Catalog_Block_Seo_Sitemap_Category" name="seo.sitemap.sitemap" as="sitemap" after="pager_top" template="seo/sitemap.phtml">
@@ -336,7 +335,7 @@ SEO Site Map
         </reference>
     </catalog_seo_sitemap_category>
 
-    <catalog_seo_sitemap_category_tree translate="label" type="page" parent="catalog_seo_sitemap">
+    <catalog_seo_sitemap_category_type_tree translate="label" type="page" parent="catalog_seo_sitemap_category">
         <label>Catalog Seo Sitemap (Category Tree)</label>
         <reference name="seo.sitemap.container">
             <remove name="seo.sitemap.pager.top" />
@@ -349,7 +348,7 @@ SEO Site Map
                 <action method="bindPager"><pager>seo.sitemap.tree.pager.bottom</pager></action>
             </block>
         </reference>
-    </catalog_seo_sitemap_category_tree>
+    </catalog_seo_sitemap_category_type_tree>
 
     <catalog_seo_sitemap_product translate="label" type="page" parent="catalog_seo_sitemap">
         <label>Catalog Seo Sitemap (Product List)</label>

@@ -11,7 +11,7 @@
 -->
 <layout version="0.1.0">
     <!-- stub-page for a closed website -->
-    <restriction_index_stub translate="label" module="Enterprise_WebsiteRestriction" type="page" parent="cms_page">
+    <restriction_index_stub translate="label" module="Enterprise_WebsiteRestriction" type="page" parent="cms_page_view">
         <label>Website Closed Stub Page</label>
         <block type="Mage_Page_Block_Html" name="root" output="toHtml" template="1column.phtml">
             <block type="Mage_Page_Block_Html_Head" name="head" as="head">

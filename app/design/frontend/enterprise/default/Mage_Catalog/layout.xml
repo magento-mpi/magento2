@@ -67,55 +67,6 @@ Category default layout
 -->
     <catalog_category_view translate="label" type="page" parent="default">
         <label>Catalog Category</label>
-    </catalog_category_view>
-
-    <catalog_category_view_type_default translate="label" type="page" parent="catalog_category_view">
-        <label>Non Anchor Catalog Category</label>
-        <reference name="left">
-            <block type="Mage_Catalog_Block_Navigation" name="catalog.leftnav" before="-" template="navigation/left.phtml"/>
-        </reference>
-        <reference name="breadcrumbs.container">
-            <block type="Mage_Catalog_Block_Category_View" name="category.title" after="breadcrumbs" template="category/title.phtml"/>
-        </reference>
-        <reference name="content">
-            <block type="Mage_Catalog_Block_Category_View" name="category.products" template="category/view.phtml">
-                <block type="Mage_Catalog_Block_Product_List" name="product_list" template="product/list.phtml">
-                    <block type="Mage_Catalog_Block_Product_List_Toolbar" name="product_list_toolbar" template="product/list/toolbar.phtml">
-                        <block type="Mage_Page_Block_Html_Pager" name="product_list_toolbar_pager"/>
-                        <!-- The following code shows how to set your own pager increments -->
-                        <!--
-                            <action method="setDefaultListPerPage"><limit>4</limit></action>
-                            <action method="setDefaultGridPerPage"><limit>9</limit></action>
-                            <action method="addPagerLimit"><mode>list</mode><limit>2</limit></action>
-                            <action method="addPagerLimit"><mode>list</mode><limit>4</limit></action>
-                            <action method="addPagerLimit"><mode>list</mode><limit>6</limit></action>
-                            <action method="addPagerLimit"><mode>list</mode><limit>8</limit></action>
-                            <action method="addPagerLimit" translate="label"><mode>list</mode><limit>all</limit><label>All</label></action>
-                        -->
-                    </block>
-                    <action method="addColumnCountLayoutDepend"><layout>empty</layout><count>6</count></action>
-                    <action method="addColumnCountLayoutDepend"><layout>one_column</layout><count>5</count></action>
-                    <action method="addColumnCountLayoutDepend"><layout>two_columns_left</layout><count>4</count></action>
-                    <action method="addColumnCountLayoutDepend"><layout>two_columns_right</layout><count>4</count></action>
-                    <action method="addColumnCountLayoutDepend"><layout>three_columns</layout><count>3</count></action>
-                    <action method="setToolbarBlockName"><name>product_list_toolbar</name></action>
-                </block>
-            </block>
-        </reference>
-    </catalog_category_view_type_default>
-
-    <catalog_category_view_type_default_without_children translate="label" type="page" parent="catalog_category_view_type_default">
-        <label>Non Anchor Catalog Category Without Subcategories</label>
-    </catalog_category_view_type_default_without_children>
-
-    <catalog_category_view_type_layered translate="label" type="page" parent="catalog_category_view">
-        <label>Anchor Catalog Category</label>
-        <reference name="left">
-            <block type="Mage_Catalog_Block_Layer_View" name="catalog.leftnav" before="-" template="layer/view.phtml"/>
-        </reference>
-        <reference name="breadcrumbs.container">
-            <block type="Mage_Catalog_Block_Category_View" name="category.title" after="breadcrumbs" template="category/title.phtml"/>
-        </reference>
         <reference name="content">
             <block type="Mage_Catalog_Block_Category_View" name="category.products" template="category/view.phtml">
                 <block type="Mage_Catalog_Block_Product_List" name="product_list" template="product/list.phtml">
@@ -146,9 +97,30 @@ Category default layout
                 </block>
             </block>
         </reference>
+        <reference name="breadcrumbs.container">
+            <block type="Mage_Catalog_Block_Category_View" name="category.title" after="breadcrumbs" template="category/title.phtml"/>
+        </reference>
+    </catalog_category_view>
+
+    <catalog_category_view_type_default translate="label" type="page" parent="catalog_category_view">
+        <label>Non Anchor Catalog Category</label>
+        <reference name="left">
+            <block type="Mage_Catalog_Block_Navigation" name="catalog.leftnav" before="-" template="navigation/left.phtml"/>
+        </reference>
+    </catalog_category_view_type_default>
+
+    <catalog_category_view_type_default_without_children translate="label" type="page" parent="catalog_category_view_type_default">
+        <label>Non Anchor Catalog Category Without Subcategories</label>
+    </catalog_category_view_type_default_without_children>
+
+    <catalog_category_view_type_layered translate="label" type="page" parent="catalog_category_view">
+        <label>Anchor Catalog Category</label>
+        <reference name="left">
+            <block type="Mage_Catalog_Block_Layer_View" name="catalog.leftnav" before="-" template="layer/view.phtml"/>
+        </reference>
     </catalog_category_view_type_layered>
 
-    <catalog_category_view_type_layered_without_children>
+    <catalog_category_view_type_layered_without_children translate="label" type="page" parent="catalog_category_view_type_layered">
         <label>Anchor Catalog Category Without Subcategories</label>
     </catalog_category_view_type_layered_without_children>
 
@@ -156,7 +128,7 @@ Category default layout
 Compare products page
 -->
 
-    <catalog_product_compare_index translate="label" type="page" parent="catalog_category_default">
+    <catalog_product_compare_index translate="label" type="page" parent="default">
         <label>Catalog Product Compare List</label>
         <!-- Mage_Catalog -->
         <reference name="root">
@@ -338,7 +310,7 @@ Product additional images gallery popup
 SEO Site Map
 -->
 
-    <catalog_seo_sitemap translate="label" type="page" parent="catalog_category_default">
+    <catalog_seo_sitemap translate="label" type="page" parent="default">
         <label>Catalog Seo Sitemap (Common)</label>
         <remove name="right"/>
         <remove name="left"/>
@@ -360,7 +332,6 @@ SEO Site Map
         <reference name="head">
             <action method="setTitle" translate="title" module="Mage_Catalog"><title>Site Map</title></action>
         </reference>
-        <update handle="catalog_seo_sitemap" />
         <reference name="seo.sitemap.container">
             <action method="setTitle" translate="title" module="Mage_Catalog"><title>Categories</title></action>
             <block type="Mage_Catalog_Block_Seo_Sitemap_Category" name="seo.sitemap.sitemap" as="sitemap" after="pager_top" template="seo/sitemap.phtml">
@@ -374,7 +345,7 @@ SEO Site Map
         </reference>
     </catalog_seo_sitemap_category>
 
-    <catalog_seo_sitemap_category_tree translate="label" type="page" parent="catalog_seo_sitemap">
+    <catalog_seo_sitemap_category_type_tree translate="label" type="page" parent="catalog_seo_sitemap_category">
         <label>Catalog Seo Sitemap (Category Tree)</label>
         <reference name="seo.sitemap.container">
             <remove name="seo.sitemap.pager.top" />
@@ -387,7 +358,7 @@ SEO Site Map
                 <action method="bindPager"><pager>seo.sitemap.tree.pager.bottom</pager></action>
             </block>
         </reference>
-    </catalog_seo_sitemap_category_tree>
+    </catalog_seo_sitemap_category_type_tree>
 
     <catalog_seo_sitemap_product translate="label" type="page" parent="catalog_seo_sitemap">
         <label>Catalog Seo Sitemap (Product List)</label>

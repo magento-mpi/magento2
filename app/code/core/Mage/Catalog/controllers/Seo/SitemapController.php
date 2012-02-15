@@ -38,12 +38,9 @@ class Mage_Catalog_Seo_SitemapController extends Mage_Core_Controller_Front_Acti
      */
     public function categoryAction()
     {
-        $update = $this->getLayout()->getUpdate();
-        $update->addHandle('default');
-        $this->addActionLayoutHandles();
-        if (Mage::helper('Mage_Catalog_Helper_Map')->getIsUseCategoryTreeMode()) {
-            $update->addHandle(strtolower($this->getFullActionName()).'_tree');
-        }
+        $type = Mage::helper('Mage_Catalog_Helper_Map')->getIsUseCategoryTreeMode() ? 'tree' : 'plain';
+        $this->addPageLayoutHandles(array('type' => $type));
+//        var_dump($this->getLayout()->getUpdate()->getHandles());die();
         $this->loadLayoutUpdates();
         $this->generateLayoutXml()->generateLayoutBlocks();
         $this->renderLayout();
