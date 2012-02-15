@@ -92,7 +92,7 @@ class Enterprise_Wishlist_Block_Adminhtml_Report_Customer_Wishlist_Grid
             'align'     =>'right',
             'width'     => 100,
             'index'     => 'added_at',
-            'type'      => 'date'
+            'type'      => 'datetime'
         ));
         $this->addColumn('customer_name', array(
             'header'    => Mage::helper('enterprise_wishlist')->__('Customer Name'),
