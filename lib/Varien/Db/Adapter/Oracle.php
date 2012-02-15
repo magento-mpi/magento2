@@ -617,8 +617,8 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
                     TC.DATA_SCALE, TC.DATA_PRECISION, C.CONSTRAINT_TYPE, CC.POSITION
                 FROM ALL_TAB_COLUMNS TC
                 LEFT JOIN (ALL_CONS_COLUMNS CC JOIN ALL_CONSTRAINTS C
-                    ON (CC.CONSTRAINT_NAME = C.CONSTRAINT_NAME AND CC.TABLE_NAME = C.TABLE_NAME AND CC.OWNER = C.OWNER
-                      AND C.CONSTRAINT_TYPE = 'P'))
+                    ON (CC.CONSTRAINT_NAME = C.CONSTRAINT_NAME AND CC.TABLE_NAME = C.TABLE_NAME
+                        AND CC.OWNER = C.OWNER AND C.CONSTRAINT_TYPE = 'P'))
                   ON TC.TABLE_NAME = CC.TABLE_NAME AND TC.COLUMN_NAME = CC.COLUMN_NAME AND CC.OWNER = TC.OWNER
                 WHERE UPPER(TC.TABLE_NAME) = UPPER(:TBNAME)";
             $bind[':TBNAME'] = $tableName;
@@ -1258,8 +1258,11 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
         }
 
         if (!$this->tableColumnExists($tableName, $oldColumnName, $schemaName)) {
-            throw new Zend_Db_Exception(sprintf('Column "%s" does not exists on table "%s"', $oldColumnName,
-                $tableName));
+            throw new Zend_Db_Exception(sprintf(
+                'Column "%s" does not exists on table "%s"',
+                $oldColumnName,
+                $tableName
+            ));
         }
         if ($this->tableColumnExists($tableName, $newColumnName, $schemaName)) {
             throw new Exception(sprintf('Column "%s" already exists on table "%s"', $newColumnName,
@@ -1571,11 +1574,10 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
             $ddl = array();
 
             $casesResults  = array(
-                "uc.constraint_type = 'P'"                                        => "'"
-                    . Varien_Db_Adapter_Interface::INDEX_TYPE_PRIMARY . "'",
+                "uc.constraint_type = 'P'" => "'" . Varien_Db_Adapter_Interface::INDEX_TYPE_PRIMARY . "'",
                 "nvl(uc.constraint_type,'N') = 'U'/* AND ui.uniqueness = 'UNIQUE'*/ " => "'"
                     . Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE . "'",
-                "ui.ityp_owner = 'CTXSYS' AND ui.ityp_name = 'CONTEXT'"           => "'"
+                "ui.ityp_owner = 'CTXSYS' AND ui.ityp_name = 'CONTEXT'" => "'"
                     . Varien_Db_Adapter_Interface::INDEX_TYPE_FULLTEXT . "'",
             );
             $defaultValue  = "'" . Varien_Db_Adapter_Interface::INDEX_TYPE_INDEX . "'";
@@ -1781,8 +1783,8 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
                     $this->raw_fetchRow(sprintf(" DROP TRIGGER %s",
                         $this->quoteIdentifier(
                             $this->_getTriggerName($tableName, $columnName, self::TRIGGER_BEFORE_UPDATE)
-                        )
-                    ));
+                        ))
+                    );
                     $this->raw_fetchRow(sprintf(" DROP TRIGGER %s", $this->quoteIdentifier(
                         $this->_getTriggerName($tableName, $columnName, self::TRIGGER_BEFORE_UPDATE_ER))));
                     $this->raw_fetchRow(sprintf(" DROP TRIGGER %s", $this->quoteIdentifier(
@@ -2243,8 +2245,9 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
         if ($fields) {
             $query = sprintf("BEGIN\n %s;\n %s;\n END;",
                 $query,
-                sprintf('UPDATE %s t1 SET (%s)= (SELECT %s FROM (%s) t2 WHERE %s)'
-                    . ' WHERE EXISTS ( SELECT 1 FROM (%s) t3 WHERE %s )',
+                sprintf(
+                    'UPDATE %s t1 SET (%s)= (SELECT %s FROM (%s) t2 WHERE %s)'
+                        . ' WHERE EXISTS ( SELECT 1 FROM (%s) t3 WHERE %s )',
                     $table,
                     implode(', ', $fields),
                     implode(', ', $fields),
@@ -3077,6 +3080,17 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
     }
 
     /**
+     * Prepare standard deviation sql function
+     *
+     * @param Zend_Db_Expr|string $expressionField   quoted field name or SQL statement
+     * @return Zend_Db_Expr
+     */
+    public function getStandardDeviationSql($expressionField)
+    {
+        return new Zend_Db_Expr(sprintf('STDDEV_SAMP(%s)', $expressionField));
+    }
+
+    /**
      * Extract part of a date
      *
      * @see INTERVAL_* constants for $unit
@@ -3519,8 +3533,8 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
     {
         $sequenceName = $this->getSequenceName($tableName);
         if (!$this->isSequenceExists($sequenceName)) {
-            $query = 'CREATE SEQUENCE "%s" MINVALUE 0 MAXVALUE 4294967296 INCREMENT BY 1 START WITH 0 CACHE 20 '
-                . ' NOORDER NOCYCLE';
+            $query = 'CREATE SEQUENCE "%s" MINVALUE 0 MAXVALUE 4294967296'
+                . ' INCREMENT BY 1 START WITH 0 CACHE 20 NOORDER NOCYCLE';
             $this->query(sprintf($query, $this->quoteIdentifier($sequenceName)));
             $query = sprintf('SELECT "%s".NEXTVAL FROM dual', $this->quoteIdentifier($sequenceName));
             $this->query($query);

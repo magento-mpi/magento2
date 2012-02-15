@@ -351,7 +351,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <depends><price_range_calculation>auto</price_range_calculation></depends>
+                            <depends><price_range_calculation>improved</price_range_calculation></depends>
                         </one_price_interval>
                         <interval_division_limit translate="label comment">
                             <label>Interval Division Limit</label>
@@ -362,7 +362,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                             <validate>validate-digits validate-digits-range digits-range-1-10000</validate>
-                            <depends><price_range_calculation>auto</price_range_calculation></depends>
+                            <depends><price_range_calculation>improved</price_range_calculation></depends>
                         </interval_division_limit>
                         <display_product_count translate="label">
                             <label>Display Product Count</label>

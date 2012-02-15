@@ -35,6 +35,16 @@
 class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_Resource_Collection_Abstract
 {
     /**
+     * Alias for index table
+     */
+    const INDEX_TABLE_ALIAS = 'price_index';
+
+    /**
+     * Alias for main table
+     */
+    const MAIN_TABLE_ALIAS = 'e';
+
+    /**
      * Catalog Product Flat is enabled cache per store
      *
      * @var array
@@ -148,6 +158,124 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
         'tier_price'    => 'price_index.tier_price',
         'special_price' => 'price_index.special_price',
     ));
+
+    /**
+     * Whether statistics data should be used
+     *
+     * @var bool
+     */
+    protected $_useStatistics = false;
+
+    /**
+     * Price expression sql
+     *
+     * @var string|null
+     */
+    protected $_priceExpression;
+
+    /**
+     * Additional price expression sql part
+     *
+     * @var string|null
+     */
+    protected $_additionalPriceExpression;
+
+    /**
+     * Max prise (statistics data)
+     *
+     * @var float
+     */
+    protected $_maxPrice;
+
+    /**
+     * Min prise (statistics data)
+     *
+     * @var float
+     */
+    protected $_minPrice;
+
+    /**
+     * Prise standard deviation (statistics data)
+     *
+     * @var float
+     */
+    protected $_priceStandardDeviation;
+
+    /**
+     * Set use statistics data
+     *
+     * @return Mage_Catalog_Model_Resource_Product_Collection
+     */
+    public function useStatistics()
+    {
+        $this->_useStatistics = true;
+        return $this;
+    }
+
+    /**
+     * Prepare additional price expression sql part
+     *
+     * @return Mage_Catalog_Model_Resource_Product_Collection
+     */
+    protected function _preparePriceExpressionParameters()
+    {
+        // prepare response object for event
+        $response = new Varien_Object();
+        $response->setAdditionalCalculations(array());
+        $table = self::INDEX_TABLE_ALIAS;
+
+        // prepare event arguments
+        $eventArgs = array(
+            'select'          => $this->getSelect(),
+            'table'           => $table,
+            'store_id'        => $this->getStoreId(),
+            'response_object' => $response
+        );
+
+        Mage::dispatchEvent('catalog_prepare_price_select', $eventArgs);
+
+        $additional   = join('', $response->getAdditionalCalculations());
+        $this->_priceExpression = $table . '.min_price';
+        $this->_additionalPriceExpression = $additional;
+
+        return $this;
+    }
+
+    /**
+     * Get price expression sql part
+     *
+     * @return string
+     */
+    public function getPriceExpression()
+    {
+        if (is_null($this->_priceExpression)) {
+            $this->_preparePriceExpressionParameters();
+        }
+        return $this->_priceExpression;
+    }
+
+    /**
+     * Get additional price expression sql part
+     *
+     * @return string
+     */
+    public function getAdditionalPriceExpression()
+    {
+        if (is_null($this->_additionalPriceExpression)) {
+            $this->_preparePriceExpressionParameters();
+        }
+        return $this->_additionalPriceExpression;
+    }
+
+    /**
+     * Get currency rate
+     *
+     * @return float
+     */
+    public function getCurrencyRate()
+    {
+        return Mage::app()->getStore($this->getStoreId())->getCurrentCurrencyRate();
+    }
 
     /**
      * Retrieve Catalog Product Flat Helper object
@@ -287,7 +415,7 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
     {
         if ($this->isEnabledFlat()) {
             $this->getSelect()
-                ->from(array('e' => $this->getEntity()->getFlatTableName()), null)
+                ->from(array(self::MAIN_TABLE_ALIAS => $this->getEntity()->getFlatTableName()), null)
                 ->columns(array('status' => new Zend_Db_Expr(Mage_Catalog_Model_Product_Status::STATUS_ENABLED)));
             $this->addAttributeToSelect(array('entity_id', 'type_id', 'attribute_set_id'));
             if ($this->getFlatHelper()->isAddChildData()) {
@@ -296,7 +424,7 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
                 $this->addAttributeToSelect(array('child_id', 'is_child'));
             }
         } else {
-            $this->getSelect()->from(array('e'=>$this->getEntity()->getEntityTable()));
+            $this->getSelect()->from(array(self::MAIN_TABLE_ALIAS => $this->getEntity()->getEntityTable()));
         }
         return $this;
     }
@@ -723,18 +851,53 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
     }
 
     /**
-     * Get SQL for get record count
+     * Get SQL for get record count without left JOINs
      *
      * @return Varien_Db_Select
      */
     public function getSelectCountSql()
     {
+        return $this->_getSelectCountSql();
+    }
+
+    /**
+     * Get SQL for get record count
+     *
+     * @param bool $resetLeftJoins
+     * @return Varien_Db_Select
+     */
+    protected function _getSelectCountSql($resetLeftJoins = true)
+    {
         $this->_renderFilters();
 
         $countSelect = $this->_getClearSelect()
-            ->columns('COUNT(DISTINCT e.entity_id)')
-            ->resetJoinLeft();
+            ->columns('COUNT(DISTINCT e.entity_id)');
+        if ($resetLeftJoins) {
+            $countSelect->resetJoinLeft();
+        }
         return $countSelect;
+    }
+
+    /**
+     * Prepare statistics data
+     *
+     * @return Mage_Catalog_Model_Resource_Product_Collection
+     */
+    protected function _prepareStatisticsData()
+    {
+        $priceExpression = $this->getPriceExpression() . ' ' . $this->getAdditionalPriceExpression();
+        $sqlEndPart = ') * ' . $this->getCurrencyRate() . ', 2)';
+        $select = $this->_getSelectCountSql(false);
+        $select->columns('ROUND(MAX(' . $priceExpression . $sqlEndPart);
+        $select->columns('ROUND(MIN(' . $priceExpression . $sqlEndPart);
+        $select->columns($this->getConnection()->getStandardDeviationSql('ROUND((' . $priceExpression . $sqlEndPart));
+        $row = $this->getConnection()->fetchRow($select, $this->_bindParams, Zend_Db::FETCH_NUM);
+        $this->_totalRecords = (int)$row[0];
+        $this->_maxPrice = (float)$row[1];
+        $this->_minPrice = (float)$row[2];
+        $this->_priceStandardDeviation = (float)$row[3];
+
+        return $this;
     }
 
     /**
@@ -1890,5 +2053,65 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
             parent::setOrder($attribute, $dir);
         }
         return $this;
+    }
+
+    /**
+     * Get collection size
+     *
+     * @return int
+     */
+    public function getSize()
+    {
+        if (is_null($this->_totalRecords)) {
+            if ($this->_useStatistics) {
+                $this->_prepareStatisticsData();
+            } else {
+                $sql = $this->getSelectCountSql();
+                $this->_totalRecords = (int)$this->getConnection()->fetchOne($sql, $this->_bindParams);
+            }
+        }
+        return $this->_totalRecords;
+    }
+
+    /**
+     * Get products max price
+     *
+     * @return float
+     */
+    public function getMaxPrice()
+    {
+        if (is_null($this->_maxPrice)) {
+            $this->_prepareStatisticsData();
+        }
+
+        return $this->_maxPrice;
+    }
+
+    /**
+     * Get products min price
+     *
+     * @return float
+     */
+    public function getMinPrice()
+    {
+        if (is_null($this->_minPrice)) {
+            $this->_prepareStatisticsData();
+        }
+
+        return $this->_minPrice;
+    }
+
+    /**
+     * Get standard deviation of products price
+     *
+     * @return float
+     */
+    public function getPriceStandardDeviation()
+    {
+        if (is_null($this->_priceStandardDeviation)) {
+            $this->_prepareStatisticsData();
+        }
+
+        return $this->_priceStandardDeviation;
     }
 }

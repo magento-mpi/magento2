@@ -19,28 +19,16 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Catalog
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-class Mage_Adminhtml_Model_System_Config_Source_Price_Step
-{
-    public function toOptionArray()
-    {
-        return array(
-            array(
-                'value' => Mage_Catalog_Model_Layer_Filter_Price::RANGE_CALCULATION_AUTO,
-                'label' => Mage::helper('adminhtml')->__('Automatic')
-            ),
-            array(
-                'value' => Mage_Catalog_Model_Layer_Filter_Price::RANGE_CALCULATION_IMPROVED,
-                'label' => Mage::helper('adminhtml')->__('Continuous')
-            ),
-            array(
-                'value' => Mage_Catalog_Model_Layer_Filter_Price::RANGE_CALCULATION_MANUAL,
-                'label' => Mage::helper('adminhtml')->__('Manual')
-            ),
-        );
-    }
-}
+/** @var $installer Mage_Catalog_Model_Resource_Setup */
+$installer  = $this;
+$indexFields = array('website_id', 'customer_group_id', 'min_price');
+$installer->getConnection()->addIndex(
+    $installer->getTable('catalog/product_index_price'),
+    $installer->getIdxName('catalog/product_index_price', $indexFields),
+    $indexFields
+);

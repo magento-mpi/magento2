@@ -870,8 +870,11 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
         $schemaName = null)
     {
         if (!$this->tableColumnExists($tableName, $oldColumnName, $schemaName)) {
-            throw new Zend_Db_Exception(sprintf('Column "%s" does not exists on table "%s"', $oldColumnName,
-                $tableName));
+            throw new Zend_Db_Exception(sprintf(
+                'Column "%s" does not exists on table "%s"',
+                $oldColumnName,
+                $tableName
+            ));
         }
 
         if (is_array($definition)) {
@@ -3006,6 +3009,17 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
             return new Zend_Db_Expr(sprintf('SUBSTRING(%s, %s)', $stringExpression, $pos));
         }
         return new Zend_Db_Expr(sprintf('SUBSTRING(%s, %s, %s)', $stringExpression, $pos, $len));
+    }
+
+    /**
+     * Prepare standard deviation sql function
+     *
+     * @param Zend_Db_Expr|string $expressionField   quoted field name or SQL statement
+     * @return Zend_Db_Expr
+     */
+    public function getStandardDeviationSql($expressionField)
+    {
+        return new Zend_Db_Expr(sprintf('STDDEV_SAMP(%s)', $expressionField));
     }
 
     /**
