@@ -154,6 +154,7 @@ class Enterprise_Wishlist_Model_Resource_Item_Report_Collection
         }
 
         $this->addFilterToMap('product_qty', 'item_stock.qty');
+        $this->addFilterToMap('qty_diff', '(item_stock.qty - main_table.qty)');
         return $this;
     }
 
