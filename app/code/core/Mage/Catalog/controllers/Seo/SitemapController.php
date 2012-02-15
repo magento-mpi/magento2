@@ -40,7 +40,6 @@ class Mage_Catalog_Seo_SitemapController extends Mage_Core_Controller_Front_Acti
     {
         $type = Mage::helper('Mage_Catalog_Helper_Map')->getIsUseCategoryTreeMode() ? 'tree' : 'plain';
         $this->addPageLayoutHandles(array('type' => $type));
-//        var_dump($this->getLayout()->getUpdate()->getHandles());die();
         $this->loadLayoutUpdates();
         $this->generateLayoutXml()->generateLayoutBlocks();
         $this->renderLayout();

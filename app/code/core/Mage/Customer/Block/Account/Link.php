@@ -43,7 +43,7 @@ class Mage_Customer_Block_Account_Link extends Mage_Core_Block_Abstract
      * @param string $textAfter
      * @return Mage_Customer_Block_Account_Link
      */
-    public function addRegisterLink($target, $position, $textBefore, $textAfter)
+    public function addRegisterLink($target, $position, $textBefore = '', $textAfter = '')
     {
 
         if (!Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()) {

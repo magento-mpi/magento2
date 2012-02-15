@@ -58,8 +58,11 @@ class Mage_Core_Model_Layout_UpdateTest extends PHPUnit_Framework_TestCase
         $this->assertEmpty($this->_model->getHandles());
     }
 
-    public function testSetPageHandles()
+    public function testAddPageHandles()
     {
+        $this->_model->addPageHandles(array('some_handle'));
+        $this->assertEmpty($this->_model->getHandles());
+
         $this->_model->addPageHandles(array('catalog_product_view_type_simple'));
         $handles = array('default', 'catalog_product_view', 'catalog_product_view_type_simple');
         $this->assertEquals($handles, $this->_model->getHandles());

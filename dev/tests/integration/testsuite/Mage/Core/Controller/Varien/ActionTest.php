@@ -97,6 +97,28 @@ class Mage_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCase
         $this->_model->addActionLayoutHandles();
         $handles = $this->_model->getLayout()->getUpdate()->getHandles();
         $this->assertContains('test_controller_action', $handles);
+        $this->assertNotContains('STORE_' . Mage::app()->getStore()->getCode(), $handles);
+    }
+
+    /**
+     * @magentoAppIsolation enabled
+     */
+    public function testAddPageLayoutHandles()
+    {
+        $this->_model->getRequest()->setRouteName('test')
+            ->setControllerName('controller')
+            ->setActionName('action');
+        $this->_model->addPageLayoutHandles(array());
+        $this->assertEmpty($this->_model->getLayout()->getUpdate()->getHandles());
+
+        $this->_model->getRequest()->setRouteName('catalog')
+            ->setControllerName('product')
+            ->setActionName('view');
+        $this->_model->addPageLayoutHandles(array('type' => 'simple'));
+        $handles = $this->_model->getLayout()->getUpdate()->getHandles();
+        $this->assertContains('default', $handles);
+        $this->assertContains('catalog_product_view', $handles);
+        $this->assertContains('catalog_product_view_type_simple', $handles);
     }
 
     /**

@@ -274,7 +274,7 @@ abstract class Mage_Core_Controller_Varien_Action
     }
 
     /**
-     * Load layout updates associated with the page
+     * Add layout updates handles associated with the action page
      *
      * @param array $parameters page parameters
      * @return Mage_Core_Controller_Varien_Action
