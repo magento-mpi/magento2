@@ -39,6 +39,7 @@ class Mage_DesignEditor_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $session = Mage::getSingleton('Mage_DesignEditor_Model_Session');
         $session->setSkin($skin);
         $oldSkin = Mage::getDesign()->getDesignTheme();
+        $this->assertNotEquals($skin, $oldSkin);
 
         $expectedSkin = $expectedSkin ?: $oldSkin;
         $this->_observer->applyCustomSkin(new Varien_Event_Observer());
