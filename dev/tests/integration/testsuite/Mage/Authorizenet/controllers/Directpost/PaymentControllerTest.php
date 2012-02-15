@@ -25,9 +25,6 @@ class Mage_Authorizenet_Directpost_PaymentControllerTest extends Magento_Test_Te
         );
     }
 
-    /**
-     * @group ramon
-     */
     public function testRedirectActionErrorMessage()
     {
         $this->getRequest()->setParam('success', '0');

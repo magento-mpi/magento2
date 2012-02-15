@@ -2,7 +2,7 @@
 /**
  * {license_notice}
  *
- * @category    Social
+ * @category    Magento
  * @package     Social_Facebook
  * @subpackage  integration_tests
  * @copyright   {copyright}
