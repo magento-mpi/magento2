@@ -55,8 +55,9 @@
 
     DesignEditor.prototype._init = function () {
         this._dragged = null;
-        this._wrapBlocks();
-        this._enableDragging();
+        this._placeholder = null;
+        this._wrapBlocks()
+            ._enableDragging();
         return this;
     }
 
@@ -68,31 +69,70 @@
             .each(function (index) {
                 var marker = $(this);
                 $('<div class="vde_block_title">' + marker.attr('block_name') + '</div>').insertAfter(marker);
-                marker.nextUntil('.vde_marker').wrapAll('<div class="vde_block_wrapper" />');
+                marker.nextUntil('.vde_marker[marker_type=end]').wrapAll('<div class="vde_block_wrapper" />');
             });
         $('.vde_marker').remove();
+        return this;
     }
 
     DesignEditor.prototype._enableDragging = function () {
-        return; // FIXME
         var thisObj = this;
-        $('div').not('#vde_toolbar').not('#vde_toolbar div').draggable({
+        $('.vde_block_wrapper').draggable({
             helper: 'clone',
             revert: true,
             start: function (event, ui) {thisObj._onDragStarted(event, ui)},
             stop: function (event, ui) {thisObj._onDragStopped(event, ui)}
         });
+        return this;
     }
 
     DesignEditor.prototype._onDragStarted = function (event, ui) {
-        this._dragged = $(event.target);
+        if (this._dragged) {
+            return this;
+        }
+        this._hideDragged($(event.target))
+            ._putPlaceholder();
+    }
+
+    DesignEditor.prototype._onDragStopped = function (event, ui) {
+        if (!this._dragged) {
+            return this;
+        }
+        this._removePlaceholder()
+            ._showDragged();
+    }
+
+    DesignEditor.prototype._hideDragged = function (dragged) {
+        this._showDragged(); // Maybe some other dragged element was hidden before, just retore it
+        this._dragged = dragged;
         this._dragged.css('visibility', 'hidden');
         return this;
     }
 
-    DesignEditor.prototype._onDragStopped = function (event, ui) {
-        this._dragged.show().css('visibility', 'visible');
+    DesignEditor.prototype._showDragged = function () {
+        if (!this._dragged) {
+            return this;
+        }
+        this._dragged.css('visibility', 'visible');
         this._dragged = null;
+        return this;
+    }
+
+    DesignEditor.prototype._putPlaceholder = function () {
+        if (!this._placeholder) {
+            this._placeholder = $('<div class="vde_placeholder"></div>');
+        }
+        this._placeholder.css('height', this._dragged.outerHeight() + 'px')
+            .css('width', this._dragged.outerWidth() + 'px');
+        this._placeholder.insertBefore(this._dragged);
+        return this;
+    }
+
+    DesignEditor.prototype._removePlaceholder = function () {
+        if (!this._placeholder) {
+            return this;
+        }
+        this._placeholder.remove();
         return this;
     }
 })(jQuery);

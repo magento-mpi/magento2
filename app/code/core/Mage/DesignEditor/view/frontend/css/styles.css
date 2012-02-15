@@ -47,7 +47,19 @@
     padding: 2px;
     color: white;
     font-size: 11px;
-    max-width: 300px;
+    max-width: 150px;
     height: 13px;
+    text-align: left;
+    line-height: 12px;
+}
+
+.vde_placeholder {
+    position: absolute;
+    z-index: 200;
+    background-color: #ff9;
+}
+
+.ui-draggable-dragging {
+    z-index: 201;
 }
 /* ======================================================================================= */
