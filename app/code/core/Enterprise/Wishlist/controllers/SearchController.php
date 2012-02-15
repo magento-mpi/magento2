@@ -230,7 +230,7 @@ class Enterprise_Wishlist_SearchController extends Mage_Core_Controller_Front_Ac
                 $item = $hasOptions[0];
                 $redirectUrl = $item->getProductUrl();
             } else {
-                $wishlistSession = Mage::getSingleton('wishlist/session');
+                $wishlistSession = Mage::getSingleton('checkout/session');
                 foreach ($messages as $message) {
                     $wishlistSession->addError($message);
                 }
