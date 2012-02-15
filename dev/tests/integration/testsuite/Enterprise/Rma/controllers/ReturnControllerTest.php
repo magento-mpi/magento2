@@ -11,7 +11,6 @@
 
 /**
  * @group module:Enterprise_Rma
- * @magentoDataFixture Mage/Customer/_files/customer.php
  */
 class Enterprise_Rma_ReturnControllerTest extends Magento_Test_TestCase_ControllerAbstract
 {
@@ -31,7 +30,7 @@ class Enterprise_Rma_ReturnControllerTest extends Magento_Test_TestCase_Controll
         $this->_customerSession = new Mage_Customer_Model_Session;
         $this->_customerSession->login('customer@example.com', 'password');
 
-        $this->_rma = require __DIR__ . '/../_files/rma.php';
+        $this->_rma = Mage::registry('rma');
         $this->_rma->setCustomerId($this->_customerSession->getCustomerId());
         $this->_rma->save();
     }
@@ -43,6 +42,8 @@ class Enterprise_Rma_ReturnControllerTest extends Magento_Test_TestCase_Controll
 
     /**
      * @magentoConfigFixture current_store sales/enterprise_rma/enabled 1
+     * @magentoDataFixture Mage/Customer/_files/customer.php
+     * @magentoDataFixture Enterprise/Rma/_files/rma.php
      */
     public function testAddLabelActionIsContentGenerated()
     {
@@ -53,6 +54,8 @@ class Enterprise_Rma_ReturnControllerTest extends Magento_Test_TestCase_Controll
 
     /**
      * @magentoConfigFixture current_store sales/enterprise_rma/enabled 1
+     * @magentoDataFixture Mage/Customer/_files/customer.php
+     * @magentoDataFixture Enterprise/Rma/_files/rma.php
      */
     public function testDelLabelActionIsContentGenerated()
     {

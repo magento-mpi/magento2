@@ -49,4 +49,6 @@ $trackingNumber
 ;
 $trackingNumber->save();
 
-return $rma;
+Mage::unregister('rma');
+Mage::register('rma', $rma);
+

@@ -22,11 +22,12 @@ class Enterprise_Rma_GuestControllerTest extends Magento_Test_TestCase_Controlle
     public function setUp()
     {
         parent::setUp();
-        $this->_rma = require __DIR__ . '/../_files/rma.php';
+        $this->_rma = Mage::registry('rma');
     }
 
     /**
      * @magentoConfigFixture current_store sales/enterprise_rma/enabled 1
+     * @magentoDataFixture Enterprise/Rma/_files/rma.php
      */
     public function testAddLabelActionIsContentGenerated()
     {
@@ -43,6 +44,7 @@ class Enterprise_Rma_GuestControllerTest extends Magento_Test_TestCase_Controlle
 
     /**
      * @magentoConfigFixture current_store sales/enterprise_rma/enabled 1
+     * @magentoDataFixture Enterprise/Rma/_files/rma.php
      */
     public function testDelLabelActionIsContentGenerated()
     {
