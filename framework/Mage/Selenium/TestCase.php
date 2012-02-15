@@ -305,7 +305,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     }
 
     /**
-     * Loads specific driver for specified browser
+     * Loads a specific driver for the specified browser
      *
      * @param array $browser Defines what kind of driver, for a what browser will be loaded
      *
@@ -1142,7 +1142,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     ################################################################################
     /**
      * Gets current location area<br>
-     * Usage: to definition of area what operates in this time.
+     * Usage: define area currently operating.
      * <li>Possible areas: frontend | admin
      * @return string
      */
@@ -1186,7 +1186,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     #                                                                              #
     ################################################################################
     /**
-     * Retrieves Page's data from UIMap by $pageKey
+     * Retrieves Page data from UIMap by $pageKey
      *
      * @param string $area Area identifier
      * @param string $pageKey UIMap page key
@@ -1469,7 +1469,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     #                                                                              #
     ################################################################################
     /**
-     * Saves html content of current page and return information about it.
+     * SavesHTML content of the current page and return information about it.
      * Return an empty string if the screenshotPath property is empty.
      *
      * @param null|string $fileName
@@ -1545,7 +1545,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     }
 
     /**
-     * Click on button with specified name
+     * Click a button with the specified name
      *
      * @param string $button Name of a control from UIMap
      * @param bool $willChangePage Triggers page reloading. If clicking the control doesn't result<br>
@@ -1607,7 +1607,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     }
 
     /**
-     * Submit form and confirms the confirmation popup with the specified message.
+     * Submit form and confirm the confirmation popup with the specified message.
      *
      * @param string $buttonName Name of a button from UIMap
      * @param string $message Confirmation message id from UIMap

@@ -203,7 +203,7 @@ class Mage_Selenium_Helper_Config extends Mage_Selenium_Helper_Abstract
     {
         $config = $this->getConfigApplications();
         if (!isset($config[$name])) {
-            throw new InvalidArgumentException('Application with the ' . $name . ' name is absent');
+            throw new InvalidArgumentException('Application with "' . $name . '" name is missing');
         }
         $this->_applicationConfig = $config[$name];
         $this->_application = $name;
@@ -223,7 +223,7 @@ class Mage_Selenium_Helper_Config extends Mage_Selenium_Helper_Abstract
     {
         $config = $this->getConfigAreas();
         if (!isset($config[$name])) {
-            throw new OutOfRangeException('Area with the name ' . $name . ' is absent');
+            throw new OutOfRangeException('Area with name "' . $name . '" is missing');
         }
         $this->_areaConfig = $config[$name];
         $this->_area = $name;
@@ -263,7 +263,7 @@ class Mage_Selenium_Helper_Config extends Mage_Selenium_Helper_Abstract
         if (!$this->_configAreas) {
             $config = $this->getApplicationConfig();
             if (!isset($config['areas'])) {
-                throw new OutOfRangeException('Areas for "' . $this->_application . '" application is not set');
+                throw new OutOfRangeException('Areas for "' . $this->_application . '" application are not set');
             }
             $this->_configAreas = $config['areas'];
         }

@@ -223,7 +223,7 @@ class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
     {
         $areaUimaps = $this->getAreaUimaps($area);
         if (!array_key_exists($pageKey, $areaUimaps)) {
-            throw new OutOfRangeException('Can not find page "' . $pageKey . '" in area "' . $area . '"');
+            throw new OutOfRangeException('Cannot find page "' . $pageKey . '" in area "' . $area . '"');
         }
         $page = $areaUimaps[$pageKey];
         if ($paramsDecorator) {
@@ -269,7 +269,7 @@ class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
                 }
             }
         }
-        throw new OutOfRangeException('Can not find page with mca "' . $mca . '" in "' . $area . '" area');
+        throw new OutOfRangeException('Cannot find page with mca "' . $mca . '" in "' . $area . '" area');
     }
 
     /**

@@ -285,7 +285,7 @@ class Mage_Selenium_Uimap_Abstract
         }
 
         if (!empty($elementName) && !$returnValue) {
-            throw new Exception('Cant\' find element(s) "' . $elementName . '"');
+            throw new Exception('Can\'t find element(s) "' . $elementName . '"');
         }
 
         return $returnValue;
