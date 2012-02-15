@@ -43,4 +43,13 @@ class Mage_PaypalUk_Model_Express_Checkout extends Mage_Paypal_Model_Express_Che
      */
     protected $_methodType = Mage_Paypal_Model_Config::METHOD_WPP_PE_EXPRESS;
 
+    /**
+     * Set shipping method to quote, if needed
+     * @param string $methodCode
+     */
+    public function updateShippingMethod($methodCode)
+    {
+        parent::updateShippingMethod($methodCode);
+        $this->_quote->save();
+    }
 }

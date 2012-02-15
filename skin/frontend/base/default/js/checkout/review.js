@@ -30,6 +30,8 @@ OrderReviewController = Class.create();
 OrderReviewController.prototype = {
     _canSubmitOrder : false,
     _pleaseWait : false,
+    shippingSelect : false,
+    reloadByShippingSelect : false,
     _copyElement : false,
     onSubmitShippingSuccess : false,
     shippingMethodsUpdateUrl : false,
@@ -50,20 +52,29 @@ OrderReviewController.prototype = {
             return;
         }
         this.form = orderForm;
-        this._updateOrderSubmit(true);
-        Form.getElements(this.form).each(this._bindElementChange, this);
-
-        if (shippingSelect) {
-            this.shippingSelect = $(shippingSelect).id;
-            this.shippingMethodsContainer = $(this.shippingSelect).up(1);
-        }
         if (orderFormSubmit) {
             this.formSubmit = orderFormSubmit;
             Event.observe(orderFormSubmit, 'click', this._submitOrder.bind(this));
         }
-        this._updateOrderSubmit(true);
 
-        this._updateOrderSubmit(false);
+        if (shippingSubmitForm) {
+            this.reloadByShippingSelect = true;
+            if (shippingSubmitForm && shippingSelect) {
+                this.shippingSelect = shippingSelect;
+                Event.observe(shippingSelect, 'change', this._submitShipping.bindAsEventListener(this, shippingSubmitForm.action, shippingResultId));
+                this._updateOrderSubmit(false);
+            } else {
+                this._canSubmitOrder = true;
+            }
+        } else {
+            Form.getElements(this.form).each(this._bindElementChange, this);
+
+            if (shippingSelect) {
+                this.shippingSelect = $(shippingSelect).id;
+                this.shippingMethodsContainer = $(this.shippingSelect).up(1);
+            }
+            this._updateOrderSubmit(false);
+        }
     },
 
     /**
@@ -79,13 +90,30 @@ OrderReviewController.prototype = {
 
     /**
      * Dispatch an ajax request of shipping method submission
-     * @deprecated since 1.7.0.0
      * @param event
      * @param url - url where to submit shipping method
      * @param resultId - id of element to be updated
      */
     _submitShipping : function(event, url, resultId)
     {
+        if (this.shippingSelect && url && resultId) {
+            this._updateOrderSubmit(true);
+            if (this._pleaseWait) {
+                this._pleaseWait.show();
+            }
+            if ('' != this.shippingSelect.value) {
+                new Ajax.Updater(resultId, url, {
+                    parameters: {isAjax:true, shipping_method:this.shippingSelect.value},
+                    onComplete: function() {
+                        if (this._pleaseWait) {
+                            this._pleaseWait.hide();
+                        }
+                    }.bind(this),
+                    onSuccess: this._onSubmitShippingSuccess.bind(this),
+                    evalScripts: true
+                });
+            }
+        }
     },
 
     /**
@@ -297,11 +325,13 @@ OrderReviewController.prototype = {
      */
     _submitOrder : function()
     {
-        if (this._canSubmitOrder && this._validateForm()) {
+        if (this._canSubmitOrder && (this.reloadByShippingSelect || this._validateForm())) {
             this.form.submit();
+            this._updateOrderSubmit(true);
             if (this._pleaseWait) {
                 this._pleaseWait.show();
             }
+            return;
         }
         this._updateOrderSubmit(true);
     },
@@ -324,12 +354,15 @@ OrderReviewController.prototype = {
      */
     _updateOrderSubmit : function(shouldDisable)
     {
-        this._canSubmitOrder = !shouldDisable;
+        var isDisabled = shouldDisable || (
+            this.reloadByShippingSelect && (!this.shippingSelect || '' == this.shippingSelect.value)
+        );
+        this._canSubmitOrder = !isDisabled;
         if (this.formSubmit) {
-            this.formSubmit.disabled = shouldDisable;
+            this.formSubmit.disabled = isDisabled;
             this.formSubmit.removeClassName('no-checkout');
             this.formSubmit.setStyle({opacity:1});
-            if (shouldDisable) {
+            if (isDisabled) {
                 this.formSubmit.addClassName('no-checkout');
                 this.formSubmit.setStyle({opacity:.5});
             }

@@ -140,7 +140,7 @@ if ($('update_shipping_method_submit')) {
     }
 <?php endif ?>
 PayPalExpressAjax = new OrderReviewController($('order_review_form'), $('review_button'),
-    'shipping_method', $('order_review_form'), 'details-reload'
+    'shipping_method', null, 'details-reload'
 );
 PayPalExpressAjax.addPleaseWait($('review-please-wait'));
 PayPalExpressAjax.setShippingAddressContainer($('shipping-address'));

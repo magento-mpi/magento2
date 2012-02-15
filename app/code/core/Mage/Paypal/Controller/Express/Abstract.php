@@ -186,7 +186,9 @@ abstract class Mage_Paypal_Controller_Express_Abstract extends Mage_Core_Control
             $reviewBlock = $this->getLayout()->getBlock('paypal.express.review');
             $reviewBlock->setQuote($this->_getQuote());
             $reviewBlock->getChild('details')->setQuote($this->_getQuote());
-            $reviewBlock->getChild('shipping_method')->setQuote($this->_getQuote());
+            if ($reviewBlock->getChild('shipping_method')) {
+                $reviewBlock->getChild('shipping_method')->setQuote($this->_getQuote());
+            }
             $this->renderLayout();
             return;
         }
