@@ -12,7 +12,10 @@
  */
 class Integrity_LayoutTest extends PHPUnit_Framework_TestCase
 {
-    const HTML_ID_PATTERN = '/^[a-z][a-z\-\d]*$/';
+    /**
+     * Pattern for attribute elements, compatible with HTML ID
+     */
+    const HTML_ID_PATTERN = '/^[a-z][a-z\-\_\d]*$/';
 
     /**
      * @var array|bool
@@ -214,8 +217,13 @@ class Integrity_LayoutTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Suppressing PHPMD issues because this test is complex and it is not reasonable to separate it
+     *
      * @param string $file
      * @dataProvider containerDeclarationDataProvider
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @SuppressWarnings(PHPMD.NPathComplexity)
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     public function testContainerDeclaration($file)
     {
@@ -228,10 +236,9 @@ class Integrity_LayoutTest extends PHPUnit_Framework_TestCase
             $attr = $node->attributes();
             if (!isset($attr['name'])) {
                 $nodeErrors[] = '"name" attribute is not specified';
+            } elseif (!preg_match('/^[a-z][a-z\-\_\d\.]*$/i', $attr['name'])) {
+                $nodeErrors[] = 'specified value for "name" attribute is invalid';
             }
-//            elseif (!preg_match(self::HTML_ID_PATTERN, $attr['name'])) {
-//                $nodeErrors[] = 'specified value for "name" attribute is invalid';
-//            }
             if (!isset($attr['label']) || '' == $attr['label']) {
                 $nodeErrors[] = '"label" attribute is not specified or empty';
             }

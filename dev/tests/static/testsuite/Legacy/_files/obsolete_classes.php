@@ -31,21 +31,24 @@ return array(
     'Mage_Catalog_Model_Entity_Product_Attribute_Frontend_Image',
     'Mage_Catalog_Model_Resource_Product_Attribute_Frontend_Image',
     'Mage_Catalog_Model_Resource_Product_Attribute_Frontend_Tierprice',
-    'Mage_Core_Block_Text_List',
     'Mage_Core_Model_Design_Source_Apply',
     'Mage_Core_Model_Language',
     'Mage_Core_Model_Resource_Language',
     'Mage_Core_Model_Resource_Language_Collection',
     'Mage_Customer_Block_Account',
     'Mage_Directory_Model_Resource_Currency_Collection',
-    'Mage_Downloadable_FileController' => array('suggestion' => 'Mage_Downloadable_Adminhtml_Downloadable_FileController'),
+    'Mage_Downloadable_FileController' => array(
+        'suggestion' => 'Mage_Downloadable_Adminhtml_Downloadable_FileController'
+    ),
     'Mage_Downloadable_Product_EditController' => array('suggestion' => 'Mage_Adminhtml_Catalog_ProductController'),
     'Mage_GiftMessage_Block_Message_Form',
     'Mage_GiftMessage_Block_Message_Helper',
     'Mage_GiftMessage_IndexController',
     'Mage_GiftMessage_Model_Entity_Attribute_Backend_Boolean_Config',
     'Mage_GiftMessage_Model_Entity_Attribute_Source_Boolean_Config',
-    'Mage_GoogleOptimizer_IndexController' => array('suggestion' => 'Mage_GoogleOptimizer_Adminhtml_Googleoptimizer_IndexController'),
+    'Mage_GoogleOptimizer_IndexController' => array(
+        'suggestion' => 'Mage_GoogleOptimizer_Adminhtml_Googleoptimizer_IndexController'
+    ),
     'Mage_Ogone_Model_Api_Debug',
     'Mage_Ogone_Model_Resource_Api_Debug',
     'Mage_Page_Block_Html_Toplinks',
