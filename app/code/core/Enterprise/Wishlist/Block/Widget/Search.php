@@ -122,10 +122,23 @@ class Enterprise_Wishlist_Block_Widget_Search extends Mage_Core_Block_Template i
 
         $select = $this->getLayout()->createBlock('core/html_select')
             ->setName('search_by')
-            ->setId('search_by')
+            ->setId($this->getBlockId().'-search_by')
             ->setOptions($options);
 
         return $select->getHtml();
+    }
+
+    /**
+     * Add current block identifier to dom node id
+     *
+     * @return string
+     */
+    public function getBlockId()
+    {
+        if ($this->getData('id')===null) {
+            $this->setData('id', Mage::helper('core')->uniqHash());
+        }
+        return $this->getData('id');
     }
 
     /**
