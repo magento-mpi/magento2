@@ -122,8 +122,16 @@
                             <title>Unit Price</title>
                         </action>
                     </block>
-                    <block type="wishlist/customer_wishlist_item_column" name="customer.wishlist.item.to_cart_qty" template="wishlist/item/column/qty_input.phtml"></block>
-                    <block type="enterprise_wishlist/customer_wishlist_item_column_copy" name="customer.wishlist.item.to_wishlist" template="wishlist/item/column/copy.phtml"></block>
+                    <block type="wishlist/customer_wishlist_item_column" name="customer.wishlist.item.to_cart_qty" template="wishlist/item/column/qty_input.phtml">
+                        <action method="setTitle" translate="title" module="enterprise_wishlist">
+                            <title>Qty</title>
+                        </action>
+                    </block>
+                    <block type="enterprise_wishlist/customer_wishlist_item_column_copy" name="customer.wishlist.item.to_wishlist" template="wishlist/item/column/copy.phtml">
+                        <action method="setTitle" translate="title" module="enterprise_wishlist">
+                            <title>Add to Wishlist</title>
+                        </action>
+                    </block>
                 </block>
             </block>
         </reference>
