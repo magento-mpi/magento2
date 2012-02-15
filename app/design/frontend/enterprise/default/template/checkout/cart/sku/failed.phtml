@@ -134,8 +134,8 @@ var validateErrorGrid = function (event)
             var qty = parseFloat($qty.value);
             var isMaxAllowedValid = !$maxAllowed.length || (qty <= parseFloat($maxAllowed[0].value));
             var isMinAllowedValid = !$minAllowed.length || (qty >= parseFloat($minAllowed[0].value));
-            var isQtyIncrementsValid = !$qtyIncrements.length || (modulo(qty, parseFloat($qtyIncrements[0].value)) == 0 && qty > 0);
-            if (isMaxAllowedValid && isMinAllowedValid && isQtyIncrementsValid) {
+            var isQtyIncrementsValid = !$qtyIncrements.length || (modulo(qty, parseFloat($qtyIncrements[0].value)) == 0);
+            if (isMaxAllowedValid && isMinAllowedValid && isQtyIncrementsValid && qty > 0) {
                 $qty.removeClassName('validation-failed');
             } else {
                 $qty.addClassName('validation-failed');
