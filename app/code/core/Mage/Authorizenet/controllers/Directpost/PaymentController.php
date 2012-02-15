@@ -48,6 +48,7 @@ class Mage_Authorizenet_Directpost_PaymentController extends Mage_Core_Controlle
      */
     public function responseAction()
     {
+        $params = array();
         $data = $this->getRequest()->getPost();
         /* @var $paymentMethod Mage_Authorizenet_Model_DirectPost */
         $paymentMethod = Mage::getModel('Mage_Authorizenet_Model_Directpost');
