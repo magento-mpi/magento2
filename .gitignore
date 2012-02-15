@@ -1,4 +1,6 @@
 config/local.yml
-tmp/*
+config/config.yml
+phpunit.xml
+var/*
 /.idea
 /nbproject
