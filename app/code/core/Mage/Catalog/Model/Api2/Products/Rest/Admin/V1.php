@@ -108,6 +108,15 @@ class Mage_Catalog_Model_Api2_Products_Rest_Admin_V1 extends Mage_Catalog_Model_
                 Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
         }
 
+        // Validate store input
+        if (isset($data['store'])) {
+            try {
+                Mage::app()->getStore($data['store'])->getId();
+            } catch (Mage_Core_Model_Store_Exception $e) {
+                $this->_critical('Invalid store', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+            }
+        }
+
         parent::_validate($data, $required, $required);
     }
 
@@ -126,51 +135,23 @@ class Mage_Catalog_Model_Api2_Products_Rest_Admin_V1 extends Mage_Catalog_Model_
         $type = $data['type'];
         $set = $data['set'];
         $sku = $data['sku'];
-        $store = isset($data['store']) ? $data['store'] : '';
         $productData = array_diff_key($data, array_flip(array('type', 'set', 'sku')));
 
+        $store = isset($data['store']) ? $data['store'] : '';
+        $storeId = Mage::app()->getStore($store)->getId();
         /** @var $product Mage_Catalog_Model_Product */
-        $product = Mage::getModel('catalog/product');
-
-        try {
-            $storeId = Mage::app()->getStore($store)->getId();
-        } catch (Mage_Core_Model_Store_Exception $e) {
-            $this->_critical(self::RESOURCE_DATA_INVALID);    //store_not_exists
-        }
-
-        $product->setStoreId($storeId)
+        $product = Mage::getModel('catalog/product')
+            ->setStoreId($storeId)
             ->setAttributeSetId($set)
             ->setTypeId($type)
             ->setSku($sku);
 
-        if (!isset($productData['stock_data']) || !is_array($productData['stock_data'])) {
-            //Set default stock_data if not exist in product data
-            $product->setStockData(array('use_config_manage_stock' => 0));
-        }
-
         $this->_prepareDataForSave($product, $productData);
-
         try {
-            /**
-             * @TODO implement full validation process with errors returning which are ignoring now
-             * @TODO see Mage_Catalog_Model_Product::validate()
-             */
-            if (is_array($errors = $product->validate())) {
-                foreach($errors as $code => $error) {
-                    if ($error === true) {
-                        $this->_error(
-                            sprintf('Attribute "%s" is invalid.', $code),
-                            Mage_Api2_Model_Server::HTTP_BAD_REQUEST
-                        );   //data_invalid
-                    }
-                }
-                $this->_critical(self::RESOURCE_DATA_INVALID);    //data_invalid
-            }
-
             $product->save();
             $this->_multicall($product->getId());
         } catch (Mage_Core_Exception $e) {
-            $this->_critical(self::RESOURCE_UNKNOWN_ERROR);    //data_invalid
+            $this->_critical(self::RESOURCE_UNKNOWN_ERROR);
         }
 
         return $this->_getLocation($product);
@@ -188,7 +169,7 @@ class Mage_Catalog_Model_Api2_Products_Rest_Admin_V1 extends Mage_Catalog_Model_
        if (isset($productData['website_ids']) && is_array($productData['website_ids'])) {
            $product->setWebsiteIds($productData['website_ids']);
        }
-
+       /** @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
        foreach ($product->getTypeInstance(true)->getEditableAttributes($product) as $attribute) {
            //Unset data if object attribute has no value in current store
            if (Mage_Catalog_Model_Abstract::DEFAULT_STORE_ID !== (int) $product->getStoreId()
@@ -204,47 +185,14 @@ class Mage_Catalog_Model_Api2_Products_Rest_Admin_V1 extends Mage_Catalog_Model_
                        $attribute->getAttributeCode(),
                        $productData[$attribute->getAttributeCode()]
                    );
-               } elseif (isset($productData['additional_attributes']['single_data'][$attribute->getAttributeCode()])) {
-                   $product->setData(
-                       $attribute->getAttributeCode(),
-                       $productData['additional_attributes']['single_data'][$attribute->getAttributeCode()]
-                   );
-               } elseif (isset($productData['additional_attributes']['multi_data'][$attribute->getAttributeCode()])) {
-                   $product->setData(
-                       $attribute->getAttributeCode(),
-                       $productData['additional_attributes']['multi_data'][$attribute->getAttributeCode()]
-                   );
                }
            }
-       }
-
-       if (isset($productData['categories']) && is_array($productData['categories'])) {
-           $product->setCategoryIds($productData['categories']);
-       }
-
-       if (isset($productData['websites']) && is_array($productData['websites'])) {
-           foreach ($productData['websites'] as &$website) {
-               if (is_string($website)) {
-                   try {
-                       $website = Mage::app()->getWebsite($website)->getId();
-                   } catch (Exception $e) { }
-               }
-           }
-           $product->setWebsiteIds($productData['websites']);
-       }
-
-       if (Mage::app()->isSingleStoreMode()) {
-           $product->setWebsiteIds(array(Mage::app()->getStore(true)->getWebsite()->getId()));
        }
 
        if (isset($productData['stock_data']) && is_array($productData['stock_data'])) {
            $product->setStockData($productData['stock_data']);
-       }
-
-       if (isset($productData['tier_price']) && is_array($productData['tier_price'])) {
-            $tierPrices = Mage::getModel('catalog/product_attribute_tierprice_api')
-                ->prepareTierPrices($product, $productData['tier_price']);
-            $product->setData(Mage_Catalog_Model_Product_Attribute_Tierprice_Api::ATTRIBUTE_CODE, $tierPrices);
+       } else {
+           $product->setStockData(array('use_config_manage_stock' => 0));
        }
    }
 
