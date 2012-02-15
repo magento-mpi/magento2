@@ -15,7 +15,7 @@
  */
 class Mage_Paypal_StandardControllerTest extends Magento_Test_TestCase_ControllerAbstract
 {
-    public function testRedirectAction()
+    public function testRedirectActionIsContentGenerated()
     {
         $this->dispatch('paypal/standard/redirect');
         $this->assertContains(

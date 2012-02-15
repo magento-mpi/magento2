@@ -15,7 +15,7 @@
  */
 class Mage_Paypal_HostedproControllerTest extends Magento_Test_TestCase_ControllerAbstract
 {
-    public function testCancelAction()
+    public function testCancelActionIsContentGenerated()
     {
         $this->dispatch('paypal/hostedpro/cancel');
         $this->assertContains(

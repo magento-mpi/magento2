@@ -15,7 +15,7 @@
  */
 class Mage_Paypal_PayflowadvancedControllerTest extends Magento_Test_TestCase_ControllerAbstract
 {
-    public function testCancelPaymentAction()
+    public function testCancelPaymentActionIsContentGenerated()
     {
         $this->dispatch('paypal/payflowadvanced/cancelpayment');
         $this->assertContains(
@@ -32,7 +32,7 @@ class Mage_Paypal_PayflowadvancedControllerTest extends Magento_Test_TestCase_Co
         );
     }
 
-    public function testReturnurlAction()
+    public function testReturnurlActionIsContentGenerated()
     {
         $this->dispatch('paypal/payflowadvanced/returnurl');
         $this->assertContains(
@@ -49,7 +49,7 @@ class Mage_Paypal_PayflowadvancedControllerTest extends Magento_Test_TestCase_Co
         );
     }
 
-    public function testFormAction()
+    public function testFormActionIsContentGenerated()
     {
         $this->dispatch('paypal/payflowadvanced/form');
         $this->assertContains(
