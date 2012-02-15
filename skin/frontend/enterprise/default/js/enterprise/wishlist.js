@@ -224,37 +224,39 @@ Enterprise.Wishlist.copySelectedToNew = function() {
 };
 
 Event.observe(document, 'dom:loaded', function() {
-    var buildUrl = function(url, wishlistId) {
-        var glue = url .charAt( url.length-1 ) == '/' ? '' : '/';
-        return url + glue + 'wishlist_id/' + wishlistId + '/';
-    }
-    $$('.link-wishlist').each(function(link) {
-        var url = link.href;
-        var onclick = link.onclick || function() {
-            setLocation(this.href);
+    if (typeof Enterprise.Wishlist.list != 'undefined') {
+        var buildUrl = function(url, wishlistId) {
+            var glue = url .charAt( url.length-1 ) == '/' ? '' : '/';
+            return url + glue + 'wishlist_id/' + wishlistId + '/';
         }
+        $$('.link-wishlist').each(function(link) {
+            var url = link.href;
+            var onclick = link.onclick || function() {
+                setLocation(this.href);
+            }
 
-        var wishlistSplitButton = new Enterprise.Widget.SplitButton(link.innerHTML, Translator.translate('Add to:'), 'light clickable');
-        wishlistSplitButton.onClick = onclick.bind({href: url});
+            var wishlistSplitButton = new Enterprise.Widget.SplitButton(link.innerHTML, Translator.translate('Add to:'), 'light clickable');
+            wishlistSplitButton.onClick = onclick.bind({href: url});
 
-        Enterprise.Wishlist.list.each(function(wishlist) {
-            var option = new Enterprise.Widget.SplitButton.Option(wishlist.name);
-            option.onClick = onclick.bind({href: buildUrl(url, wishlist.id)});
-            wishlistSplitButton.addOption(option);
-        });
-
-        if (Enterprise.Wishlist.canCreate) {
-            var option = new Enterprise.Widget.SplitButton.Option(Translator.translate('Create New Wishlist'), 'new');
-            option.onClick = Enterprise.Wishlist.createWithCallback.bind(this, Enterprise.Wishlist.url.create, function(wishlistId) {
-                (onclick.bind({
-                    href: buildUrl(url, wishlistId)
-                }))();
+            Enterprise.Wishlist.list.each(function(wishlist) {
+                var option = new Enterprise.Widget.SplitButton.Option(wishlist.name);
+                option.onClick = onclick.bind({href: buildUrl(url, wishlist.id)});
+                wishlistSplitButton.addOption(option);
             });
-            wishlistSplitButton.addOption(option);
-        }
 
-        wishlistSplitButton.placeAt(link.up());
-        link.remove();
-    });
+            if (Enterprise.Wishlist.canCreate) {
+                var option = new Enterprise.Widget.SplitButton.Option(Translator.translate('Create New Wishlist'), 'new');
+                option.onClick = Enterprise.Wishlist.createWithCallback.bind(this, Enterprise.Wishlist.url.create, function(wishlistId) {
+                    (onclick.bind({
+                        href: buildUrl(url, wishlistId)
+                    }))();
+                });
+                wishlistSplitButton.addOption(option);
+            }
+
+            wishlistSplitButton.placeAt(link.up());
+            link.remove();
+        });
+    }
 });
 
