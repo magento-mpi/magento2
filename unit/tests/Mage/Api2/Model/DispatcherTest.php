@@ -36,6 +36,11 @@ class Mage_Api2_Model_DispatcherTest extends Mage_PHPUnit_TestCase
     const RESOURCE_MODEL = 'api2/dispatcher_testResource';
 
     /**
+     * Resource type
+     */
+    const RESOURCE_TYPE = 'products';
+
+    /**
      * Request object
      *
      * @var PHPUnit_Framework_MockObject_MockObject
@@ -60,7 +65,7 @@ class Mage_Api2_Model_DispatcherTest extends Mage_PHPUnit_TestCase
         $this->_response = Mage::getSingleton('api2/response');
 
         $this->_requestMock = $this->getSingletonMockBuilder('api2/request')
-            ->setMethods(array('getVersion', 'getModel', 'getParam', 'getApiType'))
+            ->setMethods(array('getVersion', 'getModel', 'getParam', 'getApiType', 'getResourceType'))
             ->getMock();
     }
 
@@ -69,7 +74,7 @@ class Mage_Api2_Model_DispatcherTest extends Mage_PHPUnit_TestCase
      *
      * @return void
      */
-    public function _testDispatch()
+    public function testDispatch()
     {
         $userMock = $this->getMock('Mage_Api2_Model_Auth_User_Guest', array('getType'));
 
@@ -86,10 +91,14 @@ class Mage_Api2_Model_DispatcherTest extends Mage_PHPUnit_TestCase
             ->will($this->returnValue(self::RESOURCE_MODEL));
 
         $this->_requestMock->expects($this->any())
+            ->method('getResourceType')
+            ->will($this->returnValue(self::RESOURCE_TYPE));
+
+        $this->_requestMock->expects($this->any())
             ->method('getApiType')
             ->will($this->returnValue(Mage_Api2_Model_Server::API_TYPE_REST));
 
-        $dispatcher = new Mage_Api2_Model_Dispatcher();
+        $dispatcher = new Mage_Api2_Model_Dispatcher_Mock();
         $dispatcher->setApiUser($userMock)->dispatch($this->_requestMock, $this->_response);
     }
 
@@ -120,8 +129,8 @@ class Mage_Api2_Model_DispatcherTest extends Mage_PHPUnit_TestCase
             ->method('getApiType')
             ->will($this->returnValue(Mage_Api2_Model_Server::API_TYPE_REST));
 
-        /** @var $dispatcher Mage_Api2_Model_Dispatcher */
-        $dispatcher = new Mage_Api2_Model_Dispatcher();
+        /** @var $dispatcher Mage_Api2_Model_Dispatcher_Mock */
+        $dispatcher = new Mage_Api2_Model_Dispatcher_Mock();
 
         $this->setExpectedException(
             'Mage_Api2_Exception',
@@ -161,6 +170,7 @@ class Mage_Api2_Model_DispatcherTest extends Mage_PHPUnit_TestCase
         $this->assertEquals(2, $dispatcher->getVersion('products', 4));
         $this->assertEquals(5, $dispatcher->getVersion('products', 5));
         $this->assertEquals(5, $dispatcher->getVersion('products', 6));
+        $this->assertEquals(5, $dispatcher->getVersion('products', false));
 
         try {
             $dispatcher->getVersion('products', 0);
@@ -172,7 +182,7 @@ class Mage_Api2_Model_DispatcherTest extends Mage_PHPUnit_TestCase
                     $dispatcher->getVersion('products', 1.1);
                 } catch (Mage_Api2_Exception $e) {
                     try {
-                        $version = $dispatcher->getVersion('products', '1m');
+                        $dispatcher->getVersion('products', '1m');
                     } catch (Mage_Api2_Exception $e) {
                         return;
                     }
@@ -213,7 +223,11 @@ class Mage_Api2_Model_Config_Mock extends Mage_Api2_Model_Config
     {
         // Load data of config files api2.xml
         $config = Mage::getConfig();
-        $config->loadFile('/usr/local/www/apache22/data/apia/tests/unit/tests/Mage/Api2/Model/_fixtures/xml/api2.xml');
+
+        $mergeModel = new Mage_Core_Model_Config_Base();
+
+        $mergeModel->loadFile(dirname(__FILE__) . DS . '_fixtures' .DS . 'xml' . DS . 'api2.xml');
+        $config->extend($mergeModel);
         $this->setXml($config->getNode('api2'));
     }
 }
