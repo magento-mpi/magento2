@@ -106,7 +106,7 @@ class Enterprise_Checkout_SkuController extends Mage_Core_Controller_Front_Actio
 
             if (!empty($data['items'])) {
                 foreach ($data['items'] as $item) {
-                    if (!empty($item['sku']) && !empty($item['qty'])) {
+                    if (!empty($item['sku'])) {
                         $rows[] = $item;
                     }
                 }

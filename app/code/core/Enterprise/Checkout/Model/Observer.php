@@ -169,41 +169,6 @@ class Enterprise_Checkout_Model_Observer
     }
 
     /**
-     * Calculate failed items quote-related data
-     *
-     * @param Varien_Event_Observer $observer
-     * @return void
-     */
-    public function collectTotalsFailedItems($observer)
-    {
-        if ($observer->getEvent()->getAction()->getFullActionName() != 'checkout_cart_index') {
-            return;
-        }
-
-        /** @var $realQuote Mage_Sales_Model_Quote */
-        $realQuote = Mage::getSingleton('sales/quote');
-        $affectedItems = $this->_getCart()->getFailedItems();
-        if (empty($affectedItems)) {
-            return;
-        }
-
-        /** @var $quote Mage_Sales_Model_Quote */
-        $quote = Mage::getModel('sales/quote');
-        $collection = new Varien_Data_Collection();
-
-        foreach (Mage::helper('enterprise_checkout')->getFailedItems(true) as $item) {
-            $item->setQuote($quote);
-            $collection->addItem($item);
-        }
-
-        $quote->preventSaving()->setItemsCollection($collection);
-
-        $quote->setShippingAddress($this->_copyAddress($quote, $realQuote->getShippingAddress()));
-        $quote->setBillingAddress($this->_copyAddress($quote, $realQuote->getBillingAddress()));
-        $quote->setTotalsCollectedFlag(false)->collectTotals();
-    }
-
-    /**
      * Add link to cart in cart sidebar to view grid with failed products
      *
      * @param Varien_Event_Observer $observer
