@@ -61,6 +61,7 @@
                 <privileges>
                     <retrieve>1</retrieve>
                     <update>1</update>
+                    <delete>1</delete>
                 </privileges>
                 <routes>
                     <route_main>
