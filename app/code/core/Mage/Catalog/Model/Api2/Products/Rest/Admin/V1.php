@@ -52,7 +52,7 @@ class Mage_Catalog_Model_Api2_Products_Rest_Admin_V1 extends Mage_Catalog_Model_
      */
     protected function _validate(array $data, array $required = array(), array $notEmpty = array())
     {
-        parent::_validate($data, $required);
+        parent::_validate($data, $required, $notEmpty);
 
         $setId = $data['set'];
         /** @var $entity Mage_Eav_Model_Entity_Type */
@@ -108,7 +108,7 @@ class Mage_Catalog_Model_Api2_Products_Rest_Admin_V1 extends Mage_Catalog_Model_
                 Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
         }
 
-        parent::_validate($data, $required);
+        parent::_validate($data, $required, $required);
     }
 
     /**
@@ -120,7 +120,8 @@ class Mage_Catalog_Model_Api2_Products_Rest_Admin_V1 extends Mage_Catalog_Model_
     protected function _create(array $data)
     {
         $required = array('type', 'set', 'sku');
-        $this->_validate($data, $required);
+        $notEmpty = array('type', 'set', 'sku');
+        $this->_validate($data, $required, $notEmpty);
 
         $type = $data['type'];
         $set = $data['set'];
@@ -167,6 +168,7 @@ class Mage_Catalog_Model_Api2_Products_Rest_Admin_V1 extends Mage_Catalog_Model_
             }
 
             $product->save();
+            $this->_multicall($product->getId());
         } catch (Mage_Core_Exception $e) {
             $this->_critical(self::RESOURCE_UNKNOWN_ERROR);    //data_invalid
         }

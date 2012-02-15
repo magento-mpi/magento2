@@ -66,6 +66,16 @@
                 </routes>
                 <instance>product</instance>
                 <versions>1</versions>
+                <subresources>
+                    <products_grouped>
+                        <name>products_grouped</name>
+                        <request_param_name>products_grouped</request_param_name>
+                        <type>collection</type>
+                        <create_resource_name>products</create_resource_name>
+                        <id_param_name>simple_product_id</id_param_name>
+                        <parent_resource_id_field_name>id</parent_resource_id_field_name>
+                    </products_grouped>
+                </subresources>
             </products>
             <product>
                 <group>catalog_product</group>
