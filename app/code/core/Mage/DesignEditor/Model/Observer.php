@@ -64,12 +64,18 @@ class Mage_DesignEditor_Model_Observer
     }
 
     /**
-     * Wraps html with block info, if the Design Editor is active
+     * Puts markers with block info to show the block limits in html.
+     * Works only if the Visual Design Editor is active.
      *
      * @return Mage_DesignEditor_Model_Observer
      */
     public function wrapHtmlWithBlockInfo(Varien_Event_Observer $observer)
     {
+        $session = $this->_getSession();
+        if (!$session->isDesignEditorActive()) {
+            return $this;
+        }
+
         /** @var $block Mage_Core_Block_Abstract */
         $block = $observer->getBlock();
         /** @var $helper Mage_DesignEditor_Helper_Data */
@@ -87,7 +93,7 @@ class Mage_DesignEditor_Model_Observer
     }
 
     /**
-     * Checks whether $html, produced by the $block, can be wrapped to show as draggable block at frontend
+     * Checks whether $html, produced by the $block, can be wrapped with draggable block markers
      *
      * @param Mage_Core_Block_Abstract $block
      * @param string $html
@@ -99,10 +105,12 @@ class Mage_DesignEditor_Model_Observer
         if (strncmp(get_class($block), $ownBlockPrefix, strlen($ownBlockPrefix)) == 0) {
             return false;
         }
+        // Markers cannot be placed outside the html body
         if (strpos($html, '<body') !== false) {
             return false;
         }
-        if (preg_match('/<div|<p|<ul|<dt|<dl|<blockquote/i', $html)) {
+        // Markers should be placed only if block outputs real html, not some script or header tags
+        if (preg_match('/<div|<p|<ul|<dt|<dl|<span|<b|<i|<a|<form|<h[\d]|<select|<input|<textarea/i', $html)) {
             return true;
         }
         return false;

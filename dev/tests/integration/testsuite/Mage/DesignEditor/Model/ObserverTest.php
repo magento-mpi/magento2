@@ -39,6 +39,7 @@ class Mage_DesignEditor_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $session = Mage::getSingleton('Mage_DesignEditor_Model_Session');
         $session->setSkin($skin);
         $oldSkin = Mage::getDesign()->getDesignTheme();
+        $this->assertNotEquals($skin, $oldSkin);
 
         $expectedSkin = $expectedSkin ?: $oldSkin;
         $this->_observer->applyCustomSkin(new Varien_Event_Observer());
@@ -70,5 +71,75 @@ class Mage_DesignEditor_Model_ObserverTest extends PHPUnit_Framework_TestCase
 
         $this->_observer->applyCustomSkin(new Varien_Event_Observer());
         $this->assertEquals($oldSkin, Mage::getDesign()->getDesignTheme());
+    }
+
+    /**
+     * @param array $params
+     * @param string $expectedHtml
+     *
+     * @magentoAppIsolation enabled
+     * @magentoDataFixture Mage/DesignEditor/_files/design_editor_active.php
+     * @dataProvider wrapHtmlWithBlockInfoDataProvider
+     */
+    public function testWrapHtmlWithBlockInfo($params, $expectedHtml)
+    {
+        $observerData = $this->_buildObserverData($params);
+        $this->_observer->wrapHtmlWithBlockInfo($observerData);
+        $this->assertEquals($expectedHtml, $observerData->getTransport()->getHtml());
+    }
+
+    public function wrapHtmlWithBlockInfoDataProvider()
+    {
+        return array(
+            'normal_block' => array(
+                'params' => array(
+                    'name' => 'block.name',
+                    'html' => '<div>Any text</div>'
+                ),
+                'expectedHtml' => '<br class="vde_marker" block_name="block.name" marker_type="start"/>'
+                    . '<div>Any text</div>'
+                    . '<br class="vde_marker" marker_type="end"/>'
+            ),
+            'no_wrap_body' => array(
+                'params' => array(
+                    'name' => 'block.name',
+                    'html' => '<title>Title</title><body>Body</body>'
+                ),
+                'expectedHtml' => '<title>Title</title><body>Body</body>'
+            ),
+            'no_wrap_unknown_content' => array(
+                'params' => array(
+                    'name' => 'block.name',
+                    'html' => 'Some content'
+                ),
+                'expectedHtml' => 'Some content'
+            ),
+            'no_wrap_vde_blocks' => array(
+                'params' => array(
+                    'name' => 'block.name',
+                    'html' => '<div>Any text</div>',
+                    'class' => 'Mage_DesignEditor_Block_That_Belongs_To_That_Module'
+                ),
+                'expectedHtml' => '<div>Any text</div>'
+            )
+        );
+    }
+
+    protected function _buildObserverData($params)
+    {
+        if (isset($params['class'])) {
+            $block = $this->getMock('Mage_Core_Block_Template', array(), array(), $params['class']);
+        } else {
+            $block = new Mage_Core_Block_Template;
+        }
+        $block->setNameInLayout($params['name']);
+
+        $transport = new Varien_Object();
+        $transport->setHtml($params['html']);
+
+        $result = new Varien_Event_Observer;
+        $result->setTransport($transport);
+        $result->setBlock($block);
+        return $result;
     }
 }

@@ -36,6 +36,36 @@ class Mage_Core_Model_Layout_UpdateTest extends PHPUnit_Framework_TestCase
         $this->_model = new Mage_Core_Model_Layout_Update();
     }
 
+    public function testGetElementClass()
+    {
+        $this->assertEquals('Mage_Core_Model_Layout_Element', $this->_model->getElementClass());
+    }
+
+    public function testUpdates()
+    {
+        $this->assertEmpty($this->_model->asArray());
+        $this->_model->addUpdate('test1');
+        $this->assertEquals(array('test1'), $this->_model->asArray());
+        $this->assertEquals('test1', $this->_model->asString());
+    }
+
+    public function testHandles()
+    {
+        $this->assertEmpty($this->_model->getHandles());
+        $this->_model->addHandle('test');
+        $this->assertEquals(array('test'), $this->_model->getHandles());
+        $this->_model->removeHandle('test');
+        $this->assertEmpty($this->_model->getHandles());
+    }
+
+    public function testSetPageHandles()
+    {
+        $this->_model->addPageHandles(array('catalog_product_view_type_simple'));
+        $handles = array('default', 'catalog_product_view', 'catalog_product_view_type_simple');
+        $this->assertEquals($handles, $this->_model->getHandles());
+    }
+
+
     public function testGetFileLayoutUpdatesXmlFromTheme()
     {
         $this->_replaceConfigLayoutUpdates('

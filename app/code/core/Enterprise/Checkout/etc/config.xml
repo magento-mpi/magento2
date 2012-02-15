@@ -61,6 +61,13 @@
         </events>
     </adminhtml>
     <frontend>
+        <layout>
+            <updates>
+                <enterprise_checkout module="Enterprise_Checkout">
+                    <file>layout.xml</file>
+                </enterprise_checkout>
+            </updates>
+        </layout>
         <routers>
             <checkout>
                 <args>
@@ -78,14 +85,6 @@
             </enterprise_checkout>
         </routers>
         <events>
-            <controller_action_layout_load_before>
-                <observers>
-                    <enterprise_checkout>
-                        <class>Enterprise_Checkout_Model_Observer</class>
-                        <method>createSkuErrorHandleLayout</method>
-                    </enterprise_checkout>
-                </observers>
-            </controller_action_layout_load_before>
             <controller_action_layout_generate_blocks_before>
                 <observers>
                     <enterprise_checkout>
