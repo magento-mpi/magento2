@@ -85,7 +85,6 @@ class Enterprise_Checkout_SkuController extends Mage_Core_Controller_Front_Actio
     {
         $data = $this->getRequest()->getPost();
         $rows = array();
-        $uploadError = false;
         if ($data) {
             /** @var $importModel Enterprise_Checkout_Model_Import */
             $importModel = Mage::getModel('enterprise_checkout/import');
@@ -93,15 +92,16 @@ class Enterprise_Checkout_SkuController extends Mage_Core_Controller_Front_Actio
             try {
                 if ($importModel->uploadFile()) {
                     $rows = $importModel->getRows();
+                    if (empty($rows)) {
+                        $this->_getSession()->addError(Mage::helper('enterprise_checkout')->__('File is empty.'));
+                    }
                 }
             } catch (Mage_Core_Exception $e) {
                 $this->_getSession()->addException($e, $e->getMessage());
-                $uploadError = true;
             } catch (Exception $e) {
                 $this->_getSession()->addException($e,
                     Mage::helper('enterprise_checkout')->__('File upload error.')
                 );
-                $uploadError = true;
             }
 
             if (!empty($data['items'])) {
@@ -111,9 +111,7 @@ class Enterprise_Checkout_SkuController extends Mage_Core_Controller_Front_Actio
                     }
                 }
             }
-            if (empty($rows) && !$uploadError) {
-                $this->_getSession()->addError(Mage::helper('enterprise_checkout')->__('File is empty.'));
-            } else {
+            if (!empty($rows)) {
                 $this->getRequest()->setParam('items', $rows);
                 $this->_forward('advancedAdd', 'cart');
                 return;
