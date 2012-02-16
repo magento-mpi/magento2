@@ -18,6 +18,27 @@
 class Mage_Paypal_PayflowadvancedController extends Mage_Paypal_Controller_Express_Abstract
 {
     /**
+     * Config mode type
+     *
+     * @var string
+     */
+    protected $_configType = 'Mage_Paypal_Model_Config';
+
+    /**
+     * Config method type
+     *
+     * @var string
+     */
+    protected $_configMethod = Mage_Paypal_Model_Config::METHOD_PAYFLOWADVANCED;
+
+    /**
+     * Checkout mode type
+     *
+     * @var string
+     */
+    protected $_checkoutType = 'Mage_Paypal_Model_Payflowadvanced';
+
+    /**
      * When a customer cancel payment from payflow gateway.
      *
      * @return void
