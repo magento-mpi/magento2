@@ -24,4 +24,4 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 ?>
-<input type="text" name="qty[<?php echo $this->getItem()->getId();?>]" class="validate-number qty input-text" size="2" />
+<input type="text" name="qty[<?php echo $this->getItem()->getId();?>]" class="validate-number qty input-text" value="<?php echo $this->getItem()->getQty()*1;?>" size="2" />

@@ -34,6 +34,13 @@
 class Enterprise_Wishlist_SearchController extends Mage_Core_Controller_Front_Action
 {
     /**
+     * Localization filter
+     *
+     * @var Zend_Filter_LocalizedToNormalized
+     */
+    protected $_localFilter;
+
+    /**
      * Processes localized qty (entered by user at frontend) into internal php format
      *
      * @param string $qty
@@ -179,8 +186,9 @@ class Enterprise_Wishlist_SearchController extends Mage_Core_Controller_Front_Ac
         /** @var Mage_Checkout_Model_Cart $cart  */
         $cart = Mage::getSingleton('checkout/cart');
         $qtys = $this->getRequest()->getParam('qty');
+        $selected = $this->getRequest()->getParam('selected');
         foreach ($qtys as $itemId => $qty) {
-            if ($qty) {
+            if ($qty && isset($selected[$itemId])) {
                 try {
                     /** @var Mage_Wishlist_Model_Item $item*/
                     $item = Mage::getModel('wishlist/item');

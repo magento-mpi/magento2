@@ -69,8 +69,7 @@
             <block type="enterprise_wishlist/customer_wishlist_management" name="customer.wishlist.management" as="top" template="wishlist/view/management.phtml">
             </block>
             <reference name="customer.wishlist.items">
-                <block type="enterprise_wishlist/customer_wishlist_item_column_selector" name="customer.wishlist.item.selector" before="-" template="wishlist/item/column/selector.phtml">
-                </block>
+                <block type="enterprise_wishlist/customer_wishlist_item_column_selector" name="customer.wishlist.item.selector" before="-" template="wishlist/item/column/selector.phtml" />
                 <reference name="customer.wishlist.item.cart">
                     <block type="enterprise_wishlist/customer_wishlist_item_column_management" name="customer.wishlist.item.mananagement" before="-" template="wishlist/item/column/management.phtml"></block>
                 </reference>
@@ -101,6 +100,7 @@
         <reference name="content">
             <block type="enterprise_wishlist/info" name="customer.wishlist.info" template="wishlist/info.phtml" >
                 <block type="wishlist/customer_wishlist_items" name="wishlist.view.items" as="items" template="wishlist/item/list.phtml">
+                    <block type="enterprise_wishlist/customer_wishlist_item_column_selector" name="customer.wishlist.item.selector" after="-" template="wishlist/item/column/selector.phtml" />
                     <block type="wishlist/customer_wishlist_item_column_image" name="customer.wishlist.item.image" template="wishlist/item/column/image.phtml"></block>
                     <block type="wishlist/customer_wishlist_item_column" name="customer.wishlist.item.details" template="wishlist/item/column/details.phtml">
                         <action method="setTitle" translate="title" module="enterprise_wishlist">
