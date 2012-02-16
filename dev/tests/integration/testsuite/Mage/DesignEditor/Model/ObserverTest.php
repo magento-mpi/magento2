@@ -27,34 +27,31 @@ class Mage_DesignEditor_Model_ObserverTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param string $skin
-     * @param string|null $expectedSkin
-     *
      * @magentoAppIsolation enabled
      * @magentoDataFixture Mage/DesignEditor/_files/design_editor_active.php
-     * @dataProvider applyCustomSkinDesignDataProvider
      */
-    public function testApplyCustomSkinDesign($skin, $expectedSkin)
+    public function testApplyCustomSkin()
     {
-        $session = Mage::getSingleton('Mage_DesignEditor_Model_Session');
-        $session->setSkin($skin);
-        $oldSkin = Mage::getDesign()->getDesignTheme();
-        $this->assertNotEquals($skin, $oldSkin);
+        $newSkin = 'default/default/blank';
+        $this->assertNotEquals($newSkin, Mage::getDesign()->getDesignTheme());
 
-        $expectedSkin = $expectedSkin ?: $oldSkin;
+        $session = Mage::getSingleton('Mage_DesignEditor_Model_Session');
+        $session->setSkin($newSkin);
         $this->_observer->applyCustomSkin(new Varien_Event_Observer());
-        $this->assertEquals($expectedSkin, Mage::getDesign()->getDesignTheme());
+        $this->assertEquals($newSkin, Mage::getDesign()->getDesignTheme());
     }
 
     /**
-     * @return array
+     * @magentoAppIsolation enabled
+     * @magentoDataFixture Mage/DesignEditor/_files/design_editor_active.php
      */
-    public function applyCustomSkinDesignDataProvider()
+    public function testApplyCustomSkinChangesNothingWhenNoSkin()
     {
-        return array(
-            array('', null),
-            array('default/default/blank', 'default/default/blank')
-        );
+        $currentSkin = Mage::getDesign()->getDesignTheme();
+        $session = Mage::getSingleton('Mage_DesignEditor_Model_Session');
+        $this->assertEmpty($session->getSkin());
+        $this->_observer->applyCustomSkin(new Varien_Event_Observer());
+        $this->assertEquals($currentSkin, Mage::getDesign()->getDesignTheme());
     }
 
     /**
