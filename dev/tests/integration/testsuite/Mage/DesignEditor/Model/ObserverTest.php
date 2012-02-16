@@ -71,6 +71,24 @@ class Mage_DesignEditor_Model_ObserverTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * @magentoAppIsolation enabled
+     * @magentoDataFixture Mage/DesignEditor/_files/design_editor_active.php
+     */
+    public function testWrapHtmlWithBlockInfo()
+    {
+        $params = array(
+            'name' => 'block.name',
+            'html' => '<div>Any text</div>'
+        );
+        $observerData = $this->_buildObserverData($params);
+        $this->_observer->wrapHtmlWithBlockInfo($observerData);
+
+        $wrappedHtml = $observerData->getTransport()->getHtml();
+        $this->assertContains($params['html'], $wrappedHtml);
+        $this->assertNotEquals($params['html'], $wrappedHtml);
+    }
+
+    /**
      * @param array $params
      * @param string $expectedHtml
      *
@@ -78,7 +96,7 @@ class Mage_DesignEditor_Model_ObserverTest extends PHPUnit_Framework_TestCase
      * @magentoDataFixture Mage/DesignEditor/_files/design_editor_active.php
      * @dataProvider wrapHtmlWithBlockInfoDataProvider
      */
-    public function testWrapHtmlWithBlockInfo($params, $expectedHtml)
+    public function testWrapHtmlWithBlockInfoNoWrapping($params, $expectedHtml)
     {
         $observerData = $this->_buildObserverData($params);
         $this->_observer->wrapHtmlWithBlockInfo($observerData);
@@ -88,30 +106,21 @@ class Mage_DesignEditor_Model_ObserverTest extends PHPUnit_Framework_TestCase
     public function wrapHtmlWithBlockInfoDataProvider()
     {
         return array(
-            'normal_block' => array(
-                'params' => array(
-                    'name' => 'block.name',
-                    'html' => '<div>Any text</div>'
-                ),
-                'expectedHtml' => '<br class="vde_marker" block_name="block.name" marker_type="start"/>'
-                    . '<div>Any text</div>'
-                    . '<br class="vde_marker" marker_type="end"/>'
-            ),
-            'no_wrap_body' => array(
+            'body' => array(
                 'params' => array(
                     'name' => 'block.name',
                     'html' => '<title>Title</title><body>Body</body>'
                 ),
                 'expectedHtml' => '<title>Title</title><body>Body</body>'
             ),
-            'no_wrap_unknown_content' => array(
+            'unknown_content' => array(
                 'params' => array(
                     'name' => 'block.name',
                     'html' => 'Some content'
                 ),
                 'expectedHtml' => 'Some content'
             ),
-            'no_wrap_vde_blocks' => array(
+            'vde_blocks' => array(
                 'params' => array(
                     'name' => 'block.name',
                     'html' => '<div>Any text</div>',
@@ -125,11 +134,12 @@ class Mage_DesignEditor_Model_ObserverTest extends PHPUnit_Framework_TestCase
     protected function _buildObserverData($params)
     {
         if (isset($params['class'])) {
-            $block = $this->getMock('Mage_Core_Block_Template', array(), array(), $params['class']);
+            $block = $this->getMock('Mage_Core_Block_Template', null, array(), $params['class']);
         } else {
             $block = new Mage_Core_Block_Template;
         }
-        $block->setNameInLayout($params['name']);
+        $block->setNameInLayout($params['name'])
+            ->setLayout(new Mage_Core_Model_Layout);
 
         $transport = new Varien_Object();
         $transport->setHtml($params['html']);

@@ -56,20 +56,27 @@
     DesignEditor.prototype._init = function () {
         this._dragged = null;
         this._placeholder = null;
+
+        this._templateWrapper = '<div class="vde_block_wrapper" />';
+        this._templateBlockTitle = '<div class="vde_block_title">%BLOCK_NAME%</div>';
+        this._templatePlaceholder = '<div class="vde_placeholder"></div>';
+
         this._wrapBlocks()
             ._enableDragging();
         return this;
     }
 
     DesignEditor.prototype._wrapBlocks = function () {
+        var thisObj = this;
         $('.vde_marker[marker_type=start]')
             .filter(function (index) {
                 return $(this).parent().css('display') == 'block';
             })
             .each(function (index) {
                 var marker = $(this);
-                $('<div class="vde_block_title">' + marker.attr('block_name') + '</div>').insertAfter(marker);
-                marker.nextUntil('.vde_marker[marker_type=end]').wrapAll('<div class="vde_block_wrapper" />');
+                var titleHtml = thisObj._templateBlockTitle.replace('%BLOCK_NAME%', marker.attr('block_name'));
+                $(titleHtml).insertAfter(marker);
+                marker.nextUntil('.vde_marker[marker_type=end]').wrapAll(thisObj._templateWrapper);
             });
         $('.vde_marker').remove();
         return this;
@@ -120,7 +127,7 @@
 
     DesignEditor.prototype._putPlaceholder = function () {
         if (!this._placeholder) {
-            this._placeholder = $('<div class="vde_placeholder"></div>');
+            this._placeholder = $(this._templatePlaceholder);
         }
         this._placeholder.css('height', this._dragged.outerHeight() + 'px')
             .css('width', this._dragged.outerWidth() + 'px');

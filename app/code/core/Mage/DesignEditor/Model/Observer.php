@@ -14,6 +14,13 @@
 class Mage_DesignEditor_Model_Observer
 {
     /**
+     * Renderer for wrapping html to be shown at frontend
+     *
+     * @var Mage_DesignEditor_Block_Wrapping
+     */
+    protected $_wrappingRenderer;
+
+    /**
      * Applies custom skin to store, if design editor is active and custom skin is chosen
      *
      * @param   Varien_Event_Observer $observer
@@ -71,21 +78,16 @@ class Mage_DesignEditor_Model_Observer
      */
     public function wrapHtmlWithBlockInfo(Varien_Event_Observer $observer)
     {
-        $session = $this->_getSession();
-        if (!$session->isDesignEditorActive()) {
+        if (!$this->_getSession()->isDesignEditorActive()) {
             return $this;
         }
 
         /** @var $block Mage_Core_Block_Abstract */
         $block = $observer->getBlock();
-        /** @var $helper Mage_DesignEditor_Helper_Data */
-        $helper = Mage::helper('Mage_DesignEditor_Helper_Data');
-
         $transport = $observer->getTransport();
         $html = $transport->getHtml();
-        if ($this->_isCanBeWrapped($block, $html)) {
-            $html = '<br class="vde_marker" block_name="' . $helper->escapeHtml($block->getNameInLayout())
-                . '" marker_type="start"/>' . $html . '<br class="vde_marker" marker_type="end"/>';
+        if ($this->_isBlockDraggable($block, $html)) {
+            $html = $this->_wrapHtml($html, $block);
             $transport->setHtml($html);
         }
 
@@ -97,9 +99,9 @@ class Mage_DesignEditor_Model_Observer
      *
      * @param Mage_Core_Block_Abstract $block
      * @param string $html
-     * @param return bool
+     * @return bool
      */
-    public function _isCanBeWrapped($block, $html)
+    public function _isBlockDraggable($block, $html)
     {
         $ownBlockPrefix = 'Mage_DesignEditor_Block_';
         if (strncmp(get_class($block), $ownBlockPrefix, strlen($ownBlockPrefix)) == 0) {
@@ -114,5 +116,23 @@ class Mage_DesignEditor_Model_Observer
             return true;
         }
         return false;
+    }
+
+    /**
+     * Wraps block html with markers for frontend scripts
+     *
+     * @param string $html
+     * @param Mage_Core_Block_Abstract $block
+     * @return string
+     */
+    public function _wrapHtml($html, $block)
+    {
+        if (!$this->_wrappingRenderer) {
+            $this->_wrappingRenderer = $block->getLayout()->getBlockSingleton('Mage_DesignEditor_Block_Wrapping');
+        }
+        return $this->_wrappingRenderer
+            ->setWrappedHtml($html)
+            ->setWrappedBlock($block)
+            ->toHtml();
     }
 }
