@@ -154,10 +154,10 @@
         </events>
     </frontend>
     <default>
-        <enterprise_wishlist>
+        <wishlist>
             <general>
                 <multiple_wishlist_number>5</multiple_wishlist_number>
             </general>
-        </enterprise_wishlist>
+        </wishlist>
     </default>
 </config>
