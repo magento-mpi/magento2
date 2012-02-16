@@ -157,6 +157,11 @@ class Enterprise_Wishlist_SearchController extends Mage_Core_Controller_Front_Ac
         }
         Mage::register('wishlist', $wishlist);
         $this->loadLayout();
+        $block = $this->getLayout()->getBlock('customer.wishlist.info');
+        if ($block) {
+            $block->setRefererUrl($this->_getRefererUrl());
+        }
+
         $this->_initLayoutMessages(array('customer/session', 'checkout/session', 'wishlist/session'));
         $this->renderLayout();
     }

@@ -29,9 +29,8 @@
 </div>
 
 <?php echo $this->getMessagesBlock()->getGroupedHtml(); ?>
-<form action="<?php echo $this->getActionUrl() ?>" method="post" id="wishlist_search_form">
+<form action="<?php echo $this->getActionUrl() ?>" method="get" id="wishlist_search_form">
     <div class="fieldset">
-        <?php echo $this->getBlockHtml('formkey')?>
         <h2 class="legend"><?php echo $this->__('Search Options') ?></h2>
         <ul class="form-list">
             <li class="fields">
@@ -60,7 +59,7 @@
 
 <div class="divider"></div>
 
-<form action="<?php echo $this->getActionUrl() ?>" method="post" id="wishlist_search_email_form">
+<form action="<?php echo $this->getActionUrl() ?>" method="get" id="wishlist_search_email_form">
     <div class="fieldset">
         <ul class="form-list">
             <li>

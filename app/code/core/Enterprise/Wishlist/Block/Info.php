@@ -64,4 +64,14 @@ class Enterprise_Wishlist_Block_Info extends Mage_Wishlist_Block_Abstract
         $owner->load($this->_getWishlist()->getCustomerId());
         return $owner;
     }
+
+    /**
+     * Retrieve Back URL
+     *
+     * @return string
+     */
+    public function getBackUrl()
+    {
+        return $this->getRefererUrl();
+    }
 }
