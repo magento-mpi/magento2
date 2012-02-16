@@ -38,7 +38,7 @@ $connection->modifyColumn(
             'unsigned'  => true,
             'nullable'  => false,
             'default'   => '0',
-            'comment'  => 'Deprecated after 11.11.0.2'
+            'comment'  => 'Deprecated after 1.11.2.0'
         )
 );
 
@@ -50,7 +50,7 @@ $connection->modifyColumn(
             'unsigned'  => true,
             'nullable'  => false,
             'primary'   => true,
-            'comment'   => 'Deprecated after 11.11.0.2'
+            'comment'   => 'Deprecated after 1.11.2.0'
         )
 );
 
