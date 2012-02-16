@@ -85,7 +85,7 @@ class Api_Catalog_Product_TagCRUDTest extends Magento_Test_Webservice
         $this->assertTrue($tagDelete, "Can't delete added tag");
 
         // Delete exception test
-        $this->setExpectedException('SoapFault');
+        $this->setExpectedException(self::DEFAULT_EXCEPTION);
         $this->call('product_tag.remove', array($tagToDelete['tag_id']));
     }
 }

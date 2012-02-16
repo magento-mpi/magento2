@@ -70,7 +70,7 @@ class Api_CustomerBalance_CustomerBalanceTest extends Magento_Test_Webservice
      * Test customer balance info exception: balance not found
      *
      * @depends testCustomerBalanceBalance
-     * @expectedException SoapFault
+     * @expectedException DEFAULT_EXCEPTION
      * @return void
      */
     public function testCustomerBalanceBalanceExceptionBalanceNotFound()
@@ -115,7 +115,7 @@ class Api_CustomerBalance_CustomerBalanceTest extends Magento_Test_Webservice
      * Test customer balance history exception: history not found
      *
      * @depends testCustomerBalanceHistory
-     * @expectedException SoapFault
+     * @expectedException DEFAULT_EXCEPTION
      * @return void
      */
     public function testCustomerBalanceHistoryExceptionHistoryNotFound()

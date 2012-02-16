@@ -117,14 +117,14 @@ class Api_SalesOrder_CreditMemoTest extends Magento_Test_Webservice
 
         //Test cancel
         //Situation when creditmemo is possible to cancel was not found
-        $this->setExpectedException('SoapFault');
+        $this->setExpectedException(self::DEFAULT_EXCEPTION);
         $this->call('order_creditmemo.cancel', array($creditMemoIncrementId));
     }
 
     /**
      * Test Exception when refund amount greater than available to refund amount
      *
-     * @expectedException SoapFault
+     * @expectedException DEFAULT_EXCEPTION
      * @return void
      */
     public function testNegativeRefundException()
@@ -159,7 +159,7 @@ class Api_SalesOrder_CreditMemoTest extends Magento_Test_Webservice
     /**
      * Test Exception on invalid creditmemo create data
      *
-     * @expectedException SoapFault
+     * @expectedException DEFAULT_EXCEPTION
      * @return void
      */
     public function testCreateInvalidOrderException()
@@ -170,7 +170,7 @@ class Api_SalesOrder_CreditMemoTest extends Magento_Test_Webservice
     /**
      * Test Exception on invalid credit memo while adding comment
      *
-     * @expectedException SoapFault
+     * @expectedException DEFAULT_EXCEPTION
      * @return void
      */
     public function testAddCommentInvalidOrderException()
@@ -181,7 +181,7 @@ class Api_SalesOrder_CreditMemoTest extends Magento_Test_Webservice
     /**
      * Test Exception on invalid credit memo while getting info
      *
-     * @expectedException SoapFault
+     * @expectedException DEFAULT_EXCEPTION
      * @return void
      */
     public function testInfoInvalidOrderException()
@@ -192,7 +192,7 @@ class Api_SalesOrder_CreditMemoTest extends Magento_Test_Webservice
     /**
      * Test exception on invalid credit memo cancel
      *
-     * @expectedException SoapFault
+     * @expectedException DEFAULT_EXCEPTION
      * @return void
      */
     public function testCancelInvalidIdException()

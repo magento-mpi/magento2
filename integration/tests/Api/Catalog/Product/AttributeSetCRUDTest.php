@@ -155,7 +155,7 @@ class Api_Catalog_Product_AttributeSetCRUDTest extends Magento_Test_Webservice
         $this->assertTrue($removeResult);
 
         // remove undefined group exception test
-        $this->setExpectedException('SoapFault');
+        $this->setExpectedException(self::DEFAULT_EXCEPTION);
         $this->call('product_attribute_set.groupRemove', array($createdAttributeSetGroupId));
     }
 }

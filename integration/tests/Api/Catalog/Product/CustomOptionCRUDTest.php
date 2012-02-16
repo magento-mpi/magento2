@@ -173,7 +173,7 @@ class Api_Catalog_Product_CustomOptionCRUDTest extends Magento_Test_Webservice
         $customOptions = self::simpleXmlToArray($customOptionFixture->CustomOptionsToAdd);
 
         $option = reset($customOptions);
-        $this->setExpectedException('SoapFault');
+        $this->setExpectedException(self::DEFAULT_EXCEPTION);
         $this->call('product_custom_option.add', array(
             'invalid_id',
             $option
@@ -194,7 +194,7 @@ class Api_Catalog_Product_CustomOptionCRUDTest extends Magento_Test_Webservice
         $option = reset($customOptions);
         unset($option['additional_fields']);
 
-        $this->setExpectedException('SoapFault');
+        $this->setExpectedException(self::DEFAULT_EXCEPTION);
         $this->call('product_custom_option.add', array(
             $fixtureProductId,
             $option
@@ -214,7 +214,7 @@ class Api_Catalog_Product_CustomOptionCRUDTest extends Magento_Test_Webservice
 
         $option = reset($customOptions);
 
-        $this->setExpectedException('SoapFault');
+        $this->setExpectedException(self::DEFAULT_EXCEPTION);
         $this->call('product_custom_option.add', array(
             $fixtureProductId,
             $option,
@@ -232,7 +232,7 @@ class Api_Catalog_Product_CustomOptionCRUDTest extends Magento_Test_Webservice
         $customOptionFixture = simplexml_load_file(dirname(__FILE__).'/_fixtures/xml/CustomOption.xml');
         $store = (string) $customOptionFixture->store;
 
-        $this->setExpectedException('SoapFault');
+        $this->setExpectedException(self::DEFAULT_EXCEPTION);
         $this->call('product_custom_option.list', array(
             'unknown_id',
             $store
@@ -248,7 +248,7 @@ class Api_Catalog_Product_CustomOptionCRUDTest extends Magento_Test_Webservice
     {
         $fixtureProductId = Magento_Test_Webservice::getFixture('productData')->getId();
 
-        $this->setExpectedException('SoapFault');
+        $this->setExpectedException(self::DEFAULT_EXCEPTION);
         $this->call('product_custom_option.list', array(
             $fixtureProductId,
             'unknown_store_name'
@@ -258,7 +258,7 @@ class Api_Catalog_Product_CustomOptionCRUDTest extends Magento_Test_Webservice
     /**
      * Test option add with invalid type
      *
-     * @expectedException SoapFault
+     * @expectedException DEFAULT_EXCEPTION
      * @depends testCustomOptionCRUD
      */
     public function testCustomOptionUpdateExceptionInvalidType()
@@ -277,7 +277,7 @@ class Api_Catalog_Product_CustomOptionCRUDTest extends Magento_Test_Webservice
     /**
      * Test option remove and exception
      *
-     * @expectedException SoapFault
+     * @expectedException DEFAULT_EXCEPTION
      * @depends testCustomOptionUpdateExceptionInvalidType
      */
     public function testCustomOptionRemove()

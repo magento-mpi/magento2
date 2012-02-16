@@ -62,14 +62,14 @@ class Api_GiftCard_CartTest extends Magento_Test_Webservice
         $this->assertTrue($removeResult, 'Remove giftcard from quote');
 
         //Test giftcard removed
-        $this->setExpectedException('SoapFault');
+        $this->setExpectedException(self::DEFAULT_EXCEPTION);
         $this->call('cart_giftcard.remove', array($giftCardAccount->getCode(), $quoteId));
     }
 
     /**
      * Test add throw exception with incorrect data
      *
-     * @expectedException SoapFault
+     * @expectedException DEFAULT_EXCEPTION
      * @return void
      */
     public function testIncorrectDataAddException()
@@ -82,7 +82,7 @@ class Api_GiftCard_CartTest extends Magento_Test_Webservice
     /**
      * Test list throw exception with incorrect data
      *
-     * @expectedException SoapFault
+     * @expectedException DEFAULT_EXCEPTION
      * @return void
      */
     public function testIncorrectDataListException()
@@ -95,7 +95,7 @@ class Api_GiftCard_CartTest extends Magento_Test_Webservice
     /**
      * Test remove throw exception with incorrect data
      *
-     * @expectedException SoapFault
+     * @expectedException DEFAULT_EXCEPTION
      * @return void
      */
     public function testIncorrectDataRemoveException()
