@@ -120,6 +120,6 @@ class Mage_Adminhtml_System_CurrencyController extends Mage_Adminhtml_Controller
 
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('system/currency');
+        return Mage::getSingleton('admin/session')->isAllowed('system/currency/rates');
     }
 }
