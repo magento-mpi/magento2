@@ -23,11 +23,12 @@
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
+/** @var $this Mage_Paypal_Block_Express_Review */
 ?>
 <div class="page-title">
     <h1><?php echo $this->__('Review Order') ?></h1>
 </div>
-<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+<?php echo $this->getMessagesBlock()->toHtml() ?>
 
 <?php if ($this->getShippingAddress()): ?>
 <div class="info-set col2-set">
