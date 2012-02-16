@@ -46,7 +46,7 @@ class Mage_Api2_Helper_DataTest extends Mage_PHPUnit_TestCase
      *
      * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_ruleMock;
+    protected $_attributeResourceMock;
 
     /**
      * Sets up the fixture, for example, open a network connection.
@@ -57,9 +57,9 @@ class Mage_Api2_Helper_DataTest extends Mage_PHPUnit_TestCase
         parent::setUp();
 
         $this->_helper = Mage::helper('api2');
-//        $this->_ruleMock = $this->getModelMockBuilder('api2/resource_acl_filter_attribute')
-//            ->setMethods(array('getAllowedAttributes'))
-//            ->getMock();
+        $this->_attributeResourceMock = $this->getResourceModelMockBuilder('api2/acl_filter_attribute')
+            ->setMethods(array('getAllowedAttributes', 'isAllAttributesAllowed'))
+            ->getMock();
     }
 
     /**
@@ -67,13 +67,12 @@ class Mage_Api2_Helper_DataTest extends Mage_PHPUnit_TestCase
      */
     public function testGetAllowedAttributes()
     {
-        $this->markTestIncomplete("Can't to mock resource model. Investigating...");
-
-        $this->_ruleMock->expects($this->once())
+        $this->_attributeResourceMock->expects($this->once())
             ->method('getAllowedAttributes')
             ->will($this->returnValue('a,b,c'));
 
         $this->assertSame(array('a', 'b', 'c'), $this->_helper->getAllowedAttributes(1, 2, 4));
+        $this->assertTrue(true);
     }
 
     /**
@@ -81,12 +80,21 @@ class Mage_Api2_Helper_DataTest extends Mage_PHPUnit_TestCase
      */
     public function testGetAllowedAttributesEmpty()
     {
-        $this->markTestIncomplete("Can't to mock resource model. Investigating...");
-
-        $this->_ruleMock->expects($this->once())
+        $this->_attributeResourceMock->expects($this->once())
             ->method('getAllowedAttributes')
             ->will($this->returnValue(false));
 
         $this->assertSame(array(), $this->_helper->getAllowedAttributes(1, 2, 4));
+    }
+
+    /**
+     * Test check if ALL attributes allowed
+     */
+    public function testIsAllAttributesAllowed()
+    {
+        $this->_attributeResourceMock->expects($this->once())
+            ->method('isAllAttributesAllowed');
+
+        $this->_helper->isAllAttributesAllowed('a');
     }
 }
