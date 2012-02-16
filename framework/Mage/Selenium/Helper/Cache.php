@@ -38,7 +38,7 @@ class Mage_Selenium_Helper_Cache extends Mage_Selenium_Helper_Abstract
     /**
      * Path to cash config
      */
-    const XPATH_CACHE = 'default/cache';
+    const XPATH_CACHE = 'framework/cache';
 
     /**
      * Default dir fo cash files
@@ -78,13 +78,13 @@ class Mage_Selenium_Helper_Cache extends Mage_Selenium_Helper_Abstract
     public function getCache()
     {
         if (!$this->_cache) {
-            $config = $this->getConfig()->getConfigValue(self::XPATH_CACHE);
+            $config = $this->getConfig()->getHelper('config')->getConfigValue(self::XPATH_CACHE);
             if (isset($config)) {
                 $frontend = $config['frontend']['name'];
                 $backend = $config['backend']['name'];
 
                 $frontendOption = $config['frontend']['options'];
-                $backendOption['cache_dir'] = $config['backend']['options'];
+                $backendOption = $config['backend']['options'];
 
                 $backendOption['cache_dir'] = $this->_getCacheDir($backendOption);
 
