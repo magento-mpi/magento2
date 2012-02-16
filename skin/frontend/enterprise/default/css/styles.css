@@ -2123,11 +2123,11 @@ ul.cms-menu.type-square ul { list-style-type:square; }
 .newsletter-manage-index .form-buttons .button { float:left; margin:0; }
 
 /* Split Button */
-.split-button { display:inline-block; z-index:1; position:relative; }
+.split-button { display:inline-block; z-index:1; position:relative; max-width:300px; }
 .split-button.clickable:active { left:1px; top:1px; }
 .split-button { background:url(../images/bkg_btn.gif) no-repeat 0 0; height:21px; padding:0 0 0 10px; margin:0; }
 .split-button.active { z-index:100; }
-.split-button strong { cursor:default; font-weight:bold; background:url(../images/bkg_btn.gif) no-repeat 100% 0; height:19px; padding:3px 30px 0 5px; margin:0; display:block; font-size:12px; }
+.split-button strong { cursor:default; font-weight:bold; background:url(../images/bkg_btn.gif) no-repeat 100% 0; height:19px; padding:3px 30px 0 5px; margin:0; display:block; font-size:12px; overflow-x:hidden; white-space:nowrap; text-overflow:ellipsis; }
 .split-button.clickable > strong,
 .split-button strong[onclick] { text-transform:uppercase; font-size:11px; color:#C73615; text-transform:uppercase; cursor:pointer; }
 
@@ -2136,7 +2136,7 @@ ul.cms-menu.type-square ul { list-style-type:square; }
 
 .split-button.light { background:none; height:auto; padding:0; }
 .split-button.light.clickable:active { top:auto; left:auto; }
-.split-button.light strong { display:inline-block; font-size:11px; background:none; font-weight:normal; padding:0; height:auto; }
+.split-button.light strong { display:inline-block; font-size:11px; background:none; font-weight:normal; padding:0; height:auto; overflow:visible; white-space:normal; text-overflow:visible; }
 .split-button.light.clickable > strong,
 .split-button.light strong[onclick] { text-transform:none; text-decoration:underline; color:#999; }
 .split-button.light.clickable > strong:hover,
@@ -2145,13 +2145,13 @@ ul.cms-menu.type-square ul { list-style-type:square; }
 
 .split-button.active .change,
 .split-button .change:hover { background-position:-995px 50%; }
-.split-button .list-container { position:absolute; display:none; right:0; top:100%; padding:0; min-width:100%; float:left; }
+.split-button .list-container { position:absolute; display:none; right:0; top:100%; padding:0; min-width:100%; max-width:300px; float:left; }
 .split-button.active .list-container { display:block; }
 .split-button .list-container ul { background:#fff; border:1px solid rgba(0,0,0,0.1); position:relative; }
 .split-button .list-container ul > li { white-space:nowrap; background:url(../images/bkg_btn-split-item.png) no-repeat -10000px -10000px; border:1px solid #c1c1c1; border-top-width:0; margin:0; display:block!important; margin:0!important; }
 .split-button .list-container ul > li:first-child { border-top-width:1px; }
 .split-button .list-container li a,
-.split-button .list-container li span { display:block; line-height:1.2!important; cursor:pointer; padding:5px 18px 5px 18px; color:#999; font-size:11px; text-transform:none; text-decoration:none; }
+.split-button .list-container li span { display:block; line-height:1.2!important; cursor:pointer; padding:5px 18px 5px 18px; color:#999; font-size:11px; text-transform:none; text-decoration:none; text-align:left; text-overflow:ellipsis; overflow:hidden; }
 .split-button .list-container li:hover a,
 .split-button .list-container li:hover span,
 .split-button .list-container li:hover { color:#fff; text-decoration:none; }
@@ -2182,8 +2182,9 @@ ul.cms-menu.type-square ul { list-style-type:square; }
 
 .link-edit { padding-left:18px; line-height:18px; background:url(../images/bkg_link-edit.png) no-repeat 0 0; display:inline-block; }
 .wishlist-management .link-edit { width:16px; padding:0; margin:0 5px; height:16px; text-indent:-999em; overflow:hidden; vertical-align:middle; }
-.wishlist-management .btn-create { float:right; }
-.wishlist-management .sub-title { float:left; }
+.wishlist-management .btn-create { float:right; margin-bottom:10px; }
+.wishlist-management .sub-title { float:left;  max-width:100%; }
+.wishlist-management .sub-title h2 { word-wrap:break-word; }
 .wishlist-management .note-msg { clear:both; margin:0 0 10px; padding:10px; border-style:solid !important; border-width:1px !important; font-size:12px !important; border-color:#fcd344; background-color:#fafaec; color:#3d6611; }
 .wishlist-management .msg-private { background:url(../images/bkg_lock.png) no-repeat 10px 10px #fafaec; padding-left:30px; }
 

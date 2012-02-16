@@ -36,11 +36,11 @@ $item = $this->getItem();
         <ul>
             <?php foreach ($this->getWishlists() as $wishlist): ?>
                 <?php if ($wishlist->getId() !== $this->getWishlistInstance()->getId()): ?>
-                    <li onclick="Enterprise.Wishlist.moveItemTo(<?php echo $item->getId();?>, <?php echo $wishlist->getId();?>);"><span><?php echo $this->escapeHtml($wishlist->getName());?></span></li>
+                    <li onclick="Enterprise.Wishlist.moveItemTo(<?php echo $item->getId();?>, <?php echo $wishlist->getId();?>);"><span title="<?php echo $this->escapeHtml($wishlist->getName());?>"><?php echo $this->escapeHtml($wishlist->getName());?></span></li>
                 <?php endif;?>
             <?php endforeach;?>
             <?php if ($this->canCreateWishlists($this->getWishlists())): ?>
-                <li class="new" onclick="Enterprise.Wishlist.moveItemToNew(<?php echo $item->getId();?>);"><span><?php echo $this->__('Create New Wishlist')?></span></li>
+                <li class="new" onclick="Enterprise.Wishlist.moveItemToNew(<?php echo $item->getId();?>);"><span title="<?php echo $this->__('Create New Wishlist')?>"><?php echo $this->__('Create New Wishlist')?></span></li>
             <?php endif;?>
         </ul>
     </div>
@@ -52,11 +52,11 @@ $item = $this->getItem();
         <ul>
             <?php foreach ($this->getWishlists() as $wishlist): ?>
                 <?php if ($wishlist->getId() !== $this->getWishlistInstance()->getId()): ?>
-                    <li onclick="Enterprise.Wishlist.copyItemTo(<?php echo $item->getId();?>, <?php echo $wishlist->getId();?>);"><span><?php echo $this->escapeHtml($wishlist->getName());?></span></li>
+                    <li onclick="Enterprise.Wishlist.copyItemTo(<?php echo $item->getId();?>, <?php echo $wishlist->getId();?>);"><span title="<?php echo $this->escapeHtml($wishlist->getName());?>"><?php echo $this->escapeHtml($wishlist->getName());?></span></li>
                 <?php endif; ?>
             <?php endforeach;?>
             <?php if ($this->canCreateWishlists($this->getWishlists())): ?>
-                <li class="new" onclick="Enterprise.Wishlist.copyItemToNew(<?php echo $item->getId();?>);"><span><?php echo $this->__('Create New Wishlist')?></span></li>
+                <li class="new" onclick="Enterprise.Wishlist.copyItemToNew(<?php echo $item->getId();?>);"><span title="<?php echo $this->__('Create New Wishlist')?>"><?php echo $this->__('Create New Wishlist')?></span></li>
             <?php endif;?>
         </ul>
     </div>

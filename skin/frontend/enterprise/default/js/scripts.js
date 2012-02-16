@@ -914,7 +914,7 @@ Enterprise.Widget.SplitButton.Option = Class.create(Enterprise.Widget, {
 
     initialize: function($super, title, type) {
         $super(new Element('li', {'class' : type ? type : null}));
-        this._node.update('<span>' + title + '</span>');
+        this._node.update('<span title="' + title + '">' + title + '</span>');
         Event.observe(this._node, 'click', (function(){this.onClick()}).bind(this));
     },
 
