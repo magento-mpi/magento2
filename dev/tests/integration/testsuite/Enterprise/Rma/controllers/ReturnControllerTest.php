@@ -47,6 +47,7 @@ class Enterprise_Rma_ReturnControllerTest extends Magento_Test_TestCase_Controll
      */
     public function testAddLabelActionIsContentGenerated()
     {
+        $this->markTestSkipped('MAGETWO-753');
         $this->getRequest()->setParam('entity_id', $this->_rma->getEntityId());
         $this->dispatch('rma/return/addlabel');
         $this->assertContains('<td>CarrierTitle</td>', $this->getResponse()->getBody());
@@ -59,6 +60,7 @@ class Enterprise_Rma_ReturnControllerTest extends Magento_Test_TestCase_Controll
      */
     public function testDelLabelActionIsContentGenerated()
     {
+        $this->markTestSkipped('MAGETWO-753');
         $this->getRequest()->setParam('entity_id', $this->_rma->getEntityId());
         $this->dispatch('rma/return/dellabel');
         $this->assertContains('<td>CarrierTitle</td>', $this->getResponse()->getBody());
