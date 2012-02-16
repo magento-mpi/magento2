@@ -48,7 +48,7 @@ if (defined('TESTS_ETC_DIRECTORY') && TESTS_ETC_DIRECTORY && is_dir(TESTS_ETC_DI
 
 Magento_Test_Bootstrap::setInstance(new Magento_Test_Bootstrap(
     (defined('TESTS_DB_VENDOR') ? TESTS_DB_VENDOR : 'mysql'),
-    realpath("$baseDir/../../"),
+    realpath("$baseDir/../../../"),
     $testEtcDir,
     "$baseDir/tmp"
 ));
