@@ -151,13 +151,16 @@ class Enterprise_Wishlist_Block_Adminhtml_Report_Customer_Wishlist_Grid
             'align'     => 'right',
             'width'     => 80,
             'index'     => 'item_qty',
+            'type'      => 'number'
         ));
+
         if (Mage::helper('catalog')->isModuleEnabled('Mage_CatalogInventory')) {
             $this->addColumn('product_qty', array(
                 'header'    => Mage::helper('enterprise_wishlist')->__('Qty available in store'),
                 'align'     => 'right',
                 'width'     => 80,
                 'index'     => 'product_qty',
+                'type'      => 'number'
             ));
 
             $this->addColumn('qty_diff', array(
@@ -165,8 +168,11 @@ class Enterprise_Wishlist_Block_Adminhtml_Report_Customer_Wishlist_Grid
                 'align'     => 'right',
                 'width'     => 80,
                 'index'     => 'qty_diff',
+                'type'      => 'number'
             ));
         }
+        $storeIds = $this->_getStoreIds();
+        $store = Mage::app()->getStore((int) $storeIds[0]);
 
         $this->addColumn('product_price', array(
             'header'    => Mage::helper('enterprise_wishlist')->__('Price'),
@@ -174,7 +180,10 @@ class Enterprise_Wishlist_Block_Adminhtml_Report_Customer_Wishlist_Grid
             'width'     => 80,
             'index'     => 'product_price',
             'sortable'  => false,
-            'filter'    => false
+            'filter'    => false,
+            'type'      => 'price',
+            'currency_code' => $store->getBaseCurrency()->getCode()
+
         ));
 
         $this->addExportType('*/*/exportCsv', Mage::helper('adminhtml')->__('CSV'));
