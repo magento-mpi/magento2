@@ -51,6 +51,7 @@ AddBySku.prototype = {
         this.errorGridId = data.errorGridId;
         this.fileFieldName = data.fileFieldName;
         this.fileUploadUrl = data.fileUploadUrl;
+        this.fileUploadedParamName = data.fileUploaded;
 
         // abstract admin sales instance
         function adminSalesInstance(addBySkuObject) {
@@ -250,6 +251,7 @@ AddBySku.prototype = {
             'enctype': 'multipart/form-data'
         });
 
+        $form.insert(new Element('input', {'type': 'hidden', 'name': this.fileUploadedParamName, 'value': '0'}));
         var $file = Element.select('body', 'input[name="' + this.fileFieldName + '"]')[0];
         if ($file.value) {
             // Inserting element to other place removes it from the old one. Creating new file input element on same place
@@ -257,6 +259,7 @@ AddBySku.prototype = {
             $file.up().insert(new Element('input', {'type': 'file', 'name': this.fileFieldName}));
             // We need to insert same file input element into the form. Simple copy of name/value doesn't work.
             $form.insert($file);
+            $form[this.fileUploadedParamName].value = '1';
         }
 
         // sku form rows

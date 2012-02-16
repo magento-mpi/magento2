@@ -130,6 +130,7 @@ abstract class Enterprise_Checkout_Block_Adminhtml_Sku_Abstract extends Mage_Adm
         $data = array(
             'dataContainerId'  => $this->getDataContainerId(),
             'deleteButtonHtml' => $this->getDeleteButtonHtml(),
+            'fileUploaded'     => Enterprise_Checkout_Helper_Data::REQUEST_PARAMETER_SKU_FILE_IMPORTED_FLAG,
             // All functions requiring listType affects error grid only
             'listType'         => Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Abstract::LIST_TYPE,
             'errorGridId'      => $this->getErrorGridId(),

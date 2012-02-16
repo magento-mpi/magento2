@@ -993,26 +993,22 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
             return;
         }
 
-        $rows = array();
-        $data = $this->getRequest()->getPost();
-        /* @var $importModel Enterprise_Checkout_Model_Import */
-        $importModel = Mage::getModel('enterprise_checkout/import');
-        try {
-            if ($importModel->uploadFile()) {
-                $rows = $importModel->getRows();
-            }
-        } catch (Mage_Core_Exception $e) {
-            $this->_getSession()->addException($e, $e->getMessage());
-        } catch (Exception $e) {
-            $this->_getSession()->addException($e,
-                Mage::helper('enterprise_checkout')->__('File upload error.')
-            );
-        }
+        /** @var $helper Enterprise_Checkout_Helper_Data */
+        $helper = Mage::helper('enterprise_checkout');
+        $rows = $helper->isSkuFileUploaded($this->getRequest())
+            ? $helper->processSkuFileUploading($this->_getSession())
+            : array();
 
-        if (!empty($data['add_by_sku'])) {
-            foreach ($data['add_by_sku'] as $sku => $qty) {
-                $rows[] = array('sku' => $sku, 'qty' => $qty['qty']);
-            }
+        $items = $this->getRequest()->getPost('add_by_sku');
+        if (!is_array($items)) {
+            $items = array();
+        }
+        $result = array();
+        foreach ($items as $sku => $qty) {
+            $result[] = array('sku' => $sku, 'qty' => $qty['qty']);
+        }
+        foreach ($rows as $row) {
+            $result[] = $row;
         }
 
         if (!empty($rows)) {
@@ -1024,7 +1020,6 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
             );
             $cart->saveQuote();
         }
-
 
         $this->_redirectReferer();
     }

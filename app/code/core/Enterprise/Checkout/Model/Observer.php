@@ -117,24 +117,26 @@ class Enterprise_Checkout_Model_Observer
      */
     public function uploadSkuCsv(Varien_Event_Observer $observer)
     {
+        /** @var $helper Enterprise_Checkout_Helper_Data */
+        $helper = Mage::helper('enterprise_checkout');
+        $rows = $helper->isSkuFileUploaded($observer->getRequestModel())
+            ? $helper->processSkuFileUploading($observer->getSession())
+            : array();
+        if (empty($rows)) {
+            return;
+        }
+
         /* @var $importModel Enterprise_Checkout_Model_Import */
         $importModel = Mage::getModel('enterprise_checkout/import');
         if (!$importModel->hasAnythingToUpload()) {
             return;
         }
-        try {
-            if ($importModel->uploadFile()) {
-                /* @var $orderCreateModel Mage_Adminhtml_Model_Sales_Order_Create */
-                $orderCreateModel = $observer->getOrderCreateModel();
-                $cart = $this->_getBackendCart($observer);
-                $cart->prepareAddProductsBySku($importModel->getDataFromCsv());
-                $cart->saveAffectedProducts($orderCreateModel);
-            } else {
-                Mage::throwException(Mage::helper('enterprise_checkout')->__('Error while uploading file.'));
-            }
-        } catch (Mage_Core_Exception $e) {
-            $observer->getSession()->addError($e->getMessage());
-        }
+
+        /* @var $orderCreateModel Mage_Adminhtml_Model_Sales_Order_Create */
+        $orderCreateModel = $observer->getOrderCreateModel();
+        $cart = $this->_getBackendCart($observer);
+        $cart->prepareAddProductsBySku($importModel->getDataFromCsv());
+        $cart->saveAffectedProducts($orderCreateModel);
     }
 
     /**

@@ -66,47 +66,32 @@ class Enterprise_Checkout_Model_Import extends Varien_Object
     /**
      * Upload file
      *
-     * @return bool
+     * @throws Mage_Core_Exception
+     * @return void
      */
     public function uploadFile()
     {
-        $result = true;
+        /** @var $uploader Mage_Core_Model_File_Uploader */
+        $uploader  = Mage::getModel('core/file_uploader', self::FIELD_NAME_SOURCE_FILE);
+        $uploader->setAllowedExtensions($this->_allowedExtensions);
+        $uploader->skipDbProcessing(true);
+        if (!$uploader->checkAllowedExtension($uploader->getFileExtension())) {
+            Mage::throwException($this->_getFileTypeMessageText());
+        }
 
         try {
-            /** @var $uploader Mage_Core_Model_File_Uploader */
-            $uploader  = Mage::getModel('core/file_uploader', self::FIELD_NAME_SOURCE_FILE);
-        } catch (Exception $e) {
-            $result = false;
-        }
-
-        if ($result) {
-            try {
-                $uploader->setAllowedExtensions($this->_allowedExtensions);
-                $uploader->skipDbProcessing(true);
-                if (!$uploader->checkAllowedExtension($uploader->getFileExtension())) {
-                    Mage::throwException(Mage::helper('enterprise_checkout')->__('Only .csv file format is supported.'));
-                }
-                $result = $uploader->save($this->_getWorkingDir());
-            } catch (Mage_Core_Exception $e) {
-                Mage::throwException($e->getMessage());
-            } catch (Exception $e) {
-                Mage::throwException(Mage::helper('enterprise_checkout')->__('Error while uploading file.'));
-            }
-        }
-
-        if ($result !== false && !empty($result['file'])) {
+            $result = $uploader->save($this->_getWorkingDir());
             $this->_uploadedFile = $result['path'] . $result['file'];
-        } else {
-            return $result;
+        } catch (Exception $e) {
+            Mage::throwException(Mage::helper('enterprise_checkout')->getFileGeneralErrorText());
         }
-
-        return true;
     }
 
     /**
      * Get rows from file
      *
-     * @return array|bool
+     * @throws Mage_Core_Exception
+     * @return array
      */
     public function getRows()
     {
@@ -116,8 +101,7 @@ class Enterprise_Checkout_Model_Import extends Varien_Object
             return $this->$method();
         }
 
-        Mage::throwException(Mage::helper('enterprise_checkout')->__('Not supported file type.'));
-        return false;
+        Mage::throwException($this->_getFileTypeMessageText());
     }
 
     /**
@@ -128,7 +112,7 @@ class Enterprise_Checkout_Model_Import extends Varien_Object
     public function getDataFromCsv()
     {
         if (!$this->_uploadedFile || !file_exists($this->_uploadedFile)) {
-            Mage::throwException(Mage::helper('enterprise_checkout')->__('Uploaded file not exists'));
+            Mage::throwException(Mage::helper('enterprise_checkout')->getFileGeneralErrorText());
         }
 
         $csvData = array();
@@ -150,7 +134,7 @@ class Enterprise_Checkout_Model_Import extends Varien_Object
                     if (false !== $found) {
                         $requiredColumnsPositions[] = $found;
                     } else {
-                        Mage::throwException(Mage::helper('enterprise_checkout')->__('SKU and quantity are required fields.'));
+                        Mage::throwException(Mage::helper('enterprise_checkout')->getSkuEmptyDataMessageText());
                     }
                 }
 
@@ -197,17 +181,17 @@ class Enterprise_Checkout_Model_Import extends Varien_Object
             }
         }
 
-        Mage::throwException(Mage::helper('enterprise_checkout')->__('Not supported file type.'));
+        Mage::throwException($this->_getFileTypeMessageText());
         return false;
     }
 
     /**
-     * Whether a file has been submitted by user
+     * Get message text of wrong file type error
      *
-     * @return bool
+     * @return string
      */
-    public function hasAnythingToUpload()
+    protected function _getFileTypeMessageText()
     {
-        return !empty($_FILES);
+        return Mage::helper('enterprise_checkout')->__('Only .csv file format is supported.');
     }
 }

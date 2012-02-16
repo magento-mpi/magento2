@@ -73,6 +73,11 @@ class Enterprise_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
     const ADD_ITEM_STATUS_FAILED_DISABLED = 'failed_disabled';
 
     /**
+     * Request parameter name, which indicates, whether file was uploaded
+     */
+    const REQUEST_PARAMETER_SKU_FILE_IMPORTED_FLAG = 'sku_file_uploaded';
+
+    /**
      * Layout handle for sku failed items
      */
     const SKU_FAILED_PRODUCTS_HANDLE = 'sku_failed_products_handle';
@@ -325,5 +330,76 @@ class Enterprise_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
             }
         }
         return $all ? $this->_itemsAll : $this->_items;
+    }
+
+    /**
+     * Get text of general error while file uploading
+     *
+     * @return string
+     */
+    public function getFileGeneralErrorText()
+    {
+        return $this->__('File cannot be uploaded.');
+    }
+
+    /**
+     * Process SKU file uploading and get uploaded data
+     *
+     * @param Mage_Core_Model_Session_Abstract|null $session
+     * @return array|bool
+     */
+    public function processSkuFileUploading(Mage_Core_Model_Session_Abstract $session)
+    {
+        /** @var $importModel Enterprise_Checkout_Model_Import */
+        $importModel = Mage::getModel('enterprise_checkout/import');
+        try {
+            $importModel->uploadFile();
+            $rows = $importModel->getRows();
+            if (empty($rows)) {
+                Mage::throwException($this->__('File is empty.'));
+            }
+            return $rows;
+        } catch (Mage_Core_Exception $e) {
+            if (!is_null($session)) {
+                $session->addError($e->getMessage());
+            }
+        } catch (Exception $e) {
+            if (!is_null($session)) {
+                $session->addException($e, $this->getFileGeneralErrorText());
+            }
+        }
+    }
+
+    /**
+     * Check whether SKU file was uploaded
+     *
+     * @param Mage_Core_Controller_Request_Http $request
+     * @return bool
+     */
+    public function isSkuFileUploaded(Mage_Core_Controller_Request_Http $request)
+    {
+        return (bool)$request->getPost(self::REQUEST_PARAMETER_SKU_FILE_IMPORTED_FLAG);
+    }
+
+    /**
+     * Get url of account SKU tab
+     *
+     * @return string
+     */
+    public function getAccountSkuUrl()
+    {
+        return Mage::getSingleton('core/url')->getUrl('enterprise_checkout/sku');
+    }
+
+    /**
+     * Get text of message in case of empty SKU data error
+     *
+     * @return string
+     */
+    public function getSkuEmptyDataMessageText()
+    {
+        return $this->isSkuApplied()
+            ? $this->__('You have not entered any product sku. Please <a href="%s">click here</a> to add product(s) by sku.', $this->getAccountSkuUrl())
+            : $this->__('You have not entered any product sku.');
     }
 }
