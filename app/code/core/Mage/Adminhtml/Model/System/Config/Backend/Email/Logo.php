@@ -1,6 +1,6 @@
 <?php
 /**
- * Magento Enterprise Edition
+ * Magento
  *
  * NOTICE OF LICENSE
  *
