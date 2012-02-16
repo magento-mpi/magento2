@@ -25,7 +25,7 @@
         </reference>
         <reference name="my.account.wrapper">
             <block type="Enterprise_Invitation_Block_Form" name="invitationForm" template="Enterprise_Invitation::form.phtml">
-                <container name="invitations.form.form.before" as="form_before" label="Invitation Form Before" htmlTagName="div" htmlClass="rewards"/>
+                <container name="invitations.form.form.before" as="form_before" label="Invitation Form Before" htmlTag="div" htmlClass="rewards"/>
             </block>
         </reference>
     </enterprise_invitation_index_send>
@@ -35,7 +35,7 @@
         <update handle="customer_account"/>
         <reference name="my.account.wrapper">
             <block type="Enterprise_Invitation_Block_Customer_List" name="invitations_list" template="list.phtml">
-                <container name="invitations.list.list.before" as="list_before" label="Invitation List Before" htmlTagName="div" htmlClass="rewards"/>
+                <container name="invitations.list.list.before" as="list_before" label="Invitation List Before" htmlTag="div" htmlClass="rewards"/>
             </block>
         </reference>
     </enterprise_invitation_index_index>

@@ -55,7 +55,7 @@ Default layout, loads most of the pages
                     <block type="Mage_Checkout_Block_Onepage_Link" name="checkout.cart.methods.onepage" template="onepage/link.phtml"/>
                 </container>
 
-                <container name="checkout.cart.form.before" as="form_before" label="Shopping Cart Form Before" htmlTagName="div"/>
+                <container name="checkout.cart.form.before" as="form_before" label="Shopping Cart Form Before" htmlTag="div"/>
 
                 <container name="checkout.cart.methods" as="methods" label="Payment Methods After Checkout Button">
                     <block type="Mage_Checkout_Block_Onepage_Link" name="checkout.cart.methods.onepage" template="onepage/link.phtml"/>
@@ -282,14 +282,14 @@ One page checkout main layout
         </reference>
         <reference name="right">
             <action method="unsetChildren"></action>
-            <container name="checkout.progress.wrapper" label="Checkout Progress Wrapper" htmlTagName="div" htmlId="checkout-progress-wrapper">
+            <container name="checkout.progress.wrapper" label="Checkout Progress Wrapper" htmlTag="div" htmlId="checkout-progress-wrapper">
                 <block type="Mage_Checkout_Block_Onepage_Progress" name="checkout.progress" before="-" template="onepage/progress.phtml"/>
             </container>
         </reference>
         <reference name="content">
             <block type="Mage_Checkout_Block_Onepage" name="checkout.onepage" template="onepage.phtml">
                 <block type="Mage_Checkout_Block_Onepage_Login" name="checkout.onepage.login" as="login" template="onepage/login.phtml">
-                    <container name="checkout.onepage.login.before" as="login_before" label="Login/Registration Before" htmlTagName="div"/>
+                    <container name="checkout.onepage.login.before" as="login_before" label="Login/Registration Before" htmlTag="div"/>
                 </block>
                 <block type="Mage_Checkout_Block_Onepage_Billing" name="checkout.onepage.billing" as="billing" template="onepage/billing.phtml"/>
                 <block type="Mage_Checkout_Block_Onepage_Shipping" name="checkout.onepage.shipping" as="shipping" template="onepage/shipping.phtml"/>

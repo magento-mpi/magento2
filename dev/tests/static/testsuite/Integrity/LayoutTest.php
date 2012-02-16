@@ -245,11 +245,11 @@ class Integrity_LayoutTest extends PHPUnit_Framework_TestCase
             if (isset($attr['as']) && !preg_match('/^[a-z\d\-\_]+$/i', $attr['as'])) {
                 $nodeErrors[] = 'specified value for "as" attribute is invalid';
             }
-            if (isset($attr['htmlTagName']) && !preg_match('/^[a-z]+$/', $attr['htmlTagName'])) {
-                $nodeErrors[] = 'specified value for "htmlTagName" attribute is invalid';
+            if (isset($attr['htmlTag']) && !preg_match('/^[a-z]+$/', $attr['htmlTag'])) {
+                $nodeErrors[] = 'specified value for "htmlTag" attribute is invalid';
             }
-            if (!isset($attr['htmlTagName']) && (isset($attr['htmlId']) || isset($attr['htmlClass']))) {
-                $nodeErrors[] = 'having "htmlId" or "htmlClass" attributes don\'t make sense without "htmlTagName"';
+            if (!isset($attr['htmlTag']) && (isset($attr['htmlId']) || isset($attr['htmlClass']))) {
+                $nodeErrors[] = 'having "htmlId" or "htmlClass" attributes don\'t make sense without "htmlTag"';
             }
             if (isset($attr['htmlId']) && !preg_match(self::HTML_ID_PATTERN, $attr['htmlId'])) {
                 $nodeErrors[] = 'specified value for "htmlId" attribute is invalid';
@@ -258,7 +258,7 @@ class Integrity_LayoutTest extends PHPUnit_Framework_TestCase
                 $nodeErrors[] = 'specified value for "htmlClass" attribute is invalid';
             }
             foreach ($attr as $key => $attribute) {
-                if (!in_array($key, array('name', 'label', 'as', 'htmlTagName', 'htmlId', 'htmlClass', 'module'))) {
+                if (!in_array($key, array('name', 'label', 'as', 'htmlTag', 'htmlId', 'htmlClass', 'module'))) {
                     $nodeErrors[] = 'unexpected attribute "' . $key . '"';
                 }
             }

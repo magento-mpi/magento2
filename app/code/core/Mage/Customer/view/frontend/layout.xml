@@ -90,7 +90,7 @@ New customer registration
         </reference>
         <reference name="content">
             <block type="Mage_Customer_Block_Form_Register" name="customer_form_register" template="form/register.phtml">
-                <container name="customer.form.register.fields.before" as="form_fields_before" label="Form Fields Before" htmlTagName="div"/>
+                <container name="customer.form.register.fields.before" as="form_fields_before" label="Form Fields Before" htmlTag="div"/>
             </block>
         </reference>
     </customer_account_create>
@@ -178,7 +178,7 @@ Customer account pages, rendered for all tabs in dashboard
         </reference>
 
         <reference name="content">
-            <container name="my.account.wrapper" label="My Account Wrapper" htmlTagName="div" htmlClass="my-account"/>
+            <container name="my.account.wrapper" label="My Account Wrapper" htmlTag="div" htmlClass="my-account"/>
         </reference>
 
         <reference name="left">

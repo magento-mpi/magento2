@@ -31,7 +31,7 @@ Default layout, loads most of the pages
         <reference name="content">
             <block type="Mage_Core_Block_Template" name="page_content_heading" template="Mage_Cms::content_heading.phtml"/>
             <block type="Mage_Catalog_Block_Navigation" name="hp_nav" template="navigation/top.phtml" />
-            <container name="cms.wrapper" label="CMS Content Wrapper" htmlTagName="div" htmlClass="std">
+            <container name="cms.wrapper" label="CMS Content Wrapper" htmlTag="div" htmlClass="std">
                 <block type="Mage_Cms_Block_Page" name="cms_page"/>
             </container>
         </reference>

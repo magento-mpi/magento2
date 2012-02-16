@@ -23,6 +23,7 @@ class Legacy_LayoutTest extends PHPUnit_Framework_TestCase
     );
 
     /**
+     * @param string $layoutFile
      * @dataProvider layoutFileDataProvider
      */
     public function testLayoutFile($layoutFile)
@@ -42,12 +43,16 @@ class Legacy_LayoutTest extends PHPUnit_Framework_TestCase
             ),
             "Calls addCss/addJs are allowed within the 'head' block only. Verify integrity of the nodes nesting."
         );
+        $this->assertEmpty($layoutXml->xpath('/layout//block[@type="Mage_Core_Block_Text_List"]'));
 
         foreach ($layoutXml as $handle) {
             $this->assertNotContains($handle->getName(), $this->_legacyNodes, 'Layout handle was removed.');
         }
     }
 
+    /**
+     * @return array
+     */
     public function layoutFileDataProvider()
     {
         return Util_Files::getLayoutFiles();
