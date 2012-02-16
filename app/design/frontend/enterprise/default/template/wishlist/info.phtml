@@ -31,7 +31,7 @@
 <ul class="list-info">
     <li class="item wishlist-owner"><span class="label"><?php echo $this->__('Owner');?></span> <span class="value"><?php echo $this->escapeHtml($this->getWishlistOwner()->getName());?></span></li>
     <li class="item wishlist-name"><span class="label"><?php echo $this->__('Name');?></span> <span class="value"><?php echo $this->escapeHtml($this->getWishlistInstance()->getName());?></span></li>
-    <li class="item wishlist-date"><span class="label"><?php echo $this->__('Updated at');?></span> <span class="value"><?php echo $this->formatDate($this->getWishlistOwner()->getUpdatedAt());?></span></li>
+    <li class="item wishlist-date"><span class="label"><?php echo $this->__('Updated at');?></span> <span class="value"><?php echo $this->formatDate($this->getWishlistOwner()->getUpdatedAt(), Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM);?></span></li>
 </ul>
 <h2 class="sub-title"><?php echo $this->__('Wishlist Items');?></h2>
 <form method="post" action="<?php echo $this->getToCartUrl();?>">
