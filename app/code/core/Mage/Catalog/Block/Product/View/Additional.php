@@ -32,11 +32,7 @@ class Mage_Catalog_Block_Product_View_Additional extends Mage_Core_Block_Templat
         if (is_null($this->_list)) {
             $this->_list = array();
             foreach ($this->getSortedChildren() as $name) {
-                $block = $this->getLayout()->getBlock($name);
-                if (!$block) {
-                    Mage::exception('Mage_Catalog', Mage::helper('Mage_Catalog_Helper_Data')->__('Invalid block: %s.', $name));
-                }
-                $this->_list[] = $block->toHtml();
+                $this->_list[] = $this->getChildHtml($name);
             }
         }
         return $this->_list;

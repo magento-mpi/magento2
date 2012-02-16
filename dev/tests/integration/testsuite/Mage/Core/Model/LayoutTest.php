@@ -75,9 +75,9 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
 
     public function testGetSetDirectOutput()
     {
-        $this->assertFalse($this->_model->getDirectOutput());
+        $this->assertFalse($this->_model->isDirectOutput());
         $this->_model->setDirectOutput(true);
-        $this->assertTrue($this->_model->getDirectOutput());
+        $this->assertTrue($this->_model->isDirectOutput());
     }
 
     /**

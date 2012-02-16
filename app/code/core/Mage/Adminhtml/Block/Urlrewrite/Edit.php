@@ -196,7 +196,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit extends Mage_Adminhtml_Block_Widget_C
     {
         if (null === $this->_buttonsHtml) {
             $this->_buttonsHtml = parent::getButtonsHtml();
-            foreach ($this->_children as $alias => $child) {
+            foreach ($this->getSortedChildBlocks() as $alias => $child) {
                 if (false !== strpos($alias, '_button')) {
                     $this->unsetChild($alias);
                 }

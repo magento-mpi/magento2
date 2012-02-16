@@ -43,9 +43,9 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
 
     public function testSetGetIsAnonymous()
     {
-        $this->assertFalse($this->_block->getIsAnonymous());
+        $this->assertFalse($this->_block->isAnonymous());
         $this->_block->setIsAnonymous(true);
-        $this->assertTrue($this->_block->getIsAnonymous());
+        $this->assertTrue($this->_block->isAnonymous());
     }
 
     public function testSetGetAnonSuffix()
