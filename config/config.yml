@@ -74,8 +74,8 @@ framework:
                 automatic_serialization: true
         backend:
             name: 'file'
-            options: ''
-            cache_dir: 'var\cache'
+            options:
+                cache_dir: 'var/cache'
 ################################################################################
 #                                                                              #
 #                  Applications for running tests                              #

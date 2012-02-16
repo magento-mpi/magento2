@@ -52,7 +52,7 @@ class Mage_Selenium_Helper_Data extends Mage_Selenium_Helper_Abstract
      */
     protected function _init()
     {
-        $this->_configFixtures = $this->getConfig()->getHelper('uimap')->getConfigFixtures();
+        $this->_configFixtures = $this->getConfig()->getConfigFixtures();
         $config = $this->getConfig()->getHelper('config')->getConfigFramework();
         if ($config['load_all_fixtures']) {
             $this->_loadTestData();
@@ -68,16 +68,13 @@ class Mage_Selenium_Helper_Data extends Mage_Selenium_Helper_Abstract
         if ($this->_testData) {
             return $this;
         }
-        $frameworkConfig = $this->getConfig()->getHelper('config')->getConfigFramework();
-        $initialPath = SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . $frameworkConfig['fixture_base_path'];
-
-        foreach ($this->_configFixtures as $codePoolName => $codePoolData) {
-            if (array_key_exists('data', $codePoolData)) {
-                foreach ($codePoolData['data'] as $file) {
-                    $filePath = $initialPath . DIRECTORY_SEPARATOR . $codePoolName . $file;
-                    $this->_testData = array_merge($this->getConfig()->getHelper('file')->loadYamlFile($filePath),
-                                                   $this->_testData);
-                }
+        foreach ($this->_configFixtures as $codePoolData) {
+            if (!array_key_exists('data', $codePoolData)) {
+                continue;
+            }
+            foreach ($codePoolData['data'] as $file) {
+                $this->_testData = array_merge($this->getConfig()->getHelper('file')->loadYamlFile($file),
+                                               $this->_testData);
             }
         }
 
