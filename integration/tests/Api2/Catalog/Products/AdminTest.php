@@ -42,6 +42,7 @@ class Api2_Catalog_Products_AdminTest extends Magento_Test_Webservice_Rest_Admin
      */
     public function testPostSimpleRequiredFieldsOnly()
     {
+        $this->markTestSkipped("Skipped until APIA-304 task merge into development branch");
         $productData = require dirname(__FILE__) . '/../_fixtures/Backend/SimpleProductData.php';
 
         $restResponse = $this->callPost('products', $productData);

@@ -111,6 +111,7 @@ class Api2_Review_Reviews_CustomerTest extends Magento_Test_Webservice_Rest_Cust
      */
     public function testPostCustomStore()
     {
+        $this->_getAppCache()->flush();
         /** @var $product Mage_Catalog_Model_Product */
         $product = $this->getFixture('product_simple');
         /** @var $store Mage_Core_Model_Store */
@@ -207,6 +208,7 @@ class Api2_Review_Reviews_CustomerTest extends Magento_Test_Webservice_Rest_Cust
      */
     public function testGet()
     {
+        $this->_getAppCache()->flush();
         /** @var $customer Mage_Customer_Model_Customer */
         $customer = Mage::getModel('customer/customer');
         $customer->setWebsiteId(Mage::app()->getWebsite()->getId())->loadByEmail(TESTS_CUSTOMER_EMAIL);
@@ -239,6 +241,7 @@ class Api2_Review_Reviews_CustomerTest extends Magento_Test_Webservice_Rest_Cust
      */
     public function testGetCustomStore()
     {
+        $this->_getAppCache()->flush();
         /** @var $store Mage_Core_Model_Store */
         $store = Magento_Test_Webservice::getFixture('store');
         /** @var $productVirtual Mage_Catalog_Model_Product */
@@ -278,6 +281,7 @@ class Api2_Review_Reviews_CustomerTest extends Magento_Test_Webservice_Rest_Cust
      */
     public function testGetCustomerFilter()
     {
+        $this->_getAppCache()->flush();
         /** @var $customer Mage_Customer_Model_Customer */
         $customer = Mage::getModel('customer/customer');
         $customer->setWebsiteId(Mage::app()->getWebsite()->getId())->loadByEmail(TESTS_CUSTOMER_EMAIL);
@@ -309,7 +313,7 @@ class Api2_Review_Reviews_CustomerTest extends Magento_Test_Webservice_Rest_Cust
      */
     public function testGetProductFilterInvalid()
     {
-        $restResponse = $this->callGet('reviews', array('product_id' => 'INVALID PRODUCT'));
+        $restResponse = $this->callGet('reviews', array('product_id' => 'INVALID_PRODUCT'));
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
         $body = $restResponse->getBody();
         $error = reset($body['messages']['error']);

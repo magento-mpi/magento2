@@ -142,6 +142,7 @@ class Api2_Review_Review_CustomerTest extends Magento_Test_Webservice_Rest_Custo
      */
     public function testGetWithInappropriateStore()
     {
+        $this->_getAppCache()->flush();
         $store = $this->getFixture('store');
         /** @var $product Mage_Review_Model_Review */
         $review = $this->getFixture('review');

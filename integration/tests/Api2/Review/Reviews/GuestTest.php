@@ -108,7 +108,6 @@ class Api2_Review_Reviews_GuestTest extends Magento_Test_Webservice_Rest_Guest
      * Test unsuccessful review creation on store with disabled review creation by guests
      *
      * @magentoDataFixture Api/SalesOrder/_fixtures/product_simple.php
-     * @magentoConfigFixture catalog/review/allow_guest 0
      */
     public function testPostDisabledReviewCreationByGuests()
     {
@@ -118,11 +117,10 @@ class Api2_Review_Reviews_GuestTest extends Magento_Test_Webservice_Rest_Guest
         $reviewData = require dirname(__FILE__) . '/../_fixtures/Frontend/ReviewData.php';
         $reviewData['product_id'] = $product->getId();
 
-        /** @var $coreConfig Mage_Core_Model_Config */
-        $coreConfig = Mage::getModel('core/config');
-        $coreConfig->saveConfig('catalog/review/allow_guest', 0);
+        $this->_updateAppConfig('catalog/review/allow_guest', 0);
         $restResponse = $this->callPost('reviews', $reviewData);
-        $coreConfig->saveConfig('catalog/review/allow_guest', 1);
+        $this->_updateAppConfig('catalog/review/allow_guest', 1);
+        $this->_cleanAppConfigCache();
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_METHOD_NOT_ALLOWED, $restResponse->getStatus());
     }
 
@@ -134,6 +132,7 @@ class Api2_Review_Reviews_GuestTest extends Magento_Test_Webservice_Rest_Guest
      */
     public function testPostCustomStore()
     {
+        $this->_getAppCache()->flush();
         /** @var $product Mage_Catalog_Model_Product */
         $product = $this->getFixture('product_simple');
         /** @var $store Mage_Core_Model_Store */
@@ -230,6 +229,7 @@ class Api2_Review_Reviews_GuestTest extends Magento_Test_Webservice_Rest_Guest
      */
     public function testGet()
     {
+        $this->_getAppCache()->flush();
         /** @var $product Mage_Catalog_Model_Product */
         $product = Magento_Test_Webservice::getFixture('product_simple');
 
@@ -263,6 +263,7 @@ class Api2_Review_Reviews_GuestTest extends Magento_Test_Webservice_Rest_Guest
      */
     public function testGetCustomStore()
     {
+        $this->_getAppCache()->flush();
         /** @var $product Mage_Catalog_Model_Product */
         $product = Magento_Test_Webservice::getFixture('product_virtual');
         /** @var $store Mage_Core_Model_Store */

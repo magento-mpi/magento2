@@ -220,7 +220,7 @@ class Api2_Review_Reviews_AdminTest extends Magento_Test_Webservice_Rest_Admin
      */
     public function testGet()
     {
-        $this->getWebservice()->getClient()->setHeaders('Cookie', 'XDEBUG_SESSION=PHPSTORM');
+        $this->_getAppCache()->flush();
         $restResponse = $this->callGet('reviews', array('order' => 'review_id', 'dir' => Zend_Db_Select::SQL_DESC));
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
         $body = $restResponse->getBody();
@@ -246,6 +246,7 @@ class Api2_Review_Reviews_AdminTest extends Magento_Test_Webservice_Rest_Admin
      */
     public function testGetCustomerFilter()
     {
+        $this->_getAppCache()->flush();
         /** @var $customer Mage_Customer_Model_Customer */
         $customer = Mage::getModel('customer/customer');
         $customer->setWebsiteId(Mage::app()->getWebsite()->getId())->loadByEmail(TESTS_CUSTOMER_EMAIL);
@@ -298,7 +299,7 @@ class Api2_Review_Reviews_AdminTest extends Magento_Test_Webservice_Rest_Admin
      */
     public function testGetProductFilterInvalid()
     {
-        $restResponse = $this->callGet('reviews', array('product_id' => 'INVALID PRODUCT'));
+        $restResponse = $this->callGet('reviews', array('product_id' => 'INVALID_PRODUCT'));
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
         $body = $restResponse->getBody();
         $error = reset($body['messages']['error']);
@@ -326,7 +327,7 @@ class Api2_Review_Reviews_AdminTest extends Magento_Test_Webservice_Rest_Admin
      */
     public function testGetStatusFilterInvalid()
     {
-        $restResponse = $this->callGet('reviews', array('status_id' => 'INVALID STATUS'));
+        $restResponse = $this->callGet('reviews', array('status_id' => 'INVALID_STATUS'));
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
         $body = $restResponse->getBody();
         $error = reset($body['messages']['error']);
