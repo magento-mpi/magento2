@@ -224,7 +224,8 @@ Enterprise.Wishlist.copySelectedToNew = function() {
 };
 
 Event.observe(document, 'dom:loaded', function() {
-    if (typeof Enterprise.Wishlist.list != 'undefined') {
+    if (typeof Enterprise.Wishlist.list != 'undefined'
+        && (Enterprise.Wishlist.list.length || Enterprise.Wishlist.canCreate)) {
         var buildUrl = function(url, wishlistId) {
             var glue = url .charAt( url.length-1 ) == '/' ? '' : '/';
             return url + glue + 'wishlist_id/' + wishlistId + '/';

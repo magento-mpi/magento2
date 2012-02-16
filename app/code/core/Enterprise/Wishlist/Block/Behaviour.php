@@ -81,7 +81,8 @@ class Enterprise_Wishlist_Block_Behaviour extends Mage_Core_Block_Template
      */
     public function canCreateWishlists($wishlistList)
     {
-        return !Mage::helper('enterprise_wishlist')->isWishlistLimitReached($wishlistList);
+        $customerId = Mage::getSingleton('customer/session')->getCustomerId();
+        return !Mage::helper('enterprise_wishlist')->isWishlistLimitReached($wishlistList) && $customerId;
     }
 
     /**
