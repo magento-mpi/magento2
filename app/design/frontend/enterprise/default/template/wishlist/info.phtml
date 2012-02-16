@@ -24,7 +24,10 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 ?>
-<div class="page-title">
+<div class="page-title title-buttons">
+    <?php if ($this->helper('wishlist')->isRssAllow() && count($this->getWishlistItems())): ?>
+        <a href="<?php echo $this->helper('wishlist')->getRssUrl($this->getWishlistInstance()->getId()); ?>" class="link-rss"><?php echo $this->__('RSS Feed') ?></a>
+    <?php endif; ?>
     <h1><?php echo $this->__('Wishlist Info') ?></h1>
 </div>
 <?php echo $this->getMessagesBlock()->toHtml();?>
