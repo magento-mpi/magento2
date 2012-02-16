@@ -60,8 +60,8 @@ class Mage_Api2_Model_Resource_Acl_Filter_Attribute extends Mage_Core_Model_Reso
     {
         $select = $this->_getReadAdapter()->select()
             ->from($this->getMainTable(), 'allowed_attributes')
-            ->where('user_type = ?', $userType, Zend_Db::INT_TYPE)
-            ->where('resource_id = ?', $resourceId, Zend_Db::INT_TYPE)
+            ->where('user_type = ?', $userType)
+            ->where('resource_id = ?', $resourceId)
             ->where('operation = ?', $operation);
 
         return $this->getReadConnection()->fetchOne($select);
@@ -71,7 +71,7 @@ class Mage_Api2_Model_Resource_Acl_Filter_Attribute extends Mage_Core_Model_Reso
      * Check if ALL attributes allowed
      *
      * @param string $userType
-     * @return array
+     * @return bool
      */
     public function isAllAttributesAllowed($userType)
     {
@@ -79,8 +79,8 @@ class Mage_Api2_Model_Resource_Acl_Filter_Attribute extends Mage_Core_Model_Reso
 
         $select = $this->getReadConnection()->select()
             ->from($this->getMainTable(), new Zend_Db_Expr('COUNT(*)'))
-            ->where('user_type = ?', $userType, Zend_Db::INT_TYPE)
-            ->where('resource_id = ?', $resourceId, Zend_Db::INT_TYPE);
+            ->where('user_type = ?', $userType)
+            ->where('resource_id = ?', $resourceId);
 
         return ($this->getReadConnection()->fetchOne($select) == 1);
     }

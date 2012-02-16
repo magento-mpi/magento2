@@ -166,7 +166,7 @@ class Mage_Api2_Helper_Data extends Mage_Core_Helper_Abstract
      * Check if ALL attributes allowed
      *
      * @param string $userType
-     * @return array
+     * @return bool
      */
     public function isAllAttributesAllowed($userType)
     {
