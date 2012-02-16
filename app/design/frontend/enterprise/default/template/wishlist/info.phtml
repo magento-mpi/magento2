@@ -24,6 +24,9 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 ?>
+<?php
+    $wishlistItems = $this->getWishlistItems();
+?>
 <div class="page-title title-buttons">
     <?php if ($this->helper('wishlist')->isRssAllow() && count($this->getWishlistItems())): ?>
         <a href="<?php echo $this->helper('wishlist')->getRssUrl($this->getWishlistInstance()->getId()); ?>" class="link-rss"><?php echo $this->__('RSS Feed') ?></a>
@@ -37,6 +40,7 @@
     <li class="item wishlist-date"><span class="label"><?php echo $this->__('Updated at');?></span> <span class="value"><?php echo $this->formatDate($this->getWishlistOwner()->getUpdatedAt(), Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM);?></span></li>
 </ul>
 <h2 class="sub-title"><?php echo $this->__('Wishlist Items');?></h2>
+<?php if (count($wishlistItems)): ?>
 <form method="post" action="<?php echo $this->getToCartUrl();?>" id="wishlist-info-form">
     <?php $this->getChild('items')->setItems($this->getWishlistItems()); ?>
     <?php echo $this->getChildHtml('items');?>
@@ -74,3 +78,6 @@
     })();
 //]]>
 </script>
+<?php else: ?>
+    <p class="wishlist-empty"><?php echo $this->__('This Wishlist is empty');?></p>
+<?php endif; ?>
