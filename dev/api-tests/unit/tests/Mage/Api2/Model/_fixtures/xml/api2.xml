@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<config>
+    <api2>
+       <resources>
+            <products>
+                <type>products</type><!-- used in ACL -->
+                <model>catalog/api2_products</model><!-- used in dispatching -->
+                <title>Catalog Products</title><!-- not used now, probably useful in frontend -->
+                <routes>
+                    <route_main>
+                        <mask>/products</mask>
+                    </route_main>
+                </routes>
+                <instance>product</instance>
+                <working_model>catalog/product</working_model>
+                <versions>1,2,5</versions>
+            </products>
+            <product>
+                <type>product</type><!-- used in ACL -->
+                <model>catalog/api2_product</model><!-- used in dispatching -->
+                <title>Catalog Product</title><!-- not used now, probably useful in frontend -->
+                <routes>
+                    <route_main>
+                        <mask>/products/:id</mask>
+                    </route_main>
+                </routes>
+                <collection>products</collection>
+                <attributes>
+                    <review_id>ID</review_id>
+                    <content>Content</content>
+                    <created_at>Content</created_at>
+                </attributes>
+                <working_model>catalog/product</working_model>
+            </product>
+            <test1 />
+            <test2><versions /></test2>
+            <test3><versions>1,,5</versions></test3>
+            <test4><versions>1,2m,5</versions></test4>
+        </resources>
+    </api2>
+</config>
