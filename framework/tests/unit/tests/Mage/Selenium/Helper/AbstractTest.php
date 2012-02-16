@@ -25,25 +25,23 @@
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Mage_Selenium_TestConfigurationTest extends Mage_PHPUnit_TestCase
+class Mage_Selenium_Helper_AbstractTest extends Mage_PHPUnit_TestCase
 {
+    /**
+     * @covers Mage_Selenium_Uimap_Abstract::__construct
+     */
     public function test__construct()
     {
-        $testConfig = $this->_config;
-        $this->assertInstanceOf('Mage_Selenium_TestConfiguration', $testConfig);
+        $instance = new Mage_Selenium_Helper_Abstract($this->_config);
+        $this->assertInstanceOf('Mage_Selenium_Helper_Abstract', $instance);
     }
 
     /**
-     * @covers Mage_Selenium_TestConfiguration::getHelper
+     * @covers Mage_Selenium_Uimap_Abstract::getConfig
      */
-    public function testGetHelper()
+    public function testGetConfig()
     {
-        $this->assertInstanceOf('Mage_Selenium_Helper_Cache', $this->_config->getHelper('cache'));
-        $this->assertInstanceOf('Mage_Selenium_Helper_Config', $this->_config->getHelper('config'));
-        $this->assertInstanceOf('Mage_Selenium_Helper_Data', $this->_config->getHelper('data'));
-        $this->assertInstanceOf('Mage_Selenium_Helper_DataGenerator', $this->_config->getHelper('dataGenerator'));
-        $this->assertInstanceOf('Mage_Selenium_Helper_File', $this->_config->getHelper('file'));
-        $this->assertInstanceOf('Mage_Selenium_Helper_Params', $this->_config->getHelper('params'));
-        $this->assertInstanceOf('Mage_Selenium_Helper_Uimap', $this->_config->getHelper('uimap'));
+        $instance = new Mage_Selenium_Helper_Abstract($this->_config);
+        $this->assertInstanceOf('Mage_Selenium_TestConfiguration', $instance->getConfig());
     }
 }

@@ -45,21 +45,4 @@ abstract class Mage_PHPUnit_TestCase extends PHPUnit_Framework_TestCase
         parent::__construct($name, $data, $dataName);
         $this->_config = Mage_Selenium_TestConfiguration::getInstance();
     }
-
-    /**
-     * Retrieve Page from uimap data configuration by path
-     *
-     * @param string $area Application area ('frontend'|'admin')
-     * @param string $pageKey UIMap page key
-     * @return Mage_Selenium_Uimap_Page|null
-     */
-    public function getUimapPage($area, $pageKey)
-    {
-        $uimapHelper = $this->_config->getUimapHelper();
-        if ($uimapHelper) {
-            return $uimapHelper->getUimapPage($area, $pageKey);
-        }
-
-        return null;
-    }
 }

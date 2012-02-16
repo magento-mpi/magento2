@@ -25,25 +25,20 @@
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Mage_Selenium_TestConfigurationTest extends Mage_PHPUnit_TestCase
+class Mage_Selenium_Helper_DataTest extends Mage_PHPUnit_TestCase
 {
-    public function test__construct()
-    {
-        $testConfig = $this->_config;
-        $this->assertInstanceOf('Mage_Selenium_TestConfiguration', $testConfig);
-    }
-
     /**
-     * @covers Mage_Selenium_TestConfiguration::getHelper
+     * @covers Mage_Selenium_TestConfiguration::GetDataValue
      */
-    public function testGetHelper()
+    public function testGetDataValue()
     {
-        $this->assertInstanceOf('Mage_Selenium_Helper_Cache', $this->_config->getHelper('cache'));
-        $this->assertInstanceOf('Mage_Selenium_Helper_Config', $this->_config->getHelper('config'));
-        $this->assertInstanceOf('Mage_Selenium_Helper_Data', $this->_config->getHelper('data'));
-        $this->assertInstanceOf('Mage_Selenium_Helper_DataGenerator', $this->_config->getHelper('dataGenerator'));
-        $this->assertInstanceOf('Mage_Selenium_Helper_File', $this->_config->getHelper('file'));
-        $this->assertInstanceOf('Mage_Selenium_Helper_Params', $this->_config->getHelper('params'));
-        $this->assertInstanceOf('Mage_Selenium_Helper_Uimap', $this->_config->getHelper('uimap'));
+        $this->assertInternalType('array', $this->_config->getDataValue());
+        $this->assertNotEmpty($this->_config->getDataValue());
+
+        $this->assertFalse($this->_config->getDataValue('invalid-path'));
+
+        $this->assertArrayHasKey('generic_admin_user', $this->_config->getDataValue());
+        $this->assertInternalType('array', $this->_config->getDataValue('generic_admin_user'));
+        $this->assertInternalType('string', $this->_config->getDataValue('generic_admin_user/user_name'));
     }
 }

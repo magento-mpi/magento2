@@ -39,7 +39,8 @@ class Mage_Selenium_Uimap_FormTest extends Mage_PHPUnit_TestCase
      */
     public function testGetTab()
     {
-        $uipage = $this->getUimapPage('admin', 'create_customer');
+        $uimapHelper = $this->_config->getHelper('uimap');
+        $uipage = $uimapHelper->getUimapPage('admin', 'create_customer');
         $tab = $uipage->getMainForm()->getTabs()->getTab('addresses');
         $this->assertInstanceOf('Mage_Selenium_Uimap_Tab', $tab);
     }

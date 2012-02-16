@@ -32,7 +32,8 @@ class Mage_Selenium_Uimap_AbstractTest extends Mage_PHPUnit_TestCase
      */
     public function test__call()
     {
-        $uipage = $this->getUimapPage('admin', 'create_customer');
+        $uimapHelper = $this->_config->getHelper('uimap');
+        $uipage = $uimapHelper->getUimapPage('admin', 'create_customer');
 
         //Test getAll
         $buttons = $uipage->getAllButtons();

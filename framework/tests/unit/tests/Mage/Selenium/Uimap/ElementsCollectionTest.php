@@ -39,7 +39,8 @@ class Mage_Selenium_Uimap_ElementsCollectionTest extends Mage_PHPUnit_TestCase
      */
     public function test__get()
     {
-        $uipage = $this->getUimapPage('admin', 'create_customer');
+        $uimapHelper = $this->_config->getHelper('uimap');
+        $uipage = $uimapHelper->getUimapPage('admin', 'create_customer');
         $buttons = $uipage->getMainForm()->getAllButtons();
         $this->assertInstanceOf('Mage_Selenium_Uimap_ElementsCollection', $buttons);
         $this->assertGreaterThanOrEqual(1, count($buttons));
@@ -53,7 +54,8 @@ class Mage_Selenium_Uimap_ElementsCollectionTest extends Mage_PHPUnit_TestCase
      */
     public function testGet()
     {
-        $uipage = $this->getUimapPage('admin', 'create_customer');
+        $uimapHelper = $this->_config->getHelper('uimap');
+        $uipage = $uimapHelper->getUimapPage('admin', 'create_customer');
         $button = $uipage->getAllButtons()->get('save_customer');
         $this->assertInternalType('string', $button);
     }
@@ -66,7 +68,8 @@ class Mage_Selenium_Uimap_ElementsCollectionTest extends Mage_PHPUnit_TestCase
         $instance = new Mage_Selenium_Uimap_ElementsCollection('elementType', array());
         $this->assertEquals('elementType', $instance->getType());
 
-        $uipage = $this->getUimapPage('admin', 'create_customer');
+        $uimapHelper = $this->_config->getHelper('uimap');
+        $uipage = $uimapHelper->getUimapPage('admin', 'create_customer');
         $fieldsets = $uipage->getMainForm()->getAllFieldsets();
         $fieldsetsType = $fieldsets->getType();
         $this->assertEquals('fieldsets', $fieldsetsType);

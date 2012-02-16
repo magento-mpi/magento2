@@ -142,7 +142,7 @@ class Mage_Selenium_TestConfiguration
     /**
      * Get $helperName helper instance
      *
-     * @param string $helperName
+     * @param string $helperName cache|config|data|dataGenerator|file|params|uimap
      *
      * @return object
      * @throws OutOfRangeException

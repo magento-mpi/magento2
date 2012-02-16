@@ -32,30 +32,8 @@ class Mage_Selenium_Helper_UimapTest extends Mage_PHPUnit_TestCase
      */
     public function test__construct()
     {
-        $uimapHelper = new Mage_Selenium_Helper_Uimap($this->_config);
+        $uimapHelper = $this->_config->getHelper('uimap');
         $this->assertInstanceOf('Mage_Selenium_Helper_Uimap', $uimapHelper);
-    }
-
-    /**
-     * @covers Mage_Selenium_Helper_Uimap::getUimap
-     */
-    public function testGetUimap()
-    {
-        $uimapHelper = new Mage_Selenium_Helper_Uimap($this->_config);
-
-        $uimap = $uimapHelper->getUimap('admin');
-        $this->assertInternalType('array', $uimap);
-    }
-
-    /**
-     * @covers Mage_Selenium_Helper_Uimap::getUimap
-     *
-     * @expectedException OutOfRangeException
-     */
-    public function testGetUimapException()
-    {
-        $uimapHelper = new Mage_Selenium_Helper_Uimap($this->_config);
-        $uimap = $uimapHelper->getUimap('invalid_area');
     }
 
     /**
@@ -63,13 +41,19 @@ class Mage_Selenium_Helper_UimapTest extends Mage_PHPUnit_TestCase
      */
     public function testGetUimapPage()
     {
-        $uimapHelper = new Mage_Selenium_Helper_Uimap($this->_config);
-
+        $uimapHelper = $this->_config->getHelper('uimap');
         $uipage = $uimapHelper->getUimapPage('admin', 'create_customer');
         $this->assertInstanceOf('Mage_Selenium_Uimap_Page', $uipage);
+    }
 
-        $uipage = $uimapHelper->getUimapPage('admin', 'wrong_name');
-        $this->assertNull($uipage);
+    /**
+     * @covers Mage_Selenium_Helper_Uimap::getUimapPage
+     * @expectedException OutOfRangeException
+     */
+    public function testGetUimapPageWrongPageException()
+    {
+        $uimapHelper = $this->_config->getHelper('uimap');
+        $uimapHelper->getUimapPage('admin', 'wrong_name');
     }
 
     /**
@@ -77,25 +61,68 @@ class Mage_Selenium_Helper_UimapTest extends Mage_PHPUnit_TestCase
      */
     public function testGetUimapPageByMca()
     {
-        $uimapHelper = new Mage_Selenium_Helper_Uimap($this->_config);
-
+        $uimapHelper = $this->_config->getHelper('uimap');
         $uipage = $uimapHelper->getUimapPageByMca('admin', 'customer/new/');
         $this->assertInstanceOf('Mage_Selenium_Uimap_Page', $uipage);
-
-        $uipage = $uimapHelper->getUimapPageByMca('admin', '');
-        $this->assertInstanceOf('Mage_Selenium_Uimap_Page', $uipage);
-
-        $uipage = $uimapHelper->getUimapPageByMca('admin', 'wrong-path');
-        $this->assertNull($uipage);
     }
 
     /**
-     * @covers Mage_Selenium_Helper_Uimap::getMainForm
+     * @covers Mage_Selenium_Helper_Uimap::getUimapPageByMca
+     * @expectedException OutOfRangeException
      */
-    public function testGetMainForm()
+    public function testGetUimapPageByMcaWrongPageException()
     {
-        $uipage = $this->getUimapPage('admin', 'create_customer');
-        $mainForm = $uipage->getMainForm();
-        $this->assertInstanceOf('Mage_Selenium_Uimap_Form', $mainForm);
+        $uimapHelper = $this->_config->getHelper('uimap');
+        $uimapHelper->getUimapPageByMca('admin', 'wrong-path');
+    }
+
+    /**
+     * @covers Mage_Selenium_Helper_Uimap::getPageUrl
+     */
+    public function testGetPageUrl()
+    {
+        $uimapHelper = $this->_config->getHelper('uimap');
+        $this->assertStringEndsWith('/home', $uimapHelper->getPageUrl('frontend', 'home'));
+        $this->assertStringEndsWith('/permissions_user/', $uimapHelper->getPageUrl('admin', 'manage_admin_users'));
+    }
+
+    /**
+     * @covers Mage_Selenium_Helper_Uimap::getPageUrl
+     * @expectedException OutOfRangeException
+     */
+    public function testGetPageUrlWrongPageException()
+    {
+        $uimapHelper = $this->_config->getHelper('uimap');
+        $uimapHelper->getPageUrl('admin', 'not_existing_page');
+    }
+
+    /**
+     * @covers Mage_Selenium_Helper_Uimap::getPageUrl
+     * @expectedException OutOfRangeException
+     */
+    public function testGetPageUrlEmptyPageException()
+    {
+        $uimapHelper = $this->_config->getHelper('uimap');
+        $uimapHelper->getPageUrl('admin', '');
+    }
+
+    /**
+     * @covers Mage_Selenium_Helper_Uimap::getPageUrl
+     * @expectedException OutOfRangeException
+     */
+    public function testGetPageUrlWrongAreaException()
+    {
+        $uimapHelper = $this->_config->getHelper('uimap');
+        $uimapHelper->getPageUrl('admin-bla-bla-bla', 'some_page');
+    }
+
+    /**
+     * @covers Mage_Selenium_Helper_Uimap::getPageMca
+     */
+    public function testGetPageMca()
+    {
+        $uimapHelper = $this->_config->getHelper('uimap');
+        $this->assertEquals('home', $uimapHelper->getPageMca('frontend', 'home'));
+        $this->assertEquals('permissions_user/', $uimapHelper->getPageMca('admin', 'manage_admin_users'));
     }
 }
