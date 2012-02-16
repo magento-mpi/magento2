@@ -29,7 +29,7 @@
 //<![CDATA[
     function deleteWishlist(id)
     {
-        if (confirm('<?php echo $this->__('You have requested to delete your current Wishlist.\n Please note, that it will not be possible to renew this Wishlist after it has been deleted.\n Do you really want to proceed?');?>')) {
+        if (confirm('<?php echo $this->__('You are about to delete your wish list.\nThis action cannot be undone.\nDo you want to proceed?');?>')) {
             var url = '<?php echo $this->getDeleteUrl();?>';
             url = url.gsub('%item%', id);
             new Ajax.Request(url, {
