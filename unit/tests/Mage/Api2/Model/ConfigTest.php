@@ -59,17 +59,7 @@ class Mage_Api2_Model_ConfigTest extends Mage_PHPUnit_TestCase
         parent::setUp();
 
         $this->_helperMock = $this->getHelperMockBuilder('api2')->setMethods(array('isApiTypeSupported'))->getMock();
-
-        // re-initiate application to inject config class
-        /** @var $initializer Mage_PHPUnit_Initializer_App */
-        $initializer = Mage_PHPUnit_Initializer_Factory::getInitializer('Mage_PHPUnit_Initializer_App');
-        $runOptions = $initializer->getRunOptions();
-        $runOptions['config_model'] = 'Mage_Core_Model_Config_Mock';
-
-        $initializer->setRunOptions($runOptions);
-        $initializer->run();
-
-        $this->_config = new Mage_Api2_Model_Config();
+        $this->_config = new Mage_Api2_Model_Config_Mock();
     }
 
     /**
@@ -106,9 +96,12 @@ class Mage_Api2_Model_ConfigTest extends Mage_PHPUnit_TestCase
         $this->assertInstanceOf('Varien_Simplexml_Element', $resources);
 
         $resources = (array) $resources;
-        $this->assertEquals(array('products', 'product'), array_keys($resources));
+        $this->assertEquals(
+            array('products', 'product', 'test1', 'test2', 'test3', 'test4'),
+            array_keys($resources)
+        );
 
-        foreach ($resources as $resource) {
+        foreach (array($resources['products'], $resources['product']) as $resource) {
             $resource = (array) $resource;
             $this->assertArrayHasKey('type', $resource);
             $this->assertArrayHasKey('model', $resource);
@@ -239,19 +232,23 @@ class Mage_Api2_Model_ConfigTest extends Mage_PHPUnit_TestCase
 }
 
 /**
- * Core configuration class mock
+ * API2 configuration class mock
  *
  * @category   Mage
  * @package    Mage_Api2
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Core_Model_Config_Mock extends Mage_Core_Model_Config
+class Mage_Api2_Model_Config_Mock extends Mage_Api2_Model_Config
 {
-    public function loadModulesConfiguration($fileName, $mergeToObject = null, $mergeModel=null)
+    public function __construct()
     {
-        $configBase = new Mage_Core_Model_Config_Base();
-        $configBase->loadFile(dirname(__FILE__) . '/_fixtures/xml/' . $fileName);
+        // Load data of config files api2.xml
+        $config = Mage::getConfig();
 
-        return $configBase;
+        $mergeModel = new Mage_Core_Model_Config_Base();
+
+        $mergeModel->loadFile(dirname(__FILE__) . DS . '_fixtures' .DS . 'xml' . DS . 'api2.xml');
+        $config->extend($mergeModel);
+        $this->setXml($config->getNode('api2'));
     }
 }
