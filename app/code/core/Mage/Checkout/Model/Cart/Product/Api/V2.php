@@ -58,7 +58,8 @@ class Mage_Checkout_Model_Cart_Product_Api_V2 extends Mage_Checkout_Model_Cart_P
                     $arr[$key] = $assocArr;
                 }
             }
-            return $arr;
+            $arr = $this->_prepareProductsData($arr);
+            return parent::_prepareProductsData($arr);
         }
         if (is_array($data)) {
             foreach ($data as $key => $value) {
