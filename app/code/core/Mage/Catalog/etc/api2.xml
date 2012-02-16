@@ -52,13 +52,6 @@
                     <create>1</create>
                     <retrieve>1</retrieve>
                 </privileges>
-                <attributes>
-                    <product_id>Product ID</product_id>
-                    <sku>SKU</sku>
-                    <type>Product Type</type>
-                    <set>Attribute Set</set>
-                    <store>Store</store>
-                </attributes>
                 <routes>
                     <route_main>
                         <mask>/products</mask>
@@ -94,6 +87,7 @@
                     <sku>SKU</sku>
                     <type>Product Type</type>
                     <set>Attribute Set</set>
+                    <store>Store</store>
                 </attributes>
                 <routes>
                     <route_main>

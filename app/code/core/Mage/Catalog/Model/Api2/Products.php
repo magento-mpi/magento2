@@ -40,7 +40,7 @@ class Mage_Catalog_Model_Api2_Products extends Mage_Api2_Model_Resource_Collecti
      */
     public function getAvailableAttributes()
     {
-        $attributes = $this->getConfig()->getResourceAttributes($this->getResourceType());
+        $attributes = parent::getAvailableAttributes();
         /** @var $entityType Mage_Eav_Model_Entity_Type */
         $entityType = Mage::getModel('eav/entity_type')->loadByCode('catalog_product');
         /** @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */

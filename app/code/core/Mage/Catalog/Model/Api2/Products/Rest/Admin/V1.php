@@ -34,16 +34,6 @@
 class Mage_Catalog_Model_Api2_Products_Rest_Admin_V1 extends Mage_Catalog_Model_Api2_Products_Rest
 {
     /**
-     * Get resource static attributes
-     *
-     * @return array
-     */
-    protected function _getStaticAttributes()
-    {
-        return $this->getConfig()->getResourceAttributes($this->getResourceType());
-    }
-
-    /**
      * Pre-validate request data
      *
      * @param array $data
@@ -69,10 +59,8 @@ class Mage_Catalog_Model_Api2_Products_Rest_Admin_V1 extends Mage_Catalog_Model_
             $this->_critical('Invalid product type', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
         }
 
-        $setAttributes = array();
         /** @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
         foreach ($entity->getAttributeCollection($setId) as $attribute) {
-            $setAttributes[] = $attribute->getAttributeCode();
             $applicable = false;
             if (!$attribute->getApplyTo() || in_array($type, $attribute->getApplyTo())) {
                 $applicable = true;
@@ -98,14 +86,6 @@ class Mage_Catalog_Model_Api2_Products_Rest_Admin_V1 extends Mage_Catalog_Model_
             if ($attribute->getIsRequired() && $attribute->getIsVisible() && $applicable) {
                 $required[] = $attribute->getAttributeCode();
             }
-        }
-
-        // Check if there are attributes in request that does not belong to provided attribute set
-        $inputAttributes = array_diff_key($data, $this->_getStaticAttributes()); // Skip static attributes
-        $wrongAttributes = array_diff(array_keys($inputAttributes), $setAttributes);
-        foreach ($wrongAttributes as $attributeCode) {
-            $this->_error(sprintf('Attribute "%s" is not from set #%d', $attributeCode, $setId),
-                Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
         }
 
         // Validate store input
