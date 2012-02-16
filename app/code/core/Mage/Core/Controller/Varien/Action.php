@@ -263,13 +263,25 @@ abstract class Mage_Core_Controller_Varien_Action
     }
 
     /**
+     * Retrieve the default layout handle name for the current action
+     *
+     * @return string
+     */
+    protected function _getDefaultLayoutHandle()
+    {
+        return strtolower($this->getFullActionName());
+    }
+
+    /**
      * Add layout handle by full controller action name
      *
      * @return Mage_Core_Controller_Varien_Action
      */
     public function addActionLayoutHandles()
     {
-        $this->getLayout()->getUpdate()->addHandle(strtolower($this->getFullActionName()));
+        if (!$this->addPageLayoutHandles()) {
+            $this->getLayout()->getUpdate()->addHandle($this->_getDefaultLayoutHandle());
+        }
         return $this;
     }
 
@@ -277,17 +289,16 @@ abstract class Mage_Core_Controller_Varien_Action
      * Add layout updates handles associated with the action page
      *
      * @param array $parameters page parameters
-     * @return Mage_Core_Controller_Varien_Action
+     * @return bool
      */
     public function addPageLayoutHandles(array $parameters = array())
     {
-        $handle = strtolower($this->getFullActionName());
+        $handle = $this->_getDefaultLayoutHandle();
         $pageHandles = array($handle);
         foreach ($parameters as $key => $value) {
             $pageHandles[] = $handle . '_' . $key . '_' . $value;
         }
-        $this->getLayout()->getUpdate()->addPageHandles(array_reverse($pageHandles));
-        return $this;
+        return $this->getLayout()->getUpdate()->addPageHandles(array_reverse($pageHandles));
     }
 
     public function loadLayoutUpdates()

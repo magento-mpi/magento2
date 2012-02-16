@@ -57,6 +57,13 @@ class Mage_Core_Model_Layout_Update
     protected $_handles = array();
 
     /**
+     * Page handle names sorted by from parent to child
+     *
+     * @var array
+     */
+    protected $_pageHandles = array();
+
+    /**
      * Substitution values in structure array('from'=>array(), 'to'=>array())
      *
      * @var array
@@ -172,21 +179,37 @@ class Mage_Core_Model_Layout_Update
     }
 
     /**
-     * Add page handles to the update
+     * Add the first existing (declared in layout updates) page handle along with all parents to the update.
+     * Return whether any page handles have been added or not.
      *
-     * @param $pageHandles
-     * @return Mage_Core_Model_Layout_Update
+     * @param array $handlesToTry
+     * @return bool
      */
-    public function addPageHandles($handles)
+    public function addPageHandles(array $handlesToTry)
     {
-        foreach ($handles as $pageHandle) {
-            $treeHandles = $this->_getPageLayoutHandles($pageHandle);
-            if ($treeHandles) {
-                $this->addHandle($treeHandles);
-                break;
+        foreach ($handlesToTry as $pageHandle) {
+            $handleWithParents = $this->_getPageLayoutHandles($pageHandle);
+            if ($handleWithParents) {
+                /* replace existing page handles with the new ones */
+                foreach ($this->_pageHandles as $pageHandle) {
+                    $this->removeHandle($pageHandle);
+                }
+                $this->_pageHandles = $handleWithParents;
+                $this->addHandle($handleWithParents);
+                return true;
             }
         }
-        return $this;
+        return false;
+    }
+
+    /**
+     * Retrieve page handle names sorted from parent to child
+     *
+     * @return array
+     */
+    public function getPageHandles()
+    {
+        return $this->_pageHandles;
     }
 
     /**

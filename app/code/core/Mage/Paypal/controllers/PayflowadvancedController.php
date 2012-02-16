@@ -45,7 +45,7 @@ class Mage_Paypal_PayflowadvancedController extends Mage_Paypal_Controller_Expre
      */
     public function cancelPaymentAction()
     {
-        $this->loadLayout($this->getFullActionName());
+        $this->loadLayout(false);
         $gotoSection = $this->_cancelPayment();
         $redirectBlock = $this->_getIframeBlock();
         $redirectBlock->setGotoSection($gotoSection);
@@ -59,7 +59,7 @@ class Mage_Paypal_PayflowadvancedController extends Mage_Paypal_Controller_Expre
      */
     public function returnUrlAction()
     {
-        $this->loadLayout($this->getFullActionName());
+        $this->loadLayout(false);
         $redirectBlock = $this->_getIframeBlock();
 
         $session = $this->_getCheckout();
