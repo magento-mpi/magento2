@@ -43,6 +43,7 @@
                 left: controlPos.left,
                 top: controlPos.top + controlHeight
             }).slideToggle();
+            event.cancelBubble();
         });
         <?php if ($this->getSelectedPageType()) : ?>
         $("#vde_page_types_hierarchy").bind('loaded.jstree', function (e, data) {
