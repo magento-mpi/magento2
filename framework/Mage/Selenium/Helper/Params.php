@@ -83,7 +83,7 @@ class Mage_Selenium_Helper_Params
     public function getParameter($name)
     {
         $key = '%' . $name . '%';
-        if (!array_key_exists($name, $this->_paramsArray)) {
+        if (!array_key_exists($key, $this->_paramsArray)) {
             throw new PHPUnit_Framework_Exception('Parameter "' . $name . '" is not specified');
         }
 
