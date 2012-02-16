@@ -152,18 +152,20 @@ Enterprise.Wishlist.edit = function(editUrl, wishlistName, visibility) {
     Enterprise.Wishlist.editDialog.show();
 }
 
-Enterprise.Wishlist.copyItemTo = function(itemId, wishlistId) {
+Enterprise.Wishlist.copyItemTo = function(itemId, qty, wishlistId) {
     var url = Enterprise.Wishlist.url.copyItem;
     var form = new Element('form', {method: 'post', action: url.gsub('%wishlist_id%', wishlistId)});
     form.insert(new Element('input', {name: 'item_id', type: 'hidden', value: itemId}));
+    form.insert(new Element('input', {name: 'qty', type: 'hidden', value: qty}));
     $(document.body).insert(form);
     form.submit();
 };
 
-Enterprise.Wishlist.moveItemTo = function(itemId, wishlistId) {
+Enterprise.Wishlist.moveItemTo = function(itemId, qty, wishlistId) {
     var url = Enterprise.Wishlist.url.moveItem;
     var form = new Element('form', {method: 'post', action: url.gsub('%wishlist_id%', wishlistId)});
     form.insert(new Element('input', {name: 'item_id', type: 'hidden', value: itemId}));
+    form.insert(new Element('input', {name: 'qty', type: 'hidden', value: qty}));
     $(document.body).insert(form);
     form.submit();
     return false;
@@ -199,12 +201,12 @@ Enterprise.Wishlist.itemsSelected = function() {
     return selected;
 };
 
-Enterprise.Wishlist.copyItemToNew = function(itemId) {
-    this.createWithCallback(Enterprise.Wishlist.url.create, this.copyItemTo.bind(this, itemId));
+Enterprise.Wishlist.copyItemToNew = function(itemId, qty) {
+    this.createWithCallback(Enterprise.Wishlist.url.create, this.copyItemTo.bind(this, itemId, qty));
 };
 
-Enterprise.Wishlist.moveItemToNew = function(itemId) {
-    this.createWithCallback(Enterprise.Wishlist.url.create, this.moveItemTo.bind(this, itemId));
+Enterprise.Wishlist.moveItemToNew = function(itemId, qty) {
+    this.createWithCallback(Enterprise.Wishlist.url.create, this.moveItemTo.bind(this, itemId, qty));
 };
 
 Enterprise.Wishlist.moveSelectedToNew = function() {

@@ -225,9 +225,10 @@ class Enterprise_Wishlist_IndexController extends Mage_Core_Controller_Front_Act
      *
      * @param Mage_Wishlist_Model_Item $item
      * @param Mage_Wishlist_Model_Wishlist $wishlist
+     * @param int $qty
      * @throws InvalidArgumentException|DomainException
      */
-    protected function _copyItem(Mage_Wishlist_Model_Item $item, Mage_Wishlist_Model_Wishlist $wishlist)
+    protected function _copyItem(Mage_Wishlist_Model_Item $item, Mage_Wishlist_Model_Wishlist $wishlist, $qty = null)
     {
         if (!$item->getId()) {
             throw new InvalidArgumentException();
@@ -235,7 +236,11 @@ class Enterprise_Wishlist_IndexController extends Mage_Core_Controller_Front_Act
         if ($item->getWishlistId() == $wishlist->getId()) {
             throw new DomainException();
         }
-        $wishlist->addNewItem($item->getProduct(), $item->getBuyRequest());
+        $buyRequest = $item->getBuyRequest();
+        if ($qty) {
+            $buyRequest->setQty($qty);
+        }
+        $wishlist->addNewItem($item->getProduct(), $buyRequest);
         Mage::dispatchEvent(
             'wishlist_add_product',
             array(
@@ -267,8 +272,8 @@ class Enterprise_Wishlist_IndexController extends Mage_Core_Controller_Front_Act
 
                 $wishlistName = Mage::helper('core')->escapeHtml($wishlist->getName());
                 $productName = Mage::helper('core')->escapeHtml($item->getProduct()->getName());
-                $this->_copyItem($item, $wishlist);
 
+                $this->_copyItem($item, $wishlist, $this->getRequest()->getParam('qty', null));
                 $this->_getSession()->addSuccess(
                     Mage::helper('enterprise_wishlist')->__('"%s" was successfully copied to %s', $productName, $wishlistName)
                 );
@@ -314,13 +319,14 @@ class Enterprise_Wishlist_IndexController extends Mage_Core_Controller_Front_Act
         $failed = array();
         $copied = array();
         if (count($itemIds)) {
+            $qtys = $this->getRequest()->getParam('qty', array());
             foreach ($itemIds as $id => $value) {
                 try {
                     /* @var Mage_Wishlist_Model_Item $item */
                     $item = Mage::getModel('wishlist/item');
                     $item->loadWithOptions($id);
 
-                    $this->_copyItem($item, $wishlist);
+                    $this->_copyItem($item, $wishlist, isset($qtys[$id]) ? $qtys[$id] : null);
                     $copied[$id] = $item;
                 } catch (InvalidArgumentException $e) {
                     $notFound[] = $id;
@@ -372,12 +378,14 @@ class Enterprise_Wishlist_IndexController extends Mage_Core_Controller_Front_Act
      * @param Mage_Wishlist_Model_Item $item
      * @param Mage_Wishlist_Model_Wishlist $wishlist
      * @param Mage_Wishlist_Model_Resource_Wishlist_Collection $customerWishlists
+     * @param int $qty
      * @throws InvalidArgumentException|DomainException
      */
     protected function _moveItem(
         Mage_Wishlist_Model_Item $item,
         Mage_Wishlist_Model_Wishlist $wishlist,
-        Mage_Wishlist_Model_Resource_Wishlist_Collection $customerWishlists
+        Mage_Wishlist_Model_Resource_Wishlist_Collection $customerWishlists,
+        $qty = null
     ) {
         if (!$item->getId()) {
             throw new InvalidArgumentException();
@@ -388,8 +396,19 @@ class Enterprise_Wishlist_IndexController extends Mage_Core_Controller_Front_Act
         if (!$customerWishlists->getItemById($item->getWishlistId())) {
             throw new DomainException(null, 2);
         }
-        $wishlist->addNewItem($item->getProduct(), $item->getBuyRequest());
-        $item->delete();
+
+        $buyRequest = $item->getBuyRequest();
+        if ($qty) {
+            $buyRequest->setQty($qty);
+        }
+        $wishlist->addNewItem($item->getProduct(), $buyRequest);
+        $qtyDiff = $item->getQty() - $qty;
+        if ($qtyDiff > 0) {
+            $item->setQty($qtyDiff);
+            $item->save();
+        } else {
+            $item->delete();
+        }
     }
 
     /**
@@ -417,7 +436,7 @@ class Enterprise_Wishlist_IndexController extends Mage_Core_Controller_Front_Act
                 $productName = Mage::helper('core')->escapeHtml($item->getProduct()->getName());
                 $wishlistName = Mage::helper('core')->escapeHtml($wishlist->getName());
 
-                $this->_moveItem($item, $wishlist, $wishlists);
+                $this->_moveItem($item, $wishlist, $wishlists, $this->getRequest()->getParam('qty', null));
                 $this->_getSession()->addSuccess(
                     Mage::helper('enterprise_wishlist')->__('"%s" was successfully moved to %s', $productName, $wishlistName)
                 );
@@ -466,6 +485,7 @@ class Enterprise_Wishlist_IndexController extends Mage_Core_Controller_Front_Act
         if (count($itemIds)) {
             $wishlists = Mage::getModel('wishlist/wishlist')->getCollection();
             $wishlists->filterByCustomerId($this->_getSession()->getCustomerId());
+            $qtys = $this->getRequest()->getParam('qty', array());
 
             foreach ($itemIds as $id => $value) {
                 try {
@@ -473,7 +493,7 @@ class Enterprise_Wishlist_IndexController extends Mage_Core_Controller_Front_Act
                     $item = Mage::getModel('wishlist/item');
                     $item->loadWithOptions($id);
 
-                    $this->_moveItem($item, $wishlist, $wishlists);
+                    $this->_moveItem($item, $wishlist, $wishlists, isset($qtys[$id]) ? $qtys[$id] : null);
                     $moved[$id] = $item;
                 } catch (InvalidArgumentException $e) {
                     $notFound[] = $id;

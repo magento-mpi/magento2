@@ -848,25 +848,21 @@ Enterprise.Widget.SplitButton = Class.create(Enterprise.Widget, {
     initialize: function($super, title, alt, type) {
         if (typeof title != 'string') {
             $super(title);
-            var onclick = $(this._node).down('strong').onclick;
-            $(this._node).down('strong').onclick = (function(){this.onClick();}).bind(this);
-            if (onclick) {
-                this.onClick = onclick;
-            }
         } else {
             $super(new Element('div', {'class': 'split-button' + ((type)? ' ' + type: '')}));
             this._node.update(this._templateString);
             this._node.down('strong span').update(title);
             this._node.down('.change').update(alt);
-            Event.observe($(this._node).down('strong'), 'click', (function(){this.onClick();}).bind(this));
         }
+        Event.observe($(this._node).down('strong'), 'click', (function(event){this.onClick(event);}).bind(this));
+
         this._node.down('.change').setAttribute('tabindex', 20);
         this._list = $(this._node).down('ul');
         Event.observe($(this._node).down('.change'), 'click', this.onToggle.bind(this));
         Event.observe($(this._node).down('.change'), 'blur', this.close.bind(this));
     },
 
-    onClick: function() {
+    onClick: function(event) {
     },
 
     onToggle: function(event) {
