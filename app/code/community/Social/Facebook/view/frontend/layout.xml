@@ -37,8 +37,8 @@ Product view
         </reference>
     </review_product_list>
 
-    <facebook_index_page translate="label" type="page" parent="cms_page">
+    <social_facebook_index_page translate="label" type="page" parent="cms_page_view">
         <label>Facebook Head</label>
-        <block type="Social_Facebook_Block_Head" name="social_facebook_head" template="page.phtml" />
-    </facebook_index_page>
+        <block type="Social_Facebook_Block_Head" name="social_facebook_head" output="toHtml" template="page.phtml" />
+    </social_facebook_index_page>
 </layout>

@@ -41,7 +41,7 @@ class Mage_DesignEditor_EditorControllerTest extends Magento_Test_TestCase_Contr
     {
         return array(
             'no page type'      => array('', 'Invalid page type specified.'),
-            'invalid page type' => array('invalid_type', 'Invalid page type specified.'),
+            'invalid page type' => array('1nvalid_type', 'Invalid page type specified.'),
             'no-nexisting type' => array('non_existing_type', 'Specified page type doesn\'t exist: %s'),
         );
     }
@@ -54,6 +54,11 @@ class Mage_DesignEditor_EditorControllerTest extends Magento_Test_TestCase_Contr
         $this->getRequest()->setParam('page_type', 'catalog_product_view');
         $this->dispatch('design/editor/page');
         $this->assertEquals(200, $this->getResponse()->getHttpResponseCode());
+        $this->assertRegExp(
+            '/treeInstance\.select_node\(.*"catalog_product_view".*\)/U',
+            $this->getResponse()->getBody(),
+            'Page type control should maintain the selection of the current page type.'
+        );
         $controller = Mage::app()->getFrontController()->getAction();
         $this->assertInstanceOf('Mage_DesignEditor_EditorController', $controller);
     }

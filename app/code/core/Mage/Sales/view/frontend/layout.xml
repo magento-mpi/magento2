@@ -15,13 +15,12 @@
 <!--
 Customer account pages, rendered for all tabs in dashboard
 -->
-
-
-    <customer_logged_in>
+    <default>
         <reference name="right">
             <block type="Mage_Sales_Block_Reorder_Sidebar" name="sale.reorder.sidebar" as="reorder" template="reorder/sidebar.phtml"/>
         </reference>
-    </customer_logged_in>
+    </default>
+
     <checkout_onepage_index>
         <remove name="sale.reorder.sidebar"/>
     </checkout_onepage_index>

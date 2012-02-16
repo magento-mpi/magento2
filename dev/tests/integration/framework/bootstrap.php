@@ -21,6 +21,7 @@ set_include_path(implode(
     PATH_SEPARATOR,
     array(
         "$baseDir/framework",
+        "$baseDir/testsuite",
         get_include_path()
     )
 ));

@@ -31,6 +31,29 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
         Mage::app()->getCacheInstance()->banUse('layout');
     }
 
+    /**
+     * Retrieve new layout model instance with layout updates from a fixture file
+     *
+     * @param string $layoutUpdatesFile
+     * @param PHPUnit_Framework_TestCase $testCase
+     * @return Mage_Core_Model_Layout|PHPUnit_Framework_MockObject_MockObject
+     */
+    public static function getLayoutFromFixture($layoutUpdatesFile, PHPUnit_Framework_TestCase $testCase)
+    {
+        $layoutUpdate = $testCase->getMock('Mage_Core_Model_Layout_Update', array('getFileLayoutUpdatesXml'));
+        $layoutUpdatesXml = simplexml_load_file($layoutUpdatesFile, $layoutUpdate->getElementClass());
+        $layoutUpdate->expects(self::any())
+            ->method('getFileLayoutUpdatesXml')
+            ->will(self::returnValue($layoutUpdatesXml))
+        ;
+        $model = $testCase->getMock('Mage_Core_Model_Layout', array('getUpdate'));
+        $model->expects(self::any())
+            ->method('getUpdate')
+            ->will(self::returnValue($layoutUpdate))
+        ;
+        return $model;
+    }
+
     protected function setUp()
     {
         $this->_model = new Mage_Core_Model_Layout();
@@ -242,5 +265,31 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
             ),
             array($block, 'core'),
         );
+    }
+
+    public function testGetPageTypesHierarchy()
+    {
+        $model = self::getLayoutFromFixture(__DIR__ . '/Layout/_files/_page_types.xml', $this);
+        $expected = require(__DIR__ . '/Layout/_files/_page_types_hierarchy.php');
+        $actual = $model->getPageTypesHierarchy();
+        $this->assertEquals($expected, $actual);
+    }
+
+    public function testGetPageTypesFlat()
+    {
+        $model = self::getLayoutFromFixture(__DIR__ . '/Layout/_files/_page_types.xml', $this);
+        $expected = require(__DIR__ . '/Layout/_files/_page_types_flat.php');
+        $actual = $model->getPageTypesFlat();
+        $this->assertEquals($expected, $actual);
+    }
+
+    /**
+     * @expectedException UnexpectedValueException
+     * @expectedExceptionMessage Page type 'wrong_page_type' refers to non-existing parent 'non_existing_page_type'.
+     */
+    public function testGetPageTypesFlatException()
+    {
+        $model = self::getLayoutFromFixture(__DIR__ . '/Layout/_files/_page_types_non_existing_parent.xml', $this);
+        $model->getPageTypesFlat();
     }
 }

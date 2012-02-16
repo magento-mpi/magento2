@@ -51,11 +51,6 @@ class Enterprise_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
     const ADD_ITEM_STATUS_FAILED_UNKNOWN = 'failed_unknown';
 
     /**
-     * Layout handle for sku failed items
-     */
-    const SKU_FAILED_PRODUCTS_HANDLE = 'sku_failed_products_handle';
-
-    /**
      * Customer Groups that allow Order by SKU
      *
      * @var array|null

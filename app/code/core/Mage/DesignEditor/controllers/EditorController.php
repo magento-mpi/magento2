@@ -53,23 +53,25 @@ class Mage_DesignEditor_EditorController extends Mage_Core_Controller_Front_Acti
             $pageType = $this->getRequest()->getParam('page_type');
 
             // page type format
-            if (!$pageType || !preg_match('/^[a-z\d]+(_[a-z\d]+){2}$/i', $pageType)) {
+            if (!$pageType || !preg_match('/^[a-z][a-z\d]*(_[a-z][a-z\d]*)*$/i', $pageType)) {
                 Mage::throwException($this->__('Invalid page type specified.'));
             }
 
             // whether such page type exists
-            $area = Mage::getDesign()->getArea();
-            $package = Mage::getDesign()->getPackageName();
-            $theme = Mage::getDesign()->getTheme();
-            $xml = $this->getLayout()->getUpdate()->getFileLayoutUpdatesXml($area, $package, $theme);
-            if (!$xml->xpath("/layouts/{$pageType}")) {
+            if (!array_key_exists($pageType, $this->getLayout()->getPageTypesFlat())) {
                 Mage::throwException($this->__("Specified page type doesn't exist: '{$pageType}'."));
             }
 
             $this->_fullActionName = $pageType;
             $this->loadLayout(null, false, true);
             Mage::getModel('Mage_DesignEditor_Model_Layout')->sanitizeLayout($this->getLayout()->getNode());
-            $this->getLayout()->generateBlocks();
+            $this->generateLayoutBlocks();
+
+            $blockPageTypes = $this->getLayout()->getBlock('design_editor_toolbar_page_types');
+            if ($blockPageTypes) {
+                $blockPageTypes->setSelectedPageType($pageType);
+            }
+
             $this->renderLayout();
         } catch (Mage_Core_Exception $e) {
             $this->getResponse()->setBody($e->getMessage());

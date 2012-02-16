@@ -30,7 +30,8 @@
         </reference>
     </enterprise_giftcardaccount_cart_check>
 
-    <enterprise_giftcardaccount_cart_quickcheck type="page" parent="enterprise_giftcardaccount_cart_check">
+    <enterprise_giftcardaccount_cart_quickcheck translate="label" type="page" parent="enterprise_giftcardaccount_cart_check">
+        <label>Gift Card Balance Quick Check Form</label>
         <block type="Enterprise_GiftCardAccount_Block_Check" template="check.phtml" name="root"/>
     </enterprise_giftcardaccount_cart_quickcheck>
 

@@ -20,4 +20,46 @@
     border-color: red;
     color: red;
 }
+
+#vde_page_types_hierarchy {
+    position: absolute;
+    max-height: 300px; /* maximal allowed height */
+    overflow-y: auto; /* display vertical scrollbar when content exceeds the maximal allowed height */
+    overflow-x: hidden; /* don't display horizontal scrollbar */
+    padding-right: 20px; /* make sure vertical scrollbar doesn't overlap list items */
+    z-index: 1000;
+    text-align: left;
+    display: none;
+    border: 1px solid #aaa;
+    background-color: #fff;
+}
+
+.vde_marker {
+    display: none;
+}
+
+.vde_block_wrapper {
+    border: 1px solid green;
+    padding: 2px;
+}
+.vde_block_title {
+    background-color: green;
+    padding: 2px;
+    color: white;
+    font-size: 11px;
+    max-width: 150px;
+    height: 13px;
+    text-align: left;
+    line-height: 12px;
+}
+
+.vde_placeholder {
+    position: absolute;
+    z-index: 200;
+    background-color: #ff9;
+}
+
+.ui-draggable-dragging {
+    z-index: 201;
+}
 /* ======================================================================================= */

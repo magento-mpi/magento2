@@ -14,6 +14,14 @@
  */
 class Legacy_LayoutTest extends PHPUnit_Framework_TestCase
 {
+    protected $_legacyNodes = array(
+        'PRODUCT_TYPE_simple', 'PRODUCT_TYPE_configurable', 'PRODUCT_TYPE_grouped', 'PRODUCT_TYPE_bundle',
+        'PRODUCT_TYPE_virtual', 'PRODUCT_TYPE_downloadable', 'PRODUCT_TYPE_giftcard',
+        'catalog_category_default', 'catalog_category_layered', 'catalog_category_layered_nochildren',
+        'customer_logged_in', 'customer_logged_out', 'customer_logged_in_psc_handle', 'customer_logged_out_psc_handle',
+        'cms_page',
+    );
+
     /**
      * @dataProvider layoutFileDataProvider
      */
@@ -34,6 +42,10 @@ class Legacy_LayoutTest extends PHPUnit_Framework_TestCase
             ),
             "Calls addCss/addJs are allowed within the 'head' block only. Verify integrity of the nodes nesting."
         );
+
+        foreach ($layoutXml as $handle) {
+            $this->assertNotContains($handle->getName(), $this->_legacyNodes, 'Layout handle was removed.');
+        }
     }
 
     public function layoutFileDataProvider()

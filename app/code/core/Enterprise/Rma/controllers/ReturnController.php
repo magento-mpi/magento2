@@ -336,10 +336,7 @@ class Enterprise_Rma_ReturnController extends Mage_Core_Controller_Front_Action
             Mage::getSingleton('Mage_Core_Model_Session')->setErrorMessage($response['message']);
         }
 
-        $this->loadLayout();
-        $response = $this->getLayout()->getBlock('enterprise_rma_return_tracking')->toHtml();
-        $this->getResponse()->setBody($response);
-
+        $this->loadLayout($this->getFullActionName())->renderLayout();
         return;
     }
     /**
@@ -390,10 +387,7 @@ class Enterprise_Rma_ReturnController extends Mage_Core_Controller_Front_Action
             Mage::getSingleton('Mage_Core_Model_Session')->setErrorMessage($response['message']);
         }
 
-        $this->loadLayout();
-        $response = $this->getLayout()->getBlock('enterprise_rma_return_tracking')->toHtml();
-        $this->getResponse()->setBody($response);
-
+        $this->loadLayout($this->getFullActionName())->renderLayout();
         return;
     }
 

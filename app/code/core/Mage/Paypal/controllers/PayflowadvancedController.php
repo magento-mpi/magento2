@@ -18,17 +18,38 @@
 class Mage_Paypal_PayflowadvancedController extends Mage_Paypal_Controller_Express_Abstract
 {
     /**
+     * Config mode type
+     *
+     * @var string
+     */
+    protected $_configType = 'Mage_Paypal_Model_Config';
+
+    /**
+     * Config method type
+     *
+     * @var string
+     */
+    protected $_configMethod = Mage_Paypal_Model_Config::METHOD_PAYFLOWADVANCED;
+
+    /**
+     * Checkout mode type
+     *
+     * @var string
+     */
+    protected $_checkoutType = 'Mage_Paypal_Model_Payflowadvanced';
+
+    /**
      * When a customer cancel payment from payflow gateway.
      *
      * @return void
      */
     public function cancelPaymentAction()
     {
+        $this->loadLayout($this->getFullActionName());
         $gotoSection = $this->_cancelPayment();
-        $redirectBlock = $this->_getIframeBlock()
-            ->setGotoSection($gotoSection)
-            ->setTemplate('payflowadvanced/redirect.phtml');
-        $this->getResponse()->setBody($redirectBlock->toHtml());
+        $redirectBlock = $this->_getIframeBlock();
+        $redirectBlock->setGotoSection($gotoSection);
+        $this->renderLayout();
     }
 
     /**
@@ -38,8 +59,8 @@ class Mage_Paypal_PayflowadvancedController extends Mage_Paypal_Controller_Expre
      */
     public function returnUrlAction()
     {
-        $redirectBlock = $this->_getIframeBlock()
-            ->setTemplate('paypal/payflowadvanced/redirect.phtml');
+        $this->loadLayout($this->getFullActionName());
+        $redirectBlock = $this->_getIframeBlock();
 
         $session = $this->_getCheckout();
         if ($session->getLastRealOrderId()) {
@@ -61,7 +82,7 @@ class Mage_Paypal_PayflowadvancedController extends Mage_Paypal_Controller_Expre
             }
         }
 
-        $this->getResponse()->setBody($redirectBlock->toHtml());
+        $this->renderLayout();
     }
 
     /**
@@ -71,8 +92,7 @@ class Mage_Paypal_PayflowadvancedController extends Mage_Paypal_Controller_Expre
      */
     public function formAction()
     {
-        $this->getResponse()
-            ->setBody($this->_getIframeBlock()->toHtml());
+        $this->loadLayout($this->getFullActionName())->renderLayout();
     }
 
     /**
@@ -147,8 +167,6 @@ class Mage_Paypal_PayflowadvancedController extends Mage_Paypal_Controller_Expre
      */
     protected function _getIframeBlock()
     {
-        $this->loadLayout('paypal_payflow_advanced_iframe');
-        return $this->getLayout()
-            ->getBlock('payflow.advanced.iframe');
+        return $this->getLayout()->getBlock('payflow.advanced.iframe');
     }
 }

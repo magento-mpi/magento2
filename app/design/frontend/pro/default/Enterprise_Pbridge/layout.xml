@@ -30,7 +30,8 @@
         </reference>
     </checkout_multishipping_billing>
 
-    <enterprise_pbridge_pbridge_result type="page" parent="checkout_onepage_paymentmethod">
+    <enterprise_pbridge_pbridge_result translate="label" type="page" parent="checkout_onepage_paymentmethod">
+        <label>Payment Bridge Checkout Payment Result</label>
         <block type="Enterprise_Pbridge_Block_Checkout_Payment_Result" name="pbridge.checkout.payment.result" template="checkout/payment/result.phtml" output="toHtml" />
     </enterprise_pbridge_pbridge_result>
 
