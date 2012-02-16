@@ -84,6 +84,12 @@ class Mage_Selenium_TestConfiguration
     protected $_cacheHelper = null;
 
     /**
+     * Array of files paths to fixtures
+     * @var array
+     */
+    protected $_configFixtures = array();
+
+    /**
      * Constructor defined as private to implement singleton
      */
     private function __construct()
@@ -109,13 +115,15 @@ class Mage_Selenium_TestConfiguration
      * Initializes test configuration instance which includes:
      * <ul>
      * <li>Initialize configuration
+     * <li>Initialize all paths to Fixture files
      * <li>Initialize Fixtures
      * </ul>
      */
     public function init()
     {
         $this->_initConfig();
-        $this->_initFixture();
+        $this->_initFixturesPaths();
+        $this->_initFixtures();
     }
 
     /**
@@ -129,10 +137,20 @@ class Mage_Selenium_TestConfiguration
     }
 
     /**
+     * Initialize all paths to fixture files
+     * @return Mage_Selenium_TestConfiguration
+     */
+    protected function _initFixturesPaths()
+    {
+        $this->getConfigFixtures();
+        return $this;
+    }
+
+    /**
      * Initializes and loads fixtures data
      * @return Mage_Selenium_TestConfiguration
      */
-    protected function _initFixture()
+    protected function _initFixtures()
     {
         $this->getHelper('uimap');
         $this->getHelper('data');
@@ -150,18 +168,64 @@ class Mage_Selenium_TestConfiguration
     public function getHelper($helperName)
     {
         $class = 'Mage_Selenium_Helper_' . ucfirst($helperName);
-        if (class_exists($class)) {
-            $variableName = '_' . $helperName . 'Helper';
-            if (is_null($this->$variableName)) {
-                if (strtolower($helperName) !== 'params') {
-                    $this->$variableName = new $class($this);
-                } else {
-                    $this->$variableName = new $class();
+        if (!class_exists($class)) {
+            throw new OutOfRangeException($class . ' does not exist');
+        }
+        $variableName = '_' . $helperName . 'Helper';
+        if (is_null($this->$variableName)) {
+            if (strtolower($helperName) !== 'params') {
+                $this->$variableName = new $class($this);
+            } else {
+                $this->$variableName = new $class();
+            }
+        }
+        return $this->$variableName;
+    }
+
+    /**
+     * Get all paths to fixture files
+     * @return array
+     */
+    public function getConfigFixtures()
+    {
+        if (!empty($this->_configFixtures)) {
+            return $this->_configFixtures;
+        }
+        //Get initial path to fixtures
+        $frameworkConfig = $this->_configHelper->getConfigFramework();
+        $initialPath = SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . $frameworkConfig['fixture_base_path'];
+        //Get fixtures sequence
+        $fallbackOrderFixture = $this->_configHelper->getFixturesFallbackOrder();
+        //Get folder names where uimaps are stored for specified area
+        $uimapFolders = array();
+        $configAreas = $this->_configHelper->getConfigAreas();
+        foreach ($configAreas as $areaName => $areaConfig) {
+            $uimapFolders[$areaName] = $areaConfig['uimap_path'];
+        }
+        $separator = preg_quote(DIRECTORY_SEPARATOR);
+
+        foreach ($fallbackOrderFixture as $codePoolName) {
+            $projectPath = $initialPath . DIRECTORY_SEPARATOR . $codePoolName;
+            if (!is_dir($projectPath)) {
+                continue;
+            }
+            $facade = new File_Iterator_Facade();
+            $files = $facade->getFilesAsArray($projectPath, '.yml');
+            foreach ($files as $file) {
+                if (preg_match('|' . $separator . 'data' . $separator . '|', $file)) {
+                    $this->_configFixtures[$codePoolName]['data'][] = $file;
+                }
+                if (preg_match('|' . $separator . 'uimap' . $separator . '|', $file)) {
+                    foreach ($uimapFolders as $areaName => $uimapFolder) {
+                        $pattern = implode($separator, array('', 'uimap', $uimapFolder, ''));
+                        if (preg_match('|' . $pattern . '|', $file)) {
+                            $this->_configFixtures[$codePoolName]['uimap'][$areaName][] = $file;
+                        }
+                    }
                 }
             }
-            return $this->$variableName;
         }
-        throw new OutOfRangeException($class . ' does not exist');
+        return $this->_configFixtures;
     }
 
     /**

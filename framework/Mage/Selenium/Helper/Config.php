@@ -152,7 +152,7 @@ class Mage_Selenium_Helper_Config extends Mage_Selenium_Helper_Abstract
      *
      * @return array|string|bool
      */
-    protected function getConfigValue($path = '')
+    public function getConfigValue($path = '')
     {
         return $this->getConfig()->_descend($this->_configData, $path);
     }
@@ -375,5 +375,51 @@ class Mage_Selenium_Helper_Config extends Mage_Selenium_Helper_Abstract
             throw new OutOfRangeException('Password is not set for "' . $this->getArea() . '" area');
         }
         return $config['password'];
+    }
+
+    /**
+     * Get base path for uimaps for current area.
+     * @return string
+     * @throws OutOfRangeException
+     */
+    public function getBasePath()
+    {
+        $config = $this->getApplicationConfig();
+        if (!isset($config['uimap_path'])) {
+            throw new OutOfRangeException('Base path to uimaps is not set for "' . $this->getArea() . '" area');
+        }
+        return $config['uimap_path'];
+    }
+
+    /**
+     * Get fixtures loading order.
+     * @return array
+     * @throws OutOfRangeException
+     */
+    public function getFixturesFallbackOrder()
+    {
+        $config = $this->getApplicationConfig();
+        if (!isset($config['fallbackOrderFixture'])) {
+            throw new OutOfRangeException('FallbackOrder for fixtures is not set for "'
+                . $this->getApplication() . '" application');
+        }
+
+        return array_reverse(array_map('trim', explode(',', $config['fallbackOrderFixture'])));
+    }
+
+    /**
+     * Get test helpers loading order.
+     * @return array
+     * @throws OutOfRangeException
+     */
+    public function getHelpersFallbackOrder()
+    {
+        $config = $this->getApplicationConfig();
+        if (!isset($config['fallbackOrderHelper'])) {
+            throw new OutOfRangeException('FallbackOrder for test helpers is not set for "'
+                . $this->getApplication() . '" application');
+        }
+
+        return array_reverse(array_map('trim', explode(',', $config['fallbackOrderHelper'])));
     }
 }
