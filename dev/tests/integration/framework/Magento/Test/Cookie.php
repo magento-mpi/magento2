@@ -26,6 +26,8 @@ class Magento_Test_Cookie extends Mage_Core_Model_Cookie
      * @param int|bool $secure
      * @param bool $httponly
      * @return Magento_Test_Cookie
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function set($name, $value, $period = null, $path = null, $domain = null, $secure = null, $httponly = null)
     {
@@ -42,6 +44,8 @@ class Magento_Test_Cookie extends Mage_Core_Model_Cookie
      * @param int|bool $secure
      * @param int|bool $httponly
      * @return Magento_Test_Cookie
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function delete($name, $path = null, $domain = null, $secure = null, $httponly = null)
     {
