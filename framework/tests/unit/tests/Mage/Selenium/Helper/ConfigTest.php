@@ -70,7 +70,7 @@ class Mage_Selenium_Helper_ConfigTest extends Mage_PHPUnit_TestCase
     public function testSetAreaOutOfRangeException()
     {
         $configHelper = new Mage_Selenium_Helper_Config($this->_config);
-        $this->setExpectedException('OutOfRangeException');
+        $this->setExpectedException('OutOfRangeException', 'Area with name');
         $configHelper->setArea('invalid-area');
     }
 

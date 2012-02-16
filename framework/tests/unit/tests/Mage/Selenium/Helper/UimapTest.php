@@ -48,11 +48,11 @@ class Mage_Selenium_Helper_UimapTest extends Mage_PHPUnit_TestCase
 
     /**
      * @covers Mage_Selenium_Helper_Uimap::getUimapPage
-     * @expectedException OutOfRangeException
      */
     public function testGetUimapPageWrongPageException()
     {
         $uimapHelper = $this->_config->getHelper('uimap');
+        $this->setExpectedException('OutOfRangeException', 'Cannot find page');
         $uimapHelper->getUimapPage('admin', 'wrong_name');
     }
 
@@ -68,11 +68,11 @@ class Mage_Selenium_Helper_UimapTest extends Mage_PHPUnit_TestCase
 
     /**
      * @covers Mage_Selenium_Helper_Uimap::getUimapPageByMca
-     * @expectedException OutOfRangeException
      */
     public function testGetUimapPageByMcaWrongPageException()
     {
         $uimapHelper = $this->_config->getHelper('uimap');
+        $this->setExpectedException('OutOfRangeException', 'Cannot find page with mca');
         $uimapHelper->getUimapPageByMca('admin', 'wrong-path');
     }
 
@@ -88,32 +88,32 @@ class Mage_Selenium_Helper_UimapTest extends Mage_PHPUnit_TestCase
 
     /**
      * @covers Mage_Selenium_Helper_Uimap::getPageUrl
-     * @expectedException OutOfRangeException
      */
     public function testGetPageUrlWrongPageException()
     {
         $uimapHelper = $this->_config->getHelper('uimap');
+        $this->setExpectedException('OutOfRangeException', 'Cannot find page');
         $uimapHelper->getPageUrl('admin', 'not_existing_page');
     }
 
     /**
      * @covers Mage_Selenium_Helper_Uimap::getPageUrl
-     * @expectedException OutOfRangeException
      */
     public function testGetPageUrlEmptyPageException()
     {
         $uimapHelper = $this->_config->getHelper('uimap');
+        $this->setExpectedException('OutOfRangeException', 'Cannot find page');
         $uimapHelper->getPageUrl('admin', '');
     }
 
     /**
      * @covers Mage_Selenium_Helper_Uimap::getPageUrl
-     * @expectedException OutOfRangeException
      */
     public function testGetPageUrlWrongAreaException()
     {
         $uimapHelper = $this->_config->getHelper('uimap');
-        $uimapHelper->getPageUrl('admin-bla-bla-bla', 'some_page');
+        $this->setExpectedException('OutOfRangeException', 'area do not exist');
+        $uimapHelper->getPageUrl('admin-bla-bla-bla', 'not_existing_page');
     }
 
     /**
