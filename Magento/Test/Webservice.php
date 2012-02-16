@@ -36,6 +36,7 @@ class Magento_Test_Webservice extends Magento_TestCase
     const TYPE_XMLRPC     = 'xmlrpc';
     /**#@-*/
 
+    const DEFAULT_EXCEPTION = 'DEFAULT_EXCEPTION';
     /**
      * Webservice adapter
      *
@@ -142,5 +143,31 @@ class Magento_Test_Webservice extends Magento_TestCase
             $result = (string) $xml;
         }
         return $result;
+    }
+    
+    /**
+     * @param  mixed   $exceptionName
+     * @param  string  $exceptionMessage
+     * @param  integer $exceptionCode
+     */
+    public function setExpectedException($exceptionName, $exceptionMessage = '', $exceptionCode = NULL)
+    {
+        if ($exceptionName == self::DEFAULT_EXCEPTION) {
+            
+            switch (TESTS_WEBSERVICE_TYPE) {
+                case self::TYPE_SOAPV1:
+                case self::TYPE_SOAPV2:
+                case self::TYPE_SOAPV2_WSI:
+                    $exceptionName = 'SoapFault';
+                    break;
+                case self::TYPE_XMLRPC:
+                    $exceptionName = 'Zend_XmlRpc_Client_FaultException';
+                    break;
+                default:
+                    throw new Magento_Test_Exception('Webservice type is undefined');
+                    break;
+            }
+        }
+        parent::setExpectedException($exceptionName, $exceptionMessage, $exceptionCode);
     }
 }
