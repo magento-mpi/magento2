@@ -56,7 +56,8 @@ Default layout, loads most of the pages
         <label>CMS Home Page</label>
     </cms_index_index>
 
-    <cms_index_defaultindex type="page" parent="cms_page_view">
+    <cms_index_defaultindex translate="label" type="page" parent="cms_page_view">
+        <label>CMS Home Default Page</label>
         <remove name="right"/>
         <remove name="left"/>
 
@@ -72,7 +73,8 @@ Default layout, loads most of the pages
         <label>CMS No-Route Page</label>
     </cms_index_noroute>
 
-    <cms_index_defaultnoroute type="page" parent="cms_page_view">
+    <cms_index_defaultnoroute translate="label" type="page" parent="cms_page_view">
+        <label>CMS No-Route Default Page</label>
         <remove name="right"/>
         <remove name="left"/>
 
@@ -84,19 +86,22 @@ Default layout, loads most of the pages
         </reference>
     </cms_index_defaultnoroute>
 
-    <enterprise_cms_hierarchy_menu_content type="page" parent="cms_page_view">
+    <enterprise_cms_hierarchy_menu_content translate="label" type="page" parent="cms_page_view">
+        <label>CMS Hierarchy Menu Content</label>
         <reference name="content">
             <block type="Enterprise_Cms_Block_Hierarchy_Menu" name="hierarchy_menu" template="hierarchy/menu.phtml" before="-"/>
         </reference>
     </enterprise_cms_hierarchy_menu_content>
 
-    <enterprise_cms_hierarchy_menu_left_column type="page" parent="cms_page_view">
+    <enterprise_cms_hierarchy_menu_left_column translate="label" type="page" parent="cms_page_view">
+        <label>CMS Hierarchy Left Column</label>
         <reference name="left">
             <block type="Enterprise_Cms_Block_Hierarchy_Menu" name="hierarchy_menu" template="hierarchy/menu.phtml" before="-"/>
         </reference>
     </enterprise_cms_hierarchy_menu_left_column>
 
-    <enterprise_cms_hierarchy_menu_right_column type="page" parent="cms_page_view">
+    <enterprise_cms_hierarchy_menu_right_column translate="label" type="page" parent="cms_page_view">
+        <label>CMS Hierarchy Right Column</label>
         <reference name="right">
             <block type="Enterprise_Cms_Block_Hierarchy_Menu" name="hierarchy_menu" template="hierarchy/menu.phtml" before="-"/>
         </reference>

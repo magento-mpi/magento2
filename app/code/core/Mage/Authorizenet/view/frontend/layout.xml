@@ -30,8 +30,7 @@
         <block type="Mage_Authorizenet_Block_Directpost_Iframe" name="root" output="toHtml" template="directpost/iframe.phtml"/>
     </authorizenet_directpost_payment_redirect>
 
-    <authorizenet_directpost_payment_response translate="label" type="page">
-        <parent_node>authorizenet_directpost_payment_redirect</parent_node>
+    <authorizenet_directpost_payment_response translate="label" type="page" parent="authorizenet_directpost_payment_redirect">
         <label>AuthorizeNet Directpost Response</label>
         <block type="Mage_Authorizenet_Block_Directpost_Iframe" name="root" output="toHtml" template="directpost/iframe.phtml"/>
     </authorizenet_directpost_payment_response>

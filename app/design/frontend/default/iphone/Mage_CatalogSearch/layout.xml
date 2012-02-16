@@ -136,9 +136,8 @@ Advanced search results
         </reference>
     </catalogsearch_term_popular>
 
-    <catalogsearch_ajax_suggest translate="label" module="Mage_CatalogSearch" type="page">
-        <parent_node>catalog_category_default</parent_node>
-        <label>Quick Search Form Suggestions</label>
+    <catalogsearch_ajax_suggest translate="label" module="Mage_CatalogSearch" type="page" parent="ajax_index">
+        <label>Catalog Quick Search Form Suggestions</label>
         <block type="Mage_CatalogSearch_Block_Autocomplete" name="root" output="toHtml"/>
     </catalogsearch_ajax_suggest>
 </layout>

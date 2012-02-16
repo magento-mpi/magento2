@@ -112,7 +112,8 @@ New customer registration
         </reference>
     </customer_account_forgotpassword>
 
-    <customer_account_confirmation type="page" parent="customer_account">
+    <customer_account_confirmation translate="label" type="page" parent="customer_account">
+        <label>Customer Account Confirmation</label>
         <remove name="right"/>
         <remove name="left"/>
 
