@@ -129,7 +129,8 @@ class Api_LoginTest extends Magento_Test_Webservice
         $doc->loadXML($responseXml);
         $xpath = new DOMXpath($doc);
         $element = $xpath->query('//SOAP-ENV:Fault/faultstring')->item(0);
-        $this->assertEquals('Required parameter is missing, for more details see "exception.log".', $element->textContent);
+        $this->assertEquals('Required parameter is missing, for more details see "exception.log".',
+            $element->textContent);
     }
 
     /**

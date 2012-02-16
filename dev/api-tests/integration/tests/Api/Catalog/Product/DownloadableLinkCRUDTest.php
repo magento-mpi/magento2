@@ -53,7 +53,9 @@ class Api_Catalog_Product_DownloadableLinkCRUDTest extends Magento_Test_Webservi
                 }
                 if ($key == 'link' && $value['sample']['type'] == 'file') {
                     $filePath = dirname(__FILE__) . '/_fixtures/files/' . $value['sample']['file']['filename'];
-                    $value['sample']['file'] = array('name' => str_replace('/', '_',$value['sample']['file']['filename']),
+                    $value['sample']['file'] = array(
+                                        'name' => str_replace('/', '_',$value['sample']['file']['filename']
+                                    ),
                         'base64_content' => base64_encode(file_get_contents($filePath)));
                 }
 

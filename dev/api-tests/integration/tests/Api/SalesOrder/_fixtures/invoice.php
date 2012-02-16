@@ -50,5 +50,3 @@ $transactionSave2->addObject($invoice2)
     ->save();
 
 Magento_Test_Webservice::setFixture('invoice2', $invoice2);
-
-

@@ -63,7 +63,7 @@ class Api_SalesOrder_InvoiceTest extends Magento_Test_Webservice
         $order = self::getFixture('order');
         $id = $order->getIncrementId();
 
-        // Set invoice increment id prefix        
+        // Set invoice increment id prefix
         $website = Mage::app()->getWebsite();
         $storeId = $website->getDefaultStore()->getId();
         $entityTypeModel = Mage::getModel('eav/entity_type')->loadByCode('invoice');

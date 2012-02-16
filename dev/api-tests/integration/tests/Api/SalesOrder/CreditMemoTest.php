@@ -244,7 +244,7 @@ class Api_SalesOrder_CreditMemoTest extends Magento_Test_Webservice
 
         //Test create
         $creditMemoIncrementId = $this->call('order_creditmemo.create', array($orderIncrementalId, $data));
-    	self::setFixture('creditmemoIncrementId', $creditMemoIncrementId);
+        self::setFixture('creditmemoIncrementId', $creditMemoIncrementId);
 
         $this->assertTrue(is_string($creditMemoIncrementId), 'Increment Id is not a string');
         $this->assertStringStartsWith($entityStoreModel->getIncrementPrefix(), $creditMemoIncrementId,

@@ -59,7 +59,10 @@ class Mage_Api2_Model_Renderer_QueryTest extends Mage_PHPUnit_TestCase
     public function dataProviderSuccess()
     {
         return array(
-            array('0=assoc_item1&1=assoc_item2&assoc%3Atest001=%3Csome01%3Etext%3C%2Fsome01%3E&assoc.test002=1+%3E+0&assoc_test003.=chars+%5D%5D%3E&assoc_test004=chars++%21%22%23%24%25%26%27%28%29%2A%2B%2C%2F%3B%3C%3D%3E%3F%40%5B%5C%5D%5E%60%7B%7C%7D%7E++chars+&key+chars+%60%5C%2F%3B%3A%5D%5B%7B%7D%22%7C%27.%2C%7E%21%40%23%24%25%5E%26%2A%28%29_%2B=chars',
+            array('0=assoc_item1&1=assoc_item2&assoc%3Atest001=%3Csome01%3Etext%3C%2Fsome01%3E&assoc.test002=1+%3E+'
+                  . '0&assoc_test003.=chars+%5D%5D%3E&assoc_test004=chars++%21%22%23%24%25%26%27%28%29%2A%2B%2C%2F%3B%'
+                  . '3C%3D%3E%3F%40%5B%5C%5D%5E%60%7B%7C%7D%7E++chars+&key+chars+%60%5C%2F%3B%3A%5D%5B%7B%7D%22%7C%27.%'
+                  . '2C%7E%21%40%23%24%25%5E%26%2A%28%29_%2B=chars',
                 array(
                     'assoc_item1',
                     'assoc_item2',
@@ -71,7 +74,8 @@ class Mage_Api2_Model_Renderer_QueryTest extends Mage_PHPUnit_TestCase
                 )
             ),
             array(
-                '0=test1&1=test2&2%5Btest01%5D=some1&2%5Btest02%5D=some2&2%5Btest03%5D%5Btest001%5D=some01&2%5Btest03%5D%5Btest002%5D=some02',
+                '0=test1&1=test2&2%5Btest01%5D=some1&2%5Btest02%5D=some2&2%5Btest03%5D%5Btest001%5D=some01&2%5Btest'
+                .'03%5D%5Btest002%5D=some02',
                 array(
                     'test1',
                     'test2',
