@@ -213,11 +213,11 @@ class Mage_Api2_Model_Dispatcher_Mock extends Mage_Api2_Model_Dispatcher
 
     public function getConfig()
     {
-        return new Mage_Api2_Model_Config_Mock;
+        return new Mage_Api2_Model_Config_For_Dispatcher;
     }
 }
 
-class Mage_Api2_Model_Config_Mock extends Mage_Api2_Model_Config
+class Mage_Api2_Model_Config_For_Dispatcher extends Mage_Api2_Model_Config
 {
     public function __construct()
     {
