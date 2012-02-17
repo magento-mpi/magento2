@@ -419,6 +419,7 @@ class Api_Catalog_ProductTest extends Magento_Test_Webservice
         ))->save();
         // We need to reinit stores config as we are going to load product models later in this test
         Mage::app()->reinitStores();
+        $this->_getAppCache()->flush();
 
         $data = require dirname(__FILE__) . '/_fixtures/ProductData.php';
         // create product for test
