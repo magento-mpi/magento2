@@ -500,7 +500,7 @@ class Mage_Wishlist_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getDefaultWishlistName()
     {
-        return $this->__('Main Wishlist');
+        return $this->__('Wishlist');
     }
 
     /**
