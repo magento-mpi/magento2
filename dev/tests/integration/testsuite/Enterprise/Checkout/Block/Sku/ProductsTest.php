@@ -26,6 +26,6 @@ class Enterprise_Checkout_Block_Sku_ProductsTest extends PHPUnit_Framework_TestC
         );
         Mage::helper('Enterprise_Checkout_Helper_Data')->getSession()
             ->setAffectedItems(array(Mage::app()->getStore()->getId() => array($item)));
-        $this->assertNotEmpty($block->toHtml());
+        $this->assertContains('<form', $block->toHtml());
     }
 }

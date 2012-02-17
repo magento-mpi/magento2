@@ -222,7 +222,7 @@ class Mage_Core_Model_Layout_Update
     {
         $handles = array();
         $layout = $this->getPackageLayout();
-        $pageLayout = $layout->xpath('//' . $pageHandle . '[@type="page"]');
+        $pageLayout = $layout->xpath('/layouts/' . $pageHandle . '[@type="page"]');
         if ($pageLayout) {
             $parentHandle = (string) $pageLayout[0]->attributes()->parent;
             if ($parentHandle) {
