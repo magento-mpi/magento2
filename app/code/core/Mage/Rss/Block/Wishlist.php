@@ -93,6 +93,16 @@ class Mage_Rss_Block_Wishlist extends Mage_Wishlist_Block_Abstract
     }
 
     /**
+     * Build wishlist rss feed title
+     *
+     * @return string
+     */
+    protected function _getTitle()
+    {
+        return Mage::helper('rss')->__('%s\'s Wishlist', $this->_getCustomer()->getName());
+    }
+
+    /**
      * Render block HTML
      *
      * @return string
@@ -107,7 +117,7 @@ class Mage_Rss_Block_Wishlist extends Mage_Wishlist_Block_Abstract
                 'code'  => $this->_getWishlist()->getSharingCode()
             ));
 
-            $title  = Mage::helper('rss')->__('%s\'s Wishlist', $this->_getCustomer()->getName());
+            $title  = $this->_getTitle();
             $lang   = Mage::getStoreConfig('general/locale/code');
 
             $rssObj->_addHeader(array(

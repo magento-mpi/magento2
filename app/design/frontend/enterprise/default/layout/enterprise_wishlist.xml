@@ -151,4 +151,9 @@
         </reference>
     </wishlist_search_results>
 
+    <rss_index_wishlist>
+        <block type="enterprise_wishlist/rss" name="rss.wishlist" output="toHtml">
+            <action method="addPriceBlockType"><type>msrp_rss</type><block>catalog/product_price</block><template>wishlist/render/item/price_msrp_rss.phtml</template></action>
+        </block>
+    </rss_index_wishlist>
 </layout>
