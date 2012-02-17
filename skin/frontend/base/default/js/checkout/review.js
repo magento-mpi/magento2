@@ -176,11 +176,13 @@ OrderReviewController.prototype = {
                     $(newId).value = el.value;
                     $(newId).setAttribute('readonly', 'readonly');
                     $(newId).addClassName('local-validation');
-                    $(newId).setStyle({opacity:.5})
+                    $(newId).setStyle({opacity:.5});
+                    $(newId).disable();
                 }
             });
             this._clearValidation('billing');
         } else {
+            $$('[id^="billing:"]').invoke('enable');
             $$('[id^="billing:"]').invoke('removeAttribute', 'readonly');
             $$('[id^="billing:"]').invoke('removeClassName', 'local-validation');
             $$('[id^="billing:"]').invoke('setStyle', {opacity:1});
@@ -205,7 +207,12 @@ OrderReviewController.prototype = {
                 this._pleaseWait.show();
             }
 
+            arr = $$('[id^="billing:"]').invoke('enable');
             var formData = this.form.serialize(true);
+            if (this._copyElement.checked) {
+                $$('[id^="billing:"]').invoke('disable');
+                this._copyElement.enable();
+            }
             formData.isAjax = true;
             new Ajax.Updater(resultId, url, {
                 parameters: formData,
