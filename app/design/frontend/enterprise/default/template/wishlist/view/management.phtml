@@ -41,13 +41,17 @@
         <p class="note-msg msg-private"><?php echo $this->__('This list is not visible in the wishlist search results.');?></p>
     <?php endif; ?>
     <div class="table-caption">
+        <div class="label"><?php echo $this->__('Wishlist:'); ?></div>
         <div id="wishlists-select" class="split-button">
             <strong><span title="<?php echo $this->escapeHtml($this->getCurrentWishlist()->getName());?>"><?php echo $this->escapeHtml($this->getCurrentWishlist()->getName());?></span></strong>
-            <a href="#" class="change"><?php echo $this->__('Select:') ?></a>
+            <a class="change" href="#">(<span><?php echo $this->__('Change') ?></span>)</a>
             <div class="list-container">
+                <?php echo $this->getCurrentWishlist() ?>
                 <ul>
                     <?php foreach($this->getWishlists() as $wishlist): ?>
+                        <?php if ($wishlist != $this->getCurrentWishlist()): ?>
                         <li><a title="<?php echo $this->escapeHtml($wishlist->getName());?>" href="<?php echo $this->getWishlistManagementUrl($wishlist);?>"><?php echo $this->escapeHtml($wishlist->getName());?></a></li>
+                        <?php endif; ?>
                     <?php endforeach;?>
                     <?php if ($this->canCreateWishlists($this->getWishlists())): ?>
                         <li onclick="Enterprise.Wishlist.create('<?php echo $this->getCreateUrl();?>');" class="new"><span title="<?php echo $this->__('Create New Wishlist')?>"><?php echo $this->__('Create New Wishlist')?></span></li>

@@ -2188,10 +2188,31 @@ ul.cms-menu.type-square ul { list-style-type:square; }
 .wishlist-management .sub-title h2 { word-wrap:break-word; }
 .wishlist-management .note-msg { clear:both; margin:0 0 10px; padding:10px; border-style:solid !important; border-width:1px !important; font-size:12px !important; border-color:#fcd344; background-color:#fafaec; color:#3d6611; }
 .wishlist-management .msg-private { background:url(../images/bkg_lock.png) no-repeat 10px 10px #fafaec; padding-left:30px; }
-
-#wishlists-select { float:left; }
+.wishlist-management .table-caption .label { font-size:12px; float:left; line-height:21px; }
 #wishlists-move { float:right; margin-left:10px; }
 #wishlists-copy { float:right; }
+
+#wishlists-select { background:none; padding-left:0; white-space:nowrap; float:left; max-width:220px; }
+#wishlists-select strong { background:none; padding-right:0; padding-left:7px; font-weight:normal; }
+#wishlists-select strong span { font-weight:bold; }
+#wishlists-select .change { text-indent:0; width:auto; background:none; margin-left:4px; border:0; right:auto; left:100%; text-decoration:none; line-height:21px; margin-top:1px; }
+#wishlists-select .change span { color:#1e75b4; text-transform:none; background:url(../images/bkg_header-panel.gif) no-repeat scroll 100% -74px transparent; padding-right:10px; }
+#wishlists-select.active .change span { color:#d33911; background-position:100% -130px; }
+#wishlists-select .list-container { right:auto; left:0; margin-top:4px; }
+#wishlists-select .list-container ul { background:#e7e7e7; border:0; }
+#wishlists-select .list-container li:first-child { border-top:0; }
+#wishlists-select .list-container li { border-color:#d9d9d9; }
+#wishlists-select .list-container a,
+#wishlists-select .list-container span { color:#1e75b4; padding:5px 6px; /* background-position:-999em -999em; */ }
+#wishlists-select .list-container li:hover a,
+#wishlists-select .list-container li:hover span,
+#wishlists-select .list-container li:hover { color:#d33911; }
+#wishlists-select .list-container li:hover { background-position:-999em -999em;  background-color:#f8f8f8;  }
+#wishlists-select .list-container li.new { color:#d33911; background-color:#d9d9d9; background-position:5px 7px; padding-left:12px; }
+#wishlists-select .list-container li.new:hover { background-color:#999; background-position:5px -485px; color:#fff; }
+#wishlists-select .list-container li.new:hover a,
+#wishlists-select .list-container li.new:hover span { color:#fff; }
+
 
 /* Wishlist search view */
 #wishlist-search-results {}
