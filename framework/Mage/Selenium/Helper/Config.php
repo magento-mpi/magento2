@@ -25,7 +25,6 @@
  * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-
 /**
  * Config helper class
  *
@@ -114,6 +113,18 @@ class Mage_Selenium_Helper_Config extends Mage_Selenium_Helper_Abstract
     protected $_currentPageId = null;
 
     /**
+     * Path to the screenshots directory
+     * @var null|string
+     */
+    protected $_screenshotDir = null;
+
+    /**
+     * Path to the log directory
+     * @var null|string
+     */
+    protected $_logDir = null;
+
+    /**
      * Initialize config
      */
     protected function _init()
@@ -146,6 +157,24 @@ class Mage_Selenium_Helper_Config extends Mage_Selenium_Helper_Abstract
     }
 
     /**
+     * Creates a directory using the specified $path if the directory doesn't exist.
+     * @param string $path
+     * @return boolean Returns True if the directory exists or has been successfully created.
+     * Returns False if the directory could not be created.
+     * @throws InvalidArgumentException
+     */
+    protected function _createDirectory($path)
+    {
+        if (!is_string($path)) {
+            throw new InvalidArgumentException('Directory path should be a string');
+        }
+        if (is_dir($path) || mkdir($path, 0777, true)) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * Get value from Configuration file
      *
      * @param string $path XPath-like path to config value (by default = '')
@@ -167,7 +196,6 @@ class Mage_Selenium_Helper_Config extends Mage_Selenium_Helper_Abstract
             $this->_configFramework = $this->getConfigValue('framework');
         }
         return $this->_configFramework;
-
     }
 
     /**
@@ -346,7 +374,6 @@ class Mage_Selenium_Helper_Config extends Mage_Selenium_Helper_Abstract
             throw new OutOfRangeException('Base Url is not set for "' . $this->getArea() . '" area');
         }
         return $config['url'];
-
     }
 
     /**
@@ -401,7 +428,7 @@ class Mage_Selenium_Helper_Config extends Mage_Selenium_Helper_Abstract
         $config = $this->getApplicationConfig();
         if (!isset($config['fallbackOrderFixture'])) {
             throw new OutOfRangeException('FallbackOrder for fixtures is not set for "'
-                . $this->getApplication() . '" application');
+                    . $this->getApplication() . '" application');
         }
 
         return array_reverse(array_map('trim', explode(',', $config['fallbackOrderFixture'])));
@@ -417,9 +444,65 @@ class Mage_Selenium_Helper_Config extends Mage_Selenium_Helper_Abstract
         $config = $this->getApplicationConfig();
         if (!isset($config['fallbackOrderHelper'])) {
             throw new OutOfRangeException('FallbackOrder for test helpers is not set for "'
-                . $this->getApplication() . '" application');
+                    . $this->getApplication() . '" application');
         }
 
         return array_reverse(array_map('trim', explode(',', $config['fallbackOrderHelper'])));
+    }
+
+    /**
+     * Set path to the screenshot directory.
+     * Creates a directory if it doesn't exist.
+     * @param string $path
+     * @return boolean Returns True if the directory exists or has been successfully created.
+     * Returns False if the directory could not be created.
+     */
+    public function setScreenshotDir($path)
+    {
+        if ($this->_createDirectory($path)) {
+            $this->_screenshotDir = $path;
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Get path to the screenshot directory.
+     * @return string
+     */
+    public function getScreenshotDir()
+    {
+        if (!$this->_screenshotDir && defined('SELENIUM_TESTS_SCREENSHOTDIR')) {
+            $this->setScreenshotDir(SELENIUM_TESTS_SCREENSHOTDIR);
+        }
+        return $this->_screenshotDir;
+    }
+
+    /**
+     * Set path to the logs directory.
+     * Creates a directory if it doesn't exist.
+     * @param string $path
+     * @return boolean Returns True if the directory exists or has been successfully created.
+     * Returns False if the directory could not be created.
+     */
+    public function setLogDir($path)
+    {
+        if ($this->_createDirectory($path)) {
+            $this->_logDir = $path;
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Get path to the logs directory.
+     * @return string
+     */
+    public function getLogDir()
+    {
+        if (!$this->_logDir && defined('SELENIUM_TESTS_LOGS')) {
+            $this->setLogDir(SELENIUM_TESTS_LOGS);
+        }
+        return $this->_logDir;
     }
 }

@@ -69,20 +69,6 @@ class Mage_Selenium_Driver extends PHPUnit_Extensions_SeleniumTestCase_Driver
     private static $_currentTestClassName;
 
     /**
-     * Basic constructor of Selenium RC driver
-     * Extension: initialization of log file handle.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-        if (is_null(self::$_logHandle)) {
-            self::$_logHandle = fopen(SELENIUM_TESTS_LOGS . DIRECTORY_SEPARATOR
-                                          . 'selenium-rc-' . date('d-m-Y-H-i-s') . '.log',
-                                      'a+');
-        }
-    }
-
-    /**
      * Sends a command to the Selenium RC server.
      * Extension: transaction logging to opened file stream in view: TIME,REQUEST,RESPONSE or TIME,EXCEPTION
      *
@@ -139,6 +125,18 @@ class Mage_Selenium_Driver extends PHPUnit_Extensions_SeleniumTestCase_Driver
     public function getContiguousSession()
     {
         return $this->_contiguousSession;
+    }
+
+    /**
+     * Set log file
+     * @param $dirPath Path to directory for the log file
+     */
+    public function setLogHandle($dirPath)
+    {
+        if (is_null(self::$_logHandle)) {
+            self::$_logHandle = fopen($dirPath . DIRECTORY_SEPARATOR
+                                      . 'selenium-rc-' . date('d-m-Y-H-i-s') . '.log', 'a+');
+        }
     }
 
     /**

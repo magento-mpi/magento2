@@ -333,6 +333,7 @@ class Mage_Selenium_TestConfiguration
             $browser['restartBrowser'] = true;
         }
         $driver = new Mage_Selenium_Driver();
+        $driver->setLogHandle($this->getHelper('config')->getLogDir());
         $driver->setName($browser['name']);
         $driver->setBrowser($browser['browser']);
         $driver->setHost($browser['host']);

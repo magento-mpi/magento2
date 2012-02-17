@@ -178,4 +178,95 @@ class Mage_Selenium_Helper_ConfigTest extends Mage_PHPUnit_TestCase
         $this->assertInternalType('array', $fallbackOrder);
         $this->assertSame($fallbackOrder, array('Core', 'Enterprise'));
     }
+
+    /**
+     * @covers Mage_Selenium_Helper_Config::setScreenshotDir
+     * @covers Mage_Selenium_Helper_Config::getScreenshotDir
+     */
+    public function testGetSetScreenshotDir()
+    {
+        $configHelper = $this->_config->getHelper('config');
+        //Default directory
+        $this->assertEquals(SELENIUM_TESTS_SCREENSHOTDIR, $configHelper->getScreenshotDir());
+        //Create a directory
+        $parentDir = 'test testGetSetScreenshotDir';
+        $dirName = $parentDir . '/ss-dir-test';
+        $this->assertTrue(!is_dir($dirName) || (rmdir($dirName) && rmdir($parentDir)));
+        $this->assertTrue($configHelper->setScreenshotDir($dirName));
+        $this->assertTrue(is_dir($dirName));
+        $this->assertEquals($dirName, $configHelper->getScreenshotDir());
+        //Set to existing directory
+        $this->assertTrue($configHelper->setScreenshotDir($dirName));
+        $this->assertTrue(is_dir($dirName));
+        $this->assertEquals($dirName, $configHelper->getScreenshotDir());
+        //Cleanup
+        rmdir($dirName); rmdir($parentDir);
+    }
+
+    /**
+     * @covers Mage_Selenium_Helper_Config::setScreenshotDir
+     * @depends testGetSetScreenshotDir
+     */
+    public function testSetScreenshotDirInvalidPathException()
+    {
+        $configHelper = $this->_config->getHelper('config');
+        $this->setExpectedException('PHPUnit_Framework_Error_Warning', 'mkdir(): No error');
+        $configHelper->setScreenshotDir('!#$@%*^&:?');
+    }
+
+    /**
+     * @covers Mage_Selenium_Helper_Config::setScreenshotDir
+     * @depends testGetSetScreenshotDir
+     */
+    public function testSetScreenshotDirInvalidParameterException()
+    {
+        $configHelper = $this->_config->getHelper('config');
+        $this->setExpectedException('InvalidArgumentException');
+        $configHelper->setScreenshotDir(null);
+    }
+
+    /**
+     * @covers Mage_Selenium_Helper_Config::setLogDir
+     * @covers Mage_Selenium_Helper_Config::getLogDir
+     */
+    public function testGetSetLogDir()
+    {
+        $configHelper = $this->_config->getHelper('config');
+        //Default directory
+        $this->assertEquals(SELENIUM_TESTS_LOGS, $configHelper->getLogDir());
+        //Create a directory
+        $dirName = 'log-dir-test';
+        $this->assertTrue(!is_dir($dirName) || rmdir($dirName));
+        $this->assertTrue($configHelper->setLogDir($dirName));
+        $this->assertTrue(is_dir($dirName));
+        $this->assertEquals($dirName, $configHelper->getLogDir());
+        //Set to existing directory
+        $this->assertTrue($configHelper->setLogDir($dirName));
+        $this->assertTrue(is_dir($dirName));
+        $this->assertEquals($dirName, $configHelper->getLogDir());
+        //Cleanup
+        rmdir($dirName);
+    }
+
+    /**
+     * @covers Mage_Selenium_Helper_Config::setLogDir
+     * @depends testGetSetLogDir
+     */
+    public function testSetLogDirInvalidPathException()
+    {
+        $configHelper = $this->_config->getHelper('config');
+        $this->setExpectedException('PHPUnit_Framework_Error_Warning', 'mkdir(): No error');
+        $configHelper->setLogDir('!#$@%*^&:?');
+    }
+
+    /**
+     * @covers Mage_Selenium_Helper_Config::setLogDir
+     * @depends testGetSetLogDir
+     */
+    public function testSetLogDirInvalidParameterException()
+    {
+        $configHelper = $this->_config->getHelper('config');
+        $this->setExpectedException('InvalidArgumentException');
+        $configHelper->setLogDir(null);
+    }
 }

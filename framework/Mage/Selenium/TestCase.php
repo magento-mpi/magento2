@@ -152,15 +152,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     protected $captureScreenshotOnFailure = false;
 
-    /**
-     * @var string
-     */
-    protected $screenshotPath = SELENIUM_TESTS_SCREENSHOTDIR;
-
-    /**
-     * @var string
-     */
-    protected $screenshotUrl = SELENIUM_TESTS_SCREENSHOTDIR;
     ################################################################################
     #                             Else variables                                   #
     ################################################################################
@@ -266,6 +257,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         }
         $config = $this->_configHelper->getConfigFramework();
         $this->captureScreenshotOnFailure = $config['captureScreenshotOnFailure'];
+        $this->screenshotPath = $this->screenshotUrl = $this->_configHelper->getScreenshotDir();
         $this->_saveHtmlPageOnFailure = $config['saveHtmlPageOnFailure'];
         $this->coverageScriptUrl = $config['coverageScriptUrl'];
     }
@@ -1636,6 +1628,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     #                           Framework helper methods                           #
     #                                                                              #
     ################################################################################
+
     /**
      * SavesHTML content of the current page and return information about it.
      * Return an empty string if the screenshotPath property is empty.
@@ -1647,18 +1640,17 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     public function saveHtmlPage($fileName = null)
     {
         if (!empty($this->screenshotPath)) {
-            if ($fileName == null) {
-                $fileName = date('d-m-Y-H-i-s') . '_' . $this->getName();
-            }
-            $filePath = $this->getScreenshotPath() . $fileName;
-            $file = fopen($filePath . '.html', 'a+');
-            fputs($file, $this->drivers[0]->getHtmlSource());
-            fflush($file);
-            fclose($file);
-            return 'HTML Page: ' . $filePath . ".html\n";
-        } else {
             return '';
         }
+        if ($fileName == null) {
+            $fileName = date('d-m-Y-H-i-s') . '_' . $this->getName();
+        }
+        $filePath = $this->getScreenshotPath() . $fileName;
+        $file = fopen($filePath . '.html', 'a+');
+        fputs($file, $this->drivers[0]->getHtmlSource());
+        fflush($file);
+        fclose($file);
+        return 'HTML Page: ' . $filePath . ".html\n";
     }
 
     /**
