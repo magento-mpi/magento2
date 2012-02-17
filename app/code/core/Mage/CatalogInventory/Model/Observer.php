@@ -370,6 +370,7 @@ class Mage_CatalogInventory_Model_Observer
                 }
                 if (!is_null($result->getMessage())) {
                     $option->setMessage($result->getMessage());
+                    $quoteItem->setMessage($result->getMessage());
                 }
                 if (!is_null($result->getItemBackorders())) {
                     $option->setBackorders($result->getItemBackorders());
