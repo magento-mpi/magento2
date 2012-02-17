@@ -35,13 +35,13 @@
  * @method Mage_Api2_Model_Resource_Acl_Filter_Attribute getResource()
  * @method Mage_Api2_Model_Resource_Acl_Filter_Attribute _getResource()
  * @method string getUserType()
- * @method Mage_Api2_Model_Resource_Acl_Filter_Attribute setUserType() setUserType(string $type)
+ * @method Mage_Api2_Model_Acl_Filter_Attribute setUserType() setUserType(string $type)
  * @method string getResourceId()
- * @method Mage_Api2_Model_Resource_Acl_Filter_Attribute setResourceId() setResourceId(string $resource)
+ * @method Mage_Api2_Model_Acl_Filter_Attribute setResourceId() setResourceId(string $resource)
  * @method string getOperation()
- * @method Mage_Api2_Model_Resource_Acl_Filter_Attribute setOperation() setOperation(string $operation)
+ * @method Mage_Api2_Model_Acl_Filter_Attribute setOperation() setOperation(string $operation)
  * @method string getAllowedAttributes()
- * @method Mage_Api2_Model_Resource_Acl_Filter_Attribute setAllowedAttributes() setAllowedAttributes(string $attributes)
+ * @method Mage_Api2_Model_Acl_Filter_Attribute setAllowedAttributes() setAllowedAttributes(string $attributes)
  */
 class Mage_Api2_Model_Acl_Filter_Attribute extends Mage_Core_Model_Abstract
 {
