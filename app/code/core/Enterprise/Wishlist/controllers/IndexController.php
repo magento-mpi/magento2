@@ -43,7 +43,8 @@ class Enterprise_Wishlist_IndexController extends Mage_Core_Controller_Front_Act
         parent::preDispatch();
 
         if (!Mage::helper('enterprise_wishlist')->isMultipleEnabled()
-            && $this->getRequest()->getActionName() !== 'copyitem') {
+            && $this->getRequest()->getActionName() !== 'copyitem'
+        ) {
             $this->norouteAction();
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             return $this;
@@ -264,9 +265,10 @@ class Enterprise_Wishlist_IndexController extends Mage_Core_Controller_Front_Act
                 $item = Mage::getModel('wishlist/item');
                 $item->loadWithOptions($itemId);
 
-                $this->_copyItem($item, $wishlist);
                 $wishlistName = Mage::helper('core')->escapeHtml($wishlist->getName());
                 $productName = Mage::helper('core')->escapeHtml($item->getProduct()->getName());
+                $this->_copyItem($item, $wishlist);
+
                 $this->_getSession()->addSuccess(
                     Mage::helper('enterprise_wishlist')->__('"%s" was successfully copied to %s', $productName, $wishlistName)
                 );
@@ -414,6 +416,7 @@ class Enterprise_Wishlist_IndexController extends Mage_Core_Controller_Front_Act
 
                 $productName = Mage::helper('core')->escapeHtml($item->getProduct()->getName());
                 $wishlistName = Mage::helper('core')->escapeHtml($wishlist->getName());
+
                 $this->_moveItem($item, $wishlist, $wishlists);
                 $this->_getSession()->addSuccess(
                     Mage::helper('enterprise_wishlist')->__('"%s" was successfully moved to %s', $productName, $wishlistName)
