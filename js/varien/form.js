@@ -245,12 +245,12 @@ RegionUpdater.prototype = {
         if (this.regions[this.countryEl.value]) {
             var i, option, region, def;
 
+            def = this.regionSelectEl.getAttribute('defaultValue');
             if (this.regionTextEl) {
-                def = this.regionTextEl.value.toLowerCase();
+                if (!def) {
+                    def = this.regionTextEl.value.toLowerCase();
+                }
                 this.regionTextEl.value = '';
-            }
-            if (!def) {
-                def = this.regionSelectEl.getAttribute('defaultValue');
             }
 
             this.regionSelectEl.options.length = 1;
