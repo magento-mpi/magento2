@@ -40,7 +40,15 @@ class Enterprise_Wishlist_IndexController extends Mage_Core_Controller_Front_Act
      */
     public function preDispatch()
     {
-        parent::preDispatch();
+        Mage_Core_Controller_Front_Action::preDispatch();
+
+        if (!$this->_getSession()->getCustomerId() && !$this->_getSession()->authenticate($this)) {
+            $this->setFlag('', 'no-dispatch', true);
+            if (!$this->_getSession()->getBeforeWishlistUrl()) {
+                $this->_getSession()->setBeforeWishlistUrl($this->_getRefererUrl());
+            }
+            $this->_getSession()->setBeforeWishlistRequest($this->getRequest()->getParams());
+        }
 
         if (!Mage::helper('enterprise_wishlist')->isMultipleEnabled()
             && $this->getRequest()->getActionName() !== 'copyitem'
@@ -50,13 +58,6 @@ class Enterprise_Wishlist_IndexController extends Mage_Core_Controller_Front_Act
             return $this;
         }
 
-        if (!$this->_getSession()->getCustomerId() && !$this->_getSession()->authenticate($this)) {
-            $this->setFlag('', 'no-dispatch', true);
-            if (!$this->_getSession()->getBeforeWishlistUrl()) {
-                $this->_getSession()->setBeforeWishlistUrl($this->_getRefererUrl());
-            }
-            $this->_getSession()->setBeforeWishlistRequest($this->getRequest()->getParams());
-        }
         return $this;
     }
 
@@ -299,7 +300,13 @@ class Enterprise_Wishlist_IndexController extends Mage_Core_Controller_Front_Act
             }
         }
         $wishlist->save();
-        $this->_redirectReferer();
+        if ($this->_getSession()->hasBeforeWishlistUrl())
+        {
+            $this->_redirectUrl($this->_getSession()->getBeforeWishlistUrl());
+            $this->_getSession()->unsBeforeWishlistUrl();
+        } else {
+            $this->_redirectReferer();
+        }
     }
 
     /**
