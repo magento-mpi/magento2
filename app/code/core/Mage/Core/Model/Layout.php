@@ -709,7 +709,6 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
      * )
      *
      * @return array
-     * @throws UnexpectedValueException
      */
     public function getPageTypesFlat()
     {
@@ -733,13 +732,6 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
                 'label'  => $label,
                 'parent' => $parentName,
             );
-        }
-        /* validate references to parent blocks */
-        foreach ($result as $name => $info) {
-            $parentName = $info['parent'];
-            if ($parentName && !array_key_exists($parentName, $result)) {
-                throw new UnexpectedValueException("Page type '$name' refers to non-existing parent '$parentName'.");
-            }
         }
         $this->_pageTypesCache[$cacheId] = $result;
         return $result;

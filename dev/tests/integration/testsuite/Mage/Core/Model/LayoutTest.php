@@ -282,14 +282,4 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
         $actual = $model->getPageTypesFlat();
         $this->assertEquals($expected, $actual);
     }
-
-    /**
-     * @expectedException UnexpectedValueException
-     * @expectedExceptionMessage Page type 'wrong_page_type' refers to non-existing parent 'non_existing_page_type'.
-     */
-    public function testGetPageTypesFlatException()
-    {
-        $model = self::getLayoutFromFixture(__DIR__ . '/Layout/_files/_page_types_non_existing_parent.xml', $this);
-        $model->getPageTypesFlat();
-    }
 }
