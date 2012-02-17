@@ -42,8 +42,13 @@ class Mage_Catalog_Model_Api2_Products_Rest_Admin_V1 extends Mage_Catalog_Model_
      */
     protected function _validate(array $data, array $required = array(), array $notEmpty = array())
     {
-        parent::_validate($data, $required, $notEmpty);
-
+        if (!isset($data['type']) || empty($data['type'])) {
+            $this->_critical('Missing "type" in request.', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+        }
+        if (!isset($data['set']) || empty($data['set'])) {
+            $this->_critical('Missing "set" in request.', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+        }
+        // Validate attribute set
         $setId = $data['set'];
         /** @var $entity Mage_Eav_Model_Entity_Type */
         $entity = Mage::getModel('eav/entity_type')->loadByCode(Mage_Catalog_Model_Product::ENTITY);
@@ -52,13 +57,23 @@ class Mage_Catalog_Model_Api2_Products_Rest_Admin_V1 extends Mage_Catalog_Model_
         if (!$attributeSet->getId() || $entity->getEntityTypeId() != $attributeSet->getEntityTypeId()) {
             $this->_critical('Invalid attribute set', self::RESOURCE_DATA_INVALID);
         }
-
+        // Validate product type
         $type = $data['type'];
         $productTypes = Mage_Catalog_Model_Product_Type::getTypes();
         if (!array_key_exists($type, $productTypes)) {
             $this->_critical('Invalid product type', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
         }
-
+        // Validate store
+        if (isset($data['store'])) {
+            try {
+                Mage::app()->getStore($data['store'])->getId();
+            } catch (Mage_Core_Model_Store_Exception $e) {
+                $this->_critical('Invalid store', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+            }
+        }
+        // Collect required EAV attributes, validate applicable attributes
+        // and validate source attributes values
+        $required = array('set');
         /** @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
         foreach ($entity->getAttributeCollection($setId) as $attribute) {
             $applicable = false;
@@ -77,7 +92,8 @@ class Mage_Catalog_Model_Api2_Products_Rest_Admin_V1 extends Mage_Catalog_Model_
                 foreach ($attribute->getSource()->getAllOptions() as $option) {
                     $allowedValues[] = $option['value'];
                 }
-                if (!in_array($data[$attribute->getAttributeCode()], $allowedValues)) {
+                if (!in_array($data[$attribute->getAttributeCode()], $allowedValues)
+                    && !empty($data[$attribute->getAttributeCode()])) {
                     $this->_error(sprintf('Invalid value for attribute "%s"', $attribute->getAttributeCode()),
                         Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
                 }
@@ -88,16 +104,28 @@ class Mage_Catalog_Model_Api2_Products_Rest_Admin_V1 extends Mage_Catalog_Model_
             }
         }
 
-        // Validate store input
-        if (isset($data['store'])) {
-            try {
-                Mage::app()->getStore($data['store'])->getId();
-            } catch (Mage_Core_Model_Store_Exception $e) {
-                $this->_critical('Invalid store', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
-            }
+        if (isset($data['stock_data'])  && is_array($data['stock_data'])) {
+            $this->_validateStockData($data['stock_data']);
         }
 
         parent::_validate($data, $required, $required);
+    }
+
+    /**
+     * Validate product inventory data
+     *
+     * @param array $data
+     */
+    protected function _validateStockData($data)
+    {
+        if (isset($data['manage_stock']) && (bool) $data['manage_stock'] == true) {
+            if (!isset($data['qty'])) {
+                $this->_error('Missing "stock_data:qty" in request.', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+            }
+            if (isset($data['qty']) && empty($data['qty'])) {
+                $this->_error('Empty value for "stock_data:qty" in request.', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+            }
+        }
     }
 
     /**
@@ -108,9 +136,7 @@ class Mage_Catalog_Model_Api2_Products_Rest_Admin_V1 extends Mage_Catalog_Model_
      */
     protected function _create(array $data)
     {
-        $required = array('type', 'set', 'sku');
-        $notEmpty = array('type', 'set', 'sku');
-        $this->_validate($data, $required, $notEmpty);
+        $this->_validate($data);
 
         $type = $data['type'];
         $set = $data['set'];
@@ -201,10 +227,10 @@ class Mage_Catalog_Model_Api2_Products_Rest_Admin_V1 extends Mage_Catalog_Model_
    /**
     * Get location for given resource
     *
-    * @param Mage_Catalog_Model_Abstract $product
+    * @param Mage_Core_Model_Abstract $product
     * @return string Location of new resource
     */
-   protected function _getLocation(Mage_Catalog_Model_Abstract $product)
+   protected function _getLocation(Mage_Core_Model_Abstract $product)
    {
        /** @var $config Mage_Api2_Model_Config */
        $config = Mage::getModel('api2/config');

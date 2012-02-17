@@ -88,6 +88,7 @@
                     <type>Product Type</type>
                     <set>Attribute Set</set>
                     <store>Store</store>
+                    <stock_data>Product Inventory</stock_data>
                 </attributes>
                 <routes>
                     <route_main>
