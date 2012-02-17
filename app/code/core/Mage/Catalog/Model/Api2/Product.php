@@ -25,13 +25,31 @@
  */
 
 /**
- * Abstract API2 class for products
+ * Abstract Api2 model for product instance
  *
  * @category   Mage
  * @package    Mage_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-abstract class Mage_Catalog_Model_Api2_Products_Rest extends Mage_Api2_Model_Resource_Collection
+class Mage_Catalog_Model_Api2_Product extends Mage_Api2_Model_Resource_Instance
 {
+    /**
+     * Available attributes
+     *
+     * @return array
+     */
+    public function getAvailableAttributes()
+    {
+        $attributes = parent::getAvailableAttributes();
+        /** @var $entityType Mage_Eav_Model_Entity_Type */
+        $entityType = Mage::getModel('eav/entity_type')->loadByCode('catalog_product');
+        /** @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
+        foreach ($entityType->getAttributeCollection() as $attribute) {
+            if ($attribute->getIsVisible()) {
+                $attributes[$attribute->getAttributeCode()] = $attribute->getFrontendLabel();
+            }
+        }
 
+        return $attributes;
+    }
 }

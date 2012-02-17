@@ -25,13 +25,22 @@
  */
 
 /**
- * Abstract API2 class for products
+ * API2 for products instance
  *
  * @category   Mage
  * @package    Mage_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-abstract class Mage_Catalog_Model_Api2_Products_Rest extends Mage_Api2_Model_Resource_Collection
+class Mage_Catalog_Model_Api2_Product_Rest_Admin_V1 extends Mage_Catalog_Model_Api2_Product_Rest
 {
-
+    /**
+     * Retrieve product data
+     *
+     * @return array
+     */
+    protected function _retrieve()
+    {
+        $product = $this->_loadProduct();
+        return $product->getData();
+    }
 }

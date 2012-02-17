@@ -73,7 +73,7 @@
             <product>
                 <group>catalog_product</group>
                 <type>product</type>
-                <model>catalog/api2_products</model>
+                <model>catalog/api2_product</model>
                 <working_model>catalog/product</working_model>
                 <title>Catalog Product</title>
                 <sort_order>20</sort_order>
@@ -94,6 +94,7 @@
                         <mask>/product/:id</mask>
                     </route_main>
                 </routes>
+                <versions>1</versions>
                 <collection>products</collection>
             </product>
             <products_grouped>

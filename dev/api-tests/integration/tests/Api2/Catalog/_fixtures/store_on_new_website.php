@@ -18,20 +18,32 @@
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magentocommerce.com for more information.
  *
- * @category    Mage
- * @package     Mage_Catalog
+ * @category    Paas
+ * @package     tests
+ * @subpackage  integration_tests
  * @copyright   Copyright (c) 2011 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+if (!Magento_Test_Webservice::getFixture('store_on_new_website')) {
+    $website = new Mage_Core_Model_Website();
+    $website->setData(
+        array(
+            'code' => 'test_' . uniqid(),
+            'name' => 'test website',
+            'default_group_id' => 1,
+        )
+    );
+    $website->save();
+    Magento_Test_Webservice::setFixture('website', $store);
 
-/**
- * Abstract API2 class for products
- *
- * @category   Mage
- * @package    Mage_Catalog
- * @author     Magento Core Team <core@magentocommerce.com>
- */
-abstract class Mage_Catalog_Model_Api2_Products_Rest extends Mage_Api2_Model_Resource_Collection
-{
-
+    $store = new Mage_Core_Model_Store();
+    $store->setData(array(
+        'group_id' => $website->getDefaultGroupId(),
+        'name' => 'Test Store View',
+        'code' => 'store_' . uniqid(),
+        'is_active' => true,
+        'website_id' => $website->getId()
+    ))->save();
+    Mage::app()->reinitStores();
+    Magento_Test_Webservice::setFixture('store_on_new_website', $store);
 }

@@ -25,13 +25,34 @@
  */
 
 /**
- * Abstract API2 class for products
+ * API2 for products instance
  *
  * @category   Mage
  * @package    Mage_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-abstract class Mage_Catalog_Model_Api2_Products_Rest extends Mage_Api2_Model_Resource_Collection
+class Mage_Catalog_Model_Api2_Product_Rest_Customer_V1 extends Mage_Catalog_Model_Api2_Product_Rest
 {
+    /**
+     * Retrieve product data
+     *
+     * @return array
+     */
+    protected function _retrieve()
+    {
+        $product = $this->_loadProduct();
+        /** @var $productHelper Mage_Catalog_Helper_Product */
+        $productHelper = Mage::helper('catalog/product');
+        $isEnabled = $product->isInStock();
+        /** @var $stockItem Mage_CatalogInventory_Model_Stock_Item */
+        $stockItem = Mage::getModel('cataloginventory/stock_item');
+        $stockItem->loadByProduct($product);
+        $isInStock = ($stockItem->getId() && $stockItem->getIsInStock());
 
+        if (!($isEnabled && $isInStock && $productHelper->canShow($product))) {
+            $this->_critical(self::RESOURCE_NOT_FOUND);
+        }
+
+        return $product->getData();
+    }
 }
