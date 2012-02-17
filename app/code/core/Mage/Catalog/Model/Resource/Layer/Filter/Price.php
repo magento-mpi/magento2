@@ -248,18 +248,18 @@ class Mage_Catalog_Model_Resource_Layer_Filter_Price extends Mage_Core_Model_Res
     {
         $select = $this->_getSelect($filter);
         $priceExpression = $this->_getPriceExpression($filter);
-        $rate       = $filter->getCurrencyRate();
+        $rate = $filter->getCurrencyRate();
 
         /**
          * Check and set correct variable values to prevent SQL-injections
          */
-        $rate       = floatval($rate);
-        $range      = floatval($range);
+        $rate = floatval($rate);
+        $range = floatval($range) / $rate;
         if ($range == 0) {
             $range = 1;
         }
-        $countExpr  = new Zend_Db_Expr('COUNT(*)');
-        $rangeExpr  = new Zend_Db_Expr("FLOOR(({$priceExpression}) / {$range}) + 1");
+        $countExpr = new Zend_Db_Expr('COUNT(*)');
+        $rangeExpr = new Zend_Db_Expr("FLOOR(({$priceExpression}) / {$range}) + 1");
 
         $select->columns(array(
             'range' => $rangeExpr,
