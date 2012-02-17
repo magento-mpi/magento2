@@ -523,15 +523,18 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
     }
 
     /**
-     * @param Mage_Core_Block_Abstract $block
+     * @param Mage_Core_Block_Abstract|string $block
      * @param string $alias
      * @return Mage_Core_Block_Abstract
      */
     public function append($block, $alias = '')
     {
+        if ($block instanceof Mage_Core_Block_Abstract) {
+            $block->getNameInLayout();
+        }
         // TODO: remove it after addopting layout
         $this->_getLayoutStructure()
-            ->insertElement($this->getNameInLayout(), $block->getNameInLayout(), 'block', $alias);
+            ->insertElement($this->getNameInLayout(), $block, 'block', $alias);
         return $this;
     }
 

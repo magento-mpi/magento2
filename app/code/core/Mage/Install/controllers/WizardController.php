@@ -58,7 +58,7 @@ class Mage_Install_WizardController extends Mage_Install_Controller_Action
         }
 
         $leftBlock = $this->getLayout()->createBlock('Mage_Install_Block_State', 'install.state');
-        $this->getLayout()->getBlock('left')->append($leftBlock);
+        $this->getLayout()->getStructure()->insertBlock('left', $leftBlock->getNameInLayout());
         return $this;
     }
 
@@ -97,8 +97,9 @@ class Mage_Install_WizardController extends Mage_Install_Controller_Action
         $this->_prepareLayout();
         $this->_initLayoutMessages('Mage_Install_Model_Session');
 
-        $this->getLayout()->getBlock('content')->append(
-            $this->getLayout()->createBlock('Mage_Install_Block_Begin', 'install.begin')
+        $this->getLayout()->getStructure()->insertBlock(
+            'content',
+            $this->getLayout()->createBlock('Mage_Install_Block_Begin', 'install.begin')->getNameInLayout()
         );
 
         $this->renderLayout();
@@ -131,8 +132,9 @@ class Mage_Install_WizardController extends Mage_Install_Controller_Action
 
         $this->_prepareLayout();
         $this->_initLayoutMessages('Mage_Install_Model_Session');
-        $this->getLayout()->getBlock('content')->append(
-            $this->getLayout()->createBlock('Mage_Install_Block_Locale', 'install.locale')
+        $this->getLayout()->getStructure()->insertBlock(
+            'content',
+            $this->getLayout()->createBlock('Mage_Install_Block_Locale', 'install.locale')->getNameInLayout()
         );
 
         $this->renderLayout();
@@ -180,8 +182,9 @@ class Mage_Install_WizardController extends Mage_Install_Controller_Action
 
         $this->_prepareLayout();
         $this->_initLayoutMessages('Mage_Install_Model_Session');
-        $this->getLayout()->getBlock('content')->append(
-            $this->getLayout()->createBlock('Mage_Install_Block_Download', 'install.download')
+        $this->getLayout()->getStructure()->insertBlock(
+            'content',
+            $this->getLayout()->createBlock('Mage_Install_Block_Download', 'install.download')->getNameInLayout()
         );
 
         $this->renderLayout();
@@ -278,8 +281,9 @@ class Mage_Install_WizardController extends Mage_Install_Controller_Action
 
         $this->_prepareLayout();
         $this->_initLayoutMessages('Mage_Install_Model_Session');
-        $this->getLayout()->getBlock('content')->append(
-            $this->getLayout()->createBlock('Mage_Install_Block_Config', 'install.config')
+        $this->getLayout()->getStructure()->insertBlock(
+            'content',
+            $this->getLayout()->createBlock('Mage_Install_Block_Config', 'install.config')->getNameInLayout()
         );
 
         $this->renderLayout();
@@ -351,8 +355,9 @@ class Mage_Install_WizardController extends Mage_Install_Controller_Action
         $this->_prepareLayout();
         $this->_initLayoutMessages('Mage_Install_Model_Session');
 
-        $this->getLayout()->getBlock('content')->append(
-            $this->getLayout()->createBlock('Mage_Install_Block_Admin', 'install.administrator')
+        $this->getLayout()->getStructure()->insertBlock(
+            'content',
+            $this->getLayout()->createBlock('Mage_Install_Block_Admin', 'install.administrator')->getNameInLayout()
         );
         $this->renderLayout();
     }
@@ -421,8 +426,9 @@ class Mage_Install_WizardController extends Mage_Install_Controller_Action
         $this->_prepareLayout();
         $this->_initLayoutMessages('Mage_Install_Model_Session');
 
-        $this->getLayout()->getBlock('content')->append(
-            $this->getLayout()->createBlock('Mage_Install_Block_End', 'install.end')
+        $this->getLayout()->getStructure()->insertBlock(
+            'content',
+            $this->getLayout()->createBlock('Mage_Install_Block_End', 'install.end')->getNameInLayout()
         );
         $this->renderLayout();
         Mage::getSingleton('Mage_Install_Model_Session')->clear();

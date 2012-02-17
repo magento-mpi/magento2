@@ -346,7 +346,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
             if (Mage_Core_Model_Layout_Structure::ELEMENT_TYPE_BLOCK == $child->nodeName) {
                 $html = $this->_getBlockHtml($child->getAttribute('name'));
             } else {
-                $this->_getContainerHtml($child);
+                $html = $this->_getContainerHtml($child);
             }
         }
 
@@ -383,12 +383,13 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         foreach ($children as $child) {
             $html .= $this->getChildHtml($name, $child);
         }
-        if ($html) {
-            $htmlId = $container->hasAttribute('htmlId') ? ' id="%s"' . $container->getAttribute('htmlId') : '';
-            $htmlClass = $container->hasAttribute('htmlClass') ? ' class="%s"' . $container->getAttribute('htmlClass') : '';
-            $htmlTag = $container->hasAttribute('htmlTagName') ? $container->getAttribute('htmlTagName') : 'div';
-            $html = sprintf('<%1$s%2$s%3$s>%4$s</%1$s>', $htmlTag, $htmlId, $htmlClass, $html);
+        if ($html == '' || !$container->hasAttribute('htmlTag')) {
+            return $html;
         }
+        $htmlId = $container->hasAttribute('htmlId') ? ' id="' . $container->getAttribute('htmlId') . '"' : '';
+        $htmlClass = $container->hasAttribute('htmlClass') ? ' class="'. $container->getAttribute('htmlClass') . '"' : '';
+        $htmlTag = $container->getAttribute('htmlTag');
+        $html = sprintf('<%1$s%2$s%3$s>%4$s</%1$s>', $htmlTag, $htmlId, $htmlClass, $html);
 
         return $html;
     }
@@ -533,8 +534,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         try {
             $block = $this->_getBlockInstance($type, $attributes);
         } catch (Exception $e) {
-            Mage::logException($e);
-            return false;
+            throw $e;
         }
 
         if (empty($name) || '.'===$name{0}) {

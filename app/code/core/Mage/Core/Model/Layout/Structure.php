@@ -37,7 +37,7 @@ class Mage_Core_Model_Layout_Structure
     protected $_availableOptions = array(
         self::ELEMENT_TYPE_BLOCK => array(),
         self::ELEMENT_TYPE_CONTAINER => array(
-            'label', 'htmlId', 'htmlClass', 'htmlTagName',
+            'label', 'htmlId', 'htmlClass', 'htmlTag',
         ),
     );
 
@@ -315,7 +315,7 @@ class Mage_Core_Model_Layout_Structure
      * @return bool|DOMElement
      * @throws Magento_Exception
      */
-    public function insertElement($parentName, $name, $type, $alias, $sibling = '', $after = true)
+    public function insertElement($parentName, $name, $type, $alias = '', $sibling = '', $after = true)
     {
         if (!in_array($type, array(self::ELEMENT_TYPE_BLOCK, self::ELEMENT_TYPE_CONTAINER))) {
             return false;
@@ -331,6 +331,9 @@ class Mage_Core_Model_Layout_Structure
             $parentNode = $this->_document->firstChild;
         }
 
+        if ($alias == '') {
+            $alias = $name;
+        }
         if ($exist = $this->_findByXpath("*[@alias='$alias']", $parentNode)->item(0)) {
             $parentNode->removeChild($exist);
         }
@@ -358,6 +361,16 @@ class Mage_Core_Model_Layout_Structure
         $child->setAttribute('alias', $alias);
 
         return $child;
+    }
+
+    public function insertBlock($parentName, $name, $alias = '', $sibling = '', $after = true)
+    {
+        $this->insertElement($parentName, $name, 'block', $alias, $sibling, $after);
+    }
+
+    public function insertContainer($parentName, $name, $alias = '', $sibling = '', $after = true)
+    {
+        $this->insertElement($parentName, $name, 'container', $alias, $sibling, $after);
     }
 
     /**
