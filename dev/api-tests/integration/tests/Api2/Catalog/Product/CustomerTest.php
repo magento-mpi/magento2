@@ -173,4 +173,3 @@ class Api2_Catalog_Product_CustomerTest extends Magento_Test_Webservice_Rest_Cus
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
     }
 }
-
