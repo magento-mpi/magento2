@@ -38,11 +38,11 @@ class RestRoles_CreateTest extends Mage_Selenium_TestCase
 {
      /**
      * Rest Role Name
-     * 
+     *
      * @var string
      */
     protected $_restRoleToBeDeleted;
-    
+
      /**
      * <p>Log in to Backend.</p>
      */
@@ -50,7 +50,7 @@ class RestRoles_CreateTest extends Mage_Selenium_TestCase
     {
         $this->loginAdminUser();
     }
-    
+
     /*
      * Function for deleting after test execution
      */
@@ -61,7 +61,7 @@ class RestRoles_CreateTest extends Mage_Selenium_TestCase
             $this->_restRoleToBeDeleted = null;
         }
     }
-    
+
     /**
      * <p>Preconditions:</p>
      * <p>Navigate to System -> Web Secvices -> REST Roles.</p>
@@ -70,7 +70,7 @@ class RestRoles_CreateTest extends Mage_Selenium_TestCase
     {
         $this->navigate('manage_rest_roles');
     }
-    
+
      /**
      * <p>Test navigation.</p>
      * <p>Steps:</p>
@@ -98,7 +98,7 @@ class RestRoles_CreateTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->restRolesHelper()->tabIsPresent('rest_role_resources'),
             'There is no "Rest Resources" tab on the page');
     }
-    
+
     /**
      * Create Rest Role with all valid data
      * <p>Preconditions:</p>
@@ -113,7 +113,7 @@ class RestRoles_CreateTest extends Mage_Selenium_TestCase
      * Success message is appeared in the page:
      * "The role has been successfully saved."
      * Edit REST Role page is still opened.</p>
-     * 
+     *
      * @test
      * @dataProvider restRoleName
      * @param restRoleName
@@ -134,7 +134,7 @@ class RestRoles_CreateTest extends Mage_Selenium_TestCase
             $this->restRolesHelper()->getFieldValue('rest_role_info', 'rest_role_information', 'fields',
             'rest_role_name'), 'Rest role name does not match.');
     }
-    
+
     /**
      * @return string REST Role Name
      */
@@ -146,7 +146,7 @@ class RestRoles_CreateTest extends Mage_Selenium_TestCase
             array('发展改革委介绍价格形势以及生猪市场调控情况')
         );
     }
-    
+
     /**
      * <p>Ceate REST Role with one empty reqired field</p>
      * <p>Steps:</p>
@@ -156,7 +156,7 @@ class RestRoles_CreateTest extends Mage_Selenium_TestCase
      * <p> REST Role isn't saved. Message under field "Role Name":</p>
      * <p> "This is a required field."</p>
      * <p> Add New Role page is still opened.</p>
-     * 
+     *
      * @test
      */
     public function withEmptyRoleName()

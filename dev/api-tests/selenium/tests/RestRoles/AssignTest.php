@@ -42,7 +42,7 @@ class RestRoles_AssignTest extends Mage_Selenium_TestCase
      * @var string
      */
     protected $_restRoleToBeDeleted;
-    
+
      /**
      * <p>Log in to Backend.</p>
      */
@@ -60,7 +60,7 @@ class RestRoles_AssignTest extends Mage_Selenium_TestCase
             $this->_restRoleToBeDeleted = null;
         }
     }
-    
+
     /**
      * <p>Preconditions:</p>
      * <p>Navigate to System -> Permissions -> REST Roles.</p>
@@ -88,16 +88,16 @@ class RestRoles_AssignTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->restRolesHelper()->tabIsPresent('rest_role'),
             'There is no "REST Role" tab on the page');
     }
-    
+
     /**
-     *Test assigning 
+     *Test assigning
      * 1. Browse to System -> Permissions -> Users.
      * 2. Select Admin user from preconditions.
      * 3. Open REST Roles tab.
      * 4. Set REST Role from precondition.
      * 5. Click Save User button.
      * 6. Open REST Role tab.
-     * 
+     *
      * @test
      * @depends navigation
      */

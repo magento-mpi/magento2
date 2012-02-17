@@ -28,7 +28,7 @@
 
 /**
  * Test editing REST Role from Backend
- * 
+ *
  * @method RestRoles_Helper restRolesHelper()
  * @package     selenium
  * @subpackage  tests
@@ -38,11 +38,11 @@ class RestRoles_EditTest extends Mage_Selenium_TestCase
 {
      /**
      * Rest Role Name
-     * 
+     *
      * @var string
      */
     protected $_restRoleToBeDeleted;
-    
+
      /**
      * <p>Log in to Backend.</p>
      */
@@ -50,7 +50,7 @@ class RestRoles_EditTest extends Mage_Selenium_TestCase
     {
         $this->loginAdminUser();
     }
-    
+
     /*
      * Function for deleting after test execution
      */
@@ -61,7 +61,7 @@ class RestRoles_EditTest extends Mage_Selenium_TestCase
             $this->_restRoleToBeDeleted = null;
         }
     }
-    
+
     /**
      * <p>Preconditions:</p>
      * <p>Navigate to System -> Web Secvices -> REST Roles.</p>
@@ -70,7 +70,7 @@ class RestRoles_EditTest extends Mage_Selenium_TestCase
     {
         $this->navigate('manage_rest_roles');
     }
-    
+
      /**
      * <p>Test navigation.</p>
      * <p>Steps:</p>
@@ -105,7 +105,7 @@ class RestRoles_EditTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->restRolesHelper()->tabIsPresent('rest_role_users'),
             'There is no "Role Users" tab on the page');
     }
-    
+
     /**
      * <p>Edit REST Role with one empty reqired field.</p>
      * <p>Preconditions:</p>
@@ -118,7 +118,7 @@ class RestRoles_EditTest extends Mage_Selenium_TestCase
      * <p> REST Role isn't saved. Message under field "Role Name":</p>
      * <p> "This is a required field."</p>
      * <p> Edit Role page is still opened.</p>
-     * 
+     *
      * @test
      */
     public function withEmptyRoleName()
@@ -134,7 +134,7 @@ class RestRoles_EditTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('error', 'error_required_field_role_name');
         $this->assertTrue($this->checkCurrentPage('edit_rest_role'), $this->getParsedMessages());
     }
-    
+
      /**
      * <p>Edit REST Role with asining two Role Users.</p>
      * <p>Preconditions:</p>
@@ -150,7 +150,7 @@ class RestRoles_EditTest extends Mage_Selenium_TestCase
      * <p> prompt dialog is showed. </p>
      * <p> 4. Repeat step 1-3 and click Save Role</p>
      * <p> Verify that two Role Users are saved.</p>
-     * 
+     *
      * @test
      */
     public function withRoleUsers()
@@ -167,7 +167,7 @@ class RestRoles_EditTest extends Mage_Selenium_TestCase
         $this->navigate('manage_rest_roles');
         $restRoleData = $this->loadData('generic_rest_role');
         $this->restRolesHelper()->createRestRole($restRoleData);
-        
+
         //save Role name for clean up
         $this->_restRoleToBeDeleted = $restRoleData['rest_role_name'];
         //Steps
@@ -176,11 +176,11 @@ class RestRoles_EditTest extends Mage_Selenium_TestCase
         $this->searchAndChoose(array('user_name' => $secondUserData['user_name']), 'role_users');
         $this->saveForm('save_role');
         $this->clickButton('save_role');
-        
+
         //Validate
         $this->assertMessagePresent('success', 'success_save_rest_role');
         $this->assertTrue($this->checkCurrentPage('edit_rest_role'), $this->getParsedMessages());
-        
+
         //Verify value of User Roles
         $this->openTab('rest_role_users');
         $this->assertTrue($this->restRolesHelper()->isGridItemChecked(
@@ -188,7 +188,7 @@ class RestRoles_EditTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->restRolesHelper()->isGridItemChecked(
             array('user_name' => $secondUserData['user_name']), 'role_users'), 'Second user is not assigned.');
     }
-    
+
     /**
      * Edit Rest Role with all valid data
      * <p>Preconditions:</p>
@@ -203,7 +203,7 @@ class RestRoles_EditTest extends Mage_Selenium_TestCase
      * Success message is appeared in the page:
      * "The role has been successfully saved."
      * Edit REST Role page is still opened.</p>
-     * 
+     *
      * @test
      * @dataProvider restRoleName
      */
@@ -230,7 +230,7 @@ class RestRoles_EditTest extends Mage_Selenium_TestCase
             $this->restRolesHelper()->getFieldText('rest_role_resources', 'role_resources',
             'dropdowns', 'resource_access'), 'Rest role resources does not match.');
     }
-    
+
     /**
      * @return string REST Role Name
      */

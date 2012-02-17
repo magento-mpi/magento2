@@ -37,11 +37,11 @@ class Oauth_Consumer_EditTest extends Mage_Selenium_TestCase
 {
     /**
      * Consumer name
-     * 
+     *
      * @var string
      */
     protected $_consumerToBeDeleted;
-    
+
     /*
       * <p>Log in to Backend.</p>
      */
@@ -114,11 +114,11 @@ class Oauth_Consumer_EditTest extends Mage_Selenium_TestCase
         foreach ($newConsumerData as $field => $value) {
             $this->assertEquals($value, $this->oauthHelper()->getFieldValue($field), $field . ' does not match.');
         }
-        //Verify value of key and secret        
+        //Verify value of key and secret
         $this->assertEquals($key, $this->oauthHelper()->getFieldValue('key'), 'Key does not match.');
         $this->assertEquals($secret, $this->oauthHelper()->getFieldValue('secret'), 'Secret does not match.');
     }
-    
+
     /**
      * <p>Edit consumer. Name field is invalid</p>
      * <p>Preconditions: Create Consumer</p>
@@ -151,7 +151,7 @@ class Oauth_Consumer_EditTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('error', 'empty_required_field');
         $this->assertTrue($this->checkCurrentPage('edit_consumer'), $this->getParsedMessages());
     }
-    
+
     /**
      * <p>Edit consumer with invalid value for 'Rejected Url' field</p>
      * <p>Preconditions: Create Consumer</p>
@@ -165,8 +165,8 @@ class Oauth_Consumer_EditTest extends Mage_Selenium_TestCase
      * <p>3. Click 'Reset' button.</p>
      * <p> Expected result:</p>
      * <p> Verify that Rejected URL value does not change</p>
-     * 
-     * @param string $wrongUrl 
+     *
+     * @param string $wrongUrl
      * @depends withAllValidData
      * @dataProvider withInvalidUrlDataProvider
      * @test
@@ -196,7 +196,7 @@ class Oauth_Consumer_EditTest extends Mage_Selenium_TestCase
         $this->assertEquals($consumerData['callback_url'], $this->oauthHelper()->getFieldValue('callback_url'),
             'Rejected Callback Url does not match.');
     }
-    
+
     /**
      * <p>Edit consumer with invalid value for 'Callback Url' field</p>
      * <p>Preconditions: Create Consumer</p>
@@ -210,11 +210,11 @@ class Oauth_Consumer_EditTest extends Mage_Selenium_TestCase
      * <p>3. Click 'Reset' button.</p>
      * <p> Expected result:</p>
      * <p> Verify that Callback URL value does not change</p>
-     * 
+     *
      * @param string $wrongUrl
      * @depends withAllValidData
      * @dataProvider withInvalidUrlDataProvider
-     * @test 
+     * @test
      */
     public function withInvalidCallbackURL($wrongUrl)
     {
@@ -241,7 +241,7 @@ class Oauth_Consumer_EditTest extends Mage_Selenium_TestCase
         $this->assertEquals($consumerData['callback_url'], $this->oauthHelper()->getFieldValue('callback_url'),
             'Callback Url does not match.');
     }
-    
+
     public function withInvalidUrlDataProvider()
     {
         return array(

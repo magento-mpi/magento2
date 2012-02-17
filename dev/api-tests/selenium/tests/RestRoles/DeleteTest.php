@@ -28,7 +28,7 @@
 
 /**
  * Test deleting REST Role from Backend
- * 
+ *
  * @method RestRoles_Helper restRolesHelper()
  * @package     selenium
  * @subpackage  tests
@@ -43,7 +43,7 @@ class RestRoles_DeleteTest extends Mage_Selenium_TestCase
     {
         $this->loginAdminUser();
     }
-    
+
      /**
      * <p>Preconditions:</p>
      * <p>Navigate to System -> Web Services -> REST Roles.</p>
@@ -52,7 +52,7 @@ class RestRoles_DeleteTest extends Mage_Selenium_TestCase
     {
         $this->navigate('manage_rest_roles');
     }
-    
+
      /**
      * <p>Test delete Rest Role.</p>
      * <p>Steps:</p>

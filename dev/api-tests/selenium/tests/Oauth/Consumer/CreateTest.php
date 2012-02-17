@@ -37,11 +37,11 @@ class Oauth_Consumer_CreateTest extends Mage_Selenium_TestCase
 {
     /**
      * Consumer name
-     * 
+     *
      * @var string
      */
     protected $_consumerToBeDeleted;
-    
+
     /**
      * <p>Log in to Backend.</p>
      */
@@ -49,7 +49,7 @@ class Oauth_Consumer_CreateTest extends Mage_Selenium_TestCase
     {
         $this->loginAdminUser();
     }
-    
+
     /*
      * Function for deleting after test execution
      */
@@ -88,7 +88,7 @@ class Oauth_Consumer_CreateTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->checkCurrentPage('new_consumer'), $this->getParsedMessages());
         $this->assertTrue($this->buttonIsPresent('back'), 'There is no "Back" button on the page');
         $this->assertTrue($this->buttonIsPresent('save_consumer'), 'There is no "Save" button on the page');
-        $this->assertTrue($this->buttonIsPresent('save_and_continue_consumer'), 
+        $this->assertTrue($this->buttonIsPresent('save_and_continue_consumer'),
             'There is no "Save and Continue Edit" button on the page');
         $this->assertTrue($this->buttonIsPresent('reset'), 'There is no "Reset" button on the page');
     }
@@ -118,7 +118,7 @@ class Oauth_Consumer_CreateTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('success', 'success_saved_consumer');
         $this->assertTrue($this->checkCurrentPage('oauth_consumers'), $this->getParsedMessages());
     }
-    
+
     /**
      * <p>Ceate consumer with one empty reqired field</p>
      * <p>Steps:</p>
@@ -128,7 +128,7 @@ class Oauth_Consumer_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Consumer is not created.</p>
      * <p>Error Message is displayed.</p>
-     * 
+     *
      * @test
      */
     public function withRequiredFieldEmpty()
@@ -143,7 +143,7 @@ class Oauth_Consumer_CreateTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('error', 'empty_required_field');
         $this->assertTrue($this->checkCurrentPage('new_consumer'), $this->getParsedMessages());
     }
-    
+
     /**
      * <p> Check read-only fields (Key+Secret).</p>
      * <p>Steps:</p>
@@ -151,20 +151,20 @@ class Oauth_Consumer_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Key field was found and this field is disabled.</p>
      * <p>Secret field was found and this field is disabled.</p>
-     * 
+     *
      * @test
      */
     public function withReadOnlyFields()
     {
        $this->clickButton('add_new_consumer');
-       
+
        $keyXpath = $this->oauthHelper()->getUIMapFieldXpath('new_consumer', 'key');
        $this->assertTrue($this->isElementPresent($keyXpath), 'Key field was not found or this field is not disabled.');
        $keyValue= $this->oauthHelper()->getFieldValue('key');
        $this->assertNotEmpty($keyValue, 'Key field is empty');
-       
+
        $secretXpath = $this->oauthHelper()->getUIMapFieldXpath('new_consumer', 'secret');
-       $this->assertTrue($this->isElementPresent($secretXpath), 
+       $this->assertTrue($this->isElementPresent($secretXpath),
        'Secret field was not found or this field is not disabled.');
        $secretValue= $this->oauthHelper()->getFieldValue('secret');
        $this->assertNotEmpty($secretValue, 'Secret field is empty');
@@ -210,7 +210,7 @@ class Oauth_Consumer_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p> Message "Please enter a valid URL. Protocol is required (http://, https:// or ftp://)"
      * appears under Rejected Url field. New Consumer page is opened.</p>
-     * 
+     *
      * @depends withAllValidData
      * @dataProvider withInvalidUrlDataProvider
      * @test

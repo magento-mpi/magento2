@@ -49,7 +49,7 @@ class Oauth_Helper extends Mage_Selenium_TestCase
         $this->fillForm($consumerData);
         $this->saveForm('save_consumer');
     }
-    
+
     /**
      * Open consumer.
      *
@@ -60,7 +60,7 @@ class Oauth_Helper extends Mage_Selenium_TestCase
     {
         $this->assertTrue($this->searchAndOpen($searchData, true, 'oauth_consumers'), 'Consumer is not found');
     }
-    
+
     /**
      * Edit consumer.
      *
@@ -74,7 +74,7 @@ class Oauth_Helper extends Mage_Selenium_TestCase
         $this->fillForm($newConsumerData);
         $this->saveForm('save_consumer');
     }
-    
+
     /**
      * Method finds field value using xPath from UIMap
      *
@@ -88,7 +88,7 @@ class Oauth_Helper extends Mage_Selenium_TestCase
         $xpath = $consumerInformation['fields']->get($fieldName);
         return $this->getElementByXpath($xpath, 'value');
     }
-    
+
     /**
      * Method finds xPath of searchable element from UIMap
      * for example getUIMapFieldXpath('edit_consumer', 'consumer_name') returns //input[@id='name']
@@ -102,11 +102,11 @@ class Oauth_Helper extends Mage_Selenium_TestCase
         $consumerInformation = $UIMap['fieldsets']->getFieldset('consumer_information')->getElements();
         return $consumerInformation['fields']->get($fieldName);
     }
-    
+
     /**
      *Method finds Consumer by name and deletes them.
-     * 
-     * @param string $consumerToBeDeleted 
+     *
+     * @param string $consumerToBeDeleted
      */
     public function deleteConsumerByName($consumerToBeDeleted)
     {

@@ -38,16 +38,16 @@ class RestRoles_Helper extends Mage_Selenium_TestCase
     /**
      *
      * @param srting $tab
-     * @return bool 
+     * @return bool
      */
      public function tabIsPresent($tab)
     {
         return $this->controlIsPresent('tab', $tab);
     }
-    
+
     /**
      *
-     * @param string $restRoleData 
+     * @param string $restRoleData
      */
     public function createRestRole($restRoleData)
     {
@@ -57,14 +57,14 @@ class RestRoles_Helper extends Mage_Selenium_TestCase
         $this->addParameter('rest_role_id', '0');
         $this->saveForm('save_role');
     }
-    
+
      /**
      * Method finds xPath of searchable element from UIMap
      * @param string $tabName
      * @param string $fieldsetsName
      * @param string $fiedType
      * @param string $fieldName
-     * @return string 
+     * @return string
      */
     public function getUIMapFieldXpath($tabName, $fieldsetsName, $fiedType, $fieldName)
     {
@@ -73,21 +73,21 @@ class RestRoles_Helper extends Mage_Selenium_TestCase
         $restRoleInformation = $tab['fieldsets']->getFieldset($fieldsetsName)->getElements();
         return $restRoleInformation[$fiedType]->get($fieldName);
     }
-    
+
      /**
      * Method finds field value using xPath from UIMap
      * @param string $tabName
      * @param string $fieldsetsName
      * @param string $fiedType
      * @param string $fieldName
-     * @return string 
+     * @return string
      */
     public function getFieldValue($tabName, $fieldsetsName, $fiedType, $fieldName)
     {
         $xpath = $this->getUIMapFieldXpath($tabName, $fieldsetsName, $fiedType, $fieldName);
         return $this->getElementByXpath($xpath, 'value');
     }
-    
+
      /**
      * Method opens REST Role by name.
      * Example usage, $this->restRolesHelper()->openRestRoleByName('RoleName'),
@@ -104,7 +104,7 @@ class RestRoles_Helper extends Mage_Selenium_TestCase
         //open REST Role
         $this->assertTrue($this->searchAndOpen($searchData, true, 'rest_role_list'), 'REST Role is not found');
     }
-    
+
      /**
      * Method deletes REST Role by name.
      * Example usage, $this->restRolesHelper()->openRestRoleByName('RoleName'),
@@ -118,12 +118,12 @@ class RestRoles_Helper extends Mage_Selenium_TestCase
         //click Delete Role button
         $this->clickButtonAndConfirm('delete_role', 'confirmation_for_delete');
     }
-    
+
      /**
      *
      * Method checkes if the specific item of specific Grid is checked
      * returns FALSE if item isn't checked or not found
-     * 
+     *
      * @return bool
      * @param array $gridData
      * @param array $gridName
@@ -136,14 +136,14 @@ class RestRoles_Helper extends Mage_Selenium_TestCase
             $data = $gridItemXpath . "//input[@checked='checked']";
             $isChecked = $this->isElementPresent($data);
         }
-        
+
         return $isChecked;
      }
-     
+
      /**
      * Method provide edition REST Role by name.
      * @param string $restRoleName
-     * @param array $newRestRoleData 
+     * @param array $newRestRoleData
      */
     public function editRestRole($restRoleName, array $newRestRoleData)
     {
@@ -154,7 +154,7 @@ class RestRoles_Helper extends Mage_Selenium_TestCase
         $this->fillForm($newRestRoleData, 'rest_role_resources');
         $this->saveForm('save_role');
     }
-    
+
      /**
      * Method finds dropdown field text using xPath from UIMap
      * Implemented only for fields where param text insted value (dropdowns)
@@ -162,7 +162,7 @@ class RestRoles_Helper extends Mage_Selenium_TestCase
      * @param string $fieldsetsName
      * @param string $fiedType
      * @param string $fieldName
-     * @return string 
+     * @return string
      */
     public function getFieldText($tabName, $fieldsetsName, $fiedType, $fieldName)
     {
