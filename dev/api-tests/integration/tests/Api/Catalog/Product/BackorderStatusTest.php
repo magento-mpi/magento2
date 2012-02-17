@@ -81,8 +81,13 @@ class Api_Catalog_Product_BackorderStatusTest extends Magento_Test_Webservice
         $result = $this->call(
             'cataloginventory_stock_item.update', array($this->getFixture('product')->getSku(), (array)$newProductData)
         );
-        $this->assertTrue($result);
 
+        if (Magento_Test_Webservice::TYPE_SOAPV2 === TESTS_WEBSERVICE_TYPE
+            || Magento_Test_Webservice::TYPE_SOAPV2_WSI === TESTS_WEBSERVICE_TYPE) {
+            $this->assertEquals(1, $result);
+        } else {
+            $this->assertTrue($result);
+        }
         // have to re-load product for stock item set
         $product->load($product->getId());
         $this->assertEquals(1, $product->getStockItem()->getBackorders());
