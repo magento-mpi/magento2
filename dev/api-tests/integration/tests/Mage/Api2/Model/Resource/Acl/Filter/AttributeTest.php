@@ -49,15 +49,16 @@ class Mage_Api2_Model_Resource_Acl_Filter_AttributeTest extends Magento_TestCase
      *
      * @var Mage_Api2_Model_Acl_Filter_Attribute
      */
-    protected static $_attribute;
+    protected $_attribute;
 
     /**
-     * Set attiribute data fixture
-     *
-     * @static
+     * Sets up the fixture, for example, open a network connection.
+     * This method is called before a test is executed.
      */
-    public static function attributeDataFixture()
+    protected function setUp()
     {
+        parent::setUp();
+
         $data = array(
             'user_type'   => 'guest' . mt_rand(),
             'resource_id' => self::ATTRIBUTE_RESOURCE_ID,
@@ -65,29 +66,25 @@ class Mage_Api2_Model_Resource_Acl_Filter_AttributeTest extends Magento_TestCase
             'allowed_attributes' => self::ALLOWED_ATTRIBUTES
         );
 
-        /** @var $role Mage_Api2_Model_Acl_Filter_Attribute */
-        $attribute = Mage::getModel('api2/acl_filter_attribute');
-        $attribute->setData($data)->save();
+        $this->_attribute = Mage::getModel('api2/acl_filter_attribute');
+        $this->_attribute->setData($data)
+            ->save();
 
-        self::$_attribute = $attribute;
+        $this->addModelToDelete($this->_attribute);
     }
 
     /**
      * Test get allowed attributes
-     *
-     * @magentoDataFixture attributeDataFixture
      */
     public function testGetAllowedAttributes()
     {
         /** @var $resource Mage_Api2_Model_Resource_Acl_Filter_Attribute */
         $resource = Mage::getResourceModel('api2/acl_filter_attribute');
 
-        $attribute = self::$_attribute;
-
         // Test method success
         $this->assertEquals(
             self::ALLOWED_ATTRIBUTES,
-            $resource->getAllowedAttributes($attribute->getUserType(), self::ATTRIBUTE_RESOURCE_ID, 'read')
+            $resource->getAllowedAttributes($this->_attribute->getUserType(), self::ATTRIBUTE_RESOURCE_ID, 'read')
         );
 
         // Test method with wrong user type
@@ -95,32 +92,28 @@ class Mage_Api2_Model_Resource_Acl_Filter_AttributeTest extends Magento_TestCase
 
         // Test method with wrong resource ID
         $this->assertFalse(
-            $resource->getAllowedAttributes($attribute->getUserType(), 'qwerty/integration/test', 'read')
+            $resource->getAllowedAttributes($this->_attribute->getUserType(), 'qwerty/integration/test', 'read')
         );
 
         // Test method with wrong operation
         $this->assertFalse(
-            $resource->getAllowedAttributes($attribute->getUserType(), self::ATTRIBUTE_RESOURCE_ID, 'write')
+            $resource->getAllowedAttributes($this->_attribute->getUserType(), self::ATTRIBUTE_RESOURCE_ID, 'write')
         );
     }
 
     /**
      * Test check if ALL attributes allowed
-     *
-     * @magentoDataFixture attributeDataFixture
      */
     public function testIsAllAttributesAllowed()
     {
-        $attribute = self::$_attribute;
-
-        $attribute->setResourceId(Mage_Api2_Model_Resource_Acl_Filter_Attribute::FILTER_RESOURCE_ALL)
+        $this->_attribute->setResourceId(Mage_Api2_Model_Resource_Acl_Filter_Attribute::FILTER_RESOURCE_ALL)
             ->save();
 
         /** @var $resource Mage_Api2_Model_Resource_Acl_Filter_Attribute */
         $resource = Mage::getResourceModel('api2/acl_filter_attribute');
 
         // Test method success
-        $this->assertTrue($resource->isAllAttributesAllowed($attribute->getUserType()));
+        $this->assertTrue($resource->isAllAttributesAllowed($this->_attribute->getUserType()));
 
         // Test method fail
         $this->assertFalse($resource->isAllAttributesAllowed('qwerty123123' . mt_rand()));
