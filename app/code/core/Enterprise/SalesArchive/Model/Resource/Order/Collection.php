@@ -57,15 +57,4 @@ class Enterprise_SalesArchive_Model_Resource_Order_Collection extends Mage_Sales
         $select->from(array('main_table' => $this->getTable('enterprise_salesarchive/order_grid')), array());
         return $select;
     }
-
-    /**
-     * Get SQL for get record count
-     *
-     * @return Varien_Db_Select
-     */
-    public function getSelectCountSql()
-    {
-        $countSelect = parent::getSelectCountSql();
-        return $countSelect;
-    }
 }
