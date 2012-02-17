@@ -25,4 +25,5 @@ $customer
     ->setDefaultBilling(1)
     ->setDefaultShipping(1)
 ;
+$customer->isObjectNew(true);
 $customer->save();
