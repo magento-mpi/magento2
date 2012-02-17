@@ -72,7 +72,7 @@
         Event.observe(form, 'submit', function(event) {
             if (form.isValid && !itemsSelected()) {
                 Event.stop(event);
-                alert(Translator.translate('You must select items to add to cart'));
+                alert('<?php echo $this->__('You must select items to add to cart');?>');
             }
         });
     })();
