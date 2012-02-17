@@ -52,7 +52,10 @@ if (isset($_SERVER['MAGE_IS_DEVELOPER_MODE'])) {
 Mage::$headersSentThrowsException = false;
 Mage::init('admin');
 
-if (false !== Mage::app()->getRequest()->getHeader('Version')) {
+// query parameter "type" is set by .htaccess rewrite rule
+$apiAlias = Mage::app()->getRequest()->getParam('type');
+
+if (Mage_Api2_Model_Server::API_TYPE_REST == $apiAlias) {
     /** @var $server Mage_Api2_Model_Server */
     $server = Mage::getSingleton('api2/server');
 
@@ -60,8 +63,6 @@ if (false !== Mage::app()->getRequest()->getHeader('Version')) {
 } else {
     /* @var $server Mage_Api_Model_Server */
     $server = Mage::getSingleton('api/server');
-    // query parameter "type" is set by .htaccess rewrite rule
-    $apiAlias    = Mage::app()->getRequest()->getParam('type');
     $adapterCode = $server->getAdapterCodeByAlias($apiAlias);
 
     // if no adapters found in aliases - find it by default, by code

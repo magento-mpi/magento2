@@ -1,0 +1,20 @@
+<root>
+    <code>test_attribute</code>
+    <attributeData>
+        <type>int</type>
+        <input>select</input>
+        <label>test</label>
+        <required>0</required>
+        <global>0</global>  <!-- Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_STORE = 0 -->
+        <option>
+            <values>option1</values>
+            <values>option2</values>
+            <values>option3</values>
+        </option>
+    </attributeData>
+    <expected>
+        <type>select</type>
+        <required>0</required>
+        <scope>store</scope>
+    </expected>
+</root>

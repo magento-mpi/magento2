@@ -1,0 +1,10 @@
+<SOAP-ENV:Envelope SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" ns1="urn:Magento" ns2="http://xml.apache.org/xml-soap" xsd="http://www.w3.org/2001/XMLSchema" xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <SOAP-ENV:Header>
+    </SOAP-ENV:Header>
+    <SOAP-ENV:Body>
+        <ns1:login>
+            <username type="xsd:string">snowfallpress</username>
+            <apiKey type="xsd:string">snowfallpress</apiKey>
+        </ns1:login>
+    </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

@@ -130,8 +130,7 @@
 ############################################
 ## rewrite all API2 calls to api.php
 
-    RewriteCond %{HTTP:Version} .+
-    RewriteRule ^api/ api.php [L]
+    RewriteRule ^api/([a-z][0-9a-z_]+)/ api.php?type=$1 [QSA,L]
 
 ############################################
 ## workaround for HTTP authorization

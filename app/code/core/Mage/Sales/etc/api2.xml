@@ -38,6 +38,7 @@
                 <group>sales</group>
                 <type>orders</type>
                 <model>sales/api2_orders</model>
+                <working_model>sales/order</working_model>
                 <title>Orders</title>
                 <privileges>
                     <create>1</create>
@@ -55,24 +56,18 @@
                 <group>sales</group>
                 <type>order</type>
                 <model>sales/api2_order</model>
+                <working_model>sales/order</working_model>
                 <title>Order</title>
                 <privileges>
                     <retrieve>1</retrieve>
                     <update>1</update>
-                    <!-- No able to DELETE -->
+                    <delete>1</delete>
                 </privileges>
                 <routes>
                     <route_main>
-                        <mask>/order</mask>
+                        <mask>/orders/:id</mask>
                     </route_main>
                 </routes>
-                <attributes>
-                    <entity_id>Order ID</entity_id>
-                    <customer_id>Customer ID</customer_id>
-                    <state>Order State</state>
-                    <subtotal>Subtotal</subtotal>
-                    <created_at>Creation Time</created_at>
-                </attributes>
                 <collection>orders</collection>
                 <versions>1</versions>
             </order>

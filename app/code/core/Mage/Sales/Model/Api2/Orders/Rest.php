@@ -31,7 +31,7 @@
  * @package    Mage_Sales
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-abstract class Mage_Sales_Model_Api2_Orders_Rest extends Mage_Api2_Model_Resource_Collection
+abstract class Mage_Sales_Model_Api2_Orders_Rest extends Mage_Sales_Model_Api2_Orders
 {
     /**
      * Retrieve collection instance for orders
