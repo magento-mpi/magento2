@@ -111,6 +111,7 @@ class Oauth_Helper extends Mage_Selenium_TestCase
     public function deleteConsumerByName($consumerToBeDeleted)
     {
         //Steps
+        $this->navigate('oauth_consumers');
         $this->addParameter('consumer_search_name', $consumerToBeDeleted);
         $this->oauthHelper()->openConsumer(array('name' => $consumerToBeDeleted));
         $this->clickButtonAndConfirm('delete_consumer', 'confirmation_for_delete');

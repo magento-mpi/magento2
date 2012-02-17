@@ -59,17 +59,15 @@ class Oauth_Consumer_EditTest extends Mage_Selenium_TestCase
         $this->navigate('oauth_consumers');
         $this->addParameter('id', '0');
     }
-//    /**
-//     * TBD after https://jira.magento.com/browse/APIA-199 is fixed.
-//     */
-//     protected function tearDown()
-//    {
-//        if ($this->_consumerToBeDeleted) {
-//            $this->navigate('oauth_consumers');
-//            $this->oauthHelper()->deleteConsumerByName($this->_consumerToBeDeleted);
-//            $this->_consumerToBeDeleted = null;
-//        }
-//    }
+
+     protected function tearDown()
+    {
+        if ($this->_consumerToBeDeleted) {
+            $this->navigate('oauth_consumers');
+            $this->oauthHelper()->deleteConsumerByName($this->_consumerToBeDeleted);
+            $this->_consumerToBeDeleted = null;
+        }
+    }
     /**
      * <p>Edit consumer. All new data is valid</p>
      * <p>Preconditions: Create Consumer</p>
@@ -129,7 +127,7 @@ class Oauth_Consumer_EditTest extends Mage_Selenium_TestCase
      * <p>2. Clear Name field</p>
      * <p>3. Click Save button</p>
      * <p>Expected result:</p>
-     * <p>Consumer is not created.</p>
+     * <p>Consumer is not saved.</p>
      * <p>Error Message is displayed.</p>
      * Verify value of all fields.
      * @test
@@ -162,7 +160,8 @@ class Oauth_Consumer_EditTest extends Mage_Selenium_TestCase
      * <p>2. Fill Rejected URL with "invalid url" text.</p>
      * <p>3. Click 'Save' button.</p>
      * <p> Expected result:</p>
-     * <p> Message "Invalid Rejected Callback URL 'invalid url'." appears in the top of the page. New Consumer page is opened.</p>
+     * <p> Message "Please enter a valid URL. Protocol is required (http://, https:// or ftp://)"
+     * appears under 'Rejected Callback Url' field. Edit Consumer page is opened.</p>
      * <p>3. Click 'Reset' button.</p>
      * <p> Expected result:</p>
      * <p> Verify that Rejected URL value does not change</p>
@@ -172,9 +171,6 @@ class Oauth_Consumer_EditTest extends Mage_Selenium_TestCase
      * @dataProvider withInvalidUrlDataProvider
      * @test
      */
-    
-    // Failed because https://jira.magento.com/browse/APIA-202
-    
     public function withInvalidRejectedURL($wrongUrl)
     {
        //Data
@@ -191,8 +187,10 @@ class Oauth_Consumer_EditTest extends Mage_Selenium_TestCase
         // Saving consumer name for tearDown
         $this->_consumerToBeDeleted = $consumerData['consumer_name'];
         //Verify message
-        $this->addParameter('rejectedCallbackUrl', $wrongUrl);
+        $xpath = $this->oauthHelper()->getUIMapFieldXpath('new_consumer', 'rejected_callback_url');
+        $this->addParameter('rejectedCallbackUrl', $xpath);
         $this->assertMessagePresent('error', 'invalid_rejected_callback_url');
+        $this->assertTrue($this->checkCurrentPage('edit_consumer'), $this->getParsedMessages());
         //Verify value of rejected_callback_url field
         $this->clickButton('reset');
         $this->assertEquals($consumerData['callback_url'], $this->oauthHelper()->getFieldValue('callback_url'),
@@ -207,7 +205,8 @@ class Oauth_Consumer_EditTest extends Mage_Selenium_TestCase
      * <p>2. Fill Callback URL with "invalid url" text.</p>
      * <p>3. Click 'Save' button.</p>
      * <p> Expected result:</p>
-     * <p> Message "Invalid Callback URL 'invalid url'." appears in the top of the page. New Consumer page is opened.</p>
+     * <p> Message "Please enter a valid URL. Protocol is required (http://, https:// or ftp://)"
+     * appears under 'Callback Url' field. Edit Consumer page is opened.</p>
      * <p>3. Click 'Reset' button.</p>
      * <p> Expected result:</p>
      * <p> Verify that Callback URL value does not change</p>
@@ -217,9 +216,6 @@ class Oauth_Consumer_EditTest extends Mage_Selenium_TestCase
      * @dataProvider withInvalidUrlDataProvider
      * @test 
      */
-    
-     // Failed because https://jira.magento.com/browse/APIA-205
-    
     public function withInvalidCallbackURL($wrongUrl)
     {
        //Data
@@ -236,8 +232,10 @@ class Oauth_Consumer_EditTest extends Mage_Selenium_TestCase
         // Saving consumer name for tearDown
         $this->_consumerToBeDeleted = $consumerData['consumer_name'];
         //Verify message
-        $this->addParameter('callbackUrl', $wrongUrl);
+        $xpath = $this->oauthHelper()->getUIMapFieldXpath('new_consumer', 'callback_url');
+        $this->addParameter('callbackUrl', $xpath);
         $this->assertMessagePresent('error', 'invalid_callback_url');
+        $this->assertTrue($this->checkCurrentPage('edit_consumer'), $this->getParsedMessages());
         //Verify value of callback_url field
         $this->clickButton('reset');
         $this->assertEquals($consumerData['callback_url'], $this->oauthHelper()->getFieldValue('callback_url'),
@@ -248,8 +246,7 @@ class Oauth_Consumer_EditTest extends Mage_Selenium_TestCase
     {
         return array(
             array('invalid'),
-            array('www.localhost.com'),
-            array(' ')
+            array('www.localhost.com')
         );
     }
 }

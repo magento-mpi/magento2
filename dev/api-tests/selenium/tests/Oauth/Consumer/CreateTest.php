@@ -49,18 +49,17 @@ class Oauth_Consumer_CreateTest extends Mage_Selenium_TestCase
     {
         $this->loginAdminUser();
     }
-
-//    /**
-//     * TBD after https://jira.magento.com/browse/APIA-199 is fixed.
-//     */
-//     protected function tearDown()
-//    {
-//        if ($this->_consumerToBeDeleted) {
-//            $this->navigate('oauth_consumers');
-//            $this->oauthHelper()->deleteConsumerByName($this->_consumerToBeDeleted);
-//            $this->_consumerToBeDeleted = null;
-//        }
-//    }
+    
+    /*
+     * Function for deleting after test execution
+     */
+     protected function tearDown()
+    {
+        if ($this->_consumerToBeDeleted) {
+            $this->oauthHelper()->deleteConsumerByName($this->_consumerToBeDeleted);
+            $this->_consumerToBeDeleted = null;
+        }
+    }
     /**
      * <p>Preconditions:</p>
      * <p>Navigate to  System -> oAuth -> Consumers.</p>
@@ -107,9 +106,6 @@ class Oauth_Consumer_CreateTest extends Mage_Selenium_TestCase
      * @depends navigation
      * @test
      */
-
-    // Failed because https://jira.magento.com/browse/APIA-234
-    
     public function withAllValidData()
     {
         //Data
@@ -139,8 +135,6 @@ class Oauth_Consumer_CreateTest extends Mage_Selenium_TestCase
     {
         //Steps
         $consumerData = $this->loadData('generic_consumer');
-        //Saving consumer name for tearDown
-        $this->_consumerToBeDeleted = $consumerData['consumer_name'];
         $consumerData['consumer_name'] = '';
         $this->oauthHelper()->createConsumer($consumerData);
         //Verifying
@@ -179,32 +173,30 @@ class Oauth_Consumer_CreateTest extends Mage_Selenium_TestCase
     /**
      * <p>Create consumer with invalid value for 'Callback Url' field</p>
      * <p>Steps:</p>
-     * <p>1. Click Add New button..</p>
+     * <p>1. Click Add New button.</p>
      * <p>2. Fill Name field with "Name" text.</p>
      * <p>3. Fill Callback URL with "invalid url" text.</p>
      * <p>4. Fill Rejected URL with valid text.
      * <p>5. Click 'Save' button.</p>
      * <p>Expected result:</p>
-     * <p> Message "Invalid Callback URL 'invalid url'." appears in the top of the page. New Consumer page is opened.</p>
+     * <p> Message "Please enter a valid URL. Protocol is required (http://, https:// or ftp://)"
+     * appears under 'Callback Url' field. New Consumer page is opened.</p>
      *
      * @depends withAllValidData
      * @dataProvider withInvalidUrlDataProvider
      * @test
      */
-    
-    // Failed because https://jira.magento.com/browse/APIA-205
-    
     public function withInvalidCallbackURL($wrongUrl)
     {
         //Data
         $consumerData = $this->loadData('generic_consumer', array('callback_url' => $wrongUrl));
         //Steps
         $this->oauthHelper()->createConsumer($consumerData);
-        $this->addParameter('callbackUrl', $wrongUrl);
-        //Saving consumer name for tearDown
-        $this->_consumerToBeDeleted = $consumerData['consumer_name'];
         //Verifying
+        $xpath = $this->oauthHelper()->getUIMapFieldXpath('new_consumer', 'callback_url');
+        $this->addParameter('callbackUrl', $xpath);
         $this->assertMessagePresent('error', 'invalid_callback_url');
+        $this->assertTrue($this->checkCurrentPage('new_consumer'), $this->getParsedMessages());
     }
 
      /**
@@ -216,15 +208,13 @@ class Oauth_Consumer_CreateTest extends Mage_Selenium_TestCase
      * <p>4. Fill Callback URL with valid text.
      * <p>5. Click 'Save' button.</p>
      * <p>Expected result:</p>
-     * <p> Message "Invalid Rejected URL 'invalid url'." appears in the top of the page. New Consumer page is opened.</p>
-     *
+     * <p> Message "Please enter a valid URL. Protocol is required (http://, https:// or ftp://)"
+     * appears under Rejected Url field. New Consumer page is opened.</p>
+     * 
      * @depends withAllValidData
      * @dataProvider withInvalidUrlDataProvider
      * @test
      */
-
-    // Failed because https://jira.magento.com/browse/APIA-202
-    
     public function withInvalidRejectedURL($wrongUrl)
     {
         //Data
@@ -232,18 +222,18 @@ class Oauth_Consumer_CreateTest extends Mage_Selenium_TestCase
         //Steps
         $this->oauthHelper()->createConsumer($consumerData);
         $this->addParameter('rejectedCallbackUrl', $wrongUrl);
-        //Saving consumer name for tearDown
-        $this->_consumerToBeDeleted = $consumerData['consumer_name'];
         //Verifying
+        $xpath = $this->oauthHelper()->getUIMapFieldXpath('new_consumer', 'rejected_callback_url');
+        $this->addParameter('rejectedCallbackUrl', $xpath);
         $this->assertMessagePresent('error', 'invalid_rejected_callback_url');
+        $this->assertTrue($this->checkCurrentPage('new_consumer'), $this->getParsedMessages());
     }
 
     public function withInvalidUrlDataProvider()
     {
         return array(
             array('invalid'),
-            array('www.localhost.com'),
-            array(' ')
+            array('www.localhost.com')
         );
     }
 }

@@ -50,8 +50,8 @@ oauth_consumers:
             success_saved_consumer: //li[normalize-space(@class)='success-msg' and contains(., 'The consumer has been saved.')]
             empty_name_required_field: //div[@id='advice-required-entry-name' and @class='validation-advice' and text()='This is a required field.']
             empty_required_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
-            invalid_callback_url: //li[normalize-space(@class)='error-msg' and contains(.,"Invalid Callback URL '%callbackUrl%'.")]
-            invalid_rejected_callback_url: //li[normalize-space(@class)='error-msg' and contains(.,"Invalid Rejected Callback URL '%rejectedCallbackUrl%'.")]
+            invalid_callback_url: "%callbackUrl%/following-sibling::*[text()='Please enter a valid URL. Protocol is required (http://, https:// or ftp://)' and not(contains(@style,'display: none;'))]"
+            invalid_rejected_callback_url: "%rejectedCallbackUrl%/following-sibling::*[text()='Please enter a valid URL. Protocol is required (http://, https:// or ftp://)' and not(contains(@style,'display: none;'))]"
             success_deleted_consumer: //li[normalize-space(@class)='success-msg' and contains(., 'The consumer has been deleted.')]
             confirmation_for_delete: Are you sure you want to do this?
 # 'New Consumer' page

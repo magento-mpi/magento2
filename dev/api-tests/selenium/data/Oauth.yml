@@ -30,8 +30,8 @@
 generic_consumer:
     #consumer_info:
        consumer_name: Name %randomize%
-       callback_url: http://127.0.0.1/api-trunk/oauth/client/callback
-       rejected_callback_url: http://127.0.0.1/api-trunk/oauth/client/callback
+       callback_url: http://127.0.0.1/api-trunk/oauth/client/Newcallback
+       rejected_callback_url: http://127.0.0.1/api-trunk/oauth/client/Newreject
 search_consumer:
     #consumer_grid:
         consumer_id: %noValue%
@@ -40,5 +40,5 @@ search_consumer:
 new_consumer_data:
     #consumer_info:
        consumer_name: New value
-       callback_url: http://127.0.0.1/api-trunk/oauth/client/Newcallback
-       rejected_callback_url: http://127.0.0.1/api-trunk/oauth/client/Newreject
+       callback_url:        
+       rejected_callback_url:             
