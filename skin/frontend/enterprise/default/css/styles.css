@@ -820,6 +820,7 @@ ul.disc li { padding-left:10px; background:url(../images/bkg_bulletsm.gif) no-re
 .sidebar .block-layered-nav .block-title { padding:26px 17px 12px; /* border-bottom:1px solid #d1d1d1; */ }
 .sidebar .block-layered-nav .block-title h2 { font-size:18px; color:#111; }
 .sidebar .block-layered-nav .block-subtitle { display:none; }
+.sidebar .block-layered-nav .block-content { padding-right:14px; }
 .sidebar .block-layered-nav dt { margin:2px 0 0; font-weight:bold; font-size:12px; color:#222; }
 .sidebar .block-layered-nav dd { margin:0 0 13px; color:#666; }
 .sidebar .block-layered-nav dd.last { margin:0; }
@@ -827,10 +828,10 @@ ul.disc li { padding-left:10px; background:url(../images/bkg_bulletsm.gif) no-re
 .sidebar .block-layered-nav dd a { color:#222; text-decoration:none; }
 .sidebar .block-layered-nav dd a:hover { text-decoration:underline; }
 .sidebar .block-layered-nav .currently { border:1px solid #d1d1d1; border-width:1px 0; padding:10px 10px 10px 17px; margin-bottom:-1px; background:#f4f4f4 url(../images/bkg_currently.gif) repeat-x 0 -20px; }
-.sidebar .block-layered-nav .currently .block-subtitle { display:block; }
+.sidebar .block-layered-nav .currently .block-subtitle { display:block; margin-bottom:5px; }
 .sidebar .block-layered-nav .currently li { padding:5px 0; color:#444; }
 .sidebar .block-layered-nav .currently .label { font-weight:bold; color:#d33911; font-size:12px; }
-.sidebar .block-layered-nav .actions { text-align:right; padding-right:7px; }
+.sidebar .block-layered-nav .actions { text-align:right; }
 .sidebar .block-layered-nav .actions a { float:none; }
 
 /* Block: Cart */

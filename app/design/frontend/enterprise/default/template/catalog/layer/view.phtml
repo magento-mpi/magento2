@@ -37,8 +37,8 @@
         <strong><span><?php echo $this->__('Shop By') ?></span></strong>
     </div>
     <?php echo $this->getStateHtml() ?>
+    <div class="block-content">
     <?php if($this->canShowOptions()): ?>
-        <div class="block-content">
             <p class="block-subtitle"><?php echo $this->__('Shopping Options') ?></p>
             <dl id="narrow-by-list">
                 <?php $_filters = $this->getFilters() ?>
@@ -50,10 +50,10 @@
                 <?php endforeach; ?>
             </dl>
             <script type="text/javascript">decorateDataList('narrow-by-list')</script>
-        </div>
     <?php endif; ?>
     <?php if ($this->getLayer()->getState()->getFilters()): ?>
         <div class="actions"><a href="<?php echo $this->getClearUrl() ?>"><?php echo $this->__('Clear All') ?></a></div>
     <?php endif; ?>
+    </div>
 </div>
 <?php endif; ?>
