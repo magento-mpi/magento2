@@ -143,6 +143,9 @@ class Mage_PHPUnit_Initializer_App extends Mage_PHPUnit_Initializer_Abstract
         if (is_null($this->_loadDataFromTables)) {
             $this->_loadDataFromTables = true;
         }
+
+        //TODO implement config usage
+        Mage::setIsDeveloperMode(true);
     }
 
     /**

@@ -59,9 +59,9 @@ abstract class Mage_PHPUnit_Integration_ControllerTestCase extends Mage_PHPUnit_
      *
      * @return string
      */
-    protected function dispatch(
-        $action, $controller = null, $module = null, array $params = null, $isAdminAction = false)
-    {
+    protected function dispatch($action, $controller = null, $module = null, array $params = null,
+        $isAdminAction = false
+    ) {
         ob_start();
         try {
             $request = $this->getRequest();
@@ -106,7 +106,8 @@ abstract class Mage_PHPUnit_Integration_ControllerTestCase extends Mage_PHPUnit_
             $request->setActionName($action)->setDispatched(false);
 
             $appInitializer = Mage_PHPUnit_Initializer_Factory::createInitializer(
-                'Mage_PHPUnit_Initializer_App', false
+                'Mage_PHPUnit_Initializer_App',
+                false
             );
             $appInitializer->setRunCode($this->_mageRunCode)
                 ->setRunType($this->_mageRunType)

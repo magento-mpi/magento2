@@ -24,36 +24,40 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-/**
- * Local DB queries factory
- *
- * @category    Mage
- * @package     Mage_PHPUnit
- * @author      Magento Core Team <core@magentocommerce.com>
- */
-class Mage_PHPUnit_Db_Query_Factory
-{
-    /**
-     * Array, which contains available processor class names
-     *
-     * @var array
-     */
-    protected static $_queryModels = array(
-        'Mage_PHPUnit_Db_Query_Select',
-        'Mage_PHPUnit_Db_Query_Delete'
-    );
 
-    /**
-     * Gets all available query processors
-     *
-     * @return array
-     */
-    public static function getAllQueryModels()
-    {
-        $models = array();
-        foreach (self::$_queryModels as $modelName) {
-            $models[$modelName] = new $modelName();
-        }
-        return $models;
+set_include_path(join(PATH_SEPARATOR, array(
+    UNIT_ROOT . '/tests',
+    UNIT_FRAMEWORK,
+    UNIT_FRAMEWORK . '/_stubs',
+    get_include_path()
+)));
+
+
+spl_autoload_register('mageAutoloader');
+
+/**
+ * Unit auto class loader
+ *
+ * @param string $class
+ * @return void
+ * @throws Magento_Exception
+ */
+function mageAutoloader($class)
+{
+    static $paths;
+    if (null === $paths) {
+        $paths = explode(PATH_SEPARATOR, get_include_path());
     }
+    $file = str_replace('_', '/', $class) . '.php';
+
+    foreach ($paths as $path) {
+        $filename = $path . DIRECTORY_SEPARATOR . $file;
+        if (file_exists($filename)) {
+            require_once $filename;
+            return;
+        }
+    }
+    throw new Mage_PHPUnit_Exception(
+        sprintf('Class does not exist in path "%s"', get_include_path()));
+
 }

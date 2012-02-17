@@ -90,7 +90,7 @@ class Mage_PHPUnit_Helper_Model_Model extends Mage_PHPUnit_Helper_Model_Abstract
 
         $config = Mage::getConfig()->getNode("global/{$this->_group}s/{$module}");
 
-        if ($config->rewrite->{$class}) {
+        if (is_object($config) && $config->rewrite->{$class}) {
             $className = (string)$config->rewrite->{$class};
         } else {
             if (!empty($config)) {

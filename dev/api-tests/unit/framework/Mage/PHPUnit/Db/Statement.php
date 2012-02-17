@@ -98,12 +98,8 @@ class Mage_PHPUnit_Db_Statement extends Zend_Db_Statement
     public function setResult($result)
     {
         $this->_result = $result;
-        if (is_array($this->_result)) {
-            $this->_rowCount = count($result);
-            reset($this->_result);
-        } elseif (is_numeric($result) || is_null($result)) {
-            $this->_rowCount = $result;
-        }
+        $this->_rowCount = count($result);
+        reset($this->_result);
     }
 
     /**
