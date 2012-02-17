@@ -111,11 +111,14 @@ class Mage_DesignEditor_Model_Observer
         if (strpos($html, '<body') !== false) {
             return false;
         }
+        $couldBeDraggable = false;
         // Markers should be placed only if block outputs real html, not some script or header tags
-        if (preg_match('/<div|<p|<ul|<dt|<dl|<span|<b|<i|<a|<form|<h[\d]|<select|<input|<textarea/i', $html)) {
-            return true;
+        if (preg_match('/<div|<p|<ul|<dt|<dl|<span|<b|<i|<a|<form|<h[\d]|<select|<input|<textarea/i', $html)
+            || strlen(trim($html)) == 0)
+        {
+            $couldBeDraggable = true;
         }
-        return false;
+        return $couldBeDraggable && Mage::helper('Mage_DesignEditor_Helper_Data')->isBlockDraggable($block);
     }
 
     /**

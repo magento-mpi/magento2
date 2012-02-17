@@ -77,8 +77,9 @@ class Mage_DesignEditor_Model_ObserverTest extends PHPUnit_Framework_TestCase
     public function testWrapHtmlWithBlockInfo()
     {
         $params = array(
-            'name' => 'block.name',
-            'html' => '<div>Any text</div>'
+            'name'   => 'block.name',
+            'html'   => '<div>Any text</div>',
+            'container' => 'Mage_Core_Block_Text_List'
         );
         $observerData = $this->_buildObserverData($params);
         $this->_observer->wrapHtmlWithBlockInfo($observerData);
@@ -140,6 +141,14 @@ class Mage_DesignEditor_Model_ObserverTest extends PHPUnit_Framework_TestCase
         }
         $block->setNameInLayout($params['name'])
             ->setLayout(new Mage_Core_Model_Layout);
+
+        if (isset($params['container'])) {
+            $parentBlock = $this->getMock($params['container'], array('getType'));
+            $parentBlock->expects(self::any())
+                ->method('getType')
+                ->will(new PHPUnit_Framework_MockObject_Stub_Return($params['container']));
+            $block->setParentBlock($parentBlock);
+        }
 
         $transport = new Varien_Object();
         $transport->setHtml($params['html']);
