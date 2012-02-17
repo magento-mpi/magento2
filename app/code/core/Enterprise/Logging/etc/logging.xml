@@ -1242,7 +1242,7 @@
     </sales_shipments>
 
     <sales_creditmemos translate="label">
-        <label>Sales Creditmemos</label>
+        <label>Sales Credit Memos</label>
         <expected_models>
             <sales__order_creditmemo>
                 <additional_data>
