@@ -65,4 +65,14 @@ class Enterprise_Checkout_Block_Widget_Sku
         return '<a href="' . $helper->getAccountSkuUrl() . '">'
             . $this->escapeHtml($data['link_text']) . '</a>';
     }
+
+    /**
+     * Get request parameter name of SKU file imported flag
+     *
+     * @return string
+     */
+    public function getRequestParameterSkuFileImportedFlag()
+    {
+        return Enterprise_Checkout_Helper_Data::REQUEST_PARAMETER_SKU_FILE_IMPORTED_FLAG;
+    }
 }

@@ -66,7 +66,6 @@ class Enterprise_Checkout_Model_Import extends Varien_Object
     /**
      * Upload file
      *
-     * @throws Mage_Core_Exception
      * @return void
      */
     public function uploadFile()
@@ -90,7 +89,6 @@ class Enterprise_Checkout_Model_Import extends Varien_Object
     /**
      * Get rows from file
      *
-     * @throws Mage_Core_Exception
      * @return array
      */
     public function getRows()

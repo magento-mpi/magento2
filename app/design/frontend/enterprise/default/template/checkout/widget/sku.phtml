@@ -195,7 +195,7 @@ document.observe('dom:loaded', function() {
         'click',
         function(e) {
             var skuForm = $('<?php echo $skuFormId; ?>');
-            var skuFileImportedParamName = '<?php echo Enterprise_Checkout_Helper_Data::REQUEST_PARAMETER_SKU_FILE_IMPORTED_FLAG; ?>';
+            var skuFileImportedParamName = '<?php echo $this->getRequestParameterSkuFileImportedFlag(); ?>';
             if (typeof skuForm[skuFileImportedParamName] == 'undefined') {
                 skuForm.insert(new Element('input', {
                     'type': 'hidden',

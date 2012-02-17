@@ -348,7 +348,7 @@ class Enterprise_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
      * @param Mage_Core_Model_Session_Abstract|null $session
      * @return array|bool
      */
-    public function processSkuFileUploading(Mage_Core_Model_Session_Abstract $session)
+    public function processSkuFileUploading($session)
     {
         /** @var $importModel Enterprise_Checkout_Model_Import */
         $importModel = Mage::getModel('enterprise_checkout/import');
