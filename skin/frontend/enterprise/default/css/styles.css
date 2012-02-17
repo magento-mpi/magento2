@@ -293,7 +293,7 @@ a.back-link { color:#999; }
 
 /* Global Messages */
 .messages { width:100%; overflow:hidden; text-align:left; margin-top:10px; }
-.messages li { margin:0 0 10px; padding:0; }
+.messages li { margin:0 0 10px; padding:0; word-wrap:break-word; }
 .messages ul { padding:10px 17px 18px; margin:0 0 -11px; background-position:35px 100%; background-repeat:no-repeat; position:relative; }
 .messages ul li { margin:0; padding:0 0 3px; }
 .messages a { text-decoration:underline; }
@@ -2193,18 +2193,20 @@ ul.cms-menu.type-square ul { list-style-type:square; }
 #wishlists-copy { float:right; }
 
 /* Wishlist search view */
+#wishlist-search-results {}
+
+
 .wishlist-search-view {}
-.list-info { border:1px solid #dadada; padding:10px 15px; margin:0 0 15px; background:url(../images/bkg_block.gif) repeat-x 100% 100% #fff; }
-.list-info .item { padding:5px 0; font-size:12px; border-top:1px dotted #d9d9d9; }
+.list-info { border:1px solid #dadada; padding:10px 0; margin:0 0 15px; background:url(../images/bkg_block.gif) repeat-x 100% 100% #fff; max-width:100%; word-wrap:break-word; }
+.list-info .item { padding:5px 0; font-size:12px; border-top:1px dotted #d9d9d9; margin:0 15px; }
 .list-info .item:first-child { border-top:0; }
 .list-info .item .label { font-weight:normal; font-style:italic; font-size:0.9em; margin-right:5px; }
 .list-info .item .label:after { content:':'; }
 .list-info .item .value { font-weight:bold; }
 .wishlist-search-view #wishlist-table td.last { padding:15px 10px; }
-.wishlist-search-view .list-info { float:left; }
+.wishlist-search-view .list-info { display:inline-block; }
 .wishlist-search-view .sub-title { clear:both; }
 .wishlist-search-view p.qty { text-align:center; }
-.wishlist-search-view .price-box { text-align:right; }
 
 
 /* Store credit */
