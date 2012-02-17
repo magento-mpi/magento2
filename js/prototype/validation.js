@@ -422,15 +422,9 @@ Validation.addAllThese([
                 return !Validation.get('IsEmpty').test(v);
             }],
     ['validate-number', 'Please enter a valid number in this field.', function(v) {
-            // use it only if server side does not support decimal comma, validate-decimal otherwise
                 return Validation.get('IsEmpty').test(v)
                     || (!isNaN(parseNumber(v)) && /^\s*-?\d*(\.\d*)?\s*$/.test(v));
             }],
-    ['validate-decimal', 'Please enter a valid number in this field.', function(v) {
-            // preferred way to validate decimals but be sure that server side deals with both decimal point and comma
-            return Validation.get('IsEmpty').test(v)
-                || (!isNaN(parseNumber(v)) && /^\s*-?\d*([.,]\d*)?\s*$/.test(v));
-        }],
     ['validate-number-range', 'The value is not within the specified range.', function(v, elm) {
                 var numValue = parseNumber(v);
                 if (Validation.get('IsEmpty').test(v) || isNaN(numValue)) {
@@ -473,13 +467,13 @@ Validation.addAllThese([
     ['validate-code', 'Please use only letters (a-z), numbers (0-9) or underscore(_) in this field, first character should be a letter.', function (v) {
                 return Validation.get('IsEmpty').test(v) ||  /^[a-z]+[a-z0-9_]+$/.test(v)
             }],
-    ['validate-alphanum', 'Please use only letters (a-z or A-Z) or numbers (0-9) in this field. No spaces or other characters are allowed.', function(v) {
+    ['validate-alphanum', 'Please use only letters (a-z or A-Z) or numbers (0-9) only in this field. No spaces or other characters are allowed.', function(v) {
                 return Validation.get('IsEmpty').test(v) || /^[a-zA-Z0-9]+$/.test(v)
             }],
-    ['validate-alphanum-with-spaces', 'Please use only letters (a-z or A-Z), numbers (0-9) or spaces in this field.', function(v) {
+    ['validate-alphanum-with-spaces', 'Please use only letters (a-z or A-Z), numbers (0-9) or spaces only in this field.', function(v) {
                     return Validation.get('IsEmpty').test(v) || /^[a-zA-Z0-9 ]+$/.test(v)
             }],
-    ['validate-street', 'Please use only letters (a-z or A-Z) or numbers (0-9) or spaces and # in this field.', function(v) {
+    ['validate-street', 'Please use only letters (a-z or A-Z) or numbers (0-9) or spaces and # only in this field.', function(v) {
                 return Validation.get('IsEmpty').test(v) ||  /^[ \w]{3,}([A-Za-z]\.)?([ \w]*\#\d+)?(\r\n| )[ \w]{3,}/.test(v)
             }],
     ['validate-phoneStrict', 'Please enter a valid phone number. For example (123) 456-7890 or 123-456-7890.', function(v) {
@@ -608,7 +602,7 @@ Validation.addAllThese([
                 v = parseNumber(v);
                 return !isNaN(v) && v >= 0;
             }],
-    ['validate-zero-or-greater', 'Please enter a number 0 or greater in this fielddd.', function(v) {
+    ['validate-zero-or-greater', 'Please enter a number 0 or greater in this field.', function(v) {
             return Validation.get('validate-not-negative-number').test(v);
         }],
     ['validate-greater-than-zero', 'Please enter a number greater than 0 in this field.', function(v) {
