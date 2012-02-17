@@ -41,14 +41,12 @@ class Enterprise_Pbridge_Model_System_Config_Backend_Data_Transfer_Key extends M
      */
     protected function _beforeSave()
     {
-        $value = $this->getValue();
-
         /**
          * Maximum allowed length is hardcoded because currently we use only CIPHER_RIJNDAEL_256
          * @see Enterprise_Pci_Model_Encryption::_getCrypt
          */
         if (strlen($this->getValue()) > 32) { // strlen() intentionally, to count bytes rather than characters
-            Mage::throwException(Mage::helper('enterprise_pbridge')->__('Maximum data transfer key length is 32. Please correct your settings.', $value));
+            Mage::throwException(Mage::helper('enterprise_pbridge')->__('Maximum data transfer key length is 32. Please correct your settings.'));
         }
 
         return $this;
