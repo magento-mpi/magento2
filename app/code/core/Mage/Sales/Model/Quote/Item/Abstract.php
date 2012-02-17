@@ -547,10 +547,6 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
      */
     public function isChildrenCalculated()
     {
-        if ($this->getForceCalculateDiscountForParent()) {
-            return false;
-        }
-
         if ($this->getParentItem()) {
             $calculate = $this->getParentItem()->getProduct()->getPriceType();
         } else {
@@ -563,6 +559,21 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
         return false;
     }
 
+    /**
+     * Check if force discount apply to parent item
+     *
+     * @return bool
+     */
+    public function getForceApplyDiscountToParentItem()
+    {
+        if ($this->getParentItem()) {
+            $product = $this->getParentItem()->getProduct();
+        } else {
+            $product = $this->getProduct();
+        }
+
+        return $product->getTypeInstance()->getForceApplyDiscountToParentItem();
+    }
 
     /**
      * Checking can we ship product separatelly (each child separately)

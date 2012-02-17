@@ -291,20 +291,4 @@ class Mage_Bundle_Model_Observer
 
         return $this;
     }
-
-    /**
-     * Force calculate Discount to Parent Item for Bundle products
-     *
-     * @param Varien_Event_Observer $observer
-     * @return Mage_Bundle_Model_Observer
-     */
-    public function forceCalculateDiscountForParent(Varien_Event_Observer $observer)
-    {
-        $item = $observer->getEvent()->getItem();
-        if ($item->getProduct()->getTypeId() == Mage_Catalog_Model_Product_Type::TYPE_BUNDLE) {
-            $item->setForceCalculateDiscountForParent('true');
-        }
-
-        return $this;
-    }
 }

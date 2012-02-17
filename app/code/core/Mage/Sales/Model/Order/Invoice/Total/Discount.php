@@ -54,10 +54,13 @@ class Mage_Sales_Model_Order_Invoice_Total_Discount extends Mage_Sales_Model_Ord
 
         /** @var $item Mage_Sales_Model_Order_Invoice_Item */
         foreach ($invoice->getAllItems() as $item) {
-            if ($item->getOrderItem()->isDummy()) {
-                continue;
-            }
             $orderItem = $item->getOrderItem();
+            if ($orderItem->isDummy()
+                && !$orderItem->getProduct()->getTypeInstance()->getForceApplyDiscountToParentItem()
+            ) {
+                 continue;
+            }
+
             $orderItemDiscount      = (float) $orderItem->getDiscountAmount();
             $baseOrderItemDiscount  = (float) $orderItem->getBaseDiscountAmount();
             $orderItemQty       = $orderItem->getQtyOrdered();
