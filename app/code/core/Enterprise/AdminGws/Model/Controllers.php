@@ -1202,4 +1202,84 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
         );
         return $this;
     }
+
+    /**
+     * Block RMA attribute creation action for all GWS enabled users
+     *
+     * @return bool
+     */
+    public function validateRmaAttributeNewAction()
+    {
+        $this->_forward();
+        return false;
+    }
+
+    /**
+     * Block editing of RMA attributes on disallowed websites
+     *
+     * @param Mage_Adminhtml_Controller_Action $controller
+     * @return bool|void
+     */
+    public function validateRmaAttributeEditAction($controller)
+    {
+        $websiteCode = $controller->getRequest()->getParam('website');
+
+        if (!$websiteCode) {
+            $allowedWebsitesIds = $this->_role->getWebsiteIds();
+
+            if (!count($allowedWebsitesIds)) {
+                $this->_forward();
+                return false;
+            }
+
+            return $this->_redirect($controller, Mage::getSingleton('adminhtml/url')
+                ->getUrl('adminhtml/rma_item_attribute/edit',
+                     array('website' => $allowedWebsitesIds[0], '_current' => true))
+            );
+        }
+
+        try {
+            $website = Mage::app()->getWebsite($websiteCode);
+
+            if (!$website || !$this->_role->hasWebsiteAccess($website->getId(), true)) {
+                $this->_forward();
+                return false;
+            }
+        }
+        catch (Mage_Core_Exception $e) {
+            $this->_forward();
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Block saving of new RMA attributes for all GWS enabled users
+     *
+     * @param Mage_Adminhtml_Controller_Action $controller
+     * @return bool
+     */
+    public function validateRmaAttributeSaveAction($controller)
+    {
+        $id = $controller->getRequest()->getParam('attribute_id');
+
+        if (empty($id)) {
+            $this->_forward();
+            return false;
+        }
+
+        return $this->validateRmaAttributeEditAction($controller);
+    }
+
+    /**
+     * Block RMA attributes deleting for all GWS enabled users
+     *
+     * @return bool
+     */
+    public function validateRmaAttributeDeleteAction()
+    {
+        $this->_forward();
+        return false;
+    }
 }

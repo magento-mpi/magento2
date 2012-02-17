@@ -561,6 +561,10 @@
                     <adminhtml__customer_attribute__>validateCustomerAttributeActions</adminhtml__customer_attribute__>
                     <adminhtml__customer_address_attribute__>validateCustomerAttributeActions</adminhtml__customer_address_attribute__>
                     <adminhtml__rma__new>validateSalesOrderViewAction</adminhtml__rma__new>
+                    <adminhtml__rma_item_attribute__new>validateRmaAttributeNewAction</adminhtml__rma_item_attribute__new>
+                    <adminhtml__rma_item_attribute__save>validateRmaAttributeSaveAction</adminhtml__rma_item_attribute__save>
+                    <adminhtml__rma_item_attribute__delete>validateRmaAttributeDeleteAction</adminhtml__rma_item_attribute__delete>
+                    <adminhtml__rma_item_attribute__edit>validateRmaAttributeEditAction</adminhtml__rma_item_attribute__edit>
                 </controller_predispatch>
                 <block_html_before>
                     <adminhtml__customer>widgetCustomerGridContainer</adminhtml__customer>
@@ -629,6 +633,8 @@
                     <adminhtml__promo_quote_edit>removeRuleEntityEditButtons</adminhtml__promo_quote_edit>
                     <enterprise_customersegment__adminhtml_customersegment_edit>removeRuleEntityEditButtons</enterprise_customersegment__adminhtml_customersegment_edit>
                     <enterprise_reminder__adminhtml_reminder_edit>removeRuleEntityEditButtons</enterprise_reminder__adminhtml_reminder_edit>
+                    <enterprise_rma__adminhtml_rma_item_attribute>removeRmaAddAttributeButton</enterprise_rma__adminhtml_rma_item_attribute>
+                    <enterprise_rma__adminhtml_rma_item_attribute_edit>removeRmaDeleteAttributeButton</enterprise_rma__adminhtml_rma_item_attribute_edit>
                 </block_html_before>
             </admingws>
         </enterprise>

@@ -1232,4 +1232,28 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
         $this->removeRuleEntityGridButtons($observer);
         return $this;
     }
+
+    /**
+     * Remove button "Add RMA Attribute" for all GWS limited users
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_AdminGws_Model_Blocks
+     */
+    public function removeRmaAddAttributeButton($observer)
+    {
+        $observer->getEvent()->getBlock()->removeButton('add');
+        return $this;
+    }
+
+    /**
+     * Remove "Delete Attribute" button for all GWS limited users
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_AdminGws_Model_Blocks
+     */
+    public function removeRmaDeleteAttributeButton($observer)
+    {
+        $observer->getEvent()->getBlock()->removeButton('delete');
+        return $this;
+    }
 }
