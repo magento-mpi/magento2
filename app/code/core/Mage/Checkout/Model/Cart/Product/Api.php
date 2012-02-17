@@ -188,7 +188,8 @@ class Mage_Checkout_Model_Cart_Product_Api extends Mage_Checkout_Model_Api_Resou
 
             try {
                 /** @var $quoteItem Mage_Sales_Model_Quote_Item */
-                $quoteItem = $this->_getQuoteItemByProduct($quote, $productByItem, $this->_getProductRequest($productItem));
+                $quoteItem = $this->_getQuoteItemByProduct($quote, $productByItem,
+                    $this->_getProductRequest($productItem));
                 if (is_null($quoteItem->getId())) {
                     $errors[] = Mage::helper('checkout')->__("One item of products is not belong any of quote item");
                     continue;
@@ -296,7 +297,8 @@ class Mage_Checkout_Model_Cart_Product_Api extends Mage_Checkout_Model_Api_Resou
 
             try {
                 /** @var $quoteItem Mage_Sales_Model_Quote_Item */
-                $quoteItem = $this->_getQuoteItemByProduct($quote, $productByItem, $this->_getProductRequest($productItem));
+                $quoteItem = $this->_getQuoteItemByProduct($quote, $productByItem,
+                    $this->_getProductRequest($productItem));
                 if($quoteItem->getId()){
                     $customerQuote->addItem($quoteItem);
                     $quote->removeItem($quoteItem->getId());
