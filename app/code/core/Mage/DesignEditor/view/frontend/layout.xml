@@ -23,6 +23,7 @@
             <block type="Mage_DesignEditor_Block_Toolbar" name="design_editor_toolbar" template="toolbar.phtml" before="-">
                 <block type="Mage_DesignEditor_Block_Toolbar_Skin" name="design_editor_toolbar_skin" template="toolbar/skin.phtml"/>
                 <block type="Mage_DesignEditor_Block_Toolbar_PageType" name="design_editor_toolbar_page_types" template="toolbar/page_types.phtml"/>
+                <block type="Mage_DesignEditor_Block_Toolbar_Breadcrumbs" name="design_editor_toolbar_breadcrumbs" template="toolbar/breadcrumbs.phtml"/>
             </block>
         </reference>
     </default>

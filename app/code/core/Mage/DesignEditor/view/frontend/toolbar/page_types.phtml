@@ -26,11 +26,7 @@
             }
         }).bind('select_node.jstree', function (e, data) {
             var selectedListItem = data.rslt.obj;
-            var breadcrumbs = [];
-            selectedListItem.parentsUntil('div', 'li').andSelf().each(function () {
-                breadcrumbs.push($(this).children('a').text());
-            });
-            $('#vde_page_types_control').text(breadcrumbs.join(' / '));
+            $('#vde_page_types_control').text(selectedListItem.children('a').text());
             if ($(this).is(':visible')) {
                 $(this).hide();
                 window.location = selectedListItem.children('a').attr('href');
