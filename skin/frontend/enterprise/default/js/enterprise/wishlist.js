@@ -153,18 +153,22 @@ Enterprise.Wishlist.edit = function(editUrl, wishlistName, visibility) {
 }
 
 Enterprise.Wishlist.copyItemTo = function(itemId, qty, wishlistId) {
-    var url = Enterprise.Wishlist.url.copyItem;
-    var form = new Element('form', {method: 'post', action: url.gsub('%wishlist_id%', wishlistId)});
+    var form = new Element('form', {method: 'post', action: Enterprise.Wishlist.url.copyItem});
     form.insert(new Element('input', {name: 'item_id', type: 'hidden', value: itemId}));
+    if (typeof wishlistId != 'undefined') {
+        form.insert(new Element('input', {name: 'wishlist_id', type: 'hidden', value: wishlistId}));
+    }
     form.insert(new Element('input', {name: 'qty', type: 'hidden', value: qty}));
     $(document.body).insert(form);
     form.submit();
 };
 
 Enterprise.Wishlist.moveItemTo = function(itemId, qty, wishlistId) {
-    var url = Enterprise.Wishlist.url.moveItem;
-    var form = new Element('form', {method: 'post', action: url.gsub('%wishlist_id%', wishlistId)});
+    var form = new Element('form', {method: 'post', action: Enterprise.Wishlist.url.moveItem});
     form.insert(new Element('input', {name: 'item_id', type: 'hidden', value: itemId}));
+    if (typeof wishlistId != 'undefined') {
+        form.insert(new Element('input', {name: 'wishlist_id', type: 'hidden', value: wishlistId}));
+    }
     form.insert(new Element('input', {name: 'qty', type: 'hidden', value: qty}));
     $(document.body).insert(form);
     form.submit();

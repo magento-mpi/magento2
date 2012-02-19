@@ -186,7 +186,7 @@ class Enterprise_Wishlist_Block_Customer_Wishlist_Management extends Mage_Core_B
      */
     public function getCopyItemUrl()
     {
-        return $this->getUrl('wishlist/index/copyitem', array('wishlist_id' => '%wishlist_id%'));
+        return $this->getUrl('wishlist/index/copyitem');
     }
 
     /**
@@ -196,7 +196,7 @@ class Enterprise_Wishlist_Block_Customer_Wishlist_Management extends Mage_Core_B
      */
     public function getMoveItemUrl()
     {
-        return $this->getUrl('wishlist/index/moveitem', array('wishlist_id' => '%wishlist_id%'));
+        return $this->getUrl('wishlist/index/moveitem');
     }
 
     /**

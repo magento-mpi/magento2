@@ -82,7 +82,8 @@ class Enterprise_Wishlist_Block_Customer_Wishlist_Item_Column_Management
      */
     public function canCreateWishlists(Mage_Wishlist_Model_Resource_Wishlist_Collection $wishlists)
     {
-        return !Mage::helper('enterprise_wishlist')->isWishlistLimitReached($wishlists);
+        $customerId = Mage::getSingleton('customer/session')->getCustomerId();
+        return !Mage::helper('enterprise_wishlist')->isWishlistLimitReached($wishlists) && $customerId;
     }
 
     /**
@@ -92,6 +93,6 @@ class Enterprise_Wishlist_Block_Customer_Wishlist_Item_Column_Management
      */
     public function getCopyItemUrl()
     {
-        return $this->getUrl('wishlist/index/copyitem', array('wishlist_id' => '%wishlist_id%'));
+        return $this->getUrl('wishlist/index/copyitem');
     }
 }

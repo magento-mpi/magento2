@@ -32,15 +32,40 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_Wishlist_Block_Customer_Wishlist_Item_Column_Copy
-    extends Mage_Wishlist_Block_Customer_Wishlist_Item_Column
+    extends Enterprise_Wishlist_Block_Customer_Wishlist_Item_Column_Management
 {
     /**
+     * Checks whether column should be shown in table
+     *
+     * @return bool
+     */
+    public function isEnabled()
+    {
+        return true;
+    }
+
+    /**
      * Get wishlist item copy url
-     * @param int $itemId
+     *
      * @return string
      */
-    public function getCopyItemUrl($itemId)
+    public function getCopyItemUrl()
     {
-        return $this->getUrl('wishlist/index/copyitem', array('item_id' => $itemId));
+        return $this->getUrl('wishlist/index/copyitem');
+    }
+
+    /**
+     * Retrieve column javascript code
+     *
+     * @return string
+     */
+    public function getJs()
+    {
+        return "
+            if (typeof Enterprise.Wishlist.url == 'undefined') {
+                Enterprise.Wishlist.url = {};
+            }
+            Enterprise.Wishlist.url.copyItem = '" . $this->getCopyItemUrl() . "';
+        ";
     }
 }
