@@ -49,7 +49,7 @@
                 <ul>
                     <?php foreach($this->getWishlists() as $wishlist): ?>
                         <?php if ($wishlist->getId() != $this->getCurrentWishlist()->getId()): ?>
-                        <li><a title="<?php echo $this->escapeHtml($wishlist->getName());?>" href="<?php echo $this->getWishlistManagementUrl($wishlist);?>"><?php echo $this->escapeHtml($wishlist->getName());?></a></li>
+                            <li><a title="<?php echo $this->escapeHtml($wishlist->getName());?>" href="<?php echo $this->getWishlistManagementUrl($wishlist);?>"><?php echo $this->escapeHtml($wishlist->getName());?></a></li>
                         <?php endif; ?>
                     <?php endforeach;?>
                     <?php if ($this->canCreateWishlists($this->getWishlists())): ?>

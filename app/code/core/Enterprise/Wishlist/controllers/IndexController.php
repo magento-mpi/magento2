@@ -294,11 +294,19 @@ class Enterprise_Wishlist_IndexController extends Mage_Wishlist_IndexController
      */
     public function copyitemAction()
     {
-        $wishlist = $this->_getWishlist();
+        $session = $this->_getSession();
+        $requestParams = $this->getRequest()->getParams();
+        if ($session->getBeforeWishlistRequest()) {
+            $requestParams = $session->getBeforeWishlistRequest();
+            $session->unsBeforeWishlistRequest();
+        }
+
+        $wishlist = $this->_getWishlist(isset($requestParams['wishlist_id']) ? $requestParams['wishlist_id'] : null);
         if (!$wishlist) {
             return $this->norouteAction();
         }
-        $itemId = $this->getRequest()->getParam('item_id');
+        $itemId = isset($requestParams['item_id']) ? $requestParams['item_id'] : null;
+        $qty = isset($requestParams['qty']) ? $requestParams['qty'] : null;
         if ($itemId) {
             $productName = '';
             try {
@@ -309,7 +317,7 @@ class Enterprise_Wishlist_IndexController extends Mage_Wishlist_IndexController
                 $wishlistName = Mage::helper('core')->escapeHtml($wishlist->getName());
                 $productName = Mage::helper('core')->escapeHtml($item->getProduct()->getName());
 
-                $this->_copyItem($item, $wishlist, $this->getRequest()->getParam('qty', null));
+                $this->_copyItem($item, $wishlist, $qty);
                 $this->_getSession()->addSuccess(
                     Mage::helper('enterprise_wishlist')->__('"%s" was successfully copied to %s', $productName, $wishlistName)
                 );
