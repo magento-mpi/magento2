@@ -177,6 +177,56 @@ class Enterprise_Checkout_Model_Observer
     }
 
     /**
+     * Calculate failed items quote-related data
+     *
+     * @param Varien_Event_Observer $observer
+     * @return void
+     */
+    public function collectTotalsFailedItems($observer)
+    {
+        if ($observer->getEvent()->getAction()->getFullActionName() != 'checkout_cart_index') {
+            return;
+        }
+
+        /** @var $realQuote Mage_Sales_Model_Quote */
+        $realQuote = Mage::getSingleton('sales/quote');
+        $affectedItems = $this->_getCart()->getFailedItems();
+        if (empty($affectedItems)) {
+            return;
+        }
+
+        /** @var $quote Mage_Sales_Model_Quote */
+        $quote = Mage::getModel('sales/quote');
+        $collection = new Varien_Data_Collection();
+
+        foreach (Mage::helper('enterprise_checkout')->getFailedItems(false) as $item) {
+            /** @var $item Mage_Sales_Model_Quote_Item */
+            if ((float)$item->getQty() <= 0) {
+                $item->setQty(1);
+            }
+            $item->setQuote($quote);
+            $collection->addItem($item);
+        }
+
+        $quote->preventSaving()->setItemsCollection($collection);
+
+        $quote->setShippingAddress($this->_copyAddress($quote, $realQuote->getShippingAddress()));
+        $quote->setBillingAddress($this->_copyAddress($quote, $realQuote->getBillingAddress()));
+        $quote->setTotalsCollectedFlag(false)->collectTotals();
+
+        foreach ($quote->getAllItems() as $item) {
+            /** @var $item Mage_Sales_Model_Quote_Item */
+            $itemSku = $item->getProduct()->getSku();
+            foreach ($affectedItems as $affectedItem) {
+                if ($itemSku == $affectedItem['item']['sku'] && $item->getQty() == 1) {
+                    $item->setData('qty', $affectedItem['orig_qty']);
+                    break;
+                }
+            }
+        }
+    }
+
+    /**
      * Add link to cart in cart sidebar to view grid with failed products
      *
      * @param Varien_Event_Observer $observer

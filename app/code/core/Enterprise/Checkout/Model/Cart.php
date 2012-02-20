@@ -1477,7 +1477,7 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
         }
         $sku = $item['sku'];
         $affectedItems = $this->getAffectedItems();
-        $affectedItems[$sku] = array('item' => $item, 'code' => $code);
+        $affectedItems[$sku] = array('item' => $item, 'code' => $code, 'orig_qty' => $item['qty']);
         $this->_currentlyAffectedItems[] = $sku;
         $this->setAffectedItems($affectedItems);
         return $affectedItems[$sku];
