@@ -27,7 +27,7 @@
 <?php /* @var $this Mage_Adminhtml_Block_Sales_Order_Create_Store_Select */ ?>
 <div class="storeScope">
     <?php echo $this->getHintHtml() ?>
-    <div class="tree-scoreScope">
+    <div class="tree-storeScope">
     <?php foreach ($this->getWebsiteCollection() as $_website): ?>
         <?php $showWebsite=false; ?>
         <?php foreach ($this->getGroupCollection($_website) as $_group): ?>
