@@ -33,4 +33,19 @@
  */
 class Mage_Sales_Model_Api2_Order_Rest_Customer_V1 extends Mage_Sales_Model_Api2_Order_Rest
 {
+    /**
+     * Load order by its id passed through request
+     *
+     * @throws Mage_Api2_Exception
+     * @return Mage_Sales_Model_Order
+     */
+    protected function _loadOrder()
+    {
+        $order = parent::_loadOrder();
+        // check order owner
+        if ($this->getApiUser()->getUserId() != $order->getCustomerId()) {
+            $this->_critical(self::RESOURCE_NOT_FOUND);
+        }
+        return $order;
+    }
 }

@@ -25,7 +25,7 @@
  */
 
 /**
- * Abstract API2 class for orders
+ * Abstract API2 class for order item
  *
  * @category   Mage
  * @package    Mage_Sales
@@ -33,4 +33,32 @@
  */
 abstract class Mage_Sales_Model_Api2_Order_Rest extends Mage_Sales_Model_Api2_Order
 {
+    /**
+     * Retrieve information about specified order item
+     *
+     * @throws Mage_Api2_Exception
+     * @return array
+     */
+    protected function _retrieve()
+    {
+        $order = $this->_loadOrder();
+        return $order->getData();
+    }
+
+    /**
+     * Load order by its id passed through request
+     *
+     * @throws Mage_Api2_Exception
+     * @return Mage_Sales_Model_Order
+     */
+    protected function _loadOrder()
+    {
+        $orderId = $this->getRequest()->getParam('id');
+        /* @var $order Mage_Sales_Model_Order */
+        $order = Mage::getModel('sales/order')->load($orderId);
+        if (!$order->getId()) {
+            $this->_critical(self::RESOURCE_NOT_FOUND);
+        }
+        return $order;
+    }
 }
