@@ -260,6 +260,7 @@ class Api2_Review_Reviews_CustomerTest extends Magento_Test_Webservice_Rest_Cust
      */
     public function testGetProductFilter()
     {
+        $this->_getAppCache()->flush();
         /** @var $product Mage_Catalog_Model_Product */
         $product = Magento_Test_Webservice::getFixture('product_simple');
 

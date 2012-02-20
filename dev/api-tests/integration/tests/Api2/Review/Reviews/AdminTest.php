@@ -280,6 +280,7 @@ class Api2_Review_Reviews_AdminTest extends Magento_Test_Webservice_Rest_Admin
      */
     public function testGetProductFilter()
     {
+        $this->_getAppCache()->flush();
         /** @var $product Mage_Catalog_Model_Product */
         $product = Magento_Test_Webservice::getFixture('product_simple');
 
@@ -313,6 +314,7 @@ class Api2_Review_Reviews_AdminTest extends Magento_Test_Webservice_Rest_Admin
      */
     public function testGetStatusFilter()
     {
+        $this->_getAppCache()->flush();
         $restResponse = $this->callGet('reviews', array('status_id' => Mage_Review_Model_Review::STATUS_APPROVED));
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
         $reviews = $restResponse->getBody();
