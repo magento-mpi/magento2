@@ -88,6 +88,7 @@
                         <free_shipping_subtotal translate="label">
                             <label>Minimum Order Amount for Free Shipping</label>
                             <frontend_type>text</frontend_type>
+                            <validate>validate-number validate-zero-or-greater</validate>
                             <sort_order>1220</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -150,6 +151,7 @@
                         <handling_fee translate="label">
                             <label>Handling Fee</label>
                             <frontend_type>text</frontend_type>
+                            <validate>validate-number validate-zero-or-greater</validate>
                             <sort_order>120</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -158,6 +160,7 @@
                         <max_package_weight translate="label">
                             <label>Maximum Package Weight (Please consult your shipping carrier for maximum supported shipping weight)</label>
                             <frontend_type>text</frontend_type>
+                            <validate>validate-number validate-zero-or-greater</validate>
                             <sort_order>130</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -284,6 +287,7 @@
                         <additional_protection_min_value translate="label">
                             <label>Additional Protection Min Subtotal</label>
                             <frontend_type>text</frontend_type>
+                            <validate>validate-number validate-zero-or-greater</validate>
                             <sort_order>1310</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -486,6 +490,7 @@
                         <max_package_weight translate="label">
                             <label>Maximum Package Weight (Please consult your shipping carrier for maximum supported shipping weight)</label>
                             <frontend_type>text</frontend_type>
+                            <validate>validate-number validate-zero-or-greater</validate>
                             <sort_order>100</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -512,6 +517,7 @@
                         <handling_fee translate="label">
                             <label>Handling Fee</label>
                             <frontend_type>text</frontend_type>
+                            <validate>validate-number validate-zero-or-greater</validate>
                             <sort_order>130</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -558,6 +564,7 @@
                         <free_shipping_subtotal translate="label">
                             <label>Minimum Order Amount for Free Shipping</label>
                             <frontend_type>text</frontend_type>
+                            <validate>validate-number validate-zero-or-greater</validate>
                             <sort_order>180</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -686,6 +693,7 @@
                         <free_shipping_subtotal translate="label">
                             <label>Minimum Order Amount for Free Shipping</label>
                             <frontend_type>text</frontend_type>
+                            <validate>validate-number validate-zero-or-greater</validate>
                             <sort_order>220</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -747,6 +755,7 @@
                         <handling_fee translate="label">
                             <label>Handling Fee</label>
                             <frontend_type>text</frontend_type>
+                            <validate>validate-number validate-zero-or-greater</validate>
                             <sort_order>130</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -755,6 +764,7 @@
                         <max_package_weight translate="label">
                             <label>Maximum Package Weight (Please consult your shipping carrier for maximum supported shipping weight)</label>
                             <frontend_type>text</frontend_type>
+                            <validate>validate-number validate-zero-or-greater</validate>
                             <sort_order>80</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -763,6 +773,7 @@
                         <min_package_weight translate="label">
                             <label>Minimum Package Weight (Please consult your shipping carrier for minimum supported shipping weight)</label>
                             <frontend_type>text</frontend_type>
+                            <validate>validate-number validate-zero-or-greater</validate>
                             <sort_order>90</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -1066,6 +1077,7 @@
                         <max_package_weight translate="label">
                             <label>Maximum Package Weight (Please consult your shipping carrier for maximum supported shipping weight)</label>
                             <frontend_type>text</frontend_type>
+                            <validate>validate-number validate-zero-or-greater</validate>
                             <sort_order>90</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -1092,6 +1104,7 @@
                         <handling_fee translate="label">
                             <label>Handling Fee</label>
                             <frontend_type>text</frontend_type>
+                            <validate>validate-number validate-zero-or-greater</validate>
                             <sort_order>120</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -1129,6 +1142,7 @@
                         <free_shipping_subtotal translate="label">
                             <label>Minimum Order Amount for Free Shipping</label>
                             <frontend_type>text</frontend_type>
+                            <validate>validate-number validate-zero-or-greater</validate>
                             <sort_order>160</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -1281,6 +1295,7 @@
                         <handling_fee translate="label">
                             <label>Handling Fee</label>
                             <frontend_type>text</frontend_type>
+                            <validate>validate-number validate-zero-or-greater</validate>
                             <sort_order>120</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -1417,6 +1432,7 @@
                         <free_shipping_subtotal translate="label">
                             <label>Minimum Order Amount for Free Shipping</label>
                             <frontend_type>text</frontend_type>
+                            <validate>validate-number validate-zero-or-greater</validate>
                             <sort_order>1220</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
