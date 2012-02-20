@@ -56,7 +56,7 @@ class Mage_Api2_Model_Resource_Acl_Global_Rule_CollectionTest extends Magento_Te
             /** @var $model Mage_Api2_Model_Acl_Global_Rule */
             $model = Mage::getModel('api2/acl_global_rule');
             $setData = $data['create'];
-            $setData['resource_id'] . $i;
+            $setData['resource_id'] .= $i;
             $this->addModelToDelete($model);
             $model->setData($setData);
             $model->save();
