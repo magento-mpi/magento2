@@ -83,9 +83,9 @@ class Api_Catalog_ProductTest extends Magento_Test_Webservice
         // reload product to reflect changes done by API request
         $product->load($product->getId());
 
-        $this->assertEquals($specialPrice, $product->getData('special_price'), 'Special price not changed');
-        $this->assertEquals($specialFrom, $product->getData('special_from_date'), 'Special price from not changed');
-        $this->assertEquals($specialTo, $product->getData('special_to_date'), 'Special price to not changed');
+        $this->assertEquals($specialPrice, $product->getSpecialPrice(), 'Special price not changed');
+        $this->assertEquals($specialFrom, $product->getSpecialFromDate(), 'Special price from not changed');
+        $this->assertEquals($specialTo, $product->getSpecialToDate(), 'Special price to not changed');
 
         $this->setFixture('productId', $product->getId());
     }

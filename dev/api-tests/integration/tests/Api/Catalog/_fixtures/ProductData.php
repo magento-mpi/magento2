@@ -115,7 +115,8 @@ return array(
         'price'             => 0.99,
         'tax_class_id'      => 2,
         'visibility'        => Mage_Catalog_Model_Product_Visibility::VISIBILITY_BOTH,
-        'status'            => Mage_Catalog_Model_Product_Status::STATUS_ENABLED
+        'status'            => Mage_Catalog_Model_Product_Status::STATUS_ENABLED,
+        'special_from_date' => false // to avoid set this attr to '' which leads to unpredictable bugs
     ),
     'create_full' => array(
         'soap' => array(
