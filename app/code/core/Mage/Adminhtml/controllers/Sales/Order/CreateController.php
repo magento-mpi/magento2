@@ -164,9 +164,10 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
          */
         if (!$this->_getOrderCreateModel()->getQuote()->isVirtual()) {
             $syncFlag = $this->getRequest()->getPost('shipping_as_billing');
+            $shippingMethod = $this->_getOrderCreateModel()->getShippingAddress()->getShippingMethod();
             if (is_null($syncFlag)
                 && $this->_getOrderCreateModel()->getShippingAddress()->getSameAsBilling()
-                && is_null($this->_getOrderCreateModel()->getShippingMethod())
+                && empty($shippingMethod)
             ) {
                 $this->_getOrderCreateModel()->setShippingAsBilling(1);
             } else {
