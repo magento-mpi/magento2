@@ -58,6 +58,6 @@ function mageAutoloader($class)
         }
     }
     throw new Mage_PHPUnit_Exception(
-        sprintf('Class does not exist in path "%s"', get_include_path()));
+        sprintf('Class "%s" does not exist in path "%s"', $class, get_include_path()));
 
 }
