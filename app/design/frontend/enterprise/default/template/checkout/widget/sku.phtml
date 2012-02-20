@@ -96,7 +96,7 @@ itemOptions["<?php echo $uniqueSuffix; ?>"] = {
             + '<td class="v-middle"><span class="remove-row" title="<?php echo $this->__('Remove Row') ?>"></span></td>'
         + '</tr>',
     itemCount: 1,
-    disableDefferedValidation: false,
+
     add: function(data) {
         this.template = new Template(this.templateText, this.templateSyntax);
         if (!data.id) {
@@ -105,7 +105,7 @@ itemOptions["<?php echo $uniqueSuffix; ?>"] = {
         }
         Element.insert(this.table, {bottom: this.template.evaluate(data)});
         this.bindRemoveButtons();
-        this.bindValidationOnChange(data.id);
+        this.bindValidationOnBlur(data.id);
         this.itemCount++;
     },
     remove: function(event) {
@@ -123,7 +123,7 @@ itemOptions["<?php echo $uniqueSuffix; ?>"] = {
             }
         }
     },
-    bindValidationOnChange: function(id) {
+    bindValidationOnBlur: function(id) {
         Event.observe(
             $('<?php echo $skuFormId; ?>').select('[name="items[' + id + '][sku]"]')[0],
             'blur',
@@ -136,10 +136,6 @@ itemOptions["<?php echo $uniqueSuffix; ?>"] = {
         );
     },
     validateRowDeferred: function() {
-        if (itemOptions["<?php echo $uniqueSuffix; ?>"].disableDefferedValidation) {
-            itemOptions["<?php echo $uniqueSuffix; ?>"].disableDefferedValidation = false;
-            return;
-        }
         setTimeout(function() {
             itemOptions["<?php echo $uniqueSuffix; ?>"].validateRow.apply(this, [true]);
         }.bind(this), 200);
@@ -167,7 +163,7 @@ itemOptions["<?php echo $uniqueSuffix; ?>"] = {
             }
         }
 
-        Validation.validate(qtyInput);
+        return Validation.validate(qtyInput);
     }
 }
 
@@ -188,12 +184,11 @@ document.observe('dom:loaded', function() {
         itemOptions["<?php echo $uniqueSuffix; ?>"].validateRowDeferred
     );
 
-    new VarienForm('<?php echo $skuFormId; ?>');
-
     Event.observe(
-        $('sku-submit-button<?php echo $uniqueSuffix; ?>'),
-        'click',
-        function(e) {
+        $('<?php echo $skuFormId; ?>'),
+        'submit',
+        function (e) {
+            Event.stop(e);
             var skuForm = $('<?php echo $skuFormId; ?>');
             var skuFileImportedParamName = '<?php echo $this->getRequestParameterSkuFileImportedFlag(); ?>';
             if (typeof skuForm[skuFileImportedParamName] == 'undefined') {
@@ -206,10 +201,19 @@ document.observe('dom:loaded', function() {
             if (typeof skuForm.sku_file != 'undefined' && $(skuForm.sku_file).present()) {
                 skuForm[skuFileImportedParamName].value = '1';
             }
+            var validator = itemOptions["<?php echo $uniqueSuffix; ?>"].validator;
+            if (validator && validator.validate()) {
+                this.submit();
+            }
+
+            var valid = true;
             $$('#items-table<?php echo $uniqueSuffix; ?> tbody input.input-text').each(function(element) {
-                itemOptions["<?php echo $uniqueSuffix; ?>"].validateRow.apply(element, [false]);
+                valid = itemOptions["<?php echo $uniqueSuffix; ?>"].validateRow.apply(element, [false]) && valid;
             });
-            itemOptions["<?php echo $uniqueSuffix; ?>"].disableDefferedValidation = true;
+            if (valid) {
+                this.submit();
+            }
+            return false;
         }
     );
 });

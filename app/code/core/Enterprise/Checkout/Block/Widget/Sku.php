@@ -31,7 +31,7 @@
  * @package    Enterprise_Checkout
  */
 class Enterprise_Checkout_Block_Widget_Sku
-    extends Mage_Core_Block_Template
+    extends Enterprise_Checkout_Block_Sku_Abstract
     implements Mage_Widget_Block_Interface
 {
     /**
@@ -42,37 +42,5 @@ class Enterprise_Checkout_Block_Widget_Sku
     public function getFormAction()
     {
         return $this->getUrl('checkout/cart/advancedAdd');
-    }
-
-    /**
-     * Get link to "Order by SKU" on customer's account page
-     *
-     * @return string
-     */
-    public function getLink()
-    {
-        $data = $this->getData();
-        if (empty($data['link_display']) || empty($data['link_text'])) {
-            return '';
-        }
-
-        /** @var $helper Enterprise_Checkout_Helper_Data */
-        $helper = Mage::helper('enterprise_checkout');
-        if (!$helper->isSkuEnabled() || !$helper->isSkuApplied()) {
-            return '';
-        }
-
-        return '<a href="' . $helper->getAccountSkuUrl() . '">'
-            . $this->escapeHtml($data['link_text']) . '</a>';
-    }
-
-    /**
-     * Get request parameter name of SKU file imported flag
-     *
-     * @return string
-     */
-    public function getRequestParameterSkuFileImportedFlag()
-    {
-        return Enterprise_Checkout_Helper_Data::REQUEST_PARAMETER_SKU_FILE_IMPORTED_FLAG;
     }
 }

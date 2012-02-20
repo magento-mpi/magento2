@@ -25,21 +25,29 @@
  */
 
 /**
- * Customer Order By SKU block
+ * Abstract block of form with SKUs data
  *
  * @category   Enterprise
  * @package    Enterprise_Checkout
  */
-class Enterprise_Checkout_Block_Customer_Sku extends Enterprise_Checkout_Block_Sku_Abstract
+abstract class Enterprise_Checkout_Block_Sku_Abstract
+    extends Mage_Core_Block_Template
 {
     /**
      * Retrieve form action URL
      *
      * @return string
      */
-    public function getFormAction()
+    abstract public function getFormAction();
+
+    /**
+     * Get request parameter name of SKU file imported flag
+     *
+     * @return string
+     */
+    public function getRequestParameterSkuFileImportedFlag()
     {
-        return $this->getUrl('*/*/uploadFile');
+        return Enterprise_Checkout_Helper_Data::REQUEST_PARAMETER_SKU_FILE_IMPORTED_FLAG;
     }
 
     /**
@@ -49,6 +57,28 @@ class Enterprise_Checkout_Block_Customer_Sku extends Enterprise_Checkout_Block_S
      */
     public function getIsMultipart()
     {
-        return true;
+        return false;
+    }
+
+    /**
+     * Get link to "Order by SKU" on customer's account page
+     *
+     * @return string
+     */
+    public function getLink()
+    {
+        $data = $this->getData();
+        if (empty($data['link_display']) || empty($data['link_text'])) {
+            return '';
+        }
+
+        /** @var $helper Enterprise_Checkout_Helper_Data */
+        $helper = Mage::helper('enterprise_checkout');
+        if (!$helper->isSkuEnabled() || !$helper->isSkuApplied()) {
+            return '';
+        }
+
+        return '<a href="' . $helper->getAccountSkuUrl() . '">'
+            . $this->escapeHtml($data['link_text']) . '</a>';
     }
 }
