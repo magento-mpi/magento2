@@ -47,6 +47,9 @@ class Mage_Rss_IndexController extends Mage_Core_Controller_Front_Action
      */
     protected $_customer;
 
+    /**
+     * Index action
+     */
     public function indexAction()
     {
         if (Mage::getStoreConfig('rss/config/active')) {
@@ -59,6 +62,9 @@ class Mage_Rss_IndexController extends Mage_Core_Controller_Front_Action
         }
     }
 
+    /**
+     * Display feed not found message
+     */
     public function nofeedAction()
     {
         $this->getResponse()->setHeader('HTTP/1.1','404 Not Found');
@@ -67,6 +73,12 @@ class Mage_Rss_IndexController extends Mage_Core_Controller_Front_Action
         $this->renderLayout();
     }
 
+    /**
+     * Wishlist rss feed action
+     * Show all public wishlists and private wishlists that belong to current user
+     *
+     * @return mixed
+     */
     public function wishlistAction()
     {
         if (!Mage::getStoreConfig('rss/wishlist/active')) {
@@ -94,6 +106,9 @@ class Mage_Rss_IndexController extends Mage_Core_Controller_Front_Action
         }
     }
 
+    /**
+     * Show wishlist rss
+     */
     protected function _showWishlistRss()
     {
         $this->getResponse()->setHeader('Content-type', 'text/xml; charset=UTF-8');
@@ -134,9 +149,9 @@ class Mage_Rss_IndexController extends Mage_Core_Controller_Front_Action
 
             $params = Mage::helper('core')->urlDecode($this->getRequest()->getParam('data'));
             $data   = explode(',', $params);
-            $cId    = abs(intval($data[0]));
-            if ($cId && ($cId == Mage::getSingleton('customer/session')->getCustomerId()) ) {
-                $this->_customer->load($cId);
+            $customerId    = abs(intval($data[0]));
+            if ($customerId && ($customerId == Mage::getSingleton('customer/session')->getCustomerId()) ) {
+                $this->_customer->load($customerId);
             }
         }
 

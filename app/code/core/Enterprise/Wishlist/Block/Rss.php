@@ -25,7 +25,7 @@
  */
 
 /**
- * Links block
+ * Wishlist rss feed block
  *
  * @category    Enterprise
  * @package     Enterprise_Wishlist
