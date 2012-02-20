@@ -264,7 +264,7 @@ class Mage_Shipping_Model_Shipping
                 if ($stockItem->getIsDecimalDivided()) {
                    if ($stockItem->getEnableQtyIncrements() && $stockItem->getQtyIncrements()) {
                         $itemWeight = $itemWeight * $stockItem->getQtyIncrements();
-                        $qty        = ($item->getWeight() / $itemWeight) * $qty;
+                        $qty        = round(($item->getWeight() / $itemWeight) * $qty);
                         $changeQty  = false;
                    } else {
                        $itemWeight = $itemWeight * $item->getQty();
