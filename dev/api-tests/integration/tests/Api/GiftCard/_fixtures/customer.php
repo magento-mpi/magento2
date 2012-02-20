@@ -32,7 +32,7 @@ $customer
     ->setCreatedIn('Default Store View')
     ->setDefaultBilling(1)
     ->setDefaultShipping(1)
-    ->setEmail('mr.test_giftcard' . time() . '@test.com')
+    ->setEmail('mr.test_giftcard' . uniqid() . '@test.com')
     ->setFirstname('Test')
     ->setLastname('Test')
     ->setMiddlename('Test')

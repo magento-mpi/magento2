@@ -29,7 +29,7 @@ $product = new Mage_Catalog_Model_Product();
 $product->setTypeId('virtual')
     ->setAttributeSetId(4)
     ->setName('Simple Product')
-    ->setSku('virtual-creditmemo-' . time())
+    ->setSku('virtual-creditmemo-' . uniqid())
     ->setPrice(10)
     ->setTaxClassId(0)
     ->setMetaTitle('meta title')

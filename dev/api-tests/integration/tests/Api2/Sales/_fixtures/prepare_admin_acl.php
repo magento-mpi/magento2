@@ -38,7 +38,7 @@ $role = Mage::getModel('api2/acl_global_role')
 if (!$role->getId()) {
     // Create role
     /* @var $role Mage_Api2_Model_Acl_Global_Role */
-    $role->setRoleName('TestAdminRole' . time())
+    $role->setRoleName('TestAdminRole' . uniqid())
         ->save();
     Magento_Test_Webservice::setFixture('role', $role);
 
