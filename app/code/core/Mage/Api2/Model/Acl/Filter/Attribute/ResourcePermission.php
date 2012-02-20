@@ -80,6 +80,9 @@ class Mage_Api2_Model_Acl_Filter_Attribute_ResourcePermission
                 /** @var $config Mage_Api2_Model_Config */
                 $config = Mage::getModel('api2/config');
 
+                /** @var $operationSource Mage_Api2_Model_Acl_Filter_Attribute_Operation */
+                $operationSource = Mage::getModel('api2/acl_filter_attribute_operation');
+
                 foreach ($config->getResourcesTypes() as $resource) {
                     try {
                         /** @var $resourceModel Mage_Api2_Model_Resource_Instance */
@@ -87,12 +90,9 @@ class Mage_Api2_Model_Acl_Filter_Attribute_ResourcePermission
                         if ($resourceModel) {
                             $resourceModel->setResourceType($resource);
 
-                            /** @var $operationSource Mage_Api2_Model_Acl_Filter_Attribute_Operation */
-                            $operationSource = Mage::getModel('api2/acl_filter_attribute_operation');
-
-                            foreach ($operationSource->toArray() as $operationValue => $operationLabel) {
-                                $avalaibleAttributes = $resourceModel->getAvailableAttributes();
-                                foreach ($avalaibleAttributes as $attributeValue => $attributeLabel) {
+                            $avalaibleAttributes = $resourceModel->getAvailableAttributes();
+                            foreach ($avalaibleAttributes as $attributeValue => $attributeLabel) {
+                                foreach ($operationSource->toArray() as $operationValue => $operationLabel) {
                                     $status = isset($allowedAttributes[$resource][$operationValue])
                                         && in_array($attributeValue, $allowedAttributes[$resource][$operationValue])
                                             ? Mage_Api2_Model_Acl_Global_Rule_Permission::TYPE_ALLOW

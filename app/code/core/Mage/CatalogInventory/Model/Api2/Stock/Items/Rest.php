@@ -70,15 +70,4 @@ abstract class Mage_CatalogInventory_Model_Api2_Stock_Items_Rest extends Mage_Ca
 
         return isset($data['items']) ? $data['items'] : $data;
     }
-
-    /**
-     * Fetch resource type
-     * Resource type should correspond to api2.xml config nodes under "config/api2/resources/"
-     *
-     * @return string
-     */
-    public function getType()
-    {
-        return 'stock';
-    }
 }
