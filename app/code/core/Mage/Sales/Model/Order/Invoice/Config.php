@@ -34,13 +34,6 @@
 class Mage_Sales_Model_Order_Invoice_Config extends Mage_Sales_Model_Order_Total_Config_Base
 {
     /**
-     * Invoice total models list
-     *
-     * @var null
-     */
-    protected $_totalModels = null;
-
-    /**
      * Cache key for collectors
      *
      * @var string
@@ -53,25 +46,5 @@ class Mage_Sales_Model_Order_Invoice_Config extends Mage_Sales_Model_Order_Total
     public function __construct()
     {
         parent::__construct(Mage::getConfig()->getNode('global/sales/order_invoice'));
-        $this->_initModels();
-        $this->_initCollectors();
-    }
-
-    /**
-     * Retrieve invoice total calculation models
-     *
-     * @return array
-     */
-    public function getTotalModels()
-    {
-        if (is_null($this->_totalModels)) {
-            foreach ($this->_collectors as $totalConfig) {
-                $class = $totalConfig->getTotalConfigNode()->getClassName();
-                if ($class && ($model = Mage::getModel($class))) {
-                    $this->_totalModels[] = $model;
-                }
-            }
-        }
-        return $this->_totalModels;
     }
 }

@@ -10,7 +10,8 @@
  * http://opensource.org/licenses/osl-3.0.php
  * If you did not receive a copy of the license and are unable to
  * obtain it through the world-wide-web, please send an email
- * to license@magentocommerce.com so we can send you a copy immediately.
+ * to license
+ * @magentocommerce.com so we can send you a copy immediately.
  *
  * DISCLAIMER
  *
@@ -34,13 +35,6 @@
 class Mage_Sales_Model_Order_Creditmemo_Config extends Mage_Sales_Model_Order_Total_Config_Base
 {
     /**
-     * Credit memo total modles list
-     *
-     * @var null
-     */
-    protected $_totalModels = null;
-
-    /**
      * Cache key for collectors
      *
      * @var string
@@ -53,25 +47,5 @@ class Mage_Sales_Model_Order_Creditmemo_Config extends Mage_Sales_Model_Order_To
     public function __construct()
     {
         parent::__construct(Mage::getConfig()->getNode('global/sales/order_creditmemo'));
-        $this->_initModels();
-        $this->_initCollectors();
-    }
-
-    /**
-     * Retrieve invoice total calculation models
-     *
-     * @return array
-     */
-    public function getTotalModels()
-    {
-        if (is_null($this->_totalModels)) {
-            foreach ($this->_collectors as $totalConfig) {
-                $class = $totalConfig->getTotalConfigNode()->getClassName();
-                if ($class && ($model = Mage::getModel($class))) {
-                    $this->_totalModels[] = $model;
-                }
-            }
-        }
-        return $this->_totalModels;
     }
 }

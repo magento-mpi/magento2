@@ -11,6 +11,7 @@
  * If you did not receive a copy of the license and are unable to
  * obtain it through the world-wide-web, please send an email
  * to license
+ *
  * @magentocommerce.com so we can send you a copy immediately.
  *
  * DISCLAIMER
@@ -28,13 +29,12 @@
 /**
  * Configuration class for totals
  *
- * Used to retrieve core configuration values
  *
  * @category    Mage
  * @package     Mage_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Sales_Model_Order_Total_Config_Base extends Mage_Core_Model_Config_Base
+class Mage_Sales_Model_Order_Total_Config_Base extends Mage_Sales_Model_Config_Ordered
 {
     /**
      * Cache key for collectors
@@ -44,6 +44,13 @@ class Mage_Sales_Model_Order_Total_Config_Base extends Mage_Core_Model_Config_Ba
     protected $_collectorsCacheKey = 'sorted_collectors';
 
     /**
+     * Total models list
+     *
+     * @var null
+     */
+    protected $_totalModels = null;
+
+    /**
      * Configuration path where to collect registered totals
      *
      * @var string
@@ -51,218 +58,40 @@ class Mage_Sales_Model_Order_Total_Config_Base extends Mage_Core_Model_Config_Ba
     protected $_totalsConfigNode = 'totals';
 
     /**
-     * Prepared total models
+     * Init model class by configuration
      *
-     * @var array
+     * @abstract
+     * @param $class
+     * @param $totalCode
+     * @param $totalConfig
+     * @return stdClass
      */
-    protected $_models = array();
-
-    /**
-     * Models configuration
-     *
-     * @var array
-     */
-    protected $_modelsConfig = array();
-
-    /**
-     * Sorted total models
-     *
-     * @var array
-     */
-    protected $_collectors = array();
-
-    /**
-     * Store ID
-     *
-     * @var int
-     */
-    protected $_store = 1;
-
-    /**
-     * Constructor
-     *
-     * @param null $sourceData
-     */
-    public function __construct($sourceData = null)
+    protected function _initModelInstance($class, $totalCode, $totalConfig)
     {
-        $this->_elementClass = 'Mage_Core_Model_Config_Element';
-        parent::__construct($sourceData);
+        $model = Mage::getModel($class);
+        if (!$model instanceof Mage_Sales_Model_Order_Total_Abstract) {
+            Mage::throwException(Mage::helper('sales')->__($class . ' total model should be extended from Mage_Sales_Model_Order_Invoice_Total_Abstract.'));
+        }
+
+        $model->setCode($totalCode);
+        $model->setTotalConfigNode($totalConfig);
+        $this->_modelsConfig[$totalCode] = $this->_prepareConfigArray($totalCode, $totalConfig);
+        $this->_modelsConfig[$totalCode] = $model->processConfigArray($this->_modelsConfig[$totalCode]);
+        return $model;
     }
 
     /**
-     * Initialize total models configuration and objects
-     * Taken from Mage_Sales_Model_Quote_Address_Total_Collector
+     * Retrieve total calculation models
      *
-     * @return Mage_Sales_Model_Quote_Address_Total_Collector
+     * @return array
      */
-    protected function _initModels()
+    public function getTotalModels()
     {
-        $totalsConfig = $this->getNode($this->_totalsConfigNode);
-
-        foreach ($totalsConfig->children() as $totalCode => $totalConfig) {
-            $class = $totalConfig->getClassName();
-            if ($class) {
-                $model = Mage::getModel($class);
-                if ($model instanceof Mage_Sales_Model_Order_Total_Abstract) {
-                    $model->setCode($totalCode);
-                    $model->setTotalConfigNode($totalConfig);
-                    $this->_modelsConfig[$totalCode] = $this->_prepareConfigArray($totalCode, $totalConfig);
-                    $this->_modelsConfig[$totalCode] = $model->processConfigArray(
-                        $this->_modelsConfig[$totalCode],
-                        $this->_store
-                    );
-                    $this->_models[$totalCode] = $model;
-                } else {
-                    Mage::throwException(Mage::helper('sales')->__($class . ' total model should be extended from Mage_Sales_Model_Order_Invoice_Total_Abstract.'));
-                }
-            }
+        if (is_null($this->_totalModels)) {
+            $this->_initModels();
+            $this->_initCollectors();
+            $this->_totalModels = $this->_collectors;
         }
-        return $this;
-    }
-
-    /**
-     * Prepare configuration array for total model
-     * Taken from Mage_Sales_Model_Quote_Address_Total_Collector
-     *
-     * @param   string $code
-     * @param   Mage_Core_Model_Config_Element $totalConfig
-     * @return  array
-     */
-    protected function _prepareConfigArray($code, $totalConfig)
-    {
-        $totalConfig = (array)$totalConfig;
-        if (isset($totalConfig['before'])) {
-            $totalConfig['before'] = explode(',', $totalConfig['before']);
-        } else {
-            $totalConfig['before'] = array();
-        }
-        if (isset($totalConfig['after'])) {
-            $totalConfig['after'] = explode(',', $totalConfig['after']);
-        } else {
-            $totalConfig['after'] = array();
-        }
-        $totalConfig['_code'] = $code;
-        return $totalConfig;
-    }
-
-    /**
-     * Aggregate before/after information from all items and sort totals based on this data
-     * Taken from Mage_Sales_Model_Quote_Address_Total_Collector
-     *
-     * @return array|mixed
-     */
-    protected function _getSortedCollectorCodes()
-    {
-        if (Mage::app()->useCache('config')) {
-            $cachedData = Mage::app()->loadCache($this->_collectorsCacheKey);
-            if ($cachedData) {
-                return unserialize($cachedData);
-            }
-        }
-        $configArray = $this->_modelsConfig;
-        // invoke simple sorting if the first element contains the "sort_order" key
-        reset($configArray);
-        $element = current($configArray);
-        if (isset($element['sort_order'])) {
-            uasort($configArray, array($this, '_compareSortOrder'));
-        } else {
-            foreach ($configArray as $code => $data) {
-                foreach ($data['before'] as $beforeCode) {
-                    if (!isset($configArray[$beforeCode])) {
-                        continue;
-                    }
-                    $configArray[$code]['before'] = array_merge(
-                        $configArray[$code]['before'], $configArray[$beforeCode]['before']
-                    );
-                    $configArray[$beforeCode]['after'] = array_merge(
-                        $configArray[$beforeCode]['after'], array($code), $data['after']
-                    );
-                    $configArray[$beforeCode]['after'] = array_unique($configArray[$beforeCode]['after']);
-                }
-                foreach ($data['after'] as $afterCode) {
-                    if (!isset($configArray[$afterCode])) {
-                        continue;
-                    }
-                    $configArray[$code]['after'] = array_merge(
-                        $configArray[$code]['after'], $configArray[$afterCode]['after']
-                    );
-                    $configArray[$afterCode]['before'] = array_merge(
-                        $configArray[$afterCode]['before'], array($code), $data['before']
-                    );
-                    $configArray[$afterCode]['before'] = array_unique($configArray[$afterCode]['before']);
-                }
-            }
-            uasort($configArray, array($this, '_compareTotals'));
-            $configArray = array_reverse($configArray);
-        }
-        $sortedCollectors = array_keys($configArray);
-        if (Mage::app()->useCache('config')) {
-            Mage::app()->saveCache(serialize($sortedCollectors), $this->_collectorsCacheKey, array(
-                    Mage_Core_Model_Config::CACHE_TAG
-                )
-            );
-        }
-        return $sortedCollectors;
-    }
-
-    /**
-     * Initialize collectors array.
-     * Collectors array is array of total models ordered based on configuration settings
-     *
-     * @return  Mage_Sales_Model_Quote_Address_Total_Collector
-     */
-    protected function _initCollectors()
-    {
-        $sortedCodes = $this->_getSortedCollectorCodes();
-        foreach ($sortedCodes as $code) {
-            $this->_collectors[$code] = $this->_models[$code];
-        }
-
-        return $this;
-    }
-
-    /**
-     * uasort callback function
-     * Taken from Mage_Sales_Model_Quote_Address_Total_Collector
-     *
-     * @param   array $a
-     * @param   array $b
-     * @return  int
-     */
-    protected function _compareTotals($a, $b)
-    {
-        $aCode = $a['_code'];
-        $bCode = $b['_code'];
-        if (in_array($aCode, $b['after']) || in_array($bCode, $a['before'])) {
-            $res = 1;
-        } elseif (in_array($bCode, $a['after']) || in_array($aCode, $b['before'])) {
-            $res = -1;
-        } else {
-            $res = 0;
-        }
-        return $res;
-    }
-
-    /**
-     * uasort() callback that uses sort_order for comparison
-     * Taken from Mage_Sales_Model_Quote_Address_Total_Collector
-     *
-     * @param array $a
-     * @param array $b
-     * @return int
-     */
-    protected function _compareSortOrder($a, $b)
-    {
-        if (!isset($a['sort_order']) || !isset($b['sort_order'])) {
-            return 0;
-        }
-        if ($a['sort_order'] > $b['sort_order']) {
-            $res = 1;
-        } elseif ($a['sort_order'] < $b['sort_order']) {
-            $res = -1;
-        } else {
-            $res = 0;
-        }
-        return $res;
+        return $this->_totalModels;
     }
 }
