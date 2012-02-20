@@ -61,9 +61,6 @@ class Api_Catalog_Category_FrontendTest extends Magento_Test_Webservice
         //test DB
         $this->assertEquals('0', $this->_getCategory()->getIsActive());
 
-        $this->markTestIncomplete(
-          'This test doesn\'t work properly.'
-        );
         //test block output
         $html = $this->_getBlockOutput();
         $this->assertNotContains($categoryName, $html);
