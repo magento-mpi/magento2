@@ -144,7 +144,9 @@ class Api_Catalog_Category_CategoryTest extends Magento_Test_Webservice
             /**
              * Test read
              */
-            $categoryRead = $this->call('catalog_category.info', array($categoryId));
+            $categoryRead = $this->call(
+                'catalog_category.info', array($categoryId, $categoryFixture['update']['storeView'])
+            );
 
             $this->assertEquals(
                 $categoryRead['custom_design_from'],
