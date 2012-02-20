@@ -567,7 +567,6 @@ class Mage_Tax_Model_Sales_Total_Quote_Tax extends Mage_Sales_Model_Quote_Addres
         $taxGroups      = array();
         $itemTaxGroups  = array();
 
-        $inclTax = false;
         foreach ($items as $item) {
             if ($item->getParentItem()) {
                 continue;
@@ -579,8 +578,8 @@ class Mage_Tax_Model_Sales_Total_Quote_Tax extends Mage_Sales_Model_Quote_Addres
                     $rate = $this->_calculator->getRate($taxRateRequest);
                     $applied_rates = $this->_calculator->getAppliedRates($taxRateRequest);
                     $taxGroups[(string)$rate]['applied_rates'] = $applied_rates;
+                    $taxGroups[(string)$rate]['incl_tax'] = $child->getIsPriceInclTax();
                     $this->_aggregateTaxPerRate($child, $rate, $taxGroups);
-                    $inclTax = $child->getIsPriceInclTax();
                     if ($rate > 0) {
                         $itemTaxGroups[$child->getId()] = $applied_rates;
                     }
@@ -591,21 +590,11 @@ class Mage_Tax_Model_Sales_Total_Quote_Tax extends Mage_Sales_Model_Quote_Addres
                 $rate = $this->_calculator->getRate($taxRateRequest);
                 $applied_rates = $this->_calculator->getAppliedRates($taxRateRequest);
                 $taxGroups[(string)$rate]['applied_rates'] = $applied_rates;
+                $taxGroups[(string)$rate]['incl_tax'] = $item->getIsPriceInclTax();
                 $this->_aggregateTaxPerRate($item, $rate, $taxGroups);
-                $inclTax = $item->getIsPriceInclTax();
                 if ($rate > 0) {
                     $itemTaxGroups[$item->getId()] = $applied_rates;
                 }
-            }
-
-            if (!empty($taxGroups[(string)$rate])) {
-                $data = $taxGroups[(string)$rate];
-                $rate = (float)$rate;
-                $totalTax = $this->_calculator->calcTaxAmount(array_sum($data['totals']), $rate, $inclTax);
-                $baseTotalTax = $this->_calculator->calcTaxAmount(array_sum($data['base_totals']), $rate, $inclTax);
-                $this->_addAmount($totalTax);
-                $this->_addBaseAmount($baseTotalTax);
-                $this->_saveAppliedTaxes($address, $data['applied_rates'], $totalTax, $baseTotalTax, $rate);
             }
         }
 
@@ -614,6 +603,15 @@ class Mage_Tax_Model_Sales_Total_Quote_Tax extends Mage_Sales_Model_Quote_Addres
         }
         $address->getQuote()->setTaxesForItems($itemTaxGroups);
 
+        foreach ($taxGroups as $rateKey => $data) {
+            $rate = (float) $rateKey;
+            $inclTax = $data['incl_tax'];
+            $totalTax = $this->_calculator->calcTaxAmount(array_sum($data['totals']), $rate, $inclTax);
+            $baseTotalTax = $this->_calculator->calcTaxAmount(array_sum($data['base_totals']), $rate, $inclTax);
+            $this->_addAmount($totalTax);
+            $this->_addBaseAmount($baseTotalTax);
+            $this->_saveAppliedTaxes($address, $data['applied_rates'], $totalTax, $baseTotalTax, $rate);
+        }
         return $this;
     }
 
