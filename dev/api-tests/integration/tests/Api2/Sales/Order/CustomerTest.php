@@ -32,7 +32,7 @@
  * @package     Magento_Test
  * @author      Magento Api Team <api-team@magento.com>
  */
-class Api2_Sales_Orders_CustomerTest extends Magento_Test_Webservice_Rest_Customer
+class Api2_Sales_Order_CustomerTest extends Magento_Test_Webservice_Rest_Customer
 {
     /**
      * Delete fixtures

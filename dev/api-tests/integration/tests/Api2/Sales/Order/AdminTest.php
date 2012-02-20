@@ -32,7 +32,7 @@
  * @package     Magento_Test
  * @author      Magento Api Team <api-team@magento.com>
  */
-class Api2_Sales_Orders_AdminTest extends Magento_Test_Webservice_Rest_Admin
+class Api2_Sales_Order_AdminTest extends Magento_Test_Webservice_Rest_Admin
 {
     /**
      * Delete fixtures
