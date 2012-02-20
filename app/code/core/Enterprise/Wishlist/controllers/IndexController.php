@@ -95,6 +95,22 @@ class Enterprise_Wishlist_IndexController extends Mage_Wishlist_IndexController
     }
 
     /**
+     * Display customer wishlist
+     */
+    public function indexAction()
+    {
+        /* @var $helper Enterprise_Wishlist_Helper_Data */
+        $helper = Mage::helper('enterprise_wishlist');
+        if (!$helper->isMultipleEnabled() ) {
+            $wishlistId = $this->getRequest()->getParam('wishlist_id');
+            if ($wishlistId && $wishlistId != $helper->getDefaultWishlist() ) {
+                $this->_redirectUrl($helper->getListUrl());
+            }
+        }
+        parent::indexAction();
+    }
+
+    /**
      * Create new customer wishlist
      */
     public function createwishlistAction()
