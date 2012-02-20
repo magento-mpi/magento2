@@ -378,7 +378,18 @@ class Mage_Paypal_Model_Express_Checkout
         $quote->setCustomerSuffix($billingAddress->getSuffix());
         $quote->setCustomerNote($exportedBillingAddress->getData('note'));
         foreach ($exportedBillingAddress->getExportedKeys() as $key) {
-            if (!$billingAddress->getDataUsingMethod($key)) {
+            $oldData = $billingAddress->getDataUsingMethod($key);
+            $isEmpty = null;
+            if (is_array($oldData)) {
+                foreach($oldData as $val) {
+                    if(!empty($val)) {
+                        $isEmpty = false;
+                        break;
+                    }
+                    $isEmpty = true;
+                }
+            }
+            if (empty($oldData) || $isEmpty === true) {
                 $billingAddress->setDataUsingMethod($key, $exportedBillingAddress->getData($key));
             }
         }
