@@ -23,56 +23,6 @@
  * @copyright   Copyright (c) 2011 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-/**
- * API2 Sales Connection Mock Class
- *
- * @category   Mage
- * @package    Mage_Api2
- * @author     Magento Core Team <core@magentocommerce.com>
- */
-class Mage_Sales_Model_Api2_ConnectionMock extends Varien_Db_Adapter_Pdo_Mysql
-{
-    /**
-     * Test available attributes
-     *
-     * @var string
-     */
-    protected $_testTableName;
-
-    /**
-     * Test tableName
-     *
-     * @var array
-     */
-    protected $_testAvailableAttributes = array();
-
-    /**
-     * Construct
-     *
-     * @param string $tableName
-     * @param array $testAvailableAttributes
-     */
-    public function __construct($testTableName, $testAvailableAttributes)
-    {
-        $this->_testTableName = $testTableName;
-        foreach ($testAvailableAttributes as $testAvailableAttribute) {
-            $this->_testAvailableAttributes[$testAvailableAttribute] = array();
-        }
-    }
-
-    /**
-     * Returns the column descriptions for a table.
-     *
-     * @param string $tableName
-     * @param string $schemaName OPTIONAL
-     * @return array
-     */
-    public function describeTable($tableName, $schemaName = null)
-    {
-        return $this->_testAvailableAttributes;
-    }
-}
-
 
 /**
  * Test API2 class for orders
@@ -89,7 +39,19 @@ class Mage_Sales_Model_Api2_OrdersTest extends Mage_PHPUnit_TestCase
     public function testGetAvailableAttributes()
     {
         $testTableName = 'sales_flat_order';
-        $testAvailableAttributes = array('field1', 'fileld2', 'field3');
+        $describeTable = array(
+            'field1' => array('someinfo1'),
+            'field2' => array('someinfo2'),
+            'field3' => array('someinfo3')
+        );
+        $testAvailableAttributes = array('field1' => 'field1', 'field2' => 'field2', 'field3' => 'field3');
+
+        $readConnectionMock = $this->getMockForAbstractClass('Zend_Db_Adapter_Abstract', array(), '', false);
+
+        $readConnectionMock->expects($this->once())
+            ->method('describeTable')
+            ->with($testTableName)
+            ->will($this->returnValue($describeTable));
 
         $resourceOrderMock = $this->getResourceModelMockBuilder('sales/order')
             ->getMock();
@@ -100,16 +62,12 @@ class Mage_Sales_Model_Api2_OrdersTest extends Mage_PHPUnit_TestCase
 
         $resourceOrderMock->expects($this->once())
             ->method('getReadConnection')
-            ->will($this->returnValue(
-                new Mage_Sales_Model_Api2_ConnectionMock($testTableName, $testAvailableAttributes)
-            ));
+            ->will($this->returnValue($readConnectionMock));
 
-        /* @var $apiOrdersModel Mage_Sales_Model_Api2_Orders */
+        /** @var $ordersModel Mage_Sales_Model_Api2_Orders */
         $ordersModel = Mage::getModel('sales/api2_orders');
         $ordersModel->setResourceType('orders');
-        $this->assertEquals(
-            $ordersModel->getAvailableAttributes(),
-            array_combine($testAvailableAttributes, $testAvailableAttributes)
-        );
+
+        $this->assertSame($ordersModel->getAvailableAttributes(), $testAvailableAttributes);
     }
 }
