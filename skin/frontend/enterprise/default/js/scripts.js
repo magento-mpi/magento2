@@ -849,7 +849,7 @@ Enterprise.Widget.SplitButton = Class.create(Enterprise.Widget, {
         if (typeof title != 'string') {
             $super(title);
         } else {
-            $super(new Element('div', {'class': 'split-button' + ((type)? ' ' + type: '')}));
+            $super(new Element('div', {'class': 'split-button split-button-created' + ((type)? ' ' + type: '')}));
             this._node.update(this._templateString);
             this._node.down('strong span').update(title);
             this._node.down('.change').update(alt);
@@ -927,7 +927,9 @@ Enterprise.loadSplitButtons = function() {
     if (typeof Enterprise.splitButtonsLoaded == 'undefined') {
         Enterprise.splitButtonsLoaded = true;
         $$('.split-button').each(function(node) {
-            new Enterprise.Widget.SplitButton(node);
+            if (!$(node).hasClassName('split-button-created')) {
+                new Enterprise.Widget.SplitButton(node);
+            }
         });
     }
 };
