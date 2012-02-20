@@ -97,7 +97,9 @@
         if (this._dragged) {
             return this;
         }
-        this._hideDragged($(event.target))
+        var dragged = $(event.target);
+        this._hideDragged(dragged)
+            ._resizeHelperSameAsDragged(ui.helper, dragged)
             ._putPlaceholder();
     }
 
@@ -122,6 +124,12 @@
         }
         this._dragged.css('visibility', 'visible');
         this._dragged = null;
+        return this;
+    }
+
+    DesignEditor.prototype._resizeHelperSameAsDragged = function (helper, dragged) {
+        helper.height(dragged.height())
+            .width(dragged.width());
         return this;
     }
 
