@@ -55,7 +55,8 @@ Mage::init('admin');
 // query parameter "type" is set by .htaccess rewrite rule
 $apiAlias = Mage::app()->getRequest()->getParam('type');
 
-if (Mage_Api2_Model_Server::API_TYPE_REST == $apiAlias) {
+// check request could be processed by API2
+if (in_array($apiAlias, Mage_Api2_Model_Server::getApiTypes())) {
     /** @var $server Mage_Api2_Model_Server */
     $server = Mage::getModel('api2/server');
 
