@@ -192,11 +192,11 @@ class Mage_Selenium_Helper_ConfigTest extends Mage_PHPUnit_TestCase
         $parentDir = 'test testGetSetScreenshotDir';
         $dirName = $parentDir . '/ss-dir-test';
         $this->assertTrue(!is_dir($dirName) || (rmdir($dirName) && rmdir($parentDir)));
-        $this->assertTrue($configHelper->setScreenshotDir($dirName));
+        $this->assertInstanceOf('Mage_Selenium_Helper_Config', $configHelper->setScreenshotDir($dirName));
         $this->assertTrue(is_dir($dirName));
         $this->assertEquals($dirName, $configHelper->getScreenshotDir());
         //Set to existing directory
-        $this->assertTrue($configHelper->setScreenshotDir($dirName));
+        $this->assertInstanceOf('Mage_Selenium_Helper_Config', $configHelper->setScreenshotDir($dirName));
         $this->assertTrue(is_dir($dirName));
         $this->assertEquals($dirName, $configHelper->getScreenshotDir());
         //Cleanup
@@ -221,7 +221,7 @@ class Mage_Selenium_Helper_ConfigTest extends Mage_PHPUnit_TestCase
     public function testSetScreenshotDirInvalidParameterException()
     {
         $configHelper = $this->_config->getHelper('config');
-        $this->setExpectedException('InvalidArgumentException');
+        $this->setExpectedException('PHPUnit_Framework_Error_Warning', 'mkdir(): No error');
         $configHelper->setScreenshotDir(null);
     }
 
@@ -237,11 +237,11 @@ class Mage_Selenium_Helper_ConfigTest extends Mage_PHPUnit_TestCase
         //Create a directory
         $dirName = 'log-dir-test';
         $this->assertTrue(!is_dir($dirName) || rmdir($dirName));
-        $this->assertTrue($configHelper->setLogDir($dirName));
+        $this->assertInstanceOf('Mage_Selenium_Helper_Config', $configHelper->setLogDir($dirName));
         $this->assertTrue(is_dir($dirName));
         $this->assertEquals($dirName, $configHelper->getLogDir());
         //Set to existing directory
-        $this->assertTrue($configHelper->setLogDir($dirName));
+        $this->assertInstanceOf('Mage_Selenium_Helper_Config', $configHelper->setLogDir($dirName));
         $this->assertTrue(is_dir($dirName));
         $this->assertEquals($dirName, $configHelper->getLogDir());
         //Cleanup
@@ -266,7 +266,7 @@ class Mage_Selenium_Helper_ConfigTest extends Mage_PHPUnit_TestCase
     public function testSetLogDirInvalidParameterException()
     {
         $configHelper = $this->_config->getHelper('config');
-        $this->setExpectedException('InvalidArgumentException');
+        $this->setExpectedException('PHPUnit_Framework_Error_Warning', 'mkdir(): No error');
         $configHelper->setLogDir(null);
     }
 }

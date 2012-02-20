@@ -157,24 +157,6 @@ class Mage_Selenium_Helper_Config extends Mage_Selenium_Helper_Abstract
     }
 
     /**
-     * Creates a directory using the specified $path if the directory doesn't exist.
-     * @param string $path
-     * @return boolean Returns True if the directory exists or has been successfully created.
-     * Returns False if the directory could not be created.
-     * @throws InvalidArgumentException
-     */
-    protected function _createDirectory($path)
-    {
-        if (!is_string($path)) {
-            throw new InvalidArgumentException('Directory path should be a string');
-        }
-        if (is_dir($path) || mkdir($path, 0777, true)) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
      * Get value from Configuration file
      *
      * @param string $path XPath-like path to config value (by default = '')
@@ -453,17 +435,17 @@ class Mage_Selenium_Helper_Config extends Mage_Selenium_Helper_Abstract
     /**
      * Set path to the screenshot directory.
      * Creates a directory if it doesn't exist.
-     * @param string $path
-     * @return boolean Returns True if the directory exists or has been successfully created.
-     * Returns False if the directory could not be created.
+     * @param string $dirPath
+     * @return Mage_Selenium_Helper_Config
+     * @throws RuntimeException if the directory could not be created
      */
-    public function setScreenshotDir($path)
+    public function setScreenshotDir($dirPath)
     {
-        if ($this->_createDirectory($path)) {
-            $this->_screenshotDir = $path;
-            return true;
+        if (is_dir($dirPath) || mkdir($dirPath, 0777, true)) {
+            $this->_screenshotDir = $dirPath;
+            return $this;
         }
-        return false;
+        throw new RuntimeException('Could not create directory "' . $dirPath . '"');
     }
 
     /**
@@ -472,7 +454,7 @@ class Mage_Selenium_Helper_Config extends Mage_Selenium_Helper_Abstract
      */
     public function getScreenshotDir()
     {
-        if (!$this->_screenshotDir && defined('SELENIUM_TESTS_SCREENSHOTDIR')) {
+        if (is_null($this->_screenshotDir) && defined('SELENIUM_TESTS_SCREENSHOTDIR')) {
             $this->setScreenshotDir(SELENIUM_TESTS_SCREENSHOTDIR);
         }
         return $this->_screenshotDir;
@@ -481,17 +463,17 @@ class Mage_Selenium_Helper_Config extends Mage_Selenium_Helper_Abstract
     /**
      * Set path to the logs directory.
      * Creates a directory if it doesn't exist.
-     * @param string $path
-     * @return boolean Returns True if the directory exists or has been successfully created.
-     * Returns False if the directory could not be created.
+     * @param string $dirPath
+     * @return Mage_Selenium_Helper_Config
+     * @throws RuntimeException if the directory could not be created
      */
-    public function setLogDir($path)
+    public function setLogDir($dirPath)
     {
-        if ($this->_createDirectory($path)) {
-            $this->_logDir = $path;
-            return true;
+        if (is_dir($dirPath) || mkdir($dirPath, 0777, true)) {
+            $this->_logDir = $dirPath;
+            return $this;
         }
-        return false;
+        throw new RuntimeException('Could not create directory "' . $dirPath . '"');
     }
 
     /**
@@ -500,7 +482,7 @@ class Mage_Selenium_Helper_Config extends Mage_Selenium_Helper_Abstract
      */
     public function getLogDir()
     {
-        if (!$this->_logDir && defined('SELENIUM_TESTS_LOGS')) {
+        if (is_null($this->_logDir) && defined('SELENIUM_TESTS_LOGS')) {
             $this->setLogDir(SELENIUM_TESTS_LOGS);
         }
         return $this->_logDir;
