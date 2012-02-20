@@ -61,17 +61,6 @@ class Api2_Sales_Orders_CustomerTest extends Magento_Test_Webservice_Rest_Custom
     }
 
     /**
-     * Test get query
-     *
-     * @magentoDataFixture Api2/Sales/_fixtures/prepare_customer_acl.php
-     */
-    public function testGet()
-    {
-        $restResponse = $this->callGet('orders');
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
-    }
-
-    /**
      * Test get orders for customer
      *
      * @magentoDataFixture Api2/Sales/_fixtures/prepare_customer_acl.php
@@ -84,6 +73,8 @@ class Api2_Sales_Orders_CustomerTest extends Magento_Test_Webservice_Rest_Custom
         $customer->setWebsiteId(Mage::app()->getWebsite()->getId())->loadByEmail(TESTS_CUSTOMER_EMAIL);
 
         $restResponse = $this->callGet('orders', array('order' => 'entity_id', 'dir' => Zend_Db_Select::SQL_DESC));
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+
         $orders = $restResponse->getBody();
         $this->assertNotEmpty($orders);
         $ordersIds = array();

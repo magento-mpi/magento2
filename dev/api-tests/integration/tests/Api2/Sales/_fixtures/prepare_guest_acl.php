@@ -25,39 +25,37 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-if (!Magento_Test_Webservice::getFixture('guest_acl_is_prepared')) {
-    // Prepare global acl
-    /* @var $rule Mage_Api2_Model_Acl_Global_Rule */
-    $rule = Mage::getModel('api2/acl_global_rule');
-    $roleId = Mage_Api2_Model_Acl_Global_Role::ROLE_GUEST_ID;
-    $resourceAll = Mage_Api2_Model_Acl_Global_Rule::RESOURCE_ALL;
-    $count = $rule->getCollection()
-        ->addFieldToFilter('role_id', array('eq' => $roleId))
-        ->addFieldToFilter('resource_id', array('eq' => $resourceAll))
-        ->count();
-    if (!$count) {
-        $rule->setRoleId($roleId)
-            ->setResourceId($resourceAll)
-            ->save();
-        Magento_Test_Webservice::setFixture('rule', $rule);
-    }
-
-    // Prepare local filters
-    /* @var $attribute Mage_Api2_Model_Acl_Filter_Attribute */
-    $attribute = Mage::getModel('api2/acl_filter_attribute');
-    $userType = Mage_Api2_Model_Auth_User_Guest::USER_TYPE;
-    $resourceAll = Mage_Api2_Model_Acl_Global_Rule::RESOURCE_ALL;
-    $operation = Mage_Api2_Model_Resource::OPERATION_ATTRIBUTE_READ;
-    $count = $attribute->getCollection()
-        ->addFieldToFilter('user_type', array('eq' => $userType))
-        ->addFieldToFilter('resource_id', array('eq' => $resourceAll))
-        ->count();
-    if (!$count) {
-        $attribute->setUserType($userType)
-            ->setResourceId($resourceAll)
-            ->save();
-        Magento_Test_Webservice::setFixture('attribute', $attribute);
-    }
-
-    Magento_Test_Webservice::setFixture('guest_acl_is_prepared', true);
+// Prepare global acl
+/* @var $rule Mage_Api2_Model_Acl_Global_Rule */
+$rule = Mage::getModel('api2/acl_global_rule');
+$roleId = Mage_Api2_Model_Acl_Global_Role::ROLE_GUEST_ID;
+$resourceAll = Mage_Api2_Model_Acl_Global_Rule::RESOURCE_ALL;
+$count = $rule->getCollection()
+    ->addFieldToFilter('role_id', array('eq' => $roleId))
+    ->addFieldToFilter('resource_id', array('eq' => $resourceAll))
+    ->count();
+if (!$count) {
+    $rule->setRoleId($roleId)
+        ->setResourceId($resourceAll)
+        ->save();
+    Magento_Test_Webservice::setFixture('rule', $rule);
 }
+
+// Prepare local filters
+/* @var $attribute Mage_Api2_Model_Acl_Filter_Attribute */
+$attribute = Mage::getModel('api2/acl_filter_attribute');
+$userType = Mage_Api2_Model_Auth_User_Guest::USER_TYPE;
+$resourceAll = Mage_Api2_Model_Acl_Global_Rule::RESOURCE_ALL;
+$operation = Mage_Api2_Model_Resource::OPERATION_ATTRIBUTE_READ;
+$count = $attribute->getCollection()
+    ->addFieldToFilter('user_type', array('eq' => $userType))
+    ->addFieldToFilter('resource_id', array('eq' => $resourceAll))
+    ->count();
+if (!$count) {
+    $attribute->setUserType($userType)
+        ->setResourceId($resourceAll)
+        ->save();
+    Magento_Test_Webservice::setFixture('attribute', $attribute);
+}
+
+Magento_Test_Webservice::setFixture('guest_acl_is_prepared', true);

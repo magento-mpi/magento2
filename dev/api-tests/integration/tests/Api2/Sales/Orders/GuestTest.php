@@ -61,17 +61,6 @@ class Api2_Sales_Orders_GuestTest extends Magento_Test_Webservice_Rest_Guest
     }
 
     /**
-     * Test get query
-     *
-     * @magentoDataFixture Api2/Sales/_fixtures/prepare_guest_acl.php
-     */
-    public function testGet()
-    {
-        $restResponse = $this->callGet('orders');
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
-    }
-
-    /**
      * Test get orders for guest
      *
      * @magentoDataFixture Api2/Sales/_fixtures/prepare_guest_acl.php
@@ -80,6 +69,8 @@ class Api2_Sales_Orders_GuestTest extends Magento_Test_Webservice_Rest_Guest
     public function testGetOrders()
     {
         $restResponse = $this->callGet('orders', array('order' => 'entity_id', 'dir' => Zend_Db_Select::SQL_DESC));
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+
         $orders = $restResponse->getBody();
         $this->assertNotEmpty($orders);
         $ordersIds = array();

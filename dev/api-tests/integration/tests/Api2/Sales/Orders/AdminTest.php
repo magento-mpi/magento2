@@ -62,17 +62,6 @@ class Api2_Sales_Orders_AdminTest extends Magento_Test_Webservice_Rest_Admin
     }
 
     /**
-     * Test get query
-     *
-     * @magentoDataFixture Api2/Sales/_fixtures/prepare_admin_acl.php
-     */
-    public function testGet()
-    {
-        $restResponse = $this->callGet('orders');
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
-    }
-
-    /**
      * Test get orders for admin
      *
      * @magentoDataFixture Api2/Sales/_fixtures/prepare_admin_acl.php
@@ -81,6 +70,8 @@ class Api2_Sales_Orders_AdminTest extends Magento_Test_Webservice_Rest_Admin
     public function testGetOrders()
     {
         $restResponse = $this->callGet('orders', array('order' => 'entity_id', 'dir' => Zend_Db_Select::SQL_DESC));
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+
         $orders = $restResponse->getBody();
         $this->assertNotEmpty($orders);
         $ordersIds = array();
