@@ -31,7 +31,6 @@ class Enterprise_Rma_GuestControllerTest extends Magento_Test_TestCase_Controlle
      */
     public function testAddLabelActionIsContentGenerated()
     {
-        $this->markTestSkipped('MAGETWO-753');
         $rma = $this->_rma;
         $this->getRequest()->setParam('entity_id', $rma->getEntityId());
         $this->getRequest()->setPost('oar_type', 'email');
@@ -50,7 +49,6 @@ class Enterprise_Rma_GuestControllerTest extends Magento_Test_TestCase_Controlle
      */
     public function testDelLabelActionIsContentGenerated()
     {
-        $this->markTestSkipped('MAGETWO-753');
         $rma = $this->_rma;
         $this->getRequest()->setParam('entity_id', $rma->getEntityId());
         $this->getRequest()->setPost('oar_type', 'email');
