@@ -202,6 +202,23 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
     protected $_priceStandardDeviation;
 
     /**
+     * Cloned Select after dispatching 'catalog_prepare_price_select' event
+     *
+     * @var Varien_Db_Select
+     */
+    protected $_catalogPreparePriceSelect;
+
+    /**
+     * Get cloned Select after dispatching 'catalog_prepare_price_select' event
+     *
+     * @return Varien_Db_Select
+     */
+    public function getCatalogPreparedSelect()
+    {
+        return $this->_catalogPreparePriceSelect;
+    }
+
+    /**
      * Set use statistics data
      *
      * @return Mage_Catalog_Model_Resource_Product_Collection
@@ -215,9 +232,10 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
     /**
      * Prepare additional price expression sql part
      *
+     * @param Varien_Db_Select $select
      * @return Mage_Catalog_Model_Resource_Product_Collection
      */
-    protected function _preparePriceExpressionParameters()
+    protected function _preparePriceExpressionParameters($select)
     {
         // prepare response object for event
         $response = new Varien_Object();
@@ -226,7 +244,7 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
 
         // prepare event arguments
         $eventArgs = array(
-            'select'          => $this->getSelect(),
+            'select'          => $select,
             'table'           => $table,
             'store_id'        => $this->getStoreId(),
             'response_object' => $response
@@ -237,6 +255,7 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
         $additional   = join('', $response->getAdditionalCalculations());
         $this->_priceExpression = $table . '.min_price';
         $this->_additionalPriceExpression = $additional;
+        $this->_catalogPreparePriceSelect = clone $select;
 
         return $this;
     }
@@ -244,12 +263,13 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
     /**
      * Get price expression sql part
      *
+     * @param Varien_Db_Select $select
      * @return string
      */
-    public function getPriceExpression()
+    public function getPriceExpression($select)
     {
         if (is_null($this->_priceExpression)) {
-            $this->_preparePriceExpressionParameters();
+            $this->_preparePriceExpressionParameters($select);
         }
         return $this->_priceExpression;
     }
@@ -257,12 +277,13 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
     /**
      * Get additional price expression sql part
      *
+     * @param Varien_Db_Select $select
      * @return string
      */
-    public function getAdditionalPriceExpression()
+    public function getAdditionalPriceExpression($select)
     {
         if (is_null($this->_additionalPriceExpression)) {
-            $this->_preparePriceExpressionParameters();
+            $this->_preparePriceExpressionParameters($select);
         }
         return $this->_additionalPriceExpression;
     }
@@ -866,12 +887,13 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
      * @param bool $resetLeftJoins
      * @return Varien_Db_Select
      */
-    protected function _getSelectCountSql($resetLeftJoins = true)
+    protected function _getSelectCountSql($select = null, $resetLeftJoins = true)
     {
         $this->_renderFilters();
-
-        $countSelect = $this->_getClearSelect()
-            ->columns('COUNT(DISTINCT e.entity_id)');
+        $countSelect = (is_null($select)) ?
+            $this->_getClearSelect() :
+            $this->_getClearSelect($select);
+        $countSelect->columns('COUNT(DISTINCT e.entity_id)');
         if ($resetLeftJoins) {
             $countSelect->resetJoinLeft();
         }
@@ -885,9 +907,10 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
      */
     protected function _prepareStatisticsData()
     {
-        $priceExpression = $this->getPriceExpression() . ' ' . $this->getAdditionalPriceExpression();
+        $select = clone $this->getSelect();
+        $priceExpression = $this->getPriceExpression($select) . ' ' . $this->getAdditionalPriceExpression($select);
         $sqlEndPart = ') * ' . $this->getCurrencyRate() . ', 2)';
-        $select = $this->_getSelectCountSql(false);
+        $select = $this->_getSelectCountSql($select, false);
         $select->columns('ROUND(MAX(' . $priceExpression . $sqlEndPart);
         $select->columns('ROUND(MIN(' . $priceExpression . $sqlEndPart);
         $select->columns($this->getConnection()->getStandardDeviationSql('ROUND((' . $priceExpression . $sqlEndPart));
@@ -903,11 +926,14 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
     /**
      * Retreive clear select
      *
+     * @param Varien_Db_Select $select
      * @return Varien_Db_Select
      */
-    protected function _getClearSelect()
+    protected function _getClearSelect($select = null)
     {
-        $select = clone $this->getSelect();
+        if (is_null($select)) {
+            $select = clone $this->getSelect();
+        }
         $select->reset(Zend_Db_Select::ORDER);
         $select->reset(Zend_Db_Select::LIMIT_COUNT);
         $select->reset(Zend_Db_Select::LIMIT_OFFSET);
