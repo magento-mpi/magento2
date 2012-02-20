@@ -55,4 +55,12 @@ class Mage_Catalog_Model_Api2_Product_Rest_Customer_V1 extends Mage_Catalog_Mode
 
         return $product->getData();
     }
+
+    /**
+     * Customer does not have permissions for product removal
+     */
+    protected function _delete()
+    {
+        $this->_critical(self::RESOURCE_METHOD_NOT_ALLOWED);
+    }
 }

@@ -35,7 +35,16 @@ class Mage_Catalog_Model_Api2_Product_Rest_Guest_V1 extends Mage_Catalog_Model_A
 {
     protected function _retrieve()
     {
+        // TODO: Implement
         $product = $this->_loadProduct();
         return $product->getData();
+    }
+
+    /**
+     * Guest does not have permissions for product removal
+     */
+    protected function _delete()
+    {
+        $this->_critical(self::RESOURCE_METHOD_NOT_ALLOWED);
     }
 }

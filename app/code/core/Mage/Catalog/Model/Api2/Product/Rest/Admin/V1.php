@@ -43,4 +43,26 @@ class Mage_Catalog_Model_Api2_Product_Rest_Admin_V1 extends Mage_Catalog_Model_A
         $product = $this->_loadProduct();
         return $product->getData();
     }
+
+    /**
+     * Delete product by its ID
+     *
+     * @throws Mage_Api2_Exception
+     */
+    protected function _delete()
+    {
+        $productId = $this->getRequest()->getParam('id');
+        /** @var $product Mage_Catalog_Model_Product */
+        $product = Mage::getModel('catalog/product')->load($productId);
+        if (!$product->getId()) {
+            $this->_critical(self::RESOURCE_NOT_FOUND);
+        }
+        try {
+            $product->delete();
+        } catch (Mage_Core_Exception $e) {
+            $this->_critical($e->getMessage(), Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR);
+        } catch (Exception $e) {
+            $this->_critical(self::RESOURCE_INTERNAL_ERROR);
+        }
+    }
 }

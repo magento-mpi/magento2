@@ -19,7 +19,7 @@
  * needs please refer to http://www.magento.com for more information.
  *
  * @category    Magento
- * @package     Mage_Core
+ * @package     Mage_Catalog
  * @subpackage  integration_tests
  * @copyright   Copyright (c) 2011 Magento Inc. (http://www.magento.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
@@ -171,5 +171,18 @@ class Api2_Catalog_Product_CustomerTest extends Magento_Test_Webservice_Rest_Cus
         $restResponse = $this->callGet('product/' . $product->getId(), $params);
 
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
+    }
+
+    /**
+     * Test unsuccessful product delete
+     *
+     * @magentoDataFixture Api/SalesOrder/_fixtures/product_simple.php
+     */
+    public function testDelete()
+    {
+        /** @var $product Mage_Catalog_Model_Product */
+        $product = $this->getFixture('product_simple');
+        $restResponse = $this->callDelete('product/' . $product->getId());
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_METHOD_NOT_ALLOWED, $restResponse->getStatus());
     }
 }

@@ -19,7 +19,7 @@
  * needs please refer to http://www.magento.com for more information.
  *
  * @category    Magento
- * @package     Mage_Core
+ * @package     Mage_Catalog
  * @subpackage  integration_tests
  * @copyright   Copyright (c) 2011 Magento Inc. (http://www.magento.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
@@ -137,5 +137,30 @@ class Api2_Catalog_Product_AdminTest extends Magento_Test_Webservice_Rest_Admin
         $restResponse = $this->callGet('product/' . $product->getId(), $params);
 
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
+    }
+
+    /**
+     * Test successful product delete
+     *
+     * @magentoDataFixture Api/SalesOrder/_fixtures/product_simple.php
+     */
+    public function testDelete()
+    {
+        /** @var $product Mage_Catalog_Model_Product */
+        $product = $this->getFixture('product_simple');
+        $restResponse = $this->callDelete('product/' . $product->getId());
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+        // check if product was really deleted
+        $deletedProduct = Mage::getModel('catalog/product')->load($product->getId());
+        $this->assertEmpty($deletedProduct->getId());
+    }
+
+    /**
+     * Test unsuccessful delete with invalid product id
+     */
+    public function testDeleteWithInvalidId()
+    {
+        $restResponse = $this->callDelete('product/INVALID_ID');
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $restResponse->getStatus());
     }
 }
