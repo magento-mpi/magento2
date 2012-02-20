@@ -1463,7 +1463,8 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
      *      'id'              => int (optional, if product does exist),
      *      'qty_max_allowed' => int (optional, if 'code'==ADD_ITEM_STATUS_FAILED_QTY_ALLOWED)
      *  ],
-     *  'code' => string (see Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_*)
+     *  'code' => string (see Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_*),
+     *  'orig_qty' => string|int|float
      * ]
      *
      * @param array $item

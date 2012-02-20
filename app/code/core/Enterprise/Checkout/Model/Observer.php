@@ -202,7 +202,8 @@ class Enterprise_Checkout_Model_Observer
         foreach (Mage::helper('enterprise_checkout')->getFailedItems(false) as $item) {
             /** @var $item Mage_Sales_Model_Quote_Item */
             if ((float)$item->getQty() <= 0) {
-                $item->setQty(1);
+                $item->setData('qty', 1);
+                $item->setFakeQtyUsed(true);
             }
             $item->setQuote($quote);
             $collection->addItem($item);
@@ -216,11 +217,13 @@ class Enterprise_Checkout_Model_Observer
 
         foreach ($quote->getAllItems() as $item) {
             /** @var $item Mage_Sales_Model_Quote_Item */
-            $itemSku = $item->getProduct()->getSku();
-            foreach ($affectedItems as $affectedItem) {
-                if ($itemSku == $affectedItem['item']['sku'] && $item->getQty() == 1) {
-                    $item->setData('qty', $affectedItem['orig_qty']);
-                    break;
+            if ($item->getFakeQtyUsed()) {
+                $itemSku = $item->getProduct()->getSku();
+                foreach ($affectedItems as $affectedItem) {
+                    if ($itemSku == $affectedItem['item']['sku']) {
+                        $item->setData('qty', $affectedItem['orig_qty']);
+                        break;
+                    }
                 }
             }
         }

@@ -320,9 +320,7 @@ class Enterprise_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
 
                         /** @var $stockItem Mage_CatalogInventory_Model_Stock_Item */
                         $stockItem = Mage::getModel('cataloginventory/stock_item');
-                        $stockItem->loadByProduct($product);
-                        $stockItem->setProduct($product);
-                        $product->setStockItem($stockItem);
+                        $stockItem->assignProduct($itemProduct);
                         $quoteItem->setStockItem($stockItem);
 
                         $quoteItemsCollection[] = $quoteItem;
