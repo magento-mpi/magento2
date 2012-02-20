@@ -1,3 +1,4 @@
+
 <?php
 /**
  * Magento
@@ -18,19 +19,24 @@
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magentocommerce.com for more information.
  *
- * @category    Mage
- * @package     Mage_Api2
+ * @category    Paas
+ * @package     tests
+ * @subpackage  integration_tests
  * @copyright   Copyright (c) 2011 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-/**
- * API2 class for orders (guest)
- *
- * @category   Mage
- * @package    Mage_Sales
- * @author     Magento Core Team <core@magentocommerce.com>
- */
-class Mage_Sales_Model_Api2_Order_Rest_Guest_V1 extends Mage_Sales_Model_Api2_Order_Rest
-{
-}
+/* @var $order Mage_Sales_Model_Order */
+$order = Mage::getModel('sales/order')
+    ->setBillingAddress(new Mage_Sales_Model_Order_Address());
+
+/* @var $payment Mage_Sales_Model_Order_Payment */
+$payment = Mage::getModel('sales/order_payment')
+    ->setMethod('free')
+    ->setOrder($order)
+    ->place();
+
+$order->setPayment($payment); // WARNING: setPayment return Mage_Sales_Model_Order_Payment
+$order->save();
+
+Magento_Test_Webservice::setFixture('order', $order);
