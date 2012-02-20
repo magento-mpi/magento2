@@ -97,15 +97,17 @@ class Mage_Wishlist_IndexController extends Mage_Wishlist_Controller_Abstract
             $wishlist = Mage::getModel('wishlist/wishlist');
             if ($wishlistId) {
                 $wishlist->load($wishlistId);
-                if (!$wishlist->getId() || $wishlist->getCustomerId() != $customerId) {
-                    $wishlist = null;
-                    Mage::throwException(
-                        Mage::helper('wishlist')->__("Requested wishlist doesn't exist")
-                    );
-                }
             } else {
                 $wishlist->loadByCustomer($customerId, true);
             }
+
+            if (!$wishlist->getId() || $wishlist->getCustomerId() != $customerId) {
+                $wishlist = null;
+                Mage::throwException(
+                    Mage::helper('wishlist')->__("Requested wishlist doesn't exist")
+                );
+            }
+
             Mage::register('wishlist', $wishlist);
         } catch (Mage_Core_Exception $e) {
             Mage::getSingleton('wishlist/session')->addError($e->getMessage());
@@ -557,7 +559,7 @@ class Mage_Wishlist_IndexController extends Mage_Wishlist_Controller_Abstract
                 Mage::helper('wishlist')->__("%s has been moved to wishlist %s", $productName, $wishlistName)
             );
         } catch (Mage_Core_Exception $e) {
-            $seesion->addError($e->getMessage());
+            $session->addError($e->getMessage());
         } catch (Exception $e) {
             $session->addException($e, Mage::helper('wishlist')->__('Cannot move item to wishlist'));
         }

@@ -31,7 +31,10 @@
  * @package     Enterprise_Wishlist
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Wishlist_IndexController extends Mage_Core_Controller_Front_Action
+
+require_once 'Mage/Wishlist/controllers/IndexController.php';
+
+class Enterprise_Wishlist_IndexController extends Mage_Wishlist_IndexController
 {
     /**
      * Check if multiple wishlist is enabled on current store before all other actions
@@ -40,22 +43,14 @@ class Enterprise_Wishlist_IndexController extends Mage_Core_Controller_Front_Act
      */
     public function preDispatch()
     {
-        Mage_Core_Controller_Front_Action::preDispatch();
+        parent::preDispatch();
 
-        if (!$this->_getSession()->getCustomerId() && !$this->_getSession()->authenticate($this)) {
-            $this->setFlag('', 'no-dispatch', true);
-            if (!$this->_getSession()->getBeforeWishlistUrl()) {
-                $this->_getSession()->setBeforeWishlistUrl($this->_getRefererUrl());
-            }
-            $this->_getSession()->setBeforeWishlistRequest($this->getRequest()->getParams());
-        }
-
-        if (!Mage::helper('enterprise_wishlist')->isMultipleEnabled()
-            && $this->getRequest()->getActionName() !== 'copyitem'
-        ) {
+        $action = $this->getRequest()->getActionName();
+        $protectedActions = array(
+            'createwishlist', 'editwishlist', 'deletewishlist', 'copyitems', 'moveitem', 'moveitems'
+        );
+        if (!Mage::helper('enterprise_wishlist')->isMultipleEnabled() && in_array($action, $protectedActions)) {
             $this->norouteAction();
-            $this->setFlag('', self::FLAG_NO_DISPATCH, true);
-            return $this;
         }
 
         return $this;
@@ -69,32 +64,6 @@ class Enterprise_Wishlist_IndexController extends Mage_Core_Controller_Front_Act
     protected function _getSession()
     {
         return Mage::getSingleton('customer/session');
-    }
-
-    /**
-     * Load wishlist entity model by request argument
-     *
-     * @param string $requestParam
-     * @return Mage_Wishlist_Model_Wishlist
-     */
-    protected function _getWishlist($requestParam = 'wishlist_id')
-    {
-        $wishlist = Mage::getModel('wishlist/wishlist');
-        $customerId = $this->_getSession()->getCustomerId();
-        $wishlistId = $this->getRequest()->getParam($requestParam);
-
-        if ($wishlistId) {
-            $wishlist->load($wishlistId);
-        } else {
-            $wishlist->loadByCustomer($customerId, true);
-        }
-
-        if (!$wishlist->getId() || $wishlist->getCustomerId() != $customerId) {
-            Mage::throwException(Mage::helper('enterprise_wishlist')->__('Wrong wishlist ID specified.'));
-        }
-
-        Mage::register('wishlist', $wishlist);
-        return $wishlist;
     }
 
     /**
@@ -183,11 +152,16 @@ class Enterprise_Wishlist_IndexController extends Mage_Core_Controller_Front_Act
 
     /**
      * Delete wishlist by id
+     *
+     * @return void
      */
     public function deletewishlistAction()
     {
         try {
             $wishlist = $this->_getWishlist();
+            if (!$wishlist) {
+                return $this->norouteAction();
+            }
             if (Mage::helper('enterprise_wishlist')->isWishlistDefault($wishlist)) {
                 Mage::throwException(
                     Mage::helper('enterprise_wishlist')->__('Default wishlist cannot be deleted')
