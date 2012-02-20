@@ -50,21 +50,23 @@ class Api2_Sales_Orders_AdminTest extends Magento_Test_Webservice_Rest_Admin
     }
 
     /**
-     * Restore original options
+     * Delete acl fixture after test case
      */
     public static function tearDownAfterClass()
     {
         Magento_TestCase::deleteFixture('role', true);
         Magento_TestCase::deleteFixture('rule', true);
         Magento_TestCase::deleteFixture('attribute', true);
+        Magento_Test_Webservice::setFixture('admin_acl_is_prepared', false);
 
         parent::tearDownAfterClass();
     }
 
+
     /**
      * Test get orders for admin
      *
-     * @magentoDataFixture Api2/Sales/_fixtures/prepare_admin_acl.php
+     * @magentoDataFixture Api2/Sales/_fixtures/admin_acl.php
      * @magentoDataFixture Api2/Sales/_fixtures/orders_list.php
      */
     public function testGetOrders()

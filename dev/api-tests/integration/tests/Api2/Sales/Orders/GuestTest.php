@@ -50,12 +50,13 @@ class Api2_Sales_Orders_GuestTest extends Magento_Test_Webservice_Rest_Guest
     }
 
     /**
-     * Restore original options
+     * Delete acl fixture after test case
      */
     public static function tearDownAfterClass()
     {
         Magento_TestCase::deleteFixture('rule', true);
         Magento_TestCase::deleteFixture('attribute', true);
+        Magento_Test_Webservice::setFixture('guest_acl_is_prepared', false);
 
         parent::tearDownAfterClass();
     }
@@ -63,7 +64,7 @@ class Api2_Sales_Orders_GuestTest extends Magento_Test_Webservice_Rest_Guest
     /**
      * Test get orders for guest
      *
-     * @magentoDataFixture Api2/Sales/_fixtures/prepare_guest_acl.php
+     * @magentoDataFixture Api2/Sales/_fixtures/guest_acl.php
      * @magentoDataFixture Api2/Sales/_fixtures/orders_list.php
      */
     public function testGetOrders()
