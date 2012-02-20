@@ -74,40 +74,54 @@ Enterprise.Wishlist.Widget.Form = Class.create(Enterprise.Widget, {
 
 
 Enterprise.Wishlist.Widget.Form.Create = Class.create(Enterprise.Wishlist.Widget.Form, {
+    useAjax: true,
+
+    initialize: function($super, action, useAjax) {
+        $super(action);
+        this.useAjax = useAjax;
+    },
+
     onSubmit: function(event) {
         Event.stop(event);
         if (!this.isValid) {
             return;
         }
-        var callback = (function(wishlistId){this.onWishlistCreated(wishlistId)}).bind(this);
-        new Ajax.Request(this.action, {
-            method: 'post',
-            parameters: $(this._node).serialize(),
-            onSuccess: function(response) {
-                try {
-                    var data = response.responseJSON;
-                    if (typeof data.wishlist_id != 'undefined') {
-                        callback(data.wishlist_id);
-                    } else if (typeof data.redirect != 'undefined') {
-                        setLocation(data.redirect);
-                    } else {
-                        alert(Translator.translate('Error happened while creating wishlist. Please try again later'));
+        if (!this.useAjax) {
+            this.onWishlistCreated({serializedData: $(this._node).serialize()});
+        } else {
+            var callback = (function(wishlistId){this.onWishlistCreated(wishlistId)}).bind(this);
+            new Ajax.Request(this.action, {
+                method: 'post',
+                parameters: $(this._node).serialize(),
+                onSuccess: function(response) {
+                    try {
+                        var data = response.responseJSON;
+                        if (typeof data.wishlist_id != 'undefined') {
+                            callback(data.wishlist_id);
+                        } else if (typeof data.redirect != 'undefined') {
+                            setLocation(data.redirect);
+                        } else {
+                            alert(Translator.translate('Error happened while creating wishlist. Please try again later'));
+                        }
+                    } catch (e) {
+                        setLocation(window.location.href);
                     }
-                } catch (e) {
-                    setLocation(window.location.href);
                 }
-            }
-        });
+            });
+        }
     },
 
-    onWishlistCreated: function(wishlistId) {
+    onWishlistCreated: function(wishlist) {
 
     }
 });
 
-Enterprise.Wishlist.createWithCallback = function(createUrl, callback) {
+Enterprise.Wishlist.createWithCallback = function(createUrl, callback, useAjax) {
+    if (typeof useAjax == 'undefined') {
+        useAjax = true;
+    }
     if (!Enterprise.Wishlist.createWithCallbackDialog) {
-        var createWithCallbackForm = new Enterprise.Wishlist.Widget.Form.Create(createUrl);
+        var createWithCallbackForm = new Enterprise.Wishlist.Widget.Form.Create(createUrl, useAjax);
         Enterprise.Wishlist.createWithCallbackDialog = new Enterprise.Widget.Dialog(
             Translator.translate('Create New Wishlist'),
             createWithCallbackForm.getNode()
@@ -121,6 +135,7 @@ Enterprise.Wishlist.createWithCallback = function(createUrl, callback) {
             }
         })
     }
+    Enterprise.Wishlist.createWithCallbackDialog.form.useAjax = useAjax;
     Enterprise.Wishlist.createWithCallbackDialog.form.onWishlistCreated = callback;
     Enterprise.Wishlist.createWithCallbackDialog.show();
 }
@@ -232,9 +247,14 @@ Enterprise.Wishlist.copySelectedToNew = function() {
 Event.observe(document, 'dom:loaded', function() {
     if (typeof Enterprise.Wishlist.list != 'undefined'
         && (Enterprise.Wishlist.list.length || Enterprise.Wishlist.canCreate)) {
-        var buildUrl = function(url, wishlistId) {
-            var glue = url .charAt( url.length-1 ) == '/' ? '' : '/';
-            return url + glue + 'wishlist_id/' + wishlistId + '/';
+        var buildUrl = function(url, wishlist) {
+            if (typeof wishlist.serializedData != 'undefined') {
+                var glue = url .indexOf('?') == -1 ? '?' : '&';
+                return url + glue + wishlist.serializedData;
+            } else {
+                var glue = url .charAt( url.length-1 ) == '/' ? '' : '/';
+                return url + glue + 'wishlist_id/' + wishlist + '/';
+            }
         }
         $$('.link-wishlist').each(function(link) {
             var url = link.href;
@@ -253,11 +273,11 @@ Event.observe(document, 'dom:loaded', function() {
 
             if (Enterprise.Wishlist.canCreate) {
                 var option = new Enterprise.Widget.SplitButton.Option(Translator.translate('Create New Wishlist'), 'new');
-                option.onClick = Enterprise.Wishlist.createWithCallback.bind(this, Enterprise.Wishlist.url.create, function(wishlistId) {
+                option.onClick = Enterprise.Wishlist.createWithCallback.bind(this, Enterprise.Wishlist.url.create, function(wishlist) {
                     (onclick.bind({
-                        href: buildUrl(url, wishlistId)
+                        href: buildUrl(url, wishlist)
                     }))();
-                });
+                }, false);
                 wishlistSplitButton.addOption(option);
             }
 

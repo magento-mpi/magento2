@@ -67,11 +67,83 @@ class Enterprise_Wishlist_IndexController extends Mage_Wishlist_IndexController
     }
 
     /**
+     * Add item to wishlist
+     * Create new wishlist if wishlist params (name, visibility) are provided
+     */
+    public function addAction()
+    {
+        $customerId = $this->_getSession()->getCustomerId();
+        $name = $this->getRequest()->getParam('name');
+        $visibility = ($this->getRequest()->getParam('visibility', 0) === 'on' ? 1 : 0);
+        if ($name !== null) {
+            try {
+                $wishlist = $this->_editWishlist($customerId, $name, $visibility);
+                $this->_getSession()->addSuccess(
+                    Mage::helper('enterprise_wishlist')->__('Wishlist "%s" was successfully saved', Mage::helper('core')->escapeHtml($wishlist->getName()))
+                );
+                $this->getRequest()->setParam('wishlist_id', $wishlist->getId());
+            } catch (Mage_Core_Exception $e) {
+                $this->_getSession()->addError($e->getMessage());
+            } catch (Exception $e) {
+                $this->_getSession()->addException(
+                    $e,
+                    Mage::helper('enterprise_wishlist')->__('Error happened during wishlist creation')
+                );
+            }
+        }
+        parent::addAction();
+    }
+
+    /**
      * Create new customer wishlist
      */
     public function createwishlistAction()
     {
         $this->_forward('editwishlist');
+    }
+
+    /**
+     * Edit wishlist
+     *
+     * @param int $customerId
+     * @param string $wishlistName
+     * @param bool $visibility
+     * @param int $wishlistId
+     * @return Mage_Wishlist_Model_Wishlist
+     */
+    protected function _editWishlist($customerId, $wishlistName, $visibility = false, $wishlistId = null)
+    {
+        $wishlist = Mage::getModel('wishlist/wishlist');
+
+        if (!$customerId) {
+            Mage::throwException(Mage::helper('enterprise_wishlist')->__('Login to edit wishlsits.'));
+        }
+        if (!strlen($wishlistName)) {
+            Mage::throwException(Mage::helper('enterprise_wishlist')->__('Provide wishlist name'));
+        }
+        if ($wishlistId){
+            $wishlist->load($wishlistId);
+            if ($wishlist->getCustomerId() !== $this->_getSession()->getCustomerId()) {
+                Mage::throwException(
+                    Mage::helper('enterprise_wishlist')->__('You are not authorized to edit this wishlist')
+                );
+            }
+        } else {
+            $wishlistCollection = Mage::getModel('wishlist/wishlist')->getCollection()
+                ->filterByCustomerId($customerId);
+            $limit = Mage::helper('enterprise_wishlist')->getWishlistLimit();
+            if (Mage::helper('enterprise_wishlist')->isWishlistLimitReached($wishlistCollection)) {
+                Mage::throwException(
+                    Mage::helper('enterprise_wishlist')->__('You are alowed to create only %d wishlists', $limit)
+                );
+            }
+            $wishlist->setCustomerId($customerId);
+        }
+        $wishlist->setName($wishlistName)
+            ->setVisibility($visibility)
+            ->generateSharingCode()
+            ->save();
+        return $wishlist;
     }
 
     /**
@@ -85,37 +157,10 @@ class Enterprise_Wishlist_IndexController extends Mage_Wishlist_IndexController
         $wishlistName = $this->getRequest()->getParam('name');
         $visibility = ($this->getRequest()->getParam('visibility', 0) === 'on' ? 1 : 0);
         $wishlistId = $this->getRequest()->getParam('wishlist_id');
-        $wishlist = Mage::getModel('wishlist/wishlist');
 
         try {
-            if (!$customerId) {
-                Mage::throwException(Mage::helper('enterprise_wishlist')->__('Login to edit wishlsits.'));
-            }
-            if (!strlen($wishlistName)) {
-                Mage::throwException(Mage::helper('enterprise_wishlist')->__('Provide wishlist name'));
-            }
-            if ($wishlistId){
-                $wishlist->load($wishlistId);
-                if ($wishlist->getCustomerId() !== $this->_getSession()->getCustomerId()) {
-                    Mage::throwException(
-                        Mage::helper('enterprise_wishlist')->__('You are not authorized to edit this wishlist')
-                    );
-                }
-            } else {
-                $wishlistCollection = Mage::getModel('wishlist/wishlist')->getCollection()
-                    ->filterByCustomerId($customerId);
-                $limit = Mage::helper('enterprise_wishlist')->getWishlistLimit();
-                if (Mage::helper('enterprise_wishlist')->isWishlistLimitReached($wishlistCollection)) {
-                    Mage::throwException(
-                        Mage::helper('enterprise_wishlist')->__('You are alowed to create only %d wishlists', $limit)
-                    );
-                }
-                $wishlist->setCustomerId($customerId);
-            }
-            $wishlist->setName($wishlistName)
-                ->setVisibility($visibility)
-                ->generateSharingCode()
-                ->save();
+            $wishlist = $this->_editWishlist($customerId, $wishlistName, $visibility, $wishlistId);
+
             $this->_getSession()->addSuccess(
                 Mage::helper('enterprise_wishlist')->__('Wishlist "%s" was successfully saved', Mage::helper('core')->escapeHtml($wishlist->getName()))
             );

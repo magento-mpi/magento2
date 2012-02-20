@@ -46,10 +46,9 @@
             <strong><span title="<?php echo $this->escapeHtml($this->getCurrentWishlist()->getName());?>"><?php echo $this->escapeHtml($this->getCurrentWishlist()->getName());?></span></strong>
             <a class="change" href="#">(<span><?php echo $this->__('Change') ?></span>)</a>
             <div class="list-container">
-                <?php echo $this->getCurrentWishlist() ?>
                 <ul>
                     <?php foreach($this->getWishlists() as $wishlist): ?>
-                        <?php if ($wishlist != $this->getCurrentWishlist()): ?>
+                        <?php if ($wishlist->getId() != $this->getCurrentWishlist()->getId()): ?>
                         <li><a title="<?php echo $this->escapeHtml($wishlist->getName());?>" href="<?php echo $this->getWishlistManagementUrl($wishlist);?>"><?php echo $this->escapeHtml($wishlist->getName());?></a></li>
                         <?php endif; ?>
                     <?php endforeach;?>
