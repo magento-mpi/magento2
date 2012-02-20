@@ -338,6 +338,7 @@
             <cookie>
                 <cookie_lifetime>3600</cookie_lifetime>
                 <cookie_httponly>1</cookie_httponly>
+                <cookie_restriction>0</cookie_restriction>
             </cookie>
             <session>
                 <use_remote_addr>0</use_remote_addr>

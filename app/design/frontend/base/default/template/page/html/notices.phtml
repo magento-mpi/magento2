@@ -31,14 +31,26 @@
 ?>
 <?php if ($this->displayNoscriptNotice()): ?>
     <noscript>
-        <div class="noscript">
-            <div class="noscript-inner">
-                <p><strong><?php echo $this->__('JavaScript seems to be disabled in your browser.'); ?></strong></p>
-                <p><?php echo $this->__('You must have JavaScript enabled in your browser to utilize the functionality of this website.'); ?></p>
+        <div class="global-site-notice noscript">
+            <div class="notice-inner">
+                <p>
+                    <strong><?php echo $this->__('JavaScript seems to be disabled in your browser.'); ?></strong><br />
+                    <?php echo $this->__('You must have JavaScript enabled in your browser to utilize the functionality of this website.'); ?>
+                </p>
             </div>
         </div>
     </noscript>
 <?php endif; ?>
 <?php if ($this->displayDemoNotice()): ?>
-    <p class="demo-notice"><?php echo $this->__('This is a demo store. Any orders placed through this store will not be honored or fulfilled.') ?></p>
+    <div class="global-site-notice demo-notice">
+        <div class="notice-inner"><p><?php echo $this->__('This is a demo store. Any orders placed through this store will not be honored or fulfilled.') ?></p></div>
+    </div>
+<?php endif; ?>
+<?php if ($this->displayCookieRestrictionNotice()): ?>
+    <div class="global-site-notice notice-cookie">
+        <div class="notice-inner">
+            <p><?php echo $this->__('The website would like to track your visit, so you can help improve our website.<br /> <strong>This information will not be used to personally identify you.</strong><br /> You must have cookie enabled to utilize the functionality of this website. You can get more details on our <a href="%s">privacy policy page</a>.', $this->getPrivacyPolicyLink()) ?></p>
+            <div class="actions"><button class="button" onclick="Mage.Cookies.set('<?php echo Mage_Page_Helper_Data::IS_USER_ALLOWED_SAVE_COOKIE; ?>', 1); window.location.reload()"><span><span><?php echo $this->__('Allow');?></span></span></button></div>
+        </div>
+    </div>
 <?php endif; ?>

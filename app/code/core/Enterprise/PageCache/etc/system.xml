@@ -86,5 +86,16 @@
                 </page_crawl>
             </groups>
         </system>
+        <web>
+            <groups>
+                <cookie>
+                    <fields>
+                        <cookie_restriction translate="comment">
+                            <comment>To comply to the Cookie Restriction Law, Full Page Cache Modul should be disabled.</comment>
+                        </cookie_restriction>
+                    </fields>
+                </cookie>
+            </groups>
+        </web>
     </sections>
 </config>
