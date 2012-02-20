@@ -25,7 +25,7 @@
  */
 
 /* @var $installer Mage_Core_Model_Resource_Setup */
-$installer           = $this;
+$installer = $this;
 
 $installer->startSetup();
 
@@ -47,6 +47,5 @@ $columnOptions = array(
     'COMMENT' => 'Discount Amount For Subitems',
 );
 $installer->getConnection()->addColumn($ruleProductTable, 'sub_discount_amount', $columnOptions);
-
 
 $installer->endSetup();
