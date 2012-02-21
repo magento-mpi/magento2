@@ -807,7 +807,7 @@ ul.item-options li { padding-left:.7em; }
 .create-order-sidebar-container         { border:1px solid #d6d6d6; background:#fafafa; }
 .create-order-sidebar-block .content    { margin:0 !important; padding:4px 6px; }
 .create-order-sidebar-block .head       { border-top:1px solid #ddd; background:#ececec; padding:2px 6px 1px; font-size:.9em; text-align:right; }
-.create-order-sidebar-block .head .sidebar-selector {float: left; font-size: 10px; height: 10px; line-height: 10px; margin: 2px 0px 0px 5px; width: 100px;}
+.create-order-sidebar-block .head .sidebar-selector { float: left; font-size: 10px; height: 10px; line-height: 10px; margin: 2px 0px 0px 5px; width: 100px;}
 .create-order-sidebar-block .head h5    { float:left; margin:0; color:#2c464f; text-align:left; }
 .create-order-sidebar-block .content table td,
 .create-order-sidebar-block table th    { padding:0 3px 0 0; }
@@ -826,21 +826,32 @@ ul.item-options li { padding-left:.7em; }
 /* .create-order-totals                 { background:url(images/bg_create_order_totals.gif) repeat-y 50% 0 !important; } */
 
 /* SKU */
-.add-by-sku { background:#fafafa; border:1px solid #d6d6d6; padding:6px 14px; margin-bottom:.5em; }
-.add-by-sku th,
-.add-by-sku td { padding:5px 0 5px 5px; }
-.add-by-sku td button { vertical-align:middle; }
-.add-by-sku td button span { padding-left:15px; }
-.add-by-sku .add-sku { margin-bottom:1em; }
-.add-by-sku  .form-list td.value input[name="qty"] { width:50px; }
-.add-sku-csv .form-list td.label { width:115px; }
-.add-sku-csv .form-list td.label label { width:100px; }
+
+.add-by-sku { margin-bottom:.5em; }
+.fieldset .add-by-sku .fieldset { padding:0; border:0; background:none; }
+.add-by-sku table { /* float:left; */ width:450px }
+.add-by-sku table .col-sku { width:auto; }
+.add-by-sku .grid table td .input-text { width:98%; }
+.add-by-sku table .col-qty { width:100px; }
+.add-by-sku table .last { white-space:nowrap; }
+.add-by-sku table .last .validation-advice { white-space:normal; width:80px; margin-right:-100px; margin-left:-5px; }
+.add-by-sku table button { display:inline-block; vertical-align:top; }
+.add-by-sku table .input-box { display:inline-block; vertical-align:top; padding-right:5px; }
+
+.add-sku-csv { background:#efefef; width:428px; padding:10px; border:1px solid #CBD3D4; border-top:0; }
+.add-sku-csv label { font-weight:bold; font-size:.9em; display:block; }
+.add-sku-csv p.note { background-position:0 5px; }
+.add-sku-csv .input-box { display:inline-block; }
+.add-sku-csv .btn-reset { display:inline-block; margin-left:15px; background:url(images/bkg_icon-reset.png) no-repeat scroll 0 50%; padding-left:15px; line-height:12px; }
+.add-sku-csv .btn-reset span { margin-left:0; padding:3px 0;   display:inline-block; cursor:pointer; color:#929292; border-bottom:1px dotted #929292; line-height:1; height:1em; margin-bottom:-1px; } 
+.add-sku-csv .btn-reset span:hover { border-bottom:0; margin-bottom:0; } 
+
 tr.qty-not-available td input[name="qty"] { background-color: #faebe7; color: #df280a; }
-.entry-edit .entry-edit-head.sku-errors { background-color: #faebe7; }
-.entry-edit .entry-edit-head.sku-errors h4 { color: #df280a; }
+.entry-edit .entry-edit-head.sku-errors { background:#FAEBE7; border:1px solid #F16048; margin-top:10px; }
+.entry-edit .entry-edit-head.sku-errors h4 { color: #EB5E00; background:url(images/error_msg_icon.gif) no-repeat scroll 0 5px; padding-left:20px; padding-top:4px; }
 .sku-failed-item { position:relative; }
 .sku-failed-item .sku-configure-button { position:absolute; margin:-9px 0 0; top:50%; right:5px; }
-#show-sku-panel-button { margin-right: 5px; }
+#show-sku-panel-button { margin-right: 5px; } */
 
 /* Product Configuration Popup */
 #popup-window-mask,
@@ -1646,6 +1657,7 @@ ul.super-product-attributes { padding-left:15px; }
 .normal             { font-weight:normal !important; }
 
 /* Clear */ /* This keeps our HTML free of buncha clearing elements */
+.add-by-sku .grid:after,
 .message-popup .message-popup-head:after,
 .message-popup .message-popup-content .message:after,
 .login-form .form-buttons:after,
