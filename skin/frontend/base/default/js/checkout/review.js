@@ -37,6 +37,8 @@ OrderReviewController.prototype = {
     shippingMethodsUpdateUrl : false,
     _updateShippingMethods: false,
     shippingMethodsContainer: false,
+    _submitUpdateOrderUrl : false,
+    _itemsGrid : false,
 
     /**
      * Add listeners to provided objects, if any
@@ -61,7 +63,11 @@ OrderReviewController.prototype = {
             this.reloadByShippingSelect = true;
             if (shippingSubmitForm && shippingSelect) {
                 this.shippingSelect = shippingSelect;
-                Event.observe(shippingSelect, 'change', this._submitShipping.bindAsEventListener(this, shippingSubmitForm.action, shippingResultId));
+                Event.observe(
+                    shippingSelect,
+                    'change',
+                    this._submitShipping.bindAsEventListener(this, shippingSubmitForm.action, shippingResultId)
+                );
                 this._updateOrderSubmit(false);
             } else {
                 this._canSubmitOrder = true;
@@ -125,7 +131,12 @@ OrderReviewController.prototype = {
     setUpdateButton : function(element, url, resultId)
     {
         if (element) {
-            Event.observe(element, 'click', this._submitUpdateOrder.bind(this, url, resultId));
+            this._submitUpdateOrderUrl = url;
+            this._itemsGrid = resultId;
+            Event.observe(element, 'click', this._submitUpdateOrder.bindAsEventListener(this, url, resultId));
+            if(this.shippingSelect) {
+                this._updateShipping();
+            }
             if (!this._validateForm()) {
                 this._updateOrderSubmit(true);
             }
@@ -195,7 +206,7 @@ OrderReviewController.prototype = {
      * @param url - url where to submit shipping method
      * @param resultId - id of element to be updated
      */
-    _submitUpdateOrder : function(url, resultId)
+    _submitUpdateOrder : function(event, url, resultId)
     {
         this._copyShippingToBilling();
         if (url && resultId && this._validateForm()) {
@@ -237,23 +248,36 @@ OrderReviewController.prototype = {
     _updateShippingMethodsElement : function (){
         if (this._updateShippingMethods) {
             new Ajax.Updater(this.shippingMethodsContainer, this.shippingMethodsUpdateUrl, {
-                onComplete: function() {
-                    if ($(this.shippingSelect)) {
-                        $(this.shippingSelect).enable();
-                        this._bindElementChange($(this.shippingSelect));
-                        $(this.shippingSelect + '_update').hide();
-                        $(this.shippingSelect).show();
-                    }
-                    this._updateShippingMethods = false;
-                    if (this._pleaseWait) {
-                        this._pleaseWait.hide();
-                    }
-                }.bind(this),
+                onComplete: this._updateShipping.bind(this),
                 onSuccess: this._onSubmitShippingSuccess.bind(this),
                 evalScripts: false
             });
         } else {
             this._onSubmitShippingSuccess();
+        }
+    },
+
+    /**
+     * Update Shipping Method select element and bind events
+     */
+    _updateShipping : function () {
+        if ($(this.shippingSelect)) {
+            $(this.shippingSelect).enable();
+            Event.stopObserving($(this.shippingSelect), 'change');
+
+            this._bindElementChange($(this.shippingSelect));
+            Event.observe(
+                $(this.shippingSelect),
+                'change',
+                this._submitUpdateOrder.bindAsEventListener(this, this._submitUpdateOrderUrl, this._itemsGrid)
+            );
+
+            $(this.shippingSelect + '_update').hide();
+            $(this.shippingSelect).show();
+        }
+        this._updateShippingMethods = false;
+        if (this._pleaseWait) {
+            this._pleaseWait.hide();
         }
     },
 
