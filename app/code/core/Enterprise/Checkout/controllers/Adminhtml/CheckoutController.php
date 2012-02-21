@@ -1011,9 +1011,9 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
             $result[] = $row;
         }
 
-        if (!empty($rows)) {
+        if (!empty($result)) {
             $cart = $this->getCartModel();
-            $cart->prepareAddProductsBySku($rows);
+            $cart->prepareAddProductsBySku($result);
             $cart->saveAffectedProducts(
                 $this->getCartModel(),
                 Enterprise_Checkout_Model_Cart::DONT_PASS_DISABLED_TO_CART
