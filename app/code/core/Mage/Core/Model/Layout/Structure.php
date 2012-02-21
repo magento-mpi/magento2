@@ -257,6 +257,15 @@ class Mage_Core_Model_Layout_Structure
         return $result;
     }
 
+    public function getChildName($parentName, $alias)
+    {
+        $child = $this->getChildElement($parentName, $alias);
+        if (!$child) {
+            return false;
+        }
+        return $child->getAttribute('name');
+    }
+
     /**
      * @param $parent
      * @param string $alias
@@ -283,26 +292,6 @@ class Mage_Core_Model_Layout_Structure
             $children[$child->attribute['name']] = $this->getElementObject($child);
         }
         return $children;
-    }
-
-    /**
-     * @param string $name
-     * @return string
-     */
-    public function getElementHtml($name)
-    {
-        $html = '';
-        $element = $this->getElementByName($name);
-        if ($this->isBlock($element)) {
-            $block = $this->getLayout()->getBlock($element->getAttribute('name'));
-            $html = $block->toHtml();
-        } else {
-            /** @var $child DOMElement */
-            foreach ($element->childNodes as $child) {
-                $html .= $this->getElementHtml($child->getAttribute('name'));
-            }
-        }
-        return $html;
     }
 
     /**

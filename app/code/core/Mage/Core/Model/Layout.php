@@ -59,7 +59,9 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
      */
     protected $_directOutput = false;
 
-
+    /**
+     * @var Mage_Core_Model_Layout_Structure
+     */
     protected $_structure;
 
     /**
@@ -329,66 +331,58 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     }
 
     /**
-     * Gets HTML of an element depending on its type
+     * Find an element in layout and render it
      *
-     * @param string $parent
-     * @param string $child
-     * @return string
+     * Returns element's output as string or false if element is not found
+     *
+     * @param string $name
+     * @return string|false
      */
-    public function getChildHtml($parent, $child)
+    public function renderElement($name)
     {
-        if (is_string($child)) {
-            $child = $this->getStructure()->getChildElement($parent, $child);
+        $element = $this->_structure->getElementByName($name);
+        if (!$element) {
+            return false;
         }
-
-        $html = '';
-        if ($child) {
-            if (Mage_Core_Model_Layout_Structure::ELEMENT_TYPE_BLOCK == $child->nodeName) {
-                $html = $this->_getBlockHtml($child->getAttribute('name'));
-            } else {
-                $html = $this->_getContainerHtml($child);
-            }
+        if ($this->_structure->isBlock($element)) {
+            return $this->_renderBlock($element);
         }
-
-        return $html;
+        return $this->_renderContainer($element);
     }
 
     /**
      * Gets HTML of block element
      *
-     * @param string $name
+     * @param DOMElement $element
      * @return string
      * @throws Magento_Exception
      */
-    protected function _getBlockHtml($name)
+    protected function _renderBlock($element)
     {
-        $block = $this->getBlock($name);
-        if (!$block) {
-            throw new Magento_Exception('Could not find block: ' . $name);
-        }
-        return $block->toHtml();
+        $block = $this->getBlock($element->getAttribute('name'));
+        return $block ? $block->toHtml() : '';
     }
 
     /**
      * Gets HTML of container element
      *
-     * @param DOMElement $container
+     * @param DOMElement $element
      * @return string
      */
-    protected function _getContainerHtml($container)
+    protected function _renderContainer($element)
     {
         $html = '';
-        $name = $container->getAttribute('name');
+        $name = $element->getAttribute('name');
         $children = $this->getStructure()->getSortedChildren($name);
         foreach ($children as $child) {
-            $html .= $this->getChildHtml($name, $child);
+            $html .= $this->renderElement($child);
         }
-        if ($html == '' || !$container->hasAttribute('htmlTag')) {
+        if ($html == '' || !$element->hasAttribute('htmlTag')) {
             return $html;
         }
-        $htmlId = $container->hasAttribute('htmlId') ? ' id="' . $container->getAttribute('htmlId') . '"' : '';
-        $htmlClass = $container->hasAttribute('htmlClass') ? ' class="'. $container->getAttribute('htmlClass') . '"' : '';
-        $htmlTag = $container->getAttribute('htmlTag');
+        $htmlId = $element->hasAttribute('htmlId') ? ' id="' . $element->getAttribute('htmlId') . '"' : '';
+        $htmlClass = $element->hasAttribute('htmlClass') ? ' class="'. $element->getAttribute('htmlClass') . '"' : '';
+        $htmlTag = $element->getAttribute('htmlTag');
         $html = sprintf('<%1$s%2$s%3$s>%4$s</%1$s>', $htmlTag, $htmlId, $htmlClass, $html);
 
         return $html;

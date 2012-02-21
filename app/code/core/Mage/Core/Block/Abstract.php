@@ -413,42 +413,47 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
     /**
      * Retrieve child block HTML
      *
-     * @param   string $name
+     * @param   string $alias
      * @param   boolean $useCache
-     * @param   boolean $sorted
      * @return  string
      */
-    public function getChildHtml($name = '', $useCache = true, $sorted = false)
+    public function getChildHtml($alias = '', $useCache = true)
     {
-        if ($name === '') {
-            $children = $this->getSortedChildren();
-            $out = '';
-            foreach ($children as $child) {
-                $out .= $this->_getChildHtml($child, $useCache);
-            }
-            return $out;
-        } else {
-            return $this->_getChildHtml($name, $useCache);
+        if ($useCache && isset($this->_childrenHtmlCache[$alias])) {
+            return $this->_childrenHtmlCache[$alias];
         }
+        $structure = $this->_getLayoutStructure();
+        $name = $this->getNameInLayout();
+        $out = '';
+        if ($alias) {
+            $out = $this->getLayout()->renderElement($structure->getChildName($name, $alias));
+        } else {
+            foreach ($structure->getSortedChildren($name) as $child) {
+                $out .= $this->getLayout()->renderElement($child);
+            }
+        }
+        $this->_childrenHtmlCache[$alias] = $out;
+        return $out;
     }
 
     /**
-     * @param string $name          Parent block name
-     * @param string $childName     OPTIONAL Child block name
-     * @param bool $useCache        OPTIONAL Use cache flag
-     * @param bool $sorted          OPTIONAL @see getChildHtml()
+     * @param string $alias          Parent block name
+     * @param string $childChildAlias     OPTIONAL Child block name
      * @return string
      */
-    public function getChildChildHtml($name, $childName = '', $useCache = true, $sorted = false)
+    public function getChildChildHtml($alias, $childChildAlias = '')
     {
-        if (empty($name)) {
-            return '';
+        $structure = $this->_getLayoutStructure();
+        $childName = $structure->getChildName($this->getNameInLayout(), $alias);
+        if ($childChildAlias) {
+            $childChildName = $structure->getChildName($childName, $childChildAlias);
+            return $this->getLayout()->renderElement($childChildName);
         }
-        $child = $this->getChild($name);
-        if (!$child) {
-            return '';
+        $out = '';
+        foreach ($structure->getSortedChildren($childName) as $childChild) {
+            $out .= $this->getLayout()->renderElement($childChild);
         }
-        return $child->getChildHtml($childName, $useCache, $sorted);
+        return $out;
     }
 
     /**
@@ -465,23 +470,6 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
             }
         }
         return $elements;
-    }
-
-    /**
-     * Retrieve child block HTML
-     *
-     * @param   string $name
-     * @param   boolean $useCache
-     * @return  string
-     */
-    protected function _getChildHtml($name, $useCache = true)
-    {
-        if ($useCache && isset($this->_childrenHtmlCache[$name])) {
-            return $this->_childrenHtmlCache[$name];
-        }
-
-        $this->_childrenHtmlCache[$name] = $this->getLayout()->getChildHtml($this->getNameInLayout(), $name);
-        return $this->_childrenHtmlCache[$name];
     }
 
     /**
@@ -502,7 +490,7 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
      */
     public function getBlockHtml($name)
     {
-        return $this->_getLayoutStructure()->getElementHtml($name);
+        return $this->getLayout()->renderElement($name);
     }
 
     /**
