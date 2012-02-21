@@ -35,6 +35,36 @@ class Mage_CatalogInventory_Model_Api2_Stock_Item_Rest_Admin_V1
     extends Mage_CatalogInventory_Model_Api2_Stock_Item_Rest
 {
     /**
+     * Retrieve information about specified stock item
+     *
+     * @throws Mage_Api2_Exception
+     * @return array
+     */
+    protected function _retrieve()
+    {
+        /* @var $stockItem Mage_CatalogInventory_Model_Stock_Item */
+        $stockItem = $this->_loadStockItem();
+        return $stockItem->getData();
+    }
+
+    /**
+     * Load stock item by its id passed through request
+     *
+     * @throws Mage_Api2_Exception
+     * @return Mage_CatalogInventory_Model_Stock_Item
+     */
+    protected function _loadStockItem()
+    {
+        $stockItemId = $this->getRequest()->getParam('id');
+        /* @var $stockItem Mage_CatalogInventory_Model_Stock_Item */
+        $stockItem = Mage::getModel('cataloginventory/stock_item')->load($stockItemId);
+        if (!$stockItem->getId()) {
+            $this->_critical(self::RESOURCE_NOT_FOUND);
+        }
+        return $stockItem;
+    }
+
+    /**
      * Update specified review item
      *
      * @param array $data

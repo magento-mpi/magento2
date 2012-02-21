@@ -34,21 +34,6 @@
 abstract class Mage_CatalogInventory_Model_Api2_Stock_Items_Rest extends Mage_CatalogInventory_Model_Api2_Stock_Items
 {
     /**
-     * Retrieve collection instance for stock
-     *
-     * @return Mage_CatalogInventory_Model_Resource_Stock_Item_Collection
-     */
-    protected function _getCollectionForRetrieve()
-    {
-        /** @var $collection Mage_CatalogInventory_Model_Resource_Stock_Item_Collection */
-        $collection = Mage::getResourceModel('cataloginventory/stock_item_collection');
-
-        $this->_applyCollectionModifiers($collection);
-
-        return $collection;
-    }
-
-    /**
      * Get location for given resource
      *
      * @param Mage_Core_Model_Abstract $product
