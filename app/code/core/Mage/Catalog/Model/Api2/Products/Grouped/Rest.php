@@ -19,7 +19,7 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_Review
+ * @package     Mage_Catalog
  * @copyright   Copyright (c) 2011 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
@@ -31,7 +31,7 @@
  * @package    Mage_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-abstract class Mage_Catalog_Model_Api2_Products_Grouped_Rest extends Mage_Catalog_Model_Api2_Products
+abstract class Mage_Catalog_Model_Api2_Products_Grouped_Rest extends Mage_Api2_Model_Resource_Collection
 {
 
 }

@@ -19,7 +19,7 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_Review
+ * @package     Mage_Catalog
  * @copyright   Copyright (c) 2011 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
@@ -31,8 +31,7 @@
  * @package    Mage_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Catalog_Model_Api2_Products_Grouped_Rest_Admin_V1
-    extends Mage_Catalog_Model_Api2_Products_Grouped_Rest
+class Mage_Catalog_Model_Api2_Products_Grouped_Rest_Admin_V1 extends Mage_Catalog_Model_Api2_Products_Grouped_Rest
 {
     protected function _create(array $data)
     {
@@ -83,11 +82,12 @@ class Mage_Catalog_Model_Api2_Products_Grouped_Rest_Admin_V1
         try{
             $groupedProduct->save();
         } catch (Mage_Core_Exception $e) {
-            $this->_error($e->getMessage(), Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR);
+            $this->_critical($e->getMessage(), Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR);
         } catch (Exception $e) {
             $this->_critical(self::RESOURCE_INTERNAL_ERROR);
         }
 
+        // TODO: Return created resource location (ID must be fetched from DB)
         return true;
     }
 }

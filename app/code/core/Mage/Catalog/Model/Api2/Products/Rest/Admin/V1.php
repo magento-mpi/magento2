@@ -42,6 +42,8 @@ class Mage_Catalog_Model_Api2_Products_Rest_Admin_V1 extends Mage_Catalog_Model_
      */
     protected function _validate(array $data, array $required = array(), array $notEmpty = array())
     {
+        parent::_validate($data, $required, $notEmpty);
+
         if (!isset($data['type']) || empty($data['type'])) {
             $this->_critical('Missing "type" in request.', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
         }
@@ -55,7 +57,7 @@ class Mage_Catalog_Model_Api2_Products_Rest_Admin_V1 extends Mage_Catalog_Model_
         /** @var $attributeSet Mage_Eav_Model_Entity_Attribute_Set */
         $attributeSet = Mage::getModel('eav/entity_attribute_set')->load($setId);
         if (!$attributeSet->getId() || $entity->getEntityTypeId() != $attributeSet->getEntityTypeId()) {
-            $this->_critical('Invalid attribute set', self::RESOURCE_DATA_INVALID);
+            $this->_critical('Invalid attribute set', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
         }
         // Validate product type
         $type = $data['type'];
@@ -66,14 +68,13 @@ class Mage_Catalog_Model_Api2_Products_Rest_Admin_V1 extends Mage_Catalog_Model_
         // Validate store
         if (isset($data['store'])) {
             try {
-                Mage::app()->getStore($data['store'])->getId();
+                Mage::app()->getStore($data['store']);
             } catch (Mage_Core_Model_Store_Exception $e) {
                 $this->_critical('Invalid store', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
             }
         }
-        // Collect required EAV attributes, validate applicable attributes
-        // and validate source attributes values
-        $required = array('set');
+        // Collect required EAV attributes, validate applicable attributes and validate source attributes values
+        $requiredAttributes = array('set');
         /** @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
         foreach ($entity->getAttributeCollection($setId) as $attribute) {
             $applicable = false;
@@ -83,7 +84,7 @@ class Mage_Catalog_Model_Api2_Products_Rest_Admin_V1 extends Mage_Catalog_Model_
 
             if (!$applicable && !$attribute->isStatic() && isset($data[$attribute->getAttributeCode()])) {
                 $this->_error(sprintf('Attribute "%s" is not applicable for product type "%s"',
-                    $attribute->getAttributeCode(), $productTypes[$type]['label']),
+                        $attribute->getAttributeCode(), $productTypes[$type]['label']),
                     Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
             }
 
@@ -93,22 +94,23 @@ class Mage_Catalog_Model_Api2_Products_Rest_Admin_V1 extends Mage_Catalog_Model_
                     $allowedValues[] = $option['value'];
                 }
                 if (!in_array($data[$attribute->getAttributeCode()], $allowedValues)
-                    && !empty($data[$attribute->getAttributeCode()])) {
+                    && !empty($data[$attribute->getAttributeCode()])
+                ) {
                     $this->_error(sprintf('Invalid value for attribute "%s"', $attribute->getAttributeCode()),
                         Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
                 }
             }
 
             if ($attribute->getIsRequired() && $attribute->getIsVisible() && $applicable) {
-                $required[] = $attribute->getAttributeCode();
+                $requiredAttributes[] = $attribute->getAttributeCode();
             }
         }
 
-        if (isset($data['stock_data'])  && is_array($data['stock_data'])) {
+        if (isset($data['stock_data']) && is_array($data['stock_data'])) {
             $this->_validateStockData($data['stock_data']);
         }
 
-        parent::_validate($data, $required, $required);
+        parent::_validate($data, $requiredAttributes, $requiredAttributes);
     }
 
     /**
@@ -118,7 +120,7 @@ class Mage_Catalog_Model_Api2_Products_Rest_Admin_V1 extends Mage_Catalog_Model_
      */
     protected function _validateStockData($data)
     {
-        if (isset($data['manage_stock']) && (bool) $data['manage_stock'] == true) {
+        if (isset($data['manage_stock']) && (bool)$data['manage_stock'] == true) {
             if (!isset($data['qty'])) {
                 $this->_error('Missing "stock_data:qty" in request.', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
             }
@@ -157,96 +159,71 @@ class Mage_Catalog_Model_Api2_Products_Rest_Admin_V1 extends Mage_Catalog_Model_
             $product->save();
             $this->_multicall($product->getId());
         } catch (Mage_Core_Exception $e) {
+            $this->_critical($e->getMessage(), Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR);
+        } catch (Exception $e) {
             $this->_critical(self::RESOURCE_UNKNOWN_ERROR);
         }
 
         return $this->_getLocation($product);
     }
 
-   /**
-    *  Set additional data before product saved
-    *
-    *  @param    Mage_Catalog_Model_Product $product
-    *  @param    array $productData
-    *  @return   object
-    */
-   protected function _prepareDataForSave($product, $productData)
-   {
-       if (isset($productData['website_ids']) && is_array($productData['website_ids'])) {
-           $product->setWebsiteIds($productData['website_ids']);
-       }
-       /** @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
-       foreach ($product->getTypeInstance(true)->getEditableAttributes($product) as $attribute) {
-           //Unset data if object attribute has no value in current store
-           if (Mage_Catalog_Model_Abstract::DEFAULT_STORE_ID !== (int) $product->getStoreId()
-               && !$product->getExistsStoreValueFlag($attribute->getAttributeCode())
-               && !$attribute->isScopeGlobal()
-           ) {
-               $product->setData($attribute->getAttributeCode(), false);
-           }
+    /**
+     *  Set additional data before product save
+     *
+     * @param Mage_Catalog_Model_Product $product
+     * @param array $productData
+     */
+    protected function _prepareDataForSave($product, $productData)
+    {
+        if (isset($productData['website_ids']) && is_array($productData['website_ids'])) {
+            $product->setWebsiteIds($productData['website_ids']);
+        }
+        /** @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
+        foreach ($product->getTypeInstance(true)->getEditableAttributes($product) as $attribute) {
+            //Unset data if object attribute has no value in current store
+            if (Mage_Catalog_Model_Abstract::DEFAULT_STORE_ID !== (int)$product->getStoreId()
+                && !$product->getExistsStoreValueFlag($attribute->getAttributeCode())
+                && !$attribute->isScopeGlobal()
+            ) {
+                $product->setData($attribute->getAttributeCode(), false);
+            }
 
-           if ($this->_isAllowedAttribute($attribute)) {
-               if (isset($productData[$attribute->getAttributeCode()])) {
-                   $product->setData(
-                       $attribute->getAttributeCode(),
-                       $productData[$attribute->getAttributeCode()]
-                   );
-               }
-           }
-       }
+            if ($this->_isAllowedAttribute($attribute)) {
+                if (isset($productData[$attribute->getAttributeCode()])) {
+                    $product->setData(
+                        $attribute->getAttributeCode(),
+                        $productData[$attribute->getAttributeCode()]
+                    );
+                }
+            }
+        }
 
-       if (isset($productData['stock_data']) && is_array($productData['stock_data'])) {
-           $product->setStockData($productData['stock_data']);
-       } else {
-           $product->setStockData(array('use_config_manage_stock' => 0));
-       }
-   }
+        if (isset($productData['stock_data']) && is_array($productData['stock_data'])) {
+            $product->setStockData($productData['stock_data']);
+        } else {
+            $product->setStockData(array('use_config_manage_stock' => 0));
+        }
+    }
 
-   /**
-    * Check is attribute allowed
-    *
-    * @param Mage_Eav_Model_Entity_Attribute_Abstract $attribute
-    * @param array $attributes
-    * @return boolean
-    */
-   protected function _isAllowedAttribute($attribute, $attributes = null)
-   {
-       if (is_array($attributes)
-           && !( in_array($attribute->getAttributeCode(), $attributes)
-                 || in_array($attribute->getAttributeId(), $attributes))) {
-           return false;
-       }
+    /**
+     * Check is attribute allowed
+     *
+     * @param Mage_Eav_Model_Entity_Attribute_Abstract $attribute
+     * @param array $attributes
+     * @return boolean
+     */
+    protected function _isAllowedAttribute($attribute, $attributes = null)
+    {
+        if (is_array($attributes) && !(in_array($attribute->getAttributeCode(), $attributes)
+            || in_array($attribute->getAttributeId(), $attributes))
+        ) {
+            return false;
+        }
 
-       $ignoredAttributeTypes = array();
-       $ignoredAttributeCodes = array('entity_id', 'attribute_set_id', 'entity_type_id');
+        $ignoredAttributeTypes = array();
+        $ignoredAttributeCodes = array('entity_id', 'attribute_set_id', 'entity_type_id');
 
-       return !in_array($attribute->getFrontendInput(), $ignoredAttributeTypes)
-              && !in_array($attribute->getAttributeCode(), $ignoredAttributeCodes);
-   }
-
-   /**
-    * Get location for given resource
-    *
-    * @param Mage_Core_Model_Abstract $product
-    * @return string Location of new resource
-    */
-   protected function _getLocation(Mage_Core_Model_Abstract $product)
-   {
-       /** @var $config Mage_Api2_Model_Config */
-       $config = Mage::getModel('api2/config');
-
-       /** @var $apiTypeRoute Mage_Api2_Model_Route_ApiType */
-       $apiTypeRoute = Mage::getModel('api2/route_apiType');
-
-       $chain = $apiTypeRoute->chain(
-           new Zend_Controller_Router_Route($config->getMainRoute('product'))
-       );
-       $params = array(
-           'api_type' => $this->getRequest()->getApiType(),
-           'id'       => $product->getId()
-       );
-       $uri = $chain->assemble($params);
-
-       return '/'.$uri;
-   }
+        return !in_array($attribute->getFrontendInput(), $ignoredAttributeTypes)
+            && !in_array($attribute->getAttributeCode(), $ignoredAttributeCodes);
+    }
 }
