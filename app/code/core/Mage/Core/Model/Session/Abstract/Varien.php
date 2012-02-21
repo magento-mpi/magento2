@@ -378,9 +378,15 @@ class Mage_Core_Model_Session_Abstract_Varien extends Varien_Object
             && $sessionValidateHttpXForwardedForKey != $validatorValidateHttpXForwardedForKey ) {
             return false;
         }
-        if ($this->useValidateHttpUserAgent()
-            && $sessionData[self::VALIDATOR_HTTP_USER_AGENT_KEY] != $validatorData[self::VALIDATOR_HTTP_USER_AGENT_KEY]
-            && !in_array($validatorData[self::VALIDATOR_HTTP_USER_AGENT_KEY], $this->getValidateHttpUserAgentSkip())) {
+        if ($this->useValidateHttpUserAgent() && $sessionData[self::VALIDATOR_HTTP_USER_AGENT_KEY]
+            != $validatorData[self::VALIDATOR_HTTP_USER_AGENT_KEY]
+        ) {
+            $userAgentValidated = $this->getValidateHttpUserAgentSkip();
+            foreach ($userAgentValidated as $agent) {
+                if (preg_match('/' . $agent . '/iu', $validatorData[self::VALIDATOR_HTTP_USER_AGENT_KEY])) {
+                    return true;
+                }
+            }
             return false;
         }
 
