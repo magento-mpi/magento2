@@ -397,6 +397,16 @@
                                 <?php if($this->getCustomerId() && $this->getMoveToCustomerStorage()): ?>
                                     <option value="cart"><?php echo $this->helper('sales')->__('Move to Shopping Cart') ?></option>
                                     <?php if ($this->isMoveToWishlistAllowed($_item)): ?>
+                                        <?php $wishlists = $this->getCustomerWishlists();?>
+                                        <?php if (count($wishlists) <= 1):?>
+                                            <option value="wishlist"><?php echo $this->helper('enterprise_checkout')->__('Move to Wishlist') ?></option>
+                                        <?php else: ?>
+                                            <optgroup label="<?php echo $this->helper('enterprise_checkout')->__('Move to Wishlist') ?>">
+                                                <?php foreach ($wishlists as $wishlist):?>
+                                                    <option value="wishlist_<?php echo $wishlist->getId();?>"><?php echo $this->escapeHtml($wishlist->getName());?></option>
+                                                <?php endforeach;?>
+                                            </optgroup>
+                                        <?php endif; ?>
                                         <option value="wishlist"><?php echo $this->helper('sales')->__('Move to Wishlist') ?></option>
                                     <?php endif; ?>
                                 <?php endif; ?>
