@@ -125,6 +125,10 @@ var validateErrorGrid = function (event)
     if ($errorTable) {
         $errorTable.select('input.qty').each(function ($qty)
         {
+            if ($qty.disabled) {
+                $qty.removeClassName('validation-failed');
+                return;
+            }
             var tr = $qty.up('tr');
             var $maxAllowed = tr.select('.qty_max_allowed');
             var $minAllowed = tr.select('.qty_min_allowed');
