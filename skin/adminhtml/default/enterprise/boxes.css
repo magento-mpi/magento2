@@ -849,6 +849,7 @@ ul.item-options li { padding-left:.7em; }
 .add-sku-csv .input-box { display:inline-block; }
 .add-sku-csv .btn-reset { display:inline-block; margin-left:15px; }
 
+
 tr.qty-not-available td input[name="qty"] { background-color: #faebe7; color: #df280a; }
 .entry-edit .entry-edit-head.sku-errors { background:#FAEBE7; border:1px solid #F16048; margin-top:10px; }
 .entry-edit .entry-edit-head.sku-errors h4 { color: #EB5E00; background:url(images/error_msg_icon.gif) no-repeat scroll 0 5px; padding-left:20px; padding-top:4px; }
