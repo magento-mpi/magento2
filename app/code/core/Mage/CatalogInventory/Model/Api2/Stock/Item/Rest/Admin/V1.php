@@ -34,4 +34,25 @@
 class Mage_CatalogInventory_Model_Api2_Stock_Item_Rest_Admin_V1
     extends Mage_CatalogInventory_Model_Api2_Stock_Item_Rest
 {
+    /**
+     * Update specified review item
+     *
+     * @param array $data
+     * @throws Mage_Api2_Exception
+     */
+    protected function _update($data)
+    {
+        $this->_validate($data, array('qty'), array());
+
+        /* @var $stockItem Mage_CatalogInventory_Model_Stock_Item */
+        $stockItem = $this->_loadStockItem();
+        $stockItem->addData($data);
+        try {
+            $stockItem->save();
+        } catch (Mage_Core_Exception $e) {
+            $this->_error($e->getMessage(), Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR);
+        } catch (Exception $e) {
+            $this->_critical(self::RESOURCE_INTERNAL_ERROR);
+        }
+    }
 }

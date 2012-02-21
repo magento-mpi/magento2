@@ -68,20 +68,20 @@ class Api2_CatalogInventory_Stock_Item_AdminTest extends Magento_Test_Webservice
      */
     public function testGet()
     {
-        /* @var $stockItem Mage_Review_Model_Review */
+        /* @var $stockItem Mage_CatalogInventory_Model_Stock_Item */
         $stockItem = $this->getFixture('stockItem');
         $restResponse = $this->callGet('stockitems/' . $stockItem->getId());
-
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
-        $responseData = $restResponse->getBody();
 
+        $responseData = $restResponse->getBody();
         $this->assertNotEmpty($responseData);
-        $reviewOriginalData = $stockItem->getData();
-        foreach ($reviewOriginalData as $field => $value) {
+
+        $stockItemOriginalData = $stockItem->getData();
+        foreach ($stockItemOriginalData as $field => $value) {
             if (is_array($value)) {
-                $this->assertEquals(count($reviewOriginalData[$field]), count($value));
+                $this->assertEquals(count($stockItemOriginalData[$field]), count($value));
             } else {
-                $this->assertEquals($reviewOriginalData[$field], $value);
+                $this->assertEquals($stockItemOriginalData[$field], $value);
             }
         }
     }
@@ -93,5 +93,55 @@ class Api2_CatalogInventory_Stock_Item_AdminTest extends Magento_Test_Webservice
     {
         $restResponse = $this->callGet('stockitems/' . 'invalid_id');
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $restResponse->getStatus());
+    }
+
+    /**
+     * Test stock item update
+     *
+     * @param array $dataForUpdate
+     * @dataProvider dataProviderTestUpdate
+     * @magentoDataFixture Api2/CatalogInventory/_fixtures/admin_acl.php
+     * @magentoDataFixture Api2/CatalogInventory/_fixtures/product.php
+     */
+    public function testUpdate($dataForUpdate)
+    {
+        /* @var $stockItem Mage_CatalogInventory_Model_Stock_Item */
+        $stockItem = $this->getFixture('stockItem');
+        $restResponse = $this->callPut('stockitems/' . $stockItem->getId(), $dataForUpdate);
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+
+        /* @var $updatedStockItem Mage_CatalogInventory_Model_Stock_Item */
+        $updatedStockItem = Mage::getModel('cataloginventory/stock_item');
+        $updatedStockItem->load($stockItem->getId());
+        $updatedStockItemData = $updatedStockItem->getData();
+        foreach ($dataForUpdate as $field => $value) {
+            $this->assertEquals($value, $updatedStockItemData[$field]);
+        }
+    }
+
+    /**
+     * Test updating not existing stock item
+     */
+    public function testUpdateUnavailableResource()
+    {
+        $restResponse = $this->callPut('stockitems/' . 'invalid_id', array());
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $restResponse->getStatus());
+    }
+
+    /**
+     * Data provider for testUpdate()
+     *
+     * @return array
+     */
+    public function dataProviderTestUpdate()
+    {
+        $validData = array(
+            'stock_id'                => Mage_CatalogInventory_Model_Stock::DEFAULT_STOCK_ID,
+            'use_config_manage_stock' => 0,
+            'qty'                     => 125,
+            'is_qty_decimal'          => 1,
+            'is_in_stock'             => 0,
+        );
+        return array(array($validData));
     }
 }
