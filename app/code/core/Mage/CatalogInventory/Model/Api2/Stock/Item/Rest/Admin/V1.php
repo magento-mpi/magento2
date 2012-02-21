@@ -65,7 +65,7 @@ class Mage_CatalogInventory_Model_Api2_Stock_Item_Rest_Admin_V1
     }
 
     /**
-     * Update specified review item
+     * Update specified stock item
      *
      * @param array $data
      * @throws Mage_Api2_Exception
