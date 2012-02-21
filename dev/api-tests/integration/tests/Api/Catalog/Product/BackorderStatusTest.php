@@ -79,7 +79,11 @@ class Api_Catalog_Product_BackorderStatusTest extends Magento_Test_Webservice
         $newProductData->backorders = 1;
 
         $result = $this->call(
-            'cataloginventory_stock_item.update', array($this->getFixture('product')->getSku(), (array)$newProductData)
+            'cataloginventory_stock_item.update',
+            array(
+                'productId' => $this->getFixture('product')->getSku(),
+                'data' => (array)$newProductData
+            )
         );
 
         if (Magento_Test_Webservice::TYPE_SOAPV2 === TESTS_WEBSERVICE_TYPE

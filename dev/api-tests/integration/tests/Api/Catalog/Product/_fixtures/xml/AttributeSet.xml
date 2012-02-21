@@ -2,7 +2,7 @@
 <root>
     <create>
         <attributeSetName>Test Attribute Set</attributeSetName>
-        <skeletonAttributeSetId>4</skeletonAttributeSetId>
+        <skeletonSetId>4</skeletonSetId>
     </create>
     <AttributeEntityToCreate>
         <attribute_code>a_test_attr_textarea</attribute_code>
@@ -31,7 +31,7 @@
         <frontend_label>
             <store_id>1</store_id>
             <label>bbb</label>
-        </frontend_label>  
+        </frontend_label>
     </AttributeEntityToCreate>
     <groupAdd>
         <groupName>Test Group</groupName>
