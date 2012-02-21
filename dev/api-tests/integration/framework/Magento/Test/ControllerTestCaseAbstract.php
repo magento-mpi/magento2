@@ -237,7 +237,9 @@ abstract class Magento_Test_ControllerTestCaseAbstract extends Magento_TestCase
         ) {
             /** @var $user Mage_Customer_Model_Customer */
             $user = Mage::getModel('customer/customer');
-            $user->authenticate($email, $password);
+            $user->setWebsiteId(Mage::app()->getWebsite()->getId())
+                ->authenticate($email, $password);
+
             if ($user->getId()) {
                 $session->setCustomerAsLoggedIn($user);
             }

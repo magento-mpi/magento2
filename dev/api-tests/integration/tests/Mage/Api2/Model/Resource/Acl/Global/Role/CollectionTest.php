@@ -57,7 +57,7 @@ class Mage_Api2_Model_Resource_Acl_Global_Role_CollectionTest extends Magento_Te
             $model = Mage::getModel('api2/acl_global_role');
             $this->addModelToDelete($model);
             $setData = $data['create'];
-            $setData['role_name'] . $i;
+            $setData['role_name'] .= $i;
             $model->setData($setData);
             $model->save();
             $ids[] = $model->getId();

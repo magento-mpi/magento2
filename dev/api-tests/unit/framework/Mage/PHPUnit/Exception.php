@@ -25,36 +25,12 @@
  */
 
 /**
- * Interface for Local DB query processors.
+ * Exceptions class
  *
  * @category    Mage
  * @package     Mage_PHPUnit
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-interface Mage_PHPUnit_Db_Query_Interface
+class Mage_PHPUnit_Exception extends Exception
 {
-    /**
-     * Process SQL query and sets result into statement from Local Db Server
-     *
-     * @param Zend_Db_Statement_Interface $statement
-     * @param Mage_PHPUnit_Db_FixtureConnection $connection
-     * @param string|Zend_Db_Select $sql
-     * @param array $bind
-     */
-    public function process($statement, $connection, $sql, $bind = array());
-
-    /**
-     * Checks if this query processor can process passed SQL query.
-     *
-     * @param string|Zend_Db_Select $sql
-     * @return bool
-     */
-    public function test($sql);
-
-    /**
-     * Parses and sets fixture data with queries information to a container
-     *
-     * @param SimpleXMLElement $fixture
-     */
-    public function setFixtureData($fixture);
 }

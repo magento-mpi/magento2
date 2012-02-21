@@ -127,7 +127,6 @@
     <selects>
         <select>
             <query><![CDATA[]]></query>
-            <error>Exception example: Wrong SQL query</error>
             <rows>
                 <row>
                     <field1></field1>
@@ -135,10 +134,4 @@
             </rows>
         </select>
     </selects>
-    <deletions>
-        <delete>
-            <query><![CDATA[]]></query>
-            <rows>0</rows>
-        </delete>
-    </deletions>
 </dataset>

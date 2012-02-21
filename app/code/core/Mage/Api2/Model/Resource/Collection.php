@@ -210,7 +210,7 @@ abstract class Mage_Api2_Model_Resource_Collection extends Mage_Api2_Model_Resou
         $instanceResource = $this->getConfig()->getResourceInstance($this->getResourceType());
 
         if (!$instanceResource) {
-            throw new Exception('Can not find instance node name for resource');
+            throw new Exception(sprintf("Can not find instance node name for resource '%s'", $this->getResourceType()));
         }
         return $this->getConfig()->getResourceAttributes($instanceResource);
     }

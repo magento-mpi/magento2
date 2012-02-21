@@ -29,7 +29,7 @@ $product = new Mage_Catalog_Model_Product();
 $product->setTypeId('simple')
     ->setAttributeSetId(4)
     ->setName('Simple Product')
-    ->setSku('simple-product-' . time())
+    ->setSku('simple-product-' . uniqid())
     ->setPrice(10)
     ->setTaxClassId(0)
     ->setMetaTitle('meta title')

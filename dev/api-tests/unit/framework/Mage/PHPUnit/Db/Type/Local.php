@@ -69,5 +69,4 @@ class Mage_PHPUnit_Db_Type_Local extends Mage_Core_Model_Resource_Type_Db
     {
         return 'Mage_PHPUnit_Db_Adapter';
     }
-
 }

@@ -33,18 +33,4 @@
  */
 class Mage_CatalogInventory_Model_Api2_Stock_Item extends Mage_Api2_Model_Resource_Instance
 {
-    /**
-     * Get available attributes of API resource
-     *
-     * @return array
-     */
-    public function getAvailableAttributes()
-    {
-        /** @var $resource Mage_Sales_Model_Resource_Order */
-        $resource  = Mage::getResourceModel($this->getConfig()->getResourceWorkingModel($this->getResourceType()));
-
-        $attrCodes = array_keys($resource->getReadConnection()->describeTable($resource->getMainTable()));
-
-        return array_combine($attrCodes, $attrCodes);
-    }
 }

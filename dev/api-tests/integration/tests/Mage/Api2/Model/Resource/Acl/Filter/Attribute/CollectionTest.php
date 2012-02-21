@@ -56,7 +56,7 @@ class Mage_Api2_Model_Resource_Acl_Filter_Attribute_CollectionTest extends Magen
             /** @var $model Mage_Api2_Model_Acl_Filter_Attribute */
             $model = Mage::getModel('api2/acl_filter_attribute');
             $setData = $data['create'];
-            $setData['resource_id'] . $i;
+            $setData['resource_id'] .= $i;
             $this->addModelToDelete($model);
             $model->setData($setData);
             $model->save();

@@ -172,7 +172,8 @@ class Api_Checkout_CartTest extends Magento_Test_Webservice
         }
 
         // Add product with custom option to cart via API
-        if (TESTS_WEBSERVICE_TYPE == Magento_Test_Webservice::TYPE_SOAPV2) { // use associative array for SOAP v2
+        if (TESTS_WEBSERVICE_TYPE == Magento_Test_Webservice::TYPE_SOAPV2
+            || TESTS_WEBSERVICE_TYPE == Magento_Test_Webservice::TYPE_SOAPV2_WSI) { // use associative array for SOAP v2
             $customOptionsData = array(array('key' => $customOptionId, 'value' => $customOptionValue));
         } else { // use numeric array otherwise
             $customOptionsData = array($customOptionId => $customOptionValue);

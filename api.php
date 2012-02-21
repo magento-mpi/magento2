@@ -51,16 +51,20 @@ if (isset($_SERVER['MAGE_IS_DEVELOPER_MODE'])) {
 
 Mage::$headersSentThrowsException = false;
 Mage::init('admin');
+Mage::app()->loadAreaPart(Mage_Core_Model_App_Area::AREA_GLOBAL, Mage_Core_Model_App_Area::PART_EVENTS);
 
 // query parameter "type" is set by .htaccess rewrite rule
 $apiAlias = Mage::app()->getRequest()->getParam('type');
 
-if (Mage_Api2_Model_Server::API_TYPE_REST == $apiAlias) {
+// check request could be processed by API2
+if (in_array($apiAlias, Mage_Api2_Model_Server::getApiTypes())) {
     /** @var $server Mage_Api2_Model_Server */
     $server = Mage::getSingleton('api2/server');
 
     $server->run();
 } else {
+    Mage::app()->loadAreaPart(Mage_Core_Model_App_Area::AREA_ADMINHTML, Mage_Core_Model_App_Area::PART_EVENTS);
+
     /* @var $server Mage_Api_Model_Server */
     $server = Mage::getSingleton('api/server');
     $adapterCode = $server->getAdapterCodeByAlias($apiAlias);

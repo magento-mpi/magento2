@@ -49,8 +49,35 @@
                         <mask>/stockitems/:id</mask>
                     </route_main>
                 </routes>
-                <instance>stock_item</instance>
+                <collection>stockitems</collection>
                 <versions>1</versions>
+                <attributes>
+                    <item_id>Item Id</item_id>
+                    <product_id>Product Id</product_id>
+                    <stock_id>Stock Id</stock_id>
+                    <qty>Qty</qty>
+                    <min_qty>Min Qty</min_qty>
+                    <use_config_min_qty>Use Config Min Qty</use_config_min_qty>
+                    <is_qty_decimal>Is Qty Decimal</is_qty_decimal>
+                    <backorders>Backorders</backorders>
+                    <use_config_backorders>Use Config Backorders</use_config_backorders>
+                    <min_sale_qty>Min Sale Qty</min_sale_qty>
+                    <use_config_min_sale_qty>Use Config Min Sale Qty</use_config_min_sale_qty>
+                    <max_sale_qty>Max Sale Qty</max_sale_qty>
+                    <use_config_max_sale_qty>Use Config Max Sale Qty</use_config_max_sale_qty>
+                    <is_in_stock>Is In Stock</is_in_stock>
+                    <low_stock_date>Low Stock Date</low_stock_date>
+                    <notify_stock_qty>Notify Stock Qty</notify_stock_qty>
+                    <use_config_notify_stock_qty>Use Config Notify Stock Qty</use_config_notify_stock_qty>
+                    <manage_stock>Manage Stock</manage_stock>
+                    <use_config_manage_stock>Use Config Manage Stock</use_config_manage_stock>
+                    <stock_status_changed_auto>Stock Status Changed Automatically</stock_status_changed_auto>
+                    <use_config_qty_increments>Use Config Qty Increments</use_config_qty_increments>
+                    <qty_increments>Qty Increments</qty_increments>
+                    <use_config_enable_qty_inc>Use Config Enable Qty Increments</use_config_enable_qty_inc>
+                    <enable_qty_increments>Enable Qty Increments</enable_qty_increments>
+                    <is_decimal_divided>Is Divided into Multiple Boxes for Shipping</is_decimal_divided>
+                </attributes>
             </stockitem>
             <stockitems>
                 <group>cataloginventory</group>
@@ -67,7 +94,7 @@
                         <mask>/stockitems</mask>
                     </route_main>
                 </routes>
-                <instance>stock_item</instance>
+                <instance>stockitem</instance>
                 <versions>1</versions>
             </stockitems>
         </resources>
