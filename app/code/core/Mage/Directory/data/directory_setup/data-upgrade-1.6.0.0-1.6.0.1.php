@@ -55,3 +55,4 @@ $installer->getConnection()->insert(
         'value'    => implode(',', $countries)
     )
 );
+
