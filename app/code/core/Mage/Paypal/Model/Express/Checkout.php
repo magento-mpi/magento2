@@ -292,12 +292,15 @@ class Mage_Paypal_Model_Express_Checkout
 
         $this->_setBillingAgreementRequest();
 
-        if ($this->_config->requireBillingAddress) {
+        if ($this->_config->requireBillingAddress == Mage_Paypal_Model_Config::REQUIRE_BILLING_ADDRESS_ALL) {
             $this->_api->setRequireBillingAddress(1);
         }
 
         // supress or export shipping address
         if ($this->_quote->getIsVirtual()) {
+            if ($this->_config->requireBillingAddress == Mage_Paypal_Model_Config::REQUIRE_BILLING_ADDRESS_VIRTUAL) {
+                $this->_api->setRequireBillingAddress(1);
+            }
             $this->_api->setSuppressShipping(true);
         } else {
             $address = $this->_quote->getShippingAddress();

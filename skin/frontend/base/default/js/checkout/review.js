@@ -75,7 +75,7 @@ OrderReviewController.prototype = {
         } else {
             Form.getElements(this.form).each(this._bindElementChange, this);
 
-            if (shippingSelect) {
+            if (shippingSelect && $(shippingSelect)) {
                 this.shippingSelect = $(shippingSelect).id;
                 this.shippingMethodsContainer = $(this.shippingSelect).up(1);
             }
@@ -163,13 +163,15 @@ OrderReviewController.prototype = {
      */
     setShippingAddressContainer: function(element)
     {
-        Form.getElements(element).each(function(input) {
-            if (input.type.toLowerCase() == 'radio' || input.type.toLowerCase() == 'checkbox') {
-                Event.observe(input, 'click', this._onShippingChange.bindAsEventListener(this));
-            } else {
-                Event.observe(input, 'change', this._onShippingChange.bindAsEventListener(this));
-            }
-        }, this);
+        if (element) {
+            Form.getElements(element).each(function(input) {
+                if (input.type.toLowerCase() == 'radio' || input.type.toLowerCase() == 'checkbox') {
+                    Event.observe(input, 'click', this._onShippingChange.bindAsEventListener(this));
+                } else {
+                    Event.observe(input, 'change', this._onShippingChange.bindAsEventListener(this));
+                }
+            }, this);
+        }
     },
 
     /**
