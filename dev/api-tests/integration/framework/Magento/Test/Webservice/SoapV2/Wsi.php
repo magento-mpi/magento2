@@ -38,7 +38,7 @@ class Magento_Test_Webservice_SoapV2_Wsi extends Magento_Test_Webservice_SoapV2
         if (!is_array($params)) {
             $params = array($params);
         }
-        array_unshift($params, $this->_session);
+        $params['sessionId'] = $this->_session;
 
         return $params;
     }
@@ -95,7 +95,7 @@ class Magento_Test_Webservice_SoapV2_Wsi extends Magento_Test_Webservice_SoapV2
             $params = $this->_prepareParams($params);
         }
         try {
-            $soapRes = call_user_func_array(array($this->_client, $soap2method), $params);
+            $soapRes = call_user_func_array(array($this->_client, $soap2method), array($params));
         } catch (SoapFault $e) {
             if ($this->_isShowInvalidResponse() && in_array($e->getMessage(), $this->_badRequestMessages)) {
                 $e = new Magento_Test_Webservice_Exception(
