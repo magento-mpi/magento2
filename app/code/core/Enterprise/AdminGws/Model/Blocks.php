@@ -593,6 +593,22 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
     }
 
     /**
+     * Remove 'delete' action from Gift Wrapping grid for all GWS limited users
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_AdminGws_Model_Blocks
+     */
+    public function removeGiftWrappingForbiddenMassactions($observer)
+    {
+        $massBlock = $observer->getEvent()->getBlock()->getMassactionBlock();
+        /** @var $massBlock Mage_Adminhtml_Block_Widget_Grid_Massaction */
+        if ($massBlock) {
+            $massBlock->removeItem('delete');
+        }
+        return $this;
+    }
+
+    /**
      * Remove action column and massaction functionality
      * from grid for users with limited permissions.
      *
