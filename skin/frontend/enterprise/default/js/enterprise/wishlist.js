@@ -73,12 +73,13 @@ Enterprise.Wishlist.Widget.Form = Class.create(Enterprise.Widget, {
         });
         Event.observe(this._node, 'submit',
             (function(event) {
-                deferredList.event = event; deferredList.callback();
+                deferredList.event = event;
+                deferredList.callback();
             }).bind(this)
         );
         Event.observe($(this._node).down('button.btn-cancel'), 'click',
             (function() {
-                this.onCancel()
+                this.onCancel();
             }).bind(this)
         );
         this.nameNode = $(this._node).down('#wishlist-name');
