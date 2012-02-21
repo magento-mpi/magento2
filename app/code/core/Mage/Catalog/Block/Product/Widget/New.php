@@ -63,8 +63,7 @@ class Mage_Catalog_Block_Product_Widget_New extends Mage_Catalog_Block_Product_N
     protected $_pager;
 
     /**
-     * Internal constructor
-     *
+     * Initialize block's cache and template settings
      */
     protected function _construct()
     {
@@ -183,23 +182,23 @@ class Mage_Catalog_Block_Product_Widget_New extends Mage_Catalog_Block_Product_N
      */
     public function getPagerHtml()
     {
-        if (!$this->showPager()) {
-            return '';
-        }
-        if (!$this->_pager) {
-            $this->_pager = $this->getLayout()
-                ->createBlock('catalog/product_widget_html_pager', 'widget.new.product.list.pager');
+        if ($this->showPager()) {
+            if (!$this->_pager) {
+                $this->_pager = $this->getLayout()
+                    ->createBlock('catalog/product_widget_html_pager', 'widget.new.product.list.pager');
 
-            $this->_pager->setUseContainer(true)
-                ->setShowAmounts(true)
-                ->setShowPerPage(false)
-                ->setPageVarName(self::PAGE_VAR_NAME)
-                ->setLimit($this->getProductsPerPage())
-                ->setTotalLimit($this->getProductsCount())
-                ->setCollection($this->getProductCollection());
+                $this->_pager->setUseContainer(true)
+                    ->setShowAmounts(true)
+                    ->setShowPerPage(false)
+                    ->setPageVarName(self::PAGE_VAR_NAME)
+                    ->setLimit($this->getProductsPerPage())
+                    ->setTotalLimit($this->getProductsCount())
+                    ->setCollection($this->getProductCollection());
+            }
+            if ($this->_pager instanceof Mage_Core_Block_Abstract) {
+                return $this->_pager->toHtml();
+            }
         }
-        if ($this->_pager instanceof Varien_Object) {
-            return $this->_pager->toHtml();
-        }
+        return '';
     }
 }

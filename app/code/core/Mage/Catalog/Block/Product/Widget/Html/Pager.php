@@ -106,14 +106,13 @@ class Mage_Catalog_Block_Product_Widget_Html_Pager extends Mage_Page_Block_Html_
         if ($this->_limit > 0) {
             return $this->_limit;
         }
+        $limit  = $this->getRequest()->getParam($this->getLimitVarName());
         $limits = $this->getAvailableLimit();
-        if ($limit = $this->getRequest()->getParam($this->getLimitVarName())) {
-            if (isset($limits[$limit])) {
-                return $limit;
-            }
+        if ($limit && isset($limits[$limit])) {
+            return $limit;
         }
         $limits = array_keys($limits);
-        return $limits[0];
+        return current($limits);
     }
 
     /**
