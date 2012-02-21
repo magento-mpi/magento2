@@ -401,10 +401,13 @@ select.multiselect option       { padding:3px 4px; border-bottom:1px solid #ddd;
 .form-list p.note               { margin:0; padding:0 0 0 13px; background:url(images/note_bg.gif) 1px 6px no-repeat; font-size:11px; }
 
 .columns .form-list             { width:auto; }
-.columns .form-list td.value    { width:280px; padding-right:5px !important; white-space:nowrap; }
+.columns .form-list td.value    { width:280px; padding-right:5px !important; }
+.columns .form-list td.value  { white-space:nowrap; }
 .columns .form-list td.value > * { white-space:normal; }
+.columns .form-list td.value > strong,
+.columns .form-list td.value > button { display:block; }
 .columns .form-list td.value .next-toinput { width:75px; display:inline; margin-right:5px; }
-.columns .form-list td.value .next-toselect input.input-text { width:180px; display:inline; }
+.columns .form-list td.value .next-toselect input.input-text { width:195px!important; display:inline; }
 
 .fieldset-wide .form-list { width:100% !important; }
 .fieldset-wide .form-list td.value { width:auto !important; }
@@ -843,8 +846,8 @@ ul.item-options li { padding-left:.7em; }
 .add-sku-csv p.note { background-position:0 5px; }
 .add-sku-csv .input-box { display:inline-block; }
 .add-sku-csv .btn-reset { display:inline-block; margin-left:15px; background:url(images/bkg_icon-reset.png) no-repeat scroll 0 50%; padding-left:15px; line-height:12px; }
-.add-sku-csv .btn-reset span { margin-left:0; padding:3px 0;   display:inline-block; cursor:pointer; color:#929292; border-bottom:1px dotted #929292; line-height:1; height:1em; margin-bottom:-1px; } 
-.add-sku-csv .btn-reset span:hover { border-bottom:0; margin-bottom:0; } 
+.add-sku-csv .btn-reset span { margin-left:0; padding:3px 0;   display:inline-block; cursor:pointer; color:#929292; border-bottom:1px dotted #929292; line-height:1; height:1em; margin-bottom:-1px; }
+.add-sku-csv .btn-reset span:hover { border-bottom:0; margin-bottom:0; }
 
 tr.qty-not-available td input[name="qty"] { background-color: #faebe7; color: #df280a; }
 .entry-edit .entry-edit-head.sku-errors { background:#FAEBE7; border:1px solid #F16048; margin-top:10px; }
