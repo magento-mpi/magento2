@@ -91,7 +91,7 @@
                 <cookie>
                     <fields>
                         <cookie_restriction translate="comment">
-                            <comment>To comply to the Cookie Restriction Law, Full Page Cache Modul should be disabled.</comment>
+                            <comment>Note that to fully restrict cookies, full page caching must be disabled as well.</comment>
                         </cookie_restriction>
                     </fields>
                 </cookie>
