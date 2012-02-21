@@ -63,8 +63,8 @@ class Api2_CatalogInventory_Stock_Item_AdminTest extends Magento_Test_Webservice
     /**
      * Test retrieving existing product stock state
      *
-     * @magentoDataFixture Api2/CatalogInventory/_fixtures/product.php
      * @magentoDataFixture Api2/CatalogInventory/_fixtures/admin_acl.php
+     * @magentoDataFixture Api2/CatalogInventory/_fixtures/product.php
      */
     public function testGet()
     {

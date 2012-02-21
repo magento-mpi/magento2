@@ -10,28 +10,36 @@
  * http://opensource.org/licenses/osl-3.0.php
  * If you did not receive a copy of the license and are unable to
  * obtain it through the world-wide-web, please send an email
- * to license@magentocommerce.com so we can send you a copy immediately.
+ * to license@magento.com so we can send you a copy immediately.
  *
  * DISCLAIMER
  *
  * Do not edit or add to this file if you wish to upgrade Magento to newer
  * versions in the future. If you wish to customize Magento for your
- * needs please refer to http://www.magentocommerce.com for more information.
+ * needs please refer to http://www.magento.com for more information.
  *
- * @category    Mage
- * @package     Mage_CatalogInventory
- * @copyright   Copyright (c) 2011 Magento Inc. (http://www.magentocommerce.com)
+ * @category    Magento
+ * @package     tools
+ * @copyright   Copyright (c) 2001-__ENDDATE__ 2010 Magento Inc. (http://www.magento.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * API2 class for stock item (customer)
- *
- * @category   Mage
- * @package    Mage_CatalogInventory
- * @author     Magento Core Team <core@magentocommerce.com>
+ * DEV tools base constants definition
  */
-class Mage_CatalogInventory_Model_Api2_Stock_Item_Rest_Customer_V1
-    extends Mage_CatalogInventory_Model_Api2_Stock_Item_Rest
-{
-}
+
+/**
+ * Project root directory
+ * @var sting
+ */
+define('DEV_ROOT', realpath(dirname(__FILE__) . DIRECTORY_SEPARATOR . '..'));
+/**
+ * Project libraries root directory
+ * @var sting
+ */
+define('DEV_LIB', DEV_ROOT . DIRECTORY_SEPARATOR . 'lib');
+/**
+ * Application root directory
+ * @var sting
+ */
+define('DEV_APP', DEV_ROOT . DIRECTORY_SEPARATOR . 'app');
