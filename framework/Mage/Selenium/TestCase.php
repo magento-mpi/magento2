@@ -1444,13 +1444,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                 foreach ($uimapFields as $fieldsType => $fieldsData) {
                     foreach ($fieldsData as $uimapFieldName => $uimapFieldValue) {
                         if ($dataFieldName == $uimapFieldName) {
-                            $parent = $fieldset->getXpath($this->_paramsHelper);
-                            if (!is_null($parent) && !$parent == '') {
-                                $uimapFieldValue = str_ireplace('css=', ' ', $uimapFieldValue);
-                            }
                             $dataMap[$dataFieldName] = array(
                                 'type'  => $fieldsType,
-                                'path'  => $parent . $uimapFieldValue,
+                                'path'  => $uimapFieldValue,
                                 'value' => $dataFieldValue
                             );
                             break 3;

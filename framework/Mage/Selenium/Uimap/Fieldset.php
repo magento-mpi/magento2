@@ -50,7 +50,20 @@ class Mage_Selenium_Uimap_Fieldset extends Mage_Selenium_Uimap_Abstract
     {
         $this->_fieldsetId = $fieldsetId;
         $this->_xPath = isset($fieldsetContainer['xpath'])
-                            ? $fieldsetContainer['xpath'] : '';
+            ? $fieldsetContainer['xpath']
+            : '';
         $this->_parseContainerArray($fieldsetContainer);
+        if ($this->_xPath != '' && isset($this->_elements)) {
+            $parent = $this->_xPath;
+            foreach ($this->_elements as $elementData) {
+                foreach ($elementData as $elementName => $elementXpath) {
+                    if (preg_match('|^' . preg_quote($parent) . '|', $elementXpath)) {
+                        continue;
+                    }
+                    $elementXpath = str_ireplace('css=', ' ', $elementXpath);
+                    $elementData[$elementName] = $parent . $elementXpath;
+                }
+            }
+        }
     }
 }

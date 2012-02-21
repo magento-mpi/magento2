@@ -196,7 +196,7 @@ edit_customer:
                                         auto_generated_password: //input[@id='account-send-pass']
                                     fields:
                                         new_password: //input[@id='_accountnew_password']
-                                        required: [password]
+                                    required: [new_password]
                 -
                     addresses:
                         xpath: //a[@id='customer_info_tabs_addresses']/span
