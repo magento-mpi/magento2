@@ -206,7 +206,7 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
      *
      * @var Varien_Db_Select
      */
-    protected $_catalogPreparePriceSelect;
+    protected $_catalogPreparePriceSelect = null;
 
     /**
      * Get cloned Select after dispatching 'catalog_prepare_price_select' event
@@ -892,7 +892,7 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
         $this->_renderFilters();
         $countSelect = (is_null($select)) ?
             $this->_getClearSelect() :
-            $this->_getClearSelect($select);
+            $this->_buildClearSelect($select);
         $countSelect->columns('COUNT(DISTINCT e.entity_id)');
         if ($resetLeftJoins) {
             $countSelect->resetJoinLeft();
@@ -926,10 +926,20 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
     /**
      * Retreive clear select
      *
+     * @return Varien_Db_Select
+     */
+    protected function _getClearSelect()
+    {
+        return $this->_buildClearSelect();
+    }
+
+    /**
+     * Build clear select
+     *
      * @param Varien_Db_Select $select
      * @return Varien_Db_Select
      */
-    protected function _getClearSelect($select = null)
+    protected function _buildClearSelect($select = null)
     {
         if (is_null($select)) {
             $select = clone $this->getSelect();
@@ -941,6 +951,7 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
 
         return $select;
     }
+
     /**
      * Retrive all ids for collection
      *

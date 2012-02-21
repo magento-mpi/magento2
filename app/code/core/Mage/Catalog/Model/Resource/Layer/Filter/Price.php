@@ -92,8 +92,9 @@ class Mage_Catalog_Model_Resource_Layer_Filter_Price extends Mage_Core_Model_Res
         $collection = $filter->getLayer()->getProductCollection();
         $collection->addPriceData($filter->getCustomerGroupId(), $filter->getWebsiteId());
 
-        $select = clone $collection->getCatalogPreparedSelect();
-        if (!isset($select)) {
+        if (!is_null($collection->getCatalogPreparedSelect())) {
+            $select = clone $collection->getCatalogPreparedSelect();
+        } else {
             $select = clone $collection->getSelect();
         }
 
