@@ -34,20 +34,4 @@
 abstract class Mage_CatalogInventory_Model_Api2_Stock_Item_Rest
     extends Mage_CatalogInventory_Model_Api2_Stock_Item
 {
-    /**
-     * Get stock items list
-     *
-     * @return array
-     */
-    protected function _retrieve()
-    {
-        $id = $this->getRequest()->getParam('id');
-        /** @var $stockItem Mage_CatalogInventory_Model_Stock_Item */
-        $stockItem = Mage::getModel('cataloginventory/stock_item')->load($id);
-        if (!$stockItem->getId()) {
-            $this->_critical(self::RESOURCE_NOT_FOUND);
-        }
-
-        return $stockItem;
-    }
 }

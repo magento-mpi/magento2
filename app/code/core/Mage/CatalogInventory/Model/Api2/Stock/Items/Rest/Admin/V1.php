@@ -34,4 +34,15 @@
 class Mage_CatalogInventory_Model_Api2_Stock_Items_Rest_Admin_V1
     extends Mage_CatalogInventory_Model_Api2_Stock_Items_Rest
 {
+    /**
+     * Get orders list
+     *
+     * @return array
+     */
+    protected function _retrieve()
+    {
+        $data = $this->_getCollectionForRetrieve()->load()->toArray();
+
+        return isset($data['items']) ? $data['items'] : $data;
+    }
 }
