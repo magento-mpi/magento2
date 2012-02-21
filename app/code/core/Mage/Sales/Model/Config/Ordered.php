@@ -1,13 +1,13 @@
 <?php
 /**
- * Magento Enterprise Edition
+ * Magento
  *
  * NOTICE OF LICENSE
  *
- * This source file is subject to the Magento Enterprise Edition License
- * that is bundled with this package in the file LICENSE_EE.txt.
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
  * It is also available through the world-wide-web at this URL:
- * http://www.magentocommerce.com/license/enterprise-edition
+ * http://opensource.org/licenses/osl-3.0.php
  * If you did not receive a copy of the license and are unable to
  * obtain it through the world-wide-web, please send an email
  * to license
@@ -22,7 +22,7 @@
  * @category    Mage
  * @package     Mage_Sales
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
- * @license     http://www.magentocommerce.com/license/enterprise-edition
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
@@ -37,14 +37,14 @@ abstract class Mage_Sales_Model_Config_Ordered extends Mage_Core_Model_Config_Ba
     /**
      * Cache key for collectors
      *
-     * @var string
+     * @var string|null
      */
     protected $_collectorsCacheKey = null;
 
     /**
      * Configuration path where to collect registered totals
      *
-     * @var string
+     * @var string|null
      */
     protected $_totalsConfigNode = null;
 
@@ -72,7 +72,7 @@ abstract class Mage_Sales_Model_Config_Ordered extends Mage_Core_Model_Config_Ba
     /**
      * Initialize total models configuration and objects
      *
-     * @return Mage_Sales_Model_Quote_Address_Total_Collector
+     * @return Mage_Sales_Model_Config_Ordered
      */
     protected function _initModels()
     {
@@ -91,10 +91,10 @@ abstract class Mage_Sales_Model_Config_Ordered extends Mage_Core_Model_Config_Ba
      * Init model class by configuration
      *
      * @abstract
-     * @param $class
-     * @param $totalCode
-     * @param $totalConfig
-     * @return stdClass
+     * @param string $class
+     * @param string $totalCode
+     * @param array $totalConfig
+     * @return mixed
      */
     abstract protected function _initModelInstance($class, $totalCode, $totalConfig);
 
@@ -125,7 +125,7 @@ abstract class Mage_Sales_Model_Config_Ordered extends Mage_Core_Model_Config_Ba
     /**
      * Aggregate before/after information from all items and sort totals based on this data
      *
-     * @return array|mixed
+     * @return array
      */
     protected function _getSortedCollectorCodes()
     {
@@ -185,7 +185,7 @@ abstract class Mage_Sales_Model_Config_Ordered extends Mage_Core_Model_Config_Ba
      * Initialize collectors array.
      * Collectors array is array of total models ordered based on configuration settings
      *
-     * @return  Mage_Sales_Model_Quote_Address_Total_Collector
+     * @return  Mage_Sales_Model_Config_Ordered
      */
     protected function _initCollectors()
     {
