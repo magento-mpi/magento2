@@ -31,16 +31,19 @@ class Magento_Test_Webservice_SoapV2_Wsi extends Magento_Test_Webservice_SoapV2
      * Prepare parameters to be used in WS-I call
      *
      * @param mixed $params
-     * @return array
+     * @return stdClass
      */
     protected function _prepareParams($params)
     {
+        if (is_object($params)) {
+            return $params;
+        }
         if (!is_array($params)) {
             $params = array($params);
         }
         $params['sessionId'] = $this->_session;
 
-        return $params;
+        return (object) $params;
     }
 
     /**
@@ -95,7 +98,7 @@ class Magento_Test_Webservice_SoapV2_Wsi extends Magento_Test_Webservice_SoapV2
             $params = $this->_prepareParams($params);
         }
         try {
-            $soapRes = call_user_func_array(array($this->_client, $soap2method), array($params));
+            $soapRes = call_user_func(array($this->_client, $soap2method), $this->_prepareParams($params));
         } catch (SoapFault $e) {
             if ($this->_isShowInvalidResponse() && in_array($e->getMessage(), $this->_badRequestMessages)) {
                 $e = new Magento_Test_Webservice_Exception(
@@ -116,7 +119,7 @@ class Magento_Test_Webservice_SoapV2_Wsi extends Magento_Test_Webservice_SoapV2
      */
     public function login($api, $key)
     {
-        return $this->call('login', array('username' => $api, 'apiKey' => $key));
+        return $this->call('login', (object) array('username' => $api, 'apiKey' => $key));
     }
 
     /**
