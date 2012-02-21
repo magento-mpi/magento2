@@ -31,7 +31,6 @@
          convertErrorsToExceptions="true"
          convertNoticesToExceptions="true"
          convertWarningsToExceptions="true"
-         colors="true"
          syntaxCheck="true"
          verbose="true">
     <testsuites>
@@ -40,6 +39,6 @@
         </testsuite>
     </testsuites>
     <logging>
-        <log type="testdox-html" target="../../../tmp/unittests.html"/>
+        <log type="testdox-html" target="../../../var/logs/unittests.html"/>
     </logging>
 </phpunit>

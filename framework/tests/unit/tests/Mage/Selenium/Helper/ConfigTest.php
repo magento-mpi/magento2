@@ -96,10 +96,12 @@ class Mage_Selenium_Helper_ConfigTest extends Mage_PHPUnit_TestCase
         $this->assertNotEmpty($configHelper->getBaseUrl());
 
         $configHelper->setArea('admin');
-        $this->assertRegExp('/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \?=.-]*)*\/?$/', $configHelper->getBaseUrl());
+        $this->assertRegExp('/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \?=.-]*)*\/?$/',
+                            $configHelper->getBaseUrl());
 
         $configHelper->setArea('frontend');
-        $this->assertRegExp('/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \?=.-]*)*\/?$/', $configHelper->getBaseUrl());
+        $this->assertRegExp('/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \?=.-]*)*\/?$/',
+                            $configHelper->getBaseUrl());
     }
 
     /**
@@ -130,5 +132,50 @@ class Mage_Selenium_Helper_ConfigTest extends Mage_PHPUnit_TestCase
         $configHelper->setArea('frontend');
         $password = $configHelper->getDefaultPassword();
         $this->assertInternalType('string', $password);
+    }
+
+    /**
+     * @covers Mage_Selenium_Helper_Config::getBasePath
+     */
+    public function testGetBasePath()
+    {
+        $configHelper = new Mage_Selenium_Helper_Config($this->_config);
+        $configHelper->setApplication('mage');
+        $configHelper->setArea('admin');
+        $uimapPath = $configHelper->getBasePath();
+        $this->assertInternalType('string', $uimapPath);
+        $this->assertSame($uimapPath, 'admin');
+    }
+
+    /**
+     * @covers Mage_Selenium_Helper_Config::getFixturesFallbackOrder
+     */
+    public function testGetFixturesFallbackOrder()
+    {
+        $configHelper = new Mage_Selenium_Helper_Config($this->_config);
+        $configHelper->setApplication('mage');
+        $fallbackOrder = $configHelper->getFixturesFallbackOrder();
+        $this->assertInternalType('array', $fallbackOrder);
+        $this->assertSame($fallbackOrder, array('default'));
+        $configHelper->setApplication('enterprise');
+        $fallbackOrder = $configHelper->getFixturesFallbackOrder();
+        $this->assertInternalType('array', $fallbackOrder);
+        $this->assertSame($fallbackOrder, array('default', 'enterprise'));
+    }
+
+    /**
+     * @covers Mage_Selenium_Helper_Config::getHelpersFallbackOrder
+     */
+    public function testGetHelpersFallbackOrder()
+    {
+        $configHelper = new Mage_Selenium_Helper_Config($this->_config);
+        $configHelper->setApplication('mage');
+        $fallbackOrder = $configHelper->getHelpersFallbackOrder();
+        $this->assertInternalType('array', $fallbackOrder);
+        $this->assertSame($fallbackOrder, array('Core'));
+        $configHelper->setApplication('enterprise');
+        $fallbackOrder = $configHelper->getHelpersFallbackOrder();
+        $this->assertInternalType('array', $fallbackOrder);
+        $this->assertSame($fallbackOrder, array('Core', 'Enterprise'));
     }
 }

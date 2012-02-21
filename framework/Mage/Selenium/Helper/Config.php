@@ -384,7 +384,7 @@ class Mage_Selenium_Helper_Config extends Mage_Selenium_Helper_Abstract
      */
     public function getBasePath()
     {
-        $config = $this->getApplicationConfig();
+        $config = $this->getAreaConfig();
         if (!isset($config['uimap_path'])) {
             throw new OutOfRangeException('Base path to uimaps is not set for "' . $this->getArea() . '" area');
         }
