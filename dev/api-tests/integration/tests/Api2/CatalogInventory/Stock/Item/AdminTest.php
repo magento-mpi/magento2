@@ -96,23 +96,23 @@ class Api2_CatalogInventory_Stock_Item_AdminTest extends Magento_Test_Webservice
     }
 
     /**
-     * Test stock item update
+     * Test successful stock item update
      *
-     * @param array $dataForUpdate
-     * @dataProvider dataProviderTestUpdate
      * @magentoDataFixture Api2/CatalogInventory/_fixtures/admin_acl.php
      * @magentoDataFixture Api2/CatalogInventory/_fixtures/product.php
      */
-    public function testUpdate($dataForUpdate)
+    public function testUpdate()
     {
+        $dataForUpdate  = require dirname(__FILE__) . '/../../_fixtures/stock_item_data.php';
+
         /* @var $stockItem Mage_CatalogInventory_Model_Stock_Item */
         $stockItem = $this->getFixture('stockItem');
         $restResponse = $this->callPut('stockitems/' . $stockItem->getId(), $dataForUpdate);
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
 
         /* @var $updatedStockItem Mage_CatalogInventory_Model_Stock_Item */
-        $updatedStockItem = Mage::getModel('cataloginventory/stock_item');
-        $updatedStockItem->load($stockItem->getId());
+        $updatedStockItem = Mage::getModel('cataloginventory/stock_item')
+            ->load($stockItem->getId());
         $updatedStockItemData = $updatedStockItem->getData();
         foreach ($dataForUpdate as $field => $value) {
             $this->assertEquals($value, $updatedStockItemData[$field]);
@@ -120,28 +120,42 @@ class Api2_CatalogInventory_Stock_Item_AdminTest extends Magento_Test_Webservice
     }
 
     /**
+     * Test unsuccessful stock item update with empty required data
+     *
+     * @magentoDataFixture Api2/CatalogInventory/_fixtures/admin_acl.php
+     * @magentoDataFixture Api2/CatalogInventory/_fixtures/product.php
+     */
+    public function testUpdateEmptyRequired()
+    {
+        $dataForUpdate  = require dirname(__FILE__) . '/../../_fixtures/stock_item_data_emptyrequired.php';
+
+        /* @var $stockItem Mage_CatalogInventory_Model_Stock_Item */
+        $stockItem = $this->getFixture('stockItem');
+        $restResponse = $this->callPut('stockitems/' . $stockItem->getId(), $dataForUpdate);
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
+
+        $responseData = $restResponse->getBody();
+        $errors = $responseData['messages']['error'];
+        $this->assertNotEmpty($errors);
+
+        $expectedErrors = array('Resource data pre-validation error.');
+        foreach ($dataForUpdate as $key => $value) {
+            $expectedErrors[] = sprintf('Empty value for "%s" in request.', $key);
+        }
+        $this->assertEquals(count($expectedErrors), count($errors));
+        foreach ($errors as $error) {
+            $this->assertContains($error['message'], $expectedErrors);
+        }
+    }
+
+    /**
      * Test updating not existing stock item
+     *
+     * @magentoDataFixture Api2/CatalogInventory/_fixtures/admin_acl.php
      */
     public function testUpdateUnavailableResource()
     {
         $restResponse = $this->callPut('stockitems/' . 'invalid_id', array());
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $restResponse->getStatus());
-    }
-
-    /**
-     * Data provider for testUpdate()
-     *
-     * @return array
-     */
-    public function dataProviderTestUpdate()
-    {
-        $validData = array(
-            'stock_id'                => Mage_CatalogInventory_Model_Stock::DEFAULT_STOCK_ID,
-            'use_config_manage_stock' => 0,
-            'qty'                     => 125,
-            'is_qty_decimal'          => 1,
-            'is_in_stock'             => 0,
-        );
-        return array(array($validData));
     }
 }

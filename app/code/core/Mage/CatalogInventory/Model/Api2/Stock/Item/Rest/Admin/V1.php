@@ -42,7 +42,7 @@ class Mage_CatalogInventory_Model_Api2_Stock_Item_Rest_Admin_V1
      */
     protected function _update($data)
     {
-        $this->_validate($data, array('qty'), array());
+        $this->_validate($data, array(), array('product_id', 'stock_id'));
 
         /* @var $stockItem Mage_CatalogInventory_Model_Stock_Item */
         $stockItem = $this->_loadStockItem();
