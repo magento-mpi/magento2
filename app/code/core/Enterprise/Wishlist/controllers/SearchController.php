@@ -192,7 +192,7 @@ class Enterprise_Wishlist_SearchController extends Mage_Core_Controller_Front_Ac
                 try {
                     /** @var Mage_Wishlist_Model_Item $item*/
                     $item = Mage::getModel('wishlist/item');
-                    $item->load($itemId);
+                    $item->loadWithOptions($itemId);
                     $item->unsProduct();
                     $qty = $this->_processLocalizedQty($qty);
                     if ($qty) {

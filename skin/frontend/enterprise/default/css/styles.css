@@ -2141,7 +2141,7 @@ ul.cms-menu.type-square ul { list-style-type:square; }
 .newsletter-manage-index .form-buttons .button { float:left; margin:0; }
 
 /* Split Button */
-.split-button { display:inline-block; z-index:1; position:relative; max-width:300px; }
+.split-button { display:inline-block; z-index:1; position:relative; max-width:300px; white-space:nowrap;}
 .split-button.clickable:active { left:1px; top:1px; }
 .split-button { background:url(../images/bkg_btn.gif) no-repeat 0 0; height:21px; padding:0 0 0 10px; margin:0; }
 .split-button.active { z-index:100; }
