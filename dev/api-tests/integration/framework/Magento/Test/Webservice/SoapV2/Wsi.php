@@ -98,7 +98,7 @@ class Magento_Test_Webservice_SoapV2_Wsi extends Magento_Test_Webservice_SoapV2
             $params = $this->_prepareParams($params);
         }
         try {
-            $soapRes = call_user_func(array($this->_client, $soap2method), $this->_prepareParams($params));
+            $soapRes = call_user_func(array($this->_client, $soap2method), $params);
         } catch (SoapFault $e) {
             if ($this->_isShowInvalidResponse() && in_array($e->getMessage(), $this->_badRequestMessages)) {
                 $e = new Magento_Test_Webservice_Exception(
