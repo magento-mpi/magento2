@@ -61,7 +61,7 @@ class Enterprise_Wishlist_Block_Customer_Wishlist_Item_Column_Copy
      */
     public function getJs()
     {
-        return "
+        return parent::getJs() . "
             if (typeof Enterprise.Wishlist.url == 'undefined') {
                 Enterprise.Wishlist.url = {};
             }

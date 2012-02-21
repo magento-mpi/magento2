@@ -41,7 +41,7 @@ class Mage_Wishlist_Block_Customer_Wishlist_Item_Column_Comment
      */
     public function getJs()
     {
-        return "
+        return parent::getJs() . "
         function focusComment(obj) {
             if( obj.value == '" . $this->helper('wishlist')->defaultCommentString() . "' ) {
                 obj.value = '';

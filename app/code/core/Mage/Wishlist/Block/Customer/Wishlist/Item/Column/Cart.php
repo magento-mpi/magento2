@@ -84,9 +84,7 @@ class Mage_Wishlist_Block_Customer_Wishlist_Item_Column_Cart extends Mage_Wishli
             }
         ";
 
-        foreach ($this->getSortedChildBlocks() as $child) {
-            $js .= $child->getJs();
-        }
+        $js .= parent::getJs();
         return $js;
     }
 

@@ -61,7 +61,7 @@ class Enterprise_Wishlist_Block_Customer_Wishlist_Item_Column_Selector
      */
     public function getJs()
     {
-        return "
+        return parent::getJs() . "
             var selector = $('select-all'),
                 checkboxes = $(selector).up('#wishlist-table').select('.select'),
                 counter = 0;

@@ -67,4 +67,18 @@ class Mage_Wishlist_Block_Customer_Wishlist_Item_Column extends Mage_Wishlist_Bl
     {
         $child->setItem($this->getItem());
     }
+
+    /**
+     * Retrieve column related javascript code
+     *
+     * @return string
+     */
+    public function getJs()
+    {
+        $js = '';
+        foreach ($this->getSortedChildBlocks() as $child) {
+            $js .= $child->getJs();
+        }
+        return $js;
+    }
 }
