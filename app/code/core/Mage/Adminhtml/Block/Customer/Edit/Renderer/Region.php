@@ -53,22 +53,24 @@ class Mage_Adminhtml_Block_Customer_Edit_Renderer_Region
         $html = '<tr>';
         $element->setClass('input-text');
         $element->setRequired(true);
-        $html.= '<td class="label">'.$element->getLabelHtml().'</td><td class="value">';
-        $html.= $element->getElementHtml();
+        $html .= '<td class="label">' . $element->getLabelHtml() . '</td><td class="value">';
+        $html .= $element->getElementHtml();
 
         $selectName = str_replace('region', 'region_id', $element->getName());
-        $selectId   = $element->getHtmlId().'_id';
-        $html.= '<select id="'.$selectId.'" name="'.$selectName.'" class="select required-entry" style="display:none">';
-        $html.= '<option value="">'.Mage::helper('customer')->__('Please select').'</option>';
-        $html.= '</select>';
+        $selectId = $element->getHtmlId() . '_id';
+        $html .= '<select id="' . $selectId . '" name="' . $selectName
+            . '" class="select required-entry" style="display:none">';
+        $html .= '<option value="">' . Mage::helper('customer')->__('Please select') . '</option>';
+        $html .= '</select>';
 
-        $html.= '<script type="text/javascript">'."\n";
-        $html.= '$("'.$selectId.'").setAttribute("defaultValue", "'.$regionId.'");'."\n";
-        $html.= 'new regionUpdater("'.$country->getHtmlId().'", "'.$element->getHtmlId().'", "'.$selectId.'", '
-            .$this->helper('directory')->getRegionJson().');'."\n";
-        $html.= '</script>'."\n";
+        $html .= '<script type="text/javascript">' . "\n";
+        $html .= '$("' . $selectId . '").setAttribute("defaultValue", "' . $regionId.'");' . "\n";
+        $html .= 'new regionUpdater("' . $country->getHtmlId() . '", "' . $element->getHtmlId()
+            . '", "' . $selectId . '", ' . $this->helper('directory')->getRegionJson() . ');' . "\n";
+        $html .= '</script>' . "\n";
 
-        $html.= '</td></tr>'."\n";
+        $html .= '</td></tr>' . "\n";
+
         return $html;
     }
 }
