@@ -49,9 +49,38 @@ Enterprise.Wishlist.Widget.Form = Class.create(Enterprise.Widget, {
         this.action = action;
         $super(new Element('form', {'method': 'post', 'action': action}));
         this._node.update(_templateString);
-        var validation = new Validation(this._node, {onFormValidate: (function(result){this.isValid = result}).bind(this)});
-        Event.observe(this._node, 'submit', (function(event){this.onSubmit(event);}).bind(this));
-        Event.observe($(this._node).down('button.btn-cancel'), 'click', (function(){this.onCancel()}).bind(this));
+
+        var that = this;
+        var deferredList = {
+            event: null,
+            counter: 0,
+            callback: function() {
+                this.counter++;
+                if (this.counter >= 2) {
+                    this.success();
+                }
+            },
+            success: function() {
+                that.onSubmit(this.event);
+            }
+        };
+
+        var validation = new Validation(this._node, {
+            onFormValidate: (function(result) {
+                this.isValid = result;
+                deferredList.callback();
+            }).bind(this)
+        });
+        Event.observe(this._node, 'submit',
+            (function(event) {
+                deferredList.event = event; deferredList.callback();
+            }).bind(this)
+        );
+        Event.observe($(this._node).down('button.btn-cancel'), 'click',
+            (function() {
+                this.onCancel()
+            }).bind(this)
+        );
         this.nameNode = $(this._node).down('#wishlist-name');
         this.visibilityNode = $(this._node).down('#wishlist-public');
     },

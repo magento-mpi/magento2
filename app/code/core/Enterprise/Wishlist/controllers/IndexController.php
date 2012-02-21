@@ -173,7 +173,7 @@ class Enterprise_Wishlist_IndexController extends Mage_Wishlist_IndexController
         $wishlistName = $this->getRequest()->getParam('name');
         $visibility = ($this->getRequest()->getParam('visibility', 0) === 'on' ? 1 : 0);
         $wishlistId = $this->getRequest()->getParam('wishlist_id');
-
+        $wishlist = null;
         try {
             $wishlist = $this->_editWishlist($customerId, $wishlistName, $visibility, $wishlistId);
 
@@ -189,7 +189,7 @@ class Enterprise_Wishlist_IndexController extends Mage_Wishlist_IndexController
             );
         }
 
-        if (!$wishlist->getId()) {
+        if (!$wishlist || !$wishlist->getId()) {
             $this->_getSession()->addError('Could not create wishlist');
         }
 
@@ -203,7 +203,7 @@ class Enterprise_Wishlist_IndexController extends Mage_Wishlist_IndexController
             }
             return $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($params));
         } else {
-            if (!$wishlist->getId()) {
+            if (!$wishlist || !$wishlist->getId()) {
                 return $this->_redirect('*/*');
             } else {
                 $this->_redirect('wishlist/index/index', array('wishlist_id' => $wishlist->getId()));
