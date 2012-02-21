@@ -139,8 +139,9 @@ abstract class Mage_Api2_Model_Resource_Collection extends Mage_Api2_Model_Resou
          /** @var $apiTypeRoute Mage_Api2_Model_Route_ApiType */
          $apiTypeRoute = Mage::getModel('api2/route_apiType');
 
-         $chain = $apiTypeRoute->chain(
-             new Zend_Controller_Router_Route($this->getConfig()->getMainRoute($this->getResourceType()))
+        $instanceResourceType = $this->getConfig()->getResourceInstance($this->getResourceType());
+        $chain = $apiTypeRoute->chain(
+             new Zend_Controller_Router_Route($this->getConfig()->getMainRoute($instanceResourceType))
          );
          $params = array(
              'api_type' => $this->getRequest()->getApiType(),
