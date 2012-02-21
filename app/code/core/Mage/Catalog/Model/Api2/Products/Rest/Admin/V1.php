@@ -34,6 +34,11 @@
 class Mage_Catalog_Model_Api2_Products_Rest_Admin_V1 extends Mage_Catalog_Model_Api2_Products_Rest
 {
     /**
+     * The greatest value which could be stored in CatalogInventory Qty field
+     */
+    const MAX_QTY_VALUE = 99999999.9999;
+
+    /**
      * Pre-validate request data
      *
      * @param array $data
@@ -75,42 +80,77 @@ class Mage_Catalog_Model_Api2_Products_Rest_Admin_V1 extends Mage_Catalog_Model_
         }
         // Collect required EAV attributes, validate applicable attributes and validate source attributes values
         $requiredAttributes = array('set');
+        $positiveNumberAttributes = array('weight', 'price', 'special_price', 'msrp');
         /** @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
         foreach ($entity->getAttributeCollection($setId) as $attribute) {
+            $attributeCode = $attribute->getAttributeCode();
+            $value = false;
+            $isSet = false;
+            if (isset($data[$attribute->getAttributeCode()])) {
+                $value = $data[$attribute->getAttributeCode()];
+                $isSet = true;
+            }
             $applicable = false;
             if (!$attribute->getApplyTo() || in_array($type, $attribute->getApplyTo())) {
                 $applicable = true;
             }
 
-            if (!$applicable && !$attribute->isStatic() && isset($data[$attribute->getAttributeCode()])) {
-                $this->_error(sprintf('Attribute "%s" is not applicable for product type "%s"',
-                        $attribute->getAttributeCode(), $productTypes[$type]['label']),
-                    Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+            if (!$applicable && !$attribute->isStatic() && $isSet) {
+                $this->_error(sprintf('Attribute "%s" is not applicable for product type "%s"', $attributeCode,
+                    $productTypes[$type]['label']), Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
             }
 
-            if ($attribute->usesSource() && isset($data[$attribute->getAttributeCode()])) {
-                $allowedValues = array();
-                foreach ($attribute->getSource()->getAllOptions() as $option) {
-                    $allowedValues[] = $option['value'];
+            if ($applicable && !empty($value)) {
+                // Validate dropdown attributes
+                if ($attribute->usesSource()) {
+                    $allowedValues = $this->_getAttributeAllowedValues($attribute->getSource()->getAllOptions());
+                    if (!in_array($value, $allowedValues)) {
+                        $this->_error(sprintf('Invalid value for attribute "%s".', $attributeCode),
+                            Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+                    }
                 }
-                if (!in_array($data[$attribute->getAttributeCode()], $allowedValues)
-                    && !empty($data[$attribute->getAttributeCode()])
-                ) {
-                    $this->_error(sprintf('Invalid value for attribute "%s"', $attribute->getAttributeCode()),
-                        Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+                // Validate datetime attributes
+                if ($attribute->getBackendType() == 'datetime') {
+                    try {
+                        $attribute->getBackend()->formatDate($value);
+                    } catch (Zend_Date_Exception $e) {
+                        $this->_error(sprintf('Invalid date in the "%s" field.', $attributeCode),
+                            Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+                    }
+                }
+                // Validate positive number required attributes
+                if (in_array($attributeCode, $positiveNumberAttributes)
+                    && !Zend_Validate::is($value, 'GreaterThan', array(0))) {
+                    $this->_error(sprintf('Please enter a number 0 or greater in the "%s" field.', $attributeCode),
+                        Mage_Api2_Model_Server::HTTP_BAD_REQUEST
+                    );
                 }
             }
 
-            if ($attribute->getIsRequired() && $attribute->getIsVisible() && $applicable) {
+            if ($applicable && $attribute->getIsRequired() && $attribute->getIsVisible()) {
                 $requiredAttributes[] = $attribute->getAttributeCode();
             }
         }
 
+        $this->_validateSku($data['sku']);
         if (isset($data['stock_data']) && is_array($data['stock_data'])) {
             $this->_validateStockData($data['stock_data']);
         }
+        // @TODO: implement tier price & group price validation & tests
 
         parent::_validate($data, $requiredAttributes, $requiredAttributes);
+    }
+
+    /**
+     * Validate SKU
+     *
+     * @param string $sku
+     */
+    protected function _validateSku($sku)
+    {
+        if (!Zend_Validate::is($sku, 'StringLength', array('min' => 0, 'max' => 64))) {
+            $this->_error('The SKU length should be 64 characters maximum.', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+        }
     }
 
     /**
@@ -128,6 +168,29 @@ class Mage_Catalog_Model_Api2_Products_Rest_Admin_V1 extends Mage_Catalog_Model_
                 $this->_error('Empty value for "stock_data:qty" in request.', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
             }
         }
+    }
+
+    /**
+     * Retrieve all attribute allowed values from source model in plain array format
+     *
+     * @param array $options
+     * @return array
+     */
+    protected function _getAttributeAllowedValues(array $options)
+    {
+        $values = array();
+        foreach ($options as $option) {
+            if (isset($option['value'])) {
+                $value = $option['value'];
+                if (is_array($value)) {
+                    $values = array_merge($values, $this->_getAttributeAllowedValues($value));
+                } else {
+                    $values[] = $value;
+                }
+            }
+        }
+
+        return $values;
     }
 
     /**
@@ -168,13 +231,18 @@ class Mage_Catalog_Model_Api2_Products_Rest_Admin_V1 extends Mage_Catalog_Model_
     }
 
     /**
-     *  Set additional data before product save
+     *  Set additional data before product saved
      *
      * @param Mage_Catalog_Model_Product $product
      * @param array $productData
      */
     protected function _prepareDataForSave($product, $productData)
     {
+        if (isset($productData['stock_data'])) {
+            $this->_filterStockData($productData['stock_data']);
+            $product->setStockData($productData['stock_data']);
+        }
+
         if (isset($productData['website_ids']) && is_array($productData['website_ids'])) {
             $product->setWebsiteIds($productData['website_ids']);
         }
@@ -183,8 +251,7 @@ class Mage_Catalog_Model_Api2_Products_Rest_Admin_V1 extends Mage_Catalog_Model_
             //Unset data if object attribute has no value in current store
             if (Mage_Catalog_Model_Abstract::DEFAULT_STORE_ID !== (int)$product->getStoreId()
                 && !$product->getExistsStoreValueFlag($attribute->getAttributeCode())
-                && !$attribute->isScopeGlobal()
-            ) {
+                && !$attribute->isScopeGlobal()) {
                 $product->setData($attribute->getAttributeCode(), false);
             }
 
@@ -197,11 +264,29 @@ class Mage_Catalog_Model_Api2_Products_Rest_Admin_V1 extends Mage_Catalog_Model_
                 }
             }
         }
+    }
 
-        if (isset($productData['stock_data']) && is_array($productData['stock_data'])) {
-            $product->setStockData($productData['stock_data']);
-        } else {
-            $product->setStockData(array('use_config_manage_stock' => 0));
+    /**
+     * Filter stock data values
+     *
+     * @param array $stockData
+     */
+    protected function _filterStockData(&$stockData) {
+        if (!isset($stockData['use_config_manage_stock'])) {
+            $stockData['use_config_manage_stock'] = 0;
+        }
+        if (!isset($stockData['use_config_manage_stock'])) {
+            $stockData['original_inventory_qty'] = 0;
+        }
+        if (isset($stockData['qty'])
+            && (float)$stockData['qty'] > self::MAX_QTY_VALUE) {
+            $stockData['qty'] = self::MAX_QTY_VALUE;
+        }
+        if (isset($stockData['min_qty']) && (int)$stockData['min_qty'] < 0) {
+            $stockData['min_qty'] = 0;
+        }
+        if (!isset($stockData['is_decimal_divided']) || $stockData['is_qty_decimal'] == 0) {
+            $stockData['is_decimal_divided'] = 0;
         }
     }
 

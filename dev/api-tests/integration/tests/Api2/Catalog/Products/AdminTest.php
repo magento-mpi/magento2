@@ -70,6 +70,87 @@ class Api2_Catalog_Products_AdminTest extends Magento_Test_Webservice_Rest_Admin
     }
 
     /**
+     * Test product resource post with all fields
+     */
+    public function testPostSimpleAllFieldsValid()
+    {
+        $productData = require dirname(__FILE__) . '/../_fixtures/Backend/SimpleProductAllFieldsData.php';
+
+        $this->getWebService()->getClient()->setHeaders('Cookie', 'XDEBUG_SESSION=PHPSTORM');
+        $restResponse = $this->callPost('products', $productData);
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+
+        $location = $restResponse->getHeader('Location');
+        list($productId) = array_reverse(explode('/', $location));
+        /** @var $product Mage_Catalog_Model_Product */
+        $product = Mage::getModel('catalog/product')->load($productId);
+        $this->assertNotNull($product->getId());
+        $this->setFixture('product_simple', $product);
+        $this->assertEquals($product->getTypeId(), $productData['type']);
+        $this->assertEquals($product->getAttributeSetId(), $productData['set']);
+
+        $dateAttributes = array('news_from_date', 'news_to_date', 'special_from_date', 'special_to_date',
+            'custom_design_from', 'custom_design_to');
+        foreach ($dateAttributes as $attribute) {
+            $this->assertEquals(strtotime($productData[$attribute]), strtotime($product->getData($attribute)));
+        }
+
+        $exclude = array_merge($dateAttributes, array('type', 'set', 'group_price', 'tier_price', 'stock_data'));
+        $productAttributes = array_diff_key($productData, array_flip($exclude));
+        foreach ($productAttributes as $attribute => $value) {
+            $this->assertEquals($product->getData($attribute), $value);
+        }
+
+        $stockItem = $product->getStockItem();
+        foreach ($productData['stock_data'] as $attribute => $value) {
+            $this->assertEquals($stockItem->getData($attribute), $value);
+        }
+    }
+
+    /**
+     * Test product resource post with all invalid fields
+     * Negative test.
+     */
+    public function testPostSimpleAllFieldsInvalid()
+    {
+        $productData = require dirname(__FILE__) . '/../_fixtures/Backend/SimpleProductAllFieldsInvalidData.php';
+
+        $this->getWebService()->getClient()->setHeaders('Cookie', 'XDEBUG_SESSION=PHPSTORM');
+        $restResponse = $this->callPost('products', $productData);
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
+
+        $body = $restResponse->getBody();
+        $errors = $body['messages']['error'];
+        $this->assertNotEmpty($errors);
+
+        $expectedErrors = array(
+            'The SKU length should be 64 characters maximum.',
+            'Resource data pre-validation error.',
+        );
+        $invalidValueAttributes = array('status', 'visibility', 'msrp_enabled', 'msrp_display_actual_price_type',
+            'enable_googlecheckout', 'tax_class_id', 'custom_design', 'page_layout', 'options_container');
+        foreach ($invalidValueAttributes as $attribute) {
+            $expectedErrors[] = sprintf('Invalid value for attribute "%s".', $attribute);
+        }
+        $dateAttributes = array('news_from_date', 'news_to_date', 'special_from_date', 'special_to_date',
+            'custom_design_from', 'custom_design_to');
+        foreach ($dateAttributes as $attribute) {
+            $expectedErrors[] = sprintf('Invalid date in the "%s" field.', $attribute);
+        }
+        $positiveNumberAttributes = array('weight', 'price', 'special_price', 'msrp');
+        foreach ($positiveNumberAttributes as $attribute) {
+            $expectedErrors[] = sprintf('Please enter a number 0 or greater in the "%s" field.', $attribute);
+        }
+
+        $this->assertEquals(count($expectedErrors), count($errors));
+        foreach ($errors as $error) {
+            $this->assertContains($error['message'], $expectedErrors);
+        }
+
+        // @TODO: implement tier price & group price validation & tests
+    }
+
+    /**
      * Test product create resource with empty required fields
      * Negative test.
      */
