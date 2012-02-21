@@ -166,7 +166,7 @@ class Magento_Test_Webservice extends Magento_TestCase
         }
         return $result;
     }
-    
+
     /**
      * @param  mixed   $exceptionName
      * @param  string  $exceptionMessage
@@ -175,7 +175,7 @@ class Magento_Test_Webservice extends Magento_TestCase
     public function setExpectedException($exceptionName, $exceptionMessage = '', $exceptionCode = NULL)
     {
         if ($exceptionName == self::DEFAULT_EXCEPTION) {
-            
+
             switch (TESTS_WEBSERVICE_TYPE) {
                 case self::TYPE_SOAPV1:
                 case self::TYPE_SOAPV2:
