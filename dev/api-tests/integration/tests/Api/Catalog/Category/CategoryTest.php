@@ -145,7 +145,7 @@ class Api_Catalog_Category_CategoryTest extends Magento_Test_Webservice
              * Test read
              */
             $categoryRead = $this->call(
-                'catalog_category.info', array($categoryId, $categoryFixture['update']['storeView'])
+                'catalog_category.info', array('categoryId' => $categoryId, $categoryFixture['update']['storeView'])
             );
 
             $this->assertEquals(
@@ -168,7 +168,7 @@ class Api_Catalog_Category_CategoryTest extends Magento_Test_Webservice
             /**
              * Test delete
              */
-            $categoryDelete = $this->call('category.delete', array($categoryId));
+            $categoryDelete = $this->call('category.delete', array('categoryId' => $categoryId));
             $this->assertTrue($categoryDelete);
 
             $category = new Mage_Catalog_Model_Category();
@@ -212,6 +212,7 @@ class Api_Catalog_Category_CategoryTest extends Magento_Test_Webservice
              * Test update with empty category ID
              */
             $params = $categoryFixture['update'];
+            $params['categoryId'] = 'invalid_category_id';
             try {
                 $result = $this->call('category.update', $params);
             } catch (SoapFault $e) {

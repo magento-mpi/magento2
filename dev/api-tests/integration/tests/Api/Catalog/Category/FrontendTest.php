@@ -158,7 +158,7 @@ class Api_Catalog_Category_FrontendTest extends Magento_Test_Webservice
     public function tearDown()
     {
         $categoryId = self::$_categoryId;
-        $categoryDelete = $this->call('category.delete', array($categoryId));
+        $categoryDelete = $this->call('category.delete', array('categoryId' => $categoryId));
 
         $this->assertTrue($categoryDelete);
         $categoryCreated = new Mage_Catalog_Model_Category();

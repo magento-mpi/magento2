@@ -65,7 +65,7 @@ class Magento_Test_Webservice_SoapV2_Wsi extends Magento_Test_Webservice_SoapV2
             }
             $data[$key] = $value;
         }
-        return $data;
+        return 1 === count($data) ? reset($data) : $data;
     }
 
     /**
@@ -130,10 +130,8 @@ class Magento_Test_Webservice_SoapV2_Wsi extends Magento_Test_Webservice_SoapV2
      */
     public function soapWsiResultToArray($soapResult)
     {
-        $result = $this->_replaceComplexObjectArray(
+        return $this->_replaceComplexObjectArray(
             Magento_Test_Webservice_SoapV2::soapResultToArray($soapResult)
         );
-
-        return isset($result['result']) ? $result['result'] : $result;
     }
 }

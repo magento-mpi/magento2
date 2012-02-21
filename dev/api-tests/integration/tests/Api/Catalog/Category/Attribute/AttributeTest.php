@@ -113,7 +113,7 @@ class Api_Catalog_Category_Attribute_AttributeTest extends Magento_Test_Webservi
      */
     public function testAttributeOptions()
     {
-        $attributeOptions = $this->call('catalog_category_attribute.options', array(self::$_code));
+        $attributeOptions = $this->call('catalog_category_attribute.options', array('attributeId' => self::$_code));
 
         $this->assertEquals(true, is_array($attributeOptions));
         $this->assertGreaterThan(0, count($attributeOptions));

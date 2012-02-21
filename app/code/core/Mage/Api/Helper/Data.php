@@ -175,7 +175,11 @@ class Mage_Api_Helper_Data extends Mage_Core_Helper_Abstract
 
         foreach ($objectKeys as $key) {
             if (is_object($obj->$key) && isset($obj->$key->complexObjectArray)) {
-                $obj->$key = $obj->$key->complexObjectArray;
+                if (is_array($obj->$key->complexObjectArray)) {
+                    $obj->$key = $obj->$key->complexObjectArray;
+                } else { // for one element array
+                    $obj->$key = array($obj->$key->complexObjectArray);
+                }
                 $modifiedKeys[] = $key;
             }
         }
