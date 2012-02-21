@@ -2145,16 +2145,15 @@ ul.cms-menu.type-square ul { list-style-type:square; }
 .split-button.clickable:active { left:1px; top:1px; }
 .split-button { background:url(../images/bkg_btn.gif) no-repeat 0 0; height:21px; padding:0 0 0 10px; margin:0; }
 .split-button.active { z-index:100; }
-.split-button strong { cursor:default; font-weight:bold; background:url(../images/bkg_btn.gif) no-repeat 100% 0; height:19px; padding:3px 30px 0 5px; margin:0; display:block; font-size:12px; overflow-x:hidden; white-space:nowrap; text-overflow:ellipsis; }
+.split-button strong { cursor:default; font-weight:bold; text-transform:uppercase; font-size:11px; background:url(../images/bkg_btn.gif) no-repeat 100% 0; height:19px; padding:3px 30px 0 5px; margin:0; display:block; overflow-x:hidden; white-space:nowrap; text-overflow:ellipsis; }
 .split-button.clickable > strong,
 .split-button strong[onclick] { text-transform:uppercase; font-size:11px; color:#C73615; text-transform:uppercase; cursor:pointer; }
-
 .split-button .change { display:inline-block; border:1px solid; border-color:transparent transparent transparent #999; background:url(../images/bkg_btn-split-change.png) 5px 50% no-repeat; text-indent:-999em; overflow:hidden; width:15px; cursor:pointer; height:11px; margin-left:8px; vertical-align:middle; }
 .split-button .change { position:absolute; right:5px; top:0px; height:19px; border-left-color:#ccc; }
 
 .split-button.light { background:none; height:auto; padding:0; }
 .split-button.light.clickable:active { top:auto; left:auto; }
-.split-button.light strong { display:inline-block; font-size:11px; background:none; font-weight:normal; padding:0; height:auto; overflow:visible; white-space:normal; text-overflow:visible; }
+.split-button.light strong { display:inline-block; font-size:11px; text-transform:none; background:none; font-weight:normal; padding:0; height:auto; overflow:visible; white-space:normal; text-overflow:visible; }
 .split-button.light.clickable > strong,
 .split-button.light strong[onclick] { text-transform:none; text-decoration:underline; color:#999; }
 .split-button.light.clickable > strong:hover,
@@ -2178,22 +2177,22 @@ ul.cms-menu.type-square ul { list-style-type:square; }
 .split-button .list-container li.new:hover { background-color:#999; background-position:5px -485px; }
 
 /* Wishlist */
-.my-wishlist textarea { width:99%; height:5.2em; resize:vertical; line-height:1.3em; overflow:auto; }
+.my-wishlist textarea { width:99%; height:3.9em; resize:vertical; line-height:1.3em; overflow:auto; }
 #wishlist-table .price-box { margin:3px 0; }
-#wishlist-table td .description { margin:10px 0; }
+#wishlist-table td .description { margin:10px 0; max-height:3.9em; line-height:1.3em; overflow:hidden; }
 #wishlist-table td .add-to-cart-alt .qty { float:left; }
 #wishlist-table td { padding:15px 10px; }
 #wishlist-table td p { margin:5px 0 15px; }
 #wishlist-table td.last { padding:4px 2px; width:1px; }
-#wishlist-table td .split-button { display:block; border-top:1px dotted #d0d0d0; white-space:nowrap; vertical-align:top; padding:5px; text-align:right; }
-#wishlist-table td .split-button .change,
-#wishlist-table td .split-button .wishlists-container { text-align:left; }
-#wishlist-table td .split-button .wishlists-container { white-space:normal; }
 #wishlist-table td .price-box { font-size:12px; }
 #wishlist-table td .price-box p { margin:0 0 5px; }
 #wishlist-table td .truncated { float:left; width:auto; margin-right:10px; line-height:18px; }
 #wishlist-table td .truncated .show .item-options { top:-40px; right:100%; left:auto; margin-right:15px; line-height:1.2; }
 #wishlist-table td .truncated .truncated_full_value .item-options dl { background-position:100% 0; }
+#wishlist-table .item-manage { margin:0 0 0 0; float:left; }
+#wishlist-table .item-manage .split-button { margin:10px 9px 0 0; }
+#wishlist-table .item-manage .split-button .change { margin-left:2px; }
+#wishlist-table .item-manage .split-button:last-child { margin-right:0; }
 .wishlist-empty { font-size:12px; padding:15px 10px; border:1px solid #d0d0d0; text-align:center; }
 
 /* Multiple Wishlist */
@@ -2210,9 +2209,9 @@ ul.cms-menu.type-square ul { list-style-type:square; }
 #wishlists-copy { float:right; }
 
 #wishlists-select { background:none; padding-left:0; white-space:nowrap; float:left; max-width:220px; }
-#wishlists-select strong { background:none; padding-right:0; padding-left:7px; font-weight:normal; }
+#wishlists-select strong { background:none; padding-right:0; padding-left:7px; font-weight:normal; font-size:12px; text-transform:none; }
 #wishlists-select strong span { font-weight:bold; }
-#wishlists-select .change { text-indent:0; width:auto; background:none; margin-left:4px; border:0; right:auto; left:100%; text-decoration:none; line-height:21px; margin-top:1px; }
+#wishlists-select .change { text-indent:0; width:auto; background:none; margin-left:4px; border:0; right:auto; left:100%; text-decoration:none; line-height:19px; margin-top:1px; }
 #wishlists-select .change span { color:#1e75b4; text-transform:none; background:url(../images/bkg_header-panel.gif) no-repeat scroll 100% -74px transparent; padding-right:10px; }
 #wishlists-select.active .change span { color:#d33911; background-position:100% -130px; }
 #wishlists-select .list-container { right:auto; left:0; margin-top:4px; }

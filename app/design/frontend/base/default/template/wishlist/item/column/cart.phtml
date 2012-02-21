@@ -29,6 +29,7 @@
 $item = $this->getItem();
 $product = $item->getProduct();
 ?>
+<div class="cart-cell">
 <?php echo $this->getPriceHtml($product);?>
 <div class="add-to-cart-alt">
 <?php if ($item->canHaveQty() && $item->getProduct()->isVisibleInSiteVisibility()): ?>
@@ -52,3 +53,4 @@ $product = $item->getProduct();
 <?php foreach($this->getSortedChildren() as $childName):?>
     <?php echo $this->getChildHtml($childName, false);?>
 <?php endforeach;?>
+</div>

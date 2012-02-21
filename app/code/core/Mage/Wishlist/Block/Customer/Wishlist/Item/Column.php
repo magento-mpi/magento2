@@ -55,4 +55,16 @@ class Mage_Wishlist_Block_Customer_Wishlist_Item_Column extends Mage_Wishlist_Bl
         }
         return '';
     }
+
+    /**
+     * Retrieve child blocks html
+     *
+     * @param string $name
+     * @param Mage_Core_Block_Abstract $child
+     * @return string
+     */
+    protected function _beforeChildToHtml($name, $child)
+    {
+        $child->setItem($this->getItem());
+    }
 }

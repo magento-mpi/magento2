@@ -70,7 +70,7 @@
             </block>
             <reference name="customer.wishlist.items">
                 <block type="enterprise_wishlist/customer_wishlist_item_column_selector" name="customer.wishlist.item.selector" before="-" template="wishlist/item/column/selector.phtml" />
-                <reference name="customer.wishlist.item.cart">
+                <reference name="customer.wishlist.item.info">
                     <block type="enterprise_wishlist/customer_wishlist_item_column_management" name="customer.wishlist.item.mananagement" before="-" template="wishlist/item/column/management.phtml"></block>
                 </reference>
             </reference>
