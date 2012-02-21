@@ -216,7 +216,7 @@ class Enterprise_Banner_Block_Widget_Banner
                     $aplliedRules = explode(',', $quote->getAppliedRuleIds());
                 }
                 $bannerIds = $this->_bannerResource->getSalesRuleRelatedBannerIds($segmentIds, $aplliedRules);
-                $bannersContent = $this->_getBannersContent($bannerIds);
+                $bannersContent = $this->_getBannersContent($bannerIds, $segmentIds);
                 break;
 
             case self::BANNER_WIDGET_DISPLAY_CATALOGRULE :
@@ -225,7 +225,7 @@ class Enterprise_Banner_Block_Widget_Banner
                     Mage::getSingleton('customer/session')->getCustomerGroupId(),
                     $segmentIds
                 );
-                $bannersContent = $this->_getBannersContent($bannerIds);
+                $bannersContent = $this->_getBannersContent($bannerIds, $segmentIds);
                 break;
 
             case self::BANNER_WIDGET_DISPLAY_FIXED :
