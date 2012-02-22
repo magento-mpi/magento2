@@ -185,7 +185,7 @@ class Mage_Selenium_Helper_ConfigTest extends Mage_PHPUnit_TestCase
      */
     public function testGetSetScreenshotDir()
     {
-        $configHelper = $this->_config->getHelper('config');
+        $configHelper = new Mage_Selenium_Helper_Config($this->_config);
         //Default directory
         $this->assertEquals(SELENIUM_TESTS_SCREENSHOTDIR, $configHelper->getScreenshotDir());
         //Create a directory
@@ -209,7 +209,7 @@ class Mage_Selenium_Helper_ConfigTest extends Mage_PHPUnit_TestCase
      */
     public function testSetScreenshotDirInvalidPathException()
     {
-        $configHelper = $this->_config->getHelper('config');
+        $configHelper = new Mage_Selenium_Helper_Config($this->_config);
         $this->setExpectedException('PHPUnit_Framework_Error_Warning', 'mkdir(): No error');
         $configHelper->setScreenshotDir('!#$@%*^&:?');
     }
@@ -220,7 +220,7 @@ class Mage_Selenium_Helper_ConfigTest extends Mage_PHPUnit_TestCase
      */
     public function testSetScreenshotDirInvalidParameterException()
     {
-        $configHelper = $this->_config->getHelper('config');
+        $configHelper = new Mage_Selenium_Helper_Config($this->_config);
         $this->setExpectedException('PHPUnit_Framework_Error_Warning', 'mkdir(): No error');
         $configHelper->setScreenshotDir(null);
     }
@@ -231,7 +231,7 @@ class Mage_Selenium_Helper_ConfigTest extends Mage_PHPUnit_TestCase
      */
     public function testGetSetLogDir()
     {
-        $configHelper = $this->_config->getHelper('config');
+        $configHelper = new Mage_Selenium_Helper_Config($this->_config);
         //Default directory
         $this->assertEquals(SELENIUM_TESTS_LOGS, $configHelper->getLogDir());
         //Create a directory
@@ -254,7 +254,7 @@ class Mage_Selenium_Helper_ConfigTest extends Mage_PHPUnit_TestCase
      */
     public function testSetLogDirInvalidPathException()
     {
-        $configHelper = $this->_config->getHelper('config');
+        $configHelper = new Mage_Selenium_Helper_Config($this->_config);
         $this->setExpectedException('PHPUnit_Framework_Error_Warning', 'mkdir(): No error');
         $configHelper->setLogDir('!#$@%*^&:?');
     }
@@ -265,7 +265,7 @@ class Mage_Selenium_Helper_ConfigTest extends Mage_PHPUnit_TestCase
      */
     public function testSetLogDirInvalidParameterException()
     {
-        $configHelper = $this->_config->getHelper('config');
+        $configHelper = new Mage_Selenium_Helper_Config($this->_config);
         $this->setExpectedException('PHPUnit_Framework_Error_Warning', 'mkdir(): No error');
         $configHelper->setLogDir(null);
     }
