@@ -108,12 +108,16 @@ abstract class Mage_Usa_Model_Shipping_Carrier_Abstract extends Mage_Shipping_Mo
     }
 
     /**
-     * Check if zip code option required
+     * Determine whether zip-code is required for the country of destination
      *
-     * @return boolean
+     * @param Mage_Shipping_Model_Rate_Request|null $request
+     * @return bool
      */
-    public function isZipCodeRequired()
+    public function isZipCodeRequired(Mage_Shipping_Model_Rate_Request $request = null)
     {
+        if ($request instanceof Mage_Shipping_Model_Rate_Request) {
+            return !Mage::helper('directory')->isZipCodeOptional($request->getDestCountryId());
+        }
         return true;
     }
 
@@ -203,7 +207,7 @@ abstract class Mage_Usa_Model_Shipping_Carrier_Abstract extends Mage_Shipping_Mo
             }
         }
 
-        if (!$errorMsg && !$request->getDestPostcode() && $this->isZipCodeRequired()) {
+        if (!$errorMsg && !$request->getDestPostcode() && $this->isZipCodeRequired($request)) {
             $errorMsg = Mage::helper('shipping')->__('This shipping method is not available, please specify ZIP-code');
         }
 

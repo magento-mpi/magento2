@@ -53,7 +53,7 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
     const SIZE_LARGE   = 'LARGE';
 
     /**
-     * Destination Zip Code required flag
+     * Default api revision
      *
      * @var int
      */
@@ -79,9 +79,10 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
     protected $_code = self::CODE;
 
     /**
-     * Is zip code required
+     * Destination Zip Code required flag
      *
-     * @var bool
+     * @var boolean
+     * @deprecated since 1.7 functionality implemented in Mage_Usa_Model_Shipping_Carrier_Abstract
      */
     protected $_isZipCodeRequired;
 
@@ -123,15 +124,13 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
     /**
      * Check is Zip Code Required
      *
+     * @param Mage_Shipping_Model_Rate_Request|null $request
      * @return boolean
+     * @deprecated since 1.7 functionality implemented in Mage_Usa_Model_Shipping_Carrier_Abstract
      */
-    public function isZipCodeRequired()
+    public function isZipCodeRequired(Mage_Shipping_Model_Rate_Request $request = null)
     {
-        if (!is_null($this->_isZipCodeRequired)) {
-            return $this->_isZipCodeRequired;
-        }
-
-        return parent::isZipCodeRequired();
+        return parent::isZipCodeRequired($request);
     }
 
     /**
@@ -139,12 +138,10 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
      *
      * @param Mage_Shipping_Model_Rate_Request $request
      * @return Mage_Shipping_Model_Carrier_Abstract|Mage_Shipping_Model_Rate_Result_Error|boolean
+     * @deprecated since 1.7 functionality implemented in Mage_Usa_Model_Shipping_Carrier_Abstract
      */
     public function proccessAdditionalValidation(Mage_Shipping_Model_Rate_Request $request)
     {
-        // zip code required for US
-        $this->_isZipCodeRequired = $this->_isUSCountry($request->getDestCountryId());
-
         return parent::proccessAdditionalValidation($request);
     }
 
