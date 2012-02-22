@@ -410,6 +410,7 @@
                     <enterprise_banner__banner>bannerSaveBefore</enterprise_banner__banner>
                     <enterprise_giftcardaccount__giftcardaccount>giftCardAccountSaveBefore</enterprise_giftcardaccount__giftcardaccount>
                     <enterprise_giftregistry__type>giftRegistryTypeSaveBefore</enterprise_giftregistry__type>
+                    <enterprise_giftwrapping__wrapping>giftWrappingSaveBefore</enterprise_giftwrapping__wrapping>
                     <review__review>catalogProductReviewSaveBefore</review__review>
                 </model_save_before>
                 <model_delete_before>
