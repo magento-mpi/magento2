@@ -51,8 +51,8 @@ return array(
         array('website_id' => 0, 'cust_group' => -1, 'price' => 11),
         array('website_id' => 0, 'cust_group' => 1, 'price' => -11),
         array('website_id' => -2, 'cust_group' => 1, 'price' => 11),
-        array('website_id' => '', 'cust_group' => 1, 'price' => 11),
-        array('website_id' => -2, 'cust_group' => '', 'price' => 11),
+        array('website_id' => '', 'price' => 11),
+        array('cust_group' => '', 'price' => 11),
         array('website_id' => -2, 'cust_group' => 1)
     ),
     'tier_price' => array(
@@ -63,7 +63,7 @@ return array(
         array('website_id' => -1, 'cust_group' => 1, 'price_qty' => 5, 'price' => 11),
         array('website_id' => '', 'cust_group' => 1, 'price_qty' => 5, 'price' => 11),
         array('website_id' => 0, 'cust_group' => '', 'price_qty' => 5, 'price' => 11),
-        array('website_id' => 0, 'cust_group' => 1, 'price' => 11),
+        array('website_id' => 0, 'cust_group' => 1, 'price' => 0),
         array('website_id' => 0, 'cust_group' => 1,  'price_qty' => 5, 'price' => '')
     ),
     'msrp_enabled' => -1,

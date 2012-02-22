@@ -121,10 +121,31 @@ class Api2_Catalog_Products_AdminTest extends Magento_Test_Webservice_Rest_Admin
 
         $body = $restResponse->getBody();
         $errors = $body['messages']['error'];
+        $errorsPlain = array();
+        foreach ($errors as $error) {
+            $errorsPlain[] = $error['message'];
+        }
         $this->assertNotEmpty($errors);
 
         $expectedErrors = array(
             'The SKU length should be 64 characters maximum.',
+            'Invalid "cust_group" value in the "group_price:0" set',
+            'Please enter a number 0 or greater in the "price" field in the "group_price:1" set.',
+            'Invalid "website_id" value in the "group_price:2" set.',
+            'Invalid "website_id" value in the "group_price:3" set.',
+            'The "cust_group" value in the "group_price:3" set is a required field.',
+            'The "website_id" value in the "group_price:4" set is a required field.',
+            'Invalid "website_id" value in the "group_price:5" set.',
+            'The "price" value in the "group_price:5" set is a required field.',
+            'Invalid "cust_group" value in the "tier_price:0" set',
+            'Please enter a number greater than 0 in the "price_qty" field in the "tier_price:1" set.',
+            'Please enter a number greater than 0 in the "price_qty" field in the "tier_price:2" set.',
+            'Please enter a number greater than 0 in the "price" field in the "tier_price:3" set.',
+            'Invalid "website_id" value in the "tier_price:4" set.',
+            'Invalid "website_id" value in the "tier_price:5" set.',
+            'The "price_qty" value in the "tier_price:7" set is a required field.',
+            'Please enter a number greater than 0 in the "price" field in the "tier_price:7" set.',
+            'Please enter a number greater than 0 in the "price" field in the "tier_price:8" set.',
             'Resource data pre-validation error.',
         );
         $invalidValueAttributes = array('status', 'visibility', 'msrp_enabled', 'msrp_display_actual_price_type',
@@ -146,8 +167,6 @@ class Api2_Catalog_Products_AdminTest extends Magento_Test_Webservice_Rest_Admin
         foreach ($errors as $error) {
             $this->assertContains($error['message'], $expectedErrors);
         }
-
-        // @TODO: implement tier price & group price validation & tests
     }
 
     /**

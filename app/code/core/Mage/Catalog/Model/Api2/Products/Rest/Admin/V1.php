@@ -100,9 +100,9 @@ class Mage_Catalog_Model_Api2_Products_Rest_Admin_V1 extends Mage_Catalog_Model_
                     $productTypes[$type]['label']), Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
             }
 
-            if ($applicable && !empty($value)) {
+            if ($applicable && $isSet) {
                 // Validate dropdown attributes
-                if ($attribute->usesSource()) {
+                if ($attribute->usesSource() && !empty($value)) {
                     $allowedValues = $this->_getAttributeAllowedValues($attribute->getSource()->getAllOptions());
                     if (!in_array($value, $allowedValues)) {
                         $this->_error(sprintf('Invalid value for attribute "%s".', $attributeCode),
@@ -119,8 +119,8 @@ class Mage_Catalog_Model_Api2_Products_Rest_Admin_V1 extends Mage_Catalog_Model_
                     }
                 }
                 // Validate positive number required attributes
-                if (in_array($attributeCode, $positiveNumberAttributes)
-                    && !Zend_Validate::is($value, 'GreaterThan', array(0))) {
+                if (in_array($attributeCode, $positiveNumberAttributes) && (!empty($value) && $value !== 0)
+                    && (!is_numeric($value) || $value < 0)) {
                     $this->_error(sprintf('Please enter a number 0 or greater in the "%s" field.', $attributeCode),
                         Mage_Api2_Model_Server::HTTP_BAD_REQUEST
                     );
@@ -128,17 +128,118 @@ class Mage_Catalog_Model_Api2_Products_Rest_Admin_V1 extends Mage_Catalog_Model_
             }
 
             if ($applicable && $attribute->getIsRequired() && $attribute->getIsVisible()) {
-                $requiredAttributes[] = $attribute->getAttributeCode();
+                if (!in_array($attributeCode, $positiveNumberAttributes) || $value !== 0) {
+                    $requiredAttributes[] = $attribute->getAttributeCode();
+                }
             }
         }
 
         $this->_validateSku($data['sku']);
+        if (isset($data['group_price']) && is_array($data['group_price'])) {
+            $this->_validateGroupPrice($data['group_price']);
+        }
+        if (isset($data['tier_price']) && is_array($data['tier_price'])) {
+            $this->_validateTierPrice($data['tier_price']);
+        }
         if (isset($data['stock_data']) && is_array($data['stock_data'])) {
             $this->_validateStockData($data['stock_data']);
         }
-        // @TODO: implement tier price & group price validation & tests
 
         parent::_validate($data, $requiredAttributes, $requiredAttributes);
+    }
+
+    /**
+     * Validate Group Price complex attribute
+     *
+     * @param array $groupPrices
+     */
+    protected function _validateGroupPrice($groupPrices)
+    {
+        foreach ($groupPrices as $index => $groupPrice) {
+            $fieldSet = 'group_price:' . $index;
+            $this->_validateWebsiteId($fieldSet, $groupPrice);
+            $this->_validateCustomerGroup($fieldSet, $groupPrice);
+            $this->_validatePositiveNumber($groupPrice, 'price', $fieldSet, true);
+        }
+    }
+
+    /**
+     * Validate Tier Price complex attribute
+     *
+     * @param array $tierPrices
+     */
+    protected function _validateTierPrice($tierPrices)
+    {
+        foreach ($tierPrices as $index => $tierPrice) {
+            $fieldSet = 'tier_price:' . $index;
+            $this->_validateWebsiteId($fieldSet, $tierPrice);
+            $this->_validateCustomerGroup($fieldSet, $tierPrice);
+            $this->_validatePositiveNumber($tierPrice, 'price_qty', $fieldSet);
+            $this->_validatePositiveNumber($tierPrice, 'price', $fieldSet);
+        }
+    }
+
+    /**
+     * Validate field to be positive number
+     *
+     * @param array $data
+     * @param string $field
+     * @param string $fieldSet
+     * @param bool $equalsZero
+     */
+    protected function _validatePositiveNumber($data, $field, $fieldSet, $equalsZero = false) {
+        if (!isset($data[$field])) {
+            $this->_error(sprintf('The "%s" value in the "%s" set is a required field.',$field, $fieldSet),
+                Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+        } else {
+            $condition = $equalsZero ? $data[$field] < 0 : $data[$field] <= 0;
+            if (!is_numeric($data[$field]) || $condition) {
+                $message = $equalsZero
+                    ? 'Please enter a number 0 or greater in the "%s" field in the "%s" set.'
+                    : 'Please enter a number greater than 0 in the "%s" field in the "%s" set.';
+                $this->_error(sprintf($message, $field, $fieldSet), Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+            }
+        }
+    }
+
+    /**
+     * Validate Website ID field
+     *
+     * @param string $fieldSet
+     * @param array $data
+     */
+    protected function _validateWebsiteId($fieldSet, $data)
+    {
+        if (!isset($data['website_id'])) {
+            $this->_error(sprintf('The "website_id" value in the "%s" set is a required field.', $fieldSet),
+                Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+        } else {
+            $website = Mage::getModel('core/website')->load($data['website_id']);
+            if (is_null($website->getId())) {
+                $this->_error(sprintf('Invalid "website_id" value in the "%s" set.', $fieldSet),
+                    Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+            }
+        }
+    }
+
+    /**
+     * Validate Customer Group field
+     *
+     * @param string $fieldSet
+     * @param array $data
+     */
+    protected function _validateCustomerGroup($fieldSet, $data)
+    {
+        if (!isset($data['cust_group'])) {
+            $this->_error(sprintf('The "cust_group" value in the "%s" set is a required field.', $fieldSet),
+                Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+        } else {
+            $customerGroup = Mage::getModel('customer/group')->load($data['cust_group']);
+            if (is_null($customerGroup->getId())) {
+                $this->_error(sprintf('Invalid "cust_group" value in the "%s" set', $fieldSet),
+                    Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+            }
+        }
     }
 
     /**
