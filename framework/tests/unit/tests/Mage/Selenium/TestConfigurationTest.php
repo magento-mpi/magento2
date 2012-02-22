@@ -27,10 +27,18 @@
  */
 class Mage_Selenium_TestConfigurationTest extends Mage_PHPUnit_TestCase
 {
-    public function test__construct()
+    /**
+     * @covers Mage_Selenium_TestConfiguration::getInstance
+     */
+    public function testGetInstance()
     {
-        $testConfig = $this->_config;
-        $this->assertInstanceOf('Mage_Selenium_TestConfiguration', $testConfig);
+        $instance = Mage_Selenium_TestConfiguration::getInstance();
+        $this->assertInstanceOf('Mage_Selenium_TestConfiguration', $instance);
+        $this->assertEquals($instance, Mage_Selenium_TestConfiguration::getInstance());
+        $this->assertAttributeInstanceOf('Mage_Selenium_Helper_Config', '_configHelper', $instance);
+        $this->assertAttributeInternalType('array', '_configFixtures', $instance);
+        $this->assertAttributeInstanceOf('Mage_Selenium_Helper_Uimap', '_uimapHelper', $instance);
+        $this->assertAttributeInstanceOf('Mage_Selenium_Helper_Data', '_dataHelper', $instance);
     }
 
     /**
@@ -38,12 +46,41 @@ class Mage_Selenium_TestConfigurationTest extends Mage_PHPUnit_TestCase
      */
     public function testGetHelper()
     {
-        $this->assertInstanceOf('Mage_Selenium_Helper_Cache', $this->_config->getHelper('cache'));
-        $this->assertInstanceOf('Mage_Selenium_Helper_Config', $this->_config->getHelper('config'));
-        $this->assertInstanceOf('Mage_Selenium_Helper_Data', $this->_config->getHelper('data'));
-        $this->assertInstanceOf('Mage_Selenium_Helper_DataGenerator', $this->_config->getHelper('dataGenerator'));
-        $this->assertInstanceOf('Mage_Selenium_Helper_File', $this->_config->getHelper('file'));
-        $this->assertInstanceOf('Mage_Selenium_Helper_Params', $this->_config->getHelper('params'));
-        $this->assertInstanceOf('Mage_Selenium_Helper_Uimap', $this->_config->getHelper('uimap'));
+        $instance = Mage_Selenium_TestConfiguration::getInstance();
+        $this->assertInstanceOf('Mage_Selenium_Helper_Cache', $instance->getHelper('cache'));
+        $this->assertInstanceOf('Mage_Selenium_Helper_Config', $instance->getHelper('config'));
+        $this->assertInstanceOf('Mage_Selenium_Helper_Data', $instance->getHelper('data'));
+        $this->assertInstanceOf('Mage_Selenium_Helper_DataGenerator', $instance->getHelper('dataGenerator'));
+        $this->assertInstanceOf('Mage_Selenium_Helper_File', $instance->getHelper('file'));
+        $this->assertInstanceOf('Mage_Selenium_Helper_Params', $instance->getHelper('params'));
+        $this->assertInstanceOf('Mage_Selenium_Helper_Uimap', $instance->getHelper('uimap'));
+        $this->assertInstanceOf('Mage_Selenium_Helper_Uimap', $instance->getHelper('Uimap'));
+
+        $sameValue = $instance->getHelper('cache');
+        $this->assertEquals($sameValue, $instance->getHelper('cache'));
+    }
+
+    /**
+     * @covers Mage_Selenium_TestConfiguration::getHelper
+     * @expectedException OutOfRangeException
+     */
+    public function testGetHelperException()
+    {
+        $instance = Mage_Selenium_TestConfiguration::getInstance();
+        $instance->getHelper('NotExistingHelper');
+    }
+
+    /**
+     * @covers Mage_Selenium_TestConfiguration::getConfigFixtures
+     */
+    public function testGetConfigFixtures()
+    {
+        $instance = Mage_Selenium_TestConfiguration::getInstance();
+        $sameValue = $instance->getConfigFixtures();
+        $this->assertEquals($sameValue, $instance->getConfigFixtures());
+        $this->assertInternalType('array', $sameValue);
+        $this->assertNotEmpty($sameValue);
+        $this->assertInternalType('array', current($sameValue));
+        $this->assertNotEmpty(current($sameValue));
     }
 }
