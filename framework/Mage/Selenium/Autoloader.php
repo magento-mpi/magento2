@@ -49,12 +49,18 @@ class Mage_Selenium_Autoloader
      *
      * @param string $className Class name to be loaded, e.g. Mage_Selenium_TestCase
      *
-     * @return boolean
+     * @return boolean True if the class was loaded, otherwise False.
      */
     public static function autoload($className)
     {
         $classFile = str_replace(' ', DIRECTORY_SEPARATOR, ucwords(str_replace('_', ' ', $className)));
         $classFile = $classFile . '.php';
-        return include_once $classFile;
+        $path = explode(PATH_SEPARATOR, ini_get('include_path'));
+        foreach ($path as $possiblePath) {
+            if (file_exists($possiblePath . DIRECTORY_SEPARATOR . $classFile)) {
+                return include_once $classFile;
+            }
+        }
+        return false;
     }
 }
