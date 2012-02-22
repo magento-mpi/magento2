@@ -60,7 +60,6 @@ abstract class Mage_CatalogInventory_Model_Api2_Stock_Items_Rest extends Mage_Ca
      * Update specified stock items
      *
      * @param array $data
-     * @throws Mage_Api2_Exception
      */
     protected function _update($data)
     {
@@ -73,22 +72,29 @@ abstract class Mage_CatalogInventory_Model_Api2_Stock_Items_Rest extends Mage_Ca
      * Update specified stock item
      *
      * @param array $data
-     * @throws Mage_Api2_Exception
      */
     protected function _updateItem($data)
     {
         try {
-            $this->_saveItemOnUpdate($data);
+            $this->_validate($data, array('item_id'), array('product_id', 'stock_id'));
+
+            /* @var $stockItem Mage_CatalogInventory_Model_Stock_Item */
+            $stockItem = $this->_loadStockItem($data['item_id']);
+            $stockItem->addData($data);
+            $stockItem->save();
 
             $this->_successMessage(
                 $this->_formatMessage(self::RESOURCE_UPDATED_SUCCESSFUL, $data['item_id']),
                 Mage_Api2_Model_Server::HTTP_OK
             );
         } catch (Mage_Api2_Exception $e) {
-            $this->_errorMessage(
-                $this->_formatMessage($e->getMessage(), $data['item_id']),
-                $e->getCode()
-            );
+            // pre-validation errors are already added
+            if ($e->getMessage() != self::RESOURCE_DATA_PRE_VALIDATION_ERROR) {
+                $this->_errorMessage(
+                    $this->_formatMessage($e->getMessage(), $data['item_id']),
+                    $e->getCode()
+                );
+            }
         } catch (Exception $e) {
             $this->_errorMessage(
                 $this->_formatMessage($e->getMessage(), $data['item_id']),
@@ -98,32 +104,17 @@ abstract class Mage_CatalogInventory_Model_Api2_Stock_Items_Rest extends Mage_Ca
     }
 
     /**
-     * Save on update specified stock item
-     *
-     * @param array $data
-     * @throws Mage_Api2_Exception
-     */
-    protected function _saveItemOnUpdate($data)
-    {
-        if ($this->_isValid($data, array('item_id'), array('product_id', 'stock_id'))) {
-            /* @var $stockItem Mage_CatalogInventory_Model_Stock_Item */
-            $stockItem = $this->_loadStockItem($data['item_id']);
-            $stockItem->addData($data);
-            $stockItem->save();
-        }
-    }
-
-    /**
-     * Check is valid input data for self::create() or self::update() depends on the kind of resource:
+     * Validate input data for self::create() or self::update() depends on the kind of resource:
      *   Mage_Api2_Model_Resource_Collection::create()
      *   Mage_Api2_Model_Resource_Collection::update()
      *
      * @param array $data
      * @param array $required
      * @param array $notEmpty
+     * @throws Mage_Api2_Exception
      * @return bool
      */
-    protected function _isValid(array $data, array $required = array(), array $notEmpty = array())
+    protected function _validate(array $data, array $required = array(), array $notEmpty = array())
     {
         $isValid = true;
         foreach ($required as $key) {
@@ -133,22 +124,22 @@ abstract class Mage_CatalogInventory_Model_Api2_Stock_Items_Rest extends Mage_Ca
                     Mage_Api2_Model_Server::HTTP_BAD_REQUEST
                 );
                 $isValid = false;
-                continue;
             }
         }
 
         foreach ($notEmpty as $key) {
-            if (array_key_exists($key, $data) && empty($data[$key])) {
+            if (array_key_exists($key, $data) && trim($data[$key]) == '') {
                 $this->_errorMessage(
                     $this->_formatMessage(sprintf('Empty value for "%s" in request.', $key), $data['item_id']),
                     Mage_Api2_Model_Server::HTTP_BAD_REQUEST
                 );
                 $isValid = false;
-                continue;
             }
         }
 
-        return $isValid;
+        if (!$isValid) {
+            $this->_critical(self::RESOURCE_DATA_PRE_VALIDATION_ERROR);
+        }
     }
 
     /**
