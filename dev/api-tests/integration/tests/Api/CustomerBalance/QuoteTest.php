@@ -71,7 +71,7 @@ class Api_CustomerBalance_QuoteTest extends Magento_Test_Webservice
         $quoteFixture = simplexml_load_file(dirname(__FILE__) . '/_fixtures/CustomerBalanceForQuote.xml');
         $data = self::simpleXmlToArray($quoteFixture);
 
-        $data['input']['quote_id'] = self::$quote->getId();
+        $data['input']['quoteId'] = self::$quote->getId();
 
         $result = $this->call('storecredit_quote.setAmount', $data['input']);
 
@@ -89,7 +89,7 @@ class Api_CustomerBalance_QuoteTest extends Magento_Test_Webservice
         $quoteFixture = simplexml_load_file(dirname(__FILE__) . '/_fixtures/CustomerBalanceForQuote.xml');
         $data = self::simpleXmlToArray($quoteFixture);
 
-        $data['input']['quote_id'] = self::$quote->getId();
+        $data['input']['quoteId'] = self::$quote->getId();
 
         $this->assertTrue($this->call('storecredit_quote.removeAmount', $data['input'], 'Remove used amount fail'));
 
@@ -108,7 +108,7 @@ class Api_CustomerBalance_QuoteTest extends Magento_Test_Webservice
         $quoteFixture = simplexml_load_file(dirname(__FILE__) . '/_fixtures/CustomerBalanceForQuote.xml');
         $data = self::simpleXmlToArray($quoteFixture);
 
-        $result = $this->call('storecredit_quote.setAmount', array('quote_id' => self::$quote->getId()));
+        $result = $this->call('storecredit_quote.setAmount', array('quoteId' => self::$quote->getId()));
 
         $this->assertEquals($data['expected']['used_amount'], $result, 'Used amount is invalid');
     }
@@ -121,7 +121,7 @@ class Api_CustomerBalance_QuoteTest extends Magento_Test_Webservice
      */
     public function testCustomerBalanceForQuoteRemoveAmountWithoutStoreId()
     {
-        $input = array('quote_id' => self::$quote->getId());
+        $input = array('quoteId' => self::$quote->getId());
         $this->assertTrue($this->call('storecredit_quote.removeAmount', $input, 'Remove used amount fail'));
 
         $quote = new Mage_Sales_Model_Quote();
@@ -139,7 +139,7 @@ class Api_CustomerBalance_QuoteTest extends Magento_Test_Webservice
         $quoteFixture = simplexml_load_file(dirname(__FILE__) . '/_fixtures/CustomerBalanceForQuoteUsingStoreCode.xml');
         $data = self::simpleXmlToArray($quoteFixture);
 
-        $data['input']['quote_id'] = self::$quote->getId();
+        $data['input']['quoteId'] = self::$quote->getId();
 
         $result = $this->call('storecredit_quote.setAmount', $data['input']);
 
@@ -157,7 +157,7 @@ class Api_CustomerBalance_QuoteTest extends Magento_Test_Webservice
         $quoteFixture = simplexml_load_file(dirname(__FILE__) . '/_fixtures/CustomerBalanceForQuoteUsingStoreCode.xml');
         $data = self::simpleXmlToArray($quoteFixture);
 
-        $data['input']['quote_id'] = self::$quote->getId();
+        $data['input']['quoteId'] = self::$quote->getId();
 
         $this->assertTrue($this->call('storecredit_quote.removeAmount', $data['input'], 'Remove used amount fail'));
 
@@ -179,9 +179,9 @@ class Api_CustomerBalance_QuoteTest extends Magento_Test_Webservice
         );
         $data = self::simpleXmlToArray($quoteFixture);
 
-        $data['input']['quote_id'] = self::$quote->getId();
+        $data['input']['quoteId'] = self::$quote->getId();
 
-        $this->call('storecredit_quote.setAmount', $data['input']);
+        var_dump($this->call('storecredit_quote.setAmount', $data['input']));
     }
 
     /**
@@ -224,7 +224,7 @@ class Api_CustomerBalance_QuoteTest extends Magento_Test_Webservice
         $quoteFixture = simplexml_load_file(dirname(__FILE__) . '/_fixtures/CustomerBalanceForGuestQuote.xml');
         $data = self::simpleXmlToArray($quoteFixture);
 
-        $data['input']['quote_id'] = self::$guestQuote->getId();
+        $data['input']['quoteId'] = self::$guestQuote->getId();
 
         $this->call('storecredit_quote.setAmount', $data['input']);
     }
@@ -241,7 +241,7 @@ class Api_CustomerBalance_QuoteTest extends Magento_Test_Webservice
         $quoteFixture = simplexml_load_file(dirname(__FILE__) . '/_fixtures/CustomerBalanceForGuestQuote.xml');
         $data = self::simpleXmlToArray($quoteFixture);
 
-        $data['input']['quote_id'] = self::$guestQuote->getId();
+        $data['input']['quoteId'] = self::$guestQuote->getId();
 
         $this->call('storecredit_quote.removeAmount', $data['input'], 'Remove used amount fail');
     }

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
     <input>
-        <quote_id></quote_id>
-        <store_code>invalid_code</store_code>
+        <quoteId></quoteId>
+        <store>invalid_code</store>
     </input>
     <expected>
         <used_amount>10</used_amount>

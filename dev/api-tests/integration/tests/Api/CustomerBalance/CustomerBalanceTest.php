@@ -59,7 +59,7 @@ class Api_CustomerBalance_CustomerBalanceTest extends Magento_Test_Webservice
         $customerBalanceFixture = simplexml_load_file(dirname(__FILE__) . '/_fixtures/CustomerBalance.xml');
         $data = self::simpleXmlToArray($customerBalanceFixture);
 
-        $data['input']['customer_id'] = self::$customer->getId();
+        $data['input']['customerId'] = self::$customer->getId();
 
         $result = $this->call('storecredit.balance', $data['input']);
 
@@ -98,7 +98,7 @@ class Api_CustomerBalance_CustomerBalanceTest extends Magento_Test_Webservice
         );
         $data = self::simpleXmlToArray($customerBalanceHistoryFixture);
 
-        $data['input']['customer_id'] = self::$customer->getId();
+        $data['input']['customerId'] = self::$customer->getId();
 
         $result = $this->call('storecredit.history', $data['input']);
 
@@ -125,7 +125,7 @@ class Api_CustomerBalance_CustomerBalanceTest extends Magento_Test_Webservice
         );
         $data = self::simpleXmlToArray($customerBalanceHistoryFixture);
 
-        $data['input']['customer_id'] = self::$customerWithoutBalance->getId();
+        $data['input']['customerId'] = self::$customerWithoutBalance->getId();
 
         $this->call('storecredit.history', $data['input']);
     }

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
     <input>
-        <customer_id></customer_id>
-        <website_id>1</website_id>
+        <customerId></customerId>
+        <websiteId>1</websiteId>
     </input>
     <expected>
         <history_items>
