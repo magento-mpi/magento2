@@ -60,12 +60,26 @@ class Mage_Core_Model_Layout_UpdateTest extends PHPUnit_Framework_TestCase
 
     public function testAddPageHandles()
     {
-        $this->_model->addPageHandles(array('some_handle'));
-        $this->assertEmpty($this->_model->getHandles());
+        /* add a non-page handle to verify that it won't be affected during page handles manipulation */
+        $nonPageHandles = array('non_page_handle');
+        $this->_model->addHandle($nonPageHandles);
 
-        $this->_model->addPageHandles(array('catalog_product_view_type_simple'));
-        $handles = array('default', 'catalog_product_view', 'catalog_product_view_type_simple');
-        $this->assertEquals($handles, $this->_model->getHandles());
+        $this->assertFalse($this->_model->addPageHandles(array('non_existing_handle')));
+        $this->assertEmpty($this->_model->getPageHandles());
+        $this->assertEquals($nonPageHandles, $this->_model->getHandles());
+
+        /* test that only the first existing handle is taken into account */
+        $handlesToTry = array('catalog_product_view_type_simple', 'catalog_category_view');
+        $expectedPageHandles = array('default', 'catalog_product_view', 'catalog_product_view_type_simple');
+        $this->assertTrue($this->_model->addPageHandles($handlesToTry));
+        $this->assertEquals($expectedPageHandles, $this->_model->getPageHandles());
+        $this->assertEquals(array_merge($nonPageHandles, $expectedPageHandles), $this->_model->getHandles());
+
+        /* test that new handles override the previous ones */
+        $expectedPageHandles = array('default', 'catalog_category_view', 'catalog_category_view_type_default');
+        $this->assertTrue($this->_model->addPageHandles(array('catalog_category_view_type_default')));
+        $this->assertEquals($expectedPageHandles, $this->_model->getPageHandles());
+        $this->assertEquals(array_merge($nonPageHandles, $expectedPageHandles), $this->_model->getHandles());
     }
 
 
