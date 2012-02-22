@@ -51,13 +51,15 @@ class Core_Mage_Category_Helper extends Mage_Selenium_TestCase
 
         if (!$parentCategoryId) {
             $this->addParameter('rootName', $catName);
-            $catXpath = $this->_getControlXpath('link', 'root_category');
+            $catXpath = $this->_getControlXpath('link', 'root_category',
+                                                $this->_findUimapElement('fieldset', 'categories_tree'));
         } else {
             $this->addParameter('parentCategoryId', $parentCategoryId);
             $this->addParameter('subName', $catName);
-            $isDiscloseCategory = $this->_getControlXpath('link', 'expand_category');
-            $catXpath = $this->_getControlXpath('link', 'sub_category');
-
+            $isDiscloseCategory = $this->_getControlXpath('link', 'expand_category',
+                                                          $this->_findUimapElement('fieldset', 'categories_tree'));
+            $catXpath = $this->_getControlXpath('link', 'sub_category',
+                                                $this->_findUimapElement('fieldset', 'categories_tree'));
             if ($this->isElementPresent($isDiscloseCategory)) {
                 $this->click($isDiscloseCategory);
                 $this->pleaseWait();
@@ -157,10 +159,13 @@ class Core_Mage_Category_Helper extends Mage_Selenium_TestCase
         $categoryData = $this->arrayEmptyClear($categoryData);
         if (array_key_exists('parent_category', $categoryData)) {
             $this->selectCategory($categoryData['parent_category']);
-            $this->clickButton('add_sub_category', false);
+            $xpath = $this->_getControlXpath('button', 'add_sub_category',
+                                             $this->_findUimapElement('fieldset', 'categories_tree'));
         } else {
-            $this->clickButton('add_root_category', false);
+            $xpath = $this->_getControlXpath('button', 'add_root_category',
+                                             $this->_findUimapElement('fieldset', 'categories_tree'));
         }
+        $this->click($xpath);
         $this->pleaseWait();
         $this->fillCategoryInfo($categoryData);
         if (isset($categoryData['name'])) {
