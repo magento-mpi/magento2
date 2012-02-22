@@ -241,6 +241,14 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
     );
 
     /**
+     * All possible DDL statements
+     * First 3 symbols for each statement
+     *
+     * @var array
+     */
+    protected $_ddlRoutines = array('alt', 'cre', 'ren', 'dro', 'tru');
+
+    /**
      * Allowed interval units array
      *
      * @var array
@@ -2547,6 +2555,22 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
     }
 
     /**
+     * Check transaction level in case of DDL query
+     *
+     * @param string|Zend_Db_Select $sql
+     * @throws Zend_Db_Adapter_Exception
+     */
+    protected function _checkDdlTransaction($sql)
+    {
+        if (is_string($sql) && $this->getTransactionLevel() > 0) {
+            $startSql = strtolower(substr(ltrim($sql), 0, 3));
+            if (in_array($startSql, $this->_ddlRoutines)) {
+                throw new Zend_Db_Adapter_Exception('DDL statements are not allowed in transactions');
+            }
+        }
+    }
+
+    /**
      * Prepares and executes an SQL statement with bound data.
      *
      * @param  mixed  $sql  The SQL statement with placeholders.
@@ -2559,6 +2583,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
     {
         $this->_debugTimer();
         try {
+            $this->_checkDdlTransaction($sql);
             if ($this->_pdoType == 'sqlsrv') {
                 // This pdo has some problems with different binds - so convert them to non-buggy ones
                 $this->_prepareQuery($sql, $bind);
