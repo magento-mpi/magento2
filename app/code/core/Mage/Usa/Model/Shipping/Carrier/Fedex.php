@@ -29,7 +29,7 @@
  *
  * @category   Mage
  * @package    Mage_Usa
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Usa_Model_Shipping_Carrier_Fedex
     extends Mage_Usa_Model_Shipping_Carrier_Abstract
@@ -103,8 +103,8 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
     {
         parent::__construct();
         $wsdlBasePath = Mage::getModuleDir('etc', 'Mage_Usa')  . DS . 'wsdl' . DS . 'FedEx' . DS;
-        $this->_shipServiceWsdl = $wsdlBasePath . 'ShipService_v9.wsdl';
-        $this->_rateServiceWsdl = $wsdlBasePath . 'RateService_v9.wsdl';
+        $this->_shipServiceWsdl = $wsdlBasePath . 'ShipService_v10.wsdl';
+        $this->_rateServiceWsdl = $wsdlBasePath . 'RateService_v10.wsdl';
         $this->_trackServiceWsdl = $wsdlBasePath . 'TrackService_v5.wsdl';
     }
 
@@ -287,7 +287,7 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
     {
         return array(
             'ServiceId'    => 'crs',
-            'Major'        => '9',
+            'Major'        => '10',
             'Intermediate' => '0',
             'Minor'        => '0'
         );
@@ -359,7 +359,8 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
                         'InsuredValue' => array(
                             'Amount'  => $r->getValue(),
                             'Currency' => $this->getCurrencyCode()
-                        )
+                        ),
+                        'GroupPackageCount' => 1,
                     )
                 )
             )
@@ -426,10 +427,9 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
         }
 
         $result = Mage::getModel('shipping/rate_result');
-        $defaults = $this->getDefaults();
         if (empty($priceArr)) {
             $error = Mage::getModel('shipping/rate_result_error');
-            $error->setCarrier('fedex');
+            $error->setCarrier($this->_code);
             $error->setCarrierTitle($this->getConfigData('title'));
             $error->setErrorMessage($errorTitle);
             $error->setErrorMessage($this->getConfigData('specificerrmsg'));
@@ -437,7 +437,7 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
         } else {
             foreach ($priceArr as $method=>$price) {
                 $rate = Mage::getModel('shipping/rate_result_method');
-                $rate->setCarrier('fedex');
+                $rate->setCarrier($this->_code);
                 $rate->setCarrierTitle($this->getConfigData('title'));
                 $rate->setMethod($method);
                 $rate->setMethodTitle($this->getCode('method', $method));
@@ -542,7 +542,7 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
 
         if ($this->getConfigData('residence_delivery')) {
             $specialServices = $xml->addChild('SpecialServices');
-                 $specialServices->addChild('ResidentialDelivery', 'true');
+            $specialServices->addChild('ResidentialDelivery', 'true');
         }
 
         $xml->addChild('PackageCount', '1');
@@ -623,7 +623,6 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
         }
 
         $result = Mage::getModel('shipping/rate_result');
-        $defaults = $this->getDefaults();
         if (empty($priceArr)) {
             $error = Mage::getModel('shipping/rate_result_error');
             $error->setCarrier('fedex');
@@ -680,6 +679,7 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
                 'FEDEX_1_DAY_FREIGHT'                 => Mage::helper('usa')->__('1 Day Freight'),
                 'FEDEX_2_DAY_FREIGHT'                 => Mage::helper('usa')->__('2 Day Freight'),
                 'FEDEX_2_DAY'                         => Mage::helper('usa')->__('2 Day'),
+                'FEDEX_2_DAY_AM'                      => Mage::helper('usa')->__('2 Day AM'),
                 'FEDEX_3_DAY_FREIGHT'                 => Mage::helper('usa')->__('3 Day Freight'),
                 'FEDEX_EXPRESS_SAVER'                 => Mage::helper('usa')->__('Express Saver'),
                 'FEDEX_GROUND'                        => Mage::helper('usa')->__('Ground'),
@@ -721,6 +721,7 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
                             'method' => array(
                                 'FEDEX_EXPRESS_SAVER',
                                 'FEDEX_2_DAY',
+                                'FEDEX_2_DAY_AM',
                                 'STANDARD_OVERNIGHT',
                                 'PRIORITY_OVERNIGHT',
                                 'FIRST_OVERNIGHT',
@@ -741,6 +742,7 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
                         'within_us' => array(
                             'method' => array(
                                 'FEDEX_2_DAY',
+                                'FEDEX_2_DAY_AM',
                                 'STANDARD_OVERNIGHT',
                                 'PRIORITY_OVERNIGHT',
                                 'FIRST_OVERNIGHT',
@@ -777,6 +779,7 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
                                 'SMART_POST',
                                 'FEDEX_EXPRESS_SAVER',
                                 'FEDEX_2_DAY',
+                                'FEDEX_2_DAY_AM',
                                 'STANDARD_OVERNIGHT',
                                 'PRIORITY_OVERNIGHT',
                                 'FIRST_OVERNIGHT',
@@ -816,7 +819,7 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
 
         if (!isset($codes[$type])) {
             return false;
-        } elseif (''===$code) {
+        } elseif ('' === $code) {
             return $codes[$type];
         }
 
@@ -1033,11 +1036,11 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
             }
         }
 
-        if(!$this->_result){
+        if (!$this->_result) {
             $this->_result = Mage::getModel('shipping/tracking_result');
         }
 
-        if(isset($resultArray)) {
+        if (isset($resultArray)) {
             $tracking = Mage::getModel('shipping/tracking_result_status');
             $tracking->setCarrier('fedex');
             $tracking->setCarrierTitle($this->getConfigData('title'));
@@ -1119,19 +1122,18 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
              $errorTitle = false;
          }
 
-         if(!$this->_result){
+         if (!$this->_result) {
              $this->_result = Mage::getModel('shipping/tracking_result');
          }
-         $defaults = $this->getDefaults();
 
-         if($resultArr){
+         if ($resultArr) {
              $tracking = Mage::getModel('shipping/tracking_result_status');
              $tracking->setCarrier('fedex');
              $tracking->setCarrierTitle($this->getConfigData('title'));
              $tracking->setTracking($trackingvalue);
              $tracking->addData($resultArr);
              $this->_result->append($tracking);
-         }else{
+         } else {
             $error = Mage::getModel('shipping/tracking_result_error');
             $error->setCarrier('fedex');
             $error->setCarrierTitle($this->getConfigData('title'));
@@ -1149,14 +1151,14 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
     public function getResponse()
     {
         $statuses = '';
-        if ($this->_result instanceof Mage_Shipping_Model_Tracking_Result){
+        if ($this->_result instanceof Mage_Shipping_Model_Tracking_Result) {
             if ($trackings = $this->_result->getAllTrackings()) {
                 foreach ($trackings as $tracking){
                     if($data = $tracking->getAllData()){
                         if (!empty($data['status'])) {
-                            $statuses .= Mage::helper('usa')->__($data['status'])."\n<br/>";
+                            $statuses .= Mage::helper('usa')->__($data['status']) . "\n<br/>";
                         } else {
-                            $statuses .= Mage::helper('usa')->__('Empty response')."\n<br/>";
+                            $statuses .= Mage::helper('usa')->__('Empty response') . "\n<br/>";
                         }
                     }
                 }
