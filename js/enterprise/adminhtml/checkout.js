@@ -308,9 +308,11 @@ AdminCheckout.prototype = {
             productConfigure.addListType(listType, {urlSubmit: url});
         }
         productConfigure.setOnLoadIFrameCallback(listType, function(response) {
-            this.loadAreaResponseHandler(response);
             if (clearSources) {
+                this.loadAreaResponseHandler(response);
                 this.clearSources();
+            } else {
+                setLocation(window.location.href);
             }
         }.bind(this));
 
