@@ -61,7 +61,7 @@ class Mage_Core_Model_Design extends Mage_Core_Model_Abstract
         $result = $this->getResource()
             ->loadChange($storeId, $date);
 
-        if (!empty($result)){
+        if (!empty($result)) {
             if (!empty($result['design'])) {
                 $tmp = explode('/', $result['design']);
                 $result['package'] = $tmp[0];
