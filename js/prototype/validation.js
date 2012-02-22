@@ -426,24 +426,28 @@ Validation.addAllThese([
                     || (!isNaN(parseNumber(v)) && /^\s*-?\d*(\.\d*)?\s*$/.test(v));
             }],
     ['validate-number-range', 'The value is not within the specified range.', function(v, elm) {
+                if (Validation.get('IsEmpty').test(v)) {
+                    return true;
+                }
+
                 var numValue = parseNumber(v);
-                if (Validation.get('IsEmpty').test(v) || isNaN(numValue)) {
+                if (isNaN(numValue)) {
                     return false;
                 }
 
-                var reRange = /^number-range-([-\d.,]+)-([-\d.,]+)$/,
+                var reRange = /^number-range-([-\d.,]*)-([-\d.,]*)$/,
                     result = true;
 
                 $w(elm.className).each(function(name) {
-                    var m = reRange.exec(name), min, max;
+                    var m = reRange.exec(name);
                     if (m) {
-                        min = parseNumber(m[1]);
-                        max = parseNumber(m[2]);
-                        result = result && numValue >= min && numValue <= max;
+                        result = result
+                            && (m[1] == '' || numValue >= parseNumber(m[1]))
+                            && (m[2] == '' || numValue <= parseNumber(m[2]));
                     }
                 });
 
-                return result;
+                return !!result;
             }],
     ['validate-digits', 'Please use numbers only in this field. Please avoid spaces or other characters such as dots or commas.', function(v) {
                 return Validation.get('IsEmpty').test(v) ||  !/[^\d]/.test(v);
