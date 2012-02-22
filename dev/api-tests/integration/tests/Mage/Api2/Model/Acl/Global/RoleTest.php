@@ -52,8 +52,8 @@ class Mage_Api2_Model_Acl_Global_RoleTest extends Magento_TestCase
         $data = $this->_getFixture();
         /** @var $model Mage_Api2_Model_Acl_Global_Role */
         $model = Mage::getModel('api2/acl_global_role');
-        $this->addModelToDelete($model);
         $model->setData($data['create']);
+
         $testEntity = new Magento_Test_Entity($model, $data['update']);
         $testEntity->testCrud();
     }

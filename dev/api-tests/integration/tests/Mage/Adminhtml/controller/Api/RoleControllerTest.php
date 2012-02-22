@@ -35,6 +35,8 @@ class Mage_Adminhtml_Api_RoleControllerTest extends Magento_Test_ControllerTestC
 {
     /**
      * Test data filtering on render edit role page
+     *
+     * @runInSeparateProcess
      */
     public function testExistXssOnEdit()
     {

@@ -57,10 +57,14 @@ class Mage_Api2_Model_Resource_Acl_Global_Rule_CollectionTest extends Magento_Te
             $model = Mage::getModel('api2/acl_global_rule');
             $setData = $data['create'];
             $setData['resource_id'] .= $i;
-            $this->addModelToDelete($model);
+            $this->addModelToDelete($model, true);
             $model->setData($setData);
             $model->save();
             $ids[] = $model->getId();
+
+            /** @var $role Mage_Api2_Model_Acl_Global_Role */
+            $role = Mage::getModel('api2/acl_global_role');
+            $this->addModelToDelete($role->load($model->getRoleId()), true);
         }
 
         /** @var $model Mage_Api2_Model_Acl_Global_Rule */
