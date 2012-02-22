@@ -563,6 +563,7 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
                 'First-Class Mail International Large Envelope' => 'FIRST CLASS',
                 'First-Class Mail International Letter'         => 'FIRST CLASS',
                 'First-Class Mail International Package'        => 'FIRST CLASS',
+                'First-Class Mail International Parcel'         => 'FIRST CLASS',
                 'First-Class Mail'                 => 'FIRST CLASS',
                 'First-Class Mail Flat'            => 'FIRST CLASS',
                 'First-Class Mail Large Envelope'  => 'FIRST CLASS',
