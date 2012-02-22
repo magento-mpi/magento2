@@ -222,9 +222,10 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
         $paymentInfo = Mage::helper('payment')->getInfoBlock($order->getPayment())
             ->setIsSecureMode(true)
             ->toPdf();
+        $paymentInfo = htmlspecialchars_decode($paymentInfo, ENT_QUOTES);
         $payment = explode('{{pdf_row_separator}}', $paymentInfo);
         foreach ($payment as $key=>$value){
-            if (strip_tags(trim($value))==''){
+            if (strip_tags(trim($value)) == '') {
                 unset($payment[$key]);
             }
         }
