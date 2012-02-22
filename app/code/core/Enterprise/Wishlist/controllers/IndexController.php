@@ -103,7 +103,7 @@ class Enterprise_Wishlist_IndexController extends Mage_Wishlist_IndexController
         $helper = Mage::helper('enterprise_wishlist');
         if (!$helper->isMultipleEnabled() ) {
             $wishlistId = $this->getRequest()->getParam('wishlist_id');
-            if ($wishlistId && $wishlistId != $helper->getDefaultWishlist() ) {
+            if ($wishlistId && $wishlistId != $helper->getDefaultWishlist()->getId() ) {
                 $this->_redirectUrl($helper->getListUrl());
             }
         }

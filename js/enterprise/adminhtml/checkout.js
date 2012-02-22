@@ -268,6 +268,7 @@ AdminCheckout.prototype = {
 
     addSourceGrid: function (info) {
         this.sourceGrids[info.htmlId] = info;
+        this.saveDefaultQtysInSource(info.htmlId);
     },
 
     productConfigureSubmit: function(listType, area, fieldsPrepare, itemsFilter) {
@@ -690,9 +691,21 @@ AdminCheckout.prototype = {
             });
 
             table.select('input[type=text][name=qty]').each(function(elem) {
-                elem.value = '';
+                elem.value = elem.defaultValue || '';
             });
         }
+    },
+
+    saveDefaultQtysInSource: function (sourceId) {
+        var sourceGrid = this.sourceGrids[sourceId];
+        var table = $(sourceId + '_table');
+        if (!table) {
+            return;
+        }
+
+        table.select('input[type=text][name=qty]').each(function(elem) {
+            elem.defaultValue = elem.value;
+        });
     },
 
     /**
