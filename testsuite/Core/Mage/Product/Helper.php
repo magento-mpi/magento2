@@ -277,9 +277,8 @@ class Core_Mage_Product_Helper extends Mage_Selenium_TestCase
      */
     public function selectWebsite($websiteName, $action = 'select')
     {
-        $fieldsetXpath = $this->_getControlXpath('fieldset', 'product_websites');
         $this->addParameter('websiteName', $websiteName);
-        $websiteXpath = $fieldsetXpath . $this->_getControlXpath('checkbox', 'websites');
+        $websiteXpath = $this->_getControlXpath('checkbox', 'websites');
         if ($this->isElementPresent($websiteXpath)) {
             if ($this->getValue($websiteXpath) == 'off') {
                 switch ($action) {
@@ -534,6 +533,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_TestCase
         if (array_key_exists('websites', $nestedArrays)) {
             $tabXpath = $this->_getControlXpath('tab', 'websites');
             if ($this->isElementPresent($tabXpath)) {
+                $this->openTab('websites');
                 $websites = explode(',', $nestedArrays['websites']);
                 $websites = array_map('trim', $websites);
                 foreach ($websites as $value) {

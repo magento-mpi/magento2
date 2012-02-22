@@ -117,7 +117,7 @@ new_product_attribute:
                                     fields:
                                         position: //input[@id='position']
                 -
-                    manage_lables_options:
+                    manage_labels_options:
                         xpath: //a[@id='product_attribute_tabs_labels']/span
                         fieldsets:
                             -
@@ -157,7 +157,7 @@ edit_product_attribute:
                 -
                     properties: *productAttributeProperties
                 -
-                    manage_lables_options:
+                    manage_labels_options:
                         xpath: //a[@id='product_attribute_tabs_labels']/span
                         fieldsets:
                             -

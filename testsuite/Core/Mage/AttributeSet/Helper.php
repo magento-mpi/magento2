@@ -108,7 +108,7 @@ class Core_Mage_AttributeSet_Helper extends Mage_Selenium_TestCase
                     $this->fail("Attribute with title '$value' does not exist");
                 }
                 $this->moveElementOverTree('link', 'unassigned_attribute', 'fieldset', 'unassigned_attributes');
-                $this->moveElementOverTree('link', 'group_folder', 'fieldset', 'groups');
+                $this->moveElementOverTree('link', 'group_folder', 'fieldset', 'groups_content');
                 $this->clickAt($elFrom, '1,1');
                 $this->clickAt($elTo, '1,1');
                 $this->mouseDownAt($elFrom, '1,1');

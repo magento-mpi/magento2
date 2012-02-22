@@ -45,7 +45,7 @@ class Core_Mage_ProductAttribute_Helper extends Mage_Selenium_TestCase
     {
         $this->clickButton('add_new_attribute');
         $this->fillForm($attrData, 'properties');
-        $this->fillForm($attrData, 'manage_lables_options');
+        $this->fillForm($attrData, 'manage_labels_options');
         $this->storeViewTitles($attrData);
         $this->attributeOptions($attrData);
         $this->saveForm('save_attribute');
@@ -79,7 +79,7 @@ class Core_Mage_ProductAttribute_Helper extends Mage_Selenium_TestCase
     public function verifyAttribute($attrData)
     {
         $this->assertTrue($this->verifyForm($attrData, 'properties'), $this->getParsedMessages());
-        $this->openTab('manage_lables_options');
+        $this->openTab('manage_labels_options');
         $this->storeViewTitles($attrData, 'manage_titles', 'verify');
         $this->attributeOptions($attrData, 'verify');
     }
@@ -106,15 +106,13 @@ class Core_Mage_ProductAttribute_Helper extends Mage_Selenium_TestCase
         $names = $this->getAllWindowNames();
         $this->waitForPopUp(end($names), '30000');
         $this->selectWindow("name=" . end($names));
-        $this->validatePage();
+        $this->validatePage('new_product_attribute_from_product_page');
         $this->fillForm($attrData, 'properties');
-        $this->fillForm($attrData, 'manage_lables_options');
+        $this->fillForm($attrData, 'manage_labels_options');
         $this->storeViewTitles($attrData);
         $this->attributeOptions($attrData);
         $this->addParameter('attributeId', 0);
         $this->saveForm('save_attribute', false);
-//        $this->clickButton('save_attribute', false);
-//        $this->waitForPageToLoad($this->_browserTimeoutPeriod);
     }
 
     /**
@@ -131,8 +129,9 @@ class Core_Mage_ProductAttribute_Helper extends Mage_Selenium_TestCase
             $attrData[$name]['Admin'] = $attrData['admin_title'];
         }
         if (array_key_exists($name, $attrData)
-                && is_array($attrData[$name])
-                && $attrData[$name] != '%noValue%') {
+            && is_array($attrData[$name])
+            && $attrData[$name] != '%noValue%'
+        ) {
             $fieldSetXpath = $this->_getControlXpath('fieldset', $fieldsetName);
             $qtyStore = $this->getXpathCount($fieldSetXpath . '//th');
             foreach ($attrData[$name] as $storeViewName => $storeViewValue) {
@@ -145,9 +144,8 @@ class Core_Mage_ProductAttribute_Helper extends Mage_Selenium_TestCase
                 }
                 if ($number != -1) {
                     $this->addParameter('storeViewNumber', $number);
-                    $set = $this->getCurrentUimapPage()->findFieldset($fieldsetName);
-                    $fieldXpath = $fieldSetXpath . $set->findField('titles_by_store_name');
-
+                    $fieldSet = $this->_findUimapElement('fieldset', $fieldsetName);
+                    $fieldXpath = $this->_getControlXpath('field', 'titles_by_store_name', $fieldSet);
                     switch ($action) {
                         case 'fill':
                             if ($storeViewValue != '%noValue%') {
@@ -193,7 +191,7 @@ class Core_Mage_ProductAttribute_Helper extends Mage_Selenium_TestCase
                             $this->addParameter('fieldOptionNumber', $optionCount);
                             $this->clickButton('add_option', false);
                             $this->storeViewTitles($attrData[$fKey], 'manage_options');
-                            $this->fillForm($attrData[$fKey], 'manage_lables_options');
+                            $this->fillForm($attrData[$fKey], 'manage_labels_options');
                             break;
                         case 'verify':
                             if ($option > 0) {
@@ -201,7 +199,7 @@ class Core_Mage_ProductAttribute_Helper extends Mage_Selenium_TestCase
                                         . "//tr[contains(@class,'option-row')][" . $num
                                         . "]//input[@class='input-radio']/@value");
                                 $this->addParameter('fieldOptionNumber', $fieldOptionNumber);
-                                $this->assertTrue($this->verifyForm($attrData[$fKey], 'manage_lables_options'),
+                                $this->assertTrue($this->verifyForm($attrData[$fKey], 'manage_labels_options'),
                                         $this->getParsedMessages());
                                 $this->storeViewTitles($attrData[$fKey], 'manage_options', 'verify');
                                 $num++;
@@ -218,7 +216,7 @@ class Core_Mage_ProductAttribute_Helper extends Mage_Selenium_TestCase
      * Define Attribute Id
      *
      * @param array $searchData
-     * @return numeric
+     * @return int
      */
     public function defineAttributeId(array $searchData)
     {
