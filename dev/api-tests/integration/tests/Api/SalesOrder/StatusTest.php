@@ -62,9 +62,11 @@ class Api_SalesOrder_StatusTest extends Magento_Test_Webservice
         $order->setStatus('pending')
            ->save();
 
-        $soapResult = $this->getWebService()->call('sales_order.cancel', $order->getIncrementId());
+        $soapResult = $this->getWebService()->call('sales_order.cancel', array(
+            'orderIncrementId' => $order->getIncrementId()
+        ));
 
-        $this->assertTrue($soapResult, 'API call result in not TRUE');
+        $this->assertTrue((bool) $soapResult, 'API call result in not TRUE');
 
         // reload order to obtain new status
         $order->load($order->getId());
@@ -86,7 +88,9 @@ class Api_SalesOrder_StatusTest extends Magento_Test_Webservice
             ->save();
 
         try {
-            $this->getWebService()->call('sales_order.cancel', $order->getIncrementId());
+            $this->getWebService()->call('sales_order.cancel', array(
+                'orderIncrementId' => $order->getIncrementId()
+            ));
         } catch (Exception $e) {
             $this->assertEquals(
                 'Order status not changed. Details in error message.', $e->getMessage(), 'Invalid fault message'
@@ -113,9 +117,11 @@ class Api_SalesOrder_StatusTest extends Magento_Test_Webservice
         $order->setState(Mage_Sales_Model_Order::STATE_NEW, 'pending')
            ->save();
 
-        $soapResult = $this->getWebService()->call('sales_order.hold', $order->getIncrementId());
+        $soapResult = $this->getWebService()->call('sales_order.hold', array(
+            'orderIncrementId' => $order->getIncrementId()
+        ));
 
-        $this->assertTrue($soapResult, 'API call result in not TRUE');
+        $this->assertTrue((bool) $soapResult, 'API call result in not TRUE');
 
         // reload order to obtain new status
         $order->load($order->getId());
@@ -137,7 +143,9 @@ class Api_SalesOrder_StatusTest extends Magento_Test_Webservice
            ->save();
 
         try {
-            $this->getWebService()->call('sales_order.hold', $order->getIncrementId());
+            $this->getWebService()->call('sales_order.hold', array(
+                'orderIncrementId' => $order->getIncrementId()
+            ));
         } catch (Exception $e) {
             $this->assertEquals('Hold action is not available.', $e->getMessage(), 'Invalid fault message');
         }
