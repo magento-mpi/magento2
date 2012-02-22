@@ -297,7 +297,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         if ($helper) {
             $helper = $this->_loadHelper($helper);
             if ($helper) {
-
                 return $helper;
             }
         }
@@ -609,7 +608,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function overrideDataByCondition($overrideKey, $overrideValue, &$overrideArray, $condition)
     {
-        $isOverrided = false;
+        $isOverridden = false;
         foreach ($overrideArray as $currentKey => &$currentValue) {
             switch ($condition) {
                 case 'byValueKey':
@@ -624,13 +623,13 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             }
             if ($isFound) {
                 $currentValue = $overrideValue;
-                $isOverrided = true;
+                $isOverridden = true;
             } elseif (is_array($currentValue)) {
-                $isOverrided = $this->overrideDataByCondition($overrideKey, $overrideValue, $currentValue,
-                                                              $condition) || $isOverrided;
+                $isOverridden = $this->overrideDataByCondition($overrideKey, $overrideValue, $currentValue,
+                                                              $condition) || $isOverridden;
             }
         }
-        return $isOverrided;
+        return $isOverridden;
     }
 
     /**
@@ -972,7 +971,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function checkMessage($message)
     {
-        $messageLocator = $this->findUimapElement('message', $message);
+        $messageLocator = $this->_getMessageXpath($message);
         return $this->checkMessageByXpath($messageLocator);
     }
 
@@ -1374,6 +1373,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     }
 
     /**
+     * Get part of UIMap for specified uimap element(does not use for 'message' element)
+     *
      * @param string $elementType
      * @param string $elementName
      * @param Mage_Selenium_Uimap_Page|null $uimap
@@ -1381,10 +1382,23 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * @return mixed
      * @throw PHPUnit_Framework_Exception
      */
-    public function findUimapElement($elementType, $elementName, $uimap = null)
+    protected function _findUimapElement($elementType, $elementName, $uimap = null)
     {
         if (is_null($uimap)) {
-            $uimap = $this->getCurrentUimapPage();
+            if ($elementType == 'button') {
+                $generalButtons = $this->getCurrentUimapPage()->getMainButtons();
+                if (isset($generalButtons[$elementName])) {
+                    return $generalButtons[$elementName];
+                }
+            }
+            if ($elementType != 'fieldset' && $elementType != 'tab') {
+                $uimap = $this->_getActiveTabUimap();
+                if (is_null($uimap)) {
+                    $uimap = $this->getCurrentUimapPage();
+                }
+            } else {
+                $uimap = $this->getCurrentUimapPage();
+            }
         }
         try {
             $method = 'find' . ucfirst(strtolower($elementType));
@@ -1400,6 +1414,32 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     }
 
     /**
+     * Get part of UIMap for opened tab
+     * @return mixed
+     */
+    protected function _getActiveTabUimap()
+    {
+        $tabData = $this->getCurrentUimapPage()->getAllTabs($this->_paramsHelper);
+        foreach ($tabData as $tabUimap) {
+            $isTabOpened = '';
+            $tabXpath = $tabUimap->getXpath();
+            if (preg_match('/^css=/', $tabXpath)) {
+                if ($this->isElementPresent($tabXpath . '[class]')) {
+                    $isTabOpened = $this->getAttribute($tabXpath . '@class');
+                }
+            } elseif ($this->isElementPresent($tabXpath . '[@class]')) {
+                $isTabOpened = $this->getAttribute($tabXpath . '@class');
+            } elseif ($this->isElementPresent($tabXpath . '/parent::*[@class]')) {
+                $isTabOpened = $this->getAttribute($tabXpath . '/parent::*@class');
+            }
+            if (preg_match('/active/', $isTabOpened)) {
+                return $tabUimap;
+            }
+        }
+        return null;
+    }
+
+    /**
      * Gets XPath of a control with the specified name and type.
      *
      * @param string $controlType Type of control (e.g. button | link | radiobutton | checkbox)
@@ -1410,12 +1450,34 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     protected function _getControlXpath($controlType, $controlName, $uimap = null)
     {
-        $xpath = $this->findUimapElement($controlType, $controlName, $uimap);
+        if ($controlType === 'message'){
+            return $this->_getMessageXpath($controlName);
+        }
+        $xpath = $this->_findUimapElement($controlType, $controlName, $uimap);
         if (is_object($xpath) && method_exists($xpath, 'getXPath')) {
             $xpath = $xpath->getXPath($this->_paramsHelper);
         }
 
         return $xpath;
+    }
+
+    /**
+     * Gets XPath of a message with the specified name.
+     *
+     * @param string $message Name of a message from UIMap
+     * @return string
+     * @throws RuntimeException
+     */
+    protected function _getMessageXpath($message)
+    {
+        $messages = $this->getCurrentUimapPage()->getAllElements('messages');
+        $messageLocator = $messages->get($message, $this->_paramsHelper);
+        if ($messageLocator === null) {
+            $errorMessage = 'Current location url: ' . $this->getLocation() . "\n"
+                . 'Current page "' . $this->getCurrentPage() . '": ' . 'Message "' . $message . '" is not found';
+            throw new RuntimeException($errorMessage);
+        }
+        return $messageLocator;
     }
 
     /**
@@ -1570,7 +1632,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         $buttonXpath = $this->_getControlXpath($controlType, $controlName);
         if ($this->isElementPresent($buttonXpath)) {
-            $confirmation = $this->findUimapElement('message', $message);
+            $confirmation = $this->_getMessageXpath($message);
             $this->chooseCancelOnNextConfirmation();
             $this->click($buttonXpath);
             if ($this->isConfirmationPresent()) {
@@ -2077,10 +2139,10 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $xpath = '';
         $xpathContainer = null;
         if ($fieldSetName) {
-            $xpathContainer = $this->findUimapElement('fieldset', $fieldSetName);
+            $xpathContainer = $this->_findUimapElement('fieldset', $fieldSetName);
             $xpath = $xpathContainer->getXpath($this->_paramsHelper);
         }
-        $resetXpath = $xpath . $this->_getControlXpath('button', 'reset_filter', $xpathContainer);
+        $resetXpath = $this->_getControlXpath('button', 'reset_filter', $xpathContainer);
         $jsName = $this->getAttribute($resetXpath . '/@onclick');
         $jsName = preg_replace('/\.[\D]+\(\)/', '', $jsName);
         $scriptXpath = "//script[contains(text(),\"$jsName.useAjax = ''\")]";
@@ -2332,7 +2394,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     protected function _fillFormField($fieldData)
     {
-        if ($this->isElementPresent($fieldData['path']) && $this->isEditable($fieldData['path'])) {
+        if ($this->waitForElement($fieldData['path'], 5) && $this->isEditable($fieldData['path'])) {
             $this->type($fieldData['path'], $fieldData['value']);
             $this->waitForAjax();
         } else {
