@@ -52,8 +52,29 @@ class Mage_Catalog_Model_Api2_Product_Rest_Customer_V1 extends Mage_Catalog_Mode
         if (!($isEnabled && $isInStock && $productHelper->canShow($product))) {
             $this->_critical(self::RESOURCE_NOT_FOUND);
         }
-
+        $this->_applyTax($product);
         return $product->getData();
+    }
+
+    /**
+     * Apply taxes to product price. The same behavior as on product page
+     *
+     * @param Mage_Catalog_Model_Product $product
+     */
+    protected function _applyTax(Mage_Catalog_Model_Product $product)
+    {
+        $productPrice = $product->getPrice() ? $product->getPrice() : 0;
+        /** @var $customer Mage_Customer_Model_Customer */
+        $customer = Mage::getModel('customer/customer')->load($this->getApiUser()->getUserId());
+        if (!$customer->getId()) {
+            $this->_critical('Customer not found', Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR);
+        }
+
+        /** @var $taxHelper Mage_Tax_Helper_Data */
+        $taxHelper = Mage::helper('tax');
+        $priceAfterTaxProcessing = $taxHelper->getPrice($product, $productPrice, null, $customer->getPrimaryShippingAddress(),
+            $customer->getPrimaryBillingAddress(), $customer->getTaxClassId(), $this->_getStore());
+        $product->setPrice($priceAfterTaxProcessing);
     }
 
     /**

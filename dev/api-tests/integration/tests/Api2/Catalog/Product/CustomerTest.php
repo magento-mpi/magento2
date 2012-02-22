@@ -72,6 +72,138 @@ class Api2_Catalog_Product_CustomerTest extends Magento_Test_Webservice_Rest_Cus
     }
 
     /**
+     * Test successful product get with tax applied
+     *
+     * @magentoDataFixture Api/SalesOrder/_fixtures/product_simple.php
+     */
+    public function testGetWithTaxCalculation()
+    {
+        // assure that customer has appropriate billing and shipping addresses
+        /** @var $customer Mage_Customer_Model_Customer */
+        $customer = Mage::getModel('customer/customer');
+        $customer->setWebsiteId(Mage::app()->getWebsite()->getId())->loadByEmail(TESTS_CUSTOMER_EMAIL);
+        if (!$customer->getDefaultBillingAddress() || !$customer->getDefaultShippingAddress()) {
+            $this->_addAddressToCustomer($customer);
+        }
+
+        /** @var $product Mage_Catalog_Model_Product */
+        $product = $this->getFixture('product_simple');
+        $taxableGoodsTaxClassId = 2;
+        $product->setTaxClassId($taxableGoodsTaxClassId)->save();
+        $this->assertEquals(10, $product->getPrice(), 'Product price is expected to be 10 for tax calculation tests');
+
+        $basedOn = Mage_Tax_Model_Config::CONFIG_XML_PATH_BASED_ON;
+        $priceIncludesTax = Mage_Tax_Model_Config::CONFIG_XML_PATH_PRICE_INCLUDES_TAX;
+        $priceDisplayType = Mage_Tax_Model_Config::CONFIG_XML_PATH_PRICE_DISPLAY_TYPE;
+        $testConfigurations = array(
+            array(
+                'config' => array(
+                    $basedOn => 'origin',
+                    $priceIncludesTax => 0,
+                    $priceDisplayType => Mage_Tax_Model_Config::DISPLAY_TYPE_INCLUDING_TAX,
+                ),
+                'expected_price' => 10.84,
+            ),
+            array(
+                'config' => array(
+                    $basedOn => 'billing',
+                    $priceIncludesTax => 0,
+                    $priceDisplayType => Mage_Tax_Model_Config::DISPLAY_TYPE_INCLUDING_TAX,
+                ),
+                'expected_price' => 10.84,
+            ),
+            array(
+                'config' => array(
+                    $basedOn => 'origin',
+                    $priceIncludesTax => 0,
+                    $priceDisplayType => Mage_Tax_Model_Config::DISPLAY_TYPE_INCLUDING_TAX,
+                ),
+                'expected_price' => 10.83,
+            ),
+            array(
+                'config' => array(
+                    $basedOn => 'shipping',
+                    $priceIncludesTax => 1,
+                    $priceDisplayType => Mage_Tax_Model_Config::DISPLAY_TYPE_INCLUDING_TAX,
+                ),
+                'expected_price' => 10.01,
+            ),
+            array(
+                'config' => array(
+                    $basedOn => 'shipping',
+                    $priceIncludesTax => 1,
+                    $priceDisplayType => Mage_Tax_Model_Config::DISPLAY_TYPE_EXCLUDING_TAX,
+                ),
+                'expected_price' => 9.24,
+            ),
+            array(
+                'config' => array(
+                    $basedOn => 'shipping',
+                    $priceIncludesTax => 0,
+                    $priceDisplayType => Mage_Tax_Model_Config::DISPLAY_TYPE_EXCLUDING_TAX,
+                ),
+                'expected_price' => 10,
+            ),
+        );
+        foreach ($testConfigurations as $dataProvider) {
+            $this->_checkTaxCalculation($product, $dataProvider['expected_price'], $dataProvider['config']);
+        }
+    }
+
+    /**
+     * Check if tax is applied correctly to product price. Specific tax config is applied during test
+     *
+     * @param Mage_Catalog_Model_Product $product
+     * @param float $expectedPrice
+     * @param array $config
+     */
+    protected function _checkTaxCalculation($product, $expectedPrice, $config)
+    {
+        foreach ($config as $configPath => $configValue) {
+            $this->_updateAppConfig($configPath, $configValue);
+        }
+
+        $restResponse = $this->callGet('product/' . $product->getId());
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+        $responseData = $restResponse->getBody();
+        $this->assertNotEmpty($responseData);
+
+        $assertMessage = "Tested configuration: ";
+        foreach ($config as $configPath => $configValue) {
+            $assertMessage .= " $configPath = $configValue;";
+        }
+        $this->assertEquals($expectedPrice, $responseData['price'], $assertMessage, 0.01);
+    }
+
+    /**
+     * Add valid address to customer. Address should be valid for default tax rules
+     *
+     * @param Mage_Customer_Model_Customer $customer
+     */
+    protected function _addAddressToCustomer(Mage_Customer_Model_Customer $customer)
+    {
+        /** @var $address Mage_Customer_Model_Address */
+        $address = Mage::getModel('customer/address');
+        $address->setData(array(
+            'city' => 'New York',
+            'country_id' => 'US',
+            'fax' => '56-987-987',
+            'firstname' => 'Jacklin',
+            'lastname' => 'Sparrow',
+            'middlename' => 'John',
+            'postcode' => '10012',
+            'region' => 'New York',
+            'region_id' => '43',
+            'street' => 'Main Street',
+            'telephone' => '718-452-9207',
+            'is_default_billing' => true,
+            'is_default_shipping' => true
+        ));
+        $address->setCustomer($customer);
+        $address->save();
+    }
+
+    /**
      * Test successful get with filter by attributes
      *
      * @magentoDataFixture Api/SalesOrder/_fixtures/product_simple.php
