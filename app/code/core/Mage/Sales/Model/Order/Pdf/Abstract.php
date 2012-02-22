@@ -226,7 +226,7 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
     {
         $return = array();
         foreach (explode('|', $address) as $str) {
-            foreach (Mage::helper('core/string')->str_split($str, 65, true, true) as $part) {
+            foreach (Mage::helper('core/string')->str_split($str, 45, true, true) as $part) {
                 if (empty($part)) {
                     continue;
                 }
@@ -357,7 +357,7 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
         foreach ($billingAddress as $value){
             if ($value !== '') {
                 $text = array();
-                foreach (Mage::helper('core/string')->str_split($value, 55, true, true) as $_value) {
+                foreach (Mage::helper('core/string')->str_split($value, 45, true, true) as $_value) {
                     $text[] = $_value;
                 }
                 foreach ($text as $part) {
@@ -374,7 +374,7 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
             foreach ($shippingAddress as $value){
                 if ($value!=='') {
                     $text = array();
-                    foreach (Mage::helper('core/string')->str_split($value, 55, true, true) as $_value) {
+                    foreach (Mage::helper('core/string')->str_split($value, 45, true, true) as $_value) {
                         $text[] = $_value;
                     }
                     foreach ($text as $part) {
@@ -408,22 +408,38 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
             $yPayments   = $this->y - 15;
         }
         else {
-            $yPayments   = 720;
+            $yPayments   = $addressesStartY;
             $paymentLeft = 285;
         }
 
         foreach ($payment as $value){
-            if (trim($value)!=='') {
-                $page->drawText(strip_tags(trim($value)), $paymentLeft, $yPayments, 'UTF-8');
-                $yPayments -= 15;
+            if (trim($value) != '') {
+                //Printing "Payment Method" lines
+                $value = preg_replace('/<br[^>]*>/i', "\n", $value);
+                foreach (Mage::helper('core/string')->str_split($value, 45, true, true) as $_value) {
+                    $page->drawText(strip_tags(trim($_value)), $paymentLeft, $yPayments, 'UTF-8');
+                    $yPayments -= 15;
+                }
             }
         }
 
-        if (!$order->getIsVirtual()) {
-            $topMargin = 15;
-            $this->y -= 15;
+        if ($order->getIsVirtual()) {
+            // replacement of Shipments-Payments rectangle block
+            $yPayments = min($addressesEndY, $yPayments);
+            $page->drawLine(25,  ($top - 25), 25,  $yPayments);
+            $page->drawLine(570, ($top - 25), 570, $yPayments);
+            $page->drawLine(25,  $yPayments,  570, $yPayments);
 
-            $page->drawText($shippingMethod, 285, $this->y, 'UTF-8');
+            $this->y = $yPayments - 15;
+        } else {
+            $topMargin    = 15;
+            $methodStartY = $this->y;
+            $this->y     -= 15;
+
+            foreach (Mage::helper('core/string')->str_split($shippingMethod, 45, true, true) as $_value) {
+                $page->drawText(strip_tags(trim($_value)), 285, $this->y, 'UTF-8');
+                $this->y -= 15;
+            }
 
             $yShipments = $this->y;
             $totalShippingChargesText = "(" . Mage::helper('sales')->__('Total Shipping Charges') . " "
@@ -477,9 +493,9 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
             $currentY = min($yPayments, $yShipments);
 
             // replacement of Shipments-Payments rectangle block
-            $page->drawLine(25, $this->y + 15, 25, $currentY);
-            $page->drawLine(25, $currentY, 570, $currentY);
-            $page->drawLine(570, $currentY, 570, $this->y + 15);
+            $page->drawLine(25,  $methodStartY, 25,  $currentY); //left
+            $page->drawLine(25,  $currentY,     570, $currentY); //bottom
+            $page->drawLine(570, $currentY,     570, $methodStartY); //right
 
             $this->y = $currentY;
             $this->y -= 15;

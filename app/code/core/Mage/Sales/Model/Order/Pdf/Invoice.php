@@ -24,7 +24,6 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-
 /**
  * Sales Order Invoice PDF model
  *
@@ -35,7 +34,7 @@
 class Mage_Sales_Model_Order_Pdf_Invoice extends Mage_Sales_Model_Order_Pdf_Abstract
 {
     /**
-     * Drow header for item table
+     * Draw header for item table
      *
      * @param Zend_Pdf_Page $page
      * @return void
@@ -118,7 +117,7 @@ class Mage_Sales_Model_Order_Pdf_Invoice extends Mage_Sales_Model_Order_Pdf_Abst
                 Mage::app()->getLocale()->emulate($invoice->getStoreId());
                 Mage::app()->setCurrentStore($invoice->getStoreId());
             }
-            $page = $this->newPage();
+            $page  = $this->newPage();
             $order = $invoice->getOrder();
             /* Add image */
             $this->insertLogo($page, $invoice->getStore());
@@ -142,14 +141,12 @@ class Mage_Sales_Model_Order_Pdf_Invoice extends Mage_Sales_Model_Order_Pdf_Abst
                 if ($item->getOrderItem()->getParentItem()) {
                     continue;
                 }
-                if ($this->y < 15) {
-                    $page = $this->newPage(array('table_header' => true));
-                }
                 /* Draw item */
-                $page = $this->_drawItem($item, $page, $order);
+                $this->_drawItem($item, $page, $order);
+                $page = end($pdf->pages);
             }
             /* Add totals */
-            $page = $this->insertTotals($page, $invoice);
+            $this->insertTotals($page, $invoice);
             if ($invoice->getStoreId()) {
                 Mage::app()->getLocale()->revert();
             }

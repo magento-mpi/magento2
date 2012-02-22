@@ -24,7 +24,6 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-
 /**
  * Sales Order Shipment PDF model
  *
@@ -98,7 +97,7 @@ class Mage_Sales_Model_Order_Pdf_Shipment extends Mage_Sales_Model_Order_Pdf_Abs
                 Mage::app()->getLocale()->emulate($shipment->getStoreId());
                 Mage::app()->setCurrentStore($shipment->getStoreId());
             }
-            $page = $this->newPage();
+            $page  = $this->newPage();
             $order = $shipment->getOrder();
             /* Add image */
             $this->insertLogo($page, $shipment->getStore());
@@ -122,11 +121,9 @@ class Mage_Sales_Model_Order_Pdf_Shipment extends Mage_Sales_Model_Order_Pdf_Abs
                 if ($item->getOrderItem()->getParentItem()) {
                     continue;
                 }
-                if ($this->y<15) {
-                    $page = $this->newPage(array('table_header' => true));
-                }
                 /* Draw item */
-                $page = $this->_drawItem($item, $page, $order);
+                $this->_drawItem($item, $page, $order);
+                $page = end($pdf->pages);
             }
         }
         $this->_afterGetPdf();
