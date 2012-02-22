@@ -158,7 +158,8 @@ class Mage_Selenium_Helper_DataGeneratorTest extends Mage_PHPUnit_TestCase
         $this->assertRegExp('|^[0-9 ]{20}$|', $dataGenerator->generateRandomText(20, array('class'=>':digit:')));
         $this->assertRegExp('|^[a-z ]{20}$|', $dataGenerator->generateRandomText(20, array('class'=>':lower:')));
         $this->assertRegExp('|^[[:punct:] ]{20}$|', $dataGenerator->generateRandomText(20, array('class'=>':punct:')));
-
+        $this->assertRegExp('|^[[:punct:] ]{20}$|', $dataGenerator->generateRandomText(20, ':punct:'));
+        $this->assertRegExp('|^[[:alnum:] ]{20}$|', $dataGenerator->generateRandomText(20, ''));
     }
 
     /**

@@ -213,7 +213,7 @@ class Mage_Selenium_Helper_DataGenerator extends Mage_Selenium_Helper_Abstract
      * Note that spaces will be added to the text in addition to the specified class.
      *
      * @param int $length Generated string length (number of characters)
-     * @param array $modifier Allows to specify multiple properties of the generated text, e.g.:<br>
+     * @param  null|string|array $modifier Allows to specify multiple properties of the generated text, e.g.:<br>
      * <li>'class' => string - PCRE class(es) to use for generation, see<br>
      * {@link Mage_Selenium_Helper_DataGenerator::generateRandomString()}
      * <li>if no class is specified, only alphanumeric characters are used by default
@@ -224,10 +224,13 @@ class Mage_Selenium_Helper_DataGenerator extends Mage_Selenium_Helper_Abstract
      */
     public function generateRandomText($length = 100, $modifier = null, $prefix = '')
     {
-        $class = (isset($modifier['class'])) ? $modifier['class'] : ':alnum:';
-        $paraCount = (isset($modifier['para']) && $modifier['para'] > 1)
-            ? (int)$modifier['para']
-            : 1;
+        if (is_array($modifier)) {
+            $class = (isset($modifier['class'])) ? $modifier['class'] : ':alnum:';
+            $paraCount = (isset($modifier['para']) && $modifier['para'] > 1) ? (int)$modifier['para'] : 1;
+        } else {
+            $class = (!empty($modifier)) ? $modifier : ':alnum:';
+            $paraCount = 1;
+        }
 
         if (!is_array($class)) {
             $class = explode(',', $class);

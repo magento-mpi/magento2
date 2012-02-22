@@ -87,23 +87,23 @@ class Mage_Selenium_TestCaseTest extends Mage_PHPUnit_TestCase
 
         $instance->addMessage('success', $successMessage);
         $this->assertEquals($instance->getParsedMessages(),
-                array('error' => array($errorMessage),
-                      'success' => array($successMessage)));
+            array('error' => array($errorMessage),
+                'success' => array($successMessage)));
         $this->assertEquals($instance->getParsedMessages('success'), array($successMessage));
 
         $instance->addMessage('validation', $validationMessage);
         $this->assertEquals($instance->getParsedMessages(),
-                array('error' => array($errorMessage),
-                      'success' => array($successMessage),
-                      'validation' => array($validationMessage)));
+            array('error' => array($errorMessage),
+                'success' => array($successMessage),
+                'validation' => array($validationMessage)));
         $this->assertEquals($instance->getParsedMessages('validation'), array($validationMessage));
 
         $instance->addMessage('verification', $verificationMessage);
         $this->assertEquals($instance->getParsedMessages(),
-                array('error' => array($errorMessage),
-                      'success' => array($successMessage),
-                      'validation' => array($validationMessage),
-                      'verification' => array($verificationMessage)));
+            array('error' => array($errorMessage),
+                'success' => array($successMessage),
+                'validation' => array($validationMessage),
+                'verification' => array($verificationMessage)));
         $this->assertEquals($instance->getParsedMessages('verification'), array($verificationMessage));
     }
 
@@ -195,7 +195,7 @@ class Mage_Selenium_TestCaseTest extends Mage_PHPUnit_TestCase
         $formData = $instance->loadData('unit_test_load_data');
 
         $formDataOverriddenName =
-                $instance->loadData('unit_test_load_data', array('key' => 'new Value'));
+            $instance->loadData('unit_test_load_data', array('key' => 'new Value'));
         $this->assertEquals($formDataOverriddenName['key'], 'new Value');
 
         $formDataWithNewKey = $instance->loadData('unit_test_load_data', array('new key' => 'new Value'));
@@ -416,16 +416,16 @@ class Mage_Selenium_TestCaseTest extends Mage_PHPUnit_TestCase
     }
 
     /**
-     * @covers Mage_Selenium_TestCase::loadData
+     * @covers Mage_Selenium_TestCase::loadDataSet
      */
-    public function testLoadDataOverrideByValueKey()
+    public function testLoadDataSetOverrideByValueKey()
     {
         $instance = new Mage_Selenium_TestCase();
         $formData = $instance->loadDataSet('unit_test_load_data_set_recursive');
 
         $formDataOverriddenName = $instance->loadDataSet('unit_test_load_data_set_recursive', array(
-                'key' => 'new Value' ,
-                'novalue_key' => 'new Value'));
+            'key' => 'new Value' ,
+            'novalue_key' => 'new Value'));
         $this->assertEquals(6, $this->getValuesCount($formDataOverriddenName, 'new Value'));
         $tst = array_diff($formDataOverriddenName, $formData);
         $this->assertEquals(array('key' => 'new Value', 'novalue_key' => 'new Value'),
@@ -434,9 +434,9 @@ class Mage_Selenium_TestCaseTest extends Mage_PHPUnit_TestCase
 
 
     /**
-     * @covers Mage_Selenium_TestCase::loadData
+     * @covers Mage_Selenium_TestCase::loadDataSet
      */
-    public function testLoadDataOverrideByValueParam()
+    public function testLoadDataSetOverrideByValueParam()
     {
         $instance = new Mage_Selenium_TestCase();
         $formData = $instance->loadDataSet('unit_test_load_data_set_recursive');
@@ -447,5 +447,101 @@ class Mage_Selenium_TestCaseTest extends Mage_PHPUnit_TestCase
         $this->assertEquals(6, $this->getValuesCount($formDataOverriddenName, 'new Value'));
         $this->assertEquals(array('novalue_key' => 'new Value', 'some_key' => 'new Value'),
             array_diff($formDataOverriddenName, $formData));
+    }
+
+    /**
+     * @covers Mage_Selenium_TestCase::generate
+     */
+    public function testGenerate()
+    {
+        $instance = new Mage_Selenium_TestCase();
+        // Default values
+        $this->assertInternalType('string', $instance->generate());
+        $this->assertEquals(100, strlen($instance->generate()));
+
+        // String generations
+        $this->assertEquals(20, strlen($instance->generate('string', 20, ':alnum:')));
+        $this->assertEquals(20, strlen($instance->generate('string', 20, ':alnum:', '')));
+        $this->assertEmpty($instance->generate('string', 0, ':alnum:', ''));
+        $this->assertEmpty($instance->generate('string', -1, ':alnum:', ''));
+        $this->assertEquals(1000000, strlen($instance->generate('string', 1000000, ':alnum:', '')));
+
+        $this->assertEquals(26, strlen($instance->generate('string', 20, ':alnum:', 'prefix')));
+        $this->assertStringStartsWith('prefix', $instance->generate('string', 20, '', 'prefix'));
+
+        // Text generations
+        $this->assertEquals(26, strlen($instance->generate('text', 20, '', 'prefix')));
+        $this->assertStringStartsWith('prefix', $instance->generate('text', 20, '', 'prefix'));
+
+        $this->assertEquals(100, strlen($instance->generate('text')));
+        $this->assertEquals(20, strlen($instance->generate('text', 20)));
+        $this->assertEmpty($instance->generate('text', 0));
+        $this->assertEmpty($instance->generate('text', -1));
+        $this->assertEquals(1000000, strlen($instance->generate('text', 1000000)));
+
+        $this->assertEquals(20, strlen($instance->generate('text', 20, '')));
+        $this->assertEquals(26, strlen($instance->generate('text', 20, '', 'prefix')));
+        $this->assertStringStartsWith( 'prefix', $instance->generate('text', 20, '', 'prefix'));
+
+        $this->assertStringMatchesFormat('%s', $instance->generate('text', 20, array('class'=>':alnum:')));
+        $this->assertRegExp('/[0-9 ]+/', $instance->generate('text', 20, ':digit:'));
+
+        // Email generations
+        $this->assertEquals(100, strlen($instance->generate('email')));
+        $this->assertEquals(20, strlen($instance->generate('email', 20, 'valid')));
+        $this->assertEquals(20, strlen($instance->generate('email', 20, 'some_value')));
+        $this->assertEmpty($instance->generate('email', 0));
+        $this->assertEmpty($instance->generate('email', -1));
+        $this->assertEquals(255, strlen($instance->generate('email', 255, 'valid')));
+    }
+
+    /**
+     * @covers Mage_Selenium_TestCase::generate
+     * @dataProvider testGenerateModifierDataProvider
+     * @param $modifier
+     */
+    public function testGenerateModifierString($modifier)
+    {
+        $instance = new Mage_Selenium_TestCase();
+        $this->assertRegExp('/[[' . $modifier . ']]{100}/', $instance->generate('string', 100, $modifier));
+    }
+
+    /**
+     * @covers Mage_Selenium_TestCase::generate
+     * @dataProvider testGenerateModifierDataProvider
+     * @param $modifier
+     */
+    public function testGenerateModifierText($modifier)
+    {
+        $instance = new Mage_Selenium_TestCase();
+        $randomText = $instance->generate('text', 100, array('class' => $modifier,'para' => 5));
+        $this->assertEquals(5, count(explode("\n", $randomText)));
+        $this->assertRegExp('/[\s['. $modifier . ']]{100}/', $randomText);
+
+        $randomText = $instance->generate('text', 100, $modifier);
+        $this->assertEquals(1, count(explode("\n", $randomText)));
+        $this->assertRegExp('/[\s['. $modifier . ']]{100}/', $randomText);
+    }
+
+    public function testGenerateModifierDataProvider()
+    {
+        return array(
+            array(':alnum:'),
+            array(':alpha:'),
+            array(':digit:'),
+            array(':lower:'),
+            array(':punct:'),
+            array(':upper:')
+        );
+    }
+
+    /**
+     * @covers Mage_Selenium_TestCase::generate
+     */
+    public function testGenerateModifierEmail()
+    {
+        $instance = new Mage_Selenium_TestCase();
+        $this->assertTrue((bool)filter_var($instance->generate('email', 20, 'valid'), FILTER_VALIDATE_EMAIL));
+        $this->assertFalse((bool)filter_var($instance->generate('email', 20, 'invalid'), FILTER_VALIDATE_EMAIL));
     }
 }
