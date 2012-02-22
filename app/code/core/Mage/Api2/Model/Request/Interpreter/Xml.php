@@ -36,17 +36,17 @@ class Mage_Api2_Model_Request_Interpreter_Xml implements Mage_Api2_Model_Request
     /**
      * Load file error string.
      *
-     * Is null if there was no error while file loading
+     * Is null if there was no error while loading
      *
      * @var string
      */
-    protected $_loadFileErrorStr = null;
+    protected $_loadErrorStr = null;
 
     /**
      * Parse Request body into array of params
      *
      * @param string $body  Posted content from request
-     * @return array|null   Return NULL if content is invalid
+     * @return array
      * @throws Exception|Mage_Api2_Exception
      */
     public function interpret($body)
@@ -61,7 +61,7 @@ class Mage_Api2_Model_Request_Interpreter_Xml implements Mage_Api2_Model_Request
 
         restore_error_handler();
         // Check if there was a error while loading file
-        if ($this->_loadFileErrorStr !== null) {
+        if ($this->_loadErrorStr !== null) {
             throw new Mage_Api2_Exception('Decoding error.', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
         }
 
@@ -74,7 +74,7 @@ class Mage_Api2_Model_Request_Interpreter_Xml implements Mage_Api2_Model_Request
      * a SimpleXMLElement.
      *
      * @param  SimpleXMLElement $xmlObject Convert a SimpleXMLElement into an array
-     * @return array|string
+     * @return array
      */
     protected function _toArray(SimpleXMLElement $xmlObject)
     {
@@ -124,7 +124,7 @@ class Mage_Api2_Model_Request_Interpreter_Xml implements Mage_Api2_Model_Request
     }
 
     /**
-     * Handle any errors from simplexml_load_file or parse_ini_file
+     * Handle any errors from load xml
      *
      * @param integer $errno
      * @param string $errstr
@@ -133,10 +133,10 @@ class Mage_Api2_Model_Request_Interpreter_Xml implements Mage_Api2_Model_Request
      */
     protected function _loadFileErrorHandler($errno, $errstr, $errfile, $errline)
     {
-        if ($this->_loadFileErrorStr === null) {
-            $this->_loadFileErrorStr = $errstr;
+        if ($this->_loadErrorStr === null) {
+            $this->_loadErrorStr = $errstr;
         } else {
-            $this->_loadFileErrorStr .= (PHP_EOL . $errstr);
+            $this->_loadErrorStr .= (PHP_EOL . $errstr);
         }
     }
 }
