@@ -65,8 +65,9 @@ class Mage_Page_Block_Html_Notices extends Mage_Core_Block_Template
      */
     public function displayCookieRestrictionNotice()
     {
+        $acceptedSaveCookiesWebsites = $this->_getAcceptedSaveCookiesWebsites();
         return Mage::getStoreConfig(self::XML_PATH_COOKIE_RESTRICTION) &&
-            !Mage::getSingleton('core/cookie')->get(Mage_Page_Helper_Data::IS_USER_ALLOWED_SAVE_COOKIE);
+            empty($acceptedSaveCookiesWebsites[Mage::app()->getWebsite()->getId()]);
     }
 
     /**
@@ -77,5 +78,29 @@ class Mage_Page_Block_Html_Notices extends Mage_Core_Block_Template
     public function getPrivacyPolicyLink()
     {
         return Mage::getUrl('privacy-policy-cookie-restriction-mode');
+    }
+
+    /**
+     * Return serialzed list of accepted save cookie website
+     *
+     * @return string
+     */
+    public function getSerializedListAcceptedSaveCookiesWebsites()
+    {
+        $acceptedSaveCookiesWebsites = $this->_getAcceptedSaveCookiesWebsites();
+        $acceptedSaveCookiesWebsites[Mage::app()->getWebsite()->getId()] = 1;
+        return serialize($acceptedSaveCookiesWebsites);
+    }
+
+    /**
+     * Get accepted save cookies websites
+     *
+     * @return array
+     */
+    protected function _getAcceptedSaveCookiesWebsites()
+    {
+        $serializedList = Mage::getSingleton('core/cookie')->get(Mage_Page_Helper_Data::IS_USER_ALLOWED_SAVE_COOKIE);
+        $unSerializedList = unserialize($serializedList);
+        return is_array($unSerializedList) ? $unSerializedList : array();
     }
 }
