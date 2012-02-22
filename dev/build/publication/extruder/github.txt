@@ -1,0 +1,4 @@
+// Files that are intended to be published with any Magento edition, but are not ready yet, thus must be
+// removed from Github publication
+// ---------------------------------------------------
+dev/tests/functional

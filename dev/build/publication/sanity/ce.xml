@@ -17,6 +17,11 @@
         <word>{license_notice}</word>
         <word>{copyright}</word>
         <word>{license_link}</word>
+        <word>biz@magento.com</word>
+        <word>ukpromerchant</word>
+        <word>petervarien</word>
+        <word>magentoTEST</word>
+        <word>123123q</word>
     </words>
     <whitelist>
         <item>
