@@ -584,11 +584,12 @@ abstract class Mage_Api2_Model_Resource
      *
      * @param string $message
      * @param int $code
+     * @param int $itemId
      * @return Mage_Api2_Model_Resource
      */
-    protected function _successMessage($message, $code)
+    protected function _successMessage($message, $code, $itemId = null)
     {
-        $this->getResponse()->addMessage($message, $code, Mage_Api2_Model_Response::MESSAGE_TYPE_SUCCESS);
+        $this->getResponse()->addMessage($message, $code, $itemId, Mage_Api2_Model_Response::MESSAGE_TYPE_SUCCESS);
         return $this;
     }
 
@@ -597,23 +598,12 @@ abstract class Mage_Api2_Model_Resource
      *
      * @param string $message
      * @param int $code
+     * @param int $itemId
      * @return Mage_Api2_Model_Resource
      */
-    protected function _errorMessage($message, $code)
+    protected function _errorMessage($message, $code, $itemId = null)
     {
-        $this->getResponse()->addMessage($message, $code, Mage_Api2_Model_Response::MESSAGE_TYPE_ERROR);
+        $this->getResponse()->addMessage($message, $code, $itemId, Mage_Api2_Model_Response::MESSAGE_TYPE_ERROR);
         return $this;
-    }
-
-    /**
-     * Format message
-     *
-     * @param string $message
-     * @param int $itemId
-     * @return string
-     */
-    protected function _formatMessage($message, $itemId)
-    {
-        return sprintf('%s Item id: %d.', $message, $itemId);
     }
 }

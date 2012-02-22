@@ -84,22 +84,17 @@ abstract class Mage_CatalogInventory_Model_Api2_Stock_Items_Rest extends Mage_Ca
             $stockItem->save();
 
             $this->_successMessage(
-                $this->_formatMessage(self::RESOURCE_UPDATED_SUCCESSFUL, $data['item_id']),
-                Mage_Api2_Model_Server::HTTP_OK
+                self::RESOURCE_UPDATED_SUCCESSFUL,
+                Mage_Api2_Model_Server::HTTP_OK,
+                $data['item_id']
             );
         } catch (Mage_Api2_Exception $e) {
             // pre-validation errors are already added
             if ($e->getMessage() != self::RESOURCE_DATA_PRE_VALIDATION_ERROR) {
-                $this->_errorMessage(
-                    $this->_formatMessage($e->getMessage(), $data['item_id']),
-                    $e->getCode()
-                );
+                $this->_errorMessage($e->getMessage(), $e->getCode(), $data['item_id']);
             }
         } catch (Exception $e) {
-            $this->_errorMessage(
-                $this->_formatMessage($e->getMessage(), $data['item_id']),
-                Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR
-            );
+            $this->_errorMessage($e->getMessage(), Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR, $data['item_id']);
         }
     }
 
@@ -112,7 +107,6 @@ abstract class Mage_CatalogInventory_Model_Api2_Stock_Items_Rest extends Mage_Ca
      * @param array $required
      * @param array $notEmpty
      * @throws Mage_Api2_Exception
-     * @return bool
      */
     protected function _validate(array $data, array $required = array(), array $notEmpty = array())
     {
@@ -120,8 +114,9 @@ abstract class Mage_CatalogInventory_Model_Api2_Stock_Items_Rest extends Mage_Ca
         foreach ($required as $key) {
             if (!array_key_exists($key, $data)) {
                 $this->_errorMessage(
-                    $this->_formatMessage(sprintf('Missing "%s" in request.', $key), $data['item_id']),
-                    Mage_Api2_Model_Server::HTTP_BAD_REQUEST
+                    sprintf('Missing "%s" in request.', $key),
+                    Mage_Api2_Model_Server::HTTP_BAD_REQUEST,
+                    $data['item_id']
                 );
                 $isValid = false;
             }
@@ -130,8 +125,9 @@ abstract class Mage_CatalogInventory_Model_Api2_Stock_Items_Rest extends Mage_Ca
         foreach ($notEmpty as $key) {
             if (array_key_exists($key, $data) && trim($data[$key]) == '') {
                 $this->_errorMessage(
-                    $this->_formatMessage(sprintf('Empty value for "%s" in request.', $key), $data['item_id']),
-                    Mage_Api2_Model_Server::HTTP_BAD_REQUEST
+                    sprintf('Empty value for "%s" in request.', $key),
+                    Mage_Api2_Model_Server::HTTP_BAD_REQUEST,
+                    $data['item_id']
                 );
                 $isValid = false;
             }
