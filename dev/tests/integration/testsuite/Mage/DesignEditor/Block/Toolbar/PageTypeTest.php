@@ -22,10 +22,10 @@ class Mage_DesignEditor_Block_Toolbar_PageTypeTest extends PHPUnit_Framework_Tes
     protected function setUp()
     {
         $pageTypesFixture = __DIR__ . '/../../../Core/Model/Layout/_files/_page_types.xml';
+        $layout = Mage_Core_Model_LayoutTest::getLayoutFromFixture($pageTypesFixture, $this);
+        $layout->getUpdate()->addPageHandles(array('PRODUCT_TYPE_simple'));
         $this->_block = new Mage_DesignEditor_Block_Toolbar_PageType();
-        $this->_block->setLayout(
-            Mage_Core_Model_LayoutTest::getLayoutFromFixture($pageTypesFixture, $this)
-        );
+        $this->_block->setLayout($layout);
     }
 
     public function testRenderPageTypes()
@@ -33,5 +33,12 @@ class Mage_DesignEditor_Block_Toolbar_PageTypeTest extends PHPUnit_Framework_Tes
         $expected = __DIR__ . '/_files/_page_types_hierarchy.html';
         $actual = $this->_block->renderPageTypes();
         $this->assertXmlStringEqualsXmlFile($expected, $actual);
+    }
+
+    public function testGetSelectedPageType()
+    {
+        $this->assertEquals('PRODUCT_TYPE_simple', $this->_block->getSelectedPageType());
+        $this->_block->setSelectedPageType('PRODUCT_TYPE_configurable');
+        $this->assertEquals('PRODUCT_TYPE_configurable', $this->_block->getSelectedPageType());
     }
 }
