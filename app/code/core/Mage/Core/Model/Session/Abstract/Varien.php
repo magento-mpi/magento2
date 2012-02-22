@@ -34,7 +34,7 @@ class Mage_Core_Model_Session_Abstract_Varien extends Varien_Object
     const VALIDATOR_REMOTE_ADDR_KEY             = 'remote_addr';
 
     /**
-     * Conigure and start session
+     * Configure and start session
      *
      * @param string $sessionName
      * @return Mage_Core_Model_Session_Abstract_Varien
