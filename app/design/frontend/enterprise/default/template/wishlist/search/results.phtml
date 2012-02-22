@@ -44,8 +44,8 @@
     <tbody>
     <?php foreach($this->getSearchResults() as $item): ?>
         <tr>
-            <td><?php echo $this->escapeHtml($item->getCustomer()->getName()) ?></td>
-            <td><?php echo $this->escapeHtml($item->getName()) ?></td>
+            <td><span class="owner"><?php echo $this->escapeHtml($item->getCustomer()->getName()) ?></span></td>
+            <td><span class="item-name"><?php echo $this->escapeHtml($item->getName()) ?></span></td>
             <td><a href="<?php echo $this->getWishlistLink($item) ?>" title="<?php echo $this->__('View') ?>"><?php echo $this->__('View') ?></a></td>
         </tr>
     <?php endforeach; ?>

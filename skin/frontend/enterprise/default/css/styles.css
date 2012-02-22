@@ -2240,6 +2240,10 @@ ul.cms-menu.type-square ul { list-style-type:square; }
 
 /* Wishlist search view */
 #wishlist-search-results {}
+.col3-layout #wishlist-search-results .item-name { max-width:340px; word-wrap:break-word; display:block; }
+.col2-right-layout #wishlist-search-results .item-name,
+.col2-left-layout #wishlist-search-results .item-name { max-width:500px; }
+.col1-layout #wishlist-search-results .item-name { max-width:600px; }
 
 
 .wishlist-search-view {}
