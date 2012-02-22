@@ -61,18 +61,20 @@ class Api_SalesOrder_ShipmentTest extends Magento_Test_Webservice
 
         // Create new shipment
         $newShipmentId = $this->call('order_shipment.create', array(
-            $id,
-            array(),
-            'Shipment Created',
-            true,
-            true
+            'orderIncrementId' => $id,
+            'itemsQty' => array(),
+            'comment' => 'Shipment Created',
+            'email' => true,
+            'includeComment' => true
         ));
         self::setFixture('shipmentIncrementId', $newShipmentId);
 
         // View new shipment
-        $shipment = $this->call('sales_order_shipment.info', $newShipmentId);
+        $shipment = $this->call('sales_order_shipment.info', array(
+            'shipmentIncrementId' => $newShipmentId
+        ));
 
-        //var_dump($shipment);
+        $this->assertEquals($newShipmentId, $shipment['increment_id']);
     }
 
     /**
@@ -160,6 +162,6 @@ class Api_SalesOrder_ShipmentTest extends Magento_Test_Webservice
             'comment' => $id
         ));
 
-        $this->assertTrue($isOk);
+        $this->assertTrue((bool) $isOk);
     }
 }
