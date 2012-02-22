@@ -514,7 +514,7 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
     {
         //Data
         $productData = $this->loadData('dynamic_bundle_required');
-        $productData['bundle_items_data']['item_1'] = $this->loadData('bundle_item_1',
+        $productData['bundle_items_data']['item_1'] = $this->loadData('bundle_item_2',
                 array('bundle_items_default_title' => '%noValue%'));
         //Steps
         $this->productHelper()->createProduct($productData, 'bundle');
@@ -547,7 +547,7 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
     {
         //Data
         $productData = $this->loadData('dynamic_bundle_required');
-        $productData['bundle_items_data']['item_1'] = $this->loadData('bundle_item_1',
+        $productData['bundle_items_data']['item_1'] = $this->loadData('bundle_item_2',
                 array('bundle_items_position' => $invalidPosition));
         //Steps
         $this->productHelper()->createProduct($productData, 'bundle');
@@ -583,7 +583,7 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
         //Data
         $simpleData = $this->loadData('simple_product_required');
         $bundleData = $this->loadData($dataBundleType);
-        $bundleData['bundle_items_data']['item_1'] = $this->loadData('bundle_item_1',
+        $bundleData['bundle_items_data']['item_1'] = $this->loadData('bundle_item_2',
                 array('bundle_items_search_sku' => $simpleData['general_sku']));
         $productSearch = $this->loadData('product_search', array('product_sku' => $bundleData['general_sku']));
         //Steps
