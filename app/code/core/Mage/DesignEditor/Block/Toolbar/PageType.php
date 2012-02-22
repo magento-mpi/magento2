@@ -49,9 +49,7 @@ class Mage_DesignEditor_Block_Toolbar_PageType extends Mage_Core_Block_Template
      */
     public function renderPageTypes()
     {
-        return $this->_renderPageTypes(
-            $this->getLayout()->getPageTypesHierarchy()
-        );
+        return $this->_renderPageTypes($this->getLayout()->getUpdate()->getPageTypesHierarchy());
     }
 
     /**
@@ -63,9 +61,9 @@ class Mage_DesignEditor_Block_Toolbar_PageType extends Mage_Core_Block_Template
     {
         if ($this->_selectedPageType === null) {
             $this->_selectedPageType = false;
-            $pageTypes = $this->getLayout()->getPageTypesFlat();
-            foreach (array_reverse($this->getLayout()->getUpdate()->getPageHandles()) as $pageHandle) {
-                if (array_key_exists($pageHandle, $pageTypes)) {
+            $layoutUpdate = $this->getLayout()->getUpdate();
+            foreach (array_reverse($layoutUpdate->getPageHandles()) as $pageHandle) {
+                if ($layoutUpdate->pageTypeExists($pageHandle)) {
                     $this->_selectedPageType = $pageHandle;
                     break;
                 }

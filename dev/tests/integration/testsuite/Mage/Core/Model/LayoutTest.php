@@ -32,6 +32,24 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Retrieve new layout update model instance with XML data from a fixture file
+     *
+     * @param string $layoutUpdatesFile
+     * @param PHPUnit_Framework_TestCase $testCase
+     * @return Mage_Core_Model_Layout_Update|PHPUnit_Framework_MockObject_MockObject
+     */
+    public static function getLayoutUpdateFromFixture($layoutUpdatesFile, PHPUnit_Framework_TestCase $testCase)
+    {
+        $layoutUpdate = $testCase->getMock('Mage_Core_Model_Layout_Update', array('getFileLayoutUpdatesXml'));
+        $layoutUpdatesXml = simplexml_load_file($layoutUpdatesFile, $layoutUpdate->getElementClass());
+        $layoutUpdate->expects(self::any())
+            ->method('getFileLayoutUpdatesXml')
+            ->will(self::returnValue($layoutUpdatesXml))
+        ;
+        return $layoutUpdate;
+    }
+
+    /**
      * Retrieve new layout model instance with layout updates from a fixture file
      *
      * @param string $layoutUpdatesFile
@@ -40,18 +58,12 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
      */
     public static function getLayoutFromFixture($layoutUpdatesFile, PHPUnit_Framework_TestCase $testCase)
     {
-        $layoutUpdate = $testCase->getMock('Mage_Core_Model_Layout_Update', array('getFileLayoutUpdatesXml'));
-        $layoutUpdatesXml = simplexml_load_file($layoutUpdatesFile, $layoutUpdate->getElementClass());
-        $layoutUpdate->expects(self::any())
-            ->method('getFileLayoutUpdatesXml')
-            ->will(self::returnValue($layoutUpdatesXml))
-        ;
-        $model = $testCase->getMock('Mage_Core_Model_Layout', array('getUpdate'));
-        $model->expects(self::any())
+        $layout = $testCase->getMock('Mage_Core_Model_Layout', array('getUpdate'));
+        $layout->expects(self::any())
             ->method('getUpdate')
-            ->will(self::returnValue($layoutUpdate))
+            ->will(self::returnValue(self::getLayoutUpdateFromFixture($layoutUpdatesFile, $testCase)))
         ;
-        return $model;
+        return $layout;
     }
 
     protected function setUp()
@@ -265,21 +277,5 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
             ),
             array($block, 'core'),
         );
-    }
-
-    public function testGetPageTypesHierarchy()
-    {
-        $model = self::getLayoutFromFixture(__DIR__ . '/Layout/_files/_page_types.xml', $this);
-        $expected = require(__DIR__ . '/Layout/_files/_page_types_hierarchy.php');
-        $actual = $model->getPageTypesHierarchy();
-        $this->assertEquals($expected, $actual);
-    }
-
-    public function testGetPageTypesFlat()
-    {
-        $model = self::getLayoutFromFixture(__DIR__ . '/Layout/_files/_page_types.xml', $this);
-        $expected = require(__DIR__ . '/Layout/_files/_page_types_flat.php');
-        $actual = $model->getPageTypesFlat();
-        $this->assertEquals($expected, $actual);
     }
 }

@@ -71,6 +71,13 @@ class Mage_Core_Model_Layout_Update
     protected $_subst = array();
 
     /**
+     * In-memory cache for the page types flat list
+     *
+     * @var array
+     */
+    protected $_pageTypesFlat;
+
+    /**
      * Class constructor
      */
     public function __construct()
@@ -213,20 +220,143 @@ class Mage_Core_Model_Layout_Update
     }
 
     /**
-     * Recursively get list of page layout handles up to the tree
+     * Retrieve the page layout handle along with all parent handles ordered from parent to child
      *
-     * @param $pageHandle
+     * @param string $pageHandle
      * @return array
      */
     protected function _getPageLayoutHandles($pageHandle)
     {
-        $handles = array();
-        $layout = $this->getPackageLayout();
-        while ($pageHandle && ($pageLayout = $layout->xpath('/layouts/' . $pageHandle . '[@type="page"]'))) {
-            array_unshift($handles, $pageHandle);
-            $pageHandle = (string) $pageLayout[0]->attributes()->parent;
+        $result = array();
+        while ($this->pageTypeExists($pageHandle)) {
+            array_unshift($result, $pageHandle);
+            $pageHandle = $this->getPageTypeParent($pageHandle);
         }
-        return $handles;
+        return $result;
+    }
+
+    /**
+     * Retrieve all page types in the system represented as a flat list
+     *
+     * Result format:
+     * array(
+     *     'page_type_1' => array(
+     *         'name'   => 'page_type_1',
+     *         'label'  => 'Page Type 1',
+     *         'parent' => null,
+     *     ),
+     *     'page_type_2' => array(
+     *         'name'   => 'page_type_2',
+     *         'label'  => 'Page Type 2',
+     *         'parent' => 'page_type_1',
+     *     ),
+     *     // ...
+     * )
+     *
+     * @return array
+     */
+    protected function _getPageTypesFlat()
+    {
+        if ($this->_pageTypesFlat === null) {
+            $this->_pageTypesFlat = array();
+            $pageTypeNodes = $this->getPackageLayout()->xpath('/layouts/*[@type="page"]') ?: array();
+            /** @var $pageTypeNode Varien_Simplexml_Element */
+            foreach ($pageTypeNodes as $pageTypeNode) {
+                $pageTypeName = $pageTypeNode->getName();
+                $this->_pageTypesFlat[$pageTypeName] = array(
+                    'name'   => $pageTypeName,
+                    'label'  => (string)$pageTypeNode->label,
+                    'parent' => $pageTypeNode->getAttribute('parent'),
+                );
+            }
+        }
+        return $this->_pageTypesFlat;
+    }
+
+    /**
+     * Retrieve recursively all children of a page type
+     *
+     * @param string $parentName
+     * @return array
+     */
+    protected function _getPageTypeChildren($parentName)
+    {
+        $result = array();
+        foreach ($this->_getPageTypesFlat() as $pageType) {
+            $pageTypeName = $pageType['name'];
+            if ($pageType['parent'] === $parentName) {
+                $result[$pageTypeName] = array(
+                    'name'     => $pageTypeName,
+                    'label'    => $pageType['label'],
+                    'children' => $this->_getPageTypeChildren($pageTypeName),
+                );
+            }
+        }
+        return $result;
+    }
+
+    /**
+     * Retrieve all page types in the system represented as a hierarchy
+     *
+     * Result format:
+     * array(
+     *     'page_type_1' => array(
+     *         'name'     => 'page_type_1',
+     *         'label'    => 'Page Type 1',
+     *         'children' => array(
+     *             'page_type_2' => array(
+     *                 'name'     => 'page_type_2',
+     *                 'label'    => 'Page Type 2',
+     *                 'children' => array(
+     *                     // ...
+     *                 )
+     *             ),
+     *             // ...
+     *         )
+     *     ),
+     *     // ...
+     * )
+     *
+     * @return array
+     */
+    public function getPageTypesHierarchy()
+    {
+        return $this->_getPageTypeChildren(null);
+    }
+
+    /**
+     * Whether a page type is declared in the system or not
+     *
+     * @param string $pageType
+     * @return bool
+     */
+    public function pageTypeExists($pageType)
+    {
+        return ($pageType && array_key_exists($pageType, $this->_getPageTypesFlat()));
+    }
+
+    /**
+     * Retrieve the label for a page type
+     *
+     * @param string $pageType
+     * @return string|bool
+     */
+    public function getPageTypeLabel($pageType)
+    {
+        $pageTypes = $this->_getPageTypesFlat();
+        return $this->pageTypeExists($pageType) ? $pageTypes[$pageType]['label'] : false;
+    }
+
+    /**
+     * Retrieve the name of the parent for a page type
+     *
+     * @param string $pageType
+     * @return string|null|false
+     */
+    public function getPageTypeParent($pageType)
+    {
+        $pageTypes = $this->_getPageTypesFlat();
+        return $this->pageTypeExists($pageType) ? $pageTypes[$pageType]['parent'] : false;
     }
 
     /**

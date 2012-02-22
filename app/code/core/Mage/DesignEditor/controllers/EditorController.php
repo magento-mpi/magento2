@@ -58,7 +58,7 @@ class Mage_DesignEditor_EditorController extends Mage_Core_Controller_Front_Acti
             }
 
             // whether such page type exists
-            if (!array_key_exists($pageType, $this->getLayout()->getPageTypesFlat())) {
+            if (!$this->getLayout()->getUpdate()->pageTypeExists($pageType)) {
                 Mage::throwException($this->__("Specified page type doesn't exist: '{$pageType}'."));
             }
 
@@ -70,6 +70,10 @@ class Mage_DesignEditor_EditorController extends Mage_Core_Controller_Front_Acti
             $blockPageTypes = $this->getLayout()->getBlock('design_editor_toolbar_page_types');
             if ($blockPageTypes) {
                 $blockPageTypes->setSelectedPageType($pageType);
+            }
+            $blockBreadcrumbs = $this->getLayout()->getBlock('design_editor_toolbar_breadcrumbs');
+            if ($blockBreadcrumbs) {
+                $blockBreadcrumbs->setOmitCurrentPage(true);
             }
 
             $this->renderLayout();

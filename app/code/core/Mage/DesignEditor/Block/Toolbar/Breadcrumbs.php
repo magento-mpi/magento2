@@ -30,22 +30,21 @@ class Mage_DesignEditor_Block_Toolbar_Breadcrumbs extends Mage_Core_Block_Templa
     public function getBreadcrumbs()
     {
         $result = array();
-        $pageTypes = $this->getLayout()->getPageTypesFlat();
-        foreach ($this->getLayout()->getUpdate()->getPageHandles() as $pageHandle) {
-            if (array_key_exists($pageHandle, $pageTypes)) {
-                $pageTypeLabel = $pageTypes[$pageHandle]['label'];
+        $layoutUpdate = $this->getLayout()->getUpdate();
+        foreach ($layoutUpdate->getPageHandles() as $pageHandle) {
+            if ($layoutUpdate->pageTypeExists($pageHandle)) {
                 $result[] = array(
-                    'label' => $this->escapeHtml($pageTypeLabel),
+                    'label' => $this->escapeHtml($layoutUpdate->getPageTypeLabel($pageHandle)),
                     'url'   => $this->getUrl('design/editor/page', array('page_type' => $pageHandle))
                 );
             }
         }
         /** @var $blockHead Mage_Page_Block_Html_Head */
         $blockHead = $this->getLayout()->getBlock('head');
-        if ($blockHead && $blockHead->getTitle() != $blockHead->getDefaultTitle()) {
+        if ($blockHead && !$this->getOmitCurrentPage()) {
             $result[] = array(
                 'label' => $blockHead->getTitle(),
-                'url'   => '',
+                'url'   => Mage::app()->getFrontController()->getRequest()->getRequestUri(),
             );
         }
         return $result;
