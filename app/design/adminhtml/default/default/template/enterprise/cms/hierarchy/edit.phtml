@@ -799,7 +799,9 @@
                 if ($(f) != undefined) {
                     var value = node.attributes[f] != undefined ? node.attributes[f] : '';
                     if ($(f).tagName.toLowerCase() == 'select') {
-                        value == '' ? $(f).selectedIndex = 0 : '';
+                        if (value == '') {
+                            $(f).selectedIndex = 0;
+                        }
                         $(f).value = value;
                     } else {
                         $(f).value = (value == '0' ? '' : value);
