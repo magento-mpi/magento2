@@ -128,7 +128,7 @@ class Api2_CatalogInventory_Stock_Items_AdminTest extends Magento_Test_Webservic
             $updatedStockItemData = $updatedStockItem->getData();
             $dataForUpdateSingleItem = $dataForUpdate[$key];
             foreach ($dataForUpdateSingleItem as $field => $value) {
-                $this->assertEquals($value, $dataForUpdateSingleItem[$field]);
+                $this->assertEquals($value, $updatedStockItemData[$field]);
             }
         }
     }
@@ -191,7 +191,7 @@ class Api2_CatalogInventory_Stock_Items_AdminTest extends Magento_Test_Webservic
         $stockItem = $this->getFixture('stockItem');
         $itemId = $stockItem->getId();
 
-        $singleItemDataForUpdate['item_id'] = NULL; // for this test item_id is NULL also
+        $singleItemDataForUpdate['item_id'] = NULL; // for this case item_id is NULL also
         $singleItemDataForUpdate = array_merge(
             $singleItemDataForUpdate,
             require dirname(__FILE__) . '/../../_fixtures/stock_item_data_emptyrequired.php'
