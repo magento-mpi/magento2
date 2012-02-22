@@ -310,8 +310,7 @@ class Mage_Wishlist_Helper_Data extends Mage_Core_Helper_Abstract
         }
 
         if ($itemId) {
-            $params['id'] = $itemId;
-            return $this->_getUrlStore($item)->getUrl('wishlist/index/updateItemOptions', $params);
+            return $this->_getUrl('wishlist/index/updateItemOptions', array('id' => $itemId));
         }
 
         return false;
