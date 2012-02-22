@@ -268,6 +268,28 @@ class Mage_Api2_Model_Config extends Varien_Simplexml_Config
     }
 
     /**
+     * Get excluded attributes of API resource
+     *
+     * @param string $resource
+     * @param string $userType
+     * @param string $operation
+     * @return array
+     */
+    public function getResourceExcludedAttributes($resource, $userType, $operation)
+    {
+        $node = $this->getNode('resources/' . $resource . '/exclude_attributes/' . $userType . '/' . $operation);
+
+        $attributes = array();
+        if ($node) {
+            foreach ($node->children() as $attribute=>$useless) {
+                $attributes[] = $attribute;
+            }
+        }
+
+        return $attributes;
+    }
+
+    /**
      * Retrieve resource working model
      *
      * @param string $node

@@ -439,33 +439,13 @@ class Mage_Api2_Model_Acl_Global_Rule_Tree extends Mage_Core_Helper_Abstract
      */
     protected function _addAttribute(&$item, Varien_Simplexml_Element $node, $name, $privilege)
     {
-        $modelName = (string) $node->model;
-        if (!$modelName) {
-            return false;
-        }
-
-        try {
-            /** @var $model Mage_Api2_Model_Resource_Instance */
-            $model = Mage::getModel($modelName);
-        } catch (Exception $e) {
-            //skip if model not found
-            return false;
-        }
-        if (!$model) {
-            return false;
-        }
-
-        $model->setResourceType($name);
-        $possibleList = $model->getAvailableAttributes();
-
-        if (!$possibleList) {
-            return null;
-        }
-
         $cnt = 0;
-        foreach ($possibleList as $key => $title) {
-            $checked = !empty($this->_resourcesPermissions[$name]['operations'][$privilege]['attributes'][$key]);
-            $item['checked'] = $checked ? $checked : $item['checked'];
+        foreach ($this->_resourcesPermissions[$name]['operations'][$privilege]['attributes'] as $key=>$attribute) {
+            $title = $attribute['title'];
+            $status = $attribute['status'];
+
+            $checked = $status==Mage_Api2_Model_Acl_Global_Rule_Permission::TYPE_ALLOW;
+            $item['checked'] = $checked ?$checked   :$item['checked'];
             $item[self::NAME_CHILDREN][] = array(
                 'id'   => self::NAME_ATTRIBUTE . self::ID_SEPARATOR . $name
                         . self::ID_SEPARATOR . $privilege . self::ID_SEPARATOR . $key,
@@ -474,6 +454,7 @@ class Mage_Api2_Model_Acl_Global_Rule_Tree extends Mage_Core_Helper_Abstract
                 'sort_order' => ++$cnt,
             );
         }
+
         return true;
     }
 

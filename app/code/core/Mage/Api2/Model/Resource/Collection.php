@@ -201,11 +201,43 @@ abstract class Mage_Api2_Model_Resource_Collection extends Mage_Api2_Model_Resou
      */
     public function getAvailableAttributesFromConfig()
     {
-        $instanceResource = $this->getConfig()->getResourceInstance($this->getResourceType());
+        $instanceResourceType = $this->getInstanceResourceType();
 
-        if (!$instanceResource) {
+        if (!$instanceResourceType) {
             throw new Exception(sprintf("Can not find instance node name for resource '%s'", $this->getResourceType()));
         }
-        return $this->getConfig()->getResourceAttributes($instanceResource);
+        return $this->getConfig()->getResourceAttributes($instanceResourceType);
+    }
+
+    /**
+     * Get instance class for this collection
+     *
+     * @return string
+     */
+    public function getInstanceResourceType()
+    {
+        return $this->getConfig()->getResourceInstance($this->getResourceType());
+    }
+
+    /**
+     * Get instance object for this collection
+     *
+     * @throws Exception
+     * @return Mage_Api2_Model_Resource_Instance
+     */
+    public function getResourceInstance()
+    {
+        $instanceClassPath = $this->getConfig()->getResourceModel($this->getInstanceResourceType());
+
+        /** @var $instance Mage_Api2_Model_Resource_Instance */
+        $instance = Mage::getModel($instanceClassPath);
+
+        if (!$instance) {
+            throw new Exception('Invalid instance object.');
+        }
+
+        $instance->setResourceType($this->getInstanceResourceType());
+
+        return $instance;
     }
 }

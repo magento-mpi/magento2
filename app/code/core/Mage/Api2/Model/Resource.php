@@ -340,11 +340,31 @@ abstract class Mage_Api2_Model_Resource
      *
      * This method used for single API resource and for API resource collection.
      *
+     * @param string $userType
+     * @param string $operation
      * @return array
      */
-    public function getAvailableAttributes()
+    public function getAvailableAttributes($userType=null, $operation=null)
     {
         return $this->getAvailableAttributesFromConfig();
+    }
+
+    /**
+     * Get excluded attributes for user type
+     *
+     * @param string $userType
+     * @param string $operation
+     * @return array
+     */
+    public function getExcludedAttributes($userType, $operation)
+    {
+        $excluded = $this->getConfig()->getResourceExcludedAttributes(
+            $this->getResourceType(),
+            $userType,
+            $operation
+        );
+
+        return $excluded;
     }
 
     /**
