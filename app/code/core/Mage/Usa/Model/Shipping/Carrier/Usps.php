@@ -82,7 +82,7 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
      * Destination Zip Code required flag
      *
      * @var boolean
-     * @deprecated since 1.7 functionality implemented in Mage_Usa_Model_Shipping_Carrier_Abstract
+     * @deprecated since 1.7.0 functionality implemented in Mage_Usa_Model_Shipping_Carrier_Abstract
      */
     protected $_isZipCodeRequired;
 
@@ -120,30 +120,6 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
      * @var array
      */
     protected $_customizableContainerTypes = array('VARIABLE', 'RECTANGULAR', 'NONRECTANGULAR');
-
-    /**
-     * Check is Zip Code Required
-     *
-     * @param Mage_Shipping_Model_Rate_Request|null $request
-     * @return boolean
-     * @deprecated since 1.7 functionality implemented in Mage_Usa_Model_Shipping_Carrier_Abstract
-     */
-    public function isZipCodeRequired(Mage_Shipping_Model_Rate_Request $request = null)
-    {
-        return parent::isZipCodeRequired($request);
-    }
-
-    /**
-     * Processing additional validation to check is carrier applicable.
-     *
-     * @param Mage_Shipping_Model_Rate_Request $request
-     * @return Mage_Shipping_Model_Carrier_Abstract|Mage_Shipping_Model_Rate_Result_Error|boolean
-     * @deprecated since 1.7 functionality implemented in Mage_Usa_Model_Shipping_Carrier_Abstract
-     */
-    public function proccessAdditionalValidation(Mage_Shipping_Model_Rate_Request $request)
-    {
-        return parent::proccessAdditionalValidation($request);
-    }
 
     /**
      * Collect and get rates
