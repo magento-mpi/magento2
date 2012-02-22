@@ -39,6 +39,43 @@ class Mage_Catalog_Model_Api2_Products_Rest_Admin_V1 extends Mage_Catalog_Model_
     const MAX_QTY_VALUE = 99999999.9999;
 
     /**
+     * Create product
+     *
+     * @param array $data
+     * @return string
+     */
+    protected function _create(array $data)
+    {
+        $this->_validate($data);
+
+        $type = $data['type'];
+        $set = $data['set'];
+        $sku = $data['sku'];
+        $productData = array_diff_key($data, array_flip(array('type', 'set', 'sku')));
+
+        $store = isset($data['store']) ? $data['store'] : '';
+        $storeId = Mage::app()->getStore($store)->getId();
+        /** @var $product Mage_Catalog_Model_Product */
+        $product = Mage::getModel('catalog/product')
+            ->setStoreId($storeId)
+            ->setAttributeSetId($set)
+            ->setTypeId($type)
+            ->setSku($sku);
+
+        $this->_prepareDataForSave($product, $productData);
+        try {
+            $product->save();
+            $this->_multicall($product->getId());
+        } catch (Mage_Core_Exception $e) {
+            $this->_critical($e->getMessage(), Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR);
+        } catch (Exception $e) {
+            $this->_critical(self::RESOURCE_UNKNOWN_ERROR);
+        }
+
+        return $this->_getLocation($product);
+    }
+
+    /**
      * Pre-validate request data
      *
      * @param array $data
@@ -149,6 +186,18 @@ class Mage_Catalog_Model_Api2_Products_Rest_Admin_V1 extends Mage_Catalog_Model_
     }
 
     /**
+     * Validate SKU
+     *
+     * @param string $sku
+     */
+    protected function _validateSku($sku)
+    {
+        if (!Zend_Validate::is($sku, 'StringLength', array('min' => 0, 'max' => 64))) {
+            $this->_error('The SKU length should be 64 characters maximum.', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+        }
+    }
+
+    /**
      * Validate Group Price complex attribute
      *
      * @param array $groupPrices
@@ -157,9 +206,9 @@ class Mage_Catalog_Model_Api2_Products_Rest_Admin_V1 extends Mage_Catalog_Model_
     {
         foreach ($groupPrices as $index => $groupPrice) {
             $fieldSet = 'group_price:' . $index;
-            $this->_validateWebsiteId($fieldSet, $groupPrice);
-            $this->_validateCustomerGroup($fieldSet, $groupPrice);
-            $this->_validatePositiveNumber($groupPrice, 'price', $fieldSet, true);
+            $this->_validateWebsiteId($groupPrice, $fieldSet);
+            $this->_validateCustomerGroup($groupPrice, $fieldSet);
+            $this->_validatePositiveNumber($groupPrice, $fieldSet, 'price', true, true);
         }
     }
 
@@ -172,34 +221,42 @@ class Mage_Catalog_Model_Api2_Products_Rest_Admin_V1 extends Mage_Catalog_Model_
     {
         foreach ($tierPrices as $index => $tierPrice) {
             $fieldSet = 'tier_price:' . $index;
-            $this->_validateWebsiteId($fieldSet, $tierPrice);
-            $this->_validateCustomerGroup($fieldSet, $tierPrice);
-            $this->_validatePositiveNumber($tierPrice, 'price_qty', $fieldSet);
-            $this->_validatePositiveNumber($tierPrice, 'price', $fieldSet);
+            $this->_validateWebsiteId($tierPrice, $fieldSet);
+            $this->_validateCustomerGroup($tierPrice, $fieldSet);
+            $this->_validatePositiveNumber($tierPrice, $fieldSet, 'price_qty');
+            $this->_validatePositiveNumber($tierPrice, $fieldSet, 'price');
         }
     }
 
     /**
-     * Validate field to be positive number
+     * Validate product inventory data
      *
      * @param array $data
-     * @param string $field
-     * @param string $fieldSet
-     * @param bool $equalsZero
      */
-    protected function _validatePositiveNumber($data, $field, $fieldSet, $equalsZero = false) {
-        if (!isset($data[$field])) {
-            $this->_error(sprintf('The "%s" value in the "%s" set is a required field.',$field, $fieldSet),
-                Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
-        } else {
-            $condition = $equalsZero ? $data[$field] < 0 : $data[$field] <= 0;
-            if (!is_numeric($data[$field]) || $condition) {
-                $message = $equalsZero
-                    ? 'Please enter a number 0 or greater in the "%s" field in the "%s" set.'
-                    : 'Please enter a number greater than 0 in the "%s" field in the "%s" set.';
-                $this->_error(sprintf($message, $field, $fieldSet), Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+    protected function _validateStockData($data)
+    {
+        $fieldSet = 'stock_data';
+        $this->_validateBoolean($data, $fieldSet, 'manage_stock');
+        if (isset($data['manage_stock']) && (bool)$data['manage_stock'] == true) {
+            $this->_validateNumeric($data, $fieldSet, 'qty');
+            $this->_validateNumeric($data, $fieldSet, 'notify_stock_qty');
+            $this->_validatePositiveNumber($data, $fieldSet, 'min_qty', false, true);
+            $this->_validateBoolean($data, $fieldSet, 'is_qty_decimal');
+            if (isset($data['is_qty_decimal']) && (bool) $data['is_qty_decimal'] == true) {
+                $this->_validateBoolean($data, $fieldSet, 'is_decimal_divided');
+            }
+            $this->_validateBoolean($data, $fieldSet, 'enable_qty_increments');
+            if (isset($data['enable_qty_increments']) && (bool) $data['enable_qty_increments'] == true) {
+                $this->_validatePositiveInteger($data, $fieldSet, 'qty_increments');
+            }
+            if (Mage::helper('catalog')->isModuleEnabled('Mage_CatalogInventory')) {
+                $this->_validateSource($data, $fieldSet, 'backorders', 'cataloginventory/source_backorders');
+                $this->_validateSource($data, $fieldSet, 'is_in_stock', 'cataloginventory/source_stock');
             }
         }
+
+        $this->_validatePositiveInteger($data, $fieldSet, 'min_sale_qty');
+        $this->_validatePositiveInteger($data, $fieldSet, 'max_sale_qty');
     }
 
     /**
@@ -208,7 +265,7 @@ class Mage_Catalog_Model_Api2_Products_Rest_Admin_V1 extends Mage_Catalog_Model_
      * @param string $fieldSet
      * @param array $data
      */
-    protected function _validateWebsiteId($fieldSet, $data)
+    protected function _validateWebsiteId($data, $fieldSet)
     {
         if (!isset($data['website_id'])) {
             $this->_error(sprintf('The "website_id" value in the "%s" set is a required field.', $fieldSet),
@@ -228,7 +285,7 @@ class Mage_Catalog_Model_Api2_Products_Rest_Admin_V1 extends Mage_Catalog_Model_
      * @param string $fieldSet
      * @param array $data
      */
-    protected function _validateCustomerGroup($fieldSet, $data)
+    protected function _validateCustomerGroup($data, $fieldSet)
     {
         if (!isset($data['cust_group'])) {
             $this->_error(sprintf('The "cust_group" value in the "%s" set is a required field.', $fieldSet),
@@ -243,30 +300,114 @@ class Mage_Catalog_Model_Api2_Products_Rest_Admin_V1 extends Mage_Catalog_Model_
     }
 
     /**
-     * Validate SKU
+     * Validate field to be positive number
      *
-     * @param string $sku
+     * @param array $data
+     * @param string $fieldSet
+     * @param string $field
+     * @param bool $required
+     * @param bool $equalsZero
      */
-    protected function _validateSku($sku)
-    {
-        if (!Zend_Validate::is($sku, 'StringLength', array('min' => 0, 'max' => 64))) {
-            $this->_error('The SKU length should be 64 characters maximum.', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+    protected function _validatePositiveNumber($data, $fieldSet, $field, $required = true, $equalsZero = false) {
+        if (!isset($data[$field]) && $required) {
+            $this->_error(sprintf('The "%s" value in the "%s" set is a required field.',$field, $fieldSet),
+                Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+        }
+
+        if (isset($data[$field])) {
+            $condition = $equalsZero ? $data[$field] < 0 : $data[$field] <= 0;
+            if (!is_numeric($data[$field]) || $condition) {
+                $message = $equalsZero
+                    ? 'Please enter a number 0 or greater in the "%s" field in the "%s" set.'
+                    : 'Please enter a number greater than 0 in the "%s" field in the "%s" set.';
+                $this->_error(sprintf($message, $field, $fieldSet), Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+            }
         }
     }
 
     /**
-     * Validate product inventory data
+     * Validate field to be a positive integer
      *
      * @param array $data
+     * @param string $fieldSet
+     * @param string $field
+     * @param bool $required
      */
-    protected function _validateStockData($data)
+    protected function _validatePositiveInteger($data, $fieldSet, $field, $required = false)
     {
-        if (isset($data['manage_stock']) && (bool)$data['manage_stock'] == true) {
-            if (!isset($data['qty'])) {
-                $this->_error('Missing "stock_data:qty" in request.', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+        if (!isset($data[$field]) && $required) {
+            $this->_error(sprintf('The "%s" value in the "%s" set is a required field.',$field, $fieldSet),
+                Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+        }
+
+        if (isset($data[$field]) && (!is_int($data[$field]) || $data[$field] < 0)) {
+            $this->_error(sprintf('Please use numbers only in the "%s" field in the "%s" set. ' .
+                'Please avoid spaces or other characters such as dots or commas.', $field, $fieldSet),
+                Mage_Api2_Model_Server::HTTP_BAD_REQUEST
+            );
+        }
+    }
+
+    /**
+     * Validate field to be a number
+     *
+     * @param array $data
+     * @param string $fieldSet
+     * @param string $field
+     * @param bool $required
+     */
+    protected function _validateNumeric($data, $fieldSet, $field, $required = false)
+    {
+        if (!isset($data[$field]) && $required) {
+            $this->_error(sprintf('The "%s" value in the "%s" set is a required field.',$field, $fieldSet),
+                Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+        }
+
+        if (isset($data[$field]) && !is_numeric($data[$field])) {
+            $this->_error(
+                sprintf('Please enter a valid number in the "%s" field in the "%s" set.', $field, $fieldSet),
+                Mage_Api2_Model_Server::HTTP_BAD_REQUEST
+            );
+        }
+    }
+
+    /**
+     * Validate dropdown fields value
+     *
+     * @param array $data
+     * @param string $fieldSet
+     * @param string $field
+     * @param string $sourceModelName
+     */
+    protected function _validateSource($data, $fieldSet, $field, $sourceModelName)
+    {
+        if (isset($data[$field])) {
+            $sourceModel = Mage::getSingleton($sourceModelName);
+            if ($sourceModel) {
+                $allowedValues = $this->_getAttributeAllowedValues($sourceModel->toOptionArray());
+                if (!in_array($data[$field], $allowedValues)) {
+                    $this->_error(sprintf('Invalid "%s" value in the "%s" set.', $field, $fieldSet),
+                        Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+                }
             }
-            if (isset($data['qty']) && empty($data['qty'])) {
-                $this->_error('Empty value for "stock_data:qty" in request.', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+        }
+    }
+
+    /**
+     * Validate bolean fields value
+     *
+     * @param array $data
+     * @param string $fieldSet
+     * @param string $field
+     */
+    protected function _validateBoolean($data, $fieldSet, $field)
+    {
+        if (isset($data[$field])) {
+            $allowedValues = $this->_getAttributeAllowedValues(
+                Mage::getSingleton('eav/entity_attribute_source_boolean')->getAllOptions());
+            if (!in_array($data[$field], $allowedValues)) {
+                $this->_error(sprintf('Invalid "%s" value in the "%s" set.', $field, $fieldSet),
+                    Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
             }
         }
     }
@@ -292,43 +433,6 @@ class Mage_Catalog_Model_Api2_Products_Rest_Admin_V1 extends Mage_Catalog_Model_
         }
 
         return $values;
-    }
-
-    /**
-     * Create product
-     *
-     * @param array $data
-     * @return string
-     */
-    protected function _create(array $data)
-    {
-        $this->_validate($data);
-
-        $type = $data['type'];
-        $set = $data['set'];
-        $sku = $data['sku'];
-        $productData = array_diff_key($data, array_flip(array('type', 'set', 'sku')));
-
-        $store = isset($data['store']) ? $data['store'] : '';
-        $storeId = Mage::app()->getStore($store)->getId();
-        /** @var $product Mage_Catalog_Model_Product */
-        $product = Mage::getModel('catalog/product')
-            ->setStoreId($storeId)
-            ->setAttributeSetId($set)
-            ->setTypeId($type)
-            ->setSku($sku);
-
-        $this->_prepareDataForSave($product, $productData);
-        try {
-            $product->save();
-            $this->_multicall($product->getId());
-        } catch (Mage_Core_Exception $e) {
-            $this->_critical($e->getMessage(), Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR);
-        } catch (Exception $e) {
-            $this->_critical(self::RESOURCE_UNKNOWN_ERROR);
-        }
-
-        return $this->_getLocation($product);
     }
 
     /**

@@ -146,6 +146,18 @@ class Api2_Catalog_Products_AdminTest extends Magento_Test_Webservice_Rest_Admin
             'The "price_qty" value in the "tier_price:7" set is a required field.',
             'Please enter a number greater than 0 in the "price" field in the "tier_price:7" set.',
             'Please enter a number greater than 0 in the "price" field in the "tier_price:8" set.',
+            'Please enter a valid number in the "qty" field in the "stock_data" set.',
+            'Please enter a valid number in the "notify_stock_qty" field in the "stock_data" set.',
+            'Please enter a number 0 or greater in the "min_qty" field in the "stock_data" set.',
+            'Invalid "is_decimal_divided" value in the "stock_data" set.',
+            'Please use numbers only in the "min_sale_qty" field in the "stock_data" set. '
+            . 'Please avoid spaces or other characters such as dots or commas.',
+            'Please use numbers only in the "max_sale_qty" field in the "stock_data" set. '
+            . 'Please avoid spaces or other characters such as dots or commas.',
+            'Please use numbers only in the "qty_increments" field in the "stock_data" set. '
+            . 'Please avoid spaces or other characters such as dots or commas.',
+            'Invalid "backorders" value in the "stock_data" set.',
+            'Invalid "is_in_stock" value in the "stock_data" set.',
             'Resource data pre-validation error.',
         );
         $invalidValueAttributes = array('status', 'visibility', 'msrp_enabled', 'msrp_display_actual_price_type',
@@ -188,7 +200,7 @@ class Api2_Catalog_Products_AdminTest extends Magento_Test_Webservice_Rest_Admin
         unset($productData['stock_data']);
         $expectedErrors = array(
             'Resource data pre-validation error.',
-            'Empty value for "stock_data:qty" in request.'
+            'Please enter a valid number in the "qty" field in the "stock_data" set.'
         );
         foreach ($productData as $key => $value) {
             $expectedErrors[] = sprintf('Empty value for "%s" in request.', $key);
