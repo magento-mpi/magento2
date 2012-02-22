@@ -71,14 +71,16 @@ class Mage_Api2_Model_Response extends Zend_Controller_Response_Http
      * @param string $code
      * @param string $itemId
      * @param string $type
+     * return Mage_Api2_Model_Response
      */
     public function addMessage($message, $code, $itemId = null, $type = self::MESSAGE_TYPE_ERROR)
     {
         $message = array('message' => $message, 'code' => $code);
-        if ($itemId) {
+        if (null !== $itemId) {
             $message['item_id'] = $itemId;
         }
         $this->_messages[$type][] = $message;
+        return $this;
     }
 
     /**
@@ -103,9 +105,12 @@ class Mage_Api2_Model_Response extends Zend_Controller_Response_Http
 
     /**
      * Clear messages
+     *
+     * return Mage_Api2_Model_Response
      */
     public function clearMessages()
     {
         $this->_messages = array();
+        return $this;
     }
 }

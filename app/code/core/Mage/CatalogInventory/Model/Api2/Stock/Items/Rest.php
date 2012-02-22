@@ -76,7 +76,7 @@ abstract class Mage_CatalogInventory_Model_Api2_Stock_Items_Rest extends Mage_Ca
     protected function _updateItem($data)
     {
         try {
-            $this->_validate($data, array('item_id'), array('product_id', 'stock_id'));
+            $this->_validate($data, array('item_id'), array('item_id', 'product_id', 'stock_id'));
 
             /* @var $stockItem Mage_CatalogInventory_Model_Stock_Item */
             $stockItem = $this->_loadStockItem($data['item_id']);
@@ -91,10 +91,18 @@ abstract class Mage_CatalogInventory_Model_Api2_Stock_Items_Rest extends Mage_Ca
         } catch (Mage_Api2_Exception $e) {
             // pre-validation errors are already added
             if ($e->getMessage() != self::RESOURCE_DATA_PRE_VALIDATION_ERROR) {
-                $this->_errorMessage($e->getMessage(), $e->getCode(), $data['item_id']);
+                $this->_errorMessage(
+                    $e->getMessage(),
+                    $e->getCode(),
+                    isset($data['item_id']) ? $data['item_id'] : null
+                );
             }
         } catch (Exception $e) {
-            $this->_errorMessage($e->getMessage(), Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR, $data['item_id']);
+            $this->_errorMessage(
+                $e->getMessage(),
+                Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR,
+                isset($data['item_id']) ? $data['item_id'] : null
+            );
         }
     }
 
@@ -116,7 +124,7 @@ abstract class Mage_CatalogInventory_Model_Api2_Stock_Items_Rest extends Mage_Ca
                 $this->_errorMessage(
                     sprintf('Missing "%s" in request.', $key),
                     Mage_Api2_Model_Server::HTTP_BAD_REQUEST,
-                    $data['item_id']
+                    isset($data['item_id']) ? $data['item_id'] : null
                 );
                 $isValid = false;
             }
@@ -127,7 +135,7 @@ abstract class Mage_CatalogInventory_Model_Api2_Stock_Items_Rest extends Mage_Ca
                 $this->_errorMessage(
                     sprintf('Empty value for "%s" in request.', $key),
                     Mage_Api2_Model_Server::HTTP_BAD_REQUEST,
-                    $data['item_id']
+                    isset($data['item_id']) ? $data['item_id'] : null
                 );
                 $isValid = false;
             }
