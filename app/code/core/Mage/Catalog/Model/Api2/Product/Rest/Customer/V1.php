@@ -72,8 +72,9 @@ class Mage_Catalog_Model_Api2_Product_Rest_Customer_V1 extends Mage_Catalog_Mode
 
         /** @var $taxHelper Mage_Tax_Helper_Data */
         $taxHelper = Mage::helper('tax');
-        $priceAfterTaxProcessing = $taxHelper->getPrice($product, $productPrice, null, $customer->getPrimaryShippingAddress(),
-            $customer->getPrimaryBillingAddress(), $customer->getTaxClassId(), $this->_getStore());
+        $priceAfterTaxProcessing = $taxHelper->getPrice($product, $productPrice, null,
+            $customer->getPrimaryShippingAddress(), $customer->getPrimaryBillingAddress(),
+            $customer->getTaxClassId(), $this->_getStore());
         $product->setPrice($priceAfterTaxProcessing);
     }
 
