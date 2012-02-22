@@ -105,6 +105,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     protected static $_messages = array();
 
     /**
+     * Additional params for navigation URL
+     * @var string
+     */
+    private $_urlPostfix = '';
+
+    /**
      * Type of uimap elements
      * @var string
      */
@@ -1129,6 +1135,15 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     #                                                                              #
     ################################################################################
     /**
+     * Set additional params for navigation
+     * @param string $params your params to add to URL (?paramName1=paramValue1&paramName2=paramValue2)
+     */
+    public function setUrlPostfix($params)
+    {
+        $this->_urlPostfix = $params;
+    }
+
+    /**
      * Navigates to the specified page in specified area.<br>
      * Page identifier must be described in the UIMap.
      *
@@ -1161,6 +1176,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         if ($clickXpath && $this->isElementPresent($clickXpath)) {
             $this->click($clickXpath);
             $this->waitForPageToLoad($this->_browserTimeoutPeriod);
+        } elseif (isset($this->_urlPostfix)) {
+            $this->open($this->_uimapHelper->getPageUrl($area, $page, $this->_paramsHelper) . $this->_urlPostfix);
         } else {
             $this->open($this->_uimapHelper->getPageUrl($area, $page, $this->_paramsHelper));
         }
@@ -1347,7 +1364,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     protected function _findCurrentPageFromUrl($url = null)
     {
         if (is_null($url)) {
-            $url = $this->getLocation();
+            $url = str_replace($this->_urlPostfix, '', $this->getLocation());
         }
         $areasConfig = $this->_configHelper->getConfigAreas();
         $mca = self::_getMcaFromCurrentUrl($areasConfig, $url);

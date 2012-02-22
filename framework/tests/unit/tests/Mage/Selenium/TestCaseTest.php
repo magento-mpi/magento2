@@ -87,23 +87,23 @@ class Mage_Selenium_TestCaseTest extends Mage_PHPUnit_TestCase
 
         $instance->addMessage('success', $successMessage);
         $this->assertEquals($instance->getParsedMessages(),
-            array('error' => array($errorMessage),
-                'success' => array($successMessage)));
+                array('error' => array($errorMessage),
+                      'success' => array($successMessage)));
         $this->assertEquals($instance->getParsedMessages('success'), array($successMessage));
 
         $instance->addMessage('validation', $validationMessage);
         $this->assertEquals($instance->getParsedMessages(),
-            array('error' => array($errorMessage),
-                'success' => array($successMessage),
-                'validation' => array($validationMessage)));
+                array('error' => array($errorMessage),
+                      'success' => array($successMessage),
+                      'validation' => array($validationMessage)));
         $this->assertEquals($instance->getParsedMessages('validation'), array($validationMessage));
 
         $instance->addMessage('verification', $verificationMessage);
         $this->assertEquals($instance->getParsedMessages(),
-            array('error' => array($errorMessage),
-                'success' => array($successMessage),
-                'validation' => array($validationMessage),
-                'verification' => array($verificationMessage)));
+                array('error' => array($errorMessage),
+                      'success' => array($successMessage),
+                      'validation' => array($validationMessage),
+                      'verification' => array($verificationMessage)));
         $this->assertEquals($instance->getParsedMessages('verification'), array($verificationMessage));
     }
 
@@ -432,7 +432,6 @@ class Mage_Selenium_TestCaseTest extends Mage_PHPUnit_TestCase
             array_diff($formDataOverriddenName, $formData));
     }
 
-
     /**
      * @covers Mage_Selenium_TestCase::loadDataSet
      */
@@ -543,5 +542,104 @@ class Mage_Selenium_TestCaseTest extends Mage_PHPUnit_TestCase
         $instance = new Mage_Selenium_TestCase();
         $this->assertTrue((bool)filter_var($instance->generate('email', 20, 'valid'), FILTER_VALIDATE_EMAIL));
         $this->assertFalse((bool)filter_var($instance->generate('email', 20, 'invalid'), FILTER_VALIDATE_EMAIL));
+    }
+
+    /**
+     * @covers Mage_Selenium_TestCase::setUrlPostfix
+     */
+    public function testSetUrlPostfix()
+    {
+        $instance = new Mage_Selenium_TestCase();
+        $this->assertAttributeEquals('', '_urlPostfix', $instance);
+
+        $instance->setUrlPostfix('SomeString');
+        $this->assertAttributeEquals('SomeString', '_urlPostfix', $instance);
+
+        $instance->setUrlPostfix('');
+        $this->assertAttributeEquals('', '_urlPostfix', $instance);
+
+        $instance->setUrlPostfix(null);
+        $this->assertAttributeEquals(null, '_urlPostfix', $instance);
+    }
+
+    /**
+     * @covers Mage_Selenium_TestCase::setUrlPostfix
+     * @covers Mage_Selenium_TestCase::navigate
+     */
+    public function testNavigate()
+    {
+        //Data
+        $urlPostfix = '?someParam = someValue';
+        $uimapHelper = $this->_config->getHelper('uimap');
+        $pageUrl = $uimapHelper->getPageUrl('frontend', 'home');
+        //Stub
+        $driverStub = $this->getMock('Mage_Selenium_Driver', array('open'));
+        $driverStub->expects($this->at(0))
+            ->method('open')
+            ->with($this->equalTo($pageUrl . $urlPostfix)
+        );
+        $driverStub->expects($this->at(1))
+            ->method('open')
+            ->with($this->equalTo($pageUrl)
+        );
+        $driverStub->expects($this->at(2))
+            ->method('open')
+            ->with($this->equalTo($pageUrl)
+        );
+        //Steps
+        $instance = new Mage_Selenium_TestCase();
+        $reflector = new ReflectionProperty('Mage_Selenium_TestCase', 'drivers');
+        $reflector->setAccessible(true);
+        $reflector->setValue($instance, array($driverStub));
+
+        $instance->setUrlPostfix($urlPostfix);
+        $instance->navigate('home', false);
+
+        $instance->setUrlPostfix('');
+        $instance->navigate('home', false);
+
+        $instance->setUrlPostfix(null);
+        $instance->navigate('home', false);
+    }
+
+    /**
+     * @covers Mage_Selenium_TestCase::setUrlPostfix
+     * @covers Mage_Selenium_TestCase::checkCurrentPage
+     * @covers Mage_Selenium_TestCase::_findCurrentPageFromUrl
+     */
+    public function testCheckCurrentPage()
+    {
+        //Data
+        $urlPostfix = '?someParam = someValue';
+        $uimapHelper = $this->_config->getHelper('uimap');
+        $pageUrl = $uimapHelper->getPageUrl('frontend', 'home');
+        //Stub
+        $driverStub = $this->getMock('Mage_Selenium_Driver', array('getLocation'));
+        $driverStub->expects($this->at(0))
+            ->method('getLocation')
+            ->will($this->returnValue($pageUrl . $urlPostfix)
+        );
+        $driverStub->expects($this->at(1))
+            ->method('getLocation')
+            ->will($this->returnValue($pageUrl)
+        );
+        $driverStub->expects($this->at(2))
+            ->method('getLocation')
+            ->will($this->returnValue($pageUrl)
+        );
+        //Steps
+        $instance = new Mage_Selenium_TestCase();
+        $reflector = new ReflectionProperty('Mage_Selenium_TestCase', 'drivers');
+        $reflector->setAccessible(true);
+        $reflector->setValue($instance, array($driverStub));
+
+        $instance->setUrlPostfix($urlPostfix);
+        $this->assertTrue($instance->checkCurrentPage('home'));
+
+        $instance->setUrlPostfix('');
+        $this->assertTrue($instance->checkCurrentPage('home'));
+
+        $instance->setUrlPostfix(null);
+        $this->assertTrue($instance->checkCurrentPage('home'));
     }
 }
