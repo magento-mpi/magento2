@@ -725,7 +725,7 @@
             <xsd:element name="catalogProductCustomOptionTypesResponseParam">
                 <xsd:complexType>
                     <xsd:sequence>
-                        <xsd:element minOccurs="1" maxOccurs="1" name="result" type="typens:ArrayOfString" />
+                        <xsd:element minOccurs="1" maxOccurs="1" name="result" type="typens:catalogProductCustomOptionTypesArray" />
                     </xsd:sequence>
                 </xsd:complexType>
             </xsd:element>
