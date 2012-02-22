@@ -813,6 +813,44 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
     }
 
     /**
+     * Check whether required option is not missed, add values to configuration
+     *
+     * @param array $skuParts
+     * @param Mage_Catalog_Model_Product_Option $option
+     * @return bool
+     */
+    protected function _processProductOption(array &$skuParts, Mage_Catalog_Model_Product_Option $option)
+    {
+        $missedRequired = true;
+        $optionValues = $option->getValues();
+        if (empty($optionValues)) {
+            if ($option->hasSku()) {
+                $found = array_search($option->getSku(), $skuParts);
+                if ($found !== false) {
+                    unset($skuParts[$found]);
+                }
+            }
+            // we are not able to configure such option automatically
+            return !$missedRequired;
+        }
+
+        foreach ($optionValues as $optionValue) {
+            $found = array_search($optionValue->getSku(), $skuParts);
+            if ($found !== false) {
+                $this->_addSuccessOption($option, $optionValue);
+                unset($skuParts[$found]);
+                // we've found the value of required option
+                $missedRequired = false;
+                if (!$this->_isOptionMultiple($option)) {
+                    break 1;
+                }
+            }
+        }
+
+        return !$missedRequired;
+    }
+
+    /**
      * Load product with its options by specified sku
      *
      * @param string $sku
@@ -840,84 +878,31 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
         }
 
         if ($product && $product->getId()) {
-            /** @var $option Mage_Catalog_Model_Product_Option */
-            $option = Mage::getModel('catalog/product_option');
-            $option->setAddRequiredFilter(true);
-            $option->setAddRequiredFilterValue(true);
-            $productRequiredOptions = $option->getProductOptionCollection($product);
             $missedRequiredOption = false;
-            foreach ($productRequiredOptions as $productOption) {
-                /** @var $productOption Mage_Catalog_Model_Product_Option */
+            $this->_successOptions = array();
 
-                $productOptionValues = $productOption->getValues();
-                if (empty($productOptionValues)) {
-                    if ($productOption->hasSku()) {
-                        $found = array_search($productOption->getSku(), $skuParts);
-                        if ($found !== false) {
-                            unset($skuParts[$found]);
-                        }
-                    }
-                    // we are not able to configure such required option automatically
-                    $missedRequiredOption = true;
-                    continue;
-                }
+            /** @var $option Mage_Catalog_Model_Product_Option */
+            $option = Mage::getModel('catalog/product_option')
+                ->setAddRequiredFilter(true)
+                ->setAddRequiredFilterValue(true);
 
-                $ignoreRequiredOption = false;
-                foreach ($productOptionValues as $optionValue) {
-                    $found = array_search($optionValue->getSku(), $skuParts);
-                    if ($found !== false) {
-                        $this->_addSuccessOption($productOption, $optionValue);
-                        unset($skuParts[$found]);
-                        $ignoreRequiredOption = true;
-                        if (!$this->_isOptionMultiple($productOption)) {
-                            break 1;
-                        }
-                    } else {
-                        $missedRequiredOption = true;
-                    }
-                }
-                if ($ignoreRequiredOption) {
-                    $missedRequiredOption = false;
-                }
+            foreach ($option->getProductOptionCollection($product) as $requiredOption) {
+                $missedRequiredOption = !$this->_processProductOption($skuParts, $requiredOption)
+                    || $missedRequiredOption;
             }
 
             $option->setAddRequiredFilterValue(false);
-            $productOptions = $option->getProductOptionCollection($product);
-            foreach ($productOptions as $productOption) {
-
-                $productOptionValues = $productOption->getValues();
-                if (empty($productOptionValues)) {
-                    if ($productOption->hasSku()) {
-                        $found = array_search($productOption->getSku(), $skuParts);
-                        if ($found !== false) {
-                            unset($skuParts[$found]);
-                        }
-                    }
-                    continue;
-                }
-
-                foreach ($productOptionValues as $optionValue) {
-                    $found = array_search($optionValue->getSku(), $skuParts);
-                    if ($found !== false) {
-                        $this->_addSuccessOption($productOption, $optionValue);
-                        unset($skuParts[$found]);
-                    }
-                }
+            foreach ($option->getProductOptionCollection($product) as $productOption) {
+                $this->_processProductOption($skuParts, $productOption);
             }
 
             if (!empty($skuParts)) {
                 return false;
             }
 
-            if ($missedRequiredOption) {
-                return $product;
-            }
-
-            $options = $this->getSuccessOptions();
-
-            if (!empty($options)) {
-                $product->setConfiguredOptions($options);
-                $this->setAffectedItemConfig($sku, array('options' => $options));
+            if (!$missedRequiredOption && !empty($this->_successOptions)) {
+                $product->setConfiguredOptions($this->_successOptions);
+                $this->setAffectedItemConfig($sku, array('options' => $this->_successOptions));
                 $this->_successOptions = array();
             }
         }
@@ -963,16 +948,6 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
         }
 
         return $this;
-    }
-
-    /**
-     * Retrieve list of options, that should configure the product
-     *
-     * @return array
-     */
-    public function getSuccessOptions()
-    {
-        return $this->_successOptions;
     }
 
     /**
