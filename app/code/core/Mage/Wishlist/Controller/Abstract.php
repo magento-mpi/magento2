@@ -93,6 +93,7 @@ abstract class Mage_Wishlist_Controller_Abstract extends Mage_Core_Controller_Fr
         foreach ($collection as $item) {
             /** @var Mage_Wishlist_Model_Item */
             try {
+                $disableAddToCart = $item->getProduct()->getDisableAddToCart();
                 $item->unsProduct();
 
                 // Set qty
@@ -102,7 +103,7 @@ abstract class Mage_Wishlist_Controller_Abstract extends Mage_Core_Controller_Fr
                         $item->setQty($qty);
                     }
                 }
-
+                $item->getProduct()->setDisableAddToCart($disableAddToCart);
                 // Add to cart
                 if ($item->addToCart($cart, $isOwner)) {
                     $addedItems[] = $item->getProduct();
