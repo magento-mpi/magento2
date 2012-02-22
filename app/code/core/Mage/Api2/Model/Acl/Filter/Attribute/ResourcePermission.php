@@ -95,7 +95,7 @@ class Mage_Api2_Model_Acl_Filter_Attribute_ResourcePermission
                                     $this->_userType,
                                     $operation
                                 );
-                                
+
                                 foreach ($avalaibleAttributes as $attribute => $attributeLabel) {
                                     $status = isset($allowedAttributes[$resource][$operation])
                                         && in_array($attribute, $allowedAttributes[$resource][$operation])
