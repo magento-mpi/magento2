@@ -34,7 +34,7 @@
 class Mage_Api2_Model_Request_Interpreter_Xml implements Mage_Api2_Model_Request_Interpreter_Interface
 {
     /**
-     * Load file error string.
+     * Load error string.
      *
      * Is null if there was no error while loading
      *
@@ -56,10 +56,10 @@ class Mage_Api2_Model_Request_Interpreter_Xml implements Mage_Api2_Model_Request
         }
         $body = false !== strpos($body, '<?xml') ? $body : '<?xml version="1.0"?>' . PHP_EOL . $body;
 
-        set_error_handler(array($this, '_loadFileErrorHandler')); // Warnings and errors are suppressed
+        set_error_handler(array($this, '_loadErrorHandler')); // Warnings and errors are suppressed
         $config = simplexml_load_string($body);
-
         restore_error_handler();
+
         // Check if there was a error while loading file
         if ($this->_loadErrorStr !== null) {
             throw new Mage_Api2_Exception('Decoding error.', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
@@ -131,7 +131,7 @@ class Mage_Api2_Model_Request_Interpreter_Xml implements Mage_Api2_Model_Request
      * @param string $errfile
      * @param integer $errline
      */
-    protected function _loadFileErrorHandler($errno, $errstr, $errfile, $errline)
+    protected function _loadErrorHandler($errno, $errstr, $errfile, $errline)
     {
         if ($this->_loadErrorStr === null) {
             $this->_loadErrorStr = $errstr;
