@@ -28,4 +28,4 @@
     $product = $this->getItem()->getProduct();
 ?>
 <h3 class="product-name"><a href="<?php echo $this->getProductUrl($this->getItem()); ?>"><?php echo $this->escapeHtml($product->getName()) ?></a></h3>
-<div class="description std"><?php echo $this->escapeHtml($product->getShortDescription());?></div>
+<div class="description std"><div class="inner"><?php echo $this->escapeHtml($this->stripTags($product->getShortDescription()));?></div></div>

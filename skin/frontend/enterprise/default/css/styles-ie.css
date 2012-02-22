@@ -67,7 +67,7 @@
 #nav li a { zoom:1; }
 #nav li { vertical-align:top; }
 /********** < Navigation styles */
-
+.split-button { display:inline; zoom:1; }
 .please-wait { filter:progid:DXImageTransform.Microsoft.Alpha(Opacity=80); margin-top:-100px; }
 
 .form-list .control .input-box { padding-top:2px; }

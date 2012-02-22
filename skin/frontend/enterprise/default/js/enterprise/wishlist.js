@@ -316,4 +316,6 @@ Event.observe(document, 'dom:loaded', function() {
         });
     }
 });
-
+document.observe("dom:loaded", function() {
+  $$('#wishlist-table div.description').each(function(el) { Enterprise.textOverflow(el); });
+});
