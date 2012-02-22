@@ -31,6 +31,6 @@
     </invalid_info>
     <invalid_redeem>
         <code>invalid-quote</code>
-        <customer>invalid-customer</customer>
+        <customerId>invalid-customer</customerId>
     </invalid_redeem>
 </root>
