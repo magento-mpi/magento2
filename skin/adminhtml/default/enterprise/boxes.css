@@ -834,16 +834,16 @@ ul.item-options li { padding-left:.7em; }
 
 .add-by-sku { margin-bottom:.5em; }
 .fieldset .add-by-sku .fieldset { padding:0; border:0; background:none; }
-.add-by-sku table { /* float:left; */ width:450px }
+.add-by-sku table { width:500px }
 .add-by-sku table .col-sku { width:auto; }
 .add-by-sku .grid table td .input-text { width:98%; }
+.add-by-sku .grid table td .qty { width:8em!important; }
 .add-by-sku table .col-qty { width:100px; }
 .add-by-sku table .last { white-space:nowrap; }
 .add-by-sku table .last .validation-advice { white-space:normal; width:80px; margin-right:-100px; margin-left:-5px; }
-.add-by-sku table button { display:inline-block; vertical-align:top; }
 .add-by-sku table .input-box { display:inline-block; vertical-align:top; padding-right:5px; }
 
-.add-sku-csv { background:#efefef; width:428px; padding:10px; border:1px solid #CBD3D4; border-top:0; }
+.add-sku-csv { background:#efefef; width:478px; padding:10px; border:1px solid #CBD3D4; border-top:0; }
 .add-sku-csv label { font-weight:bold; font-size:.9em; display:block; }
 .add-sku-csv p.note { background-position:0 5px; }
 .add-sku-csv .input-box { display:inline-block; }
