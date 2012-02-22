@@ -45,6 +45,16 @@ class Enterprise_Wishlist_Block_Customer_Wishlist_Item_Column_Copy
     }
 
     /**
+     * Check wheter multiple wishlist functionality is enabled
+     *
+     * @return bool
+     */
+    public function isMultipleEnabled()
+    {
+        return Mage::helper('enterprise_wishlist')->isMultipleEnabled();
+    }
+
+    /**
      * Get wishlist item copy url
      *
      * @return string

@@ -28,7 +28,7 @@
     $item = $this->getItem();
     $wishlists = $this->getWishlists();
 ?>
-<?php if ($this->isEnabled() && count($wishlists) || $this->canCreateWishlists($wishlists)): ?>
+<?php if ($this->isMultipleEnabled() && (count($wishlists) || $this->canCreateWishlists($wishlists))): ?>
     <div class="split-button light">
         <strong onclick="Enterprise.Wishlist.copyItemTo(<?php echo $item->getId();?>, $(this).up('tr').down('input.qty').value, <?php echo $this->getDefaultWishlist()->getId();?>);"><span><?php echo $this->__('Add to Wishlist');?></span></strong>
         <a href="#" class="change"><?php echo $this->__('Add to:') ?></a>
