@@ -50,10 +50,6 @@ class Api_Catalog_Product_AttributeSetCRUDTest extends Magento_Test_Webservice
 
         // items list test
         $attrSetList = $this->call('product_attribute_set.list');
-        if (TESTS_WEBSERVICE_TYPE == Magento_Test_Webservice::TYPE_SOAPV2_WSI) {
-            $attrSetList = reset($attrSetList);
-        }
-
         $completeFlag = false;
         foreach ($attrSetList as $attrSet) {
             if ($attrSet['set_id'] == $createdAttrSetId) {
