@@ -325,12 +325,14 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     /**
      * Implementation of setUpBeforeClass() method in the object context, called as setUpBeforeTests()<br>
      * Used ONLY one time before execution of each class (tests in test class)
+     * @staticvar $error Identifies if an error happend during setup. In case of an error, the tests won't be run.
      */
     public function setUp()
     {
         // Clear messages before running test
         $this->clearMessages();
         $isFirst = $this->drivers[0]->driverSetUp(get_class($this));
+        static $error = null;
         if ($isFirst) {
             $browser = $this->drivers[0]->getBrowserSettings();
             if ($browser['browser'] == '*iexplore' || $browser['browser'] == '*iehta') {
@@ -338,7 +340,15 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                 $this->useXpathLibrary('javascript-xpath');
                 $this->allowNativeXpath(true);
             }
-            $this->setUpBeforeTests();
+            try {
+                $error = null;
+                $this->setUpBeforeTests();
+            } catch (Exception $e) {
+                $error = $e;
+            }
+        }
+        if($error) {
+            throw $error;
         }
     }
 
