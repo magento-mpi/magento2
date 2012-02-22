@@ -61,6 +61,12 @@ abstract class Mage_Api2_Model_Resource
     const RESOURCE_UNKNOWN_ERROR = 'Resource unknown error.';
     /**#@- */
 
+    /**#@+
+     *  Default success messages
+     */
+    const RESOURCE_UPDATED_SUCCESSFUL = 'Resource updated successful.';
+    /**#@- */
+
     /**
      * Api user
      *
@@ -551,5 +557,43 @@ abstract class Mage_Api2_Model_Resource
     public function getWorkingModel()
     {
         return Mage::getModel($this->getConfig()->getResourceWorkingModel($this->getResourceType()));
+    }
+
+    /**
+     * Add success message
+     *
+     * @param string $message
+     * @param int $code
+     * @return Mage_Api2_Model_Resource
+     */
+    protected function _successMessage($message, $code)
+    {
+        $this->getResponse()->addMessage($message, $code, Mage_Api2_Model_Response::MESSAGE_TYPE_SUCCESS);
+        return $this;
+    }
+
+    /**
+     * Add error message
+     *
+     * @param string $message
+     * @param int $code
+     * @return Mage_Api2_Model_Resource
+     */
+    protected function _errorMessage($message, $code)
+    {
+        $this->getResponse()->addMessage($message, $code, Mage_Api2_Model_Response::MESSAGE_TYPE_ERROR);
+        return $this;
+    }
+
+    /**
+     * Format message
+     *
+     * @param string $message
+     * @param int $itemId
+     * @return string
+     */
+    protected function _formatMessage($message, $itemId)
+    {
+        return sprintf('%s Item id: %d.', $message, $itemId);
     }
 }

@@ -82,6 +82,20 @@ class Mage_Api2_Model_Acl_Filter
     }
 
     /**
+     * Strip attributes in of collection items
+     *
+     * @param array $items
+     * @return mixed
+     */
+    public function collectionIn($items)
+    {
+        foreach ($items as &$data) {
+            $data = $this->in($data);
+        }
+        return $items;
+    }
+
+    /**
      * Strip attributes out of collection items
      *
      * @param array $items

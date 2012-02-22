@@ -38,6 +38,21 @@ class Mage_Api2_Model_Response extends Zend_Controller_Response_Http
      */
     const RESPONSE_CHARSET = 'utf-8';
 
+    /**#@+
+     * Default message types
+     */
+    const MESSAGE_TYPE_SUCCESS = 'success';
+    const MESSAGE_TYPE_ERROR   = 'error';
+    const MESSAGE_TYPE_WARNING = 'warning';
+    /**#@- */
+
+    /**
+     * Messages
+     *
+     * @var array
+     */
+    protected $_messages = array();
+
     /**
      * Set header appropriate to specified MIME type
      *
@@ -47,5 +62,45 @@ class Mage_Api2_Model_Response extends Zend_Controller_Response_Http
     public function setMimeType($mimeType)
     {
         return $this->setHeader('Content-Type', "{$mimeType}; charset=" . self::RESPONSE_CHARSET, true);
+    }
+
+    /**
+     * Add message to responce
+     *
+     * @param string $message
+     * @param string $code
+     * @param string $type
+     */
+    public function addMessage($message, $code, $type = self::MESSAGE_TYPE_ERROR)
+    {
+        $this->_messages[$type][] = array('message' => $message, 'code' => $code);
+    }
+
+    /**
+     * Has messages
+     *
+     * @return bool
+     */
+    public function hasMessages()
+    {
+        return (bool)count($this->_messages) > 0;
+    }
+
+    /**
+     * Return messages
+     *
+     * @return array
+     */
+    public function getMessages()
+    {
+        return $this->_messages;
+    }
+
+    /**
+     * Clear messages
+     */
+    public function clearMessages()
+    {
+        $this->_messages = array();
     }
 }

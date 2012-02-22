@@ -85,16 +85,6 @@ abstract class Mage_Api2_Model_Resource_Collection extends Mage_Api2_Model_Resou
     }
 
     /**
-     * Update method not allowed for this type of resource
-     *
-     * @param array $data
-     */
-    final protected function _update(array $data)
-    {
-        $this->_critical(self::RESOURCE_METHOD_NOT_ALLOWED);
-    }
-
-    /**
      * Delete method not allowed for this type of resource
      */
     final protected function _delete()
@@ -175,7 +165,11 @@ abstract class Mage_Api2_Model_Resource_Collection extends Mage_Api2_Model_Resou
     {
         switch ($this->getRequest()->getOperation()) {
             case self::OPERATION_UPDATE:
-                $this->_update(array());
+                $requestData  = $this->getRequest()->getBodyParams();
+                $filteredData = $this->getFilter()->collectionIn($requestData);
+
+                $this->_update($filteredData);
+                $this->_render($this->getResponse()->getMessages());
                 break;
             case self::OPERATION_DELETE:
                 $this->_delete(array());

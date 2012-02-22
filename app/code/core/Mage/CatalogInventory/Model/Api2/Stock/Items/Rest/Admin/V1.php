@@ -34,27 +34,4 @@
 class Mage_CatalogInventory_Model_Api2_Stock_Items_Rest_Admin_V1
     extends Mage_CatalogInventory_Model_Api2_Stock_Items_Rest
 {
-    /**
-     * Get orders list
-     *
-     * @return array
-     */
-    protected function _retrieve()
-    {
-        $data = $this->_getCollectionForRetrieve()->load()->toArray();
-        return isset($data['items']) ? $data['items'] : $data;
-    }
-
-    /**
-     * Retrieve collection instance for stock
-     *
-     * @return Mage_CatalogInventory_Model_Resource_Stock_Item_Collection
-     */
-    protected function _getCollectionForRetrieve()
-    {
-        /* @var $collection Mage_CatalogInventory_Model_Resource_Stock_Item_Collection */
-        $collection = Mage::getResourceModel('cataloginventory/stock_item_collection');
-        $this->_applyCollectionModifiers($collection);
-        return $collection;
-    }
 }
