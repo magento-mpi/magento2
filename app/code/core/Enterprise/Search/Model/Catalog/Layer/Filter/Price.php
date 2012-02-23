@@ -142,6 +142,9 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Price extends Mage_Catalog_Mo
                         $count += $data[$i - 1]['count'];
                         $separator[1] = $data[$i - 1]['from'];
                         $label = $value = null;
+                    } elseif (!empty($separator[2]) && $separator[2] > $this->getMaxPriceInt()) {
+                        $label = $value = null;
+                        $separator[2] = '';
                     }
                 }
 
