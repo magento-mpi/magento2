@@ -49,7 +49,18 @@ class Api2_Catalog_Product_GuestTest extends Magento_Test_Webservice_Rest_Guest
     {
         /** @var $product Mage_Catalog_Model_Product */
         $product = $this->getFixture('product_simple');
-        $restResponse = $this->callDelete('product/' . $product->getId());
+        $restResponse = $this->callDelete($this->_getResourcePath($product->getId()));
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_METHOD_NOT_ALLOWED, $restResponse->getStatus());
+    }
+
+    /**
+     * Create path to resource
+     *
+     * @param string $id
+     * @return string
+     */
+    protected function _getResourcePath($id)
+    {
+        return 'products/' . $id;
     }
 }

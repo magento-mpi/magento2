@@ -59,7 +59,7 @@ class Api2_Catalog_Product_CustomerTest extends Magento_Test_Webservice_Rest_Cus
     {
         /** @var $product Mage_Catalog_Model_Product */
         $product = $this->getFixture('product_simple');
-        $restResponse = $this->callGet('product/' . $product->getId());
+        $restResponse = $this->callGet($this->_getResourcePath($product->getId()));
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
         $responseData = $restResponse->getBody();
         $this->assertNotEmpty($responseData);
@@ -163,7 +163,7 @@ class Api2_Catalog_Product_CustomerTest extends Magento_Test_Webservice_Rest_Cus
             $this->_updateAppConfig($configPath, $configValue);
         }
 
-        $restResponse = $this->callGet('product/' . $product->getId());
+        $restResponse = $this->callGet($this->_getResourcePath($product->getId()));
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
         $responseData = $restResponse->getBody();
         $this->assertNotEmpty($responseData);
@@ -214,7 +214,7 @@ class Api2_Catalog_Product_CustomerTest extends Magento_Test_Webservice_Rest_Cus
         $product = $this->getFixture('product_simple');
         $attributesToGet = array('sku', 'name', 'visibility', 'status', 'price');
         $params = array('attrs' => implode(',', $attributesToGet));
-        $restResponse = $this->callGet('product/' . $product->getId(), $params);
+        $restResponse = $this->callGet($this->_getResourcePath($product->getId()), $params);
 
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
         $responseData = $restResponse->getBody();
@@ -248,7 +248,7 @@ class Api2_Catalog_Product_CustomerTest extends Magento_Test_Webservice_Rest_Cus
         $product->setStatus(Mage_Catalog_Model_Product_Status::STATUS_DISABLED);
         $product->save();
 
-        $restResponse = $this->callGet('product/' . $product->getId());
+        $restResponse = $this->callGet($this->_getResourcePath($product->getId()));
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $restResponse->getStatus());
     }
 
@@ -266,7 +266,7 @@ class Api2_Catalog_Product_CustomerTest extends Magento_Test_Webservice_Rest_Cus
         $stockItem->setIsInStock(0);
         $stockItem->save();
 
-        $restResponse = $this->callGet('product/' . $product->getId());
+        $restResponse = $this->callGet($this->_getResourcePath($product->getId()));
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $restResponse->getStatus());
     }
 
@@ -284,7 +284,7 @@ class Api2_Catalog_Product_CustomerTest extends Magento_Test_Webservice_Rest_Cus
         /** @var $store Mage_Core_Model_Store */
         $store = $this->getFixture('store_on_new_website');
         $params = array('store' => $store->getCode());
-        $restResponse = $this->callGet('product/' . $product->getId(), $params);
+        $restResponse = $this->callGet($this->_getResourcePath($product->getId()), $params);
 
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $restResponse->getStatus());
     }
@@ -300,7 +300,7 @@ class Api2_Catalog_Product_CustomerTest extends Magento_Test_Webservice_Rest_Cus
         $product = $this->getFixture('product_simple');
 
         $params = array('store' => 'INVALID_STORE');
-        $restResponse = $this->callGet('product/' . $product->getId(), $params);
+        $restResponse = $this->callGet($this->_getResourcePath($product->getId()), $params);
 
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
     }
@@ -314,7 +314,18 @@ class Api2_Catalog_Product_CustomerTest extends Magento_Test_Webservice_Rest_Cus
     {
         /** @var $product Mage_Catalog_Model_Product */
         $product = $this->getFixture('product_simple');
-        $restResponse = $this->callDelete('product/' . $product->getId());
+        $restResponse = $this->callDelete($this->_getResourcePath($product->getId()));
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_METHOD_NOT_ALLOWED, $restResponse->getStatus());
+    }
+
+    /**
+     * Create path to resource
+     *
+     * @param string $id
+     * @return string
+     */
+    protected function _getResourcePath($id)
+    {
+        return 'products/' . $id;
     }
 }

@@ -92,7 +92,7 @@
                 </attributes>
                 <routes>
                     <route_main>
-                        <mask>/product/:id</mask>
+                        <mask>/products/:id</mask>
                     </route_main>
                 </routes>
                 <versions>1</versions>
