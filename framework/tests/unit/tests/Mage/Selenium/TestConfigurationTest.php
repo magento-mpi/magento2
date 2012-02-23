@@ -29,6 +29,7 @@ class Mage_Selenium_TestConfigurationTest extends Mage_PHPUnit_TestCase
 {
     /**
      * @covers Mage_Selenium_TestConfiguration::getInstance
+     * @covers Mage_Selenium_TestConfiguration::init
      */
     public function testGetInstance()
     {
