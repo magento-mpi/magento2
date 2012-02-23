@@ -27,6 +27,12 @@
 
 $pageContent = <<<EOD
 <p>
+    <b>
+        Please replace this text with you Privacy Policy.
+        Please add any additional cookies your website uses below (e.g., Google Analytics)
+    </b>
+</p>
+<p>
     This privacy policy sets out how {{config path="general/store_information/name"}} uses and protects any information
     that you give {{config path="general/store_information/name"}} when you use this website.
     {{config path="general/store_information/name"}} is committed to ensuring that your privacy is protected.
@@ -125,10 +131,6 @@ $pageContent = <<<EOD
     If you believe that any information we are holding on you is incorrect or incomplete,
     please write to or email us as soon as possible, at the above address.
     We will promptly correct any information found to be incorrect.
-</p>
-<p>
-    Please replace this text with you Privacy Policy.
-    Please add any additional cookies your website uses below (e.g., Google Analytics)
 </p>
 <h2><a name="list"></a>List of cookies we collect</h2>
 <p>The table below lists the cookies we collect and what information they store.</p>
