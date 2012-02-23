@@ -124,17 +124,18 @@ class Mage_Core_Model_Layout_Structure
      * @param string $name
      * @param string $attribute
      * @param string $value
-     * @return Mage_Core_Model_Layout_Structure
+     * @return bool
      */
     public function setElementAttribute($name, $attribute, $value)
     {
         /** @var $element DOMElement */
         $element = $this->_getElementByXpath("//*[@name='$name']");
-        if ($element) {
-            $element->setAttribute($attribute, $value);
+        if (!$element) {
+            return false;
         }
+        $element->setAttribute($attribute, $value);
 
-        return $this;
+        return true;
     }
 
     /**
@@ -148,7 +149,7 @@ class Mage_Core_Model_Layout_Structure
     {
         /** @var $element DOMElement */
         $element = $this->_getElementByXpath("//*[@name='$name']");
-        if ($element->hasAttribute($attribute)) {
+        if ($element && $element->hasAttribute($attribute)) {
             return $element->getAttribute($attribute);
         }
 
@@ -332,7 +333,7 @@ class Mage_Core_Model_Layout_Structure
      */
     public function hasElement($name)
     {
-        return (bool)$this->_findByXpath("//*[@name='$name']");
+        return $this->_findByXpath("//*[@name='$name']")->length > 0;
     }
 
     /**
@@ -409,6 +410,11 @@ class Mage_Core_Model_Layout_Structure
     {
         $element = $this->_getElementByXpath("//*[@name='$name']");
         return $element && (self::ELEMENT_TYPE_BLOCK == $element->nodeName);
+    }
+
+    public function getStartNode()
+    {
+        file_put_contents('e:/start.xml', $this->_dom->saveXML());
     }
 
     /**

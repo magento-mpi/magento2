@@ -85,6 +85,13 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     protected $_elementsHtmlCache = array();
 
     /**
+     * Increment for anonymous block names
+     *
+     * @var int
+     */
+    protected $_nameIncrement = 0;
+
+    /**
      * Class constructor
      *
      * @param array $data
@@ -285,8 +292,8 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
                 throw new Magento_Exception('Element has no name');
             }
             if ($updatedName != $name) {
-                $this->getStructure()->setElementAttribute($elementName, 'name', $updatedName);
                 $this->getStructure()->setElementAttribute($elementName, 'alias', $updatedName);
+                $this->getStructure()->setElementAttribute($elementName, 'name', $updatedName);
             }
         } elseif (Mage_Core_Model_Layout_Structure::ELEMENT_TYPE_CONTAINER == $elementType) {
             if (isset($this->_blocks[$name])) {
@@ -705,7 +712,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
             if (!empty($name)) {
                 $block->setAnonSuffix(substr($name, 1));
             }
-            $name = 'ANONYMOUS_' . sizeof($this->_blocks);
+            $name = 'ANONYMOUS_' . $this->_nameIncrement++;
         }
 
         $block->setType($type);
