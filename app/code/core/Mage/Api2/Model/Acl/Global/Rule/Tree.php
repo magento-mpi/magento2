@@ -25,7 +25,7 @@
  */
 
 /**
- * Webservice API2 role helper
+ * API2 acl global rule tree
  *
  * @category   Mage
  * @package    Mage_Api2
