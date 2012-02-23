@@ -24,7 +24,7 @@ class Mage_Paypal_PayflowController extends Mage_Core_Controller_Front_Action
     {
         $this->loadLayout(false);
         $gotoSection = $this->_cancelPayment();
-        $redirectBlock = $this->_getIframeBlock();
+        $redirectBlock = $this->getLayout()->getBlock('payflow.link.iframe');
         $redirectBlock->setGotoSection($gotoSection);
         $this->renderLayout();
     }
@@ -35,7 +35,7 @@ class Mage_Paypal_PayflowController extends Mage_Core_Controller_Front_Action
     public function returnUrlAction()
     {
         $this->loadLayout(false);
-        $redirectBlock = $this->_getIframeBlock();
+        $redirectBlock = $this->getLayout()->getBlock('payflow.link.iframe');
 
         $session = $this->_getCheckout();
         if ($session->getLastRealOrderId()) {
@@ -65,7 +65,7 @@ class Mage_Paypal_PayflowController extends Mage_Core_Controller_Front_Action
      */
     public function formAction()
     {
-        $this->loadLayout($this->getFullActionName())->renderLayout();
+        $this->loadLayout(false)->renderLayout();
     }
 
     /**
@@ -129,15 +129,5 @@ class Mage_Paypal_PayflowController extends Mage_Core_Controller_Front_Action
     protected function _getCheckout()
     {
         return Mage::getSingleton('Mage_Checkout_Model_Session');
-    }
-
-    /**
-     * Get iframe block
-     *
-     * @return Mage_Paypal_Block_Payflow_Link_Iframe
-     */
-    protected function _getIframeBlock()
-    {
-        return $this->getLayout()->getBlock('payflow.link.iframe');
     }
 }

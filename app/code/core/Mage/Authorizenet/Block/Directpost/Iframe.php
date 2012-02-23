@@ -18,15 +18,19 @@
 class Mage_Authorizenet_Block_Directpost_Iframe extends Mage_Core_Block_Template
 {
     /**
-     * Get params
+     * Preparing global layout
      *
-     * @return array
+     * You can redefine this method in child classes for changing layout
+     *
+     * @return Mage_Core_Block_Abstract
      */
-    public function getParams()
+    protected function _prepareLayout()
     {
-        if ($params = Mage::registry(Mage_Authorizenet_Directpost_PaymentController::REGISTER_FORM_PARAMS_KEY)) {
-            return $params;
+        $params = Mage::registry(Mage_Authorizenet_Directpost_PaymentController::REGISTRY_FORM_PARAMS_KEY);
+        if (is_null($params)) {
+            $params = array();
         }
-        return array();
+        $this->setParams($params);
+        return parent::_prepareLayout();
     }
 }

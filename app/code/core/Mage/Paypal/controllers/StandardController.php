@@ -65,7 +65,7 @@ class Mage_Paypal_StandardController extends Mage_Core_Controller_Front_Action
     {
         $session = Mage::getSingleton('Mage_Checkout_Model_Session');
         $session->setPaypalStandardQuoteId($session->getQuoteId());
-        $this->loadLayout($this->getFullActionName())->renderLayout();
+        $this->loadLayout(false)->renderLayout();
         $session->unsQuoteId();
         $session->unsRedirectUrl();
     }

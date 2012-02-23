@@ -22,7 +22,7 @@ class Mage_Authorizenet_Directpost_PaymentController extends Mage_Core_Controlle
      *
      * @const string
      */
-    const REGISTER_FORM_PARAMS_KEY = 'authorizenet_directpost_form_params';
+    const REGISTRY_FORM_PARAMS_KEY = 'authorizenet_directpost_form_params';
 
     /**
      * @return Mage_Checkout_Model_Session
@@ -85,8 +85,8 @@ class Mage_Authorizenet_Directpost_PaymentController extends Mage_Core_Controlle
             $params['redirect'] = Mage::helper('Mage_Authorizenet_Helper_Data')->getRedirectIframeUrl($result);
         }
 
-        Mage::register(self::REGISTER_FORM_PARAMS_KEY, $params);
-        $this->loadLayout()->renderLayout();
+        Mage::register(self::REGISTRY_FORM_PARAMS_KEY, $params);
+        $this->loadLayout(false)->renderLayout();
     }
 
     /**
@@ -108,8 +108,8 @@ class Mage_Authorizenet_Directpost_PaymentController extends Mage_Core_Controlle
             $cancelOrder = empty($redirectParams['x_invoice_num']);
             $this->_returnCustomerQuote($cancelOrder, $redirectParams['error_msg']);
         }
-        Mage::register(self::REGISTER_FORM_PARAMS_KEY, array_merge($params, $redirectParams));
-        $this->loadLayout()->renderLayout();
+        Mage::register(self::REGISTRY_FORM_PARAMS_KEY, array_merge($params, $redirectParams));
+        $this->loadLayout(false)->renderLayout();
     }
 
     /**

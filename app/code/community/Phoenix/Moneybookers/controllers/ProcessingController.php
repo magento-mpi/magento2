@@ -14,7 +14,7 @@ class Phoenix_Moneybookers_ProcessingController extends Mage_Core_Controller_Fro
      *
      * @const string
      */
-    const REGISTER_FORM_REDIRECT_URL_KEY = 'phoenix_moneybookers_redirect_url';
+    const REGISTRY_REDIRECT_URL_KEY = 'phoenix_moneybookers_redirect_url';
 
     /**
      * Get singleton of Checkout Session Model
@@ -132,8 +132,8 @@ class Phoenix_Moneybookers_ProcessingController extends Mage_Core_Controller_Fro
      */
     protected function _redirect($path, $arguments=array())
     {
-         Mage::register(self::REGISTER_FORM_REDIRECT_URL_KEY, Mage::getUrl($path, $arguments));
-         $this->loadLayout('moneybookers_processing_redirect')->renderLayout();
+        Mage::register(self::REGISTRY_REDIRECT_URL_KEY, Mage::getUrl($path, $arguments));
+        $this->loadLayout('moneybookers_processing_redirect')->renderLayout();
         return $this;
     }
 }

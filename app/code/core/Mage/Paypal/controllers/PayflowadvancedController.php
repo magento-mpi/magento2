@@ -47,7 +47,7 @@ class Mage_Paypal_PayflowadvancedController extends Mage_Paypal_Controller_Expre
     {
         $this->loadLayout(false);
         $gotoSection = $this->_cancelPayment();
-        $redirectBlock = $this->_getIframeBlock();
+        $redirectBlock = $this->getLayout()->getBlock('payflow.advanced.iframe');
         $redirectBlock->setGotoSection($gotoSection);
         $this->renderLayout();
     }
@@ -60,7 +60,7 @@ class Mage_Paypal_PayflowadvancedController extends Mage_Paypal_Controller_Expre
     public function returnUrlAction()
     {
         $this->loadLayout(false);
-        $redirectBlock = $this->_getIframeBlock();
+        $redirectBlock = $this->getLayout()->getBlock('payflow.advanced.iframe');;
 
         $session = $this->_getCheckout();
         if ($session->getLastRealOrderId()) {
@@ -92,7 +92,7 @@ class Mage_Paypal_PayflowadvancedController extends Mage_Paypal_Controller_Expre
      */
     public function formAction()
     {
-        $this->loadLayout($this->getFullActionName())->renderLayout();
+        $this->loadLayout(false)->renderLayout();
     }
 
     /**
@@ -158,15 +158,5 @@ class Mage_Paypal_PayflowadvancedController extends Mage_Paypal_Controller_Expre
     protected function _getCheckout()
     {
         return Mage::getSingleton('Mage_Checkout_Model_Session');
-    }
-
-    /**
-     * Get iframe block
-     *
-     * @return Mage_Paypal_Block_Payflow_Advanced_Iframe
-     */
-    protected function _getIframeBlock()
-    {
-        return $this->getLayout()->getBlock('payflow.advanced.iframe');
     }
 }
