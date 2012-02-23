@@ -29,7 +29,8 @@ $payment = new Mage_Sales_Model_Order_Payment();
 $payment->setMethod('checkmo');
 
 $order = new Mage_Sales_Model_Order();
-$order->setSubtotal(100)
+$order->setIncrementId('100000001')
+    ->setSubtotal(100)
     ->setBaseSubtotal(100)
     ->setCustomerIsGuest(true)
     ->setBillingAddress($billingAddress)

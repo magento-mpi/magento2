@@ -336,7 +336,7 @@ class Enterprise_Rma_ReturnController extends Mage_Core_Controller_Front_Action
             Mage::getSingleton('Mage_Core_Model_Session')->setErrorMessage($response['message']);
         }
 
-        $this->loadLayout($this->getFullActionName())->renderLayout();
+        $this->loadLayout(false)->renderLayout();
         return;
     }
     /**
@@ -387,7 +387,7 @@ class Enterprise_Rma_ReturnController extends Mage_Core_Controller_Front_Action
             Mage::getSingleton('Mage_Core_Model_Session')->setErrorMessage($response['message']);
         }
 
-        $this->loadLayout($this->getFullActionName())->renderLayout();
+        $this->loadLayout(false)->renderLayout();
         return;
     }
 

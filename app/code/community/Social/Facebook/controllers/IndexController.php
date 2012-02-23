@@ -76,7 +76,7 @@ class Social_Facebook_IndexController extends Mage_Core_Controller_Front_Action
             if ($product->getId()) {
                 Mage::register('product', $product);
             }
-            $this->loadLayout($this->getFullActionName())->renderLayout();
+            $this->loadLayout(false)->renderLayout();
         }
     }
 }

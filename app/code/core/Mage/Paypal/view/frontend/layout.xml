@@ -156,17 +156,17 @@ Available logo types can be assigned with action="setLogoType":
 
     <paypal_payflowadvanced_cancelpayment translate="label" type="page" parent="paypal_payflowadvanced_form">
         <label>Paypal Payflow Advanced Cancel Payment</label>
-        <block type="Mage_Paypal_Block_Payflow_Advanced_Iframe" name="payflow.advanced.iframe" template="payflowadvanced/redirect.phtml"  output="toHtml"/>
+        <block type="Mage_Paypal_Block_Payflow_Advanced_Iframe" name="payflow.advanced.iframe" template="payflowadvanced/redirect.phtml" output="toHtml"/>
     </paypal_payflowadvanced_cancelpayment>
 
     <paypal_payflowadvanced_returnurl translate="label" type="page" parent="paypal_payflowadvanced_form">
         <label>Paypal Payflow Advanced Return URL</label>
-        <block type="Mage_Paypal_Block_Payflow_Advanced_Iframe" name="payflow.advanced.iframe" template="payflowadvanced/redirect.phtml"  output="toHtml"/>
+        <block type="Mage_Paypal_Block_Payflow_Advanced_Iframe" name="payflow.advanced.iframe" template="payflowadvanced/redirect.phtml" output="toHtml"/>
     </paypal_payflowadvanced_returnurl>
 
     <paypal_payflowadvanced_form translate="label" type="page" parent="paypal_payflow_form">
         <label>Paypal Payflow Advanced Form</label>
-        <block type="Mage_Paypal_Block_Payflow_Advanced_Iframe" name="payflow.advanced.iframe" template="payflowadvanced/form.phtml"  output="toHtml"/>
+        <block type="Mage_Paypal_Block_Payflow_Advanced_Iframe" name="payflow.advanced.iframe" template="payflowadvanced/form.phtml" output="toHtml"/>
     </paypal_payflowadvanced_form>
 
     <paypal_hostedpro_cancel translate="label" type="page" parent="checkout_onepage_paymentmethod">

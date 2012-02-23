@@ -11,10 +11,24 @@
 
 /**
  * @group module:Mage_Paypal
- * @magentoDataFixture Mage/Paypal/_files/payflow/order.php
+ * @magentoDataFixture Mage/Sales/_files/order.php
  */
 class Mage_Paypal_PayflowControllerTest extends Magento_Test_TestCase_ControllerAbstract
 {
+    public function setUp()
+    {
+        parent::setUp();
+
+        $order = new Mage_Sales_Model_Order();
+        $order->load('100000001', 'increment_id');
+        $order->getPayment()->setMethod(Mage_Paypal_Model_Config::METHOD_PAYFLOWLINK);
+        $order->save();
+
+        $session = Mage::getSingleton('Mage_Checkout_Model_Session');
+        $session->setLastRealOrderId($order->getRealOrderId())
+            ->setLastQuoteId($order->getQuoteId());
+    }
+
     public function testCancelPaymentActionIsContentGenerated()
     {
         $this->dispatch('paypal/payflow/cancelpayment');

@@ -21,10 +21,6 @@ class Mage_CatalogSearch_AjaxControllerTest extends Magento_Test_TestCase_Contro
     {
         $this->getRequest()->setParam('q', 'query_text');
         $this->dispatch('catalogsearch/ajax/suggest');
-        $this->assertContains(
-            '<ul><li style="display:none"></li><li title="query_text" class="odd first last">'
-                . '<span class="amount">1</span>query_text</li></ul>',
-            $this->getResponse()->getBody()
-        );
+        $this->assertContains('query_text', $this->getResponse()->getBody());
     }
 }

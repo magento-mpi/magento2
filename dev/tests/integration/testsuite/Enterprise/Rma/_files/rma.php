@@ -39,6 +39,7 @@ $order->save();
 
 $rma = new Enterprise_Rma_Model_Rma();
 $rma->setOrderId($order->getId());
+$rma->setIncrementId(1);
 $rma->save();
 
 $trackingNumber = new Enterprise_Rma_Model_Shipping();
@@ -48,7 +49,3 @@ $trackingNumber
     ->setTrackNumber('TrackNumber')
 ;
 $trackingNumber->save();
-
-Mage::unregister('rma');
-Mage::register('rma', $rma);
-
