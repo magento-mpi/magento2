@@ -72,6 +72,9 @@ class Enterprise_Wishlist_Block_Info extends Mage_Wishlist_Block_Abstract
      */
     public function getBackUrl()
     {
-        return $this->getRefererUrl();
+        return $this->getUrl(
+            'wishlist/search/results',
+            array('_query' => array('params' => Mage::getSingleton('customer/session')->getLastWishlistSearchParams()))
+        );
     }
 }
