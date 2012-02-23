@@ -1298,4 +1298,21 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
         $observer->getEvent()->getBlock()->removeButton('delete');
         return $this;
     }
+
+    /**
+     * Disable "Delete Attribute Option" Button for all GWS limited users
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_AdminGws_Model_Blocks
+     */
+    public function disableRmaAttributeDeleteOptionButton($observer)
+    {
+        $deleteButton = $observer->getEvent()->getBlock()->getChild('delete_button');
+
+        if ($deleteButton) {
+            $deleteButton->setDisabled(true);
+        }
+
+        return $this;
+    }
 }

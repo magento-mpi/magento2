@@ -1204,17 +1204,6 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     }
 
     /**
-     * Block RMA attribute creation action for all GWS enabled users
-     *
-     * @return bool
-     */
-    public function validateRmaAttributeNewAction()
-    {
-        $this->_forward();
-        return false;
-    }
-
-    /**
      * Block editing of RMA attributes on disallowed websites
      *
      * @param Mage_Adminhtml_Controller_Action $controller
@@ -1254,24 +1243,6 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     }
 
     /**
-     * Block saving of new RMA attributes for all GWS enabled users
-     *
-     * @param Mage_Adminhtml_Controller_Action $controller
-     * @return bool
-     */
-    public function validateRmaAttributeSaveAction($controller)
-    {
-        $id = $controller->getRequest()->getParam('attribute_id');
-
-        if (empty($id)) {
-            $this->_forward();
-            return false;
-        }
-
-        return $this->validateRmaAttributeEditAction($controller);
-    }
-
-    /**
      * Block RMA attributes deleting for all GWS enabled users
      *
      * @return bool
@@ -1280,5 +1251,22 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     {
         $this->_forward();
         return false;
+    }
+
+    /**
+     * Block deleting of options of attributes for all GWS enabled users
+     *
+     * @param Mage_Adminhtml_Controller_Action $controller
+     * @return bool
+     */
+    public function validateRmaAttributeSaveAction($controller)
+    {
+        $option = $controller->getRequest()->getPost('option');
+        if (!empty($option['delete'])) {
+            unset($option['delete']);
+            $controller->getRequest()->setPost('option', $option);
+        }
+
+        return $this->validateRmaAttributeEditAction($controller);
     }
 }
